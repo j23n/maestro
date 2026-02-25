@@ -1,14 +1,13 @@
 services:
   db:
-    image: pgvector/pgvector:pg18-trixie
+    image: mongodb/mongodb-atlas-local
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "27017:27017"
     volumes:
-      - pgdata:/var/lib/postgresql
-
+      - mongodata:/data/db
+      
 volumes:
-  pgdata:
+  mongodata:

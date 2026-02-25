@@ -11,7 +11,7 @@ client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
 async def get_response(user_msg: Message, context: List[Message]) -> Message:
     embedding = embed_query(user_msg.text)
-    results = retrieve(embedding, top_k=2)
+    results = await retrieve(embedding, top_k=2)
 
     sources = ""
     for result in results:
@@ -49,6 +49,6 @@ async def get_response(user_msg: Message, context: List[Message]) -> Message:
     return Message(
         text=str(response.content[0].text),
         sender="assistant",
-        chat_id=user_msg.chat_id,
-        in_response_to_id=user_msg.id,
+        chat=user_msg.chat,
+        in_response_to=user_msg,
     )

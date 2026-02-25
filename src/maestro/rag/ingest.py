@@ -1,41 +1,22 @@
 import json
+import asyncio
 
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
-from sqlmodel import SQLModel, Session, text
 from markdownify import markdownify
 from bs4 import BeautifulSoup
 import re
+from pymongo import AsyncMongoClient
 
-from maestro.db import engine, TABLE_CHUNKS
-from maestro.settings import Settings
 from maestro.models import ItalianChunk
+from maestro.settings import Settings
+from maestro.db import init_db, init_indices
 
 ENRICHMENT_FILE = Path(__file__).parent.parent / "data/chunk_enrichment.json"
 
 
 # Set up the embedder
 model = SentenceTransformer("intfloat/multilingual-e5-large")
-
-
-def setup_db():
-    with engine.connect() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-        conn.commit()
-
-    SQLModel.metadata.create_all(engine)
-
-    # ivfflat index — run after bulk ingestion, not before
-    with engine.connect() as conn:
-        conn.execute(
-            text(f"""
-            CREATE INDEX IF NOT EXISTS italian_chunks_embedding_idx
-            ON {TABLE_CHUNKS}
-            USING ivfflat (embedding vector_cosine_ops)
-            WITH (lists = 100)
-        """)
-        )
-        conn.commit()
 
 
 BOOK_DIR = Path(__file__).parent.parent / "data/book_contents/OEBPS/Text"
@@ -228,7 +209,9 @@ def parse_chapter(filepath: Path, split_h3: bool = False) -> list[dict]:
     return chunks
 
 
-def ingest_grammar_rules():
+async def ingest_grammar_rules(client):
+    init_indices(client)
+
     all_chunks = []
 
     print(f"Ingesting {BOOK_DIR}...")
@@ -268,32 +251,30 @@ def ingest_grammar_rules():
 
     embeddings = model.encode(texts, batch_size=64, show_progress_bar=True)
 
-    with Session(engine) as session:
-        session.exec(text(f"TRUNCATE TABLE {TABLE_CHUNKS} RESTART IDENTITY"))
-        session.commit()
-
-        for chunk, embedding in zip(all_chunks, embeddings):
-            session.add(
-                ItalianChunk(
-                    ref=chunk["ref"],
-                    content=chunk["content"],
-                    chunk_type=chunk["chunk_type"],
-                    embedding=embedding.tolist(),
-                    chunk_metadata=chunk["metadata"],
-                )
+    chunks = []
+    for chunk, embedding in zip(all_chunks, embeddings):
+        chunks.append(
+            ItalianChunk(
+                ref=chunk["ref"],
+                content=chunk["content"],
+                chunk_type=chunk["chunk_type"],
+                embedding=embedding.tolist(),
+                chunk_metadata=chunk["metadata"],
             )
+        )
+    await ItalianChunk.insert_many(chunks)
 
-        session.commit()
     print("Done.")
-
-
-def ingest():
-    ingest_grammar_rules()
-
-    with Session(engine) as session:
-        result = session.exec(text("SELECT COUNT(*) FROM italian_chunks"))
-        print(f"Have {result.scalar()} rules in the database")
+    print(f"Inserted: {await ItalianChunk.count()}")
 
 
 if __name__ == "__main__":
-    ingest()
+
+    async def main():
+        settings = Settings()
+        client = AsyncMongoClient(settings.database_url)
+        await init_db()
+        await ItalianChunk.delete_all()
+        await ingest_grammar_rules(client)
+
+    asyncio.run(main())
