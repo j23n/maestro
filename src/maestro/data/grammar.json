@@ -1,0 +1,386 @@
+[
+  {
+    "id": "rule_001",
+    "title": "Essere vs. Avere in Passato Prossimo",
+    "content": "The passato prossimo requires ESSERE as auxiliary for: (1) motion verbs (andare, venire, partire, arrivare, uscire, entrare), (2) state-change verbs (nascere, morire, diventare, crescere), (3) all reflexive verbs. All other verbs use AVERE. When using ESSERE, the past participle agrees in gender and number with the subject.\n- ✓ Sono andato al mercato. (I went to the market.)\n- ✓ Ho mangiato la pasta. (I ate the pasta.)\n- ✗ Ho andato — incorrect.",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "passato_prossimo",
+      "grammar_point": "auxiliary_verb_selection",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["passato_prossimo", "essere", "avere", "auxiliary", "past_tense", "past_participle", "agreement"],
+      "related_rules": ["rule_002", "rule_004", "rule_011"],
+      "key_verbs": ["andare", "venire", "partire", "arrivare", "uscire", "entrare", "nascere", "morire", "diventare", "crescere"],
+      "common_errors": ["ho andato", "ho venuto", "ho uscito"]
+    }
+  },
+  {
+    "id": "rule_002",
+    "title": "Past Participle Agreement",
+    "content": "With AVERE, the past participle is invariable (always -o ending) unless a direct object pronoun precedes the verb, in which case it agrees with the pronoun. With ESSERE, it always agrees with the subject.\n- Ho mangiato le mele. (no agreement — object follows)\n- Le ho mangiate. (agreement — pronoun precedes: -ate, feminine plural)\n- Maria è partita. (agreement with subject: -ita, feminine singular)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "passato_prossimo",
+      "grammar_point": "past_participle_agreement",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["past_participle", "agreement", "gender", "number", "object_pronouns", "essere", "avere"],
+      "related_rules": ["rule_001", "rule_008", "rule_009"],
+      "key_verbs": ["mangiare", "partire"],
+      "common_errors": ["le ho mangiato", "Maria è partito"]
+    }
+  },
+  {
+    "id": "rule_003",
+    "title": "Congiuntivo Triggers",
+    "content": "The congiuntivo (subjunctive) is required in subordinate clauses introduced by 'che' after verbs/expressions of: doubt (dubitare che), wish (volere che, sperare che), emotion (essere felice che, dispiacere che), opinion with uncertainty (pensare che, credere che, sembrare che), and impersonal expressions (è necessario che, è importante che, bisogna che). The subjects of the main and subordinate clause must be different; if the same, use the infinitive.\n- Spero che tu venga. (I hope you come.) — different subjects\n- Spero di venire. (I hope to come.) — same subject, use infinitive",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "mood",
+      "subtopic": "congiuntivo",
+      "grammar_point": "subjunctive_triggers",
+      "cefr_level": "B2",
+      "difficulty_score": 4,
+      "tags": ["congiuntivo", "subjunctive", "subordinate_clause", "che", "mood", "wish", "doubt", "emotion"],
+      "related_rules": ["rule_013"],
+      "trigger_verbs": ["sperare", "volere", "dubitare", "pensare", "credere", "dispiacere"],
+      "trigger_expressions": ["è necessario che", "è importante che", "bisogna che", "è possibile che"],
+      "common_errors": ["spero che tu vieni", "voglio che lui fa"]
+    }
+  },
+  {
+    "id": "rule_004",
+    "title": "Imperfetto vs. Passato Prossimo",
+    "content": "Use IMPERFETTO for: habitual/repeated past actions, background states, ongoing conditions, and descriptions. Use PASSATO PROSSIMO for: completed actions with a defined endpoint, sequences of events, and actions that interrupted an ongoing state.\n- Da bambino mangiavo sempre la pizza. (habitual — imperfetto)\n- Ieri ho mangiato la pizza. (completed event — passato prossimo)\n- Leggevo quando il telefono ha squillato. (background imperfetto + interrupting passato prossimo)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "past_tense_contrast",
+      "grammar_point": "imperfetto_vs_passato_prossimo",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["imperfetto", "passato_prossimo", "past_tense", "habitual", "completed_action", "background", "narrative"],
+      "related_rules": ["rule_001", "rule_020"],
+      "time_markers": {
+        "imperfetto": ["da bambino", "sempre", "di solito", "ogni giorno", "spesso", "mentre"],
+        "passato_prossimo": ["ieri", "una volta", "stamattina", "la settimana scorsa"]
+      },
+      "common_errors": ["ho mangiato sempre la pizza da bambino", "leggevo e il telefono squillava"]
+    }
+  },
+  {
+    "id": "rule_005",
+    "title": "Agreement of Adjectives",
+    "content": "Adjectives agree in gender (masculine/feminine) and number (singular/plural) with the noun they modify. Adjectives ending in -o have four forms: -o, -a, -i, -e. Adjectives ending in -e have two forms: -e (sing.), -i (pl.) for both genders.\n- un libro rosso, una casa rossa, due libri rossi, due case rosse\n- un uomo felice, una donna felice, due uomini felici, due donne felici",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "adjectives",
+      "subtopic": "adjective_agreement",
+      "grammar_point": "gender_number_agreement",
+      "cefr_level": "A1",
+      "difficulty_score": 1,
+      "tags": ["adjectives", "agreement", "gender", "number", "masculine", "feminine", "plural", "singular"],
+      "related_rules": ["rule_006"],
+      "adjective_patterns": {
+        "four_forms": ["-o", "-a", "-i", "-e"],
+        "two_forms": ["-e", "-i"]
+      },
+      "common_errors": ["una casa rosso", "due libri rosse", "due donne felice"]
+    }
+  },
+  {
+    "id": "rule_006",
+    "title": "Definite Article Selection",
+    "content": "The definite article (the) has 7 forms in Italian. Selection depends on the gender, number, and first sound of the following word:\n- lo / gli — before s+consonant, z, ps, gn, x, y (masculine)\n- il / i — before other consonants (masculine)\n- la / le — feminine\n- l' — before any vowel (singular)\nExamples: il libro, lo studente, l'amico, la porta, i libri, gli studenti, le porte",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "articles",
+      "subtopic": "definite_article",
+      "grammar_point": "article_selection",
+      "cefr_level": "A1",
+      "difficulty_score": 2,
+      "tags": ["articles", "definite_article", "gender", "number", "phonology", "il", "lo", "la", "gli", "le"],
+      "related_rules": ["rule_007", "rule_016"],
+      "article_forms": {
+        "masculine_singular": ["il", "lo", "l'"],
+        "masculine_plural": ["i", "gli"],
+        "feminine_singular": ["la", "l'"],
+        "feminine_plural": ["le"]
+      },
+      "lo_triggers": ["s+consonant", "z", "ps", "gn", "x", "y"],
+      "common_errors": ["il studente", "lo libro", "il amico"]
+    }
+  },
+  {
+    "id": "rule_007",
+    "title": "Partitive Articles",
+    "content": "To express 'some' or an indefinite quantity, use di + definite article (contracted). These are called partitive articles: del (m.s.), dello (m.s. before s+cons./z), dell' (before vowel), della (f.s.), dei (m.pl.), degli (m.pl. special), delle (f.pl.). In negative sentences, the partitive is often dropped or replaced with 'nessuno.'\n- Voglio del pane. (I want some bread.)\n- Hai delle mele? (Do you have some apples?)\n- Non ho pane. (I don't have any bread.) — partitive dropped in negation",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "articles",
+      "subtopic": "partitive_article",
+      "grammar_point": "expressing_some_quantity",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["partitive", "articles", "quantity", "some", "negation", "del", "della", "dei", "delle"],
+      "related_rules": ["rule_006", "rule_009"],
+      "partitive_forms": {
+        "del": "masculine singular (before consonant)",
+        "dello": "masculine singular (before s+cons., z, gn...)",
+        "dell'": "masculine/feminine singular (before vowel)",
+        "della": "feminine singular",
+        "dei": "masculine plural",
+        "degli": "masculine plural (before s+cons., z, gn...)",
+        "delle": "feminine plural"
+      },
+      "common_errors": ["voglio di pane", "non ho del pane (in negation)"]
+    }
+  },
+  {
+    "id": "rule_008",
+    "title": "Direct vs. Indirect Object Pronouns",
+    "content": "Direct object pronouns (mi, ti, lo, la, ci, vi, li, le) replace the direct object. Indirect object pronouns (mi, ti, gli, le, ci, vi, gli) replace the indirect object introduced by 'a.' Key distinction: 'gli' = to him / to them (m.+f.); 'le' = to her.\n- Vedo Marco → Lo vedo. (I see him.)\n- Parlo a Marco → Gli parlo. (I speak to him.)\n- Parlo a Maria → Le parlo. (I speak to her.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "pronouns",
+      "subtopic": "object_pronouns",
+      "grammar_point": "direct_vs_indirect_object_pronouns",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["pronouns", "direct_object", "indirect_object", "lo", "la", "li", "le", "gli", "mi", "ti", "ci", "vi"],
+      "related_rules": ["rule_002", "rule_009", "rule_010"],
+      "pronoun_table": {
+        "direct": {"1sg": "mi", "2sg": "ti", "3sg_m": "lo", "3sg_f": "la", "1pl": "ci", "2pl": "vi", "3pl_m": "li", "3pl_f": "le"},
+        "indirect": {"1sg": "mi", "2sg": "ti", "3sg_m": "gli", "3sg_f": "le", "1pl": "ci", "2pl": "vi", "3pl": "gli"}
+      },
+      "common_errors": ["parlo lo (instead of gli)", "vedo gli (instead of li)", "le parlo a Marco"]
+    }
+  },
+  {
+    "id": "rule_009",
+    "title": "Ne — Partitive and Genitive Pronoun",
+    "content": "\"Ne\" replaces a noun phrase introduced by 'di' or a quantity expression. It is invariable in position (always before the verb, or attached to infinitive/gerund). The past participle agrees with 'ne' in gender and number when used with avere.\n- Voglio tre mele → Ne voglio tre. (I want three of them.)\n- Hai del vino? Ne ho un bicchiere. (Do you have wine? I have a glass of it.)\n- Ne ho comprate tre. (I bought three of them. — agreement: -e, f.pl.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "pronouns",
+      "subtopic": "ne",
+      "grammar_point": "ne_pronoun",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["ne", "pronouns", "partitive", "quantity", "past_participle_agreement", "di"],
+      "related_rules": ["rule_002", "rule_007", "rule_010"],
+      "common_errors": ["ne ho comprato tre (missing agreement)", "di loro voglio tre (using 'di loro' instead of 'ne')"]
+    }
+  },
+  {
+    "id": "rule_010",
+    "title": "CI — Locative and Idiomatic Pronoun",
+    "content": "'Ci' replaces a place previously mentioned (= there) or a phrase introduced by 'a/in + place.' It also appears in fixed idiomatic expressions.\n- Vai a Roma? Sì, ci vado domani. (Are you going to Rome? Yes, I'm going there tomorrow.)\n- Ci sei? (Are you there? / Do you get it?)\n- Non ci credo. (I don't believe it.) — 'ci' replaces 'a questo'",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "pronouns",
+      "subtopic": "ci",
+      "grammar_point": "ci_pronoun",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["ci", "pronouns", "locative", "idiomatic", "place", "adverb"],
+      "related_rules": ["rule_008", "rule_009"],
+      "fixed_expressions": ["esserci", "volerci", "farcela", "non ci credo", "ci siamo", "non c'entra"],
+      "common_errors": ["vado lì domani (instead of ci vado)", "non credo a questo (not replacing with ci)"]
+    }
+  },
+  {
+    "id": "rule_011",
+    "title": "Reflexive Verbs",
+    "content": "Reflexive verbs are used when the subject performs the action on itself. They require reflexive pronouns (mi, ti, si, ci, vi, si) before the conjugated verb. In compound tenses, reflexive verbs always use ESSERE, and the past participle agrees with the subject.\n- mi alzo, ti alzi, si alza, ci alziamo, vi alzate, si alzano\n- Mi sono alzato alle sette. (I got up at seven.)\n- Common reflexive verbs: lavarsi, vestirsi, svegliarsi, annoiarsi, divertirsi, sentirsi",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verbs",
+      "subtopic": "reflexive_verbs",
+      "grammar_point": "reflexive_construction",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["reflexive", "pronouns", "si", "essere", "auxiliary", "daily_routine", "past_participle_agreement"],
+      "related_rules": ["rule_001", "rule_002"],
+      "common_reflexive_verbs": ["alzarsi", "lavarsi", "vestirsi", "svegliarsi", "annoiarsi", "divertirsi", "sentirsi", "chiamarsi", "fermarsi", "rendersi conto"],
+      "reflexive_pronouns": {"1sg": "mi", "2sg": "ti", "3sg": "si", "1pl": "ci", "2pl": "vi", "3pl": "si"},
+      "common_errors": ["si alzato (missing essere)", "mi ho alzato (wrong auxiliary)"]
+    }
+  },
+  {
+    "id": "rule_012",
+    "title": "Modal Verbs: Potere, Volere, Dovere",
+    "content": "The modal verbs potere (can/may), volere (want to), dovere (must/have to) are followed by an infinitive. In compound tenses, they borrow the auxiliary of the dependent verb — ESSERE if the infinitive takes essere, AVERE otherwise.\n- Non sono potuto andare. (I couldn't go.) — andare takes essere\n- Non ho potuto mangiare. (I couldn't eat.) — mangiare takes avere\n- Both forms are sometimes accepted colloquially, but the above is formally correct.",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verbs",
+      "subtopic": "modal_verbs",
+      "grammar_point": "modal_verb_auxiliary_selection",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["modal_verbs", "potere", "volere", "dovere", "auxiliary", "essere", "avere", "infinitive"],
+      "related_rules": ["rule_001", "rule_013"],
+      "modal_verbs": {
+        "potere": "can / may / to be able to",
+        "volere": "to want to",
+        "dovere": "must / have to / should"
+      },
+      "common_errors": ["non ho potuto andare (formally incorrect)", "non sono potuto mangiare (wrong auxiliary)"]
+    }
+  },
+  {
+    "id": "rule_013",
+    "title": "Condizionale for Politeness and Hypotheticals",
+    "content": "The condizionale presente (conditional) is formed with the future stem + conditional endings (-ei, -esti, -ebbe, -emmo, -este, -ebbero). Use it for: polite requests, hypotheticals, and reported speech.\n- Vorrei un caffè. (I would like a coffee.) — polite, preferred over 'voglio'\n- Potrebbe aiutarmi? (Could you help me?) — polite request\n- Andrei in Italia, ma non ho soldi. (I would go to Italy, but I have no money.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "condizionale",
+      "grammar_point": "conditional_mood",
+      "cefr_level": "B1",
+      "difficulty_score": 3,
+      "tags": ["condizionale", "conditional", "politeness", "hypothetical", "would", "could", "reported_speech"],
+      "related_rules": ["rule_003", "rule_012", "rule_015"],
+      "conditional_endings": ["-ei", "-esti", "-ebbe", "-emmo", "-este", "-ebbero"],
+      "polite_expressions": ["vorrei", "potrebbe", "sarebbe possibile", "avrei bisogno di", "mi potrebbe aiutare"],
+      "common_errors": ["voglio un caffè (impolite in formal contexts)", "andavo in Italia, ma... (wrong tense for hypothetical)"]
+    }
+  },
+  {
+    "id": "rule_014",
+    "title": "Futuro Semplice for Probability",
+    "content": "The future tense in Italian is used not only for future events but also to express probability or conjecture about the present. This usage is frequently missed by English learners.\n- Dov'è Marco? Sarà in ufficio. (Where's Marco? He's probably in the office.)\n- Che ore sono? Saranno le tre. (What time is it? It must be around three.)\n- Avrà trent'anni. (He's probably about thirty.) — conjecture about age",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "futuro_semplice",
+      "grammar_point": "future_for_probability",
+      "cefr_level": "B2",
+      "difficulty_score": 4,
+      "tags": ["futuro", "future_tense", "probability", "conjecture", "epistemic_modality"],
+      "related_rules": ["rule_013"],
+      "probability_adverbs_replaced": ["probabilmente", "forse", "circa"],
+      "common_errors": ["è probabilmente in ufficio (correct but less idiomatic than 'sarà')"]
+    }
+  },
+  {
+    "id": "rule_015",
+    "title": "Formal Address with Lei",
+    "content": "In formal address, Italian uses 'Lei' (third person feminine singular) for both men and women. The verb conjugates in the third person singular. Object pronouns change accordingly: La (direct), Le (indirect), Si (reflexive). Distinguished from 'lei' (she) by context and sometimes capitalization.\n- Lei come si chiama? (What is your name? — formal)\n- Le posso offrire qualcosa? (Can I offer you something? — formal)\n- Si accomodi. (Please have a seat. — formal reflexive)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "pronouns",
+      "subtopic": "formal_address",
+      "grammar_point": "lei_formal_register",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["formal", "register", "Lei", "politeness", "pronouns", "courtesy", "address"],
+      "related_rules": ["rule_008", "rule_013"],
+      "formal_pronoun_set": {
+        "subject": "Lei",
+        "direct_object": "La",
+        "indirect_object": "Le",
+        "reflexive": "Si"
+      },
+      "formal_phrases": ["si accomodi", "come si chiama", "le posso offrire", "prego, si segga", "da dove viene"],
+      "common_errors": ["tu come ti chiami (informal used in formal context)", "la conosco (correct direct object)", "le telefono domani (correct indirect)"]
+    }
+  },
+  {
+    "id": "rule_016",
+    "title": "Preposizioni Articolate",
+    "content": "When the prepositions a, di, da, in, su combine with a definite article, they contract into a single word. Con and per do not regularly contract.\n\nContraction table:\n        il    lo    la    l'    i     gli   le\n  a:    al    allo  alla  all'  ai    agli  alle\n  di:   del   dello della dell' dei   degli delle\n  da:   dal   dallo dalla dall' dai   dagli dalle\n  in:   nel   nello nella nell' nei   negli nelle\n  su:   sul   sullo sulla sull' sui   sugli sulle\n\n- Vado al mercato. (I'm going to the market.)\n- Vengo dalla Francia. (I come from France.)\n- Il libro è sul tavolo. (The book is on the table.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "prepositions",
+      "subtopic": "preposizioni_articolate",
+      "grammar_point": "preposition_article_contractions",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["prepositions", "articles", "contractions", "a", "di", "da", "in", "su", "al", "del", "nel"],
+      "related_rules": ["rule_006"],
+      "contracting_prepositions": ["a", "di", "da", "in", "su"],
+      "non_contracting_prepositions": ["con", "per", "tra", "fra"],
+      "common_errors": ["vado a il mercato", "vengo da la Francia", "a gli studenti (should be agli)"]
+    }
+  },
+  {
+    "id": "rule_017",
+    "title": "Gerundio and Stare + Gerundio",
+    "content": "The gerund (-ando for -are verbs, -endo for -ere/-ire verbs) is used with 'stare' to form the progressive (ongoing action). The gerund is invariable. Object and reflexive pronouns attach to the gerund or precede stare — both are acceptable.\n- Sto mangiando. (I am eating.)\n- Stava dormendo quando ho chiamato. (He was sleeping when I called.)\n- Lo sto leggendo. / Sto leggendolo. (I am reading it.) — both correct",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verbs",
+      "subtopic": "gerundio",
+      "grammar_point": "progressive_construction",
+      "cefr_level": "B1",
+      "difficulty_score": 2,
+      "tags": ["gerundio", "gerund", "progressive", "stare", "ongoing_action", "present_continuous", "past_continuous"],
+      "related_rules": ["rule_004", "rule_008"],
+      "gerund_formation": {
+        "-are_verbs": "-ando (e.g., mangiare → mangiando)",
+        "-ere_verbs": "-endo (e.g., leggere → leggendo)",
+        "-ire_verbs": "-endo (e.g., dormire → dormendo)"
+      },
+      "irregular_gerunds": ["fare → facendo", "bere → bevendo", "dire → dicendo"],
+      "common_errors": ["sto mangiare (infinitive instead of gerund)", "sta mangiando (correct 3rd person)", "stavo mangiando (correct past progressive)"]
+    }
+  },
+  {
+    "id": "rule_018",
+    "title": "Piacere Verb Construction",
+    "content": "'Piacere' (to like) works inversely to English: the thing liked is the grammatical subject, the person who likes it is the indirect object. The verb agrees with the thing liked, not the person. Use 'piace' for singular/infinitive, 'piacciono' for plural.\n- Mi piace la pasta. (I like pasta. — lit. 'Pasta is pleasing to me.')\n- Mi piacciono le mele. (I like apples. — plural subject → piacciono)\n- Gli piace correre. (He likes running. — infinitive → piace)\n- A Maria non piace il freddo. (Maria doesn't like the cold.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verbs",
+      "subtopic": "piacere",
+      "grammar_point": "reverse_construction_verbs",
+      "cefr_level": "A2",
+      "difficulty_score": 3,
+      "tags": ["piacere", "to_like", "indirect_object", "subject_agreement", "reverse_construction"],
+      "related_rules": ["rule_008"],
+      "similar_verbs": ["dispiacere", "interessare", "sembrare", "mancare", "servire", "bastare", "importare"],
+      "agreement_rule": "verb agrees with the thing liked (subject), not the person",
+      "common_errors": ["mi piace le mele (should be piacciono)", "io piaccio la pasta (wrong construction)", "mi piacciono correre (infinitive takes piace)"]
+    }
+  },
+  {
+    "id": "rule_019",
+    "title": "Sapere vs. Conoscere",
+    "content": "Both translate as 'to know' in English but are not interchangeable. SAPERE = to know facts, information, or how to do something (followed by che, infinitive, or an interrogative). CONOSCERE = to know/be acquainted with a person, place, or thing.\n- So che hai ragione. (I know you're right.) — fact\n- Sai suonare la chitarra? (Do you know how to play guitar?) — ability\n- Conosco Marco da anni. (I've known Marco for years.) — person\n- Conosci Roma? (Do you know Rome?) — place",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verbs",
+      "subtopic": "false_friends_italian",
+      "grammar_point": "sapere_vs_conoscere",
+      "cefr_level": "A2",
+      "difficulty_score": 2,
+      "tags": ["sapere", "conoscere", "to_know", "false_friends", "ability", "acquaintance", "facts"],
+      "related_rules": ["rule_012"],
+      "sapere_usage": ["facts (so che...)", "ability (so suonare...)", "information (sai dove...?)"],
+      "conoscere_usage": ["people (conosco Marco)", "places (conosci Roma?)", "things/works (conosci questo libro?)"],
+      "common_errors": ["so Marco (should be conosco)", "conosco che hai ragione (should be so)", "conosco suonare (should be so suonare)"]
+    }
+  },
+  {
+    "id": "rule_020",
+    "title": "Trapassato Prossimo (Pluperfect)",
+    "content": "The trapassato prossimo expresses an action completed before another past action — the 'past of the past.' Formed with imperfetto of essere/avere + past participle. Used in the same contexts as English 'had done.'\n- Quando sono arrivato, Maria era già partita. (When I arrived, Maria had already left.)\n- Non avevo mai mangiato il risotto prima. (I had never eaten risotto before.)\n- Si rendeva conto che aveva sbagliato. (He realized he had made a mistake.)",
+    "metadata": {
+      "chunk_type": "grammar_rule",
+      "topic": "verb_tenses",
+      "subtopic": "trapassato_prossimo",
+      "grammar_point": "pluperfect",
+      "cefr_level": "B2",
+      "difficulty_score": 4,
+      "tags": ["trapassato_prossimo", "pluperfect", "past_perfect", "past_tense", "narrative", "sequence_of_events"],
+      "related_rules": ["rule_001", "rule_004"],
+      "formation": "imperfetto of avere/essere + past participle",
+      "time_markers": ["già", "ancora", "mai", "quando", "dopo che", "prima che"],
+      "common_errors": ["quando sono arrivato, Maria è partita (passato prossimo instead of trapassato)", "avevo mangiato mai (adverb position — should be non avevo mai mangiato)"]
+    }
+  }
+]

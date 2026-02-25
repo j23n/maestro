@@ -1,0 +1,299 @@
+import json
+
+from pathlib import Path
+from sentence_transformers import SentenceTransformer
+from sqlmodel import SQLModel, Session, text
+from markdownify import markdownify
+from bs4 import BeautifulSoup
+import re
+
+from maestro.db import engine, TABLE_CHUNKS
+from maestro.settings import Settings
+from maestro.models import ItalianChunk
+
+ENRICHMENT_FILE = Path(__file__).parent.parent / "data/chunk_enrichment.json"
+
+
+# Set up the embedder
+model = SentenceTransformer("intfloat/multilingual-e5-large")
+
+
+def setup_db():
+    with engine.connect() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+        conn.commit()
+
+    SQLModel.metadata.create_all(engine)
+
+    # ivfflat index — run after bulk ingestion, not before
+    with engine.connect() as conn:
+        conn.execute(
+            text(f"""
+            CREATE INDEX IF NOT EXISTS italian_chunks_embedding_idx
+            ON {TABLE_CHUNKS}
+            USING ivfflat (embedding vector_cosine_ops)
+            WITH (lists = 100)
+        """)
+        )
+        conn.commit()
+
+
+BOOK_DIR = Path(__file__).parent.parent / "data/book_contents/OEBPS/Text"
+CHAPTER_FILES = sorted(
+    f for f in BOOK_DIR.glob("*.xhtml") if re.search(r"_c\d+\.xhtml$", f.name)
+)
+SPLIT_H3_CHAPTERS = {
+    "9788811136859_c04.xhtml",
+    "9788811136859_c07.xhtml",
+    "9788811136859_c08.xhtml",
+}
+
+
+def slugify(text: str) -> str:
+    text = text.lower()
+    text = re.sub(r"[''']", "", text)
+    text = re.sub(r"[^a-z0-9]+", "_", text)
+    return text.strip("_")
+
+
+def _parse_prospetto(tags) -> list[tuple[str | None, list]]:
+    """One group per model-verb table, labelled with the verb name.
+    The overview table (no sgc-4 header) gets label None."""
+    groups = []
+    current: list = []
+    current_label: str | None = None
+    for tag in tags:
+        if tag.name == "table" and tag.find("td", class_="sgc-4"):
+            if current:
+                groups.append((current_label, current))
+            current_label = tag.find("td", class_="sgc-4").get_text(strip=True)
+            current = [tag]
+        else:
+            current.append(tag)
+    if current:
+        groups.append((current_label, current))
+    return groups
+
+
+def _parse_tavola(tags) -> list[tuple[str | None, list]]:
+    """One group per first letter of the bold verb name."""
+    buckets: dict[str, list] = {}
+    for tag in tags:
+        bold = tag.find("b") if hasattr(tag, "find") else None
+        if bold:
+            letter = bold.get_text(strip=True)[0].upper()
+            buckets.setdefault(letter, []).append(tag)
+    return [(letter, buckets[letter]) for letter in sorted(buckets)]
+
+
+SECTION_HANDLERS = {
+    "prospetto_dei_modi_e_dei_tempi_del_verbopresente_passato_futuro": _parse_prospetto,
+    "tavola_dei_verbi_irregolari": _parse_tavola,
+}
+
+
+def _make_chunk(
+    chapter: str,
+    heading: str,
+    tags: list,
+    filepath: Path,
+    tag_index: int,
+    ref_context: str | None = None,
+) -> dict:
+    html = "".join(str(t) for t in tags)
+    content = markdownify(html, heading_style="ATX", bullets="-").strip()
+
+    ref_heading = heading if heading != chapter else ""
+    if ref_context:
+        ref_slug = f"{slugify(ref_context)}_{slugify(ref_heading)}"
+    else:
+        ref_slug = slugify(ref_heading)
+
+    return {
+        "ref": f"book_{slugify(chapter)}_{ref_slug}".lower()
+        .strip("_")
+        .replace(" ", "_")[:100],
+        "content": f"## {heading}\n\n{content}",
+        "chunk_type": "grammar",
+        "metadata": {
+            "source": "grammar_book",
+            "chapter": chapter,
+            "heading": heading,
+            "file": filepath.name,
+            "section_index": tag_index,
+        },
+    }
+
+
+def _flush(
+    chapter: str,
+    heading: str,
+    tags: list,
+    filepath: Path,
+    chunks: list,
+    ref_context: str | None = None,
+):
+    slug = slugify(heading)
+    handler = SECTION_HANDLERS.get(slug)
+    if handler:
+        for label, group in handler(tags):
+            sub_heading = f"{heading} — {label}" if label else heading
+            chunks.append(
+                _make_chunk(chapter, sub_heading, group, filepath, len(chunks))
+            )
+    else:
+        chunks.append(
+            _make_chunk(
+                chapter, heading, tags, filepath, len(chunks), ref_context=ref_context
+            )
+        )
+
+
+def parse_chapter(filepath: Path, split_h3: bool = False) -> list[dict]:
+    """
+    Notes on the epub structure:
+    - Every chapter has exactly one h1 - the chapter title
+    - Every chapter has [0..n] h2 - the semantic topics, what we use for chunks
+        - c02 has an h1 with no h2 at all
+        - c09 and c12 have an h1 followed immediately by h3s with no h2 parent
+        - Some chapters have h3 under h2 (c04, c07, c08...)
+
+    We chunk at the h2 level,
+        - h3 content is treated as part of the h2 parent
+        - when no h2 exists, the whole chapter body becomes the chunk content
+    """
+    soup = BeautifulSoup(filepath.read_text(encoding="utf-8"), "html.parser")
+
+    chapter_title = soup.find("h1")
+    assert chapter_title
+    assert soup.body
+
+    chapter_name = chapter_title.get_text(strip=True)
+
+    chunks = []
+    current_heading = chapter_name
+    current_h2 = chapter_name
+    current_tags = []
+
+    def ref_context_for_current():
+        # Include h2 context in ref when we're at h3 level, to disambiguate
+        # headings that repeat across (or within) different h2 sections.
+        return current_h2 if (split_h3 and current_heading != current_h2) else None
+
+    for tag in soup.body.children:
+        if not hasattr(tag, "name") or tag.name is None:
+            continue
+        if tag.name == "h1":
+            current_heading = tag.get_text(strip=True)
+            current_h2 = current_heading
+            current_tags = []
+        elif tag.name == "h2":
+            if current_tags:
+                _flush(
+                    chapter_name,
+                    current_heading,
+                    current_tags,
+                    filepath,
+                    chunks,
+                    ref_context_for_current(),
+                )
+            current_h2 = tag.get_text(strip=True)
+            current_heading = current_h2
+            current_tags = []
+        elif split_h3 and tag.name == "h3":
+            if current_tags:
+                _flush(
+                    chapter_name,
+                    current_heading,
+                    current_tags,
+                    filepath,
+                    chunks,
+                    ref_context_for_current(),
+                )
+            current_heading = tag.get_text(strip=True)
+            current_tags = []
+        else:
+            current_tags.append(tag)
+
+    if current_tags:
+        _flush(
+            chapter_name,
+            current_heading,
+            current_tags,
+            filepath,
+            chunks,
+            ref_context_for_current(),
+        )
+
+    return chunks
+
+
+def ingest_grammar_rules():
+    all_chunks = []
+
+    print(f"Ingesting {BOOK_DIR}...")
+
+    for filepath in CHAPTER_FILES:
+        print(f"Parsing {filepath.name}...")
+        all_chunks.extend(
+            parse_chapter(filepath, split_h3=filepath.name in SPLIT_H3_CHAPTERS)
+        )
+
+    # Deduplicate refs that are still identical after context-qualified slugification
+    # (e.g. same h3 heading appearing twice within the same h2 section).
+    seen: dict[str, int] = {}
+    for chunk in all_chunks:
+        ref = chunk["ref"]
+        if ref in seen:
+            seen[ref] += 1
+            chunk["ref"] = f"{ref}_{seen[ref]}"
+        else:
+            seen[ref] = 0
+
+    print(f"Total chunks: {len(all_chunks)}")
+    for i, c in enumerate(all_chunks):
+        print(f"\t{c['ref']} length: {len(c['content'])}")
+
+    # use asymmetric embeddings for "multilingual-e5-large"
+    # https://huggingface.co/intfloat/multilingual-e5-large
+    enrichment = (
+        json.loads(ENRICHMENT_FILE.read_text()) if ENRICHMENT_FILE.exists() else {}
+    )
+    texts = [
+        f"passage: {enrichment[c['ref']]}\n\n{c['content']}"
+        if c["ref"] in enrichment
+        else f"passage: {c['content']}"
+        for c in all_chunks
+    ]
+
+    embeddings = model.encode(texts, batch_size=64, show_progress_bar=True)
+
+    with Session(engine) as session:
+        session.exec(text(f"TRUNCATE TABLE {TABLE_CHUNKS} RESTART IDENTITY"))
+        session.commit()
+
+        for chunk, embedding in zip(all_chunks, embeddings):
+            session.add(
+                ItalianChunk(
+                    ref=chunk["ref"],
+                    content=chunk["content"],
+                    chunk_type=chunk["chunk_type"],
+                    embedding=embedding.tolist(),
+                    chunk_metadata=chunk["metadata"],
+                )
+            )
+
+        session.commit()
+    print("Done.")
+
+
+def ingest():
+    ingest_grammar_rules()
+
+    with Session(engine) as session:
+        result = session.exec(text("SELECT COUNT(*) FROM italian_chunks"))
+        print(f"Have {result.scalar()} rules in the database")
+
+
+if __name__ == "__main__":
+    ingest()
