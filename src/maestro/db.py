@@ -1,16 +1,37 @@
-from sqlmodel import create_engine, Session
-from typing import Annotated
-from fastapi import Depends
+from beanie import init_beanie
+from pymongo import AsyncMongoClient
 from maestro.settings import Settings
-
-engine = create_engine(Settings().database_url)
-
-
-def get_session():
-    with Session(engine) as session:
-        yield session
+from maestro.models import Chat, Message, ItalianChunk
 
 
-TABLE_CHUNKS = "italian_chunks"
+settings = Settings()
 
-SessionDep = Annotated[Session, Depends(get_session)]
+
+async def init_db():
+    client = AsyncMongoClient(settings.database_url)
+    await init_beanie(
+        database=client[settings.MONGODB_DB],
+        document_models=[Chat, Message, ItalianChunk],
+    )
+
+
+def init_indices(client):
+    collection = client[settings.MONGODB_DB]["italian_chunks"]
+    collection.create_search_index(
+        {
+            "name": "embedding_index",
+            "definition": {
+                "mappings": {
+                    "dynamic": False,
+                    "fields": {
+                        "embedding": {
+                            "type": "knnVector",
+                            "dimensions": 1024,
+                            "similarity": "cosine",
+                        },
+                        "chunk_type": {"type": "string"},
+                    },
+                }
+            },
+        }
+    )

@@ -1,7 +1,7 @@
 {% include "message.html" %}
 
 <div id="reply-placeholder-{{ message.id }}"
-     hx-get="/chat/{{ message.chat_id }}/messages/{{ message.id }}/reply"
+     hx-get="/chat/{{ message.chat.id }}/messages/{{ message.id }}/reply"
      hx-trigger="load"
      hx-target="#reply-placeholder-{{ message.id }}"
      hx-swap="outerHTML">

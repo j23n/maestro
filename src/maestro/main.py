@@ -1,17 +1,25 @@
+from contextlib import asynccontextmanager
 from fastapi.encoders import jsonable_encoder
 from typing import Annotated, Union
 from fastapi import FastAPI, Request, HTTPException, Header, Form
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from beanie import PydanticObjectId
 
 import markdown
 
+from maestro.db import init_db
 from maestro.models import Message, Chat
-from maestro.db import SessionDep
 import maestro.services
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 templates = Jinja2Templates(directory="templates")
 templates.env.filters["markdown"] = lambda x: markdown.markdown(
     x, extensions=["extra", "nl2br", "sane_lists"]
@@ -19,16 +27,11 @@ templates.env.filters["markdown"] = lambda x: markdown.markdown(
 
 
 @app.get("/chat/", response_class=HTMLResponse)
-async def home(
-    request: Request,
-    session: SessionDep,
-):
-    chat = session.get(Chat, 0)
+async def home(request: Request):
+    chat = await Chat.find_one()
     if not chat:
-        chat = Chat(id=0)
-        session.add(chat)
-        session.commit()
-        session.refresh(chat)
+        chat = Chat()
+        await chat.insert()
     return templates.TemplateResponse(
         request=request, name="chat.html", context={"chat": chat}
     )
@@ -36,37 +39,35 @@ async def home(
 
 @app.get("/chat/{chat_id}/messages", response_class=HTMLResponse)
 async def list_messages(
-    chat_id,
+    chat_id: PydanticObjectId,
     request: Request,
-    session: SessionDep,
     hx_request: Annotated[Union[str, None], Header()] = None,
 ):
     # fastapi.Header fills in the HTTP header based on the parameter name.
     # to make it explicit: Header(alias="HX-Request"). It handles hyphen and
     # case automagically
 
-    chat = session.get(Chat, chat_id)
+    chat = await Chat.get(chat_id)
     if chat is None:
         raise HTTPException(status_code=404, detail="Chat not found")
+    messages = await Message.find({"chat.$id": chat.id}).to_list()
     if hx_request:
         return templates.TemplateResponse(
-            request=request, name="messages.html", context={"messages": chat.messages}
+            request=request, name="messages.html", context={"messages": messages}
         )
-    return JSONResponse(content=jsonable_encoder(chat.messages))
+    return JSONResponse(content=jsonable_encoder(messages))
 
 
 @app.post("/chat/{chat_id}/messages", response_class=HTMLResponse)
 async def create_message(
-    chat_id, request: Request, session: SessionDep, message: Annotated[str, Form()]
+    chat_id: PydanticObjectId, request: Request, message: Annotated[str, Form()]
 ):
-    chat = session.get(Chat, chat_id)
-    if chat is None or chat.id is None:
+    chat = await Chat.get(chat_id)
+    if chat is None:
         raise HTTPException(status_code=404, detail="Chat not found")
 
-    m = Message(chat_id=chat.id, text=message, sender="user")
-    session.add(m)
-    session.commit()
-    session.refresh(m)
+    m = Message(chat=chat, text=message, sender="user")
+    await m.insert()
 
     return templates.TemplateResponse(
         request=request, name="user-message.html", context={"message": m}
@@ -75,23 +76,19 @@ async def create_message(
 
 @app.get("/chat/{chat_id}/messages/{message_id}/reply")
 async def get_response(
-    chat_id: int,
-    message_id: int,
+    chat_id: PydanticObjectId,
+    message_id: PydanticObjectId,
     request: Request,
-    session: SessionDep,
     hx_request: Annotated[Union[str, None], Header()] = None,
 ):
-    chat = session.get(Chat, chat_id)
-    user_msg = session.get(Message, message_id)
+    chat = await Chat.get(chat_id)
+    user_msg = await Message.get(message_id)
     if chat is None or user_msg is None:
         raise HTTPException(404)
-    context = chat.messages
+    context = await Message.find({"chat.$id": chat.id}).to_list()
 
     reply = await maestro.services.get_response(user_msg, context)
-
-    session.add(reply)
-    session.commit()
-    session.refresh(reply)
+    await reply.insert()
 
     return templates.TemplateResponse(
         request=request, name="message.html", context={"message": reply}
