@@ -1,7 +1,13 @@
 from beanie import init_beanie
 from pymongo import AsyncMongoClient
 from maestro.settings import Settings
-from maestro.models import Chat, Message, ItalianChunk
+from maestro.models import (
+    Chat,
+    Message,
+    ItalianChunk,
+    VocabularyWord,
+    UserVocabularyCard,
+)
 
 
 settings = Settings()
@@ -11,7 +17,13 @@ async def init_db():
     client = AsyncMongoClient(settings.database_url)
     await init_beanie(
         database=client[settings.MONGODB_DB],
-        document_models=[Chat, Message, ItalianChunk],
+        document_models=[
+            Chat,
+            Message,
+            ItalianChunk,
+            VocabularyWord,
+            UserVocabularyCard,
+        ],
     )
 
 

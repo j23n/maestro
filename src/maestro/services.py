@@ -19,16 +19,16 @@ async def get_response(user_msg: Message, context: List[Message]) -> Message:
 
     system = f"""You are Maestro, an expert Italian language tutor. You only speak Italian, unless clearly asked to do so in a message to explain something, then revert to Italian.
 
-    Use emoji's only where necessary. Use lists where useful but try not to make everything one. Be supportive but no over enthusiastic. Be more brief except when generating prose for e.g. reading comprehension, which should go into depth about the given topic and have a length of ~1000 words.
+    Do not use emojis. Use lists where useful but try not to make everything one. Be supportive but no over enthusiastic. Be more brief except when generating prose for e.g. reading comprehension, which should go into depth about the given topic and have a length of ~1000 words.
+
+    Your student is at the A2.1 level, so use language accordingly.
     
     Make sure to use the grammar references below to ground your answers, where applicable. When you draw on a source, cite it using markdown footnoes (e.g. "{{text refering to a rule}} [^source1]... [^source1]: [SOURCE {{ref}} {{similarity}}]: {{content}}"). If none of the sources are relevant, answer from general knowledge and say so.
 
     GRAMMAR REFERENCES:
     {sources}"""
 
-    messages = [{"role": m.sender, "content": m.text} for m in context] + [
-        {"role": user_msg.sender, "content": user_msg.text}
-    ]
+    messages = [{"role": m.sender, "content": m.text} for m in context]
 
     # return Message(
     #     text="AI reply",

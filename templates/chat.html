@@ -1,82 +1,68 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Maestro</title>
-  <script src="https://unpkg.com/htmx.org"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
+{% extends "base.html" %}
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #111;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+{% block styles %}
+  body { display: flex; flex-direction: column; height: 100vh; }
 
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    min-height: 0;
+  }
 
-    /* scaled-down markdown headers inside messages */
-    #messages h1 { font-size: 1.3em; font-weight: 600; margin: 0.25em 0; }
-    #messages h2 { font-size: 1.15em; font-weight: 600; margin: 0.25em 0; }
-    #messages h3 { font-size: 1.05em; font-weight: 600; margin: 0.25em 0; }
-    #messages h4,
-    #messages h5,
-    #messages h6 { font-size: 1em; font-weight: 600; margin: 0.25em 0; }
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 
-    #messages p  { margin: 0.25em 0; }
-    #messages pre, #messages code { font-size: 0.875em; }
-    #messages pre { overflow-x: auto; }
+  #messages h1 { font-size: 1.3em; font-weight: 600; margin: 0.25em 0; }
+  #messages h2 { font-size: 1.15em; font-weight: 600; margin: 0.25em 0; }
+  #messages h3 { font-size: 1.05em; font-weight: 600; margin: 0.25em 0; }
+  #messages h4,
+  #messages h5,
+  #messages h6 { font-size: 1em; font-weight: 600; margin: 0.25em 0; }
+  #messages p  { margin: 0.25em 0; }
+  #messages pre, #messages code { font-size: 0.875em; }
+  #messages pre { overflow-x: auto; }
 
-    .meta {
-      font-size: 0.75em;
-      color: #999;
-      margin-bottom: 0.15em;
-    }
+  #messages [data-sender] {
+    max-width: 80%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+  }
 
-    form {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border-top: 1px solid #e5e5e5;
-    }
+  #messages [data-sender="user"] {
+    align-self: flex-end;
+    background: #e8f0fe;
+    border-bottom-right-radius: 3px;
+  }
 
-    input[type="text"] {
-      flex: 1;
-      padding: 0.4rem 0.6rem;
-      font-size: 14px;
-      border: 1px solid #d0d0d0;
-      border-radius: 4px;
-      outline: none;
-    }
+  #messages [data-sender="assistant"] {
+    align-self: flex-start;
+    background: #f0f0f0;
+    border-bottom-left-radius: 3px;
+  }
 
-    input[type="text"]:focus { border-color: #888; }
+  .meta { font-size: 0.75em; color: #999; margin-bottom: 0.15em; }
 
-    button {
-      padding: 0.4rem 0.8rem;
-      font-size: 14px;
-      border: 1px solid #d0d0d0;
-      border-radius: 4px;
-      background: #f5f5f5;
-      cursor: pointer;
-    }
+  form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e5e5e5;
+  }
 
-    button:hover { background: #e8e8e8; }
-  </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
+  <main>
   <div id="messages"
       hx-get="/chat/{{ chat.id }}/messages"
       hx-swap="innerHTML"
@@ -90,6 +76,14 @@
     <input type="text" name="message" placeholder="I'd like to...">
     <button>Send</button>
   </form>
+  </main>
 
-</body>
-</html>
+  <script>
+    function scrollToLastMessage() {
+      const all = document.querySelectorAll('#messages [data-sender="user"]');
+      const last = all[all.length - 1];
+      if (last) last.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+    document.addEventListener('htmx:afterSettle', scrollToLastMessage);
+  </script>
+{% endblock %}

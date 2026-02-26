@@ -1,0 +1,345 @@
+[
+  {
+    "code": "identificare",
+    "label": "Identificare persone e oggetti",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A1",
+    "description": "Identify and name people, objects, places; state name, nationality, origin, and basic personal facts"
+  },
+  {
+    "code": "localizzare",
+    "label": "Localizzare nello spazio",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A1",
+    "description": "State or ask where something or someone is; use basic spatial expressions (c'è, ci sono, dove, qui, lì)"
+  },
+  {
+    "code": "chiedere_informazioni_base",
+    "label": "Chiedere e dare informazioni di base",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A1",
+    "description": "Ask and answer basic wh-questions about time, place, manner, quantity (Che ora è? Quanto costa? Come si chiama?)"
+  },
+  {
+    "code": "descrivere_persone",
+    "label": "Descrivere persone",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A2",
+    "description": "Describe physical appearance and character traits of people; use qualitative adjectives and simple comparisons"
+  },
+  {
+    "code": "descrivere_luoghi",
+    "label": "Descrivere luoghi e ambienti",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A2",
+    "description": "Describe places, rooms, cities, and environments using spatial vocabulary and adjectives"
+  },
+  {
+    "code": "raccontare_passato_semplice",
+    "label": "Raccontare eventi passati semplici",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A2",
+    "description": "Narrate a simple sequence of past events; report what happened using passato prossimo"
+  },
+  {
+    "code": "descrivere_routine",
+    "label": "Descrivere routine e abitudini",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A2",
+    "description": "Describe habitual actions, daily routines, and recurring activities in the present or past"
+  },
+  {
+    "code": "descrivere_esperienze",
+    "label": "Descrivere esperienze personali",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "B1",
+    "description": "Describe personal experiences and connected past events with background context; combine passato prossimo and imperfetto"
+  },
+  {
+    "code": "riferire_discorso",
+    "label": "Riferire ciò che ha detto qualcuno",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "B1",
+    "description": "Report what someone said or thought using indirect speech (Ha detto che..., Mi ha chiesto se...)"
+  },
+  {
+    "code": "analizzare_argomentare_fatti",
+    "label": "Analizzare e argomentare su fatti",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "B2",
+    "description": "Analyze complex situations, present causes and consequences, and build a logical factual argument"
+  },
+  {
+    "code": "esprimere_preferenze",
+    "label": "Esprimere preferenze e gusti",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A2",
+    "description": "Express likes, dislikes, and preferences using piacere, preferire, amare, odiare"
+  },
+  {
+    "code": "accordo_disaccordo_semplice",
+    "label": "Esprimere accordo e disaccordo semplice",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A2",
+    "description": "Agree or disagree with a statement without nuance (Sì, hai ragione; No, non sono d'accordo)"
+  },
+  {
+    "code": "esprimere_opinioni",
+    "label": "Esprimere opinioni personali",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B1",
+    "description": "Give a qualified personal opinion with hedges (Penso che..., Secondo me..., A mio parere...)"
+  },
+  {
+    "code": "esprimere_certezza",
+    "label": "Esprimere gradi di certezza",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B1",
+    "description": "Express degrees of certainty and probability (Sono sicuro che..., Forse, Probabilmente, Può darsi che...)"
+  },
+  {
+    "code": "esprimere_obbligo_possibilita",
+    "label": "Esprimere obbligo e possibilità",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B1",
+    "description": "Express necessity, obligation, and possibility with modal verbs in context (Si deve, È necessario, È possibile che...)"
+  },
+  {
+    "code": "esprimere_capacita",
+    "label": "Esprimere capacità e incapacità",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B1",
+    "description": "Express ability and inability to do something (Riesco a, Non riesco a, Sono capace di, Non sono in grado di)"
+  },
+  {
+    "code": "argomentare_posizioni",
+    "label": "Argomentare e difendere una posizione",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B2",
+    "description": "Build and defend an argument, counter opposing views, concede partially (Da un lato... dall'altro; Ammetto che... tuttavia)"
+  },
+  {
+    "code": "ipotizzare",
+    "label": "Formulare ipotesi",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B2",
+    "description": "Formulate hypothetical and counterfactual scenarios (Se avessi più tempo..., Supponendo che...)"
+  },
+  {
+    "code": "ringraziare",
+    "label": "Ringraziare e rispondere ai ringraziamenti",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A1",
+    "description": "Express gratitude and respond to it (Grazie, mille grazie, prego, di niente, figurati)"
+  },
+  {
+    "code": "esprimere_felicita_tristezza",
+    "label": "Esprimere felicità e tristezza",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Express basic emotional states: happiness, sadness, and nostalgia (Sono felice/triste/contento, Mi manca...)"
+  },
+  {
+    "code": "esprimere_approvazione_disapprovazione",
+    "label": "Esprimere approvazione e disapprovazione",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Express approval or disapproval of something or someone (Che bello!, Che peccato!, Non mi piace per niente)"
+  },
+  {
+    "code": "esprimere_speranza_delusione",
+    "label": "Esprimere speranza, delusione e sollievo",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B1",
+    "description": "Express hope, disappointment, and relief (Spero che..., Purtroppo, Sono deluso/a, Meno male che...)"
+  },
+  {
+    "code": "esprimere_paura_sorpresa",
+    "label": "Esprimere paura, sorpresa e indifferenza",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B1",
+    "description": "Express fear, surprise, and indifference (Ho paura di..., Che sorpresa!, Non me ne frega niente)"
+  },
+  {
+    "code": "esprimere_sfumature_emotive",
+    "label": "Esprimere sfumature emotive complesse",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B2",
+    "description": "Express nuanced emotional states such as ambivalence, nostalgia, irony, resignation (Mi fa una strana sensazione; Non so come dirlo...)"
+  },
+  {
+    "code": "chiedere_permesso",
+    "label": "Chiedere e dare il permesso",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A1",
+    "description": "Request and grant permission (Posso entrare? Sì, certo / Mi dispiace, no)"
+  },
+  {
+    "code": "proporre_suggerire",
+    "label": "Proporre e suggerire",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A2",
+    "description": "Make proposals and suggestions (Perché non andiamo...? Ti va di...? Potremmo...)"
+  },
+  {
+    "code": "accettare_rifiutare",
+    "label": "Accettare e rifiutare proposte",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A2",
+    "description": "Accept or decline offers and proposals (Sì, volentieri; Magari un'altra volta; Mi dispiace ma non posso)"
+  },
+  {
+    "code": "consigliare",
+    "label": "Dare e chiedere consigli",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A2",
+    "description": "Give and ask for advice (Dovresti..., Ti consiglio di..., Cosa mi consigli?)"
+  },
+  {
+    "code": "chiedere_istruzioni",
+    "label": "Chiedere e dare istruzioni",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B1",
+    "description": "Give and follow instructions or directions; explain how to do something step by step"
+  },
+  {
+    "code": "persuadere",
+    "label": "Persuadere e motivare",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B1",
+    "description": "Try to convince someone using reasons and supporting arguments (Dovresti venire perché..., Ti assicuro che...)"
+  },
+  {
+    "code": "promettere",
+    "label": "Promettere",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B2",
+    "description": "Make formal or informal promises and commitments (Ti prometto che..., Giuro che..., Puoi contarci)"
+  },
+  {
+    "code": "rimproverare_minacciare",
+    "label": "Rimproverare e minacciare",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B2",
+    "description": "Reproach someone's behaviour and issue warnings or mild threats (Non avresti dovuto..., Se continui così...)"
+  },
+  {
+    "code": "salutare",
+    "label": "Salutare e congedarsi",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A1",
+    "description": "Greet and take leave using appropriate formulas by register and time of day (Ciao, Buongiorno, ArrivederLa, A presto)"
+  },
+  {
+    "code": "presentarsi",
+    "label": "Presentarsi e presentare altri",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A1",
+    "description": "Introduce oneself and others (Sono / Mi chiamo..., Le presento..., Ti presento...)"
+  },
+  {
+    "code": "scusarsi",
+    "label": "Scusarsi e rispondere alle scuse",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A2",
+    "description": "Apologise and respond to apologies (Mi dispiace, Scusa/Scusi, Non fa niente, Tranquillo/a)"
+  },
+  {
+    "code": "congratularsi",
+    "label": "Congratularsi e fare auguri",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A2",
+    "description": "Offer congratulations and good wishes (Complimenti!, Auguri!, Tanti auguri, In bocca al lupo)"
+  },
+  {
+    "code": "fare_brindisi",
+    "label": "Fare un brindisi",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A2",
+    "description": "Make a toast and respond (Cin cin!, Salute!, Alla tua/vostra salute)"
+  },
+  {
+    "code": "interazioni_telefoniche",
+    "label": "Gestire un'interazione telefonica",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "B1",
+    "description": "Open and close a phone call; leave and respond to messages; handle misunderstandings on the phone (Pronto, Chi parla?, Un attimo)"
+  },
+  {
+    "code": "corrispondenza_formale",
+    "label": "Gestire la corrispondenza formale",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "B2",
+    "description": "Write and respond to formal correspondence including email conventions, opening/closing formulas, and appropriate register"
+  },
+  {
+    "code": "enumerare_classificare",
+    "label": "Enumerare e classificare",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B1",
+    "description": "List and classify items or points in a discourse (Primo..., Inoltre..., Infine..., Si può distinguere tra...)"
+  },
+  {
+    "code": "fare_esempi",
+    "label": "Fare esempi e illustrare",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B1",
+    "description": "Give examples to support or illustrate a point (Per esempio, Ad esempio, Come nel caso di...)"
+  },
+  {
+    "code": "transizione_argomento",
+    "label": "Fare una transizione o cambiare argomento",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B1",
+    "description": "Signal a topic transition or change (A proposito di..., Tornando a..., Cambiando argomento...)"
+  },
+  {
+    "code": "comparare",
+    "label": "Comparare e mettere in contrasto",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B2",
+    "description": "Compare and contrast entities, ideas, or situations using comparison structures (Rispetto a..., Al contrario, Mentre..., A differenza di...)"
+  },
+  {
+    "code": "riassumere_concludere",
+    "label": "Riassumere e concludere",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B2",
+    "description": "Summarise what has been said and draw conclusions (In sintesi, Per concludere, In definitiva, Quindi...)"
+  },
+  {
+    "code": "gestire_turni",
+    "label": "Gestire i turni di parola",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "B1",
+    "description": "Take, hold, and yield conversational turns using fillers and signals (Allora..., Aspetta..., Sì, certo, e poi?)"
+  },
+  {
+    "code": "strategie_chiarimento",
+    "label": "Usare strategie di chiarimento",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "B1",
+    "description": "Ask for clarification, repetition, or reformulation (Puoi ripetere? Non ho capito bene. Cosa intendi dire?)"
+  },
+  {
+    "code": "verificare_comprensione",
+    "label": "Verificare la comprensione",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "B1",
+    "description": "Check that the interlocutor has understood (Hai capito? È chiaro? Vuoi che lo ripeta?)"
+  },
+  {
+    "code": "cedere_parola",
+    "label": "Cedere la parola e invitare a parlare",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "B2",
+    "description": "Explicitly yield the floor and invite others to contribute (E tu cosa ne pensi? Lascia parlare anche gli altri...)"
+  },
+  {
+    "code": "riformulare_parafrasare",
+    "label": "Riformulare e parafrasare",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "B2",
+    "description": "Reformulate or paraphrase one's own or another's words for clarity (Cioè..., In altre parole..., Vale a dire che...)"
+  }
+]
