@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Maestro{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #e5e5e5;
+      font-size: 13px;
+    }
+
+    nav a { color: #555; text-decoration: none; }
+    nav a:hover { color: #111; }
+
+    button {
+      padding: 0.4rem 0.8rem;
+      font-size: 14px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      background: #f5f5f5;
+      cursor: pointer;
+    }
+
+    button:hover { background: #e8e8e8; }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.4rem 0.6rem;
+      font-size: 14px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type="text"]:focus { border-color: #888; }
+
+    .vocab-word {
+      border-bottom: 1px dashed #aaa;
+      cursor: help;
+    }
+
+    #vocab-tooltip {
+      position: fixed;
+      display: none;
+      z-index: 100;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 0.6rem 0.85rem;
+      pointer-events: none;
+      max-width: 240px;
+    }
+
+    #vocab-tooltip .tt-word {
+      font-weight: 600;
+      font-size: 1em;
+      margin-bottom: 0.25rem;
+    }
+
+    #vocab-tooltip .tt-definition {
+      font-size: 0.82em;
+      color: #444;
+      margin-bottom: 0.2rem;
+    }
+
+    #vocab-tooltip .tt-translation {
+      font-size: 0.82em;
+      color: #888;
+      font-style: italic;
+    }
+
+    {% block styles %}{% endblock %}
+  </style>
+</head>
+<body>
+  <div id="vocab-tooltip">
+    <div class="tt-word"></div>
+    <div class="tt-definition"></div>
+    <div class="tt-translation"></div>
+  </div>
+  <nav>
+    <a href="/chat/">Chat</a>
+    <a href="/vocab">Vocabulary</a>
+  </nav>
+  {% block content %}{% endblock %}
+
+  <script>
+    const tooltip = document.getElementById('vocab-tooltip');
+    document.addEventListener('mouseover', e => {
+      const word = e.target.closest('.vocab-word');
+      if (!word) return;
+      tooltip.querySelector('.tt-word').textContent = word.dataset.word;
+      tooltip.querySelector('.tt-definition').textContent = word.dataset.definition;
+      tooltip.querySelector('.tt-translation').textContent = word.dataset.translation;
+      const r = word.getBoundingClientRect();
+      tooltip.style.display = 'block';
+      const gap = 8;
+      let top = r.bottom + gap;
+      if (top + tooltip.offsetHeight > window.innerHeight) top = r.top - tooltip.offsetHeight - gap;
+      tooltip.style.top = top + 'px';
+      tooltip.style.left = Math.min(r.left, window.innerWidth - tooltip.offsetWidth - 8) + 'px';
+    });
+    document.addEventListener('mouseout', e => {
+      if (!e.target.closest('.vocab-word')) return;
+      tooltip.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

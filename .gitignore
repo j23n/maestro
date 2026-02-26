@@ -3,3 +3,4 @@ __pycache__
 
 src/maestro/data/grammar_book.epub
 src/maestro/data/book_contents/
+src/maestro/data/it-dictionary.gz

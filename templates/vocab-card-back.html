@@ -1,0 +1,38 @@
+<div class="card" id="practice-card">
+  {% if mode == 'word' %}
+    <div class="word">{{ card.word.word }}</div>
+    <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
+    <div class="back">
+      <p><strong>{{ card.word.translation }}</strong></p>
+      <p style="color:#555; font-size:0.9rem">{{ card.word.definition }}</p>
+    </div>
+  {% elif mode == 'translation' %}
+    <div class="prompt">How do you say this in Italian?</div>
+    <div class="clue">{{ card.word.translation }}</div>
+    <div class="back">
+      <div class="word">{{ card.word.word }}</div>
+      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
+      <p style="color:#555; font-size:0.9rem; margin-top:0.5rem">{{ card.word.definition }}</p>
+    </div>
+  {% elif mode == 'definition' %}
+    <div class="prompt">What's the Italian word?</div>
+    <div class="clue">{{ card.word.definition }}</div>
+    <div class="back">
+      <div class="word">{{ card.word.word }}</div>
+      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
+      <p style="margin-top:0.5rem"><strong>{{ card.word.translation }}</strong></p>
+    </div>
+  {% endif %}
+
+  <div class="rating-buttons">
+    {% for label, value in [("Again", 1), ("Hard", 3), ("Good", 4), ("Easy", 5)] %}
+    <form hx-post="/vocab/practice/{{ card.id }}/review"
+          hx-target="#practice-card"
+          hx-swap="outerHTML">
+      <input type="hidden" name="rating" value="{{ value }}">
+      <input type="hidden" name="mode" value="{{ mode }}">
+      <button>{{ label }}</button>
+    </form>
+    {% endfor %}
+  </div>
+</div>

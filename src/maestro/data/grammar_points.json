@@ -1,0 +1,310 @@
+[
+  {
+    "code": "presente_indicativo",
+    "label": "Presente indicativo",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "Present indicative of essere, avere, and regular -are/-ere/-ire verbs; active 1st/2nd/3rd singular and 1st plural"
+  },
+  {
+    "code": "condizionale_vorrei",
+    "label": "Condizionale: vorrei",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "The fixed expression 'vorrei' (I would like) as a polite request form, not full conditional paradigm"
+  },
+  {
+    "code": "imperativo_formale",
+    "label": "Imperativo formale e informale",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "Formal imperative (scusi, aspetti) and informal (scusa, aspetta); first plural (andiamo)"
+  },
+  {
+    "code": "verbi_modali_lessicali",
+    "label": "Verbi modali come elementi lessicali",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "Potere, volere, dovere used as content words without full pragmatic awareness of modality"
+  },
+  {
+    "code": "ce_ci_sono",
+    "label": "C'è / ci sono",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "Existential construction c'è / non c'è and ci sono / non ci sono to express presence or absence"
+  },
+  {
+    "code": "passato_prossimo",
+    "label": "Passato prossimo",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Perfect past tense with essere or avere auxiliary; transitive, intransitive, and reflexive verbs; past participle agreement with essere"
+  },
+  {
+    "code": "imperfetto_essere_avere",
+    "label": "Imperfetto di essere e avere",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Imperfect of essere and avere used for descriptions and background states; not yet full imperfect paradigm"
+  },
+  {
+    "code": "futuro_semplice_temporale",
+    "label": "Futuro semplice (valore temporale)",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Future tense used with a temporal value alongside future adverbs (domani, presto, la settimana prossima)"
+  },
+  {
+    "code": "imperativo_completo",
+    "label": "Imperativo completo",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Full imperative paradigm: all 6 persons, affirmative and negative; position of pronouns with negative imperative"
+  },
+  {
+    "code": "verbi_riflessivi",
+    "label": "Verbi riflessivi e reciproci",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Reflexive verbs (alzarsi, vestirsi, chiamarsi) and reciprocal verbs (salutarsi, incontrarsi) in present and passato prossimo"
+  },
+  {
+    "code": "stare_gerundio",
+    "label": "Stare + gerundio",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Present progressive formed with stare + gerundio to express an ongoing action (Sto mangiando)"
+  },
+  {
+    "code": "verbi_modali_pragmatici",
+    "label": "Verbi modali con uso pragmatico",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Potere, volere, dovere used with awareness of social meaning: permission, desire, obligation in context"
+  },
+  {
+    "code": "trapassato_prossimo",
+    "label": "Trapassato prossimo",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "Past perfect expressing an event anterior to another past event (Quando sono arrivato, era già partito)"
+  },
+  {
+    "code": "futuro_anteriore",
+    "label": "Futuro anteriore",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "Future perfect used temporally (Dopo che mi sarò laureato...) and modally for suppositions about past (Saranno arrivati)"
+  },
+  {
+    "code": "condizionale_presente",
+    "label": "Condizionale presente",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "Conditional present for eventuality (Potremmo andare), desire (Mi piacerebbe), attenuated requests (Potresti aprire?), advice (Dovresti riposare)"
+  },
+  {
+    "code": "congiuntivo_esortativo",
+    "label": "Congiuntivo esortativo",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "Hortative subjunctive in imperative-like use (Venga!, Aspetti!); not yet in full subordinate contexts"
+  },
+  {
+    "code": "si_impersonale_passivo",
+    "label": "Si impersonale e passivante",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "Impersonal si (In Italia si mangia bene) and passive si (Qui si parla italiano) constructions"
+  },
+  {
+    "code": "passato_remoto",
+    "label": "Passato remoto",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "Simple past tense; regular and common irregular forms; awareness of regional variation (North vs South Italy usage)"
+  },
+  {
+    "code": "congiuntivo_pieno",
+    "label": "Congiuntivo (uso pieno)",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "Full subjunctive in subordinate clauses: after verbs of wish/belief/emotion/doubt (Voglio che venga), concessive, and other triggers"
+  },
+  {
+    "code": "condizionale_passato",
+    "label": "Condizionale passato",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "Conditional perfect expressing what would have happened (Sarei venuto, ma...); indirect speech in the past"
+  },
+  {
+    "code": "periodo_ipotetico",
+    "label": "Periodo ipotetico",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "All three hypothesis types: realtà (se + presente → presente/futuro), possibilità (se + congiuntivo → condizionale), impossibilità (se + congiuntivo passato → condizionale passato)"
+  },
+  {
+    "code": "passivo_essere_venire",
+    "label": "Forma passiva",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "Passive voice with essere (È stato scelto) and venire (Viene arrestato); distinction between state and process"
+  },
+  {
+    "code": "nome_genere_numero",
+    "label": "Nome: genere e numero",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "Noun gender/number: -o/-a/-e endings and their plurals; invariable nouns (città, caffè, sport); common irregular plurals (uomo/uomini)"
+  },
+  {
+    "code": "nomi_professionali_genere",
+    "label": "Nomi professionali: distinzione di genere",
+    "cefr_level": "A2",
+    "category": "nome",
+    "description": "Gender distinction for professional nouns: -tore/-trice (direttore/direttrice), -ista invariant (il/la giornalista)"
+  },
+  {
+    "code": "plurali_irregolari",
+    "label": "Plurali irregolari",
+    "cefr_level": "A2",
+    "category": "nome",
+    "description": "Irregular plural forms: braccio/braccia, dito/dita, mano/mani, uovo/uova; and nouns with -co/-go plurals"
+  },
+  {
+    "code": "aggettivi_qualificativi",
+    "label": "Aggettivi qualificativi",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Qualitative adjectives ending in -o/-a and -e; agreement in gender and number with the noun"
+  },
+  {
+    "code": "aggettivi_possessivi",
+    "label": "Aggettivi possessivi",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Possessive adjectives (mio, tuo, suo, nostro, vostro, loro); article omission with singular family nouns"
+  },
+  {
+    "code": "aggettivi_dimostrativi",
+    "label": "Aggettivi dimostrativi",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Demonstrative adjectives questo (near) and quello (far) with all their forms"
+  },
+  {
+    "code": "numerali",
+    "label": "Numerali cardinali e ordinali",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Cardinal numbers 1–100 and common ordinals primo through decimo"
+  },
+  {
+    "code": "preposizioni_semplici",
+    "label": "Preposizioni semplici di base",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "Core prepositions: di (origin: Sono di Roma), a (destination/city), in (nation/transport), con (accompaniment), per (purpose), senza"
+  },
+  {
+    "code": "preposizioni_articolate",
+    "label": "Preposizioni articolate e usi idiomatici",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "Contracted prepositions (al, del, nel, etc.); idiomatic uses: ho bisogno di, voglia di, paura di; locutions: davanti a, vicino a, lontano da"
+  },
+  {
+    "code": "preposizioni_dopo_verbi",
+    "label": "Preposizioni dopo verbi frequenti",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "Prepositions required by specific verbs: riuscire a, smettere di, cominciare a, finire di, interessarsi di, occuparsi di, dipendere da"
+  },
+  {
+    "code": "preposizioni_avanzate",
+    "label": "Preposizioni: usi avanzati",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "Subtle prepositional distinctions and complex locutions: per mezzo di, fino da, in mezzo a, in base a, nonostante, attraverso, contro, entro"
+  },
+  {
+    "code": "ordine_svo",
+    "label": "Ordine della frase: SVO e omissione del soggetto",
+    "cefr_level": "A1",
+    "category": "costruzione_frase",
+    "description": "Unmarked SVO word order; pro-drop subject omission in declarative and interrogative clauses (Sono americano; Vai al cinema?)"
+  },
+  {
+    "code": "ordine_aggettivo_possessivo",
+    "label": "Posizione dell'aggettivo possessivo",
+    "cefr_level": "A2",
+    "category": "costruzione_frase",
+    "description": "Adjective-noun order with possessives: la tua macchina, il mio motorino; article + possessive + noun"
+  },
+  {
+    "code": "dislocazione_frase_scissa",
+    "label": "Dislocazione a sinistra e frase scissa",
+    "cefr_level": "B2",
+    "category": "costruzione_frase",
+    "description": "Left dislocation with pronoun resumption (Il vino rosso l'ha finito Mario) and cleft sentences (È lei che non ha voluto; È stato Mario a farlo)"
+  },
+  {
+    "code": "coordinazione_base",
+    "label": "Coordinazione e subordinazione di base",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Adversative ma; copulative anche; explicit temporal quando; conditional se + indicativo presente; implicit final a + infinito"
+  },
+  {
+    "code": "relativa_che",
+    "label": "Proposizione relativa con 'che'",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Relative clause with che as subject or direct object (Il mio amico che abita in centro; il libro che ho comprato)"
+  },
+  {
+    "code": "subordinate_causali",
+    "label": "Proposizioni causali",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Causal subordinate clauses with siccome, dato che, visto che, poiché; distinction from perché"
+  },
+  {
+    "code": "subordinate_temporali",
+    "label": "Proposizioni temporali",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Temporal subordinates: simultaneity (mentre), sequence (dopo che, (non) appena, prima di + infinito), implicit anterior (prima di + infinito)"
+  },
+  {
+    "code": "periodo_ipotetico_realta",
+    "label": "Periodo ipotetico della realtà",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Real conditional: se + present indicative → present or future indicative (Se vuoi, vengo; Se fa bello, usciremo)"
+  },
+  {
+    "code": "congiuntivo_subordinata",
+    "label": "Congiuntivo nelle proposizioni subordinate",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Subjunctive in explicit objective and subjective subordinates after verbs of wish, belief, doubt, emotion (Penso che sia; Voglio che venga)"
+  },
+  {
+    "code": "subordinate_concessive",
+    "label": "Proposizioni concessive",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Concessive clauses with anche se (contrafactual), sebbene, benché, nonostante + subjunctive"
+  },
+  {
+    "code": "periodo_ipotetico_complesso",
+    "label": "Periodo ipotetico della possibilità e impossibilità",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Possibility: se + congiuntivo imperfetto → condizionale presente; impossibility: se + congiuntivo trapassato → condizionale passato"
+  }
+]

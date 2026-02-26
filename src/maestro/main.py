@@ -1,21 +1,30 @@
+from maestro.vocab.discover import load_vocab
 from contextlib import asynccontextmanager
 from fastapi.encoders import jsonable_encoder
 from typing import Annotated, Union
 from fastapi import FastAPI, Request, HTTPException, Header, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
 from beanie import PydanticObjectId
 
 import markdown
+import random
 
+from datetime import date
 from maestro.db import init_db
-from maestro.models import Message, Chat
+from maestro.models import Message, Chat, VocabularyWord, UserVocabularyCard
+from maestro.rag.retrieve import get_model
+from maestro.vocab.nlp import get_nlp
+from maestro.vocab.srs import review
 import maestro.services
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+    get_model()  # warm up sentence-transformers
+    get_nlp()  # warm up spaCy Italian model
+    await load_vocab()
     yield
 
 
@@ -93,3 +102,54 @@ async def get_response(
     return templates.TemplateResponse(
         request=request, name="message.html", context={"message": reply}
     )
+
+
+@app.get("/vocab", response_class=HTMLResponse)
+async def vocab_list(request: Request):
+    cards = await UserVocabularyCard.find_all().to_list()
+    for card in cards:
+        await card.fetch_all_links()
+    return templates.TemplateResponse(
+        request=request,
+        name="vocab.html",
+        context={"cards": cards, "today": date.today()},
+    )
+
+
+QUIZ_MODES = ("word", "definition", "translation")
+
+
+@app.get("/vocab/practice", response_class=HTMLResponse)
+async def vocab_practice(request: Request, mode: str = "random"):
+    card = await UserVocabularyCard.find_one(
+        {"next_review": {"$lte": date.today()}}
+    )
+    if card is None:
+        return templates.TemplateResponse(
+            request=request, name="vocab-practice.html", context={"card": None, "mode": mode}
+        )
+    await card.fetch_all_links()
+    resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
+    return templates.TemplateResponse(
+        request=request, name="vocab-practice.html", context={"card": card, "mode": resolved_mode, "selected_mode": mode}
+    )
+
+
+@app.get("/vocab/practice/{card_id}/reveal", response_class=HTMLResponse)
+async def vocab_reveal(card_id: PydanticObjectId, request: Request, mode: str = "word"):
+    card = await UserVocabularyCard.get(card_id)
+    await card.fetch_all_links()
+    return templates.TemplateResponse(
+        request=request, name="vocab-card-back.html", context={"card": card, "mode": mode}
+    )
+
+
+@app.post("/vocab/practice/{card_id}/review", response_class=HTMLResponse)
+async def vocab_review(
+    card_id: PydanticObjectId, request: Request, rating: Annotated[int, Form()],
+    mode: Annotated[str, Form()] = "random",
+):
+    card = await UserVocabularyCard.get(card_id)
+    card = review(card, rating)
+    await card.save()
+    return Response(status_code=204, headers={"HX-Redirect": f"/vocab/practice?mode={mode}"})
