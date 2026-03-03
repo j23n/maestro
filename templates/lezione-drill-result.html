@@ -1,0 +1,166 @@
+{# Partial — swapped into .activity-container after drill submit #}
+{% include "lezione-progress.html" %}
+
+<style>
+  .item-row {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.4rem 0.6rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .item-row:last-child { border-bottom: none; }
+
+  .item-row-num {
+    font-size: 0.78rem;
+    color: #bbb;
+    padding-top: 0.25rem;
+    text-align: right;
+  }
+
+  .item-row-body { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .item-prompt-text {
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  .item-student-wrong {
+    font-size: 0.9rem;
+    color: #b91c1c;
+    text-decoration: line-through;
+  }
+
+  .item-correct-answer {
+    font-size: 0.9rem;
+    color: #065f46;
+    font-weight: 500;
+  }
+
+  .item-explanation {
+    font-size: 0.82rem;
+    color: #666;
+    margin-top: 0.1rem;
+  }
+
+  .item-ok-mark {
+    font-size: 0.85rem;
+    color: #16a34a;
+  }
+
+  .item-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-top: 0.3rem;
+  }
+
+  .item-grammar-error {
+    font-size: 0.78rem;
+    color: #92400e;
+    background: #fef3c7;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+
+  .item-tip {
+    font-size: 0.78rem;
+    color: #6b7280;
+    font-style: italic;
+  }
+</style>
+
+<div class="card" style="border:1px solid #e5e5e5;border-radius:8px;padding:1.75rem 2rem;">
+
+  {% if feedback and feedback is mapping and "items" in feedback %}
+    {# ── Multi-item result ── #}
+    {% set correct_count = feedback["correct_count"] %}
+    {% set total = feedback["total"] %}
+
+    {% if correct %}
+      <div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1rem;">
+        Ottimo! {{ correct_count }}/{{ total }} corrette ✓
+      </div>
+    {% else %}
+      <div style="background:#fef2f2;color:#991b1b;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1rem;">
+        {{ correct_count }}/{{ total }} corrette
+      </div>
+    {% endif %}
+
+    <div style="margin-bottom:1.5rem;">
+      {% for item in feedback["items"] %}
+      <div class="item-row">
+        <div class="item-row-num">{{ loop.index }}</div>
+        <div class="item-row-body">
+          <div class="item-prompt-text">{{ item.prompt }}</div>
+          {% if item.objective_correct %}
+            <div class="item-ok-mark">✓ {{ item.student_answer }}</div>
+          {% else %}
+            <div class="item-student-wrong">{{ item.student_answer }}</div>
+            <div class="item-correct-answer">{{ item.correct_answer }}</div>
+            {% if item.objective_note %}
+            <div class="item-explanation">{{ item.objective_note }}</div>
+            {% endif %}
+          {% endif %}
+          {% if item.grammar_errors or item.tips %}
+          <div class="item-secondary">
+            {% for err in item.grammar_errors %}
+            <div><span class="item-grammar-error">{{ err }}</span></div>
+            {% endfor %}
+            {% for tip in item.tips %}
+            <div class="item-tip">{{ tip }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  {% elif drill and drill.exercise_type == "free_form" %}
+    {# ── Free-form result ── #}
+    {% if correct %}
+      <div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
+        Corretto! ✓
+      </div>
+    {% else %}
+      <div style="background:#fef2f2;color:#991b1b;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
+        Non corretto
+      </div>
+    {% endif %}
+    {% if feedback and feedback is mapping and feedback.errors is defined and feedback.errors %}
+      <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">Note da ricordare</div>
+      {% for err in feedback.errors %}
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:0.2rem;">Errato</div>
+        <div style="font-size:0.95rem;color:#b91c1c;text-decoration:line-through;margin-bottom:0.4rem;">{{ err.wrong }}</div>
+        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:0.2rem;">Corretto</div>
+        <div style="font-size:0.95rem;color:#065f46;margin-bottom:0.4rem;">{{ err.correct }}</div>
+        {% if err.explanation %}
+        <p style="font-size:0.85rem;color:#555;margin:0;">{{ err.explanation }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% elif correct %}
+      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">Ottima risposta! Hai usato correttamente la struttura.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if rule_refs %}
+  <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid #e5e5e5;">
+    {% for ref in rule_refs %}
+    <div style="font-size:0.8rem;color:#888;">{{ ref.heading }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div style="margin-top:1.5rem;">
+    <a href="{{ next_url }}"
+       style="display:inline-block;padding:0.5rem 1.2rem;background:#111;color:#fff;border-radius:6px;text-decoration:none;font-size:0.95rem;">
+      Continua →
+    </a>
+  </div>
+</div>

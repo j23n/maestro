@@ -4,342 +4,639 @@
     "label": "Identificare persone e oggetti",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A1",
-    "description": "Identify and name people, objects, places; state name, nationality, origin, and basic personal facts"
+    "description": "Identify and name people, objects, places; state name, nationality, origin, and basic personal facts",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_interag_identi.html"
   },
   {
     "code": "localizzare",
     "label": "Localizzare nello spazio",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A1",
-    "description": "State or ask where something or someone is; use basic spatial expressions (c'è, ci sono, dove, qui, lì)"
+    "description": "State or ask where something or someone is; use basic spatial expressions (c'è, ci sono, dove, qui, lì)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_interag_identi.html"
   },
   {
     "code": "chiedere_informazioni_base",
     "label": "Chiedere e dare informazioni di base",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A1",
-    "description": "Ask and answer basic wh-questions about time, place, manner, quantity (Che ora è? Quanto costa? Come si chiama?)"
+    "description": "Ask and answer basic wh-questions about time, place, manner, quantity (Che ora è? Quanto costa? Come si chiama?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_interag_rispondere02.html"
+  },
+  {
+    "code": "asserire",
+    "label": "Asserire e affermare",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A1",
+    "description": "Make factual assertions and statements about the world, people, or events (È così, Si tratta di..., Questo significa che..., La verità è che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "confermare_smentire",
+    "label": "Confermare o smentire",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A2",
+    "description": "Confirm or deny a statement or belief (Sì, è proprio così; No, non è vero; Assolutamente, Tutt'altro, Infatti)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "descrivere_persone",
     "label": "Descrivere persone",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A2",
-    "description": "Describe physical appearance and character traits of people; use qualitative adjectives and simple comparisons"
+    "description": "Describe physical appearance and character traits of people; use qualitative adjectives and simple comparisons",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "descrivere_luoghi",
     "label": "Descrivere luoghi e ambienti",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A2",
-    "description": "Describe places, rooms, cities, and environments using spatial vocabulary and adjectives"
+    "description": "Describe places, rooms, cities, and environments using spatial vocabulary and adjectives",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "raccontare_passato_semplice",
     "label": "Raccontare eventi passati semplici",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A2",
-    "description": "Narrate a simple sequence of past events; report what happened using passato prossimo"
+    "description": "Narrate a simple sequence of past events; report what happened using passato prossimo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "descrivere_routine",
     "label": "Descrivere routine e abitudini",
     "macro_category": "interagire_informazioni",
     "cefr_level": "A2",
-    "description": "Describe habitual actions, daily routines, and recurring activities in the present or past"
+    "description": "Describe habitual actions, daily routines, and recurring activities in the present or past",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "contraddire",
+    "label": "Contraddire",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "B1",
+    "description": "Contradict a positive or negative assertion made by another speaker (Al contrario..., Non è affatto vero che..., Anzi..., Tutt'altro)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "descrivere_esperienze",
     "label": "Descrivere esperienze personali",
     "macro_category": "interagire_informazioni",
     "cefr_level": "B1",
-    "description": "Describe personal experiences and connected past events with background context; combine passato prossimo and imperfetto"
+    "description": "Describe personal experiences and connected past events with background context; combine passato prossimo and imperfetto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "riferire_discorso",
     "label": "Riferire ciò che ha detto qualcuno",
     "macro_category": "interagire_informazioni",
     "cefr_level": "B1",
-    "description": "Report what someone said or thought using indirect speech (Ha detto che..., Mi ha chiesto se...)"
+    "description": "Report what someone said or thought using indirect speech (Ha detto che..., Mi ha chiesto se...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "analizzare_argomentare_fatti",
     "label": "Analizzare e argomentare su fatti",
     "macro_category": "interagire_informazioni",
     "cefr_level": "B2",
-    "description": "Analyze complex situations, present causes and consequences, and build a logical factual argument"
+    "description": "Analyze complex situations, present causes and consequences, and build a logical factual argument",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_preferenze",
     "label": "Esprimere preferenze e gusti",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "A2",
-    "description": "Express likes, dislikes, and preferences using piacere, preferire, amare, odiare"
+    "description": "Express likes, dislikes, and preferences using piacere, preferire, amare, odiare",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intatt_espop.html"
   },
   {
     "code": "accordo_disaccordo_semplice",
-    "label": "Esprimere accordo e disaccordo semplice",
+    "label": "Esprimere accordo e disaccordo",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "A2",
-    "description": "Agree or disagree with a statement without nuance (Sì, hai ragione; No, non sono d'accordo)"
+    "description": "Agree or disagree with a statement, with or without reservations, or by proposing an alternative (Sì, hai ragione; Non sono d'accordo; Sì, però...; E se invece...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intatt_espop.html"
+  },
+  {
+    "code": "esprimere_desiderio",
+    "label": "Esprimere un desiderio",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A2",
+    "description": "Express wishes or desires for oneself or others (Vorrei, Spero di, Mi piacerebbe, Sogno di..., Magari...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_intenzione",
+    "label": "Esprimere un'intenzione",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A2",
+    "description": "Express plans or intentions to do something (Ho intenzione di..., Penso di..., Sto per..., Ho deciso di..., Voglio...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_conoscenza",
+    "label": "Esprimere conoscenza, ignoranza e memoria",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A2",
+    "description": "State what one knows, doesn't know, remembers, or has forgotten; remind someone of something (So che..., Non ne ho idea, Mi ricordo che..., Ho dimenticato, Te lo ricordo: ...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_opinioni",
     "label": "Esprimere opinioni personali",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B1",
-    "description": "Give a qualified personal opinion with hedges (Penso che..., Secondo me..., A mio parere...)"
+    "description": "Give a qualified personal opinion with hedges (Penso che..., Secondo me..., A mio parere...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intatt_espop.html"
   },
   {
     "code": "esprimere_certezza",
     "label": "Esprimere gradi di certezza",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B1",
-    "description": "Express degrees of certainty and probability (Sono sicuro che..., Forse, Probabilmente, Può darsi che...)"
+    "description": "Express degrees of certainty and probability (Sono sicuro che..., Forse, Probabilmente, Può darsi che..., È evidente che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_obbligo_possibilita",
     "label": "Esprimere obbligo e possibilità",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B1",
-    "description": "Express necessity, obligation, and possibility with modal verbs in context (Si deve, È necessario, È possibile che...)"
+    "description": "Express necessity, obligation, and possibility with modal verbs in context (Si deve, È necessario, È possibile che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_capacita",
     "label": "Esprimere capacità e incapacità",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B1",
-    "description": "Express ability and inability to do something (Riesco a, Non riesco a, Sono capace di, Non sono in grado di)"
+    "description": "Express ability and inability to do something (Riesco a, Non riesco a, Sono capace di, Non sono in grado di)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "argomentare_posizioni",
     "label": "Argomentare e difendere una posizione",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B2",
-    "description": "Build and defend an argument, counter opposing views, concede partially (Da un lato... dall'altro; Ammetto che... tuttavia)"
+    "description": "Build and defend an argument, counter opposing views, concede partially (Da un lato... dall'altro; Ammetto che... tuttavia)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_norma",
+    "label": "Esprimere una norma sociale o morale",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B2",
+    "description": "Express social norms, moral judgements, or ethical stances (È giusto che..., Bisognerebbe che..., Non è corretto..., Moralmente parlando...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "accusare_confessare",
+    "label": "Accusare, accusarsi o confessare",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B2",
+    "description": "Accuse someone, accuse oneself, or confess to something (È colpa tua, Mi accuso di..., Ammetto che..., Devo confessare che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "respingere_accusa",
+    "label": "Respingere un'accusa",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "B2",
+    "description": "Deny or reject an accusation made against oneself (Non è vero che..., Non ho fatto niente del genere, Mi difendo da quest'accusa...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "ipotizzare",
     "label": "Formulare ipotesi",
     "macro_category": "interagire_opinioni_atteggiamenti",
     "cefr_level": "B2",
-    "description": "Formulate hypothetical and counterfactual scenarios (Se avessi più tempo..., Supponendo che...)"
+    "description": "Formulate hypothetical and counterfactual scenarios (Se avessi più tempo..., Supponendo che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intatt_espipotesi.html"
   },
   {
     "code": "ringraziare",
     "label": "Ringraziare e rispondere ai ringraziamenti",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "A1",
-    "description": "Express gratitude and respond to it (Grazie, mille grazie, prego, di niente, figurati)"
+    "description": "Express gratitude and respond to it (Grazie, mille grazie, prego, di niente, figurati)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intemo_rispringr.html"
   },
   {
     "code": "esprimere_felicita_tristezza",
     "label": "Esprimere felicità e tristezza",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "A2",
-    "description": "Express basic emotional states: happiness, sadness, and nostalgia (Sono felice/triste/contento, Mi manca...)"
+    "description": "Express basic emotional states: happiness, sadness, and nostalgia (Sono felice/triste/contento, Mi manca...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intemo_espfelicita.html"
   },
   {
     "code": "esprimere_approvazione_disapprovazione",
     "label": "Esprimere approvazione e disapprovazione",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "A2",
-    "description": "Express approval or disapproval of something or someone (Che bello!, Che peccato!, Non mi piace per niente)"
+    "description": "Express approval or disapproval of something or someone (Che bello!, Che peccato!, Non mi piace per niente, Bravo!)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "interrogare_emozioni",
+    "label": "Interrogare sulle emozioni altrui",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Ask someone about their emotional state or wellbeing (Come stai? Sei contento/a? Cosa ti è successo? Perché sei triste? Tutto bene?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_sofferenza_fisica",
+    "label": "Esprimere sofferenza fisica",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Express physical pain or discomfort (Mi fa male..., Ho mal di..., Mi sento male, Sono esausto/a, Ho la febbre)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_soddisfazione",
+    "label": "Esprimere soddisfazione o insoddisfazione",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Express satisfaction, dissatisfaction, or complaint (Sono soddisfatto/a, Lascia a desiderare, Mi lamento di..., Non va per niente bene, Perfetto!)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_interesse",
+    "label": "Esprimere interesse",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "A2",
+    "description": "Express interest in something or in what someone is saying (Interessante!, Dimmi di più, Che bello sentire questo, Mi interessa molto, Davvero?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "consolare",
+    "label": "Consolare, incoraggiare e confortare",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B1",
+    "description": "Console, encourage, or comfort someone who is upset or struggling (Su, dai..., Non preoccuparti, Vedrai che andrà bene, Ce la fai, Sono qui con te)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_partecipazione",
+    "label": "Esprimere partecipazione emotiva",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B1",
+    "description": "Express empathy or emotional involvement in what someone is saying (Capisco come ti senti, Mi dispiace tanto, Dev'essere stato difficile, Ti sono vicino/a)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_speranza_delusione",
     "label": "Esprimere speranza, delusione e sollievo",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "B1",
-    "description": "Express hope, disappointment, and relief (Spero che..., Purtroppo, Sono deluso/a, Meno male che...)"
+    "description": "Express hope, disappointment, and relief (Spero che..., Purtroppo, Sono deluso/a, Meno male che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_paura_sorpresa",
     "label": "Esprimere paura, sorpresa e indifferenza",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "B1",
-    "description": "Express fear, surprise, and indifference (Ho paura di..., Che sorpresa!, Non me ne frega niente)"
+    "description": "Express fear, surprise, and indifference (Ho paura di..., Che sorpresa!, Non me ne frega niente, Mi ha sorpreso molto)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "esprimere_collera",
+    "label": "Esprimere collera e cattivo umore",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B1",
+    "description": "Express anger, irritation, or bad mood (Sono arrabbiato/a, Mi fa arrabbiare, Non ne posso più, Sono furioso/a, Che rabbia!)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "esprimere_sfumature_emotive",
     "label": "Esprimere sfumature emotive complesse",
     "macro_category": "interagire_emozioni_sentimenti",
     "cefr_level": "B2",
-    "description": "Express nuanced emotional states such as ambivalence, nostalgia, irony, resignation (Mi fa una strana sensazione; Non so come dirlo...)"
+    "description": "Express nuanced emotional states such as ambivalence, nostalgia, irony, resignation (Mi fa una strana sensazione; Non so come dirlo...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "placare_collera",
+    "label": "Placare la collera o il cattivo umore altrui",
+    "macro_category": "interagire_emozioni_sentimenti",
+    "cefr_level": "B2",
+    "description": "Calm someone who is angry or upset (Calmati, Non prendertela, Non è la fine del mondo, Cerchiamo di parlarne con calma)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "fare_richiesta",
+    "label": "Chiedere a qualcuno di fare qualcosa",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A1",
+    "description": "Ask someone to do something, ranging from direct orders to polite requests (Fai questo, Potresti..., Per favore, Ti chiedo di..., Mi faresti il favore di...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "chiedere_permesso",
     "label": "Chiedere e dare il permesso",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "A1",
-    "description": "Request and grant permission (Posso entrare? Sì, certo / Mi dispiace, no)"
+    "description": "Request and grant or deny permission (Posso entrare? Sì, certo / Mi dispiace, no / Prego, si accomodi)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "offrire_aiuto",
+    "label": "Offrire aiuto o qualcosa a qualcuno",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A2",
+    "description": "Offer help, a service, or a gift (Posso aiutarti? Ti offro..., Vuoi che...?, Permettimi di..., Hai bisogno di qualcosa?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "proporre_suggerire",
     "label": "Proporre e suggerire",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "A2",
-    "description": "Make proposals and suggestions (Perché non andiamo...? Ti va di...? Potremmo...)"
+    "description": "Make proposals and suggestions (Perché non andiamo...? Ti va di...? Potremmo..., Che ne dici di...?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "accettare_rifiutare",
-    "label": "Accettare e rifiutare proposte",
+    "label": "Accettare e rifiutare proposte o richieste",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "A2",
-    "description": "Accept or decline offers and proposals (Sì, volentieri; Magari un'altra volta; Mi dispiace ma non posso)"
+    "description": "Accept or decline offers, proposals, and requests, with or without reservations (Sì, volentieri; Magari un'altra volta; Mi dispiace ma non posso; Con piacere, però...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "consigliare",
     "label": "Dare e chiedere consigli",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "A2",
-    "description": "Give and ask for advice (Dovresti..., Ti consiglio di..., Cosa mi consigli?)"
+    "description": "Give and ask for advice (Dovresti..., Ti consiglio di..., Cosa mi consigli?, Al posto tuo io...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "chiedere_istruzioni",
     "label": "Chiedere e dare istruzioni",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "B1",
-    "description": "Give and follow instructions or directions; explain how to do something step by step"
+    "description": "Give and follow instructions or directions; explain how to do something step by step",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intazio_chiordistr.html"
+  },
+  {
+    "code": "mettere_in_guardia",
+    "label": "Mettere in guardia",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B1",
+    "description": "Warn someone about a risk or danger (Attento/a!, Stai attento che..., Ti avviso che..., Fai attenzione a..., Occhio a...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "persuadere",
     "label": "Persuadere e motivare",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "B1",
-    "description": "Try to convince someone using reasons and supporting arguments (Dovresti venire perché..., Ti assicuro che...)"
+    "description": "Try to convince someone using reasons and supporting arguments (Dovresti venire perché..., Ti assicuro che..., Fidati di me)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "vietare",
+    "label": "Vietare e opporsi a un divieto",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "B1",
+    "description": "Forbid something or oppose a prohibition (È vietato..., Non puoi..., Non si fa..., Mi rifiuto di accettare questo divieto)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "promettere",
     "label": "Promettere",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "B2",
-    "description": "Make formal or informal promises and commitments (Ti prometto che..., Giuro che..., Puoi contarci)"
+    "description": "Make formal or informal promises and commitments (Ti prometto che..., Giuro che..., Puoi contarci, Parola mia)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "rimproverare_minacciare",
     "label": "Rimproverare e minacciare",
     "macro_category": "interagire_attivita_azioni",
     "cefr_level": "B2",
-    "description": "Reproach someone's behaviour and issue warnings or mild threats (Non avresti dovuto..., Se continui così...)"
+    "description": "Reproach someone's behaviour and issue warnings or mild threats (Non avresti dovuto..., Se continui così...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intazio_rimproverare.html"
+  },
+  {
+    "code": "attirare_attenzione",
+    "label": "Attirare l'attenzione",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A1",
+    "description": "Get someone's attention before speaking or in a public context (Scusi!, Senta!, Ehi!, Permesso!, Mi scusi un attimo)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "salutare",
     "label": "Salutare e congedarsi",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "A1",
-    "description": "Greet and take leave using appropriate formulas by register and time of day (Ciao, Buongiorno, ArrivederLa, A presto)"
+    "description": "Greet and take leave using appropriate formulas by register and time of day; respond to greetings (Ciao, Buongiorno, ArrivederLa, A presto, Salve)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "presentarsi",
     "label": "Presentarsi e presentare altri",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "A1",
-    "description": "Introduce oneself and others (Sono / Mi chiamo..., Le presento..., Ti presento...)"
+    "description": "Introduce oneself and others; respond to an introduction (Sono / Mi chiamo..., Le presento..., Ti presento..., Piacere!)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "accogliere",
+    "label": "Accogliere qualcuno",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A2",
+    "description": "Welcome someone to a place or event (Benvenuto/a!, Accomodati, Entra pure, Siamo felici di averti qui, Prego, si sieda)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "scusarsi",
     "label": "Scusarsi e rispondere alle scuse",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "A2",
-    "description": "Apologise and respond to apologies (Mi dispiace, Scusa/Scusi, Non fa niente, Tranquillo/a)"
+    "description": "Apologise and respond to apologies (Mi dispiace, Scusa/Scusi, Non fa niente, Tranquillo/a, Ti chiedo scusa)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intritsoc_scusarsi.html"
   },
   {
     "code": "congratularsi",
     "label": "Congratularsi e fare auguri",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "A2",
-    "description": "Offer congratulations and good wishes (Complimenti!, Auguri!, Tanti auguri, In bocca al lupo)"
+    "description": "Offer congratulations, good wishes, or wishes for someone (Complimenti!, Auguri!, Tanti auguri, In bocca al lupo, Buona fortuna!)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "fare_brindisi",
     "label": "Fare un brindisi",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "A2",
-    "description": "Make a toast and respond (Cin cin!, Salute!, Alla tua/vostra salute)"
+    "description": "Make a toast and respond (Cin cin!, Salute!, Alla tua/vostra salute)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "condoglianze",
+    "label": "Fare le proprie condoglianze",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "B1",
+    "description": "Offer condolences or express sympathy for a loss or bereavement (Le mie condoglianze, Mi dispiace molto per la tua perdita, Ti sono vicino/a in questo momento)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "interazioni_telefoniche",
     "label": "Gestire un'interazione telefonica",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "B1",
-    "description": "Open and close a phone call; leave and respond to messages; handle misunderstandings on the phone (Pronto, Chi parla?, Un attimo)"
+    "description": "Open and close a phone call; ask to speak with someone; put on hold; handle identity inquiries (Pronto, Chi parla?, Un attimo, Richiamo più tardi)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "corrispondenza_formale",
     "label": "Gestire la corrispondenza formale",
     "macro_category": "interagire_rituali_sociali",
     "cefr_level": "B2",
-    "description": "Write and respond to formal correspondence including email conventions, opening/closing formulas, and appropriate register"
+    "description": "Write and respond to formal correspondence including email conventions, opening/closing formulas, and appropriate register",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_intritsoc_intconcemail.html"
+  },
+  {
+    "code": "introdurre_discorso",
+    "label": "Introdurre un argomento, una storia o un'informazione",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "A2",
+    "description": "Announce the start of a topic, story, or anecdote (Volevo parlarti di..., C'è una cosa importante..., Ti racconto..., Allora, dunque...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "strategie_lessicali",
+    "label": "Usare strategie per parole dimenticate o sconosciute",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "A2",
+    "description": "Paraphrase, use a generic filler word, or ask for help when a word is unknown or forgotten (Come si dice...?, Quella cosa che..., Intendo dire..., In altre parole...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "enumerare_classificare",
     "label": "Enumerare e classificare",
     "macro_category": "strutturare_discorso",
     "cefr_level": "B1",
-    "description": "List and classify items or points in a discourse (Primo..., Inoltre..., Infine..., Si può distinguere tra...)"
+    "description": "List and classify items or points in a discourse (Primo..., Inoltre..., Infine..., Si può distinguere tra...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_strutdisc_annarg.html"
+  },
+  {
+    "code": "sviluppare_tema",
+    "label": "Sviluppare un tema o argomento",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B1",
+    "description": "Expand on a topic by describing, narrating, comparing, enumerating or classifying (Innanzitutto..., Da un lato..., In confronto a..., Per quanto riguarda...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "fare_esempi",
     "label": "Fare esempi e illustrare",
     "macro_category": "strutturare_discorso",
     "cefr_level": "B1",
-    "description": "Give examples to support or illustrate a point (Per esempio, Ad esempio, Come nel caso di...)"
+    "description": "Give examples to support or illustrate a point (Per esempio, Ad esempio, Come nel caso di...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "transizione_argomento",
     "label": "Fare una transizione o cambiare argomento",
     "macro_category": "strutturare_discorso",
     "cefr_level": "B1",
-    "description": "Signal a topic transition or change (A proposito di..., Tornando a..., Cambiando argomento...)"
+    "description": "Signal a topic transition, propose a new topic, or return to a previous one (A proposito di..., Tornando a..., Cambiando argomento..., Comunque)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_strutdisc_faretransarg.html"
   },
   {
     "code": "comparare",
     "label": "Comparare e mettere in contrasto",
     "macro_category": "strutturare_discorso",
     "cefr_level": "B2",
-    "description": "Compare and contrast entities, ideas, or situations using comparison structures (Rispetto a..., Al contrario, Mentre..., A differenza di...)"
+    "description": "Compare and contrast entities, ideas, or situations using comparison structures (Rispetto a..., Al contrario, Mentre..., A differenza di...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "sottolineare",
+    "label": "Sottolineare e mettere in evidenza",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B2",
+    "description": "Emphasise a point or highlight key information in a discourse (Soprattutto, In particolare, Ciò che conta è..., Voglio sottolineare che...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "gestire_digressione",
+    "label": "Aprire e chiudere una digressione",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B2",
+    "description": "Open or close a digression and return to the main thread (A proposito, Per inciso, Torniamo al punto principale, Come stavo dicendo...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
+  },
+  {
+    "code": "riferire_citare",
+    "label": "Riferire opinioni altrui e citare",
+    "macro_category": "strutturare_discorso",
+    "cefr_level": "B2",
+    "description": "Report what others think or say, or cite sources (Secondo lui/lei..., Come dice..., Stando a quanto riportato..., Citando...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "riassumere_concludere",
     "label": "Riassumere e concludere",
     "macro_category": "strutturare_discorso",
     "cefr_level": "B2",
-    "description": "Summarise what has been said and draw conclusions (In sintesi, Per concludere, In definitiva, Quindi...)"
+    "description": "Summarise what has been said and draw conclusions (In sintesi, Per concludere, In definitiva, Quindi...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_strutdisc_concdisc.html"
+  },
+  {
+    "code": "iniziare_conversazione",
+    "label": "Cominciare una conversazione",
+    "macro_category": "strutturare_interazione_verbale",
+    "cefr_level": "A2",
+    "description": "Start a conversation or open an interaction (Senta..., Posso chiederle una cosa?, Scusi, avrei bisogno di..., Sei libero/a un attimo?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "gestire_turni",
-    "label": "Gestire i turni di parola",
+    "label": "Prendere e gestire i turni di parola",
     "macro_category": "strutturare_interazione_verbale",
     "cefr_level": "B1",
-    "description": "Take, hold, and yield conversational turns using fillers and signals (Allora..., Aspetta..., Sì, certo, e poi?)"
+    "description": "Take, hold, reclaim after interruption, and yield conversational turns (Allora..., Aspetta..., Posso finire di dire?, Sì, certo, e poi?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_strintverb_comconv.html"
   },
   {
     "code": "strategie_chiarimento",
     "label": "Usare strategie di chiarimento",
     "macro_category": "strutturare_interazione_verbale",
     "cefr_level": "B1",
-    "description": "Ask for clarification, repetition, or reformulation (Puoi ripetere? Non ho capito bene. Cosa intendi dire?)"
+    "description": "Ask for clarification, repetition, or reformulation when something is unclear (Puoi ripetere? Non ho capito bene. Cosa intendi dire?)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "verificare_comprensione",
     "label": "Verificare la comprensione",
     "macro_category": "strutturare_interazione_verbale",
     "cefr_level": "B1",
-    "description": "Check that the interlocutor has understood (Hai capito? È chiaro? Vuoi che lo ripeta?)"
+    "description": "Check that the interlocutor has understood, using definitions, paraphrase, or direct questions (Hai capito? È chiaro? Vuoi che lo ripeta? Cioè...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   },
   {
     "code": "cedere_parola",
     "label": "Cedere la parola e invitare a parlare",
     "macro_category": "strutturare_interazione_verbale",
     "cefr_level": "B2",
-    "description": "Explicitly yield the floor and invite others to contribute (E tu cosa ne pensi? Lascia parlare anche gli altri...)"
+    "description": "Explicitly yield the floor and invite others to contribute (E tu cosa ne pensi? Lascia parlare anche gli altri, Prego, dica...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funz_strintverb_cedparola.html"
   },
   {
     "code": "riformulare_parafrasare",
     "label": "Riformulare e parafrasare",
     "macro_category": "strutturare_interazione_verbale",
     "cefr_level": "B2",
-    "description": "Reformulate or paraphrase one's own or another's words for clarity (Cioè..., In altre parole..., Vale a dire che...)"
+    "description": "Reformulate or paraphrase one's own or another's words for clarity or precision (Cioè..., In altre parole..., Vale a dire che..., Quello che intendo è...)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/funzioni_lista.html"
   }
 ]

@@ -1,0 +1,8 @@
+{# Shared progress bar partial — include in every activity template #}
+{# Expects: lesson, idx, total #}
+<div class="lesson-progress">
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: {{ ((idx + 1) / total * 100) | round | int }}%"></div>
+  </div>
+  <div class="progress-label">Attività {{ idx + 1 }} di {{ total }}</div>
+</div>

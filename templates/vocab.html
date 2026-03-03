@@ -2,15 +2,70 @@
 {% block title %}Vocabulary — Maestro{% endblock %}
 
 {% block styles %}
-  table { border-collapse: collapse; width: 100%; }
-  th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid #e5e5e5; }
+  .vocab-page { padding: 1.25rem 0; }
+  .vocab-page h2 { margin: 0 0 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+
+  /* Stats bar */
+  .vocab-stats { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; }
+  .stats-group { display: flex; gap: 1rem; }
+  .stat { display: flex; flex-direction: column; align-items: center; min-width: 52px; }
+  .stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.1; color: #111; }
+  .stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 1px; }
+  .stat.learned .stat-value { color: #27ae60; }
+  .stat.difficult .stat-value { color: #c0392b; }
+
+  .stats-divider { width: 1px; height: 36px; background: #e0e0e0; }
+
+  .cefr-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .cefr-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .cefr-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 1px 5px; border-radius: 3px; }
+  .cefr-badge.a1 { background: #e8f5e9; color: #2e7d32; }
+  .cefr-badge.a2 { background: #e3f2fd; color: #1565c0; }
+  .cefr-badge.b1 { background: #fff3e0; color: #e65100; }
+  .cefr-badge.b2 { background: #f3e5f5; color: #6a1b9a; }
+  .cefr-count { font-size: 1rem; font-weight: 600; color: #333; }
+
+  /* Table */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; min-width: 360px; }
+  th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid #e5e5e5; white-space: nowrap; }
   th { font-weight: 600; color: #555; font-size: 12px; text-transform: uppercase; }
   .due { color: #c0392b; font-weight: 600; }
 {% endblock %}
 
 {% block content %}
-  <div style="padding: 1rem">
-    <h2 style="margin: 0 0 1rem">Vocabulary <a href="/vocab/practice"><button>Practice due cards</button></a></h2>
+  <div class="vocab-page">
+    <h2>Vocabulary <a href="/vocab/practice"><button>Practice due cards</button></a></h2>
+
+    <div class="vocab-stats">
+      <div class="stats-group">
+        <div class="stat">
+          <span class="stat-value">{{ stats.total }}</span>
+          <span class="stat-label">encountered</span>
+        </div>
+        <div class="stat learned">
+          <span class="stat-value">{{ stats.learned }}</span>
+          <span class="stat-label">learned</span>
+        </div>
+        <div class="stat difficult">
+          <span class="stat-value">{{ stats.difficult }}</span>
+          <span class="stat-label">difficult</span>
+        </div>
+      </div>
+
+      <div class="stats-divider"></div>
+
+      <div class="cefr-group">
+        {% for level, count in stats.cefr.items() %}
+        <div class="cefr-item">
+          <span class="cefr-badge {{ level | lower }}">{{ level }}</span>
+          <span class="cefr-count">{{ count }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="table-scroll">
     <table>
       <thead>
         <tr>
@@ -31,5 +86,6 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
   </div>
 {% endblock %}

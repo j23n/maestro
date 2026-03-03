@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Maestro{% endblock %}</title>
   <script src="https://unpkg.com/htmx.org"></script>
   <style>
@@ -16,15 +17,26 @@
       background: #fff;
     }
 
+    .site-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
     nav {
-      display: flex;
-      gap: 1rem;
-      padding: 0.5rem 1rem;
       border-bottom: 1px solid #e5e5e5;
       font-size: 13px;
     }
 
-    nav a { color: #555; text-decoration: none; }
+    nav .site-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    nav a { color: #555; text-decoration: none; padding: 0.2rem 0; }
     nav a:hover { color: #111; }
 
     button {
@@ -37,6 +49,7 @@
     }
 
     button:hover { background: #e8e8e8; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
 
     input[type="text"] {
       flex: 1;
@@ -64,19 +77,47 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 0.6rem 0.85rem;
       pointer-events: none;
-      max-width: 240px;
+      max-width: 300px;
+    }
+
+    #vocab-tooltip .tt-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      margin-bottom: 0.15rem;
     }
 
     #vocab-tooltip .tt-word {
       font-weight: 600;
       font-size: 1em;
-      margin-bottom: 0.25rem;
     }
 
-    #vocab-tooltip .tt-definition {
+    #vocab-tooltip .tt-pos {
+      font-size: 0.78em;
+      color: #888;
+      font-style: italic;
+    }
+
+    #vocab-tooltip .tt-syllabization {
+      font-size: 0.8em;
+      color: #999;
+      margin-bottom: 0.2rem;
+    }
+
+    #vocab-tooltip .tt-senses {
       font-size: 0.82em;
       color: #444;
       margin-bottom: 0.2rem;
+    }
+
+    #vocab-tooltip .tt-sense { margin-bottom: 0.25rem; }
+    #vocab-tooltip .tt-sense:last-child { margin-bottom: 0; }
+
+    #vocab-tooltip .tt-example {
+      font-size: 0.9em;
+      color: #888;
+      font-style: italic;
+      padding-left: 0.6rem;
     }
 
     #vocab-tooltip .tt-translation {
@@ -85,29 +126,176 @@
       font-style: italic;
     }
 
+    #vocab-tooltip .tt-more {
+      display: block;
+      font-size: 0.78em;
+      color: #6b9fc9;
+      text-decoration: none;
+      margin-top: 0.3rem;
+    }
+
+    #vocab-tooltip .tt-more:hover { text-decoration: underline; }
+
+    /* Drill feedback (shared across drill-result.html and lezione-drill-result.html) */
+    .feedback-block { margin-bottom: 1rem; }
+
+    .feedback-correction {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .feedback-correction blockquote {
+      margin: 0;
+      padding: 0.45rem 0.85rem;
+      border-radius: 0 5px 5px 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .answer-wrong {
+      border-left: 3px solid #f87171;
+      background: #fff5f5;
+      color: #7f1d1d;
+      text-decoration: line-through;
+      text-decoration-color: #f87171;
+    }
+
+    .answer-correct {
+      border-left: 3px solid #4ade80;
+      background: #f0fdf4;
+      color: #14532d;
+    }
+
+    .feedback-explanation {
+      font-size: 0.88rem;
+      color: #555;
+      margin: 0 0 0.25rem;
+      line-height: 1.55;
+    }
+
+    .rule-refs { margin-bottom: 1rem; }
+    .rule-ref {
+      font-size: 0.8rem;
+      color: #555;
+      padding: 0.2rem 0.6rem;
+      background: #f5f5f5;
+      border-left: 2px solid #ccc;
+      margin-bottom: 0.3rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Vocab card (shared across vocab-practice.html and lezione-activity-vocab.html) */
+    .card {
+      max-width: 480px;
+      margin: 2rem auto;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .card-queue { font-size: 0.75rem; color: #bbb; margin-bottom: 1.25rem; }
+    .word  { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .pos   { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
+    .clue  { font-size: 1.1rem; color: #333; margin-bottom: 1.5rem; line-height: 1.6; }
+    .prompt { font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .back  { margin: 1.5rem 0; border-top: 1px solid #e5e5e5; padding-top: 1.5rem; }
+    .translation { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .senses { text-align: left; margin: 0.5rem 0 0; padding-left: 1.25rem; font-size: 0.9rem; color: #333; }
+    .senses li { margin-bottom: 0.4rem; }
+    .sense-def { color: #222; }
+    .sense-ex { font-style: italic; color: #888; font-size: 0.9em; margin-top: 0.1rem; }
+    .rating-buttons { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+
+    /* Lesson progress bar (shared across all lezione-activity-*.html) */
+    .lesson-progress {
+      padding: 1rem 0 0;
+      margin-bottom: 1.5rem;
+    }
+    .progress-bar {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.4rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #111;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    .progress-label {
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+
     {% block styles %}{% endblock %}
   </style>
 </head>
 <body>
   <div id="vocab-tooltip">
-    <div class="tt-word"></div>
-    <div class="tt-definition"></div>
+    <div class="tt-header">
+      <span class="tt-word"></span>
+      <span class="tt-pos"></span>
+    </div>
+    <div class="tt-syllabization"></div>
+    <div class="tt-senses"></div>
     <div class="tt-translation"></div>
+    <a class="tt-more" href="#">→ definizione completa</a>
   </div>
   <nav>
-    <a href="/chat/">Chat</a>
-    <a href="/vocab">Vocabulary</a>
+    <div class="site-container">
+      <a href="/lezione/">Lezione</a>
+      <a href="/vocab">Vocabolario</a>
+      <a href="/profilo">Profilo</a>
+    </div>
   </nav>
-  {% block content %}{% endblock %}
+  <div class="site-container">
+    {% block content %}{% endblock %}
+  </div>
 
   <script>
     const tooltip = document.getElementById('vocab-tooltip');
     document.addEventListener('mouseover', e => {
       const word = e.target.closest('.vocab-word');
       if (!word) return;
-      tooltip.querySelector('.tt-word').textContent = word.dataset.word;
-      tooltip.querySelector('.tt-definition').textContent = word.dataset.definition;
-      tooltip.querySelector('.tt-translation').textContent = word.dataset.translation;
+      tooltip.querySelector('.tt-word').textContent = word.dataset.word || '';
+      tooltip.querySelector('.tt-pos').textContent = word.dataset.pos || '';
+      const syl = word.dataset.syllabization;
+      tooltip.querySelector('.tt-syllabization').textContent = syl ? '[' + syl + ']' : '';
+
+      const sensesEl = tooltip.querySelector('.tt-senses');
+      sensesEl.innerHTML = '';
+      let senses = [];
+      try { senses = JSON.parse(word.dataset.senses || '[]'); } catch(_) {}
+      const shown = senses.slice(0, 3);
+      shown.forEach((s, i) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'tt-sense';
+        const defLine = document.createElement('div');
+        defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + s.definition;
+        wrap.appendChild(defLine);
+        if (s.examples && s.examples[0]) {
+          const ex = document.createElement('div');
+          ex.className = 'tt-example';
+          ex.textContent = s.examples[0];
+          wrap.appendChild(ex);
+        }
+        sensesEl.appendChild(wrap);
+      });
+
+      tooltip.querySelector('.tt-translation').textContent = word.dataset.translation || '';
+
+      const link = tooltip.querySelector('.tt-more');
+      const entryId = word.dataset.entryId;
+      if (entryId) {
+        link.href = '/vocab/word/' + entryId;
+        link.style.display = 'block';
+      } else {
+        link.style.display = 'none';
+      }
+
       const r = word.getBoundingClientRect();
       tooltip.style.display = 'block';
       const gap = 8;

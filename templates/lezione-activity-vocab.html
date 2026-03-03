@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ activity.title }} — Maestro{% endblock %}
+
+{% block styles %}
+  .activity-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+  }
+
+  .reveal-btn {
+    padding: 0.5rem 1.4rem;
+    font-size: 0.95rem;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .reveal-btn:hover { background: #333; }
+
+  .skip-link {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: #bbb;
+    text-decoration: none;
+    margin-top: 0.75rem;
+  }
+  .skip-link:hover { color: #888; }
+{% endblock %}
+
+{% block content %}
+<div class="activity-container">
+  {% include "lezione-progress.html" %}
+
+  <div class="card" id="practice-card">
+    <div class="card-queue">{{ card_idx + 1 }} / {{ activity.card_ids | length }}</div>
+    <div class="word">{{ card.word.word }}</div>
+
+    <button class="reveal-btn"
+            hx-get="/lezione/{{ lesson.id }}/activity/{{ idx }}/vocab-reveal?card_idx={{ card_idx }}"
+            hx-target="#practice-card"
+            hx-swap="outerHTML">
+      Mostra
+    </button>
+  </div>
+
+  <a class="skip-link"
+     hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+     hx-target="body"
+     hx-push-url="true"
+     href="#">Salta attività →</a>
+</div>
+{% endblock %}

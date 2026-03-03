@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block styles %}
-  body { display: flex; flex-direction: column; height: 100vh; }
+  body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+
+  /* let site-container pass through flex layout for chat's full-height design */
+  .site-container { flex: 1; display: flex; flex-direction: column; padding: 0; max-width: 100%; min-height: 0; }
 
   main {
     flex: 1;
@@ -57,6 +60,12 @@
     gap: 0.5rem;
     padding: 0.75rem 1rem;
     border-top: 1px solid #e5e5e5;
+  }
+
+  @media (max-width: 480px) {
+    #messages { padding: 0.75rem; }
+    #messages [data-sender] { max-width: 90%; }
+    form { padding: 0.5rem 0.75rem; }
   }
 
 {% endblock %}

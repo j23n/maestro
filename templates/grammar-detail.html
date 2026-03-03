@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}{{ gp.label }} — Maestro{% endblock %}
+
+{% block styles %}
+  .grammar-detail {
+    max-width: 600px;
+    margin: 2.5rem auto;
+    padding: 0 1rem 3rem;
+  }
+
+  .gp-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .gp-level {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 0.1rem 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .gp-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 0.3rem;
+  }
+
+  .grammar-content {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #333;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .grammar-content h1,
+  .grammar-content h2,
+  .grammar-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem;
+    color: #111;
+  }
+
+  .grammar-content h1:first-child,
+  .grammar-content h2:first-child,
+  .grammar-content h3:first-child {
+    margin-top: 0;
+  }
+
+  .grammar-content p { margin: 0 0 0.9rem; }
+  .grammar-content p:last-child { margin-bottom: 0; }
+
+  .grammar-content code {
+    background: #f5f5f5;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: ui-monospace, monospace;
+  }
+
+  .grammar-content blockquote {
+    border-left: 3px solid #d0d0d0;
+    margin: 0.75rem 0;
+    padding: 0.3rem 0.9rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  .grammar-content ul,
+  .grammar-content ol {
+    margin: 0 0 0.9rem;
+    padding-left: 1.5rem;
+  }
+
+  .grammar-content li { margin-bottom: 0.3rem; }
+
+  .grammar-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 0 0.9rem;
+    font-size: 0.9em;
+  }
+
+  .grammar-content th,
+  .grammar-content td {
+    border: 1px solid #e0e0e0;
+    padding: 0.4rem 0.7rem;
+    text-align: left;
+  }
+
+  .grammar-content th {
+    background: #f5f5f5;
+    font-weight: 600;
+  }
+
+  .no-explanation {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+    padding: 1.5rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-bottom: 1.75rem;
+  }
+
+  .practice-btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background: #111;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .practice-btn:hover { background: #333; }
+{% endblock %}
+
+{% block content %}
+<div class="grammar-detail">
+  <div class="gp-header">
+    <div class="gp-level">{{ gp.cefr_level }}</div>
+    <h1 class="gp-title">{{ gp.label }}</h1>
+  </div>
+
+  {% if explanation %}
+  <div class="grammar-content">
+    {{ explanation.explanation | markdown | safe }}
+  </div>
+  {% else %}
+  <div class="no-explanation">
+    Nessuna spiegazione disponibile per questo livello.
+  </div>
+  {% endif %}
+
+  <a class="practice-btn"
+     href="/lezione/new?focus_hint={{ gp.label | urlencode }}">
+    Fai una lezione su questo argomento →
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}Nuova Lezione — Maestro{% endblock %}
+
+{% block styles %}
+  .lesson-new {
+    max-width: 520px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  .lesson-new h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .lesson-new .subtitle {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 2rem;
+  }
+
+  .form-section {
+    margin-bottom: 1.75rem;
+  }
+
+  .form-section label.section-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #777;
+    margin-bottom: 0.75rem;
+  }
+
+  .duration-options {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .duration-options > span {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .duration-options input[type="radio"] { display: none; }
+
+  .duration-options label {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .duration-options label:hover { border-color: #aaa; background: #fafafa; }
+
+  .duration-options input[type="radio"]:checked + label {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+  }
+
+  .duration-options .dur-min {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+  }
+
+  .duration-options .dur-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  textarea.topic-field {
+    width: 100%;
+    min-height: 60px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    resize: vertical;
+    outline: none;
+    color: #111;
+  }
+
+  textarea.topic-field:focus { border-color: #888; }
+  textarea.topic-field::placeholder { color: #bbb; }
+
+  .grammar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 1rem;
+  }
+
+  .grammar-level-heading {
+    grid-column: 1 / -1;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #aaa;
+    margin-top: 0.6rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .grammar-grid input[type="checkbox"] { display: none; }
+
+  .grammar-grid label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.1s, background 0.1s;
+    line-height: 1.3;
+  }
+
+  .grammar-grid label:hover { border-color: #aaa; background: #fafafa; }
+
+  .grammar-grid input[type="checkbox"]:checked + label {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+  }
+
+  .check-icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    opacity: 0;
+  }
+
+  .grammar-grid input[type="checkbox"]:checked + label .check-icon { opacity: 1; }
+
+  .btn-start {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-start:hover { background: #333; }
+
+  .loading-hint {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #999;
+    margin-top: 0.75rem;
+  }
+{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  <h1>Nuova Lezione</h1>
+  <p class="subtitle">Il tuo insegnante preparerà una lezione su misura per te.</p>
+
+  <form method="post" action="/lezione/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='Preparazione…'">
+
+    <div class="form-section">
+      <label class="section-label">Quanto tempo hai?</label>
+      <div class="duration-options">
+        <span>
+          <input type="radio" name="duration" id="d10" value="10">
+          <label for="d10">
+            <span class="dur-min">10</span>
+            <span class="dur-label">minuti</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d20" value="20" checked>
+          <label for="d20">
+            <span class="dur-min">20</span>
+            <span class="dur-label">minuti</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d40" value="40">
+          <label for="d40">
+            <span class="dur-min">40</span>
+            <span class="dur-label">minuti</span>
+          </label>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="section-label" for="topic">Argomento <span style="font-weight:400;text-transform:none;letter-spacing:0">(opzionale)</span></label>
+      <textarea class="topic-field" id="topic" name="topic"
+        placeholder="Es. viaggi, cibo, lavoro…"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label class="section-label">Grammatica da praticare</label>
+      <div class="grammar-grid">
+        {% set ns = namespace(current_level=None) %}
+        {% for gp in candidate_gps | sort(attribute='cefr_level') %}
+          {% if gp.cefr_level != ns.current_level %}
+            {% set ns.current_level = gp.cefr_level %}
+            <div class="grammar-level-heading">{{ gp.cefr_level }}</div>
+          {% endif %}
+          <div>
+            <input type="checkbox"
+                   id="gp_{{ gp.code }}"
+                   name="grammar_codes"
+                   value="{{ gp.code }}"
+                   {% if gp.code in suggested_codes %}checked{% endif %}>
+            <label for="gp_{{ gp.code }}">
+              <span class="check-icon">✓</span>
+              {{ gp.label }}
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <button class="btn-start" type="submit">Inizia la lezione</button>
+    <p class="loading-hint">La preparazione richiede qualche secondo.</p>
+  </form>
+</div>
+{% endblock %}

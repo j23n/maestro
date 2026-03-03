@@ -1,36 +1,71 @@
 <div class="card" id="practice-card">
+  {% set translation = word_def.translation if word_def and word_def.translation else "—" %}
+  {% set senses = word_def.senses if word_def and word_def.senses
+                  else card.word.senses %}
+  {% set pos_line %}{{ card.word.part_of_speech }}{% if card.word.syllabization %} · [{{ card.word.syllabization }}]{% endif %} · {{ card.word.cefr_level }}{% endset %}
+
+  {% if total_cards %}
+  <div class="card-queue">{{ card_idx + 1 }} / {{ total_cards }}</div>
+  {% endif %}
+
   {% if mode == 'word' %}
     <div class="word">{{ card.word.word }}</div>
-    <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
     <div class="back">
-      <p><strong>{{ card.word.translation }}</strong></p>
-      <p style="color:#555; font-size:0.9rem">{{ card.word.definition }}</p>
+      <div class="pos">{{ pos_line }}</div>
+      <div class="translation">{{ translation }}</div>
+      <ol class="senses">
+        {% for s in senses %}
+        <li>
+          <span class="sense-def">{{ s.definition }}</span>
+          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
     </div>
+
   {% elif mode == 'translation' %}
     <div class="prompt">How do you say this in Italian?</div>
-    <div class="clue">{{ card.word.translation }}</div>
+    <div class="clue">{{ translation }}</div>
     <div class="back">
       <div class="word">{{ card.word.word }}</div>
-      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
-      <p style="color:#555; font-size:0.9rem; margin-top:0.5rem">{{ card.word.definition }}</p>
+      <div class="pos">{{ pos_line }}</div>
+      <ol class="senses">
+        {% for s in senses %}
+        <li>
+          <span class="sense-def">{{ s.definition }}</span>
+          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
     </div>
+
   {% elif mode == 'definition' %}
     <div class="prompt">What's the Italian word?</div>
-    <div class="clue">{{ card.word.definition }}</div>
+    <div class="clue">{{ senses[0].definition if senses else "—" }}</div>
     <div class="back">
       <div class="word">{{ card.word.word }}</div>
-      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
-      <p style="margin-top:0.5rem"><strong>{{ card.word.translation }}</strong></p>
+      <div class="pos">{{ pos_line }}</div>
+      <div class="translation">{{ translation }}</div>
+      {% if senses|length > 1 %}
+      <ol class="senses" start="2">
+        {% for s in senses[1:] %}
+        <li>
+          <span class="sense-def">{{ s.definition }}</span>
+          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+      {% endif %}
     </div>
   {% endif %}
 
   <div class="rating-buttons">
     {% for label, value in [("Again", 1), ("Hard", 3), ("Good", 4), ("Easy", 5)] %}
-    <form hx-post="/vocab/practice/{{ card.id }}/review"
+    <form hx-post="{{ review_url }}"
           hx-target="#practice-card"
           hx-swap="outerHTML">
       <input type="hidden" name="rating" value="{{ value }}">
-      <input type="hidden" name="mode" value="{{ mode }}">
+      <input type="hidden" name="{{ review_extra_name }}" value="{{ review_extra_value }}">
       <button>{{ label }}</button>
     </form>
     {% endfor %}
