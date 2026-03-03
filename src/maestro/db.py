@@ -6,7 +6,17 @@ from maestro.models import (
     Message,
     ItalianChunk,
     VocabularyWord,
+    VocabularyWordDefinition,
     UserVocabularyCard,
+    GrammarPoint,
+    GrammarPointExplanation,
+    CommunicativeFunction,
+    LearningEvent,
+    LearningProfile,
+    DrillTemplate,
+    GeneratedDrill,
+    DrillAttempt,
+    Lesson,
 )
 
 
@@ -22,7 +32,17 @@ async def init_db():
             Message,
             ItalianChunk,
             VocabularyWord,
+            VocabularyWordDefinition,
             UserVocabularyCard,
+            GrammarPoint,
+            CommunicativeFunction,
+            LearningEvent,
+            LearningProfile,
+            DrillTemplate,
+            GeneratedDrill,
+            DrillAttempt,
+            Lesson,
+            GrammarPointExplanation,
         ],
     )
 
@@ -41,7 +61,7 @@ def init_indices(client):
                             "dimensions": 1024,
                             "similarity": "cosine",
                         },
-                        "chunk_type": {"type": "string"},
+                        "chunk_type": {"type": "token"},
                     },
                 }
             },

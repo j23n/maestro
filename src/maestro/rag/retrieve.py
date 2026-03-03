@@ -1,5 +1,4 @@
 from functools import lru_cache
-from typing import Optional
 from maestro.settings import Settings
 from maestro.models import ItalianChunk, ItalianChunkResult
 
@@ -17,9 +16,25 @@ def embed_query(text: str) -> list[float]:
     return get_model().encode(f"query: {text}").tolist()
 
 
-async def retrieve(
-    query: list[float], top_k: int = 5, chunk_type: Optional[str] = None
-):
+async def retrieve_for_grammar_point(
+    gp_label: str, gp_description: str, top_k: int = 3
+) -> list["ItalianChunkResult"]:
+    """Semantic search for book chunks relevant to a grammar point.
+
+    Does not filter by chunk_type to avoid requiring a token index on that field.
+    All current chunks are of type 'grammar', so the filter is not needed.
+    """
+    query = embed_query(f"{gp_label}: {gp_description}")
+    return await retrieve(query, top_k=top_k)
+
+
+async def get_chunks_for_refs(refs: list[str]) -> list[ItalianChunk]:
+    if not refs:
+        return []
+    return await ItalianChunk.find({"ref": {"$in": refs}}).to_list()
+
+
+async def retrieve(query: list[float], top_k: int = 5):
     pipeline = [
         {
             "$vectorSearch": {
@@ -28,11 +43,6 @@ async def retrieve(
                 "queryVector": query,
                 "numCandidates": top_k * 10,
                 "limit": top_k,
-                **(
-                    {"filter": {"chunk_type": {"$eq": chunk_type}}}
-                    if chunk_type
-                    else {}
-                ),
             }
         },
         {"$addFields": {"similarity": {"$meta": "vectorSearchScore"}}},

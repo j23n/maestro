@@ -21,20 +21,11 @@
   .mode-selector a:hover { background: #f5f5f5; }
   .mode-selector a.active { background: #111; color: #fff; border-color: #111; }
 
-  .card {
-    max-width: 480px;
-    margin: 2rem auto;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
+  @media (max-width: 480px) {
+    .mode-selector { flex-wrap: wrap; padding: 1rem 0.75rem 0; }
+    .card { margin: 1.25rem auto; padding: 1.5rem 1.25rem; }
+    .word { font-size: 1.6rem; }
   }
-  .word  { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .pos   { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
-  .clue  { font-size: 1.1rem; color: #333; margin-bottom: 1.5rem; line-height: 1.6; }
-  .prompt { font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
-  .back  { margin: 1.5rem 0; border-top: 1px solid #e5e5e5; padding-top: 1.5rem; }
-  .rating-buttons { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
 {% endblock %}
 
 {% block content %}
@@ -49,15 +40,16 @@
   <div class="card" id="practice-card">
     {% if mode == 'word' %}
       <div class="word">{{ card.word.word }}</div>
-      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
     {% elif mode == 'definition' %}
       <div class="prompt">What's the Italian word?</div>
-      <div class="clue">{{ card.word.definition }}</div>
-      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
+      <div class="clue">
+        {% if word_def and word_def.senses %}{{ word_def.senses[0].definition }}
+        {% elif card.word.senses %}{{ card.word.senses[0].definition }}
+        {% else %}—{% endif %}
+      </div>
     {% elif mode == 'translation' %}
       <div class="prompt">How do you say this in Italian?</div>
-      <div class="clue">{{ card.word.translation }}</div>
-      <div class="pos">{{ card.word.part_of_speech }} · {{ card.word.cefr_level }}</div>
+      <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
     {% endif %}
 
     <button hx-get="/vocab/practice/{{ card.id }}/reveal?mode={{ mode }}"

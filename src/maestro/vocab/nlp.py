@@ -4,4 +4,4 @@ import spacy
 
 @lru_cache(maxsize=1)
 def get_nlp():
-    return spacy.load("it_core_news_sm")
+    return spacy.load("it_core_news_md")

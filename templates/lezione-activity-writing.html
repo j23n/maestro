@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Scrittura — Maestro{% endblock %}
+
+{% block styles %}
+  .activity-container {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+  }
+
+  .card {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 2rem;
+  }
+
+  .card-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #aaa;
+    margin-bottom: 0.75rem;
+  }
+
+  .prompt-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #222;
+    margin-bottom: 1.5rem;
+  }
+
+  .answer-area {
+    width: 100%;
+    min-height: 140px;
+    padding: 0.7rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 1rem;
+  }
+  .answer-area:focus { border-color: #888; }
+
+  .submit-btn {
+    padding: 0.55rem 1.4rem;
+    font-size: 0.95rem;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: #333; }
+
+  .skip-link {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: #bbb;
+    text-decoration: none;
+    margin-top: 0.75rem;
+  }
+  .skip-link:hover { color: #888; }
+{% endblock %}
+
+{% block content %}
+<div class="activity-container">
+  {% include "lezione-progress.html" %}
+
+  <div class="card">
+    <div class="card-label">Scrittura</div>
+    <div class="prompt-text">{{ annotated_content | safe }}</div>
+
+    <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/writing-submit"
+          hx-target="body"
+          hx-push-url="true">
+      <textarea class="answer-area"
+                name="answer"
+                placeholder="Scrivi qui la tua risposta in italiano…"
+                required></textarea>
+      <button class="submit-btn" type="submit">Invia</button>
+    </form>
+  </div>
+
+  <a class="skip-link"
+     hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+     hx-target="body"
+     hx-push-url="true"
+     href="#">Salta →</a>
+</div>
+{% endblock %}

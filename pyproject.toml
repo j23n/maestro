@@ -18,6 +18,7 @@ dependencies = [
     "rapidfuzz>=3.14.3",
     "sentence-transformers>=5.2.3",
     "spacy>=3.8.11",
+    "mlx-lm>=0.22.0",
 ]
 
 [dependency-groups]
