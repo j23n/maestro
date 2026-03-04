@@ -1,210 +1,450 @@
 [
   {
-    "code": "presente_indicativo",
-    "label": "Presente indicativo",
-    "cefr_level": "A1",
-    "category": "verbi",
-    "description": "Present indicative of essere, avere, and regular -are/-ere/-ire verbs; active 1st/2nd/3rd singular and 1st plural",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
-  },
-  {
-    "code": "condizionale_vorrei",
-    "label": "Condizionale: vorrei",
-    "cefr_level": "A1",
-    "category": "verbi",
-    "description": "The fixed expression 'vorrei' (I would like) as a polite request form, not full conditional paradigm",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
-  },
-  {
-    "code": "imperativo_formale",
-    "label": "Imperativo formale e informale",
-    "cefr_level": "A1",
-    "category": "verbi",
-    "description": "Formal imperative (scusi, aspetti) and informal (scusa, aspetta); first plural (andiamo)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
-  },
-  {
-    "code": "verbi_modali_lessicali",
-    "label": "Verbi modali come elementi lessicali",
-    "cefr_level": "A1",
-    "category": "verbi",
-    "description": "Potere, volere, dovere used as content words without full pragmatic awareness of modality",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
-  },
-  {
-    "code": "ce_ci_sono",
-    "label": "C'è / ci sono",
-    "cefr_level": "A1",
-    "category": "verbi",
-    "description": "Existential construction c'è / non c'è and ci sono / non ci sono to express presence or absence",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
-  },
-  {
-    "code": "passato_prossimo",
-    "label": "Passato prossimo",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Perfect past tense with essere or avere auxiliary; transitive, intransitive, and reflexive verbs; past participle agreement with essere",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "imperfetto_essere_avere",
-    "label": "Imperfetto di essere e avere",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Imperfect of essere and avere used for descriptions and background states; not yet full imperfect paradigm",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "futuro_semplice_temporale",
-    "label": "Futuro semplice (valore temporale)",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Future tense used with a temporal value alongside future adverbs (domani, presto, la settimana prossima)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "imperativo_completo",
-    "label": "Imperativo completo",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Full imperative paradigm: all 6 persons, affirmative and negative; position of pronouns with negative imperative",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "verbi_riflessivi",
-    "label": "Verbi riflessivi e reciproci",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Reflexive verbs (alzarsi, vestirsi, chiamarsi) and reciprocal verbs (salutarsi, incontrarsi) in present and passato prossimo",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "stare_gerundio",
-    "label": "Stare + gerundio",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Present progressive formed with stare + gerundio to express an ongoing action (Sto mangiando)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "verbi_modali_pragmatici",
-    "label": "Verbi modali con uso pragmatico",
-    "cefr_level": "A2",
-    "category": "verbi",
-    "description": "Potere, volere, dovere used with awareness of social meaning: permission, desire, obligation in context",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
-  },
-  {
-    "code": "trapassato_prossimo",
-    "label": "Trapassato prossimo",
-    "cefr_level": "B1",
-    "category": "verbi",
-    "description": "Past perfect expressing an event anterior to another past event (Quando sono arrivato, era già partito)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
-  },
-  {
-    "code": "futuro_anteriore",
-    "label": "Futuro anteriore",
-    "cefr_level": "B1",
-    "category": "verbi",
-    "description": "Future perfect used temporally (Dopo che mi sarò laureato...) and modally for suppositions about past (Saranno arrivati)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
-  },
-  {
-    "code": "condizionale_presente",
-    "label": "Condizionale presente",
-    "cefr_level": "B1",
-    "category": "verbi",
-    "description": "Conditional present for eventuality (Potremmo andare), desire (Mi piacerebbe), attenuated requests (Potresti aprire?), advice (Dovresti riposare)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
-  },
-  {
-    "code": "congiuntivo_esortativo",
-    "label": "Congiuntivo esortativo",
-    "cefr_level": "B1",
-    "category": "verbi",
-    "description": "Hortative subjunctive in imperative-like use (Venga!, Aspetti!); not yet in full subordinate contexts",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
-  },
-  {
-    "code": "si_impersonale_passivo",
-    "label": "Si impersonale e passivante",
-    "cefr_level": "B1",
-    "category": "verbi",
-    "description": "Impersonal si (In Italia si mangia bene) and passive si (Qui si parla italiano) constructions",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
-  },
-  {
-    "code": "passato_remoto",
-    "label": "Passato remoto",
-    "cefr_level": "B2",
-    "category": "verbi",
-    "description": "Simple past tense; regular and common irregular forms; awareness of regional variation (North vs South Italy usage)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
-  },
-  {
-    "code": "congiuntivo_pieno",
-    "label": "Congiuntivo (uso pieno)",
-    "cefr_level": "B2",
-    "category": "verbi",
-    "description": "Full subjunctive in subordinate clauses: after verbs of wish/belief/emotion/doubt (Voglio che venga), concessive, and other triggers",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
-  },
-  {
-    "code": "condizionale_passato",
-    "label": "Condizionale passato",
-    "cefr_level": "B2",
-    "category": "verbi",
-    "description": "Conditional perfect expressing what would have happened (Sarei venuto, ma...); indirect speech in the past",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
-  },
-  {
-    "code": "periodo_ipotetico",
-    "label": "Periodo ipotetico",
-    "cefr_level": "B2",
-    "category": "verbi",
-    "description": "All three hypothesis types: realtà (se + presente → presente/futuro), possibilità (se + congiuntivo → condizionale), impossibilità (se + congiuntivo passato → condizionale passato)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
-  },
-  {
-    "code": "passivo_essere_venire",
-    "label": "Forma passiva",
-    "cefr_level": "B2",
-    "category": "verbi",
-    "description": "Passive voice with essere (È stato scelto) and venire (Viene arrestato); distinction between state and process",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
-  },
-  {
-    "code": "nome_genere_numero",
-    "label": "Nome: genere e numero",
+    "code": "la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e",
+    "label": "La distinzione genere e numero dei nomi regolari a suffisso –O –A e a suffisso –E",
     "cefr_level": "A1",
     "category": "nome",
-    "description": "Noun gender/number: -o/-a/-e endings and their plurals; invariable nouns (città, caffè, sport); common irregular plurals (uomo/uomini)",
+    "description": "La distinzione genere e numero dei nomi regolari a suffisso –O –A e a suffisso –E",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
   },
   {
-    "code": "nomi_professionali_genere",
-    "label": "Nomi professionali: distinzione di genere",
+    "code": "i_principali_nomi_invariabili_es_caffe_cinema_citta_universita",
+    "label": "I principali nomi invariabili (es. caffè, cinema, città, università )",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "I principali nomi invariabili (es. caffè, cinema, città, università )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
+  },
+  {
+    "code": "i_principali_nomi_generalmente_utilizzati_al_plurale_es_occhiali_pantaloni",
+    "label": "I principali nomi generalmente utilizzati al plurale (es. occhiali, pantaloni, spaghetti )",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "I principali nomi generalmente utilizzati al plurale (es. occhiali, pantaloni, spaghetti )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
+  },
+  {
+    "code": "alcuni_nomi_con_plurale_irregolare_es_uomouomini",
+    "label": "Alcuni nomi con plurale irregolare (es. uomo/uomini )",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "Alcuni nomi con plurale irregolare (es. uomo/uomini )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
+  },
+  {
+    "code": "alcuni_nomi_di_origine_straniera_con_plurale_invariato_es_bar_computer_sport",
+    "label": "Alcuni nomi di origine straniera con plurale invariato (es. bar, computer, sport )",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "Alcuni nomi di origine straniera con plurale invariato (es. bar, computer, sport )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
+  },
+  {
+    "code": "i_principali_nomi_a_suffisso_-e_-essa_es_dottoredottoressa",
+    "label": "I principali nomi a suffisso -E /-ESSA (es. dottore/dottoressa, professore/professoressa, studente/studentessa)",
+    "cefr_level": "A1",
+    "category": "nome",
+    "description": "I principali nomi a suffisso -E /-ESSA (es. dottore/dottoressa, professore/professoressa, studente/studentessa)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html"
+  },
+  {
+    "code": "singolare_invariato_dei_principali_nomi_a_suffisso_ista_es_giornalista_turista",
+    "label": "Singolare invariato dei principali nomi a suffisso –ISTA (es. giornalista, turista )",
     "cefr_level": "A2",
     "category": "nome",
-    "description": "Gender distinction for professional nouns: -tore/-trice (direttore/direttrice), -ista invariant (il/la giornalista)",
+    "description": "Singolare invariato dei principali nomi a suffisso –ISTA (es. giornalista, turista )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html"
   },
   {
-    "code": "plurali_irregolari",
-    "label": "Plurali irregolari",
+    "code": "i_principali_nomi_a_suffisso_tore_e_trice_es_direttore_direttrice",
+    "label": "I principali nomi a suffisso –TORE e – TRICE (es. direttore / direttrice )",
     "cefr_level": "A2",
     "category": "nome",
-    "description": "Irregular plural forms: braccio/braccia, dito/dita, mano/mani, uovo/uova; and nouns with -co/-go plurals",
+    "description": "I principali nomi a suffisso –TORE e – TRICE (es. direttore / direttrice )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html"
   },
   {
-    "code": "aggettivi_qualificativi",
-    "label": "Aggettivi qualificativi",
+    "code": "plurale_dei_nomi_a_suffisso_co_e_go_-_ca_e_ga",
+    "label": "Plurale dei nomi a suffisso –CO e –GO - CA e –GA",
+    "cefr_level": "A2",
+    "category": "nome",
+    "description": "Plurale dei nomi a suffisso –CO e –GO - CA e –GA",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html"
+  },
+  {
+    "code": "plurale_di_alcuni_nomi_irregolari_di_larga_diffusione_es_bracciobraccia",
+    "label": "Plurale di alcuni nomi irregolari di larga diffusione (es. braccio/braccia, dito/dita, mano/mani, uovo-uova )",
+    "cefr_level": "A2",
+    "category": "nome",
+    "description": "Plurale di alcuni nomi irregolari di larga diffusione (es. braccio/braccia, dito/dita, mano/mani, uovo-uova )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html"
+  },
+  {
+    "code": "ripresa_e_approfondimento_nomi_invariabili_al_plurale_es_la_radio-le_radio_la",
+    "label": "Ripresa e approfondimento nomi invariabili al plurale (es. la radio-le radio, la moto-le moto, ecc .)",
+    "cefr_level": "A2",
+    "category": "nome",
+    "description": "Ripresa e approfondimento nomi invariabili al plurale (es. la radio-le radio, la moto-le moto, ecc .)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html"
+  },
+  {
+    "code": "formazione_del_plurale_dei_nomi_a_suffisso_ista_e_a_es_giornalista-giornalisti",
+    "label": "Formazione del plurale dei nomi a suffisso –ISTA e –A, es. giornalista-giornalisti / giornaliste, programma-programmi",
+    "cefr_level": "B1",
+    "category": "nome",
+    "description": "Formazione del plurale dei nomi a suffisso –ISTA e –A, es. giornalista-giornalisti / giornaliste, programma-programmi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html"
+  },
+  {
+    "code": "plurale_dei_nomi_sovrabbondanti_es_il_braccio-i_braccile_braccia_il_lenzuolo-i",
+    "label": "Plurale dei nomi sovrabbondanti, es. il braccio-i bracci/le braccia, il lenzuolo-i lenzuoli/le lenzuola",
+    "cefr_level": "B1",
+    "category": "nome",
+    "description": "Plurale dei nomi sovrabbondanti, es. il braccio-i bracci/le braccia, il lenzuolo-i lenzuoli/le lenzuola",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html"
+  },
+  {
+    "code": "nomi_alterati_diminutivi_a_suffisso_ino_e_etto_es_mercatino_cenetta_nomi",
+    "label": "Nomi alterati diminutivi a suffisso –INO e –ETTO, es. mercatino, cenetta, nomi alterati accrescitivi a suffisso –ONE e – ONA, es. valigiona",
+    "cefr_level": "B1",
+    "category": "nome",
+    "description": "Nomi alterati diminutivi a suffisso –INO e –ETTO, es. mercatino, cenetta, nomi alterati accrescitivi a suffisso –ONE e – ONA, es. valigiona",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html"
+  },
+  {
+    "code": "nomi_astratti_difettivi_che_si_usano_solo_al_singolare_es_lonesta_la_pazienza",
+    "label": "Nomi astratti difettivi che si usano solo al singolare, es. l’onestà, la pazienza, il rispetto, il coraggio",
+    "cefr_level": "B2",
+    "category": "nome",
+    "description": "Nomi astratti difettivi che si usano solo al singolare, es. l’onestà, la pazienza, il rispetto, il coraggio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html"
+  },
+  {
+    "code": "nomi_a_forma_invariata_con_cambio_di_significato_a_seconda_del_genere_es_il",
+    "label": "Nomi a forma invariata con cambio di significato a seconda del genere, es. il fine/la fine, il capitale/la capitale",
+    "cefr_level": "B2",
+    "category": "nome",
+    "description": "Nomi a forma invariata con cambio di significato a seconda del genere, es. il fine/la fine, il capitale/la capitale",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html"
+  },
+  {
+    "code": "nomi_a_forma_variata_nomi_piu_diffusi_che_cambiano_significato_in_rapporto_al",
+    "label": "Nomi a forma variata, nomi più diffusi che cambiano significato in rapporto al genere, es. muro/mura",
+    "cefr_level": "B2",
+    "category": "nome",
+    "description": "Nomi a forma variata, nomi più diffusi che cambiano significato in rapporto al genere, es. muro/mura",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html"
+  },
+  {
+    "code": "nomi_collettivi_es_roba_folla",
+    "label": "Nomi collettivi, es. roba, folla",
+    "cefr_level": "B2",
+    "category": "nome",
+    "description": "Nomi collettivi, es. roba, folla",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html"
+  },
+  {
+    "code": "plurale_dei_nomi_a_suffisso_cia_gia_es_camiciacamicie_valigiavaligie",
+    "label": "Plurale dei nomi a suffisso –CIA –GIA, es. camicia–camicie; valigia–valigie, tecnologia-tecnologie, farmacia-farmacie",
+    "cefr_level": "B2",
+    "category": "nome",
+    "description": "Plurale dei nomi a suffisso –CIA –GIA, es. camicia–camicie; valigia–valigie, tecnologia-tecnologie, farmacia-farmacie",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html"
+  },
+  {
+    "code": "pronomi_personali_con_particolare_riferimento_alle_3_persone_singolari_soggetto",
+    "label": "Pronomi personali con particolare riferimento alle 3 persone singolari: soggetto e complemento (tonici ed atoni)",
+    "cefr_level": "A1",
+    "category": "pronomi",
+    "description": "Pronomi personali con particolare riferimento alle 3 persone singolari: soggetto e complemento (tonici ed atoni)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html"
+  },
+  {
+    "code": "pronomi_riflessivi",
+    "label": "Pronomi riflessivi",
+    "cefr_level": "A1",
+    "category": "pronomi",
+    "description": "Pronomi riflessivi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html"
+  },
+  {
+    "code": "pronomi_interrogativi_chi_che_cosa_quanto_quale",
+    "label": "Pronomi interrogativi: chi, che (cosa), quanto, quale?",
+    "cefr_level": "A1",
+    "category": "pronomi",
+    "description": "Pronomi interrogativi: chi, che (cosa), quanto, quale?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html"
+  },
+  {
+    "code": "pronomi_indefiniti_nessuno_niente_nota_i_pronomi_tonici_preceduti_da",
+    "label": "Pronomi indefiniti: nessuno, niente Nota: i pronomi tonici preceduti da preposizione (es. per me) e i pronomi atoni in alcune strutture (es. lo so) vengono acquisiti a livello A1 quali formule non analizzate Nota: i pronomi riflessivi a livello A1 vengono acquisiti quali formule non analizzate (es. mi chiamo )",
+    "cefr_level": "A1",
+    "category": "pronomi",
+    "description": "Pronomi indefiniti: nessuno, niente Nota: i pronomi tonici preceduti da preposizione (es. per me) e i pronomi atoni in alcune strutture (es. lo so) vengono acquisiti a livello A1 quali formule non analizzate Nota: i pronomi riflessivi a livello A1 vengono acquisiti quali formule non analizzate (es. mi chiamo )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html"
+  },
+  {
+    "code": "pronomi_personali_soggetto_6_persone",
+    "label": "Pronomi personali soggetto (6 persone)",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi personali soggetto (6 persone)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_personali_tonici_complemento_preceduti_da_preposizione",
+    "label": "Pronomi personali tonici complemento (preceduti da preposizione)",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi personali tonici complemento (preceduti da preposizione)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_personali_atoni_complemento_diretto_e_indiretto_principalmente_1_e_2",
+    "label": "Pronomi personali atoni complemento diretto e indiretto (principalmente 1° e 2° singolare e plurale)",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi personali atoni complemento diretto e indiretto (principalmente 1° e 2° singolare e plurale)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_possessivi",
+    "label": "Pronomi possessivi",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi possessivi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_pronomi_riflessivi",
+    "label": "Pronomi riflessivi",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi riflessivi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_dimostrativi_questoquello",
+    "label": "Pronomi dimostrativi: questo/quello",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi dimostrativi: questo/quello",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_indefiniti_altro_qualcunoqualcosa",
+    "label": "Pronomi indefiniti ( altro, qualcuno/qualcosa )",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi indefiniti ( altro, qualcuno/qualcosa )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "pronomi_relativi_che_funzione_soggetto_e_oggetto_es_vado_dal_mio_amico_che",
+    "label": "Pronomi relativi: che (funzione soggetto e oggetto), es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Pronomi relativi: che (funzione soggetto e oggetto), es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "uso_della_particella_pronominale_ci_con_valore_di_complemento_di_luogo_es_ci",
+    "label": "Uso della particella pronominale ci con valore di complemento di luogo, es. Ci vado adesso .",
+    "cefr_level": "A2",
+    "category": "pronomi",
+    "description": "Uso della particella pronominale ci con valore di complemento di luogo, es. Ci vado adesso .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html"
+  },
+  {
+    "code": "ripresa_e_approfondimento_per_le_6_persone_dei_pronomi_personali_atoni",
+    "label": "Ripresa e approfondimento per le 6 persone dei pronomi personali atoni complemento diretto e indiretto",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Ripresa e approfondimento per le 6 persone dei pronomi personali atoni complemento diretto e indiretto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "uso_dei_pronomi_atoni_nei_tempi_composti_es_li_ha_comprati_lha_preparata_le_ha",
+    "label": "Uso dei pronomi atoni nei tempi composti, es. Li ha comprati, l’ha preparata, le ha fatte",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Uso dei pronomi atoni nei tempi composti, es. Li ha comprati, l’ha preparata, le ha fatte",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "usi_della_particella_pronominale_ci_in_verbi_pronominali_quali_volerci_metterci",
+    "label": "Usi della particella pronominale ci in verbi pronominali quali: volerci, metterci, sentirci, vederci",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Usi della particella pronominale ci in verbi pronominali quali: volerci, metterci, sentirci, vederci",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "altri_usi_della_particella_ci_es_non_ci_credo_non_ci_penso",
+    "label": "Altri usi della particella ci , es. Non ci credo; non ci penso.",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Altri usi della particella ci , es. Non ci credo; non ci penso.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "uso_della_particella_pronominale_ne_con_valore_partitivo_es_ne_prendo_due",
+    "label": "Uso della particella pronominale ne con valore partitivo, es. Ne prendo due .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Uso della particella pronominale ne con valore partitivo, es. Ne prendo due .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "altri_usi_della_particella_pronominale_ne_es_ne_ho_bisogno_ne_ho_voglia_che_ne",
+    "label": "Altri usi della particella pronominale ne , es. Ne ho bisogno; ne ho voglia; che ne pensi? Che ne dite?",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Altri usi della particella pronominale ne , es. Ne ho bisogno; ne ho voglia; che ne pensi? Che ne dite?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "forme_accoppiate_di_pronomi_atoni_es_me_lo_presti_glielo_porto_adesso",
+    "label": "Forme accoppiate di pronomi atoni, es. Me lo presti? Glielo porto adesso .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Forme accoppiate di pronomi atoni, es. Me lo presti? Glielo porto adesso .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "forme_accoppiate_di_pronomi_atoni_in_costruzione_con_verbi_composti_es_te_lha",
+    "label": "Forme accoppiate di pronomi atoni, in costruzione con verbi composti, es. Te l’ha portato? Gliel’hai detto?",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Forme accoppiate di pronomi atoni, in costruzione con verbi composti, es. Te l’ha portato? Gliel’hai detto?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "forma_accoppiata_della_particella_pronominale_ci_con_pronomi_atoni_diretti_e",
+    "label": "Forma accoppiata della particella pronominale ci con pronomi atoni diretti e verbo avere, es. Ce l’ho .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Forma accoppiata della particella pronominale ci con pronomi atoni diretti e verbo avere, es. Ce l’ho .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "posizione_enclitica_dei_pronomi_atoni_con_infinito_es_vado_a_trovarlo_e_con",
+    "label": "Posizione enclitica dei pronomi atoni con infinito, es. Vado a trovarlo e con imperativo, es. Ascoltami!",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Posizione enclitica dei pronomi atoni con infinito, es. Vado a trovarlo e con imperativo, es. Ascoltami!",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "posizione_proclitica_e_enclitca_del_pronome_atono_con_verbi_servili_es_non_lo",
+    "label": "Posizione proclitica e enclitca del pronome atono con verbi servili, es. Non lo posso fare; non posso farlo .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Posizione proclitica e enclitca del pronome atono con verbi servili, es. Non lo posso fare; non posso farlo .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "pronome_relativo_invariabile_cui_preceduto_da_preposizione_es_questo_e_il",
+    "label": "Pronome relativo invariabile cui preceduto da preposizione, es. Questo è il motivo per cui sono in Italia; è la ragazza con cui esco spesso .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Pronome relativo invariabile cui preceduto da preposizione, es. Questo è il motivo per cui sono in Italia; è la ragazza con cui esco spesso .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "pronome_si_nella_costruzione_impersonale_es_si_mangia_bene",
+    "label": "Pronome si nella costruzione impersonale, es. Si mangia bene .",
+    "cefr_level": "B1",
+    "category": "pronomi",
+    "description": "Pronome si nella costruzione impersonale, es. Si mangia bene .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html"
+  },
+  {
+    "code": "pronomi_possessivi_che_indicano_i_familiari_i_genitori_es_non_mi_piacciono",
+    "label": "Pronomi possessivi che indicano i familiari, i genitori, es. Non mi piacciono molto i suoi .",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronomi possessivi che indicano i familiari, i genitori, es. Non mi piacciono molto i suoi .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronomi_riflessivi_tonici_es_ha_portato_con_se_il_figlio",
+    "label": "Pronomi riflessivi tonici, es. Ha portato con sé il figlio.",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronomi riflessivi tonici, es. Ha portato con sé il figlio.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronomi_dimostrativi_a_stesso_es_a_me_e_successo_lo_stesso_la_stessa_cosa_non",
+    "label": "Pronomi dimostrativi: a) stesso , es. A me è successo lo stesso (la stessa cosa) ; non sarò la stessa (la stessa persona). b) ciò , es. Volevo andare lontano da tutto ciò; è ciò che mi interessa .",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronomi dimostrativi: a) stesso , es. A me è successo lo stesso (la stessa cosa) ; non sarò la stessa (la stessa persona). b) ciò , es. Volevo andare lontano da tutto ciò; è ciò che mi interessa .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronomi_indefiniti_ciascuno_ognuno_uno_chiunque",
+    "label": "Pronomi indefiniti: ciascuno, ognuno, uno, chiunque",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronomi indefiniti: ciascuno, ognuno, uno, chiunque",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronome_relativi_il_quale_la_quale_i_quali_le_quali_es_e_la_persona_per_la",
+    "label": "Pronome relativi: il quale, la quale, i quali, le quali , es. È la persona per la quale lavoro; ho ricevuto la lettera nella quale mi salutavi.",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronome relativi: il quale, la quale, i quali, le quali , es. È la persona per la quale lavoro; ho ricevuto la lettera nella quale mi salutavi.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronomi_relativi_doppi_a_chi_corrispondente_a_colui_che_coloro_che_ecc_es_aiuto",
+    "label": "Pronomi relativi doppi: a) chi (corrispondente a colui che, coloro che ecc.), es. Aiuto chi ha bisogno; chi sa la verità b) quanto (corrispondente a quello che, ciò che ) al singolare con funzione dimostrativa e relativo, es. Per quanto mi riguarda; per quanto riguarda il lavoro",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronomi relativi doppi: a) chi (corrispondente a colui che, coloro che ecc.), es. Aiuto chi ha bisogno; chi sa la verità b) quanto (corrispondente a quello che, ciò che ) al singolare con funzione dimostrativa e relativo, es. Per quanto mi riguarda; per quanto riguarda il lavoro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "forme_accoppiate_di_pronomi_atoni_in_verbi_pronominali_es_cavarsela_farcela",
+    "label": "Forme accoppiate di pronomi atoni in verbi pronominali, es. cavarsela, farcela, andarsene, mettercela, prendersela, ecc .",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Forme accoppiate di pronomi atoni in verbi pronominali, es. cavarsela, farcela, andarsene, mettercela, prendersela, ecc .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "posizione_enclitica_di_pronomi_atoni_con_gerundio_es_ascoltandolo",
+    "label": "Posizione enclitica di pronomi atoni con gerundio, es. ascoltandolo, chiedendoglielo, alzandosi",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Posizione enclitica di pronomi atoni con gerundio, es. ascoltandolo, chiedendoglielo, alzandosi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "combinazione_del_pronome_atono_e_del_pronome_si_impersonale_es_ci_si_deve",
+    "label": "Combinazione del pronome atono e del pronome si impersonale, es. Ci si deve mettere l’olio; ci si sente bene .",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Combinazione del pronome atono e del pronome si impersonale, es. Ci si deve mettere l’olio; ci si sente bene .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "pronome_si_nella_costruzione_passivante_es_in_quel_ristorante_si_mangiano_i",
+    "label": "Pronome si nella costruzione passivante, es. In quel ristorante, si mangiano i frutti di mare .",
+    "cefr_level": "B2",
+    "category": "pronomi",
+    "description": "Pronome si nella costruzione passivante, es. In quel ristorante, si mangiano i frutti di mare .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html"
+  },
+  {
+    "code": "aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e",
+    "label": "Aggettivi qualificativi a suffisso –O e –A e a suffisso -E",
     "cefr_level": "A1",
     "category": "aggettivi",
-    "description": "Qualitative adjectives ending in -o/-a and -e; agreement in gender and number with the noun",
+    "description": "Aggettivi qualificativi a suffisso –O e –A e a suffisso -E",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
   },
   {
@@ -212,143 +452,1399 @@
     "label": "Aggettivi possessivi",
     "cefr_level": "A1",
     "category": "aggettivi",
-    "description": "Possessive adjectives (mio, tuo, suo, nostro, vostro, loro); article omission with singular family nouns",
+    "description": "Aggettivi possessivi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
   },
   {
-    "code": "aggettivi_dimostrativi",
-    "label": "Aggettivi dimostrativi",
+    "code": "aggettivi_dimostrativi_questo_quello",
+    "label": "Aggettivi dimostrativi: questo, quello",
     "cefr_level": "A1",
     "category": "aggettivi",
-    "description": "Demonstrative adjectives questo (near) and quello (far) with all their forms",
+    "description": "Aggettivi dimostrativi: questo, quello",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
   },
   {
-    "code": "numerali",
-    "label": "Numerali cardinali e ordinali",
+    "code": "aggettivi_interrogativi_che_quanto",
+    "label": "Aggettivi interrogativi: che, quanto",
     "cefr_level": "A1",
     "category": "aggettivi",
-    "description": "Cardinal numbers 1–100 and common ordinals primo through decimo",
+    "description": "Aggettivi interrogativi: che, quanto",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
   },
   {
-    "code": "preposizioni_semplici",
-    "label": "Preposizioni semplici di base",
+    "code": "aggettivi_indefiniti_poco_molto_tanto",
+    "label": "Aggettivi indefiniti: poco, molto, tanto",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Aggettivi indefiniti: poco, molto, tanto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
+  },
+  {
+    "code": "aggettivi_numerali_cardinali_da_1_a_100",
+    "label": "Aggettivi numerali cardinali: da 1 a 100",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Aggettivi numerali cardinali: da 1 a 100",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
+  },
+  {
+    "code": "aggettivi_numerali_ordinali_da_primo_a_decimo_nota_principalmente_prima",
+    "label": "Aggettivi numerali ordinali da primo a decimo Nota: principalmente prima singolare con i nomi di famiglia",
+    "cefr_level": "A1",
+    "category": "aggettivi",
+    "description": "Aggettivi numerali ordinali da primo a decimo Nota: principalmente prima singolare con i nomi di famiglia",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html"
+  },
+  {
+    "code": "aggettivi_qualificativi_a_suffisso_co_-go_e_ca_-_ga",
+    "label": "Aggettivi qualificativi a suffisso –CO / -GO e –CA / - GA",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi qualificativi a suffisso –CO / -GO e –CA / - GA",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "gradi_dellaggettivo_comparativo_di_maggioranza_piu_aggettivo_es_questo_e_piu",
+    "label": "Gradi dell’aggettivo: • Comparativo di maggioranza più + aggettivo , es. Questo è più bello . • Superlativo assoluto: suffisso –issimo; molto + aggettivo",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Gradi dell’aggettivo: • Comparativo di maggioranza più + aggettivo , es. Questo è più bello . • Superlativo assoluto: suffisso –issimo; molto + aggettivo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "aggettivi_possessivi_tutte_e_sei_le_persone",
+    "label": "Aggettivi possessivi (tutte e sei le persone)",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi possessivi (tutte e sei le persone)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "aggettivi_dimostrativi_stesso",
+    "label": "Aggettivi dimostrativi: stesso",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi dimostrativi: stesso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "aggettivi_interrogativi_quale",
+    "label": "Aggettivi interrogativi: Quale?",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi interrogativi: Quale?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "aggettivi_indefiniti_ogni_qualche_troppo_altro_tutto_alcuni",
+    "label": "Aggettivi indefiniti: ogni, qualche, troppo, altro, tutto, alcuni",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi indefiniti: ogni, qualche, troppo, altro, tutto, alcuni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "aggettivi_numerali_cardinali_centinaia_migliaia_milione",
+    "label": "Aggettivi numerali cardinali: centinaia, migliaia, milione",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Aggettivi numerali cardinali: centinaia, migliaia, milione",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "numerali_collettivi_paio_coppia",
+    "label": "Numerali collettivi paio, coppia",
+    "cefr_level": "A2",
+    "category": "aggettivi",
+    "description": "Numerali collettivi paio, coppia",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html"
+  },
+  {
+    "code": "uso_di_bello_e_buono_in_posizione_prenominale_es_un_bel_quadro_un_buon_modello",
+    "label": "Uso di bello e buono in posizione prenominale, es. un bel quadro, un buon modello",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Uso di bello e buono in posizione prenominale, es. un bel quadro, un buon modello",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "gradi_dellaggettivo_a_comparativo_di_maggioranza_piudi_e_minoranza_meno_di_in",
+    "label": "Gradi dell’aggettivo a) comparativo di maggioranza più...di e minoranza meno… di in posizione precedente - un nome, es. Mario è più alto di Luca . - un pronome, es. Questo quadro è più bello di quello . - un avverbio, es. Fa più caldo di ieri . b) comparativo di maggioranza più...che e di minoranza meno … che - tra due aggettivi, es. È più simpatico che intelligente. - tra due verbi, es. È più difficile trovare un lavoro che studiare . c) comparativo di uguaglianza (tanto)….. quanto; (così) … come, es. È caro come tutti gli altri ristoranti . d) superlativo relativo, es. È il più/meno interessante di/fra tutti. e) comparativi e superlativi organici, es. maggiore, minore, migliore, peggiore, ottimo",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Gradi dell’aggettivo a) comparativo di maggioranza più...di e minoranza meno… di in posizione precedente - un nome, es. Mario è più alto di Luca . - un pronome, es. Questo quadro è più bello di quello . - un avverbio, es. Fa più caldo di ieri . b) comparativo di maggioranza più...che e di minoranza meno … che - tra due aggettivi, es. È più simpatico che intelligente. - tra due verbi, es. È più difficile trovare un lavoro che studiare . c) comparativo di uguaglianza (tanto)….. quanto; (così) … come, es. È caro come tutti gli altri ristoranti . d) superlativo relativo, es. È il più/meno interessante di/fra tutti. e) comparativi e superlativi organici, es. maggiore, minore, migliore, peggiore, ottimo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "uso_degli_avverbi_megliopeggio_es_e_meglio_mangiare_un_po_di_tutto",
+    "label": "Uso degli avverbi meglio/peggio, es. È meglio mangiare un po’ di tutto.",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Uso degli avverbi meglio/peggio, es. È meglio mangiare un po’ di tutto.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "uso_degli_aggettivi_alterati_diminuitivi_a_suffisso_-ino_es_praga_e_piccolina",
+    "label": "Uso degli aggettivi alterati diminuitivi a suffisso -INO, es. Praga è piccolina .",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Uso degli aggettivi alterati diminuitivi a suffisso -INO, es. Praga è piccolina .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "aggettivi_indefiniti_a_nessuno_es_non_ho_incontrato_nessun_professore_b",
+    "label": "Aggettivi indefiniti a) nessuno , es. Non ho incontrato nessun professore . b) qualsiasi, es. qualsiasi cosa, in qualsiasi momento c) diverso (parecchio, molto), es. diversi oggetti, diversi monumenti",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Aggettivi indefiniti a) nessuno , es. Non ho incontrato nessun professore . b) qualsiasi, es. qualsiasi cosa, in qualsiasi momento c) diverso (parecchio, molto), es. diversi oggetti, diversi monumenti",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "aggettivi_numerali_ordinali",
+    "label": "Aggettivi numerali ordinali",
+    "cefr_level": "B1",
+    "category": "aggettivi",
+    "description": "Aggettivi numerali ordinali",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html"
+  },
+  {
+    "code": "nominalizzazione_dellaggettivo_es_il_bello_la_destra_la_sinistra",
+    "label": "Nominalizzazione dell’aggettivo, es. il bello, la destra, la sinistra",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Nominalizzazione dell’aggettivo, es. il bello, la destra, la sinistra",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "aggettivo_possessivo_proprio_es_i_propri_genitori_il_proprio_computer",
+    "label": "Aggettivo possessivo proprio, es. i propri genitori, il proprio computer",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Aggettivo possessivo proprio, es. i propri genitori, il proprio computer",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "aggettivo_dimostrativo_tale_es_in_tale_senso",
+    "label": "Aggettivo dimostrativo tale, es. in tale senso",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Aggettivo dimostrativo tale, es. in tale senso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "aggettivi_indefiniti_qualunque_parecchio_tale_es_un_tale_atteggiamento_una",
+    "label": "Aggettivi indefiniti qualunque, parecchio, tale, es. un tale atteggiamento, una dipendenza tale (siffatto/a); certo es. per un certo periodo, in un certo modo, in un certo momento, ad un certo punto; vario, es. varie cose, vari gruppi",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Aggettivi indefiniti qualunque, parecchio, tale, es. un tale atteggiamento, una dipendenza tale (siffatto/a); certo es. per un certo periodo, in un certo modo, in un certo momento, ad un certo punto; vario, es. varie cose, vari gruppi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "participio_passato_usato_con_funzione_aggettivale_es_una_vacanza_desiderata",
+    "label": "Participio passato usato con funzione aggettivale, es. una vacanza desiderata",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Participio passato usato con funzione aggettivale, es. una vacanza desiderata",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "aggettivi_numerali_cardinali_sostantivati_sottointendendo_mille_es_il_trecento",
+    "label": "Aggettivi numerali cardinali sostantivati sottointendendo mille, es. il Trecento, il Cinquecento, ecc .",
+    "cefr_level": "B2",
+    "category": "aggettivi",
+    "description": "Aggettivi numerali cardinali sostantivati sottointendendo mille, es. il Trecento, il Cinquecento, ecc .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html"
+  },
+  {
+    "code": "la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi",
+    "label": "La differente funzione di tutti gli articoli determinativi ed indeterminativi",
+    "cefr_level": "A1",
+    "category": "articoli",
+    "description": "La differente funzione di tutti gli articoli determinativi ed indeterminativi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html"
+  },
+  {
+    "code": "uso_dellarticolo_determinativo_per_esprimere_lora_es_sono_le_otto",
+    "label": "Uso dell’articolo determinativo per esprimere l’ora, es. Sono le otto.",
+    "cefr_level": "A1",
+    "category": "articoli",
+    "description": "Uso dell’articolo determinativo per esprimere l’ora, es. Sono le otto.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html"
+  },
+  {
+    "code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_dimostrativi_es_questo",
+    "label": "Omissione dell’articolo determinativo con gli aggettivi dimostrativi, es. questo quaderno",
+    "cefr_level": "A1",
+    "category": "articoli",
+    "description": "Omissione dell’articolo determinativo con gli aggettivi dimostrativi, es. questo quaderno",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html"
+  },
+  {
+    "code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_molti_libri",
+    "label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. molti libri",
+    "cefr_level": "A1",
+    "category": "articoli",
+    "description": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. molti libri",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html"
+  },
+  {
+    "code": "presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi",
+    "label": "Presenza dell’articolo determinativo in posizione che precede gli aggettivi possessivi, es. la mia sedia",
+    "cefr_level": "A1",
+    "category": "articoli",
+    "description": "Presenza dell’articolo determinativo in posizione che precede gli aggettivi possessivi, es. la mia sedia",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html"
+  },
+  {
+    "code": "presenza_dellarticolo_determinativo_o_omissione_con_i_nomi_geografici_di_citta",
+    "label": "Presenza dell’articolo determinativo (o omissione) con i nomi geografici di città e di stato, es. Roma è una bella città; vengo dagli Stati Uniti.",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Presenza dell’articolo determinativo (o omissione) con i nomi geografici di città e di stato, es. Roma è una bella città; vengo dagli Stati Uniti.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "presenza_dellarticolo_determinativo_in_posizione_precedente_i_pronomi",
+    "label": "Presenza dell’articolo determinativo in posizione precedente i pronomi possessivi, es. questo è il mio",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Presenza dell’articolo determinativo in posizione precedente i pronomi possessivi, es. questo è il mio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_qualche",
+    "label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. qualche amico ; presenza dell’articolo con l’aggettivo tutto , es. tutta la classe",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. qualche amico ; presenza dell’articolo con l’aggettivo tutto , es. tutta la classe",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "omissione_dellarticolo_in_espressioni_di_tempo_es_in_primavera_in_a_settembre",
+    "label": "Omissione dell’articolo in espressioni di tempo, es. in primavera, in / a settembre",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Omissione dell’articolo in espressioni di tempo, es. in primavera, in / a settembre",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "uso_dellarticolo_in_espressioni_di_tempo_es_la_sera_la_mattina",
+    "label": "Uso dell’articolo in espressioni di tempo, es. la sera, la mattina",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Uso dell’articolo in espressioni di tempo, es. la sera, la mattina",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "presenza_o_omissione_dellarticolo_determinativo_con_aggettivo_possessivo_e_nomi",
+    "label": "Presenza o omissione dell’articolo determinativo con aggettivo possessivo e nomi di parentela, es. mio padre, mia madre, il mio fratello più grande",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Presenza o omissione dell’articolo determinativo con aggettivo possessivo e nomi di parentela, es. mio padre, mia madre, il mio fratello più grande",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "uso_dellarticolo_determinativo_per_esprimere_una_data_es_oggi_e_il_5_febbraio",
+    "label": "Uso dell’articolo determinativo per esprimere una data, es. Oggi è il 5 febbraio .",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Uso dell’articolo determinativo per esprimere una data, es. Oggi è il 5 febbraio .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "omissione_dellarticolo_con_il_complemento_di_materia_es_foglio_di_carta",
+    "label": "Omissione dell’articolo con il complemento di materia, es. foglio di carta, bottiglia di vetro",
+    "cefr_level": "A2",
+    "category": "articoli",
+    "description": "Omissione dell’articolo con il complemento di materia, es. foglio di carta, bottiglia di vetro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html"
+  },
+  {
+    "code": "presenza_dell_articolo_deteriminativo_con_i_nomi_geografici_-_dei_monti_es_le",
+    "label": "Presenza dell’ articolo deteriminativo con i nomi geografici: - dei monti, es. Le Alpi - dei fiumi, es. Il Tevere - dei laghi, es. Il lago Maggiore - di isole grandi, es. La Sicilia - di continenti, es. L’Europa - di regioni, es. L’Umbria",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Presenza dell’ articolo deteriminativo con i nomi geografici: - dei monti, es. Le Alpi - dei fiumi, es. Il Tevere - dei laghi, es. Il lago Maggiore - di isole grandi, es. La Sicilia - di continenti, es. L’Europa - di regioni, es. L’Umbria",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "omissione_dellarticolo_con_nomi_di_isole_piccole_es_capri",
+    "label": "Omissione dell’articolo con nomi di isole piccole, es. Capri",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Omissione dell’articolo con nomi di isole piccole, es. Capri",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "uso_dell_articolo_con_espressioni_di_tempo_es_il_giovedi_il_martedi_ecc",
+    "label": "Uso dell’ articolo con espressioni di tempo, es. il giovedì, il martedì, ecc.",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Uso dell’ articolo con espressioni di tempo, es. il giovedì, il martedì, ecc.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "uso_dellarticolo_partitivo_o_possibile_omissione_es_ho_dei_bei_ricordi_compro",
+    "label": "Uso dell’articolo partitivo o possibile omissione, es. Ho dei bei ricordi; compro dei giocattoli per i bambini; ha cani e gatti; ecc .",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Uso dell’articolo partitivo o possibile omissione, es. Ho dei bei ricordi; compro dei giocattoli per i bambini; ha cani e gatti; ecc .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "uso_dellarticolo_con_nomi_seguiti_da_specificazioni_es_in_campagnanella",
+    "label": "Uso dell’articolo con nomi seguiti da specificazioni, es. in campagna/nella campagna toscana, in inverno/nell’inverno del 1880, ecc.",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Uso dell’articolo con nomi seguiti da specificazioni, es. in campagna/nella campagna toscana, in inverno/nell’inverno del 1880, ecc.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "omissione_dellarticolo_con_senza_e_con_valore_modale_es_con_attenzione_con",
+    "label": "Omissione dell’articolo con senza e con (valore modale), es. con attenzione, con amore, senza interesse, senza problemi",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Omissione dell’articolo con senza e con (valore modale), es. con attenzione, con amore, senza interesse, senza problemi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "omissione_dellarticolo_con_la_preposizione_da_quando_indica_il_fine_es_carta_da",
+    "label": "Omissione dell’articolo con la preposizione da quando indica il fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
+    "cefr_level": "B1",
+    "category": "articoli",
+    "description": "Omissione dell’articolo con la preposizione da quando indica il fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html"
+  },
+  {
+    "code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "label": "La coniugazione attiva (con particolare riferimento a tutte e tre le persone singolari e al noi ) degli ausiliari essere ed avere , dei principali verbi regolari, di alcuni irregolari (vedi lessico) ai seguenti modi e tempi: - indicativo presente - condizionale semplice solo del verbo volere alla I persona singolare ( vorrei ) - imperativo formale ed informale del verbo scusare ( scusi/scusa ) - imperativo prima persona plurale per invitare (andiamo ) - la percezione del significato modale dei verbi potere, volere e dovere - la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "La coniugazione attiva (con particolare riferimento a tutte e tre le persone singolari e al noi ) degli ausiliari essere ed avere , dei principali verbi regolari, di alcuni irregolari (vedi lessico) ai seguenti modi e tempi: - indicativo presente - condizionale semplice solo del verbo volere alla I persona singolare ( vorrei ) - imperativo formale ed informale del verbo scusare ( scusi/scusa ) - imperativo prima persona plurale per invitare (andiamo ) - la percezione del significato modale dei verbi potere, volere e dovere - la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "infinito_presente_nelle_proposizioni_finali_implicite_es_sono_qui_per_studiare",
+    "label": "Infinito presente nelle proposizioni finali implicite, es. Sono qui per studiare l’italiano .",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "Infinito presente nelle proposizioni finali implicite, es. Sono qui per studiare l’italiano .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "verbi_a2",
+    "label": "I verbi",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "La coniugazione attiva (6 persone) dei principali verbi regolari, di alcuni irregolari, riflessivi e reciproci (vedi lessico) ai seguenti modi e tempi: - indicativo presente - indicativo passato prossimo - indicativo imperfetto di essere e avere nella descrizione di fatti e persone - indicativo futuro semplice con valore temporale, es. Domani pioverà . - imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre: - Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni) - Verbi impersonali, es. piovere - Forma perifrastica/presente progressivo: stare + gerundio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "verbi_b1",
+    "label": "I verbi",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "La coniugazione attiva (6 persone) dei verbi regolari e irregolari dei seguenti modi e tempi: - ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 . - indicativo trapassato prossimo - valore modale dell’indicativo futuro semplice, es. Saranno le otto . - indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto . - uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove . - indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata. - condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro . - ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini - forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino . - forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto . - modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹. - uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene . - uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa. - infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola. - infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali. - infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo. - infinito in finali implicite, es. cose da fare (uso formulaico) - infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua . - uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "verbi_b2",
+    "label": "I verbi",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "La coniugazione attiva (6 persone) dei verbi regolari e irregolari dei seguenti modi e tempi: - indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato) - ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga. - uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 . - modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc . - modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me . - modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto . - modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro. - concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato. - modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto . - uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere. - uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto . - modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia . - modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore . - modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare . - modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva . - participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa . - forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "di_provenienza_es_sono_di_berlino",
+    "label": "di provenienza, es. Sono di Berlino .",
     "cefr_level": "A1",
     "category": "preposizioni",
-    "description": "Core prepositions: di (origin: Sono di Roma), a (destination/city), in (nation/transport), con (accompaniment), per (purpose), senza",
+    "description": "di provenienza, es. Sono di Berlino .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
   },
   {
-    "code": "preposizioni_articolate",
-    "label": "Preposizioni articolate e usi idiomatici",
+    "code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
+    "label": "a termine, es. Do il libro a Giovanni ; tempo es. a mezzogiorno, alle tre; a domani! ; stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa; stato in e moto a luogo con nomi di città, es. Vado a Roma.",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "a termine, es. Do il libro a Giovanni ; tempo es. a mezzogiorno, alle tre; a domani! ; stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa; stato in e moto a luogo con nomi di città, es. Vado a Roma.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es",
+    "label": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia; mezzo, es. in treno, in macchina",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia; mezzo, es. in treno, in macchina",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "con_compagnia_es_vado_a_scuola_con_mario",
+    "label": "con compagnia, es. Vado a scuola con Mario .",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "con compagnia, es. Vado a scuola con Mario .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno",
+    "label": "per : vantaggio es. Il regalo è per Luca ; moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "per : vantaggio es. Il regalo è per Luca ; moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_es_giocare_a",
+    "label": "Uso idiomatico di preposizioni in forme di uso frequente, es. giocare a",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "Uso idiomatico di preposizioni in forme di uso frequente, es. giocare a",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico",
+    "label": "Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
+    "label": "di appartenenza, es. la moto di Luca; materia, es. un foglio di carta; quantità, es. Mangio un po’ di frutta; modo, es. di solito",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "Contracted prepositions (al, del, nel, etc.); idiomatic uses: ho bisogno di, voglia di, paura di; locutions: davanti a, vicino a, lontano da",
+    "description": "di appartenenza, es. la moto di Luca; materia, es. un foglio di carta; quantità, es. Mangio un po’ di frutta; modo, es. di solito",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "preposizioni_dopo_verbi",
-    "label": "Preposizioni dopo verbi frequenti",
+    "code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
+    "label": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto; tempo, es. a settembre; mezzo es. andare a piedi",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto; tempo, es. a settembre; mezzo es. andare a piedi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
+    "label": "da modo, es. Vivo da solo; origine, es. Vengo dal Marocco; tempo, es. Studio italiano da un anno; moto a luogo/stato in luogo, es. Vado da Giovanni; sono dal dottore.",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "da modo, es. Vivo da solo; origine, es. Vengo dal Marocco; tempo, es. Studio italiano da un anno; moto a luogo/stato in luogo, es. Vado da Giovanni; sono dal dottore.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
+    "label": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna; modo, es. in ritardo, in orario; tempo, es. in inverno, in settembre",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna; modo, es. in ritardo, in orario; tempo, es. in inverno, in settembre",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
+    "label": "con mezzo, es. Apro la porta con la chiave; qualità, es. con i capelli neri; mezzo, es. con l’auto, con il treno",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "con mezzo, es. Apro la porta con la chiave; qualità, es. con i capelli neri; mezzo, es. con l’auto, con il treno",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "su_stato_in_e_moto_a_luogo_es_e_sul_tavolo_metto_il_quaderno_sul_tavolo",
+    "label": "su : stato in e moto a luogo, es. È sul tavolo, metto il quaderno sul tavolo .",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "su : stato in e moto a luogo, es. È sul tavolo, metto il quaderno sul tavolo .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "per_tempo_es_ho_studiato_italiano_per_sei_mesi_fine_es_per_esempio_uso",
+    "label": "per : tempo, es. Ho studiato italiano per sei mesi; fine, es. per esempio (uso formulaico)",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "per : tempo, es. Ho studiato italiano per sei mesi; fine, es. per esempio (uso formulaico)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "trafra_tempo_es_parto_tra_tre_giorni_stato_in_luogo_es_il_ristorante_e_tra_la",
+    "label": "tra/fra tempo, es. Parto tra tre giorni; stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "tra/fra tempo, es. Parto tra tre giorni; stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
+    "label": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze; ho voglia di , es. Ho voglia di un bel gelato; ho paura di , es. Ho paura dei tuoni; ho nostalgia di , es. Ho nostalgia di casa; andare a + infinito, es. Vado a fare la spesa.",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze; ho voglia di , es. Ho voglia di un bel gelato; ho paura di , es. Ho paura dei tuoni; ho nostalgia di , es. Ho nostalgia di casa; andare a + infinito, es. Vado a fare la spesa.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "locuzioni_preposizionali_es_davanti_a_vicino_a_lontano_da_di_fronte_a_intorno_a",
+    "label": "Locuzioni preposizionali, es. davanti a, vicino a, lontano da, di fronte a, intorno a, fino a, all’inizio di, alla fine di, insieme a",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "Locuzioni preposizionali, es. davanti a, vicino a, lontano da, di fronte a, intorno a, fino a, all’inizio di, alla fine di, insieme a",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "altre_forme_preposizionali_es_dentro_dietro_durante_secondo_sopra_sotto",
+    "label": "Altre forme preposizionali, es. dentro, dietro, durante, secondo , sopra, sotto",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "Altre forme preposizionali, es. dentro, dietro, durante, secondo , sopra, sotto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "label": "di paragone, es. È più grande di me; mi piace di più; partitivo, es. Volevo comprare dei mobili; introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo; ho deciso di partire domani; abbondanza, es. un sacco di, pieno di; argomento, es. un libro di storia, parlare di vacanze; tempo, es. di notte, d’estate; età, es. un uomo di cinquanta anni",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "Prepositions required by specific verbs: riuscire a, smettere di, cominciare a, finire di, interessarsi di, occuparsi di, dipendere da",
+    "description": "di paragone, es. È più grande di me; mi piace di più; partitivo, es. Volevo comprare dei mobili; introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo; ho deciso di partire domani; abbondanza, es. un sacco di, pieno di; argomento, es. un libro di storia, parlare di vacanze; tempo, es. di notte, d’estate; età, es. un uomo di cinquanta anni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
-    "code": "preposizioni_avanzate",
-    "label": "Preposizioni: usi avanzati",
+    "code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
+    "label": "a distributivo, es. Vorrei guadagnare circa mille euro al mese; distanza, es. a dieci metri dal centro, a mezz’ora dal centro; età, es. Ho lasciato la mia famiglia a diciassette anni; fine, es. Ti aiuto a fare i compiti.",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "a distributivo, es. Vorrei guadagnare circa mille euro al mese; distanza, es. a dieci metri dal centro, a mezz’ora dal centro; età, es. Ho lasciato la mia famiglia a diciassette anni; fine, es. Ti aiuto a fare i compiti.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "label": "da tempo, es. Dal prossimo mese inizio il mio corso; introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare; introduzione di una proposizione consecutiva, es. mi piace da morire; non ho altro da scrivere; fine, es. carta da lettere, ferro da stiro, racchetta da tennis; qualità, es. la ragazza dai capelli biondi",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "da tempo, es. Dal prossimo mese inizio il mio corso; introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare; introduzione di una proposizione consecutiva, es. mi piace da morire; non ho altro da scrivere; fine, es. carta da lettere, ferro da stiro, racchetta da tennis; qualità, es. la ragazza dai capelli biondi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "in_tempo_determinato_es_nel_diciottesimo_secolo_nel_1965_limitazione_es_bravo",
+    "label": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965; limitazione es. bravo in questo sport",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965; limitazione es. bravo in questo sport",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "con_modo_es_con_attenzione",
+    "label": "con modo, es. con attenzione",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "con modo, es. con attenzione",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "su_eta_indicando_approssimazione_es_sui_trentanni",
+    "label": "su età (indicando approssimazione), es. sui trent’anni",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "su età (indicando approssimazione), es. sui trent’anni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "per_moto_per_luogo_es_passo_per_milano",
+    "label": "per : moto per luogo, es. Passo per Milano.",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "per : moto per luogo, es. Passo per Milano.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
+    "label": "tra /fra compagnia, es. tra la gente; partitivo, es. tra le canzoni che ho cantato; distanza, es. Tra un chilometro c’è un benzinaio.",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "tra /fra compagnia, es. tra la gente; partitivo, es. tra le canzoni che ho cantato; distanza, es. Tra un chilometro c’è un benzinaio.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "locuzioni_preposizionali_es_accanto_a_fuori_da_prima_di_dopo_di_a_causa_di_a",
+    "label": "Locuzioni preposizionali, es. accanto a, fuori da, prima di, dopo di, a causa di, a destra / sinistra di, a nord / sud / est / ovest di",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "Locuzioni preposizionali, es. accanto a, fuori da, prima di, dopo di, a causa di, a destra / sinistra di, a nord / sud / est / ovest di",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "uso_idiomatico_di_preposizioni_dopo_alcuni_verbi_fraseologici_es_cominciare_a",
+    "label": "Uso idiomatico di preposizioni dopo alcuni verbi fraseologici, es. cominciare a, iniziare a, finire di, smettere di, continuare a, cercare di, ecc.",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "Uso idiomatico di preposizioni dopo alcuni verbi fraseologici, es. cominciare a, iniziare a, finire di, smettere di, continuare a, cercare di, ecc.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "uso_idiomatico_di_preposizioni_dopo_alcuni_verbi_di_uso_frequente_es",
+    "label": "Uso idiomatico di preposizioni dopo alcuni verbi di uso frequente, es. interessarsi di, occuparsi di, essere appassionato di, consigliare di, provare a, parlare di, credere a, pensare a, riuscire a, partecipare a, dipendere da, ecc.",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "Uso idiomatico di preposizioni dopo alcuni verbi di uso frequente, es. interessarsi di, occuparsi di, essere appassionato di, consigliare di, provare a, parlare di, credere a, pensare a, riuscire a, partecipare a, dipendere da, ecc.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "altre_forme_preposizionali_es_verso",
+    "label": "Altre forme preposizionali, es. verso",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "Altre forme preposizionali, es. verso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
+    "label": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto; denominazione, es. nel quartiere di Trastevere; tempo in correlazione con in, es. di anno in anno, di giorno in giorno; in introduzione di proposizione finale, es. Ti prego di dirmelo.",
     "cefr_level": "B2",
     "category": "preposizioni",
-    "description": "Subtle prepositional distinctions and complex locutions: per mezzo di, fino da, in mezzo a, in base a, nonostante, attraverso, contro, entro",
+    "description": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto; denominazione, es. nel quartiere di Trastevere; tempo in correlazione con in, es. di anno in anno, di giorno in giorno; in introduzione di proposizione finale, es. Ti prego di dirmelo.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
   },
   {
-    "code": "ordine_svo",
-    "label": "Ordine della frase: SVO e omissione del soggetto",
+    "code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
+    "label": "da causa, es. l’ansia da esame, la dipendenza da telefonino; agente, es. È amato da tutti; stima/prezzo, es. a partire da duemila euro",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "da causa, es. l’ansia da esame, la dipendenza da telefonino; agente, es. È amato da tutti; stima/prezzo, es. a partire da duemila euro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "in_tempo_continuato_es_lo_leggo_in_due_ore",
+    "label": "in tempo continuato, es. Lo leggo in due ore .",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "in tempo continuato, es. Lo leggo in due ore .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "su_argomento_es_informarsi_sullorario_una_conversazione_sulle_buone_maniere",
+    "label": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere; distributivo, es. uno su dieci",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere; distributivo, es. uno su dieci",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
+    "label": "per tempo continuato, es. per ore, per mesi; causa, es. Per motivi lavorativi non posso venire; distributivo, es. giorno per giorno, dividere per gruppi",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "per tempo continuato, es. per ore, per mesi; causa, es. Per motivi lavorativi non posso venire; distributivo, es. giorno per giorno, dividere per gruppi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "trafra_relazione_es_i_rapporti_tra_le_persone",
+    "label": "tra/fra relazione, es. i rapporti tra le persone",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "tra/fra relazione, es. i rapporti tra le persone",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "locuzioni_preposizionali_es_per_mezzo_di_fino_da_in_mezzo_a_in_base_a_in",
+    "label": "locuzioni preposizionali, es. per mezzo di, fino da, in mezzo a, in base a, in relazione a, in cima a, in fondo a, all'interno di, rispetto a",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "locuzioni preposizionali, es. per mezzo di, fino da, in mezzo a, in base a, in relazione a, in cima a, in fondo a, all'interno di, rispetto a",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "altre_forme_preposizionali_es_nonostante_attraverso_contro_eccetto_entro",
+    "label": "altre forme preposizionali, es. nonostante, attraverso, contro, eccetto, entro",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "altre forme preposizionali, es. nonostante, attraverso, contro, eccetto, entro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "di_modo_bene_male",
+    "label": "Di modo: bene, male",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Di modo: bene, male",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "di_luogo_qui_qua_li_la_fuori_dentro_dietro_davanti_sopra_sotto_vicino_lontano",
+    "label": "Di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra, sotto, vicino, lontano, su, giù, indietro, avanti",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra, sotto, vicino, lontano, su, giù, indietro, avanti",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi",
+    "label": "Di tempo: ora, adesso,oggi, dopo, ieri, domani, spesso, sempre, mai , presto, tardi",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Di tempo: ora, adesso,oggi, dopo, ieri, domani, spesso, sempre, mai , presto, tardi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "di_quantita_molto_poco_tanto_piu_meno_niente_un_po",
+    "label": "Di quantità: molto, poco, tanto, più, meno, niente, un po’",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Di quantità: molto, poco, tanto, più, meno, niente, un po’",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "di_giudizio_si_no_non_certo_quasi",
+    "label": "Di giudizio: sì, no, non, certo, quasi",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Di giudizio: sì, no, non, certo, quasi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "interrogativi_come_dove_quando_quanto_perche",
+    "label": "Interrogativi: come, dove, quando, quanto, perché",
+    "cefr_level": "A1",
+    "category": "avverbi",
+    "description": "Interrogativi: come, dove, quando, quanto, perché",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html"
+  },
+  {
+    "code": "di_modo_di_solito_insieme_cosi",
+    "label": "Di modo: di solito, insieme, così",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Di modo: di solito, insieme, così",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "di_luogo_a_destra_sinistra_a_nord_sud_est_ovest_dritto",
+    "label": "Di luogo: a destra / sinistra, a nord / sud / est /ovest, dritto",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Di luogo: a destra / sinistra, a nord / sud / est /ovest, dritto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "di_tempo_appena_gia_subito_nonancora_nonmai_prima_poi_ancora",
+    "label": "Di tempo: appena, già, subito, non...ancora, non...mai, prima, poi, ancora",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Di tempo: appena, già, subito, non...ancora, non...mai, prima, poi, ancora",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "di_quantita_abbastanza_troppo_piu_o_meno_solo",
+    "label": "Di quantità: abbastanza, troppo, più o meno, solo",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Di quantità: abbastanza, troppo, più o meno, solo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "di_giudizio_probabilmente_veramente_forse",
+    "label": "Di giudizio: probabilmente, veramente, forse",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Di giudizio: probabilmente, veramente, forse",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "testuali_allora",
+    "label": "Testuali: allora",
+    "cefr_level": "A2",
+    "category": "avverbi",
+    "description": "Testuali: allora",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html"
+  },
+  {
+    "code": "di_modo_avverbi_in_mente_es_direttamente_facilmente_generalmente_attentamente_o",
+    "label": "Di modo: avverbi in –mente, es. direttamente, facilmente, generalmente, attentamente o locuzioni avverbiali, es. in genere",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Di modo: avverbi in –mente, es. direttamente, facilmente, generalmente, attentamente o locuzioni avverbiali, es. in genere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "di_luogo_dappertutto_di_sopra_di_sotto_via_in_andare_via",
+    "label": "Di luogo: dappertutto, di sopra, di sotto , via in andare via",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Di luogo: dappertutto, di sopra, di sotto , via in andare via",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "di_tempo_improvvisamente_allimprovviso_di_nuovo_per_sempre_in_futuro",
+    "label": "Di tempo : improvvisamente, all’improvviso, di nuovo, per sempre, in futuro",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Di tempo : improvvisamente, all’improvviso, di nuovo, per sempre, in futuro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "di_quantita_soltanto",
+    "label": "Di quantità: soltanto",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Di quantità: soltanto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "di_giudizio_certamente_neanche_assolutamente_sicuramente_particolarmente",
+    "label": "Di giudizio: certamente, neanche, assolutamente, sicuramente, particolarmente, specialmente, soprattutto, proprio, per niente, per forza, di sicuro, volentieri, davvero",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Di giudizio: certamente, neanche, assolutamente, sicuramente, particolarmente, specialmente, soprattutto, proprio, per niente, per forza, di sicuro, volentieri, davvero",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "testuali_praticamente_insomma_inoltre_infine_quindi",
+    "label": "Testuali: praticamente, insomma, inoltre, infine, quindi",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Testuali: praticamente, insomma, inoltre, infine, quindi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "intensificativi_es_veramente_davvero_proprio_es_e_veramente_bello_e_proprio",
+    "label": "Intensificativi, es. veramente, davvero, proprio, es. È veramente bello; è proprio bravo.",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Intensificativi, es. veramente, davvero, proprio, es. È veramente bello; è proprio bravo.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "alterati_a_suffisso_ino_es_pochino_a_suffisso_issimo_es_moltissimo_tardissimo",
+    "label": "Alterati a suffisso –INO, es. pochino; a suffisso –ISSIMO, es. moltissimo, tardissimo; alterati organici , es. meglio, peggio",
+    "cefr_level": "B1",
+    "category": "avverbi",
+    "description": "Alterati a suffisso –INO, es. pochino; a suffisso –ISSIMO, es. moltissimo, tardissimo; alterati organici , es. meglio, peggio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html"
+  },
+  {
+    "code": "di_modo_in_fretta_per_caso",
+    "label": "Di modo: in fretta, per caso",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Di modo: in fretta, per caso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "avverbi_di_luogo_da_vicino_lontano_presso_dovunque_oltre_laggiu_lassu",
+    "label": "Avverbi di luogo: da vicino / lontano, presso (d)ovunque, oltre, laggiù, lassù",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Avverbi di luogo: da vicino / lontano, presso (d)ovunque, oltre, laggiù, lassù",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "di_tempo_allora_a_quei_tempi_finora_oggigiorno_ormai_al_giorno_doggi_ai_nostri",
+    "label": "Di tempo: allora (a quei tempi), finora, oggigiorno, ormai, al giorno d’oggi, ai nostri giorni, da sempre, in tempo, un giorno, una volta, ad un tratto, tutt’ora, intanto , talvolta",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Di tempo: allora (a quei tempi), finora, oggigiorno, ormai, al giorno d’oggi, ai nostri giorni, da sempre, in tempo, un giorno, una volta, ad un tratto, tutt’ora, intanto , talvolta",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "di_giudizio_appunto_nemmeno_esatto_senza_dubbio",
+    "label": "Di giudizio: appunto, nemmeno, esatto, senza dubbio",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Di giudizio: appunto, nemmeno, esatto, senza dubbio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "di_quantita_parecchio_nulla",
+    "label": "Di quantità: parecchio, nulla",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Di quantità: parecchio, nulla",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "testuali_in_conclusione_in_realta_in_fondo_di_conseguenza_in_breve_innanzitutto",
+    "label": "Testuali: in conclusione, in realtà, in fondo, di conseguenza, in breve, innanzitutto",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Testuali: in conclusione, in realtà, in fondo, di conseguenza, in breve, innanzitutto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "intensificativi_affatto_perfino",
+    "label": "Intensificativi: affatto, perfino",
+    "cefr_level": "B2",
+    "category": "avverbi",
+    "description": "Intensificativi: affatto, perfino",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html"
+  },
+  {
+    "code": "proposizioni_enunciative_affermative_e_negative",
+    "label": "Proposizioni enunciative: affermative e negative",
+    "cefr_level": "A1",
+    "category": "frase_semplice",
+    "description": "Proposizioni enunciative: affermative e negative",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html"
+  },
+  {
+    "code": "proposizioni_volitive_desiderative_introdotte_da_vorrei",
+    "label": "Proposizioni volitive: desiderative introdotte da vorrei",
+    "cefr_level": "A1",
+    "category": "frase_semplice",
+    "description": "Proposizioni volitive: desiderative introdotte da vorrei",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html"
+  },
+  {
+    "code": "esclamative_quasi_sempre_con_il_verbo_sottinteso",
+    "label": "Esclamative, quasi sempre con il verbo sottinteso",
+    "cefr_level": "A1",
+    "category": "frase_semplice",
+    "description": "Esclamative, quasi sempre con il verbo sottinteso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html"
+  },
+  {
+    "code": "interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche",
+    "label": "Interrogative: totali (SÌ/NO) e parziali introdotte da: come, dove, quando, perché, quanto, chi, che, cosa, che cosa, quale?",
+    "cefr_level": "A1",
+    "category": "frase_semplice",
+    "description": "Interrogative: totali (SÌ/NO) e parziali introdotte da: come, dove, quando, perché, quanto, chi, che, cosa, che cosa, quale?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html"
+  },
+  {
+    "code": "frase_semplice_a2",
+    "label": "La frase semplice",
+    "cefr_level": "A2",
+    "category": "frase_semplice",
+    "description": "Proposizioni volitive: imperative",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a2.html"
+  },
+  {
+    "code": "proposizioni_volitive_desiderative_attraverso_luso_del_condizionale_es_mi",
+    "label": "Proposizioni volitive: desiderative attraverso l’uso del condizionale, es. Mi piacerebbe leggere quel libro; vedrei volentieri quel film .",
+    "cefr_level": "B1",
+    "category": "frase_semplice",
+    "description": "Proposizioni volitive: desiderative attraverso l’uso del condizionale, es. Mi piacerebbe leggere quel libro; vedrei volentieri quel film .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html"
+  },
+  {
+    "code": "proposizioni_volitive_imperative_attraverso_luso_del_congiuntivo_esortativo_es",
+    "label": "Proposizioni volitive imperative attraverso l’uso del congiuntivo esortativo, es. Vada dritto e poi giri a destra .",
+    "cefr_level": "B1",
+    "category": "frase_semplice",
+    "description": "Proposizioni volitive imperative attraverso l’uso del congiuntivo esortativo, es. Vada dritto e poi giri a destra .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html"
+  },
+  {
+    "code": "frase_semplice_b2",
+    "label": "La frase semplice",
+    "cefr_level": "B2",
+    "category": "frase_semplice",
+    "description": "Proposizioni volitive concessive con l’uso attenuativo di pure , es. Venga pure .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b2.html"
+  },
+  {
+    "code": "proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a",
+    "label": "Proposizioni coordinate copulative utilizzando il connettivo e , es. Abito a Madrid e studio economia .",
+    "cefr_level": "A1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate copulative utilizzando il connettivo e , es. Abito a Madrid e studio economia .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o",
+    "label": "Proposizioni coordinate disgiuntive utilizzando il connettivo o , es. Mangi qui o vai a casa?",
+    "cefr_level": "A1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate disgiuntive utilizzando il connettivo o , es. Mangi qui o vai a casa?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html"
+  },
+  {
+    "code": "proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono",
+    "label": "Proposizioni causali introdotte da perché , es. (Perché vai a casa?) Perché sono stanco .",
+    "cefr_level": "A1",
+    "category": "frase_complessa",
+    "description": "Proposizioni causali introdotte da perché , es. (Perché vai a casa?) Perché sono stanco .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html"
+  },
+  {
+    "code": "proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono",
+    "label": "Proposizioni finali implicite con uso della preposizione per + infinito, es. Sono qui per imparare l’italiano .",
+    "cefr_level": "A1",
+    "category": "frase_complessa",
+    "description": "Proposizioni finali implicite con uso della preposizione per + infinito, es. Sono qui per imparare l’italiano .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_con_uso_della_congiunzione_avversativa_ma_es_la_mia",
+    "label": "Proposizioni coordinate con uso della congiunzione avversativa ma , es. La mia città è piccola, ma è molto bella .",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate con uso della congiunzione avversativa ma , es. La mia città è piccola, ma è molto bella .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_coordinate_con_uso_della_congiunzione_copulativa_anche_es_ho",
+    "label": "Proposizioni coordinate con uso della congiunzione copulativa anche , es. Ho comprato la frutta e anche il pane.",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate con uso della congiunzione copulativa anche , es. Ho comprato la frutta e anche il pane.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_temporali_esplicite_con_uso_della_congiunzione_quando_es_quando_ci",
+    "label": "Proposizioni temporali esplicite con uso della congiunzione quando , es. (Quando ci vediamo?) Quando ho finito .",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali esplicite con uso della congiunzione quando , es. (Quando ci vediamo?) Quando ho finito .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_condizionali_esplicite_con_uso_della_congiunzione_se_utilizzate",
+    "label": "Proposizioni condizionali esplicite con uso della congiunzione se , utilizzate principalmente in strutture formulaiche con verbo al presente indicativo, es. Se vuoi; se è possibile.",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni condizionali esplicite con uso della congiunzione se , utilizzate principalmente in strutture formulaiche con verbo al presente indicativo, es. Se vuoi; se è possibile.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_relative_introdotte_dal_pronome_che_con_funzione_di_soggetto_e_di",
+    "label": "Proposizioni relative introdotte dal pronome che , con funzione di soggetto e di oggetto, es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni relative introdotte dal pronome che , con funzione di soggetto e di oggetto, es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_finali_implicite_introdotte_da_a_infinito_es_vado_a_fare_la_spesa",
+    "label": "Proposizioni finali implicite introdotte da a + infinito, es. Vado a fare la spesa .",
+    "cefr_level": "A2",
+    "category": "frase_complessa",
+    "description": "Proposizioni finali implicite introdotte da a + infinito, es. Vado a fare la spesa .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
+  },
+  {
+    "code": "proposizioni_coordinate_con_uso_delle_congiunzioni_avversative_pero_tuttavia",
+    "label": "Proposizioni coordinate con uso delle congiunzioni avversative: però, tuttavia, comunque, invece, es. Uscirei però fa troppo freddo; sono contento di essere in Italia; tuttavia/comunque spero di tornare presto a casa; Carlo è rimasto a casa, invece Maria è venuta con me .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate con uso delle congiunzioni avversative: però, tuttavia, comunque, invece, es. Uscirei però fa troppo freddo; sono contento di essere in Italia; tuttavia/comunque spero di tornare presto a casa; Carlo è rimasto a casa, invece Maria è venuta con me .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_con_uso_della_congiunzione_copulativa_pure_es_ho",
+    "label": "Proposizioni coordinate con uso della congiunzione copulativa: pure , es. Ho comprato la frutta e pure il pane.",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate con uso della congiunzione copulativa: pure , es. Ho comprato la frutta e pure il pane.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_conclusive_con_uso_di_quindi_dunque_percio_es_ho_un",
+    "label": "Proposizioni coordinate conclusive con uso di quindi, dunque, perciò , es. Ho un ragazzo italiano, quindi/dunque/perciò devo studiare la lingua .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate conclusive con uso di quindi, dunque, perciò , es. Ho un ragazzo italiano, quindi/dunque/perciò devo studiare la lingua .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_esplicative_con_uso_di_infatti_cioe_es_vivo_in",
+    "label": "Proposizioni coordinate esplicative con uso di infatti , cioè, es. Vivo in periferia, cioè molto lontano dal centro .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate esplicative con uso di infatti , cioè, es. Vivo in periferia, cioè molto lontano dal centro .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_correlative_con_uso_di_nene_o_o_siasia_che_non_e_ne_un",
+    "label": "Proposizioni coordinate correlative con uso di né...né, o... o, sia...sia (che). Non è né un film di avventura né di spionaggio .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate correlative con uso di né...né, o... o, sia...sia (che). Non è né un film di avventura né di spionaggio .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_copulative_con_uso_di_neanche_es_mario_non_e_arrivato_e",
+    "label": "Proposizioni coordinate copulative con uso di neanche , es. Mario non è arrivato e neanche Luca .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate copulative con uso di neanche , es. Mario non è arrivato e neanche Luca .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_disgiuntive_con_uso_di_oppure_senno_es_possiamo",
+    "label": "Proposizioni coordinate disgiuntive con uso di oppure, sennò , es. Possiamo rimanere qui oppure andare a casa mia; laviamo i piatti, sennò mia madre si arrabbia .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate disgiuntive con uso di oppure, sennò , es. Possiamo rimanere qui oppure andare a casa mia; laviamo i piatti, sennò mia madre si arrabbia .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_causali_esplicite_introdotte_da_siccome_dato_che_visto_che_es",
+    "label": "Proposizioni causali esplicite introdotte da siccome, dato che, visto che , es. Visto che ho abitato in Italia ho imparato l’italiano .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni causali esplicite introdotte da siccome, dato che, visto che , es. Visto che ho abitato in Italia ho imparato l’italiano .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_temporali_che_esprimono_contemporaneita_con_uso_di_mentre_es",
+    "label": "Proposizioni temporali che esprimono contemporaneità con uso di mentre , es. Mentre studiavo ascoltavo un po’ di musica; Mentre guidavo all’improvviso la macchina si è fermata .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali che esprimono contemporaneità con uso di mentre , es. Mentre studiavo ascoltavo un po’ di musica; Mentre guidavo all’improvviso la macchina si è fermata .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_temporali_implicite_che_esprimono_anteriorita_con_uso_di_prima_di",
+    "label": "Proposizioni temporali implicite che esprimono anteriorità con uso di prima di , es. Prima di sedermi sul divano devo preparare la cena .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali implicite che esprimono anteriorità con uso di prima di , es. Prima di sedermi sul divano devo preparare la cena .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_temporali_esplicite_che_esprimono_posteriorita_con_uso_di_dopo_che",
+    "label": "Proposizioni temporali esplicite che esprimono posteriorità con uso di dopo che, quando, (non) appena seguito da indicativo futuro anteriore, es. Non appena avrò finito il lavoro ti telefonerò .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali esplicite che esprimono posteriorità con uso di dopo che, quando, (non) appena seguito da indicativo futuro anteriore, es. Non appena avrò finito il lavoro ti telefonerò .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_comparative_esplicite_di_maggioranza_con_uso_di_piu_di_piu_che_di",
+    "label": "Proposizioni comparative esplicite di maggioranza con uso di più ...di, più ... che, di minoranza con uso di meno ...di, meno...che, di uguaglianza con uso di così ...(come), tanto...(quanto)",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni comparative esplicite di maggioranza con uso di più ...di, più ... che, di minoranza con uso di meno ...di, meno...che, di uguaglianza con uso di così ...(come), tanto...(quanto)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_concessive_esplicite_introdotte_da_anche_se_es_mangio_la_carne",
+    "label": "Proposizioni concessive esplicite introdotte da anche se , es. Mangio la carne anche se non mi piace molto .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni concessive esplicite introdotte da anche se , es. Mangio la carne anche se non mi piace molto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "periodo_ipotetico_della_realta_es_se_mangio_troppo_sto_male",
+    "label": "Periodo ipotetico della realtà, es. Se mangio troppo, sto male.",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Periodo ipotetico della realtà, es. Se mangio troppo, sto male.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_relative_introdotte_da_preposizione_cui_per_i_complementi",
+    "label": "Proposizioni relative introdotte da preposizione + cui per i complementi indiretti, es. Luca è l’amico con cui ho viaggiato.",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni relative introdotte da preposizione + cui per i complementi indiretti, es. Luca è l’amico con cui ho viaggiato.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_esclusive_implicite_introdotte_da_senzainfinito_es_sono_venuta_in",
+    "label": "Proposizioni esclusive implicite introdotte da senza+infinito, es. Sono venuta in Italia senza conoscere la lingua.",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni esclusive implicite introdotte da senza+infinito, es. Sono venuta in Italia senza conoscere la lingua.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_oggettive_esplicite_introdotte_dalla_congiunzione_che_con_i_verbi",
+    "label": "Proposizioni oggettive esplicite introdotte dalla congiunzione che con i verbi (di opinione, speranza e sentimenti) che richiedono il congiuntivo, es. Penso che sia un ragazzo intelligente; e oggettive implicite introdotte da di +infinito, es. Penso di tornare a casa presto .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni oggettive esplicite introdotte dalla congiunzione che con i verbi (di opinione, speranza e sentimenti) che richiedono il congiuntivo, es. Penso che sia un ragazzo intelligente; e oggettive implicite introdotte da di +infinito, es. Penso di tornare a casa presto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_soggettive_esplicite_introdotte_da_verbi_impersonali_come_pare",
+    "label": "Proposizioni soggettive esplicite introdotte da verbi impersonali come pare, sembra, es. Mi sembra che tu sia stanco.",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni soggettive esplicite introdotte da verbi impersonali come pare, sembra, es. Mi sembra che tu sia stanco.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_soggettive_implicite_introdotte_da_espressioni_impersonali_es",
+    "label": "Proposizioni soggettive implicite introdotte da espressioni impersonali, es. Bisogna studiare molto; è importante vivere in un altro paese; è necessario arrivare in orario .",
+    "cefr_level": "B1",
+    "category": "frase_complessa",
+    "description": "Proposizioni soggettive implicite introdotte da espressioni impersonali, es. Bisogna studiare molto; è importante vivere in un altro paese; è necessario arrivare in orario .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
+  },
+  {
+    "code": "proposizioni_coordinate_copulative_con_uso_di_nemmeno_es_non_e_venuto_marco_e",
+    "label": "Proposizioni coordinate copulative con uso di nemmeno , es. Non è venuto Marco e nemmeno Luca .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate copulative con uso di nemmeno , es. Non è venuto Marco e nemmeno Luca .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_finali_esplicite_introdotte_da_perche_affinche_es_te_lo_racconto",
+    "label": "Proposizioni finali esplicite introdotte da perché, affinché , es. Te lo racconto perché tu possa capire .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni finali esplicite introdotte da perché, affinché , es. Te lo racconto perché tu possa capire .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_causali_esplicite_introdotte_da_poiche_es_poiche_era_arrivato",
+    "label": "Proposizioni causali esplicite introdotte da poiché es. Poiché era arrivato tardi non ha preso il treno; ed implicite con uso del gerundio presente o passato , es. Essendo bel tempo parto oggi; avendo seguito la lezione non ho avuto bisogno di studiare .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni causali esplicite introdotte da poiché es. Poiché era arrivato tardi non ha preso il treno; ed implicite con uso del gerundio presente o passato , es. Essendo bel tempo parto oggi; avendo seguito la lezione non ho avuto bisogno di studiare .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_temporali_implicite_che_esprimono_contemporaneita_con_luso_del",
+    "label": "Proposizioni temporali implicite che esprimono contemporaneità con l’uso del gerundio presente , es. Uscendo ho chiuso la porta .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali implicite che esprimono contemporaneità con l’uso del gerundio presente , es. Uscendo ho chiuso la porta .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_temporali_che_esprimono_anteriorita_con_luso_del_gerundio_passato",
+    "label": "Proposizioni temporali che esprimono anteriorità con l’uso del gerundio passato e con l’uso del participio passato, es. Avendo rifatto l’esercizio, ho capito l’errore; spenta la luce sono uscito .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali che esprimono anteriorità con l’uso del gerundio passato e con l’uso del participio passato, es. Avendo rifatto l’esercizio, ho capito l’errore; spenta la luce sono uscito .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_temporali_implicite_che_esprimono_posteriorita_introdotte_da_dopo",
+    "label": "Proposizioni temporali implicite che esprimono posteriorità introdotte da dopo e l’ infinito passato, es. Sono partita dopo averlo salutato .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali implicite che esprimono posteriorità introdotte da dopo e l’ infinito passato, es. Sono partita dopo averlo salutato .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_temporali_esplicite_che_esprimono_anteriorita_introdotte_da_prima",
+    "label": "Proposizioni temporali esplicite che esprimono anteriorità introdotte da prima che, es. Parto prima che arrivi il brutto tempo .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali esplicite che esprimono anteriorità introdotte da prima che, es. Parto prima che arrivi il brutto tempo .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_temporali_esplicite_che_esprimono_posteriorita_introdotte_da",
+    "label": "Proposizioni temporali esplicite che esprimono posteriorità introdotte da finché, es. Finché non avrai 16 anni non andrai in discoteca .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni temporali esplicite che esprimono posteriorità introdotte da finché, es. Finché non avrai 16 anni non andrai in discoteca .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_coordinate_disgiuntive_con_uso_di_altrimenti_es_vada_via",
+    "label": "Proposizioni coordinate disgiuntive con uso di altrimenti, es. Vada via, altrimenti chiamo la polizia .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni coordinate disgiuntive con uso di altrimenti, es. Vada via, altrimenti chiamo la polizia .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "periodo_ipotetico_della_possibilita_e_della_irrealta_es_se_venissi_sarei",
+    "label": "Periodo ipotetico della possibilità e della irrealtà, es. Se venissi sarei contento; s e me lo avessi detto ti avrei creduto .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Periodo ipotetico della possibilità e della irrealtà, es. Se venissi sarei contento; s e me lo avessi detto ti avrei creduto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_concessive_introdotte_dalle_congiunzioni_sebbene_benche_nonostante",
+    "label": "Proposizioni concessive introdotte dalle congiunzioni sebbene, benché, nonostante, es. Abbiamo preso il treno sebbene fossimo in ritardo .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni concessive introdotte dalle congiunzioni sebbene, benché, nonostante, es. Abbiamo preso il treno sebbene fossimo in ritardo .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_interrogative_indirette_introdotte_dalla_congiunzione",
+    "label": "Proposizioni interrogative indirette introdotte dalla congiunzione interrogativa se solo dopo alcuni verbi come sapere, es. Volevo sapere se venivate anche voi .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni interrogative indirette introdotte dalla congiunzione interrogativa se solo dopo alcuni verbi come sapere, es. Volevo sapere se venivate anche voi .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_modali_introdotte_da_come_se_es_mi_parlava_come_se_fosse_il_mio",
+    "label": "Proposizioni modali introdotte da come se, es. Mi parlava come se fosse il mio direttore .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni modali introdotte da come se, es. Mi parlava come se fosse il mio direttore .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "proposizioni_eccettuative_introdotte_da_a_meno_che_non_es_verro_con_te_a_meno",
+    "label": "Proposizioni eccettuative introdotte da a meno che (non), es. Verrò con te a meno che non debba lavorare .",
+    "cefr_level": "B2",
+    "category": "frase_complessa",
+    "description": "Proposizioni eccettuative introdotte da a meno che (non), es. Verrò con te a meno che non debba lavorare .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+  },
+  {
+    "code": "percezione_della_pertinenza_dellordine_non_marcato_svo_dei_costituenti_di_un",
+    "label": "Percezione della pertinenza dell’ordine non marcato (SVO) dei costituenti di un enunciato semplice",
     "cefr_level": "A1",
     "category": "costruzione_frase",
-    "description": "Unmarked SVO word order; pro-drop subject omission in declarative and interrogative clauses (Sono americano; Vai al cinema?)",
+    "description": "Percezione della pertinenza dell’ordine non marcato (SVO) dei costituenti di un enunciato semplice",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html"
   },
   {
-    "code": "ordine_aggettivo_possessivo",
-    "label": "Posizione dell'aggettivo possessivo",
+    "code": "consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative",
+    "label": "Consapevolezza dell’omissione del soggetto in frasi dichiarative e interrogative: Sono americano; vai al cinema ?",
+    "cefr_level": "A1",
+    "category": "costruzione_frase",
+    "description": "Consapevolezza dell’omissione del soggetto in frasi dichiarative e interrogative: Sono americano; vai al cinema ?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html"
+  },
+  {
+    "code": "consapevolezza_dellordine_vs_nelle_interrogative_introdotte_da_un_pronome_o_un",
+    "label": "Consapevolezza dell’ordine VS nelle interrogative introdotte da un pronome o un avverbio: Dove va Luca? Quando parte Luca?",
+    "cefr_level": "A1",
+    "category": "costruzione_frase",
+    "description": "Consapevolezza dell’ordine VS nelle interrogative introdotte da un pronome o un avverbio: Dove va Luca? Quando parte Luca?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html"
+  },
+  {
+    "code": "costruzione_frase_a2",
+    "label": "La costruzione della frase",
     "cefr_level": "A2",
     "category": "costruzione_frase",
-    "description": "Adjective-noun order with possessives: la tua macchina, il mio motorino; article + possessive + noun",
+    "description": "Consapevolezza dell’ordine AN nell’uso degli aggettivi possessivi, es. la tua macchina, il mio motorino",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a2.html"
   },
   {
-    "code": "dislocazione_frase_scissa",
-    "label": "Dislocazione a sinistra e frase scissa",
+    "code": "dislocazione_a_sinistra_con_ripresa_pronominale_es_il_vino_rosso_lha_finito",
+    "label": "Dislocazione a sinistra con ripresa pronominale, es. Il vino rosso l’ha finito Mario .",
     "cefr_level": "B2",
     "category": "costruzione_frase",
-    "description": "Left dislocation with pronoun resumption (Il vino rosso l'ha finito Mario) and cleft sentences (È lei che non ha voluto; È stato Mario a farlo)",
+    "description": "Dislocazione a sinistra con ripresa pronominale, es. Il vino rosso l’ha finito Mario .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html"
   },
   {
-    "code": "coordinazione_base",
-    "label": "Coordinazione e subordinazione di base",
-    "cefr_level": "A2",
-    "category": "frase_complessa",
-    "description": "Adversative ma; copulative anche; explicit temporal quando; conditional se + indicativo presente; implicit final a + infinito",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
-  },
-  {
-    "code": "relativa_che",
-    "label": "Proposizione relativa con 'che'",
-    "cefr_level": "A2",
-    "category": "frase_complessa",
-    "description": "Relative clause with che as subject or direct object (Il mio amico che abita in centro; il libro che ho comprato)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html"
-  },
-  {
-    "code": "subordinate_causali",
-    "label": "Proposizioni causali",
-    "cefr_level": "B1",
-    "category": "frase_complessa",
-    "description": "Causal subordinate clauses with siccome, dato che, visto che, poiché; distinction from perché",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
-  },
-  {
-    "code": "subordinate_temporali",
-    "label": "Proposizioni temporali",
-    "cefr_level": "B1",
-    "category": "frase_complessa",
-    "description": "Temporal subordinates: simultaneity (mentre), sequence (dopo che, (non) appena, prima di + infinito), implicit anterior (prima di + infinito)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
-  },
-  {
-    "code": "periodo_ipotetico_realta",
-    "label": "Periodo ipotetico della realtà",
-    "cefr_level": "B1",
-    "category": "frase_complessa",
-    "description": "Real conditional: se + present indicative → present or future indicative (Se vuoi, vengo; Se fa bello, usciremo)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
-  },
-  {
-    "code": "congiuntivo_subordinata",
-    "label": "Congiuntivo nelle proposizioni subordinate",
-    "cefr_level": "B1",
-    "category": "frase_complessa",
-    "description": "Subjunctive in explicit objective and subjective subordinates after verbs of wish, belief, doubt, emotion (Penso che sia; Voglio che venga)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html"
-  },
-  {
-    "code": "subordinate_concessive",
-    "label": "Proposizioni concessive",
+    "code": "frase_scissa_con_proposizione_subordinata_esplicita_es_e_lei_che_non_ha_voluto",
+    "label": "Frase scissa con proposizione subordinata esplicita, es. È lei che non ha voluto vedermi ; sei tu che hai fatto tutto questo o introdotta da “c’è presentativo”, es. Che cosa c’è che non va ?",
     "cefr_level": "B2",
-    "category": "frase_complessa",
-    "description": "Concessive clauses with anche se (contrafactual), sebbene, benché, nonostante + subjunctive",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+    "category": "costruzione_frase",
+    "description": "Frase scissa con proposizione subordinata esplicita, es. È lei che non ha voluto vedermi ; sei tu che hai fatto tutto questo o introdotta da “c’è presentativo”, es. Che cosa c’è che non va ?",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html"
   },
   {
-    "code": "periodo_ipotetico_complesso",
-    "label": "Periodo ipotetico della possibilità e impossibilità",
+    "code": "posizione_postverbale_del_soggetto_es_ha_ragione_lei_non_e_lei",
+    "label": "Posizione postverbale del soggetto, es. Ha ragione lei; non è lei .",
     "cefr_level": "B2",
-    "category": "frase_complessa",
-    "description": "Possibility: se + congiuntivo imperfetto → condizionale presente; impossibility: se + congiuntivo trapassato → condizionale passato",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html"
+    "category": "costruzione_frase",
+    "description": "Posizione postverbale del soggetto, es. Ha ragione lei; non è lei .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html"
+  },
+  {
+    "code": "consapevolezza_del_significato_specifico_di_alcuni_aggettivi_usati_in_posizione",
+    "label": "Consapevolezza del significato specifico di alcuni aggettivi usati in posizione prenominale o post-nominale, es. È un buon amico (bravo) vs. È un amico buono ; È un bell’uomo (giudizio di valore) vs. È un uomo bello ; È un pover uomo (da commiserare) vs. È un uomo povero .",
+    "cefr_level": "B2",
+    "category": "costruzione_frase",
+    "description": "Consapevolezza del significato specifico di alcuni aggettivi usati in posizione prenominale o post-nominale, es. È un buon amico (bravo) vs. È un amico buono ; È un bell’uomo (giudizio di valore) vs. È un uomo bello ; È un pover uomo (da commiserare) vs. È un uomo povero .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html"
   }
 ]

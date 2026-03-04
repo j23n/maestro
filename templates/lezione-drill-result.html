@@ -120,32 +120,34 @@
       {% endfor %}
     </div>
 
-  {% elif drill and drill.exercise_type == "free_form" %}
-    {# ── Free-form result ── #}
+  {% elif feedback and feedback is mapping and "objective_correct" in feedback %}
+    {# ── Writing / free-form result ── #}
     {% if correct %}
       <div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
-        Corretto! ✓
+        {% if is_writing is defined and is_writing %}Inviato ✓{% else %}Corretto! ✓{% endif %}
       </div>
     {% else %}
       <div style="background:#fef2f2;color:#991b1b;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
-        Non corretto
+        {% if is_writing is defined and is_writing %}Non completato{% else %}Non corretto{% endif %}
       </div>
+      {% if feedback.objective_note %}
+        <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;">{{ feedback.objective_note }}</p>
+      {% endif %}
     {% endif %}
-    {% if feedback and feedback is mapping and feedback.errors is defined and feedback.errors %}
+    {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
+    {% set tips = feedback.tips if feedback.tips is defined else [] %}
+    {% if grammar_errors or tips %}
       <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">Note da ricordare</div>
-      {% for err in feedback.errors %}
-      <div style="margin-bottom:1rem;">
-        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:0.2rem;">Errato</div>
-        <div style="font-size:0.95rem;color:#b91c1c;text-decoration:line-through;margin-bottom:0.4rem;">{{ err.wrong }}</div>
-        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:0.2rem;">Corretto</div>
-        <div style="font-size:0.95rem;color:#065f46;margin-bottom:0.4rem;">{{ err.correct }}</div>
-        {% if err.explanation %}
-        <p style="font-size:0.85rem;color:#555;margin:0;">{{ err.explanation }}</p>
-        {% endif %}
+      <div class="item-secondary" style="margin-bottom:1rem;">
+        {% for err in grammar_errors %}
+          <div><span class="item-grammar-error">{{ err }}</span></div>
+        {% endfor %}
+        {% for tip in tips %}
+          <div class="item-tip">{{ tip }}</div>
+        {% endfor %}
       </div>
-      {% endfor %}
     {% elif correct %}
-      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">Ottima risposta! Hai usato correttamente la struttura.</p>
+      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">Ottima risposta!</p>
     {% endif %}
   {% endif %}
 

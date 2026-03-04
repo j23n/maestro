@@ -1,4 +1,3 @@
-import asyncio
 from typing import Optional, List
 from datetime import datetime, date
 from dataclasses import dataclass
@@ -30,16 +29,6 @@ class Message(Document):
 
             self.text = await discover(self.text, self)
             await self.save()
-        elif self.sender == "user":
-            asyncio.create_task(self._analyze_bg())
-
-    async def _analyze_bg(self):
-        from maestro.learning.analyzer import analyze_message
-        event = await analyze_message(self.text, message=self)
-        if event:
-            await event.insert()
-            from maestro.learning.profile import update_profile
-            await update_profile(event)
 
 
 class ItalianChunk(Document):
@@ -121,7 +110,10 @@ class CommunicativeFunction(Document):
     label: str
     macro_category: str
     cefr_level: str
-    description: str = ""
+    patterns: List[str] = Field(default_factory=list)
+    examples: List[str] = Field(default_factory=list)
+    description: str = ""   # built from patterns at ingest; used in analyzer prompt
+    source_url: str = ""
 
     class Settings:
         name = "comm_functions"
@@ -146,6 +138,7 @@ class LearningEvent(Document):
 class LearningProfile(Document):
     grammar_correct_counts: dict = Field(default_factory=dict)
     grammar_error_counts: dict = Field(default_factory=dict)
+    grammar_recent_outcomes: dict = Field(default_factory=dict)  # code → list[bool], sliding window of last 10
     functions_counts: dict = Field(default_factory=dict)
     themes_seen: List[str] = Field(default_factory=list)
     cefr_estimate: str = "A1"
@@ -219,6 +212,14 @@ class GrammarPointExplanation(Document):
 
 # --- Lezione ---
 
+class LessonTopic(BaseModel):
+    title: str                        # e.g. "Chiedere informazioni in farmacia"
+    description: str                  # 1-2 sentences on what real-world situation this covers
+    cf_codes: List[str]               # 2-4 CF codes anchoring this topic
+    depth: int = 1                    # 1=introduction, 2=develops prior, 3=advanced
+    builds_on: Optional[str] = None   # title of the prior lesson this extends (depth > 1)
+
+
 class LessonActivity(BaseModel):
     type: str           # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "conversazione"
     title: str
@@ -241,12 +242,13 @@ class Lesson(Document):
     completed_at: Optional[datetime] = None
     status: str = "planning"  # "planning" | "active" | "completed" | "abandoned"
     duration_minutes: int = 20
-    focus_hint: str = ""
+    topic: Optional[LessonTopic] = None
     activities: List[LessonActivity] = []
     current_index: int = 0
     cefr_at_start: str = "A1"
     overview: Optional[str] = None          # 2-3 sentence lesson overview
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
+    generating: bool = True                 # True while background LLM generation is in progress
 
     class Settings:
         name = "lessons"

@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 from maestro.models import LearningEvent
 from maestro.rag.retrieve import get_chunks_for_refs
-from maestro.learning.analyzer import analyze_message, score_multi_item_drill, _load_codes, _grammar_codes
+from maestro.learning.analyzer import score_free_form_drill, score_multi_item_drill, _ensure_codes, _grammar_points_cache
 
 _PASS_THRESHOLD = 0.7  # fraction of items correct to count the drill as passed
 
@@ -68,9 +68,9 @@ async def score_attempt(
         )
 
         # Resolve grammar codes → human-readable labels for display
-        _load_codes()
-        valid_codes = {g["code"] for g in _grammar_codes}
-        gp_labels = {g["code"]: g["label"] for g in _grammar_codes}
+        await _ensure_codes()
+        valid_codes = {g.code for g in _grammar_points_cache}
+        gp_labels = {g.code: g.label for g in _grammar_points_cache}
 
         n = min(len(generated_drill.items), len(answers), len(raw_results))
         enriched = [
@@ -117,25 +117,14 @@ async def score_attempt(
         answer_str = student_answer[0] if isinstance(student_answer, list) else student_answer
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 
-        drill_context = f"Grammar point: {code}\nDrill prompt: {generated_drill.prompt}"
-        if rag_content:
-            drill_context += f"\n\nGrammar rule reference:\n{rag_content}"
-
-        event = await analyze_message(answer_str, drill_context=drill_context)
-        if event is None:
-            raise RuntimeError(
-                "Free-form analysis unavailable — check ANALYSIS_ENABLED and local model"
-            )
-
-        correct = code in event.grammar_correct
-
-        feedback = event.feedback or ""
-        if isinstance(feedback, str) and feedback:
-            try:
-                feedback = json.loads(feedback)
-            except (json.JSONDecodeError, ValueError):
-                pass
-
+        feedback = await score_free_form_drill(
+            generated_drill.prompt, answer_str, code, rag_content=rag_content
+        )
+        correct = feedback.get("objective_correct", True)
+        event = LearningEvent(
+            grammar_correct=[code] if correct else [],
+            grammar_errors=[] if correct else [code],
+        )
         refs = rule_refs if not correct else []
         return correct, event, feedback, refs
 
