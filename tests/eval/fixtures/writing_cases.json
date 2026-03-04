@@ -1,0 +1,32 @@
+[
+  {
+    "id": "on_topic_attempt",
+    "prompt": "Descrivi la tua famiglia.",
+    "student_text": "Ho una sorella e due fratelli. La mia mamma si chiama Lucia.",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "blank_submission",
+    "prompt": "Descrivi la tua famiglia.",
+    "student_text": "",
+    "expected_objective_correct": false
+  },
+  {
+    "id": "completely_off_topic",
+    "prompt": "Descrivi la tua famiglia.",
+    "student_text": "asdfgh",
+    "expected_objective_correct": false
+  },
+  {
+    "id": "short_but_on_topic",
+    "prompt": "Presenta te stesso.",
+    "student_text": "Mi chiamo Marco. Ho 25 anni.",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "with_grammar_errors_but_on_topic",
+    "prompt": "Racconta cosa hai fatto ieri.",
+    "student_text": "Ieri ho andato al mercato e ho comprare le mele.",
+    "expected_objective_correct": true
+  }
+]

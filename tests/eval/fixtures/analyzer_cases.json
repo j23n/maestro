@@ -1,0 +1,23 @@
+[
+  {
+    "id": "verb_conjugation_correct_passato_prossimo",
+    "text": "Ieri sono andato al mercato e ho comprato delle mele fresche.",
+    "must_appear_in_correct": ["la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone"],
+    "must_not_appear_in_errors": ["la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone"]
+  },
+  {
+    "id": "articles_correct",
+    "text": "Il gatto dorme sul divano. Una ragazza legge un libro interessante in biblioteca.",
+    "must_appear_in_correct": ["la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi"]
+  },
+  {
+    "id": "clean_simple_text_low_false_positives",
+    "text": "Mi chiamo Marco. Ho ventidue anni.",
+    "max_error_count": 0
+  },
+  {
+    "id": "clean_longer_text_low_false_positives",
+    "text": "Oggi fa bello. Vado al bar con un amico.",
+    "max_error_count": 0
+  }
+]
