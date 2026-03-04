@@ -4,8 +4,6 @@ Learning signal extraction from student Italian messages.
 Uses Claude Sonnet (via Anthropic API) to produce structured JSON
 identifying grammar structures used/errored, communicative functions
 performed, and themes present in a single student message.
-
-Set ANALYSIS_ENABLED=False in settings to disable API calls.
 """
 
 from __future__ import annotations
@@ -21,7 +19,7 @@ if TYPE_CHECKING:
     from maestro.models import Message
 
 from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent, LearningProfile
-from maestro.settings import Settings
+from maestro.config import settings
 from maestro.utils import parse_llm_json
 
 logger = logging.getLogger(__name__)
@@ -48,7 +46,7 @@ async def _ensure_codes() -> None:
 
 
 def _client() -> anthropic.Anthropic:
-    return anthropic.Anthropic(api_key=Settings().ANTHROPIC_API_KEY)
+    return anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 
 
 def _build_prompt(text: str, drill_context: str = "") -> str:
@@ -100,13 +98,9 @@ async def analyze_message(
 ) -> Optional["LearningEvent"]:
     """
     Analyze a student message and return a LearningEvent (not yet saved).
-    Returns None if analysis is disabled or fails.
+    Returns None if analysis fails.
     drill_context is optional extra info (drill prompt + grammar point) for richer feedback.
     """
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        logger.debug("[analyzer] analysis disabled (ANALYSIS_ENABLED=False), skipping")
-        return None
 
     word_count = len(text.split())
     # Skip very short messages (greetings, single words)
@@ -188,12 +182,8 @@ async def feedback_fill_blank(
     """Generate structured feedback for a wrong fill-blank answer.
 
     Returns {"wrong": ..., "correct": ..., "explanation": ...}
-    or empty string if ANALYSIS_ENABLED=False or on any error.
+    or empty string on any error.
     """
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        return ""
-
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content else ""
@@ -238,14 +228,7 @@ async def evaluate_error_correction(
     allowing for punctuation differences and equivalent phrasing.
     Returns (correct, feedback) where feedback is
     {"wrong": ..., "correct": ..., "explanation": ...} or "" on failure.
-    Raises RuntimeError if analysis is unavailable.
     """
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        raise RuntimeError(
-            "Error-correction evaluation unavailable — check ANALYSIS_ENABLED"
-        )
-
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content else ""
@@ -312,7 +295,6 @@ async def score_multi_item_drill(
     - grammar_errors: list of grammar_point codes for other errors found (not the objective)
     - tips: list of freetext strings for spelling/accent issues
     """
-    settings = Settings()
     n = min(len(items), len(student_answers))
     logger.info(
         f"[analyzer] score_multi_item_drill: type={exercise_type}, gp={grammar_point_code}, "
@@ -401,11 +383,6 @@ async def generate_writing_feedback(
     - grammar_errors: list of freetext strings (e.g. "ha mangiato → aveva mangiato")
     - tips: spelling/accent issues only (e.g. "città not citta")
     """
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        logger.debug("[analyzer] generate_writing_feedback skipped (ANALYSIS_ENABLED=False)")
-        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
-
     word_count = len(student_text.split())
     logger.info(
         f"[analyzer] generate_writing_feedback: level={cefr_level}, "
@@ -466,13 +443,7 @@ async def score_free_form_drill(
     - objective_correct: did the student make a genuine attempt? (grammar errors don't affect this)
     - grammar_errors: freetext strings for grammar issues found
     - tips: spelling/accent strings
-    Degrades gracefully when ANALYSIS_ENABLED=False.
     """
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        logger.debug("[analyzer] score_free_form_drill skipped (ANALYSIS_ENABLED=False)")
-        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
-
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content else ""
@@ -538,7 +509,6 @@ async def score_reading_answers(
     - grammar_errors: list of short grammar error descriptions
     - tips: list of freetext tips
     """
-    settings = Settings()
     n = min(len(questions), len(student_answers))
     logger.info(f"[analyzer] score_reading_answers: {n} questions")
 
