@@ -1,8 +1,8 @@
 """
-One-off ingest script (idempotent):
-  1. Upsert GrammarPoint documents from grammar_points.json
-  2. Upsert CommunicativeFunction documents from comm_functions.json
-  3. Seed DrillTemplate specs (44 grammar points × 3 exercise types = 132 records)
+One-off ingest script:
+  1. Replace all GrammarPoint documents from grammar_points.json (full replace)
+  2. Replace all CommunicativeFunction documents from comm_functions.json
+  3. Seed DrillTemplate specs (grammar points × 3 exercise types)
   4. Create empty LearningProfile if none exists
 
 Run with:
@@ -19,6 +19,7 @@ from maestro.models import (
     CommunicativeFunction,
     DrillTemplate,
     GrammarPoint,
+    GrammarPointExplanation,
     LearningProfile,
 )
 from maestro.rag.retrieve import retrieve_for_grammar_point
@@ -30,18 +31,12 @@ EXERCISE_TYPES = ("fill_blank", "error_correction", "free_form")
 async def upsert_grammar_points() -> list[GrammarPoint]:
     with open(DATA_DIR / "grammar_points.json") as f:
         items = json.load(f)
-    points = []
-    for item in items:
-        existing = await GrammarPoint.find_one(GrammarPoint.code == item["code"])
-        if existing:
-            points.append(existing)
-            continue
-        gp = GrammarPoint(**item)
-        await gp.insert()
-        logger.info(f"  [grammar] inserted {gp.code}")
-        points.append(gp)
-    logger.info(f"Grammar points: {len(points)} total")
-    return points
+    await GrammarPointExplanation.find().delete()
+    await GrammarPoint.find().delete()
+    docs = [GrammarPoint(**item) for item in items]
+    await GrammarPoint.insert_many(docs)
+    logger.info(f"Grammar points: replaced with {len(docs)} records")
+    return docs
 
 
 async def link_grammar_points_to_rag(grammar_points: list[GrammarPoint]) -> None:
@@ -74,17 +69,15 @@ async def link_grammar_points_to_rag(grammar_points: list[GrammarPoint]) -> None
 async def upsert_comm_functions() -> None:
     with open(DATA_DIR / "comm_functions.json") as f:
         items = json.load(f)
-    count = 0
+    await CommunicativeFunction.find().delete()
+    docs = []
     for item in items:
-        existing = await CommunicativeFunction.find_one(
-            CommunicativeFunction.code == item["code"]
-        )
-        if existing:
-            continue
-        cf = CommunicativeFunction(**item)
-        await cf.insert()
-        count += 1
-    logger.info(f"Communicative functions: inserted {count} new items")
+        if not item.get("description"):
+            patterns = item.get("patterns", [])
+            item["description"] = "; ".join(patterns[:3]) if patterns else item["label"]
+        docs.append(CommunicativeFunction(**item))
+    await CommunicativeFunction.insert_many(docs)
+    logger.info(f"Communicative functions: inserted {len(docs)} items")
 
 
 async def upsert_drill_templates(grammar_points: list[GrammarPoint]) -> None:

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from typing import Optional, TYPE_CHECKING
 
 import anthropic
@@ -19,25 +20,31 @@ import anthropic
 if TYPE_CHECKING:
     from maestro.models import Message
 
-from maestro.models import LearningEvent
+from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent, LearningProfile
 from maestro.settings import Settings
-from maestro.utils import DATA_DIR, parse_llm_json
+from maestro.utils import parse_llm_json
 
 logger = logging.getLogger(__name__)
 
-# Module-level caches loaded once at startup
-_grammar_codes: list[dict] = []
-_function_codes: list[dict] = []
+# Module-level caches populated from MongoDB on first use
+_grammar_points_cache: list[GrammarPoint] = []
+_comm_functions_cache: list[CommunicativeFunction] = []
+_student_level: str = "B2"  # default to full list; refreshed on first load
 
 
-def _load_codes() -> None:
-    global _grammar_codes, _function_codes
-    if _grammar_codes:
+async def _ensure_codes() -> None:
+    global _grammar_points_cache, _comm_functions_cache, _student_level
+    if _grammar_points_cache:
         return
-    with open(DATA_DIR / "grammar_points.json") as f:
-        _grammar_codes = json.load(f)
-    with open(DATA_DIR / "comm_functions.json") as f:
-        _function_codes = json.load(f)
+    _grammar_points_cache = await GrammarPoint.find_all().to_list()
+    _comm_functions_cache = await CommunicativeFunction.find_all().to_list()
+    profile = await LearningProfile.find_one()
+    if profile:
+        _student_level = profile.cefr_estimate
+    logger.info(
+        f"[analyzer] cache loaded: {len(_grammar_points_cache)} grammar points, "
+        f"{len(_comm_functions_cache)} comm functions, student level={_student_level}"
+    )
 
 
 def _client() -> anthropic.Anthropic:
@@ -45,11 +52,20 @@ def _client() -> anthropic.Anthropic:
 
 
 def _build_prompt(text: str, drill_context: str = "") -> str:
-    _load_codes()
-    grammar_lines = "\n".join(
-        f"{g['code']}: {g['description']}" for g in _grammar_codes
+    # Only include items at or below the student's current level — keeps the
+    # taxonomy list manageable and improves matching precision.
+    relevant_levels = {_student_level}
+
+    gp_relevant = [g for g in _grammar_points_cache if g.cefr_level in relevant_levels]
+    cf_relevant = [f for f in _comm_functions_cache if f.cefr_level in relevant_levels]
+    logger.debug(
+        f"[analyzer] building prompt: level={_student_level}, "
+        f"{len(gp_relevant)} GPs, {len(cf_relevant)} CFs in taxonomy, "
+        f"drill_context={'yes' if drill_context else 'no'}"
     )
-    function_lines = "\n".join(f"{f['code']}: {f['label']}" for f in _function_codes)
+
+    grammar_lines = "\n".join(f"{g.code}: {g.description}" for g in gp_relevant)
+    function_lines = "\n".join(f"{f.code}: {f.description or f.label}" for f in cf_relevant)
 
     context_block = ""
     feedback_field = ""
@@ -89,28 +105,36 @@ async def analyze_message(
     """
     settings = Settings()
     if not settings.ANALYSIS_ENABLED:
+        logger.debug("[analyzer] analysis disabled (ANALYSIS_ENABLED=False), skipping")
         return None
 
+    word_count = len(text.split())
     # Skip very short messages (greetings, single words)
-    if len(text.split()) < 3:
+    if word_count < 3:
+        logger.debug(f"[analyzer] skipping short message ({word_count} words): {text!r}")
         return None
+
+    logger.info(f"[analyzer] analyzing message ({word_count} words): {text[:80]!r}{'...' if len(text) > 80 else ''}")
 
     try:
+        await _ensure_codes()
         prompt = _build_prompt(text, drill_context)
+        t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
+        elapsed = time.monotonic() - t0
         raw = response.content[0].text
+        logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw[:200]}")
         data = parse_llm_json(raw)
         if data is None:
-            logger.error(f"[analyzer] Failed to parse response: {raw[:200]}")
+            logger.error(f"[analyzer] failed to parse response: {raw[:300]}")
             return None
 
-        _load_codes()
-        valid_grammar = {g["code"] for g in _grammar_codes}
-        valid_functions = {f["code"] for f in _function_codes}
+        valid_grammar = {g.code for g in _grammar_points_cache}
+        valid_functions = {f.code for f in _comm_functions_cache}
         valid_themes = {
             "self_identity",
             "family",
@@ -124,22 +148,33 @@ async def analyze_message(
             "nature_environment",
         }
 
+        grammar_correct = [c for c in data.get("grammar_correct", []) if c in valid_grammar]
+        grammar_errors  = [c for c in data.get("grammar_errors", []) if c in valid_grammar]
+        functions       = [c for c in data.get("functions_performed", []) if c in valid_functions]
+        themes          = [t for t in data.get("themes", []) if t in valid_themes]
+
+        unknown_gp = [c for c in data.get("grammar_correct", []) + data.get("grammar_errors", []) if c not in valid_grammar]
+        unknown_cf = [c for c in data.get("functions_performed", []) if c not in valid_functions]
+        if unknown_gp:
+            logger.warning(f"[analyzer] LLM returned unknown grammar codes (ignored): {unknown_gp}")
+        if unknown_cf:
+            logger.warning(f"[analyzer] LLM returned unknown CF codes (ignored): {unknown_cf}")
+
+        logger.info(
+            f"[analyzer] result: correct={grammar_correct}, errors={grammar_errors}, "
+            f"functions={functions}, themes={themes}"
+        )
+
         return LearningEvent(
             message=message,
-            grammar_correct=[
-                c for c in data.get("grammar_correct", []) if c in valid_grammar
-            ],
-            grammar_errors=[
-                c for c in data.get("grammar_errors", []) if c in valid_grammar
-            ],
-            functions_performed=[
-                c for c in data.get("functions_performed", []) if c in valid_functions
-            ],
-            themes=[t for t in data.get("themes", []) if t in valid_themes],
+            grammar_correct=grammar_correct,
+            grammar_errors=grammar_errors,
+            functions_performed=functions,
+            themes=themes,
             feedback=json.dumps({"errors": data.get("errors", [])}) if drill_context else "",
         )
     except Exception as e:
-        logger.error(f"[analyzer] Error analyzing message: {e}")
+        logger.error(f"[analyzer] error analyzing message: {e}", exc_info=True)
         return None
 
 
@@ -175,16 +210,20 @@ async def feedback_fill_blank(
         "Return ONLY the explanation sentence, no JSON, no labels."
     )
 
+    logger.info(f"[analyzer] feedback_fill_blank: gp={grammar_point_code}, student={student_answer!r}, correct={correct_answer!r}")
     try:
+        t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
         )
+        elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
+        logger.debug(f"[analyzer] feedback_fill_blank in {elapsed:.2f}s: {explanation!r}")
         return {"wrong": student_answer, "correct": correct_answer, "explanation": explanation}
     except Exception as e:
-        logger.error(f"[analyzer] feedback_fill_blank error: {e}")
+        logger.error(f"[analyzer] feedback_fill_blank error: {e}", exc_info=True)
         return ""
 
 
@@ -225,19 +264,24 @@ async def evaluate_error_correction(
         '{"correct":true,"explanation":"ONE sentence in Italian explaining what the error was and the rule"}'
     )
 
+    logger.info(f"[analyzer] evaluate_error_correction: student={student!r}, reference={reference!r}")
     try:
+        t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
+        elapsed = time.monotonic() - t0
         raw = response.content[0].text
+        logger.debug(f"[analyzer] evaluate_error_correction in {elapsed:.2f}s: {raw[:200]}")
         data = parse_llm_json(raw)
         if data is None:
-            logger.error(f"[analyzer] evaluate_error_correction failed to parse: {raw[:200]}")
+            logger.error(f"[analyzer] evaluate_error_correction failed to parse: {raw[:300]}")
             correct = student.strip().lower() == reference.strip().lower()
             return correct, ""
         is_correct = bool(data.get("correct", False))
+        logger.info(f"[analyzer] evaluate_error_correction result: correct={is_correct}")
         feedback: dict | str = {
             "wrong": student,
             "correct": reference,
@@ -245,7 +289,7 @@ async def evaluate_error_correction(
         }
         return is_correct, feedback
     except Exception as e:
-        logger.error(f"[analyzer] evaluate_error_correction error: {e}")
+        logger.error(f"[analyzer] evaluate_error_correction error: {e}", exc_info=True)
         correct = student.strip().lower() == reference.strip().lower()
         return correct, ""
 
@@ -270,10 +314,14 @@ async def score_multi_item_drill(
     """
     settings = Settings()
     n = min(len(items), len(student_answers))
+    logger.info(
+        f"[analyzer] score_multi_item_drill: type={exercise_type}, gp={grammar_point_code}, "
+        f"n_items={n}, rag={'yes' if rag_content else 'no'}"
+    )
 
-    _load_codes()
-    gp_label = next((g["label"] for g in _grammar_codes if g["code"] == grammar_point_code), grammar_point_code)
-    grammar_code_list = "\n".join(f"  {g['code']}: {g['label']}" for g in _grammar_codes)
+    await _ensure_codes()
+    gp_label = next((g.label for g in _grammar_points_cache if g.code == grammar_point_code), grammar_point_code)
+    grammar_code_list = "\n".join(f"  {g.code}: {g.label}" for g in _grammar_points_cache)
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == "fill_blank":
@@ -318,20 +366,163 @@ async def score_multi_item_drill(
     )
 
     try:
+        t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=2000,
             messages=[{"role": "user", "content": prompt}],
         )
+        elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
+        logger.debug(f"[analyzer] score_multi_item_drill LLM in {elapsed:.2f}s: {raw[:200]}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
+            n_correct = sum(1 for r in result if r.get("objective_correct"))
+            logger.info(f"[analyzer] score_multi_item_drill: {n_correct}/{n} correct")
             return result
-        logger.error(f"[analyzer] score_multi_item_drill unexpected result: {raw[:200]}")
+        logger.error(f"[analyzer] score_multi_item_drill unexpected result shape: {raw[:300]}")
     except Exception as e:
-        logger.error(f"[analyzer] score_multi_item_drill error: {e}")
+        logger.error(f"[analyzer] score_multi_item_drill error: {e}", exc_info=True)
 
+    logger.warning(f"[analyzer] score_multi_item_drill falling back to all-incorrect for {n} items")
     return [dict(_FALLBACK_ITEM) for _ in range(n)]
+
+
+async def generate_writing_feedback(
+    prompt: str,
+    student_text: str,
+    cefr_level: str,
+) -> dict:
+    """Generate feedback for a free-writing activity.
+
+    Returns {objective_correct, objective_note, grammar_errors, tips} or
+    {objective_correct: True, ...} on disabled / failure.
+    - objective_correct: False only if student ignored the prompt entirely
+    - grammar_errors: list of freetext strings (e.g. "ha mangiato → aveva mangiato")
+    - tips: spelling/accent issues only (e.g. "città not citta")
+    """
+    settings = Settings()
+    if not settings.ANALYSIS_ENABLED:
+        logger.debug("[analyzer] generate_writing_feedback skipped (ANALYSIS_ENABLED=False)")
+        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+
+    word_count = len(student_text.split())
+    logger.info(
+        f"[analyzer] generate_writing_feedback: level={cefr_level}, "
+        f"{word_count} words, prompt={prompt[:60]!r}..."
+    )
+
+    llm_prompt = (
+        f"You are an Italian language teacher reviewing a {cefr_level} student's writing.\n\n"
+        f"Writing prompt: {prompt}\n\n"
+        f"Student's text: {student_text}\n\n"
+        "Evaluate TWO things independently:\n"
+        "1. TASK COMPLETION — Did the student make a genuine attempt to address the prompt? "
+        "Set objective_correct=false ONLY if the text is blank, completely off-topic, or "
+        "just a random word/phrase with no relation to the task.\n"
+        "2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips. "
+        "These never affect objective_correct.\n\n"
+        "grammar_errors: list of freetext strings describing grammar issues "
+        "(e.g. \"ha mangiato → aveva mangiato (trapassato prossimo)\"). Up to 4.\n"
+        "tips: spelling/accent issues only (e.g. \"città not citta\"). Up to 3.\n\n"
+        "Return ONLY valid JSON (no markdown):\n"
+        '{"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}'
+    )
+
+    try:
+        t0 = time.monotonic()
+        response = _client().messages.create(
+            model=settings.LESSON_MODEL,
+            max_tokens=512,
+            messages=[{"role": "user", "content": llm_prompt}],
+        )
+        elapsed = time.monotonic() - t0
+        raw = response.content[0].text.strip()
+        logger.debug(f"[analyzer] generate_writing_feedback LLM in {elapsed:.2f}s: {raw[:200]}")
+        data = parse_llm_json(raw)
+        if not isinstance(data, dict):
+            logger.error(f"[analyzer] generate_writing_feedback unexpected shape: {raw[:300]}")
+            return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+        logger.info(
+            f"[analyzer] generate_writing_feedback: objective_correct={data.get('objective_correct')}, "
+            f"{len(data.get('grammar_errors', []))} errors, {len(data.get('tips', []))} tips"
+        )
+        return data
+    except Exception as e:
+        logger.error(f"[analyzer] generate_writing_feedback error: {e}", exc_info=True)
+        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+
+
+async def score_free_form_drill(
+    prompt: str,
+    student_text: str,
+    grammar_point_code: str,
+    cefr_level: str = "A1",
+    rag_content: str = "",
+) -> dict:
+    """Score a free-form drill response using task-completion as the sole pass/fail criterion.
+
+    Returns {objective_correct, objective_note, grammar_errors, tips}.
+    - objective_correct: did the student make a genuine attempt? (grammar errors don't affect this)
+    - grammar_errors: freetext strings for grammar issues found
+    - tips: spelling/accent strings
+    Degrades gracefully when ANALYSIS_ENABLED=False.
+    """
+    settings = Settings()
+    if not settings.ANALYSIS_ENABLED:
+        logger.debug("[analyzer] score_free_form_drill skipped (ANALYSIS_ENABLED=False)")
+        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+
+    rule_block = (
+        f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
+        if rag_content else ""
+    )
+    logger.info(
+        f"[analyzer] score_free_form_drill: gp={grammar_point_code}, level={cefr_level}, "
+        f"student={student_text[:60]!r}..."
+    )
+
+    llm_prompt = (
+        f"You are grading a free-form Italian drill for a {cefr_level} learner.\n\n"
+        f"Grammar point being practised: {grammar_point_code}\n"
+        f"Drill prompt: {prompt}\n"
+        f"Student's answer: {student_text}"
+        f"{rule_block}\n\n"
+        "Evaluate TWO things independently:\n"
+        "1. TASK COMPLETION — Did the student make a genuine attempt at the task? "
+        "Set objective_correct=false ONLY if the answer is blank, completely off-topic, "
+        "or so short/nonsensical it shows no engagement. "
+        "Grammar errors alone must NOT make this false.\n"
+        "2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips. "
+        "These never affect objective_correct.\n\n"
+        "grammar_errors: list of freetext strings (e.g. \"ho andato → sono andato (essere verbs)\"). Up to 4.\n"
+        "tips: spelling/accent issues only (e.g. \"perché not perche\"). Up to 3.\n\n"
+        "Return ONLY valid JSON (no markdown):\n"
+        '{"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}'
+    )
+
+    try:
+        t0 = time.monotonic()
+        response = _client().messages.create(
+            model=settings.LESSON_MODEL,
+            max_tokens=512,
+            messages=[{"role": "user", "content": llm_prompt}],
+        )
+        elapsed = time.monotonic() - t0
+        raw = response.content[0].text.strip()
+        logger.debug(f"[analyzer] score_free_form_drill LLM in {elapsed:.2f}s: {raw[:200]}")
+        data = parse_llm_json(raw)
+        if not isinstance(data, dict):
+            logger.error(f"[analyzer] score_free_form_drill unexpected shape: {raw[:300]}")
+            return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+        logger.info(
+            f"[analyzer] score_free_form_drill: objective_correct={data.get('objective_correct')}, "
+            f"{len(data.get('grammar_errors', []))} errors"
+        )
+        return data
+    except Exception as e:
+        logger.error(f"[analyzer] score_free_form_drill error: {e}", exc_info=True)
+        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
 
 
 async def score_reading_answers(
@@ -349,6 +540,7 @@ async def score_reading_answers(
     """
     settings = Settings()
     n = min(len(questions), len(student_answers))
+    logger.info(f"[analyzer] score_reading_answers: {n} questions")
 
     lines = [
         f'{i + 1}. Question: "{questions[i]}" | Expected: "{correct_answers[i] if i < len(correct_answers) else ""}" | Student: "{student_answers[i]}"'
@@ -372,17 +564,23 @@ async def score_reading_answers(
     )
 
     try:
+        t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=2000,
             messages=[{"role": "user", "content": prompt}],
         )
+        elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
+        logger.debug(f"[analyzer] score_reading_answers LLM in {elapsed:.2f}s: {raw[:200]}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
+            n_correct = sum(1 for r in result if r.get("objective_correct"))
+            logger.info(f"[analyzer] score_reading_answers: {n_correct}/{n} correct")
             return result
-        logger.error(f"[analyzer] score_reading_answers unexpected result: {raw[:200]}")
+        logger.error(f"[analyzer] score_reading_answers unexpected result shape: {raw[:300]}")
     except Exception as e:
-        logger.error(f"[analyzer] score_reading_answers error: {e}")
+        logger.error(f"[analyzer] score_reading_answers error: {e}", exc_info=True)
 
+    logger.warning(f"[analyzer] score_reading_answers falling back to all-incorrect for {n} items")
     return [dict(_FALLBACK_ITEM) for _ in range(n)]

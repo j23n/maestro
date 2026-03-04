@@ -1,6 +1,6 @@
 """
 Scrape communicative functions from the Profilo della Lingua Italiana website.
-Usage: uv run python -m maestro.data.scrape_comm_functions
+Usage: uv run python -m maestro.data.scrape_comm_functions [--debug]
 """
 
 import asyncio
@@ -17,139 +17,124 @@ BASE_URL = "https://www.unistrapg.it/profilo_lingua_italiana/site/"
 INDEX_URL = BASE_URL + "funzioni_lista.html"
 OUT_PATH = Path(__file__).parent / "comm_functions.json"
 
+LEVEL_MAP = {"1": "A1", "2": "A2", "3": "B1", "4": "B2"}
+
+URL_TO_MACRO = {
+    "funz_interag_": "interagire_informazioni",
+    "funz_intatt_":  "interagire_opinioni_atteggiamenti",
+    "funz_intemo_":  "interagire_emozioni_sentimenti",
+    "funz_intazio_": "interagire_attivita_azioni",
+    "funz_intritsoc_": "interagire_rituali_sociali",
+    "funz_strutdisc_": "strutturare_discorso",
+    "funz_strintverb_": "strutturare_interazione_verbale",
+}
+
 
 def get_text(el) -> str:
     return " ".join(el.get_text(" ", strip=True).split())
 
 
+def macro_from_url(url: str) -> str:
+    filename = url.split("/")[-1]
+    for prefix, cat in URL_TO_MACRO.items():
+        if filename.startswith(prefix):
+            return cat
+    return ""
+
+
+def slugify(filename: str) -> str:
+    """Turn e.g. 'funz_interag_asserire.html' → 'interag_asserire'."""
+    name = filename.replace(".html", "")
+    # strip leading funz_
+    if name.startswith("funz_"):
+        name = name[len("funz_"):]
+    return name
+
+
 def parse_index(html: str) -> list[dict]:
-    """Return list of {label, url} from the index page."""
+    """Return [{label, page_url}] for all funz_*.html links."""
     soup = BeautifulSoup(html, "html.parser")
+    seen = set()
     links = []
     for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if href.startswith("funz_"):
-            links.append({"label": get_text(a), "url": urljoin(BASE_URL, href)})
+        href = a["href"].strip()
+        if href.startswith("funz_") and href not in seen:
+            seen.add(href)
+            links.append({
+                "label": get_text(a),
+                "page_url": urljoin(BASE_URL, href),
+                "include_url": urljoin(BASE_URL, "include/inc_" + href),
+                "slug": slugify(href),
+            })
     return links
 
 
-def slugify(text: str) -> str:
-    text = text.lower()
-    text = re.sub(r"[àáâã]", "a", text)
-    text = re.sub(r"[èéêë]", "e", text)
-    text = re.sub(r"[ìíîï]", "i", text)
-    text = re.sub(r"[òóôõ]", "o", text)
-    text = re.sub(r"[ùúûü]", "u", text)
-    text = re.sub(r"[^a-z0-9]+", "_", text)
-    return text.strip("_")
-
-
-def parse_function_page(html: str, label: str, url: str) -> list[dict]:
+def cell_lines(td) -> list[str]:
     """
-    Parse a function detail page and return one entry per CEFR level present.
-    Each entry has: code, label, macro_category, cefr_level, description, examples, source_url
+    Extract lines from a table cell, splitting on <br> tags.
+    Italic text within a line is included inline, not as separate items.
+    """
+    # Replace <br> with a sentinel, then get full text
+    for br in td.find_all("br"):
+        br.replace_with("\n")
+    full_text = td.get_text(" ", strip=False)
+    lines = []
+    for line in full_text.split("\n"):
+        # Normalize whitespace
+        line = " ".join(line.split()).strip()
+        if line and line not in ("…", "..."):
+            lines.append(line)
+    return lines
+
+
+def parse_include(html: str, link: dict) -> list[dict]:
+    """
+    Parse an include file and return one entry per CEFR level with content.
+    Structure: <a class="slidecontrol" id="slidecontrol_N">Livello Ax</a>
+               <div id="slidedisplay_N"> <table> <tr> <td>patterns</td><td>examples</td> </tr> </table> </div>
     """
     soup = BeautifulSoup(html, "html.parser")
-
-    # Debug: print all text to understand the structure
-    # print(soup.get_text("\n", strip=True)[:3000])
-
-    # Try to find the breadcrumb to extract macro_category
-    macro_category = ""
-    breadcrumb_candidates = soup.find_all(string=re.compile(r"Interagire|Strutturare"))
-    for bc in breadcrumb_candidates:
-        text = bc.strip()
-        if "informazioni" in text.lower():
-            macro_category = "interagire_informazioni"
-        elif "atteggiamenti" in text.lower() or "opinioni" in text.lower():
-            macro_category = "interagire_opinioni_atteggiamenti"
-        elif "emozioni" in text.lower() or "sentimenti" in text.lower():
-            macro_category = "interagire_emozioni_sentimenti"
-        elif "azioni" in text.lower() or "attività" in text.lower():
-            macro_category = "interagire_attivita_azioni"
-        elif "rituali" in text.lower() or "sociali" in text.lower():
-            macro_category = "interagire_rituali_sociali"
-        elif "discorso" in text.lower():
-            macro_category = "strutturare_discorso"
-        elif "interazione" in text.lower() or "verbale" in text.lower():
-            macro_category = "strutturare_interazione_verbale"
-        if macro_category:
-            break
-
-    # Also check the URL itself for macro_category hints
-    if not macro_category:
-        if "interag_" in url:
-            macro_category = "interagire_informazioni"
-        elif "intatt_" in url:
-            macro_category = "interagire_opinioni_atteggiamenti"
-        elif "intemo_" in url:
-            macro_category = "interagire_emozioni_sentimenti"
-        elif "intazio_" in url:
-            macro_category = "interagire_attivita_azioni"
-        elif "intritsoc_" in url:
-            macro_category = "interagire_rituali_sociali"
-        elif "strutdisc_" in url:
-            macro_category = "strutturare_discorso"
-        elif "strintverb_" in url:
-            macro_category = "strutturare_interazione_verbale"
-
-    # Find CEFR level sections — look for elements with A1/A2/B1/B2 text
-    cefr_pattern = re.compile(r"\b(A1|A2|B1|B2)\b")
+    macro = macro_from_url(link["page_url"])
     entries = []
 
-    # Collect all text blocks and find CEFR markers
-    all_text = soup.get_text("\n", strip=True)
-    # Find all CEFR level sections
-    sections: dict[str, list[str]] = {}
-    current_level = None
-    current_lines: list[str] = []
-
-    for line in all_text.split("\n"):
-        line = line.strip()
-        if not line:
+    controls = soup.find_all("a", class_="slidecontrol")
+    for ctrl in controls:
+        ctrl_id = ctrl.get("id", "")          # e.g. "slidecontrol_1"
+        num = ctrl_id.replace("slidecontrol_", "")
+        level = LEVEL_MAP.get(num)
+        if not level:
             continue
-        m = cefr_pattern.fullmatch(line.strip())
-        if m:
-            if current_level and current_lines:
-                sections[current_level] = current_lines
-            current_level = m.group(1)
-            current_lines = []
-        elif current_level:
-            current_lines.append(line)
 
-    if current_level and current_lines:
-        sections[current_level] = current_lines
+        display_id = f"slidedisplay_{num}"
+        display_div = soup.find("div", id=display_id)
+        if not display_div:
+            continue
 
-    url_slug = url.split("/")[-1].replace(".html", "")
-    code = slugify(label)
+        # Check for empty level
+        text_content = display_div.get_text(strip=True)
+        if "Nessun descrittore" in text_content or not text_content:
+            continue
 
-    if not sections:
-        # Page has no CEFR structure — skip
-        return []
+        # Extract patterns and examples from table cells
+        patterns: list[str] = []
+        examples: list[str] = []
 
-    for level, lines in sorted(sections.items(), key=lambda x: x[0]):
-        # Separate example phrases (lines starting with quotes or in italic-style markers)
-        # from description text
-        description_lines = []
-        example_lines = []
-        for line in lines:
-            # Lines that look like example phrases (contain Italian quotes or are short phrases)
-            if line.startswith(("«", "»", '"', "'", "–", "-")):
-                example_lines.append(line)
-            else:
-                description_lines.append(line)
-
-        description = " ".join(description_lines).strip()
-        examples = example_lines
+        tds = display_div.find_all("td")
+        if len(tds) >= 2:
+            patterns = cell_lines(tds[0])
+            examples = cell_lines(tds[1])
+        elif len(tds) == 1:
+            # Single-column: treat as examples
+            examples = cell_lines(tds[0])
 
         entries.append({
-            "code": f"{code}_{level.lower()}",
-            "label": label,
-            "macro_category": macro_category,
+            "code": f"{link['slug']}_{level.lower()}",
+            "label": link["label"],
+            "macro_category": macro,
             "cefr_level": level,
-            "description": description,
+            "patterns": patterns,
             "examples": examples,
-            "source_url": url,
+            "source_url": link["page_url"],
         })
 
     return entries
@@ -162,39 +147,64 @@ async def fetch(client: httpx.AsyncClient, url: str) -> str:
 
 
 async def main():
+    debug = "--debug" in sys.argv
+
     print("Fetching index...", file=sys.stderr)
     async with httpx.AsyncClient(follow_redirects=True) as client:
         index_html = await fetch(client, INDEX_URL)
         links = parse_index(index_html)
-        print(f"Found {len(links)} function links", file=sys.stderr)
+        print(f"Found {len(links)} function pages", file=sys.stderr)
 
-        # Debug: just process first 3 pages
-        debug = "--debug" in sys.argv
         if debug:
-            links = links[:3]
+            links = links[:5]
 
-        sem = asyncio.Semaphore(5)  # max concurrent requests
+        sem = asyncio.Semaphore(8)
 
-        async def fetch_and_parse(link: dict) -> list[dict]:
+        async def process(link: dict) -> list[dict]:
             async with sem:
+                include_url = link["include_url"]
                 try:
-                    html = await fetch(client, link["url"])
-                    entries = parse_function_page(html, link["label"], link["url"])
-                    print(f"  {link['label']}: {len(entries)} level(s)", file=sys.stderr)
+                    html = await fetch(client, include_url)
+                except httpx.HTTPStatusError as e:
+                    if e.response.status_code == 404:
+                        # Fallback: read the actual iframe src from the main page
+                        try:
+                            main_html = await fetch(client, link["page_url"])
+                            soup = BeautifulSoup(main_html, "html.parser")
+                            iframe = soup.find("iframe", src=True)
+                            if iframe:
+                                include_url = urljoin(BASE_URL, iframe["src"])
+                                html = await fetch(client, include_url)
+                            else:
+                                print(f"  SKIP (no iframe) {link['page_url']}", file=sys.stderr)
+                                return []
+                        except Exception as e2:
+                            print(f"  ERROR {link['page_url']}: {e2}", file=sys.stderr)
+                            return []
+                    else:
+                        print(f"  ERROR {include_url}: {e}", file=sys.stderr)
+                        return []
+                except Exception as e:
+                    print(f"  ERROR {include_url}: {e}", file=sys.stderr)
+                    return []
+                try:
+                    entries = parse_include(html, link)
+                    print(f"  {link['label']}: {[e['cefr_level'] for e in entries]}", file=sys.stderr)
                     return entries
                 except Exception as e:
-                    print(f"  ERROR {link['url']}: {e}", file=sys.stderr)
+                    print(f"  PARSE ERROR {include_url}: {e}", file=sys.stderr)
                     return []
 
-        results = await asyncio.gather(*[fetch_and_parse(l) for l in links])
+        results = await asyncio.gather(*[process(l) for l in links])
 
     all_entries = [e for group in results for e in group]
     print(f"\nTotal entries: {len(all_entries)}", file=sys.stderr)
 
+    output = json.dumps(all_entries, indent=2, ensure_ascii=False)
     if debug:
-        print(json.dumps(all_entries[:10], indent=2, ensure_ascii=False))
+        print(output)
     else:
-        OUT_PATH.write_text(json.dumps(all_entries, indent=2, ensure_ascii=False))
+        OUT_PATH.write_text(output)
         print(f"Written to {OUT_PATH}", file=sys.stderr)
 
 

@@ -75,8 +75,9 @@
     <div class="prompt-text">{{ annotated_content | safe }}</div>
 
     <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/writing-submit"
-          hx-target="body"
-          hx-push-url="true">
+          hx-target=".activity-container"
+          hx-swap="innerHTML"
+          hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='Invio…'">
       <textarea class="answer-area"
                 name="answer"
                 placeholder="Scrivi qui la tua risposta in italiano…"

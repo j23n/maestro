@@ -3,7 +3,7 @@
 
 {% block styles %}
   .profilo-container {
-    max-width: 620px;
+    max-width: 640px;
     margin: 2.5rem auto;
     padding: 0 1rem;
     display: flex;
@@ -12,144 +12,93 @@
   }
 
   /* CEFR tracker */
-  .cefr-tracker {
-    display: flex;
-    gap: 0.5rem;
-  }
+  .cefr-tracker { display: flex; gap: 0.5rem; }
   .cefr-badge {
-    flex: 1;
-    text-align: center;
+    flex: 1; text-align: center;
     padding: 0.5rem 0.25rem;
     border-radius: 6px;
     border: 1px solid #e5e5e5;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #999;
-    background: #fafafa;
+    font-size: 0.82rem; font-weight: 600;
+    color: #999; background: #fafafa;
   }
-  .cefr-badge.active {
-    background: #111;
-    color: #fff;
-    border-color: #111;
-  }
+  .cefr-badge.active { background: #111; color: #fff; border-color: #111; }
 
-  /* Profile narrative */
+  /* Narrative */
   .narrative {
-    font-size: 0.9rem;
-    color: #444;
-    line-height: 1.6;
+    font-size: 0.9rem; color: #444; line-height: 1.6;
     padding: 1rem 1.25rem;
-    background: #f9f9f9;
-    border-radius: 8px;
+    background: #f9f9f9; border-radius: 8px;
     border-left: 3px solid #e0e0e0;
   }
 
-  /* Grammar skills */
+  /* Level groups */
   .skills-section { display: flex; flex-direction: column; gap: 1.5rem; }
-
   .level-group { border: none; padding: 0; }
   .level-heading {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.6rem;
-    cursor: pointer;
-    list-style: none;
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 0.6rem; cursor: pointer; list-style: none;
   }
   .level-heading::-webkit-details-marker { display: none; }
-  .level-heading h2 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin: 0;
-    min-width: 2rem;
+  .level-heading h2 { font-size: 0.9rem; font-weight: 700; margin: 0; min-width: 2rem; }
+  .level-stats { font-size: 0.75rem; color: #999; white-space: nowrap; }
+  .level-bar { flex: 1; height: 4px; background: #eee; border-radius: 2px; overflow: hidden; }
+  .level-bar-fill { height: 100%; background: #111; border-radius: 2px; transition: width 0.3s; }
+
+  /* Subsection labels */
+  .subsection-label {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #bbb;
+    padding: 0.75rem 0 0.3rem;
   }
-  .level-count {
-    font-size: 0.78rem;
-    color: #888;
-    white-space: nowrap;
-  }
-  .level-bar {
-    flex: 1;
-    height: 4px;
-    background: #eee;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .level-bar-fill {
-    height: 100%;
-    background: #111;
-    border-radius: 2px;
-    transition: width 0.3s;
+  .macro-label {
+    font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: #d0d0d0;
+    padding: 0.45rem 0 0.1rem;
   }
 
-  .skill-list { display: flex; flex-direction: column; gap: 0; }
+  /* Skill rows */
+  .skill-list { display: flex; flex-direction: column; }
   .skill-row {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 0.82rem;
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 0.81rem;
   }
   .skill-row:last-child { border-bottom: none; }
-  .skill-icon { font-size: 0.9rem; flex-shrink: 0; }
   .skill-label { flex: 1; color: #333; }
-  .skill-counts { font-size: 0.75rem; color: #aaa; white-space: nowrap; }
-  .skill-counts .ok { color: #16a34a; }
-  .skill-counts .err { color: #dc2626; }
 
-  /* Interests */
-  .card {
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
+  /* Pip track */
+  .pip-track { display: flex; gap: 2px; flex-shrink: 0; }
+  .pip { width: 8px; height: 8px; border-radius: 2px; background: #ebebeb; flex-shrink: 0; }
+  .pip.ok  { background: #16a34a; }
+  .pip.err { background: #dc2626; }
+
+  /* Interests card */
+  .card { border: 1px solid #e5e5e5; border-radius: 8px; padding: 1.5rem; }
   .card h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.4rem; }
   .card p  { font-size: 0.82rem; color: #666; margin: 0 0 1rem; }
-
-  .field label {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    margin-bottom: 0.4rem;
-    color: #444;
-  }
+  .field label { display: block; font-size: 0.78rem; font-weight: 500; margin-bottom: 0.4rem; color: #444; }
   .field input[type="text"] {
-    width: 100%;
-    padding: 0.55rem 0.75rem;
-    font-size: 0.9rem;
-    font-family: inherit;
-    border: 1px solid #d0d0d0;
-    border-radius: 6px;
-    outline: none;
-    box-sizing: border-box;
+    width: 100%; padding: 0.55rem 0.75rem; font-size: 0.9rem;
+    font-family: inherit; border: 1px solid #d0d0d0; border-radius: 6px;
+    outline: none; box-sizing: border-box;
   }
   .field input[type="text"]:focus { border-color: #888; }
-
   .submit-btn {
-    margin-top: 1rem;
-    padding: 0.45rem 1.1rem;
-    font-size: 0.9rem;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    margin-top: 1rem; padding: 0.45rem 1.1rem; font-size: 0.9rem;
+    background: #111; color: #fff; border: none; border-radius: 6px; cursor: pointer;
   }
   .submit-btn:hover { background: #333; }
-
   .saved-banner {
-    background: #ecfdf5;
-    color: #065f46;
-    border-radius: 6px;
-    padding: 0.5rem 0.9rem;
-    font-size: 0.85rem;
-    margin-bottom: 0.9rem;
+    background: #ecfdf5; color: #065f46;
+    border-radius: 6px; padding: 0.5rem 0.9rem;
+    font-size: 0.85rem; margin-bottom: 0.9rem;
   }
 
   @media (max-width: 480px) {
     .profilo-container { margin: 1.25rem auto; }
     .card { padding: 1.1rem; }
+    .pip { width: 7px; height: 7px; }
   }
 {% endblock %}
 
@@ -157,14 +106,10 @@
 <div class="profilo-container">
 
   {# 1. CEFR level tracker #}
-  <div>
-    <div class="cefr-tracker">
-      {% for level in cefr_order %}
-      <div class="cefr-badge {% if profile and profile.cefr_estimate == level %}active{% endif %}">
-        {{ level }}
-      </div>
-      {% endfor %}
-    </div>
+  <div class="cefr-tracker">
+    {% for level in cefr_order %}
+    <div class="cefr-badge {% if profile and profile.cefr_estimate == level %}active{% endif %}">{{ level }}</div>
+    {% endfor %}
   </div>
 
   {# 2. Profile narrative #}
@@ -172,34 +117,69 @@
   <div class="narrative">{{ profile.description }}</div>
   {% endif %}
 
-  {# 3. Grammar skills by level #}
+  {# 3. Grammar + funzioni by CEFR level #}
   <div class="skills-section">
     {% for level in cefr_order %}
-    {% set skills = grammar_by_level[level] %}
-    {% set mastered_count = skills | selectattr("mastered") | list | length %}
-    {% set total_count = skills | length %}
+    {% set gp_skills = grammar_by_level[level] %}
+    {% set cf_items  = cf_by_level[level] %}
+    {% set gp_mastered     = gp_skills | selectattr("mastered") | list | length %}
+    {% set cf_demonstrated = cf_items  | selectattr("demonstrated") | list | length %}
+    {% set gp_total = gp_skills | length %}
+    {% set cf_total = cf_items  | length %}
+    {% set combined_mastered = gp_mastered + cf_demonstrated %}
+    {% set combined_total    = gp_total + cf_total %}
+
     <details class="level-group">
       <summary class="level-heading">
         <h2>{{ level }}</h2>
-        <span class="level-count">{{ mastered_count }}/{{ total_count }}</span>
+        <span class="level-stats">gramm {{ gp_mastered }}/{{ gp_total }} &middot; funz {{ cf_demonstrated }}/{{ cf_total }}</span>
         <div class="level-bar">
-          <div class="level-bar-fill" style="width: {% if total_count > 0 %}{{ (mastered_count / total_count * 100) | int }}%{% else %}0%{% endif %}"></div>
+          <div class="level-bar-fill" style="width: {% if combined_total > 0 %}{{ (combined_mastered / combined_total * 100) | int }}%{% else %}0%{% endif %}"></div>
         </div>
       </summary>
+
+      {# Grammar — last 10 outcomes as green/red/grey pips #}
+      <div class="subsection-label">Grammatica</div>
       <div class="skill-list">
-        {% for skill in skills %}
+        {% for skill in gp_skills %}
         <div class="skill-row">
-          <span class="skill-icon">{% if skill.mastered %}✓{% else %}·{% endif %}</span>
+          <div class="pip-track">
+            {% for outcome in skill.recent %}
+              <span class="pip {% if outcome %}ok{% else %}err{% endif %}"></span>
+            {% endfor %}
+            {% for _ in range(10 - (skill.recent | length)) %}
+              <span class="pip"></span>
+            {% endfor %}
+          </div>
           <a class="skill-label" href="/grammar/{{ skill.point.code }}" style="color:inherit;text-decoration:none;">{{ skill.point.label }}</a>
-          {% if skill.correct > 0 or skill.errors > 0 %}
-          <span class="skill-counts">
-            {% if skill.correct > 0 %}<span class="ok">{{ skill.correct }}✓</span>{% endif %}
-            {% if skill.errors > 0 %}<span class="err"> {{ skill.errors }}✗</span>{% endif %}
-          </span>
-          {% endif %}
         </div>
         {% endfor %}
       </div>
+
+      {# Funzioni — usage count up to 10 as green/grey pips, grouped by macro_category #}
+      <div class="subsection-label">Funzioni comunicative</div>
+      {% set ns = namespace(current_macro="") %}
+      <div class="skill-list">
+        {% for item in cf_items %}
+        {% if item.cf.macro_category != ns.current_macro %}
+        {% set ns.current_macro = item.cf.macro_category %}
+        <div class="macro-label">{{ ns.current_macro | replace("_", " ") }}</div>
+        {% endif %}
+        <div class="skill-row">
+          <div class="pip-track">
+            {% set filled = [item.count, 10] | min %}
+            {% for _ in range(filled) %}
+              <span class="pip ok"></span>
+            {% endfor %}
+            {% for _ in range(10 - filled) %}
+              <span class="pip"></span>
+            {% endfor %}
+          </div>
+          <span class="skill-label">{{ item.cf.label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
     </details>
     {% endfor %}
   </div>
@@ -217,9 +197,7 @@
       <div class="field">
         <label for="interests">Interessi (es. calcio, fisica, storia romana)</label>
         <input
-          type="text"
-          id="interests"
-          name="interests"
+          type="text" id="interests" name="interests"
           value="{{ profile.student_interests | join(', ') if profile else '' }}"
           placeholder="calcio, fisica, storia romana"
         >
