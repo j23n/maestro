@@ -1,34 +1,8 @@
 from typing import Optional, List
 from datetime import datetime, date
 from dataclasses import dataclass
-from beanie import Document, Link, Insert, after_event, PydanticObjectId
+from beanie import Document, Link, PydanticObjectId
 from pydantic import BaseModel, Field
-
-
-class Chat(Document):
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
-    class Settings:
-        name = "chats"
-
-
-class Message(Document):
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    text: str
-    sender: str
-    chat: Link[Chat]
-    in_response_to: Optional[Link["Message"]] = None
-
-    class Settings:
-        name = "messages"
-
-    @after_event(Insert)
-    async def on_insert(self):
-        if self.sender == "assistant":
-            from maestro.vocab.discover import discover  # lazy import
-
-            self.text = await discover(self.text, self)
-            await self.save()
 
 
 class ItalianChunk(Document):
@@ -81,7 +55,6 @@ class VocabularyWordDefinition(Document):
 class UserVocabularyCard(Document):
     word: Link[VocabularyWord]
     discovered_at: datetime = Field(default_factory=datetime.utcnow)
-    message: Optional[Link["Message"]] = None
     ease_factor: float = 2.5
     interval: int = 1
     repetitions: int = 0
@@ -122,7 +95,6 @@ class CommunicativeFunction(Document):
 # --- Learning events and profile ---
 
 class LearningEvent(Document):
-    message: Optional[Link[Message]] = None
     drill_attempt: Optional[Link["DrillAttempt"]] = None
     grammar_correct: List[str] = Field(default_factory=list)
     grammar_errors: List[str] = Field(default_factory=list)

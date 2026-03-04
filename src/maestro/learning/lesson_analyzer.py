@@ -25,7 +25,7 @@ from maestro.models import (
     LearningProfile,
 )
 from maestro.learning.profile import update_profile
-from maestro.settings import Settings
+from maestro.config import settings
 from maestro.utils import parse_llm_json
 
 if TYPE_CHECKING:
@@ -160,7 +160,7 @@ async def _analyze_gps(
 
     try:
         response = await client.messages.create(
-            model=Settings().DRILL_MODEL,
+            model=settings.DRILL_MODEL,
             max_tokens=512,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -196,7 +196,7 @@ async def _analyze_cfs_staged(
 
     try:
         response = await client.messages.create(
-            model=Settings().DRILL_MODEL,
+            model=settings.DRILL_MODEL,
             max_tokens=128,
             messages=[{"role": "user", "content": stage1_prompt}],
         )
@@ -234,7 +234,7 @@ async def _analyze_cfs_staged(
         )
         try:
             resp = await client.messages.create(
-                model=Settings().DRILL_MODEL,
+                model=settings.DRILL_MODEL,
                 max_tokens=128,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -257,10 +257,6 @@ async def _analyze_cfs_staged(
 
 async def analyze_lesson(lesson: "Lesson") -> None:
     """Run full end-of-lesson analysis and update the learning profile."""
-    settings = Settings()
-    if not settings.ANALYSIS_ENABLED:
-        return
-
     try:
         await _ensure_codes()
         profile = await LearningProfile.find_one()

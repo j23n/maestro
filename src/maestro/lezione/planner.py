@@ -33,12 +33,11 @@ from maestro.models import (
     VocabularyWord,
     CommunicativeFunction,
 )
-from maestro.settings import Settings
+from maestro.config import settings
 from maestro.utils import CEFR_ORDER, parse_llm_json
 from maestro.rag.retrieve import get_chunks_for_refs
 
 logger = logging.getLogger(__name__)
-settings = Settings()
 
 _READING_WORD_COUNT = {"A1": 200, "A2": 300, "B1": 400, "B2": 500}
 _READING_QUESTION_COUNT = 5
