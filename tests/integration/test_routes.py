@@ -28,7 +28,6 @@ async def test_app():
 
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_model", return_value=MagicMock()),
         patch("maestro.main.get_nlp", return_value=MagicMock()),
         patch("maestro.main.load_vocab", new_callable=AsyncMock),
     ):

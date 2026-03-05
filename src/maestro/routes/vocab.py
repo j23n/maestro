@@ -1,5 +1,6 @@
 from datetime import date
 from typing import Annotated
+import logging
 import random
 
 from beanie import PydanticObjectId
@@ -7,9 +8,11 @@ from fastapi import APIRouter, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response
 
 from maestro.models import VocabularyWord, VocabularyWordDefinition, UserVocabularyCard, LearningProfile
+from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.templates import templates
 from maestro.vocab.srs import review
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 QUIZ_MODES = ("word", "definition", "translation")
@@ -50,13 +53,53 @@ async def vocab_entry(request: Request, entry_id: str):
     word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
     if word is None:
         raise HTTPException(status_code=404, detail="Word not found")
-    definitions = await VocabularyWordDefinition.find(
-        {"word.$id": word.id}
-    ).to_list()
+    logger.info(f"[vocab] entry page: '{word.word}' (entry_id={entry_id})")
+    definitions = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+    logger.debug(f"[vocab] found {len(definitions)} existing definition(s) for '{word.word}'")
+    if not definitions and word.senses:
+        logger.info(f"[vocab] no definitions found for '{word.word}', generating on-demand")
+        await generate_definitions_for_word(word)
+        definitions = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+        logger.info(f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'")
+    has_card = await UserVocabularyCard.find_one({"word.$id": word.id}) is not None
+    profile = await LearningProfile.find_one()
+    student_level = profile.cefr_estimate if profile else "A1"
+    logger.debug(f"[vocab] student_level={student_level}, has_card={has_card}")
     return templates.TemplateResponse(
         request=request,
         name="vocab-entry.html",
-        context={"word": word, "definitions": definitions},
+        context={"word": word, "definitions": definitions, "has_card": has_card, "student_level": student_level},
+    )
+
+
+@router.post("/vocab/word/{entry_id}/add", response_class=HTMLResponse)
+async def vocab_add(request: Request, entry_id: str):
+    word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
+    if word is None:
+        raise HTTPException(status_code=404)
+    existing = await UserVocabularyCard.find_one({"word.$id": word.id})
+    if existing is None:
+        card = UserVocabularyCard(word=word)
+        await card.insert()
+        logger.info(f"[vocab] added '{word.word}' to vocabulary")
+    else:
+        logger.debug(f"[vocab] '{word.word}' already in vocabulary")
+    has_defs = await VocabularyWordDefinition.find_one({"word.$id": word.id}) is not None
+    if not has_defs and word.senses:
+        logger.info(f"[vocab] no definitions for '{word.word}', generating on add")
+        await generate_definitions_for_word(word)
+    return HTMLResponse('<span class="added-badge">In your vocabulary</span>')
+
+
+@router.get("/vocab/search", response_class=HTMLResponse)
+async def vocab_search(request: Request, q: str = ""):
+    if len(q) < 2:
+        return HTMLResponse("")
+    words = await VocabularyWord.find(
+        {"word": {"$regex": f"^{q}", "$options": "i"}}
+    ).limit(10).to_list()
+    return templates.TemplateResponse(
+        request=request, name="vocab-search-results.html", context={"words": words}
     )
 
 
