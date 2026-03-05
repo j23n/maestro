@@ -35,9 +35,18 @@ def pytest_collection_modifyitems(items):
 
 @pytest.fixture(autouse=True)
 def use_eval_model(monkeypatch):
-    """Override LESSON_MODEL with EVAL_MODEL so eval tests use the evaluator model."""
+    """Override LESSON_MODEL with EVAL_MODEL so eval tests use the evaluator model.
+
+    Also patches CHAT_MODEL on module-level Settings instances in vocab and grammar
+    modules, which create their own Settings() instances independently of maestro.config.
+    """
     from maestro.config import settings
     monkeypatch.setattr(settings, "LESSON_MODEL", settings.EVAL_MODEL)
+
+    import maestro.vocab.generate_definitions as _vocab_mod
+    import maestro.grammar.generate_explanations as _grammar_mod
+    monkeypatch.setattr(_vocab_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
+    monkeypatch.setattr(_grammar_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
 
 
 @pytest.fixture
@@ -75,6 +84,26 @@ def record_eval():
             f.write(json.dumps(entry) + "\n")
 
     return _record
+
+
+@pytest.fixture
+async def seeded_lesson_analyzer_cache(db):
+    """Seed the lesson_analyzer module caches from JSON data files."""
+    import maestro.learning.lesson_analyzer as la_module
+
+    gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+    cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
+
+    original_gp = la_module._grammar_points_cache[:]
+    original_cf = la_module._comm_functions_cache[:]
+
+    la_module._grammar_points_cache = [SimpleNamespace(**g) for g in gps]
+    la_module._comm_functions_cache = [SimpleNamespace(**c) for c in cfs]
+
+    yield
+
+    la_module._grammar_points_cache = original_gp
+    la_module._comm_functions_cache = original_cf
 
 
 @pytest.fixture

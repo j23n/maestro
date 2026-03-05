@@ -1,0 +1,46 @@
+[
+  {
+    "id": "a1_food_interests",
+    "cefr": "A1",
+    "interests": ["cibo", "famiglia"],
+    "past_topics": [],
+    "hint": ""
+  },
+  {
+    "id": "a2_builds_on",
+    "cefr": "A2",
+    "interests": ["viaggi"],
+    "past_topics": [
+      {
+        "title": "Prendere il treno",
+        "description": "Acquistare un biglietto del treno e chiedere informazioni",
+        "cf_codes": [],
+        "depth": 1,
+        "builds_on": null
+      }
+    ],
+    "hint": ""
+  },
+  {
+    "id": "hint_overrides",
+    "cefr": "B1",
+    "interests": ["sport"],
+    "past_topics": [],
+    "hint": "cucina italiana"
+  },
+  {
+    "id": "no_repeat",
+    "cefr": "A1",
+    "interests": ["vita quotidiana"],
+    "past_topics": [
+      {
+        "title": "Al supermercato",
+        "description": "Fare la spesa al supermercato",
+        "cf_codes": [],
+        "depth": 1,
+        "builds_on": null
+      }
+    ],
+    "hint": ""
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "word": "casa",
+    "part_of_speech": "s.f.",
+    "senses": [
+      {
+        "definition": "luogo in cui si abita stabilmente, dimora",
+        "examples": ["La mia casa è grande.", "Torno a casa alle sei."]
+      }
+    ]
+  },
+  {
+    "word": "mangiare",
+    "part_of_speech": "v.tr.",
+    "senses": [
+      {
+        "definition": "introdurre cibo in bocca, masticarlo e inghiottirlo",
+        "examples": ["Mangio la pasta ogni giorno.", "I bambini mangiano la merenda."]
+      }
+    ]
+  },
+  {
+    "word": "bello",
+    "part_of_speech": "agg.",
+    "senses": [
+      {
+        "definition": "piacevole alla vista, attraente",
+        "examples": ["Che bello spettacolo!", "È una ragazza molto bella."]
+      },
+      {
+        "definition": "(fig.) buono, ben riuscito, eccellente",
+        "examples": ["Ha fatto un bel lavoro."]
+      }
+    ]
+  },
+  {
+    "word": "andare",
+    "part_of_speech": "v.intr.",
+    "senses": [
+      {
+        "definition": "spostarsi da un luogo a un altro, muoversi verso una destinazione",
+        "examples": ["Vado a scuola ogni mattina.", "Andiamo al cinema stasera?"]
+      }
+    ]
+  },
+  {
+    "word": "università",
+    "part_of_speech": "s.f.",
+    "senses": [
+      {
+        "definition": "istituto di istruzione superiore che impartisce insegnamenti di livello accademico",
+        "examples": ["Studio all'università di Roma.", "Ha finito l'università l'anno scorso."]
+      }
+    ]
+  }
+]

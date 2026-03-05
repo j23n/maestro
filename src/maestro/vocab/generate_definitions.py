@@ -51,7 +51,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
     logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
-    logger.debug(f"[vocab] Claude request — system: {SYSTEM_PROMPT!r}")
+    logger.debug(f"[vocab] Claude request — system: {_prompts.definitions_system.render_system()!r}")
     logger.debug(f"[vocab] Claude request — user: {user_content}")
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
     t0 = time.monotonic()
