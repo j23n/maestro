@@ -19,7 +19,12 @@ _def_index: dict[tuple[str, str], VocabularyWordDefinition] = {}
 async def load_vocab():
     nlp = get_nlp()
     words = await VocabularyWord.find_all().to_list()
-    _vocab_index.update({nlp(w.word)[0].lemma_.lower(): w for w in words})
+    word_forms = [w.word for w in words]
+    lemmas = (
+        doc[0].lemma_.lower()
+        for doc in nlp.pipe(word_forms, disable=["parser", "senter", "ner"], batch_size=512)
+    )
+    _vocab_index.update({lemma: word for lemma, word in zip(lemmas, words)})
 
     defs = await VocabularyWordDefinition.find_all().to_list()
     for d in defs:

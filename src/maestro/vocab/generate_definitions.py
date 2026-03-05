@@ -27,7 +27,6 @@ logger = logging.getLogger(__name__)
 settings = Settings()
 
 BATCH_SIZE = 20
-LEVELS = ("A1", "A2", "B1", "B2")
 
 SYSTEM_PROMPT = """\
 You are a lexicographer creating Italian dictionary entries for language learners.
@@ -48,11 +47,15 @@ Return a JSON object only — no markdown fences, no prose. Schema:
 {
   "<word>": {
     "translation": "<English>",
+    "cefr_level": "A1",
     "A1": {"senses": [{"definition": "...", "examples": ["..."]}]},
     "A2": {"senses": [{"definition": "...", "examples": ["..."]}]}
   },
   ...
 }
+
+For "cefr_level": pick the CEFR level at which this word is typically first encountered
+(A1 = most basic vocabulary, B2 = upper-intermediate).
 """
 
 
@@ -72,15 +75,24 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
 
 def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     """Call Claude claude-opus-4-6 for A1/A2 definitions of a batch of words."""
+    import time
     payload = {w.word: _word_payload(w) for w in batch}
+    user_content = json.dumps(payload, ensure_ascii=False)
+    words_str = ", ".join(w.word for w in batch)
+    logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
+    logger.debug(f"[vocab] Claude request — system: {SYSTEM_PROMPT!r}")
+    logger.debug(f"[vocab] Claude request — user: {user_content}")
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    t0 = time.monotonic()
     msg = client.messages.create(
         model=settings.CHAT_MODEL,
         max_tokens=8192,
         system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
+        messages=[{"role": "user", "content": user_content}],
     )
+    elapsed = time.monotonic() - t0
     raw = msg.content[0].text.strip()
+    logger.debug(f"[vocab] Claude response in {elapsed:.2f}s: {raw}")
     # Strip accidental markdown fences
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
@@ -88,35 +100,18 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
 
 
 async def _has_all_definitions(word: VocabularyWord) -> bool:
-    count = await VocabularyWordDefinition.find({"word.$id": word.id}).count()
-    return count >= 4
+    count = await VocabularyWordDefinition.find(
+        {"word.$id": word.id, "student_level": {"$in": ["A1", "A2"]}}
+    ).count()
+    return count >= 2
 
-
-async def _save_b1_b2(word: VocabularyWord, translation: str) -> None:
-    """Create B1/B2 definitions by copying EPUB senses verbatim."""
-    for level in ("B1", "B2"):
-        existing = await VocabularyWordDefinition.find_one(
-            {"word.$id": word.id, "student_level": level}
-        )
-        if existing:
-            continue
-        await VocabularyWordDefinition(
-            word=word,
-            student_level=level,
-            senses=[
-                CefrSense(definition=s.definition, examples=s.examples[:1])
-                for s in word.senses
-                if s.definition
-            ],
-            translation=translation,
-        ).insert()
 
 
 async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
     """Persist A1 and A2 definitions from Claude's response."""
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if not entry:
-        logger.warning(f"Claude returned no data for '{word.word}'")
+        logger.warning(f"[vocab] Claude returned no data for '{word.word}'")
         return
 
     translation = entry.get("translation", "")
@@ -126,6 +121,7 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
             {"word.$id": word.id, "student_level": level}
         )
         if existing:
+            logger.debug(f"[vocab] {level} definition for '{word.word}' already exists, skipping")
             continue
         level_data = entry.get(level, {})
         raw_senses = level_data.get("senses", [])
@@ -138,7 +134,7 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
             if s.get("definition")
         ]
         if not senses:
-            logger.warning(f"No {level} senses for '{word.word}'")
+            logger.warning(f"[vocab] no {level} senses for '{word.word}'")
             continue
         await VocabularyWordDefinition(
             word=word,
@@ -146,9 +142,25 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
             senses=senses,
             translation=translation,
         ).insert()
+        logger.info(f"[vocab] saved {level} definition for '{word.word}'")
 
-    # B1/B2 use the same translation from Claude
-    await _save_b1_b2(word, translation)
+
+
+async def generate_definitions_for_word(word: VocabularyWord) -> None:
+    """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
+    if not word.senses:
+        logger.info(f"[vocab] '{word.word}' has no senses, skipping definition generation")
+        return
+    logger.info(f"[vocab] generating definitions for '{word.word}'")
+    claude_data = _call_claude([word])
+    entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
+    if entry and word.cefr_level is None:
+        cefr = entry.get("cefr_level")
+        if cefr in ("A1", "A2", "B1", "B2"):
+            word.cefr_level = cefr
+            await word.save()
+            logger.info(f"[vocab] classified '{word.word}' as {cefr}")
+    await _save_a1_a2(word, claude_data)
 
 
 async def generate(test: bool = False):

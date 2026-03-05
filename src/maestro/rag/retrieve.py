@@ -2,11 +2,9 @@ from functools import lru_cache
 from maestro.settings import Settings
 from maestro.models import ItalianChunk, ItalianChunkResult
 
-from sentence_transformers import SentenceTransformer
-
-
 @lru_cache(maxsize=1)
-def get_model() -> SentenceTransformer:
+def get_model():
+    from sentence_transformers import SentenceTransformer
     return SentenceTransformer("intfloat/multilingual-e5-large")
 
 
