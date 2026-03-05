@@ -1,0 +1,51 @@
+version: "1"
+
+generate_topic:
+  description: >
+    Generate a personalised, communicative-function-grounded lesson topic
+    based on student level, interests, and past lesson history.
+  # variables: cefr, interests, hint_line, past_lines, cf_lines
+  user: |
+    You are an expert Italian language curriculum designer.
+    Design ONE lesson topic for a {{cefr}} student.
+
+    Student interests: {{interests}}
+    {{hint_line}}
+    Past lesson topics (avoid repeating; extend if appropriate):
+    {{past_lines}}
+
+    Available communicative functions (select 2-4 for this lesson):
+    {{cf_lines}}
+
+    Rules:
+    - Choose a specific real-world scenario (not a grammar topic) that fits the student's interests
+    - Select 2-4 cf_codes from the list above that are naturally practised in this scenario
+    - If a past topic could go deeper (max depth 3), extend it and set builds_on to its title
+    - Otherwise start fresh with depth 1
+    - Never repeat a past topic title exactly
+
+    Return ONLY valid JSON: {"title": "...", "description": "...", "cf_codes": ["...", "..."], "depth": 1, "builds_on": null}
+
+# ---------------------------------------------------------------------------
+
+lesson_content_header:
+  user: "You are generating content for an Italian language lesson."
+
+lesson_content_footer:
+  description: >
+    JSON schema instruction and drill rules appended to the lesson content prompt.
+    schema_json is the JSON-serialised expected-output schema for this lesson.
+  # variables: schema_json, reading_count, speaking_count, grammar_count
+  user: |
+    Return ONLY valid JSON (no markdown fences, no explanation) matching this structure:
+    {{schema_json}}
+
+    Drill rules:
+    - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is an Italian sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
+    - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous Italian sentence (no intro text); correct_answer is the corrected sentence
+    - free_form: no items field; use prompt (open-ended Italian writing prompt), correct_answer null, distractors []
+    - All content in Italian
+    - Return drills in the same order as listed in the drill specs
+    - readings: return EXACTLY {{reading_count}} reading object(s) in the array
+    - speakings: return EXACTLY {{speaking_count}} speaking object(s) in the array
+    - grammar_motivations: return EXACTLY {{grammar_count}} motivation object(s), one per grammar point in order

@@ -1,20 +1,30 @@
 Figure out exactly how good local teacher model is -> write test corpus?
 
-
 Small fixes [lesson]:
-- "salta" in lesson should be part of the card, right aligned on the same line as "submit"
-- lessons should cover multiple grammar points because they are now so specific. Perhaps we can link multiple grammar points to ItalianChunk in our RAG and have a single lesson cover one ItalianChunk? TO EXPLORE
 - remove grammatica da praticare - this should be handled automatically
 - Lesson plan: duplicate <div class="lesson-overview">?
-- Lesson plan: materializing 0 drills (0 returned by LLM)
+- refactor templates to use the same "card" with "next/submit" and "Salta" button.
+  - "salta" should not be present in the grammar review.
 
-Small fixes [dict]:
-- "molto": POS bleeds into sense "." and example "indef"
-- "momento": POS bleeds into sense "" and example "m"
+Refactoring [analyzer]:
+- the teacher prompt should be shared across activities, as should the response template.
+  - there is sometimes duplication across grammar mistakes and tips
+  - the activity feedback template should be largely shared
+  - the tone of the feedback varies across activities: lo studente ha fatto qualcosa vs questa cosa e sbagliata.
+  - mistakes should be corrected inline, as a teacher would cross out mistakes on paper and annotate the correct response, with a footnote refering to the grammar rule being broken, or clarification for some other mistake.
+Bugs [analyzer]:
+- fill in blank
+  - LLM call has too much context (all grammarpoints?)
+  - overlap between objective_note and tips.
 
+Refactoring [grammar]:
+- GrammarPoints are taken from the scraped grammar_points.json but should link back to the ItalianChunks full grammar rules.
+- Activity feedback should always include a link to the grammar detail of the rule in question
 
-Features:
-- conversation TTS STT
+Refactoring [planner]:
+- Grammar overview should pull in ItalianChunk Rule, in addition to the concrete GrammarPoint
+- more temperature in grammarpoint selection - if the student makes a mistake, revisit the topic after a few days, not immediately.
+- more temperature in topics - I keep getting things about Rome and various villas. There's also duplication (twice covered Villa d'Este)
 
 
 Fixes prompts [lesson]
