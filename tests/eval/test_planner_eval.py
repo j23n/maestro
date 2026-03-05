@@ -21,7 +21,8 @@ async def test_topic_generation(db, record_eval):
 
     cases = json.loads((FIXTURES_DIR / "planner_topic_cases.json").read_text())
     cfs_raw = json.loads((_DATA_DIR / "comm_functions.json").read_text())
-    available_cfs = [SimpleNamespace(**cf) for cf in cfs_raw]
+    # comm_functions.json has no `description` field; supply default
+    available_cfs = [SimpleNamespace(description="", **cf) for cf in cfs_raw]
 
     client = anthropic.AsyncAnthropic()
 
