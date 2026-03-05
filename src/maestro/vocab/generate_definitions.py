@@ -21,42 +21,13 @@ import anthropic
 
 from maestro.db import init_db
 from maestro.settings import Settings
-from maestro.models import CefrSense, VocabularyWord, VocabularyWordDefinition
+from maestro.models import CefrSense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
+from maestro.prompts import vocab as _prompts
 
 logger = logging.getLogger(__name__)
 settings = Settings()
 
 BATCH_SIZE = 20
-
-SYSTEM_PROMPT = """\
-You are a lexicographer creating Italian dictionary entries for language learners.
-
-For each word you receive you are given its full dictionary senses. Produce graded
-entries for A1 and A2 learners. Each entry contains:
-- A filtered list of senses (fewer at A1, more at A2)
-- Each sense's definition rewritten in Italian for that level
-- 0–1 short example per sense (rewritten for the level if one exists)
-- A single English translation (most common equivalent, 1–3 words)
-
-Level guidance:
-- A1: 1–2 senses, simplest concrete meaning only, simplest Italian vocabulary,
-      present-tense examples only
-- A2: up to 3 senses, most common figurative uses if very frequent, A1–A2 vocabulary
-
-Return a JSON object only — no markdown fences, no prose. Schema:
-{
-  "<word>": {
-    "translation": "<English>",
-    "cefr_level": "A1",
-    "A1": {"senses": [{"definition": "...", "examples": ["..."]}]},
-    "A2": {"senses": [{"definition": "...", "examples": ["..."]}]}
-  },
-  ...
-}
-
-For "cefr_level": pick the CEFR level at which this word is typically first encountered
-(A1 = most basic vocabulary, B2 = upper-intermediate).
-"""
 
 
 def _word_payload(word: VocabularyWord) -> dict[str, Any]:
@@ -87,7 +58,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     msg = client.messages.create(
         model=settings.CHAT_MODEL,
         max_tokens=8192,
-        system=SYSTEM_PROMPT,
+        system=_prompts.definitions_system.render_system(),
         messages=[{"role": "user", "content": user_content}],
     )
     elapsed = time.monotonic() - t0

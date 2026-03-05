@@ -24,22 +24,17 @@ from maestro.db import init_db
 from maestro.models import GrammarPoint, GrammarPointExplanation
 from maestro.rag.retrieve import get_chunks_for_refs
 from maestro.settings import Settings
+from maestro.prompts import grammar as _prompts
 from maestro.utils import CEFR_ORDER
 
 logger = logging.getLogger(__name__)
 settings = Settings()
 
-LEVEL_GUIDANCE = {
-    "A1": "Very simple terms. Use English for all grammatical terminology. "
-          "Italian examples use only present tense and common words. "
-          "Cover only what an A1 student needs — skip edge cases entirely. "
-          "3–4 sentences + examples.",
-    "A2": "Mix of English and Italian terms. Add a little more complexity. "
-          "4–5 sentences + examples.",
-    "B1": "Mostly Italian. Use Italian grammatical terms with short English glosses "
-          "in parentheses the first time. 5–6 sentences + examples.",
-    "B2": "Italian only. Full explanation as a native teacher would give it. "
-          "Include edge cases and common mistakes. 6–8 sentences + examples.",
+_LEVEL_GUIDANCE_KEYS = {
+    "A1": "level_guidance_a1",
+    "A2": "level_guidance_a2",
+    "B1": "level_guidance_b1",
+    "B2": "level_guidance_b2",
 }
 
 
@@ -50,21 +45,14 @@ def _target_levels(gp: GrammarPoint) -> tuple[str, ...]:
 
 
 def _build_system_prompt(levels: tuple[str, ...]) -> str:
-    guidance = "\n".join(f"- {lvl}: {LEVEL_GUIDANCE[lvl]}" for lvl in levels)
+    guidance = "\n".join(
+        f"- {lvl}: {getattr(_prompts, _LEVEL_GUIDANCE_KEYS[lvl]).render()}"
+        for lvl in levels
+    )
     delimiters = "\n".join(f"==={lvl}===\n(explanation here)" for lvl in levels)
-    return (
-        "You are an expert Italian language teacher creating grammar explanations for learners.\n\n"
-        "You will receive a grammar rule with its label, description, and reference material.\n"
-        "Produce explanations at the following CEFR levels only. "
-        "Each explanation should be in markdown and include:\n"
-        "- A clear explanation of the rule\n"
-        "- 2–3 concrete Italian examples with English translations\n"
-        "- A brief note on common mistakes (where relevant)\n\n"
-        f"Level guidance:\n{guidance}\n\n"
-        "Output format — use EXACTLY these delimiters, "
-        "with the explanation for each level immediately after:\n\n"
-        f"{delimiters}\n\n"
-        "No other text before or after."
+    return _prompts.explanations_system.render_system(
+        level_guidance=guidance,
+        delimiters=delimiters,
     )
 
 

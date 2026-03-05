@@ -45,13 +45,13 @@ def seed_cache_for_scoring():
 
 
 @pytest.mark.llm_eval
-async def test_scoring_accuracy(db):
+async def test_scoring_accuracy(db, record_eval):
     """Measure accuracy of fill_blank and error_correction scoring against golden cases."""
     from maestro.learning.analyzer import score_multi_item_drill
 
     cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())
 
-    correct_count = 0
+    tp = fp = fn = tn = 0
     results = []
 
     for case in cases:
@@ -66,8 +66,14 @@ async def test_scoring_accuracy(db):
         expected = case["expected_objective_correct"]
         passed = got == expected
 
-        if passed:
-            correct_count += 1
+        if expected and got:
+            tp += 1
+        elif not expected and got:
+            fp += 1
+        elif expected and not got:
+            fn += 1
+        else:
+            tn += 1
 
         results.append({
             "id": case["id"],
@@ -77,8 +83,23 @@ async def test_scoring_accuracy(db):
         })
         logger.info(f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}")
 
-    accuracy = correct_count / max(1, len(cases))
+    n = len(cases)
+    accuracy = (tp + tn) / max(1, n)
+    precision = tp / max(1, tp + fp)
+    recall = tp / max(1, tp + fn)
+    fp_rate = fp / max(1, fp + tn)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Scoring accuracy={accuracy:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(
+        f"[eval] Scoring: accuracy={accuracy:.2%}, precision={precision:.2%}, "
+        f"recall={recall:.2%}, fp_rate={fp_rate:.2%}, failed={[r['id'] for r in failed]}"
+    )
+    record_eval("analyzer", {
+        "accuracy": round(accuracy, 4),
+        "precision": round(precision, 4),
+        "recall": round(recall, 4),
+        "fp_rate": round(fp_rate, 4),
+        "n": n,
+        "test": "scoring",
+    })
 
     assert accuracy >= 0.98, f"Scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
