@@ -113,6 +113,7 @@ async def analyze_message(
     try:
         await _ensure_codes()
         prompt = _build_prompt(text, drill_context)
+        logger.debug(f"[analyzer] analyze_message prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
@@ -121,10 +122,10 @@ async def analyze_message(
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
-        logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw}")
         data = parse_llm_json(raw)
         if data is None:
-            logger.error(f"[analyzer] failed to parse response: {raw[:300]}")
+            logger.error(f"[analyzer] failed to parse response: {raw}")
             return None
 
         valid_grammar = {g.code for g in _grammar_points_cache}
@@ -202,6 +203,7 @@ async def feedback_fill_blank(
 
     logger.info(f"[analyzer] feedback_fill_blank: gp={grammar_point_code}, student={student_answer!r}, correct={correct_answer!r}")
     try:
+        logger.debug(f"[analyzer] feedback_fill_blank prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
@@ -249,6 +251,7 @@ async def evaluate_error_correction(
 
     logger.info(f"[analyzer] evaluate_error_correction: student={student!r}, reference={reference!r}")
     try:
+        logger.debug(f"[analyzer] evaluate_error_correction prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
@@ -257,10 +260,10 @@ async def evaluate_error_correction(
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
-        logger.debug(f"[analyzer] evaluate_error_correction in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] evaluate_error_correction in {elapsed:.2f}s: {raw}")
         data = parse_llm_json(raw)
         if data is None:
-            logger.error(f"[analyzer] evaluate_error_correction failed to parse: {raw[:300]}")
+            logger.error(f"[analyzer] evaluate_error_correction failed to parse: {raw}")
             correct = student.strip().lower() == reference.strip().lower()
             return correct, ""
         is_correct = bool(data.get("correct", False))
@@ -348,21 +351,22 @@ async def score_multi_item_drill(
     )
 
     try:
+        logger.debug(f"[analyzer] score_multi_item_drill prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
-            max_tokens=2000,
+            max_tokens=4000,
             messages=[{"role": "user", "content": prompt}],
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[analyzer] score_multi_item_drill LLM in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] score_multi_item_drill LLM in {elapsed:.2f}s: {raw}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
             n_correct = sum(1 for r in result if r.get("objective_correct"))
             logger.info(f"[analyzer] score_multi_item_drill: {n_correct}/{n} correct")
             return result
-        logger.error(f"[analyzer] score_multi_item_drill unexpected result shape: {raw[:300]}")
+        logger.error(f"[analyzer] score_multi_item_drill unexpected result shape: {raw}")
     except Exception as e:
         logger.error(f"[analyzer] score_multi_item_drill error: {e}", exc_info=True)
 
@@ -407,6 +411,7 @@ async def generate_writing_feedback(
     )
 
     try:
+        logger.debug(f"[analyzer] generate_writing_feedback prompt: {llm_prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
@@ -415,10 +420,10 @@ async def generate_writing_feedback(
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[analyzer] generate_writing_feedback LLM in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] generate_writing_feedback LLM in {elapsed:.2f}s: {raw}")
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
-            logger.error(f"[analyzer] generate_writing_feedback unexpected shape: {raw[:300]}")
+            logger.error(f"[analyzer] generate_writing_feedback unexpected shape: {raw}")
             return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
         logger.info(
             f"[analyzer] generate_writing_feedback: objective_correct={data.get('objective_correct')}, "
@@ -473,6 +478,7 @@ async def score_free_form_drill(
     )
 
     try:
+        logger.debug(f"[analyzer] score_free_form_drill prompt: {llm_prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
@@ -481,10 +487,10 @@ async def score_free_form_drill(
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[analyzer] score_free_form_drill LLM in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] score_free_form_drill LLM in {elapsed:.2f}s: {raw}")
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
-            logger.error(f"[analyzer] score_free_form_drill unexpected shape: {raw[:300]}")
+            logger.error(f"[analyzer] score_free_form_drill unexpected shape: {raw}")
             return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
         logger.info(
             f"[analyzer] score_free_form_drill: objective_correct={data.get('objective_correct')}, "
@@ -534,21 +540,22 @@ async def score_reading_answers(
     )
 
     try:
+        logger.debug(f"[analyzer] score_reading_answers prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(
             model=settings.LESSON_MODEL,
-            max_tokens=2000,
+            max_tokens=4000,
             messages=[{"role": "user", "content": prompt}],
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[analyzer] score_reading_answers LLM in {elapsed:.2f}s: {raw[:200]}")
+        logger.debug(f"[analyzer] score_reading_answers LLM in {elapsed:.2f}s: {raw}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
             n_correct = sum(1 for r in result if r.get("objective_correct"))
             logger.info(f"[analyzer] score_reading_answers: {n_correct}/{n} correct")
             return result
-        logger.error(f"[analyzer] score_reading_answers unexpected result shape: {raw[:300]}")
+        logger.error(f"[analyzer] score_reading_answers unexpected result shape: {raw}")
     except Exception as e:
         logger.error(f"[analyzer] score_reading_answers error: {e}", exc_info=True)
 
