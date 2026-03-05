@@ -16,8 +16,10 @@ _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data"
 @pytest.mark.llm_eval
 async def test_topic_generation(db, record_eval):
     """Validate JSON schema and structural properties of generate_topic output."""
+    import json as _json
     from maestro.lezione.planner import generate_topic
     from maestro.models import LessonTopic
+    from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "planner_topic_cases.json").read_text())
     cfs_raw = json.loads((_DATA_DIR / "comm_functions.json").read_text())
@@ -28,6 +30,7 @@ async def test_topic_generation(db, record_eval):
 
     passed_count = 0
     results = []
+    generated_topics = []  # store (case, topic) for judging
 
     for case in cases:
         profile = SimpleNamespace(
@@ -67,28 +70,67 @@ async def test_topic_generation(db, record_eval):
             passed_count += 1
 
         results.append({"id": case["id"], "title": topic.title, "pass": passed, "failures": failures})
+        generated_topics.append((case, topic))
         logger.info(
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} title={topic.title!r} "
             f"depth={topic.depth} cf_codes={topic.cf_codes} {failures}"
         )
 
     n = len(cases)
-    pass_rate = passed_count / max(1, n)
+    output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Topic gen: pass_rate={pass_rate:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(f"[eval] Topic gen: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+
+    # LLM judge: evaluate each generated topic
+    judge_passed = 0
+    judge_total = 0
+    for case, topic in generated_topics:
+        judge_total += 1
+        interests_str = ", ".join(case["interests"]) if case["interests"] else "(none)"
+        hint_str = case["hint"] or "(none)"
+        generated = f"{topic.title} — {topic.description}"
+        expected_output = case.get("expected_output")
+        if expected_output is not None:
+            ok, reason = _judge_ref(
+                generated=generated,
+                reference=_json.dumps(expected_output, ensure_ascii=False),
+                context=f"Lesson topic for CEFR {case['cefr']} learner interested in {interests_str}",
+            )
+        else:
+            prompt = (
+                f'Student: CEFR {case["cefr"]}, interests: {interests_str}\n'
+                f"Focus hint: {hint_str}\n"
+                f'Generated topic title: "{topic.title}"\n'
+                f'Description: "{topic.description}"\n\n'
+                f"Is this topic: (1) realistic for a {case['cefr']} Italian learner, "
+                f"(2) related to stated interests or hint, "
+                f"(3) a genuine communicative scenario (not just a grammar exercise)?"
+            )
+            ok, reason = _judge(prompt)
+        if ok:
+            judge_passed += 1
+        logger.info(f"[eval] judge topic {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    content_quality = judge_passed / max(1, judge_total)
+    logger.info(f"[eval] Topic content_quality={content_quality:.2%}")
+
     record_eval("planner", {
-        "pass_rate": round(pass_rate, 4),
+        "output_syntax": round(output_syntax, 4),
+        "content_quality": round(content_quality, 4),
         "n": n,
         "test": "topic",
     })
 
-    assert pass_rate >= 0.75, f"Topic generation pass rate too low: {pass_rate:.2%} (failed: {failed})"
+    assert output_syntax >= 0.75, f"Topic generation pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    assert content_quality >= 0.70, f"Topic content quality too low: {content_quality:.2%}"
 
 
 @pytest.mark.llm_eval
 async def test_lesson_content_structure(db, record_eval):
     """Validate structural properties of _generate_lesson_content output."""
+    import json as _json
     from maestro.lezione.planner import _generate_lesson_content
+    from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "planner_content_cases.json").read_text())
 
@@ -96,6 +138,7 @@ async def test_lesson_content_structure(db, record_eval):
 
     passed_count = 0
     results = []
+    generated_content = []  # store (case, content) for judging
 
     for case in cases:
         grammar_gps = [SimpleNamespace(**gp) for gp in case["grammar_gps"]]
@@ -118,6 +161,7 @@ async def test_lesson_content_structure(db, record_eval):
         if not content:
             failures.append("empty content returned")
             results.append({"id": case["id"], "pass": False, "failures": failures})
+            generated_content.append((case, None))
             logger.info(f"[eval] {case['id']}: FAIL (empty content)")
             continue
 
@@ -160,19 +204,89 @@ async def test_lesson_content_structure(db, record_eval):
             passed_count += 1
 
         results.append({"id": case["id"], "pass": passed, "failures": failures})
+        generated_content.append((case, content))
         logger.info(
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} "
             f"keys={list(content.keys())} {failures}"
         )
 
     n = len(cases)
-    pass_rate = passed_count / max(1, n)
+    output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Content structure: pass_rate={pass_rate:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(f"[eval] Content structure: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+
+    # LLM judge: evaluate first drill item and first reading per case
+    judge_passed = 0
+    judge_total = 0
+    for case, content in generated_content:
+        if not content:
+            continue
+        drills = content.get("drills", [])
+        # Judge first drill item
+        if drills and case.get("drill_specs"):
+            spec = case["drill_specs"][0]
+            drill = drills[0]
+            items = drill.get("items", []) if isinstance(drill, dict) else []
+            if items:
+                first_item = items[0]
+                judge_total += 1
+                generated = f'{first_item.get("prompt", "")} → {first_item.get("correct_answer", "")}'
+                expected_output = case.get("expected_output", {}).get("drill")
+                if expected_output is not None:
+                    ok, reason = _judge_ref(
+                        generated=generated,
+                        reference=_json.dumps(expected_output, ensure_ascii=False),
+                        context=f'{spec["exercise_type"]} drill for {spec["grammar_point_code"]} ({case["cefr_level"]})',
+                    )
+                else:
+                    prompt = (
+                        f'Grammar point: "{spec["grammar_point_code"]}" ({spec["exercise_type"]}, {case["cefr_level"]})\n'
+                        f'Drill item prompt: "{first_item.get("prompt", "")}"\n'
+                        f'Correct answer: "{first_item.get("correct_answer", "")}"\n\n'
+                        f"Is this item: (1) testing the stated grammar point, "
+                        f"(2) using natural Italian, (3) unambiguous?"
+                    )
+                    ok, reason = _judge(prompt)
+                if ok:
+                    judge_passed += 1
+                logger.info(f"[eval] judge drill {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+        # Judge first reading text
+        readings = content.get("readings", [])
+        if readings and isinstance(readings[0], dict):
+            reading = readings[0]
+            text = reading.get("text", "") or reading.get("passage", "") or ""
+            if text:
+                judge_total += 1
+                snippet = text[:200]
+                expected_output = case.get("expected_output", {}).get("reading")
+                if expected_output is not None:
+                    ok, reason = _judge_ref(
+                        generated=snippet,
+                        reference=_json.dumps(expected_output, ensure_ascii=False),
+                        context=f"{case['cefr_level']} Italian reading text",
+                    )
+                else:
+                    prompt = (
+                        f"CEFR level: {case['cefr_level']}\n"
+                        f"Reading text (first 200 chars): \"{snippet}\"\n\n"
+                        f"Is this reading: (1) grammatically correct Italian, "
+                        f"(2) vocabulary appropriate for {case['cefr_level']}, (3) coherent?"
+                    )
+                    ok, reason = _judge(prompt)
+                if ok:
+                    judge_passed += 1
+                logger.info(f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    content_quality = judge_passed / max(1, judge_total)
+    logger.info(f"[eval] Content content_quality={content_quality:.2%}")
+
     record_eval("planner", {
-        "pass_rate": round(pass_rate, 4),
+        "output_syntax": round(output_syntax, 4),
+        "content_quality": round(content_quality, 4),
         "n": n,
         "test": "content_structure",
     })
 
-    assert pass_rate >= 0.75, f"Lesson content structure pass rate too low: {pass_rate:.2%} (failed: {failed})"
+    assert output_syntax >= 0.75, f"Lesson content structure pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    assert content_quality >= 0.70, f"Lesson content quality too low: {content_quality:.2%}"
