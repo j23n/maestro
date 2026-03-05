@@ -233,6 +233,7 @@ async def generate_topic(
     )
     try:
         _client = client or anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+        logger.debug(f"[planner] generate_topic prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client.messages.create(
             model=settings.DRILL_MODEL,
@@ -241,7 +242,7 @@ async def generate_topic(
         )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
-        logger.debug(f"[planner] generate_topic LLM in {elapsed:.2f}s: {raw[:300]}")
+        logger.debug(f"[planner] generate_topic LLM in {elapsed:.2f}s: {raw}")
         data = parse_llm_json(raw)
         if data and isinstance(data.get("cf_codes"), list) and data.get("title"):
             topic = LessonTopic(
@@ -256,7 +257,7 @@ async def generate_topic(
                 f"cf_codes={topic.cf_codes}, builds_on={topic.builds_on!r})"
             )
             return topic
-        logger.warning(f"[planner] generate_topic: unparseable or incomplete response: {raw[:200]}")
+        logger.warning(f"[planner] generate_topic: unparseable or incomplete response: {raw}")
     except Exception as exc:
         logger.error(f"[planner] generate_topic failed: {exc}", exc_info=True)
 
@@ -445,6 +446,7 @@ async def _generate_lesson_content(
     )
 
     prompt_text = "\n\n".join(parts)
+    logger.debug(f"[planner] _generate_lesson_content prompt: {prompt_text}")
     logger.info(
         f"[planner] _generate_lesson_content: level={cefr_level}, topic={topic!r}, "
         f"grammar_gps={[g.code for g in grammar_gps]}, "
@@ -460,10 +462,10 @@ async def _generate_lesson_content(
     elapsed = time.monotonic() - t0
     raw = response.content[0].text
     logger.info(f"[planner] lesson content LLM in {elapsed:.2f}s, response length={len(raw)} chars")
-    logger.debug(f"[planner] lesson content raw (first 500): {raw[:500]}")
+    logger.debug(f"[planner] lesson content raw: {raw}")
     result = parse_llm_json(raw)
     if not result:
-        logger.error(f"[planner] failed to parse lesson content response: {raw[:500]}")
+        logger.error(f"[planner] failed to parse lesson content response: {raw}")
         return {}
     logger.debug(f"[planner] lesson content keys: {list(result.keys())}")
     return result

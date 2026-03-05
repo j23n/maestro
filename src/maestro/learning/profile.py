@@ -106,13 +106,15 @@ async def _generate_description(profile: "LearningProfile") -> str:
 
     all_vocab = await VocabularyWord.find_all().to_list()
     for w in all_vocab:
-        total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
+        if w.cefr_level is not None:
+            total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
     cards = await UserVocabularyCard.find_all().to_list()
     for card in cards:
         await card.fetch_all_links()
         lvl = card.word.cefr_level
-        discovered_by_level[lvl] = discovered_by_level.get(lvl, 0) + 1
+        if lvl is not None:
+            discovered_by_level[lvl] = discovered_by_level.get(lvl, 0) + 1
 
     def pct(level: str) -> int:
         total = total_by_level.get(level, 0)
