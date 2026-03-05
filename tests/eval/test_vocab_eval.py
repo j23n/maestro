@@ -14,7 +14,9 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 @pytest.mark.llm_eval
 def test_vocab_definition_quality(record_eval):
     """Validate A1/A2 definition structure and field presence for common words."""
+    import json as _json
     from maestro.vocab.generate_definitions import _call_claude
+    from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "vocab_cases.json").read_text())
 
@@ -75,13 +77,59 @@ def test_vocab_definition_quality(record_eval):
         logger.info(f"[eval] {w}: {'PASS' if passed else 'FAIL'} {failures}")
 
     n = len(words)
-    pass_rate = passed_count / max(1, n)
+    output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Vocab definitions: pass_rate={pass_rate:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(f"[eval] Vocab definitions: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+
+    # LLM judge: evaluate per (word, level) pair
+    judge_passed = 0
+    judge_total = 0
+    for c in cases:
+        w = c["word"]
+        entry = result.get(w) or result.get(w.lower())
+        if not entry:
+            continue
+        translation = entry.get("translation", "")
+        for level in ("A1", "A2"):
+            level_data = entry.get(level)
+            if not level_data:
+                continue
+            judge_total += 1
+            senses = level_data.get("senses", [])
+            sense_text = "; ".join(s.get("definition", "") for s in senses[:2]) if senses else "(none)"
+            example = senses[0].get("examples", [""])[0] if senses and senses[0].get("examples") else ""
+            generated = f"{sense_text} / {translation}"
+            expected_output = c.get("expected_output")
+            if expected_output is not None and level in expected_output:
+                ok, reason = _judge_ref(
+                    generated=generated,
+                    reference=_json.dumps(expected_output[level], ensure_ascii=False),
+                    context=f"A{level} Italian vocabulary entry for '{w}' ({c['part_of_speech']})",
+                )
+            else:
+                prompt = (
+                    f'Italian word: "{w}" ({c["part_of_speech"]})\n'
+                    f"Level: {level}\n"
+                    f'Generated definition: "{sense_text}"\n'
+                    f'Generated translation: "{translation}"\n'
+                    f'Example: "{example}"\n\n'
+                    f"Is this {level} vocabulary entry: (1) factually correct, "
+                    f"(2) appropriately simplified for beginners, (3) translation accurate?"
+                )
+                ok, reason = _judge(prompt)
+            if ok:
+                judge_passed += 1
+            logger.info(f"[eval] judge {w}/{level}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    content_quality = judge_passed / max(1, judge_total)
+    logger.info(f"[eval] Vocab content_quality={content_quality:.2%}")
+
     record_eval("vocab", {
-        "pass_rate": round(pass_rate, 4),
+        "output_syntax": round(output_syntax, 4),
+        "content_quality": round(content_quality, 4),
         "n": n,
         "test": "definitions",
     })
 
-    assert pass_rate >= 0.80, f"Vocab definition pass rate too low: {pass_rate:.2%} (failed: {failed})"
+    assert output_syntax >= 0.80, f"Vocab definition pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    assert content_quality >= 0.70, f"Vocab content quality too low: {content_quality:.2%}"
