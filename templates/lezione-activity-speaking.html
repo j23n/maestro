@@ -1,65 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Conversazione — Maestro{% endblock %}
 
-{% block styles %}
-  .activity-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 0 1rem 3rem;
-  }
-
-  .card {
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 2.5rem;
-    text-align: center;
-  }
-
-  .stub-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .stub-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #111;
-    margin-bottom: 0.5rem;
-  }
-
-  .stub-desc {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 2rem;
-  }
-
-  .continue-btn {
-    padding: 0.55rem 1.4rem;
-    font-size: 0.95rem;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .continue-btn:hover { background: #333; }
-
-  .skip-link {
-    display: block;
-    text-align: right;
-    font-size: 0.8rem;
-    color: #bbb;
-    text-decoration: none;
-    margin-top: 0.75rem;
-  }
-  .skip-link:hover { color: #888; }
-{% endblock %}
-
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
-  <div class="card">
+  <div class="card" style="text-align:center; padding:2.5rem;">
     <div class="stub-icon">🎙️</div>
     <div class="stub-title">Produzione orale</div>
     <div class="stub-desc">La registrazione vocale è in arrivo.<br>Per ora, salta questa attività.</div>

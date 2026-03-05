@@ -1,40 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Preparazione Lezione — Maestro{% endblock %}
 
-{% block styles %}
-  .generating-wrap {
-    max-width: 480px;
-    margin: 4rem auto;
-    padding: 0 1rem;
-    text-align: center;
-  }
-
-  .spinner {
-    width: 2.5rem;
-    height: 2.5rem;
-    border: 3px solid #e5e7eb;
-    border-top-color: #111;
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-    margin: 0 auto 1.5rem;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .generating-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem;
-  }
-
-  .generating-sub {
-    font-size: 0.88rem;
-    color: #888;
-  }
-{% endblock %}
-
 {% block content %}
 <div
   class="generating-wrap"

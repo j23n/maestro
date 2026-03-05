@@ -1,79 +1,7 @@
 {# Partial — swapped into .activity-container after drill submit #}
 {% include "lezione-progress.html" %}
 
-<style>
-  .item-row {
-    display: grid;
-    grid-template-columns: 1.5rem 1fr;
-    gap: 0.4rem 0.6rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .item-row:last-child { border-bottom: none; }
-
-  .item-row-num {
-    font-size: 0.78rem;
-    color: #bbb;
-    padding-top: 0.25rem;
-    text-align: right;
-  }
-
-  .item-row-body { display: flex; flex-direction: column; gap: 0.25rem; }
-
-  .item-prompt-text {
-    font-size: 0.9rem;
-    color: #555;
-    font-style: italic;
-  }
-
-  .item-student-wrong {
-    font-size: 0.9rem;
-    color: #b91c1c;
-    text-decoration: line-through;
-  }
-
-  .item-correct-answer {
-    font-size: 0.9rem;
-    color: #065f46;
-    font-weight: 500;
-  }
-
-  .item-explanation {
-    font-size: 0.82rem;
-    color: #666;
-    margin-top: 0.1rem;
-  }
-
-  .item-ok-mark {
-    font-size: 0.85rem;
-    color: #16a34a;
-  }
-
-  .item-secondary {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    margin-top: 0.3rem;
-  }
-
-  .item-grammar-error {
-    font-size: 0.78rem;
-    color: #92400e;
-    background: #fef3c7;
-    border-radius: 3px;
-    padding: 0.1rem 0.4rem;
-    display: inline-block;
-    margin-right: 0.25rem;
-  }
-
-  .item-tip {
-    font-size: 0.78rem;
-    color: #6b7280;
-    font-style: italic;
-  }
-</style>
-
-<div class="card" style="border:1px solid #e5e5e5;border-radius:8px;padding:1.75rem 2rem;">
+<div class="card">
 
   {% if feedback and feedback is mapping and "items" in feedback %}
     {# ── Multi-item result ── #}
@@ -81,13 +9,9 @@
     {% set total = feedback["total"] %}
 
     {% if correct %}
-      <div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1rem;">
-        Ottimo! {{ correct_count }}/{{ total }} corrette ✓
-      </div>
+      <div class="result-ok">Ottimo! {{ correct_count }}/{{ total }} corrette ✓</div>
     {% else %}
-      <div style="background:#fef2f2;color:#991b1b;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1rem;">
-        {{ correct_count }}/{{ total }} corrette
-      </div>
+      <div class="result-wrong">{{ correct_count }}/{{ total }} corrette</div>
     {% endif %}
 
     <div style="margin-bottom:1.5rem;">
@@ -123,13 +47,9 @@
   {% elif feedback and feedback is mapping and "objective_correct" in feedback %}
     {# ── Writing / free-form result ── #}
     {% if correct %}
-      <div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
-        {% if is_writing is defined and is_writing %}Inviato ✓{% else %}Corretto! ✓{% endif %}
-      </div>
+      <div class="result-ok">{% if is_writing is defined and is_writing %}Inviato ✓{% else %}Corretto! ✓{% endif %}</div>
     {% else %}
-      <div style="background:#fef2f2;color:#991b1b;padding:0.75rem 1rem;border-radius:6px;font-weight:600;margin-bottom:1.25rem;">
-        {% if is_writing is defined and is_writing %}Non completato{% else %}Non corretto{% endif %}
-      </div>
+      <div class="result-wrong">{% if is_writing is defined and is_writing %}Non completato{% else %}Non corretto{% endif %}</div>
       {% if feedback.objective_note %}
         <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;">{{ feedback.objective_note }}</p>
       {% endif %}
@@ -152,7 +72,7 @@
   {% endif %}
 
   {% if rule_refs %}
-  <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid #e5e5e5;">
+  <div class="rule-refs-block">
     {% for ref in rule_refs %}
     <div style="font-size:0.8rem;color:#888;">{{ ref.heading }}</div>
     {% endfor %}
@@ -160,9 +80,6 @@
   {% endif %}
 
   <div style="margin-top:1.5rem;">
-    <a href="{{ next_url }}"
-       style="display:inline-block;padding:0.5rem 1.2rem;background:#111;color:#fff;border-radius:6px;text-decoration:none;font-size:0.95rem;">
-      Continua →
-    </a>
+    <a href="{{ next_url }}" class="continue-btn">Continua →</a>
   </div>
 </div>

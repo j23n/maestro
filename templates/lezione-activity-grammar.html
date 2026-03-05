@@ -1,115 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Grammatica — Maestro{% endblock %}
 
-{% block styles %}
-  .activity-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 1rem 3rem;
-  }
-
-  .card {
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 2rem;
-  }
-
-  .card-label {
-    font-size: 0.78rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #aaa;
-    margin-bottom: 0.5rem;
-  }
-
-  .grammar-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #111;
-    margin-bottom: 1.5rem;
-  }
-
-  .grammar-content {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: #333;
-  }
-
-  .grammar-content h1, .grammar-content h2, .grammar-content h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 1.25rem 0 0.5rem;
-    color: #111;
-  }
-
-  .grammar-content p { margin: 0 0 0.9rem; }
-
-  .grammar-content code {
-    background: #f5f5f5;
-    padding: 0.1rem 0.35rem;
-    border-radius: 3px;
-    font-size: 0.9em;
-    font-family: ui-monospace, monospace;
-  }
-
-  .grammar-content blockquote {
-    border-left: 3px solid #d0d0d0;
-    margin: 0.75rem 0;
-    padding: 0.3rem 0.9rem;
-    color: #555;
-    font-style: italic;
-  }
-
-  .continue-btn {
-    display: inline-block;
-    margin-top: 1.75rem;
-    padding: 0.55rem 1.4rem;
-    font-size: 0.95rem;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .continue-btn:hover { background: #333; }
-
-  .skip-link {
-    display: block;
-    text-align: right;
-    font-size: 0.8rem;
-    color: #bbb;
-    text-decoration: none;
-    margin-top: 0.75rem;
-  }
-  .skip-link:hover { color: #888; }
-
-  .why-important {
-    border-left: 3px solid #d0d0d0;
-    background: #fafafa;
-    padding: 0.6rem 0.9rem;
-    margin-bottom: 1.25rem;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .why-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #aaa;
-    margin-bottom: 0.25rem;
-  }
-
-  .why-important p {
-    font-size: 0.88rem;
-    color: #555;
-    margin: 0;
-    font-style: italic;
-    line-height: 1.5;
-  }
-{% endblock %}
-
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
@@ -127,7 +18,7 @@
       {{ activity.content | markdown | safe }}
     </div>
 
-    <button class="continue-btn"
+    <button class="continue-btn" style="margin-top:1.75rem;"
             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
             hx-target="body"
             hx-push-url="true">
