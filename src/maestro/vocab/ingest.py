@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 from bs4 import BeautifulSoup
 
 from maestro.db import init_db
-from maestro.models import Sense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
+from maestro.models import Sense, VocabularyWord
 from maestro.vocab.epub_parser import parse_epub
 from maestro.vocab.nlp import get_nlp
 
@@ -202,39 +202,50 @@ async def ingest():
 
                 ingested.add(word)
 
-    await _migrate_stale(ingested)
+    logger.info(f"Phase 1: {len(ingested)} CEFR words ingested")
 
+    # Phase 2: ingest all remaining EPUB headwords with no CEFR level
+    new_words = []
+    for headword, entry in by_form.items():
+        if headword in ingested:
+            continue
+        senses = [
+            Sense(
+                definition=s.definition,
+                examples=s.examples,
+                synonyms=s.synonyms,
+                antonyms=s.antonyms,
+                pos=s.pos,
+                style=s.style,
+            )
+            for s in entry.senses
+        ]
+        new_words.append(VocabularyWord(
+            word=headword,
+            syllabization=entry.hyph,
+            part_of_speech=entry.pos_abbrev,
+            cefr_level=None,
+            entry_id=entry.entry_id,
+            senses=senses,
+        ))
+        ingested.add(headword)
 
-async def _migrate_stale(ingested: set[str]) -> None:
-    """Delete VocabularyWords that have no EPUB match, plus their dependent docs."""
-    all_words = await VocabularyWord.find_all().to_list()
-    stale = [w for w in all_words if w.word not in ingested]
-    if not stale:
-        logger.info("Migration: no stale words.")
-        return
+    BATCH = 500
+    inserted_count = 0
+    for i in range(0, len(new_words), BATCH):
+        batch = new_words[i:i + BATCH]
+        try:
+            await VocabularyWord.insert_many(batch)
+            inserted_count += len(batch)
+        except Exception:
+            # Fall back to individual upserts for this batch (handles duplicate key errors)
+            for w in batch:
+                existing = await VocabularyWord.find_one(VocabularyWord.word == w.word)
+                if not existing:
+                    await w.insert()
+                    inserted_count += 1
 
-    stale_ids = [w.id for w in stale]
-    logger.info(
-        f"Migration: removing {len(stale)} stale words: "
-        f"{[w.word for w in stale[:10]]}{'…' if len(stale) > 10 else ''}"
-    )
-
-    # Delete UserVocabularyCards referencing stale words
-    cards = await UserVocabularyCard.find({"word.$id": {"$in": stale_ids}}).to_list()
-    for card in cards:
-        await card.delete()
-    logger.info(f"Deleted {len(cards)} UserVocabularyCards")
-
-    # Delete VocabularyWordDefinitions referencing stale words
-    defs = await VocabularyWordDefinition.find({"word.$id": {"$in": stale_ids}}).to_list()
-    for d in defs:
-        await d.delete()
-    logger.info(f"Deleted {len(defs)} VocabularyWordDefinitions")
-
-    # Delete the stale words themselves
-    for w in stale:
-        await w.delete()
-    logger.info(f"Deleted {len(stale)} VocabularyWords")
+    logger.info(f"Phase 2: inserted {inserted_count} non-CEFR EPUB entries")
 
 
 if __name__ == "__main__":
