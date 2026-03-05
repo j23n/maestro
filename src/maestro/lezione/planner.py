@@ -34,6 +34,7 @@ from maestro.models import (
     CommunicativeFunction,
 )
 from maestro.config import settings
+from maestro.prompts import planner as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json
 from maestro.rag.retrieve import get_chunks_for_refs
 
@@ -209,21 +210,12 @@ async def generate_topic(
 
     hint_line = f"\nThe student requested this topic hint: {hint}\n" if hint else ""
 
-    prompt = (
-        f"You are an expert Italian language curriculum designer.\n"
-        f"Design ONE lesson topic for a {cefr} student.\n\n"
-        f"Student interests: {interests}\n"
-        f"{hint_line}"
-        f"Past lesson topics (avoid repeating; extend if appropriate):\n{past_lines}\n\n"
-        f"Available communicative functions (select 2-4 for this lesson):\n"
-        + "\n".join(cf_lines)
-        + "\n\nRules:\n"
-        "- Choose a specific real-world scenario (not a grammar topic) that fits the student's interests\n"
-        "- Select 2-4 cf_codes from the list above that are naturally practised in this scenario\n"
-        "- If a past topic could go deeper (max depth 3), extend it and set builds_on to its title\n"
-        "- Otherwise start fresh with depth 1\n"
-        "- Never repeat a past topic title exactly\n\n"
-        'Return ONLY valid JSON: {"title": "...", "description": "...", "cf_codes": ["...", "..."], "depth": 1, "builds_on": null}'
+    prompt = _prompts.generate_topic.render(
+        cefr=cefr,
+        interests=interests,
+        hint_line=hint_line,
+        past_lines=past_lines,
+        cf_lines="\n".join(cf_lines),
     )
 
     cef_label = profile.cefr_estimate if profile else "A1"
@@ -328,7 +320,7 @@ async def _generate_lesson_content(
     reading_word_count = _READING_WORD_COUNT.get(cefr_level, 150)
 
     parts: list[str] = [
-        "You are generating content for an Italian language lesson.",
+        _prompts.lesson_content_header.render(),
         f"Student CEFR level: {cefr_level}",
         f"Lesson topic: {topic}",
     ]
@@ -432,17 +424,12 @@ async def _generate_lesson_content(
         ]
 
     parts.append(
-        f"\nReturn ONLY valid JSON (no markdown fences, no explanation) matching this structure:\n"
-        f"{json.dumps(schema, indent=2, ensure_ascii=False)}\n\n"
-        "Drill rules:\n"
-        "- fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is an Italian sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank\n"
-        "- error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous Italian sentence (no intro text); correct_answer is the corrected sentence\n"
-        "- free_form: no items field; use prompt (open-ended Italian writing prompt), correct_answer null, distractors []\n"
-        "- All content in Italian\n"
-        "- Return drills in the same order as listed in the drill specs\n"
-        f"- readings: return EXACTLY {reading_count} reading object(s) in the array\n"
-        f"- speakings: return EXACTLY {len(speaking_cfs)} speaking object(s) in the array\n"
-        f"- grammar_motivations: return EXACTLY {len(grammar_gps)} motivation object(s), one per grammar point in order"
+        _prompts.lesson_content_footer.render(
+            schema_json=json.dumps(schema, indent=2, ensure_ascii=False),
+            reading_count=reading_count,
+            speaking_count=len(speaking_cfs),
+            grammar_count=len(grammar_gps),
+        )
     )
 
     prompt_text = "\n\n".join(parts)

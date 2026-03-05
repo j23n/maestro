@@ -11,7 +11,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_analyzer_grammar_tagging(seeded_analyzer_cache):
+async def test_analyzer_grammar_tagging(seeded_analyzer_cache, record_eval):
     """Measure precision/recall of grammar code tagging against golden cases."""
     from maestro.learning.analyzer import analyze_message
 
@@ -84,6 +84,13 @@ async def test_analyzer_grammar_tagging(seeded_analyzer_cache):
         f"[eval] Grammar tagging: precision={precision:.2%}, recall={recall:.2%}, "
         f"fp_rate={fp_rate:.2%}, failed_cases={[r['id'] for r in failed]}"
     )
+    record_eval("analyzer", {
+        "precision": round(precision, 4),
+        "recall": round(recall, 4),
+        "fp_rate": round(fp_rate, 4),
+        "n": len(cases),
+        "test": "grammar_tagging",
+    })
 
     assert precision >= 0.98, f"Grammar tagging precision too low: {precision:.2%} (failed: {failed})"
     if must_error_total > 0:

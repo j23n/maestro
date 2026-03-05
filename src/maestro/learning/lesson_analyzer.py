@@ -26,6 +26,7 @@ from maestro.models import (
 )
 from maestro.learning.profile import update_profile
 from maestro.config import settings
+from maestro.prompts import lesson_analyzer as _prompts
 from maestro.utils import parse_llm_json
 
 if TYPE_CHECKING:
@@ -138,24 +139,15 @@ async def _analyze_gps(
     gp_lines = "\n".join(f"{gp.code}: {gp.label}" for gp in candidate_list)
     lesson_priority = ""
     if lesson_gp_codes:
-        lesson_priority = (
-            "\nThe lesson practised these grammar points (treat as higher-priority candidates):\n"
-            + ", ".join(lesson_gp_codes)
-            + "\n"
+        lesson_priority = _prompts.gps_priority_block.render(
+            lesson_gp_codes=", ".join(lesson_gp_codes)
         )
 
-    prompt = (
-        "You are a language tutor reviewing a student's Italian lesson responses.\n\n"
-        f"Student CEFR level: {cefr_level}\n"
-        f"Combined student responses:\n\"\"\"\n{combined}\n\"\"\"\n"
-        f"{lesson_priority}\n"
-        "From the grammar point list below, identify which ones the student:\n"
-        "- Used CORRECTLY (evidence visible in text)\n"
-        "- Made ERRORS in (concrete error visible in text)\n\n"
-        "Only tag a point if you see direct evidence. Do not guess.\n\n"
-        f"Grammar points:\n{gp_lines}\n\n"
-        'Return ONLY valid JSON:\n'
-        '{"grammar_correct": ["code1", ...], "grammar_errors": ["code2", ...]}'
+    prompt = _prompts.analyze_gps.render(
+        cefr_level=cefr_level,
+        combined=combined,
+        lesson_priority=lesson_priority,
+        gp_lines=gp_lines,
     )
 
     try:
@@ -187,11 +179,9 @@ async def _analyze_cfs_staged(
     macro_lines = "\n".join(
         f"- {macro}: {desc}" for macro, desc in _MACRO_CATEGORIES.items()
     )
-    stage1_prompt = (
-        f'Student responses: """\n{combined}\n"""\n\n'
-        "Which of these 7 communicative categories are present?\n"
-        f"{macro_lines}\n\n"
-        'Return ONLY: {"categories": ["macro1", "macro2", ...]}'
+    stage1_prompt = _prompts.cf_stage1.render(
+        combined=combined,
+        macro_lines=macro_lines,
     )
 
     try:
@@ -225,12 +215,9 @@ async def _analyze_cfs_staged(
             f"{cf.code}: {cf.label}" + (f" — {', '.join(cf.patterns[:2])}" if cf.patterns else "")
             for cf in cfs
         )
-        prompt = (
-            f'Student responses: """\n{combined}\n"""\n\n'
-            "Which of these communicative functions did the student perform?\n"
-            "(Only include functions with direct evidence in the text)\n\n"
-            f"{cf_lines}\n\n"
-            'Return ONLY: {"functions": ["code1", ...]}'
+        prompt = _prompts.cf_stage2.render(
+            combined=combined,
+            cf_lines=cf_lines,
         )
         try:
             resp = await client.messages.create(

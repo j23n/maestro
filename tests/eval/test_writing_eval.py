@@ -11,13 +11,13 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_writing_task_completion_accuracy():
+async def test_writing_task_completion_accuracy(record_eval):
     """Measure accuracy of task-completion (objective_correct) for writing feedback."""
     from maestro.learning.analyzer import generate_writing_feedback
 
     cases = json.loads((FIXTURES_DIR / "writing_cases.json").read_text())
 
-    correct_count = 0
+    tp = fp = fn = tn = 0
     results = []
 
     for case in cases:
@@ -30,8 +30,14 @@ async def test_writing_task_completion_accuracy():
         expected = case["expected_objective_correct"]
         passed = got == expected
 
-        if passed:
-            correct_count += 1
+        if expected and got:
+            tp += 1
+        elif not expected and got:
+            fp += 1
+        elif expected and not got:
+            fn += 1
+        else:
+            tn += 1
 
         results.append({
             "id": case["id"],
@@ -44,8 +50,23 @@ async def test_writing_task_completion_accuracy():
             f"got={got} expected={expected}"
         )
 
-    accuracy = correct_count / max(1, len(cases))
+    n = len(cases)
+    accuracy = (tp + tn) / max(1, n)
+    precision = tp / max(1, tp + fp)
+    recall = tp / max(1, tp + fn)
+    fp_rate = fp / max(1, fp + tn)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Writing accuracy={accuracy:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(
+        f"[eval] Writing: accuracy={accuracy:.2%}, precision={precision:.2%}, "
+        f"recall={recall:.2%}, fp_rate={fp_rate:.2%}, failed={[r['id'] for r in failed]}"
+    )
+    record_eval("analyzer", {
+        "accuracy": round(accuracy, 4),
+        "precision": round(precision, 4),
+        "recall": round(recall, 4),
+        "fp_rate": round(fp_rate, 4),
+        "n": n,
+        "test": "writing",
+    })
 
     assert accuracy >= 0.98, f"Writing task-completion accuracy too low: {accuracy:.2%} (failed: {failed})"

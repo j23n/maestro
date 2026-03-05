@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -44,6 +45,36 @@ async def db():
     client = AsyncMongoMockClient()
     await init_beanie(database=client["test_maestro_eval"], document_models=ALL_MODELS)
     yield
+
+
+_RESULTS_FILE = Path(__file__).parent.parent.parent / "evals" / "results.jsonl"
+
+
+@pytest.fixture
+def record_eval():
+    """Call at the end of an eval test to persist metrics to evals/results.jsonl.
+
+    Usage:
+        def test_foo(record_eval):
+            ...
+            record_eval("analyzer", {"precision": 0.97, "recall": 0.95, "n": 30})
+    """
+    from maestro import prompts as prompt_module
+
+    def _record(prompt_file: str, metrics: dict) -> None:
+        pf = getattr(prompt_module, prompt_file, None)
+        version = pf.version if pf else "unknown"
+        entry = {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "prompt": prompt_file,
+            "version": version,
+            **metrics,
+        }
+        _RESULTS_FILE.parent.mkdir(exist_ok=True)
+        with _RESULTS_FILE.open("a") as f:
+            f.write(json.dumps(entry) + "\n")
+
+    return _record
 
 
 @pytest.fixture

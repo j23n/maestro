@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent, LearningProfile
 from maestro.config import settings
+from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
 
 logger = logging.getLogger(__name__)
@@ -68,26 +69,15 @@ def _build_prompt(text: str, drill_context: str = "") -> str:
     context_block = ""
     feedback_field = ""
     if drill_context:
-        context_block = f"Drill context (what the student was asked to do):\n{drill_context}\n\n"
-        feedback_field = (
-            ',"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>",'
-            '"explanation":"<one sentence in Italian explaining the rule>"}]'
-        )
+        context_block = _prompts.context_block_fragment.render(drill_context=drill_context)
+        feedback_field = _prompts.feedback_field_fragment.render().strip()
 
-    return (
-        "Analyze this Italian learner's message. Identify which grammar structures "
-        "appear (correctly used vs errors), communicative functions performed, and themes.\n\n"
-        f"{context_block}"
-        f'Student message: "{text}"\n\n'
-        "Grammar point codes + descriptions:\n"
-        f"{grammar_lines}\n\n"
-        "Communicative function codes:\n"
-        f"{function_lines}\n\n"
-        "Themes: self_identity, family, daily_routine, food_home, health_body, "
-        "shopping, work_study, travel, culture_society, nature_environment\n\n"
-        "Return ONLY valid JSON (no markdown, no explanation):\n"
-        '{"grammar_correct":[...],"grammar_errors":[...],"functions_performed":[...],"themes":[...]'
-        f"{feedback_field}}}"
+    return _prompts.analyze_message.render(
+        context_block=context_block,
+        text=text,
+        grammar_lines=grammar_lines,
+        function_lines=function_lines,
+        feedback_field=feedback_field,
     )
 
 
@@ -143,13 +133,17 @@ async def analyze_message(
             "nature_environment",
         }
 
-        grammar_correct = [c for c in data.get("grammar_correct", []) if c in valid_grammar]
-        grammar_errors  = [c for c in data.get("grammar_errors", []) if c in valid_grammar]
-        functions       = [c for c in data.get("functions_performed", []) if c in valid_functions]
-        themes          = [t for t in data.get("themes", []) if t in valid_themes]
+        # Guard against model returning objects instead of plain code strings
+        def _str_codes(items) -> list[str]:
+            return [c for c in items if isinstance(c, str)]
 
-        unknown_gp = [c for c in data.get("grammar_correct", []) + data.get("grammar_errors", []) if c not in valid_grammar]
-        unknown_cf = [c for c in data.get("functions_performed", []) if c not in valid_functions]
+        grammar_correct = [c for c in _str_codes(data.get("grammar_correct", [])) if c in valid_grammar]
+        grammar_errors  = [c for c in _str_codes(data.get("grammar_errors", [])) if c in valid_grammar]
+        functions       = [c for c in _str_codes(data.get("functions_performed", [])) if c in valid_functions]
+        themes          = [t for t in _str_codes(data.get("themes", [])) if t in valid_themes]
+
+        unknown_gp = [c for c in _str_codes(data.get("grammar_correct", []) + data.get("grammar_errors", [])) if c not in valid_grammar]
+        unknown_cf = [c for c in _str_codes(data.get("functions_performed", [])) if c not in valid_functions]
         if unknown_gp:
             logger.warning(f"[analyzer] LLM returned unknown grammar codes (ignored): {unknown_gp}")
         if unknown_cf:
@@ -189,16 +183,12 @@ async def feedback_fill_blank(
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content else ""
     )
-    prompt = (
-        f"An Italian learner made an error in a fill-in-the-blank exercise.\n\n"
-        f"Grammar point: {grammar_point_code}\n"
-        f"Exercise: {drill_prompt}\n"
-        f"Correct answer: {correct_answer}\n"
-        f"Student's answer: {student_answer}"
-        f"{rule_block}\n\n"
-        "Write ONE sentence in Italian explaining why the student's answer is wrong and "
-        "what the correct rule is. Be concise and direct. "
-        "Return ONLY the explanation sentence, no JSON, no labels."
+    prompt = _prompts.feedback_fill_blank.render(
+        grammar_point_code=grammar_point_code,
+        drill_prompt=drill_prompt,
+        correct_answer=correct_answer,
+        student_answer=student_answer,
+        rule_block=rule_block,
     )
 
     logger.info(f"[analyzer] feedback_fill_blank: gp={grammar_point_code}, student={student_answer!r}, correct={correct_answer!r}")
@@ -235,18 +225,11 @@ async def evaluate_error_correction(
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content else ""
     )
-    prompt = (
-        "You are evaluating an Italian grammar exercise. "
-        "The student was asked to find and correct ONE grammatical error in a sentence.\n\n"
-        f'Original sentence (contains one error): "{erroneous}"\n'
-        f'Reference correction: "{reference}"\n'
-        f'Student\'s answer: "{student}"'
-        f"{rule_block}\n\n"
-        "Decide whether the student's answer is essentially correct. "
-        "Accept minor differences in punctuation or spacing. "
-        "Focus on whether the grammatical error was correctly identified and fixed.\n\n"
-        "Return ONLY valid JSON (no markdown, no explanation):\n"
-        '{"correct":true,"explanation":"ONE sentence in Italian explaining what the error was and the rule"}'
+    prompt = _prompts.evaluate_error_correction.render(
+        erroneous=erroneous,
+        reference=reference,
+        student=student,
+        rule_block=rule_block,
     )
 
     logger.info(f"[analyzer] evaluate_error_correction: student={student!r}, reference={reference!r}")
@@ -310,44 +293,26 @@ async def score_multi_item_drill(
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == "fill_blank":
-        task_desc = (
-            f"The student was asked to fill a blank in an Italian sentence. "
-            f"The student may have typed just the missing word OR the full sentence — both are valid. "
-            f"If the student typed the full sentence, extract the word(s) filling the blank for evaluation."
-        )
+        task_desc = _prompts.task_fill_blank.render()
         lines = [
             f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
         ]
     else:  # error_correction
-        task_desc = (
-            f"The student was asked to correct a grammatical error in an Italian sentence. "
-            f"Accept minor punctuation differences and equivalent phrasings."
-        )
+        task_desc = _prompts.task_error_correction.render()
         lines = [
             f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
         ]
 
-    prompt = (
-        f"You are grading an Italian grammar exercise. {task_desc}\n\n"
-        f"LEARNING OBJECTIVE: {gp_label} ({grammar_point_code})\n"
-        f"{rule_block}\n\n"
-        f"For each item evaluate TWO things independently:\n"
-        f"1. OBJECTIVE — Did the student correctly demonstrate '{gp_label}'? "
-        f"Ignore accents, spelling typos, and unrelated grammar when judging this.\n"
-        f"2. OTHER ISSUES — Identify any additional problems:\n"
-        f"   a) Other grammar errors: tag with codes from this list:\n{grammar_code_list}\n"
-        f"   b) Spelling/accent issues: short freetext note (e.g. \"città not citta\")\n\n"
-        f"Items:\n" + "\n".join(lines) + "\n\n"
-        f"Return ONLY a JSON array of exactly {n} objects, one per item, in order.\n"
-        f"Schema:\n"
-        f'[{{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}}, ...]\n'
-        f"Rules:\n"
-        f"- objective_note: empty string when correct; one sentence in Italian when wrong\n"
-        f"- grammar_errors: codes for OTHER grammar errors (never include {grammar_point_code} here)\n"
-        f"- tips: short strings for spelling/accent issues only\n"
-        f"No markdown, no other text."
+    prompt = _prompts.score_multi_item.render(
+        task_desc=task_desc,
+        gp_label=gp_label,
+        grammar_point_code=grammar_point_code,
+        rule_block=rule_block,
+        grammar_code_list=grammar_code_list,
+        items_block="\n".join(lines),
+        n=n,
     )
 
     try:
@@ -393,21 +358,10 @@ async def generate_writing_feedback(
         f"{word_count} words, prompt={prompt[:60]!r}..."
     )
 
-    llm_prompt = (
-        f"You are an Italian language teacher reviewing a {cefr_level} student's writing.\n\n"
-        f"Writing prompt: {prompt}\n\n"
-        f"Student's text: {student_text}\n\n"
-        "Evaluate TWO things independently:\n"
-        "1. TASK COMPLETION — Did the student make a genuine attempt to address the prompt? "
-        "Set objective_correct=false ONLY if the text is blank, completely off-topic, or "
-        "just a random word/phrase with no relation to the task.\n"
-        "2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips. "
-        "These never affect objective_correct.\n\n"
-        "grammar_errors: list of freetext strings describing grammar issues "
-        "(e.g. \"ha mangiato → aveva mangiato (trapassato prossimo)\"). Up to 4.\n"
-        "tips: spelling/accent issues only (e.g. \"città not citta\"). Up to 3.\n\n"
-        "Return ONLY valid JSON (no markdown):\n"
-        '{"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}'
+    llm_prompt = _prompts.generate_writing_feedback.render(
+        cefr_level=cefr_level,
+        prompt=prompt,
+        student_text=student_text,
     )
 
     try:
@@ -458,23 +412,12 @@ async def score_free_form_drill(
         f"student={student_text[:60]!r}..."
     )
 
-    llm_prompt = (
-        f"You are grading a free-form Italian drill for a {cefr_level} learner.\n\n"
-        f"Grammar point being practised: {grammar_point_code}\n"
-        f"Drill prompt: {prompt}\n"
-        f"Student's answer: {student_text}"
-        f"{rule_block}\n\n"
-        "Evaluate TWO things independently:\n"
-        "1. TASK COMPLETION — Did the student make a genuine attempt at the task? "
-        "Set objective_correct=false ONLY if the answer is blank, completely off-topic, "
-        "or so short/nonsensical it shows no engagement. "
-        "Grammar errors alone must NOT make this false.\n"
-        "2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips. "
-        "These never affect objective_correct.\n\n"
-        "grammar_errors: list of freetext strings (e.g. \"ho andato → sono andato (essere verbs)\"). Up to 4.\n"
-        "tips: spelling/accent issues only (e.g. \"perché not perche\"). Up to 3.\n\n"
-        "Return ONLY valid JSON (no markdown):\n"
-        '{"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}'
+    llm_prompt = _prompts.score_free_form_drill.render(
+        cefr_level=cefr_level,
+        grammar_point_code=grammar_point_code,
+        prompt=prompt,
+        student_text=student_text,
+        rule_block=rule_block,
     )
 
     try:
@@ -523,20 +466,9 @@ async def score_reading_answers(
         for i in range(n)
     ]
 
-    prompt = (
-        "You are grading reading comprehension answers for an Italian language learner.\n\n"
-        "For each item, judge whether the student's answer correctly addresses the question. "
-        "Accept paraphrasing, approximate wording, and answers in a mix of Italian and English. "
-        "Focus on whether the student understood the text, not perfect grammar.\n\n"
-        f"Items:\n" + "\n".join(lines) + "\n\n"
-        f"Return ONLY a JSON array of exactly {n} objects, one per item, in order.\n"
-        f"Schema:\n"
-        f'[{{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}}, ...]\n'
-        "Rules:\n"
-        "- objective_note: empty when correct; one Italian sentence explaining what was wrong or missing when incorrect\n"
-        "- grammar_errors: list of short strings describing grammar issues in the student's Italian (if any)\n"
-        "- tips: short spelling/accent tip strings only\n"
-        "No markdown, no other text."
+    prompt = _prompts.score_reading_answers.render(
+        items_block="\n".join(lines),
+        n=n,
     )
 
     try:
