@@ -1,0 +1,41 @@
+[
+  {
+    "id": "passato_prossimo_correct_batch",
+    "type": "gp",
+    "combined": "Ieri sono andato al mercato e ho comprato delle mele. Ho mangiato la pizza con gli amici.",
+    "cefr_level": "A1",
+    "lesson_gp_codes": ["la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone"],
+    "must_appear_in_correct": ["la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone"],
+    "must_not_appear_in_errors": ["la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone"]
+  },
+  {
+    "id": "articles_used_correctly",
+    "type": "gp",
+    "combined": "Il cane dorme sul divano. Una ragazza legge un libro in biblioteca.",
+    "cefr_level": "A1",
+    "lesson_gp_codes": ["la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi"],
+    "must_appear_in_correct": ["la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi"],
+    "must_not_appear_in_errors": ["la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi"]
+  },
+  {
+    "id": "cf_info_exchange",
+    "type": "cf",
+    "combined": "Mi chiamo Marco. Ho ventidue anni. Studio ingegneria. E tu, come ti chiami?",
+    "cefr_level": "A1",
+    "expected_macro_categories": ["interagire_informazioni", "interagire_rituali_sociali"]
+  },
+  {
+    "id": "cf_social_rituals",
+    "type": "cf",
+    "combined": "Buongiorno! Come stai? Grazie mille per il tuo aiuto. Arrivederci!",
+    "cefr_level": "A1",
+    "expected_macro_categories": ["interagire_rituali_sociali"]
+  },
+  {
+    "id": "cf_expressing_opinions",
+    "type": "cf",
+    "combined": "Secondo me, la pizza è il cibo più buono del mondo. Mi piace molto la cucina italiana.",
+    "cefr_level": "A1",
+    "expected_macro_categories": ["interagire_opinioni_atteggiamenti"]
+  }
+]

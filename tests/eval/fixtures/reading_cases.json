@@ -1,0 +1,72 @@
+[
+  {
+    "id": "casa_mia_passage",
+    "questions": [
+      "Come si chiama la bambina?",
+      "Dove abita la famiglia?",
+      "Cosa fa il padre?"
+    ],
+    "correct_answers": [
+      "La bambina si chiama Maria.",
+      "La famiglia abita a Roma.",
+      "Il padre lavora in ospedale come medico."
+    ],
+    "student_answers": [
+      "Si chiama Maria.",
+      "Roma",
+      "Non lo so."
+    ],
+    "expected_results": [true, true, false]
+  },
+  {
+    "id": "english_paraphrase_accepted",
+    "questions": [
+      "Quanti anni ha il nonno?",
+      "Qual è il colore preferito di Giulia?"
+    ],
+    "correct_answers": [
+      "Il nonno ha settanta anni.",
+      "Il colore preferito di Giulia è il blu."
+    ],
+    "student_answers": [
+      "70 years old",
+      "blue"
+    ],
+    "expected_results": [true, true]
+  },
+  {
+    "id": "all_wrong",
+    "questions": [
+      "Dove si trova il museo?",
+      "A che ora apre il museo?"
+    ],
+    "correct_answers": [
+      "Il museo si trova in centro vicino alla piazza principale.",
+      "Il museo apre alle nove di mattina."
+    ],
+    "student_answers": [
+      "Non lo so.",
+      "Non lo so."
+    ],
+    "expected_results": [false, false]
+  },
+  {
+    "id": "partial_correct",
+    "questions": [
+      "Chi prepara il pranzo?",
+      "Quante persone ci sono a tavola?",
+      "Che cosa mangiano?"
+    ],
+    "correct_answers": [
+      "La nonna prepara il pranzo.",
+      "Ci sono cinque persone a tavola.",
+      "Mangiano la pasta al pomodoro."
+    ],
+    "student_answers": [
+      "La nonna.",
+      "Tre persone.",
+      "Pasta al pomodoro."
+    ],
+    "expected_results": [true, false, true]
+  }
+]

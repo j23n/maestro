@@ -1,0 +1,61 @@
+[
+  {
+    "id": "a1_fill_blank_with_writing",
+    "cefr_level": "A1",
+    "topic": "Al supermercato — fare la spesa",
+    "grammar_gps": [
+      {
+        "code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+        "label": "Verb Conjugation (Present & Passato Prossimo)",
+        "description": "La coniugazione attiva dei principali verbi regolari e ausiliari"
+      }
+    ],
+    "drill_specs": [
+      {
+        "grammar_point_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+        "gp_label": "Verb Conjugation",
+        "gp_description": "La coniugazione attiva dei principali verbi regolari e ausiliari",
+        "exercise_type": "fill_blank",
+        "rag_excerpt": ""
+      }
+    ],
+    "reading_count": 1,
+    "include_writing": true,
+    "speaking_cfs": [],
+    "expect_drills": 1,
+    "expect_readings": 1,
+    "expect_writing": true,
+    "expect_items_per_fill_blank": 10
+  },
+  {
+    "id": "a2_error_correction_with_speaking",
+    "cefr_level": "A2",
+    "topic": "In viaggio — prendere il treno",
+    "grammar_gps": [],
+    "drill_specs": [
+      {
+        "grammar_point_code": "la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi",
+        "gp_label": "Articles",
+        "gp_description": "La differente funzione degli articoli determinativi e indeterminativi",
+        "exercise_type": "error_correction",
+        "rag_excerpt": ""
+      }
+    ],
+    "reading_count": 1,
+    "include_writing": false,
+    "speaking_cfs": [
+      {
+        "code": "interag_identi_a1",
+        "label": "Identificare",
+        "macro_category": "interagire_informazioni",
+        "examples": ["È la mia professoressa.", "Lui si chiama Mario."],
+        "patterns": ["…si chiama nome …", "…è gruppo nominale …"]
+      }
+    ],
+    "expect_drills": 1,
+    "expect_readings": 1,
+    "expect_writing": false,
+    "expect_speakings": 1,
+    "expect_items_per_error_correction": 10
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "label": "La coniugazione attiva dei verbi principali",
+    "cefr_level": "A1",
+    "description": "La coniugazione attiva dei principali verbi regolari e ausiliari essere e avere",
+    "expected_levels": ["A1", "A2", "B1", "B2"]
+  },
+  {
+    "code": "proposizioni_volitive_desiderative_attraverso_luso_del_condizionale_es_mi",
+    "label": "Proposizioni volitive desiderative col condizionale",
+    "cefr_level": "B1",
+    "description": "Proposizioni volitive desiderative attraverso l'uso del condizionale, es. Mi piacerebbe leggere quel libro",
+    "expected_levels": ["B1", "B2"]
+  },
+  {
+    "code": "la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi",
+    "label": "Gli articoli determinativi e indeterminativi",
+    "cefr_level": "A1",
+    "description": "La differente funzione di tutti gli articoli determinativi e indeterminativi",
+    "expected_levels": ["A1", "A2", "B1", "B2"]
+  }
+]
