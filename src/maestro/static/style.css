@@ -1,0 +1,1029 @@
+/* =====================================================================
+   1. Reset & Base
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111;
+  background: #fff;
+}
+
+/* =====================================================================
+   2. Layout: site-container, nav
+   ===================================================================== */
+.site-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+nav {
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 13px;
+}
+
+nav .site-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+nav a { color: #555; text-decoration: none; padding: 0.2rem 0; }
+nav a:hover { color: #111; }
+
+/* =====================================================================
+   3. Form elements: button, input
+   ===================================================================== */
+button {
+  padding: 0.4rem 0.8rem;
+  font-size: 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+button:hover { background: #e8e8e8; }
+button:disabled { background: #aaa; cursor: not-allowed; }
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  font-size: 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="text"]:focus { border-color: #888; }
+
+/* =====================================================================
+   4. Shared components
+   ===================================================================== */
+
+/* Vocab word underline */
+.vocab-word {
+  border-bottom: 1px dashed #aaa;
+  cursor: help;
+}
+
+/* Vocab tooltip */
+#vocab-tooltip {
+  position: fixed;
+  display: none;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0.6rem 0.85rem;
+  pointer-events: none;
+  max-width: 300px;
+}
+
+#vocab-tooltip .tt-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+#vocab-tooltip .tt-word { font-weight: 600; font-size: 1em; }
+#vocab-tooltip .tt-pos { font-size: 0.78em; color: #888; font-style: italic; }
+#vocab-tooltip .tt-syllabization { font-size: 0.8em; color: #999; margin-bottom: 0.2rem; }
+#vocab-tooltip .tt-senses { font-size: 0.82em; color: #444; margin-bottom: 0.2rem; }
+#vocab-tooltip .tt-sense { margin-bottom: 0.25rem; }
+#vocab-tooltip .tt-sense:last-child { margin-bottom: 0; }
+#vocab-tooltip .tt-example { font-size: 0.9em; color: #888; font-style: italic; padding-left: 0.6rem; }
+#vocab-tooltip .tt-translation { font-size: 0.82em; color: #888; font-style: italic; }
+#vocab-tooltip .tt-more { display: block; font-size: 0.78em; color: #6b9fc9; text-decoration: none; margin-top: 0.3rem; }
+#vocab-tooltip .tt-more:hover { text-decoration: underline; }
+
+/* Drill feedback */
+.feedback-block { margin-bottom: 1rem; }
+
+.feedback-correction {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.65rem;
+}
+
+.feedback-correction blockquote {
+  margin: 0;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0 5px 5px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.answer-wrong {
+  border-left: 3px solid #f87171;
+  background: #fff5f5;
+  color: #7f1d1d;
+  text-decoration: line-through;
+  text-decoration-color: #f87171;
+}
+
+.answer-correct {
+  border-left: 3px solid #4ade80;
+  background: #f0fdf4;
+  color: #14532d;
+}
+
+.feedback-explanation { font-size: 0.88rem; color: #555; margin: 0 0 0.25rem; line-height: 1.55; }
+
+.rule-refs { margin-bottom: 1rem; }
+.rule-ref {
+  font-size: 0.8rem;
+  color: #555;
+  padding: 0.2rem 0.6rem;
+  background: #f5f5f5;
+  border-left: 2px solid #ccc;
+  margin-bottom: 0.3rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Vocab card (vocab-practice & lezione-activity-vocab) */
+.card {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+#practice-card { max-width: 480px; margin: 2rem auto; }
+
+.card-queue { font-size: 0.75rem; color: #bbb; margin-bottom: 1.25rem; }
+.word  { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
+.pos   { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
+.clue  { font-size: 1.1rem; color: #333; margin-bottom: 1.5rem; line-height: 1.6; }
+.prompt { font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+.back  { margin: 1.5rem 0; border-top: 1px solid #e5e5e5; padding-top: 1.5rem; }
+.translation { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+.senses { text-align: left; margin: 0.5rem 0 0; padding-left: 1.25rem; font-size: 0.9rem; color: #333; }
+.senses li { margin-bottom: 0.4rem; }
+.sense-def { color: #222; }
+.sense-ex { font-style: italic; color: #888; font-size: 0.9em; margin-top: 0.1rem; }
+.rating-buttons { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+
+/* Lesson progress bar */
+.lesson-progress { padding: 1rem 0 0; margin-bottom: 1.5rem; }
+.progress-bar { height: 4px; background: #e5e5e5; border-radius: 2px; overflow: hidden; margin-bottom: 0.4rem; }
+.progress-fill { height: 100%; background: #111; border-radius: 2px; transition: width 0.3s ease; }
+.progress-label { font-size: 0.75rem; color: #aaa; }
+
+/* Shared action buttons */
+.submit-btn, .continue-btn, .reveal-btn {
+  display: inline-block;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.95rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.submit-btn:hover, .continue-btn:hover, .reveal-btn:hover { background: #333; }
+
+/* Skip link */
+.skip-link { font-size: 0.8rem; color: #bbb; text-decoration: none; }
+.skip-link:hover { color: #888; }
+
+/* Card label / section heading */
+.card-label, .reading-title, .questions-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+/* Grammar content */
+.grammar-content { font-size: 0.95rem; line-height: 1.7; color: #333; }
+
+.grammar-content h1,
+.grammar-content h2,
+.grammar-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  color: #111;
+}
+
+.grammar-content h1:first-child,
+.grammar-content h2:first-child,
+.grammar-content h3:first-child { margin-top: 0; }
+
+.grammar-content p { margin: 0 0 0.9rem; }
+.grammar-content p:last-child { margin-bottom: 0; }
+
+.grammar-content code {
+  background: #f5f5f5;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: ui-monospace, monospace;
+}
+
+.grammar-content blockquote {
+  border-left: 3px solid #d0d0d0;
+  margin: 0.75rem 0;
+  padding: 0.3rem 0.9rem;
+  color: #555;
+  font-style: italic;
+}
+
+.grammar-content ul,
+.grammar-content ol { margin: 0 0 0.9rem; padding-left: 1.5rem; }
+
+.grammar-content li { margin-bottom: 0.3rem; }
+
+.grammar-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 0.9rem;
+  font-size: 0.9em;
+}
+
+.grammar-content th,
+.grammar-content td { border: 1px solid #e0e0e0; padding: 0.4rem 0.7rem; text-align: left; }
+
+.grammar-content th { background: #f5f5f5; font-weight: 600; }
+
+/* CEFR badges (vocab, search) */
+.cefr-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.cefr-badge.a1 { background: #e8f5e9; color: #2e7d32; }
+.cefr-badge.a2 { background: #e3f2fd; color: #1565c0; }
+.cefr-badge.b1 { background: #fff3e0; color: #e65100; }
+.cefr-badge.b2 { background: #f3e5f5; color: #6a1b9a; }
+
+/* Spinner */
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid #e5e7eb;
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Drill result items */
+.item-row {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.4rem 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.item-row:last-child { border-bottom: none; }
+
+.item-row-num { font-size: 0.78rem; color: #bbb; padding-top: 0.25rem; text-align: right; }
+.item-row-body { display: flex; flex-direction: column; gap: 0.25rem; }
+.item-prompt-text { font-size: 0.9rem; color: #555; font-style: italic; }
+.item-student-wrong { font-size: 0.9rem; color: #b91c1c; text-decoration: line-through; }
+.item-correct-answer { font-size: 0.9rem; color: #065f46; font-weight: 500; }
+.item-explanation { font-size: 0.82rem; color: #666; margin-top: 0.1rem; }
+.item-ok-mark { font-size: 0.85rem; color: #16a34a; }
+
+.item-secondary { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
+
+.item-grammar-error {
+  font-size: 0.78rem;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+.item-tip { font-size: 0.78rem; color: #6b7280; font-style: italic; }
+
+/* Drill result banners */
+.result-ok {
+  background: #ecfdf5;
+  color: #065f46;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.result-wrong {
+  background: #fef2f2;
+  color: #991b1b;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.rule-refs-block {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Activity container */
+.activity-container { max-width: 600px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+/* Answer area (writing / free-form drill) */
+.answer-area {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+.answer-area:focus { border-color: #888; }
+
+/* Item inputs (fill-blank / error-correction drills) */
+.item-input {
+  width: 100%;
+  padding: 0.38rem 0.6rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  outline: none;
+  box-sizing: border-box;
+}
+.item-input:focus { border-color: #888; }
+
+/* Mode selector (vocab practice) */
+.mode-selector { display: flex; gap: 0.5rem; justify-content: center; padding: 1.5rem 1rem 0; }
+.mode-selector a {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+}
+.mode-selector a:hover { background: #f5f5f5; }
+.mode-selector a.active { background: #111; color: #fff; border-color: #111; }
+
+/* =====================================================================
+   5. Page: Lezione plan
+   ===================================================================== */
+.lesson-plan { max-width: 560px; margin: 2.5rem auto; padding: 0 1rem; }
+
+.lesson-header { margin-bottom: 1.75rem; }
+.lesson-header h1 { font-size: 1.2rem; font-weight: 600; margin: 0 0 0.25rem; }
+
+.lesson-meta { font-size: 0.82rem; color: #888; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.lesson-overview { font-size: 0.88rem; color: #888; font-style: italic; margin-bottom: 1rem; line-height: 1.5; }
+
+.activity-list {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.activity-icon { font-size: 1.1rem; width: 1.5rem; text-align: center; flex-shrink: 0; margin-top: 0.05rem; }
+.activity-body { flex: 1; }
+.activity-title { font-size: 0.92rem; font-weight: 500; color: #111; margin-bottom: 0.15rem; }
+.activity-desc { font-size: 0.8rem; color: #888; }
+
+.actions { display: flex; gap: 0.75rem; align-items: center; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary:hover { background: #333; }
+
+.lesson-plan .btn-secondary { font-size: 0.82rem; color: #888; text-decoration: none; }
+.lesson-plan .btn-secondary:hover { color: #333; }
+
+/* =====================================================================
+   6. Page: Lezione new
+   ===================================================================== */
+.lesson-new { max-width: 520px; margin: 3rem auto; padding: 0 1rem; }
+.lesson-new h1 { font-size: 1.3rem; font-weight: 600; margin: 0 0 0.25rem; }
+.lesson-new .subtitle { font-size: 0.85rem; color: #666; margin: 0 0 2rem; }
+
+.form-section { margin-bottom: 1.75rem; }
+.form-section label.section-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #777;
+  margin-bottom: 0.75rem;
+}
+
+.duration-options { display: flex; gap: 0.75rem; }
+.duration-options > span { flex: 1; display: flex; flex-direction: column; }
+.duration-options input[type="radio"] { display: none; }
+.duration-options label {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  transition: border-color 0.15s, background 0.15s;
+}
+.duration-options label:hover { border-color: #aaa; background: #fafafa; }
+.duration-options input[type="radio"]:checked + label { border-color: #111; background: #111; color: #fff; }
+.duration-options .dur-min { display: block; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.1rem; }
+.duration-options .dur-label { font-size: 0.75rem; opacity: 0.8; }
+
+textarea.topic-field {
+  width: 100%;
+  min-height: 60px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  resize: vertical;
+  outline: none;
+  color: #111;
+}
+textarea.topic-field:focus { border-color: #888; }
+textarea.topic-field::placeholder { color: #bbb; }
+
+.grammar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 1rem; }
+
+.grammar-level-heading {
+  grid-column: 1 / -1;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #aaa;
+  margin-top: 0.6rem;
+  margin-bottom: 0.1rem;
+}
+
+.grammar-grid input[type="checkbox"] { display: none; }
+.grammar-grid label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.1s, background 0.1s;
+  line-height: 1.3;
+}
+.grammar-grid label:hover { border-color: #aaa; background: #fafafa; }
+.grammar-grid input[type="checkbox"]:checked + label { border-color: #111; background: #111; color: #fff; }
+
+.check-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  opacity: 0;
+}
+.grammar-grid input[type="checkbox"]:checked + label .check-icon { opacity: 1; }
+
+.btn-start {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-start:hover { background: #333; }
+
+.loading-hint { text-align: center; font-size: 0.82rem; color: #999; margin-top: 0.75rem; }
+
+/* =====================================================================
+   7. Page: Lezione complete
+   ===================================================================== */
+.complete-container { max-width: 520px; margin: 3rem auto; padding: 0 1rem; }
+
+.complete-hero { text-align: center; margin-bottom: 2rem; }
+.complete-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+.complete-title { font-size: 1.4rem; font-weight: 600; margin: 0 0 0.4rem; }
+.complete-subtitle { font-size: 0.9rem; color: #888; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 2rem; }
+
+.stat-card { border: 1px solid #e5e5e5; border-radius: 8px; padding: 1rem; text-align: center; }
+.stat-value { font-size: 1.6rem; font-weight: 600; color: #111; }
+.stat-label { font-size: 0.75rem; color: #999; margin-top: 0.2rem; }
+
+.activity-summary { border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
+.activity-summary-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.88rem;
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-status { font-size: 0.8rem; flex-shrink: 0; }
+.summary-title { flex: 1; color: #333; }
+.summary-skipped .summary-title { color: #bbb; }
+
+.action-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.complete-container .btn-secondary {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+}
+.complete-container .btn-secondary:hover { background: #f5f5f5; }
+
+/* Lesson feedback box */
+.lesson-feedback {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.lesson-feedback .feedback-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+.lesson-feedback .feedback-text { font-size: 0.92rem; color: #333; line-height: 1.6; margin: 0; }
+
+/* Review / weak grammar box */
+.review-box {
+  border: 1px solid #fde8e8;
+  background: #fffbfb;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.review-box .review-heading {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+}
+.review-links { display: flex; flex-direction: column; gap: 0.4rem; }
+.review-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #111;
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f5e8e8;
+}
+.review-level {
+  font-size: 0.75rem;
+  color: #bbb;
+  border: 1px solid #e0d0d0;
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  margin-left: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* =====================================================================
+   8. Page: Lezione generating
+   ===================================================================== */
+.generating-wrap { max-width: 480px; margin: 4rem auto; padding: 0 1rem; text-align: center; }
+.generating-title { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem; }
+.generating-sub { font-size: 0.88rem; color: #888; }
+
+/* =====================================================================
+   9. Page: Activity drill — extra card elements
+   ===================================================================== */
+.card-meta { font-size: 0.78rem; color: #999; margin-bottom: 1.25rem; display: flex; gap: 0.5rem; }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 20px; background: #f0f0f0; color: #555; }
+
+.drill-instruction { font-size: 0.85rem; color: #666; margin-bottom: 1.25rem; font-style: italic; }
+
+.items-form { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem; }
+.drill-item { display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.5rem 0.6rem; align-items: start; }
+.item-num { font-size: 0.78rem; color: #bbb; padding-top: 0.5rem; text-align: right; }
+.item-body { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.item-sentence {
+  font-size: 0.95rem;
+  color: #111;
+  line-height: 1.5;
+  padding: 0.35rem 0.6rem;
+  background: #fafafa;
+  border-left: 2px solid #e0e0e0;
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+}
+
+.card-prompt { font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; color: #111; }
+
+.submit-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+/* =====================================================================
+   10. Page: Activity grammar — extra elements
+   ===================================================================== */
+.grammar-title { font-size: 1.15rem; font-weight: 600; color: #111; margin-bottom: 1.5rem; }
+
+.why-important {
+  border-left: 3px solid #d0d0d0;
+  background: #fafafa;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0 4px 4px 0;
+}
+.why-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #aaa; margin-bottom: 0.25rem; }
+.why-important p { font-size: 0.88rem; color: #555; margin: 0; font-style: italic; line-height: 1.5; }
+
+/* =====================================================================
+   11. Page: Activity reading — extra elements
+   ===================================================================== */
+.reading-card { border: 1px solid #e5e5e5; border-radius: 8px; padding: 2rem; margin-bottom: 1.25rem; }
+.reading-text { font-size: 1rem; line-height: 1.8; color: #222; white-space: pre-wrap; }
+.questions-card { border: 1px solid #e5e5e5; border-radius: 8px; padding: 2rem; }
+.question-item { margin-bottom: 1.25rem; }
+.question-label { font-size: 0.9rem; font-weight: 500; color: #333; margin-bottom: 0.4rem; }
+.question-input { width: 100%; padding: 0.5rem 0.7rem; font-size: 0.9rem; font-family: inherit; border: 1px solid #d0d0d0; border-radius: 6px; outline: none; }
+.question-input:focus { border-color: #888; }
+
+/* =====================================================================
+   12. Page: Activity writing — extra elements
+   ===================================================================== */
+.prompt-text { font-size: 1rem; line-height: 1.7; color: #222; margin-bottom: 1.5rem; }
+
+/* =====================================================================
+   13. Page: Activity speaking — stub card
+   ===================================================================== */
+.stub-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.stub-title { font-size: 1.1rem; font-weight: 600; color: #111; margin-bottom: 0.5rem; }
+.stub-desc { font-size: 0.9rem; color: #888; margin-bottom: 2rem; }
+
+/* =====================================================================
+   14. Page: Vocab list
+   ===================================================================== */
+.vocab-page { padding: 1.25rem 0; }
+.vocab-page h2 { margin: 0 0 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+
+.vocab-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+}
+.stats-group { display: flex; gap: 1rem; }
+.stat { display: flex; flex-direction: column; align-items: center; min-width: 52px; }
+.stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.1; color: #111; }
+.stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 1px; }
+.stat.learned .stat-value { color: #27ae60; }
+.stat.difficult .stat-value { color: #c0392b; }
+
+.stats-divider { width: 1px; height: 36px; background: #e0e0e0; }
+
+.cefr-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.cefr-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cefr-count { font-size: 1rem; font-weight: 600; color: #333; }
+
+.vocab-search-wrap { position: relative; margin-bottom: 1rem; }
+.vocab-search-wrap input { width: 100%; box-sizing: border-box; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; }
+#search-results:not(:empty) {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; min-width: 360px; }
+th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid #e5e5e5; white-space: nowrap; }
+th { font-weight: 600; color: #555; font-size: 12px; text-transform: uppercase; }
+.due { color: #c0392b; font-weight: 600; }
+
+/* =====================================================================
+   15. Page: Vocab entry
+   ===================================================================== */
+.entry-page { max-width: 680px; margin: 2rem auto; padding: 0 1rem; }
+
+.entry-header { margin-bottom: 1.5rem; }
+.entry-headword { font-size: 1.8em; font-weight: 700; margin: 0 0 0.2rem; }
+.entry-meta { color: #666; font-size: 0.9em; }
+.entry-pos { font-style: italic; }
+.entry-syl { color: #999; margin-left: 0.5rem; }
+.entry-cefr {
+  display: inline-block;
+  font-size: 0.75em;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  margin-left: 0.5rem;
+  background: #e8f4e8;
+  color: #2d6a2d;
+}
+
+.sense-list { list-style: none; padding: 0; margin: 0; }
+.sense-item { padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0; }
+.sense-item:last-child { border-bottom: none; }
+.sense-num { display: inline-block; min-width: 1.4rem; font-weight: 600; color: #999; }
+.sense-style { font-size: 0.78em; color: #999; font-style: italic; margin-left: 0.3rem; }
+.sense-examples { margin: 0.2rem 0 0 1.4rem; font-style: italic; color: #666; font-size: 0.9em; }
+.sense-xr { margin: 0.2rem 0 0 1.4rem; font-size: 0.85em; color: #888; }
+
+.graded-tabs { display: flex; gap: 0.25rem; margin-bottom: 1rem; }
+.graded-tab {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85em;
+  background: #f5f5f5;
+}
+.graded-tab.active { background: #222; color: #fff; border-color: #222; }
+.graded-panel { display: none; }
+.graded-panel.active { display: block; }
+.graded-translation { font-style: italic; color: #888; font-size: 0.9em; margin-bottom: 0.5rem; }
+
+#vocab-add { margin-top: 0.75rem; }
+#vocab-add button { padding: 0.35rem 0.85rem; font-size: 0.85rem; cursor: pointer; }
+.added-badge {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* =====================================================================
+   16. Page: Grammar detail
+   ===================================================================== */
+.grammar-detail { max-width: 600px; margin: 2.5rem auto; padding: 0 1rem 3rem; }
+
+.gp-header { margin-bottom: 1.75rem; }
+.gp-level {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.gp-title { font-size: 1.35rem; font-weight: 600; color: #111; margin: 0 0 0.3rem; }
+
+.grammar-detail .grammar-content {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.75rem;
+  line-height: 1.75;
+}
+
+.no-explanation {
+  font-size: 0.9rem;
+  color: #888;
+  font-style: italic;
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 1.75rem;
+}
+
+.practice-btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.practice-btn:hover { background: #333; }
+
+/* =====================================================================
+   17. Page: Profilo
+   ===================================================================== */
+.profilo-container {
+  max-width: 640px;
+  margin: 2.5rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cefr-tracker { display: flex; gap: 0.5rem; }
+.cefr-tracker .cefr-badge {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #999;
+  background: #fafafa;
+  letter-spacing: normal;
+}
+.cefr-tracker .cefr-badge.active { background: #111; color: #fff; border-color: #111; }
+
+.narrative {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.6;
+  padding: 1rem 1.25rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 3px solid #e0e0e0;
+}
+
+.skills-section { display: flex; flex-direction: column; gap: 1.5rem; }
+.level-group { border: none; padding: 0; }
+.level-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; cursor: pointer; list-style: none; }
+.level-heading::-webkit-details-marker { display: none; }
+.level-heading h2 { font-size: 0.9rem; font-weight: 700; margin: 0; min-width: 2rem; }
+.level-stats { font-size: 0.75rem; color: #999; white-space: nowrap; }
+.level-bar { flex: 1; height: 4px; background: #eee; border-radius: 2px; overflow: hidden; }
+.level-bar-fill { height: 100%; background: #111; border-radius: 2px; transition: width 0.3s; }
+
+.subsection-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #bbb;
+  padding: 0.75rem 0 0.3rem;
+}
+.macro-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #d0d0d0;
+  padding: 0.45rem 0 0.1rem;
+}
+
+.skill-list { display: flex; flex-direction: column; }
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid #f4f4f4;
+  font-size: 0.81rem;
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-label { flex: 1; color: #333; }
+
+.pip-track { display: flex; gap: 2px; flex-shrink: 0; }
+.pip { width: 8px; height: 8px; border-radius: 2px; background: #ebebeb; flex-shrink: 0; }
+.pip.ok  { background: #16a34a; }
+.pip.err { background: #dc2626; }
+
+.profilo-container .card { padding: 1.5rem; }
+.profilo-container .card h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.4rem; }
+.profilo-container .card p  { font-size: 0.82rem; color: #666; margin: 0 0 1rem; }
+.field label { display: block; font-size: 0.78rem; font-weight: 500; margin-bottom: 0.4rem; color: #444; }
+.field input[type="text"] {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+}
+.field input[type="text"]:focus { border-color: #888; }
+
+.saved-banner {
+  background: #ecfdf5;
+  color: #065f46;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+/* =====================================================================
+   18. Search results
+   ===================================================================== */
+.search-result-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  color: #111;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* =====================================================================
+   19. Media queries
+   ===================================================================== */
+@media (max-width: 480px) {
+  .lesson-plan { margin: 1.5rem auto; }
+  .mode-selector { flex-wrap: wrap; padding: 1rem 0.75rem 0; }
+  .card { padding: 1.5rem 1.25rem; }
+  .word { font-size: 1.6rem; }
+  .profilo-container { margin: 1.25rem auto; }
+  .profilo-container .card { padding: 1.1rem; }
+  .pip { width: 7px; height: 7px; }
+}
+
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .action-links { flex-direction: column; }
+  .btn-primary, .complete-container .btn-secondary { text-align: center; }
+}

@@ -1,35 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ activity.title }} — Maestro{% endblock %}
 
-{% block styles %}
-  .activity-container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 1rem 3rem;
-  }
-
-  .reveal-btn {
-    padding: 0.5rem 1.4rem;
-    font-size: 0.95rem;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .reveal-btn:hover { background: #333; }
-
-  .skip-link {
-    display: block;
-    text-align: right;
-    font-size: 0.8rem;
-    color: #bbb;
-    text-decoration: none;
-    margin-top: 0.75rem;
-  }
-  .skip-link:hover { color: #888; }
-{% endblock %}
-
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
