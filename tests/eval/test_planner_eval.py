@@ -1,4 +1,4 @@
-"""LLM eval tests for lesson topic and content generation."""
+"""LLM eval tests for lesson content generation."""
 import json
 import logging
 from pathlib import Path
@@ -14,122 +14,11 @@ _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data"
 
 
 @pytest.mark.llm_eval
-async def test_topic_generation(db, record_eval):
-    """Validate JSON schema and structural properties of generate_topic output."""
-    import json as _json
-    from maestro.lezione.planner import generate_topic
-    from maestro.models import LessonTopic
-    from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
-
-    cases = json.loads((FIXTURES_DIR / "planner_topic_cases.json").read_text())
-    cfs_raw = json.loads((_DATA_DIR / "comm_functions.json").read_text())
-    # comm_functions.json has no `description` field; supply default
-    available_cfs = [SimpleNamespace(description="", **cf) for cf in cfs_raw]
-
-    client = anthropic.AsyncAnthropic()
-
-    passed_count = 0
-    results = []
-    generated_topics = []  # store (case, topic) for judging
-
-    for case in cases:
-        profile = SimpleNamespace(
-            cefr_estimate=case["cefr"],
-            student_interests=case["interests"],
-            grammar_error_counts={},
-            grammar_correct_counts={},
-            functions_counts={},
-            description="",
-        )
-        past_topics = [LessonTopic(**t) for t in case["past_topics"]]
-
-        topic = await generate_topic(
-            profile=profile,
-            past_topics=past_topics,
-            available_cfs=available_cfs,
-            hint=case["hint"],
-            client=client,
-        )
-
-        failures = []
-
-        if not topic.title or not topic.title.strip():
-            failures.append("title is empty")
-        if not isinstance(topic.cf_codes, list):
-            failures.append("cf_codes is not a list")
-        if topic.depth not in (1, 2, 3):
-            failures.append(f"depth {topic.depth} not in 1-3")
-        if case["hint"] and case["hint"].lower() not in (topic.title + " " + topic.description).lower():
-            # Soft check: hint topic should be reflected in title or description
-            logger.warning(f"[eval] {case['id']}: hint {case['hint']!r} not obviously reflected in topic {topic.title!r}")
-        if past_topics and topic.title == past_topics[0].title:
-            failures.append(f"title repeats past topic: {topic.title!r}")
-
-        passed = not failures
-        if passed:
-            passed_count += 1
-
-        results.append({"id": case["id"], "title": topic.title, "pass": passed, "failures": failures})
-        generated_topics.append((case, topic))
-        logger.info(
-            f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} title={topic.title!r} "
-            f"depth={topic.depth} cf_codes={topic.cf_codes} {failures}"
-        )
-
-    n = len(cases)
-    output_syntax = passed_count / max(1, n)
-    failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Topic gen: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
-
-    # LLM judge: evaluate each generated topic
-    judge_passed = 0
-    judge_total = 0
-    for case, topic in generated_topics:
-        judge_total += 1
-        interests_str = ", ".join(case["interests"]) if case["interests"] else "(none)"
-        hint_str = case["hint"] or "(none)"
-        generated = f"{topic.title} — {topic.description}"
-        expected_output = case.get("expected_output")
-        if expected_output is not None:
-            ok, reason = _judge_ref(
-                generated=generated,
-                reference=_json.dumps(expected_output, ensure_ascii=False),
-                context=f"Lesson topic for CEFR {case['cefr']} learner interested in {interests_str}",
-            )
-        else:
-            prompt = (
-                f'Student: CEFR {case["cefr"]}, interests: {interests_str}\n'
-                f"Focus hint: {hint_str}\n"
-                f'Generated topic title: "{topic.title}"\n'
-                f'Description: "{topic.description}"\n\n'
-                f"Is this topic: (1) realistic for a {case['cefr']} Italian learner, "
-                f"(2) related to stated interests or hint, "
-                f"(3) a genuine communicative scenario (not just a grammar exercise)?"
-            )
-            ok, reason = _judge(prompt)
-        if ok:
-            judge_passed += 1
-        logger.info(f"[eval] judge topic {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
-
-    content_quality = judge_passed / max(1, judge_total)
-    logger.info(f"[eval] Topic content_quality={content_quality:.2%}")
-
-    record_eval("planner", {
-        "output_syntax": round(output_syntax, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "topic",
-    })
-
-    assert output_syntax >= 0.75, f"Topic generation pass rate too low: {output_syntax:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Topic content quality too low: {content_quality:.2%}"
-
-
-@pytest.mark.llm_eval
 async def test_lesson_content_structure(db, record_eval):
     """Validate structural properties of _generate_lesson_content output."""
     import json as _json
     from maestro.lezione.planner import _generate_lesson_content
+    from maestro.models import CurriculumScenario
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "planner_content_cases.json").read_text())
@@ -143,10 +32,20 @@ async def test_lesson_content_structure(db, record_eval):
     for case in cases:
         grammar_gps = [SimpleNamespace(**gp) for gp in case["grammar_gps"]]
         speaking_cfs = [SimpleNamespace(**cf) for cf in case["speaking_cfs"]]
+        scenario = CurriculumScenario(
+            slug="test",
+            label=case.get("topic", "Test"),
+            description=case.get("topic", "Test scenario"),
+            cefr_level=case["cefr_level"],
+            cf_codes=[],
+            gp_codes=[],
+            depths=[case.get("topic", "Test"), "Depth 2", "Depth 3"],
+        )
 
         content = await _generate_lesson_content(
             cefr_level=case["cefr_level"],
-            topic=case["topic"],
+            scenario=scenario,
+            depth=1,
             profile=None,
             grammar_gps=grammar_gps,
             drill_specs=case["drill_specs"],

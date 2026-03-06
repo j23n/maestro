@@ -1,0 +1,563 @@
+scenarios:
+  - slug: presentarsi
+    label: "Presentarsi"
+    description: "Introducing yourself and meeting new people"
+    cefr_level: A1
+    cf_codes:
+      - intritsoc_salutare_a1
+      - intritsoc_rispsal_a1
+      - intritsoc_presentarsi_a1
+      - intritsoc_presqualc_a1
+      - intritsoc_risppresent_a1
+      - interag_identi_a1
+    gp_codes:
+      - pronomi_personali_con_particolare_riferimento_alle_3_persone_singolari_soggetto
+      - la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
+      - di_provenienza_es_sono_di_berlino
+      - proposizioni_enunciative_affermative_e_negative
+      - interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche
+      - percezione_della_pertinenza_dellordine_non_marcato_svo_dei_costituenti_di_un
+    depths:
+      - "Saying your name, nationality and age — basic greetings and introductions"
+      - "Exchanging personal details, talking about where you live and what you do"
+      - "Introducing others, making small talk, asking follow-up questions"
+
+  - slug: al-bar
+    label: "Al bar"
+    description: "Ordering drinks and snacks at an Italian cafe"
+    cefr_level: A1
+    cf_codes:
+      - intritsoc_salutare_a1
+      - intritsoc_rispsal_a1
+      - intazio_chiincserv_a1
+      - interag_inform05_a1
+      - intemo_espgratring_a1
+      - intemo_rispringr_a1
+    gp_codes:
+      - la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi
+      - aggettivi_numerali_cardinali_da_1_a_100
+      - i_principali_nomi_invariabili_es_caffe_cinema_citta_universita
+      - proposizioni_volitive_desiderative_introdotte_da_vorrei
+      - di_quantita_molto_poco_tanto_piu_meno_niente_un_po
+      - aggettivi_dimostrativi_questo_quello
+    depths:
+      - "Ordering a coffee — basic requests, greetings, numbers for paying"
+      - "Asking what's available, expressing preferences, small talk with the barista"
+      - "Handling a misunderstanding, asking about ingredients, making conversation"
+
+  - slug: al-ristorante
+    label: "Al ristorante"
+    description: "Eating out at a restaurant — ordering, asking about the menu"
+    cefr_level: A1
+    cf_codes:
+      - intazio_chiincserv_a1
+      - interag_inform01_a1
+      - intatt_espdesiderio_a1
+      - intazio_offrqualc_a1
+      - intazio_rispaccsenris_a1
+      - intemo_espsoddisf_a1
+    gp_codes:
+      - la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi
+      - proposizioni_volitive_desiderative_introdotte_da_vorrei
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - di_quantita_molto_poco_tanto_piu_meno_niente_un_po
+      - aggettivi_indefiniti_poco_molto_tanto
+      - proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o
+    depths:
+      - "Reading the menu and ordering a dish — basic food vocabulary and requests"
+      - "Asking the waiter about dishes, expressing preferences, requesting the bill"
+      - "Handling dietary needs, making recommendations, complaining politely"
+
+  - slug: fare-la-spesa
+    label: "Fare la spesa"
+    description: "Grocery shopping at the market or supermarket"
+    cefr_level: A1
+    cf_codes:
+      - interag_inform05_a1
+      - intazio_chiincserv_a1
+      - interag_inform01_a1
+      - intazio_rispaccsenris_a1
+      - intazio_rispricrif_a1
+      - intritsoc_attattenz_a1
+    gp_codes:
+      - aggettivi_numerali_cardinali_da_1_a_100
+      - di_quantita_molto_poco_tanto_piu_meno_niente_un_po
+      - la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e
+      - i_principali_nomi_generalmente_utilizzati_al_plurale_es_occhiali_pantaloni
+      - aggettivi_indefiniti_poco_molto_tanto
+      - omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_molti_libri
+    depths:
+      - "Asking for items and quantities — basic numbers and nouns"
+      - "Comparing products, asking prices, understanding weights and measures"
+      - "Negotiating at the market, asking for recommendations, expressing preferences"
+
+  - slug: chiedere-indicazioni
+    label: "Chiedere indicazioni"
+    description: "Asking for and giving directions around town"
+    cefr_level: A1
+    cf_codes:
+      - interag_inform03_a1
+      - interag_rispondere04_a1
+      - intritsoc_scusarsi_a1
+      - intritsoc_attattenz_a1
+      - intemo_espgratring_a1
+      - intatt_espproigno_a1
+    gp_codes:
+      - di_luogo_qui_qua_li_la_fuori_dentro_dietro_davanti_sopra_sotto_vicino_lontano
+      - interrogativi_come_dove_quando_quanto_perche
+      - a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
+      - in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es
+      - proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono
+      - consapevolezza_dellordine_vs_nelle_interrogative_introdotte_da_un_pronome_o_un
+    depths:
+      - "Asking where something is — basic location words and prepositions"
+      - "Understanding directions with landmarks, asking for alternatives"
+      - "Giving directions yourself, explaining routes, handling misunderstandings"
+
+  - slug: al-telefono
+    label: "Al telefono"
+    description: "Making and receiving phone calls"
+    cefr_level: A1
+    cf_codes:
+      - intritsoc_inttelrisp_a1
+      - intritsoc_inttelpres_a1
+      - intritsoc_inttelparqual_a1
+      - intritsoc_inttelinfint_a1
+      - intritsoc_inttelfacatt_a1
+      - intritsoc_inttelconconv_a1
+    gp_codes:
+      - pronomi_personali_con_particolare_riferimento_alle_3_persone_singolari_soggetto
+      - la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
+      - interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche
+      - proposizioni_enunciative_affermative_e_negative
+      - consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative
+      - interrogativi_come_dove_quando_quanto_perche
+    depths:
+      - "Answering a call, saying who you are, asking to speak to someone"
+      - "Taking messages, asking someone to wait, ending the call politely"
+      - "Handling wrong numbers, leaving voicemails, making appointments by phone"
+
+  - slug: in-classe
+    label: "In classe"
+    description: "Communicating in an Italian language class"
+    cefr_level: A1
+    cf_codes:
+      - strutdisc_cerparfrase_a1
+      - strutdisc_chiedespres_a1
+      - strintverb_assfacpres_a1
+      - strintverb_asschiedrip_a1
+      - strintverb_asschiedparlent_a1
+      - strintverb_asschieddefparaf_a1
+    gp_codes:
+      - pronomi_interrogativi_chi_che_cosa_quanto_quale
+      - aggettivi_interrogativi_che_quanto
+      - interrogativi_come_dove_quando_quanto_perche
+      - proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
+      - esclamative_quasi_sempre_con_il_verbo_sottinteso
+      - di_giudizio_si_no_non_certo_quasi
+    depths:
+      - "Asking the teacher to repeat or explain — basic classroom survival phrases"
+      - "Asking about meaning, requesting examples, checking your understanding"
+      - "Explaining what you mean, paraphrasing, asking for definitions"
+
+  - slug: la-famiglia
+    label: "La famiglia"
+    description: "Talking about your family and relationships"
+    cefr_level: A1
+    cf_codes:
+      - interag_descriv_a1
+      - interag_identi_a1
+      - interag_asserire_a1
+      - interag_inform01_a1
+      - interag_rispondere07_a1
+      - intemo_espamappqual_a1
+    gp_codes:
+      - aggettivi_possessivi
+      - presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi
+      - la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e
+      - i_principali_nomi_a_suffisso_-e_-essa_es_dottoredottoressa
+      - alcuni_nomi_con_plurale_irregolare_es_uomouomini
+      - proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
+    depths:
+      - "Naming family members — possessive adjectives, basic descriptions"
+      - "Describing family members' jobs, ages, and where they live"
+      - "Talking about family relationships, expressing feelings about family"
+
+  - slug: la-casa
+    label: "La casa"
+    description: "Describing where you live — rooms, furniture, neighbourhood"
+    cefr_level: A1
+    cf_codes:
+      - interag_descriv_a1
+      - interag_inform03_a1
+      - interag_rispondere04_a1
+      - intatt_espdesiderio_a1
+      - interag_asserire_a1
+      - intemo_espamappqual_a1
+    gp_codes:
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - di_luogo_qui_qua_li_la_fuori_dentro_dietro_davanti_sopra_sotto_vicino_lontano
+      - in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es
+      - aggettivi_dimostrativi_questo_quello
+      - omissione_dellarticolo_determinativo_con_gli_aggettivi_dimostrativi_es_questo
+      - proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
+    depths:
+      - "Naming rooms and basic furniture — simple descriptions of your home"
+      - "Describing your neighbourhood, comparing spaces, saying what you like"
+      - "Explaining what's missing, expressing wishes about your home"
+
+  - slug: la-giornata
+    label: "La giornata"
+    description: "Describing your daily routine and schedule"
+    cefr_level: A1
+    cf_codes:
+      - interag_inform02_a1
+      - interag_rispondere03_a1
+      - strutdisc_sviargenumer_a1
+      - interag_descriv_a1
+      - interag_asserire_a1
+      - interag_rispondere02_a1
+    gp_codes:
+      - la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
+      - pronomi_riflessivi
+      - uso_dellarticolo_determinativo_per_esprimere_lora_es_sono_le_otto
+      - di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi
+      - a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
+      - proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
+      - i_principali_nomi_invariabili_es_caffe_cinema_citta_universita
+      - uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_es_giocare_a
+    depths:
+      - "Telling the time and listing daily activities — basic routine verbs"
+      - "Describing when things happen, frequency adverbs, weekend vs weekday"
+      - "Comparing routines with others, explaining why you do things"
+
+  - slug: tempo-libero
+    label: "Il tempo libero"
+    description: "Hobbies, sports, and free-time activities"
+    cefr_level: A1
+    cf_codes:
+      - intemo_espamappqual_a1
+      - intemo_espnonama_a1
+      - intemo_espintqualc_a1
+      - intatt_espprocapincap_a1
+      - intazio_proqualins_a1
+      - intazio_rispproacc_a1
+    gp_codes:
+      - infinito_presente_nelle_proposizioni_finali_implicite_es_sono_qui_per_studiare
+      - uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_es_giocare_a
+      - di_modo_bene_male
+      - la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
+      - proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
+      - con_compagnia_es_vado_a_scuola_con_mario
+      - alcuni_nomi_di_origine_straniera_con_plurale_invariato_es_bar_computer_sport
+    depths:
+      - "Naming hobbies and saying what you like/don't like doing"
+      - "Inviting someone to do an activity, accepting or declining"
+      - "Describing ability, explaining preferences, comparing activities"
+
+  - slug: dal-medico
+    label: "Dal medico"
+    description: "Visiting the doctor — describing symptoms and understanding advice"
+    cefr_level: A1
+    cf_codes:
+      - intemo_espsoffis_a1
+      - interag_descriv_a1
+      - interag_inform04_a1
+      - interag_rispondere05_a1
+      - intatt_espobbdivieto_a1
+      - intazio_mettguar_a1
+    gp_codes:
+      - la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - pronomi_riflessivi
+      - di_modo_bene_male
+      - proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
+      - altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico
+    depths:
+      - "Describing basic symptoms — body parts, 'mi fa male', basic questions"
+      - "Answering the doctor's questions, understanding simple instructions"
+      - "Explaining how long something has been happening, describing severity"
+
+  - slug: in-viaggio
+    label: "In viaggio"
+    description: "Traveling by train, bus, or plane — buying tickets and asking about schedules"
+    cefr_level: A1
+    cf_codes:
+      - intazio_chiincserv_a1
+      - interag_inform02_a1
+      - interag_inform03_a1
+      - interag_rispondere03_a1
+      - interag_rispondere04_a1
+      - interag_inform05_a1
+    gp_codes:
+      - aggettivi_numerali_cardinali_da_1_a_100
+      - uso_dellarticolo_determinativo_per_esprimere_lora_es_sono_le_otto
+      - per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno
+      - a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
+      - interrogativi_come_dove_quando_quanto_perche
+      - aggettivi_numerali_ordinali_da_primo_a_decimo_nota_principalmente_prima
+    depths:
+      - "Buying a ticket — asking for times, prices, and platforms"
+      - "Understanding schedule announcements, asking about connections"
+      - "Dealing with delays, changing tickets, asking for help at the station"
+
+  - slug: in-albergo
+    label: "In albergo"
+    description: "Checking in and out of a hotel — making reservations"
+    cefr_level: A1
+    cf_codes:
+      - intazio_chiincserv_a1
+      - interag_inform02_a1
+      - interag_inform05_a1
+      - intazio_chiautor_a1
+      - intazio_dareautsris_a1
+      - intemo_espsoddisf_a1
+    gp_codes:
+      - aggettivi_numerali_cardinali_da_1_a_100
+      - aggettivi_numerali_ordinali_da_primo_a_decimo_nota_principalmente_prima
+      - proposizioni_volitive_desiderative_introdotte_da_vorrei
+      - per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno
+      - aggettivi_interrogativi_che_quanto
+      - di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi
+    depths:
+      - "Checking in — giving your name, asking about the room, basic numbers"
+      - "Asking about hotel facilities, requesting extras, understanding rules"
+      - "Handling problems with the room, asking for changes, checking out"
+
+  - slug: in-negozio
+    label: "In negozio"
+    description: "Shopping for clothes and everyday items"
+    cefr_level: A1
+    cf_codes:
+      - intazio_chiincserv_a1
+      - interag_inform01_a1
+      - interag_inform05_a1
+      - intatt_espdesiderio_a1
+      - intazio_rispricrif_a1
+      - interag_confsment_a1
+    gp_codes:
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - aggettivi_dimostrativi_questo_quello
+      - aggettivi_numerali_cardinali_da_1_a_100
+      - i_principali_nomi_generalmente_utilizzati_al_plurale_es_occhiali_pantaloni
+      - la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e
+      - omissione_dellarticolo_determinativo_con_gli_aggettivi_dimostrativi_es_questo
+    depths:
+      - "Asking for an item, saying what colour/size you want — basic shopping phrases"
+      - "Comparing items, asking to try something on, understanding prices"
+      - "Returning an item, explaining a problem, negotiating"
+
+  - slug: al-lavoro
+    label: "Al lavoro"
+    description: "Talking about your job, studies, and daily work life"
+    cefr_level: A1
+    cf_codes:
+      - interag_asserire_a1
+      - interag_descriv_a1
+      - intatt_direconosce_a1
+      - intatt_espintenz_a1
+      - interag_rispondere02_a1
+      - strutdisc_svitemadesc_a1
+    gp_codes:
+      - la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
+      - i_principali_nomi_a_suffisso_-e_-essa_es_dottoredottoressa
+      - in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es
+      - infinito_presente_nelle_proposizioni_finali_implicite_es_sono_qui_per_studiare
+      - proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono
+      - alcuni_nomi_di_origine_straniera_con_plurale_invariato_es_bar_computer_sport
+      - di_provenienza_es_sono_di_berlino
+    depths:
+      - "Saying what your job is, where you work — basic work vocabulary"
+      - "Describing what you do at work, your schedule, who you work with"
+      - "Talking about career goals, explaining why you chose your job"
+
+  - slug: una-festa
+    label: "Una festa"
+    description: "At a party or celebration — socialising, toasts, congratulations"
+    cefr_level: A1
+    cf_codes:
+      - intritsoc_farebrind_a1
+      - intritsoc_congratul_a1
+      - intritsoc_augqualqual_a1
+      - intritsoc_accqualc_a1
+      - intemo_espfelicita_a1
+      - intazio_offrqualc_a1
+      - intazio_rispproacc_a1
+      - intazio_rispprorifiut_a1
+      - intritsoc_prendcong_a1
+      - intritsoc_presentarsi_a1
+    gp_codes:
+      - esclamative_quasi_sempre_con_il_verbo_sottinteso
+      - proposizioni_volitive_desiderative_introdotte_da_vorrei
+      - aggettivi_possessivi
+      - con_compagnia_es_vado_a_scuola_con_mario
+      - proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
+    depths:
+      - "Basic party phrases — toasts, congratulations, accepting food/drinks"
+      - "Making conversation, introducing people, expressing enjoyment"
+      - "Telling stories, explaining occasions, talking about plans"
+
+  - slug: scrivere-un-messaggio
+    label: "Scrivere un messaggio"
+    description: "Writing emails, text messages, and short notes"
+    cefr_level: A1
+    cf_codes:
+      - intritsoc_intcoremail_a1
+      - intritsoc_intconcemail_a1
+      - intritsoc_prendcong_a1
+      - intatt_scusarsi_a1
+      - strutdisc_corriprend_a1
+    gp_codes:
+      - proposizioni_enunciative_affermative_e_negative
+      - percezione_della_pertinenza_dellordine_non_marcato_svo_dei_costituenti_di_un
+      - consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative
+      - pronomi_personali_con_particolare_riferimento_alle_3_persone_singolari_soggetto
+      - proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
+    depths:
+      - "Opening and closing an email — basic greetings and sign-offs"
+      - "Writing a short message to a friend, making plans, apologising"
+      - "Writing more formal messages, explaining a situation, asking for information"
+
+  - slug: opinioni-e-accordo
+    label: "Opinioni e accordo"
+    description: "Expressing opinions, agreeing and disagreeing"
+    cefr_level: A1
+    cf_codes:
+      - intatt_espaccsrisp_a1
+      - intatt_espdisaspo_a1
+      - intatt_espapprov_a1
+      - interag_confsment_a1
+      - interag_rispondere01_a1
+      - interag_inform06_a1
+      - intatt_direconosce_a1
+    gp_codes:
+      - di_giudizio_si_no_non_certo_quasi
+      - proposizioni_enunciative_affermative_e_negative
+      - proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
+      - proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o
+      - consapevolezza_dellordine_vs_nelle_interrogative_introdotte_da_un_pronome_o_un
+    depths:
+      - "Saying yes/no, agreeing and disagreeing — basic opinion words"
+      - "Giving simple reasons for your opinion, asking others what they think"
+      - "Expressing partial agreement, qualifying statements, building arguments"
+
+  - slug: emozioni-e-stati
+    label: "Emozioni e stati d'animo"
+    description: "Expressing emotions, moods, and feelings"
+    cefr_level: A1
+    cf_codes:
+      - intemo_espfelicita_a1
+      - intemo_esptrisnost_a1
+      - intemo_intgioiatrist_a1
+      - intemo_espinquietud_a1
+      - intemo_intsodinsod_a1
+      - intemo_espintqualc_a1
+    gp_codes:
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - di_modo_bene_male
+      - proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
+      - pronomi_indefiniti_nessuno_niente_nota_i_pronomi_tonici_preceduti_da
+      - altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico
+      - pronomi_riflessivi
+    depths:
+      - "Naming basic emotions — happy, sad, tired, hungry — simple adjectives"
+      - "Explaining why you feel a certain way, asking others how they feel"
+      - "Describing complex emotions, talking about what makes you anxious or worried"
+
+  - slug: prendere-un-appuntamento
+    label: "Prendere un appuntamento"
+    description: "Making appointments and scheduling meetings"
+    cefr_level: A1
+    cf_codes:
+      - intazio_proqualins_a1
+      - intazio_rispproacc_a1
+      - intazio_rispprorifiut_a1
+      - intazio_chiautor_a1
+      - intazio_vietare_a1
+      - intazio_rifiutare_a1
+      - interag_inform02_a1
+      - intatt_scusarsi_a1
+      - intatt_espintenz_a1
+    gp_codes:
+      - uso_dellarticolo_determinativo_per_esprimere_lora_es_sono_le_otto
+      - di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi
+      - a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
+      - interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche
+      - proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o
+    depths:
+      - "Suggesting a time and place — basic time expressions and proposals"
+      - "Negotiating times, explaining availability, confirming or cancelling"
+      - "Rescheduling, handling conflicts, making group plans"
+
+  - slug: capire-e-farsi-capire
+    label: "Capire e farsi capire"
+    description: "Communication strategies — clarifying, repeating, checking understanding"
+    cefr_level: A1
+    cf_codes:
+      - strintverb_asscapbenesil_a1
+      - strintverb_assfacpres_a1
+      - strintverb_asschiedrip_a1
+      - strintverb_asschiedscrive_a1
+      - strintverb_asschiedparlent_a1
+      - strutdisc_cerparfrase_a1
+      - strutdisc_chiedespres_a1
+      - strutdisc_corriprend_a1
+      - strutdisc_sviargenumer_a1
+      - interag_rispondere09_a1
+    gp_codes:
+      - interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche
+      - pronomi_interrogativi_chi_che_cosa_quanto_quale
+      - esclamative_quasi_sempre_con_il_verbo_sottinteso
+      - consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative
+      - proposizioni_enunciative_affermative_e_negative
+    depths:
+      - "Asking someone to repeat or speak slowly — basic survival phrases"
+      - "Asking for clarification, checking you understood correctly"
+      - "Paraphrasing when you don't know a word, self-correcting, asking for definitions"
+
+  - slug: permessi-e-regole
+    label: "Permessi e regole"
+    description: "Asking for permission, understanding rules and prohibitions"
+    cefr_level: A1
+    cf_codes:
+      - intazio_chiautor_a1
+      - intazio_dareautsris_a1
+      - intazio_rifiutare_a1
+      - intazio_vietare_a1
+      - intatt_espobbdivieto_a1
+      - intazio_mettguar_a1
+      - intazio_rispaccsenris_a1
+    gp_codes:
+      - proposizioni_enunciative_affermative_e_negative
+      - di_giudizio_si_no_non_certo_quasi
+      - pronomi_indefiniti_nessuno_niente_nota_i_pronomi_tonici_preceduti_da
+      - proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono
+      - altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico
+      - proposizioni_volitive_desiderative_introdotte_da_vorrei
+    depths:
+      - "Asking if you can do something — basic permission phrases"
+      - "Understanding signs and rules, explaining what's allowed and forbidden"
+      - "Negotiating permissions, explaining reasons for rules"
+
+  - slug: descrivere-le-persone
+    label: "Descrivere le persone"
+    description: "Describing people's appearance, personality, and habits"
+    cefr_level: A1
+    cf_codes:
+      - interag_descriv_a1
+      - interag_identi_a1
+      - interag_inform07_a1
+      - interag_rispondere06_a1
+      - interag_rispondere07_a1
+      - strutdisc_svitemadesc_a1
+    gp_codes:
+      - aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e
+      - aggettivi_possessivi
+      - la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e
+      - i_principali_nomi_a_suffisso_-e_-essa_es_dottoredottoressa
+      - presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi
+      - la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi
+    depths:
+      - "Basic physical descriptions — tall, short, hair colour, clothing"
+      - "Describing personality traits, comparing people"
+      - "Describing someone in detail for identification, talking about habits"

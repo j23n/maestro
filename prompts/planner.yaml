@@ -1,35 +1,12 @@
-version: "1"
-
-generate_topic:
-  description: >
-    Generate a personalised, communicative-function-grounded lesson topic
-    based on student level, interests, and past lesson history.
-  # variables: cefr, interests, hint_line, past_lines, cf_lines
-  user: |
-    You are an expert Italian language curriculum designer.
-    Design ONE lesson topic for a {{cefr}} student.
-
-    Student interests: {{interests}}
-    {{hint_line}}
-    Past lesson topics (avoid repeating; extend if appropriate):
-    {{past_lines}}
-
-    Available communicative functions (select 2-4 for this lesson):
-    {{cf_lines}}
-
-    Rules:
-    - Choose a specific real-world scenario (not a grammar topic) that fits the student's interests
-    - Select 2-4 cf_codes from the list above that are naturally practised in this scenario
-    - If a past topic could go deeper (max depth 3), extend it and set builds_on to its title
-    - Otherwise start fresh with depth 1
-    - Never repeat a past topic title exactly
-
-    Return ONLY valid JSON: {"title": "...", "description": "...", "cf_codes": ["...", "..."], "depth": 1, "builds_on": null}
+version: "2"
 
 # ---------------------------------------------------------------------------
 
 lesson_content_header:
-  user: "You are generating content for an Italian language lesson."
+  user: |
+    You are generating content for an Italian language lesson.
+    Set all content in a context that matches the student's persona.
+    Generate a creative Italian topic_title and topic_description for this lesson.
 
 lesson_content_footer:
   description: >

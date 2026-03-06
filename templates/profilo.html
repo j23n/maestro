@@ -16,7 +16,27 @@
   <div class="narrative">{{ profile.description }}</div>
   {% endif %}
 
-  {# 3. Grammar + funzioni by CEFR level #}
+  {# 3. Scenario map #}
+  {% if scenario_map %}
+  <div class="scenario-map">
+    <h2>Percorso</h2>
+    <div class="scenario-grid">
+      {% for item in scenario_map %}
+      <div class="scenario-card">
+        <div class="scenario-label">{{ item.scenario.label }}</div>
+        <div class="scenario-dots">
+          {% for d in range(1, 4) %}
+            <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
+          {% endfor %}
+        </div>
+        <div class="scenario-meta">{{ item.lesson_count }} lezioni</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# 4. Grammar + funzioni by CEFR level #}
   <div class="skills-section">
     {% for level in cefr_order %}
     {% set gp_skills = grammar_by_level[level] %}
@@ -83,27 +103,46 @@
     {% endfor %}
   </div>
 
-  {# 4. Interests #}
+  {# 5. Student persona #}
   <div class="card">
-    <h2>I tuoi interessi</h2>
-    <p>Inserisci i tuoi interessi separati da virgola. Gli esercizi verranno ambientati in questi contesti.</p>
+    <h2>Chi sei</h2>
+    <p>Dicci qualcosa di te — le lezioni saranno ambientate nel tuo mondo.</p>
 
-    {% if saved %}
-    <div class="saved-banner">Interessi salvati!</div>
+    {% if request.query_params.get('saved') %}
+    <div class="saved-banner">Profilo salvato!</div>
     {% endif %}
 
-    <form method="post" action="/profilo/interests">
+    <form method="post" action="/profilo/persona">
       <div class="field">
-        <label for="interests">Interessi (es. calcio, fisica, storia romana)</label>
-        <input
-          type="text" id="interests" name="interests"
-          value="{{ profile.student_interests | join(', ') if profile else '' }}"
-          placeholder="calcio, fisica, storia romana"
-        >
+        <label for="tags">Tag (es. studente, vino rosso, storia romana, marketing)</label>
+        <input type="text" id="tags" name="tags"
+          value="{{ profile.persona.tags | join(', ') if profile else '' }}"
+          placeholder="studente universitario, appassionato di vino, Erasmus a Bologna">
+      </div>
+      <div class="field">
+        <label for="freetext">Raccontaci di te (opzionale)</label>
+        <textarea id="freetext" name="freetext"
+          placeholder="Studio economia a Bologna. Amo il vino rosso e la storia romana...">{{ profile.persona.freetext if profile else '' }}</textarea>
       </div>
       <button class="submit-btn" type="submit">Salva</button>
     </form>
   </div>
+
+  {# 6. Lesson history #}
+  {% if lesson_history %}
+  <div class="lesson-history">
+    <h2>Lezioni recenti</h2>
+    <div class="history-list">
+      {% for item in lesson_history %}
+      <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">
+        <span class="history-date">{{ item.lesson.completed_at.strftime('%d/%m') if item.lesson.completed_at else '' }}</span>
+        <span class="history-topic">{{ item.lesson.topic_title or '—' }}</span>
+        <span class="history-scenario">{{ item.scenario_label }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 
 </div>
 {% endblock %}

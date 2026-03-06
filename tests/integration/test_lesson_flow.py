@@ -197,7 +197,7 @@ async def test_collect_drill_gp_outcomes_all_correct(db):
         cefr_level="A1",
         exercise_type="fill_blank",
         prompt="",
-        topic_used="test",
+        scenario_slug="test",
     )
     await drill.insert()
 
@@ -237,7 +237,7 @@ async def test_collect_drill_gp_outcomes_any_error(db):
         cefr_level="A1",
         exercise_type="fill_blank",
         prompt="",
-        topic_used="test",
+        scenario_slug="test",
     )
     await drill.insert()
 
@@ -276,7 +276,7 @@ async def test_collect_drill_gp_outcomes_no_result(db):
         cefr_level="A1",
         exercise_type="fill_blank",
         prompt="",
-        topic_used="test",
+        scenario_slug="test",
     )
     await drill.insert()
 
@@ -317,11 +317,11 @@ async def completed_lesson(db):
 
     drill_ok = GeneratedDrill(
         template=template, grammar_point_code="GP_OK", cefr_level="A1",
-        exercise_type="fill_blank", prompt="", topic_used="test",
+        exercise_type="fill_blank", prompt="", scenario_slug="test",
     )
     drill_bad = GeneratedDrill(
         template=template, grammar_point_code="GP_BAD", cefr_level="A1",
-        exercise_type="fill_blank", prompt="", topic_used="test",
+        exercise_type="fill_blank", prompt="", scenario_slug="test",
     )
     await drill_ok.insert()
     await drill_bad.insert()

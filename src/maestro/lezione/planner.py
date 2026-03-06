@@ -6,6 +6,7 @@ Two-phase approach:
   2. generate_lesson_background() — async; appends grammar/reading/drill/speaking/writing
 
 _generate_lesson_content() makes a single large Sonnet call that returns all dynamic content.
+Scenario selection replaces old LLM-based topic generation.
 """
 
 from __future__ import annotations
@@ -22,7 +23,6 @@ if TYPE_CHECKING:
 from maestro.models import (
     Lesson,
     LessonActivity,
-    LessonTopic,
     LearningProfile,
     GrammarPoint,
     GrammarPointExplanation,
@@ -31,16 +31,17 @@ from maestro.models import (
     DrillTemplate,
     CommunicativeFunction,
     ItalianChunk,
+    CurriculumScenario,
 )
 from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
 from maestro.prompts import planner as _prompts
-from maestro.utils import CEFR_ORDER, parse_llm_json, utcnow
+from maestro.utils import parse_llm_json, utcnow
 from maestro.lezione.selection import (
+    pick_scenario,
     pick_grammar_points,
     pick_comm_functions,
-    get_past_topics,
     fill_vocab_cards,
 )
 
@@ -87,103 +88,14 @@ def _allocate_slots(duration_minutes: int) -> dict[str, int]:
 
 
 # ---------------------------------------------------------------------------
-# Topic generation
-# ---------------------------------------------------------------------------
-
-
-async def generate_topic(
-    profile: Optional[LearningProfile],
-    past_topics: list[LessonTopic],
-    available_cfs: list[CommunicativeFunction],
-    hint: str = "",
-    client: Optional["anthropic.AsyncAnthropic"] = None,
-) -> LessonTopic:
-    """Call Haiku to generate a personalised, CF-grounded lesson topic.
-
-    Falls back to a simple LessonTopic built from the hint (or a default)
-    if the LLM call fails or returns unparseable JSON.
-    """
-    cefr = profile.cefr_estimate if profile else "A1"
-    interests = ", ".join(profile.student_interests) if profile and profile.student_interests else "vita quotidiana"
-
-    # Build compact CF listing grouped by macro_category
-    level_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
-    eligible_levels = set(CEFR_ORDER[: level_idx + 1])
-    cfs_at_level = [cf for cf in available_cfs if cf.cefr_level in eligible_levels]
-    by_macro: dict[str, list[CommunicativeFunction]] = {}
-    for cf in cfs_at_level:
-        by_macro.setdefault(cf.macro_category, []).append(cf)
-
-    cf_lines: list[str] = []
-    for macro, cfs in by_macro.items():
-        cf_lines.append(f"[{macro}]")
-        for cf in cfs[:8]:  # cap per category to keep prompt manageable
-            cf_lines.append(f"  {cf.code}: {cf.label} — {(cf.description or cf.label)[:80]}")
-
-    past_lines = "\n".join(
-        f"  [depth {t.depth}] {t.title}" + (f" (builds on: {t.builds_on})" if t.builds_on else "")
-        for t in past_topics
-    ) or "  (none yet)"
-
-    hint_line = f"\nThe student requested this topic hint: {hint}\n" if hint else ""
-
-    prompt = _prompts.generate_topic.render(
-        cefr=cefr,
-        interests=interests,
-        hint_line=hint_line,
-        past_lines=past_lines,
-        cf_lines="\n".join(cf_lines),
-    )
-
-    cef_label = profile.cefr_estimate if profile else "A1"
-    logger.info(
-        f"[planner] generate_topic: level={cef_label}, interests={interests!r}, "
-        f"hint={hint!r}, past_topics={len(past_topics)}, available_cfs={len(available_cfs)}"
-    )
-    try:
-        _client = client or get_async_client()
-        logger.debug(f"[planner] generate_topic prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client.messages.create(
-            model=settings.DRILL_MODEL,
-            max_tokens=512,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        elapsed = time.monotonic() - t0
-        raw = response.content[0].text
-        logger.debug(f"[planner] generate_topic LLM in {elapsed:.2f}s: {raw}")
-        data = parse_llm_json(raw)
-        if data and isinstance(data.get("cf_codes"), list) and data.get("title"):
-            topic = LessonTopic(
-                title=data["title"],
-                description=data.get("description", data["title"]),
-                cf_codes=data["cf_codes"],
-                depth=int(data.get("depth", 1)),
-                builds_on=data.get("builds_on"),
-            )
-            logger.info(
-                f"[planner] topic generated: {topic.title!r} (depth={topic.depth}, "
-                f"cf_codes={topic.cf_codes}, builds_on={topic.builds_on!r})"
-            )
-            return topic
-        logger.warning(f"[planner] generate_topic: unparseable or incomplete response: {raw}")
-    except Exception as exc:
-        logger.error(f"[planner] generate_topic failed: {exc}", exc_info=True)
-
-    # Fallback
-    fallback_title = hint or (past_topics[0].title if past_topics else "vita quotidiana")
-    logger.warning(f"[planner] generate_topic using fallback title: {fallback_title!r}")
-    return LessonTopic(title=fallback_title, description=fallback_title, cf_codes=[], depth=1)
-
-
-# ---------------------------------------------------------------------------
 # Single-call content generation
 # ---------------------------------------------------------------------------
 
 
 async def _generate_lesson_content(
     cefr_level: str,
-    topic: str,
+    scenario: CurriculumScenario,
+    depth: int,
     profile: Optional[LearningProfile],
     grammar_gps: list[GrammarPoint],
     drill_specs: list[dict],
@@ -192,14 +104,27 @@ async def _generate_lesson_content(
     client: "anthropic.AsyncAnthropic",
     speaking_cfs: list[CommunicativeFunction] = [],
 ) -> dict:
-    """Single LLM call returning overview, grammar_motivations, drills, readings, writing, speakings."""
+    """Single LLM call returning topic_title, topic_description, overview, grammar_motivations, drills, readings, writing, speakings."""
     reading_word_count = _READING_WORD_COUNT.get(cefr_level, 150)
+    depth_description = scenario.depths[depth - 1] if depth <= len(scenario.depths) else scenario.depths[-1]
 
     parts: list[str] = [
         _prompts.lesson_content_header.render(),
         f"Student CEFR level: {cefr_level}",
-        f"Lesson topic: {topic}",
+        f'Curriculum scenario: "{scenario.label}" (depth {depth})',
+        f"Depth focus: {depth_description}",
     ]
+
+    # Persona
+    if profile and profile.persona:
+        persona_parts = []
+        if profile.persona.tags:
+            persona_parts.append(", ".join(profile.persona.tags))
+        if profile.persona.freetext:
+            persona_parts.append(profile.persona.freetext)
+        if persona_parts:
+            parts.append(f"Student persona: {'; '.join(persona_parts)}")
+
     if profile and profile.description:
         parts.append(f"Student profile: {profile.description}")
 
@@ -250,6 +175,8 @@ async def _generate_lesson_content(
     # Build the JSON schema description
     motivation_lang = "English" if cefr_level in ("A1", "A2") else "Italian"
     schema: dict = {
+        "topic_title": "A creative Italian title for this lesson (3-8 words)",
+        "topic_description": "1-2 sentences describing the specific situation covered",
         "overview": "2-3 sentences in Italian: what this lesson covers and what the student will gain",
     }
     if grammar_gps:
@@ -311,8 +238,8 @@ async def _generate_lesson_content(
     prompt_text = "\n\n".join(parts)
     logger.debug(f"[planner] _generate_lesson_content prompt: {prompt_text}")
     logger.info(
-        f"[planner] _generate_lesson_content: level={cefr_level}, topic={topic!r}, "
-        f"grammar_gps={[g.code for g in grammar_gps]}, "
+        f"[planner] _generate_lesson_content: level={cefr_level}, scenario={scenario.slug}, "
+        f"depth={depth}, grammar_gps={[g.code for g in grammar_gps]}, "
         f"n_drills={len(drill_specs)}, reading_count={reading_count}, "
         f"writing={include_writing}, speaking_cfs={[c.code for c in speaking_cfs]}"
     )
@@ -341,7 +268,6 @@ async def _generate_lesson_content(
 
 async def prepare_lesson_immediate(
     duration_minutes: int,
-    hint: str,
     profile: Optional[LearningProfile],
 ) -> Lesson:
     """Create and save a Lesson with only the vocab_review activity (no LLM calls).
@@ -390,11 +316,10 @@ async def prepare_lesson_immediate(
 async def generate_lesson_background(
     lesson_id,
     duration_minutes: int,
-    hint: str,
 ) -> None:
-    """Generate topic, grammar, reading, drills, speaking, writing and append to lesson."""
+    """Pick scenario, generate content, and append activities to lesson."""
     try:
-        await _generate_lesson_background(lesson_id, duration_minutes, hint)
+        await _generate_lesson_background(lesson_id, duration_minutes)
     except Exception:
         logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
         try:
@@ -410,7 +335,6 @@ async def generate_lesson_background(
 async def _generate_lesson_background(
     lesson_id,
     duration_minutes: int,
-    hint: str,
 ) -> None:
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
@@ -420,11 +344,10 @@ async def _generate_lesson_background(
     slots = _allocate_slots(duration_minutes)
     logger.info(f"[planner] slot allocation: {slots}")
 
-    # --- Generate topic ---
+    # --- Pick scenario ---
     client = get_async_client()
-    all_cfs = await CommunicativeFunction.find_all().to_list()
-    past_topics = await get_past_topics(10)
-    lesson_topic = await generate_topic(profile, past_topics, all_cfs, hint=hint, client=client)
+    scenario, depth = await pick_scenario(profile, cefr_level)
+    logger.info(f"[planner] scenario: {scenario.slug} depth={depth}")
 
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get("grammar", 0)
@@ -432,7 +355,9 @@ async def _generate_lesson_background(
     grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
     if grammar_count > 0:
-        grammar_gps = await pick_grammar_points(profile, cefr_level, grammar_count)
+        grammar_gps = await pick_grammar_points(
+            profile, cefr_level, grammar_count, candidate_codes=scenario.gp_codes
+        )
 
         for gp in grammar_gps:
             explanation = await GrammarPointExplanation.find_one(
@@ -449,7 +374,9 @@ async def _generate_lesson_background(
     drill_specs: list[dict] = []
     drill_templates_used: list[DrillTemplate] = []
     if drill_count > 0:
-        gps_for_drills = await pick_grammar_points(profile, cefr_level, drill_count)
+        gps_for_drills = await pick_grammar_points(
+            profile, cefr_level, drill_count, candidate_codes=scenario.gp_codes
+        )
         all_templates = await DrillTemplate.find_all().to_list()
         for gp in gps_for_drills:
             matching = [t for t in all_templates if t.grammar_point_code == gp.code]
@@ -478,7 +405,7 @@ async def _generate_lesson_background(
     speaking_cfs: list[CommunicativeFunction] = []
     if speaking_count > 0:
         speaking_cfs = await pick_comm_functions(
-            profile, cefr_level, speaking_count, preferred_codes=lesson_topic.cf_codes
+            profile, cefr_level, speaking_count, candidate_codes=scenario.cf_codes
         )
     logger.info(f"[planner] speaking_cfs: {[c.code for c in speaking_cfs]}")
 
@@ -492,10 +419,10 @@ async def _generate_lesson_background(
     )
 
     # --- Single LLM call ---
-    topic_str = f"{lesson_topic.title} — {lesson_topic.description}"
     content = await _generate_lesson_content(
         cefr_level,
-        topic_str,
+        scenario,
+        depth,
         profile,
         grammar_gps,
         drill_specs,
@@ -504,6 +431,9 @@ async def _generate_lesson_background(
         client,
         speaking_cfs,
     )
+
+    topic_title = content.get("topic_title", scenario.label)
+    topic_description = content.get("topic_description", scenario.description)
 
     # --- Materialise activities ---
 
@@ -540,7 +470,7 @@ async def _generate_lesson_background(
         reading_activities.append(LessonActivity(
             type="reading",
             title=f"Lettura {i + 1}" if reading_count > 1 else "Lettura",
-            description=f"Leggi un testo su: {lesson_topic.title}",
+            description=f"Leggi un testo su: {topic_title}",
             duration_minutes=5,
             content=reading_data.get("text", ""),
             questions=reading_data.get("questions", []),
@@ -572,7 +502,7 @@ async def _generate_lesson_background(
                 correct_answer=None,
                 distractors=[],
                 items=items,
-                topic_used=topic_str,
+                scenario_slug=scenario.slug,
                 chunk_ref=spec.get("chunk_ref"),
             )
         else:  # free_form
@@ -584,7 +514,7 @@ async def _generate_lesson_background(
                 prompt=drill_data.get("prompt", ""),
                 correct_answer=None,
                 distractors=[],
-                topic_used=topic_str,
+                scenario_slug=scenario.slug,
                 chunk_ref=spec.get("chunk_ref"),
             )
         await drill.insert()
@@ -616,7 +546,7 @@ async def _generate_lesson_background(
         writing_activities.append(LessonActivity(
             type="writing",
             title="Scrittura",
-            description=f"Scrivi un testo su: {lesson_topic.title}",
+            description=f"Scrivi un testo su: {topic_title}",
             duration_minutes=8,
             content=writing_data.get("prompt", ""),
         ))
@@ -632,7 +562,10 @@ async def _generate_lesson_background(
 
     lesson.activities.extend(new_activities)
     lesson.overview = content.get("overview", "")
-    lesson.topic = lesson_topic
+    lesson.scenario_slug = scenario.slug
+    lesson.scenario_depth = depth
+    lesson.topic_title = topic_title
+    lesson.topic_description = topic_description
     lesson.generating = False
     await lesson.save()
 

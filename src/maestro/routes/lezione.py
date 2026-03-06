@@ -55,14 +55,13 @@ async def lezione_new(request: Request):
 async def lezione_create(
     request: Request,
     duration: Annotated[int, Form()] = 20,
-    hint: Annotated[str, Form()] = "",
 ):
     from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
     profile = await get_profile()
 
-    lesson = await prepare_lesson_immediate(duration, hint, profile)
+    lesson = await prepare_lesson_immediate(duration, profile)
     create_background_task(
-        generate_lesson_background(lesson.id, duration, hint),
+        generate_lesson_background(lesson.id, duration),
         name=f"lesson-generate-{lesson.id}",
     )
 
