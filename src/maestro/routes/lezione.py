@@ -376,6 +376,8 @@ async def lezione_vocab_rate(
     card = await UserVocabularyCard.get(card_ids[card_idx])
     if card is None:
         raise HTTPException(404)
+    if card.student_id != student.id:
+        raise HTTPException(403)
     card = review(card, rating)
     await card.save()
 
