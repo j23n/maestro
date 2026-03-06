@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
+from maestro.utils import CEFR_ORDER
 from maestro.vocab.discover import discover_markdown
 
 router = APIRouter()
@@ -45,25 +46,31 @@ async def grammar_detail(code: str, request: Request):
     gp = await GrammarPoint.find_one(GrammarPoint.code == code)
     if gp is None:
         raise HTTPException(404)
-    level = await get_cefr_level()
-    explanation = await GrammarPointExplanation.find_one(
-        {"grammar_point.$id": gp.id, "student_level": level}
-    )
-    if not explanation:
-        explanation = await GrammarPointExplanation.find_one(
-            {"grammar_point.$id": gp.id}
-        )
-    annotated_explanation = await discover_markdown(explanation.explanation) if explanation else None
-    annotated_translation = await discover_markdown(explanation.translation) if explanation and explanation.translation else None
-    display_title = (explanation.title if explanation else "") or gp.label
+    student_level = await get_cefr_level()
+    all_expls = await GrammarPointExplanation.find(
+        {"grammar_point.$id": gp.id}
+    ).to_list()
+    by_level = {e.student_level: e for e in all_expls}
+    available_levels = sorted(by_level.keys(), key=lambda l: CEFR_ORDER.index(l))
+    active_level = student_level if student_level in by_level else (available_levels[0] if available_levels else student_level)
+
+    # Pre-render annotated markdown for each level
+    panels: dict[str, dict] = {}
+    for lvl, expl in by_level.items():
+        panels[lvl] = {
+            "title": expl.title or gp.label,
+            "content": await discover_markdown(expl.explanation),
+        }
+
+    display_title = panels[active_level]["title"] if active_level in panels else gp.label
     return templates.TemplateResponse(
         request=request,
         name="grammar-detail.html",
         context={
             "gp": gp,
-            "explanation": explanation,
-            "annotated_explanation": annotated_explanation,
-            "annotated_translation": annotated_translation,
+            "panels": panels,
+            "available_levels": available_levels,
+            "active_level": active_level,
             "display_title": display_title,
         },
     )

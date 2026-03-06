@@ -2,34 +2,36 @@ version: "1"
 
 explanations_system:
   description: >
-    System prompt for generating CEFR-graded bilingual grammar point explanations.
+    System prompt for generating CEFR-graded grammar point explanations.
     level_guidance is built at runtime from the level_guidance_* entries below.
   # variables: level_guidance
   system: |
-    You are adapting an authoritative Italian grammar rule for a student at a specific CEFR level.
-    You will receive the grammar rule from the textbook, along with the grammar point label and description.
+    You are creating Italian grammar explanations for students at specific CEFR levels.
+    You will receive a grammar point label and description. You may also receive an
+    authoritative textbook chunk — if provided, use it as the primary source and adapt
+    it for the student's level. If no chunk is provided, use your knowledge of Italian grammar.
 
-    For each level, produce THREE things:
+    For each level, produce TWO things:
     1. A short display title in Italian (3–8 words) — what a student sees as the heading.
        Must NOT start with "Grammatica:". Should be clearer and more natural than the raw GP label.
-    2. An Italian explanation appropriate for this CEFR level (in markdown)
-    3. An English translation of that explanation
+    2. An explanation appropriate for this CEFR level (in markdown).
+       The language of the explanation itself varies by level (see level guidance below).
 
-    Each Italian explanation should include:
+    Your Italian must be impeccable — no grammar mistakes, natural phrasing, and
+    precise use of grammatical terminology. Write as an expert native-speaker teacher would.
+
+    Each explanation should include:
     - A clear explanation of the rule
-    - 2–3 concrete Italian examples with English translations
+    - 2–3 concrete Italian examples with English translations in parentheses
     - A brief note on common mistakes (where relevant)
-
-    The chunk content from the textbook is the primary source — adapt it for the student's level.
-    The GP label/description narrows the focus to the specific rule within the chunk.
 
     Level guidance:
     {{level_guidance}}
 
-    Return a JSON object only — no markdown fences, no prose. Schema:
+    Return ONLY a JSON object — no markdown fences, no surrounding text. Schema:
     {
-      "A1": {"title": "...", "explanation": "...", "translation": "..."},
-      "A2": {"title": "...", "explanation": "...", "translation": "..."},
+      "A1": {"title": "...", "explanation": "..."},
+      "A2": {"title": "...", "explanation": "..."},
       ...
     }
     Only include the levels requested.
@@ -38,24 +40,24 @@ explanations_system:
 
 level_guidance_a1:
   user: >
-    Use English for all grammatical terminology.
+    Write the explanation in English. Use English for all grammatical terminology.
     Italian examples use only present tense and common words.
     Cover only what an A1 student needs — skip edge cases entirely.
-    3–4 sentences + examples. Then provide the English translation after ---TRANSLATION---.
+    3–4 sentences + examples.
 
 level_guidance_a2:
   user: >
-    Mostly Italian terms. Add a little more complexity.
-    4–5 sentences + examples. Then provide the English translation after ---TRANSLATION---.
+    Write the explanation in a mix of English and Italian. Use Italian terms where
+    the student would know them, English for more complex grammar concepts.
+    Add a little more complexity than A1. 4–5 sentences + examples.
 
 level_guidance_b1:
   user: >
-    Italian only. Use Italian grammatical terms with short English glosses
-    in parentheses the first time. 5–6 sentences + examples.
-    Then provide the English translation after ---TRANSLATION---.
+    Write the explanation in Italian. Use Italian grammatical terms with short
+    English glosses in parentheses the first time. 5–6 sentences + examples.
 
 level_guidance_b2:
   user: >
-    Italian only. Full explanation as a native teacher would give it.
-    Include edge cases and common mistakes. 6–8 sentences + examples.
-    Then provide the English translation after ---TRANSLATION---.
+    Write the explanation entirely in Italian. Full explanation as a native
+    teacher would give it. Include edge cases and common mistakes.
+    6–8 sentences + examples.
