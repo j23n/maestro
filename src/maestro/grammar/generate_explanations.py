@@ -18,17 +18,15 @@ import asyncio
 import logging
 import re
 
-import anthropic
-
 from maestro.db import init_db
 from maestro.models import GrammarPoint, GrammarPointExplanation
 from maestro.rag.retrieve import get_chunks_for_refs
-from maestro.settings import Settings
+from maestro.config import settings
+from maestro.llm import get_client
 from maestro.prompts import grammar as _prompts
 from maestro.utils import CEFR_ORDER
 
 logger = logging.getLogger(__name__)
-settings = Settings()
 
 _LEVEL_GUIDANCE_KEYS = {
     "A1": "level_guidance_a1",
@@ -74,7 +72,7 @@ def _call_claude(
     gp: GrammarPoint,
     levels: tuple[str, ...],
     rag_content: str,
-    client: anthropic.Anthropic,
+    client,
 ) -> dict[str, str] | None:
     rule_block = (
         f"\n\nReference material from the grammar guide:\n{rag_content}\n"
@@ -140,7 +138,7 @@ async def generate(test: bool = False) -> None:
         todo = list(by_level.values())
         logger.info(f"  --test: {[f'{gp.label} ({gp.cefr_level})' for gp in todo]}")
 
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    client = get_client()
 
     for i, gp in enumerate(todo, 1):
         levels = _target_levels(gp)

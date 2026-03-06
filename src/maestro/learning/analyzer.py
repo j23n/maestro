@@ -13,13 +13,13 @@ import logging
 import time
 from typing import Optional, TYPE_CHECKING
 
-import anthropic
-
 if TYPE_CHECKING:
     from maestro.models import Message
 
 from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent, LearningProfile
 from maestro.config import settings
+from maestro.llm import get_client
+from maestro.profile import get_profile
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
 
@@ -37,7 +37,7 @@ async def _ensure_codes() -> None:
         return
     _grammar_points_cache = await GrammarPoint.find_all().to_list()
     _comm_functions_cache = await CommunicativeFunction.find_all().to_list()
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     if profile:
         _student_level = profile.cefr_estimate
     logger.info(
@@ -46,8 +46,8 @@ async def _ensure_codes() -> None:
     )
 
 
-def _client() -> anthropic.Anthropic:
-    return anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+def _client():
+    return get_client()
 
 
 def _build_prompt(text: str, drill_context: str = "") -> str:

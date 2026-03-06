@@ -4,7 +4,6 @@ import logging
 import re
 from typing import Annotated
 
-import anthropic
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response, RedirectResponse
@@ -14,13 +13,14 @@ from maestro.models import (
     UserVocabularyCard,
     GeneratedDrill,
     DrillAttempt,
-    LearningProfile,
     GrammarPoint,
     Lesson,
 )
+from maestro.profile import get_profile
 from maestro.drills.scoring import score_attempt
 from maestro.learning.analyzer import generate_writing_feedback, score_reading_answers
 from maestro.config import settings
+from maestro.llm import get_async_client
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER, utcnow
 from maestro.vocab.discover import discover, discover_markdown, discover_list
@@ -86,7 +86,7 @@ async def _generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -
         "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
         "notes any areas of difficulty, and ends with one specific encouragement."
     )
-    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+    client = get_async_client()
     response = await client.messages.create(
         model=settings.DRILL_MODEL,
         max_tokens=200,
@@ -129,7 +129,7 @@ async def lezione_index(request: Request):
 @router.get("/lezione/new", response_class=HTMLResponse)
 async def lezione_new(request: Request):
     from maestro.lezione.planner import _pick_grammar_points
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     cefr = profile.cefr_estimate if profile else "A1"
     cefr_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
     target_levels = CEFR_ORDER[max(0, cefr_idx - 1): cefr_idx + 1]
@@ -152,7 +152,7 @@ async def lezione_create(
     grammar_codes: Annotated[list[str], Form()] = [],
 ):
     from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
 
     lesson = await prepare_lesson_immediate(duration, hint, grammar_codes, profile)
     asyncio.create_task(generate_lesson_background(lesson.id, duration, hint, grammar_codes))
@@ -267,7 +267,7 @@ async def lezione_activity(
         if card is None:
             raise HTTPException(404)
         await card.fetch_all_links()
-        profile = await LearningProfile.find_one()
+        profile = await get_profile()
         level = profile.cefr_estimate if profile else "A1"
         word_def = await VocabularyWordDefinition.find_one(
             {"word.$id": card.word.id, "student_level": level}
@@ -403,7 +403,7 @@ async def lezione_vocab_reveal(
     if card is None:
         raise HTTPException(404)
     await card.fetch_all_links()
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     level = profile.cefr_estimate if profile else "A1"
     word_def = await VocabularyWordDefinition.find_one(
         {"word.$id": card.word.id, "student_level": level}
@@ -467,7 +467,7 @@ async def lezione_writing_submit(
         raise HTTPException(404)
 
     activity = lesson.activities[idx]
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     cefr_level = profile.cefr_estimate if profile else "A1"
 
     feedback = await generate_writing_feedback(

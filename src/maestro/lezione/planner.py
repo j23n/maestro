@@ -15,9 +15,10 @@ import logging
 import random
 import time
 from datetime import date
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
-import anthropic
+if TYPE_CHECKING:
+    import anthropic
 
 from maestro.models import (
     Lesson,
@@ -34,6 +35,8 @@ from maestro.models import (
     CommunicativeFunction,
 )
 from maestro.config import settings
+from maestro.llm import get_async_client
+from maestro.profile import get_profile
 from maestro.prompts import planner as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json, utcnow
 from maestro.rag.retrieve import get_chunks_for_refs
@@ -179,7 +182,7 @@ async def generate_topic(
     past_topics: list[LessonTopic],
     available_cfs: list[CommunicativeFunction],
     hint: str = "",
-    client: Optional[anthropic.AsyncAnthropic] = None,
+    client: Optional["anthropic.AsyncAnthropic"] = None,
 ) -> LessonTopic:
     """Call Haiku to generate a personalised, CF-grounded lesson topic.
 
@@ -224,7 +227,7 @@ async def generate_topic(
         f"hint={hint!r}, past_topics={len(past_topics)}, available_cfs={len(available_cfs)}"
     )
     try:
-        _client = client or anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+        _client = client or get_async_client()
         logger.debug(f"[planner] generate_topic prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client.messages.create(
@@ -313,7 +316,7 @@ async def _generate_lesson_content(
     drill_specs: list[dict],
     reading_count: int,
     include_writing: bool,
-    client: anthropic.AsyncAnthropic,
+    client: "anthropic.AsyncAnthropic",
     speaking_cfs: list[CommunicativeFunction] = [],
 ) -> dict:
     """Single LLM call returning overview, grammar_motivations, drills, readings, writing, speakings."""
@@ -522,13 +525,13 @@ async def generate_lesson_background(
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
 
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     cefr_level = profile.cefr_estimate if profile else "A1"
     slots = _allocate_slots(duration_minutes)
     logger.info(f"[planner] slot allocation: {slots}")
 
     # --- Generate topic ---
-    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+    client = get_async_client()
     all_cfs = await CommunicativeFunction.find_all().to_list()
     past_topics = await _get_past_topics(10)
     lesson_topic = await generate_topic(profile, past_topics, all_cfs, hint=hint, client=client)

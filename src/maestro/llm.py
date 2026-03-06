@@ -1,0 +1,19 @@
+"""
+Anthropic client factories.
+
+All LLM calls should obtain their client from here rather than constructing
+one directly. This provides a single point of configuration and a single
+target for test mocking.
+"""
+import anthropic
+from maestro.config import settings
+
+
+def get_client() -> anthropic.Anthropic:
+    """Return a synchronous Anthropic client."""
+    return anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+
+
+def get_async_client() -> anthropic.AsyncAnthropic:
+    """Return an asynchronous Anthropic client."""
+    return anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)

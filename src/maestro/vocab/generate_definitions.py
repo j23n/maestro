@@ -17,16 +17,14 @@ import json
 import logging
 from typing import Any
 
-import anthropic
-
 from maestro.db import init_db
-from maestro.settings import Settings
+from maestro.config import settings
+from maestro.llm import get_client
 from maestro.models import CefrSense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
 from maestro.prompts import vocab as _prompts
 import time
 
 logger = logging.getLogger(__name__)
-settings = Settings()
 
 BATCH_SIZE = 20
 
@@ -52,7 +50,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
     logger.debug(f"[vocab] Claude request — system: {_prompts.definitions_system.render_system()!r}")
     logger.debug(f"[vocab] Claude request — user: {user_content}")
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    client = get_client()
     t0 = time.monotonic()
     msg = client.messages.create(
         model=settings.DEFINITION_MODEL,
