@@ -541,9 +541,15 @@ async def _generate_lesson_background(
     for i, gp in enumerate(grammar_gps):
         explanation_content = grammar_explanations[i] if i < len(grammar_explanations) else gp.description
         motivation = grammar_motivations[i].get("text") if i < len(grammar_motivations) and isinstance(grammar_motivations[i], dict) else None
+        # Use the explanation's markdown heading as title if available
+        grammar_title = gp.label
+        for line in (explanation_content or "").split("\n"):
+            if line.startswith("#"):
+                grammar_title = line.lstrip("#").strip()
+                break
         grammar_activities.append(LessonActivity(
             type="grammar",
-            title=f"Grammatica: {gp.label}",
+            title=f"Grammatica: {grammar_title}",
             description=f"Ripassa la regola grammaticale: {gp.label}",
             duration_minutes=3,
             content=explanation_content,
