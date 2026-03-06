@@ -33,18 +33,19 @@
     </a>
     {% endif %}
 
-    <button class="continue-btn" style="margin-top:1.75rem;"
-            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
-            hx-target="body"
-            hx-push-url="true">
-      Ho capito →
-    </button>
+    <div class="submit-row" style="margin-top:1.75rem;">
+      <button class="continue-btn"
+              hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
+              hx-target="body"
+              hx-push-url="true">
+        Ho capito →
+      </button>
+      <a class="skip-link"
+         hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+         hx-target="body"
+         hx-push-url="true"
+         href="#">Salta →</a>
+    </div>
   </div>
-
-  <a class="skip-link"
-     hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
-     hx-target="body"
-     hx-push-url="true"
-     href="#">Salta →</a>
 </div>
 {% endblock %}

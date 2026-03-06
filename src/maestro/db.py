@@ -1,4 +1,5 @@
 from beanie import init_beanie
+from bson.codec_options import CodecOptions
 from pymongo import AsyncMongoClient
 from maestro.config import settings
 from maestro.models import ALL_DOCUMENT_MODELS
@@ -6,8 +7,12 @@ from maestro.models import ALL_DOCUMENT_MODELS
 
 async def init_db():
     client = AsyncMongoClient(settings.database_url)
+    db = client.get_database(
+        settings.MONGODB_DB,
+        codec_options=CodecOptions(tz_aware=True),
+    )
     await init_beanie(
-        database=client[settings.MONGODB_DB],
+        database=db,
         document_models=ALL_DOCUMENT_MODELS,
     )
 

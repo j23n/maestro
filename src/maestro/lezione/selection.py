@@ -20,7 +20,7 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
-from maestro.utils import CEFR_ORDER, utcnow
+from maestro.utils import CEFR_ORDER, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +83,7 @@ async def pick_scenario(
 
         # 4. Cooldown penalty
         if sp.last_visited:
-            elapsed = (now - sp.last_visited).total_seconds()
+            elapsed = (now - ensure_utc(sp.last_visited)).total_seconds()
             if elapsed < _COOLDOWN_SECONDS:
                 score -= 5.0 * (1 - elapsed / _COOLDOWN_SECONDS)
 
