@@ -1,9 +1,10 @@
 """
 One-off ingest script:
   1. Replace all GrammarPoint documents from grammar_points.json (full replace)
-  2. Replace all CommunicativeFunction documents from comm_functions.json
-  3. Seed DrillTemplate specs (grammar points × 3 exercise types)
-  4. Create empty LearningProfile if none exists
+  2. Set chunk_ref on each GP from the static mapping file
+  3. Replace all CommunicativeFunction documents from comm_functions.json
+  4. Seed DrillTemplate specs (grammar points × 3 exercise types)
+  5. Create empty LearningProfile if none exists
 
 Run with:
   python -m maestro.learning.ingest
@@ -11,6 +12,8 @@ Run with:
 import asyncio
 import json
 import logging
+
+import yaml
 
 from maestro.db import init_db
 
@@ -22,10 +25,10 @@ from maestro.models import (
     GrammarPointExplanation,
 )
 from maestro.profile import get_or_create_profile
-from maestro.rag.retrieve import retrieve_for_grammar_point
 from maestro.utils import DATA_DIR
 
 EXERCISE_TYPES = ("fill_blank", "error_correction", "free_form")
+CHUNK_MAPPING_FILE = DATA_DIR / "grammar_point_chunks.yaml"
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
@@ -41,31 +44,25 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
     return inserted
 
 
-async def link_grammar_points_to_rag(grammar_points: list[GrammarPoint]) -> None:
-    """Semantic-search the RAG index for each grammar point and persist the top chunk refs.
+async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> None:
+    """Set chunk_ref on each GP from the static mapping file."""
+    if not CHUNK_MAPPING_FILE.exists():
+        logger.warning(f"Chunk mapping file not found: {CHUNK_MAPPING_FILE}")
+        return
 
-    Prints an audit line per grammar point so matches can be manually reviewed.
-    Raises RuntimeError if any grammar point returns no RAG results (RAG not ingested?).
-    """
-    failed: list[str] = []
+    with open(CHUNK_MAPPING_FILE) as f:
+        mapping = yaml.safe_load(f) or {}
+
     for gp in grammar_points:
-        results = await retrieve_for_grammar_point(gp.label, gp.description, top_k=3)
-        if not results:
-            failed.append(gp.code)
-            logger.error(f"  [ERROR] No RAG match for: {gp.code} ({gp.label})")
-            continue
-        gp.rag_refs = [r.chunk.ref for r in results]
-        await gp.save()
-        logger.info(f"  [RAG] {gp.code}: {gp.label}")
-        for r in results:
-            heading = r.chunk.chunk_metadata.get("heading", r.chunk.ref)
-            logger.info(f"    → '{heading}'  (score: {r.similarity:.2f})")
+        ref = mapping.get(gp.code)
+        if ref:
+            gp.chunk_ref = ref
+            await gp.save()
+        else:
+            logger.warning(f"  No chunk mapping for GP: {gp.code}")
 
-    if failed:
-        raise RuntimeError(
-            f"No RAG chunks found for {len(failed)} grammar point(s): {', '.join(failed)}. "
-            "Run 'python -m maestro.rag.ingest' first."
-        )
+    mapped = sum(1 for gp in grammar_points if gp.chunk_ref)
+    logger.info(f"Chunk refs set: {mapped}/{len(grammar_points)}")
 
 
 async def upsert_comm_functions() -> None:
@@ -109,8 +106,8 @@ async def ingest():
     logger.info("=== Ingesting grammar points ===")
     grammar_points = await upsert_grammar_points()
 
-    logger.info("=== Linking grammar points to RAG rules ===")
-    await link_grammar_points_to_rag(grammar_points)
+    logger.info("=== Linking grammar points to chunks ===")
+    await link_grammar_points_to_chunks(grammar_points)
 
     logger.info("=== Ingesting communicative functions ===")
     await upsert_comm_functions()

@@ -74,7 +74,7 @@ class GrammarPoint(Document):
     cefr_level: str
     category: str
     description: str
-    rag_refs: List[str] = Field(default_factory=list)  # book-chunk refs, set at ingest
+    chunk_ref: Optional[str] = None  # ItalianChunk.ref — set from mapping file at ingest
 
     class Settings:
         name = "grammar_points"
@@ -152,7 +152,7 @@ class GeneratedDrill(Document):
     topic_used: str
     generated_at: datetime = Field(default_factory=utcnow)
     used: bool = False
-    rag_refs: List[str] = Field(default_factory=list)  # RAG chunk refs used during generation
+    chunk_ref: Optional[str] = None  # ItalianChunk.ref from the GP's chunk_ref
 
     class Settings:
         name = "generated_drills"
@@ -177,8 +177,10 @@ class ItalianChunkResult:
 
 class GrammarPointExplanation(Document):
     grammar_point: Link["GrammarPoint"]
-    student_level: str    # "A1" | "A2" | "B1" | "B2"
-    explanation: str      # markdown, tailored to this CEFR level
+    student_level: str           # "A1" | "A2" | "B1" | "B2"
+    title: str = ""              # short display title in Italian (3–8 words)
+    explanation: str             # CEFR-adapted Italian markdown
+    translation: str = ""       # English translation of the explanation
 
     class Settings:
         name = "grammar_point_explanations"

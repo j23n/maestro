@@ -41,30 +41,6 @@
         placeholder="Es. viaggi, cibo, lavoro…"></textarea>
     </div>
 
-    <div class="form-section">
-      <label class="section-label">Grammatica da praticare</label>
-      <div class="grammar-grid">
-        {% set ns = namespace(current_level=None) %}
-        {% for gp in candidate_gps | sort(attribute='cefr_level') %}
-          {% if gp.cefr_level != ns.current_level %}
-            {% set ns.current_level = gp.cefr_level %}
-            <div class="grammar-level-heading">{{ gp.cefr_level }}</div>
-          {% endif %}
-          <div>
-            <input type="checkbox"
-                   id="gp_{{ gp.code }}"
-                   name="grammar_codes"
-                   value="{{ gp.code }}"
-                   {% if gp.code in suggested_codes %}checked{% endif %}>
-            <label for="gp_{{ gp.code }}">
-              <span class="check-icon">✓</span>
-              {{ gp.label }}
-            </label>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-
     <button class="btn-start" type="submit">Inizia la lezione</button>
     <p class="loading-hint">La preparazione richiede qualche secondo.</p>
   </form>

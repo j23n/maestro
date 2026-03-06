@@ -32,7 +32,11 @@ async def pick_grammar_points(
     cefr_level: str,
     count: int,
 ) -> list[GrammarPoint]:
-    """Pick grammar points to practise, prioritising weakest within level."""
+    """Pick grammar points to practise, prioritising weakest within level.
+
+    Among the top candidates, prefer GPs that share the same chunk_ref
+    so lessons are coherent around a textbook section.
+    """
     candidates = await GrammarPoint.find(
         {"cefr_level": cefr_level}
     ).to_list()
@@ -49,7 +53,23 @@ async def pick_grammar_points(
         return -error_rate + random.uniform(0, 0.1)
 
     candidates.sort(key=_score)
-    picked = candidates[:count]
+
+    # Take a wider pool (3× count) and group by chunk_ref
+    pool = candidates[: count * 3]
+    if len(pool) > count:
+        by_chunk: dict[Optional[str], list[GrammarPoint]] = {}
+        for gp in pool:
+            by_chunk.setdefault(gp.chunk_ref, []).append(gp)
+        # Pick the chunk_ref group with the most candidates
+        best_chunk = max(by_chunk, key=lambda k: len(by_chunk[k]) if k else 0)
+        if best_chunk and len(by_chunk[best_chunk]) >= count:
+            picked = by_chunk[best_chunk][:count]
+        else:
+            # Not enough from one chunk — fall back to weakness order
+            picked = pool[:count]
+    else:
+        picked = pool[:count]
+
     logger.debug(f"[selection] pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}")
     return picked
 

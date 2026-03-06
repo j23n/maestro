@@ -12,6 +12,7 @@ from maestro.models import (
     GeneratedDrill,
     DrillAttempt,
     GrammarPoint,
+    GrammarPointExplanation,
     Lesson,
 )
 from maestro.profile import get_profile
@@ -47,20 +48,7 @@ async def lezione_index(request: Request):
 
 @router.get("/lezione/new", response_class=HTMLResponse)
 async def lezione_new(request: Request):
-    from maestro.lezione.selection import pick_grammar_points
-    profile = await get_profile()
-    cefr = profile.cefr_estimate if profile else "A1"
-    cefr_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
-    target_levels = CEFR_ORDER[max(0, cefr_idx - 1): cefr_idx + 1]
-    candidate_gps = await GrammarPoint.find(
-        {"cefr_level": {"$in": target_levels}}
-    ).to_list()
-    suggested = await pick_grammar_points(profile, cefr, min(5, len(candidate_gps)))
-    suggested_codes = {gp.code for gp in suggested}
-    return templates.TemplateResponse(
-        request=request, name="lezione-new.html",
-        context={"candidate_gps": candidate_gps, "suggested_codes": suggested_codes},
-    )
+    return templates.TemplateResponse(request=request, name="lezione-new.html")
 
 
 @router.post("/lezione/", response_class=HTMLResponse)
@@ -68,14 +56,13 @@ async def lezione_create(
     request: Request,
     duration: Annotated[int, Form()] = 20,
     hint: Annotated[str, Form()] = "",
-    grammar_codes: Annotated[list[str], Form()] = [],
 ):
     from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
     profile = await get_profile()
 
-    lesson = await prepare_lesson_immediate(duration, hint, grammar_codes, profile)
+    lesson = await prepare_lesson_immediate(duration, hint, profile)
     create_background_task(
-        generate_lesson_background(lesson.id, duration, hint, grammar_codes),
+        generate_lesson_background(lesson.id, duration, hint),
         name=f"lesson-generate-{lesson.id}",
     )
 
@@ -218,6 +205,23 @@ async def lezione_activity(
         ctx["annotated_content"] = await discover_markdown(activity.content or "")
         if activity.why_important:
             ctx["annotated_why"] = await discover(activity.why_important)
+        # Find the GP and its explanation for translation + chunk_ref
+        gp_label = activity.title.replace("Grammatica: ", "")
+        gp = await GrammarPoint.find_one({"label": gp_label})
+        if not gp:
+            # Try matching by content — find explanation that matches
+            gp = await GrammarPoint.find_one({})  # fallback
+        if gp:
+            ctx["chunk_ref"] = gp.chunk_ref
+            profile = await get_profile()
+            level = profile.cefr_estimate if profile else "A1"
+            expl = await GrammarPointExplanation.find_one(
+                {"grammar_point.$id": gp.id, "student_level": level}
+            )
+            if not expl:
+                expl = await GrammarPointExplanation.find_one({"grammar_point.$id": gp.id})
+            if expl and expl.translation:
+                ctx["annotated_translation"] = await discover_markdown(expl.translation)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )

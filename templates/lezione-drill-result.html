@@ -74,7 +74,9 @@
   {% if rule_refs %}
   <div class="rule-refs-block">
     {% for ref in rule_refs %}
-    <div style="font-size:0.8rem;color:#888;">{{ ref.heading }}</div>
+    <a href="/grammar/chunk/{{ ref.ref }}" class="chunk-link" style="font-size:0.8rem;">
+      {{ ref.heading }} →
+    </a>
     {% endfor %}
   </div>
   {% endif %}

@@ -30,13 +30,13 @@ from maestro.models import (
     DrillItem,
     DrillTemplate,
     CommunicativeFunction,
+    ItalianChunk,
 )
 from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
 from maestro.prompts import planner as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json, utcnow
-from maestro.rag.retrieve import get_chunks_for_refs
 from maestro.lezione.selection import (
     pick_grammar_points,
     pick_comm_functions,
@@ -342,7 +342,6 @@ async def _generate_lesson_content(
 async def prepare_lesson_immediate(
     duration_minutes: int,
     hint: str,
-    grammar_codes: list[str],
     profile: Optional[LearningProfile],
 ) -> Lesson:
     """Create and save a Lesson with only the vocab_review activity (no LLM calls).
@@ -392,11 +391,10 @@ async def generate_lesson_background(
     lesson_id,
     duration_minutes: int,
     hint: str,
-    grammar_codes: list[str],
 ) -> None:
     """Generate topic, grammar, reading, drills, speaking, writing and append to lesson."""
     try:
-        await _generate_lesson_background(lesson_id, duration_minutes, hint, grammar_codes)
+        await _generate_lesson_background(lesson_id, duration_minutes, hint)
     except Exception:
         logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
         try:
@@ -413,7 +411,6 @@ async def _generate_lesson_background(
     lesson_id,
     duration_minutes: int,
     hint: str,
-    grammar_codes: list[str],
 ) -> None:
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
@@ -429,31 +426,13 @@ async def _generate_lesson_background(
     past_topics = await get_past_topics(10)
     lesson_topic = await generate_topic(profile, past_topics, all_cfs, hint=hint, client=client)
 
-    # --- Resolve grammar point pool ---
-    selected_gps: list[GrammarPoint] = []
-    if grammar_codes:
-        selected_gps = await GrammarPoint.find(
-            {"code": {"$in": grammar_codes}}
-        ).to_list()
-        error_counts: dict = profile.grammar_error_counts if profile else {}
-        correct_counts: dict = profile.grammar_correct_counts if profile else {}
-
-        def _score_selected(gp: GrammarPoint) -> float:
-            total = correct_counts.get(gp.code, 0) + error_counts.get(gp.code, 0)
-            return -(error_counts.get(gp.code, 0) / max(1, total))
-
-        selected_gps.sort(key=_score_selected)
-
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get("grammar", 0)
     grammar_gps: list[GrammarPoint] = []
-    grammar_explanations: list[Optional[str]] = []
+    grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
     if grammar_count > 0:
-        if selected_gps:
-            grammar_gps = selected_gps[:grammar_count]
-        else:
-            grammar_gps = await pick_grammar_points(profile, cefr_level, grammar_count)
+        grammar_gps = await pick_grammar_points(profile, cefr_level, grammar_count)
 
         for gp in grammar_gps:
             explanation = await GrammarPointExplanation.find_one(
@@ -463,41 +442,33 @@ async def _generate_lesson_background(
                 explanation = await GrammarPointExplanation.find_one(
                     {"grammar_point.$id": gp.id}
                 )
-            if explanation:
-                grammar_explanations.append(explanation.explanation)
-            else:
-                from maestro.rag.retrieve import get_chunks_for_refs as _gcr
-                chunks = await _gcr(gp.rag_refs)
-                grammar_explanations.append(
-                    "\n\n".join(c.content for c in chunks) if chunks else gp.description
-                )
+            grammar_explanations.append(explanation)
 
     # --- Pick grammar points and templates for drills ---
     drill_count = slots.get("drill", 0)
     drill_specs: list[dict] = []
     drill_templates_used: list[DrillTemplate] = []
     if drill_count > 0:
-        if selected_gps:
-            gps_for_drills = random.choices(selected_gps, k=drill_count)
-        else:
-            gps_for_drills = await pick_grammar_points(profile, cefr_level, drill_count)
+        gps_for_drills = await pick_grammar_points(profile, cefr_level, drill_count)
         all_templates = await DrillTemplate.find_all().to_list()
         for gp in gps_for_drills:
             matching = [t for t in all_templates if t.grammar_point_code == gp.code]
             if not matching:
                 continue
             template = random.choice(matching)
-            chunks = await get_chunks_for_refs(gp.rag_refs)
-            rag_excerpt = chunks[0].content[:500] if chunks else ""
-            rag_refs = [c.ref for c in chunks]
+            chunk_excerpt = ""
+            if gp.chunk_ref:
+                chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
+                if chunk:
+                    chunk_excerpt = chunk.content[:500]
             drill_specs.append(
                 {
                     "grammar_point_code": gp.code,
                     "gp_label": gp.label,
                     "gp_description": gp.description,
                     "exercise_type": template.exercise_type,
-                    "rag_excerpt": rag_excerpt,
-                    "rag_refs": rag_refs,
+                    "rag_excerpt": chunk_excerpt,
+                    "chunk_ref": gp.chunk_ref,
                 }
             )
             drill_templates_used.append(template)
@@ -539,14 +510,19 @@ async def _generate_lesson_background(
     grammar_activities: list[LessonActivity] = []
     grammar_motivations = content.get("grammar_motivations", [])
     for i, gp in enumerate(grammar_gps):
-        explanation_content = grammar_explanations[i] if i < len(grammar_explanations) else gp.description
+        exp = grammar_explanations[i] if i < len(grammar_explanations) else None
+        if exp:
+            explanation_content = exp.explanation
+            grammar_title = exp.title or gp.label
+        else:
+            # Fallback: load chunk content directly
+            if gp.chunk_ref:
+                chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
+                explanation_content = chunk.content if chunk else gp.description
+            else:
+                explanation_content = gp.description
+            grammar_title = gp.label
         motivation = grammar_motivations[i].get("text") if i < len(grammar_motivations) and isinstance(grammar_motivations[i], dict) else None
-        # Use the explanation's markdown heading as title if available
-        grammar_title = gp.label
-        for line in (explanation_content or "").split("\n"):
-            if line.startswith("#"):
-                grammar_title = line.lstrip("#").strip()
-                break
         grammar_activities.append(LessonActivity(
             type="grammar",
             title=f"Grammatica: {grammar_title}",
@@ -597,7 +573,7 @@ async def _generate_lesson_background(
                 distractors=[],
                 items=items,
                 topic_used=topic_str,
-                rag_refs=spec["rag_refs"],
+                chunk_ref=spec.get("chunk_ref"),
             )
         else:  # free_form
             drill = GeneratedDrill(
@@ -609,7 +585,7 @@ async def _generate_lesson_background(
                 correct_answer=None,
                 distractors=[],
                 topic_used=topic_str,
-                rag_refs=spec["rag_refs"],
+                chunk_ref=spec.get("chunk_ref"),
             )
         await drill.insert()
         logger.debug(f"[planner] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})")

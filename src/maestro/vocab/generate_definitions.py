@@ -5,7 +5,7 @@ Strategy:
   - A1–B2: Claude claude-opus-4-6 rewrites senses for learner-appropriate Italian
     at each level, with per-sense English translations.
 
-Runs in batches of 20 words. Idempotent — skips words that already have all
+Runs in batches of 5 words. Idempotent — skips words that already have all
 4 definitions.
 
 Run with:  python -m maestro.vocab.generate_definitions
@@ -26,7 +26,7 @@ import time
 
 logger = logging.getLogger(__name__)
 
-BATCH_SIZE = 10
+BATCH_SIZE = 5
 
 
 def _word_payload(word: VocabularyWord) -> dict[str, Any]:

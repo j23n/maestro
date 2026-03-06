@@ -129,7 +129,7 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
     profile = LearningProfile(cefr_estimate="A1")
     await profile.insert()
 
-    lesson = await prepare_lesson_immediate(20, "", [], profile)
+    lesson = await prepare_lesson_immediate(20, "", profile)
     assert lesson.status == "active"
     assert lesson.generating is True
     assert len(lesson.activities) >= 1
@@ -174,8 +174,8 @@ async def test_drill_materialization_creates_generated_drills(db):
     mock_client.messages.create.side_effect = [topic_response, content_response]
 
     with patch("maestro.lezione.planner.get_async_client", return_value=mock_client), \
-         patch("maestro.lezione.planner.get_chunks_for_refs", new_callable=AsyncMock, return_value=[]):
-        await generate_lesson_background(lesson.id, 10, "", ["GP_001"])
+         patch("maestro.lezione.planner.ItalianChunk.find_one", new_callable=AsyncMock, return_value=None):
+        await generate_lesson_background(lesson.id, 10, "")
 
     updated_lesson = await Lesson.get(lesson.id)
     assert updated_lesson.generating is False

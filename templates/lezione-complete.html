@@ -56,6 +56,11 @@
         <span>{{ gp.label }}</span>
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
+      {% if gp.chunk_ref %}
+      <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">
+        Regola completa →
+      </a>
+      {% endif %}
       {% endfor %}
     </div>
   </div>
