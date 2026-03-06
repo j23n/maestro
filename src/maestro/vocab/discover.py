@@ -67,6 +67,8 @@ async def discover(response_text: str, student_id: PydanticObjectId | None = Non
     for w in words_with_vocab.values():
         word_id = str(w.id)
         wdef = _cache.get_definition(word_id, student_level)
+        if wdef is None and student_level == "A0":
+            wdef = _cache.get_definition(word_id, "A1")
         annotated_text = _annotate(annotated_text, w, wdef)
 
     return annotated_text
