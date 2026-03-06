@@ -29,7 +29,6 @@ async def main():
         [
             {"$set": {
                 "persona.tags": {"$ifNull": ["$student_interests", []]},
-                "persona.freetext": "",
             }},
             {"$unset": "student_interests"},
         ],
