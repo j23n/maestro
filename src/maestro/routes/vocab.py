@@ -33,19 +33,25 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         await card.fetch_all_links()
     cards = [c for c in cards if c.word.cefr_level in visible_levels]
 
+    today = date.today()
+    due = sorted([c for c in cards if c.next_review <= today], key=lambda c: c.word.word)
+    learning = sorted([c for c in cards if c.next_review > today and c.interval < 14], key=lambda c: c.word.word)
+    known = sorted([c for c in cards if c.interval >= 14 and c.next_review > today], key=lambda c: c.word.word)
+
     from maestro.utils import CEFR_ORDER
-    cefr_levels = CEFR_ORDER
     stats = {
         "total": len(cards),
-        "learned": sum(1 for c in cards if c.interval >= 14),
+        "due": len(due),
+        "learning": len(learning),
+        "known": len(known),
         "difficult": sum(1 for c in cards if c.ease_factor < 2.0),
-        "cefr": {level: sum(1 for c in cards if c.word.cefr_level == level) for level in cefr_levels},
+        "cefr": {level: sum(1 for c in cards if c.word.cefr_level == level) for level in CEFR_ORDER},
     }
 
     return templates.TemplateResponse(
         request=request,
         name="vocab.html",
-        context={"cards": cards, "today": date.today(), "stats": stats},
+        context={"due": due, "learning": learning, "known": known, "today": today, "stats": stats, "visible_levels": visible_levels},
     )
 
 

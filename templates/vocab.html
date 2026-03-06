@@ -1,72 +1,143 @@
 {% extends "base.html" %}
-{% block title %}Vocabulary — Maestro{% endblock %}
+{% block title %}Vocabolario — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/vocab.css">{% endblock %}
 
 {% block content %}
-  <div class="vocab-page">
-    <h2>Vocabulary <a href="/vocab/practice"><button>Practice due cards</button></a></h2>
+<div class="vocab-page">
 
-    <div class="vocab-stats">
-      <div class="stats-group">
-        <div class="stat">
-          <span class="stat-value">{{ stats.total }}</span>
-          <span class="stat-label">encountered</span>
-        </div>
-        <div class="stat learned">
-          <span class="stat-value">{{ stats.learned }}</span>
-          <span class="stat-label">learned</span>
-        </div>
-        <div class="stat difficult">
-          <span class="stat-value">{{ stats.difficult }}</span>
-          <span class="stat-label">difficult</span>
-        </div>
+  <div class="vocab-header">
+    <h2>Vocabolario</h2>
+    <a href="/vocab/practice" class="vocab-practice-btn">Ripassa</a>
+  </div>
+
+  <div class="vocab-stats">
+    <div class="stats-group">
+      <div class="stat">
+        <span class="stat-value">{{ stats.total }}</span>
+        <span class="stat-label">totale</span>
       </div>
-
-      <div class="stats-divider"></div>
-
-      <div class="cefr-group">
-        {% for level, count in stats.cefr.items() %}
-        <div class="cefr-item">
-          <span class="cefr-badge {{ level | lower }}">{{ level }}</span>
-          <span class="cefr-count">{{ count }}</span>
-        </div>
-        {% endfor %}
+      <div class="stat due-stat">
+        <span class="stat-value">{{ stats.due }}</span>
+        <span class="stat-label">da ripassare</span>
+      </div>
+      <div class="stat learning-stat">
+        <span class="stat-value">{{ stats.learning }}</span>
+        <span class="stat-label">in corso</span>
+      </div>
+      <div class="stat known-stat">
+        <span class="stat-value">{{ stats.known }}</span>
+        <span class="stat-label">acquisite</span>
       </div>
     </div>
 
-    <div class="vocab-search-wrap">
-      <input type="text" name="q" placeholder="Search dictionary…"
-             hx-get="/vocab/search" hx-trigger="input changed delay:200ms"
-             hx-target="#search-results" autocomplete="off">
-      <div id="search-results"></div>
-    </div>
+    <div class="stats-divider"></div>
 
-    <div class="table-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th>Word</th>
-          <th>Level</th>
-          <th>Interval</th>
-          <th>Next review</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for card in cards %}
-        <tr>
-          <td>
-            {% if card.word.entry_id %}
-              <a href="/vocab/word/{{ card.word.entry_id }}">{{ card.word.word }}</a>
-            {% else %}
-              {{ card.word.word }}
-            {% endif %}
-          </td>
-          <td>{{ card.word.cefr_level }}</td>
-          <td>{{ card.interval }}d</td>
-          <td class="{{ 'due' if card.next_review <= today else '' }}">{{ card.next_review }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="cefr-group">
+      {% for level, count in stats.cefr.items() %}
+      {% if count > 0 %}
+      <div class="cefr-item">
+        <span class="cefr-badge {{ level | lower }}">{{ level }}</span>
+        <span class="cefr-count">{{ count }}</span>
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
   </div>
+
+  <div class="vocab-search-wrap">
+    <input type="text" name="q" placeholder="Cerca nel dizionario…"
+           hx-get="/vocab/search" hx-trigger="input changed delay:200ms"
+           hx-target="#search-results" autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+
+  <div class="vocab-filters">
+    <button class="vf-btn active" onclick="filterLevel('all', this)">Tutti</button>
+    {% for level in visible_levels %}
+    <button class="vf-btn" onclick="filterLevel('{{ level | lower }}', this)">{{ level }}</button>
+    {% endfor %}
+  </div>
+
+  {# — Due today — #}
+  {% if due %}
+  <section class="vocab-section vocab-section--due">
+    <div class="vocab-section-header" onclick="toggleSection(this)">
+      <h3>Da ripassare <span class="vocab-section-count">{{ due | length }}</span></h3>
+      <span class="vocab-chevron"></span>
+    </div>
+    <div class="vocab-chips">
+      {% for card in due %}
+      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
+        <span class="chip-dot"></span>
+        <span class="chip-word">{{ card.word.word }}</span>
+        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# — Learning — #}
+  {% if learning %}
+  <section class="vocab-section vocab-section--learning">
+    <div class="vocab-section-header" onclick="toggleSection(this)">
+      <h3>In corso <span class="vocab-section-count">{{ learning | length }}</span></h3>
+      <span class="vocab-chevron"></span>
+    </div>
+    <div class="vocab-chips">
+      {% for card in learning %}
+      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
+        <span class="chip-dot"></span>
+        <span class="chip-word">{{ card.word.word }}</span>
+        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# — Known — #}
+  {% if known %}
+  <section class="vocab-section vocab-section--known collapsed">
+    <div class="vocab-section-header" onclick="toggleSection(this)">
+      <h3>Acquisite <span class="vocab-section-count">{{ known | length }}</span></h3>
+      <span class="vocab-chevron"></span>
+    </div>
+    <div class="vocab-chips">
+      {% for card in known %}
+      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
+        <span class="chip-dot"></span>
+        <span class="chip-word">{{ card.word.word }}</span>
+        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if not due and not learning and not known %}
+  <div class="vocab-empty">
+    Nessuna parola ancora. Le parole appariranno qui durante le lezioni.
+  </div>
+  {% endif %}
+
+</div>
+
+<script>
+function toggleSection(header) {
+  header.closest('.vocab-section').classList.toggle('collapsed');
+}
+
+function filterLevel(level, btn) {
+  document.querySelectorAll('.vf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.vocab-chip').forEach(chip => {
+    if (level === 'all' || chip.dataset.level === level) {
+      chip.style.display = '';
+    } else {
+      chip.style.display = 'none';
+    }
+  });
+}
+</script>
 {% endblock %}
