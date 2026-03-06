@@ -57,7 +57,7 @@ async def test_lesson_content_structure(db, record_eval):
 
         failures = []
 
-        if not content:
+        if not content.model_fields_set:
             failures.append("empty content returned")
             results.append({"id": case["id"], "pass": False, "failures": failures})
             generated_content.append((case, None))
@@ -65,12 +65,12 @@ async def test_lesson_content_structure(db, record_eval):
             continue
 
         # Check drills
-        drills = content.get("drills", [])
+        drills = content.drills
         if len(drills) < case.get("expect_drills", 0):
             failures.append(f"expected {case['expect_drills']} drills, got {len(drills)}")
         for spec, drill in zip(case["drill_specs"], drills):
             if spec["exercise_type"] in ("fill_blank", "error_correction"):
-                items = drill.get("items", []) if isinstance(drill, dict) else []
+                items = drill.items
                 expected_items = case.get(f"expect_items_per_{spec['exercise_type']}", 10)
                 if len(items) < expected_items:
                     failures.append(
@@ -78,23 +78,22 @@ async def test_lesson_content_structure(db, record_eval):
                     )
 
         # Check readings
-        readings = content.get("readings", [])
+        readings = content.readings
         if len(readings) < case.get("expect_readings", 0):
             failures.append(f"expected {case['expect_readings']} readings, got {len(readings)}")
         for i, reading in enumerate(readings):
-            if isinstance(reading, dict):
-                q_count = len(reading.get("questions", []))
-                if q_count < 5:
-                    failures.append(f"reading {i}: expected >=5 questions, got {q_count}")
+            q_count = len(reading.questions)
+            if q_count < 5:
+                failures.append(f"reading {i}: expected >=5 questions, got {q_count}")
 
         # Check writing
-        if case.get("expect_writing") and not content.get("writing"):
+        if case.get("expect_writing") and not content.writing:
             failures.append("expected writing activity but none returned")
-        if not case.get("expect_writing") and content.get("writing"):
+        if not case.get("expect_writing") and content.writing:
             failures.append("unexpected writing activity returned")
 
         # Check speakings
-        speakings = content.get("speakings", [])
+        speakings = content.speakings
         if len(speakings) < case.get("expect_speakings", 0):
             failures.append(f"expected {case.get('expect_speakings', 0)} speakings, got {len(speakings)}")
 
@@ -106,7 +105,7 @@ async def test_lesson_content_structure(db, record_eval):
         generated_content.append((case, content))
         logger.info(
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} "
-            f"keys={list(content.keys())} {failures}"
+            f"fields={list(content.model_fields_set)} {failures}"
         )
 
     n = len(cases)
@@ -120,16 +119,16 @@ async def test_lesson_content_structure(db, record_eval):
     for case, content in generated_content:
         if not content:
             continue
-        drills = content.get("drills", [])
+        drills = content.drills
         # Judge first drill item
         if drills and case.get("drill_specs"):
             spec = case["drill_specs"][0]
             drill = drills[0]
-            items = drill.get("items", []) if isinstance(drill, dict) else []
+            items = drill.items
             if items:
                 first_item = items[0]
                 judge_total += 1
-                generated = f'{first_item.get("prompt", "")} → {first_item.get("correct_answer", "")}'
+                generated = f'{first_item.prompt} → {first_item.correct_answer or ""}'
                 expected_output = case.get("expected_output", {}).get("drill")
                 if expected_output is not None:
                     ok, reason = _judge_ref(
@@ -140,8 +139,8 @@ async def test_lesson_content_structure(db, record_eval):
                 else:
                     prompt = (
                         f'Grammar point: "{spec["grammar_point_code"]}" ({spec["exercise_type"]}, {case["cefr_level"]})\n'
-                        f'Drill item prompt: "{first_item.get("prompt", "")}"\n'
-                        f'Correct answer: "{first_item.get("correct_answer", "")}"\n\n'
+                        f'Drill item prompt: "{first_item.prompt}"\n'
+                        f'Correct answer: "{first_item.correct_answer or ""}"\n\n'
                         f"Is this item: (1) testing the stated grammar point, "
                         f"(2) using natural Italian, (3) unambiguous?"
                     )
@@ -151,10 +150,10 @@ async def test_lesson_content_structure(db, record_eval):
                 logger.info(f"[eval] judge drill {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
 
         # Judge first reading text
-        readings = content.get("readings", [])
-        if readings and isinstance(readings[0], dict):
+        readings = content.readings
+        if readings:
             reading = readings[0]
-            text = reading.get("text", "") or reading.get("passage", "") or ""
+            text = reading.text
             if text:
                 judge_total += 1
                 snippet = text[:200]

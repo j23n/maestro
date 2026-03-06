@@ -230,16 +230,25 @@ async def fill_vocab_cards(vocab_count: int, cefr_level: str, student_id=None) -
         card_filter["student_id"] = student_id
     due_all = await UserVocabularyCard.find(card_filter).to_list()
 
+    # Batch fetch all referenced words in one query instead of N+1 fetch_all_links()
+    word_ids = []
+    for c in due_all:
+        ref = c.word
+        word_ids.append(ref.ref.id if hasattr(ref, "ref") else ref.id)
+    words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
+    word_map = {w.id: w for w in words}
+
     # Filter to words within the student's level range
     due = []
     existing_word_ids = set()
     for c in due_all:
-        await c.fetch_all_links()
-        if c.word.cefr_level in visible_levels:
-            due.append(c)
         ref = c.word
-        if hasattr(ref, "id"):
-            existing_word_ids.add(ref.id)
+        wid = ref.ref.id if hasattr(ref, "ref") else ref.id
+        word = word_map.get(wid)
+        if word and word.cefr_level in visible_levels:
+            c.word = word  # resolve Link so downstream code can access word fields
+            due.append(c)
+        existing_word_ids.add(wid)
 
     if len(due) < min(MIN_VOCAB, vocab_count):
         candidates = await VocabularyWord.find(

@@ -19,6 +19,8 @@ from maestro.models import (
     GeneratedDrill,
     GrammarPoint,
     LearningEvent,
+    ActivityType,
+    ActivityStatus,
 )
 from maestro.learning.profile import update_profile
 from maestro import taxonomy
@@ -51,18 +53,18 @@ def _collect_free_texts(lesson: "Lesson") -> list[str]:
     """Gather all student free-text answers from completed activities."""
     texts: list[str] = []
     for activity in lesson.activities:
-        if activity.status != "completed" or not activity.result:
+        if activity.status != ActivityStatus.COMPLETED or not activity.result:
             continue
-        if activity.type in ("writing", "speaking"):
+        if activity.type in (ActivityType.WRITING, ActivityType.SPEAKING):
             answer = activity.result.get("student_answer", "")
             if answer:
                 texts.append(answer)
-        elif activity.type == "reading":
+        elif activity.type == ActivityType.READING:
             answers = activity.result.get("student_answers", [])
             joined = " | ".join(a for a in answers if a)
             if joined:
                 texts.append(joined)
-        elif activity.type == "drill":
+        elif activity.type == ActivityType.DRILL:
             answer = activity.result.get("student_answer", "")
             if answer:
                 texts.append(answer)
@@ -79,7 +81,7 @@ async def _collect_drill_gp_outcomes(lesson: "Lesson") -> tuple[list[str], list[
     outcomes: dict[str, list[bool]] = {}  # gp_code → list of True/False outcomes
     all_gp_codes: list[str] = []
     for activity in lesson.activities:
-        if activity.type != "drill" or not activity.drill_id:
+        if activity.type != ActivityType.DRILL or not activity.drill_id:
             continue
         drill = await GeneratedDrill.get(activity.drill_id)
         if drill is None:

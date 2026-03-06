@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from maestro.models import GeneratedDrill
 
-from maestro.models import LearningEvent, ItalianChunk
+from maestro.models import LearningEvent, ItalianChunk, ExerciseType
 from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
 from maestro import taxonomy
 
@@ -57,7 +57,7 @@ async def score_attempt(
     code = generated_drill.grammar_point_code
 
     # --- multi-item: fill_blank or error_correction with items list ---
-    if generated_drill.items and generated_drill.exercise_type in ("fill_blank", "error_correction"):
+    if generated_drill.items and generated_drill.exercise_type in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
         answers: list[str] = student_answer if isinstance(student_answer, list) else [student_answer]
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 
@@ -116,7 +116,7 @@ async def score_attempt(
         return overall_correct, event, feedback, rule_refs
 
     # --- free_form ---
-    elif generated_drill.exercise_type == "free_form":
+    elif generated_drill.exercise_type == ExerciseType.FREE_FORM:
         answer_str = student_answer[0] if isinstance(student_answer, list) else student_answer
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 

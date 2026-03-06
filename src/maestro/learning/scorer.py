@@ -12,12 +12,14 @@ import time
 from maestro import taxonomy
 from maestro.config import settings
 from maestro.llm import get_async_client
+from maestro.models import ExerciseType
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
+from maestro.learning.schemas import ScoringResult
 
 logger = logging.getLogger(__name__)
 
-_FALLBACK_ITEM = {"objective_correct": False, "objective_note": "", "grammar_errors": [], "tips": []}
+_FALLBACK_ITEM = ScoringResult().model_dump()
 
 
 def _client():
@@ -142,7 +144,7 @@ async def score_multi_item_drill(
     grammar_code_list = "\n".join(f"  {g.code}: {g.label}" for g in taxonomy.grammar_points())
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
-    if exercise_type == "fill_blank":
+    if exercise_type == ExerciseType.FILL_BLANK:
         task_desc = _prompts.task_fill_blank.render()
         lines = [
             f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
@@ -178,9 +180,15 @@ async def score_multi_item_drill(
         logger.debug(f"[scorer] score_multi_item_drill LLM in {elapsed:.2f}s: {raw}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
-            n_correct = sum(1 for r in result if r.get("objective_correct"))
+            validated = []
+            for r in result:
+                try:
+                    validated.append(ScoringResult.model_validate(r).model_dump())
+                except Exception:
+                    validated.append(dict(_FALLBACK_ITEM))
+            n_correct = sum(1 for r in validated if r.get("objective_correct"))
             logger.info(f"[scorer] score_multi_item_drill: {n_correct}/{n} correct")
-            return result
+            return validated
         logger.error(f"[scorer] score_multi_item_drill unexpected result shape: {raw}")
     except Exception as e:
         logger.error(f"[scorer] score_multi_item_drill error: {e}", exc_info=True)
@@ -225,15 +233,20 @@ async def generate_writing_feedback(
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
             logger.error(f"[scorer] generate_writing_feedback unexpected shape: {raw}")
-            return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+            return ScoringResult(objective_correct=True).model_dump()
+        try:
+            validated = ScoringResult.model_validate(data)
+        except Exception:
+            logger.warning(f"[scorer] generate_writing_feedback validation partial, using raw dict")
+            validated = ScoringResult(objective_correct=True)
         logger.info(
-            f"[scorer] generate_writing_feedback: objective_correct={data.get('objective_correct')}, "
-            f"{len(data.get('grammar_errors', []))} errors, {len(data.get('tips', []))} tips"
+            f"[scorer] generate_writing_feedback: objective_correct={validated.objective_correct}, "
+            f"{len(validated.grammar_errors)} errors, {len(validated.tips)} tips"
         )
-        return data
+        return validated.model_dump()
     except Exception as e:
         logger.error(f"[scorer] generate_writing_feedback error: {e}", exc_info=True)
-        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+        return ScoringResult(objective_correct=True).model_dump()
 
 
 async def score_free_form_drill(
@@ -278,15 +291,20 @@ async def score_free_form_drill(
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
             logger.error(f"[scorer] score_free_form_drill unexpected shape: {raw}")
-            return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+            return ScoringResult(objective_correct=True).model_dump()
+        try:
+            validated = ScoringResult.model_validate(data)
+        except Exception:
+            logger.warning(f"[scorer] score_free_form_drill validation partial, using raw dict")
+            validated = ScoringResult(objective_correct=True)
         logger.info(
-            f"[scorer] score_free_form_drill: objective_correct={data.get('objective_correct')}, "
-            f"{len(data.get('grammar_errors', []))} errors"
+            f"[scorer] score_free_form_drill: objective_correct={validated.objective_correct}, "
+            f"{len(validated.grammar_errors)} errors"
         )
-        return data
+        return validated.model_dump()
     except Exception as e:
         logger.error(f"[scorer] score_free_form_drill error: {e}", exc_info=True)
-        return {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+        return ScoringResult(objective_correct=True).model_dump()
 
 
 async def score_reading_answers(
@@ -324,9 +342,15 @@ async def score_reading_answers(
         logger.debug(f"[scorer] score_reading_answers LLM in {elapsed:.2f}s: {raw}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
-            n_correct = sum(1 for r in result if r.get("objective_correct"))
+            validated = []
+            for r in result:
+                try:
+                    validated.append(ScoringResult.model_validate(r).model_dump())
+                except Exception:
+                    validated.append(dict(_FALLBACK_ITEM))
+            n_correct = sum(1 for r in validated if r.get("objective_correct"))
             logger.info(f"[scorer] score_reading_answers: {n_correct}/{n} correct")
-            return result
+            return validated
         logger.error(f"[scorer] score_reading_answers unexpected result shape: {raw}")
     except Exception as e:
         logger.error(f"[scorer] score_reading_answers error: {e}", exc_info=True)

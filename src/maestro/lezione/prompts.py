@@ -10,6 +10,7 @@ from maestro.models import (
     GrammarPoint,
     CommunicativeFunction,
     CurriculumScenario,
+    ExerciseType,
 )
 from maestro.prompts import planner as _prompts
 from maestro.lezione.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
@@ -119,7 +120,7 @@ def build_lesson_content_prompt(
     if drill_specs:
         example_drills = []
         for spec in drill_specs:
-            if spec["exercise_type"] in ("fill_blank", "error_correction"):
+            if spec["exercise_type"] in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
                 example_drills.append({
                     "grammar_point_code": spec["grammar_point_code"],
                     "items": [{"prompt": "...", "correct_answer": "..."}, "... 10 items total"],

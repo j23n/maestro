@@ -15,6 +15,9 @@ from maestro.models import (
     GrammarPoint,
     GrammarPointExplanation,
     Lesson,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
 )
 from maestro.profile import get_profile, save_onboarding_field
 from maestro.vocab.query import get_word_definition
@@ -48,7 +51,7 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
 
 @router.get("/lezione/", response_class=HTMLResponse)
 async def lezione_index(request: Request, student: Student = Depends(get_current_student)):
-    active = await Lesson.find_one({"student_id": student.id, "status": "active"})
+    active = await Lesson.find_one({"student_id": student.id, "status": LessonStatus.ACTIVE})
     if active:
         if active.generating and active.current_index >= len(active.activities):
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
@@ -87,9 +90,9 @@ async def lezione_create(
 @router.get("/lezione/{lesson_id}", response_class=HTMLResponse)
 async def lezione_overview(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
     lesson = await _get_lesson(lesson_id, student)
-    if lesson.status == "active":
+    if lesson.status == LessonStatus.ACTIVE:
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
-    if lesson.status == "completed":
+    if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
     annotated_overview = await discover(lesson.overview, student_id=student.id) if lesson.overview else None
     return templates.TemplateResponse(
@@ -104,14 +107,14 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
     if not lesson.generating:
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
-            if lesson.activities[next_idx].status == "pending":
-                lesson.activities[next_idx].status = "active"
+            if lesson.activities[next_idx].status == ActivityStatus.PENDING:
+                lesson.activities[next_idx].status = ActivityStatus.ACTIVE
                 lesson.current_index = next_idx
                 await lesson.save()
                 return RedirectResponse(url=activity_url(lesson_id, next_idx), status_code=303)
             next_idx += 1
-        if lesson.status != "completed":
-            lesson.status = "completed"
+        if lesson.status != LessonStatus.COMPLETED:
+            lesson.status = LessonStatus.COMPLETED
             lesson.completed_at = utcnow()
             await lesson.save()
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
@@ -127,10 +130,10 @@ async def lezione_start(lesson_id: PydanticObjectId, request: Request, student: 
     lesson = await _get_lesson(lesson_id, student)
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
-    lesson.status = "active"
+    lesson.status = LessonStatus.ACTIVE
     lesson.started_at = utcnow()
     lesson.current_index = 0
-    lesson.activities[0].status = "active"
+    lesson.activities[0].status = ActivityStatus.ACTIVE
     await lesson.save()
     return RedirectResponse(url=activity_url(lesson_id, 0), status_code=303)
 
@@ -159,7 +162,7 @@ async def lezione_activity(
         "card_idx": card_idx,
     }
 
-    if activity.type == "drill":
+    if activity.type == ActivityType.DRILL:
         if activity.drill_id is None:
             raise HTTPException(400, "No drill attached to this activity")
         drill = await GeneratedDrill.get(activity.drill_id)
@@ -172,7 +175,7 @@ async def lezione_activity(
             request=request, name="lezione-activity-drill.html", context=ctx
         )
 
-    if activity.type == "vocab_review":
+    if activity.type == ActivityType.VOCAB_REVIEW:
         card_ids = activity.card_ids
         if card_idx >= len(card_ids):
             redirect_url = await advance_lesson(lesson, idx)
@@ -191,20 +194,20 @@ async def lezione_activity(
             request=request, name="lezione-activity-vocab.html", context=ctx
         )
 
-    if activity.type == "reading":
+    if activity.type == ActivityType.READING:
         ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
         ctx["annotated_questions"] = await discover_list(activity.questions or [], student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-reading.html", context=ctx
         )
 
-    if activity.type == "writing":
+    if activity.type == ActivityType.WRITING:
         ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-writing.html", context=ctx
         )
 
-    if activity.type == "grammar":
+    if activity.type == ActivityType.GRAMMAR:
         ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id)
         if activity.why_important:
             ctx["annotated_why"] = await discover(activity.why_important, student_id=student.id)
@@ -230,12 +233,12 @@ async def lezione_activity(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )
 
-    if activity.type == "speaking":
+    if activity.type == ActivityType.SPEAKING:
         return templates.TemplateResponse(
             request=request, name="lezione-activity-speaking.html", context=ctx
         )
 
-    if activity.type == "onboarding":
+    if activity.type == ActivityType.ONBOARDING:
         return templates.TemplateResponse(
             request=request, name="lezione-activity-onboarding.html", context=ctx
         )
@@ -248,7 +251,7 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: 
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
-    lesson.activities[idx].status = "skipped"
+    lesson.activities[idx].status = ActivityStatus.SKIPPED
     redirect_url = await advance_lesson(lesson, idx, skip=True)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
@@ -513,8 +516,8 @@ async def lezione_reading_submit(
 @router.get("/lezione/{lesson_id}/complete", response_class=HTMLResponse)
 async def lezione_complete(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
     lesson = await _get_lesson(lesson_id, student)
-    completed_count = sum(1 for a in lesson.activities if a.status == "completed")
-    skipped_count = sum(1 for a in lesson.activities if a.status == "skipped")
+    completed_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED)
+    skipped_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED)
     weak_grammar_points = await get_weak_grammar_points(lesson)
     await ensure_lesson_feedback(lesson, weak_grammar_points)
     annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id) if lesson.feedback_summary else None

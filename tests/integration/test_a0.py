@@ -14,6 +14,9 @@ from maestro.models import (
     ScenarioProgress,
     Student,
     StudentPersona,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
 )
 
 _FAKE_STUDENT_ID = PydanticObjectId()
@@ -107,7 +110,7 @@ async def test_a0_lesson_generates_static_content(db):
     )
     await s1.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status="active", duration_minutes=10, generating=True)
+    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
     await lesson.insert()
 
     await generate_lesson_background(lesson.id, 10)
@@ -120,9 +123,9 @@ async def test_a0_lesson_generates_static_content(db):
 
     # Check activity types include onboarding and grammar
     types = [a.type for a in lesson.activities]
-    assert "grammar" in types
-    assert "onboarding" in types
-    assert "drill" in types
+    assert ActivityType.GRAMMAR in types
+    assert ActivityType.ONBOARDING in types
+    assert ActivityType.DRILL in types
 
 
 @pytest.mark.integration
@@ -149,13 +152,13 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     )
     await s1.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status="active", duration_minutes=10, generating=True)
+    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
     await lesson.insert()
 
     await generate_lesson_background(lesson.id, 10)
 
     lesson = await Lesson.get(lesson.id)
-    drill_activities = [a for a in lesson.activities if a.type == "drill"]
+    drill_activities = [a for a in lesson.activities if a.type == ActivityType.DRILL]
     assert len(drill_activities) > 0
 
     # Verify GeneratedDrill was created
@@ -241,19 +244,19 @@ def test_onboarding_submit_saves_name(test_app, student, db):
     async def _setup():
         lesson = Lesson(
             student_id=student.id,
-            status="active",
+            status=LessonStatus.ACTIVE,
             duration_minutes=10,
             started_at=utcnow(),
             generating=False,
             activities=[
                 LessonActivity(
-                    type="onboarding",
+                    type=ActivityType.ONBOARDING,
                     title="Come ti chiami?",
                     description="Tell us your name",
                     content="What's your name?",
                     profile_field="name",
                     response_template="Nice! Mi chiamo {answer}!",
-                    status="active",
+                    status=ActivityStatus.ACTIVE,
                 ),
             ],
             current_index=0,
@@ -291,19 +294,19 @@ def test_onboarding_submit_saves_persona_tags(test_app, student, db):
 
         lesson = Lesson(
             student_id=student.id,
-            status="active",
+            status=LessonStatus.ACTIVE,
             duration_minutes=10,
             started_at=utcnow(),
             generating=False,
             activities=[
                 LessonActivity(
-                    type="onboarding",
+                    type=ActivityType.ONBOARDING,
                     title="Cosa ti piace?",
                     description="Your interests",
                     content="What are your interests?",
                     profile_field="persona_tags",
                     response_template="Mi piace {answer}!",
-                    status="active",
+                    status=ActivityStatus.ACTIVE,
                 ),
             ],
             current_index=0,

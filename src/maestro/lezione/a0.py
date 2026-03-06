@@ -12,6 +12,8 @@ from maestro.models import (
     GeneratedDrill,
     DrillItem,
     DrillTemplate,
+    ActivityType,
+    ExerciseType,
 )
 from maestro.profile import get_profile
 from maestro.utils import DATA_DIR
@@ -53,9 +55,9 @@ async def _generate_a0_lesson_background(
     for act_data in lesson_data.get("activities", []):
         act_type = act_data["type"]
 
-        if act_type == "grammar":
+        if act_type == ActivityType.GRAMMAR:
             new_activities.append(LessonActivity(
-                type="grammar",
+                type=ActivityType.GRAMMAR,
                 title=act_data.get("title", ""),
                 description=act_data.get("description", ""),
                 content=act_data.get("content", ""),
@@ -63,9 +65,9 @@ async def _generate_a0_lesson_background(
                 grammar_point_code=act_data.get("grammar_point_code"),
             ))
 
-        elif act_type == "onboarding":
+        elif act_type == ActivityType.ONBOARDING:
             new_activities.append(LessonActivity(
-                type="onboarding",
+                type=ActivityType.ONBOARDING,
                 title=act_data.get("title", ""),
                 description=act_data.get("description", ""),
                 content=act_data.get("content", ""),
@@ -73,10 +75,10 @@ async def _generate_a0_lesson_background(
                 response_template=act_data.get("response_template"),
             ))
 
-        elif act_type == "drill":
+        elif act_type == ActivityType.DRILL:
             # Create a GeneratedDrill doc from static items
             gp_code = act_data.get("grammar_point_code", "a0_saluti")
-            exercise_type = act_data.get("exercise_type", "fill_blank")
+            exercise_type = ExerciseType(act_data.get("exercise_type", "fill_blank"))
             items = [
                 DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
                 for it in act_data.get("items", [])
@@ -106,16 +108,16 @@ async def _generate_a0_lesson_background(
             )
             await drill.insert()
             new_activities.append(LessonActivity(
-                type="drill",
+                type=ActivityType.DRILL,
                 title=act_data.get("title", f"Esercizio: {gp_code}"),
                 description=act_data.get("description", exercise_type),
                 drill_id=drill.id,
                 hint=act_data.get("hint"),
             ))
 
-        elif act_type == "reading":
+        elif act_type == ActivityType.READING:
             new_activities.append(LessonActivity(
-                type="reading",
+                type=ActivityType.READING,
                 title=act_data.get("title", "Lettura"),
                 description=act_data.get("description", ""),
                 content=act_data.get("content", ""),
