@@ -25,7 +25,6 @@ from maestro.models import (
     GrammarPoint,
     GrammarPointExplanation,
 )
-from maestro.profile import get_or_create_profile
 from maestro.utils import DATA_DIR
 
 EXERCISE_TYPES = ("fill_blank", "error_correction", "free_form")
@@ -140,10 +139,6 @@ async def ingest():
 
     logger.info("=== Seeding curriculum scenarios ===")
     await seed_scenarios()
-
-    logger.info("=== Ensuring LearningProfile exists ===")
-    await get_or_create_profile()
-    logger.info("  LearningProfile ensured")
 
     logger.info("Done.")
 

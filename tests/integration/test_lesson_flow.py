@@ -2,6 +2,8 @@
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
+from beanie import PydanticObjectId
+
 from maestro.models import (
     Lesson,
     LessonActivity,
@@ -13,9 +15,12 @@ from maestro.models import (
 )
 from maestro.utils import utcnow
 
+_FAKE_STUDENT_ID = PydanticObjectId()
+
 
 def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> Lesson:
     return Lesson(
+        student_id=_FAKE_STUDENT_ID,
         status="active",
         duration_minutes=20,
         activities=activities,
@@ -327,6 +332,7 @@ async def completed_lesson(db):
     await drill_bad.insert()
 
     lesson = Lesson(
+        student_id=_FAKE_STUDENT_ID,
         status="completed",
         duration_minutes=10,
         started_at=utcnow(),
@@ -389,7 +395,7 @@ async def test_analyze_lesson_creates_learning_event(db, completed_lesson):
     gps = await GrammarPoint.find_all().to_list()
     taxonomy.seed(gps=gps, cfs=[])
 
-    profile = LearningProfile(cefr_estimate="A1")
+    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
 
     gp_response = MagicMock(content=[MagicMock(text='{"grammar_correct": [], "grammar_errors": []}')])

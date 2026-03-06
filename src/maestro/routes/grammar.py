@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
-from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk
+from maestro.auth import get_current_student
+from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
@@ -11,9 +12,9 @@ router = APIRouter()
 
 
 @router.get("/grammar", response_class=HTMLResponse)
-async def grammar_index(request: Request):
+async def grammar_index(request: Request, student: Student = Depends(get_current_student)):
     gps = await GrammarPoint.find_all().to_list()
-    student_level = await get_cefr_level()
+    student_level = await get_cefr_level(student.id)
 
     # Load explanations for student's level, keyed by gp id
     explanations = await GrammarPointExplanation.find(
@@ -42,11 +43,11 @@ async def grammar_index(request: Request):
 
 
 @router.get("/grammar/{code}", response_class=HTMLResponse)
-async def grammar_detail(code: str, request: Request):
+async def grammar_detail(code: str, request: Request, student: Student = Depends(get_current_student)):
     gp = await GrammarPoint.find_one(GrammarPoint.code == code)
     if gp is None:
         raise HTTPException(404)
-    student_level = await get_cefr_level()
+    student_level = await get_cefr_level(student.id)
     all_expls = await GrammarPointExplanation.find(
         {"grammar_point.$id": gp.id}
     ).to_list()
@@ -59,7 +60,7 @@ async def grammar_detail(code: str, request: Request):
     for lvl, expl in by_level.items():
         panels[lvl] = {
             "title": expl.title or gp.label,
-            "content": await discover_markdown(expl.explanation),
+            "content": await discover_markdown(expl.explanation, student_id=student.id),
         }
 
     display_title = panels[active_level]["title"] if active_level in panels else gp.label
@@ -77,11 +78,11 @@ async def grammar_detail(code: str, request: Request):
 
 
 @router.get("/grammar/chunk/{ref}", response_class=HTMLResponse)
-async def grammar_chunk_detail(ref: str, request: Request):
+async def grammar_chunk_detail(ref: str, request: Request, student: Student = Depends(get_current_student)):
     chunk = await ItalianChunk.find_one({"ref": ref})
     if chunk is None:
         raise HTTPException(404)
-    annotated_content = await discover_markdown(chunk.content)
+    annotated_content = await discover_markdown(chunk.content, student_id=student.id)
     heading = chunk.chunk_metadata.get("heading", ref)
     return templates.TemplateResponse(
         request=request,

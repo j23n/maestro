@@ -2,6 +2,8 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
+from beanie import PydanticObjectId
+
 from maestro.models import (
     CurriculumScenario,
     GrammarPoint,
@@ -14,6 +16,8 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
+
+_FAKE_STUDENT_ID = PydanticObjectId()
 
 
 # ---------------------------------------------------------------------------
@@ -32,6 +36,7 @@ async def test_pick_grammar_points_prioritises_weak(db):
     await gp2.insert()
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_error_counts={"GP_A": 5, "GP_B": 0},
         grammar_correct_counts={"GP_A": 1, "GP_B": 5},
     )
@@ -96,9 +101,9 @@ async def test_fill_vocab_cards_introduces_new_words(db):
             word=f"parola{i}", part_of_speech="s.f.", cefr_level="A1"
         ).insert()
 
-    cards = await fill_vocab_cards(5, "A1")
+    cards = await fill_vocab_cards(5, "A1", student_id=_FAKE_STUDENT_ID)
     assert len(cards) == 5
-    db_cards = await UserVocabularyCard.find_all().to_list()
+    db_cards = await UserVocabularyCard.find({"student_id": _FAKE_STUDENT_ID}).to_list()
     assert len(db_cards) == 5
 
 
@@ -124,6 +129,7 @@ async def test_pick_scenario_prefers_unvisited(db):
     await s2.insert()
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         scenario_progress={"visited": ScenarioProgress(depth=1, lesson_count=2)},
     )
     await profile.insert()
@@ -149,6 +155,7 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     # Simulate a naive datetime as MongoDB would return without tz_aware codec
     naive_last_visited = datetime.utcnow() - timedelta(minutes=5)
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         scenario_progress={"recent": ScenarioProgress(
             depth=1, lesson_count=1, last_visited=naive_last_visited,
         )},
@@ -177,6 +184,7 @@ async def test_pick_scenario_weak_gp_boost(db):
     await s2.insert()
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_error_counts={"GP_WEAK1": 5, "GP_WEAK2": 5},
         grammar_correct_counts={"GP_WEAK1": 1, "GP_WEAK2": 1},
     )
@@ -202,12 +210,13 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
             word=f"word{i}", part_of_speech="s.f.", cefr_level="A1"
         ).insert()
 
-    profile = LearningProfile(cefr_estimate="A1")
+    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
 
-    lesson = await prepare_lesson_immediate(20, profile)
+    lesson = await prepare_lesson_immediate(20, profile, student_id=_FAKE_STUDENT_ID)
     assert lesson.status == "active"
     assert lesson.generating is True
+    assert lesson.student_id == _FAKE_STUDENT_ID
     assert len(lesson.activities) >= 1
     assert lesson.activities[0].type == "vocab_review"
 
@@ -222,7 +231,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     """Drill specs from LLM content should be materialized into GeneratedDrill documents."""
     from maestro.lezione.planner import generate_lesson_background
 
-    profile = LearningProfile(cefr_estimate="A1")
+    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
 
     gp = GrammarPoint(code="GP_001", label="Presente", cefr_level="A1", category="verbi", description="Present tense")
@@ -238,7 +247,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     )
     await scenario.insert()
 
-    lesson = Lesson(status="active", duration_minutes=10, generating=True)
+    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status="active", duration_minutes=10, generating=True)
     await lesson.insert()
 
     content_response = MagicMock(content=[MagicMock(text="""{
@@ -268,3 +277,4 @@ async def test_drill_materialization_creates_generated_drills(db):
     drills = await GeneratedDrill.find_all().to_list()
     assert len(drills) >= 1
     assert drills[0].scenario_slug == "test-scenario"
+    assert drills[0].student_id == _FAKE_STUDENT_ID

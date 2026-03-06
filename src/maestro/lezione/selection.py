@@ -193,11 +193,12 @@ async def pick_comm_functions(
     return picked
 
 
-async def fill_vocab_cards(vocab_count: int, cefr_level: str) -> list[UserVocabularyCard]:
+async def fill_vocab_cards(vocab_count: int, cefr_level: str, student_id=None) -> list[UserVocabularyCard]:
     """Return up to vocab_count cards due today; introduce new words if too few due."""
-    due = await UserVocabularyCard.find(
-        {"next_review": {"$lte": date.today()}}
-    ).limit(vocab_count).to_list()
+    card_filter: dict = {"next_review": {"$lte": date.today()}}
+    if student_id is not None:
+        card_filter["student_id"] = student_id
+    due = await UserVocabularyCard.find(card_filter).limit(vocab_count).to_list()
 
     if len(due) < min(MIN_VOCAB, vocab_count):
         existing_word_ids = set()
@@ -214,6 +215,7 @@ async def fill_vocab_cards(vocab_count: int, cefr_level: str) -> list[UserVocabu
         needed = min(vocab_count, MIN_VOCAB) - len(due)
         new_cards = [
             UserVocabularyCard(
+                student_id=student_id,
                 word=w,
                 discovered_at=utcnow(),
                 next_review=date.today(),

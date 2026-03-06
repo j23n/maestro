@@ -44,8 +44,8 @@ async def advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -
     await lesson.save()
 
     # Update scenario progress
-    if lesson.scenario_slug:
-        profile = await get_profile()
+    if lesson.scenario_slug and lesson.student_id:
+        profile = await get_profile(lesson.student_id)
         if profile:
             progress = profile.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
             progress.depth = max(progress.depth, lesson.scenario_depth or 1)

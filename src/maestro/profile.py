@@ -1,27 +1,27 @@
 """
-Singleton learning profile access.
+Per-student learning profile access.
 
-The app currently assumes a single student. All profile lookups go through
-here so the assumption is easy to find and change later.
+Every function requires a student_id to scope queries.
 """
+from beanie import PydanticObjectId
 from maestro.models import LearningProfile
 
 
-async def get_profile() -> LearningProfile | None:
-    """Return the singleton LearningProfile, or None if not yet created."""
-    return await LearningProfile.find_one()
+async def get_profile(student_id: PydanticObjectId) -> LearningProfile | None:
+    """Return the LearningProfile for a student, or None if not yet created."""
+    return await LearningProfile.find_one({"student_id": student_id})
 
 
-async def get_or_create_profile() -> LearningProfile:
-    """Return the singleton LearningProfile, creating an empty one if needed."""
-    profile = await LearningProfile.find_one()
+async def get_or_create_profile(student_id: PydanticObjectId) -> LearningProfile:
+    """Return the LearningProfile for a student, creating an empty one if needed."""
+    profile = await LearningProfile.find_one({"student_id": student_id})
     if profile is None:
-        profile = LearningProfile()
+        profile = LearningProfile(student_id=student_id)
         await profile.insert()
     return profile
 
 
-async def get_cefr_level() -> str:
+async def get_cefr_level(student_id: PydanticObjectId) -> str:
     """Return the student's current CEFR estimate, defaulting to 'A1'."""
-    profile = await get_profile()
+    profile = await get_profile(student_id)
     return profile.cefr_estimate if profile else "A1"

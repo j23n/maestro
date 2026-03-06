@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Maestro — Scegli studente{% endblock %}
+{% block content %}
+<h1>Chi studia oggi?</h1>
+
+{% if students %}
+<div class="student-grid">
+  {% for s in students %}
+  <form method="post" action="/students/{{ s.id }}/select" class="student-card-form">
+    <button type="submit" class="student-card">{{ s.name }}</button>
+  </form>
+  {% endfor %}
+</div>
+{% endif %}
+
+<h2>Nuovo studente</h2>
+<form method="post" action="/students/" class="new-student-form">
+  <input type="text" name="name" placeholder="Nome" required autofocus>
+  <button type="submit">Crea</button>
+</form>
+{% endblock %}

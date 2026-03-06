@@ -15,7 +15,15 @@ async def db():
 
 
 @pytest.fixture
-async def test_app(db):
+async def student(db):
+    from maestro.models import Student
+    s = Student(name="Test Student")
+    await s.insert()
+    return s
+
+
+@pytest.fixture
+async def test_app(db, student):
     """FastAPI TestClient with mocked lifespan. Shares the db fixture's database."""
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
@@ -24,6 +32,7 @@ async def test_app(db):
     ):
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
+            client.cookies.set("student_id", str(student.id))
             yield client
 
 

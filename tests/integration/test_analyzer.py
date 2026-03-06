@@ -17,14 +17,12 @@ def _make_llm_response(text: str) -> MagicMock:
     return response
 
 
-def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",)):
-    """Populate taxonomy cache and set student level (avoids DB hit)."""
+def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",), level="B2"):
+    """Populate taxonomy cache (avoids DB hit)."""
     taxonomy.seed(
-        gps=[MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in gp_codes],
-        cfs=[MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in cf_codes],
+        gps=[MagicMock(code=c, cefr_level=level, label=c, description=c) for c in gp_codes],
+        cfs=[MagicMock(code=c, cefr_level=level, label=c, description=c) for c in cf_codes],
     )
-    analyzer_module._student_level = "A1"
-    analyzer_module._student_level_loaded = True
 
 
 @pytest.fixture(autouse=True)
@@ -32,7 +30,6 @@ def reset_cache():
     """Reset analyzer state between tests."""
     yield
     taxonomy.invalidate()
-    analyzer_module._student_level_loaded = False
 
 
 @pytest.mark.integration
