@@ -23,6 +23,7 @@ from maestro.db import init_db
 from maestro.settings import Settings
 from maestro.models import CefrSense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
 from maestro.prompts import vocab as _prompts
+import time
 
 logger = logging.getLogger(__name__)
 settings = Settings()
@@ -45,8 +46,6 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
 
 
 def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
-    """Call Claude claude-opus-4-6 for A1/A2 definitions of a batch of words."""
-    import time
     payload = {w.word: _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
@@ -56,7 +55,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
     t0 = time.monotonic()
     msg = client.messages.create(
-        model=settings.CHAT_MODEL,
+        model=settings.DEFINITION_MODEL,
         max_tokens=8192,
         system=_prompts.definitions_system.render_system(),
         messages=[{"role": "user", "content": user_content}],
@@ -82,7 +81,7 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
     """Persist A1 and A2 definitions from Claude's response."""
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if not entry:
-        logger.warning(f"[vocab] Claude returned no data for '{word.word}'")
+        logger.error(f"[vocab] Claude returned no data for '{word.word}'")
         return
 
     translation = entry.get("translation", "")

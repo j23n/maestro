@@ -40,10 +40,10 @@
   </div>
   {% endif %}
 
-  {% if lesson.feedback_summary %}
+  {% if annotated_feedback or lesson.feedback_summary %}
   <div class="lesson-feedback">
     <div class="feedback-label">Feedback</div>
-    <p class="feedback-text">{{ lesson.feedback_summary|markdown|safe }}</p>
+    <p class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</p>
   </div>
   {% endif %}
 

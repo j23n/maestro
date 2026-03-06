@@ -8,14 +8,14 @@
   <div class="card">
     <div class="card-label">Grammatica</div>
     <div class="grammar-title">{{ activity.title | replace("Grammatica: ", "") }}</div>
-    {% if activity.why_important %}
+    {% if annotated_why or activity.why_important %}
     <div class="why-important">
       <div class="why-label">Why this matters</div>
-      <p>{{ activity.why_important }}</p>
+      <p>{{ annotated_why | safe if annotated_why else activity.why_important }}</p>
     </div>
     {% endif %}
     <div class="grammar-content">
-      {{ activity.content | markdown | safe }}
+      {{ annotated_content | safe }}
     </div>
 
     <button class="continue-btn" style="margin-top:1.75rem;"

@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 
 from maestro.models import GrammarPoint, GrammarPointExplanation, LearningProfile
 from maestro.templates import templates
+from maestro.vocab.discover import discover_markdown
 
 router = APIRouter()
 
@@ -21,8 +22,9 @@ async def grammar_detail(code: str, request: Request):
         explanation = await GrammarPointExplanation.find_one(
             {"grammar_point.$id": gp.id}
         )
+    annotated_explanation = await discover_markdown(explanation.explanation) if explanation else None
     return templates.TemplateResponse(
         request=request,
         name="grammar-detail.html",
-        context={"gp": gp, "explanation": explanation},
+        context={"gp": gp, "explanation": explanation, "annotated_explanation": annotated_explanation},
     )
