@@ -316,6 +316,7 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   padding: 1px 5px;
   border-radius: 3px;
 }
+.cefr-badge.a0 { background: #f5f5f5; color: #757575; }
 .cefr-badge.a1 { background: #e8f5e9; color: #2e7d32; }
 .cefr-badge.a2 { background: #e3f2fd; color: #1565c0; }
 .cefr-badge.b1 { background: #fff3e0; color: #e65100; }
@@ -783,54 +784,12 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 /* =====================================================================
    14. Page: Vocab list
    ===================================================================== */
-.vocab-page { padding: 1.25rem 0; }
-.vocab-page h2 { margin: 0 0 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-
-.vocab-stats {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem 1rem;
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-}
-.stats-group { display: flex; gap: 1rem; }
-.stat { display: flex; flex-direction: column; align-items: center; min-width: 52px; }
-.stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1.1; color: var(--c-charcoal); }
-.stat-label { font-size: 11px; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 1px; }
-.stat.learned .stat-value { color: var(--c-sage); }
-.stat.difficult .stat-value { color: #c0392b; }
-
-.stats-divider { width: 1px; height: 36px; background: var(--c-border); }
-
-.cefr-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.cefr-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.cefr-count { font-size: 1rem; font-weight: 600; color: var(--c-text); }
-
-.vocab-search-wrap { position: relative; margin-bottom: 1rem; }
-.vocab-search-wrap input { width: 100%; box-sizing: border-box; padding: 0.5rem 0.75rem; border: 1px solid var(--c-border); border-radius: 6px; font-size: 0.95rem; background: #fff; }
-#search-results:not(:empty) {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid var(--c-border);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 100;
-  max-height: 320px;
-  overflow-y: auto;
-}
+/* Vocab page styles in /static/vocab.css */
 
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { border-collapse: collapse; width: 100%; min-width: 360px; }
 th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--c-border); white-space: nowrap; }
 th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transform: uppercase; }
-.due { color: #c0392b; font-weight: 600; }
 
 /* =====================================================================
    15. Page: Vocab entry
