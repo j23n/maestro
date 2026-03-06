@@ -11,8 +11,10 @@ if TYPE_CHECKING:
 
 from maestro.models import (
     CommunicativeFunction,
+    CurriculumScenario,
     GrammarPoint,
     LearningProfile,
+    ScenarioProgress,
     UserVocabularyCard,
     VocabularyWord,
 )
@@ -44,7 +46,19 @@ async def update_profile(event: "LearningEvent") -> None:
 
 
 async def _compute_cefr(profile: "LearningProfile") -> str:
-    """Highest CEFR level where ≥90% of GPs are mastered AND ≥90% of CFs are demonstrated."""
+    """Highest CEFR level where ≥90% of GPs are mastered AND ≥90% of CFs are demonstrated.
+
+    A0 graduation: all A0 scenarios must be completed (depth >= 1).
+    """
+    # A0 check: have all A0 scenarios been completed?
+    a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+    if a0_scenarios:
+        progress = profile.scenario_progress or {}
+        for scenario in a0_scenarios:
+            sp = progress.get(scenario.slug, ScenarioProgress())
+            if sp.depth < 1:
+                return "A0"
+
     grammar_points = await GrammarPoint.find_all().to_list()
     comm_functions = await CommunicativeFunction.find_all().to_list()
 
@@ -65,6 +79,8 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
     best = "A1"
     for level in CEFR_ORDER:
+        if level == "A0":
+            continue  # A0 graduation handled above
         gp_codes = gp_by_level.get(level, [])
         gp_ok = (
             sum(1 for c in gp_codes if _gp_mastered(c)) / max(1, len(gp_codes)) >= 0.9

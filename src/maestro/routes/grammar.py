@@ -27,7 +27,7 @@ async def grammar_index(request: Request, student: Student = Depends(get_current
 
     # Build nested dict: level → category → [gp, ...]
     grouped: dict[str, dict[str, list]] = {}
-    for level in ("A1", "A2", "B1", "B2"):
+    for level in CEFR_ORDER:
         grouped[level] = {}
     for gp in gps:
         grouped.setdefault(gp.cefr_level, {}).setdefault(gp.category, []).append(gp)

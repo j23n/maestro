@@ -25,7 +25,7 @@
       <div class="scenario-card">
         <div class="scenario-label">{{ item.scenario.label }}</div>
         <div class="scenario-dots">
-          {% for d in range(1, 4) %}
+          {% for d in range(1, item.scenario.depths|length + 1) %}
             <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
           {% endfor %}
         </div>

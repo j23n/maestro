@@ -22,7 +22,8 @@ class CurriculumScenario(Document):
     cefr_level: str               # "A1"
     cf_codes: List[str]           # CF codes exercised in this scenario
     gp_codes: List[str]           # GP codes exercised in this scenario
-    depths: List[str]             # index 0 = depth 1, etc. Always 3 entries.
+    depths: List[str]             # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
+    sequence: Optional[int] = None  # sequential ordering for A0 lessons (1-10)
 
     class Settings:
         name = "curriculum_scenarios"
@@ -157,7 +158,7 @@ class LearningProfile(Document):
     grammar_recent_outcomes: dict = Field(default_factory=dict)  # code → list[bool], sliding window of last 10
     functions_counts: dict = Field(default_factory=dict)
     themes_seen: List[str] = Field(default_factory=list)
-    cefr_estimate: str = "A1"
+    cefr_estimate: str = "A0"
     description: str = ""
     updated_at: datetime = Field(default_factory=utcnow)
     persona: StudentPersona = Field(default_factory=StudentPersona)
@@ -243,10 +244,10 @@ class GrammarPointExplanation(Document):
 # --- Lezione ---
 
 class LessonActivity(BaseModel):
-    type: str           # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "conversazione"
+    type: str           # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "conversazione" | "onboarding"
     title: str
     description: str
-    duration_minutes: int
+    duration_minutes: int = 2
     status: str = "pending"   # "pending" | "active" | "completed" | "skipped"
     # Content references (set when lesson is created)
     drill_id: Optional[PydanticObjectId] = None
@@ -256,6 +257,8 @@ class LessonActivity(BaseModel):
     correct_answers: List[str] = []  # expected answers for reading
     result: Optional[dict] = None
     why_important: Optional[str] = None  # 1-2 sentence motivation for grammar activities
+    profile_field: Optional[str] = None        # for onboarding activities: "name" or "persona_tags"
+    response_template: Optional[str] = None    # shown after onboarding submit, supports {answer} placeholder
 
 
 class Lesson(Document):
@@ -271,7 +274,7 @@ class Lesson(Document):
     topic_description: Optional[str] = None
     activities: List[LessonActivity] = []
     current_index: int = 0
-    cefr_at_start: str = "A1"
+    cefr_at_start: str = "A0"
     overview: Optional[str] = None          # 2-3 sentence lesson overview
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
     generating: bool = True                 # True while background LLM generation is in progress

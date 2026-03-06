@@ -9,6 +9,7 @@ from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from maestro.auth import get_current_student
 from maestro.models import (
     Student,
+    StudentPersona,
     VocabularyWordDefinition,
     UserVocabularyCard,
     GeneratedDrill,
@@ -59,7 +60,9 @@ async def lezione_index(request: Request, student: Student = Depends(get_current
 
 @router.get("/lezione/new", response_class=HTMLResponse)
 async def lezione_new(request: Request, student: Student = Depends(get_current_student)):
-    return templates.TemplateResponse(request=request, name="lezione-new.html")
+    profile = await get_profile(student.id)
+    cefr = profile.cefr_estimate if profile else "A0"
+    return templates.TemplateResponse(request=request, name="lezione-new.html", context={"cefr": cefr})
 
 
 @router.post("/lezione/", response_class=HTMLResponse)
@@ -181,7 +184,7 @@ async def lezione_activity(
             raise HTTPException(404)
         await card.fetch_all_links()
         profile = await get_profile(student.id)
-        level = profile.cefr_estimate if profile else "A1"
+        level = profile.cefr_estimate if profile else "A0"
         word_def = await VocabularyWordDefinition.find_one(
             {"word.$id": card.word.id, "student_level": level}
         )
@@ -218,7 +221,7 @@ async def lezione_activity(
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
             profile = await get_profile(student.id)
-            level = profile.cefr_estimate if profile else "A1"
+            level = profile.cefr_estimate if profile else "A0"
             expl = await GrammarPointExplanation.find_one(
                 {"grammar_point.$id": gp.id, "student_level": level}
             )
@@ -233,6 +236,11 @@ async def lezione_activity(
     if activity.type == "speaking":
         return templates.TemplateResponse(
             request=request, name="lezione-activity-speaking.html", context=ctx
+        )
+
+    if activity.type == "onboarding":
+        return templates.TemplateResponse(
+            request=request, name="lezione-activity-onboarding.html", context=ctx
         )
 
     raise HTTPException(400, f"Unknown activity type: {activity.type}")
@@ -255,6 +263,48 @@ async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int, stude
         raise HTTPException(404)
     redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
+
+
+@router.post("/lezione/{lesson_id}/activity/{idx}/onboarding-submit", response_class=HTMLResponse)
+async def lezione_onboarding_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    answer: Annotated[str, Form()],
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+
+    # Save to student profile based on profile_field
+    if activity.profile_field == "name" and answer.strip():
+        student.name = answer.strip()
+        await student.save()
+    elif activity.profile_field == "persona_tags" and answer.strip():
+        from maestro.profile import get_or_create_profile
+        profile = await get_or_create_profile(student.id)
+        new_tags = [t.strip() for t in answer.split(",") if t.strip()]
+        profile.persona = StudentPersona(
+            tags=list(set(profile.persona.tags + new_tags)),
+        )
+        await profile.save()
+
+    # Build response text from template
+    from markupsafe import escape
+    response_text = activity.response_template or "Got it!"
+    response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+
+    # Mark as answered in result
+    lesson.activities[idx].result = {"answer": answer.strip()}
+    await lesson.save()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="lezione-onboarding-response.html",
+        context={"lesson": lesson, "idx": idx, "response_text": response_text},
+    )
 
 
 @router.post("/lezione/{lesson_id}/activity/{idx}/drill-submit", response_class=HTMLResponse)
@@ -337,7 +387,7 @@ async def lezione_vocab_reveal(
         raise HTTPException(404)
     await card.fetch_all_links()
     profile = await get_profile(student.id)
-    level = profile.cefr_estimate if profile else "A1"
+    level = profile.cefr_estimate if profile else "A0"
     word_def = await VocabularyWordDefinition.find_one(
         {"word.$id": card.word.id, "student_level": level}
     )
@@ -405,7 +455,7 @@ async def lezione_writing_submit(
 
     activity = lesson.activities[idx]
     profile = await get_profile(student.id)
-    cefr_level = profile.cefr_estimate if profile else "A1"
+    cefr_level = profile.cefr_estimate if profile else "A0"
 
     feedback = await generate_writing_feedback(
         activity.content or "",

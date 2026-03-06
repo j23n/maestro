@@ -1,0 +1,152 @@
+scenarios:
+  - slug: a0-01-benvenuto
+    label: "Benvenuto!"
+    description: "Welcome to Maestro — your Italian learning journey starts here"
+    cefr_level: A0
+    sequence: 1
+    cf_codes:
+      - a0_salutare
+      - a0_presentarsi
+      - a0_dire_nome
+    gp_codes:
+      - a0_saluti
+      - a0_mi_chiamo
+    depths:
+      - "Onboarding and first Italian words"
+
+  - slug: a0-02-saluti
+    label: "Saluti"
+    description: "Greetings and goodbyes in depth"
+    cefr_level: A0
+    sequence: 2
+    cf_codes:
+      - a0_salutare
+      - a0_congedarsi
+    gp_codes:
+      - a0_saluti
+      - a0_pronuncia
+    depths:
+      - "Formal and informal greetings, goodbyes, time-of-day greetings"
+
+  - slug: a0-03-numeri
+    label: "I numeri"
+    description: "Numbers 0-20"
+    cefr_level: A0
+    sequence: 3
+    cf_codes:
+      - a0_contare
+    gp_codes:
+      - a0_numeri_0_20
+    depths:
+      - "Counting, saying phone numbers, ordering quantities"
+
+  - slug: a0-04-si-e-no
+    label: "Si e no"
+    description: "Yes, no, and simple negation"
+    cefr_level: A0
+    sequence: 4
+    cf_codes:
+      - a0_rispondere_si_no
+    gp_codes:
+      - a0_si_no_non
+      - a0_frase_semplice
+    depths:
+      - "Answering questions, simple affirmative and negative sentences"
+
+  - slug: a0-05-per-favore
+    label: "Per favore"
+    description: "Polite phrases and vorrei"
+    cefr_level: A0
+    sequence: 5
+    cf_codes:
+      - a0_chiedere_cortesemente
+      - a0_ringraziare
+      - a0_scusarsi
+    gp_codes:
+      - a0_vorrei
+      - a0_cortesia
+    depths:
+      - "Polite requests, thanking, apologizing"
+
+  - slug: a0-06-che-cose
+    label: "Che cos'e?"
+    description: "Articles il/la and asking what things are"
+    cefr_level: A0
+    sequence: 6
+    cf_codes:
+      - a0_identificare
+    gp_codes:
+      - a0_articoli_il_la
+      - a0_che_cose
+    depths:
+      - "Naming everyday objects, asking and answering what something is"
+
+  - slug: a0-07-io-sono
+    label: "Io sono"
+    description: "Subject pronouns and the verb essere"
+    cefr_level: A0
+    sequence: 7
+    cf_codes:
+      - a0_presentarsi
+      - a0_dire_nome
+    gp_codes:
+      - a0_pronomi_soggetto
+      - a0_essere
+    depths:
+      - "Talking about yourself and others with io sono, tu sei, lui/lei e"
+
+  - slug: a0-08-mi-piace
+    label: "Mi piace"
+    description: "Expressing likes and dislikes"
+    cefr_level: A0
+    sequence: 8
+    cf_codes:
+      - a0_esprimere_gusti
+    gp_codes:
+      - a0_mi_piace
+    depths:
+      - "Saying what you like and don't like"
+
+  - slug: a0-09-dove
+    label: "Dov'e?"
+    description: "Asking where things are and basic prepositions"
+    cefr_level: A0
+    sequence: 9
+    cf_codes:
+      - a0_chiedere_dove
+    gp_codes:
+      - a0_dove
+      - a0_preposizioni
+    depths:
+      - "Asking for locations, using a/in/di"
+
+  - slug: a0-10-ripasso
+    label: "Ripasso A0"
+    description: "Cumulative review of everything learned in A0"
+    cefr_level: A0
+    sequence: 10
+    cf_codes:
+      - a0_salutare
+      - a0_congedarsi
+      - a0_ringraziare
+      - a0_presentarsi
+      - a0_chiedere_cortesemente
+      - a0_rispondere_si_no
+      - a0_identificare
+      - a0_esprimere_gusti
+      - a0_chiedere_dove
+    gp_codes:
+      - a0_saluti
+      - a0_numeri_0_20
+      - a0_si_no_non
+      - a0_vorrei
+      - a0_cortesia
+      - a0_articoli_il_la
+      - a0_pronomi_soggetto
+      - a0_essere
+      - a0_mi_piace
+      - a0_dove
+      - a0_preposizioni
+      - a0_mi_chiamo
+    depths:
+      - "Full review of all A0 material"

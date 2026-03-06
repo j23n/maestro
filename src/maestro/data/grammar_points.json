@@ -1,5 +1,110 @@
 [
   {
+    "code": "a0_saluti",
+    "label": "Saluti e addii",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Ciao, buongiorno, buonasera, arrivederci, a presto"
+  },
+  {
+    "code": "a0_pronuncia",
+    "label": "Pronuncia italiana di base",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Italian vowels a-e-i-o-u, double consonants, c/g hard and soft"
+  },
+  {
+    "code": "a0_numeri_0_20",
+    "label": "Numeri da 0 a 20",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "zero, uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci, undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto, diciannove, venti"
+  },
+  {
+    "code": "a0_si_no_non",
+    "label": "Si, no, non",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Affirmation with si, negation with no and non before the verb"
+  },
+  {
+    "code": "a0_frase_semplice",
+    "label": "Frase semplice",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Basic Italian sentence: subject + verb + object"
+  },
+  {
+    "code": "a0_vorrei",
+    "label": "Vorrei",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Vorrei + noun to politely request something (I would like...)"
+  },
+  {
+    "code": "a0_cortesia",
+    "label": "Formule di cortesia",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Per favore, grazie, prego, scusi/scusa, mi dispiace"
+  },
+  {
+    "code": "a0_articoli_il_la",
+    "label": "Articoli il e la",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "il (masculine) and la (feminine) — the two most common definite articles"
+  },
+  {
+    "code": "a0_che_cose",
+    "label": "Che cos'e?",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Che cos'e? / Che cos'e questo? — asking what something is"
+  },
+  {
+    "code": "a0_pronomi_soggetto",
+    "label": "Pronomi soggetto: io, tu, lui/lei",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Subject pronouns io (I), tu (you), lui (he), lei (she)"
+  },
+  {
+    "code": "a0_essere",
+    "label": "Essere: sono, sei, e",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "io sono, tu sei, lui/lei e — the verb to be in singular"
+  },
+  {
+    "code": "a0_mi_piace",
+    "label": "Mi piace / non mi piace",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Mi piace + noun/infinitive to express likes, non mi piace for dislikes"
+  },
+  {
+    "code": "a0_dove",
+    "label": "Dov'e?",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Dov'e...? — asking where something is"
+  },
+  {
+    "code": "a0_preposizioni",
+    "label": "Preposizioni di luogo: a, in, di",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Basic prepositions: a (to/at), in (in), di (of/from)"
+  },
+  {
+    "code": "a0_mi_chiamo",
+    "label": "Mi chiamo...",
+    "cefr_level": "A0",
+    "category": "formule",
+    "description": "Mi chiamo + name to introduce yourself"
+  },
+  {
     "code": "la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e",
     "label": "La distinzione genere e numero dei nomi regolari a suffisso –O –A e a suffisso –E",
     "cefr_level": "A1",

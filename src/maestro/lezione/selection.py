@@ -30,21 +30,46 @@ MIN_VOCAB = 5
 _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
 
 
+async def _pick_a0_scenario(
+    profile: Optional[LearningProfile],
+) -> tuple[CurriculumScenario, int]:
+    """Pick the next A0 scenario in sequential order.
+
+    Returns the first scenario whose depth < 1 (i.e. not yet completed).
+    Falls back to the last scenario if all are done.
+    """
+    scenarios = await CurriculumScenario.find(
+        {"cefr_level": "A0"}
+    ).sort("sequence").to_list()
+    if not scenarios:
+        raise ValueError("No A0 curriculum scenarios found")
+
+    progress = profile.scenario_progress if profile else {}
+    for scenario in scenarios:
+        sp = progress.get(scenario.slug, ScenarioProgress())
+        if sp.depth < 1:
+            logger.info(f"[selection] _pick_a0_scenario: {scenario.slug} (sequence {scenario.sequence})")
+            return scenario, 1
+    # All done — return last scenario
+    last = scenarios[-1]
+    logger.info(f"[selection] _pick_a0_scenario: all done, returning last: {last.slug}")
+    return last, 1
+
+
 async def pick_scenario(
     profile: Optional[LearningProfile],
     cefr_level: str,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
-    Selection criteria (weighted scoring):
-    1. Unvisited scenarios strongly preferred over visited ones
-    2. Lower-depth scenarios preferred (don't skip ahead)
-    3. Scenarios whose GP codes overlap with the student's weakest GPs get a boost
-    4. Recently visited scenarios get a cooldown penalty (avoid back-to-back)
-    5. Small random jitter for variety
+    For A0: sequential progression through fixed lessons.
+    For A1+: weighted scoring with variety.
 
     Returns (scenario, next_depth).
     """
+    if cefr_level == "A0":
+        return await _pick_a0_scenario(profile)
+
     scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
     if not scenarios:
         scenarios = await CurriculumScenario.find_all().to_list()

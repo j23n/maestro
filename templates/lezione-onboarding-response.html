@@ -1,0 +1,13 @@
+<div id="onboarding-response">
+  <div class="onboarding-response-text">
+    {{ response_text | safe }}
+  </div>
+  <div class="submit-row" style="margin-top:1.75rem;">
+    <button class="continue-btn"
+            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
+            hx-target="body"
+            hx-push-url="true">
+      Continue
+    </button>
+  </div>
+</div>
