@@ -12,8 +12,9 @@ explanations_system:
     it for the student's level. If no chunk is provided, use your knowledge of Italian grammar.
 
     For each level, produce TWO things:
-    1. A short display title in Italian (3–8 words) — what a student sees as the heading.
+    1. A short display title (3–8 words) — what a student sees as the heading.
        Must NOT start with "Grammatica:". Should be clearer and more natural than the raw GP label.
+       For A1: write the title in English. For A2 and above: write the title in Italian.
     2. An explanation appropriate for this CEFR level (in markdown).
        The language of the explanation itself varies by level (see level guidance below).
 
