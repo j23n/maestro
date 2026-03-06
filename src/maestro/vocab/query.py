@@ -18,6 +18,20 @@ from maestro.vocab.ingest import make_lookup
 from maestro.vocab.nlp import get_nlp
 
 
+async def get_word_definition(
+    word: "VocabularyWord", student_level: str
+) -> "VocabularyWordDefinition | None":
+    """Load the student-level definition for a word, with A0→A1 fallback."""
+    wdef = await VocabularyWordDefinition.find_one(
+        {"word.$id": word.id, "student_level": student_level}
+    )
+    if wdef is None and student_level == "A0":
+        wdef = await VocabularyWordDefinition.find_one(
+            {"word.$id": word.id, "student_level": "A1"}
+        )
+    return wdef
+
+
 def _hr(char="─", width=60):
     print(char * width)
 

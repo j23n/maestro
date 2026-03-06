@@ -9,8 +9,6 @@ from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from maestro.auth import get_current_student
 from maestro.models import (
     Student,
-    StudentPersona,
-    VocabularyWordDefinition,
     UserVocabularyCard,
     GeneratedDrill,
     DrillAttempt,
@@ -18,25 +16,25 @@ from maestro.models import (
     GrammarPointExplanation,
     Lesson,
 )
-from maestro.profile import get_profile
+from maestro.profile import get_profile, save_onboarding_field
+from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
-from maestro.learning.scorer import generate_writing_feedback, score_reading_answers
+from maestro.learning.scorer import generate_writing_feedback
 from maestro.templates import templates
-from maestro.utils import CEFR_ORDER, utcnow, create_background_task
+from maestro.utils import utcnow, create_background_task
 from maestro.vocab.discover import discover, discover_markdown, discover_list
 from maestro.vocab.srs import review
 from maestro.lezione.service import (
     activity_url,
     advance_lesson,
-    generate_lesson_feedback,
+    ensure_lesson_feedback,
     get_weak_grammar_points,
+    score_reading_activity,
 )
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
-
-_PASS_THRESHOLD = 0.7
 
 
 async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
@@ -185,13 +183,7 @@ async def lezione_activity(
         await card.fetch_all_links()
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
-        word_def = await VocabularyWordDefinition.find_one(
-            {"word.$id": card.word.id, "student_level": level}
-        )
-        if word_def is None and level == "A0":
-            word_def = await VocabularyWordDefinition.find_one(
-                {"word.$id": card.word.id, "student_level": "A1"}
-            )
+        word_def = await get_word_definition(card.word, level)
         ctx["card"] = card
         ctx["word_def"] = word_def
         ctx["mode"] = "word"
@@ -217,11 +209,12 @@ async def lezione_activity(
         if activity.why_important:
             ctx["annotated_why"] = await discover(activity.why_important, student_id=student.id)
         # Find the GP and its explanation for translation + chunk_ref
-        gp_label = activity.title.replace("Grammatica: ", "")
-        gp = await GrammarPoint.find_one({"label": gp_label})
-        if not gp:
-            # Try matching by content — find explanation that matches
-            gp = await GrammarPoint.find_one({})  # fallback
+        if activity.grammar_point_code:
+            gp = await GrammarPoint.find_one({"code": activity.grammar_point_code})
+        else:
+            # Fallback for old lessons without the field
+            gp_label = activity.title.replace("Grammatica: ", "")
+            gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
             profile = await get_profile(student.id)
@@ -283,31 +276,7 @@ async def lezione_onboarding_submit(
     activity = lesson.activities[idx]
 
     # Save to student profile based on profile_field
-    if activity.profile_field == "name" and answer.strip():
-        student.name = answer.strip()
-        await student.save()
-    elif activity.profile_field == "persona_tags" and answer.strip():
-        from maestro.profile import get_or_create_profile
-        profile = await get_or_create_profile(student.id)
-        new_tags = [t.strip() for t in answer.split(",") if t.strip()]
-        profile.persona.tags = list(set(profile.persona.tags + new_tags))
-        await profile.save()
-    elif activity.profile_field == "interests" and answer.strip():
-        from maestro.profile import get_or_create_profile
-        profile = await get_or_create_profile(student.id)
-        new_interests = [t.strip() for t in answer.split(",") if t.strip()]
-        profile.persona.interests = list(set(profile.persona.interests + new_interests))
-        await profile.save()
-    elif activity.profile_field == "background" and answer.strip():
-        from maestro.profile import get_or_create_profile
-        profile = await get_or_create_profile(student.id)
-        profile.persona.background = answer.strip()
-        await profile.save()
-    elif activity.profile_field == "goal" and answer.strip():
-        from maestro.profile import get_or_create_profile
-        profile = await get_or_create_profile(student.id)
-        profile.persona.goal = answer.strip()
-        await profile.save()
+    await save_onboarding_field(student, activity.profile_field, answer)
 
     # Build response text from template
     from markupsafe import escape
@@ -406,13 +375,7 @@ async def lezione_vocab_reveal(
     await card.fetch_all_links()
     profile = await get_profile(student.id)
     level = profile.cefr_estimate if profile else "A0"
-    word_def = await VocabularyWordDefinition.find_one(
-        {"word.$id": card.word.id, "student_level": level}
-    )
-    if word_def is None and level == "A0":
-        word_def = await VocabularyWordDefinition.find_one(
-            {"word.$id": card.word.id, "student_level": "A1"}
-        )
+    word_def = await get_word_definition(card.word, level)
     return templates.TemplateResponse(
         request=request,
         name="vocab-card-back.html",
@@ -524,24 +487,7 @@ async def lezione_reading_submit(
 
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
-    raw_results = await score_reading_answers(questions, correct_answers, answers)
-
-    n = min(len(questions), len(answers), len(raw_results))
-    enriched = [
-        {
-            "prompt": questions[j] if j < len(questions) else "",
-            "correct_answer": correct_answers[j] if j < len(correct_answers) else "",
-            "student_answer": answers[j] if j < len(answers) else "",
-            "objective_correct": raw_results[j].get("objective_correct", False),
-            "objective_note": raw_results[j].get("objective_note", ""),
-            "grammar_errors": raw_results[j].get("grammar_errors", []),
-            "tips": raw_results[j].get("tips", []),
-        }
-        for j in range(n)
-    ]
-    correct_count = sum(1 for r in enriched if r["objective_correct"])
-    overall_correct = correct_count / max(n, 1) >= _PASS_THRESHOLD if n > 0 else True
-    feedback = {"items": enriched, "correct_count": correct_count, "total": n}
+    overall_correct, feedback = await score_reading_activity(questions, correct_answers, answers)
 
     lesson.activities[idx].result = {"student_answers": answers, "correct": overall_correct}
     next_url = await advance_lesson(lesson, idx)
@@ -570,18 +516,7 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request, studen
     completed_count = sum(1 for a in lesson.activities if a.status == "completed")
     skipped_count = sum(1 for a in lesson.activities if a.status == "skipped")
     weak_grammar_points = await get_weak_grammar_points(lesson)
-    if lesson.status == "completed" and not lesson.feedback_summary:
-        from maestro.learning.lesson_analyzer import analyze_lesson
-        create_background_task(
-            analyze_lesson(lesson),
-            name=f"lesson-analyze-{lesson_id}",
-        )
-    if not lesson.feedback_summary:
-        try:
-            lesson.feedback_summary = await generate_lesson_feedback(lesson, weak_grammar_points)
-            await lesson.save()
-        except Exception as exc:
-            logger.warning(f"[lezione] feedback generation error: {exc}")
+    await ensure_lesson_feedback(lesson, weak_grammar_points)
     annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id) if lesson.feedback_summary else None
     return templates.TemplateResponse(
         request=request,

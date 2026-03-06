@@ -4,6 +4,8 @@ Lesson lifecycle helpers.
 - advance_lesson: state machine for moving between activities
 - generate_lesson_feedback: end-of-lesson AI feedback
 - get_weak_grammar_points: identify grammar areas needing work
+- score_reading_activity: score reading comprehension answers
+- ensure_lesson_feedback: ensure lesson has feedback (analyse + generate)
 """
 from __future__ import annotations
 
@@ -11,12 +13,15 @@ import logging
 import re
 
 from maestro.models import GeneratedDrill, GrammarPoint, Lesson, ScenarioProgress
+from maestro.learning.scorer import score_reading_answers
 from maestro.llm import get_async_client
 from maestro.config import settings
 from maestro.profile import get_profile
-from maestro.utils import utcnow
+from maestro.utils import utcnow, create_background_task
 
 logger = logging.getLogger(__name__)
+
+_PASS_THRESHOLD = 0.7
 
 
 def activity_url(lesson_id, idx: int) -> str:
@@ -109,3 +114,58 @@ async def get_weak_grammar_points(lesson: Lesson) -> list[GrammarPoint]:
             result.append(gp)
             seen_codes.add(gp.code)
     return result
+
+
+async def score_reading_activity(
+    questions: list[str],
+    correct_answers: list[str],
+    student_answers: list[str],
+) -> tuple[bool, dict]:
+    """Score reading answers and build enriched feedback.
+
+    Returns (overall_correct, feedback_dict) where feedback_dict has
+    keys: items, correct_count, total.
+    """
+    raw_results = await score_reading_answers(questions, correct_answers, student_answers)
+
+    n = min(len(questions), len(student_answers), len(raw_results))
+    enriched = [
+        {
+            "prompt": questions[j] if j < len(questions) else "",
+            "correct_answer": correct_answers[j] if j < len(correct_answers) else "",
+            "student_answer": student_answers[j] if j < len(student_answers) else "",
+            "objective_correct": raw_results[j].get("objective_correct", False),
+            "objective_note": raw_results[j].get("objective_note", ""),
+            "grammar_errors": raw_results[j].get("grammar_errors", []),
+            "tips": raw_results[j].get("tips", []),
+        }
+        for j in range(n)
+    ]
+    correct_count = sum(1 for r in enriched if r["objective_correct"])
+    overall_correct = correct_count / max(n, 1) >= _PASS_THRESHOLD if n > 0 else True
+    feedback = {"items": enriched, "correct_count": correct_count, "total": n}
+
+    return overall_correct, feedback
+
+
+async def ensure_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str | None:
+    """Ensure lesson has feedback. Triggers analysis if needed, generates feedback if missing.
+
+    Returns the feedback_summary (may be None if generation fails).
+    """
+    if lesson.status == "completed" and not lesson.feedback_summary:
+        from maestro.learning.lesson_analyzer import analyze_lesson
+
+        create_background_task(
+            analyze_lesson(lesson),
+            name=f"lesson-analyze-{lesson.id}",
+        )
+
+    if not lesson.feedback_summary:
+        try:
+            lesson.feedback_summary = await generate_lesson_feedback(lesson, weak_grammar_points)
+            await lesson.save()
+        except Exception as exc:
+            logger.warning(f"[lezione] feedback generation error: {exc}")
+
+    return lesson.feedback_summary
