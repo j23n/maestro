@@ -188,6 +188,10 @@ async def lezione_activity(
         word_def = await VocabularyWordDefinition.find_one(
             {"word.$id": card.word.id, "student_level": level}
         )
+        if word_def is None and level == "A0":
+            word_def = await VocabularyWordDefinition.find_one(
+                {"word.$id": card.word.id, "student_level": "A1"}
+            )
         ctx["card"] = card
         ctx["word_def"] = word_def
         ctx["mode"] = "word"
@@ -405,6 +409,10 @@ async def lezione_vocab_reveal(
     word_def = await VocabularyWordDefinition.find_one(
         {"word.$id": card.word.id, "student_level": level}
     )
+    if word_def is None and level == "A0":
+        word_def = await VocabularyWordDefinition.find_one(
+            {"word.$id": card.word.id, "student_level": "A1"}
+        )
     return templates.TemplateResponse(
         request=request,
         name="vocab-card-back.html",

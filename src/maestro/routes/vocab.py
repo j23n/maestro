@@ -23,11 +23,19 @@ QUIZ_MODES = ("word", "definition", "translation")
 
 
 async def _get_word_def(word: VocabularyWord, student_id: PydanticObjectId) -> VocabularyWordDefinition | None:
-    """Load the student-level VocabularyWordDefinition for a word."""
+    """Load the student-level VocabularyWordDefinition for a word.
+
+    Falls back to A1 for A0 students (no dedicated A0 definitions exist).
+    """
     level = await get_cefr_level(student_id)
-    return await VocabularyWordDefinition.find_one(
+    wdef = await VocabularyWordDefinition.find_one(
         {"word.$id": word.id, "student_level": level}
     )
+    if wdef is None and level == "A0":
+        wdef = await VocabularyWordDefinition.find_one(
+            {"word.$id": word.id, "student_level": "A1"}
+        )
+    return wdef
 
 
 @router.get("/vocab", response_class=HTMLResponse)

@@ -283,8 +283,10 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
 
-    # A0 lessons are fully static — skip vocab review
+    # A0 lessons are fully static — no vocab review activity, but seed cards
+    # so they appear in /vocab
     if cefr_level == "A0":
+        await fill_vocab_cards(25, cefr_level, student_id=student_id)
         lesson = Lesson(
             student_id=student_id,
             duration_minutes=duration_minutes,
