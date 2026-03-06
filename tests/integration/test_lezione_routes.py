@@ -8,6 +8,10 @@ from maestro.models import (
     GeneratedDrill,
     DrillTemplate,
     DrillItem,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
+    ExerciseType,
 )
 from maestro.utils import utcnow
 
@@ -17,7 +21,7 @@ from maestro.utils import utcnow
 @pytest.fixture
 async def active_lesson_with_drill(db, student):
     """Active lesson with a single fill_blank drill activity."""
-    template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type="fill_blank")
+    template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
     await template.insert()
 
     drill = GeneratedDrill(
@@ -25,7 +29,7 @@ async def active_lesson_with_drill(db, student):
         template=template,
         grammar_point_code="GP_001",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         prompt="",
         items=[DrillItem(prompt="Io ___ al parco.", correct_answer="vado")],
         scenario_slug="test",
@@ -34,17 +38,17 @@ async def active_lesson_with_drill(db, student):
 
     lesson = Lesson(
         student_id=student.id,
-        status="active",
+        status=LessonStatus.ACTIVE,
         duration_minutes=10,
         started_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
-                type="drill",
+                type=ActivityType.DRILL,
                 title="Test drill",
                 description="Test",
                 duration_minutes=3,
-                status="active",
+                status=ActivityStatus.ACTIVE,
                 drill_id=drill.id,
             ),
         ],
@@ -95,17 +99,17 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
     """POST writing-submit should call generate_writing_feedback and return result."""
     lesson = Lesson(
         student_id=student.id,
-        status="active",
+        status=LessonStatus.ACTIVE,
         duration_minutes=10,
         started_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
-                type="writing",
+                type=ActivityType.WRITING,
                 title="Scrittura",
                 description="Test",
                 duration_minutes=5,
-                status="active",
+                status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
             ),
         ],

@@ -12,7 +12,10 @@ from __future__ import annotations
 import logging
 import re
 
-from maestro.models import GeneratedDrill, GrammarPoint, Lesson, ScenarioProgress
+from maestro.models import (
+    GeneratedDrill, GrammarPoint, Lesson, ScenarioProgress,
+    ActivityType, ActivityStatus, LessonStatus,
+)
 from maestro.learning.scorer import score_reading_answers
 from maestro.llm import get_async_client
 from maestro.config import settings
@@ -31,12 +34,12 @@ def activity_url(lesson_id, idx: int) -> str:
 async def advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -> str:
     """Mark activity done/skipped, advance index, return redirect URL."""
     if not skip:
-        lesson.activities[current_idx].status = "completed"
+        lesson.activities[current_idx].status = ActivityStatus.COMPLETED
     next_idx = current_idx + 1
     while next_idx < len(lesson.activities):
-        if lesson.activities[next_idx].status == "pending":
+        if lesson.activities[next_idx].status == ActivityStatus.PENDING:
             lesson.current_index = next_idx
-            lesson.activities[next_idx].status = "active"
+            lesson.activities[next_idx].status = ActivityStatus.ACTIVE
             await lesson.save()
             return activity_url(lesson.id, next_idx)
         next_idx += 1
@@ -44,7 +47,7 @@ async def advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -
         lesson.current_index = next_idx
         await lesson.save()
         return f"/lezione/{lesson.id}/generating"
-    lesson.status = "completed"
+    lesson.status = LessonStatus.COMPLETED
     lesson.completed_at = utcnow()
     await lesson.save()
 
@@ -66,13 +69,13 @@ async def generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) ->
     """Async Haiku call: brief English feedback on the completed lesson."""
     lines = []
     for a in lesson.activities:
-        if a.type == "drill" and a.result:
+        if a.type == ActivityType.DRILL and a.result:
             correct = a.result.get("correct")
             status = "correct" if correct else "incorrect" if correct is not None else "completed"
             lines.append(f"- Drill ({a.title}): {status}")
-        elif a.status == "completed":
+        elif a.status == ActivityStatus.COMPLETED:
             lines.append(f"- {a.title}: completed")
-        elif a.status == "skipped":
+        elif a.status == ActivityStatus.SKIPPED:
             lines.append(f"- {a.title}: skipped")
 
     activity_summary = "\n".join(lines) if lines else "No activities recorded."
@@ -102,7 +105,7 @@ async def get_weak_grammar_points(lesson: Lesson) -> list[GrammarPoint]:
     result = []
     seen_codes: set[str] = set()
     for a in lesson.activities:
-        if a.type != "drill" or not a.drill_id or not a.result:
+        if a.type != ActivityType.DRILL or not a.drill_id or not a.result:
             continue
         if a.result.get("correct") is not False:
             continue
@@ -153,7 +156,7 @@ async def ensure_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> s
 
     Returns the feedback_summary (may be None if generation fails).
     """
-    if lesson.status == "completed" and not lesson.feedback_summary:
+    if lesson.status == LessonStatus.COMPLETED and not lesson.feedback_summary:
         from maestro.learning.lesson_analyzer import analyze_lesson
 
         create_background_task(

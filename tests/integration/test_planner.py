@@ -15,6 +15,9 @@ from maestro.models import (
     ScenarioProgress,
     UserVocabularyCard,
     VocabularyWord,
+    ActivityType,
+    LessonStatus,
+    ExerciseType,
 )
 
 _FAKE_STUDENT_ID = PydanticObjectId()
@@ -214,11 +217,11 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
     await profile.insert()
 
     lesson = await prepare_lesson_immediate(20, profile, student_id=_FAKE_STUDENT_ID)
-    assert lesson.status == "active"
+    assert lesson.status == LessonStatus.ACTIVE
     assert lesson.generating is True
     assert lesson.student_id == _FAKE_STUDENT_ID
     assert len(lesson.activities) >= 1
-    assert lesson.activities[0].type == "vocab_review"
+    assert lesson.activities[0].type == ActivityType.VOCAB_REVIEW
 
 
 # ---------------------------------------------------------------------------
@@ -237,7 +240,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     gp = GrammarPoint(code="GP_001", label="Presente", cefr_level="A1", category="verbi", description="Present tense")
     await gp.insert()
 
-    template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type="fill_blank")
+    template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
     await template.insert()
 
     scenario = CurriculumScenario(
@@ -247,7 +250,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     )
     await scenario.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status="active", duration_minutes=10, generating=True)
+    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
     await lesson.insert()
 
     content_response = MagicMock(content=[MagicMock(text="""{

@@ -9,6 +9,7 @@ from maestro.models import (
     CurriculumScenario,
     GrammarPoint,
     Lesson,
+    LessonStatus,
     ScenarioProgress,
     Student,
     StudentPersona,
@@ -77,7 +78,7 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
 
     # Lesson history
     recent_lessons = await Lesson.find(
-        {"student_id": student.id, "status": "completed"}
+        {"student_id": student.id, "status": LessonStatus.COMPLETED}
     ).sort(-Lesson.completed_at).limit(20).to_list()
 
     scenario_slugs = {l.scenario_slug for l in recent_lessons if l.scenario_slug}

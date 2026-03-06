@@ -9,10 +9,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from maestro.models import LearningEvent
 
+from maestro import taxonomy
 from maestro.models import (
-    CommunicativeFunction,
     CurriculumScenario,
-    GrammarPoint,
     LearningProfile,
     ScenarioProgress,
     UserVocabularyCard,
@@ -59,8 +58,9 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
             if sp.depth < 1:
                 return "A0"
 
-    grammar_points = await GrammarPoint.find_all().to_list()
-    comm_functions = await CommunicativeFunction.find_all().to_list()
+    await taxonomy.ensure_loaded()
+    grammar_points = taxonomy.grammar_points()
+    comm_functions = taxonomy.comm_functions()
 
     gp_by_level: dict[str, list[str]] = {}
     for gp in grammar_points:
@@ -98,8 +98,8 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
 
 async def _generate_description(profile: "LearningProfile") -> str:
-    grammar_points = await GrammarPoint.find_all().to_list()
-    gp_labels = {gp.code: gp.label for gp in grammar_points}
+    await taxonomy.ensure_loaded()
+    gp_labels = {gp.code: gp.label for gp in taxonomy.grammar_points()}
 
     # Grammar narrative
     demonstrated = [
@@ -117,18 +117,26 @@ async def _generate_description(profile: "LearningProfile") -> str:
     total_by_level: dict[str, int] = {}
     discovered_by_level: dict[str, int] = {}
 
-    all_vocab = await VocabularyWord.find_all().to_list()
+    all_vocab = await VocabularyWord.find(
+        {"cefr_level": {"$ne": None}}
+    ).to_list()
     for w in all_vocab:
-        if w.cefr_level is not None:
-            total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
+        total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
+    # Batch fetch word docs instead of N+1 fetch_all_links()
     card_filter = {"student_id": profile.student_id} if profile.student_id else {}
     cards = await UserVocabularyCard.find(card_filter).to_list()
+    word_ids = []
     for card in cards:
-        await card.fetch_all_links()
-        lvl = card.word.cefr_level
-        if lvl is not None:
-            discovered_by_level[lvl] = discovered_by_level.get(lvl, 0) + 1
+        ref = card.word
+        word_ids.append(ref.ref.id if hasattr(ref, "ref") else ref.id)
+
+    discovered_words = await VocabularyWord.find(
+        {"_id": {"$in": word_ids}}
+    ).to_list()
+    for w in discovered_words:
+        if w.cefr_level is not None:
+            discovered_by_level[w.cefr_level] = discovered_by_level.get(w.cefr_level, 0) + 1
 
     def pct(level: str) -> int:
         total = total_by_level.get(level, 0)
@@ -140,8 +148,7 @@ async def _generate_description(profile: "LearningProfile") -> str:
     a2_pct = pct("A2")
 
     # Communicative functions narrative
-    comm_functions = await CommunicativeFunction.find_all().to_list()
-    cf_by_code = {cf.code: cf for cf in comm_functions}
+    cf_by_code = {cf.code: cf for cf in taxonomy.comm_functions()}
 
     macro_counts: dict[str, int] = {}
     for code, count in profile.functions_counts.items():

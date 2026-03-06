@@ -1,10 +1,41 @@
 from typing import Optional, List
 from datetime import datetime, date
 from dataclasses import dataclass
+from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
 from pydantic import BaseModel, Field
 from maestro.utils import utcnow
+
+
+class ActivityType(str, Enum):
+    DRILL = "drill"
+    VOCAB_REVIEW = "vocab_review"
+    READING = "reading"
+    WRITING = "writing"
+    GRAMMAR = "grammar"
+    SPEAKING = "speaking"
+    ONBOARDING = "onboarding"
+
+
+class ActivityStatus(str, Enum):
+    PENDING = "pending"
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    SKIPPED = "skipped"
+
+
+class LessonStatus(str, Enum):
+    PLANNING = "planning"
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    ABANDONED = "abandoned"
+
+
+class ExerciseType(str, Enum):
+    FILL_BLANK = "fill_blank"
+    ERROR_CORRECTION = "error_correction"
+    FREE_FORM = "free_form"
 
 
 class Student(Document):
@@ -184,7 +215,7 @@ class DrillItem(BaseModel):
 class DrillTemplate(Document):
     grammar_point_code: str
     cefr_level: str
-    exercise_type: str  # "fill_blank" | "error_correction" | "free_form"
+    exercise_type: ExerciseType  # "fill_blank" | "error_correction" | "free_form"
 
     class Settings:
         name = "drill_templates"
@@ -195,7 +226,7 @@ class GeneratedDrill(Document):
     template: Link[DrillTemplate]
     grammar_point_code: str
     cefr_level: str
-    exercise_type: str
+    exercise_type: ExerciseType
     prompt: str
     correct_answer: Optional[str] = None
     distractors: List[str] = Field(default_factory=list)
@@ -247,11 +278,11 @@ class GrammarPointExplanation(Document):
 # --- Lezione ---
 
 class LessonActivity(BaseModel):
-    type: str           # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "conversazione" | "onboarding"
+    type: ActivityType   # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str
     duration_minutes: int = 2
-    status: str = "pending"   # "pending" | "active" | "completed" | "skipped"
+    status: ActivityStatus = ActivityStatus.PENDING   # "pending" | "active" | "completed" | "skipped"
     # Content references (set when lesson is created)
     drill_id: Optional[PydanticObjectId] = None
     card_ids: List[PydanticObjectId] = []
@@ -271,7 +302,7 @@ class Lesson(Document):
     created_at: datetime = Field(default_factory=utcnow)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
-    status: str = "planning"  # "planning" | "active" | "completed" | "abandoned"
+    status: LessonStatus = LessonStatus.PLANNING  # "planning" | "active" | "completed" | "abandoned"
     duration_minutes: int = 20
     scenario_slug: Optional[str] = None
     scenario_depth: Optional[int] = None

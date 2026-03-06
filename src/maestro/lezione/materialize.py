@@ -1,4 +1,4 @@
-"""Materialize LLM response dict into LessonActivity objects."""
+"""Materialize validated LessonContentResponse into LessonActivity objects."""
 
 from __future__ import annotations
 
@@ -14,13 +14,16 @@ from maestro.models import (
     DrillTemplate,
     CommunicativeFunction,
     ItalianChunk,
+    ActivityType,
+    ExerciseType,
 )
+from maestro.lezione.schemas import LessonContentResponse
 
 logger = logging.getLogger(__name__)
 
 
 async def materialize_activities(
-    content: dict,
+    content: LessonContentResponse,
     grammar_gps: list[GrammarPoint],
     grammar_explanations: list[Optional[GrammarPointExplanation]],
     drill_specs: list[dict],
@@ -42,7 +45,7 @@ async def materialize_activities(
 
     # --- Grammar activities ---
     grammar_activities: list[LessonActivity] = []
-    grammar_motivations = content.get("grammar_motivations", [])
+    grammar_motivations = content.grammar_motivations
     for i, gp in enumerate(grammar_gps):
         exp = grammar_explanations[i] if i < len(grammar_explanations) else None
         if exp:
@@ -56,9 +59,9 @@ async def materialize_activities(
             else:
                 explanation_content = gp.description
             grammar_title = gp.label
-        motivation = grammar_motivations[i].get("text") if i < len(grammar_motivations) and isinstance(grammar_motivations[i], dict) else None
+        motivation = grammar_motivations[i].text if i < len(grammar_motivations) else None
         grammar_activities.append(LessonActivity(
-            type="grammar",
+            type=ActivityType.GRAMMAR,
             title=f"Grammatica: {grammar_title}",
             description=f"Ripassa la regola grammaticale: {gp.label}",
             duration_minutes=3,
@@ -69,23 +72,20 @@ async def materialize_activities(
 
     # --- Reading activities ---
     reading_activities: list[LessonActivity] = []
-    llm_readings = content.get("readings", [])
-    for i, reading_data in enumerate(llm_readings[:reading_count]):
-        if not isinstance(reading_data, dict):
-            continue
+    for i, reading in enumerate(content.readings[:reading_count]):
         reading_activities.append(LessonActivity(
-            type="reading",
+            type=ActivityType.READING,
             title=f"Lettura {i + 1}" if reading_count > 1 else "Lettura",
             description=f"Leggi un testo su: {topic_title}",
             duration_minutes=5,
-            content=reading_data.get("text", ""),
-            questions=reading_data.get("questions", []),
-            correct_answers=reading_data.get("answers", []),
+            content=reading.text,
+            questions=reading.questions,
+            correct_answers=reading.answers,
         ))
 
     # --- Drill activities ---
     drill_activities: list[LessonActivity] = []
-    llm_drills = content.get("drills", [])
+    llm_drills = content.drills
     logger.info(f"[materialize] materialising {len(drill_specs)} drills ({len(llm_drills)} returned by LLM)")
     for i, (spec, template) in enumerate(zip(drill_specs, drill_templates_used)):
         drill_data = llm_drills[i] if i < len(llm_drills) else None
@@ -93,12 +93,11 @@ async def materialize_activities(
             logger.warning(f"[materialize] missing drill data at index {i} for {spec['grammar_point_code']}")
             continue
         exercise_type = spec["exercise_type"]
-        if exercise_type in ("fill_blank", "error_correction"):
-            raw_items = drill_data.get("items") or []
+        if exercise_type in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
             items = [
-                DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
-                for it in raw_items
-                if isinstance(it, dict) and it.get("prompt")
+                DrillItem(prompt=item.prompt, correct_answer=item.correct_answer)
+                for item in drill_data.items
+                if item.prompt
             ]
             drill = GeneratedDrill(
                 student_id=student_id,
@@ -120,7 +119,7 @@ async def materialize_activities(
                 grammar_point_code=spec["grammar_point_code"],
                 cefr_level=cefr_level,
                 exercise_type=exercise_type,
-                prompt=drill_data.get("prompt", ""),
+                prompt=drill_data.prompt or "",
                 correct_answer=None,
                 distractors=[],
                 scenario_slug=scenario_slug,
@@ -129,7 +128,7 @@ async def materialize_activities(
         await drill.insert()
         logger.debug(f"[materialize] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})")
         drill_activities.append(LessonActivity(
-            type="drill",
+            type=ActivityType.DRILL,
             title=f"Esercizio: {spec['gp_label']}",
             description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
             duration_minutes=3,
@@ -138,12 +137,11 @@ async def materialize_activities(
 
     # --- Speaking activities ---
     speaking_activities: list[LessonActivity] = []
-    llm_speakings = content.get("speakings", [])
     for i, cf in enumerate(speaking_cfs):
-        speaking_data = llm_speakings[i] if i < len(llm_speakings) else None
-        prompt_text = speaking_data.get("prompt", "") if isinstance(speaking_data, dict) else ""
+        speaking_data = content.speakings[i] if i < len(content.speakings) else None
+        prompt_text = speaking_data.prompt if speaking_data else ""
         speaking_activities.append(LessonActivity(
-            type="speaking",
+            type=ActivityType.SPEAKING,
             title=f"Parlare: {cf.label}",
             description=f"Pratica: {cf.label}",
             duration_minutes=3,
@@ -152,14 +150,13 @@ async def materialize_activities(
 
     # --- Writing activities ---
     writing_activities: list[LessonActivity] = []
-    if include_writing and content.get("writing"):
-        writing_data = content["writing"]
+    if include_writing and content.writing:
         writing_activities.append(LessonActivity(
-            type="writing",
+            type=ActivityType.WRITING,
             title="Scrittura",
             description=f"Scrivi un testo su: {topic_title}",
             duration_minutes=8,
-            content=writing_data.get("prompt", ""),
+            content=content.writing.prompt,
         ))
 
     # Pedagogical order: grammar x N -> readings x N -> drills x N -> speakings x N -> writing x N

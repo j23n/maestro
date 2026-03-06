@@ -2,7 +2,7 @@
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
-from maestro.models import LearningEvent, GeneratedDrill, DrillItem, DrillTemplate
+from maestro.models import LearningEvent, GeneratedDrill, DrillItem, DrillTemplate, ExerciseType
 from maestro import taxonomy
 
 
@@ -41,7 +41,7 @@ async def test_fill_blank_passing(db, mocker):
         DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
         for i in range(3)
     ]
-    drill = _make_drill("fill_blank", "GP_001", items)
+    drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     # 3/3 correct
     llm_results = [
@@ -72,7 +72,7 @@ async def test_fill_blank_failing(db, mocker):
         DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
         for i in range(3)
     ]
-    drill = _make_drill("fill_blank", "GP_001", items)
+    drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     # 1/3 correct (33% < 70% threshold)
     llm_results = [
@@ -101,7 +101,7 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
     taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     items = [DrillItem(prompt=f"Q{i} ___", correct_answer="x") for i in range(3)]
-    drill = _make_drill("fill_blank", "GP_001", items)
+    drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     two_of_three = [
         {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
@@ -125,7 +125,7 @@ async def test_free_form_correct(db, mocker):
     """free_form with objective_correct=True creates event with grammar_correct."""
     taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
-    drill = _make_drill("free_form", "GP_001", items=[])
+    drill = _make_drill(ExerciseType.FREE_FORM, "GP_001", items=[])
     mocker.patch(
         "maestro.drills.scoring.score_free_form_drill",
         new_callable=AsyncMock,
@@ -145,7 +145,7 @@ async def test_free_form_incorrect(db, mocker):
     """free_form with objective_correct=False creates event with grammar_errors."""
     taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
-    drill = _make_drill("free_form", "GP_001", items=[])
+    drill = _make_drill(ExerciseType.FREE_FORM, "GP_001", items=[])
     drill.chunk_ref = "test_chunk_ref"
     mocker.patch(
         "maestro.drills.scoring.score_free_form_drill",

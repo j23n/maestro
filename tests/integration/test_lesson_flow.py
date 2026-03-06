@@ -12,6 +12,10 @@ from maestro.models import (
     DrillItem,
     GrammarPoint,
     LearningProfile,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
+    ExerciseType,
 )
 from maestro.utils import utcnow
 
@@ -21,7 +25,7 @@ _FAKE_STUDENT_ID = PydanticObjectId()
 def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> Lesson:
     return Lesson(
         student_id=_FAKE_STUDENT_ID,
-        status="active",
+        status=LessonStatus.ACTIVE,
         duration_minutes=20,
         activities=activities,
         current_index=0,
@@ -35,14 +39,14 @@ async def test_advance_lesson_marks_current_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
-        LessonActivity(type="drill", title="D1", description="", duration_minutes=3, status="pending"),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
 
     await _advance_lesson(lesson, 0)
-    assert lesson.activities[0].status == "completed"
+    assert lesson.activities[0].status == ActivityStatus.COMPLETED
 
 
 @pytest.mark.integration
@@ -50,14 +54,14 @@ async def test_advance_lesson_activates_next_pending(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
-        LessonActivity(type="drill", title="D1", description="", duration_minutes=3, status="pending"),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
 
     redirect = await _advance_lesson(lesson, 0)
-    assert lesson.activities[1].status == "active"
+    assert lesson.activities[1].status == ActivityStatus.ACTIVE
     assert "/activity/1" in redirect
 
 
@@ -66,14 +70,14 @@ async def test_advance_lesson_skip_does_not_mark_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
-        LessonActivity(type="drill", title="D1", description="", duration_minutes=3, status="pending"),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
 
     await _advance_lesson(lesson, 0, skip=True)
-    assert lesson.activities[0].status != "completed"
+    assert lesson.activities[0].status != ActivityStatus.COMPLETED
 
 
 @pytest.mark.integration
@@ -81,7 +85,7 @@ async def test_advance_lesson_generating_redirect(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
     ]
     lesson = _make_lesson(activities, generating=True)
     await lesson.insert()
@@ -95,13 +99,13 @@ async def test_advance_lesson_all_done_marks_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
     ]
     lesson = _make_lesson(activities, generating=False)
     await lesson.insert()
 
     redirect = await _advance_lesson(lesson, 0)
-    assert lesson.status == "completed"
+    assert lesson.status == LessonStatus.COMPLETED
     assert "complete" in redirect
 
 
@@ -111,11 +115,11 @@ async def test_collect_free_texts_writing(db):
 
     activities = [
         LessonActivity(
-            type="writing",
+            type=ActivityType.WRITING,
             title="W",
             description="",
             duration_minutes=5,
-            status="completed",
+            status=ActivityStatus.COMPLETED,
             result={"student_answer": "Ho scritto qualcosa."},
         ),
     ]
@@ -130,11 +134,11 @@ async def test_collect_free_texts_pending_skipped(db):
 
     activities = [
         LessonActivity(
-            type="writing",
+            type=ActivityType.WRITING,
             title="W",
             description="",
             duration_minutes=5,
-            status="pending",  # not completed
+            status=ActivityStatus.PENDING,  # not completed
             result=None,
         ),
     ]
@@ -149,11 +153,11 @@ async def test_collect_free_texts_reading_joined(db):
 
     activities = [
         LessonActivity(
-            type="reading",
+            type=ActivityType.READING,
             title="R",
             description="",
             duration_minutes=5,
-            status="completed",
+            status=ActivityStatus.COMPLETED,
             result={"student_answers": ["Risposta uno", "Risposta due"]},
         ),
     ]
@@ -171,11 +175,11 @@ async def test_collect_free_texts_drill_answer_included(db):
 
     activities = [
         LessonActivity(
-            type="drill",
+            type=ActivityType.DRILL,
             title="D",
             description="",
             duration_minutes=3,
-            status="completed",
+            status=ActivityStatus.COMPLETED,
             result={"student_answer": "sono andato"},
         ),
     ]
@@ -192,7 +196,7 @@ async def test_collect_drill_gp_outcomes_all_correct(db):
     template = DrillTemplate(
         grammar_point_code="GP_001",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
     )
     await template.insert()
 
@@ -200,7 +204,7 @@ async def test_collect_drill_gp_outcomes_all_correct(db):
         template=template,
         grammar_point_code="GP_001",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         prompt="",
         scenario_slug="test",
     )
@@ -208,11 +212,11 @@ async def test_collect_drill_gp_outcomes_all_correct(db):
 
     activities = [
         LessonActivity(
-            type="drill",
+            type=ActivityType.DRILL,
             title="D",
             description="",
             duration_minutes=3,
-            status="completed",
+            status=ActivityStatus.COMPLETED,
             drill_id=drill.id,
             result={"correct": True},
         ),
@@ -232,7 +236,7 @@ async def test_collect_drill_gp_outcomes_any_error(db):
     template = DrillTemplate(
         grammar_point_code="GP_002",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
     )
     await template.insert()
 
@@ -240,7 +244,7 @@ async def test_collect_drill_gp_outcomes_any_error(db):
         template=template,
         grammar_point_code="GP_002",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         prompt="",
         scenario_slug="test",
     )
@@ -248,11 +252,11 @@ async def test_collect_drill_gp_outcomes_any_error(db):
 
     activities = [
         LessonActivity(
-            type="drill",
+            type=ActivityType.DRILL,
             title="D",
             description="",
             duration_minutes=3,
-            status="completed",
+            status=ActivityStatus.COMPLETED,
             drill_id=drill.id,
             result={"correct": False},
         ),
@@ -271,7 +275,7 @@ async def test_collect_drill_gp_outcomes_no_result(db):
     template = DrillTemplate(
         grammar_point_code="GP_003",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
     )
     await template.insert()
 
@@ -279,7 +283,7 @@ async def test_collect_drill_gp_outcomes_no_result(db):
         template=template,
         grammar_point_code="GP_003",
         cefr_level="A1",
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         prompt="",
         scenario_slug="test",
     )
@@ -287,11 +291,11 @@ async def test_collect_drill_gp_outcomes_no_result(db):
 
     activities = [
         LessonActivity(
-            type="drill",
+            type=ActivityType.DRILL,
             title="D",
             description="",
             duration_minutes=3,
-            status="pending",
+            status=ActivityStatus.PENDING,
             drill_id=drill.id,
             result=None,  # no result yet
         ),
@@ -317,39 +321,39 @@ async def completed_lesson(db):
     await gp_ok.insert()
     await gp_bad.insert()
 
-    template = DrillTemplate(grammar_point_code="GP_OK", cefr_level="A1", exercise_type="fill_blank")
+    template = DrillTemplate(grammar_point_code="GP_OK", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
     await template.insert()
 
     drill_ok = GeneratedDrill(
         template=template, grammar_point_code="GP_OK", cefr_level="A1",
-        exercise_type="fill_blank", prompt="", scenario_slug="test",
+        exercise_type=ExerciseType.FILL_BLANK, prompt="", scenario_slug="test",
     )
     drill_bad = GeneratedDrill(
         template=template, grammar_point_code="GP_BAD", cefr_level="A1",
-        exercise_type="fill_blank", prompt="", scenario_slug="test",
+        exercise_type=ExerciseType.FILL_BLANK, prompt="", scenario_slug="test",
     )
     await drill_ok.insert()
     await drill_bad.insert()
 
     lesson = Lesson(
         student_id=_FAKE_STUDENT_ID,
-        status="completed",
+        status=LessonStatus.COMPLETED,
         duration_minutes=10,
         started_at=utcnow(),
         completed_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
-                type="drill", title="D1", description="", duration_minutes=3,
-                status="completed", drill_id=drill_ok.id, result={"correct": True},
+                type=ActivityType.DRILL, title="D1", description="", duration_minutes=3,
+                status=ActivityStatus.COMPLETED, drill_id=drill_ok.id, result={"correct": True},
             ),
             LessonActivity(
-                type="drill", title="D2", description="", duration_minutes=3,
-                status="completed", drill_id=drill_bad.id, result={"correct": False},
+                type=ActivityType.DRILL, title="D2", description="", duration_minutes=3,
+                status=ActivityStatus.COMPLETED, drill_id=drill_bad.id, result={"correct": False},
             ),
             LessonActivity(
-                type="writing", title="W", description="", duration_minutes=5,
-                status="completed", result={"student_answer": "Ho scritto."},
+                type=ActivityType.WRITING, title="W", description="", duration_minutes=5,
+                status=ActivityStatus.COMPLETED, result={"student_answer": "Ho scritto."},
             ),
         ],
         current_index=2,

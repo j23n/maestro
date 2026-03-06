@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 import maestro.learning.analyzer as analyzer_module
 import maestro.learning.scorer as scorer_module
 from maestro import taxonomy
+from maestro.models import ExerciseType
 
 
 def _make_llm_response(text: str) -> MagicMock:
@@ -188,7 +189,7 @@ async def test_score_multi_item_drill_success(mock_scorer_client):
     mock_scorer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
 
     result = await scorer_module.score_multi_item_drill(
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         grammar_point_code="GP_001",
         items=items,
         student_answers=["sono andato", "ho mangiato"],
@@ -206,7 +207,7 @@ async def test_score_multi_item_drill_fallback_on_failure(mock_scorer_client):
     mock_scorer_client.messages.create.side_effect = RuntimeError("error")
 
     result = await scorer_module.score_multi_item_drill(
-        exercise_type="fill_blank",
+        exercise_type=ExerciseType.FILL_BLANK,
         grammar_point_code="GP_001",
         items=items,
         student_answers=["wrong"],

@@ -29,6 +29,9 @@ from maestro.models import (
     CommunicativeFunction,
     ItalianChunk,
     CurriculumScenario,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
 )
 from maestro.config import settings
 from maestro.llm import get_async_client
@@ -38,6 +41,7 @@ from maestro.lezione.slots import _allocate_slots
 from maestro.lezione.prompts import build_lesson_content_prompt
 from maestro.lezione.materialize import materialize_activities
 from maestro.lezione.a0 import _generate_a0_lesson_background
+from maestro.lezione.schemas import LessonContentResponse
 from maestro.lezione.selection import (
     pick_scenario,
     pick_grammar_points,
@@ -64,8 +68,8 @@ async def _generate_lesson_content(
     include_writing: bool,
     client: "anthropic.AsyncAnthropic",
     speaking_cfs: list[CommunicativeFunction] = [],
-) -> dict:
-    """Single LLM call returning topic_title, topic_description, overview, grammar_motivations, drills, readings, writing, speakings."""
+) -> LessonContentResponse:
+    """Single LLM call returning validated lesson content."""
     prompt_text = build_lesson_content_prompt(
         cefr_level=cefr_level,
         scenario=scenario,
@@ -96,11 +100,16 @@ async def _generate_lesson_content(
     logger.info(f"[planner] lesson content LLM in {elapsed:.2f}s, response length={len(raw)} chars")
     logger.debug(f"[planner] lesson content raw: {raw}")
     result = parse_llm_json(raw)
-    if not result:
+    if not result or not isinstance(result, dict):
         logger.error(f"[planner] failed to parse lesson content response: {raw}")
-        return {}
-    logger.debug(f"[planner] lesson content keys: {list(result.keys())}")
-    return result
+        return LessonContentResponse()
+    try:
+        content = LessonContentResponse.model_validate(result)
+    except Exception as e:
+        logger.warning(f"[planner] lesson content validation partial: {e}")
+        content = LessonContentResponse()
+    logger.debug(f"[planner] lesson content fields: {list(content.model_fields_set)}")
+    return content
 
 
 # ---------------------------------------------------------------------------
@@ -129,7 +138,7 @@ async def prepare_lesson_immediate(
             student_id=student_id,
             duration_minutes=duration_minutes,
             cefr_at_start=cefr_level,
-            status="active",
+            status=LessonStatus.ACTIVE,
             started_at=utcnow(),
             generating=True,
             activities=activities,
@@ -140,25 +149,25 @@ async def prepare_lesson_immediate(
         return lesson
 
     slots = _allocate_slots(duration_minutes)
-    vocab_count = slots.get("vocab_review", 0)
+    vocab_count = slots.get(ActivityType.VOCAB_REVIEW, 0)
 
     if vocab_count > 0:
         due_cards = await fill_vocab_cards(vocab_count, cefr_level, student_id=student_id)
         if due_cards:
             activities.append(LessonActivity(
-                type="vocab_review",
+                type=ActivityType.VOCAB_REVIEW,
                 title=f"Vocabolario ({len(due_cards)} parole)",
                 description="Ripassa le parole in scadenza oggi",
                 duration_minutes=max(2, len(due_cards) * 1),
                 card_ids=[c.id for c in due_cards],
-                status="active",
+                status=ActivityStatus.ACTIVE,
             ))
 
     lesson = Lesson(
         student_id=student_id,
         duration_minutes=duration_minutes,
         cefr_at_start=cefr_level,
-        status="active",
+        status=LessonStatus.ACTIVE,
         started_at=utcnow(),
         generating=True,
         activities=activities,
@@ -222,7 +231,7 @@ async def _generate_lesson_background(
     logger.info(f"[planner] scenario: {scenario.slug} depth={depth}")
 
     # --- Pick grammar points (multiple) ---
-    grammar_count = slots.get("grammar", 0)
+    grammar_count = slots.get(ActivityType.GRAMMAR, 0)
     grammar_gps: list[GrammarPoint] = []
     grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
@@ -242,7 +251,7 @@ async def _generate_lesson_background(
             grammar_explanations.append(explanation)
 
     # --- Pick grammar points and templates for drills ---
-    drill_count = slots.get("drill", 0)
+    drill_count = slots.get(ActivityType.DRILL, 0)
     drill_specs: list[dict] = []
     drill_templates_used: list[DrillTemplate] = []
     if drill_count > 0:
@@ -273,7 +282,7 @@ async def _generate_lesson_background(
             drill_templates_used.append(template)
 
     # --- Pick communicative functions for speaking ---
-    speaking_count = slots.get("speaking", 0)
+    speaking_count = slots.get(ActivityType.SPEAKING, 0)
     speaking_cfs: list[CommunicativeFunction] = []
     if speaking_count > 0:
         speaking_cfs = await pick_comm_functions(
@@ -281,8 +290,8 @@ async def _generate_lesson_background(
         )
     logger.info(f"[planner] speaking_cfs: {[c.code for c in speaking_cfs]}")
 
-    reading_count = slots.get("reading", 0)
-    include_writing = slots.get("writing", 0) > 0
+    reading_count = slots.get(ActivityType.READING, 0)
+    include_writing = slots.get(ActivityType.WRITING, 0) > 0
 
     logger.info(
         f"[planner] grammar: {[g.code for g in grammar_gps]}, "
@@ -304,8 +313,8 @@ async def _generate_lesson_background(
         speaking_cfs,
     )
 
-    topic_title = content.get("topic_title", scenario.label)
-    topic_description = content.get("topic_description", scenario.description)
+    topic_title = content.topic_title or scenario.label
+    topic_description = content.topic_description or scenario.description
 
     # --- Materialise activities ---
     new_activities = await materialize_activities(
@@ -330,7 +339,7 @@ async def _generate_lesson_background(
         return
 
     lesson.activities.extend(new_activities)
-    lesson.overview = content.get("overview", "")
+    lesson.overview = content.overview
     lesson.scenario_slug = scenario.slug
     lesson.scenario_depth = depth
     lesson.topic_title = topic_title
