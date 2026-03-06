@@ -131,6 +131,9 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
     if not word.senses:
         logger.info(f"[vocab] '{word.word}' has no senses, skipping definition generation")
         return
+    if word.cefr_level == "A0":
+        logger.debug(f"[vocab] '{word.word}' is A0 (formulaic), skipping definition generation")
+        return
     logger.info(f"[vocab] generating definitions for '{word.word}'")
     claude_data = _call_claude([word], max_tokens=4096)
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())

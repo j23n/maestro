@@ -51,12 +51,27 @@ a0-01-benvenuto:
       title: "Cosa ti piace?"
       description: "Tell us your interests"
       content: "What are your interests? For example: cooking, football, travel, wine, music, history..."
-      profile_field: persona_tags
+      profile_field: interests
       response_template: "Noted! In Italian, **Mi piace...** means 'I like...'. We'll weave your interests into future lessons."
+
+    - type: onboarding
+      title: "Hai studiato l'italiano?"
+      description: "Your language background"
+      content: "Have you studied Italian (or another language) before? For example: 'some Spanish in school', 'total beginner', 'lived in Rome for a year'..."
+      profile_field: background
+      response_template: "Good to know! In Italian, you'd say **Ho studiato...** (I studied...). We'll pace things accordingly."
+
+    - type: onboarding
+      title: "Perché l'italiano?"
+      description: "Your motivation"
+      content: "Why are you learning Italian? For example: travel, family, work, love of Italian culture..."
+      profile_field: goal
+      response_template: "Great motivation! **Perché** means 'why' (and also 'because'). We'll keep your goal in mind."
 
     - type: drill
       title: "First words"
       description: "Practise your first Italian phrases"
+      hint: "All of these appeared in the grammar section above. Try saying them out loud first!"
       grammar_point_code: a0_saluti
       exercise_type: fill_blank
       items:
@@ -115,6 +130,8 @@ a0-02-saluti:
 
         **Buongiorno** and **Buonasera** are more formal — use them with strangers, shopkeepers, and older people.
 
+        > **Cultural note:** Italians often greet friends and family with a kiss on each cheek (starting from the right). With strangers, a handshake is fine.
+
         ### Goodbyes
 
         - **Ciao!** — Bye! (informal)
@@ -141,19 +158,20 @@ a0-02-saluti:
 
         ### Tricky consonants
         - **c** before e/i = "ch" (*ciao* = chow)
-        - **c** before a/o/u = "k" (*caffe* = kaf-FEH)
+        - **c** before a/o/u = "k" (*caffè* = kaf-FEH)
         - **g** before e/i = "j" (*gelato* = jeh-LAH-to)
-        - **g** before a/o/u = "g" (*grazie* = GRAH-tsyeh)
+        - **g** before a/o/u = "g" (*grazie* = GRAH-tsee-eh)
         - **gn** = "ny" (*gnocchi* = NYOH-kee)
         - **gl** + i = "ly" (*famiglia* = fah-MEE-lyah)
 
         ### Double consonants
-        Hold the sound longer: *notte* (NOT-teh), *caffe* (kaf-FEH), *pizza* (PIT-tsah).
+        Hold the sound longer: *notte* (NOT-teh), *caffè* (kaf-FEH), *pizza* (PIT-tsah).
       why_important: "Getting pronunciation right from the start builds confidence."
 
     - type: drill
       title: "Saluti"
       description: "Match the right greeting"
+      hint: "Think about time of day and formality. Ciao is always informal!"
       grammar_point_code: a0_saluti
       exercise_type: fill_blank
       items:
@@ -178,10 +196,10 @@ a0-03-numeri:
   overview: "Numbers are everywhere — prices, addresses, phone numbers. Learn 0-20 so you're ready."
   activities:
     - type: grammar
-      title: "Numbers 0-20"
-      description: "Learn Italian numbers"
+      title: "Numbers 0-10"
+      description: "Learn Italian numbers from zero to ten"
       content: |
-        ## I numeri da 0 a 20
+        ## I numeri da 0 a 10
 
         | # | Italian | Pronunciation |
         |---|---------|--------------|
@@ -196,23 +214,14 @@ a0-03-numeri:
         | 8 | **otto** | OT-to |
         | 9 | **nove** | NO-veh |
         | 10 | **dieci** | dee-EH-chee |
-        | 11 | **undici** | OON-dee-chee |
-        | 12 | **dodici** | DO-dee-chee |
-        | 13 | **tredici** | TREH-dee-chee |
-        | 14 | **quattordici** | kwat-TOR-dee-chee |
-        | 15 | **quindici** | KWEEN-dee-chee |
-        | 16 | **sedici** | SEH-dee-chee |
-        | 17 | **diciassette** | dee-chas-SET-teh |
-        | 18 | **diciotto** | dee-CHOT-to |
-        | 19 | **diciannove** | dee-chan-NO-veh |
-        | 20 | **venti** | VEN-tee |
 
-        **Tip:** 11-16 end in *-dici*. 17-19 start with *dici-* + the unit.
+        **Tip:** These are the building blocks — learn them well and the teens become easy!
       why_important: "You need numbers for prices, ordering, and everyday life in Italy."
 
     - type: drill
-      title: "Numeri"
+      title: "Numeri 0-10"
       description: "Write the Italian number"
+      hint: "Sound them out in your head — Italian numbers are very phonetic."
       grammar_point_code: a0_numeri_0_20
       exercise_type: fill_blank
       items:
@@ -226,29 +235,67 @@ a0-03-numeri:
           correct_answer: "sette"
         - prompt: "10 = ___"
           correct_answer: "dieci"
-        - prompt: "12 = ___"
-          correct_answer: "dodici"
-        - prompt: "15 = ___"
-          correct_answer: "quindici"
-        - prompt: "20 = ___"
-          correct_answer: "venti"
         - prompt: "0 = ___"
           correct_answer: "zero"
         - prompt: "8 = ___"
           correct_answer: "otto"
 
+    - type: grammar
+      title: "Numbers 11-20"
+      description: "Learn Italian numbers from eleven to twenty"
+      content: |
+        ## I numeri da 11 a 20
+
+        | # | Italian | Pronunciation |
+        |---|---------|--------------|
+        | 11 | **undici** | OON-dee-chee |
+        | 12 | **dodici** | DO-dee-chee |
+        | 13 | **tredici** | TREH-dee-chee |
+        | 14 | **quattordici** | kwat-TOR-dee-chee |
+        | 15 | **quindici** | KWEEN-dee-chee |
+        | 16 | **sedici** | SEH-dee-chee |
+        | 17 | **diciassette** | dee-chas-SET-teh |
+        | 18 | **diciotto** | dee-CHOT-to |
+        | 19 | **diciannove** | dee-chan-NO-veh |
+        | 20 | **venti** | VEN-tee |
+
+        **Tip:** 11-16 end in *-dici*. 17-19 start with *dici-* + the unit.
+      why_important: "Teens are tricky in every language — the pattern here makes them easier to remember."
+
+    - type: drill
+      title: "Numeri 11-20"
+      description: "Write the Italian number"
+      hint: "Remember: 11-16 end in -dici, 17-19 start with dici-."
+      grammar_point_code: a0_numeri_0_20
+      exercise_type: fill_blank
+      items:
+        - prompt: "11 = ___"
+          correct_answer: "undici"
+        - prompt: "12 = ___"
+          correct_answer: "dodici"
+        - prompt: "15 = ___"
+          correct_answer: "quindici"
+        - prompt: "17 = ___"
+          correct_answer: "diciassette"
+        - prompt: "20 = ___"
+          correct_answer: "venti"
+        - prompt: "14 = ___"
+          correct_answer: "quattordici"
+        - prompt: "18 = ___"
+          correct_answer: "diciotto"
+
 a0-04-si-e-no:
-  topic_title: "Si e no"
+  topic_title: "Sì e no"
   topic_description: "Saying yes and no, and forming simple negative sentences"
   overview: "Learn to affirm, deny, and form basic Italian sentences with correct word order."
   activities:
     - type: grammar
-      title: "Si, no, and non"
+      title: "Sì, no, and non"
       description: "Affirmation and negation in Italian"
       content: |
-        ## Si e no
+        ## Sì e no
 
-        - **Si** = Yes
+        - **Sì** = Yes
         - **No** = No
 
         To make a sentence negative, put **non** before the verb:
@@ -271,18 +318,25 @@ a0-04-si-e-no:
 
         - *Parlo italiano.* — (I) speak Italian.
         - *Mangi la pizza.* — (You) eat pizza.
+
+        ### Frasi di sopravvivenza (Survival phrases)
+        - **Non parlo italiano.** — I don't speak Italian.
+        - **Non capisco.** — I don't understand.
+        - **Parla inglese?** — Do you speak English?
+        - **Aiuto!** — Help!
       why_important: "Non + verb is the most common way to say 'not' in Italian."
 
     - type: drill
-      title: "Si o no?"
+      title: "Sì o no?"
       description: "Practise negation"
+      hint: "To negate, put 'non' before the verb. Sì has an accent!"
       grammar_point_code: a0_si_no_non
       exercise_type: fill_blank
       items:
         - prompt: "I don't understand. = ___ capisco."
           correct_answer: "Non"
-        - prompt: "I don't speak Italian. = Non ___ italiano."
-          correct_answer: "parlo"
+        - prompt: "I speak Italian. = ___ italiano."
+          correct_answer: "Parlo"
         - prompt: "Yes = ___"
           correct_answer: "Sì"
         - prompt: "No = ___"
@@ -311,20 +365,25 @@ a0-05-per-favore:
         - **Scusa** — Excuse me (informal)
         - **Mi dispiace** — I'm sorry
 
+        > **Prego** has many uses: "you're welcome", "go ahead", "please sit down", "after you". You'll hear it everywhere.
+
         ### Vorrei — "I would like"
 
         **Vorrei** is the polite way to ask for things. It works like magic at cafes, restaurants, and shops:
 
-        - **Vorrei un caffe.** — I'd like a coffee.
+        - **Vorrei un caffè.** — I'd like a coffee.
         - **Vorrei un'acqua.** — I'd like a water.
         - **Vorrei il conto.** — I'd like the bill.
 
         Just say: **Vorrei** + what you want + **per favore**.
+
+        > **Cultural note:** In many Italian bars, you order and pay at the **cassa** (register) first, then take the receipt to the counter. Standing at the bar is cheaper than sitting at a table!
       why_important: "Vorrei + per favore will get you through most situations in Italy."
 
     - type: drill
       title: "Cortesia"
       description: "Polite phrases practice"
+      hint: "Vorrei means 'I would like' — it's the polite way to order anything."
       grammar_point_code: a0_cortesia
       exercise_type: fill_blank
       items:
@@ -338,13 +397,13 @@ a0-05-per-favore:
           correct_answer: "Scusi"
         - prompt: "I'm sorry = Mi ___"
           correct_answer: "dispiace"
-        - prompt: "I'd like a coffee. = ___ un caffe."
+        - prompt: "I'd like a coffee. = ___ un caffè."
           correct_answer: "Vorrei"
         - prompt: "I'd like a water, please. = Vorrei un'acqua, per ___."
           correct_answer: "favore"
 
 a0-06-che-cose:
-  topic_title: "Che cos'e?"
+  topic_title: "Che cos'è?"
   topic_description: "Learning il and la, and asking what things are"
   overview: "Every Italian noun has a gender. Learn the two most common articles and how to ask about objects."
   activities:
@@ -356,7 +415,7 @@ a0-06-che-cose:
 
         Every Italian noun is either **masculine** or **feminine**. The word for "the" changes:
 
-        - **il** = the (masculine) — il caffe, il libro, il treno
+        - **il** = the (masculine) — il caffè, il libro, il treno
         - **la** = the (feminine) — la pizza, la casa, la stazione
 
         **Quick rule of thumb:**
@@ -364,26 +423,27 @@ a0-06-che-cose:
         - Words ending in **-a** are usually feminine → **la**
         - Words ending in **-e** can be either (you'll learn these one by one)
 
-        ### Che cos'e?
+        ### Che cos'è?
 
         To ask "What is this?" say:
 
-        - **Che cos'e?** — What is it?
-        - **Che cos'e questo?** — What is this?
+        - **Che cos'è?** — What is it?
+        - **Che cos'è questo?** — What is this?
 
-        To answer: **E...** (It is...)
+        To answer: **È...** (It is...)
 
-        - *Che cos'e?* — *E il caffe.* (It's the coffee.)
-        - *Che cos'e questo?* — *E la pizza.* (It's the pizza.)
+        - *Che cos'è?* — *È il caffè.* (It's the coffee.)
+        - *Che cos'è questo?* — *È la pizza.* (It's the pizza.)
       why_important: "il/la is the first step to understanding Italian noun gender."
 
     - type: drill
       title: "Il o la?"
       description: "Choose the right article"
+      hint: "Words ending in -o are usually il (masculine), words ending in -a are usually la (feminine)."
       grammar_point_code: a0_articoli_il_la
       exercise_type: fill_blank
       items:
-        - prompt: "___ caffe (coffee, m.)"
+        - prompt: "___ caffè (coffee, m.)"
           correct_answer: "il"
         - prompt: "___ pizza (pizza, f.)"
           correct_answer: "la"
@@ -395,7 +455,7 @@ a0-06-che-cose:
           correct_answer: "la"
         - prompt: "___ treno (train, m.)"
           correct_answer: "il"
-        - prompt: "What is this? = Che cos'e ___?"
+        - prompt: "What is this? = Che cos'è ___?"
           correct_answer: "questo"
 
 a0-07-io-sono:
@@ -423,7 +483,7 @@ a0-07-io-sono:
         |---------|--------|---------|
         | io | **sono** | Io sono Marco. (I am Marco.) |
         | tu | **sei** | Tu sei italiano? (Are you Italian?) |
-        | lui/lei | **e** | Lei e Maria. (She is Maria.) |
+        | lui/lei | **è** | Lei è Maria. (She is Maria.) |
 
         Remember: you can drop the pronoun because the verb tells you who:
         - **Sono italiano.** = I am Italian.
@@ -436,6 +496,7 @@ a0-07-io-sono:
     - type: drill
       title: "Essere"
       description: "Fill in the right form of essere"
+      hint: "io → sono, tu → sei, lui/lei → è"
       grammar_point_code: a0_essere
       exercise_type: fill_blank
       items:
@@ -469,12 +530,12 @@ a0-08-mi-piace:
         - **Mi piacciono** + plural noun
 
         Examples:
-        - **Mi piace il caffe.** — I like coffee.
+        - **Mi piace il caffè.** — I like coffee.
         - **Mi piace viaggiare.** — I like travelling.
         - **Mi piacciono i gatti.** — I like cats.
 
         To say you don't like something, add **non**:
-        - **Non mi piace il te.** — I don't like tea.
+        - **Non mi piace il tè.** — I don't like tea.
         - **Non mi piacciono i ragni.** — I don't like spiders.
 
         **Note:** Literally, *mi piace* means "it pleases me" — the thing you like is the subject!
@@ -483,12 +544,13 @@ a0-08-mi-piace:
     - type: drill
       title: "Mi piace"
       description: "Express your preferences"
+      hint: "Mi piace = singular, Mi piacciono = plural. Non goes before mi."
       grammar_point_code: a0_mi_piace
       exercise_type: fill_blank
       items:
-        - prompt: "I like coffee. = Mi ___ il caffe."
+        - prompt: "I like coffee. = Mi ___ il caffè."
           correct_answer: "piace"
-        - prompt: "I don't like tea. = ___ mi piace il te."
+        - prompt: "I don't like tea. = ___ mi piace il tè."
           correct_answer: "Non"
         - prompt: "I like travelling. = Mi piace ___."
           correct_answer: "viaggiare"
@@ -498,19 +560,19 @@ a0-08-mi-piace:
           correct_answer: "ragni"
 
 a0-09-dove:
-  topic_title: "Dov'e?"
+  topic_title: "Dov'è?"
   topic_description: "Asking where things are and using basic prepositions"
   overview: "Learn to ask for directions and talk about locations with simple prepositions."
   activities:
     - type: grammar
-      title: "Dov'e? and prepositions"
+      title: "Dov'è? and prepositions"
       description: "Where is it? and basic prepositions"
       content: |
-        ## Dov'e...?
+        ## Dov'è...?
 
         To ask where something is:
-        - **Dov'e il bagno?** — Where is the bathroom?
-        - **Dov'e la stazione?** — Where is the station?
+        - **Dov'è il bagno?** — Where is the bathroom?
+        - **Dov'è la stazione?** — Where is the station?
         - **Dove sei?** — Where are you?
 
         ## Basic prepositions
@@ -527,15 +589,16 @@ a0-09-dove:
         - **in centro** — in the centre / downtown
         - **in Italia** — in Italy
         - **di Roma** — from Rome
-      why_important: "Dov'e il bagno? might be the most important question you'll ever ask in Italy."
+      why_important: "Dov'è il bagno? might be the most important question you'll ever ask in Italy."
 
     - type: drill
       title: "Dove?"
       description: "Locations and prepositions"
+      hint: "Dov'è = Dove + è (where is). Use a/in/di for location prepositions."
       grammar_point_code: a0_dove
       exercise_type: fill_blank
       items:
-        - prompt: "Where is the bathroom? = ___'e il bagno?"
+        - prompt: "Where is the bathroom? = ___'è il bagno?"
           correct_answer: "Dov"
         - prompt: "I am in Italy. = Sono ___ Italia."
           correct_answer: "in"
@@ -564,11 +627,11 @@ a0-10-ripasso:
         - **Greetings:** Ciao, Buongiorno, Buonasera, Arrivederci
         - **Numbers:** 0-20
         - **Polite phrases:** Per favore, Grazie, Prego, Scusi, Vorrei
-        - **Yes/No:** Si, No, Non + verb
+        - **Yes/No:** Sì, No, Non + verb
         - **Articles:** il (m.), la (f.)
-        - **Essere:** sono, sei, e
+        - **Essere:** sono, sei, è
         - **Likes:** Mi piace / Non mi piace
-        - **Locations:** Dov'e? + a, in, di
+        - **Locations:** Dov'è? + a, in, di
         - **Self-intro:** Mi chiamo...
 
         After this lesson, you'll graduate to **A1** — where lessons become dynamic, personalised, and increasingly in Italian.
@@ -576,9 +639,11 @@ a0-10-ripasso:
         **Bravissimo!**
       why_important: "Seeing everything together shows how much you've already achieved."
 
+    # Cumulative review drill — tagged a0_saluti as it's the first GP but covers all A0 material
     - type: drill
       title: "Ripasso generale"
       description: "Mixed review of all A0 material"
+      hint: "This covers everything from lessons 1-9. Take your time!"
       grammar_point_code: a0_saluti
       exercise_type: fill_blank
       items:
@@ -590,7 +655,7 @@ a0-10-ripasso:
           correct_answer: "cinque"
         - prompt: "I don't understand. = Non ___."
           correct_answer: "capisco"
-        - prompt: "I'd like a coffee. = ___ un caffe."
+        - prompt: "I'd like a coffee. = ___ un caffè."
           correct_answer: "Vorrei"
         - prompt: "___ pizza (the, f.)"
           correct_answer: "la"
@@ -598,7 +663,7 @@ a0-10-ripasso:
           correct_answer: "Sono"
         - prompt: "I like music. = Mi ___ la musica."
           correct_answer: "piace"
-        - prompt: "Where is the station? = Dov'e la ___?"
+        - prompt: "Where is the station? = Dov'è la ___?"
           correct_answer: "stazione"
         - prompt: "Goodbye! (formal) = ___!"
           correct_answer: "Arrivederci"
@@ -617,6 +682,8 @@ a0-10-ripasso:
         - **Track your progress** across grammar points and communicative functions
 
         The A1 curriculum covers 24 real-life scenarios — from ordering at a bar to navigating the city.
+
+        Don't worry if you don't feel ready — the first A1 lessons will review and reinforce what you learned here. Maestro adapts to your level, so if something is too hard, it will adjust.
 
         Keep practising daily, and you'll be surprised how quickly you progress.
 

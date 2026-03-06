@@ -3,7 +3,7 @@
   {"word": "buongiorno", "part_of_speech": "inter.", "cefr_level": "A0", "senses": [{"definition": "Saluto formale del mattino: good morning"}]},
   {"word": "buonasera", "part_of_speech": "inter.", "cefr_level": "A0", "senses": [{"definition": "Saluto formale della sera: good evening"}]},
   {"word": "arrivederci", "part_of_speech": "inter.", "cefr_level": "A0", "senses": [{"definition": "Commiato formale: goodbye"}]},
-  {"word": "si", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "Affermazione: yes"}]},
+  {"word": "sì", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "Affermazione: yes"}]},
   {"word": "no", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "Negazione: no"}]},
   {"word": "grazie", "part_of_speech": "inter.", "cefr_level": "A0", "senses": [{"definition": "Ringraziamento: thank you"}]},
   {"word": "per favore", "part_of_speech": "loc.", "cefr_level": "A0", "senses": [{"definition": "Formula di cortesia: please"}]},
@@ -23,5 +23,14 @@
   {"word": "male", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "In modo non soddisfacente: badly, poorly"}]},
   {"word": "libro", "part_of_speech": "s.m.", "cefr_level": "A0", "senses": [{"definition": "Insieme di pagine rilegate: book"}]},
   {"word": "casa", "part_of_speech": "s.f.", "cefr_level": "A0", "senses": [{"definition": "Abitazione: house, home"}]},
-  {"word": "pizza", "part_of_speech": "s.f.", "cefr_level": "A0", "senses": [{"definition": "Piatto tipico italiano: pizza"}]}
+  {"word": "pizza", "part_of_speech": "s.f.", "cefr_level": "A0", "senses": [{"definition": "Piatto tipico italiano: pizza"}]},
+  {"word": "caffè", "part_of_speech": "s.m.", "cefr_level": "A0", "senses": [{"definition": "Bevanda calda: coffee"}]},
+  {"word": "bagno", "part_of_speech": "s.m.", "cefr_level": "A0", "senses": [{"definition": "Stanza per lavarsi: bathroom"}]},
+  {"word": "stazione", "part_of_speech": "s.f.", "cefr_level": "A0", "senses": [{"definition": "Fermata dei treni: station"}]},
+  {"word": "come", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "In che modo: how"}]},
+  {"word": "quanto", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "In che misura: how much"}]},
+  {"word": "quando", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "In che momento: when"}]},
+  {"word": "oggi", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "In questo giorno: today"}]},
+  {"word": "domani", "part_of_speech": "avv.", "cefr_level": "A0", "senses": [{"definition": "Il giorno dopo: tomorrow"}]},
+  {"word": "aiuto", "part_of_speech": "s.m.", "cefr_level": "A0", "senses": [{"definition": "Richiesta di assistenza: help"}]}
 ]

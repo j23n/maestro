@@ -48,9 +48,10 @@ async def discover(response_text: str, student_id: PydanticObjectId | None = Non
         await UserVocabularyCard.insert_many(
             [UserVocabularyCard(student_id=student_id, word=w, message=message) for w in new_words]
         )
+        # A0 words have simple built-in definitions — skip LLM generation
         words_without_defs = [
             w for w in new_words
-            if w.senses and not any(
+            if w.cefr_level != "A0" and w.senses and not any(
                 _cache.get_definition(str(w.id), lvl) for lvl in ("A1", "A2", "B1", "B2")
             )
         ]

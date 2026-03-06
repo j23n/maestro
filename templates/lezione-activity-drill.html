@@ -12,6 +12,13 @@
       <span class="badge">{{ drill.exercise_type.replace('_', ' ') }}</span>
     </div>
 
+    {% if activity.hint %}
+      <div class="hint-container">
+        <button type="button" class="hint-toggle" onclick="this.nextElementSibling.classList.toggle('hidden'); this.textContent = this.nextElementSibling.classList.contains('hidden') ? 'Show hint' : 'Hide hint'">Show hint</button>
+        <div class="hint-text hidden">{{ activity.hint }}</div>
+      </div>
+    {% endif %}
+
     {% if drill.items %}
       {# Multi-item: fill_blank or error_correction #}
       {% if drill.exercise_type == "fill_blank" %}

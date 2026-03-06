@@ -115,8 +115,6 @@ async def save_profilo_persona(
     tags: Annotated[str, Form()] = "",
 ):
     profile = await get_or_create_profile(student.id)
-    profile.persona = StudentPersona(
-        tags=[t.strip() for t in tags.split(",") if t.strip()],
-    )
+    profile.persona.tags = [t.strip() for t in tags.split(",") if t.strip()]
     await profile.save()
     return RedirectResponse(url="/profilo?saved=1", status_code=303)
