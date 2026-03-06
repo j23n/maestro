@@ -871,6 +871,13 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .grammar-detail { max-width: 600px; margin: 2.5rem auto; padding: 0 1rem 3rem; }
 
 .gp-header { margin-bottom: 1.75rem; }
+.chunk-link {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  margin-top: 0.4rem;
+}
+.chunk-link:hover { color: var(--c-text); }
 .gp-level {
   display: inline-block;
   font-size: 0.72rem;
