@@ -125,6 +125,8 @@ async def vocab_practice(request: Request, student: Student = Depends(get_curren
 @router.get("/vocab/practice/{card_id}/reveal", response_class=HTMLResponse)
 async def vocab_reveal(card_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student), mode: str = "word"):
     card = await UserVocabularyCard.get(card_id)
+    if card is None or card.student_id != student.id:
+        raise HTTPException(403)
     await card.fetch_all_links()
     word_def = await _get_word_def(card.word, student.id)
     return templates.TemplateResponse(
@@ -145,6 +147,8 @@ async def vocab_review(
     mode: Annotated[str, Form()] = "random",
 ):
     card = await UserVocabularyCard.get(card_id)
+    if card is None or card.student_id != student.id:
+        raise HTTPException(403)
     card = review(card, rating)
     await card.save()
     return Response(status_code=204, headers={"HX-Redirect": f"/vocab/practice?mode={mode}"})
