@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     LESSON_MODEL: str = "claude-sonnet-4-6"
     EVAL_MODEL: str = "claude-opus-4-6"
     DEFINITION_MODEL: str = "claude-sonnet-4-6"
+    EXPLANATION_MODEL: str = "claude-sonnet-4-6"
 
     @property
     def database_url(self) -> str:

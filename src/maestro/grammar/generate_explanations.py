@@ -89,7 +89,7 @@ def _call_claude(
     logger.debug(f"  SYSTEM PROMPT:\n{system_msg}")
     logger.debug(f"  USER MESSAGE:\n{user_msg}")
     response = client.messages.create(
-        model=settings.CHAT_MODEL,
+        model=settings.EXPLANATION_MODEL,
         max_tokens=16384,
         system=system_msg,
         messages=[{"role": "user", "content": user_msg}],

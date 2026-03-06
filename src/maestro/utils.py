@@ -8,6 +8,16 @@ from pathlib import Path
 CEFR_ORDER = ["A1", "A2", "B1", "B2"]
 
 
+def cefr_levels_up_to(level: str) -> list[str]:
+    """Return CEFR levels from A1 up to and including level+1.
+
+    E.g. "A1" → ["A1", "A2"], "A2" → ["A1", "A2", "B1"], "B2" → all.
+    """
+    idx = CEFR_ORDER.index(level) if level in CEFR_ORDER else 0
+    cap = min(idx + 2, len(CEFR_ORDER))
+    return CEFR_ORDER[:cap]
+
+
 def utcnow() -> datetime:
     """Timezone-aware UTC now. Drop-in replacement for deprecated datetime.utcnow()."""
     return datetime.now(timezone.utc)

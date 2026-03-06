@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-async def migrate():
+async def migrate(name: str = "Studente"):
     from maestro.db import init_db
     from maestro.models import (
         Student,
@@ -33,9 +33,9 @@ async def migrate():
         default = existing[0]
         logger.info(f"Using existing student: {default.name} ({default.id})")
     else:
-        default = Student(name="Studente")
+        default = Student(name=name)
         await default.insert()
-        logger.info(f"Created default student: {default.id}")
+        logger.info(f"Created default student: {default.name} ({default.id})")
 
     # 2. Set student_id on all per-student collections
     collections = [
@@ -62,4 +62,8 @@ async def migrate():
 
 
 if __name__ == "__main__":
-    asyncio.run(migrate())
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--name", default="Studente", help="Name for the default student")
+    args = parser.parse_args()
+    asyncio.run(migrate(name=args.name))

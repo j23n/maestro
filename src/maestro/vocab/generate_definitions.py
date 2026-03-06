@@ -2,11 +2,11 @@
 Generate VocabularyWordDefinition documents for all VocabularyWords.
 
 Strategy:
-  - A1–B2: Claude claude-opus-4-6 rewrites senses for learner-appropriate Italian
+  - A1–B2: Claude rewrites senses for learner-appropriate Italian
     at each level, with per-sense English translations.
 
 Runs in batches of 5 words. Idempotent — skips words that already have all
-4 definitions.
+4 definitions with per-sense translations.
 
 Run with:  python -m maestro.vocab.generate_definitions
 """
@@ -15,6 +15,7 @@ import argparse
 import asyncio
 import json
 import logging
+import time
 from typing import Any
 
 from maestro.db import init_db
@@ -22,7 +23,6 @@ from maestro.config import settings
 from maestro.llm import get_client
 from maestro.models import CefrSense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
 from maestro.prompts import vocab as _prompts
-import time
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
     }
 
 
-def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
+def _call_claude(batch: list[VocabularyWord], max_tokens: int = 16384) -> dict[str, Any]:
     payload = {w.word: _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
@@ -54,7 +54,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     t0 = time.monotonic()
     msg = client.messages.create(
         model=settings.DEFINITION_MODEL,
-        max_tokens=32768,
+        max_tokens=max_tokens,
         system=_prompts.definitions_system.render_system(),
         messages=[{"role": "user", "content": user_content}],
     )
@@ -67,29 +67,26 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     return json.loads(raw)
 
 
-async def _has_all_definitions(word: VocabularyWord) -> bool:
-    count = await VocabularyWordDefinition.find(
-        {"word.$id": word.id, "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
-    ).count()
-    return count >= 4
+def _is_complete(defs: list[VocabularyWordDefinition]) -> bool:
+    """Check if a word has all 4 level definitions with per-sense translations."""
+    if len(defs) < 4:
+        return False
+    for d in defs:
+        if any(not s.translation for s in d.senses):
+            return False
+    return True
 
 
 async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
-    """Persist A1–B2 definitions from Claude's response."""
+    """Persist A1–B2 definitions from Claude's response. Replaces existing."""
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if not entry:
         logger.error(f"[vocab] Claude returned no data for '{word.word}'")
         return
 
-    translation = entry.get("translation", "")
+    top_translation = entry.get("translation", "")
 
     for level in ("A1", "A2", "B1", "B2"):
-        existing = await VocabularyWordDefinition.find_one(
-            {"word.$id": word.id, "student_level": level}
-        )
-        if existing:
-            logger.debug(f"[vocab] {level} definition for '{word.word}' already exists, skipping")
-            continue
         level_data = entry.get(level, {})
         raw_senses = level_data.get("senses", [])
         senses = [
@@ -104,13 +101,29 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
         if not senses:
             logger.warning(f"[vocab] no {level} senses for '{word.word}'")
             continue
-        await VocabularyWordDefinition(
-            word=word,
-            student_level=level,
-            senses=senses,
-            translation=translation,
-        ).insert()
-        logger.info(f"[vocab] saved {level} definition for '{word.word}'")
+
+        # Use top-level translation, fall back to aggregated sense translations
+        translation = top_translation
+        if not translation:
+            sense_trs = [s.translation for s in senses if s.translation]
+            translation = "; ".join(sense_trs) if sense_trs else ""
+
+        existing = await VocabularyWordDefinition.find_one(
+            {"word.$id": word.id, "student_level": level}
+        )
+        if existing:
+            existing.senses = senses
+            existing.translation = translation
+            await existing.save()
+            logger.info(f"[vocab] updated {level} definition for '{word.word}'")
+        else:
+            await VocabularyWordDefinition(
+                word=word,
+                student_level=level,
+                senses=senses,
+                translation=translation,
+            ).insert()
+            logger.info(f"[vocab] saved {level} definition for '{word.word}'")
 
 
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
@@ -119,7 +132,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         logger.info(f"[vocab] '{word.word}' has no senses, skipping definition generation")
         return
     logger.info(f"[vocab] generating definitions for '{word.word}'")
-    claude_data = _call_claude([word])
+    claude_data = _call_claude([word], max_tokens=4096)
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if entry and word.cefr_level is None:
         cefr = entry.get("cefr_level")
@@ -130,25 +143,40 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
     await _save_all_levels(word, claude_data)
 
 
-async def generate(test: bool = False):
-    await init_db()
-
-    words = await VocabularyWord.find_all().to_list()
-    logger.info(f"Found {len(words)} vocabulary words")
-
-    # Filter to words that need at least one definition
+async def _collect_words_needing_regen(words: list[VocabularyWord]) -> list[VocabularyWord]:
+    """Filter to words whose definitions are missing or lack per-sense translations."""
     todo = []
     for w in words:
-        if not await _has_all_definitions(w):
+        if not w.senses:
+            continue
+        defs = await VocabularyWordDefinition.find(
+            {"word.$id": w.id, "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
+        ).to_list()
+        if not _is_complete(defs):
             todo.append(w)
+    return todo
 
-    logger.info(f"{len(todo)} words need definitions")
 
-    # Words without senses can't be defined — skip
-    no_senses = [w for w in todo if not w.senses]
-    if no_senses:
-        logger.info(f"  {len(no_senses)} words have no EPUB senses — skipping")
-        todo = [w for w in todo if w.senses]
+async def generate(
+    test: bool = False,
+    my_cards: bool = False,
+):
+    await init_db()
+
+    if my_cards:
+        cards = await UserVocabularyCard.find_all().to_list()
+        word_ids = set()
+        for c in cards:
+            ref = c.word
+            word_ids.add(ref.ref.id if hasattr(ref, "ref") else ref.id)
+        words = await VocabularyWord.find({"_id": {"$in": list(word_ids)}}).to_list()
+        logger.info(f"Found {len(words)} words from {len(cards)} vocabulary cards")
+    else:
+        words = await VocabularyWord.find_all().to_list()
+        logger.info(f"Found {len(words)} vocabulary words")
+
+    todo = await _collect_words_needing_regen(words)
+    logger.info(f"{len(todo)} words need (re)generation")
 
     if test:
         todo = todo[:BATCH_SIZE]
@@ -170,6 +198,13 @@ async def generate(test: bool = False):
 
         for word in batch:
             try:
+                entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
+                if entry and word.cefr_level is None:
+                    cefr = entry.get("cefr_level")
+                    if cefr in ("A1", "A2", "B1", "B2"):
+                        word.cefr_level = cefr
+                        await word.save()
+                        logger.info(f"[vocab] classified '{word.word}' as {cefr}")
                 await _save_all_levels(word, claude_data)
             except Exception as exc:
                 logger.error(f"Failed to save definitions for '{word.word}': {exc}")
@@ -183,7 +218,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--test",
         action="store_true",
-        help="Only run one batch (~20 words) for testing",
+        help="Only run one batch (~5 words) for testing",
+    )
+    parser.add_argument(
+        "--my-cards",
+        action="store_true",
+        help="Only regenerate definitions for words in UserVocabularyCards",
     )
     args = parser.parse_args()
-    asyncio.run(generate(test=args.test))
+    asyncio.run(generate(test=args.test, my_cards=args.my_cards))
