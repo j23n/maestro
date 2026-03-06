@@ -4,7 +4,6 @@ a natural-language description for the system prompt.
 """
 from __future__ import annotations
 
-from datetime import datetime
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -17,7 +16,7 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, utcnow
 
 
 async def update_profile(event: "LearningEvent") -> None:
@@ -42,7 +41,7 @@ async def update_profile(event: "LearningEvent") -> None:
 
     profile.cefr_estimate = await _compute_cefr(profile)
     profile.description = await _generate_description(profile)
-    profile.updated_at = datetime.utcnow()
+    profile.updated_at = utcnow()
     await profile.save()
 
 

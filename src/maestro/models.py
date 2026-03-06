@@ -3,6 +3,7 @@ from datetime import datetime, date
 from dataclasses import dataclass
 from beanie import Document, Link, PydanticObjectId
 from pydantic import BaseModel, Field
+from maestro.utils import utcnow
 
 
 class ItalianChunk(Document):
@@ -54,7 +55,7 @@ class VocabularyWordDefinition(Document):
 
 class UserVocabularyCard(Document):
     word: Link[VocabularyWord]
-    discovered_at: datetime = Field(default_factory=datetime.utcnow)
+    discovered_at: datetime = Field(default_factory=utcnow)
     ease_factor: float = 2.5
     interval: int = 1
     repetitions: int = 0
@@ -101,7 +102,7 @@ class LearningEvent(Document):
     functions_performed: List[str] = Field(default_factory=list)
     themes: List[str] = Field(default_factory=list)
     feedback: str = ""
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=utcnow)
 
     class Settings:
         name = "learning_events"
@@ -115,7 +116,7 @@ class LearningProfile(Document):
     themes_seen: List[str] = Field(default_factory=list)
     cefr_estimate: str = "A1"
     description: str = ""
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=utcnow)
     student_interests: List[str] = Field(default_factory=list)
 
     class Settings:
@@ -148,7 +149,7 @@ class GeneratedDrill(Document):
     distractors: List[str] = Field(default_factory=list)
     items: List[DrillItem] = Field(default_factory=list)  # multi-item drills (fill_blank, error_correction)
     topic_used: str
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=utcnow)
     used: bool = False
     rag_refs: List[str] = Field(default_factory=list)  # RAG chunk refs used during generation
 
@@ -161,7 +162,7 @@ class DrillAttempt(Document):
     student_answer: str
     correct: Optional[bool] = None
     learning_event: Optional[Link[LearningEvent]] = None
-    attempted_at: datetime = Field(default_factory=datetime.utcnow)
+    attempted_at: datetime = Field(default_factory=utcnow)
 
     class Settings:
         name = "drill_attempts"
@@ -209,7 +210,7 @@ class LessonActivity(BaseModel):
 
 
 class Lesson(Document):
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=utcnow)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
     status: str = "planning"  # "planning" | "active" | "completed" | "abandoned"
