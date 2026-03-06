@@ -20,7 +20,7 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
-from maestro.utils import CEFR_ORDER, ensure_utc, utcnow
+from maestro.utils import CEFR_ORDER, cefr_levels_up_to, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -194,22 +194,32 @@ async def pick_comm_functions(
 
 
 async def fill_vocab_cards(vocab_count: int, cefr_level: str, student_id=None) -> list[UserVocabularyCard]:
-    """Return up to vocab_count cards due today; introduce new words if too few due."""
+    """Return up to vocab_count cards due today; introduce new words if too few due.
+
+    Only considers words at the student's CEFR level +1 (e.g. A1 student sees A1+A2 words).
+    """
+    visible_levels = cefr_levels_up_to(cefr_level)
+
     card_filter: dict = {"next_review": {"$lte": date.today()}}
     if student_id is not None:
         card_filter["student_id"] = student_id
-    due = await UserVocabularyCard.find(card_filter).limit(vocab_count).to_list()
+    due_all = await UserVocabularyCard.find(card_filter).to_list()
+
+    # Filter to words within the student's level range
+    due = []
+    existing_word_ids = set()
+    for c in due_all:
+        await c.fetch_all_links()
+        if c.word.cefr_level in visible_levels:
+            due.append(c)
+        ref = c.word
+        if hasattr(ref, "id"):
+            existing_word_ids.add(ref.id)
 
     if len(due) < min(MIN_VOCAB, vocab_count):
-        existing_word_ids = set()
-        for c in due:
-            ref = c.word
-            if hasattr(ref, "ref"):
-                existing_word_ids.add(ref.ref.id)
-            elif hasattr(ref, "id"):
-                existing_word_ids.add(ref.id)
-
-        candidates = await VocabularyWord.find({"cefr_level": cefr_level}).to_list()
+        candidates = await VocabularyWord.find(
+            {"cefr_level": {"$in": visible_levels}}
+        ).to_list()
         new_words = [w for w in candidates if w.id not in existing_word_ids]
         random.shuffle(new_words)
         needed = min(vocab_count, MIN_VOCAB) - len(due)

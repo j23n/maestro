@@ -11,6 +11,7 @@ from fastapi.responses import HTMLResponse, Response
 from maestro.auth import get_current_student
 from maestro.models import Student, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard
 from maestro.profile import get_cefr_level
+from maestro.utils import cefr_levels_up_to
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.templates import templates
 from maestro.vocab.srs import review
@@ -31,9 +32,13 @@ async def _get_word_def(word: VocabularyWord, student_id: PydanticObjectId) -> V
 
 @router.get("/vocab", response_class=HTMLResponse)
 async def vocab_list(request: Request, student: Student = Depends(get_current_student)):
+    student_level = await get_cefr_level(student.id)
+    visible_levels = cefr_levels_up_to(student_level)
+
     cards = await UserVocabularyCard.find({"student_id": student.id}).to_list()
     for card in cards:
         await card.fetch_all_links()
+    cards = [c for c in cards if c.word.cefr_level in visible_levels]
 
     cefr_levels = ["A1", "A2", "B1", "B2"]
     stats = {
@@ -106,14 +111,22 @@ async def vocab_search(request: Request, student: Student = Depends(get_current_
 
 @router.get("/vocab/practice", response_class=HTMLResponse)
 async def vocab_practice(request: Request, student: Student = Depends(get_current_student), mode: str = "random"):
-    card = await UserVocabularyCard.find_one(
+    student_level = await get_cefr_level(student.id)
+    visible_levels = cefr_levels_up_to(student_level)
+
+    due_cards = await UserVocabularyCard.find(
         {"student_id": student.id, "next_review": {"$lte": date.today()}}
-    )
+    ).to_list()
+    card = None
+    for c in due_cards:
+        await c.fetch_all_links()
+        if c.word.cefr_level in visible_levels:
+            card = c
+            break
     if card is None:
         return templates.TemplateResponse(
             request=request, name="vocab-practice.html", context={"card": None, "mode": mode}
         )
-    await card.fetch_all_links()
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
     word_def = await _get_word_def(card.word, student.id)
     return templates.TemplateResponse(

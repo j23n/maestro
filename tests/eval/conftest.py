@@ -35,7 +35,7 @@ def use_eval_model(monkeypatch):
     import maestro.vocab.generate_definitions as _vocab_mod
     import maestro.grammar.generate_explanations as _grammar_mod
     monkeypatch.setattr(_vocab_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
-    monkeypatch.setattr(_grammar_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
+    monkeypatch.setattr(_grammar_mod.settings, "EXPLANATION_MODEL", settings.EVAL_MODEL)
 
 
 @pytest.fixture
