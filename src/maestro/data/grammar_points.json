@@ -1,107 +1,107 @@
 [
   {
     "code": "a0_saluti",
-    "label": "Saluti e addii",
+    "label": "Greetings and farewells",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Ciao, buongiorno, buonasera, arrivederci, a presto"
   },
   {
     "code": "a0_pronuncia",
-    "label": "Pronuncia italiana di base",
+    "label": "Italian pronunciation basics",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Italian vowels a-e-i-o-u, double consonants, c/g hard and soft"
   },
   {
     "code": "a0_numeri_0_20",
-    "label": "Numeri da 0 a 20",
+    "label": "Numbers 0–20",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "zero, uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci, undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto, diciannove, venti"
   },
   {
     "code": "a0_si_no_non",
-    "label": "Si, no, non",
+    "label": "Yes, no, not",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Affirmation with si, negation with no and non before the verb"
   },
   {
     "code": "a0_frase_semplice",
-    "label": "Frase semplice",
+    "label": "Simple sentences",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Basic Italian sentence: subject + verb + object"
   },
   {
     "code": "a0_vorrei",
-    "label": "Vorrei",
+    "label": "Vorrei (I would like)",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Vorrei + noun to politely request something (I would like...)"
   },
   {
     "code": "a0_cortesia",
-    "label": "Formule di cortesia",
+    "label": "Polite expressions",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Per favore, grazie, prego, scusi/scusa, mi dispiace"
   },
   {
     "code": "a0_articoli_il_la",
-    "label": "Articoli il e la",
+    "label": "Articles: il and la",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "il (masculine) and la (feminine) — the two most common definite articles"
   },
   {
     "code": "a0_che_cose",
-    "label": "Che cos'e?",
+    "label": "What is it? (Che cos'è?)",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Che cos'e? / Che cos'e questo? — asking what something is"
   },
   {
     "code": "a0_pronomi_soggetto",
-    "label": "Pronomi soggetto: io, tu, lui/lei",
+    "label": "Subject pronouns: io, tu, lui/lei",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Subject pronouns io (I), tu (you), lui (he), lei (she)"
   },
   {
     "code": "a0_essere",
-    "label": "Essere: sono, sei, e",
+    "label": "To be: sono, sei, è",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "io sono, tu sei, lui/lei e — the verb to be in singular"
   },
   {
     "code": "a0_mi_piace",
-    "label": "Mi piace / non mi piace",
+    "label": "I like / I don't like",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Mi piace + noun/infinitive to express likes, non mi piace for dislikes"
   },
   {
     "code": "a0_dove",
-    "label": "Dov'e?",
+    "label": "Where is it? (Dov'è?)",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Dov'e...? — asking where something is"
   },
   {
     "code": "a0_preposizioni",
-    "label": "Preposizioni di luogo: a, in, di",
+    "label": "Prepositions of place: a, in, di",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Basic prepositions: a (to/at), in (in), di (of/from)"
   },
   {
     "code": "a0_mi_chiamo",
-    "label": "Mi chiamo...",
+    "label": "My name is... (Mi chiamo)",
     "cefr_level": "A0",
-    "category": "formule",
+    "category": "basics",
     "description": "Mi chiamo + name to introduce yourself"
   },
   {
