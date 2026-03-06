@@ -120,7 +120,6 @@ async def test_batch_gp_analysis(seeded_lesson_analyzer_cache, record_eval):
 @pytest.mark.llm_eval
 async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
     """Measure macro-category recall of _analyze_cfs_staged."""
-    import maestro.learning.lesson_analyzer as la_module
     import json as _json
     from maestro.learning.lesson_analyzer import _analyze_cfs_staged
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
@@ -131,9 +130,10 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
     client = anthropic.AsyncAnthropic()
 
     # Build code → macro_category lookup from seeded cache
+    from maestro import taxonomy
     code_to_macro = {
         cf.code: cf.macro_category
-        for cf in la_module._comm_functions_cache
+        for cf in taxonomy.comm_functions()
         if hasattr(cf, "macro_category")
     }
 

@@ -16,12 +16,12 @@ import logging
 from typing import TYPE_CHECKING
 
 from maestro.models import (
-    CommunicativeFunction,
     GeneratedDrill,
     GrammarPoint,
     LearningEvent,
 )
 from maestro.learning.profile import update_profile
+from maestro import taxonomy
 from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
@@ -34,9 +34,6 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-_grammar_points_cache: list[GrammarPoint] = []
-_comm_functions_cache: list[CommunicativeFunction] = []
-
 _MACRO_CATEGORIES = {
     "interagire_informazioni": "exchanging factual information",
     "interagire_opinioni_atteggiamenti": "expressing opinions and attitudes",
@@ -48,14 +45,6 @@ _MACRO_CATEGORIES = {
 }
 
 _MAX_GP_CANDIDATES = 80
-
-
-async def _ensure_codes() -> None:
-    global _grammar_points_cache, _comm_functions_cache
-    if _grammar_points_cache:
-        return
-    _grammar_points_cache = await GrammarPoint.find_all().to_list()
-    _comm_functions_cache = await CommunicativeFunction.find_all().to_list()
 
 
 def _collect_free_texts(lesson: "Lesson") -> list[str]:
@@ -126,12 +115,12 @@ async def _analyze_gps(
     """Identify GP correct/error usage in combined student text."""
     candidates: dict[str, GrammarPoint] = {
         gp.code: gp
-        for gp in _grammar_points_cache
+        for gp in taxonomy.grammar_points()
         if gp.cefr_level == cefr_level
     }
     for code in lesson_gp_codes:
         if code not in candidates:
-            gp = next((g for g in _grammar_points_cache if g.code == code), None)
+            gp = next((g for g in taxonomy.grammar_points() if g.code == code), None)
             if gp:
                 candidates[code] = gp
     candidate_list = list(candidates.values())[:_MAX_GP_CANDIDATES]
@@ -206,7 +195,7 @@ async def _analyze_cfs_staged(
 
     async def _analyze_one_macro(macro: str) -> list[str]:
         cfs = [
-            cf for cf in _comm_functions_cache
+            cf for cf in taxonomy.comm_functions()
             if cf.macro_category == macro and cf.cefr_level == cefr_level
         ]
         if not cfs:
@@ -245,7 +234,7 @@ async def _analyze_cfs_staged(
 async def analyze_lesson(lesson: "Lesson") -> None:
     """Run full end-of-lesson analysis and update the learning profile."""
     try:
-        await _ensure_codes()
+        await taxonomy.ensure_loaded()
         profile = await get_profile()
         cefr_level = profile.cefr_estimate if profile else "A1"
         client = get_async_client()

@@ -25,7 +25,8 @@ if TYPE_CHECKING:
 
 from maestro.models import LearningEvent
 from maestro.rag.retrieve import get_chunks_for_refs
-from maestro.learning.analyzer import score_free_form_drill, score_multi_item_drill, _ensure_codes, _grammar_points_cache
+from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
+from maestro import taxonomy
 
 _PASS_THRESHOLD = 0.7  # fraction of items correct to count the drill as passed
 
@@ -68,9 +69,9 @@ async def score_attempt(
         )
 
         # Resolve grammar codes → human-readable labels for display
-        await _ensure_codes()
-        valid_codes = {g.code for g in _grammar_points_cache}
-        gp_labels = {g.code: g.label for g in _grammar_points_cache}
+        await taxonomy.ensure_loaded()
+        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        gp_labels = {g.code: g.label for g in taxonomy.grammar_points()}
 
         n = min(len(generated_drill.items), len(answers), len(raw_results))
         enriched = [

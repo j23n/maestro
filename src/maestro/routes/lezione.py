@@ -1,7 +1,5 @@
-import asyncio
 import json
 import logging
-import re
 from typing import Annotated
 
 from beanie import PydanticObjectId
@@ -18,13 +16,17 @@ from maestro.models import (
 )
 from maestro.profile import get_profile
 from maestro.drills.scoring import score_attempt
-from maestro.learning.analyzer import generate_writing_feedback, score_reading_answers
-from maestro.config import settings
-from maestro.llm import get_async_client
+from maestro.learning.scorer import generate_writing_feedback, score_reading_answers
 from maestro.templates import templates
-from maestro.utils import CEFR_ORDER, utcnow
+from maestro.utils import CEFR_ORDER, utcnow, create_background_task
 from maestro.vocab.discover import discover, discover_markdown, discover_list
 from maestro.vocab.srs import review
+from maestro.lezione.service import (
+    activity_url,
+    advance_lesson,
+    generate_lesson_feedback,
+    get_weak_grammar_points,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -33,102 +35,19 @@ router = APIRouter()
 _PASS_THRESHOLD = 0.7
 
 
-def _activity_url(lesson_id, idx: int) -> str:
-    return f"/lezione/{lesson_id}/activity/{idx}"
-
-
-async def _advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -> str:
-    """Mark activity done/skipped, advance index, return redirect URL."""
-    if not skip:
-        lesson.activities[current_idx].status = "completed"
-    # Find next pending activity
-    next_idx = current_idx + 1
-    while next_idx < len(lesson.activities):
-        if lesson.activities[next_idx].status == "pending":
-            lesson.current_index = next_idx
-            lesson.activities[next_idx].status = "active"
-            await lesson.save()
-            return _activity_url(lesson.id, next_idx)
-        next_idx += 1
-    # No more pending activities — check if background generation is still running
-    if lesson.generating:
-        lesson.current_index = next_idx  # past end
-        await lesson.save()
-        return f"/lezione/{lesson.id}/generating"
-    # All done
-    lesson.status = "completed"
-    lesson.completed_at = utcnow()
-    await lesson.save()
-    return f"/lezione/{lesson.id}/complete"
-
-
-async def _generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str:
-    """Async Haiku call: brief English feedback on the completed lesson."""
-    lines = []
-    for a in lesson.activities:
-        if a.type == "drill" and a.result:
-            correct = a.result.get("correct")
-            status = "correct" if correct else "incorrect" if correct is not None else "completed"
-            lines.append(f"- Drill ({a.title}): {status}")
-        elif a.status == "completed":
-            lines.append(f"- {a.title}: completed")
-        elif a.status == "skipped":
-            lines.append(f"- {a.title}: skipped")
-
-    activity_summary = "\n".join(lines) if lines else "No activities recorded."
-    weak_note = ""
-    if weak_grammar_points:
-        labels = ", ".join(gp.label for gp in weak_grammar_points)
-        weak_note = f"\nThe student specifically struggled with: {labels}. Reference these by name."
-
-    prompt = (
-        f"A student just completed an Italian lesson. Summary:\n{activity_summary}{weak_note}\n\n"
-        "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
-        "notes any areas of difficulty, and ends with one specific encouragement."
-    )
-    client = get_async_client()
-    response = await client.messages.create(
-        model=settings.DRILL_MODEL,
-        max_tokens=200,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    text = response.content[0].text.strip()
-    text = re.sub(r'^#+\s+\S+\s*\n', '', text).strip()
-    return text
-
-
-async def _get_weak_grammar_points(lesson: Lesson) -> list[GrammarPoint]:
-    """Load grammar points for drills the student answered incorrectly."""
-    result = []
-    seen_codes: set[str] = set()
-    for a in lesson.activities:
-        if a.type != "drill" or not a.drill_id or not a.result:
-            continue
-        if a.result.get("correct") is not False:
-            continue
-        drill = await GeneratedDrill.get(a.drill_id)
-        if drill is None or drill.grammar_point_code in seen_codes:
-            continue
-        gp = await GrammarPoint.find_one(GrammarPoint.code == drill.grammar_point_code)
-        if gp:
-            result.append(gp)
-            seen_codes.add(gp.code)
-    return result
-
-
 @router.get("/lezione/", response_class=HTMLResponse)
 async def lezione_index(request: Request):
     active = await Lesson.find_one({"status": "active"})
     if active:
         if active.generating and active.current_index >= len(active.activities):
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
-        return RedirectResponse(url=_activity_url(active.id, active.current_index))
+        return RedirectResponse(url=activity_url(active.id, active.current_index))
     return RedirectResponse(url="/lezione/new")
 
 
 @router.get("/lezione/new", response_class=HTMLResponse)
 async def lezione_new(request: Request):
-    from maestro.lezione.planner import _pick_grammar_points
+    from maestro.lezione.selection import pick_grammar_points
     profile = await get_profile()
     cefr = profile.cefr_estimate if profile else "A1"
     cefr_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
@@ -136,7 +55,7 @@ async def lezione_new(request: Request):
     candidate_gps = await GrammarPoint.find(
         {"cefr_level": {"$in": target_levels}}
     ).to_list()
-    suggested = await _pick_grammar_points(profile, cefr, min(5, len(candidate_gps)))
+    suggested = await pick_grammar_points(profile, cefr, min(5, len(candidate_gps)))
     suggested_codes = {gp.code for gp in suggested}
     return templates.TemplateResponse(
         request=request, name="lezione-new.html",
@@ -155,7 +74,10 @@ async def lezione_create(
     profile = await get_profile()
 
     lesson = await prepare_lesson_immediate(duration, hint, grammar_codes, profile)
-    asyncio.create_task(generate_lesson_background(lesson.id, duration, hint, grammar_codes))
+    create_background_task(
+        generate_lesson_background(lesson.id, duration, hint, grammar_codes),
+        name=f"lesson-generate-{lesson.id}",
+    )
 
     if lesson.activities:
         return RedirectResponse(url=f"/lezione/{lesson.id}/activity/0", status_code=303)
@@ -169,7 +91,7 @@ async def lezione_overview(lesson_id: PydanticObjectId, request: Request):
     if lesson is None:
         raise HTTPException(404)
     if lesson.status == "active":
-        return RedirectResponse(url=_activity_url(lesson_id, lesson.current_index))
+        return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == "completed":
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
     annotated_overview = await discover(lesson.overview) if lesson.overview else None
@@ -191,7 +113,7 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request):
                 lesson.activities[next_idx].status = "active"
                 lesson.current_index = next_idx
                 await lesson.save()
-                return RedirectResponse(url=_activity_url(lesson_id, next_idx), status_code=303)
+                return RedirectResponse(url=activity_url(lesson_id, next_idx), status_code=303)
             next_idx += 1
         if lesson.status != "completed":
             lesson.status = "completed"
@@ -217,7 +139,7 @@ async def lezione_start(lesson_id: PydanticObjectId, request: Request):
     lesson.current_index = 0
     lesson.activities[0].status = "active"
     await lesson.save()
-    return RedirectResponse(url=_activity_url(lesson_id, 0), status_code=303)
+    return RedirectResponse(url=activity_url(lesson_id, 0), status_code=303)
 
 
 @router.get("/lezione/{lesson_id}/activity/{idx}", response_class=HTMLResponse)
@@ -261,7 +183,7 @@ async def lezione_activity(
     if activity.type == "vocab_review":
         card_ids = activity.card_ids
         if card_idx >= len(card_ids):
-            redirect_url = await _advance_lesson(lesson, idx)
+            redirect_url = await advance_lesson(lesson, idx)
             return RedirectResponse(url=redirect_url, status_code=303)
         card = await UserVocabularyCard.get(card_ids[card_idx])
         if card is None:
@@ -314,7 +236,7 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int):
     if lesson is None or idx >= len(lesson.activities):
         raise HTTPException(404)
     lesson.activities[idx].status = "skipped"
-    redirect_url = await _advance_lesson(lesson, idx, skip=True)
+    redirect_url = await advance_lesson(lesson, idx, skip=True)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 
@@ -323,7 +245,7 @@ async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int):
     lesson = await Lesson.get(lesson_id)
     if lesson is None or idx >= len(lesson.activities):
         raise HTTPException(404)
-    redirect_url = await _advance_lesson(lesson, idx)
+    redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 
@@ -365,7 +287,7 @@ async def lezione_drill_submit(
     lesson.activities[idx].result = {"correct": correct, "student_answer": stored_answer}
 
     feedback = feedback or None
-    next_url = await _advance_lesson(lesson, idx)
+    next_url = await advance_lesson(lesson, idx)
 
     return templates.TemplateResponse(
         request=request,
@@ -451,7 +373,7 @@ async def lezione_vocab_rate(
             status_code=204,
             headers={"HX-Redirect": f"/lezione/{lesson_id}/activity/{idx}?card_idx={next_card_idx}"},
         )
-    redirect_url = await _advance_lesson(lesson, idx)
+    redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 
@@ -477,7 +399,7 @@ async def lezione_writing_submit(
     )
 
     lesson.activities[idx].result = {"student_answer": answer}
-    next_url = await _advance_lesson(lesson, idx)
+    next_url = await advance_lesson(lesson, idx)
 
     return templates.TemplateResponse(
         request=request,
@@ -534,7 +456,7 @@ async def lezione_reading_submit(
     feedback = {"items": enriched, "correct_count": correct_count, "total": n}
 
     lesson.activities[idx].result = {"student_answers": answers, "correct": overall_correct}
-    next_url = await _advance_lesson(lesson, idx)
+    next_url = await advance_lesson(lesson, idx)
 
     return templates.TemplateResponse(
         request=request,
@@ -561,13 +483,16 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
         raise HTTPException(404)
     completed_count = sum(1 for a in lesson.activities if a.status == "completed")
     skipped_count = sum(1 for a in lesson.activities if a.status == "skipped")
-    weak_grammar_points = await _get_weak_grammar_points(lesson)
+    weak_grammar_points = await get_weak_grammar_points(lesson)
     if lesson.status == "completed" and not lesson.feedback_summary:
         from maestro.learning.lesson_analyzer import analyze_lesson
-        asyncio.create_task(analyze_lesson(lesson))
+        create_background_task(
+            analyze_lesson(lesson),
+            name=f"lesson-analyze-{lesson_id}",
+        )
     if not lesson.feedback_summary:
         try:
-            lesson.feedback_summary = await _generate_lesson_feedback(lesson, weak_grammar_points)
+            lesson.feedback_summary = await generate_lesson_feedback(lesson, weak_grammar_points)
             await lesson.save()
         except Exception as exc:
             logger.warning(f"[lezione] feedback generation error: {exc}")

@@ -3,6 +3,7 @@ import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
 from maestro.models import LearningEvent, GeneratedDrill, DrillItem, DrillTemplate
+from maestro import taxonomy
 
 
 def _make_drill(exercise_type: str, gp_code: str, items: list = None) -> MagicMock:
@@ -35,11 +36,7 @@ async def test_unknown_exercise_type_returns_none(db):
 @pytest.mark.integration
 async def test_fill_blank_passing(db, mocker):
     """fill_blank with ≥70% correct items passes and creates event with grammar_correct."""
-    import maestro.learning.analyzer as analyzer_module
-
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")
-    ]
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")])
 
     items = [
         DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
@@ -71,11 +68,7 @@ async def test_fill_blank_passing(db, mocker):
 @pytest.mark.integration
 async def test_fill_blank_failing(db, mocker):
     """fill_blank with <70% correct items fails and creates event with grammar_errors."""
-    import maestro.learning.analyzer as analyzer_module
-
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")
-    ]
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")])
 
     items = [
         DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
@@ -108,11 +101,7 @@ async def test_fill_blank_failing(db, mocker):
 @pytest.mark.integration
 async def test_pass_threshold_exactly_at_70(db, mocker):
     """2/3 items (67%) is below the 0.7 threshold → fail; 3/3 (100%) → pass."""
-    import maestro.learning.analyzer as analyzer_module
-
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code="GP_001", label="Test GP", cefr_level="A1")
-    ]
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     items = [DrillItem(prompt=f"Q{i} ___", correct_answer="x") for i in range(3)]
     drill = _make_drill("fill_blank", "GP_001", items)
@@ -138,11 +127,7 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
 @pytest.mark.integration
 async def test_free_form_correct(db, mocker):
     """free_form with objective_correct=True creates event with grammar_correct."""
-    import maestro.learning.analyzer as analyzer_module
-
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code="GP_001", label="Test GP", cefr_level="A1")
-    ]
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     drill = _make_drill("free_form", "GP_001", items=[])
     mocker.patch(
@@ -163,11 +148,7 @@ async def test_free_form_correct(db, mocker):
 @pytest.mark.integration
 async def test_free_form_incorrect(db, mocker):
     """free_form with objective_correct=False creates event with grammar_errors."""
-    import maestro.learning.analyzer as analyzer_module
-
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code="GP_001", label="Test GP", cefr_level="A1")
-    ]
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     drill = _make_drill("free_form", "GP_001", items=[])
     mocker.patch(

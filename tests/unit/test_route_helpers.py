@@ -1,7 +1,7 @@
 import pytest
 from types import SimpleNamespace
 
-from maestro.routes.lezione import _activity_url
+from maestro.lezione.service import activity_url as _activity_url
 from maestro.routes.profilo import _build_grammar_by_level, _build_cf_by_level
 
 

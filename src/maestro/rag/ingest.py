@@ -2,7 +2,6 @@ import json
 import asyncio
 
 from pathlib import Path
-from sentence_transformers import SentenceTransformer
 from markdownify import markdownify
 from bs4 import BeautifulSoup
 import re
@@ -11,12 +10,9 @@ from pymongo import AsyncMongoClient
 from maestro.models import ItalianChunk
 from maestro.config import settings
 from maestro.db import init_db, init_indices
+from maestro.rag.retrieve import get_model
 
 ENRICHMENT_FILE = Path(__file__).parent.parent / "data/chunk_enrichment.json"
-
-
-# Set up the embedder
-model = SentenceTransformer("intfloat/multilingual-e5-large")
 
 
 BOOK_DIR = Path(__file__).parent.parent / "data/book_contents/OEBPS/Text"
@@ -249,7 +245,7 @@ async def ingest_grammar_rules(client):
         for c in all_chunks
     ]
 
-    embeddings = model.encode(texts, batch_size=64, show_progress_bar=True)
+    embeddings = get_model().encode(texts, batch_size=64, show_progress_bar=True)
 
     chunks = []
     for chunk, embedding in zip(all_chunks, embeddings):

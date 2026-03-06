@@ -22,12 +22,12 @@ def _make_item(prompt: str, correct_answer: str) -> MagicMock:
 
 @pytest.fixture(autouse=True)
 def seed_cache_for_scoring():
-    """Seed analyzer cache with only the GPs referenced in the scoring fixtures.
+    """Seed taxonomy cache with only the GPs referenced in the scoring fixtures.
 
     Using the full 231-GP list makes the grammar_code_list section of the
     score_multi_item_drill prompt enormous and degrades model accuracy.
     """
-    import maestro.learning.analyzer as analyzer_module
+    from maestro import taxonomy
 
     cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())
     codes = {c["grammar_point_code"] for c in cases}
@@ -35,20 +35,18 @@ def seed_cache_for_scoring():
     gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
     relevant = [g for g in gps if g["code"] in codes]
 
-    original = analyzer_module._grammar_points_cache[:]
-    analyzer_module._grammar_points_cache = [SimpleNamespace(**g) for g in relevant]
-    analyzer_module._student_level = "A1"
+    taxonomy.seed(gps=[SimpleNamespace(**g) for g in relevant])
 
     yield
 
-    analyzer_module._grammar_points_cache = original
+    taxonomy.invalidate()
 
 
 @pytest.mark.llm_eval
 async def test_scoring_accuracy(db, record_eval):
     """Measure accuracy of fill_blank and error_correction scoring against golden cases."""
     import json as _json
-    from maestro.learning.analyzer import score_multi_item_drill
+    from maestro.learning.scorer import score_multi_item_drill
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())

@@ -14,7 +14,6 @@ import json
 import logging
 import random
 import time
-from datetime import date
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -30,8 +29,6 @@ from maestro.models import (
     GeneratedDrill,
     DrillItem,
     DrillTemplate,
-    UserVocabularyCard,
-    VocabularyWord,
     CommunicativeFunction,
 )
 from maestro.config import settings
@@ -40,12 +37,17 @@ from maestro.profile import get_profile
 from maestro.prompts import planner as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json, utcnow
 from maestro.rag.retrieve import get_chunks_for_refs
+from maestro.lezione.selection import (
+    pick_grammar_points,
+    pick_comm_functions,
+    get_past_topics,
+    fill_vocab_cards,
+)
 
 logger = logging.getLogger(__name__)
 
 _READING_WORD_COUNT = {"A1": 200, "A2": 300, "B1": 400, "B2": 500}
 _READING_QUESTION_COUNT = 5
-MIN_VOCAB = 5
 
 
 # ---------------------------------------------------------------------------
@@ -85,96 +87,8 @@ def _allocate_slots(duration_minutes: int) -> dict[str, int]:
 
 
 # ---------------------------------------------------------------------------
-# Grammar point selection
-# ---------------------------------------------------------------------------
-
-
-async def _pick_grammar_points(
-    profile: Optional[LearningProfile],
-    cefr_level: str,
-    count: int,
-) -> list[GrammarPoint]:
-    """Pick grammar points to practise, prioritising weakest within level."""
-    candidates = await GrammarPoint.find(
-        {"cefr_level": cefr_level}
-    ).to_list()
-    if not candidates:
-        logger.warning(f"[planner] no grammar points at level {cefr_level}, using all")
-        candidates = await GrammarPoint.find_all().to_list()
-
-    error_counts: dict = profile.grammar_error_counts if profile else {}
-    correct_counts: dict = profile.grammar_correct_counts if profile else {}
-
-    def _score(gp: GrammarPoint) -> float:
-        total = correct_counts.get(gp.code, 0) + error_counts.get(gp.code, 0)
-        error_rate = error_counts.get(gp.code, 0) / max(1, total)
-        return -error_rate + random.uniform(0, 0.1)
-
-    candidates.sort(key=_score)
-    picked = candidates[:count]
-    logger.debug(f"[planner] _pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}")
-    return picked
-
-
-# ---------------------------------------------------------------------------
-# Communicative function selection
-# ---------------------------------------------------------------------------
-
-
-async def _pick_comm_functions(
-    profile: Optional[LearningProfile],
-    cefr_level: str,
-    count: int,
-    preferred_codes: list[str] = [],
-) -> list[CommunicativeFunction]:
-    """Pick CFs at or below the current level.
-
-    If preferred_codes are given (from the lesson topic), matching CFs are
-    returned first. Falls back to least-practised ordering.
-    """
-    level_idx = CEFR_ORDER.index(cefr_level) if cefr_level in CEFR_ORDER else 0
-    eligible_levels = CEFR_ORDER[: level_idx + 1]
-    candidates = await CommunicativeFunction.find(
-        {"cefr_level": {"$in": eligible_levels}}
-    ).to_list()
-    if not candidates:
-        logger.warning(f"[planner] no comm functions found for levels {eligible_levels}")
-        return []
-
-    fn_counts: dict = profile.functions_counts if profile else {}
-    preferred_set = set(preferred_codes)
-
-    def _score(cf: CommunicativeFunction) -> tuple:
-        # Preferred CFs sort first, then least-practised
-        not_preferred = cf.code not in preferred_set
-        usage = fn_counts.get(cf.code, 0) + random.uniform(0, 0.5)
-        return (not_preferred, usage)
-
-    candidates.sort(key=_score)
-    picked = candidates[:count]
-    logger.debug(
-        f"[planner] _pick_comm_functions: {len(candidates)} candidates, "
-        f"preferred={preferred_codes} → picked {[c.code for c in picked]}"
-    )
-    return picked
-
-
-# ---------------------------------------------------------------------------
 # Topic generation
 # ---------------------------------------------------------------------------
-
-
-async def _get_past_topics(n: int = 10) -> list[LessonTopic]:
-    """Return the topics of the last n completed lessons, most recent first."""
-    lessons = (
-        await Lesson.find(Lesson.status == "completed")
-        .sort(-Lesson.created_at)
-        .limit(n)
-        .to_list()
-    )
-    topics = [l.topic for l in lessons if l.topic is not None]
-    logger.debug(f"[planner] past topics ({len(topics)}): {[t.title for t in topics]}")
-    return topics
 
 
 async def generate_topic(
@@ -260,47 +174,6 @@ async def generate_topic(
     fallback_title = hint or (past_topics[0].title if past_topics else "vita quotidiana")
     logger.warning(f"[planner] generate_topic using fallback title: {fallback_title!r}")
     return LessonTopic(title=fallback_title, description=fallback_title, cf_codes=[], depth=1)
-
-
-# ---------------------------------------------------------------------------
-# Vocab card filling (ensures minimum cards even when none are due)
-# ---------------------------------------------------------------------------
-
-
-async def _fill_vocab_cards(vocab_count: int, cefr_level: str) -> list[UserVocabularyCard]:
-    """Return up to vocab_count cards due today; introduce new words if too few due."""
-    due = await UserVocabularyCard.find(
-        {"next_review": {"$lte": date.today()}}
-    ).limit(vocab_count).to_list()
-
-    if len(due) < min(MIN_VOCAB, vocab_count):
-        existing_word_ids = set()
-        for c in due:
-            # word may be a Link; resolve the id
-            ref = c.word
-            if hasattr(ref, "ref"):
-                existing_word_ids.add(ref.ref.id)
-            elif hasattr(ref, "id"):
-                existing_word_ids.add(ref.id)
-
-        candidates = await VocabularyWord.find({"cefr_level": cefr_level}).to_list()
-        new_words = [w for w in candidates if w.id not in existing_word_ids]
-        random.shuffle(new_words)
-        needed = min(vocab_count, MIN_VOCAB) - len(due)
-        new_cards = [
-            UserVocabularyCard(
-                word=w,
-                discovered_at=utcnow(),
-                next_review=date.today(),
-            )
-            for w in new_words[:needed]
-        ]
-        if new_cards:
-            await UserVocabularyCard.insert_many(new_cards)
-            due.extend(new_cards)
-            logger.info(f"[planner] _fill_vocab_cards: introduced {len(new_cards)} new words")
-
-    return due[:vocab_count]
 
 
 # ---------------------------------------------------------------------------
@@ -482,7 +355,7 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
     if vocab_count > 0:
-        due_cards = await _fill_vocab_cards(vocab_count, cefr_level)
+        due_cards = await fill_vocab_cards(vocab_count, cefr_level)
         if due_cards:
             activities.append(LessonActivity(
                 type="vocab_review",
@@ -522,6 +395,26 @@ async def generate_lesson_background(
     grammar_codes: list[str],
 ) -> None:
     """Generate topic, grammar, reading, drills, speaking, writing and append to lesson."""
+    try:
+        await _generate_lesson_background(lesson_id, duration_minutes, hint, grammar_codes)
+    except Exception:
+        logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
+        try:
+            lesson = await Lesson.get(lesson_id)
+            if lesson and lesson.generating:
+                lesson.generating = False
+                await lesson.save()
+        except Exception:
+            logger.exception(f"[planner] failed to clear generating flag for lesson {lesson_id}")
+        raise
+
+
+async def _generate_lesson_background(
+    lesson_id,
+    duration_minutes: int,
+    hint: str,
+    grammar_codes: list[str],
+) -> None:
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
 
@@ -533,7 +426,7 @@ async def generate_lesson_background(
     # --- Generate topic ---
     client = get_async_client()
     all_cfs = await CommunicativeFunction.find_all().to_list()
-    past_topics = await _get_past_topics(10)
+    past_topics = await get_past_topics(10)
     lesson_topic = await generate_topic(profile, past_topics, all_cfs, hint=hint, client=client)
 
     # --- Resolve grammar point pool ---
@@ -560,7 +453,7 @@ async def generate_lesson_background(
         if selected_gps:
             grammar_gps = selected_gps[:grammar_count]
         else:
-            grammar_gps = await _pick_grammar_points(profile, cefr_level, grammar_count)
+            grammar_gps = await pick_grammar_points(profile, cefr_level, grammar_count)
 
         for gp in grammar_gps:
             explanation = await GrammarPointExplanation.find_one(
@@ -587,7 +480,7 @@ async def generate_lesson_background(
         if selected_gps:
             gps_for_drills = random.choices(selected_gps, k=drill_count)
         else:
-            gps_for_drills = await _pick_grammar_points(profile, cefr_level, drill_count)
+            gps_for_drills = await pick_grammar_points(profile, cefr_level, drill_count)
         all_templates = await DrillTemplate.find_all().to_list()
         for gp in gps_for_drills:
             matching = [t for t in all_templates if t.grammar_point_code == gp.code]
@@ -613,7 +506,7 @@ async def generate_lesson_background(
     speaking_count = slots.get("speaking", 0)
     speaking_cfs: list[CommunicativeFunction] = []
     if speaking_count > 0:
-        speaking_cfs = await _pick_comm_functions(
+        speaking_cfs = await pick_comm_functions(
             profile, cefr_level, speaking_count, preferred_codes=lesson_topic.cf_codes
         )
     logger.info(f"[planner] speaking_cfs: {[c.code for c in speaking_cfs]}")
