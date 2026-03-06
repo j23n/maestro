@@ -38,7 +38,12 @@ _LEVEL_GUIDANCE_KEYS = {
 
 
 def _target_levels(gp: GrammarPoint) -> tuple[str, ...]:
-    """Return the levels this grammar point needs explanations for."""
+    """Return the levels this grammar point needs explanations for.
+
+    A0 GPs are formulaic — their description IS the explanation, so skip them.
+    """
+    if gp.cefr_level == "A0":
+        return ()
     idx = CEFR_ORDER.index(gp.cefr_level) if gp.cefr_level in CEFR_ORDER else 0
     return tuple(CEFR_ORDER[idx:])
 

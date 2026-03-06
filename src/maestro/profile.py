@@ -22,6 +22,6 @@ async def get_or_create_profile(student_id: PydanticObjectId) -> LearningProfile
 
 
 async def get_cefr_level(student_id: PydanticObjectId) -> str:
-    """Return the student's current CEFR estimate, defaulting to 'A1'."""
+    """Return the student's current CEFR estimate, defaulting to 'A0'."""
     profile = await get_profile(student_id)
-    return profile.cefr_estimate if profile else "A1"
+    return profile.cefr_estimate if profile else "A0"

@@ -8,6 +8,9 @@
 
   <form method="post" action="/lezione/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='Preparazione…'">
 
+    {% if cefr == "A0" %}
+    <input type="hidden" name="duration" value="20">
+    {% else %}
     <div class="form-section">
       <label class="section-label">Quanto tempo hai?</label>
       <div class="duration-options">
@@ -34,6 +37,7 @@
         </span>
       </div>
     </div>
+    {% endif %}
 
     <button class="btn-start" type="submit">Inizia la lezione</button>
     <p class="loading-hint">La preparazione richiede qualche secondo.</p>

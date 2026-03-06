@@ -24,6 +24,8 @@ from maestro.models import (
     DrillTemplate,
     GrammarPoint,
     GrammarPointExplanation,
+    Sense,
+    VocabularyWord,
 )
 from maestro.utils import DATA_DIR
 
@@ -101,25 +103,57 @@ async def upsert_drill_templates(grammar_points: list[GrammarPoint]) -> None:
 
 
 async def seed_scenarios() -> None:
-    """Upsert CurriculumScenario documents from scenarios_a1.yaml."""
-    scenario_file = DATA_DIR / "scenarios_a1.yaml"
-    if not scenario_file.exists():
-        logger.warning(f"Scenario file not found: {scenario_file}")
+    """Upsert CurriculumScenario documents from scenario YAML files."""
+    total = 0
+    for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
+        scenario_file = DATA_DIR / filename
+        if not scenario_file.exists():
+            logger.warning(f"Scenario file not found: {scenario_file}")
+            continue
+
+        with open(scenario_file) as f:
+            data = yaml.safe_load(f)
+
+        scenarios = data.get("scenarios", [])
+        for item in scenarios:
+            existing = await CurriculumScenario.find_one({"slug": item["slug"]})
+            if existing:
+                for key, val in item.items():
+                    setattr(existing, key, val)
+                await existing.save()
+            else:
+                await CurriculumScenario(**item).insert()
+        total += len(scenarios)
+    logger.info(f"Scenarios: upserted {total} records")
+
+
+async def seed_a0_vocab() -> None:
+    """Upsert A0 vocabulary words from vocab_a0.json."""
+    vocab_file = DATA_DIR / "vocab_a0.json"
+    if not vocab_file.exists():
+        logger.warning(f"A0 vocab file not found: {vocab_file}")
         return
 
-    with open(scenario_file) as f:
-        data = yaml.safe_load(f)
+    with open(vocab_file) as f:
+        items = json.load(f)
 
-    scenarios = data.get("scenarios", [])
-    for item in scenarios:
-        existing = await CurriculumScenario.find_one({"slug": item["slug"]})
+    count = 0
+    for item in items:
+        existing = await VocabularyWord.find_one({"word": item["word"]})
         if existing:
-            for key, val in item.items():
-                setattr(existing, key, val)
+            existing.cefr_level = item.get("cefr_level", "A0")
+            existing.part_of_speech = item.get("part_of_speech", existing.part_of_speech)
             await existing.save()
         else:
-            await CurriculumScenario(**item).insert()
-    logger.info(f"Scenarios: upserted {len(scenarios)} records")
+            senses = [Sense(**s) for s in item.get("senses", [])]
+            await VocabularyWord(
+                word=item["word"],
+                part_of_speech=item.get("part_of_speech", ""),
+                cefr_level=item.get("cefr_level", "A0"),
+                senses=senses,
+            ).insert()
+            count += 1
+    logger.info(f"A0 vocab: {count} new words inserted ({len(items)} total)")
 
 
 async def ingest():
@@ -139,6 +173,9 @@ async def ingest():
 
     logger.info("=== Seeding curriculum scenarios ===")
     await seed_scenarios()
+
+    logger.info("=== Seeding A0 vocabulary ===")
+    await seed_a0_vocab()
 
     logger.info("Done.")
 

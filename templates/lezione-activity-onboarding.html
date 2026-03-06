@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ activity.title }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="activity-container">
+  {% include "lezione-progress.html" %}
+
+  <div class="card">
+    <div class="card-label">Onboarding</div>
+    <h2>{{ activity.title }}</h2>
+
+    <div id="onboarding-form">
+      <p class="onboarding-prompt">{{ activity.content }}</p>
+      <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/onboarding-submit"
+            hx-target="#onboarding-form"
+            hx-swap="outerHTML">
+        <div class="field">
+          <input type="text" name="answer" placeholder="Type your answer..."
+                 autofocus required class="onboarding-input">
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="continue-btn">Submit</button>
+          <a class="skip-link"
+             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+             hx-target="body"
+             hx-push-url="true"
+             href="#">Skip</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

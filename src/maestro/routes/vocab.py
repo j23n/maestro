@@ -40,7 +40,8 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         await card.fetch_all_links()
     cards = [c for c in cards if c.word.cefr_level in visible_levels]
 
-    cefr_levels = ["A1", "A2", "B1", "B2"]
+    from maestro.utils import CEFR_ORDER
+    cefr_levels = CEFR_ORDER
     stats = {
         "total": len(cards),
         "learned": sum(1 for c in cards if c.interval >= 14),

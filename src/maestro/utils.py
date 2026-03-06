@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-CEFR_ORDER = ["A1", "A2", "B1", "B2"]
+CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
 def cefr_levels_up_to(level: str) -> list[str]:

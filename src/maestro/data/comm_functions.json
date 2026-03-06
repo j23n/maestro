@@ -1,5 +1,187 @@
 [
   {
+    "code": "a0_salutare",
+    "label": "Salutare",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ciao!",
+      "Buongiorno!",
+      "Buonasera!"
+    ],
+    "examples": [
+      "Ciao!",
+      "Buongiorno, signora!"
+    ],
+    "description": "Greeting someone informally or formally"
+  },
+  {
+    "code": "a0_congedarsi",
+    "label": "Congedarsi",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A0",
+    "patterns": [
+      "Arrivederci!",
+      "Ciao!",
+      "A presto!"
+    ],
+    "examples": [
+      "Arrivederci!",
+      "Ciao, a presto!"
+    ],
+    "description": "Saying goodbye"
+  },
+  {
+    "code": "a0_ringraziare",
+    "label": "Ringraziare",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A0",
+    "patterns": [
+      "Grazie!",
+      "Grazie mille!"
+    ],
+    "examples": [
+      "Grazie!",
+      "Grazie mille!"
+    ],
+    "description": "Thanking someone"
+  },
+  {
+    "code": "a0_presentarsi",
+    "label": "Presentarsi",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A0",
+    "patterns": [
+      "Mi chiamo...",
+      "Sono..."
+    ],
+    "examples": [
+      "Mi chiamo Marco.",
+      "Sono Maria."
+    ],
+    "description": "Introducing yourself by name"
+  },
+  {
+    "code": "a0_chiedere_cortesemente",
+    "label": "Chiedere cortesemente",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Per favore...",
+      "Vorrei..."
+    ],
+    "examples": [
+      "Un caffe, per favore.",
+      "Vorrei un'acqua."
+    ],
+    "description": "Making a polite request"
+  },
+  {
+    "code": "a0_rispondere_si_no",
+    "label": "Rispondere si/no",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Si.",
+      "No.",
+      "No, grazie."
+    ],
+    "examples": [
+      "Si!",
+      "No, grazie."
+    ],
+    "description": "Answering yes or no"
+  },
+  {
+    "code": "a0_identificare",
+    "label": "Identificare oggetti",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Questo e...",
+      "Che cos'e?"
+    ],
+    "examples": [
+      "Che cos'e questo?",
+      "Questo e un libro."
+    ],
+    "description": "Identifying objects"
+  },
+  {
+    "code": "a0_esprimere_gusti",
+    "label": "Esprimere gusti",
+    "macro_category": "interagire_opinioni_atteggiamenti",
+    "cefr_level": "A0",
+    "patterns": [
+      "Mi piace...",
+      "Non mi piace..."
+    ],
+    "examples": [
+      "Mi piace il caffe.",
+      "Non mi piace il te."
+    ],
+    "description": "Expressing likes and dislikes"
+  },
+  {
+    "code": "a0_chiedere_dove",
+    "label": "Chiedere dove",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Dov'e...?",
+      "Dove...?"
+    ],
+    "examples": [
+      "Dov'e il bagno?",
+      "Dove sei?"
+    ],
+    "description": "Asking where something/someone is"
+  },
+  {
+    "code": "a0_scusarsi",
+    "label": "Scusarsi",
+    "macro_category": "interagire_rituali_sociali",
+    "cefr_level": "A0",
+    "patterns": [
+      "Scusi!",
+      "Scusa!",
+      "Mi dispiace."
+    ],
+    "examples": [
+      "Scusi, dov'e il bagno?",
+      "Mi dispiace!"
+    ],
+    "description": "Apologizing or getting attention"
+  },
+  {
+    "code": "a0_dire_nome",
+    "label": "Dire il proprio nome",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Mi chiamo...",
+      "Il mio nome e..."
+    ],
+    "examples": [
+      "Mi chiamo Anna."
+    ],
+    "description": "Stating your name"
+  },
+  {
+    "code": "a0_contare",
+    "label": "Contare",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "uno, due, tre..."
+    ],
+    "examples": [
+      "Due caffe, per favore.",
+      "Tre euro."
+    ],
+    "description": "Counting and using numbers"
+  },
+  {
     "code": "interag_identi_a1",
     "label": "Identificare",
     "macro_category": "interagire_informazioni",

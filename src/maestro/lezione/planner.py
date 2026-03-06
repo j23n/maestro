@@ -37,7 +37,7 @@ from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
 from maestro.prompts import planner as _prompts
-from maestro.utils import parse_llm_json, utcnow
+from maestro.utils import DATA_DIR, parse_llm_json, utcnow
 from maestro.lezione.selection import (
     pick_scenario,
     pick_grammar_points,
@@ -269,11 +269,29 @@ async def prepare_lesson_immediate(
 
     Sets status=active, generating=True. Returns the inserted Lesson.
     """
-    cefr_level = profile.cefr_estimate if profile else "A1"
+    cefr_level = profile.cefr_estimate if profile else "A0"
+
+    activities: list[LessonActivity] = []
+
+    # A0 lessons are fully static — skip vocab review
+    if cefr_level == "A0":
+        lesson = Lesson(
+            student_id=student_id,
+            duration_minutes=duration_minutes,
+            cefr_at_start=cefr_level,
+            status="active",
+            started_at=utcnow(),
+            generating=True,
+            activities=activities,
+            current_index=0,
+        )
+        await lesson.insert()
+        logger.info(f"[planner] prepare_lesson_immediate (A0): lesson={lesson.id}")
+        return lesson
+
     slots = _allocate_slots(duration_minutes)
     vocab_count = slots.get("vocab_review", 0)
 
-    activities: list[LessonActivity] = []
     if vocab_count > 0:
         due_cards = await fill_vocab_cards(vocab_count, cefr_level, student_id=student_id)
         if due_cards:
@@ -309,6 +327,128 @@ async def prepare_lesson_immediate(
 # ---------------------------------------------------------------------------
 
 
+async def _generate_a0_lesson_background(
+    lesson_id,
+    duration_minutes: int,
+) -> None:
+    """Generate a static A0 lesson from pre-authored YAML content (no LLM calls)."""
+    import yaml
+
+    lesson = await Lesson.get(lesson_id)
+    if lesson is None:
+        logger.error(f"[planner] _generate_a0_lesson_background: lesson {lesson_id} not found")
+        return
+
+    profile = await get_profile(lesson.student_id) if lesson.student_id else None
+    scenario, depth = await pick_scenario(profile, "A0")
+
+    # Load static content
+    lessons_file = DATA_DIR / "a0_lessons.yaml"
+    with open(lessons_file) as f:
+        all_lessons = yaml.safe_load(f)
+
+    lesson_data = all_lessons.get(scenario.slug)
+    if not lesson_data:
+        logger.error(f"[planner] No static content for A0 scenario: {scenario.slug}")
+        lesson.generating = False
+        await lesson.save()
+        return
+
+    topic_title = lesson_data.get("topic_title", scenario.label)
+    topic_description = lesson_data.get("topic_description", scenario.description)
+    overview = lesson_data.get("overview", "")
+
+    new_activities: list[LessonActivity] = []
+    for act_data in lesson_data.get("activities", []):
+        act_type = act_data["type"]
+
+        if act_type == "grammar":
+            new_activities.append(LessonActivity(
+                type="grammar",
+                title=act_data.get("title", ""),
+                description=act_data.get("description", ""),
+                content=act_data.get("content", ""),
+                why_important=act_data.get("why_important"),
+            ))
+
+        elif act_type == "onboarding":
+            new_activities.append(LessonActivity(
+                type="onboarding",
+                title=act_data.get("title", ""),
+                description=act_data.get("description", ""),
+                content=act_data.get("content", ""),
+                profile_field=act_data.get("profile_field"),
+                response_template=act_data.get("response_template"),
+            ))
+
+        elif act_type == "drill":
+            # Create a GeneratedDrill doc from static items
+            gp_code = act_data.get("grammar_point_code", "a0_saluti")
+            exercise_type = act_data.get("exercise_type", "fill_blank")
+            items = [
+                DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
+                for it in act_data.get("items", [])
+            ]
+            # Find or create a template
+            template = await DrillTemplate.find_one({
+                "grammar_point_code": gp_code,
+                "exercise_type": exercise_type,
+            })
+            if not template:
+                template = DrillTemplate(
+                    grammar_point_code=gp_code,
+                    cefr_level="A0",
+                    exercise_type=exercise_type,
+                )
+                await template.insert()
+
+            drill = GeneratedDrill(
+                student_id=lesson.student_id,
+                template=template,
+                grammar_point_code=gp_code,
+                cefr_level="A0",
+                exercise_type=exercise_type,
+                prompt="",
+                items=items,
+                scenario_slug=scenario.slug,
+            )
+            await drill.insert()
+            new_activities.append(LessonActivity(
+                type="drill",
+                title=act_data.get("title", f"Esercizio: {gp_code}"),
+                description=act_data.get("description", exercise_type),
+                drill_id=drill.id,
+            ))
+
+        elif act_type == "reading":
+            new_activities.append(LessonActivity(
+                type="reading",
+                title=act_data.get("title", "Lettura"),
+                description=act_data.get("description", ""),
+                content=act_data.get("content", ""),
+                questions=act_data.get("questions", []),
+                correct_answers=act_data.get("correct_answers", []),
+            ))
+
+    # Update lesson
+    lesson = await Lesson.get(lesson_id)
+    if lesson is None:
+        return
+    lesson.activities.extend(new_activities)
+    lesson.overview = overview
+    lesson.scenario_slug = scenario.slug
+    lesson.scenario_depth = depth
+    lesson.topic_title = topic_title
+    lesson.topic_description = topic_description
+    lesson.generating = False
+    await lesson.save()
+
+    logger.info(
+        f"[planner] _generate_a0_lesson_background complete: "
+        f"scenario={scenario.slug}, {len(new_activities)} activities"
+    )
+
+
 async def generate_lesson_background(
     lesson_id,
     duration_minutes: int,
@@ -340,7 +480,11 @@ async def _generate_lesson_background(
         logger.error(f"[planner] generate_lesson_background: lesson {lesson_id} not found")
         return
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
-    cefr_level = profile.cefr_estimate if profile else "A1"
+    cefr_level = profile.cefr_estimate if profile else "A0"
+
+    if cefr_level == "A0":
+        return await _generate_a0_lesson_background(lesson_id, duration_minutes)
+
     slots = _allocate_slots(duration_minutes)
     logger.info(f"[planner] slot allocation: {slots}")
 

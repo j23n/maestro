@@ -55,9 +55,14 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
     grammar_by_level = _build_grammar_by_level(grammar_points, profile)
     cf_by_level = _build_cf_by_level(comm_functions, profile)
 
-    # Scenario map
-    cefr = profile.cefr_estimate if profile else "A1"
+    # Scenario map — show current CEFR level scenarios
+    cefr = profile.cefr_estimate if profile else "A0"
     scenarios = await CurriculumScenario.find({"cefr_level": cefr}).to_list()
+    # Sort A0 by sequence, others by label
+    if cefr == "A0":
+        scenarios.sort(key=lambda s: s.sequence or 0)
+    else:
+        scenarios.sort(key=lambda s: s.label)
     progress = profile.scenario_progress if profile else {}
     _no_progress = ScenarioProgress()
     scenario_map = [

@@ -236,7 +236,7 @@ async def analyze_lesson(lesson: "Lesson") -> None:
     try:
         await taxonomy.ensure_loaded()
         profile = await get_profile(lesson.student_id) if lesson.student_id else None
-        cefr_level = profile.cefr_estimate if profile else "A1"
+        cefr_level = profile.cefr_estimate if profile else "A0"
         client = get_async_client()
 
         # Phase A: drill outcomes (high-confidence, no LLM)
