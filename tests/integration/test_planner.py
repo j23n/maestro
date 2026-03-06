@@ -134,6 +134,33 @@ async def test_pick_scenario_prefers_unvisited(db):
 
 
 @pytest.mark.integration
+async def test_pick_scenario_cooldown_with_naive_datetime(db):
+    """last_visited as a naive datetime (as returned by MongoDB without tz_aware)
+    must not crash when compared with timezone-aware utcnow()."""
+    from datetime import datetime, timedelta
+    from maestro.lezione.selection import pick_scenario
+
+    s = CurriculumScenario(
+        slug="recent", label="R", description="", cefr_level="A1",
+        cf_codes=[], gp_codes=[], depths=["d1", "d2", "d3"],
+    )
+    await s.insert()
+
+    # Simulate a naive datetime as MongoDB would return without tz_aware codec
+    naive_last_visited = datetime.utcnow() - timedelta(minutes=5)
+    profile = LearningProfile(
+        scenario_progress={"recent": ScenarioProgress(
+            depth=1, lesson_count=1, last_visited=naive_last_visited,
+        )},
+    )
+    await profile.insert()
+
+    # Should not raise "can't subtract offset-naive and offset-aware datetimes"
+    scenario, depth = await pick_scenario(profile, "A1")
+    assert scenario.slug == "recent"
+
+
+@pytest.mark.integration
 async def test_pick_scenario_weak_gp_boost(db):
     """Scenarios with weak GP overlap should get a boost."""
     from maestro.lezione.selection import pick_scenario

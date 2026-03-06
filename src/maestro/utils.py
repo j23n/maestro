@@ -12,6 +12,13 @@ def utcnow() -> datetime:
     """Timezone-aware UTC now. Drop-in replacement for deprecated datetime.utcnow()."""
     return datetime.now(timezone.utc)
 
+
+def ensure_utc(dt: datetime) -> datetime:
+    """Ensure a datetime is timezone-aware UTC. Assumes naive datetimes are UTC."""
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt
+
 # Absolute path to src/maestro/data/
 DATA_DIR = Path(__file__).parent / "data"
 
