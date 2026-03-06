@@ -20,7 +20,6 @@ from maestro.models import (
     GeneratedDrill,
     GrammarPoint,
     LearningEvent,
-    LearningProfile,
 )
 from maestro.learning.profile import update_profile
 from maestro.config import settings
