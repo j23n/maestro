@@ -8,7 +8,10 @@ from maestro.models import (
     GeneratedDrill,
     DrillTemplate,
     DrillItem,
+    GrammarPoint,
+    LearningProfile,
 )
+from maestro.utils import utcnow
 
 
 def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> Lesson:
@@ -294,3 +297,111 @@ async def test_collect_drill_gp_outcomes_no_result(db):
     assert "GP_003" not in correct
     assert "GP_003" not in errors
     assert "GP_003" in all_codes  # still in all_codes
+
+
+# ---------------------------------------------------------------------------
+# Lesson completion flow tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+async def completed_lesson(db):
+    """A lesson with mixed drill results — some correct, some incorrect, plus writing."""
+    gp_ok = GrammarPoint(code="GP_OK", label="Presente", cefr_level="A1", category="test", description="Ok")
+    gp_bad = GrammarPoint(code="GP_BAD", label="Passato", cefr_level="A1", category="test", description="Bad")
+    await gp_ok.insert()
+    await gp_bad.insert()
+
+    template = DrillTemplate(grammar_point_code="GP_OK", cefr_level="A1", exercise_type="fill_blank")
+    await template.insert()
+
+    drill_ok = GeneratedDrill(
+        template=template, grammar_point_code="GP_OK", cefr_level="A1",
+        exercise_type="fill_blank", prompt="", topic_used="test",
+    )
+    drill_bad = GeneratedDrill(
+        template=template, grammar_point_code="GP_BAD", cefr_level="A1",
+        exercise_type="fill_blank", prompt="", topic_used="test",
+    )
+    await drill_ok.insert()
+    await drill_bad.insert()
+
+    lesson = Lesson(
+        status="completed",
+        duration_minutes=10,
+        started_at=utcnow(),
+        completed_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type="drill", title="D1", description="", duration_minutes=3,
+                status="completed", drill_id=drill_ok.id, result={"correct": True},
+            ),
+            LessonActivity(
+                type="drill", title="D2", description="", duration_minutes=3,
+                status="completed", drill_id=drill_bad.id, result={"correct": False},
+            ),
+            LessonActivity(
+                type="writing", title="W", description="", duration_minutes=5,
+                status="completed", result={"student_answer": "Ho scritto."},
+            ),
+        ],
+        current_index=2,
+    )
+    await lesson.insert()
+    return lesson
+
+
+@pytest.mark.integration
+async def test_get_weak_grammar_points(db, completed_lesson):
+    """Should return grammar points for drills the student got wrong."""
+    from maestro.lezione.service import get_weak_grammar_points
+
+    weak = await get_weak_grammar_points(completed_lesson)
+    codes = {gp.code for gp in weak}
+    assert "GP_BAD" in codes
+    assert "GP_OK" not in codes
+
+
+@pytest.mark.integration
+async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
+    """Feedback should return a non-empty string."""
+    from maestro.lezione.service import generate_lesson_feedback
+
+    mock_response = MagicMock(content=[MagicMock(text="Great work on present tense drills!")])
+    mock_client = AsyncMock()
+    mock_client.messages.create.return_value = mock_response
+
+    with patch("maestro.lezione.service.get_async_client", return_value=mock_client):
+        feedback = await generate_lesson_feedback(completed_lesson, [])
+
+    assert isinstance(feedback, str)
+    assert len(feedback) > 0
+
+
+@pytest.mark.integration
+async def test_analyze_lesson_creates_learning_event(db, completed_lesson):
+    """analyze_lesson should create a LearningEvent and update the profile."""
+    from maestro.learning.lesson_analyzer import analyze_lesson
+    from maestro.models import LearningEvent
+    from maestro import taxonomy
+
+    gps = await GrammarPoint.find_all().to_list()
+    taxonomy.seed(gps=gps, cfs=[])
+
+    profile = LearningProfile(cefr_estimate="A1")
+    await profile.insert()
+
+    gp_response = MagicMock(content=[MagicMock(text='{"grammar_correct": [], "grammar_errors": []}')])
+    cf_stage1_response = MagicMock(content=[MagicMock(text='{"categories": []}')])
+
+    mock_client = AsyncMock()
+    mock_client.messages.create.side_effect = [gp_response, cf_stage1_response]
+
+    with patch("maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client):
+        await analyze_lesson(completed_lesson)
+
+    events = await LearningEvent.find_all().to_list()
+    assert len(events) == 1
+    assert "GP_OK" in events[0].grammar_correct
+    assert "GP_BAD" in events[0].grammar_errors
