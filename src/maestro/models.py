@@ -21,7 +21,6 @@ class CurriculumScenario(Document):
 
 class StudentPersona(BaseModel):
     tags: List[str] = []          # ["university student", "wine enthusiast", ...]
-    freetext: str = ""            # optional free-form narrative
 
 
 class ScenarioProgress(BaseModel):

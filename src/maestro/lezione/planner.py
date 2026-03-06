@@ -116,14 +116,8 @@ async def _generate_lesson_content(
     ]
 
     # Persona
-    if profile and profile.persona:
-        persona_parts = []
-        if profile.persona.tags:
-            persona_parts.append(", ".join(profile.persona.tags))
-        if profile.persona.freetext:
-            persona_parts.append(profile.persona.freetext)
-        if persona_parts:
-            parts.append(f"Student persona: {'; '.join(persona_parts)}")
+    if profile and profile.persona and profile.persona.tags:
+        parts.append(f"Student persona: {', '.join(profile.persona.tags)}")
 
     if profile and profile.description:
         parts.append(f"Student profile: {profile.description}")

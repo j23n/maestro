@@ -119,11 +119,6 @@
           value="{{ profile.persona.tags | join(', ') if profile else '' }}"
           placeholder="studente universitario, appassionato di vino, Erasmus a Bologna">
       </div>
-      <div class="field">
-        <label for="freetext">Raccontaci di te (opzionale)</label>
-        <textarea id="freetext" name="freetext"
-          placeholder="Studio economia a Bologna. Amo il vino rosso e la storia romana...">{{ profile.persona.freetext if profile else '' }}</textarea>
-      </div>
       <button class="submit-btn" type="submit">Salva</button>
     </form>
   </div>
