@@ -8,8 +8,8 @@ from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
     UserVocabularyCard,
-    LearningProfile,
 )
+from maestro.profile import get_cefr_level
 from maestro.vocab.nlp import get_nlp
 
 
@@ -46,8 +46,7 @@ def _lemmatize(text: str) -> list[str]:
 
 
 async def _get_student_level() -> str:
-    profile = await LearningProfile.find_one()
-    return profile.cefr_estimate if profile else "A1"
+    return await get_cefr_level()
 
 
 async def discover(response_text: str, message=None) -> str:
