@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from maestro.db import init_db
-from maestro.vocab.discover import load_vocab
+from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import vocab, profilo, grammar, lezione
 
