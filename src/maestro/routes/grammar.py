@@ -13,8 +13,10 @@ router = APIRouter()
 
 @router.get("/grammar", response_class=HTMLResponse)
 async def grammar_index(request: Request, student: Student = Depends(get_current_student)):
-    gps = await GrammarPoint.find_all().to_list()
     student_level = await get_cefr_level(student.id)
+    visible_levels = CEFR_ORDER[:CEFR_ORDER.index(student_level) + 1] if student_level in CEFR_ORDER else CEFR_ORDER
+
+    gps = await GrammarPoint.find({"cefr_level": {"$in": visible_levels}}).to_list()
 
     # Load explanations for student's level, keyed by gp id
     explanations = await GrammarPointExplanation.find(
@@ -27,8 +29,6 @@ async def grammar_index(request: Request, student: Student = Depends(get_current
 
     # Build nested dict: level → category → [gp, ...]
     grouped: dict[str, dict[str, list]] = {}
-    for level in CEFR_ORDER:
-        grouped[level] = {}
     for gp in gps:
         grouped.setdefault(gp.cefr_level, {}).setdefault(gp.category, []).append(gp)
     for level in grouped:
@@ -38,7 +38,7 @@ async def grammar_index(request: Request, student: Student = Depends(get_current
     return templates.TemplateResponse(
         request=request,
         name="grammar-index.html",
-        context={"grouped": grouped, "titles": titles},
+        context={"grouped": grouped, "titles": titles, "student_level": student_level},
     )
 
 
@@ -48,12 +48,13 @@ async def grammar_detail(code: str, request: Request, student: Student = Depends
     if gp is None:
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
+    max_idx = CEFR_ORDER.index(student_level) if student_level in CEFR_ORDER else len(CEFR_ORDER) - 1
     all_expls = await GrammarPointExplanation.find(
         {"grammar_point.$id": gp.id}
     ).to_list()
-    by_level = {e.student_level: e for e in all_expls}
+    by_level = {e.student_level: e for e in all_expls if CEFR_ORDER.index(e.student_level) <= max_idx}
     available_levels = sorted(by_level.keys(), key=lambda l: CEFR_ORDER.index(l))
-    active_level = student_level if student_level in by_level else (available_levels[0] if available_levels else student_level)
+    active_level = student_level if student_level in by_level else (available_levels[-1] if available_levels else student_level)
 
     # Pre-render annotated markdown for each level
     panels: dict[str, dict] = {}

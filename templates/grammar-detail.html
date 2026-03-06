@@ -6,6 +6,9 @@
   <div class="gp-header">
     <div class="gp-level">{{ gp.cefr_level }}</div>
     <h1 class="gp-title" id="gp-title">{{ display_title }}</h1>
+    {% if gp.chunk_ref %}
+    <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link">Regola dal manuale</a>
+    {% endif %}
   </div>
 
   {% if available_levels %}

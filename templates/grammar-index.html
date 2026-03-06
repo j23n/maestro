@@ -8,14 +8,14 @@
   </div>
 
   <div class="gi-tabs">
-    {% for level in ["A1", "A2", "B1", "B2"] %}
-    <button class="gi-tab{% if loop.first %} active{% endif %}"
+    {% for level in grouped %}
+    <button class="gi-tab{% if level == student_level %} active{% endif %}"
             onclick="showGiLevel('{{ level }}', this)">{{ level }}</button>
     {% endfor %}
   </div>
 
-  {% for level in ["A1", "A2", "B1", "B2"] %}
-  <div class="gi-panel{% if loop.first %} active{% endif %}" id="gi-panel-{{ level }}">
+  {% for level in grouped %}
+  <div class="gi-panel{% if level == student_level %} active{% endif %}" id="gi-panel-{{ level }}">
     {% set cats = grouped.get(level, {}) %}
     {% for cat in cats | sort %}
     {% set points = cats[cat] %}
