@@ -13,6 +13,7 @@ from maestro.models import Student, VocabularyWord, VocabularyWordDefinition, Us
 from maestro.profile import get_cefr_level
 from maestro.utils import cefr_levels_up_to
 from maestro.vocab.generate_definitions import generate_definitions_for_word
+from maestro.vocab.query import get_word_definition
 from maestro.templates import templates
 from maestro.vocab.srs import review
 
@@ -20,22 +21,6 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 QUIZ_MODES = ("word", "definition", "translation")
-
-
-async def _get_word_def(word: VocabularyWord, student_id: PydanticObjectId) -> VocabularyWordDefinition | None:
-    """Load the student-level VocabularyWordDefinition for a word.
-
-    Falls back to A1 for A0 students (no dedicated A0 definitions exist).
-    """
-    level = await get_cefr_level(student_id)
-    wdef = await VocabularyWordDefinition.find_one(
-        {"word.$id": word.id, "student_level": level}
-    )
-    if wdef is None and level == "A0":
-        wdef = await VocabularyWordDefinition.find_one(
-            {"word.$id": word.id, "student_level": "A1"}
-        )
-    return wdef
 
 
 @router.get("/vocab", response_class=HTMLResponse)
@@ -137,7 +122,7 @@ async def vocab_practice(request: Request, student: Student = Depends(get_curren
             request=request, name="vocab-practice.html", context={"card": None, "mode": mode}
         )
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
-    word_def = await _get_word_def(card.word, student.id)
+    word_def = await get_word_definition(card.word, student_level)
     return templates.TemplateResponse(
         request=request, name="vocab-practice.html",
         context={"card": card, "mode": resolved_mode, "selected_mode": mode, "word_def": word_def},
@@ -150,7 +135,8 @@ async def vocab_reveal(card_id: PydanticObjectId, request: Request, student: Stu
     if card is None or card.student_id != student.id:
         raise HTTPException(403)
     await card.fetch_all_links()
-    word_def = await _get_word_def(card.word, student.id)
+    level = await get_cefr_level(student.id)
+    word_def = await get_word_definition(card.word, level)
     return templates.TemplateResponse(
         request=request, name="vocab-card-back.html",
         context={

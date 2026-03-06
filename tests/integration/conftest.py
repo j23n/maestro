@@ -40,6 +40,7 @@ async def test_app(db, student):
 def mock_analyzer_client(mocker):
     """Patches _client() in analyzer.py to return a MagicMock."""
     mock = mocker.MagicMock()
+    mock.messages.create = AsyncMock()
     mocker.patch("maestro.learning.analyzer._client", return_value=mock)
     return mock
 
@@ -48,6 +49,7 @@ def mock_analyzer_client(mocker):
 def mock_scorer_client(mocker):
     """Patches _client() in scorer.py to return a MagicMock."""
     mock = mocker.MagicMock()
+    mock.messages.create = AsyncMock()
     mocker.patch("maestro.learning.scorer._client", return_value=mock)
     return mock
 

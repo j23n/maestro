@@ -263,6 +263,7 @@ class LessonActivity(BaseModel):
     hint: Optional[str] = None                 # optional hint shown on request (drills)
     profile_field: Optional[str] = None        # for onboarding activities: "name", "persona_tags", "interests", "background", "goal"
     response_template: Optional[str] = None    # shown after onboarding submit, supports {answer} placeholder
+    grammar_point_code: Optional[str] = None
 
 
 class Lesson(Document):

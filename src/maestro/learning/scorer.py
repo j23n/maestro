@@ -11,7 +11,7 @@ import time
 
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_client
+from maestro.llm import get_async_client
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
 
@@ -21,7 +21,7 @@ _FALLBACK_ITEM = {"objective_correct": False, "objective_note": "", "grammar_err
 
 
 def _client():
-    return get_client()
+    return get_async_client()
 
 
 async def feedback_fill_blank(
@@ -52,7 +52,7 @@ async def feedback_fill_blank(
     try:
         logger.debug(f"[scorer] feedback_fill_blank prompt: {prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
@@ -93,7 +93,7 @@ async def evaluate_error_correction(
     try:
         logger.debug(f"[scorer] evaluate_error_correction prompt: {prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
@@ -168,7 +168,7 @@ async def score_multi_item_drill(
     try:
         logger.debug(f"[scorer] score_multi_item_drill prompt: {prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=4000,
             messages=[{"role": "user", "content": prompt}],
@@ -214,7 +214,7 @@ async def generate_writing_feedback(
     try:
         logger.debug(f"[scorer] generate_writing_feedback prompt: {llm_prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=512,
             messages=[{"role": "user", "content": llm_prompt}],
@@ -267,7 +267,7 @@ async def score_free_form_drill(
     try:
         logger.debug(f"[scorer] score_free_form_drill prompt: {llm_prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=512,
             messages=[{"role": "user", "content": llm_prompt}],
@@ -314,7 +314,7 @@ async def score_reading_answers(
     try:
         logger.debug(f"[scorer] score_reading_answers prompt: {prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=4000,
             messages=[{"role": "user", "content": prompt}],

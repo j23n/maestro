@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 from maestro.models import LearningEvent
 from maestro.config import settings
-from maestro.llm import get_client
+from maestro.llm import get_async_client
 from maestro import taxonomy
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
@@ -32,7 +32,7 @@ async def _ensure_loaded() -> None:
 
 
 def _client():
-    return get_client()
+    return get_async_client()
 
 
 def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str:
@@ -93,7 +93,7 @@ async def analyze_message(
         prompt = _build_prompt(text, level, drill_context)
         logger.debug(f"[analyzer] analyze_message prompt: {prompt}")
         t0 = time.monotonic()
-        response = _client().messages.create(
+        response = await _client().messages.create(
             model=settings.LESSON_MODEL,
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],

@@ -11,7 +11,6 @@ Scenario selection replaces old LLM-based topic generation.
 
 from __future__ import annotations
 
-import json
 import logging
 import random
 import time
@@ -26,8 +25,6 @@ from maestro.models import (
     LearningProfile,
     GrammarPoint,
     GrammarPointExplanation,
-    GeneratedDrill,
-    DrillItem,
     DrillTemplate,
     CommunicativeFunction,
     ItalianChunk,
@@ -36,8 +33,11 @@ from maestro.models import (
 from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
-from maestro.prompts import planner as _prompts
-from maestro.utils import DATA_DIR, parse_llm_json, utcnow
+from maestro.utils import parse_llm_json, utcnow
+from maestro.lezione.slots import _allocate_slots
+from maestro.lezione.prompts import build_lesson_content_prompt
+from maestro.lezione.materialize import materialize_activities
+from maestro.lezione.a0 import _generate_a0_lesson_background
 from maestro.lezione.selection import (
     pick_scenario,
     pick_grammar_points,
@@ -46,45 +46,6 @@ from maestro.lezione.selection import (
 )
 
 logger = logging.getLogger(__name__)
-
-_READING_WORD_COUNT = {"A1": 200, "A2": 300, "B1": 400, "B2": 500}
-_READING_QUESTION_COUNT = 5
-
-
-# ---------------------------------------------------------------------------
-# Slot allocation by duration
-# ---------------------------------------------------------------------------
-
-
-def _allocate_slots(duration_minutes: int) -> dict[str, int]:
-    """Return counts of each activity type to include."""
-    if duration_minutes <= 10:
-        return {
-            "grammar": 1,
-            "drill": 3,
-            "vocab_review": 10,
-            "reading": 1,
-            "writing": 1,
-            "speaking": 1,
-        }
-    elif duration_minutes <= 20:
-        return {
-            "grammar": 2,
-            "drill": 6,
-            "vocab_review": 15,
-            "reading": 2,
-            "writing": 1,
-            "speaking": 1,
-        }
-    else:  # 40 min
-        return {
-            "grammar": 3,
-            "drill": 12,
-            "vocab_review": 25,
-            "reading": 3,
-            "writing": 2,
-            "speaking": 2,
-        }
 
 
 # ---------------------------------------------------------------------------
@@ -105,141 +66,18 @@ async def _generate_lesson_content(
     speaking_cfs: list[CommunicativeFunction] = [],
 ) -> dict:
     """Single LLM call returning topic_title, topic_description, overview, grammar_motivations, drills, readings, writing, speakings."""
-    reading_word_count = _READING_WORD_COUNT.get(cefr_level, 150)
-    depth_description = scenario.depths[depth - 1] if depth <= len(scenario.depths) else scenario.depths[-1]
-
-    parts: list[str] = [
-        _prompts.lesson_content_header.render(),
-        f"Student CEFR level: {cefr_level}",
-        f'Curriculum scenario: "{scenario.label}" (depth {depth})',
-        f"Depth focus: {depth_description}",
-    ]
-
-    # Persona
-    if profile and profile.persona:
-        persona_parts = []
-        if profile.persona.tags:
-            persona_parts.append(f"Student description: {', '.join(profile.persona.tags)}")
-        if profile.persona.interests:
-            persona_parts.append(f"Student interests: {', '.join(profile.persona.interests)}")
-        if profile.persona.background:
-            persona_parts.append(f"Language background: {profile.persona.background}")
-        if profile.persona.goal:
-            persona_parts.append(f"Learning goal: {profile.persona.goal}")
-        if persona_parts:
-            parts.append("\n".join(persona_parts))
-
-    if profile and profile.description:
-        parts.append(f"Student profile: {profile.description}")
-
-    if grammar_gps:
-        gp_lines = []
-        for gp in grammar_gps:
-            gp_errors = profile.grammar_error_counts.get(gp.code, 0) if profile else 0
-            gp_correct = profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
-            gp_lines.append(
-                f"  - {gp.label} ({gp.code}) — {gp.description}\n"
-                f"    Performance: {gp_correct} correct, {gp_errors} errors"
-            )
-        parts.append("Grammar activity points:\n" + "\n".join(gp_lines))
-
-    if drill_specs:
-        drill_lines = []
-        for spec in drill_specs:
-            rag_part = (
-                f"\n  RAG excerpt: {spec['rag_excerpt'][:500]}"
-                if spec.get("rag_excerpt")
-                else ""
-            )
-            drill_lines.append(
-                f"- grammar_point_code: {spec['grammar_point_code']}, "
-                f"exercise_type: {spec['exercise_type']}, "
-                f"label: {spec['gp_label']}, "
-                f"description: {spec['gp_description']}"
-                f"{rag_part}"
-            )
-        parts.append("Drills to generate:\n" + "\n".join(drill_lines))
-
-    if speaking_cfs:
-        cf_lines_all = []
-        for cf in speaking_cfs:
-            cf_examples = cf.examples[:3]
-            cf_patterns = cf.patterns[:3]
-            cf_block = [
-                f"Speaking activity — Communicative function: {cf.label} ({cf.code})",
-                f"Category: {cf.macro_category}",
-            ]
-            if cf_examples:
-                cf_block.append("Examples: " + "; ".join(cf_examples))
-            if cf_patterns:
-                cf_block.append("Patterns: " + "; ".join(cf_patterns))
-            cf_lines_all.append("\n".join(cf_block))
-        parts.append("\n\n".join(cf_lines_all))
-
-    # Build the JSON schema description
-    motivation_lang = "English" if cefr_level in ("A1", "A2") else "Italian"
-    schema: dict = {
-        "topic_title": "A creative Italian title for this lesson (3-8 words)",
-        "topic_description": "1-2 sentences describing the specific situation covered",
-        "overview": "2-3 sentences in Italian: what this lesson covers and what the student will gain",
-    }
-    if grammar_gps:
-        schema["grammar_motivations"] = [
-            {
-                "code": gp.code,
-                "text": f"1-2 sentences in {motivation_lang}: why {gp.label} matters in real conversation",
-            }
-            for gp in grammar_gps
-        ]
-    if drill_specs:
-        example_drills = []
-        for spec in drill_specs:
-            if spec["exercise_type"] in ("fill_blank", "error_correction"):
-                example_drills.append({
-                    "grammar_point_code": spec["grammar_point_code"],
-                    "items": [{"prompt": "...", "correct_answer": "..."}, "... 10 items total"],
-                })
-            else:
-                example_drills.append({
-                    "grammar_point_code": spec["grammar_point_code"],
-                    "prompt": "...",
-                    "correct_answer": None,
-                    "distractors": [],
-                })
-        schema["drills"] = example_drills
-    if reading_count > 0:
-        q_labels = [f"question {i + 1}" for i in range(_READING_QUESTION_COUNT)]
-        a_labels = [f"answer {i + 1}" for i in range(_READING_QUESTION_COUNT)]
-        schema["readings"] = [
-            {
-                "text": f"Italian reading text (~{reading_word_count} words at {cefr_level} level) on the lesson topic. Must be grammatically correct and natural.",
-                "questions": q_labels,
-                "answers": a_labels,
-            }
-            for _ in range(reading_count)
-        ]
-    if include_writing:
-        schema["writing"] = {
-            "prompt": f"An Italian writing prompt appropriate for {cefr_level} level on the topic"
-        }
-    if speaking_cfs:
-        schema["speakings"] = [
-            {
-                "prompt": f"2-3 sentence Italian speaking prompt asking the student to practise {cf.label}"
-            }
-            for cf in speaking_cfs
-        ]
-
-    parts.append(
-        _prompts.lesson_content_footer.render(
-            schema_json=json.dumps(schema, indent=2, ensure_ascii=False),
-            reading_count=reading_count,
-            speaking_count=len(speaking_cfs),
-            grammar_count=len(grammar_gps),
-        )
+    prompt_text = build_lesson_content_prompt(
+        cefr_level=cefr_level,
+        scenario=scenario,
+        depth=depth,
+        profile=profile,
+        grammar_gps=grammar_gps,
+        drill_specs=drill_specs,
+        reading_count=reading_count,
+        include_writing=include_writing,
+        speaking_cfs=speaking_cfs,
     )
 
-    prompt_text = "\n\n".join(parts)
     logger.debug(f"[planner] _generate_lesson_content prompt: {prompt_text}")
     logger.info(
         f"[planner] _generate_lesson_content: level={cefr_level}, scenario={scenario.slug}, "
@@ -337,129 +175,6 @@ async def prepare_lesson_immediate(
 # ---------------------------------------------------------------------------
 # Phase 2: background — appends all LLM-generated activities to the lesson
 # ---------------------------------------------------------------------------
-
-
-async def _generate_a0_lesson_background(
-    lesson_id,
-    duration_minutes: int,
-) -> None:
-    """Generate a static A0 lesson from pre-authored YAML content (no LLM calls)."""
-    import yaml
-
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        logger.error(f"[planner] _generate_a0_lesson_background: lesson {lesson_id} not found")
-        return
-
-    profile = await get_profile(lesson.student_id) if lesson.student_id else None
-    scenario, depth = await pick_scenario(profile, "A0")
-
-    # Load static content
-    lessons_file = DATA_DIR / "a0_lessons.yaml"
-    with open(lessons_file) as f:
-        all_lessons = yaml.safe_load(f)
-
-    lesson_data = all_lessons.get(scenario.slug)
-    if not lesson_data:
-        logger.error(f"[planner] No static content for A0 scenario: {scenario.slug}")
-        lesson.generating = False
-        await lesson.save()
-        return
-
-    topic_title = lesson_data.get("topic_title", scenario.label)
-    topic_description = lesson_data.get("topic_description", scenario.description)
-    overview = lesson_data.get("overview", "")
-
-    new_activities: list[LessonActivity] = []
-    for act_data in lesson_data.get("activities", []):
-        act_type = act_data["type"]
-
-        if act_type == "grammar":
-            new_activities.append(LessonActivity(
-                type="grammar",
-                title=act_data.get("title", ""),
-                description=act_data.get("description", ""),
-                content=act_data.get("content", ""),
-                why_important=act_data.get("why_important"),
-            ))
-
-        elif act_type == "onboarding":
-            new_activities.append(LessonActivity(
-                type="onboarding",
-                title=act_data.get("title", ""),
-                description=act_data.get("description", ""),
-                content=act_data.get("content", ""),
-                profile_field=act_data.get("profile_field"),
-                response_template=act_data.get("response_template"),
-            ))
-
-        elif act_type == "drill":
-            # Create a GeneratedDrill doc from static items
-            gp_code = act_data.get("grammar_point_code", "a0_saluti")
-            exercise_type = act_data.get("exercise_type", "fill_blank")
-            items = [
-                DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
-                for it in act_data.get("items", [])
-            ]
-            # Find or create a template
-            template = await DrillTemplate.find_one({
-                "grammar_point_code": gp_code,
-                "exercise_type": exercise_type,
-            })
-            if not template:
-                template = DrillTemplate(
-                    grammar_point_code=gp_code,
-                    cefr_level="A0",
-                    exercise_type=exercise_type,
-                )
-                await template.insert()
-
-            drill = GeneratedDrill(
-                student_id=lesson.student_id,
-                template=template,
-                grammar_point_code=gp_code,
-                cefr_level="A0",
-                exercise_type=exercise_type,
-                prompt="",
-                items=items,
-                scenario_slug=scenario.slug,
-            )
-            await drill.insert()
-            new_activities.append(LessonActivity(
-                type="drill",
-                title=act_data.get("title", f"Esercizio: {gp_code}"),
-                description=act_data.get("description", exercise_type),
-                drill_id=drill.id,
-                hint=act_data.get("hint"),
-            ))
-
-        elif act_type == "reading":
-            new_activities.append(LessonActivity(
-                type="reading",
-                title=act_data.get("title", "Lettura"),
-                description=act_data.get("description", ""),
-                content=act_data.get("content", ""),
-                questions=act_data.get("questions", []),
-                correct_answers=act_data.get("correct_answers", []),
-            ))
-
-    # Update lesson
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        return
-    lesson.activities.extend(new_activities)
-    lesson.overview = overview
-    lesson.scenario_slug = scenario.slug
-    lesson.scenario_depth = depth
-    lesson.topic_title = topic_title
-    lesson.topic_description = topic_description
-    lesson.generating = False
-    await lesson.save()
-
-    logger.info(
-        f"[planner] _generate_a0_lesson_background complete: "
-        f"scenario={scenario.slug}, {len(new_activities)} activities"
-    )
 
 
 async def generate_lesson_background(
@@ -593,125 +308,20 @@ async def _generate_lesson_background(
     topic_description = content.get("topic_description", scenario.description)
 
     # --- Materialise activities ---
-
-    grammar_activities: list[LessonActivity] = []
-    grammar_motivations = content.get("grammar_motivations", [])
-    for i, gp in enumerate(grammar_gps):
-        exp = grammar_explanations[i] if i < len(grammar_explanations) else None
-        if exp:
-            explanation_content = exp.explanation
-            grammar_title = exp.title or gp.label
-        else:
-            # Fallback: load chunk content directly
-            if gp.chunk_ref:
-                chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
-                explanation_content = chunk.content if chunk else gp.description
-            else:
-                explanation_content = gp.description
-            grammar_title = gp.label
-        motivation = grammar_motivations[i].get("text") if i < len(grammar_motivations) and isinstance(grammar_motivations[i], dict) else None
-        grammar_activities.append(LessonActivity(
-            type="grammar",
-            title=f"Grammatica: {grammar_title}",
-            description=f"Ripassa la regola grammaticale: {gp.label}",
-            duration_minutes=3,
-            content=explanation_content,
-            why_important=motivation,
-        ))
-
-    reading_activities: list[LessonActivity] = []
-    llm_readings = content.get("readings", [])
-    for i, reading_data in enumerate(llm_readings[:reading_count]):
-        if not isinstance(reading_data, dict):
-            continue
-        reading_activities.append(LessonActivity(
-            type="reading",
-            title=f"Lettura {i + 1}" if reading_count > 1 else "Lettura",
-            description=f"Leggi un testo su: {topic_title}",
-            duration_minutes=5,
-            content=reading_data.get("text", ""),
-            questions=reading_data.get("questions", []),
-            correct_answers=reading_data.get("answers", []),
-        ))
-
-    drill_activities: list[LessonActivity] = []
-    llm_drills = content.get("drills", [])
-    logger.info(f"[planner] materialising {len(drill_specs)} drills ({len(llm_drills)} returned by LLM)")
-    for i, (spec, template) in enumerate(zip(drill_specs, drill_templates_used)):
-        drill_data = llm_drills[i] if i < len(llm_drills) else None
-        if not drill_data:
-            logger.warning(f"[planner] missing drill data at index {i} for {spec['grammar_point_code']}")
-            continue
-        exercise_type = spec["exercise_type"]
-        if exercise_type in ("fill_blank", "error_correction"):
-            raw_items = drill_data.get("items") or []
-            items = [
-                DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
-                for it in raw_items
-                if isinstance(it, dict) and it.get("prompt")
-            ]
-            drill = GeneratedDrill(
-                student_id=lesson.student_id,
-                template=template,
-                grammar_point_code=spec["grammar_point_code"],
-                cefr_level=cefr_level,
-                exercise_type=exercise_type,
-                prompt="",
-                correct_answer=None,
-                distractors=[],
-                items=items,
-                scenario_slug=scenario.slug,
-                chunk_ref=spec.get("chunk_ref"),
-            )
-        else:  # free_form
-            drill = GeneratedDrill(
-                student_id=lesson.student_id,
-                template=template,
-                grammar_point_code=spec["grammar_point_code"],
-                cefr_level=cefr_level,
-                exercise_type=exercise_type,
-                prompt=drill_data.get("prompt", ""),
-                correct_answer=None,
-                distractors=[],
-                scenario_slug=scenario.slug,
-                chunk_ref=spec.get("chunk_ref"),
-            )
-        await drill.insert()
-        logger.debug(f"[planner] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})")
-        drill_activities.append(LessonActivity(
-            type="drill",
-            title=f"Esercizio: {spec['gp_label']}",
-            description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
-            duration_minutes=3,
-            drill_id=drill.id,
-        ))
-
-    speaking_activities: list[LessonActivity] = []
-    llm_speakings = content.get("speakings", [])
-    for i, cf in enumerate(speaking_cfs):
-        speaking_data = llm_speakings[i] if i < len(llm_speakings) else None
-        prompt_text = speaking_data.get("prompt", "") if isinstance(speaking_data, dict) else ""
-        speaking_activities.append(LessonActivity(
-            type="speaking",
-            title=f"Parlare: {cf.label}",
-            description=f"Pratica: {cf.label}",
-            duration_minutes=3,
-            content=prompt_text,
-        ))
-
-    writing_activities: list[LessonActivity] = []
-    if include_writing and content.get("writing"):
-        writing_data = content["writing"]
-        writing_activities.append(LessonActivity(
-            type="writing",
-            title="Scrittura",
-            description=f"Scrivi un testo su: {topic_title}",
-            duration_minutes=8,
-            content=writing_data.get("prompt", ""),
-        ))
-
-    # Pedagogical order: grammar × N → readings × N → drills × N → speakings × N → writing × N
-    new_activities = grammar_activities + reading_activities + drill_activities + speaking_activities + writing_activities
+    new_activities = await materialize_activities(
+        content=content,
+        grammar_gps=grammar_gps,
+        grammar_explanations=grammar_explanations,
+        drill_specs=drill_specs,
+        drill_templates_used=drill_templates_used,
+        speaking_cfs=speaking_cfs,
+        include_writing=include_writing,
+        reading_count=reading_count,
+        topic_title=topic_title,
+        scenario_slug=scenario.slug,
+        cefr_level=cefr_level,
+        student_id=lesson.student_id,
+    )
 
     # --- Atomically update lesson ---
     lesson = await Lesson.get(lesson_id)

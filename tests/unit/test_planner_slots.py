@@ -1,6 +1,6 @@
 import pytest
 
-from maestro.lezione.planner import _allocate_slots
+from maestro.lezione.slots import _allocate_slots
 
 
 @pytest.mark.unit
