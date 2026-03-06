@@ -7,8 +7,8 @@ Each grammar point only gets explanations for its own CEFR level and above:
   B1 rule → B1, B2
   B2 rule → B2
 
-Uses the GP's linked ItalianChunk as authoritative source. Produces both
-an Italian explanation (CEFR-adapted) and an English translation per level.
+Uses the GP's linked ItalianChunk as authoritative source. Produces a
+CEFR-adapted explanation per level (A1=English, A2=mixed, B1+=Italian).
 
 Idempotent — skips grammar points that already have all required explanations.
 
@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import logging
 
 from maestro.db import init_db
@@ -26,7 +25,7 @@ from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk
 from maestro.config import settings
 from maestro.llm import get_client
 from maestro.prompts import grammar as _prompts
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, parse_llm_json
 
 logger = logging.getLogger(__name__)
 
@@ -53,13 +52,9 @@ def _build_system_prompt(levels: tuple[str, ...]) -> str:
 
 
 def _parse_response(raw: str, levels: tuple[str, ...]) -> dict[str, dict[str, str]] | None:
-    """Parse JSON response into {level: {"title": ..., "explanation": ..., "translation": ...}}."""
-    raw = raw.strip()
-    if raw.startswith("```"):
-        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
+    """Parse JSON response into {level: {"title": ..., "explanation": ...}}."""
+    data = parse_llm_json(raw)
+    if not isinstance(data, dict):
         return None
     result = {}
     for level in levels:
@@ -69,7 +64,6 @@ def _parse_response(raw: str, levels: tuple[str, ...]) -> dict[str, dict[str, st
         result[level] = {
             "title": entry.get("title", ""),
             "explanation": entry["explanation"],
-            "translation": entry.get("translation", ""),
         }
     return result if len(result) == len(levels) else None
 
@@ -84,18 +78,25 @@ def _call_claude(
         f"\n\nAuthoritative grammar rule from the textbook:\n{chunk_content}\n"
         if chunk_content else ""
     )
+    system_msg = _build_system_prompt(levels)
+    levels_str = ", ".join(levels)
     user_msg = (
         f"Grammar point: {gp.label} ({gp.cefr_level})\n"
-        f"Description: {gp.description}"
+        f"Description: {gp.description}\n"
+        f"Generate explanations for these levels: {levels_str}"
         f"{chunk_block}"
     )
+    logger.debug(f"  SYSTEM PROMPT:\n{system_msg}")
+    logger.debug(f"  USER MESSAGE:\n{user_msg}")
     response = client.messages.create(
         model=settings.CHAT_MODEL,
-        max_tokens=4096,
-        system=_build_system_prompt(levels),
+        max_tokens=16384,
+        system=system_msg,
         messages=[{"role": "user", "content": user_msg}],
     )
     raw = response.content[0].text
+    logger.debug(f"  STOP REASON: {response.stop_reason}, USAGE: {response.usage}")
+    logger.debug(f"  RAW RESPONSE:\n{raw}")
     data = _parse_response(raw, levels)
     if not data:
         logger.warning(f"  Parse error for '{gp.label}': {raw[:300]}")
@@ -124,16 +125,52 @@ async def _save_explanations(gp: GrammarPoint, data: dict[str, dict[str, str]]) 
             student_level=level,
             title=texts.get("title", ""),
             explanation=explanation,
-            translation=texts.get("translation", ""),
         ).insert()
         logger.info(f"  Saved {level} explanation for '{gp.label}'")
 
 
-async def generate(test: bool = False) -> None:
+async def list_codes(level: str | None = None) -> None:
+    await init_db()
+    query = {"cefr_level": level} if level else {}
+    gps = await GrammarPoint.find(query).sort("code").to_list()
+    done = 0
+    for gp in gps:
+        has_all = await _has_all_explanations(gp)
+        if has_all:
+            done += 1
+        marker = "✓" if has_all else " "
+        print(f"  [{marker}] {gp.code:30s} {gp.cefr_level}  {gp.label}")
+    print(f"\n{len(gps)} grammar points, {done} with explanations")
+
+
+async def generate(
+    test: bool = False,
+    code: str | None = None,
+    level: str | None = None,
+    clear: bool = False,
+) -> None:
     await init_db()
 
-    all_gps = await GrammarPoint.find_all().to_list()
+    if code:
+        gp = await GrammarPoint.find_one({"code": code})
+        if not gp:
+            logger.error(f"Grammar point '{code}' not found")
+            return
+        all_gps = [gp]
+    else:
+        all_gps = await GrammarPoint.find_all().to_list()
+
+    if level:
+        all_gps = [gp for gp in all_gps if gp.cefr_level == level]
+
     logger.info(f"Found {len(all_gps)} grammar points")
+
+    if clear:
+        gp_ids = [gp.id for gp in all_gps]
+        result = await GrammarPointExplanation.find(
+            {"grammar_point.$id": {"$in": gp_ids}}
+        ).delete()
+        logger.info(f"Cleared {result.deleted_count} existing explanations")
 
     todo = [gp for gp in all_gps if not await _has_all_explanations(gp)]
     logger.info(f"{len(todo)} grammar points need explanations")
@@ -174,8 +211,18 @@ async def generate(test: bool = False) -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description="Generate CEFR grammar explanations")
     parser.add_argument("--test", action="store_true", help="One grammar point per CEFR level")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging (full prompts and responses)")
+    parser.add_argument("--code", type=str, help="Generate for a single grammar point by code")
+    parser.add_argument("--level", type=str, choices=["A1", "A2", "B1", "B2"], help="Only process grammar points at this CEFR level")
+    parser.add_argument("--clear", action="store_true", help="Delete existing explanations before regenerating (respects --code/--level)")
+    parser.add_argument("--list", action="store_true", help="List all grammar point codes (combine with --level to filter)")
     args = parser.parse_args()
-    asyncio.run(generate(test=args.test))
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
+    if args.list:
+        asyncio.run(list_codes(level=args.level))
+    else:
+        asyncio.run(generate(test=args.test, code=args.code, level=args.level, clear=args.clear))
