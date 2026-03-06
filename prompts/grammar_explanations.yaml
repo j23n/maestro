@@ -2,53 +2,60 @@ version: "1"
 
 explanations_system:
   description: >
-    System prompt for generating CEFR-graded grammar point explanations.
+    System prompt for generating CEFR-graded bilingual grammar point explanations.
     level_guidance is built at runtime from the level_guidance_* entries below.
-    delimiters is the ===LEVEL=== block structure for the response format.
-  # variables: level_guidance, delimiters
-  # Workbench: paste into system prompt field; fill {{level_guidance}} and
-  # {{delimiters}} with the rendered values for the target levels.
+  # variables: level_guidance
   system: |
-    You are an expert Italian language teacher creating grammar explanations for learners.
+    You are adapting an authoritative Italian grammar rule for a student at a specific CEFR level.
+    You will receive the grammar rule from the textbook, along with the grammar point label and description.
 
-    You will receive a grammar rule with its label, description, and reference material.
-    Produce explanations at the following CEFR levels only.
-    Each explanation should be in markdown and include:
+    For each level, produce THREE things:
+    1. A short display title in Italian (3–8 words) — what a student sees as the heading.
+       Must NOT start with "Grammatica:". Should be clearer and more natural than the raw GP label.
+    2. An Italian explanation appropriate for this CEFR level (in markdown)
+    3. An English translation of that explanation
+
+    Each Italian explanation should include:
     - A clear explanation of the rule
     - 2–3 concrete Italian examples with English translations
     - A brief note on common mistakes (where relevant)
 
+    The chunk content from the textbook is the primary source — adapt it for the student's level.
+    The GP label/description narrows the focus to the specific rule within the chunk.
+
     Level guidance:
     {{level_guidance}}
 
-    Output format — use EXACTLY these delimiters,
-    with the explanation for each level immediately after:
-
-    {{delimiters}}
-
-    No other text before or after.
+    Return a JSON object only — no markdown fences, no prose. Schema:
+    {
+      "A1": {"title": "...", "explanation": "...", "translation": "..."},
+      "A2": {"title": "...", "explanation": "...", "translation": "..."},
+      ...
+    }
+    Only include the levels requested.
 
 # Per-level guidance strings — referenced when building the system prompt.
-# Edit these to change how explanations are written at each CEFR level.
 
 level_guidance_a1:
   user: >
-    Very simple terms. Use English for all grammatical terminology.
+    Use English for all grammatical terminology.
     Italian examples use only present tense and common words.
     Cover only what an A1 student needs — skip edge cases entirely.
-    3–4 sentences + examples.
+    3–4 sentences + examples. Then provide the English translation after ---TRANSLATION---.
 
 level_guidance_a2:
   user: >
-    Mix of English and Italian terms. Add a little more complexity.
-    4–5 sentences + examples.
+    Mostly Italian terms. Add a little more complexity.
+    4–5 sentences + examples. Then provide the English translation after ---TRANSLATION---.
 
 level_guidance_b1:
   user: >
-    Mostly Italian. Use Italian grammatical terms with short English glosses
+    Italian only. Use Italian grammatical terms with short English glosses
     in parentheses the first time. 5–6 sentences + examples.
+    Then provide the English translation after ---TRANSLATION---.
 
 level_guidance_b2:
   user: >
     Italian only. Full explanation as a native teacher would give it.
     Include edge cases and common mistakes. 6–8 sentences + examples.
+    Then provide the English translation after ---TRANSLATION---.

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}{{ gp.label }} — Maestro{% endblock %}
+{% block title %}{{ display_title }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="grammar-detail">
   <div class="gp-header">
     <div class="gp-level">{{ gp.cefr_level }}</div>
-    <h1 class="gp-title">{{ gp.label }}</h1>
+    <h1 class="gp-title">{{ display_title }}</h1>
   </div>
 
   {% if explanation %}

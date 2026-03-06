@@ -12,7 +12,7 @@ def _make_drill(exercise_type: str, gp_code: str, items: list = None) -> MagicMo
     drill.grammar_point_code = gp_code
     drill.items = items or []
     drill.prompt = "Test prompt"
-    drill.rag_refs = []
+    drill.chunk_ref = None
     return drill
 
 
@@ -24,8 +24,7 @@ async def test_unknown_exercise_type_returns_none(db):
     drill = _make_drill("unknown_type", "GP_001")
     drill.items = []
 
-    with patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[]):
-        correct, event, feedback, refs = await score_attempt(drill, "some answer")
+    correct, event, feedback, refs = await score_attempt(drill, "some answer")
 
     assert correct is None
     assert event is None
@@ -54,7 +53,6 @@ async def test_fill_blank_passing(db, mocker):
         new_callable=AsyncMock,
         return_value=llm_results,
     )
-    mocker.patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[])
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, ["answer"] * 3)
@@ -87,7 +85,6 @@ async def test_fill_blank_failing(db, mocker):
         new_callable=AsyncMock,
         return_value=llm_results,
     )
-    mocker.patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[])
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, ["wrong"] * 3)
@@ -116,7 +113,6 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
         new_callable=AsyncMock,
         return_value=two_of_three,
     )
-    mocker.patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[])
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, ["x"] * 3)
@@ -135,7 +131,6 @@ async def test_free_form_correct(db, mocker):
         new_callable=AsyncMock,
         return_value={"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
     )
-    mocker.patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[])
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, "Una risposta lunga e completa.")
@@ -151,6 +146,7 @@ async def test_free_form_incorrect(db, mocker):
     taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     drill = _make_drill("free_form", "GP_001", items=[])
+    drill.chunk_ref = "test_chunk_ref"
     mocker.patch(
         "maestro.drills.scoring.score_free_form_drill",
         new_callable=AsyncMock,
@@ -164,8 +160,8 @@ async def test_free_form_incorrect(db, mocker):
     chunk = MagicMock()
     chunk.content = "rule text"
     chunk.chunk_metadata = {"heading": "Rule heading"}
-    chunk.ref = "ref1"
-    mocker.patch("maestro.drills.scoring.get_chunks_for_refs", new_callable=AsyncMock, return_value=[chunk])
+    chunk.ref = "test_chunk_ref"
+    mocker.patch("maestro.drills.scoring.ItalianChunk.find_one", new_callable=AsyncMock, return_value=chunk)
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, "")

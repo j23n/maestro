@@ -23,8 +23,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from maestro.models import GeneratedDrill
 
-from maestro.models import LearningEvent
-from maestro.rag.retrieve import get_chunks_for_refs
+from maestro.models import LearningEvent, ItalianChunk
 from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
 from maestro import taxonomy
 
@@ -34,13 +33,14 @@ _PASS_THRESHOLD = 0.7  # fraction of items correct to count the drill as passed
 async def _get_rule_context(
     drill: "GeneratedDrill",
 ) -> tuple[str, list[dict]]:
-    """Load the RAG chunks stored on this drill. Returns (rag_content, rule_refs)."""
-    chunks = await get_chunks_for_refs(drill.rag_refs)
-    if not chunks:
+    """Load the chunk stored on this drill via chunk_ref. Returns (chunk_content, rule_refs)."""
+    if not drill.chunk_ref:
         return "", []
-    rag_content = "\n\n---\n\n".join(c.content for c in chunks)
-    rule_refs = [{"heading": c.chunk_metadata.get("heading", c.ref)} for c in chunks]
-    return rag_content, rule_refs
+    chunk = await ItalianChunk.find_one({"ref": drill.chunk_ref})
+    if not chunk:
+        return "", []
+    heading = chunk.chunk_metadata.get("heading", chunk.ref)
+    return chunk.content, [{"heading": heading, "ref": drill.chunk_ref}]
 
 
 async def score_attempt(

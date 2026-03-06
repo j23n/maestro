@@ -5,8 +5,8 @@ Link GrammarPoints to their authoritative ItalianChunk source, restructure expla
 ## Context
 
 - **ItalianChunk** (~96): authoritative grammar rules from the textbook, organized by chapter/section.
-- **GrammarPoint** (231): CEFR-tagged learning objectives scraped from Profilo della Lingua Italiana.
-- **GrammarPointExplanation**: LLM-generated, per GP per CEFR level. Currently generated from scratch with chunks as loose "reference material".
+- **GrammarPoint** (231): CEFR-tagged learning objectives scraped from Profilo della Lingua Italiana. Source: `src/maestro/data/grammar_points.json`.
+- **GrammarPointExplanation**: LLM-generated, per GP per CEFR level. Currently generated from scratch with chunks as loose "reference material". Prompt externalized to `prompts/grammar_explanations.yaml`.
 
 Current link is indirect: semantic search at ingest sets `rag_refs` (top-3 similar chunks). This is fuzzy and often wrong.
 
@@ -88,14 +88,20 @@ class GrammarPointExplanation(Document):
 2. Sends the chunk content + GP label/description to Claude.
 3. Asks for a CEFR-adapted Italian explanation AND an English translation, per target level.
 
-**Prompt changes**:
+**Prompt changes** (in `prompts/grammar_explanations.yaml`):
 - System prompt instructs: "You are adapting an authoritative Italian grammar rule for a student at level X. Produce two sections: one in Italian appropriate for this level, one in English."
 - The chunk content is the primary input, not just "reference material".
 - The GP label/description narrows the focus to the specific rule within the chunk.
+- The per-level guidance keys (`level_guidance_a1` … `level_guidance_b2`) should be updated to request bilingual output.
+
+**Code changes** (in `grammar/generate_explanations.py`):
+- `_call_claude()`: update user message to pass chunk content as primary input (not via `rag_refs`).
+- `_parse_response()`: extract both `explanation` and `translation` per level from the response.
+- `_save_explanations()`: persist both fields on `GrammarPointExplanation`.
 
 **Output**: Each `GrammarPointExplanation` now has both `explanation` (Italian) and `translation` (English).
 
-**Files touched**: `grammar/generate_explanations.py`, prompts
+**Files touched**: `grammar/generate_explanations.py`, `prompts/grammar_explanations.yaml`
 
 ---
 
@@ -104,13 +110,13 @@ class GrammarPointExplanation(Document):
 **What**: When selecting grammar points for a lesson, prefer GPs that share the same `chunk_ref`. This makes lessons coherent around a textbook section.
 
 **Logic**:
-1. `_pick_grammar_points` selects candidates as before (by weakness within CEFR level).
+1. `pick_grammar_points` (in `lezione/selection.py`) selects candidates as before (by weakness within CEFR level).
 2. New grouping step: among the top candidates, find the `chunk_ref` with the most selected GPs and prefer that group.
 3. Soft constraint — if the student's weaknesses are spread across chunks, don't force a single chunk at the expense of addressing real gaps.
 
 **Grammar overview**: The lesson overview no longer shows raw ItalianChunk content. Instead, it collects the `GrammarPointExplanation` for each GP in the lesson and displays those.
 
-**Files touched**: `lezione/planner.py`
+**Files touched**: `lezione/selection.py`, `lezione/planner.py`
 
 ---
 
@@ -143,19 +149,20 @@ class GrammarPointExplanation(Document):
 - Remove `retrieve_for_grammar_point()` from `rag/retrieve.py`
 - Update `GeneratedDrill.rag_refs` — drills should reference `chunk_ref` from their GP instead
 - Update planner drill generation: use `chunk_ref` to fetch the chunk, not `rag_refs`
+- Update `drills/scoring.py` — uses `drill.rag_refs` to fetch chunk context for scoring feedback
 - Keep `rag/retrieve.py` `retrieve()` and `get_chunks_for_refs()` — still useful for general RAG
 
-**Files touched**: `models.py`, `learning/ingest.py`, `rag/retrieve.py`, `lezione/planner.py`, `drills/generator.py`
+**Files touched**: `models.py`, `learning/ingest.py`, `rag/retrieve.py`, `lezione/planner.py`, `drills/generator.py`, `drills/scoring.py`
 
 ---
 
 ### 5.8 — Update tests
 
 - **Unit tests**: Update any tests that reference `rag_refs` on GrammarPoint.
-- **Integration tests**: Update `conftest.py` fixtures that create GrammarPoint documents — add `chunk_ref`, remove `rag_refs`.
-- **New test**: Validate that `data/grammar_point_chunks.yaml` contains all GP codes from `data/grammar_points.json` (static data integrity check).
+- **Integration tests**: Update `tests/integration/test_scoring.py` (sets `drill.rag_refs = []`) and any fixtures that create GrammarPoint documents — add `chunk_ref`, remove `rag_refs`.
+- **New test**: Validate that `data/grammar_point_chunks.yaml` contains all GP codes from `src/maestro/data/grammar_points.json` (static data integrity check).
 
-**Files touched**: `tests/unit/`, `tests/integration/conftest.py`, new `tests/unit/test_grammar_chunk_mapping.py`
+**Files touched**: `tests/unit/`, `tests/integration/test_scoring.py`, `tests/integration/conftest.py`, new `tests/unit/test_grammar_chunk_mapping.py`
 
 ---
 

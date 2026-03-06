@@ -7,6 +7,9 @@ Each grammar point only gets explanations for its own CEFR level and above:
   B1 rule → B1, B2
   B2 rule → B2
 
+Uses the GP's linked ItalianChunk as authoritative source. Produces both
+an Italian explanation (CEFR-adapted) and an English translation per level.
+
 Idempotent — skips grammar points that already have all required explanations.
 
 Run with:  python -m maestro.grammar.generate_explanations
@@ -15,12 +18,11 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import json
 import logging
-import re
 
 from maestro.db import init_db
-from maestro.models import GrammarPoint, GrammarPointExplanation
-from maestro.rag.retrieve import get_chunks_for_refs
+from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk
 from maestro.config import settings
 from maestro.llm import get_client
 from maestro.prompts import grammar as _prompts
@@ -47,41 +49,45 @@ def _build_system_prompt(levels: tuple[str, ...]) -> str:
         f"- {lvl}: {getattr(_prompts, _LEVEL_GUIDANCE_KEYS[lvl]).render()}"
         for lvl in levels
     )
-    delimiters = "\n".join(f"==={lvl}===\n(explanation here)" for lvl in levels)
-    return _prompts.explanations_system.render_system(
-        level_guidance=guidance,
-        delimiters=delimiters,
-    )
+    return _prompts.explanations_system.render_system(level_guidance=guidance)
 
 
-def _parse_response(raw: str, levels: tuple[str, ...]) -> dict[str, str] | None:
+def _parse_response(raw: str, levels: tuple[str, ...]) -> dict[str, dict[str, str]] | None:
+    """Parse JSON response into {level: {"title": ..., "explanation": ..., "translation": ...}}."""
     raw = raw.strip()
-    pattern = re.compile(
-        r"===(" + "|".join(levels) + r")===(.*?)(?====(?:" + "|".join(levels) + r")==|$)",
-        re.DOTALL,
-    )
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
     result = {}
-    for m in pattern.finditer(raw):
-        level, text = m.group(1), m.group(2).strip()
-        if text:
-            result[level] = text
+    for level in levels:
+        entry = data.get(level)
+        if not entry or not entry.get("explanation"):
+            return None
+        result[level] = {
+            "title": entry.get("title", ""),
+            "explanation": entry["explanation"],
+            "translation": entry.get("translation", ""),
+        }
     return result if len(result) == len(levels) else None
 
 
 def _call_claude(
     gp: GrammarPoint,
     levels: tuple[str, ...],
-    rag_content: str,
+    chunk_content: str,
     client,
-) -> dict[str, str] | None:
-    rule_block = (
-        f"\n\nReference material from the grammar guide:\n{rag_content}\n"
-        if rag_content else ""
+) -> dict[str, dict[str, str]] | None:
+    chunk_block = (
+        f"\n\nAuthoritative grammar rule from the textbook:\n{chunk_content}\n"
+        if chunk_content else ""
     )
     user_msg = (
         f"Grammar point: {gp.label} ({gp.cefr_level})\n"
         f"Description: {gp.description}"
-        f"{rule_block}"
+        f"{chunk_block}"
     )
     response = client.messages.create(
         model=settings.CHAT_MODEL,
@@ -102,9 +108,10 @@ async def _has_all_explanations(gp: GrammarPoint) -> bool:
     return count >= needed
 
 
-async def _save_explanations(gp: GrammarPoint, data: dict[str, str]) -> None:
-    for level, text in data.items():
-        if not text.strip():
+async def _save_explanations(gp: GrammarPoint, data: dict[str, dict[str, str]]) -> None:
+    for level, texts in data.items():
+        explanation = texts["explanation"]
+        if not explanation.strip():
             logger.warning(f"  Empty {level} explanation for '{gp.label}'")
             continue
         existing = await GrammarPointExplanation.find_one(
@@ -115,7 +122,9 @@ async def _save_explanations(gp: GrammarPoint, data: dict[str, str]) -> None:
         await GrammarPointExplanation(
             grammar_point=gp,
             student_level=level,
-            explanation=text,
+            title=texts.get("title", ""),
+            explanation=explanation,
+            translation=texts.get("translation", ""),
         ).insert()
         logger.info(f"  Saved {level} explanation for '{gp.label}'")
 
@@ -143,10 +152,18 @@ async def generate(test: bool = False) -> None:
     for i, gp in enumerate(todo, 1):
         levels = _target_levels(gp)
         logger.info(f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level}) → {', '.join(levels)}")
-        chunks = await get_chunks_for_refs(gp.rag_refs)
-        rag_content = "\n\n---\n\n".join(c.content for c in chunks)
+
+        # Load chunk content via chunk_ref
+        chunk_content = ""
+        if gp.chunk_ref:
+            chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
+            if chunk:
+                chunk_content = chunk.content
+            else:
+                logger.warning(f"  Chunk not found for ref: {gp.chunk_ref}")
+
         try:
-            data = _call_claude(gp, levels, rag_content, client)
+            data = _call_claude(gp, levels, chunk_content, client)
         except Exception as exc:
             logger.error(f"  Claude API error: {exc}")
             continue
