@@ -6,25 +6,14 @@ from fastapi.testclient import TestClient
 from mongomock_motor import AsyncMongoMockClient
 from beanie import init_beanie
 
-from maestro.models import (
-    ItalianChunk, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard,
-    GrammarPoint, GrammarPointExplanation, CommunicativeFunction,
-    LearningEvent, LearningProfile, DrillTemplate, GeneratedDrill,
-    DrillAttempt, Lesson,
-)
-
-ALL_MODELS = [
-    ItalianChunk, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard,
-    GrammarPoint, GrammarPointExplanation, CommunicativeFunction,
-    LearningEvent, LearningProfile, DrillTemplate, GeneratedDrill, DrillAttempt, Lesson,
-]
+from maestro.models import ALL_DOCUMENT_MODELS
 
 
 @pytest.fixture
 async def test_app():
     """Create the FastAPI app with a mocked lifespan (no real DB, no ML models)."""
     mongo_client = AsyncMongoMockClient()
-    await init_beanie(database=mongo_client["test_maestro"], document_models=ALL_MODELS)
+    await init_beanie(database=mongo_client["test_maestro"], document_models=ALL_DOCUMENT_MODELS)
 
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
