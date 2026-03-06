@@ -16,7 +16,7 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from maestro.models import Message
 
-from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent, LearningProfile
+from maestro.models import CommunicativeFunction, GrammarPoint, LearningEvent
 from maestro.config import settings
 from maestro.llm import get_client
 from maestro.profile import get_profile
