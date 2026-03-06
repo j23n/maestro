@@ -2,103 +2,63 @@
 {% block title %}{{ word.word }} — Maestro{% endblock %}
 
 {% block content %}
-<div class="entry-page">
-  <div class="entry-header">
-    <h1 class="entry-headword">{{ word.word }}</h1>
-    <div class="entry-meta">
-      <span class="entry-pos">{{ word.part_of_speech }}</span>
-      {% if word.syllabization %}
-        <span class="entry-syl">[{{ word.syllabization }}]</span>
-      {% endif %}
-      <span class="entry-cefr">{{ word.cefr_level }}</span>
-    </div>
-    <div id="vocab-add">
-      {% if has_card %}
-        <span class="added-badge">In your vocabulary</span>
-      {% elif word.entry_id %}
-        <button hx-post="/vocab/word/{{ word.entry_id }}/add"
-                hx-target="#vocab-add" hx-swap="innerHTML">Add to my vocabulary</button>
-      {% endif %}
-    </div>
+<div class="card" id="entry-card">
+  <div class="word">{{ word.word }}</div>
+  <div class="pos">{{ word.part_of_speech }}{% if word.syllabization %} · [{{ word.syllabization }}]{% endif %}{% if word.cefr_level %} · {{ word.cefr_level }}{% endif %}</div>
+
+  <div id="vocab-add">
+    {% if has_card %}
+      <span class="added-badge">In your vocabulary</span>
+    {% elif word.entry_id %}
+      <button hx-post="/vocab/word/{{ word.entry_id }}/add"
+              hx-target="#vocab-add" hx-swap="innerHTML">Add to my vocabulary</button>
+    {% endif %}
   </div>
 
   {% set a1_def = definitions | selectattr('student_level', 'equalto', 'A1') | list | first | default(none) %}
   {% set a2_def = definitions | selectattr('student_level', 'equalto', 'A2') | list | first | default(none) %}
-  {% set active_tab = 'A1' if (student_level == 'A1' and a1_def) else ('A2' if (student_level == 'A2' and a2_def) else 'completa') %}
-  {% if a1_def or a2_def or word.senses %}
-  <div class="graded-section">
-    <div class="graded-tabs">
-      {% if a1_def %}
-      <button class="graded-tab{% if active_tab == 'A1' %} active{% endif %}"
-              onclick="showLevel('A1', this)">A1</button>
-      {% endif %}
-      {% if a2_def %}
-      <button class="graded-tab{% if active_tab == 'A2' %} active{% endif %}"
-              onclick="showLevel('A2', this)">A2</button>
-      {% endif %}
-      {% if word.senses %}
-      <button class="graded-tab{% if active_tab == 'completa' %} active{% endif %}"
-              onclick="showLevel('completa', this)">Completa</button>
-      {% endif %}
-    </div>
-
+  {% set b1_def = definitions | selectattr('student_level', 'equalto', 'B1') | list | first | default(none) %}
+  {% set b2_def = definitions | selectattr('student_level', 'equalto', 'B2') | list | first | default(none) %}
+  {% set active_tab = 'A1' if (student_level == 'A1' and a1_def)
+                 else ('A2' if (student_level == 'A2' and a2_def)
+                 else ('B1' if (student_level == 'B1' and b1_def)
+                 else ('B2' if (student_level == 'B2' and b2_def)
+                 else ('A1' if a1_def else ('A2' if a2_def else ('B1' if b1_def else 'B2')))))) %}
+  {% if a1_def or a2_def or b1_def or b2_def %}
+  <div class="graded-tabs">
     {% if a1_def %}
-    <div class="graded-panel{% if active_tab == 'A1' %} active{% endif %}" id="panel-A1">
-      {% if a1_def.translation %}<div class="graded-translation">→ {{ a1_def.translation }}</div>{% endif %}
-      <ol class="sense-list">
-        {% for s in a1_def.senses %}
-        <li class="sense-item">
-          <span class="sense-num">{{ loop.index }}.</span>
-          <span class="sense-def">{{ s.definition }}</span>
-          {% if s.examples %}
-          <div class="sense-examples">{% for ex in s.examples %}<div>{{ ex }}</div>{% endfor %}</div>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
+    <button class="graded-tab{% if active_tab == 'A1' %} active{% endif %}"
+            onclick="showLevel('A1', this)">A1</button>
     {% endif %}
-
     {% if a2_def %}
-    <div class="graded-panel{% if active_tab == 'A2' %} active{% endif %}" id="panel-A2">
-      {% if a2_def.translation %}<div class="graded-translation">→ {{ a2_def.translation }}</div>{% endif %}
-      <ol class="sense-list">
-        {% for s in a2_def.senses %}
-        <li class="sense-item">
-          <span class="sense-num">{{ loop.index }}.</span>
-          <span class="sense-def">{{ s.definition }}</span>
-          {% if s.examples %}
-          <div class="sense-examples">{% for ex in s.examples %}<div>{{ ex }}</div>{% endfor %}</div>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
+    <button class="graded-tab{% if active_tab == 'A2' %} active{% endif %}"
+            onclick="showLevel('A2', this)">A2</button>
     {% endif %}
-
-    {% if word.senses %}
-    <div class="graded-panel{% if active_tab == 'completa' %} active{% endif %}" id="panel-completa">
-      <ol class="sense-list">
-        {% for s in word.senses %}
-        <li class="sense-item">
-          <span class="sense-num">{{ loop.index }}.</span>
-          <span class="sense-def">{{ s.definition }}</span>
-          {% if s.style %}<span class="sense-style">({{ s.style }})</span>{% endif %}
-          {% if s.examples %}
-          <div class="sense-examples">{% for ex in s.examples %}<div>{{ ex }}</div>{% endfor %}</div>
-          {% endif %}
-          {% if s.synonyms or s.antonyms %}
-          <div class="sense-xr">
-            {% if s.synonyms %}Sinonimi: {{ s.synonyms | join(', ') }}{% endif %}
-            {% if s.antonyms %}{% if s.synonyms %} — {% endif %}Contrari: {{ s.antonyms | join(', ') }}{% endif %}
-          </div>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
+    {% if b1_def %}
+    <button class="graded-tab{% if active_tab == 'B1' %} active{% endif %}"
+            onclick="showLevel('B1', this)">B1</button>
+    {% endif %}
+    {% if b2_def %}
+    <button class="graded-tab{% if active_tab == 'B2' %} active{% endif %}"
+            onclick="showLevel('B2', this)">B2</button>
     {% endif %}
   </div>
+
+  {% for lvl_def, lvl in [(a1_def, 'A1'), (a2_def, 'A2'), (b1_def, 'B1'), (b2_def, 'B2')] %}
+  {% if lvl_def %}
+  <div class="graded-panel{% if active_tab == lvl %} active{% endif %}" id="panel-{{ lvl }}">
+    <ol class="senses">
+      {% for s in lvl_def.senses %}
+      <li>
+        <span class="sense-def">{{ s.definition }}</span>
+        {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+        {% if s.translation %}<div class="sense-translation"><strong>English</strong>: {{ s.translation }}</div>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+  {% endfor %}
   {% endif %}
 </div>
 

@@ -2,8 +2,8 @@
 Generate VocabularyWordDefinition documents for all VocabularyWords.
 
 Strategy:
-  - B1/B2: created programmatically from VocabularyWord.senses (no Claude call)
-  - A1/A2: Claude claude-opus-4-6 rewrites senses for learner-appropriate Italian
+  - A1–B2: Claude claude-opus-4-6 rewrites senses for learner-appropriate Italian
+    at each level, with per-sense English translations.
 
 Runs in batches of 20 words. Idempotent — skips words that already have all
 4 definitions.
@@ -26,7 +26,7 @@ import time
 
 logger = logging.getLogger(__name__)
 
-BATCH_SIZE = 20
+BATCH_SIZE = 10
 
 
 def _word_payload(word: VocabularyWord) -> dict[str, Any]:
@@ -54,7 +54,7 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
     t0 = time.monotonic()
     msg = client.messages.create(
         model=settings.DEFINITION_MODEL,
-        max_tokens=8192,
+        max_tokens=32768,
         system=_prompts.definitions_system.render_system(),
         messages=[{"role": "user", "content": user_content}],
     )
@@ -69,14 +69,13 @@ def _call_claude(batch: list[VocabularyWord]) -> dict[str, Any]:
 
 async def _has_all_definitions(word: VocabularyWord) -> bool:
     count = await VocabularyWordDefinition.find(
-        {"word.$id": word.id, "student_level": {"$in": ["A1", "A2"]}}
+        {"word.$id": word.id, "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
     ).count()
-    return count >= 2
+    return count >= 4
 
 
-
-async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
-    """Persist A1 and A2 definitions from Claude's response."""
+async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
+    """Persist A1–B2 definitions from Claude's response."""
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if not entry:
         logger.error(f"[vocab] Claude returned no data for '{word.word}'")
@@ -84,7 +83,7 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
 
     translation = entry.get("translation", "")
 
-    for level in ("A1", "A2"):
+    for level in ("A1", "A2", "B1", "B2"):
         existing = await VocabularyWordDefinition.find_one(
             {"word.$id": word.id, "student_level": level}
         )
@@ -96,6 +95,7 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
         senses = [
             CefrSense(
                 definition=s.get("definition", ""),
+                translation=s.get("translation", ""),
                 examples=s.get("examples", [])[:1],
             )
             for s in raw_senses
@@ -113,7 +113,6 @@ async def _save_a1_a2(word: VocabularyWord, claude_data: dict[str, Any]) -> None
         logger.info(f"[vocab] saved {level} definition for '{word.word}'")
 
 
-
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
     """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
     if not word.senses:
@@ -128,7 +127,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
             word.cefr_level = cefr
             await word.save()
             logger.info(f"[vocab] classified '{word.word}' as {cefr}")
-    await _save_a1_a2(word, claude_data)
+    await _save_all_levels(word, claude_data)
 
 
 async def generate(test: bool = False):
@@ -171,7 +170,7 @@ async def generate(test: bool = False):
 
         for word in batch:
             try:
-                await _save_a1_a2(word, claude_data)
+                await _save_all_levels(word, claude_data)
             except Exception as exc:
                 logger.error(f"Failed to save definitions for '{word.word}': {exc}")
 

@@ -1,7 +1,6 @@
 <div class="card" id="practice-card">
   {% set translation = word_def.translation if word_def and word_def.translation else "—" %}
-  {% set senses = word_def.senses if word_def and word_def.senses
-                  else card.word.senses %}
+  {% set senses = word_def.senses if word_def else [] %}
   {% set pos_line %}{{ card.word.part_of_speech }}{% if card.word.syllabization %} · [{{ card.word.syllabization }}]{% endif %} · {{ card.word.cefr_level }}{% endset %}
 
   {% if total_cards %}
@@ -17,6 +16,7 @@
         {% for s in senses %}
         <li>
           <span class="sense-def">{{ s.definition }}</span>
+          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
           {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}
@@ -33,6 +33,7 @@
         {% for s in senses %}
         <li>
           <span class="sense-def">{{ s.definition }}</span>
+          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
           {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}
@@ -51,6 +52,7 @@
         {% for s in senses[1:] %}
         <li>
           <span class="sense-def">{{ s.definition }}</span>
+          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
           {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}

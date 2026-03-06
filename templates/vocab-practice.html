@@ -15,11 +15,7 @@
       <div class="word">{{ card.word.word }}</div>
     {% elif mode == 'definition' %}
       <div class="prompt">What's the Italian word?</div>
-      <div class="clue">
-        {% if word_def and word_def.senses %}{{ word_def.senses[0].definition }}
-        {% elif card.word.senses %}{{ card.word.senses[0].definition }}
-        {% else %}—{% endif %}
-      </div>
+      <div class="clue">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
     {% elif mode == 'translation' %}
       <div class="prompt">How do you say this in Italian?</div>
       <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
