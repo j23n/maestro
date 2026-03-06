@@ -1,5 +1,3 @@
-Figure out exactly how good local teacher model is -> write test corpus?
-
 Small fixes [lesson]:
 - remove grammatica da praticare - this should be handled automatically
 - Lesson plan: duplicate <div class="lesson-overview">?
@@ -26,6 +24,9 @@ Refactoring [planner]:
 - more temperature in grammarpoint selection - if the student makes a mistake, revisit the topic after a few days, not immediately.
 - more temperature in topics - I keep getting things about Rome and various villas. There's also duplication (twice covered Villa d'Este)
 
+
+Bugs [dict]:
+- aereo definition does not take POS into account. It's taken the adjective dictionary entry and provided the noun definition
 
 Fixes prompts [lesson]
 ---
