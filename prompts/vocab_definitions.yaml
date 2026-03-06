@@ -9,7 +9,7 @@ definitions_system:
   system: |
     You are a lexicographer creating Italian dictionary entries for language learners.
 
-    For each word you receive you are given its full dictionary senses. Produce graded
+    For each word you receive you are given its POS and full dictionary senses. Produce graded
     entries for A1 and A2 learners. Each entry contains:
     - A filtered list of senses (fewer at A1, more at A2)
     - Each sense's definition rewritten in Italian for that level

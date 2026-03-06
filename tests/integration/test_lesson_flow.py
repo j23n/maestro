@@ -24,7 +24,7 @@ def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> 
 
 @pytest.mark.integration
 async def test_advance_lesson_marks_current_completed(db):
-    from maestro.routes.lezione import _advance_lesson
+    from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
@@ -39,7 +39,7 @@ async def test_advance_lesson_marks_current_completed(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_activates_next_pending(db):
-    from maestro.routes.lezione import _advance_lesson
+    from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
@@ -55,7 +55,7 @@ async def test_advance_lesson_activates_next_pending(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_skip_does_not_mark_completed(db):
-    from maestro.routes.lezione import _advance_lesson
+    from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
@@ -70,7 +70,7 @@ async def test_advance_lesson_skip_does_not_mark_completed(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_generating_redirect(db):
-    from maestro.routes.lezione import _advance_lesson
+    from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),
@@ -84,7 +84,7 @@ async def test_advance_lesson_generating_redirect(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_all_done_marks_completed(db):
-    from maestro.routes.lezione import _advance_lesson
+    from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(type="grammar", title="G1", description="", duration_minutes=3, status="active"),

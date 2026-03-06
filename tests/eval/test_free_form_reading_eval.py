@@ -14,7 +14,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 async def test_free_form_drill_scoring(record_eval):
     """Measure precision/recall of free-form drill objective_correct scoring."""
     import json as _json
-    from maestro.learning.analyzer import score_free_form_drill
+    from maestro.learning.scorer import score_free_form_drill
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "free_form_cases.json").read_text())
@@ -112,7 +112,7 @@ async def test_free_form_drill_scoring(record_eval):
 async def test_reading_comprehension_scoring(record_eval):
     """Measure precision/recall of reading comprehension answer scoring."""
     import json as _json
-    from maestro.learning.analyzer import score_reading_answers
+    from maestro.learning.scorer import score_reading_answers
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "reading_cases.json").read_text())

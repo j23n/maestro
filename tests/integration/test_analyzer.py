@@ -1,10 +1,11 @@
-"""Integration tests for learning/analyzer.py with mocked LLM."""
+"""Integration tests for learning/analyzer.py and learning/scorer.py with mocked LLM."""
 import json
 import pytest
 from unittest.mock import MagicMock
 
 import maestro.learning.analyzer as analyzer_module
-from maestro.models import GrammarPoint, CommunicativeFunction
+import maestro.learning.scorer as scorer_module
+from maestro import taxonomy
 
 
 def _make_llm_response(text: str) -> MagicMock:
@@ -17,26 +18,21 @@ def _make_llm_response(text: str) -> MagicMock:
 
 
 def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",)):
-    """Directly populate module-level caches (avoids DB hit)."""
-    analyzer_module._grammar_points_cache = [
-        MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in gp_codes
-    ]
-    analyzer_module._comm_functions_cache = [
-        MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in cf_codes
-    ]
+    """Populate taxonomy cache and set student level (avoids DB hit)."""
+    taxonomy.seed(
+        gps=[MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in gp_codes],
+        cfs=[MagicMock(code=c, cefr_level="A1", label=c, description=c) for c in cf_codes],
+    )
     analyzer_module._student_level = "A1"
+    analyzer_module._student_level_loaded = True
 
 
 @pytest.fixture(autouse=True)
 def reset_cache():
-    """Reset module caches between tests."""
-    original_gp = analyzer_module._grammar_points_cache[:]
-    original_cf = analyzer_module._comm_functions_cache[:]
-    original_level = analyzer_module._student_level
+    """Reset analyzer state between tests."""
     yield
-    analyzer_module._grammar_points_cache = original_gp
-    analyzer_module._comm_functions_cache = original_cf
-    analyzer_module._student_level = original_level
+    taxonomy.invalidate()
+    analyzer_module._student_level_loaded = False
 
 
 @pytest.mark.integration
@@ -110,14 +106,14 @@ async def test_unparseable_response_returns_none(db, mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_feedback_fill_blank_success(mock_analyzer_client):
+async def test_feedback_fill_blank_success(mock_scorer_client):
     """feedback_fill_blank returns dict with expected keys on success."""
     _seed_cache()
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+    mock_scorer_client.messages.create.return_value = _make_llm_response(
         "Il verbo 'andare' richiede l'ausiliare 'essere'."
     )
 
-    result = await analyzer_module.feedback_fill_blank(
+    result = await scorer_module.feedback_fill_blank(
         drill_prompt="Ieri ___ (andare) al mercato.",
         correct_answer="sono andato",
         student_answer="ho andato",
@@ -132,12 +128,12 @@ async def test_feedback_fill_blank_success(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_feedback_fill_blank_failure(mock_analyzer_client):
+async def test_feedback_fill_blank_failure(mock_scorer_client):
     """feedback_fill_blank returns empty string on LLM error."""
     _seed_cache()
-    mock_analyzer_client.messages.create.side_effect = RuntimeError("timeout")
+    mock_scorer_client.messages.create.side_effect = RuntimeError("timeout")
 
-    result = await analyzer_module.feedback_fill_blank(
+    result = await scorer_module.feedback_fill_blank(
         drill_prompt="Ieri ___ al mercato.",
         correct_answer="sono andato",
         student_answer="ho andato",
@@ -147,14 +143,14 @@ async def test_feedback_fill_blank_failure(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_evaluate_error_correction_correct(mock_analyzer_client):
+async def test_evaluate_error_correction_correct(mock_scorer_client):
     """evaluate_error_correction returns (True, feedback_dict) for a correct answer."""
     _seed_cache()
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+    mock_scorer_client.messages.create.return_value = _make_llm_response(
         '{"correct": true, "explanation": "Hai corretto l\'errore."}'
     )
 
-    is_correct, feedback = await analyzer_module.evaluate_error_correction(
+    is_correct, feedback = await scorer_module.evaluate_error_correction(
         erroneous="Ho andato a scuola.",
         reference="Sono andato a scuola.",
         student="Sono andato a scuola.",
@@ -165,14 +161,14 @@ async def test_evaluate_error_correction_correct(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_evaluate_error_correction_incorrect(mock_analyzer_client):
+async def test_evaluate_error_correction_incorrect(mock_scorer_client):
     """evaluate_error_correction returns (False, feedback_dict) for a wrong answer."""
     _seed_cache()
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+    mock_scorer_client.messages.create.return_value = _make_llm_response(
         '{"correct": false, "explanation": "Hai usato l\'ausiliare sbagliato."}'
     )
 
-    is_correct, feedback = await analyzer_module.evaluate_error_correction(
+    is_correct, feedback = await scorer_module.evaluate_error_correction(
         erroneous="Ho andato a scuola.",
         reference="Sono andato a scuola.",
         student="Ho andato a scuola.",
@@ -181,7 +177,7 @@ async def test_evaluate_error_correction_incorrect(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_score_multi_item_drill_success(mock_analyzer_client):
+async def test_score_multi_item_drill_success(mock_scorer_client):
     """score_multi_item_drill returns a list of per-item dicts."""
     _seed_cache()
     items = [
@@ -192,9 +188,9 @@ async def test_score_multi_item_drill_success(mock_analyzer_client):
         {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
         {"objective_correct": False, "objective_note": "Sbagliato.", "grammar_errors": [], "tips": []},
     ]
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_scorer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
 
-    result = await analyzer_module.score_multi_item_drill(
+    result = await scorer_module.score_multi_item_drill(
         exercise_type="fill_blank",
         grammar_point_code="GP_001",
         items=items,
@@ -206,13 +202,13 @@ async def test_score_multi_item_drill_success(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_score_multi_item_drill_fallback_on_failure(mock_analyzer_client):
+async def test_score_multi_item_drill_fallback_on_failure(mock_scorer_client):
     """score_multi_item_drill returns all-incorrect fallback on LLM error."""
     _seed_cache()
     items = [MagicMock(prompt="Test.", correct_answer="answer")]
-    mock_analyzer_client.messages.create.side_effect = RuntimeError("error")
+    mock_scorer_client.messages.create.side_effect = RuntimeError("error")
 
-    result = await analyzer_module.score_multi_item_drill(
+    result = await scorer_module.score_multi_item_drill(
         exercise_type="fill_blank",
         grammar_point_code="GP_001",
         items=items,
@@ -223,7 +219,7 @@ async def test_score_multi_item_drill_fallback_on_failure(mock_analyzer_client):
 
 
 @pytest.mark.integration
-async def test_generate_writing_feedback_success(mock_analyzer_client):
+async def test_generate_writing_feedback_success(mock_scorer_client):
     """generate_writing_feedback returns dict with expected keys."""
     _seed_cache()
     payload = {
@@ -232,9 +228,9 @@ async def test_generate_writing_feedback_success(mock_analyzer_client):
         "grammar_errors": [],
         "tips": [],
     }
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_scorer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
 
-    result = await analyzer_module.generate_writing_feedback(
+    result = await scorer_module.generate_writing_feedback(
         prompt="Descrivi la tua famiglia.",
         student_text="Ho una sorella e due fratelli.",
         cefr_level="A1",

@@ -88,45 +88,40 @@ def record_eval():
 
 @pytest.fixture
 async def seeded_lesson_analyzer_cache(db):
-    """Seed the lesson_analyzer module caches from JSON data files."""
-    import maestro.learning.lesson_analyzer as la_module
+    """Seed the taxonomy cache from JSON data files for lesson_analyzer tests."""
+    from maestro import taxonomy
 
     gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    original_gp = la_module._grammar_points_cache[:]
-    original_cf = la_module._comm_functions_cache[:]
-
-    la_module._grammar_points_cache = [SimpleNamespace(**g) for g in gps]
-    la_module._comm_functions_cache = [SimpleNamespace(**c) for c in cfs]
+    taxonomy.seed(
+        gps=[SimpleNamespace(**g) for g in gps],
+        cfs=[SimpleNamespace(**c) for c in cfs],
+    )
 
     yield
 
-    la_module._grammar_points_cache = original_gp
-    la_module._comm_functions_cache = original_cf
+    taxonomy.invalidate()
 
 
 @pytest.fixture
 async def seeded_analyzer_cache(db):
-    """Seed the analyzer module caches from JSON data files (no real DB needed)."""
+    """Seed the taxonomy cache and analyzer state from JSON data files."""
     import maestro.learning.analyzer as analyzer_module
+    from maestro import taxonomy
 
     gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    original_gp = analyzer_module._grammar_points_cache[:]
-    original_cf = analyzer_module._comm_functions_cache[:]
-    original_level = analyzer_module._student_level
-
-    analyzer_module._grammar_points_cache = [SimpleNamespace(**g) for g in gps]
-    # CFs in the JSON have no `description` field; supply the default so _build_prompt doesn't crash
-    analyzer_module._comm_functions_cache = [
-        SimpleNamespace(description="", **cf) for cf in cfs
-    ]
+    taxonomy.seed(
+        gps=[SimpleNamespace(**g) for g in gps],
+        # CFs in the JSON have no `description` field; supply the default so _build_prompt doesn't crash
+        cfs=[SimpleNamespace(description="", **cf) for cf in cfs],
+    )
     analyzer_module._student_level = "A1"
+    analyzer_module._student_level_loaded = True
 
     yield
 
-    analyzer_module._grammar_points_cache = original_gp
-    analyzer_module._comm_functions_cache = original_cf
-    analyzer_module._student_level = original_level
+    taxonomy.invalidate()
+    analyzer_module._student_level_loaded = False

@@ -14,7 +14,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 async def test_writing_task_completion_accuracy(record_eval):
     """Measure accuracy of task-completion (objective_correct) for writing feedback."""
     import json as _json
-    from maestro.learning.analyzer import generate_writing_feedback
+    from maestro.learning.scorer import generate_writing_feedback
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "writing_cases.json").read_text())

@@ -1,6 +1,7 @@
+import asyncio
 import pytest
 
-from maestro.utils import parse_llm_json
+from maestro.utils import parse_llm_json, create_background_task
 
 
 @pytest.mark.unit
@@ -63,3 +64,25 @@ def test_array_of_objects():
 @pytest.mark.unit
 def test_whitespace_trimmed():
     assert parse_llm_json('  {"x": 1}  ') == {"x": 1}
+
+
+@pytest.mark.unit
+async def test_background_task_runs_to_completion():
+    result = []
+
+    async def work():
+        result.append(1)
+
+    task = create_background_task(work(), name="test")
+    await task
+    assert result == [1]
+
+
+@pytest.mark.unit
+async def test_background_task_logs_exception(caplog):
+    async def failing():
+        raise ValueError("boom")
+
+    task = create_background_task(failing(), name="test-fail")
+    await asyncio.sleep(0.05)
+    assert any("boom" in r.message for r in caplog.records)
