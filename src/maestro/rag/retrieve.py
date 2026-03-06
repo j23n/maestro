@@ -1,5 +1,4 @@
 from functools import lru_cache
-from maestro.settings import Settings
 from maestro.models import ItalianChunk, ItalianChunkResult
 
 @lru_cache(maxsize=1)

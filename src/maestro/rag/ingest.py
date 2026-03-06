@@ -9,7 +9,7 @@ import re
 from pymongo import AsyncMongoClient
 
 from maestro.models import ItalianChunk
-from maestro.settings import Settings
+from maestro.config import settings
 from maestro.db import init_db, init_indices
 
 ENRICHMENT_FILE = Path(__file__).parent.parent / "data/chunk_enrichment.json"
@@ -271,7 +271,6 @@ async def ingest_grammar_rules(client):
 if __name__ == "__main__":
 
     async def main():
-        settings = Settings()
         client = AsyncMongoClient(settings.database_url)
         await init_db()
         await ItalianChunk.delete_all()
