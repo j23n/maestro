@@ -102,17 +102,10 @@ def _annotate(
     translation = ""
     if wdef:
         senses_data = [
-            {"definition": s.definition, "examples": s.examples}
+            {"definition": s.definition, "translation": s.translation, "examples": s.examples}
             for s in wdef.senses
         ]
         translation = wdef.translation
-    elif word.senses:
-        # Fall back to raw EPUB senses if no graded definition yet
-        senses_data = [
-            {"definition": s.definition, "examples": s.examples[:1]}
-            for s in word.senses
-            if s.definition
-        ]
 
     senses_json = json.dumps(senses_data, ensure_ascii=False).replace("'", "&#39;")
 

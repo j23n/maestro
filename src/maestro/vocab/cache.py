@@ -30,11 +30,18 @@ async def ensure_loaded() -> None:
     nlp = get_nlp()
     words = await VocabularyWord.find_all().to_list()
     word_forms = [w.word for w in words]
-    lemmas = (
+    lemmas = [
         doc[0].lemma_.lower()
         for doc in nlp.pipe(word_forms, disable=["parser", "senter", "ner"], batch_size=512)
-    )
-    _word_index = {lemma: word for lemma, word in zip(lemmas, words)}
+    ]
+    _word_index = {}
+    for lemma, word in zip(lemmas, words):
+        existing = _word_index.get(lemma)
+        if existing is None:
+            _word_index[lemma] = word
+        elif word.word.lower() == lemma and existing.word.lower() != lemma:
+            # Prefer the entry whose surface form matches its own lemma (base form)
+            _word_index[lemma] = word
 
     defs = await VocabularyWordDefinition.find_all().to_list()
     _def_index = {}

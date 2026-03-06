@@ -56,6 +56,12 @@
           ex.textContent = s.examples[0];
           wrap.appendChild(ex);
         }
+        if (s.translation) {
+          const tr = document.createElement('div');
+          tr.className = 'tt-sense-translation';
+          tr.textContent = 'English: ' + s.translation;
+          wrap.appendChild(tr);
+        }
         sensesEl.appendChild(wrap);
       });
 

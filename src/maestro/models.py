@@ -40,6 +40,7 @@ class VocabularyWord(Document):
 
 class CefrSense(BaseModel):
     definition: str
+    translation: str = ""   # English gloss for this specific sense
     examples: List[str] = []
 
 
