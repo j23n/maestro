@@ -20,6 +20,7 @@ from maestro.db import init_db
 logger = logging.getLogger(__name__)
 from maestro.models import (
     CommunicativeFunction,
+    CurriculumScenario,
     DrillTemplate,
     GrammarPoint,
     GrammarPointExplanation,
@@ -100,6 +101,28 @@ async def upsert_drill_templates(grammar_points: list[GrammarPoint]) -> None:
     logger.info(f"Drill templates: inserted {total_new} new spec records")
 
 
+async def seed_scenarios() -> None:
+    """Upsert CurriculumScenario documents from scenarios_a1.yaml."""
+    scenario_file = DATA_DIR / "scenarios_a1.yaml"
+    if not scenario_file.exists():
+        logger.warning(f"Scenario file not found: {scenario_file}")
+        return
+
+    with open(scenario_file) as f:
+        data = yaml.safe_load(f)
+
+    scenarios = data.get("scenarios", [])
+    for item in scenarios:
+        existing = await CurriculumScenario.find_one({"slug": item["slug"]})
+        if existing:
+            for key, val in item.items():
+                setattr(existing, key, val)
+            await existing.save()
+        else:
+            await CurriculumScenario(**item).insert()
+    logger.info(f"Scenarios: upserted {len(scenarios)} records")
+
+
 async def ingest():
     await init_db()
 
@@ -114,6 +137,9 @@ async def ingest():
 
     logger.info("=== Seeding drill template specs ===")
     await upsert_drill_templates(grammar_points)
+
+    logger.info("=== Seeding curriculum scenarios ===")
+    await seed_scenarios()
 
     logger.info("=== Ensuring LearningProfile exists ===")
     await get_or_create_profile()

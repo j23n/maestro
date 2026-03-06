@@ -6,6 +6,30 @@ from pydantic import BaseModel, Field
 from maestro.utils import utcnow
 
 
+class CurriculumScenario(Document):
+    slug: str                     # "al-bar" (unique)
+    label: str                    # "Al bar"
+    description: str              # English description of the scenario
+    cefr_level: str               # "A1"
+    cf_codes: List[str]           # CF codes exercised in this scenario
+    gp_codes: List[str]           # GP codes exercised in this scenario
+    depths: List[str]             # index 0 = depth 1, etc. Always 3 entries.
+
+    class Settings:
+        name = "curriculum_scenarios"
+
+
+class StudentPersona(BaseModel):
+    tags: List[str] = []          # ["university student", "wine enthusiast", ...]
+    freetext: str = ""            # optional free-form narrative
+
+
+class ScenarioProgress(BaseModel):
+    depth: int = 0                # highest depth completed (0 = unvisited)
+    last_visited: Optional[datetime] = None
+    lesson_count: int = 0
+
+
 class ItalianChunk(Document):
     ref: str = Field(unique=True)
     content: str
@@ -118,7 +142,8 @@ class LearningProfile(Document):
     cefr_estimate: str = "A1"
     description: str = ""
     updated_at: datetime = Field(default_factory=utcnow)
-    student_interests: List[str] = Field(default_factory=list)
+    persona: StudentPersona = Field(default_factory=StudentPersona)
+    scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
 
     class Settings:
         name = "learning_profile"
@@ -149,7 +174,7 @@ class GeneratedDrill(Document):
     correct_answer: Optional[str] = None
     distractors: List[str] = Field(default_factory=list)
     items: List[DrillItem] = Field(default_factory=list)  # multi-item drills (fill_blank, error_correction)
-    topic_used: str
+    scenario_slug: Optional[str] = None
     generated_at: datetime = Field(default_factory=utcnow)
     used: bool = False
     chunk_ref: Optional[str] = None  # ItalianChunk.ref from the GP's chunk_ref
@@ -188,14 +213,6 @@ class GrammarPointExplanation(Document):
 
 # --- Lezione ---
 
-class LessonTopic(BaseModel):
-    title: str                        # e.g. "Chiedere informazioni in farmacia"
-    description: str                  # 1-2 sentences on what real-world situation this covers
-    cf_codes: List[str]               # 2-4 CF codes anchoring this topic
-    depth: int = 1                    # 1=introduction, 2=develops prior, 3=advanced
-    builds_on: Optional[str] = None   # title of the prior lesson this extends (depth > 1)
-
-
 class LessonActivity(BaseModel):
     type: str           # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "conversazione"
     title: str
@@ -218,7 +235,10 @@ class Lesson(Document):
     completed_at: Optional[datetime] = None
     status: str = "planning"  # "planning" | "active" | "completed" | "abandoned"
     duration_minutes: int = 20
-    topic: Optional[LessonTopic] = None
+    scenario_slug: Optional[str] = None
+    scenario_depth: Optional[int] = None
+    topic_title: Optional[str] = None
+    topic_description: Optional[str] = None
     activities: List[LessonActivity] = []
     current_index: int = 0
     cefr_at_start: str = "A1"
@@ -231,6 +251,7 @@ class Lesson(Document):
 
 
 ALL_DOCUMENT_MODELS = [
+    CurriculumScenario,
     ItalianChunk,
     VocabularyWord,
     VocabularyWordDefinition,

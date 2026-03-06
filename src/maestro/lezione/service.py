@@ -10,9 +10,10 @@ from __future__ import annotations
 import logging
 import re
 
-from maestro.models import GeneratedDrill, GrammarPoint, Lesson
+from maestro.models import GeneratedDrill, GrammarPoint, Lesson, ScenarioProgress
 from maestro.llm import get_async_client
 from maestro.config import settings
+from maestro.profile import get_profile
 from maestro.utils import utcnow
 
 logger = logging.getLogger(__name__)
@@ -41,6 +42,18 @@ async def advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -
     lesson.status = "completed"
     lesson.completed_at = utcnow()
     await lesson.save()
+
+    # Update scenario progress
+    if lesson.scenario_slug:
+        profile = await get_profile()
+        if profile:
+            progress = profile.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
+            progress.depth = max(progress.depth, lesson.scenario_depth or 1)
+            progress.last_visited = utcnow()
+            progress.lesson_count += 1
+            profile.scenario_progress[lesson.scenario_slug] = progress
+            await profile.save()
+
     return f"/lezione/{lesson.id}/complete"
 
 

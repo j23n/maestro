@@ -480,21 +480,6 @@ input[type="text"]:focus { border-color: #888; }
 .duration-options .dur-min { display: block; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.1rem; }
 .duration-options .dur-label { font-size: 0.75rem; opacity: 0.8; }
 
-textarea.topic-field {
-  width: 100%;
-  min-height: 60px;
-  padding: 0.6rem 0.75rem;
-  font-size: 0.9rem;
-  font-family: inherit;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  resize: vertical;
-  outline: none;
-  color: #111;
-}
-textarea.topic-field:focus { border-color: #888; }
-textarea.topic-field::placeholder { color: #bbb; }
-
 .grammar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 1rem; }
 
 .grammar-level-heading {
@@ -1031,7 +1016,46 @@ th { font-weight: 600; color: #555; font-size: 12px; text-transform: uppercase; 
 }
 
 /* =====================================================================
-   20. Media queries
+   20. Scenario map & lesson history
+   ===================================================================== */
+.scenario-map { margin: 1.5rem 0; }
+.scenario-map h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+.scenario-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  background: #fafafa;
+}
+.scenario-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
+.scenario-dots { display: flex; gap: 4px; margin-bottom: 0.2rem; }
+.scenario-dots .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #ddd; border: 1px solid #ccc;
+}
+.scenario-dots .dot.filled { background: #4caf50; border-color: #388e3c; }
+.scenario-meta { font-size: 0.7rem; color: #888; }
+
+.lesson-history { margin: 1.5rem 0; }
+.lesson-history h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+.history-list { display: flex; flex-direction: column; gap: 2px; }
+.history-row {
+  display: flex; gap: 0.75rem; align-items: baseline;
+  padding: 0.4rem 0.5rem; border-radius: 4px;
+  text-decoration: none; color: inherit;
+  font-size: 0.85rem;
+}
+.history-row:hover { background: #f5f5f5; }
+.history-date { color: #888; min-width: 3rem; }
+.history-topic { flex: 1; }
+.history-scenario { color: #666; font-size: 0.8rem; }
+
+/* =====================================================================
+   21. Media queries
    ===================================================================== */
 @media (max-width: 480px) {
   .lesson-plan { margin: 1.5rem auto; }

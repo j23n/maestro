@@ -1,7 +1,7 @@
 """
 Selection helpers for lesson planning.
 
-Picks grammar points, communicative functions, and vocabulary cards
+Picks scenarios, grammar points, communicative functions, and vocabulary cards
 based on the student's profile and CEFR level.
 """
 from __future__ import annotations
@@ -13,10 +13,10 @@ from typing import Optional
 
 from maestro.models import (
     CommunicativeFunction,
+    CurriculumScenario,
     GrammarPoint,
-    Lesson,
-    LessonTopic,
     LearningProfile,
+    ScenarioProgress,
     UserVocabularyCard,
     VocabularyWord,
 )
@@ -26,22 +26,103 @@ logger = logging.getLogger(__name__)
 
 MIN_VOCAB = 5
 
+# Cooldown: recently visited scenarios get a penalty (seconds)
+_COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
+
+
+async def pick_scenario(
+    profile: Optional[LearningProfile],
+    cefr_level: str,
+) -> tuple[CurriculumScenario, int]:
+    """Pick the next scenario and depth level to cover.
+
+    Selection criteria (weighted scoring):
+    1. Unvisited scenarios strongly preferred over visited ones
+    2. Lower-depth scenarios preferred (don't skip ahead)
+    3. Scenarios whose GP codes overlap with the student's weakest GPs get a boost
+    4. Recently visited scenarios get a cooldown penalty (avoid back-to-back)
+    5. Small random jitter for variety
+
+    Returns (scenario, next_depth).
+    """
+    scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+    if not scenarios:
+        scenarios = await CurriculumScenario.find_all().to_list()
+    if not scenarios:
+        raise ValueError("No curriculum scenarios found")
+
+    progress = profile.scenario_progress if profile else {}
+    now = utcnow()
+
+    # Identify weak GP codes (high error rate)
+    error_counts = profile.grammar_error_counts if profile else {}
+    correct_counts = profile.grammar_correct_counts if profile else {}
+    weak_gps: set[str] = set()
+    for code in error_counts:
+        total = correct_counts.get(code, 0) + error_counts.get(code, 0)
+        if total > 0 and error_counts[code] / total > 0.4:
+            weak_gps.add(code)
+
+    scored: list[tuple[float, CurriculumScenario, int]] = []
+    for scenario in scenarios:
+        sp = progress.get(scenario.slug, ScenarioProgress())
+        next_depth = min(sp.depth + 1, len(scenario.depths))
+
+        score = 0.0
+
+        # 1. Unvisited bonus
+        if sp.depth == 0:
+            score += 10.0
+
+        # 2. Prefer lower next-depth (introduction first)
+        score -= next_depth * 0.5
+
+        # 3. Weak GP overlap bonus
+        overlap = len(weak_gps & set(scenario.gp_codes))
+        score += overlap * 1.5
+
+        # 4. Cooldown penalty
+        if sp.last_visited:
+            elapsed = (now - sp.last_visited).total_seconds()
+            if elapsed < _COOLDOWN_SECONDS:
+                score -= 5.0 * (1 - elapsed / _COOLDOWN_SECONDS)
+
+        # 5. Jitter
+        score += random.uniform(0, 1.0)
+
+        scored.append((score, scenario, next_depth))
+
+    scored.sort(key=lambda x: -x[0])
+    _, best_scenario, best_depth = scored[0]
+    logger.info(
+        f"[selection] pick_scenario: {best_scenario.slug} depth={best_depth} "
+        f"(from {len(scenarios)} candidates)"
+    )
+    return best_scenario, best_depth
+
 
 async def pick_grammar_points(
     profile: Optional[LearningProfile],
     cefr_level: str,
     count: int,
+    candidate_codes: list[str] | None = None,
 ) -> list[GrammarPoint]:
     """Pick grammar points to practise, prioritising weakest within level.
 
+    When candidate_codes is provided (from a scenario), filter to those codes.
     Among the top candidates, prefer GPs that share the same chunk_ref
     so lessons are coherent around a textbook section.
     """
-    candidates = await GrammarPoint.find(
-        {"cefr_level": cefr_level}
-    ).to_list()
+    if candidate_codes:
+        candidates = await GrammarPoint.find(
+            {"code": {"$in": candidate_codes}}
+        ).to_list()
+    else:
+        candidates = await GrammarPoint.find(
+            {"cefr_level": cefr_level}
+        ).to_list()
     if not candidates:
-        logger.warning(f"[selection] no grammar points at level {cefr_level}, using all")
+        logger.warning(f"[selection] no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()
 
     error_counts: dict = profile.grammar_error_counts if profile else {}
@@ -78,50 +159,38 @@ async def pick_comm_functions(
     profile: Optional[LearningProfile],
     cefr_level: str,
     count: int,
-    preferred_codes: list[str] = [],
+    candidate_codes: list[str] | None = None,
 ) -> list[CommunicativeFunction]:
     """Pick CFs at or below the current level.
 
-    If preferred_codes are given (from the lesson topic), matching CFs are
-    returned first. Falls back to least-practised ordering.
+    When candidate_codes is provided (from a scenario), filter to those codes.
+    Falls back to least-practised ordering.
     """
-    level_idx = CEFR_ORDER.index(cefr_level) if cefr_level in CEFR_ORDER else 0
-    eligible_levels = CEFR_ORDER[: level_idx + 1]
-    candidates = await CommunicativeFunction.find(
-        {"cefr_level": {"$in": eligible_levels}}
-    ).to_list()
+    if candidate_codes:
+        candidates = await CommunicativeFunction.find(
+            {"code": {"$in": candidate_codes}}
+        ).to_list()
+    else:
+        level_idx = CEFR_ORDER.index(cefr_level) if cefr_level in CEFR_ORDER else 0
+        eligible_levels = CEFR_ORDER[: level_idx + 1]
+        candidates = await CommunicativeFunction.find(
+            {"cefr_level": {"$in": eligible_levels}}
+        ).to_list()
     if not candidates:
-        logger.warning(f"[selection] no comm functions found for levels {eligible_levels}")
+        logger.warning(f"[selection] no comm functions found")
         return []
 
     fn_counts: dict = profile.functions_counts if profile else {}
-    preferred_set = set(preferred_codes)
 
-    def _score(cf: CommunicativeFunction) -> tuple:
-        not_preferred = cf.code not in preferred_set
-        usage = fn_counts.get(cf.code, 0) + random.uniform(0, 0.5)
-        return (not_preferred, usage)
+    def _score(cf: CommunicativeFunction) -> float:
+        return fn_counts.get(cf.code, 0) + random.uniform(0, 0.5)
 
     candidates.sort(key=_score)
     picked = candidates[:count]
     logger.debug(
-        f"[selection] pick_comm_functions: {len(candidates)} candidates, "
-        f"preferred={preferred_codes} → picked {[c.code for c in picked]}"
+        f"[selection] pick_comm_functions: {len(candidates)} candidates → picked {[c.code for c in picked]}"
     )
     return picked
-
-
-async def get_past_topics(n: int = 10) -> list[LessonTopic]:
-    """Return the topics of the last n completed lessons, most recent first."""
-    lessons = (
-        await Lesson.find(Lesson.status == "completed")
-        .sort(-Lesson.created_at)
-        .limit(n)
-        .to_list()
-    )
-    topics = [l.topic for l in lessons if l.topic is not None]
-    logger.debug(f"[selection] past topics ({len(topics)}): {[t.title for t in topics]}")
-    return topics
 
 
 async def fill_vocab_cards(vocab_count: int, cefr_level: str) -> list[UserVocabularyCard]:

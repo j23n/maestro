@@ -27,7 +27,7 @@ async def active_lesson_with_drill(db):
         exercise_type="fill_blank",
         prompt="",
         items=[DrillItem(prompt="Io ___ al parco.", correct_answer="vado")],
-        topic_used="test",
+        scenario_slug="test",
     )
     await drill.insert()
 
