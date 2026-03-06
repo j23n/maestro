@@ -22,6 +22,7 @@ from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
     DrillTemplate,
+    ExerciseType,
     GrammarPoint,
     GrammarPointExplanation,
     Sense,
@@ -29,20 +30,34 @@ from maestro.models import (
 )
 from maestro.utils import DATA_DIR
 
-EXERCISE_TYPES = ("fill_blank", "error_correction", "free_form")
+EXERCISE_TYPES = (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION, ExerciseType.FREE_FORM)
 CHUNK_MAPPING_FILE = DATA_DIR / "grammar_point_chunks.yaml"
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
     with open(DATA_DIR / "grammar_points.json") as f:
         items = json.load(f)
-    await GrammarPointExplanation.find().delete()
-    await GrammarPoint.find().delete()
-    docs = [GrammarPoint(**item) for item in items]
-    await GrammarPoint.insert_many(docs)
-    # Re-fetch so documents have their _id set (insert_many doesn't mutate the originals)
+    new_codes = {item["code"] for item in items}
+    # Remove GPs (and their explanations) that no longer exist in the data file
+    existing = await GrammarPoint.find_all().to_list()
+    for gp in existing:
+        if gp.code not in new_codes:
+            await GrammarPointExplanation.find({"grammar_point.$id": gp.id}).delete()
+            await gp.delete()
+    # Upsert by code — preserves _id so explanations stay linked
+    gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
+    for item in items:
+        gp = await GrammarPoint.find_one({"code": item["code"]})
+        if gp:
+            for key, val in item.items():
+                if key in gp_fields:
+                    setattr(gp, key, val)
+            await gp.save()
+        else:
+            filtered = {k: v for k, v in item.items() if k in gp_fields}
+            await GrammarPoint(**filtered).insert()
     inserted = await GrammarPoint.find_all().to_list()
-    logger.info(f"Grammar points: replaced with {len(inserted)} records")
+    logger.info(f"Grammar points: upserted {len(inserted)} records")
     return inserted
 
 
@@ -156,6 +171,41 @@ async def seed_a0_vocab() -> None:
     logger.info(f"A0 vocab: {count} new words inserted ({len(items)} total)")
 
 
+async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:
+    """Seed static A0 grammar explanations from JSON file."""
+    expl_file = DATA_DIR / "a0_grammar_explanations.json"
+    if not expl_file.exists():
+        logger.warning(f"A0 grammar explanations file not found: {expl_file}")
+        return
+
+    with open(expl_file) as f:
+        data = json.load(f)
+
+    gp_by_code = {gp.code: gp for gp in grammar_points if gp.cefr_level == "A0"}
+    count = 0
+    for code, texts in data.items():
+        gp = gp_by_code.get(code)
+        if not gp:
+            logger.warning(f"  A0 GP not found for code: {code}")
+            continue
+        existing = await GrammarPointExplanation.find_one(
+            {"grammar_point.$id": gp.id, "student_level": "A0"}
+        )
+        if existing:
+            existing.title = texts["title"]
+            existing.explanation = texts["explanation"]
+            await existing.save()
+        else:
+            await GrammarPointExplanation(
+                grammar_point=gp,
+                student_level="A0",
+                title=texts["title"],
+                explanation=texts["explanation"],
+            ).insert()
+            count += 1
+    logger.info(f"A0 grammar explanations: {count} new, {len(data)} total")
+
+
 async def ingest():
     await init_db()
 
@@ -164,6 +214,9 @@ async def ingest():
 
     logger.info("=== Linking grammar points to chunks ===")
     await link_grammar_points_to_chunks(grammar_points)
+
+    logger.info("=== Seeding A0 grammar explanations ===")
+    await seed_a0_grammar_explanations(grammar_points)
 
     logger.info("=== Ingesting communicative functions ===")
     await upsert_comm_functions()
