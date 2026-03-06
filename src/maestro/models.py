@@ -225,3 +225,20 @@ class Lesson(Document):
 
     class Settings:
         name = "lessons"
+
+
+ALL_DOCUMENT_MODELS = [
+    ItalianChunk,
+    VocabularyWord,
+    VocabularyWordDefinition,
+    UserVocabularyCard,
+    GrammarPoint,
+    GrammarPointExplanation,
+    CommunicativeFunction,
+    LearningEvent,
+    LearningProfile,
+    DrillTemplate,
+    GeneratedDrill,
+    DrillAttempt,
+    Lesson,
+]

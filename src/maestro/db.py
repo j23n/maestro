@@ -1,42 +1,14 @@
 from beanie import init_beanie
 from pymongo import AsyncMongoClient
 from maestro.config import settings
-from maestro.models import (
-    ItalianChunk,
-    VocabularyWord,
-    VocabularyWordDefinition,
-    UserVocabularyCard,
-    GrammarPoint,
-    GrammarPointExplanation,
-    CommunicativeFunction,
-    LearningEvent,
-    LearningProfile,
-    DrillTemplate,
-    GeneratedDrill,
-    DrillAttempt,
-    Lesson,
-)
+from maestro.models import ALL_DOCUMENT_MODELS
 
 
 async def init_db():
     client = AsyncMongoClient(settings.database_url)
     await init_beanie(
         database=client[settings.MONGODB_DB],
-        document_models=[
-            ItalianChunk,
-            VocabularyWord,
-            VocabularyWordDefinition,
-            UserVocabularyCard,
-            GrammarPoint,
-            CommunicativeFunction,
-            LearningEvent,
-            LearningProfile,
-            DrillTemplate,
-            GeneratedDrill,
-            DrillAttempt,
-            Lesson,
-            GrammarPointExplanation,
-        ],
+        document_models=ALL_DOCUMENT_MODELS,
     )
 
 
