@@ -1,8 +1,14 @@
 import json
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 CEFR_ORDER = ["A1", "A2", "B1", "B2"]
+
+
+def utcnow() -> datetime:
+    """Timezone-aware UTC now. Drop-in replacement for deprecated datetime.utcnow()."""
+    return datetime.now(timezone.utc)
 
 # Absolute path to src/maestro/data/
 DATA_DIR = Path(__file__).parent / "data"

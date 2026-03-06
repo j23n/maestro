@@ -1,7 +1,6 @@
 """Integration tests for _advance_lesson, _collect_free_texts, _collect_drill_gp_outcomes."""
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
-from datetime import datetime
 
 from maestro.models import (
     Lesson,
@@ -19,7 +18,7 @@ def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> 
         activities=activities,
         current_index=0,
         generating=generating,
-        started_at=datetime.utcnow(),
+        started_at=None,
     )
 
 

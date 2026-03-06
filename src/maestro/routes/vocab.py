@@ -1,3 +1,4 @@
+import re
 from datetime import date
 from typing import Annotated
 import logging
@@ -96,7 +97,7 @@ async def vocab_search(request: Request, q: str = ""):
     if len(q) < 2:
         return HTMLResponse("")
     words = await VocabularyWord.find(
-        {"word": {"$regex": f"^{q}", "$options": "i"}}
+        {"word": {"$regex": f"^{re.escape(q)}", "$options": "i"}}
     ).limit(10).to_list()
     return templates.TemplateResponse(
         request=request, name="vocab-search-results.html", context={"words": words}

@@ -14,7 +14,7 @@ import json
 import logging
 import random
 import time
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
 
 import anthropic
@@ -35,7 +35,7 @@ from maestro.models import (
 )
 from maestro.config import settings
 from maestro.prompts import planner as _prompts
-from maestro.utils import CEFR_ORDER, parse_llm_json
+from maestro.utils import CEFR_ORDER, parse_llm_json, utcnow
 from maestro.rag.retrieve import get_chunks_for_refs
 
 logger = logging.getLogger(__name__)
@@ -287,7 +287,7 @@ async def _fill_vocab_cards(vocab_count: int, cefr_level: str) -> list[UserVocab
         new_cards = [
             UserVocabularyCard(
                 word=w,
-                discovered_at=datetime.utcnow(),
+                discovered_at=utcnow(),
                 next_review=date.today(),
             )
             for w in new_words[:needed]
@@ -494,7 +494,7 @@ async def prepare_lesson_immediate(
         duration_minutes=duration_minutes,
         cefr_at_start=cefr_level,
         status="active",
-        started_at=datetime.utcnow(),
+        started_at=utcnow(),
         generating=True,
         activities=activities,
         current_index=0,

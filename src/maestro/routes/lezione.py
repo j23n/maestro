@@ -2,7 +2,6 @@ import asyncio
 import json
 import logging
 import re
-from datetime import datetime
 from typing import Annotated
 
 import anthropic
@@ -23,7 +22,7 @@ from maestro.drills.scoring import score_attempt
 from maestro.learning.analyzer import generate_writing_feedback, score_reading_answers
 from maestro.config import settings
 from maestro.templates import templates
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, utcnow
 from maestro.vocab.discover import discover, discover_markdown, discover_list
 from maestro.vocab.srs import review
 
@@ -58,13 +57,13 @@ async def _advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) 
         return f"/lezione/{lesson.id}/generating"
     # All done
     lesson.status = "completed"
-    lesson.completed_at = datetime.utcnow()
+    lesson.completed_at = utcnow()
     await lesson.save()
     return f"/lezione/{lesson.id}/complete"
 
 
-def _generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str:
-    """Sync Haiku call: brief English feedback on the completed lesson."""
+async def _generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str:
+    """Async Haiku call: brief English feedback on the completed lesson."""
     lines = []
     for a in lesson.activities:
         if a.type == "drill" and a.result:
@@ -87,8 +86,8 @@ def _generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str:
         "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
         "notes any areas of difficulty, and ends with one specific encouragement."
     )
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
-    response = client.messages.create(
+    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+    response = await client.messages.create(
         model=settings.DRILL_MODEL,
         max_tokens=200,
         messages=[{"role": "user", "content": prompt}],
@@ -196,7 +195,7 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request):
             next_idx += 1
         if lesson.status != "completed":
             lesson.status = "completed"
-            lesson.completed_at = datetime.utcnow()
+            lesson.completed_at = utcnow()
             await lesson.save()
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     return templates.TemplateResponse(
@@ -214,7 +213,7 @@ async def lezione_start(lesson_id: PydanticObjectId, request: Request):
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
     lesson.status = "active"
-    lesson.started_at = datetime.utcnow()
+    lesson.started_at = utcnow()
     lesson.current_index = 0
     lesson.activities[0].status = "active"
     await lesson.save()
@@ -568,7 +567,7 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
         asyncio.create_task(analyze_lesson(lesson))
     if not lesson.feedback_summary:
         try:
-            lesson.feedback_summary = _generate_lesson_feedback(lesson, weak_grammar_points)
+            lesson.feedback_summary = await _generate_lesson_feedback(lesson, weak_grammar_points)
             await lesson.save()
         except Exception as exc:
             logger.warning(f"[lezione] feedback generation error: {exc}")
