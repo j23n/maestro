@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fff"/>
+  <!-- Nav -->
+  <rect width="800" height="40" fill="#fff"/>
+  <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e5e5"/>
+  <text x="150" y="26" font-size="13" fill="#555">Lezione</text>
+  <text x="230" y="26" font-size="13" fill="#555">Vocabolario</text>
+  <text x="330" y="26" font-size="13" fill="#555">Grammatica</text>
+  <text x="430" y="26" font-size="13" fill="#555">Profilo</text>
+
+  <!-- Progress bar -->
+  <rect x="150" y="60" width="500" height="4" rx="2" fill="#e5e5e5"/>
+  <rect x="150" y="60" width="400" height="4" rx="2" fill="#111"/>
+  <text x="150" y="78" font-size="11" fill="#aaa">11 / 14</text>
+
+  <!-- Reading card -->
+  <rect x="150" y="95" width="500" height="230" rx="8" fill="#fff" stroke="#e5e5e5"/>
+  <text x="170" y="122" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">LETTURA</text>
+
+  <text x="170" y="152" font-size="15" fill="#222" line-height="1.8">
+    <tspan x="170" dy="0">Marco abita a Roma con la sua famiglia. Ogni</tspan>
+    <tspan x="170" dy="26">mattina si sveglia alle sette, fa colazione con</tspan>
+    <tspan x="170" dy="26">un caffè e un cornetto, e poi prende l'autobus</tspan>
+    <tspan x="170" dy="26">per andare al lavoro. La sera, dopo cena, gli</tspan>
+    <tspan x="170" dy="26">piace leggere un libro o guardare un film.</tspan>
+    <tspan x="170" dy="26">Il fine settimana esce con gli amici.</tspan>
+  </text>
+
+  <!-- Vocab word underline hints -->
+  <line x1="170" y1="156" x2="208" y2="156" stroke="#aaa" stroke-dasharray="3,2"/>
+  <line x1="354" y1="182" x2="404" y2="182" stroke="#aaa" stroke-dasharray="3,2"/>
+
+  <!-- Questions card -->
+  <rect x="150" y="340" width="500" height="220" rx="8" fill="#fff" stroke="#e5e5e5"/>
+  <text x="170" y="367" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">COMPRENSIONE</text>
+
+  <!-- Q1 -->
+  <text x="170" y="400" font-size="14" font-weight="500" fill="#333">1. Dove abita Marco?</text>
+  <rect x="170" y="410" width="460" height="32" rx="6" fill="#fff" stroke="#d0d0d0"/>
+  <text x="182" y="431" font-size="13" fill="#999">La tua risposta…</text>
+
+  <!-- Q2 -->
+  <text x="170" y="470" font-size="14" font-weight="500" fill="#333">2. Cosa fa Marco la sera?</text>
+  <rect x="170" y="480" width="460" height="32" rx="6" fill="#fff" stroke="#d0d0d0"/>
+  <text x="182" y="501" font-size="13" fill="#999">La tua risposta…</text>
+
+  <!-- Submit -->
+  <rect x="170" y="528" width="130" height="36" rx="6" fill="#111"/>
+  <text x="235" y="551" font-size="14" font-weight="500" fill="#fff" text-anchor="middle">Invia risposte</text>
+</svg>
