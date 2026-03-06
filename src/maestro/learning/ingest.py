@@ -35,8 +35,10 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
     await GrammarPoint.find().delete()
     docs = [GrammarPoint(**item) for item in items]
     await GrammarPoint.insert_many(docs)
-    logger.info(f"Grammar points: replaced with {len(docs)} records")
-    return docs
+    # Re-fetch so documents have their _id set (insert_many doesn't mutate the originals)
+    inserted = await GrammarPoint.find_all().to_list()
+    logger.info(f"Grammar points: replaced with {len(inserted)} records")
+    return inserted
 
 
 async def link_grammar_points_to_rag(grammar_points: list[GrammarPoint]) -> None:
