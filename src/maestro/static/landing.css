@@ -1,54 +1,7 @@
-/* Landing page styles — loaded after style.css, which provides the reset & base */
-
-/* ── Tokens ── */
-:root {
-  --c-charcoal: #2D2926;
-  --c-cream: #FAF7F2;
-  --c-terracotta: #C75B39;
-  --c-sage: #6B8F71;
-  --c-gold: #D4A843;
-  --c-blue: #5B7F9E;
-  --c-border: #E8E2D9;
-  --c-text: #3D3833;
-  --c-text-muted: #8A8279;
-  --c-surface: #F3EDE4;
-
-  --f-serif: 'Lora', 'Source Serif 4', 'Georgia', serif;
-  --f-sans: 'Inter', system-ui, -apple-system, sans-serif;
-
-  --w-page: 960px;
-  --w-narrow: 640px;
-}
-
-/* ── Google Fonts ── */
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/lora/v35/0QI6MX1D_JOuGQbT0gvTJPa787weuxJBkq0.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2) format('woff2');
-}
-
-/* ── Body override ── */
-body {
-  font-family: var(--f-sans);
-  font-size: 16px;
-  color: var(--c-text);
-  background: var(--c-cream);
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3 { font-family: var(--f-serif); font-weight: 600; }
+/* Landing page styles — loaded after style.css, which provides tokens, fonts & base */
 
 /* ── Layout ── */
-.container { max-width: var(--w-page); margin: 0 auto; padding: 0 1.5rem; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
 
 /* ── Buttons ── */
 .btn {
