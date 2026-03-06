@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <style>
+      text { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fff"/>
+  <!-- Nav -->
+  <rect width="800" height="40" fill="#fff"/>
+  <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e5e5"/>
+  <text x="150" y="26" font-size="13" fill="#555">Lezione</text>
+  <text x="230" y="26" font-size="13" fill="#555">Vocabolario</text>
+  <text x="330" y="26" font-size="13" fill="#555">Grammatica</text>
+  <text x="430" y="26" font-size="13" fill="#555">Profilo</text>
+
+  <!-- Progress bar -->
+  <rect x="150" y="60" width="500" height="4" rx="2" fill="#e5e5e5"/>
+  <rect x="150" y="60" width="300" height="4" rx="2" fill="#111"/>
+  <text x="150" y="78" font-size="11" fill="#aaa">8 / 14</text>
+
+  <!-- Card -->
+  <rect x="150" y="95" width="500" height="460" rx="8" fill="#fff" stroke="#e5e5e5"/>
+
+  <!-- Card meta -->
+  <text x="170" y="125" font-size="12" fill="#999">Esercizio 2</text>
+  <rect x="260" y="112" width="28" height="18" rx="10" fill="#f0f0f0"/>
+  <text x="274" y="125" font-size="10" fill="#555" text-anchor="middle">A1</text>
+  <rect x="296" y="112" width="62" height="18" rx="10" fill="#f0f0f0"/>
+  <text x="327" y="125" font-size="10" fill="#555" text-anchor="middle">fill blank</text>
+
+  <!-- Instruction -->
+  <text x="170" y="160" font-size="13" fill="#666" font-style="italic">Scrivi la parola mancante nella forma corretta.</text>
+
+  <!-- Item 1 — answered correctly -->
+  <text x="178" y="200" font-size="12" fill="#bbb" text-anchor="end">1</text>
+  <rect x="190" y="186" width="440" height="32" rx="4" fill="#fafafa"/>
+  <line x1="190" y1="186" x2="190" y2="218" stroke="#e0e0e0" stroke-width="2"/>
+  <text x="200" y="207" font-size="14" fill="#111" font-style="italic">Io ___ al bar ogni mattina.</text>
+
+  <!-- Correct answer indicator -->
+  <rect x="190" y="225" width="440" height="28" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="225" x2="190" y2="253" stroke="#4ade80" stroke-width="3"/>
+  <text x="200" y="244" font-size="13" fill="#14532d">vado</text>
+  <text x="240" y="244" font-size="13" fill="#16a34a">✓</text>
+
+  <!-- Item 2 — answered wrong -->
+  <text x="178" y="290" font-size="12" fill="#bbb" text-anchor="end">2</text>
+  <rect x="190" y="276" width="440" height="32" rx="4" fill="#fafafa"/>
+  <line x1="190" y1="276" x2="190" y2="308" stroke="#e0e0e0" stroke-width="2"/>
+  <text x="200" y="297" font-size="14" fill="#111" font-style="italic">Maria ___ una studentessa brava.</text>
+
+  <!-- Wrong answer -->
+  <rect x="190" y="315" width="440" height="28" rx="0" fill="#fff5f5"/>
+  <line x1="190" y1="315" x2="190" y2="343" stroke="#f87171" stroke-width="3"/>
+  <text x="200" y="333" font-size="13" fill="#7f1d1d" text-decoration="line-through">e</text>
+
+  <!-- Correct answer -->
+  <rect x="190" y="348" width="440" height="28" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="348" x2="190" y2="376" stroke="#4ade80" stroke-width="3"/>
+  <text x="200" y="367" font-size="13" fill="#14532d">è</text>
+
+  <!-- Explanation -->
+  <text x="200" y="400" font-size="12" fill="#555">L'accento è obbligatorio per distinguere "è" (verbo) da "e" (congiunzione).</text>
+
+  <!-- Grammar error tag -->
+  <rect x="200" y="415" width="160" height="20" rx="3" fill="#fef3c7"/>
+  <text x="210" y="430" font-size="11" fill="#92400e">accento: è vs e</text>
+
+  <!-- Rule ref -->
+  <rect x="190" y="450" width="440" height="28" rx="0" fill="#f5f5f5"/>
+  <line x1="190" y1="450" x2="190" y2="478" stroke="#ccc" stroke-width="2"/>
+  <text x="200" y="469" font-size="11" fill="#555">→ Accenti obbligatori (A1)</text>
+
+  <!-- Item 3 -->
+  <text x="178" y="510" font-size="12" fill="#bbb" text-anchor="end">3</text>
+  <rect x="190" y="496" width="440" height="32" rx="4" fill="#fafafa"/>
+  <line x1="190" y1="496" x2="190" y2="528" stroke="#e0e0e0" stroke-width="2"/>
+  <text x="200" y="517" font-size="14" fill="#111" font-style="italic">Noi ___ la pizza il venerdì.</text>
+  <rect x="190" y="533" width="440" height="28" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="533" x2="190" y2="561" stroke="#4ade80" stroke-width="3"/>
+  <text x="200" y="551" font-size="13" fill="#14532d">mangiamo</text>
+  <text x="270" y="551" font-size="13" fill="#16a34a">✓</text>
+</svg>
