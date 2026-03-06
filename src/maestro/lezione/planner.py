@@ -116,8 +116,18 @@ async def _generate_lesson_content(
     ]
 
     # Persona
-    if profile and profile.persona and profile.persona.tags:
-        parts.append(f"Student persona: {', '.join(profile.persona.tags)}")
+    if profile and profile.persona:
+        persona_parts = []
+        if profile.persona.tags:
+            persona_parts.append(f"Student description: {', '.join(profile.persona.tags)}")
+        if profile.persona.interests:
+            persona_parts.append(f"Student interests: {', '.join(profile.persona.interests)}")
+        if profile.persona.background:
+            persona_parts.append(f"Language background: {profile.persona.background}")
+        if profile.persona.goal:
+            persona_parts.append(f"Learning goal: {profile.persona.goal}")
+        if persona_parts:
+            parts.append("\n".join(persona_parts))
 
     if profile and profile.description:
         parts.append(f"Student profile: {profile.description}")
@@ -418,6 +428,7 @@ async def _generate_a0_lesson_background(
                 title=act_data.get("title", f"Esercizio: {gp_code}"),
                 description=act_data.get("description", exercise_type),
                 drill_id=drill.id,
+                hint=act_data.get("hint"),
             ))
 
         elif act_type == "reading":

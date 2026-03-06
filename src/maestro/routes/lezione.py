@@ -286,9 +286,23 @@ async def lezione_onboarding_submit(
         from maestro.profile import get_or_create_profile
         profile = await get_or_create_profile(student.id)
         new_tags = [t.strip() for t in answer.split(",") if t.strip()]
-        profile.persona = StudentPersona(
-            tags=list(set(profile.persona.tags + new_tags)),
-        )
+        profile.persona.tags = list(set(profile.persona.tags + new_tags))
+        await profile.save()
+    elif activity.profile_field == "interests" and answer.strip():
+        from maestro.profile import get_or_create_profile
+        profile = await get_or_create_profile(student.id)
+        new_interests = [t.strip() for t in answer.split(",") if t.strip()]
+        profile.persona.interests = list(set(profile.persona.interests + new_interests))
+        await profile.save()
+    elif activity.profile_field == "background" and answer.strip():
+        from maestro.profile import get_or_create_profile
+        profile = await get_or_create_profile(student.id)
+        profile.persona.background = answer.strip()
+        await profile.save()
+    elif activity.profile_field == "goal" and answer.strip():
+        from maestro.profile import get_or_create_profile
+        profile = await get_or_create_profile(student.id)
+        profile.persona.goal = answer.strip()
         await profile.save()
 
     # Build response text from template

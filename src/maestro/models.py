@@ -30,7 +30,10 @@ class CurriculumScenario(Document):
 
 
 class StudentPersona(BaseModel):
-    tags: List[str] = []          # ["university student", "wine enthusiast", ...]
+    tags: List[str] = []              # ["university student", "wine enthusiast", ...]
+    interests: List[str] = []         # cooking, travel, wine...
+    background: Optional[str] = None  # "some Spanish in school"
+    goal: Optional[str] = None        # "travel to Italy", "talk to in-laws"
 
 
 class ScenarioProgress(BaseModel):
@@ -257,7 +260,8 @@ class LessonActivity(BaseModel):
     correct_answers: List[str] = []  # expected answers for reading
     result: Optional[dict] = None
     why_important: Optional[str] = None  # 1-2 sentence motivation for grammar activities
-    profile_field: Optional[str] = None        # for onboarding activities: "name" or "persona_tags"
+    hint: Optional[str] = None                 # optional hint shown on request (drills)
+    profile_field: Optional[str] = None        # for onboarding activities: "name", "persona_tags", "interests", "background", "goal"
     response_template: Optional[str] = None    # shown after onboarding submit, supports {answer} placeholder
 
 
