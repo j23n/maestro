@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 
 import markdown as _md
@@ -10,28 +11,11 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.profile import get_cefr_level
+from maestro.utils import create_background_task
 from maestro.vocab.nlp import get_nlp
+from maestro.vocab import cache as _cache
 
-
-_vocab_index: dict[str, VocabularyWord] = {}
-# Keyed by (word_id_str, student_level) → VocabularyWordDefinition
-_def_index: dict[tuple[str, str], VocabularyWordDefinition] = {}
-
-
-async def load_vocab():
-    nlp = get_nlp()
-    words = await VocabularyWord.find_all().to_list()
-    word_forms = [w.word for w in words]
-    lemmas = (
-        doc[0].lemma_.lower()
-        for doc in nlp.pipe(word_forms, disable=["parser", "senter", "ner"], batch_size=512)
-    )
-    _vocab_index.update({lemma: word for lemma, word in zip(lemmas, words)})
-
-    defs = await VocabularyWordDefinition.find_all().to_list()
-    for d in defs:
-        word_id = str(d.word.ref.id) if hasattr(d.word, "ref") else str(d.word.id)
-        _def_index[(word_id, d.student_level)] = d
+logger = logging.getLogger(__name__)
 
 
 def _lemmatize(text: str) -> list[str]:
@@ -45,14 +29,10 @@ def _lemmatize(text: str) -> list[str]:
     ]
 
 
-async def _get_student_level() -> str:
-    return await get_cefr_level()
-
-
 async def discover(response_text: str, message=None) -> str:
     text_lemmas = _lemmatize(response_text)
 
-    words_with_vocab = {l: w for l, w in _vocab_index.items() if l in text_lemmas}
+    words_with_vocab = {l: w for l, w in _cache.word_index().items() if l in text_lemmas}
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
     existing_cards = await UserVocabularyCard.find(
@@ -66,13 +46,24 @@ async def discover(response_text: str, message=None) -> str:
         await UserVocabularyCard.insert_many(
             [UserVocabularyCard(word=w, message=message) for w in new_words]
         )
+        words_without_defs = [
+            w for w in new_words
+            if w.senses and not any(
+                _cache.get_definition(str(w.id), lvl) for lvl in ("A1", "A2", "B1", "B2")
+            )
+        ]
+        if words_without_defs:
+            create_background_task(
+                _generate_and_cache(words_without_defs),
+                name=f"vocab-defs-{'-'.join(w.word for w in words_without_defs[:3])}",
+            )
 
-    student_level = await _get_student_level()
+    student_level = await get_cefr_level()
 
     annotated_text = response_text
     for w in words_with_vocab.values():
         word_id = str(w.id)
-        wdef = _def_index.get((word_id, student_level))
+        wdef = _cache.get_definition(word_id, student_level)
         annotated_text = _annotate(annotated_text, w, wdef)
 
     return annotated_text
@@ -85,6 +76,20 @@ async def discover_markdown(text: str) -> str:
 
 async def discover_list(texts: list[str]) -> list[str]:
     return [await discover(t) for t in texts]
+
+
+async def _generate_and_cache(words: list[VocabularyWord]) -> None:
+    """Background task: generate CEFR-aware definitions and update the cache."""
+    from maestro.vocab.generate_definitions import generate_definitions_for_word
+    for word in words:
+        try:
+            await generate_definitions_for_word(word)
+            defs = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+            for d in defs:
+                _cache.set_definition(str(word.id), d.student_level, d)
+            logger.info(f"[discover] generated {len(defs)} definition(s) for '{word.word}'")
+        except Exception as exc:
+            logger.warning(f"[discover] definition generation failed for '{word.word}': {exc}")
 
 
 def _annotate(
