@@ -10,7 +10,7 @@
 
   {% if explanation %}
   <div class="grammar-content">
-    {{ explanation.explanation | markdown | safe }}
+    {{ annotated_explanation | safe if annotated_explanation else (explanation.explanation | markdown | safe) }}
   </div>
   {% else %}
   <div class="no-explanation">

@@ -24,7 +24,7 @@ from maestro.learning.analyzer import generate_writing_feedback, score_reading_a
 from maestro.config import settings
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
-from maestro.vocab.discover import discover
+from maestro.vocab.discover import discover, discover_markdown, discover_list
 from maestro.vocab.srs import review
 
 logger = logging.getLogger(__name__)
@@ -173,8 +173,10 @@ async def lezione_overview(lesson_id: PydanticObjectId, request: Request):
         return RedirectResponse(url=_activity_url(lesson_id, lesson.current_index))
     if lesson.status == "completed":
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
+    annotated_overview = await discover(lesson.overview) if lesson.overview else None
     return templates.TemplateResponse(
-        request=request, name="lezione.html", context={"lesson": lesson}
+        request=request, name="lezione.html",
+        context={"lesson": lesson, "annotated_overview": annotated_overview},
     )
 
 
@@ -280,6 +282,7 @@ async def lezione_activity(
 
     if activity.type == "reading":
         ctx["annotated_content"] = await discover(activity.content)
+        ctx["annotated_questions"] = await discover_list(activity.questions or [])
         return templates.TemplateResponse(
             request=request, name="lezione-activity-reading.html", context=ctx
         )
@@ -291,6 +294,9 @@ async def lezione_activity(
         )
 
     if activity.type == "grammar":
+        ctx["annotated_content"] = await discover_markdown(activity.content or "")
+        if activity.why_important:
+            ctx["annotated_why"] = await discover(activity.why_important)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )
@@ -566,6 +572,7 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
             await lesson.save()
         except Exception as exc:
             logger.warning(f"[lezione] feedback generation error: {exc}")
+    annotated_feedback = await discover_markdown(lesson.feedback_summary) if lesson.feedback_summary else None
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",
@@ -574,5 +581,6 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
             "completed_count": completed_count,
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
+            "annotated_feedback": annotated_feedback,
         },
     )

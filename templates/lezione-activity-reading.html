@@ -17,9 +17,9 @@
           hx-target=".activity-container"
           hx-swap="innerHTML"
           hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='Invio…'">
-      {% for q in activity.questions %}
+      {% for q in (annotated_questions if annotated_questions else activity.questions) %}
       <div class="question-item">
-        <div class="question-label">{{ loop.index }}. {{ q }}</div>
+        <div class="question-label">{{ loop.index }}. {{ q | safe }}</div>
         <input class="question-input" type="text" name="answers" placeholder="La tua risposta…" required>
       </div>
       {% endfor %}

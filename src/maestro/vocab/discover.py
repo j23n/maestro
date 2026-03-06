@@ -1,6 +1,8 @@
 import json
 import re
 
+import markdown as _md
+
 _TAG_RE = re.compile(r"(<[^>]+>)")
 from maestro.models import (
     VocabularyWord,
@@ -75,6 +77,15 @@ async def discover(response_text: str, message=None) -> str:
         annotated_text = _annotate(annotated_text, w, wdef)
 
     return annotated_text
+
+
+async def discover_markdown(text: str) -> str:
+    html = _md.markdown(text, extensions=["extra", "nl2br", "sane_lists"])
+    return await discover(html)
+
+
+async def discover_list(texts: list[str]) -> list[str]:
+    return [await discover(t) for t in texts]
 
 
 def _annotate(
