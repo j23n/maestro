@@ -15,8 +15,6 @@ import asyncio
 import logging
 from typing import TYPE_CHECKING
 
-import anthropic
-
 from maestro.models import (
     CommunicativeFunction,
     GeneratedDrill,
@@ -26,10 +24,13 @@ from maestro.models import (
 )
 from maestro.learning.profile import update_profile
 from maestro.config import settings
+from maestro.llm import get_async_client
+from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
 from maestro.utils import parse_llm_json
 
 if TYPE_CHECKING:
+    import anthropic
     from maestro.models import Lesson
 
 logger = logging.getLogger(__name__)
@@ -121,7 +122,7 @@ async def _analyze_gps(
     combined: str,
     cefr_level: str,
     lesson_gp_codes: list[str],
-    client: anthropic.AsyncAnthropic,
+    client: "anthropic.AsyncAnthropic",
 ) -> tuple[list[str], list[str]]:
     """Identify GP correct/error usage in combined student text."""
     candidates: dict[str, GrammarPoint] = {
@@ -173,7 +174,7 @@ async def _analyze_gps(
 async def _analyze_cfs_staged(
     combined: str,
     cefr_level: str,
-    client: anthropic.AsyncAnthropic,
+    client: "anthropic.AsyncAnthropic",
 ) -> list[str]:
     """Two-stage CF analysis: macro identification → per-macro CF classification."""
     macro_lines = "\n".join(
@@ -246,9 +247,9 @@ async def analyze_lesson(lesson: "Lesson") -> None:
     """Run full end-of-lesson analysis and update the learning profile."""
     try:
         await _ensure_codes()
-        profile = await LearningProfile.find_one()
+        profile = await get_profile()
         cefr_level = profile.cefr_estimate if profile else "A1"
-        client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+        client = get_async_client()
 
         # Phase A: drill outcomes (high-confidence, no LLM)
         drill_correct, drill_errors, all_drill_gp_codes = await _collect_drill_gp_outcomes(lesson)
