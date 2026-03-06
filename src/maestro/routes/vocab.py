@@ -8,7 +8,8 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response
 
-from maestro.models import VocabularyWord, VocabularyWordDefinition, UserVocabularyCard, LearningProfile
+from maestro.models import VocabularyWord, VocabularyWordDefinition, UserVocabularyCard
+from maestro.profile import get_profile
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.templates import templates
 from maestro.vocab.srs import review
@@ -21,7 +22,7 @@ QUIZ_MODES = ("word", "definition", "translation")
 
 async def _get_word_def(word: VocabularyWord) -> VocabularyWordDefinition | None:
     """Load the student-level VocabularyWordDefinition for a word."""
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     level = profile.cefr_estimate if profile else "A1"
     return await VocabularyWordDefinition.find_one(
         {"word.$id": word.id, "student_level": level}
@@ -63,7 +64,7 @@ async def vocab_entry(request: Request, entry_id: str):
         definitions = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
         logger.info(f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'")
     has_card = await UserVocabularyCard.find_one({"word.$id": word.id}) is not None
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     student_level = profile.cefr_estimate if profile else "A1"
     logger.debug(f"[vocab] student_level={student_level}, has_card={has_card}")
     return templates.TemplateResponse(

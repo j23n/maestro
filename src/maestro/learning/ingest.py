@@ -20,8 +20,8 @@ from maestro.models import (
     DrillTemplate,
     GrammarPoint,
     GrammarPointExplanation,
-    LearningProfile,
 )
+from maestro.profile import get_or_create_profile
 from maestro.rag.retrieve import retrieve_for_grammar_point
 from maestro.utils import DATA_DIR
 
@@ -119,13 +119,8 @@ async def ingest():
     await upsert_drill_templates(grammar_points)
 
     logger.info("=== Ensuring LearningProfile exists ===")
-    profile = await LearningProfile.find_one()
-    if profile is None:
-        profile = LearningProfile()
-        await profile.insert()
-        logger.info("  Created empty LearningProfile")
-    else:
-        logger.info("  LearningProfile already exists")
+    await get_or_create_profile()
+    logger.info("  LearningProfile ensured")
 
     logger.info("Done.")
 

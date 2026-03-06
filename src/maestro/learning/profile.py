@@ -16,14 +16,12 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
+from maestro.profile import get_or_create_profile
 from maestro.utils import CEFR_ORDER, utcnow
 
 
 async def update_profile(event: "LearningEvent") -> None:
-    profile = await LearningProfile.find_one()
-    if profile is None:
-        profile = LearningProfile()
-        await profile.insert()
+    profile = await get_or_create_profile()
 
     for code in event.grammar_correct:
         profile.grammar_correct_counts[code] = profile.grammar_correct_counts.get(code, 0) + 1

@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 
-from maestro.models import LearningProfile, GrammarPoint, CommunicativeFunction
+from maestro.models import GrammarPoint, CommunicativeFunction
+from maestro.profile import get_profile, get_or_create_profile
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
 
@@ -39,7 +40,7 @@ def _build_cf_by_level(comm_functions, profile):
 
 @router.get("/profilo", response_class=HTMLResponse)
 async def profilo_page(request: Request):
-    profile = await LearningProfile.find_one()
+    profile = await get_profile()
     grammar_points = await GrammarPoint.find_all().to_list()
     comm_functions = await CommunicativeFunction.find_all().to_list()
     grammar_by_level = _build_grammar_by_level(grammar_points, profile)
@@ -61,10 +62,7 @@ async def save_profilo_interests(
     request: Request,
     interests: Annotated[str, Form()],
 ):
-    profile = await LearningProfile.find_one()
-    if profile is None:
-        profile = LearningProfile()
-        await profile.insert()
+    profile = await get_or_create_profile()
     profile.student_interests = [i.strip() for i in interests.split(",") if i.strip()]
     await profile.save()
     grammar_points = await GrammarPoint.find_all().to_list()
