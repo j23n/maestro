@@ -12,22 +12,29 @@
 
 ## Current Coverage Baseline
 
+44 unit + 43 integration = **87 tests** total.
+
 | Area | Unit Tests | Integration Tests | Key Gaps |
 |------|-----------|------------------|----------|
-| `utils.py` | 11 (parse_llm_json) | 0 | `utcnow` (added in Phase 1) |
-| `vocab/srs.py` | 13 (SM-2 review) | 0 | None — well covered |
-| `lezione/planner.py` | 8 (slot allocation) | 0 | Topic generation, content generation, activity materialization, vocab card filling |
-| `learning/analyzer.py` | 0 | 11 | All via mocked LLM — good |
-| `learning/profile.py` | 0 | 7 | `_generate_description` untested |
-| `learning/lesson_analyzer.py` | 0 | 7 | `_analyze_gps`, `_analyze_cfs_staged`, `analyze_lesson` untested |
-| `drills/scoring.py` | 0 | 6 | Good coverage of score_attempt |
-| `routes/lezione.py` | 2 (helpers) | 6 (advance_lesson + 1 route) | 13 route handlers untested — drill-submit, writing-submit, reading-submit, vocab-rate, skip, complete, generating |
+| `utils.py` | 13 (parse_llm_json, background_task) | 0 | — |
+| `vocab/srs.py` | 12 (SM-2 review) | 0 | None — well covered |
+| `lezione/planner.py` | 8 (slot allocation) | 0 | Topic generation, content generation, activity materialization |
+| `lezione/selection.py` | 0 | 0 | `pick_grammar_points`, `fill_vocab_cards` untested |
+| `lezione/service.py` | 2 (`activity_url`) | 5 (`advance_lesson`) | `get_weak_grammar_points`, `generate_lesson_feedback` untested |
+| `routes/lezione.py` | 0 | 1 (smoke) | 13 route handlers untested — drill-submit, writing-submit, reading-submit, vocab-rate, skip, complete, generating |
+| `routes/grammar.py` | 9 (`build_grammar`, `build_cf` helpers) | 1 (smoke) | — |
 | `routes/vocab.py` | 0 | 2 (smoke) | Form submissions (add, review, search), generate-on-demand |
-| `routes/profilo.py` | 4 (helpers) | 1 (smoke) | Interest save |
+| `routes/profilo.py` | 0 | 1 (smoke) | Interest save |
+| `learning/analyzer.py` | 0 | 5 | All via mocked LLM — good |
+| `learning/scorer.py` | 0 | 7 (scoring + writing feedback) | — |
+| `learning/profile.py` | 0 | 8 (profile + cefr) | `_generate_description` untested |
+| `learning/lesson_analyzer.py` | 0 | 12 (`advance_lesson`, `_collect_free_texts`, `_collect_drill_gp_outcomes`) | `analyze_lesson` untested |
 | `vocab/discover.py` | 0 | 0 | `discover()`, `_annotate()`, `load_vocab()` completely untested |
 | `vocab/ingest.py` | 0 | 0 | `make_lookup()` untested |
 
-**Target**: Add ~35-40 new tests, bringing the total from ~85 to ~120+.
+**Target**: Add ~25 new tests, bringing the total from 87 to ~112.
+
+**Result**: 32 new tests added → **119 total** (57 unit + 62 integration). All passing.
 
 ---
 
@@ -45,13 +52,12 @@ These test `_annotate()` as a pure function (no DB needed):
 
 ```python
 import pytest
+from types import SimpleNamespace
 from maestro.vocab.discover import _annotate
-from maestro.models import VocabularyWord, VocabularyWordDefinition, Sense, CefrSense
 
 
 def _make_word(word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001", senses=None):
     """Create a VocabularyWord-like object for testing."""
-    from types import SimpleNamespace
     return SimpleNamespace(
         word=word,
         part_of_speech=pos,
@@ -63,7 +69,6 @@ def _make_word(word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001
 
 
 def _make_wdef(translation="house", senses=None):
-    from types import SimpleNamespace
     return SimpleNamespace(
         translation=translation,
         senses=senses or [SimpleNamespace(definition="edificio dove si abita", examples=["La mia casa è grande."])],
@@ -217,7 +222,7 @@ async def test_discover_does_not_duplicate_cards(db):
 
 ### Why
 
-`planner.py` is the most complex module (765 lines). The only tests are for `_allocate_slots` (8 unit tests). The topic generation, content generation, and activity materialization — the core lesson planning logic — are completely untested.
+`planner.py` + `selection.py` contain the core lesson planning logic. Only slot allocation has unit tests (8). Topic generation, content generation, activity materialization, vocab card filling, and grammar point selection are completely untested.
 
 ### Tests to write
 
@@ -235,7 +240,7 @@ from maestro.models import (
 )
 
 
-# --- selection.py tests (after Phase 3 split) ---
+# --- selection.py tests ---
 
 @pytest.mark.integration
 async def test_pick_grammar_points_prioritises_weak(db):
@@ -253,7 +258,7 @@ async def test_pick_grammar_points_prioritises_weak(db):
     )
 
     picked = await pick_grammar_points(profile, "A1", 1)
-    assert picked[0].code == "GP_A"  # higher error rate → picked first
+    assert picked[0].code == "GP_A"  # higher error rate -> picked first
 
 
 @pytest.mark.integration
@@ -370,7 +375,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     lesson = Lesson(status="active", duration_minutes=10, generating=True)
     await lesson.insert()
 
-    # Mock the LLM calls
+    # Mock the LLM calls (topic + content, both via get_async_client)
     topic_response = MagicMock(content=[MagicMock(text='{"title":"Test","description":"Test","cf_codes":[],"depth":1}')])
     content_response = MagicMock(content=[MagicMock(text='''{
         "overview": "Test lesson",
@@ -409,39 +414,25 @@ The route handlers for form submissions (`drill-submit`, `writing-submit`, `read
 
 **File: `tests/integration/test_lezione_routes.py`**
 
+Note: The `test_app` fixture should be extracted to `tests/integration/conftest.py` to avoid duplication with `test_routes.py`. Both files use an identical fixture.
+
 ```python
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from datetime import datetime
 
-from fastapi.testclient import TestClient
-from mongomock_motor import AsyncMongoMockClient
-from beanie import init_beanie
-
 from maestro.models import (
     ALL_DOCUMENT_MODELS, Lesson, LessonActivity, GeneratedDrill,
     DrillTemplate, DrillItem, LearningProfile, GrammarPoint,
 )
+from maestro.utils import utcnow
+
+
+# Uses the shared `test_app` fixture from conftest.py (extract from test_routes.py)
 
 
 @pytest.fixture
-async def test_app_with_data():
-    """TestClient with DB seeded for lesson route tests."""
-    mongo_client = AsyncMongoMockClient()
-    await init_beanie(database=mongo_client["test_maestro"], document_models=ALL_DOCUMENT_MODELS)
-
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
-        from maestro.main import app
-        with TestClient(app, raise_server_exceptions=False) as client:
-            yield client
-
-
-@pytest.fixture
-async def active_lesson_with_drill():
+async def active_lesson_with_drill(db):
     """Create an active lesson with a fill_blank drill activity."""
     template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type="fill_blank")
     await template.insert()
@@ -460,7 +451,7 @@ async def active_lesson_with_drill():
     lesson = Lesson(
         status="active",
         duration_minutes=10,
-        started_at=datetime.utcnow(),
+        started_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
@@ -479,14 +470,14 @@ async def active_lesson_with_drill():
 
 
 @pytest.mark.integration
-def test_drill_submit_returns_result_page(test_app_with_data, active_lesson_with_drill):
+def test_drill_submit_returns_result_page(test_app, active_lesson_with_drill):
     """POST drill-submit should return the drill result template."""
     lesson, drill = active_lesson_with_drill
 
     with patch("maestro.routes.lezione.score_attempt", new_callable=AsyncMock) as mock_score:
         mock_score.return_value = (True, MagicMock(), {"items": [], "correct_count": 1, "total": 1}, [])
         with patch("maestro.routes.lezione.discover", new_callable=AsyncMock, return_value="annotated"):
-            response = test_app_with_data.post(
+            response = test_app.post(
                 f"/lezione/{lesson.id}/activity/0/drill-submit",
                 data={"answers": "vado"},
             )
@@ -495,11 +486,11 @@ def test_drill_submit_returns_result_page(test_app_with_data, active_lesson_with
 
 
 @pytest.mark.integration
-def test_activity_skip_returns_redirect(test_app_with_data, active_lesson_with_drill):
+def test_activity_skip_returns_redirect(test_app, active_lesson_with_drill):
     """POST skip should return 204 with HX-Redirect header."""
     lesson, _ = active_lesson_with_drill
 
-    response = test_app_with_data.post(
+    response = test_app.post(
         f"/lezione/{lesson.id}/activity/0/skip",
     )
     assert response.status_code == 204
@@ -507,11 +498,11 @@ def test_activity_skip_returns_redirect(test_app_with_data, active_lesson_with_d
 
 
 @pytest.mark.integration
-def test_activity_complete_returns_redirect(test_app_with_data, active_lesson_with_drill):
+def test_activity_complete_returns_redirect(test_app, active_lesson_with_drill):
     """POST complete should return 204 with HX-Redirect header."""
     lesson, _ = active_lesson_with_drill
 
-    response = test_app_with_data.post(
+    response = test_app.post(
         f"/lezione/{lesson.id}/activity/0/complete",
     )
     assert response.status_code == 204
@@ -519,12 +510,12 @@ def test_activity_complete_returns_redirect(test_app_with_data, active_lesson_wi
 
 
 @pytest.mark.integration
-async def test_writing_submit_returns_feedback(test_app_with_data, db):
+async def test_writing_submit_returns_feedback(test_app, db):
     """POST writing-submit should call generate_writing_feedback and return result."""
     lesson = Lesson(
         status="active",
         duration_minutes=10,
-        started_at=datetime.utcnow(),
+        started_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
@@ -547,7 +538,7 @@ async def test_writing_submit_returns_feedback(test_app_with_data, db):
         "tips": [],
     }
     with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=mock_feedback):
-        response = test_app_with_data.post(
+        response = test_app.post(
             f"/lezione/{lesson.id}/activity/0/writing-submit",
             data={"answer": "Oggi ho mangiato la pizza."},
         )
@@ -561,21 +552,16 @@ async def test_writing_submit_returns_feedback(test_app_with_data, db):
 
 ### Why
 
-The lesson completion page (`lezione_complete`) triggers two LLM calls — feedback generation and lesson analysis — via background tasks. The interaction between these, weak grammar point identification, and the feedback_summary persistence is complex and untested.
+The lesson completion page (`lezione_complete`) triggers two LLM calls — feedback generation and lesson analysis — via background tasks. `get_weak_grammar_points`, `generate_lesson_feedback`, and `analyze_lesson` are untested.
+
+**Note**: `advance_lesson` (5 tests), `_collect_free_texts` (4 tests), and `_collect_drill_gp_outcomes` (3 tests) are already covered in `tests/integration/test_lesson_flow.py`. This task adds the missing completion-specific tests to that same file.
 
 ### Tests to write
 
-**File: `tests/integration/test_lesson_complete.py`**
+**File: `tests/integration/test_lesson_flow.py`** (append to existing)
 
 ```python
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
-from datetime import datetime
-
-from maestro.models import (
-    Lesson, LessonActivity, GeneratedDrill, DrillTemplate, GrammarPoint, LearningProfile,
-)
-
+# --- Add to existing test_lesson_flow.py ---
 
 @pytest.fixture
 async def completed_lesson(db):
@@ -602,8 +588,8 @@ async def completed_lesson(db):
     lesson = Lesson(
         status="completed",
         duration_minutes=10,
-        started_at=datetime.utcnow(),
-        completed_at=datetime.utcnow(),
+        started_at=utcnow(),
+        completed_at=utcnow(),
         generating=False,
         activities=[
             LessonActivity(
@@ -628,7 +614,7 @@ async def completed_lesson(db):
 @pytest.mark.integration
 async def test_get_weak_grammar_points(db, completed_lesson):
     """Should return grammar points for drills the student got wrong."""
-    from maestro.lezione.service import get_weak_grammar_points  # after Phase 3 split
+    from maestro.lezione.service import get_weak_grammar_points
 
     weak = await get_weak_grammar_points(completed_lesson)
     codes = {gp.code for gp in weak}
@@ -637,8 +623,8 @@ async def test_get_weak_grammar_points(db, completed_lesson):
 
 
 @pytest.mark.integration
-async def test_generate_lesson_feedback_mentions_activities(db, completed_lesson):
-    """Feedback should reference the activities completed."""
+async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
+    """Feedback should return a non-empty string."""
     from maestro.lezione.service import generate_lesson_feedback
 
     mock_response = MagicMock(content=[MagicMock(text="Great work on present tense drills!")])
@@ -861,14 +847,16 @@ async def test_generate_description_with_functions(db):
 |--------------|-------|------|
 | `tests/unit/test_discover.py` | ~8 | unit |
 | `tests/integration/test_discover.py` | ~2 | integration |
-| `tests/integration/test_planner.py` | ~6 | integration |
+| `tests/integration/test_planner.py` | ~7 | integration |
 | `tests/integration/test_lezione_routes.py` | ~4 | integration |
-| `tests/integration/test_lesson_complete.py` | ~3 | integration |
+| `tests/integration/test_lesson_flow.py` (append) | ~3 | integration |
 | `tests/unit/test_vocab_lookup.py` | ~5 | unit |
 | `tests/integration/test_profile_description.py` | ~3 | integration |
-| **Total** | **~31** | |
+| **Total** | **~32** | |
 
-Combined with existing 85 tests → ~116 total. Plus any additional edge case tests discovered during implementation.
+Note: The `test_app` fixture from `test_routes.py` should be extracted to `tests/integration/conftest.py` as a prerequisite, since `test_lezione_routes.py` needs the same fixture.
+
+Combined with existing 87 tests -> ~119 total.
 
 ---
 
@@ -876,12 +864,13 @@ Combined with existing 85 tests → ~116 total. Plus any additional edge case te
 
 One commit per test file, or group related tests:
 
-1. `test: add unit and integration tests for vocab discover/annotate`
-2. `test: add integration tests for planner (selection, topic, materialization)`
-3. `test: add integration tests for lesson route form submissions`
-4. `test: add integration tests for lesson completion flow`
-5. `test: add unit tests for vocab lookup lemmatization`
-6. `test: add integration tests for profile description generation`
+1. `test: extract test_app fixture to integration conftest`
+2. `test: add unit and integration tests for vocab discover/annotate`
+3. `test: add integration tests for planner (selection, topic, materialization)`
+4. `test: add integration tests for lesson route form submissions`
+5. `test: add completion flow tests to test_lesson_flow (weak GPs, feedback, analyze)`
+6. `test: add unit tests for vocab lookup lemmatization`
+7. `test: add integration tests for profile description generation`
 
 ---
 
@@ -896,5 +885,5 @@ After all phases are complete:
 - [ ] `rg 'LearningProfile\.find_one' src/maestro/` returns only `profile.py`
 - [ ] `rg 'global _' src/maestro/` returns only `taxonomy.py`
 - [ ] No file exceeds ~600 lines
-- [ ] `uv run pytest -v` runs ~120 tests, all passing
+- [ ] `uv run pytest -v` runs ~119 tests, all passing
 - [ ] Background task errors are logged with full tracebacks
