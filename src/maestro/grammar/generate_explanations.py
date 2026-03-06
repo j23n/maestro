@@ -93,19 +93,27 @@ def _call_claude(
     )
     logger.debug(f"  SYSTEM PROMPT:\n{system_msg}")
     logger.debug(f"  USER MESSAGE:\n{user_msg}")
-    response = client.messages.create(
-        model=settings.EXPLANATION_MODEL,
-        max_tokens=16384,
-        system=system_msg,
-        messages=[{"role": "user", "content": user_msg}],
-    )
-    raw = response.content[0].text
-    logger.debug(f"  STOP REASON: {response.stop_reason}, USAGE: {response.usage}")
-    logger.debug(f"  RAW RESPONSE:\n{raw}")
-    data = _parse_response(raw, levels)
-    if not data:
+    max_tokens = 16384
+    for attempt in range(3):
+        response = client.messages.create(
+            model=settings.EXPLANATION_MODEL,
+            max_tokens=max_tokens,
+            system=system_msg,
+            messages=[{"role": "user", "content": user_msg}],
+        )
+        raw = response.content[0].text
+        logger.debug(f"  STOP REASON: {response.stop_reason}, USAGE: {response.usage}")
+        logger.debug(f"  RAW RESPONSE:\n{raw}")
+        data = _parse_response(raw, levels)
+        if data:
+            return data
+        if response.stop_reason == "max_tokens" and attempt < 2:
+            max_tokens = min(max_tokens * 2, 65536)
+            logger.warning(f"  Truncated response for '{gp.label}', retrying with max_tokens={max_tokens}")
+            continue
         logger.warning(f"  Parse error for '{gp.label}': {raw[:300]}")
-    return data
+        return None
+    return None
 
 
 async def _has_all_explanations(gp: GrammarPoint) -> bool:
