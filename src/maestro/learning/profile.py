@@ -21,7 +21,7 @@ from maestro.utils import CEFR_ORDER, utcnow
 
 
 async def update_profile(event: "LearningEvent") -> None:
-    profile = await get_or_create_profile()
+    profile = await get_or_create_profile(event.student_id)
 
     for code in event.grammar_correct:
         profile.grammar_correct_counts[code] = profile.grammar_correct_counts.get(code, 0) + 1
@@ -106,7 +106,8 @@ async def _generate_description(profile: "LearningProfile") -> str:
         if w.cefr_level is not None:
             total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
-    cards = await UserVocabularyCard.find_all().to_list()
+    card_filter = {"student_id": profile.student_id} if profile.student_id else {}
+    cards = await UserVocabularyCard.find(card_filter).to_list()
     for card in cards:
         await card.fetch_all_links()
         lvl = card.word.cefr_level

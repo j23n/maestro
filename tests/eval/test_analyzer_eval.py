@@ -11,7 +11,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_analyzer_grammar_tagging(seeded_analyzer_cache, record_eval):
+async def test_analyzer_grammar_tagging(seeded_analyzer_cache, eval_student, record_eval):
     """Measure precision/recall of grammar code tagging against golden cases."""
     import json as _json
     from maestro.learning.analyzer import analyze_message
@@ -30,7 +30,7 @@ async def test_analyzer_grammar_tagging(seeded_analyzer_cache, record_eval):
     case_results_map = []  # store (case, result) for judging
 
     for case in cases:
-        result = await analyze_message(case["text"])
+        result = await analyze_message(case["text"], student_id=eval_student.id)
 
         case_result = {
             "id": case["id"],

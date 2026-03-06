@@ -3,10 +3,12 @@ import logging
 from typing import Annotated
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Request, HTTPException, Form
+from fastapi import APIRouter, Depends, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response, RedirectResponse
 
+from maestro.auth import get_current_student
 from maestro.models import (
+    Student,
     VocabularyWordDefinition,
     UserVocabularyCard,
     GeneratedDrill,
@@ -36,9 +38,18 @@ router = APIRouter()
 _PASS_THRESHOLD = 0.7
 
 
+async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
+    lesson = await Lesson.get(lesson_id)
+    if lesson is None:
+        raise HTTPException(404)
+    if lesson.student_id != student.id:
+        raise HTTPException(403)
+    return lesson
+
+
 @router.get("/lezione/", response_class=HTMLResponse)
-async def lezione_index(request: Request):
-    active = await Lesson.find_one({"status": "active"})
+async def lezione_index(request: Request, student: Student = Depends(get_current_student)):
+    active = await Lesson.find_one({"student_id": student.id, "status": "active"})
     if active:
         if active.generating and active.current_index >= len(active.activities):
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
@@ -47,19 +58,20 @@ async def lezione_index(request: Request):
 
 
 @router.get("/lezione/new", response_class=HTMLResponse)
-async def lezione_new(request: Request):
+async def lezione_new(request: Request, student: Student = Depends(get_current_student)):
     return templates.TemplateResponse(request=request, name="lezione-new.html")
 
 
 @router.post("/lezione/", response_class=HTMLResponse)
 async def lezione_create(
     request: Request,
+    student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
 ):
     from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
-    profile = await get_profile()
+    profile = await get_profile(student.id)
 
-    lesson = await prepare_lesson_immediate(duration, profile)
+    lesson = await prepare_lesson_immediate(duration, profile, student.id)
     create_background_task(
         generate_lesson_background(lesson.id, duration),
         name=f"lesson-generate-{lesson.id}",
@@ -72,15 +84,13 @@ async def lezione_create(
 
 
 @router.get("/lezione/{lesson_id}", response_class=HTMLResponse)
-async def lezione_overview(lesson_id: PydanticObjectId, request: Request):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        raise HTTPException(404)
+async def lezione_overview(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
     if lesson.status == "active":
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == "completed":
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
-    annotated_overview = await discover(lesson.overview) if lesson.overview else None
+    annotated_overview = await discover(lesson.overview, student_id=student.id) if lesson.overview else None
     return templates.TemplateResponse(
         request=request, name="lezione.html",
         context={"lesson": lesson, "annotated_overview": annotated_overview},
@@ -88,10 +98,8 @@ async def lezione_overview(lesson_id: PydanticObjectId, request: Request):
 
 
 @router.get("/lezione/{lesson_id}/generating", response_class=HTMLResponse)
-async def lezione_generating(lesson_id: PydanticObjectId, request: Request):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        raise HTTPException(404)
+async def lezione_generating(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
     if not lesson.generating:
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
@@ -114,10 +122,8 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request):
 
 
 @router.post("/lezione/{lesson_id}/start", response_class=HTMLResponse)
-async def lezione_start(lesson_id: PydanticObjectId, request: Request):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        raise HTTPException(404)
+async def lezione_start(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
     lesson.status = "active"
@@ -133,11 +139,10 @@ async def lezione_activity(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
+    student: Student = Depends(get_current_student),
     card_idx: int = 0,
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        raise HTTPException(404)
+    lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         if lesson.generating:
             return RedirectResponse(url=f"/lezione/{lesson_id}/generating", status_code=303)
@@ -159,7 +164,7 @@ async def lezione_activity(
         drill = await GeneratedDrill.get(activity.drill_id)
         if drill is None:
             raise HTTPException(404)
-        annotated = await discover(drill.prompt)
+        annotated = await discover(drill.prompt, student_id=student.id)
         ctx["drill"] = drill
         ctx["annotated_prompt"] = annotated
         return templates.TemplateResponse(
@@ -175,7 +180,7 @@ async def lezione_activity(
         if card is None:
             raise HTTPException(404)
         await card.fetch_all_links()
-        profile = await get_profile()
+        profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A1"
         word_def = await VocabularyWordDefinition.find_one(
             {"word.$id": card.word.id, "student_level": level}
@@ -188,22 +193,22 @@ async def lezione_activity(
         )
 
     if activity.type == "reading":
-        ctx["annotated_content"] = await discover(activity.content)
-        ctx["annotated_questions"] = await discover_list(activity.questions or [])
+        ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
+        ctx["annotated_questions"] = await discover_list(activity.questions or [], student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-reading.html", context=ctx
         )
 
     if activity.type == "writing":
-        ctx["annotated_content"] = await discover(activity.content)
+        ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-writing.html", context=ctx
         )
 
     if activity.type == "grammar":
-        ctx["annotated_content"] = await discover_markdown(activity.content or "")
+        ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id)
         if activity.why_important:
-            ctx["annotated_why"] = await discover(activity.why_important)
+            ctx["annotated_why"] = await discover(activity.why_important, student_id=student.id)
         # Find the GP and its explanation for translation + chunk_ref
         gp_label = activity.title.replace("Grammatica: ", "")
         gp = await GrammarPoint.find_one({"label": gp_label})
@@ -212,7 +217,7 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({})  # fallback
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
-            profile = await get_profile()
+            profile = await get_profile(student.id)
             level = profile.cefr_estimate if profile else "A1"
             expl = await GrammarPointExplanation.find_one(
                 {"grammar_point.$id": gp.id, "student_level": level}
@@ -220,7 +225,7 @@ async def lezione_activity(
             if not expl:
                 expl = await GrammarPointExplanation.find_one({"grammar_point.$id": gp.id})
             if expl and expl.translation:
-                ctx["annotated_translation"] = await discover_markdown(expl.translation)
+                ctx["annotated_translation"] = await discover_markdown(expl.translation, student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )
@@ -234,9 +239,9 @@ async def lezione_activity(
 
 
 @router.post("/lezione/{lesson_id}/activity/{idx}/skip")
-async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
     lesson.activities[idx].status = "skipped"
     redirect_url = await advance_lesson(lesson, idx, skip=True)
@@ -244,9 +249,9 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int):
 
 
 @router.post("/lezione/{lesson_id}/activity/{idx}/complete")
-async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
     redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
@@ -257,9 +262,10 @@ async def lezione_drill_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
+    student: Student = Depends(get_current_student),
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
     if activity.drill_id is None:
@@ -274,10 +280,11 @@ async def lezione_drill_submit(
 
     student_input: list[str] | str = answers if drill.items else (answers[0] if answers else "")
 
-    correct, event, feedback, rule_refs = await score_attempt(drill, student_input)
+    correct, event, feedback, rule_refs = await score_attempt(drill, student_input, student_id=student.id)
 
     stored_answer = json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
     attempt = DrillAttempt(
+        student_id=student.id,
         generated_drill=drill,
         student_answer=stored_answer,
         correct=correct,
@@ -315,10 +322,11 @@ async def lezione_vocab_reveal(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
+    student: Student = Depends(get_current_student),
     card_idx: int = 0,
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
     card_ids = activity.card_ids
@@ -328,7 +336,7 @@ async def lezione_vocab_reveal(
     if card is None:
         raise HTTPException(404)
     await card.fetch_all_links()
-    profile = await get_profile()
+    profile = await get_profile(student.id)
     level = profile.cefr_estimate if profile else "A1"
     word_def = await VocabularyWordDefinition.find_one(
         {"word.$id": card.word.id, "student_level": level}
@@ -355,9 +363,10 @@ async def lezione_vocab_rate(
     idx: int,
     rating: Annotated[int, Form()],
     card_idx: Annotated[int, Form()],
+    student: Student = Depends(get_current_student),
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
     card_ids = activity.card_ids
@@ -386,13 +395,14 @@ async def lezione_writing_submit(
     idx: int,
     request: Request,
     answer: Annotated[str, Form()],
+    student: Student = Depends(get_current_student),
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
 
     activity = lesson.activities[idx]
-    profile = await get_profile()
+    profile = await get_profile(student.id)
     cefr_level = profile.cefr_estimate if profile else "A1"
 
     feedback = await generate_writing_feedback(
@@ -428,9 +438,10 @@ async def lezione_reading_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
+    student: Student = Depends(get_current_student),
 ):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None or idx >= len(lesson.activities):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
         raise HTTPException(404)
 
     activity = lesson.activities[idx]
@@ -480,10 +491,8 @@ async def lezione_reading_submit(
 
 
 @router.get("/lezione/{lesson_id}/complete", response_class=HTMLResponse)
-async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        raise HTTPException(404)
+async def lezione_complete(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
     completed_count = sum(1 for a in lesson.activities if a.status == "completed")
     skipped_count = sum(1 for a in lesson.activities if a.status == "skipped")
     weak_grammar_points = await get_weak_grammar_points(lesson)
@@ -499,7 +508,7 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request):
             await lesson.save()
         except Exception as exc:
             logger.warning(f"[lezione] feedback generation error: {exc}")
-    annotated_feedback = await discover_markdown(lesson.feedback_summary) if lesson.feedback_summary else None
+    annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id) if lesson.feedback_summary else None
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",

@@ -235,7 +235,7 @@ async def analyze_lesson(lesson: "Lesson") -> None:
     """Run full end-of-lesson analysis and update the learning profile."""
     try:
         await taxonomy.ensure_loaded()
-        profile = await get_profile()
+        profile = await get_profile(lesson.student_id) if lesson.student_id else None
         cefr_level = profile.cefr_estimate if profile else "A1"
         client = get_async_client()
 
@@ -268,6 +268,7 @@ async def analyze_lesson(lesson: "Lesson") -> None:
         ))
 
         event = LearningEvent(
+            student_id=lesson.student_id,
             grammar_correct=all_correct,
             grammar_errors=all_errors,
             functions_performed=cf_codes,

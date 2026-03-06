@@ -3,6 +3,7 @@ import logging
 import re
 
 import markdown as _md
+from beanie import PydanticObjectId
 
 _TAG_RE = re.compile(r"(<[^>]+>)")
 from maestro.models import (
@@ -29,22 +30,23 @@ def _lemmatize(text: str) -> list[str]:
     ]
 
 
-async def discover(response_text: str, message=None) -> str:
+async def discover(response_text: str, student_id: PydanticObjectId | None = None, message=None) -> str:
     text_lemmas = _lemmatize(response_text)
 
     words_with_vocab = {l: w for l, w in _cache.word_index().items() if l in text_lemmas}
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
-    existing_cards = await UserVocabularyCard.find(
-        {"word.$id": {"$in": matched_word_ids}}
-    ).to_list()
+    card_filter: dict = {"word.$id": {"$in": matched_word_ids}}
+    if student_id is not None:
+        card_filter["student_id"] = student_id
+    existing_cards = await UserVocabularyCard.find(card_filter).to_list()
     existing_word_ids = {card.word.ref.id for card in existing_cards}
 
     new_words = [w for w in words_with_vocab.values() if w.id not in existing_word_ids]
 
     if new_words:
         await UserVocabularyCard.insert_many(
-            [UserVocabularyCard(word=w, message=message) for w in new_words]
+            [UserVocabularyCard(student_id=student_id, word=w, message=message) for w in new_words]
         )
         words_without_defs = [
             w for w in new_words
@@ -58,7 +60,7 @@ async def discover(response_text: str, message=None) -> str:
                 name=f"vocab-defs-{'-'.join(w.word for w in words_without_defs[:3])}",
             )
 
-    student_level = await get_cefr_level()
+    student_level = await get_cefr_level(student_id) if student_id else "A1"
 
     annotated_text = response_text
     for w in words_with_vocab.values():
@@ -69,13 +71,13 @@ async def discover(response_text: str, message=None) -> str:
     return annotated_text
 
 
-async def discover_markdown(text: str) -> str:
+async def discover_markdown(text: str, student_id: PydanticObjectId | None = None) -> str:
     html = _md.markdown(text, extensions=["extra", "nl2br", "sane_lists"])
-    return await discover(html)
+    return await discover(html, student_id=student_id)
 
 
-async def discover_list(texts: list[str]) -> list[str]:
-    return [await discover(t) for t in texts]
+async def discover_list(texts: list[str], student_id: PydanticObjectId | None = None) -> list[str]:
+    return [await discover(t, student_id=student_id) for t in texts]
 
 
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:

@@ -1,14 +1,16 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Depends, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 
+from maestro.auth import get_current_student
 from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
     GrammarPoint,
     Lesson,
     ScenarioProgress,
+    Student,
     StudentPersona,
 )
 from maestro.profile import get_profile, get_or_create_profile
@@ -46,8 +48,8 @@ def _build_cf_by_level(comm_functions, profile):
 
 
 @router.get("/profilo", response_class=HTMLResponse)
-async def profilo_page(request: Request):
-    profile = await get_profile()
+async def profilo_page(request: Request, student: Student = Depends(get_current_student)):
+    profile = await get_profile(student.id)
     grammar_points = await GrammarPoint.find_all().to_list()
     comm_functions = await CommunicativeFunction.find_all().to_list()
     grammar_by_level = _build_grammar_by_level(grammar_points, profile)
@@ -70,7 +72,7 @@ async def profilo_page(request: Request):
 
     # Lesson history
     recent_lessons = await Lesson.find(
-        {"status": "completed"}
+        {"student_id": student.id, "status": "completed"}
     ).sort(-Lesson.completed_at).limit(20).to_list()
 
     scenario_slugs = {l.scenario_slug for l in recent_lessons if l.scenario_slug}
@@ -104,9 +106,10 @@ async def profilo_page(request: Request):
 @router.post("/profilo/persona")
 async def save_profilo_persona(
     request: Request,
+    student: Student = Depends(get_current_student),
     tags: Annotated[str, Form()] = "",
 ):
-    profile = await get_or_create_profile()
+    profile = await get_or_create_profile(student.id)
     profile.persona = StudentPersona(
         tags=[t.strip() for t in tags.split(",") if t.strip()],
     )

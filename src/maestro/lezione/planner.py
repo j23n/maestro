@@ -263,6 +263,7 @@ async def _generate_lesson_content(
 async def prepare_lesson_immediate(
     duration_minutes: int,
     profile: Optional[LearningProfile],
+    student_id=None,
 ) -> Lesson:
     """Create and save a Lesson with only the vocab_review activity (no LLM calls).
 
@@ -274,7 +275,7 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
     if vocab_count > 0:
-        due_cards = await fill_vocab_cards(vocab_count, cefr_level)
+        due_cards = await fill_vocab_cards(vocab_count, cefr_level, student_id=student_id)
         if due_cards:
             activities.append(LessonActivity(
                 type="vocab_review",
@@ -286,6 +287,7 @@ async def prepare_lesson_immediate(
             ))
 
     lesson = Lesson(
+        student_id=student_id,
         duration_minutes=duration_minutes,
         cefr_at_start=cefr_level,
         status="active",
@@ -333,7 +335,11 @@ async def _generate_lesson_background(
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
 
-    profile = await get_profile()
+    lesson = await Lesson.get(lesson_id)
+    if lesson is None:
+        logger.error(f"[planner] generate_lesson_background: lesson {lesson_id} not found")
+        return
+    profile = await get_profile(lesson.student_id) if lesson.student_id else None
     cefr_level = profile.cefr_estimate if profile else "A1"
     slots = _allocate_slots(duration_minutes)
     logger.info(f"[planner] slot allocation: {slots}")
@@ -488,6 +494,7 @@ async def _generate_lesson_background(
                 if isinstance(it, dict) and it.get("prompt")
             ]
             drill = GeneratedDrill(
+                student_id=lesson.student_id,
                 template=template,
                 grammar_point_code=spec["grammar_point_code"],
                 cefr_level=cefr_level,
@@ -501,6 +508,7 @@ async def _generate_lesson_background(
             )
         else:  # free_form
             drill = GeneratedDrill(
+                student_id=lesson.student_id,
                 template=template,
                 grammar_point_code=spec["grammar_point_code"],
                 cefr_level=cefr_level,

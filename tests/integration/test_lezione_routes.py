@@ -15,12 +15,13 @@ from maestro.utils import utcnow
 
 
 @pytest.fixture
-async def active_lesson_with_drill(db):
+async def active_lesson_with_drill(db, student):
     """Active lesson with a single fill_blank drill activity."""
     template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type="fill_blank")
     await template.insert()
 
     drill = GeneratedDrill(
+        student_id=student.id,
         template=template,
         grammar_point_code="GP_001",
         cefr_level="A1",
@@ -32,6 +33,7 @@ async def active_lesson_with_drill(db):
     await drill.insert()
 
     lesson = Lesson(
+        student_id=student.id,
         status="active",
         duration_minutes=10,
         started_at=utcnow(),
@@ -89,9 +91,10 @@ def test_activity_complete_returns_redirect(test_app, active_lesson_with_drill):
 
 
 @pytest.mark.integration
-async def test_writing_submit_returns_feedback(test_app, db):
+async def test_writing_submit_returns_feedback(test_app, db, student):
     """POST writing-submit should call generate_writing_feedback and return result."""
     lesson = Lesson(
+        student_id=student.id,
         status="active",
         duration_minutes=10,
         started_at=utcnow(),

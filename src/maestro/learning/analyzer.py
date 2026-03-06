@@ -25,35 +25,25 @@ from maestro.utils import parse_llm_json
 
 logger = logging.getLogger(__name__)
 
-_student_level: str = "B2"  # default to full list; refreshed on first load
-_student_level_loaded: bool = False
-
 
 async def _ensure_loaded() -> None:
-    """Ensure taxonomy cache is populated and student level is set."""
-    global _student_level, _student_level_loaded
+    """Ensure taxonomy cache is populated."""
     await taxonomy.ensure_loaded()
-    if not _student_level_loaded:
-        from maestro.profile import get_profile
-        profile = await get_profile()
-        if profile:
-            _student_level = profile.cefr_estimate
-        _student_level_loaded = True
 
 
 def _client():
     return get_client()
 
 
-def _build_prompt(text: str, drill_context: str = "") -> str:
+def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str:
     # Only include items at or below the student's current level — keeps the
     # taxonomy list manageable and improves matching precision.
-    relevant_levels = {_student_level}
+    relevant_levels = {student_level}
 
     gp_relevant = [g for g in taxonomy.grammar_points() if g.cefr_level in relevant_levels]
     cf_relevant = [f for f in taxonomy.comm_functions() if f.cefr_level in relevant_levels]
     logger.debug(
-        f"[analyzer] building prompt: level={_student_level}, "
+        f"[analyzer] building prompt: level={student_level}, "
         f"{len(gp_relevant)} GPs, {len(cf_relevant)} CFs in taxonomy, "
         f"drill_context={'yes' if drill_context else 'no'}"
     )
@@ -78,6 +68,7 @@ def _build_prompt(text: str, drill_context: str = "") -> str:
 
 async def analyze_message(
     text: str,
+    student_id=None,
     message: Optional["Message"] = None,
     drill_context: str = "",
 ) -> Optional["LearningEvent"]:
@@ -97,7 +88,9 @@ async def analyze_message(
 
     try:
         await _ensure_loaded()
-        prompt = _build_prompt(text, drill_context)
+        from maestro.profile import get_cefr_level
+        level = await get_cefr_level(student_id) if student_id else "B2"
+        prompt = _build_prompt(text, level, drill_context)
         logger.debug(f"[analyzer] analyze_message prompt: {prompt}")
         t0 = time.monotonic()
         response = _client().messages.create(

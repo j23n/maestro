@@ -46,6 +46,7 @@ async def _get_rule_context(
 async def score_attempt(
     generated_drill: "GeneratedDrill",
     student_answer: str | list[str],
+    student_id=None,
 ) -> tuple[bool | None, object | None, dict | str, list[dict]]:
     """Returns (correct, learning_event, feedback, rule_refs).
 
@@ -104,10 +105,11 @@ async def score_attempt(
         })
 
         if overall_correct:
-            event = LearningEvent(grammar_correct=[code], grammar_errors=other_error_codes)
+            event = LearningEvent(student_id=student_id, grammar_correct=[code], grammar_errors=other_error_codes)
             return overall_correct, event, feedback, []
 
         event = LearningEvent(
+            student_id=student_id,
             grammar_errors=[code] + other_error_codes,
             feedback=json.dumps(feedback),
         )
@@ -123,6 +125,7 @@ async def score_attempt(
         )
         correct = feedback.get("objective_correct", True)
         event = LearningEvent(
+            student_id=student_id,
             grammar_correct=[code] if correct else [],
             grammar_errors=[] if correct else [code],
         )

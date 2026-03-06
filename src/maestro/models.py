@@ -2,8 +2,17 @@ from typing import Optional, List
 from datetime import datetime, date
 from dataclasses import dataclass
 from beanie import Document, Link, PydanticObjectId
+from pymongo import IndexModel, ASCENDING, DESCENDING
 from pydantic import BaseModel, Field
 from maestro.utils import utcnow
+
+
+class Student(Document):
+    name: str
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "students"
 
 
 class CurriculumScenario(Document):
@@ -78,6 +87,7 @@ class VocabularyWordDefinition(Document):
 
 
 class UserVocabularyCard(Document):
+    student_id: Optional[PydanticObjectId] = None
     word: Link[VocabularyWord]
     discovered_at: datetime = Field(default_factory=utcnow)
     ease_factor: float = 2.5
@@ -87,6 +97,10 @@ class UserVocabularyCard(Document):
 
     class Settings:
         name = "user_vocabulary_cards"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("next_review", ASCENDING)]),
+            IndexModel([("student_id", ASCENDING), ("word", ASCENDING)]),
+        ]
 
 
 # --- Learning outcome taxonomy ---
@@ -120,6 +134,7 @@ class CommunicativeFunction(Document):
 # --- Learning events and profile ---
 
 class LearningEvent(Document):
+    student_id: Optional[PydanticObjectId] = None
     drill_attempt: Optional[Link["DrillAttempt"]] = None
     grammar_correct: List[str] = Field(default_factory=list)
     grammar_errors: List[str] = Field(default_factory=list)
@@ -130,9 +145,13 @@ class LearningEvent(Document):
 
     class Settings:
         name = "learning_events"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+        ]
 
 
 class LearningProfile(Document):
+    student_id: Optional[PydanticObjectId] = None
     grammar_correct_counts: dict = Field(default_factory=dict)
     grammar_error_counts: dict = Field(default_factory=dict)
     grammar_recent_outcomes: dict = Field(default_factory=dict)  # code → list[bool], sliding window of last 10
@@ -146,6 +165,9 @@ class LearningProfile(Document):
 
     class Settings:
         name = "learning_profile"
+        indexes = [
+            IndexModel([("student_id", ASCENDING)], unique=True),
+        ]
 
 
 # --- Drills ---
@@ -165,6 +187,7 @@ class DrillTemplate(Document):
 
 
 class GeneratedDrill(Document):
+    student_id: Optional[PydanticObjectId] = None
     template: Link[DrillTemplate]
     grammar_point_code: str
     cefr_level: str
@@ -180,9 +203,13 @@ class GeneratedDrill(Document):
 
     class Settings:
         name = "generated_drills"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("used", ASCENDING)]),
+        ]
 
 
 class DrillAttempt(Document):
+    student_id: Optional[PydanticObjectId] = None
     generated_drill: Link[GeneratedDrill]
     student_answer: str
     correct: Optional[bool] = None
@@ -191,6 +218,9 @@ class DrillAttempt(Document):
 
     class Settings:
         name = "drill_attempts"
+        indexes = [
+            IndexModel([("student_id", ASCENDING)]),
+        ]
 
 
 @dataclass
@@ -229,6 +259,7 @@ class LessonActivity(BaseModel):
 
 
 class Lesson(Document):
+    student_id: Optional[PydanticObjectId] = None
     created_at: datetime = Field(default_factory=utcnow)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
@@ -247,9 +278,14 @@ class Lesson(Document):
 
     class Settings:
         name = "lessons"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("status", ASCENDING)]),
+            IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+        ]
 
 
 ALL_DOCUMENT_MODELS = [
+    Student,
     CurriculumScenario,
     ItalianChunk,
     VocabularyWord,

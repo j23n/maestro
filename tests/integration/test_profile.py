@@ -2,7 +2,11 @@
 import pytest
 from unittest.mock import MagicMock, patch, AsyncMock
 
+from beanie import PydanticObjectId
 from maestro.models import GrammarPoint, CommunicativeFunction, LearningProfile, LearningEvent
+
+
+_FAKE_STUDENT_ID = PydanticObjectId()
 
 
 async def _seed_grammar_points(db, codes_by_level: dict):
@@ -35,7 +39,7 @@ async def _seed_comm_functions(db, codes_by_level: dict):
 async def test_update_profile_increments_correct_counts(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
     await event.insert()
 
     with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
@@ -50,7 +54,7 @@ async def test_update_profile_increments_correct_counts(db):
 async def test_update_profile_increments_error_counts(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(grammar_correct=[], grammar_errors=["GP_002"], functions_performed=[])
+    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=[], grammar_errors=["GP_002"], functions_performed=[])
     await event.insert()
 
     with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
@@ -65,12 +69,13 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
     from maestro.learning.profile import update_profile
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={"GP_001": [True] * 10}
     )
     await profile.insert()
 
     # Add one more True outcome
-    event = LearningEvent(grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
     await event.insert()
 
     with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
@@ -84,7 +89,7 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
 async def test_update_profile_creates_profile_if_none(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
     await event.insert()
 
     with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
@@ -113,7 +118,7 @@ async def test_compute_cefr_no_mastered_stays_a1(db):
         "B2": ["CF_004"],
     })
 
-    profile = LearningProfile()  # no outcomes → 0% mastered at every level
+    profile = LearningProfile(student_id=_FAKE_STUDENT_ID)  # no outcomes → 0% mastered at every level
     result = await _compute_cefr(profile)
     assert result == "A1"
 
@@ -138,6 +143,7 @@ async def test_compute_cefr_a1_mastered_returns_a1(db):
 
     # A1 mastered; A2 not mastered → best = A1
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={"GP_001": [True] * 5},
         functions_counts={"CF_001": 3},
     )
@@ -164,6 +170,7 @@ async def test_compute_cefr_both_a1_a2_mastered(db):
     })
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={
             "GP_001": [True] * 5,
             "GP_002": [True] * 5,
@@ -193,6 +200,7 @@ async def test_compute_cefr_no_gp_at_level_ok(db):
     })
 
     profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={"GP_001": [True] * 5},
         functions_counts={"CF_001": 5, "CF_002": 5},
     )

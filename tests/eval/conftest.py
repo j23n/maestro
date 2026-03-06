@@ -8,18 +8,7 @@ import pytest
 from mongomock_motor import AsyncMongoMockClient
 from beanie import init_beanie
 
-from maestro.models import (
-    ItalianChunk, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard,
-    GrammarPoint, GrammarPointExplanation, CommunicativeFunction,
-    LearningEvent, LearningProfile, DrillTemplate, GeneratedDrill,
-    DrillAttempt, Lesson,
-)
-
-ALL_MODELS = [
-    ItalianChunk, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard,
-    GrammarPoint, GrammarPointExplanation, CommunicativeFunction,
-    LearningEvent, LearningProfile, DrillTemplate, GeneratedDrill, DrillAttempt, Lesson,
-]
+from maestro.models import ALL_DOCUMENT_MODELS
 
 _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data"
 
@@ -52,7 +41,7 @@ def use_eval_model(monkeypatch):
 @pytest.fixture
 async def db():
     client = AsyncMongoMockClient()
-    await init_beanie(database=client["test_maestro_eval"], document_models=ALL_MODELS)
+    await init_beanie(database=client["test_maestro_eval"], document_models=ALL_DOCUMENT_MODELS)
     yield
 
 
@@ -105,9 +94,20 @@ async def seeded_lesson_analyzer_cache(db):
 
 
 @pytest.fixture
+async def eval_student(db):
+    """Create a test student with A1 profile for eval tests that need student context."""
+    from maestro.models import Student, LearningProfile
+
+    s = Student(name="Eval Student")
+    await s.insert()
+    p = LearningProfile(student_id=s.id, cefr_estimate="A1")
+    await p.insert()
+    return s
+
+
+@pytest.fixture
 async def seeded_analyzer_cache(db):
-    """Seed the taxonomy cache and analyzer state from JSON data files."""
-    import maestro.learning.analyzer as analyzer_module
+    """Seed the taxonomy cache from JSON data files for analyzer tests."""
     from maestro import taxonomy
 
     gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
@@ -118,10 +118,7 @@ async def seeded_analyzer_cache(db):
         # CFs in the JSON have no `description` field; supply the default so _build_prompt doesn't crash
         cfs=[SimpleNamespace(description="", **cf) for cf in cfs],
     )
-    analyzer_module._student_level = "A1"
-    analyzer_module._student_level_loaded = True
 
     yield
 
     taxonomy.invalidate()
-    analyzer_module._student_level_loaded = False
