@@ -1,7 +1,17 @@
 import asyncio
 import pytest
 
-from maestro.utils import parse_llm_json, create_background_task
+from maestro.utils import parse_llm_json, create_background_task, strip_lang_spans
+
+
+@pytest.mark.unit
+def test_strip_lang_spans_removes_tags():
+    assert strip_lang_spans('<span lang="it">ciao</span>') == "ciao"
+
+
+@pytest.mark.unit
+def test_strip_lang_spans_preserves_other_html():
+    assert strip_lang_spans("<p>hello</p>") == "<p>hello</p>"
 
 
 @pytest.mark.unit

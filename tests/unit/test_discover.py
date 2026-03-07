@@ -114,6 +114,12 @@ def test_lang_wrap():
 
 
 @pytest.mark.unit
+def test_lang_wrap_idempotent():
+    html = '<span lang="it">ciao mondo</span>'
+    assert lang_wrap(html, "it") == html
+
+
+@pytest.mark.unit
 def test_lang_wrap_preserves_html():
     result = lang_wrap("<strong>ciao</strong>", "it")
     assert result == '<span lang="it"><strong>ciao</strong></span>'

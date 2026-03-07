@@ -9,13 +9,20 @@
     <div class="card-label">{{ t("page_title_writing") }}</div>
     <div class="prompt-text">{{ annotated_content | safe }}</div>
 
+    {% if is_review %}
+    <div class="review-banner">
+      <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+        {{ t("back_to_current") }}
+      </a>
+    </div>
+    {% else %}
     <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/writing-submit"
           hx-target=".activity-container"
           hx-swap="innerHTML"
           hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("submitting") }}'">
       <textarea class="answer-area"
                 name="answer"
-                placeholder="{{ t("writing_placeholder", language_lower=target_language|lower) }}"
+                placeholder="{{ t("writing_placeholder") }}"
                 required></textarea>
       <div class="submit-row">
         <button class="submit-btn" type="submit">{{ t("drill_submit") }}</button>
@@ -26,6 +33,7 @@
            href="#">{{ t("skip_btn") }}</a>
       </div>
     </form>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

@@ -30,7 +30,7 @@
   "vocab_translation_prompt": "How do you say this in {language}?",
   "vocab_reveal": "Mostra",
   "vocab_skip_activity": "Salta attivit\u00e0 \u2192",
-  "writing_placeholder": "Scrivi qui la tua risposta in {language_lower}\u2026",
+  "writing_placeholder": "Scrivi qui la tua risposta in italiano\u2026",
   "reading_title": "Lettura",
   "reading_comprehension": "Comprensione",
   "reading_submit": "Invia risposte",
@@ -130,5 +130,7 @@
   "srs_again": "Ripeti",
   "srs_hard": "Difficile",
   "srs_good": "Bene",
-  "srs_easy": "Facile"
+  "srs_easy": "Facile",
+  "lesson_no_history": "Nessuna lezione ancora. Inizia la tua prima!",
+  "back_to_current": "Torna all\u2019attivit\u00e0 corrente"
 }
