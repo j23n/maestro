@@ -25,6 +25,7 @@ _STRINGS: dict[str, dict[str, str]] = {
         # a0.py fallback titles
         "a0_drill_title": "Esercizio: {code}",
         "a0_reading_title": "Lettura",
+        "a0_writing_title": "Scrittura",
     },
 }
 

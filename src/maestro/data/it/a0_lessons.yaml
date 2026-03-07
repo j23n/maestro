@@ -183,6 +183,40 @@ a0-02-saluti:
         - prompt: "Good night! = ___!"
           correct_answer: "Buonanotte"
 
+    - type: reading
+      title: "At the hotel"
+      description: "A short greeting dialogue"
+      content: |
+        <span lang="it">— Buongiorno, signora!</span> (Good morning, ma'am!)
+
+        <span lang="it">— Buongiorno! Come sta?</span> (Good morning! How are you?)
+
+        <span lang="it">— Bene, grazie. Arrivederci!</span> (Well, thanks. Goodbye!)
+
+        <span lang="it">— Arrivederci, a presto!</span> (Goodbye, see you soon!)
+      questions:
+        - "What greeting does the first speaker use?"
+        - "How does the conversation end?"
+      correct_answers:
+        - "Buongiorno"
+        - "Arrivederci / A presto"
+
+    - type: drill
+      title: "Fix the greeting"
+      description: "Find and correct the error"
+      hint: "Check formality and time of day. Buonanotte is only for bedtime!"
+      grammar_point_code: a0_saluti
+      exercise_type: error_correction
+      items:
+        - prompt: "Buonanotte, signora! (greeting someone in the morning)"
+          correct_answer: "Buongiorno, signora!"
+        - prompt: "Ciao, professore! (greeting your teacher formally)"
+          correct_answer: "Buongiorno, professore!"
+        - prompt: "Arrivederci! A presto! Buonanotte! (leaving a shop at 3pm)"
+          correct_answer: "Arrivederci! A presto!"
+        - prompt: "Buonasera! (greeting a friend informally)"
+          correct_answer: "Ciao!"
+
 a0-03-numeri:
   topic_title: "I numeri"
   topic_description: "Learn to count from 0 to 20 in Italian"
@@ -277,6 +311,44 @@ a0-03-numeri:
         - prompt: "18 = ___"
           correct_answer: "diciotto"
 
+    - type: reading
+      title: "At the market"
+      description: "Numbers in a real situation"
+      content: |
+        <span lang="it">— Buongiorno! Vorrei tre mele, per favore.</span> (Good morning! I'd like three apples, please.)
+
+        <span lang="it">— Tre mele. Sono due euro.</span> (Three apples. That's two euros.)
+
+        <span lang="it">— Ecco cinque euro.</span> (Here's five euros.)
+
+        <span lang="it">— Grazie. Tre euro di resto.</span> (Thanks. Three euros change.)
+      questions:
+        - "How many apples does the customer want?"
+        - "How much change does the customer get?"
+      correct_answers:
+        - "tre / 3"
+        - "tre euro / 3"
+
+    - type: drill
+      title: "Greetings + numbers review"
+      description: "Mixed review of lessons 1-3"
+      hint: "Review time! Mix of greetings and numbers from previous lessons."
+      grammar_point_code: a0_saluti
+      exercise_type: fill_blank
+      items:
+        - prompt: "Good evening! = ___!"
+          correct_answer: "Buonasera"
+        - prompt: "4 = ___"
+          correct_answer: "quattro"
+        - prompt: "Thank you! = ___!"
+          correct_answer: "Grazie"
+        - prompt: "13 = ___"
+          correct_answer: "tredici"
+        - prompt: "See you tomorrow! = A ___!"
+          correct_answer: "domani"
+        - prompt: "9 = ___"
+          correct_answer: "nove"
+
 a0-04-si-e-no:
   topic_title: "Sì e no"
   topic_description: "Saying yes and no, and forming simple negative sentences"
@@ -337,6 +409,58 @@ a0-04-si-e-no:
         - prompt: "I don't know. = Non ___ ."
           correct_answer: "so"
 
+    - type: reading
+      title: "Do you speak Italian?"
+      description: "A tourist asking for help"
+      content: |
+        <span lang="it">— Scusi, parla inglese?</span> (Excuse me, do you speak English?)
+
+        <span lang="it">— No, mi dispiace. Non parlo inglese.</span> (No, I'm sorry. I don't speak English.)
+
+        <span lang="it">— Va bene. Parlo un po' di italiano.</span> (That's OK. I speak a little Italian.)
+
+        <span lang="it">— Ah, bene!</span> (Ah, great!)
+      questions:
+        - "Does the second person speak English?"
+        - "Does the tourist speak any Italian?"
+      correct_answers:
+        - "No"
+        - "Sì / Yes, a little"
+
+    - type: drill
+      title: "Fix the negation"
+      description: "Correct these sentences"
+      hint: "Remember: non goes BEFORE the verb. Check that positive and negative match the meaning."
+      grammar_point_code: a0_si_no_non
+      exercise_type: error_correction
+      items:
+        - prompt: "Parlo non italiano."
+          correct_answer: "Non parlo italiano."
+        - prompt: "Capisco non."
+          correct_answer: "Non capisco."
+        - prompt: "Non sì."
+          correct_answer: "No."
+        - prompt: "No parlo inglese."
+          correct_answer: "Non parlo inglese."
+
+    - type: drill
+      title: "Review: greetings and numbers"
+      description: "Quick review of lessons 1-3"
+      hint: "Keep earlier material fresh!"
+      grammar_point_code: a0_saluti
+      exercise_type: fill_blank
+      items:
+        - prompt: "Hello! (informal) = ___!"
+          correct_answer: "Ciao"
+        - prompt: "16 = ___"
+          correct_answer: "sedici"
+        - prompt: "Goodbye! (formal) = ___!"
+          correct_answer: "Arrivederci"
+        - prompt: "6 = ___"
+          correct_answer: "sei"
+        - prompt: "2 = ___"
+          correct_answer: "due"
+
 a0-05-per-favore:
   topic_title: "Per favore"
   topic_description: "Polite phrases and how to ask for things with vorrei"
@@ -395,6 +519,49 @@ a0-05-per-favore:
         - prompt: "I'd like a water, please. = Vorrei un'acqua, per ___."
           correct_answer: "favore"
 
+    - type: reading
+      title: "At the café"
+      description: "Ordering at an Italian bar"
+      content: |
+        <span lang="it">— Buongiorno!</span>
+
+        <span lang="it">— Buongiorno. Vorrei un caffè, per favore.</span>
+
+        <span lang="it">— Certo. Un euro e venti.</span> (Sure. One euro twenty.)
+
+        <span lang="it">— Ecco. Grazie!</span> (Here you go. Thanks!)
+
+        <span lang="it">— Prego. Buona giornata!</span> (You're welcome. Have a nice day!)
+      questions:
+        - "What does the customer order?"
+        - "What does the barista say after 'Grazie'?"
+      correct_answers:
+        - "un caffè / a coffee"
+        - "Prego"
+
+    - type: writing
+      title: "Order something"
+      description: "Write a polite order"
+      content: "You're at an Italian café. Write a sentence ordering something you'd like. Use **Vorrei** and **per favore**."
+
+    - type: drill
+      title: "Review: negation and greetings"
+      description: "Quick review of lessons 1-4"
+      hint: "Keep practising! Non goes before the verb."
+      grammar_point_code: a0_si_no_non
+      exercise_type: fill_blank
+      items:
+        - prompt: "I don't understand. = Non ___."
+          correct_answer: "capisco"
+        - prompt: "Good morning! = ___!"
+          correct_answer: "Buongiorno"
+        - prompt: "19 = ___"
+          correct_answer: "diciannove"
+        - prompt: "I don't speak Italian. = Non ___ italiano."
+          correct_answer: "parlo"
+        - prompt: "See you soon! = A ___!"
+          correct_answer: "presto"
+
 a0-06-che-cose:
   topic_title: "Che cos'è?"
   topic_description: "Learning il and la, and asking what things are"
@@ -451,6 +618,60 @@ a0-06-che-cose:
         - prompt: "What is this? = Che cos'è ___?"
           correct_answer: "questo"
 
+    - type: reading
+      title: "What's on the table?"
+      description: "Naming everyday objects"
+      content: |
+        <span lang="it">— Che cos'è questo?</span> (What is this?)
+
+        <span lang="it">— È il caffè.</span> (It's the coffee.)
+
+        <span lang="it">— E questo?</span> (And this?)
+
+        <span lang="it">— È la pizza!</span> (It's the pizza!)
+
+        <span lang="it">— Ah, la pizza! Mi piace la pizza.</span> (Ah, pizza! I like pizza.)
+      questions:
+        - "What is the first object?"
+        - "What article goes with 'pizza'?"
+      correct_answers:
+        - "il caffè / the coffee"
+        - "la"
+
+    - type: drill
+      title: "Fix the article"
+      description: "Correct the gender errors"
+      hint: "Words ending in -o → il, words ending in -a → la."
+      grammar_point_code: a0_articoli_il_la
+      exercise_type: error_correction
+      items:
+        - prompt: "La libro è interessante."
+          correct_answer: "Il libro è interessante."
+        - prompt: "Il pizza è buona."
+          correct_answer: "La pizza è buona."
+        - prompt: "La treno è veloce."
+          correct_answer: "Il treno è veloce."
+        - prompt: "Il casa è grande."
+          correct_answer: "La casa è grande."
+
+    - type: drill
+      title: "Review: polite phrases"
+      description: "Quick review of lessons 1-5"
+      hint: "Vorrei = I would like, Per favore = please."
+      grammar_point_code: a0_cortesia
+      exercise_type: fill_blank
+      items:
+        - prompt: "I'd like the bill. = ___ il conto."
+          correct_answer: "Vorrei"
+        - prompt: "I'm sorry. = Mi ___."
+          correct_answer: "dispiace"
+        - prompt: "Excuse me! (formal) = ___!"
+          correct_answer: "Scusi"
+        - prompt: "I don't speak Italian. = ___ parlo italiano."
+          correct_answer: "Non"
+        - prompt: "11 = ___"
+          correct_answer: "undici"
+
 a0-07-io-sono:
   topic_title: "Io sono"
   topic_description: "Subject pronouns and the verb essere (to be) in singular"
@@ -506,6 +727,47 @@ a0-07-io-sono:
         - prompt: "He is a teacher. = Lui ___ un professore."
           correct_answer: "è"
 
+    - type: reading
+      title: "Meeting someone"
+      description: "Two people introducing themselves"
+      content: |
+        <span lang="it">— Ciao! Io sono Marco. Tu come ti chiami?</span> (Hi! I'm Marco. What's your name?)
+
+        <span lang="it">— Ciao! Mi chiamo Anna. Sei italiano?</span> (Hi! My name is Anna. Are you Italian?)
+
+        <span lang="it">— Sì, sono italiano. E tu?</span> (Yes, I'm Italian. And you?)
+
+        <span lang="it">— No, non sono italiana. Sono inglese.</span> (No, I'm not Italian. I'm English.)
+      questions:
+        - "What is the man's name?"
+        - "Is Anna Italian?"
+      correct_answers:
+        - "Marco"
+        - "No"
+
+    - type: writing
+      title: "Introduce yourself"
+      description: "Write about yourself in Italian"
+      content: "Write 2-3 sentences introducing yourself. Use **Mi chiamo...**, **Sono...**, and any other words you know. For example: *Mi chiamo Marco. Sono italiano.*"
+
+    - type: drill
+      title: "Review: articles and 'Che cos'è?'"
+      description: "Quick review of lesson 6"
+      hint: "Remember: il (masculine), la (feminine)."
+      grammar_point_code: a0_articoli_il_la
+      exercise_type: fill_blank
+      items:
+        - prompt: "___ stazione (station, f.)"
+          correct_answer: "la"
+        - prompt: "___ gelato (ice cream, m.)"
+          correct_answer: "il"
+        - prompt: "What is it? = Che cos'___?"
+          correct_answer: "è"
+        - prompt: "You're welcome. = ___."
+          correct_answer: "Prego"
+        - prompt: "15 = ___"
+          correct_answer: "quindici"
+
 a0-08-mi-piace:
   topic_title: "Mi piace"
   topic_description: "Expressing what you like and don't like"
@@ -551,6 +813,45 @@ a0-08-mi-piace:
           correct_answer: "piacciono"
         - prompt: "I don't like spiders. = Non mi piacciono i ___."
           correct_answer: "ragni"
+
+    - type: reading
+      title: "What do you like?"
+      description: "Two friends talking about their preferences"
+      content: |
+        <span lang="it">— Mi piace il caffè. E a te?</span> (I like coffee. And you?)
+
+        <span lang="it">— Non mi piace il caffè. Mi piace il tè.</span> (I don't like coffee. I like tea.)
+
+        <span lang="it">— Mi piacciono i gatti. Ti piacciono i gatti?</span> (I like cats. Do you like cats?)
+
+        <span lang="it">— Sì, mi piacciono molto!</span> (Yes, I like them a lot!)
+      questions:
+        - "Does the second person like coffee?"
+        - "Do both people like cats?"
+      correct_answers:
+        - "No"
+        - "Sì / Yes"
+
+    - type: writing
+      title: "Your likes and dislikes"
+      description: "Write about what you like"
+      content: "Write 2-3 sentences about things you like and don't like. Use **Mi piace...** / **Non mi piace...** / **Mi piacciono...**"
+
+    - type: drill
+      title: "Fix the sentence"
+      description: "Correct the errors"
+      hint: "Mi piace + singular, Mi piacciono + plural. Non goes before mi."
+      grammar_point_code: a0_mi_piace
+      exercise_type: error_correction
+      items:
+        - prompt: "Mi piacciono il caffè."
+          correct_answer: "Mi piace il caffè."
+        - prompt: "Mi piace i gatti."
+          correct_answer: "Mi piacciono i gatti."
+        - prompt: "Mi non piace il tè."
+          correct_answer: "Non mi piace il tè."
+        - prompt: "Io sono contento. Tu sono italiano."
+          correct_answer: "Io sono contento. Tu sei italiano."
 
 a0-09-dove:
   topic_title: "Dov'è?"
@@ -603,6 +904,49 @@ a0-09-dove:
           correct_answer: "Dove"
         - prompt: "I am at home. = Sono a ___."
           correct_answer: "casa"
+
+    - type: reading
+      title: "Where is the museum?"
+      description: "A tourist asking for directions"
+      content: |
+        <span lang="it">— Scusi, dov'è il museo?</span> (Excuse me, where is the museum?)
+
+        <span lang="it">— Il museo? È in centro.</span> (The museum? It's in the centre.)
+
+        <span lang="it">— Grazie! E dov'è la stazione?</span> (Thanks! And where is the station?)
+
+        <span lang="it">— La stazione è a due minuti, là.</span> (The station is two minutes away, there.)
+
+        <span lang="it">— Grazie mille! Arrivederci!</span>
+      questions:
+        - "Where is the museum?"
+        - "How far is the station?"
+      correct_answers:
+        - "in centro / in the centre"
+        - "due minuti / two minutes"
+
+    - type: writing
+      title: "Ask for directions"
+      description: "Write a question asking where something is"
+      content: "Write 2 sentences: ask where a place is and say where you are from. Use **Dov'è...?** and **Sono di...**"
+
+    - type: drill
+      title: "Review: essere and mi piace"
+      description: "Quick review of lessons 7-8"
+      hint: "io sono, tu sei, lui/lei è. Mi piace + singular, mi piacciono + plural."
+      grammar_point_code: a0_essere
+      exercise_type: fill_blank
+      items:
+        - prompt: "I am a student. = ___ uno studente."
+          correct_answer: "Sono"
+        - prompt: "You are kind. = Tu ___ gentile."
+          correct_answer: "sei"
+        - prompt: "I like pizza. = Mi ___ la pizza."
+          correct_answer: "piace"
+        - prompt: "I don't like spiders. = ___ mi piacciono i ragni."
+          correct_answer: "Non"
+        - prompt: "She is Italian. = Lei ___ italiana."
+          correct_answer: "è"
 
 a0-10-ripasso:
   topic_title: "Ripasso A0"
@@ -660,6 +1004,57 @@ a0-10-ripasso:
           correct_answer: "stazione"
         - prompt: "Goodbye! (formal) = ___!"
           correct_answer: "Arrivederci"
+
+    - type: reading
+      title: "A full conversation"
+      description: "Putting it all together"
+      content: |
+        <span lang="it">— Buongiorno! Mi chiamo Luca. E tu, come ti chiami?</span>
+
+        <span lang="it">— Ciao! Mi chiamo Sofia. Sono di Londra. Sei italiano?</span>
+
+        <span lang="it">— Sì, sono italiano, di Roma. Ti piace l'Italia?</span>
+
+        <span lang="it">— Sì, mi piace molto! Vorrei un caffè, per favore.</span>
+
+        <span lang="it">— Anch'io! Due caffè, per favore.</span> (Me too! Two coffees, please.)
+
+        <span lang="it">— Grazie! Dov'è il bagno?</span>
+
+        <span lang="it">— È là, a destra.</span> (It's there, on the right.)
+
+        <span lang="it">— Grazie mille!</span>
+      questions:
+        - "Where is Sofia from?"
+        - "How many coffees do they order?"
+        - "Does Sofia like Italy?"
+      correct_answers:
+        - "Londra / London"
+        - "due / 2"
+        - "Sì / Yes"
+
+    - type: drill
+      title: "Fix the mistakes"
+      description: "Mixed error correction"
+      hint: "Look for wrong articles, wrong verb forms, and wrong word order."
+      grammar_point_code: a0_frase_semplice
+      exercise_type: error_correction
+      items:
+        - prompt: "Io è italiano."
+          correct_answer: "Io sono italiano."
+        - prompt: "Mi piacciono la pizza."
+          correct_answer: "Mi piace la pizza."
+        - prompt: "Non capisco non."
+          correct_answer: "Non capisco."
+        - prompt: "Il casa è grande."
+          correct_answer: "La casa è grande."
+        - prompt: "Vorrei un caffè, per favori."
+          correct_answer: "Vorrei un caffè, per favore."
+
+    - type: writing
+      title: "Introduce yourself fully"
+      description: "Write a full self-introduction"
+      content: "Write 4-5 sentences about yourself. Include your name, where you're from, something you like, something you don't like, and a polite phrase. Use everything you've learned!"
 
     - type: grammar
       title: "Next steps"
