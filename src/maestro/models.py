@@ -39,7 +39,7 @@ class ExerciseType(str, Enum):
 
 
 class Student(Document):
-    name: str = ""
+    name: str = Field(default="", max_length=30)
     created_at: datetime = Field(default_factory=utcnow)
 
     class Settings:

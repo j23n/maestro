@@ -4,6 +4,7 @@ import pytest
 from beanie import PydanticObjectId
 
 from maestro.models import Student, LearningProfile
+from maestro.profile import save_onboarding_field
 
 
 # ---------------------------------------------------------------------------
@@ -68,3 +69,12 @@ async def test_create_student_no_name(test_app, db):
     assert response.status_code == 303
     created = await Student.find_one({"name": ""})
     assert created is not None
+
+
+@pytest.mark.integration
+async def test_onboarding_name_truncated_to_30(db, student):
+    long_name = "A" * 50
+    await save_onboarding_field(student, "name", long_name)
+    refreshed = await Student.get(student.id)
+    assert len(refreshed.name) == 30
+    assert refreshed.name == "A" * 30
