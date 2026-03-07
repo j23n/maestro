@@ -43,7 +43,7 @@
   {% if annotated_feedback or lesson.feedback_summary %}
   <div class="lesson-feedback">
     <div class="feedback-label">{{ t("lesson_feedback_label") }}</div>
-    <p class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</p>
+    <div class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</div>
   </div>
   {% endif %}
 

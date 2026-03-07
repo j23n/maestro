@@ -1,6 +1,6 @@
 <div id="onboarding-response">
   <div class="onboarding-response-text">
-    {{ response_text | safe }}
+    {{ response_text | markdown | safe }}
   </div>
   <div class="submit-row" style="margin-top:1.75rem;">
     <button class="continue-btn"

@@ -25,7 +25,10 @@ _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 
 
 def lang_wrap(html: str, lang: str) -> str:
-    """Wrap HTML content in a <span lang="xx"> tag."""
+    """Wrap HTML content in a <span lang="xx"> tag. Idempotent."""
+    stripped = html.strip()
+    if stripped.startswith(f'<span lang="{lang}">') and stripped.endswith('</span>'):
+        return html
     return f'<span lang="{lang}">{html}</span>'
 
 

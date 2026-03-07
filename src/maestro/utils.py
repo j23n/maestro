@@ -89,6 +89,15 @@ def create_background_task(coro, *, name: str | None = None) -> asyncio.Task:
     return task
 
 
+_LANG_SPAN_RE = re.compile(r'<span\s+lang="[^"]*"\s*>')
+
+
+def strip_lang_spans(text: str) -> str:
+    """Remove <span lang="..."> wrappers, leaving inner text intact."""
+    text = _LANG_SPAN_RE.sub('', text)
+    return text.replace('</span>', '')
+
+
 def parse_llm_json(text: str) -> dict | list | None:
     """Strip markdown fences and extract the first JSON object or array from an LLM response."""
     text = re.sub(r"^```(?:json)?\n?", "", text.strip())

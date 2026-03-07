@@ -36,7 +36,7 @@ from maestro.models import (
 from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
-from maestro.utils import parse_llm_json, utcnow
+from maestro.utils import parse_llm_json, strip_lang_spans, utcnow
 from maestro.lezione.slots import _allocate_slots
 from maestro.lezione.prompts import build_lesson_content_prompt
 from maestro.lezione.materialize import materialize_activities
@@ -318,8 +318,8 @@ async def _generate_lesson_background(
         speaking_cfs,
     )
 
-    topic_title = content.topic_title or scenario.label
-    topic_description = content.topic_description or scenario.description
+    topic_title = strip_lang_spans(content.topic_title or scenario.label)
+    topic_description = strip_lang_spans(content.topic_description or scenario.description)
 
     # --- Materialise activities ---
     new_activities = await materialize_activities(

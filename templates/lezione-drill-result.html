@@ -19,12 +19,12 @@
       <div class="item-row">
         <div class="item-row-num">{{ loop.index }}</div>
         <div class="item-row-body">
-          <div class="item-prompt-text">{{ item.prompt }}</div>
+          <div class="item-prompt-text">{{ item.prompt | safe }}</div>
           {% if item.objective_correct %}
-            <div class="item-ok-mark">✓ {{ item.student_answer }}</div>
+            <div class="item-ok-mark">✓ {{ item.student_answer | safe }}</div>
           {% else %}
-            <div class="item-student-wrong">{{ item.student_answer }}</div>
-            <div class="item-correct-answer">{{ item.correct_answer }}</div>
+            <div class="item-student-wrong">{{ item.student_answer | safe }}</div>
+            <div class="item-correct-answer">{{ item.correct_answer | safe }}</div>
             {% if item.objective_note %}
             <div class="item-explanation">{{ item.objective_note }}</div>
             {% endif %}

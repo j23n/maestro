@@ -19,7 +19,13 @@
       </div>
     {% endif %}
 
-    {% if drill.items %}
+    {% if is_review %}
+    <div class="review-banner">
+      <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+        {{ t("back_to_current") }}
+      </a>
+    </div>
+    {% elif drill.items %}
       {# Multi-item: fill_blank or error_correction #}
       {% if drill.exercise_type == "fill_blank" %}
         <div class="drill-instruction">{{ t("drill_fill_blank_instruction") }}</div>
@@ -38,7 +44,7 @@
           <div class="drill-item">
             <div class="item-num">{{ loop.index }}</div>
             <div class="item-body">
-              <div class="item-sentence">{{ item.prompt }}</div>
+              <div class="item-sentence">{{ item.prompt | safe }}</div>
               <input class="item-input" type="text" name="answers"
                      placeholder="{% if drill.exercise_type == 'fill_blank' %}{{ t("drill_fill_blank_placeholder") }}{% else %}{{ t("drill_error_correction_placeholder") }}{% endif %}"
                      required autocomplete="off">
