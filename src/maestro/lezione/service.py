@@ -20,7 +20,7 @@ from maestro.learning.scorer import score_reading_answers
 from maestro.learning.lesson_analyzer import analyze_lesson
 from maestro.llm import get_async_client
 from maestro.config import settings
-from maestro.profile import get_profile
+from maestro.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
 
 logger = logging.getLogger(__name__)
@@ -96,20 +96,33 @@ async def advance_lesson(
     }
     if result is not None:
         set_fields[f"activities.{current_idx}.result"] = result
+    _sweep_leftover_activities(lesson, set_fields)
     await lesson.update({"$set": set_fields})
 
-    # Update scenario progress
-    if lesson.scenario_slug and lesson.student_id:
-        profile = await get_profile(lesson.student_id)
-        if profile:
-            progress = profile.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
-            progress.depth = max(progress.depth, lesson.scenario_depth or 1)
-            progress.last_visited = utcnow()
-            progress.lesson_count += 1
-            profile.scenario_progress[lesson.scenario_slug] = progress
-            await profile.save()
+    await update_scenario_progress(lesson)
 
     return f"/lezione/{lesson.id}/complete"
+
+
+def _sweep_leftover_activities(lesson: Lesson, set_fields: dict) -> None:
+    """Mark any PENDING/ACTIVE activities as SKIPPED (in-memory + set_fields)."""
+    for i, act in enumerate(lesson.activities):
+        if act.status in (ActivityStatus.PENDING, ActivityStatus.ACTIVE):
+            act.status = ActivityStatus.SKIPPED
+            set_fields[f"activities.{i}.status"] = ActivityStatus.SKIPPED.value
+
+
+async def update_scenario_progress(lesson: Lesson) -> None:
+    """Record scenario completion on the student's learning profile."""
+    if not lesson.scenario_slug or not lesson.student_id:
+        return
+    profile = await get_or_create_profile(lesson.student_id)
+    progress = profile.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
+    progress.depth = max(progress.depth, lesson.scenario_depth or 1)
+    progress.last_visited = utcnow()
+    progress.lesson_count += 1
+    profile.scenario_progress[lesson.scenario_slug] = progress
+    await profile.save()
 
 
 async def generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str:

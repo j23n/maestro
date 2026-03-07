@@ -36,6 +36,8 @@ from maestro.lezione.service import (
     ensure_lesson_feedback,
     get_weak_grammar_points,
     score_reading_activity,
+    update_scenario_progress,
+    _sweep_leftover_activities,
 )
 
 logger = logging.getLogger(__name__)
@@ -75,6 +77,12 @@ async def lezione_create(
     student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
 ):
+    active = await Lesson.find_one({"student_id": student.id, "status": LessonStatus.ACTIVE})
+    if active:
+        if active.generating and active.current_index >= len(active.activities):
+            return RedirectResponse(url=f"/lezione/{active.id}/generating", status_code=303)
+        return RedirectResponse(url=activity_url(active.id, active.current_index), status_code=303)
+
     profile = await get_profile(student.id)
 
     lesson = await prepare_lesson_immediate(duration, profile, student.id)
@@ -130,10 +138,13 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
             now = utcnow()
             lesson.status = LessonStatus.COMPLETED
             lesson.completed_at = now
-            await lesson.update({"$set": {
+            set_fields = {
                 "status": LessonStatus.COMPLETED.value,
                 "completed_at": now,
-            }})
+            }
+            _sweep_leftover_activities(lesson, set_fields)
+            await lesson.update({"$set": set_fields})
+            await update_scenario_progress(lesson)
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     return templates.TemplateResponse(
         request=request,

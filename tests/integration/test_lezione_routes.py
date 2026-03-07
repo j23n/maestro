@@ -130,3 +130,33 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
         )
 
     assert response.status_code == 200
+
+
+@pytest.mark.integration
+async def test_lezione_create_redirects_if_active_exists(test_app, db, student):
+    """POST /lezione/ with an existing ACTIVE lesson → 303 redirect, no new lesson."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="Test",
+                description="Test",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    response = test_app.post("/lezione/", data={"duration": "20"}, follow_redirects=False)
+    assert response.status_code == 303
+    assert f"/lezione/{lesson.id}/activity/0" in response.headers["location"]
+
+    count = await Lesson.find({"student_id": student.id}).count()
+    assert count == 1
