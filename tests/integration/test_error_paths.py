@@ -130,7 +130,7 @@ async def test_score_reading_empty_answers(mock_scorer_client, db):
     """Scoring with no student answers returns safe defaults."""
     from maestro.lezione.service import score_reading_activity
 
-    overall_correct, feedback = await score_reading_activity(
+    overall_correct, feedback, _, _ = await score_reading_activity(
         questions=["What color?"],
         correct_answers=["Red"],
         student_answers=[],

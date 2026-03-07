@@ -176,7 +176,10 @@ class CommunicativeFunction(Document):
 
 class LearningEvent(Document):
     student_id: Optional[PydanticObjectId] = None
-    drill_attempt: Optional[Link["DrillAttempt"]] = None
+    lesson_id: Optional[PydanticObjectId] = None
+    activity_type: Optional[str] = None
+    activity_index: Optional[int] = None
+    student_text: str = ""
     grammar_correct: List[str] = Field(default_factory=list)
     grammar_errors: List[str] = Field(default_factory=list)
     functions_performed: List[str] = Field(default_factory=list)
@@ -188,6 +191,7 @@ class LearningEvent(Document):
         name = "learning_events"
         indexes = [
             IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("lesson_id", ASCENDING)]),
         ]
 
 
@@ -256,7 +260,6 @@ class DrillAttempt(Document):
     generated_drill: Link[GeneratedDrill]
     student_answer: str
     correct: Optional[bool] = None
-    learning_event: Optional[Link[LearningEvent]] = None
     attempted_at: datetime = Field(default_factory=utcnow)
 
     class Settings:

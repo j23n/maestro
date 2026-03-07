@@ -19,6 +19,7 @@ Returns (correct, event, feedback, rule_refs):
 from __future__ import annotations
 
 import json
+import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -27,6 +28,8 @@ if TYPE_CHECKING:
 from maestro.models import LearningEvent, GrammarChunk, ExerciseType
 from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
 from maestro import taxonomy
+
+logger = logging.getLogger(__name__)
 
 _PASS_THRESHOLD = 0.7  # fraction of items correct to count the drill as passed
 
@@ -137,4 +140,5 @@ async def score_attempt(
         refs = rule_refs if not correct else []
         return correct, event, feedback, refs
 
+    logger.warning(f"[scoring] unknown exercise type: {generated_drill.exercise_type}")
     return None, None, "", []
