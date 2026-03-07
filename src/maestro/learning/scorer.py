@@ -36,6 +36,93 @@ def _client():
     return get_async_client()
 
 
+def _validate_results(result: list, n: int, label: str) -> list[dict]:
+    """Validate a list of raw dicts into ScoringResult dicts, with per-item fallback."""
+    validated = []
+    for r in result:
+        try:
+            validated.append(ScoringResult.model_validate(r).model_dump())
+        except Exception:
+            validated.append(dict(_FALLBACK_ITEM))
+    n_correct = sum(1 for r in validated if r.get("objective_correct"))
+    logger.info(f"[scorer] {label}: {n_correct}/{n} correct")
+    return validated
+
+
+def _grammar_code_list(cefr_level: str) -> str:
+    return "\n".join(
+        f"  {g.code}: {g.label}"
+        for g in taxonomy.grammar_points()
+        if g.cefr_level == cefr_level
+    )
+
+
+def _system_prompt(cefr_level: str) -> str:
+    return _prompts.scoring_system.render_system(
+        target_language=_target_language(),
+        grammar_code_list=_grammar_code_list(cefr_level),
+    )
+
+
+async def _score_single(prompt: str, *, max_tokens: int = 512, label: str, cefr_level: str) -> dict:
+    """LLM call -> JSON parse -> ScoringResult validation. Falls back to objective_correct=True."""
+    try:
+        await taxonomy.ensure_loaded()
+        logger.debug(f"[scorer] {label} prompt: {prompt}")
+        t0 = time.monotonic()
+        response = await _client().messages.create(
+            model=settings.LESSON_MODEL,
+            max_tokens=max_tokens,
+            system=_system_prompt(cefr_level),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        elapsed = time.monotonic() - t0
+        raw = response.content[0].text.strip()
+        logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
+        data = parse_llm_json(raw)
+        if not isinstance(data, dict):
+            logger.error(f"[scorer] {label} unexpected shape: {raw}")
+            return ScoringResult(objective_correct=True).model_dump()
+        try:
+            validated = ScoringResult.model_validate(data)
+        except Exception:
+            logger.warning(f"[scorer] {label} validation partial, using raw dict")
+            validated = ScoringResult(objective_correct=True)
+        logger.info(
+            f"[scorer] {label}: objective_correct={validated.objective_correct}, "
+            f"{len(validated.grammar_errors)} errors"
+        )
+        return validated.model_dump()
+    except Exception as e:
+        logger.error(f"[scorer] {label} error: {e}", exc_info=True)
+        return ScoringResult(objective_correct=True).model_dump()
+
+
+async def _score_multi(prompt: str, n: int, *, max_tokens: int = 4000, label: str, cefr_level: str) -> list[dict]:
+    """LLM call -> JSON array parse -> per-item ScoringResult validation. Falls back to all-incorrect."""
+    try:
+        await taxonomy.ensure_loaded()
+        logger.debug(f"[scorer] {label} prompt: {prompt}")
+        t0 = time.monotonic()
+        response = await _client().messages.create(
+            model=settings.LESSON_MODEL,
+            max_tokens=max_tokens,
+            system=_system_prompt(cefr_level),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        elapsed = time.monotonic() - t0
+        raw = response.content[0].text.strip()
+        logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
+        result = parse_llm_json(raw)
+        if isinstance(result, list) and len(result) == n:
+            return _validate_results(result, n, label)
+        logger.error(f"[scorer] {label} unexpected result shape: {raw}")
+    except Exception as e:
+        logger.error(f"[scorer] {label} error: {e}", exc_info=True)
+    logger.warning(f"[scorer] {label} falling back to all-incorrect for {n} items")
+    return [dict(_FALLBACK_ITEM) for _ in range(n)]
+
+
 async def feedback_fill_blank(
     drill_prompt: str,
     correct_answer: str,
@@ -140,6 +227,7 @@ async def score_multi_item_drill(
     items: list,
     student_answers: list[str],
     rag_content: str = "",
+    cefr_level: str = "A1",
 ) -> list[dict]:
     """Score all items in a single LLM call.
 
@@ -153,7 +241,6 @@ async def score_multi_item_drill(
 
     await taxonomy.ensure_loaded()
     gp_label = next((g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code), grammar_point_code)
-    grammar_code_list = "\n".join(f"  {g.code}: {g.label}" for g in taxonomy.grammar_points())
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
@@ -175,39 +262,11 @@ async def score_multi_item_drill(
         gp_label=gp_label,
         grammar_point_code=grammar_point_code,
         rule_block=rule_block,
-        grammar_code_list=grammar_code_list,
         items_block="\n".join(lines),
         n=n,
     )
 
-    try:
-        logger.debug(f"[scorer] score_multi_item_drill prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
-            max_tokens=4000,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        elapsed = time.monotonic() - t0
-        raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] score_multi_item_drill LLM in {elapsed:.2f}s: {raw}")
-        result = parse_llm_json(raw)
-        if isinstance(result, list) and len(result) == n:
-            validated = []
-            for r in result:
-                try:
-                    validated.append(ScoringResult.model_validate(r).model_dump())
-                except Exception:
-                    validated.append(dict(_FALLBACK_ITEM))
-            n_correct = sum(1 for r in validated if r.get("objective_correct"))
-            logger.info(f"[scorer] score_multi_item_drill: {n_correct}/{n} correct")
-            return validated
-        logger.error(f"[scorer] score_multi_item_drill unexpected result shape: {raw}")
-    except Exception as e:
-        logger.error(f"[scorer] score_multi_item_drill error: {e}", exc_info=True)
-
-    logger.warning(f"[scorer] score_multi_item_drill falling back to all-incorrect for {n} items")
-    return [dict(_FALLBACK_ITEM) for _ in range(n)]
+    return await _score_multi(prompt, n, label="score_multi_item_drill", cefr_level=cefr_level)
 
 
 async def generate_writing_feedback(
@@ -233,34 +292,7 @@ async def generate_writing_feedback(
         student_text=student_text,
     )
 
-    try:
-        logger.debug(f"[scorer] generate_writing_feedback prompt: {llm_prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
-            max_tokens=512,
-            messages=[{"role": "user", "content": llm_prompt}],
-        )
-        elapsed = time.monotonic() - t0
-        raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] generate_writing_feedback LLM in {elapsed:.2f}s: {raw}")
-        data = parse_llm_json(raw)
-        if not isinstance(data, dict):
-            logger.error(f"[scorer] generate_writing_feedback unexpected shape: {raw}")
-            return ScoringResult(objective_correct=True).model_dump()
-        try:
-            validated = ScoringResult.model_validate(data)
-        except Exception:
-            logger.warning(f"[scorer] generate_writing_feedback validation partial, using raw dict")
-            validated = ScoringResult(objective_correct=True)
-        logger.info(
-            f"[scorer] generate_writing_feedback: objective_correct={validated.objective_correct}, "
-            f"{len(validated.grammar_errors)} errors, {len(validated.tips)} tips"
-        )
-        return validated.model_dump()
-    except Exception as e:
-        logger.error(f"[scorer] generate_writing_feedback error: {e}", exc_info=True)
-        return ScoringResult(objective_correct=True).model_dump()
+    return await _score_single(llm_prompt, label="generate_writing_feedback", cefr_level=cefr_level)
 
 
 async def score_free_form_drill(
@@ -292,40 +324,14 @@ async def score_free_form_drill(
         rule_block=rule_block,
     )
 
-    try:
-        logger.debug(f"[scorer] score_free_form_drill prompt: {llm_prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
-            max_tokens=512,
-            messages=[{"role": "user", "content": llm_prompt}],
-        )
-        elapsed = time.monotonic() - t0
-        raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] score_free_form_drill LLM in {elapsed:.2f}s: {raw}")
-        data = parse_llm_json(raw)
-        if not isinstance(data, dict):
-            logger.error(f"[scorer] score_free_form_drill unexpected shape: {raw}")
-            return ScoringResult(objective_correct=True).model_dump()
-        try:
-            validated = ScoringResult.model_validate(data)
-        except Exception:
-            logger.warning(f"[scorer] score_free_form_drill validation partial, using raw dict")
-            validated = ScoringResult(objective_correct=True)
-        logger.info(
-            f"[scorer] score_free_form_drill: objective_correct={validated.objective_correct}, "
-            f"{len(validated.grammar_errors)} errors"
-        )
-        return validated.model_dump()
-    except Exception as e:
-        logger.error(f"[scorer] score_free_form_drill error: {e}", exc_info=True)
-        return ScoringResult(objective_correct=True).model_dump()
+    return await _score_single(llm_prompt, label="score_free_form_drill", cefr_level=cefr_level)
 
 
 async def score_reading_answers(
     questions: list[str],
     correct_answers: list[str],
     student_answers: list[str],
+    cefr_level: str = "A1",
 ) -> list[dict]:
     """Score student answers to reading comprehension questions in a single LLM call.
 
@@ -345,31 +351,4 @@ async def score_reading_answers(
         n=n,
     )
 
-    try:
-        logger.debug(f"[scorer] score_reading_answers prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
-            max_tokens=4000,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        elapsed = time.monotonic() - t0
-        raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] score_reading_answers LLM in {elapsed:.2f}s: {raw}")
-        result = parse_llm_json(raw)
-        if isinstance(result, list) and len(result) == n:
-            validated = []
-            for r in result:
-                try:
-                    validated.append(ScoringResult.model_validate(r).model_dump())
-                except Exception:
-                    validated.append(dict(_FALLBACK_ITEM))
-            n_correct = sum(1 for r in validated if r.get("objective_correct"))
-            logger.info(f"[scorer] score_reading_answers: {n_correct}/{n} correct")
-            return validated
-        logger.error(f"[scorer] score_reading_answers unexpected result shape: {raw}")
-    except Exception as e:
-        logger.error(f"[scorer] score_reading_answers error: {e}", exc_info=True)
-
-    logger.warning(f"[scorer] score_reading_answers falling back to all-incorrect for {n} items")
-    return [dict(_FALLBACK_ITEM) for _ in range(n)]
+    return await _score_multi(prompt, n, label="score_reading_answers", cefr_level=cefr_level)

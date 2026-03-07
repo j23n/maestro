@@ -2,10 +2,11 @@
 Drill scoring logic.
 
 - fill_blank / error_correction: LLM evaluates per-item with objective-focused grading.
-  Each item returns {objective_correct, objective_note, grammar_errors, tips}.
+  Each item returns {objective_correct, objective_note, grammar_errors, tips,
+  grammar_correct_codes, grammar_error_codes}.
   Drill pass/fail is based solely on objective_correct counts.
-  All grammar errors (objective + other) feed into the LearningEvent.
-  Tips (spelling/accent) are surfaced in feedback only, no learning event.
+  All detected GP codes feed into the LearningEvent.
+  Grammar errors and tips are freetext, surfaced in feedback only.
 
 - free_form: LLM analysis → LearningEvent + feedback.
 
@@ -67,12 +68,8 @@ async def score_attempt(
             generated_drill.items,
             answers,
             rag_content,
+            cefr_level=generated_drill.cefr_level,
         )
-
-        # Resolve grammar codes → human-readable labels for display
-        await taxonomy.ensure_loaded()
-        valid_codes = {g.code for g in taxonomy.grammar_points()}
-        gp_labels = {g.code: g.label for g in taxonomy.grammar_points()}
 
         n = min(len(generated_drill.items), len(answers), len(raw_results))
         enriched = [
@@ -82,11 +79,7 @@ async def score_attempt(
                 "student_answer": answers[j] if j < len(answers) else "",
                 "objective_correct": raw_results[j].get("objective_correct", False),
                 "objective_note": raw_results[j].get("objective_note", ""),
-                "grammar_errors": [
-                    gp_labels[c]
-                    for c in raw_results[j].get("grammar_errors", [])
-                    if c in valid_codes
-                ],
+                "grammar_errors": raw_results[j].get("grammar_errors", []),
                 "tips": raw_results[j].get("tips", []),
             }
             for j in range(n)
@@ -96,21 +89,29 @@ async def score_attempt(
         overall_correct = correct_count / max(n, 1) >= _PASS_THRESHOLD
         feedback: dict | str = {"items": enriched, "correct_count": correct_count, "total": n}
 
-        # Aggregate all other grammar error codes across items for the learning event
-        other_error_codes = list({
-            c
-            for r in raw_results[:n]
-            for c in r.get("grammar_errors", [])
+        # Aggregate GP codes detected across all items, filtering out hallucinated codes
+        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        all_correct_codes = list({
+            c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
+            if c in valid_codes
+        })
+        all_error_codes = list({
+            c for r in raw_results[:n] for c in r.get("grammar_error_codes", [])
             if c in valid_codes
         })
 
         if overall_correct:
-            event = LearningEvent(student_id=student_id, grammar_correct=[code], grammar_errors=other_error_codes)
+            event = LearningEvent(
+                student_id=student_id,
+                grammar_correct=[code] + [c for c in all_correct_codes if c != code],
+                grammar_errors=all_error_codes,
+            )
             return overall_correct, event, feedback, []
 
         event = LearningEvent(
             student_id=student_id,
-            grammar_errors=[code] + other_error_codes,
+            grammar_correct=all_correct_codes,
+            grammar_errors=[code] + [c for c in all_error_codes if c != code],
             feedback=json.dumps(feedback),
         )
         return overall_correct, event, feedback, rule_refs
@@ -125,10 +126,13 @@ async def score_attempt(
             cefr_level=generated_drill.cefr_level, rag_content=rag_content,
         )
         correct = feedback.get("objective_correct", True)
+        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        gp_correct = [c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes]
+        gp_errors = [c for c in feedback.get("grammar_error_codes", []) if c in valid_codes]
         event = LearningEvent(
             student_id=student_id,
-            grammar_correct=[code] if correct else [],
-            grammar_errors=[] if correct else [code],
+            grammar_correct=([code] if correct else []) + [c for c in gp_correct if c != code],
+            grammar_errors=([] if correct else [code]) + [c for c in gp_errors if c != code],
         )
         refs = rule_refs if not correct else []
         return correct, event, feedback, refs
