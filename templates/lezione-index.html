@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ t("nav_lesson") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="lesson-index">
+  <div class="lesson-index-header">
+    <h1>{{ t("nav_lesson") }}</h1>
+    <a class="btn-primary" href="/lezione/new">{{ t("lesson_new_btn") }}</a>
+  </div>
+
+  {% if lesson_history %}
+  <h2>{{ t("profile_recent_lessons") }}</h2>
+  <div class="history-list">
+    {% for item in lesson_history %}
+    <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">
+      <span class="history-date">{{ item.lesson.completed_at.strftime('%d/%m') if item.lesson.completed_at else '' }}</span>
+      <span class="history-topic">{{ item.lesson.topic_title or '-' }}</span>
+      <span class="history-scenario">{{ item.scenario_label }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-hint">{{ t("lesson_no_history") }}</p>
+  {% endif %}
+</div>
+{% endblock %}

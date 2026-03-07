@@ -7,7 +7,7 @@
 
   <div class="card">
     <div class="card-label">{{ t("grammar_label") }}</div>
-    <div class="grammar-title">{{ activity.title | replace(t("grammar_title_prefix"), "") }}</div>
+    <div class="grammar-title">{{ activity.title | replace(t("grammar_title_prefix"), "") | safe }}</div>
     {% if annotated_why or activity.why_important %}
     <div class="why-important">
       <div class="why-label">{{ t("grammar_why_matters") }}</div>
@@ -33,6 +33,13 @@
     </a>
     {% endif %}
 
+    {% if is_review %}
+    <div class="review-banner">
+      <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+        {{ t("back_to_current") }}
+      </a>
+    </div>
+    {% else %}
     <div class="submit-row" style="margin-top:1.75rem;">
       <button class="continue-btn"
               hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
@@ -46,6 +53,7 @@
          hx-push-url="true"
          href="#">{{ t("skip_btn") }}</a>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

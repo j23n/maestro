@@ -19,10 +19,10 @@
   </div>
   <nav>
     <div class="site-container">
-      <a href="/lezione/">{{ t("nav_lesson") }}</a>
-      <a href="/vocab">{{ t("nav_vocab") }}</a>
-      <a href="/grammar">{{ t("nav_grammar") }}</a>
-      <a href="/profilo">{{ t("nav_profile") }}</a>
+      <a href="/lezione/" {% if request.url.path.startswith('/lezione') %}class="active"{% endif %}>{{ t("nav_lesson") }}</a>
+      <a href="/vocab" {% if request.url.path.startswith('/vocab') %}class="active"{% endif %}>{{ t("nav_vocab") }}</a>
+      <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") }}</a>
+      <a href="/profilo" {% if request.url.path.startswith('/profilo') %}class="active"{% endif %}>{{ t("nav_profile") }}</a>
       {% if request.state.student is defined and request.state.student %}
       <span class="student-name">{{ request.state.student.name }}</span>
       <a href="/students/">{{ t("nav_switch") }}</a>

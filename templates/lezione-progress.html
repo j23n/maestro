@@ -1,8 +1,18 @@
 {# Shared progress bar partial — include in every activity template #}
 {# Expects: lesson, idx, total #}
 <div class="lesson-progress">
-  <div class="progress-bar">
-    <div class="progress-fill" style="width: {{ ((idx + 1) / total * 100) | round | int }}%"></div>
+  <div class="progress-segments">
+    {% for a in lesson.activities %}
+    {% set is_done = a.status in ('completed', 'skipped') %}
+    {% set is_current_view = (loop.index0 == idx) %}
+    {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
+    {% if is_done and not is_current_view %}
+    <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
+       class="progress-seg {{ seg_class }}" title="{{ a.title }}"></a>
+    {% else %}
+    <div class="progress-seg {{ seg_class }}" title="{{ a.title }}"></div>
+    {% endif %}
+    {% endfor %}
   </div>
   <div class="progress-label">{{ t("progress_label", current=idx + 1, total=total) }}</div>
 </div>

@@ -30,8 +30,8 @@ def test_grammar_nonexistent_returns_404(test_app):
 
 
 @pytest.mark.integration
-def test_lezione_index_no_active_redirects_to_new(test_app):
-    """With no active lesson, /lezione/ should redirect to /lezione/new."""
+def test_lezione_index_no_active_shows_landing(test_app):
+    """With no active lesson, /lezione/ should show the lesson index page."""
     response = test_app.get("/lezione/", follow_redirects=False)
-    assert response.status_code in (302, 307)
-    assert "/lezione/new" in response.headers.get("location", "")
+    assert response.status_code == 200
+    assert "/lezione/new" in response.text

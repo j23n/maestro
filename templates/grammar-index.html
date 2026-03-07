@@ -24,7 +24,7 @@
       <ul class="gi-list">
         {% for gp in points %}
         <li>
-          <a href="/grammar/{{ gp.code }}" class="gi-link">{{ titles.get(gp.id | string) or gp.label }}</a>
+          <a href="/grammar/{{ gp.code }}" class="gi-link">{{ (titles.get(gp.id | string) or gp.label) | safe }}</a>
         </li>
         {% endfor %}
       </ul>
