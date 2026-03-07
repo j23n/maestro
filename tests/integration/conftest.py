@@ -61,3 +61,12 @@ def reset_taxonomy():
     taxonomy.invalidate()
     yield
     taxonomy.invalidate()
+
+
+@pytest.fixture(autouse=True)
+def bg_test_mode():
+    """Enable background task test mode for all integration tests."""
+    from maestro.utils import enable_test_mode, disable_test_mode
+    enable_test_mode()
+    yield
+    disable_test_mode()

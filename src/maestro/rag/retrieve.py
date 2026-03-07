@@ -3,7 +3,7 @@ from maestro.models import ItalianChunk, ItalianChunkResult
 
 @lru_cache(maxsize=1)
 def get_model():
-    from sentence_transformers import SentenceTransformer
+    from sentence_transformers import SentenceTransformer  # lazy: heavy ML model
     return SentenceTransformer("intfloat/multilingual-e5-large")
 
 

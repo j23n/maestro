@@ -5,13 +5,14 @@ import logging
 import random
 
 from beanie import PydanticObjectId
+from bson import DBRef
 from fastapi import APIRouter, Depends, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response
 
 from maestro.auth import get_current_student
 from maestro.models import Student, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard
 from maestro.profile import get_cefr_level
-from maestro.utils import cefr_levels_up_to
+from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.query import get_word_definition
 from maestro.templates import templates
@@ -38,7 +39,6 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     learning = sorted([c for c in cards if c.next_review > today and c.interval < 14], key=lambda c: c.word.word)
     known = sorted([c for c in cards if c.interval >= 14 and c.next_review > today], key=lambda c: c.word.word)
 
-    from maestro.utils import CEFR_ORDER
     stats = {
         "total": len(cards),
         "due": len(due),
@@ -61,14 +61,15 @@ async def vocab_entry(request: Request, entry_id: str, student: Student = Depend
     if word is None:
         raise HTTPException(status_code=404, detail="Word not found")
     logger.info(f"[vocab] entry page: '{word.word}' (entry_id={entry_id})")
-    definitions = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+    word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+    definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
     logger.debug(f"[vocab] found {len(definitions)} existing definition(s) for '{word.word}'")
     if not definitions and word.senses:
         logger.info(f"[vocab] no definitions found for '{word.word}', generating on-demand")
         await generate_definitions_for_word(word)
-        definitions = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+        definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
         logger.info(f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'")
-    has_card = await UserVocabularyCard.find_one({"student_id": student.id, "word.$id": word.id}) is not None
+    has_card = await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref}) is not None
     student_level = await get_cefr_level(student.id)
     logger.debug(f"[vocab] student_level={student_level}, has_card={has_card}")
     return templates.TemplateResponse(
@@ -83,14 +84,15 @@ async def vocab_add(request: Request, entry_id: str, student: Student = Depends(
     word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
     if word is None:
         raise HTTPException(status_code=404)
-    existing = await UserVocabularyCard.find_one({"student_id": student.id, "word.$id": word.id})
+    word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+    existing = await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
     if existing is None:
         card = UserVocabularyCard(student_id=student.id, word=word)
         await card.insert()
         logger.info(f"[vocab] added '{word.word}' to vocabulary")
     else:
         logger.debug(f"[vocab] '{word.word}' already in vocabulary")
-    has_defs = await VocabularyWordDefinition.find_one({"word.$id": word.id}) is not None
+    has_defs = await VocabularyWordDefinition.find_one({"word": word_ref}) is not None
     if not has_defs and word.senses:
         logger.info(f"[vocab] no definitions for '{word.word}', generating on add")
         await generate_definitions_for_word(word)

@@ -121,7 +121,8 @@ async def score_attempt(
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 
         feedback = await score_free_form_drill(
-            generated_drill.prompt, answer_str, code, rag_content=rag_content
+            generated_drill.prompt, answer_str, code,
+            cefr_level=generated_drill.cefr_level, rag_content=rag_content,
         )
         correct = feedback.get("objective_correct", True)
         event = LearningEvent(

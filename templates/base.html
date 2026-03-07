@@ -13,11 +13,9 @@
     <div class="tt-header">
       <span class="tt-word"></span>
       <span class="tt-pos"></span>
+      <span class="tt-syllabization"></span>
     </div>
-    <div class="tt-syllabization"></div>
     <div class="tt-senses"></div>
-    <div class="tt-translation"></div>
-    <a class="tt-more" href="#">→ definizione completa</a>
   </div>
   <nav>
     <div class="site-container">
@@ -55,6 +53,10 @@
         wrap.className = 'tt-sense';
         const defLine = document.createElement('div');
         defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + s.definition;
+        if (s.translation) {
+          defLine.textContent += ' (' + s.translation + ')';
+        }
+
         wrap.appendChild(defLine);
         if (s.examples && s.examples[0]) {
           const ex = document.createElement('div');
@@ -62,25 +64,11 @@
           ex.textContent = s.examples[0];
           wrap.appendChild(ex);
         }
-        if (s.translation) {
-          const tr = document.createElement('div');
-          tr.className = 'tt-sense-translation';
-          tr.textContent = 'English: ' + s.translation;
-          wrap.appendChild(tr);
-        }
+
         sensesEl.appendChild(wrap);
       });
 
-      tooltip.querySelector('.tt-translation').textContent = word.dataset.translation || '';
-
-      const link = tooltip.querySelector('.tt-more');
       const entryId = word.dataset.entryId;
-      if (entryId) {
-        link.href = '/vocab/word/' + entryId;
-        link.style.display = 'block';
-      } else {
-        link.style.display = 'none';
-      }
 
       const r = word.getBoundingClientRect();
       tooltip.style.display = 'block';

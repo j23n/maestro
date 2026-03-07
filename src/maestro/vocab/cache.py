@@ -26,7 +26,7 @@ async def ensure_loaded() -> None:
     global _word_index, _def_index, _loaded
     if _loaded:
         return
-    from maestro.vocab.nlp import get_nlp
+    from maestro.vocab.nlp import get_nlp  # lazy: avoids loading spaCy at module import
     nlp = get_nlp()
     words = await VocabularyWord.find_all().to_list()
     word_forms = [w.word for w in words]

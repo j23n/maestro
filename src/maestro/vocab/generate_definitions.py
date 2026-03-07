@@ -18,6 +18,8 @@ import logging
 import time
 from typing import Any
 
+from bson import DBRef
+
 from maestro.db import init_db
 from maestro.config import settings
 from maestro.llm import get_client
@@ -109,7 +111,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
             translation = "; ".join(sense_trs) if sense_trs else ""
 
         existing = await VocabularyWordDefinition.find_one(
-            {"word.$id": word.id, "student_level": level}
+            {"word": DBRef(VocabularyWord.Settings.name, word.id), "student_level": level}
         )
         if existing:
             existing.senses = senses
@@ -153,7 +155,7 @@ async def _collect_words_needing_regen(words: list[VocabularyWord]) -> list[Voca
         if not w.senses:
             continue
         defs = await VocabularyWordDefinition.find(
-            {"word.$id": w.id, "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
+            {"word": DBRef(VocabularyWord.Settings.name, w.id), "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
         ).to_list()
         if not _is_complete(defs):
             todo.append(w)

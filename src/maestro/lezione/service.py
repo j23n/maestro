@@ -17,6 +17,7 @@ from maestro.models import (
     ActivityType, ActivityStatus, LessonStatus,
 )
 from maestro.learning.scorer import score_reading_answers
+from maestro.learning.lesson_analyzer import analyze_lesson
 from maestro.llm import get_async_client
 from maestro.config import settings
 from maestro.profile import get_profile
@@ -31,25 +32,71 @@ def activity_url(lesson_id, idx: int) -> str:
     return f"/lezione/{lesson_id}/activity/{idx}"
 
 
-async def advance_lesson(lesson: Lesson, current_idx: int, skip: bool = False) -> str:
-    """Mark activity done/skipped, advance index, return redirect URL."""
-    if not skip:
-        lesson.activities[current_idx].status = ActivityStatus.COMPLETED
+async def advance_lesson(
+    lesson: Lesson,
+    current_idx: int,
+    skip: bool = False,
+    result: dict | None = None,
+) -> str:
+    """Mark activity done/skipped, advance index, return redirect URL.
+
+    Uses atomic MongoDB ``$set`` operations to avoid lost updates when
+    concurrent requests hit the same lesson (e.g. double-click).
+
+    ``result`` — if provided, is persisted on the current activity alongside
+    the status change so callers don't need a separate save.
+    """
+    # Determine the status to set on the current activity
+    current_status = ActivityStatus.SKIPPED if skip else ActivityStatus.COMPLETED
+
+    # Keep the in-memory object consistent for callers that inspect it later
+    lesson.activities[current_idx].status = current_status
+    if result is not None:
+        lesson.activities[current_idx].result = result
+
     next_idx = current_idx + 1
     while next_idx < len(lesson.activities):
         if lesson.activities[next_idx].status == ActivityStatus.PENDING:
-            lesson.current_index = next_idx
             lesson.activities[next_idx].status = ActivityStatus.ACTIVE
-            await lesson.save()
+            lesson.current_index = next_idx
+
+            set_fields: dict = {
+                f"activities.{current_idx}.status": current_status.value,
+                f"activities.{next_idx}.status": ActivityStatus.ACTIVE.value,
+                "current_index": next_idx,
+            }
+            if result is not None:
+                set_fields[f"activities.{current_idx}.result"] = result
+            await lesson.update({"$set": set_fields})
+
             return activity_url(lesson.id, next_idx)
         next_idx += 1
+
     if lesson.generating:
         lesson.current_index = next_idx
-        await lesson.save()
+
+        set_fields = {
+            f"activities.{current_idx}.status": current_status.value,
+            "current_index": next_idx,
+        }
+        if result is not None:
+            set_fields[f"activities.{current_idx}.result"] = result
+        await lesson.update({"$set": set_fields})
+
         return f"/lezione/{lesson.id}/generating"
+
+    now = utcnow()
     lesson.status = LessonStatus.COMPLETED
-    lesson.completed_at = utcnow()
-    await lesson.save()
+    lesson.completed_at = now
+
+    set_fields = {
+        f"activities.{current_idx}.status": current_status.value,
+        "status": LessonStatus.COMPLETED.value,
+        "completed_at": now,
+    }
+    if result is not None:
+        set_fields[f"activities.{current_idx}.result"] = result
+    await lesson.update({"$set": set_fields})
 
     # Update scenario progress
     if lesson.scenario_slug and lesson.student_id:
@@ -157,8 +204,6 @@ async def ensure_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> s
     Returns the feedback_summary (may be None if generation fails).
     """
     if lesson.status == LessonStatus.COMPLETED and not lesson.feedback_summary:
-        from maestro.learning.lesson_analyzer import analyze_lesson
-
         create_background_task(
             analyze_lesson(lesson),
             name=f"lesson-analyze-{lesson.id}",
@@ -166,8 +211,9 @@ async def ensure_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> s
 
     if not lesson.feedback_summary:
         try:
-            lesson.feedback_summary = await generate_lesson_feedback(lesson, weak_grammar_points)
-            await lesson.save()
+            feedback = await generate_lesson_feedback(lesson, weak_grammar_points)
+            lesson.feedback_summary = feedback
+            await lesson.update({"$set": {"feedback_summary": feedback}})
         except Exception as exc:
             logger.warning(f"[lezione] feedback generation error: {exc}")
 
