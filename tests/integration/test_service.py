@@ -18,7 +18,7 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
         content=[MagicMock(text='[{"objective_correct": true, "objective_note": "Good", "grammar_errors": [], "tips": []}]')]
     )
 
-    overall, feedback = await score_reading_activity(
+    overall, feedback, gp_correct, gp_errors = await score_reading_activity(
         questions=["What color?"],
         correct_answers=["Red"],
         student_answers=["Red"],
@@ -39,7 +39,7 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
         content=[MagicMock(text='[{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}]')]
     )
 
-    overall, feedback = await score_reading_activity(
+    overall, feedback, _, _ = await score_reading_activity(
         questions=["Q1", "Q2", "Q3"],
         correct_answers=["A1", "A2", "A3"],
         student_answers=["A1", "wrong", "wrong"],
@@ -58,7 +58,7 @@ async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
         content=[MagicMock(text='[{"objective_correct": false, "objective_note": "Wrong color", "grammar_errors": ["GP001"], "tips": ["Check colors"]}]')]
     )
 
-    _, feedback = await score_reading_activity(
+    _, feedback, _, _ = await score_reading_activity(
         questions=["What color is the sky?"],
         correct_answers=["Blue"],
         student_answers=["Green"],

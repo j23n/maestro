@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from maestro.models import (
     Lesson,
     LessonActivity,
+    LearningEvent,
     GeneratedDrill,
     DrillTemplate,
     DrillItem,
@@ -63,9 +64,11 @@ def test_drill_submit_returns_result_page(test_app, active_lesson_with_drill):
     """POST drill-submit should return the drill result template."""
     lesson, drill = active_lesson_with_drill
 
+    mock_event = MagicMock()
+    mock_event.insert = AsyncMock()
     with patch("maestro.routes.lezione.score_attempt", new_callable=AsyncMock) as mock_score, \
          patch("maestro.routes.lezione.discover", new_callable=AsyncMock, return_value="annotated"):
-        mock_score.return_value = (True, MagicMock(), {"items": [], "correct_count": 1, "total": 1}, [])
+        mock_score.return_value = (True, mock_event, {"items": [], "correct_count": 1, "total": 1}, [])
         response = test_app.post(
             f"/lezione/{lesson.id}/activity/0/drill-submit",
             data={"answers": "vado"},
@@ -122,6 +125,8 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
         "objective_note": "",
         "grammar_errors": [],
         "tips": [],
+        "grammar_correct_codes": [],
+        "grammar_error_codes": [],
     }
     with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=mock_feedback):
         response = test_app.post(
@@ -217,3 +222,177 @@ async def test_abandoned_lessons_not_in_history(test_app, db, student):
     assert response.status_code == 200
     # Abandoned lesson should not show in history
     assert str(abandoned.id) not in response.text
+
+
+# ---------------------------------------------------------------------------
+# Per-activity LearningEvent creation tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_drill):
+    """POST drill-submit should persist a LearningEvent with correct fields."""
+    from maestro.models import LearningEvent
+    from maestro import taxonomy
+
+    lesson, drill = active_lesson_with_drill
+    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
+
+    event = LearningEvent(
+        student_id=lesson.student_id,
+        grammar_correct=["GP_001"],
+        grammar_errors=[],
+    )
+    with patch("maestro.routes.lezione.score_attempt", new_callable=AsyncMock) as mock_score, \
+         patch("maestro.routes.lezione.discover", new_callable=AsyncMock, return_value="annotated"):
+        mock_score.return_value = (True, event, {"items": [], "correct_count": 1, "total": 1}, [])
+        test_app.post(
+            f"/lezione/{lesson.id}/activity/0/drill-submit",
+            data={"answers": "vado"},
+        )
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    ev = events[0]
+    assert ev.activity_type == "drill"
+    assert ev.activity_index == 0
+    assert ev.student_text == "vado"
+    assert ev.lesson_id == lesson.id
+    assert "GP_001" in ev.grammar_correct
+
+
+@pytest.mark.integration
+async def test_writing_submit_creates_learning_event(test_app, db, student):
+    """POST writing-submit should persist a LearningEvent with GP codes from feedback."""
+    from maestro.models import LearningEvent, GrammarPoint
+
+    gp = GrammarPoint(code="GP_W01", label="Test Writing GP", cefr_level="A1", category="test", description="")
+    await gp.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.WRITING, title="Scrittura", description="Test",
+                duration_minutes=5, status=ActivityStatus.ACTIVE,
+                content="Descrivi la tua giornata.",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    mock_feedback = {
+        "objective_correct": True,
+        "objective_note": "",
+        "grammar_errors": [],
+        "tips": [],
+        "grammar_correct_codes": ["GP_W01"],
+        "grammar_error_codes": [],
+    }
+    with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=mock_feedback):
+        test_app.post(
+            f"/lezione/{lesson.id}/activity/0/writing-submit",
+            data={"answer": "Oggi ho mangiato la pizza."},
+        )
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    ev = events[0]
+    assert ev.activity_type == "writing"
+    assert ev.student_text == "Oggi ho mangiato la pizza."
+    assert "GP_W01" in ev.grammar_correct
+
+
+@pytest.mark.integration
+async def test_reading_submit_creates_learning_event(test_app, db, student, mock_scorer_client):
+    """POST reading-submit should persist a LearningEvent with aggregated GP codes."""
+    from maestro.models import LearningEvent, GrammarPoint
+
+    gp = GrammarPoint(code="GP_R01", label="Test Reading GP", cefr_level="A1", category="test", description="")
+    await gp.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        cefr_at_start="A1",
+        activities=[
+            LessonActivity(
+                type=ActivityType.READING, title="Lettura", description="Test",
+                duration_minutes=5, status=ActivityStatus.ACTIVE,
+                content="Il gatto è sul tavolo.",
+                questions=["Dove è il gatto?"],
+                correct_answers=["Sul tavolo"],
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    mock_scorer_client.messages.create.return_value = MagicMock(
+        content=[MagicMock(text='[{"objective_correct": true, "objective_note": "Good", "grammar_errors": [], "tips": [], "grammar_correct_codes": ["GP_R01"], "grammar_error_codes": []}]')]
+    )
+
+    test_app.post(
+        f"/lezione/{lesson.id}/activity/0/reading-submit",
+        data={"answers": "Sul tavolo"},
+    )
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    ev = events[0]
+    assert ev.activity_type == "reading"
+    assert "Sul tavolo" in ev.student_text
+    assert "GP_R01" in ev.grammar_correct
+
+
+@pytest.mark.integration
+async def test_writing_submit_event_captures_error_codes(test_app, db, student):
+    """POST writing-submit with grammar errors should persist error codes on the event."""
+    from maestro.models import LearningEvent, GrammarPoint
+
+    gp = GrammarPoint(code="GP_ERR", label="Test Error GP", cefr_level="A1", category="test", description="")
+    await gp.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.WRITING, title="Scrittura", description="Test",
+                duration_minutes=5, status=ActivityStatus.ACTIVE,
+                content="Descrivi la tua giornata.",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    mock_feedback = {
+        "objective_correct": False,
+        "objective_note": "Grammar issue",
+        "grammar_errors": ["Wrong verb form"],
+        "tips": [],
+        "grammar_correct_codes": [],
+        "grammar_error_codes": ["GP_ERR"],
+    }
+    with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=mock_feedback):
+        test_app.post(
+            f"/lezione/{lesson.id}/activity/0/writing-submit",
+            data={"answer": "Ieri io mangiare la pizza."},
+        )
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    ev = events[0]
+    assert "GP_ERR" in ev.grammar_errors

@@ -1,41 +1,5 @@
 version: "1"
 
-analyze_gps:
-  description: >
-    Identify grammar point correct usage and errors across combined
-    end-of-lesson student responses.
-  # variables: cefr_level, combined, lesson_priority, gp_lines
-  user: |
-    You are a language tutor reviewing a student's {{target_language}} lesson responses.
-
-    Student CEFR level: {{cefr_level}}
-    Combined student responses:
-    """
-    {{combined}}
-    """
-    {{lesson_priority}}
-    From the grammar point list below, identify which ones the student:
-    - Used CORRECTLY (evidence visible in text)
-    - Made ERRORS in (concrete error visible in text)
-
-    Only tag a point if you see direct evidence. Do not guess.
-
-    Grammar points:
-    {{gp_lines}}
-
-    Return ONLY valid JSON:
-    {"grammar_correct": ["code1", ...], "grammar_errors": ["code2", ...]}
-
-# Fragment inserted as {{lesson_priority}} when the lesson had targeted grammar points.
-# Leave blank (empty string) when there are no priority hints.
-gps_priority_block:
-  # variable: lesson_gp_codes
-  user: |
-    The lesson practised these grammar points (treat as higher-priority candidates):
-    {{lesson_gp_codes}}
-
-# ---------------------------------------------------------------------------
-
 cf_stage1:
   description: >
     Stage 1 of CF analysis: identify which macro communicative categories

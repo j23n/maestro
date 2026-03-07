@@ -14,6 +14,7 @@ from maestro.models import (
     DrillAttempt,
     GrammarPoint,
     GrammarPointExplanation,
+    LearningEvent,
     Lesson,
     ActivityType,
     ActivityStatus,
@@ -24,6 +25,7 @@ from maestro.profile import get_profile, save_onboarding_field
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
+from maestro import taxonomy
 from maestro.templates import templates
 from maestro.utils import utcnow, create_background_task
 from maestro.config import settings as _settings
@@ -35,6 +37,7 @@ from maestro.lezione.service import (
     activity_url,
     advance_lesson,
     ensure_lesson_feedback,
+    get_lesson_events,
     get_weak_grammar_points,
     score_reading_activity,
     update_scenario_progress,
@@ -415,11 +418,17 @@ async def lezione_drill_submit(
         generated_drill=drill,
         student_answer=stored_answer,
         correct=correct,
-        learning_event=None,
     )
     await attempt.insert()
     drill.used = True
     await drill.save()
+
+    if event:
+        event.lesson_id = lesson.id
+        event.activity_type = ActivityType.DRILL.value
+        event.activity_index = idx
+        event.student_text = stored_answer
+        await event.insert()
 
     drill_result = {"correct": correct, "student_answer": stored_answer}
 
@@ -538,6 +547,19 @@ async def lezione_writing_submit(
         cefr_level,
     )
 
+    await taxonomy.ensure_loaded()
+    valid_codes = {g.code for g in taxonomy.grammar_points()}
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.WRITING.value,
+        activity_index=idx,
+        student_text=answer,
+        grammar_correct=[c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes],
+        grammar_errors=[c for c in feedback.get("grammar_error_codes", []) if c in valid_codes],
+    )
+    await event.insert()
+
     writing_result = {"student_answer": answer}
     next_url = await advance_lesson(lesson, idx, result=writing_result)
 
@@ -577,9 +599,21 @@ async def lezione_reading_submit(
 
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
-    overall_correct, feedback = await score_reading_activity(
+    overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
         questions, correct_answers, answers, cefr_level=lesson.cefr_at_start,
     )
+
+    joined_answers = " | ".join(a for a in answers if a)
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.READING.value,
+        activity_index=idx,
+        student_text=joined_answers,
+        grammar_correct=gp_correct,
+        grammar_errors=gp_errors,
+    )
+    await event.insert()
 
     reading_result = {"student_answers": answers, "correct": overall_correct}
     next_url = await advance_lesson(lesson, idx, result=reading_result)
@@ -615,8 +649,9 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request, studen
     lesson = await _get_lesson(lesson_id, student)
     completed_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED)
     skipped_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED)
-    weak_grammar_points = await get_weak_grammar_points(lesson)
-    await ensure_lesson_feedback(lesson, weak_grammar_points)
+    events = await get_lesson_events(lesson)
+    weak_grammar_points = await get_weak_grammar_points(lesson, events)
+    await ensure_lesson_feedback(lesson, weak_grammar_points, events)
     annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id, lang="en") if lesson.feedback_summary else None
 
     # Detect CEFR graduation
