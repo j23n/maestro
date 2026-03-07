@@ -42,37 +42,52 @@ feedback_field_fragment:
 
 # ---------------------------------------------------------------------------
 
+scoring_system:
+  description: >
+    Shared system prompt for all scoring tasks. Defines role, output schema,
+    and field rules. Each task's user prompt adds context + objective.
+  # variables: target_language, grammar_code_list
+  system: |
+    You are an expert {{target_language}} language teacher evaluating a student's work.
+
+    Always return results as valid JSON matching this per-item schema (no markdown, no other text):
+    {"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": [], "grammar_correct_codes": [], "grammar_error_codes": []}
+
+    Field definitions:
+    - objective_correct: whether the student met the task objective (defined in the task)
+    - objective_note: empty string when correct; one sentence in {{target_language}} when incorrect
+    - grammar_errors: freetext strings describing grammar issues found, e.g.
+      "ho andato → sono andato (auxiliary essere with motion verbs)". Up to 4.
+      Grammar errors NEVER affect objective_correct.
+    - tips: short spelling/accent notes only (e.g. "città not citta"). Up to 3.
+      Tips NEVER affect objective_correct.
+    - grammar_correct_codes: codes from the list below for grammar points the student used CORRECTLY
+    - grammar_error_codes: codes from the list below for grammar points the student used INCORRECTLY
+
+    Grammar point codes:
+    {{grammar_code_list}}
+
+    For single-item tasks, return one JSON object.
+    For multi-item tasks, return a JSON array of exactly N objects (one per item, in order).
+
+# ---------------------------------------------------------------------------
+
 score_multi_item:
   description: >
     Grade all items in a fill_blank or error_correction drill in a single call.
     Returns one result per item: objective correctness + side issues.
-  # variables: task_desc, gp_label, grammar_point_code, rule_block,
-  #            grammar_code_list, items_block, n
+  # variables: task_desc, gp_label, grammar_point_code, rule_block, items_block, n
   user: |
-    You are grading a {{target_language}} grammar exercise. {{task_desc}}
+    {{task_desc}}
 
-    LEARNING OBJECTIVE: {{gp_label}} ({{grammar_point_code}})
+    OBJECTIVE: Did the student correctly demonstrate '{{gp_label}}' ({{grammar_point_code}})?
+    Ignore accents, spelling typos, and unrelated grammar when judging objective_correct.
     {{rule_block}}
-
-    For each item evaluate TWO things independently:
-    1. OBJECTIVE — Did the student correctly demonstrate '{{gp_label}}'?
-    Ignore accents, spelling typos, and unrelated grammar when judging this.
-    2. OTHER ISSUES — Identify any additional problems:
-       a) Other grammar errors: tag with codes from this list:
-    {{grammar_code_list}}
-       b) Spelling/accent issues: short freetext note (e.g. "città not citta")
 
     Items:
     {{items_block}}
 
-    Return ONLY a JSON array of exactly {{n}} objects, one per item, in order.
-    Schema:
-    [{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, ...]
-    Rules:
-    - objective_note: empty string when correct; one sentence in {{target_language}} when wrong
-    - grammar_errors: codes for OTHER grammar errors (never include {{grammar_point_code}} here)
-    - tips: short strings for spelling/accent issues only
-    No markdown, no other text.
+    Return exactly {{n}} results.
 
 task_fill_blank:
   user: >
@@ -93,25 +108,15 @@ generate_writing_feedback:
     and language quality (grammar_errors, tips). Grammar errors never affect pass/fail.
   # variables: cefr_level, prompt, student_text
   user: |
-    You are a {{target_language}} language teacher reviewing a {{cefr_level}} student's writing.
+    Student level: {{cefr_level}}
 
     Writing prompt: {{prompt}}
 
     Student's text: {{student_text}}
 
-    Evaluate TWO things independently:
-    1. TASK COMPLETION — Did the student make a genuine attempt to address the prompt?
+    OBJECTIVE: Did the student make a genuine attempt to address the prompt?
     Set objective_correct=false ONLY if the text is blank, completely off-topic, or
     just a random word/phrase with no relation to the task.
-    2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips.
-    These never affect objective_correct.
-
-    grammar_errors: list of freetext strings describing grammar issues
-    (e.g. "ha mangiato → aveva mangiato (trapassato prossimo)"). Up to 4.
-    tips: spelling/accent issues only (e.g. "città not citta"). Up to 3.
-
-    Return ONLY valid JSON (no markdown):
-    {"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}
 
 # ---------------------------------------------------------------------------
 
@@ -121,25 +126,14 @@ score_free_form_drill:
     but never cause a fail.
   # variables: cefr_level, grammar_point_code, prompt, student_text, rule_block
   user: |
-    You are grading a free-form {{target_language}} drill for a {{cefr_level}} learner.
-
+    Student level: {{cefr_level}}
     Grammar point being practised: {{grammar_point_code}}
     Drill prompt: {{prompt}}
     Student's answer: {{student_text}}{{rule_block}}
 
-    Evaluate TWO things independently:
-    1. TASK COMPLETION — Did the student make a genuine attempt at the task?
+    OBJECTIVE: Did the student make a genuine attempt at the task?
     Set objective_correct=false ONLY if the answer is blank, completely off-topic,
     or so short/nonsensical it shows no engagement.
-    Grammar errors alone must NOT make this false.
-    2. LANGUAGE QUALITY — Separately list grammar errors and spelling/accent tips.
-    These never affect objective_correct.
-
-    grammar_errors: list of freetext strings (e.g. "ho andato → sono andato (essere verbs)"). Up to 4.
-    tips: spelling/accent issues only (e.g. "perché not perche"). Up to 3.
-
-    Return ONLY valid JSON (no markdown):
-    {"objective_correct":true,"objective_note":"","grammar_errors":[],"tips":[]}
 
 # ---------------------------------------------------------------------------
 
@@ -149,23 +143,14 @@ score_reading_answers:
     and mixed {{target_language}}/English responses.
   # variables: items_block, n
   user: |
-    You are grading reading comprehension answers for a {{target_language}} language learner.
-
-    For each item, judge whether the student's answer correctly addresses the question.
+    OBJECTIVE: Did the student's answer correctly address the question?
     Accept paraphrasing, approximate wording, and answers in a mix of {{target_language}} and English.
     Focus on whether the student understood the text, not perfect grammar.
 
     Items:
     {{items_block}}
 
-    Return ONLY a JSON array of exactly {{n}} objects, one per item, in order.
-    Schema:
-    [{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, ...]
-    Rules:
-    - objective_note: empty when correct; one {{target_language}} sentence explaining what was wrong or missing when incorrect
-    - grammar_errors: list of short strings describing grammar issues in the student's {{target_language}} (if any)
-    - tips: short spelling/accent tip strings only
-    No markdown, no other text.
+    Return exactly {{n}} results.
 
 # ---------------------------------------------------------------------------
 

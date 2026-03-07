@@ -28,6 +28,7 @@ from maestro.config import settings
 from maestro.llm import get_async_client
 from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
+from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
 from maestro.utils import parse_llm_json
 
 if TYPE_CHECKING:
@@ -36,15 +37,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-_MACRO_CATEGORIES = {
-    "interagire_informazioni": "exchanging factual information",
-    "interagire_opinioni_atteggiamenti": "expressing opinions and attitudes",
-    "interagire_emozioni_sentimenti": "expressing emotions and feelings",
-    "interagire_attivita_azioni": "coordinating actions and activities",
-    "interagire_rituali_sociali": "social rituals (greetings, thanks, etc.)",
-    "strutturare_discorso": "structuring discourse (connectors, topic shifts)",
-    "strutturare_interazione_verbale": "managing verbal interaction (turn-taking)",
-}
+_MACRO_CATEGORIES = {k: v[0] for k, v in _MACRO_TUPLES.items()}
 
 _MAX_GP_CANDIDATES = 80
 
