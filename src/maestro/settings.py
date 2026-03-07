@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     EVAL_MODEL: str = "claude-opus-4-6"
     DEFINITION_MODEL: str = "claude-sonnet-4-6"
     EXPLANATION_MODEL: str = "claude-sonnet-4-6"
+    TARGET_LANGUAGE: str = "it"              # ISO 639-1
+    TARGET_LANGUAGE_NAME: str = "Italian"    # for LLM prompts
+    SPACY_MODEL: str = "it_core_news_md"    # per-language NLP model
 
     @property
     def database_url(self) -> str:

@@ -132,7 +132,7 @@ async def generate_lesson_feedback(lesson: Lesson, weak_grammar_points: list) ->
         weak_note = f"\nThe student specifically struggled with: {labels}. Reference these by name."
 
     prompt = (
-        f"A student just completed an Italian lesson. Summary:\n{activity_summary}{weak_note}\n\n"
+        f"A student just completed a {settings.TARGET_LANGUAGE_NAME} lesson. Summary:\n{activity_summary}{weak_note}\n\n"
         "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
         "notes any areas of difficulty, and ends with one specific encouragement."
     )

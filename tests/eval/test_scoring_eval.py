@@ -10,7 +10,7 @@ import pytest
 logger = logging.getLogger(__name__)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data"
+_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
 
 
 def _make_item(prompt: str, correct_answer: str) -> MagicMock:

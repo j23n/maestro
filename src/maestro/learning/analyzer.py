@@ -1,5 +1,5 @@
 """
-Learning signal extraction from student Italian messages.
+Learning signal extraction from student target language messages.
 
 Uses Claude Sonnet (via Anthropic API) to produce structured JSON
 identifying grammar structures used/errored, communicative functions
@@ -57,9 +57,10 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
     feedback_field = ""
     if drill_context:
         context_block = _prompts.context_block_fragment.render(drill_context=drill_context)
-        feedback_field = _prompts.feedback_field_fragment.render().strip()
+        feedback_field = _prompts.feedback_field_fragment.render(target_language=settings.TARGET_LANGUAGE_NAME).strip()
 
     return _prompts.analyze_message.render(
+        target_language=settings.TARGET_LANGUAGE_NAME,
         context_block=context_block,
         text=text,
         grammar_lines=grammar_lines,

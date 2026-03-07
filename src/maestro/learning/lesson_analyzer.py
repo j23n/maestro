@@ -135,6 +135,7 @@ async def _analyze_gps(
         )
 
     prompt = _prompts.analyze_gps.render(
+        target_language=settings.TARGET_LANGUAGE_NAME,
         cefr_level=cefr_level,
         combined=combined,
         lesson_priority=lesson_priority,

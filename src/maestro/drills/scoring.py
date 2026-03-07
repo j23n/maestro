@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from maestro.models import GeneratedDrill
 
-from maestro.models import LearningEvent, ItalianChunk, ExerciseType
+from maestro.models import LearningEvent, GrammarChunk, ExerciseType
 from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
 from maestro import taxonomy
 
@@ -36,7 +36,7 @@ async def _get_rule_context(
     """Load the chunk stored on this drill via chunk_ref. Returns (chunk_content, rule_refs)."""
     if not drill.chunk_ref:
         return "", []
-    chunk = await ItalianChunk.find_one({"ref": drill.chunk_ref})
+    chunk = await GrammarChunk.find_one({"ref": drill.chunk_ref})
     if not chunk:
         return "", []
     heading = chunk.chunk_metadata.get("heading", chunk.ref)

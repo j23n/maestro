@@ -55,6 +55,7 @@ class CurriculumScenario(Document):
     gp_codes: List[str]           # GP codes exercised in this scenario
     depths: List[str]             # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
     sequence: Optional[int] = None  # sequential ordering for A0 lessons (1-10)
+    language: str = "it"
 
     class Settings:
         name = "curriculum_scenarios"
@@ -73,15 +74,16 @@ class ScenarioProgress(BaseModel):
     lesson_count: int = 0
 
 
-class ItalianChunk(Document):
+class GrammarChunk(Document):
     ref: str = Field(unique=True)
     content: str
     chunk_type: str
     embedding: List[float]
     chunk_metadata: dict = {}
+    language: str = "it"
 
     class Settings:
-        name = "italian_chunks"
+        name = "grammar_chunks"
 
 
 class Sense(BaseModel):
@@ -100,6 +102,7 @@ class VocabularyWord(Document):
     cefr_level: Optional[str] = None      # A1–B2, or None for non-CEFR entries
     entry_id: Optional[str] = None        # "LM-00595"
     senses: List[Sense] = []              # all senses from EPUB
+    language: str = "it"
 
     class Settings:
         name = "vocabulary_words"
@@ -116,6 +119,7 @@ class VocabularyWordDefinition(Document):
     student_level: str           # "A1" | "A2" | "B1" | "B2"
     senses: List[CefrSense]
     translation: str             # single English word or short phrase
+    language: str = "it"
 
     class Settings:
         name = "vocabulary_word_definitions"
@@ -146,7 +150,8 @@ class GrammarPoint(Document):
     cefr_level: str
     category: str
     description: str
-    chunk_ref: Optional[str] = None  # ItalianChunk.ref — set from mapping file at ingest
+    chunk_ref: Optional[str] = None  # GrammarChunk.ref — set from mapping file at ingest
+    language: str = "it"
 
     class Settings:
         name = "grammar_points"
@@ -161,6 +166,7 @@ class CommunicativeFunction(Document):
     examples: List[str] = Field(default_factory=list)
     description: str = ""   # built from patterns at ingest; used in analyzer prompt
     source_url: str = ""
+    language: str = "it"
 
     class Settings:
         name = "comm_functions"
@@ -197,6 +203,7 @@ class LearningProfile(Document):
     updated_at: datetime = Field(default_factory=utcnow)
     persona: StudentPersona = Field(default_factory=StudentPersona)
     scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
+    target_language: str = "it"
 
     class Settings:
         name = "learning_profile"
@@ -216,6 +223,7 @@ class DrillTemplate(Document):
     grammar_point_code: str
     cefr_level: str
     exercise_type: ExerciseType  # "fill_blank" | "error_correction" | "free_form"
+    language: str = "it"
 
     class Settings:
         name = "drill_templates"
@@ -234,7 +242,7 @@ class GeneratedDrill(Document):
     scenario_slug: Optional[str] = None
     generated_at: datetime = Field(default_factory=utcnow)
     used: bool = False
-    chunk_ref: Optional[str] = None  # ItalianChunk.ref from the GP's chunk_ref
+    chunk_ref: Optional[str] = None  # GrammarChunk.ref from the GP's chunk_ref
 
     class Settings:
         name = "generated_drills"
@@ -259,17 +267,18 @@ class DrillAttempt(Document):
 
 
 @dataclass
-class ItalianChunkResult:
-    chunk: ItalianChunk
+class GrammarChunkResult:
+    chunk: GrammarChunk
     similarity: float
 
 
 class GrammarPointExplanation(Document):
     grammar_point: Link["GrammarPoint"]
     student_level: str           # "A1" | "A2" | "B1" | "B2"
-    title: str = ""              # short display title in Italian (3–8 words)
-    explanation: str             # CEFR-adapted Italian markdown
+    title: str = ""              # short display title in target language (3–8 words)
+    explanation: str             # CEFR-adapted target language markdown
     translation: str = ""       # English translation of the explanation
+    language: str = "it"
 
     class Settings:
         name = "grammar_point_explanations"
@@ -315,6 +324,7 @@ class Lesson(Document):
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
     generating: bool = True                 # True while background LLM generation is in progress
     generation_error: Optional[str] = None  # set when background generation fails
+    language: str = "it"
 
     class Settings:
         name = "lessons"
@@ -327,7 +337,7 @@ class Lesson(Document):
 ALL_DOCUMENT_MODELS = [
     Student,
     CurriculumScenario,
-    ItalianChunk,
+    GrammarChunk,
     VocabularyWord,
     VocabularyWordDefinition,
     UserVocabularyCard,

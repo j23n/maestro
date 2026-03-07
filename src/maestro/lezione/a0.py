@@ -16,7 +16,8 @@ from maestro.models import (
     ExerciseType,
 )
 from maestro.profile import get_profile
-from maestro.utils import DATA_DIR
+from maestro.strings import t
+from maestro.utils import data_dir
 from maestro.lezione.selection import pick_scenario
 
 logger = logging.getLogger(__name__)
@@ -36,7 +37,7 @@ async def _generate_a0_lesson_background(
     scenario, depth = await pick_scenario(profile, "A0")
 
     # Load static content
-    lessons_file = DATA_DIR / "a0_lessons.yaml"
+    lessons_file = data_dir() / "a0_lessons.yaml"
     with open(lessons_file) as f:
         all_lessons = yaml.safe_load(f)
 
@@ -108,7 +109,7 @@ async def _generate_a0_lesson_background(
             await drill.insert()
             new_activities.append(LessonActivity(
                 type=ActivityType.DRILL,
-                title=act_data.get("title", f"Esercizio: {gp_code}"),
+                title=act_data.get("title", t("a0_drill_title", code=gp_code)),
                 description=act_data.get("description", exercise_type),
                 drill_id=drill.id,
                 hint=act_data.get("hint"),
@@ -117,7 +118,7 @@ async def _generate_a0_lesson_background(
         elif act_type == ActivityType.READING:
             new_activities.append(LessonActivity(
                 type=ActivityType.READING,
-                title=act_data.get("title", "Lettura"),
+                title=act_data.get("title", t("a0_reading_title")),
                 description=act_data.get("description", ""),
                 content=act_data.get("content", ""),
                 questions=act_data.get("questions", []),

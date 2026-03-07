@@ -6,7 +6,7 @@ analyze_gps:
     end-of-lesson student responses.
   # variables: cefr_level, combined, lesson_priority, gp_lines
   user: |
-    You are a language tutor reviewing a student's Italian lesson responses.
+    You are a language tutor reviewing a student's {{target_language}} lesson responses.
 
     Student CEFR level: {{cefr_level}}
     Combined student responses:

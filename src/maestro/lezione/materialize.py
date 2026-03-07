@@ -13,11 +13,14 @@ from maestro.models import (
     DrillItem,
     DrillTemplate,
     CommunicativeFunction,
-    ItalianChunk,
+    GrammarChunk,
     ActivityType,
     ExerciseType,
 )
+from maestro.config import settings as _settings
 from maestro.lezione.schemas import LessonContentResponse
+from maestro.strings import t
+from maestro.vocab.discover import lang_wrap
 
 logger = logging.getLogger(__name__)
 
@@ -54,16 +57,16 @@ async def materialize_activities(
         else:
             # Fallback: load chunk content directly
             if gp.chunk_ref:
-                chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
-                explanation_content = chunk.content if chunk else gp.description
+                chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
+                explanation_content = lang_wrap(chunk.content, _settings.TARGET_LANGUAGE) if chunk else gp.description
             else:
                 explanation_content = gp.description
             grammar_title = gp.label
         motivation = grammar_motivations[i].text if i < len(grammar_motivations) else None
         grammar_activities.append(LessonActivity(
             type=ActivityType.GRAMMAR,
-            title=f"Grammatica: {grammar_title}",
-            description=f"Ripassa la regola grammaticale: {gp.label}",
+            title=t("grammar_title", label=grammar_title),
+            description=t("grammar_desc", label=gp.label),
             duration_minutes=3,
             content=explanation_content,
             why_important=motivation,
@@ -75,8 +78,8 @@ async def materialize_activities(
     for i, reading in enumerate(content.readings[:reading_count]):
         reading_activities.append(LessonActivity(
             type=ActivityType.READING,
-            title=f"Lettura {i + 1}" if reading_count > 1 else "Lettura",
-            description=f"Leggi un testo su: {topic_title}",
+            title=t("reading_title_n", n=i + 1) if reading_count > 1 else t("reading_title"),
+            description=t("reading_desc", topic=topic_title),
             duration_minutes=5,
             content=reading.text,
             questions=reading.questions,
@@ -129,7 +132,7 @@ async def materialize_activities(
         logger.debug(f"[materialize] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})")
         drill_activities.append(LessonActivity(
             type=ActivityType.DRILL,
-            title=f"Esercizio: {spec['gp_label']}",
+            title=t("drill_title", label=spec['gp_label']),
             description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
             duration_minutes=3,
             drill_id=drill.id,
@@ -142,8 +145,8 @@ async def materialize_activities(
         prompt_text = speaking_data.prompt if speaking_data else ""
         speaking_activities.append(LessonActivity(
             type=ActivityType.SPEAKING,
-            title=f"Parlare: {cf.label}",
-            description=f"Pratica: {cf.label}",
+            title=t("speaking_title", label=cf.label),
+            description=t("speaking_desc", label=cf.label),
             duration_minutes=3,
             content=prompt_text,
         ))
@@ -153,8 +156,8 @@ async def materialize_activities(
     if include_writing and content.writing:
         writing_activities.append(LessonActivity(
             type=ActivityType.WRITING,
-            title="Scrittura",
-            description=f"Scrivi un testo su: {topic_title}",
+            title=t("writing_title"),
+            description=t("writing_desc", topic=topic_title),
             duration_minutes=8,
             content=content.writing.prompt,
         ))

@@ -25,7 +25,8 @@ from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
 from maestro.templates import templates
 from maestro.utils import utcnow, create_background_task
-from maestro.vocab.discover import discover, discover_markdown, discover_list
+from maestro.config import settings as _settings
+from maestro.vocab.discover import discover, discover_markdown, discover_list, lang_wrap
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
 from markupsafe import escape
@@ -95,7 +96,8 @@ async def lezione_overview(lesson_id: PydanticObjectId, request: Request, studen
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
-    annotated_overview = await discover(lesson.overview, student_id=student.id) if lesson.overview else None
+    overview_lang = "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+    annotated_overview = await discover(lang_wrap(lesson.overview, overview_lang), student_id=student.id) if lesson.overview else None
     return templates.TemplateResponse(
         request=request, name="lezione.html",
         context={"lesson": lesson, "annotated_overview": annotated_overview},
@@ -201,7 +203,8 @@ async def lezione_activity(
         drill = await GeneratedDrill.get(activity.drill_id)
         if drill is None:
             raise HTTPException(404)
-        annotated = await discover(drill.prompt, student_id=student.id)
+        lang = _settings.TARGET_LANGUAGE
+        annotated = await discover(lang_wrap(drill.prompt, lang), student_id=student.id)
         ctx["drill"] = drill
         ctx["annotated_prompt"] = annotated
         return templates.TemplateResponse(
@@ -228,22 +231,31 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.READING:
-        ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
-        ctx["annotated_questions"] = await discover_list(activity.questions or [], student_id=student.id)
+        lang = _settings.TARGET_LANGUAGE
+        ctx["annotated_content"] = await discover(lang_wrap(activity.content, lang), student_id=student.id)
+        ctx["annotated_questions"] = await discover_list(
+            [lang_wrap(q, lang) for q in (activity.questions or [])], student_id=student.id
+        )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-reading.html", context=ctx
         )
 
     if activity.type == ActivityType.WRITING:
-        ctx["annotated_content"] = await discover(activity.content, student_id=student.id)
+        lang = _settings.TARGET_LANGUAGE
+        ctx["annotated_content"] = await discover(lang_wrap(activity.content, lang), student_id=student.id)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-writing.html", context=ctx
         )
 
     if activity.type == ActivityType.GRAMMAR:
         ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id)
+        profile = await get_profile(student.id)
+        level = profile.cefr_estimate if profile else "A0"
         if activity.why_important:
-            ctx["annotated_why"] = await discover(activity.why_important, student_id=student.id)
+            why_lang = "en" if level in ("A0", "A1", "A2") else _settings.TARGET_LANGUAGE
+            ctx["annotated_why"] = await discover(
+                lang_wrap(activity.why_important, why_lang), student_id=student.id
+            )
         # Find the GP and its explanation for translation + chunk_ref
         if activity.grammar_point_code:
             gp = await GrammarPoint.find_one({"code": activity.grammar_point_code})
@@ -253,15 +265,15 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
-            profile = await get_profile(student.id)
-            level = profile.cefr_estimate if profile else "A0"
             expl = await GrammarPointExplanation.find_one(
                 {"grammar_point.$id": gp.id, "student_level": level}
             )
             if not expl:
                 expl = await GrammarPointExplanation.find_one({"grammar_point.$id": gp.id})
             if expl and expl.translation:
-                ctx["annotated_translation"] = await discover_markdown(expl.translation, student_id=student.id)
+                ctx["annotated_translation"] = await discover_markdown(
+                    expl.translation, student_id=student.id, lang="en"
+                )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )
@@ -550,7 +562,7 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request, studen
     skipped_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED)
     weak_grammar_points = await get_weak_grammar_points(lesson)
     await ensure_lesson_feedback(lesson, weak_grammar_points)
-    annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id) if lesson.feedback_summary else None
+    annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id, lang="en") if lesson.feedback_summary else None
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",

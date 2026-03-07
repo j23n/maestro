@@ -12,18 +12,18 @@ import logging
 import yaml
 
 from maestro.llm import get_client
-from maestro.utils import DATA_DIR
+from maestro.utils import data_dir
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-OUTPUT = DATA_DIR / "scenarios_a1.yaml"
+OUTPUT = data_dir() / "scenarios_a1.yaml"
 
 
 def main():
-    with open(DATA_DIR / "grammar_points.json") as f:
+    with open(data_dir() / "grammar_points.json") as f:
         all_gps = json.load(f)
-    with open(DATA_DIR / "comm_functions.json") as f:
+    with open(data_dir() / "comm_functions.json") as f:
         all_cfs = json.load(f)
 
     a1_gps = [g for g in all_gps if g["cefr_level"] == "A1"]

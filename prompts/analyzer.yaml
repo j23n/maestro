@@ -7,11 +7,11 @@ version: "1"
 
 analyze_message:
   description: >
-    Analyze a student Italian message to identify grammar structures used
+    Analyze a student message in the target language to identify grammar structures used
     correctly vs errors, communicative functions performed, and themes.
-  # variables: text, grammar_lines, function_lines, context_block, feedback_field
+  # variables: text, grammar_lines, function_lines, context_block, feedback_field, target_language
   user: |
-    Analyze this Italian learner's message. Identify which grammar structures
+    Analyze this {{target_language}} learner's message. Identify which grammar structures
     appear (correctly used vs errors), communicative functions performed, and themes.
 
     {{context_block}}Student message: "{{text}}"
@@ -38,7 +38,7 @@ context_block_fragment:
 # Leave blank (empty string) for normal conversation analysis.
 feedback_field_fragment:
   user: |
-    ,"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>","explanation":"<one sentence in Italian explaining the rule>"}]
+    ,"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>","explanation":"<one sentence in {{target_language}} explaining the rule>"}]
 
 # ---------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ score_multi_item:
   # variables: task_desc, gp_label, grammar_point_code, rule_block,
   #            grammar_code_list, items_block, n
   user: |
-    You are grading an Italian grammar exercise. {{task_desc}}
+    You are grading a {{target_language}} grammar exercise. {{task_desc}}
 
     LEARNING OBJECTIVE: {{gp_label}} ({{grammar_point_code}})
     {{rule_block}}
@@ -69,20 +69,20 @@ score_multi_item:
     Schema:
     [{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, ...]
     Rules:
-    - objective_note: empty string when correct; one sentence in Italian when wrong
+    - objective_note: empty string when correct; one sentence in {{target_language}} when wrong
     - grammar_errors: codes for OTHER grammar errors (never include {{grammar_point_code}} here)
     - tips: short strings for spelling/accent issues only
     No markdown, no other text.
 
 task_fill_blank:
   user: >
-    The student was asked to fill a blank in an Italian sentence.
+    The student was asked to fill a blank in a {{target_language}} sentence.
     The student may have typed just the missing word OR the full sentence — both are valid.
     If the student typed the full sentence, extract the word(s) filling the blank for evaluation.
 
 task_error_correction:
   user: >
-    The student was asked to correct a grammatical error in an Italian sentence.
+    The student was asked to correct a grammatical error in a {{target_language}} sentence.
     Accept minor punctuation differences and equivalent phrasings.
 
 # ---------------------------------------------------------------------------
@@ -93,7 +93,7 @@ generate_writing_feedback:
     and language quality (grammar_errors, tips). Grammar errors never affect pass/fail.
   # variables: cefr_level, prompt, student_text
   user: |
-    You are an Italian language teacher reviewing a {{cefr_level}} student's writing.
+    You are a {{target_language}} language teacher reviewing a {{cefr_level}} student's writing.
 
     Writing prompt: {{prompt}}
 
@@ -121,7 +121,7 @@ score_free_form_drill:
     but never cause a fail.
   # variables: cefr_level, grammar_point_code, prompt, student_text, rule_block
   user: |
-    You are grading a free-form Italian drill for a {{cefr_level}} learner.
+    You are grading a free-form {{target_language}} drill for a {{cefr_level}} learner.
 
     Grammar point being practised: {{grammar_point_code}}
     Drill prompt: {{prompt}}
@@ -146,13 +146,13 @@ score_free_form_drill:
 score_reading_answers:
   description: >
     Grade reading comprehension answers in a single call, accepting paraphrasing
-    and mixed Italian/English responses.
+    and mixed {{target_language}}/English responses.
   # variables: items_block, n
   user: |
-    You are grading reading comprehension answers for an Italian language learner.
+    You are grading reading comprehension answers for a {{target_language}} language learner.
 
     For each item, judge whether the student's answer correctly addresses the question.
-    Accept paraphrasing, approximate wording, and answers in a mix of Italian and English.
+    Accept paraphrasing, approximate wording, and answers in a mix of {{target_language}} and English.
     Focus on whether the student understood the text, not perfect grammar.
 
     Items:
@@ -162,25 +162,25 @@ score_reading_answers:
     Schema:
     [{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, ...]
     Rules:
-    - objective_note: empty when correct; one Italian sentence explaining what was wrong or missing when incorrect
-    - grammar_errors: list of short strings describing grammar issues in the student's Italian (if any)
+    - objective_note: empty when correct; one {{target_language}} sentence explaining what was wrong or missing when incorrect
+    - grammar_errors: list of short strings describing grammar issues in the student's {{target_language}} (if any)
     - tips: short spelling/accent tip strings only
     No markdown, no other text.
 
 # ---------------------------------------------------------------------------
 
 feedback_fill_blank:
-  description: "Generate a single Italian sentence explaining a fill-blank error."
+  description: "Generate a single sentence in the target language explaining a fill-blank error."
   # variables: grammar_point_code, drill_prompt, correct_answer, student_answer, rule_block
   user: |
-    An Italian learner made an error in a fill-in-the-blank exercise.
+    A {{target_language}} learner made an error in a fill-in-the-blank exercise.
 
     Grammar point: {{grammar_point_code}}
     Exercise: {{drill_prompt}}
     Correct answer: {{correct_answer}}
     Student's answer: {{student_answer}}{{rule_block}}
 
-    Write ONE sentence in Italian explaining why the student's answer is wrong and
+    Write ONE sentence in {{target_language}} explaining why the student's answer is wrong and
     what the correct rule is. Be concise and direct.
     Return ONLY the explanation sentence, no JSON, no labels.
 
@@ -190,7 +190,7 @@ evaluate_error_correction:
   description: "Judge whether a student's error correction is essentially correct."
   # variables: erroneous, reference, student, rule_block
   user: |
-    You are evaluating an Italian grammar exercise.
+    You are evaluating a {{target_language}} grammar exercise.
     The student was asked to find and correct ONE grammatical error in a sentence.
 
     Original sentence (contains one error): "{{erroneous}}"
@@ -202,4 +202,4 @@ evaluate_error_correction:
     Focus on whether the grammatical error was correctly identified and fixed.
 
     Return ONLY valid JSON (no markdown, no explanation):
-    {"correct":true,"explanation":"ONE sentence in Italian explaining what the error was and the rule"}
+    {"correct":true,"explanation":"ONE sentence in {{target_language}} explaining what the error was and the rule"}

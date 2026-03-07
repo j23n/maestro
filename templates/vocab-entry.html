@@ -8,10 +8,10 @@
 
   <div id="vocab-add">
     {% if has_card %}
-      <span class="added-badge">In your vocabulary</span>
+      <span class="added-badge">{{ t("vocab_in_your_vocab") }}</span>
     {% elif word.entry_id %}
       <button hx-post="/vocab/word/{{ word.entry_id }}/add"
-              hx-target="#vocab-add" hx-swap="innerHTML">Add to my vocabulary</button>
+              hx-target="#vocab-add" hx-swap="innerHTML">{{ t("vocab_add_to_mine") }}</button>
     {% endif %}
   </div>
 
@@ -52,7 +52,7 @@
       <li>
         <span class="sense-def">{{ s.definition }}</span>
         {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
-        {% if s.translation %}<div class="sense-translation"><strong>English</strong>: {{ s.translation }}</div>{% endif %}
+        {% if s.translation %}<div class="sense-translation"><strong>{{ t("vocab_english_label") }}</strong>: {{ s.translation }}</div>{% endif %}
       </li>
       {% endfor %}
     </ol>

@@ -6,7 +6,7 @@
   {% include "lezione-progress.html" %}
 
   <div class="card">
-    <div class="card-label">Onboarding</div>
+    <div class="card-label">{{ t("onboarding_label") }}</div>
     <h2>{{ activity.title }}</h2>
 
     <div id="onboarding-form">
@@ -15,16 +15,16 @@
             hx-target="#onboarding-form"
             hx-swap="outerHTML">
         <div class="field">
-          <input type="text" name="answer" placeholder="Type your answer..."
+          <input type="text" name="answer" placeholder="{{ t("onboarding_placeholder") }}"
                  autofocus required class="onboarding-input">
         </div>
         <div class="submit-row">
-          <button type="submit" class="continue-btn">Submit</button>
+          <button type="submit" class="continue-btn">{{ t("onboarding_submit") }}</button>
           <a class="skip-link"
              hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
              hx-target="body"
              hx-push-url="true"
-             href="#">Skip</a>
+             href="#">{{ t("onboarding_skip") }}</a>
         </div>
       </form>
     </div>

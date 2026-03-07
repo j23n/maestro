@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Conversazione — Maestro{% endblock %}
+{% block title %}{{ t("page_title_speaking") }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="activity-container">
@@ -7,14 +7,14 @@
 
   <div class="card" style="text-align:center; padding:2.5rem;">
     <div class="stub-icon">🎙️</div>
-    <div class="stub-title">Produzione orale</div>
-    <div class="stub-desc">La registrazione vocale è in arrivo.<br>Per ora, salta questa attività.</div>
+    <div class="stub-title">{{ t("speaking_title") }}</div>
+    <div class="stub-desc">{{ t("speaking_desc") }}</div>
 
     <button class="continue-btn"
             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
             hx-target="body"
             hx-push-url="true">
-      Salta →
+      {{ t("skip_btn") }}
     </button>
   </div>
 </div>

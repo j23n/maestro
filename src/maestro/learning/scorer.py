@@ -12,12 +12,22 @@ import time
 from maestro import taxonomy
 from maestro.config import settings
 from maestro.llm import get_async_client
+
 from maestro.models import ExerciseType
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
 
 logger = logging.getLogger(__name__)
+
+_TL = None  # lazy cache for target language name
+
+
+def _target_language() -> str:
+    global _TL
+    if _TL is None:
+        _TL = settings.TARGET_LANGUAGE_NAME
+    return _TL
 
 _FALLBACK_ITEM = ScoringResult().model_dump()
 
@@ -43,6 +53,7 @@ async def feedback_fill_blank(
         if rag_content else ""
     )
     prompt = _prompts.feedback_fill_blank.render(
+        target_language=_target_language(),
         grammar_point_code=grammar_point_code,
         drill_prompt=drill_prompt,
         correct_answer=correct_answer,
@@ -85,6 +96,7 @@ async def evaluate_error_correction(
         if rag_content else ""
     )
     prompt = _prompts.evaluate_error_correction.render(
+        target_language=_target_language(),
         erroneous=erroneous,
         reference=reference,
         student=student,
@@ -145,19 +157,20 @@ async def score_multi_item_drill(
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
-        task_desc = _prompts.task_fill_blank.render()
+        task_desc = _prompts.task_fill_blank.render(target_language=_target_language())
         lines = [
             f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
         ]
     else:  # error_correction
-        task_desc = _prompts.task_error_correction.render()
+        task_desc = _prompts.task_error_correction.render(target_language=_target_language())
         lines = [
             f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
         ]
 
     prompt = _prompts.score_multi_item.render(
+        target_language=_target_language(),
         task_desc=task_desc,
         gp_label=gp_label,
         grammar_point_code=grammar_point_code,
@@ -214,6 +227,7 @@ async def generate_writing_feedback(
     )
 
     llm_prompt = _prompts.generate_writing_feedback.render(
+        target_language=_target_language(),
         cefr_level=cefr_level,
         prompt=prompt,
         student_text=student_text,
@@ -270,6 +284,7 @@ async def score_free_form_drill(
     )
 
     llm_prompt = _prompts.score_free_form_drill.render(
+        target_language=_target_language(),
         cefr_level=cefr_level,
         grammar_point_code=grammar_point_code,
         prompt=prompt,
@@ -325,6 +340,7 @@ async def score_reading_answers(
     ]
 
     prompt = _prompts.score_reading_answers.render(
+        target_language=_target_language(),
         items_block="\n".join(lines),
         n=n,
     )

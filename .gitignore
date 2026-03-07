@@ -1,8 +1,8 @@
 .env
 __pycache__
 
-src/maestro/data/grammar_book.epub
-src/maestro/data/book_contents/
-src/maestro/data/it-dictionary.gz
-src/maestro/data/dizionario.epub
-src/maestro/data/dizionario_book/
+src/maestro/data/it/grammar_book.epub
+src/maestro/data/it/book_contents/
+src/maestro/data/it/it-dictionary.gz
+src/maestro/data/it/dizionario.epub
+src/maestro/data/it/dizionario_book/

@@ -25,7 +25,7 @@ def lookup_fn():
     except OSError:
         pytest.skip("spaCy it_core_news_md not available")
 
-    from maestro.vocab.ingest import make_lookup
+    from maestro.vocab.morphology.it import make_lookup
 
     by_form = {
         "andare": _make_entry("andare"),

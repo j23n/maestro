@@ -10,7 +10,7 @@ from beanie import init_beanie
 
 from maestro.models import ALL_DOCUMENT_MODELS
 
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data"
+_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
 
 
 def pytest_collection_modifyitems(items):

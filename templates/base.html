@@ -19,13 +19,13 @@
   </div>
   <nav>
     <div class="site-container">
-      <a href="/lezione/">Lezione</a>
-      <a href="/vocab">Vocabolario</a>
-      <a href="/grammar">Grammatica</a>
-      <a href="/profilo">Profilo</a>
+      <a href="/lezione/">{{ t("nav_lesson") }}</a>
+      <a href="/vocab">{{ t("nav_vocab") }}</a>
+      <a href="/grammar">{{ t("nav_grammar") }}</a>
+      <a href="/profilo">{{ t("nav_profile") }}</a>
       {% if request.state.student is defined and request.state.student %}
       <span class="student-name">{{ request.state.student.name }}</span>
-      <a href="/students/">Cambia</a>
+      <a href="/students/">{{ t("nav_switch") }}</a>
       {% endif %}
     </div>
   </nav>

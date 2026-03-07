@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Profilo — Maestro{% endblock %}
+{% block title %}{{ t("page_title_profile") }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="profilo-container">
@@ -19,7 +19,7 @@
   {# 3. Scenario map #}
   {% if scenario_map %}
   <div class="scenario-map">
-    <h2>Percorso</h2>
+    <h2>{{ t("profile_path") }}</h2>
     <div class="scenario-grid">
       {% for item in scenario_map %}
       <div class="scenario-card">
@@ -29,7 +29,7 @@
             <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
           {% endfor %}
         </div>
-        <div class="scenario-meta">{{ item.lesson_count }} lezioni</div>
+        <div class="scenario-meta">{{ item.lesson_count }} {{ t("profile_lessons") }}</div>
       </div>
       {% endfor %}
     </div>
@@ -51,14 +51,14 @@
     <details class="level-group">
       <summary class="level-heading">
         <h2>{{ level }}</h2>
-        <span class="level-stats">gramm {{ gp_mastered }}/{{ gp_total }} &middot; funz {{ cf_demonstrated }}/{{ cf_total }}</span>
+        <span class="level-stats">{{ t("profile_grammar_short") }} {{ gp_mastered }}/{{ gp_total }} &middot; {{ t("profile_functions_short") }} {{ cf_demonstrated }}/{{ cf_total }}</span>
         <div class="level-bar">
           <div class="level-bar-fill" style="width: {% if combined_total > 0 %}{{ (combined_mastered / combined_total * 100) | int }}%{% else %}0%{% endif %}"></div>
         </div>
       </summary>
 
       {# Grammar — last 10 outcomes as green/red/grey pips #}
-      <div class="subsection-label">Grammatica</div>
+      <div class="subsection-label">{{ t("profile_grammar") }}</div>
       <div class="skill-list">
         {% for skill in gp_skills %}
         <div class="skill-row">
@@ -76,7 +76,7 @@
       </div>
 
       {# Funzioni — usage count up to 10 as green/grey pips, grouped by macro_category #}
-      <div class="subsection-label">Funzioni comunicative</div>
+      <div class="subsection-label">{{ t("profile_comm_functions") }}</div>
       {% set ns = namespace(current_macro="") %}
       <div class="skill-list">
         {% for item in cf_items %}
@@ -105,28 +105,28 @@
 
   {# 5. Student persona #}
   <div class="card">
-    <h2>Chi sei</h2>
-    <p>Dicci qualcosa di te — le lezioni saranno ambientate nel tuo mondo.</p>
+    <h2>{{ t("profile_who_you_are") }}</h2>
+    <p>{{ t("profile_who_desc") }}</p>
 
     {% if request.query_params.get('saved') %}
-    <div class="saved-banner">Profilo salvato!</div>
+    <div class="saved-banner">{{ t("profile_saved") }}</div>
     {% endif %}
 
     <form method="post" action="/profilo/persona">
       <div class="field">
-        <label for="tags">Tag (es. studente, vino rosso, storia romana, marketing)</label>
+        <label for="tags">{{ t("profile_tags_label") }}</label>
         <input type="text" id="tags" name="tags"
           value="{{ profile.persona.tags | join(', ') if profile else '' }}"
-          placeholder="studente universitario, appassionato di vino, Erasmus a Bologna">
+          placeholder="{{ t("profile_tags_placeholder") }}">
       </div>
-      <button class="submit-btn" type="submit">Salva</button>
+      <button class="submit-btn" type="submit">{{ t("profile_save_btn") }}</button>
     </form>
   </div>
 
   {# 6. Lesson history #}
   {% if lesson_history %}
   <div class="lesson-history">
-    <h2>Lezioni recenti</h2>
+    <h2>{{ t("profile_recent_lessons") }}</h2>
     <div class="history-list">
       {% for item in lesson_history %}
       <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">

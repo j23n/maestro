@@ -7,15 +7,17 @@ from bs4 import BeautifulSoup
 import re
 from pymongo import AsyncMongoClient
 
-from maestro.models import ItalianChunk
+from maestro.models import GrammarChunk
 from maestro.config import settings
 from maestro.db import init_db, init_indices
 from maestro.rag.retrieve import get_model
 
-ENRICHMENT_FILE = Path(__file__).parent.parent / "data/chunk_enrichment.json"
+from maestro.utils import data_dir
+
+ENRICHMENT_FILE = data_dir("it") / "chunk_enrichment.json"
 
 
-BOOK_DIR = Path(__file__).parent.parent / "data/book_contents/OEBPS/Text"
+BOOK_DIR = data_dir("it") / "book_contents/OEBPS/Text"
 CHAPTER_FILES = sorted(
     f for f in BOOK_DIR.glob("*.xhtml") if re.search(r"_c\d+\.xhtml$", f.name)
 )
@@ -250,7 +252,7 @@ async def ingest_grammar_rules(client):
     chunks = []
     for chunk, embedding in zip(all_chunks, embeddings):
         chunks.append(
-            ItalianChunk(
+            GrammarChunk(
                 ref=chunk["ref"],
                 content=chunk["content"],
                 chunk_type=chunk["chunk_type"],
@@ -258,10 +260,10 @@ async def ingest_grammar_rules(client):
                 chunk_metadata=chunk["metadata"],
             )
         )
-    await ItalianChunk.insert_many(chunks)
+    await GrammarChunk.insert_many(chunks)
 
     print("Done.")
-    print(f"Inserted: {await ItalianChunk.count()}")
+    print(f"Inserted: {await GrammarChunk.count()}")
 
 
 if __name__ == "__main__":
@@ -269,7 +271,7 @@ if __name__ == "__main__":
     async def main():
         client = AsyncMongoClient(settings.database_url)
         await init_db()
-        await ItalianChunk.delete_all()
+        await GrammarChunk.delete_all()
         await ingest_grammar_rules(client)
 
     asyncio.run(main())

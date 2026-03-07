@@ -2,7 +2,7 @@
 Generate VocabularyWordDefinition documents for all VocabularyWords.
 
 Strategy:
-  - A1–B2: Claude rewrites senses for learner-appropriate Italian
+  - A1–B2: Claude rewrites senses for learner-appropriate target language
     at each level, with per-sense English translations.
 
 Runs in batches of 5 words. Idempotent — skips words that already have all
@@ -50,14 +50,15 @@ def _call_claude(batch: list[VocabularyWord], max_tokens: int = 16384) -> dict[s
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
     logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
-    logger.debug(f"[vocab] Claude request — system: {_prompts.definitions_system.render_system()!r}")
+    lang = settings.TARGET_LANGUAGE_NAME
+    logger.debug(f"[vocab] Claude request — system: {_prompts.definitions_system.render_system(target_language=lang)!r}")
     logger.debug(f"[vocab] Claude request — user: {user_content}")
     client = get_client()
     t0 = time.monotonic()
     msg = client.messages.create(
         model=settings.DEFINITION_MODEL,
         max_tokens=max_tokens,
-        system=_prompts.definitions_system.render_system(),
+        system=_prompts.definitions_system.render_system(target_language=lang),
         messages=[{"role": "user", "content": user_content}],
     )
     elapsed = time.monotonic() - t0

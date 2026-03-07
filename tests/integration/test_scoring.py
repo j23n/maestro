@@ -161,7 +161,7 @@ async def test_free_form_incorrect(db, mocker):
     chunk.content = "rule text"
     chunk.chunk_metadata = {"heading": "Rule heading"}
     chunk.ref = "test_chunk_ref"
-    mocker.patch("maestro.drills.scoring.ItalianChunk.find_one", new_callable=AsyncMock, return_value=chunk)
+    mocker.patch("maestro.drills.scoring.GrammarChunk.find_one", new_callable=AsyncMock, return_value=chunk)
 
     from maestro.drills.scoring import score_attempt
     correct, event, feedback, refs = await score_attempt(drill, "")
