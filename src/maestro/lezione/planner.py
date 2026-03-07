@@ -27,7 +27,7 @@ from maestro.models import (
     GrammarPointExplanation,
     DrillTemplate,
     CommunicativeFunction,
-    ItalianChunk,
+    GrammarChunk,
     CurriculumScenario,
     ActivityType,
     ActivityStatus,
@@ -48,6 +48,7 @@ from maestro.lezione.selection import (
     pick_comm_functions,
     fill_vocab_cards,
 )
+from maestro.strings import t
 
 logger = logging.getLogger(__name__)
 
@@ -158,8 +159,8 @@ async def prepare_lesson_immediate(
         if due_cards:
             activities.append(LessonActivity(
                 type=ActivityType.VOCAB_REVIEW,
-                title=f"Vocabolario ({len(due_cards)} parole)",
-                description="Ripassa le parole in scadenza oggi",
+                title=t("vocab_title", count=len(due_cards)),
+                description=t("vocab_desc"),
                 duration_minutes=max(2, len(due_cards) * 1),
                 card_ids=[c.id for c in due_cards],
                 status=ActivityStatus.ACTIVE,
@@ -270,7 +271,7 @@ async def _generate_lesson_background(
             template = random.choice(matching)
             chunk_excerpt = ""
             if gp.chunk_ref:
-                chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
+                chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
                 if chunk:
                     chunk_excerpt = chunk.content[:500]
             drill_specs.append(

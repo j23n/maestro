@@ -18,7 +18,7 @@ async def init_db():
 
 
 def init_indices(client):
-    collection = client[settings.MONGODB_DB]["italian_chunks"]
+    collection = client[settings.MONGODB_DB]["grammar_chunks"]
     collection.create_search_index(
         {
             "name": "embedding_index",

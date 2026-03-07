@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Practice — Maestro{% endblock %}
+{% block title %}{{ t("practice_title") }} — Maestro{% endblock %}
 
 {% block content %}
   <div class="mode-selector">
-    {% for m in [("word", "Word"), ("definition", "Definition"), ("translation", "Translation"), ("random", "Random")] %}
+    {% for m in [("word", t("practice_mode_word")), ("definition", t("practice_mode_definition")), ("translation", t("practice_mode_translation")), ("random", t("practice_mode_random"))] %}
     <a href="/vocab/practice?mode={{ m[0] }}"
        class="{{ 'active' if selected_mode == m[0] else '' }}">{{ m[1] }}</a>
     {% endfor %}
@@ -14,20 +14,20 @@
     {% if mode == 'word' %}
       <div class="word">{{ card.word.word }}</div>
     {% elif mode == 'definition' %}
-      <div class="prompt">What's the Italian word?</div>
+      <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
       <div class="clue">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
     {% elif mode == 'translation' %}
-      <div class="prompt">How do you say this in Italian?</div>
+      <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
       <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
     {% endif %}
 
     <button hx-get="/vocab/practice/{{ card.id }}/reveal?mode={{ mode }}"
             hx-target="#practice-card"
             hx-swap="outerHTML">
-      Reveal
+      {{ t("vocab_reveal") }}
     </button>
   </div>
   {% else %}
-  <p style="text-align:center; margin-top:3rem; color:#999">No cards to review today!</p>
+  <p style="text-align:center; margin-top:3rem; color:#999">{{ t("practice_no_cards") }}</p>
   {% endif %}
 {% endblock %}

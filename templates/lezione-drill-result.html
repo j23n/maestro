@@ -9,9 +9,9 @@
     {% set total = feedback["total"] %}
 
     {% if correct %}
-      <div class="result-ok">Ottimo! {{ correct_count }}/{{ total }} corrette ✓</div>
+      <div class="result-ok">{{ t("result_correct_multi", correct=correct_count, total=total) }}</div>
     {% else %}
-      <div class="result-wrong">{{ correct_count }}/{{ total }} corrette</div>
+      <div class="result-wrong">{{ t("result_wrong_multi", correct=correct_count, total=total) }}</div>
     {% endif %}
 
     <div style="margin-bottom:1.5rem;">
@@ -47,9 +47,9 @@
   {% elif feedback and feedback is mapping and "objective_correct" in feedback %}
     {# ── Writing / free-form result ── #}
     {% if correct %}
-      <div class="result-ok">{% if is_writing is defined and is_writing %}Inviato ✓{% else %}Corretto! ✓{% endif %}</div>
+      <div class="result-ok">{% if is_writing is defined and is_writing %}{{ t("result_submitted") }}{% else %}{{ t("result_correct_single") }}{% endif %}</div>
     {% else %}
-      <div class="result-wrong">{% if is_writing is defined and is_writing %}Non completato{% else %}Non corretto{% endif %}</div>
+      <div class="result-wrong">{% if is_writing is defined and is_writing %}{{ t("result_not_completed") }}{% else %}{{ t("result_not_correct") }}{% endif %}</div>
       {% if feedback.objective_note %}
         <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;">{{ feedback.objective_note }}</p>
       {% endif %}
@@ -57,7 +57,7 @@
     {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
     {% set tips = feedback.tips if feedback.tips is defined else [] %}
     {% if grammar_errors or tips %}
-      <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">Note da ricordare</div>
+      <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">{{ t("result_notes_label") }}</div>
       <div class="item-secondary" style="margin-bottom:1rem;">
         {% for err in grammar_errors %}
           <div><span class="item-grammar-error">{{ err }}</span></div>
@@ -67,7 +67,7 @@
         {% endfor %}
       </div>
     {% elif correct %}
-      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">Ottima risposta!</p>
+      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">{{ t("result_great_answer") }}</p>
     {% endif %}
   {% endif %}
 
@@ -82,6 +82,6 @@
   {% endif %}
 
   <div style="margin-top:1.5rem;">
-    <a href="{{ next_url }}" class="continue-btn">Continua →</a>
+    <a href="{{ next_url }}" class="continue-btn">{{ t("continue_btn") }}</a>
   </div>
 </div>

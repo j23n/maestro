@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Grammatica — Maestro{% endblock %}
+{% block title %}{{ t("page_title_grammar") }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
   <div class="card">
-    <div class="card-label">Grammatica</div>
-    <div class="grammar-title">{{ activity.title | replace("Grammatica: ", "") }}</div>
+    <div class="card-label">{{ t("grammar_label") }}</div>
+    <div class="grammar-title">{{ activity.title | replace(t("grammar_title_prefix"), "") }}</div>
     {% if annotated_why or activity.why_important %}
     <div class="why-important">
-      <div class="why-label">Why this matters</div>
+      <div class="why-label">{{ t("grammar_why_matters") }}</div>
       <p>{{ annotated_why | safe if annotated_why else activity.why_important }}</p>
     </div>
     {% endif %}
@@ -20,7 +20,7 @@
 
     {% if annotated_translation %}
     <details class="grammar-translation">
-      <summary>English translation</summary>
+      <summary>{{ t("grammar_english_translation") }}</summary>
       <div class="grammar-content">
         {{ annotated_translation | safe }}
       </div>
@@ -29,7 +29,7 @@
 
     {% if chunk_ref %}
     <a href="/grammar/chunk/{{ chunk_ref }}" class="chunk-link">
-      Vedi la regola completa →
+      {{ t("grammar_full_rule") }}
     </a>
     {% endif %}
 
@@ -38,13 +38,13 @@
               hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
               hx-target="body"
               hx-push-url="true">
-        Ho capito →
+        {{ t("grammar_understood") }}
       </button>
       <a class="skip-link"
          hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
          hx-target="body"
          hx-push-url="true"
-         href="#">Salta →</a>
+         href="#">{{ t("skip_btn") }}</a>
     </div>
   </div>
 </div>

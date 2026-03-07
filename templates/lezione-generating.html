@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Preparazione Lezione — Maestro{% endblock %}
+{% block title %}{{ t("page_title_generating") }} — Maestro{% endblock %}
 
 {% block content %}
 {% if lesson.generation_error %}
 <div class="generating-wrap">
-  <p class="generating-title">Qualcosa è andato storto</p>
+  <p class="generating-title">{{ t("generating_error") }}</p>
   <p class="generating-sub">{{ lesson.generation_error }}</p>
   <form method="POST" action="/lezione/{{ lesson.id }}/retry">
-    <button type="submit" class="btn">Riprova</button>
+    <button type="submit" class="btn">{{ t("generating_retry") }}</button>
   </form>
 </div>
 {% else %}
@@ -19,8 +19,8 @@
   hx-swap="outerHTML"
 >
   <div class="spinner"></div>
-  <p class="generating-title">Stiamo preparando la tua lezione…</p>
-  <p class="generating-sub">Grammatica, letture ed esercizi in arrivo. Un momento.</p>
+  <p class="generating-title">{{ t("generating_wait") }}</p>
+  <p class="generating-sub">{{ t("generating_detail") }}</p>
 </div>
 {% endif %}
 {% endblock %}

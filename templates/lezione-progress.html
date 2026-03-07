@@ -4,5 +4,5 @@
   <div class="progress-bar">
     <div class="progress-fill" style="width: {{ ((idx + 1) / total * 100) | round | int }}%"></div>
   </div>
-  <div class="progress-label">Attività {{ idx + 1 }} di {{ total }}</div>
+  <div class="progress-label">{{ t("progress_label", current=idx + 1, total=total) }}</div>
 </div>

@@ -4,7 +4,7 @@
 {% block content %}
 <div class="grammar-detail">
   <div class="gp-header">
-    <div class="gp-level">Regola</div>
+    <div class="gp-level">{{ t("grammar_rule_label") }}</div>
     <h1 class="gp-title">{{ heading }}</h1>
   </div>
 
@@ -12,6 +12,6 @@
     {{ annotated_content | safe }}
   </div>
 
-  <a class="back-link" href="javascript:history.back()">← Torna indietro</a>
+  <a class="back-link" href="javascript:history.back()">{{ t("back_link") }}</a>
 </div>
 {% endblock %}

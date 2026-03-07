@@ -30,7 +30,15 @@ def ensure_utc(dt: datetime) -> datetime:
     return dt
 
 # Absolute path to src/maestro/data/
-DATA_DIR = Path(__file__).parent / "data"
+DATA_DIR_ROOT = Path(__file__).parent / "data"
+
+
+def data_dir(language: str | None = None) -> Path:
+    """Return the data directory for the given language."""
+    if language is None:
+        from maestro.config import settings
+        language = settings.TARGET_LANGUAGE
+    return DATA_DIR_ROOT / language
 
 
 _background_tasks: set[asyncio.Task] = set()

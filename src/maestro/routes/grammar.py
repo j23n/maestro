@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
 from maestro.auth import get_current_student
-from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk, Student
+from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
+from maestro.config import settings as _settings
 from maestro.vocab.discover import discover_markdown
 
 router = APIRouter()
@@ -57,11 +58,15 @@ async def grammar_detail(code: str, request: Request, student: Student = Depends
     active_level = student_level if student_level in by_level else (available_levels[-1] if available_levels else student_level)
 
     # Pre-render annotated markdown for each level
+    # B1/B2 explanations are fully in target language — add lang fallback
+    # so vocab discovery works even for old explanations without inline lang tags.
+    # A1/A2 are mixed-language and need inline tags from the LLM.
     panels: dict[str, dict] = {}
     for lvl, expl in by_level.items():
+        fallback_lang = _settings.TARGET_LANGUAGE if lvl in ("B1", "B2") else None
         panels[lvl] = {
             "title": expl.title or gp.label,
-            "content": await discover_markdown(expl.explanation, student_id=student.id),
+            "content": await discover_markdown(expl.explanation, student_id=student.id, lang=fallback_lang),
         }
 
     display_title = panels[active_level]["title"] if active_level in panels else gp.label
@@ -80,10 +85,10 @@ async def grammar_detail(code: str, request: Request, student: Student = Depends
 
 @router.get("/grammar/chunk/{ref}", response_class=HTMLResponse)
 async def grammar_chunk_detail(ref: str, request: Request, student: Student = Depends(get_current_student)):
-    chunk = await ItalianChunk.find_one({"ref": ref})
+    chunk = await GrammarChunk.find_one({"ref": ref})
     if chunk is None:
         raise HTTPException(404)
-    annotated_content = await discover_markdown(chunk.content, student_id=student.id)
+    annotated_content = await discover_markdown(chunk.content, student_id=student.id, lang=_settings.TARGET_LANGUAGE)
     heading = chunk.chunk_metadata.get("heading", ref)
     return templates.TemplateResponse(
         request=request,

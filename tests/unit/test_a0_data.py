@@ -4,12 +4,12 @@ import json
 import pytest
 import yaml
 
-from maestro.utils import DATA_DIR
+from maestro.utils import data_dir
 
-SCENARIOS_FILE = DATA_DIR / "scenarios_a0.yaml"
-LESSONS_FILE = DATA_DIR / "a0_lessons.yaml"
-GRAMMAR_POINTS_FILE = DATA_DIR / "grammar_points.json"
-COMM_FUNCTIONS_FILE = DATA_DIR / "comm_functions.json"
+SCENARIOS_FILE = data_dir("it") / "scenarios_a0.yaml"
+LESSONS_FILE = data_dir("it") / "a0_lessons.yaml"
+GRAMMAR_POINTS_FILE = data_dir("it") / "grammar_points.json"
+COMM_FUNCTIONS_FILE = data_dir("it") / "comm_functions.json"
 
 
 @pytest.mark.unit

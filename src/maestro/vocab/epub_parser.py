@@ -21,9 +21,11 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = Path(__file__).parent.parent / "data"
-EPUB_DIR = DATA_DIR / "dizionario_book" / "OEBPS" / "Text"
-OUTPUT_XML = DATA_DIR / "dizionario_it_lex0.xml"
+from maestro.utils import data_dir
+
+_DATA_DIR = data_dir("it")
+EPUB_DIR = _DATA_DIR / "dizionario_book" / "OEBPS" / "Text"
+OUTPUT_XML = _DATA_DIR / "dizionario_it_lex0.xml"
 
 TEI_NS = "http://www.tei-c.org/ns/1.0"
 

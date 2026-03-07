@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from typing import Optional
 
+from maestro.config import settings
 from maestro.models import (
     LearningProfile,
     GrammarPoint,
@@ -34,8 +35,9 @@ def build_lesson_content_prompt(
     reading_word_count = _READING_WORD_COUNT.get(cefr_level, 150)
     depth_description = scenario.depths[depth - 1] if depth <= len(scenario.depths) else scenario.depths[-1]
 
+    lang = settings.TARGET_LANGUAGE_NAME
     parts: list[str] = [
-        _prompts.lesson_content_header.render(),
+        _prompts.lesson_content_header.render(target_language=lang),
         f"Student CEFR level: {cefr_level}",
         f'Curriculum scenario: "{scenario.label}" (depth {depth})',
         f"Depth focus: {depth_description}",
@@ -103,11 +105,11 @@ def build_lesson_content_prompt(
         parts.append("\n\n".join(cf_lines_all))
 
     # Build the JSON schema description
-    motivation_lang = "English" if cefr_level in ("A1", "A2") else "Italian"
+    motivation_lang = "English" if cefr_level in ("A1", "A2") else lang
     schema: dict = {
-        "topic_title": "A creative Italian title for this lesson (3-8 words)",
+        "topic_title": f"A creative {lang} title for this lesson (3-8 words)",
         "topic_description": "1-2 sentences describing the specific situation covered",
-        "overview": "2-3 sentences in Italian: what this lesson covers and what the student will gain",
+        "overview": f"2-3 sentences in {lang}: what this lesson covers and what the student will gain",
     }
     if grammar_gps:
         schema["grammar_motivations"] = [
@@ -138,7 +140,7 @@ def build_lesson_content_prompt(
         a_labels = [f"answer {i + 1}" for i in range(_READING_QUESTION_COUNT)]
         schema["readings"] = [
             {
-                "text": f"Italian reading text (~{reading_word_count} words at {cefr_level} level) on the lesson topic. Must be grammatically correct and natural.",
+                "text": f"{lang} reading text (~{reading_word_count} words at {cefr_level} level) on the lesson topic. Must be grammatically correct and natural.",
                 "questions": q_labels,
                 "answers": a_labels,
             }
@@ -146,18 +148,20 @@ def build_lesson_content_prompt(
         ]
     if include_writing:
         schema["writing"] = {
-            "prompt": f"An Italian writing prompt appropriate for {cefr_level} level on the topic"
+            "prompt": f"A {lang} writing prompt appropriate for {cefr_level} level on the topic"
         }
     if speaking_cfs:
         schema["speakings"] = [
             {
-                "prompt": f"2-3 sentence Italian speaking prompt asking the student to practise {cf.label}"
+                "prompt": f"2-3 sentence {lang} speaking prompt asking the student to practise {cf.label}"
             }
             for cf in speaking_cfs
         ]
 
     parts.append(
         _prompts.lesson_content_footer.render(
+            target_language=lang,
+            target_language_code=settings.TARGET_LANGUAGE,
             schema_json=json.dumps(schema, indent=2, ensure_ascii=False),
             reading_count=reading_count,
             speaking_count=len(speaking_cfs),

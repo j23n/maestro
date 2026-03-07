@@ -19,7 +19,7 @@ from maestro.routes import vocab, profilo, grammar, lezione, students
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
-    get_nlp()        # warm up spaCy Italian model
+    get_nlp()        # warm up spaCy model
     await load_vocab()
     yield
 

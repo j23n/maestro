@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Maestro — Scegli studente{% endblock %}
+{% block title %}Maestro — {{ t("page_title_students") }}{% endblock %}
 {% block content %}
-<h1>Chi studia oggi?</h1>
+<h1>{{ t("students_title") }}</h1>
 
 {% if students %}
 <div class="student-grid">
@@ -13,9 +13,9 @@
 </div>
 {% endif %}
 
-<h2>Nuovo studente</h2>
+<h2>{{ t("students_new") }}</h2>
 <form method="post" action="/students/" class="new-student-form">
-  <input type="text" name="name" placeholder="Nome" required autofocus>
-  <button type="submit">Crea</button>
+  <input type="text" name="name" placeholder="{{ t("students_name_placeholder") }}" required autofocus>
+  <button type="submit">{{ t("students_create_btn") }}</button>
 </form>
 {% endblock %}

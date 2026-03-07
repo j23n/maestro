@@ -21,12 +21,18 @@ async def ensure_loaded() -> None:
     global _grammar_points, _comm_functions, _loaded
     if _loaded:
         return
-    _grammar_points = await GrammarPoint.find_all().to_list()
-    _comm_functions = await CommunicativeFunction.find_all().to_list()
+    from maestro.config import settings
+    lang = settings.TARGET_LANGUAGE
+    _grammar_points = await GrammarPoint.find(
+        GrammarPoint.language == lang
+    ).to_list()
+    _comm_functions = await CommunicativeFunction.find(
+        CommunicativeFunction.language == lang
+    ).to_list()
     _loaded = True
     logger.info(
         f"[taxonomy] loaded {len(_grammar_points)} grammar points, "
-        f"{len(_comm_functions)} comm functions"
+        f"{len(_comm_functions)} comm functions (language={lang})"
     )
 
 

@@ -1,5 +1,5 @@
 """
-One-off script: use Claude to match each GrammarPoint to its best ItalianChunk ref.
+One-off script: use Claude to match each GrammarPoint to its best GrammarChunk ref.
 
 Outputs data/grammar_point_chunks.yaml.
 
@@ -14,25 +14,25 @@ import yaml
 from maestro.config import settings
 from maestro.db import init_db
 from maestro.llm import get_client
-from maestro.models import ItalianChunk
-from maestro.utils import DATA_DIR
+from maestro.models import GrammarChunk
+from maestro.utils import data_dir
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-OUTPUT = DATA_DIR / "grammar_point_chunks.yaml"
+OUTPUT = data_dir() / "grammar_point_chunks.yaml"
 
 
 async def main():
     await init_db()
 
     # Load GPs
-    with open(DATA_DIR / "grammar_points.json") as f:
+    with open(data_dir() / "grammar_points.json") as f:
         gps = json.load(f)
     logger.info(f"Loaded {len(gps)} grammar points")
 
     # Load chunk refs + headings
-    chunks = await ItalianChunk.find_all().to_list()
+    chunks = await GrammarChunk.find_all().to_list()
     chunk_lines = []
     for c in sorted(chunks, key=lambda c: c.ref):
         heading = c.chunk_metadata.get("heading", c.ref)

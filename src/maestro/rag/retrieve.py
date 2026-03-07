@@ -1,5 +1,5 @@
 from functools import lru_cache
-from maestro.models import ItalianChunk, ItalianChunkResult
+from maestro.models import GrammarChunk, GrammarChunkResult
 
 @lru_cache(maxsize=1)
 def get_model():
@@ -13,10 +13,10 @@ def embed_query(text: str) -> list[float]:
     return get_model().encode(f"query: {text}").tolist()
 
 
-async def get_chunks_for_refs(refs: list[str]) -> list[ItalianChunk]:
+async def get_chunks_for_refs(refs: list[str]) -> list[GrammarChunk]:
     if not refs:
         return []
-    return await ItalianChunk.find({"ref": {"$in": refs}}).to_list()
+    return await GrammarChunk.find({"ref": {"$in": refs}}).to_list()
 
 
 async def retrieve(query: list[float], top_k: int = 5):
@@ -32,10 +32,10 @@ async def retrieve(query: list[float], top_k: int = 5):
         },
         {"$addFields": {"similarity": {"$meta": "vectorSearchScore"}}},
     ]
-    results = await ItalianChunk.aggregate(pipeline).to_list()
+    results = await GrammarChunk.aggregate(pipeline).to_list()
     return [
-        ItalianChunkResult(
-            chunk=ItalianChunk.model_validate(
+        GrammarChunkResult(
+            chunk=GrammarChunk.model_validate(
                 {k: v for k, v in r.items() if k != "similarity"}
             ),
             similarity=r["similarity"],

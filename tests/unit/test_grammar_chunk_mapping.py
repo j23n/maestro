@@ -4,10 +4,10 @@ import json
 import pytest
 import yaml
 
-from maestro.utils import DATA_DIR
+from maestro.utils import data_dir
 
-GRAMMAR_POINTS_FILE = DATA_DIR / "grammar_points.json"
-CHUNK_MAPPING_FILE = DATA_DIR / "grammar_point_chunks.yaml"
+GRAMMAR_POINTS_FILE = data_dir("it") / "grammar_points.json"
+CHUNK_MAPPING_FILE = data_dir("it") / "grammar_point_chunks.yaml"
 
 
 @pytest.mark.unit

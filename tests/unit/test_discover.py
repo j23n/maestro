@@ -1,8 +1,14 @@
-"""Unit tests for vocab/discover.py — _annotate() pure function."""
+"""Unit tests for vocab/discover.py — _annotate() and lang-aware helpers."""
 import pytest
 from types import SimpleNamespace
 
-from maestro.vocab.discover import _annotate
+from maestro.vocab.discover import (
+    _annotate,
+    _annotate_in_elements,
+    _build_vocab_attrs,
+    lang_wrap,
+)
+from bs4 import BeautifulSoup
 
 
 def _make_word(word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001", senses=None):
@@ -25,6 +31,9 @@ def _make_wdef(translation="house", senses=None):
             examples=["La mia casa è grande."],
         )],
     )
+
+
+# --- Existing _annotate tests (string-based) ---
 
 
 @pytest.mark.unit
@@ -93,3 +102,113 @@ def test_annotate_word_boundary():
     word = _make_word(word="casa")
     result = _annotate("Il casamento è vecchio.", word, None)
     assert "vocab-word" not in result
+
+
+# --- lang_wrap tests ---
+
+
+@pytest.mark.unit
+def test_lang_wrap():
+    result = lang_wrap("ciao mondo", "it")
+    assert result == '<span lang="it">ciao mondo</span>'
+
+
+@pytest.mark.unit
+def test_lang_wrap_preserves_html():
+    result = lang_wrap("<strong>ciao</strong>", "it")
+    assert result == '<span lang="it"><strong>ciao</strong></span>'
+
+
+# --- _annotate_in_elements tests (lang-aware BS4) ---
+
+
+def _make_soup_and_elements(html, lang="it"):
+    """Parse HTML and return (soup, lang_elements)."""
+    soup = BeautifulSoup(html, "html.parser")
+    return soup, soup.find_all(attrs={"lang": lang})
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_target_lang():
+    """Text in target-language span gets annotated."""
+    soup, els = _make_soup_and_elements('<span lang="it">La casa è grande.</span>')
+    word = _make_word(word="casa")
+    assert _annotate_in_elements(els, word, None)
+    assert "vocab-word" in str(soup)
+    assert 'data-word="casa"' in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_skips_non_target():
+    """Text in non-target-language span is not annotated."""
+    html = '<span lang="en">The house is big.</span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    word = _make_word(word="house")
+    assert not els  # no target elements
+    assert not _annotate_in_elements(els, word, None)
+    assert "vocab-word" not in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_mixed_lang():
+    """Only target-lang text gets annotated in mixed content."""
+    html = '<span lang="en">Say </span><span lang="it">ciao</span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    word = _make_word(word="ciao")
+    assert _annotate_in_elements(els, word, None)
+    result = str(soup)
+    assert "vocab-word" in result
+    assert 'data-word="ciao"' in result
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_nested_lang_skips_inner():
+    """English gloss nested inside Italian span is skipped."""
+    html = '<span lang="it">Il presente <span lang="en">(present tense)</span> si usa spesso.</span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    # "present" should NOT be annotated because it's inside lang="en"
+    word = _make_word(word="present")
+    assert not _annotate_in_elements(els, word, None)
+    assert "vocab-word" not in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_nested_lang_annotates_outer():
+    """Italian text in the outer span (not inside nested lang) gets annotated."""
+    html = '<span lang="it">Il presente <span lang="en">(present tense)</span> si usa spesso.</span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    word = _make_word(word="presente")
+    assert _annotate_in_elements(els, word, None)
+    assert 'data-word="presente"' in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_skips_headings():
+    """Text inside h1-h6 is not annotated."""
+    html = '<span lang="it"><h2>Casa bella</h2><p>La casa è grande.</p></span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    word = _make_word(word="casa")
+    assert _annotate_in_elements(els, word, None)
+    result = str(soup)
+    # Heading should not be annotated, but paragraph should
+    h2 = soup.find("h2")
+    assert "vocab-word" not in str(h2)
+    p = soup.find("p")
+    assert "vocab-word" in str(p)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_no_elements():
+    """Empty element list means no annotation."""
+    word = _make_word(word="casa")
+    assert not _annotate_in_elements([], word, None)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_only_first_occurrence():
+    """Only the first occurrence across all elements gets annotated."""
+    html = '<span lang="it">La casa è bella.</span> <span lang="it">La casa è grande.</span>'
+    soup, els = _make_soup_and_elements(html, lang="it")
+    word = _make_word(word="casa")
+    _annotate_in_elements(els, word, None)
+    assert str(soup).count("vocab-word") == 1

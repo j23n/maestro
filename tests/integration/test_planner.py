@@ -268,8 +268,8 @@ async def test_drill_materialization_creates_generated_drills(db):
     mock_client.messages.create.return_value = content_response
 
     with patch("maestro.lezione.planner.get_async_client", return_value=mock_client), \
-         patch("maestro.lezione.planner.ItalianChunk.find_one", new_callable=AsyncMock, return_value=None), \
-         patch("maestro.lezione.materialize.ItalianChunk.find_one", new_callable=AsyncMock, return_value=None):
+         patch("maestro.lezione.planner.GrammarChunk.find_one", new_callable=AsyncMock, return_value=None), \
+         patch("maestro.lezione.materialize.GrammarChunk.find_one", new_callable=AsyncMock, return_value=None):
         await generate_lesson_background(lesson.id, 10)
 
     updated_lesson = await Lesson.get(lesson.id)

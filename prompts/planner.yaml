@@ -4,9 +4,9 @@ version: "2"
 
 lesson_content_header:
   user: |
-    You are generating content for an Italian language lesson.
+    You are generating content for a {{target_language}} language lesson.
     Set all content in a context that matches the student's persona.
-    Generate a creative Italian topic_title and topic_description for this lesson.
+    Generate a creative {{target_language}} topic_title and topic_description for this lesson.
 
 lesson_content_footer:
   description: >
@@ -18,10 +18,12 @@ lesson_content_footer:
     {{schema_json}}
 
     Drill rules:
-    - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is an Italian sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
-    - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous Italian sentence (no intro text); correct_answer is the corrected sentence
-    - free_form: no items field; use prompt (open-ended Italian writing prompt), correct_answer null, distractors []
-    - All content in Italian
+    - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a {{target_language}} sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
+    - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous {{target_language}} sentence (no intro text); correct_answer is the corrected sentence
+    - free_form: no items field; use prompt (open-ended {{target_language}} writing prompt), correct_answer null, distractors []
+    - All content in {{target_language}}
+    - Wrap all {{target_language}} text in <span lang="{{target_language_code}}">...</span>
+    - Wrap any English text in <span lang="en">...</span>
     - Return drills in the same order as listed in the drill specs
     - readings: return EXACTLY {{reading_count}} reading object(s) in the array
     - speakings: return EXACTLY {{speaking_count}} speaking object(s) in the array

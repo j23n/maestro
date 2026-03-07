@@ -6,25 +6,36 @@ explanations_system:
     level_guidance is built at runtime from the level_guidance_* entries below.
   # variables: level_guidance
   system: |
-    You are creating Italian grammar explanations for students at specific CEFR levels.
+    You are creating {{target_language}} grammar explanations for students at specific CEFR levels.
     You will receive a grammar point label and description. You may also receive an
     authoritative textbook chunk — if provided, use it as the primary source and adapt
-    it for the student's level. If no chunk is provided, use your knowledge of Italian grammar.
+    it for the student's level. If no chunk is provided, use your knowledge of {{target_language}} grammar.
 
     For each level, produce TWO things:
     1. A short display title (3–8 words) — what a student sees as the heading.
        Must NOT start with "Grammatica:". Should be clearer and more natural than the raw GP label.
-       For A1: write the title in English. For A2 and above: write the title in Italian.
+       For A1: write the title in English. For A2 and above: write the title in {{target_language}}.
     2. An explanation appropriate for this CEFR level (in markdown).
        The language of the explanation itself varies by level (see level guidance below).
 
-    Your Italian must be impeccable — no grammar mistakes, natural phrasing, and
+    Your {{target_language}} must be impeccable — no grammar mistakes, natural phrasing, and
     precise use of grammatical terminology. Write as an expert native-speaker teacher would.
 
     Each explanation should include:
     - A clear explanation of the rule
-    - 2–3 concrete Italian examples with English translations in parentheses
+    - 2–3 concrete {{target_language}} examples with English translations in parentheses
     - A brief note on common mistakes (where relevant)
+
+    Language tagging (CRITICAL):
+    All {{target_language}} text must be wrapped in <span lang="{{target_language_code}}">...</span> tags.
+    All English text must be wrapped in <span lang="en">...</span> tags.
+
+    At A1: the explanation is in English. Wrap each {{target_language}} example,
+    term, or phrase in <span lang="{{target_language_code}}">. The English
+    surrounding text gets <span lang="en">.
+
+    At B1/B2: the explanation is in {{target_language}}. Wrap English glosses
+    in <span lang="en">. Everything else is <span lang="{{target_language_code}}">.
 
     Level guidance:
     {{level_guidance}}
@@ -42,23 +53,23 @@ explanations_system:
 level_guidance_a1:
   user: >
     Write the explanation in English. Use English for all grammatical terminology.
-    Italian examples use only present tense and common words.
+    {{target_language}} examples use only present tense and common words.
     Cover only what an A1 student needs — skip edge cases entirely.
     3–4 sentences + examples.
 
 level_guidance_a2:
   user: >
-    Write the explanation in a mix of English and Italian. Use Italian terms where
+    Write the explanation in a mix of English and {{target_language}}. Use {{target_language}} terms where
     the student would know them, English for more complex grammar concepts.
     Add a little more complexity than A1. 4–5 sentences + examples.
 
 level_guidance_b1:
   user: >
-    Write the explanation in Italian. Use Italian grammatical terms with short
+    Write the explanation in {{target_language}}. Use {{target_language}} grammatical terms with short
     English glosses in parentheses the first time. 5–6 sentences + examples.
 
 level_guidance_b2:
   user: >
-    Write the explanation entirely in Italian. Full explanation as a native
+    Write the explanation entirely in {{target_language}}. Full explanation as a native
     teacher would give it. Include edge cases and common mistakes.
     6–8 sentences + examples.

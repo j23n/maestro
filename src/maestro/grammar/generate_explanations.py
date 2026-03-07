@@ -7,8 +7,8 @@ Each grammar point only gets explanations for its own CEFR level and above:
   B1 rule → B1, B2
   B2 rule → B2
 
-Uses the GP's linked ItalianChunk as authoritative source. Produces a
-CEFR-adapted explanation per level (A1=English, A2=mixed, B1+=Italian).
+Uses the GP's linked GrammarChunk as authoritative source. Produces a
+CEFR-adapted explanation per level (A1=English, A2=mixed, B1+=target language).
 
 Idempotent — skips grammar points that already have all required explanations.
 
@@ -21,7 +21,7 @@ import asyncio
 import logging
 
 from maestro.db import init_db
-from maestro.models import GrammarPoint, GrammarPointExplanation, ItalianChunk
+from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk
 from maestro.config import settings
 from maestro.llm import get_client
 from maestro.prompts import grammar as _prompts
@@ -49,11 +49,15 @@ def _target_levels(gp: GrammarPoint) -> tuple[str, ...]:
 
 
 def _build_system_prompt(levels: tuple[str, ...]) -> str:
+    lang = settings.TARGET_LANGUAGE_NAME
+    lang_code = settings.TARGET_LANGUAGE
     guidance = "\n".join(
-        f"- {lvl}: {getattr(_prompts, _LEVEL_GUIDANCE_KEYS[lvl]).render()}"
+        f"- {lvl}: {getattr(_prompts, _LEVEL_GUIDANCE_KEYS[lvl]).render(target_language=lang)}"
         for lvl in levels
     )
-    return _prompts.explanations_system.render_system(level_guidance=guidance)
+    return _prompts.explanations_system.render_system(
+        target_language=lang, target_language_code=lang_code, level_guidance=guidance,
+    )
 
 
 def _parse_response(raw: str, levels: tuple[str, ...]) -> dict[str, dict[str, str]] | None:
@@ -206,7 +210,7 @@ async def generate(
         # Load chunk content via chunk_ref
         chunk_content = ""
         if gp.chunk_ref:
-            chunk = await ItalianChunk.find_one({"ref": gp.chunk_ref})
+            chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
             if chunk:
                 chunk_content = chunk.content
             else:

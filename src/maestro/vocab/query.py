@@ -16,7 +16,7 @@ from bson import DBRef
 from maestro.db import init_db
 from maestro.models import VocabularyWord, VocabularyWordDefinition
 from maestro.vocab.epub_parser import parse_epub
-from maestro.vocab.ingest import make_lookup
+from maestro.vocab.morphology import get_lookup_factory
 from maestro.vocab.nlp import get_nlp
 
 
@@ -97,6 +97,7 @@ async def main(word: str) -> None:
 
     epub = parse_epub()
     nlp = get_nlp()
+    make_lookup = get_lookup_factory()
     lookup = make_lookup(epub["epub_by_form"], nlp)
 
     entry = lookup(word)

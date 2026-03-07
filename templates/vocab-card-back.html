@@ -24,7 +24,7 @@
     </div>
 
   {% elif mode == 'translation' %}
-    <div class="prompt">How do you say this in Italian?</div>
+    <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
     <div class="clue">{{ translation }}</div>
     <div class="back">
       <div class="word">{{ card.word.word }}</div>
@@ -41,7 +41,7 @@
     </div>
 
   {% elif mode == 'definition' %}
-    <div class="prompt">What's the Italian word?</div>
+    <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
     <div class="clue">{{ senses[0].definition if senses else "—" }}</div>
     <div class="back">
       <div class="word">{{ card.word.word }}</div>
@@ -62,7 +62,7 @@
   {% endif %}
 
   <div class="rating-buttons">
-    {% for label, value in [("Again", 1), ("Hard", 3), ("Good", 4), ("Easy", 5)] %}
+    {% for label, value in [(t("srs_again"), 1), (t("srs_hard"), 3), (t("srs_good"), 4), (t("srs_easy"), 5)] %}
     <form hx-post="{{ review_url }}"
           hx-target="#practice-card"
           hx-swap="outerHTML">

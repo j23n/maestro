@@ -1,29 +1,29 @@
 {% extends "base.html" %}
-{% block title %}Scrittura — Maestro{% endblock %}
+{% block title %}{{ t("page_title_writing") }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
   <div class="card">
-    <div class="card-label">Scrittura</div>
+    <div class="card-label">{{ t("page_title_writing") }}</div>
     <div class="prompt-text">{{ annotated_content | safe }}</div>
 
     <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/writing-submit"
           hx-target=".activity-container"
           hx-swap="innerHTML"
-          hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='Invio…'">
+          hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("submitting") }}'">
       <textarea class="answer-area"
                 name="answer"
-                placeholder="Scrivi qui la tua risposta in italiano…"
+                placeholder="{{ t("writing_placeholder", language_lower=target_language|lower) }}"
                 required></textarea>
       <div class="submit-row">
-        <button class="submit-btn" type="submit">Invia</button>
+        <button class="submit-btn" type="submit">{{ t("drill_submit") }}</button>
         <a class="skip-link"
            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
            hx-target="body"
            hx-push-url="true"
-           href="#">Salta →</a>
+           href="#">{{ t("skip_btn") }}</a>
       </div>
     </form>
   </div>

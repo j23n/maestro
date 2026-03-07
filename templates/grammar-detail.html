@@ -7,7 +7,7 @@
     <div class="gp-level">{{ gp.cefr_level }}</div>
     <h1 class="gp-title" id="gp-title">{{ display_title }}</h1>
     {% if gp.chunk_ref %}
-    <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link">Regola dal manuale</a>
+    <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link">{{ t("grammar_from_manual") }}</a>
     {% endif %}
   </div>
 
@@ -29,7 +29,7 @@
   {% endfor %}
   {% else %}
   <div class="no-explanation">
-    Nessuna spiegazione disponibile per questo livello.
+    {{ t("grammar_no_explanation") }}
   </div>
   {% endif %}
 

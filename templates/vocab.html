@@ -1,32 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Vocabolario — Maestro{% endblock %}
+{% block title %}{{ t("page_title_vocab") }} — Maestro{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/vocab.css">{% endblock %}
 
 {% block content %}
 <div class="vocab-page">
 
   <div class="vocab-header">
-    <h2>Vocabolario</h2>
-    <a href="/vocab/practice" class="vocab-practice-btn">Ripassa</a>
+    <h2>{{ t("page_title_vocab") }}</h2>
+    <a href="/vocab/practice" class="vocab-practice-btn">{{ t("vocab_review_btn") }}</a>
   </div>
 
   <div class="vocab-stats">
     <div class="stats-group">
       <div class="stat">
         <span class="stat-value">{{ stats.total }}</span>
-        <span class="stat-label">totale</span>
+        <span class="stat-label">{{ t("vocab_total") }}</span>
       </div>
       <div class="stat due-stat">
         <span class="stat-value">{{ stats.due }}</span>
-        <span class="stat-label">da ripassare</span>
+        <span class="stat-label">{{ t("vocab_due") }}</span>
       </div>
       <div class="stat learning-stat">
         <span class="stat-value">{{ stats.learning }}</span>
-        <span class="stat-label">in corso</span>
+        <span class="stat-label">{{ t("vocab_learning") }}</span>
       </div>
       <div class="stat known-stat">
         <span class="stat-value">{{ stats.known }}</span>
-        <span class="stat-label">acquisite</span>
+        <span class="stat-label">{{ t("vocab_mastered") }}</span>
       </div>
     </div>
 
@@ -45,14 +45,14 @@
   </div>
 
   <div class="vocab-search-wrap">
-    <input type="text" name="q" placeholder="Cerca nel dizionario…"
+    <input type="text" name="q" placeholder="{{ t("vocab_search_placeholder") }}"
            hx-get="/vocab/search" hx-trigger="input changed delay:200ms"
            hx-target="#search-results" autocomplete="off">
     <div id="search-results"></div>
   </div>
 
   <div class="vocab-filters">
-    <button class="vf-btn active" onclick="filterLevel('all', this)">Tutti</button>
+    <button class="vf-btn active" onclick="filterLevel('all', this)">{{ t("vocab_filter_all") }}</button>
     {% for level in visible_levels %}
     <button class="vf-btn" onclick="filterLevel('{{ level | lower }}', this)">{{ level }}</button>
     {% endfor %}
@@ -62,7 +62,7 @@
   {% if due %}
   <section class="vocab-section vocab-section--due">
     <div class="vocab-section-header" onclick="toggleSection(this)">
-      <h3>Da ripassare <span class="vocab-section-count">{{ due | length }}</span></h3>
+      <h3>{{ t("vocab_due_header") }} <span class="vocab-section-count">{{ due | length }}</span></h3>
       <span class="vocab-chevron"></span>
     </div>
     <div class="vocab-chips">
@@ -81,7 +81,7 @@
   {% if learning %}
   <section class="vocab-section vocab-section--learning">
     <div class="vocab-section-header" onclick="toggleSection(this)">
-      <h3>In corso <span class="vocab-section-count">{{ learning | length }}</span></h3>
+      <h3>{{ t("vocab_learning_header") }} <span class="vocab-section-count">{{ learning | length }}</span></h3>
       <span class="vocab-chevron"></span>
     </div>
     <div class="vocab-chips">
@@ -100,7 +100,7 @@
   {% if known %}
   <section class="vocab-section vocab-section--known collapsed">
     <div class="vocab-section-header" onclick="toggleSection(this)">
-      <h3>Acquisite <span class="vocab-section-count">{{ known | length }}</span></h3>
+      <h3>{{ t("vocab_mastered_header") }} <span class="vocab-section-count">{{ known | length }}</span></h3>
       <span class="vocab-chevron"></span>
     </div>
     <div class="vocab-chips">
@@ -117,7 +117,7 @@
 
   {% if not due and not learning and not known %}
   <div class="vocab-empty">
-    Nessuna parola ancora. Le parole appariranno qui durante le lezioni.
+    {{ t("vocab_empty") }}
   </div>
   {% endif %}
 

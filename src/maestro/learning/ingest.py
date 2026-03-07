@@ -15,6 +15,7 @@ import logging
 
 import yaml
 
+from maestro.config import settings
 from maestro.db import init_db
 
 logger = logging.getLogger(__name__)
@@ -28,14 +29,13 @@ from maestro.models import (
     Sense,
     VocabularyWord,
 )
-from maestro.utils import DATA_DIR
+from maestro.utils import data_dir
 
 EXERCISE_TYPES = (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION, ExerciseType.FREE_FORM)
-CHUNK_MAPPING_FILE = DATA_DIR / "grammar_point_chunks.yaml"
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
-    with open(DATA_DIR / "grammar_points.json") as f:
+    with open(data_dir() / "grammar_points.json") as f:
         items = json.load(f)
     new_codes = {item["code"] for item in items}
     # Remove GPs (and their explanations) that no longer exist in the data file
@@ -55,7 +55,7 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
             await gp.save()
         else:
             filtered = {k: v for k, v in item.items() if k in gp_fields}
-            await GrammarPoint(**filtered).insert()
+            await GrammarPoint(**filtered, language=settings.TARGET_LANGUAGE).insert()
     inserted = await GrammarPoint.find_all().to_list()
     logger.info(f"Grammar points: upserted {len(inserted)} records")
     return inserted
@@ -63,6 +63,7 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
 
 async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> None:
     """Set chunk_ref on each GP from the static mapping file."""
+    CHUNK_MAPPING_FILE = data_dir() / "grammar_point_chunks.yaml"
     if not CHUNK_MAPPING_FILE.exists():
         logger.warning(f"Chunk mapping file not found: {CHUNK_MAPPING_FILE}")
         return
@@ -83,7 +84,7 @@ async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> N
 
 
 async def upsert_comm_functions() -> None:
-    with open(DATA_DIR / "comm_functions.json") as f:
+    with open(data_dir() / "comm_functions.json") as f:
         items = json.load(f)
     await CommunicativeFunction.find().delete()
     docs = []
@@ -91,7 +92,7 @@ async def upsert_comm_functions() -> None:
         if not item.get("description"):
             patterns = item.get("patterns", [])
             item["description"] = "; ".join(patterns[:3]) if patterns else item["label"]
-        docs.append(CommunicativeFunction(**item))
+        docs.append(CommunicativeFunction(**item, language=settings.TARGET_LANGUAGE))
     await CommunicativeFunction.insert_many(docs)
     logger.info(f"Communicative functions: inserted {len(docs)} items")
 
@@ -111,6 +112,7 @@ async def upsert_drill_templates(grammar_points: list[GrammarPoint]) -> None:
                 grammar_point_code=gp.code,
                 cefr_level=gp.cefr_level,
                 exercise_type=exercise_type,
+                language=settings.TARGET_LANGUAGE,
             )
             await t.insert()
             total_new += 1
@@ -121,7 +123,7 @@ async def seed_scenarios() -> None:
     """Upsert CurriculumScenario documents from scenario YAML files."""
     total = 0
     for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
-        scenario_file = DATA_DIR / filename
+        scenario_file = data_dir() / filename
         if not scenario_file.exists():
             logger.warning(f"Scenario file not found: {scenario_file}")
             continue
@@ -137,14 +139,14 @@ async def seed_scenarios() -> None:
                     setattr(existing, key, val)
                 await existing.save()
             else:
-                await CurriculumScenario(**item).insert()
+                await CurriculumScenario(**item, language=settings.TARGET_LANGUAGE).insert()
         total += len(scenarios)
     logger.info(f"Scenarios: upserted {total} records")
 
 
 async def seed_a0_vocab() -> None:
     """Upsert A0 vocabulary words from vocab_a0.json."""
-    vocab_file = DATA_DIR / "vocab_a0.json"
+    vocab_file = data_dir() / "vocab_a0.json"
     if not vocab_file.exists():
         logger.warning(f"A0 vocab file not found: {vocab_file}")
         return
@@ -166,6 +168,7 @@ async def seed_a0_vocab() -> None:
                 part_of_speech=item.get("part_of_speech", ""),
                 cefr_level=item.get("cefr_level", "A0"),
                 senses=senses,
+                language=settings.TARGET_LANGUAGE,
             ).insert()
             count += 1
     logger.info(f"A0 vocab: {count} new words inserted ({len(items)} total)")
@@ -173,7 +176,7 @@ async def seed_a0_vocab() -> None:
 
 async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:
     """Seed static A0 grammar explanations from JSON file."""
-    expl_file = DATA_DIR / "a0_grammar_explanations.json"
+    expl_file = data_dir() / "a0_grammar_explanations.json"
     if not expl_file.exists():
         logger.warning(f"A0 grammar explanations file not found: {expl_file}")
         return
@@ -201,6 +204,7 @@ async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> No
                 student_level="A0",
                 title=texts["title"],
                 explanation=texts["explanation"],
+                language=settings.TARGET_LANGUAGE,
             ).insert()
             count += 1
     logger.info(f"A0 grammar explanations: {count} new, {len(data)} total")
