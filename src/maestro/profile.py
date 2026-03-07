@@ -44,7 +44,7 @@ async def save_onboarding_field(
     answer = answer.strip()
 
     if profile_field == "name":
-        student.name = answer
+        student.name = answer[:30]
         await student.save()
     elif profile_field == "persona_tags":
         profile = await get_or_create_profile(student.id)
