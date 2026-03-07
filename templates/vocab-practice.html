@@ -23,11 +23,25 @@
 
     <button hx-get="/vocab/practice/{{ card.id }}/reveal?mode={{ mode }}"
             hx-target="#practice-card"
-            hx-swap="outerHTML">
+            hx-swap="outerHTML"
+            id="reveal-btn">
       {{ t("vocab_reveal") }}
     </button>
+
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          var btn = document.getElementById('reveal-btn');
+          if (btn) { e.preventDefault(); btn.click(); }
+        }
+      });
+    </script>
   </div>
   {% else %}
-  <p style="text-align:center; margin-top:3rem; color:#999">{{ t("practice_no_cards") }}</p>
+  <div style="text-align:center; margin-top:3rem; color:#999">
+    <p>{{ t("practice_no_cards") }}</p>
+    <p>{{ t("practice_no_cards_hint") }}</p>
+    <a href="/lezione/new" class="btn" style="margin-top:1rem">{{ t("new_lesson_title") }}</a>
+  </div>
   {% endif %}
 {% endblock %}

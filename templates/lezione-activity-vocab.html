@@ -10,11 +10,21 @@
     <div class="word">{{ card.word.word }}</div>
 
     <button class="reveal-btn"
+            id="reveal-btn"
             hx-get="/lezione/{{ lesson.id }}/activity/{{ idx }}/vocab-reveal?card_idx={{ card_idx }}"
             hx-target="#practice-card"
             hx-swap="outerHTML">
       {{ t("vocab_reveal") }}
     </button>
+
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          var btn = document.getElementById('reveal-btn');
+          if (btn) { e.preventDefault(); btn.click(); }
+        }
+      });
+    </script>
   </div>
 
   <div class="submit-row" style="justify-content:flex-end;">

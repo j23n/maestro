@@ -6,16 +6,21 @@
 {% if students %}
 <div class="student-grid">
   {% for s in students %}
-  <form method="post" action="/students/{{ s.id }}/select" class="student-card-form">
-    <button type="submit" class="student-card">{{ s.name }}</button>
-  </form>
+  <div class="student-card-form">
+    <form method="post" action="/students/{{ s.id }}/select">
+      <button type="submit" class="student-card">{{ s.name or t("students_default_name") }}</button>
+    </form>
+    <button hx-delete="/students/{{ s.id }}"
+            hx-confirm="{{ t('students_delete_confirm') }}"
+            hx-target="closest .student-card-form"
+            hx-swap="delete"
+            class="delete-btn">&times;</button>
+  </div>
   {% endfor %}
 </div>
 {% endif %}
 
-<h2>{{ t("students_new") }}</h2>
 <form method="post" action="/students/" class="new-student-form">
-  <input type="text" name="name" placeholder="{{ t("students_name_placeholder") }}" required autofocus>
-  <button type="submit">{{ t("students_create_btn") }}</button>
+  <button type="submit">{{ t("students_new") }}</button>
 </form>
 {% endblock %}
