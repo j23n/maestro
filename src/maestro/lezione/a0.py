@@ -125,6 +125,14 @@ async def _generate_a0_lesson_background(
                 correct_answers=act_data.get("correct_answers", []),
             ))
 
+        elif act_type == ActivityType.WRITING:
+            new_activities.append(LessonActivity(
+                type=ActivityType.WRITING,
+                title=act_data.get("title", t("a0_writing_title")),
+                description=act_data.get("description", ""),
+                content=act_data.get("content", ""),
+            ))
+
     # Add vocab review if there are due cards
     due_cards = await fill_vocab_cards(5, "A0", student_id=lesson.student_id)
     if due_cards:
