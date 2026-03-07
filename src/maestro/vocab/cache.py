@@ -14,7 +14,7 @@ from maestro.models import VocabularyWord, VocabularyWordDefinition
 
 logger = logging.getLogger(__name__)
 
-# lemma (str) → VocabularyWord
+# headword (str, lowercased) → VocabularyWord
 _word_index: dict[str, VocabularyWord] = {}
 # (word_id_str, student_level) → VocabularyWordDefinition
 _def_index: dict[tuple[str, str], VocabularyWordDefinition] = {}
@@ -26,22 +26,15 @@ async def ensure_loaded() -> None:
     global _word_index, _def_index, _loaded
     if _loaded:
         return
-    from maestro.vocab.nlp import get_nlp  # lazy: avoids loading spaCy at module import
-    nlp = get_nlp()
     words = await VocabularyWord.find_all().to_list()
-    word_forms = [w.word for w in words]
-    lemmas = [
-        doc[0].lemma_.lower()
-        for doc in nlp.pipe(word_forms, disable=["parser", "senter", "ner"], batch_size=512)
-    ]
+    # Use the raw headword as the index key — dictionary headwords are already
+    # lemmas, and running them through spaCy in isolation produces wrong lemmas
+    # for some words (e.g. "attrezzatura" → "attrezzaturare").
     _word_index = {}
-    for lemma, word in zip(lemmas, words):
-        existing = _word_index.get(lemma)
-        if existing is None:
-            _word_index[lemma] = word
-        elif word.word.lower() == lemma and existing.word.lower() != lemma:
-            # Prefer the entry whose surface form matches its own lemma (base form)
-            _word_index[lemma] = word
+    for word in words:
+        key = word.word.lower()
+        if key not in _word_index:
+            _word_index[key] = word
 
     defs = await VocabularyWordDefinition.find_all().to_list()
     _def_index = {}
