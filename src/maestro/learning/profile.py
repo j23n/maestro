@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from maestro.models import LearningEvent
 
 from maestro import taxonomy
+from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
 from maestro.models import (
     CurriculumScenario,
     LearningProfile,
@@ -18,6 +19,8 @@ from maestro.models import (
     VocabularyWord,
 )
 from maestro.profile import get_or_create_profile
+
+_MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
 from maestro.utils import CEFR_ORDER, utcnow
 
 
@@ -83,16 +86,18 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
             continue  # A0 graduation handled above
         gp_codes = gp_by_level.get(level, [])
         gp_ok = (
-            sum(1 for c in gp_codes if _gp_mastered(c)) / max(1, len(gp_codes)) >= 0.9
-            if gp_codes else True
+            sum(1 for c in gp_codes if _gp_mastered(c)) / len(gp_codes) >= 0.9
+            if gp_codes else False
         )
         cf_codes = cf_by_level.get(level, [])
         cf_ok = (
-            sum(1 for c in cf_codes if _cf_demonstrated(c)) / max(1, len(cf_codes)) >= 0.9
-            if cf_codes else True
+            sum(1 for c in cf_codes if _cf_demonstrated(c)) / len(cf_codes) >= 0.9
+            if cf_codes else False
         )
         if gp_ok and cf_ok:
             best = level
+        else:
+            break  # can't skip levels
 
     return best
 
@@ -161,16 +166,6 @@ async def _generate_description(profile: "LearningProfile") -> str:
         cf_by_code[code].label for code, _ in top_functions if code in cf_by_code
     ]
     top_macros = sorted(macro_counts, key=macro_counts.get, reverse=True)[:2]  # type: ignore[arg-type]
-
-    _MACRO_LABELS = {
-        "interagire_informazioni": "exchanging information",
-        "interagire_opinioni_atteggiamenti": "expressing opinions",
-        "interagire_emozioni_sentimenti": "expressing emotions",
-        "interagire_attivita_azioni": "coordinating actions",
-        "interagire_rituali_sociali": "social rituals",
-        "strutturare_discorso": "structuring discourse",
-        "strutturare_interazione_verbale": "managing conversation",
-    }
 
     s1 = (
         f"The student is at approximately {profile.cefr_estimate} level"

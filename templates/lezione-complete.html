@@ -9,6 +9,18 @@
     <p class="complete-subtitle">{{ t("lesson_complete_subtitle") }}</p>
   </div>
 
+  {% if graduated_to %}
+  <div class="graduation-banner">
+    <div class="graduation-icon">🎓</div>
+    <h2>{{ t("graduation_title") }}</h2>
+    {% if graduated_to == "A1" %}
+    <p>{{ t("graduation_a1_body") }}</p>
+    {% else %}
+    <p>{{ t("graduation_body", level=graduated_to) }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-value">{{ completed_count }}</div>

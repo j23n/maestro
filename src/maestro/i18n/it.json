@@ -87,10 +87,11 @@
   "profile_grammar": "Grammatica",
   "profile_comm_functions": "Funzioni comunicative",
   "profile_who_you_are": "Chi sei",
-  "profile_who_desc": "Dicci qualcosa di te \u2014 le lezioni saranno ambientate nel tuo mondo.",
   "profile_saved": "Profilo salvato!",
   "profile_tags_label": "Tag (es. studente, vino rosso, storia romana, marketing)",
   "profile_tags_placeholder": "studente universitario, appassionato di vino, Erasmus a Bologna",
+  "profile_interests_label": "Interessi",
+  "profile_goal_label": "Obiettivo",
   "profile_save_btn": "Salva",
   "profile_recent_lessons": "Lezioni recenti",
   "progress_label": "Attivit\u00e0 {current} di {total}",
@@ -144,5 +145,8 @@
   "nav_switch_confirm": "Hai una lezione in corso. Vuoi cambiare studente? Potrai riprendere dopo.",
   "lesson_abandon_btn": "Abbandona lezione",
   "lesson_abandon_confirm": "Vuoi abbandonare questa lezione?",
-  "lesson_no_topic": "Lezione senza titolo"
+  "lesson_no_topic": "Lezione senza titolo",
+  "graduation_title": "Complimenti!",
+  "graduation_a1_body": "Hai completato tutte le lezioni introduttive e sei passato al livello A1! Da ora in poi, le lezioni saranno create su misura per te, in base ai tuoi interessi e ai tuoi progressi.",
+  "graduation_body": "Hai raggiunto il livello {level}! La tua dedizione sta dando i suoi frutti."
 }

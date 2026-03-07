@@ -101,6 +101,9 @@ async def advance_lesson(
 
     await update_scenario_progress(lesson)
 
+    if lesson.cefr_at_start == "A0":
+        await _credit_a0_mastery(lesson)
+
     return f"/lezione/{lesson.id}/complete"
 
 
@@ -183,13 +186,14 @@ async def score_reading_activity(
     questions: list[str],
     correct_answers: list[str],
     student_answers: list[str],
+    cefr_level: str = "A1",
 ) -> tuple[bool, dict]:
     """Score reading answers and build enriched feedback.
 
     Returns (overall_correct, feedback_dict) where feedback_dict has
     keys: items, correct_count, total.
     """
-    raw_results = await score_reading_answers(questions, correct_answers, student_answers)
+    raw_results = await score_reading_answers(questions, correct_answers, student_answers, cefr_level=cefr_level)
 
     n = min(len(questions), len(student_answers), len(raw_results))
     enriched = [
@@ -209,6 +213,39 @@ async def score_reading_activity(
     feedback = {"items": enriched, "correct_count": correct_count, "total": n}
 
     return overall_correct, feedback
+
+
+async def _credit_a0_mastery(lesson: Lesson) -> None:
+    """Credit all GPs and CFs from the A0 scenario as mastered.
+
+    A0 is onboarding — we mark everything as complete. Real performance
+    tracking begins at A1.
+    """
+    from maestro.models import CurriculumScenario
+    from maestro.learning.profile import _compute_cefr
+
+    if not lesson.scenario_slug or not lesson.student_id:
+        return
+
+    scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+    if not scenario:
+        return
+
+    profile = await get_or_create_profile(lesson.student_id)
+
+    # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
+    for code in (scenario.gp_codes or []):
+        profile.grammar_correct_counts[code] = max(profile.grammar_correct_counts.get(code, 0), 5)
+        profile.grammar_recent_outcomes[code] = [True] * 5
+
+    # Credit CFs: set count to 3 (demonstration threshold)
+    for code in (scenario.cf_codes or []):
+        profile.functions_counts[code] = max(profile.functions_counts.get(code, 0), 3)
+
+    # Recompute CEFR (may trigger A0->A1 graduation if all scenarios done)
+    profile.cefr_estimate = await _compute_cefr(profile)
+    profile.updated_at = utcnow()
+    await profile.save()
 
 
 async def ensure_lesson_feedback(lesson: Lesson, weak_grammar_points: list) -> str | None:

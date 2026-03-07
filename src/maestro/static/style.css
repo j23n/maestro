@@ -625,6 +625,15 @@ a.progress-seg { display: block; text-decoration: none; }
    ===================================================================== */
 .complete-container { max-width: 520px; margin: 3rem auto; padding: 0 1rem; }
 
+.graduation-banner { text-align: center; background: #fef9e7; border: 2px solid #f0d56c; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+.graduation-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.graduation-banner h2 { font-size: 1.3rem; margin: 0 0 0.5rem; color: #6b5900; }
+.graduation-banner p { font-size: 0.9rem; color: #6b5900; margin: 0; line-height: 1.5; }
+
+.persona-field { margin-bottom: 0.6rem; }
+.persona-label { font-weight: 600; margin-right: 0.4rem; }
+.persona-label::after { content: ":"; }
+
 .complete-hero { text-align: center; margin-bottom: 2rem; }
 .complete-icon { font-size: 3rem; margin-bottom: 0.75rem; }
 .complete-title { font-size: 1.4rem; font-weight: 600; margin: 0 0 0.4rem; }
