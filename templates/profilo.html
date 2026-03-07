@@ -1,19 +1,71 @@
 {% extends "base.html" %}
 {% block title %}{{ t("page_title_profile") }} — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/profile.css">{% endblock %}
 
 {% block content %}
 <div class="profilo-container">
 
   {# 1. CEFR level tracker #}
   <div class="cefr-tracker">
+    {% set ns_cefr = namespace(found_active=false) %}
     {% for level in cefr_order %}
-    <div class="cefr-badge {% if profile and profile.cefr_estimate == level %}active{% endif %}">{{ level }}</div>
+    {% if profile and profile.cefr_estimate == level %}
+      {% set ns_cefr.found_active = true %}
+      <div class="cefr-badge active">{{ level }}</div>
+    {% elif not ns_cefr.found_active %}
+      <div class="cefr-badge past">{{ level }}</div>
+    {% else %}
+      <div class="cefr-badge">{{ level }}</div>
+    {% endif %}
     {% endfor %}
   </div>
 
-  {# 2. Profile narrative #}
-  {% if profile and profile.description %}
-  <div class="narrative">{{ profile.description }}</div>
+  {# 2. Profile summary #}
+  {% if profile %}
+  <div class="profile-summary">
+    <div class="summary-stats">
+      <div class="summary-stat">
+        <span class="summary-stat-value">{{ total_lessons }}</span>
+        <span class="summary-stat-label">{{ t("profile_lessons") }}</span>
+      </div>
+      <div class="summary-stat">
+        <span class="summary-stat-value">{{ vocab_known }}</span>
+        <span class="summary-stat-label">{{ t("profile_vocab_short") }}</span>
+      </div>
+      {% set current_gp = grammar_by_level[profile.cefr_estimate] %}
+      {% set current_cf = cf_by_level[profile.cefr_estimate] %}
+      <div class="summary-stat">
+        <span class="summary-stat-value">{{ current_gp | selectattr("mastered") | list | length }}<span class="summary-stat-denom">/{{ current_gp | length }}</span></span>
+        <span class="summary-stat-label">{{ t("profile_grammar_short") }} {{ profile.cefr_estimate }}</span>
+      </div>
+      <div class="summary-stat">
+        <span class="summary-stat-value">{{ current_cf | selectattr("demonstrated") | list | length }}<span class="summary-stat-denom">/{{ current_cf | length }}</span></span>
+        <span class="summary-stat-label">{{ t("profile_functions_short") }} {{ profile.cefr_estimate }}</span>
+      </div>
+    </div>
+
+    {% if weaknesses %}
+    <div class="summary-section">
+      <span class="summary-section-label">{{ t("profile_focus_areas") }}</span>
+      <div class="summary-tags">
+        {% for w in weaknesses %}
+        <a class="weakness-tag" href="/grammar/{{ w.code }}">{{ w.label | safe }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if top_cf_labels %}
+    <div class="summary-section">
+      <span class="summary-section-label">{{ t("profile_top_functions") }}</span>
+      <div class="summary-tags">
+        {% for label in top_cf_labels %}
+        <span class="function-tag">{{ label }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
   {% endif %}
 
   {# 3. Scenario map #}
@@ -22,7 +74,7 @@
     <h2>{{ t("profile_path") }}</h2>
     <div class="scenario-grid">
       {% for item in scenario_map %}
-      <div class="scenario-card">
+      <div class="scenario-card {% if item.depth_completed >= item.scenario.depths|length %}completed{% elif item.depth_completed > 0 %}in-progress{% endif %}">
         <div class="scenario-label">{{ item.scenario.label }}</div>
         <div class="scenario-dots">
           {% for d in range(1, item.scenario.depths|length + 1) %}
@@ -48,7 +100,7 @@
     {% set combined_mastered = gp_mastered + cf_demonstrated %}
     {% set combined_total    = gp_total + cf_total %}
 
-    <details class="level-group">
+    <details class="level-group" {% if profile and profile.cefr_estimate == level %}open{% endif %}>
       <summary class="level-heading">
         <h2>{{ level }}</h2>
         <span class="level-stats">{{ t("profile_grammar_short") }} {{ gp_mastered }}/{{ gp_total }} &middot; {{ t("profile_functions_short") }} {{ cf_demonstrated }}/{{ cf_total }}</span>
@@ -61,7 +113,7 @@
       <div class="subsection-label">{{ t("profile_grammar") }}</div>
       <div class="skill-list">
         {% for skill in gp_skills %}
-        <div class="skill-row">
+        <div class="skill-row {% if skill.mastered %}mastered{% endif %}">
           <div class="pip-track">
             {% for outcome in skill.recent %}
               <span class="pip {% if outcome %}ok{% else %}err{% endif %}"></span>
@@ -70,7 +122,7 @@
               <span class="pip"></span>
             {% endfor %}
           </div>
-          <a class="skill-label" href="/grammar/{{ skill.point.code }}" style="color:inherit;text-decoration:none;">{{ skill.point.label }}</a>
+          <a class="skill-label" href="/grammar/{{ skill.point.code }}">{% if skill.title %}{{ skill.title | safe }}{% else %}{{ skill.point.label }}{% endif %}</a>
         </div>
         {% endfor %}
       </div>

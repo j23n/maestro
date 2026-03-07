@@ -39,7 +39,7 @@ def test_activity_url_zero_index():
 def test_build_grammar_by_level_grouping():
     points = [make_gp("GP_001", "A1"), make_gp("GP_002", "B1")]
     profile = make_profile()
-    result = _build_grammar_by_level(points, profile)
+    result = _build_grammar_by_level(points, profile, {})
     assert len(result["A1"]) == 1
     assert result["A1"][0]["point"].code == "GP_001"
     assert len(result["B1"]) == 1
@@ -52,7 +52,7 @@ def test_build_grammar_mastered_flag_at_threshold():
     gp = make_gp("GP_001", "A1")
     # 5 outcomes, all True → 100% >= 80% → mastered
     profile = make_profile(grammar_recent_outcomes={"GP_001": [True] * 5})
-    result = _build_grammar_by_level([gp], profile)
+    result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is True
 
 
@@ -61,7 +61,7 @@ def test_build_grammar_not_mastered_below_threshold():
     gp = make_gp("GP_001", "A1")
     # 5 outcomes, 3 True → 60% < 80% → not mastered
     profile = make_profile(grammar_recent_outcomes={"GP_001": [True, True, True, False, False]})
-    result = _build_grammar_by_level([gp], profile)
+    result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is False
 
 
@@ -70,14 +70,14 @@ def test_build_grammar_not_mastered_too_few_reviews():
     gp = make_gp("GP_001", "A1")
     # Only 4 reviews (< 5 required) even if all correct
     profile = make_profile(grammar_recent_outcomes={"GP_001": [True, True, True, True]})
-    result = _build_grammar_by_level([gp], profile)
+    result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is False
 
 
 @pytest.mark.unit
 def test_build_grammar_no_profile():
     gp = make_gp("GP_001", "A1")
-    result = _build_grammar_by_level([gp], None)
+    result = _build_grammar_by_level([gp], None, {})
     skill = result["A1"][0]
     assert skill["correct"] == 0
     assert skill["errors"] == 0
