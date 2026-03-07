@@ -963,110 +963,8 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .gi-link:hover { color: var(--c-charcoal); border-bottom-color: var(--c-charcoal); }
 
 /* =====================================================================
-   18. Page: Profilo
+   18. Page: Profilo — see /static/profile.css
    ===================================================================== */
-.profilo-container {
-  max-width: 640px;
-  margin: 2.5rem auto;
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.cefr-tracker { display: flex; gap: 0.5rem; }
-.cefr-tracker .cefr-badge {
-  flex: 1;
-  text-align: center;
-  padding: 0.5rem 0.25rem;
-  border-radius: 6px;
-  border: 1px solid var(--c-border);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--c-text-muted);
-  background: var(--c-surface);
-  letter-spacing: normal;
-}
-.cefr-tracker .cefr-badge.active { background: var(--c-terracotta); color: #fff; border-color: var(--c-terracotta); }
-
-.narrative {
-  font-size: 0.9rem;
-  color: var(--c-text);
-  line-height: 1.6;
-  padding: 1rem 1.25rem;
-  background: var(--c-surface);
-  border-radius: 8px;
-  border-left: 3px solid var(--c-border);
-}
-
-.skills-section { display: flex; flex-direction: column; gap: 1.5rem; }
-.level-group { border: none; padding: 0; }
-.level-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; cursor: pointer; list-style: none; }
-.level-heading::-webkit-details-marker { display: none; }
-.level-heading h2 { font-size: 0.9rem; font-weight: 700; margin: 0; min-width: 2rem; }
-.level-stats { font-size: 0.75rem; color: var(--c-text-muted); white-space: nowrap; }
-.level-bar { flex: 1; height: 4px; background: var(--c-border); border-radius: 2px; overflow: hidden; }
-.level-bar-fill { height: 100%; background: var(--c-terracotta); border-radius: 2px; transition: width 0.3s; }
-
-.subsection-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--c-text-muted);
-  padding: 0.75rem 0 0.3rem;
-}
-.macro-label {
-  font-size: 0.66rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--c-border);
-  padding: 0.45rem 0 0.1rem;
-}
-
-.skill-list { display: flex; flex-direction: column; }
-.skill-row {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.28rem 0;
-  border-bottom: 1px solid var(--c-surface);
-  font-size: 0.81rem;
-}
-.skill-row:last-child { border-bottom: none; }
-.skill-label { flex: 1; color: var(--c-text); }
-
-.pip-track { display: flex; gap: 2px; flex-shrink: 0; }
-.pip { width: 8px; height: 8px; border-radius: 2px; background: var(--c-border); flex-shrink: 0; }
-.pip.ok  { background: var(--c-sage); }
-.pip.err { background: #C75050; }
-
-.profilo-container .card { padding: 1.5rem; }
-.profilo-container .card h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.4rem; }
-.profilo-container .card p  { font-size: 0.82rem; color: var(--c-text-muted); margin: 0 0 1rem; }
-.field label { display: block; font-size: 0.78rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--c-text); }
-.field input[type="text"] {
-  width: 100%;
-  padding: 0.55rem 0.75rem;
-  font-size: 0.9rem;
-  font-family: inherit;
-  border: 1px solid var(--c-border);
-  border-radius: 6px;
-  outline: none;
-  box-sizing: border-box;
-  background: #fff;
-}
-.field input[type="text"]:focus { border-color: var(--c-terracotta); }
-
-.saved-banner {
-  background: #e8f0ea;
-  color: #2d5a35;
-  border-radius: 6px;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
-  margin-bottom: 0.9rem;
-}
 
 /* =====================================================================
    19. Search results
@@ -1082,46 +980,7 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 }
 
 /* =====================================================================
-   20. Scenario map & lesson history
-   ===================================================================== */
-.scenario-map { margin: 1.5rem 0; }
-.scenario-map h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
-.scenario-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.5rem;
-}
-.scenario-card {
-  border: 1px solid var(--c-border);
-  border-radius: 6px;
-  padding: 0.6rem 0.75rem;
-  background: var(--c-surface);
-}
-.scenario-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
-.scenario-dots { display: flex; gap: 4px; margin-bottom: 0.2rem; }
-.scenario-dots .dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--c-border); border: 1px solid #cfc7bb;
-}
-.scenario-dots .dot.filled { background: var(--c-sage); border-color: #5a7a5f; }
-.scenario-meta { font-size: 0.7rem; color: var(--c-text-muted); }
-
-.lesson-history { margin: 1.5rem 0; }
-.lesson-history h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
-.history-list { display: flex; flex-direction: column; gap: 2px; }
-.history-row {
-  display: flex; gap: 0.75rem; align-items: baseline;
-  padding: 0.4rem 0.5rem; border-radius: 4px;
-  text-decoration: none; color: inherit;
-  font-size: 0.85rem;
-}
-.history-row:hover { background: var(--c-surface); }
-.history-date { color: var(--c-text-muted); min-width: 3rem; }
-.history-topic { flex: 1; }
-.history-scenario { color: var(--c-text-muted); font-size: 0.8rem; }
-
-/* =====================================================================
-   21. Student picker
+   20. Student picker
    ===================================================================== */
 .student-grid {
   display: grid;
@@ -1185,9 +1044,6 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   .mode-selector { flex-wrap: wrap; padding: 1rem 0.75rem 0; }
   .card { padding: 1.5rem 1.25rem; }
   .word { font-size: 1.6rem; }
-  .profilo-container { margin: 1.25rem auto; }
-  .profilo-container .card { padding: 1.1rem; }
-  .pip { width: 7px; height: 7px; }
   .student-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
 }
 
