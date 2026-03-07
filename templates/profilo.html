@@ -106,10 +106,23 @@
   {# 5. Student persona #}
   <div class="card">
     <h2>{{ t("profile_who_you_are") }}</h2>
-    <p>{{ t("profile_who_desc") }}</p>
 
     {% if request.query_params.get('saved') %}
     <div class="saved-banner">{{ t("profile_saved") }}</div>
+    {% endif %}
+
+    {% if profile and profile.persona.interests %}
+    <div class="persona-field">
+      <span class="persona-label">{{ t("profile_interests_label") }}</span>
+      <span>{{ profile.persona.interests | join(', ') }}</span>
+    </div>
+    {% endif %}
+
+    {% if profile and profile.persona.goal %}
+    <div class="persona-field">
+      <span class="persona-label">{{ t("profile_goal_label") }}</span>
+      <span>{{ profile.persona.goal }}</span>
+    </div>
     {% endif %}
 
     <form method="post" action="/profilo/persona">

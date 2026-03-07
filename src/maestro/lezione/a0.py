@@ -18,7 +18,7 @@ from maestro.models import (
 from maestro.profile import get_profile
 from maestro.strings import t
 from maestro.utils import data_dir
-from maestro.lezione.selection import pick_scenario
+from maestro.lezione.selection import pick_scenario, fill_vocab_cards
 
 logger = logging.getLogger(__name__)
 
@@ -124,6 +124,16 @@ async def _generate_a0_lesson_background(
                 questions=act_data.get("questions", []),
                 correct_answers=act_data.get("correct_answers", []),
             ))
+
+    # Add vocab review if there are due cards
+    due_cards = await fill_vocab_cards(5, "A0", student_id=lesson.student_id)
+    if due_cards:
+        new_activities.append(LessonActivity(
+            type=ActivityType.VOCAB_REVIEW,
+            title=t("vocab_title", count=len(due_cards)),
+            description=t("vocab_desc"),
+            card_ids=[c.id for c in due_cards],
+        ))
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]

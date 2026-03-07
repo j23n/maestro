@@ -182,8 +182,8 @@ async def test_compute_cefr_both_a1_a2_mastered(db):
 
 
 @pytest.mark.integration
-async def test_compute_cefr_no_gp_at_level_ok(db):
-    """A level with no grammar points is considered OK for gp_ok."""
+async def test_compute_cefr_empty_level_blocks_advancement(db):
+    """A level with no grammar points blocks advancement (can't pass with no data)."""
     from maestro.learning.profile import _compute_cefr
 
     # A1 has GP; A2 has no GPs but has CF; B1/B2 have GPs (not mastered)
@@ -205,5 +205,37 @@ async def test_compute_cefr_no_gp_at_level_ok(db):
         functions_counts={"CF_001": 5, "CF_002": 5},
     )
     result = await _compute_cefr(profile)
-    # A1 mastered, A2 has no GPs (OK) and CF mastered → A2
-    assert result == "A2"
+    # A1 mastered, but A2 has no GPs → can't pass A2, stays at A1
+    assert result == "A1"
+
+
+@pytest.mark.integration
+async def test_compute_cefr_no_skip_levels(db):
+    """Can't skip a level — failing A2 blocks advancement even if B1 would pass."""
+    from maestro.learning.profile import _compute_cefr
+
+    await _seed_grammar_points(db, {
+        "A1": ["GP_001"],
+        "A2": ["GP_002"],
+        "B1": ["GP_003"],
+        "B2": ["GP_004"],
+    })
+    await _seed_comm_functions(db, {
+        "A1": ["CF_001"],
+        "A2": ["CF_002"],
+        "B1": ["CF_003"],
+        "B2": ["CF_004"],
+    })
+
+    # A1 mastered, A2 NOT mastered, B1 mastered
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        grammar_recent_outcomes={
+            "GP_001": [True] * 5,
+            "GP_003": [True] * 5,
+        },
+        functions_counts={"CF_001": 5, "CF_003": 5},
+    )
+    result = await _compute_cefr(profile)
+    # Can't skip A2, so stays at A1
+    assert result == "A1"

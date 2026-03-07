@@ -39,6 +39,7 @@ from maestro.lezione.service import (
     score_reading_activity,
     update_scenario_progress,
     _sweep_leftover_activities,
+    _credit_a0_mastery,
 )
 
 logger = logging.getLogger(__name__)
@@ -169,6 +170,8 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
             _sweep_leftover_activities(lesson, set_fields)
             await lesson.update({"$set": set_fields})
             await update_scenario_progress(lesson)
+            if lesson.cefr_at_start == "A0":
+                await _credit_a0_mastery(lesson)
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     return templates.TemplateResponse(
         request=request,
@@ -574,7 +577,9 @@ async def lezione_reading_submit(
 
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
-    overall_correct, feedback = await score_reading_activity(questions, correct_answers, answers)
+    overall_correct, feedback = await score_reading_activity(
+        questions, correct_answers, answers, cefr_level=lesson.cefr_at_start,
+    )
 
     reading_result = {"student_answers": answers, "correct": overall_correct}
     next_url = await advance_lesson(lesson, idx, result=reading_result)
@@ -613,6 +618,13 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request, studen
     weak_grammar_points = await get_weak_grammar_points(lesson)
     await ensure_lesson_feedback(lesson, weak_grammar_points)
     annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id, lang="en") if lesson.feedback_summary else None
+
+    # Detect CEFR graduation
+    graduated_to = None
+    profile = await get_profile(student.id)
+    if profile and lesson.cefr_at_start and profile.cefr_estimate != lesson.cefr_at_start:
+        graduated_to = profile.cefr_estimate
+
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",
@@ -622,5 +634,6 @@ async def lezione_complete(lesson_id: PydanticObjectId, request: Request, studen
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
             "annotated_feedback": annotated_feedback,
+            "graduated_to": graduated_to,
         },
     )

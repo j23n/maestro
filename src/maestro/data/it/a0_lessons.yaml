@@ -55,13 +55,6 @@ a0-01-benvenuto:
       response_template: "Noted! In Italian, **Mi piace...** means 'I like...'. We'll weave your interests into future lessons."
 
     - type: onboarding
-      title: "Hai studiato l'italiano?"
-      description: "Your language background"
-      content: "Have you studied Italian (or another language) before? For example: 'some Spanish in school', 'total beginner', 'lived in Rome for a year'..."
-      profile_field: background
-      response_template: "Good to know! In Italian, you'd say **Ho studiato...** (I studied...). We'll pace things accordingly."
-
-    - type: onboarding
       title: "Perché l'italiano?"
       description: "Your motivation"
       content: "Why are you learning Italian? For example: travel, family, work, love of Italian culture..."
