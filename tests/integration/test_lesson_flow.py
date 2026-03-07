@@ -48,6 +48,11 @@ async def test_advance_lesson_marks_current_completed(db):
     await _advance_lesson(lesson, 0)
     assert lesson.activities[0].status == ActivityStatus.COMPLETED
 
+    # Verify DB was updated atomically
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.activities[0].status == ActivityStatus.COMPLETED
+    assert refreshed.activities[1].status == ActivityStatus.ACTIVE
+
 
 @pytest.mark.integration
 async def test_advance_lesson_activates_next_pending(db):
@@ -107,6 +112,78 @@ async def test_advance_lesson_all_done_marks_completed(db):
     redirect = await _advance_lesson(lesson, 0)
     assert lesson.status == LessonStatus.COMPLETED
     assert "complete" in redirect
+
+    # Verify DB was updated atomically
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.status == LessonStatus.COMPLETED
+    assert refreshed.completed_at is not None
+
+
+@pytest.mark.integration
+async def test_advance_lesson_persists_result(db):
+    """The result parameter should be atomically persisted on the activity."""
+    from maestro.lezione.service import advance_lesson as _advance_lesson
+
+    activities = [
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
+    ]
+    lesson = _make_lesson(activities)
+    await lesson.insert()
+
+    result = {"correct": True, "student_answer": "gatto"}
+    await _advance_lesson(lesson, 0, result=result)
+
+    # Verify in-memory
+    assert lesson.activities[0].result == result
+
+    # Verify DB
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.activities[0].result == result
+    assert refreshed.activities[0].status == ActivityStatus.COMPLETED
+
+
+@pytest.mark.integration
+async def test_advance_lesson_generating_persists_atomically(db):
+    """When generating=True, advance should persist status + current_index + result."""
+    from maestro.lezione.service import advance_lesson as _advance_lesson
+
+    activities = [
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+    ]
+    lesson = _make_lesson(activities, generating=True)
+    await lesson.insert()
+
+    result = {"correct": True, "student_answer": "gatto"}
+    redirect = await _advance_lesson(lesson, 0, result=result)
+    assert "generating" in redirect
+
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.activities[0].status == ActivityStatus.COMPLETED
+    assert refreshed.activities[0].result == result
+    assert refreshed.current_index == 1
+
+
+@pytest.mark.integration
+async def test_advance_lesson_completion_persists_all_fields(db):
+    """When all done (no generating), status/completed_at/result all persist atomically."""
+    from maestro.lezione.service import advance_lesson as _advance_lesson
+
+    activities = [
+        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+    ]
+    lesson = _make_lesson(activities, generating=False)
+    await lesson.insert()
+
+    result = {"correct": False, "student_answer": "cane"}
+    redirect = await _advance_lesson(lesson, 0, result=result)
+    assert "complete" in redirect
+
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.status == LessonStatus.COMPLETED
+    assert refreshed.completed_at is not None
+    assert refreshed.activities[0].status == ActivityStatus.COMPLETED
+    assert refreshed.activities[0].result == result
 
 
 @pytest.mark.integration

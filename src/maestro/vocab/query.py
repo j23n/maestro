@@ -11,6 +11,8 @@ Usage:
 import asyncio
 import sys
 
+from bson import DBRef
+
 from maestro.db import init_db
 from maestro.models import VocabularyWord, VocabularyWordDefinition
 from maestro.vocab.epub_parser import parse_epub
@@ -18,16 +20,22 @@ from maestro.vocab.ingest import make_lookup
 from maestro.vocab.nlp import get_nlp
 
 
+def _word_ref(word: "VocabularyWord") -> DBRef:
+    """Build a DBRef for querying VocabularyWordDefinition.word."""
+    return DBRef(VocabularyWord.Settings.name, word.id)
+
+
 async def get_word_definition(
     word: "VocabularyWord", student_level: str
 ) -> "VocabularyWordDefinition | None":
     """Load the student-level definition for a word, with A0→A1 fallback."""
+    ref = _word_ref(word)
     wdef = await VocabularyWordDefinition.find_one(
-        {"word.$id": word.id, "student_level": student_level}
+        {"word": ref, "student_level": student_level}
     )
     if wdef is None and student_level == "A0":
         wdef = await VocabularyWordDefinition.find_one(
-            {"word.$id": word.id, "student_level": "A1"}
+            {"word": ref, "student_level": "A1"}
         )
     return wdef
 
@@ -72,7 +80,7 @@ async def _show_db(word_str: str) -> None:
         for ex in s.examples[:2]:
             print(f"       ex: {ex}")
 
-    defs = await VocabularyWordDefinition.find({"word.$id": doc.id}).to_list()
+    defs = await VocabularyWordDefinition.find({"word": _word_ref(doc)}).to_list()
     if defs:
         print(f"  definitions ({len(defs)} levels):")
         for d in sorted(defs, key=lambda x: x.student_level):

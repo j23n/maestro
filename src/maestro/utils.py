@@ -34,13 +34,40 @@ DATA_DIR = Path(__file__).parent / "data"
 
 
 _background_tasks: set[asyncio.Task] = set()
+_pending_tasks: list[asyncio.Task] = []
+_test_mode: bool = False
 _logger = logging.getLogger(__name__)
+
+
+def enable_test_mode():
+    """Enable test mode: background tasks are collected for manual awaiting."""
+    global _test_mode
+    _test_mode = True
+
+
+def disable_test_mode():
+    """Disable test mode and clear pending tasks."""
+    global _test_mode
+    _test_mode = False
+    _pending_tasks.clear()
+
+
+async def drain_background_tasks():
+    """Await all pending background tasks. Only useful in test mode."""
+    while _pending_tasks:
+        task = _pending_tasks.pop(0)
+        try:
+            await task
+        except Exception:
+            pass  # errors are already logged by the done callback
 
 
 def create_background_task(coro, *, name: str | None = None) -> asyncio.Task:
     """Create a background task with error logging. Prevents GC of the task."""
     task = asyncio.create_task(coro, name=name)
     _background_tasks.add(task)
+    if _test_mode:
+        _pending_tasks.append(task)
 
     def _done(t: asyncio.Task) -> None:
         _background_tasks.discard(t)

@@ -4,6 +4,7 @@ import re
 
 import markdown as _md
 from beanie import PydanticObjectId
+from bson import DBRef
 
 _TAG_RE = re.compile(r"(<[^>]+>)")
 from maestro.models import (
@@ -13,6 +14,7 @@ from maestro.models import (
 )
 from maestro.profile import get_cefr_level
 from maestro.utils import create_background_task
+from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp
 from maestro.vocab import cache as _cache
 
@@ -36,7 +38,8 @@ async def discover(response_text: str, student_id: PydanticObjectId | None = Non
     words_with_vocab = {l: w for l, w in _cache.word_index().items() if l in text_lemmas}
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
-    card_filter: dict = {"word.$id": {"$in": matched_word_ids}}
+    word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]
+    card_filter: dict = {"word": {"$in": word_refs}}
     if student_id is not None:
         card_filter["student_id"] = student_id
     existing_cards = await UserVocabularyCard.find(card_filter).to_list()
@@ -85,11 +88,12 @@ async def discover_list(texts: list[str], student_id: PydanticObjectId | None = 
 
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:
     """Background task: generate CEFR-aware definitions and update the cache."""
-    from maestro.vocab.generate_definitions import generate_definitions_for_word
     for word in words:
         try:
             await generate_definitions_for_word(word)
-            defs = await VocabularyWordDefinition.find({"word.$id": word.id}).to_list()
+            defs = await VocabularyWordDefinition.find(
+                {"word": DBRef(VocabularyWord.Settings.name, word.id)}
+            ).to_list()
             for d in defs:
                 _cache.set_definition(str(word.id), d.student_level, d)
             logger.info(f"[discover] generated {len(defs)} definition(s) for '{word.word}'")

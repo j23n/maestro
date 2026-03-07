@@ -67,9 +67,11 @@ async def _generate_lesson_content(
     reading_count: int,
     include_writing: bool,
     client: "anthropic.AsyncAnthropic",
-    speaking_cfs: list[CommunicativeFunction] = [],
+    speaking_cfs: list[CommunicativeFunction] | None = None,
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
+    if speaking_cfs is None:
+        speaking_cfs = []
     prompt_text = build_lesson_content_prompt(
         cefr_level=cefr_level,
         scenario=scenario,
@@ -196,10 +198,12 @@ async def generate_lesson_background(
     except Exception:
         logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
         try:
-            lesson = await Lesson.get(lesson_id)
-            if lesson and lesson.generating:
-                lesson.generating = False
-                await lesson.save()
+            await Lesson.find_one(
+                Lesson.id == lesson_id, Lesson.generating == True  # noqa: E712
+            ).update({"$set": {
+                "generating": False,
+                "generation_error": "Content generation failed. Please try again.",
+            }})
         except Exception:
             logger.exception(f"[planner] failed to clear generating flag for lesson {lesson_id}")
         raise
@@ -333,19 +337,18 @@ async def _generate_lesson_background(
     )
 
     # --- Atomically update lesson ---
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        logger.error(f"[planner] generate_lesson_background: lesson {lesson_id} not found")
-        return
-
-    lesson.activities.extend(new_activities)
-    lesson.overview = content.overview
-    lesson.scenario_slug = scenario.slug
-    lesson.scenario_depth = depth
-    lesson.topic_title = topic_title
-    lesson.topic_description = topic_description
-    lesson.generating = False
-    await lesson.save()
+    activities_dicts = [a.model_dump() for a in new_activities]
+    await Lesson.find_one(Lesson.id == lesson_id).update({
+        "$push": {"activities": {"$each": activities_dicts}},
+        "$set": {
+            "overview": content.overview,
+            "scenario_slug": scenario.slug,
+            "scenario_depth": depth,
+            "topic_title": topic_title,
+            "topic_description": topic_description,
+            "generating": False,
+        },
+    })
 
     elapsed_total = time.monotonic() - t_start
     logger.info(

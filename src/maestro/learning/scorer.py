@@ -253,7 +253,7 @@ async def score_free_form_drill(
     prompt: str,
     student_text: str,
     grammar_point_code: str,
-    cefr_level: str = "A1",
+    cefr_level: str,
     rag_content: str = "",
 ) -> dict:
     """Score a free-form drill response using task-completion as the sole pass/fail criterion.

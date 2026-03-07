@@ -43,8 +43,7 @@ async def _generate_a0_lesson_background(
     lesson_data = all_lessons.get(scenario.slug)
     if not lesson_data:
         logger.error(f"[planner] No static content for A0 scenario: {scenario.slug}")
-        lesson.generating = False
-        await lesson.save()
+        await lesson.update({"$set": {"generating": False}})
         return
 
     topic_title = lesson_data.get("topic_title", scenario.label)
@@ -78,7 +77,7 @@ async def _generate_a0_lesson_background(
         elif act_type == ActivityType.DRILL:
             # Create a GeneratedDrill doc from static items
             gp_code = act_data.get("grammar_point_code", "a0_saluti")
-            exercise_type = ExerciseType(act_data.get("exercise_type", "fill_blank"))
+            exercise_type = ExerciseType(act_data.get("exercise_type", ExerciseType.FILL_BLANK.value))
             items = [
                 DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
                 for it in act_data.get("items", [])
@@ -125,18 +124,19 @@ async def _generate_a0_lesson_background(
                 correct_answers=act_data.get("correct_answers", []),
             ))
 
-    # Update lesson
-    lesson = await Lesson.get(lesson_id)
-    if lesson is None:
-        return
-    lesson.activities.extend(new_activities)
-    lesson.overview = overview
-    lesson.scenario_slug = scenario.slug
-    lesson.scenario_depth = depth
-    lesson.topic_title = topic_title
-    lesson.topic_description = topic_description
-    lesson.generating = False
-    await lesson.save()
+    # Atomically update lesson
+    activities_dicts = [a.model_dump() for a in new_activities]
+    await Lesson.find_one(Lesson.id == lesson_id).update({
+        "$push": {"activities": {"$each": activities_dicts}},
+        "$set": {
+            "overview": overview,
+            "scenario_slug": scenario.slug,
+            "scenario_depth": depth,
+            "topic_title": topic_title,
+            "topic_description": topic_description,
+            "generating": False,
+        },
+    })
 
     logger.info(
         f"[planner] _generate_a0_lesson_background complete: "

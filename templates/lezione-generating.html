@@ -2,6 +2,15 @@
 {% block title %}Preparazione Lezione — Maestro{% endblock %}
 
 {% block content %}
+{% if lesson.generation_error %}
+<div class="generating-wrap">
+  <p class="generating-title">Qualcosa è andato storto</p>
+  <p class="generating-sub">{{ lesson.generation_error }}</p>
+  <form method="POST" action="/lezione/{{ lesson.id }}/retry">
+    <button type="submit" class="btn">Riprova</button>
+  </form>
+</div>
+{% else %}
 <div
   class="generating-wrap"
   hx-get="/lezione/{{ lesson.id }}/generating"
@@ -13,4 +22,5 @@
   <p class="generating-title">Stiamo preparando la tua lezione…</p>
   <p class="generating-sub">Grammatica, letture ed esercizi in arrivo. Un momento.</p>
 </div>
+{% endif %}
 {% endblock %}

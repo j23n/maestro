@@ -285,10 +285,10 @@ class LessonActivity(BaseModel):
     status: ActivityStatus = ActivityStatus.PENDING   # "pending" | "active" | "completed" | "skipped"
     # Content references (set when lesson is created)
     drill_id: Optional[PydanticObjectId] = None
-    card_ids: List[PydanticObjectId] = []
+    card_ids: List[PydanticObjectId] = Field(default_factory=list)
     content: Optional[str] = None    # generated text for reading/writing/grammar
-    questions: List[str] = []        # comprehension questions for reading
-    correct_answers: List[str] = []  # expected answers for reading
+    questions: List[str] = Field(default_factory=list)        # comprehension questions for reading
+    correct_answers: List[str] = Field(default_factory=list)  # expected answers for reading
     result: Optional[dict] = None
     why_important: Optional[str] = None  # 1-2 sentence motivation for grammar activities
     hint: Optional[str] = None                 # optional hint shown on request (drills)
@@ -314,6 +314,7 @@ class Lesson(Document):
     overview: Optional[str] = None          # 2-3 sentence lesson overview
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
     generating: bool = True                 # True while background LLM generation is in progress
+    generation_error: Optional[str] = None  # set when background generation fails
 
     class Settings:
         name = "lessons"

@@ -86,3 +86,55 @@ async def test_background_task_logs_exception(caplog):
     task = create_background_task(failing(), name="test-fail")
     await asyncio.sleep(0.05)
     assert any("boom" in r.message for r in caplog.records)
+
+
+@pytest.mark.unit
+async def test_enable_test_mode_collects_tasks():
+    """In test mode, tasks are added to pending list."""
+    from maestro.utils import enable_test_mode, disable_test_mode, drain_background_tasks, _pending_tasks
+
+    enable_test_mode()
+    try:
+        async def dummy():
+            pass
+
+        create_background_task(dummy(), name="test-task")
+        assert len(_pending_tasks) == 1
+
+        await drain_background_tasks()
+        assert len(_pending_tasks) == 0
+    finally:
+        disable_test_mode()
+
+
+@pytest.mark.unit
+async def test_drain_handles_failing_tasks():
+    """drain_background_tasks swallows exceptions from failed tasks."""
+    from maestro.utils import enable_test_mode, disable_test_mode, drain_background_tasks, _pending_tasks
+
+    enable_test_mode()
+    try:
+        async def failing():
+            raise ValueError("boom")
+
+        create_background_task(failing(), name="fail-task")
+        assert len(_pending_tasks) == 1
+
+        await drain_background_tasks()  # should not raise
+        assert len(_pending_tasks) == 0
+    finally:
+        disable_test_mode()
+
+
+@pytest.mark.unit
+async def test_normal_mode_does_not_collect():
+    """Without test mode, tasks are not collected in pending list."""
+    from maestro.utils import _pending_tasks, disable_test_mode
+
+    disable_test_mode()  # ensure not in test mode
+
+    async def dummy():
+        pass
+
+    create_background_task(dummy(), name="normal-task")
+    assert len(_pending_tasks) == 0

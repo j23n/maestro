@@ -13,6 +13,8 @@ import logging
 import time
 from typing import Optional, TYPE_CHECKING
 
+from maestro.profile import get_cefr_level
+
 if TYPE_CHECKING:
     from maestro.models import Message
 
@@ -88,7 +90,6 @@ async def analyze_message(
 
     try:
         await _ensure_loaded()
-        from maestro.profile import get_cefr_level
         level = await get_cefr_level(student_id) if student_id else "B2"
         prompt = _build_prompt(text, level, drill_context)
         logger.debug(f"[analyzer] analyze_message prompt: {prompt}")

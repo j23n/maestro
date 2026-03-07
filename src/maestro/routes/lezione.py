@@ -27,6 +27,8 @@ from maestro.templates import templates
 from maestro.utils import utcnow, create_background_task
 from maestro.vocab.discover import discover, discover_markdown, discover_list
 from maestro.vocab.srs import review
+from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
+from markupsafe import escape
 from maestro.lezione.service import (
     activity_url,
     advance_lesson,
@@ -72,7 +74,6 @@ async def lezione_create(
     student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
 ):
-    from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
     profile = await get_profile(student.id)
 
     lesson = await prepare_lesson_immediate(duration, profile, student.id)
@@ -105,18 +106,32 @@ async def lezione_overview(lesson_id: PydanticObjectId, request: Request, studen
 async def lezione_generating(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
     lesson = await _get_lesson(lesson_id, student)
     if not lesson.generating:
+        if lesson.generation_error:
+            # Show error state with retry button
+            return templates.TemplateResponse(
+                request=request,
+                name="lezione-generating.html",
+                context={"lesson": lesson},
+            )
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
             if lesson.activities[next_idx].status == ActivityStatus.PENDING:
                 lesson.activities[next_idx].status = ActivityStatus.ACTIVE
                 lesson.current_index = next_idx
-                await lesson.save()
+                await lesson.update({"$set": {
+                    f"activities.{next_idx}.status": ActivityStatus.ACTIVE.value,
+                    "current_index": next_idx,
+                }})
                 return RedirectResponse(url=activity_url(lesson_id, next_idx), status_code=303)
             next_idx += 1
         if lesson.status != LessonStatus.COMPLETED:
+            now = utcnow()
             lesson.status = LessonStatus.COMPLETED
-            lesson.completed_at = utcnow()
-            await lesson.save()
+            lesson.completed_at = now
+            await lesson.update({"$set": {
+                "status": LessonStatus.COMPLETED.value,
+                "completed_at": now,
+            }})
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     return templates.TemplateResponse(
         request=request,
@@ -125,16 +140,34 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
     )
 
 
+@router.post("/lezione/{lesson_id}/retry")
+async def lezione_retry(lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
+    if lesson.status == LessonStatus.COMPLETED:
+        return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
+
+    await lesson.update({"$set": {"generating": True, "generation_error": None}})
+
+    create_background_task(
+        generate_lesson_background(lesson.id, lesson.duration_minutes),
+        name=f"lesson-retry-{lesson.id}",
+    )
+
+    return RedirectResponse(url=f"/lezione/{lesson_id}/generating", status_code=303)
+
+
 @router.post("/lezione/{lesson_id}/start", response_class=HTMLResponse)
 async def lezione_start(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
     lesson = await _get_lesson(lesson_id, student)
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
-    lesson.status = LessonStatus.ACTIVE
-    lesson.started_at = utcnow()
-    lesson.current_index = 0
-    lesson.activities[0].status = ActivityStatus.ACTIVE
-    await lesson.save()
+    now = utcnow()
+    await lesson.update({"$set": {
+        "status": LessonStatus.ACTIVE.value,
+        "started_at": now,
+        "current_index": 0,
+        "activities.0.status": ActivityStatus.ACTIVE.value,
+    }})
     return RedirectResponse(url=activity_url(lesson_id, 0), status_code=303)
 
 
@@ -251,7 +284,6 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: 
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
-    lesson.activities[idx].status = ActivityStatus.SKIPPED
     redirect_url = await advance_lesson(lesson, idx, skip=True)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
@@ -282,13 +314,11 @@ async def lezione_onboarding_submit(
     await save_onboarding_field(student, activity.profile_field, answer)
 
     # Build response text from template
-    from markupsafe import escape
     response_text = activity.response_template or "Got it!"
     response_text = response_text.replace("{answer}", str(escape(answer.strip())))
 
     # Mark as answered in result
-    lesson.activities[idx].result = {"answer": answer.strip()}
-    await lesson.save()
+    await lesson.update({"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}})
 
     return templates.TemplateResponse(
         request=request,
@@ -334,10 +364,10 @@ async def lezione_drill_submit(
     drill.used = True
     await drill.save()
 
-    lesson.activities[idx].result = {"correct": correct, "student_answer": stored_answer}
+    drill_result = {"correct": correct, "student_answer": stored_answer}
 
     feedback = feedback or None
-    next_url = await advance_lesson(lesson, idx)
+    next_url = await advance_lesson(lesson, idx, result=drill_result)
 
     return templates.TemplateResponse(
         request=request,
@@ -451,8 +481,8 @@ async def lezione_writing_submit(
         cefr_level,
     )
 
-    lesson.activities[idx].result = {"student_answer": answer}
-    next_url = await advance_lesson(lesson, idx)
+    writing_result = {"student_answer": answer}
+    next_url = await advance_lesson(lesson, idx, result=writing_result)
 
     return templates.TemplateResponse(
         request=request,
@@ -492,8 +522,8 @@ async def lezione_reading_submit(
     correct_answers = activity.correct_answers or []
     overall_correct, feedback = await score_reading_activity(questions, correct_answers, answers)
 
-    lesson.activities[idx].result = {"student_answers": answers, "correct": overall_correct}
-    next_url = await advance_lesson(lesson, idx)
+    reading_result = {"student_answers": answers, "correct": overall_correct}
+    next_url = await advance_lesson(lesson, idx, result=reading_result)
 
     return templates.TemplateResponse(
         request=request,
