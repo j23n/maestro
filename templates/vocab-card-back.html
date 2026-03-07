@@ -72,4 +72,14 @@
     </form>
     {% endfor %}
   </div>
+
+  <script>
+    document.addEventListener('keydown', function(e) {
+      if (e.key >= '1' && e.key <= '4') {
+        var buttons = document.querySelectorAll('.rating-buttons button');
+        var idx = parseInt(e.key) - 1;
+        if (buttons[idx]) buttons[idx].click();
+      }
+    });
+  </script>
 </div>

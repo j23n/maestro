@@ -124,6 +124,7 @@
   "practice_mode_translation": "Traduzione",
   "practice_mode_random": "Casuale",
   "practice_no_cards": "Nessuna carta da ripassare oggi!",
+  "practice_no_cards_hint": "Le parole vengono aggiunte durante le lezioni.",
   "hint_show": "Mostra suggerimento",
   "hint_hide": "Nascondi suggerimento",
   "submitting": "Invio\u2026",
@@ -132,5 +133,13 @@
   "srs_good": "Bene",
   "srs_easy": "Facile",
   "lesson_no_history": "Nessuna lezione ancora. Inizia la tua prima!",
-  "back_to_current": "Torna all\u2019attivit\u00e0 corrente"
+  "back_to_current": "Torna all\u2019attivit\u00e0 corrente",
+  "error_back": "Torna alla lezione",
+  "error_404": "Pagina non trovata",
+  "error_403": "Accesso negato",
+  "students_delete_confirm": "Eliminare questo studente? I dati saranno persi.",
+  "students_name_too_long": "Il nome non pu\u00f2 superare 30 caratteri.",
+  "students_name_duplicate": "Esiste gi\u00e0 uno studente con questo nome.",
+  "students_default_name": "Studente",
+  "nav_switch_confirm": "Hai una lezione in corso. Vuoi cambiare studente? Potrai riprendere dopo."
 }

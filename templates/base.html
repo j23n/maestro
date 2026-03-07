@@ -24,8 +24,11 @@
       <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") }}</a>
       <a href="/profilo" {% if request.url.path.startswith('/profilo') %}class="active"{% endif %}>{{ t("nav_profile") }}</a>
       {% if request.state.student is defined and request.state.student %}
-      <span class="student-name">{{ request.state.student.name }}</span>
-      <a href="/students/">{{ t("nav_switch") }}</a>
+      <span class="student-name">{{ request.state.student.name or t("students_default_name") }}</span>
+      <a href="/students/"
+         {% if request.url.path.startswith('/lezione/') and '/lezione/' != request.url.path %}
+         onclick="return confirm('{{ t("nav_switch_confirm") }}')"
+         {% endif %}>{{ t("nav_switch") }}</a>
       {% endif %}
     </div>
   </nav>
