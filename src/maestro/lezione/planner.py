@@ -204,6 +204,7 @@ async def generate_lesson_background(
             ).update({"$set": {
                 "generating": False,
                 "generation_error": "Content generation failed. Please try again.",
+                "status": LessonStatus.ABANDONED.value,
             }})
         except Exception:
             logger.exception(f"[planner] failed to clear generating flag for lesson {lesson_id}")

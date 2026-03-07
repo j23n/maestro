@@ -133,8 +133,44 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
 
 
 @pytest.mark.integration
-async def test_lezione_create_redirects_if_active_exists(test_app, db, student):
-    """POST /lezione/ with an existing ACTIVE lesson → 303 redirect, no new lesson."""
+async def test_lezione_create_abandons_active_and_creates_new(test_app, db, student):
+    """POST /lezione/ with an existing ACTIVE lesson → abandons old, creates new."""
+    old_lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="Test",
+                description="Test",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=0,
+    )
+    await old_lesson.insert()
+
+    response = test_app.post("/lezione/", data={"duration": "20"}, follow_redirects=False)
+    assert response.status_code == 303
+    # Should redirect to the NEW lesson, not the old one
+    assert f"/lezione/{old_lesson.id}" not in response.headers["location"]
+
+    # Old lesson should be abandoned
+    old_refreshed = await Lesson.get(old_lesson.id)
+    assert old_refreshed.status == LessonStatus.ABANDONED
+
+    # A new lesson was created
+    count = await Lesson.find({"student_id": student.id}).count()
+    assert count == 2
+
+
+@pytest.mark.integration
+async def test_lezione_abandon_route(test_app, db, student):
+    """POST /lezione/{id}/abandon → sets status to ABANDONED, redirects to index."""
     lesson = Lesson(
         student_id=student.id,
         status=LessonStatus.ACTIVE,
@@ -154,9 +190,30 @@ async def test_lezione_create_redirects_if_active_exists(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.post("/lezione/", data={"duration": "20"}, follow_redirects=False)
+    response = test_app.post(f"/lezione/{lesson.id}/abandon", follow_redirects=False)
     assert response.status_code == 303
-    assert f"/lezione/{lesson.id}/activity/0" in response.headers["location"]
+    assert "/lezione/" in response.headers["location"]
 
-    count = await Lesson.find({"student_id": student.id}).count()
-    assert count == 1
+    refreshed = await Lesson.get(lesson.id)
+    assert refreshed.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+async def test_abandoned_lessons_not_in_history(test_app, db, student):
+    """Abandoned lessons don't appear in the lesson index history."""
+    abandoned = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ABANDONED,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[],
+        current_index=0,
+    )
+    await abandoned.insert()
+
+    response = test_app.get("/lezione/", follow_redirects=False)
+    # Should render the index (no active lesson to redirect to)
+    assert response.status_code == 200
+    # Abandoned lesson should not show in history
+    assert str(abandoned.id) not in response.text

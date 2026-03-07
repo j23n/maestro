@@ -141,5 +141,8 @@
   "students_name_too_long": "Il nome non pu\u00f2 superare 30 caratteri.",
   "students_name_duplicate": "Esiste gi\u00e0 uno studente con questo nome.",
   "students_default_name": "Studente",
-  "nav_switch_confirm": "Hai una lezione in corso. Vuoi cambiare studente? Potrai riprendere dopo."
+  "nav_switch_confirm": "Hai una lezione in corso. Vuoi cambiare studente? Potrai riprendere dopo.",
+  "lesson_abandon_btn": "Abbandona lezione",
+  "lesson_abandon_confirm": "Vuoi abbandonare questa lezione?",
+  "lesson_no_topic": "Lezione senza titolo"
 }

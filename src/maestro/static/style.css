@@ -226,7 +226,10 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 .lesson-progress { padding: 1rem 0 0; margin-bottom: 1.5rem; }
 .progress-bar { height: 4px; background: var(--c-border); border-radius: 2px; overflow: hidden; margin-bottom: 0.4rem; }
 .progress-fill { height: 100%; background: var(--c-terracotta); border-radius: 2px; transition: width 0.3s ease; }
+.progress-footer { display: flex; justify-content: space-between; align-items: center; }
 .progress-label { font-size: 0.75rem; color: var(--c-text-muted); }
+.abandon-link { background: none; border: none; cursor: pointer; font-size: 0.7rem; color: var(--c-text-muted); padding: 0; opacity: 0.6; }
+.abandon-link:hover { opacity: 1; text-decoration: underline; }
 
 /* Segmented progress bar */
 .progress-segments { display: flex; gap: 3px; height: 6px; margin-bottom: 0.35rem; }

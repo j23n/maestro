@@ -14,5 +14,10 @@
     {% endif %}
     {% endfor %}
   </div>
-  <div class="progress-label">{{ t("progress_label", current=idx + 1, total=total) }}</div>
+  <div class="progress-footer">
+    <div class="progress-label">{{ t("progress_label", current=idx + 1, total=total) }}</div>
+    <button class="abandon-link"
+            hx-post="/lezione/{{ lesson.id }}/abandon"
+            hx-confirm="{{ t('lesson_abandon_confirm') }}">{{ t("lesson_abandon_btn") }}</button>
+  </div>
 </div>

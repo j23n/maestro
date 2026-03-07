@@ -102,11 +102,10 @@ async def lezione_create(
     student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
 ):
-    active = await Lesson.find_one({"student_id": student.id, "status": LessonStatus.ACTIVE})
-    if active:
-        if active.generating and active.current_index >= len(active.activities):
-            return RedirectResponse(url=f"/lezione/{active.id}/generating", status_code=303)
-        return RedirectResponse(url=activity_url(active.id, active.current_index), status_code=303)
+    # Abandon any existing active lessons before creating a new one
+    await Lesson.find(
+        {"student_id": student.id, "status": LessonStatus.ACTIVE}
+    ).update_many({"$set": {"status": LessonStatus.ABANDONED.value}})
 
     profile = await get_profile(student.id)
 
@@ -596,6 +595,14 @@ async def lezione_reading_submit(
             "total": len(lesson.activities),
         },
     )
+
+
+@router.post("/lezione/{lesson_id}/abandon")
+async def lezione_abandon(lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)):
+    lesson = await _get_lesson(lesson_id, student)
+    if lesson.status == LessonStatus.ACTIVE:
+        await lesson.update({"$set": {"status": LessonStatus.ABANDONED.value}})
+    return RedirectResponse(url="/lezione/", status_code=303)
 
 
 @router.get("/lezione/{lesson_id}/complete", response_class=HTMLResponse)
