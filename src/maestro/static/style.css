@@ -73,6 +73,7 @@ nav .site-container {
 
 nav a { color: var(--c-text-muted); text-decoration: none; padding: 0.2rem 0; }
 nav a:hover { color: var(--c-charcoal); }
+nav a.active { color: var(--c-charcoal); font-weight: 600; }
 
 .student-name {
   font-weight: 600;
@@ -227,6 +228,17 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 .progress-fill { height: 100%; background: var(--c-terracotta); border-radius: 2px; transition: width 0.3s ease; }
 .progress-label { font-size: 0.75rem; color: var(--c-text-muted); }
 
+/* Segmented progress bar */
+.progress-segments { display: flex; gap: 3px; height: 6px; margin-bottom: 0.35rem; }
+.progress-seg { flex: 1; border-radius: 3px; background: var(--c-border); }
+.progress-seg.completed { background: var(--c-sage); cursor: pointer; }
+.progress-seg.completed:hover { opacity: 0.8; }
+.progress-seg.current { background: var(--c-terracotta); }
+a.progress-seg { display: block; text-decoration: none; }
+
+/* Review banner */
+.review-banner { margin-top: 1.75rem; text-align: center; }
+
 /* Shared action buttons */
 .submit-btn, .continue-btn, .reveal-btn {
   display: inline-block;
@@ -245,6 +257,10 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 /* Skip link */
 .skip-link { font-size: 0.8rem; color: var(--c-text-muted); text-decoration: none; }
 .skip-link:hover { color: var(--c-terracotta); }
+
+/* Back link (breadcrumb) */
+.back-link { display: inline-block; margin-bottom: 1rem; font-size: 0.85rem; color: var(--c-text-muted); text-decoration: none; }
+.back-link:hover { color: var(--c-charcoal); }
 
 /* Card label / section heading */
 .card-label, .reading-title, .questions-title {
@@ -438,6 +454,14 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 }
 .mode-selector a:hover { background: var(--c-surface); }
 .mode-selector a.active { background: var(--c-charcoal); color: #fff; border-color: var(--c-charcoal); }
+
+/* =====================================================================
+   4b. Lesson index page
+   ===================================================================== */
+.lesson-index { max-width: 600px; margin: 2.5rem auto; padding: 0 1rem; }
+.lesson-index-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.lesson-index-header h1 { font-size: 1.2rem; font-weight: 600; margin: 0; }
+.empty-hint { font-size: 0.9rem; color: var(--c-text-muted); font-style: italic; }
 
 /* =====================================================================
    5. Page: Lezione plan

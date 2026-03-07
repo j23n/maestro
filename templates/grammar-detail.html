@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-{% block title %}{{ display_title }} — Maestro{% endblock %}
+{% block title %}{{ display_title | striptags }} — Maestro{% endblock %}
 
 {% block content %}
 <div class="grammar-detail">
+  <a class="back-link" href="/grammar">&larr; {{ t("nav_grammar") }}</a>
   <div class="gp-header">
     <div class="gp-level">{{ gp.cefr_level }}</div>
-    <h1 class="gp-title" id="gp-title">{{ display_title }}</h1>
+    <h1 class="gp-title" id="gp-title">{{ display_title | safe }}</h1>
     {% if gp.chunk_ref %}
     <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link">{{ t("grammar_from_manual") }}</a>
     {% endif %}
@@ -21,7 +22,7 @@
 
   {% for lvl in available_levels %}
   <div class="graded-panel{% if lvl == active_level %} active{% endif %}" id="grammar-panel-{{ lvl }}"
-       data-title="{{ panels[lvl].title }}">
+       data-title="{{ panels[lvl].title | striptags }}">
     <div class="grammar-content">
       {{ panels[lvl].content | safe }}
     </div>

@@ -18,6 +18,7 @@ from maestro.models import (
     ActivityType,
     ActivityStatus,
     LessonStatus,
+    CurriculumScenario,
 )
 from maestro.profile import get_profile, save_onboarding_field
 from maestro.vocab.query import get_word_definition
@@ -61,7 +62,31 @@ async def lezione_index(request: Request, student: Student = Depends(get_current
         if active.generating and active.current_index >= len(active.activities):
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
         return RedirectResponse(url=activity_url(active.id, active.current_index))
-    return RedirectResponse(url="/lezione/new")
+
+    # No active lesson — show history + start button
+    recent_lessons = await Lesson.find(
+        {"student_id": student.id, "status": LessonStatus.COMPLETED}
+    ).sort(-Lesson.completed_at).limit(20).to_list()
+
+    scenario_slugs = {l.scenario_slug for l in recent_lessons if l.scenario_slug}
+    scenarios_list = await CurriculumScenario.find(
+        {"slug": {"$in": list(scenario_slugs)}}
+    ).to_list() if scenario_slugs else []
+    scenario_labels = {s.slug: s.label for s in scenarios_list}
+
+    lesson_history = [
+        {"lesson": l, "scenario_label": scenario_labels.get(l.scenario_slug, "")}
+        for l in recent_lessons
+    ]
+
+    profile = await get_profile(student.id)
+    cefr = profile.cefr_estimate if profile else "A0"
+
+    return templates.TemplateResponse(
+        request=request,
+        name="lezione-index.html",
+        context={"lesson_history": lesson_history, "cefr": cefr},
+    )
 
 
 @router.get("/lezione/new", response_class=HTMLResponse)
@@ -198,7 +223,13 @@ async def lezione_activity(
             return RedirectResponse(url=f"/lezione/{lesson_id}/generating", status_code=303)
         raise HTTPException(404)
     activity = lesson.activities[idx]
+
+    if activity.status == ActivityStatus.PENDING:
+        return RedirectResponse(url=activity_url(lesson_id, lesson.current_index), status_code=303)
+
     total = len(lesson.activities)
+
+    is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
     ctx = {
         "lesson": lesson,
@@ -206,6 +237,7 @@ async def lezione_activity(
         "idx": idx,
         "total": total,
         "card_idx": card_idx,
+        "is_review": is_review,
     }
 
     if activity.type == ActivityType.DRILL:

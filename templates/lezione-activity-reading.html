@@ -10,7 +10,13 @@
     <div class="reading-text">{{ annotated_content | safe }}</div>
   </div>
 
-  {% if activity.questions %}
+  {% if is_review %}
+  <div class="review-banner">
+    <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+      {{ t("back_to_current") }}
+    </a>
+  </div>
+  {% elif activity.questions %}
   <div class="questions-card">
     <div class="questions-title">{{ t("reading_comprehension") }}</div>
     <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/reading-submit"
