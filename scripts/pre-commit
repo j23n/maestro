@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-commit hook: lint staged Python files with ruff
+# Pre-commit hook: auto-fix and lint staged Python files with ruff
 set -euo pipefail
 
 FILES=()
@@ -11,8 +11,14 @@ if [ ${#FILES[@]} -eq 0 ]; then
   exit 0
 fi
 
+echo "Running ruff format on staged files..."
+uv run ruff format "${FILES[@]}"
+
+echo "Running ruff check --fix on staged files..."
+uv run ruff check --fix "${FILES[@]}"
+
+# Re-stage any files modified by the formatter/fixer
+git add "${FILES[@]}"
+
 echo "Running ruff check on staged files..."
 uv run ruff check "${FILES[@]}" || { echo "ruff check failed"; exit 1; }
-
-echo "Running ruff format check on staged files..."
-uv run ruff format --check "${FILES[@]}" || { echo "ruff format check failed"; exit 1; }
