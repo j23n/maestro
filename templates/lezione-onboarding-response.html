@@ -5,8 +5,7 @@
   <div class="submit-row" style="margin-top:1.75rem;">
     <button class="continue-btn"
             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
-            hx-target="body"
-            hx-push-url="true">
+            hx-target="body">
       {{ t("onboarding_continue") }}
     </button>
   </div>

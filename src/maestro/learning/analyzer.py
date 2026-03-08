@@ -28,6 +28,14 @@ from maestro.utils import parse_llm_json
 logger = logging.getLogger(__name__)
 
 
+def _feedback_language(cefr_level: str) -> str:
+    if cefr_level == "A0":
+        return "English (use only Italian words the student has learned)"
+    elif cefr_level == "A1":
+        return "a mix of Italian and English"
+    return settings.TARGET_LANGUAGE_NAME
+
+
 async def _ensure_loaded() -> None:
     """Ensure taxonomy cache is populated."""
     await taxonomy.ensure_loaded()
@@ -57,7 +65,8 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
     feedback_field = ""
     if drill_context:
         context_block = _prompts.context_block_fragment.render(drill_context=drill_context)
-        feedback_field = _prompts.feedback_field_fragment.render(target_language=settings.TARGET_LANGUAGE_NAME).strip()
+        feedback_language = _feedback_language(student_level)
+        feedback_field = _prompts.feedback_field_fragment.render(feedback_language=feedback_language).strip()
 
     return _prompts.analyze_message.render(
         target_language=settings.TARGET_LANGUAGE_NAME,

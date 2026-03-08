@@ -29,6 +29,11 @@ MIN_VOCAB = 5
 # Cooldown: recently visited scenarios get a penalty (seconds)
 _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
 
+# A1 early/late scenario weighting
+_EARLY_A1_SLUGS = {"presentarsi", "al-bar", "al-ristorante", "fare-la-spesa", "la-famiglia", "la-giornata"}
+_LATE_A1_SLUGS = {"capire-e-farsi-capire", "opinioni-e-accordo", "permessi-e-regole", "scrivere-un-messaggio"}
+_EARLY_A1_LESSON_THRESHOLD = 5
+
 
 async def _pick_a0_scenario(
     profile: Optional[LearningProfile],
@@ -88,6 +93,12 @@ async def pick_scenario(
         if total > 0 and error_counts[code] / total > 0.4:
             weak_gps.add(code)
 
+    # Count total A1 lessons for early weighting (exclude A0 lessons)
+    a1_slugs = {s.slug for s in scenarios}
+    a1_lesson_total = sum(
+        sp.lesson_count for slug, sp in progress.items() if slug in a1_slugs
+    ) if progress else 0
+
     scored: list[tuple[float, CurriculumScenario, int]] = []
     for scenario in scenarios:
         sp = progress.get(scenario.slug, ScenarioProgress())
@@ -112,7 +123,14 @@ async def pick_scenario(
             if elapsed < _COOLDOWN_SECONDS:
                 score -= 5.0 * (1 - elapsed / _COOLDOWN_SECONDS)
 
-        # 5. Jitter
+        # 5. Early A1 weighting — steer beginners to easier scenarios first
+        if cefr_level == "A1" and a1_lesson_total < _EARLY_A1_LESSON_THRESHOLD:
+            if scenario.slug in _EARLY_A1_SLUGS:
+                score += 3.0
+            elif scenario.slug in _LATE_A1_SLUGS:
+                score -= 3.0
+
+        # 6. Jitter
         score += random.uniform(0, 1.0)
 
         scored.append((score, scenario, next_depth))

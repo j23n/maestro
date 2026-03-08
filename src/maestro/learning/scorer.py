@@ -57,9 +57,18 @@ def _grammar_code_list(cefr_level: str) -> str:
     )
 
 
+def _feedback_language(cefr_level: str) -> str:
+    if cefr_level == "A0":
+        return "English (use only Italian words the student has learned)"
+    elif cefr_level == "A1":
+        return "a mix of Italian and English"
+    return _target_language()
+
+
 def _system_prompt(cefr_level: str) -> str:
     return _prompts.scoring_system.render_system(
         target_language=_target_language(),
+        feedback_language=_feedback_language(cefr_level),
         grammar_code_list=_grammar_code_list(cefr_level),
     )
 
@@ -129,6 +138,7 @@ async def feedback_fill_blank(
     student_answer: str,
     grammar_point_code: str,
     rag_content: str = "",
+    cefr_level: str = "A1",
 ) -> dict | str:
     """Generate structured feedback for a wrong fill-blank answer.
 
@@ -141,6 +151,7 @@ async def feedback_fill_blank(
     )
     prompt = _prompts.feedback_fill_blank.render(
         target_language=_target_language(),
+        feedback_language=_feedback_language(cefr_level),
         grammar_point_code=grammar_point_code,
         drill_prompt=drill_prompt,
         correct_answer=correct_answer,
@@ -171,6 +182,7 @@ async def evaluate_error_correction(
     reference: str,
     student: str,
     rag_content: str = "",
+    cefr_level: str = "A1",
 ) -> tuple[bool, dict | str]:
     """
     Use the LLM to judge whether the student's correction is essentially correct,
@@ -184,6 +196,7 @@ async def evaluate_error_correction(
     )
     prompt = _prompts.evaluate_error_correction.render(
         target_language=_target_language(),
+        feedback_language=_feedback_language(cefr_level),
         erroneous=erroneous,
         reference=reference,
         student=student,

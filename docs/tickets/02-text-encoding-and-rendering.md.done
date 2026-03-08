@@ -1,0 +1,63 @@
+# Text encoding & rendering bugs
+
+**Severity:** High
+**Area:** drill scoring, onboarding templates, LLM output rendering, lesson feedback
+
+## Problems
+
+### 1. UTF-8 encoding broken in drill answer submission
+
+Submitting accented characters (e.g. "Si") in a drill answer displays as "SÃ¬" in the results. The system then marks it with a tip saying "the correct spelling is 'Si' (with accent), not 'SÃ¬'" — even though the student typed the correct character.
+
+This is a classic double-encoding issue: the form sends UTF-8 bytes, but the server interprets them as Latin-1 then re-encodes to UTF-8.
+
+**Repro:** Start A0 lesson 1 -> activity 6 (drill) -> type "Si" for the "Yes = ___" question -> submit -> see "SÃ¬" in results.
+
+**Likely location:** The drill-submit route or the scoring comparison logic. Check how `request.form()` / form data is decoded.
+
+### 2. Escaped `<span lang="it">` in drill prompts, reading questions, and correct answers
+
+The LLM wraps generated text in `<span lang="it">...</span>` tags. Jinja2's autoescaping then renders these as literal visible text: `<span lang="it">Al mercato compro un ___ (pane).</span>`. This affects:
+
+- **Drill item sentences** — every fill_blank and error_correction prompt
+- **Reading comprehension questions** — question labels
+- **Correct answer display** — shown after scoring
+- **Lesson history topic titles** — stored in DB as `<span lang="it">Al mercato: ...</span>`, escaped on profile page
+
+Additionally, reading passages and questions have **double wrapping**: `<span lang="it"><span lang="it">Marco e un...`.
+
+**Root cause:** The LLM prompt or post-processing isn't stripping these wrapper tags. Either:
+- Strip `<span lang="...">` wrappers from LLM output before storing
+- Use Jinja2's `|safe` filter where the content is trusted (with sanitization)
+- Instruct the LLM not to wrap output in HTML tags
+
+### 3. Onboarding response renders raw markdown
+
+After submitting your name in the onboarding activity ("Come ti chiami?"), the response shows literal `**Mi chiamo Marco!**` with asterisks instead of rendered bold text. The `response_template` field in `a0_lessons.yaml` uses markdown syntax, but the template outputs it as plain text.
+
+**Fix:** Either render the response_template through a markdown filter before inserting into the HTML, or use HTML in the template directly.
+
+### 4. Nested `<p>` tags in lesson feedback
+
+The completion page feedback section renders as:
+```html
+<p class="feedback-text"><span lang="en"><p>You've made great...</p></span></p>
+```
+
+The LLM response contains `<p>` tags, which get nested inside the outer `<p>`. This is invalid HTML and can cause rendering quirks.
+
+**Fix:** Use a `<div>` instead of `<p>` for the feedback container, or strip outer `<p>` tags from the LLM response.
+
+### 5. Writing placeholder typo
+
+The writing activity textarea has `placeholder="Scrivi qui la tua risposta in italian…"` — "italian" should be "italiano" or "Italian".
+
+## Acceptance criteria
+
+- [ ] Drill answers with accented characters are compared and displayed correctly
+- [ ] LLM-generated text does not show raw `<span lang>` tags anywhere in the UI
+- [ ] No double `<span lang>` wrapping in reading passages or questions
+- [ ] Topic titles in lesson history are clean text, not HTML-wrapped
+- [ ] Onboarding response templates render markdown as formatted HTML
+- [ ] Lesson feedback does not produce nested `<p>` elements
+- [ ] Writing placeholder text is correct

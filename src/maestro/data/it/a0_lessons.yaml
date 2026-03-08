@@ -612,7 +612,7 @@ a0-06-che-cose:
         - prompt: "___ casa (house, f.)"
           correct_answer: "la"
         - prompt: "___ acqua (water, f.)"
-          correct_answer: "la"
+          correct_answer: "l'"
         - prompt: "___ treno (train, m.)"
           correct_answer: "il"
         - prompt: "What is this? = Che cos'è ___?"
@@ -710,7 +710,7 @@ a0-07-io-sono:
     - type: drill
       title: "Essere"
       description: "Fill in the right form of essere"
-      hint: "io → sono, tu → sei, lui/lei → è"
+      hint: "<table><tr><th>Pronome</th><th>essere</th></tr><tr><td>io</td><td><b>sono</b></td></tr><tr><td>tu</td><td><b>sei</b></td></tr><tr><td>lui/lei</td><td><b>è</b></td></tr><tr><td>noi</td><td><b>siamo</b></td></tr><tr><td>voi</td><td><b>siete</b></td></tr><tr><td>loro</td><td><b>sono</b></td></tr></table>"
       grammar_point_code: a0_essere
       exercise_type: fill_blank
       items:
@@ -850,8 +850,8 @@ a0-08-mi-piace:
           correct_answer: "Mi piacciono i gatti."
         - prompt: "Mi non piace il tè."
           correct_answer: "Non mi piace il tè."
-        - prompt: "Io sono contento. Tu sono italiano."
-          correct_answer: "Io sono contento. Tu sei italiano."
+        - prompt: "Mi piace i libri."
+          correct_answer: "Mi piacciono i libri."
 
 a0-09-dove:
   topic_title: "Dov'è?"

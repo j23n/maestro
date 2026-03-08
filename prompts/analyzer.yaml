@@ -38,7 +38,7 @@ context_block_fragment:
 # Leave blank (empty string) for normal conversation analysis.
 feedback_field_fragment:
   user: |
-    ,"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>","explanation":"<one sentence in {{target_language}} explaining the rule>"}]
+    ,"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>","explanation":"<one sentence in {{feedback_language}} explaining the rule>"}]
 
 # ---------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ scoring_system:
 
     Field definitions:
     - objective_correct: whether the student met the task objective (defined in the task)
-    - objective_note: empty string when correct; one sentence in {{target_language}} when incorrect
+    - objective_note: empty string when correct; one sentence in {{feedback_language}} when incorrect
     - grammar_errors: freetext strings describing grammar issues found, e.g.
       "ho andato → sono andato (auxiliary essere with motion verbs)". Up to 4.
       Grammar errors NEVER affect objective_correct.
@@ -165,7 +165,7 @@ feedback_fill_blank:
     Correct answer: {{correct_answer}}
     Student's answer: {{student_answer}}{{rule_block}}
 
-    Write ONE sentence in {{target_language}} explaining why the student's answer is wrong and
+    Write ONE sentence in {{feedback_language}} explaining why the student's answer is wrong and
     what the correct rule is. Be concise and direct.
     Return ONLY the explanation sentence, no JSON, no labels.
 
@@ -187,4 +187,4 @@ evaluate_error_correction:
     Focus on whether the grammatical error was correctly identified and fixed.
 
     Return ONLY valid JSON (no markdown, no explanation):
-    {"correct":true,"explanation":"ONE sentence in {{target_language}} explaining what the error was and the rule"}
+    {"correct":true,"explanation":"ONE sentence in {{feedback_language}} explaining what the error was and the rule"}

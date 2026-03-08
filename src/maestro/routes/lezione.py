@@ -31,7 +31,7 @@ from maestro import taxonomy
 from maestro.templates import templates
 from maestro.utils import utcnow, create_background_task
 from maestro.config import settings as _settings
-from maestro.vocab.discover import discover, discover_markdown, discover_list, lang_wrap
+from maestro.vocab.discover import discover, discover_markdown, discover_list, lang_wrap, hide_translations
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
 from markupsafe import escape
@@ -263,7 +263,7 @@ async def lezione_activity(
     if idx >= len(lesson.activities):
         if lesson.generating:
             return RedirectResponse(url=f"/lezione/{lesson_id}/generating", status_code=303)
-        raise HTTPException(404)
+        return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     activity = lesson.activities[idx]
 
     if activity.status == ActivityStatus.PENDING:
@@ -317,7 +317,7 @@ async def lezione_activity(
 
     if activity.type == ActivityType.READING:
         lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = await discover(lang_wrap(activity.content, lang), student_id=student.id)
+        ctx["annotated_content"] = hide_translations(await discover(lang_wrap(activity.content, lang), student_id=student.id))
         ctx["annotated_questions"] = await discover_list(
             [lang_wrap(q, lang) for q in (activity.questions or [])], student_id=student.id
         )
@@ -327,13 +327,13 @@ async def lezione_activity(
 
     if activity.type == ActivityType.WRITING:
         lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = await discover(lang_wrap(activity.content, lang), student_id=student.id)
+        ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id, lang=lang)
         return templates.TemplateResponse(
             request=request, name="lezione-activity-writing.html", context=ctx
         )
 
     if activity.type == ActivityType.GRAMMAR:
-        ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id)
+        ctx["annotated_content"] = hide_translations(await discover_markdown(activity.content or "", student_id=student.id))
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
         if activity.why_important:
@@ -381,6 +381,13 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: 
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
+    activity = lesson.activities[idx]
+    if activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED):
+        if lesson.status == LessonStatus.COMPLETED:
+            url = f"/lezione/{lesson.id}/complete"
+        else:
+            url = activity_url(lesson.id, lesson.current_index)
+        return Response(status_code=204, headers={"HX-Redirect": url})
     redirect_url = await advance_lesson(lesson, idx, skip=True)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
@@ -390,6 +397,13 @@ async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int, stude
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
+    activity = lesson.activities[idx]
+    if activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED):
+        if lesson.status == LessonStatus.COMPLETED:
+            url = f"/lezione/{lesson.id}/complete"
+        else:
+            url = activity_url(lesson.id, lesson.current_index)
+        return Response(status_code=204, headers={"HX-Redirect": url})
     redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 

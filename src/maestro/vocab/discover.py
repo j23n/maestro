@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from bson import DBRef
 
 _TAG_RE = re.compile(r"(<[^>]+>)")
+_TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
@@ -85,6 +86,21 @@ def _has_nested_lang(node, lang_element) -> bool:
     return False
 
 
+def _get_target_text(lang_elements: list) -> str:
+    """Extract text from lang elements, skipping text inside nested lang elements."""
+    parts = []
+    for el in lang_elements:
+        for desc in el.descendants:
+            if not isinstance(desc, NavigableString):
+                continue
+            if _has_nested_lang(desc, el):
+                continue
+            text = str(desc).strip()
+            if text:
+                parts.append(text)
+    return " ".join(parts)
+
+
 def _annotate_in_elements(lang_elements: list, word, wdef) -> bool:
     """Annotate the first occurrence of word within the given BS4 elements.
 
@@ -137,8 +153,8 @@ async def discover(
     if not lang_elements:
         return response_text
 
-    # Lemmatize only text within target-language elements
-    target_text = " ".join(el.get_text(" ", strip=True) for el in lang_elements)
+    # Lemmatize only text within target-language elements (skip nested lang tags)
+    target_text = _get_target_text(lang_elements)
     text_lemmas = _lemmatize(target_text)
 
     words_with_vocab = {l: w for l, w in _cache.word_index().items() if l in text_lemmas}
@@ -211,6 +227,13 @@ async def _generate_and_cache(words: list[VocabularyWord]) -> None:
             logger.info(f"[discover] generated {len(defs)} definition(s) for '{word.word}'")
         except Exception as exc:
             logger.warning(f"[discover] definition generation failed for '{word.word}': {exc}")
+
+
+def hide_translations(html: str) -> str:
+    """Wrap parenthesized English translations after </span> in a toggleable span."""
+    return _TRANSLATION_RE.sub(
+        r'\1 <span class="translation-toggle">\2</span>', html
+    )
 
 
 def _annotate(

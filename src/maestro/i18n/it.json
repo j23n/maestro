@@ -158,5 +158,6 @@
   "lesson_no_topic": "Lezione senza titolo",
   "graduation_title": "Complimenti!",
   "graduation_a1_body": "Hai completato tutte le lezioni introduttive e sei passato al livello A1! Da ora in poi, le lezioni saranno create su misura per te, in base ai tuoi interessi e ai tuoi progressi.",
-  "graduation_body": "Hai raggiunto il livello {level}! La tua dedizione sta dando i suoi frutti."
+  "graduation_body": "Hai raggiunto il livello {level}! La tua dedizione sta dando i suoi frutti.",
+  "profile_completed_level": "Completato"
 }
