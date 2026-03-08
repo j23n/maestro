@@ -1,0 +1,32 @@
+# Self-host static assets
+
+**Area:** `templates/base.html`, `static/`
+**Roadmap:** [02-deploy](../roadmap/02-deploy.md)
+
+## Goal
+
+Self-host htmx.js instead of loading it from the unpkg CDN, improving security and reliability.
+
+## Work
+
+### Download htmx.js
+
+- Download the current htmx.js version into `/static/js/htmx.min.js`
+- Pin the version (note it in a comment or in the filename)
+
+### Update base template
+
+- In `templates/base.html`, replace the unpkg CDN `<script>` tag with a local reference: `/static/js/htmx.min.js`
+
+### Verify static mount
+
+- `main.py` should already mount `/static` — confirm it works for the new path
+
+## Tests
+
+- Integration test: verify the static file is served at `/static/js/htmx.min.js`
+- Manual: load a page and confirm htmx functionality works
+
+## Notes
+
+- FastAPI serves static files directly — fine for low traffic. Add Cloudflare CDN later if needed.
