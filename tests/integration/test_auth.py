@@ -1,8 +1,6 @@
 import bcrypt as _bcrypt
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
-from fastapi.testclient import TestClient
 
 from maestro.models import Account, Student
 
@@ -11,22 +9,11 @@ def _hash_password(password: str) -> str:
     return _bcrypt.hashpw(password.encode(), _bcrypt.gensalt()).decode()
 
 
-@pytest.fixture
-async def auth_app(db):
-    """FastAPI TestClient without pre-set cookies."""
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
-        from maestro.main import app
-        with TestClient(app, raise_server_exceptions=False) as client:
-            # Trigger CSRF cookie and set default header
-            client.get("/")
-            csrf_token = client.cookies.get("csrftoken")
-            if csrf_token:
-                client.headers["x-csrftoken"] = csrf_token
-            yield client
+@pytest.mark.integration
+async def test_health_returns_ok(auth_app):
+    resp = auth_app.get("/health")
+    assert resp.status_code == 200
+    assert resp.json() == {"status": "ok"}
 
 
 @pytest.mark.integration

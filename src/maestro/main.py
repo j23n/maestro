@@ -36,6 +36,13 @@ app.state.limiter = limiter
 app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
 app.add_middleware(SlowAPIMiddleware)
 app.mount("/static", StaticFiles(directory="src/maestro/static"), name="static")
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 app.include_router(auth.router)
 app.include_router(vocab.router)
 app.include_router(profilo.router)
