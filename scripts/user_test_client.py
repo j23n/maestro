@@ -249,7 +249,6 @@ def submit_onboarding(lesson_id: str, idx: str, answer: str):
     with _client() as c:
         # First submit the answer
         resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/onboarding-submit", data={"answer": answer})
-    elapsed_submit = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     response_el = soup.find(class_="onboarding-response-text")
     response_text = response_el.get_text(strip=True) if response_el else ""

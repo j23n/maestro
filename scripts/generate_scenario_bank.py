@@ -5,7 +5,6 @@ Outputs data/scenarios_a1.yaml.
 
 Run with:  uv run python scripts/generate_scenario_bank.py
 """
-import asyncio
 import json
 import logging
 
