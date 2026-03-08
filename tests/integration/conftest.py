@@ -41,6 +41,24 @@ def sign_session(account_id: str) -> str:
 
 
 @pytest.fixture
+async def auth_app(db):
+    """FastAPI TestClient without pre-set cookies."""
+    with (
+        patch("maestro.main.init_db", new_callable=AsyncMock),
+        patch("maestro.main.get_nlp", return_value=MagicMock()),
+        patch("maestro.main.load_vocab", new_callable=AsyncMock),
+    ):
+        from maestro.main import app
+        with TestClient(app, raise_server_exceptions=False) as client:
+            # Trigger CSRF cookie and set default header
+            client.get("/")
+            csrf_token = client.cookies.get("csrftoken")
+            if csrf_token:
+                client.headers["x-csrftoken"] = csrf_token
+            yield client
+
+
+@pytest.fixture
 async def test_app(db, student, account):
     """FastAPI TestClient with mocked lifespan. Shares the db fixture's database."""
     with (

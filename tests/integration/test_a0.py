@@ -1,10 +1,10 @@
 """Integration tests for A0 level — static lessons, onboarding, graduation."""
 import pytest
-from unittest.mock import patch
 
 from beanie import PydanticObjectId
 
 from maestro.models import (
+    Account,
     CurriculumScenario,
     DrillTemplate,
     GeneratedDrill,
@@ -328,3 +328,78 @@ def test_onboarding_submit_saves_background(test_app, student, db):
         return profile.persona.background
     background = asyncio.get_event_loop().run_until_complete(_check())
     assert "university student" in background
+
+
+# ---------------------------------------------------------------------------
+# End-to-end: signup → onboarding (#25)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+def test_signup_then_onboarding_saves_name(auth_app, db):
+    """Full flow: signup creates Account+Student, then onboarding saves name."""
+    import asyncio
+    from maestro.utils import utcnow
+
+    # 1. Signup — creates Account + Student with empty name
+    resp = auth_app.post(
+        "/auth/signup",
+        data={
+            "email": "e2e@example.com",
+            "password": "password123",
+            "password_confirm": "password123",
+        },
+        follow_redirects=False,
+    )
+    assert resp.status_code == 303
+
+    # Resolve the student created by signup
+    async def _get_student():
+        account = await Account.find_one({"email": "e2e@example.com"})
+        student = await Student.get(account.student_id)
+        assert student.name == ""  # empty before onboarding
+        return student
+
+    student = asyncio.get_event_loop().run_until_complete(_get_student())
+
+    # 2. Create an onboarding lesson for this student
+    async def _create_lesson():
+        lesson = Lesson(
+            student_id=student.id,
+            status=LessonStatus.ACTIVE,
+            duration_minutes=10,
+            started_at=utcnow(),
+            generating=False,
+            activities=[
+                LessonActivity(
+                    type=ActivityType.ONBOARDING,
+                    title="Come ti chiami?",
+                    description="Tell us your name",
+                    content="What's your name?",
+                    profile_field="name",
+                    response_template="Piacere, {answer}!",
+                    status=ActivityStatus.ACTIVE,
+                ),
+            ],
+            current_index=0,
+        )
+        await lesson.insert()
+        return lesson
+
+    lesson = asyncio.get_event_loop().run_until_complete(_create_lesson())
+
+    # 3. Submit onboarding — should save name on the Student
+    resp = auth_app.post(
+        f"/lezione/{lesson.id}/activity/0/onboarding-submit",
+        data={"answer": "Maria"},
+    )
+    assert resp.status_code == 200
+    assert "Maria" in resp.text
+
+    # 4. Verify Student.name was persisted
+    async def _check():
+        s = await Student.get(student.id)
+        return s.name
+
+    name = asyncio.get_event_loop().run_until_complete(_check())
+    assert name == "Maria"
