@@ -25,7 +25,7 @@ jobs:
           python-version: "3.13"
       - uses: astral-sh/setup-uv@v7
         with:
-          cache: true
+          enable-cache: true
       - run: uv sync
       - run: uv run pytest -m unit tests/unit/ -v
       - run: uv run pytest -m integration tests/integration/ -v
@@ -39,7 +39,7 @@ jobs:
           python-version: "3.13"
       - uses: astral-sh/setup-uv@v7
         with:
-          cache: true
+          enable-cache: true
       - run: uv sync
       - run: uv run ruff check
       - run: uv run ruff format --check
