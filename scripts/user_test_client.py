@@ -34,8 +34,8 @@ def _save_cookie(data: dict):
 def _client() -> httpx.Client:
     cookie = _load_cookie()
     cookies = {}
-    if "student_id" in cookie:
-        cookies["student_id"] = cookie["student_id"]
+    if "session" in cookie:
+        cookies["session"] = cookie["session"]
     return httpx.Client(
         base_url=BASE_URL,
         follow_redirects=True,
@@ -106,16 +106,17 @@ def _extract_questions(soup: BeautifulSoup) -> list[str]:
 
 def create_student(name: str):
     t0 = time.monotonic()
+    email = f"testbot-{int(time.time())}@example.com"
     with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
-        resp = c.post("/students/", data={"name": name})
-        student_id = None
-        # Follow redirect chain manually to capture cookie
-        if resp.status_code == 303:
-            student_id = resp.cookies.get("student_id")
-            if student_id:
-                _save_cookie({"student_id": student_id})
+        resp = c.post(
+            "/auth/signup",
+            data={"email": email, "password": "testpass123", "password_confirm": "testpass123"},
+        )
+        session = resp.cookies.get("session")
+        if session:
+            _save_cookie({"session": session})
     elapsed = int((time.monotonic() - t0) * 1000)
-    _out({"student_id": student_id, "redirected_to": resp.headers.get("location", ""), "elapsed_ms": elapsed})
+    _out({"email": email, "redirected_to": resp.headers.get("location", ""), "elapsed_ms": elapsed})
 
 
 def get_page(path: str):
@@ -462,8 +463,8 @@ def get_profile():
 def _client_cookies() -> dict:
     cookie = _load_cookie()
     cookies = {}
-    if "student_id" in cookie:
-        cookies["student_id"] = cookie["student_id"]
+    if "session" in cookie:
+        cookies["session"] = cookie["session"]
     return cookies
 
 

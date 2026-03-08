@@ -8,13 +8,14 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from maestro.auth import RedirectToStudents, get_current_student
+from maestro.auth import RedirectToLogin, get_current_student
 from maestro.db import init_db
 from maestro.i18n import t as i18n_t
+from maestro.session import clear_session_cookie
 from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
-from maestro.routes import auth, vocab, profilo, grammar, lezione, students
+from maestro.routes import auth, vocab, profilo, grammar, lezione
 
 
 @asynccontextmanager
@@ -28,7 +29,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="src/maestro/static"), name="static")
 app.include_router(auth.router)
-app.include_router(students.router)
 app.include_router(vocab.router)
 app.include_router(profilo.router)
 app.include_router(grammar.router)
@@ -37,20 +37,24 @@ app.include_router(lezione.router)
 
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
-    if request.cookies.get("student_id"):
+    from maestro.session import read_session
+    if read_session(request):
         return RedirectResponse(url="/lezione/")
     return templates.TemplateResponse(request=request, name="landing.html")
 
 
-@app.exception_handler(RedirectToStudents)
-async def redirect_to_students(request: Request, exc: RedirectToStudents):
-    return RedirectResponse(url="/students/")
+@app.exception_handler(RedirectToLogin)
+async def redirect_to_login(request: Request, exc: RedirectToLogin):
+    response = RedirectResponse(url="/auth/login")
+    if exc.clear_cookie:
+        clear_session_cookie(response)
+    return response
 
 
 async def _render_error(request: Request, code: int, message_key: str):
     try:
         await get_current_student(request)
-    except RedirectToStudents:
+    except RedirectToLogin:
         pass
     return templates.TemplateResponse(
         request=request,

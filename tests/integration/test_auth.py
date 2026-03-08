@@ -41,9 +41,8 @@ async def test_signup_success(auth_app):
     assert resp.status_code == 303
     assert resp.headers["location"] == "/lezione/"
 
-    # Verify cookies are set
+    # Verify session cookie is set
     assert "session" in resp.cookies
-    assert "student_id" in resp.cookies
 
     # Verify exactly one Account and one Student created in DB
     account = await Account.find_one({"email": "test@example.com"})
@@ -118,7 +117,6 @@ async def test_login_success(auth_app):
     assert resp.status_code == 303
     assert resp.headers["location"] == "/lezione/"
     assert "session" in resp.cookies
-    assert "student_id" in resp.cookies
 
 
 @pytest.mark.integration
@@ -161,9 +159,7 @@ async def test_logout_clears_cookies(auth_app):
     assert resp.status_code == 303
     assert resp.headers["location"] == "/"
 
-    # Verify cookies are cleared (set with max-age=0 or empty)
+    # Verify session cookie is cleared (set with max-age=0)
     set_cookies = resp.headers.get_list("set-cookie")
     session_cleared = any("session=" in c and ("Max-Age=0" in c or 'max-age=0' in c.lower()) for c in set_cookies)
-    student_cleared = any("student_id=" in c and ("Max-Age=0" in c or 'max-age=0' in c.lower()) for c in set_cookies)
     assert session_cleared
-    assert student_cleared
