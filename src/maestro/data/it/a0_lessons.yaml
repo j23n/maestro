@@ -44,7 +44,7 @@ a0-01-benvenuto:
       title: "Chi sei?"
       description: "Tell us about yourself"
       content: "What describes you? For example: student, retired, working in finance, living abroad, parent..."
-      profile_field: persona_tags
+      profile_field: background
       response_template: "Great — we'll use this to personalise your lessons. In Italian, **Sono...** means 'I am...'."
 
     - type: onboarding

@@ -88,9 +88,15 @@ def test_prompt_contains_speaking_cf():
 
 
 @pytest.mark.unit
-def test_prompt_includes_persona():
+def test_prompt_includes_persona(monkeypatch):
+    # Force persona inclusion: random() < 0.7 → True, randint → 2, sample returns all
+    import maestro.lezione.prompts as _mod
+    monkeypatch.setattr(_mod.random, "random", lambda: 0.0)
+    monkeypatch.setattr(_mod.random, "randint", lambda a, b: 2)
+    monkeypatch.setattr(_mod.random, "sample", lambda pop, k: pop[:k])
+
     profile = SimpleNamespace(
-        persona=StudentPersona(tags=["wine enthusiast"], interests=["cooking"]),
+        persona=StudentPersona(background="wine enthusiast", interests="cooking"),
         description="",
         grammar_error_counts={},
         grammar_correct_counts={},

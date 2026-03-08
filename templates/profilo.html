@@ -163,26 +163,24 @@
     <div class="saved-banner">{{ t("profile_saved") }}</div>
     {% endif %}
 
-    {% if profile and profile.persona.interests %}
-    <div class="persona-field">
-      <span class="persona-label">{{ t("profile_interests_label") }}</span>
-      <span>{{ profile.persona.interests | join(', ') }}</span>
-    </div>
-    {% endif %}
-
-    {% if profile and profile.persona.goal %}
-    <div class="persona-field">
-      <span class="persona-label">{{ t("profile_goal_label") }}</span>
-      <span>{{ profile.persona.goal }}</span>
-    </div>
-    {% endif %}
-
     <form method="post" action="/profilo/persona">
       <div class="field">
-        <label for="tags">{{ t("profile_tags_label") }}</label>
-        <input type="text" id="tags" name="tags"
-          value="{{ profile.persona.tags | join(', ') if profile else '' }}"
-          placeholder="{{ t("profile_tags_placeholder") }}">
+        <label for="background">{{ t("profile_background_label") }}</label>
+        <input type="text" id="background" name="background"
+          value="{{ profile.persona.background if profile else '' }}"
+          placeholder="{{ t("profile_background_placeholder") }}">
+      </div>
+      <div class="field">
+        <label for="interests">{{ t("profile_interests_label") }}</label>
+        <input type="text" id="interests" name="interests"
+          value="{{ profile.persona.interests if profile else '' }}"
+          placeholder="{{ t("profile_interests_placeholder") }}">
+      </div>
+      <div class="field">
+        <label for="goal">{{ t("profile_goal_label") }}</label>
+        <input type="text" id="goal" name="goal"
+          value="{{ profile.persona.goal if profile else '' }}"
+          placeholder="{{ t("profile_goal_placeholder") }}">
       </div>
       <button class="submit-btn" type="submit">{{ t("profile_save_btn") }}</button>
     </form>

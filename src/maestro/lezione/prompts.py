@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import random
 from typing import Optional
 
 from maestro.config import settings
@@ -27,6 +28,7 @@ def build_lesson_content_prompt(
     reading_count: int,
     include_writing: bool,
     speaking_cfs: list[CommunicativeFunction],
+    lesson_context: str = "",
 ) -> str:
     """Build the complete prompt string for lesson content generation.
 
@@ -43,19 +45,22 @@ def build_lesson_content_prompt(
         f"Depth focus: {depth_description}",
     ]
 
-    # Persona
-    if profile and profile.persona:
-        persona_parts = []
-        if profile.persona.tags:
-            persona_parts.append(f"Student description: {', '.join(profile.persona.tags)}")
-        if profile.persona.interests:
-            persona_parts.append(f"Student interests: {', '.join(profile.persona.interests)}")
-        if profile.persona.background:
-            persona_parts.append(f"Language background: {profile.persona.background}")
-        if profile.persona.goal:
-            persona_parts.append(f"Learning goal: {profile.persona.goal}")
-        if persona_parts:
+    # Persona — include in ~70% of lessons; when included, pick 1-2 fields
+    if profile and profile.persona and random.random() < 0.7:
+        field_map = {
+            "background": ("Student background", profile.persona.background),
+            "interests": ("Student interests", profile.persona.interests),
+            "goal": ("Learning goal", profile.persona.goal),
+        }
+        available = [k for k, (_, v) in field_map.items() if v]
+        if available:
+            pick_count = min(len(available), random.randint(1, 2))
+            chosen = random.sample(available, pick_count)
+            persona_parts = [f"{field_map[k][0]}: {field_map[k][1]}" for k in chosen]
             parts.append("\n".join(persona_parts))
+
+    if lesson_context:
+        parts.append(f"Lesson context requested by the student: {lesson_context}")
 
     if profile and profile.description:
         parts.append(f"Student profile: {profile.description}")

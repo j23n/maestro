@@ -5,7 +5,7 @@ version: "2"
 lesson_content_header:
   user: |
     You are generating content for a {{target_language}} language lesson.
-    Set all content in a context that matches the student's persona.
+    Where student details are provided, you may draw on them for inspiration, but feel free to explore other angles too.
     Generate a creative {{target_language}} topic_title and topic_description for this lesson.
 
 lesson_content_footer:

@@ -29,6 +29,7 @@ from maestro.models import (
     CommunicativeFunction,
     GrammarChunk,
     CurriculumScenario,
+    ScenarioProgress,
     ActivityType,
     ActivityStatus,
     LessonStatus,
@@ -69,6 +70,7 @@ async def _generate_lesson_content(
     include_writing: bool,
     client: "anthropic.AsyncAnthropic",
     speaking_cfs: list[CommunicativeFunction] | None = None,
+    lesson_context: str = "",
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
@@ -83,6 +85,7 @@ async def _generate_lesson_content(
         reading_count=reading_count,
         include_writing=include_writing,
         speaking_cfs=speaking_cfs,
+        lesson_context=lesson_context,
     )
 
     logger.debug(f"[planner] _generate_lesson_content prompt: {prompt_text}")
@@ -124,6 +127,9 @@ async def prepare_lesson_immediate(
     duration_minutes: int,
     profile: Optional[LearningProfile],
     student_id=None,
+    lesson_context: str = "",
+    focus_weak: bool = False,
+    scenario_slug: str | None = None,
 ) -> Lesson:
     """Create and save a Lesson with only the vocab_review activity (no LLM calls).
 
@@ -141,6 +147,9 @@ async def prepare_lesson_immediate(
             student_id=student_id,
             duration_minutes=duration_minutes,
             cefr_at_start=cefr_level,
+            lesson_context=lesson_context or None,
+            focus_weak=focus_weak,
+            scenario_slug=scenario_slug,
             status=LessonStatus.ACTIVE,
             started_at=utcnow(),
             generating=True,
@@ -170,6 +179,9 @@ async def prepare_lesson_immediate(
         student_id=student_id,
         duration_minutes=duration_minutes,
         cefr_at_start=cefr_level,
+        lesson_context=lesson_context or None,
+        focus_weak=focus_weak,
+        scenario_slug=scenario_slug,
         status=LessonStatus.ACTIVE,
         started_at=utcnow(),
         generating=True,
@@ -192,10 +204,12 @@ async def prepare_lesson_immediate(
 async def generate_lesson_background(
     lesson_id,
     duration_minutes: int,
+    scenario_slug: str | None = None,
+    focus_weak: bool = False,
 ) -> None:
     """Pick scenario, generate content, and append activities to lesson."""
     try:
-        await _generate_lesson_background(lesson_id, duration_minutes)
+        await _generate_lesson_background(lesson_id, duration_minutes, scenario_slug, focus_weak)
     except Exception:
         logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
         try:
@@ -214,6 +228,8 @@ async def generate_lesson_background(
 async def _generate_lesson_background(
     lesson_id,
     duration_minutes: int,
+    scenario_slug: str | None = None,
+    focus_weak: bool = False,
 ) -> None:
     t_start = time.monotonic()
     logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
@@ -228,12 +244,27 @@ async def _generate_lesson_background(
     if cefr_level == "A0":
         return await _generate_a0_lesson_background(lesson_id, duration_minutes)
 
+    # Merge explicit params with stored lesson fields (supports retry)
+    scenario_slug = scenario_slug or lesson.scenario_slug
+    focus_weak = focus_weak or lesson.focus_weak
+
     slots = _allocate_slots(duration_minutes)
     logger.info(f"[planner] slot allocation: {slots}")
 
     # --- Pick scenario ---
     client = get_async_client()
-    scenario, depth = await pick_scenario(profile, cefr_level)
+    if scenario_slug:
+        scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
+        if scenario_doc:
+            progress = profile.scenario_progress if profile else {}
+            sp = progress.get(scenario_slug, ScenarioProgress())
+            depth = min(sp.depth + 1, len(scenario_doc.depths))
+            scenario = scenario_doc
+        else:
+            logger.warning(f"[planner] scenario_slug={scenario_slug} not found, falling back to auto-pick")
+            scenario, depth = await pick_scenario(profile, cefr_level)
+    else:
+        scenario, depth = await pick_scenario(profile, cefr_level)
     logger.info(f"[planner] scenario: {scenario.slug} depth={depth}")
 
     # --- Pick grammar points (multiple) ---
@@ -241,9 +272,12 @@ async def _generate_lesson_background(
     grammar_gps: list[GrammarPoint] = []
     grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
+    # When focus_weak is on, ignore scenario's gp_codes constraint
+    gp_candidate_codes = None if focus_weak else scenario.gp_codes
+
     if grammar_count > 0:
         grammar_gps = await pick_grammar_points(
-            profile, cefr_level, grammar_count, candidate_codes=scenario.gp_codes
+            profile, cefr_level, grammar_count, candidate_codes=gp_candidate_codes
         )
 
         for gp in grammar_gps:
@@ -262,7 +296,7 @@ async def _generate_lesson_background(
     drill_templates_used: list[DrillTemplate] = []
     if drill_count > 0:
         gps_for_drills = await pick_grammar_points(
-            profile, cefr_level, drill_count, candidate_codes=scenario.gp_codes
+            profile, cefr_level, drill_count, candidate_codes=gp_candidate_codes
         )
         all_templates = await DrillTemplate.find_all().to_list()
         for gp in gps_for_drills:
@@ -317,6 +351,7 @@ async def _generate_lesson_background(
         include_writing,
         client,
         speaking_cfs,
+        lesson_context=lesson.lesson_context or "",
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)

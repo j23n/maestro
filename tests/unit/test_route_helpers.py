@@ -2,7 +2,8 @@ import pytest
 from types import SimpleNamespace
 
 from maestro.lezione.service import activity_url as _activity_url
-from maestro.routes.profilo import _build_grammar_by_level, _build_cf_by_level
+from maestro.learning.weakness import build_grammar_by_level as _build_grammar_by_level
+from maestro.routes.profilo import _build_cf_by_level
 
 
 def make_profile(**kwargs):

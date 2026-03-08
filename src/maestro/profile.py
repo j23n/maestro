@@ -46,21 +46,11 @@ async def save_onboarding_field(
     if profile_field == "name":
         student.name = answer[:30]
         await student.save()
-    elif profile_field == "persona_tags":
+    elif profile_field in ("background", "interests", "goal"):
         profile = await get_or_create_profile(student.id)
-        new_tags = [t.strip() for t in answer.split(",") if t.strip()]
-        profile.persona.tags = list(set(profile.persona.tags + new_tags))
-        await profile.save()
-    elif profile_field == "interests":
-        profile = await get_or_create_profile(student.id)
-        new_interests = [t.strip() for t in answer.split(",") if t.strip()]
-        profile.persona.interests = list(set(profile.persona.interests + new_interests))
-        await profile.save()
-    elif profile_field == "background":
-        profile = await get_or_create_profile(student.id)
-        profile.persona.background = answer
-        await profile.save()
-    elif profile_field == "goal":
-        profile = await get_or_create_profile(student.id)
-        profile.persona.goal = answer
+        existing = getattr(profile.persona, profile_field, "")
+        if existing:
+            setattr(profile.persona, profile_field, f"{existing}, {answer}")
+        else:
+            setattr(profile.persona, profile_field, answer)
         await profile.save()
