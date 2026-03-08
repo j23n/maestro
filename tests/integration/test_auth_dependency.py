@@ -1,6 +1,5 @@
 """Integration tests for the get_current_student auth dependency."""
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 from fastapi.testclient import TestClient
 
 
@@ -30,14 +29,11 @@ def test_tampered_cookie_redirects_to_login(test_app):
 async def test_orphaned_student_redirects_to_login(db, account, student):
     """Account exists but its linked Student was deleted."""
     await student.delete()
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
+    from tests.integration.conftest import sign_session, patch_lifespan
+
+    with patch_lifespan():
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
-            from tests.integration.conftest import sign_session
             client.cookies.set("session", sign_session(str(account.id)))
             response = client.get("/lezione/", follow_redirects=False)
             assert response.status_code in (302, 303, 307)
@@ -47,14 +43,10 @@ async def test_orphaned_student_redirects_to_login(db, account, student):
 @pytest.mark.integration
 def test_nonexistent_account_redirects_to_login(db):
     from beanie import PydanticObjectId
-    from tests.integration.conftest import sign_session
+    from tests.integration.conftest import sign_session, patch_lifespan
 
     fake_account_id = str(PydanticObjectId())
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
+    with patch_lifespan():
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(fake_account_id))

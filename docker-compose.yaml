@@ -21,5 +21,13 @@ services:
     volumes:
       - mongodata:/data/db
 
+  db-test:
+    image: mongodb/mongodb-atlas-local
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+    ports:
+      - "27018:27017"
+
 volumes:
   mongodata:

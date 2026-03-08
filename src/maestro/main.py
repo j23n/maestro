@@ -9,7 +9,8 @@ from slowapi.middleware import SlowAPIMiddleware
 from maestro.auth import RedirectToLogin, get_current_student
 from maestro.config import settings
 from maestro.csrf import CSRFMiddleware
-from maestro.db import init_db
+from maestro.db import get_db, init_db
+from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t
 from maestro.rate_limit import limiter
 from maestro.session import clear_session_cookie
@@ -26,6 +27,7 @@ logging.getLogger("maestro").setLevel(_log_level)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+    await seed_if_empty(get_db())
     get_nlp()        # warm up spaCy model
     await load_vocab()
     yield

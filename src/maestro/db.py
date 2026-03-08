@@ -4,17 +4,24 @@ from pymongo import AsyncMongoClient
 from maestro.config import settings
 from maestro.models import ALL_DOCUMENT_MODELS
 
+_db = None
+
 
 async def init_db():
+    global _db
     client = AsyncMongoClient(settings.MONGODB_URI)
-    db = client.get_database(
+    _db = client.get_database(
         settings.MONGODB_DB,
         codec_options=CodecOptions(tz_aware=True),
     )
     await init_beanie(
-        database=db,
+        database=_db,
         document_models=ALL_DOCUMENT_MODELS,
     )
+
+
+def get_db():
+    return _db
 
 
 def init_indices(client):

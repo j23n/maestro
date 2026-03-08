@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 
 from fastapi.testclient import TestClient
 
@@ -9,13 +8,9 @@ class TestCSRF:
     @pytest.fixture
     async def raw_client(self, db, student, account):
         """TestClient WITHOUT the automatic CSRF header (unlike test_app)."""
-        from tests.integration.conftest import sign_session
+        from tests.integration.conftest import sign_session, patch_lifespan
 
-        with (
-            patch("maestro.main.init_db", new_callable=AsyncMock),
-            patch("maestro.main.get_nlp", return_value=MagicMock()),
-            patch("maestro.main.load_vocab", new_callable=AsyncMock),
-        ):
+        with patch_lifespan():
             from maestro.main import app
 
             with TestClient(app, raise_server_exceptions=False) as client:
