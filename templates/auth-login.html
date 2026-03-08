@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ t("login_title") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  <h1>{{ t("login_title") }}</h1>
+  <p class="subtitle">{{ t("login_subtitle") }}</p>
+
+  {% if error %}
+  <div class="form-error">{{ t(error) }}</div>
+  {% endif %}
+
+  <form method="post" action="/auth/login">
+    <div class="form-section">
+      <label class="section-label" for="email">{{ t("login_email_label") }}</label>
+      <input class="config-text-input" type="email" id="email" name="email" value="{{ email|default('', true) }}" required>
+    </div>
+    <div class="form-section">
+      <label class="section-label" for="password">{{ t("login_password_label") }}</label>
+      <input class="config-text-input" type="password" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn-start">{{ t("login_submit") }}</button>
+  </form>
+
+  <p class="auth-switch">{{ t("login_no_account") }} <a href="/auth/signup">{{ t("login_signup_link") }}</a></p>
+</div>
+{% endblock %}

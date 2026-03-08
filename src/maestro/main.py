@@ -14,7 +14,7 @@ from maestro.i18n import t as i18n_t
 from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
-from maestro.routes import vocab, profilo, grammar, lezione, students
+from maestro.routes import auth, vocab, profilo, grammar, lezione, students
 
 
 @asynccontextmanager
@@ -27,6 +27,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="src/maestro/static"), name="static")
+app.include_router(auth.router)
 app.include_router(students.router)
 app.include_router(vocab.router)
 app.include_router(profilo.router)

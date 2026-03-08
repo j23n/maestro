@@ -1076,6 +1076,26 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .new-student-form button:hover { background: #B5492D; }
 
 /* =====================================================================
+   21. Auth forms
+   ===================================================================== */
+.form-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 0.6rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  margin-top: 1.25rem;
+}
+.auth-switch a { color: var(--c-terracotta); }
+
+/* =====================================================================
    22. Media queries
    ===================================================================== */
 @media (max-width: 480px) {
