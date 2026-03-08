@@ -1,3 +1,5 @@
+import contextlib
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from mongomock_motor import AsyncMongoMockClient
@@ -5,6 +7,18 @@ from beanie import init_beanie
 from fastapi.testclient import TestClient
 
 from maestro.models import ALL_DOCUMENT_MODELS
+
+
+@contextlib.contextmanager
+def patch_lifespan():
+    """Patch all lifespan startup calls (init_db, seed, nlp, vocab)."""
+    with (
+        patch("maestro.main.init_db", new_callable=AsyncMock),
+        patch("maestro.main.seed_if_empty", new_callable=AsyncMock),
+        patch("maestro.main.get_nlp", return_value=MagicMock()),
+        patch("maestro.main.load_vocab", new_callable=AsyncMock),
+    ):
+        yield
 
 
 @pytest.fixture
@@ -43,11 +57,7 @@ def sign_session(account_id: str) -> str:
 @pytest.fixture
 async def auth_app(db):
     """FastAPI TestClient without pre-set cookies."""
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
+    with patch_lifespan():
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
             # Trigger CSRF cookie and set default header
@@ -61,11 +71,7 @@ async def auth_app(db):
 @pytest.fixture
 async def test_app(db, student, account):
     """FastAPI TestClient with mocked lifespan. Shares the db fixture's database."""
-    with (
-        patch("maestro.main.init_db", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
-        patch("maestro.main.load_vocab", new_callable=AsyncMock),
-    ):
+    with patch_lifespan():
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
