@@ -12,7 +12,6 @@ import re
 
 import httpx
 
-logger = logging.getLogger(__name__)
 from bs4 import BeautifulSoup
 
 from maestro.db import init_db
@@ -21,6 +20,8 @@ from maestro.vocab.epub_parser import parse_epub
 from maestro.vocab.morphology import get_lookup_factory
 from maestro.vocab.morphology.it import WORDLISTS, POS_MAP
 from maestro.vocab.nlp import get_nlp
+
+logger = logging.getLogger(__name__)
 
 HEADERS = {
     "User-Agent": "maestro-language-tutor/1.0 (language learning app; contact via github)"

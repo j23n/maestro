@@ -16,7 +16,7 @@ from maestro.models import (
     LessonStatus,
     ExerciseType,
 )
-from maestro.utils import utcnow, drain_background_tasks
+from maestro.utils import utcnow
 
 
 @pytest.fixture

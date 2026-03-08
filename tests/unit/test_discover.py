@@ -5,7 +5,6 @@ from types import SimpleNamespace
 from maestro.vocab.discover import (
     _annotate,
     _annotate_in_elements,
-    _build_vocab_attrs,
     lang_wrap,
 )
 from bs4 import BeautifulSoup
@@ -195,7 +194,7 @@ def test_annotate_in_elements_skips_headings():
     soup, els = _make_soup_and_elements(html, lang="it")
     word = _make_word(word="casa")
     assert _annotate_in_elements(els, word, None)
-    result = str(soup)
+    str(soup)
     # Heading should not be annotated, but paragraph should
     h2 = soup.find("h2")
     assert "vocab-word" not in str(h2)

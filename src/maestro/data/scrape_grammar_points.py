@@ -293,7 +293,7 @@ async def main() -> None:
                     return []
 
         print(f"Fetching {len(pages)} pages...", file=sys.stderr)
-        results = await asyncio.gather(*[process(c, p, l) for c, p, l in pages])
+        results = await asyncio.gather(*[process(c, p, level) for c, p, level in pages])
 
     all_entries = [e for group in results for e in group]
     all_entries = resolve_global_codes(all_entries)

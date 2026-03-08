@@ -1,6 +1,6 @@
 """Integration tests for learning/profile.py using mongomock DB."""
 import pytest
-from unittest.mock import MagicMock, patch, AsyncMock
+from unittest.mock import patch, AsyncMock
 
 from beanie import PydanticObjectId
 from maestro.models import GrammarPoint, CommunicativeFunction, LearningProfile, LearningEvent

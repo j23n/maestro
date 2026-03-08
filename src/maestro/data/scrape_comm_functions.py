@@ -5,7 +5,6 @@ Usage: uv run python -m maestro.data.scrape_comm_functions [--debug]
 
 import asyncio
 import json
-import re
 import sys
 from pathlib import Path
 from urllib.parse import urljoin
@@ -195,7 +194,7 @@ async def main():
                     print(f"  PARSE ERROR {include_url}: {e}", file=sys.stderr)
                     return []
 
-        results = await asyncio.gather(*[process(l) for l in links])
+        results = await asyncio.gather(*[process(link) for link in links])
 
     all_entries = [e for group in results for e in group]
     print(f"\nTotal entries: {len(all_entries)}", file=sys.stderr)

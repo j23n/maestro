@@ -165,7 +165,7 @@ async def pick_grammar_points(
             {"cefr_level": cefr_level}
         ).to_list()
     if not candidates:
-        logger.warning(f"[selection] no grammar points for codes/level, using all")
+        logger.warning("[selection] no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()
 
     error_counts: dict = profile.grammar_error_counts if profile else {}
@@ -220,7 +220,7 @@ async def pick_comm_functions(
             {"cefr_level": {"$in": eligible_levels}}
         ).to_list()
     if not candidates:
-        logger.warning(f"[selection] no comm functions found")
+        logger.warning("[selection] no comm functions found")
         return []
 
     fn_counts: dict = profile.functions_counts if profile else {}

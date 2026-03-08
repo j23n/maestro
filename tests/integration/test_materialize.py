@@ -3,7 +3,6 @@ import pytest
 
 from maestro.models import (
     GrammarPoint,
-    GrammarPointExplanation,
     DrillTemplate,
     CommunicativeFunction,
     ActivityType,

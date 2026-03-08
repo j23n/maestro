@@ -19,7 +19,6 @@ from bson import DBRef
 from maestro.config import settings
 from maestro.db import init_db
 
-logger = logging.getLogger(__name__)
 from maestro.models import (
     CefrSense,
     CommunicativeFunction,
@@ -33,6 +32,8 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.utils import data_dir
+
+logger = logging.getLogger(__name__)
 
 EXERCISE_TYPES = (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION, ExerciseType.FREE_FORM)
 

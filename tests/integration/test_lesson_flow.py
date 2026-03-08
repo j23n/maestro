@@ -10,7 +10,6 @@ from maestro.models import (
     LearningEvent,
     GeneratedDrill,
     DrillTemplate,
-    DrillItem,
     GrammarPoint,
     LearningProfile,
     ActivityType,
