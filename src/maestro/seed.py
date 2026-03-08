@@ -18,6 +18,16 @@ SEED_COLLECTIONS = [
     "vocabulary_word_definitions",
 ]
 
+USER_COLLECTIONS = [
+    "accounts",
+    "user_vocabulary_cards",
+    "learning_events",
+    "learning_profile",
+    "generated_drills",
+    "drill_attempts",
+    "lessons",
+]
+
 SEED_DIR = Path(__file__).resolve().parents[2] / "data" / "seed" / "current"
 
 
