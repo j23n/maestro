@@ -2,11 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    MONGODB_HOST: str = "localhost"
-    MONGODB_PORT: int = 27017
+    MONGODB_URI: str = "mongodb://localhost:27017/maestro"
     MONGODB_DB: str = "maestro"
-    MONGODB_USER: str
-    MONGODB_PASSWORD: str
     ANTHROPIC_API_KEY: str
     SECRET_KEY: str
     ENVIRONMENT: str = "development"
@@ -20,9 +17,5 @@ class Settings(BaseSettings):
     TARGET_LANGUAGE: str = "it"              # ISO 639-1
     TARGET_LANGUAGE_NAME: str = "Italian"    # for LLM prompts
     SPACY_MODEL: str = "it_core_news_md"    # per-language NLP model
-
-    @property
-    def database_url(self) -> str:
-        return f"mongodb://{self.MONGODB_USER}:{self.MONGODB_PASSWORD}@{self.MONGODB_HOST}:{self.MONGODB_PORT}/?authSource=admin&directConnection=true"
 
     model_config = {"env_file": ".env"}
