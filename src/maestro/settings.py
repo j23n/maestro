@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     CHAT_MODEL: str = "claude-opus-4-6"
     DRILL_MODEL: str = "claude-haiku-4-5-20251001"
     LESSON_MODEL: str = "claude-sonnet-4-6"
+    SCORING_MODEL: str = "claude-sonnet-4-6"
     EVAL_MODEL: str = "claude-opus-4-6"
     DEFINITION_MODEL: str = "claude-sonnet-4-6"
     EXPLANATION_MODEL: str = "claude-sonnet-4-6"

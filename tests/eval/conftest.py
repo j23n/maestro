@@ -24,13 +24,15 @@ def pytest_collection_modifyitems(items):
 
 @pytest.fixture(autouse=True)
 def use_eval_model(monkeypatch):
-    """Override LESSON_MODEL with EVAL_MODEL so eval tests use the evaluator model.
+    """Override LESSON_MODEL and SCORING_MODEL with EVAL_MODEL so eval tests use
+    the evaluator model for both lesson generation and scoring.
 
     Also patches CHAT_MODEL on module-level Settings instances in vocab and grammar
     modules, which create their own Settings() instances independently of maestro.config.
     """
     from maestro.config import settings
     monkeypatch.setattr(settings, "LESSON_MODEL", settings.EVAL_MODEL)
+    monkeypatch.setattr(settings, "SCORING_MODEL", settings.EVAL_MODEL)
 
     import maestro.vocab.generate_definitions as _vocab_mod
     import maestro.grammar.generate_explanations as _grammar_mod
