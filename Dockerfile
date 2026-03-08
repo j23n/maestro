@@ -30,7 +30,9 @@ RUN mkdir -p /root/.ssh \
     && git init /app \
     && git -C /app remote add origin git@github.com:johannesio/maestro.git \
     && git -C /app lfs install \
-    && git -C /app lfs pull --include="data/seed/current/*.bson" \
+    && for f in /app/data/seed/current/*.bson; do \
+         git -C /app lfs smudge < "$f" > "$f.real" && mv "$f.real" "$f"; \
+       done \
     && rm -rf /app/.git /root/.ssh
 
 ENV PYTHONPATH=/app/src
