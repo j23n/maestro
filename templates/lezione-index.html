@@ -1,26 +1,85 @@
 {% extends "base.html" %}
-{% block title %}{{ t("nav_lesson") }} — Maestro{% endblock %}
+{% block title %}{{ t("page_title_new_lesson") }} — Maestro{% endblock %}
 
 {% block content %}
-<div class="lesson-index">
-  <div class="lesson-index-header">
-    <h1>{{ t("nav_lesson") }}</h1>
-    <a class="btn-primary" href="/lezione/new">{{ t("lesson_new_btn") }}</a>
-  </div>
+<div class="lesson-new">
+  <h1>{{ t("new_lesson_title") }}</h1>
+  <p class="subtitle">{{ t("new_lesson_subtitle") }}</p>
 
-  {% if lesson_history %}
-  <h2>{{ t("profile_recent_lessons") }}</h2>
-  <div class="history-list">
-    {% for item in lesson_history %}
-    <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">
-      <span class="history-date">{{ item.lesson.completed_at.strftime('%d/%m') if item.lesson.completed_at else '' }}</span>
-      <span class="history-topic">{{ item.lesson.topic_title or t("lesson_no_topic") }}</span>
-      <span class="history-scenario">{{ item.scenario_label }}</span>
-    </a>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="empty-hint">{{ t("lesson_no_history") }}</p>
-  {% endif %}
+  <form method="post" action="/lezione/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='{{ t("new_lesson_preparing") }}'">
+
+    {% if cefr == "A0" %}
+    <input type="hidden" name="duration" value="20">
+    {% else %}
+
+    {# --- Topic selector --- #}
+    <div class="form-section">
+      <label class="section-label" for="scenario_slug">{{ t("config_topic_label") }}</label>
+      <select name="scenario_slug" id="scenario_slug" class="config-select">
+        {% for opt in scenario_options %}
+        <option value="{{ opt.scenario.slug }}"
+          {% if opt.scenario.slug == auto_scenario_slug %}selected{% endif %}>
+          {{ opt.scenario.label }} · {{ opt.depth_completed }}/{{ opt.max_depth }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {# --- Focus weak grammar --- #}
+    <div class="form-section">
+      <label class="config-checkbox-card">
+        <input type="checkbox" name="focus_weak" value="true">
+        <span class="config-checkbox-label">{{ t("config_focus_weak") }}</span>
+        <span class="config-checkbox-hint">
+          {% if weaknesses %}
+            {{ weaknesses | map(attribute='label') | join(', ') }}
+          {% else %}
+            {{ t("config_no_weaknesses") }}
+          {% endif %}
+        </span>
+      </label>
+    </div>
+
+    {# --- Lesson context --- #}
+    <div class="form-section">
+      <label class="section-label" for="lesson_context">{{ t("config_context_label") }}</label>
+      <input type="text" name="lesson_context" id="lesson_context"
+             class="config-text-input"
+             placeholder="{{ t("config_context_placeholder") }}"
+             maxlength="200">
+    </div>
+
+    {# --- Duration --- #}
+    <div class="form-section">
+      <label class="section-label">{{ t("new_lesson_duration") }}</label>
+      <div class="duration-options">
+        <span>
+          <input type="radio" name="duration" id="d10" value="10">
+          <label for="d10">
+            <span class="dur-min">10</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d20" value="20" checked>
+          <label for="d20">
+            <span class="dur-min">20</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d40" value="40">
+          <label for="d40">
+            <span class="dur-min">40</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+      </div>
+    </div>
+    {% endif %}
+
+    <button class="btn-start" type="submit">{{ t("new_lesson_start") }}</button>
+    <p class="loading-hint">{{ t("new_lesson_note") }}</p>
+  </form>
 </div>
 {% endblock %}

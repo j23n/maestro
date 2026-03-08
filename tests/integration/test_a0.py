@@ -282,8 +282,8 @@ def test_onboarding_submit_saves_name(test_app, student, db):
 
 
 @pytest.mark.integration
-def test_onboarding_submit_saves_persona_tags(test_app, student, db):
-    """POST onboarding-submit with profile_field=persona_tags should update persona."""
+def test_onboarding_submit_saves_background(test_app, student, db):
+    """POST onboarding-submit with profile_field=background should update persona."""
     import asyncio
     from maestro.utils import utcnow
 
@@ -301,11 +301,11 @@ def test_onboarding_submit_saves_persona_tags(test_app, student, db):
             activities=[
                 LessonActivity(
                     type=ActivityType.ONBOARDING,
-                    title="Cosa ti piace?",
-                    description="Your interests",
-                    content="What are your interests?",
-                    profile_field="persona_tags",
-                    response_template="Mi piace {answer}!",
+                    title="Chi sei?",
+                    description="Tell us about yourself",
+                    content="What describes you?",
+                    profile_field="background",
+                    response_template="Sono {answer}!",
                     status=ActivityStatus.ACTIVE,
                 ),
             ],
@@ -318,14 +318,13 @@ def test_onboarding_submit_saves_persona_tags(test_app, student, db):
 
     resp = test_app.post(
         f"/lezione/{lesson.id}/activity/0/onboarding-submit",
-        data={"answer": "cooking, travel"},
+        data={"answer": "university student"},
     )
     assert resp.status_code == 200
 
-    # Verify persona tags were updated
+    # Verify background was updated
     async def _check():
         profile = await LearningProfile.find_one({"student_id": student.id})
-        return profile.persona.tags
-    tags = asyncio.get_event_loop().run_until_complete(_check())
-    assert "cooking" in tags
-    assert "travel" in tags
+        return profile.persona.background
+    background = asyncio.get_event_loop().run_until_complete(_check())
+    assert "university student" in background

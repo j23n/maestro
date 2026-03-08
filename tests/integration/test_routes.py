@@ -30,8 +30,9 @@ def test_grammar_nonexistent_returns_404(test_app):
 
 
 @pytest.mark.integration
-def test_lezione_index_no_active_shows_landing(test_app):
-    """With no active lesson, /lezione/ should show the lesson index page."""
+def test_lezione_index_no_active_shows_config(test_app):
+    """With no active lesson, /lezione/ should show the lesson config screen."""
     response = test_app.get("/lezione/", follow_redirects=False)
     assert response.status_code == 200
-    assert "/lezione/new" in response.text
+    # A0 student sees the start button; A1+ would see the config form
+    assert "Inizia la lezione" in response.text

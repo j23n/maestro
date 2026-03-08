@@ -20,8 +20,10 @@ from maestro.models import (
     ActivityStatus,
     LessonStatus,
     CurriculumScenario,
+    ScenarioProgress,
 )
 from maestro.profile import get_profile, save_onboarding_field
+from maestro.learning.weakness import build_gp_titles, build_grammar_by_level, top_weaknesses
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
@@ -67,37 +69,60 @@ async def lezione_index(request: Request, student: Student = Depends(get_current
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
         return RedirectResponse(url=activity_url(active.id, active.current_index))
 
-    # No active lesson — show history + start button
-    recent_lessons = await Lesson.find(
-        {"student_id": student.id, "status": LessonStatus.COMPLETED}
-    ).sort(-Lesson.completed_at).limit(20).to_list()
-
-    scenario_slugs = {l.scenario_slug for l in recent_lessons if l.scenario_slug}
-    scenarios_list = await CurriculumScenario.find(
-        {"slug": {"$in": list(scenario_slugs)}}
-    ).to_list() if scenario_slugs else []
-    scenario_labels = {s.slug: s.label for s in scenarios_list}
-
-    lesson_history = [
-        {"lesson": l, "scenario_label": scenario_labels.get(l.scenario_slug, "")}
-        for l in recent_lessons
-    ]
-
     profile = await get_profile(student.id)
     cefr = profile.cefr_estimate if profile else "A0"
+
+    if cefr == "A0":
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-index.html",
+            context={"cefr": cefr},
+        )
+
+    # A1+: build config screen data
+    from maestro.lezione.selection import pick_scenario as _pick_scenario
+
+    # All scenarios at level with progress
+    scenarios = await CurriculumScenario.find({"cefr_level": cefr}).to_list()
+    if not scenarios:
+        # No scenarios seeded for this level — fall back to simple start
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-index.html",
+            context={"cefr": "A0"},  # render A0 simple form
+        )
+
+    auto_scenario, auto_depth = await _pick_scenario(profile, cefr)
+
+    scenarios.sort(key=lambda s: s.label)
+    progress = profile.scenario_progress if profile else {}
+    _no_progress = ScenarioProgress()
+    scenario_options = [
+        {
+            "scenario": s,
+            "depth_completed": progress.get(s.slug, _no_progress).depth,
+            "max_depth": len(s.depths),
+        }
+        for s in scenarios
+    ]
+
+    # Compute weak GPs
+    grammar_points = await GrammarPoint.find({"cefr_level": cefr}).to_list()
+    gp_titles = await build_gp_titles(grammar_points, cefr)
+    grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
+    weaknesses = top_weaknesses(grammar_by_level, cefr)
 
     return templates.TemplateResponse(
         request=request,
         name="lezione-index.html",
-        context={"lesson_history": lesson_history, "cefr": cefr},
+        context={
+            "cefr": cefr,
+            "scenario_options": scenario_options,
+            "auto_scenario_slug": auto_scenario.slug,
+            "weaknesses": weaknesses,
+            "persona": profile.persona if profile else None,
+        },
     )
-
-
-@router.get("/lezione/new", response_class=HTMLResponse)
-async def lezione_new(request: Request, student: Student = Depends(get_current_student)):
-    profile = await get_profile(student.id)
-    cefr = profile.cefr_estimate if profile else "A0"
-    return templates.TemplateResponse(request=request, name="lezione-new.html", context={"cefr": cefr})
 
 
 @router.post("/lezione/", response_class=HTMLResponse)
@@ -105,6 +130,9 @@ async def lezione_create(
     request: Request,
     student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
+    scenario_slug: Annotated[str, Form()] = "",
+    focus_weak: Annotated[bool, Form()] = False,
+    lesson_context: Annotated[str, Form(max_length=200)] = "",
 ):
     # Abandon any existing active lessons before creating a new one
     await Lesson.find(
@@ -113,9 +141,18 @@ async def lezione_create(
 
     profile = await get_profile(student.id)
 
-    lesson = await prepare_lesson_immediate(duration, profile, student.id)
+    lesson = await prepare_lesson_immediate(
+        duration, profile, student.id,
+        lesson_context=lesson_context.strip(),
+        focus_weak=focus_weak,
+        scenario_slug=scenario_slug or None,
+    )
     create_background_task(
-        generate_lesson_background(lesson.id, duration),
+        generate_lesson_background(
+            lesson.id, duration,
+            scenario_slug=scenario_slug or None,
+            focus_weak=focus_weak,
+        ),
         name=f"lesson-generate-{lesson.id}",
     )
 
