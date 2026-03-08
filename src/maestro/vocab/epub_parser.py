@@ -33,13 +33,14 @@ TEI_NS = "http://www.tei-c.org/ns/1.0"
 # Data structures
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ParsedSense:
     definition: str = ""
     examples: list[str] = field(default_factory=list)
     synonyms: list[str] = field(default_factory=list)
     antonyms: list[str] = field(default_factory=list)
-    pos: Optional[str] = None    # only if different from entry-level POS
+    pos: Optional[str] = None  # only if different from entry-level POS
     style: Optional[str] = None  # "figurato", "aulico"
 
 
@@ -55,6 +56,7 @@ class ParsedEntry:
 # ---------------------------------------------------------------------------
 # Parsing helpers
 # ---------------------------------------------------------------------------
+
 
 def _parse_entry(p_tag: Tag) -> Optional[ParsedEntry]:
     """Parse a single <p class="lemma"> element into a ParsedEntry."""
@@ -117,12 +119,12 @@ def _parse_body(p_tag: Tag) -> tuple[Optional[str], list[ParsedSense]]:
     cur_style: Optional[str] = None
     cur_pos: Optional[str] = None  # pos override for current section
 
-    in_header = True       # True until we find the entry-level POS
-    in_pos = False         # True while accumulating multi-part POS (e.g. s + m → s.m.)
-    in_bracket = 0         # depth of [...] inflection notes
+    in_header = True  # True until we find the entry-level POS
+    in_pos = False  # True while accumulating multi-part POS (e.g. s + m → s.m.)
+    in_bracket = 0  # depth of [...] inflection notes
     collect_syn = False
     collect_ant = False
-    stop = False           # set True when we hit a sub-entry we don't want
+    stop = False  # set True when we hit a sub-entry we don't want
     after_categoria = False
 
     def _flush() -> None:
@@ -182,7 +184,7 @@ def _parse_body(p_tag: Tag) -> tuple[Optional[str], list[ParsedSense]]:
 
             if in_pos:
                 outside_text = "".join(outside)
-                non_sep = re.sub(r'[\s./\-]', '', outside_text)
+                non_sep = re.sub(r"[\s./\-]", "", outside_text)
                 if not non_sep:
                     continue  # pure separator — skip
                 # Single lowercase letter = gender/class suffix in plain text (e.g. "m", "f")
@@ -243,8 +245,15 @@ def _parse_body(p_tag: Tag) -> tuple[Optional[str], list[ParsedSense]]:
 
         # ── Inside header area ──────────────────────────────────────────────
         if in_header:
-            if cls in ("lemma", "lemma_straniero", "lemma_variante_grigio",
-                       "apice", "sillabazione", "note", "manina"):
+            if cls in (
+                "lemma",
+                "lemma_straniero",
+                "lemma_variante_grigio",
+                "apice",
+                "sillabazione",
+                "note",
+                "manina",
+            ):
                 # Scan for brackets so in_bracket stays accurate even when the
                 # opening [ is in a preceding text node and ] is inside this span
                 # (common in sillabazione spans and loanword pronunciation notes).
@@ -357,6 +366,7 @@ def _parse_body(p_tag: Tag) -> tuple[Optional[str], list[ParsedSense]]:
 # Top-level parse
 # ---------------------------------------------------------------------------
 
+
 @lru_cache(maxsize=1)
 def parse_epub() -> dict:
     """
@@ -391,7 +401,9 @@ def parse_epub() -> dict:
                 epub_by_form[key] = entry
             # else: homograph — keep first entry
 
-    logger.info(f"Parsed {total} entries, skipped {skipped} from {len(chapter_files)} chapters")
+    logger.info(
+        f"Parsed {total} entries, skipped {skipped} from {len(chapter_files)} chapters"
+    )
     print(f"  Parsed {total} entries, skipped {skipped}", file=sys.stderr)
 
     return {"epub_by_form": epub_by_form, "epub_by_lemma": {}}
@@ -400,6 +412,7 @@ def parse_epub() -> dict:
 # ---------------------------------------------------------------------------
 # TEI Lex-0 XML output
 # ---------------------------------------------------------------------------
+
 
 def _make_tei(entries: dict[str, ParsedEntry]) -> ET.ElementTree:
     ET.register_namespace("", TEI_NS)

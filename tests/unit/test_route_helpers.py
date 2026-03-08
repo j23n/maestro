@@ -61,7 +61,9 @@ def test_build_grammar_mastered_flag_at_threshold():
 def test_build_grammar_not_mastered_below_threshold():
     gp = make_gp("GP_001", "A1")
     # 5 outcomes, 3 True → 60% < 80% → not mastered
-    profile = make_profile(grammar_recent_outcomes={"GP_001": [True, True, True, False, False]})
+    profile = make_profile(
+        grammar_recent_outcomes={"GP_001": [True, True, True, False, False]}
+    )
     result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is False
 

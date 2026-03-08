@@ -2,6 +2,7 @@
 Aggregate LearningEvents into a LearningProfile and generate
 a natural-language description for the system prompt.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -28,11 +29,15 @@ async def update_profile(event: "LearningEvent") -> None:
     profile = await get_or_create_profile(event.student_id)
 
     for code in event.grammar_correct:
-        profile.grammar_correct_counts[code] = profile.grammar_correct_counts.get(code, 0) + 1
+        profile.grammar_correct_counts[code] = (
+            profile.grammar_correct_counts.get(code, 0) + 1
+        )
         recent = profile.grammar_recent_outcomes.get(code, [])
         profile.grammar_recent_outcomes[code] = (recent + [True])[-10:]
     for code in event.grammar_errors:
-        profile.grammar_error_counts[code] = profile.grammar_error_counts.get(code, 0) + 1
+        profile.grammar_error_counts[code] = (
+            profile.grammar_error_counts.get(code, 0) + 1
+        )
         recent = profile.grammar_recent_outcomes.get(code, [])
         profile.grammar_recent_outcomes[code] = (recent + [False])[-10:]
     for code in event.functions_performed:
@@ -87,12 +92,14 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         gp_codes = gp_by_level.get(level, [])
         gp_ok = (
             sum(1 for c in gp_codes if _gp_mastered(c)) / len(gp_codes) >= 0.9
-            if gp_codes else False
+            if gp_codes
+            else False
         )
         cf_codes = cf_by_level.get(level, [])
         cf_ok = (
             sum(1 for c in cf_codes if _cf_demonstrated(c)) / len(cf_codes) >= 0.9
-            if cf_codes else False
+            if cf_codes
+            else False
         )
         if gp_ok and cf_ok:
             best = level
@@ -111,20 +118,21 @@ async def _generate_description(profile: "LearningProfile") -> str:
         gp_labels.get(c, c) for c, n in profile.grammar_correct_counts.items() if n >= 3
     ][:4]
     struggling = [
-        gp_labels.get(c, c) for c in profile.grammar_error_counts
-        if profile.grammar_error_counts[c] / max(
+        gp_labels.get(c, c)
+        for c in profile.grammar_error_counts
+        if profile.grammar_error_counts[c]
+        / max(
             1,
-            profile.grammar_correct_counts.get(c, 0) + profile.grammar_error_counts[c]
-        ) > 0.4
+            profile.grammar_correct_counts.get(c, 0) + profile.grammar_error_counts[c],
+        )
+        > 0.4
     ][:3]
 
     # Vocab coverage
     total_by_level: dict[str, int] = {}
     discovered_by_level: dict[str, int] = {}
 
-    all_vocab = await VocabularyWord.find(
-        {"cefr_level": {"$ne": None}}
-    ).to_list()
+    all_vocab = await VocabularyWord.find({"cefr_level": {"$ne": None}}).to_list()
     for w in all_vocab:
         total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
@@ -136,12 +144,12 @@ async def _generate_description(profile: "LearningProfile") -> str:
         ref = card.word
         word_ids.append(ref.ref.id if hasattr(ref, "ref") else ref.id)
 
-    discovered_words = await VocabularyWord.find(
-        {"_id": {"$in": word_ids}}
-    ).to_list()
+    discovered_words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
     for w in discovered_words:
         if w.cefr_level is not None:
-            discovered_by_level[w.cefr_level] = discovered_by_level.get(w.cefr_level, 0) + 1
+            discovered_by_level[w.cefr_level] = (
+                discovered_by_level.get(w.cefr_level, 0) + 1
+            )
 
     def pct(level: str) -> int:
         total = total_by_level.get(level, 0)
@@ -159,17 +167,20 @@ async def _generate_description(profile: "LearningProfile") -> str:
     for code, count in profile.functions_counts.items():
         cf = cf_by_code.get(code)
         if cf:
-            macro_counts[cf.macro_category] = macro_counts.get(cf.macro_category, 0) + count
+            macro_counts[cf.macro_category] = (
+                macro_counts.get(cf.macro_category, 0) + count
+            )
 
-    top_functions = sorted(profile.functions_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+    top_functions = sorted(
+        profile.functions_counts.items(), key=lambda x: x[1], reverse=True
+    )[:3]
     top_function_labels = [
         cf_by_code[code].label for code, _ in top_functions if code in cf_by_code
     ]
     top_macros = sorted(macro_counts, key=macro_counts.get, reverse=True)[:2]  # type: ignore[arg-type]
 
-    s1 = (
-        f"The student is at approximately {profile.cefr_estimate} level"
-        + (f", having demonstrated: {', '.join(demonstrated)}." if demonstrated else ".")
+    s1 = f"The student is at approximately {profile.cefr_estimate} level" + (
+        f", having demonstrated: {', '.join(demonstrated)}." if demonstrated else "."
     )
     if struggling:
         s2 = (
@@ -185,7 +196,8 @@ async def _generate_description(profile: "LearningProfile") -> str:
     if top_function_labels:
         macro_str = (
             " and ".join(_MACRO_LABELS.get(m, m) for m in top_macros)
-            if top_macros else ""
+            if top_macros
+            else ""
         )
         s3 = (
             f"Communicative repertoire: mainly {macro_str}; "

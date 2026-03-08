@@ -1,4 +1,5 @@
 """FastAPI route smoke tests using mongomock DB and patched lifespan."""
+
 import pytest
 
 # test_app fixture is provided by tests/integration/conftest.py

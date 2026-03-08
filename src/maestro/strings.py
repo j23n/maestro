@@ -4,6 +4,7 @@ Usage:
     from maestro.strings import t
     title = t("grammar_title", label="Present tense")
 """
+
 from maestro.config import settings
 
 _STRINGS: dict[str, dict[str, str]] = {

@@ -17,7 +17,11 @@ from maestro.models import (
 from maestro.profile import get_profile, get_or_create_profile
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
-from maestro.learning.weakness import build_gp_titles, build_grammar_by_level, top_weaknesses
+from maestro.learning.weakness import (
+    build_gp_titles,
+    build_grammar_by_level,
+    top_weaknesses,
+)
 
 router = APIRouter()
 
@@ -35,7 +39,9 @@ def _build_cf_by_level(comm_functions, profile):
 
 
 @router.get("/profilo", response_class=HTMLResponse)
-async def profilo_page(request: Request, student: Student = Depends(get_current_student)):
+async def profilo_page(
+    request: Request, student: Student = Depends(get_current_student)
+):
     profile = await get_profile(student.id)
     grammar_points = await GrammarPoint.find_all().to_list()
     comm_functions = await CommunicativeFunction.find_all().to_list()
@@ -107,14 +113,21 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
             completed_scenario_maps.append((level, level_map))
 
     # Lesson history
-    recent_lessons = await Lesson.find(
-        {"student_id": student.id, "status": LessonStatus.COMPLETED}
-    ).sort(-Lesson.completed_at).limit(20).to_list()
+    recent_lessons = (
+        await Lesson.find({"student_id": student.id, "status": LessonStatus.COMPLETED})
+        .sort(-Lesson.completed_at)
+        .limit(20)
+        .to_list()
+    )
 
-    scenario_slugs = {lesson.scenario_slug for lesson in recent_lessons if lesson.scenario_slug}
-    scenarios_list = await CurriculumScenario.find(
-        {"slug": {"$in": list(scenario_slugs)}}
-    ).to_list() if scenario_slugs else []
+    scenario_slugs = {
+        lesson.scenario_slug for lesson in recent_lessons if lesson.scenario_slug
+    }
+    scenarios_list = (
+        await CurriculumScenario.find({"slug": {"$in": list(scenario_slugs)}}).to_list()
+        if scenario_slugs
+        else []
+    )
     scenario_labels = {s.slug: s.label for s in scenarios_list}
 
     lesson_history = [

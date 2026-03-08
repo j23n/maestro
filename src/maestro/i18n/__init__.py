@@ -8,6 +8,7 @@ Usage (in templates):
     {{ t("nav_lesson") }}
     {{ t("vocab_italian_word", language=target_language) }}
 """
+
 import json
 from pathlib import Path
 

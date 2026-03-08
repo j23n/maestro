@@ -1,4 +1,5 @@
 """Integration tests for activity materialization from LLM response."""
+
 import pytest
 
 from maestro.models import (
@@ -23,8 +24,11 @@ from maestro.lezione.schemas import (
 @pytest.fixture
 async def grammar_gp(db):
     gp = GrammarPoint(
-        code="GP_MAT", label="Articoli", cefr_level="A1",
-        category="articles", description="Definite articles",
+        code="GP_MAT",
+        label="Articoli",
+        cefr_level="A1",
+        category="articles",
+        description="Definite articles",
     )
     await gp.insert()
     return gp
@@ -33,7 +37,8 @@ async def grammar_gp(db):
 @pytest.fixture
 async def drill_template(db):
     t = DrillTemplate(
-        grammar_point_code="GP_DRILL", cefr_level="A1",
+        grammar_point_code="GP_DRILL",
+        cefr_level="A1",
         exercise_type=ExerciseType.FILL_BLANK,
     )
     await t.insert()
@@ -43,7 +48,9 @@ async def drill_template(db):
 @pytest.mark.integration
 async def test_materialize_grammar_activity(grammar_gp, db):
     content = LessonContentResponse(
-        grammar_motivations=[GrammarMotivation(code="GP_MAT", text="Articles are essential")],
+        grammar_motivations=[
+            GrammarMotivation(code="GP_MAT", text="Articles are essential")
+        ],
     )
     activities = await materialize_activities(
         content=content,
@@ -69,13 +76,15 @@ async def test_materialize_grammar_activity(grammar_gp, db):
 @pytest.mark.integration
 async def test_materialize_drill_creates_generated_drill(drill_template, db):
     content = LessonContentResponse(
-        drills=[DrillResponse(
-            grammar_point_code="GP_DRILL",
-            items=[
-                DrillItemResponse(prompt="Il ___ è bello", correct_answer="gatto"),
-                DrillItemResponse(prompt="La ___ è grande", correct_answer="casa"),
-            ],
-        )],
+        drills=[
+            DrillResponse(
+                grammar_point_code="GP_DRILL",
+                items=[
+                    DrillItemResponse(prompt="Il ___ è bello", correct_answer="gatto"),
+                    DrillItemResponse(prompt="La ___ è grande", correct_answer="casa"),
+                ],
+            )
+        ],
     )
     spec = {
         "grammar_point_code": "GP_DRILL",
@@ -107,11 +116,13 @@ async def test_materialize_drill_creates_generated_drill(drill_template, db):
 @pytest.mark.integration
 async def test_materialize_reading_activity(db):
     content = LessonContentResponse(
-        readings=[ReadingResponse(
-            text="Marco va al bar.",
-            questions=["Dove va Marco?"],
-            answers=["Al bar"],
-        )],
+        readings=[
+            ReadingResponse(
+                text="Marco va al bar.",
+                questions=["Dove va Marco?"],
+                answers=["Al bar"],
+            )
+        ],
     )
     activities = await materialize_activities(
         content=content,
@@ -161,17 +172,21 @@ async def test_materialize_writing_activity(db):
 async def test_materialize_pedagogical_order(grammar_gp, drill_template, db):
     """Activities should follow: grammar → reading → drill → speaking → writing."""
     cf = CommunicativeFunction(
-        code="CF_TEST", label="Test CF", macro_category="test",
+        code="CF_TEST",
+        label="Test CF",
+        macro_category="test",
         cefr_level="A1",
     )
     await cf.insert()
 
     content = LessonContentResponse(
         grammar_motivations=[GrammarMotivation(code="GP_MAT", text="motivation")],
-        drills=[DrillResponse(
-            grammar_point_code="GP_DRILL",
-            items=[DrillItemResponse(prompt="test", correct_answer="ans")],
-        )],
+        drills=[
+            DrillResponse(
+                grammar_point_code="GP_DRILL",
+                items=[DrillItemResponse(prompt="test", correct_answer="ans")],
+            )
+        ],
         readings=[ReadingResponse(text="text", questions=["q"], answers=["a"])],
         writing=WritingResponse(prompt="write"),
         speakings=[SpeakingResponse(prompt="speak")],

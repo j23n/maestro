@@ -31,11 +31,13 @@ def use_eval_model(monkeypatch):
     modules, which create their own Settings() instances independently of maestro.config.
     """
     from maestro.config import settings
+
     monkeypatch.setattr(settings, "LESSON_MODEL", settings.EVAL_MODEL)
     monkeypatch.setattr(settings, "SCORING_MODEL", settings.EVAL_MODEL)
 
     import maestro.vocab.generate_definitions as _vocab_mod
     import maestro.grammar.generate_explanations as _grammar_mod
+
     monkeypatch.setattr(_vocab_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
     monkeypatch.setattr(_grammar_mod.settings, "EXPLANATION_MODEL", settings.EVAL_MODEL)
 
@@ -43,7 +45,9 @@ def use_eval_model(monkeypatch):
 @pytest.fixture
 async def db():
     client = AsyncMongoMockClient()
-    await init_beanie(database=client["test_maestro_eval"], document_models=ALL_DOCUMENT_MODELS)
+    await init_beanie(
+        database=client["test_maestro_eval"], document_models=ALL_DOCUMENT_MODELS
+    )
     yield
 
 

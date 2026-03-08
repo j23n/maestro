@@ -4,6 +4,7 @@ Selection helpers for lesson planning.
 Picks scenarios, grammar points, communicative functions, and vocabulary cards
 based on the student's profile and CEFR level.
 """
+
 from __future__ import annotations
 
 import logging
@@ -30,8 +31,20 @@ MIN_VOCAB = 5
 _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
 
 # A1 early/late scenario weighting
-_EARLY_A1_SLUGS = {"presentarsi", "al-bar", "al-ristorante", "fare-la-spesa", "la-famiglia", "la-giornata"}
-_LATE_A1_SLUGS = {"capire-e-farsi-capire", "opinioni-e-accordo", "permessi-e-regole", "scrivere-un-messaggio"}
+_EARLY_A1_SLUGS = {
+    "presentarsi",
+    "al-bar",
+    "al-ristorante",
+    "fare-la-spesa",
+    "la-famiglia",
+    "la-giornata",
+}
+_LATE_A1_SLUGS = {
+    "capire-e-farsi-capire",
+    "opinioni-e-accordo",
+    "permessi-e-regole",
+    "scrivere-un-messaggio",
+}
 _EARLY_A1_LESSON_THRESHOLD = 5
 
 
@@ -43,9 +56,9 @@ async def _pick_a0_scenario(
     Returns the first scenario whose depth < 1 (i.e. not yet completed).
     Falls back to the last scenario if all are done.
     """
-    scenarios = await CurriculumScenario.find(
-        {"cefr_level": "A0"}
-    ).sort("sequence").to_list()
+    scenarios = (
+        await CurriculumScenario.find({"cefr_level": "A0"}).sort("sequence").to_list()
+    )
     if not scenarios:
         raise ValueError("No A0 curriculum scenarios found")
 
@@ -53,7 +66,9 @@ async def _pick_a0_scenario(
     for scenario in scenarios:
         sp = progress.get(scenario.slug, ScenarioProgress())
         if sp.depth < 1:
-            logger.info(f"[selection] _pick_a0_scenario: {scenario.slug} (sequence {scenario.sequence})")
+            logger.info(
+                f"[selection] _pick_a0_scenario: {scenario.slug} (sequence {scenario.sequence})"
+            )
             return scenario, 1
     # All done — return last scenario
     last = scenarios[-1]
@@ -95,9 +110,11 @@ async def pick_scenario(
 
     # Count total A1 lessons for early weighting (exclude A0 lessons)
     a1_slugs = {s.slug for s in scenarios}
-    a1_lesson_total = sum(
-        sp.lesson_count for slug, sp in progress.items() if slug in a1_slugs
-    ) if progress else 0
+    a1_lesson_total = (
+        sum(sp.lesson_count for slug, sp in progress.items() if slug in a1_slugs)
+        if progress
+        else 0
+    )
 
     scored: list[tuple[float, CurriculumScenario, int]] = []
     for scenario in scenarios:
@@ -161,9 +178,7 @@ async def pick_grammar_points(
             {"code": {"$in": candidate_codes}}
         ).to_list()
     else:
-        candidates = await GrammarPoint.find(
-            {"cefr_level": cefr_level}
-        ).to_list()
+        candidates = await GrammarPoint.find({"cefr_level": cefr_level}).to_list()
     if not candidates:
         logger.warning("[selection] no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()
@@ -194,7 +209,9 @@ async def pick_grammar_points(
     else:
         picked = pool[:count]
 
-    logger.debug(f"[selection] pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}")
+    logger.debug(
+        f"[selection] pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}"
+    )
     return picked
 
 
@@ -236,7 +253,9 @@ async def pick_comm_functions(
     return picked
 
 
-async def fill_vocab_cards(vocab_count: int, cefr_level: str, student_id=None) -> list[UserVocabularyCard]:
+async def fill_vocab_cards(
+    vocab_count: int, cefr_level: str, student_id=None
+) -> list[UserVocabularyCard]:
     """Return up to vocab_count cards due today; introduce new words if too few due.
 
     Only considers words at the student's CEFR level +1 (e.g. A1 student sees A1+A2 words).
@@ -287,6 +306,8 @@ async def fill_vocab_cards(vocab_count: int, cefr_level: str, student_id=None) -
         if new_cards:
             await UserVocabularyCard.insert_many(new_cards)
             due.extend(new_cards)
-            logger.info(f"[selection] fill_vocab_cards: introduced {len(new_cards)} new words")
+            logger.info(
+                f"[selection] fill_vocab_cards: introduced {len(new_cards)} new words"
+            )
 
     return due[:vocab_count]

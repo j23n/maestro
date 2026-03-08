@@ -1,4 +1,5 @@
 """LLM eval tests for writing feedback task-completion accuracy."""
+
 import json
 import logging
 from pathlib import Path
@@ -29,7 +30,11 @@ async def test_writing_task_completion_accuracy(record_eval):
             student_text=case["student_text"],
             cefr_level="A1",
         )
-        got = feedback.get("objective_correct", True) if isinstance(feedback, dict) else True
+        got = (
+            feedback.get("objective_correct", True)
+            if isinstance(feedback, dict)
+            else True
+        )
         expected = case["expected_objective_correct"]
         passed = got == expected
 
@@ -42,12 +47,14 @@ async def test_writing_task_completion_accuracy(record_eval):
         else:
             tn += 1
 
-        results.append({
-            "id": case["id"],
-            "got": got,
-            "expected": expected,
-            "pass": passed,
-        })
+        results.append(
+            {
+                "id": case["id"],
+                "got": got,
+                "expected": expected,
+                "pass": passed,
+            }
+        )
         case_feedbacks.append((case, feedback if isinstance(feedback, dict) else {}))
         logger.info(
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} "
@@ -72,7 +79,11 @@ async def test_writing_task_completion_accuracy(record_eval):
         if not case["student_text"]:
             continue  # blank/nonsense submissions have no feedback to judge
         judge_total += 1
-        scored_str = "task completed ✓" if feedback.get("objective_correct") else "task not completed ✗"
+        scored_str = (
+            "task completed ✓"
+            if feedback.get("objective_correct")
+            else "task not completed ✗"
+        )
         grammar_errors = feedback.get("grammar_errors", [])
         tips = feedback.get("tips", [])
         generated = f"scored={scored_str}, grammar_errors={grammar_errors}, tips={tips}"
@@ -100,15 +111,22 @@ async def test_writing_task_completion_accuracy(record_eval):
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Writing content_quality={content_quality:.2%}")
 
-    record_eval("analyzer", {
-        "accuracy": round(accuracy, 4),
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "fp_rate": round(fp_rate, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "writing",
-    })
+    record_eval(
+        "analyzer",
+        {
+            "accuracy": round(accuracy, 4),
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fp_rate": round(fp_rate, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "writing",
+        },
+    )
 
-    assert accuracy >= 0.98, f"Writing task-completion accuracy too low: {accuracy:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Writing feedback content quality too low: {content_quality:.2%}"
+    assert accuracy >= 0.98, (
+        f"Writing task-completion accuracy too low: {accuracy:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Writing feedback content quality too low: {content_quality:.2%}"
+    )

@@ -6,6 +6,7 @@ Call ensure_loaded() at startup (or before first use). Use set_definition()
 to update the cache after on-demand generation without a restart.
 Call invalidate() in tests to reset state between runs.
 """
+
 from __future__ import annotations
 
 import logging

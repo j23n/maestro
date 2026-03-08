@@ -17,6 +17,7 @@ Usage:
     version = prompts.analyzer.version   # e.g. "1"
     system = prompts.vocab.definitions_system.render_system()
 """
+
 from __future__ import annotations
 
 import re

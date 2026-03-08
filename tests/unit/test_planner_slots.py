@@ -50,8 +50,14 @@ def test_above_20_is_long():
 def test_all_activity_types_present():
     for duration in [5, 15, 30]:
         slots = _allocate_slots(duration)
-        for key in (ActivityType.GRAMMAR, ActivityType.DRILL, ActivityType.VOCAB_REVIEW,
-                    ActivityType.READING, ActivityType.WRITING, ActivityType.SPEAKING):
+        for key in (
+            ActivityType.GRAMMAR,
+            ActivityType.DRILL,
+            ActivityType.VOCAB_REVIEW,
+            ActivityType.READING,
+            ActivityType.WRITING,
+            ActivityType.SPEAKING,
+        ):
             assert key in slots, f"Missing key '{key}' for duration={duration}"
 
 
@@ -60,4 +66,8 @@ def test_vocab_review_increases_with_duration():
     short = _allocate_slots(5)
     medium = _allocate_slots(15)
     long_ = _allocate_slots(40)
-    assert short[ActivityType.VOCAB_REVIEW] < medium[ActivityType.VOCAB_REVIEW] < long_[ActivityType.VOCAB_REVIEW]
+    assert (
+        short[ActivityType.VOCAB_REVIEW]
+        < medium[ActivityType.VOCAB_REVIEW]
+        < long_[ActivityType.VOCAB_REVIEW]
+    )

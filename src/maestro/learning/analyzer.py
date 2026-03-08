@@ -50,8 +50,12 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
     # taxonomy list manageable and improves matching precision.
     relevant_levels = {student_level}
 
-    gp_relevant = [g for g in taxonomy.grammar_points() if g.cefr_level in relevant_levels]
-    cf_relevant = [f for f in taxonomy.comm_functions() if f.cefr_level in relevant_levels]
+    gp_relevant = [
+        g for g in taxonomy.grammar_points() if g.cefr_level in relevant_levels
+    ]
+    cf_relevant = [
+        f for f in taxonomy.comm_functions() if f.cefr_level in relevant_levels
+    ]
     logger.debug(
         f"[analyzer] building prompt: level={student_level}, "
         f"{len(gp_relevant)} GPs, {len(cf_relevant)} CFs in taxonomy, "
@@ -59,14 +63,20 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
     )
 
     grammar_lines = "\n".join(f"{g.code}: {g.description}" for g in gp_relevant)
-    function_lines = "\n".join(f"{f.code}: {f.description or f.label}" for f in cf_relevant)
+    function_lines = "\n".join(
+        f"{f.code}: {f.description or f.label}" for f in cf_relevant
+    )
 
     context_block = ""
     feedback_field = ""
     if drill_context:
-        context_block = _prompts.context_block_fragment.render(drill_context=drill_context)
+        context_block = _prompts.context_block_fragment.render(
+            drill_context=drill_context
+        )
         feedback_language = _feedback_language(student_level)
-        feedback_field = _prompts.feedback_field_fragment.render(feedback_language=feedback_language).strip()
+        feedback_field = _prompts.feedback_field_fragment.render(
+            feedback_language=feedback_language
+        ).strip()
 
     return _prompts.analyze_message.render(
         target_language=settings.TARGET_LANGUAGE_NAME,
@@ -93,10 +103,14 @@ async def analyze_message(
     word_count = len(text.split())
     # Skip very short messages (greetings, single words)
     if word_count < 3:
-        logger.debug(f"[analyzer] skipping short message ({word_count} words): {text!r}")
+        logger.debug(
+            f"[analyzer] skipping short message ({word_count} words): {text!r}"
+        )
         return None
 
-    logger.info(f"[analyzer] analyzing message ({word_count} words): {text[:80]!r}{'...' if len(text) > 80 else ''}")
+    logger.info(
+        f"[analyzer] analyzing message ({word_count} words): {text[:80]!r}{'...' if len(text) > 80 else ''}"
+    )
 
     try:
         await _ensure_loaded()
@@ -136,17 +150,39 @@ async def analyze_message(
         def _str_codes(items) -> list[str]:
             return [c for c in items if isinstance(c, str)]
 
-        grammar_correct = [c for c in _str_codes(data.get("grammar_correct", [])) if c in valid_grammar]
-        grammar_errors  = [c for c in _str_codes(data.get("grammar_errors", [])) if c in valid_grammar]
-        functions       = [c for c in _str_codes(data.get("functions_performed", [])) if c in valid_functions]
-        themes          = [t for t in _str_codes(data.get("themes", [])) if t in valid_themes]
+        grammar_correct = [
+            c for c in _str_codes(data.get("grammar_correct", [])) if c in valid_grammar
+        ]
+        grammar_errors = [
+            c for c in _str_codes(data.get("grammar_errors", [])) if c in valid_grammar
+        ]
+        functions = [
+            c
+            for c in _str_codes(data.get("functions_performed", []))
+            if c in valid_functions
+        ]
+        themes = [t for t in _str_codes(data.get("themes", [])) if t in valid_themes]
 
-        unknown_gp = [c for c in _str_codes(data.get("grammar_correct", []) + data.get("grammar_errors", [])) if c not in valid_grammar]
-        unknown_cf = [c for c in _str_codes(data.get("functions_performed", [])) if c not in valid_functions]
+        unknown_gp = [
+            c
+            for c in _str_codes(
+                data.get("grammar_correct", []) + data.get("grammar_errors", [])
+            )
+            if c not in valid_grammar
+        ]
+        unknown_cf = [
+            c
+            for c in _str_codes(data.get("functions_performed", []))
+            if c not in valid_functions
+        ]
         if unknown_gp:
-            logger.warning(f"[analyzer] LLM returned unknown grammar codes (ignored): {unknown_gp}")
+            logger.warning(
+                f"[analyzer] LLM returned unknown grammar codes (ignored): {unknown_gp}"
+            )
         if unknown_cf:
-            logger.warning(f"[analyzer] LLM returned unknown CF codes (ignored): {unknown_cf}")
+            logger.warning(
+                f"[analyzer] LLM returned unknown CF codes (ignored): {unknown_cf}"
+            )
 
         logger.info(
             f"[analyzer] result: correct={grammar_correct}, errors={grammar_errors}, "
@@ -159,10 +195,10 @@ async def analyze_message(
             grammar_errors=grammar_errors,
             functions_performed=functions,
             themes=themes,
-            feedback=json.dumps({"errors": data.get("errors", [])}) if drill_context else "",
+            feedback=json.dumps({"errors": data.get("errors", [])})
+            if drill_context
+            else "",
         )
     except Exception as e:
         logger.error(f"[analyzer] error analyzing message: {e}", exc_info=True)
         return None
-
-

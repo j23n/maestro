@@ -12,12 +12,14 @@ def _get_serializer() -> URLSafeTimedSerializer:
     global _serializer
     if _serializer is None:
         from maestro.config import settings
+
         _serializer = URLSafeTimedSerializer(settings.SECRET_KEY)
     return _serializer
 
 
 def create_session_cookie(response: Response, account_id: str) -> None:
     from maestro.config import settings
+
     token = _get_serializer().dumps({"account_id": account_id})
     response.set_cookie(
         SESSION_COOKIE,
@@ -41,6 +43,7 @@ def read_session(request: Request) -> dict | None:
 
 def clear_session_cookie(response: Response) -> None:
     from maestro.config import settings
+
     response.delete_cookie(
         SESSION_COOKIE,
         httponly=True,

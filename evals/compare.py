@@ -21,7 +21,16 @@ from pathlib import Path
 
 RESULTS_FILE = Path(__file__).parent / "results.jsonl"
 
-METRIC_COLS = ["precision", "recall", "fp_rate", "accuracy", "output_syntax", "content_quality", "n", "test"]
+METRIC_COLS = [
+    "precision",
+    "recall",
+    "fp_rate",
+    "accuracy",
+    "output_syntax",
+    "content_quality",
+    "n",
+    "test",
+]
 
 
 def load_results(prompt_filter: str | None = None) -> list[dict]:
@@ -100,14 +109,18 @@ def print_table(rows: list[dict], last: int | None) -> None:
         if prev_key and key != prev_key:
             print()  # blank line between groups
         prev_key = key
-        print(sep.join(str(display.get(c, "-")).ljust(col_widths[c]) for c in header_cols))
+        print(
+            sep.join(str(display.get(c, "-")).ljust(col_widths[c]) for c in header_cols)
+        )
 
     print()
     print(f"Total runs: {len(all_display_rows)}  |  Results file: {RESULTS_FILE}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Compare eval results across prompt versions")
+    parser = argparse.ArgumentParser(
+        description="Compare eval results across prompt versions"
+    )
     parser.add_argument("--prompt", help="Filter by prompt file name (e.g. analyzer)")
     parser.add_argument("--last", type=int, help="Show last N runs per prompt+version")
     args = parser.parse_args()

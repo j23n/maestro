@@ -1,4 +1,5 @@
 """Unit tests for vocab/discover.py — _annotate() and lang-aware helpers."""
+
 import pytest
 from types import SimpleNamespace
 
@@ -10,7 +11,9 @@ from maestro.vocab.discover import (
 from bs4 import BeautifulSoup
 
 
-def _make_word(word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001", senses=None):
+def _make_word(
+    word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001", senses=None
+):
     return SimpleNamespace(
         word=word,
         part_of_speech=pos,
@@ -24,11 +27,14 @@ def _make_word(word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001
 def _make_wdef(translation="house", senses=None):
     return SimpleNamespace(
         translation=translation,
-        senses=senses or [SimpleNamespace(
-            definition="edificio dove si abita",
-            translation=translation,
-            examples=["La mia casa è grande."],
-        )],
+        senses=senses
+        or [
+            SimpleNamespace(
+                definition="edificio dove si abita",
+                translation=translation,
+                examples=["La mia casa è grande."],
+            )
+        ],
     )
 
 
@@ -58,13 +64,15 @@ def test_annotate_skips_headings():
     result = _annotate("# Tema principale\nIl tema è interessante.", word, None)
     lines = result.split("\n")
     assert "vocab-word" not in lines[0]  # heading untouched
-    assert "vocab-word" in lines[1]      # body annotated
+    assert "vocab-word" in lines[1]  # body annotated
 
 
 @pytest.mark.unit
 def test_annotate_preserves_existing_html_tags():
     word = _make_word(word="bello")
-    result = _annotate('Un <strong>bello</strong> giorno e un bello tramonto.', word, None)
+    result = _annotate(
+        "Un <strong>bello</strong> giorno e un bello tramonto.", word, None
+    )
     assert "<strong>" in result
     assert "vocab-word" in result
 

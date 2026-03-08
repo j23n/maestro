@@ -71,7 +71,9 @@ async def _show_db(word_str: str) -> None:
         print(f"DB    '{word_str}' — not in vocabulary_words")
         return
 
-    print(f"DB    [{doc.entry_id}]  {doc.word}  ({doc.part_of_speech}, {doc.cefr_level})")
+    print(
+        f"DB    [{doc.entry_id}]  {doc.word}  ({doc.part_of_speech}, {doc.cefr_level})"
+    )
     if doc.syllabization:
         print(f"  syllabization : {doc.syllabization}")
     print(f"  senses ({len(doc.senses)}):")

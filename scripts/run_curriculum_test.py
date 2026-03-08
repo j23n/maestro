@@ -71,7 +71,11 @@ def create_student(name: str) -> str:
     with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
         resp = c.post(
             "/auth/signup",
-            data={"email": email, "password": "testpass123", "password_confirm": "testpass123"},
+            data={
+                "email": email,
+                "password": "testpass123",
+                "password_confirm": "testpass123",
+            },
         )
         session = resp.cookies.get("session")
         if session:
@@ -103,8 +107,12 @@ def poll_generating(lesson_id: str, max_wait: int = 180) -> dict:
             resp = c.get(f"/lezione/{lesson_id}/generating")
         url = str(resp.url)
         if "generating" not in url:
-            return {"ready": True, "url": url, "polls": polls,
-                    "elapsed_s": round(time.monotonic() - t0, 1)}
+            return {
+                "ready": True,
+                "url": url,
+                "polls": polls,
+                "elapsed_s": round(time.monotonic() - t0, 1),
+            }
         s = soup(resp.text)
         err = s.find(class_="generating-sub")
         if err and s.find("form", action=lambda a: a and "retry" in a):
@@ -156,8 +164,15 @@ def get_activity(lesson_id: str, idx: int) -> dict:
 
     # Content
     content = ""
-    for cls in ("card-prompt", "prompt-text", "onboarding-prompt",
-                "reading-text", "stub-desc", "grammar-content", "card-body"):
+    for cls in (
+        "card-prompt",
+        "prompt-text",
+        "onboarding-prompt",
+        "reading-text",
+        "stub-desc",
+        "grammar-content",
+        "card-body",
+    ):
         el = s.find(class_=cls)
         if el:
             content = el.get_text(separator=" ", strip=True)[:800]
@@ -251,7 +266,9 @@ def submit_drill(lesson_id: str, idx: int, answers: list[str]) -> dict:
             wrong_el = row.find(class_="item-student-wrong")
             item["student_answer"] = wrong_el.get_text(strip=True) if wrong_el else ""
             correct_el = row.find(class_="item-correct-answer")
-            item["correct_answer"] = correct_el.get_text(strip=True) if correct_el else ""
+            item["correct_answer"] = (
+                correct_el.get_text(strip=True) if correct_el else ""
+            )
             expl_el = row.find(class_="item-explanation")
             item["explanation"] = expl_el.get_text(strip=True) if expl_el else ""
         feedback_items.append(item)
@@ -357,11 +374,29 @@ A0_DRILL_ANSWERS = {
     # Lesson 1 - First words (5 items)
     "a0-01": [["Ciao", "Buongiorno", "Grazie", "favore", "Sì"]],
     # Lesson 2 - Saluti (7 items)
-    "a0-02": [["Buongiorno", "Buonasera", "Ciao", "Arrivederci", "presto", "domani", "Buonanotte"]],
+    "a0-02": [
+        [
+            "Buongiorno",
+            "Buonasera",
+            "Ciao",
+            "Arrivederci",
+            "presto",
+            "domani",
+            "Buonanotte",
+        ]
+    ],
     # Lesson 3 - Numeri: two drills (7 items each)
     "a0-03": [
         ["uno", "tre", "cinque", "sette", "dieci", "zero", "otto"],
-        ["undici", "dodici", "quindici", "diciassette", "venti", "quattordici", "diciotto"],
+        [
+            "undici",
+            "dodici",
+            "quindici",
+            "diciassette",
+            "venti",
+            "quattordici",
+            "diciotto",
+        ],
     ],
     # Lesson 4 - Sì e no (5 items)
     "a0-04": [["Non", "Parlo", "Sì", "No", "so"]],
@@ -376,7 +411,20 @@ A0_DRILL_ANSWERS = {
     # Lesson 9 - Dove (6 items)
     "a0-09": [["Dov", "in", "di", "a", "Dove", "casa"]],
     # Lesson 10 - Ripasso (10 items)
-    "a0-10": [["Ciao", "chiamo", "cinque", "capisco", "Vorrei", "la", "Sono", "piace", "stazione", "Arrivederci"]],
+    "a0-10": [
+        [
+            "Ciao",
+            "chiamo",
+            "cinque",
+            "capisco",
+            "Vorrei",
+            "la",
+            "Sono",
+            "piace",
+            "stazione",
+            "Arrivederci",
+        ]
+    ],
 }
 
 ONBOARDING_ANSWERS = {
@@ -393,9 +441,9 @@ ONBOARDING_ANSWERS = {
 def walk_lesson(lesson_num: int, level: str) -> dict:
     """Start and complete one lesson. Returns summary."""
     tag = f"{level} Lesson {lesson_num}"
-    print(f"\n{'='*60}", file=sys.stderr)
+    print(f"\n{'=' * 60}", file=sys.stderr)
     print(f"  STARTING: {tag}", file=sys.stderr)
-    print(f"{'='*60}", file=sys.stderr)
+    print(f"{'=' * 60}", file=sys.stderr)
 
     t0 = time.monotonic()
     lesson_info = start_lesson(15)
@@ -435,7 +483,12 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
         if act["type"] == "grammar":
             # Check content quality
             if len(act["content"]) < 50:
-                log("content", "WARN", f"{tag} act {idx}: Grammar content very short ({len(act['content'])} chars)", {"title": act["title"]})
+                log(
+                    "content",
+                    "WARN",
+                    f"{tag} act {idx}: Grammar content very short ({len(act['content'])} chars)",
+                    {"title": act["title"]},
+                )
             complete_activity(lesson_id, idx)
             act_summary["action"] = "completed"
 
@@ -460,12 +513,23 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
         elif act["type"] == "drill":
             # Try correct answers for A0, reasonable guesses for A1
             n_items = len(act["drill_items"])
-            if a0_slug and a0_slug in A0_DRILL_ANSWERS and drill_idx_within_lesson < len(A0_DRILL_ANSWERS[a0_slug]):
+            if (
+                a0_slug
+                and a0_slug in A0_DRILL_ANSWERS
+                and drill_idx_within_lesson < len(A0_DRILL_ANSWERS[a0_slug])
+            ):
                 answers = A0_DRILL_ANSWERS[a0_slug][drill_idx_within_lesson]
                 # Adjust to match actual item count
                 if len(answers) != n_items:
-                    log("content", "INFO", f"{tag} act {idx}: Expected {len(answers)} items, got {n_items}", {"items": act["drill_items"]})
-                    answers = answers[:n_items] + ["???"] * max(0, n_items - len(answers))
+                    log(
+                        "content",
+                        "INFO",
+                        f"{tag} act {idx}: Expected {len(answers)} items, got {n_items}",
+                        {"items": act["drill_items"]},
+                    )
+                    answers = answers[:n_items] + ["???"] * max(
+                        0, n_items - len(answers)
+                    )
             else:
                 # For A1 drills, try deliberate mix of correct/wrong to test feedback
                 answers = ["???"] * n_items
@@ -480,8 +544,17 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
             # Check feedback quality
             if not result["correct"]:
                 for fb in result["feedback"]:
-                    if not fb.get("correct") and not fb.get("explanation") and not fb.get("correct_answer"):
-                        log("content", "WARN", f"{tag} act {idx}: Wrong answer but no explanation/correct_answer shown", fb)
+                    if (
+                        not fb.get("correct")
+                        and not fb.get("explanation")
+                        and not fb.get("correct_answer")
+                    ):
+                        log(
+                            "content",
+                            "WARN",
+                            f"{tag} act {idx}: Wrong answer but no explanation/correct_answer shown",
+                            fb,
+                        )
 
             if n_items == 0:
                 log("bug", "ERROR", f"{tag} act {idx}: Drill has 0 items", act)
@@ -490,7 +563,12 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
             total = act["vocab_total"]
             if total == 0:
                 # Try to detect from HTML
-                log("content", "INFO", f"{tag} act {idx}: vocab_total=0, trying to proceed", act)
+                log(
+                    "content",
+                    "INFO",
+                    f"{tag} act {idx}: vocab_total=0, trying to proceed",
+                    act,
+                )
                 total = 5  # guess
             try:
                 result = reveal_and_rate_vocab(lesson_id, idx, total)
@@ -533,7 +611,9 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
 
         elif act["type"] == "writing":
             # Submit a plausible answer
-            answer = "Mi chiamo Giulia. Sono una studentessa. Mi piace cucinare e viaggiare."
+            answer = (
+                "Mi chiamo Giulia. Sono una studentessa. Mi piace cucinare e viaggiare."
+            )
             result = submit_writing(lesson_id, idx, answer)
             act_summary["action"] = "submitted"
             act_summary["feedback"] = result.get("feedback", "")
@@ -544,7 +624,12 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
             act_summary["action"] = "skipped (speaking stub)"
 
         else:
-            log("bug", "WARN", f"{tag} act {idx}: Unknown activity type '{act['type']}'", {"content": act["content"][:200]})
+            log(
+                "bug",
+                "WARN",
+                f"{tag} act {idx}: Unknown activity type '{act['type']}'",
+                {"content": act["content"][:200]},
+            )
             # Try to skip
             try:
                 skip_activity(lesson_id, idx)
@@ -572,7 +657,10 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
         "completion": complete_info,
     }
 
-    print(f"  Completed {tag} in {total_time}s ({len(activities_done)} activities)", file=sys.stderr)
+    print(
+        f"  Completed {tag} in {total_time}s ({len(activities_done)} activities)",
+        file=sys.stderr,
+    )
     return summary
 
 
@@ -602,7 +690,12 @@ def main():
     if "A1" in profile["body"]:
         log("milestone", "INFO", "Profile shows A1 after completing A0", {})
     elif "A0" in profile["body"]:
-        log("milestone", "WARN", "Profile still shows A0 after completing all A0 lessons", {})
+        log(
+            "milestone",
+            "WARN",
+            "Profile still shows A0 after completing all A0 lessons",
+            {},
+        )
 
     # A1 lessons (12 — half of 24)
     for i in range(1, 13):

@@ -5,6 +5,7 @@ All LLM calls should obtain their client from here rather than constructing
 one directly. This provides a single point of configuration and a single
 target for test mocking.
 """
+
 from functools import lru_cache
 
 import anthropic

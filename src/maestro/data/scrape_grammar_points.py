@@ -25,15 +25,15 @@ BASE_URL = "https://www.unistrapg.it/profilo_lingua_italiana/site/"
 OUT_PATH = Path(__file__).parent / "grammar_points.json"
 
 CATEGORIES = {
-    "nome":              "gram_nome",
-    "pronomi":           "gram_pronomi",
-    "aggettivi":         "gram_aggettivi",
-    "articoli":          "gram_articoli",
-    "verbi":             "gram_verbi",
-    "preposizioni":      "gram_preposizioni",
-    "avverbi":           "gram_avverbi",
-    "frase_semplice":    "gram_frasesemplice",
-    "frase_complessa":   "gram_frasecomplessa",
+    "nome": "gram_nome",
+    "pronomi": "gram_pronomi",
+    "aggettivi": "gram_aggettivi",
+    "articoli": "gram_articoli",
+    "verbi": "gram_verbi",
+    "preposizioni": "gram_preposizioni",
+    "avverbi": "gram_avverbi",
+    "frase_semplice": "gram_frasesemplice",
+    "frase_complessa": "gram_frasecomplessa",
     "costruzione_frase": "gram_costruz",
 }
 LEVELS = ["a1", "a2", "b1", "b2"]
@@ -43,6 +43,7 @@ LEVEL_MAP = {"a1": "A1", "a2": "A2", "b1": "B1", "b2": "B2"}
 # ---------------------------------------------------------------------------
 # Utilities
 # ---------------------------------------------------------------------------
+
 
 def get_text(el) -> str:
     return " ".join(el.get_text(" ", strip=True).split())
@@ -85,6 +86,7 @@ def make_code(label: str, category: str, level: str, used_codes: set) -> str:
 # HTTP
 # ---------------------------------------------------------------------------
 
+
 async def fetch_with_retry(
     client: httpx.AsyncClient, url: str, max_attempts: int = 3
 ) -> str:
@@ -97,7 +99,7 @@ async def fetch_with_retry(
         except Exception as e:
             last_exc = e
             if attempt < max_attempts - 1:
-                wait = 2 ** attempt
+                wait = 2**attempt
                 print(
                     f"  Retry {attempt + 1}/{max_attempts} for {url}"
                     f" (sleeping {wait}s): {e}",
@@ -112,6 +114,7 @@ async def fetch_with_retry(
 # ---------------------------------------------------------------------------
 # Parsing
 # ---------------------------------------------------------------------------
+
 
 def _has_numbered_items(container) -> bool:
     """Return True if container has <b>N</b> or <strong>N</strong> items."""
@@ -156,7 +159,8 @@ def parse_grammar_page(
     # (seen on pronomi, nome pages)
     # ------------------------------------------------------------------
     numbered_lis = [
-        li for li in outer.find_all("li")
+        li
+        for li in outer.find_all("li")
         if (first := li.find(["strong", "b"]))
         and re.match(r"^\d+$", first.get_text(strip=True))
     ]
@@ -170,14 +174,16 @@ def parse_grammar_page(
                 continue
             code = make_code(label, category, level, used_codes)
             used_codes.add(code)
-            entries.append({
-                "code": code,
-                "label": label,
-                "cefr_level": cefr,
-                "category": category,
-                "description": label,
-                "source_url": source_url,
-            })
+            entries.append(
+                {
+                    "code": code,
+                    "label": label,
+                    "cefr_level": cefr,
+                    "category": category,
+                    "description": label,
+                    "source_url": source_url,
+                }
+            )
         return entries
 
     # ------------------------------------------------------------------
@@ -199,36 +205,39 @@ def parse_grammar_page(
                     continue
                 code = make_code(part, category, level, used_codes)
                 used_codes.add(code)
-                entries.append({
-                    "code": code,
-                    "label": part,
-                    "cefr_level": cefr,
-                    "category": category,
-                    "description": part,
-                    "source_url": source_url,
-                })
+                entries.append(
+                    {
+                        "code": code,
+                        "label": part,
+                        "cefr_level": cefr,
+                        "category": category,
+                        "description": part,
+                        "source_url": source_url,
+                    }
+                )
             if entries:
                 return entries
 
     # ------------------------------------------------------------------
     # Strategy 3: fallback — single entry from page title + content text
     # ------------------------------------------------------------------
-    title_el = (
-        outer.find("div", class_="titolocentrale")
-        or outer.find(["h1", "h2", "h3", "h4"])
+    title_el = outer.find("div", class_="titolocentrale") or outer.find(
+        ["h1", "h2", "h3", "h4"]
     )
     label = get_text(title_el) if title_el else f"{category} {cefr}"
     desc_block = outer.find("div", class_="div") or outer
     desc = get_text(desc_block) if desc_block else label
     code = make_code(f"{category}_{level}", category, level, used_codes)
-    entries.append({
-        "code": code,
-        "label": label,
-        "cefr_level": cefr,
-        "category": category,
-        "description": desc,
-        "source_url": source_url,
-    })
+    entries.append(
+        {
+            "code": code,
+            "label": label,
+            "cefr_level": cefr,
+            "category": category,
+            "description": desc,
+            "source_url": source_url,
+        }
+    )
     return entries
 
 
@@ -255,6 +264,7 @@ def resolve_global_codes(entries: list[dict]) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 async def main() -> None:
     debug = "--debug" in sys.argv
@@ -288,6 +298,7 @@ async def main() -> None:
                     return result
                 except Exception as e:
                     import traceback
+
                     print(f"  PARSE ERROR {url}: {e}", file=sys.stderr)
                     traceback.print_exc(file=sys.stderr)
                     return []

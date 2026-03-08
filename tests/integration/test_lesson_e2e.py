@@ -1,4 +1,5 @@
 """End-to-end integration test: submit activities via routes, verify events + profile."""
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -22,14 +23,36 @@ from maestro.utils import utcnow
 @pytest.fixture
 async def a1_lesson(db, student):
     """An A1 lesson with drill + writing + reading, all wired up."""
-    gp_a = GrammarPoint(code="GP_A", label="Presente indicativo", cefr_level="A1", category="verbs", description="")
-    gp_b = GrammarPoint(code="GP_B", label="Articoli determinativi", cefr_level="A1", category="articles", description="")
-    gp_c = GrammarPoint(code="GP_C", label="Plurali regolari", cefr_level="A1", category="nouns", description="")
+    gp_a = GrammarPoint(
+        code="GP_A",
+        label="Presente indicativo",
+        cefr_level="A1",
+        category="verbs",
+        description="",
+    )
+    gp_b = GrammarPoint(
+        code="GP_B",
+        label="Articoli determinativi",
+        cefr_level="A1",
+        category="articles",
+        description="",
+    )
+    gp_c = GrammarPoint(
+        code="GP_C",
+        label="Plurali regolari",
+        cefr_level="A1",
+        category="nouns",
+        description="",
+    )
     await gp_a.insert()
     await gp_b.insert()
     await gp_c.insert()
 
-    template = DrillTemplate(grammar_point_code="GP_A", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
+    template = DrillTemplate(
+        grammar_point_code="GP_A",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+    )
     await template.insert()
 
     drill = GeneratedDrill(
@@ -55,18 +78,27 @@ async def a1_lesson(db, student):
         scenario_depth=1,
         activities=[
             LessonActivity(
-                type=ActivityType.DRILL, title="Drill 1", description="",
-                duration_minutes=3, status=ActivityStatus.ACTIVE,
+                type=ActivityType.DRILL,
+                title="Drill 1",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
                 drill_id=drill.id,
             ),
             LessonActivity(
-                type=ActivityType.WRITING, title="Scrittura", description="",
-                duration_minutes=5, status=ActivityStatus.PENDING,
+                type=ActivityType.WRITING,
+                title="Scrittura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.PENDING,
                 content="Descrivi la tua giornata.",
             ),
             LessonActivity(
-                type=ActivityType.READING, title="Lettura", description="",
-                duration_minutes=5, status=ActivityStatus.PENDING,
+                type=ActivityType.READING,
+                title="Lettura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.PENDING,
                 content="Il gatto dorme sul divano.",
                 questions=["Dove dorme il gatto?"],
                 correct_answers=["Sul divano"],
@@ -79,7 +111,9 @@ async def a1_lesson(db, student):
 
 
 @pytest.mark.integration
-async def test_full_lesson_events_match_answers(test_app, a1_lesson, mock_scorer_client):
+async def test_full_lesson_events_match_answers(
+    test_app, a1_lesson, mock_scorer_client
+):
     """Submit all activities via routes, verify LearningEvents match the answers given."""
     from maestro import taxonomy
 
@@ -94,10 +128,25 @@ async def test_full_lesson_events_match_answers(test_app, a1_lesson, mock_scorer
         grammar_correct=["GP_A"],
         grammar_errors=[],
     )
-    with patch("maestro.routes.lezione.score_attempt", new_callable=AsyncMock) as mock_score, \
-         patch("maestro.routes.lezione.discover", new_callable=AsyncMock, return_value="annotated"):
-        mock_score.return_value = (True, drill_event, {"items": [], "correct_count": 1, "total": 1}, [])
-        resp = test_app.post(f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"})
+    with (
+        patch(
+            "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
+        ) as mock_score,
+        patch(
+            "maestro.routes.lezione.discover",
+            new_callable=AsyncMock,
+            return_value="annotated",
+        ),
+    ):
+        mock_score.return_value = (
+            True,
+            drill_event,
+            {"items": [], "correct_count": 1, "total": 1},
+            [],
+        )
+        resp = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
+        )
     assert resp.status_code == 200
 
     # --- 2. Writing submit (GP_B correct, GP_C error) ---
@@ -109,7 +158,11 @@ async def test_full_lesson_events_match_answers(test_app, a1_lesson, mock_scorer
         "grammar_correct_codes": ["GP_B"],
         "grammar_error_codes": ["GP_C"],
     }
-    with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=writing_feedback):
+    with patch(
+        "maestro.routes.lezione.generate_writing_feedback",
+        new_callable=AsyncMock,
+        return_value=writing_feedback,
+    ):
         resp = test_app.post(
             f"/lezione/{lesson.id}/activity/1/writing-submit",
             data={"answer": "Oggi ho mangiato la pizza."},
@@ -118,7 +171,11 @@ async def test_full_lesson_events_match_answers(test_app, a1_lesson, mock_scorer
 
     # --- 3. Reading submit (GP_B correct) ---
     mock_scorer_client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text='[{"objective_correct": true, "objective_note": "Correct", "grammar_errors": [], "tips": [], "grammar_correct_codes": ["GP_B"], "grammar_error_codes": []}]')]
+        content=[
+            MagicMock(
+                text='[{"objective_correct": true, "objective_note": "Correct", "grammar_errors": [], "tips": [], "grammar_correct_codes": ["GP_B"], "grammar_error_codes": []}]'
+            )
+        ]
     )
     resp = test_app.post(
         f"/lezione/{lesson.id}/activity/2/reading-submit",
@@ -157,7 +214,9 @@ async def test_full_lesson_events_match_answers(test_app, a1_lesson, mock_scorer
 
 
 @pytest.mark.integration
-async def test_full_lesson_profile_updated_after_analysis(test_app, a1_lesson, mock_scorer_client):
+async def test_full_lesson_profile_updated_after_analysis(
+    test_app, a1_lesson, mock_scorer_client
+):
     """After analyze_lesson runs, the profile should reflect aggregated GP counts."""
     from maestro import taxonomy
     from maestro.learning.lesson_analyzer import analyze_lesson
@@ -176,10 +235,25 @@ async def test_full_lesson_profile_updated_after_analysis(test_app, a1_lesson, m
         grammar_correct=["GP_A"],
         grammar_errors=[],
     )
-    with patch("maestro.routes.lezione.score_attempt", new_callable=AsyncMock) as mock_score, \
-         patch("maestro.routes.lezione.discover", new_callable=AsyncMock, return_value="annotated"):
-        mock_score.return_value = (True, drill_event, {"items": [], "correct_count": 1, "total": 1}, [])
-        test_app.post(f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"})
+    with (
+        patch(
+            "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
+        ) as mock_score,
+        patch(
+            "maestro.routes.lezione.discover",
+            new_callable=AsyncMock,
+            return_value="annotated",
+        ),
+    ):
+        mock_score.return_value = (
+            True,
+            drill_event,
+            {"items": [], "correct_count": 1, "total": 1},
+            [],
+        )
+        test_app.post(
+            f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
+        )
 
     writing_feedback = {
         "objective_correct": True,
@@ -189,14 +263,22 @@ async def test_full_lesson_profile_updated_after_analysis(test_app, a1_lesson, m
         "grammar_correct_codes": ["GP_B"],
         "grammar_error_codes": ["GP_C"],
     }
-    with patch("maestro.routes.lezione.generate_writing_feedback", new_callable=AsyncMock, return_value=writing_feedback):
+    with patch(
+        "maestro.routes.lezione.generate_writing_feedback",
+        new_callable=AsyncMock,
+        return_value=writing_feedback,
+    ):
         test_app.post(
             f"/lezione/{lesson.id}/activity/1/writing-submit",
             data={"answer": "Oggi ho mangiato la pizza."},
         )
 
     mock_scorer_client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text='[{"objective_correct": true, "objective_note": "Correct", "grammar_errors": [], "tips": [], "grammar_correct_codes": ["GP_B"], "grammar_error_codes": []}]')]
+        content=[
+            MagicMock(
+                text='[{"objective_correct": true, "objective_note": "Correct", "grammar_errors": [], "tips": [], "grammar_correct_codes": ["GP_B"], "grammar_error_codes": []}]'
+            )
+        ]
     )
     test_app.post(
         f"/lezione/{lesson.id}/activity/2/reading-submit",
@@ -212,7 +294,9 @@ async def test_full_lesson_profile_updated_after_analysis(test_app, a1_lesson, m
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_response
 
-    with patch("maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client):
+    with patch(
+        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
+    ):
         await analyze_lesson(refreshed_lesson)
 
     # --- Verify profile ---

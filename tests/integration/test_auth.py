@@ -27,7 +27,11 @@ async def test_signup_get_renders_form(auth_app):
 async def test_signup_success(auth_app):
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "test@example.com", "password": "password123", "password_confirm": "password123"},
+        data={
+            "email": "test@example.com",
+            "password": "password123",
+            "password_confirm": "password123",
+        },
         follow_redirects=False,
     )
     assert resp.status_code == 303
@@ -52,12 +56,20 @@ async def test_signup_duplicate_email(auth_app):
     # Create existing account
     student = Student()
     await student.insert()
-    account = Account(email="taken@example.com", password_hash=_hash_password("password123"), student_id=student.id)
+    account = Account(
+        email="taken@example.com",
+        password_hash=_hash_password("password123"),
+        student_id=student.id,
+    )
     await account.insert()
 
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "taken@example.com", "password": "password123", "password_confirm": "password123"},
+        data={
+            "email": "taken@example.com",
+            "password": "password123",
+            "password_confirm": "password123",
+        },
         follow_redirects=False,
     )
     assert resp.status_code == 200
@@ -68,7 +80,11 @@ async def test_signup_duplicate_email(auth_app):
 async def test_signup_password_mismatch(auth_app):
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "test@example.com", "password": "password123", "password_confirm": "different456"},
+        data={
+            "email": "test@example.com",
+            "password": "password123",
+            "password_confirm": "different456",
+        },
         follow_redirects=False,
     )
     assert resp.status_code == 200
@@ -79,7 +95,11 @@ async def test_signup_password_mismatch(auth_app):
 async def test_signup_password_too_short(auth_app):
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "test@example.com", "password": "short", "password_confirm": "short"},
+        data={
+            "email": "test@example.com",
+            "password": "short",
+            "password_confirm": "short",
+        },
         follow_redirects=False,
     )
     assert resp.status_code == 200
@@ -98,7 +118,11 @@ async def test_login_success(auth_app):
     # Create account first
     student = Student()
     await student.insert()
-    account = Account(email="login@example.com", password_hash=_hash_password("password123"), student_id=student.id)
+    account = Account(
+        email="login@example.com",
+        password_hash=_hash_password("password123"),
+        student_id=student.id,
+    )
     await account.insert()
 
     resp = auth_app.post(
@@ -115,7 +139,11 @@ async def test_login_success(auth_app):
 async def test_login_wrong_password(auth_app):
     student = Student()
     await student.insert()
-    account = Account(email="wrong@example.com", password_hash=_hash_password("password123"), student_id=student.id)
+    account = Account(
+        email="wrong@example.com",
+        password_hash=_hash_password("password123"),
+        student_id=student.id,
+    )
     await account.insert()
 
     resp = auth_app.post(
@@ -143,7 +171,11 @@ async def test_logout_clears_cookies(auth_app):
     # First signup to get cookies
     auth_app.post(
         "/auth/signup",
-        data={"email": "logout@example.com", "password": "password123", "password_confirm": "password123"},
+        data={
+            "email": "logout@example.com",
+            "password": "password123",
+            "password_confirm": "password123",
+        },
         follow_redirects=False,
     )
 
@@ -153,7 +185,10 @@ async def test_logout_clears_cookies(auth_app):
 
     # Verify session cookie is cleared (set with max-age=0)
     set_cookies = resp.headers.get_list("set-cookie")
-    session_cleared = any("session=" in c and ("Max-Age=0" in c or 'max-age=0' in c.lower()) for c in set_cookies)
+    session_cleared = any(
+        "session=" in c and ("Max-Age=0" in c or "max-age=0" in c.lower())
+        for c in set_cookies
+    )
     assert session_cleared
 
 
@@ -183,14 +218,22 @@ async def test_signup_rate_limit(auth_app):
     for i in range(3):
         resp = auth_app.post(
             "/auth/signup",
-            data={"email": f"u{i}@example.com", "password": "short", "password_confirm": "short"},
+            data={
+                "email": f"u{i}@example.com",
+                "password": "short",
+                "password_confirm": "short",
+            },
             follow_redirects=False,
         )
         assert resp.status_code != 429, f"Rate limited too early on attempt {i + 1}"
 
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "u3@example.com", "password": "short", "password_confirm": "short"},
+        data={
+            "email": "u3@example.com",
+            "password": "short",
+            "password_confirm": "short",
+        },
         follow_redirects=False,
     )
     assert resp.status_code == 429
@@ -203,13 +246,21 @@ async def test_rate_limit_htmx_response(auth_app):
     for i in range(3):
         auth_app.post(
             "/auth/signup",
-            data={"email": f"h{i}@example.com", "password": "short", "password_confirm": "short"},
+            data={
+                "email": f"h{i}@example.com",
+                "password": "short",
+                "password_confirm": "short",
+            },
             follow_redirects=False,
         )
 
     resp = auth_app.post(
         "/auth/signup",
-        data={"email": "h3@example.com", "password": "short", "password_confirm": "short"},
+        data={
+            "email": "h3@example.com",
+            "password": "short",
+            "password_confirm": "short",
+        },
         headers={"HX-Request": "true"},
         follow_redirects=False,
     )

@@ -4,6 +4,7 @@ Scoring and feedback generation for drills, writing, and reading activities.
 Each function calls an LLM to evaluate student responses and returns
 structured feedback dicts.
 """
+
 from __future__ import annotations
 
 import logging
@@ -28,6 +29,7 @@ def _target_language() -> str:
     if _TL is None:
         _TL = settings.TARGET_LANGUAGE_NAME
     return _TL
+
 
 _FALLBACK_ITEM = ScoringResult().model_dump()
 
@@ -73,7 +75,9 @@ def _system_prompt(cefr_level: str) -> str:
     )
 
 
-async def _score_single(prompt: str, *, max_tokens: int = 512, label: str, cefr_level: str) -> dict:
+async def _score_single(
+    prompt: str, *, max_tokens: int = 512, label: str, cefr_level: str
+) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation. Falls back to objective_correct=True."""
     try:
         await taxonomy.ensure_loaded()
@@ -107,7 +111,9 @@ async def _score_single(prompt: str, *, max_tokens: int = 512, label: str, cefr_
         return ScoringResult(objective_correct=True).model_dump()
 
 
-async def _score_multi(prompt: str, n: int, *, max_tokens: int = 4000, label: str, cefr_level: str) -> list[dict]:
+async def _score_multi(
+    prompt: str, n: int, *, max_tokens: int = 4000, label: str, cefr_level: str
+) -> list[dict]:
     """LLM call -> JSON array parse -> per-item ScoringResult validation. Falls back to all-incorrect."""
     try:
         await taxonomy.ensure_loaded()
@@ -147,7 +153,8 @@ async def feedback_fill_blank(
     """
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
-        if rag_content else ""
+        if rag_content
+        else ""
     )
     prompt = _prompts.feedback_fill_blank.render(
         target_language=_target_language(),
@@ -159,7 +166,9 @@ async def feedback_fill_blank(
         rule_block=rule_block,
     )
 
-    logger.info(f"[scorer] feedback_fill_blank: gp={grammar_point_code}, student={student_answer!r}, correct={correct_answer!r}")
+    logger.info(
+        f"[scorer] feedback_fill_blank: gp={grammar_point_code}, student={student_answer!r}, correct={correct_answer!r}"
+    )
     try:
         logger.debug(f"[scorer] feedback_fill_blank prompt: {prompt}")
         t0 = time.monotonic()
@@ -171,7 +180,11 @@ async def feedback_fill_blank(
         elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
         logger.debug(f"[scorer] feedback_fill_blank in {elapsed:.2f}s: {explanation!r}")
-        return {"wrong": student_answer, "correct": correct_answer, "explanation": explanation}
+        return {
+            "wrong": student_answer,
+            "correct": correct_answer,
+            "explanation": explanation,
+        }
     except Exception as e:
         logger.error(f"[scorer] feedback_fill_blank error: {e}", exc_info=True)
         return ""
@@ -192,7 +205,8 @@ async def evaluate_error_correction(
     """
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
-        if rag_content else ""
+        if rag_content
+        else ""
     )
     prompt = _prompts.evaluate_error_correction.render(
         target_language=_target_language(),
@@ -203,7 +217,9 @@ async def evaluate_error_correction(
         rule_block=rule_block,
     )
 
-    logger.info(f"[scorer] evaluate_error_correction: student={student!r}, reference={reference!r}")
+    logger.info(
+        f"[scorer] evaluate_error_correction: student={student!r}, reference={reference!r}"
+    )
     try:
         logger.debug(f"[scorer] evaluate_error_correction prompt: {prompt}")
         t0 = time.monotonic()
@@ -253,7 +269,10 @@ async def score_multi_item_drill(
     )
 
     await taxonomy.ensure_loaded()
-    gp_label = next((g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code), grammar_point_code)
+    gp_label = next(
+        (g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code),
+        grammar_point_code,
+    )
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
@@ -263,7 +282,9 @@ async def score_multi_item_drill(
             for i in range(n)
         ]
     else:  # error_correction
-        task_desc = _prompts.task_error_correction.render(target_language=_target_language())
+        task_desc = _prompts.task_error_correction.render(
+            target_language=_target_language()
+        )
         lines = [
             f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
@@ -279,7 +300,9 @@ async def score_multi_item_drill(
         n=n,
     )
 
-    return await _score_multi(prompt, n, label="score_multi_item_drill", cefr_level=cefr_level)
+    return await _score_multi(
+        prompt, n, label="score_multi_item_drill", cefr_level=cefr_level
+    )
 
 
 async def generate_writing_feedback(
@@ -305,7 +328,9 @@ async def generate_writing_feedback(
         student_text=student_text,
     )
 
-    return await _score_single(llm_prompt, label="generate_writing_feedback", cefr_level=cefr_level)
+    return await _score_single(
+        llm_prompt, label="generate_writing_feedback", cefr_level=cefr_level
+    )
 
 
 async def score_free_form_drill(
@@ -321,7 +346,8 @@ async def score_free_form_drill(
     """
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
-        if rag_content else ""
+        if rag_content
+        else ""
     )
     logger.info(
         f"[scorer] score_free_form_drill: gp={grammar_point_code}, level={cefr_level}, "
@@ -337,7 +363,9 @@ async def score_free_form_drill(
         rule_block=rule_block,
     )
 
-    return await _score_single(llm_prompt, label="score_free_form_drill", cefr_level=cefr_level)
+    return await _score_single(
+        llm_prompt, label="score_free_form_drill", cefr_level=cefr_level
+    )
 
 
 async def score_reading_answers(
@@ -364,4 +392,6 @@ async def score_reading_answers(
         n=n,
     )
 
-    return await _score_multi(prompt, n, label="score_reading_answers", cefr_level=cefr_level)
+    return await _score_multi(
+        prompt, n, label="score_reading_answers", cefr_level=cefr_level
+    )

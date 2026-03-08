@@ -1,4 +1,5 @@
 """Integration tests for get_word_definition (consolidated word-definition lookup)."""
+
 import pytest
 
 from maestro.models import VocabularyWord, VocabularyWordDefinition, CefrSense
@@ -16,11 +17,15 @@ async def word(db):
 async def word_with_defs(word):
     """Word with A1 and A2 definitions."""
     await VocabularyWordDefinition(
-        word=word, student_level="A1", translation="cat",
+        word=word,
+        student_level="A1",
+        translation="cat",
         senses=[CefrSense(definition="un animale domestico")],
     ).insert()
     await VocabularyWordDefinition(
-        word=word, student_level="A2", translation="cat",
+        word=word,
+        student_level="A2",
+        translation="cat",
         senses=[CefrSense(definition="un felino domestico comune")],
     ).insert()
     return word

@@ -126,20 +126,22 @@ async def ingest():
             )
             for s in entry.senses
         ]
-        new_words.append(VocabularyWord(
-            word=headword,
-            syllabization=entry.hyph,
-            part_of_speech=entry.pos_abbrev,
-            cefr_level=None,
-            entry_id=entry.entry_id,
-            senses=senses,
-        ))
+        new_words.append(
+            VocabularyWord(
+                word=headword,
+                syllabization=entry.hyph,
+                part_of_speech=entry.pos_abbrev,
+                cefr_level=None,
+                entry_id=entry.entry_id,
+                senses=senses,
+            )
+        )
         ingested.add(headword)
 
     BATCH = 500
     inserted_count = 0
     for i in range(0, len(new_words), BATCH):
-        batch = new_words[i:i + BATCH]
+        batch = new_words[i : i + BATCH]
         try:
             await VocabularyWord.insert_many(batch)
             inserted_count += len(batch)

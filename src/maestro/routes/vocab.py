@@ -10,7 +10,12 @@ from fastapi import APIRouter, Depends, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response
 
 from maestro.auth import get_current_student
-from maestro.models import Student, VocabularyWord, VocabularyWordDefinition, UserVocabularyCard
+from maestro.models import (
+    Student,
+    VocabularyWord,
+    VocabularyWordDefinition,
+    UserVocabularyCard,
+)
 from maestro.profile import get_cefr_level
 from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
@@ -35,9 +40,17 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     cards = [c for c in cards if c.word.cefr_level in visible_levels]
 
     today = date.today()
-    due = sorted([c for c in cards if c.next_review <= today], key=lambda c: c.word.word)
-    learning = sorted([c for c in cards if c.next_review > today and c.interval < 14], key=lambda c: c.word.word)
-    known = sorted([c for c in cards if c.interval >= 14 and c.next_review > today], key=lambda c: c.word.word)
+    due = sorted(
+        [c for c in cards if c.next_review <= today], key=lambda c: c.word.word
+    )
+    learning = sorted(
+        [c for c in cards if c.next_review > today and c.interval < 14],
+        key=lambda c: c.word.word,
+    )
+    known = sorted(
+        [c for c in cards if c.interval >= 14 and c.next_review > today],
+        key=lambda c: c.word.word,
+    )
 
     stats = {
         "total": len(cards),
@@ -45,47 +58,77 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         "learning": len(learning),
         "known": len(known),
         "difficult": sum(1 for c in cards if c.ease_factor < 2.0),
-        "cefr": {level: sum(1 for c in cards if c.word.cefr_level == level) for level in CEFR_ORDER},
+        "cefr": {
+            level: sum(1 for c in cards if c.word.cefr_level == level)
+            for level in CEFR_ORDER
+        },
     }
 
     return templates.TemplateResponse(
         request=request,
         name="vocab.html",
-        context={"due": due, "learning": learning, "known": known, "today": today, "stats": stats, "visible_levels": visible_levels},
+        context={
+            "due": due,
+            "learning": learning,
+            "known": known,
+            "today": today,
+            "stats": stats,
+            "visible_levels": visible_levels,
+        },
     )
 
 
 @router.get("/vocab/word/{entry_id}", response_class=HTMLResponse)
-async def vocab_entry(request: Request, entry_id: str, student: Student = Depends(get_current_student)):
+async def vocab_entry(
+    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+):
     word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
     if word is None:
         raise HTTPException(status_code=404, detail="Word not found")
     logger.info(f"[vocab] entry page: '{word.word}' (entry_id={entry_id})")
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
     definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
-    logger.debug(f"[vocab] found {len(definitions)} existing definition(s) for '{word.word}'")
+    logger.debug(
+        f"[vocab] found {len(definitions)} existing definition(s) for '{word.word}'"
+    )
     if not definitions and word.senses:
-        logger.info(f"[vocab] no definitions found for '{word.word}', generating on-demand")
+        logger.info(
+            f"[vocab] no definitions found for '{word.word}', generating on-demand"
+        )
         await generate_definitions_for_word(word)
         definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
-        logger.info(f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'")
-    has_card = await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref}) is not None
+        logger.info(
+            f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'"
+        )
+    has_card = (
+        await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
+        is not None
+    )
     student_level = await get_cefr_level(student.id)
     logger.debug(f"[vocab] student_level={student_level}, has_card={has_card}")
     return templates.TemplateResponse(
         request=request,
         name="vocab-entry.html",
-        context={"word": word, "definitions": definitions, "has_card": has_card, "student_level": student_level},
+        context={
+            "word": word,
+            "definitions": definitions,
+            "has_card": has_card,
+            "student_level": student_level,
+        },
     )
 
 
 @router.post("/vocab/word/{entry_id}/add", response_class=HTMLResponse)
-async def vocab_add(request: Request, entry_id: str, student: Student = Depends(get_current_student)):
+async def vocab_add(
+    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+):
     word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
     if word is None:
         raise HTTPException(status_code=404)
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
-    existing = await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
+    existing = await UserVocabularyCard.find_one(
+        {"student_id": student.id, "word": word_ref}
+    )
     if existing is None:
         card = UserVocabularyCard(student_id=student.id, word=word)
         await card.insert()
@@ -100,19 +143,29 @@ async def vocab_add(request: Request, entry_id: str, student: Student = Depends(
 
 
 @router.get("/vocab/search", response_class=HTMLResponse)
-async def vocab_search(request: Request, student: Student = Depends(get_current_student), q: str = ""):
+async def vocab_search(
+    request: Request, student: Student = Depends(get_current_student), q: str = ""
+):
     if len(q) < 2:
         return HTMLResponse("")
-    words = await VocabularyWord.find(
-        {"word": {"$regex": f"^{re.escape(q)}", "$options": "i"}}
-    ).limit(10).to_list()
+    words = (
+        await VocabularyWord.find(
+            {"word": {"$regex": f"^{re.escape(q)}", "$options": "i"}}
+        )
+        .limit(10)
+        .to_list()
+    )
     return templates.TemplateResponse(
         request=request, name="vocab-search-results.html", context={"words": words}
     )
 
 
 @router.get("/vocab/practice", response_class=HTMLResponse)
-async def vocab_practice(request: Request, student: Student = Depends(get_current_student), mode: str = "random"):
+async def vocab_practice(
+    request: Request,
+    student: Student = Depends(get_current_student),
+    mode: str = "random",
+):
     student_level = await get_cefr_level(student.id)
     visible_levels = cefr_levels_up_to(student_level)
 
@@ -127,18 +180,31 @@ async def vocab_practice(request: Request, student: Student = Depends(get_curren
             break
     if card is None:
         return templates.TemplateResponse(
-            request=request, name="vocab-practice.html", context={"card": None, "mode": mode}
+            request=request,
+            name="vocab-practice.html",
+            context={"card": None, "mode": mode},
         )
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
     word_def = await get_word_definition(card.word, student_level)
     return templates.TemplateResponse(
-        request=request, name="vocab-practice.html",
-        context={"card": card, "mode": resolved_mode, "selected_mode": mode, "word_def": word_def},
+        request=request,
+        name="vocab-practice.html",
+        context={
+            "card": card,
+            "mode": resolved_mode,
+            "selected_mode": mode,
+            "word_def": word_def,
+        },
     )
 
 
 @router.get("/vocab/practice/{card_id}/reveal", response_class=HTMLResponse)
-async def vocab_reveal(card_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student), mode: str = "word"):
+async def vocab_reveal(
+    card_id: PydanticObjectId,
+    request: Request,
+    student: Student = Depends(get_current_student),
+    mode: str = "word",
+):
     card = await UserVocabularyCard.get(card_id)
     if card is None or card.student_id != student.id:
         raise HTTPException(403)
@@ -146,9 +212,12 @@ async def vocab_reveal(card_id: PydanticObjectId, request: Request, student: Stu
     level = await get_cefr_level(student.id)
     word_def = await get_word_definition(card.word, level)
     return templates.TemplateResponse(
-        request=request, name="vocab-card-back.html",
+        request=request,
+        name="vocab-card-back.html",
         context={
-            "card": card, "mode": mode, "word_def": word_def,
+            "card": card,
+            "mode": mode,
+            "word_def": word_def,
             "review_url": f"/vocab/practice/{card.id}/review",
             "review_extra_name": "mode",
             "review_extra_value": mode,
@@ -158,7 +227,9 @@ async def vocab_reveal(card_id: PydanticObjectId, request: Request, student: Stu
 
 @router.post("/vocab/practice/{card_id}/review", response_class=HTMLResponse)
 async def vocab_review(
-    card_id: PydanticObjectId, request: Request, rating: Annotated[int, Form()],
+    card_id: PydanticObjectId,
+    request: Request,
+    rating: Annotated[int, Form()],
     student: Student = Depends(get_current_student),
     mode: Annotated[str, Form()] = "random",
 ):
@@ -167,4 +238,6 @@ async def vocab_review(
         raise HTTPException(403)
     card = review(card, rating)
     await card.save()
-    return Response(status_code=204, headers={"HX-Redirect": f"/vocab/practice?mode={mode}"})
+    return Response(
+        status_code=204, headers={"HX-Redirect": f"/vocab/practice?mode={mode}"}
+    )

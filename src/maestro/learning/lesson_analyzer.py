@@ -96,13 +96,15 @@ async def _analyze_cfs_staged(
 
     async def _analyze_one_macro(macro: str) -> list[str]:
         cfs = [
-            cf for cf in taxonomy.comm_functions()
+            cf
+            for cf in taxonomy.comm_functions()
             if cf.macro_category == macro and cf.cefr_level == cefr_level
         ]
         if not cfs:
             return []
         cf_lines = "\n".join(
-            f"{cf.code}: {cf.label}" + (f" — {', '.join(cf.patterns[:2])}" if cf.patterns else "")
+            f"{cf.code}: {cf.label}"
+            + (f" — {', '.join(cf.patterns[:2])}" if cf.patterns else "")
             for cf in cfs
         )
         prompt = _prompts.cf_stage2.render(

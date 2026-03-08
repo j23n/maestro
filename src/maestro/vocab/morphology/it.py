@@ -1,4 +1,5 @@
 """Italian-specific morphology: clitic/reflexive handling for vocab lookup."""
+
 from __future__ import annotations
 
 import re
@@ -56,7 +57,7 @@ def make_lookup(by_form: dict, nlp):
             stem = word[:-5]
             candidates = [stem]
             if stem.endswith(("l", "r")):
-                candidates.append(stem + "e")       # "cordial" -> "cordiale"
+                candidates.append(stem + "e")  # "cordial" -> "cordiale"
             elif stem.endswith("a"):
                 candidates.append(stem[:-1] + "o")  # "lenta" -> "lento"
             elif stem.endswith("i"):
@@ -75,10 +76,22 @@ def make_lookup(by_form: dict, nlp):
 
 # Italian-specific wordlist sources and POS mapping
 WORDLISTS = [
-    ("A1", "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_a1.html"),
-    ("A2", "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_a2.html"),
-    ("B1", "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_b1.html"),
-    ("B2", "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_b2.html"),
+    (
+        "A1",
+        "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_a1.html",
+    ),
+    (
+        "A2",
+        "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_a2.html",
+    ),
+    (
+        "B1",
+        "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_b1.html",
+    ),
+    (
+        "B2",
+        "https://www.unistrapg.it/profilo_lingua_italiana/site/liste_lessicali_b2.html",
+    ),
 ]
 
 # UniStraPG POS abbreviations -> keep raw for consistency with EPUB

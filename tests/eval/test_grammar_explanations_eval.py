@@ -1,4 +1,5 @@
 """LLM eval tests for grammar explanation generation quality."""
+
 import json
 import logging
 from pathlib import Path
@@ -50,22 +51,36 @@ def test_grammar_explanation_quality(record_eval):
                 continue
             text = data[level]
             if len(text) < 100:
-                failures.append(f"level {level} explanation too short: {len(text)} chars")
+                failures.append(
+                    f"level {level} explanation too short: {len(text)} chars"
+                )
             # Check for at least one Italian-looking sentence (ends with period, contains vowels)
             sentences = [s.strip() for s in text.split(".") if s.strip()]
             has_italian = any(
-                any(c in s.lower() for c in "àèéìòùáéíóú") or
-                any(w in s.lower() for w in ("il ", "la ", "un ", "una ", "ho ", "hai ", "è "))
+                any(c in s.lower() for c in "àèéìòùáéíóú")
+                or any(
+                    w in s.lower()
+                    for w in ("il ", "la ", "un ", "una ", "ho ", "hai ", "è ")
+                )
                 for s in sentences
             )
             if not has_italian:
-                failures.append(f"level {level} explanation lacks Italian example sentences")
+                failures.append(
+                    f"level {level} explanation lacks Italian example sentences"
+                )
 
         passed = not failures
         if passed:
             passed_count += 1
 
-        results.append({"id": case["code"], "levels": list(data.keys()) if data else [], "pass": passed, "failures": failures})
+        results.append(
+            {
+                "id": case["code"],
+                "levels": list(data.keys()) if data else [],
+                "pass": passed,
+                "failures": failures,
+            }
+        )
         logger.info(
             f"[eval] {case['code']}: {'PASS' if passed else 'FAIL'} "
             f"levels={list(data.keys()) if data else []} {failures}"
@@ -74,7 +89,9 @@ def test_grammar_explanation_quality(record_eval):
     n = len(cases)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Grammar explanations: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(
+        f"[eval] Grammar explanations: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}"
+    )
 
     # LLM judge: evaluate per (GP, level) pair
     judge_passed = 0
@@ -107,17 +124,26 @@ def test_grammar_explanation_quality(record_eval):
                 ok, reason = _judge(prompt)
             if ok:
                 judge_passed += 1
-            logger.info(f"[eval] judge {case['code']}/{level}: {'PASS' if ok else 'FAIL'} {reason}")
+            logger.info(
+                f"[eval] judge {case['code']}/{level}: {'PASS' if ok else 'FAIL'} {reason}"
+            )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Grammar content_quality={content_quality:.2%}")
 
-    record_eval("grammar", {
-        "output_syntax": round(output_syntax, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "explanations",
-    })
+    record_eval(
+        "grammar",
+        {
+            "output_syntax": round(output_syntax, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "explanations",
+        },
+    )
 
-    assert output_syntax >= 0.75, f"Grammar explanation pass rate too low: {output_syntax:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Grammar content quality too low: {content_quality:.2%}"
+    assert output_syntax >= 0.75, (
+        f"Grammar explanation pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Grammar content quality too low: {content_quality:.2%}"
+    )

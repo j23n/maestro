@@ -1,10 +1,15 @@
 """Integration tests for lezione/service.py helper functions."""
+
 import pytest
 from unittest.mock import MagicMock
 
 from maestro.models import (
-    Lesson, LessonActivity, LearningProfile,
-    ActivityType, ActivityStatus, LessonStatus,
+    Lesson,
+    LessonActivity,
+    LearningProfile,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
 )
 from maestro.utils import utcnow
 
@@ -15,7 +20,11 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
     from maestro.lezione.service import score_reading_activity
 
     mock_scorer_client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text='[{"objective_correct": true, "objective_note": "Good", "grammar_errors": [], "tips": []}]')]
+        content=[
+            MagicMock(
+                text='[{"objective_correct": true, "objective_note": "Good", "grammar_errors": [], "tips": []}]'
+            )
+        ]
     )
 
     overall, feedback, gp_correct, gp_errors = await score_reading_activity(
@@ -36,7 +45,11 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
 
     # 1 correct out of 3 = 33% < 70%
     mock_scorer_client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text='[{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}]')]
+        content=[
+            MagicMock(
+                text='[{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}]'
+            )
+        ]
     )
 
     overall, feedback, _, _ = await score_reading_activity(
@@ -55,7 +68,11 @@ async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
     from maestro.lezione.service import score_reading_activity
 
     mock_scorer_client.messages.create.return_value = MagicMock(
-        content=[MagicMock(text='[{"objective_correct": false, "objective_note": "Wrong color", "grammar_errors": ["GP001"], "tips": ["Check colors"]}]')]
+        content=[
+            MagicMock(
+                text='[{"objective_correct": false, "objective_note": "Wrong color", "grammar_errors": ["GP001"], "tips": ["Check colors"]}]'
+            )
+        ]
     )
 
     _, feedback, _, _ = await score_reading_activity(
@@ -89,13 +106,25 @@ def _make_lesson(student_id, activities, **kwargs):
 
 
 @pytest.mark.integration
-async def test_advance_lesson_creates_profile_and_updates_scenario_progress(db, student):
+async def test_advance_lesson_creates_profile_and_updates_scenario_progress(
+    db, student
+):
     """Complete last activity with no profile → profile created + scenario progress recorded."""
     from maestro.lezione.service import advance_lesson
 
-    lesson = _make_lesson(student.id, [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-    ], current_index=0)
+    lesson = _make_lesson(
+        student.id,
+        [
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="G",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=0,
+    )
     await lesson.insert()
 
     url = await advance_lesson(lesson, 0)
@@ -114,11 +143,34 @@ async def test_advance_lesson_sweeps_leftover_activities(db, student):
     """Earlier PENDING/ACTIVE activities become SKIPPED when lesson completes."""
     from maestro.lezione.service import advance_lesson
 
-    lesson = _make_lesson(student.id, [
-        LessonActivity(type=ActivityType.GRAMMAR, title="A", description="", duration_minutes=3, status=ActivityStatus.PENDING),
-        LessonActivity(type=ActivityType.GRAMMAR, title="B", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.GRAMMAR, title="C", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-    ], current_index=2, scenario_slug=None)
+    lesson = _make_lesson(
+        student.id,
+        [
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="A",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.PENDING,
+            ),
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="B",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="C",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=2,
+        scenario_slug=None,
+    )
     await lesson.insert()
 
     url = await advance_lesson(lesson, 2)
@@ -135,10 +187,27 @@ async def test_advance_lesson_normal_progression(db, student):
     """Complete activity 0 of 2 → activity 1 becomes ACTIVE."""
     from maestro.lezione.service import advance_lesson
 
-    lesson = _make_lesson(student.id, [
-        LessonActivity(type=ActivityType.GRAMMAR, title="A", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.GRAMMAR, title="B", description="", duration_minutes=3, status=ActivityStatus.PENDING),
-    ], current_index=0, scenario_slug=None)
+    lesson = _make_lesson(
+        student.id,
+        [
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="A",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="B",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.PENDING,
+            ),
+        ],
+        current_index=0,
+        scenario_slug=None,
+    )
     await lesson.insert()
 
     url = await advance_lesson(lesson, 0)

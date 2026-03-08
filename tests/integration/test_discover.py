@@ -1,4 +1,5 @@
 """Integration tests for vocab/discover.py — discover() flow."""
+
 import pytest
 from unittest.mock import AsyncMock, patch
 
@@ -26,9 +27,17 @@ async def test_discover_creates_cards_for_new_words(db):
 
     _vocab_cache.seed(words={"mangiare": word}, defs={})
 
-    with patch("maestro.vocab.discover._lemmatize", return_value=["mangiare"]), \
-         patch("maestro.vocab.discover.get_cefr_level", new_callable=AsyncMock, return_value="A1"):
-        result = await discover(lang_wrap("Voglio mangiare la pizza.", "it"), student_id=_FAKE_STUDENT_ID)
+    with (
+        patch("maestro.vocab.discover._lemmatize", return_value=["mangiare"]),
+        patch(
+            "maestro.vocab.discover.get_cefr_level",
+            new_callable=AsyncMock,
+            return_value="A1",
+        ),
+    ):
+        result = await discover(
+            lang_wrap("Voglio mangiare la pizza.", "it"), student_id=_FAKE_STUDENT_ID
+        )
 
     cards = await UserVocabularyCard.find_all().to_list()
     assert len(cards) == 1
@@ -52,9 +61,17 @@ async def test_discover_annotates_known_words(db):
 
     _vocab_cache.seed(words={"bere": word}, defs={})
 
-    with patch("maestro.vocab.discover._lemmatize", return_value=["bere"]), \
-         patch("maestro.vocab.discover.get_cefr_level", new_callable=AsyncMock, return_value="A1"):
-        result = await discover(lang_wrap("Voglio bere acqua.", "it"), student_id=_FAKE_STUDENT_ID)
+    with (
+        patch("maestro.vocab.discover._lemmatize", return_value=["bere"]),
+        patch(
+            "maestro.vocab.discover.get_cefr_level",
+            new_callable=AsyncMock,
+            return_value="A1",
+        ),
+    ):
+        result = await discover(
+            lang_wrap("Voglio bere acqua.", "it"), student_id=_FAKE_STUDENT_ID
+        )
 
     assert "vocab-word" in result
     assert 'data-word="bere"' in result
@@ -76,9 +93,17 @@ async def test_discover_skips_non_target_lang(db):
 
     _vocab_cache.seed(words={"house": word}, defs={})
 
-    with patch("maestro.vocab.discover._lemmatize", return_value=["house"]), \
-         patch("maestro.vocab.discover.get_cefr_level", new_callable=AsyncMock, return_value="A1"):
-        result = await discover(lang_wrap("The house is big.", "en"), student_id=_FAKE_STUDENT_ID)
+    with (
+        patch("maestro.vocab.discover._lemmatize", return_value=["house"]),
+        patch(
+            "maestro.vocab.discover.get_cefr_level",
+            new_callable=AsyncMock,
+            return_value="A1",
+        ),
+    ):
+        result = await discover(
+            lang_wrap("The house is big.", "en"), student_id=_FAKE_STUDENT_ID
+        )
 
     # No annotation because the text is in English, not target language (it)
     assert "vocab-word" not in result

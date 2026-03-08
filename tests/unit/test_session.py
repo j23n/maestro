@@ -7,6 +7,7 @@ from starlette.responses import Response
 def reset_serializer():
     """Reset the cached serializer between tests."""
     import maestro.session
+
     maestro.session._serializer = None
     yield
     maestro.session._serializer = None
@@ -39,7 +40,10 @@ def test_tampered_token_returns_none():
     """A tampered token should return None."""
     from maestro.session import read_session
 
-    scope = {"type": "http", "headers": [(b"cookie", b"session=tampered.garbage.value")]}
+    scope = {
+        "type": "http",
+        "headers": [(b"cookie", b"session=tampered.garbage.value")],
+    }
     request = Request(scope)
 
     assert read_session(request) is None
@@ -68,4 +72,4 @@ def test_clear_session_cookie():
     assert cookie_header is not None
     assert "session=" in cookie_header
     # Deletion sets max-age=0
-    assert 'Max-Age=0' in cookie_header or 'max-age=0' in cookie_header.lower()
+    assert "Max-Age=0" in cookie_header or "max-age=0" in cookie_header.lower()

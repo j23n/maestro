@@ -4,6 +4,7 @@ Shared cache for grammar points and communicative functions.
 Used by analyzer.py and lesson_analyzer.py to avoid repeated DB queries.
 Call invalidate() after bulk writes (e.g. ingest scripts) to force a refresh.
 """
+
 from __future__ import annotations
 
 import logging
@@ -22,10 +23,9 @@ async def ensure_loaded() -> None:
     if _loaded:
         return
     from maestro.config import settings
+
     lang = settings.TARGET_LANGUAGE
-    _grammar_points = await GrammarPoint.find(
-        GrammarPoint.language == lang
-    ).to_list()
+    _grammar_points = await GrammarPoint.find(GrammarPoint.language == lang).to_list()
     _comm_functions = await CommunicativeFunction.find(
         CommunicativeFunction.language == lang
     ).to_list()
