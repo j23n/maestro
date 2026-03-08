@@ -196,8 +196,8 @@ async def test_lezione_abandon_route(test_app, db, student):
     await lesson.insert()
 
     response = test_app.post(f"/lezione/{lesson.id}/abandon", follow_redirects=False)
-    assert response.status_code == 303
-    assert "/lezione/" in response.headers["location"]
+    assert response.status_code == 204
+    assert response.headers["hx-redirect"] == "/lezione/"
 
     refreshed = await Lesson.get(lesson.id)
     assert refreshed.status == LessonStatus.ABANDONED

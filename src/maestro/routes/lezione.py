@@ -678,7 +678,7 @@ async def lezione_abandon(lesson_id: PydanticObjectId, student: Student = Depend
     lesson = await _get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         await lesson.update({"$set": {"status": LessonStatus.ABANDONED.value}})
-    return RedirectResponse(url="/lezione/", status_code=303)
+    return Response(status_code=204, headers={"HX-Redirect": "/lezione/"})
 
 
 @router.get("/lezione/{lesson_id}/complete", response_class=HTMLResponse)
