@@ -19,6 +19,7 @@ SEED_COLLECTIONS = [
 ]
 
 USER_COLLECTIONS = [
+    "students",
     "accounts",
     "user_vocabulary_cards",
     "learning_events",
