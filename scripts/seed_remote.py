@@ -44,7 +44,9 @@ async def seed(seed_dir: Path, collections: list[str], force: bool) -> None:
 
         count = await db[name].count_documents({})
         if count and not force:
-            print(f"  {name}: SKIP ({count} documents already present; use --force to overwrite)")
+            print(
+                f"  {name}: SKIP ({count} documents already present; use --force to overwrite)"
+            )
             continue
 
         docs = bson.decode_all(path.read_bytes())
@@ -65,8 +67,12 @@ async def seed(seed_dir: Path, collections: list[str], force: bool) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Seed remote MongoDB from BSON files")
     parser.add_argument("--dir", type=Path, default=DEFAULT_SEED_DIR, metavar="DIR")
-    parser.add_argument("--user", action="store_true", help="Also seed user collections")
-    parser.add_argument("--force", action="store_true", help="Drop and re-insert existing collections")
+    parser.add_argument(
+        "--user", action="store_true", help="Also seed user collections"
+    )
+    parser.add_argument(
+        "--force", action="store_true", help="Drop and re-insert existing collections"
+    )
     args = parser.parse_args()
 
     if not args.dir.exists():
