@@ -1,7 +1,7 @@
 """Unit tests for maestro.seed.seed_if_empty()."""
-import json
 import logging
 
+import bson
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -28,9 +28,10 @@ async def test_skips_when_db_has_data():
 @pytest.mark.unit
 async def test_seeds_when_db_is_empty(tmp_path):
     db, col = _make_db(count=0)
-    # Create seed files
+    # Create BSON seed files
     for name in SEED_COLLECTIONS:
-        (tmp_path / f"{name}.json").write_text(json.dumps([{"_id": "fake"}]))
+        raw = bson.encode({"_id": bson.ObjectId(), "name": "fake"})
+        (tmp_path / f"{name}.bson").write_bytes(raw)
 
     with patch("maestro.seed.SEED_DIR", tmp_path):
         await seed_if_empty(db)
