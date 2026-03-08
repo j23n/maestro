@@ -143,6 +143,7 @@
   "error_back": "Torna alla lezione",
   "error_404": "Pagina non trovata",
   "error_403": "Accesso negato",
+  "error_429": "Troppi tentativi. Riprova tra qualche minuto.",
   "students_default_name": "Studente",
   "lesson_abandon_btn": "Abbandona lezione",
   "lesson_abandon_confirm": "Vuoi abbandonare questa lezione?",

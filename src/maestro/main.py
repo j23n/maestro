@@ -7,10 +7,14 @@ logging.getLogger("maestro").setLevel(logging.DEBUG)
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from slowapi.middleware import SlowAPIMiddleware
 
 from maestro.auth import RedirectToLogin, get_current_student
+from maestro.config import settings
+from maestro.csrf import CSRFMiddleware
 from maestro.db import init_db
 from maestro.i18n import t as i18n_t
+from maestro.rate_limit import limiter
 from maestro.session import clear_session_cookie
 from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
@@ -27,6 +31,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.state.limiter = limiter
+app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
+app.add_middleware(SlowAPIMiddleware)
 app.mount("/static", StaticFiles(directory="src/maestro/static"), name="static")
 app.include_router(auth.router)
 app.include_router(vocab.router)
@@ -61,6 +68,25 @@ async def _render_error(request: Request, code: int, message_key: str):
         name="error.html",
         context={"code": code, "message": i18n_t(message_key)},
         status_code=code,
+    )
+
+
+@app.exception_handler(429)
+async def rate_limit_exceeded(request: Request, exc):
+    msg = i18n_t("error_429")
+    headers = {"Retry-After": "60"}
+    if request.headers.get("HX-Request"):
+        return HTMLResponse(
+            f'<p class="error">{msg}</p>',
+            status_code=429,
+            headers=headers,
+        )
+    return templates.TemplateResponse(
+        request=request,
+        name="error.html",
+        context={"code": 429, "message": msg},
+        status_code=429,
+        headers=headers,
     )
 
 

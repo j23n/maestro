@@ -21,6 +21,11 @@ async def auth_app(db):
     ):
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
+            # Trigger CSRF cookie and set default header
+            client.get("/")
+            csrf_token = client.cookies.get("csrftoken")
+            if csrf_token:
+                client.headers["x-csrftoken"] = csrf_token
             yield client
 
 
@@ -163,3 +168,67 @@ async def test_logout_clears_cookies(auth_app):
     set_cookies = resp.headers.get_list("set-cookie")
     session_cleared = any("session=" in c and ("Max-Age=0" in c or 'max-age=0' in c.lower()) for c in set_cookies)
     assert session_cleared
+
+
+@pytest.mark.integration
+async def test_login_rate_limit(auth_app):
+    """6th login attempt within a minute returns 429."""
+    for i in range(5):
+        resp = auth_app.post(
+            "/auth/login",
+            data={"email": f"user{i}@example.com", "password": "wrong"},
+            follow_redirects=False,
+        )
+        assert resp.status_code != 429, f"Rate limited too early on attempt {i + 1}"
+
+    resp = auth_app.post(
+        "/auth/login",
+        data={"email": "user5@example.com", "password": "wrong"},
+        follow_redirects=False,
+    )
+    assert resp.status_code == 429
+    assert "Troppi tentativi" in resp.text
+
+
+@pytest.mark.integration
+async def test_signup_rate_limit(auth_app):
+    """4th signup attempt within a minute returns 429."""
+    for i in range(3):
+        resp = auth_app.post(
+            "/auth/signup",
+            data={"email": f"u{i}@example.com", "password": "short", "password_confirm": "short"},
+            follow_redirects=False,
+        )
+        assert resp.status_code != 429, f"Rate limited too early on attempt {i + 1}"
+
+    resp = auth_app.post(
+        "/auth/signup",
+        data={"email": "u3@example.com", "password": "short", "password_confirm": "short"},
+        follow_redirects=False,
+    )
+    assert resp.status_code == 429
+    assert "Troppi tentativi" in resp.text
+
+
+@pytest.mark.integration
+async def test_rate_limit_htmx_response(auth_app):
+    """429 response returns HTML fragment for HTMX requests."""
+    for i in range(3):
+        auth_app.post(
+            "/auth/signup",
+            data={"email": f"h{i}@example.com", "password": "short", "password_confirm": "short"},
+            follow_redirects=False,
+        )
+
+    resp = auth_app.post(
+        "/auth/signup",
+        data={"email": "h3@example.com", "password": "short", "password_confirm": "short"},
+        headers={"HX-Request": "true"},
+        follow_redirects=False,
+    )
+    assert resp.status_code == 429
+    assert "Troppi tentativi" in resp.text
+    assert resp.headers.get("Retry-After") == "60"
+    # HTMX response should be a fragment, not a full page
+    assert resp.text.strip().startswith("<p")
+    assert "<html" not in resp.text.lower()

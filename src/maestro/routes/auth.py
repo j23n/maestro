@@ -4,6 +4,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pymongo.errors import DuplicateKeyError
 
+from maestro.rate_limit import limiter
 from maestro.models import Account, Student
 from maestro.session import create_session_cookie, clear_session_cookie
 from maestro.templates import templates
@@ -19,6 +20,7 @@ async def signup_form(request: Request):
 
 
 @router.post("/signup", response_class=HTMLResponse)
+@limiter.limit("3/minute")
 async def signup(request: Request):
     form = await request.form()
     email = (form.get("email") or "").strip().lower()
@@ -78,6 +80,7 @@ async def login_form(request: Request):
 
 
 @router.post("/login", response_class=HTMLResponse)
+@limiter.limit("5/minute")
 async def login(request: Request):
     form = await request.form()
     email = (form.get("email") or "").strip().lower()
