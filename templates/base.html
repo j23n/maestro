@@ -36,6 +36,27 @@
   </div>
 
   <script>
+    // CSRF: send token header on HTMX requests
+    document.addEventListener('htmx:configRequest', function(evt) {
+      var m = document.cookie.match(/csrftoken=([^;]+)/);
+      if (m) evt.detail.headers['x-csrftoken'] = m[1];
+    });
+    // CSRF: inject hidden field on plain form submissions
+    document.addEventListener('submit', function(evt) {
+      var form = evt.target;
+      if (form.method.toLowerCase() !== 'post') return;
+      if (form.querySelector('input[name="csrftoken"]')) return;
+      var m = document.cookie.match(/csrftoken=([^;]+)/);
+      if (m) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'csrftoken';
+        input.value = m[1];
+        form.appendChild(input);
+      }
+    });
+  </script>
+  <script>
     const tooltip = document.getElementById('vocab-tooltip');
     document.addEventListener('mouseover', e => {
       const word = e.target.closest('.vocab-word');
