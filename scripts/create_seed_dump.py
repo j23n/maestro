@@ -37,8 +37,12 @@ async def dump(collections: list[str]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Dump MongoDB collections to BSON files")
-    parser.add_argument("--user", action="store_true", help="Also dump user collections")
+    parser = argparse.ArgumentParser(
+        description="Dump MongoDB collections to BSON files"
+    )
+    parser.add_argument(
+        "--user", action="store_true", help="Also dump user collections"
+    )
     args = parser.parse_args()
 
     collections = SEED_COLLECTIONS + (USER_COLLECTIONS if args.user else [])
