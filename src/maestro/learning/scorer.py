@@ -71,7 +71,7 @@ async def _score_single(prompt: str, *, max_tokens: int = 512, label: str, cefr_
         logger.debug(f"[scorer] {label} prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
+            model=settings.SCORING_MODEL,
             max_tokens=max_tokens,
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
@@ -105,7 +105,7 @@ async def _score_multi(prompt: str, n: int, *, max_tokens: int = 4000, label: st
         logger.debug(f"[scorer] {label} prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
+            model=settings.SCORING_MODEL,
             max_tokens=max_tokens,
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
@@ -153,7 +153,7 @@ async def feedback_fill_blank(
         logger.debug(f"[scorer] feedback_fill_blank prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
+            model=settings.SCORING_MODEL,
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -195,7 +195,7 @@ async def evaluate_error_correction(
         logger.debug(f"[scorer] evaluate_error_correction prompt: {prompt}")
         t0 = time.monotonic()
         response = await _client().messages.create(
-            model=settings.LESSON_MODEL,
+            model=settings.SCORING_MODEL,
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
