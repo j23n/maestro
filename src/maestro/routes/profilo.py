@@ -111,7 +111,7 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
         {"student_id": student.id, "status": LessonStatus.COMPLETED}
     ).sort(-Lesson.completed_at).limit(20).to_list()
 
-    scenario_slugs = {l.scenario_slug for l in recent_lessons if l.scenario_slug}
+    scenario_slugs = {lesson.scenario_slug for lesson in recent_lessons if lesson.scenario_slug}
     scenarios_list = await CurriculumScenario.find(
         {"slug": {"$in": list(scenario_slugs)}}
     ).to_list() if scenario_slugs else []

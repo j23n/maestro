@@ -7,7 +7,42 @@
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0;
+}
+
+/* ----- Tab bar ----- */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--c-border);
+  margin-bottom: 2rem;
+}
+.tab {
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab:hover { color: var(--c-charcoal); }
+.tab.active {
+  color: var(--c-terracotta);
+  border-bottom-color: var(--c-terracotta);
+}
+
+/* ----- Tab panels ----- */
+.tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+.tab-panel.active {
+  display: flex;
 }
 
 /* ----- CEFR tracker ----- */
@@ -56,80 +91,229 @@
   box-shadow: 0 2px 8px rgba(199, 91, 57, 0.25);
 }
 
-/* ----- Profile summary card ----- */
-.profile-summary {
-  background: var(--c-surface);
-  border-radius: 8px;
-  padding: 1.25rem;
+/* ----- Progress header ----- */
+.progress-header {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.75rem;
 }
-
-.summary-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.progress-headline {
+  display: flex;
+  align-items: baseline;
   gap: 0.5rem;
 }
-.summary-stat {
+.progress-pct {
+  font-family: var(--f-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--c-charcoal);
+  line-height: 1;
+}
+.progress-label-text {
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+}
+.progress-bar-outer {
+  height: 6px;
+  background: var(--c-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-inner {
+  height: 100%;
+  background: var(--c-terracotta);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.summary-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.summary-pill {
+  flex: 1;
   text-align: center;
-  padding: 0.5rem 0.25rem;
-  background: #fff;
+  padding: 0.6rem 0.25rem;
+  background: var(--c-surface);
   border-radius: 6px;
   border: 1px solid var(--c-border);
 }
-.summary-stat-value {
+.pill-value {
   display: block;
   font-family: var(--f-serif);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--c-charcoal);
   line-height: 1.2;
 }
-.summary-stat-denom {
-  font-size: 0.8rem;
+.pill-denom {
+  font-size: 0.78rem;
   font-weight: 400;
   color: var(--c-text-muted);
 }
-.summary-stat-label {
+.pill-label {
   display: block;
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--c-text-muted);
-  margin-top: 0.15rem;
+  margin-top: 0.1rem;
 }
 
-.summary-section {
+/* ----- Focus / weakness section ----- */
+.focus-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted);
+}
+.weakness-tags {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--c-border);
+  gap: 0.35rem;
 }
-.summary-section-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--c-text-muted);
-  margin-right: 0.25rem;
-  width: 100%;
-  margin-bottom: 0.1rem;
-}
-.summary-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.function-tag {
-  font-size: 0.78rem;
-  padding: 0.2rem 0.6rem;
-  background: #eef4f0;
-  color: #3d6b48;
+.weakness-chip {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  background: #fdf0ec;
+  color: #a03a1f;
   border-radius: 4px;
-  border: 1px solid #c5d8c8;
+  border: 1px solid #f0d5cb;
+  text-decoration: none;
+  transition: background 0.1s;
+}
+.weakness-chip:hover {
+  background: #f9e2db;
 }
 
-/* ----- Skills by CEFR level ----- */
+/* ----- Journey section ----- */
+.journey-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.journey-section.past-level { padding-top: 0; }
+.section-heading {
+  font-family: var(--f-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-charcoal);
+}
+.section-heading-past {
+  cursor: pointer;
+  list-style: none;
+}
+.section-heading-past::-webkit-details-marker { display: none; }
+.section-heading-past h3 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-text-muted);
+}
+
+.journey-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.group-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted);
+}
+.group-label.accent { color: var(--c-terracotta); }
+.group-label.muted { color: var(--c-sage); }
+.group-label.clickable {
+  cursor: pointer;
+  list-style: none;
+}
+.group-label.clickable::-webkit-details-marker { display: none; }
+
+/* ----- Scenario cards ----- */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+.scenario-card {
+  border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-border);
+  border-radius: 6px;
+  padding: 0.65rem 0.8rem;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.scenario-card:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+.scenario-card.in-progress { border-left-color: var(--c-terracotta); }
+.scenario-card.completed { border-left-color: var(--c-sage); background: #f5f9f5; }
+.scenario-card.muted { opacity: 0.6; }
+.scenario-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--c-charcoal);
+}
+.scenario-dots { display: flex; gap: 4px; margin-bottom: 0.2rem; }
+.scenario-dots .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--c-border); border: 1px solid #cfc7bb;
+}
+.scenario-dots .dot.filled { background: var(--c-sage); border-color: #5a7a5f; }
+.scenario-meta { font-size: 0.7rem; color: var(--c-text-muted); }
+
+/* ----- Lesson history ----- */
+.history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.history-list {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--c-border);
+  margin-left: 0.5rem;
+}
+.history-row {
+  display: flex; gap: 0.75rem; align-items: baseline;
+  padding: 0.45rem 0.6rem 0.45rem 1rem;
+  text-decoration: none; color: inherit;
+  font-size: 0.85rem;
+  position: relative;
+  transition: background 0.1s;
+}
+.history-row::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 50%;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-surface);
+  border: 2px solid var(--c-border);
+}
+.history-row:hover { background: var(--c-surface); border-radius: 0 4px 4px 0; }
+.history-row:hover::before { border-color: var(--c-terracotta); background: #fff; }
+.history-date {
+  color: var(--c-text-muted);
+  min-width: 3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.history-topic { flex: 1; }
+.history-scenario { color: var(--c-text-muted); font-size: 0.8rem; }
+
+/* ----- Skills by CEFR level (details tab) ----- */
 .skills-section { display: flex; flex-direction: column; gap: 1.5rem; }
 .level-group { border: none; padding: 0; }
 .level-heading {
@@ -147,8 +331,7 @@
 .level-heading::-webkit-details-marker { display: none; }
 .level-heading::after {
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-right: 1.5px solid var(--c-text-muted);
   border-bottom: 1.5px solid var(--c-text-muted);
   transform: rotate(-45deg);
@@ -198,15 +381,23 @@ a.skill-label:hover { color: var(--c-terracotta); }
 .pip.ok  { background: var(--c-sage); }
 .pip.err { background: #C75050; }
 
-/* ----- Persona card ----- */
-.profilo-container .card { padding: 1.5rem; }
-.profilo-container .card h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.4rem; }
-.profilo-container .card p  { font-size: 0.82rem; color: var(--c-text-muted); margin: 0 0 1rem; }
-.field label { display: block; font-size: 0.78rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--c-text); }
+/* ----- Persona form (preferences tab) ----- */
+.persona-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  color: var(--c-text);
+}
 .field input[type="text"] {
   width: 100%;
-  padding: 0.55rem 0.75rem;
-  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.88rem;
   font-family: inherit;
   border: 1px solid var(--c-border);
   border-radius: 6px;
@@ -220,91 +411,19 @@ a.skill-label:hover { color: var(--c-terracotta); }
   background: #e8f0ea;
   color: #2d5a35;
   border-radius: 6px;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
-  margin-bottom: 0.9rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  margin-bottom: 0.75rem;
 }
-
-/* ----- Scenario map ----- */
-.scenario-map { margin: 1.5rem 0; }
-.scenario-map h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
-.scenario-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.5rem;
-}
-.scenario-card {
-  border: 1px solid var(--c-border);
-  border-left: 3px solid var(--c-border);
-  border-radius: 6px;
-  padding: 0.6rem 0.75rem;
-  background: var(--c-surface);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.scenario-card:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-.scenario-card.in-progress { border-left-color: var(--c-terracotta); }
-.scenario-card.completed { border-left-color: var(--c-sage); background: #f5f9f5; }
-.scenario-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
-.scenario-dots { display: flex; gap: 4px; margin-bottom: 0.2rem; }
-.scenario-dots .dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--c-border); border: 1px solid #cfc7bb;
-}
-.scenario-dots .dot.filled { background: var(--c-sage); border-color: #5a7a5f; }
-.scenario-meta { font-size: 0.7rem; color: var(--c-text-muted); }
-
-.scenario-card.muted { opacity: 0.6; }
-.completed-level-summary { cursor: pointer; list-style: none; }
-.completed-level-summary::-webkit-details-marker { display: none; }
-.completed-level-summary h3 { font-size: 0.95rem; font-weight: 600; margin: 0; color: var(--c-text-muted); }
-
-/* ----- Lesson history ----- */
-.lesson-history { margin: 1.5rem 0; }
-.lesson-history h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-left: 2px solid var(--c-border);
-  margin-left: 0.5rem;
-  padding-left: 0;
-}
-.history-row {
-  display: flex; gap: 0.75rem; align-items: baseline;
-  padding: 0.45rem 0.6rem 0.45rem 1rem;
-  text-decoration: none; color: inherit;
-  font-size: 0.85rem;
-  position: relative;
-  transition: background 0.1s;
-}
-.history-row::before {
-  content: '';
-  position: absolute;
-  left: -5px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c-surface);
-  border: 2px solid var(--c-border);
-}
-.history-row:hover { background: var(--c-surface); border-radius: 0 4px 4px 0; }
-.history-row:hover::before { border-color: var(--c-terracotta); background: #fff; }
-.history-date {
-  color: var(--c-text-muted);
-  min-width: 3rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.history-topic { flex: 1; }
-.history-scenario { color: var(--c-text-muted); font-size: 0.8rem; }
 
 /* ----- Responsive ----- */
 @media (max-width: 480px) {
   .profilo-container { margin: 1.25rem auto; }
-  .profilo-container .card { padding: 1.1rem; }
+  .tab-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab { padding: 0.5rem 0.7rem; font-size: 0.78rem; white-space: nowrap; }
+  .progress-pct { font-size: 1.6rem; }
+  .summary-row { gap: 0.35rem; }
+  .pill-value { font-size: 1rem; }
+  .scenario-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
   .pip { width: 7px; height: 7px; }
-  .summary-stats { grid-template-columns: repeat(2, 1fr); }
 }
