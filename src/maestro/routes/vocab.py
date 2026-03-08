@@ -34,9 +34,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     student_level = await get_cefr_level(student.id)
     visible_levels = cefr_levels_up_to(student_level)
 
-    cards = await UserVocabularyCard.find({"student_id": student.id}).to_list()
-    for card in cards:
-        await card.fetch_all_links()
+    cards = await UserVocabularyCard.find({"student_id": student.id}, fetch_links=True).to_list()
     cards = [c for c in cards if c.word.cefr_level in visible_levels]
 
     today = date.today()
@@ -170,11 +168,11 @@ async def vocab_practice(
     visible_levels = cefr_levels_up_to(student_level)
 
     due_cards = await UserVocabularyCard.find(
-        {"student_id": student.id, "next_review": {"$lte": date.today()}}
+        {"student_id": student.id, "next_review": {"$lte": date.today()}},
+        fetch_links=True,
     ).to_list()
     card = None
     for c in due_cards:
-        await c.fetch_all_links()
         if c.word.cefr_level in visible_levels:
             card = c
             break

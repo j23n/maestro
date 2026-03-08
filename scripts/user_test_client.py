@@ -16,7 +16,7 @@ from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
 
-BASE_URL = "http://100.64.0.4:8000"
+BASE_URL = "http://localhost:8000"
 COOKIE_FILE = Path("/tmp/maestro_test_cookie.txt")
 TIMEOUT = 120.0
 
@@ -108,12 +108,16 @@ def create_student(name: str):
     t0 = time.monotonic()
     email = f"testbot-{int(time.time())}@example.com"
     with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
+        # Fetch signup page to obtain CSRF cookie
+        c.get("/auth/signup")
+        csrf = c.cookies.get("csrftoken", "")
         resp = c.post(
             "/auth/signup",
             data={
                 "email": email,
                 "password": "testpass123",
                 "password_confirm": "testpass123",
+                "csrftoken": csrf,
             },
         )
         session = resp.cookies.get("session")
