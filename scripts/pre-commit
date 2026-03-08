@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Pre-commit hook: lint staged Python files with ruff
+set -euo pipefail
+
+FILES=()
+while IFS= read -r -d '' file; do
+  FILES+=("$file")
+done < <(git diff --cached --name-only --diff-filter=d -z -- '*.py')
+
+if [ ${#FILES[@]} -eq 0 ]; then
+  exit 0
+fi
+
+echo "Running ruff check on staged files..."
+uv run ruff check "${FILES[@]}" || { echo "ruff check failed"; exit 1; }
+
+echo "Running ruff format check on staged files..."
+uv run ruff format --check "${FILES[@]}" || { echo "ruff format check failed"; exit 1; }
