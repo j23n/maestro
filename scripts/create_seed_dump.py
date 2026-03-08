@@ -7,14 +7,14 @@ Run after ingesting data locally:
 import asyncio
 from pathlib import Path
 
-from bson import json_util
+import bson
 from bson.codec_options import CodecOptions
 from pymongo import AsyncMongoClient
 
 from maestro.config import settings
 from maestro.seed import SEED_COLLECTIONS
 
-SEED_DIR = Path(__file__).resolve().parent.parent / "data" / "seed"
+SEED_DIR = Path(__file__).resolve().parent.parent / "data" / "seed" / "current"
 
 
 async def dump():
@@ -27,8 +27,8 @@ async def dump():
 
     for name in SEED_COLLECTIONS:
         docs = await db[name].find().to_list(None)
-        out = SEED_DIR / f"{name}.json"
-        out.write_text(json_util.dumps(docs, indent=2))
+        out = SEED_DIR / f"{name}.bson"
+        out.write_bytes(b"".join(bson.encode(doc) for doc in docs))
         print(f"{name}: {len(docs)} documents -> {out}")
 
 
