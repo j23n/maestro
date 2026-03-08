@@ -1,9 +1,6 @@
 from contextlib import asynccontextmanager
 import logging
 
-logging.basicConfig(level=logging.WARNING)
-logging.getLogger("maestro").setLevel(logging.DEBUG)
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +17,10 @@ from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
+
+logging.basicConfig(level=logging.WARNING)
+_log_level = logging.DEBUG if settings.ENVIRONMENT == "development" else logging.INFO
+logging.getLogger("maestro").setLevel(_log_level)
 
 
 @asynccontextmanager

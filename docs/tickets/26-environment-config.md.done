@@ -1,0 +1,33 @@
+# Environment configuration
+
+**Area:** `settings.py`, `main.py`, `routes/auth.py`
+**Roadmap:** [02-deploy](../roadmap/02-deploy.md)
+
+## Goal
+
+Add an `ENVIRONMENT` setting so the app behaves differently in dev vs production (cookie flags, logging, allowed origins).
+
+## Work
+
+### Add `ENVIRONMENT` to `settings.py`
+
+- New field: `ENVIRONMENT: str = "development"` — valid values: `development`, `staging`, `production`
+
+### Toggle behaviour based on environment
+
+- **Cookie secure flag:** `Secure=True` in production/staging, `False` in development
+- **Debug logging:** `DEBUG` level in development, `INFO` in production
+- **Allowed origins:** restrict in production (Railway domain only), permissive in development
+
+### Update auth cookies
+
+- `routes/auth.py` already sets session cookies — make the `secure` flag read from the environment setting
+
+## Tests
+
+- Unit test: settings load correctly for each environment value
+- Unit test: cookie secure flag matches environment
+
+## Notes
+
+- This is foundational for other deploy tickets — several depend on the environment toggle.
