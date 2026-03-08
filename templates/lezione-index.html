@@ -30,13 +30,15 @@
       <label class="config-checkbox-card">
         <input type="checkbox" name="focus_weak" value="true">
         <span class="config-checkbox-label">{{ t("config_focus_weak") }}</span>
-        <span class="config-checkbox-hint">
-          {% if weaknesses %}
-            {{ weaknesses | map(attribute='label') | join(', ') }}
-          {% else %}
-            {{ t("config_no_weaknesses") }}
-          {% endif %}
+        {% if weaknesses %}
+        <span class="config-weakness-tags">
+          {% for w in weaknesses %}
+          <span class="weakness-tag">{{ w.label | safe }}</span>
+          {% endfor %}
         </span>
+        {% else %}
+        <span class="config-checkbox-hint">{{ t("config_no_weaknesses") }}</span>
+        {% endif %}
       </label>
     </div>
 

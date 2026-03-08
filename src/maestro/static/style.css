@@ -598,6 +598,18 @@ a.progress-seg { display: block; text-decoration: none; }
 .config-checkbox-card input[type="checkbox"] { display: none; }
 .config-checkbox-label { font-size: 0.9rem; font-weight: 500; color: var(--c-text); }
 .config-checkbox-hint { font-size: 0.8rem; color: var(--c-text-muted); }
+.config-weakness-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.15rem; }
+.weakness-tag {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+  background: #fdf0ec;
+  color: #a03a1f;
+  border-radius: 4px;
+  border: 1px solid #f0d5cb;
+  text-decoration: none;
+  transition: background 0.1s;
+}
+a.weakness-tag:hover { background: #f9e2db; }
 
 /* Config screen: text input */
 .config-text-input {
