@@ -1,9 +1,11 @@
 from functools import lru_cache
 from maestro.models import GrammarChunk, GrammarChunkResult
 
+
 @lru_cache(maxsize=1)
 def get_model():
     from sentence_transformers import SentenceTransformer  # lazy: heavy ML model
+
     return SentenceTransformer("intfloat/multilingual-e5-large")
 
 

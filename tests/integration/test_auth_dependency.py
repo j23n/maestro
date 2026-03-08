@@ -1,4 +1,5 @@
 """Integration tests for the get_current_student auth dependency."""
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -33,6 +34,7 @@ async def test_orphaned_student_redirects_to_login(db, account, student):
 
     with patch_lifespan():
         from maestro.main import app
+
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
             response = client.get("/lezione/", follow_redirects=False)
@@ -48,6 +50,7 @@ def test_nonexistent_account_redirects_to_login(db):
     fake_account_id = str(PydanticObjectId())
     with patch_lifespan():
         from maestro.main import app
+
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(fake_account_id))
             response = client.get("/lezione/", follow_redirects=False)

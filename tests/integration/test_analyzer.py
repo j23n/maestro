@@ -1,4 +1,5 @@
 """Integration tests for learning/analyzer.py and learning/scorer.py with mocked LLM."""
+
 import json
 import pytest
 from unittest.mock import MagicMock
@@ -21,8 +22,14 @@ def _make_llm_response(text: str) -> MagicMock:
 def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",), level="B2"):
     """Populate taxonomy cache (avoids DB hit)."""
     taxonomy.seed(
-        gps=[MagicMock(code=c, cefr_level=level, label=c, description=c) for c in gp_codes],
-        cfs=[MagicMock(code=c, cefr_level=level, label=c, description=c) for c in cf_codes],
+        gps=[
+            MagicMock(code=c, cefr_level=level, label=c, description=c)
+            for c in gp_codes
+        ],
+        cfs=[
+            MagicMock(code=c, cefr_level=level, label=c, description=c)
+            for c in cf_codes
+        ],
     )
 
 
@@ -52,7 +59,9 @@ async def test_valid_response_parsed(db, mock_analyzer_client):
         "functions_performed": ["CF_001"],
         "themes": ["family"],
     }
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+        json.dumps(payload)
+    )
 
     result = await analyzer_module.analyze_message("Ho una sorella che studia medicina")
     assert result is not None
@@ -72,7 +81,9 @@ async def test_unknown_codes_filtered(db, mock_analyzer_client):
         "functions_performed": ["CF_001", "CF_FAKE"],
         "themes": [],
     }
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+        json.dumps(payload)
+    )
 
     result = await analyzer_module.analyze_message("Mia sorella studia all'università")
     assert result is not None
@@ -97,7 +108,9 @@ async def test_llm_failure_returns_none(db, mock_analyzer_client):
 async def test_unparseable_response_returns_none(db, mock_analyzer_client):
     """Unparseable LLM response returns None."""
     _seed_cache()
-    mock_analyzer_client.messages.create.return_value = _make_llm_response("not json at all")
+    mock_analyzer_client.messages.create.return_value = _make_llm_response(
+        "not json at all"
+    )
 
     result = await analyzer_module.analyze_message("Mia sorella studia all'università")
     assert result is None
@@ -183,10 +196,22 @@ async def test_score_multi_item_drill_success(mock_scorer_client):
         MagicMock(prompt="Ieri ___ la pizza.", correct_answer="ho mangiato"),
     ]
     payload = [
-        {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
-        {"objective_correct": False, "objective_note": "Sbagliato.", "grammar_errors": [], "tips": []},
+        {
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        },
+        {
+            "objective_correct": False,
+            "objective_note": "Sbagliato.",
+            "grammar_errors": [],
+            "tips": [],
+        },
     ]
-    mock_scorer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_scorer_client.messages.create.return_value = _make_llm_response(
+        json.dumps(payload)
+    )
 
     result = await scorer_module.score_multi_item_drill(
         exercise_type=ExerciseType.FILL_BLANK,
@@ -226,7 +251,9 @@ async def test_generate_writing_feedback_success(mock_scorer_client):
         "grammar_errors": [],
         "tips": [],
     }
-    mock_scorer_client.messages.create.return_value = _make_llm_response(json.dumps(payload))
+    mock_scorer_client.messages.create.return_value = _make_llm_response(
+        json.dumps(payload)
+    )
 
     result = await scorer_module.generate_writing_feedback(
         prompt="Descrivi la tua famiglia.",

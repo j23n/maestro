@@ -9,6 +9,7 @@ One-off ingest script:
 Run with:
   python -m maestro.learning.ingest
 """
+
 import asyncio
 import json
 import logging
@@ -35,7 +36,11 @@ from maestro.utils import data_dir
 
 logger = logging.getLogger(__name__)
 
-EXERCISE_TYPES = (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION, ExerciseType.FREE_FORM)
+EXERCISE_TYPES = (
+    ExerciseType.FILL_BLANK,
+    ExerciseType.ERROR_CORRECTION,
+    ExerciseType.FREE_FORM,
+)
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
@@ -143,7 +148,9 @@ async def seed_scenarios() -> None:
                     setattr(existing, key, val)
                 await existing.save()
             else:
-                await CurriculumScenario(**item, language=settings.TARGET_LANGUAGE).insert()
+                await CurriculumScenario(
+                    **item, language=settings.TARGET_LANGUAGE
+                ).insert()
         total += len(scenarios)
     logger.info(f"Scenarios: upserted {total} records")
 
@@ -164,11 +171,16 @@ async def seed_a0_vocab() -> None:
         existing = await VocabularyWord.find_one({"word": item["word"]})
         if existing:
             existing.cefr_level = item.get("cefr_level", "A0")
-            existing.part_of_speech = item.get("part_of_speech", existing.part_of_speech)
+            existing.part_of_speech = item.get(
+                "part_of_speech", existing.part_of_speech
+            )
             await existing.save()
             word_doc = existing
         else:
-            senses = [Sense(**{k: v for k, v in s.items() if k in ("definition", "examples")}) for s in item.get("senses", [])]
+            senses = [
+                Sense(**{k: v for k, v in s.items() if k in ("definition", "examples")})
+                for s in item.get("senses", [])
+            ]
             word_doc = VocabularyWord(
                 word=item["word"],
                 part_of_speech=item.get("part_of_speech", ""),
@@ -196,7 +208,10 @@ async def seed_a0_vocab() -> None:
             top_translation = "; ".join(translations) if translations else ""
 
             existing_def = await VocabularyWordDefinition.find_one(
-                {"word": DBRef(VocabularyWord.Settings.name, word_doc.id), "student_level": "A0"}
+                {
+                    "word": DBRef(VocabularyWord.Settings.name, word_doc.id),
+                    "student_level": "A0",
+                }
             )
             if existing_def:
                 existing_def.senses = cefr_senses
@@ -212,7 +227,9 @@ async def seed_a0_vocab() -> None:
                 ).insert()
                 def_count += 1
 
-    logger.info(f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)")
+    logger.info(
+        f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)"
+    )
 
 
 async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:

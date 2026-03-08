@@ -1,4 +1,5 @@
 """LLM eval tests for drill scoring accuracy."""
+
 import json
 import logging
 from pathlib import Path
@@ -76,14 +77,18 @@ async def test_scoring_accuracy(db, record_eval):
         else:
             tn += 1
 
-        results.append({
-            "id": case["id"],
-            "got": got,
-            "expected": expected,
-            "pass": passed,
-        })
+        results.append(
+            {
+                "id": case["id"],
+                "got": got,
+                "expected": expected,
+                "pass": passed,
+            }
+        )
         case_scores.append((case, raw[0] if raw else {}))
-        logger.info(f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}")
+        logger.info(
+            f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
+        )
 
     n = len(cases)
     accuracy = (tp + tn) / max(1, n)
@@ -130,15 +135,22 @@ async def test_scoring_accuracy(db, record_eval):
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Scoring content_quality={content_quality:.2%}")
 
-    record_eval("analyzer", {
-        "accuracy": round(accuracy, 4),
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "fp_rate": round(fp_rate, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "scoring",
-    })
+    record_eval(
+        "analyzer",
+        {
+            "accuracy": round(accuracy, 4),
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fp_rate": round(fp_rate, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "scoring",
+        },
+    )
 
-    assert accuracy >= 0.98, f"Scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Scoring feedback content quality too low: {content_quality:.2%}"
+    assert accuracy >= 0.98, (
+        f"Scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Scoring feedback content quality too low: {content_quality:.2%}"
+    )

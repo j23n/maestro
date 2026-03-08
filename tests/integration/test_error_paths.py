@@ -1,4 +1,5 @@
 """Integration tests for error paths — verifying graceful degradation."""
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -30,8 +31,11 @@ async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
 
     # Seed taxonomy with at least one GP
     gp = GrammarPoint(
-        code="GP001", label="Test GP", cefr_level="A1",
-        category="test", description="test",
+        code="GP001",
+        label="Test GP",
+        cefr_level="A1",
+        category="test",
+        description="test",
     )
     await gp.insert()
     taxonomy.seed([gp], [])
@@ -61,13 +65,15 @@ async def test_missing_drill_returns_404(test_app, db, student):
         student_id=student.id,
         status=LessonStatus.ACTIVE,
         generating=False,
-        activities=[LessonActivity(
-            type=ActivityType.DRILL,
-            title="Test Drill",
-            description="test",
-            status=ActivityStatus.ACTIVE,
-            drill_id=PydanticObjectId(),  # points to nonexistent drill
-        )],
+        activities=[
+            LessonActivity(
+                type=ActivityType.DRILL,
+                title="Test Drill",
+                description="test",
+                status=ActivityStatus.ACTIVE,
+                drill_id=PydanticObjectId(),  # points to nonexistent drill
+            )
+        ],
         current_index=0,
     )
     await lesson.insert()
@@ -92,8 +98,12 @@ async def test_background_generation_failure_sets_error(db, student):
 
     # Seed a scenario so pick_scenario can find one before hitting the LLM
     scenario = CurriculumScenario(
-        slug="test-error", label="Test", description="",
-        cefr_level="A1", cf_codes=[], gp_codes=[],
+        slug="test-error",
+        label="Test",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
         depths=["d1", "d2", "d3"],
     )
     await scenario.insert()

@@ -28,7 +28,7 @@ logging.getLogger("maestro").setLevel(_log_level)
 async def lifespan(app: FastAPI):
     await init_db()
     await seed_if_empty(get_db())
-    get_nlp()        # warm up spaCy model
+    get_nlp()  # warm up spaCy model
     await load_vocab()
     yield
 
@@ -55,6 +55,7 @@ app.include_router(lezione.router)
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
     from maestro.session import read_session
+
     if read_session(request):
         return RedirectResponse(url="/lezione/")
     return templates.TemplateResponse(request=request, name="landing.html")

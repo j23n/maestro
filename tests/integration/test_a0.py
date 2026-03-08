@@ -1,4 +1,5 @@
 """Integration tests for A0 level — static lessons, onboarding, graduation."""
+
 import pytest
 
 from beanie import PydanticObjectId
@@ -31,12 +32,24 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
     from maestro.lezione.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto", label="Benvenuto", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01-benvenuto",
+        label="Benvenuto",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02-saluti", label="Saluti", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=2,
+        slug="a0-02-saluti",
+        label="Saluti",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=2,
     )
     await s1.insert()
     await s2.insert()
@@ -44,7 +57,9 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
     # s1 completed, s2 not
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"a0-01-benvenuto": ScenarioProgress(depth=1, lesson_count=1)},
+        scenario_progress={
+            "a0-01-benvenuto": ScenarioProgress(depth=1, lesson_count=1)
+        },
     )
     scenario, depth = await _pick_a0_scenario(profile)
     assert scenario.slug == "a0-02-saluti"
@@ -57,12 +72,24 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
     from maestro.lezione.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto", label="Benvenuto", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01-benvenuto",
+        label="Benvenuto",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02-saluti", label="Saluti", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=2,
+        slug="a0-02-saluti",
+        label="Saluti",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=2,
     )
     await s1.insert()
     await s2.insert()
@@ -78,8 +105,14 @@ async def test_pick_scenario_a0_delegates(db):
     from maestro.lezione.selection import pick_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto", label="Benvenuto", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01-benvenuto",
+        label="Benvenuto",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     await s1.insert()
 
@@ -103,12 +136,23 @@ async def test_a0_lesson_generates_static_content(db):
     await profile.insert()
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto", label="Benvenuto", description="Welcome", cefr_level="A0",
-        cf_codes=[], gp_codes=["a0_saluti"], depths=["Onboarding"], sequence=1,
+        slug="a0-01-benvenuto",
+        label="Benvenuto",
+        description="Welcome",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=["a0_saluti"],
+        depths=["Onboarding"],
+        sequence=1,
     )
     await s1.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
+    lesson = Lesson(
+        student_id=_FAKE_STUDENT_ID,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        generating=True,
+    )
     await lesson.insert()
 
     await generate_lesson_background(lesson.id, 10)
@@ -135,22 +179,41 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     await profile.insert()
 
     s = CurriculumScenario(
-        slug="a0-02-saluti", label="Saluti", description="Greetings", cefr_level="A0",
-        cf_codes=[], gp_codes=["a0_saluti"], depths=["Greetings"], sequence=2,
+        slug="a0-02-saluti",
+        label="Saluti",
+        description="Greetings",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=["a0_saluti"],
+        depths=["Greetings"],
+        sequence=2,
     )
     await s.insert()
     # Mark lesson 1 as done so lesson 2 is picked
-    profile.scenario_progress["a0-01-benvenuto"] = ScenarioProgress(depth=1, lesson_count=1)
+    profile.scenario_progress["a0-01-benvenuto"] = ScenarioProgress(
+        depth=1, lesson_count=1
+    )
     await profile.save()
 
     # Also need scenario 1 to exist for the query
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto", label="Benvenuto", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01-benvenuto",
+        label="Benvenuto",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     await s1.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
+    lesson = Lesson(
+        student_id=_FAKE_STUDENT_ID,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        generating=True,
+    )
     await lesson.insert()
 
     await generate_lesson_background(lesson.id, 10)
@@ -177,12 +240,24 @@ async def test_compute_cefr_stays_a0_when_incomplete(db):
     from maestro.learning.profile import _compute_cefr
 
     s1 = CurriculumScenario(
-        slug="a0-01", label="1", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02", label="2", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=2,
+        slug="a0-02",
+        label="2",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=2,
     )
     await s1.insert()
     await s2.insert()
@@ -202,20 +277,36 @@ async def test_compute_cefr_graduates_to_a1(db):
     from maestro.models import GrammarPoint, CommunicativeFunction
 
     s1 = CurriculumScenario(
-        slug="a0-01", label="1", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=1,
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02", label="2", description="", cefr_level="A0",
-        cf_codes=[], gp_codes=[], depths=["d1"], sequence=2,
+        slug="a0-02",
+        label="2",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=2,
     )
     await s1.insert()
     await s2.insert()
 
     # Seed GPs and CFs at all levels so vacuous-OK doesn't advance past A1
     for lvl in ("A1", "A2", "B1", "B2"):
-        await GrammarPoint(code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description="").insert()
-        await CommunicativeFunction(code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl).insert()
+        await GrammarPoint(
+            code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
+        ).insert()
+        await CommunicativeFunction(
+            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+        ).insert()
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
@@ -275,6 +366,7 @@ def test_onboarding_submit_saves_name(test_app, student, db):
     async def _check():
         s = await Student.get(student.id)
         return s.name
+
     name = asyncio.get_event_loop().run_until_complete(_check())
     assert name == "Giovanni"
 
@@ -288,6 +380,7 @@ def test_onboarding_submit_saves_background(test_app, student, db):
     async def _setup():
         # Create a profile first
         from maestro.profile import get_or_create_profile
+
         await get_or_create_profile(student.id)
 
         lesson = Lesson(
@@ -324,6 +417,7 @@ def test_onboarding_submit_saves_background(test_app, student, db):
     async def _check():
         profile = await LearningProfile.find_one({"student_id": student.id})
         return profile.persona.background
+
     background = asyncio.get_event_loop().run_until_complete(_check())
     assert "university student" in background
 

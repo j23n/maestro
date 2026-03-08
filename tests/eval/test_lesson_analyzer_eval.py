@@ -1,4 +1,5 @@
 """LLM eval tests for lesson_analyzer CF detection."""
+
 import json
 import logging
 from pathlib import Path
@@ -25,6 +26,7 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
 
     # Build code → macro_category lookup from seeded cache
     from maestro import taxonomy
+
     code_to_macro = {
         cf.code: cf.macro_category
         for cf in taxonomy.comm_functions()
@@ -41,7 +43,9 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
             cefr_level=case["cefr_level"],
             client=client,
         )
-        detected_macros = {code_to_macro[code] for code in cf_codes if code in code_to_macro}
+        detected_macros = {
+            code_to_macro[code] for code in cf_codes if code in code_to_macro
+        }
         case_result = {
             "id": case["id"],
             "cf_codes": cf_codes,
@@ -83,7 +87,7 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
             ok, reason = _judge_ref(
                 generated=generated,
                 reference=_json.dumps(expected_output, ensure_ascii=False),
-                context=f"CF macro-categories for: \"{case['combined'][:200]}\"",
+                context=f'CF macro-categories for: "{case["combined"][:200]}"',
             )
         else:
             prompt = (
@@ -94,17 +98,26 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
-        logger.info(f"[eval] judge cf {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+        logger.info(
+            f"[eval] judge cf {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
+        )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] CF content_quality={content_quality:.2%}")
 
-    record_eval("lesson_analyzer", {
-        "recall": round(recall, 4),
-        "content_quality": round(content_quality, 4),
-        "n": len(cf_cases),
-        "test": "cf_detection",
-    })
+    record_eval(
+        "lesson_analyzer",
+        {
+            "recall": round(recall, 4),
+            "content_quality": round(content_quality, 4),
+            "n": len(cf_cases),
+            "test": "cf_detection",
+        },
+    )
 
-    assert recall >= 0.70, f"CF macro-category recall too low: {recall:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"CF detection content quality too low: {content_quality:.2%}"
+    assert recall >= 0.70, (
+        f"CF macro-category recall too low: {recall:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"CF detection content quality too low: {content_quality:.2%}"
+    )

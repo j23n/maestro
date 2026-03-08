@@ -64,13 +64,13 @@ class Account(Document):
 
 
 class CurriculumScenario(Document):
-    slug: str                     # "al-bar" (unique)
-    label: str                    # "Al bar"
-    description: str              # English description of the scenario
-    cefr_level: str               # "A1"
-    cf_codes: List[str]           # CF codes exercised in this scenario
-    gp_codes: List[str]           # GP codes exercised in this scenario
-    depths: List[str]             # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
+    slug: str  # "al-bar" (unique)
+    label: str  # "Al bar"
+    description: str  # English description of the scenario
+    cefr_level: str  # "A1"
+    cf_codes: List[str]  # CF codes exercised in this scenario
+    gp_codes: List[str]  # GP codes exercised in this scenario
+    depths: List[str]  # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
     sequence: Optional[int] = None  # sequential ordering for A0 lessons (1-10)
     language: str = "it"
 
@@ -79,13 +79,13 @@ class CurriculumScenario(Document):
 
 
 class StudentPersona(BaseModel):
-    background: str = ""    # "Chi sei?" — student, retired, finance worker...
-    interests: str = ""     # "Cosa ti piace?" — cooking, travel, wine...
-    goal: str = ""          # "Perché l'italiano?" — travel, family, work...
+    background: str = ""  # "Chi sei?" — student, retired, finance worker...
+    interests: str = ""  # "Cosa ti piace?" — cooking, travel, wine...
+    goal: str = ""  # "Perché l'italiano?" — travel, family, work...
 
 
 class ScenarioProgress(BaseModel):
-    depth: int = 0                # highest depth completed (0 = unvisited)
+    depth: int = 0  # highest depth completed (0 = unvisited)
     last_visited: Optional[datetime] = None
     lesson_count: int = 0
 
@@ -107,17 +107,17 @@ class Sense(BaseModel):
     examples: List[str] = []
     synonyms: List[str] = []
     antonyms: List[str] = []
-    pos: Optional[str] = None    # only if different from entry-level POS
+    pos: Optional[str] = None  # only if different from entry-level POS
     style: Optional[str] = None  # "figurato", "aulico", etc.
 
 
 class VocabularyWord(Document):
     word: str = Field(unique=True)
-    syllabization: Optional[str] = None   # "af-flùs-so" (no brackets)
-    part_of_speech: str                   # raw abbrev: "s.m.", "v.tr.", etc.
-    cefr_level: Optional[str] = None      # A1–B2, or None for non-CEFR entries
-    entry_id: Optional[str] = None        # "LM-00595"
-    senses: List[Sense] = []              # all senses from EPUB
+    syllabization: Optional[str] = None  # "af-flùs-so" (no brackets)
+    part_of_speech: str  # raw abbrev: "s.m.", "v.tr.", etc.
+    cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
+    entry_id: Optional[str] = None  # "LM-00595"
+    senses: List[Sense] = []  # all senses from EPUB
     language: str = "it"
 
     class Settings:
@@ -126,15 +126,15 @@ class VocabularyWord(Document):
 
 class CefrSense(BaseModel):
     definition: str
-    translation: str = ""   # English gloss for this specific sense
+    translation: str = ""  # English gloss for this specific sense
     examples: List[str] = []
 
 
 class VocabularyWordDefinition(Document):
     word: Link["VocabularyWord"]
-    student_level: str           # "A1" | "A2" | "B1" | "B2"
+    student_level: str  # "A1" | "A2" | "B1" | "B2"
     senses: List[CefrSense]
-    translation: str             # single English word or short phrase
+    translation: str  # single English word or short phrase
     language: str = "it"
 
     class Settings:
@@ -160,13 +160,16 @@ class UserVocabularyCard(Document):
 
 # --- Learning outcome taxonomy ---
 
+
 class GrammarPoint(Document):
     code: str
     label: str
     cefr_level: str
     category: str
     description: str
-    chunk_ref: Optional[str] = None  # GrammarChunk.ref — set from mapping file at ingest
+    chunk_ref: Optional[str] = (
+        None  # GrammarChunk.ref — set from mapping file at ingest
+    )
     language: str = "it"
 
     class Settings:
@@ -180,7 +183,7 @@ class CommunicativeFunction(Document):
     cefr_level: str
     patterns: List[str] = Field(default_factory=list)
     examples: List[str] = Field(default_factory=list)
-    description: str = ""   # built from patterns at ingest; used in analyzer prompt
+    description: str = ""  # built from patterns at ingest; used in analyzer prompt
     source_url: str = ""
     language: str = "it"
 
@@ -189,6 +192,7 @@ class CommunicativeFunction(Document):
 
 
 # --- Learning events and profile ---
+
 
 class LearningEvent(Document):
     student_id: Optional[PydanticObjectId] = None
@@ -215,7 +219,9 @@ class LearningProfile(Document):
     student_id: Optional[PydanticObjectId] = None
     grammar_correct_counts: dict = Field(default_factory=dict)
     grammar_error_counts: dict = Field(default_factory=dict)
-    grammar_recent_outcomes: dict = Field(default_factory=dict)  # code → list[bool], sliding window of last 10
+    grammar_recent_outcomes: dict = Field(
+        default_factory=dict
+    )  # code → list[bool], sliding window of last 10
     functions_counts: dict = Field(default_factory=dict)
     themes_seen: List[str] = Field(default_factory=list)
     cefr_estimate: str = "A0"
@@ -233,6 +239,7 @@ class LearningProfile(Document):
 
 
 # --- Drills ---
+
 
 class DrillItem(BaseModel):
     prompt: str
@@ -258,7 +265,9 @@ class GeneratedDrill(Document):
     prompt: str
     correct_answer: Optional[str] = None
     distractors: List[str] = Field(default_factory=list)
-    items: List[DrillItem] = Field(default_factory=list)  # multi-item drills (fill_blank, error_correction)
+    items: List[DrillItem] = Field(
+        default_factory=list
+    )  # multi-item drills (fill_blank, error_correction)
     scenario_slug: Optional[str] = None
     generated_at: datetime = Field(default_factory=utcnow)
     used: bool = False
@@ -293,10 +302,10 @@ class GrammarChunkResult:
 
 class GrammarPointExplanation(Document):
     grammar_point: Link["GrammarPoint"]
-    student_level: str           # "A1" | "A2" | "B1" | "B2"
-    title: str = ""              # short display title in target language (3–8 words)
-    explanation: str             # CEFR-adapted target language markdown
-    translation: str = ""       # English translation of the explanation
+    student_level: str  # "A1" | "A2" | "B1" | "B2"
+    title: str = ""  # short display title in target language (3–8 words)
+    explanation: str  # CEFR-adapted target language markdown
+    translation: str = ""  # English translation of the explanation
     language: str = "it"
 
     class Settings:
@@ -305,23 +314,36 @@ class GrammarPointExplanation(Document):
 
 # --- Lezione ---
 
+
 class LessonActivity(BaseModel):
-    type: ActivityType   # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
+    type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str
     duration_minutes: int = 2
-    status: ActivityStatus = ActivityStatus.PENDING   # "pending" | "active" | "completed" | "skipped"
+    status: ActivityStatus = (
+        ActivityStatus.PENDING
+    )  # "pending" | "active" | "completed" | "skipped"
     # Content references (set when lesson is created)
     drill_id: Optional[PydanticObjectId] = None
     card_ids: List[PydanticObjectId] = Field(default_factory=list)
-    content: Optional[str] = None    # generated text for reading/writing/grammar
-    questions: List[str] = Field(default_factory=list)        # comprehension questions for reading
-    correct_answers: List[str] = Field(default_factory=list)  # expected answers for reading
+    content: Optional[str] = None  # generated text for reading/writing/grammar
+    questions: List[str] = Field(
+        default_factory=list
+    )  # comprehension questions for reading
+    correct_answers: List[str] = Field(
+        default_factory=list
+    )  # expected answers for reading
     result: Optional[dict] = None
-    why_important: Optional[str] = None  # 1-2 sentence motivation for grammar activities
-    hint: Optional[str] = None                 # optional hint shown on request (drills)
-    profile_field: Optional[str] = None        # for onboarding activities: "name", "background", "interests", "goal"
-    response_template: Optional[str] = None    # shown after onboarding submit, supports {answer} placeholder
+    why_important: Optional[str] = (
+        None  # 1-2 sentence motivation for grammar activities
+    )
+    hint: Optional[str] = None  # optional hint shown on request (drills)
+    profile_field: Optional[str] = (
+        None  # for onboarding activities: "name", "background", "interests", "goal"
+    )
+    response_template: Optional[str] = (
+        None  # shown after onboarding submit, supports {answer} placeholder
+    )
     grammar_point_code: Optional[str] = None
 
 
@@ -330,7 +352,9 @@ class Lesson(Document):
     created_at: datetime = Field(default_factory=utcnow)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
-    status: LessonStatus = LessonStatus.PLANNING  # "planning" | "active" | "completed" | "abandoned"
+    status: LessonStatus = (
+        LessonStatus.PLANNING
+    )  # "planning" | "active" | "completed" | "abandoned"
     duration_minutes: int = 20
     scenario_slug: Optional[str] = None
     scenario_depth: Optional[int] = None
@@ -339,11 +363,11 @@ class Lesson(Document):
     activities: List[LessonActivity] = []
     current_index: int = 0
     cefr_at_start: str = "A0"
-    overview: Optional[str] = None          # 2-3 sentence lesson overview
-    lesson_context: Optional[str] = None     # per-lesson coloring text from student
-    focus_weak: bool = False                 # when True, grammar selection ignores scenario constraint
+    overview: Optional[str] = None  # 2-3 sentence lesson overview
+    lesson_context: Optional[str] = None  # per-lesson coloring text from student
+    focus_weak: bool = False  # when True, grammar selection ignores scenario constraint
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
-    generating: bool = True                 # True while background LLM generation is in progress
+    generating: bool = True  # True while background LLM generation is in progress
     generation_error: Optional[str] = None  # set when background generation fails
     language: str = "it"
 

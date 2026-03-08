@@ -1,4 +1,5 @@
 """Unit tests for vocab/ingest.py — make_lookup() lemmatization logic."""
+
 import pytest
 from types import SimpleNamespace
 
@@ -21,6 +22,7 @@ def lookup_fn():
     """
     try:
         import spacy
+
         nlp = spacy.load("it_core_news_md")
     except OSError:
         pytest.skip("spaCy it_core_news_md not available")

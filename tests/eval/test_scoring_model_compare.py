@@ -3,6 +3,7 @@
 Runs the same fixture cases through each model and records per-model metrics
 so results can be compared side-by-side in evals/results.jsonl.
 """
+
 import json
 import logging
 import os
@@ -21,7 +22,8 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
 
 MODELS = [
-    m.strip() for m in os.environ.get(
+    m.strip()
+    for m in os.environ.get(
         "SCORING_COMPARE_MODELS",
         "claude-sonnet-4-6,claude-haiku-4-5-20251001",
     ).split(",")
@@ -99,10 +101,14 @@ async def _run_scoring_cases(cases: list[dict]) -> tuple[list[dict], list[tuple]
         )
         got = raw[0]["objective_correct"] if raw else False
         expected = case["expected_objective_correct"]
-        results.append({
-            "id": case["id"], "got": got, "expected": expected,
-            "pass": got == expected,
-        })
+        results.append(
+            {
+                "id": case["id"],
+                "got": got,
+                "expected": expected,
+                "pass": got == expected,
+            }
+        )
         case_scores.append((case, raw[0] if raw else {}))
     return results, case_scores
 
@@ -119,11 +125,19 @@ async def _run_reading_cases(cases: list[dict]) -> list[dict]:
             student_answers=case["student_answers"],
         )
         for i, (item, expected) in enumerate(zip(scored, case["expected_results"])):
-            got = item.get("objective_correct", False) if isinstance(item, dict) else False
-            results.append({
-                "id": f"{case['id']}_q{i + 1}", "got": got, "expected": expected,
-                "pass": got == expected,
-            })
+            got = (
+                item.get("objective_correct", False)
+                if isinstance(item, dict)
+                else False
+            )
+            results.append(
+                {
+                    "id": f"{case['id']}_q{i + 1}",
+                    "got": got,
+                    "expected": expected,
+                    "pass": got == expected,
+                }
+            )
     return results
 
 
@@ -138,12 +152,20 @@ async def _run_writing_cases(cases: list[dict]) -> list[dict]:
             student_text=case["student_text"],
             cefr_level="A1",
         )
-        got = feedback.get("objective_correct", True) if isinstance(feedback, dict) else True
+        got = (
+            feedback.get("objective_correct", True)
+            if isinstance(feedback, dict)
+            else True
+        )
         expected = case["expected_objective_correct"]
-        results.append({
-            "id": case["id"], "got": got, "expected": expected,
-            "pass": got == expected,
-        })
+        results.append(
+            {
+                "id": case["id"],
+                "got": got,
+                "expected": expected,
+                "pass": got == expected,
+            }
+        )
     return results
 
 
@@ -170,7 +192,7 @@ def _judge_scoring_cases(case_scores: list[tuple]) -> float:
             prompt = (
                 f'Exercise: {case["exercise_type"]} — "{case["prompt"]}" correct: "{case["correct_answer"]}"\n'
                 f'Student answer: "{case["student_answer"]}"\n'
-                f"Scored: {correct_mark}\nTips: {tips}\nNote: \"{note}\"\n\n"
+                f'Scored: {correct_mark}\nTips: {tips}\nNote: "{note}"\n\n'
                 f"Is this feedback helpful and accurate for an Italian learner?"
             )
             ok, reason = _judge(prompt)
@@ -203,13 +225,16 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
             f"content_quality={scoring_quality:.2%}, failed={scoring_metrics['failed']}"
         )
 
-        record_eval("analyzer", {
-            **scoring_metrics,
-            "content_quality": round(scoring_quality, 4),
-            "test": "scoring_compare",
-            "model": model,
-            "subtest": "scoring",
-        })
+        record_eval(
+            "analyzer",
+            {
+                **scoring_metrics,
+                "content_quality": round(scoring_quality, 4),
+                "test": "scoring_compare",
+                "model": model,
+                "subtest": "scoring",
+            },
+        )
 
         # --- Reading comprehension ---
         reading_results = await _run_reading_cases(reading_cases)
@@ -220,12 +245,15 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
             f"failed={reading_metrics['failed']}"
         )
 
-        record_eval("analyzer", {
-            **reading_metrics,
-            "test": "scoring_compare",
-            "model": model,
-            "subtest": "reading",
-        })
+        record_eval(
+            "analyzer",
+            {
+                **reading_metrics,
+                "test": "scoring_compare",
+                "model": model,
+                "subtest": "reading",
+            },
+        )
 
         # --- Writing ---
         writing_results = await _run_writing_cases(writing_cases)
@@ -236,15 +264,21 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
             f"failed={writing_metrics['failed']}"
         )
 
-        record_eval("analyzer", {
-            **writing_metrics,
-            "test": "scoring_compare",
-            "model": model,
-            "subtest": "writing",
-        })
+        record_eval(
+            "analyzer",
+            {
+                **writing_metrics,
+                "test": "scoring_compare",
+                "model": model,
+                "subtest": "writing",
+            },
+        )
 
         all_model_metrics[model] = {
-            "scoring": {**scoring_metrics, "content_quality": round(scoring_quality, 4)},
+            "scoring": {
+                **scoring_metrics,
+                "content_quality": round(scoring_quality, 4),
+            },
             "reading": reading_metrics,
             "writing": writing_metrics,
         }
@@ -262,13 +296,16 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
                 f"disagree_ids={disagree or 'none'}"
             )
 
-            record_eval("analyzer", {
-                "test": "scoring_compare",
-                "subtest": f"{subtest}_agreement",
-                "agreement": agreement,
-                "n": n,
-                "model": f"{m1}_vs_{m2}",
-            })
+            record_eval(
+                "analyzer",
+                {
+                    "test": "scoring_compare",
+                    "subtest": f"{subtest}_agreement",
+                    "agreement": agreement,
+                    "n": n,
+                    "model": f"{m1}_vs_{m2}",
+                },
+            )
 
     # --- Summary log ---
     for model, metrics in all_model_metrics.items():

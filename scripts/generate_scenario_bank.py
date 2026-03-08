@@ -5,6 +5,7 @@ Outputs data/scenarios_a1.yaml.
 
 Run with:  uv run python scripts/generate_scenario_bank.py
 """
+
 import json
 import logging
 
@@ -31,7 +32,9 @@ def main():
 
     gp_lines = []
     for gp in a1_gps:
-        gp_lines.append(f"  {gp['code']}  |  {gp['label']}  |  category: {gp['category']}")
+        gp_lines.append(
+            f"  {gp['code']}  |  {gp['label']}  |  category: {gp['category']}"
+        )
 
     cf_lines = []
     for cf in a1_cfs:
@@ -127,7 +130,9 @@ Output ALL scenarios now."""
         logger.warning(f"Invalid CF codes ({len(invalid_cfs)}): {invalid_cfs}")
 
     if not orphan_gps and not orphan_cfs:
-        logger.info("Full coverage: all GPs and CFs are assigned to at least one scenario")
+        logger.info(
+            "Full coverage: all GPs and CFs are assigned to at least one scenario"
+        )
 
     with open(OUTPUT, "w") as f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True, width=200)

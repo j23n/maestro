@@ -21,7 +21,7 @@ def test_plain_object():
 
 @pytest.mark.unit
 def test_plain_array():
-    assert parse_llm_json('[1, 2, 3]') == [1, 2, 3]
+    assert parse_llm_json("[1, 2, 3]") == [1, 2, 3]
 
 
 @pytest.mark.unit
@@ -44,17 +44,17 @@ def test_preamble_then_json():
 
 @pytest.mark.unit
 def test_invalid_json_returns_none():
-    assert parse_llm_json('{invalid json}') is None
+    assert parse_llm_json("{invalid json}") is None
 
 
 @pytest.mark.unit
 def test_empty_string_returns_none():
-    assert parse_llm_json('') is None
+    assert parse_llm_json("") is None
 
 
 @pytest.mark.unit
 def test_no_json_returns_none():
-    assert parse_llm_json('just some plain text') is None
+    assert parse_llm_json("just some plain text") is None
 
 
 @pytest.mark.unit
@@ -101,10 +101,16 @@ async def test_background_task_logs_exception(caplog):
 @pytest.mark.unit
 async def test_enable_test_mode_collects_tasks():
     """In test mode, tasks are added to pending list."""
-    from maestro.utils import enable_test_mode, disable_test_mode, drain_background_tasks, _pending_tasks
+    from maestro.utils import (
+        enable_test_mode,
+        disable_test_mode,
+        drain_background_tasks,
+        _pending_tasks,
+    )
 
     enable_test_mode()
     try:
+
         async def dummy():
             pass
 
@@ -120,10 +126,16 @@ async def test_enable_test_mode_collects_tasks():
 @pytest.mark.unit
 async def test_drain_handles_failing_tasks():
     """drain_background_tasks swallows exceptions from failed tasks."""
-    from maestro.utils import enable_test_mode, disable_test_mode, drain_background_tasks, _pending_tasks
+    from maestro.utils import (
+        enable_test_mode,
+        disable_test_mode,
+        drain_background_tasks,
+        _pending_tasks,
+    )
 
     enable_test_mode()
     try:
+
         async def failing():
             raise ValueError("boom")
 

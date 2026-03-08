@@ -1,4 +1,5 @@
 """LLM eval tests for free-form drill scoring and reading comprehension scoring."""
+
 import json
 import logging
 from pathlib import Path
@@ -30,7 +31,9 @@ async def test_free_form_drill_scoring(record_eval):
             grammar_point_code=case["grammar_point_code"],
             cefr_level=case["cefr_level"],
         )
-        got = result.get("objective_correct", True) if isinstance(result, dict) else True
+        got = (
+            result.get("objective_correct", True) if isinstance(result, dict) else True
+        )
         expected = case["expected_objective_correct"]
         passed = got == expected
 
@@ -43,9 +46,13 @@ async def test_free_form_drill_scoring(record_eval):
         else:
             tn += 1
 
-        results.append({"id": case["id"], "got": got, "expected": expected, "pass": passed})
+        results.append(
+            {"id": case["id"], "got": got, "expected": expected, "pass": passed}
+        )
         case_scores.append((case, result if isinstance(result, dict) else {}))
-        logger.info(f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}")
+        logger.info(
+            f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
+        )
 
     n = len(cases)
     accuracy = (tp + tn) / max(1, n)
@@ -94,18 +101,25 @@ async def test_free_form_drill_scoring(record_eval):
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Free-form content_quality={content_quality:.2%}")
 
-    record_eval("analyzer", {
-        "accuracy": round(accuracy, 4),
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "fp_rate": round(fp_rate, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "free_form",
-    })
+    record_eval(
+        "analyzer",
+        {
+            "accuracy": round(accuracy, 4),
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fp_rate": round(fp_rate, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "free_form",
+        },
+    )
 
-    assert accuracy >= 0.98, f"Free-form scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Free-form feedback content quality too low: {content_quality:.2%}"
+    assert accuracy >= 0.98, (
+        f"Free-form scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Free-form feedback content quality too low: {content_quality:.2%}"
+    )
 
 
 @pytest.mark.llm_eval
@@ -130,7 +144,11 @@ async def test_reading_comprehension_scoring(record_eval):
         passage_scores.append((case, scored))
 
         for i, (item, expected) in enumerate(zip(scored, case["expected_results"])):
-            got = item.get("objective_correct", False) if isinstance(item, dict) else False
+            got = (
+                item.get("objective_correct", False)
+                if isinstance(item, dict)
+                else False
+            )
             passed = got == expected
 
             if expected and got:
@@ -143,8 +161,12 @@ async def test_reading_comprehension_scoring(record_eval):
                 tn += 1
 
             result_id = f"{case['id']}_q{i + 1}"
-            all_results.append({"id": result_id, "got": got, "expected": expected, "pass": passed})
-            logger.info(f"[eval] {result_id}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}")
+            all_results.append(
+                {"id": result_id, "got": got, "expected": expected, "pass": passed}
+            )
+            logger.info(
+                f"[eval] {result_id}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
+            )
 
     n = tp + fp + fn + tn
     accuracy = (tp + tn) / max(1, n)
@@ -169,7 +191,11 @@ async def test_reading_comprehension_scoring(record_eval):
         expected_ans = case["correct_answers"][0]
         student_ans = case["student_answers"][0]
         item = scored[0] if scored else {}
-        correct_mark = "correct ✓" if (isinstance(item, dict) and item.get("objective_correct")) else "incorrect ✗"
+        correct_mark = (
+            "correct ✓"
+            if (isinstance(item, dict) and item.get("objective_correct"))
+            else "incorrect ✗"
+        )
         note = item.get("objective_note", "") if isinstance(item, dict) else ""
         generated = f"scored={correct_mark}, note={note!r}"
         expected_output = case.get("expected_output")
@@ -191,20 +217,29 @@ async def test_reading_comprehension_scoring(record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
-        logger.info(f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+        logger.info(
+            f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
+        )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Reading content_quality={content_quality:.2%}")
 
-    record_eval("analyzer", {
-        "accuracy": round(accuracy, 4),
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "fp_rate": round(fp_rate, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "reading",
-    })
+    record_eval(
+        "analyzer",
+        {
+            "accuracy": round(accuracy, 4),
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fp_rate": round(fp_rate, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "reading",
+        },
+    )
 
-    assert accuracy >= 0.98, f"Reading scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Reading feedback content quality too low: {content_quality:.2%}"
+    assert accuracy >= 0.98, (
+        f"Reading scoring accuracy too low: {accuracy:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Reading feedback content quality too low: {content_quality:.2%}"
+    )

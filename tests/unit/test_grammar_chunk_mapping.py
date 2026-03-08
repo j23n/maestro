@@ -1,4 +1,5 @@
 """Validate that data/grammar_point_chunks.yaml contains all GP codes."""
+
 import json
 
 import pytest

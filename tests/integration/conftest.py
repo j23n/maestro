@@ -24,13 +24,16 @@ def patch_lifespan():
 @pytest.fixture
 async def db():
     client = AsyncMongoMockClient()
-    await init_beanie(database=client["test_maestro"], document_models=ALL_DOCUMENT_MODELS)
+    await init_beanie(
+        database=client["test_maestro"], document_models=ALL_DOCUMENT_MODELS
+    )
     yield
 
 
 @pytest.fixture
 async def student(db):
     from maestro.models import Student
+
     s = Student(name="Test Student")
     await s.insert()
     return s
@@ -39,6 +42,7 @@ async def student(db):
 @pytest.fixture
 async def account(db, student):
     from maestro.models import Account
+
     a = Account(
         email="test@example.com",
         password_hash="$2b$12$fakehashfortest",
@@ -51,6 +55,7 @@ async def account(db, student):
 def sign_session(account_id: str) -> str:
     """Sign a session cookie for the given account ID."""
     from maestro.session import _get_serializer
+
     return _get_serializer().dumps({"account_id": account_id})
 
 
@@ -59,6 +64,7 @@ async def auth_app(db):
     """FastAPI TestClient without pre-set cookies."""
     with patch_lifespan():
         from maestro.main import app
+
         with TestClient(app, raise_server_exceptions=False) as client:
             # Trigger CSRF cookie and set default header
             client.get("/")
@@ -73,6 +79,7 @@ async def test_app(db, student, account):
     """FastAPI TestClient with mocked lifespan. Shares the db fixture's database."""
     with patch_lifespan():
         from maestro.main import app
+
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
             # Trigger CSRF cookie and set default header for POST requests
@@ -105,6 +112,7 @@ def mock_scorer_client(mocker):
 def reset_serializer():
     """Reset session serializer cache between tests."""
     import maestro.session
+
     maestro.session._serializer = None
     yield
     maestro.session._serializer = None
@@ -114,6 +122,7 @@ def reset_serializer():
 def reset_taxonomy():
     """Reset taxonomy cache between tests."""
     from maestro import taxonomy
+
     taxonomy.invalidate()
     yield
     taxonomy.invalidate()
@@ -123,6 +132,7 @@ def reset_taxonomy():
 def reset_limiter():
     """Reset rate limiter state between tests."""
     from maestro.rate_limit import limiter
+
     limiter.reset()
     yield
     limiter.reset()
@@ -132,6 +142,7 @@ def reset_limiter():
 def bg_test_mode():
     """Enable background task test mode for all integration tests."""
     from maestro.utils import enable_test_mode, disable_test_mode
+
     enable_test_mode()
     yield
     disable_test_mode()

@@ -6,7 +6,9 @@ from maestro.vocab.srs import review
 
 
 def make_card(**kwargs):
-    defaults = dict(ease_factor=2.5, interval=1, repetitions=0, next_review=date.today())
+    defaults = dict(
+        ease_factor=2.5, interval=1, repetitions=0, next_review=date.today()
+    )
     defaults.update(kwargs)
     return SimpleNamespace(**defaults)
 

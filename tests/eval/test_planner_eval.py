@@ -1,4 +1,5 @@
 """LLM eval tests for lesson content generation."""
+
 import json
 import logging
 from pathlib import Path
@@ -67,11 +68,15 @@ async def test_lesson_content_structure(db, record_eval):
         # Check drills
         drills = content.drills
         if len(drills) < case.get("expect_drills", 0):
-            failures.append(f"expected {case['expect_drills']} drills, got {len(drills)}")
+            failures.append(
+                f"expected {case['expect_drills']} drills, got {len(drills)}"
+            )
         for spec, drill in zip(case["drill_specs"], drills):
             if spec["exercise_type"] in ("fill_blank", "error_correction"):
                 items = drill.items
-                expected_items = case.get(f"expect_items_per_{spec['exercise_type']}", 10)
+                expected_items = case.get(
+                    f"expect_items_per_{spec['exercise_type']}", 10
+                )
                 if len(items) < expected_items:
                     failures.append(
                         f"drill {spec['grammar_point_code']}: expected {expected_items} items, got {len(items)}"
@@ -80,7 +85,9 @@ async def test_lesson_content_structure(db, record_eval):
         # Check readings
         readings = content.readings
         if len(readings) < case.get("expect_readings", 0):
-            failures.append(f"expected {case['expect_readings']} readings, got {len(readings)}")
+            failures.append(
+                f"expected {case['expect_readings']} readings, got {len(readings)}"
+            )
         for i, reading in enumerate(readings):
             q_count = len(reading.questions)
             if q_count < 5:
@@ -95,7 +102,9 @@ async def test_lesson_content_structure(db, record_eval):
         # Check speakings
         speakings = content.speakings
         if len(speakings) < case.get("expect_speakings", 0):
-            failures.append(f"expected {case.get('expect_speakings', 0)} speakings, got {len(speakings)}")
+            failures.append(
+                f"expected {case.get('expect_speakings', 0)} speakings, got {len(speakings)}"
+            )
 
         passed = not failures
         if passed:
@@ -111,7 +120,9 @@ async def test_lesson_content_structure(db, record_eval):
     n = len(cases)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Content structure: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(
+        f"[eval] Content structure: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}"
+    )
 
     # LLM judge: evaluate first drill item and first reading per case
     judge_passed = 0
@@ -128,13 +139,13 @@ async def test_lesson_content_structure(db, record_eval):
             if items:
                 first_item = items[0]
                 judge_total += 1
-                generated = f'{first_item.prompt} → {first_item.correct_answer or ""}'
+                generated = f"{first_item.prompt} → {first_item.correct_answer or ''}"
                 expected_output = case.get("expected_output", {}).get("drill")
                 if expected_output is not None:
                     ok, reason = _judge_ref(
                         generated=generated,
                         reference=_json.dumps(expected_output, ensure_ascii=False),
-                        context=f'{spec["exercise_type"]} drill for {spec["grammar_point_code"]} ({case["cefr_level"]})',
+                        context=f"{spec['exercise_type']} drill for {spec['grammar_point_code']} ({case['cefr_level']})",
                     )
                 else:
                     prompt = (
@@ -147,7 +158,9 @@ async def test_lesson_content_structure(db, record_eval):
                     ok, reason = _judge(prompt)
                 if ok:
                     judge_passed += 1
-                logger.info(f"[eval] judge drill {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+                logger.info(
+                    f"[eval] judge drill {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
+                )
 
         # Judge first reading text
         readings = content.readings
@@ -167,24 +180,33 @@ async def test_lesson_content_structure(db, record_eval):
                 else:
                     prompt = (
                         f"CEFR level: {case['cefr_level']}\n"
-                        f"Reading text (first 200 chars): \"{snippet}\"\n\n"
+                        f'Reading text (first 200 chars): "{snippet}"\n\n'
                         f"Is this reading: (1) grammatically correct Italian, "
                         f"(2) vocabulary appropriate for {case['cefr_level']}, (3) coherent?"
                     )
                     ok, reason = _judge(prompt)
                 if ok:
                     judge_passed += 1
-                logger.info(f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+                logger.info(
+                    f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
+                )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Content content_quality={content_quality:.2%}")
 
-    record_eval("planner", {
-        "output_syntax": round(output_syntax, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "content_structure",
-    })
+    record_eval(
+        "planner",
+        {
+            "output_syntax": round(output_syntax, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "content_structure",
+        },
+    )
 
-    assert output_syntax >= 0.75, f"Lesson content structure pass rate too low: {output_syntax:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Lesson content quality too low: {content_quality:.2%}"
+    assert output_syntax >= 0.75, (
+        f"Lesson content structure pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Lesson content quality too low: {content_quality:.2%}"
+    )

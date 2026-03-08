@@ -58,42 +58,58 @@ async def materialize_activities(
             # Fallback: load chunk content directly
             if gp.chunk_ref:
                 chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
-                explanation_content = lang_wrap(chunk.content, _settings.TARGET_LANGUAGE) if chunk else gp.description
+                explanation_content = (
+                    lang_wrap(chunk.content, _settings.TARGET_LANGUAGE)
+                    if chunk
+                    else gp.description
+                )
             else:
                 explanation_content = gp.description
             grammar_title = gp.label
-        motivation = grammar_motivations[i].text if i < len(grammar_motivations) else None
-        grammar_activities.append(LessonActivity(
-            type=ActivityType.GRAMMAR,
-            title=t("grammar_title", label=grammar_title),
-            description=t("grammar_desc", label=gp.label),
-            duration_minutes=3,
-            content=explanation_content,
-            why_important=motivation,
-            grammar_point_code=gp.code,
-        ))
+        motivation = (
+            grammar_motivations[i].text if i < len(grammar_motivations) else None
+        )
+        grammar_activities.append(
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title=t("grammar_title", label=grammar_title),
+                description=t("grammar_desc", label=gp.label),
+                duration_minutes=3,
+                content=explanation_content,
+                why_important=motivation,
+                grammar_point_code=gp.code,
+            )
+        )
 
     # --- Reading activities ---
     reading_activities: list[LessonActivity] = []
     for i, reading in enumerate(content.readings[:reading_count]):
-        reading_activities.append(LessonActivity(
-            type=ActivityType.READING,
-            title=t("reading_title_n", n=i + 1) if reading_count > 1 else t("reading_title"),
-            description=t("reading_desc", topic=topic_title),
-            duration_minutes=5,
-            content=reading.text,
-            questions=reading.questions,
-            correct_answers=reading.answers,
-        ))
+        reading_activities.append(
+            LessonActivity(
+                type=ActivityType.READING,
+                title=t("reading_title_n", n=i + 1)
+                if reading_count > 1
+                else t("reading_title"),
+                description=t("reading_desc", topic=topic_title),
+                duration_minutes=5,
+                content=reading.text,
+                questions=reading.questions,
+                correct_answers=reading.answers,
+            )
+        )
 
     # --- Drill activities ---
     drill_activities: list[LessonActivity] = []
     llm_drills = content.drills
-    logger.info(f"[materialize] materialising {len(drill_specs)} drills ({len(llm_drills)} returned by LLM)")
+    logger.info(
+        f"[materialize] materialising {len(drill_specs)} drills ({len(llm_drills)} returned by LLM)"
+    )
     for i, (spec, template) in enumerate(zip(drill_specs, drill_templates_used)):
         drill_data = llm_drills[i] if i < len(llm_drills) else None
         if not drill_data:
-            logger.warning(f"[materialize] missing drill data at index {i} for {spec['grammar_point_code']}")
+            logger.warning(
+                f"[materialize] missing drill data at index {i} for {spec['grammar_point_code']}"
+            )
             continue
         exercise_type = spec["exercise_type"]
         if exercise_type in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
@@ -129,38 +145,52 @@ async def materialize_activities(
                 chunk_ref=spec.get("chunk_ref"),
             )
         await drill.insert()
-        logger.debug(f"[materialize] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})")
-        drill_activities.append(LessonActivity(
-            type=ActivityType.DRILL,
-            title=t("drill_title", label=spec['gp_label']),
-            description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
-            duration_minutes=3,
-            drill_id=drill.id,
-        ))
+        logger.debug(
+            f"[materialize] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})"
+        )
+        drill_activities.append(
+            LessonActivity(
+                type=ActivityType.DRILL,
+                title=t("drill_title", label=spec["gp_label"]),
+                description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
+                duration_minutes=3,
+                drill_id=drill.id,
+            )
+        )
 
     # --- Speaking activities ---
     speaking_activities: list[LessonActivity] = []
     for i, cf in enumerate(speaking_cfs):
         speaking_data = content.speakings[i] if i < len(content.speakings) else None
         prompt_text = speaking_data.prompt if speaking_data else ""
-        speaking_activities.append(LessonActivity(
-            type=ActivityType.SPEAKING,
-            title=t("speaking_title", label=cf.label),
-            description=t("speaking_desc", label=cf.label),
-            duration_minutes=3,
-            content=prompt_text,
-        ))
+        speaking_activities.append(
+            LessonActivity(
+                type=ActivityType.SPEAKING,
+                title=t("speaking_title", label=cf.label),
+                description=t("speaking_desc", label=cf.label),
+                duration_minutes=3,
+                content=prompt_text,
+            )
+        )
 
     # --- Writing activities ---
     writing_activities: list[LessonActivity] = []
     if include_writing and content.writing:
-        writing_activities.append(LessonActivity(
-            type=ActivityType.WRITING,
-            title=t("writing_title"),
-            description=t("writing_desc", topic=topic_title),
-            duration_minutes=8,
-            content=content.writing.prompt,
-        ))
+        writing_activities.append(
+            LessonActivity(
+                type=ActivityType.WRITING,
+                title=t("writing_title"),
+                description=t("writing_desc", topic=topic_title),
+                duration_minutes=8,
+                content=content.writing.prompt,
+            )
+        )
 
     # Pedagogical order: grammar x N -> readings x N -> drills x N -> speakings x N -> writing x N
-    return grammar_activities + reading_activities + drill_activities + speaking_activities + writing_activities
+    return (
+        grammar_activities
+        + reading_activities
+        + drill_activities
+        + speaking_activities
+        + writing_activities
+    )

@@ -110,13 +110,23 @@ def create_student(name: str):
     with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
         resp = c.post(
             "/auth/signup",
-            data={"email": email, "password": "testpass123", "password_confirm": "testpass123"},
+            data={
+                "email": email,
+                "password": "testpass123",
+                "password_confirm": "testpass123",
+            },
         )
         session = resp.cookies.get("session")
         if session:
             _save_cookie({"session": session})
     elapsed = int((time.monotonic() - t0) * 1000)
-    _out({"email": email, "redirected_to": resp.headers.get("location", ""), "elapsed_ms": elapsed})
+    _out(
+        {
+            "email": email,
+            "redirected_to": resp.headers.get("location", ""),
+            "elapsed_ms": elapsed,
+        }
+    )
 
 
 def get_page(path: str):
@@ -126,14 +136,16 @@ def get_page(path: str):
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     title_tag = soup.find("title")
-    _out({
-        "status": resp.status_code,
-        "final_url": str(resp.url),
-        "title": title_tag.get_text(strip=True) if title_tag else "",
-        "body_text": soup.get_text(separator=" ", strip=True)[:2000],
-        "body_html": resp.text[:5000],
-        "elapsed_ms": elapsed,
-    })
+    _out(
+        {
+            "status": resp.status_code,
+            "final_url": str(resp.url),
+            "title": title_tag.get_text(strip=True) if title_tag else "",
+            "body_text": soup.get_text(separator=" ", strip=True)[:2000],
+            "body_html": resp.text[:5000],
+            "elapsed_ms": elapsed,
+        }
+    )
 
 
 def start_lesson(duration: int = 20):
@@ -161,7 +173,15 @@ def start_lesson(duration: int = 20):
             activity_idx = int(parts[-1])
         except (ValueError, IndexError):
             pass
-    _out({"lesson_id": lesson_id, "state": state, "activity_idx": activity_idx, "elapsed_ms": elapsed, "final_url": final_url})
+    _out(
+        {
+            "lesson_id": lesson_id,
+            "state": state,
+            "activity_idx": activity_idx,
+            "elapsed_ms": elapsed,
+            "final_url": final_url,
+        }
+    )
 
 
 def poll_generating(lesson_id: str):
@@ -175,16 +195,40 @@ def poll_generating(lesson_id: str):
         final_url = str(resp.url)
         elapsed = int((time.monotonic() - t0) * 1000)
         if "generating" not in final_url:
-            _out({"ready": True, "next_url": final_url.replace(BASE_URL, ""), "elapsed_ms": elapsed, "polls": polls, "error": None})
+            _out(
+                {
+                    "ready": True,
+                    "next_url": final_url.replace(BASE_URL, ""),
+                    "elapsed_ms": elapsed,
+                    "polls": polls,
+                    "error": None,
+                }
+            )
             return
         # Check for generation error
         soup = _soup(resp.text)
         error_el = soup.find(class_="generating-sub")
         if error_el and soup.find("form", action=lambda a: a and "retry" in a):
-            _out({"ready": False, "next_url": None, "elapsed_ms": elapsed, "polls": polls, "error": error_el.get_text(strip=True)})
+            _out(
+                {
+                    "ready": False,
+                    "next_url": None,
+                    "elapsed_ms": elapsed,
+                    "polls": polls,
+                    "error": error_el.get_text(strip=True),
+                }
+            )
             return
         if (time.monotonic() - t0) > max_wait:
-            _out({"ready": False, "next_url": None, "elapsed_ms": elapsed, "polls": polls, "error": "timeout"})
+            _out(
+                {
+                    "ready": False,
+                    "next_url": None,
+                    "elapsed_ms": elapsed,
+                    "polls": polls,
+                    "error": "timeout",
+                }
+            )
             return
         time.sleep(3)
 
@@ -201,7 +245,13 @@ def get_activity(lesson_id: str, idx: str):
     title = title_el.get_text(strip=True) if title_el else ""
     # Content snippet
     content = ""
-    for cls in ("card-prompt", "prompt-text", "onboarding-prompt", "reading-text", "stub-desc"):
+    for cls in (
+        "card-prompt",
+        "prompt-text",
+        "onboarding-prompt",
+        "reading-text",
+        "stub-desc",
+    ):
         el = soup.find(class_=cls)
         if el:
             content = el.get_text(strip=True)[:500]
@@ -222,22 +272,29 @@ def get_activity(lesson_id: str, idx: str):
                 vocab_total = int(txt.split("/")[1].strip())
             except ValueError:
                 pass
-    _out({
-        "type": activity_type,
-        "title": title,
-        "content_snippet": content,
-        "drill_items": drill_items,
-        "vocab_total": vocab_total,
-        "questions": questions,
-        "elapsed_ms": elapsed,
-        "final_url": final_url,
-        "body_html": resp.text[:8000],
-    })
+    _out(
+        {
+            "type": activity_type,
+            "title": title,
+            "content_snippet": content,
+            "drill_items": drill_items,
+            "vocab_total": vocab_total,
+            "questions": questions,
+            "elapsed_ms": elapsed,
+            "final_url": final_url,
+            "body_html": resp.text[:8000],
+        }
+    )
 
 
 def submit_grammar(lesson_id: str, idx: str):
     t0 = time.monotonic()
-    with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, cookies=_client_cookies(), follow_redirects=False) as c:
+    with httpx.Client(
+        base_url=BASE_URL,
+        timeout=TIMEOUT,
+        cookies=_client_cookies(),
+        follow_redirects=False,
+    ) as c:
         resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
@@ -248,13 +305,21 @@ def submit_onboarding(lesson_id: str, idx: str, answer: str):
     t0 = time.monotonic()
     with _client() as c:
         # First submit the answer
-        resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/onboarding-submit", data={"answer": answer})
+        resp = c.post(
+            f"/lezione/{lesson_id}/activity/{idx}/onboarding-submit",
+            data={"answer": answer},
+        )
     soup = _soup(resp.text)
     response_el = soup.find(class_="onboarding-response-text")
     response_text = response_el.get_text(strip=True) if response_el else ""
 
     # Then complete the activity
-    with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, cookies=_client_cookies(), follow_redirects=False) as c:
+    with httpx.Client(
+        base_url=BASE_URL,
+        timeout=TIMEOUT,
+        cookies=_client_cookies(),
+        follow_redirects=False,
+    ) as c:
         resp2 = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp2.headers.get("HX-Redirect", resp2.headers.get("location", ""))
@@ -266,6 +331,7 @@ def submit_drill(lesson_id: str, idx: str, answers_json: str):
     answers = json.loads(answers_json)
     # Build form data with repeated "answers" fields
     from urllib.parse import urlencode
+
     body = urlencode([("answers", a) for a in answers])
     with _client() as c:
         resp = c.post(
@@ -299,26 +365,35 @@ def submit_drill(lesson_id: str, idx: str, answers_json: str):
             wrong_el = row.find(class_="item-student-wrong")
             item["student_answer"] = wrong_el.get_text(strip=True) if wrong_el else ""
             correct_el = row.find(class_="item-correct-answer")
-            item["correct_answer"] = correct_el.get_text(strip=True) if correct_el else ""
+            item["correct_answer"] = (
+                correct_el.get_text(strip=True) if correct_el else ""
+            )
             expl_el = row.find(class_="item-explanation")
             item["explanation"] = expl_el.get_text(strip=True) if expl_el else ""
         feedback_items.append(item)
     # Next URL
     continue_btn = soup.find("a", class_="continue-btn")
     next_url = continue_btn["href"] if continue_btn and continue_btn.get("href") else ""
-    _out({
-        "correct": correct,
-        "result_text": result_text,
-        "feedback_items": feedback_items,
-        "next_url": next_url,
-        "elapsed_ms": elapsed,
-        "body_html": resp.text[:5000],
-    })
+    _out(
+        {
+            "correct": correct,
+            "result_text": result_text,
+            "feedback_items": feedback_items,
+            "next_url": next_url,
+            "elapsed_ms": elapsed,
+            "body_html": resp.text[:5000],
+        }
+    )
 
 
 def submit_vocab_card(lesson_id: str, idx: str, card_idx: str, rating: str):
     t0 = time.monotonic()
-    with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, cookies=_client_cookies(), follow_redirects=False) as c:
+    with httpx.Client(
+        base_url=BASE_URL,
+        timeout=TIMEOUT,
+        cookies=_client_cookies(),
+        follow_redirects=False,
+    ) as c:
         resp = c.post(
             f"/lezione/{lesson_id}/activity/{idx}/vocab-rate",
             data={"rating": rating, "card_idx": card_idx},
@@ -331,24 +406,32 @@ def submit_vocab_card(lesson_id: str, idx: str, card_idx: str, rating: str):
 def reveal_vocab(lesson_id: str, idx: str, card_idx: str):
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.get(f"/lezione/{lesson_id}/activity/{idx}/vocab-reveal", params={"card_idx": card_idx})
+        resp = c.get(
+            f"/lezione/{lesson_id}/activity/{idx}/vocab-reveal",
+            params={"card_idx": card_idx},
+        )
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     word_el = soup.find(class_="word")
     translation_el = soup.find(class_="translation")
     pos_el = soup.find(class_="pos")
-    _out({
-        "word": word_el.get_text(strip=True) if word_el else "",
-        "translation": translation_el.get_text(strip=True) if translation_el else "",
-        "pos": pos_el.get_text(strip=True) if pos_el else "",
-        "elapsed_ms": elapsed,
-    })
+    _out(
+        {
+            "word": word_el.get_text(strip=True) if word_el else "",
+            "translation": translation_el.get_text(strip=True)
+            if translation_el
+            else "",
+            "pos": pos_el.get_text(strip=True) if pos_el else "",
+            "elapsed_ms": elapsed,
+        }
+    )
 
 
 def submit_reading(lesson_id: str, idx: str, answers_json: str):
     t0 = time.monotonic()
     answers = json.loads(answers_json)
     from urllib.parse import urlencode
+
     body = urlencode([("answers", a) for a in answers])
     with _client() as c:
         resp = c.post(
@@ -364,19 +447,24 @@ def submit_reading(lesson_id: str, idx: str, answers_json: str):
     result_text = (result_ok or result_wrong or soup).get_text(strip=True)[:200]
     continue_btn = soup.find("a", class_="continue-btn")
     next_url = continue_btn["href"] if continue_btn and continue_btn.get("href") else ""
-    _out({
-        "correct": correct,
-        "result_text": result_text,
-        "next_url": next_url,
-        "elapsed_ms": elapsed,
-        "body_html": resp.text[:5000],
-    })
+    _out(
+        {
+            "correct": correct,
+            "result_text": result_text,
+            "next_url": next_url,
+            "elapsed_ms": elapsed,
+            "body_html": resp.text[:5000],
+        }
+    )
 
 
 def submit_writing(lesson_id: str, idx: str, answer: str):
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/writing-submit", data={"answer": answer})
+        resp = c.post(
+            f"/lezione/{lesson_id}/activity/{idx}/writing-submit",
+            data={"answer": answer},
+        )
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     continue_btn = soup.find("a", class_="continue-btn")
@@ -387,17 +475,24 @@ def submit_writing(lesson_id: str, idx: str, answer: str):
         el = soup.find(class_=cls)
         if el:
             feedback_text += el.get_text(strip=True) + " "
-    _out({
-        "feedback": feedback_text.strip(),
-        "next_url": next_url,
-        "elapsed_ms": elapsed,
-        "body_html": resp.text[:5000],
-    })
+    _out(
+        {
+            "feedback": feedback_text.strip(),
+            "next_url": next_url,
+            "elapsed_ms": elapsed,
+            "body_html": resp.text[:5000],
+        }
+    )
 
 
 def submit_skip(lesson_id: str, idx: str):
     t0 = time.monotonic()
-    with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, cookies=_client_cookies(), follow_redirects=False) as c:
+    with httpx.Client(
+        base_url=BASE_URL,
+        timeout=TIMEOUT,
+        cookies=_client_cookies(),
+        follow_redirects=False,
+    ) as c:
         resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/skip")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
@@ -429,19 +524,23 @@ def get_complete(lesson_id: str):
     for item in soup.find_all(class_="summary-item"):
         status_el = item.find(class_="summary-status")
         title_el = item.find(class_="summary-title")
-        activities.append({
-            "status": status_el.get_text(strip=True) if status_el else "",
-            "title": title_el.get_text(strip=True) if title_el else "",
-        })
-    _out({
-        "status": resp.status_code,
-        "stats": stats,
-        "feedback_summary": feedback_summary,
-        "weak_grammar": weak,
-        "activities": activities,
-        "elapsed_ms": elapsed,
-        "body_text": soup.get_text(separator=" ", strip=True)[:3000],
-    })
+        activities.append(
+            {
+                "status": status_el.get_text(strip=True) if status_el else "",
+                "title": title_el.get_text(strip=True) if title_el else "",
+            }
+        )
+    _out(
+        {
+            "status": resp.status_code,
+            "stats": stats,
+            "feedback_summary": feedback_summary,
+            "weak_grammar": weak,
+            "activities": activities,
+            "elapsed_ms": elapsed,
+            "body_text": soup.get_text(separator=" ", strip=True)[:3000],
+        }
+    )
 
 
 def get_profile():
@@ -451,12 +550,14 @@ def get_profile():
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     body_text = soup.get_text(separator=" ", strip=True)[:3000]
-    _out({
-        "status": resp.status_code,
-        "body_text": body_text,
-        "body_html": resp.text[:8000],
-        "elapsed_ms": elapsed,
-    })
+    _out(
+        {
+            "status": resp.status_code,
+            "body_text": body_text,
+            "body_html": resp.text[:8000],
+            "elapsed_ms": elapsed,
+        }
+    )
 
 
 def _client_cookies() -> dict:
@@ -478,7 +579,9 @@ COMMANDS = {
     "submit_grammar": lambda args: submit_grammar(args[0], args[1]),
     "submit_onboarding": lambda args: submit_onboarding(args[0], args[1], args[2]),
     "submit_drill": lambda args: submit_drill(args[0], args[1], args[2]),
-    "submit_vocab_card": lambda args: submit_vocab_card(args[0], args[1], args[2], args[3]),
+    "submit_vocab_card": lambda args: submit_vocab_card(
+        args[0], args[1], args[2], args[3]
+    ),
     "reveal_vocab": lambda args: reveal_vocab(args[0], args[1], args[2]),
     "submit_reading": lambda args: submit_reading(args[0], args[1], args[2]),
     "submit_writing": lambda args: submit_writing(args[0], args[1], args[2]),

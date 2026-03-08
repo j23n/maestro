@@ -1,9 +1,15 @@
 """Integration tests for learning/profile.py using mongomock DB."""
+
 import pytest
 from unittest.mock import patch, AsyncMock
 
 from beanie import PydanticObjectId
-from maestro.models import GrammarPoint, CommunicativeFunction, LearningProfile, LearningEvent
+from maestro.models import (
+    GrammarPoint,
+    CommunicativeFunction,
+    LearningProfile,
+    LearningEvent,
+)
 
 
 _FAKE_STUDENT_ID = PydanticObjectId()
@@ -39,10 +45,19 @@ async def _seed_comm_functions(db, codes_by_level: dict):
 async def test_update_profile_increments_correct_counts(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(
+        student_id=_FAKE_STUDENT_ID,
+        grammar_correct=["GP_001"],
+        grammar_errors=[],
+        functions_performed=[],
+    )
     await event.insert()
 
-    with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
+    with patch(
+        "maestro.learning.profile._generate_description",
+        new_callable=AsyncMock,
+        return_value="desc",
+    ):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
@@ -54,10 +69,19 @@ async def test_update_profile_increments_correct_counts(db):
 async def test_update_profile_increments_error_counts(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=[], grammar_errors=["GP_002"], functions_performed=[])
+    event = LearningEvent(
+        student_id=_FAKE_STUDENT_ID,
+        grammar_correct=[],
+        grammar_errors=["GP_002"],
+        functions_performed=[],
+    )
     await event.insert()
 
-    with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
+    with patch(
+        "maestro.learning.profile._generate_description",
+        new_callable=AsyncMock,
+        return_value="desc",
+    ):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
@@ -69,16 +93,24 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
     from maestro.learning.profile import update_profile
 
     profile = LearningProfile(
-        student_id=_FAKE_STUDENT_ID,
-        grammar_recent_outcomes={"GP_001": [True] * 10}
+        student_id=_FAKE_STUDENT_ID, grammar_recent_outcomes={"GP_001": [True] * 10}
     )
     await profile.insert()
 
     # Add one more True outcome
-    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(
+        student_id=_FAKE_STUDENT_ID,
+        grammar_correct=["GP_001"],
+        grammar_errors=[],
+        functions_performed=[],
+    )
     await event.insert()
 
-    with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
+    with patch(
+        "maestro.learning.profile._generate_description",
+        new_callable=AsyncMock,
+        return_value="desc",
+    ):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
@@ -89,10 +121,19 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
 async def test_update_profile_creates_profile_if_none(db):
     from maestro.learning.profile import update_profile
 
-    event = LearningEvent(student_id=_FAKE_STUDENT_ID, grammar_correct=["GP_001"], grammar_errors=[], functions_performed=[])
+    event = LearningEvent(
+        student_id=_FAKE_STUDENT_ID,
+        grammar_correct=["GP_001"],
+        grammar_errors=[],
+        functions_performed=[],
+    )
     await event.insert()
 
-    with patch("maestro.learning.profile._generate_description", new_callable=AsyncMock, return_value="desc"):
+    with patch(
+        "maestro.learning.profile._generate_description",
+        new_callable=AsyncMock,
+        return_value="desc",
+    ):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
@@ -105,20 +146,28 @@ async def test_compute_cefr_no_mastered_stays_a1(db):
     from maestro.learning.profile import _compute_cefr
 
     # Seed GPs at ALL levels so vacuous-OK doesn't advance past A1
-    await _seed_grammar_points(db, {
-        "A1": ["GP_001", "GP_002"],
-        "A2": ["GP_003"],
-        "B1": ["GP_004"],
-        "B2": ["GP_005"],
-    })
-    await _seed_comm_functions(db, {
-        "A1": ["CF_001"],
-        "A2": ["CF_002"],
-        "B1": ["CF_003"],
-        "B2": ["CF_004"],
-    })
+    await _seed_grammar_points(
+        db,
+        {
+            "A1": ["GP_001", "GP_002"],
+            "A2": ["GP_003"],
+            "B1": ["GP_004"],
+            "B2": ["GP_005"],
+        },
+    )
+    await _seed_comm_functions(
+        db,
+        {
+            "A1": ["CF_001"],
+            "A2": ["CF_002"],
+            "B1": ["CF_003"],
+            "B2": ["CF_004"],
+        },
+    )
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID)  # no outcomes → 0% mastered at every level
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID
+    )  # no outcomes → 0% mastered at every level
     result = await _compute_cefr(profile)
     assert result == "A1"
 
@@ -128,18 +177,24 @@ async def test_compute_cefr_a1_mastered_returns_a1(db):
     """A1 mastered but A2 not mastered → result is A1."""
     from maestro.learning.profile import _compute_cefr
 
-    await _seed_grammar_points(db, {
-        "A1": ["GP_001"],
-        "A2": ["GP_002"],
-        "B1": ["GP_003"],
-        "B2": ["GP_004"],
-    })
-    await _seed_comm_functions(db, {
-        "A1": ["CF_001"],
-        "A2": ["CF_002"],
-        "B1": ["CF_003"],
-        "B2": ["CF_004"],
-    })
+    await _seed_grammar_points(
+        db,
+        {
+            "A1": ["GP_001"],
+            "A2": ["GP_002"],
+            "B1": ["GP_003"],
+            "B2": ["GP_004"],
+        },
+    )
+    await _seed_comm_functions(
+        db,
+        {
+            "A1": ["CF_001"],
+            "A2": ["CF_002"],
+            "B1": ["CF_003"],
+            "B2": ["CF_004"],
+        },
+    )
 
     # A1 mastered; A2 not mastered → best = A1
     profile = LearningProfile(
@@ -156,18 +211,24 @@ async def test_compute_cefr_both_a1_a2_mastered(db):
     """Both A1 and A2 mastered but B1 not → result is A2."""
     from maestro.learning.profile import _compute_cefr
 
-    await _seed_grammar_points(db, {
-        "A1": ["GP_001"],
-        "A2": ["GP_002"],
-        "B1": ["GP_003"],
-        "B2": ["GP_004"],
-    })
-    await _seed_comm_functions(db, {
-        "A1": ["CF_001"],
-        "A2": ["CF_002"],
-        "B1": ["CF_003"],
-        "B2": ["CF_004"],
-    })
+    await _seed_grammar_points(
+        db,
+        {
+            "A1": ["GP_001"],
+            "A2": ["GP_002"],
+            "B1": ["GP_003"],
+            "B2": ["GP_004"],
+        },
+    )
+    await _seed_comm_functions(
+        db,
+        {
+            "A1": ["CF_001"],
+            "A2": ["CF_002"],
+            "B1": ["CF_003"],
+            "B2": ["CF_004"],
+        },
+    )
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
@@ -187,17 +248,23 @@ async def test_compute_cefr_empty_level_blocks_advancement(db):
     from maestro.learning.profile import _compute_cefr
 
     # A1 has GP; A2 has no GPs but has CF; B1/B2 have GPs (not mastered)
-    await _seed_grammar_points(db, {
-        "A1": ["GP_001"],
-        "B1": ["GP_003"],
-        "B2": ["GP_004"],
-    })
-    await _seed_comm_functions(db, {
-        "A1": ["CF_001"],
-        "A2": ["CF_002"],
-        "B1": ["CF_003"],
-        "B2": ["CF_004"],
-    })
+    await _seed_grammar_points(
+        db,
+        {
+            "A1": ["GP_001"],
+            "B1": ["GP_003"],
+            "B2": ["GP_004"],
+        },
+    )
+    await _seed_comm_functions(
+        db,
+        {
+            "A1": ["CF_001"],
+            "A2": ["CF_002"],
+            "B1": ["CF_003"],
+            "B2": ["CF_004"],
+        },
+    )
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
@@ -214,18 +281,24 @@ async def test_compute_cefr_no_skip_levels(db):
     """Can't skip a level — failing A2 blocks advancement even if B1 would pass."""
     from maestro.learning.profile import _compute_cefr
 
-    await _seed_grammar_points(db, {
-        "A1": ["GP_001"],
-        "A2": ["GP_002"],
-        "B1": ["GP_003"],
-        "B2": ["GP_004"],
-    })
-    await _seed_comm_functions(db, {
-        "A1": ["CF_001"],
-        "A2": ["CF_002"],
-        "B1": ["CF_003"],
-        "B2": ["CF_004"],
-    })
+    await _seed_grammar_points(
+        db,
+        {
+            "A1": ["GP_001"],
+            "A2": ["GP_002"],
+            "B1": ["GP_003"],
+            "B2": ["GP_004"],
+        },
+    )
+    await _seed_comm_functions(
+        db,
+        {
+            "A1": ["CF_001"],
+            "A2": ["CF_002"],
+            "B1": ["CF_003"],
+            "B2": ["CF_004"],
+        },
+    )
 
     # A1 mastered, A2 NOT mastered, B1 mastered
     profile = LearningProfile(

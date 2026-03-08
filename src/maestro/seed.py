@@ -1,4 +1,5 @@
 """Restore static curriculum data from a mongodump BSON directory."""
+
 import logging
 from pathlib import Path
 

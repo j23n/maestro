@@ -23,7 +23,12 @@ from bson import DBRef
 from maestro.db import init_db
 from maestro.config import settings
 from maestro.llm import get_client
-from maestro.models import CefrSense, UserVocabularyCard, VocabularyWord, VocabularyWordDefinition
+from maestro.models import (
+    CefrSense,
+    UserVocabularyCard,
+    VocabularyWord,
+    VocabularyWordDefinition,
+)
 from maestro.prompts import vocab as _prompts
 
 logger = logging.getLogger(__name__)
@@ -45,13 +50,17 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
     }
 
 
-def _call_claude(batch: list[VocabularyWord], max_tokens: int = 16384) -> dict[str, Any]:
+def _call_claude(
+    batch: list[VocabularyWord], max_tokens: int = 16384
+) -> dict[str, Any]:
     payload = {w.word: _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
     logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
     lang = settings.TARGET_LANGUAGE_NAME
-    logger.debug(f"[vocab] Claude request — system: {_prompts.definitions_system.render_system(target_language=lang)!r}")
+    logger.debug(
+        f"[vocab] Claude request — system: {_prompts.definitions_system.render_system(target_language=lang)!r}"
+    )
     logger.debug(f"[vocab] Claude request — user: {user_content}")
     client = get_client()
     t0 = time.monotonic()
@@ -112,7 +121,10 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
             translation = "; ".join(sense_trs) if sense_trs else ""
 
         existing = await VocabularyWordDefinition.find_one(
-            {"word": DBRef(VocabularyWord.Settings.name, word.id), "student_level": level}
+            {
+                "word": DBRef(VocabularyWord.Settings.name, word.id),
+                "student_level": level,
+            }
         )
         if existing:
             existing.senses = senses
@@ -132,7 +144,9 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
     """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
     if not word.senses:
-        logger.info(f"[vocab] '{word.word}' has no senses, skipping definition generation")
+        logger.info(
+            f"[vocab] '{word.word}' has no senses, skipping definition generation"
+        )
         return
     logger.info(f"[vocab] generating definitions for '{word.word}'")
     claude_data = _call_claude([word], max_tokens=4096)
@@ -146,14 +160,19 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
     await _save_all_levels(word, claude_data)
 
 
-async def _collect_words_needing_regen(words: list[VocabularyWord]) -> list[VocabularyWord]:
+async def _collect_words_needing_regen(
+    words: list[VocabularyWord],
+) -> list[VocabularyWord]:
     """Filter to words whose definitions are missing or lack per-sense translations."""
     todo = []
     for w in words:
         if not w.senses:
             continue
         defs = await VocabularyWordDefinition.find(
-            {"word": DBRef(VocabularyWord.Settings.name, w.id), "student_level": {"$in": ["A1", "A2", "B1", "B2"]}}
+            {
+                "word": DBRef(VocabularyWord.Settings.name, w.id),
+                "student_level": {"$in": ["A1", "A2", "B1", "B2"]},
+            }
         ).to_list()
         if not _is_complete(defs):
             todo.append(w)

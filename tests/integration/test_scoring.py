@@ -1,4 +1,5 @@
 """Integration tests for drills/scoring.py with mocked LLM."""
+
 import pytest
 from unittest.mock import MagicMock, AsyncMock
 
@@ -35,17 +36,23 @@ async def test_unknown_exercise_type_returns_none(db):
 @pytest.mark.integration
 async def test_fill_blank_passing(db, mocker):
     """fill_blank with ≥70% correct items passes and creates event with grammar_correct."""
-    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")])
+    taxonomy.seed(
+        gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")]
+    )
 
     items = [
-        DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
-        for i in range(3)
+        DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer") for i in range(3)
     ]
     drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     # 3/3 correct
     llm_results = [
-        {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []}
+        {
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        }
         for _ in range(3)
     ]
     mocker.patch(
@@ -55,6 +62,7 @@ async def test_fill_blank_passing(db, mocker):
     )
 
     from maestro.drills.scoring import score_attempt
+
     correct, event, feedback, refs = await score_attempt(drill, ["answer"] * 3)
 
     assert correct is True
@@ -66,19 +74,35 @@ async def test_fill_blank_passing(db, mocker):
 @pytest.mark.integration
 async def test_fill_blank_failing(db, mocker):
     """fill_blank with <70% correct items fails and creates event with grammar_errors."""
-    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")])
+    taxonomy.seed(
+        gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")]
+    )
 
     items = [
-        DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer")
-        for i in range(3)
+        DrillItem(prompt=f"Sentence {i} ___", correct_answer="answer") for i in range(3)
     ]
     drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     # 1/3 correct (33% < 70% threshold)
     llm_results = [
-        {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
-        {"objective_correct": False, "objective_note": "Wrong.", "grammar_errors": [], "tips": []},
-        {"objective_correct": False, "objective_note": "Wrong.", "grammar_errors": [], "tips": []},
+        {
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        },
+        {
+            "objective_correct": False,
+            "objective_note": "Wrong.",
+            "grammar_errors": [],
+            "tips": [],
+        },
+        {
+            "objective_correct": False,
+            "objective_note": "Wrong.",
+            "grammar_errors": [],
+            "tips": [],
+        },
     ]
     mocker.patch(
         "maestro.drills.scoring.score_multi_item_drill",
@@ -87,6 +111,7 @@ async def test_fill_blank_failing(db, mocker):
     )
 
     from maestro.drills.scoring import score_attempt
+
     correct, event, feedback, refs = await score_attempt(drill, ["wrong"] * 3)
 
     assert correct is False
@@ -104,9 +129,24 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
     drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
 
     two_of_three = [
-        {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
-        {"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
-        {"objective_correct": False, "objective_note": "Wrong.", "grammar_errors": [], "tips": []},
+        {
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        },
+        {
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        },
+        {
+            "objective_correct": False,
+            "objective_note": "Wrong.",
+            "grammar_errors": [],
+            "tips": [],
+        },
     ]
     mocker.patch(
         "maestro.drills.scoring.score_multi_item_drill",
@@ -115,6 +155,7 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
     )
 
     from maestro.drills.scoring import score_attempt
+
     correct, event, feedback, refs = await score_attempt(drill, ["x"] * 3)
     # 2/3 = 0.667 < 0.7
     assert correct is False
@@ -129,11 +170,19 @@ async def test_free_form_correct(db, mocker):
     mocker.patch(
         "maestro.drills.scoring.score_free_form_drill",
         new_callable=AsyncMock,
-        return_value={"objective_correct": True, "objective_note": "", "grammar_errors": [], "tips": []},
+        return_value={
+            "objective_correct": True,
+            "objective_note": "",
+            "grammar_errors": [],
+            "tips": [],
+        },
     )
 
     from maestro.drills.scoring import score_attempt
-    correct, event, feedback, refs = await score_attempt(drill, "Una risposta lunga e completa.")
+
+    correct, event, feedback, refs = await score_attempt(
+        drill, "Una risposta lunga e completa."
+    )
 
     assert correct is True
     assert "GP_001" in event.grammar_correct
@@ -161,9 +210,14 @@ async def test_free_form_incorrect(db, mocker):
     chunk.content = "rule text"
     chunk.chunk_metadata = {"heading": "Rule heading"}
     chunk.ref = "test_chunk_ref"
-    mocker.patch("maestro.drills.scoring.GrammarChunk.find_one", new_callable=AsyncMock, return_value=chunk)
+    mocker.patch(
+        "maestro.drills.scoring.GrammarChunk.find_one",
+        new_callable=AsyncMock,
+        return_value=chunk,
+    )
 
     from maestro.drills.scoring import score_attempt
+
     correct, event, feedback, refs = await score_attempt(drill, "")
 
     assert correct is False

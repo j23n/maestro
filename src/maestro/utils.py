@@ -29,6 +29,7 @@ def ensure_utc(dt: datetime) -> datetime:
         return dt.replace(tzinfo=timezone.utc)
     return dt
 
+
 # Absolute path to src/maestro/data/
 DATA_DIR_ROOT = Path(__file__).parent / "data"
 
@@ -37,6 +38,7 @@ def data_dir(language: str | None = None) -> Path:
     """Return the data directory for the given language."""
     if language is None:
         from maestro.config import settings
+
         language = settings.TARGET_LANGUAGE
     return DATA_DIR_ROOT / language
 
@@ -83,7 +85,9 @@ def create_background_task(coro, *, name: str | None = None) -> asyncio.Task:
             return
         exc = t.exception()
         if exc:
-            _logger.error(f"Background task {t.get_name()!r} failed: {exc}", exc_info=exc)
+            _logger.error(
+                f"Background task {t.get_name()!r} failed: {exc}", exc_info=exc
+            )
 
     task.add_done_callback(_done)
     return task
@@ -94,8 +98,8 @@ _LANG_SPAN_RE = re.compile(r'<span\s+lang="[^"]*"\s*>')
 
 def strip_lang_spans(text: str) -> str:
     """Remove <span lang="..."> wrappers, leaving inner text intact."""
-    text = _LANG_SPAN_RE.sub('', text)
-    return text.replace('</span>', '')
+    text = _LANG_SPAN_RE.sub("", text)
+    return text.replace("</span>", "")
 
 
 def parse_llm_json(text: str) -> dict | list | None:

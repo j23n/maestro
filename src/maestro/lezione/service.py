@@ -7,14 +7,20 @@ Lesson lifecycle helpers.
 - score_reading_activity: score reading comprehension answers
 - ensure_lesson_feedback: ensure lesson has feedback (analyse + generate)
 """
+
 from __future__ import annotations
 
 import logging
 import re
 
 from maestro.models import (
-    GrammarPoint, LearningEvent, Lesson, ScenarioProgress,
-    ActivityType, ActivityStatus, LessonStatus,
+    GrammarPoint,
+    LearningEvent,
+    Lesson,
+    ScenarioProgress,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
 )
 from maestro.learning.scorer import score_reading_answers
 from maestro.learning.lesson_analyzer import analyze_lesson
@@ -134,7 +140,9 @@ async def get_lesson_events(lesson: Lesson) -> list[LearningEvent]:
 
 
 async def generate_lesson_feedback(
-    lesson: Lesson, weak_grammar_points: list, events: list[LearningEvent] | None = None,
+    lesson: Lesson,
+    weak_grammar_points: list,
+    events: list[LearningEvent] | None = None,
 ) -> str:
     """Async Haiku call: brief English feedback on the completed lesson."""
     if events is None:
@@ -152,11 +160,20 @@ async def generate_lesson_feedback(
             idx_events = event_by_idx.get(i, [])
             if a.type == ActivityType.DRILL and a.result:
                 correct = a.result.get("correct")
-                status = "correct" if correct else "incorrect" if correct is not None else "completed"
+                status = (
+                    "correct"
+                    if correct
+                    else "incorrect"
+                    if correct is not None
+                    else "completed"
+                )
                 lines.append(f"- Drill ({a.title}): {status}")
             elif idx_events:
                 n_errors = sum(len(ev.grammar_errors) for ev in idx_events)
-                lines.append(f"- {a.title}: completed" + (f" ({n_errors} grammar issues)" if n_errors else ""))
+                lines.append(
+                    f"- {a.title}: completed"
+                    + (f" ({n_errors} grammar issues)" if n_errors else "")
+                )
             else:
                 lines.append(f"- {a.title}: completed")
 
@@ -178,19 +195,20 @@ async def generate_lesson_feedback(
         messages=[{"role": "user", "content": prompt}],
     )
     text = response.content[0].text.strip()
-    text = re.sub(r'^#+\s+\S+\s*\n', '', text).strip()
+    text = re.sub(r"^#+\s+\S+\s*\n", "", text).strip()
     return text
 
 
 async def get_weak_grammar_points(
-    lesson: Lesson, events: list[LearningEvent] | None = None,
+    lesson: Lesson,
+    events: list[LearningEvent] | None = None,
 ) -> list[GrammarPoint]:
     """Load grammar points that had errors in per-activity LearningEvents."""
     if events is None:
         events = await get_lesson_events(lesson)
-    error_codes: list[str] = list(dict.fromkeys(
-        c for ev in events for c in ev.grammar_errors
-    ))
+    error_codes: list[str] = list(
+        dict.fromkeys(c for ev in events for c in ev.grammar_errors)
+    )
     if not error_codes:
         return []
     gps = await GrammarPoint.find({"code": {"$in": error_codes}}).to_list()
@@ -209,7 +227,9 @@ async def score_reading_activity(
 
     Returns (overall_correct, feedback_dict, gp_correct_codes, gp_error_codes).
     """
-    raw_results = await score_reading_answers(questions, correct_answers, student_answers, cefr_level=cefr_level)
+    raw_results = await score_reading_answers(
+        questions, correct_answers, student_answers, cefr_level=cefr_level
+    )
 
     n = min(len(questions), len(student_answers), len(raw_results))
     enriched = [
@@ -230,16 +250,25 @@ async def score_reading_activity(
 
     # Aggregate GP codes across all items
     from maestro import taxonomy
+
     await taxonomy.ensure_loaded()
     valid_codes = {g.code for g in taxonomy.grammar_points()}
-    gp_correct = list({
-        c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
-        if c in valid_codes
-    })
-    gp_errors = list({
-        c for r in raw_results[:n] for c in r.get("grammar_error_codes", [])
-        if c in valid_codes
-    })
+    gp_correct = list(
+        {
+            c
+            for r in raw_results[:n]
+            for c in r.get("grammar_correct_codes", [])
+            if c in valid_codes
+        }
+    )
+    gp_errors = list(
+        {
+            c
+            for r in raw_results[:n]
+            for c in r.get("grammar_error_codes", [])
+            if c in valid_codes
+        }
+    )
 
     return overall_correct, feedback, gp_correct, gp_errors
 
@@ -263,12 +292,14 @@ async def _credit_a0_mastery(lesson: Lesson) -> None:
     profile = await get_or_create_profile(lesson.student_id)
 
     # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
-    for code in (scenario.gp_codes or []):
-        profile.grammar_correct_counts[code] = max(profile.grammar_correct_counts.get(code, 0), 5)
+    for code in scenario.gp_codes or []:
+        profile.grammar_correct_counts[code] = max(
+            profile.grammar_correct_counts.get(code, 0), 5
+        )
         profile.grammar_recent_outcomes[code] = [True] * 5
 
     # Credit CFs: set count to 3 (demonstration threshold)
-    for code in (scenario.cf_codes or []):
+    for code in scenario.cf_codes or []:
         profile.functions_counts[code] = max(profile.functions_counts.get(code, 0), 3)
 
     # Recompute CEFR (may trigger A0->A1 graduation if all scenarios done)
@@ -278,7 +309,9 @@ async def _credit_a0_mastery(lesson: Lesson) -> None:
 
 
 async def ensure_lesson_feedback(
-    lesson: Lesson, weak_grammar_points: list, events: list[LearningEvent] | None = None,
+    lesson: Lesson,
+    weak_grammar_points: list,
+    events: list[LearningEvent] | None = None,
 ) -> str | None:
     """Ensure lesson has feedback. Triggers analysis if needed, generates feedback if missing.
 
@@ -292,7 +325,9 @@ async def ensure_lesson_feedback(
 
     if not lesson.feedback_summary:
         try:
-            feedback = await generate_lesson_feedback(lesson, weak_grammar_points, events)
+            feedback = await generate_lesson_feedback(
+                lesson, weak_grammar_points, events
+            )
             lesson.feedback_summary = feedback
             await lesson.update({"$set": {"feedback_summary": feedback}})
         except Exception as exc:

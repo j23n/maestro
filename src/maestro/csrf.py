@@ -33,8 +33,14 @@ class CSRFMiddleware(BaseHTTPMiddleware):
                     params = parse_qs(body.decode("utf-8"))
                     csrf_token = params.get(COOKIE_NAME, [""])[0]
 
-            if not csrf_cookie or not csrf_token or not secrets.compare_digest(csrf_token, csrf_cookie):
-                log.warning("CSRF validation failed: %s %s", request.method, request.url.path)
+            if (
+                not csrf_cookie
+                or not csrf_token
+                or not secrets.compare_digest(csrf_token, csrf_cookie)
+            ):
+                log.warning(
+                    "CSRF validation failed: %s %s", request.method, request.url.path
+                )
                 return Response("CSRF token missing or invalid", status_code=403)
 
         response = await call_next(request)

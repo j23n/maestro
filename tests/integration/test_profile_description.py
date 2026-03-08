@@ -1,4 +1,5 @@
 """Integration tests for learning/profile.py — _generate_description()."""
+
 import pytest
 
 from maestro.models import (
@@ -13,11 +14,19 @@ async def test_generate_description_empty_profile(db):
     """An empty profile should produce a valid description string."""
     from maestro.learning.profile import _generate_description
 
-    gp = GrammarPoint(code="GP_001", label="Presente", cefr_level="A1", category="test", description="test")
+    gp = GrammarPoint(
+        code="GP_001",
+        label="Presente",
+        cefr_level="A1",
+        category="test",
+        description="test",
+    )
     await gp.insert()
     cf = CommunicativeFunction(
-        code="CF_001", label="Salutare",
-        macro_category="interagire_rituali_sociali", cefr_level="A1",
+        code="CF_001",
+        label="Salutare",
+        macro_category="interagire_rituali_sociali",
+        cefr_level="A1",
     )
     await cf.insert()
 
@@ -34,7 +43,13 @@ async def test_generate_description_with_struggles(db):
     """Profile with error-heavy grammar points should mention difficulties."""
     from maestro.learning.profile import _generate_description
 
-    gp = GrammarPoint(code="GP_001", label="Passato prossimo", cefr_level="A1", category="test", description="test")
+    gp = GrammarPoint(
+        code="GP_001",
+        label="Passato prossimo",
+        cefr_level="A1",
+        category="test",
+        description="test",
+    )
     await gp.insert()
 
     profile = LearningProfile(
@@ -54,8 +69,10 @@ async def test_generate_description_with_functions(db):
     from maestro.learning.profile import _generate_description
 
     cf = CommunicativeFunction(
-        code="CF_001", label="Salutare",
-        macro_category="interagire_rituali_sociali", cefr_level="A1",
+        code="CF_001",
+        label="Salutare",
+        macro_category="interagire_rituali_sociali",
+        cefr_level="A1",
     )
     await cf.insert()
 

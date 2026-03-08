@@ -22,7 +22,16 @@ def build_grammar_by_level(
             recent = profile.grammar_recent_outcomes.get(p.code, []) if profile else []
             mastered = len(recent) >= 5 and sum(recent) / len(recent) >= 0.8
             title = gp_titles.get(p.code, "")
-            skills.append({"point": p, "title": title, "correct": correct, "errors": errors, "mastered": mastered, "recent": recent})
+            skills.append(
+                {
+                    "point": p,
+                    "title": title,
+                    "correct": correct,
+                    "errors": errors,
+                    "mastered": mastered,
+                    "recent": recent,
+                }
+            )
         grammar_by_level[level] = skills
     return grammar_by_level
 
@@ -61,6 +70,13 @@ def top_weaknesses(
         error_rate = s["errors"] / total
         if error_rate > 0.3:
             label = s["title"] or s["point"].label
-            weak.append({"label": label, "code": s["point"].code, "error_rate": error_rate, "total": total})
+            weak.append(
+                {
+                    "label": label,
+                    "code": s["point"].code,
+                    "error_rate": error_rate,
+                    "total": total,
+                }
+            )
     weak.sort(key=lambda w: w["error_rate"], reverse=True)
     return weak[:n]

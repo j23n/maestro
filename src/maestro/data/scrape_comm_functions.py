@@ -20,8 +20,8 @@ LEVEL_MAP = {"1": "A1", "2": "A2", "3": "B1", "4": "B2"}
 
 URL_TO_MACRO = {
     "funz_interag_": "interagire_informazioni",
-    "funz_intatt_":  "interagire_opinioni_atteggiamenti",
-    "funz_intemo_":  "interagire_emozioni_sentimenti",
+    "funz_intatt_": "interagire_opinioni_atteggiamenti",
+    "funz_intemo_": "interagire_emozioni_sentimenti",
     "funz_intazio_": "interagire_attivita_azioni",
     "funz_intritsoc_": "interagire_rituali_sociali",
     "funz_strutdisc_": "strutturare_discorso",
@@ -46,7 +46,7 @@ def slugify(filename: str) -> str:
     name = filename.replace(".html", "")
     # strip leading funz_
     if name.startswith("funz_"):
-        name = name[len("funz_"):]
+        name = name[len("funz_") :]
     return name
 
 
@@ -59,12 +59,14 @@ def parse_index(html: str) -> list[dict]:
         href = a["href"].strip()
         if href.startswith("funz_") and href not in seen:
             seen.add(href)
-            links.append({
-                "label": get_text(a),
-                "page_url": urljoin(BASE_URL, href),
-                "include_url": urljoin(BASE_URL, "include/inc_" + href),
-                "slug": slugify(href),
-            })
+            links.append(
+                {
+                    "label": get_text(a),
+                    "page_url": urljoin(BASE_URL, href),
+                    "include_url": urljoin(BASE_URL, "include/inc_" + href),
+                    "slug": slugify(href),
+                }
+            )
     return links
 
 
@@ -98,7 +100,7 @@ def parse_include(html: str, link: dict) -> list[dict]:
 
     controls = soup.find_all("a", class_="slidecontrol")
     for ctrl in controls:
-        ctrl_id = ctrl.get("id", "")          # e.g. "slidecontrol_1"
+        ctrl_id = ctrl.get("id", "")  # e.g. "slidecontrol_1"
         num = ctrl_id.replace("slidecontrol_", "")
         level = LEVEL_MAP.get(num)
         if not level:
@@ -126,15 +128,17 @@ def parse_include(html: str, link: dict) -> list[dict]:
             # Single-column: treat as examples
             examples = cell_lines(tds[0])
 
-        entries.append({
-            "code": f"{link['slug']}_{level.lower()}",
-            "label": link["label"],
-            "macro_category": macro,
-            "cefr_level": level,
-            "patterns": patterns,
-            "examples": examples,
-            "source_url": link["page_url"],
-        })
+        entries.append(
+            {
+                "code": f"{link['slug']}_{level.lower()}",
+                "label": link["label"],
+                "macro_category": macro,
+                "cefr_level": level,
+                "patterns": patterns,
+                "examples": examples,
+                "source_url": link["page_url"],
+            }
+        )
 
     return entries
 
@@ -175,7 +179,10 @@ async def main():
                                 include_url = urljoin(BASE_URL, iframe["src"])
                                 html = await fetch(client, include_url)
                             else:
-                                print(f"  SKIP (no iframe) {link['page_url']}", file=sys.stderr)
+                                print(
+                                    f"  SKIP (no iframe) {link['page_url']}",
+                                    file=sys.stderr,
+                                )
                                 return []
                         except Exception as e2:
                             print(f"  ERROR {link['page_url']}: {e2}", file=sys.stderr)
@@ -188,7 +195,10 @@ async def main():
                     return []
                 try:
                     entries = parse_include(html, link)
-                    print(f"  {link['label']}: {[e['cefr_level'] for e in entries]}", file=sys.stderr)
+                    print(
+                        f"  {link['label']}: {[e['cefr_level'] for e in entries]}",
+                        file=sys.stderr,
+                    )
                     return entries
                 except Exception as e:
                     print(f"  PARSE ERROR {include_url}: {e}", file=sys.stderr)

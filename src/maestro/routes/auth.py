@@ -87,7 +87,9 @@ async def login(request: Request):
     password = form.get("password") or ""
 
     account = await Account.find_one({"email": email})
-    if not account or not _bcrypt.checkpw(password.encode(), account.password_hash.encode()):
+    if not account or not _bcrypt.checkpw(
+        password.encode(), account.password_hash.encode()
+    ):
         return templates.TemplateResponse(
             request=request,
             name="auth-login.html",

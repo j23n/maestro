@@ -1,4 +1,5 @@
 """Shared LLM-as-judge helper for eval tests."""
+
 import anthropic
 
 from maestro.config import settings
@@ -20,7 +21,8 @@ def judge(prompt: str) -> tuple[bool, str]:
         messages=[
             {
                 "role": "user",
-                "content": prompt + '\n\nReply: {"acceptable": true/false, "reason": "one sentence"}',
+                "content": prompt
+                + '\n\nReply: {"acceptable": true/false, "reason": "one sentence"}',
             }
         ],
     )

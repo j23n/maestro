@@ -1,4 +1,5 @@
 """LLM eval tests for grammar/CF tagging precision and recall."""
+
 import json
 import logging
 from pathlib import Path
@@ -11,7 +12,9 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_analyzer_grammar_tagging(seeded_analyzer_cache, eval_student, record_eval):
+async def test_analyzer_grammar_tagging(
+    seeded_analyzer_cache, eval_student, record_eval
+):
     """Measure precision/recall of grammar code tagging against golden cases."""
     import json as _json
     from maestro.learning.analyzer import analyze_message
@@ -78,7 +81,9 @@ async def test_analyzer_grammar_tagging(seeded_analyzer_cache, eval_student, rec
 
         results.append(case_result)
         case_results_map.append((case, result))
-        logger.info(f"[eval] {case['id']}: {'PASS' if case_result['pass'] else 'FAIL'} {case_result['failures']}")
+        logger.info(
+            f"[eval] {case['id']}: {'PASS' if case_result['pass'] else 'FAIL'} {case_result['failures']}"
+        )
 
     precision = must_correct_hits / max(1, must_correct_total)
     recall = must_error_hits / max(1, must_error_total)
@@ -97,15 +102,23 @@ async def test_analyzer_grammar_tagging(seeded_analyzer_cache, eval_student, rec
         if "max_error_count" in case:
             continue  # no specific grammar expectation to judge
         judge_total += 1
-        correct_str = ", ".join(result.grammar_correct) if result and result.grammar_correct else "(none)"
-        errors_str = ", ".join(result.grammar_errors) if result and result.grammar_errors else "(none)"
+        correct_str = (
+            ", ".join(result.grammar_correct)
+            if result and result.grammar_correct
+            else "(none)"
+        )
+        errors_str = (
+            ", ".join(result.grammar_errors)
+            if result and result.grammar_errors
+            else "(none)"
+        )
         generated = f"correct: [{correct_str}], errors: [{errors_str}]"
         expected_output = case.get("expected_output")
         if expected_output is not None:
             ok, reason = _judge_ref(
                 generated=generated,
                 reference=_json.dumps(expected_output, ensure_ascii=False),
-                context=f"Grammar analysis of: \"{case['text']}\"",
+                context=f'Grammar analysis of: "{case["text"]}"',
             )
         else:
             prompt = (
@@ -123,18 +136,29 @@ async def test_analyzer_grammar_tagging(seeded_analyzer_cache, eval_student, rec
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Analyzer content_quality={content_quality:.2%}")
 
-    record_eval("analyzer", {
-        "precision": round(precision, 4),
-        "recall": round(recall, 4),
-        "fp_rate": round(fp_rate, 4),
-        "content_quality": round(content_quality, 4),
-        "n": len(cases),
-        "test": "grammar_tagging",
-    })
+    record_eval(
+        "analyzer",
+        {
+            "precision": round(precision, 4),
+            "recall": round(recall, 4),
+            "fp_rate": round(fp_rate, 4),
+            "content_quality": round(content_quality, 4),
+            "n": len(cases),
+            "test": "grammar_tagging",
+        },
+    )
 
-    assert precision >= 0.98, f"Grammar tagging precision too low: {precision:.2%} (failed: {failed})"
+    assert precision >= 0.98, (
+        f"Grammar tagging precision too low: {precision:.2%} (failed: {failed})"
+    )
     if must_error_total > 0:
-        assert recall >= 0.98, f"Grammar error recall too low: {recall:.2%} (failed: {failed})"
+        assert recall >= 0.98, (
+            f"Grammar error recall too low: {recall:.2%} (failed: {failed})"
+        )
     if false_positive_total > 0:
-        assert fp_rate <= 0.02, f"False positive rate too high: {fp_rate:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Analyzer content quality too low: {content_quality:.2%}"
+        assert fp_rate <= 0.02, (
+            f"False positive rate too high: {fp_rate:.2%} (failed: {failed})"
+        )
+    assert content_quality >= 0.70, (
+        f"Analyzer content quality too low: {content_quality:.2%}"
+    )

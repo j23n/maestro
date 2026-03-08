@@ -16,6 +16,7 @@ Returns (correct, event, feedback, rule_refs):
   feedback   — dict {"items": [...], "correct_count": int, "total": int}
   rule_refs  — list of {"heading": str} for template display
 """
+
 from __future__ import annotations
 
 import json
@@ -61,8 +62,13 @@ async def score_attempt(
     code = generated_drill.grammar_point_code
 
     # --- multi-item: fill_blank or error_correction with items list ---
-    if generated_drill.items and generated_drill.exercise_type in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
-        answers: list[str] = student_answer if isinstance(student_answer, list) else [student_answer]
+    if generated_drill.items and generated_drill.exercise_type in (
+        ExerciseType.FILL_BLANK,
+        ExerciseType.ERROR_CORRECTION,
+    ):
+        answers: list[str] = (
+            student_answer if isinstance(student_answer, list) else [student_answer]
+        )
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 
         raw_results = await score_multi_item_drill(
@@ -90,18 +96,30 @@ async def score_attempt(
 
         correct_count = sum(1 for r in enriched if r["objective_correct"])
         overall_correct = correct_count / max(n, 1) >= _PASS_THRESHOLD
-        feedback: dict | str = {"items": enriched, "correct_count": correct_count, "total": n}
+        feedback: dict | str = {
+            "items": enriched,
+            "correct_count": correct_count,
+            "total": n,
+        }
 
         # Aggregate GP codes detected across all items, filtering out hallucinated codes
         valid_codes = {g.code for g in taxonomy.grammar_points()}
-        all_correct_codes = list({
-            c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
-            if c in valid_codes
-        })
-        all_error_codes = list({
-            c for r in raw_results[:n] for c in r.get("grammar_error_codes", [])
-            if c in valid_codes
-        })
+        all_correct_codes = list(
+            {
+                c
+                for r in raw_results[:n]
+                for c in r.get("grammar_correct_codes", [])
+                if c in valid_codes
+            }
+        )
+        all_error_codes = list(
+            {
+                c
+                for r in raw_results[:n]
+                for c in r.get("grammar_error_codes", [])
+                if c in valid_codes
+            }
+        )
 
         if overall_correct:
             event = LearningEvent(
@@ -121,21 +139,32 @@ async def score_attempt(
 
     # --- free_form ---
     elif generated_drill.exercise_type == ExerciseType.FREE_FORM:
-        answer_str = student_answer[0] if isinstance(student_answer, list) else student_answer
+        answer_str = (
+            student_answer[0] if isinstance(student_answer, list) else student_answer
+        )
         rag_content, rule_refs = await _get_rule_context(generated_drill)
 
         feedback = await score_free_form_drill(
-            generated_drill.prompt, answer_str, code,
-            cefr_level=generated_drill.cefr_level, rag_content=rag_content,
+            generated_drill.prompt,
+            answer_str,
+            code,
+            cefr_level=generated_drill.cefr_level,
+            rag_content=rag_content,
         )
         correct = feedback.get("objective_correct", True)
         valid_codes = {g.code for g in taxonomy.grammar_points()}
-        gp_correct = [c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes]
-        gp_errors = [c for c in feedback.get("grammar_error_codes", []) if c in valid_codes]
+        gp_correct = [
+            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+        ]
+        gp_errors = [
+            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+        ]
         event = LearningEvent(
             student_id=student_id,
-            grammar_correct=([code] if correct else []) + [c for c in gp_correct if c != code],
-            grammar_errors=([] if correct else [code]) + [c for c in gp_errors if c != code],
+            grammar_correct=([code] if correct else [])
+            + [c for c in gp_correct if c != code],
+            grammar_errors=([] if correct else [code])
+            + [c for c in gp_errors if c != code],
         )
         refs = rule_refs if not correct else []
         return correct, event, feedback, refs

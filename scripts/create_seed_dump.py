@@ -3,6 +3,7 @@
 Run after ingesting data locally:
   python scripts/create_seed_dump.py
 """
+
 import asyncio
 from pathlib import Path
 

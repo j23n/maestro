@@ -103,7 +103,9 @@ async def _generate_lesson_content(
     )
     elapsed = time.monotonic() - t0
     raw = response.content[0].text
-    logger.info(f"[planner] lesson content LLM in {elapsed:.2f}s, response length={len(raw)} chars")
+    logger.info(
+        f"[planner] lesson content LLM in {elapsed:.2f}s, response length={len(raw)} chars"
+    )
     logger.debug(f"[planner] lesson content raw: {raw}")
     result = parse_llm_json(raw)
     if not result or not isinstance(result, dict):
@@ -164,16 +166,20 @@ async def prepare_lesson_immediate(
     vocab_count = slots.get(ActivityType.VOCAB_REVIEW, 0)
 
     if vocab_count > 0:
-        due_cards = await fill_vocab_cards(vocab_count, cefr_level, student_id=student_id)
+        due_cards = await fill_vocab_cards(
+            vocab_count, cefr_level, student_id=student_id
+        )
         if due_cards:
-            activities.append(LessonActivity(
-                type=ActivityType.VOCAB_REVIEW,
-                title=t("vocab_title", count=len(due_cards)),
-                description=t("vocab_desc"),
-                duration_minutes=max(2, len(due_cards) * 1),
-                card_ids=[c.id for c in due_cards],
-                status=ActivityStatus.ACTIVE,
-            ))
+            activities.append(
+                LessonActivity(
+                    type=ActivityType.VOCAB_REVIEW,
+                    title=t("vocab_title", count=len(due_cards)),
+                    description=t("vocab_desc"),
+                    duration_minutes=max(2, len(due_cards) * 1),
+                    card_ids=[c.id for c in due_cards],
+                    status=ActivityStatus.ACTIVE,
+                )
+            )
 
     lesson = Lesson(
         student_id=student_id,
@@ -209,19 +215,30 @@ async def generate_lesson_background(
 ) -> None:
     """Pick scenario, generate content, and append activities to lesson."""
     try:
-        await _generate_lesson_background(lesson_id, duration_minutes, scenario_slug, focus_weak)
+        await _generate_lesson_background(
+            lesson_id, duration_minutes, scenario_slug, focus_weak
+        )
     except Exception:
-        logger.exception(f"[planner] generate_lesson_background failed for lesson {lesson_id}")
+        logger.exception(
+            f"[planner] generate_lesson_background failed for lesson {lesson_id}"
+        )
         try:
             await Lesson.find_one(
-                Lesson.id == lesson_id, Lesson.generating == True  # noqa: E712
-            ).update({"$set": {
-                "generating": False,
-                "generation_error": "Content generation failed. Please try again.",
-                "status": LessonStatus.ABANDONED.value,
-            }})
+                Lesson.id == lesson_id,
+                Lesson.generating == True,  # noqa: E712
+            ).update(
+                {
+                    "$set": {
+                        "generating": False,
+                        "generation_error": "Content generation failed. Please try again.",
+                        "status": LessonStatus.ABANDONED.value,
+                    }
+                }
+            )
         except Exception:
-            logger.exception(f"[planner] failed to clear generating flag for lesson {lesson_id}")
+            logger.exception(
+                f"[planner] failed to clear generating flag for lesson {lesson_id}"
+            )
         raise
 
 
@@ -236,7 +253,9 @@ async def _generate_lesson_background(
 
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
-        logger.error(f"[planner] generate_lesson_background: lesson {lesson_id} not found")
+        logger.error(
+            f"[planner] generate_lesson_background: lesson {lesson_id} not found"
+        )
         return
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
     cefr_level = profile.cefr_estimate if profile else "A0"
@@ -261,7 +280,9 @@ async def _generate_lesson_background(
             depth = min(sp.depth + 1, len(scenario_doc.depths))
             scenario = scenario_doc
         else:
-            logger.warning(f"[planner] scenario_slug={scenario_slug} not found, falling back to auto-pick")
+            logger.warning(
+                f"[planner] scenario_slug={scenario_slug} not found, falling back to auto-pick"
+            )
             scenario, depth = await pick_scenario(profile, cefr_level)
     else:
         scenario, depth = await pick_scenario(profile, cefr_level)
@@ -355,7 +376,9 @@ async def _generate_lesson_background(
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)
-    topic_description = strip_lang_spans(content.topic_description or scenario.description)
+    topic_description = strip_lang_spans(
+        content.topic_description or scenario.description
+    )
 
     # --- Materialise activities ---
     new_activities = await materialize_activities(
@@ -375,17 +398,19 @@ async def _generate_lesson_background(
 
     # --- Atomically update lesson ---
     activities_dicts = [a.model_dump() for a in new_activities]
-    await Lesson.find_one(Lesson.id == lesson_id).update({
-        "$push": {"activities": {"$each": activities_dicts}},
-        "$set": {
-            "overview": content.overview,
-            "scenario_slug": scenario.slug,
-            "scenario_depth": depth,
-            "topic_title": topic_title,
-            "topic_description": topic_description,
-            "generating": False,
-        },
-    })
+    await Lesson.find_one(Lesson.id == lesson_id).update(
+        {
+            "$push": {"activities": {"$each": activities_dicts}},
+            "$set": {
+                "overview": content.overview,
+                "scenario_slug": scenario.slug,
+                "scenario_depth": depth,
+                "topic_title": topic_title,
+                "topic_description": topic_description,
+                "generating": False,
+            },
+        }
+    )
 
     elapsed_total = time.monotonic() - t_start
     logger.info(

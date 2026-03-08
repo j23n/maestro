@@ -7,6 +7,7 @@ Idempotent — skips if the Student already has an Account.
 Run with:
   python scripts/migrate_create_account.py --student-name johannes
 """
+
 import asyncio
 import getpass
 import logging
@@ -44,12 +45,17 @@ async def migrate(student_name: str):
         student_id=student.id,
     )
     await account.insert()
-    logger.info(f"Created account {email} linked to student '{student_name}' ({student.id})")
+    logger.info(
+        f"Created account {email} linked to student '{student_name}' ({student.id})"
+    )
 
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--student-name", required=True, help="Name of the existing student")
+    parser.add_argument(
+        "--student-name", required=True, help="Name of the existing student"
+    )
     args = parser.parse_args()
     asyncio.run(migrate(student_name=args.student_name))

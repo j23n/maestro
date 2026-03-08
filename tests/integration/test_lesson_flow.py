@@ -1,4 +1,5 @@
 """Integration tests for advance_lesson, _collect_activity_events, lesson completion flow."""
+
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 
@@ -39,8 +40,20 @@ async def test_advance_lesson_marks_current_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.PENDING,
+        ),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
@@ -59,8 +72,20 @@ async def test_advance_lesson_activates_next_pending(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.PENDING,
+        ),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
@@ -75,8 +100,20 @@ async def test_advance_lesson_skip_does_not_mark_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.PENDING,
+        ),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
@@ -90,7 +127,13 @@ async def test_advance_lesson_generating_redirect(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
     ]
     lesson = _make_lesson(activities, generating=True)
     await lesson.insert()
@@ -104,7 +147,13 @@ async def test_advance_lesson_all_done_marks_completed(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
     ]
     lesson = _make_lesson(activities, generating=False)
     await lesson.insert()
@@ -125,8 +174,20 @@ async def test_advance_lesson_persists_result(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
-        LessonActivity(type=ActivityType.GRAMMAR, title="G1", description="", duration_minutes=3, status=ActivityStatus.PENDING),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
+        LessonActivity(
+            type=ActivityType.GRAMMAR,
+            title="G1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.PENDING,
+        ),
     ]
     lesson = _make_lesson(activities)
     await lesson.insert()
@@ -149,7 +210,13 @@ async def test_advance_lesson_generating_persists_atomically(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
     ]
     lesson = _make_lesson(activities, generating=True)
     await lesson.insert()
@@ -170,7 +237,13 @@ async def test_advance_lesson_completion_persists_all_fields(db):
     from maestro.lezione.service import advance_lesson as _advance_lesson
 
     activities = [
-        LessonActivity(type=ActivityType.DRILL, title="D1", description="", duration_minutes=3, status=ActivityStatus.ACTIVE),
+        LessonActivity(
+            type=ActivityType.DRILL,
+            title="D1",
+            description="",
+            duration_minutes=3,
+            status=ActivityStatus.ACTIVE,
+        ),
     ]
     lesson = _make_lesson(activities, generating=False)
     await lesson.insert()
@@ -195,14 +268,20 @@ async def test_collect_activity_events_aggregates_gp_codes(db):
     await lesson.insert()
 
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", student_text="sono andato",
-        grammar_correct=["GP_001"], grammar_errors=["GP_002"],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        student_text="sono andato",
+        grammar_correct=["GP_001"],
+        grammar_errors=["GP_002"],
     ).insert()
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="writing", student_text="Ho scritto qualcosa.",
-        grammar_correct=["GP_001", "GP_003"], grammar_errors=[],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="writing",
+        student_text="Ho scritto qualcosa.",
+        grammar_correct=["GP_001", "GP_003"],
+        grammar_errors=[],
     ).insert()
 
     correct, errors, combined = await _collect_activity_events(lesson)
@@ -236,12 +315,16 @@ async def test_collect_activity_events_preserves_counts(db):
     await lesson.insert()
 
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", grammar_correct=["GP_001"],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        grammar_correct=["GP_001"],
     ).insert()
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", grammar_correct=["GP_001"],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        grammar_correct=["GP_001"],
     ).insert()
 
     correct, errors, _ = await _collect_activity_events(lesson)
@@ -259,21 +342,45 @@ async def completed_lesson(db):
 
     Per-activity LearningEvents are also created (as the routes would do).
     """
-    gp_ok = GrammarPoint(code="GP_OK", label="Presente", cefr_level="A1", category="test", description="Ok")
-    gp_bad = GrammarPoint(code="GP_BAD", label="Passato", cefr_level="A1", category="test", description="Bad")
+    gp_ok = GrammarPoint(
+        code="GP_OK",
+        label="Presente",
+        cefr_level="A1",
+        category="test",
+        description="Ok",
+    )
+    gp_bad = GrammarPoint(
+        code="GP_BAD",
+        label="Passato",
+        cefr_level="A1",
+        category="test",
+        description="Bad",
+    )
     await gp_ok.insert()
     await gp_bad.insert()
 
-    template = DrillTemplate(grammar_point_code="GP_OK", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
+    template = DrillTemplate(
+        grammar_point_code="GP_OK",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+    )
     await template.insert()
 
     drill_ok = GeneratedDrill(
-        template=template, grammar_point_code="GP_OK", cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK, prompt="", scenario_slug="test",
+        template=template,
+        grammar_point_code="GP_OK",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+        prompt="",
+        scenario_slug="test",
     )
     drill_bad = GeneratedDrill(
-        template=template, grammar_point_code="GP_BAD", cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK, prompt="", scenario_slug="test",
+        template=template,
+        grammar_point_code="GP_BAD",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+        prompt="",
+        scenario_slug="test",
     )
     await drill_ok.insert()
     await drill_bad.insert()
@@ -287,16 +394,30 @@ async def completed_lesson(db):
         generating=False,
         activities=[
             LessonActivity(
-                type=ActivityType.DRILL, title="D1", description="", duration_minutes=3,
-                status=ActivityStatus.COMPLETED, drill_id=drill_ok.id, result={"correct": True},
+                type=ActivityType.DRILL,
+                title="D1",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.COMPLETED,
+                drill_id=drill_ok.id,
+                result={"correct": True},
             ),
             LessonActivity(
-                type=ActivityType.DRILL, title="D2", description="", duration_minutes=3,
-                status=ActivityStatus.COMPLETED, drill_id=drill_bad.id, result={"correct": False},
+                type=ActivityType.DRILL,
+                title="D2",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.COMPLETED,
+                drill_id=drill_bad.id,
+                result={"correct": False},
             ),
             LessonActivity(
-                type=ActivityType.WRITING, title="W", description="", duration_minutes=5,
-                status=ActivityStatus.COMPLETED, result={"student_answer": "Ho scritto."},
+                type=ActivityType.WRITING,
+                title="W",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.COMPLETED,
+                result={"student_answer": "Ho scritto."},
             ),
         ],
         current_index=2,
@@ -305,19 +426,31 @@ async def completed_lesson(db):
 
     # Create per-activity LearningEvents (as the routes would do)
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", activity_index=0, student_text="gatto",
-        grammar_correct=["GP_OK"], grammar_errors=[],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        activity_index=0,
+        student_text="gatto",
+        grammar_correct=["GP_OK"],
+        grammar_errors=[],
     ).insert()
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", activity_index=1, student_text="sbagliato",
-        grammar_correct=[], grammar_errors=["GP_BAD"],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        activity_index=1,
+        student_text="sbagliato",
+        grammar_correct=[],
+        grammar_errors=["GP_BAD"],
     ).insert()
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="writing", activity_index=2, student_text="Ho scritto.",
-        grammar_correct=[], grammar_errors=[],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="writing",
+        activity_index=2,
+        student_text="Ho scritto.",
+        grammar_correct=[],
+        grammar_errors=[],
     ).insert()
 
     return lesson
@@ -339,7 +472,9 @@ async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
     """Feedback should return a non-empty string."""
     from maestro.lezione.service import generate_lesson_feedback
 
-    mock_response = MagicMock(content=[MagicMock(text="Great work on present tense drills!")])
+    mock_response = MagicMock(
+        content=[MagicMock(text="Great work on present tense drills!")]
+    )
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = mock_response
 
@@ -364,11 +499,17 @@ async def test_generate_lesson_feedback_uses_prefetched_events(db):
         generating=False,
         activities=[
             LessonActivity(
-                type=ActivityType.WRITING, title="W1", description="", duration_minutes=5,
+                type=ActivityType.WRITING,
+                title="W1",
+                description="",
+                duration_minutes=5,
                 status=ActivityStatus.COMPLETED,
             ),
             LessonActivity(
-                type=ActivityType.WRITING, title="W2", description="", duration_minutes=5,
+                type=ActivityType.WRITING,
+                title="W2",
+                description="",
+                duration_minutes=5,
                 status=ActivityStatus.COMPLETED,
             ),
         ],
@@ -378,14 +519,20 @@ async def test_generate_lesson_feedback_uses_prefetched_events(db):
 
     # W1 has no errors, W2 has 1 error — must not conflate
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="writing", activity_index=0,
-        grammar_correct=["GP_OK"], grammar_errors=[],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="writing",
+        activity_index=0,
+        grammar_correct=["GP_OK"],
+        grammar_errors=[],
     ).insert()
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="writing", activity_index=1,
-        grammar_correct=[], grammar_errors=["GP_BAD"],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="writing",
+        activity_index=1,
+        grammar_correct=[],
+        grammar_errors=["GP_BAD"],
     ).insert()
 
     events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
@@ -422,7 +569,9 @@ async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_stage1_response
 
-    with patch("maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client):
+    with patch(
+        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
+    ):
         await analyze_lesson(completed_lesson)
 
     # 3 per-activity events + 1 summary event = 4
@@ -455,7 +604,9 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_stage1_response
 
-    with patch("maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client):
+    with patch(
+        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
+    ):
         await analyze_lesson(completed_lesson)
 
     # Profile should reflect the per-activity events
@@ -473,7 +624,9 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
     from maestro.learning.lesson_analyzer import analyze_lesson
     from maestro import taxonomy
 
-    gp = GrammarPoint(code="GP_ONLY", label="Solo", cefr_level="A1", category="t", description="")
+    gp = GrammarPoint(
+        code="GP_ONLY", label="Solo", cefr_level="A1", category="t", description=""
+    )
     await gp.insert()
     taxonomy.seed(gps=[gp], cfs=[])
 
@@ -491,16 +644,21 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
 
     # Drill event with no student_text
     await LearningEvent(
-        student_id=_FAKE_STUDENT_ID, lesson_id=lesson.id,
-        activity_type="drill", student_text="",
-        grammar_correct=["GP_ONLY"], grammar_errors=[],
+        student_id=_FAKE_STUDENT_ID,
+        lesson_id=lesson.id,
+        activity_type="drill",
+        student_text="",
+        grammar_correct=["GP_ONLY"],
+        grammar_errors=[],
     ).insert()
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
 
     mock_client = AsyncMock()
-    with patch("maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client):
+    with patch(
+        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
+    ):
         await analyze_lesson(lesson)
 
     # No LLM calls should have been made (no text for CF analysis)

@@ -1,4 +1,5 @@
 """Integration tests for error pages and onboarding name validation."""
+
 import pytest
 
 from maestro.models import Student

@@ -1,4 +1,5 @@
 """Integration tests for lezione/planner.py and lezione/selection.py."""
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -33,8 +34,12 @@ async def test_pick_grammar_points_prioritises_weak(db):
     """Grammar points with higher error rates should be picked first."""
     from maestro.lezione.selection import pick_grammar_points
 
-    gp1 = GrammarPoint(code="GP_A", label="A", cefr_level="A1", category="test", description="A")
-    gp2 = GrammarPoint(code="GP_B", label="B", cefr_level="A1", category="test", description="B")
+    gp1 = GrammarPoint(
+        code="GP_A", label="A", cefr_level="A1", category="test", description="A"
+    )
+    gp2 = GrammarPoint(
+        code="GP_B", label="B", cefr_level="A1", category="test", description="B"
+    )
     await gp1.insert()
     await gp2.insert()
 
@@ -53,7 +58,13 @@ async def test_pick_grammar_points_falls_back_when_no_level_match(db):
     """When no GPs exist at the target level, fall back to all GPs."""
     from maestro.lezione.selection import pick_grammar_points
 
-    gp = GrammarPoint(code="GP_B2", label="B2 rule", cefr_level="B2", category="test", description="B2 rule")
+    gp = GrammarPoint(
+        code="GP_B2",
+        label="B2 rule",
+        cefr_level="B2",
+        category="test",
+        description="B2 rule",
+    )
     await gp.insert()
 
     picked = await pick_grammar_points(None, "A1", 1)
@@ -66,9 +77,15 @@ async def test_pick_grammar_points_with_candidate_codes(db):
     """When candidate_codes is provided, filter to those codes."""
     from maestro.lezione.selection import pick_grammar_points
 
-    gp1 = GrammarPoint(code="GP_A", label="A", cefr_level="A1", category="test", description="A")
-    gp2 = GrammarPoint(code="GP_B", label="B", cefr_level="A1", category="test", description="B")
-    gp3 = GrammarPoint(code="GP_C", label="C", cefr_level="A1", category="test", description="C")
+    gp1 = GrammarPoint(
+        code="GP_A", label="A", cefr_level="A1", category="test", description="A"
+    )
+    gp2 = GrammarPoint(
+        code="GP_B", label="B", cefr_level="A1", category="test", description="B"
+    )
+    gp3 = GrammarPoint(
+        code="GP_C", label="C", cefr_level="A1", category="test", description="C"
+    )
     await gp1.insert()
     await gp2.insert()
     await gp3.insert()
@@ -84,8 +101,12 @@ async def test_pick_comm_functions_with_candidate_codes(db):
     """When candidate_codes is provided, filter to those codes."""
     from maestro.lezione.selection import pick_comm_functions
 
-    cf1 = CommunicativeFunction(code="CF_A", label="A", macro_category="test", cefr_level="A1")
-    cf2 = CommunicativeFunction(code="CF_B", label="B", macro_category="test", cefr_level="A1")
+    cf1 = CommunicativeFunction(
+        code="CF_A", label="A", macro_category="test", cefr_level="A1"
+    )
+    cf2 = CommunicativeFunction(
+        code="CF_B", label="B", macro_category="test", cefr_level="A1"
+    )
     await cf1.insert()
     await cf2.insert()
 
@@ -121,12 +142,22 @@ async def test_pick_scenario_prefers_unvisited(db):
     from maestro.lezione.selection import pick_scenario
 
     s1 = CurriculumScenario(
-        slug="visited", label="V", description="", cefr_level="A1",
-        cf_codes=[], gp_codes=[], depths=["d1", "d2", "d3"],
+        slug="visited",
+        label="V",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1", "d2", "d3"],
     )
     s2 = CurriculumScenario(
-        slug="unvisited", label="U", description="", cefr_level="A1",
-        cf_codes=[], gp_codes=[], depths=["d1", "d2", "d3"],
+        slug="unvisited",
+        label="U",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1", "d2", "d3"],
     )
     await s1.insert()
     await s2.insert()
@@ -150,8 +181,13 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     from maestro.lezione.selection import pick_scenario
 
     s = CurriculumScenario(
-        slug="recent", label="R", description="", cefr_level="A1",
-        cf_codes=[], gp_codes=[], depths=["d1", "d2", "d3"],
+        slug="recent",
+        label="R",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1", "d2", "d3"],
     )
     await s.insert()
 
@@ -159,9 +195,13 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     naive_last_visited = datetime.utcnow() - timedelta(minutes=5)
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"recent": ScenarioProgress(
-            depth=1, lesson_count=1, last_visited=naive_last_visited,
-        )},
+        scenario_progress={
+            "recent": ScenarioProgress(
+                depth=1,
+                lesson_count=1,
+                last_visited=naive_last_visited,
+            )
+        },
     )
     await profile.insert()
 
@@ -176,12 +216,22 @@ async def test_pick_scenario_weak_gp_boost(db):
     from maestro.lezione.selection import pick_scenario
 
     s1 = CurriculumScenario(
-        slug="no-overlap", label="A", description="", cefr_level="A1",
-        cf_codes=[], gp_codes=["GP_X"], depths=["d1", "d2", "d3"],
+        slug="no-overlap",
+        label="A",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=["GP_X"],
+        depths=["d1", "d2", "d3"],
     )
     s2 = CurriculumScenario(
-        slug="weak-overlap", label="B", description="", cefr_level="A1",
-        cf_codes=[], gp_codes=["GP_WEAK1", "GP_WEAK2"], depths=["d1", "d2", "d3"],
+        slug="weak-overlap",
+        label="B",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=["GP_WEAK1", "GP_WEAK2"],
+        depths=["d1", "d2", "d3"],
     )
     await s1.insert()
     await s2.insert()
@@ -237,23 +287,45 @@ async def test_drill_materialization_creates_generated_drills(db):
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
 
-    gp = GrammarPoint(code="GP_001", label="Presente", cefr_level="A1", category="verbi", description="Present tense")
+    gp = GrammarPoint(
+        code="GP_001",
+        label="Presente",
+        cefr_level="A1",
+        category="verbi",
+        description="Present tense",
+    )
     await gp.insert()
 
-    template = DrillTemplate(grammar_point_code="GP_001", cefr_level="A1", exercise_type=ExerciseType.FILL_BLANK)
+    template = DrillTemplate(
+        grammar_point_code="GP_001",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+    )
     await template.insert()
 
     scenario = CurriculumScenario(
-        slug="test-scenario", label="Test", description="Test scenario",
-        cefr_level="A1", cf_codes=[], gp_codes=["GP_001"],
+        slug="test-scenario",
+        label="Test",
+        description="Test scenario",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=["GP_001"],
         depths=["depth 1", "depth 2", "depth 3"],
     )
     await scenario.insert()
 
-    lesson = Lesson(student_id=_FAKE_STUDENT_ID, status=LessonStatus.ACTIVE, duration_minutes=10, generating=True)
+    lesson = Lesson(
+        student_id=_FAKE_STUDENT_ID,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        generating=True,
+    )
     await lesson.insert()
 
-    content_response = MagicMock(content=[MagicMock(text="""{
+    content_response = MagicMock(
+        content=[
+            MagicMock(
+                text="""{
         "topic_title": "Al bar",
         "topic_description": "Ordering at a bar",
         "overview": "Test lesson",
@@ -262,14 +334,27 @@ async def test_drill_materialization_creates_generated_drills(db):
         "readings": [{"text": "Test reading.", "questions": ["Q1"], "answers": ["A1"]}],
         "writing": {"prompt": "Scrivi qualcosa."},
         "speakings": []
-    }""")])
+    }"""
+            )
+        ]
+    )
 
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = content_response
 
-    with patch("maestro.lezione.planner.get_async_client", return_value=mock_client), \
-         patch("maestro.lezione.planner.GrammarChunk.find_one", new_callable=AsyncMock, return_value=None), \
-         patch("maestro.lezione.materialize.GrammarChunk.find_one", new_callable=AsyncMock, return_value=None):
+    with (
+        patch("maestro.lezione.planner.get_async_client", return_value=mock_client),
+        patch(
+            "maestro.lezione.planner.GrammarChunk.find_one",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+        patch(
+            "maestro.lezione.materialize.GrammarChunk.find_one",
+            new_callable=AsyncMock,
+            return_value=None,
+        ),
+    ):
         await generate_lesson_background(lesson.id, 10)
 
     updated_lesson = await Lesson.get(lesson.id)

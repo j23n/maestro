@@ -3,6 +3,7 @@ Per-student learning profile access.
 
 Every function requires a student_id to scope queries.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

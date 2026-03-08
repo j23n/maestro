@@ -29,7 +29,7 @@ _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 def lang_wrap(html: str, lang: str) -> str:
     """Wrap HTML content in a <span lang="xx"> tag. Idempotent."""
     stripped = html.strip()
-    if stripped.startswith(f'<span lang="{lang}">') and stripped.endswith('</span>'):
+    if stripped.startswith(f'<span lang="{lang}">') and stripped.endswith("</span>"):
         return html
     return f'<span lang="{lang}">{html}</span>'
 
@@ -51,7 +51,11 @@ def _build_vocab_attrs(word, wdef) -> str:
     translation = ""
     if wdef:
         senses_data = [
-            {"definition": s.definition, "translation": s.translation, "examples": s.examples}
+            {
+                "definition": s.definition,
+                "translation": s.translation,
+                "examples": s.examples,
+            }
             for s in wdef.senses
         ]
         translation = wdef.translation
@@ -158,7 +162,9 @@ async def discover(
     target_text = _get_target_text(lang_elements)
     text_lemmas = _lemmatize(target_text)
 
-    words_with_vocab = {lem: w for lem, w in _cache.word_index().items() if lem in text_lemmas}
+    words_with_vocab = {
+        lem: w for lem, w in _cache.word_index().items() if lem in text_lemmas
+    }
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
     word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]
@@ -172,7 +178,10 @@ async def discover(
 
     if new_words:
         await UserVocabularyCard.insert_many(
-            [UserVocabularyCard(student_id=student_id, word=w, message=message) for w in new_words]
+            [
+                UserVocabularyCard(student_id=student_id, word=w, message=message)
+                for w in new_words
+            ]
         )
         # A0 words have simple built-in definitions — skip LLM generation
         words_without_defs = [
@@ -180,7 +189,10 @@ async def discover(
             for w in new_words
             if w.cefr_level != "A0"
             and w.senses
-            and not any(_cache.get_definition(str(w.id), lvl) for lvl in ("A1", "A2", "B1", "B2"))
+            and not any(
+                _cache.get_definition(str(w.id), lvl)
+                for lvl in ("A1", "A2", "B1", "B2")
+            )
         ]
         if words_without_defs:
             create_background_task(
@@ -211,7 +223,9 @@ async def discover_markdown(
     return await discover(html, student_id=student_id)
 
 
-async def discover_list(texts: list[str], student_id: PydanticObjectId | None = None) -> list[str]:
+async def discover_list(
+    texts: list[str], student_id: PydanticObjectId | None = None
+) -> list[str]:
     return [await discover(t, student_id=student_id) for t in texts]
 
 
@@ -225,16 +239,18 @@ async def _generate_and_cache(words: list[VocabularyWord]) -> None:
             ).to_list()
             for d in defs:
                 _cache.set_definition(str(word.id), d.student_level, d)
-            logger.info(f"[discover] generated {len(defs)} definition(s) for '{word.word}'")
+            logger.info(
+                f"[discover] generated {len(defs)} definition(s) for '{word.word}'"
+            )
         except Exception as exc:
-            logger.warning(f"[discover] definition generation failed for '{word.word}': {exc}")
+            logger.warning(
+                f"[discover] definition generation failed for '{word.word}': {exc}"
+            )
 
 
 def hide_translations(html: str) -> str:
     """Wrap parenthesized English translations after </span> in a toggleable span."""
-    return _TRANSLATION_RE.sub(
-        r'\1 <span class="translation-toggle">\2</span>', html
-    )
+    return _TRANSLATION_RE.sub(r'\1 <span class="translation-toggle">\2</span>', html)
 
 
 def _annotate(

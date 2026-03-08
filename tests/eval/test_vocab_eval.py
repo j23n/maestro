@@ -1,4 +1,5 @@
 """LLM eval tests for vocabulary definition generation quality."""
+
 import json
 import logging
 from pathlib import Path
@@ -62,7 +63,9 @@ def test_vocab_definition_quality(record_eval):
                 for i, sense in enumerate(senses):
                     examples = sense.get("examples", [])
                     if len(examples) > 1:
-                        failures.append(f"{level}.senses[{i}].examples has {len(examples)} items (max 1)")
+                        failures.append(
+                            f"{level}.senses[{i}].examples has {len(examples)} items (max 1)"
+                        )
 
         # Translation must be present and non-empty
         translation = entry.get("translation", "")
@@ -79,7 +82,9 @@ def test_vocab_definition_quality(record_eval):
     n = len(words)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
-    logger.info(f"[eval] Vocab definitions: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}")
+    logger.info(
+        f"[eval] Vocab definitions: output_syntax={output_syntax:.2%}, failed={[r['id'] for r in failed]}"
+    )
 
     # LLM judge: evaluate per (word, level) pair
     judge_passed = 0
@@ -96,8 +101,16 @@ def test_vocab_definition_quality(record_eval):
                 continue
             judge_total += 1
             senses = level_data.get("senses", [])
-            sense_text = "; ".join(s.get("definition", "") for s in senses[:2]) if senses else "(none)"
-            example = senses[0].get("examples", [""])[0] if senses and senses[0].get("examples") else ""
+            sense_text = (
+                "; ".join(s.get("definition", "") for s in senses[:2])
+                if senses
+                else "(none)"
+            )
+            example = (
+                senses[0].get("examples", [""])[0]
+                if senses and senses[0].get("examples")
+                else ""
+            )
             generated = f"{sense_text} / {translation}"
             expected_output = c.get("expected_output")
             if expected_output is not None and level in expected_output:
@@ -119,17 +132,26 @@ def test_vocab_definition_quality(record_eval):
                 ok, reason = _judge(prompt)
             if ok:
                 judge_passed += 1
-            logger.info(f"[eval] judge {w}/{level}: {'PASS' if ok else 'FAIL'} {reason}")
+            logger.info(
+                f"[eval] judge {w}/{level}: {'PASS' if ok else 'FAIL'} {reason}"
+            )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Vocab content_quality={content_quality:.2%}")
 
-    record_eval("vocab", {
-        "output_syntax": round(output_syntax, 4),
-        "content_quality": round(content_quality, 4),
-        "n": n,
-        "test": "definitions",
-    })
+    record_eval(
+        "vocab",
+        {
+            "output_syntax": round(output_syntax, 4),
+            "content_quality": round(content_quality, 4),
+            "n": n,
+            "test": "definitions",
+        },
+    )
 
-    assert output_syntax >= 0.80, f"Vocab definition pass rate too low: {output_syntax:.2%} (failed: {failed})"
-    assert content_quality >= 0.70, f"Vocab content quality too low: {content_quality:.2%}"
+    assert output_syntax >= 0.80, (
+        f"Vocab definition pass rate too low: {output_syntax:.2%} (failed: {failed})"
+    )
+    assert content_quality >= 0.70, (
+        f"Vocab content quality too low: {content_quality:.2%}"
+    )

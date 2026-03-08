@@ -1,4 +1,5 @@
 """Unit tests for maestro.seed.seed_if_empty()."""
+
 import logging
 
 import bson

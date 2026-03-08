@@ -23,7 +23,11 @@ from maestro.models import (
     ScenarioProgress,
 )
 from maestro.profile import get_profile, save_onboarding_field
-from maestro.learning.weakness import build_gp_titles, build_grammar_by_level, top_weaknesses
+from maestro.learning.weakness import (
+    build_gp_titles,
+    build_grammar_by_level,
+    top_weaknesses,
+)
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
@@ -31,7 +35,13 @@ from maestro import taxonomy
 from maestro.templates import templates
 from maestro.utils import utcnow, create_background_task
 from maestro.config import settings as _settings
-from maestro.vocab.discover import discover, discover_markdown, discover_list, lang_wrap, hide_translations
+from maestro.vocab.discover import (
+    discover,
+    discover_markdown,
+    discover_list,
+    lang_wrap,
+    hide_translations,
+)
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
 from markupsafe import escape
@@ -62,8 +72,12 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
 
 
 @router.get("/lezione/", response_class=HTMLResponse)
-async def lezione_index(request: Request, student: Student = Depends(get_current_student)):
-    active = await Lesson.find_one({"student_id": student.id, "status": LessonStatus.ACTIVE})
+async def lezione_index(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    active = await Lesson.find_one(
+        {"student_id": student.id, "status": LessonStatus.ACTIVE}
+    )
     if active:
         if active.generating and active.current_index >= len(active.activities):
             return RedirectResponse(url=f"/lezione/{active.id}/generating")
@@ -142,14 +156,17 @@ async def lezione_create(
     profile = await get_profile(student.id)
 
     lesson = await prepare_lesson_immediate(
-        duration, profile, student.id,
+        duration,
+        profile,
+        student.id,
         lesson_context=lesson_context.strip(),
         focus_weak=focus_weak,
         scenario_slug=scenario_slug or None,
     )
     create_background_task(
         generate_lesson_background(
-            lesson.id, duration,
+            lesson.id,
+            duration,
             scenario_slug=scenario_slug or None,
             focus_weak=focus_weak,
         ),
@@ -163,22 +180,35 @@ async def lezione_create(
 
 
 @router.get("/lezione/{lesson_id}", response_class=HTMLResponse)
-async def lezione_overview(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+async def lezione_overview(
+    lesson_id: PydanticObjectId,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
     overview_lang = "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
-    annotated_overview = await discover(lang_wrap(lesson.overview, overview_lang), student_id=student.id) if lesson.overview else None
+    annotated_overview = (
+        await discover(lang_wrap(lesson.overview, overview_lang), student_id=student.id)
+        if lesson.overview
+        else None
+    )
     return templates.TemplateResponse(
-        request=request, name="lezione.html",
+        request=request,
+        name="lezione.html",
         context={"lesson": lesson, "annotated_overview": annotated_overview},
     )
 
 
 @router.get("/lezione/{lesson_id}/generating", response_class=HTMLResponse)
-async def lezione_generating(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+async def lezione_generating(
+    lesson_id: PydanticObjectId,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
     if not lesson.generating:
         if lesson.generation_error:
@@ -193,11 +223,17 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
             if lesson.activities[next_idx].status == ActivityStatus.PENDING:
                 lesson.activities[next_idx].status = ActivityStatus.ACTIVE
                 lesson.current_index = next_idx
-                await lesson.update({"$set": {
-                    f"activities.{next_idx}.status": ActivityStatus.ACTIVE.value,
-                    "current_index": next_idx,
-                }})
-                return RedirectResponse(url=activity_url(lesson_id, next_idx), status_code=303)
+                await lesson.update(
+                    {
+                        "$set": {
+                            f"activities.{next_idx}.status": ActivityStatus.ACTIVE.value,
+                            "current_index": next_idx,
+                        }
+                    }
+                )
+                return RedirectResponse(
+                    url=activity_url(lesson_id, next_idx), status_code=303
+                )
             next_idx += 1
         if lesson.status != LessonStatus.COMPLETED:
             now = utcnow()
@@ -221,7 +257,9 @@ async def lezione_generating(lesson_id: PydanticObjectId, request: Request, stud
 
 
 @router.post("/lezione/{lesson_id}/retry")
-async def lezione_retry(lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)):
+async def lezione_retry(
+    lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
+):
     lesson = await _get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
@@ -237,17 +275,25 @@ async def lezione_retry(lesson_id: PydanticObjectId, student: Student = Depends(
 
 
 @router.post("/lezione/{lesson_id}/start", response_class=HTMLResponse)
-async def lezione_start(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+async def lezione_start(
+    lesson_id: PydanticObjectId,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
     now = utcnow()
-    await lesson.update({"$set": {
-        "status": LessonStatus.ACTIVE.value,
-        "started_at": now,
-        "current_index": 0,
-        "activities.0.status": ActivityStatus.ACTIVE.value,
-    }})
+    await lesson.update(
+        {
+            "$set": {
+                "status": LessonStatus.ACTIVE.value,
+                "started_at": now,
+                "current_index": 0,
+                "activities.0.status": ActivityStatus.ACTIVE.value,
+            }
+        }
+    )
     return RedirectResponse(url=activity_url(lesson_id, 0), status_code=303)
 
 
@@ -262,12 +308,16 @@ async def lezione_activity(
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         if lesson.generating:
-            return RedirectResponse(url=f"/lezione/{lesson_id}/generating", status_code=303)
+            return RedirectResponse(
+                url=f"/lezione/{lesson_id}/generating", status_code=303
+            )
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
     activity = lesson.activities[idx]
 
     if activity.status == ActivityStatus.PENDING:
-        return RedirectResponse(url=activity_url(lesson_id, lesson.current_index), status_code=303)
+        return RedirectResponse(
+            url=activity_url(lesson_id, lesson.current_index), status_code=303
+        )
 
     total = len(lesson.activities)
 
@@ -317,9 +367,12 @@ async def lezione_activity(
 
     if activity.type == ActivityType.READING:
         lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = hide_translations(await discover(lang_wrap(activity.content, lang), student_id=student.id))
+        ctx["annotated_content"] = hide_translations(
+            await discover(lang_wrap(activity.content, lang), student_id=student.id)
+        )
         ctx["annotated_questions"] = await discover_list(
-            [lang_wrap(q, lang) for q in (activity.questions or [])], student_id=student.id
+            [lang_wrap(q, lang) for q in (activity.questions or [])],
+            student_id=student.id,
         )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-reading.html", context=ctx
@@ -327,17 +380,23 @@ async def lezione_activity(
 
     if activity.type == ActivityType.WRITING:
         lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = await discover_markdown(activity.content or "", student_id=student.id, lang=lang)
+        ctx["annotated_content"] = await discover_markdown(
+            activity.content or "", student_id=student.id, lang=lang
+        )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-writing.html", context=ctx
         )
 
     if activity.type == ActivityType.GRAMMAR:
-        ctx["annotated_content"] = hide_translations(await discover_markdown(activity.content or "", student_id=student.id))
+        ctx["annotated_content"] = hide_translations(
+            await discover_markdown(activity.content or "", student_id=student.id)
+        )
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
         if activity.why_important:
-            why_lang = "en" if level in ("A0", "A1", "A2") else _settings.TARGET_LANGUAGE
+            why_lang = (
+                "en" if level in ("A0", "A1", "A2") else _settings.TARGET_LANGUAGE
+            )
             ctx["annotated_why"] = await discover(
                 lang_wrap(activity.why_important, why_lang), student_id=student.id
             )
@@ -354,7 +413,9 @@ async def lezione_activity(
                 {"grammar_point.$id": gp.id, "student_level": level}
             )
             if not expl:
-                expl = await GrammarPointExplanation.find_one({"grammar_point.$id": gp.id})
+                expl = await GrammarPointExplanation.find_one(
+                    {"grammar_point.$id": gp.id}
+                )
             if expl and expl.translation:
                 ctx["annotated_translation"] = await discover_markdown(
                     expl.translation, student_id=student.id, lang="en"
@@ -377,7 +438,11 @@ async def lezione_activity(
 
 
 @router.post("/lezione/{lesson_id}/activity/{idx}/skip")
-async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: Student = Depends(get_current_student)):
+async def lezione_activity_skip(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
@@ -393,7 +458,11 @@ async def lezione_activity_skip(lesson_id: PydanticObjectId, idx: int, student: 
 
 
 @router.post("/lezione/{lesson_id}/activity/{idx}/complete")
-async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int, student: Student = Depends(get_current_student)):
+async def lezione_activity_complete(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
@@ -408,7 +477,9 @@ async def lezione_activity_complete(lesson_id: PydanticObjectId, idx: int, stude
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 
-@router.post("/lezione/{lesson_id}/activity/{idx}/onboarding-submit", response_class=HTMLResponse)
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/onboarding-submit", response_class=HTMLResponse
+)
 async def lezione_onboarding_submit(
     lesson_id: PydanticObjectId,
     idx: int,
@@ -429,7 +500,9 @@ async def lezione_onboarding_submit(
     response_text = response_text.replace("{answer}", str(escape(answer.strip())))
 
     # Mark as answered in result
-    await lesson.update({"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}})
+    await lesson.update(
+        {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
+    )
 
     return templates.TemplateResponse(
         request=request,
@@ -438,7 +511,9 @@ async def lezione_onboarding_submit(
     )
 
 
-@router.post("/lezione/{lesson_id}/activity/{idx}/drill-submit", response_class=HTMLResponse)
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/drill-submit", response_class=HTMLResponse
+)
 async def lezione_drill_submit(
     lesson_id: PydanticObjectId,
     idx: int,
@@ -459,11 +534,17 @@ async def lezione_drill_submit(
     form = await request.form()
     answers = list(form.getlist("answers"))
 
-    student_input: list[str] | str = answers if drill.items else (answers[0] if answers else "")
+    student_input: list[str] | str = (
+        answers if drill.items else (answers[0] if answers else "")
+    )
 
-    correct, event, feedback, rule_refs = await score_attempt(drill, student_input, student_id=student.id)
+    correct, event, feedback, rule_refs = await score_attempt(
+        drill, student_input, student_id=student.id
+    )
 
-    stored_answer = json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
+    stored_answer = (
+        json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
+    )
     attempt = DrillAttempt(
         student_id=student.id,
         generated_drill=drill,
@@ -504,7 +585,9 @@ async def lezione_drill_submit(
     )
 
 
-@router.get("/lezione/{lesson_id}/activity/{idx}/vocab-reveal", response_class=HTMLResponse)
+@router.get(
+    "/lezione/{lesson_id}/activity/{idx}/vocab-reveal", response_class=HTMLResponse
+)
 async def lezione_vocab_reveal(
     lesson_id: PydanticObjectId,
     idx: int,
@@ -570,13 +653,17 @@ async def lezione_vocab_rate(
     if next_card_idx < len(card_ids):
         return Response(
             status_code=204,
-            headers={"HX-Redirect": f"/lezione/{lesson_id}/activity/{idx}?card_idx={next_card_idx}"},
+            headers={
+                "HX-Redirect": f"/lezione/{lesson_id}/activity/{idx}?card_idx={next_card_idx}"
+            },
         )
     redirect_url = await advance_lesson(lesson, idx)
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 
-@router.post("/lezione/{lesson_id}/activity/{idx}/writing-submit", response_class=HTMLResponse)
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/writing-submit", response_class=HTMLResponse
+)
 async def lezione_writing_submit(
     lesson_id: PydanticObjectId,
     idx: int,
@@ -606,8 +693,12 @@ async def lezione_writing_submit(
         activity_type=ActivityType.WRITING.value,
         activity_index=idx,
         student_text=answer,
-        grammar_correct=[c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes],
-        grammar_errors=[c for c in feedback.get("grammar_error_codes", []) if c in valid_codes],
+        grammar_correct=[
+            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+        ],
+        grammar_errors=[
+            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+        ],
     )
     await event.insert()
 
@@ -622,7 +713,9 @@ async def lezione_writing_submit(
             "activity": activity,
             "drill": None,
             "attempt": None,
-            "correct": feedback.get("objective_correct", True) if isinstance(feedback, dict) else True,
+            "correct": feedback.get("objective_correct", True)
+            if isinstance(feedback, dict)
+            else True,
             "feedback": feedback,
             "rule_refs": [],
             "next_url": next_url,
@@ -633,7 +726,9 @@ async def lezione_writing_submit(
     )
 
 
-@router.post("/lezione/{lesson_id}/activity/{idx}/reading-submit", response_class=HTMLResponse)
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/reading-submit", response_class=HTMLResponse
+)
 async def lezione_reading_submit(
     lesson_id: PydanticObjectId,
     idx: int,
@@ -651,7 +746,10 @@ async def lezione_reading_submit(
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
     overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
-        questions, correct_answers, answers, cefr_level=lesson.cefr_at_start,
+        questions,
+        correct_answers,
+        answers,
+        cefr_level=lesson.cefr_at_start,
     )
 
     joined_answers = " | ".join(a for a in answers if a)
@@ -688,7 +786,9 @@ async def lezione_reading_submit(
 
 
 @router.post("/lezione/{lesson_id}/abandon")
-async def lezione_abandon(lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)):
+async def lezione_abandon(
+    lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
+):
     lesson = await _get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         await lesson.update({"$set": {"status": LessonStatus.ABANDONED.value}})
@@ -696,19 +796,37 @@ async def lezione_abandon(lesson_id: PydanticObjectId, student: Student = Depend
 
 
 @router.get("/lezione/{lesson_id}/complete", response_class=HTMLResponse)
-async def lezione_complete(lesson_id: PydanticObjectId, request: Request, student: Student = Depends(get_current_student)):
+async def lezione_complete(
+    lesson_id: PydanticObjectId,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
     lesson = await _get_lesson(lesson_id, student)
-    completed_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED)
-    skipped_count = sum(1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED)
+    completed_count = sum(
+        1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED
+    )
+    skipped_count = sum(
+        1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED
+    )
     events = await get_lesson_events(lesson)
     weak_grammar_points = await get_weak_grammar_points(lesson, events)
     await ensure_lesson_feedback(lesson, weak_grammar_points, events)
-    annotated_feedback = await discover_markdown(lesson.feedback_summary, student_id=student.id, lang="en") if lesson.feedback_summary else None
+    annotated_feedback = (
+        await discover_markdown(
+            lesson.feedback_summary, student_id=student.id, lang="en"
+        )
+        if lesson.feedback_summary
+        else None
+    )
 
     # Detect CEFR graduation
     graduated_to = None
     profile = await get_profile(student.id)
-    if profile and lesson.cefr_at_start and profile.cefr_estimate != lesson.cefr_at_start:
+    if (
+        profile
+        and lesson.cefr_at_start
+        and profile.cefr_estimate != lesson.cefr_at_start
+    ):
         graduated_to = profile.cefr_estimate
 
     return templates.TemplateResponse(

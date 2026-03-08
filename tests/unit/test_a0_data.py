@@ -1,4 +1,5 @@
 """Validate A0 data files: every scenario has lesson content, GP/CF codes match."""
+
 import json
 
 import pytest

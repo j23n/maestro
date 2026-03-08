@@ -35,7 +35,11 @@ def build_lesson_content_prompt(
     Returns the assembled prompt text ready to send to the LLM.
     """
     reading_word_count = _READING_WORD_COUNT.get(cefr_level, 150)
-    depth_description = scenario.depths[depth - 1] if depth <= len(scenario.depths) else scenario.depths[-1]
+    depth_description = (
+        scenario.depths[depth - 1]
+        if depth <= len(scenario.depths)
+        else scenario.depths[-1]
+    )
 
     lang = settings.TARGET_LANGUAGE_NAME
     parts: list[str] = [
@@ -69,7 +73,9 @@ def build_lesson_content_prompt(
         gp_lines = []
         for gp in grammar_gps:
             gp_errors = profile.grammar_error_counts.get(gp.code, 0) if profile else 0
-            gp_correct = profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
+            gp_correct = (
+                profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
+            )
             gp_lines.append(
                 f"  - {gp.label} ({gp.code}) — {gp.description}\n"
                 f"    Performance: {gp_correct} correct, {gp_errors} errors"
@@ -127,18 +133,28 @@ def build_lesson_content_prompt(
     if drill_specs:
         example_drills = []
         for spec in drill_specs:
-            if spec["exercise_type"] in (ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION):
-                example_drills.append({
-                    "grammar_point_code": spec["grammar_point_code"],
-                    "items": [{"prompt": "...", "correct_answer": "..."}, "... 10 items total"],
-                })
+            if spec["exercise_type"] in (
+                ExerciseType.FILL_BLANK,
+                ExerciseType.ERROR_CORRECTION,
+            ):
+                example_drills.append(
+                    {
+                        "grammar_point_code": spec["grammar_point_code"],
+                        "items": [
+                            {"prompt": "...", "correct_answer": "..."},
+                            "... 10 items total",
+                        ],
+                    }
+                )
             else:
-                example_drills.append({
-                    "grammar_point_code": spec["grammar_point_code"],
-                    "prompt": "...",
-                    "correct_answer": None,
-                    "distractors": [],
-                })
+                example_drills.append(
+                    {
+                        "grammar_point_code": spec["grammar_point_code"],
+                        "prompt": "...",
+                        "correct_answer": None,
+                        "distractors": [],
+                    }
+                )
         schema["drills"] = example_drills
     if reading_count > 0:
         q_labels = [f"question {i + 1}" for i in range(_READING_QUESTION_COUNT)]

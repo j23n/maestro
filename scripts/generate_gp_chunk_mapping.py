@@ -5,6 +5,7 @@ Outputs data/grammar_point_chunks.yaml.
 
 Run with:  uv run python scripts/generate_gp_chunk_mapping.py
 """
+
 import asyncio
 import json
 import logging
@@ -97,7 +98,9 @@ No other text. Output ALL {len(cat_gps)} grammar points in category "{category}"
                         mapping[code] = ref
                 logger.info(f"  Parsed {len(batch)} mappings for '{category}'")
             else:
-                logger.error(f"  Unexpected YAML structure for '{category}': {type(batch)}")
+                logger.error(
+                    f"  Unexpected YAML structure for '{category}': {type(batch)}"
+                )
                 logger.error(f"  Raw: {raw[:500]}")
         except yaml.YAMLError as e:
             logger.error(f"  YAML parse error for '{category}': {e}")
@@ -111,16 +114,21 @@ No other text. Output ALL {len(cat_gps)} grammar points in category "{category}"
         logger.warning(f"{len(missing)} GP codes missing from mapping: {missing}")
 
     invalid_refs = {
-        code: ref for code, ref in mapping.items()
+        code: ref
+        for code, ref in mapping.items()
         if ref is not None and ref not in valid_refs
     }
     if invalid_refs:
-        logger.warning(f"{len(invalid_refs)} mappings point to non-existent chunk refs:")
+        logger.warning(
+            f"{len(invalid_refs)} mappings point to non-existent chunk refs:"
+        )
         for code, ref in invalid_refs.items():
             logger.warning(f"  {code}: {ref}")
 
     null_count = sum(1 for v in mapping.values() if v is None)
-    logger.info(f"Total mappings: {len(mapping)}, null: {null_count}, valid: {len(mapping) - null_count - len(invalid_refs)}")
+    logger.info(
+        f"Total mappings: {len(mapping)}, null: {null_count}, valid: {len(mapping) - null_count - len(invalid_refs)}"
+    )
 
     # Write output
     with open(OUTPUT, "w") as f:
