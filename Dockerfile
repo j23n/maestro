@@ -15,7 +15,23 @@ RUN uv pip install --system --group deploy
 # Copy application code
 COPY src/ /app/src/
 COPY templates/ /app/templates/
+
+# Fetch LFS files (BSON seed data) via deploy key
+RUN apt-get update && apt-get install -y --no-install-recommends git git-lfs openssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY data/ /app/data/
+
+ARG DEPLOY_KEY
+RUN mkdir -p /root/.ssh \
+    && echo "${DEPLOY_KEY}" > /root/.ssh/id_rsa \
+    && chmod 600 /root/.ssh/id_rsa \
+    && ssh-keyscan github.com >> /root/.ssh/known_hosts \
+    && git init /app \
+    && git -C /app remote add origin git@github.com:johannesio/maestro.git \
+    && git -C /app lfs install \
+    && git -C /app lfs pull --include="data/seed/current/*.bson" \
+    && rm -rf /app/.git /root/.ssh
 
 ENV PYTHONPATH=/app/src
 
