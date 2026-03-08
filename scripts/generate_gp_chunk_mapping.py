@@ -11,7 +11,6 @@ import logging
 
 import yaml
 
-from maestro.config import settings
 from maestro.db import init_db
 from maestro.llm import get_client
 from maestro.models import GrammarChunk

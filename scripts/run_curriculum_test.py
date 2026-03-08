@@ -312,7 +312,7 @@ def reveal_and_rate_vocab(lesson_id: str, idx: int, total: int) -> dict:
 
         # Rate as "good" (3)
         with _client_no_redirect() as c:
-            resp2 = c.post(
+            c.post(
                 f"/lezione/{lesson_id}/activity/{idx}/vocab-rate",
                 data={"rating": "3", "card_idx": str(card_idx)},
             )
@@ -436,7 +436,7 @@ def walk_lesson(lesson_num: int, level: str) -> dict:
             # Check content quality
             if len(act["content"]) < 50:
                 log("content", "WARN", f"{tag} act {idx}: Grammar content very short ({len(act['content'])} chars)", {"title": act["title"]})
-            next_url = complete_activity(lesson_id, idx)
+            complete_activity(lesson_id, idx)
             act_summary["action"] = "completed"
 
         elif act["type"] == "onboarding":
