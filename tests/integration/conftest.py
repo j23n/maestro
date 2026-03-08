@@ -51,6 +51,11 @@ async def test_app(db, student, account):
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
+            # Trigger CSRF cookie and set default header for POST requests
+            client.get("/")
+            csrf_token = client.cookies.get("csrftoken")
+            if csrf_token:
+                client.headers["x-csrftoken"] = csrf_token
             yield client
 
 
@@ -88,6 +93,15 @@ def reset_taxonomy():
     taxonomy.invalidate()
     yield
     taxonomy.invalidate()
+
+
+@pytest.fixture(autouse=True)
+def reset_limiter():
+    """Reset rate limiter state between tests."""
+    from maestro.rate_limit import limiter
+    limiter.reset()
+    yield
+    limiter.reset()
 
 
 @pytest.fixture(autouse=True)
