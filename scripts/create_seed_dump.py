@@ -14,7 +14,7 @@ from pymongo import AsyncMongoClient
 from maestro.config import settings
 from maestro.seed import SEED_COLLECTIONS
 
-SEED_DIR = Path(__file__).resolve().parent.parent / "src" / "maestro" / "data" / "seed"
+SEED_DIR = Path(__file__).resolve().parent.parent / "data" / "seed"
 
 
 async def dump():
