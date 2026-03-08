@@ -6,6 +6,7 @@ services:
     env_file: .env
     environment:
       - ENVIRONMENT=development
+      - MONGODB_URI=mongodb://db:27017/
     depends_on:
       - db
 
@@ -15,11 +16,6 @@ services:
       - "27017:27017"
     volumes:
       - mongodata:/data/db
-
-  db-test:
-    image: mongodb/mongodb-atlas-local
-    ports:
-      - "27018:27017"
 
 volumes:
   mongodata:
