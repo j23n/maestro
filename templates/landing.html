@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Maestro — Your AI Italian Tutor</title>
-  <meta name="description" content="Personalized Italian lessons that adapt to your level, your interests, and the grammar you actually struggle with.">
-  <meta property="og:title" content="Maestro — Your AI Italian Tutor">
-  <meta property="og:description" content="Scenario-based Italian lessons powered by AI. Adaptive curriculum, spaced repetition, instant grammar feedback.">
+  <title>Maestro — Italian A1 to B2</title>
+  <meta name="description" content="A structured Italian curriculum from A1 to B2. Personalized to your level, your interests, and what you actually need to practise.">
+  <meta property="og:title" content="Maestro — Italian A1 to B2">
+  <meta property="og:description" content="Scenario-based Italian lessons. Adaptive curriculum, spaced repetition, instant feedback. From A1 to B2.">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="/static/style.css">
   <link rel="stylesheet" href="/static/landing.css">
@@ -19,15 +19,71 @@
   <section class="hero">
     <div class="container">
       <div class="hero-wordmark">maestro</div>
-      <h1>Learn Italian with an AI<br>that <em>learns you</em></h1>
+      <h1>Learn Italian.<br><em>Properly.</em></h1>
       <p class="hero-sub">
-        Personalized lessons that adapt to your level, your interests,
-        and the grammar you actually struggle with.
+        A structured curriculum from A1 to B2 &mdash; personalized to your level,
+        your interests, and the grammar you actually need to practise.
       </p>
-      <div class="hero-actions">
+<div class="hero-actions">
         <a href="/auth/signup" class="btn btn-landing-primary">Inizia &mdash; Start Learning</a>
-        <a href="#method" class="btn btn-ghost">See how it works</a>
+        <a href="#percorso" class="btn btn-ghost">See how it works</a>
       </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════
+       CEFR Progression
+       ════════════════════════════════════ -->
+  <section id="percorso">
+    <div class="container">
+      <div class="section-label">Il percorso</div>
+      <h2 class="section-heading">A clear path from A1 to B2</h2>
+      <p class="section-sub">Every lesson moves you forward. Maestro always knows exactly where you are and what comes next.</p>
+
+      <div class="cefr-track">
+        <div class="cefr-step">
+          <div class="cefr-badge cefr-a1">A1</div>
+          <div class="cefr-level-name">Beginner</div>
+          <ul class="cefr-skills">
+            <li>Greetings and introductions</li>
+            <li>Numbers, dates, times</li>
+            <li>Simple questions and answers</li>
+            <li>Present tense essentials</li>
+          </ul>
+        </div>
+        <div class="cefr-step">
+          <div class="cefr-badge cefr-a2">A2</div>
+          <div class="cefr-level-name">Elementary</div>
+          <ul class="cefr-skills">
+            <li>Shopping and ordering</li>
+            <li>Talking about routines</li>
+            <li>Past and future tenses</li>
+            <li>Getting around a city</li>
+          </ul>
+        </div>
+        <div class="cefr-step">
+          <div class="cefr-badge cefr-b1">B1</div>
+          <div class="cefr-level-name">Intermediate</div>
+          <ul class="cefr-skills">
+            <li>Expressing opinions and preferences</li>
+            <li>Recounting events and experiences</li>
+            <li>Subjunctive and conditionals</li>
+            <li>Spontaneous conversation</li>
+          </ul>
+        </div>
+        <div class="cefr-step">
+          <div class="cefr-badge cefr-b2">B2</div>
+          <div class="cefr-level-name">Upper-Intermediate</div>
+          <ul class="cefr-skills">
+            <li>Nuanced, complex discussions</li>
+            <li>Advanced grammar structures</li>
+            <li>Formal and informal register</li>
+            <li>Near-fluent conversation</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="cefr-note">Maestro tracks 231 grammar points and 448 communicative functions across all four levels. Your profile updates after every lesson.</p>
     </div>
   </section>
 
@@ -43,18 +99,18 @@
       <div class="method-grid">
         <div class="method-card">
           <div class="method-icon">S</div>
-          <h3>Scenario-based curriculum</h3>
+          <h3>Scenarios from real Italian life</h3>
           <p>Every lesson is set in a real-world scenario &mdash; ordering at a bar, navigating a train station, making plans with friends. You learn grammar and vocabulary in context, the way language actually works.</p>
         </div>
         <div class="method-card">
-          <div class="method-icon">A</div>
-          <h3>Adapts to you</h3>
-          <p>Maestro tracks what you know and what trips you up. It picks scenarios that target your weak grammar, revisits vocabulary at optimal intervals, and adjusts as you improve.</p>
+          <div class="method-icon">T</div>
+          <h3>Targets your weak spots</h3>
+          <p>Maestro tracks exactly which grammar points you&rsquo;ve mastered and which still trip you up. It builds lessons around your gaps, revisits vocabulary at the right moments, and adjusts as you improve.</p>
         </div>
         <div class="method-card">
           <div class="method-icon">F</div>
-          <h3>AI-powered feedback</h3>
-          <p>Every answer gets evaluated by AI that understands Italian grammar. Not just right or wrong &mdash; you get explanations of <em>why</em>, links to grammar rules, and tips on accents and spelling.</p>
+          <h3>Feedback that explains</h3>
+          <p>Every answer gets a score and an explanation &mdash; not just right or wrong, but <em>why</em>, with links to the relevant grammar rule and tips on spelling and usage.</p>
         </div>
       </div>
     </div>
@@ -86,7 +142,7 @@
           <div class="step-text">
             <div class="step-number">02</div>
             <h3>Review vocabulary</h3>
-            <p>While your lesson generates in the background, you review vocabulary flashcards with spaced repetition. Cards you know well fade away; tricky ones keep coming back.</p>
+            <p>While your lesson loads, you review vocabulary flashcards with spaced repetition. Cards you know well fade away; tricky ones keep coming back until they stick.</p>
           </div>
           <div class="step-visual">
             <img src="/static/screenshots/vocab-card.svg" alt="Vocabulary flashcard with spaced repetition rating">
@@ -97,10 +153,10 @@
           <div class="step-text">
             <div class="step-number">03</div>
             <h3>Practice with drills</h3>
-            <p>Fill in blanks, correct errors, write freely. Each drill is tied to a real scenario and specific grammar points. AI scores your answers instantly and explains mistakes.</p>
+            <p>Fill in blanks, correct errors, write freely. Each drill is tied to a real scenario and specific grammar points. Your answers are scored instantly with clear explanations.</p>
           </div>
           <div class="step-visual">
-            <img src="/static/screenshots/drill.svg" alt="Grammar drill with AI feedback">
+            <img src="/static/screenshots/drill.svg" alt="Grammar drill with feedback">
           </div>
         </div>
 
@@ -119,10 +175,10 @@
           <div class="step-text">
             <div class="step-number">05</div>
             <h3>See your progress</h3>
-            <p>After each lesson: a summary of what you practiced, where you struggled, and AI-generated feedback. Your profile updates with new grammar mastery and scenario depth.</p>
+            <p>After each lesson: a summary of what you practised, where you struggled, and detailed feedback. Your profile updates with new grammar mastery, vocabulary gains, and scenario progress.</p>
           </div>
           <div class="step-visual">
-            <img src="/static/screenshots/complete.svg" alt="Lesson completion summary with stats and feedback">
+            <img src="/static/screenshots/complete.svg" alt="Lesson completion summary with stats">
           </div>
         </div>
 
@@ -136,23 +192,23 @@
   <section>
     <div class="container">
       <div class="section-label">Dentro Maestro</div>
-      <h2 class="section-heading">What's inside</h2>
+      <h2 class="section-heading">What&rsquo;s inside</h2>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-stat">231</div>
           <h3>Grammar points</h3>
-          <p>A1 through B2, organized by category. Each with explanations adapted to every CEFR level.</p>
+          <p>A1 through B2, organized by category. Each with explanations written for every CEFR level.</p>
         </div>
         <div class="feature-card">
           <div class="feature-stat">448</div>
           <h3>Communicative functions</h3>
-          <p>Real language acts: introducing yourself, expressing opinions, making requests. Tracked across lessons.</p>
+          <p>Real language acts: introducing yourself, expressing opinions, making requests. Tracked across every lesson.</p>
         </div>
         <div class="feature-card">
           <div class="feature-stat">24+</div>
           <h3>Curriculum scenarios</h3>
-          <p>From "Presentarsi" to "Dal medico." Each with 3 depth levels that progressively challenge you.</p>
+          <p>From <em>Presentarsi</em> to <em>Dal medico</em>. Each with 3 depth levels that progressively challenge you.</p>
         </div>
         <div class="feature-card">
           <div class="feature-stat">A1&ndash;B2</div>
@@ -184,56 +240,44 @@
       <div class="showcase-frame">
         <img src="/static/screenshots/profilo.svg" alt="Student profile with CEFR tracking, scenario map, and grammar progress">
       </div>
-      <p class="showcase-caption">Every lesson updates your profile. Watch grammar pips turn green, scenarios deepen, and your CEFR level climb.</p>
+      <p class="showcase-caption">Every lesson updates your profile. Watch grammar points turn green, scenarios deepen, and your CEFR level climb.</p>
     </div>
   </section>
 
   <!-- ════════════════════════════════════
-       Technical differentiators
+       Personalization
        ════════════════════════════════════ -->
-  <section>
+  <section id="personalization">
     <div class="container">
-      <div class="section-label">Per chi vuole sapere</div>
-      <h2 class="section-heading">Built different</h2>
-      <p class="section-sub">For the curious and the technical.</p>
+      <div class="section-label">Personalizzato per te</div>
+      <h2 class="section-heading">Your lessons, in your world</h2>
+      <p class="section-sub">Tell Maestro who you are, and your scenarios will match your life. Same grammar. Your world.</p>
 
-      <div class="tech-grid">
-        <div class="tech-item">
-          <h3>Self-hostable</h3>
-          <p>Your data stays yours. Run Maestro on your own machine with Docker and MongoDB. No accounts, no cloud lock-in.</p>
+      <div class="persona-grid">
+        <div class="persona-card">
+          <span class="persona-label">Il viaggiatore</span>
+          <h3>The traveller</h3>
+          <p>Airports, hotels, train stations, asking for directions. Practical Italian for navigating Italy with confidence.</p>
         </div>
-        <div class="tech-item">
-          <h3>Open source</h3>
-          <p>FastAPI + HTMX + MongoDB. No JavaScript framework bloat. Read every line, extend anything.</p>
+        <div class="persona-card">
+          <span class="persona-label">Il buongustaio</span>
+          <h3>The food lover</h3>
+          <p>Markets, restaurants, cooking vocabulary, regional dishes. Grammar through the language of Italian food and culture.</p>
         </div>
-        <div class="tech-item">
-          <h3>AI-native, not AI-gimmick</h3>
-          <p>Claude evaluates every answer, generates every lesson, and writes grammar explanations. Not a chatbot with a textbook bolted on.</p>
+        <div class="persona-card">
+          <span class="persona-label">Lo studente</span>
+          <h3>The student</h3>
+          <p>Universities, libraries, academic discussion. Formal Italian and the vocabulary of learning and ideas.</p>
         </div>
-        <div class="tech-item">
-          <h3>Two-phase generation</h3>
-          <p>Start reviewing vocab immediately while AI generates your lesson content in the background. No waiting.</p>
-        </div>
-        <div class="tech-item">
-          <h3>Extensible curriculum</h3>
-          <p>Add new scenarios, grammar points, or CEFR levels via YAML and JSON. No code changes needed.</p>
-        </div>
-        <div class="tech-item">
-          <h3>Proven algorithms</h3>
-          <p>SM-2 spaced repetition for vocabulary. Weighted scenario selection with cooldown and weakness targeting.</p>
+        <div class="persona-card">
+          <span class="persona-label">L&rsquo;appassionato</span>
+          <h3>The culture enthusiast</h3>
+          <p>Art, history, cinema, music. Italian as a gateway to centuries of culture &mdash; from Dante to De Sica.</p>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ════════════════════════════════════
-       Persona callout
-       ════════════════════════════════════ -->
-  <section>
-    <div class="container">
-      <div class="callout">
-        <h2>Personalizzato per te</h2>
-        <p>Tell Maestro who you are &mdash; a university student, a wine enthusiast, a history buff &mdash; and your lessons will be set in your world. A foodie practices grammar at the market. A traveller practices at the train station.</p>
+      <div class="persona-note">
+        <p>Beyond interests, Maestro personalizes every lesson to your current level and grammar history. It knows which of those 231 grammar points you&rsquo;ve already mastered &mdash; and which ones to practise next.</p>
       </div>
     </div>
   </section>
@@ -251,7 +295,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <a href="https://github.com">Source on GitHub</a>
+      <span>Maestro &mdash; Italian A1 to B2</span>
     </div>
   </footer>
 
