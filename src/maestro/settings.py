@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     MONGODB_USER: str
     MONGODB_PASSWORD: str
     ANTHROPIC_API_KEY: str
+    SECRET_KEY: str
+    ENVIRONMENT: str = "development"
     CHAT_MODEL: str = "claude-opus-4-6"
     DRILL_MODEL: str = "claude-haiku-4-5-20251001"
     LESSON_MODEL: str = "claude-sonnet-4-6"
