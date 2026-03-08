@@ -44,7 +44,7 @@ def _save_cookie(data: dict):
 
 def _cookies() -> dict:
     cookie = _load_cookie()
-    return {"student_id": cookie["student_id"]} if "student_id" in cookie else {}
+    return {"session": cookie["session"]} if "session" in cookie else {}
 
 
 def _client() -> httpx.Client:
@@ -67,12 +67,16 @@ def soup(html: str) -> BeautifulSoup:
 
 
 def create_student(name: str) -> str:
+    email = f"testbot-{int(time.time())}@example.com"
     with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
-        resp = c.post("/students/", data={"name": name})
-        student_id = resp.cookies.get("student_id")
-        if student_id:
-            _save_cookie({"student_id": student_id})
-        return student_id
+        resp = c.post(
+            "/auth/signup",
+            data={"email": email, "password": "testpass123", "password_confirm": "testpass123"},
+        )
+        session = resp.cookies.get("session")
+        if session:
+            _save_cookie({"session": session})
+        return email
 
 
 def start_lesson(duration: int = 15) -> dict:
@@ -577,9 +581,9 @@ def main():
     print("  MAESTRO CURRICULUM TEST", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 
-    # Create student
-    student_id = create_student("TestBot Giulia")
-    print(f"  Created student: {student_id}", file=sys.stderr)
+    # Create account via signup
+    account_email = create_student("TestBot Giulia")
+    print(f"  Created account: {account_email}", file=sys.stderr)
 
     all_summaries = []
 
@@ -615,7 +619,7 @@ def main():
 
     # Output results
     output = {
-        "student_id": student_id,
+        "account_email": account_email,
         "summaries": all_summaries,
         "findings": findings,
         "final_profile_text": final_profile["body"],

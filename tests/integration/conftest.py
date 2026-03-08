@@ -23,7 +23,25 @@ async def student(db):
 
 
 @pytest.fixture
-async def test_app(db, student):
+async def account(db, student):
+    from maestro.models import Account
+    a = Account(
+        email="test@example.com",
+        password_hash="$2b$12$fakehashfortest",
+        student_id=student.id,
+    )
+    await a.insert()
+    return a
+
+
+def sign_session(account_id: str) -> str:
+    """Sign a session cookie for the given account ID."""
+    from maestro.session import _get_serializer
+    return _get_serializer().dumps({"account_id": account_id})
+
+
+@pytest.fixture
+async def test_app(db, student, account):
     """FastAPI TestClient with mocked lifespan. Shares the db fixture's database."""
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
@@ -32,7 +50,7 @@ async def test_app(db, student):
     ):
         from maestro.main import app
         with TestClient(app, raise_server_exceptions=False) as client:
-            client.cookies.set("student_id", str(student.id))
+            client.cookies.set("session", sign_session(str(account.id)))
             yield client
 
 
@@ -52,6 +70,15 @@ def mock_scorer_client(mocker):
     mock.messages.create = AsyncMock()
     mocker.patch("maestro.learning.scorer._client", return_value=mock)
     return mock
+
+
+@pytest.fixture(autouse=True)
+def reset_serializer():
+    """Reset session serializer cache between tests."""
+    import maestro.session
+    maestro.session._serializer = None
+    yield
+    maestro.session._serializer = None
 
 
 @pytest.fixture(autouse=True)

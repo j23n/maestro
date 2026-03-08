@@ -4,7 +4,6 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pymongo.errors import DuplicateKeyError
 
-from maestro.config import settings
 from maestro.models import Account, Student
 from maestro.session import create_session_cookie, clear_session_cookie
 from maestro.templates import templates
@@ -68,7 +67,6 @@ async def signup(request: Request):
 
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
-    _set_student_cookie(response, str(student.id))
     return response
 
 
@@ -95,7 +93,6 @@ async def login(request: Request):
 
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
-    _set_student_cookie(response, str(account.student_id))
     return response
 
 
@@ -103,21 +100,4 @@ async def login(request: Request):
 async def logout():
     response = RedirectResponse(url="/", status_code=303)
     clear_session_cookie(response)
-    response.delete_cookie(
-        "student_id",
-        httponly=True,
-        samesite="lax",
-        secure=settings.ENVIRONMENT == "production",
-    )
     return response
-
-
-def _set_student_cookie(response, student_id: str) -> None:
-    response.set_cookie(
-        "student_id",
-        student_id,
-        max_age=365 * 24 * 3600,
-        httponly=True,
-        samesite="lax",
-        secure=settings.ENVIRONMENT == "production",
-    )
