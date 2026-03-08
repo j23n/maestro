@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from maestro.utils import utcnow
 
 

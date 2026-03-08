@@ -11,12 +11,12 @@ a0-01-benvenuto:
 
         Maestro teaches you Italian through short, focused lessons. Each lesson has a mix of activities:
 
-        - **Grammatica** — grammar explanations like this one
-        - **Vocabolario** — flashcards to build your word bank
-        - **Esercizio** — drills to practise what you've learned
-        - **Lettura** — reading passages with comprehension questions
-        - **Scrittura** — writing prompts
-        - **Parlare** — speaking practice
+        - **<span lang="it">Grammatica</span>** — grammar explanations like this one
+        - **<span lang="it">Vocabolario</span>** — flashcards to build your word bank
+        - **<span lang="it">Esercizio</span>** — drills to practise what you've learned
+        - **<span lang="it">Lettura</span>** — reading passages with comprehension questions
+        - **<span lang="it">Scrittura</span>** — writing prompts
+        - **<span lang="it">Parlare</span>** — speaking practice
 
         You can **skip** any activity you want — just click the skip link at the bottom.
 
@@ -26,9 +26,9 @@ a0-01-benvenuto:
 
         ### Your first Italian words
 
-        **Ciao!** — Hello! (informal, also used for goodbye)
+        **<span lang="it">Ciao!</span>** — Hello! (informal, also used for goodbye)
 
-        **Buongiorno!** — Good morning! / Good day! (formal)
+        **<span lang="it">Buongiorno!</span>** — Good morning! / Good day! (formal)
 
         Try saying them out loud: *chow* and *bwon-JOR-no*.
       why_important: "This is how every Italian conversation begins."
@@ -97,7 +97,7 @@ a0-01-benvenuto:
 
         **Tip:** Short, daily sessions work better than long, infrequent ones. Even 10 minutes a day makes a difference.
 
-        **Avanti!** (Let's go!)
+        **<span lang="it">Avanti!</span>** (Let's go!)
       why_important: "Knowing how the system works helps you get the most out of it."
 
 a0-02-saluti:
@@ -115,23 +115,23 @@ a0-02-saluti:
 
         | Time | Formal | Informal |
         |------|--------|----------|
-        | Morning | **Buongiorno!** | **Ciao!** |
-        | Afternoon | **Buon pomeriggio!** | **Ciao!** |
-        | Evening | **Buonasera!** | **Ciao!** |
+        | Morning | **<span lang="it">Buongiorno!</span>** | **<span lang="it">Ciao!</span>** |
+        | Afternoon | **<span lang="it">Buon pomeriggio!</span>** | **<span lang="it">Ciao!</span>** |
+        | Evening | **<span lang="it">Buonasera!</span>** | **<span lang="it">Ciao!</span>** |
 
-        **Ciao** is the universal informal greeting — use it with friends, family, and people your age.
+        <span lang="it">**Ciao**</span> is the universal informal greeting — use it with friends, family, and people your age.
 
-        **Buongiorno** and **Buonasera** are more formal — use them with strangers, shopkeepers, and older people.
+        <span lang="it">**Buongiorno**</span> and <span lang="it">**Buonasera**</span> are more formal — use them with strangers, shopkeepers, and older people.
 
         > **Cultural note:** Italians often greet friends and family with a kiss on each cheek (starting from the right). With strangers, a handshake is fine.
 
         ### Goodbyes
 
-        - **Ciao!** — Bye! (informal)
-        - **Arrivederci!** — Goodbye! (formal)
-        - **A presto!** — See you soon!
-        - **A domani!** — See you tomorrow!
-        - **Buonanotte!** — Good night! (when going to bed)
+        - **<span lang="it">Ciao!</span>** — Bye! (informal)
+        - **<span lang="it">Arrivederci!</span>** — Goodbye! (formal)
+        - **<span lang="it">A presto!</span>** — See you soon!
+        - **<span lang="it">A domani!</span>** — See you tomorrow!
+        - **<span lang="it">Buonanotte!</span>** — Good night! (when going to bed)
       why_important: "Italians notice when you use the right greeting for the situation."
 
     - type: grammar
@@ -150,15 +150,15 @@ a0-02-saluti:
         - **u** = oo (as in "moon")
 
         ### Tricky consonants
-        - **c** before e/i = "ch" (*ciao* = chow)
-        - **c** before a/o/u = "k" (*caffè* = kaf-FEH)
-        - **g** before e/i = "j" (*gelato* = jeh-LAH-to)
-        - **g** before a/o/u = "g" (*grazie* = GRAH-tsee-eh)
-        - **gn** = "ny" (*gnocchi* = NYOH-kee)
-        - **gl** + i = "ly" (*famiglia* = fah-MEE-lyah)
+        - **c** before e/i = "ch" (<span lang="it">*ciao*</span> = chow)
+        - **c** before a/o/u = "k" (<span lang="it">*caffè*</span> = kaf-FEH)
+        - **g** before e/i = "j" (<span lang="it">*gelato*</span> = jeh-LAH-to)
+        - **g** before a/o/u = "g" (<span lang="it">*grazie*</span> = GRAH-tsee-eh)
+        - **gn** = "ny" (<span lang="it">*gnocchi*</span> = NYOH-kee)
+        - **gl** + i = "ly" (<span lang="it">*famiglia*</span> = fah-MEE-lyah)
 
         ### Double consonants
-        Hold the sound longer: *notte* (NOT-teh), *caffè* (kaf-FEH), *pizza* (PIT-tsah).
+        Hold the sound longer: <span lang="it">*notte*</span> (NOT-teh), <span lang="it">*caffè*</span> (kaf-FEH), <span lang="it">*pizza*</span> (PIT-tsah).
       why_important: "Getting pronunciation right from the start builds confidence."
 
     - type: drill
@@ -226,21 +226,21 @@ a0-03-numeri:
       title: "Numbers 0-10"
       description: "Learn Italian numbers from zero to ten"
       content: |
-        ## I numeri da 0 a 10
+        ## <span lang="it">I numeri</span> da 0 a 10
 
         | # | Italian | Pronunciation |
         |---|---------|--------------|
-        | 0 | **zero** | DZEH-ro |
-        | 1 | **uno** | OO-no |
-        | 2 | **due** | DOO-eh |
-        | 3 | **tre** | TREH |
-        | 4 | **quattro** | KWAT-tro |
-        | 5 | **cinque** | CHEEN-kweh |
-        | 6 | **sei** | SEH-ee |
-        | 7 | **sette** | SET-teh |
-        | 8 | **otto** | OT-to |
-        | 9 | **nove** | NO-veh |
-        | 10 | **dieci** | dee-EH-chee |
+        | 0 | **<span lang="it">zero</span>** | DZEH-ro |
+        | 1 | **<span lang="it">uno</span>** | OO-no |
+        | 2 | **<span lang="it">due</span>** | DOO-eh |
+        | 3 | **<span lang="it">tre</span>** | TREH |
+        | 4 | **<span lang="it">quattro</span>** | KWAT-tro |
+        | 5 | **<span lang="it">cinque</span>** | CHEEN-kweh |
+        | 6 | **<span lang="it">sei</span>** | SEH-ee |
+        | 7 | **<span lang="it">sette</span>** | SET-teh |
+        | 8 | **<span lang="it">otto</span>** | OT-to |
+        | 9 | **<span lang="it">nove</span>** | NO-veh |
+        | 10 | **<span lang="it">dieci</span>** | dee-EH-chee |
 
         **Tip:** These are the building blocks — learn them well and the teens become easy!
       why_important: "You need numbers for prices, ordering, and everyday life in Italy."
@@ -271,22 +271,22 @@ a0-03-numeri:
       title: "Numbers 11-20"
       description: "Learn Italian numbers from eleven to twenty"
       content: |
-        ## I numeri da 11 a 20
+        ## <span lang="it">I numeri</span> da 11 a 20
 
         | # | Italian | Pronunciation |
         |---|---------|--------------|
-        | 11 | **undici** | OON-dee-chee |
-        | 12 | **dodici** | DO-dee-chee |
-        | 13 | **tredici** | TREH-dee-chee |
-        | 14 | **quattordici** | kwat-TOR-dee-chee |
-        | 15 | **quindici** | KWEEN-dee-chee |
-        | 16 | **sedici** | SEH-dee-chee |
-        | 17 | **diciassette** | dee-chas-SET-teh |
-        | 18 | **diciotto** | dee-CHOT-to |
-        | 19 | **diciannove** | dee-chan-NO-veh |
-        | 20 | **venti** | VEN-tee |
+        | 11 | **<span lang="it">undici</span>** | OON-dee-chee |
+        | 12 | **<span lang="it">dodici</span>** | DO-dee-chee |
+        | 13 | **<span lang="it">tredici</span>** | TREH-dee-chee |
+        | 14 | **<span lang="it">quattordici</span>** | kwat-TOR-dee-chee |
+        | 15 | **<span lang="it">quindici</span>** | KWEEN-dee-chee |
+        | 16 | **<span lang="it">sedici</span>** | SEH-dee-chee |
+        | 17 | **<span lang="it">diciassette</span>** | dee-chas-SET-teh |
+        | 18 | **<span lang="it">diciotto</span>** | dee-CHOT-to |
+        | 19 | **<span lang="it">diciannove</span>** | dee-chan-NO-veh |
+        | 20 | **<span lang="it">venti</span>** | VEN-tee |
 
-        **Tip:** 11-16 end in *-dici*. 17-19 start with *dici-* + the unit.
+        **Tip:** 11-16 end in <span lang="it">*-dici*</span>. 17-19 start with <span lang="it">*dici-*</span> + the unit.
       why_important: "Teens are tricky in every language — the pattern here makes them easier to remember."
 
     - type: drill
@@ -358,17 +358,17 @@ a0-04-si-e-no:
       title: "Sì, no, and non"
       description: "Affirmation and negation in Italian"
       content: |
-        ## Sì e no
+        ## <span lang="it">Sì</span> e <span lang="it">no</span>
 
-        - **Sì** = Yes
-        - **No** = No
+        - **<span lang="it">Sì</span>** = Yes
+        - **<span lang="it">No</span>** = No
 
-        To make a sentence negative, put **non** before the verb:
+        To make a sentence negative, put **<span lang="it">non</span>** before the verb:
 
-        - **Parlo italiano.** — I speak Italian.
-        - **Non parlo italiano.** — I don't speak Italian.
-        - **Capisco.** — I understand.
-        - **Non capisco.** — I don't understand.
+        - <span lang="it">**Parlo italiano.**</span> — I speak Italian.
+        - <span lang="it">**Non parlo italiano.**</span> — I don't speak Italian.
+        - <span lang="it">**Capisco.**</span> — I understand.
+        - <span lang="it">**Non capisco.**</span> — I don't understand.
 
         ### Simple sentence structure
 
@@ -376,19 +376,19 @@ a0-04-si-e-no:
 
         **Subject + Verb + Object**
 
-        - *Io parlo italiano.* — I speak Italian.
-        - *Tu mangi la pizza.* — You eat pizza.
+        - <span lang="it">*Io parlo italiano.*</span> — I speak Italian.
+        - <span lang="it">*Tu mangi la pizza.*</span> — You eat pizza.
 
         But the subject pronoun is often dropped because the verb form tells you who's speaking:
 
-        - *Parlo italiano.* — (I) speak Italian.
-        - *Mangi la pizza.* — (You) eat pizza.
+        - <span lang="it">*Parlo italiano.*</span> — (I) speak Italian.
+        - <span lang="it">*Mangi la pizza.*</span> — (You) eat pizza.
 
-        ### Frasi di sopravvivenza (Survival phrases)
-        - **Non parlo italiano.** — I don't speak Italian.
-        - **Non capisco.** — I don't understand.
-        - **Parla inglese?** — Do you speak English?
-        - **Aiuto!** — Help!
+        ### <span lang="it">Frasi di sopravvivenza</span> (Survival phrases)
+        - <span lang="it">**Non parlo italiano.**</span> — I don't speak Italian.
+        - <span lang="it">**Non capisco.**</span> — I don't understand.
+        - <span lang="it">**Parla inglese?**</span> — Do you speak English?
+        - <span lang="it">**Aiuto!**</span> — Help!
       why_important: "Non + verb is the most common way to say 'not' in Italian."
 
     - type: drill
@@ -470,31 +470,31 @@ a0-05-per-favore:
       title: "Polite phrases"
       description: "Essential courtesy expressions"
       content: |
-        ## Formule di cortesia
+        ## <span lang="it">Formule di cortesia</span>
 
         These are the magic words of Italian:
 
-        - **Per favore** — Please
-        - **Grazie** — Thank you
-        - **Grazie mille** — Thank you very much
-        - **Prego** — You're welcome / Go ahead
-        - **Scusi** — Excuse me (formal)
-        - **Scusa** — Excuse me (informal)
-        - **Mi dispiace** — I'm sorry
+        - <span lang="it">**Per favore**</span> — Please
+        - <span lang="it">**Grazie**</span> — Thank you
+        - <span lang="it">**Grazie mille**</span> — Thank you very much
+        - <span lang="it">**Prego**</span> — You're welcome / Go ahead
+        - <span lang="it">**Scusi**</span> — Excuse me (formal)
+        - <span lang="it">**Scusa**</span> — Excuse me (informal)
+        - <span lang="it">**Mi dispiace**</span> — I'm sorry
 
-        > **Prego** has many uses: "you're welcome", "go ahead", "please sit down", "after you". You'll hear it everywhere.
+        > <span lang="it">**Prego**</span> has many uses: "you're welcome", "go ahead", "please sit down", "after you". You'll hear it everywhere.
 
-        ### Vorrei — "I would like"
+        ### <span lang="it">Vorrei</span> — "I would like"
 
-        **Vorrei** is the polite way to ask for things. It works like magic at cafes, restaurants, and shops:
+        <span lang="it">**Vorrei**</span> is the polite way to ask for things. It works like magic at cafes, restaurants, and shops:
 
-        - **Vorrei un caffè.** — I'd like a coffee.
-        - **Vorrei un'acqua.** — I'd like a water.
-        - **Vorrei il conto.** — I'd like the bill.
+        - <span lang="it">**Vorrei un caffè.**</span> — I'd like a coffee.
+        - <span lang="it">**Vorrei un'acqua.**</span> — I'd like a water.
+        - <span lang="it">**Vorrei il conto.**</span> — I'd like the bill.
 
-        Just say: **Vorrei** + what you want + **per favore**.
+        Just say: <span lang="it">**Vorrei**</span> + what you want + <span lang="it">**per favore**</span>.
 
-        > **Cultural note:** In many Italian bars, you order and pay at the **cassa** (register) first, then take the receipt to the counter. Standing at the bar is cheaper than sitting at a table!
+        > **Cultural note:** In many Italian bars, you order and pay at the <span lang="it">**cassa**</span> (register) first, then take the receipt to the counter. Standing at the bar is cheaper than sitting at a table!
       why_important: "Vorrei + per favore will get you through most situations in Italy."
 
     - type: drill
@@ -571,29 +571,29 @@ a0-06-che-cose:
       title: "Il e la"
       description: "The basic definite articles"
       content: |
-        ## Articles: il e la
+        ## Articles: <span lang="it">il</span> e <span lang="it">la</span>
 
         Every Italian noun is either **masculine** or **feminine**. The word for "the" changes:
 
-        - **il** = the (masculine) — il caffè, il libro, il treno
-        - **la** = the (feminine) — la pizza, la casa, la stazione
+        - <span lang="it">**il**</span> = the (masculine) — <span lang="it">il caffè, il libro, il treno</span>
+        - <span lang="it">**la**</span> = the (feminine) — <span lang="it">la pizza, la casa, la stazione</span>
 
         **Quick rule of thumb:**
-        - Words ending in **-o** are usually masculine → **il**
-        - Words ending in **-a** are usually feminine → **la**
+        - Words ending in **-o** are usually masculine → <span lang="it">**il**</span>
+        - Words ending in **-a** are usually feminine → <span lang="it">**la**</span>
         - Words ending in **-e** can be either (you'll learn these one by one)
 
-        ### Che cos'è?
+        ### <span lang="it">Che cos'è?</span>
 
         To ask "What is this?" say:
 
-        - **Che cos'è?** — What is it?
-        - **Che cos'è questo?** — What is this?
+        - <span lang="it">**Che cos'è?**</span> — What is it?
+        - <span lang="it">**Che cos'è questo?**</span> — What is this?
 
-        To answer: **È...** (It is...)
+        To answer: <span lang="it">**È...**</span> (It is...)
 
-        - *Che cos'è?* — *È il caffè.* (It's the coffee.)
-        - *Che cos'è questo?* — *È la pizza.* (It's the pizza.)
+        - <span lang="it">*Che cos'è?*</span> — <span lang="it">*È il caffè.*</span> (It's the coffee.)
+        - <span lang="it">*Che cos'è questo?*</span> — <span lang="it">*È la pizza.*</span> (It's the pizza.)
       why_important: "il/la is the first step to understanding Italian noun gender."
 
     - type: drill
@@ -685,26 +685,26 @@ a0-07-io-sono:
 
         | Italian | English |
         |---------|---------|
-        | **io** | I |
-        | **tu** | you (informal) |
-        | **lui** | he |
-        | **lei** | she |
-        | **Lei** | you (formal) |
+        | <span lang="it">**io**</span> | I |
+        | <span lang="it">**tu**</span> | you (informal) |
+        | <span lang="it">**lui**</span> | he |
+        | <span lang="it">**lei**</span> | she |
+        | <span lang="it">**Lei**</span> | you (formal) |
 
-        ## Essere (to be) — singular
+        ## <span lang="it">Essere</span> (to be) — singular
 
-        | Pronoun | Essere | Example |
+        | Pronoun | <span lang="it">Essere</span> | Example |
         |---------|--------|---------|
-        | io | **sono** | Io sono Marco. (I am Marco.) |
-        | tu | **sei** | Tu sei italiano? (Are you Italian?) |
-        | lui/lei | **è** | Lei è Maria. (She is Maria.) |
+        | <span lang="it">io</span> | <span lang="it">**sono**</span> | <span lang="it">Io sono Marco.</span> (I am Marco.) |
+        | <span lang="it">tu</span> | <span lang="it">**sei**</span> | <span lang="it">Tu sei italiano?</span> (Are you Italian?) |
+        | <span lang="it">lui/lei</span> | <span lang="it">**è**</span> | <span lang="it">Lei è Maria.</span> (She is Maria.) |
 
         Remember: you can drop the pronoun because the verb tells you who:
-        - **Sono italiano.** = I am Italian.
-        - **Sei pronto?** = Are you ready?
+        - <span lang="it">**Sono italiano.**</span> = I am Italian.
+        - <span lang="it">**Sei pronto?**</span> = Are you ready?
 
         To ask a question, just raise your intonation:
-        - **Sei italiano?** ↗ (Are you Italian?)
+        - <span lang="it">**Sei italiano?**</span> ↗ (Are you Italian?)
       why_important: "Essere is the most-used verb in Italian."
 
     - type: drill
@@ -777,23 +777,23 @@ a0-08-mi-piace:
       title: "Mi piace"
       description: "Likes and dislikes"
       content: |
-        ## Mi piace / Non mi piace
+        ## <span lang="it">Mi piace</span> / <span lang="it">Non mi piace</span>
 
         To say you like something:
 
-        - **Mi piace** + singular noun or infinitive verb
-        - **Mi piacciono** + plural noun
+        - <span lang="it">**Mi piace**</span> + singular noun or infinitive verb
+        - <span lang="it">**Mi piacciono**</span> + plural noun
 
         Examples:
-        - **Mi piace il caffè.** — I like coffee.
-        - **Mi piace viaggiare.** — I like travelling.
-        - **Mi piacciono i gatti.** — I like cats.
+        - <span lang="it">**Mi piace il caffè.**</span> — I like coffee.
+        - <span lang="it">**Mi piace viaggiare.**</span> — I like travelling.
+        - <span lang="it">**Mi piacciono i gatti.**</span> — I like cats.
 
-        To say you don't like something, add **non**:
-        - **Non mi piace il tè.** — I don't like tea.
-        - **Non mi piacciono i ragni.** — I don't like spiders.
+        To say you don't like something, add <span lang="it">**non**</span>:
+        - <span lang="it">**Non mi piace il tè.**</span> — I don't like tea.
+        - <span lang="it">**Non mi piacciono i ragni.**</span> — I don't like spiders.
 
-        **Note:** Literally, *mi piace* means "it pleases me" — the thing you like is the subject!
+        **Note:** Literally, <span lang="it">*mi piace*</span> means "it pleases me" — the thing you like is the subject!
       why_important: "Talking about your preferences is one of the first real conversations you can have."
 
     - type: drill
@@ -862,27 +862,27 @@ a0-09-dove:
       title: "Dov'è? and prepositions"
       description: "Where is it? and basic prepositions"
       content: |
-        ## Dov'è...?
+        ## <span lang="it">Dov'è...?</span>
 
         To ask where something is:
-        - **Dov'è il bagno?** — Where is the bathroom?
-        - **Dov'è la stazione?** — Where is the station?
-        - **Dove sei?** — Where are you?
+        - <span lang="it">**Dov'è il bagno?**</span> — Where is the bathroom?
+        - <span lang="it">**Dov'è la stazione?**</span> — Where is the station?
+        - <span lang="it">**Dove sei?**</span> — Where are you?
 
         ## Basic prepositions
 
         | Italian | English | Example |
         |---------|---------|---------|
-        | **a** | to, at | Vado **a** Roma. (I go to Rome.) |
-        | **in** | in | Sono **in** Italia. (I am in Italy.) |
-        | **di** | of, from | Sono **di** Londra. (I am from London.) |
+        | <span lang="it">**a**</span> | to, at | <span lang="it">Vado **a** Roma.</span> (I go to Rome.) |
+        | <span lang="it">**in**</span> | in | <span lang="it">Sono **in** Italia.</span> (I am in Italy.) |
+        | <span lang="it">**di**</span> | of, from | <span lang="it">Sono **di** Londra.</span> (I am from London.) |
 
         Common location phrases:
-        - **a casa** — at home
-        - **a scuola** — at school
-        - **in centro** — in the centre / downtown
-        - **in Italia** — in Italy
-        - **di Roma** — from Rome
+        - <span lang="it">**a casa**</span> — at home
+        - <span lang="it">**a scuola**</span> — at school
+        - <span lang="it">**in centro**</span> — in the centre / downtown
+        - <span lang="it">**in Italia**</span> — in Italy
+        - <span lang="it">**di Roma**</span> — from Rome
       why_important: "Dov'è il bagno? might be the most important question you'll ever ask in Italy."
 
     - type: drill
@@ -961,19 +961,19 @@ a0-10-ripasso:
 
         You've completed the Maestro introduction. Here's everything you now know:
 
-        - **Greetings:** Ciao, Buongiorno, Buonasera, Arrivederci
+        - **Greetings:** <span lang="it">Ciao, Buongiorno, Buonasera, Arrivederci</span>
         - **Numbers:** 0-20
-        - **Polite phrases:** Per favore, Grazie, Prego, Scusi, Vorrei
-        - **Yes/No:** Sì, No, Non + verb
-        - **Articles:** il (m.), la (f.)
-        - **Essere:** sono, sei, è
-        - **Likes:** Mi piace / Non mi piace
-        - **Locations:** Dov'è? + a, in, di
-        - **Self-intro:** Mi chiamo...
+        - **Polite phrases:** <span lang="it">Per favore, Grazie, Prego, Scusi, Vorrei</span>
+        - **Yes/No:** <span lang="it">Sì, No, Non</span> + verb
+        - **Articles:** <span lang="it">il</span> (m.), <span lang="it">la</span> (f.)
+        - **<span lang="it">Essere</span>:** <span lang="it">sono, sei, è</span>
+        - **Likes:** <span lang="it">Mi piace</span> / <span lang="it">Non mi piace</span>
+        - **Locations:** <span lang="it">Dov'è?</span> + <span lang="it">a, in, di</span>
+        - **Self-intro:** <span lang="it">Mi chiamo...</span>
 
         After this lesson, you'll graduate to **A1** — where lessons become dynamic, personalised, and increasingly in Italian.
 
-        **Bravissimo!**
+        **<span lang="it">Bravissimo!</span>**
       why_important: "Seeing everything together shows how much you've already achieved."
 
     # Cumulative review drill — tagged a0_saluti as it's the first GP but covers all A0 material
@@ -1075,5 +1075,5 @@ a0-10-ripasso:
 
         Keep practising daily, and you'll be surprised how quickly you progress.
 
-        **In bocca al lupo!** (Good luck! — literally "in the mouth of the wolf")
+        <span lang="it">**In bocca al lupo!**</span> (Good luck! — literally "in the mouth of the wolf")
       why_important: "Knowing what's ahead keeps you motivated."

@@ -89,14 +89,16 @@ def test_prompt_contains_speaking_cf():
 
 @pytest.mark.unit
 def test_prompt_includes_persona(monkeypatch):
-    # Force persona inclusion: random() < 0.7 → True, randint → 2, sample returns all
+    # Force persona inclusion: random() < 0.7, randint → 2, sample returns first k
     import maestro.lezione.prompts as _mod
     monkeypatch.setattr(_mod.random, "random", lambda: 0.0)
-    monkeypatch.setattr(_mod.random, "randint", lambda a, b: 2)
+    monkeypatch.setattr(_mod.random, "randint", lambda a, b: b)
     monkeypatch.setattr(_mod.random, "sample", lambda pop, k: pop[:k])
 
     profile = SimpleNamespace(
-        persona=StudentPersona(background="wine enthusiast", interests="cooking"),
+        persona=StudentPersona(
+            background="wine enthusiast", interests="cooking", goal="travel to Italy",
+        ),
         description="",
         grammar_error_counts={},
         grammar_correct_counts={},
@@ -106,8 +108,35 @@ def test_prompt_includes_persona(monkeypatch):
         profile=profile, grammar_gps=[], drill_specs=[],
         reading_count=0, include_writing=False, speaking_cfs=[],
     )
+    # randint(1,2) returns 2 → picks first 2 fields (background, interests)
     assert "wine enthusiast" in prompt
     assert "cooking" in prompt
+    # goal is the 3rd field, not selected when pick_count=2
+    assert "travel to Italy" not in prompt
+
+
+@pytest.mark.unit
+def test_prompt_excludes_persona_when_random_skips(monkeypatch):
+    # Force persona exclusion: random() >= 0.7
+    import maestro.lezione.prompts as _mod
+    monkeypatch.setattr(_mod.random, "random", lambda: 0.8)
+
+    profile = SimpleNamespace(
+        persona=StudentPersona(
+            background="wine enthusiast", interests="cooking", goal="travel to Italy",
+        ),
+        description="",
+        grammar_error_counts={},
+        grammar_correct_counts={},
+    )
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1", scenario=_scenario(), depth=1,
+        profile=profile, grammar_gps=[], drill_specs=[],
+        reading_count=0, include_writing=False, speaking_cfs=[],
+    )
+    assert "wine enthusiast" not in prompt
+    assert "cooking" not in prompt
+    assert "travel to Italy" not in prompt
 
 
 @pytest.mark.unit
@@ -140,3 +169,11 @@ def test_prompt_depth_description():
         reading_count=0, include_writing=False, speaking_cfs=[],
     )
     assert "detailed" in prompt
+
+
+@pytest.mark.unit
+def test_student_persona_defaults_to_empty_strings():
+    p = StudentPersona()
+    assert p.background == ""
+    assert p.interests == ""
+    assert p.goal == ""
