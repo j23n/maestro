@@ -232,7 +232,6 @@ async def test_abandoned_lessons_not_in_history(test_app, db, student):
 @pytest.mark.integration
 async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_drill):
     """POST drill-submit should persist a LearningEvent with correct fields."""
-    from maestro.models import LearningEvent
     from maestro import taxonomy
 
     lesson, drill = active_lesson_with_drill
@@ -264,7 +263,7 @@ async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_
 @pytest.mark.integration
 async def test_writing_submit_creates_learning_event(test_app, db, student):
     """POST writing-submit should persist a LearningEvent with GP codes from feedback."""
-    from maestro.models import LearningEvent, GrammarPoint
+    from maestro.models import GrammarPoint
 
     gp = GrammarPoint(code="GP_W01", label="Test Writing GP", cefr_level="A1", category="test", description="")
     await gp.insert()
@@ -311,7 +310,7 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
 @pytest.mark.integration
 async def test_reading_submit_creates_learning_event(test_app, db, student, mock_scorer_client):
     """POST reading-submit should persist a LearningEvent with aggregated GP codes."""
-    from maestro.models import LearningEvent, GrammarPoint
+    from maestro.models import GrammarPoint
 
     gp = GrammarPoint(code="GP_R01", label="Test Reading GP", cefr_level="A1", category="test", description="")
     await gp.insert()
@@ -356,7 +355,7 @@ async def test_reading_submit_creates_learning_event(test_app, db, student, mock
 @pytest.mark.integration
 async def test_writing_submit_event_captures_error_codes(test_app, db, student):
     """POST writing-submit with grammar errors should persist error codes on the event."""
-    from maestro.models import LearningEvent, GrammarPoint
+    from maestro.models import GrammarPoint
 
     gp = GrammarPoint(code="GP_ERR", label="Test Error GP", cefr_level="A1", category="test", description="")
     await gp.insert()

@@ -1,11 +1,6 @@
 import pytest
-from unittest.mock import MagicMock, patch
 from starlette.requests import Request
 from starlette.responses import Response
-from starlette.testclient import TestClient
-from starlette.applications import Starlette
-from starlette.routing import Route
-from starlette.responses import JSONResponse
 
 
 @pytest.fixture(autouse=True)

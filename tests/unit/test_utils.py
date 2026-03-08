@@ -93,7 +93,7 @@ async def test_background_task_logs_exception(caplog):
     async def failing():
         raise ValueError("boom")
 
-    task = create_background_task(failing(), name="test-fail")
+    create_background_task(failing(), name="test-fail")
     await asyncio.sleep(0.05)
     assert any("boom" in r.message for r in caplog.records)
 

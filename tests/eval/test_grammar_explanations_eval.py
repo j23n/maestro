@@ -15,7 +15,6 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 @pytest.mark.llm_eval
 def test_grammar_explanation_quality(record_eval):
     """Validate that explanations are generated for all expected levels with sufficient content."""
-    import json as _json
     from maestro.grammar.generate_explanations import _call_claude, _target_levels
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 

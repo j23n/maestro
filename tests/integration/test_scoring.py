@@ -1,8 +1,8 @@
 """Integration tests for drills/scoring.py with mocked LLM."""
 import pytest
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import MagicMock, AsyncMock
 
-from maestro.models import LearningEvent, GeneratedDrill, DrillItem, DrillTemplate, ExerciseType
+from maestro.models import GeneratedDrill, DrillItem, ExerciseType
 from maestro import taxonomy
 
 

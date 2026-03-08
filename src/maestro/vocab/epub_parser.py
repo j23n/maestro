@@ -13,15 +13,14 @@ import re
 import sys
 from dataclasses import dataclass, field
 from functools import lru_cache
-from pathlib import Path
 from typing import Optional
 from xml.etree import ElementTree as ET
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
-logger = logging.getLogger(__name__)
-
 from maestro.utils import data_dir
+
+logger = logging.getLogger(__name__)
 
 _DATA_DIR = data_dir("it")
 EPUB_DIR = _DATA_DIR / "dizionario_book" / "OEBPS" / "Text"

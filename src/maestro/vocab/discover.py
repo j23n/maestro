@@ -7,8 +7,6 @@ from beanie import PydanticObjectId
 from bs4 import BeautifulSoup, NavigableString, Tag
 from bson import DBRef
 
-_TAG_RE = re.compile(r"(<[^>]+>)")
-_TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
@@ -21,6 +19,9 @@ from maestro.vocab.nlp import get_nlp
 from maestro.vocab import cache as _cache
 
 logger = logging.getLogger(__name__)
+
+_TAG_RE = re.compile(r"(<[^>]+>)")
+_TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
 _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 
@@ -157,7 +158,7 @@ async def discover(
     target_text = _get_target_text(lang_elements)
     text_lemmas = _lemmatize(target_text)
 
-    words_with_vocab = {l: w for l, w in _cache.word_index().items() if l in text_lemmas}
+    words_with_vocab = {lem: w for lem, w in _cache.word_index().items() if lem in text_lemmas}
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
     word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]

@@ -54,7 +54,7 @@ async def grammar_detail(code: str, request: Request, student: Student = Depends
         {"grammar_point.$id": gp.id}
     ).to_list()
     by_level = {e.student_level: e for e in all_expls if CEFR_ORDER.index(e.student_level) <= max_idx}
-    available_levels = sorted(by_level.keys(), key=lambda l: CEFR_ORDER.index(l))
+    available_levels = sorted(by_level.keys(), key=lambda lvl: CEFR_ORDER.index(lvl))
     active_level = student_level if student_level in by_level else (available_levels[-1] if available_levels else student_level)
 
     # Pre-render annotated markdown for each level

@@ -114,10 +114,10 @@ def main() -> None:
 
     rows = load_results(prompt_filter=args.prompt)
     if not rows:
-        msg = f"No results"
+        msg = "No results"
         if args.prompt:
             msg += f" for prompt '{args.prompt}'"
-        msg += f". Run eval tests first: uv run pytest -m llm_eval tests/eval/"
+        msg += ". Run eval tests first: uv run pytest -m llm_eval tests/eval/"
         print(msg)
         sys.exit(0)
 

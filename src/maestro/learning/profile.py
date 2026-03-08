@@ -19,9 +19,9 @@ from maestro.models import (
     VocabularyWord,
 )
 from maestro.profile import get_or_create_profile
+from maestro.utils import CEFR_ORDER, utcnow
 
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
-from maestro.utils import CEFR_ORDER, utcnow
 
 
 async def update_profile(event: "LearningEvent") -> None:
