@@ -121,6 +121,21 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   cursor: help;
 }
 
+/* Click-to-reveal translations */
+.translation-toggle {
+  filter: blur(4px);
+  cursor: pointer;
+  transition: filter 0.15s;
+  user-select: none;
+  color: var(--c-text-muted);
+  font-size: 0.9em;
+}
+.translation-toggle.revealed {
+  filter: none;
+  cursor: default;
+  user-select: auto;
+}
+
 /* Vocab tooltip */
 #vocab-tooltip {
   position: fixed;
@@ -779,6 +794,9 @@ a.weakness-tag:hover { background: #f9e2db; }
 .hint-toggle { background: none; border: 1px solid var(--c-border); color: var(--c-text-muted); font-size: 0.82rem; padding: 0.3rem 0.7rem; border-radius: 4px; cursor: pointer; }
 .hint-toggle:hover { background: var(--c-surface); }
 .hint-text { margin-top: 0.5rem; padding: 0.6rem 0.8rem; background: var(--c-surface); border-radius: 6px; font-size: 0.88rem; color: var(--c-text); border-left: 3px solid var(--c-accent); }
+.hint-text table { border-collapse: collapse; margin: 0.3rem 0; font-size: 0.9em; }
+.hint-text th, .hint-text td { border: 1px solid var(--c-border); padding: 0.25rem 0.6rem; text-align: left; }
+.hint-text th { background: #fff; font-weight: 600; }
 
 .items-form { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem; }
 .drill-item { display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.5rem 0.6rem; align-items: start; }

@@ -88,6 +88,28 @@
   </div>
   {% endif %}
 
+  {# 3b. Completed level scenario maps #}
+  {% for level, level_map in completed_scenario_maps %}
+  <div class="scenario-map">
+    <details>
+      <summary class="completed-level-summary"><h3>{{ level }} — {{ t("profile_completed_level") }}</h3></summary>
+      <div class="scenario-grid">
+        {% for item in level_map %}
+        <div class="scenario-card completed muted">
+          <div class="scenario-label">{{ item.scenario.label }}</div>
+          <div class="scenario-dots">
+            {% for d in range(1, item.scenario.depths|length + 1) %}
+              <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
+            {% endfor %}
+          </div>
+          <div class="scenario-meta">{{ item.lesson_count }} {{ t("profile_lessons") }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+  </div>
+  {% endfor %}
+
   {# 4. Grammar + funzioni by CEFR level #}
   <div class="skills-section">
     {% for level in cefr_order %}

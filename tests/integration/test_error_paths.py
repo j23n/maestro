@@ -147,7 +147,7 @@ async def test_score_reading_empty_answers(mock_scorer_client, db):
 
 @pytest.mark.integration
 async def test_activity_index_out_of_range(test_app, db, student):
-    """Accessing an activity beyond the list returns 404."""
+    """Accessing an activity beyond the list redirects to /complete."""
     lesson = Lesson(
         student_id=student.id,
         status=LessonStatus.ACTIVE,
@@ -157,5 +157,6 @@ async def test_activity_index_out_of_range(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/activity/99")
-    assert response.status_code == 404
+    response = test_app.get(f"/lezione/{lesson.id}/activity/99", follow_redirects=False)
+    assert response.status_code == 303
+    assert f"/lezione/{lesson.id}/complete" in response.headers["location"]

@@ -1,0 +1,40 @@
+# New student onboarding flow improvements
+
+**Severity:** Low
+**Area:** new lesson page, vocab practice, onboarding activities
+
+## Problems
+
+### 1. Duration picker is missing
+
+The landing page promises "Choose 10, 20, or 40 minutes" but the new lesson page has a hidden input hardcoded to 20 minutes. The student can't choose lesson length.
+
+**Fix:** Either restore the duration selector UI (radio buttons or segmented control for 10/20/40 min), or update the landing page copy to remove the promise. For A0 static lessons, duration might not matter — in that case, only show the picker once the student reaches A1.
+
+### 2. Empty vocab practice gives no guidance
+
+A new student clicking "Ripassa" on the vocab page sees "Nessuna carta da ripassare oggi!" with no explanation of what this feature is or how cards get added.
+
+**Fix:** Show an explanatory message for first-time users: "Vocabulary cards are added during lessons. Start your first lesson to build your word bank!" with a link to `/lezione/new`.
+
+### 3. Onboarding asks for name even though it was just provided
+
+The student types their name when creating their account ("Nome" field on `/students/`), then lesson 1 immediately asks "Come ti chiami?" again. This feels redundant.
+
+**Options:**
+- Pre-fill the onboarding name field with the account name
+- Skip the name onboarding activity if the profile already has a name
+- Remove the name field from student creation and let the onboarding handle it entirely
+
+### 4. No keyboard shortcuts for vocab practice
+
+The rating buttons (Ripeti / Difficile / Bene / Facile) are separate forms requiring mouse clicks. For students doing high-volume review sessions, keyboard shortcuts (1/2/3/4 or arrow keys) would significantly speed up the flow.
+
+**Fix:** Add `accesskey` attributes or a JS keydown listener that maps 1-4 to the four rating buttons.
+
+## Acceptance criteria
+
+- [ ] Students can choose lesson duration (or the landing page doesn't promise it)
+- [ ] Empty vocab practice explains the feature and links to starting a lesson
+- [ ] Name is not asked twice during the first session
+- [ ] Vocab practice ratings can be triggered by keyboard (1-4)

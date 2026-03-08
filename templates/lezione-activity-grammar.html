@@ -43,14 +43,12 @@
     <div class="submit-row" style="margin-top:1.75rem;">
       <button class="continue-btn"
               hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
-              hx-target="body"
-              hx-push-url="true">
+              hx-target="body">
         {{ t("grammar_understood") }}
       </button>
       <a class="skip-link"
          hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
          hx-target="body"
-         hx-push-url="true"
          href="#">{{ t("skip_btn") }}</a>
     </div>
     {% endif %}

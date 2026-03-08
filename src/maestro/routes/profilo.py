@@ -85,6 +85,27 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
         for s in scenarios
     ]
 
+    # Build scenario maps for completed levels
+    current_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
+    completed_levels = CEFR_ORDER[:current_idx]
+    completed_scenario_maps = []
+    for level in completed_levels:
+        level_scenarios = await CurriculumScenario.find({"cefr_level": level}).to_list()
+        if level == "A0":
+            level_scenarios.sort(key=lambda s: s.sequence or 0)
+        else:
+            level_scenarios.sort(key=lambda s: s.label)
+        level_map = [
+            {
+                "scenario": s,
+                "depth_completed": progress.get(s.slug, _no_progress).depth,
+                "lesson_count": progress.get(s.slug, _no_progress).lesson_count,
+            }
+            for s in level_scenarios
+        ]
+        if level_map:
+            completed_scenario_maps.append((level, level_map))
+
     # Lesson history
     recent_lessons = await Lesson.find(
         {"student_id": student.id, "status": LessonStatus.COMPLETED}
@@ -113,6 +134,7 @@ async def profilo_page(request: Request, student: Student = Depends(get_current_
             "cf_by_level": cf_by_level,
             "cefr_order": CEFR_ORDER,
             "scenario_map": scenario_map,
+            "completed_scenario_maps": completed_scenario_maps,
             "lesson_history": lesson_history,
             "weaknesses": weaknesses,
             "total_lessons": total_lessons,

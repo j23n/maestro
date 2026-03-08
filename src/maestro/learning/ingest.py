@@ -14,12 +14,14 @@ import json
 import logging
 
 import yaml
+from bson import DBRef
 
 from maestro.config import settings
 from maestro.db import init_db
 
 logger = logging.getLogger(__name__)
 from maestro.models import (
+    CefrSense,
     CommunicativeFunction,
     CurriculumScenario,
     DrillTemplate,
@@ -28,6 +30,7 @@ from maestro.models import (
     GrammarPointExplanation,
     Sense,
     VocabularyWord,
+    VocabularyWordDefinition,
 )
 from maestro.utils import data_dir
 
@@ -145,7 +148,7 @@ async def seed_scenarios() -> None:
 
 
 async def seed_a0_vocab() -> None:
-    """Upsert A0 vocabulary words from vocab_a0.json."""
+    """Upsert A0 vocabulary words from vocab_a0.json and create A0-level definitions."""
     vocab_file = data_dir() / "vocab_a0.json"
     if not vocab_file.exists():
         logger.warning(f"A0 vocab file not found: {vocab_file}")
@@ -155,23 +158,60 @@ async def seed_a0_vocab() -> None:
         items = json.load(f)
 
     count = 0
+    def_count = 0
     for item in items:
         existing = await VocabularyWord.find_one({"word": item["word"]})
         if existing:
             existing.cefr_level = item.get("cefr_level", "A0")
             existing.part_of_speech = item.get("part_of_speech", existing.part_of_speech)
             await existing.save()
+            word_doc = existing
         else:
-            senses = [Sense(**s) for s in item.get("senses", [])]
-            await VocabularyWord(
+            senses = [Sense(**{k: v for k, v in s.items() if k in ("definition", "examples")}) for s in item.get("senses", [])]
+            word_doc = VocabularyWord(
                 word=item["word"],
                 part_of_speech=item.get("part_of_speech", ""),
                 cefr_level=item.get("cefr_level", "A0"),
                 senses=senses,
                 language=settings.TARGET_LANGUAGE,
-            ).insert()
+            )
+            await word_doc.insert()
             count += 1
-    logger.info(f"A0 vocab: {count} new words inserted ({len(items)} total)")
+
+        # Create A0-level VocabularyWordDefinition from enriched sense data
+        raw_senses = item.get("senses", [])
+        cefr_senses = [
+            CefrSense(
+                definition=s.get("definition", ""),
+                translation=s.get("translation", ""),
+                examples=[],
+            )
+            for s in raw_senses
+            if s.get("definition")
+        ]
+        if cefr_senses:
+            # Aggregate translations for top-level
+            translations = [s.translation for s in cefr_senses if s.translation]
+            top_translation = "; ".join(translations) if translations else ""
+
+            existing_def = await VocabularyWordDefinition.find_one(
+                {"word": DBRef(VocabularyWord.Settings.name, word_doc.id), "student_level": "A0"}
+            )
+            if existing_def:
+                existing_def.senses = cefr_senses
+                existing_def.translation = top_translation
+                await existing_def.save()
+            else:
+                await VocabularyWordDefinition(
+                    word=word_doc,
+                    student_level="A0",
+                    senses=cefr_senses,
+                    translation=top_translation,
+                    language=settings.TARGET_LANGUAGE,
+                ).insert()
+                def_count += 1
+
+    logger.info(f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)")
 
 
 async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:

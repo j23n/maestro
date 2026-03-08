@@ -85,6 +85,10 @@
       if (!e.target.closest('.vocab-word')) return;
       tooltip.style.display = 'none';
     });
+    document.addEventListener('click', e => {
+      var toggle = e.target.closest('.translation-toggle');
+      if (toggle) toggle.classList.toggle('revealed');
+    });
   </script>
 </body>
 </html>

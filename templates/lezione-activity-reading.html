@@ -34,7 +34,6 @@
         <a class="skip-link"
            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
            hx-target="body"
-           hx-push-url="true"
            href="#">{{ t("skip_btn") }}</a>
       </div>
     </form>
@@ -44,7 +43,6 @@
     <button class="submit-btn"
             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
             hx-target="body"
-            hx-push-url="true"
             hx-on:htmx:before-request="this.disabled=true; this.textContent='{{ t("submitting") }}'">
       {{ t("continue_btn") }}
     </button>
