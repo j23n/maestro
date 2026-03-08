@@ -13,9 +13,7 @@ dependencies = [
     "httpx>=0.28.1",
     "itsdangerous>=2.1",
     "markdown>=3.10.2",
-    "markdownify>=1.2.2",
     "pymongo>=4.16.0",
-    "sentence-transformers>=5.2.3",
     "pyyaml>=6.0",
     "slowapi>=0.1.9",
     "spacy>=3.8.11",
@@ -23,6 +21,24 @@ dependencies = [
 ]
 
 [dependency-groups]
+deploy = [
+    "anthropic>=0.83.0",
+    "bcrypt>=4.0",
+    "beanie>=2.0.1",
+    "beautifulsoup4>=4.14.3",
+    "fastapi[standard]>=0.129.0",
+    "itsdangerous>=2.1",
+    "markdown>=3.10.2",
+    "pymongo>=4.16.0",
+    "pyyaml>=6.0",
+    "slowapi>=0.1.9",
+    "spacy>=3.8.11",
+    "it-core-news-md @ https://github.com/explosion/spacy-models/releases/download/it_core_news_md-3.8.0/it_core_news_md-3.8.0.tar.gz",
+]
+rag = [
+    "sentence-transformers>=5.2.3",
+    "markdownify>=1.2.2",
+]
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
