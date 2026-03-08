@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 async def migrate():
-    client = AsyncMongoClient(settings.database_url)
+    client = AsyncMongoClient(settings.MONGODB_URI)
     db = client[settings.MONGODB_DB]
 
     # 1. Rename collection: italian_chunks -> grammar_chunks

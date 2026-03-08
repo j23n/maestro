@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 async def main():
-    client = AsyncMongoClient(settings.database_url)
+    client = AsyncMongoClient(settings.MONGODB_URI)
     db = client[settings.MONGODB_DB]
 
     # 1. LearningProfile: student_interests → persona.tags

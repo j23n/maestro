@@ -269,7 +269,7 @@ async def ingest_grammar_rules(client):
 if __name__ == "__main__":
 
     async def main():
-        client = AsyncMongoClient(settings.database_url)
+        client = AsyncMongoClient(settings.MONGODB_URI)
         await init_db()
         await GrammarChunk.delete_all()
         await ingest_grammar_rules(client)

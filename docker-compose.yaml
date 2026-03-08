@@ -5,8 +5,8 @@ services:
       - "8000:8000"
     environment:
       - ENVIRONMENT=development
-      - MONGODB_URL=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@db:27017
-      - SESSION_SECRET=${SESSION_SECRET}
+      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@db:27017/?authSource=admin
+      - SECRET_KEY=${SECRET_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     depends_on:
       - db

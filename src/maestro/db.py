@@ -6,7 +6,7 @@ from maestro.models import ALL_DOCUMENT_MODELS
 
 
 async def init_db():
-    client = AsyncMongoClient(settings.database_url)
+    client = AsyncMongoClient(settings.MONGODB_URI)
     db = client.get_database(
         settings.MONGODB_DB,
         codec_options=CodecOptions(tz_aware=True),
