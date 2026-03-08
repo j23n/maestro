@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Literal, Optional, List
 from datetime import datetime, date
 from dataclasses import dataclass
 from enum import Enum
@@ -44,6 +44,23 @@ class Student(Document):
 
     class Settings:
         name = "students"
+
+
+class Account(Document):
+    email: str
+    password_hash: str
+    email_verified: bool = False
+    student_id: PydanticObjectId
+    stripe_customer_id: Optional[str] = None
+    subscription_tier: Literal["free", "pro"] = "free"
+    is_admin: bool = False
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "accounts"
+        indexes = [
+            IndexModel([("email", ASCENDING)], unique=True),
+        ]
 
 
 class CurriculumScenario(Document):
@@ -340,6 +357,7 @@ class Lesson(Document):
 
 ALL_DOCUMENT_MODELS = [
     Student,
+    Account,
     CurriculumScenario,
     GrammarChunk,
     VocabularyWord,

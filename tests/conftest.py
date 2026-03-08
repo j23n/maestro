@@ -8,3 +8,4 @@ def pytest_configure(config):
     os.environ.setdefault("MONGODB_DB", "test_maestro")
     os.environ.setdefault("MONGODB_HOST", "localhost")
     os.environ.setdefault("MONGODB_PORT", "27017")
+    os.environ.setdefault("SECRET_KEY", "test-secret-key")
