@@ -24,7 +24,7 @@ COPY data/ /app/data/
 
 ARG DEPLOY_KEY
 RUN mkdir -p /root/.ssh \
-    && echo "${DEPLOY_KEY}" > /root/.ssh/id_rsa \
+    && echo "${DEPLOY_KEY}" | base64 -d > /root/.ssh/id_rsa \
     && chmod 600 /root/.ssh/id_rsa \
     && ssh-keyscan github.com >> /root/.ssh/known_hosts \
     && git init /app \
