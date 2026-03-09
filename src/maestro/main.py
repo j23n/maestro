@@ -25,10 +25,31 @@ from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
 
 
-_STDLIB_LOG_ATTRS = frozenset(
-    logging.LogRecord("", 0, "", 0, "", (), None).__dict__.keys()
-    | {"message", "asctime"}
-)
+# Standard LogRecord attributes — anything else on the record came from extra={}
+_LOG_RECORD_BUILTIN_ATTRS = {
+    "args",
+    "created",
+    "exc_info",
+    "exc_text",
+    "filename",
+    "funcName",
+    "levelname",
+    "levelno",
+    "lineno",
+    "message",
+    "module",
+    "msecs",
+    "msg",
+    "name",
+    "pathname",
+    "process",
+    "processName",
+    "relativeCreated",
+    "stack_info",
+    "thread",
+    "threadName",
+    "taskName",
+}
 
 
 class _JsonFormatter(logging.Formatter):
@@ -41,9 +62,9 @@ class _JsonFormatter(logging.Formatter):
             "name": record.name,
             "message": record.getMessage(),
         }
-        for key, value in record.__dict__.items():
-            if key not in _STDLIB_LOG_ATTRS:
-                obj[key] = value
+        for key, val in record.__dict__.items():
+            if key not in _LOG_RECORD_BUILTIN_ATTRS:
+                obj[key] = val
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
         if record.stack_info:
@@ -51,14 +72,16 @@ class _JsonFormatter(logging.Formatter):
         return json.dumps(obj)
 
 
-class _TextFormatter(logging.Formatter):
+class _DevFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
-        base = super().format(record)
-        extras = {
-            k: v for k, v in record.__dict__.items() if k not in _STDLIB_LOG_ATTRS
+        base = f"{record.levelname:<8} {record.name}: {record.getMessage()}"
+        extra = {
+            k: v
+            for k, v in record.__dict__.items()
+            if k not in _LOG_RECORD_BUILTIN_ATTRS
         }
-        if extras:
-            base += " " + " ".join(f"{k}={v}" for k, v in extras.items())
+        if extra:
+            base += " | " + " ".join(f"{k}={v}" for k, v in extra.items())
         return base
 
 
@@ -67,7 +90,7 @@ def _setup_logging() -> logging.Handler:
     if settings.ENVIRONMENT == "production":
         handler.setFormatter(_JsonFormatter())
     else:
-        handler.setFormatter(_TextFormatter("%(levelname)-8s %(name)s: %(message)s"))
+        handler.setFormatter(_DevFormatter())
     logging.root.setLevel(logging.WARNING)
     logging.root.handlers.clear()
     logging.root.addHandler(handler)

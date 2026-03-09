@@ -336,7 +336,9 @@ async def test_drill_materialization_creates_generated_drills(db):
         "speakings": []
     }"""
             )
-        ]
+        ],
+        model="claude-sonnet-4-6",
+        usage=MagicMock(input_tokens=100, output_tokens=200),
     )
 
     mock_client = AsyncMock()

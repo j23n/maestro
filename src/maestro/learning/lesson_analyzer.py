@@ -21,7 +21,8 @@ from maestro.models import (
 from maestro.learning.profile import update_profile
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import get_async_client, track_llm_call
+from maestro.models import CallType
 from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
@@ -82,7 +83,12 @@ async def _analyze_cfs_staged(
             max_tokens=128,
             messages=[{"role": "user", "content": stage1_prompt}],
         )
-        log_llm_usage(response, "cf_stage1", student_id=student_id, lesson_id=lesson_id)
+        await track_llm_call(
+            response,
+            CallType.LESSON_ANALYZER_CF1,
+            student_id=student_id,
+            lesson_id=lesson_id,
+        )
         raw = response.content[0].text
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
@@ -120,7 +126,12 @@ async def _analyze_cfs_staged(
                 max_tokens=128,
                 messages=[{"role": "user", "content": prompt}],
             )
-            log_llm_usage(resp, "cf_stage2", student_id=student_id, lesson_id=lesson_id)
+            await track_llm_call(
+                resp,
+                CallType.LESSON_ANALYZER_CF2,
+                student_id=student_id,
+                lesson_id=lesson_id,
+            )
             raw = resp.content[0].text
             d = parse_llm_json(raw)
             if not isinstance(d, dict):

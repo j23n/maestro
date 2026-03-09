@@ -16,6 +16,8 @@ def _make_llm_response(text: str) -> MagicMock:
     content.text = text
     response = MagicMock()
     response.content = [content]
+    response.model = "claude-sonnet-4-6"
+    response.usage = MagicMock(input_tokens=100, output_tokens=200)
     return response
 
 

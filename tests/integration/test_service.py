@@ -24,7 +24,9 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
             MagicMock(
                 text='[{"objective_correct": true, "objective_note": "Good", "grammar_errors": [], "tips": []}]'
             )
-        ]
+        ],
+        model="claude-sonnet-4-6",
+        usage=MagicMock(input_tokens=100, output_tokens=200),
     )
 
     overall, feedback, gp_correct, gp_errors = await score_reading_activity(
@@ -49,7 +51,9 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
             MagicMock(
                 text='[{"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}, {"objective_correct": false, "objective_note": "", "grammar_errors": [], "tips": []}]'
             )
-        ]
+        ],
+        model="claude-sonnet-4-6",
+        usage=MagicMock(input_tokens=100, output_tokens=200),
     )
 
     overall, feedback, _, _ = await score_reading_activity(
@@ -72,7 +76,9 @@ async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
             MagicMock(
                 text='[{"objective_correct": false, "objective_note": "Wrong color", "grammar_errors": ["GP001"], "tips": ["Check colors"]}]'
             )
-        ]
+        ],
+        model="claude-sonnet-4-6",
+        usage=MagicMock(input_tokens=100, output_tokens=200),
     )
 
     _, feedback, _, _ = await score_reading_activity(
