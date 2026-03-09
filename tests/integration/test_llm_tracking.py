@@ -15,7 +15,7 @@ def _mock_response(model="claude-sonnet-4-6", input_tokens=100, output_tokens=20
     return resp
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 async def test_track_llm_call_inserts_record(db):
     from maestro.llm import track_llm_call
 
@@ -31,7 +31,7 @@ async def test_track_llm_call_inserts_record(db):
     assert r.cost_usd > 0
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 async def test_track_llm_call_increments_lesson_cost(db):
     from maestro.llm import track_llm_call
 
@@ -50,7 +50,7 @@ async def test_track_llm_call_increments_lesson_cost(db):
     assert refreshed.token_usage.output_tokens == 200
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 async def test_track_llm_call_no_lesson_id(db):
     from maestro.llm import track_llm_call
 
@@ -62,7 +62,7 @@ async def test_track_llm_call_no_lesson_id(db):
     assert records[0].lesson_id is None
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 async def test_track_llm_call_swallows_bad_response(db):
     from maestro.llm import track_llm_call
 
@@ -75,7 +75,7 @@ async def test_track_llm_call_swallows_bad_response(db):
     assert len(records) == 0
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 async def test_track_llm_call_accumulates_multiple_calls(db):
     from maestro.llm import track_llm_call
 
@@ -98,7 +98,24 @@ async def test_track_llm_call_accumulates_multiple_calls(db):
     assert refreshed.token_usage.output_tokens == 400
 
 
-@pytest.mark.asyncio
+@pytest.mark.integration
+async def test_track_llm_call_deleted_lesson_still_inserts_record(db):
+    from maestro.llm import track_llm_call
+
+    nonexistent_lesson_id = PydanticObjectId()
+
+    # Should not raise even when lesson doesn't exist
+    await track_llm_call(
+        _mock_response(), CallType.LESSON_PLAN, lesson_id=nonexistent_lesson_id
+    )
+
+    # Record still inserted
+    records = await LLMUsageRecord.find_all().to_list()
+    assert len(records) == 1
+    assert records[0].lesson_id == nonexistent_lesson_id
+
+
+@pytest.mark.integration
 async def test_track_llm_call_student_id_stored(db):
     from maestro.llm import track_llm_call
 
