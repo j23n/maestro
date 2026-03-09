@@ -1,0 +1,22 @@
+{
+  "analyzer.yaml": {
+    "version": "1",
+    "sha256": "d5356889de40b326cefe4a871c079c5f9d417e16aa0a9e6b97a8de7a30463558"
+  },
+  "grammar_explanations.yaml": {
+    "version": "1",
+    "sha256": "5de1a4c456eadfe2b76bf80e01fe4ccbbb39bce8b5b78c811cde5a6d750033b4"
+  },
+  "lesson_analyzer.yaml": {
+    "version": "1",
+    "sha256": "367472403c839fa711a97df53e810cd5174c04db28002c80fe891564661dbb77"
+  },
+  "planner.yaml": {
+    "version": "2",
+    "sha256": "8b4d998013aef481970684b00ae856c35413a40b62fa0bdd1e24b9e406110924"
+  },
+  "vocab_definitions.yaml": {
+    "version": "1",
+    "sha256": "1b24f9d28c9c40038f61c9d31330b0daaff4ab45d5d262b564eec4660b54abcb"
+  }
+}

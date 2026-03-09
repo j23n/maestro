@@ -412,6 +412,32 @@ class LLMUsageRecord(Document):
         ]
 
 
+class LLMCritique(Document):
+    call_type: CallType
+    url: str
+    refs: dict  # call_type-specific DB references
+    prompt_version: str
+    input_snapshot: dict  # reconstructed LLM inputs at flag time
+    actual_output: dict  # reconstructed LLM output at flag time
+    issue_description: str = ""
+    expected_output: Optional[str] = None
+    exported: bool = False
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "llm_critiques"
+        indexes = [
+            IndexModel(
+                [
+                    ("call_type", ASCENDING),
+                    ("exported", ASCENDING),
+                    ("created_at", DESCENDING),
+                ]
+            ),
+            IndexModel([("created_at", DESCENDING)]),
+        ]
+
+
 ALL_DOCUMENT_MODELS = [
     Student,
     Account,
@@ -430,4 +456,5 @@ ALL_DOCUMENT_MODELS = [
     DrillAttempt,
     Lesson,
     LLMUsageRecord,
+    LLMCritique,
 ]
