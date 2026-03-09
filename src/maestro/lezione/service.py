@@ -110,6 +110,7 @@ async def advance_lesson(
     if lesson.cefr_at_start == "A0":
         await _credit_a0_mastery(lesson)
 
+    logger.info("lesson complete: lesson=%s", lesson.id)
     return f"/lezione/{lesson.id}/complete"
 
 
@@ -330,7 +331,7 @@ async def ensure_lesson_feedback(
             )
             lesson.feedback_summary = feedback
             await lesson.update({"$set": {"feedback_summary": feedback}})
-        except Exception as exc:
-            logger.warning(f"[lezione] feedback generation error: {exc}")
+        except Exception:
+            logger.exception("lesson feedback generation failed: lesson=%s", lesson.id)
 
     return lesson.feedback_summary
