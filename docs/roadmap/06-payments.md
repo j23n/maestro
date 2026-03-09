@@ -36,8 +36,8 @@ Add to `Account` document:
 ### Tier gating
 
 - Check subscription in `get_current_student()` or a new FastAPI dependency
-- Free tier: limited lessons/day (from Phase 3), possibly A0 content only
-- Pro tier: full access, all content, higher/no limits
+- Free tier: unlimited A0 lessons, 10 A1 lessons lifetime (enforced in Phase 3)
+- Pro tier: unlimited lessons at all CEFR levels
 
 ### Pages
 
@@ -63,6 +63,6 @@ Add to `Account` document:
 
 - Can subscribe via Stripe Checkout, return to app with Pro access
 - Webhook updates subscription status in DB
-- Free tier limits enforced (lesson count, content gate)
+- Free tier limits enforced (10 A1 lesson cap, unlimited A0)
 - Can cancel via Stripe Customer Portal, status updates in app
 - Billing page shows current plan and usage
