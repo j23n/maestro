@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import datetime
 import json
 import logging
 
@@ -24,13 +25,17 @@ from maestro.routes import auth, vocab, profilo, grammar, lezione
 class _JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         obj = {
-            "timestamp": self.formatTime(record, "%Y-%m-%dT%H:%M:%S"),
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime(
+                "%Y-%m-%dT%H:%M:%SZ"
+            ),
             "level": record.levelname,
             "name": record.name,
             "message": record.getMessage(),
         }
         if record.exc_info:
-            obj["exc_info"] = self.formatException(record.exc_info)
+            obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
+        if record.stack_info:
+            obj["stack_info"] = record.stack_info
         return json.dumps(obj)
 
 
@@ -41,7 +46,8 @@ def _setup_logging() -> None:
     else:
         handler.setFormatter(logging.Formatter("%(levelname)-8s %(name)s: %(message)s"))
     logging.root.setLevel(logging.WARNING)
-    logging.root.handlers = [handler]
+    logging.root.handlers.clear()
+    logging.root.addHandler(handler)
     logging.getLogger("maestro").setLevel(
         logging.DEBUG if settings.ENVIRONMENT == "development" else logging.INFO
     )
@@ -49,26 +55,33 @@ def _setup_logging() -> None:
 
 _setup_logging()
 
-_log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
+
+if settings.SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
+    from sentry_sdk.integrations.starlette import StarletteIntegration
+
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        environment=settings.ENVIRONMENT,
+        traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+        integrations=[StarletteIntegration(), FastApiIntegration()],
+    )
+    logger.info("Sentry enabled (environment=%s)", settings.ENVIRONMENT)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    import sentry_sdk
-
-    if settings.SENTRY_DSN:
-        sentry_sdk.init(dsn=settings.SENTRY_DSN, traces_sample_rate=0.1)
-        _log.info("Sentry enabled")
-
-    _log.info("startup: connecting to database")
+    logger.info("startup: connecting to database")
     await init_db()
     await seed_if_empty(get_db())
-    _log.info("startup: loading NLP model")
+    logger.info("startup: loading NLP model")
     get_nlp()  # warm up spaCy model
     await load_vocab()
-    _log.info("startup complete")
+    logger.info("startup complete")
     yield
-    _log.info("shutdown")
+    logger.info("shutdown")
 
 
 app = FastAPI(lifespan=lifespan)
