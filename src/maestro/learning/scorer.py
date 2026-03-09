@@ -12,7 +12,7 @@ import time
 
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client
+from maestro.llm import get_async_client, log_llm_usage
 
 from maestro.models import ExerciseType
 from maestro.prompts import analyzer as _prompts
@@ -76,7 +76,13 @@ def _system_prompt(cefr_level: str) -> str:
 
 
 async def _score_single(
-    prompt: str, *, max_tokens: int = 512, label: str, cefr_level: str
+    prompt: str,
+    *,
+    max_tokens: int = 512,
+    label: str,
+    cefr_level: str,
+    student_id=None,
+    lesson_id=None,
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation. Falls back to objective_correct=True."""
     try:
@@ -89,6 +95,7 @@ async def _score_single(
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
         )
+        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
         logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
@@ -112,7 +119,14 @@ async def _score_single(
 
 
 async def _score_multi(
-    prompt: str, n: int, *, max_tokens: int = 4000, label: str, cefr_level: str
+    prompt: str,
+    n: int,
+    *,
+    max_tokens: int = 4000,
+    label: str,
+    cefr_level: str,
+    student_id=None,
+    lesson_id=None,
 ) -> list[dict]:
     """LLM call -> JSON array parse -> per-item ScoringResult validation. Falls back to all-incorrect."""
     try:
@@ -125,6 +139,7 @@ async def _score_multi(
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
         )
+        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
         logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
@@ -177,6 +192,7 @@ async def feedback_fill_blank(
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
         )
+        log_llm_usage(response, "score_fill_blank")
         elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
         logger.debug(f"[scorer] feedback_fill_blank in {elapsed:.2f}s: {explanation!r}")
@@ -228,6 +244,7 @@ async def evaluate_error_correction(
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
+        log_llm_usage(response, "score_error_correction")
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
         logger.debug(f"[scorer] evaluate_error_correction in {elapsed:.2f}s: {raw}")
@@ -257,6 +274,8 @@ async def score_multi_item_drill(
     student_answers: list[str],
     rag_content: str = "",
     cefr_level: str = "A1",
+    student_id=None,
+    lesson_id=None,
 ) -> list[dict]:
     """Score all items in a single LLM call.
 
@@ -301,7 +320,12 @@ async def score_multi_item_drill(
     )
 
     return await _score_multi(
-        prompt, n, label="score_multi_item_drill", cefr_level=cefr_level
+        prompt,
+        n,
+        label="score_multi_item_drill",
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
     )
 
 
@@ -309,6 +333,8 @@ async def generate_writing_feedback(
     prompt: str,
     student_text: str,
     cefr_level: str,
+    student_id=None,
+    lesson_id=None,
 ) -> dict:
     """Generate feedback for a free-writing activity.
 
@@ -329,7 +355,11 @@ async def generate_writing_feedback(
     )
 
     return await _score_single(
-        llm_prompt, label="generate_writing_feedback", cefr_level=cefr_level
+        llm_prompt,
+        label="generate_writing_feedback",
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
     )
 
 
@@ -339,6 +369,8 @@ async def score_free_form_drill(
     grammar_point_code: str,
     cefr_level: str,
     rag_content: str = "",
+    student_id=None,
+    lesson_id=None,
 ) -> dict:
     """Score a free-form drill response using task-completion as the sole pass/fail criterion.
 
@@ -364,7 +396,11 @@ async def score_free_form_drill(
     )
 
     return await _score_single(
-        llm_prompt, label="score_free_form_drill", cefr_level=cefr_level
+        llm_prompt,
+        label="score_free_form_drill",
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
     )
 
 
@@ -373,6 +409,8 @@ async def score_reading_answers(
     correct_answers: list[str],
     student_answers: list[str],
     cefr_level: str = "A1",
+    student_id=None,
+    lesson_id=None,
 ) -> list[dict]:
     """Score student answers to reading comprehension questions in a single LLM call.
 
@@ -393,5 +431,10 @@ async def score_reading_answers(
     )
 
     return await _score_multi(
-        prompt, n, label="score_reading_answers", cefr_level=cefr_level
+        prompt,
+        n,
+        label="score_reading_answers",
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
     )

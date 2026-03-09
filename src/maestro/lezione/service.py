@@ -24,7 +24,7 @@ from maestro.models import (
 )
 from maestro.learning.scorer import score_reading_answers
 from maestro.learning.lesson_analyzer import analyze_lesson
-from maestro.llm import get_async_client
+from maestro.llm import get_async_client, log_llm_usage
 from maestro.config import settings
 from maestro.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
@@ -195,6 +195,9 @@ async def generate_lesson_feedback(
         max_tokens=200,
         messages=[{"role": "user", "content": prompt}],
     )
+    log_llm_usage(
+        response, "feedback", student_id=lesson.student_id, lesson_id=lesson.id
+    )
     text = response.content[0].text.strip()
     text = re.sub(r"^#+\s+\S+\s*\n", "", text).strip()
     return text
@@ -223,13 +226,20 @@ async def score_reading_activity(
     correct_answers: list[str],
     student_answers: list[str],
     cefr_level: str = "A1",
+    student_id=None,
+    lesson_id=None,
 ) -> tuple[bool, dict, list[str], list[str]]:
     """Score reading answers and build enriched feedback.
 
     Returns (overall_correct, feedback_dict, gp_correct_codes, gp_error_codes).
     """
     raw_results = await score_reading_answers(
-        questions, correct_answers, student_answers, cefr_level=cefr_level
+        questions,
+        correct_answers,
+        student_answers,
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
     )
 
     n = min(len(questions), len(student_answers), len(raw_results))
