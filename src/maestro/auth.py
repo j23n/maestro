@@ -1,8 +1,12 @@
+import logging
+
 from fastapi import Request
 from beanie import PydanticObjectId
 
 from maestro.models import Account, Student
 from maestro.session import read_session
+
+logger = logging.getLogger(__name__)
 
 
 class RedirectToLogin(Exception):
@@ -23,14 +27,16 @@ async def get_current_student(request: Request) -> Student:
     try:
         account = await Account.get(PydanticObjectId(account_id))
     except Exception:
-        account = None
+        logger.exception("failed to fetch account from session")
+        raise RedirectToLogin(clear_cookie=True)
     if account is None:
         raise RedirectToLogin(clear_cookie=True)
 
     try:
         student = await Student.get(account.student_id)
     except Exception:
-        student = None
+        logger.exception("failed to fetch student for account %s", account.id)
+        raise RedirectToLogin(clear_cookie=True)
     if student is None:
         raise RedirectToLogin(clear_cookie=True)
 

@@ -1,4 +1,5 @@
 import bcrypt as _bcrypt
+import logging
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -8,6 +9,8 @@ from maestro.rate_limit import limiter
 from maestro.models import Account, Student
 from maestro.session import create_session_cookie, clear_session_cookie
 from maestro.templates import templates
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/auth")
 
@@ -43,6 +46,7 @@ async def signup(request: Request):
         error = "signup_error_password_mismatch"
 
     if error:
+        logger.warning("signup failed: validation error")
         return templates.TemplateResponse(
             request=request,
             name="auth-signup.html",
@@ -61,12 +65,14 @@ async def signup(request: Request):
         await account.insert()
     except DuplicateKeyError:
         await student.delete()
+        logger.warning("signup failed: duplicate email %s", email)
         return templates.TemplateResponse(
             request=request,
             name="auth-signup.html",
             context={"error": "signup_error_email_taken", "email": email},
         )
 
+    logger.info("signup success: %s", email)
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
@@ -87,15 +93,22 @@ async def login(request: Request):
     password = form.get("password") or ""
 
     account = await Account.find_one({"email": email})
-    if not account or not _bcrypt.checkpw(
-        password.encode(), account.password_hash.encode()
-    ):
+    if not account:
+        logger.warning("login failed: account not found for %s", email)
+        return templates.TemplateResponse(
+            request=request,
+            name="auth-login.html",
+            context={"error": "login_error_invalid", "email": email},
+        )
+    if not _bcrypt.checkpw(password.encode(), account.password_hash.encode()):
+        logger.warning("login failed: invalid credentials for %s", email)
         return templates.TemplateResponse(
             request=request,
             name="auth-login.html",
             context={"error": "login_error_invalid", "email": email},
         )
 
+    logger.info("login success: %s", email)
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
@@ -103,6 +116,7 @@ async def login(request: Request):
 
 @router.post("/logout", response_class=HTMLResponse)
 async def logout():
+    logger.info("logout")
     response = RedirectResponse(url="/", status_code=303)
     clear_session_cookie(response)
     return response
