@@ -34,10 +34,16 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     student_level = await get_cefr_level(student.id)
     visible_levels = cefr_levels_up_to(student_level)
 
-    cards = await UserVocabularyCard.find(
-        {"student_id": student.id}, fetch_links=True
-    ).to_list()
-    cards = [c for c in cards if c.word.cefr_level in visible_levels]
+    cards = await UserVocabularyCard.find({"student_id": student.id}).to_list()
+    if cards:
+        word_ids = [c.word.ref.id for c in cards]
+        words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
+        word_map = {w.id: w for w in words}
+        for card in cards:
+            card.word = word_map.get(card.word.ref.id)
+    cards = [
+        c for c in cards if c.word is not None and c.word.cefr_level in visible_levels
+    ]
 
     today = date.today()
     due = sorted(
@@ -170,12 +176,17 @@ async def vocab_practice(
     visible_levels = cefr_levels_up_to(student_level)
 
     due_cards = await UserVocabularyCard.find(
-        {"student_id": student.id, "next_review": {"$lte": date.today()}},
-        fetch_links=True,
+        {"student_id": student.id, "next_review": {"$lte": date.today()}}
     ).to_list()
+    if due_cards:
+        word_ids = [c.word.ref.id for c in due_cards]
+        words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
+        word_map = {w.id: w for w in words}
+        for c in due_cards:
+            c.word = word_map.get(c.word.ref.id)
     card = None
     for c in due_cards:
-        if c.word.cefr_level in visible_levels:
+        if c.word is not None and c.word.cefr_level in visible_levels:
             card = c
             break
     if card is None:
