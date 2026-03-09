@@ -336,14 +336,16 @@ async def test_drill_materialization_creates_generated_drills(db):
         "speakings": []
     }"""
             )
-        ]
+        ],
+        model="claude-sonnet-4-6",
+        usage=MagicMock(input_tokens=100, output_tokens=200),
     )
 
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = content_response
 
     with (
-        patch("maestro.lezione.planner.get_async_client", return_value=mock_client),
+        patch("maestro.llm.get_async_client", return_value=mock_client),
         patch(
             "maestro.lezione.planner.GrammarChunk.find_one",
             new_callable=AsyncMock,

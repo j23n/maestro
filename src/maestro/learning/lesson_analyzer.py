@@ -21,14 +21,14 @@ from maestro.models import (
 from maestro.learning.profile import update_profile
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import llm_messages_create
+from maestro.models import CallType
 from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
 from maestro.utils import parse_llm_json
 
 if TYPE_CHECKING:
-    import anthropic
     from maestro.models import Lesson
 
 logger = logging.getLogger(__name__)
@@ -63,7 +63,6 @@ async def _collect_activity_events(
 async def _analyze_cfs_staged(
     combined: str,
     cefr_level: str,
-    client: "anthropic.AsyncAnthropic",
     student_id=None,
     lesson_id=None,
 ) -> list[str]:
@@ -77,12 +76,15 @@ async def _analyze_cfs_staged(
     )
 
     try:
-        response = await client.messages.create(
+        response = await llm_messages_create(
             model=settings.DRILL_MODEL,
             max_tokens=128,
+            system=_prompts.cf_stage1.render_system(),
             messages=[{"role": "user", "content": stage1_prompt}],
+            entity_id=lesson_id,
+            call_type=CallType.LESSON_ANALYZER_CF1,
+            student_id=student_id,
         )
-        log_llm_usage(response, "cf_stage1", student_id=student_id, lesson_id=lesson_id)
         raw = response.content[0].text
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
@@ -115,12 +117,15 @@ async def _analyze_cfs_staged(
             cf_lines=cf_lines,
         )
         try:
-            resp = await client.messages.create(
+            resp = await llm_messages_create(
                 model=settings.DRILL_MODEL,
                 max_tokens=128,
+                system=_prompts.cf_stage2.render_system(),
                 messages=[{"role": "user", "content": prompt}],
+                entity_id=lesson_id,
+                call_type=CallType.LESSON_ANALYZER_CF2,
+                student_id=student_id,
             )
-            log_llm_usage(resp, "cf_stage2", student_id=student_id, lesson_id=lesson_id)
             raw = resp.content[0].text
             d = parse_llm_json(raw)
             if not isinstance(d, dict):
@@ -148,7 +153,6 @@ async def analyze_lesson(lesson: "Lesson") -> None:
         await taxonomy.ensure_loaded()
         profile = await get_profile(lesson.student_id) if lesson.student_id else None
         cefr_level = profile.cefr_estimate if profile else "A0"
-        client = get_async_client()
 
         # Phase 1: aggregate per-activity events
         gp_correct, gp_errors, combined = await _collect_activity_events(lesson)
@@ -159,7 +163,6 @@ async def analyze_lesson(lesson: "Lesson") -> None:
             cf_codes = await _analyze_cfs_staged(
                 combined,
                 cefr_level,
-                client,
                 student_id=lesson.student_id,
                 lesson_id=lesson.id,
             )

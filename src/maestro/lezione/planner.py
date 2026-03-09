@@ -14,10 +14,7 @@ from __future__ import annotations
 import logging
 import random
 import time
-from typing import Optional, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    import anthropic
+from typing import Optional
 
 from maestro.models import (
     Lesson,
@@ -35,11 +32,15 @@ from maestro.models import (
     LessonStatus,
 )
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import llm_messages_create
+from maestro.models import CallType
 from maestro.profile import get_profile
 from maestro.utils import parse_llm_json, strip_lang_spans, utcnow
 from maestro.lezione.slots import _allocate_slots
-from maestro.lezione.prompts import build_lesson_content_prompt
+from maestro.lezione.prompts import (
+    build_lesson_content_prompt,
+    build_lesson_content_system,
+)
 from maestro.lezione.materialize import materialize_activities
 from maestro.lezione.a0 import _generate_a0_lesson_background
 from maestro.lezione.schemas import LessonContentResponse
@@ -68,7 +69,6 @@ async def _generate_lesson_content(
     drill_specs: list[dict],
     reading_count: int,
     include_writing: bool,
-    client: "anthropic.AsyncAnthropic",
     speaking_cfs: list[CommunicativeFunction] | None = None,
     lesson_context: str = "",
     student_id=None,
@@ -97,18 +97,17 @@ async def _generate_lesson_content(
         f"n_drills={len(drill_specs)}, reading_count={reading_count}, "
         f"writing={include_writing}, speaking_cfs={[c.code for c in speaking_cfs]}"
     )
-    t0 = time.monotonic()
-    response = await client.messages.create(
+    response = await llm_messages_create(
         model=settings.LESSON_MODEL,
         max_tokens=16000,
+        system=build_lesson_content_system(),
         messages=[{"role": "user", "content": prompt_text}],
+        entity_id=lesson_id,
+        call_type=CallType.LESSON_PLAN,
+        student_id=student_id,
     )
-    log_llm_usage(response, "plan", student_id=student_id, lesson_id=lesson_id)
-    elapsed = time.monotonic() - t0
     raw = response.content[0].text
-    logger.info(
-        f"[planner] lesson content LLM in {elapsed:.2f}s, response length={len(raw)} chars"
-    )
+    logger.info(f"[planner] lesson content response length={len(raw)} chars")
     logger.debug(f"[planner] lesson content raw: {raw}")
     result = parse_llm_json(raw)
     if not result or not isinstance(result, dict):
@@ -274,7 +273,6 @@ async def _generate_lesson_background(
     logger.info(f"[planner] slot allocation: {slots}")
 
     # --- Pick scenario ---
-    client = get_async_client()
     if scenario_slug:
         scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
         if scenario_doc:
@@ -373,11 +371,10 @@ async def _generate_lesson_background(
         drill_specs,
         reading_count,
         include_writing,
-        client,
         speaking_cfs,
         lesson_context=lesson.lesson_context or "",
         student_id=lesson.student_id,
-        lesson_id=lesson_id,
+        lesson_id=lesson.id,
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)

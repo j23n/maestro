@@ -8,11 +8,11 @@ structured feedback dicts.
 from __future__ import annotations
 
 import logging
-import time
 
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import llm_messages_create
+from maestro.models import CallType
 
 from maestro.models import ExerciseType
 from maestro.prompts import analyzer as _prompts
@@ -32,10 +32,6 @@ def _target_language() -> str:
 
 
 _FALLBACK_ITEM = ScoringResult().model_dump()
-
-
-def _client():
-    return get_async_client()
 
 
 def _validate_results(result: list, n: int, label: str) -> list[dict]:
@@ -88,17 +84,17 @@ async def _score_single(
     try:
         await taxonomy.ensure_loaded()
         logger.debug(f"[scorer] {label} prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
+        response = await llm_messages_create(
             model=settings.SCORING_MODEL,
             max_tokens=max_tokens,
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
+            entity_id=lesson_id,
+            call_type=CallType.SCORER_SINGLE,
+            student_id=student_id,
         )
-        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
-        elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
+        logger.debug(f"[scorer] {label} LLM response: {raw}")
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
             logger.error(f"[scorer] {label} unexpected shape: {raw}")
@@ -132,17 +128,17 @@ async def _score_multi(
     try:
         await taxonomy.ensure_loaded()
         logger.debug(f"[scorer] {label} prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
+        response = await llm_messages_create(
             model=settings.SCORING_MODEL,
             max_tokens=max_tokens,
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
+            entity_id=lesson_id,
+            call_type=CallType.SCORER_MULTI,
+            student_id=student_id,
         )
-        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
-        elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
-        logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
+        logger.debug(f"[scorer] {label} LLM response: {raw}")
         result = parse_llm_json(raw)
         if isinstance(result, list) and len(result) == n:
             return _validate_results(result, n, label)
@@ -188,18 +184,20 @@ async def feedback_fill_blank(
     )
     try:
         logger.debug(f"[scorer] feedback_fill_blank prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
+        response = await llm_messages_create(
             model=settings.SCORING_MODEL,
             max_tokens=128,
+            system=_prompts.feedback_fill_blank.render_system(
+                target_language=_target_language(),
+                feedback_language=_feedback_language(cefr_level),
+            ),
             messages=[{"role": "user", "content": prompt}],
+            entity_id=lesson_id,
+            call_type=CallType.SCORER_SINGLE,
+            student_id=student_id,
         )
-        log_llm_usage(
-            response, "score_fill_blank", student_id=student_id, lesson_id=lesson_id
-        )
-        elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
-        logger.debug(f"[scorer] feedback_fill_blank in {elapsed:.2f}s: {explanation!r}")
+        logger.debug(f"[scorer] feedback_fill_blank response: {explanation!r}")
         return {
             "wrong": student_answer,
             "correct": correct_answer,
@@ -244,21 +242,19 @@ async def evaluate_error_correction(
     )
     try:
         logger.debug(f"[scorer] evaluate_error_correction prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
+        response = await llm_messages_create(
             model=settings.SCORING_MODEL,
             max_tokens=256,
+            system=_prompts.evaluate_error_correction.render_system(
+                target_language=_target_language(),
+            ),
             messages=[{"role": "user", "content": prompt}],
-        )
-        log_llm_usage(
-            response,
-            "score_error_correction",
+            entity_id=lesson_id,
+            call_type=CallType.SCORER_SINGLE,
             student_id=student_id,
-            lesson_id=lesson_id,
         )
-        elapsed = time.monotonic() - t0
         raw = response.content[0].text
-        logger.debug(f"[scorer] evaluate_error_correction in {elapsed:.2f}s: {raw}")
+        logger.debug(f"[scorer] evaluate_error_correction response: {raw}")
         data = parse_llm_json(raw)
         if data is None:
             logger.error(f"[scorer] evaluate_error_correction failed to parse: {raw}")
