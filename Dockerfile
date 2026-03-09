@@ -15,6 +15,7 @@ RUN uv pip install --system --group deploy
 # Copy application code
 COPY src/ /app/src/
 COPY templates/ /app/templates/
+COPY prompts/ /app/prompts/
 
 ENV PYTHONPATH=/app/src
 
