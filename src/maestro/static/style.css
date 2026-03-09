@@ -254,6 +254,24 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 .progress-seg.current { background: var(--c-terracotta); }
 a.progress-seg { display: block; text-decoration: none; }
 
+/* Grammar quick-link in progress footer */
+.grammar-link {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border: 1px solid var(--c-border);
+  border-radius: 3px;
+  padding: 0.05rem 0.45rem;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+.grammar-link:hover {
+  color: var(--c-charcoal);
+  border-color: var(--c-text-muted);
+}
+
 /* Review banner */
 .review-banner { margin-top: 1.75rem; text-align: center; }
 

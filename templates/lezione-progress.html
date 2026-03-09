@@ -1,5 +1,14 @@
 {# Shared progress bar partial — include in every activity template #}
 {# Expects: lesson, idx, total #}
+
+{# Find grammar activity index (namespace required for loop-scope assignment) #}
+{% set ns = namespace(grammar_idx=-1) %}
+{% for a in lesson.activities %}
+  {% if a.type == 'grammar' %}
+    {% set ns.grammar_idx = loop.index0 %}
+  {% endif %}
+{% endfor %}
+
 <div class="lesson-progress">
   <div class="progress-segments">
     {% for a in lesson.activities %}
@@ -15,7 +24,15 @@
     {% endfor %}
   </div>
   <div class="progress-footer">
-    <div class="progress-label">{{ t("progress_label", current=idx + 1, total=total) }}</div>
+    <div class="progress-label">
+      {% set grammar_activity = lesson.activities[ns.grammar_idx] if ns.grammar_idx >= 0 else none %}
+      {# Show pill only once grammar is done — intentionally hidden while pending/active #}
+      {% if ns.grammar_idx >= 0 and ns.grammar_idx != idx and grammar_activity and grammar_activity.status in ('completed', 'skipped') %}
+      <a href="/lezione/{{ lesson.id }}/activity/{{ ns.grammar_idx }}"
+         class="grammar-link">{{ t("grammar_label") }}</a>
+      {% endif %}
+      {{ t("progress_label", current=idx + 1, total=total) }}
+    </div>
     <button class="abandon-link"
             hx-post="/lezione/{{ lesson.id }}/abandon"
             hx-confirm="{{ t('lesson_abandon_confirm') }}">{{ t("lesson_abandon_btn") }}</button>

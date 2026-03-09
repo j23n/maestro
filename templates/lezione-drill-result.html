@@ -6,12 +6,12 @@
   {% if feedback and feedback is mapping and "items" in feedback %}
     {# ── Multi-item result ── #}
     {% set correct_count = feedback["correct_count"] %}
-    {% set total = feedback["total"] %}
+    {% set drill_total = feedback["total"] %}
 
     {% if correct %}
-      <div class="result-ok">{{ t("result_correct_multi", correct=correct_count, total=total) }}</div>
+      <div class="result-ok">{{ t("result_correct_multi", correct=correct_count, total=drill_total) }}</div>
     {% else %}
-      <div class="result-wrong">{{ t("result_wrong_multi", correct=correct_count, total=total) }}</div>
+      <div class="result-wrong">{{ t("result_wrong_multi", correct=correct_count, total=drill_total) }}</div>
     {% endif %}
 
     <div style="margin-bottom:1.5rem;">
