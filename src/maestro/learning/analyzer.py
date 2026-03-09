@@ -52,9 +52,13 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
         f for f in taxonomy.comm_functions() if f.cefr_level in relevant_levels
     ]
     logger.debug(
-        f"[analyzer] building prompt: level={student_level}, "
-        f"{len(gp_relevant)} GPs, {len(cf_relevant)} CFs in taxonomy, "
-        f"drill_context={'yes' if drill_context else 'no'}"
+        "building prompt",
+        extra={
+            "level": student_level,
+            "n_gps": len(gp_relevant),
+            "n_cfs": len(cf_relevant),
+            "has_drill_context": bool(drill_context),
+        },
     )
 
     grammar_lines = "\n".join(f"{g.code}: {g.description}" for g in gp_relevant)
@@ -100,19 +104,21 @@ async def analyze_message(
     # Skip very short messages (greetings, single words)
     if word_count < 3:
         logger.debug(
-            f"[analyzer] skipping short message ({word_count} words): {text!r}"
+            "skipping short message",
+            extra={"word_count": word_count, "text": text},
         )
         return None
 
     logger.info(
-        f"[analyzer] analyzing message ({word_count} words): {text[:80]!r}{'...' if len(text) > 80 else ''}"
+        "analyzing message",
+        extra={"word_count": word_count},
     )
 
     try:
         await _ensure_loaded()
         level = await get_cefr_level(student_id) if student_id else "B2"
         prompt = _build_prompt(text, level, drill_context)
-        logger.debug(f"[analyzer] analyze_message prompt: {prompt}")
+        logger.debug(f"analyze_message prompt: {prompt}")
         response = await llm_messages_create(
             model=settings.LESSON_MODEL,
             max_tokens=1024,
@@ -125,10 +131,10 @@ async def analyze_message(
             student_id=student_id,
         )
         raw = response.content[0].text
-        logger.debug(f"[analyzer] LLM response: {raw}")
+        logger.debug(f"LLM response: {raw}")
         data = parse_llm_json(raw)
         if data is None:
-            logger.error(f"[analyzer] failed to parse response: {raw}")
+            logger.error("failed to parse LLM response", extra={"raw": raw})
             return None
 
         valid_grammar = {g.code for g in taxonomy.grammar_points()}
@@ -182,16 +188,23 @@ async def analyze_message(
         ]
         if unknown_gp:
             logger.warning(
-                f"[analyzer] LLM returned unknown grammar codes (ignored): {unknown_gp}"
+                "LLM returned unknown grammar codes (ignored)",
+                extra={"codes": unknown_gp},
             )
         if unknown_cf:
             logger.warning(
-                f"[analyzer] LLM returned unknown CF codes (ignored): {unknown_cf}"
+                "LLM returned unknown CF codes (ignored)",
+                extra={"codes": unknown_cf},
             )
 
         logger.info(
-            f"[analyzer] result: correct={grammar_correct}, errors={grammar_errors}, "
-            f"functions={functions}, themes={themes}"
+            "message analysis complete",
+            extra={
+                "grammar_correct": grammar_correct,
+                "grammar_errors": grammar_errors,
+                "functions": functions,
+                "themes": themes,
+            },
         )
 
         return LearningEvent(
@@ -206,6 +219,6 @@ async def analyze_message(
             if drill_context
             else "",
         )
-    except Exception as e:
-        logger.error(f"[analyzer] error analyzing message: {e}", exc_info=True)
+    except Exception:
+        logger.error("error analyzing message", exc_info=True)
         return None

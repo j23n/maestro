@@ -34,7 +34,7 @@ class _JsonFormatter(logging.Formatter):
             "level": record.levelname.lower(),
             "name": record.name,
             "message": record.getMessage(),
-            **getattr(record, "_extra", {}),
+            **getattr(record, "extra", {}),
         }
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
@@ -46,7 +46,7 @@ class _JsonFormatter(logging.Formatter):
 class _DevFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         base = f"{record.levelname:<8} {record.name}: {record.getMessage()}"
-        extra = getattr(record, "_extra", {})
+        extra = getattr(record, "extra", {})
         if extra:
             base += " | " + " ".join(f"{k}={v}" for k, v in extra.items())
         return base
@@ -73,7 +73,7 @@ def _setup_logging() -> logging.Handler:
         rv = _orig_make_record(
             self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
         )
-        rv._extra = dict(extra) if extra else {}
+        rv.extra = dict(extra) if extra else {}
         return rv
 
     logging.Logger.makeRecord = _patched_make_record

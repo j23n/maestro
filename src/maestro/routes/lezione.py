@@ -159,10 +159,8 @@ async def lezione_create(
         limit = _settings.FREE_TIER_LESSON_LIMIT_EX_A0
         if used >= limit:
             logger.info(
-                "tier limit reached: student=%s used=%d limit=%d",
-                student.id,
-                used,
-                limit,
+                "tier limit reached",
+                extra={"student_id": str(student.id), "used": used, "limit": limit},
             )
             return templates.TemplateResponse(
                 request=request,
@@ -186,10 +184,12 @@ async def lezione_create(
         scenario_slug=scenario_slug or None,
     )
     logger.info(
-        "lesson created: student=%s lesson=%s scenario=%s",
-        student.id,
-        lesson.id,
-        scenario_slug or "auto",
+        "lesson created",
+        extra={
+            "student_id": str(student.id),
+            "lesson_id": str(lesson.id),
+            "scenario": scenario_slug or "auto",
+        },
     )
     create_background_task(
         generate_lesson_background(

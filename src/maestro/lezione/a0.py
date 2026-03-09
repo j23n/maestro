@@ -30,9 +30,7 @@ async def _generate_a0_lesson_background(
     """Generate a static A0 lesson from pre-authored YAML content (no LLM calls)."""
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
-        logger.error(
-            f"[planner] _generate_a0_lesson_background: lesson {lesson_id} not found"
-        )
+        logger.error("lesson not found", extra={"lesson_id": str(lesson_id)})
         return
 
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
@@ -45,7 +43,9 @@ async def _generate_a0_lesson_background(
 
     lesson_data = all_lessons.get(scenario.slug)
     if not lesson_data:
-        logger.error(f"[planner] No static content for A0 scenario: {scenario.slug}")
+        logger.error(
+            "no static A0 content for scenario", extra={"scenario_slug": scenario.slug}
+        )
         await lesson.update({"$set": {"generating": False}})
         return
 
@@ -178,6 +178,6 @@ async def _generate_a0_lesson_background(
     )
 
     logger.info(
-        f"[planner] _generate_a0_lesson_background complete: "
-        f"scenario={scenario.slug}, {len(new_activities)} activities"
+        "A0 lesson background generation complete",
+        extra={"scenario": scenario.slug, "n_activities": len(new_activities)},
     )
