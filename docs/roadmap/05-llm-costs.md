@@ -25,12 +25,12 @@
 - Switch scoring to Haiku where quality is maintained
 - Keep Sonnet for lesson generation (needs creativity + long output)
 
-### Per-user daily lesson limit
+### Per-user lesson limit
 
-- Free tier: 1-2 lessons/day
-- Pro tier: unlimited (or higher limit)
+- Free tier: unlimited A0 lessons, 10 A1 lessons lifetime
+- Pro tier: unlimited lessons at all CEFR levels
 - Check at lesson creation time (`POST /lezione/`)
-- Counter or timestamp-based check on LearningProfile
+- Count against `Lesson` documents with `cefr_at_start == "A1"` and `status in (active, completed)`
 
 ### Circuit breaker
 
@@ -49,6 +49,6 @@
 ## Verification
 
 - Per-lesson cost visible in DB (dollar amount derived from token counts)
-- Daily lesson limit enforced for free tier
+- Lifetime A1 lesson cap enforced for free tier (10 lessons), A0 unrestricted
 - Haiku scoring validated by eval tests (if switching)
 - API errors show user-friendly message, not 500
