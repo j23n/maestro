@@ -1,14 +1,13 @@
 """
 Anthropic client factories and LLM cost tracking.
 
-All LLM calls should go through llm_messages_create / llm_messages_create_sync
-rather than constructing a client directly. This provides automatic cost recording
-and a single target for test mocking.
+All LLM calls should go through llm_messages_create rather than constructing
+a client directly. This provides automatic cost recording and a single target
+for test mocking.
 """
 
 from __future__ import annotations
 
-import asyncio
 import logging
 import time
 from functools import lru_cache
@@ -47,6 +46,7 @@ async def _record_llm_usage(
     call_type: CallType,
 ) -> None:
     """Log and persist one LLM call's usage. Swallows all exceptions."""
+    # --- Extract usage fields and emit structured log ---
     try:
         usage = response.usage
         model = response.model
@@ -67,7 +67,23 @@ async def _record_llm_usage(
                 "entity_id": str(entity_id) if entity_id else None,
             },
         )
+    except Exception:
+        logger.warning(
+            "record_llm_usage: failed to extract usage from response",
+            extra={"call_type": str(call_type)},
+            exc_info=True,
+        )
+        return
 
+    # --- Persist to DB ---
+    if entity_id is None:
+        logger.warning(
+            "record_llm_usage: entity_id is None, skipping DB insert",
+            extra={"call_type": call_type.value},
+        )
+        return
+
+    try:
         await LLMUsageRecord(
             student_id=student_id,
             entity_id=entity_id,
@@ -79,63 +95,9 @@ async def _record_llm_usage(
             duration_ms=duration_ms,
         ).insert()
     except Exception:
-        logger.debug(
-            "record_llm_usage failed silently",
-            extra={"call_type": str(call_type)},
-            exc_info=True,
-        )
-
-
-def _record_llm_usage_sync(
-    response,
-    entity_id,
-    student_id,
-    duration_ms: float,
-    call_type: CallType,
-) -> None:
-    """Log and attempt to persist one LLM call's usage (sync variant). Swallows all exceptions."""
-    try:
-        usage = response.usage
-        model = response.model
-        input_tokens = usage.input_tokens
-        output_tokens = usage.output_tokens
-        cost = compute_cost_usd(model, input_tokens, output_tokens)
-
-        logger.info(
-            "llm_usage",
-            extra={
-                "call_type": call_type.value,
-                "model": model,
-                "input_tokens": input_tokens,
-                "output_tokens": output_tokens,
-                "cost_usd": cost,
-                "duration_ms": round(duration_ms, 1),
-                "student_id": str(student_id) if student_id else None,
-                "entity_id": str(entity_id) if entity_id else None,
-            },
-        )
-
-        # Best-effort DB insert if an event loop is running (e.g. inside asyncio.run)
-        try:
-            loop = asyncio.get_running_loop()
-            loop.create_task(
-                LLMUsageRecord(
-                    student_id=student_id,
-                    entity_id=entity_id,
-                    call_type=call_type,
-                    model=model,
-                    input_tokens=input_tokens,
-                    output_tokens=output_tokens,
-                    cost_usd=cost,
-                    duration_ms=duration_ms,
-                ).insert()
-            )
-        except RuntimeError:
-            pass  # no running event loop
-    except Exception:
-        logger.debug(
-            "record_llm_usage_sync failed silently",
-            extra={"call_type": str(call_type)},
+        logger.warning(
+            "record_llm_usage: DB insert failed",
+            extra={"call_type": call_type.value},
             exc_info=True,
         )
 
@@ -154,33 +116,28 @@ async def llm_messages_create(
     """Make an async Anthropic messages.create call and record usage automatically."""
     client = get_async_client()
     t0 = time.monotonic()
-    response = await client.messages.create(
-        model=model, messages=messages, max_tokens=max_tokens, system=system, **kwargs
-    )
+    try:
+        response = await client.messages.create(
+            model=model,
+            messages=messages,
+            max_tokens=max_tokens,
+            system=system,
+            **kwargs,
+        )
+    except Exception:
+        duration_ms = (time.monotonic() - t0) * 1000
+        logger.warning(
+            "llm_messages_create: API call failed",
+            extra={
+                "call_type": call_type.value,
+                "model": model,
+                "duration_ms": round(duration_ms, 1),
+            },
+            exc_info=True,
+        )
+        raise
     duration_ms = (time.monotonic() - t0) * 1000
     await _record_llm_usage(response, entity_id, student_id, duration_ms, call_type)
-    return response
-
-
-def llm_messages_create_sync(
-    *,
-    model: str,
-    messages: list,
-    max_tokens: int,
-    system: str,
-    entity_id,
-    call_type: CallType,
-    student_id=None,
-    **kwargs,
-) -> anthropic.types.Message:
-    """Make a sync Anthropic messages.create call and record usage automatically."""
-    client = get_client()
-    t0 = time.monotonic()
-    response = client.messages.create(
-        model=model, messages=messages, max_tokens=max_tokens, system=system, **kwargs
-    )
-    duration_ms = (time.monotonic() - t0) * 1000
-    _record_llm_usage_sync(response, entity_id, student_id, duration_ms, call_type)
     return response
 
 

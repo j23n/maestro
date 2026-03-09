@@ -24,7 +24,7 @@ import logging
 from maestro.db import init_db
 from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk
 from maestro.config import settings
-from maestro.llm import llm_messages_create_sync
+from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.prompts import grammar as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json
@@ -83,7 +83,7 @@ def _parse_response(
     return result if len(result) == len(levels) else None
 
 
-def _call_api(
+async def _call_api(
     gp: GrammarPoint,
     levels: tuple[str, ...],
     chunk_content: str,
@@ -105,13 +105,13 @@ def _call_api(
     logger.debug(f"  USER MESSAGE:\n{user_msg}")
     max_tokens = 16384
     for attempt in range(3):
-        response = llm_messages_create_sync(
+        response = await llm_messages_create(
             model=settings.EXPLANATION_MODEL,
             max_tokens=max_tokens,
             system=system_msg,
             messages=[{"role": "user", "content": user_msg}],
             entity_id=gp.id,
-            call_type=CallType.LESSON_PLAN,
+            call_type=CallType.GRAMMAR_EXPLANATION,
         )
         raw = response.content[0].text
         logger.debug(f"  STOP REASON: {response.stop_reason}, USAGE: {response.usage}")
@@ -227,7 +227,7 @@ async def generate(
                 logger.warning(f"  Chunk not found for ref: {gp.chunk_ref}")
 
         try:
-            data = _call_api(gp, levels, chunk_content)
+            data = await _call_api(gp, levels, chunk_content)
         except Exception as exc:
             logger.error(f"  API error: {exc}")
             continue

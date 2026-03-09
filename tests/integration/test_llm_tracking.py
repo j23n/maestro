@@ -101,6 +101,54 @@ async def test_llm_messages_create_swallows_bad_response(db):
 
 
 @pytest.mark.integration
+async def test_llm_messages_create_none_entity_id_skips_insert(db):
+    """When entity_id=None, no LLMUsageRecord is inserted."""
+    from maestro.llm import llm_messages_create
+
+    mock_client = _mock_anthropic_client()
+
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
+        await llm_messages_create(
+            model="claude-sonnet-4-6",
+            max_tokens=100,
+            system="Test.",
+            messages=[{"role": "user", "content": "Hello"}],
+            entity_id=None,
+            call_type=CallType.ANALYZER,
+        )
+
+    records = await LLMUsageRecord.find_all().to_list()
+    assert len(records) == 0
+
+
+@pytest.mark.integration
+async def test_llm_messages_create_api_failure_re_raises(db):
+    """When the Anthropic API raises, llm_messages_create re-raises and inserts no record."""
+    import pytest
+    from maestro.llm import llm_messages_create
+
+    entity_id = PydanticObjectId()
+    failing_client = MagicMock()
+    failing_client.messages.create = AsyncMock(
+        side_effect=RuntimeError("network error")
+    )
+
+    with patch("maestro.llm.get_async_client", return_value=failing_client):
+        with pytest.raises(RuntimeError, match="network error"):
+            await llm_messages_create(
+                model="claude-sonnet-4-6",
+                max_tokens=100,
+                system="Test.",
+                messages=[{"role": "user", "content": "Hello"}],
+                entity_id=entity_id,
+                call_type=CallType.LESSON_PLAN,
+            )
+
+    records = await LLMUsageRecord.find_all().to_list()
+    assert len(records) == 0
+
+
+@pytest.mark.integration
 async def test_llm_messages_create_returns_response(db):
     from maestro.llm import llm_messages_create
 

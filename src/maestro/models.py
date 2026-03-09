@@ -46,6 +46,8 @@ class CallType(str, Enum):
     LESSON_FEEDBACK = "lesson_feedback"
     LESSON_ANALYZER_CF1 = "lesson_analyzer_cf1"
     LESSON_ANALYZER_CF2 = "lesson_analyzer_cf2"
+    VOCAB_DEFINITION = "vocab_definition"
+    GRAMMAR_EXPLANATION = "grammar_explanation"
 
 
 class Student(Document):
