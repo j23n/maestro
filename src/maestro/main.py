@@ -25,6 +25,12 @@ from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
 
 
+_STDLIB_LOG_ATTRS = frozenset(
+    logging.LogRecord("", 0, "", 0, "", (), None).__dict__.keys()
+    | {"message", "asctime"}
+)
+
+
 class _JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         obj = {
@@ -35,6 +41,9 @@ class _JsonFormatter(logging.Formatter):
             "name": record.name,
             "message": record.getMessage(),
         }
+        for key, value in record.__dict__.items():
+            if key not in _STDLIB_LOG_ATTRS:
+                obj[key] = value
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
         if record.stack_info:
@@ -42,12 +51,23 @@ class _JsonFormatter(logging.Formatter):
         return json.dumps(obj)
 
 
+class _TextFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        base = super().format(record)
+        extras = {
+            k: v for k, v in record.__dict__.items() if k not in _STDLIB_LOG_ATTRS
+        }
+        if extras:
+            base += " " + " ".join(f"{k}={v}" for k, v in extras.items())
+        return base
+
+
 def _setup_logging() -> logging.Handler:
     handler = logging.StreamHandler()
     if settings.ENVIRONMENT == "production":
         handler.setFormatter(_JsonFormatter())
     else:
-        handler.setFormatter(logging.Formatter("%(levelname)-8s %(name)s: %(message)s"))
+        handler.setFormatter(_TextFormatter("%(levelname)-8s %(name)s: %(message)s"))
     logging.root.setLevel(logging.WARNING)
     logging.root.handlers.clear()
     logging.root.addHandler(handler)
