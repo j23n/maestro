@@ -37,10 +37,10 @@ logger = logging.getLogger(__name__)
 _PASS_THRESHOLD = 0.7
 
 
-async def count_a1_lessons(student_id: PydanticObjectId) -> int:
+async def count_paid_lessons(student_id: PydanticObjectId) -> int:
     """Count all non-A0 lessons ever created for a student (lifetime cap).
 
-    A1+ lessons count toward the free-tier cap. Counts ALL statuses to
+    Non-A0 lessons count toward the free-tier cap. Counts ALL statuses to
     prevent gaming the limit by abandoning lessons.
     """
     return await Lesson.find(
