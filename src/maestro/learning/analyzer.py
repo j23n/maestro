@@ -192,6 +192,8 @@ async def analyze_message(
         )
 
         return LearningEvent(
+            student_id=student_id,
+            lesson_id=lesson_id,
             message=message,
             grammar_correct=grammar_correct,
             grammar_errors=grammar_errors,

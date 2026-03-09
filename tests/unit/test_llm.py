@@ -84,5 +84,5 @@ def test_log_llm_usage_survives_broken_response(caplog):
         log_llm_usage(bad_response, "plan")  # must not raise
 
     # The failure is logged at DEBUG, not raised
-    debug_msgs = [r.message for r in caplog.records if r.levelno == logging.DEBUG]
+    debug_msgs = [r.getMessage() for r in caplog.records if r.levelno == logging.DEBUG]
     assert any("log_llm_usage failed" in m for m in debug_msgs)
