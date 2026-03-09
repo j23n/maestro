@@ -84,7 +84,7 @@ def test_garbled_account_id_clears_session_cookie(db):
 
 
 @pytest.mark.integration
-async def test_db_timeout_preserves_session_cookie(db, account):
+def test_db_timeout_preserves_session_cookie(db, account):
     """Transient DB error → redirects to login but session cookie is NOT cleared."""
     from tests.integration.conftest import sign_session, patch_lifespan
 

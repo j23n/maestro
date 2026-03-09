@@ -102,6 +102,8 @@ async def login(request: Request):
 
     account = await Account.find_one({"email": email})
     if not account:
+        # Dummy check keeps response time constant regardless of account existence
+        _bcrypt.checkpw(password.encode(), _bcrypt.hashpw(b"dummy", _bcrypt.gensalt()))
         logger.warning("login failed: account not found for %s", _masked_email(email))
         return templates.TemplateResponse(
             request=request,
