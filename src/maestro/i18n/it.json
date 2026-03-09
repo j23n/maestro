@@ -186,5 +186,6 @@
   "login_error_invalid": "Email o password non validi.",
   "tier_limit_title": "Limite raggiunto",
   "tier_limit_body": "Hai usato tutte le tue {limit} lezioni A1 gratuite. Per continuare ad apprendere senza limiti, passa a Pro.",
-  "tier_limit_cta": "Scopri il piano Pro"
+  "tier_limit_cta": "Scopri il piano Pro",
+  "tier_limit_back": "Torna alle lezioni"
 }

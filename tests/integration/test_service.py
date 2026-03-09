@@ -253,7 +253,7 @@ async def test_count_a1_lessons_empty(db, student):
 
 @pytest.mark.integration
 async def test_count_a1_lessons_counts_non_a0(db, student):
-    """Student with completed and abandoned A1 lessons counts them all."""
+    """Student with A1 completed and abandoned lessons counts them all."""
     from maestro.lezione.service import count_a1_lessons
 
     for _ in range(3):
@@ -264,9 +264,13 @@ async def test_count_a1_lessons_counts_non_a0(db, student):
         await _make_tier_lesson(
             student.id, cefr_at_start="A1", status=LessonStatus.ABANDONED
         ).insert()
+    # A2 lessons also count toward the cap
+    await _make_tier_lesson(
+        student.id, cefr_at_start="A2", status=LessonStatus.COMPLETED
+    ).insert()
 
     result = await count_a1_lessons(student.id)
-    assert result == 5
+    assert result == 6
 
 
 @pytest.mark.integration
@@ -289,6 +293,9 @@ async def test_count_a1_lessons_counts_all_statuses(db, student):
     from maestro.lezione.service import count_a1_lessons
 
     await _make_tier_lesson(
+        student.id, cefr_at_start="A1", status=LessonStatus.PLANNING
+    ).insert()
+    await _make_tier_lesson(
         student.id, cefr_at_start="A1", status=LessonStatus.ACTIVE
     ).insert()
     await _make_tier_lesson(
@@ -299,4 +306,4 @@ async def test_count_a1_lessons_counts_all_statuses(db, student):
     ).insert()
 
     result = await count_a1_lessons(student.id)
-    assert result == 3
+    assert result == 4
