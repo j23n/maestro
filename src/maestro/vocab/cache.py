@@ -44,9 +44,7 @@ async def ensure_loaded() -> None:
         _def_index[(word_id, d.student_level)] = d
 
     _loaded = True
-    logger.info(
-        f"[vocab_cache] loaded {len(_word_index)} words, {len(_def_index)} definitions"
-    )
+    logger.info("loaded %d words, %d definitions", len(_word_index), len(_def_index))
 
 
 def word_index() -> dict[str, VocabularyWord]:

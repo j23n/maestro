@@ -3,6 +3,9 @@ import datetime
 import json
 import logging
 
+import sentry_sdk
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,7 +18,7 @@ from maestro.db import get_db, init_db
 from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t
 from maestro.rate_limit import limiter
-from maestro.session import clear_session_cookie
+from maestro.session import clear_session_cookie, read_session
 from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
@@ -39,7 +42,7 @@ class _JsonFormatter(logging.Formatter):
         return json.dumps(obj)
 
 
-def _setup_logging() -> None:
+def _setup_logging() -> logging.Handler:
     handler = logging.StreamHandler()
     if settings.ENVIRONMENT == "production":
         handler.setFormatter(_JsonFormatter())
@@ -51,28 +54,31 @@ def _setup_logging() -> None:
     logging.getLogger("maestro").setLevel(
         logging.DEBUG if settings.ENVIRONMENT == "development" else logging.INFO
     )
+    return handler
 
 
-_setup_logging()
+_log_handler = _setup_logging()
 
 logger = logging.getLogger(__name__)
 
 if settings.SENTRY_DSN:
-    import sentry_sdk
-    from sentry_sdk.integrations.fastapi import FastApiIntegration
-    from sentry_sdk.integrations.starlette import StarletteIntegration
-
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
         environment=settings.ENVIRONMENT,
         traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
         integrations=[StarletteIntegration(), FastApiIntegration()],
+        enable_logs=True,
     )
     logger.info("Sentry enabled (environment=%s)", settings.ENVIRONMENT)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Reconfigure uvicorn loggers to use our handler so access logs are structured
+    for _name in ("uvicorn", "uvicorn.access", "uvicorn.error"):
+        _lg = logging.getLogger(_name)
+        _lg.handlers = [_log_handler]
+        _lg.propagate = False
     logger.info("startup: connecting to database")
     await init_db()
     await seed_if_empty(get_db())
@@ -96,6 +102,11 @@ async def health():
     return {"status": "ok"}
 
 
+@app.get("/sentry-debug")
+async def trigger_error():
+    division_by_zero = 1 / 0  # noqa: F841
+
+
 app.include_router(auth.router)
 app.include_router(vocab.router)
 app.include_router(profilo.router)
@@ -105,8 +116,6 @@ app.include_router(lezione.router)
 
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
-    from maestro.session import read_session
-
     if read_session(request):
         return RedirectResponse(url="/lezione/")
     return templates.TemplateResponse(request=request, name="landing.html")
