@@ -473,3 +473,127 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
     assert len(events) == 1
     ev = events[0]
     assert "GP_ERR" in ev.grammar_errors
+
+
+# ---------------------------------------------------------------------------
+# Tier-limit tests for POST /lezione/
+# ---------------------------------------------------------------------------
+
+
+def _make_a1_lesson(student_id, status=LessonStatus.COMPLETED):
+    return Lesson(
+        student_id=student_id,
+        status=status,
+        duration_minutes=10,
+        cefr_at_start="A1",
+        generating=False,
+        activities=[],
+        current_index=0,
+    )
+
+
+@pytest.mark.integration
+async def test_free_tier_a1_limit_blocks_after_cap(
+    test_app, db, student, account, monkeypatch
+):
+    """Free-tier student with 10 A1 lessons gets a 402 on POST /lezione/."""
+    import maestro.routes.lezione as _lezione_routes
+    from maestro.learning.profile import LearningProfile
+
+    monkeypatch.setattr(_lezione_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    for _ in range(10):
+        await _make_a1_lesson(student.id).insert()
+
+    response = test_app.post(
+        "/lezione/", data={"duration": "20"}, follow_redirects=False
+    )
+    assert response.status_code == 402
+
+
+@pytest.mark.integration
+async def test_free_tier_a1_under_limit_creates_lesson(test_app, db, student, account):
+    """Free-tier student with 9 A1 lessons can create a 10th."""
+    from maestro.learning.profile import LearningProfile
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    for _ in range(9):
+        await _make_a1_lesson(student.id).insert()
+
+    response = test_app.post(
+        "/lezione/", data={"duration": "20"}, follow_redirects=False
+    )
+    assert response.status_code == 303
+
+
+@pytest.mark.integration
+async def test_pro_tier_no_a1_limit(test_app, db, student, account):
+    """Pro-tier student is never blocked regardless of A1 lesson count."""
+    from maestro.learning.profile import LearningProfile
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    await account.update({"$set": {"subscription_tier": "pro"}})
+
+    for _ in range(15):
+        await _make_a1_lesson(student.id).insert()
+
+    response = test_app.post(
+        "/lezione/", data={"duration": "20"}, follow_redirects=False
+    )
+    assert response.status_code == 303
+
+
+@pytest.mark.integration
+async def test_a0_student_always_allowed(test_app, db, student, account):
+    """A0 student on free tier is never blocked, even with many lessons."""
+    from maestro.learning.profile import LearningProfile
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A0")
+    await profile.insert()
+
+    # Insert many A0 lessons — cap should never apply
+    for _ in range(20):
+        await Lesson(
+            student_id=student.id,
+            status=LessonStatus.COMPLETED,
+            duration_minutes=10,
+            cefr_at_start="A0",
+            generating=False,
+            activities=[],
+            current_index=0,
+        ).insert()
+
+    response = test_app.post(
+        "/lezione/", data={"duration": "20"}, follow_redirects=False
+    )
+    assert response.status_code == 303
+
+
+@pytest.mark.integration
+async def test_free_tier_limit_response_contains_upgrade_text(
+    test_app, db, student, account, monkeypatch
+):
+    """The 402 response body contains the upgrade prompt."""
+    import maestro.routes.lezione as _lezione_routes
+    from maestro.learning.profile import LearningProfile
+
+    monkeypatch.setattr(_lezione_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    for _ in range(10):
+        await _make_a1_lesson(student.id).insert()
+
+    response = test_app.post(
+        "/lezione/", data={"duration": "20"}, follow_redirects=False
+    )
+    assert response.status_code == 402
+    assert "Limite raggiunto" in response.text

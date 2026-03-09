@@ -13,6 +13,7 @@ from __future__ import annotations
 import logging
 import re
 
+from beanie import PydanticObjectId
 from maestro.models import (
     GrammarPoint,
     LearningEvent,
@@ -34,6 +35,20 @@ from maestro.utils import utcnow, create_background_task
 logger = logging.getLogger(__name__)
 
 _PASS_THRESHOLD = 0.7
+
+
+async def count_paid_lessons(student_id: PydanticObjectId) -> int:
+    """Count all non-A0 lessons ever created for a student (lifetime cap).
+
+    Non-A0 lessons count toward the free-tier cap. Counts ALL statuses to
+    prevent gaming the limit by abandoning lessons.
+    """
+    return await Lesson.find(
+        {
+            "student_id": student_id,
+            "cefr_at_start": {"$ne": "A0"},
+        }
+    ).count()
 
 
 def activity_url(lesson_id, idx: int) -> str:
