@@ -188,10 +188,6 @@ def get_activity(lesson_id: str, idx: int) -> dict:
         prompt_el = item_div.find(class_="item-sentence")
         prompt = prompt_el.get_text(strip=True) if prompt_el else ""
         drill_items.append(prompt)
-    textarea = s.find("textarea", {"name": "answers"})
-    if textarea and not drill_items:
-        drill_items.append("__free_form__")
-
     # Vocab info
     queue_el = s.find(class_="card-queue")
     vocab_total = 0

@@ -48,7 +48,7 @@
     </div>
 
   {% elif feedback and feedback is mapping and "objective_correct" in feedback %}
-    {# ── Writing / free-form result ── #}
+    {# ── Writing activity result ── #}
     {% if correct %}
       <div class="result-ok">{% if is_writing is defined and is_writing %}{{ t("result_submitted") }}{% else %}{{ t("result_correct_single") }}{% endif %}</div>
     {% else %}

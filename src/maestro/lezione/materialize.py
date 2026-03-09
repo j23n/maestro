@@ -133,19 +133,15 @@ async def materialize_activities(
                 scenario_slug=scenario_slug,
                 chunk_ref=spec.get("chunk_ref"),
             )
-        else:  # free_form
-            drill = GeneratedDrill(
-                student_id=student_id,
-                template=template,
-                grammar_point_code=spec["grammar_point_code"],
-                cefr_level=cefr_level,
-                exercise_type=exercise_type,
-                prompt=drill_data.prompt or "",
-                correct_answer=None,
-                distractors=[],
-                scenario_slug=scenario_slug,
-                chunk_ref=spec.get("chunk_ref"),
+        else:
+            logger.warning(
+                "skipping drill with unknown exercise_type",
+                extra={
+                    "exercise_type": exercise_type,
+                    "grammar_point_code": spec["grammar_point_code"],
+                },
             )
+            continue
         await drill.insert()
         logger.debug(
             "drill inserted",

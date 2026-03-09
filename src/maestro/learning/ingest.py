@@ -39,7 +39,6 @@ logger = logging.getLogger(__name__)
 EXERCISE_TYPES = (
     ExerciseType.FILL_BLANK,
     ExerciseType.ERROR_CORRECTION,
-    ExerciseType.FREE_FORM,
 )
 
 
