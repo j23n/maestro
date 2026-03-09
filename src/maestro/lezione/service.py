@@ -36,6 +36,19 @@ logger = logging.getLogger(__name__)
 _PASS_THRESHOLD = 0.7
 
 
+async def count_a1_lessons(student_id) -> int:
+    """Count all non-A0 lessons ever created for a student (lifetime cap).
+
+    Counts ALL statuses to prevent gaming the limit by abandoning lessons.
+    """
+    return await Lesson.find(
+        {
+            "student_id": student_id,
+            "cefr_at_start": {"$ne": "A0"},
+        }
+    ).count()
+
+
 def activity_url(lesson_id, idx: int) -> str:
     return f"/lezione/{lesson_id}/activity/{idx}"
 
