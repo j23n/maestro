@@ -20,6 +20,6 @@ class Settings(BaseSettings):
     TARGET_LANGUAGE_NAME: str = "Italian"  # for LLM prompts
     SPACY_MODEL: str = "it_core_news_md"  # per-language NLP model
     LOG_LEVEL: str = "INFO"
-    FREE_TIER_LESSON_LIMIT_EX_A0: int = 10
+    FREE_TIER_LESSON_LIMIT_EX_A0: int = 999
 
     model_config = {"env_file": ".env"}
