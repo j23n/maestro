@@ -139,6 +139,18 @@ def reset_limiter():
 
 
 @pytest.fixture(autouse=True)
+def reset_llm_client_cache():
+    """Clear lru_cache on LLM client factories between tests to prevent state leakage."""
+    from maestro.llm import get_client, get_async_client
+
+    get_client.cache_clear()
+    get_async_client.cache_clear()
+    yield
+    get_client.cache_clear()
+    get_async_client.cache_clear()
+
+
+@pytest.fixture(autouse=True)
 def bg_test_mode():
     """Enable background task test mode for all integration tests."""
     from maestro.utils import enable_test_mode, disable_test_mode

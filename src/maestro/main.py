@@ -25,24 +25,6 @@ from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
 
 
-# Capture the original extra= dict on every LogRecord so formatters read it directly
-# without having to filter out built-in LogRecord attributes.
-_orig_make_record = logging.Logger.makeRecord
-
-
-def _patched_make_record(
-    self, name, level, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None
-):
-    rv = _orig_make_record(
-        self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
-    )
-    rv._extra = extra or {}
-    return rv
-
-
-logging.Logger.makeRecord = _patched_make_record
-
-
 class _JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         obj = {
@@ -71,6 +53,31 @@ class _DevFormatter(logging.Formatter):
 
 
 def _setup_logging() -> logging.Handler:
+    # Capture the original extra= dict on every LogRecord so formatters can read it
+    # directly without filtering built-in LogRecord attributes.
+    _orig_make_record = logging.Logger.makeRecord
+
+    def _patched_make_record(
+        self,
+        name,
+        level,
+        fn,
+        lno,
+        msg,
+        args,
+        exc_info,
+        func=None,
+        extra=None,
+        sinfo=None,
+    ):
+        rv = _orig_make_record(
+            self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
+        )
+        rv._extra = dict(extra) if extra else {}
+        return rv
+
+    logging.Logger.makeRecord = _patched_make_record
+
     handler = logging.StreamHandler()
     if settings.ENVIRONMENT == "production":
         handler.setFormatter(_JsonFormatter())
