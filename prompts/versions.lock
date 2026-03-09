@@ -1,7 +1,7 @@
 {
   "analyzer.yaml": {
-    "version": "3",
-    "sha256": "98218b4d0988b641482f6916e82d2246ab0afd107d6cb8a13136c6673a5dd0d3"
+    "version": "4",
+    "sha256": "ff146b45ab53913c67179bc2bf3e2c0281a498d4957fd93a01b576763fac7d48"
   },
   "grammar_explanations.yaml": {
     "version": "2",
@@ -16,8 +16,8 @@
     "sha256": "e85007ea50fc1eca458ab77f93a1cc48643846d081cb42b51036ddad65d9c9d1"
   },
   "planner.yaml": {
-    "version": "2",
-    "sha256": "8b4d998013aef481970684b00ae856c35413a40b62fa0bdd1e24b9e406110924"
+    "version": "3",
+    "sha256": "cc0a9b64a462c40683d96910768ef36000b15ead45182f88e76f5941f65e96a7"
   },
   "vocab_definitions.yaml": {
     "version": "2",

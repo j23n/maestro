@@ -35,7 +35,6 @@ class LessonStatus(str, Enum):
 class ExerciseType(str, Enum):
     FILL_BLANK = "fill_blank"
     ERROR_CORRECTION = "error_correction"
-    FREE_FORM = "free_form"
 
 
 class CallType(str, Enum):
@@ -261,7 +260,7 @@ class DrillItem(BaseModel):
 class DrillTemplate(Document):
     grammar_point_code: str
     cefr_level: str
-    exercise_type: ExerciseType  # "fill_blank" | "error_correction" | "free_form"
+    exercise_type: ExerciseType  # "fill_blank" | "error_correction"
     language: str = "it"
 
     class Settings:

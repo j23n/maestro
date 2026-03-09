@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 # ---------------------------------------------------------------------------
 
@@ -39,7 +39,6 @@ lesson_content_footer:
     Drill rules:
     - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a {{target_language}} sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
     - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous {{target_language}} sentence (no intro text); correct_answer is the corrected sentence
-    - free_form: no items field; use prompt (open-ended {{target_language}} writing prompt), correct_answer null, distractors []
     - All content in {{target_language}}
     - Wrap all {{target_language}} text in <span lang="{{target_language_code}}">...</span>
     - Wrap any English text in <span lang="en">...</span>
