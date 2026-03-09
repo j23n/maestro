@@ -330,6 +330,12 @@ def cmd_diff(
     to_ver: str | None,
 ) -> None:
     """Compare two versions (or last two runs of same version) per group."""
+    if bool(from_ver) != bool(to_ver):
+        print("Provide both --from and --to, or neither.")
+        return
+    if from_ver and to_ver and from_ver == to_ver:
+        print("--from and --to are the same version; nothing to compare.")
+        return
     if not rows:
         _no_results()
         return
@@ -535,15 +541,15 @@ def cmd_failures(rows: list[dict], items: list[dict], latest: bool = False) -> N
             run_groups[rk].append(item)
 
         # Keep only the latest run per (prompt, version, test, model, subtest)
-        latest: dict[tuple, tuple[str, list[dict]]] = {}
+        latest_run_by_group: dict[tuple, tuple[str, list[dict]]] = {}
         for rk, rk_items in run_groups.items():
             group = rk[:5]
             ts = rk[5]
-            if group not in latest or ts > latest[group][0]:
-                latest[group] = (ts, rk_items)
+            if group not in latest_run_by_group or ts > latest_run_by_group[group][0]:
+                latest_run_by_group[group] = (ts, rk_items)
 
-        for group_key in sorted(latest):
-            ts, run_items = latest[group_key]
+        for group_key in sorted(latest_run_by_group):
+            ts, run_items = latest_run_by_group[group_key]
             prompt, version, test, model, subtest = group_key
             failed = [i for i in run_items if _is_failure(i)]
             n = len(run_items)

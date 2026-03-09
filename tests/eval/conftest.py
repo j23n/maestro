@@ -181,6 +181,8 @@ def record_item():
             **item,
         }
         _ITEMS_FILE.parent.mkdir(exist_ok=True)
+        # items.jsonl grows unbounded; use `compare.py failures --latest` to filter
+        # to the most-recent run per (prompt, version, test, model, subtest) group.
         with _ITEMS_FILE.open("a") as f:
             f.write(json.dumps(entry) + "\n")
 

@@ -58,7 +58,7 @@
     </ol>
     {% if word.entry_id %}
       {% set flag_call_type = "vocab_definition" %}
-      {% set flag_refs = '{"word_entry_id": "' ~ word.entry_id ~ '", "cefr_level": "' ~ lvl ~ '"}' %}
+      {% set flag_refs = {"word_entry_id": word.entry_id|string, "cefr_level": lvl} | tojson %}
       {% include "partials/flag-button.html" %}
     {% endif %}
   </div>
