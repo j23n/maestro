@@ -8,8 +8,6 @@ Drill scoring logic.
   All detected GP codes feed into the LearningEvent.
   Grammar errors and tips are freetext, surfaced in feedback only.
 
-- free_form: LLM analysis → LearningEvent + feedback.
-
 Returns (correct, event, feedback, rule_refs):
   correct    — bool or None
   event      — LearningEvent
@@ -27,7 +25,7 @@ if TYPE_CHECKING:
     from maestro.models import GeneratedDrill
 
 from maestro.models import LearningEvent, GrammarChunk, ExerciseType
-from maestro.learning.scorer import score_free_form_drill, score_multi_item_drill
+from maestro.learning.scorer import score_multi_item_drill
 from maestro import taxonomy
 
 logger = logging.getLogger(__name__)
@@ -58,7 +56,6 @@ async def score_attempt(
 
     For multi-item drills (fill_blank / error_correction with items),
     student_answer must be a list[str] and feedback is {"items": [...]}.
-    For free_form, student_answer is a plain str.
     """
     code = generated_drill.grammar_point_code
 
@@ -139,40 +136,6 @@ async def score_attempt(
             feedback=json.dumps(feedback),
         )
         return overall_correct, event, feedback, rule_refs
-
-    # --- free_form ---
-    elif generated_drill.exercise_type == ExerciseType.FREE_FORM:
-        answer_str = (
-            student_answer[0] if isinstance(student_answer, list) else student_answer
-        )
-        rag_content, rule_refs = await _get_rule_context(generated_drill)
-
-        feedback = await score_free_form_drill(
-            generated_drill.prompt,
-            answer_str,
-            code,
-            cefr_level=generated_drill.cefr_level,
-            rag_content=rag_content,
-            student_id=student_id,
-            lesson_id=lesson_id,
-        )
-        correct = feedback.get("objective_correct", True)
-        valid_codes = {g.code for g in taxonomy.grammar_points()}
-        gp_correct = [
-            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
-        ]
-        gp_errors = [
-            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
-        ]
-        event = LearningEvent(
-            student_id=student_id,
-            grammar_correct=([code] if correct else [])
-            + [c for c in gp_correct if c != code],
-            grammar_errors=([] if correct else [code])
-            + [c for c in gp_errors if c != code],
-        )
-        refs = rule_refs if not correct else []
-        return correct, event, feedback, refs
 
     logger.warning(
         "unknown exercise type", extra={"exercise_type": generated_drill.exercise_type}

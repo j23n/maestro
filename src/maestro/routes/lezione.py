@@ -605,10 +605,6 @@ async def lezione_drill_submit(
             }
             for item in feedback.get("items", [])
         ]
-    elif isinstance(feedback, dict) and "objective_correct" in feedback:
-        # Single-item drill (free_form): store full score dict
-        drill_result["score_detail"] = feedback
-
     feedback = feedback or None
     next_url = await advance_lesson(lesson, idx, result=drill_result)
 

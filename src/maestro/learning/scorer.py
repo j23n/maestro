@@ -397,53 +397,6 @@ async def generate_writing_feedback(
     )
 
 
-async def score_free_form_drill(
-    prompt: str,
-    student_text: str,
-    grammar_point_code: str,
-    cefr_level: str,
-    rag_content: str = "",
-    student_id=None,
-    lesson_id=None,
-) -> dict:
-    """Score a free-form drill response using task-completion as the sole pass/fail criterion.
-
-    Returns {objective_correct, objective_note, grammar_errors, tips}.
-    """
-    rule_block = (
-        f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
-        if rag_content
-        else ""
-    )
-    await taxonomy.ensure_loaded()
-    gp_label = next(
-        (g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code),
-        grammar_point_code,
-    )
-    logger.info(
-        "score_free_form_drill",
-        extra={"grammar_point_code": grammar_point_code, "cefr_level": cefr_level},
-    )
-
-    llm_prompt = _prompts.free_form_scoring.render(
-        target_language=_target_language(),
-        cefr_level=cefr_level,
-        grammar_point_code=grammar_point_code,
-        grammar_point_label=gp_label,
-        prompt=prompt,
-        student_text=student_text,
-        rule_block=rule_block,
-    )
-
-    return await _score_single(
-        llm_prompt,
-        label="score_free_form_drill",
-        cefr_level=cefr_level,
-        student_id=student_id,
-        lesson_id=lesson_id,
-    )
-
-
 async def score_reading_answers(
     questions: list[str],
     correct_answers: list[str],
