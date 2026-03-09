@@ -12,7 +12,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_free_form_drill_scoring(record_eval):
+async def test_free_form_drill_scoring(db, record_eval, record_item):
     """Measure precision/recall of free-form drill objective_correct scoring."""
     import json as _json
     from maestro.learning.scorer import score_free_form_drill
@@ -53,6 +53,14 @@ async def test_free_form_drill_scoring(record_eval):
         logger.info(
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
         )
+
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {
+            "pass": r["pass"],
+            "got": r.get("got"),
+            "expected": r.get("expected"),
+        }
 
     n = len(cases)
     accuracy = (tp + tn) / max(1, n)
@@ -96,7 +104,13 @@ async def test_free_form_drill_scoring(record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        if case["id"] in item_data:
+            item_data[case["id"]]["judge_pass"] = ok
+            item_data[case["id"]]["judge_reason"] = reason
         logger.info(f"[eval] judge {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    for case_id, data in item_data.items():
+        record_item("analyzer", {"test": "free_form", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Free-form content_quality={content_quality:.2%}")
@@ -123,7 +137,7 @@ async def test_free_form_drill_scoring(record_eval):
 
 
 @pytest.mark.llm_eval
-async def test_reading_comprehension_scoring(record_eval):
+async def test_reading_comprehension_scoring(db, record_eval, record_item):
     """Measure precision/recall of reading comprehension answer scoring."""
     import json as _json
     from maestro.learning.scorer import score_reading_answers
@@ -167,6 +181,14 @@ async def test_reading_comprehension_scoring(record_eval):
             logger.info(
                 f"[eval] {result_id}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
             )
+
+    item_data: dict[str, dict] = {}
+    for r in all_results:
+        item_data[r["id"]] = {
+            "pass": r["pass"],
+            "got": r.get("got"),
+            "expected": r.get("expected"),
+        }
 
     n = tp + fp + fn + tn
     accuracy = (tp + tn) / max(1, n)
@@ -217,9 +239,18 @@ async def test_reading_comprehension_scoring(record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        # Propagate judge result to all questions of this passage
+        q_idx = 1
+        while f"{case['id']}_q{q_idx}" in item_data:
+            item_data[f"{case['id']}_q{q_idx}"]["judge_pass"] = ok
+            item_data[f"{case['id']}_q{q_idx}"]["judge_reason"] = reason
+            q_idx += 1
         logger.info(
             f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
         )
+
+    for case_id, data in item_data.items():
+        record_item("analyzer", {"test": "reading", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Reading content_quality={content_quality:.2%}")

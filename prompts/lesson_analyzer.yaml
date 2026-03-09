@@ -1,6 +1,6 @@
-version: "1"
+version: "3"
 
-cf_stage1:
+cf_macro_detection:
   description: >
     Stage 1 of CF analysis: identify which macro communicative categories
     are present in the student's combined lesson responses.
@@ -17,11 +17,14 @@ cf_stage1:
     Which of these 7 communicative categories are present?
     {{macro_lines}}
 
+    A single text can demonstrate multiple macro categories simultaneously.
+    Include ALL categories that have any evidence in the text.
+
     Return ONLY: {"categories": ["macro1", "macro2", ...]}
 
 # ---------------------------------------------------------------------------
 
-cf_stage2:
+cf_function_detection:
   description: >
     Stage 2 of CF analysis: identify specific communicative functions
     within a given macro category.

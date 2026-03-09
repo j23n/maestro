@@ -1,0 +1,26 @@
+{
+  "analyzer.yaml": {
+    "version": "3",
+    "sha256": "98218b4d0988b641482f6916e82d2246ab0afd107d6cb8a13136c6673a5dd0d3"
+  },
+  "grammar_explanations.yaml": {
+    "version": "2",
+    "sha256": "de241e31ed240cc81e2ebca79bd30dac1b7a66a062d3d1ed9afa3d471c5d50bf"
+  },
+  "judge.yaml": {
+    "version": "1",
+    "sha256": "3a51a767c618859f3e2148e257e4f654fdc6c78f7772835e62cbd39356a87e3e"
+  },
+  "lesson_analyzer.yaml": {
+    "version": "3",
+    "sha256": "e85007ea50fc1eca458ab77f93a1cc48643846d081cb42b51036ddad65d9c9d1"
+  },
+  "planner.yaml": {
+    "version": "2",
+    "sha256": "8b4d998013aef481970684b00ae856c35413a40b62fa0bdd1e24b9e406110924"
+  },
+  "vocab_definitions.yaml": {
+    "version": "2",
+    "sha256": "aeec9d2f4f2e3e54b747ebbe1069468fdd0bb5cfa76b3cdd5d8db360cc2456b9"
+  }
+}

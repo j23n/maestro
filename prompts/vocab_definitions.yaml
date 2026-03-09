@@ -1,6 +1,6 @@
-version: "1"
+version: "2"
 
-definitions_system:
+definition_system:
   description: >
     System prompt for generating graded vocabulary definitions (A1–B2)
     from EPUB dictionary senses using Claude.

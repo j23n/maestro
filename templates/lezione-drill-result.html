@@ -39,6 +39,9 @@
             {% endfor %}
           </div>
           {% endif %}
+          {% set flag_call_type = "scorer_multi" %}
+          {% set flag_refs = {"lesson_id": lesson.id|string, "activity_index": idx, "item_index": loop.index0} | tojson %}
+          {% include "partials/flag-button.html" %}
         </div>
       </div>
       {% endfor %}
@@ -68,6 +71,11 @@
       </div>
     {% elif correct %}
       <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">{{ t("result_great_answer") }}</p>
+    {% endif %}
+    {% if drill %}
+      {% set flag_call_type = "scorer_single" %}
+      {% set flag_refs = {"lesson_id": lesson.id|string, "activity_index": idx} | tojson %}
+      {% include "partials/flag-button.html" %}
     {% endif %}
   {% endif %}
 

@@ -1,34 +1,38 @@
 """Shared LLM-as-judge helper for eval tests."""
 
+import logging
 import anthropic
 
 from maestro.config import settings
+from maestro.prompts import judge as _prompts
 from maestro.utils import parse_llm_json
 
-_SYSTEM = (
-    "You are an expert Italian language teacher evaluating AI-generated teaching content. "
-    "Be strict but fair. Reply ONLY with valid JSON."
-)
+logger = logging.getLogger(__name__)
 
 
 def judge(prompt: str) -> tuple[bool, str]:
     """Single synchronous LLM judge call. Returns (acceptable: bool, reason: str)."""
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    logger.debug(f"[judge] prompt: {prompt}")
     response = client.messages.create(
         model=settings.EVAL_MODEL,
         max_tokens=256,
-        system=_SYSTEM,
+        system=_prompts.system.render_system(),
         messages=[
             {
                 "role": "user",
-                "content": prompt
-                + '\n\nReply: {"acceptable": true/false, "reason": "one sentence"}',
+                "content": prompt + "\n\n" + _prompts.reply_suffix.render(),
             }
         ],
     )
-    data = parse_llm_json(response.content[0].text.strip())
+    raw = response.content[0].text.strip()
+    logger.info(f"[judge] raw response: {raw!r}")
+    data = parse_llm_json(raw)
     if isinstance(data, dict) and "acceptable" in data:
-        return bool(data["acceptable"]), str(data.get("reason", ""))
+        result = bool(data["acceptable"]), str(data.get("reason", ""))
+        logger.info(f"[judge] result: acceptable={result[0]}, reason={result[1]!r}")
+        return result
+    logger.warning(f"[judge] parse error — raw was: {raw!r}")
     return False, "parse error"
 
 
@@ -44,25 +48,30 @@ def judge_against_reference(
     """
     client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
     ctx = f"Context: {context}\n\n" if context else ""
+    logger.debug(
+        f"[judge_ref] context={context!r} generated={generated!r} reference={reference!r}"
+    )
     response = client.messages.create(
         model=settings.EVAL_MODEL,
         max_tokens=256,
-        system=_SYSTEM,
+        system=_prompts.system.render_system(),
         messages=[
             {
                 "role": "user",
-                "content": (
-                    f"{ctx}"
-                    f"Reference answer:\n{reference}\n\n"
-                    f"Generated answer:\n{generated}\n\n"
-                    "Does the generated answer convey the same meaning as the reference? "
-                    "Accept paraphrasing — exact wording is not required. "
-                    'Reply: {"acceptable": true/false, "reason": "one sentence"}'
+                "content": _prompts.reference_check.render(
+                    context=ctx,
+                    reference=reference,
+                    generated=generated,
                 ),
             }
         ],
     )
-    data = parse_llm_json(response.content[0].text.strip())
+    raw = response.content[0].text.strip()
+    logger.info(f"[judge_ref] raw response: {raw!r}")
+    data = parse_llm_json(raw)
     if isinstance(data, dict) and "acceptable" in data:
-        return bool(data["acceptable"]), str(data.get("reason", ""))
+        result = bool(data["acceptable"]), str(data.get("reason", ""))
+        logger.info(f"[judge_ref] result: acceptable={result[0]}, reason={result[1]!r}")
+        return result
+    logger.warning(f"[judge_ref] parse error — raw was: {raw!r}")
     return False, "parse error"

@@ -47,6 +47,11 @@
         {%- else %}○{% endif -%}
       </span>
       <span class="summary-title">{{ a.title }}</span>
+      {% if a.status == "completed" and a.type in ("writing", "speaking") %}
+        {% set flag_call_type = "analyzer" %}
+        {% set flag_refs = {"lesson_id": lesson.id|string, "activity_index": loop.index0} | tojson %}
+        {% include "partials/flag-button.html" %}
+      {% endif %}
     </div>
     {% endfor %}
   </div>
@@ -56,6 +61,9 @@
   <div class="lesson-feedback">
     <div class="feedback-label">{{ t("lesson_feedback_label") }}</div>
     <div class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</div>
+    {% set flag_call_type = "lesson_feedback" %}
+    {% set flag_refs = {"lesson_id": lesson.id|string} | tojson %}
+    {% include "partials/flag-button.html" %}
   </div>
   {% endif %}
 

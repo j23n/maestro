@@ -12,7 +12,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_writing_task_completion_accuracy(record_eval):
+async def test_writing_task_completion_accuracy(db, record_eval, record_item):
     """Measure accuracy of task-completion (objective_correct) for writing feedback."""
     import json as _json
     from maestro.learning.scorer import generate_writing_feedback
@@ -61,6 +61,14 @@ async def test_writing_task_completion_accuracy(record_eval):
             f"got={got} expected={expected}"
         )
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {
+            "pass": r["pass"],
+            "got": r.get("got"),
+            "expected": r.get("expected"),
+        }
+
     n = len(cases)
     accuracy = (tp + tn) / max(1, n)
     precision = tp / max(1, tp + fp)
@@ -101,12 +109,19 @@ async def test_writing_task_completion_accuracy(record_eval):
                 f"Scored: {scored_str}\n"
                 f"Grammar errors identified: {grammar_errors}\n"
                 f"Tips: {tips}\n\n"
-                f"Is this feedback accurate and constructive for an A1 Italian learner?"
+                f"Is the pass/fail assessment correct, and are any identified grammar errors accurate? "
+                f"Do NOT penalise absence of improvement tips — the scorer only reports errors, not suggestions."
             )
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        if case["id"] in item_data:
+            item_data[case["id"]]["judge_pass"] = ok
+            item_data[case["id"]]["judge_reason"] = reason
         logger.info(f"[eval] judge {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    for case_id, data in item_data.items():
+        record_item("analyzer", {"test": "writing", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Writing content_quality={content_quality:.2%}")

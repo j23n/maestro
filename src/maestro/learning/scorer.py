@@ -140,6 +140,8 @@ async def _score_multi(
         raw = response.content[0].text.strip()
         logger.debug(f"[scorer] {label} LLM response: {raw}")
         result = parse_llm_json(raw)
+        if isinstance(result, dict) and n == 1:
+            result = [result]
         if isinstance(result, list) and len(result) == n:
             return _validate_results(result, n, label)
         logger.error(f"[scorer] {label} unexpected result shape: {raw}")
@@ -228,7 +230,7 @@ async def evaluate_error_correction(
         if rag_content
         else ""
     )
-    prompt = _prompts.evaluate_error_correction.render(
+    prompt = _prompts.error_correction_eval.render(
         target_language=_target_language(),
         feedback_language=_feedback_language(cefr_level),
         erroneous=erroneous,
@@ -245,7 +247,7 @@ async def evaluate_error_correction(
         response = await llm_messages_create(
             model=settings.SCORING_MODEL,
             max_tokens=256,
-            system=_prompts.evaluate_error_correction.render_system(
+            system=_prompts.error_correction_eval.render_system(
                 target_language=_target_language(),
             ),
             messages=[{"role": "user", "content": prompt}],
@@ -302,13 +304,15 @@ async def score_multi_item_drill(
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
-        task_desc = _prompts.task_fill_blank.render(target_language=_target_language())
+        task_desc = _prompts.fill_blank_task_fragment.render(
+            target_language=_target_language()
+        )
         lines = [
             f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
             for i in range(n)
         ]
     else:  # error_correction
-        task_desc = _prompts.task_error_correction.render(
+        task_desc = _prompts.error_correction_task_fragment.render(
             target_language=_target_language()
         )
         lines = [
@@ -316,7 +320,7 @@ async def score_multi_item_drill(
             for i in range(n)
         ]
 
-    prompt = _prompts.score_multi_item.render(
+    prompt = _prompts.drill_scoring.render(
         target_language=_target_language(),
         task_desc=task_desc,
         gp_label=gp_label,
@@ -354,7 +358,7 @@ async def generate_writing_feedback(
         f"{word_count} words, prompt={prompt[:60]!r}..."
     )
 
-    llm_prompt = _prompts.generate_writing_feedback.render(
+    llm_prompt = _prompts.writing_scoring.render(
         target_language=_target_language(),
         cefr_level=cefr_level,
         prompt=prompt,
@@ -388,15 +392,21 @@ async def score_free_form_drill(
         if rag_content
         else ""
     )
+    await taxonomy.ensure_loaded()
+    gp_label = next(
+        (g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code),
+        grammar_point_code,
+    )
     logger.info(
         f"[scorer] score_free_form_drill: gp={grammar_point_code}, level={cefr_level}, "
         f"student={student_text[:60]!r}..."
     )
 
-    llm_prompt = _prompts.score_free_form_drill.render(
+    llm_prompt = _prompts.free_form_scoring.render(
         target_language=_target_language(),
         cefr_level=cefr_level,
         grammar_point_code=grammar_point_code,
+        grammar_point_label=gp_label,
         prompt=prompt,
         student_text=student_text,
         rule_block=rule_block,
@@ -431,7 +441,7 @@ async def score_reading_answers(
         for i in range(n)
     ]
 
-    prompt = _prompts.score_reading_answers.render(
+    prompt = _prompts.reading_scoring.render(
         target_language=_target_language(),
         items_block="\n".join(lines),
         n=n,
