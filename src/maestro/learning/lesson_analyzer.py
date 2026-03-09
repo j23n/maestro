@@ -21,7 +21,7 @@ from maestro.models import (
 from maestro.learning.profile import update_profile
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client
+from maestro.llm import get_async_client, log_llm_usage
 from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
@@ -64,6 +64,8 @@ async def _analyze_cfs_staged(
     combined: str,
     cefr_level: str,
     client: "anthropic.AsyncAnthropic",
+    student_id=None,
+    lesson_id=None,
 ) -> list[str]:
     """Two-stage CF analysis: macro identification → per-macro CF classification."""
     macro_lines = "\n".join(
@@ -80,6 +82,7 @@ async def _analyze_cfs_staged(
             max_tokens=128,
             messages=[{"role": "user", "content": stage1_prompt}],
         )
+        log_llm_usage(response, "cf_stage1", student_id=student_id, lesson_id=lesson_id)
         raw = response.content[0].text
         data = parse_llm_json(raw)
         if not isinstance(data, dict):
@@ -117,6 +120,7 @@ async def _analyze_cfs_staged(
                 max_tokens=128,
                 messages=[{"role": "user", "content": prompt}],
             )
+            log_llm_usage(resp, "cf_stage2", student_id=student_id, lesson_id=lesson_id)
             raw = resp.content[0].text
             d = parse_llm_json(raw)
             if not isinstance(d, dict):
@@ -152,7 +156,13 @@ async def analyze_lesson(lesson: "Lesson") -> None:
         # Phase 2: CF two-stage analysis
         cf_codes: list[str] = []
         if combined.strip():
-            cf_codes = await _analyze_cfs_staged(combined, cefr_level, client)
+            cf_codes = await _analyze_cfs_staged(
+                combined,
+                cefr_level,
+                client,
+                student_id=lesson.student_id,
+                lesson_id=lesson.id,
+            )
 
         # Create a summary event for profile update
         event = LearningEvent(

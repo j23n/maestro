@@ -550,7 +550,7 @@ async def lezione_drill_submit(
     )
 
     correct, event, feedback, rule_refs = await score_attempt(
-        drill, student_input, student_id=student.id
+        drill, student_input, student_id=student.id, lesson_id=lesson.id
     )
 
     stored_answer = (
@@ -694,6 +694,8 @@ async def lezione_writing_submit(
         activity.content or "",
         answer,
         cefr_level,
+        student_id=student.id,
+        lesson_id=lesson.id,
     )
 
     await taxonomy.ensure_loaded()
@@ -761,6 +763,8 @@ async def lezione_reading_submit(
         correct_answers,
         answers,
         cefr_level=lesson.cefr_at_start,
+        student_id=student.id,
+        lesson_id=lesson.id,
     )
 
     joined_answers = " | ".join(a for a in answers if a)

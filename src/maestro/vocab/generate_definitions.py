@@ -22,7 +22,7 @@ from bson import DBRef
 
 from maestro.db import init_db
 from maestro.config import settings
-from maestro.llm import get_client
+from maestro.llm import get_client, log_llm_usage
 from maestro.models import (
     CefrSense,
     UserVocabularyCard,
@@ -70,6 +70,7 @@ def _call_claude(
         system=_prompts.definitions_system.render_system(target_language=lang),
         messages=[{"role": "user", "content": user_content}],
     )
+    log_llm_usage(msg, "vocab_definitions")
     elapsed = time.monotonic() - t0
     raw = msg.content[0].text.strip()
     logger.debug(f"[vocab] Claude response in {elapsed:.2f}s: {raw}")
