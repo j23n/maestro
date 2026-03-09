@@ -24,8 +24,9 @@ from maestro.models import (
 )
 from maestro.learning.scorer import score_reading_answers
 from maestro.learning.lesson_analyzer import analyze_lesson
-from maestro.llm import get_async_client, track_llm_call
+from maestro.llm import llm_messages_create
 from maestro.models import CallType
+from maestro.prompts import planner as _planner_prompts
 from maestro.config import settings
 from maestro.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
@@ -190,17 +191,14 @@ async def generate_lesson_feedback(
         "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
         "notes any areas of difficulty, and ends with one specific encouragement."
     )
-    client = get_async_client()
-    response = await client.messages.create(
+    response = await llm_messages_create(
         model=settings.DRILL_MODEL,
         max_tokens=200,
+        system=_planner_prompts.lesson_feedback.render_system(),
         messages=[{"role": "user", "content": prompt}],
-    )
-    await track_llm_call(
-        response,
-        CallType.LESSON_FEEDBACK,
+        entity_id=lesson.id,
+        call_type=CallType.LESSON_FEEDBACK,
         student_id=lesson.student_id,
-        lesson_id=lesson.id,
     )
     text = response.content[0].text.strip()
     text = re.sub(r"^#+\s+\S+\s*\n", "", text).strip()

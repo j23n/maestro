@@ -18,6 +18,13 @@ from maestro.prompts import planner as _prompts
 from maestro.lezione.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
 
 
+def build_lesson_content_system() -> str:
+    """Return the system prompt for lesson content generation."""
+    return _prompts.lesson_content_system.render_system(
+        target_language=settings.TARGET_LANGUAGE_NAME
+    )
+
+
 def build_lesson_content_prompt(
     cefr_level: str,
     scenario: CurriculumScenario,

@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import json
 import logging
-import time
 from typing import Optional, TYPE_CHECKING
 
 from maestro.profile import get_cefr_level
@@ -18,10 +17,9 @@ from maestro.profile import get_cefr_level
 if TYPE_CHECKING:
     from maestro.models import Message
 
-from maestro.models import LearningEvent
+from maestro.models import LearningEvent, CallType
 from maestro.config import settings
-from maestro.llm import get_async_client, track_llm_call
-from maestro.models import CallType
+from maestro.llm import llm_messages_create
 from maestro import taxonomy
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
@@ -40,10 +38,6 @@ def _feedback_language(cefr_level: str) -> str:
 async def _ensure_loaded() -> None:
     """Ensure taxonomy cache is populated."""
     await taxonomy.ensure_loaded()
-
-
-def _client():
-    return get_async_client()
 
 
 def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str:
@@ -119,16 +113,19 @@ async def analyze_message(
         level = await get_cefr_level(student_id) if student_id else "B2"
         prompt = _build_prompt(text, level, drill_context)
         logger.debug(f"[analyzer] analyze_message prompt: {prompt}")
-        t0 = time.monotonic()
-        response = await _client().messages.create(
+        response = await llm_messages_create(
             model=settings.LESSON_MODEL,
             max_tokens=1024,
+            system=_prompts.analyze_message.render_system(
+                target_language=settings.TARGET_LANGUAGE_NAME
+            ),
             messages=[{"role": "user", "content": prompt}],
+            entity_id=lesson_id,
+            call_type=CallType.ANALYZER,
+            student_id=student_id,
         )
-        await track_llm_call(response, CallType.ANALYZER, student_id=student_id, lesson_id=lesson_id)
-        elapsed = time.monotonic() - t0
         raw = response.content[0].text
-        logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw}")
+        logger.debug(f"[analyzer] LLM response: {raw}")
         data = parse_llm_json(raw)
         if data is None:
             logger.error(f"[analyzer] failed to parse response: {raw}")

@@ -2,6 +2,25 @@ version: "2"
 
 # ---------------------------------------------------------------------------
 
+lesson_content_system:
+  description: >
+    System prompt for the lesson content generation LLM call.
+  # variables: target_language
+  system: |
+    You are an expert {{target_language}} language lesson content creator.
+    Respond only with valid JSON as specified in the prompt.
+
+# ---------------------------------------------------------------------------
+
+lesson_feedback:
+  description: >
+    System prompt for end-of-lesson feedback generation.
+  system: |
+    You are an encouraging language teacher.
+    Write brief, honest lesson feedback in English.
+
+# ---------------------------------------------------------------------------
+
 lesson_content_header:
   user: |
     You are generating content for a {{target_language}} language lesson.
