@@ -493,9 +493,14 @@ def _make_a1_lesson(student_id, status=LessonStatus.COMPLETED):
 
 
 @pytest.mark.integration
-async def test_free_tier_a1_limit_blocks_after_cap(test_app, db, student, account):
+async def test_free_tier_a1_limit_blocks_after_cap(
+    test_app, db, student, account, monkeypatch
+):
     """Free-tier student with 10 A1 lessons gets a 402 on POST /lezione/."""
+    import maestro.routes.lezione as _lezione_routes
     from maestro.learning.profile import LearningProfile
+
+    monkeypatch.setattr(_lezione_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
 
     profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
     await profile.insert()
@@ -573,10 +578,13 @@ async def test_a0_student_always_allowed(test_app, db, student, account):
 
 @pytest.mark.integration
 async def test_free_tier_limit_response_contains_upgrade_text(
-    test_app, db, student, account
+    test_app, db, student, account, monkeypatch
 ):
     """The 402 response body contains the upgrade prompt."""
+    import maestro.routes.lezione as _lezione_routes
     from maestro.learning.profile import LearningProfile
+
+    monkeypatch.setattr(_lezione_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
 
     profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
     await profile.insert()
