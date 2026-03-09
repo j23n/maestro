@@ -68,7 +68,9 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
         logger.warning("lesson not found: %s for student=%s", lesson_id, student.id)
         raise HTTPException(404)
     if lesson.student_id != student.id:
-        logger.warning("lesson 403: %s for student=%s", lesson_id, student.id)
+        logger.warning(
+            "lesson access denied: lesson=%s student=%s", lesson_id, student.id
+        )
         raise HTTPException(403)
     return lesson
 
@@ -167,7 +169,9 @@ async def lezione_create(
     )
     logger.info(
         "lesson created: student=%s lesson=%s scenario=%s",
-        student.id, lesson.id, scenario_slug or "auto",
+        student.id,
+        lesson.id,
+        scenario_slug or "auto",
     )
     create_background_task(
         generate_lesson_background(
