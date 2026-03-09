@@ -22,7 +22,7 @@ from maestro.session import clear_session_cookie, read_session
 from maestro.templates import templates
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
-from maestro.routes import auth, vocab, profilo, grammar, lezione
+from maestro.routes import auth, vocab, profilo, grammar, lezione, feedback
 
 
 class _JsonFormatter(logging.Formatter):
@@ -145,6 +145,7 @@ app.include_router(vocab.router)
 app.include_router(profilo.router)
 app.include_router(grammar.router)
 app.include_router(lezione.router)
+app.include_router(feedback.router)
 
 
 @app.get("/", response_class=HTMLResponse)

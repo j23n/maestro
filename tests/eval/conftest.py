@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 from datetime import datetime, timezone
@@ -11,6 +12,34 @@ from beanie import init_beanie
 from maestro.models import ALL_DOCUMENT_MODELS
 
 _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_PROMPTS_DIR = Path(__file__).parent.parent.parent / "prompts"
+_LOCK_FILE = _PROMPTS_DIR / "versions.lock"
+
+
+def pytest_configure(config):
+    """Abort the eval session if any prompt file has drifted from versions.lock."""
+    if not _LOCK_FILE.exists():
+        pytest.exit(
+            "prompts/versions.lock not found — run scripts/update_prompt_lock.py",
+            returncode=1,
+        )
+    lock_data = json.loads(_LOCK_FILE.read_text())
+    failures = []
+    for path in sorted(_PROMPTS_DIR.glob("*.yaml")):
+        actual_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if path.name not in lock_data:
+            failures.append(f"prompts/{path.name} is not in versions.lock")
+        elif actual_sha != lock_data[path.name].get("sha256", ""):
+            failures.append(
+                f"prompts/{path.name} has changed without a version bump — "
+                "run scripts/update_prompt_lock.py after bumping version: in the YAML"
+            )
+    if failures:
+        pytest.exit(
+            "Prompt version mismatch — eval aborted:\n"
+            + "\n".join(f"  {f}" for f in failures),
+            returncode=1,
+        )
 
 
 def pytest_collection_modifyitems(items):
@@ -52,11 +81,26 @@ async def db():
 
 
 _RESULTS_FILE = Path(__file__).parent.parent.parent / "evals" / "results.jsonl"
+_ITEMS_FILE = Path(__file__).parent.parent.parent / "evals" / "items.jsonl"
+
+
+def _result_key(entry: dict) -> tuple:
+    """Identity key for deduplication: one result per (prompt, version, test[, subtest, model])."""
+    return (
+        entry.get("prompt"),
+        entry.get("version"),
+        entry.get("test"),
+        entry.get("subtest"),
+        entry.get("model"),
+    )
 
 
 @pytest.fixture
 def record_eval():
     """Call at the end of an eval test to persist metrics to evals/results.jsonl.
+
+    Upserts by (prompt, version, test) — a given prompt version gets exactly one
+    result entry per eval test. Re-running the same eval replaces the previous result.
 
     Usage:
         def test_foo(record_eval):
@@ -66,16 +110,80 @@ def record_eval():
     from maestro import prompts as prompt_module
 
     def _record(prompt_file: str, metrics: dict) -> None:
+        from maestro.config import settings
+        from maestro.prompts import judge as _judge_prompts
+
         pf = getattr(prompt_module, prompt_file, None)
         version = pf.version if pf else "unknown"
         entry = {
             "ts": datetime.now(timezone.utc).isoformat(),
             "prompt": prompt_file,
             "version": version,
+            "judge_model": settings.EVAL_MODEL,
+            "judge_version": _judge_prompts.version,
             **metrics,
         }
         _RESULTS_FILE.parent.mkdir(exist_ok=True)
-        with _RESULTS_FILE.open("a") as f:
+        existing = []
+        if _RESULTS_FILE.exists():
+            for line in _RESULTS_FILE.read_text().splitlines():
+                line = line.strip()
+                if line:
+                    existing.append(json.loads(line))
+        key = _result_key(entry)
+        updated = [e for e in existing if _result_key(e) != key]
+        updated.append(entry)
+        with _RESULTS_FILE.open("w") as f:
+            for e in updated:
+                f.write(json.dumps(e) + "\n")
+
+    return _record
+
+
+@pytest.fixture
+def record_item():
+    """Record per-item eval results to evals/items.jsonl.
+
+    All items recorded in a single test share a run_ts, so the failures
+    subcommand can group them by run and show which cases failed.
+
+    Usage:
+        async def test_foo(record_item):
+            for case in cases:
+                ...
+                record_item("scorer", {
+                    "test": "scoring_compare",
+                    "model": model_name,
+                    "case_id": case["id"],
+                    "pass": passed,
+                    "got": got,
+                    "expected": expected,
+                    # optional: "reason": "why it failed"
+                })
+    """
+    from maestro import prompts as prompt_module
+
+    run_ts = datetime.now(timezone.utc).isoformat()
+
+    def _record(prompt_file: str, item: dict) -> None:
+        from maestro.config import settings
+        from maestro.prompts import judge as _judge_prompts
+
+        pf = getattr(prompt_module, prompt_file, None)
+        version = pf.version if pf else "unknown"
+        entry = {
+            "run_ts": run_ts,
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "prompt": prompt_file,
+            "version": version,
+            "judge_model": settings.EVAL_MODEL,
+            "judge_version": _judge_prompts.version,
+            **item,
+        }
+        _ITEMS_FILE.parent.mkdir(exist_ok=True)
+        # items.jsonl grows unbounded; use `compare.py failures --latest` to filter
+        # to the most-recent run per (prompt, version, test, model, subtest) group.
+        with _ITEMS_FILE.open("a") as f:
             f.write(json.dumps(entry) + "\n")
 
     return _record
@@ -121,8 +229,7 @@ async def seeded_analyzer_cache(db):
 
     taxonomy.seed(
         gps=[SimpleNamespace(**g) for g in gps],
-        # CFs in the JSON have no `description` field; supply the default so _build_prompt doesn't crash
-        cfs=[SimpleNamespace(description="", **cf) for cf in cfs],
+        cfs=[SimpleNamespace(**cf) for cf in cfs],
     )
 
     yield

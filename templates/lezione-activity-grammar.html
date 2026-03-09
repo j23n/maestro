@@ -33,6 +33,12 @@
     </a>
     {% endif %}
 
+    {% if activity.grammar_point_code %}
+      {% set flag_call_type = "grammar_explanation" %}
+      {% set flag_refs = {"grammar_point_code": activity.grammar_point_code, "cefr_level": lesson.cefr_at_start} | tojson %}
+      {% include "partials/flag-button.html" %}
+    {% endif %}
+
     {% if is_review %}
     <div class="review-banner">
       <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">

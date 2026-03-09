@@ -1,0 +1,29 @@
+{#
+  Flag button partial — any logged-in user.
+
+  Required parameters (pass via Jinja2 include with context or set before including):
+    flag_call_type  — CallType string, e.g. "scorer_multi"
+    flag_refs       — JSON string, e.g. '{"lesson_id": "...", "activity_index": 0}'
+
+  The CSRF token is injected automatically by the htmx:configRequest listener in base.html.
+#}
+{% if request.state is defined and request.state.account is defined %}
+<form class="flag-form"
+      hx-post="/flag"
+      hx-target="this"
+      hx-swap="innerHTML"
+      style="display:inline-block">
+  <input type="hidden" name="call_type" value="{{ flag_call_type }}">
+  <input type="hidden" name="url" value="{{ request.url }}">
+  <input type="hidden" name="refs" value="{{ flag_refs }}">
+  <button type="button" class="btn-flag" title="Flag this LLM output for review"
+          onclick="this.closest('.flag-form').classList.add('expanded');this.style.display='none'">⚑</button>
+  <div class="flag-expand">
+    <textarea name="issue_description" placeholder="What's wrong?" rows="2"></textarea>
+    <div class="flag-actions">
+      <button type="button" onclick="var f=this.closest('.flag-form');f.classList.remove('expanded');f.querySelector('.btn-flag').style.display=''">Cancel</button>
+      <button type="submit">Submit ⚑</button>
+    </div>
+  </div>
+</form>
+{% endif %}

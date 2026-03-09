@@ -203,7 +203,7 @@ def _judge_scoring_cases(case_scores: list[tuple]) -> float:
 
 
 @pytest.mark.llm_eval
-async def test_scoring_model_comparison(db, record_eval, monkeypatch):
+async def test_scoring_model_comparison(db, record_eval, record_item, monkeypatch):
     """Compare scoring accuracy and content quality across models."""
     scoring_cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())
     reading_cases = json.loads((FIXTURES_DIR / "reading_cases.json").read_text())
@@ -226,7 +226,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **scoring_metrics,
                 "content_quality": round(scoring_quality, 4),
@@ -235,6 +235,19 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
                 "subtest": "scoring",
             },
         )
+        for r in scoring_results:
+            record_item(
+                "scorer",
+                {
+                    "test": "scoring_compare",
+                    "model": model,
+                    "subtest": "scoring",
+                    "case_id": r["id"],
+                    "pass": r["pass"],
+                    "got": r["got"],
+                    "expected": r["expected"],
+                },
+            )
 
         # --- Reading comprehension ---
         reading_results = await _run_reading_cases(reading_cases)
@@ -246,7 +259,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **reading_metrics,
                 "test": "scoring_compare",
@@ -254,6 +267,19 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
                 "subtest": "reading",
             },
         )
+        for r in reading_results:
+            record_item(
+                "scorer",
+                {
+                    "test": "scoring_compare",
+                    "model": model,
+                    "subtest": "reading",
+                    "case_id": r["id"],
+                    "pass": r["pass"],
+                    "got": r["got"],
+                    "expected": r["expected"],
+                },
+            )
 
         # --- Writing ---
         writing_results = await _run_writing_cases(writing_cases)
@@ -265,7 +291,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **writing_metrics,
                 "test": "scoring_compare",
@@ -273,6 +299,19 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
                 "subtest": "writing",
             },
         )
+        for r in writing_results:
+            record_item(
+                "scorer",
+                {
+                    "test": "scoring_compare",
+                    "model": model,
+                    "subtest": "writing",
+                    "case_id": r["id"],
+                    "pass": r["pass"],
+                    "got": r["got"],
+                    "expected": r["expected"],
+                },
+            )
 
         all_model_metrics[model] = {
             "scoring": {
@@ -297,7 +336,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
             )
 
             record_eval(
-                "analyzer",
+                "scorer",
                 {
                     "test": "scoring_compare",
                     "subtest": f"{subtest}_agreement",

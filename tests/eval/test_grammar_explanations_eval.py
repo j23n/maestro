@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from types import SimpleNamespace
 
-import anthropic
 import pytest
 
 logger = logging.getLogger(__name__)
@@ -14,13 +13,12 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-def test_grammar_explanation_quality(record_eval):
+async def test_grammar_explanation_quality(record_eval, record_item):
     """Validate that explanations are generated for all expected levels with sufficient content."""
-    from maestro.grammar.generate_explanations import _call_claude, _target_levels
+    from maestro.grammar.generate_explanations import _call_api, _target_levels
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "grammar_explanation_cases.json").read_text())
-    client = anthropic.Anthropic()
 
     passed_count = 0
     results = []
@@ -28,19 +26,20 @@ def test_grammar_explanation_quality(record_eval):
 
     for case in cases:
         gp = SimpleNamespace(
+            id=None,
             code=case["code"],
             label=case["label"],
             cefr_level=case["cefr_level"],
             description=case["description"],
         )
         levels = _target_levels(gp)
-        data = _call_claude(gp, levels, rag_content="", client=client)
+        data = await _call_api(gp, levels, chunk_content="")
         all_data[case["code"]] = data or {}
 
         failures = []
 
         if data is None:
-            failures.append("_call_claude returned None (parse error)")
+            failures.append("_call_api returned None (parse error)")
             results.append({"id": case["code"], "pass": False, "failures": failures})
             logger.info(f"[eval] {case['code']}: FAIL (None returned)")
             continue
@@ -49,7 +48,7 @@ def test_grammar_explanation_quality(record_eval):
             if level not in data:
                 failures.append(f"level {level} missing from response")
                 continue
-            text = data[level]
+            text = data[level]["explanation"]
             if len(text) < 100:
                 failures.append(
                     f"level {level} explanation too short: {len(text)} chars"
@@ -86,6 +85,10 @@ def test_grammar_explanation_quality(record_eval):
             f"levels={list(data.keys()) if data else []} {failures}"
         )
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {"pass": r["pass"], "failures": r.get("failures", [])}
+
     n = len(cases)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
@@ -96,12 +99,14 @@ def test_grammar_explanation_quality(record_eval):
     # LLM judge: evaluate per (GP, level) pair
     judge_passed = 0
     judge_total = 0
+    case_judge: dict[str, list[bool]] = {}
+    last_reason: dict[str, str] = {}
     for case in cases:
         data = all_data.get(case["code"])
         if not data:
             continue
         for level in case["expected_levels"]:
-            text = data.get(level, "")
+            text = data.get(level, {}).get("explanation", "")
             if not text:
                 continue
             judge_total += 1
@@ -124,9 +129,19 @@ def test_grammar_explanation_quality(record_eval):
                 ok, reason = _judge(prompt)
             if ok:
                 judge_passed += 1
+            case_judge.setdefault(case["code"], []).append(ok)
+            last_reason[case["code"]] = reason
             logger.info(
                 f"[eval] judge {case['code']}/{level}: {'PASS' if ok else 'FAIL'} {reason}"
             )
+
+    for code, bools in case_judge.items():
+        if code in item_data:
+            item_data[code]["judge_pass"] = all(bools)
+            item_data[code]["judge_reason"] = last_reason.get(code, "")
+
+    for case_id, data in item_data.items():
+        record_item("grammar", {"test": "explanations", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Grammar content_quality={content_quality:.2%}")

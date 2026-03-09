@@ -13,17 +13,18 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-def test_vocab_definition_quality(record_eval):
+async def test_vocab_definition_quality(record_eval, record_item):
     """Validate A1/A2 definition structure and field presence for common words."""
     import json as _json
-    from maestro.vocab.generate_definitions import _call_claude
+    from maestro.vocab.generate_definitions import _call_api
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "vocab_cases.json").read_text())
 
-    # Build SimpleNamespace word mocks matching what _call_claude expects
+    # Build SimpleNamespace word mocks matching what _call_api expects
     words = [
         SimpleNamespace(
+            id=None,
             word=c["word"],
             part_of_speech=c["part_of_speech"],
             senses=[
@@ -34,7 +35,7 @@ def test_vocab_definition_quality(record_eval):
         for c in cases
     ]
 
-    result = _call_claude(words)
+    result = await _call_api(words)
 
     passed_count = 0
     results = []
@@ -79,6 +80,10 @@ def test_vocab_definition_quality(record_eval):
         results.append({"id": w, "pass": passed, "failures": failures})
         logger.info(f"[eval] {w}: {'PASS' if passed else 'FAIL'} {failures}")
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {"pass": r["pass"], "failures": r.get("failures", [])}
+
     n = len(words)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
@@ -89,6 +94,8 @@ def test_vocab_definition_quality(record_eval):
     # LLM judge: evaluate per (word, level) pair
     judge_passed = 0
     judge_total = 0
+    word_judge: dict[str, list[bool]] = {}
+    last_reason: dict[str, str] = {}
     for c in cases:
         w = c["word"]
         entry = result.get(w) or result.get(w.lower())
@@ -132,9 +139,19 @@ def test_vocab_definition_quality(record_eval):
                 ok, reason = _judge(prompt)
             if ok:
                 judge_passed += 1
+            word_judge.setdefault(w, []).append(ok)
+            last_reason[w] = reason
             logger.info(
                 f"[eval] judge {w}/{level}: {'PASS' if ok else 'FAIL'} {reason}"
             )
+
+    for w, bools in word_judge.items():
+        if w in item_data:
+            item_data[w]["judge_pass"] = all(bools)
+            item_data[w]["judge_reason"] = last_reason.get(w, "")
+
+    for case_id, data in item_data.items():
+        record_item("vocab", {"test": "definitions", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Vocab content_quality={content_quality:.2%}")

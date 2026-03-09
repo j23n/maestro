@@ -1111,3 +1111,9 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   .action-links { flex-direction: column; }
   .btn-primary, .complete-container .btn-secondary { text-align: center; }
 }
+
+/* ── Flag button ─────────────────────────────────────────────────────────── */
+.flag-form .flag-expand { display: none; }
+.flag-form.expanded .flag-expand { display: block; }
+.flag-form .flag-expand textarea { width: 100%; box-sizing: border-box; }
+.flag-actions { display: flex; gap: 4px; margin-top: 4px; }

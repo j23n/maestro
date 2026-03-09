@@ -1,6 +1,6 @@
-version: "1"
+version: "2"
 
-explanations_system:
+explanation_system:
   description: >
     System prompt for generating CEFR-graded grammar point explanations.
     level_guidance is built at runtime from the level_guidance_* entries below.

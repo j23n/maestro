@@ -4,7 +4,6 @@ import json
 import logging
 from pathlib import Path
 
-import anthropic
 import pytest
 
 logger = logging.getLogger(__name__)
@@ -13,7 +12,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 @pytest.mark.llm_eval
-async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
+async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval, record_item):
     """Measure macro-category recall of _analyze_cfs_staged."""
     import json as _json
     from maestro.learning.lesson_analyzer import _analyze_cfs_staged
@@ -21,8 +20,6 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
 
     cases = json.loads((FIXTURES_DIR / "lesson_analyzer_cases.json").read_text())
     cf_cases = [c for c in cases if c["type"] == "cf"]
-
-    client = anthropic.AsyncAnthropic()
 
     # Build code → macro_category lookup from seeded cache
     from maestro import taxonomy
@@ -41,7 +38,6 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
         cf_codes = await _analyze_cfs_staged(
             combined=case["combined"],
             cefr_level=case["cefr_level"],
-            client=client,
         )
         detected_macros = {
             code_to_macro[code] for code in cf_codes if code in code_to_macro
@@ -68,6 +64,10 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
             f"[eval] {case['id']}: {'PASS' if case_result['pass'] else 'FAIL'} "
             f"detected_macros={detected_macros} {case_result['failures']}"
         )
+
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {"pass": r["pass"], "failures": r.get("failures", [])}
 
     recall = macro_hits / max(1, macro_total)
     failed = [r for r in results if not r["pass"]]
@@ -98,8 +98,16 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        if case["id"] in item_data:
+            item_data[case["id"]]["judge_pass"] = ok
+            item_data[case["id"]]["judge_reason"] = reason
         logger.info(
             f"[eval] judge cf {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
+        )
+
+    for case_id, data in item_data.items():
+        record_item(
+            "lesson_analyzer", {"test": "cf_detection", "case_id": case_id, **data}
         )
 
     content_quality = judge_passed / max(1, judge_total)

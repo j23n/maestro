@@ -44,7 +44,7 @@ def seed_cache_for_scoring():
 
 
 @pytest.mark.llm_eval
-async def test_scoring_accuracy(db, record_eval):
+async def test_scoring_accuracy(db, record_eval, record_item):
     """Measure accuracy of fill_blank and error_correction scoring against golden cases."""
     import json as _json
     from maestro.learning.scorer import score_multi_item_drill
@@ -90,6 +90,14 @@ async def test_scoring_accuracy(db, record_eval):
             f"[eval] {case['id']}: {'PASS' if passed else 'FAIL'} got={got} expected={expected}"
         )
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {
+            "pass": r["pass"],
+            "got": r.get("got"),
+            "expected": r.get("expected"),
+        }
+
     n = len(cases)
     accuracy = (tp + tn) / max(1, n)
     precision = tp / max(1, tp + fp)
@@ -130,7 +138,13 @@ async def test_scoring_accuracy(db, record_eval):
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        if case["id"] in item_data:
+            item_data[case["id"]]["judge_pass"] = ok
+            item_data[case["id"]]["judge_reason"] = reason
         logger.info(f"[eval] judge {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    for case_id, data in item_data.items():
+        record_item("analyzer", {"test": "scoring", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Scoring content_quality={content_quality:.2%}")

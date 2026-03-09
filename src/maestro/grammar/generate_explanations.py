@@ -57,7 +57,7 @@ def _build_system_prompt(levels: tuple[str, ...]) -> str:
         f"- {lvl}: {getattr(_prompts, _LEVEL_GUIDANCE_KEYS[lvl]).render(target_language=lang)}"
         for lvl in levels
     )
-    return _prompts.explanations_system.render_system(
+    return _prompts.explanation_system.render_system(
         target_language=lang,
         target_language_code=lang_code,
         level_guidance=guidance,
