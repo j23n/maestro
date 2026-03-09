@@ -1,4 +1,4 @@
-"""Admin routes — LLM critique flagging and other admin tools."""
+"""Feedback routes — LLM critique flagging."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ from maestro import prompts as _prompts
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/admin")
+router = APIRouter()
 
 
 def _prompt_version_for_call_type(call_type: CallType) -> str:
@@ -161,7 +161,9 @@ async def _reconstruct_lesson_feedback(refs: dict) -> tuple[dict, dict]:
         return {"error": "Lesson not found"}, {}
     events = await LearningEvent.find({"lesson_id": lesson_id}).to_list()
     input_snapshot = {
-        "student_responses": [e.student_text for e in events if e.student_text]
+        "topic_title": lesson.topic_title or "",
+        "topic_description": lesson.topic_description or "",
+        "student_responses": [e.student_text for e in events if e.student_text],
     }
     actual_output = {"feedback_summary": lesson.feedback_summary}
     return input_snapshot, actual_output
@@ -254,28 +256,24 @@ _RECONSTRUCTORS = {
 
 
 @router.post("/flag", response_class=HTMLResponse)
-async def admin_flag(
+async def flag(
     request: Request,
     call_type: Annotated[str, Form()],
     url: Annotated[str, Form()],
     refs: Annotated[str, Form()],
     issue_description: Annotated[str, Form()] = "",
 ):
-    """Flag an LLM call for review. Admin only."""
-    account = request.state.account
-    if not account.is_admin:
-        return HTMLResponse("Forbidden", status_code=403)
-
+    """Flag an LLM call for review. Requires login."""
     try:
         call_type_enum = CallType(call_type)
     except ValueError:
-        logger.warning("admin_flag: unknown call_type=%s", call_type)
+        logger.warning("flag: unknown call_type=%s", call_type)
         return HTMLResponse(f"Unknown call_type: {call_type}", status_code=400)
 
     try:
         refs_dict = json.loads(refs)
     except (json.JSONDecodeError, TypeError) as exc:
-        logger.warning("admin_flag: invalid refs JSON: %s", exc)
+        logger.warning("flag: invalid refs JSON: %s", exc)
         return HTMLResponse(f"Invalid refs JSON: {exc}", status_code=400)
 
     prompt_version = _prompt_version_for_call_type(call_type_enum)
@@ -288,7 +286,7 @@ async def admin_flag(
         try:
             input_snapshot, actual_output = await reconstructor(refs_dict)
         except Exception as exc:
-            logger.exception("admin_flag: reconstruction failed for %s", call_type)
+            logger.exception("flag: reconstruction failed for %s", call_type)
             input_snapshot = {"error": str(exc)}
             actual_output = {}
 
@@ -303,7 +301,7 @@ async def admin_flag(
     )
     await critique.insert()
     logger.info(
-        "admin_flag: created LLMCritique id=%s call_type=%s",
+        "flag: created LLMCritique id=%s call_type=%s",
         critique.id,
         call_type,
     )

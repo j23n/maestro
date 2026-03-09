@@ -1,0 +1,20 @@
+version: "1"
+
+system:
+  description: "System prompt injected into every LLM-as-judge call"
+  system: "You are an expert Italian language teacher evaluating AI-generated teaching content. Be strict but fair. Reply ONLY with valid JSON."
+
+reply_suffix:
+  description: "JSON reply instruction appended to ad-hoc judge prompts (judge())"
+  user: 'Reply: {"acceptable": true/false, "reason": "one sentence"}'
+
+reference_check:
+  description: "Judge whether generated output matches a reference answer; accept paraphrasing"
+  user: |
+    {{context}}Reference answer:
+    {{reference}}
+
+    Generated answer:
+    {{generated}}
+
+    Does the generated answer convey the same meaning as the reference? Accept paraphrasing — exact wording is not required. Reply: {"acceptable": true/false, "reason": "one sentence"}
