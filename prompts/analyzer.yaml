@@ -1,4 +1,4 @@
-version: "3"
+version: "4"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -131,26 +131,6 @@ writing_scoring:
     Student level: {{cefr_level}}
     Writing prompt: {{prompt}}
     Student's text: {{student_text}}
-
-# ---------------------------------------------------------------------------
-
-free_form_scoring:
-  description: >
-    Score a free-form drill on task completion only. Grammar errors are reported
-    but never cause a fail.
-  # variables: cefr_level, grammar_point_code, prompt, student_text, rule_block
-  user: |
-    OBJECTIVE: Did the student make a genuine attempt at the task?
-    Set objective_correct=false ONLY if the answer is blank, completely off-topic,
-    or so short/nonsensical it shows no engagement.
-
-    Student level: {{cefr_level}}
-    Grammar point being practised: {{grammar_point_label}} ({{grammar_point_code}})
-    Drill prompt: {{prompt}}
-    Student's answer: {{student_text}}{{rule_block}}
-
-    Even when objective_correct is true, always populate grammar_errors with any
-    grammatical mistakes present. The objective judges engagement only.
 
 # ---------------------------------------------------------------------------
 

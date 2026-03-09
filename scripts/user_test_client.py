@@ -99,10 +99,6 @@ def _extract_drill_items(soup: BeautifulSoup) -> list[dict]:
         prompt_el = item_div.find(class_="item-sentence")
         prompt = prompt_el.get_text(strip=True) if prompt_el else ""
         items.append({"prompt": prompt, "input_name": "answers"})
-    # Free-form textarea
-    textarea = soup.find("textarea", {"name": "answers"})
-    if textarea and not items:
-        items.append({"prompt": "free_form", "input_name": "answers"})
     return items
 
 
