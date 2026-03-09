@@ -52,6 +52,7 @@ async def score_attempt(
     generated_drill: "GeneratedDrill",
     student_answer: str | list[str],
     student_id=None,
+    lesson_id=None,
 ) -> tuple[bool | None, object | None, dict | str, list[dict]]:
     """Returns (correct, learning_event, feedback, rule_refs).
 
@@ -78,6 +79,8 @@ async def score_attempt(
             answers,
             rag_content,
             cefr_level=generated_drill.cefr_level,
+            student_id=student_id,
+            lesson_id=lesson_id,
         )
 
         n = min(len(generated_drill.items), len(answers), len(raw_results))
@@ -150,6 +153,8 @@ async def score_attempt(
             code,
             cefr_level=generated_drill.cefr_level,
             rag_content=rag_content,
+            student_id=student_id,
+            lesson_id=lesson_id,
         )
         correct = feedback.get("objective_correct", True)
         valid_codes = {g.code for g in taxonomy.grammar_points()}
