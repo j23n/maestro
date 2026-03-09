@@ -19,7 +19,9 @@ from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(
+    level=logging.WARNING, format="%(levelname)-8s %(name)s: %(message)s"
+)
 _log_level = logging.DEBUG if settings.ENVIRONMENT == "development" else logging.INFO
 logging.getLogger("maestro").setLevel(_log_level)
 
