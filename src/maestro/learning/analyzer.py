@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 from maestro.models import LearningEvent
 from maestro.config import settings
-from maestro.llm import get_async_client
+from maestro.llm import get_async_client, log_llm_usage
 from maestro import taxonomy
 from maestro.prompts import analyzer as _prompts
 from maestro.utils import parse_llm_json
@@ -91,6 +91,7 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
 async def analyze_message(
     text: str,
     student_id=None,
+    lesson_id=None,
     message: Optional["Message"] = None,
     drill_context: str = "",
 ) -> Optional["LearningEvent"]:
@@ -123,6 +124,7 @@ async def analyze_message(
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
+        log_llm_usage(response, "analyze", student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
         logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw}")
@@ -190,6 +192,8 @@ async def analyze_message(
         )
 
         return LearningEvent(
+            student_id=student_id,
+            lesson_id=lesson_id,
             message=message,
             grammar_correct=grammar_correct,
             grammar_errors=grammar_errors,

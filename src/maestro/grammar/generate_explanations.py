@@ -24,7 +24,7 @@ import logging
 from maestro.db import init_db
 from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk
 from maestro.config import settings
-from maestro.llm import get_client
+from maestro.llm import get_client, log_llm_usage
 from maestro.prompts import grammar as _prompts
 from maestro.utils import CEFR_ORDER, parse_llm_json
 
@@ -111,6 +111,7 @@ def _call_claude(
             system=system_msg,
             messages=[{"role": "user", "content": user_msg}],
         )
+        log_llm_usage(response, "grammar_explanation")
         raw = response.content[0].text
         logger.debug(f"  STOP REASON: {response.stop_reason}, USAGE: {response.usage}")
         logger.debug(f"  RAW RESPONSE:\n{raw}")
