@@ -38,6 +38,16 @@ class ExerciseType(str, Enum):
     FREE_FORM = "free_form"
 
 
+class CallType(str, Enum):
+    LESSON_PLAN = "lesson_plan"
+    ANALYZER = "analyzer"
+    SCORER_SINGLE = "scorer_single"
+    SCORER_MULTI = "scorer_multi"
+    LESSON_FEEDBACK = "lesson_feedback"
+    LESSON_ANALYZER_CF1 = "lesson_analyzer_cf1"
+    LESSON_ANALYZER_CF2 = "lesson_analyzer_cf2"
+
+
 class Student(Document):
     name: str = Field(default="", max_length=30)
     created_at: datetime = Field(default_factory=utcnow)
@@ -315,6 +325,11 @@ class GrammarPointExplanation(Document):
 # --- Lezione ---
 
 
+class TokenUsage(BaseModel):
+    input_tokens: int = 0
+    output_tokens: int = 0
+
+
 class LessonActivity(BaseModel):
     type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
@@ -370,15 +385,34 @@ class Lesson(Document):
     generating: bool = True  # True while background LLM generation is in progress
     generation_error: Optional[str] = None  # set when background generation fails
     language: str = "it"
-    token_usage: dict = Field(
-        default_factory=dict
-    )  # {"input_tokens": int, "output_tokens": int}
+    token_usage: TokenUsage = Field(default_factory=TokenUsage)
+    cost_usd: float = 0.0
 
     class Settings:
         name = "lessons"
         indexes = [
             IndexModel([("student_id", ASCENDING), ("status", ASCENDING)]),
             IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+        ]
+
+
+class LLMUsageRecord(Document):
+    student_id: Optional[PydanticObjectId] = None
+    lesson_id: Optional[PydanticObjectId] = None
+    call_type: CallType
+    model: str
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "llm_usage_records"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("lesson_id", ASCENDING)]),
+            IndexModel([("call_type", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("created_at", DESCENDING)]),
         ]
 
 
@@ -399,4 +433,5 @@ ALL_DOCUMENT_MODELS = [
     GeneratedDrill,
     DrillAttempt,
     Lesson,
+    LLMUsageRecord,
 ]

@@ -12,7 +12,8 @@ import time
 
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import get_async_client, track_llm_call
+from maestro.models import CallType
 
 from maestro.models import ExerciseType
 from maestro.prompts import analyzer as _prompts
@@ -95,7 +96,7 @@ async def _score_single(
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
+        await track_llm_call(response, CallType.SCORER_SINGLE, student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
         logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
@@ -139,7 +140,7 @@ async def _score_multi(
             system=_system_prompt(cefr_level),
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(response, "score", student_id=student_id, lesson_id=lesson_id)
+        await track_llm_call(response, CallType.SCORER_MULTI, student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text.strip()
         logger.debug(f"[scorer] {label} LLM in {elapsed:.2f}s: {raw}")
@@ -194,8 +195,8 @@ async def feedback_fill_blank(
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(
-            response, "score_fill_blank", student_id=student_id, lesson_id=lesson_id
+        await track_llm_call(
+            response, CallType.SCORER_SINGLE, student_id=student_id, lesson_id=lesson_id
         )
         elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
@@ -250,9 +251,9 @@ async def evaluate_error_correction(
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(
+        await track_llm_call(
             response,
-            "score_error_correction",
+            CallType.SCORER_SINGLE,
             student_id=student_id,
             lesson_id=lesson_id,
         )

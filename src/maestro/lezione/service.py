@@ -24,7 +24,8 @@ from maestro.models import (
 )
 from maestro.learning.scorer import score_reading_answers
 from maestro.learning.lesson_analyzer import analyze_lesson
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import get_async_client, track_llm_call
+from maestro.models import CallType
 from maestro.config import settings
 from maestro.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
@@ -195,8 +196,11 @@ async def generate_lesson_feedback(
         max_tokens=200,
         messages=[{"role": "user", "content": prompt}],
     )
-    log_llm_usage(
-        response, "feedback", student_id=lesson.student_id, lesson_id=lesson.id
+    await track_llm_call(
+        response,
+        CallType.LESSON_FEEDBACK,
+        student_id=lesson.student_id,
+        lesson_id=lesson.id,
     )
     text = response.content[0].text.strip()
     text = re.sub(r"^#+\s+\S+\s*\n", "", text).strip()

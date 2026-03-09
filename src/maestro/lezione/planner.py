@@ -35,7 +35,8 @@ from maestro.models import (
     LessonStatus,
 )
 from maestro.config import settings
-from maestro.llm import get_async_client, log_llm_usage
+from maestro.llm import get_async_client, track_llm_call
+from maestro.models import CallType
 from maestro.profile import get_profile
 from maestro.utils import parse_llm_json, strip_lang_spans, utcnow
 from maestro.lezione.slots import _allocate_slots
@@ -103,7 +104,9 @@ async def _generate_lesson_content(
         max_tokens=16000,
         messages=[{"role": "user", "content": prompt_text}],
     )
-    log_llm_usage(response, "plan", student_id=student_id, lesson_id=lesson_id)
+    await track_llm_call(
+        response, CallType.LESSON_PLAN, student_id=student_id, lesson_id=lesson_id
+    )
     elapsed = time.monotonic() - t0
     raw = response.content[0].text
     logger.info(
@@ -377,7 +380,7 @@ async def _generate_lesson_background(
         speaking_cfs,
         lesson_context=lesson.lesson_context or "",
         student_id=lesson.student_id,
-        lesson_id=lesson_id,
+        lesson_id=lesson.id,
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)
