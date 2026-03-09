@@ -591,7 +591,22 @@ async def lezione_drill_submit(
         event.student_text = stored_answer
         await event.insert()
 
-    drill_result = {"correct": correct, "student_answer": stored_answer}
+    drill_result: dict = {"correct": correct, "student_answer": stored_answer}
+
+    # Capture per-item scoring detail for later inspection / flagging
+    if drill.items and isinstance(feedback, dict) and "items" in feedback:
+        # Multi-item drill: store per-item scores
+        drill_result["item_scores"] = [
+            {
+                "objective_correct": item.get("objective_correct", False),
+                "tips": item.get("tips", []),
+                "objective_note": item.get("objective_note", ""),
+            }
+            for item in feedback.get("items", [])
+        ]
+    elif isinstance(feedback, dict) and "objective_correct" in feedback:
+        # Single-item drill (free_form): store full score dict
+        drill_result["score_detail"] = feedback
 
     feedback = feedback or None
     next_url = await advance_lesson(lesson, idx, result=drill_result)

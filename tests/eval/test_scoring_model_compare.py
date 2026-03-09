@@ -226,7 +226,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **scoring_metrics,
                 "content_quality": round(scoring_quality, 4),
@@ -246,7 +246,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **reading_metrics,
                 "test": "scoring_compare",
@@ -265,7 +265,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
         )
 
         record_eval(
-            "analyzer",
+            "scorer",
             {
                 **writing_metrics,
                 "test": "scoring_compare",
@@ -297,7 +297,7 @@ async def test_scoring_model_comparison(db, record_eval, monkeypatch):
             )
 
             record_eval(
-                "analyzer",
+                "scorer",
                 {
                     "test": "scoring_compare",
                     "subtest": f"{subtest}_agreement",

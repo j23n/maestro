@@ -1,0 +1,22 @@
+{#
+  Flag button partial — admin only.
+
+  Required parameters (pass via Jinja2 include with context or set before including):
+    flag_call_type  — CallType string, e.g. "scorer_multi"
+    flag_refs       — JSON string, e.g. '{"lesson_id": "...", "activity_index": 0}'
+
+  The CSRF token is injected automatically by the htmx:configRequest listener in base.html.
+#}
+{% if request.state is defined and request.state.account is defined and request.state.account.is_admin %}
+<form class="flag-form"
+      hx-post="/admin/flag"
+      hx-target="this"
+      hx-swap="innerHTML"
+      style="display:inline">
+  <input type="hidden" name="call_type" value="{{ flag_call_type }}">
+  <input type="hidden" name="url" value="{{ request.url }}">
+  <input type="hidden" name="refs" value="{{ flag_refs }}">
+  <input type="hidden" name="issue_description" value="">
+  <button type="submit" class="btn-flag" title="Flag this LLM output for review">⚑</button>
+</form>
+{% endif %}
