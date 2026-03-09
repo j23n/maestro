@@ -59,13 +59,13 @@ async def _call_api(
     logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
     lang = settings.TARGET_LANGUAGE_NAME
     logger.debug(
-        f"[vocab] Claude request — system: {_prompts.definitions_system.render_system(target_language=lang)!r}"
+        f"[vocab] Claude request — system: {_prompts.definition_system.render_system(target_language=lang)!r}"
     )
     logger.debug(f"[vocab] Claude request — user: {user_content}")
     msg = await llm_messages_create(
         model=settings.DEFINITION_MODEL,
         max_tokens=max_tokens,
-        system=_prompts.definitions_system.render_system(target_language=lang),
+        system=_prompts.definition_system.render_system(target_language=lang),
         messages=[{"role": "user", "content": user_content}],
         # entity_id is keyed to the first word in the batch; the single LLM call
         # covers all words in the batch, so only one usage record is written.

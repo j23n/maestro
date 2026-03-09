@@ -56,8 +56,8 @@ async def test_valid_response_parsed(db, mock_analyzer_client):
     """Valid LLM JSON is parsed into a LearningEvent with correct fields."""
     _seed_cache()
     payload = {
-        "grammar_correct": ["GP_001"],
-        "grammar_errors": [],
+        "grammar_correct_codes": ["GP_001"],
+        "grammar_error_codes": [],
         "functions_performed": ["CF_001"],
         "themes": ["family"],
     }
@@ -78,8 +78,8 @@ async def test_unknown_codes_filtered(db, mock_analyzer_client):
     """Unknown grammar/CF codes returned by LLM are filtered out."""
     _seed_cache()
     payload = {
-        "grammar_correct": ["GP_001", "GP_UNKNOWN"],
-        "grammar_errors": ["GP_ALSO_UNKNOWN"],
+        "grammar_correct_codes": ["GP_001", "GP_UNKNOWN"],
+        "grammar_error_codes": ["GP_ALSO_UNKNOWN"],
         "functions_performed": ["CF_001", "CF_FAKE"],
         "themes": [],
     }
