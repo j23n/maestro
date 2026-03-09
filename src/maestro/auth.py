@@ -1,5 +1,6 @@
 import logging
 
+import sentry_sdk
 from bson.errors import InvalidId
 from fastapi import Request
 from beanie import PydanticObjectId
@@ -31,12 +32,7 @@ async def get_current_student(request: Request) -> Student:
         raise RedirectToLogin(clear_cookie=True)  # corrupted session → clear it
     except Exception:
         logger.exception("failed to fetch account from session")
-        from maestro.config import settings
-
-        if settings.SENTRY_DSN:
-            import sentry_sdk
-
-            sentry_sdk.capture_exception()
+        sentry_sdk.capture_exception()
         raise RedirectToLogin()  # transient error → preserve session
     if account is None:
         raise RedirectToLogin(clear_cookie=True)
@@ -45,12 +41,7 @@ async def get_current_student(request: Request) -> Student:
         student = await Student.get(account.student_id)
     except Exception:
         logger.exception("failed to fetch student for account %s", account.id)
-        from maestro.config import settings
-
-        if settings.SENTRY_DSN:
-            import sentry_sdk
-
-            sentry_sdk.capture_exception()
+        sentry_sdk.capture_exception()
         raise RedirectToLogin()  # transient error → preserve session
     if student is None:
         raise RedirectToLogin(clear_cookie=True)
