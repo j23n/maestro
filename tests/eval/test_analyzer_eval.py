@@ -13,7 +13,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 @pytest.mark.llm_eval
 async def test_analyzer_grammar_tagging(
-    seeded_analyzer_cache, eval_student, record_eval
+    seeded_analyzer_cache, eval_student, record_eval, record_item
 ):
     """Measure precision/recall of grammar code tagging against golden cases."""
     import json as _json
@@ -85,6 +85,10 @@ async def test_analyzer_grammar_tagging(
             f"[eval] {case['id']}: {'PASS' if case_result['pass'] else 'FAIL'} {case_result['failures']}"
         )
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {"pass": r["pass"], "failures": r.get("failures", [])}
+
     precision = must_correct_hits / max(1, must_correct_total)
     recall = must_error_hits / max(1, must_error_total)
     fp_rate = 1.0 - (false_positive_cases / max(1, false_positive_total))
@@ -131,7 +135,13 @@ async def test_analyzer_grammar_tagging(
             ok, reason = _judge(prompt)
         if ok:
             judge_passed += 1
+        if case["id"] in item_data:
+            item_data[case["id"]]["judge_pass"] = ok
+            item_data[case["id"]]["judge_reason"] = reason
         logger.info(f"[eval] judge {case['id']}: {'PASS' if ok else 'FAIL'} {reason}")
+
+    for case_id, data in item_data.items():
+        record_item("analyzer", {"test": "grammar_tagging", "case_id": case_id, **data})
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Analyzer content_quality={content_quality:.2%}")

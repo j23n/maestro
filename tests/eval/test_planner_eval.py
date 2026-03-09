@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from types import SimpleNamespace
 
-import anthropic
 import pytest
 
 logger = logging.getLogger(__name__)
@@ -15,7 +14,7 @@ _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "
 
 
 @pytest.mark.llm_eval
-async def test_lesson_content_structure(db, record_eval):
+async def test_lesson_content_structure(db, record_eval, record_item):
     """Validate structural properties of _generate_lesson_content output."""
     import json as _json
     from maestro.lezione.planner import _generate_lesson_content
@@ -23,8 +22,6 @@ async def test_lesson_content_structure(db, record_eval):
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "planner_content_cases.json").read_text())
-
-    client = anthropic.AsyncAnthropic()
 
     passed_count = 0
     results = []
@@ -52,7 +49,6 @@ async def test_lesson_content_structure(db, record_eval):
             drill_specs=case["drill_specs"],
             reading_count=case["reading_count"],
             include_writing=case["include_writing"],
-            client=client,
             speaking_cfs=speaking_cfs,
         )
 
@@ -117,6 +113,10 @@ async def test_lesson_content_structure(db, record_eval):
             f"fields={list(content.model_fields_set)} {failures}"
         )
 
+    item_data: dict[str, dict] = {}
+    for r in results:
+        item_data[r["id"]] = {"pass": r["pass"], "failures": r.get("failures", [])}
+
     n = len(cases)
     output_syntax = passed_count / max(1, n)
     failed = [r for r in results if not r["pass"]]
@@ -127,6 +127,8 @@ async def test_lesson_content_structure(db, record_eval):
     # LLM judge: evaluate first drill item and first reading per case
     judge_passed = 0
     judge_total = 0
+    case_judge: dict[str, list[bool]] = {}
+    last_reason: dict[str, str] = {}
     for case, content in generated_content:
         if not content:
             continue
@@ -158,6 +160,8 @@ async def test_lesson_content_structure(db, record_eval):
                     ok, reason = _judge(prompt)
                 if ok:
                     judge_passed += 1
+                case_judge.setdefault(case["id"], []).append(ok)
+                last_reason[case["id"]] = reason
                 logger.info(
                     f"[eval] judge drill {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
                 )
@@ -187,9 +191,21 @@ async def test_lesson_content_structure(db, record_eval):
                     ok, reason = _judge(prompt)
                 if ok:
                     judge_passed += 1
+                case_judge.setdefault(case["id"], []).append(ok)
+                last_reason[case["id"]] = reason
                 logger.info(
                     f"[eval] judge reading {case['id']}: {'PASS' if ok else 'FAIL'} {reason}"
                 )
+
+    for case_id, bools in case_judge.items():
+        if case_id in item_data:
+            item_data[case_id]["judge_pass"] = all(bools)
+            item_data[case_id]["judge_reason"] = last_reason.get(case_id, "")
+
+    for case_id, data in item_data.items():
+        record_item(
+            "planner", {"test": "content_structure", "case_id": case_id, **data}
+        )
 
     content_quality = judge_passed / max(1, judge_total)
     logger.info(f"[eval] Content content_quality={content_quality:.2%}")

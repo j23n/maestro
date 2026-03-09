@@ -70,7 +70,7 @@ async def _analyze_cfs_staged(
     macro_lines = "\n".join(
         f"- {macro}: {desc}" for macro, desc in _MACRO_CATEGORIES.items()
     )
-    stage1_prompt = _prompts.cf_stage1.render(
+    stage1_prompt = _prompts.cf_macro_detection.render(
         combined=combined,
         macro_lines=macro_lines,
     )
@@ -79,7 +79,7 @@ async def _analyze_cfs_staged(
         response = await llm_messages_create(
             model=settings.DRILL_MODEL,
             max_tokens=128,
-            system=_prompts.cf_stage1.render_system(),
+            system=_prompts.cf_macro_detection.render_system(),
             messages=[{"role": "user", "content": stage1_prompt}],
             entity_id=lesson_id,
             call_type=CallType.LESSON_ANALYZER_CF1,
@@ -112,7 +112,7 @@ async def _analyze_cfs_staged(
             + (f" — {', '.join(cf.patterns[:2])}" if cf.patterns else "")
             for cf in cfs
         )
-        prompt = _prompts.cf_stage2.render(
+        prompt = _prompts.cf_function_detection.render(
             combined=combined,
             cf_lines=cf_lines,
         )
@@ -120,7 +120,7 @@ async def _analyze_cfs_staged(
             resp = await llm_messages_create(
                 model=settings.DRILL_MODEL,
                 max_tokens=128,
-                system=_prompts.cf_stage2.render_system(),
+                system=_prompts.cf_function_detection.render_system(),
                 messages=[{"role": "user", "content": prompt}],
                 entity_id=lesson_id,
                 call_type=CallType.LESSON_ANALYZER_CF2,
