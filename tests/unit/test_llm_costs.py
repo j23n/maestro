@@ -3,7 +3,7 @@
 import pytest
 
 from maestro.llm import compute_cost_usd
-from maestro.models import CallType, TokenUsage
+from maestro.models import CallType
 
 
 def test_compute_cost_known_sonnet():
@@ -43,9 +43,3 @@ def test_call_type_values_are_strings():
 def test_call_type_values_are_unique():
     values = [member.value for member in CallType]
     assert len(values) == len(set(values))
-
-
-def test_token_usage_defaults():
-    usage = TokenUsage()
-    assert usage.input_tokens == 0
-    assert usage.output_tokens == 0

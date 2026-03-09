@@ -25,31 +25,22 @@ from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione
 
 
-# Standard LogRecord attributes — anything else on the record came from extra={}
-_LOG_RECORD_BUILTIN_ATTRS = {
-    "args",
-    "created",
-    "exc_info",
-    "exc_text",
-    "filename",
-    "funcName",
-    "levelname",
-    "levelno",
-    "lineno",
-    "message",
-    "module",
-    "msecs",
-    "msg",
-    "name",
-    "pathname",
-    "process",
-    "processName",
-    "relativeCreated",
-    "stack_info",
-    "thread",
-    "threadName",
-    "taskName",
-}
+# Capture the original extra= dict on every LogRecord so formatters read it directly
+# without having to filter out built-in LogRecord attributes.
+_orig_make_record = logging.Logger.makeRecord
+
+
+def _patched_make_record(
+    self, name, level, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None
+):
+    rv = _orig_make_record(
+        self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
+    )
+    rv._extra = extra or {}
+    return rv
+
+
+logging.Logger.makeRecord = _patched_make_record
 
 
 class _JsonFormatter(logging.Formatter):
@@ -61,10 +52,8 @@ class _JsonFormatter(logging.Formatter):
             "level": record.levelname,
             "name": record.name,
             "message": record.getMessage(),
+            **getattr(record, "_extra", {}),
         }
-        for key, val in record.__dict__.items():
-            if key not in _LOG_RECORD_BUILTIN_ATTRS:
-                obj[key] = val
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
         if record.stack_info:
@@ -75,11 +64,7 @@ class _JsonFormatter(logging.Formatter):
 class _DevFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         base = f"{record.levelname:<8} {record.name}: {record.getMessage()}"
-        extra = {
-            k: v
-            for k, v in record.__dict__.items()
-            if k not in _LOG_RECORD_BUILTIN_ATTRS
-        }
+        extra = getattr(record, "_extra", {})
         if extra:
             base += " | " + " ".join(f"{k}={v}" for k, v in extra.items())
         return base

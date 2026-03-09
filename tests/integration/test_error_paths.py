@@ -116,7 +116,7 @@ async def test_background_generation_failure_sets_error(db, student):
     await lesson.insert()
 
     # Make the planner fail by patching the async client to raise
-    with patch("maestro.lezione.planner.get_async_client") as mock_client:
+    with patch("maestro.llm.get_async_client") as mock_client:
         mock_client.return_value.messages.create = AsyncMock(
             side_effect=Exception("API down")
         )

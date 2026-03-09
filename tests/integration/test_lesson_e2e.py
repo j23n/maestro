@@ -294,9 +294,7 @@ async def test_full_lesson_profile_updated_after_analysis(
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_response
 
-    with patch(
-        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
-    ):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         await analyze_lesson(refreshed_lesson)
 
     # --- Verify profile ---

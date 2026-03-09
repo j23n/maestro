@@ -1,26 +1,21 @@
 """
 Anthropic client factories and LLM cost tracking.
 
-All LLM calls should obtain their client from here rather than constructing
-one directly. This provides a single point of configuration and a single
-target for test mocking.
+All LLM calls should go through llm_messages_create / llm_messages_create_sync
+rather than constructing a client directly. This provides automatic cost recording
+and a single target for test mocking.
 """
 
 from __future__ import annotations
 
 import asyncio
 import logging
+import time
 from functools import lru_cache
-from typing import TYPE_CHECKING
 
 import anthropic
 from maestro.config import settings
-from maestro.utils import create_background_task
-
-logger = logging.getLogger(__name__)
-
-if TYPE_CHECKING:
-    from maestro.models import CallType
+from maestro.models import CallType, LLMUsageRecord
 
 logger = logging.getLogger(__name__)
 
@@ -44,20 +39,15 @@ def compute_cost_usd(model: str, input_tokens: int, output_tokens: int) -> float
     return (input_tokens * input_rate + output_tokens * output_rate) / 1_000_000
 
 
-async def track_llm_call(
+async def _record_llm_usage(
     response,
-    call_type: "CallType",
-    *,
-    student_id=None,
-    lesson_id=None,
+    entity_id,
+    student_id,
+    duration_ms: float,
+    call_type: CallType,
 ) -> None:
-    """Persist one LLM call's cost: log + DB record + Lesson rollup.
-
-    All exceptions are swallowed — tracking never breaks calling code.
-    """
+    """Log and persist one LLM call's usage. Swallows all exceptions."""
     try:
-        from maestro.models import LLMUsageRecord, Lesson
-
         usage = response.usage
         model = response.model
         input_tokens = usage.input_tokens
@@ -72,37 +62,126 @@ async def track_llm_call(
                 "input_tokens": input_tokens,
                 "output_tokens": output_tokens,
                 "cost_usd": cost,
+                "duration_ms": round(duration_ms, 1),
                 "student_id": str(student_id) if student_id else None,
-                "lesson_id": str(lesson_id) if lesson_id else None,
+                "entity_id": str(entity_id) if entity_id else None,
             },
         )
 
         await LLMUsageRecord(
             student_id=student_id,
-            lesson_id=lesson_id,
+            entity_id=entity_id,
             call_type=call_type,
             model=model,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             cost_usd=cost,
+            duration_ms=duration_ms,
         ).insert()
-
-        if lesson_id is not None:
-            await Lesson.find_one({"_id": lesson_id}).update(
-                {
-                    "$inc": {
-                        "token_usage.input_tokens": input_tokens,
-                        "token_usage.output_tokens": output_tokens,
-                        "cost_usd": cost,
-                    }
-                }
-            )
     except Exception:
         logger.debug(
-            "track_llm_call failed silently",
+            "record_llm_usage failed silently",
             extra={"call_type": str(call_type)},
             exc_info=True,
         )
+
+
+def _record_llm_usage_sync(
+    response,
+    entity_id,
+    student_id,
+    duration_ms: float,
+    call_type: CallType,
+) -> None:
+    """Log and attempt to persist one LLM call's usage (sync variant). Swallows all exceptions."""
+    try:
+        usage = response.usage
+        model = response.model
+        input_tokens = usage.input_tokens
+        output_tokens = usage.output_tokens
+        cost = compute_cost_usd(model, input_tokens, output_tokens)
+
+        logger.info(
+            "llm_usage",
+            extra={
+                "call_type": call_type.value,
+                "model": model,
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "cost_usd": cost,
+                "duration_ms": round(duration_ms, 1),
+                "student_id": str(student_id) if student_id else None,
+                "entity_id": str(entity_id) if entity_id else None,
+            },
+        )
+
+        # Best-effort DB insert if an event loop is running (e.g. inside asyncio.run)
+        try:
+            loop = asyncio.get_running_loop()
+            loop.create_task(
+                LLMUsageRecord(
+                    student_id=student_id,
+                    entity_id=entity_id,
+                    call_type=call_type,
+                    model=model,
+                    input_tokens=input_tokens,
+                    output_tokens=output_tokens,
+                    cost_usd=cost,
+                    duration_ms=duration_ms,
+                ).insert()
+            )
+        except RuntimeError:
+            pass  # no running event loop
+    except Exception:
+        logger.debug(
+            "record_llm_usage_sync failed silently",
+            extra={"call_type": str(call_type)},
+            exc_info=True,
+        )
+
+
+async def llm_messages_create(
+    *,
+    model: str,
+    messages: list,
+    max_tokens: int,
+    system: str,
+    entity_id,
+    call_type: CallType,
+    student_id=None,
+    **kwargs,
+) -> anthropic.types.Message:
+    """Make an async Anthropic messages.create call and record usage automatically."""
+    client = get_async_client()
+    t0 = time.monotonic()
+    response = await client.messages.create(
+        model=model, messages=messages, max_tokens=max_tokens, system=system, **kwargs
+    )
+    duration_ms = (time.monotonic() - t0) * 1000
+    await _record_llm_usage(response, entity_id, student_id, duration_ms, call_type)
+    return response
+
+
+def llm_messages_create_sync(
+    *,
+    model: str,
+    messages: list,
+    max_tokens: int,
+    system: str,
+    entity_id,
+    call_type: CallType,
+    student_id=None,
+    **kwargs,
+) -> anthropic.types.Message:
+    """Make a sync Anthropic messages.create call and record usage automatically."""
+    client = get_client()
+    t0 = time.monotonic()
+    response = client.messages.create(
+        model=model, messages=messages, max_tokens=max_tokens, system=system, **kwargs
+    )
+    duration_ms = (time.monotonic() - t0) * 1000
+    _record_llm_usage_sync(response, entity_id, student_id, duration_ms, call_type)
+    return response
 
 
 @lru_cache(maxsize=1)
@@ -112,65 +191,6 @@ def get_client() -> anthropic.Anthropic:
         api_key=settings.ANTHROPIC_API_KEY,
         max_retries=3,
     )
-
-
-def log_llm_usage(response, call_type, *, student_id=None, lesson_id=None):
-    try:
-        usage = response.usage
-        input_tokens = usage.input_tokens
-        output_tokens = usage.output_tokens
-        extra: dict = {
-            "call_type": call_type,
-            "model": response.model,
-            "input_tokens": input_tokens,
-            "output_tokens": output_tokens,
-        }
-        if student_id is not None:
-            extra["student_id"] = str(student_id)
-        if lesson_id is not None:
-            extra["lesson_id"] = str(lesson_id)
-    except Exception:
-        logger.debug(
-            "log_llm_usage failed", extra={"call_type": call_type}, exc_info=True
-        )
-        return
-
-    try:
-        logger.info("llm_usage", extra=extra)
-    except Exception:
-        pass  # never let a logging handler failure block token accumulation
-
-    if lesson_id is not None:
-        try:
-            asyncio.get_running_loop()  # raises RuntimeError if no loop
-            create_background_task(
-                _accumulate_lesson_tokens(lesson_id, input_tokens, output_tokens),
-                name=f"accumulate-tokens-{lesson_id}",
-            )
-        except RuntimeError:
-            pass  # no running event loop (sync batch scripts)
-
-
-async def _accumulate_lesson_tokens(
-    lesson_id, input_tokens: int, output_tokens: int
-) -> None:
-    try:
-        from maestro.models import Lesson  # local import avoids circular dependency
-
-        await Lesson.find_one(Lesson.id == lesson_id).update(
-            {
-                "$inc": {
-                    "token_usage.input_tokens": input_tokens,
-                    "token_usage.output_tokens": output_tokens,
-                }
-            }
-        )
-    except Exception:
-        logger.debug(
-            "accumulate_lesson_tokens failed",
-            extra={"lesson_id": str(lesson_id)},
-            exc_info=True,
-        )
 
 
 @lru_cache(maxsize=1)

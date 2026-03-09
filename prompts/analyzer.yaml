@@ -10,6 +10,9 @@ analyze_message:
     Analyze a student message in the target language to identify grammar structures used
     correctly vs errors, communicative functions performed, and themes.
   # variables: text, grammar_lines, function_lines, context_block, feedback_field, target_language
+  system: |
+    You are a linguistic analysis tool for {{target_language}} language learning.
+    Respond only with valid JSON.
   user: |
     Analyze this {{target_language}} learner's message. Identify which grammar structures
     appear (correctly used vs errors), communicative functions performed, and themes.
@@ -156,7 +159,10 @@ score_reading_answers:
 
 feedback_fill_blank:
   description: "Generate a single sentence in the target language explaining a fill-blank error."
-  # variables: grammar_point_code, drill_prompt, correct_answer, student_answer, rule_block
+  # variables: target_language, feedback_language, grammar_point_code, drill_prompt, correct_answer, student_answer, rule_block
+  system: |
+    You are a {{target_language}} language tutor.
+    Respond with a single explanation sentence in {{feedback_language}}.
   user: |
     A {{target_language}} learner made an error in a fill-in-the-blank exercise.
 
@@ -173,7 +179,10 @@ feedback_fill_blank:
 
 evaluate_error_correction:
   description: "Judge whether a student's error correction is essentially correct."
-  # variables: erroneous, reference, student, rule_block
+  # variables: target_language, erroneous, reference, student, rule_block
+  system: |
+    You are a {{target_language}} language evaluator.
+    Respond only with valid JSON.
   user: |
     You are evaluating a {{target_language}} grammar exercise.
     The student was asked to find and correct ONE grammatical error in a sentence.

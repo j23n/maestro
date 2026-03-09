@@ -345,7 +345,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     mock_client.messages.create.return_value = content_response
 
     with (
-        patch("maestro.lezione.planner.get_async_client", return_value=mock_client),
+        patch("maestro.llm.get_async_client", return_value=mock_client),
         patch(
             "maestro.lezione.planner.GrammarChunk.find_one",
             new_callable=AsyncMock,

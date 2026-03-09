@@ -478,7 +478,7 @@ async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = mock_response
 
-    with patch("maestro.lezione.service.get_async_client", return_value=mock_client):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         feedback = await generate_lesson_feedback(completed_lesson, [])
 
     assert isinstance(feedback, str)
@@ -541,7 +541,7 @@ async def test_generate_lesson_feedback_uses_prefetched_events(db):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = mock_response
 
-    with patch("maestro.lezione.service.get_async_client", return_value=mock_client):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         feedback = await generate_lesson_feedback(lesson, [], events)
 
     assert isinstance(feedback, str)
@@ -569,9 +569,7 @@ async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_stage1_response
 
-    with patch(
-        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
-    ):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         await analyze_lesson(completed_lesson)
 
     # 3 per-activity events + 1 summary event = 4
@@ -604,9 +602,7 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
     mock_client = AsyncMock()
     mock_client.messages.create.return_value = cf_stage1_response
 
-    with patch(
-        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
-    ):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         await analyze_lesson(completed_lesson)
 
     # Profile should reflect the per-activity events
@@ -656,9 +652,7 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
     await profile.insert()
 
     mock_client = AsyncMock()
-    with patch(
-        "maestro.learning.lesson_analyzer.get_async_client", return_value=mock_client
-    ):
+    with patch("maestro.llm.get_async_client", return_value=mock_client):
         await analyze_lesson(lesson)
 
     # No LLM calls should have been made (no text for CF analysis)
