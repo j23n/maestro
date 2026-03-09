@@ -48,6 +48,7 @@ from markupsafe import escape
 from maestro.lezione.service import (
     activity_url,
     advance_lesson,
+    count_a1_lessons,
     ensure_lesson_feedback,
     get_lesson_events,
     get_weak_grammar_points,
@@ -152,12 +153,32 @@ async def lezione_create(
     focus_weak: Annotated[bool, Form()] = False,
     lesson_context: Annotated[str, Form(max_length=200)] = "",
 ):
+    profile = await get_profile(student.id)
+    cefr = profile.cefr_estimate if profile else "A0"
+
+    if cefr != "A0":
+        account = request.state.account
+        if account.subscription_tier == "free":
+            used = await count_a1_lessons(student.id)
+            limit = _settings.FREE_TIER_A1_LESSON_LIMIT
+            if used >= limit:
+                logger.info(
+                    "tier limit reached: student=%s used=%d limit=%d",
+                    student.id,
+                    used,
+                    limit,
+                )
+                return templates.TemplateResponse(
+                    request=request,
+                    name="lezione-limit.html",
+                    context={"limit": limit},
+                    status_code=402,
+                )
+
     # Abandon any existing active lessons before creating a new one
     await Lesson.find(
         {"student_id": student.id, "status": LessonStatus.ACTIVE}
     ).update_many({"$set": {"status": LessonStatus.ABANDONED.value}})
-
-    profile = await get_profile(student.id)
 
     lesson = await prepare_lesson_immediate(
         duration,

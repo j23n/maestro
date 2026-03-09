@@ -46,5 +46,6 @@ async def get_current_student(request: Request) -> Student:
     if student is None:
         raise RedirectToLogin(clear_cookie=True)
 
+    request.state.account = account
     request.state.student = student
     return student

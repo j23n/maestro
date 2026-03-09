@@ -223,3 +223,80 @@ async def test_advance_lesson_normal_progression(db, student):
     assert refreshed.activities[0].status == ActivityStatus.COMPLETED
     assert refreshed.activities[1].status == ActivityStatus.ACTIVE
     assert refreshed.current_index == 1
+
+
+# ---------------------------------------------------------------------------
+# count_a1_lessons tests
+# ---------------------------------------------------------------------------
+
+
+def _make_tier_lesson(student_id, cefr_at_start="A1", status=LessonStatus.COMPLETED):
+    return Lesson(
+        student_id=student_id,
+        status=status,
+        duration_minutes=10,
+        cefr_at_start=cefr_at_start,
+        generating=False,
+        activities=[],
+        current_index=0,
+    )
+
+
+@pytest.mark.integration
+async def test_count_a1_lessons_empty(db, student):
+    """Student with no lessons returns 0."""
+    from maestro.lezione.service import count_a1_lessons
+
+    result = await count_a1_lessons(student.id)
+    assert result == 0
+
+
+@pytest.mark.integration
+async def test_count_a1_lessons_counts_non_a0(db, student):
+    """Student with completed and abandoned A1 lessons counts them all."""
+    from maestro.lezione.service import count_a1_lessons
+
+    for _ in range(3):
+        await _make_tier_lesson(
+            student.id, cefr_at_start="A1", status=LessonStatus.COMPLETED
+        ).insert()
+    for _ in range(2):
+        await _make_tier_lesson(
+            student.id, cefr_at_start="A1", status=LessonStatus.ABANDONED
+        ).insert()
+
+    result = await count_a1_lessons(student.id)
+    assert result == 5
+
+
+@pytest.mark.integration
+async def test_count_a1_lessons_excludes_a0(db, student):
+    """A0 lessons are not counted toward the A1 cap."""
+    from maestro.lezione.service import count_a1_lessons
+
+    for _ in range(5):
+        await _make_tier_lesson(
+            student.id, cefr_at_start="A0", status=LessonStatus.COMPLETED
+        ).insert()
+
+    result = await count_a1_lessons(student.id)
+    assert result == 0
+
+
+@pytest.mark.integration
+async def test_count_a1_lessons_counts_all_statuses(db, student):
+    """All lesson statuses (PLANNING, ACTIVE, COMPLETED, ABANDONED) are counted."""
+    from maestro.lezione.service import count_a1_lessons
+
+    await _make_tier_lesson(
+        student.id, cefr_at_start="A1", status=LessonStatus.ACTIVE
+    ).insert()
+    await _make_tier_lesson(
+        student.id, cefr_at_start="A1", status=LessonStatus.COMPLETED
+    ).insert()
+    await _make_tier_lesson(
+        student.id, cefr_at_start="A1", status=LessonStatus.ABANDONED
+    ).insert()
+
+    result = await count_a1_lessons(student.id)
+    assert result == 3
