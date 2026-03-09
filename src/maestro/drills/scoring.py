@@ -174,5 +174,7 @@ async def score_attempt(
         refs = rule_refs if not correct else []
         return correct, event, feedback, refs
 
-    logger.warning(f"[scoring] unknown exercise type: {generated_drill.exercise_type}")
+    logger.warning(
+        "unknown exercise type", extra={"exercise_type": generated_drill.exercise_type}
+    )
     return None, None, "", []

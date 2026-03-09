@@ -90,12 +90,19 @@ async def _generate_lesson_content(
         lesson_context=lesson_context,
     )
 
-    logger.debug(f"[planner] _generate_lesson_content prompt: {prompt_text}")
+    logger.debug(f"lesson content prompt: {prompt_text}")
     logger.info(
-        f"[planner] _generate_lesson_content: level={cefr_level}, scenario={scenario.slug}, "
-        f"depth={depth}, grammar_gps={[g.code for g in grammar_gps]}, "
-        f"n_drills={len(drill_specs)}, reading_count={reading_count}, "
-        f"writing={include_writing}, speaking_cfs={[c.code for c in speaking_cfs]}"
+        "generating lesson content",
+        extra={
+            "cefr_level": cefr_level,
+            "scenario": scenario.slug,
+            "depth": depth,
+            "grammar_gps": [g.code for g in grammar_gps],
+            "n_drills": len(drill_specs),
+            "reading_count": reading_count,
+            "include_writing": include_writing,
+            "speaking_cfs": [c.code for c in speaking_cfs],
+        },
     )
     response = await llm_messages_create(
         model=settings.LESSON_MODEL,
@@ -107,18 +114,20 @@ async def _generate_lesson_content(
         student_id=student_id,
     )
     raw = response.content[0].text
-    logger.info(f"[planner] lesson content response length={len(raw)} chars")
-    logger.debug(f"[planner] lesson content raw: {raw}")
+    logger.info(
+        "lesson content LLM response received", extra={"response_length": len(raw)}
+    )
+    logger.debug(f"lesson content raw: {raw}")
     result = parse_llm_json(raw)
     if not result or not isinstance(result, dict):
-        logger.error(f"[planner] failed to parse lesson content response: {raw}")
+        logger.error("failed to parse lesson content LLM response", extra={"raw": raw})
         return LessonContentResponse()
     try:
         content = LessonContentResponse.model_validate(result)
-    except Exception as e:
-        logger.warning(f"[planner] lesson content validation partial: {e}")
+    except Exception:
+        logger.warning("lesson content validation partial", exc_info=True)
         content = LessonContentResponse()
-    logger.debug(f"[planner] lesson content fields: {list(content.model_fields_set)}")
+    logger.debug(f"lesson content fields: {list(content.model_fields_set)}")
     return content
 
 
@@ -161,7 +170,7 @@ async def prepare_lesson_immediate(
             current_index=0,
         )
         await lesson.insert()
-        logger.info(f"[planner] prepare_lesson_immediate (A0): lesson={lesson.id}")
+        logger.info("lesson created (A0)", extra={"lesson_id": str(lesson.id)})
         return lesson
 
     slots = _allocate_slots(duration_minutes)
@@ -198,8 +207,11 @@ async def prepare_lesson_immediate(
     )
     await lesson.insert()
     logger.info(
-        f"[planner] prepare_lesson_immediate: lesson={lesson.id}, "
-        f"vocab_cards={len(activities[0].card_ids) if activities else 0}"
+        "lesson created",
+        extra={
+            "lesson_id": str(lesson.id),
+            "n_vocab_cards": len(activities[0].card_ids) if activities else 0,
+        },
     )
     return lesson
 
@@ -222,7 +234,8 @@ async def generate_lesson_background(
         )
     except Exception:
         logger.exception(
-            f"[planner] generate_lesson_background failed for lesson {lesson_id}"
+            "lesson generation failed",
+            extra={"lesson_id": str(lesson_id)},
         )
         try:
             await Lesson.find_one(
@@ -239,7 +252,8 @@ async def generate_lesson_background(
             )
         except Exception:
             logger.exception(
-                f"[planner] failed to clear generating flag for lesson {lesson_id}"
+                "failed to clear generating flag",
+                extra={"lesson_id": str(lesson_id)},
             )
         raise
 
@@ -251,13 +265,13 @@ async def _generate_lesson_background(
     focus_weak: bool = False,
 ) -> None:
     t_start = time.monotonic()
-    logger.info(f"[planner] generate_lesson_background start: lesson={lesson_id}")
+    logger.info(
+        "lesson background generation started", extra={"lesson_id": str(lesson_id)}
+    )
 
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
-        logger.error(
-            f"[planner] generate_lesson_background: lesson {lesson_id} not found"
-        )
+        logger.error("lesson not found", extra={"lesson_id": str(lesson_id)})
         return
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
     cefr_level = profile.cefr_estimate if profile else "A0"
@@ -270,7 +284,7 @@ async def _generate_lesson_background(
     focus_weak = focus_weak or lesson.focus_weak
 
     slots = _allocate_slots(duration_minutes)
-    logger.info(f"[planner] slot allocation: {slots}")
+    logger.info("slot allocation", extra={"slots": slots})
 
     # --- Pick scenario ---
     if scenario_slug:
@@ -282,12 +296,13 @@ async def _generate_lesson_background(
             scenario = scenario_doc
         else:
             logger.warning(
-                f"[planner] scenario_slug={scenario_slug} not found, falling back to auto-pick"
+                "scenario not found, falling back to auto-pick",
+                extra={"scenario_slug": scenario_slug},
             )
             scenario, depth = await pick_scenario(profile, cefr_level)
     else:
         scenario, depth = await pick_scenario(profile, cefr_level)
-    logger.info(f"[planner] scenario: {scenario.slug} depth={depth}")
+    logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
 
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get(ActivityType.GRAMMAR, 0)
@@ -350,15 +365,22 @@ async def _generate_lesson_background(
         speaking_cfs = await pick_comm_functions(
             profile, cefr_level, speaking_count, candidate_codes=scenario.cf_codes
         )
-    logger.info(f"[planner] speaking_cfs: {[c.code for c in speaking_cfs]}")
+    logger.info(
+        "speaking CFs selected", extra={"speaking_cfs": [c.code for c in speaking_cfs]}
+    )
 
     reading_count = slots.get(ActivityType.READING, 0)
     include_writing = slots.get(ActivityType.WRITING, 0) > 0
 
     logger.info(
-        f"[planner] grammar: {[g.code for g in grammar_gps]}, "
-        f"drills: {len(drill_specs)}, reading: {reading_count}, "
-        f"writing: {include_writing}, speaking: {[c.code for c in speaking_cfs]}"
+        "activity plan",
+        extra={
+            "grammar_gps": [g.code for g in grammar_gps],
+            "n_drills": len(drill_specs),
+            "reading_count": reading_count,
+            "include_writing": include_writing,
+            "speaking_cfs": [c.code for c in speaking_cfs],
+        },
     )
 
     # --- Single LLM call ---
@@ -416,6 +438,10 @@ async def _generate_lesson_background(
 
     elapsed_total = time.monotonic() - t_start
     logger.info(
-        f"[planner] generate_lesson_background complete in {elapsed_total:.1f}s: "
-        f"{len(new_activities)} new activities — {[a.type for a in new_activities]}"
+        "lesson background generation complete",
+        extra={
+            "elapsed_s": round(elapsed_total, 1),
+            "n_activities": len(new_activities),
+            "activity_types": [a.type for a in new_activities],
+        },
     )

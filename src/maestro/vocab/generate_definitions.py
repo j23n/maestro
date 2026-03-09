@@ -56,12 +56,15 @@ async def _call_api(
     payload = {w.word: _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(w.word for w in batch)
-    logger.info(f"[vocab] calling Claude for {len(batch)} word(s): {words_str}")
+    logger.info(
+        "calling LLM for vocabulary definitions",
+        extra={"n_words": len(batch), "words": words_str},
+    )
     lang = settings.TARGET_LANGUAGE_NAME
     logger.debug(
-        f"[vocab] Claude request — system: {_prompts.definition_system.render_system(target_language=lang)!r}"
+        f"Claude request — system: {_prompts.definition_system.render_system(target_language=lang)!r}"
     )
-    logger.debug(f"[vocab] Claude request — user: {user_content}")
+    logger.debug(f"Claude request — user: {user_content}")
     msg = await llm_messages_create(
         model=settings.DEFINITION_MODEL,
         max_tokens=max_tokens,
@@ -73,7 +76,7 @@ async def _call_api(
         call_type=CallType.VOCAB_DEFINITION,
     )
     raw = msg.content[0].text.strip()
-    logger.debug(f"[vocab] Claude response: {raw}")
+    logger.debug(f"Claude response: {raw}")
     # Strip accidental markdown fences
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
@@ -94,7 +97,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
     """Persist A1–B2 definitions from Claude's response. Replaces existing."""
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if not entry:
-        logger.error(f"[vocab] Claude returned no data for '{word.word}'")
+        logger.error("LLM returned no data for word", extra={"word": word.word})
         return
 
     top_translation = entry.get("translation", "")
@@ -112,7 +115,9 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
             if s.get("definition")
         ]
         if not senses:
-            logger.warning(f"[vocab] no {level} senses for '{word.word}'")
+            logger.warning(
+                "no senses for level", extra={"word": word.word, "level": level}
+            )
             continue
 
         # Use top-level translation, fall back to aggregated sense translations
@@ -131,7 +136,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
             existing.senses = senses
             existing.translation = translation
             await existing.save()
-            logger.info(f"[vocab] updated {level} definition for '{word.word}'")
+            logger.info("updated definition", extra={"word": word.word, "level": level})
         else:
             await VocabularyWordDefinition(
                 word=word,
@@ -139,17 +144,17 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
                 senses=senses,
                 translation=translation,
             ).insert()
-            logger.info(f"[vocab] saved {level} definition for '{word.word}'")
+            logger.info("saved definition", extra={"word": word.word, "level": level})
 
 
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
     """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
     if not word.senses:
         logger.info(
-            f"[vocab] '{word.word}' has no senses, skipping definition generation"
+            "skipping definition generation: no senses", extra={"word": word.word}
         )
         return
-    logger.info(f"[vocab] generating definitions for '{word.word}'")
+    logger.info("generating definitions", extra={"word": word.word})
     claude_data = await _call_api([word], max_tokens=4096)
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if entry and word.cefr_level is None:
@@ -157,7 +162,10 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         if cefr in ("A1", "A2", "B1", "B2"):
             word.cefr_level = cefr
             await word.save()
-            logger.info(f"[vocab] classified '{word.word}' as {cefr}")
+            logger.info(
+                "classified word CEFR level",
+                extra={"word": word.word, "cefr_level": cefr},
+            )
     await _save_all_levels(word, claude_data)
 
 
@@ -227,7 +235,10 @@ async def generate(
                     if cefr in ("A1", "A2", "B1", "B2"):
                         word.cefr_level = cefr
                         await word.save()
-                        logger.info(f"[vocab] classified '{word.word}' as {cefr}")
+                        logger.info(
+                            "classified word CEFR level",
+                            extra={"word": word.word, "cefr_level": cefr},
+                        )
                 await _save_all_levels(word, claude_data)
             except Exception as exc:
                 logger.error(f"Failed to save definitions for '{word.word}': {exc}")

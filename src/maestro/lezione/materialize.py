@@ -102,13 +102,15 @@ async def materialize_activities(
     drill_activities: list[LessonActivity] = []
     llm_drills = content.drills
     logger.info(
-        f"[materialize] materialising {len(drill_specs)} drills ({len(llm_drills)} returned by LLM)"
+        "materialising drills",
+        extra={"n_specs": len(drill_specs), "n_llm_drills": len(llm_drills)},
     )
     for i, (spec, template) in enumerate(zip(drill_specs, drill_templates_used)):
         drill_data = llm_drills[i] if i < len(llm_drills) else None
         if not drill_data:
             logger.warning(
-                f"[materialize] missing drill data at index {i} for {spec['grammar_point_code']}"
+                "missing drill data",
+                extra={"index": i, "grammar_point_code": spec["grammar_point_code"]},
             )
             continue
         exercise_type = spec["exercise_type"]
@@ -146,7 +148,12 @@ async def materialize_activities(
             )
         await drill.insert()
         logger.debug(
-            f"[materialize] drill inserted: {drill.id} ({exercise_type}, {spec['grammar_point_code']})"
+            "drill inserted",
+            extra={
+                "drill_id": str(drill.id),
+                "exercise_type": exercise_type,
+                "grammar_point_code": spec["grammar_point_code"],
+            },
         )
         drill_activities.append(
             LessonActivity(

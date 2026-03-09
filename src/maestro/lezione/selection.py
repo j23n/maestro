@@ -67,12 +67,14 @@ async def _pick_a0_scenario(
         sp = progress.get(scenario.slug, ScenarioProgress())
         if sp.depth < 1:
             logger.info(
-                f"[selection] _pick_a0_scenario: {scenario.slug} (sequence {scenario.sequence})"
+                f"_pick_a0_scenario: {scenario.slug} (sequence {scenario.sequence})"
             )
             return scenario, 1
     # All done — return last scenario
     last = scenarios[-1]
-    logger.info(f"[selection] _pick_a0_scenario: all done, returning last: {last.slug}")
+    logger.info(
+        "all A0 scenarios exhausted, returning last", extra={"scenario": last.slug}
+    )
     return last, 1
 
 
@@ -155,7 +157,7 @@ async def pick_scenario(
     scored.sort(key=lambda x: -x[0])
     _, best_scenario, best_depth = scored[0]
     logger.info(
-        f"[selection] pick_scenario: {best_scenario.slug} depth={best_depth} "
+        f"pick_scenario: {best_scenario.slug} depth={best_depth} "
         f"(from {len(scenarios)} candidates)"
     )
     return best_scenario, best_depth
@@ -180,7 +182,7 @@ async def pick_grammar_points(
     else:
         candidates = await GrammarPoint.find({"cefr_level": cefr_level}).to_list()
     if not candidates:
-        logger.warning("[selection] no grammar points for codes/level, using all")
+        logger.warning("no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()
 
     error_counts: dict = profile.grammar_error_counts if profile else {}
@@ -210,7 +212,7 @@ async def pick_grammar_points(
         picked = pool[:count]
 
     logger.debug(
-        f"[selection] pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}"
+        f"pick_grammar_points: {len(candidates)} candidates → picked {[g.code for g in picked]}"
     )
     return picked
 
@@ -237,7 +239,7 @@ async def pick_comm_functions(
             {"cefr_level": {"$in": eligible_levels}}
         ).to_list()
     if not candidates:
-        logger.warning("[selection] no comm functions found")
+        logger.warning("no comm functions found")
         return []
 
     fn_counts: dict = profile.functions_counts if profile else {}
@@ -248,7 +250,7 @@ async def pick_comm_functions(
     candidates.sort(key=_score)
     picked = candidates[:count]
     logger.debug(
-        f"[selection] pick_comm_functions: {len(candidates)} candidates → picked {[c.code for c in picked]}"
+        f"pick_comm_functions: {len(candidates)} candidates → picked {[c.code for c in picked]}"
     )
     return picked
 
@@ -306,8 +308,6 @@ async def fill_vocab_cards(
         if new_cards:
             await UserVocabularyCard.insert_many(new_cards)
             due.extend(new_cards)
-            logger.info(
-                f"[selection] fill_vocab_cards: introduced {len(new_cards)} new words"
-            )
+            logger.info(f"fill_vocab_cards: introduced {len(new_cards)} new words")
 
     return due[:vocab_count]

@@ -91,27 +91,33 @@ async def vocab_entry(
     word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
     if word is None:
         raise HTTPException(status_code=404, detail="Word not found")
-    logger.info(f"[vocab] entry page: '{word.word}' (entry_id={entry_id})")
+    logger.info("vocab entry page", extra={"word": word.word, "entry_id": entry_id})
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
     definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
     logger.debug(
-        f"[vocab] found {len(definitions)} existing definition(s) for '{word.word}'"
+        "found definitions",
+        extra={"word": word.word, "n_definitions": len(definitions)},
     )
     if not definitions and word.senses:
         logger.info(
-            f"[vocab] no definitions found for '{word.word}', generating on-demand"
+            "no definitions found, generating on-demand",
+            extra={"word": word.word},
         )
         await generate_definitions_for_word(word)
         definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
         logger.info(
-            f"[vocab] generated {len(definitions)} definition(s) for '{word.word}'"
+            "generated definitions on-demand",
+            extra={"word": word.word, "n_definitions": len(definitions)},
         )
     has_card = (
         await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
         is not None
     )
     student_level = await get_cefr_level(student.id)
-    logger.debug(f"[vocab] student_level={student_level}, has_card={has_card}")
+    logger.debug(
+        "vocab entry context",
+        extra={"student_level": student_level, "has_card": has_card},
+    )
     return templates.TemplateResponse(
         request=request,
         name="vocab-entry.html",
@@ -138,12 +144,14 @@ async def vocab_add(
     if existing is None:
         card = UserVocabularyCard(student_id=student.id, word=word)
         await card.insert()
-        logger.info(f"[vocab] added '{word.word}' to vocabulary")
+        logger.info("added word to vocabulary", extra={"word": word.word})
     else:
-        logger.debug(f"[vocab] '{word.word}' already in vocabulary")
+        logger.debug("word already in vocabulary", extra={"word": word.word})
     has_defs = await VocabularyWordDefinition.find_one({"word": word_ref}) is not None
     if not has_defs and word.senses:
-        logger.info(f"[vocab] no definitions for '{word.word}', generating on add")
+        logger.info(
+            "no definitions for word, generating on add", extra={"word": word.word}
+        )
         await generate_definitions_for_word(word)
     return HTMLResponse('<span class="added-badge">In your vocabulary</span>')
 

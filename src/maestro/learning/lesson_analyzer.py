@@ -92,8 +92,8 @@ async def _analyze_cfs_staged(
         identified_macros = [
             m for m in data.get("categories", []) if m in _MACRO_CATEGORIES
         ]
-    except Exception as exc:
-        logger.error(f"[lesson_analyzer] CF stage 1 error: {exc}")
+    except Exception:
+        logger.error("CF stage 1 error", exc_info=True)
         return []
 
     if not identified_macros:
@@ -132,8 +132,8 @@ async def _analyze_cfs_staged(
                 return []
             valid = {cf.code for cf in cfs}
             return [c for c in d.get("functions", []) if c in valid]
-        except Exception as exc:
-            logger.error(f"[lesson_analyzer] CF stage 2 ({macro}) error: {exc}")
+        except Exception:
+            logger.error("CF stage 2 error", extra={"macro": macro}, exc_info=True)
             return []
 
     results = await asyncio.gather(*[_analyze_one_macro(m) for m in identified_macros])
@@ -179,8 +179,13 @@ async def analyze_lesson(lesson: "Lesson") -> None:
         await update_profile(event)
 
         logger.info(
-            f"[lesson_analyzer] lesson {lesson.id}: "
-            f"{len(gp_correct)} correct, {len(gp_errors)} errors, {len(cf_codes)} CFs"
+            "lesson analysis complete",
+            extra={
+                "lesson_id": str(lesson.id),
+                "n_correct": len(gp_correct),
+                "n_errors": len(gp_errors),
+                "n_cfs": len(cf_codes),
+            },
         )
-    except Exception as exc:
-        logger.error(f"[lesson_analyzer] analyze_lesson error: {exc}")
+    except Exception:
+        logger.error("analyze_lesson error", exc_info=True)
