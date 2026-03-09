@@ -601,6 +601,7 @@ async def lezione_drill_submit(
                 "objective_correct": item.get("objective_correct", False),
                 "tips": item.get("tips", []),
                 "objective_note": item.get("objective_note", ""),
+                "grammar_errors": item.get("grammar_errors", []),
             }
             for item in feedback.get("items", [])
         ]

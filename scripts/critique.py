@@ -311,6 +311,9 @@ async def cmd_export(call_type: str | None) -> None:
             print(f"Could not read {fixture_path}: {exc}. Skipping.")
             continue
 
+        if any(c.get("id") == case["id"] for c in existing):
+            print(f"Case '{case['id']}' already exists in fixture. Skipping.")
+            continue
         existing.append(case)
         fixture_path.write_text(
             json.dumps(existing, indent=2, ensure_ascii=False) + "\n"

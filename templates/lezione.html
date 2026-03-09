@@ -48,7 +48,7 @@
     </form>
     <a class="btn-secondary" href="/lezione/">{{ t("lesson_plan_regenerate") }}</a>
     {% set flag_call_type = "lesson_plan" %}
-    {% set flag_refs = '{"lesson_id": "' ~ lesson.id ~ '"}' %}
+    {% set flag_refs = {"lesson_id": lesson.id|string} | tojson %}
     {% include "partials/flag-button.html" %}
   </div>
 </div>

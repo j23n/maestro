@@ -7,9 +7,10 @@ import logging
 from typing import Annotated
 
 from beanie import PydanticObjectId
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse
 
+from maestro.auth import get_current_student
 from maestro.models import (
     CallType,
     GeneratedDrill,
@@ -19,6 +20,7 @@ from maestro.models import (
     Lesson,
     LLMCritique,
     DrillAttempt,
+    Student,
     VocabularyWord,
     VocabularyWordDefinition,
 )
@@ -34,7 +36,7 @@ def _prompt_version_for_call_type(call_type: CallType) -> str:
     if call_type in (CallType.ANALYZER,):
         return _prompts.analyzer.version
     if call_type in (CallType.SCORER_SINGLE, CallType.SCORER_MULTI):
-        return _prompts.analyzer.version
+        return _prompts.scorer.version
     if call_type in (CallType.LESSON_FEEDBACK, CallType.LESSON_PLAN):
         return _prompts.planner.version
     if call_type in (CallType.LESSON_ANALYZER_CF1, CallType.LESSON_ANALYZER_CF2):
@@ -261,7 +263,8 @@ async def flag(
     call_type: Annotated[str, Form()],
     url: Annotated[str, Form()],
     refs: Annotated[str, Form()],
-    issue_description: Annotated[str, Form()] = "",
+    issue_description: Annotated[str, Form(max_length=2000)] = "",
+    student: Student = Depends(get_current_student),
 ):
     """Flag an LLM call for review. Requires login."""
     try:
