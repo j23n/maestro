@@ -38,6 +38,18 @@ class ExerciseType(str, Enum):
     FREE_FORM = "free_form"
 
 
+class CallType(str, Enum):
+    LESSON_PLAN = "lesson_plan"
+    ANALYZER = "analyzer"
+    SCORER_SINGLE = "scorer_single"
+    SCORER_MULTI = "scorer_multi"
+    LESSON_FEEDBACK = "lesson_feedback"
+    LESSON_ANALYZER_CF1 = "lesson_analyzer_cf1"
+    LESSON_ANALYZER_CF2 = "lesson_analyzer_cf2"
+    VOCAB_DEFINITION = "vocab_definition"
+    GRAMMAR_EXPLANATION = "grammar_explanation"
+
+
 class Student(Document):
     name: str = Field(default="", max_length=30)
     created_at: datetime = Field(default_factory=utcnow)
@@ -370,15 +382,33 @@ class Lesson(Document):
     generating: bool = True  # True while background LLM generation is in progress
     generation_error: Optional[str] = None  # set when background generation fails
     language: str = "it"
-    token_usage: dict = Field(
-        default_factory=dict
-    )  # {"input_tokens": int, "output_tokens": int}
 
     class Settings:
         name = "lessons"
         indexes = [
             IndexModel([("student_id", ASCENDING), ("status", ASCENDING)]),
             IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+        ]
+
+
+class LLMUsageRecord(Document):
+    student_id: Optional[PydanticObjectId] = None
+    entity_id: PydanticObjectId
+    call_type: CallType
+    model: str
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+    duration_ms: float = 0.0
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "llm_usage_records"
+        indexes = [
+            IndexModel([("student_id", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("entity_id", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("call_type", ASCENDING), ("created_at", DESCENDING)]),
+            IndexModel([("created_at", DESCENDING)]),
         ]
 
 
@@ -399,4 +429,5 @@ ALL_DOCUMENT_MODELS = [
     GeneratedDrill,
     DrillAttempt,
     Lesson,
+    LLMUsageRecord,
 ]

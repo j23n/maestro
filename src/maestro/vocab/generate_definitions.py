@@ -15,15 +15,15 @@ import argparse
 import asyncio
 import json
 import logging
-import time
 from typing import Any
 
 from bson import DBRef
 
 from maestro.db import init_db
 from maestro.config import settings
-from maestro.llm import get_client, log_llm_usage
+from maestro.llm import llm_messages_create
 from maestro.models import (
+    CallType,
     CefrSense,
     UserVocabularyCard,
     VocabularyWord,
@@ -50,7 +50,7 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
     }
 
 
-def _call_claude(
+async def _call_api(
     batch: list[VocabularyWord], max_tokens: int = 16384
 ) -> dict[str, Any]:
     payload = {w.word: _word_payload(w) for w in batch}
@@ -62,18 +62,18 @@ def _call_claude(
         f"[vocab] Claude request — system: {_prompts.definitions_system.render_system(target_language=lang)!r}"
     )
     logger.debug(f"[vocab] Claude request — user: {user_content}")
-    client = get_client()
-    t0 = time.monotonic()
-    msg = client.messages.create(
+    msg = await llm_messages_create(
         model=settings.DEFINITION_MODEL,
         max_tokens=max_tokens,
         system=_prompts.definitions_system.render_system(target_language=lang),
         messages=[{"role": "user", "content": user_content}],
+        # entity_id is keyed to the first word in the batch; the single LLM call
+        # covers all words in the batch, so only one usage record is written.
+        entity_id=batch[0].id,
+        call_type=CallType.VOCAB_DEFINITION,
     )
-    log_llm_usage(msg, "vocab_definitions")
-    elapsed = time.monotonic() - t0
     raw = msg.content[0].text.strip()
-    logger.debug(f"[vocab] Claude response in {elapsed:.2f}s: {raw}")
+    logger.debug(f"[vocab] Claude response: {raw}")
     # Strip accidental markdown fences
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
@@ -150,7 +150,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         )
         return
     logger.info(f"[vocab] generating definitions for '{word.word}'")
-    claude_data = _call_claude([word], max_tokens=4096)
+    claude_data = await _call_api([word], max_tokens=4096)
     entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
     if entry and word.cefr_level is None:
         cefr = entry.get("cefr_level")
@@ -214,9 +214,9 @@ async def generate(
         logger.info(f"Batch {batch_num}/{total_batches}: {words_str}")
 
         try:
-            claude_data = _call_claude(batch)
+            claude_data = await _call_api(batch)
         except Exception as exc:
-            logger.error(f"Claude API error on batch {batch_num}: {exc}")
+            logger.error(f"API error on batch {batch_num}: {exc}")
             continue
 
         for word in batch:

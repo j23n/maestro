@@ -5,6 +5,9 @@ cf_stage1:
     Stage 1 of CF analysis: identify which macro communicative categories
     are present in the student's combined lesson responses.
   # variables: combined, macro_lines
+  system: |
+    You are a communicative function classifier for language learning analysis.
+    Respond only with valid JSON.
   user: |
     Student responses:
     """
@@ -23,6 +26,9 @@ cf_stage2:
     Stage 2 of CF analysis: identify specific communicative functions
     within a given macro category.
   # variables: combined, cf_lines
+  system: |
+    You are a communicative function classifier for language learning analysis.
+    Respond only with valid JSON.
   user: |
     Student responses:
     """
