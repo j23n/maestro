@@ -19,5 +19,6 @@ class Settings(BaseSettings):
     TARGET_LANGUAGE: str = "it"  # ISO 639-1
     TARGET_LANGUAGE_NAME: str = "Italian"  # for LLM prompts
     SPACY_MODEL: str = "it_core_news_md"  # per-language NLP model
+    LOG_LEVEL: str = "INFO"
 
     model_config = {"env_file": ".env"}

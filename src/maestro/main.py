@@ -31,7 +31,7 @@ class _JsonFormatter(logging.Formatter):
             "timestamp": datetime.datetime.fromtimestamp(
                 record.created, tz=datetime.timezone.utc
             ).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "level": record.levelname,
+            "level": record.levelname.lower(),
             "name": record.name,
             "message": record.getMessage(),
             **getattr(record, "_extra", {}),
@@ -86,9 +86,7 @@ def _setup_logging() -> logging.Handler:
     logging.root.setLevel(logging.WARNING)
     logging.root.handlers.clear()
     logging.root.addHandler(handler)
-    logging.getLogger("maestro").setLevel(
-        logging.DEBUG if settings.ENVIRONMENT == "development" else logging.INFO
-    )
+    logging.getLogger("maestro").setLevel(settings.LOG_LEVEL.upper())
     return handler
 
 
