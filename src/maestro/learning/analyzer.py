@@ -59,21 +59,21 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
 
     grammar_lines = "\n".join(f"{g.code}: {g.description}" for g in gp_relevant)
     function_lines = "\n".join(
-        f"{f.code}: {f.description or f.label}" for f in cf_relevant
+        f"{f.code}: {getattr(f, 'description', None) or f.label}" for f in cf_relevant
     )
 
     context_block = ""
     feedback_field = ""
     if drill_context:
-        context_block = _prompts.context_block_fragment.render(
+        context_block = _prompts.drill_context_fragment.render(
             drill_context=drill_context
         )
         feedback_language = _feedback_language(student_level)
-        feedback_field = _prompts.feedback_field_fragment.render(
+        feedback_field = _prompts.drill_errors_fragment.render(
             feedback_language=feedback_language
         ).strip()
 
-    return _prompts.analyze_message.render(
+    return _prompts.message_analysis.render(
         target_language=settings.TARGET_LANGUAGE_NAME,
         context_block=context_block,
         text=text,
@@ -116,7 +116,7 @@ async def analyze_message(
         response = await llm_messages_create(
             model=settings.LESSON_MODEL,
             max_tokens=1024,
-            system=_prompts.analyze_message.render_system(
+            system=_prompts.message_analysis.render_system(
                 target_language=settings.TARGET_LANGUAGE_NAME
             ),
             messages=[{"role": "user", "content": prompt}],
@@ -151,10 +151,14 @@ async def analyze_message(
             return [c for c in items if isinstance(c, str)]
 
         grammar_correct = [
-            c for c in _str_codes(data.get("grammar_correct", [])) if c in valid_grammar
+            c
+            for c in _str_codes(data.get("grammar_correct_codes", []))
+            if c in valid_grammar
         ]
         grammar_errors = [
-            c for c in _str_codes(data.get("grammar_errors", [])) if c in valid_grammar
+            c
+            for c in _str_codes(data.get("grammar_error_codes", []))
+            if c in valid_grammar
         ]
         functions = [
             c
@@ -166,7 +170,8 @@ async def analyze_message(
         unknown_gp = [
             c
             for c in _str_codes(
-                data.get("grammar_correct", []) + data.get("grammar_errors", [])
+                data.get("grammar_correct_codes", [])
+                + data.get("grammar_error_codes", [])
             )
             if c not in valid_grammar
         ]
