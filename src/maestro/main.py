@@ -15,6 +15,7 @@ from maestro.auth import RedirectToLogin, get_current_student
 from maestro.config import settings
 from maestro.csrf import CSRFMiddleware
 from maestro.db import get_db, init_db
+from maestro.migrations import run_pending
 from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t
 from maestro.rate_limit import limiter
@@ -114,6 +115,7 @@ async def lifespan(app: FastAPI):
         _lg.propagate = False
     logger.info("startup: connecting to database")
     await init_db()
+    await run_pending(get_db())
     await seed_if_empty(get_db())
     logger.info("startup: loading NLP model")
     get_nlp()  # warm up spaCy model
