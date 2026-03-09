@@ -160,6 +160,8 @@ async def feedback_fill_blank(
     grammar_point_code: str,
     rag_content: str = "",
     cefr_level: str = "A1",
+    student_id=None,
+    lesson_id=None,
 ) -> dict | str:
     """Generate structured feedback for a wrong fill-blank answer.
 
@@ -192,7 +194,9 @@ async def feedback_fill_blank(
             max_tokens=128,
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(response, "score_fill_blank")
+        log_llm_usage(
+            response, "score_fill_blank", student_id=student_id, lesson_id=lesson_id
+        )
         elapsed = time.monotonic() - t0
         explanation = response.content[0].text.strip()
         logger.debug(f"[scorer] feedback_fill_blank in {elapsed:.2f}s: {explanation!r}")
@@ -212,6 +216,8 @@ async def evaluate_error_correction(
     student: str,
     rag_content: str = "",
     cefr_level: str = "A1",
+    student_id=None,
+    lesson_id=None,
 ) -> tuple[bool, dict | str]:
     """
     Use the LLM to judge whether the student's correction is essentially correct,
@@ -244,7 +250,12 @@ async def evaluate_error_correction(
             max_tokens=256,
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(response, "score_error_correction")
+        log_llm_usage(
+            response,
+            "score_error_correction",
+            student_id=student_id,
+            lesson_id=lesson_id,
+        )
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
         logger.debug(f"[scorer] evaluate_error_correction in {elapsed:.2f}s: {raw}")

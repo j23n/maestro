@@ -370,6 +370,9 @@ class Lesson(Document):
     generating: bool = True  # True while background LLM generation is in progress
     generation_error: Optional[str] = None  # set when background generation fails
     language: str = "it"
+    token_usage: dict = Field(
+        default_factory=dict
+    )  # {"input_tokens": int, "output_tokens": int}
 
     class Settings:
         name = "lessons"
