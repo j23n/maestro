@@ -28,19 +28,31 @@ def _load_cookie() -> dict:
 
 
 def _save_cookie(data: dict):
-    COOKIE_FILE.write_text(json.dumps(data))
+    existing = _load_cookie()
+    existing.update(data)
+    COOKIE_FILE.write_text(json.dumps(existing))
 
 
-def _client() -> httpx.Client:
+def _client(*, follow_redirects: bool = True) -> httpx.Client:
     cookie = _load_cookie()
     cookies = {}
     if "session" in cookie:
         cookies["session"] = cookie["session"]
+    if "csrftoken" in cookie:
+        cookies["csrftoken"] = cookie["csrftoken"]
+
+    csrf_token = cookie.get("csrftoken", "")
+
+    def _inject_csrf(request: httpx.Request) -> None:
+        if request.method not in ("GET", "HEAD", "OPTIONS"):
+            request.headers["x-csrftoken"] = csrf_token
+
     return httpx.Client(
         base_url=BASE_URL,
-        follow_redirects=True,
+        follow_redirects=follow_redirects,
         timeout=TIMEOUT,
         cookies=cookies,
+        event_hooks={"request": [_inject_csrf]},
     )
 
 
@@ -122,7 +134,7 @@ def create_student(name: str):
         )
         session = resp.cookies.get("session")
         if session:
-            _save_cookie({"session": session})
+            _save_cookie({"session": session, "csrftoken": csrf})
     elapsed = int((time.monotonic() - t0) * 1000)
     _out(
         {
@@ -293,12 +305,7 @@ def get_activity(lesson_id: str, idx: str):
 
 def submit_grammar(lesson_id: str, idx: str):
     t0 = time.monotonic()
-    with httpx.Client(
-        base_url=BASE_URL,
-        timeout=TIMEOUT,
-        cookies=_client_cookies(),
-        follow_redirects=False,
-    ) as c:
+    with _client(follow_redirects=False) as c:
         resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
@@ -318,12 +325,7 @@ def submit_onboarding(lesson_id: str, idx: str, answer: str):
     response_text = response_el.get_text(strip=True) if response_el else ""
 
     # Then complete the activity
-    with httpx.Client(
-        base_url=BASE_URL,
-        timeout=TIMEOUT,
-        cookies=_client_cookies(),
-        follow_redirects=False,
-    ) as c:
+    with _client(follow_redirects=False) as c:
         resp2 = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp2.headers.get("HX-Redirect", resp2.headers.get("location", ""))
@@ -392,12 +394,7 @@ def submit_drill(lesson_id: str, idx: str, answers_json: str):
 
 def submit_vocab_card(lesson_id: str, idx: str, card_idx: str, rating: str):
     t0 = time.monotonic()
-    with httpx.Client(
-        base_url=BASE_URL,
-        timeout=TIMEOUT,
-        cookies=_client_cookies(),
-        follow_redirects=False,
-    ) as c:
+    with _client(follow_redirects=False) as c:
         resp = c.post(
             f"/lezione/{lesson_id}/activity/{idx}/vocab-rate",
             data={"rating": rating, "card_idx": card_idx},
@@ -491,12 +488,7 @@ def submit_writing(lesson_id: str, idx: str, answer: str):
 
 def submit_skip(lesson_id: str, idx: str):
     t0 = time.monotonic()
-    with httpx.Client(
-        base_url=BASE_URL,
-        timeout=TIMEOUT,
-        cookies=_client_cookies(),
-        follow_redirects=False,
-    ) as c:
+    with _client(follow_redirects=False) as c:
         resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/skip")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
@@ -562,14 +554,6 @@ def get_profile():
             "elapsed_ms": elapsed,
         }
     )
-
-
-def _client_cookies() -> dict:
-    cookie = _load_cookie()
-    cookies = {}
-    if "session" in cookie:
-        cookies["session"] = cookie["session"]
-    return cookies
 
 
 # ── Main dispatch ───────────────────────────────────────────────────────
