@@ -31,6 +31,16 @@ FIXTURE_MAP = {
     "lesson_plan": "tests/eval/fixtures/planner_content_cases.json",
 }
 
+EVAL_TEST_MAP = {
+    "analyzer": "test_analyzer_eval.py::test_analyzer_grammar_tagging",
+    "scorer_multi": "test_scoring_eval.py",
+    "scorer_single": "test_scoring_eval.py",
+    "lesson_feedback": "test_writing_eval.py",
+    "vocab_definition": "test_vocab_eval.py",
+    "grammar_explanation": "test_grammar_explanations_eval.py",
+    "lesson_plan": "test_planner_eval.py",
+}
+
 
 def _short_ts(dt) -> str:
     if dt is None:
@@ -46,8 +56,15 @@ def _truncate(s: str, n: int = 60) -> str:
 
 def _print_review(critique) -> None:
     print(f"\n{'─' * 60}")
+    ct_val = (
+        critique.call_type.value
+        if hasattr(critique.call_type, "value")
+        else str(critique.call_type)
+    )
+    eval_test = EVAL_TEST_MAP.get(ct_val, "(unknown)")
     print(f"ID:             {critique.id}")
     print(f"call_type:      {critique.call_type}")
+    print(f"eval_test:      {eval_test}")
     print(f"url:            {critique.url}")
     print(f"prompt_version: {critique.prompt_version}")
     print(f"created_at:     {critique.created_at}")
@@ -100,9 +117,10 @@ def _build_fixture_case(critique) -> dict | None:
         }
         if isinstance(expected, dict):
             if "grammar_errors" in expected:
-                case["must_not_appear_in_correct"] = expected.get("grammar_errors", [])
+                case["must_appear_in_errors"] = expected.get("grammar_errors", [])
             if "grammar_correct" in expected:
                 case["must_appear_in_correct"] = expected.get("grammar_correct", [])
+                case["must_not_appear_in_errors"] = expected.get("grammar_correct", [])
     elif call_type_val == "vocab_definition":
         case = {
             "id": case_id,
@@ -122,7 +140,7 @@ def _build_fixture_case(critique) -> dict | None:
     elif call_type_val == "lesson_feedback":
         case = {
             "id": case_id,
-            "prompt": "",
+            "prompt": critique.input_snapshot.get("topic_title", ""),
             "student_text": " ".join(
                 critique.input_snapshot.get("student_responses", [])
             ),
@@ -164,12 +182,14 @@ async def cmd_list(call_type: str | None, unexported: bool) -> None:
     ct_w = 18
     ts_w = 16
     exp_w = 8
-    issue_w = 60
     has_exp_w = 8
+    eval_w = 36
+    issue_w = 40
 
     header = (
         f"{'ID':<{id_w}}  {'call_type':<{ct_w}}  {'created':<{ts_w}}  "
-        f"{'exported':<{exp_w}}  {'has_expected':<{has_exp_w}}  issue"
+        f"{'exported':<{exp_w}}  {'has_expected':<{has_exp_w}}  "
+        f"{'eval_test':<{eval_w}}  issue"
     )
     print(header)
     print("-" * len(header))
@@ -180,10 +200,12 @@ async def cmd_list(call_type: str | None, unexported: bool) -> None:
         ts = _short_ts(c.created_at)
         exp = "yes" if c.exported else "no"
         has_exp = "yes" if c.expected_output else "no"
+        eval_test = _truncate(EVAL_TEST_MAP.get(ct, "(unknown)"), eval_w)
         issue = _truncate(c.issue_description or "", issue_w)
         print(
             f"{cid:<{id_w}}  {ct:<{ct_w}}  {ts:<{ts_w}}  "
-            f"{exp:<{exp_w}}  {has_exp:<{has_exp_w}}  {issue}"
+            f"{exp:<{exp_w}}  {has_exp:<{has_exp_w}}  "
+            f"{eval_test:<{eval_w}}  {issue}"
         )
 
     print(f"\nTotal: {len(critiques)}")
