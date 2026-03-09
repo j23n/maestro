@@ -28,9 +28,9 @@ from maestro.routes import auth, vocab, profilo, grammar, lezione
 class _JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         obj = {
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime(
-                "%Y-%m-%dT%H:%M:%SZ"
-            ),
+            "timestamp": datetime.datetime.fromtimestamp(
+                record.created, tz=datetime.timezone.utc
+            ).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "level": record.levelname,
             "name": record.name,
             "message": record.getMessage(),
