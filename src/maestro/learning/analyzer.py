@@ -91,6 +91,7 @@ def _build_prompt(text: str, student_level: str, drill_context: str = "") -> str
 async def analyze_message(
     text: str,
     student_id=None,
+    lesson_id=None,
     message: Optional["Message"] = None,
     drill_context: str = "",
 ) -> Optional["LearningEvent"]:
@@ -123,7 +124,7 @@ async def analyze_message(
             max_tokens=1024,
             messages=[{"role": "user", "content": prompt}],
         )
-        log_llm_usage(response, "analyze", student_id=student_id)
+        log_llm_usage(response, "analyze", student_id=student_id, lesson_id=lesson_id)
         elapsed = time.monotonic() - t0
         raw = response.content[0].text
         logger.debug(f"[analyzer] LLM response in {elapsed:.2f}s: {raw}")
