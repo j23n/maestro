@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str
     SECRET_KEY: str
     ENVIRONMENT: str = "development"
+    SENTRY_DSN: str = ""
+    SENTRY_TRACES_SAMPLE_RATE: float = 0.1
     CHAT_MODEL: str = "claude-opus-4-6"
     DRILL_MODEL: str = "claude-haiku-4-5-20251001"
     LESSON_MODEL: str = "claude-sonnet-4-6"

@@ -65,8 +65,12 @@ router = APIRouter()
 async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
+        logger.warning("lesson not found: %s for student=%s", lesson_id, student.id)
         raise HTTPException(404)
     if lesson.student_id != student.id:
+        logger.warning(
+            "lesson access denied: lesson=%s student=%s", lesson_id, student.id
+        )
         raise HTTPException(403)
     return lesson
 
@@ -162,6 +166,12 @@ async def lezione_create(
         lesson_context=lesson_context.strip(),
         focus_weak=focus_weak,
         scenario_slug=scenario_slug or None,
+    )
+    logger.info(
+        "lesson created: student=%s lesson=%s scenario=%s",
+        student.id,
+        lesson.id,
+        scenario_slug or "auto",
     )
     create_background_task(
         generate_lesson_background(
@@ -294,6 +304,7 @@ async def lezione_start(
             }
         }
     )
+    logger.info("lesson started: lesson=%s", lesson_id)
     return RedirectResponse(url=activity_url(lesson_id, 0), status_code=303)
 
 
@@ -792,6 +803,7 @@ async def lezione_abandon(
     lesson = await _get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         await lesson.update({"$set": {"status": LessonStatus.ABANDONED.value}})
+        logger.info("lesson abandoned: lesson=%s", lesson_id)
     return Response(status_code=204, headers={"HX-Redirect": "/lezione/"})
 
 

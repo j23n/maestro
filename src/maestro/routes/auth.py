@@ -1,4 +1,6 @@
 import bcrypt as _bcrypt
+import hashlib
+import logging
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -6,10 +8,19 @@ from pymongo.errors import DuplicateKeyError
 
 from maestro.rate_limit import limiter
 from maestro.models import Account, Student
-from maestro.session import create_session_cookie, clear_session_cookie
+from maestro.session import create_session_cookie, clear_session_cookie, read_session
 from maestro.templates import templates
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/auth")
+
+
+def _masked_email(email: str) -> str:
+    if "@" not in email:
+        return "<invalid>"
+    local, domain = email.rsplit("@", 1)
+    return f"{hashlib.sha256(local.encode()).hexdigest()[:8]}@{domain}"
 
 
 @router.get("/signup", response_class=HTMLResponse)
@@ -43,6 +54,7 @@ async def signup(request: Request):
         error = "signup_error_password_mismatch"
 
     if error:
+        logger.warning("signup failed: %s", error)
         return templates.TemplateResponse(
             request=request,
             name="auth-signup.html",
@@ -61,12 +73,14 @@ async def signup(request: Request):
         await account.insert()
     except DuplicateKeyError:
         await student.delete()
+        logger.warning("signup failed: duplicate email %s", _masked_email(email))
         return templates.TemplateResponse(
             request=request,
             name="auth-signup.html",
             context={"error": "signup_error_email_taken", "email": email},
         )
 
+    logger.info("signup success: %s", account.id)
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
@@ -87,22 +101,35 @@ async def login(request: Request):
     password = form.get("password") or ""
 
     account = await Account.find_one({"email": email})
-    if not account or not _bcrypt.checkpw(
-        password.encode(), account.password_hash.encode()
-    ):
+    if not account:
+        # Dummy check keeps response time constant regardless of account existence
+        _bcrypt.checkpw(password.encode(), _bcrypt.hashpw(b"dummy", _bcrypt.gensalt()))
+        logger.warning("login failed: account not found for %s", _masked_email(email))
+        return templates.TemplateResponse(
+            request=request,
+            name="auth-login.html",
+            context={"error": "login_error_invalid", "email": email},
+        )
+    if not _bcrypt.checkpw(password.encode(), account.password_hash.encode()):
+        logger.warning("login failed: invalid credentials for %s", account.id)
         return templates.TemplateResponse(
             request=request,
             name="auth-login.html",
             context={"error": "login_error_invalid", "email": email},
         )
 
+    logger.info("login success: %s", account.id)
     response = RedirectResponse(url="/lezione/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
 
 
 @router.post("/logout", response_class=HTMLResponse)
-async def logout():
+async def logout(request: Request):
+    payload = read_session(request)
+    logger.info(
+        "logout: account=%s", payload.get("account_id") if payload else "anonymous"
+    )
     response = RedirectResponse(url="/", status_code=303)
     clear_session_cookie(response)
     return response
