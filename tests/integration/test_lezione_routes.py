@@ -8,7 +8,6 @@ from maestro.models import (
     LessonActivity,
     LearningEvent,
     GeneratedDrill,
-    DrillTemplate,
     DrillItem,
     ActivityType,
     ActivityStatus,
@@ -23,16 +22,8 @@ from maestro.utils import utcnow
 @pytest.fixture
 async def active_lesson_with_drill(db, student):
     """Active lesson with a single fill_blank drill activity."""
-    template = DrillTemplate(
-        grammar_point_code="GP_001",
-        cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK,
-    )
-    await template.insert()
-
     drill = GeneratedDrill(
         student_id=student.id,
-        template=template,
         grammar_point_code="GP_001",
         cefr_level="A1",
         exercise_type=ExerciseType.FILL_BLANK,

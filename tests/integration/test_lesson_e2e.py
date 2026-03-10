@@ -6,7 +6,6 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from maestro.models import (
     GrammarPoint,
     GeneratedDrill,
-    DrillTemplate,
     DrillItem,
     LearningEvent,
     LearningProfile,
@@ -48,16 +47,8 @@ async def a1_lesson(db, student):
     await gp_b.insert()
     await gp_c.insert()
 
-    template = DrillTemplate(
-        grammar_point_code="GP_A",
-        cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK,
-    )
-    await template.insert()
-
     drill = GeneratedDrill(
         student_id=student.id,
-        template=template,
         grammar_point_code="GP_A",
         cefr_level="A1",
         exercise_type=ExerciseType.FILL_BLANK,
