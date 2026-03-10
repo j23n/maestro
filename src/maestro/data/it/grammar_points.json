@@ -5,7 +5,8 @@
     "category": "basics",
     "description": "Ciao, buongiorno, buonasera, arrivederci, a presto",
     "unistr_code": "a0_saluti",
-    "unistr_label": "Greetings and farewells"
+    "unistr_label": "Greetings and farewells",
+    "label": "Saluti e congedi"
   },
   {
     "code": "pronun_bas",
@@ -13,7 +14,8 @@
     "category": "basics",
     "description": "Italian vowels a-e-i-o-u, double consonants, c/g hard and soft",
     "unistr_code": "a0_pronuncia",
-    "unistr_label": "Italian pronunciation basics"
+    "unistr_label": "Italian pronunciation basics",
+    "label": "Pronuncia italiana fondamentale"
   },
   {
     "code": "num_0_20",
@@ -21,7 +23,8 @@
     "category": "basics",
     "description": "zero, uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci, undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto, diciannove, venti",
     "unistr_code": "a0_numeri_0_20",
-    "unistr_label": "Numbers 0–20"
+    "unistr_label": "Numbers 0–20",
+    "label": "Numeri da zero a venti"
   },
   {
     "code": "si_no_non",
@@ -29,7 +32,8 @@
     "category": "basics",
     "description": "Affirmation with si, negation with no and non before the verb",
     "unistr_code": "a0_si_no_non",
-    "unistr_label": "Yes, no, not"
+    "unistr_label": "Yes, no, not",
+    "label": "Affermazione, negazione e negativo"
   },
   {
     "code": "simp_sent",
@@ -37,7 +41,8 @@
     "category": "basics",
     "description": "Basic Italian sentence: subject + verb + object",
     "unistr_code": "a0_frase_semplice",
-    "unistr_label": "Simple sentences"
+    "unistr_label": "Simple sentences",
+    "label": "Frasi semplici dichiarative"
   },
   {
     "code": "vorrei",
@@ -45,7 +50,8 @@
     "category": "basics",
     "description": "Vorrei + noun to politely request something (I would like...)",
     "unistr_code": "a0_vorrei",
-    "unistr_label": "Vorrei (I would like)"
+    "unistr_label": "Vorrei (I would like)",
+    "label": "Condizionale presente di volere per cortesia"
   },
   {
     "code": "polite_exp",
@@ -53,7 +59,8 @@
     "category": "basics",
     "description": "Per favore, grazie, prego, scusi/scusa, mi dispiace",
     "unistr_code": "a0_cortesia",
-    "unistr_label": "Polite expressions"
+    "unistr_label": "Polite expressions",
+    "label": "Espressioni di cortesia e ringraziamento"
   },
   {
     "code": "art_il_la",
@@ -61,7 +68,8 @@
     "category": "basics",
     "description": "il (masculine) and la (feminine) — the two most common definite articles",
     "unistr_code": "a0_articoli_il_la",
-    "unistr_label": "Articles: il and la"
+    "unistr_label": "Articles: il and la",
+    "label": "Articoli determinativi singolari il e la"
   },
   {
     "code": "che_cose",
@@ -69,7 +77,8 @@
     "category": "basics",
     "description": "Che cos'e? / Che cos'e questo? — asking what something is",
     "unistr_code": "a0_che_cose",
-    "unistr_label": "What is it? (Che cos'è?)"
+    "unistr_label": "What is it? (Che cos'è?)",
+    "label": "Domanda identificativa che cos'è"
   },
   {
     "code": "subj_pron",
@@ -77,7 +86,8 @@
     "category": "basics",
     "description": "Subject pronouns io (I), tu (you), lui (he), lei (she)",
     "unistr_code": "a0_pronomi_soggetto",
-    "unistr_label": "Subject pronouns: io, tu, lui/lei"
+    "unistr_label": "Subject pronouns: io, tu, lui/lei",
+    "label": "Pronomi personali soggetto io tu lui lei"
   },
   {
     "code": "essere_pre",
@@ -85,7 +95,8 @@
     "category": "basics",
     "description": "io sono, tu sei, lui/lei e — the verb to be in singular",
     "unistr_code": "a0_essere",
-    "unistr_label": "To be: sono, sei, è"
+    "unistr_label": "To be: sono, sei, è",
+    "label": "Indicativo presente di essere forme sono sei è"
   },
   {
     "code": "mi_piace",
@@ -93,7 +104,8 @@
     "category": "basics",
     "description": "Mi piace + noun/infinitive to express likes, non mi piace for dislikes",
     "unistr_code": "a0_mi_piace",
-    "unistr_label": "I like / I don't like"
+    "unistr_label": "I like / I don't like",
+    "label": "Indicativo presente di piacere forme mi piace non mi piace"
   },
   {
     "code": "dove_e",
@@ -101,7 +113,8 @@
     "category": "basics",
     "description": "Dov'e...? — asking where something is",
     "unistr_code": "a0_dove",
-    "unistr_label": "Where is it? (Dov'è?)"
+    "unistr_label": "Where is it? (Dov'è?)",
+    "label": "Domanda di localizzazione dov'è"
   },
   {
     "code": "prep_place",
@@ -109,7 +122,8 @@
     "category": "basics",
     "description": "Basic prepositions: a (to/at), in (in), di (of/from)",
     "unistr_code": "a0_preposizioni",
-    "unistr_label": "Prepositions of place: a, in, di"
+    "unistr_label": "Prepositions of place: a, in, di",
+    "label": "Preposizioni di luogo: a, in, di"
   },
   {
     "code": "mi_chiamo",
@@ -117,7 +131,8 @@
     "category": "basics",
     "description": "Mi chiamo + name to introduce yourself",
     "unistr_code": "a0_mi_chiamo",
-    "unistr_label": "My name is... (Mi chiamo)"
+    "unistr_label": "My name is... (Mi chiamo)",
+    "label": "Verbo chiamarsi al presente indicativo per l'autopresentazione"
   },
   {
     "code": "noun_o_a_e",
@@ -127,7 +142,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "la_distinzione_genere_e_numero_dei_nomi_regolari_a_suffisso_o_a_e_a_suffisso_e",
     "unistr_label": "La distinzione genere e numero dei nomi regolari a suffisso –O –A e a suffisso –E",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale",
+    "label": "Genere e numero regolari di nomi suffissi O A E"
   },
   {
     "code": "noun_invar",
@@ -137,7 +153,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "i_principali_nomi_invariabili_es_caffe_cinema_citta_universita",
     "unistr_label": "I principali nomi invariabili (es. caffè, cinema, città, università )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili",
+    "label": "Nomi invariabili caffè cinema città università"
   },
   {
     "code": "noun_plur",
@@ -147,7 +164,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "i_principali_nomi_generalmente_utilizzati_al_plurale_es_occhiali_pantaloni",
     "unistr_label": "I principali nomi generalmente utilizzati al plurale (es. occhiali, pantaloni, spaghetti )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_difettivi"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_difettivi",
+    "label": "Nomi generalmente utilizzati al plurale occhiali pantaloni"
   },
   {
     "code": "noun_irr_p",
@@ -157,7 +175,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "alcuni_nomi_con_plurale_irregolare_es_uomouomini",
     "unistr_label": "Alcuni nomi con plurale irregolare (es. uomo/uomini )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_o"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_o",
+    "label": "Plurali irregolari uomo uomini"
   },
   {
     "code": "noun_forei",
@@ -167,7 +186,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "alcuni_nomi_di_origine_straniera_con_plurale_invariato_es_bar_computer_sport",
     "unistr_label": "Alcuni nomi di origine straniera con plurale invariato (es. bar, computer, sport )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili",
+    "label": "Nomi di origine straniera con plurale invariato bar computer"
   },
   {
     "code": "noun_e_ess",
@@ -177,7 +197,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html",
     "unistr_code": "i_principali_nomi_a_suffisso_-e_-essa_es_dottoredottoressa",
     "unistr_label": "I principali nomi a suffisso -E /-ESSA (es. dottore/dottoressa, professore/professoressa, studente/studentessa)",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_a_genere_differenziato"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_a_genere_differenziato",
+    "label": "Nomi suffisso E ESSA dottore dottoressa professore professoressa"
   },
   {
     "code": "noun_ista",
@@ -187,7 +208,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html",
     "unistr_code": "singolare_invariato_dei_principali_nomi_a_suffisso_ista_es_giornalista_turista",
     "unistr_label": "Singolare invariato dei principali nomi a suffisso –ISTA (es. giornalista, turista )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_ambigeneri"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_ambigeneri",
+    "label": "Nomi suffisso ISTA singolare invariato giornalista turista"
   },
   {
     "code": "noun_tore",
@@ -197,7 +219,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html",
     "unistr_code": "i_principali_nomi_a_suffisso_tore_e_trice_es_direttore_direttrice",
     "unistr_label": "I principali nomi a suffisso –TORE e – TRICE (es. direttore / direttrice )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_a_genere_differenziato"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_a_genere_differenziato",
+    "label": "Nomi suffisso TORE TRICE direttore direttrice"
   },
   {
     "code": "noun_co_go",
@@ -207,7 +230,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html",
     "unistr_code": "plurale_dei_nomi_a_suffisso_co_e_go_-_ca_e_ga",
     "unistr_label": "Plurale dei nomi a suffisso –CO e –GO - CA e –GA",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a",
+    "label": "Plurale nomi suffisso CO GO CA GA"
   },
   {
     "code": "noun_irr_a",
@@ -217,7 +241,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html",
     "unistr_code": "plurale_di_alcuni_nomi_irregolari_di_larga_diffusione_es_bracciobraccia",
     "unistr_label": "Plurale di alcuni nomi irregolari di larga diffusione (es. braccio/braccia, dito/dita, mano/mani, uovo-uova )",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale",
+    "label": "Plurali irregolari braccio braccia dito dita mano mani uovo uova"
   },
   {
     "code": "noun_inva2",
@@ -227,7 +252,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html",
     "unistr_code": "ripresa_e_approfondimento_nomi_invariabili_al_plurale_es_la_radio-le_radio_la",
     "unistr_label": "Ripresa e approfondimento nomi invariabili al plurale (es. la radio-le radio, la moto-le moto, ecc .)",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_invariabili",
+    "label": "Nomi invariabili al plurale"
   },
   {
     "code": "noun_ista2",
@@ -237,7 +263,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html",
     "unistr_code": "formazione_del_plurale_dei_nomi_a_suffisso_ista_e_a_es_giornalista-giornalisti",
     "unistr_label": "Formazione del plurale dei nomi a suffisso –ISTA e –A, es. giornalista-giornalisti / giornaliste, programma-programmi",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a",
+    "label": "Plurale dei nomi a suffisso -ista e -a"
   },
   {
     "code": "noun_sovra",
@@ -247,7 +274,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html",
     "unistr_code": "plurale_dei_nomi_sovrabbondanti_es_il_braccio-i_braccile_braccia_il_lenzuolo-i",
     "unistr_label": "Plurale dei nomi sovrabbondanti, es. il braccio-i bracci/le braccia, il lenzuolo-i lenzuoli/le lenzuola",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale",
+    "label": "Plurale dei nomi sovrabbondanti"
   },
   {
     "code": "noun_dimin",
@@ -257,7 +285,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html",
     "unistr_code": "nomi_alterati_diminutivi_a_suffisso_ino_e_etto_es_mercatino_cenetta_nomi",
     "unistr_label": "Nomi alterati diminutivi a suffisso –INO e –ETTO, es. mercatino, cenetta, nomi alterati accrescitivi a suffisso –ONE e – ONA, es. valigiona",
-    "chunk_ref": "book_4_il_nome"
+    "chunk_ref": "book_4_il_nome",
+    "label": "Nomi alterati diminutivi e accrescitivi"
   },
   {
     "code": "noun_abstr",
@@ -267,7 +296,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_astratti_difettivi_che_si_usano_solo_al_singolare_es_lonesta_la_pazienza",
     "unistr_label": "Nomi astratti difettivi che si usano solo al singolare, es. l’onestà, la pazienza, il rispetto, il coraggio",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_difettivi"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_difettivi",
+    "label": "Nomi astratti difettivi di singolare"
   },
   {
     "code": "noun_gende",
@@ -277,7 +307,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_a_forma_invariata_con_cambio_di_significato_a_seconda_del_genere_es_il",
     "unistr_label": "Nomi a forma invariata con cambio di significato a seconda del genere, es. il fine/la fine, il capitale/la capitale",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_singolare_e_doppio_plurale"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_singolare_e_doppio_plurale",
+    "label": "Nomi a forma invariata con cambio di significato per genere"
   },
   {
     "code": "noun_var_g",
@@ -287,7 +318,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_a_forma_variata_nomi_piu_diffusi_che_cambiano_significato_in_rapporto_al",
     "unistr_label": "Nomi a forma variata, nomi più diffusi che cambiano significato in rapporto al genere, es. muro/mura",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale",
+    "label": "Nomi a forma variata con cambio di significato per genere"
   },
   {
     "code": "noun_colle",
@@ -297,7 +329,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_collettivi_es_roba_folla",
     "unistr_label": "Nomi collettivi, es. roba, folla",
-    "chunk_ref": "book_4_il_nome"
+    "chunk_ref": "book_4_il_nome",
+    "label": "Nomi collettivi"
   },
   {
     "code": "noun_cia_g",
@@ -307,7 +340,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "plurale_dei_nomi_a_suffisso_cia_gia_es_camiciacamicie_valigiavaligie",
     "unistr_label": "Plurale dei nomi a suffisso –CIA –GIA, es. camicia–camicie; valigia–valigie, tecnologia-tecnologie, farmacia-farmacie",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a"
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_in_a",
+    "label": "Plurale dei nomi a suffisso -cia e -gia"
   },
   {
     "code": "pron_pers",
@@ -317,7 +351,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html",
     "unistr_code": "pronomi_personali_con_particolare_riferimento_alle_3_persone_singolari_soggetto",
     "unistr_label": "Pronomi personali con particolare riferimento alle 3 persone singolari: soggetto e complemento (tonici ed atoni)",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto",
+    "label": "Pronomi personali soggetto e complemento delle tre persone singolari"
   },
   {
     "code": "pron_refl",
@@ -327,7 +362,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html",
     "unistr_code": "pronomi_riflessivi",
     "unistr_label": "Pronomi riflessivi",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi",
+    "label": "Pronomi riflessivi"
   },
   {
     "code": "pron_inter",
@@ -337,7 +373,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html",
     "unistr_code": "pronomi_interrogativi_chi_che_cosa_quanto_quale",
     "unistr_label": "Pronomi interrogativi: chi, che (cosa), quanto, quale?",
-    "chunk_ref": "book_7_il_pronome_pronomi_interrogativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_interrogativi",
+    "label": "Pronomi interrogativi chi, che, quanto, quale"
   },
   {
     "code": "pron_indef",
@@ -347,7 +384,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html",
     "unistr_code": "pronomi_indefiniti_nessuno_niente_nota_i_pronomi_tonici_preceduti_da",
     "unistr_label": "Pronomi indefiniti: nessuno, niente Nota: i pronomi tonici preceduti da preposizione (es. per me) e i pronomi atoni in alcune strutture (es. lo so) vengono acquisiti a livello A1 quali formule non analizzate Nota: i pronomi riflessivi a livello A1 vengono acquisiti quali formule non analizzate (es. mi chiamo )",
-    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti"
+    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti",
+    "label": "Pronomi indefiniti nessuno, niente"
   },
   {
     "code": "pron_pers2",
@@ -357,7 +395,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_personali_soggetto_6_persone",
     "unistr_label": "Pronomi personali soggetto (6 persone)",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto",
+    "label": "Pronomi personali soggetto di sei persone"
   },
   {
     "code": "pron_tonic",
@@ -367,7 +406,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_personali_tonici_complemento_preceduti_da_preposizione",
     "unistr_label": "Pronomi personali tonici complemento (preceduti da preposizione)",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Pronomi personali tonici complemento con preposizione"
   },
   {
     "code": "pron_atoni",
@@ -377,7 +417,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_personali_atoni_complemento_diretto_e_indiretto_principalmente_1_e_2",
     "unistr_label": "Pronomi personali atoni complemento diretto e indiretto (principalmente 1° e 2° singolare e plurale)",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Pronomi personali atoni complemento diretto e indiretto"
   },
   {
     "code": "pron_poss",
@@ -387,7 +428,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_possessivi",
     "unistr_label": "Pronomi possessivi",
-    "chunk_ref": "book_7_il_pronome_pronomi_possessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_possessivi",
+    "label": "Pronomi possessivi"
   },
   {
     "code": "pron_rfl2",
@@ -397,7 +439,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_pronomi_riflessivi",
     "unistr_label": "Pronomi riflessivi",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi",
+    "label": "Pronomi riflessivi"
   },
   {
     "code": "pron_demo",
@@ -407,7 +450,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_dimostrativi_questoquello",
     "unistr_label": "Pronomi dimostrativi: questo/quello",
-    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi",
+    "label": "Pronomi dimostrativi questo, quello"
   },
   {
     "code": "pron_indf2",
@@ -417,7 +461,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_indefiniti_altro_qualcunoqualcosa",
     "unistr_label": "Pronomi indefiniti ( altro, qualcuno/qualcosa )",
-    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti"
+    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti",
+    "label": "Pronomi indefiniti altro, qualcuno, qualcosa"
   },
   {
     "code": "pron_rel",
@@ -427,7 +472,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_relativi_che_funzione_soggetto_e_oggetto_es_vado_dal_mio_amico_che",
     "unistr_label": "Pronomi relativi: che (funzione soggetto e oggetto), es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Pronomi relativi che con funzione di soggetto e oggetto"
   },
   {
     "code": "pron_ci_lu",
@@ -437,7 +483,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "uso_della_particella_pronominale_ci_con_valore_di_complemento_di_luogo_es_ci",
     "unistr_label": "Uso della particella pronominale ci con valore di complemento di luogo, es. Ci vado adesso .",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Particella pronominale ci con valore di complemento di luogo"
   },
   {
     "code": "pron_aton2",
@@ -447,7 +494,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "ripresa_e_approfondimento_per_le_6_persone_dei_pronomi_personali_atoni",
     "unistr_label": "Ripresa e approfondimento per le 6 persone dei pronomi personali atoni complemento diretto e indiretto",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Pronomi personali atoni complemento diretto e indiretto di sei persone"
   },
   {
     "code": "pron_aton3",
@@ -457,7 +505,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "uso_dei_pronomi_atoni_nei_tempi_composti_es_li_ha_comprati_lha_preparata_le_ha",
     "unistr_label": "Uso dei pronomi atoni nei tempi composti, es. Li ha comprati, l’ha preparata, le ha fatte",
-    "chunk_ref": "book_3_la_concordanza_participio_passato_e_soggetto"
+    "chunk_ref": "book_3_la_concordanza_participio_passato_e_soggetto",
+    "label": "Pronomi atoni nei tempi composti"
   },
   {
     "code": "pron_ci_vr",
@@ -467,7 +516,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "usi_della_particella_pronominale_ci_in_verbi_pronominali_quali_volerci_metterci",
     "unistr_label": "Usi della particella pronominale ci in verbi pronominali quali: volerci, metterci, sentirci, vederci",
-    "chunk_ref": "book_8_il_verbo_verbi_pronominali"
+    "chunk_ref": "book_8_il_verbo_verbi_pronominali",
+    "label": "Particella pronominale ci in verbi pronominali"
   },
   {
     "code": "ci_use_oth",
@@ -477,7 +527,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "altri_usi_della_particella_ci_es_non_ci_credo_non_ci_penso",
     "unistr_label": "Altri usi della particella ci , es. Non ci credo; non ci penso.",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Particella ci con valore di complemento oggetto e altri usi"
   },
   {
     "code": "ne_partiti",
@@ -487,7 +538,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "uso_della_particella_pronominale_ne_con_valore_partitivo_es_ne_prendo_due",
     "unistr_label": "Uso della particella pronominale ne con valore partitivo, es. Ne prendo due .",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_ne"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_ne",
+    "label": "Particella pronominale ne con valore partitivo"
   },
   {
     "code": "ne_use_oth",
@@ -497,7 +549,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "altri_usi_della_particella_pronominale_ne_es_ne_ho_bisogno_ne_ho_voglia_che_ne",
     "unistr_label": "Altri usi della particella pronominale ne , es. Ne ho bisogno; ne ho voglia; che ne pensi? Che ne dite?",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_ne"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_ne",
+    "label": "Particella pronominale ne con valore di complemento di termine"
   },
   {
     "code": "atone_coup",
@@ -507,7 +560,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "forme_accoppiate_di_pronomi_atoni_es_me_lo_presti_glielo_porto_adesso",
     "unistr_label": "Forme accoppiate di pronomi atoni, es. Me lo presti? Glielo porto adesso .",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni",
+    "label": "Forme accoppiate di pronomi atoni con ordine regolare"
   },
   {
     "code": "atone_cmpd",
@@ -517,7 +571,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "forme_accoppiate_di_pronomi_atoni_in_costruzione_con_verbi_composti_es_te_lha",
     "unistr_label": "Forme accoppiate di pronomi atoni, in costruzione con verbi composti, es. Te l’ha portato? Gliel’hai detto?",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni",
+    "label": "Forme accoppiate di pronomi atoni con verbi composti"
   },
   {
     "code": "ci_ce_lo",
@@ -527,7 +582,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "forma_accoppiata_della_particella_pronominale_ci_con_pronomi_atoni_diretti_e",
     "unistr_label": "Forma accoppiata della particella pronominale ci con pronomi atoni diretti e verbo avere, es. Ce l’ho .",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni",
+    "label": "Forma accoppiata ce lo con verbo avere"
   },
   {
     "code": "encl_inf",
@@ -537,7 +593,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "posizione_enclitica_dei_pronomi_atoni_con_infinito_es_vado_a_trovarlo_e_con",
     "unistr_label": "Posizione enclitica dei pronomi atoni con infinito, es. Vado a trovarlo e con imperativo, es. Ascoltami!",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "label": "Posizione enclitica di pronomi atoni con infinito e imperativo"
   },
   {
     "code": "procl_encl",
@@ -547,7 +604,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "posizione_proclitica_e_enclitca_del_pronome_atono_con_verbi_servili_es_non_lo",
     "unistr_label": "Posizione proclitica e enclitca del pronome atono con verbi servili, es. Non lo posso fare; non posso farlo .",
-    "chunk_ref": "book_8_il_verbo_verbi_servili"
+    "chunk_ref": "book_8_il_verbo_verbi_servili",
+    "label": "Posizione proclitica ed enclitica di pronomi atoni con verbi servili"
   },
   {
     "code": "cui_prep",
@@ -557,7 +615,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "pronome_relativo_invariabile_cui_preceduto_da_preposizione_es_questo_e_il",
     "unistr_label": "Pronome relativo invariabile cui preceduto da preposizione, es. Questo è il motivo per cui sono in Italia; è la ragazza con cui esco spesso .",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Pronome relativo invariabile cui preceduto da preposizione"
   },
   {
     "code": "si_impers",
@@ -567,7 +626,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "pronome_si_nella_costruzione_impersonale_es_si_mangia_bene",
     "unistr_label": "Pronome si nella costruzione impersonale, es. Si mangia bene .",
-    "chunk_ref": "book_8_il_verbo_verbi_impersonali"
+    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
+    "label": "Pronome si nella costruzione impersonale"
   },
   {
     "code": "poss_fam",
@@ -577,7 +637,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_possessivi_che_indicano_i_familiari_i_genitori_es_non_mi_piacciono",
     "unistr_label": "Pronomi possessivi che indicano i familiari, i genitori, es. Non mi piacciono molto i suoi .",
-    "chunk_ref": "book_7_il_pronome_pronomi_possessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_possessivi",
+    "label": "Pronomi possessivi per familiari e genitori senza articolo"
   },
   {
     "code": "refl_tonic",
@@ -587,7 +648,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_riflessivi_tonici_es_ha_portato_con_se_il_figlio",
     "unistr_label": "Pronomi riflessivi tonici, es. Ha portato con sé il figlio.",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi",
+    "label": "Pronomi riflessivi tonici con preposizione"
   },
   {
     "code": "dem_stesso",
@@ -597,7 +659,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_dimostrativi_a_stesso_es_a_me_e_successo_lo_stesso_la_stessa_cosa_non",
     "unistr_label": "Pronomi dimostrativi: a) stesso , es. A me è successo lo stesso (la stessa cosa) ; non sarò la stessa (la stessa persona). b) ciò , es. Volevo andare lontano da tutto ciò; è ciò che mi interessa .",
-    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi",
+    "label": "Pronomi dimostrativi stesso e ciò"
   },
   {
     "code": "indef_cias",
@@ -607,7 +670,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_indefiniti_ciascuno_ognuno_uno_chiunque",
     "unistr_label": "Pronomi indefiniti: ciascuno, ognuno, uno, chiunque",
-    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti"
+    "chunk_ref": "book_7_il_pronome_pronomi_indefiniti",
+    "label": "Pronomi indefiniti ciascuno, ognuno, uno, chiunque"
   },
   {
     "code": "rel_quale",
@@ -617,7 +681,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronome_relativi_il_quale_la_quale_i_quali_le_quali_es_e_la_persona_per_la",
     "unistr_label": "Pronome relativi: il quale, la quale, i quali, le quali , es. È la persona per la quale lavoro; ho ricevuto la lettera nella quale mi salutavi.",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Pronomi relativi il quale, la quale, i quali, le quali"
   },
   {
     "code": "rel_doppi",
@@ -627,7 +692,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_relativi_doppi_a_chi_corrispondente_a_colui_che_coloro_che_ecc_es_aiuto",
     "unistr_label": "Pronomi relativi doppi: a) chi (corrispondente a colui che, coloro che ecc.), es. Aiuto chi ha bisogno; chi sa la verità b) quanto (corrispondente a quello che, ciò che ) al singolare con funzione dimostrativa e relativo, es. Per quanto mi riguarda; per quanto riguarda il lavoro",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Pronomi relativi doppi chi e quanto"
   },
   {
     "code": "atone_pron",
@@ -637,7 +703,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "forme_accoppiate_di_pronomi_atoni_in_verbi_pronominali_es_cavarsela_farcela",
     "unistr_label": "Forme accoppiate di pronomi atoni in verbi pronominali, es. cavarsela, farcela, andarsene, mettercela, prendersela, ecc .",
-    "chunk_ref": "book_8_il_verbo_verbi_pronominali"
+    "chunk_ref": "book_8_il_verbo_verbi_pronominali",
+    "label": "Forme accoppiate di pronomi atoni in verbi pronominali"
   },
   {
     "code": "encl_gerun",
@@ -647,7 +714,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "posizione_enclitica_di_pronomi_atoni_con_gerundio_es_ascoltandolo",
     "unistr_label": "Posizione enclitica di pronomi atoni con gerundio, es. ascoltandolo, chiedendoglielo, alzandosi",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
+    "label": "Posizione enclitica di pronomi atoni con gerundio"
   },
   {
     "code": "ci_si_comb",
@@ -657,7 +725,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "combinazione_del_pronome_atono_e_del_pronome_si_impersonale_es_ci_si_deve",
     "unistr_label": "Combinazione del pronome atono e del pronome si impersonale, es. Ci si deve mettere l’olio; ci si sente bene .",
-    "chunk_ref": "book_8_il_verbo_verbi_impersonali"
+    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
+    "label": "Combinazione del pronome atono con si impersonale"
   },
   {
     "code": "si_passiv",
@@ -667,7 +736,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronome_si_nella_costruzione_passivante_es_in_quel_ristorante_si_mangiano_i",
     "unistr_label": "Pronome si nella costruzione passivante, es. In quel ristorante, si mangiano i frutti di mare .",
-    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva"
+    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva",
+    "label": "Pronome si nella costruzione passivante"
   },
   {
     "code": "qual_o_a_e",
@@ -677,7 +747,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_qualificativi_a_suffisso_o_e_a_e_a_suffisso_-e",
     "unistr_label": "Aggettivi qualificativi a suffisso –O e –A e a suffisso -E",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Aggettivo qualificativo con suffisso o, a, e"
   },
   {
     "code": "poss_adj",
@@ -687,7 +758,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_possessivi",
     "unistr_label": "Aggettivi possessivi",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Aggettivo possessivo"
   },
   {
     "code": "dem_questo",
@@ -697,7 +769,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_dimostrativi_questo_quello",
     "unistr_label": "Aggettivi dimostrativi: questo, quello",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi",
+    "label": "Aggettivo dimostrativo questo e quello"
   },
   {
     "code": "inter_che",
@@ -707,7 +780,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_interrogativi_che_quanto",
     "unistr_label": "Aggettivi interrogativi: che, quanto",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_interrogativied_esclamativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_interrogativied_esclamativi",
+    "label": "Aggettivo interrogativo che e quanto"
   },
   {
     "code": "indef_poco",
@@ -717,7 +791,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_indefiniti_poco_molto_tanto",
     "unistr_label": "Aggettivi indefiniti: poco, molto, tanto",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Aggettivo indefinito poco, molto, tanto"
   },
   {
     "code": "card_1_100",
@@ -727,7 +802,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_numerali_cardinali_da_1_a_100",
     "unistr_label": "Aggettivi numerali cardinali: da 1 a 100",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Aggettivi numerali cardinali da uno a cento"
   },
   {
     "code": "ord_primo",
@@ -737,7 +813,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html",
     "unistr_code": "aggettivi_numerali_ordinali_da_primo_a_decimo_nota_principalmente_prima",
     "unistr_label": "Aggettivi numerali ordinali da primo a decimo Nota: principalmente prima singolare con i nomi di famiglia",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Aggettivi numerali ordinali da primo a decimo"
   },
   {
     "code": "qual_co_ga",
@@ -747,7 +824,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_qualificativi_a_suffisso_co_-go_e_ca_-_ga",
     "unistr_label": "Aggettivi qualificativi a suffisso –CO / -GO e –CA / - GA",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Aggettivi qualificativi con suffisso -co, -go, -ca, -ga"
   },
   {
     "code": "comp_super",
@@ -757,7 +835,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "gradi_dellaggettivo_comparativo_di_maggioranza_piu_aggettivo_es_questo_e_piu",
     "unistr_label": "Gradi dell’aggettivo: • Comparativo di maggioranza più + aggettivo , es. Questo è più bello . • Superlativo assoluto: suffisso –issimo; molto + aggettivo",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio"
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "label": "Comparativo di maggioranza e superlativo assoluto dell'aggettivo"
   },
   {
     "code": "poss_adj_6",
@@ -767,7 +846,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_possessivi_tutte_e_sei_le_persone",
     "unistr_label": "Aggettivi possessivi (tutte e sei le persone)",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Aggettivi possessivi di tutte le sei persone"
   },
   {
     "code": "dem_stess2",
@@ -777,7 +857,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_dimostrativi_stesso",
     "unistr_label": "Aggettivi dimostrativi: stesso",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi",
+    "label": "Aggettivo dimostrativo stesso"
   },
   {
     "code": "inter_qual",
@@ -787,7 +868,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_interrogativi_quale",
     "unistr_label": "Aggettivi interrogativi: Quale?",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_interrogativied_esclamativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_interrogativied_esclamativi",
+    "label": "Aggettivo interrogativo quale"
   },
   {
     "code": "indef_ogni",
@@ -797,7 +879,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_indefiniti_ogni_qualche_troppo_altro_tutto_alcuni",
     "unistr_label": "Aggettivi indefiniti: ogni, qualche, troppo, altro, tutto, alcuni",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Aggettivi indefiniti ogni, qualche, troppo, altro, tutto, alcuni"
   },
   {
     "code": "card_100pl",
@@ -807,7 +890,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "aggettivi_numerali_cardinali_centinaia_migliaia_milione",
     "unistr_label": "Aggettivi numerali cardinali: centinaia, migliaia, milione",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Aggettivi numerali cardinali centinaia, migliaia, milione"
   },
   {
     "code": "coll_paio",
@@ -817,7 +901,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "numerali_collettivi_paio_coppia",
     "unistr_label": "Numerali collettivi paio, coppia",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Numerali collettivi paio, coppia"
   },
   {
     "code": "bello_buon",
@@ -827,7 +912,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "uso_di_bello_e_buono_in_posizione_prenominale_es_un_bel_quadro_un_buon_modello",
     "unistr_label": "Uso di bello e buono in posizione prenominale, es. un bel quadro, un buon modello",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Uso prenominale di bello e buono"
   },
   {
     "code": "comp_degre",
@@ -837,7 +923,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "gradi_dellaggettivo_a_comparativo_di_maggioranza_piudi_e_minoranza_meno_di_in",
     "unistr_label": "Gradi dell’aggettivo a) comparativo di maggioranza più...di e minoranza meno… di in posizione precedente - un nome, es. Mario è più alto di Luca . - un pronome, es. Questo quadro è più bello di quello . - un avverbio, es. Fa più caldo di ieri . b) comparativo di maggioranza più...che e di minoranza meno … che - tra due aggettivi, es. È più simpatico che intelligente. - tra due verbi, es. È più difficile trovare un lavoro che studiare . c) comparativo di uguaglianza (tanto)….. quanto; (così) … come, es. È caro come tutti gli altri ristoranti . d) superlativo relativo, es. È il più/meno interessante di/fra tutti. e) comparativi e superlativi organici, es. maggiore, minore, migliore, peggiore, ottimo",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio"
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "label": "Gradi dell'aggettivo comparativi e superlativi relativi e organici"
   },
   {
     "code": "meglio_peg",
@@ -847,7 +934,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "uso_degli_avverbi_megliopeggio_es_e_meglio_mangiare_un_po_di_tutto",
     "unistr_label": "Uso degli avverbi meglio/peggio, es. È meglio mangiare un po’ di tutto.",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi meglio e peggio"
   },
   {
     "code": "alter_ino",
@@ -857,7 +945,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "uso_degli_aggettivi_alterati_diminuitivi_a_suffisso_-ino_es_praga_e_piccolina",
     "unistr_label": "Uso degli aggettivi alterati diminuitivi a suffisso -INO, es. Praga è piccolina .",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Aggettivi alterati diminuitivi con suffisso -ino"
   },
   {
     "code": "indef_ness",
@@ -867,7 +956,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "aggettivi_indefiniti_a_nessuno_es_non_ho_incontrato_nessun_professore_b",
     "unistr_label": "Aggettivi indefiniti a) nessuno , es. Non ho incontrato nessun professore . b) qualsiasi, es. qualsiasi cosa, in qualsiasi momento c) diverso (parecchio, molto), es. diversi oggetti, diversi monumenti",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Aggettivi indefiniti nessuno, qualsiasi, diverso, parecchio"
   },
   {
     "code": "ord_all",
@@ -877,7 +967,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "aggettivi_numerali_ordinali",
     "unistr_label": "Aggettivi numerali ordinali",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Aggettivi numerali ordinali"
   },
   {
     "code": "nom_adj",
@@ -887,7 +978,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "nominalizzazione_dellaggettivo_es_il_bello_la_destra_la_sinistra",
     "unistr_label": "Nominalizzazione dell’aggettivo, es. il bello, la destra, la sinistra",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Nominalizzazione dell'aggettivo"
   },
   {
     "code": "poss_propr",
@@ -897,7 +989,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "aggettivo_possessivo_proprio_es_i_propri_genitori_il_proprio_computer",
     "unistr_label": "Aggettivo possessivo proprio, es. i propri genitori, il proprio computer",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Aggettivo possessivo proprio"
   },
   {
     "code": "dem_tale",
@@ -907,7 +1000,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "aggettivo_dimostrativo_tale_es_in_tale_senso",
     "unistr_label": "Aggettivo dimostrativo tale, es. in tale senso",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi",
+    "label": "Aggettivo dimostrativo tale"
   },
   {
     "code": "indef_vari",
@@ -917,7 +1011,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "aggettivi_indefiniti_qualunque_parecchio_tale_es_un_tale_atteggiamento_una",
     "unistr_label": "Aggettivi indefiniti qualunque, parecchio, tale, es. un tale atteggiamento, una dipendenza tale (siffatto/a); certo es. per un certo periodo, in un certo modo, in un certo momento, ad un certo punto; vario, es. varie cose, vari gruppi",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Aggettivi indefiniti qualunque, parecchio, tale, certo, vario"
   },
   {
     "code": "part_adj",
@@ -927,7 +1022,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "participio_passato_usato_con_funzione_aggettivale_es_una_vacanza_desiderata",
     "unistr_label": "Participio passato usato con funzione aggettivale, es. una vacanza desiderata",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_participio"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_participio",
+    "label": "Participio passato con funzione aggettivale"
   },
   {
     "code": "card_subst",
@@ -937,7 +1033,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "aggettivi_numerali_cardinali_sostantivati_sottointendendo_mille_es_il_trecento",
     "unistr_label": "Aggettivi numerali cardinali sostantivati sottointendendo mille, es. il Trecento, il Cinquecento, ecc .",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_numerali",
+    "label": "Aggettivi numerali cardinali sostantivati con elissi di mille"
   },
   {
     "code": "all_det_in",
@@ -947,7 +1044,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi",
     "unistr_label": "La differente funzione di tutti gli articoli determinativi ed indeterminativi",
-    "chunk_ref": "book_5_l_articolo_le_forme"
+    "chunk_ref": "book_5_l_articolo_le_forme",
+    "label": "Funzioni dell'articolo determinativo e indeterminativo"
   },
   {
     "code": "art_hora",
@@ -957,7 +1055,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "uso_dellarticolo_determinativo_per_esprimere_lora_es_sono_le_otto",
     "unistr_label": "Uso dell’articolo determinativo per esprimere l’ora, es. Sono le otto.",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo per esprimere l'ora"
   },
   {
     "code": "art_omit_d",
@@ -967,7 +1066,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_dimostrativi_es_questo",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi dimostrativi, es. questo quaderno",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi",
+    "label": "Omissione dell'articolo determinativo con aggettivi dimostrativi"
   },
   {
     "code": "art_om_ind",
@@ -977,7 +1077,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_molti_libri",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. molti libri",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Omissione dell'articolo determinativo con aggettivi indefiniti"
   },
   {
     "code": "art_pos_ad",
@@ -987,7 +1088,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi",
     "unistr_label": "Presenza dell’articolo determinativo in posizione che precede gli aggettivi possessivi, es. la mia sedia",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Articolo determinativo con aggettivi possessivi"
   },
   {
     "code": "art_geog_c",
@@ -997,7 +1099,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "presenza_dellarticolo_determinativo_o_omissione_con_i_nomi_geografici_di_citta",
     "unistr_label": "Presenza dell’articolo determinativo (o omissione) con i nomi geografici di città e di stato, es. Roma è una bella città; vengo dagli Stati Uniti.",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo con nomi geografici di città e stati"
   },
   {
     "code": "art_pos_pr",
@@ -1007,7 +1110,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "presenza_dellarticolo_determinativo_in_posizione_precedente_i_pronomi",
     "unistr_label": "Presenza dell’articolo determinativo in posizione precedente i pronomi possessivi, es. questo è il mio",
-    "chunk_ref": "book_7_il_pronome_pronomi_possessivi"
+    "chunk_ref": "book_7_il_pronome_pronomi_possessivi",
+    "label": "Articolo determinativo con pronomi possessivi"
   },
   {
     "code": "art_indef",
@@ -1017,7 +1121,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_qualche",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. qualche amico ; presenza dell’articolo con l’aggettivo tutto , es. tutta la classe",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "label": "Omissione dell'articolo con aggettivi indefiniti e presenza con aggettivo tutto"
   },
   {
     "code": "art_om_tim",
@@ -1027,7 +1132,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "omissione_dellarticolo_in_espressioni_di_tempo_es_in_primavera_in_a_settembre",
     "unistr_label": "Omissione dell’articolo in espressioni di tempo, es. in primavera, in / a settembre",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Omissione dell'articolo in espressioni di tempo"
   },
   {
     "code": "art_time_d",
@@ -1037,7 +1143,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "uso_dellarticolo_in_espressioni_di_tempo_es_la_sera_la_mattina",
     "unistr_label": "Uso dell’articolo in espressioni di tempo, es. la sera, la mattina",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo in espressioni di tempo con parti del giorno"
   },
   {
     "code": "art_pos_ki",
@@ -1047,7 +1154,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "presenza_o_omissione_dellarticolo_determinativo_con_aggettivo_possessivo_e_nomi",
     "unistr_label": "Presenza o omissione dell’articolo determinativo con aggettivo possessivo e nomi di parentela, es. mio padre, mia madre, il mio fratello più grande",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Articolo con aggettivi possessivi e nomi di parentela"
   },
   {
     "code": "art_date",
@@ -1057,7 +1165,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "uso_dellarticolo_determinativo_per_esprimere_una_data_es_oggi_e_il_5_febbraio",
     "unistr_label": "Uso dell’articolo determinativo per esprimere una data, es. Oggi è il 5 febbraio .",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo per esprimere la data"
   },
   {
     "code": "art_om_mat",
@@ -1067,7 +1176,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "omissione_dellarticolo_con_il_complemento_di_materia_es_foglio_di_carta",
     "unistr_label": "Omissione dell’articolo con il complemento di materia, es. foglio di carta, bottiglia di vetro",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Omissione dell'articolo con complemento di materia"
   },
   {
     "code": "art_geog_m",
@@ -1077,7 +1187,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "presenza_dell_articolo_deteriminativo_con_i_nomi_geografici_-_dei_monti_es_le",
     "unistr_label": "Presenza dell’ articolo deteriminativo con i nomi geografici: - dei monti, es. Le Alpi - dei fiumi, es. Il Tevere - dei laghi, es. Il lago Maggiore - di isole grandi, es. La Sicilia - di continenti, es. L’Europa - di regioni, es. L’Umbria",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo con nomi geografici di monti, fiumi, laghi, isole grandi, continenti e regioni"
   },
   {
     "code": "art_om_isl",
@@ -1087,7 +1198,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "omissione_dellarticolo_con_nomi_di_isole_piccole_es_capri",
     "unistr_label": "Omissione dell’articolo con nomi di isole piccole, es. Capri",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Omissione dell'articolo con nomi di isole piccole"
   },
   {
     "code": "art_weekda",
@@ -1097,7 +1209,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "uso_dell_articolo_con_espressioni_di_tempo_es_il_giovedi_il_martedi_ecc",
     "unistr_label": "Uso dell’ articolo con espressioni di tempo, es. il giovedì, il martedì, ecc.",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo determinativo con espressioni di tempo ricorrenti"
   },
   {
     "code": "art_partit",
@@ -1107,7 +1220,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "uso_dellarticolo_partitivo_o_possibile_omissione_es_ho_dei_bei_ricordi_compro",
     "unistr_label": "Uso dell’articolo partitivo o possibile omissione, es. Ho dei bei ricordi; compro dei giocattoli per i bambini; ha cani e gatti; ecc .",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo partitivo con possibile omissione"
   },
   {
     "code": "art_spec_n",
@@ -1117,7 +1231,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "uso_dellarticolo_con_nomi_seguiti_da_specificazioni_es_in_campagnanella",
     "unistr_label": "Uso dell’articolo con nomi seguiti da specificazioni, es. in campagna/nella campagna toscana, in inverno/nell’inverno del 1880, ecc.",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Articolo con nomi seguiti da specificazioni"
   },
   {
     "code": "art_om_pre",
@@ -1127,7 +1242,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "omissione_dellarticolo_con_senza_e_con_valore_modale_es_con_attenzione_con",
     "unistr_label": "Omissione dell’articolo con senza e con (valore modale), es. con attenzione, con amore, senza interesse, senza problemi",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Omissione dell'articolo con preposizioni senza e con valore modale"
   },
   {
     "code": "art_om_da",
@@ -1137,7 +1253,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html",
     "unistr_code": "omissione_dellarticolo_con_la_preposizione_da_quando_indica_il_fine_es_carta_da",
     "unistr_label": "Omissione dell’articolo con la preposizione da quando indica il fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
-    "chunk_ref": "book_5_l_articolo_usi_particolari"
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
+    "label": "Omissione dell'articolo con preposizione da per esprimere il fine"
   },
   {
     "code": "ind_pres",
@@ -1147,7 +1264,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "indicativo presente",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Indicativo presente"
   },
   {
     "code": "cond_simp",
@@ -1157,7 +1275,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "condizionale semplice solo del verbo volere alla I persona singolare ( vorrei )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Condizionale semplice del verbo volere alla prima persona singolare"
   },
   {
     "code": "imper_form",
@@ -1167,7 +1286,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "imperativo formale ed informale del verbo scusare ( scusi/scusa )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Imperativo formale e informale del verbo scusare"
   },
   {
     "code": "imper_prim",
@@ -1177,7 +1297,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "imperativo prima persona plurale per invitare (andiamo )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Imperativo prima persona plurale per invitare"
   },
   {
     "code": "percez_sig",
@@ -1187,7 +1308,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "la percezione del significato modale dei verbi potere, volere e dovere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Valore modale dei verbi potere, volere e dovere"
   },
   {
     "code": "costru_ess",
@@ -1197,7 +1319,8 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Costruzione ci + indicativo presente del verbo essere"
   },
   {
     "code": "inf_final",
@@ -1207,7 +1330,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
     "unistr_code": "infinito_presente_nelle_proposizioni_finali_implicite_es_sono_qui_per_studiare",
     "unistr_label": "Infinito presente nelle proposizioni finali implicite, es. Sono qui per studiare l’italiano .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
+    "label": "Infinito presente in proposizioni finali implicite"
   },
   {
     "code": "ind_pres_2",
@@ -1217,7 +1341,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo presente",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Indicativo presente"
   },
   {
     "code": "ind_pass_p",
@@ -1227,7 +1352,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo passato prossimo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Indicativo passato prossimo"
   },
   {
     "code": "ind_imperf",
@@ -1237,7 +1363,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo imperfetto di essere e avere nella descrizione di fatti e persone",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Indicativo imperfetto di essere e avere nella descrizione"
   },
   {
     "code": "ind_fut_si",
@@ -1247,7 +1374,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo futuro semplice con valore temporale, es. Domani pioverà .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Indicativo futuro semplice con valore temporale"
   },
   {
     "code": "imper_seco",
@@ -1257,7 +1385,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre:",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Imperativo affermativo e negativo per istruzioni e inviti"
   },
   {
     "code": "mod_consap",
@@ -1267,7 +1396,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Verbi modali per esprimere atti linguistici"
   },
   {
     "code": "impers",
@@ -1277,7 +1407,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Verbi impersonali, es. piovere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Verbi impersonali"
   },
   {
     "code": "form_prog",
@@ -1287,7 +1418,8 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Forma perifrastica/presente progressivo: stare + gerundio",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni"
+    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "label": "Forma progressiva stare più gerundio"
   },
   {
     "code": "pass_pros",
@@ -1297,7 +1429,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Passato prossimo con verbi intransitivi inaccusativi transitivi e riflessivi"
   },
   {
     "code": "ind_trpass",
@@ -1307,7 +1440,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo trapassato prossimo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo trapassato prossimo"
   },
   {
     "code": "val_mod_de",
@@ -1317,7 +1451,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "valore modale dell’indicativo futuro semplice, es. Saranno le otto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo futuro semplice con valore modale"
   },
   {
     "code": "ind_fut_an",
@@ -1327,7 +1462,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo futuro anteriore con valore temporale"
   },
   {
     "code": "fut_ant_va",
@@ -1337,7 +1473,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo futuro anteriore con valore modale di supposizione"
   },
   {
     "code": "ind_impe_2",
@@ -1347,7 +1484,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo imperfetto per descrizioni periodi vita abitudini e azioni incompiute"
   },
   {
     "code": "cond_temp",
@@ -1357,7 +1495,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Condizionale presente per eventualità desideri richieste attenuate e consigli"
   },
   {
     "code": "imper_se_2",
@@ -1367,7 +1506,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Imperativo affermativo e negativo per consigli e ordini"
   },
   {
     "code": "form_imper",
@@ -1377,7 +1517,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Forma impersonale e passivante con particella si"
   },
   {
     "code": "form_imp_2",
@@ -1387,7 +1528,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Forma impersonale con verbi modali potere e dovere"
   },
   {
     "code": "mod_cong_t",
@@ -1397,7 +1539,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Congiuntivo presente con valore esortativo terza persona singolare"
   },
   {
     "code": "cong_temp",
@@ -1407,7 +1550,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Congiuntivo presente in subordinate oggettive e soggettive esplicite"
   },
   {
     "code": "fut_simp_i",
@@ -1417,7 +1561,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Futuro indicativo in subordinate oggettive e soggettive esplicite"
   },
   {
     "code": "inf_prepos",
@@ -1427,7 +1572,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Infinito con preposizione di in oggettive implicite"
   },
   {
     "code": "inf_simp_s",
@@ -1437,7 +1583,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Infinito semplice nelle soggettive implicite"
   },
   {
     "code": "inf_seguit",
@@ -1447,7 +1594,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Infinito seguito dalla preposizione di"
   },
   {
     "code": "inf_fin_im",
@@ -1457,7 +1605,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito in finali implicite, es. cose da fare (uso formulaico)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Infinito in finali implicite con valore di necessità"
   },
   {
     "code": "inf_esclus",
@@ -1467,7 +1616,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Infinito in proposizioni esclusive implicite con senza"
   },
   {
     "code": "pres_ind_f",
@@ -1477,7 +1627,8 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo"
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "label": "Indicativo presente e futuro nel periodo ipotetico della realtà"
   },
   {
     "code": "ind_pass_r",
@@ -1487,7 +1638,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Indicativo passato remoto per azioni concluse e distanza temporale"
   },
   {
     "code": "mod_cong_2",
@@ -1497,7 +1649,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo presente in subordinate oggettive ed soggettive esplicite"
   },
   {
     "code": "mod_ind_te",
@@ -1507,7 +1660,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Indicativo presente storico per rivivere il passato nella narrazione"
   },
   {
     "code": "mod_cong_3",
@@ -1517,7 +1671,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo passato per anteriorità con verbi di opinione e sentimento"
   },
   {
     "code": "mod_cong_4",
@@ -1527,7 +1682,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo imperfetto in subordinate oggettive ed soggettive esplicite"
   },
   {
     "code": "mod_cong_5",
@@ -1537,7 +1693,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo trapassato per anteriorità con verbi al passato"
   },
   {
     "code": "mod_cong_p",
@@ -1547,7 +1704,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo in subordinate introdotte da prima che, purché, perché, sebbene, come se, a meno che"
   },
   {
     "code": "seq_tutti",
@@ -1557,7 +1715,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Concordanza dei tempi del congiuntivo: presente-passato e imperfetto-trapassato"
   },
   {
     "code": "mod_cond_t",
@@ -1567,7 +1726,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Condizionale passato per desideri e azioni future nel passato"
   },
   {
     "code": "dellim_con",
@@ -1577,7 +1737,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo imperfetto e condizionale presente nel periodo ipotetico della possibilità"
   },
   {
     "code": "trpass_con",
@@ -1587,7 +1748,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Congiuntivo trapassato e condizionale passato nel periodo ipotetico dell'irrealtà"
   },
   {
     "code": "mod_ger_te",
@@ -1597,7 +1759,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Gerundio presente con valore temporale, modale e causale"
   },
   {
     "code": "mod_ger_2",
@@ -1607,7 +1770,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Gerundio passato con valore causale e temporale"
   },
   {
     "code": "mod_inf_pr",
@@ -1617,7 +1781,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Infinito presente con valore nominale, preposizionale e con verbi fattivi"
   },
   {
     "code": "mod_inf_te",
@@ -1627,7 +1792,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Infinito passato in subordinate temporali implicite con dopo e prima di"
   },
   {
     "code": "part_pass",
@@ -1637,7 +1803,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Participio passato con funzione aggettivale e temporale"
   },
   {
     "code": "form_passv",
@@ -1647,7 +1814,8 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Forma passiva con verbi essere e venire"
   },
   {
     "code": "prep_di_or",
@@ -1657,7 +1825,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
     "unistr_code": "di_provenienza_es_sono_di_berlino",
     "unistr_label": "di provenienza, es. Sono di Berlino .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di provenienza"
   },
   {
     "code": "prep_a_ind",
@@ -1667,7 +1836,8 @@
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
     "unistr_label": "a termine, es. Do il libro a Giovanni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di termine"
   },
   {
     "code": "prep_a_tem",
@@ -1677,7 +1847,8 @@
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
     "unistr_label": "tempo es. a mezzogiorno, alle tre",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di tempo"
   },
   {
     "code": "prep_a_dom",
@@ -1687,7 +1858,8 @@
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
     "unistr_label": "a domani!",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a in espressioni di distanza temporale prossima"
   },
   {
     "code": "prep_a_loc",
@@ -1697,7 +1869,8 @@
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
     "unistr_label": "stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di stato in luogo e moto a luogo"
   },
   {
     "code": "prep_a_l_2",
@@ -1707,7 +1880,8 @@
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
     "unistr_label": "stato in e moto a luogo con nomi di città, es. Vado a Roma.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di luogo con nomi di città"
   },
   {
     "code": "prep_in_lo",
@@ -1717,7 +1891,8 @@
     "unistr_code": "in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es",
     "unistr_label": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di stato in luogo e moto a luogo con nazioni"
   },
   {
     "code": "prep_in_me",
@@ -1727,7 +1902,8 @@
     "unistr_code": "in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es",
     "unistr_label": "mezzo, es. in treno, in macchina",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di mezzo"
   },
   {
     "code": "prep_con_c",
@@ -1737,7 +1913,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
     "unistr_code": "con_compagnia_es_vado_a_scuola_con_mario",
     "unistr_label": "con compagnia, es. Vado a scuola con Mario .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione con con valore di compagnia"
   },
   {
     "code": "prep_pe_va",
@@ -1747,7 +1924,8 @@
     "unistr_code": "per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno",
     "unistr_label": "per : vantaggio es. Il regalo è per Luca",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di vantaggio"
   },
   {
     "code": "prep_pe_mv",
@@ -1757,7 +1935,8 @@
     "unistr_code": "per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno",
     "unistr_label": "moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di moto a luogo e finalità"
   },
   {
     "code": "prep_idiom",
@@ -1767,7 +1946,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_es_giocare_a",
     "unistr_label": "Uso idiomatico di preposizioni in forme di uso frequente, es. giocare a",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Uso idiomatico di preposizioni in forme frequenti"
   },
   {
     "code": "prep_other",
@@ -1777,7 +1957,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
     "unistr_code": "altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico",
     "unistr_label": "Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Altre preposizioni semplici di uso formulaico"
   },
   {
     "code": "prep_di_ap",
@@ -1787,7 +1968,8 @@
     "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
     "unistr_label": "di appartenenza, es. la moto di Luca",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di appartenenza"
   },
   {
     "code": "prep_di_ma",
@@ -1797,7 +1979,8 @@
     "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
     "unistr_label": "materia, es. un foglio di carta",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di materia"
   },
   {
     "code": "prep_di_qn",
@@ -1807,7 +1990,8 @@
     "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
     "unistr_label": "quantità, es. Mangio un po’ di frutta",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di quantità"
   },
   {
     "code": "prep_di_mo",
@@ -1817,7 +2001,8 @@
     "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
     "unistr_label": "modo, es. di solito",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di modo"
   },
   {
     "code": "prep_a_l_3",
@@ -1827,7 +2012,8 @@
     "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
     "unistr_label": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di stato in luogo e moto a luogo"
   },
   {
     "code": "prep_a_t_2",
@@ -1837,7 +2023,8 @@
     "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
     "unistr_label": "tempo, es. a settembre",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di tempo"
   },
   {
     "code": "prep_a_mez",
@@ -1847,7 +2034,8 @@
     "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
     "unistr_label": "mezzo es. andare a piedi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di mezzo"
   },
   {
     "code": "prep_da_mo",
@@ -1857,7 +2045,8 @@
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
     "unistr_label": "da modo, es. Vivo da solo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di modo"
   },
   {
     "code": "prep_da_or",
@@ -1867,7 +2056,8 @@
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
     "unistr_label": "origine, es. Vengo dal Marocco",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di origine"
   },
   {
     "code": "prep_da_te",
@@ -1877,7 +2067,8 @@
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
     "unistr_label": "tempo, es. Studio italiano da un anno",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di durata temporale"
   },
   {
     "code": "prep_da_mv",
@@ -1887,7 +2078,8 @@
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
     "unistr_label": "moto a luogo/stato in luogo, es. Vado da Giovanni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di moto a luogo"
   },
   {
     "code": "prep_da_so",
@@ -1897,7 +2089,8 @@
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
     "unistr_label": "sono dal dottore.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di stato in luogo presso persona"
   },
   {
     "code": "prep_in_2",
@@ -1907,7 +2100,8 @@
     "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
     "unistr_label": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di stato in luogo e moto a luogo"
   },
   {
     "code": "prep_in_mo",
@@ -1917,7 +2111,8 @@
     "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
     "unistr_label": "modo, es. in ritardo, in orario",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di modo"
   },
   {
     "code": "prep_in_te",
@@ -1927,7 +2122,8 @@
     "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
     "unistr_label": "tempo, es. in inverno, in settembre",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di tempo"
   },
   {
     "code": "prep_co_me",
@@ -1937,7 +2133,8 @@
     "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
     "unistr_label": "con mezzo, es. Apro la porta con la chiave",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione con con valore di mezzo"
   },
   {
     "code": "prep_co_qu",
@@ -1947,7 +2144,8 @@
     "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
     "unistr_label": "qualità, es. con i capelli neri",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione con con valore di qualità"
   },
   {
     "code": "prep_co_2",
@@ -1957,7 +2155,8 @@
     "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
     "unistr_label": "mezzo, es. con l’auto, con il treno",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione con con valore di mezzo di trasporto"
   },
   {
     "code": "prep_su_a2",
@@ -1967,7 +2166,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
     "unistr_code": "su_stato_in_e_moto_a_luogo_es_e_sul_tavolo_metto_il_quaderno_sul_tavolo",
     "unistr_label": "su : stato in e moto a luogo, es. È sul tavolo, metto il quaderno sul tavolo .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione su con valore di stato in luogo e moto a luogo"
   },
   {
     "code": "prep_pe_te",
@@ -1977,7 +2177,8 @@
     "unistr_code": "per_tempo_es_ho_studiato_italiano_per_sei_mesi_fine_es_per_esempio_uso",
     "unistr_label": "per : tempo, es. Ho studiato italiano per sei mesi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di durata temporale"
   },
   {
     "code": "prep_pe_fi",
@@ -1987,7 +2188,8 @@
     "unistr_code": "per_tempo_es_ho_studiato_italiano_per_sei_mesi_fine_es_per_esempio_uso",
     "unistr_label": "fine, es. per esempio (uso formulaico)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di scopo o fine formulaico"
   },
   {
     "code": "prep_tr_te",
@@ -1997,7 +2199,8 @@
     "unistr_code": "trafra_tempo_es_parto_tra_tre_giorni_stato_in_luogo_es_il_ristorante_e_tra_la",
     "unistr_label": "tra/fra tempo, es. Parto tra tre giorni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra/fra con valore di tempo futuro"
   },
   {
     "code": "prep_tr_lo",
@@ -2007,7 +2210,8 @@
     "unistr_code": "trafra_tempo_es_parto_tra_tre_giorni_stato_in_luogo_es_il_ristorante_e_tra_la",
     "unistr_label": "stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra/fra con valore di luogo"
   },
   {
     "code": "prep_id_id",
@@ -2017,7 +2221,8 @@
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
     "unistr_label": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in locuzioni verbali di uso frequente"
   },
   {
     "code": "prep_id_vo",
@@ -2027,7 +2232,8 @@
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
     "unistr_label": "ho voglia di , es. Ho voglia di un bel gelato",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in locuzioni verbali di desiderio"
   },
   {
     "code": "prep_id_pa",
@@ -2037,7 +2243,8 @@
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
     "unistr_label": "ho paura di , es. Ho paura dei tuoni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in locuzioni verbali di timore"
   },
   {
     "code": "prep_id_no",
@@ -2047,7 +2254,8 @@
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
     "unistr_label": "ho nostalgia di , es. Ho nostalgia di casa",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in locuzioni verbali di nostalgia"
   },
   {
     "code": "prep_id_an",
@@ -2057,7 +2265,8 @@
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
     "unistr_label": "andare a + infinito, es. Vado a fare la spesa.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Costruzione andare a con infinito"
   },
   {
     "code": "prep_locut",
@@ -2067,7 +2276,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
     "unistr_code": "locuzioni_preposizionali_es_davanti_a_vicino_a_lontano_da_di_fronte_a_intorno_a",
     "unistr_label": "Locuzioni preposizionali, es. davanti a, vicino a, lontano da, di fronte a, intorno a, fino a, all’inizio di, alla fine di, insieme a",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Locuzioni preposizionali di luogo e movimento"
   },
   {
     "code": "prep_othe2",
@@ -2077,7 +2287,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
     "unistr_code": "altre_forme_preposizionali_es_dentro_dietro_durante_secondo_sopra_sotto",
     "unistr_label": "Altre forme preposizionali, es. dentro, dietro, durante, secondo , sopra, sotto",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Preposizioni semplici di luogo e tempo"
   },
   {
     "code": "prep_di_co",
@@ -2087,7 +2298,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "di paragone, es. È più grande di me",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di paragone"
   },
   {
     "code": "prep_di_pi",
@@ -2097,7 +2309,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "mi piace di più",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in comparativo di preferenza"
   },
   {
     "code": "prep_di_pa",
@@ -2107,7 +2320,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "partitivo, es. Volevo comprare dei mobili",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore partitivo"
   },
   {
     "code": "prep_di_in",
@@ -2117,7 +2331,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in proposizioni implicite oggettive e soggettive"
   },
   {
     "code": "prep_di_de",
@@ -2127,7 +2342,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "ho deciso di partire domani",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in costruzioni causali e decisionali"
   },
   {
     "code": "prep_di_ab",
@@ -2137,7 +2353,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "abbondanza, es. un sacco di, pieno di",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di abbondanza o quantità"
   },
   {
     "code": "prep_di_ar",
@@ -2147,7 +2364,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "argomento, es. un libro di storia, parlare di vacanze",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di argomento o materia"
   },
   {
     "code": "prep_di_te",
@@ -2157,7 +2375,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "tempo, es. di notte, d’estate",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di tempo determinato"
   },
   {
     "code": "prep_di_et",
@@ -2167,7 +2386,8 @@
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
     "unistr_label": "età, es. un uomo di cinquanta anni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di età"
   },
   {
     "code": "prep_a_dis",
@@ -2177,7 +2397,8 @@
     "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
     "unistr_label": "a distributivo, es. Vorrei guadagnare circa mille euro al mese",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore distributivo"
   },
   {
     "code": "prep_a_d_2",
@@ -2187,7 +2408,8 @@
     "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
     "unistr_label": "distanza, es. a dieci metri dal centro, a mezz’ora dal centro",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di distanza"
   },
   {
     "code": "prep_a_eta",
@@ -2197,7 +2419,8 @@
     "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
     "unistr_label": "età, es. Ho lasciato la mia famiglia a diciassette anni",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di età o momento specifico"
   },
   {
     "code": "prep_a_fin",
@@ -2207,7 +2430,8 @@
     "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
     "unistr_label": "fine, es. Ti aiuto a fare i compiti.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di fine o scopo"
   },
   {
     "code": "prep_da_2",
@@ -2217,7 +2441,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "da tempo, es. Dal prossimo mese inizio il mio corso",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di tempo iniziale"
   },
   {
     "code": "prep_da_in",
@@ -2227,7 +2452,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di fine implicita"
   },
   {
     "code": "prep_da_3",
@@ -2237,7 +2463,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "introduzione di una proposizione consecutiva, es. mi piace da morire",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di conseguenza"
   },
   {
     "code": "prep_da_al",
@@ -2247,7 +2474,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "non ho altro da scrivere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di necessità"
   },
   {
     "code": "prep_da_fi",
@@ -2257,7 +2485,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di destinazione d'uso"
   },
   {
     "code": "prep_da_qu",
@@ -2267,7 +2496,8 @@
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
     "unistr_label": "qualità, es. la ragazza dai capelli biondi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di qualità"
   },
   {
     "code": "prep_in_3",
@@ -2277,7 +2507,8 @@
     "unistr_code": "in_tempo_determinato_es_nel_diciottesimo_secolo_nel_1965_limitazione_es_bravo",
     "unistr_label": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di tempo determinato"
   },
   {
     "code": "prep_in_li",
@@ -2287,7 +2518,8 @@
     "unistr_code": "in_tempo_determinato_es_nel_diciottesimo_secolo_nel_1965_limitazione_es_bravo",
     "unistr_label": "limitazione es. bravo in questo sport",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di limitazione"
   },
   {
     "code": "prep_con_b",
@@ -2297,7 +2529,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "con_modo_es_con_attenzione",
     "unistr_label": "con modo, es. con attenzione",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione con con valore di modo"
   },
   {
     "code": "prep_su_b1",
@@ -2307,7 +2540,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "su_eta_indicando_approssimazione_es_sui_trentanni",
     "unistr_label": "su età (indicando approssimazione), es. sui trent’anni",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione su con valore di età approssimata"
   },
   {
     "code": "prep_per_l",
@@ -2317,7 +2551,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "per_moto_per_luogo_es_passo_per_milano",
     "unistr_label": "per : moto per luogo, es. Passo per Milano.",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di moto per luogo"
   },
   {
     "code": "prep_tr_co",
@@ -2327,7 +2562,8 @@
     "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
     "unistr_label": "tra /fra compagnia, es. tra la gente",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra con valore di compagnia"
   },
   {
     "code": "prep_tr_pa",
@@ -2337,7 +2573,8 @@
     "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
     "unistr_label": "partitivo, es. tra le canzoni che ho cantato",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra con valore di partitivo"
   },
   {
     "code": "prep_tr_di",
@@ -2347,7 +2584,8 @@
     "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
     "unistr_label": "distanza, es. Tra un chilometro c’è un benzinaio.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra con valore di distanza"
   },
   {
     "code": "prep_locu2",
@@ -2357,7 +2595,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "locuzioni_preposizionali_es_accanto_a_fuori_da_prima_di_dopo_di_a_causa_di_a",
     "unistr_label": "Locuzioni preposizionali, es. accanto a, fuori da, prima di, dopo di, a causa di, a destra / sinistra di, a nord / sud / est / ovest di",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Locuzioni preposizionali complesse"
   },
   {
     "code": "prep_vb_ph",
@@ -2367,7 +2606,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "uso_idiomatico_di_preposizioni_dopo_alcuni_verbi_fraseologici_es_cominciare_a",
     "unistr_label": "Uso idiomatico di preposizioni dopo alcuni verbi fraseologici, es. cominciare a, iniziare a, finire di, smettere di, continuare a, cercare di, ecc.",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizioni dopo verbi fraseologici"
   },
   {
     "code": "verb_prep",
@@ -2377,7 +2617,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "uso_idiomatico_di_preposizioni_dopo_alcuni_verbi_di_uso_frequente_es",
     "unistr_label": "Uso idiomatico di preposizioni dopo alcuni verbi di uso frequente, es. interessarsi di, occuparsi di, essere appassionato di, consigliare di, provare a, parlare di, credere a, pensare a, riuscire a, partecipare a, dipendere da, ecc.",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizioni dopo verbi di uso frequente"
   },
   {
     "code": "prep_othe3",
@@ -2387,7 +2628,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "altre_forme_preposizionali_es_verso",
     "unistr_label": "Altre forme preposizionali, es. verso",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Preposizione verso con valore direzionale"
   },
   {
     "code": "prep_di_qu",
@@ -2397,7 +2639,8 @@
     "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
     "unistr_label": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di qualità"
   },
   {
     "code": "prep_di_2",
@@ -2407,7 +2650,8 @@
     "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
     "unistr_label": "denominazione, es. nel quartiere di Trastevere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di denominazione"
   },
   {
     "code": "prep_di_3",
@@ -2417,7 +2661,8 @@
     "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
     "unistr_label": "tempo in correlazione con in, es. di anno in anno, di giorno in giorno",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di in correlazione iterativa"
   },
   {
     "code": "prep_di_4",
@@ -2427,7 +2672,8 @@
     "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
     "unistr_label": "in introduzione di proposizione finale, es. Ti prego di dirmelo.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione di con valore di proposizione finale"
   },
   {
     "code": "prep_da_ca",
@@ -2437,7 +2683,8 @@
     "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
     "unistr_label": "da causa, es. l’ansia da esame, la dipendenza da telefonino",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di causa"
   },
   {
     "code": "prep_da_ag",
@@ -2447,7 +2694,8 @@
     "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
     "unistr_label": "agente, es. È amato da tutti",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione da con valore di agente passivo"
   },
   {
     "code": "prep_da_st",
@@ -2457,7 +2705,8 @@
     "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
     "unistr_label": "stima/prezzo, es. a partire da duemila euro",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione a con valore di stima e prezzo"
   },
   {
     "code": "prep_in_b2",
@@ -2467,7 +2716,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
     "unistr_code": "in_tempo_continuato_es_lo_leggo_in_due_ore",
     "unistr_label": "in tempo continuato, es. Lo leggo in due ore .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione in con valore di tempo continuato"
   },
   {
     "code": "prep_su_ar",
@@ -2477,7 +2727,8 @@
     "unistr_code": "su_argomento_es_informarsi_sullorario_una_conversazione_sulle_buone_maniere",
     "unistr_label": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione su con valore di argomento"
   },
   {
     "code": "prep_su_di",
@@ -2487,7 +2738,8 @@
     "unistr_code": "su_argomento_es_informarsi_sullorario_una_conversazione_sulle_buone_maniere",
     "unistr_label": "distributivo, es. uno su dieci",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione su con valore distributivo"
   },
   {
     "code": "prep_pe_2",
@@ -2497,7 +2749,8 @@
     "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
     "unistr_label": "per tempo continuato, es. per ore, per mesi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di durata temporale"
   },
   {
     "code": "prep_pe_ca",
@@ -2507,7 +2760,8 @@
     "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
     "unistr_label": "causa, es. Per motivi lavorativi non posso venire",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore di causa"
   },
   {
     "code": "prep_pe_di",
@@ -2517,7 +2771,8 @@
     "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
     "unistr_label": "distributivo, es. giorno per giorno, dividere per gruppi",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione per con valore distributivo"
   },
   {
     "code": "prep_tra_2",
@@ -2527,7 +2782,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
     "unistr_code": "trafra_relazione_es_i_rapporti_tra_le_persone",
     "unistr_label": "tra/fra relazione, es. i rapporti tra le persone",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Preposizione tra/fra con valore di relazione"
   },
   {
     "code": "prep_loc_b",
@@ -2537,7 +2793,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
     "unistr_code": "locuzioni_preposizionali_es_per_mezzo_di_fino_da_in_mezzo_a_in_base_a_in",
     "unistr_label": "locuzioni preposizionali, es. per mezzo di, fino da, in mezzo a, in base a, in relazione a, in cima a, in fondo a, all'interno di, rispetto a",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Locuzioni preposizionali comuni"
   },
   {
     "code": "prep_misc",
@@ -2547,7 +2804,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
     "unistr_code": "altre_forme_preposizionali_es_nonostante_attraverso_contro_eccetto_entro",
     "unistr_label": "altre forme preposizionali, es. nonostante, attraverso, contro, eccetto, entro",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "label": "Altre forme preposizionali"
   },
   {
     "code": "adv_manner",
@@ -2557,7 +2815,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "di_modo_bene_male",
     "unistr_label": "Di modo: bene, male",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di modo: bene, male"
   },
   {
     "code": "adv_place",
@@ -2567,7 +2826,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "di_luogo_qui_qua_li_la_fuori_dentro_dietro_davanti_sopra_sotto_vicino_lontano",
     "unistr_label": "Di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra, sotto, vicino, lontano, su, giù, indietro, avanti",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra, sotto, vicino, lontano, su, giù, indietro, avanti"
   },
   {
     "code": "adv_time_a",
@@ -2577,7 +2837,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi",
     "unistr_label": "Di tempo: ora, adesso,oggi, dopo, ieri, domani, spesso, sempre, mai , presto, tardi",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di tempo: ora, adesso, oggi, dopo, ieri, domani, spesso, sempre, mai, presto, tardi"
   },
   {
     "code": "adv_quant",
@@ -2587,7 +2848,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "di_quantita_molto_poco_tanto_piu_meno_niente_un_po",
     "unistr_label": "Di quantità: molto, poco, tanto, più, meno, niente, un po’",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di quantità: molto, poco, tanto, più, meno, niente, un po'"
   },
   {
     "code": "adv_judge",
@@ -2597,7 +2859,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "di_giudizio_si_no_non_certo_quasi",
     "unistr_label": "Di giudizio: sì, no, non, certo, quasi",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di giudizio: sì, no, non, certo, quasi"
   },
   {
     "code": "adv_interr",
@@ -2607,7 +2870,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html",
     "unistr_code": "interrogativi_come_dove_quando_quanto_perche",
     "unistr_label": "Interrogativi: come, dove, quando, quanto, perché",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi interrogativi: come, dove, quando, quanto, perché"
   },
   {
     "code": "adv_manne2",
@@ -2617,7 +2881,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "di_modo_di_solito_insieme_cosi",
     "unistr_label": "Di modo: di solito, insieme, così",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di modo: di solito, insieme, così"
   },
   {
     "code": "adv_place2",
@@ -2627,7 +2892,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "di_luogo_a_destra_sinistra_a_nord_sud_est_ovest_dritto",
     "unistr_label": "Di luogo: a destra / sinistra, a nord / sud / est /ovest, dritto",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di luogo: a destra, sinistra, nord, sud, est, ovest, dritto"
   },
   {
     "code": "adv_time_2",
@@ -2637,7 +2903,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "di_tempo_appena_gia_subito_nonancora_nonmai_prima_poi_ancora",
     "unistr_label": "Di tempo: appena, già, subito, non...ancora, non...mai, prima, poi, ancora",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di tempo: appena, già, subito, non ancora, non mai, prima, poi, ancora"
   },
   {
     "code": "adv_quant2",
@@ -2647,7 +2914,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "di_quantita_abbastanza_troppo_piu_o_meno_solo",
     "unistr_label": "Di quantità: abbastanza, troppo, più o meno, solo",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di quantità: abbastanza, troppo, più o meno, solo"
   },
   {
     "code": "adv_judge2",
@@ -2657,7 +2925,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "di_giudizio_probabilmente_veramente_forse",
     "unistr_label": "Di giudizio: probabilmente, veramente, forse",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di giudizio: probabilmente, veramente, forse"
   },
   {
     "code": "adv_text_a",
@@ -2667,7 +2936,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html",
     "unistr_code": "testuali_allora",
     "unistr_label": "Testuali: allora",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi testuali: allora"
   },
   {
     "code": "adv_manne3",
@@ -2677,7 +2947,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "di_modo_avverbi_in_mente_es_direttamente_facilmente_generalmente_attentamente_o",
     "unistr_label": "Di modo: avverbi in –mente, es. direttamente, facilmente, generalmente, attentamente o locuzioni avverbiali, es. in genere",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di modo in -mente e locuzioni avverbiali"
   },
   {
     "code": "adv_place3",
@@ -2687,7 +2958,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "di_luogo_dappertutto_di_sopra_di_sotto_via_in_andare_via",
     "unistr_label": "Di luogo: dappertutto, di sopra, di sotto , via in andare via",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di luogo: dappertutto, di sopra, di sotto, via"
   },
   {
     "code": "adv_time_b",
@@ -2697,7 +2969,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "di_tempo_improvvisamente_allimprovviso_di_nuovo_per_sempre_in_futuro",
     "unistr_label": "Di tempo : improvvisamente, all’improvviso, di nuovo, per sempre, in futuro",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di tempo: improvvisamente, all'improvviso, di nuovo, per sempre, in futuro"
   },
   {
     "code": "adv_quant3",
@@ -2707,7 +2980,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "di_quantita_soltanto",
     "unistr_label": "Di quantità: soltanto",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di quantità: soltanto"
   },
   {
     "code": "adv_judge3",
@@ -2717,7 +2991,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "di_giudizio_certamente_neanche_assolutamente_sicuramente_particolarmente",
     "unistr_label": "Di giudizio: certamente, neanche, assolutamente, sicuramente, particolarmente, specialmente, soprattutto, proprio, per niente, per forza, di sicuro, volentieri, davvero",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di giudizio: certamente, neanche, assolutamente, sicuramente, particolarmente, specialmente, soprattutto, proprio, per niente, per forza, di sicuro, volentieri, davvero"
   },
   {
     "code": "adv_text_b",
@@ -2727,7 +3002,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "testuali_praticamente_insomma_inoltre_infine_quindi",
     "unistr_label": "Testuali: praticamente, insomma, inoltre, infine, quindi",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi testuali di collegamento e conclusione"
   },
   {
     "code": "adv_intens",
@@ -2737,7 +3013,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "intensificativi_es_veramente_davvero_proprio_es_e_veramente_bello_e_proprio",
     "unistr_label": "Intensificativi, es. veramente, davvero, proprio, es. È veramente bello; è proprio bravo.",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi intensificativi di grado e enfasi"
   },
   {
     "code": "adv_alter",
@@ -2747,7 +3024,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "alterati_a_suffisso_ino_es_pochino_a_suffisso_issimo_es_moltissimo_tardissimo",
     "unistr_label": "Alterati a suffisso –INO, es. pochino; a suffisso –ISSIMO, es. moltissimo, tardissimo; alterati organici , es. meglio, peggio",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio"
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "label": "Avverbi alterati con suffissi e forme organiche"
   },
   {
     "code": "adv_manne4",
@@ -2757,7 +3035,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "di_modo_in_fretta_per_caso",
     "unistr_label": "Di modo: in fretta, per caso",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di modo con struttura preposizionale"
   },
   {
     "code": "adv_place4",
@@ -2767,7 +3046,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "avverbi_di_luogo_da_vicino_lontano_presso_dovunque_oltre_laggiu_lassu",
     "unistr_label": "Avverbi di luogo: da vicino / lontano, presso (d)ovunque, oltre, laggiù, lassù",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di luogo con valore direzionale e locativo"
   },
   {
     "code": "adv_time_3",
@@ -2777,7 +3057,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "di_tempo_allora_a_quei_tempi_finora_oggigiorno_ormai_al_giorno_doggi_ai_nostri",
     "unistr_label": "Di tempo: allora (a quei tempi), finora, oggigiorno, ormai, al giorno d’oggi, ai nostri giorni, da sempre, in tempo, un giorno, una volta, ad un tratto, tutt’ora, intanto , talvolta",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di tempo con riferimento temporale specifico"
   },
   {
     "code": "adv_judge4",
@@ -2787,7 +3068,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "di_giudizio_appunto_nemmeno_esatto_senza_dubbio",
     "unistr_label": "Di giudizio: appunto, nemmeno, esatto, senza dubbio",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di giudizio e valutazione logica"
   },
   {
     "code": "adv_quant4",
@@ -2797,7 +3079,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "di_quantita_parecchio_nulla",
     "unistr_label": "Di quantità: parecchio, nulla",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi di quantità indeterminata"
   },
   {
     "code": "adv_text_2",
@@ -2807,7 +3090,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "testuali_in_conclusione_in_realta_in_fondo_di_conseguenza_in_breve_innanzitutto",
     "unistr_label": "Testuali: in conclusione, in realtà, in fondo, di conseguenza, in breve, innanzitutto",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi testuali di argomentazione e strutturazione"
   },
   {
     "code": "adv_inten2",
@@ -2817,7 +3101,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "intensificativi_affatto_perfino",
     "unistr_label": "Intensificativi: affatto, perfino",
-    "chunk_ref": "book_9_l_avverbio"
+    "chunk_ref": "book_9_l_avverbio",
+    "label": "Avverbi intensificativi di esclusione e inclusione"
   },
   {
     "code": "sent_affir",
@@ -2827,7 +3112,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "proposizioni_enunciative_affermative_e_negative",
     "unistr_label": "Proposizioni enunciative: affermative e negative",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Proposizioni enunciative affermative e negative"
   },
   {
     "code": "sent_desir",
@@ -2837,7 +3123,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "proposizioni_volitive_desiderative_introdotte_da_vorrei",
     "unistr_label": "Proposizioni volitive: desiderative introdotte da vorrei",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
+    "label": "Proposizioni volitive desiderative con verbo volitivo"
   },
   {
     "code": "sent_excla",
@@ -2847,7 +3134,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "esclamative_quasi_sempre_con_il_verbo_sottinteso",
     "unistr_label": "Esclamative, quasi sempre con il verbo sottinteso",
-    "chunk_ref": "book_12_l_interiezione"
+    "chunk_ref": "book_12_l_interiezione",
+    "label": "Proposizioni esclamative con verbo sottinteso"
   },
   {
     "code": "sent_inter",
@@ -2857,7 +3145,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche",
     "unistr_label": "Interrogative: totali (SÌ/NO) e parziali introdotte da: come, dove, quando, perché, quanto, chi, che, cosa, che cosa, quale?",
-    "chunk_ref": "book_7_il_pronome_pronomi_interrogativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_interrogativi",
+    "label": "Proposizioni interrogative totali e parziali"
   },
   {
     "code": "sent_simpl",
@@ -2867,7 +3156,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a2.html",
     "unistr_code": "frase_semplice_a2",
     "unistr_label": "La frase semplice",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
+    "label": "La frase semplice e i suoi componenti"
   },
   {
     "code": "sent_desi2",
@@ -2877,7 +3167,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html",
     "unistr_code": "proposizioni_volitive_desiderative_attraverso_luso_del_condizionale_es_mi",
     "unistr_label": "Proposizioni volitive: desiderative attraverso l’uso del condizionale, es. Mi piacerebbe leggere quel libro; vedrei volentieri quel film .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
+    "label": "Proposizioni volitive desiderative con condizionale"
   },
   {
     "code": "sent_imper",
@@ -2887,7 +3178,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html",
     "unistr_code": "proposizioni_volitive_imperative_attraverso_luso_del_congiuntivo_esortativo_es",
     "unistr_label": "Proposizioni volitive imperative attraverso l’uso del congiuntivo esortativo, es. Vada dritto e poi giri a destra .",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "label": "Proposizioni volitive imperative con congiuntivo esortativo"
   },
   {
     "code": "sent_simp2",
@@ -2897,7 +3189,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b2.html",
     "unistr_code": "frase_semplice_b2",
     "unistr_label": "La frase semplice",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
+    "label": "La frase semplice in contesti complessi"
   },
   {
     "code": "coord_copu",
@@ -2907,7 +3200,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html",
     "unistr_code": "proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a",
     "unistr_label": "Proposizioni coordinate copulative utilizzando il connettivo e , es. Abito a Madrid e studio economia .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizioni coordinate copulative con congiunzione e"
   },
   {
     "code": "coord_disj",
@@ -2917,7 +3211,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html",
     "unistr_code": "proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o",
     "unistr_label": "Proposizioni coordinate disgiuntive utilizzando il connettivo o , es. Mangi qui o vai a casa?",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizioni coordinate disgiuntive con congiunzione o"
   },
   {
     "code": "subord_cau",
@@ -2927,7 +3222,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html",
     "unistr_code": "proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono",
     "unistr_label": "Proposizioni causali introdotte da perché , es. (Perché vai a casa?) Perché sono stanco .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizioni causali con congiunzione perché"
   },
   {
     "code": "subord_fin",
@@ -2937,7 +3233,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html",
     "unistr_code": "proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono",
     "unistr_label": "Proposizioni finali implicite con uso della preposizione per + infinito, es. Sono qui per imparare l’italiano .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Proposizioni finali implicite con preposizione per e infinito"
   },
   {
     "code": "coord_adve",
@@ -2947,7 +3244,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_coordinate_con_uso_della_congiunzione_avversativa_ma_es_la_mia",
     "unistr_label": "Proposizioni coordinate con uso della congiunzione avversativa ma , es. La mia città è piccola, ma è molto bella .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizioni coordinate avversative con congiunzione ma"
   },
   {
     "code": "coord_anch",
@@ -2957,7 +3255,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_coordinate_con_uso_della_congiunzione_copulativa_anche_es_ho",
     "unistr_label": "Proposizioni coordinate con uso della congiunzione copulativa anche , es. Ho comprato la frutta e anche il pane.",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizioni coordinate copulative con congiunzione anche"
   },
   {
     "code": "temp_quand",
@@ -2967,7 +3266,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_temporali_esplicite_con_uso_della_congiunzione_quando_es_quando_ci",
     "unistr_label": "Proposizioni temporali esplicite con uso della congiunzione quando , es. (Quando ci vediamo?) Quando ho finito .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizioni temporali esplicite con congiunzione quando"
   },
   {
     "code": "cond_se",
@@ -2977,7 +3277,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_condizionali_esplicite_con_uso_della_congiunzione_se_utilizzate",
     "unistr_label": "Proposizioni condizionali esplicite con uso della congiunzione se , utilizzate principalmente in strutture formulaiche con verbo al presente indicativo, es. Se vuoi; se è possibile.",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione condizionale esplicita con se e indicativo presente"
   },
   {
     "code": "rel_che",
@@ -2987,7 +3288,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_relative_introdotte_dal_pronome_che_con_funzione_di_soggetto_e_di",
     "unistr_label": "Proposizioni relative introdotte dal pronome che , con funzione di soggetto e di oggetto, es. Vado dal mio amico che abita in centro; mangio la torta che ha preparato mia madre .",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Proposizione relativa con pronome che soggetto e oggetto"
   },
   {
     "code": "final_a_in",
@@ -2997,7 +3299,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_finali_implicite_introdotte_da_a_infinito_es_vado_a_fare_la_spesa",
     "unistr_label": "Proposizioni finali implicite introdotte da a + infinito, es. Vado a fare la spesa .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Proposizione finale implicita con a infinito"
   },
   {
     "code": "coord_avve",
@@ -3007,7 +3310,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_con_uso_delle_congiunzioni_avversative_pero_tuttavia",
     "unistr_label": "Proposizioni coordinate con uso delle congiunzioni avversative: però, tuttavia, comunque, invece, es. Uscirei però fa troppo freddo; sono contento di essere in Italia; tuttavia/comunque spero di tornare presto a casa; Carlo è rimasto a casa, invece Maria è venuta con me .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata avversativa con però tuttavia comunque invece"
   },
   {
     "code": "coord_pure",
@@ -3017,7 +3321,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_con_uso_della_congiunzione_copulativa_pure_es_ho",
     "unistr_label": "Proposizioni coordinate con uso della congiunzione copulativa: pure , es. Ho comprato la frutta e pure il pane.",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata copulativa con pure"
   },
   {
     "code": "coord_conc",
@@ -3027,7 +3332,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_conclusive_con_uso_di_quindi_dunque_percio_es_ho_un",
     "unistr_label": "Proposizioni coordinate conclusive con uso di quindi, dunque, perciò , es. Ho un ragazzo italiano, quindi/dunque/perciò devo studiare la lingua .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata conclusiva con quindi dunque perciò"
   },
   {
     "code": "coord_espl",
@@ -3037,7 +3343,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_esplicative_con_uso_di_infatti_cioe_es_vivo_in",
     "unistr_label": "Proposizioni coordinate esplicative con uso di infatti , cioè, es. Vivo in periferia, cioè molto lontano dal centro .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata esplicativa con infatti cioè"
   },
   {
     "code": "coord_corr",
@@ -3047,7 +3354,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_correlative_con_uso_di_nene_o_o_siasia_che_non_e_ne_un",
     "unistr_label": "Proposizioni coordinate correlative con uso di né...né, o... o, sia...sia (che). Non è né un film di avventura né di spionaggio .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata correlativa con né né o o sia sia"
   },
   {
     "code": "coord_nean",
@@ -3057,7 +3365,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_copulative_con_uso_di_neanche_es_mario_non_e_arrivato_e",
     "unistr_label": "Proposizioni coordinate copulative con uso di neanche , es. Mario non è arrivato e neanche Luca .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata copulativa con neanche"
   },
   {
     "code": "coord_disg",
@@ -3067,7 +3376,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_coordinate_disgiuntive_con_uso_di_oppure_senno_es_possiamo",
     "unistr_label": "Proposizioni coordinate disgiuntive con uso di oppure, sennò , es. Possiamo rimanere qui oppure andare a casa mia; laviamo i piatti, sennò mia madre si arrabbia .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata disgiuntiva con oppure sennò"
   },
   {
     "code": "caus_espl",
@@ -3077,7 +3387,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_causali_esplicite_introdotte_da_siccome_dato_che_visto_che_es",
     "unistr_label": "Proposizioni causali esplicite introdotte da siccome, dato che, visto che , es. Visto che ho abitato in Italia ho imparato l’italiano .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione causale esplicita con siccome dato che visto che"
   },
   {
     "code": "temp_mentr",
@@ -3087,7 +3398,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_temporali_che_esprimono_contemporaneita_con_uso_di_mentre_es",
     "unistr_label": "Proposizioni temporali che esprimono contemporaneità con uso di mentre , es. Mentre studiavo ascoltavo un po’ di musica; Mentre guidavo all’improvviso la macchina si è fermata .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione temporale esplicita contemporaneità con mentre"
   },
   {
     "code": "temp_prima",
@@ -3097,7 +3409,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_temporali_implicite_che_esprimono_anteriorita_con_uso_di_prima_di",
     "unistr_label": "Proposizioni temporali implicite che esprimono anteriorità con uso di prima di , es. Prima di sedermi sul divano devo preparare la cena .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Proposizione temporale implicita anteriorità con prima di"
   },
   {
     "code": "temp_dopo",
@@ -3107,7 +3420,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_temporali_esplicite_che_esprimono_posteriorita_con_uso_di_dopo_che",
     "unistr_label": "Proposizioni temporali esplicite che esprimono posteriorità con uso di dopo che, quando, (non) appena seguito da indicativo futuro anteriore, es. Non appena avrò finito il lavoro ti telefonerò .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione temporale esplicita posteriorità dopo che appena indicativo"
   },
   {
     "code": "comp_espl",
@@ -3117,7 +3431,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_comparative_esplicite_di_maggioranza_con_uso_di_piu_di_piu_che_di",
     "unistr_label": "Proposizioni comparative esplicite di maggioranza con uso di più ...di, più ... che, di minoranza con uso di meno ...di, meno...che, di uguaglianza con uso di così ...(come), tanto...(quanto)",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione comparativa esplicita maggioranza minoranza uguaglianza"
   },
   {
     "code": "concess_an",
@@ -3127,7 +3442,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_concessive_esplicite_introdotte_da_anche_se_es_mangio_la_carne",
     "unistr_label": "Proposizioni concessive esplicite introdotte da anche se , es. Mangio la carne anche se non mi piace molto .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione concesiva esplicita con anche se"
   },
   {
     "code": "ipot_realt",
@@ -3137,7 +3453,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "periodo_ipotetico_della_realta_es_se_mangio_troppo_sto_male",
     "unistr_label": "Periodo ipotetico della realtà, es. Se mangio troppo, sto male.",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Periodo ipotetico della realtà presente indicativo"
   },
   {
     "code": "rel_cui",
@@ -3147,7 +3464,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_relative_introdotte_da_preposizione_cui_per_i_complementi",
     "unistr_label": "Proposizioni relative introdotte da preposizione + cui per i complementi indiretti, es. Luca è l’amico con cui ho viaggiato.",
-    "chunk_ref": "book_7_il_pronome_pronomi_relativi"
+    "chunk_ref": "book_7_il_pronome_pronomi_relativi",
+    "label": "Proposizione relativa con preposizione cui complemento indiretto"
   },
   {
     "code": "excl_senza",
@@ -3157,7 +3475,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_esclusive_implicite_introdotte_da_senzainfinito_es_sono_venuta_in",
     "unistr_label": "Proposizioni esclusive implicite introdotte da senza+infinito, es. Sono venuta in Italia senza conoscere la lingua.",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "label": "Proposizione esclusiva implicita con senza infinito"
   },
   {
     "code": "obj_congiu",
@@ -3167,7 +3486,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_oggettive_esplicite_introdotte_dalla_congiunzione_che_con_i_verbi",
     "unistr_label": "Proposizioni oggettive esplicite introdotte dalla congiunzione che con i verbi (di opinione, speranza e sentimenti) che richiedono il congiuntivo, es. Penso che sia un ragazzo intelligente; e oggettive implicite introdotte da di +infinito, es. Penso di tornare a casa presto .",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
+    "label": "Proposizione oggettiva esplicita congiuntivo e implicita di infinito"
   },
   {
     "code": "sogg_espl",
@@ -3177,7 +3497,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_soggettive_esplicite_introdotte_da_verbi_impersonali_come_pare",
     "unistr_label": "Proposizioni soggettive esplicite introdotte da verbi impersonali come pare, sembra, es. Mi sembra che tu sia stanco.",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti"
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
+    "label": "Proposizione soggettiva esplicita con pare sembra"
   },
   {
     "code": "sogg_impl",
@@ -3187,7 +3508,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_soggettive_implicite_introdotte_da_espressioni_impersonali_es",
     "unistr_label": "Proposizioni soggettive implicite introdotte da espressioni impersonali, es. Bisogna studiare molto; è importante vivere in un altro paese; è necessario arrivare in orario .",
-    "chunk_ref": "book_8_il_verbo_verbi_impersonali"
+    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
+    "label": "Proposizione soggettiva implicita espressioni impersonali infinito"
   },
   {
     "code": "coord_nemm",
@@ -3197,7 +3519,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_coordinate_copulative_con_uso_di_nemmeno_es_non_e_venuto_marco_e",
     "unistr_label": "Proposizioni coordinate copulative con uso di nemmeno , es. Non è venuto Marco e nemmeno Luca .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata copulativa con nemmeno"
   },
   {
     "code": "final_espl",
@@ -3207,7 +3530,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_finali_esplicite_introdotte_da_perche_affinche_es_te_lo_racconto",
     "unistr_label": "Proposizioni finali esplicite introdotte da perché, affinché , es. Te lo racconto perché tu possa capire .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione finale esplicita con perché affinché congiuntivo"
   },
   {
     "code": "caus_poich",
@@ -3217,7 +3541,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_causali_esplicite_introdotte_da_poiche_es_poiche_era_arrivato",
     "unistr_label": "Proposizioni causali esplicite introdotte da poiché es. Poiché era arrivato tardi non ha preso il treno; ed implicite con uso del gerundio presente o passato , es. Essendo bel tempo parto oggi; avendo seguito la lezione non ho avuto bisogno di studiare .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione causale esplicita poiché e implicita gerundio"
   },
   {
     "code": "temp_gerun",
@@ -3227,7 +3552,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_temporali_implicite_che_esprimono_contemporaneita_con_luso_del",
     "unistr_label": "Proposizioni temporali implicite che esprimono contemporaneità con l’uso del gerundio presente , es. Uscendo ho chiuso la porta .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
+    "label": "Proposizione temporale implicita con gerundio presente per contemporaneità"
   },
   {
     "code": "temp_geru2",
@@ -3237,7 +3563,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_temporali_che_esprimono_anteriorita_con_luso_del_gerundio_passato",
     "unistr_label": "Proposizioni temporali che esprimono anteriorità con l’uso del gerundio passato e con l’uso del participio passato, es. Avendo rifatto l’esercizio, ho capito l’errore; spenta la luce sono uscito .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
+    "label": "Proposizione temporale implicita con gerundio passato e participio passato per anteriorità"
   },
   {
     "code": "temp_dopo2",
@@ -3247,7 +3574,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_temporali_implicite_che_esprimono_posteriorita_introdotte_da_dopo",
     "unistr_label": "Proposizioni temporali implicite che esprimono posteriorità introdotte da dopo e l’ infinito passato, es. Sono partita dopo averlo salutato .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
+    "label": "Proposizione temporale implicita con dopo e infinito passato per posteriorità"
   },
   {
     "code": "temp_prim2",
@@ -3257,7 +3585,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_temporali_esplicite_che_esprimono_anteriorita_introdotte_da_prima",
     "unistr_label": "Proposizioni temporali esplicite che esprimono anteriorità introdotte da prima che, es. Parto prima che arrivi il brutto tempo .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione temporale esplicita con prima che per anteriorità"
   },
   {
     "code": "temp_finch",
@@ -3267,7 +3596,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_temporali_esplicite_che_esprimono_posteriorita_introdotte_da",
     "unistr_label": "Proposizioni temporali esplicite che esprimono posteriorità introdotte da finché, es. Finché non avrai 16 anni non andrai in discoteca .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione temporale esplicita con finché per posteriorità"
   },
   {
     "code": "coord_altr",
@@ -3277,7 +3607,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_coordinate_disgiuntive_con_uso_di_altrimenti_es_vada_via",
     "unistr_label": "Proposizioni coordinate disgiuntive con uso di altrimenti, es. Vada via, altrimenti chiamo la polizia .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_coordinative",
+    "label": "Proposizione coordinata disgiuntiva con altrimenti"
   },
   {
     "code": "ipot_poss",
@@ -3287,7 +3618,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "periodo_ipotetico_della_possibilita_e_della_irrealta_es_se_venissi_sarei",
     "unistr_label": "Periodo ipotetico della possibilità e della irrealtà, es. Se venissi sarei contento; s e me lo avessi detto ti avrei creduto .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale"
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
+    "label": "Periodo ipotetico della possibilità e dell'irrealtà"
   },
   {
     "code": "concess_se",
@@ -3297,7 +3629,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_concessive_introdotte_dalle_congiunzioni_sebbene_benche_nonostante",
     "unistr_label": "Proposizioni concessive introdotte dalle congiunzioni sebbene, benché, nonostante, es. Abbiamo preso il treno sebbene fossimo in ritardo .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione concessiva con sebbene, benché, nonostante"
   },
   {
     "code": "int_indir",
@@ -3307,7 +3640,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_interrogative_indirette_introdotte_dalla_congiunzione",
     "unistr_label": "Proposizioni interrogative indirette introdotte dalla congiunzione interrogativa se solo dopo alcuni verbi come sapere, es. Volevo sapere se venivate anche voi .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione interrogativa indiretta con congiunzione se"
   },
   {
     "code": "mod_come_s",
@@ -3317,7 +3651,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_modali_introdotte_da_come_se_es_mi_parlava_come_se_fosse_il_mio",
     "unistr_label": "Proposizioni modali introdotte da come se, es. Mi parlava come se fosse il mio direttore .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione modale con come se"
   },
   {
     "code": "eccett_alm",
@@ -3327,7 +3662,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_eccettuative_introdotte_da_a_meno_che_non_es_verro_con_te_a_meno",
     "unistr_label": "Proposizioni eccettuative introdotte da a meno che (non), es. Verrò con te a meno che non debba lavorare .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative"
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "label": "Proposizione eccettuativa con a meno che"
   },
   {
     "code": "ord_svo",
@@ -3337,7 +3673,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html",
     "unistr_code": "percezione_della_pertinenza_dellordine_non_marcato_svo_dei_costituenti_di_un",
     "unistr_label": "Percezione della pertinenza dell’ordine non marcato (SVO) dei costituenti di un enunciato semplice",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Ordine non marcato SVO dei costituenti in enunciato semplice"
   },
   {
     "code": "omiss_sogg",
@@ -3347,7 +3684,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html",
     "unistr_code": "consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative",
     "unistr_label": "Consapevolezza dell’omissione del soggetto in frasi dichiarative e interrogative: Sono americano; vai al cinema ?",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto"
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto",
+    "label": "Omissione del soggetto in frasi dichiarative e interrogative"
   },
   {
     "code": "ord_vs",
@@ -3357,7 +3695,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html",
     "unistr_code": "consapevolezza_dellordine_vs_nelle_interrogative_introdotte_da_un_pronome_o_un",
     "unistr_label": "Consapevolezza dell’ordine VS nelle interrogative introdotte da un pronome o un avverbio: Dove va Luca? Quando parte Luca?",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Ordine VS nelle interrogative con pronome o avverbio"
   },
   {
     "code": "frase_cost",
@@ -3367,7 +3706,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a2.html",
     "unistr_code": "costruzione_frase_a2",
     "unistr_label": "La costruzione della frase",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi"
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "label": "Costruzione della frase"
   },
   {
     "code": "disloc_sin",
@@ -3377,7 +3717,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html",
     "unistr_code": "dislocazione_a_sinistra_con_ripresa_pronominale_es_il_vino_rosso_lha_finito",
     "unistr_label": "Dislocazione a sinistra con ripresa pronominale, es. Il vino rosso l’ha finito Mario .",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Dislocazione a sinistra con ripresa pronominale"
   },
   {
     "code": "frase_scis",
@@ -3387,7 +3728,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html",
     "unistr_code": "frase_scissa_con_proposizione_subordinata_esplicita_es_e_lei_che_non_ha_voluto",
     "unistr_label": "Frase scissa con proposizione subordinata esplicita, es. È lei che non ha voluto vedermi ; sei tu che hai fatto tutto questo o introdotta da “c’è presentativo”, es. Che cosa c’è che non va ?",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Frase scissa con proposizione subordinata esplicita"
   },
   {
     "code": "sogg_postv",
@@ -3397,7 +3739,8 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html",
     "unistr_code": "posizione_postverbale_del_soggetto_es_ha_ragione_lei_non_e_lei",
     "unistr_label": "Posizione postverbale del soggetto, es. Ha ragione lei; non è lei .",
-    "chunk_ref": "book_2_la_frase"
+    "chunk_ref": "book_2_la_frase",
+    "label": "Posizione postverbale del soggetto"
   },
   {
     "code": "agg_prenom",
@@ -3407,6 +3750,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html",
     "unistr_code": "consapevolezza_del_significato_specifico_di_alcuni_aggettivi_usati_in_posizione",
     "unistr_label": "Consapevolezza del significato specifico di alcuni aggettivi usati in posizione prenominale o post-nominale, es. È un buon amico (bravo) vs. È un amico buono ; È un bell’uomo (giudizio di valore) vs. È un uomo bello ; È un pover uomo (da commiserare) vs. È un uomo povero .",
-    "chunk_ref": "book_6_l_aggettivo"
+    "chunk_ref": "book_6_l_aggettivo",
+    "label": "Significato specifico di aggettivi in posizione prenominale o postnominale"
   }
 ]
