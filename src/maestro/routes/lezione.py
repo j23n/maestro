@@ -407,6 +407,20 @@ async def lezione_activity(
             request=request, name="lezione-activity-reading.html", context=ctx
         )
 
+    if activity.type == ActivityType.LISTENING:
+        lang = _settings.TARGET_LANGUAGE
+        ctx["annotated_content"] = hide_translations(
+            await discover(lang_wrap(activity.content, lang), student_id=student.id)
+        )
+        ctx["annotated_questions"] = await discover_list(
+            [lang_wrap(q, lang) for q in (activity.questions or [])],
+            student_id=student.id,
+        )
+        ctx["audio_url"] = activity.audio_path
+        return templates.TemplateResponse(
+            request=request, name="lezione-activity-listening.html", context=ctx
+        )
+
     if activity.type == ActivityType.WRITING:
         lang = _settings.TARGET_LANGUAGE
         ctx["annotated_content"] = await discover_markdown(
@@ -801,7 +815,7 @@ async def lezione_reading_submit(
     event = LearningEvent(
         student_id=student.id,
         lesson_id=lesson.id,
-        activity_type=ActivityType.READING.value,
+        activity_type=activity.type.value,
         activity_index=idx,
         student_text=joined_answers,
         grammar_correct=gp_correct,

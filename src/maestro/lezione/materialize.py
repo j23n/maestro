@@ -36,6 +36,7 @@ async def materialize_activities(
     scenario_slug: str,
     cefr_level: str,
     student_id,
+    listening_count: int = 0,
 ) -> list[LessonActivity]:
     """Convert raw LLM content dict into ordered LessonActivity list.
 
@@ -79,15 +80,38 @@ async def materialize_activities(
             )
         )
 
-    # --- Reading activities ---
+    # --- Listening activities (audio comprehension) ---
+    listening_activities: list[LessonActivity] = []
+    for i, reading in enumerate(content.readings[:listening_count]):
+        title = (
+            t("listening_title_n", n=i + 1)
+            if listening_count > 1
+            else t("listening_title")
+        )
+        listening_activities.append(
+            LessonActivity(
+                type=ActivityType.LISTENING,
+                title=title,
+                description=t("listening_desc", topic=topic_title),
+                duration_minutes=5,
+                content=reading.text,
+                questions=reading.questions,
+                correct_answers=reading.answers,
+            )
+        )
+
+    # --- Reading activities (text comprehension) ---
     reading_activities: list[LessonActivity] = []
-    for i, reading in enumerate(content.readings[:reading_count]):
+    for i, reading in enumerate(
+        content.readings[listening_count : listening_count + reading_count]
+    ):
+        title = (
+            t("reading_title_n", n=i + 1) if reading_count > 1 else t("reading_title")
+        )
         reading_activities.append(
             LessonActivity(
                 type=ActivityType.READING,
-                title=t("reading_title_n", n=i + 1)
-                if reading_count > 1
-                else t("reading_title"),
+                title=title,
                 description=t("reading_desc", topic=topic_title),
                 duration_minutes=5,
                 content=reading.text,
@@ -186,9 +210,10 @@ async def materialize_activities(
             )
         )
 
-    # Pedagogical order: grammar x N -> readings x N -> drills x N -> speakings x N -> writing x N
+    # Pedagogical order: grammar → listening → reading → drill → speaking → writing
     return (
         grammar_activities
+        + listening_activities
         + reading_activities
         + drill_activities
         + speaking_activities

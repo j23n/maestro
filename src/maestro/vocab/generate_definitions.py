@@ -15,6 +15,7 @@ import argparse
 import asyncio
 import json
 import logging
+from pathlib import Path
 from typing import Any
 
 from bson import DBRef
@@ -167,6 +168,14 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
                 extra={"word": word.word, "cefr_level": cefr},
             )
     await _save_all_levels(word, claude_data)
+    # Generate audio if missing
+    if word.audio_path is None:
+        from maestro.tts import generate_word_audio
+
+        audio_url = await generate_word_audio(word.word)
+        if audio_url:
+            word.audio_path = audio_url
+            await word.save()
 
 
 async def _collect_words_needing_regen(
@@ -188,11 +197,26 @@ async def _collect_words_needing_regen(
     return todo
 
 
+def _word_audio_path(word: str) -> Path:
+    """Return the expected audio file path for a word (mirrors tts._word_audio_path)."""
+    import re
+    import unicodedata
+
+    nfkd = unicodedata.normalize("NFKD", word.lower())
+    ascii_text = "".join(c for c in nfkd if not unicodedata.combining(c))
+    slug = re.sub(r"[^a-z0-9]+", "_", ascii_text).strip("_")
+    return Path("src/maestro/static/audio") / f"word_{slug}.wav"
+
+
 async def generate(
     test: bool = False,
     my_cards: bool = False,
+    missing: bool = False,
 ):
     await init_db()
+
+    if missing:
+        my_cards = True  # --missing implies --my-cards
 
     if my_cards:
         cards = await UserVocabularyCard.find_all().to_list()
@@ -206,8 +230,18 @@ async def generate(
         words = await VocabularyWord.find_all().to_list()
         logger.info(f"Found {len(words)} vocabulary words")
 
-    todo = await _collect_words_needing_regen(words)
-    logger.info(f"{len(todo)} words need (re)generation")
+    if missing:
+        # Include words missing definitions OR audio
+        words_missing_audio = [
+            w for w in words if not _word_audio_path(w.word).exists()
+        ]
+        todo_defs = await _collect_words_needing_regen(words)
+        todo_def_ids = {w.id for w in todo_defs}
+        todo = todo_defs + [w for w in words_missing_audio if w.id not in todo_def_ids]
+        logger.info(f"{len(todo)} words need (re)generation or audio (--missing)")
+    else:
+        todo = await _collect_words_needing_regen(words)
+        logger.info(f"{len(todo)} words need (re)generation")
 
     if test:
         todo = todo[:BATCH_SIZE]
@@ -240,6 +274,14 @@ async def generate(
                             extra={"word": word.word, "cefr_level": cefr},
                         )
                 await _save_all_levels(word, claude_data)
+                # Generate audio if missing
+                if word.audio_path is None:
+                    from maestro.tts import generate_word_audio
+
+                    audio_url = await generate_word_audio(word.word)
+                    if audio_url:
+                        word.audio_path = audio_url
+                        await word.save()
             except Exception as exc:
                 logger.error(f"Failed to save definitions for '{word.word}': {exc}")
 
@@ -259,5 +301,10 @@ if __name__ == "__main__":
         action="store_true",
         help="Only regenerate definitions for words in UserVocabularyCards",
     )
+    parser.add_argument(
+        "--missing",
+        action="store_true",
+        help="Process UserVocabularyCard words missing definitions OR audio",
+    )
     args = parser.parse_args()
-    asyncio.run(generate(test=args.test, my_cards=args.my_cards))
+    asyncio.run(generate(test=args.test, my_cards=args.my_cards, missing=args.missing))
