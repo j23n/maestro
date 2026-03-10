@@ -349,12 +349,6 @@ async def lezione_activity(
 
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
-    # Only grammar activities can be revisited; redirect all others to current activity
-    if is_review and activity.type != ActivityType.GRAMMAR:
-        return RedirectResponse(
-            url=activity_url(lesson_id, lesson.current_index), status_code=303
-        )
-
     total = len(lesson.activities)
 
     ctx = {
