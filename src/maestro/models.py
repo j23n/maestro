@@ -257,19 +257,8 @@ class DrillItem(BaseModel):
     correct_answer: Optional[str] = None
 
 
-class DrillTemplate(Document):
-    grammar_point_code: str
-    cefr_level: str
-    exercise_type: ExerciseType  # "fill_blank" | "error_correction"
-    language: str = "it"
-
-    class Settings:
-        name = "drill_templates"
-
-
 class GeneratedDrill(Document):
     student_id: Optional[PydanticObjectId] = None
-    template: Link[DrillTemplate]
     grammar_point_code: str
     cefr_level: str
     exercise_type: ExerciseType
@@ -450,7 +439,6 @@ ALL_DOCUMENT_MODELS = [
     CommunicativeFunction,
     LearningEvent,
     LearningProfile,
-    DrillTemplate,
     GeneratedDrill,
     DrillAttempt,
     Lesson,

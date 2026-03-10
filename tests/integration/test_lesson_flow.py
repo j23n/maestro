@@ -10,7 +10,6 @@ from maestro.models import (
     LessonActivity,
     LearningEvent,
     GeneratedDrill,
-    DrillTemplate,
     GrammarPoint,
     LearningProfile,
     ActivityType,
@@ -359,15 +358,7 @@ async def completed_lesson(db):
     await gp_ok.insert()
     await gp_bad.insert()
 
-    template = DrillTemplate(
-        grammar_point_code="GP_OK",
-        cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK,
-    )
-    await template.insert()
-
     drill_ok = GeneratedDrill(
-        template=template,
         grammar_point_code="GP_OK",
         cefr_level="A1",
         exercise_type=ExerciseType.FILL_BLANK,
@@ -375,7 +366,6 @@ async def completed_lesson(db):
         scenario_slug="test",
     )
     drill_bad = GeneratedDrill(
-        template=template,
         grammar_point_code="GP_BAD",
         cefr_level="A1",
         exercise_type=ExerciseType.FILL_BLANK,
