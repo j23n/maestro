@@ -146,7 +146,7 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 0.6rem 0.85rem;
-  pointer-events: none;
+  pointer-events: auto;
   max-width: 300px;
 }
 
@@ -1134,4 +1134,296 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .flag-form .flag-expand { display: none; }
 .flag-form.expanded .flag-expand { display: block; }
 .flag-form .flag-expand textarea { width: 100%; box-sizing: border-box; }
+
+/* =====================================================================
+   Audio player (mini player for vocab + listening activities)
+   ===================================================================== */
+.audio-player-wrap {
+  margin: 0.75rem 0;
+}
+
+.audio-player-inline {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.mini-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  background: var(--c-surface);
+}
+
+.play-btn {
+  background: var(--c-terracotta);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 6rem;
+}
+
+.play-btn:hover { background: #b34a2e; }
+.play-btn:disabled { background: #c4bfb6; cursor: not-allowed; }
+
+.play-btn-sm {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  min-width: 4.5rem;
+}
+
+.speed-slider {
+  max-width: 110px;
+  accent-color: var(--c-terracotta);
+  cursor: pointer;
+}
+
+.speed-label {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Tooltip audio button */
+.tt-audio-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text);
+  text-align: center;
+}
+.tt-audio-btn:hover { background: var(--c-cream); }
 .flag-actions { display: flex; gap: 4px; margin-top: 4px; }
+
+/* =====================================================================
+   23. Listening activity — broadcast player
+   ===================================================================== */
+
+/* Card: dark header + white body */
+.listening-card {
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background: #fff;
+}
+
+/* Dark "broadcast" header */
+.listening-header {
+  background: var(--c-charcoal);
+  padding: 1.5rem 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.listening-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(250, 247, 242, 0.4);
+  align-self: flex-start;
+}
+
+/* Waveform */
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 48px;
+}
+
+.wave-bar {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--c-cream);
+  opacity: 0.2;
+  transform-origin: center;
+}
+
+.waveform.playing .wave-bar {
+  opacity: 0.75;
+  animation: wavePulse 0.55s calc(var(--i, 0) * 38ms) ease-in-out infinite alternate;
+}
+
+@keyframes wavePulse {
+  from { transform: scaleY(0.2); }
+  to   { transform: scaleY(1); }
+}
+
+/* Circular play button */
+.listening-play-btn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--c-terracotta);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* centering handled via #play-icon nudge */
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  box-shadow: 0 0 0 5px rgba(199, 91, 57, 0.18);
+}
+
+.listening-play-btn:hover {
+  background: #d66c4d;
+  transform: scale(1.05);
+  box-shadow: 0 0 0 7px rgba(199, 91, 57, 0.12);
+}
+
+/* Nudge ▶ glyph slightly right for optical centering; ⏸ sits centered already */
+#play-icon { position: relative; left: 2px; }
+
+/* Seek bar row */
+.seek-row {
+  width: 100%;
+}
+
+.seek-bar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 0; /* easier click target */
+  box-sizing: content-box;
+}
+
+.seek-bar::-webkit-slider-container {
+  background: transparent;
+}
+
+.seek-bar::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--c-terracotta) var(--seek-pct, 0%),
+    rgba(250, 247, 242, 0.2) var(--seek-pct, 0%)
+  );
+}
+
+.seek-bar::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(250, 247, 242, 0.2);
+}
+
+.seek-bar::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--c-terracotta);
+}
+
+.seek-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  margin-top: -5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  transition: transform 0.1s;
+}
+
+.seek-bar::-webkit-slider-thumb:hover { transform: scale(1.25); }
+
+.seek-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Speed/time row in dark header */
+.listening-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.listening-time {
+  font-size: 0.75rem;
+  color: rgba(250, 247, 242, 0.45);
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, monospace;
+  min-width: 7rem;
+}
+
+.listening-speed-slider { accent-color: var(--c-cream); }
+
+.listening-speed-label {
+  color: rgba(250, 247, 242, 0.45);
+}
+
+/* White body: transcript reveal */
+.listening-body {
+  padding: 0;
+}
+
+.transcript-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.transcript-toggle:hover { color: var(--c-text); }
+
+.transcript-toggle::after {
+  content: '↓';
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.transcript-toggle.open { border-bottom-color: var(--c-border); }
+.transcript-toggle.open::after { transform: rotate(180deg); }
+
+/* Transcript slides open */
+.listening-transcript {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s ease;
+  font-size: 0.97rem;
+  line-height: 1.8;
+  color: var(--c-charcoal);
+  white-space: pre-wrap;
+  padding: 0 2rem;
+}
+
+.listening-transcript.revealed {
+  max-height: 600px;
+  padding: 1.25rem 2rem;
+}

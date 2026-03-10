@@ -141,14 +141,17 @@ def reset_limiter():
 
 @pytest.fixture(autouse=True)
 def reset_llm_client_cache():
-    """Clear lru_cache on LLM client factories between tests to prevent state leakage."""
+    """Clear lru_cache on LLM and TTS client factories between tests to prevent state leakage."""
     from maestro.llm import get_client, get_async_client
+    from maestro.tts import _get_tts_client
 
     get_client.cache_clear()
     get_async_client.cache_clear()
+    _get_tts_client.cache_clear()
     yield
     get_client.cache_clear()
     get_async_client.cache_clear()
+    _get_tts_client.cache_clear()
 
 
 @pytest.fixture(autouse=True)

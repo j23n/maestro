@@ -8,3 +8,4 @@ src/maestro/data/it/dizionario.epub
 src/maestro/data/it/dizionario_book/
 data/seed/*
 !data/seed/current/
+src/maestro/static/audio/*.wav
