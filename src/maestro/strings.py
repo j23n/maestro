@@ -18,6 +18,8 @@ _STRINGS: dict[str, dict[str, str]] = {
         "listening_title_n": "Ascolto {n}",
         "listening_title": "Ascolto",
         "listening_desc": "Ascolta e comprendi: {topic}",
+        "listening_reveal_transcript": "Mostra trascrizione",
+        "listening_hide_transcript": "Nascondi trascrizione",
         "drill_title": "Esercizio: {label}",
         "speaking_title": "Parlare: {label}",
         "speaking_desc": "Pratica: {label}",
