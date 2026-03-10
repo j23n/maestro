@@ -1038,13 +1038,58 @@
     "unistr_label": "Omissione dell’articolo con la preposizione da quando indica il fine, es. carta da lettere, ferro da stiro, racchetta da tennis"
   },
   {
-    "code": "aux_reg_vb",
+    "code": "ind_pres",
     "cefr_level": "A1",
     "category": "verbi",
-    "description": "La coniugazione attiva (con particolare riferimento a tutte e tre le persone singolari e al noi ) degli ausiliari essere ed avere , dei principali verbi regolari, di alcuni irregolari (vedi lessico) ai seguenti modi e tempi: - indicativo presente - condizionale semplice solo del verbo volere alla I persona singolare ( vorrei ) - imperativo formale ed informale del verbo scusare ( scusi/scusa ) - imperativo prima persona plurale per invitare (andiamo ) - la percezione del significato modale dei verbi potere, volere e dovere - la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
+    "description": "indicativo presente",
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
-    "unistr_label": "La coniugazione attiva (con particolare riferimento a tutte e tre le persone singolari e al noi ) degli ausiliari essere ed avere , dei principali verbi regolari, di alcuni irregolari (vedi lessico) ai seguenti modi e tempi: - indicativo presente - condizionale semplice solo del verbo volere alla I persona singolare ( vorrei ) - imperativo formale ed informale del verbo scusare ( scusi/scusa ) - imperativo prima persona plurale per invitare (andiamo ) - la percezione del significato modale dei verbi potere, volere e dovere - la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )"
+    "unistr_label": "indicativo presente",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "cond_simp",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "condizionale semplice solo del verbo volere alla I persona singolare ( vorrei )",
+    "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "unistr_label": "condizionale semplice solo del verbo volere alla I persona singolare ( vorrei )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "imper_form",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "imperativo formale ed informale del verbo scusare ( scusi/scusa )",
+    "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "unistr_label": "imperativo formale ed informale del verbo scusare ( scusi/scusa )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "imper_prim",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "imperativo prima persona plurale per invitare (andiamo )",
+    "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "unistr_label": "imperativo prima persona plurale per invitare (andiamo )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "percez_sig",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "la percezione del significato modale dei verbi potere, volere e dovere",
+    "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "unistr_label": "la percezione del significato modale dei verbi potere, volere e dovere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
+  },
+  {
+    "code": "costru_ess",
+    "cefr_level": "A1",
+    "category": "verbi",
+    "description": "la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
+    "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "unistr_label": "la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html"
   },
   {
     "code": "inf_final",
@@ -1056,31 +1101,400 @@
     "unistr_label": "Infinito presente nelle proposizioni finali implicite, es. Sono qui per studiare l’italiano ."
   },
   {
-    "code": "verbs_a2",
+    "code": "ind_pres_2",
     "cefr_level": "A2",
     "category": "verbi",
-    "description": "La coniugazione attiva (6 persone) dei principali verbi regolari, di alcuni irregolari, riflessivi e reciproci (vedi lessico) ai seguenti modi e tempi: - indicativo presente - indicativo passato prossimo - indicativo imperfetto di essere e avere nella descrizione di fatti e persone - indicativo futuro semplice con valore temporale, es. Domani pioverà . - imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre: - Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni) - Verbi impersonali, es. piovere - Forma perifrastica/presente progressivo: stare + gerundio",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
+    "description": "indicativo presente",
     "unistr_code": "verbi_a2",
-    "unistr_label": "I verbi"
+    "unistr_label": "indicativo presente",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
   },
   {
-    "code": "verbs_b1",
+    "code": "ind_pass_p",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "indicativo passato prossimo",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "indicativo passato prossimo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "ind_imperf",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "indicativo imperfetto di essere e avere nella descrizione di fatti e persone",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "indicativo imperfetto di essere e avere nella descrizione di fatti e persone",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "ind_fut_si",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "indicativo futuro semplice con valore temporale, es. Domani pioverà .",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "indicativo futuro semplice con valore temporale, es. Domani pioverà .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "imper_seco",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre:",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre:",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "mod_consap",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni)",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "impers",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Verbi impersonali, es. piovere",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "Verbi impersonali, es. piovere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "form_prog",
+    "cefr_level": "A2",
+    "category": "verbi",
+    "description": "Forma perifrastica/presente progressivo: stare + gerundio",
+    "unistr_code": "verbi_a2",
+    "unistr_label": "Forma perifrastica/presente progressivo: stare + gerundio",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html"
+  },
+  {
+    "code": "pass_pros",
     "cefr_level": "B1",
     "category": "verbi",
-    "description": "La coniugazione attiva (6 persone) dei verbi regolari e irregolari dei seguenti modi e tempi: - ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 . - indicativo trapassato prossimo - valore modale dell’indicativo futuro semplice, es. Saranno le otto . - indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto . - uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove . - indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata. - condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro . - ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini - forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino . - forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto . - modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹. - uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene . - uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa. - infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola. - infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali. - infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo. - infinito in finali implicite, es. cose da fare (uso formulaico) - infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua . - uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
+    "description": "ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 .",
     "unistr_code": "verbi_b1",
-    "unistr_label": "I verbi"
+    "unistr_label": "ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
   },
   {
-    "code": "verbs_b2",
+    "code": "ind_trpass",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "indicativo trapassato prossimo",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "indicativo trapassato prossimo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "val_mod_de",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "valore modale dell’indicativo futuro semplice, es. Saranno le otto .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "valore modale dell’indicativo futuro semplice, es. Saranno le otto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "ind_fut_an",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "fut_ant_va",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "ind_impe_2",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "cond_temp",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "imper_se_2",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "form_imper",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "form_imp_2",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "mod_cong_t",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "cong_temp",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "fut_simp_i",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "inf_prepos",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "inf_simp_s",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "inf_seguit",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo.",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "inf_fin_im",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "infinito in finali implicite, es. cose da fare (uso formulaico)",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "infinito in finali implicite, es. cose da fare (uso formulaico)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "inf_esclus",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua .",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "pres_ind_f",
+    "cefr_level": "B1",
+    "category": "verbi",
+    "description": "uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
+    "unistr_code": "verbi_b1",
+    "unistr_label": "uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html"
+  },
+  {
+    "code": "ind_pass_r",
     "cefr_level": "B2",
     "category": "verbi",
-    "description": "La coniugazione attiva (6 persone) dei verbi regolari e irregolari dei seguenti modi e tempi: - indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato) - ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga. - uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 . - modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc . - modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me . - modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto . - modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro. - concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato. - modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto . - uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere. - uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto . - modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia . - modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore . - modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare . - modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva . - participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa . - forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
+    "description": "indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato)",
     "unistr_code": "verbi_b2",
-    "unistr_label": "I verbi"
+    "unistr_label": "indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cong_2",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga.",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_ind_te",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cong_3",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cong_4",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cong_5",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cong_p",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro.",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "seq_tutti",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato.",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_cond_t",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "dellim_con",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere.",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "trpass_con",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_ger_te",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_ger_2",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_inf_pr",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "mod_inf_te",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "part_pass",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa .",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
+  },
+  {
+    "code": "form_passv",
+    "cefr_level": "B2",
+    "category": "verbi",
+    "description": "forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
+    "unistr_code": "verbi_b2",
+    "unistr_label": "forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html"
   },
   {
     "code": "prep_di_or",
@@ -1092,22 +1506,67 @@
     "unistr_label": "di provenienza, es. Sono di Berlino ."
   },
   {
-    "code": "prep_a_ter",
+    "code": "prep_a_ind",
     "cefr_level": "A1",
     "category": "preposizioni",
-    "description": "a termine, es. Do il libro a Giovanni ; tempo es. a mezzogiorno, alle tre; a domani! ; stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa; stato in e moto a luogo con nomi di città, es. Vado a Roma.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
+    "description": "a termine, es. Do il libro a Giovanni",
     "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
-    "unistr_label": "a termine, es. Do il libro a Giovanni ; tempo es. a mezzogiorno, alle tre; a domani! ; stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa; stato in e moto a luogo con nomi di città, es. Vado a Roma."
+    "unistr_label": "a termine, es. Do il libro a Giovanni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
   },
   {
-    "code": "prep_in_na",
+    "code": "prep_a_tem",
     "cefr_level": "A1",
     "category": "preposizioni",
-    "description": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia; mezzo, es. in treno, in macchina",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
+    "description": "tempo es. a mezzogiorno, alle tre",
+    "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
+    "unistr_label": "tempo es. a mezzogiorno, alle tre",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_a_dom",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "a domani!",
+    "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
+    "unistr_label": "a domani!",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_a_loc",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa",
+    "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
+    "unistr_label": "stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a fare la spesa",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_a_l_2",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "stato in e moto a luogo con nomi di città, es. Vado a Roma.",
+    "unistr_code": "a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani",
+    "unistr_label": "stato in e moto a luogo con nomi di città, es. Vado a Roma.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_in_lo",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia",
     "unistr_code": "in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es",
-    "unistr_label": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia; mezzo, es. in treno, in macchina"
+    "unistr_label": "in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in Italia",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_in_me",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "mezzo, es. in treno, in macchina",
+    "unistr_code": "in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es",
+    "unistr_label": "mezzo, es. in treno, in macchina",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
   },
   {
     "code": "prep_con_c",
@@ -1119,13 +1578,22 @@
     "unistr_label": "con compagnia, es. Vado a scuola con Mario ."
   },
   {
-    "code": "prep_per_a",
+    "code": "prep_pe_va",
     "cefr_level": "A1",
     "category": "preposizioni",
-    "description": "per : vantaggio es. Il regalo è per Luca ; moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
+    "description": "per : vantaggio es. Il regalo è per Luca",
     "unistr_code": "per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno",
-    "unistr_label": "per : vantaggio es. Il regalo è per Luca ; moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano ."
+    "unistr_label": "per : vantaggio es. Il regalo è per Luca",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
+  },
+  {
+    "code": "prep_pe_mv",
+    "cefr_level": "A1",
+    "category": "preposizioni",
+    "description": "moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
+    "unistr_code": "per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno",
+    "unistr_label": "moto a luogo,es. A che ora parte il treno per Roma? introduzione di proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano .",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html"
   },
   {
     "code": "prep_idiom",
@@ -1146,49 +1614,166 @@
     "unistr_label": "Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico"
   },
   {
-    "code": "prep_di_a2",
+    "code": "prep_di_ap",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "di appartenenza, es. la moto di Luca; materia, es. un foglio di carta; quantità, es. Mangio un po’ di frutta; modo, es. di solito",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "di appartenenza, es. la moto di Luca",
     "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
-    "unistr_label": "di appartenenza, es. la moto di Luca; materia, es. un foglio di carta; quantità, es. Mangio un po’ di frutta; modo, es. di solito"
+    "unistr_label": "di appartenenza, es. la moto di Luca",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_a_a2",
+    "code": "prep_di_ma",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto; tempo, es. a settembre; mezzo es. andare a piedi",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "materia, es. un foglio di carta",
+    "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
+    "unistr_label": "materia, es. un foglio di carta",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_di_qn",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "quantità, es. Mangio un po’ di frutta",
+    "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
+    "unistr_label": "quantità, es. Mangio un po’ di frutta",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_di_mo",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "modo, es. di solito",
+    "unistr_code": "di_appartenenza_es_la_moto_di_luca_materia_es_un_foglio_di_carta_quantita_es",
+    "unistr_label": "modo, es. di solito",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_a_l_3",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto",
     "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
-    "unistr_label": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto; tempo, es. a settembre; mezzo es. andare a piedi"
+    "unistr_label": "a stato in e moto a luogo, es. Sono / vado a teatro, al mare, all’università, a letto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_da_a2",
+    "code": "prep_a_t_2",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "da modo, es. Vivo da solo; origine, es. Vengo dal Marocco; tempo, es. Studio italiano da un anno; moto a luogo/stato in luogo, es. Vado da Giovanni; sono dal dottore.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "tempo, es. a settembre",
+    "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
+    "unistr_label": "tempo, es. a settembre",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_a_mez",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "mezzo es. andare a piedi",
+    "unistr_code": "a_stato_in_e_moto_a_luogo_es_sono_vado_a_teatro_al_mare_alluniversita_a_letto",
+    "unistr_label": "mezzo es. andare a piedi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_da_mo",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "da modo, es. Vivo da solo",
     "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
-    "unistr_label": "da modo, es. Vivo da solo; origine, es. Vengo dal Marocco; tempo, es. Studio italiano da un anno; moto a luogo/stato in luogo, es. Vado da Giovanni; sono dal dottore."
+    "unistr_label": "da modo, es. Vivo da solo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_in_a2",
+    "code": "prep_da_or",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna; modo, es. in ritardo, in orario; tempo, es. in inverno, in settembre",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "origine, es. Vengo dal Marocco",
+    "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
+    "unistr_label": "origine, es. Vengo dal Marocco",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_da_te",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "tempo, es. Studio italiano da un anno",
+    "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
+    "unistr_label": "tempo, es. Studio italiano da un anno",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_da_mv",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "moto a luogo/stato in luogo, es. Vado da Giovanni",
+    "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
+    "unistr_label": "moto a luogo/stato in luogo, es. Vado da Giovanni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_da_so",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "sono dal dottore.",
+    "unistr_code": "da_modo_es_vivo_da_solo_origine_es_vengo_dal_marocco_tempo_es_studio_italiano",
+    "unistr_label": "sono dal dottore.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_in_2",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna",
     "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
-    "unistr_label": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna; modo, es. in ritardo, in orario; tempo, es. in inverno, in settembre"
+    "unistr_label": "in stato in e moto a luogo, es. in centro, in periferia, in piscina, in palestra, in biblioteca, in montagna",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_con_a",
+    "code": "prep_in_mo",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "con mezzo, es. Apro la porta con la chiave; qualità, es. con i capelli neri; mezzo, es. con l’auto, con il treno",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "modo, es. in ritardo, in orario",
+    "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
+    "unistr_label": "modo, es. in ritardo, in orario",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_in_te",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "tempo, es. in inverno, in settembre",
+    "unistr_code": "in_stato_in_e_moto_a_luogo_es_in_centro_in_periferia_in_piscina_in_palestra_in",
+    "unistr_label": "tempo, es. in inverno, in settembre",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_co_me",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "con mezzo, es. Apro la porta con la chiave",
     "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
-    "unistr_label": "con mezzo, es. Apro la porta con la chiave; qualità, es. con i capelli neri; mezzo, es. con l’auto, con il treno"
+    "unistr_label": "con mezzo, es. Apro la porta con la chiave",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_co_qu",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "qualità, es. con i capelli neri",
+    "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
+    "unistr_label": "qualità, es. con i capelli neri",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_co_2",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "mezzo, es. con l’auto, con il treno",
+    "unistr_code": "con_mezzo_es_apro_la_porta_con_la_chiave_qualita_es_con_i_capelli_neri_mezzo_es",
+    "unistr_label": "mezzo, es. con l’auto, con il treno",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
     "code": "prep_su_a2",
@@ -1200,31 +1785,85 @@
     "unistr_label": "su : stato in e moto a luogo, es. È sul tavolo, metto il quaderno sul tavolo ."
   },
   {
-    "code": "prep_per_t",
+    "code": "prep_pe_te",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "per : tempo, es. Ho studiato italiano per sei mesi; fine, es. per esempio (uso formulaico)",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "per : tempo, es. Ho studiato italiano per sei mesi",
     "unistr_code": "per_tempo_es_ho_studiato_italiano_per_sei_mesi_fine_es_per_esempio_uso",
-    "unistr_label": "per : tempo, es. Ho studiato italiano per sei mesi; fine, es. per esempio (uso formulaico)"
+    "unistr_label": "per : tempo, es. Ho studiato italiano per sei mesi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_tra_a",
+    "code": "prep_pe_fi",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "tra/fra tempo, es. Parto tra tre giorni; stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "fine, es. per esempio (uso formulaico)",
+    "unistr_code": "per_tempo_es_ho_studiato_italiano_per_sei_mesi_fine_es_per_esempio_uso",
+    "unistr_label": "fine, es. per esempio (uso formulaico)",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_tr_te",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "tra/fra tempo, es. Parto tra tre giorni",
     "unistr_code": "trafra_tempo_es_parto_tra_tre_giorni_stato_in_luogo_es_il_ristorante_e_tra_la",
-    "unistr_label": "tra/fra tempo, es. Parto tra tre giorni; stato in luogo, es. Il ristorante è tra la farmacia e la scuola."
+    "unistr_label": "tra/fra tempo, es. Parto tra tre giorni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
-    "code": "prep_idio2",
+    "code": "prep_tr_lo",
     "cefr_level": "A2",
     "category": "preposizioni",
-    "description": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze; ho voglia di , es. Ho voglia di un bel gelato; ho paura di , es. Ho paura dei tuoni; ho nostalgia di , es. Ho nostalgia di casa; andare a + infinito, es. Vado a fare la spesa.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
+    "description": "stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
+    "unistr_code": "trafra_tempo_es_parto_tra_tre_giorni_stato_in_luogo_es_il_ristorante_e_tra_la",
+    "unistr_label": "stato in luogo, es. Il ristorante è tra la farmacia e la scuola.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_id_id",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze",
     "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
-    "unistr_label": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze; ho voglia di , es. Ho voglia di un bel gelato; ho paura di , es. Ho paura dei tuoni; ho nostalgia di , es. Ho nostalgia di casa; andare a + infinito, es. Vado a fare la spesa."
+    "unistr_label": "Uso idiomatico di preposizioni in forme di uso frequente, come ho bisogno di , es. Ho bisogno di un appartamento con tre stanze",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_id_vo",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "ho voglia di , es. Ho voglia di un bel gelato",
+    "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
+    "unistr_label": "ho voglia di , es. Ho voglia di un bel gelato",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_id_pa",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "ho paura di , es. Ho paura dei tuoni",
+    "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
+    "unistr_label": "ho paura di , es. Ho paura dei tuoni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_id_no",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "ho nostalgia di , es. Ho nostalgia di casa",
+    "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
+    "unistr_label": "ho nostalgia di , es. Ho nostalgia di casa",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
+  },
+  {
+    "code": "prep_id_an",
+    "cefr_level": "A2",
+    "category": "preposizioni",
+    "description": "andare a + infinito, es. Vado a fare la spesa.",
+    "unistr_code": "uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_come_ho_bisogno_di_es",
+    "unistr_label": "andare a + infinito, es. Vado a fare la spesa.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html"
   },
   {
     "code": "prep_locut",
@@ -1245,40 +1884,193 @@
     "unistr_label": "Altre forme preposizionali, es. dentro, dietro, durante, secondo , sopra, sotto"
   },
   {
-    "code": "prep_di_b1",
+    "code": "prep_di_co",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "di paragone, es. È più grande di me; mi piace di più; partitivo, es. Volevo comprare dei mobili; introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo; ho deciso di partire domani; abbondanza, es. un sacco di, pieno di; argomento, es. un libro di storia, parlare di vacanze; tempo, es. di notte, d’estate; età, es. un uomo di cinquanta anni",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
+    "description": "di paragone, es. È più grande di me",
     "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
-    "unistr_label": "di paragone, es. È più grande di me; mi piace di più; partitivo, es. Volevo comprare dei mobili; introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo; ho deciso di partire domani; abbondanza, es. un sacco di, pieno di; argomento, es. un libro di storia, parlare di vacanze; tempo, es. di notte, d’estate; età, es. un uomo di cinquanta anni"
+    "unistr_label": "di paragone, es. È più grande di me",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
-    "code": "prep_a_b1",
+    "code": "prep_di_pi",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "a distributivo, es. Vorrei guadagnare circa mille euro al mese; distanza, es. a dieci metri dal centro, a mezz’ora dal centro; età, es. Ho lasciato la mia famiglia a diciassette anni; fine, es. Ti aiuto a fare i compiti.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
+    "description": "mi piace di più",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "mi piace di più",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_pa",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "partitivo, es. Volevo comprare dei mobili",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "partitivo, es. Volevo comprare dei mobili",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_in",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "introduzione di proposizione secondaria oggettiva e soggettiva implicita, es. Mi sembra di conoscerlo",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_de",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "ho deciso di partire domani",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "ho deciso di partire domani",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_ab",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "abbondanza, es. un sacco di, pieno di",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "abbondanza, es. un sacco di, pieno di",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_ar",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "argomento, es. un libro di storia, parlare di vacanze",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "argomento, es. un libro di storia, parlare di vacanze",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_te",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "tempo, es. di notte, d’estate",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "tempo, es. di notte, d’estate",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_di_et",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "età, es. un uomo di cinquanta anni",
+    "unistr_code": "di_paragone_es_e_piu_grande_di_me_mi_piace_di_piu_partitivo_es_volevo_comprare",
+    "unistr_label": "età, es. un uomo di cinquanta anni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_a_dis",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "a distributivo, es. Vorrei guadagnare circa mille euro al mese",
     "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
-    "unistr_label": "a distributivo, es. Vorrei guadagnare circa mille euro al mese; distanza, es. a dieci metri dal centro, a mezz’ora dal centro; età, es. Ho lasciato la mia famiglia a diciassette anni; fine, es. Ti aiuto a fare i compiti."
+    "unistr_label": "a distributivo, es. Vorrei guadagnare circa mille euro al mese",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
-    "code": "prep_da_b1",
+    "code": "prep_a_d_2",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "da tempo, es. Dal prossimo mese inizio il mio corso; introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare; introduzione di una proposizione consecutiva, es. mi piace da morire; non ho altro da scrivere; fine, es. carta da lettere, ferro da stiro, racchetta da tennis; qualità, es. la ragazza dai capelli biondi",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
+    "description": "distanza, es. a dieci metri dal centro, a mezz’ora dal centro",
+    "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
+    "unistr_label": "distanza, es. a dieci metri dal centro, a mezz’ora dal centro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_a_eta",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "età, es. Ho lasciato la mia famiglia a diciassette anni",
+    "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
+    "unistr_label": "età, es. Ho lasciato la mia famiglia a diciassette anni",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_a_fin",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "fine, es. Ti aiuto a fare i compiti.",
+    "unistr_code": "a_distributivo_es_vorrei_guadagnare_circa_mille_euro_al_mese_distanza_es_a",
+    "unistr_label": "fine, es. Ti aiuto a fare i compiti.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_da_2",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "da tempo, es. Dal prossimo mese inizio il mio corso",
     "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
-    "unistr_label": "da tempo, es. Dal prossimo mese inizio il mio corso; introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare; introduzione di una proposizione consecutiva, es. mi piace da morire; non ho altro da scrivere; fine, es. carta da lettere, ferro da stiro, racchetta da tennis; qualità, es. la ragazza dai capelli biondi"
+    "unistr_label": "da tempo, es. Dal prossimo mese inizio il mio corso",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
-    "code": "prep_in_b1",
+    "code": "prep_da_in",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965; limitazione es. bravo in questo sport",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
+    "description": "introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare",
+    "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "unistr_label": "introduzione di proposizione secondaria finale implicita, es. Ho comprato molte cose da mangiare",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_da_3",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "introduzione di una proposizione consecutiva, es. mi piace da morire",
+    "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "unistr_label": "introduzione di una proposizione consecutiva, es. mi piace da morire",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_da_al",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "non ho altro da scrivere",
+    "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "unistr_label": "non ho altro da scrivere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_da_fi",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
+    "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "unistr_label": "fine, es. carta da lettere, ferro da stiro, racchetta da tennis",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_da_qu",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "qualità, es. la ragazza dai capelli biondi",
+    "unistr_code": "da_tempo_es_dal_prossimo_mese_inizio_il_mio_corso_introduzione_di_proposizione",
+    "unistr_label": "qualità, es. la ragazza dai capelli biondi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_in_3",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965",
     "unistr_code": "in_tempo_determinato_es_nel_diciottesimo_secolo_nel_1965_limitazione_es_bravo",
-    "unistr_label": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965; limitazione es. bravo in questo sport"
+    "unistr_label": "in tempo determinato, es. Nel diciottesimo secolo, nel 1965",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_in_li",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "limitazione es. bravo in questo sport",
+    "unistr_code": "in_tempo_determinato_es_nel_diciottesimo_secolo_nel_1965_limitazione_es_bravo",
+    "unistr_label": "limitazione es. bravo in questo sport",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
     "code": "prep_con_b",
@@ -1308,13 +2100,31 @@
     "unistr_label": "per : moto per luogo, es. Passo per Milano."
   },
   {
-    "code": "prep_tra_b",
+    "code": "prep_tr_co",
     "cefr_level": "B1",
     "category": "preposizioni",
-    "description": "tra /fra compagnia, es. tra la gente; partitivo, es. tra le canzoni che ho cantato; distanza, es. Tra un chilometro c’è un benzinaio.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
+    "description": "tra /fra compagnia, es. tra la gente",
     "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
-    "unistr_label": "tra /fra compagnia, es. tra la gente; partitivo, es. tra le canzoni che ho cantato; distanza, es. Tra un chilometro c’è un benzinaio."
+    "unistr_label": "tra /fra compagnia, es. tra la gente",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_tr_pa",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "partitivo, es. tra le canzoni che ho cantato",
+    "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
+    "unistr_label": "partitivo, es. tra le canzoni che ho cantato",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
+  },
+  {
+    "code": "prep_tr_di",
+    "cefr_level": "B1",
+    "category": "preposizioni",
+    "description": "distanza, es. Tra un chilometro c’è un benzinaio.",
+    "unistr_code": "tra_fra_compagnia_es_tra_la_gente_partitivo_es_tra_le_canzoni_che_ho_cantato",
+    "unistr_label": "distanza, es. Tra un chilometro c’è un benzinaio.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html"
   },
   {
     "code": "prep_locu2",
@@ -1353,22 +2163,67 @@
     "unistr_label": "Altre forme preposizionali, es. verso"
   },
   {
-    "code": "prep_di_b2",
+    "code": "prep_di_qu",
     "cefr_level": "B2",
     "category": "preposizioni",
-    "description": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto; denominazione, es. nel quartiere di Trastevere; tempo in correlazione con in, es. di anno in anno, di giorno in giorno; in introduzione di proposizione finale, es. Ti prego di dirmelo.",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
+    "description": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto",
     "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
-    "unistr_label": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto; denominazione, es. nel quartiere di Trastevere; tempo in correlazione con in, es. di anno in anno, di giorno in giorno; in introduzione di proposizione finale, es. Ti prego di dirmelo."
+    "unistr_label": "di qualità, es. cellulari di alta qualità, una ragazza di bell’ aspetto",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
   },
   {
-    "code": "prep_da_b2",
+    "code": "prep_di_2",
     "cefr_level": "B2",
     "category": "preposizioni",
-    "description": "da causa, es. l’ansia da esame, la dipendenza da telefonino; agente, es. È amato da tutti; stima/prezzo, es. a partire da duemila euro",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
+    "description": "denominazione, es. nel quartiere di Trastevere",
+    "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
+    "unistr_label": "denominazione, es. nel quartiere di Trastevere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_di_3",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "tempo in correlazione con in, es. di anno in anno, di giorno in giorno",
+    "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
+    "unistr_label": "tempo in correlazione con in, es. di anno in anno, di giorno in giorno",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_di_4",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "in introduzione di proposizione finale, es. Ti prego di dirmelo.",
+    "unistr_code": "di_qualita_es_cellulari_di_alta_qualita_una_ragazza_di_bell_aspetto",
+    "unistr_label": "in introduzione di proposizione finale, es. Ti prego di dirmelo.",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_da_ca",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "da causa, es. l’ansia da esame, la dipendenza da telefonino",
     "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
-    "unistr_label": "da causa, es. l’ansia da esame, la dipendenza da telefonino; agente, es. È amato da tutti; stima/prezzo, es. a partire da duemila euro"
+    "unistr_label": "da causa, es. l’ansia da esame, la dipendenza da telefonino",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_da_ag",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "agente, es. È amato da tutti",
+    "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
+    "unistr_label": "agente, es. È amato da tutti",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_da_st",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "stima/prezzo, es. a partire da duemila euro",
+    "unistr_code": "da_causa_es_lansia_da_esame_la_dipendenza_da_telefonino_agente_es_e_amato_da",
+    "unistr_label": "stima/prezzo, es. a partire da duemila euro",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
   },
   {
     "code": "prep_in_b2",
@@ -1380,22 +2235,49 @@
     "unistr_label": "in tempo continuato, es. Lo leggo in due ore ."
   },
   {
-    "code": "prep_su_b2",
+    "code": "prep_su_ar",
     "cefr_level": "B2",
     "category": "preposizioni",
-    "description": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere; distributivo, es. uno su dieci",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
+    "description": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere",
     "unistr_code": "su_argomento_es_informarsi_sullorario_una_conversazione_sulle_buone_maniere",
-    "unistr_label": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere; distributivo, es. uno su dieci"
+    "unistr_label": "su argomento, es. informarsi sull’orario, una conversazione sulle buone maniere",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
   },
   {
-    "code": "prep_per_b",
+    "code": "prep_su_di",
     "cefr_level": "B2",
     "category": "preposizioni",
-    "description": "per tempo continuato, es. per ore, per mesi; causa, es. Per motivi lavorativi non posso venire; distributivo, es. giorno per giorno, dividere per gruppi",
-    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html",
+    "description": "distributivo, es. uno su dieci",
+    "unistr_code": "su_argomento_es_informarsi_sullorario_una_conversazione_sulle_buone_maniere",
+    "unistr_label": "distributivo, es. uno su dieci",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_pe_2",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "per tempo continuato, es. per ore, per mesi",
     "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
-    "unistr_label": "per tempo continuato, es. per ore, per mesi; causa, es. Per motivi lavorativi non posso venire; distributivo, es. giorno per giorno, dividere per gruppi"
+    "unistr_label": "per tempo continuato, es. per ore, per mesi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_pe_ca",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "causa, es. Per motivi lavorativi non posso venire",
+    "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
+    "unistr_label": "causa, es. Per motivi lavorativi non posso venire",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
+  },
+  {
+    "code": "prep_pe_di",
+    "cefr_level": "B2",
+    "category": "preposizioni",
+    "description": "distributivo, es. giorno per giorno, dividere per gruppi",
+    "unistr_code": "per_tempo_continuato_es_per_ore_per_mesi_causa_es_per_motivi_lavorativi_non",
+    "unistr_label": "distributivo, es. giorno per giorno, dividere per gruppi",
+    "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html"
   },
   {
     "code": "prep_tra_2",
