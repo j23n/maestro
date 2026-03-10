@@ -6,7 +6,8 @@
     "description": "Ciao, buongiorno, buonasera, arrivederci, a presto",
     "unistr_code": "a0_saluti",
     "unistr_label": "Greetings and farewells",
-    "label": "Saluti e congedi"
+    "label": "Saluti e congedi",
+    "chunk_ref": null
   },
   {
     "code": "pronun_bas",
@@ -15,7 +16,8 @@
     "description": "Italian vowels a-e-i-o-u, double consonants, c/g hard and soft",
     "unistr_code": "a0_pronuncia",
     "unistr_label": "Italian pronunciation basics",
-    "label": "Pronuncia italiana fondamentale"
+    "label": "Pronuncia italiana fondamentale",
+    "chunk_ref": null
   },
   {
     "code": "num_0_20",
@@ -24,7 +26,8 @@
     "description": "zero, uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci, undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto, diciannove, venti",
     "unistr_code": "a0_numeri_0_20",
     "unistr_label": "Numbers 0–20",
-    "label": "Numeri da zero a venti"
+    "label": "Numeri da zero a venti",
+    "chunk_ref": null
   },
   {
     "code": "si_no_non",
@@ -33,7 +36,8 @@
     "description": "Affirmation with si, negation with no and non before the verb",
     "unistr_code": "a0_si_no_non",
     "unistr_label": "Yes, no, not",
-    "label": "Affermazione, negazione e negativo"
+    "label": "Affermazione, negazione e negativo",
+    "chunk_ref": null
   },
   {
     "code": "simp_sent",
@@ -42,7 +46,8 @@
     "description": "Basic Italian sentence: subject + verb + object",
     "unistr_code": "a0_frase_semplice",
     "unistr_label": "Simple sentences",
-    "label": "Frasi semplici dichiarative"
+    "label": "Frasi semplici dichiarative",
+    "chunk_ref": "book_2_la_frase"
   },
   {
     "code": "vorrei",
@@ -51,7 +56,8 @@
     "description": "Vorrei + noun to politely request something (I would like...)",
     "unistr_code": "a0_vorrei",
     "unistr_label": "Vorrei (I would like)",
-    "label": "Condizionale presente di volere per cortesia"
+    "label": "Condizionale presente di volere per cortesia",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale"
   },
   {
     "code": "polite_exp",
@@ -60,7 +66,8 @@
     "description": "Per favore, grazie, prego, scusi/scusa, mi dispiace",
     "unistr_code": "a0_cortesia",
     "unistr_label": "Polite expressions",
-    "label": "Espressioni di cortesia e ringraziamento"
+    "label": "Espressioni di cortesia e ringraziamento",
+    "chunk_ref": null
   },
   {
     "code": "art_il_la",
@@ -69,7 +76,8 @@
     "description": "il (masculine) and la (feminine) — the two most common definite articles",
     "unistr_code": "a0_articoli_il_la",
     "unistr_label": "Articles: il and la",
-    "label": "Articoli determinativi singolari il e la"
+    "label": "Articoli determinativi singolari il e la",
+    "chunk_ref": "book_5_l_articolo_le_forme"
   },
   {
     "code": "che_cose",
@@ -78,7 +86,8 @@
     "description": "Che cos'e? / Che cos'e questo? — asking what something is",
     "unistr_code": "a0_che_cose",
     "unistr_label": "What is it? (Che cos'è?)",
-    "label": "Domanda identificativa che cos'è"
+    "label": "Domanda identificativa che cos'è",
+    "chunk_ref": null
   },
   {
     "code": "subj_pron",
@@ -87,7 +96,8 @@
     "description": "Subject pronouns io (I), tu (you), lui (he), lei (she)",
     "unistr_code": "a0_pronomi_soggetto",
     "unistr_label": "Subject pronouns: io, tu, lui/lei",
-    "label": "Pronomi personali soggetto io tu lui lei"
+    "label": "Pronomi personali soggetto io tu lui lei",
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto"
   },
   {
     "code": "essere_pre",
@@ -96,7 +106,8 @@
     "description": "io sono, tu sei, lui/lei e — the verb to be in singular",
     "unistr_code": "a0_essere",
     "unistr_label": "To be: sono, sei, è",
-    "label": "Indicativo presente di essere forme sono sei è"
+    "label": "Indicativo presente di essere forme sono sei è",
+    "chunk_ref": "book_8_il_verbo_prospetto_dei_modi_e_dei_tempi_del_verbopresente_passato_futuro_essere"
   },
   {
     "code": "mi_piace",
@@ -105,7 +116,8 @@
     "description": "Mi piace + noun/infinitive to express likes, non mi piace for dislikes",
     "unistr_code": "a0_mi_piace",
     "unistr_label": "I like / I don't like",
-    "label": "Indicativo presente di piacere forme mi piace non mi piace"
+    "label": "Indicativo presente di piacere forme mi piace non mi piace",
+    "chunk_ref": null
   },
   {
     "code": "dove_e",
@@ -114,7 +126,8 @@
     "description": "Dov'e...? — asking where something is",
     "unistr_code": "a0_dove",
     "unistr_label": "Where is it? (Dov'è?)",
-    "label": "Domanda di localizzazione dov'è"
+    "label": "Domanda di localizzazione dov'è",
+    "chunk_ref": null
   },
   {
     "code": "prep_place",
@@ -123,7 +136,8 @@
     "description": "Basic prepositions: a (to/at), in (in), di (of/from)",
     "unistr_code": "a0_preposizioni",
     "unistr_label": "Prepositions of place: a, in, di",
-    "label": "Preposizioni di luogo: a, in, di"
+    "label": "Preposizioni di luogo: a, in, di",
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie"
   },
   {
     "code": "mi_chiamo",
@@ -132,7 +146,8 @@
     "description": "Mi chiamo + name to introduce yourself",
     "unistr_code": "a0_mi_chiamo",
     "unistr_label": "My name is... (Mi chiamo)",
-    "label": "Verbo chiamarsi al presente indicativo per l'autopresentazione"
+    "label": "Verbo chiamarsi al presente indicativo per l'autopresentazione",
+    "chunk_ref": null
   },
   {
     "code": "noun_o_a_e",
@@ -274,7 +289,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html",
     "unistr_code": "plurale_dei_nomi_sovrabbondanti_es_il_braccio-i_braccile_braccia_il_lenzuolo-i",
     "unistr_label": "Plurale dei nomi sovrabbondanti, es. il braccio-i bracci/le braccia, il lenzuolo-i lenzuoli/le lenzuola",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale",
+    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_singolare_e_doppio_plurale",
     "label": "Plurale dei nomi sovrabbondanti"
   },
   {
@@ -285,7 +300,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html",
     "unistr_code": "nomi_alterati_diminutivi_a_suffisso_ino_e_etto_es_mercatino_cenetta_nomi",
     "unistr_label": "Nomi alterati diminutivi a suffisso –INO e –ETTO, es. mercatino, cenetta, nomi alterati accrescitivi a suffisso –ONE e – ONA, es. valigiona",
-    "chunk_ref": "book_4_il_nome",
+    "chunk_ref": null,
     "label": "Nomi alterati diminutivi e accrescitivi"
   },
   {
@@ -296,7 +311,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_astratti_difettivi_che_si_usano_solo_al_singolare_es_lonesta_la_pazienza",
     "unistr_label": "Nomi astratti difettivi che si usano solo al singolare, es. l’onestà, la pazienza, il rispetto, il coraggio",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_difettivi",
+    "chunk_ref": null,
     "label": "Nomi astratti difettivi di singolare"
   },
   {
@@ -318,7 +333,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_a_forma_variata_nomi_piu_diffusi_che_cambiano_significato_in_rapporto_al",
     "unistr_label": "Nomi a forma variata, nomi più diffusi che cambiano significato in rapporto al genere, es. muro/mura",
-    "chunk_ref": "book_4_il_nome_la_formazione_del_plurale_nomi_con_doppio_plurale",
+    "chunk_ref": "book_4_il_nome_la_formazione_del_femminile_nomi_a_genere_differenziato",
     "label": "Nomi a forma variata con cambio di significato per genere"
   },
   {
@@ -329,7 +344,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html",
     "unistr_code": "nomi_collettivi_es_roba_folla",
     "unistr_label": "Nomi collettivi, es. roba, folla",
-    "chunk_ref": "book_4_il_nome",
+    "chunk_ref": null,
     "label": "Nomi collettivi"
   },
   {
@@ -406,7 +421,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "pronomi_personali_tonici_complemento_preceduti_da_preposizione",
     "unistr_label": "Pronomi personali tonici complemento (preceduti da preposizione)",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "chunk_ref": "book_7_il_pronome_pronomi_personali",
     "label": "Pronomi personali tonici complemento con preposizione"
   },
   {
@@ -483,7 +498,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html",
     "unistr_code": "uso_della_particella_pronominale_ci_con_valore_di_complemento_di_luogo_es_ci",
     "unistr_label": "Uso della particella pronominale ci con valore di complemento di luogo, es. Ci vado adesso .",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi_ci",
     "label": "Particella pronominale ci con valore di complemento di luogo"
   },
   {
@@ -516,7 +531,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "usi_della_particella_pronominale_ci_in_verbi_pronominali_quali_volerci_metterci",
     "unistr_label": "Usi della particella pronominale ci in verbi pronominali quali: volerci, metterci, sentirci, vederci",
-    "chunk_ref": "book_8_il_verbo_verbi_pronominali",
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_riflessivi",
     "label": "Particella pronominale ci in verbi pronominali"
   },
   {
@@ -527,7 +542,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "altri_usi_della_particella_ci_es_non_ci_credo_non_ci_penso",
     "unistr_label": "Altri usi della particella ci , es. Non ci credo; non ci penso.",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi_ci",
     "label": "Particella ci con valore di complemento oggetto e altri usi"
   },
   {
@@ -549,7 +564,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "altri_usi_della_particella_pronominale_ne_es_ne_ho_bisogno_ne_ho_voglia_che_ne",
     "unistr_label": "Altri usi della particella pronominale ne , es. Ne ho bisogno; ne ho voglia; che ne pensi? Che ne dite?",
-    "chunk_ref": "book_7_il_pronome_pronomi_personali_ne",
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi_ne",
     "label": "Particella pronominale ne con valore di complemento di termine"
   },
   {
@@ -604,7 +619,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html",
     "unistr_code": "posizione_proclitica_e_enclitca_del_pronome_atono_con_verbi_servili_es_non_lo",
     "unistr_label": "Posizione proclitica e enclitca del pronome atono con verbi servili, es. Non lo posso fare; non posso farlo .",
-    "chunk_ref": "book_8_il_verbo_verbi_servili",
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_pronomi_personali_complemento",
     "label": "Posizione proclitica ed enclitica di pronomi atoni con verbi servili"
   },
   {
@@ -637,7 +652,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronomi_possessivi_che_indicano_i_familiari_i_genitori_es_non_mi_piacciono",
     "unistr_label": "Pronomi possessivi che indicano i familiari, i genitori, es. Non mi piacciono molto i suoi .",
-    "chunk_ref": "book_7_il_pronome_pronomi_possessivi",
+    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
     "label": "Pronomi possessivi per familiari e genitori senza articolo"
   },
   {
@@ -703,7 +718,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "forme_accoppiate_di_pronomi_atoni_in_verbi_pronominali_es_cavarsela_farcela",
     "unistr_label": "Forme accoppiate di pronomi atoni in verbi pronominali, es. cavarsela, farcela, andarsene, mettercela, prendersela, ecc .",
-    "chunk_ref": "book_8_il_verbo_verbi_pronominali",
+    "chunk_ref": "book_7_il_pronome_pronomi_personali_coppie_di_pronomi_atoni",
     "label": "Forme accoppiate di pronomi atoni in verbi pronominali"
   },
   {
@@ -725,7 +740,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "combinazione_del_pronome_atono_e_del_pronome_si_impersonale_es_ci_si_deve",
     "unistr_label": "Combinazione del pronome atono e del pronome si impersonale, es. Ci si deve mettere l’olio; ci si sente bene .",
-    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi_ci",
     "label": "Combinazione del pronome atono con si impersonale"
   },
   {
@@ -736,7 +751,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html",
     "unistr_code": "pronome_si_nella_costruzione_passivante_es_in_quel_ristorante_si_mangiano_i",
     "unistr_label": "Pronome si nella costruzione passivante, es. In quel ristorante, si mangiano i frutti di mare .",
-    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva",
+    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva_la_formazione_del_passivo",
     "label": "Pronome si nella costruzione passivante"
   },
   {
@@ -835,7 +850,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html",
     "unistr_code": "gradi_dellaggettivo_comparativo_di_maggioranza_piu_aggettivo_es_questo_e_piu",
     "unistr_label": "Gradi dell’aggettivo: • Comparativo di maggioranza più + aggettivo , es. Questo è più bello . • Superlativo assoluto: suffisso –issimo; molto + aggettivo",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "chunk_ref": "book_6_l_aggettivo",
     "label": "Comparativo di maggioranza e superlativo assoluto dell'aggettivo"
   },
   {
@@ -923,7 +938,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "gradi_dellaggettivo_a_comparativo_di_maggioranza_piudi_e_minoranza_meno_di_in",
     "unistr_label": "Gradi dell’aggettivo a) comparativo di maggioranza più...di e minoranza meno… di in posizione precedente - un nome, es. Mario è più alto di Luca . - un pronome, es. Questo quadro è più bello di quello . - un avverbio, es. Fa più caldo di ieri . b) comparativo di maggioranza più...che e di minoranza meno … che - tra due aggettivi, es. È più simpatico che intelligente. - tra due verbi, es. È più difficile trovare un lavoro che studiare . c) comparativo di uguaglianza (tanto)….. quanto; (così) … come, es. È caro come tutti gli altri ristoranti . d) superlativo relativo, es. È il più/meno interessante di/fra tutti. e) comparativi e superlativi organici, es. maggiore, minore, migliore, peggiore, ottimo",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "chunk_ref": "book_6_l_aggettivo",
     "label": "Gradi dell'aggettivo comparativi e superlativi relativi e organici"
   },
   {
@@ -934,7 +949,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html",
     "unistr_code": "uso_degli_avverbi_megliopeggio_es_e_meglio_mangiare_un_po_di_tutto",
     "unistr_label": "Uso degli avverbi meglio/peggio, es. È meglio mangiare un po’ di tutto.",
-    "chunk_ref": "book_9_l_avverbio",
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
     "label": "Avverbi meglio e peggio"
   },
   {
@@ -989,7 +1004,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html",
     "unistr_code": "aggettivo_possessivo_proprio_es_i_propri_genitori_il_proprio_computer",
     "unistr_label": "Aggettivo possessivo proprio, es. i propri genitori, il proprio computer",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "chunk_ref": "book_7_il_pronome_pronomi_possessivi_proprio",
     "label": "Aggettivo possessivo proprio"
   },
   {
@@ -1044,7 +1059,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "la_differente_funzione_di_tutti_gli_articoli_determinativi_ed_indeterminativi",
     "unistr_label": "La differente funzione di tutti gli articoli determinativi ed indeterminativi",
-    "chunk_ref": "book_5_l_articolo_le_forme",
+    "chunk_ref": "book_5_l_articolo",
     "label": "Funzioni dell'articolo determinativo e indeterminativo"
   },
   {
@@ -1066,7 +1081,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_dimostrativi_es_questo",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi dimostrativi, es. questo quaderno",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_dimostrativi",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Omissione dell'articolo determinativo con aggettivi dimostrativi"
   },
   {
@@ -1077,7 +1092,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_molti_libri",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. molti libri",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Omissione dell'articolo determinativo con aggettivi indefiniti"
   },
   {
@@ -1088,7 +1103,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html",
     "unistr_code": "presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi",
     "unistr_label": "Presenza dell’articolo determinativo in posizione che precede gli aggettivi possessivi, es. la mia sedia",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Articolo determinativo con aggettivi possessivi"
   },
   {
@@ -1110,7 +1125,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "presenza_dellarticolo_determinativo_in_posizione_precedente_i_pronomi",
     "unistr_label": "Presenza dell’articolo determinativo in posizione precedente i pronomi possessivi, es. questo è il mio",
-    "chunk_ref": "book_7_il_pronome_pronomi_possessivi",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Articolo determinativo con pronomi possessivi"
   },
   {
@@ -1121,7 +1136,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_qualche",
     "unistr_label": "Omissione dell’articolo determinativo con gli aggettivi indefiniti, es. qualche amico ; presenza dell’articolo con l’aggettivo tutto , es. tutta la classe",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_indefiniti",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Omissione dell'articolo con aggettivi indefiniti e presenza con aggettivo tutto"
   },
   {
@@ -1154,7 +1169,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html",
     "unistr_code": "presenza_o_omissione_dellarticolo_determinativo_con_aggettivo_possessivo_e_nomi",
     "unistr_label": "Presenza o omissione dell’articolo determinativo con aggettivo possessivo e nomi di parentela, es. mio padre, mia madre, il mio fratello più grande",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "chunk_ref": "book_5_l_articolo_usi_particolari",
     "label": "Articolo con aggettivi possessivi e nomi di parentela"
   },
   {
@@ -1264,7 +1279,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "indicativo presente",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_presente",
     "label": "Indicativo presente"
   },
   {
@@ -1275,7 +1290,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "condizionale semplice solo del verbo volere alla I persona singolare ( vorrei )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
     "label": "Condizionale semplice del verbo volere alla prima persona singolare"
   },
   {
@@ -1286,7 +1301,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "imperativo formale ed informale del verbo scusare ( scusi/scusa )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
     "label": "Imperativo formale e informale del verbo scusare"
   },
   {
@@ -1297,7 +1312,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "imperativo prima persona plurale per invitare (andiamo )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
     "label": "Imperativo prima persona plurale per invitare"
   },
   {
@@ -1308,7 +1323,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "la percezione del significato modale dei verbi potere, volere e dovere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_verbi_servili",
     "label": "Valore modale dei verbi potere, volere e dovere"
   },
   {
@@ -1319,7 +1334,7 @@
     "unistr_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
     "unistr_label": "la costruzione ci + verbo essere solo alla III persona singolare e plurale dell’indicativo presente ( c’è, ci sono )",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_7_il_pronome_pronomi_dimostrativi_ci",
     "label": "Costruzione ci + indicativo presente del verbo essere"
   },
   {
@@ -1341,7 +1356,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo presente",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_presente",
     "label": "Indicativo presente"
   },
   {
@@ -1352,7 +1367,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo passato prossimo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_passato_prossimo",
     "label": "Indicativo passato prossimo"
   },
   {
@@ -1363,7 +1378,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo imperfetto di essere e avere nella descrizione di fatti e persone",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_imperfetto",
     "label": "Indicativo imperfetto di essere e avere nella descrizione"
   },
   {
@@ -1374,7 +1389,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "indicativo futuro semplice con valore temporale, es. Domani pioverà .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_futuro_semplice",
     "label": "Indicativo futuro semplice con valore temporale"
   },
   {
@@ -1385,7 +1400,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "imperativo seconda persona singolare e prima e seconda plurale con (costruzione affermativa e negativa) per: a) dare istruzioni, es. prendi, leggi qui b) invitare, es. Vieni con me; prendiamo due pizze . Inoltre:",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
     "label": "Imperativo affermativo e negativo per istruzioni e inviti"
   },
   {
@@ -1396,7 +1411,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Verbi modali ( dovere potere volere ) con consapevolezza del valore pragmatico per esprimere alcuni atti (vedi funzioni)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_verbi_servili",
     "label": "Verbi modali per esprimere atti linguistici"
   },
   {
@@ -1407,7 +1422,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Verbi impersonali, es. piovere",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
     "label": "Verbi impersonali"
   },
   {
@@ -1418,7 +1433,7 @@
     "unistr_code": "verbi_a2",
     "unistr_label": "Forma perifrastica/presente progressivo: stare + gerundio",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html",
-    "chunk_ref": "book_8_il_verbo_le_coniugazioni",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
     "label": "Forma progressiva stare più gerundio"
   },
   {
@@ -1429,7 +1444,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "ripresa del passato prossimo con uso dei verbi che sono a) intransitivi e inaccusativi, es. Ho corso per molte ore; sono corso a casa . b) transitivi e in accusativi, es. Il professore ha iniziato il corso di arte; il corso è iniziato ieri . c) riflessivi, es. Ci siamo svegliati alle 8.00 .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_passato_prossimo",
     "label": "Passato prossimo con verbi intransitivi inaccusativi transitivi e riflessivi"
   },
   {
@@ -1440,7 +1455,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo trapassato prossimo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_trapassato_prossimo",
     "label": "Indicativo trapassato prossimo"
   },
   {
@@ -1451,7 +1466,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "valore modale dell’indicativo futuro semplice, es. Saranno le otto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_futuro_semplice",
     "label": "Indicativo futuro semplice con valore modale"
   },
   {
@@ -1462,7 +1477,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo futuro anteriore con valore temporale, indicando un evento anteriore ad un altro, es. Dopo che mi sarò laureato viaggerò molto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_futuro_anteriore",
     "label": "Indicativo futuro anteriore con valore temporale"
   },
   {
@@ -1473,7 +1488,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del futuro anteriore con valore modale, indicando una supposizione relativa ad un’azione passata, es. Sarà partito verso le nove .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_futuro_anteriore",
     "label": "Indicativo futuro anteriore con valore modale di supposizione"
   },
   {
@@ -1484,7 +1499,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "indicativo imperfetto esteso a verbi regolari e irregolari a) per descrivere periodi della vita b) per descrivere azioni abituali c) per attenuazione del valore iussivo di una richiesta, es. Volevo due etti di prosciutto . d) per esprimere un’azione incompiuta, es. Mentre guidavo la macchina all’improvviso si è fermata.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_imperfetto",
     "label": "Indicativo imperfetto per descrizioni periodi vita abitudini e azioni incompiute"
   },
   {
@@ -1495,7 +1510,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "condizionale tempo presente per esprimere a) un’eventualità, es. Potremmo andare al cinema . b) un desidero, es. Mi piacerebbe essere italiano. c) per rendere il valore attenuativo nel formulare una richiesta, es. Potresti aprire la finestra? d) per dare dei consigli con uso del modale dovere, es. Dovresti mangiare di più ; o con uso del modale potere, es. Potresti camminare per andare al lavoro .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
     "label": "Condizionale presente per eventualità desideri richieste attenuate e consigli"
   },
   {
@@ -1506,7 +1521,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "ripresa imperativo seconda persona singolare e plurale con (costruzione affermativa e negativa) per a) dare consigli b) ordini",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
     "label": "Imperativo affermativo e negativo per consigli e ordini"
   },
   {
@@ -1517,7 +1532,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "forma impersonale e passivante con l’uso della particella si , es. Si mangia bene e si spende poco; si mangiano i frutti di mare e si beve un buon vino .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva_la_formazione_del_passivo",
     "label": "Forma impersonale e passivante con particella si"
   },
   {
@@ -1528,7 +1543,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "forma impersonale con i verbi modali (potere, dovere), es. Si può capire bene; si deve studiare molto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva_la_formazione_del_passivo",
     "label": "Forma impersonale con verbi modali potere e dovere"
   },
   {
@@ -1539,7 +1554,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "modo congiuntivo tempo presente con valore esortativo alla III persona singolare, es. Vada diritto, ma non giri a destra ¹.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
     "label": "Congiuntivo presente con valore esortativo terza persona singolare"
   },
   {
@@ -1550,7 +1565,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del congiuntivo tempo presente (o dell’indicativo in contesti informali) in subordinate oggettive e soggettive esplicite per l’espressione di a) opinioni b) speranze c) sentimenti d) con alcune espressioni impersonali (pare, sembra), es. Penso che sia un film interessante; sono contento che tu sia qui; spero che tu venga; mi sembra che sia felice; mi pare che stia bene .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo presente in subordinate oggettive e soggettive esplicite"
   },
   {
@@ -1561,7 +1576,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del futuro semplice indicativo per esprimere un’azione futura in subordinate oggettive e soggettive esplicite per l’espressione di opinioni, speranze e sentimenti, es. Penso che anche Luigi partirà la settimana prossima; spero che guarirai presto; sono contento che Mario verrà alla festa.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_futuro_semplice",
     "label": "Futuro indicativo in subordinate oggettive e soggettive esplicite"
   },
   {
@@ -1572,7 +1587,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito con uso della preposizione di in oggettive implicite introdotte da verbi di opinione, speranza, sentimenti, quando il soggetto della subordinata corrisponde a quello della reggente, es. Sono contento di essere qui; penso di partire domani; mi dispiace di lasciare la scuola.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito con preposizione di in oggettive implicite"
   },
   {
@@ -1583,7 +1598,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito semplice nelle soggettive implicite, es. Pare avere pochi anni; sembra amare gli animali.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito semplice nelle soggettive implicite"
   },
   {
@@ -1594,7 +1609,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito seguito dalla preposizione di , es. Mi sembra di conoscerlo.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito seguito dalla preposizione di"
   },
   {
@@ -1605,7 +1620,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito in finali implicite, es. cose da fare (uso formulaico)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito in finali implicite con valore di necessità"
   },
   {
@@ -1616,7 +1631,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "infinito in proposizioni esclusive implicite introdotte da senza , es. Sono venuta in Italia senza conoscere la lingua .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito in proposizioni esclusive implicite con senza"
   },
   {
@@ -1627,7 +1642,7 @@
     "unistr_code": "verbi_b1",
     "unistr_label": "uso del presente indicativo o/e del futuro per esprimere il periodo ipotetico della realtà, es. Se vieni ti diverti; se parti adesso arriverai in tempo; se verrai lo conoscerai . ¹ Nota: uso in alcune situazioni comunicative (ad.es. per dare indicazioni stradali)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html",
-    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_presente",
     "label": "Indicativo presente e futuro nel periodo ipotetico della realtà"
   },
   {
@@ -1638,7 +1653,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "indicativo passato remoto a) per indicare un’azione conclusa nel passato b) per esprimere distanza temporale tenendo conto delle differenze con l’uso del passato prossimo c) con la percezione dei diversi usi nelle varietà regionali e di stile (scritto e parlato)",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_passato_remoto",
     "label": "Indicativo passato remoto per azioni concluse e distanza temporale"
   },
   {
@@ -1649,7 +1664,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "ripresa del modo congiuntivo tempo presente in subordinate oggettive esplicite a) per esprimere una volontà b) per esprimere un dubbio c) in subordinate soggettive esplicite introdotte da espressioni impersonali quali: è necessario che, è importante che, ecc ., es. Voglio che tutto vada bene; dubito che torni oggi; è importante che venga.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo presente in subordinate oggettive ed soggettive esplicite"
   },
   {
@@ -1660,7 +1675,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso del modo indicativo tempo presente come presente storico , per far rivivere un momento del passato nel presente e per conferire maggiore efficacia alla narrazione degli eventi o come artificio stilistico, es. Giacomo Leopardi nasce a Recanati nel 1798 e muore a Napoli nel 1837 .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_dell_indicativo_presente",
     "label": "Indicativo presente storico per rivivere il passato nella narrazione"
   },
   {
@@ -1671,7 +1686,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo passato per esprimere anteriorità rispetto verbi al presente che indicano opinioni, speranza, sentimenti, dubbio o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Penso che sia partito ieri; spero che abbia studiato; sono contenta che sia venuto; ecc .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo passato per anteriorità con verbi di opinione e sentimento"
   },
   {
@@ -1682,7 +1697,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo imperfetto in subordinate oggettive esplicite a) per esprimere un desiderio, es. Mi piacerebbe che venisse con noi; vorrei che fosse qui . b) per esprimere anteriorità rispetto al presente, es. Penso che fosse una rivista interessante . c) per esprimere contemporaneità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio, es. Pensavo che non funzionasse; speravo che se ne andasse; mi dispiaceva che non mi ascoltasse; volevo che studiasse; non ero sicuro che capisse; o in subordinate soggettive esplicite che dipendono da espressioni impersonali, es. Era importante che partisse . d) per esprimere un desiderio, es. Mi piacerebbe che tu venissi con me .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo imperfetto in subordinate oggettive ed soggettive esplicite"
   },
   {
@@ -1693,7 +1708,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo tempo trapassato¹ per esprimere anteriorità con verbi al passato che indicano opinioni, speranza, sentimenti, volontà, dubbio o in subordinate soggettive che dipendono da espressioni impersonali, es. Pensavo che non avesse funzionato; speravo che se ne fosse andato; mi dispiaceva che non mi avesse salutato; volevo che mi avesse detto la verità; era importante che lo avesse già conosciuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo trapassato per anteriorità con verbi al passato"
   },
   {
@@ -1704,7 +1719,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo congiuntivo presente, passato, imperfetto, trapassato nelle frasi subordinate introdotte da prima che , es. Lo saluto prima che parta; o dalle congiunzioni che indicano a) una condizione purché, a condizione che, a patto che , es. Parto purché tu venga con me . b) un fine perché, affinché, es. Parlo lentamente perché tu possa capire meglio . c) una concessione nonostante, sebbene, benché , es. Gli parlo nonostante non mi sia simpatico. d) un modo introdotto da come se , es. Mi trattava come se fossi suo figlio . e) un “eccezione” introdotte da a meno che (non), es. Vengo con voi a meno che io non faccia tardi al lavoro.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Congiuntivo in subordinate introdotte da prima che, purché, perché, sebbene, come se, a meno che"
   },
   {
@@ -1715,7 +1730,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "concordanza di tutti i tempi del modo congiuntivo: presente e passato, imperfetto e trapassato.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Concordanza dei tempi del congiuntivo: presente-passato e imperfetto-trapassato"
   },
   {
@@ -1726,7 +1741,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo condizionale tempo passato per esprimere a) un desiderio o un’eventualità nel passato, es. Lo avrei voluto incontrare; mi sarei potuto laureare l’anno passato . b) un’azione futura nel passato, es. Ha detto che sarebbe venuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
     "label": "Condizionale passato per desideri e azioni future nel passato"
   },
   {
@@ -1737,7 +1752,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso dell’imperfetto congiuntivo e condizionale presente per esprimere il periodo ipotetico della possibilità, es. Se tu potessi, mi faresti un piacere.",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo imperfetto e condizionale presente nel periodo ipotetico della possibilità"
   },
   {
@@ -1748,7 +1763,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "uso del trapassato congiuntivo e del condizionale passato per esprimere il periodo ipotetico della irrealtà, es. Se tu me lo avessi detto, sarei venuto .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Congiuntivo trapassato e condizionale passato nel periodo ipotetico dell'irrealtà"
   },
   {
@@ -1759,7 +1774,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo gerundio tempo presente a) con valore temporale, es. L’ho incontrato camminando per strada . b) con valore modale, es. Ha passato la serata leggendo . c) valore causale, es. Essendo in due dovremmo prenotare una doppia .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
     "label": "Gerundio presente con valore temporale, modale e causale"
   },
   {
@@ -1770,7 +1785,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo gerundio tempo passato con valore causale e temporale, es. Avendo finito il lavoro, posso andarmene; avendo rifatto l’esercizio, ho capito l’errore .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_gerundio",
     "label": "Gerundio passato con valore causale e temporale"
   },
   {
@@ -1781,7 +1796,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo infinito presente a) con valore nominale, es. Non dimenticare il passato è un dovere; con il passare del tempo b) con le preposizioni, es. Consiste nel leggere un giornale . c) dipendente dai verbi fattivi fare e lasciare , es. Te lo faccio ascoltare; ti lascio andare .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito presente con valore nominale, preposizionale e con verbi fattivi"
   },
   {
@@ -1792,7 +1807,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "modo infinito tempo passato in a) subordinate temporali implicite che indicano posteriorità introdotte da dopo, es. Dopo averlo visto mi sono sentita meglio. b) subordinate temporali implicite che indicano anteriorità introdotte da prima di , es. Prima di averlo conosciuto non mi piaceva .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_infinito",
     "label": "Infinito passato in subordinate temporali implicite con dopo e prima di"
   },
   {
@@ -1803,7 +1818,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "participio passato usato con funzione aggettivale, es. una situazione voluta; la fiducia mostrata; e con funzione temporale indicando anteriorità, es. Fatta la spesa sono tornato a casa .",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_participio",
     "label": "Participio passato con funzione aggettivale e temporale"
   },
   {
@@ -1814,7 +1829,7 @@
     "unistr_code": "verbi_b2",
     "unistr_label": "forma passiva dei verbi transitivi con l’uso del verbo essere e venire , es. È stato scelto dall’insegnante; il ladro viene arrestato dalla polizia . ¹ Nota: competenza solo parziale del trapassato congiuntivo",
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_forma_attiva_e_forma_passiva_la_formazione_del_passivo",
     "label": "Forma passiva con verbi essere e venire"
   },
   {
@@ -1957,7 +1972,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html",
     "unistr_code": "altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico",
     "unistr_label": "Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
     "label": "Altre preposizioni semplici di uso formulaico"
   },
   {
@@ -2287,7 +2302,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html",
     "unistr_code": "altre_forme_preposizionali_es_dentro_dietro_durante_secondo_sopra_sotto",
     "unistr_label": "Altre forme preposizionali, es. dentro, dietro, durante, secondo , sopra, sotto",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
     "label": "Preposizioni semplici di luogo e tempo"
   },
   {
@@ -2628,7 +2643,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html",
     "unistr_code": "altre_forme_preposizionali_es_verso",
     "unistr_label": "Altre forme preposizionali, es. verso",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_improprie",
+    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
     "label": "Preposizione verso con valore direzionale"
   },
   {
@@ -3013,7 +3028,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "intensificativi_es_veramente_davvero_proprio_es_e_veramente_bello_e_proprio",
     "unistr_label": "Intensificativi, es. veramente, davvero, proprio, es. È veramente bello; è proprio bravo.",
-    "chunk_ref": "book_9_l_avverbio",
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
     "label": "Avverbi intensificativi di grado e enfasi"
   },
   {
@@ -3024,7 +3039,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html",
     "unistr_code": "alterati_a_suffisso_ino_es_pochino_a_suffisso_issimo_es_moltissimo_tardissimo",
     "unistr_label": "Alterati a suffisso –INO, es. pochino; a suffisso –ISSIMO, es. moltissimo, tardissimo; alterati organici , es. meglio, peggio",
-    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
+    "chunk_ref": "book_9_l_avverbio",
     "label": "Avverbi alterati con suffissi e forme organiche"
   },
   {
@@ -3101,7 +3116,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html",
     "unistr_code": "intensificativi_affatto_perfino",
     "unistr_label": "Intensificativi: affatto, perfino",
-    "chunk_ref": "book_9_l_avverbio",
+    "chunk_ref": "book_9_l_avverbio_i_gradi_dell_avverbio",
     "label": "Avverbi intensificativi di esclusione e inclusione"
   },
   {
@@ -3134,7 +3149,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "esclamative_quasi_sempre_con_il_verbo_sottinteso",
     "unistr_label": "Esclamative, quasi sempre con il verbo sottinteso",
-    "chunk_ref": "book_12_l_interiezione",
+    "chunk_ref": "book_2_la_frase",
     "label": "Proposizioni esclamative con verbo sottinteso"
   },
   {
@@ -3145,7 +3160,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html",
     "unistr_code": "interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche",
     "unistr_label": "Interrogative: totali (SÌ/NO) e parziali introdotte da: come, dove, quando, perché, quanto, chi, che, cosa, che cosa, quale?",
-    "chunk_ref": "book_7_il_pronome_pronomi_interrogativi",
+    "chunk_ref": "book_2_la_frase",
     "label": "Proposizioni interrogative totali e parziali"
   },
   {
@@ -3156,7 +3171,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a2.html",
     "unistr_code": "frase_semplice_a2",
     "unistr_label": "La frase semplice",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
+    "chunk_ref": "book_2_la_frase",
     "label": "La frase semplice e i suoi componenti"
   },
   {
@@ -3178,7 +3193,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html",
     "unistr_code": "proposizioni_volitive_imperative_attraverso_luso_del_congiuntivo_esortativo_es",
     "unistr_label": "Proposizioni volitive imperative attraverso l’uso del congiuntivo esortativo, es. Vada dritto e poi giri a destra .",
-    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo",
+    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
     "label": "Proposizioni volitive imperative con congiuntivo esortativo"
   },
   {
@@ -3189,7 +3204,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b2.html",
     "unistr_code": "frase_semplice_b2",
     "unistr_label": "La frase semplice",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_imperativo",
+    "chunk_ref": "book_2_la_frase",
     "label": "La frase semplice in contesti complessi"
   },
   {
@@ -3233,7 +3248,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html",
     "unistr_code": "proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono",
     "unistr_label": "Proposizioni finali implicite con uso della preposizione per + infinito, es. Sono qui per imparare l’italiano .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Proposizioni finali implicite con preposizione per e infinito"
   },
   {
@@ -3299,7 +3314,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html",
     "unistr_code": "proposizioni_finali_implicite_introdotte_da_a_infinito_es_vado_a_fare_la_spesa",
     "unistr_label": "Proposizioni finali implicite introdotte da a + infinito, es. Vado a fare la spesa .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Proposizione finale implicita con a infinito"
   },
   {
@@ -3409,7 +3424,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_temporali_implicite_che_esprimono_anteriorita_con_uso_di_prima_di",
     "unistr_label": "Proposizioni temporali implicite che esprimono anteriorità con uso di prima di , es. Prima di sedermi sul divano devo preparare la cena .",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Proposizione temporale implicita anteriorità con prima di"
   },
   {
@@ -3431,7 +3446,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_comparative_esplicite_di_maggioranza_con_uso_di_piu_di_piu_che_di",
     "unistr_label": "Proposizioni comparative esplicite di maggioranza con uso di più ...di, più ... che, di minoranza con uso di meno ...di, meno...che, di uguaglianza con uso di così ...(come), tanto...(quanto)",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "chunk_ref": "book_6_l_aggettivo",
     "label": "Proposizione comparativa esplicita maggioranza minoranza uguaglianza"
   },
   {
@@ -3475,7 +3490,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_esclusive_implicite_introdotte_da_senzainfinito_es_sono_venuta_in",
     "unistr_label": "Proposizioni esclusive implicite introdotte da senza+infinito, es. Sono venuta in Italia senza conoscere la lingua.",
-    "chunk_ref": "book_10_la_preposizione_preposizioni_proprie",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Proposizione esclusiva implicita con senza infinito"
   },
   {
@@ -3508,7 +3523,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html",
     "unistr_code": "proposizioni_soggettive_implicite_introdotte_da_espressioni_impersonali_es",
     "unistr_label": "Proposizioni soggettive implicite introdotte da espressioni impersonali, es. Bisogna studiare molto; è importante vivere in un altro paese; è necessario arrivare in orario .",
-    "chunk_ref": "book_8_il_verbo_verbi_impersonali",
+    "chunk_ref": "book_8_il_verbo_uso_del_congiuntivo_il_congiuntivo_nelle_dipendenti",
     "label": "Proposizione soggettiva implicita espressioni impersonali infinito"
   },
   {
@@ -3618,7 +3633,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "periodo_ipotetico_della_possibilita_e_della_irrealta_es_se_venissi_sarei",
     "unistr_label": "Periodo ipotetico della possibilità e della irrealtà, es. Se venissi sarei contento; s e me lo avessi detto ti avrei creduto .",
-    "chunk_ref": "book_8_il_verbo_uso_degli_altri_modi_condizionale",
+    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
     "label": "Periodo ipotetico della possibilità e dell'irrealtà"
   },
   {
@@ -3640,7 +3655,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html",
     "unistr_code": "proposizioni_interrogative_indirette_introdotte_dalla_congiunzione",
     "unistr_label": "Proposizioni interrogative indirette introdotte dalla congiunzione interrogativa se solo dopo alcuni verbi come sapere, es. Volevo sapere se venivate anche voi .",
-    "chunk_ref": "book_11_la_congiunzione_congiunzioni_subordinative",
+    "chunk_ref": "book_2_la_frase",
     "label": "Proposizione interrogativa indiretta con congiunzione se"
   },
   {
@@ -3706,7 +3721,7 @@
     "source_url": "https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a2.html",
     "unistr_code": "costruzione_frase_a2",
     "unistr_label": "La costruzione della frase",
-    "chunk_ref": "book_6_l_aggettivo_aggettivi_possessivi",
+    "chunk_ref": "book_2_la_frase",
     "label": "Costruzione della frase"
   },
   {
