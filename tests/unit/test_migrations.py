@@ -26,10 +26,14 @@ def _make_db(applied_names: list[str] = None):
     drill_templates_coll.delete_many = AsyncMock(
         return_value=MagicMock(deleted_count=3)
     )
+    drill_templates_coll.drop = AsyncMock()
 
     generated_drills_coll = MagicMock()
     generated_drills_coll.delete_many = AsyncMock(
         return_value=MagicMock(deleted_count=7)
+    )
+    generated_drills_coll.update_many = AsyncMock(
+        return_value=MagicMock(modified_count=5)
     )
 
     db = MagicMock()
@@ -50,30 +54,41 @@ def _make_db(applied_names: list[str] = None):
 
 @pytest.mark.asyncio
 async def test_runner_applies_pending_migration():
-    """Runner inserts a record into _migrations after running a migration."""
+    """Runner inserts a record into _migrations after running each migration."""
     db, migrations_coll, drill_templates_coll, generated_drills_coll = _make_db()
 
     from maestro.migrations import run_pending
 
     await run_pending(db)
 
-    # The migration should have deleted from both collections
+    # 0001 should have deleted free_form docs from both collections
     drill_templates_coll.delete_many.assert_awaited_once()
     generated_drills_coll.delete_many.assert_awaited_once()
 
-    # Runner should have recorded the migration as applied
-    migrations_coll.insert_one.assert_awaited_once()
-    record = migrations_coll.insert_one.call_args[0][0]
-    assert record["name"] == "0001_remove_free_form_drills"
-    assert "applied_at" in record
-    assert "duration_ms" in record
+    # 0002 should have dropped the collection and unset template fields
+    drill_templates_coll.drop.assert_awaited_once()
+    generated_drills_coll.update_many.assert_awaited_once()
+
+    # Runner should have recorded both migrations as applied
+    assert migrations_coll.insert_one.await_count == 2
+    recorded_names = [
+        call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
+    ]
+    assert recorded_names == [
+        "0001_remove_free_form_drills",
+        "0002_drop_drill_templates",
+    ]
+    for call in migrations_coll.insert_one.call_args_list:
+        record = call.args[0]
+        assert "applied_at" in record
+        assert "duration_ms" in record
 
 
 @pytest.mark.asyncio
 async def test_runner_skips_already_applied():
     """Runner does not re-run a migration that is already recorded."""
     db, migrations_coll, drill_templates_coll, generated_drills_coll = _make_db(
-        applied_names=["0001_remove_free_form_drills"]
+        applied_names=["0001_remove_free_form_drills", "0002_drop_drill_templates"]
     )
 
     from maestro.migrations import run_pending
@@ -81,7 +96,9 @@ async def test_runner_skips_already_applied():
     await run_pending(db)
 
     drill_templates_coll.delete_many.assert_not_awaited()
+    drill_templates_coll.drop.assert_not_awaited()
     generated_drills_coll.delete_many.assert_not_awaited()
+    generated_drills_coll.update_many.assert_not_awaited()
     migrations_coll.insert_one.assert_not_awaited()
 
 
@@ -130,3 +147,25 @@ async def test_0001_is_idempotent():
 
     assert drill_templates_coll.delete_many.await_count == 2
     assert generated_drills_coll.delete_many.await_count == 2
+
+
+# ---------------------------------------------------------------------------
+# Migration 0002 tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_0002_drops_collection_and_unsets_field():
+    """Migration 0002 drops drill_templates and unsets template from generated_drills."""
+    db, _, drill_templates_coll, generated_drills_coll = _make_db()
+
+    import importlib
+
+    m = importlib.import_module("maestro.migrations.0002_drop_drill_templates")
+
+    await m.run(db)
+
+    drill_templates_coll.drop.assert_awaited_once()
+    generated_drills_coll.update_many.assert_awaited_once_with(
+        {}, {"$unset": {"template": ""}}
+    )

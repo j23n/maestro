@@ -9,7 +9,6 @@ from maestro.models import (
     CurriculumScenario,
     GrammarPoint,
     CommunicativeFunction,
-    DrillTemplate,
     GeneratedDrill,
     LearningProfile,
     Lesson,
@@ -18,7 +17,6 @@ from maestro.models import (
     VocabularyWord,
     ActivityType,
     LessonStatus,
-    ExerciseType,
 )
 
 _FAKE_STUDENT_ID = PydanticObjectId()
@@ -295,13 +293,6 @@ async def test_drill_materialization_creates_generated_drills(db):
         description="Present tense",
     )
     await gp.insert()
-
-    template = DrillTemplate(
-        grammar_point_code="GP_001",
-        cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK,
-    )
-    await template.insert()
 
     scenario = CurriculumScenario(
         slug="test-scenario",
