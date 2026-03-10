@@ -4,7 +4,7 @@ import pytest
 
 from maestro.models import (
     GrammarPoint,
-    CommunicativeFunction,
+    GrammarPointExplanation,
     ActivityType,
     ExerciseType,
 )
@@ -15,7 +15,6 @@ from maestro.lezione.schemas import (
     DrillItemResponse,
     ReadingResponse,
     WritingResponse,
-    SpeakingResponse,
 )
 
 
@@ -30,6 +29,18 @@ async def grammar_gp(db):
     )
     await gp.insert()
     return gp
+
+
+@pytest.fixture
+async def grammar_explanation(grammar_gp):
+    exp = GrammarPointExplanation(
+        grammar_point=grammar_gp,
+        student_level="A1",
+        title="",
+        explanation="Gli articoli definiti in italiano.",
+    )
+    await exp.insert()
+    return exp
 
 
 @pytest.mark.integration
@@ -293,6 +304,12 @@ async def test_materialize_multi_grammar_blocks(db):
     )
     await gp1.insert()
     await gp2.insert()
+    exp1 = await GrammarPointExplanation(
+        grammar_point=gp1, student_level="A1", explanation="Il presente indicativo."
+    ).insert()
+    exp2 = await GrammarPointExplanation(
+        grammar_point=gp2, student_level="A1", explanation="L'imperfetto indicativo."
+    ).insert()
 
     content = LessonContentResponse(
         grammar_motivations=[
@@ -360,7 +377,7 @@ async def test_materialize_multi_grammar_blocks(db):
     activities = await materialize_activities(
         content=content,
         grammar_gps=[gp1, gp2],
-        grammar_explanations=[None, None],
+        grammar_explanations=[exp1, exp2],
         drill_specs=specs,
         speaking_cfs=[],
         include_writing=True,

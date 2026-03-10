@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 import random
-from typing import Optional
 
 from maestro.models import (
     LessonActivity,
@@ -13,14 +12,11 @@ from maestro.models import (
     GeneratedDrill,
     DrillItem,
     CommunicativeFunction,
-    GrammarChunk,
     ActivityType,
     ExerciseType,
 )
-from maestro.config import settings as _settings
 from maestro.lezione.schemas import LessonContentResponse
 from maestro.strings import t
-from maestro.vocab.discover import lang_wrap
 
 logger = logging.getLogger(__name__)
 
