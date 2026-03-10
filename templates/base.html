@@ -19,6 +19,7 @@
     </div>
     <div class="tt-senses"></div>
   </div>
+
   <nav>
     <div class="site-container">
       <a href="/lezione/" {% if request.url.path.startswith('/lezione') %}class="active"{% endif %}>{{ t("nav_lesson") }}</a>
@@ -93,7 +94,22 @@
         sensesEl.appendChild(wrap);
       });
 
-      const entryId = word.dataset.entryId;
+      // Audio play button in tooltip
+      const audioPath = word.dataset.audioPath;
+      let audioBtn = tooltip.querySelector('.tt-audio-btn');
+      if (audioPath) {
+        if (!audioBtn) {
+          audioBtn = document.createElement('button');
+          audioBtn.className = 'tt-audio-btn';
+          audioBtn.type = 'button';
+          tooltip.appendChild(audioBtn);
+        }
+        audioBtn.textContent = '▶ Ascolta';
+        audioBtn.onclick = e => { e.stopPropagation(); new Audio(audioPath).play(); };
+        audioBtn.style.display = '';
+      } else if (audioBtn) {
+        audioBtn.style.display = 'none';
+      }
 
       const r = word.getBoundingClientRect();
       tooltip.style.display = 'block';
@@ -105,8 +121,11 @@
     });
     document.addEventListener('mouseout', e => {
       if (!e.target.closest('.vocab-word')) return;
+      // Don't hide if mouse moves into the tooltip itself
+      if (e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#vocab-tooltip')) return;
       tooltip.style.display = 'none';
     });
+    tooltip.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
     document.addEventListener('click', e => {
       var toggle = e.target.closest('.translation-toggle');
       if (toggle) toggle.classList.toggle('revealed');

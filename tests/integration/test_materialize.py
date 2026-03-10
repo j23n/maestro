@@ -100,7 +100,41 @@ async def test_materialize_drill_creates_generated_drill(db):
 
 
 @pytest.mark.integration
+async def test_materialize_listening_activity(db):
+    """listening_count=1 produces a LISTENING activity."""
+    content = LessonContentResponse(
+        readings=[
+            ReadingResponse(
+                text="Marco va al bar.",
+                questions=["Dove va Marco?"],
+                answers=["Al bar"],
+            )
+        ],
+    )
+    activities = await materialize_activities(
+        content=content,
+        grammar_gps=[],
+        grammar_explanations=[],
+        drill_specs=[],
+        drill_templates_used=[],
+        speaking_cfs=[],
+        include_writing=False,
+        reading_count=0,
+        listening_count=1,
+        topic_title="Test",
+        scenario_slug="test",
+        cefr_level="A1",
+        student_id=None,
+    )
+    assert len(activities) == 1
+    assert activities[0].type == ActivityType.LISTENING
+    assert activities[0].content == "Marco va al bar."
+    assert activities[0].questions == ["Dove va Marco?"]
+
+
+@pytest.mark.integration
 async def test_materialize_reading_activity(db):
+    """reading_count=1 (no listening) produces a plain READING activity."""
     content = LessonContentResponse(
         readings=[
             ReadingResponse(
@@ -118,6 +152,7 @@ async def test_materialize_reading_activity(db):
         speaking_cfs=[],
         include_writing=False,
         reading_count=1,
+        listening_count=0,
         topic_title="Test",
         scenario_slug="test",
         cefr_level="A1",
@@ -127,6 +162,37 @@ async def test_materialize_reading_activity(db):
     assert activities[0].type == ActivityType.READING
     assert activities[0].content == "Marco va al bar."
     assert activities[0].questions == ["Dove va Marco?"]
+
+
+@pytest.mark.integration
+async def test_materialize_mixed_listening_and_reading(db):
+    """listening_count=1 + reading_count=1 → LISTENING first, then READING."""
+    content = LessonContentResponse(
+        readings=[
+            ReadingResponse(text="Ascolto.", questions=["Capito?"], answers=["Sì"]),
+            ReadingResponse(text="Lettura.", questions=["Letto?"], answers=["Sì"]),
+        ],
+    )
+    activities = await materialize_activities(
+        content=content,
+        grammar_gps=[],
+        grammar_explanations=[],
+        drill_specs=[],
+        drill_templates_used=[],
+        speaking_cfs=[],
+        include_writing=False,
+        reading_count=1,
+        listening_count=1,
+        topic_title="Test",
+        scenario_slug="test",
+        cefr_level="A1",
+        student_id=None,
+    )
+    assert len(activities) == 2
+    assert activities[0].type == ActivityType.LISTENING
+    assert activities[0].content == "Ascolto."
+    assert activities[1].type == ActivityType.READING
+    assert activities[1].content == "Lettura."
 
 
 @pytest.mark.integration
@@ -154,7 +220,7 @@ async def test_materialize_writing_activity(db):
 
 @pytest.mark.integration
 async def test_materialize_pedagogical_order(grammar_gp, db):
-    """Activities should follow: grammar → reading → drill → speaking → writing."""
+    """Activities follow: grammar → listening → reading → drill → speaking → writing."""
     cf = CommunicativeFunction(
         code="CF_TEST",
         label="Test CF",
@@ -171,7 +237,10 @@ async def test_materialize_pedagogical_order(grammar_gp, db):
                 items=[DrillItemResponse(prompt="test", correct_answer="ans")],
             )
         ],
-        readings=[ReadingResponse(text="text", questions=["q"], answers=["a"])],
+        readings=[
+            ReadingResponse(text="listen", questions=["q"], answers=["a"]),
+            ReadingResponse(text="read", questions=["q2"], answers=["a2"]),
+        ],
         writing=WritingResponse(prompt="write"),
         speakings=[SpeakingResponse(prompt="speak")],
     )
@@ -191,6 +260,7 @@ async def test_materialize_pedagogical_order(grammar_gp, db):
         speaking_cfs=[cf],
         include_writing=True,
         reading_count=1,
+        listening_count=1,
         topic_title="Test",
         scenario_slug="test",
         cefr_level="A1",
@@ -199,6 +269,7 @@ async def test_materialize_pedagogical_order(grammar_gp, db):
     types = [a.type for a in activities]
     assert types == [
         ActivityType.GRAMMAR,
+        ActivityType.LISTENING,
         ActivityType.READING,
         ActivityType.DRILL,
         ActivityType.SPEAKING,

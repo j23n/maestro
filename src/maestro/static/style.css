@@ -146,7 +146,7 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 0.6rem 0.85rem;
-  pointer-events: none;
+  pointer-events: auto;
   max-width: 300px;
 }
 
@@ -1134,4 +1134,75 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .flag-form .flag-expand { display: none; }
 .flag-form.expanded .flag-expand { display: block; }
 .flag-form .flag-expand textarea { width: 100%; box-sizing: border-box; }
+
+/* =====================================================================
+   Audio player (mini player for vocab + listening activities)
+   ===================================================================== */
+.audio-player-wrap {
+  margin: 0.75rem 0;
+}
+
+.audio-player-inline {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.mini-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  background: var(--c-surface);
+}
+
+.play-btn {
+  background: var(--c-terracotta);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 6rem;
+}
+
+.play-btn:hover { background: #b34a2e; }
+.play-btn:disabled { background: #c4bfb6; cursor: not-allowed; }
+
+.play-btn-sm {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  min-width: 4.5rem;
+}
+
+.speed-slider {
+  max-width: 110px;
+  accent-color: var(--c-terracotta);
+  cursor: pointer;
+}
+
+.speed-label {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Tooltip audio button */
+.tt-audio-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text);
+  text-align: center;
+}
+.tt-audio-btn:hover { background: var(--c-cream); }
 .flag-actions { display: flex; gap: 4px; margin-top: 4px; }

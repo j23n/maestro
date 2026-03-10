@@ -6,6 +6,20 @@
   <div class="word">{{ word.word }}</div>
   <div class="pos">{{ word.part_of_speech }}{% if word.syllabization %} · [{{ word.syllabization }}]{% endif %}{% if word.cefr_level %} · {{ word.cefr_level }}{% endif %}</div>
 
+  {% if audio_url %}
+  <div class="audio-player-wrap audio-player-inline">
+    <audio id="word-audio" src="{{ audio_url }}" preload="none"></audio>
+    <div class="mini-player">
+      <button class="play-btn play-btn-sm" type="button"
+              onclick="var a=document.getElementById('word-audio');a.paused?a.play():a.pause()">
+        ▶ {{ t("listen_btn") }}
+      </button>
+      <input class="speed-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0"
+             oninput="document.getElementById('word-audio').playbackRate=parseFloat(this.value)">
+    </div>
+  </div>
+  {% endif %}
+
   <div id="vocab-add">
     {% if has_card %}
       <span class="added-badge">{{ t("vocab_in_your_vocab") }}</span>

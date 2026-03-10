@@ -54,6 +54,7 @@ def test_all_activity_types_present():
             ActivityType.GRAMMAR,
             ActivityType.DRILL,
             ActivityType.VOCAB_REVIEW,
+            ActivityType.LISTENING,
             ActivityType.READING,
             ActivityType.WRITING,
             ActivityType.SPEAKING,
@@ -71,3 +72,35 @@ def test_vocab_review_increases_with_duration():
         < medium[ActivityType.VOCAB_REVIEW]
         < long_[ActivityType.VOCAB_REVIEW]
     )
+
+
+@pytest.mark.unit
+def test_listening_slot_is_always_one():
+    """Every session tier includes exactly one LISTENING slot."""
+    for duration in [5, 15, 40]:
+        slots = _allocate_slots(duration)
+        assert slots[ActivityType.LISTENING] == 1, (
+            f"Expected 1 LISTENING for duration={duration}"
+        )
+
+
+@pytest.mark.unit
+def test_reading_increases_with_duration():
+    """Pure READING slots grow with session length (0 → 1 → 2)."""
+    short = _allocate_slots(5)
+    medium = _allocate_slots(15)
+    long_ = _allocate_slots(40)
+    assert short[ActivityType.READING] == 0
+    assert medium[ActivityType.READING] == 1
+    assert long_[ActivityType.READING] == 2
+
+
+@pytest.mark.unit
+def test_total_reading_texts_matches_previous_reading_counts():
+    """LISTENING + READING totals should equal the old READING-only counts (1, 2, 3)."""
+    short = _allocate_slots(5)
+    medium = _allocate_slots(15)
+    long_ = _allocate_slots(40)
+    assert short[ActivityType.LISTENING] + short[ActivityType.READING] == 1
+    assert medium[ActivityType.LISTENING] + medium[ActivityType.READING] == 2
+    assert long_[ActivityType.LISTENING] + long_[ActivityType.READING] == 3

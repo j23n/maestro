@@ -12,6 +12,7 @@ class ActivityType(str, Enum):
     DRILL = "drill"
     VOCAB_REVIEW = "vocab_review"
     READING = "reading"
+    LISTENING = "listening"
     WRITING = "writing"
     GRAMMAR = "grammar"
     SPEAKING = "speaking"
@@ -129,6 +130,7 @@ class VocabularyWord(Document):
     cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
     entry_id: Optional[str] = None  # "LM-00595"
     senses: List[Sense] = []  # all senses from EPUB
+    audio_path: Optional[str] = None  # /static/audio/word_{slug}.wav
     language: str = "it"
 
     class Settings:
@@ -345,6 +347,7 @@ class LessonActivity(BaseModel):
         None  # shown after onboarding submit, supports {answer} placeholder
     )
     grammar_point_code: Optional[str] = None
+    audio_path: Optional[str] = None  # /static/audio/lesson_{id}_{idx}.wav
 
 
 class Lesson(Document):

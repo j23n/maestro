@@ -366,6 +366,7 @@ async def _generate_lesson_background(
     )
 
     reading_count = slots.get(ActivityType.READING, 0)
+    listening_count = slots.get(ActivityType.LISTENING, 0)
     include_writing = slots.get(ActivityType.WRITING, 0) > 0
 
     logger.info(
@@ -374,12 +375,15 @@ async def _generate_lesson_background(
             "grammar_gps": [g.code for g in grammar_gps],
             "n_drills": len(drill_specs),
             "reading_count": reading_count,
+            "listening_count": listening_count,
             "include_writing": include_writing,
             "speaking_cfs": [c.code for c in speaking_cfs],
         },
     )
 
     # --- Single LLM call ---
+    # The LLM generates reading texts for both LISTENING and READING activities;
+    # pass the combined total so it produces enough passages.
     content = await _generate_lesson_content(
         cefr_level,
         scenario,
@@ -387,7 +391,7 @@ async def _generate_lesson_background(
         profile,
         grammar_gps,
         drill_specs,
-        reading_count,
+        reading_count + listening_count,
         include_writing,
         speaking_cfs,
         lesson_context=lesson.lesson_context or "",
@@ -409,11 +413,19 @@ async def _generate_lesson_background(
         speaking_cfs=speaking_cfs,
         include_writing=include_writing,
         reading_count=reading_count,
+        listening_count=listening_count,
         topic_title=topic_title,
         scenario_slug=scenario.slug,
         cefr_level=cefr_level,
         student_id=lesson.student_id,
     )
+
+    # --- Generate audio for LISTENING activities ---
+    from maestro.tts import generate_lesson_audio
+
+    for i, act in enumerate(new_activities):
+        if act.type == ActivityType.LISTENING and act.content:
+            act.audio_path = await generate_lesson_audio(act.content, str(lesson_id), i)
 
     # --- Atomically update lesson ---
     activities_dicts = [a.model_dump() for a in new_activities]
