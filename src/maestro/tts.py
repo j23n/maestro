@@ -119,6 +119,34 @@ async def generate_word_audio(word: str) -> Optional[str]:
             return None
 
 
+def _a0_audio_path(slug: str) -> Path:
+    return _AUDIO_DIR / f"a0_{_slugify(slug)}.wav"
+
+
+async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
+    """Generate WAV for A0 static content, keyed by scenario slug.
+
+    Called only by scripts/generate_a0_audio.py. At runtime, audio_path
+    is read directly from the pre-authored YAML; this function is not invoked.
+    """
+    path = _a0_audio_path(slug)
+    url = f"/static/audio/{path.name}"
+    if path.exists():
+        return url
+    lock = _synth_locks.setdefault(path, asyncio.Lock())
+    async with lock:
+        if path.exists():
+            return url
+        try:
+            await _synth_to_file(_strip_markup(text), path)
+            return url
+        except Exception:
+            logger.warning(
+                "a0 TTS synthesis failed", extra={"slug": slug}, exc_info=True
+            )
+            return None
+
+
 async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional[str]:
     """Generate WAV for a lesson reading and return its static URL.
 
