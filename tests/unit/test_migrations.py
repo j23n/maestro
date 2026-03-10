@@ -9,6 +9,12 @@ from unittest.mock import AsyncMock, MagicMock
 # ---------------------------------------------------------------------------
 
 
+async def _empty_cursor():
+    """Async generator yielding nothing — simulates an empty MongoDB cursor."""
+    return
+    yield  # makes this an async generator
+
+
 def _make_db(applied_names: list[str] = None):
     """Return a mock db whose _migrations collection contains applied_names."""
     applied_names = applied_names or []
@@ -36,14 +42,20 @@ def _make_db(applied_names: list[str] = None):
         return_value=MagicMock(modified_count=5)
     )
 
-    db = MagicMock()
-    db.__getitem__ = MagicMock(
-        side_effect=lambda name: {
+    # Migration 0003 iterates grammar_points — empty cursor causes early return
+    grammar_points_coll = MagicMock()
+    grammar_points_coll.find.return_value = _empty_cursor()
+
+    def _get_coll(name):
+        return {
             "_migrations": migrations_coll,
             "drill_templates": drill_templates_coll,
             "generated_drills": generated_drills_coll,
+            "grammar_points": grammar_points_coll,
         }.get(name, MagicMock())
-    )
+
+    db = MagicMock()
+    db.__getitem__ = MagicMock(side_effect=_get_coll)
     return db, migrations_coll, drill_templates_coll, generated_drills_coll
 
 
@@ -69,14 +81,15 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded both migrations as applied
-    assert migrations_coll.insert_one.await_count == 2
+    # Runner should have recorded all three migrations as applied
+    assert migrations_coll.insert_one.await_count == 3
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
     assert recorded_names == [
         "0001_remove_free_form_drills",
         "0002_drop_drill_templates",
+        "0003_short_codes",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -88,7 +101,11 @@ async def test_runner_applies_pending_migration():
 async def test_runner_skips_already_applied():
     """Runner does not re-run a migration that is already recorded."""
     db, migrations_coll, drill_templates_coll, generated_drills_coll = _make_db(
-        applied_names=["0001_remove_free_form_drills", "0002_drop_drill_templates"]
+        applied_names=[
+            "0001_remove_free_form_drills",
+            "0002_drop_drill_templates",
+            "0003_short_codes",
+        ]
     )
 
     from maestro.migrations import run_pending

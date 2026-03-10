@@ -174,8 +174,17 @@ class UserVocabularyCard(Document):
 # --- Learning outcome taxonomy ---
 
 
+class GrammarExplanation(BaseModel):
+    """CEFR-level explanation for a grammar point, stored inline on GrammarPoint."""
+
+    title: str = ""
+    explanation: str
+    translation: str = ""
+
+
 class GrammarPoint(Document):
     code: str
+    unistr_code: str = ""  # original verbose code before short-code migration
     label: str
     cefr_level: str
     category: str
@@ -183,6 +192,7 @@ class GrammarPoint(Document):
     chunk_ref: Optional[str] = (
         None  # GrammarChunk.ref — set from mapping file at ingest
     )
+    explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
     language: str = "it"
 
     class Settings:

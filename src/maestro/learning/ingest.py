@@ -23,8 +23,8 @@ from maestro.models import (
     CefrSense,
     CommunicativeFunction,
     CurriculumScenario,
+    GrammarExplanation,
     GrammarPoint,
-    GrammarPointExplanation,
     Sense,
     VocabularyWord,
     VocabularyWordDefinition,
@@ -37,17 +37,24 @@ logger = logging.getLogger(__name__)
 async def upsert_grammar_points() -> list[GrammarPoint]:
     with open(data_dir() / "grammar_points.json") as f:
         items = json.load(f)
+    # Both new short codes and old unistr_codes are "known" to avoid deleting GPs during
+    # the short-code transition (before migration 0003 runs)
     new_codes = {item["code"] for item in items}
-    # Remove GPs (and their explanations) that no longer exist in the data file
+    new_codes |= {item["unistr_code"] for item in items if item.get("unistr_code")}
+    # Remove GPs that no longer exist in the data file
     existing = await GrammarPoint.find_all().to_list()
     for gp in existing:
         if gp.code not in new_codes:
-            await GrammarPointExplanation.find({"grammar_point.$id": gp.id}).delete()
             await gp.delete()
-    # Upsert by code — preserves _id so explanations stay linked
+    # Upsert by code — during short-code transition, find existing GPs by unistr_code first
     gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
     for item in items:
-        gp = await GrammarPoint.find_one({"code": item["code"]})
+        gp = None
+        unistr = item.get("unistr_code")
+        if unistr:
+            gp = await GrammarPoint.find_one({"code": unistr})
+        if gp is None:
+            gp = await GrammarPoint.find_one({"code": item["code"]})
         if gp:
             for key, val in item.items():
                 if key in gp_fields:
@@ -202,7 +209,7 @@ async def seed_a0_vocab() -> None:
 
 
 async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:
-    """Seed static A0 grammar explanations from JSON file."""
+    """Seed static A0 grammar explanations into GrammarPoint.explanations["A0"]."""
     expl_file = data_dir() / "a0_grammar_explanations.json"
     if not expl_file.exists():
         logger.warning(f"A0 grammar explanations file not found: {expl_file}")
@@ -218,23 +225,13 @@ async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> No
         if not gp:
             logger.warning(f"  A0 GP not found for code: {code}")
             continue
-        existing = await GrammarPointExplanation.find_one(
-            {"grammar_point.$id": gp.id, "student_level": "A0"}
+        gp.explanations["A0"] = GrammarExplanation(
+            title=texts["title"],
+            explanation=texts["explanation"],
         )
-        if existing:
-            existing.title = texts["title"]
-            existing.explanation = texts["explanation"]
-            await existing.save()
-        else:
-            await GrammarPointExplanation(
-                grammar_point=gp,
-                student_level="A0",
-                title=texts["title"],
-                explanation=texts["explanation"],
-                language=settings.TARGET_LANGUAGE,
-            ).insert()
-            count += 1
-    logger.info(f"A0 grammar explanations: {count} new, {len(data)} total")
+        await gp.save()
+        count += 1
+    logger.info(f"A0 grammar explanations: seeded {count} records")
 
 
 async def ingest():
