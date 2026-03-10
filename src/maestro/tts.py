@@ -7,6 +7,7 @@ The httpx client is cached via lru_cache and reused across calls.
 from __future__ import annotations
 
 import asyncio
+import html
 import logging
 import re
 import time
@@ -50,6 +51,11 @@ def _build_ssml(text: str) -> str:
         f'<voice name="{voice}">{escape(text)}</voice>'
         f"</speak>"
     )
+
+
+def _strip_markup(text: str) -> str:
+    """Remove HTML tags and decode entities for plain-text TTS input."""
+    return html.unescape(re.sub(r"<[^>]+>", "", text))
 
 
 def _slugify(text: str) -> str:
@@ -127,7 +133,7 @@ async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional
         if path.exists():  # re-check after acquiring
             return url
         try:
-            await _synth_to_file(text, path)
+            await _synth_to_file(_strip_markup(text), path)
             return url
         except Exception:
             logger.warning(
