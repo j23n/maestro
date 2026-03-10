@@ -58,6 +58,7 @@ markers = [
     "unit: pure logic, no I/O",
     "integration: mongomock DB + mocked LLM",
     "llm_eval: real Anthropic API calls (slow, opt-in)",
+    "tts: Azure TTS — requires AZURE_SPEECH_KEY env var (opt-in)",
 ]
 [build-system]
 requires = ["uv_build>=0.6,<0.7"]

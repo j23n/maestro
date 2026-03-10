@@ -19,6 +19,7 @@ from maestro.models import (
 from maestro.profile import get_cefr_level
 from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
+from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
 from maestro.templates import templates
 from maestro.vocab.srs import review
@@ -109,6 +110,12 @@ async def vocab_entry(
             "generated definitions on-demand",
             extra={"word": word.word, "n_definitions": len(definitions)},
         )
+    # Generate audio on demand if missing
+    if word.audio_path is None:
+        audio_url = await generate_word_audio(word.word)
+        if audio_url:
+            word.audio_path = audio_url
+            await word.save()
     has_card = (
         await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
         is not None
@@ -126,6 +133,7 @@ async def vocab_entry(
             "definitions": definitions,
             "has_card": has_card,
             "student_level": student_level,
+            "audio_url": word.audio_path,
         },
     )
 

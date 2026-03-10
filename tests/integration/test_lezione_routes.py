@@ -188,6 +188,144 @@ async def test_lezione_create_abandons_active_and_creates_new(test_app, db, stud
     assert count == 2
 
 
+# ---------------------------------------------------------------------------
+# LISTENING activity tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+async def active_lesson_with_listening(db, student):
+    """Active lesson with a single LISTENING activity (with audio_url and questions)."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.LISTENING,
+                title="Ascolto",
+                description="Test",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="<span lang='it'>Marco va al bar.</span>",
+                questions=["Dove va Marco?"],
+                correct_answers=["Al bar"],
+                audio_path="/static/audio/lesson_test_0.wav",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+    return lesson
+
+
+@pytest.mark.integration
+def test_listening_activity_get_returns_200(test_app, active_lesson_with_listening):
+    """GET /lezione/{id}/activity/0 for a LISTENING activity should return 200."""
+    lesson = active_lesson_with_listening
+    with (
+        patch(
+            "maestro.routes.lezione.discover",
+            new_callable=AsyncMock,
+            return_value="<p>Marco va al bar.</p>",
+        ),
+        patch(
+            "maestro.routes.lezione.discover_list",
+            new_callable=AsyncMock,
+            return_value=["Dove va Marco?"],
+        ),
+    ):
+        response = test_app.get(f"/lezione/{lesson.id}/activity/0")
+    assert response.status_code == 200
+
+
+@pytest.mark.integration
+def test_listening_activity_get_includes_audio_url(
+    test_app, active_lesson_with_listening
+):
+    """GET response for a LISTENING activity should embed the audio URL."""
+    lesson = active_lesson_with_listening
+    with (
+        patch(
+            "maestro.routes.lezione.discover",
+            new_callable=AsyncMock,
+            return_value="<p>Marco va al bar.</p>",
+        ),
+        patch(
+            "maestro.routes.lezione.discover_list",
+            new_callable=AsyncMock,
+            return_value=["Dove va Marco?"],
+        ),
+    ):
+        response = test_app.get(f"/lezione/{lesson.id}/activity/0")
+    assert "/static/audio/lesson_test_0.wav" in response.text
+
+
+@pytest.mark.integration
+async def test_reading_submit_on_listening_records_listening_event(
+    test_app, db, student, active_lesson_with_listening
+):
+    """POST reading-submit on a LISTENING activity should store activity_type='listening'."""
+    lesson = active_lesson_with_listening
+    with patch(
+        "maestro.routes.lezione.score_reading_activity",
+        new_callable=AsyncMock,
+        return_value=(True, {}, [], []),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/reading-submit",
+            data={"answers": "Al bar"},
+        )
+    assert response.status_code == 200
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    assert events[0].activity_type == ActivityType.LISTENING.value
+
+
+@pytest.mark.integration
+async def test_reading_submit_on_reading_records_reading_event(test_app, db, student):
+    """POST reading-submit on a READING activity should store activity_type='reading'."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.READING,
+                title="Lettura",
+                description="Test",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="<span lang='it'>Testo.</span>",
+                questions=["Domanda?"],
+                correct_answers=["Risposta"],
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.routes.lezione.score_reading_activity",
+        new_callable=AsyncMock,
+        return_value=(True, {}, [], []),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/reading-submit",
+            data={"answers": "Risposta"},
+        )
+    assert response.status_code == 200
+
+    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
+    assert len(events) == 1
+    assert events[0].activity_type == ActivityType.READING.value
+
+
 @pytest.mark.integration
 async def test_lezione_abandon_route(test_app, db, student):
     """POST /lezione/{id}/abandon → sets status to ABANDONED, redirects to index."""
