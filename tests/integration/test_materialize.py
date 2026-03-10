@@ -4,7 +4,6 @@ import pytest
 
 from maestro.models import (
     GrammarPoint,
-    DrillTemplate,
     CommunicativeFunction,
     ActivityType,
     ExerciseType,
@@ -34,17 +33,6 @@ async def grammar_gp(db):
     return gp
 
 
-@pytest.fixture
-async def drill_template(db):
-    t = DrillTemplate(
-        grammar_point_code="GP_DRILL",
-        cefr_level="A1",
-        exercise_type=ExerciseType.FILL_BLANK,
-    )
-    await t.insert()
-    return t
-
-
 @pytest.mark.integration
 async def test_materialize_grammar_activity(grammar_gp, db):
     content = LessonContentResponse(
@@ -57,7 +45,6 @@ async def test_materialize_grammar_activity(grammar_gp, db):
         grammar_gps=[grammar_gp],
         grammar_explanations=[None],
         drill_specs=[],
-        drill_templates_used=[],
         speaking_cfs=[],
         include_writing=False,
         reading_count=0,
@@ -74,7 +61,7 @@ async def test_materialize_grammar_activity(grammar_gp, db):
 
 
 @pytest.mark.integration
-async def test_materialize_drill_creates_generated_drill(drill_template, db):
+async def test_materialize_drill_creates_generated_drill(db):
     content = LessonContentResponse(
         drills=[
             DrillResponse(
@@ -99,7 +86,6 @@ async def test_materialize_drill_creates_generated_drill(drill_template, db):
         grammar_gps=[],
         grammar_explanations=[],
         drill_specs=[spec],
-        drill_templates_used=[drill_template],
         speaking_cfs=[],
         include_writing=False,
         reading_count=0,
@@ -129,7 +115,6 @@ async def test_materialize_reading_activity(db):
         grammar_gps=[],
         grammar_explanations=[],
         drill_specs=[],
-        drill_templates_used=[],
         speaking_cfs=[],
         include_writing=False,
         reading_count=1,
@@ -154,7 +139,6 @@ async def test_materialize_writing_activity(db):
         grammar_gps=[],
         grammar_explanations=[],
         drill_specs=[],
-        drill_templates_used=[],
         speaking_cfs=[],
         include_writing=True,
         reading_count=0,
@@ -169,7 +153,7 @@ async def test_materialize_writing_activity(db):
 
 
 @pytest.mark.integration
-async def test_materialize_pedagogical_order(grammar_gp, drill_template, db):
+async def test_materialize_pedagogical_order(grammar_gp, db):
     """Activities should follow: grammar → reading → drill → speaking → writing."""
     cf = CommunicativeFunction(
         code="CF_TEST",
@@ -204,7 +188,6 @@ async def test_materialize_pedagogical_order(grammar_gp, drill_template, db):
         grammar_gps=[grammar_gp],
         grammar_explanations=[None],
         drill_specs=[spec],
-        drill_templates_used=[drill_template],
         speaking_cfs=[cf],
         include_writing=True,
         reading_count=1,
