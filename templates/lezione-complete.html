@@ -67,6 +67,25 @@
   </div>
   {% endif %}
 
+  {% if covered_grammar_points %}
+  <div class="review-box">
+    <div class="review-heading">{{ t("lesson_grammar_covered_label") }}</div>
+    <div class="review-links">
+      {% for gp in covered_grammar_points %}
+      <a href="/grammar/{{ gp.code }}" class="review-link">
+        <span>{{ gp.label }}</span>
+        <span class="review-level">{{ gp.cefr_level }}</span>
+      </a>
+      {% if gp.chunk_ref %}
+      <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">
+        {{ t("lesson_full_rule") }}
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   {% if weak_grammar_points %}
   <div class="review-box">
     <div class="review-heading">{{ t("lesson_review_label") }}</div>

@@ -347,9 +347,15 @@ async def lezione_activity(
             url=activity_url(lesson_id, lesson.current_index), status_code=303
         )
 
-    total = len(lesson.activities)
-
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
+
+    # Only grammar activities can be revisited; redirect all others to current activity
+    if is_review and activity.type != ActivityType.GRAMMAR:
+        return RedirectResponse(
+            url=activity_url(lesson_id, lesson.current_index), status_code=303
+        )
+
+    total = len(lesson.activities)
 
     ctx = {
         "lesson": lesson,
@@ -877,6 +883,25 @@ async def lezione_complete(
     ):
         graduated_to = profile.cefr_estimate
 
+    # Collect grammar points covered in this lesson (preserving block order)
+    covered_gp_codes = [
+        a.grammar_point_code
+        for a in lesson.activities
+        if a.type == ActivityType.GRAMMAR and a.grammar_point_code
+    ]
+    if covered_gp_codes:
+        gp_by_code = {
+            gp.code: gp
+            for gp in await GrammarPoint.find(
+                {"code": {"$in": covered_gp_codes}}
+            ).to_list()
+        }
+        covered_grammar_points = [
+            gp_by_code[c] for c in covered_gp_codes if c in gp_by_code
+        ]
+    else:
+        covered_grammar_points = []
+
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",
@@ -885,6 +910,7 @@ async def lezione_complete(
             "completed_count": completed_count,
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
+            "covered_grammar_points": covered_grammar_points,
             "annotated_feedback": annotated_feedback,
             "graduated_to": graduated_to,
         },
