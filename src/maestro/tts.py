@@ -124,7 +124,11 @@ def _a0_audio_path(slug: str) -> Path:
 
 
 async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
-    """Generate WAV for A0 static content, keyed by scenario slug."""
+    """Generate WAV for A0 static content, keyed by scenario slug.
+
+    Called only by scripts/generate_a0_audio.py. At runtime, audio_path
+    is read directly from the pre-authored YAML; this function is not invoked.
+    """
     path = _a0_audio_path(slug)
     url = f"/static/audio/{path.name}"
     if path.exists():
