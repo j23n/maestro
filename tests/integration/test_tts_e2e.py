@@ -8,20 +8,20 @@ Run live tests with:
   AZURE_SPEECH_KEY=... uv run pytest -m tts -v
 """
 
-import os
 import struct
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 import maestro.tts as tts_mod
+from maestro.config import settings
 from maestro.tts import generate_word_audio, generate_lesson_audio
 
 pytestmark = [pytest.mark.tts]
 
 _requires_key = pytest.mark.skipif(
-    not os.environ.get("AZURE_SPEECH_KEY"),
-    reason="AZURE_SPEECH_KEY not set — opt-in with a real Azure Speech key",
+    not settings.AZURE_SPEECH_KEY,
+    reason="AZURE_SPEECH_KEY not set in env or .env — opt-in with a real Azure Speech key",
 )
 
 
