@@ -13,7 +13,6 @@ SEED_COLLECTIONS = [
     "vocabulary_words",
     "comm_functions",
     "curriculum_scenarios",
-    "drill_templates",
     "grammar_point_explanations",
     "vocabulary_word_definitions",
 ]

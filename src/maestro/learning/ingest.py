@@ -3,8 +3,7 @@ One-off ingest script:
   1. Replace all GrammarPoint documents from grammar_points.json (full replace)
   2. Set chunk_ref on each GP from the static mapping file
   3. Replace all CommunicativeFunction documents from comm_functions.json
-  4. Seed DrillTemplate specs (grammar points × 3 exercise types)
-  5. Create empty LearningProfile if none exists
+  4. Create empty LearningProfile if none exists
 
 Run with:
   python -m maestro.learning.ingest
@@ -24,8 +23,6 @@ from maestro.models import (
     CefrSense,
     CommunicativeFunction,
     CurriculumScenario,
-    DrillTemplate,
-    ExerciseType,
     GrammarPoint,
     GrammarPointExplanation,
     Sense,
@@ -35,11 +32,6 @@ from maestro.models import (
 from maestro.utils import data_dir
 
 logger = logging.getLogger(__name__)
-
-EXERCISE_TYPES = (
-    ExerciseType.FILL_BLANK,
-    ExerciseType.ERROR_CORRECTION,
-)
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
@@ -103,28 +95,6 @@ async def upsert_comm_functions() -> None:
         docs.append(CommunicativeFunction(**item, language=settings.TARGET_LANGUAGE))
     await CommunicativeFunction.insert_many(docs)
     logger.info(f"Communicative functions: inserted {len(docs)} items")
-
-
-async def upsert_drill_templates(grammar_points: list[GrammarPoint]) -> None:
-    """Seed spec-only DrillTemplate records (no content, no Claude calls)."""
-    total_new = 0
-    for gp in grammar_points:
-        for exercise_type in EXERCISE_TYPES:
-            existing = await DrillTemplate.find_one(
-                DrillTemplate.grammar_point_code == gp.code,
-                DrillTemplate.exercise_type == exercise_type,
-            )
-            if existing:
-                continue
-            t = DrillTemplate(
-                grammar_point_code=gp.code,
-                cefr_level=gp.cefr_level,
-                exercise_type=exercise_type,
-                language=settings.TARGET_LANGUAGE,
-            )
-            await t.insert()
-            total_new += 1
-    logger.info(f"Drill templates: inserted {total_new} new spec records")
 
 
 async def seed_scenarios() -> None:
@@ -281,9 +251,6 @@ async def ingest():
 
     logger.info("=== Ingesting communicative functions ===")
     await upsert_comm_functions()
-
-    logger.info("=== Seeding drill template specs ===")
-    await upsert_drill_templates(grammar_points)
 
     logger.info("=== Seeding curriculum scenarios ===")
     await seed_scenarios()

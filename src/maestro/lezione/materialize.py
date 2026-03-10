@@ -11,7 +11,6 @@ from maestro.models import (
     GrammarPointExplanation,
     GeneratedDrill,
     DrillItem,
-    DrillTemplate,
     CommunicativeFunction,
     GrammarChunk,
     ActivityType,
@@ -30,7 +29,6 @@ async def materialize_activities(
     grammar_gps: list[GrammarPoint],
     grammar_explanations: list[Optional[GrammarPointExplanation]],
     drill_specs: list[dict],
-    drill_templates_used: list[DrillTemplate],
     speaking_cfs: list[CommunicativeFunction],
     include_writing: bool,
     reading_count: int,
@@ -105,7 +103,7 @@ async def materialize_activities(
         "materialising drills",
         extra={"n_specs": len(drill_specs), "n_llm_drills": len(llm_drills)},
     )
-    for i, (spec, template) in enumerate(zip(drill_specs, drill_templates_used)):
+    for i, spec in enumerate(drill_specs):
         drill_data = llm_drills[i] if i < len(llm_drills) else None
         if not drill_data:
             logger.warning(
@@ -122,7 +120,6 @@ async def materialize_activities(
             ]
             drill = GeneratedDrill(
                 student_id=student_id,
-                template=template,
                 grammar_point_code=spec["grammar_point_code"],
                 cefr_level=cefr_level,
                 exercise_type=exercise_type,

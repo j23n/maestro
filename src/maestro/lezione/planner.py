@@ -22,7 +22,7 @@ from maestro.models import (
     LearningProfile,
     GrammarPoint,
     GrammarPointExplanation,
-    DrillTemplate,
+    ExerciseType,
     CommunicativeFunction,
     GrammarChunk,
     CurriculumScenario,
@@ -327,20 +327,17 @@ async def _generate_lesson_background(
                 )
             grammar_explanations.append(explanation)
 
-    # --- Pick grammar points and templates for drills ---
+    # --- Pick grammar points for drills ---
     drill_count = slots.get(ActivityType.DRILL, 0)
     drill_specs: list[dict] = []
-    drill_templates_used: list[DrillTemplate] = []
     if drill_count > 0:
         gps_for_drills = await pick_grammar_points(
             profile, cefr_level, drill_count, candidate_codes=gp_candidate_codes
         )
-        all_templates = await DrillTemplate.find_all().to_list()
         for gp in gps_for_drills:
-            matching = [t for t in all_templates if t.grammar_point_code == gp.code]
-            if not matching:
-                continue
-            template = random.choice(matching)
+            exercise_type = random.choice(
+                [ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION]
+            )
             chunk_excerpt = ""
             if gp.chunk_ref:
                 chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
@@ -351,12 +348,11 @@ async def _generate_lesson_background(
                     "grammar_point_code": gp.code,
                     "gp_label": gp.label,
                     "gp_description": gp.description,
-                    "exercise_type": template.exercise_type,
+                    "exercise_type": exercise_type,
                     "rag_excerpt": chunk_excerpt,
                     "chunk_ref": gp.chunk_ref,
                 }
             )
-            drill_templates_used.append(template)
 
     # --- Pick communicative functions for speaking ---
     speaking_count = slots.get(ActivityType.SPEAKING, 0)
@@ -410,7 +406,6 @@ async def _generate_lesson_background(
         grammar_gps=grammar_gps,
         grammar_explanations=grammar_explanations,
         drill_specs=drill_specs,
-        drill_templates_used=drill_templates_used,
         speaking_cfs=speaking_cfs,
         include_writing=include_writing,
         reading_count=reading_count,
