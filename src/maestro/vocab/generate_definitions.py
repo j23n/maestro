@@ -15,13 +15,13 @@ import argparse
 import asyncio
 import json
 import logging
-from pathlib import Path
 from typing import Any
 
 from bson import DBRef
 
 from maestro.db import init_db
 from maestro.config import settings
+from maestro.tts import _word_audio_path
 from maestro.llm import llm_messages_create
 from maestro.models import (
     CallType,
@@ -195,17 +195,6 @@ async def _collect_words_needing_regen(
         if not _is_complete(defs):
             todo.append(w)
     return todo
-
-
-def _word_audio_path(word: str) -> Path:
-    """Return the expected audio file path for a word (mirrors tts._word_audio_path)."""
-    import re
-    import unicodedata
-
-    nfkd = unicodedata.normalize("NFKD", word.lower())
-    ascii_text = "".join(c for c in nfkd if not unicodedata.combining(c))
-    slug = re.sub(r"[^a-z0-9]+", "_", ascii_text).strip("_")
-    return Path("src/maestro/static/audio") / f"word_{slug}.wav"
 
 
 async def generate(

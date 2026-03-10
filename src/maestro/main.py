@@ -123,6 +123,10 @@ async def lifespan(app: FastAPI):
     logger.info("startup complete")
     yield
     logger.info("shutdown")
+    from maestro.tts import _get_tts_client
+
+    if _get_tts_client.cache_info().currsize:
+        await _get_tts_client().aclose()
 
 
 app = FastAPI(lifespan=lifespan)

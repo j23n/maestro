@@ -48,6 +48,7 @@ def _read_wav_sample_rate(path) -> int:
 _FAKE_WAV = b"RIFF$\x00\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\xc0]\x00\x00\x80\xbb\x00\x00\x02\x00\x10\x00data\x00\x00\x00\x00"
 
 
+# No key required — uses mocked httpx transport.
 async def test_synth_pipeline_posts_ssml_and_writes_response(audio_dir, monkeypatch):
     """Full pipeline: generate_word_audio → _synth_to_file → Azure POST.
 
