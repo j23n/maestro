@@ -122,6 +122,19 @@ async def _generate_a0_lesson_background(
                 )
             )
 
+        elif act_type == ActivityType.LISTENING:
+            new_activities.append(
+                LessonActivity(
+                    type=ActivityType.LISTENING,
+                    title=act_data.get("title", t("listening_title")),
+                    description=act_data.get("description", ""),
+                    content=act_data.get("content", ""),
+                    questions=act_data.get("questions", []),
+                    correct_answers=act_data.get("correct_answers", []),
+                    audio_path=act_data.get("audio_path"),
+                )
+            )
+
         elif act_type == ActivityType.WRITING:
             new_activities.append(
                 LessonActivity(
