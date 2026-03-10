@@ -61,9 +61,15 @@
   </script>
   <script>
     const tooltip = document.getElementById('vocab-tooltip');
+    let _ttHideTimer = null;
+    function _ttScheduleHide() { _ttHideTimer = setTimeout(() => { tooltip.style.display = 'none'; }, 180); }
+    function _ttCancelHide()   { clearTimeout(_ttHideTimer); }
+    tooltip.addEventListener('mouseenter', _ttCancelHide);
+    tooltip.addEventListener('mouseleave', _ttScheduleHide);
     document.addEventListener('mouseover', e => {
       const word = e.target.closest('.vocab-word');
       if (!word) return;
+      _ttCancelHide();
       tooltip.querySelector('.tt-word').textContent = word.dataset.word || '';
       tooltip.querySelector('.tt-pos').textContent = word.dataset.pos || '';
       const syl = word.dataset.syllabization;
@@ -121,11 +127,8 @@
     });
     document.addEventListener('mouseout', e => {
       if (!e.target.closest('.vocab-word')) return;
-      // Don't hide if mouse moves into the tooltip itself
-      if (e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#vocab-tooltip')) return;
-      tooltip.style.display = 'none';
+      _ttScheduleHide();
     });
-    tooltip.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
     document.addEventListener('click', e => {
       var toggle = e.target.closest('.translation-toggle');
       if (toggle) toggle.classList.toggle('revealed');
