@@ -11,7 +11,6 @@ from maestro.models import (
     LessonActivity,
     GeneratedDrill,
     DrillItem,
-    DrillTemplate,
     ActivityType,
     ExerciseType,
 )
@@ -91,24 +90,8 @@ async def _generate_a0_lesson_background(
                 DrillItem(prompt=it["prompt"], correct_answer=it.get("correct_answer"))
                 for it in act_data.get("items", [])
             ]
-            # Find or create a template
-            template = await DrillTemplate.find_one(
-                {
-                    "grammar_point_code": gp_code,
-                    "exercise_type": exercise_type,
-                }
-            )
-            if not template:
-                template = DrillTemplate(
-                    grammar_point_code=gp_code,
-                    cefr_level="A0",
-                    exercise_type=exercise_type,
-                )
-                await template.insert()
-
             drill = GeneratedDrill(
                 student_id=lesson.student_id,
-                template=template,
                 grammar_point_code=gp_code,
                 cefr_level="A0",
                 exercise_type=exercise_type,
