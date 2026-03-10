@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
 from maestro.auth import get_current_student
-from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk, Student
+from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
 from maestro.utils import CEFR_ORDER
@@ -25,13 +25,14 @@ async def grammar_index(
 
     gps = await GrammarPoint.find({"cefr_level": {"$in": visible_levels}}).to_list()
 
-    # Load explanations for student's level, keyed by gp id
-    explanations = await GrammarPointExplanation.find(
-        {"student_level": student_level}
-    ).to_list()
-    titles: dict = {
-        str(ex.grammar_point.ref.id): ex.title or None for ex in explanations
-    }
+    # Build titles from inline explanations, keyed by gp id
+    titles: dict = {}
+    for gp in gps:
+        expl = gp.explanations.get(student_level) or next(
+            iter(gp.explanations.values()), None
+        )
+        if expl and expl.title:
+            titles[str(gp.id)] = expl.title
 
     # Build nested dict: level → category → [gp, ...]
     grouped: dict[str, dict[str, list]] = {}
@@ -61,13 +62,10 @@ async def grammar_detail(
         if student_level in CEFR_ORDER
         else len(CEFR_ORDER) - 1
     )
-    all_expls = await GrammarPointExplanation.find(
-        {"grammar_point.$id": gp.id}
-    ).to_list()
     by_level = {
-        e.student_level: e
-        for e in all_expls
-        if CEFR_ORDER.index(e.student_level) <= max_idx
+        lvl: expl
+        for lvl, expl in gp.explanations.items()
+        if lvl in CEFR_ORDER and CEFR_ORDER.index(lvl) <= max_idx
     }
     available_levels = sorted(by_level.keys(), key=lambda lvl: CEFR_ORDER.index(lvl))
     active_level = (

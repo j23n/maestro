@@ -8,7 +8,7 @@ from typing import Optional
 from maestro.models import (
     LessonActivity,
     GrammarPoint,
-    GrammarPointExplanation,
+    GrammarExplanation,
     GeneratedDrill,
     DrillItem,
     CommunicativeFunction,
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 async def materialize_activities(
     content: LessonContentResponse,
     grammar_gps: list[GrammarPoint],
-    grammar_explanations: list[Optional[GrammarPointExplanation]],
+    grammar_explanations: list[Optional[GrammarExplanation]],
     drill_specs: list[dict],
     speaking_cfs: list[CommunicativeFunction],
     include_writing: bool,

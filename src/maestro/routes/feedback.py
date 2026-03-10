@@ -15,7 +15,6 @@ from maestro.models import (
     CallType,
     GeneratedDrill,
     GrammarPoint,
-    GrammarPointExplanation,
     LearningEvent,
     Lesson,
     LLMCritique,
@@ -207,9 +206,7 @@ async def _reconstruct_grammar_explanation(refs: dict) -> tuple[dict, dict]:
     if gp is None:
         return {"error": "GrammarPoint not found"}, {}
 
-    expl = await GrammarPointExplanation.find_one(
-        {"grammar_point.$id": gp.id, "student_level": cefr_level}
-    )
+    expl = gp.explanations.get(cefr_level) or next(iter(gp.explanations.values()), None)
     if expl is None:
         return {"error": "GrammarPointExplanation not found"}, {}
 

@@ -1,5 +1,5 @@
 """
-Generate GrammarPointExplanation documents for all GrammarPoints.
+Generate CEFR grammar explanations and write them into grammar_points.json.
 
 Each grammar point only gets explanations for its own CEFR level and above:
   A1 rule → A1, A2, B1, B2
@@ -12,6 +12,8 @@ CEFR-adapted explanation per level (A1=English, A2=mixed, B1+=target language).
 
 Idempotent — skips grammar points that already have all required explanations.
 
+After running, execute `python -m maestro.learning.ingest` to sync to MongoDB.
+
 Run with:  python -m maestro.grammar.generate_explanations
 """
 
@@ -19,15 +21,16 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import json
 import logging
 
 from maestro.db import init_db
-from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk
+from maestro.models import GrammarPoint, GrammarChunk
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.prompts import grammar as _prompts
-from maestro.utils import CEFR_ORDER, parse_llm_json
+from maestro.utils import CEFR_ORDER, data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
 
@@ -130,30 +133,9 @@ async def _call_api(
     return None
 
 
-async def _has_all_explanations(gp: GrammarPoint) -> bool:
-    needed = len(_target_levels(gp))
-    count = await GrammarPointExplanation.find({"grammar_point.$id": gp.id}).count()
-    return count >= needed
-
-
-async def _save_explanations(gp: GrammarPoint, data: dict[str, dict[str, str]]) -> None:
-    for level, texts in data.items():
-        explanation = texts["explanation"]
-        if not explanation.strip():
-            logger.warning(f"  Empty {level} explanation for '{gp.label}'")
-            continue
-        existing = await GrammarPointExplanation.find_one(
-            {"grammar_point.$id": gp.id, "student_level": level}
-        )
-        if existing:
-            continue
-        await GrammarPointExplanation(
-            grammar_point=gp,
-            student_level=level,
-            title=texts.get("title", ""),
-            explanation=explanation,
-        ).insert()
-        logger.info(f"  Saved {level} explanation for '{gp.label}'")
+def _has_all_explanations(gp: GrammarPoint) -> bool:
+    needed = _target_levels(gp)
+    return all(lvl in gp.explanations for lvl in needed)
 
 
 async def list_codes(level: str | None = None) -> None:
@@ -162,7 +144,7 @@ async def list_codes(level: str | None = None) -> None:
     gps = await GrammarPoint.find(query).sort("code").to_list()
     done = 0
     for gp in gps:
-        has_all = await _has_all_explanations(gp)
+        has_all = _has_all_explanations(gp)
         if has_all:
             done += 1
         marker = "✓" if has_all else " "
@@ -177,6 +159,12 @@ async def generate(
     clear: bool = False,
 ) -> None:
     await init_db()
+
+    json_path = data_dir() / "grammar_points.json"
+    with open(json_path) as f:
+        json_items = json.load(f)
+    # Index JSON items by code for fast lookup
+    json_by_code: dict[str, dict] = {item["code"]: item for item in json_items}
 
     if code:
         gp = await GrammarPoint.find_one({"code": code})
@@ -193,13 +181,14 @@ async def generate(
     logger.info(f"Found {len(all_gps)} grammar points")
 
     if clear:
-        gp_ids = [gp.id for gp in all_gps]
-        result = await GrammarPointExplanation.find(
-            {"grammar_point.$id": {"$in": gp_ids}}
-        ).delete()
-        logger.info(f"Cleared {result.deleted_count} existing explanations")
+        for gp in all_gps:
+            gp.explanations = {}
+            await gp.save()
+            if gp.code in json_by_code:
+                json_by_code[gp.code].pop("explanations", None)
+        logger.info(f"Cleared explanations for {len(all_gps)} grammar points")
 
-    todo = [gp for gp in all_gps if not await _has_all_explanations(gp)]
+    todo = [gp for gp in all_gps if not _has_all_explanations(gp)]
     logger.info(f"{len(todo)} grammar points need explanations")
 
     if test:
@@ -211,10 +200,15 @@ async def generate(
         todo = list(by_level.values())
         logger.info(f"  --test: {[f'{gp.label} ({gp.cefr_level})' for gp in todo]}")
 
+    changed = False
     for i, gp in enumerate(todo, 1):
         levels = _target_levels(gp)
+        # Only generate levels not already present
+        missing = tuple(lvl for lvl in levels if lvl not in gp.explanations)
+        if not missing:
+            continue
         logger.info(
-            f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level}) → {', '.join(levels)}"
+            f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level}) → {', '.join(missing)}"
         )
 
         # Load chunk content via chunk_ref
@@ -227,12 +221,45 @@ async def generate(
                 logger.warning(f"  Chunk not found for ref: {gp.chunk_ref}")
 
         try:
-            data = await _call_api(gp, levels, chunk_content)
+            data = await _call_api(gp, missing, chunk_content)
         except Exception as exc:
             logger.error(f"  API error: {exc}")
             continue
-        if data:
-            await _save_explanations(gp, data)
+        if not data:
+            continue
+
+        # Write to DB (in-memory GP object)
+        from maestro.models import GrammarExplanation
+
+        for lvl, texts in data.items():
+            if not texts["explanation"].strip():
+                logger.warning(f"  Empty {lvl} explanation for '{gp.label}'")
+                continue
+            gp.explanations[lvl] = GrammarExplanation(
+                title=texts.get("title", ""),
+                explanation=texts["explanation"],
+            )
+            logger.info(f"  Saved {lvl} explanation for '{gp.label}'")
+        await gp.save()
+
+        # Write to JSON
+        json_item = json_by_code.get(gp.code)
+        if json_item is not None:
+            if "explanations" not in json_item:
+                json_item["explanations"] = {}
+            for lvl, texts in data.items():
+                if texts["explanation"].strip():
+                    json_item["explanations"][lvl] = {
+                        "title": texts.get("title", ""),
+                        "explanation": texts["explanation"],
+                    }
+            changed = True
+
+    if changed:
+        with open(json_path, "w") as f:
+            json.dump(json_items, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        logger.info("Updated grammar_points.json")
 
     logger.info("Done.")
 

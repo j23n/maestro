@@ -21,7 +21,6 @@ from maestro.models import (
     LessonActivity,
     LearningProfile,
     GrammarPoint,
-    GrammarPointExplanation,
     ExerciseType,
     CommunicativeFunction,
     GrammarChunk,
@@ -307,7 +306,6 @@ async def _generate_lesson_background(
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get(ActivityType.GRAMMAR, 0)
     grammar_gps: list[GrammarPoint] = []
-    grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
     # When focus_weak is on, ignore scenario's gp_codes constraint
     gp_candidate_codes = None if focus_weak else scenario.gp_codes
@@ -317,15 +315,10 @@ async def _generate_lesson_background(
             profile, cefr_level, grammar_count, candidate_codes=gp_candidate_codes
         )
 
-        for gp in grammar_gps:
-            explanation = await GrammarPointExplanation.find_one(
-                {"grammar_point.$id": gp.id, "student_level": cefr_level}
-            )
-            if not explanation:
-                explanation = await GrammarPointExplanation.find_one(
-                    {"grammar_point.$id": gp.id}
-                )
-            grammar_explanations.append(explanation)
+    grammar_explanations = [
+        gp.explanations.get(cefr_level) or next(iter(gp.explanations.values()), None)
+        for gp in grammar_gps
+    ]
 
     # --- Pick grammar points for drills ---
     drill_count = slots.get(ActivityType.DRILL, 0)
