@@ -6,6 +6,7 @@ The httpx client is cached via lru_cache and reused across calls.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import re
 import time
@@ -19,7 +20,8 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-_AUDIO_DIR = Path("src/maestro/static/audio")
+_AUDIO_DIR = Path(__file__).parent / "static" / "audio"
+_synth_locks: dict[Path, asyncio.Lock] = {}
 
 
 @lru_cache(maxsize=1)
@@ -42,7 +44,7 @@ def _build_ssml(text: str) -> str:
     from maestro.config import settings
 
     voice = settings.AZURE_TTS_VOICE
-    lang = voice[:5]  # "it-IT" from "it-IT-IsabellaNeural"
+    lang = "-".join(voice.split("-")[:2])  # "it-IT" from "it-IT-IsabellaNeural"
     return (
         f'<speak version="1.0" xml:lang="{lang}">'
         f'<voice name="{voice}">{escape(text)}</voice>'
@@ -97,12 +99,18 @@ async def generate_word_audio(word: str) -> Optional[str]:
     url = f"/static/audio/{path.name}"
     if path.exists():
         return url
-    try:
-        await _synth_to_file(word, path)
-        return url
-    except Exception:
-        logger.warning("word TTS synthesis failed", extra={"word": word}, exc_info=True)
-        return None
+    lock = _synth_locks.setdefault(path, asyncio.Lock())
+    async with lock:
+        if path.exists():  # re-check after acquiring
+            return url
+        try:
+            await _synth_to_file(word, path)
+            return url
+        except Exception:
+            logger.warning(
+                "word TTS synthesis failed", extra={"word": word}, exc_info=True
+            )
+            return None
 
 
 async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional[str]:
@@ -114,13 +122,17 @@ async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional
     url = f"/static/audio/{path.name}"
     if path.exists():
         return url
-    try:
-        await _synth_to_file(text, path)
-        return url
-    except Exception:
-        logger.warning(
-            "lesson TTS synthesis failed",
-            extra={"lesson_id": lesson_id, "idx": idx},
-            exc_info=True,
-        )
-        return None
+    lock = _synth_locks.setdefault(path, asyncio.Lock())
+    async with lock:
+        if path.exists():  # re-check after acquiring
+            return url
+        try:
+            await _synth_to_file(text, path)
+            return url
+        except Exception:
+            logger.warning(
+                "lesson TTS synthesis failed",
+                extra={"lesson_id": lesson_id, "idx": idx},
+                exc_info=True,
+            )
+            return None
