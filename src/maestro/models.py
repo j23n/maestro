@@ -149,6 +149,8 @@ class VocabularyWordDefinition(Document):
     senses: List[CefrSense]
     translation: str  # single English word or short phrase
     language: str = "it"
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
     class Settings:
         name = "vocabulary_word_definitions"
