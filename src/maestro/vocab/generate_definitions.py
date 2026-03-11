@@ -31,6 +31,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.prompts import vocab as _prompts
+from maestro.utils import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +137,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
         if existing:
             existing.senses = senses
             existing.translation = translation
+            existing.updated_at = utcnow()
             await existing.save()
             logger.info("updated definition", extra={"word": word.word, "level": level})
         else:
@@ -144,6 +146,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
                 student_level=level,
                 senses=senses,
                 translation=translation,
+                created_at=utcnow(),
             ).insert()
             logger.info("saved definition", extra={"word": word.word, "level": level})
 
