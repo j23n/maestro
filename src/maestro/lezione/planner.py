@@ -327,10 +327,36 @@ async def _generate_lesson_background(
         for gp in grammar_gps
     ]
 
-    # --- Pick grammar points for drills ---
+    # --- Build drill specs tied to the lesson's grammar points ---
+    # Distribute drills evenly across grammar_gps so each GP gets its own drills.
+    # This ensures drills are always tied to covered grammar (goals 4 & 5).
     drill_count = slots.get(ActivityType.DRILL, 0)
     drill_specs: list[dict] = []
-    if drill_count > 0:
+    if drill_count > 0 and grammar_gps:
+        drills_per_gp = drill_count // len(grammar_gps)
+        remainder = drill_count % len(grammar_gps)
+        chunk_cache: dict[str, str] = {}
+        for i, gp in enumerate(grammar_gps):
+            count = drills_per_gp + (1 if i < remainder else 0)
+            if gp.chunk_ref and gp.chunk_ref not in chunk_cache:
+                chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
+                chunk_cache[gp.chunk_ref] = chunk.content[:500] if chunk else ""
+            chunk_excerpt = chunk_cache.get(gp.chunk_ref or "", "")
+            for _ in range(count):
+                exercise_type = random.choice(
+                    [ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION]
+                )
+                drill_specs.append(
+                    {
+                        "grammar_point_code": gp.code,
+                        "gp_label": gp.label,
+                        "exercise_type": exercise_type,
+                        "rag_excerpt": chunk_excerpt,
+                        "chunk_ref": gp.chunk_ref,
+                    }
+                )
+    elif drill_count > 0:
+        # Fallback: no grammar_gps selected, pick independently
         gps_for_drills = await pick_grammar_points(
             profile, cefr_level, drill_count, candidate_codes=gp_candidate_codes
         )

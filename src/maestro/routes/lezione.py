@@ -30,6 +30,7 @@ from maestro.learning.weakness import (
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
+from maestro.i18n import t
 from maestro import taxonomy
 from maestro.templates import templates
 from maestro.utils import create_background_task, utcnow
@@ -347,9 +348,15 @@ async def lezione_activity(
             url=activity_url(lesson_id, lesson.current_index), status_code=303
         )
 
-    total = len(lesson.activities)
-
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
+
+    # Completed non-grammar activities are not revisitable — redirect to current activity
+    if is_review and activity.type != ActivityType.GRAMMAR:
+        return RedirectResponse(
+            url=activity_url(lesson_id, lesson.current_index), status_code=303
+        )
+
+    total = len(lesson.activities)
 
     ctx = {
         "lesson": lesson,
@@ -569,9 +576,33 @@ async def lezione_drill_submit(
         answers if drill.items else (answers[0] if answers else "")
     )
 
-    correct, event, feedback, rule_refs = await score_attempt(
-        drill, student_input, student_id=student.id, lesson_id=lesson.id
-    )
+    try:
+        correct, event, feedback, rule_refs = await score_attempt(
+            drill, student_input, student_id=student.id, lesson_id=lesson.id
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"correct": None, "student_answer": ""}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": drill,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
 
     stored_answer = (
         json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
@@ -592,6 +623,14 @@ async def lezione_drill_submit(
         event.activity_index = idx
         event.student_text = stored_answer
         await event.insert()
+        logger.debug(
+            "drill event stored",
+            extra={
+                "lesson_id": str(lesson.id),
+                "grammar_errors": event.grammar_errors,
+                "grammar_correct": event.grammar_correct,
+            },
+        )
 
     drill_result: dict = {"correct": correct, "student_answer": stored_answer}
 
@@ -722,13 +761,38 @@ async def lezione_writing_submit(
     profile = await get_profile(student.id)
     cefr_level = profile.cefr_estimate if profile else "A0"
 
-    feedback = await generate_writing_feedback(
-        activity.content or "",
-        answer,
-        cefr_level,
-        student_id=student.id,
-        lesson_id=lesson.id,
-    )
+    try:
+        feedback = await generate_writing_feedback(
+            activity.content or "",
+            answer,
+            cefr_level,
+            student_id=student.id,
+            lesson_id=lesson.id,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for writing",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(lesson, idx, result={"student_answer": answer})
+        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": None,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+                "is_writing": True,
+            },
+        )
 
     await taxonomy.ensure_loaded()
     valid_codes = {g.code for g in taxonomy.grammar_points()}
@@ -746,6 +810,14 @@ async def lezione_writing_submit(
         ],
     )
     await event.insert()
+    logger.debug(
+        "writing event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "grammar_errors": event.grammar_errors,
+            "grammar_correct": event.grammar_correct,
+        },
+    )
 
     writing_result = {"student_answer": answer}
     next_url = await advance_lesson(lesson, idx, result=writing_result)
@@ -790,14 +862,41 @@ async def lezione_reading_submit(
 
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
-    overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
-        questions,
-        correct_answers,
-        answers,
-        cefr_level=lesson.cefr_at_start,
-        student_id=student.id,
-        lesson_id=lesson.id,
-    )
+
+    try:
+        overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
+            questions,
+            correct_answers,
+            answers,
+            cefr_level=lesson.cefr_at_start,
+            student_id=student.id,
+            lesson_id=lesson.id,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for reading",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answers": answers, "correct": None}
+        )
+        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": None,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
 
     joined_answers = " | ".join(a for a in answers if a)
     event = LearningEvent(
@@ -877,6 +976,25 @@ async def lezione_complete(
     ):
         graduated_to = profile.cefr_estimate
 
+    # Collect grammar points covered in this lesson (preserving block order)
+    covered_gp_codes = [
+        a.grammar_point_code
+        for a in lesson.activities
+        if a.type == ActivityType.GRAMMAR and a.grammar_point_code
+    ]
+    if covered_gp_codes:
+        gp_by_code = {
+            gp.code: gp
+            for gp in await GrammarPoint.find(
+                {"code": {"$in": covered_gp_codes}}
+            ).to_list()
+        }
+        covered_grammar_points = [
+            gp_by_code[c] for c in covered_gp_codes if c in gp_by_code
+        ]
+    else:
+        covered_grammar_points = []
+
     return templates.TemplateResponse(
         request=request,
         name="lezione-complete.html",
@@ -885,6 +1003,7 @@ async def lezione_complete(
             "completed_count": completed_count,
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
+            "covered_grammar_points": covered_grammar_points,
             "annotated_feedback": annotated_feedback,
             "graduated_to": graduated_to,
         },

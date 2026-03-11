@@ -1,36 +1,32 @@
 {# Shared progress bar partial — include in every activity template #}
 {# Expects: lesson, idx, total #}
 
-{# Find grammar activity index (namespace required for loop-scope assignment) #}
-{% set ns = namespace(grammar_idx=-1) %}
-{% for a in lesson.activities %}
-  {% if a.type == 'grammar' %}
-    {% set ns.grammar_idx = loop.index0 %}
-  {% endif %}
-{% endfor %}
-
 <div class="lesson-progress">
   <div class="progress-segments">
     {% for a in lesson.activities %}
     {% set is_done = a.status in ('completed', 'skipped') %}
     {% set is_current_view = (loop.index0 == idx) %}
+    {% set is_grammar = (a.type == 'grammar') %}
     {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
-    {% if is_done and not is_current_view %}
+    {% set grammar_class %}{% if is_grammar %} grammar-seg{% endif %}{% endset %}
+    {# Only grammar activities are clickable when completed #}
+    {% if is_done and not is_current_view and is_grammar %}
     <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
-       class="progress-seg {{ seg_class }}" title="{{ a.title }}"></a>
+       class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></a>
     {% else %}
-    <div class="progress-seg {{ seg_class }}" title="{{ a.title }}"></div>
+    <div class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></div>
     {% endif %}
     {% endfor %}
   </div>
   <div class="progress-footer">
     <div class="progress-label">
-      {% set grammar_activity = lesson.activities[ns.grammar_idx] if ns.grammar_idx >= 0 else none %}
-      {# Show pill only once grammar is done — intentionally hidden while pending/active #}
-      {% if ns.grammar_idx >= 0 and ns.grammar_idx != idx and grammar_activity and grammar_activity.status in ('completed', 'skipped') %}
-      <a href="/lezione/{{ lesson.id }}/activity/{{ ns.grammar_idx }}"
-         class="grammar-link">{{ t("grammar_label") }}</a>
-      {% endif %}
+      {# Show a pill for each completed grammar activity as a quick review shortcut #}
+      {% for a in lesson.activities %}
+        {% if a.type == 'grammar' and loop.index0 != idx and a.status in ('completed', 'skipped') %}
+        <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
+           class="grammar-link">{{ a.grammar_label or a.title }}</a>
+        {% endif %}
+      {% endfor %}
       {{ t("progress_label", current=idx + 1, total=total) }}
     </div>
     <button class="abandon-link"
