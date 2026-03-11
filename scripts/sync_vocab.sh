@@ -89,32 +89,63 @@ if [[ "$SKIP_DB" == false ]]; then
         const src = connect(process.env.SRC_URI);
         const dst = connect(process.env.DST_URI);
 
-        const srcCount = src.getCollection("vocabulary_word_definitions").countDocuments();
-        print("    Source docs: " + srcCount);
+        // Build word ID → word string lookups for both sides
+        function buildWordLookup(db) {
+            const m = new Map();
+            db.getCollection("vocabulary_words").find({}, { word: 1 }).forEach(d => {
+                m.set(d._id.toString(), d.word);
+            });
+            return m;
+        }
+        const srcWords = buildWordLookup(src);
+        const dstWords = buildWordLookup(dst);
+        print("    Source vocabulary_words: " + srcWords.size);
+        print("    Destination vocabulary_words: " + dstWords.size);
 
-        // Index destination docs by (word, student_level)
+        const srcCount = src.getCollection("vocabulary_word_definitions").countDocuments();
+        print("    Source definitions: " + srcCount);
+
+        // Index destination defs by (word_string, student_level)
         const dstDocs = new Map();
         dst.getCollection("vocabulary_word_definitions").find(
             {}, { word: 1, student_level: 1, updated_at: 1, created_at: 1 }
         ).forEach(d => {
-            const key = d.word.toString() + "|" + d.student_level;
-            dstDocs.set(key, d);
+            const wordId = (d.word.oid || d.word.$id || d.word).toString();
+            const wordStr = dstWords.get(wordId);
+            if (wordStr) {
+                const key = wordStr + "|" + d.student_level;
+                dstDocs.set(key, d);
+            }
         });
-        print("    Destination docs: " + dstDocs.size);
+        print("    Destination definitions: " + dstDocs.size);
+
+        // Reverse lookup: word string → destination ObjectId
+        const dstWordsByName = new Map();
+        for (const [id, w] of dstWords) dstWordsByName.set(w, id);
 
         // Use updated_at if available, fall back to created_at
         function ts(doc) { return doc.updated_at || doc.created_at; }
 
         let added = 0, updated = 0, skipped = 0, errors = 0;
         src.getCollection("vocabulary_word_definitions").find().forEach(doc => {
-            const key = doc.word.toString() + "|" + doc.student_level;
+            const wordId = (doc.word.oid || doc.word.$id || doc.word).toString();
+            const wordStr = srcWords.get(wordId);
+            if (!wordStr) { skipped++; return; }
+            const key = wordStr + "|" + doc.student_level;
             const existing = dstDocs.get(key);
 
             try {
                 if (!existing) {
-                    const { _id, ...rest } = doc;
-                    dst.getCollection("vocabulary_word_definitions").insertOne(rest);
-                    added++;
+                    // Find the matching word ID on the destination side
+                    const dstId = dstWordsByName.get(wordStr);
+                    if (!dstId) {
+                        skipped++;  // word does not exist on destination
+                    } else {
+                        const { _id, ...rest } = doc;
+                        rest.word = DBRef("vocabulary_words", ObjectId(dstId));
+                        dst.getCollection("vocabulary_word_definitions").insertOne(rest);
+                        added++;
+                    }
                 } else if (ts(doc) && ts(existing) && ts(doc) > ts(existing)) {
                     const { _id, ...rest } = doc;
                     dst.getCollection("vocabulary_word_definitions").replaceOne(
@@ -156,18 +187,26 @@ if [[ "$SKIP_AUDIO" == false ]]; then
         echo "==> Audio: downloading to $LOCAL_AUDIO_DIR"
         mkdir -p "$LOCAL_AUDIO_DIR"
 
-        echo "    Fetching word list from source DB..."
+        echo "    Fetching words with definitions from source DB..."
         AUDIO_PATHS=$(mongosh --quiet "$FROM" --eval '
             function slugify(text) {
                 return text.toLowerCase()
                     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                     .replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
             }
-            const paths = [];
-            db.vocabulary_words.find({}, { word: 1, _id: 0 }).forEach(d => {
-                paths.push("/static/audio/word_" + slugify(d.word) + ".wav");
+            // Get word IDs that have definitions (these are the ones with audio)
+            const wordIds = new Set();
+            db.vocabulary_word_definitions.find({}, { word: 1 }).forEach(d => {
+                const id = d.word.oid || d.word.$id || d.word;
+                wordIds.add(id.toString());
             });
-            print("    Words in DB: " + paths.length);
+            const paths = [];
+            db.vocabulary_words.find({}, { word: 1 }).forEach(d => {
+                if (wordIds.has(d._id.toString())) {
+                    paths.push("/static/audio/word_" + slugify(d.word) + ".wav");
+                }
+            });
+            print("    Words with definitions (may have audio): " + paths.length);
             paths.forEach(p => print(p));
         ' 2>&1) || {
             echo "ERROR: Failed to query audio paths from source DB." >&2
@@ -204,9 +243,11 @@ if [[ "$SKIP_AUDIO" == false ]]; then
 
         echo "    Result: downloaded=$COUNT existed=$SKIPPED failed=$FAILED"
 
-        if [[ "$FAILED" -gt 0 ]]; then
-            echo "ERROR: $FAILED audio file(s) failed to download." >&2
+        if [[ "$FAILED" -gt 0 && "$COUNT" -eq 0 && "$SKIPPED" -eq 0 ]]; then
+            echo "ERROR: all $FAILED audio file(s) failed to download." >&2
             exit 3
+        elif [[ "$FAILED" -gt 0 ]]; then
+            echo "    NOTE: $FAILED file(s) not found on remote (TTS may not have run yet)."
         fi
         echo "==> Audio sync complete."
     else
