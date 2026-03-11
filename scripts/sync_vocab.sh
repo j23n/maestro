@@ -85,9 +85,9 @@ if [[ "$SKIP_DB" == false ]]; then
     echo "==> Syncing vocabulary_word_definitions..."
 
     echo "    Connecting to source and destination databases..."
-    SYNC_OUTPUT=$(mongosh --quiet --eval '
-        const src = connect(process.argv[1]);
-        const dst = connect(process.argv[2]);
+    SYNC_OUTPUT=$(SRC_URI="$FROM" DST_URI="$TO" mongosh --quiet --nodb --eval '
+        const src = connect(process.env.SRC_URI);
+        const dst = connect(process.env.DST_URI);
 
         const srcCount = src.getCollection("vocabulary_word_definitions").countDocuments();
         print("    Source docs: " + srcCount);
@@ -132,7 +132,7 @@ if [[ "$SKIP_DB" == false ]]; then
 
         print("    Result: added=" + added + " updated=" + updated + " skipped=" + skipped + " errors=" + errors);
         if (errors > 0) quit(1);
-    ' "$FROM" "$TO" 2>&1) || {
+    ' 2>&1) || {
         echo "$SYNC_OUTPUT"
         echo "ERROR: DB sync failed." >&2
         exit 2
@@ -157,7 +157,7 @@ if [[ "$SKIP_AUDIO" == false ]]; then
         mkdir -p "$LOCAL_AUDIO_DIR"
 
         echo "    Fetching audio list from source DB..."
-        AUDIO_PATHS=$(mongosh --quiet --eval '
+        AUDIO_PATHS=$(mongosh --quiet "$FROM" --eval '
             const paths = [];
             db.vocabulary_words.find(
                 { audio_path: { $ne: null } },
@@ -165,7 +165,7 @@ if [[ "$SKIP_AUDIO" == false ]]; then
             ).forEach(d => paths.push(d.audio_path));
             print("    Words with audio: " + paths.length);
             paths.forEach(p => print(p));
-        ' "$FROM" 2>&1) || {
+        ' 2>&1) || {
             echo "ERROR: Failed to query audio paths from source DB." >&2
             echo "$AUDIO_PATHS" >&2
             exit 2
