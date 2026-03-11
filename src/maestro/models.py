@@ -344,7 +344,9 @@ class LessonActivity(BaseModel):
         None  # shown after onboarding submit, supports {answer} placeholder
     )
     grammar_point_code: Optional[str] = None
-    label: Optional[str] = None  # short label for grammar activities (e.g. "Articoli")
+    grammar_label: Optional[str] = (
+        None  # short label for grammar activities (e.g. "Articoli")
+    )
     audio_path: Optional[str] = None  # /static/audio/lesson_{id}_{idx}.wav
 
 

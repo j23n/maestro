@@ -350,6 +350,12 @@ async def lezione_activity(
 
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
+    # Completed non-grammar activities are not revisitable — redirect to current activity
+    if is_review and activity.type != ActivityType.GRAMMAR:
+        return RedirectResponse(
+            url=activity_url(lesson_id, lesson.current_index), status_code=303
+        )
+
     total = len(lesson.activities)
 
     ctx = {
@@ -769,6 +775,7 @@ async def lezione_writing_submit(
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
         next_url = await advance_lesson(lesson, idx, result={"student_answer": answer})
+        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
         return templates.TemplateResponse(
             request=request,
             name="lezione-drill-result.html",
@@ -873,6 +880,7 @@ async def lezione_reading_submit(
         next_url = await advance_lesson(
             lesson, idx, result={"student_answers": answers, "correct": None}
         )
+        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
         return templates.TemplateResponse(
             request=request,
             name="lezione-drill-result.html",

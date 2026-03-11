@@ -258,6 +258,9 @@ a.progress-seg { display: block; text-decoration: none; }
 .progress-seg.grammar-seg.completed:hover { opacity: 0.8; }
 .progress-seg.grammar-seg.current { background: var(--c-terracotta); opacity: 1; }
 
+/* Scoring-unavailable banner */
+.result-unavailable { background: #fef3cd; color: #856404; border: 1px solid #ffc107; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+
 /* Grammar quick-link in progress footer */
 .grammar-link {
   display: inline-block;
