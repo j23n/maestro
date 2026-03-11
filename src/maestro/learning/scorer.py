@@ -90,7 +90,7 @@ async def _score_single(
     student_id=None,
     lesson_id=None,
 ) -> dict:
-    """LLM call -> JSON parse -> ScoringResult validation. Raises on failure."""
+    """LLM call -> JSON parse -> ScoringResult validation."""
     await taxonomy.ensure_loaded()
     logger.debug(f"{label} prompt: {prompt}")
     response = await llm_messages_create(
@@ -143,7 +143,7 @@ async def _score_multi(
     student_id=None,
     lesson_id=None,
 ) -> list[dict]:
-    """LLM call -> JSON array parse -> per-item ScoringResult validation. Raises on failure."""
+    """LLM call -> JSON array parse -> per-item ScoringResult validation."""
     if n == 0:
         return []
     await taxonomy.ensure_loaded()
