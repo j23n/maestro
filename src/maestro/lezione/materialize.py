@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import random
+from typing import Optional
 
 from maestro.models import (
     LessonActivity,
@@ -62,16 +63,7 @@ async def materialize_activities(
             explanation_content = exp.explanation
             grammar_title = exp.title or gp.label
         else:
-            # Fallback: load chunk content directly
-            if gp.chunk_ref:
-                chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
-                explanation_content = (
-                    lang_wrap(chunk.content, _settings.TARGET_LANGUAGE)
-                    if chunk
-                    else gp.label
-                )
-            else:
-                explanation_content = gp.label
+            explanation_content = gp.label
             grammar_title = gp.label
         grammar_activities.append(
             LessonActivity(
@@ -81,6 +73,7 @@ async def materialize_activities(
                 duration_minutes=3,
                 content=explanation_content,
                 grammar_point_code=gp.code,
+                label=gp.label,
             )
         )
 
@@ -229,15 +222,13 @@ async def materialize_activities(
     # Group drills by their grammar_point_code
     drills_by_gp: dict[str, list[LessonActivity]] = {}
     for act in drill_activities:
-        key = act.grammar_point_code or ""
-        drills_by_gp.setdefault(key, []).append(act)
-
-    unassigned = drills_by_gp.get("", [])
-    if unassigned:
-        logger.warning(
-            "drills with no grammar_point_code will be dropped from block assembly",
-            extra={"count": len(unassigned)},
-        )
+        if not act.grammar_point_code:
+            logger.error(
+                "drill has no grammar_point_code — dropped",
+                extra={"title": act.title},
+            )
+            continue
+        drills_by_gp.setdefault(act.grammar_point_code, []).append(act)
 
     # Pool all reading/listening to distribute across blocks
     all_readings = listening_activities + reading_activities

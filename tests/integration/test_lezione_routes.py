@@ -723,3 +723,104 @@ async def test_free_tier_limit_response_contains_upgrade_text(
     )
     assert response.status_code == 402
     assert "Limite raggiunto" in response.text
+
+
+# ---------------------------------------------------------------------------
+# Scoring failure → user-friendly message tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+def test_drill_scoring_failure_returns_unavailable(test_app, active_lesson_with_drill):
+    """When score_attempt raises, user sees scoring_unavailable message."""
+    lesson, drill = active_lesson_with_drill
+
+    with patch(
+        "maestro.routes.lezione.score_attempt",
+        new_callable=AsyncMock,
+        side_effect=RuntimeError("LLM down"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/drill-submit",
+            data={"answers": "vado"},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text
+
+
+@pytest.mark.integration
+async def test_writing_scoring_failure_returns_unavailable(test_app, db, student):
+    """When generate_writing_feedback raises, user sees scoring_unavailable message."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.WRITING,
+                title="Scrittura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="Descrivi la tua giornata.",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.routes.lezione.generate_writing_feedback",
+        new_callable=AsyncMock,
+        side_effect=ValueError("bad LLM response"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/writing-submit",
+            data={"answer": "Oggi ho mangiato la pizza."},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text
+
+
+@pytest.mark.integration
+async def test_reading_scoring_failure_returns_unavailable(test_app, db, student):
+    """When score_reading_activity raises, user sees scoring_unavailable message."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        cefr_at_start="A1",
+        activities=[
+            LessonActivity(
+                type=ActivityType.READING,
+                title="Lettura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="Il gatto è sul tavolo.",
+                questions=["Dove è il gatto?"],
+                correct_answers=["Sul tavolo"],
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.routes.lezione.score_reading_activity",
+        new_callable=AsyncMock,
+        side_effect=ValueError("bad LLM response"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/reading-submit",
+            data={"answers": "Sul tavolo"},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text

@@ -3,7 +3,11 @@
 
 <div class="card">
 
-  {% if feedback and feedback is mapping and "items" in feedback %}
+  {% if feedback and feedback is mapping and "scoring_unavailable" in feedback %}
+    <div class="result-unavailable" style="background:#fef3cd;color:#856404;border:1px solid #ffc107;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:0.9rem;">
+      {{ feedback.scoring_unavailable }}
+    </div>
+  {% elif feedback and feedback is mapping and "items" in feedback %}
     {# ── Multi-item result ── #}
     {% set correct_count = feedback["correct_count"] %}
     {% set drill_total = feedback["total"] %}

@@ -50,6 +50,37 @@ async def test_malformed_llm_json_raises(mock_scorer_client, db):
 
 
 # ---------------------------------------------------------------------------
+# 1b. Malformed LLM JSON in writing scorer — raises (no silent fallback)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_malformed_llm_json_writing_raises(mock_scorer_client, db):
+    """When LLM returns non-JSON for writing feedback, generate_writing_feedback raises."""
+    from maestro.learning.scorer import generate_writing_feedback
+
+    gp = GrammarPoint(
+        code="GP001",
+        label="Test GP",
+        cefr_level="A1",
+        category="test",
+    )
+    await gp.insert()
+    taxonomy.seed([gp], [])
+
+    mock_scorer_client.messages.create.return_value = MagicMock(
+        content=[MagicMock(text="Not JSON")]
+    )
+
+    with pytest.raises(ValueError):
+        await generate_writing_feedback(
+            prompt="Descrivi la tua giornata.",
+            student_text="Oggi mangio pizza.",
+            cefr_level="A1",
+        )
+
+
+# ---------------------------------------------------------------------------
 # 2. Missing drill returns 404 from activity route
 # ---------------------------------------------------------------------------
 
