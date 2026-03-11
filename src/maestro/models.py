@@ -178,16 +178,14 @@ class GrammarExplanation(BaseModel):
     """Language-specific explanation for a grammar point, stored inline on GrammarPoint."""
 
     title: str = ""
-    tip: str = ""
+    tip: str = ""  # 2-3 sentence plain-language summary; shown as tooltip on incorrect usage in activity feedback
     explanation: str
     language: str = "en"  # "en" or "it"
 
 
 class GrammarPoint(Document):
     code: str
-    unistr_code: str = ""  # original verbose code before short-code migration
     label: str
-    unistr_label: str = ""  # original verbose label before short-label migration
     cefr_level: str
     category: str
     chunk_ref: Optional[str] = (

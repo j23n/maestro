@@ -18,15 +18,6 @@
       {{ annotated_content | safe }}
     </div>
 
-    {% if annotated_translation %}
-    <details class="grammar-translation">
-      <summary>{{ t("grammar_english_translation") }}</summary>
-      <div class="grammar-content">
-        {{ annotated_translation | safe }}
-      </div>
-    </details>
-    {% endif %}
-
     {% if chunk_ref %}
     <a href="/grammar/chunk/{{ chunk_ref }}" class="chunk-link">
       {{ t("grammar_full_rule") }}

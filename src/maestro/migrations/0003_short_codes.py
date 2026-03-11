@@ -20,29 +20,34 @@ Collections affected:
 
 from __future__ import annotations
 
+import json
 import logging
+
+from pymongo import UpdateOne
+
+from maestro.utils import data_dir
 
 logger = logging.getLogger(__name__)
 
 
 async def run(db) -> None:
     # ── Step 0: Build unistr_code → short code mapping ─────────────────────
-    unistr_to_code: dict[str, str] = {}
-    async for doc in db["grammar_points"].find(
-        {"unistr_code": {"$exists": True}},
-        {"code": 1, "unistr_code": 1},
-    ):
-        old = doc.get("unistr_code")
-        new = doc.get("code")
-        if old and new and old != new:
-            unistr_to_code[old] = new
+    # Primary source: grammar_points.json (reliable even after unistr_code is
+    # removed from the Beanie model, because the field lives in the JSON file).
+    with open(data_dir() / "grammar_points.json") as f:
+        gp_items = json.load(f)
 
-    # Pre-unistr_code A0 GPs: hand-written before the a0_* naming scheme, so they
-    # never got a unistr_code and the map above won't catch them.
-    # Each mapping was verified by comparing the old GP label against the new GP's
-    # label in grammar_points.json at migration time (March 2026). If any are wrong,
-    # correct them here and re-run the migration (it is idempotent).
-    _LEGACY_A0_MAP = {
+    unistr_to_code: dict[str, str] = {
+        item["unistr_code"]: item["code"]
+        for item in gp_items
+        if item.get("unistr_code") and item["unistr_code"] != item["code"]
+    }
+
+    # Pre-JSON-era codes that existed in the DB before the unistr_code scheme
+    # was introduced. Verified by comparing old GP labels against new GP labels
+    # in grammar_points.json at migration time (March 2026).
+    # Re-run the migration (it is idempotent) if any mapping is incorrect.
+    _LEGACY_MAP = {
         "presente_indicativo": "ind_pres",
         "aggettivi_qualificativi": "qual_o_a_e",
         "aggettivi_dimostrativi": "dem_questo",
@@ -51,13 +56,21 @@ async def run(db) -> None:
         "verbi_modali_lessicali": "percez_sig",
         "imperativo_formale": "imper_form",
     }
-    unistr_to_code.update(_LEGACY_A0_MAP)
+    unistr_to_code.update(_LEGACY_MAP)
+
+    # Guard: warn if any _LEGACY_MAP target code is not in the current GP set.
+    current_codes = {item["code"] for item in gp_items}
+    for old, new in _LEGACY_MAP.items():
+        if new not in current_codes:
+            logger.warning(
+                "0003: _LEGACY_MAP target %r not found in grammar_points.json "
+                "(old code %r) — verify the mapping is still correct",
+                new,
+                old,
+            )
 
     if not unistr_to_code:
-        logger.info(
-            "0003: no unistr_code fields found in grammar_points — "
-            "run generate_short_codes + ingest first, skipping"
-        )
+        logger.info("0003: unistr_to_code map is empty — nothing to remap, skipping")
         return
 
     logger.info(
@@ -65,7 +78,7 @@ async def run(db) -> None:
     )
 
     # ── Step 1: Migrate learning_profile dict keys ──────────────────────────
-    profile_updated = 0
+    ops: list[UpdateOne] = []
     async for doc in db["learning_profile"].find({}):
         set_ops: dict = {}
         unset_ops: dict = {}
@@ -88,15 +101,19 @@ async def run(db) -> None:
                 update["$set"] = set_ops
             if unset_ops:
                 update["$unset"] = unset_ops
-            await db["learning_profile"].update_one({"_id": doc["_id"]}, update)
-            profile_updated += 1
+            ops.append(UpdateOne({"_id": doc["_id"]}, update))
 
-    logger.info(
-        "0003: remapped profile dicts in %d learning_profile docs", profile_updated
-    )
+    if ops:
+        result = await db["learning_profile"].bulk_write(ops)
+        logger.info(
+            "0003: remapped profile dicts in %d learning_profile docs",
+            result.modified_count,
+        )
+    else:
+        logger.info("0003: no learning_profile docs needed remapping")
 
     # ── Step 2: Migrate learning_events lists ───────────────────────────────
-    event_updated = 0
+    ops = []
     async for doc in db["learning_events"].find({}):
         set_ops = {}
 
@@ -108,50 +125,64 @@ async def run(db) -> None:
                     set_ops[field] = new_list
 
         if set_ops:
-            await db["learning_events"].update_one(
-                {"_id": doc["_id"]}, {"$set": set_ops}
-            )
-            event_updated += 1
+            ops.append(UpdateOne({"_id": doc["_id"]}, {"$set": set_ops}))
 
-    logger.info("0003: remapped grammar lists in %d learning_event docs", event_updated)
+    if ops:
+        result = await db["learning_events"].bulk_write(ops)
+        logger.info(
+            "0003: remapped grammar lists in %d learning_event docs",
+            result.modified_count,
+        )
+    else:
+        logger.info("0003: no learning_event docs needed remapping")
 
     # ── Step 3: Migrate curriculum_scenarios gp_codes ───────────────────────
-    scenario_updated = 0
+    ops = []
     async for doc in db["curriculum_scenarios"].find({}):
         old_codes: list = doc.get("gp_codes") or []
         if not old_codes:
             continue
         new_codes = [unistr_to_code.get(c, c) for c in old_codes]
         if new_codes != old_codes:
-            await db["curriculum_scenarios"].update_one(
-                {"_id": doc["_id"]}, {"$set": {"gp_codes": new_codes}}
+            ops.append(
+                UpdateOne({"_id": doc["_id"]}, {"$set": {"gp_codes": new_codes}})
             )
-            scenario_updated += 1
 
-    logger.info(
-        "0003: remapped gp_codes in %d curriculum_scenario docs", scenario_updated
-    )
+    if ops:
+        result = await db["curriculum_scenarios"].bulk_write(ops)
+        logger.info(
+            "0003: remapped gp_codes in %d curriculum_scenario docs",
+            result.modified_count,
+        )
+    else:
+        logger.info("0003: no curriculum_scenario docs needed remapping")
 
     # ── Step 4: Migrate generated_drills ────────────────────────────────────
-    drill_updated = 0
+    ops = []
     async for doc in db["generated_drills"].find({}):
         old_code = doc.get("grammar_point_code")
         if not old_code or not isinstance(old_code, str):
             continue
         new_code = unistr_to_code.get(old_code)
         if new_code:
-            await db["generated_drills"].update_one(
-                {"_id": doc["_id"]},
-                {"$set": {"grammar_point_code": new_code}},
+            ops.append(
+                UpdateOne(
+                    {"_id": doc["_id"]},
+                    {"$set": {"grammar_point_code": new_code}},
+                )
             )
-            drill_updated += 1
 
-    logger.info(
-        "0003: remapped grammar_point_code in %d generated_drill docs", drill_updated
-    )
+    if ops:
+        result = await db["generated_drills"].bulk_write(ops)
+        logger.info(
+            "0003: remapped grammar_point_code in %d generated_drill docs",
+            result.modified_count,
+        )
+    else:
+        logger.info("0003: no generated_drill docs needed remapping")
 
     # ── Step 5: Migrate lessons (embedded activities) ───────────────────────
-    lesson_updated = 0
+    ops = []
     async for doc in db["lessons"].find({}):
         activities: list = doc.get("activities") or []
         set_ops = {}
@@ -164,10 +195,15 @@ async def run(db) -> None:
                     set_ops[f"activities.{idx}.grammar_point_code"] = new_code
 
         if set_ops:
-            await db["lessons"].update_one({"_id": doc["_id"]}, {"$set": set_ops})
-            lesson_updated += 1
+            ops.append(UpdateOne({"_id": doc["_id"]}, {"$set": set_ops}))
 
-    logger.info("0003: remapped grammar_point_code in %d lesson docs", lesson_updated)
+    if ops:
+        result = await db["lessons"].bulk_write(ops)
+        logger.info(
+            "0003: remapped grammar_point_code in %d lesson docs", result.modified_count
+        )
+    else:
+        logger.info("0003: no lesson docs needed remapping")
 
     # ── Step 6: Remove stale description field from grammar_points ──────────
     result = await db["grammar_points"].update_many({}, {"$unset": {"description": ""}})

@@ -42,7 +42,13 @@ def _make_db(applied_names: list[str] = None):
         return_value=MagicMock(modified_count=5)
     )
 
-    # Migration 0003 iterates grammar_points — empty cursor causes early return
+    # Migration 0003 iterates several collections — empty cursors so nothing needs remapping
+    def _empty_coll():
+        coll = MagicMock()
+        coll.find.return_value = _empty_cursor()
+        coll.bulk_write = AsyncMock(return_value=MagicMock(modified_count=0))
+        return coll
+
     grammar_points_coll = MagicMock()
     grammar_points_coll.find.return_value = _empty_cursor()
     grammar_points_coll.update_many = AsyncMock(
@@ -55,6 +61,10 @@ def _make_db(applied_names: list[str] = None):
             "drill_templates": drill_templates_coll,
             "generated_drills": generated_drills_coll,
             "grammar_points": grammar_points_coll,
+            "learning_profile": _empty_coll(),
+            "learning_events": _empty_coll(),
+            "curriculum_scenarios": _empty_coll(),
+            "lessons": _empty_coll(),
         }.get(name, MagicMock())
 
     db = MagicMock()
