@@ -18,12 +18,6 @@
       {{ annotated_content | safe }}
     </div>
 
-    {% if chunk_ref %}
-    <a href="/grammar/chunk/{{ chunk_ref }}" class="chunk-link">
-      {{ t("grammar_full_rule") }}
-    </a>
-    {% endif %}
-
     {% if activity.grammar_point_code %}
       {% set flag_call_type = "grammar_explanation" %}
       {% set flag_refs = {"grammar_point_code": activity.grammar_point_code, "cefr_level": lesson.cefr_at_start} | tojson %}
