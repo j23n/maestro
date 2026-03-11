@@ -185,16 +185,16 @@ if [[ "$SKIP_AUDIO" == false ]]; then
             dest="$LOCAL_AUDIO_DIR/$filename"
 
             if [[ -f "$dest" ]]; then
-                ((SKIPPED++))
+                ((SKIPPED++)) || true
                 continue
             fi
 
             if curl -fsSL -o "$dest" "$REMOTE_APP_URL$audio_path" 2>/dev/null; then
-                ((COUNT++))
+                ((COUNT++)) || true
             else
                 echo "    WARN: failed to download $filename from $REMOTE_APP_URL$audio_path" >&2
                 rm -f "$dest"
-                ((FAILED++))
+                ((FAILED++)) || true
             fi
         done <<< "$AUDIO_PATHS"
 
