@@ -19,6 +19,12 @@ from xml.sax.saxutils import escape
 
 import httpx
 
+from maestro.errors import (
+    APIRateLimitError,
+    APIStatusError,
+    APITimeoutError,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -83,12 +89,23 @@ async def _synth_to_file(text: str, path: Path) -> None:
     """Call Azure TTS REST API and write the WAV response to path."""
     client = _get_tts_client()
     t0 = time.monotonic()
-    response = await client.post(
-        "/cognitiveservices/v1",
-        content=_build_ssml(text).encode(),
-        headers={"Content-Type": "application/ssml+xml"},
-    )
-    response.raise_for_status()
+    try:
+        response = await client.post(
+            "/cognitiveservices/v1",
+            content=_build_ssml(text).encode(),
+            headers={"Content-Type": "application/ssml+xml"},
+        )
+        response.raise_for_status()
+    except httpx.TimeoutException as e:
+        raise APITimeoutError("Timeout", provider="azure") from e
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429:
+            raise APIRateLimitError("Rate limited", provider="azure") from e
+        raise APIStatusError(
+            f"API error {e.response.status_code}",
+            status_code=e.response.status_code,
+            provider="azure",
+        ) from e
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(response.content)
     logger.info(

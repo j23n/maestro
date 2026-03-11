@@ -13,10 +13,44 @@ import time
 from functools import lru_cache
 
 import anthropic
+import httpx
+from anthropic import (
+    APIStatusError as AnthropicAPIStatusError,
+    APITimeoutError as AnthropicAPITimeoutError,
+    RateLimitError,
+)
 from maestro.config import settings
+from maestro.errors import APIRateLimitError, APIStatusError, APITimeoutError
 from maestro.models import CallType, LLMUsageRecord
 
 logger = logging.getLogger(__name__)
+
+
+async def create_message(client, **kwargs):
+    """Thin wrapper around client.messages.create with error classification.
+
+    Translates Anthropic-specific errors into provider-agnostic errors from
+    maestro.errors so callers never import anthropic types directly.
+    """
+    try:
+        return await client.messages.create(**kwargs)
+    except RateLimitError as e:
+        logger.warning("llm_rate_limited", extra={"error": str(e)})
+        raise APIRateLimitError("Rate limited", provider="anthropic") from e
+    except AnthropicAPITimeoutError as e:
+        logger.warning("llm_timeout", extra={"error": str(e)})
+        raise APITimeoutError("Timeout", provider="anthropic") from e
+    except AnthropicAPIStatusError as e:
+        logger.error(
+            "llm_api_error",
+            extra={"status": e.status_code, "error": str(e)},
+        )
+        raise APIStatusError(
+            f"API error {e.status_code}",
+            status_code=e.status_code,
+            provider="anthropic",
+        ) from e
+
 
 # USD per 1M tokens. Rates verified 2026-03-09.
 # Source: https://www.anthropic.com/pricing
@@ -117,7 +151,8 @@ async def llm_messages_create(
     client = get_async_client()
     t0 = time.monotonic()
     try:
-        response = await client.messages.create(
+        response = await create_message(
+            client,
             model=model,
             messages=messages,
             max_tokens=max_tokens,
@@ -146,7 +181,8 @@ def get_client() -> anthropic.Anthropic:
     """Return a synchronous Anthropic client."""
     return anthropic.Anthropic(
         api_key=settings.ANTHROPIC_API_KEY,
-        max_retries=3,
+        max_retries=2,
+        timeout=httpx.Timeout(60.0, connect=5.0),
     )
 
 
@@ -155,5 +191,6 @@ def get_async_client() -> anthropic.AsyncAnthropic:
     """Return an asynchronous Anthropic client."""
     return anthropic.AsyncAnthropic(
         api_key=settings.ANTHROPIC_API_KEY,
-        max_retries=3,
+        max_retries=2,
+        timeout=httpx.Timeout(60.0, connect=5.0),
     )
