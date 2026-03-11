@@ -361,7 +361,7 @@ async def test_generate_word_audio_returns_none_on_api_unavailable(
     """generate_word_audio catches APIUnavailableError and returns None."""
     from maestro.errors import APITimeoutError
 
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         raise APITimeoutError("timed out", provider="azure")
@@ -379,7 +379,7 @@ async def test_generate_lesson_audio_returns_none_on_api_unavailable(
     """generate_lesson_audio catches APIUnavailableError and returns None."""
     from maestro.errors import APIRateLimitError
 
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         raise APIRateLimitError("rate limited", provider="azure")

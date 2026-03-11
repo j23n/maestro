@@ -231,29 +231,27 @@ def _make_anthropic_rate_limit_error():
 
 
 @pytest.mark.integration
-async def test_score_single_falls_back_on_api_unavailable(mock_scorer_client, db):
-    """generate_writing_feedback catches APIUnavailableError and returns objective_correct=True."""
+async def test_score_single_raises_on_api_unavailable(mock_scorer_client, db):
+    """generate_writing_feedback lets APIUnavailableError propagate to the caller."""
     from maestro.learning.scorer import generate_writing_feedback
 
     _seed_gp()
 
-    # LLM call raises RateLimitError → translated to APIRateLimitError by wrapper
     mock_scorer_client.messages.create = AsyncMock(
         side_effect=_make_anthropic_rate_limit_error()
     )
 
-    result = await generate_writing_feedback(
-        prompt="Write about your day",
-        student_text="Oggi ho mangiato una pizza.",
-        cefr_level="A1",
-    )
-
-    assert result["objective_correct"] is True
+    with pytest.raises(APIUnavailableError):
+        await generate_writing_feedback(
+            prompt="Write about your day",
+            student_text="Oggi ho mangiato una pizza.",
+            cefr_level="A1",
+        )
 
 
 @pytest.mark.integration
-async def test_score_multi_falls_back_on_api_unavailable(mock_scorer_client, db):
-    """score_multi_item_drill catches APIUnavailableError and returns fallback list."""
+async def test_score_multi_raises_on_api_unavailable(mock_scorer_client, db):
+    """score_multi_item_drill lets APIUnavailableError propagate to the caller."""
     from maestro.learning.scorer import score_multi_item_drill
 
     gp = _seed_gp("GP_MULTI")
@@ -267,34 +265,10 @@ async def test_score_multi_falls_back_on_api_unavailable(mock_scorer_client, db)
         DrillItem(prompt="Il ___ è bello", correct_answer="gatto"),
         DrillItem(prompt="La ___ è bella", correct_answer="casa"),
     ]
-    results = await score_multi_item_drill(
-        ExerciseType.FILL_BLANK, "GP_MULTI", items, ["cane", "porta"]
-    )
-
-    assert len(results) == 2
-    # Fallback returns objective_correct=False for all items
-    assert all(r["objective_correct"] is False for r in results)
-
-
-@pytest.mark.integration
-async def test_scorer_captures_sentry_on_api_unavailable(mock_scorer_client, db):
-    """On silent scorer fallback, sentry_sdk.capture_exception() is called."""
-    from maestro.learning.scorer import generate_writing_feedback
-
-    _seed_gp()
-
-    mock_scorer_client.messages.create = AsyncMock(
-        side_effect=_make_anthropic_rate_limit_error()
-    )
-
-    with patch("maestro.learning.scorer.sentry_sdk") as mock_sentry:
-        await generate_writing_feedback(
-            prompt="Write about your day",
-            student_text="Oggi ho mangiato una pizza.",
-            cefr_level="A1",
+    with pytest.raises(APIUnavailableError):
+        await score_multi_item_drill(
+            ExerciseType.FILL_BLANK, "GP_MULTI", items, ["cane", "porta"]
         )
-
-        mock_sentry.capture_exception.assert_called_once()
 
 
 # ---------------------------------------------------------------------------

@@ -9,11 +9,8 @@ from __future__ import annotations
 
 import logging
 
-import sentry_sdk
-
 from maestro import taxonomy
 from maestro.config import settings
-from maestro.errors import APIUnavailableError
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 
@@ -93,55 +90,47 @@ async def _score_single(
     student_id=None,
     lesson_id=None,
 ) -> dict:
-    """LLM call -> JSON parse -> ScoringResult validation.
-
-    Falls back to objective_correct=True on APIUnavailableError.
-    """
-    try:
-        await taxonomy.ensure_loaded()
-        logger.debug(f"{label} prompt: {prompt}")
-        response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
-            max_tokens=max_tokens,
-            system=_system_prompt(cefr_level),
-            messages=[{"role": "user", "content": prompt}],
-            entity_id=lesson_id,
-            call_type=CallType.SCORER_SINGLE,
-            student_id=student_id,
-        )
-        raw = response.content[0].text.strip()
-        logger.debug(f"{label} LLM response: {raw}")
-        data = parse_llm_json(raw)
-        if not isinstance(data, dict):
-            raise ValueError(f"unexpected LLM response shape: {raw!r}")
-        validated = ScoringResult.model_validate(data)
-        if validated.grammar_errors and not validated.grammar_error_codes:
-            logger.warning(
-                "grammar errors detected as freetext but no GP codes returned",
-                extra={
-                    "label": label,
-                    "lesson_id": str(lesson_id),
-                    "cefr_level": cefr_level,
-                    "grammar_errors": validated.grammar_errors,
-                },
-            )
-        logger.info(
-            "scoring result",
+    """LLM call -> JSON parse -> ScoringResult validation."""
+    await taxonomy.ensure_loaded()
+    logger.debug(f"{label} prompt: {prompt}")
+    response = await llm_messages_create(
+        model=settings.SCORING_MODEL,
+        max_tokens=max_tokens,
+        system=_system_prompt(cefr_level),
+        messages=[{"role": "user", "content": prompt}],
+        entity_id=lesson_id,
+        call_type=CallType.SCORER_SINGLE,
+        student_id=student_id,
+    )
+    raw = response.content[0].text.strip()
+    logger.debug(f"{label} LLM response: {raw}")
+    data = parse_llm_json(raw)
+    if not isinstance(data, dict):
+        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+    validated = ScoringResult.model_validate(data)
+    if validated.grammar_errors and not validated.grammar_error_codes:
+        logger.warning(
+            "grammar errors detected as freetext but no GP codes returned",
             extra={
                 "label": label,
                 "lesson_id": str(lesson_id),
                 "cefr_level": cefr_level,
-                "objective_correct": validated.objective_correct,
                 "grammar_errors": validated.grammar_errors,
-                "grammar_error_codes": validated.grammar_error_codes,
-                "grammar_correct_codes": validated.grammar_correct_codes,
             },
         )
-        return validated.model_dump()
-    except APIUnavailableError:
-        sentry_sdk.capture_exception()
-        logger.warning("scorer fallback: API unavailable", extra={"label": label})
-        return ScoringResult(objective_correct=True).model_dump()
+    logger.info(
+        "scoring result",
+        extra={
+            "label": label,
+            "lesson_id": str(lesson_id),
+            "cefr_level": cefr_level,
+            "objective_correct": validated.objective_correct,
+            "grammar_errors": validated.grammar_errors,
+            "grammar_error_codes": validated.grammar_error_codes,
+            "grammar_correct_codes": validated.grammar_correct_codes,
+        },
+    )
+    return validated.model_dump()
 
 
 async def _score_multi(
@@ -154,38 +143,28 @@ async def _score_multi(
     student_id=None,
     lesson_id=None,
 ) -> list[dict]:
-    """LLM call -> JSON array parse -> per-item ScoringResult validation.
-
-    Falls back to n copies of objective_correct=True on APIUnavailableError.
-    """
+    """LLM call -> JSON array parse -> per-item ScoringResult validation."""
     if n == 0:
         return []
-    try:
-        await taxonomy.ensure_loaded()
-        logger.debug(f"{label} prompt: {prompt}")
-        response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
-            max_tokens=max_tokens,
-            system=_system_prompt(cefr_level),
-            messages=[{"role": "user", "content": prompt}],
-            entity_id=lesson_id,
-            call_type=CallType.SCORER_MULTI,
-            student_id=student_id,
-        )
-        raw = response.content[0].text.strip()
-        logger.debug(f"{label} LLM response: {raw}")
-        result = parse_llm_json(raw)
-        if isinstance(result, dict) and n == 1:
-            result = [result]
-        if not isinstance(result, list) or len(result) != n:
-            raise ValueError(f"unexpected LLM response shape: {raw!r}")
-        return _validate_results(result, n, label)
-    except APIUnavailableError:
-        sentry_sdk.capture_exception()
-        logger.warning(
-            "scorer fallback: API unavailable", extra={"label": label, "n": n}
-        )
-        return [ScoringResult(objective_correct=False).model_dump() for _ in range(n)]
+    await taxonomy.ensure_loaded()
+    logger.debug(f"{label} prompt: {prompt}")
+    response = await llm_messages_create(
+        model=settings.SCORING_MODEL,
+        max_tokens=max_tokens,
+        system=_system_prompt(cefr_level),
+        messages=[{"role": "user", "content": prompt}],
+        entity_id=lesson_id,
+        call_type=CallType.SCORER_MULTI,
+        student_id=student_id,
+    )
+    raw = response.content[0].text.strip()
+    logger.debug(f"{label} LLM response: {raw}")
+    result = parse_llm_json(raw)
+    if isinstance(result, dict) and n == 1:
+        result = [result]
+    if not isinstance(result, list) or len(result) != n:
+        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+    return _validate_results(result, n, label)
 
 
 async def feedback_fill_blank(

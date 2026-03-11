@@ -112,6 +112,32 @@ def _extract_questions(soup: BeautifulSoup) -> list[str]:
 # ── Commands ────────────────────────────────────────────────────────────
 
 
+def login(email: str, password: str):
+    t0 = time.monotonic()
+    with httpx.Client(base_url=BASE_URL, timeout=TIMEOUT, follow_redirects=False) as c:
+        c.get("/auth/login")
+        csrf = c.cookies.get("csrftoken", "")
+        resp = c.post(
+            "/auth/login",
+            data={"email": email, "password": password},
+            headers={"x-csrftoken": csrf},
+        )
+        session = resp.cookies.get("session")
+        location = resp.headers.get("location", "")
+        if session:
+            _save_cookie({"session": session, "csrftoken": csrf})
+    elapsed = int((time.monotonic() - t0) * 1000)
+    _out(
+        {
+            "ok": bool(session),
+            "status": resp.status_code,
+            "email": email,
+            "redirected_to": location,
+            "elapsed_ms": elapsed,
+        }
+    )
+
+
 def create_student(name: str):
     t0 = time.monotonic()
     email = f"testbot-{int(time.time())}@example.com"
@@ -555,6 +581,7 @@ def get_profile():
 # ── Main dispatch ───────────────────────────────────────────────────────
 
 COMMANDS = {
+    "login": lambda args: login(args[0], args[1]),
     "create_student": lambda args: create_student(args[0]),
     "get_page": lambda args: get_page(args[0]),
     "start_lesson": lambda args: start_lesson(int(args[0]) if args else 20),
