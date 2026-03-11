@@ -6,28 +6,13 @@
   <a class="back-link" href="/grammar">&larr; {{ t("nav_grammar") }}</a>
   <div class="gp-header">
     <div class="gp-level">{{ gp.cefr_level }}</div>
-    <h1 class="gp-title" id="gp-title">{{ display_title | safe }}</h1>
-    {% if gp.chunk_ref %}
-    <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link">{{ t("grammar_from_manual") }}</a>
-    {% endif %}
+    <h1 class="gp-title">{{ display_title | safe }}</h1>
   </div>
 
-  {% if available_levels %}
-  <div class="graded-tabs">
-    {% for lvl in available_levels %}
-    <button class="graded-tab{% if lvl == active_level %} active{% endif %}"
-            onclick="showGrammarLevel('{{ lvl }}', this)">{{ lvl }}</button>
-    {% endfor %}
+  {% if content %}
+  <div class="grammar-content">
+    {{ content | safe }}
   </div>
-
-  {% for lvl in available_levels %}
-  <div class="graded-panel{% if lvl == active_level %} active{% endif %}" id="grammar-panel-{{ lvl }}"
-       data-title="{{ panels[lvl].title | striptags }}">
-    <div class="grammar-content">
-      {{ panels[lvl].content | safe }}
-    </div>
-  </div>
-  {% endfor %}
   {% else %}
   <div class="no-explanation">
     {{ t("grammar_no_explanation") }}
@@ -35,15 +20,4 @@
   {% endif %}
 
 </div>
-
-<script>
-function showGrammarLevel(level, btn) {
-  document.querySelectorAll('.grammar-detail .graded-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.grammar-detail .graded-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('grammar-panel-' + level).classList.add('active');
-  btn.classList.add('active');
-  var panel = document.getElementById('grammar-panel-' + level);
-  document.getElementById('gp-title').textContent = panel.dataset.title;
-}
-</script>
 {% endblock %}

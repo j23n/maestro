@@ -84,7 +84,7 @@ def build_lesson_content_prompt(
                 profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
             )
             gp_lines.append(
-                f"  - {gp.label} ({gp.code}) — {gp.description}\n"
+                f"  - {gp.label} ({gp.code})\n"
                 f"    Performance: {gp_correct} correct, {gp_errors} errors"
             )
         parts.append("Grammar activity points:\n" + "\n".join(gp_lines))
@@ -100,8 +100,7 @@ def build_lesson_content_prompt(
             drill_lines.append(
                 f"- grammar_point_code: {spec['grammar_point_code']}, "
                 f"exercise_type: {spec['exercise_type']}, "
-                f"label: {spec['gp_label']}, "
-                f"description: {spec['gp_description']}"
+                f"label: {spec['gp_label']}"
                 f"{rag_part}"
             )
         parts.append("Drills to generate:\n" + "\n".join(drill_lines))
@@ -123,20 +122,11 @@ def build_lesson_content_prompt(
         parts.append("\n\n".join(cf_lines_all))
 
     # Build the JSON schema description
-    motivation_lang = "English" if cefr_level in ("A1", "A2") else lang
     schema: dict = {
         "topic_title": f"A creative {lang} title for this lesson (3-8 words)",
         "topic_description": "1-2 sentences describing the specific situation covered",
         "overview": f"2-3 sentences in {lang}: what this lesson covers and what the student will gain",
     }
-    if grammar_gps:
-        schema["grammar_motivations"] = [
-            {
-                "code": gp.code,
-                "text": f"1-2 sentences in {motivation_lang}: why {gp.label} matters in real conversation",
-            }
-            for gp in grammar_gps
-        ]
     if drill_specs:
         example_drills = []
         for spec in drill_specs:

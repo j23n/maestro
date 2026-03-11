@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    MONGODB_URI: str = "mongodb://localhost:27017/maestro"
+    MONGO_URL: str = "mongodb://localhost:27017/maestro"
     MONGODB_DB: str = "maestro"
     ANTHROPIC_API_KEY: str
     SECRET_KEY: str

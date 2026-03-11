@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
 from maestro.auth import get_current_student
-from maestro.models import GrammarPoint, GrammarPointExplanation, GrammarChunk, Student
+from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, explanation_lang_for_level
 from maestro.config import settings as _settings
 from maestro.vocab.discover import discover_markdown
 
@@ -25,13 +25,14 @@ async def grammar_index(
 
     gps = await GrammarPoint.find({"cefr_level": {"$in": visible_levels}}).to_list()
 
-    # Load explanations for student's level, keyed by gp id
-    explanations = await GrammarPointExplanation.find(
-        {"student_level": student_level}
-    ).to_list()
-    titles: dict = {
-        str(ex.grammar_point.ref.id): ex.title or None for ex in explanations
-    }
+    # Build titles from inline explanations, keyed by gp id
+    student_lang = explanation_lang_for_level(student_level)
+    fallback_lang = "it" if student_lang == "en" else "en"
+    titles: dict = {}
+    for gp in gps:
+        expl = gp.explanations.get(student_lang) or gp.explanations.get(fallback_lang)
+        if expl and expl.title:
+            titles[str(gp.id)] = expl.title
 
     # Build nested dict: level → category → [gp, ...]
     grouped: dict[str, dict[str, list]] = {}
@@ -56,51 +57,33 @@ async def grammar_detail(
     if gp is None:
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
-    max_idx = (
-        CEFR_ORDER.index(student_level)
-        if student_level in CEFR_ORDER
-        else len(CEFR_ORDER) - 1
-    )
-    all_expls = await GrammarPointExplanation.find(
-        {"grammar_point.$id": gp.id}
-    ).to_list()
-    by_level = {
-        e.student_level: e
-        for e in all_expls
-        if CEFR_ORDER.index(e.student_level) <= max_idx
-    }
-    available_levels = sorted(by_level.keys(), key=lambda lvl: CEFR_ORDER.index(lvl))
-    active_level = (
-        student_level
-        if student_level in by_level
-        else (available_levels[-1] if available_levels else student_level)
+
+    # Pick the explanation at the student's language (en for A0-A2, it for B1-B2)
+    expl_lang = explanation_lang_for_level(student_level)
+    expl = gp.explanations.get(expl_lang) or next(
+        (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+        None,
     )
 
-    # Pre-render annotated markdown for each level
-    # B1/B2 explanations are fully in target language — add lang fallback
-    # so vocab discovery works even for old explanations without inline lang tags.
-    # A1/A2 are mixed-language and need inline tags from the LLM.
-    panels: dict[str, dict] = {}
-    for lvl, expl in by_level.items():
-        fallback_lang = _settings.TARGET_LANGUAGE if lvl in ("B1", "B2") else None
-        panels[lvl] = {
-            "title": expl.title or gp.label,
-            "content": await discover_markdown(
-                expl.explanation, student_id=student.id, lang=fallback_lang
-            ),
-        }
+    content = None
+    if expl:
+        # Italian explanations are fully in target language — add lang fallback for vocab discovery
+        fallback_lang = (
+            _settings.TARGET_LANGUAGE
+            if expl.language == _settings.TARGET_LANGUAGE
+            else None
+        )
+        content = await discover_markdown(
+            expl.explanation, student_id=student.id, lang=fallback_lang
+        )
 
-    display_title = (
-        panels[active_level]["title"] if active_level in panels else gp.label
-    )
+    display_title = (expl.title if expl and expl.title else None) or gp.label
     return templates.TemplateResponse(
         request=request,
         name="grammar-detail.html",
         context={
             "gp": gp,
-            "panels": panels,
-            "available_levels": available_levels,
-            "active_level": active_level,
+            "content": content,
             "display_title": display_title,
         },
     )

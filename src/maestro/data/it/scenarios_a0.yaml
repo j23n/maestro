@@ -9,8 +9,8 @@ scenarios:
       - a0_presentarsi
       - a0_dire_nome
     gp_codes:
-      - a0_saluti
-      - a0_mi_chiamo
+      - saluti
+      - mi_chiamo
     depths:
       - "Onboarding and first Italian words"
 
@@ -23,8 +23,8 @@ scenarios:
       - a0_salutare
       - a0_congedarsi
     gp_codes:
-      - a0_saluti
-      - a0_pronuncia
+      - saluti
+      - pronun_bas
     depths:
       - "Formal and informal greetings, goodbyes, time-of-day greetings"
 
@@ -36,7 +36,7 @@ scenarios:
     cf_codes:
       - a0_contare
     gp_codes:
-      - a0_numeri_0_20
+      - num_0_20
     depths:
       - "Counting, saying phone numbers, ordering quantities"
 
@@ -48,8 +48,8 @@ scenarios:
     cf_codes:
       - a0_rispondere_si_no
     gp_codes:
-      - a0_si_no_non
-      - a0_frase_semplice
+      - si_no_non
+      - simp_sent
     depths:
       - "Answering questions, simple affirmative and negative sentences"
 
@@ -63,8 +63,8 @@ scenarios:
       - a0_ringraziare
       - a0_scusarsi
     gp_codes:
-      - a0_vorrei
-      - a0_cortesia
+      - vorrei
+      - polite_exp
     depths:
       - "Polite requests, thanking, apologizing"
 
@@ -76,8 +76,8 @@ scenarios:
     cf_codes:
       - a0_identificare
     gp_codes:
-      - a0_articoli_il_la
-      - a0_che_cose
+      - art_il_la
+      - che_cose
     depths:
       - "Naming everyday objects, asking and answering what something is"
 
@@ -90,8 +90,8 @@ scenarios:
       - a0_presentarsi
       - a0_dire_nome
     gp_codes:
-      - a0_pronomi_soggetto
-      - a0_essere
+      - subj_pron
+      - essere_pre
     depths:
       - "Talking about yourself and others with io sono, tu sei, lui/lei e"
 
@@ -103,7 +103,7 @@ scenarios:
     cf_codes:
       - a0_esprimere_gusti
     gp_codes:
-      - a0_mi_piace
+      - mi_piace
     depths:
       - "Saying what you like and don't like"
 
@@ -115,8 +115,8 @@ scenarios:
     cf_codes:
       - a0_chiedere_dove
     gp_codes:
-      - a0_dove
-      - a0_preposizioni
+      - dove_e
+      - prep_place
     depths:
       - "Asking for locations, using a/in/di"
 
@@ -136,17 +136,17 @@ scenarios:
       - a0_esprimere_gusti
       - a0_chiedere_dove
     gp_codes:
-      - a0_saluti
-      - a0_numeri_0_20
-      - a0_si_no_non
-      - a0_vorrei
-      - a0_cortesia
-      - a0_articoli_il_la
-      - a0_pronomi_soggetto
-      - a0_essere
-      - a0_mi_piace
-      - a0_dove
-      - a0_preposizioni
-      - a0_mi_chiamo
+      - saluti
+      - num_0_20
+      - si_no_non
+      - vorrei
+      - polite_exp
+      - art_il_la
+      - subj_pron
+      - essere_pre
+      - mi_piace
+      - dove_e
+      - prep_place
+      - mi_chiamo
     depths:
       - "Full review of all A0 material"

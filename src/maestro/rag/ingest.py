@@ -207,7 +207,7 @@ def parse_chapter(filepath: Path, split_h3: bool = False) -> list[dict]:
     return chunks
 
 
-async def ingest_grammar_rules(client):
+async def ingest_grammar_rules(client, no_embed: bool = False):
     init_indices(client)
 
     all_chunks = []
@@ -235,19 +235,22 @@ async def ingest_grammar_rules(client):
     for i, c in enumerate(all_chunks):
         print(f"\t{c['ref']} length: {len(c['content'])}")
 
-    # use asymmetric embeddings for "multilingual-e5-large"
-    # https://huggingface.co/intfloat/multilingual-e5-large
-    enrichment = (
-        json.loads(ENRICHMENT_FILE.read_text()) if ENRICHMENT_FILE.exists() else {}
-    )
-    texts = [
-        f"passage: {enrichment[c['ref']]}\n\n{c['content']}"
-        if c["ref"] in enrichment
-        else f"passage: {c['content']}"
-        for c in all_chunks
-    ]
-
-    embeddings = get_model().encode(texts, batch_size=64, show_progress_bar=True)
+    if no_embed:
+        embeddings = [[] for _ in all_chunks]
+    else:
+        # use asymmetric embeddings for "multilingual-e5-large"
+        # https://huggingface.co/intfloat/multilingual-e5-large
+        enrichment = (
+            json.loads(ENRICHMENT_FILE.read_text()) if ENRICHMENT_FILE.exists() else {}
+        )
+        texts = [
+            f"passage: {enrichment[c['ref']]}\n\n{c['content']}"
+            if c["ref"] in enrichment
+            else f"passage: {c['content']}"
+            for c in all_chunks
+        ]
+        embeddings = get_model().encode(texts, batch_size=64, show_progress_bar=True)
+        embeddings = [e.tolist() for e in embeddings]
 
     chunks = []
     for chunk, embedding in zip(all_chunks, embeddings):
@@ -256,7 +259,7 @@ async def ingest_grammar_rules(client):
                 ref=chunk["ref"],
                 content=chunk["content"],
                 chunk_type=chunk["chunk_type"],
-                embedding=embedding.tolist(),
+                embedding=embedding,
                 chunk_metadata=chunk["metadata"],
             )
         )
@@ -267,11 +270,18 @@ async def ingest_grammar_rules(client):
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--no-embed", action="store_true", help="Skip vector embeddings"
+    )
+    args = parser.parse_args()
 
     async def main():
-        client = AsyncMongoClient(settings.MONGODB_URI)
+        client = AsyncMongoClient(settings.MONGO_URL)
         await init_db()
         await GrammarChunk.delete_all()
-        await ingest_grammar_rules(client)
+        await ingest_grammar_rules(client, no_embed=args.no_embed)
 
     asyncio.run(main())

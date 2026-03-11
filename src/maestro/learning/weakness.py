@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from maestro.models import GrammarPoint, GrammarPointExplanation, LearningProfile
-from maestro.utils import CEFR_ORDER
+from maestro.models import GrammarPoint, LearningProfile
+from maestro.utils import CEFR_ORDER, explanation_lang_for_level
 
 
 def build_grammar_by_level(
@@ -36,22 +36,17 @@ def build_grammar_by_level(
     return grammar_by_level
 
 
-async def build_gp_titles(
+def build_gp_titles(
     grammar_points: list[GrammarPoint],
     cefr: str,
 ) -> dict[str, str]:
-    """Build a {gp_code: explanation_title} map for the given level."""
-    gp_by_id = {gp.id: gp for gp in grammar_points}
-    expl_level = cefr if cefr != "A0" else "A1"
-    explanations = await GrammarPointExplanation.find(
-        {"student_level": expl_level}
-    ).to_list()
+    """Build a {gp_code: explanation_title} map using inline GP explanations."""
+    lang = explanation_lang_for_level(cefr)
+    fallback_lang = "it" if lang == "en" else "en"
     gp_titles: dict[str, str] = {}
-    for e in explanations:
-        ref = e.grammar_point
-        gp_id = ref.ref.id if hasattr(ref, "ref") else getattr(ref, "id", None)
-        if gp_id and gp_id in gp_by_id:
-            gp_titles[gp_by_id[gp_id].code] = e.title
+    for gp in grammar_points:
+        expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
+        gp_titles[gp.code] = expl.title if expl else gp.label
     return gp_titles
 
 
