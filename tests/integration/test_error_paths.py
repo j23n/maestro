@@ -3,8 +3,10 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx
 from beanie import PydanticObjectId
 
+from maestro.errors import APIUnavailableError
 from maestro.models import (
     DrillItem,
     ExerciseType,
@@ -197,3 +199,212 @@ async def test_activity_index_out_of_range(test_app, db, student):
     response = test_app.get(f"/lezione/{lesson.id}/activity/99", follow_redirects=False)
     assert response.status_code == 303
     assert f"/lezione/{lesson.id}/complete" in response.headers["location"]
+
+
+# ---------------------------------------------------------------------------
+# 6. Scorer falls back gracefully on APIUnavailableError
+# ---------------------------------------------------------------------------
+
+
+def _seed_gp(gp_code="GP_TEST"):
+    """Seed taxonomy with a single grammar point and return it."""
+    gp = GrammarPoint(
+        code=gp_code,
+        label="Test GP",
+        cefr_level="A1",
+        category="test",
+    )
+    taxonomy.seed([gp], [])
+    return gp
+
+
+def _make_anthropic_rate_limit_error():
+    """Build a real anthropic.RateLimitError for use as a side_effect."""
+    import anthropic
+
+    response = httpx.Response(
+        429, request=httpx.Request("POST", "https://api.anthropic.com")
+    )
+    return anthropic.RateLimitError(
+        message="rate limited", response=response, body=None
+    )
+
+
+@pytest.mark.integration
+async def test_score_single_falls_back_on_api_unavailable(mock_scorer_client, db):
+    """generate_writing_feedback catches APIUnavailableError and returns objective_correct=True."""
+    from maestro.learning.scorer import generate_writing_feedback
+
+    _seed_gp()
+
+    # LLM call raises RateLimitError → translated to APIRateLimitError by wrapper
+    mock_scorer_client.messages.create = AsyncMock(
+        side_effect=_make_anthropic_rate_limit_error()
+    )
+
+    result = await generate_writing_feedback(
+        prompt="Write about your day",
+        student_text="Oggi ho mangiato una pizza.",
+        cefr_level="A1",
+    )
+
+    assert result["objective_correct"] is True
+
+
+@pytest.mark.integration
+async def test_score_multi_falls_back_on_api_unavailable(mock_scorer_client, db):
+    """score_multi_item_drill catches APIUnavailableError and returns fallback list."""
+    from maestro.learning.scorer import score_multi_item_drill
+
+    gp = _seed_gp("GP_MULTI")
+    await gp.insert()
+
+    mock_scorer_client.messages.create = AsyncMock(
+        side_effect=_make_anthropic_rate_limit_error()
+    )
+
+    items = [
+        DrillItem(prompt="Il ___ è bello", correct_answer="gatto"),
+        DrillItem(prompt="La ___ è bella", correct_answer="casa"),
+    ]
+    results = await score_multi_item_drill(
+        ExerciseType.FILL_BLANK, "GP_MULTI", items, ["cane", "porta"]
+    )
+
+    assert len(results) == 2
+    # Fallback returns objective_correct=False for all items
+    assert all(r["objective_correct"] is False for r in results)
+
+
+@pytest.mark.integration
+async def test_scorer_captures_sentry_on_api_unavailable(mock_scorer_client, db):
+    """On silent scorer fallback, sentry_sdk.capture_exception() is called."""
+    from maestro.learning.scorer import generate_writing_feedback
+
+    _seed_gp()
+
+    mock_scorer_client.messages.create = AsyncMock(
+        side_effect=_make_anthropic_rate_limit_error()
+    )
+
+    with patch("maestro.learning.scorer.sentry_sdk") as mock_sentry:
+        await generate_writing_feedback(
+            prompt="Write about your day",
+            student_text="Oggi ho mangiato una pizza.",
+            cefr_level="A1",
+        )
+
+        mock_sentry.capture_exception.assert_called_once()
+
+
+# ---------------------------------------------------------------------------
+# 7. Lesson generation with APIUnavailableError
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_background_generation_api_unavailable_sets_error(db, student):
+    """APIUnavailableError from LLM sets generation_error and status=ABANDONED."""
+    from maestro.lezione.planner import generate_lesson_background
+    from maestro.models import CurriculumScenario
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    scenario = CurriculumScenario(
+        slug="test-api-error",
+        label="Test",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1", "d2", "d3"],
+    )
+    await scenario.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        generating=True,
+    )
+    await lesson.insert()
+
+    with patch("maestro.llm.get_async_client") as mock_client:
+        mock_client.return_value.messages.create = AsyncMock(
+            side_effect=_make_anthropic_rate_limit_error()
+        )
+
+        with pytest.raises(APIUnavailableError):
+            await generate_lesson_background(lesson.id, 20)
+
+    lesson = await Lesson.get(lesson.id)
+    assert lesson.generating is False
+    assert lesson.generation_error is not None
+    assert lesson.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+async def test_generation_error_message_is_user_friendly(db, student):
+    """The stored generation_error does not contain raw status codes or provider names."""
+    from maestro.lezione.planner import generate_lesson_background
+    from maestro.models import CurriculumScenario
+
+    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    await profile.insert()
+
+    scenario = CurriculumScenario(
+        slug="test-friendly-error",
+        label="Test",
+        description="",
+        cefr_level="A1",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1", "d2", "d3"],
+    )
+    await scenario.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        generating=True,
+    )
+    await lesson.insert()
+
+    with patch("maestro.llm.get_async_client") as mock_client:
+        mock_client.return_value.messages.create = AsyncMock(
+            side_effect=_make_anthropic_rate_limit_error()
+        )
+
+        with pytest.raises(APIUnavailableError):
+            await generate_lesson_background(lesson.id, 20)
+
+    lesson = await Lesson.get(lesson.id)
+    error_msg = lesson.generation_error.lower()
+    assert "429" not in error_msg
+    assert "anthropic" not in error_msg
+    assert "rate" not in error_msg
+
+
+# ---------------------------------------------------------------------------
+# 8. Generating page renders error with retry button
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_generating_page_shows_error_and_retry(test_app, db, student):
+    """Lesson with generation_error shows error text and retry button, not a 500."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ABANDONED,
+        generating=False,
+        generation_error="Content generation failed. Please try again.",
+        activities=[],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    assert response.status_code == 200
+    html = response.text
+    assert "Content generation failed" in html
+    assert "retry" in html.lower()

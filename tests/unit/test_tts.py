@@ -5,12 +5,16 @@ and _AUDIO_DIR is redirected to tmp_path.
 """
 
 import pytest
+from unittest.mock import AsyncMock, patch
+
+import httpx
 
 import maestro.tts as tts_module
 from maestro.tts import (
     _slugify,
     _word_audio_path,
     _lesson_audio_path,
+    _synth_to_file,
     generate_word_audio,
     generate_lesson_audio,
 )
@@ -280,3 +284,107 @@ async def test_generate_lesson_audio_different_indices_different_files(
     assert url0 != url1
     assert "lesson_lesson1_0.wav" in created
     assert "lesson_lesson1_1.wav" in created
+
+
+# ---------------------------------------------------------------------------
+# _synth_to_file — Azure error translation to provider-agnostic exceptions
+# ---------------------------------------------------------------------------
+
+
+def _mock_tts_client_with_error(side_effect):
+    """Return a mock httpx.AsyncClient whose .post raises side_effect."""
+    mock_client = AsyncMock(spec=httpx.AsyncClient)
+    mock_client.post = AsyncMock(side_effect=side_effect)
+    return mock_client
+
+
+@pytest.mark.unit
+async def test_synth_to_file_raises_api_timeout_on_httpx_timeout(tmp_path):
+    """httpx.TimeoutException is translated to our APITimeoutError."""
+    from maestro.errors import APITimeoutError
+
+    mock_client = _mock_tts_client_with_error(httpx.TimeoutException("read timed out"))
+
+    with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
+        with pytest.raises(APITimeoutError) as exc_info:
+            await _synth_to_file("ciao", tmp_path / "test.wav")
+
+    assert exc_info.value.provider == "azure"
+    assert isinstance(exc_info.value.__cause__, httpx.TimeoutException)
+
+
+@pytest.mark.unit
+async def test_synth_to_file_raises_api_rate_limit_on_429(tmp_path):
+    """httpx.HTTPStatusError with 429 is translated to APIRateLimitError."""
+    from maestro.errors import APIRateLimitError
+
+    request = httpx.Request("POST", "https://eastus.tts.speech.microsoft.com")
+    response = httpx.Response(429, request=request)
+    error = httpx.HTTPStatusError(
+        "429 Too Many Requests", request=request, response=response
+    )
+
+    mock_client = _mock_tts_client_with_error(error)
+
+    with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
+        with pytest.raises(APIRateLimitError) as exc_info:
+            await _synth_to_file("ciao", tmp_path / "test.wav")
+
+    assert exc_info.value.provider == "azure"
+
+
+@pytest.mark.unit
+async def test_synth_to_file_raises_api_status_error_on_500(tmp_path):
+    """httpx.HTTPStatusError with 500 is translated to our APIStatusError."""
+    from maestro.errors import APIStatusError
+
+    request = httpx.Request("POST", "https://eastus.tts.speech.microsoft.com")
+    response = httpx.Response(500, request=request)
+    error = httpx.HTTPStatusError(
+        "500 Internal Server Error", request=request, response=response
+    )
+
+    mock_client = _mock_tts_client_with_error(error)
+
+    with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
+        with pytest.raises(APIStatusError) as exc_info:
+            await _synth_to_file("ciao", tmp_path / "test.wav")
+
+    assert exc_info.value.status_code == 500
+    assert exc_info.value.provider == "azure"
+
+
+@pytest.mark.unit
+async def test_generate_word_audio_returns_none_on_api_unavailable(
+    tmp_path, monkeypatch
+):
+    """generate_word_audio catches APIUnavailableError and returns None."""
+    from maestro.errors import APITimeoutError
+
+    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+
+    async def fake_synth(text, path):
+        raise APITimeoutError("timed out", provider="azure")
+
+    monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
+
+    url = await generate_word_audio("ciao")
+    assert url is None
+
+
+@pytest.mark.unit
+async def test_generate_lesson_audio_returns_none_on_api_unavailable(
+    tmp_path, monkeypatch
+):
+    """generate_lesson_audio catches APIUnavailableError and returns None."""
+    from maestro.errors import APIRateLimitError
+
+    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+
+    async def fake_synth(text, path):
+        raise APIRateLimitError("rate limited", provider="azure")
+
+    monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
+
+    url = await generate_lesson_audio("Testo.", "abc123", 0)
+    assert url is None
