@@ -746,7 +746,7 @@ def test_drill_scoring_failure_returns_unavailable(test_app, active_lesson_with_
         )
 
     assert response.status_code == 200
-    assert "correzione automatica" in response.text
+    assert "Automatic scoring is temporarily unavailable" in response.text
 
 
 @pytest.mark.integration
@@ -783,7 +783,7 @@ async def test_writing_scoring_failure_returns_unavailable(test_app, db, student
         )
 
     assert response.status_code == 200
-    assert "correzione automatica" in response.text
+    assert "Automatic scoring is temporarily unavailable" in response.text
 
 
 @pytest.mark.integration
@@ -823,4 +823,4 @@ async def test_reading_scoring_failure_returns_unavailable(test_app, db, student
         )
 
     assert response.status_code == 200
-    assert "correzione automatica" in response.text
+    assert "Automatic scoring is temporarily unavailable" in response.text
