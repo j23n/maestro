@@ -110,12 +110,9 @@ async def vocab_entry(
             "generated definitions on-demand",
             extra={"word": word.word, "n_definitions": len(definitions)},
         )
-    # Generate audio on demand if missing
-    if word.audio_path is None:
-        audio_url = await generate_word_audio(word.word)
-        if audio_url:
-            word.audio_path = audio_url
-            await word.save()
+    # Generate audio on demand if file is missing
+    if word.audio_url is None:
+        await generate_word_audio(word.word)
     has_card = (
         await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
         is not None
@@ -133,7 +130,7 @@ async def vocab_entry(
             "definitions": definitions,
             "has_card": has_card,
             "student_level": student_level,
-            "audio_url": word.audio_path,
+            "audio_url": word.audio_url,
         },
     )
 
