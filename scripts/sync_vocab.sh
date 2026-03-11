@@ -8,10 +8,11 @@
 #
 # Usage:
 #   scripts/sync_vocab.sh pull                          # prod → local
+#   scripts/sync_vocab.sh pull --staging                # staging → local
 #   scripts/sync_vocab.sh push                          # local → prod
+#   scripts/sync_vocab.sh push --staging                # local → staging
 #   scripts/sync_vocab.sh pull --skip-audio             # definitions only
 #   scripts/sync_vocab.sh pull --skip-db                # audio only
-#   scripts/sync_vocab.sh pull --app-url https://...    # override prod URL
 #
 # Exit codes:
 #   0  success
@@ -30,44 +31,51 @@ fi
 set -a; source "$ENV_FILE"; set +a
 
 PROD_DB="${PROD_DB:?PROD_DB not set in .env.scripts}"
+STAGING_DB="${STAGING_DB:?STAGING_DB not set in .env.scripts}"
 LOCAL_DB="${LOCAL_DB:?LOCAL_DB not set in .env.scripts}"
 PROD_APP_URL="${PROD_APP_URL:-}"
-PROD_STATIC_DIR="${PROD_STATIC_DIR:-/app/static}"
+STAGING_APP_URL="${STAGING_APP_URL:-}"
 LOCAL_STATIC_DIR="${LOCAL_STATIC_DIR:-$(cd "$(dirname "$0")/../src/maestro/static" && pwd)}"
 
-PROD_AUDIO_DIR="${PROD_STATIC_DIR}/audio"
 LOCAL_AUDIO_DIR="${LOCAL_STATIC_DIR}/audio"
 
 DIRECTION="pull"
+USE_STAGING=false
 SKIP_AUDIO=false
 SKIP_DB=false
-FROM=""
-TO=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         pull)         DIRECTION="pull"; shift ;;
         push)         DIRECTION="push"; shift ;;
+        --staging)    USE_STAGING=true; shift ;;
         --skip-audio) SKIP_AUDIO=true; shift ;;
         --skip-db)    SKIP_DB=true; shift ;;
-        --from)       FROM="$2"; shift 2 ;;
-        --to)         TO="$2"; shift 2 ;;
-        --app-url)    PROD_APP_URL="$2"; shift 2 ;;
         *) echo "ERROR: Unknown argument: $1" >&2; exit 1 ;;
     esac
 done
 
-if [[ "$DIRECTION" == "pull" ]]; then
-    FROM="${FROM:-$PROD_DB}"
-    TO="${TO:-$LOCAL_DB}"
+if [[ "$USE_STAGING" == true ]]; then
+    REMOTE_DB="$STAGING_DB"
+    REMOTE_APP_URL="$STAGING_APP_URL"
+    REMOTE_NAME="staging"
 else
-    FROM="${FROM:-$LOCAL_DB}"
-    TO="${TO:-$PROD_DB}"
+    REMOTE_DB="$PROD_DB"
+    REMOTE_APP_URL="$PROD_APP_URL"
+    REMOTE_NAME="prod"
+fi
+
+if [[ "$DIRECTION" == "pull" ]]; then
+    FROM="$REMOTE_DB"
+    TO="$LOCAL_DB"
+else
+    FROM="$LOCAL_DB"
+    TO="$REMOTE_DB"
 fi
 
 # Mask credentials in log output
 log_uri() { echo "$1" | sed -E 's|://[^@]+@|://***@|'; }
-echo "==> Direction: $DIRECTION"
+echo "==> Direction: $DIRECTION ($REMOTE_NAME ↔ local)"
 echo "    FROM: $(log_uri "$FROM")"
 echo "    TO:   $(log_uri "$TO")"
 
@@ -138,11 +146,11 @@ fi
 # --- Audio: download missing word_*.wav files ---
 if [[ "$SKIP_AUDIO" == false ]]; then
     if [[ "$DIRECTION" == "pull" ]]; then
-        if [[ -z "$PROD_APP_URL" ]]; then
-            echo "ERROR: PROD_APP_URL not set. Pass --app-url or export PROD_APP_URL." >&2
+        if [[ -z "$REMOTE_APP_URL" ]]; then
+            echo "ERROR: ${REMOTE_NAME^^}_APP_URL not set in .env.scripts." >&2
             exit 1
         fi
-        PROD_APP_URL="${PROD_APP_URL%/}"
+        REMOTE_APP_URL="${REMOTE_APP_URL%/}"
 
         echo ""
         echo "==> Audio: downloading to $LOCAL_AUDIO_DIR"
@@ -181,10 +189,10 @@ if [[ "$SKIP_AUDIO" == false ]]; then
                 continue
             fi
 
-            if curl -fsSL -o "$dest" "$PROD_APP_URL$audio_path" 2>/dev/null; then
+            if curl -fsSL -o "$dest" "$REMOTE_APP_URL$audio_path" 2>/dev/null; then
                 ((COUNT++))
             else
-                echo "    WARN: failed to download $filename from $PROD_APP_URL$audio_path" >&2
+                echo "    WARN: failed to download $filename from $REMOTE_APP_URL$audio_path" >&2
                 rm -f "$dest"
                 ((FAILED++))
             fi
