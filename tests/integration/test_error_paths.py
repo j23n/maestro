@@ -25,8 +25,8 @@ from maestro import taxonomy
 
 
 @pytest.mark.integration
-async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
-    """When LLM returns non-JSON, score_multi_item_drill falls back to all-incorrect."""
+async def test_malformed_llm_json_raises(mock_scorer_client, db):
+    """When LLM returns non-JSON, score_multi_item_drill raises (no silent fallback)."""
     from maestro.learning.scorer import score_multi_item_drill
 
     # Seed taxonomy with at least one GP
@@ -46,11 +46,8 @@ async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
     )
 
     items = [DrillItem(prompt="Il ___ è bello", correct_answer="gatto")]
-    results = await score_multi_item_drill(
-        ExerciseType.FILL_BLANK, "GP001", items, ["cane"]
-    )
-    assert len(results) == 1
-    assert results[0]["objective_correct"] is False
+    with pytest.raises(ValueError):
+        await score_multi_item_drill(ExerciseType.FILL_BLANK, "GP001", items, ["cane"])
 
 
 # ---------------------------------------------------------------------------
