@@ -21,7 +21,13 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-_AUDIO_DIR = Path(__file__).parent / "static" / "audio"
+
+def _audio_dir() -> Path:
+    from maestro.config import settings
+
+    return Path(settings.STATIC_DIR) / "audio"
+
+
 _synth_locks: dict[Path, asyncio.Lock] = {}
 
 
@@ -66,11 +72,11 @@ def _slugify(text: str) -> str:
 
 
 def _word_audio_path(word: str) -> Path:
-    return _AUDIO_DIR / f"word_{_slugify(word)}.wav"
+    return _audio_dir() / f"word_{_slugify(word)}.wav"
 
 
 def _lesson_audio_path(lesson_id: str, idx: int) -> Path:
-    return _AUDIO_DIR / f"lesson_{lesson_id}_{idx}.wav"
+    return _audio_dir() / f"lesson_{lesson_id}_{idx}.wav"
 
 
 async def _synth_to_file(text: str, path: Path) -> None:
@@ -120,7 +126,7 @@ async def generate_word_audio(word: str) -> Optional[str]:
 
 
 def _a0_audio_path(slug: str) -> Path:
-    return _AUDIO_DIR / f"a0_{_slugify(slug)}.wav"
+    return _audio_dir() / f"a0_{_slugify(slug)}.wav"
 
 
 async def generate_a0_audio(slug: str, text: str) -> Optional[str]:

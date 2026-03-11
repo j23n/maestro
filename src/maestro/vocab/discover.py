@@ -70,7 +70,7 @@ def _build_vocab_attrs(word, wdef) -> str:
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
         f' data-entry-id="{word.entry_id or ""}"'
-        f' data-audio-path="{getattr(word, "audio_path", None) or ""}"'
+        f' data-audio-path="{getattr(word, "audio_url", None) or ""}"'
     )
 
 

@@ -28,7 +28,7 @@ from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
 )
-from maestro.utils import data_dir
+from maestro.utils import data_dir, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -182,6 +182,7 @@ async def seed_a0_vocab() -> None:
             if existing_def:
                 existing_def.senses = cefr_senses
                 existing_def.translation = top_translation
+                existing_def.updated_at = utcnow()
                 await existing_def.save()
             else:
                 await VocabularyWordDefinition(
@@ -190,6 +191,7 @@ async def seed_a0_vocab() -> None:
                     senses=cefr_senses,
                     translation=top_translation,
                     language=settings.TARGET_LANGUAGE,
+                    created_at=utcnow(),
                 ).insert()
                 def_count += 1
 
