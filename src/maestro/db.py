@@ -14,7 +14,7 @@ _db = None
 async def init_db():
     global _db
     logger.info("initialising MongoDB: db=%s", settings.MONGODB_DB)
-    client = AsyncMongoClient(settings.MONGODB_URI)
+    client = AsyncMongoClient(settings.MONGO_URL)
     _db = client.get_database(
         settings.MONGODB_DB,
         codec_options=CodecOptions(tz_aware=True),
