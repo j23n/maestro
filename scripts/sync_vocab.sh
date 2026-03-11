@@ -13,15 +13,18 @@
 #   scripts/sync_vocab.sh pull --skip-db                # audio only
 #   scripts/sync_vocab.sh pull --app-url https://...    # override prod URL
 #
-# Environment:
-#   PROD_APP_URL   Prod app base URL (for audio pull)
+# Exit codes:
+#   0  success
+#   1  configuration / argument error
+#   2  DB sync failed
+#   3  audio sync had failures
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ENV_FILE="${SCRIPT_DIR}/../.env.scripts"
 if [[ ! -f "$ENV_FILE" ]]; then
-    echo "Error: $ENV_FILE not found. Copy .env.scripts.example and fill in values." >&2
+    echo "ERROR: $ENV_FILE not found. Copy .env.scripts.example and fill in values." >&2
     exit 1
 fi
 set -a; source "$ENV_FILE"; set +a
@@ -50,7 +53,7 @@ while [[ $# -gt 0 ]]; do
         --from)       FROM="$2"; shift 2 ;;
         --to)         TO="$2"; shift 2 ;;
         --app-url)    PROD_APP_URL="$2"; shift 2 ;;
-        *) echo "Unknown argument: $1" >&2; exit 1 ;;
+        *) echo "ERROR: Unknown argument: $1" >&2; exit 1 ;;
     esac
 done
 
@@ -62,13 +65,24 @@ else
     TO="${TO:-$PROD_DB}"
 fi
 
+# Mask credentials in log output
+log_uri() { echo "$1" | sed -E 's|://[^@]+@|://***@|'; }
+echo "==> Direction: $DIRECTION"
+echo "    FROM: $(log_uri "$FROM")"
+echo "    TO:   $(log_uri "$TO")"
+
 # --- Definitions: non-destructive merge ---
 if [[ "$SKIP_DB" == false ]]; then
-    echo "==> Syncing vocabulary_word_definitions ($DIRECTION)..."
+    echo ""
+    echo "==> Syncing vocabulary_word_definitions..."
 
-    mongosh --quiet --eval '
+    echo "    Connecting to source and destination databases..."
+    SYNC_OUTPUT=$(mongosh --quiet --eval '
         const src = connect(process.argv[1]);
         const dst = connect(process.argv[2]);
+
+        const srcCount = src.getCollection("vocabulary_word_definitions").countDocuments();
+        print("    Source docs: " + srcCount);
 
         // Index destination docs by (word, student_level)
         const dstDocs = new Map();
@@ -78,61 +92,85 @@ if [[ "$SKIP_DB" == false ]]; then
             const key = d.word.toString() + "|" + d.student_level;
             dstDocs.set(key, d);
         });
+        print("    Destination docs: " + dstDocs.size);
 
         // Use updated_at if available, fall back to created_at
         function ts(doc) { return doc.updated_at || doc.created_at; }
 
-        let added = 0, updated = 0, skipped = 0;
+        let added = 0, updated = 0, skipped = 0, errors = 0;
         src.getCollection("vocabulary_word_definitions").find().forEach(doc => {
             const key = doc.word.toString() + "|" + doc.student_level;
             const existing = dstDocs.get(key);
 
-            if (!existing) {
-                // Missing on destination — insert
-                const { _id, ...rest } = doc;
-                dst.getCollection("vocabulary_word_definitions").insertOne(rest);
-                added++;
-            } else if (ts(doc) && ts(existing) && ts(doc) > ts(existing)) {
-                // Source is newer — replace
-                const { _id, ...rest } = doc;
-                dst.getCollection("vocabulary_word_definitions").replaceOne(
-                    { _id: existing._id }, rest
-                );
-                updated++;
-            } else {
-                skipped++;
+            try {
+                if (!existing) {
+                    const { _id, ...rest } = doc;
+                    dst.getCollection("vocabulary_word_definitions").insertOne(rest);
+                    added++;
+                } else if (ts(doc) && ts(existing) && ts(doc) > ts(existing)) {
+                    const { _id, ...rest } = doc;
+                    dst.getCollection("vocabulary_word_definitions").replaceOne(
+                        { _id: existing._id }, rest
+                    );
+                    updated++;
+                } else {
+                    skipped++;
+                }
+            } catch (e) {
+                print("    ERROR: failed to sync " + key + ": " + e.message);
+                errors++;
             }
         });
 
-        print(`    added: ${added}, updated (newer): ${updated}, skipped: ${skipped}`);
-    ' "$FROM" "$TO"
-
+        print("    Result: added=" + added + " updated=" + updated + " skipped=" + skipped + " errors=" + errors);
+        if (errors > 0) quit(1);
+    ' "$FROM" "$TO" 2>&1) || {
+        echo "$SYNC_OUTPUT"
+        echo "ERROR: DB sync failed." >&2
+        exit 2
+    }
+    echo "$SYNC_OUTPUT"
     echo "==> Definition sync complete."
+else
+    echo "==> Skipping DB sync (--skip-db)."
 fi
 
 # --- Audio: download missing word_*.wav files ---
 if [[ "$SKIP_AUDIO" == false ]]; then
     if [[ "$DIRECTION" == "pull" ]]; then
-        mkdir -p "$LOCAL_AUDIO_DIR"
-
         if [[ -z "$PROD_APP_URL" ]]; then
-            echo "Error: PROD_APP_URL not set. Pass --app-url or export PROD_APP_URL." >&2
+            echo "ERROR: PROD_APP_URL not set. Pass --app-url or export PROD_APP_URL." >&2
             exit 1
         fi
         PROD_APP_URL="${PROD_APP_URL%/}"
 
-        echo "==> Fetching word audio list from source DB..."
+        echo ""
+        echo "==> Audio: downloading to $LOCAL_AUDIO_DIR"
+        mkdir -p "$LOCAL_AUDIO_DIR"
+
+        echo "    Fetching audio list from source DB..."
         AUDIO_PATHS=$(mongosh --quiet --eval '
+            const paths = [];
             db.vocabulary_words.find(
                 { audio_path: { $ne: null } },
                 { audio_path: 1, _id: 0 }
-            ).forEach(d => print(d.audio_path))
-        ' "$FROM")
+            ).forEach(d => paths.push(d.audio_path));
+            print("    Words with audio: " + paths.length);
+            paths.forEach(p => print(p));
+        ' "$FROM" 2>&1) || {
+            echo "ERROR: Failed to query audio paths from source DB." >&2
+            echo "$AUDIO_PATHS" >&2
+            exit 2
+        }
+
+        # First line is the count log, rest are paths
+        echo "$AUDIO_PATHS" | head -1
+        AUDIO_PATHS=$(echo "$AUDIO_PATHS" | tail -n +2)
 
         TOTAL=$(echo "$AUDIO_PATHS" | grep -c . || true)
         COUNT=0; SKIPPED=0; FAILED=0
 
-        echo "==> Downloading missing word audio ($TOTAL in source) to $LOCAL_AUDIO_DIR..."
+        echo "    Downloading $TOTAL audio files..."
         while IFS= read -r audio_path; do
             [[ -z "$audio_path" ]] && continue
             filename="$(basename "$audio_path")"
@@ -146,16 +184,25 @@ if [[ "$SKIP_AUDIO" == false ]]; then
             if curl -fsSL -o "$dest" "$PROD_APP_URL$audio_path" 2>/dev/null; then
                 ((COUNT++))
             else
-                echo "    WARN: failed to download $filename" >&2
+                echo "    WARN: failed to download $filename from $PROD_APP_URL$audio_path" >&2
                 rm -f "$dest"
                 ((FAILED++))
             fi
         done <<< "$AUDIO_PATHS"
 
-        echo "==> Audio: $COUNT downloaded, $SKIPPED existed, $FAILED failed."
+        echo "    Result: downloaded=$COUNT existed=$SKIPPED failed=$FAILED"
+
+        if [[ "$FAILED" -gt 0 ]]; then
+            echo "ERROR: $FAILED audio file(s) failed to download." >&2
+            exit 3
+        fi
+        echo "==> Audio sync complete."
     else
         echo "==> Push: audio is generated on-demand in prod — skipping."
     fi
+else
+    echo "==> Skipping audio sync (--skip-audio)."
 fi
 
+echo ""
 echo "==> Done."
