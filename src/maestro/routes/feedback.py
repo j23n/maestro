@@ -24,6 +24,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro import prompts as _prompts
+from maestro.utils import explanation_lang_for_level
 
 logger = logging.getLogger(__name__)
 
@@ -206,7 +207,9 @@ async def _reconstruct_grammar_explanation(refs: dict) -> tuple[dict, dict]:
     if gp is None:
         return {"error": "GrammarPoint not found"}, {}
 
-    expl = gp.explanations.get(cefr_level) or next(iter(gp.explanations.values()), None)
+    lang = explanation_lang_for_level(cefr_level)
+    fallback_lang = "it" if lang == "en" else "en"
+    expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
     if expl is None:
         return {"error": "GrammarPointExplanation not found"}, {}
 

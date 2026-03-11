@@ -209,7 +209,7 @@ async def seed_a0_vocab() -> None:
 
 
 async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:
-    """Seed static A0 grammar explanations into GrammarPoint.explanations["A0"]."""
+    """Seed static A0 grammar explanations into GrammarPoint.explanations["en"]."""
     expl_file = data_dir() / "a0_grammar_explanations.json"
     if not expl_file.exists():
         logger.warning(f"A0 grammar explanations file not found: {expl_file}")
@@ -230,9 +230,10 @@ async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> No
         if not gp:
             logger.warning(f"  A0 GP not found for code: {code}")
             continue
-        gp.explanations["A0"] = GrammarExplanation(
+        gp.explanations["en"] = GrammarExplanation(
             title=texts["title"],
             explanation=texts["explanation"],
+            language="en",
         )
         await gp.save()
         count += 1

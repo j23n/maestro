@@ -5,7 +5,7 @@ from maestro.auth import get_current_student
 from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import templates
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, explanation_lang_for_level
 from maestro.config import settings as _settings
 from maestro.vocab.discover import discover_markdown
 
@@ -26,11 +26,11 @@ async def grammar_index(
     gps = await GrammarPoint.find({"cefr_level": {"$in": visible_levels}}).to_list()
 
     # Build titles from inline explanations, keyed by gp id
+    student_lang = explanation_lang_for_level(student_level)
+    fallback_lang = "it" if student_lang == "en" else "en"
     titles: dict = {}
     for gp in gps:
-        expl = gp.explanations.get(student_level) or next(
-            iter(gp.explanations.values()), None
-        )
+        expl = gp.explanations.get(student_lang) or gp.explanations.get(fallback_lang)
         if expl and expl.title:
             titles[str(gp.id)] = expl.title
 
@@ -58,21 +58,20 @@ async def grammar_detail(
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
 
-    # Pick the explanation at the student's level, falling back to the highest available
-    expl = gp.explanations.get(student_level) or next(
-        (
-            gp.explanations[lvl]
-            for lvl in reversed(CEFR_ORDER)
-            if lvl in gp.explanations
-        ),
+    # Pick the explanation at the student's language (en for A0-A2, it for B1-B2)
+    expl_lang = explanation_lang_for_level(student_level)
+    expl = gp.explanations.get(expl_lang) or next(
+        (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
         None,
     )
 
     content = None
     if expl:
-        # B1/B2 explanations are fully in target language — add lang fallback for vocab discovery
+        # Italian explanations are fully in target language — add lang fallback for vocab discovery
         fallback_lang = (
-            _settings.TARGET_LANGUAGE if student_level in ("B1", "B2") else None
+            _settings.TARGET_LANGUAGE
+            if expl.language == _settings.TARGET_LANGUAGE
+            else None
         )
         content = await discover_markdown(
             expl.explanation, student_id=student.id, lang=fallback_lang

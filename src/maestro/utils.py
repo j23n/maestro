@@ -8,6 +8,11 @@ from pathlib import Path
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
+def explanation_lang_for_level(cefr: str) -> str:
+    """Return 'it' for B1/B2, 'en' for all others (A0/A1/A2)."""
+    return "it" if cefr in ("B1", "B2") else "en"
+
+
 def cefr_levels_up_to(level: str) -> list[str]:
     """Return CEFR levels from A1 up to and including level+1.
 

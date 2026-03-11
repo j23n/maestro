@@ -6,7 +6,7 @@ LLM-generated content from the separate collection into the JSON source of truth
 
 After running, execute `python -m maestro.learning.ingest` to sync to MongoDB.
 
-Run with:  python -m maestro.grammar.export_explanations_to_json
+Run with:  uv run python scripts/data/export_explanations_to_json.py
 """
 
 from __future__ import annotations

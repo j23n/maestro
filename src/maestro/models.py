@@ -175,12 +175,12 @@ class UserVocabularyCard(Document):
 
 
 class GrammarExplanation(BaseModel):
-    """CEFR-level explanation for a grammar point, stored inline on GrammarPoint."""
+    """Language-specific explanation for a grammar point, stored inline on GrammarPoint."""
 
     title: str = ""
     tip: str = ""
     explanation: str
-    translation: str = ""
+    language: str = "en"  # "en" or "it"
 
 
 class GrammarPoint(Document):
@@ -313,6 +313,8 @@ class GrammarChunkResult:
     similarity: float
 
 
+# TODO: remove GrammarPointExplanation after migration 0003 is confirmed applied in prod
+#       and export_explanations_to_json.py has been run. Only kept for the export script.
 class GrammarPointExplanation(Document):
     grammar_point: Link["GrammarPoint"]
     student_level: str  # "A1" | "A2" | "B1" | "B2"

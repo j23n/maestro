@@ -14,7 +14,6 @@ Run with:  python -m maestro.grammar.generate_short_codes
 from __future__ import annotations
 
 import argparse
-import asyncio
 import json
 import logging
 import re
@@ -26,11 +25,6 @@ logger = logging.getLogger(__name__)
 
 _MAX_CODE_LEN = 10
 _BATCH_SIZE = 50  # GPs per LLM call
-
-
-def _looks_short(code: str) -> bool:
-    """Return True if code already looks like a short code (not the verbose original)."""
-    return len(code) <= _MAX_CODE_LEN and "_" not in code[_MAX_CODE_LEN:]
 
 
 def _sanitise(code: str) -> str:
@@ -63,7 +57,7 @@ def _deduplicate(codes: list[str], existing: set[str]) -> list[str]:
     return result
 
 
-async def _generate_batch(
+def _generate_batch(
     gps: list[dict],
     client,
 ) -> list[str]:
@@ -116,7 +110,7 @@ Example: ["pres_ind", "def_art", "pos_adj"]"""
     return []
 
 
-async def generate(force: bool = False) -> None:
+def generate(force: bool = False) -> None:
     json_path = data_dir() / "grammar_points.json"
     with open(json_path) as f:
         items = json.load(f)
@@ -156,7 +150,7 @@ async def generate(force: bool = False) -> None:
         total_batches = (len(todo_indices) + _BATCH_SIZE - 1) // _BATCH_SIZE
         logger.info(f"Batch {batch_num}/{total_batches} ({len(batch_gps)} GPs)...")
 
-        raw_codes = await _generate_batch(batch_gps, client)
+        raw_codes = _generate_batch(batch_gps, client)
         if not raw_codes:
             logger.error(f"Batch {batch_num} failed — aborting")
             return
@@ -201,4 +195,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     if args.debug:
         logger.setLevel(logging.DEBUG)
-    asyncio.run(generate(force=args.force))
+    generate(force=args.force)
