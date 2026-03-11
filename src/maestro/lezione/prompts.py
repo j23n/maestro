@@ -122,20 +122,11 @@ def build_lesson_content_prompt(
         parts.append("\n\n".join(cf_lines_all))
 
     # Build the JSON schema description
-    motivation_lang = "English" if cefr_level in ("A1", "A2") else lang
     schema: dict = {
         "topic_title": f"A creative {lang} title for this lesson (3-8 words)",
         "topic_description": "1-2 sentences describing the specific situation covered",
         "overview": f"2-3 sentences in {lang}: what this lesson covers and what the student will gain",
     }
-    if grammar_gps:
-        schema["grammar_motivations"] = [
-            {
-                "code": gp.code,
-                "text": f"1-2 sentences in {motivation_lang}: why {gp.label} matters in real conversation",
-            }
-            for gp in grammar_gps
-        ]
     if drill_specs:
         example_drills = []
         for spec in drill_specs:

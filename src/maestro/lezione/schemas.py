@@ -7,11 +7,6 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class GrammarMotivation(BaseModel):
-    code: str = ""
-    text: str = ""
-
-
 class DrillItemResponse(BaseModel):
     prompt: str = ""
     correct_answer: Optional[str] = None
@@ -43,7 +38,6 @@ class LessonContentResponse(BaseModel):
     topic_title: str = ""
     topic_description: str = ""
     overview: str = ""
-    grammar_motivations: list[GrammarMotivation] = []
     drills: list[DrillResponse] = []
     readings: list[ReadingResponse] = []
     writing: Optional[WritingResponse] = None
