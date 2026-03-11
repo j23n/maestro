@@ -19,6 +19,8 @@ dependencies = [
     "slowapi>=0.1.9",
     "spacy>=3.8.11",
     "it-core-news-md @ https://github.com/explosion/spacy-models/releases/download/it_core_news_md-3.8.0/it_core_news_md-3.8.0.tar.gz",
+    "sentence-transformers>=5.2.3",
+    "markdownify>=1.2.2",
 ]
 
 [dependency-groups]

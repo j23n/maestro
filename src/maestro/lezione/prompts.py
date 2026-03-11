@@ -84,7 +84,7 @@ def build_lesson_content_prompt(
                 profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
             )
             gp_lines.append(
-                f"  - {gp.label} ({gp.code}) — {gp.description}\n"
+                f"  - {gp.label} ({gp.code})\n"
                 f"    Performance: {gp_correct} correct, {gp_errors} errors"
             )
         parts.append("Grammar activity points:\n" + "\n".join(gp_lines))
@@ -100,8 +100,7 @@ def build_lesson_content_prompt(
             drill_lines.append(
                 f"- grammar_point_code: {spec['grammar_point_code']}, "
                 f"exercise_type: {spec['exercise_type']}, "
-                f"label: {spec['gp_label']}, "
-                f"description: {spec['gp_description']}"
+                f"label: {spec['gp_label']}"
                 f"{rag_part}"
             )
         parts.append("Drills to generate:\n" + "\n".join(drill_lines))

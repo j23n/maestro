@@ -218,7 +218,12 @@ async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> No
     with open(expl_file) as f:
         data = json.load(f)
 
-    gp_by_code = {gp.code: gp for gp in grammar_points if gp.cefr_level == "A0"}
+    gp_by_code: dict[str, GrammarPoint] = {}
+    for gp in grammar_points:
+        if gp.cefr_level == "A0":
+            gp_by_code[gp.code] = gp
+            if gp.unistr_code:
+                gp_by_code[gp.unistr_code] = gp
     count = 0
     for code, texts in data.items():
         gp = gp_by_code.get(code)
@@ -239,9 +244,6 @@ async def ingest():
 
     logger.info("=== Ingesting grammar points ===")
     grammar_points = await upsert_grammar_points()
-
-    logger.info("=== Linking grammar points to chunks ===")
-    await link_grammar_points_to_chunks(grammar_points)
 
     logger.info("=== Seeding A0 grammar explanations ===")
     await seed_a0_grammar_explanations(grammar_points)

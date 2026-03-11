@@ -213,11 +213,34 @@ async def discover(
     return str(soup)
 
 
+def preprocess_grammar_markdown(text: str) -> str:
+    """Fix LLM span-tagging patterns that break markdown parsing.
+
+    Two known failure modes:
+    1. Headings wrapped in a lang span: <span lang="en">## Heading\n\n</span>
+       — the markdown parser never sees ## at the start of a line.
+    2. Table rows whose first cell is inside an opening span:
+       <span lang="en">| col1 | col2 |
+       — the parser doesn't recognise the line as a table row.
+    """
+    # Fix 1: Strip span wrappers around markdown headings.
+    # No \s* before </span> so trailing \n\n inside the span is preserved in group 1.
+    text = re.sub(r"<span[^>]*>(#{1,6}\s[^<]+?)</span>", r"\1", text)
+    # Fix 2: Strip all span tags from table rows.
+    lines = []
+    for line in text.split("\n"):
+        if re.sub(r"</?span[^>]*>", "", line).lstrip().startswith("|"):
+            line = re.sub(r"</?span[^>]*>", "", line)
+        lines.append(line)
+    return "\n".join(lines)
+
+
 async def discover_markdown(
     text: str,
     student_id: PydanticObjectId | None = None,
     lang: str | None = None,
 ) -> str:
+    text = preprocess_grammar_markdown(text)
     html = _md.markdown(text, extensions=["extra", "nl2br", "sane_lists"])
     if lang:
         html = lang_wrap(html, lang)

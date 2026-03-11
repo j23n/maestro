@@ -178,6 +178,7 @@ class GrammarExplanation(BaseModel):
     """CEFR-level explanation for a grammar point, stored inline on GrammarPoint."""
 
     title: str = ""
+    tip: str = ""
     explanation: str
     translation: str = ""
 
@@ -186,9 +187,9 @@ class GrammarPoint(Document):
     code: str
     unistr_code: str = ""  # original verbose code before short-code migration
     label: str
+    unistr_label: str = ""  # original verbose label before short-label migration
     cefr_level: str
     category: str
-    description: str
     chunk_ref: Optional[str] = (
         None  # GrammarChunk.ref — set from mapping file at ingest
     )
