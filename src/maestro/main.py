@@ -135,7 +135,7 @@ app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter
 app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
 app.add_middleware(SlowAPIMiddleware)
-app.mount("/static", StaticFiles(directory="src/maestro/static"), name="static")
+app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
 
 
 @app.get("/health")

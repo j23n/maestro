@@ -29,8 +29,11 @@ set -a; source "$ENV_FILE"; set +a
 PROD_DB="${PROD_DB:?PROD_DB not set in .env.scripts}"
 LOCAL_DB="${LOCAL_DB:?LOCAL_DB not set in .env.scripts}"
 PROD_APP_URL="${PROD_APP_URL:-}"
+PROD_STATIC_DIR="${PROD_STATIC_DIR:-/app/static}"
+LOCAL_STATIC_DIR="${LOCAL_STATIC_DIR:-$(cd "$(dirname "$0")/../src/maestro/static" && pwd)}"
 
-AUDIO_DIR="$(cd "$(dirname "$0")/../src/maestro/static/audio" && pwd)"
+PROD_AUDIO_DIR="${PROD_STATIC_DIR}/audio"
+LOCAL_AUDIO_DIR="${LOCAL_STATIC_DIR}/audio"
 
 DIRECTION="pull"
 SKIP_AUDIO=false
@@ -109,9 +112,9 @@ fi
 
 # --- Audio: download missing word_*.wav files ---
 if [[ "$SKIP_AUDIO" == false ]]; then
-    mkdir -p "$AUDIO_DIR"
-
     if [[ "$DIRECTION" == "pull" ]]; then
+        mkdir -p "$LOCAL_AUDIO_DIR"
+
         if [[ -z "$PROD_APP_URL" ]]; then
             echo "Error: PROD_APP_URL not set. Pass --app-url or export PROD_APP_URL." >&2
             exit 1
@@ -129,11 +132,11 @@ if [[ "$SKIP_AUDIO" == false ]]; then
         TOTAL=$(echo "$AUDIO_PATHS" | grep -c . || true)
         COUNT=0; SKIPPED=0; FAILED=0
 
-        echo "==> Downloading missing word audio ($TOTAL in source)..."
+        echo "==> Downloading missing word audio ($TOTAL in source) to $LOCAL_AUDIO_DIR..."
         while IFS= read -r audio_path; do
             [[ -z "$audio_path" ]] && continue
             filename="$(basename "$audio_path")"
-            dest="$AUDIO_DIR/$filename"
+            dest="$LOCAL_AUDIO_DIR/$filename"
 
             if [[ -f "$dest" ]]; then
                 ((SKIPPED++))
