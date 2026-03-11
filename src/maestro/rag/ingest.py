@@ -279,7 +279,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     async def main():
-        client = AsyncMongoClient(settings.MONGODB_URI)
+        client = AsyncMongoClient(settings.MONGO_URL)
         await init_db()
         await GrammarChunk.delete_all()
         await ingest_grammar_rules(client, no_embed=args.no_embed)
