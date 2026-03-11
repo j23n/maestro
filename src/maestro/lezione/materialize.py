@@ -48,6 +48,12 @@ async def materialize_activities(
     listening → reading → drill → speaking → writing.
     """
 
+    if len(grammar_explanations) != len(grammar_gps):
+        raise ValueError(
+            f"grammar_explanations length ({len(grammar_explanations)}) must match "
+            f"grammar_gps length ({len(grammar_gps)})"
+        )
+
     # --- Grammar activities ---
     grammar_activities: list[LessonActivity] = []
     for i, gp in enumerate(grammar_gps):
@@ -225,6 +231,13 @@ async def materialize_activities(
     for act in drill_activities:
         key = act.grammar_point_code or ""
         drills_by_gp.setdefault(key, []).append(act)
+
+    unassigned = drills_by_gp.get("", [])
+    if unassigned:
+        logger.warning(
+            "drills with no grammar_point_code will be dropped from block assembly",
+            extra={"count": len(unassigned)},
+        )
 
     # Pool all reading/listening to distribute across blocks
     all_readings = listening_activities + reading_activities
