@@ -30,6 +30,7 @@ from maestro.learning.weakness import (
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
+from maestro.i18n import t
 from maestro import taxonomy
 from maestro.templates import templates
 from maestro.utils import create_background_task, utcnow
@@ -569,9 +570,33 @@ async def lezione_drill_submit(
         answers if drill.items else (answers[0] if answers else "")
     )
 
-    correct, event, feedback, rule_refs = await score_attempt(
-        drill, student_input, student_id=student.id, lesson_id=lesson.id
-    )
+    try:
+        correct, event, feedback, rule_refs = await score_attempt(
+            drill, student_input, student_id=student.id, lesson_id=lesson.id
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"correct": None, "student_answer": ""}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": drill,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
 
     stored_answer = (
         json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
@@ -730,13 +755,37 @@ async def lezione_writing_submit(
     profile = await get_profile(student.id)
     cefr_level = profile.cefr_estimate if profile else "A0"
 
-    feedback = await generate_writing_feedback(
-        activity.content or "",
-        answer,
-        cefr_level,
-        student_id=student.id,
-        lesson_id=lesson.id,
-    )
+    try:
+        feedback = await generate_writing_feedback(
+            activity.content or "",
+            answer,
+            cefr_level,
+            student_id=student.id,
+            lesson_id=lesson.id,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for writing",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(lesson, idx, result={"student_answer": answer})
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": None,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+                "is_writing": True,
+            },
+        )
 
     await taxonomy.ensure_loaded()
     valid_codes = {g.code for g in taxonomy.grammar_points()}
@@ -806,14 +855,40 @@ async def lezione_reading_submit(
 
     questions = activity.questions or []
     correct_answers = activity.correct_answers or []
-    overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
-        questions,
-        correct_answers,
-        answers,
-        cefr_level=lesson.cefr_at_start,
-        student_id=student.id,
-        lesson_id=lesson.id,
-    )
+
+    try:
+        overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
+            questions,
+            correct_answers,
+            answers,
+            cefr_level=lesson.cefr_at_start,
+            student_id=student.id,
+            lesson_id=lesson.id,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for reading",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answers": answers, "correct": None}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": None,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
 
     joined_answers = " | ".join(a for a in answers if a)
     event = LearningEvent(

@@ -280,6 +280,100 @@ async def test_materialize_single_grammar_block(grammar_gp, db):
 
 
 @pytest.mark.integration
+async def test_materialize_grammar_label_field(grammar_gp, grammar_explanation, db):
+    """Grammar activities get a `label` field set from the grammar point."""
+    content = LessonContentResponse()
+    activities = await materialize_activities(
+        content=content,
+        grammar_gps=[grammar_gp],
+        grammar_explanations=[grammar_explanation],
+        drill_specs=[],
+        speaking_cfs=[],
+        include_writing=False,
+        reading_count=0,
+        topic_title="Test",
+        scenario_slug="test",
+        cefr_level="A1",
+        student_id=None,
+    )
+    assert activities[0].label == "Articoli"
+
+
+@pytest.mark.integration
+async def test_materialize_explanations_length_mismatch(grammar_gp, db):
+    """Mismatched grammar_explanations / grammar_gps lengths raise ValueError."""
+    content = LessonContentResponse()
+    with pytest.raises(ValueError, match="must match"):
+        await materialize_activities(
+            content=content,
+            grammar_gps=[grammar_gp],
+            grammar_explanations=[],  # length 0 vs 1 gp
+            drill_specs=[],
+            speaking_cfs=[],
+            include_writing=False,
+            reading_count=0,
+            topic_title="Test",
+            scenario_slug="test",
+            cefr_level="A1",
+            student_id=None,
+        )
+
+
+@pytest.mark.integration
+async def test_materialize_drill_without_gp_code_dropped(
+    grammar_gp, grammar_explanation, db
+):
+    """Drills that end up with no grammar_point_code are dropped from block assembly."""
+    # Create a drill spec with an empty grammar_point_code
+    content = LessonContentResponse(
+        drills=[
+            DrillResponse(
+                grammar_point_code="",
+                items=[DrillItemResponse(prompt="test", correct_answer="ans")],
+            ),
+            DrillResponse(
+                grammar_point_code="GP_MAT",
+                items=[DrillItemResponse(prompt="test2", correct_answer="ans2")],
+            ),
+        ],
+    )
+    specs = [
+        {
+            "grammar_point_code": "",
+            "gp_label": "Unknown",
+            "exercise_type": ExerciseType.FILL_BLANK,
+            "rag_excerpt": "",
+            "chunk_ref": None,
+        },
+        {
+            "grammar_point_code": "GP_MAT",
+            "gp_label": "Articoli",
+            "exercise_type": ExerciseType.FILL_BLANK,
+            "rag_excerpt": "",
+            "chunk_ref": None,
+        },
+    ]
+    activities = await materialize_activities(
+        content=content,
+        grammar_gps=[grammar_gp],
+        grammar_explanations=[grammar_explanation],
+        drill_specs=specs,
+        speaking_cfs=[],
+        include_writing=False,
+        reading_count=0,
+        topic_title="Test",
+        scenario_slug="test",
+        cefr_level="A1",
+        student_id=None,
+        shuffle_within_blocks=False,
+    )
+    # Grammar + 1 valid drill (the empty-code drill is dropped)
+    drill_acts = [a for a in activities if a.type == ActivityType.DRILL]
+    assert len(drill_acts) == 1
+    assert drill_acts[0].grammar_point_code == "GP_MAT"
+
+
+@pytest.mark.integration
 async def test_materialize_multi_grammar_blocks(db):
     """Two grammar points produce two blocks; drills are tied to the correct GP."""
     gp1 = GrammarPoint(
