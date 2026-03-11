@@ -1,15 +1,22 @@
 """
 Generate grammar reference explanations and write them into grammar_points.json.
 
-Each grammar point gets one explanation at its own CEFR level — a complete reference
-entry a student consults when they need to understand a rule fully.
+Entirely offline — no database connection required.
+Reads from grammar_points.json and (optionally) grammar_chunk_contents.json.
+Writes back to grammar_points.json and updates grammar_points.lock.
+The next app startup will detect the lock change and sync the DB automatically.
+
+Each grammar point gets two explanations keyed by language:
+  "en" — written in English, vocabulary pitched at the GP's CEFR level
+  "it" — written in Italian, vocabulary pitched at the GP's CEFR level
 
 A0 GPs are formulaic vocabulary items with no grammar rule to explain; they are skipped.
 
-Uses the GP's linked GrammarChunk as the authoritative source for rules and examples.
-Writes to both grammar_points.json and MongoDB.
+Chunk content (book excerpts) is used as the authoritative source when
+grammar_chunk_contents.json is present. Generate it first with:
+  uv run python scripts/export_grammar_chunks.py
 
-Idempotent — skips GPs that already have an explanation at their own level.
+Idempotent — skips (GP, language) pairs that already have an explanation.
 Use --clear to regenerate from scratch.
 
 Run with:  uv run python scripts/data/generate_explanations.py
@@ -19,11 +26,11 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import logging
+from datetime import datetime, timezone
 
-from maestro.db import init_db
-from maestro.models import GrammarPoint, GrammarChunk, GrammarExplanation
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
@@ -31,6 +38,10 @@ from maestro.prompts import grammar as _prompts
 from maestro.utils import data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
+
+GP_JSON = data_dir() / "grammar_points.json"
+CHUNK_CONTENTS_JSON = data_dir() / "grammar_chunk_contents.json"
+LOCK_FILE = data_dir() / "grammar_points.lock"
 
 _LANG_GUIDANCE_KEYS = {
     "en": "language_guidance_en",
@@ -43,13 +54,15 @@ _TITLE_GUIDANCE = {
 }
 
 
-def _needs_explanation(gp: GrammarPoint, lang: str | None = None) -> bool:
-    """True if this GP still needs an explanation generated for the given language (or either)."""
-    if gp.cefr_level == "A0":
+def _needs_explanation(gp: dict, lang: str | None = None) -> bool:
+    """True if this GP still needs an explanation for the given language (or either)."""
+    if gp["cefr_level"] == "A0":
         return False
     if lang:
-        return lang not in gp.explanations
-    return "en" not in gp.explanations or "it" not in gp.explanations
+        return lang not in gp.get("explanations", {})
+    return "en" not in gp.get("explanations", {}) or "it" not in gp.get(
+        "explanations", {}
+    )
 
 
 def _build_system_prompt(cefr_level: str, lang: str) -> str:
@@ -85,16 +98,14 @@ def _parse_response(raw: str) -> dict[str, str] | None:
     }
 
 
-async def _call_api(
-    gp: GrammarPoint, chunk_content: str, lang: str
-) -> dict[str, str] | None:
-    system_msg = _build_system_prompt(gp.cefr_level, lang)
+async def _call_api(gp: dict, chunk_content: str, lang: str) -> dict[str, str] | None:
+    system_msg = _build_system_prompt(gp["cefr_level"], lang)
     chunk_block = (
         f"Authoritative textbook excerpt:\n{chunk_content}\n\n" if chunk_content else ""
     )
     user_msg = (
         f"{chunk_block}"
-        f"Grammar point: {gp.label} ({gp.cefr_level})\n"
+        f"Grammar point: {gp['label']} ({gp['cefr_level']})\n"
         f"Write the reference entry."
     )
     logger.debug(f"  SYSTEM:\n{system_msg}")
@@ -106,7 +117,7 @@ async def _call_api(
             max_tokens=max_tokens,
             system=system_msg,
             messages=[{"role": "user", "content": user_msg}],
-            entity_id=gp.id,
+            entity_id=None,
             call_type=CallType.GRAMMAR_EXPLANATION,
         )
         raw = response.content[0].text
@@ -118,36 +129,66 @@ async def _call_api(
         if response.stop_reason == "max_tokens" and attempt < 2:
             max_tokens = min(max_tokens * 2, 65536)
             logger.warning(
-                f"  Truncated for '{gp.label}', retrying max_tokens={max_tokens}"
+                f"  Truncated for '{gp['label']}', retrying max_tokens={max_tokens}"
             )
         else:
             logger.warning(
-                f"  Parse error (attempt {attempt + 1}/3) for '{gp.label}': {raw[:300]}"
+                f"  Parse error (attempt {attempt + 1}/3) for '{gp['label']}': {raw[:300]}"
             )
     return None
 
 
-async def list_codes(level: str | None = None, lang: str | None = None) -> None:
-    await init_db()
-    query = {"cefr_level": level} if level else {}
-    gps = await GrammarPoint.find(query).sort("code").to_list()
-    done = sum(
-        1 for gp in gps if not _needs_explanation(gp, lang) and gp.cefr_level != "A0"
+def _update_lock(json_items: list) -> None:
+    """Recompute and write grammar_points.lock from the current JSON on disk."""
+    content = GP_JSON.read_bytes()
+    sha = hashlib.sha256(content).hexdigest()
+    by_level: dict[str, dict[str, int]] = {}
+    for gp in json_items:
+        level = gp.get("cefr_level", "?")
+        counts = by_level.setdefault(level, {})
+        for lng in gp.get("explanations", {}):
+            counts[lng] = counts.get(lng, 0) + 1
+    lock = {
+        "sha256": sha,
+        "gp_count": len(json_items),
+        "explanations_by_level": by_level,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    LOCK_FILE.write_text(json.dumps(lock, indent=2) + "\n")
+    summary = "  ".join(
+        f"{lvl} en={c.get('en', 0)} it={c.get('it', 0)}"
+        for lvl, c in sorted(by_level.items())
     )
-    for gp in gps:
-        if gp.cefr_level == "A0":
+    logger.info("Updated grammar_points.lock (gps=%d)  %s", len(json_items), summary)
+
+
+def list_codes(level: str | None = None, lang: str | None = None) -> None:
+    with open(GP_JSON) as f:
+        json_items = json.load(f)
+    if level:
+        json_items = [gp for gp in json_items if gp["cefr_level"] == level]
+    done = sum(
+        1
+        for gp in json_items
+        if not _needs_explanation(gp, lang) and gp["cefr_level"] != "A0"
+    )
+    for gp in json_items:
+        if gp["cefr_level"] == "A0":
             marker = "-"
         elif not _needs_explanation(gp, lang):
             marker = "✓"
         else:
             marker = " "
-        langs_done = "/".join(k for k in ("en", "it") if k in gp.explanations)
-        print(
-            f"  [{marker}] {gp.code:30s} {gp.cefr_level}  [{langs_done or '—':5s}]  {gp.label}"
+        langs_done = "/".join(
+            k for k in ("en", "it") if k in gp.get("explanations", {})
         )
-    eligible = sum(1 for gp in gps if gp.cefr_level != "A0")
+        print(
+            f"  [{marker}] {gp['code']:30s} {gp['cefr_level']}  "
+            f"[{langs_done or '—':5s}]  {gp['label']}"
+        )
+    eligible = sum(1 for gp in json_items if gp["cefr_level"] != "A0")
     print(
-        f"\n{len(gps)} grammar points, {done}/{eligible} with explanations (A0 skipped)"
+        f"\n{len(json_items)} grammar points, {done}/{eligible} with explanations (A0 skipped)"
     )
 
 
@@ -158,111 +199,111 @@ async def generate(
     lang: str | None = None,
     clear: bool = False,
 ) -> None:
-    await init_db()
-
-    json_path = data_dir() / "grammar_points.json"
-    with open(json_path) as f:
+    with open(GP_JSON) as f:
         json_items = json.load(f)
-    json_by_code: dict[str, dict] = {item["code"]: item for item in json_items}
+
+    # Load chunk content for richer context (optional)
+    chunk_contents: dict[str, str] = {}
+    if CHUNK_CONTENTS_JSON.exists():
+        with open(CHUNK_CONTENTS_JSON) as f:
+            chunk_contents = json.load(f)
+        logger.info("Loaded %d grammar chunk contents", len(chunk_contents))
+    else:
+        logger.warning(
+            "grammar_chunk_contents.json not found — generating without book context. "
+            "Run: uv run python scripts/export_grammar_chunks.py"
+        )
 
     if code:
-        gp = await GrammarPoint.find_one({"code": code})
-        if not gp:
-            logger.error(f"Grammar point '{code}' not found")
+        all_items = [item for item in json_items if item["code"] == code]
+        if not all_items:
+            logger.error(f"Grammar point '{code}' not found in grammar_points.json")
             return
-        all_gps = [gp]
     else:
-        all_gps = await GrammarPoint.find_all().to_list()
+        all_items = list(json_items)
 
     if level:
-        all_gps = [gp for gp in all_gps if gp.cefr_level == level]
+        all_items = [gp for gp in all_items if gp["cefr_level"] == level]
 
     langs_to_generate = [lang] if lang else ["en", "it"]
-    logger.info(f"Found {len(all_gps)} grammar points, generating: {langs_to_generate}")
+    logger.info(
+        "Found %d grammar points, generating: %s", len(all_items), langs_to_generate
+    )
 
     if clear:
-        for gp in all_gps:
-            if gp.cefr_level == "A0":
+        for item in all_items:
+            if item["cefr_level"] == "A0":
                 continue
             for lng in langs_to_generate:
-                gp.explanations.pop(lng, None)
-                json_by_code.get(gp.code, {}).get("explanations", {}).pop(lng, None)
-            await gp.save()
-        logger.info(f"Cleared {langs_to_generate} explanations for eligible GPs")
+                item.get("explanations", {}).pop(lng, None)
+        with open(GP_JSON, "w") as f:
+            json.dump(json_items, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        logger.info(
+            "Cleared %s explanations from grammar_points.json", langs_to_generate
+        )
 
-    # Build work list: (gp, lang) pairs that still need generation
-    todo: list[tuple[GrammarPoint, str]] = []
-    for gp in all_gps:
-        for lng in langs_to_generate:
-            if _needs_explanation(gp, lng):
-                todo.append((gp, lng))
-    logger.info(f"{len(todo)} (GP, lang) pairs need explanations")
+    # Build work list: (gp_dict, lang) pairs that still need generation
+    todo: list[tuple[dict, str]] = [
+        (item, lng)
+        for item in all_items
+        for lng in langs_to_generate
+        if _needs_explanation(item, lng)
+    ]
+    logger.info("%d (GP, lang) pairs need explanations", len(todo))
 
     if test:
         seen: set[tuple[str, str]] = set()
         pruned = []
-        for gp, lng in todo:
-            key = (gp.cefr_level, lng)
+        for item, lng in todo:
+            key = (item["cefr_level"], lng)
             if key not in seen:
                 seen.add(key)
-                pruned.append((gp, lng))
+                pruned.append((item, lng))
         todo = pruned
-        logger.info(f"  --test: {[(gp.label, lng) for gp, lng in todo]}")
+        logger.info("  --test: %s", [(item["label"], lng) for item, lng in todo])
 
     changed = False
-    for i, (gp, lng) in enumerate(todo, 1):
-        logger.info(f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level}) [{lng}]")
+    for i, (item, lng) in enumerate(todo, 1):
+        logger.info(
+            "[%d/%d] %s (%s) [%s]", i, len(todo), item["label"], item["cefr_level"], lng
+        )
 
-        chunk_content = ""
-        if gp.chunk_ref:
-            chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
-            if chunk:
-                chunk_content = chunk.content
-            else:
-                logger.warning(f"  Chunk not found: {gp.chunk_ref}")
+        chunk_content = chunk_contents.get(item.get("chunk_ref") or "", "")
 
         try:
-            data = await _call_api(gp, chunk_content, lng)
+            data = await _call_api(item, chunk_content, lng)
         except Exception as exc:
             logger.error(f"  API error: {exc}")
             continue
         if not data:
             continue
 
-        gp.explanations[lng] = GrammarExplanation(
-            title=data["title"],
-            tip=data["tip"],
-            explanation=data["explanation"],
-            language=lng,
-        )
-        await gp.save()
-        logger.info(f"  ✓ [{lng}]: {data['title']}")
-
-        json_item = json_by_code.get(gp.code)
-        if json_item is not None:
-            json_item.setdefault("explanations", {})[lng] = {
-                "title": data["title"],
-                "tip": data["tip"],
-                "explanation": data["explanation"],
-                "language": lng,
-            }
-            changed = True
+        item.setdefault("explanations", {})[lng] = {
+            "title": data["title"],
+            "tip": data["tip"],
+            "explanation": data["explanation"],
+            "language": lng,
+        }
+        logger.info("  ✓ [%s]: %s", lng, data["title"])
+        changed = True
 
     if changed:
-        with open(json_path, "w") as f:
+        with open(GP_JSON, "w") as f:
             json.dump(json_items, f, indent=2, ensure_ascii=False)
             f.write("\n")
         logger.info("Updated grammar_points.json")
+        _update_lock(json_items)
 
     logger.info("Done.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generate grammar reference explanations"
+        description="Generate grammar reference explanations (offline, no DB required)"
     )
     parser.add_argument(
-        "--test", action="store_true", help="One GP per CEFR level only"
+        "--test", action="store_true", help="One GP per (CEFR level, language) only"
     )
     parser.add_argument(
         "--debug", action="store_true", help="Log full prompts and responses"
@@ -293,7 +334,7 @@ if __name__ == "__main__":
     if args.debug:
         logger.setLevel(logging.DEBUG)
     if args.list:
-        asyncio.run(list_codes(level=args.level, lang=args.lang))
+        list_codes(level=args.level, lang=args.lang)
     else:
         asyncio.run(
             generate(
