@@ -31,17 +31,9 @@ def _target_language() -> str:
     return _TL
 
 
-_FALLBACK_ITEM = ScoringResult().model_dump()
-
-
 def _validate_results(result: list, n: int, label: str) -> list[dict]:
-    """Validate a list of raw dicts into ScoringResult dicts, with per-item fallback."""
-    validated = []
-    for r in result:
-        try:
-            validated.append(ScoringResult.model_validate(r).model_dump())
-        except Exception:
-            validated.append(dict(_FALLBACK_ITEM))
+    """Validate a list of raw dicts into ScoringResult dicts."""
+    validated = [ScoringResult.model_validate(r).model_dump() for r in result]
     n_correct = sum(1 for r in validated if r.get("objective_correct"))
     logger.info("scored items", extra={"label": label, "n_correct": n_correct, "n": n})
     for r in validated:
@@ -98,60 +90,47 @@ async def _score_single(
     student_id=None,
     lesson_id=None,
 ) -> dict:
-    """LLM call -> JSON parse -> ScoringResult validation. Falls back to objective_correct=True."""
-    try:
-        await taxonomy.ensure_loaded()
-        logger.debug(f"{label} prompt: {prompt}")
-        response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
-            max_tokens=max_tokens,
-            system=_system_prompt(cefr_level),
-            messages=[{"role": "user", "content": prompt}],
-            entity_id=lesson_id,
-            call_type=CallType.SCORER_SINGLE,
-            student_id=student_id,
-        )
-        raw = response.content[0].text.strip()
-        logger.debug(f"{label} LLM response: {raw}")
-        data = parse_llm_json(raw)
-        if not isinstance(data, dict):
-            logger.error(
-                "unexpected LLM response shape", extra={"label": label, "raw": raw}
-            )
-            return ScoringResult(objective_correct=True).model_dump()
-        try:
-            validated = ScoringResult.model_validate(data)
-        except Exception:
-            logger.warning(
-                "scoring validation partial, using defaults", extra={"label": label}
-            )
-            validated = ScoringResult(objective_correct=True)
-        if validated.grammar_errors and not validated.grammar_error_codes:
-            logger.warning(
-                "grammar errors detected as freetext but no GP codes returned",
-                extra={
-                    "label": label,
-                    "lesson_id": str(lesson_id),
-                    "cefr_level": cefr_level,
-                    "grammar_errors": validated.grammar_errors,
-                },
-            )
-        logger.info(
-            "scoring result",
+    """LLM call -> JSON parse -> ScoringResult validation. Raises on failure."""
+    await taxonomy.ensure_loaded()
+    logger.debug(f"{label} prompt: {prompt}")
+    response = await llm_messages_create(
+        model=settings.SCORING_MODEL,
+        max_tokens=max_tokens,
+        system=_system_prompt(cefr_level),
+        messages=[{"role": "user", "content": prompt}],
+        entity_id=lesson_id,
+        call_type=CallType.SCORER_SINGLE,
+        student_id=student_id,
+    )
+    raw = response.content[0].text.strip()
+    logger.debug(f"{label} LLM response: {raw}")
+    data = parse_llm_json(raw)
+    if not isinstance(data, dict):
+        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+    validated = ScoringResult.model_validate(data)
+    if validated.grammar_errors and not validated.grammar_error_codes:
+        logger.warning(
+            "grammar errors detected as freetext but no GP codes returned",
             extra={
                 "label": label,
                 "lesson_id": str(lesson_id),
                 "cefr_level": cefr_level,
-                "objective_correct": validated.objective_correct,
                 "grammar_errors": validated.grammar_errors,
-                "grammar_error_codes": validated.grammar_error_codes,
-                "grammar_correct_codes": validated.grammar_correct_codes,
             },
         )
-        return validated.model_dump()
-    except Exception:
-        logger.error("scoring failed", extra={"label": label}, exc_info=True)
-        return ScoringResult(objective_correct=True).model_dump()
+    logger.info(
+        "scoring result",
+        extra={
+            "label": label,
+            "lesson_id": str(lesson_id),
+            "cefr_level": cefr_level,
+            "objective_correct": validated.objective_correct,
+            "grammar_errors": validated.grammar_errors,
+            "grammar_error_codes": validated.grammar_error_codes,
+            "grammar_correct_codes": validated.grammar_correct_codes,
+        },
+    )
+    return validated.model_dump()
 
 
 async def _score_multi(
@@ -164,33 +143,28 @@ async def _score_multi(
     student_id=None,
     lesson_id=None,
 ) -> list[dict]:
-    """LLM call -> JSON array parse -> per-item ScoringResult validation. Falls back to all-incorrect."""
-    try:
-        await taxonomy.ensure_loaded()
-        logger.debug(f"{label} prompt: {prompt}")
-        response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
-            max_tokens=max_tokens,
-            system=_system_prompt(cefr_level),
-            messages=[{"role": "user", "content": prompt}],
-            entity_id=lesson_id,
-            call_type=CallType.SCORER_MULTI,
-            student_id=student_id,
-        )
-        raw = response.content[0].text.strip()
-        logger.debug(f"{label} LLM response: {raw}")
-        result = parse_llm_json(raw)
-        if isinstance(result, dict) and n == 1:
-            result = [result]
-        if isinstance(result, list) and len(result) == n:
-            return _validate_results(result, n, label)
-        logger.error(
-            "unexpected LLM response shape", extra={"label": label, "raw": raw}
-        )
-    except Exception:
-        logger.error("scoring failed", extra={"label": label}, exc_info=True)
-    logger.warning("scoring fallback to all-incorrect", extra={"label": label, "n": n})
-    return [dict(_FALLBACK_ITEM) for _ in range(n)]
+    """LLM call -> JSON array parse -> per-item ScoringResult validation. Raises on failure."""
+    if n == 0:
+        return []
+    await taxonomy.ensure_loaded()
+    logger.debug(f"{label} prompt: {prompt}")
+    response = await llm_messages_create(
+        model=settings.SCORING_MODEL,
+        max_tokens=max_tokens,
+        system=_system_prompt(cefr_level),
+        messages=[{"role": "user", "content": prompt}],
+        entity_id=lesson_id,
+        call_type=CallType.SCORER_MULTI,
+        student_id=student_id,
+    )
+    raw = response.content[0].text.strip()
+    logger.debug(f"{label} LLM response: {raw}")
+    result = parse_llm_json(raw)
+    if isinstance(result, dict) and n == 1:
+        result = [result]
+    if not isinstance(result, list) or len(result) != n:
+        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+    return _validate_results(result, n, label)
 
 
 async def feedback_fill_blank(
