@@ -592,6 +592,14 @@ async def lezione_drill_submit(
         event.activity_index = idx
         event.student_text = stored_answer
         await event.insert()
+        logger.debug(
+            "drill event stored",
+            extra={
+                "lesson_id": str(lesson.id),
+                "grammar_error_codes": event.grammar_errors,
+                "grammar_correct_codes": event.grammar_correct,
+            },
+        )
 
     drill_result: dict = {"correct": correct, "student_answer": stored_answer}
 
@@ -746,6 +754,14 @@ async def lezione_writing_submit(
         ],
     )
     await event.insert()
+    logger.debug(
+        "writing event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "grammar_error_codes": event.grammar_errors,
+            "grammar_correct_codes": event.grammar_correct,
+        },
+    )
 
     writing_result = {"student_answer": answer}
     next_url = await advance_lesson(lesson, idx, result=writing_result)

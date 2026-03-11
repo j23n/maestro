@@ -44,6 +44,24 @@ def _validate_results(result: list, n: int, label: str) -> list[dict]:
             validated.append(dict(_FALLBACK_ITEM))
     n_correct = sum(1 for r in validated if r.get("objective_correct"))
     logger.info("scored items", extra={"label": label, "n_correct": n_correct, "n": n})
+    for r in validated:
+        if r.get("grammar_errors") and not r.get("grammar_error_codes"):
+            logger.warning(
+                "grammar errors detected as freetext but no GP codes returned (multi)",
+                extra={"label": label, "grammar_errors": r["grammar_errors"]},
+            )
+    logger.debug(
+        "scored items detail",
+        extra={
+            "label": label,
+            "grammar_error_codes": [
+                c for r in validated for c in r.get("grammar_error_codes", [])
+            ],
+            "grammar_correct_codes": [
+                c for r in validated for c in r.get("grammar_correct_codes", [])
+            ],
+        },
+    )
     return validated
 
 
@@ -108,12 +126,26 @@ async def _score_single(
                 "scoring validation partial, using defaults", extra={"label": label}
             )
             validated = ScoringResult(objective_correct=True)
+        if validated.grammar_errors and not validated.grammar_error_codes:
+            logger.warning(
+                "grammar errors detected as freetext but no GP codes returned",
+                extra={
+                    "label": label,
+                    "lesson_id": str(lesson_id),
+                    "cefr_level": cefr_level,
+                    "grammar_errors": validated.grammar_errors,
+                },
+            )
         logger.info(
             "scoring result",
             extra={
                 "label": label,
+                "lesson_id": str(lesson_id),
+                "cefr_level": cefr_level,
                 "objective_correct": validated.objective_correct,
-                "n_grammar_errors": len(validated.grammar_errors),
+                "grammar_errors": validated.grammar_errors,
+                "grammar_error_codes": validated.grammar_error_codes,
+                "grammar_correct_codes": validated.grammar_correct_codes,
             },
         )
         return validated.model_dump()
