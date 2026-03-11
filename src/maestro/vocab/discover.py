@@ -222,6 +222,11 @@ def preprocess_grammar_markdown(text: str) -> str:
     2. Table rows whose first cell is inside an opening span:
        <span lang="en">| col1 | col2 |
        — the parser doesn't recognise the line as a table row.
+
+    Ideally the LLM would place spans INSIDE the heading marker:
+      ## <span lang="it">Formazione</span>
+    which the markdown parser handles correctly without any preprocessing.
+    The prompt instructs this but the LLM occasionally wraps the marker too.
     """
     # Fix 1: Strip span wrappers around markdown headings.
     # No \s* before </span> so trailing \n\n inside the span is preserved in group 1.
