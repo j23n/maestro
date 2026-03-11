@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     SPACY_MODEL: str = "it_core_news_md"  # per-language NLP model
     LOG_LEVEL: str = "INFO"
     FREE_TIER_LESSON_LIMIT_EX_A0: int = 999
+    STATIC_DIR: str = "src/maestro/static"
     AZURE_SPEECH_KEY: str = ""
     AZURE_SPEECH_REGION: str = "eastus"
     AZURE_TTS_VOICE: str = "it-IT-IsabellaNeural"

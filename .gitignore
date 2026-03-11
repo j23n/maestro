@@ -1,4 +1,5 @@
 .env
+.env.scripts
 __pycache__
 
 src/maestro/data/it/grammar_book.epub

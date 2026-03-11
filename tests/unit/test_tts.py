@@ -80,7 +80,7 @@ def test_word_audio_path_accent():
 @pytest.mark.unit
 def test_word_audio_path_is_under_audio_dir():
     path = _word_audio_path("ciao")
-    assert path.parent == tts_module._AUDIO_DIR
+    assert path.parent == tts_module._audio_dir()
 
 
 @pytest.mark.unit
@@ -98,7 +98,7 @@ def test_lesson_audio_path_index():
 @pytest.mark.unit
 def test_lesson_audio_path_is_under_audio_dir():
     path = _lesson_audio_path("abc", 0)
-    assert path.parent == tts_module._AUDIO_DIR
+    assert path.parent == tts_module._audio_dir()
 
 
 # ---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ def test_lesson_audio_path_is_under_audio_dir():
 @pytest.mark.unit
 async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
     """Returns the cached URL immediately when the WAV already exists."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
     (tmp_path / "word_ciao.wav").write_bytes(b"fake wav")
 
     calls = []
@@ -128,7 +128,7 @@ async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
     """Calls _synth_to_file and returns the URL when file is absent."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     synth_calls = []
 
@@ -151,7 +151,7 @@ async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_word_audio_returns_none_on_error(tmp_path, monkeypatch):
     """Returns None without raising when synthesis throws."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         raise RuntimeError("synthesis failed")
@@ -166,7 +166,7 @@ async def test_generate_word_audio_returns_none_on_error(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
     """URL must start with /static/audio/ and end with .wav."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         path.write_bytes(b"wav")
@@ -188,7 +188,7 @@ async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_lesson_audio_idempotent(tmp_path, monkeypatch):
     """Returns the cached URL immediately when the WAV already exists."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
     (tmp_path / "lesson_abc123_0.wav").write_bytes(b"fake wav")
 
     calls = []
@@ -207,7 +207,7 @@ async def test_generate_lesson_audio_idempotent(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_lesson_audio_calls_synthesis(tmp_path, monkeypatch):
     """Calls _synth_to_file and returns the URL when file is absent."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     synth_calls = []
 
@@ -230,7 +230,7 @@ async def test_generate_lesson_audio_calls_synthesis(tmp_path, monkeypatch):
 @pytest.mark.unit
 async def test_generate_lesson_audio_returns_none_on_error(tmp_path, monkeypatch):
     """Returns None without raising when synthesis throws."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         raise OSError("disk full")
@@ -245,7 +245,7 @@ async def test_generate_lesson_audio_returns_none_on_error(tmp_path, monkeypatch
 @pytest.mark.unit
 async def test_generate_lesson_audio_url_format(tmp_path, monkeypatch):
     """URL must start with /static/audio/ and end with .wav."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path):
         path.write_bytes(b"wav")
@@ -264,7 +264,7 @@ async def test_generate_lesson_audio_different_indices_different_files(
     tmp_path, monkeypatch
 ):
     """Each (lesson_id, idx) pair produces a distinct WAV file."""
-    monkeypatch.setattr(tts_module, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     created = []
 

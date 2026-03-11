@@ -31,6 +31,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.prompts import vocab as _prompts
+from maestro.utils import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +137,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
         if existing:
             existing.senses = senses
             existing.translation = translation
+            existing.updated_at = utcnow()
             await existing.save()
             logger.info("updated definition", extra={"word": word.word, "level": level})
         else:
@@ -144,6 +146,7 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
                 student_level=level,
                 senses=senses,
                 translation=translation,
+                created_at=utcnow(),
             ).insert()
             logger.info("saved definition", extra={"word": word.word, "level": level})
 
@@ -169,13 +172,10 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
             )
     await _save_all_levels(word, claude_data)
     # Generate audio if missing
-    if word.audio_path is None:
+    if word.audio_url is None:
         from maestro.tts import generate_word_audio
 
-        audio_url = await generate_word_audio(word.word)
-        if audio_url:
-            word.audio_path = audio_url
-            await word.save()
+        await generate_word_audio(word.word)
 
 
 async def _collect_words_needing_regen(
@@ -264,13 +264,10 @@ async def generate(
                         )
                 await _save_all_levels(word, claude_data)
                 # Generate audio if missing
-                if word.audio_path is None:
+                if word.audio_url is None:
                     from maestro.tts import generate_word_audio
 
-                    audio_url = await generate_word_audio(word.word)
-                    if audio_url:
-                        word.audio_path = audio_url
-                        await word.save()
+                    await generate_word_audio(word.word)
             except Exception as exc:
                 logger.error(f"Failed to save definitions for '{word.word}': {exc}")
 
