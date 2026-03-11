@@ -20,7 +20,12 @@ from anthropic import (
     RateLimitError,
 )
 from maestro.config import settings
-from maestro.errors import APIRateLimitError, APIStatusError, APITimeoutError
+from maestro.errors import (
+    APIRateLimitError,
+    APIStatusError,
+    APITimeoutError,
+    APIUnavailableError,
+)
 from maestro.models import CallType, LLMUsageRecord
 
 logger = logging.getLogger(__name__)
@@ -159,6 +164,8 @@ async def llm_messages_create(
             system=system,
             **kwargs,
         )
+    except APIUnavailableError:
+        raise
     except Exception:
         duration_ms = (time.monotonic() - t0) * 1000
         logger.warning(
@@ -174,6 +181,16 @@ async def llm_messages_create(
     duration_ms = (time.monotonic() - t0) * 1000
     await _record_llm_usage(response, entity_id, student_id, duration_ms, call_type)
     return response
+
+
+@lru_cache(maxsize=1)
+def get_client() -> anthropic.Anthropic:
+    """Return a synchronous Anthropic client."""
+    return anthropic.Anthropic(
+        api_key=settings.ANTHROPIC_API_KEY,
+        max_retries=2,
+        timeout=httpx.Timeout(60.0, connect=5.0),
+    )
 
 
 @lru_cache(maxsize=1)
