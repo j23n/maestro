@@ -174,15 +174,24 @@ class UserVocabularyCard(Document):
 # --- Learning outcome taxonomy ---
 
 
+class GrammarExplanation(BaseModel):
+    """Language-specific explanation for a grammar point, stored inline on GrammarPoint."""
+
+    title: str = ""
+    tip: str = ""  # 2-3 sentence plain-language summary; shown as tooltip on incorrect usage in activity feedback
+    explanation: str
+    language: str = "en"  # "en" or "it"
+
+
 class GrammarPoint(Document):
     code: str
     label: str
     cefr_level: str
     category: str
-    description: str
     chunk_ref: Optional[str] = (
         None  # GrammarChunk.ref — set from mapping file at ingest
     )
+    explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
     language: str = "it"
 
     class Settings:
@@ -300,18 +309,6 @@ class DrillAttempt(Document):
 class GrammarChunkResult:
     chunk: GrammarChunk
     similarity: float
-
-
-class GrammarPointExplanation(Document):
-    grammar_point: Link["GrammarPoint"]
-    student_level: str  # "A1" | "A2" | "B1" | "B2"
-    title: str = ""  # short display title in target language (3–8 words)
-    explanation: str  # CEFR-adapted target language markdown
-    translation: str = ""  # English translation of the explanation
-    language: str = "it"
-
-    class Settings:
-        name = "grammar_point_explanations"
 
 
 # --- Lezione ---
@@ -438,7 +435,6 @@ ALL_DOCUMENT_MODELS = [
     VocabularyWordDefinition,
     UserVocabularyCard,
     GrammarPoint,
-    GrammarPointExplanation,
     CommunicativeFunction,
     LearningEvent,
     LearningProfile,

@@ -21,7 +21,6 @@ from maestro.models import (
     LessonActivity,
     LearningProfile,
     GrammarPoint,
-    GrammarPointExplanation,
     ExerciseType,
     CommunicativeFunction,
     GrammarChunk,
@@ -35,7 +34,12 @@ from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.profile import get_profile
-from maestro.utils import parse_llm_json, strip_lang_spans, utcnow
+from maestro.utils import (
+    explanation_lang_for_level,
+    parse_llm_json,
+    strip_lang_spans,
+    utcnow,
+)
 from maestro.lezione.slots import _allocate_slots
 from maestro.lezione.prompts import (
     build_lesson_content_prompt,
@@ -307,7 +311,6 @@ async def _generate_lesson_background(
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get(ActivityType.GRAMMAR, 0)
     grammar_gps: list[GrammarPoint] = []
-    grammar_explanations: list[Optional[GrammarPointExplanation]] = []
 
     # When focus_weak is on, ignore scenario's gp_codes constraint
     gp_candidate_codes = None if focus_weak else scenario.gp_codes
@@ -317,15 +320,12 @@ async def _generate_lesson_background(
             profile, cefr_level, grammar_count, candidate_codes=gp_candidate_codes
         )
 
-        for gp in grammar_gps:
-            explanation = await GrammarPointExplanation.find_one(
-                {"grammar_point.$id": gp.id, "student_level": cefr_level}
-            )
-            if not explanation:
-                explanation = await GrammarPointExplanation.find_one(
-                    {"grammar_point.$id": gp.id}
-                )
-            grammar_explanations.append(explanation)
+    expl_lang = explanation_lang_for_level(cefr_level)
+    fallback_lang = "it" if expl_lang == "en" else "en"
+    grammar_explanations = [
+        gp.explanations.get(expl_lang) or gp.explanations.get(fallback_lang)
+        for gp in grammar_gps
+    ]
 
     # --- Pick grammar points for drills ---
     drill_count = slots.get(ActivityType.DRILL, 0)
@@ -347,7 +347,6 @@ async def _generate_lesson_background(
                 {
                     "grammar_point_code": gp.code,
                     "gp_label": gp.label,
-                    "gp_description": gp.description,
                     "exercise_type": exercise_type,
                     "rag_excerpt": chunk_excerpt,
                     "chunk_ref": gp.chunk_ref,

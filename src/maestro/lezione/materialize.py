@@ -8,7 +8,7 @@ from typing import Optional
 from maestro.models import (
     LessonActivity,
     GrammarPoint,
-    GrammarPointExplanation,
+    GrammarExplanation,
     GeneratedDrill,
     DrillItem,
     CommunicativeFunction,
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 async def materialize_activities(
     content: LessonContentResponse,
     grammar_gps: list[GrammarPoint],
-    grammar_explanations: list[Optional[GrammarPointExplanation]],
+    grammar_explanations: list[Optional[GrammarExplanation]],
     drill_specs: list[dict],
     speaking_cfs: list[CommunicativeFunction],
     include_writing: bool,
@@ -47,7 +47,6 @@ async def materialize_activities(
 
     # --- Grammar activities ---
     grammar_activities: list[LessonActivity] = []
-    grammar_motivations = content.grammar_motivations
     for i, gp in enumerate(grammar_gps):
         exp = grammar_explanations[i] if i < len(grammar_explanations) else None
         if exp:
@@ -60,14 +59,11 @@ async def materialize_activities(
                 explanation_content = (
                     lang_wrap(chunk.content, _settings.TARGET_LANGUAGE)
                     if chunk
-                    else gp.description
+                    else gp.label
                 )
             else:
-                explanation_content = gp.description
+                explanation_content = gp.label
             grammar_title = gp.label
-        motivation = (
-            grammar_motivations[i].text if i < len(grammar_motivations) else None
-        )
         grammar_activities.append(
             LessonActivity(
                 type=ActivityType.GRAMMAR,
@@ -75,7 +71,6 @@ async def materialize_activities(
                 description=t("grammar_desc", label=gp.label),
                 duration_minutes=3,
                 content=explanation_content,
-                why_important=motivation,
                 grammar_point_code=gp.code,
             )
         )

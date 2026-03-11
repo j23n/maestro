@@ -15,7 +15,6 @@ from maestro.models import (
     CallType,
     GeneratedDrill,
     GrammarPoint,
-    GrammarPointExplanation,
     LearningEvent,
     Lesson,
     LLMCritique,
@@ -25,6 +24,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro import prompts as _prompts
+from maestro.utils import explanation_lang_for_level
 
 logger = logging.getLogger(__name__)
 
@@ -207,16 +207,15 @@ async def _reconstruct_grammar_explanation(refs: dict) -> tuple[dict, dict]:
     if gp is None:
         return {"error": "GrammarPoint not found"}, {}
 
-    expl = await GrammarPointExplanation.find_one(
-        {"grammar_point.$id": gp.id, "student_level": cefr_level}
-    )
+    lang = explanation_lang_for_level(cefr_level)
+    fallback_lang = "it" if lang == "en" else "en"
+    expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
     if expl is None:
         return {"error": "GrammarPointExplanation not found"}, {}
 
     input_snapshot = {
         "code": gp.code,
         "label": gp.label,
-        "description": gp.description,
     }
     actual_output = {
         "title": expl.title,

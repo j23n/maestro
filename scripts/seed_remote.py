@@ -1,7 +1,7 @@
 """Seed remote MongoDB from local BSON dump files.
 
 Usage:
-    MONGODB_URI=<uri> python scripts/seed_remote.py [--dir data/seed/current] [--user] [--force]
+    MONGO_URL=<uri> python scripts/seed_remote.py [--dir data/seed/current] [--user] [--force]
 
 Options:
     --dir    Path to BSON dump directory (default: data/seed/current)
@@ -27,13 +27,13 @@ DEFAULT_SEED_DIR = Path(__file__).resolve().parents[1] / "data" / "seed" / "curr
 
 
 async def seed(seed_dir: Path, collections: list[str], force: bool) -> None:
-    client = AsyncMongoClient(settings.MONGODB_URI)
+    client = AsyncMongoClient(settings.MONGO_URL)
     db = client.get_database(
         settings.MONGODB_DB,
         codec_options=CodecOptions(tz_aware=True),
     )
 
-    print(f"Connected to {settings.MONGODB_URI} / {settings.MONGODB_DB}")
+    print(f"Connected to {settings.MONGO_URL} / {settings.MONGODB_DB}")
     print(f"Seed dir: {seed_dir}\n")
 
     for name in collections:

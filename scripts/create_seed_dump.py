@@ -20,7 +20,7 @@ SEED_DIR = Path(__file__).resolve().parent.parent / "data" / "seed" / "current"
 
 
 async def dump(collections: list[str]) -> None:
-    client = AsyncMongoClient(settings.MONGODB_URI)
+    client = AsyncMongoClient(settings.MONGO_URL)
     db = client.get_database(
         settings.MONGODB_DB,
         codec_options=CodecOptions(tz_aware=True),

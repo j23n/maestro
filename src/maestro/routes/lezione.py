@@ -13,7 +13,6 @@ from maestro.models import (
     GeneratedDrill,
     DrillAttempt,
     GrammarPoint,
-    GrammarPointExplanation,
     LearningEvent,
     Lesson,
     ActivityType,
@@ -33,7 +32,7 @@ from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
 from maestro import taxonomy
 from maestro.templates import templates
-from maestro.utils import utcnow, create_background_task
+from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.discover import (
     discover,
@@ -127,7 +126,7 @@ async def lezione_index(
 
     # Compute weak GPs
     grammar_points = await GrammarPoint.find({"cefr_level": cefr}).to_list()
-    gp_titles = await build_gp_titles(grammar_points, cefr)
+    gp_titles = build_gp_titles(grammar_points, cefr)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     weaknesses = top_weaknesses(grammar_by_level, cefr)
 
@@ -452,17 +451,6 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
-            expl = await GrammarPointExplanation.find_one(
-                {"grammar_point.$id": gp.id, "student_level": level}
-            )
-            if not expl:
-                expl = await GrammarPointExplanation.find_one(
-                    {"grammar_point.$id": gp.id}
-                )
-            if expl and expl.translation:
-                ctx["annotated_translation"] = await discover_markdown(
-                    expl.translation, student_id=student.id, lang="en"
-                )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )
