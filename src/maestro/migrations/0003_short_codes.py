@@ -2,7 +2,7 @@
 Migration 0003 — Remap grammar point references from verbose unistr_codes to short codes.
 
 Prerequisites:
-  1. Run `python -m maestro.grammar.generate_short_codes` to populate short `code` and
+  1. Run `uv run python scripts/data/generate_short_codes.py` to populate short `code` and
      `unistr_code` fields in grammar_points.json.
   2. Run `python -m maestro.learning.ingest` so all grammar_points documents have both
      `code` (short) and `unistr_code` (original verbose) fields.
@@ -36,6 +36,20 @@ async def run(db) -> None:
         new = doc.get("code")
         if old and new and old != new:
             unistr_to_code[old] = new
+
+    # Pre-unistr_code A0 GPs: hand-written before the a0_* naming scheme, so they
+    # never got a unistr_code and the map above won't catch them.
+    # Mapping determined from label similarity at migration time.
+    _LEGACY_A0_MAP = {
+        "presente_indicativo": "ind_pres",
+        "aggettivi_qualificativi": "qual_o_a_e",
+        "aggettivi_dimostrativi": "dem_questo",
+        "condizionale_vorrei": "vorrei",
+        "preposizioni_semplici": "prep_place",
+        "verbi_modali_lessicali": "percez_sig",
+        "imperativo_formale": "imper_form",
+    }
+    unistr_to_code.update(_LEGACY_A0_MAP)
 
     if not unistr_to_code:
         logger.info(
@@ -152,5 +166,11 @@ async def run(db) -> None:
             lesson_updated += 1
 
     logger.info("0003: remapped grammar_point_code in %d lesson docs", lesson_updated)
+
+    # ── Step 6: Remove stale description field from grammar_points ──────────
+    result = await db["grammar_points"].update_many({}, {"$unset": {"description": ""}})
+    logger.info(
+        "0003: unset description field on %d grammar_point docs", result.modified_count
+    )
 
     logger.info("0003: migration complete")

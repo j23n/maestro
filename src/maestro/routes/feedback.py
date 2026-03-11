@@ -213,7 +213,6 @@ async def _reconstruct_grammar_explanation(refs: dict) -> tuple[dict, dict]:
     input_snapshot = {
         "code": gp.code,
         "label": gp.label,
-        "description": gp.description,
     }
     actual_output = {
         "title": expl.title,

@@ -57,48 +57,34 @@ async def grammar_detail(
     if gp is None:
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
-    max_idx = (
-        CEFR_ORDER.index(student_level)
-        if student_level in CEFR_ORDER
-        else len(CEFR_ORDER) - 1
-    )
-    by_level = {
-        lvl: expl
-        for lvl, expl in gp.explanations.items()
-        if lvl in CEFR_ORDER and CEFR_ORDER.index(lvl) <= max_idx
-    }
-    available_levels = sorted(by_level.keys(), key=lambda lvl: CEFR_ORDER.index(lvl))
-    active_level = (
-        student_level
-        if student_level in by_level
-        else (available_levels[-1] if available_levels else student_level)
+
+    # Pick the explanation at the student's level, falling back to the highest available
+    expl = gp.explanations.get(student_level) or next(
+        (
+            gp.explanations[lvl]
+            for lvl in reversed(CEFR_ORDER)
+            if lvl in gp.explanations
+        ),
+        None,
     )
 
-    # Pre-render annotated markdown for each level
-    # B1/B2 explanations are fully in target language — add lang fallback
-    # so vocab discovery works even for old explanations without inline lang tags.
-    # A1/A2 are mixed-language and need inline tags from the LLM.
-    panels: dict[str, dict] = {}
-    for lvl, expl in by_level.items():
-        fallback_lang = _settings.TARGET_LANGUAGE if lvl in ("B1", "B2") else None
-        panels[lvl] = {
-            "title": expl.title or gp.label,
-            "content": await discover_markdown(
-                expl.explanation, student_id=student.id, lang=fallback_lang
-            ),
-        }
+    content = None
+    if expl:
+        # B1/B2 explanations are fully in target language — add lang fallback for vocab discovery
+        fallback_lang = (
+            _settings.TARGET_LANGUAGE if student_level in ("B1", "B2") else None
+        )
+        content = await discover_markdown(
+            expl.explanation, student_id=student.id, lang=fallback_lang
+        )
 
-    display_title = (
-        panels[active_level]["title"] if active_level in panels else gp.label
-    )
+    display_title = (expl.title if expl and expl.title else None) or gp.label
     return templates.TemplateResponse(
         request=request,
         name="grammar-detail.html",
         context={
             "gp": gp,
-            "panels": panels,
-            "available_levels": available_levels,
-            "active_level": active_level,
+            "content": content,
             "display_title": display_title,
         },
     )

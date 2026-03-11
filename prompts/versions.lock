@@ -4,8 +4,8 @@
     "sha256": "ff146b45ab53913c67179bc2bf3e2c0281a498d4957fd93a01b576763fac7d48"
   },
   "grammar_explanations.yaml": {
-    "version": "2",
-    "sha256": "de241e31ed240cc81e2ebca79bd30dac1b7a66a062d3d1ed9afa3d471c5d50bf"
+    "version": "4",
+    "sha256": "837b55093e143f94ef082302fe7e5e9e68edb072b4aa9acf19f89caa4f25e462"
   },
   "judge.yaml": {
     "version": "1",

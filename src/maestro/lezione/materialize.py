@@ -60,10 +60,10 @@ async def materialize_activities(
                 explanation_content = (
                     lang_wrap(chunk.content, _settings.TARGET_LANGUAGE)
                     if chunk
-                    else gp.description
+                    else gp.label
                 )
             else:
-                explanation_content = gp.description
+                explanation_content = gp.label
             grammar_title = gp.label
         motivation = (
             grammar_motivations[i].text if i < len(grammar_motivations) else None

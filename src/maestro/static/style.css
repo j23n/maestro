@@ -309,20 +309,24 @@ a.progress-seg { display: block; text-decoration: none; }
 }
 
 /* Grammar content */
-.grammar-content { font-size: 0.95rem; line-height: 1.7; color: var(--c-text); }
+.grammar-content { font-size: 0.95rem; line-height: 1.75; color: var(--c-text); }
 
 .grammar-content h1,
 .grammar-content h2,
 .grammar-content h3 {
-  font-size: 1rem;
+  font-family: var(--f-sans);
   font-weight: 600;
-  margin: 1.25rem 0 0.5rem;
   color: var(--c-charcoal);
+  margin: 1.75rem 0 0.5rem;
 }
+.grammar-content h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-text-muted); }
+.grammar-content h3 { font-size: 0.95rem; }
 
 .grammar-content h1:first-child,
 .grammar-content h2:first-child,
 .grammar-content h3:first-child { margin-top: 0; }
+
+.grammar-content strong { font-weight: 600; }
 
 .grammar-content p { margin: 0 0 0.9rem; }
 .grammar-content p:last-child { margin-bottom: 0; }
@@ -336,11 +340,32 @@ a.progress-seg { display: block; text-decoration: none; }
 }
 
 .grammar-content blockquote {
+  border-left: 3px solid var(--c-gold);
+  background: var(--c-surface);
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0 6px 6px 0;
+  font-style: normal;
+}
+.grammar-content blockquote p { margin: 0 0 0.5rem; }
+.grammar-content blockquote p:last-child { margin-bottom: 0; }
+
+/* "Why this matters" — always the first h2 + its adjacent paragraph */
+.grammar-content > h2:first-child {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+.grammar-content > h2:first-child + p {
   border-left: 3px solid var(--c-border);
-  margin: 0.75rem 0;
-  padding: 0.3rem 0.9rem;
+  background: var(--c-surface);
+  padding: 0.6rem 0.9rem;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.88rem;
   color: var(--c-text-muted);
   font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 .grammar-content ul,
@@ -351,7 +376,7 @@ a.progress-seg { display: block; text-decoration: none; }
 .grammar-content table {
   border-collapse: collapse;
   width: 100%;
-  margin: 0 0 0.9rem;
+  margin: 0.5rem 0 1.25rem;
   font-size: 0.9em;
 }
 
@@ -920,16 +945,9 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 /* =====================================================================
    16. Page: Grammar detail
    ===================================================================== */
-.grammar-detail { max-width: 600px; margin: 2.5rem auto; padding: 0 1rem 3rem; }
+.grammar-detail { max-width: 760px; margin: 2.5rem auto; padding: 0 1rem 3rem; }
 
 .gp-header { margin-bottom: 1.75rem; }
-.chunk-link {
-  display: inline-block;
-  font-size: 0.82rem;
-  color: var(--c-text-muted);
-  margin-top: 0.4rem;
-}
-.chunk-link:hover { color: var(--c-text); }
 .gp-level {
   display: inline-block;
   font-size: 0.72rem;

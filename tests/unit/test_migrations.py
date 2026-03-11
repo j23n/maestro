@@ -45,6 +45,9 @@ def _make_db(applied_names: list[str] = None):
     # Migration 0003 iterates grammar_points — empty cursor causes early return
     grammar_points_coll = MagicMock()
     grammar_points_coll.find.return_value = _empty_cursor()
+    grammar_points_coll.update_many = AsyncMock(
+        return_value=MagicMock(modified_count=0)
+    )
 
     def _get_coll(name):
         return {
