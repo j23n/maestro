@@ -28,7 +28,7 @@ _requires_key = pytest.mark.skipif(
 @pytest.fixture()
 def audio_dir(tmp_path, monkeypatch):
     """Redirect audio output to a per-test temp directory."""
-    monkeypatch.setattr(tts_mod, "_AUDIO_DIR", tmp_path)
+    monkeypatch.setattr(tts_mod, "_audio_dir", lambda: tmp_path)
     return tmp_path
 
 
