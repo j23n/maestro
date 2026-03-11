@@ -11,7 +11,6 @@ from maestro.models import (
 from maestro.lezione.materialize import materialize_activities
 from maestro.lezione.schemas import (
     LessonContentResponse,
-    GrammarMotivation,
     DrillResponse,
     DrillItemResponse,
     ReadingResponse,
@@ -35,11 +34,7 @@ async def grammar_gp(db):
 
 @pytest.mark.integration
 async def test_materialize_grammar_activity(grammar_gp, db):
-    content = LessonContentResponse(
-        grammar_motivations=[
-            GrammarMotivation(code="GP_MAT", text="Articles are essential")
-        ],
-    )
+    content = LessonContentResponse()
     activities = await materialize_activities(
         content=content,
         grammar_gps=[grammar_gp],
@@ -57,7 +52,6 @@ async def test_materialize_grammar_activity(grammar_gp, db):
     assert activities[0].type == ActivityType.GRAMMAR
     assert activities[0].grammar_point_code == "GP_MAT"
     assert "Articoli" in activities[0].title
-    assert activities[0].why_important == "Articles are essential"
 
 
 @pytest.mark.integration
@@ -228,7 +222,6 @@ async def test_materialize_pedagogical_order(grammar_gp, db):
     await cf.insert()
 
     content = LessonContentResponse(
-        grammar_motivations=[GrammarMotivation(code="GP_MAT", text="motivation")],
         drills=[
             DrillResponse(
                 grammar_point_code="GP_DRILL",

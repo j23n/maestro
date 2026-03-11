@@ -15,6 +15,7 @@ def patch_lifespan():
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
         patch("maestro.main.run_pending", new_callable=AsyncMock),
+        patch("maestro.main.sync_grammar_points", new_callable=AsyncMock),
         patch("maestro.main.seed_if_empty", new_callable=AsyncMock),
         patch("maestro.main.get_nlp", return_value=MagicMock()),
         patch("maestro.main.load_vocab", new_callable=AsyncMock),
