@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from typing import Optional
 
 from maestro.models import (
@@ -12,14 +13,11 @@ from maestro.models import (
     GeneratedDrill,
     DrillItem,
     CommunicativeFunction,
-    GrammarChunk,
     ActivityType,
     ExerciseType,
 )
-from maestro.config import settings as _settings
 from maestro.lezione.schemas import LessonContentResponse
 from maestro.strings import t
-from maestro.vocab.discover import lang_wrap
 
 logger = logging.getLogger(__name__)
 
@@ -37,13 +35,25 @@ async def materialize_activities(
     cefr_level: str,
     student_id,
     listening_count: int = 0,
+    shuffle_within_blocks: bool = True,
 ) -> list[LessonActivity]:
     """Convert raw LLM content dict into ordered LessonActivity list.
 
     Creates GeneratedDrill documents for drill activities.
-    Returns activities in pedagogical order:
-    grammar -> reading -> drill -> speaking -> writing.
+
+    When grammar_gps are present, activities are grouped into grammar blocks:
+      grammar_1 → shuffle(drills_for_gp1 + distributed_readings)
+      grammar_2 → shuffle(drills_for_gp2 + distributed_readings + speaking + writing)
+
+    When grammar_gps is empty, falls back to flat order:
+    listening → reading → drill → speaking → writing.
     """
+
+    if len(grammar_explanations) != len(grammar_gps):
+        raise ValueError(
+            f"grammar_explanations length ({len(grammar_explanations)}) must match "
+            f"grammar_gps length ({len(grammar_gps)})"
+        )
 
     # --- Grammar activities ---
     grammar_activities: list[LessonActivity] = []
@@ -53,16 +63,7 @@ async def materialize_activities(
             explanation_content = exp.explanation
             grammar_title = exp.title or gp.label
         else:
-            # Fallback: load chunk content directly
-            if gp.chunk_ref:
-                chunk = await GrammarChunk.find_one({"ref": gp.chunk_ref})
-                explanation_content = (
-                    lang_wrap(chunk.content, _settings.TARGET_LANGUAGE)
-                    if chunk
-                    else gp.label
-                )
-            else:
-                explanation_content = gp.label
+            explanation_content = gp.label
             grammar_title = gp.label
         grammar_activities.append(
             LessonActivity(
@@ -72,6 +73,7 @@ async def materialize_activities(
                 duration_minutes=3,
                 content=explanation_content,
                 grammar_point_code=gp.code,
+                grammar_label=gp.label,
             )
         )
 
@@ -174,6 +176,7 @@ async def materialize_activities(
                 description=f"{exercise_type.replace('_', ' ').title()} · {spec['gp_label']}",
                 duration_minutes=3,
                 drill_id=drill.id,
+                grammar_point_code=spec["grammar_point_code"],
             )
         )
 
@@ -205,12 +208,55 @@ async def materialize_activities(
             )
         )
 
-    # Pedagogical order: grammar → listening → reading → drill → speaking → writing
-    return (
-        grammar_activities
-        + listening_activities
-        + reading_activities
-        + drill_activities
-        + speaking_activities
-        + writing_activities
-    )
+    # --- Assemble into grammar blocks (or flat fallback) ---
+    if not grammar_activities:
+        # No grammar: flat order listening → reading → drill → speaking → writing
+        return (
+            listening_activities
+            + reading_activities
+            + drill_activities
+            + speaking_activities
+            + writing_activities
+        )
+
+    # Group drills by their grammar_point_code
+    drills_by_gp: dict[str, list[LessonActivity]] = {}
+    for act in drill_activities:
+        if not act.grammar_point_code:
+            logger.error(
+                "drill has no grammar_point_code — dropped",
+                extra={"title": act.title},
+            )
+            continue
+        drills_by_gp.setdefault(act.grammar_point_code, []).append(act)
+
+    # Pool all reading/listening to distribute evenly across blocks
+    # Extra readings go to the last N blocks (1 extra each)
+    all_readings = listening_activities + reading_activities
+    n_blocks = len(grammar_activities)
+    readings_per_block = len(all_readings) // n_blocks if n_blocks else 0
+    extra_readings = len(all_readings) % n_blocks if n_blocks else 0
+
+    result: list[LessonActivity] = []
+    reading_cursor = 0
+    for i, (gp, grammar_act) in enumerate(zip(grammar_gps, grammar_activities)):
+        block: list[LessonActivity] = []
+        block.extend(drills_by_gp.get(gp.code, []))
+
+        # Distribute readings: last block absorbs any remainder
+        n_readings = readings_per_block + (1 if i >= n_blocks - extra_readings else 0)
+        block.extend(all_readings[reading_cursor : reading_cursor + n_readings])
+        reading_cursor += n_readings
+
+        # Append speaking + writing to the last block
+        if i == n_blocks - 1:
+            block.extend(speaking_activities)
+            block.extend(writing_activities)
+
+        if shuffle_within_blocks:
+            random.shuffle(block)
+
+        result.append(grammar_act)
+        result.extend(block)
+
+    return result

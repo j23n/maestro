@@ -25,8 +25,8 @@ from maestro import taxonomy
 
 
 @pytest.mark.integration
-async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
-    """When LLM returns non-JSON, score_multi_item_drill falls back to all-incorrect."""
+async def test_malformed_llm_json_raises(mock_scorer_client, db):
+    """When LLM returns non-JSON, score_multi_item_drill raises (no silent fallback)."""
     from maestro.learning.scorer import score_multi_item_drill
 
     # Seed taxonomy with at least one GP
@@ -35,7 +35,6 @@ async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
         label="Test GP",
         cefr_level="A1",
         category="test",
-        description="test",
     )
     await gp.insert()
     taxonomy.seed([gp], [])
@@ -46,11 +45,39 @@ async def test_malformed_llm_json_returns_fallback(mock_scorer_client, db):
     )
 
     items = [DrillItem(prompt="Il ___ è bello", correct_answer="gatto")]
-    results = await score_multi_item_drill(
-        ExerciseType.FILL_BLANK, "GP001", items, ["cane"]
+    with pytest.raises(ValueError):
+        await score_multi_item_drill(ExerciseType.FILL_BLANK, "GP001", items, ["cane"])
+
+
+# ---------------------------------------------------------------------------
+# 1b. Malformed LLM JSON in writing scorer — raises (no silent fallback)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_malformed_llm_json_writing_raises(mock_scorer_client, db):
+    """When LLM returns non-JSON for writing feedback, generate_writing_feedback raises."""
+    from maestro.learning.scorer import generate_writing_feedback
+
+    gp = GrammarPoint(
+        code="GP001",
+        label="Test GP",
+        cefr_level="A1",
+        category="test",
     )
-    assert len(results) == 1
-    assert results[0]["objective_correct"] is False
+    await gp.insert()
+    taxonomy.seed([gp], [])
+
+    mock_scorer_client.messages.create.return_value = MagicMock(
+        content=[MagicMock(text="Not JSON")]
+    )
+
+    with pytest.raises(ValueError):
+        await generate_writing_feedback(
+            prompt="Descrivi la tua giornata.",
+            student_text="Oggi mangio pizza.",
+            cefr_level="A1",
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -69,7 +96,7 @@ async def test_missing_drill_returns_404(test_app, db, student):
             LessonActivity(
                 type=ActivityType.DRILL,
                 title="Test Drill",
-                description="test",
+                description="",
                 status=ActivityStatus.ACTIVE,
                 drill_id=PydanticObjectId(),  # points to nonexistent drill
             )

@@ -43,7 +43,7 @@ async def active_lesson_with_drill(db, student):
             LessonActivity(
                 type=ActivityType.DRILL,
                 title="Test drill",
-                description="Test",
+                description="",
                 duration_minutes=3,
                 status=ActivityStatus.ACTIVE,
                 drill_id=drill.id,
@@ -119,7 +119,7 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
@@ -163,7 +163,7 @@ async def test_lezione_create_abandons_active_and_creates_new(test_app, db, stud
             LessonActivity(
                 type=ActivityType.GRAMMAR,
                 title="Test",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
             ),
@@ -206,7 +206,7 @@ async def active_lesson_with_listening(db, student):
             LessonActivity(
                 type=ActivityType.LISTENING,
                 title="Ascolto",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Marco va al bar.</span>",
@@ -298,7 +298,7 @@ async def test_reading_submit_on_reading_records_reading_event(test_app, db, stu
             LessonActivity(
                 type=ActivityType.READING,
                 title="Lettura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Testo.</span>",
@@ -339,7 +339,7 @@ async def test_lezione_abandon_route(test_app, db, student):
             LessonActivity(
                 type=ActivityType.GRAMMAR,
                 title="Test",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
             ),
@@ -436,7 +436,6 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
         label="Test Writing GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -450,7 +449,7 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
@@ -498,7 +497,6 @@ async def test_reading_submit_creates_learning_event(
         label="Test Reading GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -513,7 +511,7 @@ async def test_reading_submit_creates_learning_event(
             LessonActivity(
                 type=ActivityType.READING,
                 title="Lettura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Il gatto è sul tavolo.",
@@ -556,7 +554,6 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
         label="Test Error GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -570,7 +567,7 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
@@ -726,3 +723,104 @@ async def test_free_tier_limit_response_contains_upgrade_text(
     )
     assert response.status_code == 402
     assert "Limite raggiunto" in response.text
+
+
+# ---------------------------------------------------------------------------
+# Scoring failure → user-friendly message tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+def test_drill_scoring_failure_returns_unavailable(test_app, active_lesson_with_drill):
+    """When score_attempt raises, user sees scoring_unavailable message."""
+    lesson, drill = active_lesson_with_drill
+
+    with patch(
+        "maestro.routes.lezione.score_attempt",
+        new_callable=AsyncMock,
+        side_effect=RuntimeError("LLM down"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/drill-submit",
+            data={"answers": "vado"},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text
+
+
+@pytest.mark.integration
+async def test_writing_scoring_failure_returns_unavailable(test_app, db, student):
+    """When generate_writing_feedback raises, user sees scoring_unavailable message."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.WRITING,
+                title="Scrittura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="Descrivi la tua giornata.",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.routes.lezione.generate_writing_feedback",
+        new_callable=AsyncMock,
+        side_effect=ValueError("bad LLM response"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/writing-submit",
+            data={"answer": "Oggi ho mangiato la pizza."},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text
+
+
+@pytest.mark.integration
+async def test_reading_scoring_failure_returns_unavailable(test_app, db, student):
+    """When score_reading_activity raises, user sees scoring_unavailable message."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        cefr_at_start="A1",
+        activities=[
+            LessonActivity(
+                type=ActivityType.READING,
+                title="Lettura",
+                description="",
+                duration_minutes=5,
+                status=ActivityStatus.ACTIVE,
+                content="Il gatto è sul tavolo.",
+                questions=["Dove è il gatto?"],
+                correct_answers=["Sul tavolo"],
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.routes.lezione.score_reading_activity",
+        new_callable=AsyncMock,
+        side_effect=ValueError("bad LLM response"),
+    ):
+        response = test_app.post(
+            f"/lezione/{lesson.id}/activity/0/reading-submit",
+            data={"answers": "Sul tavolo"},
+        )
+
+    assert response.status_code == 200
+    assert "correzione automatica" in response.text

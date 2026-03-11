@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 
+_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+
 logger = logging.getLogger(__name__)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -144,4 +146,85 @@ async def test_writing_task_completion_accuracy(db, record_eval, record_item):
     )
     assert content_quality >= 0.70, (
         f"Writing feedback content quality too low: {content_quality:.2%}"
+    )
+
+
+@pytest.mark.llm_eval
+async def test_grammar_code_matching_by_level(db, record_eval, record_item):
+    """Verify that a negation GP code is matched when it's in the code list (A1),
+    but NOT matched when it's absent from the list (A2-only taxonomy seeded).
+
+    This documents the known limitation: errors in below-current-level concepts
+    are undetectable because _grammar_code_list only includes exact-level codes.
+    """
+    from types import SimpleNamespace
+    from maestro import taxonomy
+    from maestro.learning.scorer import generate_writing_feedback
+
+    all_gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+
+    student_text = "Oggi no lo so come si dice in italiano."  # "no" instead of "non"
+    writing_prompt = "Scrivi una frase sulla tua giornata."
+
+    # --- A1 context: negation GP (a0_si_no_non) IS in the taxonomy ---
+    a1_gps = [g for g in all_gps if g["cefr_level"] == "A1"]
+    # Also include the A0 negation GP so it appears in the code list
+    neg_gp = next((g for g in all_gps if g["code"] == "a0_si_no_non"), None)
+    seed_gps = a1_gps + ([neg_gp] if neg_gp else [])
+    taxonomy.seed(gps=[SimpleNamespace(**g) for g in seed_gps])
+
+    feedback_a1 = await generate_writing_feedback(
+        prompt=writing_prompt,
+        student_text=student_text,
+        cefr_level="A1",
+    )
+    taxonomy.invalidate()
+
+    # --- A2 context: only A2 GPs seeded, negation GP absent ---
+    a2_gps = [g for g in all_gps if g["cefr_level"] == "A2"]
+    taxonomy.seed(gps=[SimpleNamespace(**g) for g in a2_gps])
+
+    feedback_a2 = await generate_writing_feedback(
+        prompt=writing_prompt,
+        student_text=student_text,
+        cefr_level="A2",
+    )
+    taxonomy.invalidate()
+
+    a1_codes = feedback_a1.get("grammar_error_codes", [])
+    a2_codes = feedback_a2.get("grammar_error_codes", [])
+    a1_freetext = feedback_a1.get("grammar_errors", [])
+    a2_freetext = feedback_a2.get("grammar_errors", [])
+
+    logger.info(
+        "[eval] grammar_code_matching_by_level",
+        extra={
+            "a1_error_codes": a1_codes,
+            "a2_error_codes": a2_codes,
+            "a1_freetext_errors": a1_freetext,
+            "a2_freetext_errors": a2_freetext,
+        },
+    )
+
+    record_eval(
+        "analyzer",
+        {
+            "test": "grammar_code_matching_by_level",
+            "a1_error_codes": a1_codes,
+            "a2_error_codes": a2_codes,
+            "a1_freetext_errors": a1_freetext,
+            "a2_freetext_errors": a2_freetext,
+            "a1_detected_code": bool(a1_codes),
+            "a2_detected_code": bool(a2_codes),
+        },
+    )
+
+    # A1: negation GP is in the list — LLM should tag it
+    assert a1_codes, (
+        f"Expected negation GP code in A1 context but got none. "
+        f"Free-text errors: {a1_freetext}"
+    )
+    # A2: negation GP is absent from code list — LLM cannot tag it (known limitation)
+    assert not a2_codes, (
+        f"Expected no GP codes in A2 context (negation not in list) but got: {a2_codes}"
     )

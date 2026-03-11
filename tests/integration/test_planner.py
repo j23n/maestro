@@ -8,6 +8,7 @@ from beanie import PydanticObjectId
 from maestro.models import (
     CurriculumScenario,
     GrammarPoint,
+    GrammarExplanation,
     CommunicativeFunction,
     GeneratedDrill,
     LearningProfile,
@@ -61,7 +62,6 @@ async def test_pick_grammar_points_falls_back_when_no_level_match(db):
         label="B2 rule",
         cefr_level="B2",
         category="test",
-        description="B2 rule",
     )
     await gp.insert()
 
@@ -290,14 +290,15 @@ async def test_drill_materialization_creates_generated_drills(db):
         label="Presente",
         cefr_level="A1",
         category="verbi",
-        description="Present tense",
     )
     await gp.insert()
+    gp.explanations = {"en": GrammarExplanation(explanation="Il presente indicativo.")}
+    await gp.save()
 
     scenario = CurriculumScenario(
         slug="test-scenario",
         label="Test",
-        description="Test scenario",
+        description="",
         cefr_level="A1",
         cf_codes=[],
         gp_codes=["GP_001"],
@@ -339,11 +340,6 @@ async def test_drill_materialization_creates_generated_drills(db):
         patch("maestro.llm.get_async_client", return_value=mock_client),
         patch(
             "maestro.lezione.planner.GrammarChunk.find_one",
-            new_callable=AsyncMock,
-            return_value=None,
-        ),
-        patch(
-            "maestro.lezione.materialize.GrammarChunk.find_one",
             new_callable=AsyncMock,
             return_value=None,
         ),

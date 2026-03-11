@@ -104,21 +104,27 @@ async def score_attempt(
 
         # Aggregate GP codes detected across all items, filtering out hallucinated codes
         valid_codes = {g.code for g in taxonomy.grammar_points()}
-        all_correct_codes = list(
-            {
-                c
-                for r in raw_results[:n]
-                for c in r.get("grammar_correct_codes", [])
-                if c in valid_codes
-            }
-        )
-        all_error_codes = list(
-            {
-                c
-                for r in raw_results[:n]
-                for c in r.get("grammar_error_codes", [])
-                if c in valid_codes
-            }
+        raw_correct = [
+            c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
+        ]
+        raw_errors = [
+            c for r in raw_results[:n] for c in r.get("grammar_error_codes", [])
+        ]
+        all_correct_codes = list({c for c in raw_correct if c in valid_codes})
+        all_error_codes = list({c for c in raw_errors if c in valid_codes})
+        filtered_out = [c for c in raw_correct + raw_errors if c not in valid_codes]
+        if filtered_out:
+            logger.debug(
+                "GP codes filtered out (not in taxonomy)",
+                extra={"lesson_id": str(lesson_id), "filtered_codes": filtered_out},
+            )
+        logger.debug(
+            "drill GP codes after filter",
+            extra={
+                "lesson_id": str(lesson_id),
+                "all_correct_codes": all_correct_codes,
+                "all_error_codes": all_error_codes,
+            },
         )
 
         if overall_correct:

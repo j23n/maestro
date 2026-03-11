@@ -249,10 +249,17 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 /* Segmented progress bar */
 .progress-segments { display: flex; gap: 3px; height: 6px; margin-bottom: 0.35rem; }
 .progress-seg { flex: 1; border-radius: 3px; background: var(--c-border); }
-.progress-seg.completed { background: var(--c-sage); cursor: pointer; }
-.progress-seg.completed:hover { opacity: 0.8; }
+.progress-seg.completed { background: var(--c-sage); }
 .progress-seg.current { background: var(--c-terracotta); }
 a.progress-seg { display: block; text-decoration: none; }
+/* Grammar activities stand out in the progress bar */
+.progress-seg.grammar-seg { box-shadow: 0 0 0 2px var(--c-terracotta); }
+.progress-seg.grammar-seg.completed { background: var(--c-terracotta); opacity: 0.55; cursor: pointer; }
+.progress-seg.grammar-seg.completed:hover { opacity: 0.8; }
+.progress-seg.grammar-seg.current { background: var(--c-terracotta); opacity: 1; }
+
+/* Scoring-unavailable banner */
+.result-unavailable { background: #fef3cd; color: #856404; border: 1px solid #ffc107; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
 
 /* Grammar quick-link in progress footer */
 .grammar-link {

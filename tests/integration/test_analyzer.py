@@ -227,20 +227,19 @@ async def test_score_multi_item_drill_success(mock_scorer_client):
 
 
 @pytest.mark.integration
-async def test_score_multi_item_drill_fallback_on_failure(mock_scorer_client):
-    """score_multi_item_drill returns all-incorrect fallback on LLM error."""
+async def test_score_multi_item_drill_raises_on_failure(mock_scorer_client):
+    """score_multi_item_drill raises on LLM error (no silent fallback)."""
     _seed_cache()
     items = [MagicMock(prompt="Test.", correct_answer="answer")]
     mock_scorer_client.messages.create.side_effect = RuntimeError("error")
 
-    result = await scorer_module.score_multi_item_drill(
-        exercise_type=ExerciseType.FILL_BLANK,
-        grammar_point_code="GP_001",
-        items=items,
-        student_answers=["wrong"],
-    )
-    assert len(result) == 1
-    assert result[0]["objective_correct"] is False
+    with pytest.raises(RuntimeError):
+        await scorer_module.score_multi_item_drill(
+            exercise_type=ExerciseType.FILL_BLANK,
+            grammar_point_code="GP_001",
+            items=items,
+            student_answers=["wrong"],
+        )
 
 
 @pytest.mark.integration

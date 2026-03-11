@@ -56,7 +56,25 @@ async def _collect_activity_events(
         error_codes.extend(ev.grammar_errors)
         if ev.student_text:
             texts.append(ev.student_text)
+        logger.debug(
+            "activity event",
+            extra={
+                "lesson_id": str(lesson.id),
+                "activity_type": ev.activity_type,
+                "grammar_correct": ev.grammar_correct,
+                "grammar_errors": ev.grammar_errors,
+            },
+        )
 
+    logger.info(
+        "collected activity events",
+        extra={
+            "lesson_id": str(lesson.id),
+            "n_events": len(events),
+            "n_correct_codes": len(correct_codes),
+            "n_error_codes": len(error_codes),
+        },
+    )
     return correct_codes, error_codes, "\n---\n".join(texts)
 
 
@@ -150,6 +168,10 @@ async def analyze_lesson(lesson: "Lesson") -> None:
     then runs CF analysis on combined student text.
     """
     try:
+        logger.info(
+            "analyze_lesson start",
+            extra={"lesson_id": str(lesson.id), "student_id": str(lesson.student_id)},
+        )
         await taxonomy.ensure_loaded()
         profile = await get_profile(lesson.student_id) if lesson.student_id else None
         cefr_level = profile.cefr_estimate if profile else "A0"
