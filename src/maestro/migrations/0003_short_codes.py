@@ -2,13 +2,12 @@
 Migration 0003 — Remap grammar point references from verbose unistr_codes to short codes.
 
 Prerequisites:
-  1. Run `uv run python scripts/data/generate_short_codes.py` to populate short `code` and
-     `unistr_code` fields in grammar_points.json.
-  2. Run `python -m maestro.learning.ingest` so all grammar_points documents have both
-     `code` (short) and `unistr_code` (original verbose) fields.
+  1. Run `uv run python scripts/data/generate_short_codes.py` to populate `unistr_code`
+     fields in grammar_points.json.
+  2. Run `uv run python -m maestro.learning.ingest` to sync grammar_points to MongoDB.
 
-This migration then remaps all collections that reference grammar point codes by their
-old verbose string to the new short codes.
+This migration builds a unistr_code → short code mapping from grammar_points.json and
+remaps all collections that stored the old verbose codes.
 
 Collections affected:
   - learning_profile          (remap dict keys in grammar_correct/error/recent_outcomes)

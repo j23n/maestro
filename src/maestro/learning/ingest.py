@@ -36,24 +36,15 @@ logger = logging.getLogger(__name__)
 async def upsert_grammar_points() -> list[GrammarPoint]:
     with open(data_dir() / "grammar_points.json") as f:
         items = json.load(f)
-    # Both new short codes and old unistr_codes are "known" to avoid deleting GPs during
-    # the short-code transition (before migration 0003 runs)
     new_codes = {item["code"] for item in items}
-    new_codes |= {item["unistr_code"] for item in items if item.get("unistr_code")}
     # Remove GPs that no longer exist in the data file
     existing = await GrammarPoint.find_all().to_list()
     for gp in existing:
         if gp.code not in new_codes:
             await gp.delete()
-    # Upsert by code — during short-code transition, find existing GPs by unistr_code first
     gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
     for item in items:
-        gp = None
-        unistr = item.get("unistr_code")
-        if unistr:
-            gp = await GrammarPoint.find_one({"code": unistr})
-        if gp is None:
-            gp = await GrammarPoint.find_one({"code": item["code"]})
+        gp = await GrammarPoint.find_one({"code": item["code"]})
         if gp:
             for key, val in item.items():
                 if key in gp_fields:
