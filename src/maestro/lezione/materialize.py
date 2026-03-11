@@ -73,7 +73,7 @@ async def materialize_activities(
                 duration_minutes=3,
                 content=explanation_content,
                 grammar_point_code=gp.code,
-                label=gp.label,
+                grammar_label=gp.label,
             )
         )
 
@@ -230,11 +230,12 @@ async def materialize_activities(
             continue
         drills_by_gp.setdefault(act.grammar_point_code, []).append(act)
 
-    # Pool all reading/listening to distribute across blocks
+    # Pool all reading/listening to distribute evenly across blocks
+    # Extra readings go to the last N blocks (1 extra each)
     all_readings = listening_activities + reading_activities
     n_blocks = len(grammar_activities)
-    readings_per_block = len(all_readings) // n_blocks
-    extra_readings = len(all_readings) % n_blocks
+    readings_per_block = len(all_readings) // n_blocks if n_blocks else 0
+    extra_readings = len(all_readings) % n_blocks if n_blocks else 0
 
     result: list[LessonActivity] = []
     reading_cursor = 0

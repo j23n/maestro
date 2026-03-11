@@ -296,7 +296,7 @@ async def test_materialize_grammar_label_field(grammar_gp, grammar_explanation, 
         cefr_level="A1",
         student_id=None,
     )
-    assert activities[0].label == "Articoli"
+    assert activities[0].grammar_label == "Articoli"
 
 
 @pytest.mark.integration
