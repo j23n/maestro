@@ -596,8 +596,8 @@ async def lezione_drill_submit(
             "drill event stored",
             extra={
                 "lesson_id": str(lesson.id),
-                "grammar_error_codes": event.grammar_errors,
-                "grammar_correct_codes": event.grammar_correct,
+                "grammar_errors": event.grammar_errors,
+                "grammar_correct": event.grammar_correct,
             },
         )
 
@@ -758,8 +758,8 @@ async def lezione_writing_submit(
         "writing event stored",
         extra={
             "lesson_id": str(lesson.id),
-            "grammar_error_codes": event.grammar_errors,
-            "grammar_correct_codes": event.grammar_correct,
+            "grammar_errors": event.grammar_errors,
+            "grammar_correct": event.grammar_correct,
         },
     )
 

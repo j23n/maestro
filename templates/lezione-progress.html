@@ -24,7 +24,7 @@
       {% for a in lesson.activities %}
         {% if a.type == 'grammar' and loop.index0 != idx and a.status in ('completed', 'skipped') %}
         <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
-           class="grammar-link">{{ a.title | replace("Grammatica: ", "") }}</a>
+           class="grammar-link">{{ a.title | replace(t("grammar_title_prefix"), "") }}</a>
         {% endif %}
       {% endfor %}
       {{ t("progress_label", current=idx + 1, total=total) }}
