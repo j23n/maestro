@@ -313,20 +313,6 @@ class GrammarChunkResult:
     similarity: float
 
 
-# TODO: remove GrammarPointExplanation after migration 0003 is confirmed applied in prod
-#       and export_explanations_to_json.py has been run. Only kept for the export script.
-class GrammarPointExplanation(Document):
-    grammar_point: Link["GrammarPoint"]
-    student_level: str  # "A1" | "A2" | "B1" | "B2"
-    title: str = ""  # short display title in target language (3–8 words)
-    explanation: str  # CEFR-adapted target language markdown
-    translation: str = ""  # English translation of the explanation
-    language: str = "it"
-
-    class Settings:
-        name = "grammar_point_explanations"
-
-
 # --- Lezione ---
 
 
@@ -451,7 +437,6 @@ ALL_DOCUMENT_MODELS = [
     VocabularyWordDefinition,
     UserVocabularyCard,
     GrammarPoint,
-    GrammarPointExplanation,
     CommunicativeFunction,
     LearningEvent,
     LearningProfile,

@@ -23,7 +23,6 @@ from maestro.models import (
     CefrSense,
     CommunicativeFunction,
     CurriculumScenario,
-    GrammarExplanation,
     GrammarPoint,
     Sense,
     VocabularyWord,
@@ -208,46 +207,11 @@ async def seed_a0_vocab() -> None:
     )
 
 
-async def seed_a0_grammar_explanations(grammar_points: list[GrammarPoint]) -> None:
-    """Seed static A0 grammar explanations into GrammarPoint.explanations["en"]."""
-    expl_file = data_dir() / "a0_grammar_explanations.json"
-    if not expl_file.exists():
-        logger.warning(f"A0 grammar explanations file not found: {expl_file}")
-        return
-
-    with open(expl_file) as f:
-        data = json.load(f)
-
-    gp_by_code: dict[str, GrammarPoint] = {}
-    for gp in grammar_points:
-        if gp.cefr_level == "A0":
-            gp_by_code[gp.code] = gp
-            if gp.unistr_code:
-                gp_by_code[gp.unistr_code] = gp
-    count = 0
-    for code, texts in data.items():
-        gp = gp_by_code.get(code)
-        if not gp:
-            logger.warning(f"  A0 GP not found for code: {code}")
-            continue
-        gp.explanations["en"] = GrammarExplanation(
-            title=texts["title"],
-            explanation=texts["explanation"],
-            language="en",
-        )
-        await gp.save()
-        count += 1
-    logger.info(f"A0 grammar explanations: seeded {count} records")
-
-
 async def ingest():
     await init_db()
 
     logger.info("=== Ingesting grammar points ===")
-    grammar_points = await upsert_grammar_points()
-
-    logger.info("=== Seeding A0 grammar explanations ===")
-    await seed_a0_grammar_explanations(grammar_points)
+    await upsert_grammar_points()
 
     logger.info("=== Ingesting communicative functions ===")
     await upsert_comm_functions()
