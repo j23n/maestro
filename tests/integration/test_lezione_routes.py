@@ -43,7 +43,7 @@ async def active_lesson_with_drill(db, student):
             LessonActivity(
                 type=ActivityType.DRILL,
                 title="Test drill",
-                description="Test",
+                description="",
                 duration_minutes=3,
                 status=ActivityStatus.ACTIVE,
                 drill_id=drill.id,
@@ -119,7 +119,7 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
@@ -163,7 +163,7 @@ async def test_lezione_create_abandons_active_and_creates_new(test_app, db, stud
             LessonActivity(
                 type=ActivityType.GRAMMAR,
                 title="Test",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
             ),
@@ -206,7 +206,7 @@ async def active_lesson_with_listening(db, student):
             LessonActivity(
                 type=ActivityType.LISTENING,
                 title="Ascolto",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Marco va al bar.</span>",
@@ -298,7 +298,7 @@ async def test_reading_submit_on_reading_records_reading_event(test_app, db, stu
             LessonActivity(
                 type=ActivityType.READING,
                 title="Lettura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Testo.</span>",
@@ -339,7 +339,7 @@ async def test_lezione_abandon_route(test_app, db, student):
             LessonActivity(
                 type=ActivityType.GRAMMAR,
                 title="Test",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
             ),
@@ -436,7 +436,6 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
         label="Test Writing GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -450,7 +449,7 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",
@@ -498,7 +497,6 @@ async def test_reading_submit_creates_learning_event(
         label="Test Reading GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -513,7 +511,7 @@ async def test_reading_submit_creates_learning_event(
             LessonActivity(
                 type=ActivityType.READING,
                 title="Lettura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Il gatto è sul tavolo.",
@@ -556,7 +554,6 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
         label="Test Error GP",
         cefr_level="A1",
         category="test",
-        description="",
     )
     await gp.insert()
 
@@ -570,7 +567,7 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
             LessonActivity(
                 type=ActivityType.WRITING,
                 title="Scrittura",
-                description="Test",
+                description="",
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Descrivi la tua giornata.",

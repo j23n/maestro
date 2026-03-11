@@ -350,7 +350,6 @@ async def _generate_lesson_background(
                     {
                         "grammar_point_code": gp.code,
                         "gp_label": gp.label,
-                        "gp_description": gp.description,
                         "exercise_type": exercise_type,
                         "rag_excerpt": chunk_excerpt,
                         "chunk_ref": gp.chunk_ref,

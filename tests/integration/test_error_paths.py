@@ -35,7 +35,6 @@ async def test_malformed_llm_json_raises(mock_scorer_client, db):
         label="Test GP",
         cefr_level="A1",
         category="test",
-        description="test",
     )
     await gp.insert()
     taxonomy.seed([gp], [])
@@ -66,7 +65,7 @@ async def test_missing_drill_returns_404(test_app, db, student):
             LessonActivity(
                 type=ActivityType.DRILL,
                 title="Test Drill",
-                description="test",
+                description="",
                 status=ActivityStatus.ACTIVE,
                 drill_id=PydanticObjectId(),  # points to nonexistent drill
             )
