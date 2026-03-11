@@ -1,4 +1,4 @@
-version: "4"
+version: "6"
 
 explanation_system:
   description: >
@@ -28,8 +28,8 @@ explanation_system:
 
     **tip** (2–3 sentences): a distilled, plain-language version of the single most
     important thing to know about this rule. Written to stand alone — no examples,
-    no jargon — as it will appear as a tooltip or inline hint in the app. Same language
-    rules as the explanation (A1/A2 in English, B1/B2 in {{target_language}}).
+    no jargon — as it will appear as a tooltip or inline hint in the app. Use the same
+    language as the explanation (English or {{target_language}}).
 
     **explanation** (markdown): a complete grammar reference entry. This is not a lesson
     tip — it is a reference a student consults when they need to understand a rule fully.
@@ -72,35 +72,21 @@ explanation_system:
     or phrases — never double quotes, as they break JSON string parsing.
 
 
-level_guidance_a1:
+language_guidance_en:
   user: >
     Write entirely in English. {{target_language}} appears only for examples, terms,
-    and forms — always tagged. Introduce each {{target_language}} term on first use
-    with a short English gloss immediately after.
-    Pitch the vocabulary of examples at A1 level (greetings, family, food, daily routine).
-    {{title_guidance_a1}}
-
-level_guidance_a2:
-  user: >
-    Write in English as the base language. When introducing a {{target_language}}
-    grammatical term, write it in {{target_language}} (tagged) followed immediately
-    by an English definition in parentheses — e.g. the <span lang="{{target_language_code}}">congiuntivo</span> (subjunctive mood).
+    and forms — always tagged. When introducing a {{target_language}} grammatical term,
+    write it tagged followed immediately by an English definition in parentheses on first
+    use only — e.g. the <span lang="{{target_language_code}}">congiuntivo</span> (subjunctive mood).
     Do not define a term again on second use within the same entry.
-    Pitch examples at A2 level; you may use a second tense if it has been introduced at A2.
-    {{title_guidance_a2}}
+    Pitch the vocabulary and complexity of examples at CEFR {{cefr_level}} level.
+    {{title_guidance}}
 
-level_guidance_b1:
-  user: >
-    Write in {{target_language}} as the base language. For grammatical terms that may
-    be new at B1, add an English gloss in parentheses on first use only — e.g.
-    <span lang="{{target_language_code}}">il modo congiuntivo</span> <span lang="en">(subjunctive mood)</span>.
-    Pitch examples at B1 level; assume the student can read fluent Italian sentences.
-    {{title_guidance_b1}}
-
-level_guidance_b2:
+language_guidance_it:
   user: >
     Write entirely in {{target_language}}, as a native-speaker teacher would.
     English appears only as inline translations of examples in parentheses.
-    Assume full command of A1–B1 grammar; do not explain foundational concepts.
-    Use precise grammatical terminology without glossing it.
-    {{title_guidance_b2}}
+    For grammatical terms that may be unfamiliar, add an English gloss on first use only —
+    e.g. <span lang="{{target_language_code}}">il modo congiuntivo</span> <span lang="en">(subjunctive mood)</span>.
+    Pitch the vocabulary and complexity of examples at CEFR {{cefr_level}} level.
+    {{title_guidance}}

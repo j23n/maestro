@@ -32,7 +32,7 @@ from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
 from maestro import taxonomy
 from maestro.templates import templates
-from maestro.utils import utcnow, create_background_task
+from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.discover import (
     discover,
@@ -451,13 +451,6 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
-            expl = gp.explanations.get(level) or next(
-                iter(gp.explanations.values()), None
-            )
-            if expl and expl.translation:
-                ctx["annotated_translation"] = await discover_markdown(
-                    expl.translation, student_id=student.id, lang="en"
-                )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-grammar.html", context=ctx
         )

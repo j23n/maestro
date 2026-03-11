@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from maestro.models import GrammarPoint, LearningProfile
-from maestro.utils import CEFR_ORDER
+from maestro.utils import CEFR_ORDER, explanation_lang_for_level
 
 
 def build_grammar_by_level(
@@ -41,12 +41,11 @@ def build_gp_titles(
     cefr: str,
 ) -> dict[str, str]:
     """Build a {gp_code: explanation_title} map using inline GP explanations."""
-    expl_level = cefr if cefr != "A0" else "A1"
+    lang = explanation_lang_for_level(cefr)
+    fallback_lang = "it" if lang == "en" else "en"
     gp_titles: dict[str, str] = {}
     for gp in grammar_points:
-        expl = gp.explanations.get(expl_level) or next(
-            iter(gp.explanations.values()), None
-        )
+        expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
         gp_titles[gp.code] = expl.title if expl else gp.label
     return gp_titles
 

@@ -97,9 +97,6 @@ def main(dry_run: bool, batch_size: int) -> None:
     system_prompt = _build_system_prompt(chunks)
     client = get_client()
 
-    # Index GPs by code for fast update
-    pass  # indexed by code not needed after LLM mapping
-
     total_batches = (len(gps) + batch_size - 1) // batch_size
     updated = unchanged = nulled = invalid = 0
 

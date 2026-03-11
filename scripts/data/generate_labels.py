@@ -20,7 +20,6 @@ Run with:  python -m maestro.grammar.generate_labels
 from __future__ import annotations
 
 import argparse
-import asyncio
 import json
 import logging
 
@@ -84,7 +83,7 @@ def _parse_response(raw: str, expected: int) -> list[str] | None:
     return None
 
 
-async def _generate_batch(batch: list[dict], client) -> list[str] | None:
+def _generate_batch(batch: list[dict], client) -> list[str] | None:
     prompt = _build_prompt(batch)
     for attempt in range(3):
         response = client.messages.create(
@@ -101,7 +100,7 @@ async def _generate_batch(batch: list[dict], client) -> list[str] | None:
     return None
 
 
-async def generate(force: bool = False, code: str | None = None) -> None:
+def generate(force: bool = False, code: str | None = None) -> None:
     json_path = data_dir() / "grammar_points.json"
     with open(json_path) as f:
         items = json.load(f)
@@ -127,7 +126,7 @@ async def generate(force: bool = False, code: str | None = None) -> None:
         batch_gps = [items[i] for i in batch_idxs]
         logger.info(f"Batch {batch_num}/{total_batches} ({len(batch_gps)} GPs)…")
 
-        labels = await _generate_batch(batch_gps, client)
+        labels = _generate_batch(batch_gps, client)
         if labels is None:
             logger.error(f"Batch {batch_num} failed after 3 attempts — aborting")
             return
@@ -158,4 +157,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     if args.debug:
         logger.setLevel(logging.DEBUG)
-    asyncio.run(generate(force=args.force, code=args.code))
+    generate(force=args.force, code=args.code)

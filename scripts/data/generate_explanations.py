@@ -32,47 +32,42 @@ from maestro.utils import data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
 
-_LEVEL_GUIDANCE_KEYS = {
-    "A1": "level_guidance_a1",
-    "A2": "level_guidance_a2",
-    "B1": "level_guidance_b1",
-    "B2": "level_guidance_b2",
+_LANG_GUIDANCE_KEYS = {
+    "en": "language_guidance_en",
+    "it": "language_guidance_it",
 }
 
 _TITLE_GUIDANCE = {
-    "A1": 'Write the title in English. Example: "The present tense", "Using definite articles"',
-    "A2": 'Write the title in English. Example: "The present tense", "Reflexive verbs"',
-    "B1": 'Write the title in Italian. Example: "Il passato prossimo", "I pronomi riflessivi"',
-    "B2": 'Write the title in Italian. Example: "Il congiuntivo presente", "I verbi fraseologici"',
+    "en": 'Write the title in English. Example: "The present tense", "Using definite articles"',
+    "it": 'Write the title in Italian. Example: "Il passato prossimo", "I pronomi riflessivi"',
 }
 
 
-def _needs_explanation(gp: GrammarPoint) -> bool:
-    """True if this GP still needs its explanation generated."""
+def _needs_explanation(gp: GrammarPoint, lang: str | None = None) -> bool:
+    """True if this GP still needs an explanation generated for the given language (or either)."""
     if gp.cefr_level == "A0":
         return False
-    return gp.cefr_level not in gp.explanations
+    if lang:
+        return lang not in gp.explanations
+    return "en" not in gp.explanations or "it" not in gp.explanations
 
 
-def _build_system_prompt(level: str) -> str:
-    lang = settings.TARGET_LANGUAGE_NAME
+def _build_system_prompt(cefr_level: str, lang: str) -> str:
+    target_lang = settings.TARGET_LANGUAGE_NAME
     lang_code = settings.TARGET_LANGUAGE
-    title_guidance = _TITLE_GUIDANCE.get(level, "")
-    level_guidance = getattr(_prompts, _LEVEL_GUIDANCE_KEYS[level]).render(
-        target_language=lang,
+    title_guidance = _TITLE_GUIDANCE[lang]
+    language_guidance = getattr(_prompts, _LANG_GUIDANCE_KEYS[lang]).render(
+        target_language=target_lang,
         target_language_code=lang_code,
-        title_guidance=f"Title: {title_guidance}",
-        title_guidance_a1=_TITLE_GUIDANCE["A1"],
-        title_guidance_a2=_TITLE_GUIDANCE["A2"],
-        title_guidance_b1=_TITLE_GUIDANCE["B1"],
-        title_guidance_b2=_TITLE_GUIDANCE["B2"],
+        cefr_level=cefr_level,
+        title_guidance=title_guidance,
     )
     return _prompts.explanation_system.render_system(
-        target_language=lang,
+        target_language=target_lang,
         target_language_code=lang_code,
-        cefr_level=level,
+        cefr_level=cefr_level,
         title_guidance=title_guidance,
-        level_guidance=level_guidance,
+        level_guidance=language_guidance,
     )
 
 
@@ -90,8 +85,10 @@ def _parse_response(raw: str) -> dict[str, str] | None:
     }
 
 
-async def _call_api(gp: GrammarPoint, chunk_content: str) -> dict[str, str] | None:
-    system_msg = _build_system_prompt(gp.cefr_level)
+async def _call_api(
+    gp: GrammarPoint, chunk_content: str, lang: str
+) -> dict[str, str] | None:
+    system_msg = _build_system_prompt(gp.cefr_level, lang)
     chunk_block = (
         f"Authoritative textbook excerpt:\n{chunk_content}\n\n" if chunk_content else ""
     )
@@ -123,25 +120,31 @@ async def _call_api(gp: GrammarPoint, chunk_content: str) -> dict[str, str] | No
             logger.warning(
                 f"  Truncated for '{gp.label}', retrying max_tokens={max_tokens}"
             )
-            continue
-        logger.warning(f"  Parse error for '{gp.label}': {raw[:300]}")
-        return None
+        else:
+            logger.warning(
+                f"  Parse error (attempt {attempt + 1}/3) for '{gp.label}': {raw[:300]}"
+            )
     return None
 
 
-async def list_codes(level: str | None = None) -> None:
+async def list_codes(level: str | None = None, lang: str | None = None) -> None:
     await init_db()
     query = {"cefr_level": level} if level else {}
     gps = await GrammarPoint.find(query).sort("code").to_list()
-    done = sum(1 for gp in gps if not _needs_explanation(gp) and gp.cefr_level != "A0")
+    done = sum(
+        1 for gp in gps if not _needs_explanation(gp, lang) and gp.cefr_level != "A0"
+    )
     for gp in gps:
         if gp.cefr_level == "A0":
             marker = "-"
-        elif not _needs_explanation(gp):
+        elif not _needs_explanation(gp, lang):
             marker = "✓"
         else:
             marker = " "
-        print(f"  [{marker}] {gp.code:30s} {gp.cefr_level}  {gp.label}")
+        langs_done = "/".join(k for k in ("en", "it") if k in gp.explanations)
+        print(
+            f"  [{marker}] {gp.code:30s} {gp.cefr_level}  [{langs_done or '—':5s}]  {gp.label}"
+        )
     eligible = sum(1 for gp in gps if gp.cefr_level != "A0")
     print(
         f"\n{len(gps)} grammar points, {done}/{eligible} with explanations (A0 skipped)"
@@ -152,6 +155,7 @@ async def generate(
     test: bool = False,
     code: str | None = None,
     level: str | None = None,
+    lang: str | None = None,
     clear: bool = False,
 ) -> None:
     await init_db()
@@ -173,32 +177,41 @@ async def generate(
     if level:
         all_gps = [gp for gp in all_gps if gp.cefr_level == level]
 
-    logger.info(f"Found {len(all_gps)} grammar points")
+    langs_to_generate = [lang] if lang else ["en", "it"]
+    logger.info(f"Found {len(all_gps)} grammar points, generating: {langs_to_generate}")
 
     if clear:
         for gp in all_gps:
             if gp.cefr_level == "A0":
                 continue
-            gp.explanations.pop(gp.cefr_level, None)
+            for lng in langs_to_generate:
+                gp.explanations.pop(lng, None)
+                json_by_code.get(gp.code, {}).get("explanations", {}).pop(lng, None)
             await gp.save()
-            if gp.code in json_by_code:
-                json_by_code[gp.code].get("explanations", {}).pop(gp.cefr_level, None)
-        logger.info("Cleared explanations for eligible GPs")
+        logger.info(f"Cleared {langs_to_generate} explanations for eligible GPs")
 
-    todo = [gp for gp in all_gps if _needs_explanation(gp)]
-    logger.info(f"{len(todo)} grammar points need explanations")
+    # Build work list: (gp, lang) pairs that still need generation
+    todo: list[tuple[GrammarPoint, str]] = []
+    for gp in all_gps:
+        for lng in langs_to_generate:
+            if _needs_explanation(gp, lng):
+                todo.append((gp, lng))
+    logger.info(f"{len(todo)} (GP, lang) pairs need explanations")
 
     if test:
-        by_level: dict[str, GrammarPoint] = {}
-        for gp in todo:
-            if gp.cefr_level not in by_level:
-                by_level[gp.cefr_level] = gp
-        todo = list(by_level.values())
-        logger.info(f"  --test: {[f'{gp.label} ({gp.cefr_level})' for gp in todo]}")
+        seen: set[tuple[str, str]] = set()
+        pruned = []
+        for gp, lng in todo:
+            key = (gp.cefr_level, lng)
+            if key not in seen:
+                seen.add(key)
+                pruned.append((gp, lng))
+        todo = pruned
+        logger.info(f"  --test: {[(gp.label, lng) for gp, lng in todo]}")
 
     changed = False
-    for i, gp in enumerate(todo, 1):
-        logger.info(f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level})")
+    for i, (gp, lng) in enumerate(todo, 1):
+        logger.info(f"[{i}/{len(todo)}] {gp.label} ({gp.cefr_level}) [{lng}]")
 
         chunk_content = ""
         if gp.chunk_ref:
@@ -209,27 +222,29 @@ async def generate(
                 logger.warning(f"  Chunk not found: {gp.chunk_ref}")
 
         try:
-            data = await _call_api(gp, chunk_content)
+            data = await _call_api(gp, chunk_content, lng)
         except Exception as exc:
             logger.error(f"  API error: {exc}")
             continue
         if not data:
             continue
 
-        gp.explanations[gp.cefr_level] = GrammarExplanation(
+        gp.explanations[lng] = GrammarExplanation(
             title=data["title"],
             tip=data["tip"],
             explanation=data["explanation"],
+            language=lng,
         )
         await gp.save()
-        logger.info(f"  ✓ {gp.cefr_level}: {data['title']}")
+        logger.info(f"  ✓ [{lng}]: {data['title']}")
 
         json_item = json_by_code.get(gp.code)
         if json_item is not None:
-            json_item.setdefault("explanations", {})[gp.cefr_level] = {
+            json_item.setdefault("explanations", {})[lng] = {
                 "title": data["title"],
                 "tip": data["tip"],
                 "explanation": data["explanation"],
+                "language": lng,
             }
             changed = True
 
@@ -260,6 +275,12 @@ if __name__ == "__main__":
         help="Only process GPs at this CEFR level",
     )
     parser.add_argument(
+        "--lang",
+        type=str,
+        choices=["en", "it"],
+        help="Only generate explanations in this language (default: both)",
+    )
+    parser.add_argument(
         "--clear",
         action="store_true",
         help="Delete existing explanations before regenerating",
@@ -272,8 +293,14 @@ if __name__ == "__main__":
     if args.debug:
         logger.setLevel(logging.DEBUG)
     if args.list:
-        asyncio.run(list_codes(level=args.level))
+        asyncio.run(list_codes(level=args.level, lang=args.lang))
     else:
         asyncio.run(
-            generate(test=args.test, code=args.code, level=args.level, clear=args.clear)
+            generate(
+                test=args.test,
+                code=args.code,
+                level=args.level,
+                lang=args.lang,
+                clear=args.clear,
+            )
         )

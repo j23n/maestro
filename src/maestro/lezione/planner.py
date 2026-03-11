@@ -34,7 +34,12 @@ from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.profile import get_profile
-from maestro.utils import parse_llm_json, strip_lang_spans, utcnow
+from maestro.utils import (
+    explanation_lang_for_level,
+    parse_llm_json,
+    strip_lang_spans,
+    utcnow,
+)
 from maestro.lezione.slots import _allocate_slots
 from maestro.lezione.prompts import (
     build_lesson_content_prompt,
@@ -315,8 +320,10 @@ async def _generate_lesson_background(
             profile, cefr_level, grammar_count, candidate_codes=gp_candidate_codes
         )
 
+    expl_lang = explanation_lang_for_level(cefr_level)
+    fallback_lang = "it" if expl_lang == "en" else "en"
     grammar_explanations = [
-        gp.explanations.get(cefr_level) or next(iter(gp.explanations.values()), None)
+        gp.explanations.get(expl_lang) or gp.explanations.get(fallback_lang)
         for gp in grammar_gps
     ]
 

@@ -39,7 +39,9 @@ async def run(db) -> None:
 
     # Pre-unistr_code A0 GPs: hand-written before the a0_* naming scheme, so they
     # never got a unistr_code and the map above won't catch them.
-    # Mapping determined from label similarity at migration time.
+    # Each mapping was verified by comparing the old GP label against the new GP's
+    # label in grammar_points.json at migration time (March 2026). If any are wrong,
+    # correct them here and re-run the migration (it is idempotent).
     _LEGACY_A0_MAP = {
         "presente_indicativo": "ind_pres",
         "aggettivi_qualificativi": "qual_o_a_e",
