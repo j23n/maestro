@@ -156,14 +156,18 @@ if [[ "$SKIP_AUDIO" == false ]]; then
         echo "==> Audio: downloading to $LOCAL_AUDIO_DIR"
         mkdir -p "$LOCAL_AUDIO_DIR"
 
-        echo "    Fetching audio list from source DB..."
+        echo "    Fetching word list from source DB..."
         AUDIO_PATHS=$(mongosh --quiet "$FROM" --eval '
+            function slugify(text) {
+                return text.toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+            }
             const paths = [];
-            db.vocabulary_words.find(
-                { audio_path: { $ne: null } },
-                { audio_path: 1, _id: 0 }
-            ).forEach(d => paths.push(d.audio_path));
-            print("    Words with audio: " + paths.length);
+            db.vocabulary_words.find({}, { word: 1, _id: 0 }).forEach(d => {
+                paths.push("/static/audio/word_" + slugify(d.word) + ".wav");
+            });
+            print("    Words in DB: " + paths.length);
             paths.forEach(p => print(p));
         ' 2>&1) || {
             echo "ERROR: Failed to query audio paths from source DB." >&2

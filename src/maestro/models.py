@@ -130,8 +130,15 @@ class VocabularyWord(Document):
     cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
     entry_id: Optional[str] = None  # "LM-00595"
     senses: List[Sense] = []  # all senses from EPUB
-    audio_path: Optional[str] = None  # /static/audio/word_{slug}.wav
     language: str = "it"
+
+    @property
+    def audio_url(self) -> Optional[str]:
+        """Return the static URL for this word's audio, or None if the file doesn't exist."""
+        from maestro.tts import _word_audio_path
+
+        path = _word_audio_path(self.word)
+        return f"/static/audio/{path.name}" if path.exists() else None
 
     class Settings:
         name = "vocabulary_words"
