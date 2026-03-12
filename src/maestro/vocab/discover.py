@@ -13,7 +13,7 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.profile import get_cefr_level
-from maestro.utils import create_background_task
+from maestro.utils import create_background_task, lang_wrap
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp
 from maestro.vocab import cache as _cache
@@ -24,14 +24,6 @@ _TAG_RE = re.compile(r"(<[^>]+>)")
 _TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
 _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
-
-
-def lang_wrap(html: str, lang: str) -> str:
-    """Wrap HTML content in a <span lang="xx"> tag. Idempotent."""
-    stripped = html.strip()
-    if stripped.startswith(f'<span lang="{lang}">') and stripped.endswith("</span>"):
-        return html
-    return f'<span lang="{lang}">{html}</span>'
 
 
 def lemmatize(text: str) -> list[str]:

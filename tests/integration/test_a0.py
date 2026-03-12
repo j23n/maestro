@@ -160,7 +160,7 @@ async def test_a0_lesson_generates_static_content(db):
     lesson = await Lesson.get(lesson.id)
     assert lesson.generating is False
     assert lesson.scenario_slug == "a0-01-benvenuto"
-    assert lesson.topic_title == "Benvenuto!"
+    assert lesson.topic_title == '<span lang="it">Benvenuto!</span>'
     assert len(lesson.activities) > 0
 
     # Check activity types include onboarding and grammar
@@ -168,6 +168,21 @@ async def test_a0_lesson_generates_static_content(db):
     assert ActivityType.GRAMMAR in types
     assert ActivityType.ONBOARDING in types
     assert ActivityType.DRILL in types
+
+    # Verify lang wrapping on stored content
+    assert lesson.overview.startswith('<span lang="en">')
+    assert lesson.topic_description.startswith('<span lang="en">')
+
+    # Grammar: title/description wrapped EN, content unchanged (has inline spans)
+    grammar = next(a for a in lesson.activities if a.type == ActivityType.GRAMMAR)
+    assert grammar.title.startswith('<span lang="en">')
+    assert grammar.description.startswith('<span lang="en">')
+    assert not grammar.content.startswith("<span")  # mixed lang, not outer-wrapped
+
+    # Onboarding: title IT, content EN
+    onboarding = next(a for a in lesson.activities if a.type == ActivityType.ONBOARDING)
+    assert onboarding.title.startswith('<span lang="it">')
+    assert onboarding.content.startswith('<span lang="en">')
 
 
 @pytest.mark.integration
@@ -222,11 +237,13 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     drill_activities = [a for a in lesson.activities if a.type == ActivityType.DRILL]
     assert len(drill_activities) > 0
 
-    # Verify GeneratedDrill was created
+    # Verify GeneratedDrill was created with lang-wrapped items
     drill_id = drill_activities[0].drill_id
     drill = await GeneratedDrill.get(drill_id)
     assert drill is not None
     assert len(drill.items) > 0
+    assert drill.items[0].prompt.startswith('<span lang="en">')
+    assert drill.items[0].correct_answer.startswith('<span lang="it">')
 
 
 # ---------------------------------------------------------------------------

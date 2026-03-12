@@ -98,6 +98,14 @@ def create_background_task(coro, *, name: str | None = None) -> asyncio.Task:
     return task
 
 
+def lang_wrap(html: str, lang: str) -> str:
+    """Wrap HTML content in a <span lang="xx"> tag. Idempotent."""
+    stripped = html.strip()
+    if stripped.startswith(f'<span lang="{lang}">') and stripped.endswith("</span>"):
+        return html
+    return f'<span lang="{lang}">{html}</span>'
+
+
 _LANG_SPAN_RE = re.compile(r'<span\s+lang="[^"]*"\s*>')
 
 
