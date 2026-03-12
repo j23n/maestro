@@ -124,7 +124,7 @@ async def test_full_lesson_events_match_answers(
             "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
-            "maestro.routes.lezione.discover",
+            "maestro.vocab.discover.discover",
             new_callable=AsyncMock,
             return_value="annotated",
         ),
@@ -231,7 +231,7 @@ async def test_full_lesson_profile_updated_after_analysis(
             "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
-            "maestro.routes.lezione.discover",
+            "maestro.vocab.discover.discover",
             new_callable=AsyncMock,
             return_value="annotated",
         ),
