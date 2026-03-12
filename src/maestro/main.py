@@ -5,6 +5,7 @@ import logging
 
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -88,7 +89,11 @@ def _setup_logging() -> logging.Handler:
     logging.root.setLevel(logging.WARNING)
     logging.root.handlers.clear()
     logging.root.addHandler(handler)
-    logging.getLogger("maestro").setLevel(settings.LOG_LEVEL.upper())
+
+    app_logger = logging.getLogger("maestro")
+    app_logger.setLevel(settings.LOG_LEVEL.upper())
+    app_logger.addHandler(handler)
+    app_logger.propagate = False
     return handler
 
 
@@ -101,7 +106,11 @@ if settings.SENTRY_DSN:
         dsn=settings.SENTRY_DSN,
         environment=settings.ENVIRONMENT,
         traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
-        integrations=[StarletteIntegration(), FastApiIntegration()],
+        integrations=[
+            StarletteIntegration(),
+            FastApiIntegration(),
+            LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR),
+        ],
         enable_logs=True,
     )
     logger.info("Sentry enabled (environment=%s)", settings.ENVIRONMENT)
