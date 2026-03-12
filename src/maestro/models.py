@@ -124,7 +124,7 @@ class Sense(BaseModel):
 
 
 class VocabularyWord(Document):
-    word: str = Field(unique=True)
+    word: str
     syllabization: Optional[str] = None  # "af-flùs-so" (no brackets)
     part_of_speech: str  # raw abbrev: "s.m.", "v.tr.", etc.
     cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
@@ -142,6 +142,11 @@ class VocabularyWord(Document):
 
     class Settings:
         name = "vocabulary_words"
+        indexes = [
+            IndexModel(
+                [("word", ASCENDING), ("part_of_speech", ASCENDING)], unique=True
+            ),
+        ]
 
 
 class CefrSense(BaseModel):

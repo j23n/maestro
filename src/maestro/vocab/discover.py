@@ -16,6 +16,7 @@ from maestro.profile import get_cefr_level
 from maestro.utils import create_background_task, lang_wrap
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp
+from maestro.vocab.pos import matches_pos
 from maestro.vocab import cache as _cache
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,21 @@ def lemmatize(text: str) -> list[str]:
     nlp = get_nlp()
     doc = nlp(text)
     return [token.lemma_.lower() for token in doc if token.is_alpha and len(token) > 1]
+
+
+def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
+    """Return (lemma, universal_POS) for each token, lowercased, alphabetic only.
+
+    Like lemmatize(), but also captures the spaCy POS tag for disambiguation
+    when multiple dictionary entries exist for the same lemma.
+    """
+    nlp = get_nlp()
+    doc = nlp(text)
+    return [
+        (token.lemma_.lower(), token.pos_)
+        for token in doc
+        if token.is_alpha and len(token) > 1
+    ]
 
 
 def _build_vocab_attrs(word, wdef) -> str:
@@ -154,11 +170,23 @@ async def discover(
 
     # Lemmatize only text within target-language elements (skip nested lang tags)
     target_text = get_target_text(lang_elements)
-    text_lemmas = lemmatize(target_text)
+    text_lemmas = lemmatize_with_pos(target_text)
 
-    words_with_vocab = {
-        lem: w for lem, w in _cache.word_index().items() if lem in text_lemmas
-    }
+    # Match lemmas to vocab entries, preferring the POS variant that matches context
+    words_with_vocab: dict[str, VocabularyWord] = {}
+    for lem, upos in text_lemmas:
+        if lem in words_with_vocab:
+            continue
+        entries = _cache.word_index().get(lem)
+        if not entries:
+            continue
+        if len(entries) == 1:
+            words_with_vocab[lem] = entries[0]
+        else:
+            match = next(
+                (e for e in entries if matches_pos(e.part_of_speech, upos)), None
+            )
+            words_with_vocab[lem] = match or entries[0]
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
     word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]

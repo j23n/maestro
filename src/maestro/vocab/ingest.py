@@ -57,7 +57,7 @@ async def ingest():
     make_lookup = get_lookup_factory()
     lookup = make_lookup(by_form, nlp)
 
-    ingested: set[str] = set()
+    ingested: set[tuple[str, str]] = set()
 
     async with httpx.AsyncClient(headers=HEADERS, timeout=30) as client:
         for cefr_level, url in WORDLISTS:
@@ -66,12 +66,12 @@ async def ingest():
             logger.info(f"Found {len(wordlist)} words")
 
             for word, pos, level in wordlist:
-                if word in ingested:
-                    continue
-
                 entry = lookup(word)
                 if entry is None:
                     logger.warning(f"no EPUB entry for '{word}', skipping")
+                    continue
+
+                if (word, entry.pos_abbrev) in ingested:
                     continue
 
                 senses = [
@@ -86,7 +86,10 @@ async def ingest():
                     for s in entry.senses
                 ]
 
-                existing = await VocabularyWord.find_one(VocabularyWord.word == word)
+                existing = await VocabularyWord.find_one(
+                    VocabularyWord.word == word,
+                    VocabularyWord.part_of_speech == entry.pos_abbrev,
+                )
                 if existing:
                     existing.syllabization = entry.hyph
                     existing.part_of_speech = entry.pos_abbrev
@@ -106,14 +109,14 @@ async def ingest():
                     ).insert()
                     logger.info(f"inserted: {word} ({entry.pos_abbrev}, {level})")
 
-                ingested.add(word)
+                ingested.add((word, entry.pos_abbrev))
 
     logger.info(f"Phase 1: {len(ingested)} CEFR words ingested")
 
     # Phase 2: ingest all remaining EPUB headwords with no CEFR level
     new_words = []
     for headword, entry in by_form.items():
-        if headword in ingested:
+        if (headword, entry.pos_abbrev) in ingested:
             continue
         senses = [
             Sense(
@@ -136,7 +139,7 @@ async def ingest():
                 senses=senses,
             )
         )
-        ingested.add(headword)
+        ingested.add((headword, entry.pos_abbrev))
 
     BATCH = 500
     inserted_count = 0
@@ -148,7 +151,10 @@ async def ingest():
         except Exception:
             # Fall back to individual upserts for this batch (handles duplicate key errors)
             for w in batch:
-                existing = await VocabularyWord.find_one(VocabularyWord.word == w.word)
+                existing = await VocabularyWord.find_one(
+                    VocabularyWord.word == w.word,
+                    VocabularyWord.part_of_speech == w.part_of_speech,
+                )
                 if not existing:
                     await w.insert()
                     inserted_count += 1
