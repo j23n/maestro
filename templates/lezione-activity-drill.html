@@ -22,15 +22,15 @@
     {% if is_review %}
     <div class="review-banner">
       <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
-        {{ t("back_to_current") | lang_it }}
+        {{ t("back_to_current") }}
       </a>
     </div>
     {% elif drill.items %}
       {# Multi-item: fill_blank or error_correction #}
       {% if drill.exercise_type == "fill_blank" %}
-        <div class="drill-instruction">{{ t("drill_fill_blank_instruction") | lang_it }}</div>
+        <div class="drill-instruction">{{ t("drill_fill_blank_instruction") }}</div>
       {% else %}
-        <div class="drill-instruction">{{ t("drill_error_correction_instruction") | lang_it }}</div>
+        <div class="drill-instruction">{{ t("drill_error_correction_instruction") }}</div>
       {% endif %}
 
       <form method="post"
@@ -53,11 +53,11 @@
           {% endfor %}
         </div>
         <div class="submit-row">
-          <button class="submit-btn" type="submit">{{ t("drill_submit_all") | lang_it }}</button>
+          <button class="submit-btn" type="submit">{{ t("drill_submit_all") }}</button>
           <a class="skip-link"
              hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
              hx-target="body"
-             href="#">{{ t("skip_btn") | lang_it }}</a>
+             href="#">{{ t("skip_btn") }}</a>
         </div>
       </form>
 

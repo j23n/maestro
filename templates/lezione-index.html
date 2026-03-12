@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="lesson-new">
-  <h1>{{ t("new_lesson_title") | lang_it }}</h1>
-  <p class="subtitle">{{ t("new_lesson_subtitle") | lang_it }}</p>
+  <h1>{{ t("new_lesson_title") }}</h1>
+  <p class="subtitle">{{ t("new_lesson_subtitle") }}</p>
 
   <form method="post" action="/lezione/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='{{ t("new_lesson_preparing") }}'">
 
@@ -14,12 +14,12 @@
 
     {# --- Topic selector --- #}
     <div class="form-section">
-      <label class="section-label" for="scenario_slug">{{ t("config_topic_label") | lang_it }}</label>
+      <label class="section-label" for="scenario_slug">{{ t("config_topic_label") }}</label>
       <select name="scenario_slug" id="scenario_slug" class="config-select">
         {% for opt in scenario_options %}
         <option value="{{ opt.scenario.slug }}"
           {% if opt.scenario.slug == auto_scenario_slug %}selected{% endif %}>
-          <span lang="it">{{ opt.scenario.label }}</span> · {{ opt.depth_completed }}/{{ opt.max_depth }}
+          {{ opt.scenario.label }} · {{ opt.depth_completed }}/{{ opt.max_depth }}
         </option>
         {% endfor %}
       </select>
@@ -29,22 +29,22 @@
     <div class="form-section">
       <label class="config-checkbox-card">
         <input type="checkbox" name="focus_weak" value="true">
-        <span class="config-checkbox-label">{{ t("config_focus_weak") | lang_it }}</span>
+        <span class="config-checkbox-label">{{ t("config_focus_weak") }}</span>
         {% if weaknesses %}
         <span class="config-weakness-tags">
           {% for w in weaknesses %}
-          <span class="weakness-tag"><span lang="it">{{ w.label }}</span></span>
+          <span class="weakness-tag">{{ w.label }}</span>
           {% endfor %}
         </span>
         {% else %}
-        <span class="config-checkbox-hint">{{ t("config_no_weaknesses") | lang_it }}</span>
+        <span class="config-checkbox-hint">{{ t("config_no_weaknesses") }}</span>
         {% endif %}
       </label>
     </div>
 
     {# --- Lesson context --- #}
     <div class="form-section">
-      <label class="section-label" for="lesson_context">{{ t("config_context_label") | lang_it }}</label>
+      <label class="section-label" for="lesson_context">{{ t("config_context_label") }}</label>
       <input type="text" name="lesson_context" id="lesson_context"
              class="config-text-input"
              placeholder="{{ t("config_context_placeholder") }}"
@@ -53,35 +53,35 @@
 
     {# --- Duration --- #}
     <div class="form-section">
-      <label class="section-label">{{ t("new_lesson_duration") | lang_it }}</label>
+      <label class="section-label">{{ t("new_lesson_duration") }}</label>
       <div class="duration-options">
         <span>
           <input type="radio" name="duration" id="d10" value="10">
           <label for="d10">
             <span class="dur-min">10</span>
-            <span class="dur-label">{{ t("new_lesson_minutes") | lang_it }}</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
           </label>
         </span>
         <span>
           <input type="radio" name="duration" id="d20" value="20" checked>
           <label for="d20">
             <span class="dur-min">20</span>
-            <span class="dur-label">{{ t("new_lesson_minutes") | lang_it }}</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
           </label>
         </span>
         <span>
           <input type="radio" name="duration" id="d40" value="40">
           <label for="d40">
             <span class="dur-min">40</span>
-            <span class="dur-label">{{ t("new_lesson_minutes") | lang_it }}</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
           </label>
         </span>
       </div>
     </div>
     {% endif %}
 
-    <button class="btn-start" type="submit">{{ t("new_lesson_start") | lang_it }}</button>
-    <p class="loading-hint">{{ t("new_lesson_note") | lang_it }}</p>
+    <button class="btn-start" type="submit">{{ t("new_lesson_start") }}</button>
+    <p class="loading-hint">{{ t("new_lesson_note") }}</p>
   </form>
 </div>
 {% endblock %}

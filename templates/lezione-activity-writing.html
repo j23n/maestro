@@ -6,13 +6,13 @@
   {% include "lezione-progress.html" %}
 
   <div class="card">
-    <div class="card-label">{{ t("page_title_writing") | lang_it }}</div>
+    <div class="card-label">{{ t("page_title_writing") }}</div>
     <div class="prompt-text">{{ annotated_content | safe }}</div>
 
     {% if is_review %}
     <div class="review-banner">
       <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
-        {{ t("back_to_current") | lang_it }}
+        {{ t("back_to_current") }}
       </a>
     </div>
     {% else %}
@@ -26,11 +26,11 @@
                 required
                 onkeydown="if(event.key==='Enter'&&event.shiftKey){event.preventDefault();this.closest('form').requestSubmit()}"></textarea>
       <div class="submit-row">
-        <button class="submit-btn" type="submit">{{ t("drill_submit") | lang_it }}</button>
+        <button class="submit-btn" type="submit">{{ t("drill_submit") }}</button>
         <a class="skip-link"
            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
            hx-target="body"
-           href="#">{{ t("skip_btn") | lang_it }}</a>
+           href="#">{{ t("skip_btn") }}</a>
       </div>
     </form>
     {% endif %}

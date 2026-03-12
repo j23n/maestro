@@ -14,10 +14,10 @@
     {% if mode == 'word' %}
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>
     {% elif mode == 'definition' %}
-      <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
+      <div class="prompt"><span lang="en">{{ t("vocab_definition_prompt", language=target_language) }}</span></div>
       <div class="clue">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
     {% elif mode == 'translation' %}
-      <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
+      <div class="prompt"><span lang="en">{{ t("vocab_translation_prompt", language=target_language) }}</span></div>
       <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
     {% endif %}
 
@@ -25,7 +25,7 @@
             hx-target="#practice-card"
             hx-swap="outerHTML"
             id="reveal-btn">
-      {{ t("vocab_reveal") | lang_it }}
+      {{ t("vocab_reveal") }}
     </button>
 
     <script>
@@ -39,9 +39,9 @@
   </div>
   {% else %}
   <div style="text-align:center; margin-top:3rem; color:#999">
-    <p>{{ t("practice_no_cards") | lang_it }}</p>
-    <p>{{ t("practice_no_cards_hint") | lang_it }}</p>
-    <a href="/lezione/" class="btn" style="margin-top:1rem">{{ t("new_lesson_title") | lang_it }}</a>
+    <p>{{ t("practice_no_cards") }}</p>
+    <p>{{ t("practice_no_cards_hint") }}</p>
+    <a href="/lezione/" class="btn" style="margin-top:1rem">{{ t("new_lesson_title") }}</a>
   </div>
   {% endif %}
 {% endblock %}
