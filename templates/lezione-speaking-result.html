@@ -1,0 +1,146 @@
+{# Partial — swapped into .activity-container after speaking submit #}
+{% include "lezione-progress.html" %}
+
+<div class="card">
+
+  {% if scoring_unavailable %}
+    <div class="result-unavailable">
+      {{ scoring_unavailable }}
+    </div>
+  {% else %}
+    <div class="speaking-result-header">
+      <div class="speaking-score-main">
+        <span class="speaking-score-value">{{ pronunciation_score | round | int }}</span>
+        <span class="speaking-score-unit">/ 100</span>
+      </div>
+      <div class="speaking-score-label">{{ t("speaking_overall") }}</div>
+    </div>
+
+    <div class="speaking-scores-grid">
+      <div class="speaking-score-item">
+        <div class="speaking-score-item-value">{{ accuracy_score | round | int }}</div>
+        <div class="speaking-score-item-label">{{ t("speaking_accuracy") }}</div>
+      </div>
+      <div class="speaking-score-item">
+        <div class="speaking-score-item-value">{{ fluency_score | round | int }}</div>
+        <div class="speaking-score-item-label">{{ t("speaking_fluency") }}</div>
+      </div>
+      <div class="speaking-score-item">
+        <div class="speaking-score-item-value">{{ completeness_score | round | int }}</div>
+        <div class="speaking-score-item-label">{{ t("speaking_completeness") }}</div>
+      </div>
+    </div>
+
+    {% if words %}
+    <div class="speaking-words">
+      {% for w in words %}
+      <span class="speaking-word {% if w.error_type == 'Omission' %}word-omitted{% elif w.error_type == 'Mispronunciation' or w.accuracy_score < 60 %}word-bad{% elif w.accuracy_score < 80 %}word-ok{% else %}word-good{% endif %}"
+            title="{{ w.error_type }}{% if w.error_type == 'None' %}: {{ w.accuracy_score | round | int }}%{% endif %}">
+        {{ w.word }}
+      </span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endif %}
+
+  <div style="margin-top:1.5rem;">
+    <a href="{{ next_url }}" class="continue-btn">{{ t("continue_btn") | lang_it }}</a>
+  </div>
+</div>
+
+<style>
+.speaking-result-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.speaking-score-main {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.speaking-score-value {
+  color: var(--accent, #4a7c59);
+}
+.speaking-score-unit {
+  font-size: 1rem;
+  color: #999;
+  font-weight: 400;
+}
+.speaking-score-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-top: 0.3rem;
+}
+.speaking-scores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.speaking-score-item {
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  background: var(--bg-secondary, #f7f7f7);
+  border-radius: 8px;
+}
+.speaking-score-item-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.speaking-score-item-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #888;
+  margin-top: 0.2rem;
+}
+.speaking-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.speaking-word {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+.word-good {
+  background: #d5f5e3;
+  color: #1e8449;
+}
+.word-ok {
+  background: #fef9e7;
+  color: #b7950b;
+}
+.word-bad {
+  background: #fdedec;
+  color: #c0392b;
+}
+.word-omitted {
+  background: #eee;
+  color: #999;
+  text-decoration: line-through;
+}
+</style>
+
+<script>
+(function() {
+  function onEnter(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      var btn = document.querySelector('.continue-btn');
+      if (btn) { e.preventDefault(); btn.click(); }
+    }
+  }
+  document.addEventListener('keydown', onEnter);
+  var container = document.querySelector('.activity-container');
+  if (container) {
+    container.addEventListener('htmx:beforeSwap', function() {
+      document.removeEventListener('keydown', onEnter);
+    }, {once: true});
+  }
+})();
+</script>
