@@ -2,7 +2,6 @@ import markdown
 import random
 
 from fastapi.templating import Jinja2Templates
-from markupsafe import Markup
 
 from maestro.config import settings
 from maestro.i18n import t as i18n_t
@@ -12,9 +11,6 @@ templates.env.filters["markdown"] = lambda x: markdown.markdown(
     x, extensions=["extra", "nl2br", "sane_lists"]
 )
 templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
-templates.env.filters["lang_it"] = lambda text: (
-    Markup('<span lang="it">{}</span>').format(text) if text is not None else Markup("")
-)
 templates.env.globals["t"] = i18n_t
 templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
 
