@@ -14,7 +14,7 @@
             hx-get="/lezione/{{ lesson.id }}/activity/{{ idx }}/vocab-reveal?card_idx={{ card_idx }}"
             hx-target="#practice-card"
             hx-swap="outerHTML">
-      {{ t("vocab_reveal") | lang_it }}
+      {{ t("vocab_reveal") }}
     </button>
 
     <script>
@@ -31,7 +31,7 @@
     <a class="skip-link"
        hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
        hx-target="body"
-       href="#">{{ t("vocab_skip_activity") | lang_it }}</a>
+       href="#">{{ t("vocab_skip_activity") }}</a>
   </div>
 </div>
 {% endblock %}
