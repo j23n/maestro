@@ -1,11 +1,15 @@
 {
   "analyzer.yaml": {
-    "version": "4",
-    "sha256": "ff146b45ab53913c67179bc2bf3e2c0281a498d4957fd93a01b576763fac7d48"
+    "version": "5",
+    "sha256": "a00a9fd773ee2039137fe5028aac7ecf66eb360407dfc1505c6df0b7da946ff0"
+  },
+  "common.yaml": {
+    "version": "1",
+    "sha256": "6acc62ceb1fe34456f6717e470970126af90c97089beef69793c825f4102fd8b"
   },
   "grammar_explanations.yaml": {
-    "version": "6",
-    "sha256": "10412c64804425c8b49a6ce6db74d9b9e66340152cd650dabbd8cde61149080e"
+    "version": "7",
+    "sha256": "5189b1a769f1d87ff8308b5b76de869c95098d6befd6dd52d3c27c843aaacc53"
   },
   "judge.yaml": {
     "version": "1",
@@ -16,11 +20,11 @@
     "sha256": "e85007ea50fc1eca458ab77f93a1cc48643846d081cb42b51036ddad65d9c9d1"
   },
   "planner.yaml": {
-    "version": "3",
-    "sha256": "cc0a9b64a462c40683d96910768ef36000b15ead45182f88e76f5941f65e96a7"
+    "version": "4",
+    "sha256": "8aa90bc700c8222e9291a62dd64725deafda579b60b1acda0a6ff1ae65dec244"
   },
   "vocab_definitions.yaml": {
-    "version": "2",
-    "sha256": "aeec9d2f4f2e3e54b747ebbe1069468fdd0bb5cfa76b3cdd5d8db360cc2456b9"
+    "version": "3",
+    "sha256": "ba65677409b196cdb818fa56e74678eee55c2921b2dbd9ebe848183785d0d5c5"
   }
 }

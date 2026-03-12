@@ -34,7 +34,7 @@ from datetime import datetime, timezone
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
-from maestro.prompts import grammar as _prompts
+from maestro.prompts import grammar as _prompts, span_tagging_block as _stb
 from maestro.utils import data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
@@ -81,6 +81,7 @@ def _build_system_prompt(cefr_level: str, lang: str) -> str:
         cefr_level=cefr_level,
         title_guidance=title_guidance,
         level_guidance=language_guidance,
+        span_tagging=_stb(target_lang, lang_code),
     )
 
 
