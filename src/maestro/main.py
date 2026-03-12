@@ -109,7 +109,11 @@ if settings.SENTRY_DSN:
         integrations=[
             StarletteIntegration(),
             FastApiIntegration(),
-            LoggingIntegration(level=logging.DEBUG, event_level=logging.ERROR),
+            LoggingIntegration(
+                level=logging.DEBUG,
+                event_level=logging.ERROR,
+                sentry_logs_level=logging.DEBUG,
+            ),
         ],
         enable_logs=True,
     )
