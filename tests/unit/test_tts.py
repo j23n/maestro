@@ -12,7 +12,7 @@ import httpx
 import maestro.tts as tts_module
 from maestro.tts import (
     _slugify,
-    _word_audio_path,
+    word_audio_path,
     _lesson_audio_path,
     _synth_to_file,
     generate_word_audio,
@@ -71,19 +71,19 @@ def test_slugify_strips_leading_trailing_underscores():
 
 @pytest.mark.unit
 def test_word_audio_path_plain():
-    path = _word_audio_path("ciao")
+    path = word_audio_path("ciao")
     assert path.name == "word_ciao.wav"
 
 
 @pytest.mark.unit
 def test_word_audio_path_accent():
-    path = _word_audio_path("caffè")
+    path = word_audio_path("caffè")
     assert path.name == "word_caffe.wav"
 
 
 @pytest.mark.unit
 def test_word_audio_path_is_under_audio_dir():
-    path = _word_audio_path("ciao")
+    path = word_audio_path("ciao")
     assert path.parent == tts_module._audio_dir()
 
 

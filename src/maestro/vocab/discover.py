@@ -34,15 +34,16 @@ def lang_wrap(html: str, lang: str) -> str:
     return f'<span lang="{lang}">{html}</span>'
 
 
-def _lemmatize(text: str) -> list[str]:
-    """Return the lemma of each token in text, lowercased, alphabetic only."""
+def lemmatize(text: str) -> list[str]:
+    """Return the lemma of each token in text, lowercased, alphabetic only.
+
+    No stop-word filter — the vocab word_index already gates which lemmas
+    produce matches, and stop words (sì, no, come, bene …) are legitimate
+    vocabulary for language learners.
+    """
     nlp = get_nlp()
     doc = nlp(text)
-    return [
-        token.lemma_.lower()
-        for token in doc
-        if token.is_alpha and not token.is_stop and len(token) > 2
-    ]
+    return [token.lemma_.lower() for token in doc if token.is_alpha and len(token) > 1]
 
 
 def _build_vocab_attrs(word, wdef) -> str:
@@ -92,7 +93,7 @@ def _has_nested_lang(node, lang_element) -> bool:
     return False
 
 
-def _get_target_text(lang_elements: list) -> str:
+def get_target_text(lang_elements: list) -> str:
     """Extract text from lang elements, skipping text inside nested lang elements."""
     parts = []
     for el in lang_elements:
@@ -160,8 +161,8 @@ async def discover(
         return response_text
 
     # Lemmatize only text within target-language elements (skip nested lang tags)
-    target_text = _get_target_text(lang_elements)
-    text_lemmas = _lemmatize(target_text)
+    target_text = get_target_text(lang_elements)
+    text_lemmas = lemmatize(target_text)
 
     words_with_vocab = {
         lem: w for lem, w in _cache.word_index().items() if lem in text_lemmas

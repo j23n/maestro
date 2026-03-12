@@ -77,7 +77,7 @@ def _slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", ascii_text).strip("_")
 
 
-def _word_audio_path(word: str) -> Path:
+def word_audio_path(word: str) -> Path:
     return _audio_dir() / f"word_{_slugify(word)}.wav"
 
 
@@ -124,7 +124,7 @@ async def generate_word_audio(word: str) -> Optional[str]:
 
     Returns None if synthesis fails.
     """
-    path = _word_audio_path(word)
+    path = word_audio_path(word)
     url = f"/static/audio/{path.name}"
     if path.exists():
         return url
@@ -142,7 +142,7 @@ async def generate_word_audio(word: str) -> Optional[str]:
             return None
 
 
-def _a0_audio_path(slug: str) -> Path:
+def a0_audio_path(slug: str) -> Path:
     return _audio_dir() / f"a0_{_slugify(slug)}.wav"
 
 
@@ -152,7 +152,7 @@ async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
     Called only by scripts/generate_a0_audio.py. At runtime, audio_path
     is read directly from the pre-authored YAML; this function is not invoked.
     """
-    path = _a0_audio_path(slug)
+    path = a0_audio_path(slug)
     url = f"/static/audio/{path.name}"
     if path.exists():
         return url
