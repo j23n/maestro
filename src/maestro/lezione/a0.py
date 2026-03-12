@@ -16,9 +16,8 @@ from maestro.models import (
 )
 from maestro.profile import get_profile
 from maestro.strings import t
-from maestro.utils import data_dir
+from maestro.utils import data_dir, lang_wrap
 from maestro.lezione.selection import pick_scenario, fill_vocab_cards
-from maestro.vocab.discover import lang_wrap
 
 logger = logging.getLogger(__name__)
 
