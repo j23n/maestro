@@ -849,10 +849,13 @@ async def lezione_speaking_submit(
     activity = lesson.activities[idx]
     form = await request.form()
     audio_file = form.get("audio")
-    if audio_file is None:
+    if audio_file is None or not hasattr(audio_file, "read"):
         raise HTTPException(400, "No audio file provided")
 
-    audio_bytes = await audio_file.read()
+    max_audio_bytes = 2 * 1024 * 1024  # 2 MB
+    audio_bytes = await audio_file.read(max_audio_bytes + 1)
+    if len(audio_bytes) > max_audio_bytes:
+        raise HTTPException(413, "Audio file too large")
     reference_text = activity.content or ""
 
     try:
