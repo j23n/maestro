@@ -15,8 +15,8 @@ from maestro.models import VocabularyWord, VocabularyWordDefinition
 
 logger = logging.getLogger(__name__)
 
-# headword (str, lowercased) → VocabularyWord
-_word_index: dict[str, VocabularyWord] = {}
+# headword (str, lowercased) → list of VocabularyWord (one per POS variant)
+_word_index: dict[str, list[VocabularyWord]] = {}
 # (word_id_str, student_level) → VocabularyWordDefinition
 _def_index: dict[tuple[str, str], VocabularyWordDefinition] = {}
 _loaded: bool = False
@@ -34,8 +34,7 @@ async def ensure_loaded() -> None:
     _word_index = {}
     for word in words:
         key = word.word.lower()
-        if key not in _word_index:
-            _word_index[key] = word
+        _word_index.setdefault(key, []).append(word)
 
     defs = await VocabularyWordDefinition.find_all().to_list()
     _def_index = {}
@@ -47,8 +46,8 @@ async def ensure_loaded() -> None:
     logger.info("loaded %d words, %d definitions", len(_word_index), len(_def_index))
 
 
-def word_index() -> dict[str, VocabularyWord]:
-    """Return the lemma→word index. Must call ensure_loaded() first."""
+def word_index() -> dict[str, list[VocabularyWord]]:
+    """Return the lemma→words index. Must call ensure_loaded() first."""
     return _word_index
 
 
@@ -71,7 +70,7 @@ def invalidate() -> None:
 
 
 def seed(
-    words: dict[str, VocabularyWord] | None = None,
+    words: dict[str, list[VocabularyWord]] | None = None,
     defs: dict[tuple[str, str], VocabularyWordDefinition] | None = None,
 ) -> None:
     """Directly populate cache for testing. Marks cache as loaded."""

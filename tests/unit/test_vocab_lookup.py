@@ -30,12 +30,12 @@ def lookup_fn():
     from maestro.vocab.morphology.it import make_lookup
 
     by_form = {
-        "andare": _make_entry("andare"),
-        "mangiare": _make_entry("mangiare"),
-        "bello": _make_entry("bello"),
-        "fare": _make_entry("fare"),
-        "casa": _make_entry("casa"),
-        "felice": _make_entry("felice"),
+        "andare": [_make_entry("andare")],
+        "mangiare": [_make_entry("mangiare")],
+        "bello": [_make_entry("bello")],
+        "fare": [_make_entry("fare")],
+        "casa": [_make_entry("casa")],
+        "felice": [_make_entry("felice")],
     }
 
     return make_lookup(by_form, nlp)
@@ -45,7 +45,7 @@ def lookup_fn():
 def test_direct_match(lookup_fn):
     result = lookup_fn("andare")
     assert result is not None
-    assert result.headword == "andare"
+    assert result[0].headword == "andare"
 
 
 @pytest.mark.unit
@@ -53,7 +53,7 @@ def test_lemma_match(lookup_fn):
     """Conjugated form should resolve via spaCy lemmatization."""
     result = lookup_fn("mangiato")
     assert result is not None
-    assert result.headword == "mangiare"
+    assert result[0].headword == "mangiare"
 
 
 @pytest.mark.unit
@@ -66,7 +66,7 @@ def test_reflexive_clitic_stripping(lookup_fn):
     """'andarsene' should resolve to 'andare' via clitic stripping."""
     result = lookup_fn("andarsene")
     if result:  # depends on spaCy model accuracy
-        assert result.headword == "andare"
+        assert result[0].headword == "andare"
 
 
 @pytest.mark.unit
@@ -74,4 +74,4 @@ def test_mente_adverb(lookup_fn):
     """'felicemente' should resolve to 'felice' via -mente rule."""
     result = lookup_fn("felicemente")
     if result:
-        assert result.headword == "felice"
+        assert result[0].headword == "felice"

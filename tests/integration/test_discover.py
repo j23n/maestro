@@ -25,10 +25,13 @@ async def test_discover_creates_cards_for_new_words(db):
     )
     await word.insert()
 
-    _vocab_cache.seed(words={"mangiare": word}, defs={})
+    _vocab_cache.seed(words={"mangiare": [word]}, defs={})
 
     with (
-        patch("maestro.vocab.discover.lemmatize", return_value=["mangiare"]),
+        patch(
+            "maestro.vocab.discover.lemmatize_with_pos",
+            return_value=[("mangiare", "VERB")],
+        ),
         patch(
             "maestro.vocab.discover.get_cefr_level",
             new_callable=AsyncMock,
@@ -59,10 +62,12 @@ async def test_discover_annotates_known_words(db):
     )
     await word.insert()
 
-    _vocab_cache.seed(words={"bere": word}, defs={})
+    _vocab_cache.seed(words={"bere": [word]}, defs={})
 
     with (
-        patch("maestro.vocab.discover.lemmatize", return_value=["bere"]),
+        patch(
+            "maestro.vocab.discover.lemmatize_with_pos", return_value=[("bere", "VERB")]
+        ),
         patch(
             "maestro.vocab.discover.get_cefr_level",
             new_callable=AsyncMock,
@@ -91,10 +96,13 @@ async def test_discover_skips_non_target_lang(db):
     )
     await word.insert()
 
-    _vocab_cache.seed(words={"house": word}, defs={})
+    _vocab_cache.seed(words={"house": [word]}, defs={})
 
     with (
-        patch("maestro.vocab.discover.lemmatize", return_value=["house"]),
+        patch(
+            "maestro.vocab.discover.lemmatize_with_pos",
+            return_value=[("house", "NOUN")],
+        ),
         patch(
             "maestro.vocab.discover.get_cefr_level",
             new_callable=AsyncMock,

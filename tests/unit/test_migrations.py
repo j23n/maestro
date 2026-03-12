@@ -55,12 +55,27 @@ def _make_db(applied_names: list[str] = None):
         return_value=MagicMock(modified_count=0)
     )
 
+    vocabulary_words_coll = MagicMock()
+    vocabulary_words_coll.drop_index = AsyncMock()
+    vocabulary_words_coll.create_index = AsyncMock()
+    vocabulary_words_coll.delete_many = AsyncMock(
+        return_value=MagicMock(deleted_count=0)
+    )
+
+    # aggregate() is a coroutine returning an async cursor — no duplicates in test data
+    async def _empty_agg_cursor():
+        return
+        yield  # makes this an async generator
+
+    vocabulary_words_coll.aggregate = AsyncMock(return_value=_empty_agg_cursor())
+
     def _get_coll(name):
         return {
             "_migrations": migrations_coll,
             "drill_templates": drill_templates_coll,
             "generated_drills": generated_drills_coll,
             "grammar_points": grammar_points_coll,
+            "vocabulary_words": vocabulary_words_coll,
             "learning_profile": _empty_coll(),
             "learning_events": _empty_coll(),
             "curriculum_scenarios": _empty_coll(),
@@ -94,8 +109,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all three migrations as applied
-    assert migrations_coll.insert_one.await_count == 3
+    # Runner should have recorded all four migrations as applied
+    assert migrations_coll.insert_one.await_count == 4
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -103,6 +118,7 @@ async def test_runner_applies_pending_migration():
         "0001_remove_free_form_drills",
         "0002_drop_drill_templates",
         "0003_short_codes",
+        "0004_vocab_compound_unique",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -118,6 +134,7 @@ async def test_runner_skips_already_applied():
             "0001_remove_free_form_drills",
             "0002_drop_drill_templates",
             "0003_short_codes",
+            "0004_vocab_compound_unique",
         ]
     )
 

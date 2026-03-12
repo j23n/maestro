@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# Non-destructive bidirectional sync of vocabulary_word_definitions and word audio.
+# Non-destructive bidirectional sync of vocabulary data:
 #
-# - Definitions: inserts docs whose (word, student_level) pair is missing on the
-#   destination side. Existing docs are never overwritten.
+# - Words: syncs vocabulary_words matched by (word, part_of_speech) compound key.
+#   Missing docs are inserted; newer docs overwrite older ones.
+# - Definitions: syncs vocabulary_word_definitions matched by (word, pos, level).
+#   Missing docs are inserted; newer docs overwrite older ones.
 # - Audio: downloads word_*.wav files that are missing locally (pull) or missing
 #   on the remote app (push — not yet supported, audio is generated on-demand).
 #
@@ -11,7 +13,7 @@
 #   scripts/sync_vocab.sh pull --staging                # staging → local
 #   scripts/sync_vocab.sh push                          # local → prod
 #   scripts/sync_vocab.sh push --staging                # local → staging
-#   scripts/sync_vocab.sh pull --skip-audio             # definitions only
+#   scripts/sync_vocab.sh pull --skip-audio             # words + definitions only
 #   scripts/sync_vocab.sh pull --skip-db                # audio only
 #
 # Exit codes:
@@ -79,97 +81,147 @@ echo "==> Direction: $DIRECTION ($REMOTE_NAME ↔ local)"
 echo "    FROM: $(log_uri "$FROM")"
 echo "    TO:   $(log_uri "$TO")"
 
-# --- Definitions: non-destructive merge ---
+# --- Words + Definitions: non-destructive merge ---
 if [[ "$SKIP_DB" == false ]]; then
     echo ""
-    echo "==> Syncing vocabulary_word_definitions..."
+    echo "==> Syncing vocabulary_words..."
 
     echo "    Connecting to source and destination databases..."
     SYNC_OUTPUT=$(SRC_URI="$FROM" DST_URI="$TO" mongosh --quiet --nodb --eval '
         const src = connect(process.env.SRC_URI);
         const dst = connect(process.env.DST_URI);
 
-        // Build word ID → word string lookups for both sides
+        function ts(doc) { return doc.updated_at || doc.created_at; }
+
+        // --- Phase 1: sync vocabulary_words by (word, part_of_speech) ---
+        // Index destination words by (word, part_of_speech) → doc
+        const dstWordIndex = new Map();
+        dst.getCollection("vocabulary_words").find().forEach(d => {
+            const key = d.word + "|" + (d.part_of_speech || "");
+            dstWordIndex.set(key, d);
+        });
+        print("    Destination vocabulary_words: " + dstWordIndex.size);
+
+        const srcWordCount = src.getCollection("vocabulary_words").countDocuments();
+        print("    Source vocabulary_words: " + srcWordCount);
+
+        let wAdded = 0, wUpdated = 0, wSkipped = 0, wErrors = 0;
+        src.getCollection("vocabulary_words").find().forEach(doc => {
+            const key = doc.word + "|" + (doc.part_of_speech || "");
+            const existing = dstWordIndex.get(key);
+
+            try {
+                if (!existing) {
+                    const { _id, ...rest } = doc;
+                    const result = dst.getCollection("vocabulary_words").insertOne(rest);
+                    // Update index so definitions phase can find it
+                    rest._id = result.insertedId;
+                    dstWordIndex.set(key, rest);
+                    wAdded++;
+                } else if (ts(doc) && ts(existing) && ts(doc) > ts(existing)) {
+                    const { _id, ...rest } = doc;
+                    dst.getCollection("vocabulary_words").replaceOne(
+                        { _id: existing._id }, rest
+                    );
+                    wUpdated++;
+                } else {
+                    wSkipped++;
+                }
+            } catch (e) {
+                print("    ERROR: failed to sync word " + key + ": " + e.message);
+                wErrors++;
+            }
+        });
+
+        print("    Result: added=" + wAdded + " updated=" + wUpdated + " skipped=" + wSkipped + " errors=" + wErrors);
+        if (wErrors > 0) quit(1);
+
+        // --- Phase 2: sync vocabulary_word_definitions by (word, pos, level) ---
+        print("");
+        print("    Syncing vocabulary_word_definitions...");
+
+        // Build word ID → (word, pos) lookups for both sides
         function buildWordLookup(db) {
             const m = new Map();
-            db.getCollection("vocabulary_words").find({}, { word: 1 }).forEach(d => {
-                m.set(d._id.toString(), d.word);
+            db.getCollection("vocabulary_words").find(
+                {}, { word: 1, part_of_speech: 1 }
+            ).forEach(d => {
+                m.set(d._id.toString(), d.word + "|" + (d.part_of_speech || ""));
             });
             return m;
         }
         const srcWords = buildWordLookup(src);
         const dstWords = buildWordLookup(dst);
-        print("    Source vocabulary_words: " + srcWords.size);
-        print("    Destination vocabulary_words: " + dstWords.size);
 
-        const srcCount = src.getCollection("vocabulary_word_definitions").countDocuments();
-        print("    Source definitions: " + srcCount);
+        const srcDefCount = src.getCollection("vocabulary_word_definitions").countDocuments();
+        print("    Source definitions: " + srcDefCount);
 
-        // Index destination defs by (word_string, student_level)
-        const dstDocs = new Map();
+        // Index destination defs by (word, pos, student_level)
+        const dstDefs = new Map();
         dst.getCollection("vocabulary_word_definitions").find(
             {}, { word: 1, student_level: 1, updated_at: 1, created_at: 1 }
         ).forEach(d => {
             const wordId = (d.word.oid || d.word.$id || d.word).toString();
-            const wordStr = dstWords.get(wordId);
-            if (wordStr) {
-                const key = wordStr + "|" + d.student_level;
-                dstDocs.set(key, d);
+            const wordKey = dstWords.get(wordId);
+            if (wordKey) {
+                const key = wordKey + "|" + d.student_level;
+                dstDefs.set(key, d);
             }
         });
-        print("    Destination definitions: " + dstDocs.size);
+        print("    Destination definitions: " + dstDefs.size);
 
-        // Reverse lookup: word string → destination ObjectId
-        const dstWordsByName = new Map();
-        for (const [id, w] of dstWords) dstWordsByName.set(w, id);
+        // Reverse lookup: (word, pos) → destination ObjectId
+        const dstWordsByKey = new Map();
+        dst.getCollection("vocabulary_words").find(
+            {}, { word: 1, part_of_speech: 1 }
+        ).forEach(d => {
+            const key = d.word + "|" + (d.part_of_speech || "");
+            dstWordsByKey.set(key, d._id.toString());
+        });
 
-        // Use updated_at if available, fall back to created_at
-        function ts(doc) { return doc.updated_at || doc.created_at; }
-
-        let added = 0, updated = 0, skipped = 0, errors = 0;
+        let dAdded = 0, dUpdated = 0, dSkipped = 0, dErrors = 0;
         src.getCollection("vocabulary_word_definitions").find().forEach(doc => {
             const wordId = (doc.word.oid || doc.word.$id || doc.word).toString();
-            const wordStr = srcWords.get(wordId);
-            if (!wordStr) { skipped++; return; }
-            const key = wordStr + "|" + doc.student_level;
-            const existing = dstDocs.get(key);
+            const wordKey = srcWords.get(wordId);
+            if (!wordKey) { dSkipped++; return; }
+            const key = wordKey + "|" + doc.student_level;
+            const existing = dstDefs.get(key);
 
             try {
                 if (!existing) {
-                    // Find the matching word ID on the destination side
-                    const dstId = dstWordsByName.get(wordStr);
+                    const dstId = dstWordsByKey.get(wordKey);
                     if (!dstId) {
-                        skipped++;  // word does not exist on destination
+                        dSkipped++;  // word does not exist on destination
                     } else {
                         const { _id, ...rest } = doc;
                         rest.word = DBRef("vocabulary_words", ObjectId(dstId));
                         dst.getCollection("vocabulary_word_definitions").insertOne(rest);
-                        added++;
+                        dAdded++;
                     }
                 } else if (ts(doc) && ts(existing) && ts(doc) > ts(existing)) {
                     const { _id, ...rest } = doc;
                     dst.getCollection("vocabulary_word_definitions").replaceOne(
                         { _id: existing._id }, rest
                     );
-                    updated++;
+                    dUpdated++;
                 } else {
-                    skipped++;
+                    dSkipped++;
                 }
             } catch (e) {
-                print("    ERROR: failed to sync " + key + ": " + e.message);
-                errors++;
+                print("    ERROR: failed to sync def " + key + ": " + e.message);
+                dErrors++;
             }
         });
 
-        print("    Result: added=" + added + " updated=" + updated + " skipped=" + skipped + " errors=" + errors);
-        if (errors > 0) quit(1);
+        print("    Result: added=" + dAdded + " updated=" + dUpdated + " skipped=" + dSkipped + " errors=" + dErrors);
+        if (dErrors > 0) quit(1);
     ' 2>&1) || {
         echo "$SYNC_OUTPUT"
         echo "ERROR: DB sync failed." >&2
         exit 2
     }
     echo "$SYNC_OUTPUT"
-    echo "==> Definition sync complete."
+    echo "==> DB sync complete."
 else
     echo "==> Skipping DB sync (--skip-db)."
 fi
