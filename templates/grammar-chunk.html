@@ -8,8 +8,8 @@
     <h1 class="gp-title">{{ heading }}</h1>
   </div>
 
-  <div class="grammar-content">
-    {{ annotated_content | safe }}
+  <div class="grammar-content" lang="it">
+    {{ preprocessed_content | markdown | safe }}
   </div>
 
   <a class="back-link" href="javascript:history.back()">{{ t("back_link") }}</a>

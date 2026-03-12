@@ -9,9 +9,9 @@
     <h1 class="gp-title">{{ display_title }}</h1>
   </div>
 
-  {% if content %}
-  <div class="grammar-content">
-    {{ content | safe }}
+  {% if preprocessed_content %}
+  <div class="grammar-content"{% if content_lang %} lang="{{ content_lang }}"{% endif %}>
+    {{ preprocessed_content | markdown | safe }}
   </div>
   {% else %}
   <div class="no-explanation">
