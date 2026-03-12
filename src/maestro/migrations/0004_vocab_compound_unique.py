@@ -34,7 +34,8 @@ async def run(db) -> None:
         },
         {"$match": {"count": {"$gt": 1}}},
     ]
-    async for group in coll.aggregate(pipeline):
+    cursor = await coll.aggregate(pipeline)
+    async for group in cursor:
         # Keep the last inserted (newest) doc, remove the rest
         ids_to_remove = group["ids"][:-1]
         result = await coll.delete_many({"_id": {"$in": ids_to_remove}})

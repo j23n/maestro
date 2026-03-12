@@ -103,9 +103,10 @@ async def main(word: str) -> None:
     make_lookup = get_lookup_factory()
     lookup = make_lookup(epub["epub_by_form"], nlp)
 
-    entry = lookup(word)
-    if entry:
-        _show_epub(word, entry)
+    entries = lookup(word)
+    if entries:
+        for entry in entries:
+            _show_epub(word, entry)
     else:
         _hr()
         print(f"EPUB  '{word}' — no entry found")
