@@ -43,6 +43,7 @@ from maestro.vocab.discover import (
 )
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
+from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
 from markupsafe import escape
 from maestro.lezione.service import (
     activity_url,
@@ -73,6 +74,14 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
         )
         raise HTTPException(403)
     return lesson
+
+
+@router.post("/onboarding/skip")
+async def skip_onboarding(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    await _skip_onboarding(student.id)
+    return RedirectResponse(url="/lezione/", status_code=303)
 
 
 @router.get("/lezione/", response_class=HTMLResponse)

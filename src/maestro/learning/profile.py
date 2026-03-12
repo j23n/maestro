@@ -56,15 +56,20 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
     """Highest CEFR level where ≥90% of GPs are mastered AND ≥90% of CFs are demonstrated.
 
     A0 graduation: all A0 scenarios must be completed (depth >= 1).
+
+    Note: may mutate ``profile.onboarding_completed``; caller must save.
     """
     # A0 check: have all A0 scenarios been completed?
-    a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
-    if a0_scenarios:
-        progress = profile.scenario_progress or {}
-        for scenario in a0_scenarios:
-            sp = progress.get(scenario.slug, ScenarioProgress())
-            if sp.depth < 1:
-                return "A0"
+    if not (profile.onboarding_completed or profile.onboarding_skipped):
+        a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+        if a0_scenarios:
+            progress = profile.scenario_progress or {}
+            for scenario in a0_scenarios:
+                sp = progress.get(scenario.slug, ScenarioProgress())
+                if sp.depth < 1:
+                    return "A0"
+        # All A0 scenarios done — mark onboarding as completed
+        profile.onboarding_completed = True
 
     await taxonomy.ensure_loaded()
     grammar_points = taxonomy.grammar_points()
