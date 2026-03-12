@@ -70,19 +70,19 @@ def test_slugify_strips_leading_trailing_underscores():
 
 
 @pytest.mark.unit
-def testword_audio_path_plain():
+def test_word_audio_path_plain():
     path = word_audio_path("ciao")
     assert path.name == "word_ciao.wav"
 
 
 @pytest.mark.unit
-def testword_audio_path_accent():
+def test_word_audio_path_accent():
     path = word_audio_path("caffè")
     assert path.name == "word_caffe.wav"
 
 
 @pytest.mark.unit
-def testword_audio_path_is_under_audio_dir():
+def test_word_audio_path_is_under_audio_dir():
     path = word_audio_path("ciao")
     assert path.parent == tts_module._audio_dir()
 
