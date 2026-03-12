@@ -101,6 +101,7 @@ class _PromptFile:
 # ---------------------------------------------------------------------------
 
 analyzer = _PromptFile(_PROMPTS_DIR / "analyzer.yaml")
+common = _PromptFile(_PROMPTS_DIR / "common.yaml")
 lesson_analyzer = _PromptFile(_PROMPTS_DIR / "lesson_analyzer.yaml")
 planner = _PromptFile(_PROMPTS_DIR / "planner.yaml")
 vocab = _PromptFile(_PROMPTS_DIR / "vocab_definitions.yaml")
@@ -109,3 +110,11 @@ judge = _PromptFile(_PROMPTS_DIR / "judge.yaml")
 
 # The scorer uses analyzer.yaml prompts — alias so record_eval("scorer") gets the right version
 scorer = analyzer
+
+
+def span_tagging_block(target_language: str, target_language_code: str) -> str:
+    """Return the shared span-tagging instruction with variables filled in."""
+    return common.span_tagging.render(
+        target_language=target_language,
+        target_language_code=target_language_code,
+    )

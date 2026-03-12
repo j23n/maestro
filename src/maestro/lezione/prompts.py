@@ -14,7 +14,7 @@ from maestro.models import (
     CurriculumScenario,
     ExerciseType,
 )
-from maestro.prompts import planner as _prompts
+from maestro.prompts import planner as _prompts, span_tagging_block as _stb
 from maestro.lezione.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
 
 
@@ -184,6 +184,7 @@ def build_lesson_content_prompt(
             reading_count=reading_count,
             speaking_count=len(speaking_cfs),
             grammar_count=len(grammar_gps),
+            span_tagging=_stb(lang, settings.TARGET_LANGUAGE),
         )
     )
 

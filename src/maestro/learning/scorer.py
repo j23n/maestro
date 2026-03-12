@@ -15,7 +15,7 @@ from maestro.llm import llm_messages_create
 from maestro.models import CallType
 
 from maestro.models import ExerciseType
-from maestro.prompts import analyzer as _prompts
+from maestro.prompts import analyzer as _prompts, span_tagging_block as _stb
 from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
 
@@ -29,6 +29,10 @@ def _target_language() -> str:
     if _TL is None:
         _TL = settings.TARGET_LANGUAGE_NAME
     return _TL
+
+
+def _span_tagging() -> str:
+    return _stb(_target_language(), settings.TARGET_LANGUAGE)
 
 
 def _validate_results(result: list, n: int, label: str) -> list[dict]:
@@ -78,6 +82,7 @@ def _system_prompt(cefr_level: str) -> str:
         target_language=_target_language(),
         feedback_language=_feedback_language(cefr_level),
         grammar_code_list=_grammar_code_list(cefr_level),
+        span_tagging=_span_tagging(),
     )
 
 
@@ -195,6 +200,7 @@ async def feedback_fill_blank(
         correct_answer=correct_answer,
         student_answer=student_answer,
         rule_block=rule_block,
+        span_tagging=_span_tagging(),
     )
 
     logger.info(
@@ -213,6 +219,7 @@ async def feedback_fill_blank(
             system=_prompts.feedback_fill_blank.render_system(
                 target_language=_target_language(),
                 feedback_language=_feedback_language(cefr_level),
+                span_tagging=_span_tagging(),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
@@ -258,6 +265,7 @@ async def evaluate_error_correction(
         reference=reference,
         student=student,
         rule_block=rule_block,
+        span_tagging=_span_tagging(),
     )
 
     logger.info(
@@ -271,6 +279,7 @@ async def evaluate_error_correction(
             max_tokens=256,
             system=_prompts.error_correction_eval.render_system(
                 target_language=_target_language(),
+                span_tagging=_span_tagging(),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
