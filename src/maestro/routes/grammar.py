@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from maestro.auth import get_current_student
 from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
-from maestro.templates import templates, render_with_discover
+from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 from maestro.config import settings as _settings
 from maestro.vocab.discover import preprocess_grammar_markdown
@@ -42,10 +42,11 @@ async def grammar_index(
         for cat in grouped[level]:
             grouped[level][cat].sort(key=lambda g: titles.get(str(g.id)) or g.label)
 
-    return templates.TemplateResponse(
-        request=request,
-        name="grammar-index.html",
-        context={"grouped": grouped, "titles": titles, "student_level": student_level},
+    return await render_with_discover(
+        request,
+        "grammar-index.html",
+        {"grouped": grouped, "titles": titles, "student_level": student_level},
+        student_id=student.id,
     )
 
 

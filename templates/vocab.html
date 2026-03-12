@@ -69,7 +69,7 @@
       {% for card in due %}
       <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
         <span class="chip-dot"></span>
-        <span class="chip-word" lang="it">{{ card.word.word }}</span>
+        <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
       </a>
       {% endfor %}
@@ -88,7 +88,7 @@
       {% for card in learning %}
       <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
         <span class="chip-dot"></span>
-        <span class="chip-word" lang="it">{{ card.word.word }}</span>
+        <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
       </a>
       {% endfor %}
@@ -107,7 +107,7 @@
       {% for card in known %}
       <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
         <span class="chip-dot"></span>
-        <span class="chip-word" lang="it">{{ card.word.word }}</span>
+        <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
       </a>
       {% endfor %}

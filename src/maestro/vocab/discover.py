@@ -24,6 +24,9 @@ _TAG_RE = re.compile(r"(<[^>]+>)")
 _TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
 _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
+# Tags that should never be targets for vocab discovery, even if they carry lang="it".
+# <html lang="it"> is the root element and would make the entire page a target.
+_SKIP_DISCOVER_TAGS = frozenset({"html", "head", "title", "script", "style", "nav"})
 
 
 def lemmatize(text: str) -> list[str]:
@@ -148,7 +151,11 @@ async def discover(
         return response_text
 
     soup = BeautifulSoup(response_text, "html.parser")
-    lang_elements = soup.find_all(attrs={"lang": target_lang})
+    lang_elements = [
+        el
+        for el in soup.find_all(attrs={"lang": target_lang})
+        if el.name not in _SKIP_DISCOVER_TAGS
+    ]
     if not lang_elements:
         return response_text
 
