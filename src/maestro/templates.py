@@ -22,11 +22,10 @@ async def render_with_discover(
     *,
     student_id=None,
     status_code=200,
-    hide_translations=False,
+    should_hide_translations=False,
 ):
     """Render a Jinja template, then run vocab discover() on the full HTML."""
-    from maestro.vocab.discover import discover
-    from maestro.vocab.discover import hide_translations as _hide_translations
+    from maestro.vocab.discover import discover, hide_translations
 
     response = templates.TemplateResponse(
         request=request, name=name, context=context, status_code=status_code
@@ -34,8 +33,8 @@ async def render_with_discover(
     if student_id is not None:
         html = response.body.decode("utf-8")
         html = await discover(html, student_id=student_id)
-        if hide_translations:
-            html = _hide_translations(html)
+        if should_hide_translations:
+            html = hide_translations(html)
         response.body = html.encode("utf-8")
         response.headers["content-length"] = str(len(response.body))
     return response

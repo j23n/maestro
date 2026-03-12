@@ -393,7 +393,7 @@ async def lezione_activity(
             "lezione-activity-reading.html",
             ctx,
             student_id=student.id,
-            hide_translations=True,
+            should_hide_translations=True,
         )
 
     if activity.type == ActivityType.LISTENING:
@@ -403,7 +403,7 @@ async def lezione_activity(
             "lezione-activity-listening.html",
             ctx,
             student_id=student.id,
-            hide_translations=True,
+            should_hide_translations=True,
         )
 
     if activity.type == ActivityType.WRITING:

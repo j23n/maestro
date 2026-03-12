@@ -7,7 +7,7 @@
 
   <div class="reading-card">
     <div class="reading-title">{{ t("reading_title") }}</div>
-    <div class="reading-text" lang="it">{{ activity.content }}</div>
+    <div class="reading-text" lang="it">{{ activity.content | safe }}</div>
   </div>
 
   {% if is_review %}
