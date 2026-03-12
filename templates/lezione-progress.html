@@ -31,6 +31,6 @@
     </div>
     <button class="abandon-link"
             hx-post="/lezione/{{ lesson.id }}/abandon"
-            hx-confirm="{{ t('lesson_abandon_confirm') }}">{{ t("lesson_abandon_btn") }}</button>
+            hx-confirm="{{ t('lesson_abandon_confirm') }}">{{ t("lesson_abandon_btn") | lang_it }}</button>
   </div>
 </div>

@@ -15,10 +15,10 @@
 {% block content %}
 <div class="lesson-plan">
   <div class="lesson-header">
-    <h1>{{ t("lesson_plan_title") }}</h1>
+    <h1>{{ t("lesson_plan_title") | lang_it }}</h1>
     <div class="lesson-meta">
       <span>{{ lesson.duration_minutes }} min</span>
-      <span>{{ lesson.activities | length }} {{ t("lesson_plan_activities") }}</span>
+      <span>{{ lesson.activities | length }} {{ t("lesson_plan_activities") | lang_it }}</span>
       {% if lesson.topic_title %}<span>{{ lesson.topic_title }}</span>{% endif %}
     </div>
   </div>
@@ -44,9 +44,9 @@
 
   <div class="actions">
     <form method="post" action="/lezione/{{ lesson.id }}/start">
-      <button class="btn-primary" type="submit">{{ t("lesson_plan_start") }}</button>
+      <button class="btn-primary" type="submit">{{ t("lesson_plan_start") | lang_it }}</button>
     </form>
-    <a class="btn-secondary" href="/lezione/">{{ t("lesson_plan_regenerate") }}</a>
+    <a class="btn-secondary" href="/lezione/">{{ t("lesson_plan_regenerate") | lang_it }}</a>
     {% set flag_call_type = "lesson_plan" %}
     {% set flag_refs = {"lesson_id": lesson.id|string} | tojson %}
     {% include "partials/flag-button.html" %}

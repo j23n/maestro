@@ -15,7 +15,7 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.profile import get_profile, get_or_create_profile
-from maestro.templates import templates
+from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER
 from maestro.learning.weakness import (
     build_gp_titles,
@@ -138,10 +138,10 @@ async def profilo_page(
         for lesson in recent_lessons
     ]
 
-    return templates.TemplateResponse(
-        request=request,
-        name="profilo.html",
-        context={
+    return await render_with_discover(
+        request,
+        "profilo.html",
+        {
             "profile": profile,
             "grammar_by_level": grammar_by_level,
             "cf_by_level": cf_by_level,
@@ -154,6 +154,7 @@ async def profilo_page(
             "vocab_known": vocab_known,
             "top_cf_labels": top_cf_labels,
         },
+        student_id=student.id,
     )
 
 

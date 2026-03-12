@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="lesson-new">
-  <h1>{{ t("login_title") }}</h1>
-  <p class="subtitle">{{ t("login_subtitle") }}</p>
+  <h1>{{ t("login_title") | lang_it }}</h1>
+  <p class="subtitle">{{ t("login_subtitle") | lang_it }}</p>
 
   {% if error %}
   <div class="form-error">{{ t(error) }}</div>
@@ -12,16 +12,16 @@
 
   <form method="post" action="/auth/login">
     <div class="form-section">
-      <label class="section-label" for="email">{{ t("login_email_label") }}</label>
+      <label class="section-label" for="email">{{ t("login_email_label") | lang_it }}</label>
       <input class="config-text-input" type="email" id="email" name="email" value="{{ email|default('', true) }}" required>
     </div>
     <div class="form-section">
-      <label class="section-label" for="password">{{ t("login_password_label") }}</label>
+      <label class="section-label" for="password">{{ t("login_password_label") | lang_it }}</label>
       <input class="config-text-input" type="password" id="password" name="password" required>
     </div>
-    <button type="submit" class="btn-start">{{ t("login_submit") }}</button>
+    <button type="submit" class="btn-start">{{ t("login_submit") | lang_it }}</button>
   </form>
 
-  <p class="auth-switch">{{ t("login_no_account") }} <a href="/auth/signup">{{ t("login_signup_link") }}</a></p>
+  <p class="auth-switch">{{ t("login_no_account") | lang_it }} <a href="/auth/signup">{{ t("login_signup_link") | lang_it }}</a></p>
 </div>
 {% endblock %}

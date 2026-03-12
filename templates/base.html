@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,14 +22,14 @@
 
   <nav>
     <div class="site-container">
-      <a href="/lezione/" {% if request.url.path.startswith('/lezione') %}class="active"{% endif %}>{{ t("nav_lesson") }}</a>
-      <a href="/vocab" {% if request.url.path.startswith('/vocab') %}class="active"{% endif %}>{{ t("nav_vocab") }}</a>
-      <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") }}</a>
-      <a href="/profilo" {% if request.url.path.startswith('/profilo') %}class="active"{% endif %}>{{ t("nav_profile") }}</a>
+      <a href="/lezione/" {% if request.url.path.startswith('/lezione') %}class="active"{% endif %}>{{ t("nav_lesson") | lang_it }}</a>
+      <a href="/vocab" {% if request.url.path.startswith('/vocab') %}class="active"{% endif %}>{{ t("nav_vocab") | lang_it }}</a>
+      <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") | lang_it }}</a>
+      <a href="/profilo" {% if request.url.path.startswith('/profilo') %}class="active"{% endif %}>{{ t("nav_profile") | lang_it }}</a>
       {% if request.state.student is defined and request.state.student %}
-      <span class="student-name">{{ request.state.student.name or t("students_default_name") }}</span>
+      <span class="student-name">{{ request.state.student.name or (t("students_default_name") | lang_it) }}</span>
       <form method="post" action="/auth/logout" style="display:inline">
-        <button type="submit" class="nav-logout">{{ t("nav_logout") }}</button>
+        <button type="submit" class="nav-logout">{{ t("nav_logout") | lang_it }}</button>
       </form>
       {% endif %}
     </div>
