@@ -1,4 +1,4 @@
-version: "6"
+version: "7"
 
 explanation_system:
   description: >
@@ -50,15 +50,7 @@ explanation_system:
 
     {{level_guidance}}
 
-    ## Span-tagging (required throughout the explanation)
-
-    Every piece of text must sit inside a language span — no exceptions.
-    - {{target_language}} text → `<span lang="{{target_language_code}}">…</span>`
-    - English text → `<span lang="en">…</span>`
-    - Apply to every word and any punctuation attached to it.
-
-    Exception: markdown headings (`##`, `###`) are structural elements — write them
-    on their own line with no span tags at all. E.g.: `## Why this matters`
+    {{span_tagging}}
 
     Correct tagging example:
     <span lang="en">Use </span><span lang="{{target_language_code}}">avere</span><span lang="en"> for transitive verbs: </span><span lang="{{target_language_code}}">Ho mangiato la pizza.</span><span lang="en"> (I ate the pizza.) Use </span><span lang="{{target_language_code}}">essere</span><span lang="en"> for motion and reflexive verbs: </span><span lang="{{target_language_code}}">Sono andato a casa.</span><span lang="en"> (I went home.) Mistake: </span><span lang="{{target_language_code}}">*ho andato</span><span lang="en"> — incorrect; motion verbs always take </span><span lang="{{target_language_code}}">essere</span><span lang="en">.</span>

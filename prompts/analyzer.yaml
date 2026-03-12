@@ -1,4 +1,4 @@
-version: "4"
+version: "5"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -85,6 +85,8 @@ scoring_system:
     - grammar_correct_codes: codes from the list above for grammar points the student used CORRECTLY
     - grammar_error_codes: codes from the list above for grammar points the student used INCORRECTLY
 
+    {{span_tagging}}
+
 # ---------------------------------------------------------------------------
 
 drill_scoring:
@@ -169,6 +171,8 @@ feedback_fill_blank:
     Write ONE sentence in {{feedback_language}} explaining why the student's answer is wrong and
     what the correct rule is. Be concise and direct.
 
+    {{span_tagging}}
+
 # ---------------------------------------------------------------------------
 
 error_correction_eval:
@@ -190,3 +194,5 @@ error_correction_eval:
     Focus on whether the grammatical error was correctly identified and fixed.
 
     Schema: {"correct": true, "explanation": "ONE sentence in {{feedback_language}} explaining what the error was and the rule"}
+
+    {{span_tagging}}
