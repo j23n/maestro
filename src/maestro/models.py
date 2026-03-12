@@ -124,13 +124,15 @@ class Sense(BaseModel):
 
 
 class VocabularyWord(Document):
-    word: str = Field(unique=True)
+    word: str
     syllabization: Optional[str] = None  # "af-flùs-so" (no brackets)
     part_of_speech: str  # raw abbrev: "s.m.", "v.tr.", etc.
     cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
     entry_id: Optional[str] = None  # "LM-00595"
     senses: List[Sense] = []  # all senses from EPUB
     language: str = "it"
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
     @property
     def audio_url(self) -> Optional[str]:
@@ -142,6 +144,11 @@ class VocabularyWord(Document):
 
     class Settings:
         name = "vocabulary_words"
+        indexes = [
+            IndexModel(
+                [("word", ASCENDING), ("part_of_speech", ASCENDING)], unique=True
+            ),
+        ]
 
 
 class CefrSense(BaseModel):

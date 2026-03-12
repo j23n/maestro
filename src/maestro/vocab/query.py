@@ -66,32 +66,33 @@ def _show_epub(word_str: str, entry) -> None:
 
 async def _show_db(word_str: str) -> None:
     _hr()
-    doc = await VocabularyWord.find_one(VocabularyWord.word == word_str)
-    if doc is None:
+    docs = await VocabularyWord.find(VocabularyWord.word == word_str).to_list()
+    if not docs:
         print(f"DB    '{word_str}' — not in vocabulary_words")
         return
 
-    print(
-        f"DB    [{doc.entry_id}]  {doc.word}  ({doc.part_of_speech}, {doc.cefr_level})"
-    )
-    if doc.syllabization:
-        print(f"  syllabization : {doc.syllabization}")
-    print(f"  senses ({len(doc.senses)}):")
-    for i, s in enumerate(doc.senses, 1):
-        print(f"    {i}. {s.definition[:80]}")
-        for ex in s.examples[:2]:
-            print(f"       ex: {ex}")
+    for doc in docs:
+        print(
+            f"DB    [{doc.entry_id}]  {doc.word}  ({doc.part_of_speech}, {doc.cefr_level})"
+        )
+        if doc.syllabization:
+            print(f"  syllabization : {doc.syllabization}")
+        print(f"  senses ({len(doc.senses)}):")
+        for i, s in enumerate(doc.senses, 1):
+            print(f"    {i}. {s.definition[:80]}")
+            for ex in s.examples[:2]:
+                print(f"       ex: {ex}")
 
-    defs = await VocabularyWordDefinition.find({"word": _word_ref(doc)}).to_list()
-    if defs:
-        print(f"  definitions ({len(defs)} levels):")
-        for d in sorted(defs, key=lambda x: x.student_level):
-            trans = f"  [{d.translation}]" if d.translation else ""
-            print(f"    {d.student_level}{trans}")
-            for s in d.senses[:2]:
-                print(f"      • {s.definition[:70]}")
-    else:
-        print("  definitions : none generated yet")
+        defs = await VocabularyWordDefinition.find({"word": _word_ref(doc)}).to_list()
+        if defs:
+            print(f"  definitions ({len(defs)} levels):")
+            for d in sorted(defs, key=lambda x: x.student_level):
+                trans = f"  [{d.translation}]" if d.translation else ""
+                print(f"    {d.student_level}{trans}")
+                for s in d.senses[:2]:
+                    print(f"      • {s.definition[:70]}")
+        else:
+            print("  definitions : none generated yet")
 
 
 async def main(word: str) -> None:
@@ -102,9 +103,10 @@ async def main(word: str) -> None:
     make_lookup = get_lookup_factory()
     lookup = make_lookup(epub["epub_by_form"], nlp)
 
-    entry = lookup(word)
-    if entry:
-        _show_epub(word, entry)
+    entries = lookup(word)
+    if entries:
+        for entry in entries:
+            _show_epub(word, entry)
     else:
         _hr()
         print(f"EPUB  '{word}' — no entry found")

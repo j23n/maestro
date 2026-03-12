@@ -373,7 +373,7 @@ def parse_epub() -> dict:
     Parse all content chapters from dizionario_book/.
 
     Returns a dict with two indices:
-        epub_by_form:  {headword.lower(): ParsedEntry}
+        epub_by_form:  {headword.lower(): [ParsedEntry, ...]}
         epub_by_lemma: {spacy_lemma:      ParsedEntry}   (populated lazily by ingest)
     """
     if not EPUB_DIR.exists():
@@ -384,7 +384,7 @@ def parse_epub() -> dict:
     if not chapter_files:
         raise FileNotFoundError(f"No chapter files found in {EPUB_DIR}")
 
-    epub_by_form: dict[str, ParsedEntry] = {}
+    epub_by_form: dict[str, list[ParsedEntry]] = {}
     total = 0
     skipped = 0
 
@@ -397,9 +397,7 @@ def parse_epub() -> dict:
                 continue
             total += 1
             key = entry.headword.lower()
-            if key not in epub_by_form:
-                epub_by_form[key] = entry
-            # else: homograph — keep first entry
+            epub_by_form.setdefault(key, []).append(entry)
 
     logger.info(
         f"Parsed {total} entries, skipped {skipped} from {len(chapter_files)} chapters"
@@ -414,7 +412,7 @@ def parse_epub() -> dict:
 # ---------------------------------------------------------------------------
 
 
-def _make_tei(entries: dict[str, ParsedEntry]) -> ET.ElementTree:
+def _make_tei(entries: dict[str, list[ParsedEntry]]) -> ET.ElementTree:
     ET.register_namespace("", TEI_NS)
 
     def el(parent, tag, **attrs):
@@ -435,7 +433,8 @@ def _make_tei(entries: dict[str, ParsedEntry]) -> ET.ElementTree:
     div = ET.SubElement(body, f"{{{TEI_NS}}}div", type="lexicon")
     div.set("{http://www.w3.org/XML/1998/namespace}lang", "it")
 
-    for entry_data in sorted(entries.values(), key=lambda e: e.entry_id):
+    all_entries = [e for group in entries.values() for e in group]
+    for entry_data in sorted(all_entries, key=lambda e: e.entry_id):
         entry_el = ET.SubElement(div, f"{{{TEI_NS}}}entry")
         entry_el.set("{http://www.w3.org/XML/1998/namespace}id", entry_data.entry_id)
 
@@ -498,10 +497,11 @@ if __name__ == "__main__":
     result = parse_epub()
     entries = result["epub_by_form"]
 
+    total = sum(len(group) for group in entries.values())
     print(f"Writing TEI Lex-0 XML to {OUTPUT_XML}…")
     tree = _make_tei(entries)
     OUTPUT_XML.write_bytes(
         b'<?xml version="1.0" encoding="UTF-8"?>\n'
         + ET.tostring(tree.getroot(), encoding="unicode").encode("utf-8")
     )
-    print(f"Done. {len(entries)} entries written.")
+    print(f"Done. {total} entries written.")
