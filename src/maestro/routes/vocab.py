@@ -21,7 +21,7 @@ from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
-from maestro.templates import templates
+from maestro.templates import templates, render_with_discover
 from maestro.vocab.srs import review
 
 logger = logging.getLogger(__name__)
@@ -71,10 +71,10 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         },
     }
 
-    return templates.TemplateResponse(
-        request=request,
-        name="vocab.html",
-        context={
+    return await render_with_discover(
+        request,
+        "vocab.html",
+        {
             "due": due,
             "learning": learning,
             "known": known,
@@ -82,6 +82,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
             "stats": stats,
             "visible_levels": visible_levels,
         },
+        student_id=student.id,
     )
 
 
