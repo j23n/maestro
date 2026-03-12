@@ -5,6 +5,7 @@ import logging
 
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -36,8 +37,10 @@ class _JsonFormatter(logging.Formatter):
             "level": record.levelname.lower(),
             "name": record.name,
             "message": record.getMessage(),
-            **getattr(record, "extra", {}),
         }
+        extra = getattr(record, "_extra", None)
+        if extra:
+            obj["extra"] = extra
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
         if record.stack_info:
@@ -48,15 +51,13 @@ class _JsonFormatter(logging.Formatter):
 class _DevFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         base = f"{record.levelname:<8} {record.name}: {record.getMessage()}"
-        extra = getattr(record, "extra", {})
+        extra = getattr(record, "_extra", None)
         if extra:
-            base += " | " + " ".join(f"{k}={v}" for k, v in extra.items())
+            base += " [" + ", ".join(f"{k}={v}" for k, v in extra.items()) + "]"
         return base
 
 
 def _setup_logging() -> logging.Handler:
-    # Capture the original extra= dict on every LogRecord so formatters can read it
-    # directly without filtering built-in LogRecord attributes.
     _orig_make_record = logging.Logger.makeRecord
 
     def _patched_make_record(
@@ -75,7 +76,7 @@ def _setup_logging() -> logging.Handler:
         rv = _orig_make_record(
             self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
         )
-        rv.extra = dict(extra) if extra else {}
+        rv._extra = dict(extra) if extra else None
         return rv
 
     logging.Logger.makeRecord = _patched_make_record
@@ -88,7 +89,11 @@ def _setup_logging() -> logging.Handler:
     logging.root.setLevel(logging.WARNING)
     logging.root.handlers.clear()
     logging.root.addHandler(handler)
-    logging.getLogger("maestro").setLevel(settings.LOG_LEVEL.upper())
+
+    app_logger = logging.getLogger("maestro")
+    app_logger.setLevel(settings.LOG_LEVEL.upper())
+    app_logger.addHandler(handler)
+    app_logger.propagate = False
     return handler
 
 
@@ -101,7 +106,15 @@ if settings.SENTRY_DSN:
         dsn=settings.SENTRY_DSN,
         environment=settings.ENVIRONMENT,
         traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
-        integrations=[StarletteIntegration(), FastApiIntegration()],
+        integrations=[
+            StarletteIntegration(),
+            FastApiIntegration(),
+            LoggingIntegration(
+                level=logging.DEBUG,
+                event_level=logging.ERROR,
+                sentry_logs_level=logging.DEBUG,
+            ),
+        ],
         enable_logs=True,
     )
     logger.info("Sentry enabled (environment=%s)", settings.ENVIRONMENT)
