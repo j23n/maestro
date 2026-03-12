@@ -21,7 +21,7 @@ from maestro.models import (
     CurriculumScenario,
     ScenarioProgress,
 )
-from maestro.profile import get_profile, save_onboarding_field
+from maestro.profile import get_profile, get_or_create_profile, save_onboarding_field
 from maestro.learning.weakness import (
     build_gp_titles,
     build_grammar_by_level,
@@ -43,6 +43,7 @@ from maestro.vocab.discover import (
 )
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
+from maestro.lezione.selection import fill_vocab_cards
 from markupsafe import escape
 from maestro.lezione.service import (
     activity_url,
@@ -73,6 +74,60 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
         )
         raise HTTPException(403)
     return lesson
+
+
+async def _skip_onboarding(student_id: PydanticObjectId) -> bool:
+    """Skip all A0 onboarding, credit mastery, and graduate to A1.
+
+    Returns True if onboarding was skipped, False if already past A0.
+    """
+    profile = await get_or_create_profile(student_id)
+    if profile.cefr_estimate != "A0":
+        return False
+
+    a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+    for scenario in a0_scenarios:
+        # Mark scenario as completed
+        profile.scenario_progress[scenario.slug] = ScenarioProgress(
+            depth=1, last_visited=utcnow(), lesson_count=0
+        )
+        # Credit GPs: fill recent_outcomes with 5 True entries → instant mastery
+        for code in scenario.gp_codes or []:
+            profile.grammar_correct_counts[code] = max(
+                profile.grammar_correct_counts.get(code, 0), 5
+            )
+            profile.grammar_recent_outcomes[code] = [True] * 5
+        # Credit CFs: set count to 3 (demonstration threshold)
+        for code in scenario.cf_codes or []:
+            profile.functions_counts[code] = max(
+                profile.functions_counts.get(code, 0), 3
+            )
+
+    await fill_vocab_cards(25, "A0", student_id=student_id)
+
+    profile.onboarding_skipped = True
+    profile.onboarding_completed = True
+    profile.cefr_estimate = "A1"
+    profile.updated_at = utcnow()
+    await profile.save()
+
+    # Abandon any active A0 lesson
+    active = await Lesson.find_one(
+        {"student_id": student_id, "status": LessonStatus.ACTIVE}
+    )
+    if active and active.cefr_at_start == "A0":
+        active.status = LessonStatus.ABANDONED
+        await active.save()
+
+    return True
+
+
+@router.post("/onboarding/skip")
+async def skip_onboarding(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    await _skip_onboarding(student.id)
+    return RedirectResponse(url="/lezione/", status_code=303)
 
 
 @router.get("/lezione/", response_class=HTMLResponse)
