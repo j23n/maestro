@@ -55,6 +55,8 @@ class _DevFormatter(logging.Formatter):
         extra = getattr(record, "_extra", None)
         if extra:
             base += " [" + ", ".join(f"{k}={v}" for k, v in extra.items()) + "]"
+        if record.exc_info and record.exc_info[0] is not None:
+            base += "\n" + self.formatException(record.exc_info)
         return base
 
 

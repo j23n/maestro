@@ -412,6 +412,38 @@ async def generate_writing_feedback(
     )
 
 
+async def generate_speaking_feedback(
+    prompt: str,
+    student_text: str,
+    cefr_level: str,
+    student_id=None,
+    lesson_id=None,
+) -> dict:
+    """Generate feedback for a free-form speaking activity.
+
+    Returns {objective_correct, objective_note, grammar_errors, tips}.
+    """
+    word_count = len(student_text.split())
+    logger.info(
+        "generate_speaking_feedback",
+        extra={"cefr_level": cefr_level, "word_count": word_count},
+    )
+
+    llm_prompt = _prompts.speaking_scoring.render(
+        cefr_level=cefr_level,
+        prompt=prompt,
+        student_text=student_text,
+    )
+
+    return await _score_single(
+        llm_prompt,
+        label="generate_speaking_feedback",
+        cefr_level=cefr_level,
+        student_id=student_id,
+        lesson_id=lesson_id,
+    )
+
+
 async def score_reading_answers(
     questions: list[str],
     correct_answers: list[str],

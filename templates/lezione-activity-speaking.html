@@ -39,7 +39,7 @@
       <a class="skip-link"
          hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
          hx-target="body"
-         href="#">{{ t("skip_btn") | lang_it }}</a>
+         href="#">{{ t("skip_btn") }}</a>
     </div>
   </div>
 </div>
@@ -165,7 +165,7 @@
         _chunks = [];
         _recording = true;
 
-        _audioCtx = new AudioContext({ sampleRate: SAMPLE_RATE });
+        _audioCtx = new AudioContext();
         _source = _audioCtx.createMediaStreamSource(stream);
 
         // Use ScriptProcessorNode to capture raw PCM
@@ -206,6 +206,8 @@
     _recording = false;
     clearInterval(_timerInterval);
 
+    var nativeSR = _audioCtx ? _audioCtx.sampleRate : SAMPLE_RATE;
+
     // Disconnect audio nodes
     if (_processor) { _processor.disconnect(); _processor = null; }
     if (_source) { _source.disconnect(); _source = null; }
@@ -217,12 +219,12 @@
       _stream = null;
     }
 
-    // Encode WAV and submit
-    var wavBlob = encodeWAV(_chunks, SAMPLE_RATE);
+    // Encode WAV (downsampled to SAMPLE_RATE) and submit
+    var wavBlob = encodeWAV(_chunks, nativeSR, SAMPLE_RATE);
     submitAudio(wavBlob);
   }
 
-  function encodeWAV(chunks, sampleRate) {
+  function encodeWAV(chunks, nativeSR, targetSR) {
     // Merge all Float32 chunks
     var totalLen = 0;
     for (var i = 0; i < chunks.length; i++) totalLen += chunks[i].length;
@@ -233,12 +235,24 @@
       offset += chunks[i].length;
     }
 
+    // Downsample if native rate differs from target
+    if (nativeSR !== targetSR) {
+      var ratio = nativeSR / targetSR;
+      var newLen = Math.round(merged.length / ratio);
+      var downsampled = new Float32Array(newLen);
+      for (var i = 0; i < newLen; i++) {
+        downsampled[i] = merged[Math.round(i * ratio)];
+      }
+      merged = downsampled;
+    }
+
     // Convert Float32 -> Int16
     var pcm = new Int16Array(merged.length);
     for (var i = 0; i < merged.length; i++) {
       var s = Math.max(-1, Math.min(1, merged[i]));
       pcm[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
     }
+    var sampleRate = targetSR;
 
     // Build WAV file
     var dataLen = pcm.length * 2;

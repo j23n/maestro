@@ -45,6 +45,11 @@ class PronunciationResult(BaseModel):
     recognized_text: str
 
 
+class TranscriptionResult(BaseModel):
+    recognized_text: str
+    confidence: float
+
+
 # ---------------------------------------------------------------------------
 # Client factory
 # ---------------------------------------------------------------------------
@@ -85,6 +90,31 @@ def _build_assessment_header(reference_text: str) -> str:
 # ---------------------------------------------------------------------------
 # Response parser
 # ---------------------------------------------------------------------------
+
+
+def _parse_transcription_response(data: dict) -> TranscriptionResult:
+    """Extract a TranscriptionResult from the Azure JSON response."""
+    status = data.get("RecognitionStatus", "")
+    if status != "Success":
+        raise APIStatusError(
+            f"Recognition failed: {status}",
+            status_code=0,
+            provider="azure",
+        )
+
+    nbest = data.get("NBest", [])
+    if not nbest:
+        raise APIStatusError(
+            "No recognition results returned",
+            status_code=0,
+            provider="azure",
+        )
+
+    best = nbest[0]
+    return TranscriptionResult(
+        recognized_text=best.get("Display", ""),
+        confidence=best.get("Confidence", 0.0),
+    )
 
 
 def _parse_response(data: dict) -> PronunciationResult:
@@ -184,6 +214,58 @@ async def assess_pronunciation(
             "audio_bytes": len(audio_bytes),
             "duration_ms": duration_ms,
             "pronunciation_score": result.pronunciation_score,
+        },
+    )
+    return result
+
+
+async def transcribe(audio_bytes: bytes) -> TranscriptionResult:
+    """Transcribe audio without pronunciation assessment.
+
+    Args:
+        audio_bytes: Raw WAV file bytes (16 kHz, 16-bit, mono PCM).
+
+    Returns:
+        TranscriptionResult with recognized text and confidence.
+
+    Raises:
+        APITimeoutError, APIRateLimitError, APIStatusError on failure.
+    """
+    from maestro.config import settings
+
+    client = _get_stt_client()
+    lang_tag = (
+        f"{settings.TARGET_LANGUAGE}-{settings.TARGET_LANGUAGE.upper()}"  # "it-IT"
+    )
+
+    t0 = time.monotonic()
+    try:
+        response = await client.post(
+            "/speech/recognition/conversation/cognitiveservices/v1",
+            params={"language": lang_tag, "format": "detailed"},
+            content=audio_bytes,
+        )
+        response.raise_for_status()
+    except httpx.TimeoutException as e:
+        raise APITimeoutError("Timeout", provider="azure") from e
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429:
+            raise APIRateLimitError("Rate limited", provider="azure") from e
+        raise APIStatusError(
+            f"API error {e.response.status_code}",
+            status_code=e.response.status_code,
+            provider="azure",
+        ) from e
+
+    result = _parse_transcription_response(response.json())
+    duration_ms = round((time.monotonic() - t0) * 1000, 1)
+    logger.info(
+        "stt_transcribed",
+        extra={
+            "audio_bytes": len(audio_bytes),
+            "duration_ms": duration_ms,
+            "confidence": result.confidence,
+            "text_len": len(result.recognized_text),
         },
     )
     return result

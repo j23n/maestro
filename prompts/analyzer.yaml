@@ -1,4 +1,4 @@
-version: "5"
+version: "6"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -133,6 +133,20 @@ writing_scoring:
     Student level: {{cefr_level}}
     Writing prompt: {{prompt}}
     Student's text: {{student_text}}
+
+speaking_scoring:
+  description: >
+    Evaluate a free-form speaking activity for task completion and language quality.
+    Grammar errors never affect pass/fail.
+  # variables: cefr_level, prompt, student_text
+  user: |
+    OBJECTIVE: Did the student make a genuine attempt to respond to the speaking prompt?
+    Set objective_correct=false ONLY if the transcription is blank, completely off-topic, or
+    just a random word/phrase with no relation to the task.
+
+    Student level: {{cefr_level}}
+    Speaking prompt: {{prompt}}
+    Student said (transcribed): {{student_text}}
 
 # ---------------------------------------------------------------------------
 
