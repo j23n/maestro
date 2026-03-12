@@ -5,7 +5,7 @@
 
   {% if feedback and feedback is mapping and "scoring_unavailable" in feedback %}
     <div class="result-unavailable">
-      {{ feedback.scoring_unavailable }}
+      <span lang="en">{{ feedback.scoring_unavailable }}</span>
     </div>
   {% elif feedback and feedback is mapping and "items" in feedback %}
     {# ── Multi-item result ── #}
@@ -94,7 +94,7 @@
   {% endif %}
 
   <div style="margin-top:1.5rem;">
-    <a href="{{ next_url }}" class="continue-btn">{{ t("continue_btn") | lang_it }}</a>
+    <a href="{{ next_url }}" class="continue-btn">{{ t("continue_btn") }}</a>
   </div>
 </div>
 <script>

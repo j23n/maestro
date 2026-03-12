@@ -12,7 +12,7 @@
     <div class="mini-player">
       <button class="play-btn play-btn-sm" type="button"
               onclick="var a=document.getElementById('word-audio');a.paused?a.play():a.pause()">
-        ▶ {{ t("listen_btn") | lang_it }}
+        ▶ {{ t("listen_btn") }}
       </button>
       <input class="speed-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0"
              oninput="document.getElementById('word-audio').playbackRate=parseFloat(this.value);this.nextElementSibling.textContent=parseFloat(this.value).toFixed(1)+'×'">
@@ -23,10 +23,10 @@
 
   <div id="vocab-add">
     {% if has_card %}
-      <span class="added-badge">{{ t("vocab_in_your_vocab") | lang_it }}</span>
+      <span class="added-badge">{{ t("vocab_in_your_vocab") }}</span>
     {% elif word.entry_id %}
       <button hx-post="/vocab/word/{{ word.entry_id }}/add"
-              hx-target="#vocab-add" hx-swap="innerHTML">{{ t("vocab_add_to_mine") | lang_it }}</button>
+              hx-target="#vocab-add" hx-swap="innerHTML">{{ t("vocab_add_to_mine") }}</button>
     {% endif %}
   </div>
 
@@ -65,8 +65,8 @@
     <ol class="senses">
       {% for s in lvl_def.senses %}
       <li>
-        <span class="sense-def"><span lang="it">{{ s.definition }}</span></span>
-        {% if s.examples %}<div class="sense-ex"><span lang="it">{{ s.examples[0] }}</span></div>{% endif %}
+        <span class="sense-def">{{ s.definition }}</span>
+        {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
         {% if s.translation %}<div class="sense-translation"><strong>{{ t("vocab_english_label") }}</strong>: {{ s.translation }}</div>{% endif %}
       </li>
       {% endfor %}

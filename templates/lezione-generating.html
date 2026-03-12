@@ -12,7 +12,7 @@
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
     </div>
-    <p class="generating-title">{{ t("generating_error") | lang_it }}</p>
+    <p class="generating-title">{{ t("generating_error") }}</p>
     <p class="generating-sub">{{ lesson.generation_error }}</p>
     <form method="POST" action="/lezione/{{ lesson.id }}/retry">
       <button type="submit" class="btn">
@@ -20,7 +20,7 @@
           <polyline points="23 4 23 10 17 10"/>
           <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
         </svg>
-        {{ t("generating_retry") | lang_it }}
+        {{ t("generating_retry") }}
       </button>
     </form>
   </div>
@@ -34,8 +34,8 @@
   hx-swap="outerHTML"
 >
   <div class="spinner"></div>
-  <p class="generating-title">{{ t("generating_wait") | lang_it }}</p>
-  <p class="generating-sub">{{ t("generating_detail") | lang_it }}</p>
+  <p class="generating-title">{{ t("generating_wait") }}</p>
+  <p class="generating-sub">{{ t("generating_detail") }}</p>
 </div>
 {% endif %}
 {% endblock %}

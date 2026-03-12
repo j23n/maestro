@@ -12,8 +12,15 @@ def test_lang_it_filter():
 
 
 @pytest.mark.unit
-def test_lang_it_filter_escapes_html():
-    """The lang_it filter should not double-escape already-safe Markup."""
-    safe = Markup("già")
-    result = templates.env.filters["lang_it"](safe)
-    assert result == Markup('<span lang="it">già</span>')
+def test_lang_it_filter_escapes_unsafe():
+    """The lang_it filter escapes raw HTML to prevent XSS."""
+    result = templates.env.filters["lang_it"]("<script>alert(1)</script>")
+    assert "<script>" not in str(result)
+    assert "&lt;script&gt;" in str(result)
+
+
+@pytest.mark.unit
+def test_lang_it_filter_none():
+    """The lang_it filter returns empty Markup for None."""
+    result = templates.env.filters["lang_it"](None)
+    assert result == Markup("")

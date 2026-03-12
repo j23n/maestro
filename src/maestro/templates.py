@@ -1,7 +1,6 @@
 import markdown
 import random
 
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from markupsafe import Markup
 
@@ -13,17 +12,25 @@ templates.env.filters["markdown"] = lambda x: markdown.markdown(
     x, extensions=["extra", "nl2br", "sane_lists"]
 )
 templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
-templates.env.filters["lang_it"] = lambda text: Markup(f'<span lang="it">{text}</span>')
+templates.env.filters["lang_it"] = lambda text: (
+    Markup('<span lang="it">{}</span>').format(text) if text is not None else Markup("")
+)
 templates.env.globals["t"] = i18n_t
 templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
 
 
-async def render_with_discover(request, name, context, student_id=None):
+async def render_with_discover(
+    request, name, context, *, student_id=None, status_code=200
+):
     """Render a Jinja template, then run vocab discover() on the full HTML."""
     from maestro.vocab.discover import discover
 
-    template = templates.get_template(name)
-    html = template.render({"request": request, **context})
+    response = templates.TemplateResponse(
+        request=request, name=name, context=context, status_code=status_code
+    )
     if student_id is not None:
+        html = response.body.decode("utf-8")
         html = await discover(html, student_id=student_id)
-    return HTMLResponse(html)
+        response.body = html.encode("utf-8")
+        response.headers["content-length"] = str(len(response.body))
+    return response
