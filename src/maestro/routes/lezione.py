@@ -33,13 +33,12 @@ from maestro.learning.scorer import generate_writing_feedback
 from maestro.i18n import t
 from maestro import taxonomy
 from maestro.templates import templates
-from maestro.utils import create_background_task, utcnow
+from maestro.utils import create_background_task, lang_wrap, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.discover import (
     discover,
     discover_markdown,
     discover_list,
-    lang_wrap,
     hide_translations,
 )
 from maestro.vocab.srs import review
