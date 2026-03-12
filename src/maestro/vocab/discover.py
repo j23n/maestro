@@ -35,14 +35,15 @@ def lang_wrap(html: str, lang: str) -> str:
 
 
 def _lemmatize(text: str) -> list[str]:
-    """Return the lemma of each token in text, lowercased, alphabetic only."""
+    """Return the lemma of each token in text, lowercased, alphabetic only.
+
+    No stop-word filter — the vocab word_index already gates which lemmas
+    produce matches, and stop words (sì, no, come, bene …) are legitimate
+    vocabulary for language learners.
+    """
     nlp = get_nlp()
     doc = nlp(text)
-    return [
-        token.lemma_.lower()
-        for token in doc
-        if token.is_alpha and not token.is_stop and len(token) > 2
-    ]
+    return [token.lemma_.lower() for token in doc if token.is_alpha and len(token) > 1]
 
 
 def _build_vocab_attrs(word, wdef) -> str:
