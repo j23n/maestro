@@ -1,4 +1,4 @@
-version: "3"
+version: "4"
 
 # ---------------------------------------------------------------------------
 
@@ -40,8 +40,7 @@ lesson_content_footer:
     - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a {{target_language}} sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
     - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous {{target_language}} sentence (no intro text); correct_answer is the corrected sentence
     - All content in {{target_language}}
-    - Wrap all {{target_language}} text in <span lang="{{target_language_code}}">...</span>
-    - Wrap any English text in <span lang="en">...</span>
+    {{span_tagging}}
     - Return drills in the same order as listed in the drill specs
     - readings: return EXACTLY {{reading_count}} reading object(s) in the array
     - speakings: return EXACTLY {{speaking_count}} speaking object(s) in the array

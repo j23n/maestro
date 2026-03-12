@@ -1,0 +1,12 @@
+version: "1"
+
+span_tagging:
+  description: "Shared span-tagging instruction fragment injected into prompts via {{span_tagging}}"
+  user: |
+    ## Span-tagging (required)
+    Every piece of text you produce must sit inside a language span — no bare text:
+    - {{target_language}} text -> <span lang="{{target_language_code}}">...</span>
+    - English text -> <span lang="en">...</span>
+    Apply to every word, including punctuation attached to it.
+    Exception: markdown headings (##, ###) are structural — do NOT wrap them.
+    Tags go inside JSON string values where applicable, not around JSON structure.
