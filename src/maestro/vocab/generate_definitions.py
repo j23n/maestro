@@ -52,12 +52,17 @@ def _word_payload(word: VocabularyWord) -> dict[str, Any]:
     }
 
 
+def _word_key(w: VocabularyWord) -> str:
+    """Unique key for a word in the LLM payload — disambiguates homographs."""
+    return f"{w.word} ({w.part_of_speech})" if w.part_of_speech else w.word
+
+
 async def _call_api(
     batch: list[VocabularyWord], max_tokens: int = 16384
 ) -> dict[str, Any]:
-    payload = {w.word: _word_payload(w) for w in batch}
+    payload = {_word_key(w): _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
-    words_str = ", ".join(w.word for w in batch)
+    words_str = ", ".join(_word_key(w) for w in batch)
     logger.info(
         "calling LLM for vocabulary definitions",
         extra={"n_words": len(batch), "words": words_str},
@@ -100,7 +105,8 @@ def _is_complete(defs: list[VocabularyWordDefinition]) -> bool:
 
 async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
     """Persist A1–B2 definitions from Claude's response. Replaces existing."""
-    entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
+    key = _word_key(word)
+    entry = claude_data.get(key) or claude_data.get(key.lower())
     if not entry:
         logger.error("LLM returned no data for word", extra={"word": word.word})
         return
@@ -163,7 +169,8 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         return
     logger.info("generating definitions", extra={"word": word.word})
     claude_data = await _call_api([word], max_tokens=4096)
-    entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
+    key = _word_key(word)
+    entry = claude_data.get(key) or claude_data.get(key.lower())
     if entry and word.cefr_level is None:
         cefr = entry.get("cefr_level")
         if cefr in ("A1", "A2", "B1", "B2"):
@@ -253,7 +260,8 @@ async def generate(
 
         for word in batch:
             try:
-                entry = claude_data.get(word.word) or claude_data.get(word.word.lower())
+                key = _word_key(word)
+                entry = claude_data.get(key) or claude_data.get(key.lower())
                 if entry and word.cefr_level is None:
                     cefr = entry.get("cefr_level")
                     if cefr in ("A1", "A2", "B1", "B2"):
