@@ -142,6 +142,11 @@ async def lifespan(app: FastAPI):
     if _get_tts_client.cache_info().currsize:
         await _get_tts_client().aclose()
 
+    from maestro.stt import _get_stt_client
+
+    if _get_stt_client.cache_info().currsize:
+        await _get_stt_client().aclose()
+
 
 app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter

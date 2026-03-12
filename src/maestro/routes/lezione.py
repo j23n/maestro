@@ -448,6 +448,10 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.SPEAKING:
+        lang = _settings.TARGET_LANGUAGE
+        ctx["annotated_content"] = await discover(
+            lang_wrap(activity.content or "", lang), student_id=student.id
+        )
         return templates.TemplateResponse(
             request=request, name="lezione-activity-speaking.html", context=ctx
         )
@@ -825,6 +829,100 @@ async def lezione_writing_submit(
             "idx": idx,
             "total": len(lesson.activities),
             "is_writing": True,
+        },
+    )
+
+
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/speaking-submit", response_class=HTMLResponse
+)
+async def lezione_speaking_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+
+    activity = lesson.activities[idx]
+    form = await request.form()
+    audio_file = form.get("audio")
+    if audio_file is None:
+        raise HTTPException(400, "No audio file provided")
+
+    audio_bytes = await audio_file.read()
+    reference_text = activity.content or ""
+
+    try:
+        from maestro.stt import assess_pronunciation
+
+        result = await assess_pronunciation(audio_bytes, reference_text)
+    except Exception:
+        logger.exception(
+            "scoring failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answer": "", "correct": None}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-drill-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "drill": None,
+                "attempt": None,
+                "correct": None,
+                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "rule_refs": [],
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
+    speaking_result = {
+        "pronunciation_score": result.pronunciation_score,
+        "accuracy_score": result.accuracy_score,
+        "fluency_score": result.fluency_score,
+        "completeness_score": result.completeness_score,
+        "recognized_text": result.recognized_text,
+    }
+    next_url = await advance_lesson(lesson, idx, result=speaking_result)
+
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.SPEAKING.value,
+        activity_index=idx,
+        student_text=result.recognized_text,
+    )
+    await event.insert()
+    logger.debug(
+        "speaking event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "pronunciation_score": result.pronunciation_score,
+        },
+    )
+
+    return templates.TemplateResponse(
+        request=request,
+        name="lezione-speaking-result.html",
+        context={
+            "lesson": lesson,
+            "activity": activity,
+            "pronunciation_score": result.pronunciation_score,
+            "accuracy_score": result.accuracy_score,
+            "fluency_score": result.fluency_score,
+            "completeness_score": result.completeness_score,
+            "words": [w.model_dump() for w in result.words],
+            "next_url": next_url,
+            "idx": idx,
+            "total": len(lesson.activities),
         },
     )
 
