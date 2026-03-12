@@ -172,7 +172,9 @@ async def discover(
     target_text = get_target_text(lang_elements)
     text_lemmas = lemmatize_with_pos(target_text)
 
-    # Match lemmas to vocab entries, preferring the POS variant that matches context
+    # Match lemmas to vocab entries, preferring the POS variant that matches context.
+    # First occurrence's POS wins — if a word appears as both noun and verb in the
+    # same text, the POS from its first occurrence is used for disambiguation.
     words_with_vocab: dict[str, VocabularyWord] = {}
     for lem, upos in text_lemmas:
         if lem in words_with_vocab:
@@ -186,7 +188,10 @@ async def discover(
             match = next(
                 (e for e in entries if matches_pos(e.part_of_speech, upos)), None
             )
-            words_with_vocab[lem] = match or entries[0]
+            # Fallback: sort by part_of_speech for deterministic selection
+            words_with_vocab[lem] = (
+                match or sorted(entries, key=lambda e: e.part_of_speech)[0]
+            )
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
     word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]

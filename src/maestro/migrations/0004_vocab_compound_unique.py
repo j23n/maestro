@@ -23,6 +23,28 @@ async def run(db) -> None:
     except Exception:
         logger.info("0004: word_1 index not found (already dropped)")
 
+    # Deduplicate: if multiple docs share (word, part_of_speech), keep only the newest
+    pipeline = [
+        {
+            "$group": {
+                "_id": {"word": "$word", "part_of_speech": "$part_of_speech"},
+                "ids": {"$push": "$_id"},
+                "count": {"$sum": 1},
+            }
+        },
+        {"$match": {"count": {"$gt": 1}}},
+    ]
+    async for group in coll.aggregate(pipeline):
+        # Keep the last inserted (newest) doc, remove the rest
+        ids_to_remove = group["ids"][:-1]
+        result = await coll.delete_many({"_id": {"$in": ids_to_remove}})
+        logger.info(
+            "0004: removed %d duplicate(s) for (%s, %s)",
+            result.deleted_count,
+            group["_id"]["word"],
+            group["_id"]["part_of_speech"],
+        )
+
     # Create compound unique index (idempotent — no-op if Beanie already created it)
     await coll.create_index(
         [("word", 1), ("part_of_speech", 1)],

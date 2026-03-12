@@ -134,9 +134,11 @@ async def seed_a0_vocab() -> None:
     count = 0
     def_count = 0
     for item in items:
-        existing = await VocabularyWord.find_one(
-            {"word": item["word"], "part_of_speech": item.get("part_of_speech", "")}
-        )
+        item_pos = item.get("part_of_speech", "")
+        query = {"word": item["word"]}
+        if item_pos:
+            query["part_of_speech"] = item_pos
+        existing = await VocabularyWord.find_one(query)
         if existing:
             existing.cefr_level = item.get("cefr_level", "A0")
             existing.part_of_speech = item.get(
