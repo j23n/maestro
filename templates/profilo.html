@@ -21,13 +21,14 @@
     <div class="cefr-tracker">
       {% set ns_cefr = namespace(found_active=false) %}
       {% for level in cefr_order %}
+      {% set level_label = t("onboarding_label") if level == "A0" else level %}
       {% if profile and profile.cefr_estimate == level %}
         {% set ns_cefr.found_active = true %}
-        <div class="cefr-badge active">{{ level }}</div>
+        <div class="cefr-badge active">{{ level_label }}</div>
       {% elif not ns_cefr.found_active %}
-        <div class="cefr-badge past">{{ level }}</div>
+        <div class="cefr-badge past">{{ level_label }}</div>
       {% else %}
-        <div class="cefr-badge">{{ level }}</div>
+        <div class="cefr-badge">{{ level_label }}</div>
       {% endif %}
       {% endfor %}
     </div>
@@ -45,7 +46,8 @@
     <div class="progress-header">
       <div class="progress-headline">
         <span class="progress-pct">{{ pct }}%</span>
-        <span class="progress-label-text">{{ t("profile_of_level") }} {{ profile.cefr_estimate }}</span>
+        {% set cefr_label = t("onboarding_label") if profile.cefr_estimate == "A0" else profile.cefr_estimate %}
+        <span class="progress-label-text">{{ t("profile_of_level") }} {{ cefr_label }}</span>
       </div>
       <div class="progress-bar-outer">
         <div class="progress-bar-inner" style="width: {{ pct }}%"></div>
@@ -159,9 +161,10 @@
 
     {# Completed level scenario maps #}
     {% for level, level_map in completed_scenario_maps %}
+    {% set level_label = t("onboarding_label") if level == "A0" else level %}
     <div class="journey-section past-level">
       <details>
-        <summary class="section-heading-past clickable"><h3>{{ level }} — {{ t("profile_completed_level") }}</h3></summary>
+        <summary class="section-heading-past clickable"><h3>{{ level_label }} — {{ t("profile_completed_level") }}</h3></summary>
         <div class="scenario-grid" style="margin-top: 0.75rem">
           {% for item in level_map %}
           <div class="scenario-card completed muted">
@@ -204,6 +207,7 @@
 
     <div class="skills-section">
       {% for level in cefr_order %}
+      {% set level_label = t("onboarding_label") if level == "A0" else level %}
       {% set gp_skills = grammar_by_level[level] %}
       {% set cf_items  = cf_by_level[level] %}
       {% set gp_mastered     = gp_skills | selectattr("mastered") | list | length %}
@@ -216,7 +220,7 @@
       {% if combined_total > 0 %}
       <details class="level-group" {% if profile and profile.cefr_estimate == level %}open{% endif %}>
         <summary class="level-heading">
-          <h2>{{ level }}</h2>
+          <h2>{{ level_label }}</h2>
           <span class="level-stats">{{ t("profile_grammar_short") }} {{ gp_mastered }}/{{ gp_total }} &middot; {{ t("profile_functions_short") }} {{ cf_demonstrated }}/{{ cf_total }}</span>
           <div class="level-bar">
             <div class="level-bar-fill" style="width: {% if combined_total > 0 %}{{ (combined_mastered / combined_total * 100) | int }}%{% else %}0%{% endif %}"></div>

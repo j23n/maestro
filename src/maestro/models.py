@@ -260,6 +260,8 @@ class LearningProfile(Document):
     updated_at: datetime = Field(default_factory=utcnow)
     persona: StudentPersona = Field(default_factory=StudentPersona)
     scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
+    onboarding_completed: bool = False  # True when all A0 done (by lessons or skip)
+    onboarding_skipped: bool = False  # True when explicitly skipped via route
     target_language: str = "it"
 
     class Settings:

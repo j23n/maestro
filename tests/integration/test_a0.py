@@ -512,3 +512,230 @@ def test_signup_then_onboarding_saves_name(auth_app, db):
 
     name = asyncio.get_event_loop().run_until_complete(_check())
     assert name == "Maria"
+
+
+# ---------------------------------------------------------------------------
+# Skip onboarding
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_skip_onboarding_sets_flags_and_graduates(db):
+    """_skip_onboarding should set flags, credit mastery, and graduate to A1."""
+    from maestro.routes.lezione import _skip_onboarding
+    from maestro.profile import get_or_create_profile
+
+    student = Student(name="")
+    await student.insert()
+
+    s1 = CurriculumScenario(
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=["cf_greet"],
+        gp_codes=["gp_saluti"],
+        depths=["d1"],
+        sequence=1,
+    )
+    s2 = CurriculumScenario(
+        slug="a0-02",
+        label="2",
+        description="",
+        cefr_level="A0",
+        cf_codes=["cf_bye"],
+        gp_codes=["gp_addio"],
+        depths=["d1"],
+        sequence=2,
+    )
+    await s1.insert()
+    await s2.insert()
+
+    profile = await get_or_create_profile(student.id)
+    assert profile.cefr_estimate == "A0"
+
+    result = await _skip_onboarding(student.id)
+    assert result is True
+
+    profile = await LearningProfile.find_one({"student_id": student.id})
+    assert profile.onboarding_skipped is True
+    assert profile.onboarding_completed is True
+    assert profile.cefr_estimate == "A1"
+
+    # Scenario progress filled
+    assert profile.scenario_progress["a0-01"].depth == 1
+    assert profile.scenario_progress["a0-02"].depth == 1
+
+    # GP mastery credited
+    assert profile.grammar_correct_counts.get("gp_saluti", 0) >= 5
+    assert profile.grammar_recent_outcomes.get("gp_saluti") == [True] * 5
+    assert profile.grammar_correct_counts.get("gp_addio", 0) >= 5
+
+    # CF mastery credited
+    assert profile.functions_counts.get("cf_greet", 0) >= 3
+    assert profile.functions_counts.get("cf_bye", 0) >= 3
+
+
+@pytest.mark.integration
+async def test_skip_onboarding_already_past_a0(db):
+    """_skip_onboarding should return False if already past A0."""
+    from maestro.routes.lezione import _skip_onboarding
+    from maestro.profile import get_or_create_profile
+
+    student = Student(name="")
+    await student.insert()
+
+    profile = await get_or_create_profile(student.id)
+    profile.cefr_estimate = "A1"
+    await profile.save()
+
+    result = await _skip_onboarding(student.id)
+    assert result is False
+
+
+@pytest.mark.integration
+async def test_skip_onboarding_abandons_active_lesson(db):
+    """_skip_onboarding should abandon any active A0 lesson."""
+    from maestro.routes.lezione import _skip_onboarding
+    from maestro.profile import get_or_create_profile
+    from maestro.utils import utcnow
+
+    student = Student(name="")
+    await student.insert()
+    await get_or_create_profile(student.id)
+
+    s1 = CurriculumScenario(
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
+    )
+    await s1.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        cefr_at_start="A0",
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+    )
+    await lesson.insert()
+
+    await _skip_onboarding(student.id)
+
+    lesson = await Lesson.get(lesson.id)
+    assert lesson.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+async def test_compute_cefr_respects_skip_flag(db):
+    """Profile with onboarding_skipped=True should skip A0 check."""
+    from maestro.learning.profile import _compute_cefr
+    from maestro.models import GrammarPoint, CommunicativeFunction
+
+    # Create A0 scenarios that are NOT completed — normally this would return A0
+    s1 = CurriculumScenario(
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
+    )
+    await s1.insert()
+
+    # Seed A1+ GPs/CFs so we don't vacuously advance
+    for lvl in ("A1", "A2", "B1", "B2"):
+        await GrammarPoint(
+            code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
+        ).insert()
+        await CommunicativeFunction(
+            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+        ).insert()
+
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        onboarding_skipped=True,
+    )
+    result = await _compute_cefr(profile)
+    assert result == "A1"  # Not A0, because skip flag bypasses A0 check
+
+
+@pytest.mark.integration
+async def test_compute_cefr_sets_onboarding_completed_on_natural_graduation(db):
+    """When all A0 scenarios are done, _compute_cefr should set onboarding_completed."""
+    from maestro.learning.profile import _compute_cefr
+    from maestro.models import GrammarPoint, CommunicativeFunction
+
+    s1 = CurriculumScenario(
+        slug="a0-01",
+        label="1",
+        description="",
+        cefr_level="A0",
+        cf_codes=[],
+        gp_codes=[],
+        depths=["d1"],
+        sequence=1,
+    )
+    await s1.insert()
+
+    for lvl in ("A1", "A2", "B1", "B2"):
+        await GrammarPoint(
+            code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
+        ).insert()
+        await CommunicativeFunction(
+            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+        ).insert()
+
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        scenario_progress={"a0-01": ScenarioProgress(depth=1, lesson_count=1)},
+    )
+    assert profile.onboarding_completed is False
+
+    result = await _compute_cefr(profile)
+    assert result == "A1"
+    assert profile.onboarding_completed is True
+
+
+@pytest.mark.integration
+def test_skip_onboarding_route(test_app, student, db):
+    """POST /onboarding/skip should redirect to /lezione/."""
+    import asyncio
+
+    async def _setup():
+        from maestro.profile import get_or_create_profile
+
+        await get_or_create_profile(student.id)
+        s1 = CurriculumScenario(
+            slug="a0-01",
+            label="1",
+            description="",
+            cefr_level="A0",
+            cf_codes=[],
+            gp_codes=[],
+            depths=["d1"],
+            sequence=1,
+        )
+        await s1.insert()
+
+    asyncio.get_event_loop().run_until_complete(_setup())
+
+    resp = test_app.post("/onboarding/skip", follow_redirects=False)
+    assert resp.status_code == 303
+    assert resp.headers["location"] == "/lezione/"
+
+    async def _check():
+        profile = await LearningProfile.find_one({"student_id": student.id})
+        return profile
+
+    profile = asyncio.get_event_loop().run_until_complete(_check())
+    assert profile.onboarding_skipped is True
+    assert profile.cefr_estimate == "A1"
