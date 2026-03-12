@@ -24,7 +24,7 @@
     </div>
 
   {% elif mode == 'translation' %}
-    <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
+    <div class="prompt"><span lang="en">{{ t("vocab_translation_prompt", language=target_language) }}</span></div>
     <div class="clue">{{ translation }}</div>
     <div class="back">
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>
@@ -41,7 +41,7 @@
     </div>
 
   {% elif mode == 'definition' %}
-    <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
+    <div class="prompt"><span lang="en">{{ t("vocab_definition_prompt", language=target_language) }}</span></div>
     <div class="clue">{{ senses[0].definition if senses else "—" }}</div>
     <div class="back">
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>

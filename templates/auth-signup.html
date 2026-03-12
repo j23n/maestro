@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="lesson-new">
-  <h1>{{ t("signup_title") | lang_it }}</h1>
-  <p class="subtitle">{{ t("signup_subtitle") | lang_it }}</p>
+  <h1>{{ t("signup_title") }}</h1>
+  <p class="subtitle">{{ t("signup_subtitle") }}</p>
 
   {% if error %}
   <div class="form-error">{{ t(error) }}</div>
@@ -12,20 +12,20 @@
 
   <form method="post" action="/auth/signup">
     <div class="form-section">
-      <label class="section-label" for="email">{{ t("signup_email_label") | lang_it }}</label>
+      <label class="section-label" for="email">{{ t("signup_email_label") }}</label>
       <input class="config-text-input" type="email" id="email" name="email" value="{{ email|default('', true) }}" required>
     </div>
     <div class="form-section">
-      <label class="section-label" for="password">{{ t("signup_password_label") | lang_it }}</label>
+      <label class="section-label" for="password">{{ t("signup_password_label") }}</label>
       <input class="config-text-input" type="password" id="password" name="password" required>
     </div>
     <div class="form-section">
-      <label class="section-label" for="password_confirm">{{ t("signup_password_confirm_label") | lang_it }}</label>
+      <label class="section-label" for="password_confirm">{{ t("signup_password_confirm_label") }}</label>
       <input class="config-text-input" type="password" id="password_confirm" name="password_confirm" required>
     </div>
-    <button type="submit" class="btn-start">{{ t("signup_submit") | lang_it }}</button>
+    <button type="submit" class="btn-start">{{ t("signup_submit") }}</button>
   </form>
 
-  <p class="auth-switch">{{ t("signup_have_account") | lang_it }} <a href="/auth/login">{{ t("signup_login_link") | lang_it }}</a></p>
+  <p class="auth-switch">{{ t("signup_have_account") }} <a href="/auth/login">{{ t("signup_login_link") }}</a></p>
 </div>
 {% endblock %}

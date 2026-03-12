@@ -7,13 +7,13 @@
 
   <div class="card" style="text-align:center; padding:2.5rem;">
     <div class="stub-icon">🎙️</div>
-    <div class="stub-title">{{ t("speaking_title") | lang_it }}</div>
-    <div class="stub-desc">{{ t("speaking_desc") | lang_it }}</div>
+    <div class="stub-title">{{ t("speaking_title") }}</div>
+    <div class="stub-desc">{{ t("speaking_desc") }}</div>
 
     <button class="continue-btn"
             hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
             hx-target="body">
-      {{ t("skip_btn") | lang_it }}
+      {{ t("skip_btn") }}
     </button>
   </div>
 </div>
