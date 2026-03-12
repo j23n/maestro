@@ -28,6 +28,14 @@ from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione, feedback
 
 
+_LOG_RECORD_BUILTIN = set(logging.LogRecord("", 0, "", 0, "", (), None).__dict__)
+
+
+def _get_extra(record: logging.LogRecord) -> dict:
+    """Extract user-supplied extra keys from a LogRecord."""
+    return {k: v for k, v in record.__dict__.items() if k not in _LOG_RECORD_BUILTIN}
+
+
 class _JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         obj = {
@@ -37,7 +45,7 @@ class _JsonFormatter(logging.Formatter):
             "level": record.levelname.lower(),
             "name": record.name,
             "message": record.getMessage(),
-            **getattr(record, "extra", {}),
+            **_get_extra(record),
         }
         if record.exc_info:
             obj["exc_info"] = record.exc_text or self.formatException(record.exc_info)
@@ -49,38 +57,13 @@ class _JsonFormatter(logging.Formatter):
 class _DevFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         base = f"{record.levelname:<8} {record.name}: {record.getMessage()}"
-        extra = getattr(record, "extra", {})
+        extra = _get_extra(record)
         if extra:
             base += " | " + " ".join(f"{k}={v}" for k, v in extra.items())
         return base
 
 
 def _setup_logging() -> logging.Handler:
-    # Capture the original extra= dict on every LogRecord so formatters can read it
-    # directly without filtering built-in LogRecord attributes.
-    _orig_make_record = logging.Logger.makeRecord
-
-    def _patched_make_record(
-        self,
-        name,
-        level,
-        fn,
-        lno,
-        msg,
-        args,
-        exc_info,
-        func=None,
-        extra=None,
-        sinfo=None,
-    ):
-        rv = _orig_make_record(
-            self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
-        )
-        rv.extra = dict(extra) if extra else {}
-        return rv
-
-    logging.Logger.makeRecord = _patched_make_record
-
     handler = logging.StreamHandler()
     if settings.ENVIRONMENT == "production":
         handler.setFormatter(_JsonFormatter())
