@@ -15,6 +15,12 @@ def test_strip_lang_spans_preserves_other_html():
 
 
 @pytest.mark.unit
+def test_strip_lang_spans_complex():
+    title = '<span lang="en">Subject Pronouns: </span><span lang="it">io</span><span lang="en">, </span><span lang="it">tu</span>'
+    assert strip_lang_spans(title) == "Subject Pronouns: io, tu"
+
+
+@pytest.mark.unit
 def test_plain_object():
     assert parse_llm_json('{"a": 1}') == {"a": 1}
 
