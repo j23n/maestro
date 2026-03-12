@@ -21,8 +21,11 @@ def make_lookup(by_form: dict, nlp):
     3. Regex stripping of enclitic pronoun clusters from the original word
        (handles cavarsela, farcela, prendersela, andarsene ...).
     4. Adverbs in -mente: derive the base adjective and try variants.
+
+    by_form maps headword → list[ParsedEntry] (one per POS variant).
+    Returns list[ParsedEntry] for the matched headword, or None.
     """
-    by_lemma: dict[str, object] = {}
+    by_lemma: dict[str, list[object]] = {}
     forms = list(by_form.keys())
     for form, doc in zip(forms, nlp.pipe(forms, disable=["parser", "senter", "ner"])):
         by_lemma.setdefault(doc[0].lemma_.lower(), by_form[form])

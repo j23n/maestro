@@ -66,80 +66,82 @@ async def ingest():
             logger.info(f"Found {len(wordlist)} words")
 
             for word, pos, level in wordlist:
-                entry = lookup(word)
-                if entry is None:
+                entries = lookup(word)
+                if entries is None:
                     logger.warning(f"no EPUB entry for '{word}', skipping")
                     continue
 
-                if (word, entry.pos_abbrev) in ingested:
-                    continue
+                for entry in entries:
+                    if (word, entry.pos_abbrev) in ingested:
+                        continue
 
-                senses = [
-                    Sense(
-                        definition=s.definition,
-                        examples=s.examples,
-                        synonyms=s.synonyms,
-                        antonyms=s.antonyms,
-                        pos=s.pos,
-                        style=s.style,
+                    senses = [
+                        Sense(
+                            definition=s.definition,
+                            examples=s.examples,
+                            synonyms=s.synonyms,
+                            antonyms=s.antonyms,
+                            pos=s.pos,
+                            style=s.style,
+                        )
+                        for s in entry.senses
+                    ]
+
+                    existing = await VocabularyWord.find_one(
+                        VocabularyWord.word == word,
+                        VocabularyWord.part_of_speech == entry.pos_abbrev,
                     )
-                    for s in entry.senses
-                ]
+                    if existing:
+                        existing.syllabization = entry.hyph
+                        existing.part_of_speech = entry.pos_abbrev
+                        existing.cefr_level = level
+                        existing.entry_id = entry.entry_id
+                        existing.senses = senses
+                        await existing.save()
+                        logger.info(f"updated: {word} ({entry.pos_abbrev})")
+                    else:
+                        await VocabularyWord(
+                            word=word,
+                            syllabization=entry.hyph,
+                            part_of_speech=entry.pos_abbrev,
+                            cefr_level=level,
+                            entry_id=entry.entry_id,
+                            senses=senses,
+                        ).insert()
+                        logger.info(f"inserted: {word} ({entry.pos_abbrev}, {level})")
 
-                existing = await VocabularyWord.find_one(
-                    VocabularyWord.word == word,
-                    VocabularyWord.part_of_speech == entry.pos_abbrev,
-                )
-                if existing:
-                    existing.syllabization = entry.hyph
-                    existing.part_of_speech = entry.pos_abbrev
-                    existing.cefr_level = level
-                    existing.entry_id = entry.entry_id
-                    existing.senses = senses
-                    await existing.save()
-                    logger.info(f"updated: {word}")
-                else:
-                    await VocabularyWord(
-                        word=word,
-                        syllabization=entry.hyph,
-                        part_of_speech=entry.pos_abbrev,
-                        cefr_level=level,
-                        entry_id=entry.entry_id,
-                        senses=senses,
-                    ).insert()
-                    logger.info(f"inserted: {word} ({entry.pos_abbrev}, {level})")
-
-                ingested.add((word, entry.pos_abbrev))
+                    ingested.add((word, entry.pos_abbrev))
 
     logger.info(f"Phase 1: {len(ingested)} CEFR words ingested")
 
     # Phase 2: ingest all remaining EPUB headwords with no CEFR level
     new_words = []
-    for headword, entry in by_form.items():
-        if (headword, entry.pos_abbrev) in ingested:
-            continue
-        senses = [
-            Sense(
-                definition=s.definition,
-                examples=s.examples,
-                synonyms=s.synonyms,
-                antonyms=s.antonyms,
-                pos=s.pos,
-                style=s.style,
+    for headword, entries in by_form.items():
+        for entry in entries:
+            if (headword, entry.pos_abbrev) in ingested:
+                continue
+            senses = [
+                Sense(
+                    definition=s.definition,
+                    examples=s.examples,
+                    synonyms=s.synonyms,
+                    antonyms=s.antonyms,
+                    pos=s.pos,
+                    style=s.style,
+                )
+                for s in entry.senses
+            ]
+            new_words.append(
+                VocabularyWord(
+                    word=headword,
+                    syllabization=entry.hyph,
+                    part_of_speech=entry.pos_abbrev,
+                    cefr_level=None,
+                    entry_id=entry.entry_id,
+                    senses=senses,
+                )
             )
-            for s in entry.senses
-        ]
-        new_words.append(
-            VocabularyWord(
-                word=headword,
-                syllabization=entry.hyph,
-                part_of_speech=entry.pos_abbrev,
-                cefr_level=None,
-                entry_id=entry.entry_id,
-                senses=senses,
-            )
-        )
-        ingested.add((headword, entry.pos_abbrev))
+            ingested.add((headword, entry.pos_abbrev))
 
     BATCH = 500
     inserted_count = 0

@@ -62,12 +62,12 @@ def _make_db(applied_names: list[str] = None):
         return_value=MagicMock(deleted_count=0)
     )
 
-    # aggregate() returns an async iterator — no duplicates in test data
-    async def _empty_agg_cursor(*args, **kwargs):
+    # aggregate() is a coroutine returning an async cursor — no duplicates in test data
+    async def _empty_agg_cursor():
         return
         yield  # makes this an async generator
 
-    vocabulary_words_coll.aggregate = _empty_agg_cursor
+    vocabulary_words_coll.aggregate = AsyncMock(return_value=_empty_agg_cursor())
 
     def _get_coll(name):
         return {
