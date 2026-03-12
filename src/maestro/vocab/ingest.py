@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 
 from maestro.db import init_db
 from maestro.models import Sense, VocabularyWord
+from maestro.utils import utcnow
 from maestro.vocab.epub_parser import parse_epub
 from maestro.vocab.morphology import get_lookup_factory
 from maestro.vocab.morphology.it import WORDLISTS, POS_MAP
@@ -91,12 +92,14 @@ async def ingest():
                         VocabularyWord.word == word,
                         VocabularyWord.part_of_speech == entry.pos_abbrev,
                     )
+                    now = utcnow()
                     if existing:
                         existing.syllabization = entry.hyph
                         existing.part_of_speech = entry.pos_abbrev
                         existing.cefr_level = level
                         existing.entry_id = entry.entry_id
                         existing.senses = senses
+                        existing.updated_at = now
                         await existing.save()
                         logger.info(f"updated: {word} ({entry.pos_abbrev})")
                     else:
@@ -107,6 +110,8 @@ async def ingest():
                             cefr_level=level,
                             entry_id=entry.entry_id,
                             senses=senses,
+                            created_at=now,
+                            updated_at=now,
                         ).insert()
                         logger.info(f"inserted: {word} ({entry.pos_abbrev}, {level})")
 
@@ -131,6 +136,7 @@ async def ingest():
                 )
                 for s in entry.senses
             ]
+            now = utcnow()
             new_words.append(
                 VocabularyWord(
                     word=headword,
@@ -139,6 +145,8 @@ async def ingest():
                     cefr_level=None,
                     entry_id=entry.entry_id,
                     senses=senses,
+                    created_at=now,
+                    updated_at=now,
                 )
             )
             ingested.add((headword, entry.pos_abbrev))

@@ -131,6 +131,8 @@ class VocabularyWord(Document):
     entry_id: Optional[str] = None  # "LM-00595"
     senses: List[Sense] = []  # all senses from EPUB
     language: str = "it"
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
     @property
     def audio_url(self) -> Optional[str]:

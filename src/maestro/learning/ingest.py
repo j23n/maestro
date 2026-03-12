@@ -139,11 +139,13 @@ async def seed_a0_vocab() -> None:
         if item_pos:
             query["part_of_speech"] = item_pos
         existing = await VocabularyWord.find_one(query)
+        now = utcnow()
         if existing:
             existing.cefr_level = item.get("cefr_level", "A0")
             existing.part_of_speech = item.get(
                 "part_of_speech", existing.part_of_speech
             )
+            existing.updated_at = now
             await existing.save()
             word_doc = existing
         else:
@@ -157,6 +159,8 @@ async def seed_a0_vocab() -> None:
                 cefr_level=item.get("cefr_level", "A0"),
                 senses=senses,
                 language=settings.TARGET_LANGUAGE,
+                created_at=now,
+                updated_at=now,
             )
             await word_doc.insert()
             count += 1
