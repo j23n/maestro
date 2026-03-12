@@ -92,8 +92,6 @@ def _setup_logging() -> logging.Handler:
 
     app_logger = logging.getLogger("maestro")
     app_logger.setLevel(settings.LOG_LEVEL.upper())
-    app_logger.addHandler(handler)
-    app_logger.propagate = False
     return handler
 
 
