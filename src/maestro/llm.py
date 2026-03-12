@@ -153,6 +153,15 @@ async def llm_messages_create(
     **kwargs,
 ) -> anthropic.types.Message:
     """Make an async Anthropic messages.create call and record usage automatically."""
+    logger.debug(
+        "llm_request",
+        extra={
+            "call_type": call_type.value,
+            "model": model,
+            "system": system,
+            "messages": messages,
+        },
+    )
     client = get_async_client()
     t0 = time.monotonic()
     try:
