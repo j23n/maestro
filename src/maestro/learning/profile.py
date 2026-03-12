@@ -56,6 +56,8 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
     """Highest CEFR level where ≥90% of GPs are mastered AND ≥90% of CFs are demonstrated.
 
     A0 graduation: all A0 scenarios must be completed (depth >= 1).
+
+    Note: may mutate ``profile.onboarding_completed``; caller must save.
     """
     # A0 check: have all A0 scenarios been completed?
     if not (profile.onboarding_completed or profile.onboarding_skipped):
