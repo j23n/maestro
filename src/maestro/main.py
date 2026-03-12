@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 import datetime
 import json
 import logging
+from pathlib import Path
 
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
@@ -146,6 +147,13 @@ app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter
 app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
 app.add_middleware(SlowAPIMiddleware)
+if settings.DATA_DIR != settings.STATIC_DIR:
+    Path(settings.DATA_DIR, "audio").mkdir(parents=True, exist_ok=True)
+    app.mount(
+        "/static/audio",
+        StaticFiles(directory=Path(settings.DATA_DIR) / "audio"),
+        name="audio",
+    )
 app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
 
 

@@ -1,3 +1,4 @@
+from pydantic import model_validator
 from pydantic_settings import BaseSettings
 
 
@@ -22,8 +23,15 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     FREE_TIER_LESSON_LIMIT_EX_A0: int = 999
     STATIC_DIR: str = "src/maestro/static"
+    DATA_DIR: str = ""  # persistent volume for generated files; defaults to STATIC_DIR
     AZURE_SPEECH_KEY: str = ""
     AZURE_SPEECH_REGION: str = "eastus"
     AZURE_TTS_VOICE: str = "it-IT-IsabellaNeural"
+
+    @model_validator(mode="after")
+    def _default_data_dir(self) -> "Settings":
+        if not self.DATA_DIR:
+            self.DATA_DIR = self.STATIC_DIR
+        return self
 
     model_config = {"env_file": ".env"}

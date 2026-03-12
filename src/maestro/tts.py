@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 def _audio_dir() -> Path:
     from maestro.config import settings
 
-    return Path(settings.STATIC_DIR) / "audio"
+    return Path(settings.DATA_DIR) / "audio"
 
 
 _synth_locks: dict[Path, asyncio.Lock] = {}
