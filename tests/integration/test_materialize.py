@@ -37,6 +37,14 @@ def grammar_explanation():
     return GrammarExplanation(explanation="Gli articoli definiti in italiano.")
 
 
+@pytest.fixture
+def grammar_explanation_with_spans():
+    return GrammarExplanation(
+        title='<span lang="en">Definite Articles: </span><span lang="it">il, la, lo</span>',
+        explanation="Gli articoli definiti in italiano.",
+    )
+
+
 @pytest.mark.integration
 async def test_materialize_grammar_activity(grammar_gp, db):
     content = LessonContentResponse()
@@ -497,3 +505,27 @@ async def test_materialize_multi_grammar_blocks(db):
     assert len(writing_acts) == 1
     writing_idx = activities.index(writing_acts[0])
     assert writing_idx > g2_idx
+
+
+@pytest.mark.integration
+async def test_materialize_grammar_title_strips_spans(
+    grammar_gp, grammar_explanation_with_spans, db
+):
+    """Grammar activity title should have span tags stripped (issue #38)."""
+    content = LessonContentResponse()
+    activities = await materialize_activities(
+        content=content,
+        grammar_gps=[grammar_gp],
+        grammar_explanations=[grammar_explanation_with_spans],
+        drill_specs=[],
+        speaking_cfs=[],
+        include_writing=False,
+        reading_count=0,
+        topic_title="Test",
+        scenario_slug="test",
+        cefr_level="A1",
+        student_id=None,
+    )
+    assert len(activities) == 1
+    assert "<span" not in activities[0].title
+    assert "Definite Articles" in activities[0].title

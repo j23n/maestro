@@ -5,8 +5,8 @@
 <div class="complete-container">
   <div class="complete-hero">
     <div class="complete-icon">🎉</div>
-    <h1 class="complete-title">{{ t("lesson_complete_title") }}</h1>
-    <p class="complete-subtitle">{{ t("lesson_complete_subtitle") }}</p>
+    <h1 class="complete-title">{{ t("lesson_complete_title") | lang_it }}</h1>
+    <p class="complete-subtitle">{{ t("lesson_complete_subtitle") | lang_it }}</p>
   </div>
 
   {% if graduated_to %}
@@ -24,21 +24,21 @@
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-value">{{ completed_count }}</div>
-      <div class="stat-label">{{ t("lesson_completed_label") }}</div>
+      <div class="stat-label">{{ t("lesson_completed_label") | lang_it }}</div>
     </div>
     <div class="stat-card">
       <div class="stat-value">{{ skipped_count }}</div>
-      <div class="stat-label">{{ t("lesson_skipped_label") }}</div>
+      <div class="stat-label">{{ t("lesson_skipped_label") | lang_it }}</div>
     </div>
     <div class="stat-card">
       <div class="stat-value">{{ lesson.duration_minutes }}'</div>
-      <div class="stat-label">{{ t("lesson_duration_label") }}</div>
+      <div class="stat-label">{{ t("lesson_duration_label") | lang_it }}</div>
     </div>
   </div>
 
   {% if lesson.activities %}
   <div class="activity-summary">
-    <div class="activity-summary-title">{{ t("lesson_activities_done") }}</div>
+    <div class="activity-summary-title">{{ t("lesson_activities_done") | lang_it }}</div>
     {% for a in lesson.activities %}
     <div class="summary-item {{ 'summary-skipped' if a.status == 'skipped' else '' }}">
       <span class="summary-status">
@@ -46,7 +46,7 @@
         {%- elif a.status == "skipped" %}–
         {%- else %}○{% endif -%}
       </span>
-      <span class="summary-title">{{ a.title }}</span>
+      <span class="summary-title"><span lang="it">{{ a.title }}</span></span>
       {% if a.status == "completed" and a.type in ("writing", "speaking") %}
         {% set flag_call_type = "analyzer" %}
         {% set flag_refs = {"lesson_id": lesson.id|string, "activity_index": loop.index0} | tojson %}
@@ -59,7 +59,7 @@
 
   {% if annotated_feedback or lesson.feedback_summary %}
   <div class="lesson-feedback">
-    <div class="feedback-label">{{ t("lesson_feedback_label") }}</div>
+    <div class="feedback-label">{{ t("lesson_feedback_label") | lang_it }}</div>
     <div class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</div>
     {% set flag_call_type = "lesson_feedback" %}
     {% set flag_refs = {"lesson_id": lesson.id|string} | tojson %}
@@ -69,11 +69,11 @@
 
   {% if covered_grammar_points %}
   <div class="review-box">
-    <div class="review-heading">{{ t("lesson_grammar_covered_label") }}</div>
+    <div class="review-heading">{{ t("lesson_grammar_covered_label") | lang_it }}</div>
     <div class="review-links">
       {% for gp in covered_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span>{{ gp.label }}</span>
+        <span lang="it">{{ gp.label }}</span>
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% endfor %}
@@ -83,16 +83,16 @@
 
   {% if weak_grammar_points %}
   <div class="review-box">
-    <div class="review-heading">{{ t("lesson_review_label") }}</div>
+    <div class="review-heading">{{ t("lesson_review_label") | lang_it }}</div>
     <div class="review-links">
       {% for gp in weak_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span>{{ gp.label }}</span>
+        <span lang="it">{{ gp.label }}</span>
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% if gp.chunk_ref %}
       <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">
-        {{ t("lesson_full_rule") }}
+        {{ t("lesson_full_rule") | lang_it }}
       </a>
       {% endif %}
       {% endfor %}
@@ -101,9 +101,9 @@
   {% endif %}
 
   <div class="action-links">
-    <a class="btn-primary" href="/lezione/">{{ t("lesson_new_btn") }}</a>
-    <a class="btn-secondary" href="/vocab/practice">{{ t("lesson_vocab_btn") }}</a>
-    <a class="btn-secondary" href="/profilo">{{ t("lesson_profile_btn") }}</a>
+    <a class="btn-primary" href="/lezione/">{{ t("lesson_new_btn") | lang_it }}</a>
+    <a class="btn-secondary" href="/vocab/practice">{{ t("lesson_vocab_btn") | lang_it }}</a>
+    <a class="btn-secondary" href="/profilo">{{ t("lesson_profile_btn") | lang_it }}</a>
   </div>
 </div>
 {% endblock %}

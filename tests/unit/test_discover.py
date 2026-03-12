@@ -7,6 +7,7 @@ from maestro.vocab.discover import (
     _annotate,
     _annotate_in_elements,
     lang_wrap,
+    lemmatize,
 )
 from bs4 import BeautifulSoup
 
@@ -225,3 +226,48 @@ def test_annotate_in_elements_only_first_occurrence():
     word = _make_word(word="casa")
     _annotate_in_elements(els, word, None)
     assert str(soup).count("vocab-word") == 1
+
+
+# --- lemmatize tests ---
+
+
+@pytest.mark.unit
+def test_lemmatize_includes_stop_words():
+    """Stop words like 'sì', 'no', 'come', 'bene' are legitimate learner vocabulary."""
+    lemmas = lemmatize("sì no come bene")
+    assert "sì" in lemmas
+    assert "no" in lemmas
+    assert "come" in lemmas
+    assert "bene" in lemmas
+
+
+@pytest.mark.unit
+def test_lemmatize_includes_two_char_words():
+    """Two-character alphabetic tokens should be included (e.g. 'no', 'sì')."""
+    lemmas = lemmatize("no")
+    assert "no" in lemmas
+
+
+@pytest.mark.unit
+def test_lemmatize_excludes_single_char():
+    """Single-character tokens (e.g. 'è' as standalone) should be excluded."""
+    lemmas = lemmatize("è")
+    assert len(lemmas) == 0
+
+
+@pytest.mark.unit
+def test_lemmatize_basic_conjugation():
+    """Conjugated verbs should resolve to their lemma."""
+    lemmas = lemmatize("mangio la pizza")
+    assert "mangiare" in lemmas
+    assert "pizza" in lemmas
+
+
+@pytest.mark.unit
+def test_lemmatize_excludes_non_alpha():
+    """Punctuation and numbers should be excluded."""
+    lemmas = lemmatize("ciao! 123 mondo.")
+    assert "ciao" in lemmas
+    assert "mondo" in lemmas
+    assert "123" not in lemmas
+    assert "!" not in lemmas

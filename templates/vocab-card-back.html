@@ -8,7 +8,7 @@
   {% endif %}
 
   {% if mode == 'word' %}
-    <div class="word">{{ card.word.word }}</div>
+    <div class="word"><span lang="it">{{ card.word.word }}</span></div>
     <div class="back">
       <div class="pos">{{ pos_line }}</div>
       <div class="translation">{{ translation }}</div>
@@ -27,7 +27,7 @@
     <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
     <div class="clue">{{ translation }}</div>
     <div class="back">
-      <div class="word">{{ card.word.word }}</div>
+      <div class="word"><span lang="it">{{ card.word.word }}</span></div>
       <div class="pos">{{ pos_line }}</div>
       <ol class="senses">
         {% for s in senses %}
@@ -44,7 +44,7 @@
     <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
     <div class="clue">{{ senses[0].definition if senses else "—" }}</div>
     <div class="back">
-      <div class="word">{{ card.word.word }}</div>
+      <div class="word"><span lang="it">{{ card.word.word }}</span></div>
       <div class="pos">{{ pos_line }}</div>
       <div class="translation">{{ translation }}</div>
       {% if senses|length > 1 %}

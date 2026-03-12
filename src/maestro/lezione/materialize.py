@@ -18,6 +18,7 @@ from maestro.models import (
 )
 from maestro.lezione.schemas import LessonContentResponse
 from maestro.strings import t
+from maestro.utils import strip_lang_spans
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +62,7 @@ async def materialize_activities(
         exp = grammar_explanations[i] if i < len(grammar_explanations) else None
         if exp:
             explanation_content = exp.explanation
-            grammar_title = exp.title or gp.label
+            grammar_title = strip_lang_spans(exp.title) if exp.title else gp.label
         else:
             explanation_content = gp.label
             grammar_title = gp.label
