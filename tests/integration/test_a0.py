@@ -522,7 +522,7 @@ def test_signup_then_onboarding_saves_name(auth_app, db):
 @pytest.mark.integration
 async def test_skip_onboarding_sets_flags_and_graduates(db):
     """_skip_onboarding should set flags, credit mastery, and graduate to A1."""
-    from maestro.routes.lezione import _skip_onboarding
+    from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
     from maestro.profile import get_or_create_profile
 
     student = Student(name="")
@@ -579,7 +579,7 @@ async def test_skip_onboarding_sets_flags_and_graduates(db):
 @pytest.mark.integration
 async def test_skip_onboarding_already_past_a0(db):
     """_skip_onboarding should return False if already past A0."""
-    from maestro.routes.lezione import _skip_onboarding
+    from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
     from maestro.profile import get_or_create_profile
 
     student = Student(name="")
@@ -596,7 +596,7 @@ async def test_skip_onboarding_already_past_a0(db):
 @pytest.mark.integration
 async def test_skip_onboarding_abandons_active_lesson(db):
     """_skip_onboarding should abandon any active A0 lesson."""
-    from maestro.routes.lezione import _skip_onboarding
+    from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
     from maestro.profile import get_or_create_profile
     from maestro.utils import utcnow
 
