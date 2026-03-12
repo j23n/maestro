@@ -41,7 +41,7 @@ def _load_vocab() -> list[dict]:
         return json.load(f)
 
 
-def _collect_strings(obj) -> list[str]:
+def _collect_strings(obj: object) -> list[str]:
     """Recursively collect all string values from a nested dict/list structure."""
     if isinstance(obj, str):
         return [obj]
@@ -60,7 +60,7 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
     2. Drill item prompts/answers — these are bare Italian text with no spans.
     """
     from bs4 import BeautifulSoup
-    from maestro.vocab.discover import _lemmatize, _get_target_text
+    from maestro.vocab.discover import lemmatize, get_target_text
 
     lemmas: set[str] = set()
     for lesson_data in all_lessons.values():
@@ -73,15 +73,15 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
                 lang_elements = soup.find_all(attrs={"lang": "it"})
                 if not lang_elements:
                     continue
-                target_text = _get_target_text(lang_elements)
-                lemmas.update(_lemmatize(target_text))
+                target_text = get_target_text(lang_elements)
+                lemmas.update(lemmatize(target_text))
 
             # 2. Drill items — prompts and answers are bare Italian
             for item in act.get("items") or []:
                 for field in ("prompt", "correct_answer"):
                     text = item.get(field, "") or ""
                     if text:
-                        lemmas.update(_lemmatize(text))
+                        lemmas.update(lemmatize(text))
     return lemmas
 
 
@@ -90,7 +90,7 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
 
 def check(all_lessons: dict, vocab_items: list[dict]) -> int:
     """Report missing audio files and lesson↔vocab coverage gaps. Returns exit code."""
-    from maestro.tts import _a0_audio_path, _word_audio_path
+    from maestro.tts import a0_audio_path, word_audio_path
 
     problems = 0
 
@@ -100,7 +100,7 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
         for act in lesson_data.get("activities", []):
             if act.get("type") != "listening":
                 continue
-            path = _a0_audio_path(slug)
+            path = a0_audio_path(slug)
             if path.exists():
                 print(f"  OK    {slug:30s} -> {path.name}")
             else:
@@ -111,7 +111,7 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
     print("\nVocabulary word audio (word_*.wav):")
     for item in vocab_items:
         word = item["word"]
-        path = _word_audio_path(word)
+        path = word_audio_path(word)
         if path.exists():
             print(f"  OK    {word:20s} -> {path.name}")
         else:

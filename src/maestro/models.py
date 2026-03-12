@@ -135,9 +135,9 @@ class VocabularyWord(Document):
     @property
     def audio_url(self) -> Optional[str]:
         """Return the static URL for this word's audio, or None if the file doesn't exist."""
-        from maestro.tts import _word_audio_path
+        from maestro.tts import word_audio_path
 
-        path = _word_audio_path(self.word)
+        path = word_audio_path(self.word)
         return f"/static/audio/{path.name}" if path.exists() else None
 
     class Settings:

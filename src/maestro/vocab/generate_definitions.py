@@ -21,7 +21,7 @@ from bson import DBRef
 
 from maestro.db import init_db
 from maestro.config import settings
-from maestro.tts import _word_audio_path
+from maestro.tts import word_audio_path
 from maestro.llm import llm_messages_create
 from maestro.models import (
     CallType,
@@ -221,9 +221,7 @@ async def generate(
 
     if missing:
         # Include words missing definitions OR audio
-        words_missing_audio = [
-            w for w in words if not _word_audio_path(w.word).exists()
-        ]
+        words_missing_audio = [w for w in words if not word_audio_path(w.word).exists()]
         todo_defs = await _collect_words_needing_regen(words)
         todo_def_ids = {w.id for w in todo_defs}
         todo = todo_defs + [w for w in words_missing_audio if w.id not in todo_def_ids]
