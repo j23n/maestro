@@ -14,8 +14,11 @@ import maestro.stt as stt_module
 from maestro.stt import (
     _build_assessment_header,
     _parse_response,
+    _parse_transcription_response,
     assess_pronunciation,
+    transcribe,
     PronunciationResult,
+    TranscriptionResult,
 )
 
 
@@ -281,3 +284,97 @@ async def test_assess_pronunciation_recognition_failure():
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APIStatusError, match="Recognition failed"):
             await assess_pronunciation(b"wav", "ciao")
+
+
+# ---------------------------------------------------------------------------
+# _parse_transcription_response
+# ---------------------------------------------------------------------------
+
+SAMPLE_TRANSCRIPTION_RESPONSE = {
+    "RecognitionStatus": "Success",
+    "Offset": 700000,
+    "Duration": 8400000,
+    "DisplayText": "La mia famiglia è grande.",
+    "NBest": [
+        {
+            "Confidence": 0.92,
+            "Lexical": "la mia famiglia è grande",
+            "Display": "La mia famiglia è grande.",
+        }
+    ],
+}
+
+
+@pytest.mark.unit
+def test_parse_transcription_response_success():
+    result = _parse_transcription_response(SAMPLE_TRANSCRIPTION_RESPONSE)
+    assert isinstance(result, TranscriptionResult)
+    assert result.recognized_text == "La mia famiglia è grande."
+    assert result.confidence == 0.92
+
+
+@pytest.mark.unit
+def test_parse_transcription_response_no_match():
+    """NoMatch status raises APIStatusError."""
+    from maestro.errors import APIStatusError
+
+    with pytest.raises(APIStatusError, match="Recognition failed"):
+        _parse_transcription_response({"RecognitionStatus": "NoMatch"})
+
+
+@pytest.mark.unit
+def test_parse_transcription_response_empty_nbest():
+    from maestro.errors import APIStatusError
+
+    with pytest.raises(APIStatusError, match="No recognition results"):
+        _parse_transcription_response({"RecognitionStatus": "Success", "NBest": []})
+
+
+# ---------------------------------------------------------------------------
+# transcribe — end-to-end with mocked client
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+async def test_transcribe_success():
+    mock_client = _mock_stt_client_with_response(SAMPLE_TRANSCRIPTION_RESPONSE)
+
+    with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
+        result = await transcribe(b"fake-wav-bytes")
+
+    assert isinstance(result, TranscriptionResult)
+    assert result.recognized_text == "La mia famiglia è grande."
+    assert result.confidence == 0.92
+
+    # Verify no Pronunciation-Assessment header was sent
+    call_kwargs = mock_client.post.call_args
+    assert (
+        "headers" not in call_kwargs.kwargs
+        or "Pronunciation-Assessment" not in call_kwargs.kwargs.get("headers", {})
+    )
+
+
+@pytest.mark.unit
+async def test_transcribe_timeout():
+    from maestro.errors import APITimeoutError
+
+    mock_client = _mock_stt_client_with_error(httpx.TimeoutException("read timed out"))
+
+    with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
+        with pytest.raises(APITimeoutError) as exc_info:
+            await transcribe(b"wav")
+
+    assert exc_info.value.provider == "azure"
+
+
+@pytest.mark.unit
+async def test_transcribe_no_match():
+    """NoMatch status from Azure raises APIStatusError."""
+    from maestro.errors import APIStatusError
+
+    fail_response = {"RecognitionStatus": "NoMatch"}
+    mock_client = _mock_stt_client_with_response(fail_response)
+
+    with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
+        with pytest.raises(APIStatusError, match="Recognition failed"):
+            await transcribe(b"wav")

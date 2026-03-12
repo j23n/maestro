@@ -105,7 +105,7 @@
   "profile_recent_lessons": "Lezioni recenti",
   "progress_label": "Attivit\u00e0 {current} di {total}",
   "speaking_title": "Produzione orale",
-  "speaking_desc": "Registra la tua voce e ricevi un giudizio sulla pronuncia.",
+  "speaking_desc": "Registra la tua voce e ricevi feedback su pronuncia e grammatica.",
   "result_correct_multi": "Ottimo! {correct}/{total} corrette \u2713",
   "result_wrong_multi": "{correct}/{total} corrette",
   "result_submitted": "Inviato \u2713",
@@ -196,7 +196,7 @@
   "scoring_unavailable": "Automatic scoring is temporarily unavailable. The issue has been reported. You can continue with the next activity.",
   "speaking_record_btn": "Registra",
   "speaking_stop_btn": "Ferma",
-  "speaking_submit_progress": "Valutazione in corso\u2026",
+  "speaking_submit_progress": "Trascrizione e valutazione in corso\u2026",
   "speaking_result_title": "Risultato pronuncia",
   "speaking_accuracy": "Accuratezza",
   "speaking_fluency": "Fluidit\u00e0",
@@ -204,5 +204,8 @@
   "speaking_overall": "Punteggio",
   "speaking_mic_denied": "Accesso al microfono negato. Controlla le impostazioni del browser.",
   "speaking_not_supported": "Il tuo browser non supporta la registrazione audio.",
-  "speaking_prompt_label": "Leggi ad alta voce:"
+  "speaking_prompt_label": "Rispondi parlando:",
+  "speaking_you_said": "Hai detto:",
+  "speaking_feedback_label": "Feedback",
+  "speaking_nothing_recognized": "Non abbiamo riconosciuto nessuna parola. Riprova parlando pi\u00f9 vicino al microfono."
 }

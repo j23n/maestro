@@ -1,7 +1,7 @@
 {
   "analyzer.yaml": {
-    "version": "5",
-    "sha256": "a00a9fd773ee2039137fe5028aac7ecf66eb360407dfc1505c6df0b7da946ff0"
+    "version": "6",
+    "sha256": "748ad9fb6d4cb93d2f35f3a5724ffe420e601d74a40bf8512a97bbc2ab0e372b"
   },
   "common.yaml": {
     "version": "1",
