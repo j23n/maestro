@@ -15,9 +15,9 @@
       <ol class="senses">
         {% for s in senses %}
         <li>
-          <span class="sense-def">{{ s.definition }}</span>
+          <span class="sense-def" lang="it">{{ s.definition }}</span>
           {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}
       </ol>
@@ -32,9 +32,9 @@
       <ol class="senses">
         {% for s in senses %}
         <li>
-          <span class="sense-def">{{ s.definition }}</span>
+          <span class="sense-def" lang="it">{{ s.definition }}</span>
           {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}
       </ol>
@@ -42,7 +42,7 @@
 
   {% elif mode == 'definition' %}
     <div class="prompt"><span lang="en">{{ t("vocab_definition_prompt", language=target_language) }}</span></div>
-    <div class="clue">{{ senses[0].definition if senses else "—" }}</div>
+    <div class="clue" lang="it">{{ senses[0].definition if senses else "—" }}</div>
     <div class="back">
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>
       <div class="pos">{{ pos_line }}</div>
@@ -51,9 +51,9 @@
       <ol class="senses" start="2">
         {% for s in senses[1:] %}
         <li>
-          <span class="sense-def">{{ s.definition }}</span>
+          <span class="sense-def" lang="it">{{ s.definition }}</span>
           {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
         </li>
         {% endfor %}
       </ol>

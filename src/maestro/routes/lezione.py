@@ -32,15 +32,10 @@ from maestro.drills.scoring import score_attempt
 from maestro.learning.scorer import generate_writing_feedback
 from maestro.i18n import t
 from maestro import taxonomy
-from maestro.templates import templates
-from maestro.utils import create_background_task, lang_wrap, utcnow
+from maestro.templates import templates, render_with_discover
+from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
-from maestro.vocab.discover import (
-    discover,
-    discover_markdown,
-    discover_list,
-    hide_translations,
-)
+from maestro.vocab.discover import preprocess_grammar_markdown
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
 from markupsafe import escape
@@ -218,15 +213,11 @@ async def lezione_overview(
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete")
     overview_lang = "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
-    annotated_overview = (
-        await discover(lang_wrap(lesson.overview, overview_lang), student_id=student.id)
-        if lesson.overview
-        else None
-    )
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione.html",
-        context={"lesson": lesson, "annotated_overview": annotated_overview},
+    return await render_with_discover(
+        request,
+        "lezione.html",
+        {"lesson": lesson, "overview_lang": overview_lang},
+        student_id=student.id,
     )
 
 
@@ -372,12 +363,9 @@ async def lezione_activity(
         drill = await GeneratedDrill.get(activity.drill_id)
         if drill is None:
             raise HTTPException(404)
-        lang = _settings.TARGET_LANGUAGE
-        annotated = await discover(lang_wrap(drill.prompt, lang), student_id=student.id)
         ctx["drill"] = drill
-        ctx["annotated_prompt"] = annotated
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-drill.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-drill.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.VOCAB_REVIEW:
@@ -400,44 +388,35 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.READING:
-        lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = hide_translations(
-            await discover(lang_wrap(activity.content, lang), student_id=student.id)
-        )
-        ctx["annotated_questions"] = await discover_list(
-            [lang_wrap(q, lang) for q in (activity.questions or [])],
+        return await render_with_discover(
+            request,
+            "lezione-activity-reading.html",
+            ctx,
             student_id=student.id,
-        )
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-reading.html", context=ctx
+            hide_translations=True,
         )
 
     if activity.type == ActivityType.LISTENING:
-        lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = hide_translations(
-            await discover(lang_wrap(activity.content, lang), student_id=student.id)
-        )
-        ctx["annotated_questions"] = await discover_list(
-            [lang_wrap(q, lang) for q in (activity.questions or [])],
-            student_id=student.id,
-        )
         ctx["audio_url"] = activity.audio_path
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-listening.html", context=ctx
+        return await render_with_discover(
+            request,
+            "lezione-activity-listening.html",
+            ctx,
+            student_id=student.id,
+            hide_translations=True,
         )
 
     if activity.type == ActivityType.WRITING:
-        lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = await discover_markdown(
-            activity.content or "", student_id=student.id, lang=lang
+        ctx["preprocessed_content"] = preprocess_grammar_markdown(
+            activity.content or ""
         )
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-writing.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-writing.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.GRAMMAR:
-        ctx["annotated_content"] = hide_translations(
-            await discover_markdown(activity.content or "", student_id=student.id)
+        ctx["preprocessed_content"] = preprocess_grammar_markdown(
+            activity.content or ""
         )
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
@@ -445,9 +424,7 @@ async def lezione_activity(
             why_lang = (
                 "en" if level in ("A0", "A1", "A2") else _settings.TARGET_LANGUAGE
             )
-            ctx["annotated_why"] = await discover(
-                lang_wrap(activity.why_important, why_lang), student_id=student.id
-            )
+            ctx["why_lang"] = why_lang
         # Find the GP and its explanation for translation + chunk_ref
         if activity.grammar_point_code:
             gp = await GrammarPoint.find_one({"code": activity.grammar_point_code})
@@ -457,8 +434,8 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-grammar.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-grammar.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.SPEAKING:
@@ -690,10 +667,10 @@ async def lezione_vocab_reveal(
     profile = await get_profile(student.id)
     level = profile.cefr_estimate if profile else "A0"
     word_def = await get_word_definition(card.word, level)
-    return templates.TemplateResponse(
-        request=request,
-        name="vocab-card-back.html",
-        context={
+    return await render_with_discover(
+        request,
+        "vocab-card-back.html",
+        {
             "card": card,
             "word_def": word_def,
             "mode": "word",
@@ -703,6 +680,7 @@ async def lezione_vocab_reveal(
             "review_extra_name": "card_idx",
             "review_extra_value": card_idx,
         },
+        student_id=student.id,
     )
 
 
@@ -957,13 +935,6 @@ async def lezione_complete(
     events = await get_lesson_events(lesson)
     weak_grammar_points = await get_weak_grammar_points(lesson, events)
     await ensure_lesson_feedback(lesson, weak_grammar_points, events)
-    annotated_feedback = (
-        await discover_markdown(
-            lesson.feedback_summary, student_id=student.id, lang="en"
-        )
-        if lesson.feedback_summary
-        else None
-    )
 
     # Detect CEFR graduation
     graduated_to = None
@@ -994,16 +965,16 @@ async def lezione_complete(
     else:
         covered_grammar_points = []
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-complete.html",
-        context={
+    return await render_with_discover(
+        request,
+        "lezione-complete.html",
+        {
             "lesson": lesson,
             "completed_count": completed_count,
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
-            "annotated_feedback": annotated_feedback,
             "graduated_to": graduated_to,
         },
+        student_id=student.id,
     )

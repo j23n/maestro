@@ -8,14 +8,14 @@
   <div class="card">
     <div class="card-label">{{ t("grammar_label") }}</div>
     <div class="grammar-title">{{ activity.grammar_label or activity.title }}</div>
-    {% if annotated_why or activity.why_important %}
+    {% if activity.why_important %}
     <div class="why-important">
       <div class="why-label"><span lang="en">{{ t("grammar_why_matters") }}</span></div>
-      <p>{{ annotated_why | safe if annotated_why else activity.why_important }}</p>
+      <p><span lang="{{ why_lang }}">{{ activity.why_important }}</span></p>
     </div>
     {% endif %}
-    <div class="grammar-content">
-      {{ annotated_content | safe }}
+    <div class="grammar-content" lang="it">
+      {{ preprocessed_content | markdown | safe }}
     </div>
 
     {% if activity.grammar_point_code %}
