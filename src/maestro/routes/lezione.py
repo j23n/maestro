@@ -353,6 +353,30 @@ async def lezione_activity(
 
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
+    # Completed speaking activities — show stored result
+    if is_review and activity.type == ActivityType.SPEAKING:
+        result = activity.result or {}
+        next_url = activity_url(lesson_id, lesson.current_index)
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-speaking-result-page.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "recognized_text": result.get("recognized_text"),
+                "pronunciation_score": result.get("pronunciation_score"),
+                "accuracy_score": result.get("accuracy_score"),
+                "fluency_score": result.get("fluency_score"),
+                "completeness_score": result.get("completeness_score"),
+                "words": [],
+                "recorded_audio_b64": "",
+                "feedback": None,
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
     # Completed non-grammar activities are not revisitable — redirect to current activity
     if is_review and activity.type != ActivityType.GRAMMAR:
         return RedirectResponse(
