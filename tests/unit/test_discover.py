@@ -6,7 +6,6 @@ from types import SimpleNamespace
 from maestro.vocab.discover import (
     _annotate,
     _annotate_in_elements,
-    lang_wrap,
     lemmatize,
 )
 from bs4 import BeautifulSoup
@@ -110,27 +109,6 @@ def test_annotate_word_boundary():
     word = _make_word(word="casa")
     result = _annotate("Il casamento è vecchio.", word, None)
     assert "vocab-word" not in result
-
-
-# --- lang_wrap tests ---
-
-
-@pytest.mark.unit
-def test_lang_wrap():
-    result = lang_wrap("ciao mondo", "it")
-    assert result == '<span lang="it">ciao mondo</span>'
-
-
-@pytest.mark.unit
-def test_lang_wrap_idempotent():
-    html = '<span lang="it">ciao mondo</span>'
-    assert lang_wrap(html, "it") == html
-
-
-@pytest.mark.unit
-def test_lang_wrap_preserves_html():
-    result = lang_wrap("<strong>ciao</strong>", "it")
-    assert result == '<span lang="it"><strong>ciao</strong></span>'
 
 
 # --- _annotate_in_elements tests (lang-aware BS4) ---
