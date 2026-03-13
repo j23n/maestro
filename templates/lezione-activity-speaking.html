@@ -30,6 +30,15 @@
       <div id="recording-timer" class="recording-timer" style="display:none;">0:00</div>
     </div>
 
+    {# ── Review state (after recording, before submit) ── #}
+    <div id="speaking-review" class="speaking-review" style="display:none;">
+      <div class="speaking-review-label">{{ t("speaking_recorded") }}</div>
+      <div class="speaking-review-actions">
+        <button id="reset-btn" class="speaking-reset-btn" type="button" onclick="resetRecording()">{{ t("speaking_reset_btn") }}</button>
+        <button id="submit-btn" class="speaking-submit-btn" type="button" onclick="confirmSubmit()">{{ t("drill_submit") }}</button>
+      </div>
+    </div>
+
     {# ── Submitting state ── #}
     <div id="speaking-submitting" class="speaking-submitting" style="display:none;">
       {{ t("speaking_submit_progress") }}
@@ -130,6 +139,50 @@
   font-size: 0.9rem;
   margin: 1rem 0;
 }
+.speaking-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.speaking-review-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+.speaking-review-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+.speaking-reset-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid #ccc;
+  border-radius: 2rem;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.speaking-reset-btn:hover {
+  border-color: #999;
+  color: #333;
+}
+.speaking-submit-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  background: var(--accent, #4a7c59);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.speaking-submit-btn:hover {
+  background: #3d6a4a;
+}
 </style>
 
 <script>
@@ -144,6 +197,7 @@
   var _startTime = 0;
   var _maxDuration = 30; // seconds
   var SAMPLE_RATE = 16000;
+  var _pendingBlob = null;
 
   var submitUrl = '/lezione/{{ lesson.id }}/activity/{{ idx }}/speaking-submit';
 
@@ -219,10 +273,29 @@
       _stream = null;
     }
 
-    // Encode WAV (downsampled to SAMPLE_RATE) and submit
-    var wavBlob = encodeWAV(_chunks, nativeSR, SAMPLE_RATE);
-    submitAudio(wavBlob);
+    // Encode WAV (downsampled to SAMPLE_RATE) and show review
+    _pendingBlob = encodeWAV(_chunks, nativeSR, SAMPLE_RATE);
+
+    // Show review state
+    document.getElementById('speaking-controls').style.display = 'none';
+    document.getElementById('speaking-review').style.display = 'flex';
   }
+
+  window.resetRecording = function() {
+    _pendingBlob = null;
+    _chunks = [];
+    document.getElementById('speaking-review').style.display = 'none';
+    document.getElementById('speaking-controls').style.display = 'flex';
+    var btn = document.getElementById('record-btn');
+    btn.classList.remove('recording');
+    document.getElementById('record-label').textContent = '{{ t("speaking_record_btn") }}';
+    document.getElementById('recording-timer').style.display = 'none';
+    document.getElementById('recording-timer').textContent = '0:00';
+  };
+
+  window.confirmSubmit = function() {
+    if (_pendingBlob) submitAudio(_pendingBlob);
+  };
 
   function encodeWAV(chunks, nativeSR, targetSR) {
     // Merge all Float32 chunks
@@ -293,6 +366,7 @@
   function submitAudio(wavBlob) {
     // Show submitting state
     document.getElementById('speaking-controls').style.display = 'none';
+    document.getElementById('speaking-review').style.display = 'none';
     document.getElementById('speaking-submitting').style.display = 'block';
     document.getElementById('speaking-skip-row').style.display = 'none';
 
@@ -316,8 +390,8 @@
     })
     .catch(function(err) {
       console.error('Speaking submit failed:', err);
-      // Re-show controls on error
-      document.getElementById('speaking-controls').style.display = 'flex';
+      // Re-show review state on error so user can retry or reset
+      document.getElementById('speaking-review').style.display = 'flex';
       document.getElementById('speaking-submitting').style.display = 'none';
       document.getElementById('speaking-skip-row').style.display = 'flex';
     });
