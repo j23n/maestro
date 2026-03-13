@@ -9,7 +9,7 @@ from pymongo.errors import DuplicateKeyError
 from maestro.rate_limit import limiter
 from maestro.models import Account, Student
 from maestro.session import create_session_cookie, clear_session_cookie, read_session
-from maestro.templates import templates
+from maestro.templates import render_with_discover
 
 logger = logging.getLogger(__name__)
 
@@ -25,9 +25,7 @@ def _masked_email(email: str) -> str:
 
 @router.get("/signup", response_class=HTMLResponse)
 async def signup_form(request: Request):
-    return templates.TemplateResponse(
-        request=request, name="auth-signup.html", context={"error": None}
-    )
+    return await render_with_discover(request, "auth-signup.html", {"error": None})
 
 
 @router.post("/signup", response_class=HTMLResponse)
@@ -55,10 +53,8 @@ async def signup(request: Request):
 
     if error:
         logger.warning("signup failed: %s", error)
-        return templates.TemplateResponse(
-            request=request,
-            name="auth-signup.html",
-            context={"error": error, "email": email},
+        return await render_with_discover(
+            request, "auth-signup.html", {"error": error, "email": email}
         )
 
     # Create student + account (unique index catches race conditions)
@@ -74,10 +70,10 @@ async def signup(request: Request):
     except DuplicateKeyError:
         await student.delete()
         logger.warning("signup failed: duplicate email %s", _masked_email(email))
-        return templates.TemplateResponse(
-            request=request,
-            name="auth-signup.html",
-            context={"error": "signup_error_email_taken", "email": email},
+        return await render_with_discover(
+            request,
+            "auth-signup.html",
+            {"error": "signup_error_email_taken", "email": email},
         )
 
     logger.info("signup success: %s", account.id)
@@ -88,9 +84,7 @@ async def signup(request: Request):
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_form(request: Request):
-    return templates.TemplateResponse(
-        request=request, name="auth-login.html", context={"error": None}
-    )
+    return await render_with_discover(request, "auth-login.html", {"error": None})
 
 
 @router.post("/login", response_class=HTMLResponse)
@@ -105,17 +99,13 @@ async def login(request: Request):
         # Dummy check keeps response time constant regardless of account existence
         _bcrypt.checkpw(password.encode(), _bcrypt.hashpw(b"dummy", _bcrypt.gensalt()))
         logger.warning("login failed: account not found for %s", _masked_email(email))
-        return templates.TemplateResponse(
-            request=request,
-            name="auth-login.html",
-            context={"error": "login_error_invalid", "email": email},
+        return await render_with_discover(
+            request, "auth-login.html", {"error": "login_error_invalid", "email": email}
         )
     if not _bcrypt.checkpw(password.encode(), account.password_hash.encode()):
         logger.warning("login failed: invalid credentials for %s", account.id)
-        return templates.TemplateResponse(
-            request=request,
-            name="auth-login.html",
-            context={"error": "login_error_invalid", "email": email},
+        return await render_with_discover(
+            request, "auth-login.html", {"error": "login_error_invalid", "email": email}
         )
 
     logger.info("login success: %s", account.id)

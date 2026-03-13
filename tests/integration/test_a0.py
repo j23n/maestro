@@ -160,7 +160,7 @@ async def test_a0_lesson_generates_static_content(db):
     lesson = await Lesson.get(lesson.id)
     assert lesson.generating is False
     assert lesson.scenario_slug == "a0-01-benvenuto"
-    assert lesson.topic_title == '<span lang="it">Benvenuto!</span>'
+    assert lesson.topic_title == "Benvenuto!"
     assert len(lesson.activities) > 0
 
     # Check activity types include onboarding and grammar
@@ -169,20 +169,20 @@ async def test_a0_lesson_generates_static_content(db):
     assert ActivityType.ONBOARDING in types
     assert ActivityType.DRILL in types
 
-    # Verify lang wrapping on stored content
-    assert lesson.overview.startswith('<span lang="en">')
-    assert lesson.topic_description.startswith('<span lang="en">')
+    # After lang flip: EN content is NOT wrapped (base lang is EN), only IT content is
+    assert not lesson.overview.startswith("<span")
+    assert not lesson.topic_description.startswith("<span")
 
-    # Grammar: title/description wrapped EN, content unchanged (has inline spans)
+    # Grammar: title/description plain text, content unchanged (has inline spans)
     grammar = next(a for a in lesson.activities if a.type == ActivityType.GRAMMAR)
-    assert grammar.title.startswith('<span lang="en">')
-    assert grammar.description.startswith('<span lang="en">')
+    assert not grammar.title.startswith("<span")
+    assert not grammar.description.startswith("<span")
     assert not grammar.content.startswith("<span")  # mixed lang, not outer-wrapped
 
-    # Onboarding: title IT, content EN
+    # Onboarding: title/content are plain text (no longer wrapped)
     onboarding = next(a for a in lesson.activities if a.type == ActivityType.ONBOARDING)
-    assert onboarding.title.startswith('<span lang="it">')
-    assert onboarding.content.startswith('<span lang="en">')
+    assert not onboarding.title.startswith("<span")
+    assert not onboarding.content.startswith("<span")
 
 
 @pytest.mark.integration
@@ -237,13 +237,13 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     drill_activities = [a for a in lesson.activities if a.type == ActivityType.DRILL]
     assert len(drill_activities) > 0
 
-    # Verify GeneratedDrill was created with lang-wrapped items
+    # Verify GeneratedDrill was created — prompts/answers are plain text (no lang wrapping)
     drill_id = drill_activities[0].drill_id
     drill = await GeneratedDrill.get(drill_id)
     assert drill is not None
     assert len(drill.items) > 0
-    assert drill.items[0].prompt.startswith('<span lang="en">')
-    assert drill.items[0].correct_answer.startswith('<span lang="it">')
+    assert not drill.items[0].prompt.startswith("<span")
+    assert not drill.items[0].correct_answer.startswith("<span")
 
 
 # ---------------------------------------------------------------------------

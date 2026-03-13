@@ -23,7 +23,7 @@ from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t
 from maestro.rate_limit import limiter
 from maestro.session import clear_session_cookie, read_session
-from maestro.templates import templates
+from maestro.templates import render_with_discover
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione, feedback
@@ -186,7 +186,7 @@ app.include_router(feedback.router)
 async def landing(request: Request):
     if read_session(request):
         return RedirectResponse(url="/lezione/")
-    return templates.TemplateResponse(request=request, name="landing.html")
+    return await render_with_discover(request, "landing.html", {})
 
 
 @app.exception_handler(RedirectToLogin)
@@ -202,10 +202,10 @@ async def _render_error(request: Request, code: int, message_key: str):
         await get_current_student(request)
     except RedirectToLogin:
         pass
-    return templates.TemplateResponse(
-        request=request,
-        name="error.html",
-        context={"code": code, "message": i18n_t(message_key)},
+    return await render_with_discover(
+        request,
+        "error.html",
+        {"code": code, "message": i18n_t(message_key)},
         status_code=code,
     )
 
@@ -220,13 +220,14 @@ async def rate_limit_exceeded(request: Request, exc):
             status_code=429,
             headers=headers,
         )
-    return templates.TemplateResponse(
-        request=request,
-        name="error.html",
-        context={"code": 429, "message": msg},
+    response = await render_with_discover(
+        request,
+        "error.html",
+        {"code": 429, "message": msg},
         status_code=429,
-        headers=headers,
     )
+    response.headers["Retry-After"] = "60"
+    return response
 
 
 @app.exception_handler(404)

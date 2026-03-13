@@ -21,7 +21,7 @@ from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
-from maestro.templates import templates, render_with_discover
+from maestro.templates import render_with_discover
 from maestro.vocab.srs import review
 
 logger = logging.getLogger(__name__)
@@ -176,8 +176,8 @@ async def vocab_search(
         .limit(10)
         .to_list()
     )
-    return templates.TemplateResponse(
-        request=request, name="vocab-search-results.html", context={"words": words}
+    return await render_with_discover(
+        request, "vocab-search-results.html", {"words": words}, student_id=student.id
     )
 
 
@@ -205,10 +205,11 @@ async def vocab_practice(
             card = c
             break
     if card is None:
-        return templates.TemplateResponse(
-            request=request,
-            name="vocab-practice.html",
-            context={"card": None, "mode": mode},
+        return await render_with_discover(
+            request,
+            "vocab-practice.html",
+            {"card": None, "mode": mode},
+            student_id=student.id,
         )
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
     word_def = await get_word_definition(card.word, student_level)
@@ -249,7 +250,6 @@ async def vocab_reveal(
             "review_extra_name": "mode",
             "review_extra_value": mode,
         },
-        student_id=student.id,
     )
 
 
