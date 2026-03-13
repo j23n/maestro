@@ -34,6 +34,8 @@ class WordAssessment(BaseModel):
     word: str
     accuracy_score: float
     error_type: str  # "None", "Omission", "Insertion", "Mispronunciation"
+    offset_seconds: float  # start time in seconds
+    duration_seconds: float  # duration in seconds
 
 
 class PronunciationResult(BaseModel):
@@ -136,11 +138,14 @@ def _parse_response(data: dict) -> PronunciationResult:
         )
 
     best = nbest[0]
+    # Azure offset/duration are in 100-nanosecond ticks
     words = [
         WordAssessment(
             word=w["Word"],
             accuracy_score=w.get("AccuracyScore", 0.0),
             error_type=w.get("ErrorType", "None"),
+            offset_seconds=w.get("Offset", 0) / 1e7,
+            duration_seconds=w.get("Duration", 0) / 1e7,
         )
         for w in best.get("Words", [])
     ]

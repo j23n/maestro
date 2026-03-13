@@ -1025,6 +1025,10 @@ async def lezione_speaking_submit(
     )
 
     # --- Render combined result ---
+    import base64
+
+    recorded_audio_b64 = base64.b64encode(audio_bytes).decode() if pronunciation else ""
+
     ctx = {
         "lesson": lesson,
         "activity": activity,
@@ -1038,6 +1042,7 @@ async def lezione_speaking_submit(
         if pronunciation
         else None,
         "words": [w.model_dump() for w in pronunciation.words] if pronunciation else [],
+        "recorded_audio_b64": recorded_audio_b64,
         "feedback": feedback,
         "next_url": next_url,
         "idx": idx,
@@ -1049,6 +1054,20 @@ async def lezione_speaking_submit(
         name="lezione-speaking-result.html",
         context=ctx,
     )
+
+
+@router.get("/speaking/word-audio/{word:path}")
+async def speaking_word_audio(
+    word: str,
+    student: Student = Depends(get_current_student),
+):
+    """Generate TTS for a word and return its static URL (JSON)."""
+    from maestro.tts import generate_word_audio
+
+    url = await generate_word_audio(word)
+    if url is None:
+        raise HTTPException(503, "TTS unavailable")
+    return {"url": url}
 
 
 @router.post(

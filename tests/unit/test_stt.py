@@ -98,7 +98,11 @@ def test_parse_response_success():
     assert result.words[0].word == "buon"
     assert result.words[0].accuracy_score == 95.0
     assert result.words[0].error_type == "None"
+    assert result.words[0].offset_seconds == pytest.approx(0.07)
+    assert result.words[0].duration_seconds == pytest.approx(0.26)
     assert result.words[1].word == "giorno"
+    assert result.words[1].offset_seconds == pytest.approx(0.34)
+    assert result.words[1].duration_seconds == pytest.approx(0.57)
 
 
 @pytest.mark.unit

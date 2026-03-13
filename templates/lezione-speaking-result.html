@@ -53,11 +53,16 @@
       </div>
     </div>
 
+    {# Per-word pronunciation — tappable #}
     {% if words %}
     <div class="speaking-words">
       {% for w in words %}
       <span class="speaking-word {% if w.error_type == 'Omission' %}word-omitted{% elif w.error_type == 'Mispronunciation' or w.accuracy_score < 60 %}word-bad{% elif w.accuracy_score < 80 %}word-ok{% else %}word-good{% endif %}"
-            title="{{ w.error_type }}{% if w.error_type == 'None' %}: {{ w.accuracy_score | round | int }}%{% endif %}">
+            data-word="{{ w.word }}"
+            data-offset="{{ w.offset_seconds }}"
+            data-duration="{{ w.duration_seconds }}"
+            data-accuracy="{{ w.accuracy_score | round | int }}"
+            data-error="{{ w.error_type }}">
         {{ w.word }}
       </span>
       {% endfor %}
@@ -94,6 +99,18 @@
 
   <div style="margin-top:1.5rem;">
     <a href="{{ next_url }}" class="continue-btn">{{ t("continue_btn") }}</a>
+  </div>
+</div>
+
+{# ── Pronunciation word tooltip ── #}
+<div id="pron-tooltip">
+  <div class="pt-header">
+    <span class="pt-word"></span>
+    <span class="pt-accuracy"></span>
+  </div>
+  <div class="pt-buttons">
+    <button type="button" class="pt-play-btn" id="pt-play-mine">{{ t("speaking_you_said_short") }}</button>
+    <button type="button" class="pt-play-btn" id="pt-play-correct">{{ t("speaking_correct_btn") }}</button>
   </div>
 </div>
 
@@ -156,6 +173,11 @@
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.speaking-word:hover {
+  transform: scale(1.05);
 }
 .word-good {
   background: #d5f5e3;
@@ -182,6 +204,57 @@
   border-radius: 8px;
   text-align: center;
 }
+
+/* Pronunciation tooltip — matches vocab tooltip style */
+#pron-tooltip {
+  position: fixed;
+  display: none;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--c-border, #E8E2D9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 0.6rem 0.85rem;
+  pointer-events: auto;
+  max-width: 300px;
+}
+#pron-tooltip .pt-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+#pron-tooltip .pt-word {
+  font-weight: 600;
+  font-size: 1em;
+}
+#pron-tooltip .pt-accuracy {
+  font-size: 0.78em;
+  color: var(--c-text-muted, #8A8279);
+}
+#pron-tooltip .pt-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+#pron-tooltip .pt-play-btn {
+  flex: 1;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.78rem;
+  background: var(--c-surface, #FAF8F5);
+  border: 1px solid var(--c-border, #E8E2D9);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text, #3D3833);
+  text-align: center;
+  white-space: nowrap;
+}
+#pron-tooltip .pt-play-btn:hover {
+  background: var(--c-cream, #F0EDE6);
+}
+#pron-tooltip .pt-play-btn.playing {
+  background: var(--c-cream, #F0EDE6);
+  border-color: var(--c-text-muted, #8A8279);
+}
 </style>
 
 <script>
@@ -199,5 +272,163 @@
       document.removeEventListener('keydown', onEnter);
     }, {once: true});
   }
+
+  // --- Pronunciation word tooltip ---
+  var audioB64 = '{{ recorded_audio_b64 | default("") }}';
+  if (!audioB64) return;
+
+  var audioBuffer = null;
+  var audioCtx = null;
+  var currentSource = null;
+
+  // Decode recorded audio into an AudioBuffer for slicing
+  function ensureAudioCtx() {
+    if (!audioCtx) audioCtx = new AudioContext();
+    return audioCtx;
+  }
+
+  function decodeAudio(callback) {
+    if (audioBuffer) { callback(audioBuffer); return; }
+    var raw = atob(audioB64);
+    var arr = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+    ensureAudioCtx().decodeAudioData(arr.buffer, function(buf) {
+      audioBuffer = buf;
+      callback(buf);
+    });
+  }
+
+  function stopCurrent() {
+    if (currentSource) {
+      try { currentSource.stop(); } catch(_) {}
+      currentSource = null;
+    }
+  }
+
+  function playSlice(offset, duration) {
+    stopCurrent();
+    decodeAudio(function(buf) {
+      var ctx = ensureAudioCtx();
+      var sr = buf.sampleRate;
+      var startSample = Math.floor(offset * sr);
+      var numSamples = Math.ceil(duration * sr);
+      // Clamp to buffer length
+      if (startSample >= buf.length) return;
+      if (startSample + numSamples > buf.length) numSamples = buf.length - startSample;
+      if (numSamples <= 0) return;
+
+      var slice = ctx.createBuffer(1, numSamples, sr);
+      var src = buf.getChannelData(0);
+      var dst = slice.getChannelData(0);
+      for (var i = 0; i < numSamples; i++) dst[i] = src[startSample + i];
+
+      var source = ctx.createBufferSource();
+      source.buffer = slice;
+      source.connect(ctx.destination);
+      source.start();
+      currentSource = source;
+
+      // Update button state
+      var btn = document.getElementById('pt-play-mine');
+      btn.classList.add('playing');
+      source.onended = function() { btn.classList.remove('playing'); currentSource = null; };
+    });
+  }
+
+  // TTS cache
+  var ttsCache = {};
+
+  function playCorrect(word) {
+    stopCurrent();
+    var btn = document.getElementById('pt-play-correct');
+    btn.classList.add('playing');
+
+    if (ttsCache[word]) {
+      var a = new Audio(ttsCache[word]);
+      a.onended = function() { btn.classList.remove('playing'); };
+      a.onerror = function() { btn.classList.remove('playing'); };
+      a.play();
+      return;
+    }
+
+    fetch('/speaking/word-audio/' + encodeURIComponent(word))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        ttsCache[word] = data.url;
+        var a = new Audio(data.url);
+        a.onended = function() { btn.classList.remove('playing'); };
+        a.onerror = function() { btn.classList.remove('playing'); };
+        a.play();
+      })
+      .catch(function() { btn.classList.remove('playing'); });
+  }
+
+  // Tooltip logic
+  var tooltip = document.getElementById('pron-tooltip');
+  var hideTimer = null;
+
+  function scheduleHide() { hideTimer = setTimeout(function() { tooltip.style.display = 'none'; stopCurrent(); }, 250); }
+  function cancelHide() { clearTimeout(hideTimer); }
+
+  tooltip.addEventListener('mouseenter', cancelHide);
+  tooltip.addEventListener('mouseleave', scheduleHide);
+
+  // Handle both click (mobile) and hover (desktop)
+  function showTooltip(wordEl) {
+    cancelHide();
+    var word = wordEl.dataset.word;
+    var offset = parseFloat(wordEl.dataset.offset);
+    var duration = parseFloat(wordEl.dataset.duration);
+    var accuracy = wordEl.dataset.accuracy;
+    var errorType = wordEl.dataset.error;
+
+    tooltip.querySelector('.pt-word').textContent = word;
+    tooltip.querySelector('.pt-accuracy').textContent = accuracy + '%';
+
+    var mineBtn = document.getElementById('pt-play-mine');
+    var correctBtn = document.getElementById('pt-play-correct');
+
+    // Disable "you said" for omitted words (no audio)
+    mineBtn.style.display = (errorType === 'Omission') ? 'none' : '';
+
+    mineBtn.onclick = function(e) { e.stopPropagation(); playSlice(offset, duration); };
+    correctBtn.onclick = function(e) { e.stopPropagation(); playCorrect(word); };
+
+    // Position like vocab tooltip
+    var r = wordEl.getBoundingClientRect();
+    tooltip.style.display = 'block';
+    var gap = 8;
+    var top = r.bottom + gap;
+    if (top + tooltip.offsetHeight > window.innerHeight) top = r.top - tooltip.offsetHeight - gap;
+    tooltip.style.top = top + 'px';
+    tooltip.style.left = Math.min(r.left, window.innerWidth - tooltip.offsetWidth - 8) + 'px';
+  }
+
+  document.addEventListener('click', function(e) {
+    var word = e.target.closest('.speaking-word');
+    if (word && word.dataset.word) {
+      e.stopPropagation();
+      showTooltip(word);
+      return;
+    }
+    // Click outside hides tooltip
+    if (!e.target.closest('#pron-tooltip')) {
+      tooltip.style.display = 'none';
+      stopCurrent();
+    }
+  });
+
+  document.addEventListener('mouseover', function(e) {
+    var word = e.target.closest('.speaking-word');
+    if (word && word.dataset.word) {
+      showTooltip(word);
+    }
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    if (e.target.closest('.speaking-word')) {
+      scheduleHide();
+    }
+  });
 })();
 </script>

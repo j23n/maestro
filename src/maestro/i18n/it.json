@@ -207,5 +207,9 @@
   "speaking_prompt_label": "Rispondi parlando:",
   "speaking_you_said": "Hai detto:",
   "speaking_feedback_label": "Feedback",
-  "speaking_nothing_recognized": "Non abbiamo riconosciuto nessuna parola. Riprova parlando pi\u00f9 vicino al microfono."
+  "speaking_nothing_recognized": "Non abbiamo riconosciuto nessuna parola. Riprova parlando pi\u00f9 vicino al microfono.",
+  "speaking_recorded": "Registrazione completata.",
+  "speaking_reset_btn": "Riprova",
+  "speaking_you_said_short": "\u25b6 Tu",
+  "speaking_correct_btn": "\u25b6 Corretta"
 }
