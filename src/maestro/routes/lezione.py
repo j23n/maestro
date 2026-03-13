@@ -1,3 +1,5 @@
+import asyncio
+import base64
 import json
 import logging
 from typing import Annotated
@@ -29,8 +31,12 @@ from maestro.learning.weakness import (
 )
 from maestro.vocab.query import get_word_definition
 from maestro.drills.scoring import score_attempt
-from maestro.learning.scorer import generate_writing_feedback
+from maestro.learning.scorer import (
+    generate_writing_feedback,
+    generate_speaking_feedback,
+)
 from maestro.i18n import t
+from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import templates, render_with_discover
 from maestro.utils import create_background_task, utcnow
@@ -349,6 +355,29 @@ async def lezione_activity(
 
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
+    # Completed speaking activities — show stored result
+    if is_review and activity.type == ActivityType.SPEAKING:
+        result = activity.result or {}
+        next_url = activity_url(lesson_id, lesson.current_index)
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-speaking-result-page.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "recognized_text": result.get("recognized_text"),
+                "pronunciation_score": result.get("pronunciation_score"),
+                "accuracy_score": result.get("accuracy_score"),
+                "fluency_score": result.get("fluency_score"),
+                "words": result.get("word_assessments", []),
+                "recorded_audio_b64": "",
+                "feedback": None,
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
     # Completed non-grammar activities are not revisitable — redirect to current activity
     if is_review and activity.type != ActivityType.GRAMMAR:
         return RedirectResponse(
@@ -448,8 +477,8 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.SPEAKING:
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-speaking.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-speaking.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.ONBOARDING:
@@ -827,6 +856,249 @@ async def lezione_writing_submit(
             "is_writing": True,
         },
     )
+
+
+@router.post(
+    "/lezione/{lesson_id}/activity/{idx}/speaking-submit", response_class=HTMLResponse
+)
+async def lezione_speaking_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+
+    activity = lesson.activities[idx]
+    form = await request.form()
+    audio_file = form.get("audio")
+    if audio_file is None or not hasattr(audio_file, "read"):
+        raise HTTPException(400, "No audio file provided")
+
+    max_audio_bytes = 2 * 1024 * 1024  # 2 MB
+    audio_bytes = await audio_file.read(max_audio_bytes + 1)
+    if len(audio_bytes) > max_audio_bytes:
+        raise HTTPException(413, "Audio file too large")
+
+    if audio_bytes[:4] != b"RIFF":
+        raise HTTPException(400, "Invalid audio format — expected WAV")
+
+    # --- Stage 1: Transcribe ---
+    from maestro.stt import transcribe, assess_pronunciation
+
+    recognized_text = None
+    try:
+        transcription = await transcribe(audio_bytes)
+        recognized_text = transcription.recognized_text
+    except Exception:
+        logger.exception(
+            "transcription failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answer": "", "correct": None}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-speaking-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "recognized_text": None,
+                "pronunciation_score": None,
+                "feedback": None,
+                "scoring_unavailable": t("scoring_unavailable"),
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
+    # --- Empty check ---
+    if not recognized_text or not recognized_text.strip():
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answer": "", "correct": None}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-speaking-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "recognized_text": "",
+                "pronunciation_score": None,
+                "feedback": None,
+                "nothing_recognized": t("speaking_nothing_recognized"),
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
+    # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
+    profile = await get_profile(student.id)
+    cefr_level = profile.cefr_estimate if profile else "A0"
+    prompt_text = activity.content or ""
+
+    feedback_coro = generate_speaking_feedback(
+        prompt_text,
+        recognized_text,
+        cefr_level,
+        student_id=student.id,
+        lesson_id=lesson.id,
+    )
+    pronunciation_coro = assess_pronunciation(audio_bytes, recognized_text)
+
+    results = await asyncio.gather(
+        feedback_coro, pronunciation_coro, return_exceptions=True
+    )
+    feedback_result = results[0]
+    pronunciation_result = results[1]
+
+    # Handle partial failures
+    feedback = None
+    if isinstance(feedback_result, Exception):
+        logger.error(
+            "LLM feedback failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+            exc_info=feedback_result,
+        )
+    else:
+        feedback = feedback_result
+
+    pronunciation = None
+    if isinstance(pronunciation_result, Exception):
+        logger.error(
+            "pronunciation scoring failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+            exc_info=pronunciation_result,
+        )
+    else:
+        pronunciation = pronunciation_result
+
+    # Both failed → scoring_unavailable
+    if feedback is None and pronunciation is None:
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answer": recognized_text, "correct": None}
+        )
+        return templates.TemplateResponse(
+            request=request,
+            name="lezione-speaking-result.html",
+            context={
+                "lesson": lesson,
+                "activity": activity,
+                "recognized_text": recognized_text,
+                "pronunciation_score": None,
+                "feedback": None,
+                "scoring_unavailable": t("scoring_unavailable"),
+                "next_url": next_url,
+                "idx": idx,
+                "total": len(lesson.activities),
+            },
+        )
+
+    # --- Build result and LearningEvent ---
+    speaking_result = {"student_answer": recognized_text}
+    if pronunciation:
+        speaking_result.update(
+            {
+                "pronunciation_score": pronunciation.pronunciation_score,
+                "accuracy_score": pronunciation.accuracy_score,
+                "fluency_score": pronunciation.fluency_score,
+                "completeness_score": pronunciation.completeness_score,
+                "recognized_text": recognized_text,
+            }
+        )
+        speaking_result["word_assessments"] = [
+            {
+                "word": w.word,
+                "accuracy_score": w.accuracy_score,
+                "error_type": w.error_type,
+                "offset_seconds": w.offset_seconds,
+                "duration_seconds": w.duration_seconds,
+            }
+            for w in pronunciation.words
+        ]
+
+    grammar_correct = []
+    grammar_errors = []
+    if feedback:
+        await taxonomy.ensure_loaded()
+        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        grammar_correct = [
+            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+        ]
+        grammar_errors = [
+            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+        ]
+
+    next_url = await advance_lesson(lesson, idx, result=speaking_result)
+
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.SPEAKING.value,
+        activity_index=idx,
+        student_text=recognized_text,
+        grammar_correct=grammar_correct,
+        grammar_errors=grammar_errors,
+    )
+    await event.insert()
+    logger.debug(
+        "speaking event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "pronunciation_score": pronunciation.pronunciation_score
+            if pronunciation
+            else None,
+            "grammar_errors": grammar_errors,
+            "grammar_correct": grammar_correct,
+        },
+    )
+
+    # --- Render combined result ---
+    recorded_audio_b64 = base64.b64encode(audio_bytes).decode() if pronunciation else ""
+
+    ctx = {
+        "lesson": lesson,
+        "activity": activity,
+        "recognized_text": recognized_text,
+        "pronunciation_score": pronunciation.pronunciation_score
+        if pronunciation
+        else None,
+        "accuracy_score": pronunciation.accuracy_score if pronunciation else None,
+        "fluency_score": pronunciation.fluency_score if pronunciation else None,
+        "words": [w.model_dump() for w in pronunciation.words] if pronunciation else [],
+        "recorded_audio_b64": recorded_audio_b64,
+        "feedback": feedback,
+        "next_url": next_url,
+        "idx": idx,
+        "total": len(lesson.activities),
+    }
+
+    return templates.TemplateResponse(
+        request=request,
+        name="lezione-speaking-result.html",
+        context=ctx,
+    )
+
+
+@router.get("/speaking/word-audio/{word:path}")
+@limiter.limit("30/minute")
+async def speaking_word_audio(
+    request: Request,
+    word: str,
+    student: Student = Depends(get_current_student),
+):
+    """Generate TTS for a word and return its static URL (JSON)."""
+    from maestro.tts import generate_word_audio
+
+    url = await generate_word_audio(word)
+    if url is None:
+        raise HTTPException(503, "TTS unavailable")
+    return {"url": url}
 
 
 @router.post(
