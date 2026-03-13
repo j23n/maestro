@@ -39,7 +39,7 @@ from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import templates, render_with_discover
-from maestro.utils import create_background_task, lang_wrap, strip_lang_spans, utcnow
+from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.discover import preprocess_grammar_markdown
 from maestro.vocab.srs import review
@@ -477,12 +477,8 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.SPEAKING:
-        lang = _settings.TARGET_LANGUAGE
-        ctx["annotated_content"] = await discover(
-            lang_wrap(activity.content or "", lang), student_id=student.id
-        )
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-speaking.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-speaking.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.ONBOARDING:
@@ -944,7 +940,7 @@ async def lezione_speaking_submit(
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
     profile = await get_profile(student.id)
     cefr_level = profile.cefr_estimate if profile else "A0"
-    prompt_text = strip_lang_spans(activity.content or "")
+    prompt_text = activity.content or ""
 
     feedback_coro = generate_speaking_feedback(
         prompt_text,
