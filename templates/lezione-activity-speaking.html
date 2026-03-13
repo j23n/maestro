@@ -191,6 +191,7 @@
         _audioCtx = new AudioContext();
         _source = _audioCtx.createMediaStreamSource(stream);
 
+        // TODO: migrate to AudioWorklet (ScriptProcessorNode is deprecated)
         // Use ScriptProcessorNode to capture raw PCM
         _processor = _audioCtx.createScriptProcessor(4096, 1, 1);
         _processor.onaudioprocess = function(e) {

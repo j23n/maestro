@@ -1,4 +1,5 @@
 import asyncio
+import base64
 import json
 import logging
 from typing import Annotated
@@ -35,6 +36,7 @@ from maestro.learning.scorer import (
     generate_speaking_feedback,
 )
 from maestro.i18n import t
+from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import templates, render_with_discover
 from maestro.utils import create_background_task, lang_wrap, strip_lang_spans, utcnow
@@ -367,8 +369,7 @@ async def lezione_activity(
                 "pronunciation_score": result.get("pronunciation_score"),
                 "accuracy_score": result.get("accuracy_score"),
                 "fluency_score": result.get("fluency_score"),
-                "completeness_score": result.get("completeness_score"),
-                "words": [],
+                "words": result.get("word_assessments", []),
                 "recorded_audio_b64": "",
                 "feedback": None,
                 "next_url": next_url,
@@ -885,6 +886,9 @@ async def lezione_speaking_submit(
     if len(audio_bytes) > max_audio_bytes:
         raise HTTPException(413, "Audio file too large")
 
+    if audio_bytes[:4] != b"RIFF":
+        raise HTTPException(400, "Invalid audio format — expected WAV")
+
     # --- Stage 1: Transcribe ---
     from maestro.stt import transcribe, assess_pronunciation
 
@@ -960,7 +964,7 @@ async def lezione_speaking_submit(
     # Handle partial failures
     feedback = None
     if isinstance(feedback_result, Exception):
-        logger.exception(
+        logger.error(
             "LLM feedback failed for speaking",
             extra={"lesson_id": str(lesson.id), "idx": idx},
             exc_info=feedback_result,
@@ -970,7 +974,7 @@ async def lezione_speaking_submit(
 
     pronunciation = None
     if isinstance(pronunciation_result, Exception):
-        logger.exception(
+        logger.error(
             "pronunciation scoring failed for speaking",
             extra={"lesson_id": str(lesson.id), "idx": idx},
             exc_info=pronunciation_result,
@@ -1011,6 +1015,16 @@ async def lezione_speaking_submit(
                 "recognized_text": recognized_text,
             }
         )
+        speaking_result["word_assessments"] = [
+            {
+                "word": w.word,
+                "accuracy_score": w.accuracy_score,
+                "error_type": w.error_type,
+                "offset_seconds": w.offset_seconds,
+                "duration_seconds": w.duration_seconds,
+            }
+            for w in pronunciation.words
+        ]
 
     grammar_correct = []
     grammar_errors = []
@@ -1049,8 +1063,6 @@ async def lezione_speaking_submit(
     )
 
     # --- Render combined result ---
-    import base64
-
     recorded_audio_b64 = base64.b64encode(audio_bytes).decode() if pronunciation else ""
 
     ctx = {
@@ -1062,9 +1074,6 @@ async def lezione_speaking_submit(
         else None,
         "accuracy_score": pronunciation.accuracy_score if pronunciation else None,
         "fluency_score": pronunciation.fluency_score if pronunciation else None,
-        "completeness_score": pronunciation.completeness_score
-        if pronunciation
-        else None,
         "words": [w.model_dump() for w in pronunciation.words] if pronunciation else [],
         "recorded_audio_b64": recorded_audio_b64,
         "feedback": feedback,
@@ -1081,7 +1090,9 @@ async def lezione_speaking_submit(
 
 
 @router.get("/speaking/word-audio/{word:path}")
+@limiter.limit("30/minute")
 async def speaking_word_audio(
+    request: Request,
     word: str,
     student: Student = Depends(get_current_student),
 ):
