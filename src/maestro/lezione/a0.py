@@ -16,20 +16,10 @@ from maestro.models import (
 )
 from maestro.profile import get_profile
 from maestro.strings import t
-from maestro.utils import data_dir, lang_wrap
+from maestro.utils import data_dir
 from maestro.lezione.selection import pick_scenario, fill_vocab_cards
 
 logger = logging.getLogger(__name__)
-
-
-def _it(text: str | None) -> str | None:
-    """Wrap text in <span lang="it">. No-op on empty/None."""
-    return lang_wrap(text, "it") if text else text
-
-
-def _en(text: str | None) -> str | None:
-    """Wrap text in <span lang="en">. No-op on empty/None."""
-    return lang_wrap(text, "en") if text else text
 
 
 async def _generate_a0_lesson_background(
@@ -58,9 +48,9 @@ async def _generate_a0_lesson_background(
         await lesson.update({"$set": {"generating": False}})
         return
 
-    topic_title = _it(lesson_data.get("topic_title", scenario.label))
-    topic_description = _en(lesson_data.get("topic_description", scenario.description))
-    overview = _en(lesson_data.get("overview", ""))
+    topic_title = lesson_data.get("topic_title", scenario.label)
+    topic_description = lesson_data.get("topic_description", scenario.description)
+    overview = lesson_data.get("overview", "")
 
     new_activities: list[LessonActivity] = []
     for act_data in lesson_data.get("activities", []):
@@ -70,10 +60,10 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.GRAMMAR,
-                    title=_en(act_data.get("title", "")),
-                    description=_en(act_data.get("description", "")),
+                    title=act_data.get("title", ""),
+                    description=act_data.get("description", ""),
                     content=act_data.get("content", ""),  # mixed lang; has inline spans
-                    why_important=_en(act_data.get("why_important")),
+                    why_important=act_data.get("why_important"),
                     grammar_point_code=act_data.get("grammar_point_code"),
                 )
             )
@@ -82,11 +72,11 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.ONBOARDING,
-                    title=_it(act_data.get("title", "")),
-                    description=_en(act_data.get("description", "")),
-                    content=_en(act_data.get("content", "")),
+                    title=act_data.get("title", ""),
+                    description=act_data.get("description", ""),
+                    content=act_data.get("content", ""),
                     profile_field=act_data.get("profile_field"),
-                    response_template=_en(act_data.get("response_template")),
+                    response_template=act_data.get("response_template"),
                 )
             )
 
@@ -98,8 +88,8 @@ async def _generate_a0_lesson_background(
             )
             items = [
                 DrillItem(
-                    prompt=_en(it["prompt"]),
-                    correct_answer=_it(it.get("correct_answer")),
+                    prompt=it["prompt"],
+                    correct_answer=it.get("correct_answer"),
                 )
                 for it in act_data.get("items", [])
             ]
@@ -116,10 +106,10 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.DRILL,
-                    title=_en(act_data.get("title", t("a0_drill_title", code=gp_code))),
-                    description=_en(act_data.get("description", exercise_type)),
+                    title=act_data.get("title", t("a0_drill_title", code=gp_code)),
+                    description=act_data.get("description", exercise_type),
                     drill_id=drill.id,
-                    hint=_en(act_data.get("hint")),
+                    hint=act_data.get("hint"),
                 )
             )
 
@@ -127,13 +117,11 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.READING,
-                    title=_en(act_data.get("title", t("a0_reading_title"))),
-                    description=_en(act_data.get("description", "")),
-                    content=_it(act_data.get("content", "")),
-                    questions=[_en(q) for q in act_data.get("questions", [])],
-                    correct_answers=[
-                        _it(a) for a in act_data.get("correct_answers", [])
-                    ],
+                    title=act_data.get("title", t("a0_reading_title")),
+                    description=act_data.get("description", ""),
+                    content=act_data.get("content", ""),
+                    questions=act_data.get("questions", []),
+                    correct_answers=act_data.get("correct_answers", []),
                 )
             )
 
@@ -141,13 +129,11 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.LISTENING,
-                    title=_en(act_data.get("title", t("listening_title"))),
-                    description=_en(act_data.get("description", "")),
-                    content=_it(act_data.get("content", "")),
-                    questions=[_en(q) for q in act_data.get("questions", [])],
-                    correct_answers=[
-                        _it(a) for a in act_data.get("correct_answers", [])
-                    ],
+                    title=act_data.get("title", t("listening_title")),
+                    description=act_data.get("description", ""),
+                    content=act_data.get("content", ""),
+                    questions=act_data.get("questions", []),
+                    correct_answers=act_data.get("correct_answers", []),
                     audio_path=act_data.get("audio_path"),
                 )
             )
@@ -156,9 +142,9 @@ async def _generate_a0_lesson_background(
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.WRITING,
-                    title=_en(act_data.get("title", t("a0_writing_title"))),
-                    description=_en(act_data.get("description", "")),
-                    content=_en(act_data.get("content", "")),
+                    title=act_data.get("title", t("a0_writing_title")),
+                    description=act_data.get("description", ""),
+                    content=act_data.get("content", ""),
                 )
             )
 

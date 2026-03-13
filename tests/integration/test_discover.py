@@ -6,7 +6,6 @@ from unittest.mock import AsyncMock, patch
 from beanie import PydanticObjectId
 from maestro.models import VocabularyWord, UserVocabularyCard
 from maestro.vocab import cache as _vocab_cache
-from maestro.vocab.discover import lang_wrap
 
 _FAKE_STUDENT_ID = PydanticObjectId()
 
@@ -39,7 +38,8 @@ async def test_discover_creates_cards_for_new_words(db):
         ),
     ):
         result = await discover(
-            lang_wrap("Voglio mangiare la pizza.", "it"), student_id=_FAKE_STUDENT_ID
+            '<span lang="it">Voglio mangiare la pizza.</span>',
+            student_id=_FAKE_STUDENT_ID,
         )
 
     cards = await UserVocabularyCard.find_all().to_list()
@@ -75,7 +75,7 @@ async def test_discover_annotates_known_words(db):
         ),
     ):
         result = await discover(
-            lang_wrap("Voglio bere acqua.", "it"), student_id=_FAKE_STUDENT_ID
+            '<span lang="it">Voglio bere acqua.</span>', student_id=_FAKE_STUDENT_ID
         )
 
     assert "vocab-word" in result
@@ -110,7 +110,7 @@ async def test_discover_skips_non_target_lang(db):
         ),
     ):
         result = await discover(
-            lang_wrap("The house is big.", "en"), student_id=_FAKE_STUDENT_ID
+            '<span lang="en">The house is big.</span>', student_id=_FAKE_STUDENT_ID
         )
 
     # No annotation because the text is in English, not target language (it)

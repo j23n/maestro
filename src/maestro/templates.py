@@ -6,13 +6,13 @@ from fastapi.templating import Jinja2Templates
 from maestro.config import settings
 from maestro.i18n import t as i18n_t
 
-templates = Jinja2Templates(directory="templates")
-templates.env.filters["markdown"] = lambda x: markdown.markdown(
+_templates = Jinja2Templates(directory="templates")
+_templates.env.filters["markdown"] = lambda x: markdown.markdown(
     x, extensions=["extra", "nl2br", "sane_lists"]
 )
-templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
-templates.env.globals["t"] = i18n_t
-templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
+_templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
+_templates.env.globals["t"] = i18n_t
+_templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
 
 
 async def render_with_discover(
@@ -27,7 +27,7 @@ async def render_with_discover(
     """Render a Jinja template, then run vocab discover() on the full HTML."""
     from maestro.vocab.discover import discover, hide_translations
 
-    response = templates.TemplateResponse(
+    response = _templates.TemplateResponse(
         request=request, name=name, context=context, status_code=status_code
     )
     if student_id is not None:

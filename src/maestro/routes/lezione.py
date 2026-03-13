@@ -38,7 +38,7 @@ from maestro.learning.scorer import (
 from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro import taxonomy
-from maestro.templates import templates, render_with_discover
+from maestro.templates import render_with_discover
 from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.discover import preprocess_grammar_markdown
@@ -101,10 +101,8 @@ async def lezione_index(
     cefr = profile.cefr_estimate if profile else "A0"
 
     if cefr == "A0":
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-index.html",
-            context={"cefr": cefr},
+        return await render_with_discover(
+            request, "lezione-index.html", {"cefr": cefr}, student_id=student.id
         )
 
     # A1+: build config screen data
@@ -114,10 +112,8 @@ async def lezione_index(
     scenarios = await CurriculumScenario.find({"cefr_level": cefr}).to_list()
     if not scenarios:
         # No scenarios seeded for this level — fall back to simple start
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-index.html",
-            context={"cefr": "A0"},  # render A0 simple form
+        return await render_with_discover(
+            request, "lezione-index.html", {"cefr": "A0"}, student_id=student.id
         )
 
     auto_scenario, auto_depth = await _pick_scenario(profile, cefr)
@@ -140,16 +136,17 @@ async def lezione_index(
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     weaknesses = top_weaknesses(grammar_by_level, cefr)
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-index.html",
-        context={
+    return await render_with_discover(
+        request,
+        "lezione-index.html",
+        {
             "cefr": cefr,
             "scenario_options": scenario_options,
             "auto_scenario_slug": auto_scenario.slug,
             "weaknesses": weaknesses,
             "persona": profile.persona if profile else None,
         },
+        student_id=student.id,
     )
 
 
@@ -171,10 +168,11 @@ async def lezione_create(
                 "tier limit reached",
                 extra={"student_id": str(student.id), "used": used, "limit": limit},
             )
-            return templates.TemplateResponse(
-                request=request,
-                name="lezione-limit.html",
-                context={"limit": limit},
+            return await render_with_discover(
+                request,
+                "lezione-limit.html",
+                {"limit": limit},
+                student_id=student.id,
                 status_code=402,
             )
 
@@ -246,10 +244,11 @@ async def lezione_generating(
     if not lesson.generating:
         if lesson.generation_error:
             # Show error state with retry button
-            return templates.TemplateResponse(
-                request=request,
-                name="lezione-generating.html",
-                context={"lesson": lesson},
+            return await render_with_discover(
+                request,
+                "lezione-generating.html",
+                {"lesson": lesson},
+                student_id=student.id,
             )
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
@@ -282,10 +281,11 @@ async def lezione_generating(
             if lesson.cefr_at_start == "A0":
                 await _credit_a0_mastery(lesson)
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-generating.html",
-        context={"lesson": lesson},
+    return await render_with_discover(
+        request,
+        "lezione-generating.html",
+        {"lesson": lesson},
+        student_id=student.id,
     )
 
 
@@ -359,10 +359,10 @@ async def lezione_activity(
     if is_review and activity.type == ActivityType.SPEAKING:
         result = activity.result or {}
         next_url = activity_url(lesson_id, lesson.current_index)
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-speaking-result-page.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-speaking-result-page.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "recognized_text": result.get("recognized_text"),
@@ -376,6 +376,7 @@ async def lezione_activity(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     # Completed non-grammar activities are not revisitable — redirect to current activity
@@ -421,8 +422,8 @@ async def lezione_activity(
         ctx["card"] = card
         ctx["word_def"] = word_def
         ctx["mode"] = "word"
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-vocab.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-vocab.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.READING:
@@ -482,8 +483,8 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.ONBOARDING:
-        return templates.TemplateResponse(
-            request=request, name="lezione-activity-onboarding.html", context=ctx
+        return await render_with_discover(
+            request, "lezione-activity-onboarding.html", ctx, student_id=student.id
         )
 
     raise HTTPException(400, f"Unknown activity type: {activity.type}")
@@ -556,10 +557,11 @@ async def lezione_onboarding_submit(
         {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
     )
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-onboarding-response.html",
-        context={"lesson": lesson, "idx": idx, "response_text": response_text},
+    return await render_with_discover(
+        request,
+        "lezione-onboarding-response.html",
+        {"lesson": lesson, "idx": idx, "response_text": response_text},
+        student_id=student.id,
     )
 
 
@@ -601,10 +603,10 @@ async def lezione_drill_submit(
         next_url = await advance_lesson(
             lesson, idx, result={"correct": None, "student_answer": ""}
         )
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-drill-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-drill-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "drill": drill,
@@ -616,6 +618,7 @@ async def lezione_drill_submit(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     stored_answer = (
@@ -663,10 +666,10 @@ async def lezione_drill_submit(
     feedback = feedback or None
     next_url = await advance_lesson(lesson, idx, result=drill_result)
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-drill-result.html",
-        context={
+    return await render_with_discover(
+        request,
+        "lezione-drill-result.html",
+        {
             "lesson": lesson,
             "activity": activity,
             "drill": drill,
@@ -678,6 +681,7 @@ async def lezione_drill_submit(
             "idx": idx,
             "total": len(lesson.activities),
         },
+        student_id=student.id,
     )
 
 
@@ -718,7 +722,6 @@ async def lezione_vocab_reveal(
             "review_extra_name": "card_idx",
             "review_extra_value": card_idx,
         },
-        student_id=student.id,
     )
 
 
@@ -791,10 +794,10 @@ async def lezione_writing_submit(
         )
         next_url = await advance_lesson(lesson, idx, result={"student_answer": answer})
         # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-drill-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-drill-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "drill": None,
@@ -807,6 +810,7 @@ async def lezione_writing_submit(
                 "total": len(lesson.activities),
                 "is_writing": True,
             },
+            student_id=student.id,
         )
 
     await taxonomy.ensure_loaded()
@@ -837,10 +841,10 @@ async def lezione_writing_submit(
     writing_result = {"student_answer": answer}
     next_url = await advance_lesson(lesson, idx, result=writing_result)
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-drill-result.html",
-        context={
+    return await render_with_discover(
+        request,
+        "lezione-drill-result.html",
+        {
             "lesson": lesson,
             "activity": activity,
             "drill": None,
@@ -855,6 +859,7 @@ async def lezione_writing_submit(
             "total": len(lesson.activities),
             "is_writing": True,
         },
+        student_id=student.id,
     )
 
 
@@ -900,10 +905,10 @@ async def lezione_speaking_submit(
         next_url = await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-speaking-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-speaking-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "recognized_text": None,
@@ -914,6 +919,7 @@ async def lezione_speaking_submit(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     # --- Empty check ---
@@ -921,10 +927,10 @@ async def lezione_speaking_submit(
         next_url = await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-speaking-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-speaking-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "recognized_text": "",
@@ -935,6 +941,7 @@ async def lezione_speaking_submit(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
@@ -983,10 +990,10 @@ async def lezione_speaking_submit(
         next_url = await advance_lesson(
             lesson, idx, result={"student_answer": recognized_text, "correct": None}
         )
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-speaking-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-speaking-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "recognized_text": recognized_text,
@@ -997,6 +1004,7 @@ async def lezione_speaking_submit(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     # --- Build result and LearningEvent ---
@@ -1078,10 +1086,11 @@ async def lezione_speaking_submit(
         "total": len(lesson.activities),
     }
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-speaking-result.html",
-        context=ctx,
+    return await render_with_discover(
+        request,
+        "lezione-speaking-result.html",
+        ctx,
+        student_id=student.id,
     )
 
 
@@ -1139,10 +1148,10 @@ async def lezione_reading_submit(
             lesson, idx, result={"student_answers": answers, "correct": None}
         )
         # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
-        return templates.TemplateResponse(
-            request=request,
-            name="lezione-drill-result.html",
-            context={
+        return await render_with_discover(
+            request,
+            "lezione-drill-result.html",
+            {
                 "lesson": lesson,
                 "activity": activity,
                 "drill": None,
@@ -1154,6 +1163,7 @@ async def lezione_reading_submit(
                 "idx": idx,
                 "total": len(lesson.activities),
             },
+            student_id=student.id,
         )
 
     joined_answers = " | ".join(a for a in answers if a)
@@ -1171,10 +1181,10 @@ async def lezione_reading_submit(
     reading_result = {"student_answers": answers, "correct": overall_correct}
     next_url = await advance_lesson(lesson, idx, result=reading_result)
 
-    return templates.TemplateResponse(
-        request=request,
-        name="lezione-drill-result.html",
-        context={
+    return await render_with_discover(
+        request,
+        "lezione-drill-result.html",
+        {
             "lesson": lesson,
             "activity": activity,
             "drill": None,
@@ -1186,6 +1196,7 @@ async def lezione_reading_submit(
             "idx": idx,
             "total": len(lesson.activities),
         },
+        student_id=student.id,
     )
 
 
