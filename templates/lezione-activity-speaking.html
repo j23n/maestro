@@ -1,20 +1,405 @@
 {% extends "base.html" %}
 {% block title %}{{ t("page_title_speaking") }} — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/speaking.css">{% endblock %}
 
 {% block content %}
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
-  <div class="card" style="text-align:center; padding:2.5rem;">
-    <div class="stub-icon">🎙️</div>
-    <div class="stub-title">{{ t("speaking_title") }}</div>
-    <div class="stub-desc">{{ t("speaking_desc") }}</div>
+  <div class="card" id="speaking-card">
+    <div class="card-label">{{ t("speaking_title") }}</div>
 
-    <button class="continue-btn"
-            hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
-            hx-target="body">
-      {{ t("skip_btn") }}
-    </button>
+    <div class="speaking-prompt">
+      <div class="speaking-prompt-label">{{ t("speaking_prompt_label") }}</div>
+      <div class="speaking-prompt-text" lang="it">{{ activity.content }}</div>
+    </div>
+
+    {# ── Error states ── #}
+    <div id="speaking-unsupported" class="speaking-error" style="display:none;">
+      {{ t("speaking_not_supported") }}
+    </div>
+    <div id="speaking-denied" class="speaking-error" style="display:none;">
+      {{ t("speaking_mic_denied") }}
+    </div>
+
+    {# ── Recording controls ── #}
+    <div id="speaking-controls" class="speaking-controls">
+      <button id="record-btn" class="speaking-record-btn" type="button" onclick="startRecording()">
+        <span class="record-icon"></span>
+        <span id="record-label">{{ t("speaking_record_btn") }}</span>
+      </button>
+      <div id="recording-timer" class="recording-timer" style="display:none;">0:00</div>
+    </div>
+
+    {# ── Review state (after recording, before submit) ── #}
+    <div id="speaking-review" class="speaking-review" style="display:none;">
+      <div class="audio-player-wrap" style="margin:0;">
+        <audio id="review-audio" preload="auto"></audio>
+        <div class="mini-player">
+          <button class="play-btn play-btn-sm" type="button" id="review-play-btn">
+            ▶ {{ t("listen_btn") }}
+          </button>
+          <input class="speed-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0"
+                 id="review-speed-slider">
+          <span class="speed-label" id="review-speed-label">1.0×</span>
+        </div>
+      </div>
+      <div class="speaking-review-actions">
+        <button id="reset-btn" class="speaking-reset-btn" type="button" onclick="resetRecording()">{{ t("speaking_reset_btn") }}</button>
+        <button id="submit-btn" class="speaking-submit-btn" type="button" onclick="confirmSubmit()">{{ t("drill_submit") }}</button>
+      </div>
+    </div>
+
+    {# ── Submitting state ── #}
+    <div id="speaking-submitting" class="speaking-submitting" style="display:none;">
+      {{ t("speaking_submit_progress") }}
+    </div>
+
+    <div class="submit-row" id="speaking-skip-row">
+      <a class="skip-link"
+         hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+         hx-target="body"
+         href="#">{{ t("skip_btn") }}</a>
+    </div>
   </div>
 </div>
+
+<style>
+.speaking-prompt {
+  margin-bottom: 1.5rem;
+  padding: 1.2rem;
+  background: var(--bg-secondary, #f7f7f7);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent, #4a7c59);
+}
+.speaking-prompt-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+.speaking-prompt-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+.speaking-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.speaking-record-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  background: #c0392b;
+  color: #fff;
+  transition: background 0.2s, transform 0.1s;
+}
+.speaking-record-btn:hover {
+  background: #a93226;
+}
+.speaking-record-btn:active {
+  transform: scale(0.97);
+}
+.speaking-record-btn.recording {
+  animation: pulse-record 1.2s ease-in-out infinite;
+  background: #e74c3c;
+}
+.record-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: border-radius 0.2s;
+}
+.speaking-record-btn.recording .record-icon {
+  border-radius: 3px;
+  width: 12px;
+  height: 12px;
+}
+@keyframes pulse-record {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(231,76,60,0); }
+}
+.recording-timer {
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+  color: #c0392b;
+  font-weight: 600;
+}
+.speaking-submitting {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 1rem;
+  color: #888;
+}
+.speaking-error {
+  text-align: center;
+  padding: 1rem;
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+/* review/reset/submit styles in /static/speaking.css */
+</style>
+
+<script>
+(function() {
+  var _stream = null;
+  var _audioCtx = null;
+  var _processor = null;
+  var _source = null;
+  var _chunks = [];
+  var _recording = false;
+  var _timerInterval = null;
+  var _startTime = 0;
+  var _maxDuration = 30; // seconds
+  var SAMPLE_RATE = 16000;
+  var _pendingBlob = null;
+  var _reviewBlobUrl = null;
+
+  var submitUrl = '/lezione/{{ lesson.id }}/activity/{{ idx }}/speaking-submit';
+
+  // Check browser support
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.AudioContext) {
+    document.getElementById('speaking-controls').style.display = 'none';
+    document.getElementById('speaking-unsupported').style.display = 'block';
+  }
+
+  window.startRecording = function() {
+    if (_recording) {
+      stopRecording();
+      return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        _stream = stream;
+        _chunks = [];
+        _recording = true;
+
+        _audioCtx = new AudioContext();
+        _source = _audioCtx.createMediaStreamSource(stream);
+
+        // TODO: migrate to AudioWorklet (ScriptProcessorNode is deprecated)
+        // Use ScriptProcessorNode to capture raw PCM
+        _processor = _audioCtx.createScriptProcessor(4096, 1, 1);
+        _processor.onaudioprocess = function(e) {
+          if (!_recording) return;
+          var data = e.inputBuffer.getChannelData(0);
+          _chunks.push(new Float32Array(data));
+        };
+        _source.connect(_processor);
+        _processor.connect(_audioCtx.destination);
+
+        // Update UI
+        var btn = document.getElementById('record-btn');
+        btn.classList.add('recording');
+        document.getElementById('record-label').textContent = '{{ t("speaking_stop_btn") }}';
+        var timerEl = document.getElementById('recording-timer');
+        timerEl.style.display = 'block';
+        _startTime = Date.now();
+        _timerInterval = setInterval(function() {
+          var elapsed = Math.floor((Date.now() - _startTime) / 1000);
+          var m = Math.floor(elapsed / 60);
+          var s = elapsed % 60;
+          timerEl.textContent = m + ':' + String(s).padStart(2, '0');
+          if (elapsed >= _maxDuration) {
+            stopRecording();
+          }
+        }, 250);
+      })
+      .catch(function(err) {
+        console.error('Mic access denied:', err);
+        document.getElementById('speaking-controls').style.display = 'none';
+        document.getElementById('speaking-denied').style.display = 'block';
+      });
+  };
+
+  function stopRecording() {
+    _recording = false;
+    clearInterval(_timerInterval);
+
+    var nativeSR = _audioCtx ? _audioCtx.sampleRate : SAMPLE_RATE;
+
+    // Disconnect audio nodes
+    if (_processor) { _processor.disconnect(); _processor = null; }
+    if (_source) { _source.disconnect(); _source = null; }
+    if (_audioCtx) { _audioCtx.close(); _audioCtx = null; }
+
+    // Stop mic stream
+    if (_stream) {
+      _stream.getTracks().forEach(function(t) { t.stop(); });
+      _stream = null;
+    }
+
+    // Encode WAV (downsampled to SAMPLE_RATE) and show review
+    _pendingBlob = encodeWAV(_chunks, nativeSR, SAMPLE_RATE);
+
+    // Wire up audio review player
+    var reviewAudio = document.getElementById('review-audio');
+    if (_reviewBlobUrl) URL.revokeObjectURL(_reviewBlobUrl);
+    _reviewBlobUrl = URL.createObjectURL(_pendingBlob);
+    reviewAudio.src = _reviewBlobUrl;
+
+    // Show review state
+    document.getElementById('speaking-controls').style.display = 'none';
+    document.getElementById('speaking-review').style.display = 'flex';
+  }
+
+  // Review player controls
+  var _reviewPlayBtn = document.getElementById('review-play-btn');
+  var _reviewAudio = document.getElementById('review-audio');
+  var _reviewSpeedSlider = document.getElementById('review-speed-slider');
+  var _reviewSpeedLabel = document.getElementById('review-speed-label');
+
+  _reviewPlayBtn.addEventListener('click', function() {
+    if (_reviewAudio.paused) { _reviewAudio.play(); }
+    else { _reviewAudio.pause(); }
+  });
+  _reviewAudio.addEventListener('play', function() { _reviewPlayBtn.textContent = '⏸ {{ t("listen_btn") }}'; });
+  _reviewAudio.addEventListener('pause', function() { _reviewPlayBtn.textContent = '▶ {{ t("listen_btn") }}'; });
+  _reviewAudio.addEventListener('ended', function() { _reviewPlayBtn.textContent = '▶ {{ t("listen_btn") }}'; });
+  _reviewSpeedSlider.addEventListener('input', function() {
+    _reviewAudio.playbackRate = parseFloat(this.value);
+    _reviewSpeedLabel.textContent = parseFloat(this.value).toFixed(1) + '×';
+  });
+
+  window.resetRecording = function() {
+    _pendingBlob = null;
+    _chunks = [];
+    _reviewAudio.pause();
+    _reviewAudio.src = '';
+    if (_reviewBlobUrl) { URL.revokeObjectURL(_reviewBlobUrl); _reviewBlobUrl = null; }
+    document.getElementById('speaking-review').style.display = 'none';
+    document.getElementById('speaking-controls').style.display = 'flex';
+    var btn = document.getElementById('record-btn');
+    btn.classList.remove('recording');
+    document.getElementById('record-label').textContent = '{{ t("speaking_record_btn") }}';
+    document.getElementById('recording-timer').style.display = 'none';
+    document.getElementById('recording-timer').textContent = '0:00';
+  };
+
+  window.confirmSubmit = function() {
+    if (_pendingBlob) submitAudio(_pendingBlob);
+  };
+
+  function encodeWAV(chunks, nativeSR, targetSR) {
+    // Merge all Float32 chunks
+    var totalLen = 0;
+    for (var i = 0; i < chunks.length; i++) totalLen += chunks[i].length;
+    var merged = new Float32Array(totalLen);
+    var offset = 0;
+    for (var i = 0; i < chunks.length; i++) {
+      merged.set(chunks[i], offset);
+      offset += chunks[i].length;
+    }
+
+    // Downsample if native rate differs from target
+    if (nativeSR !== targetSR) {
+      var ratio = nativeSR / targetSR;
+      var newLen = Math.round(merged.length / ratio);
+      var downsampled = new Float32Array(newLen);
+      for (var i = 0; i < newLen; i++) {
+        downsampled[i] = merged[Math.round(i * ratio)];
+      }
+      merged = downsampled;
+    }
+
+    // Convert Float32 -> Int16
+    var pcm = new Int16Array(merged.length);
+    for (var i = 0; i < merged.length; i++) {
+      var s = Math.max(-1, Math.min(1, merged[i]));
+      pcm[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+    var sampleRate = targetSR;
+
+    // Build WAV file
+    var dataLen = pcm.length * 2;
+    var buffer = new ArrayBuffer(44 + dataLen);
+    var view = new DataView(buffer);
+
+    // RIFF header
+    writeString(view, 0, 'RIFF');
+    view.setUint32(4, 36 + dataLen, true);
+    writeString(view, 8, 'WAVE');
+    // fmt chunk
+    writeString(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);          // chunk size
+    view.setUint16(20, 1, true);           // PCM format
+    view.setUint16(22, 1, true);           // mono
+    view.setUint32(24, sampleRate, true);   // sample rate
+    view.setUint32(28, sampleRate * 2, true); // byte rate
+    view.setUint16(32, 2, true);           // block align
+    view.setUint16(34, 16, true);          // bits per sample
+    // data chunk
+    writeString(view, 36, 'data');
+    view.setUint32(40, dataLen, true);
+
+    // Write PCM samples
+    var pcmBytes = new Uint8Array(buffer, 44);
+    var pcmView = new Uint8Array(pcm.buffer);
+    pcmBytes.set(pcmView);
+
+    return new Blob([buffer], { type: 'audio/wav' });
+  }
+
+  function writeString(view, offset, str) {
+    for (var i = 0; i < str.length; i++) {
+      view.setUint8(offset + i, str.charCodeAt(i));
+    }
+  }
+
+  function submitAudio(wavBlob) {
+    // Show submitting state
+    document.getElementById('speaking-controls').style.display = 'none';
+    document.getElementById('speaking-review').style.display = 'none';
+    document.getElementById('speaking-submitting').style.display = 'block';
+    document.getElementById('speaking-skip-row').style.display = 'none';
+
+    var csrfMatch = document.cookie.match(/csrftoken=([^;]+)/);
+    var csrfToken = csrfMatch ? csrfMatch[1] : '';
+
+    var formData = new FormData();
+    formData.append('audio', wavBlob, 'recording.wav');
+
+    fetch(submitUrl, {
+      method: 'POST',
+      headers: { 'x-csrftoken': csrfToken },
+      body: formData
+    })
+    .then(function(resp) {
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      return resp.text();
+    })
+    .then(function(html) {
+      var container = document.querySelector('.activity-container');
+      container.innerHTML = html;
+      // innerHTML doesn't execute <script> tags — re-create them
+      container.querySelectorAll('script').forEach(function(old) {
+        var s = document.createElement('script');
+        s.textContent = old.textContent;
+        old.parentNode.replaceChild(s, old);
+      });
+    })
+    .catch(function(err) {
+      console.error('Speaking submit failed:', err);
+      // Re-show review state on error so user can retry or reset
+      document.getElementById('speaking-review').style.display = 'flex';
+      document.getElementById('speaking-submitting').style.display = 'none';
+      document.getElementById('speaking-skip-row').style.display = 'flex';
+    });
+  }
+})();
+</script>
 {% endblock %}

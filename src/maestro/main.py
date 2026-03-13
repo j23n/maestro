@@ -55,6 +55,8 @@ class _DevFormatter(logging.Formatter):
         extra = getattr(record, "_extra", None)
         if extra:
             base += " [" + ", ".join(f"{k}={v}" for k, v in extra.items()) + "]"
+        if record.exc_info and record.exc_info[0] is not None:
+            base += "\n" + self.formatException(record.exc_info)
         return base
 
 
@@ -141,6 +143,11 @@ async def lifespan(app: FastAPI):
 
     if _get_tts_client.cache_info().currsize:
         await _get_tts_client().aclose()
+
+    from maestro.stt import _get_stt_client
+
+    if _get_stt_client.cache_info().currsize:
+        await _get_stt_client().aclose()
 
 
 app = FastAPI(lifespan=lifespan)
