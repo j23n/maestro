@@ -705,10 +705,10 @@ async def lezione_vocab_reveal(
     profile = await get_profile(student.id)
     level = profile.cefr_estimate if profile else "A0"
     word_def = await get_word_definition(card.word, level)
-    return await render_with_discover(
-        request,
-        "vocab-card-back.html",
-        {
+    return templates.TemplateResponse(
+        request=request,
+        name="vocab-card-back.html",
+        context={
             "card": card,
             "word_def": word_def,
             "mode": "word",
@@ -718,7 +718,6 @@ async def lezione_vocab_reveal(
             "review_extra_name": "card_idx",
             "review_extra_value": card_idx,
         },
-        student_id=student.id,
     )
 
 

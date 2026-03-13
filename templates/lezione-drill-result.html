@@ -5,7 +5,7 @@
 
   {% if feedback and feedback is mapping and "scoring_unavailable" in feedback %}
     <div class="result-unavailable">
-      <span lang="en">{{ feedback.scoring_unavailable }}</span>
+      {{ feedback.scoring_unavailable }}
     </div>
   {% elif feedback and feedback is mapping and "items" in feedback %}
     {# ── Multi-item result ── #}
