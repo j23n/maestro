@@ -1,0 +1,304 @@
+/* =====================================================================
+   Speaking result — pronunciation scores, word pills, tooltip
+   ===================================================================== */
+
+/* ── Section labels ── */
+.sr-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted);
+  margin-bottom: 0.35rem;
+}
+
+/* ── Transcript ── */
+.sr-transcript {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--c-surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--c-sage);
+}
+.sr-transcript-text {
+  font-family: var(--f-serif);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--c-charcoal);
+  margin: 0;
+}
+
+/* ── Score hero (ring) ── */
+.sr-score-hero {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+.sr-score-ring {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+}
+.sr-score-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.sr-ring-bg {
+  fill: none;
+  stroke: var(--c-border);
+  stroke-width: 5;
+}
+.sr-ring-fg {
+  fill: none;
+  stroke: var(--c-sage);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: calc(220 - (220 * var(--pct) / 100));
+  transition: stroke-dashoffset 0.8s ease-out;
+}
+.sr-score-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--c-charcoal);
+}
+.sr-score-hero-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted);
+  margin-top: 0.2rem;
+}
+
+/* ── Sub-scores row ── */
+.sr-scores-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  padding: 0.65rem 0;
+  background: var(--c-surface);
+  border-radius: 8px;
+}
+.sr-metric {
+  flex: 1;
+  text-align: center;
+}
+.sr-metric-value {
+  display: block;
+  font-family: var(--f-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--c-charcoal);
+}
+.sr-metric-label {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-muted);
+  margin-top: 0.1rem;
+}
+.sr-metric-divider {
+  width: 1px;
+  height: 2rem;
+  background: var(--c-border);
+}
+
+/* ── Per-word pills ── */
+.sr-words-label {
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  margin-bottom: 0.4rem;
+  font-style: italic;
+}
+.sr-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 1.25rem;
+}
+.sr-word {
+  display: inline-block;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.15s ease;
+  border: 1px solid transparent;
+}
+.sr-word:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.sr-w-good {
+  background: #e8f5e1;
+  color: #3d6f45;
+  border-color: #c4dfc5;
+}
+.sr-w-mid {
+  background: #fdf4dc;
+  color: #8a6d1b;
+  border-color: #eee0aa;
+}
+.sr-w-bad {
+  background: #fce8e6;
+  color: #9e2b25;
+  border-color: #f0c5c1;
+}
+.sr-w-omit {
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  text-decoration: line-through;
+  border-color: var(--c-border);
+  cursor: default;
+}
+.sr-w-omit:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Feedback section ── */
+.sr-feedback {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--c-border);
+}
+.sr-feedback-note {
+  font-size: 0.88rem;
+  color: var(--c-text);
+  line-height: 1.55;
+  margin: 0 0 0.5rem;
+}
+
+/* ── Notice (errors, nothing recognized) ── */
+.sr-notice {
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
+  padding: 1.25rem;
+  background: var(--c-surface);
+  border-radius: 8px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── Pronunciation tooltip ── */
+#pron-tooltip {
+  position: fixed;
+  display: none;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(45,41,38,0.10);
+  padding: 0.55rem 0.75rem 0.65rem;
+  pointer-events: auto;
+  min-width: 160px;
+  max-width: 240px;
+}
+#pron-tooltip .pt-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+#pron-tooltip .pt-word {
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 1em;
+  color: var(--c-charcoal);
+}
+#pron-tooltip .pt-accuracy-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+}
+#pron-tooltip .pt-buttons {
+  display: flex;
+  gap: 0.35rem;
+}
+#pron-tooltip .pt-play-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--c-text);
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+#pron-tooltip .pt-play-btn:hover {
+  background: var(--c-cream);
+  border-color: var(--c-text-muted);
+}
+#pron-tooltip .pt-play-btn.playing {
+  background: var(--c-cream);
+  border-color: var(--c-sage);
+  color: var(--c-sage);
+}
+#pron-tooltip .pt-play-correct {
+  background: #fff;
+}
+#pron-tooltip .pt-icon {
+  font-size: 0.85em;
+}
+
+/* ── Recording review ── */
+.speaking-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.speaking-review-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+.speaking-reset-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px solid var(--c-border);
+  border-radius: 2rem;
+  background: #fff;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.speaking-reset-btn:hover {
+  border-color: var(--c-text-muted);
+  color: var(--c-text);
+}
+.speaking-submit-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  background: var(--c-terracotta);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.speaking-submit-btn:hover {
+  background: #b34a2e;
+}
