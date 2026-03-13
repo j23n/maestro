@@ -32,7 +32,17 @@
 
     {# ── Review state (after recording, before submit) ── #}
     <div id="speaking-review" class="speaking-review" style="display:none;">
-      <div class="speaking-review-label">{{ t("speaking_recorded") }}</div>
+      <div class="audio-player-wrap" style="margin:0;">
+        <audio id="review-audio" preload="auto"></audio>
+        <div class="mini-player">
+          <button class="play-btn play-btn-sm" type="button" id="review-play-btn">
+            ▶ {{ t("listen_btn") }}
+          </button>
+          <input class="speed-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0"
+                 id="review-speed-slider">
+          <span class="speed-label" id="review-speed-label">1.0×</span>
+        </div>
+      </div>
       <div class="speaking-review-actions">
         <button id="reset-btn" class="speaking-reset-btn" type="button" onclick="resetRecording()">{{ t("speaking_reset_btn") }}</button>
         <button id="submit-btn" class="speaking-submit-btn" type="button" onclick="confirmSubmit()">{{ t("drill_submit") }}</button>
@@ -198,6 +208,7 @@
   var _maxDuration = 30; // seconds
   var SAMPLE_RATE = 16000;
   var _pendingBlob = null;
+  var _reviewBlobUrl = null;
 
   var submitUrl = '/lezione/{{ lesson.id }}/activity/{{ idx }}/speaking-submit';
 
@@ -276,14 +287,41 @@
     // Encode WAV (downsampled to SAMPLE_RATE) and show review
     _pendingBlob = encodeWAV(_chunks, nativeSR, SAMPLE_RATE);
 
+    // Wire up audio review player
+    var reviewAudio = document.getElementById('review-audio');
+    if (_reviewBlobUrl) URL.revokeObjectURL(_reviewBlobUrl);
+    _reviewBlobUrl = URL.createObjectURL(_pendingBlob);
+    reviewAudio.src = _reviewBlobUrl;
+
     // Show review state
     document.getElementById('speaking-controls').style.display = 'none';
     document.getElementById('speaking-review').style.display = 'flex';
   }
 
+  // Review player controls
+  var _reviewPlayBtn = document.getElementById('review-play-btn');
+  var _reviewAudio = document.getElementById('review-audio');
+  var _reviewSpeedSlider = document.getElementById('review-speed-slider');
+  var _reviewSpeedLabel = document.getElementById('review-speed-label');
+
+  _reviewPlayBtn.addEventListener('click', function() {
+    if (_reviewAudio.paused) { _reviewAudio.play(); }
+    else { _reviewAudio.pause(); }
+  });
+  _reviewAudio.addEventListener('play', function() { _reviewPlayBtn.textContent = '⏸ {{ t("listen_btn") }}'; });
+  _reviewAudio.addEventListener('pause', function() { _reviewPlayBtn.textContent = '▶ {{ t("listen_btn") }}'; });
+  _reviewAudio.addEventListener('ended', function() { _reviewPlayBtn.textContent = '▶ {{ t("listen_btn") }}'; });
+  _reviewSpeedSlider.addEventListener('input', function() {
+    _reviewAudio.playbackRate = parseFloat(this.value);
+    _reviewSpeedLabel.textContent = parseFloat(this.value).toFixed(1) + '×';
+  });
+
   window.resetRecording = function() {
     _pendingBlob = null;
     _chunks = [];
+    _reviewAudio.pause();
+    _reviewAudio.src = '';
+    if (_reviewBlobUrl) { URL.revokeObjectURL(_reviewBlobUrl); _reviewBlobUrl = null; }
     document.getElementById('speaking-review').style.display = 'none';
     document.getElementById('speaking-controls').style.display = 'flex';
     var btn = document.getElementById('record-btn');
