@@ -7,7 +7,7 @@
 
   <div class="reading-card">
     <div class="reading-title">{{ t("reading_title") }}</div>
-    <div class="reading-text">{{ annotated_content | safe }}</div>
+    <div class="reading-text" lang="it">{{ activity.content | safe }}</div>
   </div>
 
   {% if is_review %}
@@ -23,9 +23,9 @@
           hx-target=".activity-container"
           hx-swap="innerHTML"
           hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("submitting") }}'">
-      {% for q in (annotated_questions if annotated_questions else activity.questions) %}
+      {% for q in activity.questions %}
       <div class="question-item">
-        <div class="question-label">{{ loop.index }}. {{ q | safe }}</div>
+        <div class="question-label">{{ loop.index }}. <span lang="it">{{ q }}</span></div>
         <input class="question-input" type="text" name="answers" placeholder="{{ t("reading_answer_placeholder") }}" required>
       </div>
       {% endfor %}

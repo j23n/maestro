@@ -67,7 +67,7 @@ def test_drill_submit_returns_result_page(test_app, active_lesson_with_drill):
             "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
-            "maestro.routes.lezione.discover",
+            "maestro.vocab.discover.discover",
             new_callable=AsyncMock,
             return_value="annotated",
         ),
@@ -225,17 +225,10 @@ async def active_lesson_with_listening(db, student):
 def test_listening_activity_get_returns_200(test_app, active_lesson_with_listening):
     """GET /lezione/{id}/activity/0 for a LISTENING activity should return 200."""
     lesson = active_lesson_with_listening
-    with (
-        patch(
-            "maestro.routes.lezione.discover",
-            new_callable=AsyncMock,
-            return_value="<p>Marco va al bar.</p>",
-        ),
-        patch(
-            "maestro.routes.lezione.discover_list",
-            new_callable=AsyncMock,
-            return_value=["Dove va Marco?"],
-        ),
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
     ):
         response = test_app.get(f"/lezione/{lesson.id}/activity/0")
     assert response.status_code == 200
@@ -247,17 +240,10 @@ def test_listening_activity_get_includes_audio_url(
 ):
     """GET response for a LISTENING activity should embed the audio URL."""
     lesson = active_lesson_with_listening
-    with (
-        patch(
-            "maestro.routes.lezione.discover",
-            new_callable=AsyncMock,
-            return_value="<p>Marco va al bar.</p>",
-        ),
-        patch(
-            "maestro.routes.lezione.discover_list",
-            new_callable=AsyncMock,
-            return_value=["Dove va Marco?"],
-        ),
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
     ):
         response = test_app.get(f"/lezione/{lesson.id}/activity/0")
     assert "/static/audio/lesson_test_0.wav" in response.text
@@ -400,7 +386,7 @@ async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_
             "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
-            "maestro.routes.lezione.discover",
+            "maestro.vocab.discover.discover",
             new_callable=AsyncMock,
             return_value="annotated",
         ),
