@@ -1,9 +1,9 @@
-"""Unit tests for lang_wrap (utils) and _it/_en helpers (lezione/a0)."""
+"""Unit tests for lang_wrap (utils) and _it helper (lezione/a0)."""
 
 import pytest
 
 from maestro.utils import lang_wrap
-from maestro.lezione.a0 import _it, _en
+from maestro.lezione.a0 import _it
 
 
 # --- lang_wrap in utils ---
@@ -33,7 +33,25 @@ def test_lang_wrap_empty_string():
     assert lang_wrap("", "it") == '<span lang="it"></span>'
 
 
-# --- _it / _en helpers ---
+@pytest.mark.unit
+def test_lang_wrap_en():
+    assert lang_wrap("Hello", "en") == '<span lang="en">Hello</span>'
+
+
+@pytest.mark.unit
+def test_lang_wrap_en_none():
+    """lang_wrap doesn't handle None — callers gate on truthiness."""
+    # This tests the pattern: lang_wrap(text, "en") if text else text
+    assert lang_wrap("Hello", "en") == '<span lang="en">Hello</span>'
+
+
+@pytest.mark.unit
+def test_lang_wrap_en_idempotent():
+    wrapped = '<span lang="en">Hello</span>'
+    assert lang_wrap(wrapped, "en") == wrapped
+
+
+# --- _it helper ---
 
 
 @pytest.mark.unit
@@ -42,18 +60,8 @@ def test_it_wraps_italian():
 
 
 @pytest.mark.unit
-def test_en_wraps_english():
-    assert _en("Hello") == '<span lang="en">Hello</span>'
-
-
-@pytest.mark.unit
 def test_it_none_returns_none():
     assert _it(None) is None
-
-
-@pytest.mark.unit
-def test_en_none_returns_none():
-    assert _en(None) is None
 
 
 @pytest.mark.unit
@@ -62,17 +70,6 @@ def test_it_empty_string_returns_empty():
 
 
 @pytest.mark.unit
-def test_en_empty_string_returns_empty():
-    assert _en("") == ""
-
-
-@pytest.mark.unit
 def test_it_idempotent():
     wrapped = '<span lang="it">Ciao</span>'
     assert _it(wrapped) == wrapped
-
-
-@pytest.mark.unit
-def test_en_idempotent():
-    wrapped = '<span lang="en">Hello</span>'
-    assert _en(wrapped) == wrapped

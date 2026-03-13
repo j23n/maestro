@@ -238,10 +238,10 @@ async def vocab_reveal(
     await card.fetch_all_links()
     level = await get_cefr_level(student.id)
     word_def = await get_word_definition(card.word, level)
-    return await render_with_discover(
-        request,
-        "vocab-card-back.html",
-        {
+    return templates.TemplateResponse(
+        request=request,
+        name="vocab-card-back.html",
+        context={
             "card": card,
             "mode": mode,
             "word_def": word_def,
@@ -249,7 +249,6 @@ async def vocab_reveal(
             "review_extra_name": "mode",
             "review_extra_value": mode,
         },
-        student_id=student.id,
     )
 
 

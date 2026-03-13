@@ -26,7 +26,7 @@ _TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
 _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 # Tags that should never be targets for vocab discovery, even if they carry lang="it".
-# <html lang="it"> is the root element and would make the entire page a target.
+# <html lang="en"> is the norm; `html` here is defense-in-depth.
 _SKIP_DISCOVER_TAGS = frozenset({"html", "head", "title", "script", "style", "nav"})
 
 
