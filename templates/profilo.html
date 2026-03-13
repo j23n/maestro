@@ -190,8 +190,8 @@
         {% for item in lesson_history %}
         <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">
           <span class="history-date">{{ item.lesson.completed_at.strftime('%d/%m') if item.lesson.completed_at else '' }}</span>
-          <span class="history-topic"><span lang="it">{{ item.lesson.topic_title or t("lesson_no_topic") }}</span></span>
-          <span class="history-scenario"><span lang="it">{{ item.scenario_label }}</span></span>
+          <span class="history-topic">{{ item.lesson.topic_title or t("lesson_no_topic") }}</span>
+          <span class="history-scenario">{{ item.scenario_label }}</span>
         </a>
         {% endfor %}
       </div>

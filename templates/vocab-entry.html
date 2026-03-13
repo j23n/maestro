@@ -65,8 +65,8 @@
     <ol class="senses">
       {% for s in lvl_def.senses %}
       <li>
-        <span class="sense-def">{{ s.definition }}</span>
-        {% if s.examples %}<div class="sense-ex">{{ s.examples[0] }}</div>{% endif %}
+        <span class="sense-def" lang="it">{{ s.definition }}</span>
+        {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
         {% if s.translation %}<div class="sense-translation"><strong>{{ t("vocab_english_label") }}</strong>: {{ s.translation }}</div>{% endif %}
       </li>
       {% endfor %}

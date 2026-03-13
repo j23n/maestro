@@ -15,7 +15,7 @@
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>
     {% elif mode == 'definition' %}
       <div class="prompt"><span lang="en">{{ t("vocab_definition_prompt", language=target_language) }}</span></div>
-      <div class="clue">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
+      <div class="clue" lang="it">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
     {% elif mode == 'translation' %}
       <div class="prompt"><span lang="en">{{ t("vocab_translation_prompt", language=target_language) }}</span></div>
       <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>

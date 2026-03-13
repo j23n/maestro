@@ -57,10 +57,10 @@
   </div>
   {% endif %}
 
-  {% if annotated_feedback or lesson.feedback_summary %}
+  {% if lesson.feedback_summary %}
   <div class="lesson-feedback">
     <div class="feedback-label">{{ t("lesson_feedback_label") }}</div>
-    <div class="feedback-text">{{ annotated_feedback | safe if annotated_feedback else (lesson.feedback_summary | markdown | safe) }}</div>
+    <div class="feedback-text" lang="en">{{ lesson.feedback_summary | markdown | safe }}</div>
     {% set flag_call_type = "lesson_feedback" %}
     {% set flag_refs = {"lesson_id": lesson.id|string} | tojson %}
     {% include "partials/flag-button.html" %}

@@ -123,16 +123,17 @@ async def vocab_entry(
         "vocab entry context",
         extra={"student_level": student_level, "has_card": has_card},
     )
-    return templates.TemplateResponse(
-        request=request,
-        name="vocab-entry.html",
-        context={
+    return await render_with_discover(
+        request,
+        "vocab-entry.html",
+        {
             "word": word,
             "definitions": definitions,
             "has_card": has_card,
             "student_level": student_level,
             "audio_url": word.audio_url,
         },
+        student_id=student.id,
     )
 
 
@@ -211,15 +212,16 @@ async def vocab_practice(
         )
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
     word_def = await get_word_definition(card.word, student_level)
-    return templates.TemplateResponse(
-        request=request,
-        name="vocab-practice.html",
-        context={
+    return await render_with_discover(
+        request,
+        "vocab-practice.html",
+        {
             "card": card,
             "mode": resolved_mode,
             "selected_mode": mode,
             "word_def": word_def,
         },
+        student_id=student.id,
     )
 
 
@@ -236,10 +238,10 @@ async def vocab_reveal(
     await card.fetch_all_links()
     level = await get_cefr_level(student.id)
     word_def = await get_word_definition(card.word, level)
-    return templates.TemplateResponse(
-        request=request,
-        name="vocab-card-back.html",
-        context={
+    return await render_with_discover(
+        request,
+        "vocab-card-back.html",
+        {
             "card": card,
             "mode": mode,
             "word_def": word_def,
@@ -247,6 +249,7 @@ async def vocab_reveal(
             "review_extra_name": "mode",
             "review_extra_value": mode,
         },
+        student_id=student.id,
     )
 
 

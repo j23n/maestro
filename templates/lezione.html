@@ -27,7 +27,7 @@
   <div class="lesson-overview" style="font-style:normal;color:#555;margin-bottom:0.5rem;">{{ lesson.topic_description }}</div>
   {% endif %}
   {% if lesson.overview %}
-  <div class="lesson-overview">{{ annotated_overview | safe if annotated_overview else lesson.overview }}</div>
+  <div class="lesson-overview"><span lang="{{ overview_lang }}">{{ lesson.overview }}</span></div>
   {% endif %}
 
   <ul class="activity-list">
