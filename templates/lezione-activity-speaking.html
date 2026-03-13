@@ -424,7 +424,14 @@
       return resp.text();
     })
     .then(function(html) {
-      document.querySelector('.activity-container').innerHTML = html;
+      var container = document.querySelector('.activity-container');
+      container.innerHTML = html;
+      // innerHTML doesn't execute <script> tags — re-create them
+      container.querySelectorAll('script').forEach(function(old) {
+        var s = document.createElement('script');
+        s.textContent = old.textContent;
+        old.parentNode.replaceChild(s, old);
+      });
     })
     .catch(function(err) {
       console.error('Speaking submit failed:', err);
