@@ -2,7 +2,6 @@ import json
 import logging
 import re
 
-import markdown as _md
 from beanie import PydanticObjectId
 from bs4 import BeautifulSoup, NavigableString, Tag
 from bson import DBRef
@@ -13,7 +12,7 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.profile import get_cefr_level
-from maestro.utils import create_background_task, lang_wrap
+from maestro.utils import create_background_task
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp
 from maestro.vocab.pos import matches_pos
@@ -271,24 +270,6 @@ def preprocess_grammar_markdown(text: str) -> str:
             line = re.sub(r"</?span[^>]*>", "", line)
         lines.append(line)
     return "\n".join(lines)
-
-
-async def discover_markdown(
-    text: str,
-    student_id: PydanticObjectId | None = None,
-    lang: str | None = None,
-) -> str:
-    text = preprocess_grammar_markdown(text)
-    html = _md.markdown(text, extensions=["extra", "nl2br", "sane_lists"])
-    if lang:
-        html = lang_wrap(html, lang)
-    return await discover(html, student_id=student_id)
-
-
-async def discover_list(
-    texts: list[str], student_id: PydanticObjectId | None = None
-) -> list[str]:
-    return [await discover(t, student_id=student_id) for t in texts]
 
 
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:

@@ -16,15 +16,10 @@ from maestro.models import (
 )
 from maestro.profile import get_profile
 from maestro.strings import t
-from maestro.utils import data_dir, lang_wrap
+from maestro.utils import data_dir
 from maestro.lezione.selection import pick_scenario, fill_vocab_cards
 
 logger = logging.getLogger(__name__)
-
-
-def _it(text: str | None) -> str | None:
-    """Wrap text in <span lang="it">. No-op on empty/None."""
-    return lang_wrap(text, "it") if text else text
 
 
 async def _generate_a0_lesson_background(
@@ -53,7 +48,7 @@ async def _generate_a0_lesson_background(
         await lesson.update({"$set": {"generating": False}})
         return
 
-    topic_title = _it(lesson_data.get("topic_title", scenario.label))
+    topic_title = lesson_data.get("topic_title", scenario.label)
     topic_description = lesson_data.get("topic_description", scenario.description)
     overview = lesson_data.get("overview", "")
 
@@ -124,7 +119,7 @@ async def _generate_a0_lesson_background(
                     type=ActivityType.READING,
                     title=act_data.get("title", t("a0_reading_title")),
                     description=act_data.get("description", ""),
-                    content=_it(act_data.get("content", "")),
+                    content=act_data.get("content", ""),
                     questions=act_data.get("questions", []),
                     correct_answers=act_data.get("correct_answers", []),
                 )
@@ -136,7 +131,7 @@ async def _generate_a0_lesson_background(
                     type=ActivityType.LISTENING,
                     title=act_data.get("title", t("listening_title")),
                     description=act_data.get("description", ""),
-                    content=_it(act_data.get("content", "")),
+                    content=act_data.get("content", ""),
                     questions=act_data.get("questions", []),
                     correct_answers=act_data.get("correct_answers", []),
                     audio_path=act_data.get("audio_path"),

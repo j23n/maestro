@@ -160,7 +160,7 @@ async def test_a0_lesson_generates_static_content(db):
     lesson = await Lesson.get(lesson.id)
     assert lesson.generating is False
     assert lesson.scenario_slug == "a0-01-benvenuto"
-    assert lesson.topic_title == '<span lang="it">Benvenuto!</span>'
+    assert lesson.topic_title == "Benvenuto!"
     assert len(lesson.activities) > 0
 
     # Check activity types include onboarding and grammar
