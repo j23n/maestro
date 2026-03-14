@@ -168,6 +168,28 @@
 .chip-word { font-weight: 500; }
 .vocab-chip .cefr-badge { font-size: 9px; padding: 0 4px; }
 
+/* Exclude button on chips */
+.chip-exclude {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin-left: 0.15rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--c-text-muted);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.chip-exclude:hover { background: var(--c-terracotta); }
+.vocab-chip:hover .chip-exclude { display: inline-flex; }
+
 .vocab-empty {
   text-align: center;
   padding: 3rem 1rem;

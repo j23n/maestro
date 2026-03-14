@@ -178,6 +178,7 @@ class UserVocabularyCard(Document):
     interval: int = 1
     repetitions: int = 0
     next_review: date = Field(default_factory=date.today)
+    excluded: bool = False
 
     class Settings:
         name = "user_vocabulary_cards"

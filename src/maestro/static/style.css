@@ -236,6 +236,32 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 .sense-def { color: var(--c-charcoal); }
 .sense-ex { font-style: italic; color: var(--c-text-muted); font-size: 0.9em; margin-top: 0.1rem; }
 .rating-buttons { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+.btn-incorrect {
+  background: var(--c-terracotta) !important;
+  color: #fff !important;
+  border-color: var(--c-terracotta) !important;
+}
+.btn-incorrect:hover { opacity: 0.88; }
+.btn-correct {
+  background: var(--c-sage) !important;
+  color: #fff !important;
+  border-color: var(--c-sage) !important;
+}
+.btn-correct:hover { opacity: 0.88; }
+
+/* Remove button on vocab entry page */
+.btn-remove {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid var(--c-text-muted);
+  border-radius: 4px;
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+.btn-remove:hover { border-color: var(--c-terracotta); color: var(--c-terracotta); }
 
 /* Lesson progress bar */
 .lesson-progress { padding: 1rem 0 0; margin-bottom: 1.5rem; }
@@ -1306,6 +1332,33 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   text-align: center;
 }
 .tt-audio-btn:hover { background: var(--c-cream); }
+
+/* Tooltip add-to-vocab action */
+.tt-actions { margin-top: 0.35rem; }
+.tt-add-btn {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--c-sage);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+}
+.tt-add-btn:hover { opacity: 0.88; }
+.tt-added {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
+  color: var(--c-sage);
+  text-align: center;
+  font-weight: 600;
+}
+
 .flag-actions { display: flex; gap: 4px; margin-top: 4px; }
 
 /* =====================================================================

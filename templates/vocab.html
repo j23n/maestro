@@ -71,6 +71,11 @@
         <span class="chip-dot"></span>
         <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        <button class="chip-exclude"
+                hx-post="/vocab/word/{{ card.word.entry_id }}/exclude"
+                hx-target="closest .vocab-chip"
+                hx-swap="delete"
+                onclick="event.preventDefault(); event.stopPropagation();">x</button>
       </a>
       {% endfor %}
     </div>
@@ -90,6 +95,11 @@
         <span class="chip-dot"></span>
         <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        <button class="chip-exclude"
+                hx-post="/vocab/word/{{ card.word.entry_id }}/exclude"
+                hx-target="closest .vocab-chip"
+                hx-swap="delete"
+                onclick="event.preventDefault(); event.stopPropagation();">x</button>
       </a>
       {% endfor %}
     </div>
@@ -109,6 +119,11 @@
         <span class="chip-dot"></span>
         <span class="chip-word">{{ card.word.word }}</span>
         <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        <button class="chip-exclude"
+                hx-post="/vocab/word/{{ card.word.entry_id }}/exclude"
+                hx-target="closest .vocab-chip"
+                hx-swap="delete"
+                onclick="event.preventDefault(); event.stopPropagation();">x</button>
       </a>
       {% endfor %}
     </div>

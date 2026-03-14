@@ -138,6 +138,8 @@
   "srs_hard": "Difficile",
   "srs_good": "Bene",
   "srs_easy": "Facile",
+  "srs_incorrect": "Non lo so",
+  "srs_correct": "Corretto",
   "config_topic_label": "Argomento",
   "config_focus_weak": "Concentrati sui punti deboli",
   "config_no_weaknesses": "Nessun punto debole rilevato",
@@ -212,5 +214,8 @@
   "speaking_reset_btn": "Riprova",
   "speaking_you_said_short": "Tu",
   "speaking_correct_btn": "Corretta",
-  "speaking_tap_word": "Tocca una parola per ascoltarla"
+  "speaking_tap_word": "Tocca una parola per ascoltarla",
+  "vocab_remove": "Rimuovi",
+  "vocab_add_tooltip": "+ Aggiungi",
+  "vocab_added_tooltip": "Nel tuo vocabolario"
 }
