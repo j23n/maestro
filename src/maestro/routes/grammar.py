@@ -47,6 +47,7 @@ async def grammar_index(
         "grammar-index.html",
         {"grouped": grouped, "titles": titles, "student_level": student_level},
         student_id=student.id,
+        create_cards=False,
     )
 
 
@@ -83,6 +84,7 @@ async def grammar_detail(
         "grammar-detail.html",
         ctx,
         student_id=student.id,
+        create_cards=False,
     )
 
 
@@ -104,4 +106,5 @@ async def grammar_chunk_detail(
             "preprocessed_content": preprocessed_content,
         },
         student_id=student.id,
+        create_cards=False,
     )

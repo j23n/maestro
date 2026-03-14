@@ -59,7 +59,7 @@ async def profilo_page(
         {"student_id": student.id, "status": LessonStatus.COMPLETED}
     ).count()
     vocab_known = await UserVocabularyCard.find(
-        {"student_id": student.id, "interval": {"$gte": 14}}
+        {"student_id": student.id, "interval": {"$gte": 14}, "excluded": {"$ne": True}}
     ).count()
 
     # Top communicative functions

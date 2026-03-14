@@ -21,7 +21,7 @@ from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
-from maestro.templates import render_with_discover
+from maestro.templates import render, render_with_discover
 from maestro.vocab.srs import review
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,9 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     student_level = await get_cefr_level(student.id)
     visible_levels = cefr_levels_up_to(student_level)
 
-    cards = await UserVocabularyCard.find({"student_id": student.id}).to_list()
+    cards = await UserVocabularyCard.find(
+        {"student_id": student.id, "excluded": {"$ne": True}}
+    ).to_list()
     if cards:
         word_ids = [c.word.ref.id for c in cards]
         words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
@@ -71,7 +73,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         },
     }
 
-    return await render_with_discover(
+    return render(
         request,
         "vocab.html",
         {
@@ -82,7 +84,6 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
             "stats": stats,
             "visible_levels": visible_levels,
         },
-        student_id=student.id,
     )
 
 
@@ -115,7 +116,9 @@ async def vocab_entry(
     if word.audio_url is None:
         await generate_word_audio(word.word)
     has_card = (
-        await UserVocabularyCard.find_one({"student_id": student.id, "word": word_ref})
+        await UserVocabularyCard.find_one(
+            {"student_id": student.id, "word": word_ref, "excluded": {"$ne": True}}
+        )
         is not None
     )
     student_level = await get_cefr_level(student.id)
@@ -152,6 +155,10 @@ async def vocab_add(
         card = UserVocabularyCard(student_id=student.id, word=word)
         await card.insert()
         logger.info("added word to vocabulary", extra={"word": word.word})
+    elif existing.excluded:
+        existing.excluded = False
+        await existing.save()
+        logger.info("un-excluded word from vocabulary", extra={"word": word.word})
     else:
         logger.debug("word already in vocabulary", extra={"word": word.word})
     has_defs = await VocabularyWordDefinition.find_one({"word": word_ref}) is not None
@@ -161,6 +168,25 @@ async def vocab_add(
         )
         await generate_definitions_for_word(word)
     return HTMLResponse('<span class="added-badge">In your vocabulary</span>')
+
+
+@router.post("/vocab/word/{entry_id}/exclude", response_class=HTMLResponse)
+async def vocab_exclude(
+    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+):
+    word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
+    if word is None:
+        raise HTTPException(status_code=404)
+    word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+    card = await UserVocabularyCard.find_one(
+        {"student_id": student.id, "word": word_ref}
+    )
+    if card is None:
+        raise HTTPException(status_code=404)
+    card.excluded = True
+    await card.save()
+    logger.info("excluded word from vocabulary", extra={"word": word.word})
+    return HTMLResponse("")
 
 
 @router.get("/vocab/search", response_class=HTMLResponse)
@@ -191,7 +217,11 @@ async def vocab_practice(
     visible_levels = cefr_levels_up_to(student_level)
 
     due_cards = await UserVocabularyCard.find(
-        {"student_id": student.id, "next_review": {"$lte": date.today()}}
+        {
+            "student_id": student.id,
+            "next_review": {"$lte": date.today()},
+            "excluded": {"$ne": True},
+        }
     ).to_list()
     if due_cards:
         word_ids = [c.word.ref.id for c in due_cards]

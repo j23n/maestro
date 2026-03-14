@@ -15,6 +15,13 @@ _templates.env.globals["t"] = i18n_t
 _templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
 
 
+def render(request, name, context, *, status_code=200):
+    """Render a Jinja template without vocab discovery."""
+    return _templates.TemplateResponse(
+        request=request, name=name, context=context, status_code=status_code
+    )
+
+
 async def render_with_discover(
     request,
     name,
@@ -23,6 +30,7 @@ async def render_with_discover(
     student_id=None,
     status_code=200,
     should_hide_translations=False,
+    create_cards=True,
 ):
     """Render a Jinja template, then run vocab discover() on the full HTML."""
     from maestro.vocab.discover import discover, hide_translations
@@ -32,7 +40,7 @@ async def render_with_discover(
     )
     if student_id is not None:
         html = response.body.decode("utf-8")
-        html = await discover(html, student_id=student_id)
+        html = await discover(html, student_id=student_id, create_cards=create_cards)
         if should_hide_translations:
             html = hide_translations(html)
         response.body = html.encode("utf-8")

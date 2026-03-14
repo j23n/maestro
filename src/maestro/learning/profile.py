@@ -142,7 +142,9 @@ async def _generate_description(profile: "LearningProfile") -> str:
         total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
     # Batch fetch word docs instead of N+1 fetch_all_links()
-    card_filter = {"student_id": profile.student_id} if profile.student_id else {}
+    card_filter: dict = {"excluded": {"$ne": True}}
+    if profile.student_id:
+        card_filter["student_id"] = profile.student_id
     cards = await UserVocabularyCard.find(card_filter).to_list()
     word_ids = []
     for card in cards:

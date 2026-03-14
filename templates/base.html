@@ -11,13 +11,19 @@
   {% block head %}{% endblock %}
 </head>
 <body>
-  <div id="vocab-tooltip">
+  <div id="vocab-tooltip"
+       data-label-add="{{ t('vocab_add_tooltip') }}"
+       data-label-added="{{ t('vocab_added_tooltip') }}">
     <div class="tt-header">
       <span class="tt-word"></span>
       <span class="tt-pos"></span>
       <span class="tt-syllabization"></span>
     </div>
     <div class="tt-senses"></div>
+    <div class="tt-actions">
+      <button class="tt-add-btn" style="display:none"></button>
+      <span class="tt-added" style="display:none"></span>
+    </div>
   </div>
 
   <nav>
@@ -115,6 +121,33 @@
         audioBtn.style.display = '';
       } else if (audioBtn) {
         audioBtn.style.display = 'none';
+      }
+
+      // "Add to vocabulary" button in tooltip
+      const entryId = word.dataset.entryId;
+      const addBtn = tooltip.querySelector('.tt-add-btn');
+      const addedSpan = tooltip.querySelector('.tt-added');
+      if (entryId) {
+        addBtn.textContent = tooltip.dataset.labelAdd;
+        addBtn.style.display = '';
+        addedSpan.style.display = 'none';
+        addBtn.onclick = e => {
+          e.stopPropagation();
+          var m = document.cookie.match(/csrftoken=([^;]+)/);
+          fetch('/vocab/word/' + entryId + '/add', {
+            method: 'POST',
+            headers: m ? {'x-csrftoken': m[1]} : {}
+          }).then(r => {
+            if (r.ok) {
+              addBtn.style.display = 'none';
+              addedSpan.textContent = tooltip.dataset.labelAdded;
+              addedSpan.style.display = '';
+            }
+          });
+        };
+      } else {
+        addBtn.style.display = 'none';
+        addedSpan.style.display = 'none';
       }
 
       const r = word.getBoundingClientRect();
