@@ -21,6 +21,7 @@ from maestro.utils import cefr_levels_up_to, CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
+from maestro.i18n import t
 from maestro.templates import render, render_with_discover
 from maestro.vocab.srs import review
 
@@ -167,7 +168,7 @@ async def vocab_add(
             "no definitions for word, generating on add", extra={"word": word.word}
         )
         await generate_definitions_for_word(word)
-    return HTMLResponse('<span class="added-badge">In your vocabulary</span>')
+    return HTMLResponse(f'<span class="added-badge">{t("vocab_in_your_vocab")}</span>')
 
 
 @router.post("/vocab/word/{entry_id}/exclude", response_class=HTMLResponse)
