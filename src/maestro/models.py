@@ -183,7 +183,13 @@ class UserVocabularyCard(Document):
     class Settings:
         name = "user_vocabulary_cards"
         indexes = [
-            IndexModel([("student_id", ASCENDING), ("next_review", ASCENDING)]),
+            IndexModel(
+                [
+                    ("student_id", ASCENDING),
+                    ("excluded", ASCENDING),
+                    ("next_review", ASCENDING),
+                ]
+            ),
             IndexModel([("student_id", ASCENDING), ("word", ASCENDING)]),
         ]
 

@@ -142,11 +142,17 @@
   background: #fff;
   border: 1px solid var(--c-border);
   border-radius: 5px;
-  text-decoration: none;
   color: var(--c-text);
   font-size: 13px;
   line-height: 1.3;
   transition: border-color 0.12s, box-shadow 0.12s;
+}
+.vocab-chip > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  color: inherit;
 }
 .vocab-chip:hover {
   border-color: var(--c-text-muted);
