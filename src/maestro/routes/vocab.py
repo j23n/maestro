@@ -138,6 +138,7 @@ async def vocab_entry(
             "audio_url": word.audio_url,
         },
         student_id=student.id,
+        create_cards=False,
     )
 
 
@@ -204,7 +205,11 @@ async def vocab_search(
         .to_list()
     )
     return await render_with_discover(
-        request, "vocab-search-results.html", {"words": words}, student_id=student.id
+        request,
+        "vocab-search-results.html",
+        {"words": words},
+        student_id=student.id,
+        create_cards=False,
     )
 
 
@@ -236,6 +241,7 @@ async def vocab_practice(
             "vocab-practice.html",
             {"card": None, "mode": mode},
             student_id=student.id,
+            create_cards=False,
         )
     resolved_mode = random.choice(QUIZ_MODES) if mode == "random" else mode
     word_def = await get_word_definition(card.word, student_level)
@@ -249,6 +255,7 @@ async def vocab_practice(
             "word_def": word_def,
         },
         student_id=student.id,
+        create_cards=False,
     )
 
 
@@ -276,6 +283,8 @@ async def vocab_reveal(
             "review_extra_name": "mode",
             "review_extra_value": mode,
         },
+        student_id=student.id,
+        create_cards=False,
     )
 
 

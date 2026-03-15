@@ -29,6 +29,16 @@ _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 _SKIP_DISCOVER_TAGS = frozenset({"html", "head", "title", "script", "style", "nav"})
 
 
+def _keep_token(token) -> bool:
+    """True if the token should be considered for vocab discovery.
+
+    Checks the *lemma* rather than the surface form so that elided tokens
+    like ``dov'`` (lemma ``dove``) and ``l'`` (lemma ``il``) are included.
+    """
+    lem = token.lemma_
+    return lem.isalpha() and len(lem) > 1
+
+
 def lemmatize(text: str) -> list[str]:
     """Return the lemma of each token in text, lowercased, alphabetic only.
 
@@ -38,7 +48,7 @@ def lemmatize(text: str) -> list[str]:
     """
     nlp = get_nlp()
     doc = nlp(text)
-    return [token.lemma_.lower() for token in doc if token.is_alpha and len(token) > 1]
+    return [token.lemma_.lower() for token in doc if _keep_token(token)]
 
 
 def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
@@ -49,11 +59,7 @@ def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
     """
     nlp = get_nlp()
     doc = nlp(text)
-    return [
-        (token.lemma_.lower(), token.pos_)
-        for token in doc
-        if token.is_alpha and len(token) > 1
-    ]
+    return [(token.lemma_.lower(), token.pos_) for token in doc if _keep_token(token)]
 
 
 def _build_vocab_attrs(
@@ -130,38 +136,57 @@ def _annotate_in_elements(
     *,
     anonymous: bool = False,
     in_vocab: bool = False,
-) -> bool:
-    """Annotate the first occurrence of word within the given BS4 elements.
+    surface_forms: list[str] | None = None,
+) -> int:
+    """Annotate all occurrences of word within the given BS4 elements.
 
-    Returns True if a match was found and annotated.
+    Tries the dictionary headword and any inflected surface forms found
+    during lemmatization. Returns the number of matches annotated.
     """
-    pattern = re.compile(rf"\b({re.escape(word.word)})\b", re.IGNORECASE)
     attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous, in_vocab=in_vocab)
 
+    # Build combined pattern: dictionary form + surface forms
+    forms = {word.word.lower(): word.word}
+    if surface_forms:
+        for f in surface_forms:
+            key = f.lower()
+            # Keep the longest form per lowercased key
+            if key not in forms or len(f) > len(forms[key]):
+                forms[key] = f
+
+    alternatives = "|".join(re.escape(f) for f in forms.values())
+    pattern = re.compile(rf"\b({alternatives})\b", re.IGNORECASE)
+    count = 0
+
     for el in lang_elements:
-        for text_node in list(el.descendants):
-            if not isinstance(text_node, NavigableString):
+        # Re-collect text nodes each iteration since the tree mutates
+        text_nodes = [
+            n
+            for n in el.descendants
+            if isinstance(n, NavigableString)
+            and not _is_inside_heading(n)
+            and not _has_nested_lang(n, el)
+            and not (
+                isinstance(n.parent, Tag)
+                and "vocab-word" in (n.parent.get("class") or [])
+            )
+        ]
+        for text_node in text_nodes:
+            original = str(text_node)
+            parts = []
+            last_end = 0
+            for match in pattern.finditer(original):
+                parts.append(original[last_end : match.start()])
+                parts.append(f"<span{attrs}>{match.group()}</span>")
+                last_end = match.end()
+                count += 1
+            if last_end == 0:
                 continue
-            if _is_inside_heading(text_node):
-                continue
-            if _has_nested_lang(text_node, el):
-                continue
-            parent = text_node.parent
-            if isinstance(parent, Tag) and "vocab-word" in (parent.get("class") or []):
-                continue
+            parts.append(original[last_end:])
+            fragment = BeautifulSoup("".join(parts), "html.parser")
+            text_node.replace_with(*list(fragment.children))
 
-            match = pattern.search(str(text_node))
-            if match:
-                original = str(text_node)
-                before = original[: match.start()]
-                matched = original[match.start() : match.end()]
-                after = original[match.end() :]
-
-                replacement_html = f"{before}<span{attrs}>{matched}</span>{after}"
-                fragment = BeautifulSoup(replacement_html, "html.parser")
-                text_node.replace_with(*list(fragment.children))
-                return True
-    return False
+    return count
 
 
 async def discover(
@@ -191,9 +216,23 @@ async def discover(
     save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
     nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
 
-    # Lemmatize all elements for annotation, but track which lemmas are saveable
+    # Lemmatize all elements for annotation, tracking surface forms for each lemma
     all_text = get_target_text(lang_elements)
-    text_lemmas = lemmatize_with_pos(all_text)
+    nlp = get_nlp()
+    doc = nlp(all_text)
+    text_tokens = [
+        (token.lemma_.lower(), token.pos_, token.text)
+        for token in doc
+        if _keep_token(token)
+    ]
+    text_lemmas = [(lem, pos) for lem, pos, _ in text_tokens]
+
+    # Map lemma → list of inflected surface forms seen in the text
+    surface_map: dict[str, list[str]] = {}
+    for lem, _, surface in text_tokens:
+        forms = surface_map.setdefault(lem, [])
+        if surface not in forms:
+            forms.append(surface)
 
     save_text = get_target_text(save_elements) if nosave_elements else all_text
     save_lemma_set = (
@@ -269,7 +308,7 @@ async def discover(
         {w.id for w in new_words} if create_cards else set()
     )
 
-    for w in words_with_vocab.values():
+    for lem, w in words_with_vocab.items():
         word_id = str(w.id)
         wdef = _cache.get_definition(word_id, student_level)
         if wdef is None and student_level == "A0":
@@ -280,6 +319,7 @@ async def discover(
             wdef,
             anonymous=anonymous,
             in_vocab=w.id in owned_word_ids,
+            surface_forms=surface_map.get(lem),
         )
 
     return str(soup)

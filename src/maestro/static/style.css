@@ -979,7 +979,7 @@ a.weakness-tag:hover { background: #f9e2db; }
 
 .card-prompt { font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--c-charcoal); }
 
-.submit-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.submit-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
 
 /* =====================================================================
    10. Page: Activity grammar — extra elements
