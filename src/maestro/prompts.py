@@ -13,7 +13,7 @@ This means prompts can be pasted directly into the Claude Workbench
 
 Usage:
     from maestro import prompts
-    text = prompts.analyzer.analyze_message.render(text=..., grammar_lines=..., ...)
+    text = prompts.analyzer.scoring_system.render(grammar_code_list=..., ...)
     version = prompts.analyzer.version   # e.g. "1"
     system = prompts.vocab.definitions_system.render_system()
 """

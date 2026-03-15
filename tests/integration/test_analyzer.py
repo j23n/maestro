@@ -1,10 +1,9 @@
-"""Integration tests for learning/analyzer.py and learning/scorer.py with mocked LLM."""
+"""Integration tests for learning/scorer.py with mocked LLM."""
 
 import json
 import pytest
 from unittest.mock import MagicMock
 
-import maestro.learning.analyzer as analyzer_module
 import maestro.learning.scorer as scorer_module
 from maestro import taxonomy
 from maestro.models import ExerciseType
@@ -40,82 +39,6 @@ def reset_cache():
     """Reset analyzer state between tests."""
     yield
     taxonomy.invalidate()
-
-
-@pytest.mark.integration
-async def test_short_message_skipped(db, mock_analyzer_client):
-    """Messages under 3 words must be skipped without LLM call."""
-    _seed_cache()
-    result = await analyzer_module.analyze_message("Ciao")
-    assert result is None
-    mock_analyzer_client.messages.create.assert_not_called()
-
-
-@pytest.mark.integration
-async def test_valid_response_parsed(db, mock_analyzer_client):
-    """Valid LLM JSON is parsed into a LearningEvent with correct fields."""
-    _seed_cache()
-    payload = {
-        "grammar_correct_codes": ["GP_001"],
-        "grammar_error_codes": [],
-        "functions_performed": ["CF_001"],
-        "themes": ["family"],
-    }
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
-        json.dumps(payload)
-    )
-
-    result = await analyzer_module.analyze_message("Ho una sorella che studia medicina")
-    assert result is not None
-    assert result.grammar_correct == ["GP_001"]
-    assert result.grammar_errors == []
-    assert result.functions_performed == ["CF_001"]
-    assert result.themes == ["family"]
-
-
-@pytest.mark.integration
-async def test_unknown_codes_filtered(db, mock_analyzer_client):
-    """Unknown grammar/CF codes returned by LLM are filtered out."""
-    _seed_cache()
-    payload = {
-        "grammar_correct_codes": ["GP_001", "GP_UNKNOWN"],
-        "grammar_error_codes": ["GP_ALSO_UNKNOWN"],
-        "functions_performed": ["CF_001", "CF_FAKE"],
-        "themes": [],
-    }
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
-        json.dumps(payload)
-    )
-
-    result = await analyzer_module.analyze_message("Mia sorella studia all'università")
-    assert result is not None
-    assert "GP_UNKNOWN" not in result.grammar_correct
-    assert "GP_ALSO_UNKNOWN" not in result.grammar_errors
-    assert "CF_FAKE" not in result.functions_performed
-    assert "GP_001" in result.grammar_correct
-    assert "CF_001" in result.functions_performed
-
-
-@pytest.mark.integration
-async def test_llm_failure_returns_none(db, mock_analyzer_client):
-    """When LLM raises an exception, analyze_message returns None."""
-    _seed_cache()
-    mock_analyzer_client.messages.create.side_effect = RuntimeError("API down")
-
-    result = await analyzer_module.analyze_message("Mia sorella studia all'università")
-    assert result is None
-
-
-@pytest.mark.integration
-async def test_unparseable_response_returns_none(db, mock_analyzer_client):
-    """Unparseable LLM response returns None."""
-    _seed_cache()
-    mock_analyzer_client.messages.create.return_value = _make_llm_response(
-        "not json at all"
-    )
-
-    result = await analyzer_module.analyze_message("Mia sorella studia all'università")
-    assert result is None
 
 
 @pytest.mark.integration
