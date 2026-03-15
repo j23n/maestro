@@ -8,6 +8,31 @@ Usage:
 from maestro.config import settings
 
 _STRINGS: dict[str, dict[str, str]] = {
+    "en": {
+        # materialize.py activity titles/descriptions
+        "grammar_title": "Grammar: {label}",
+        "grammar_desc": "Review the grammar rule: {label}",
+        "reading_title_n": "Reading {n}",
+        "reading_title": "Reading",
+        "reading_desc": "Read a text about: {topic}",
+        "listening_title_n": "Listening {n}",
+        "listening_title": "Listening",
+        "listening_desc": "Listen and understand: {topic}",
+        "listening_reveal_transcript": "Show transcript",
+        "listening_hide_transcript": "Hide transcript",
+        "drill_title": "Drill: {label}",
+        "speaking_title": "Speaking: {label}",
+        "speaking_desc": "Practice: {label}",
+        "writing_title": "Writing",
+        "writing_desc": "Write a text about: {topic}",
+        # planner.py vocab activity
+        "vocab_title": "Vocabulary ({count} words)",
+        "vocab_desc": "Review the words due today",
+        # a0.py fallback titles
+        "a0_drill_title": "Drill: {code}",
+        "a0_reading_title": "Reading",
+        "a0_writing_title": "Writing",
+    },
     "it": {
         # materialize.py activity titles/descriptions
         "grammar_title": "Grammatica: {label}",
@@ -38,7 +63,7 @@ _STRINGS: dict[str, dict[str, str]] = {
 
 def t(key: str, **kwargs) -> str:
     """Look up a UI string by key and format with kwargs."""
-    lang = settings.TARGET_LANGUAGE
-    table = _STRINGS.get(lang, _STRINGS["it"])
+    lang = settings.UI_LANGUAGE
+    table = _STRINGS.get(lang, _STRINGS["en"])
     template = table.get(key, key)
     return template.format(**kwargs) if kwargs else template

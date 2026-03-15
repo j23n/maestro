@@ -708,7 +708,7 @@ async def test_free_tier_limit_response_contains_upgrade_text(
         "/lezione/", data={"duration": "20"}, follow_redirects=False
     )
     assert response.status_code == 402
-    assert "Limite raggiunto" in response.text
+    assert "Limit reached" in response.text
 
 
 # ---------------------------------------------------------------------------

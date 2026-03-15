@@ -188,7 +188,9 @@ app.include_router(feedback.router)
 async def landing(request: Request):
     if read_session(request):
         return RedirectResponse(url="/lezione/")
-    return await render_with_discover(request, "landing.html", {})
+    return await render_with_discover(
+        request, "landing.html", {}, discover_anonymous=True
+    )
 
 
 @app.exception_handler(RedirectToLogin)

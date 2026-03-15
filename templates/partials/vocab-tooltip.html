@@ -1,0 +1,117 @@
+  <div id="vocab-tooltip"
+       data-label-add="{{ t('vocab_add_tooltip') }}"
+       data-label-added="{{ t('vocab_added_tooltip') }}"
+       data-label-listen="{{ t('listen_btn') }}">
+    <div class="tt-header">
+      <span class="tt-word"></span>
+      <span class="tt-pos"></span>
+      <span class="tt-syllabization"></span>
+    </div>
+    <div class="tt-senses"></div>
+    <div class="tt-actions">
+      <button class="tt-add-btn" style="display:none"></button>
+      <span class="tt-added" style="display:none"></span>
+    </div>
+  </div>
+  <script>
+    const tooltip = document.getElementById('vocab-tooltip');
+    let _ttHideTimer = null;
+    function _ttScheduleHide() { _ttHideTimer = setTimeout(() => { tooltip.style.display = 'none'; }, 180); }
+    function _ttCancelHide()   { clearTimeout(_ttHideTimer); }
+    tooltip.addEventListener('mouseenter', _ttCancelHide);
+    tooltip.addEventListener('mouseleave', _ttScheduleHide);
+    document.addEventListener('mouseover', e => {
+      const word = e.target.closest('.vocab-word');
+      if (!word) return;
+      _ttCancelHide();
+      tooltip.querySelector('.tt-word').textContent = word.dataset.word || '';
+      tooltip.querySelector('.tt-pos').textContent = word.dataset.pos || '';
+      const syl = word.dataset.syllabization;
+      tooltip.querySelector('.tt-syllabization').textContent = syl ? '[' + syl + ']' : '';
+
+      const sensesEl = tooltip.querySelector('.tt-senses');
+      sensesEl.innerHTML = '';
+      let senses = [];
+      try { senses = JSON.parse(word.dataset.senses || '[]'); } catch(_) {}
+      const shown = senses.slice(0, 3);
+      shown.forEach((s, i) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'tt-sense';
+        const defLine = document.createElement('div');
+        defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + s.definition;
+        if (s.translation) {
+          defLine.textContent += ' (' + s.translation + ')';
+        }
+
+        wrap.appendChild(defLine);
+        if (s.examples && s.examples[0]) {
+          const ex = document.createElement('div');
+          ex.className = 'tt-example';
+          ex.textContent = s.examples[0];
+          wrap.appendChild(ex);
+        }
+
+        sensesEl.appendChild(wrap);
+      });
+
+      // Audio play button in tooltip
+      const audioPath = word.dataset.audioPath;
+      let audioBtn = tooltip.querySelector('.tt-audio-btn');
+      if (audioPath) {
+        if (!audioBtn) {
+          audioBtn = document.createElement('button');
+          audioBtn.className = 'tt-audio-btn';
+          audioBtn.type = 'button';
+          tooltip.appendChild(audioBtn);
+        }
+        audioBtn.textContent = '▶ ' + tooltip.dataset.labelListen;
+        audioBtn.onclick = e => { e.stopPropagation(); new Audio(audioPath).play(); };
+        audioBtn.style.display = '';
+      } else if (audioBtn) {
+        audioBtn.style.display = 'none';
+      }
+
+      // "Add to vocabulary" button in tooltip
+      const entryId = word.dataset.entryId;
+      const addBtn = tooltip.querySelector('.tt-add-btn');
+      const addedSpan = tooltip.querySelector('.tt-added');
+      if (entryId) {
+        addBtn.textContent = tooltip.dataset.labelAdd;
+        addBtn.style.display = '';
+        addedSpan.style.display = 'none';
+        addBtn.onclick = e => {
+          e.stopPropagation();
+          var m = document.cookie.match(/csrftoken=([^;]+)/);
+          fetch('/vocab/word/' + entryId + '/add', {
+            method: 'POST',
+            headers: m ? {'x-csrftoken': m[1]} : {}
+          }).then(r => {
+            if (r.ok) {
+              addBtn.style.display = 'none';
+              addedSpan.textContent = tooltip.dataset.labelAdded;
+              addedSpan.style.display = '';
+            }
+          });
+        };
+      } else {
+        addBtn.style.display = 'none';
+        addedSpan.style.display = 'none';
+      }
+
+      const r = word.getBoundingClientRect();
+      tooltip.style.display = 'block';
+      const gap = 8;
+      let top = r.bottom + gap;
+      if (top + tooltip.offsetHeight > window.innerHeight) top = r.top - tooltip.offsetHeight - gap;
+      tooltip.style.top = top + 'px';
+      tooltip.style.left = Math.min(r.left, window.innerWidth - tooltip.offsetWidth - 8) + 'px';
+    });
+    document.addEventListener('mouseout', e => {
+      if (!e.target.closest('.vocab-word')) return;
+      _ttScheduleHide();
+    });
+    document.addEventListener('click', e => {
+      var toggle = e.target.closest('.translation-toggle');
+      if (toggle) toggle.classList.toggle('revealed');
+    });
+  </script>
