@@ -93,15 +93,6 @@ async def test_app(db, student, account):
 
 
 @pytest.fixture
-def mock_analyzer_client(mocker):
-    """Patches get_async_client in llm.py to return a MagicMock for analyzer tests."""
-    mock = mocker.MagicMock()
-    mock.messages.create = AsyncMock()
-    mocker.patch("maestro.llm.get_async_client", return_value=mock)
-    return mock
-
-
-@pytest.fixture
 def mock_scorer_client(mocker):
     """Patches get_async_client in llm.py to return a MagicMock for scorer tests."""
     mock = mocker.MagicMock()
