@@ -52,7 +52,7 @@ from maestro.lezione.selection import (
     pick_scenario,
     pick_grammar_points,
     pick_comm_functions,
-    fill_vocab_cards,
+    get_due_vocab_cards,
 )
 from maestro.strings import t
 
@@ -156,10 +156,8 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
 
-    # A0 lessons are fully static — no vocab review activity, but seed cards
-    # so they appear in /vocab
+    # A0 lessons are fully static — no vocab review needed at creation
     if cefr_level == "A0":
-        await fill_vocab_cards(25, cefr_level, student_id=student_id)
         lesson = Lesson(
             student_id=student_id,
             duration_minutes=duration_minutes,
@@ -181,7 +179,7 @@ async def prepare_lesson_immediate(
     vocab_count = slots.get(ActivityType.VOCAB_REVIEW, 0)
 
     if vocab_count > 0:
-        due_cards = await fill_vocab_cards(
+        due_cards = await get_due_vocab_cards(
             vocab_count, cefr_level, student_id=student_id
         )
         if due_cards:

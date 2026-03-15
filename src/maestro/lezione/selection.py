@@ -25,8 +25,6 @@ from maestro.utils import CEFR_ORDER, cefr_levels_up_to, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
 
-MIN_VOCAB = 5
-
 # Cooldown: recently visited scenarios get a penalty (seconds)
 _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
 
@@ -255,10 +253,10 @@ async def pick_comm_functions(
     return picked
 
 
-async def fill_vocab_cards(
+async def get_due_vocab_cards(
     vocab_count: int, cefr_level: str, student_id=None
 ) -> list[UserVocabularyCard]:
-    """Return up to vocab_count cards due today; introduce new words if too few due.
+    """Return up to vocab_count cards due today (only already-discovered words).
 
     Only considers words at the student's CEFR level +1 (e.g. A1 student sees A1+A2 words).
     """
@@ -282,7 +280,6 @@ async def fill_vocab_cards(
 
     # Filter to words within the student's level range
     due = []
-    existing_word_ids = set()
     for c in due_all:
         ref = c.word
         wid = ref.ref.id if hasattr(ref, "ref") else ref.id
@@ -290,27 +287,5 @@ async def fill_vocab_cards(
         if word and word.cefr_level in visible_levels:
             c.word = word  # resolve Link so downstream code can access word fields
             due.append(c)
-        existing_word_ids.add(wid)
-
-    if len(due) < min(MIN_VOCAB, vocab_count):
-        candidates = await VocabularyWord.find(
-            {"cefr_level": {"$in": visible_levels}}
-        ).to_list()
-        new_words = [w for w in candidates if w.id not in existing_word_ids]
-        random.shuffle(new_words)
-        needed = min(vocab_count, MIN_VOCAB) - len(due)
-        new_cards = [
-            UserVocabularyCard(
-                student_id=student_id,
-                word=w,
-                discovered_at=utcnow(),
-                next_review=date.today(),
-            )
-            for w in new_words[:needed]
-        ]
-        if new_cards:
-            await UserVocabularyCard.insert_many(new_cards)
-            due.extend(new_cards)
-            logger.info(f"fill_vocab_cards: introduced {len(new_cards)} new words")
 
     return due[:vocab_count]
