@@ -707,7 +707,7 @@ async def test_compute_cefr_sets_onboarding_completed_on_natural_graduation(db):
 
 @pytest.mark.integration
 def test_skip_onboarding_route(test_app, student, db):
-    """POST /onboarding/skip should redirect to /lezione/."""
+    """GET /onboarding/skip should redirect to /lezione/."""
     import asyncio
 
     async def _setup():
@@ -728,7 +728,7 @@ def test_skip_onboarding_route(test_app, student, db):
 
     asyncio.get_event_loop().run_until_complete(_setup())
 
-    resp = test_app.post("/onboarding/skip", follow_redirects=False)
+    resp = test_app.get("/onboarding/skip", follow_redirects=False)
     assert resp.status_code == 303
     assert resp.headers["location"] == "/lezione/"
 

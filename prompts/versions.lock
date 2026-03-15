@@ -8,8 +8,8 @@
     "sha256": "0fc6a6b80df00c456c8efbd8c6fb1b5e0fdca688f7c5ba33eba1d2ab90a70821"
   },
   "grammar_explanations.yaml": {
-    "version": "7",
-    "sha256": "5189b1a769f1d87ff8308b5b76de869c95098d6befd6dd52d3c27c843aaacc53"
+    "version": "8",
+    "sha256": "57bf96f5f372c3a8cee313d7ff72a53fc53164b46bd2d8b4a8eb719b526599e0"
   },
   "judge.yaml": {
     "version": "1",

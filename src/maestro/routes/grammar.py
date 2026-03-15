@@ -6,8 +6,6 @@ from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
-from maestro.config import settings as _settings
-from maestro.vocab.discover import preprocess_grammar_markdown
 
 router = APIRouter()
 
@@ -69,13 +67,8 @@ async def grammar_detail(
 
     ctx: dict = {"gp": gp}
     if expl:
-        fallback_lang = (
-            _settings.TARGET_LANGUAGE
-            if expl.language == _settings.TARGET_LANGUAGE
-            else None
-        )
-        ctx["preprocessed_content"] = preprocess_grammar_markdown(expl.explanation)
-        ctx["content_lang"] = fallback_lang
+        ctx["content"] = expl.explanation
+        ctx["why_this_matters"] = expl.why_this_matters
 
     display_title = strip_lang_spans(expl.title) if expl and expl.title else gp.label
     ctx["display_title"] = display_title
@@ -95,7 +88,6 @@ async def grammar_chunk_detail(
     chunk = await GrammarChunk.find_one({"ref": ref})
     if chunk is None:
         raise HTTPException(404)
-    preprocessed_content = preprocess_grammar_markdown(chunk.content)
     heading = chunk.chunk_metadata.get("heading", ref)
     return await render_with_discover(
         request,
@@ -103,7 +95,7 @@ async def grammar_chunk_detail(
         {
             "chunk": chunk,
             "heading": heading,
-            "preprocessed_content": preprocessed_content,
+            "content": chunk.content,
         },
         student_id=student.id,
         create_cards=False,

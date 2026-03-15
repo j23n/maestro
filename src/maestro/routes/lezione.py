@@ -42,7 +42,6 @@ from maestro import taxonomy
 from maestro.templates import render_with_discover
 from maestro.utils import create_background_task, utcnow
 from maestro.config import settings as _settings
-from maestro.vocab.discover import preprocess_grammar_markdown
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
 from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
@@ -78,7 +77,7 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     return lesson
 
 
-@router.post("/onboarding/skip")
+@router.get("/onboarding/skip")
 async def skip_onboarding(
     request: Request, student: Student = Depends(get_current_student)
 ):
@@ -470,17 +469,13 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.WRITING:
-        ctx["preprocessed_content"] = preprocess_grammar_markdown(
-            activity.content or ""
-        )
+        ctx["content"] = activity.content or ""
         return await render_with_discover(
             request, "lezione-activity-writing.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.GRAMMAR:
-        ctx["preprocessed_content"] = preprocess_grammar_markdown(
-            activity.content or ""
-        )
+        ctx["content"] = activity.content or ""
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
         if activity.why_important:
@@ -497,6 +492,14 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
+            if not activity.why_important:
+                expl_lang = "it" if level in ("B1", "B2") else "en"
+                expl = gp.explanations.get(expl_lang) or next(
+                    (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+                    None,
+                )
+                if expl and expl.why_this_matters:
+                    ctx["why_this_matters"] = expl.why_this_matters
         ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
             request, "lezione-activity-grammar.html", ctx, student_id=student.id
