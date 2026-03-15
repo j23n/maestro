@@ -54,22 +54,31 @@
   </script>
   <script>
     // Feature hints: position near anchor, auto-show, dismiss/toggle
+    function _positionHintBubble(hint, bubble) {
+      var r = hint.getBoundingClientRect();
+      var gap = 8;
+      var top = r.bottom + gap;
+      bubble.style.left = '0'; bubble.style.top = '0'; bubble.style.display = 'block';
+      var bw = bubble.offsetWidth;
+      if (top + bubble.offsetHeight > window.innerHeight) top = r.top - bubble.offsetHeight - gap;
+      var left = Math.max(8, Math.min(r.left, window.innerWidth - bw - 8));
+      bubble.style.top = top + 'px';
+      bubble.style.left = left + 'px';
+    }
     function _initHints() {
       document.querySelectorAll('.feature-hint').forEach(function(hint) {
         var anchor = document.querySelector(hint.dataset.anchor);
         if (!anchor) { hint.style.display = 'none'; return; }
-        // Position hint after the anchor element
         anchor.parentNode.insertBefore(hint, anchor.nextSibling);
-        // Auto-show bubble on first appearance
         var bubble = hint.querySelector('.hint-bubble');
         bubble.classList.add('hint-visible');
-        // Dismiss button: hide bubble, keep (i)
+        _positionHintBubble(hint, bubble);
         hint.querySelector('.hint-dismiss').addEventListener('click', function() {
-          bubble.classList.remove('hint-visible');
+          hint.style.display = 'none';
         });
-        // (i) button: toggle bubble
         hint.querySelector('.hint-info-btn').addEventListener('click', function() {
           bubble.classList.toggle('hint-visible');
+          if (bubble.classList.contains('hint-visible')) _positionHintBubble(hint, bubble);
         });
       });
     }
