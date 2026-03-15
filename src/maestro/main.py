@@ -202,10 +202,25 @@ async def _render_error(request: Request, code: int, message_key: str):
         await get_current_student(request)
     except RedirectToLogin:
         pass
+    msg = i18n_t(message_key)
+    sub_key = f"{message_key}_sub"
+    sub = i18n_t(sub_key)
+    # i18n returns the key itself when not found — treat as empty
+    if sub == sub_key:
+        sub = ""
+    if request.headers.get("HX-Request"):
+        return HTMLResponse(
+            f'<div class="generating-error-card" style="text-align:center;margin:2rem auto;max-width:400px;">'
+            f'<p style="font-family:var(--f-serif);font-size:2rem;font-weight:700;'
+            f'color:var(--c-border);margin:0 0 0.5rem;">{code}</p>'
+            f'<p class="generating-title">{msg}</p>'
+            f"</div>",
+            status_code=code,
+        )
     return await render_with_discover(
         request,
         "error.html",
-        {"code": code, "message": i18n_t(message_key)},
+        {"code": code, "message": msg, "subtitle": sub},
         status_code=code,
     )
 
@@ -223,7 +238,7 @@ async def rate_limit_exceeded(request: Request, exc):
     response = await render_with_discover(
         request,
         "error.html",
-        {"code": 429, "message": msg},
+        {"code": 429, "message": msg, "subtitle": ""},
         status_code=429,
     )
     response.headers["Retry-After"] = "60"
@@ -238,3 +253,12 @@ async def not_found(request: Request, exc):
 @app.exception_handler(403)
 async def forbidden(request: Request, exc):
     return await _render_error(request, 403, "error_403")
+
+
+@app.exception_handler(500)
+async def server_error(request: Request, exc: Exception):
+    try:
+        return await _render_error(request, 500, "error_500")
+    except Exception:
+        logger.exception("error handler itself failed")
+        return HTMLResponse("Internal Server Error", status_code=500)
