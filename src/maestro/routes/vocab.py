@@ -17,7 +17,7 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.profile import get_cefr_level, get_profile
-from maestro.utils import cefr_levels_up_to, CEFR_ORDER
+from maestro.utils import CEFR_ORDER
 from maestro.hints import hints_for_page
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
@@ -34,9 +34,6 @@ QUIZ_MODES = ("word", "definition", "translation")
 
 @router.get("/vocab", response_class=HTMLResponse)
 async def vocab_list(request: Request, student: Student = Depends(get_current_student)):
-    student_level = await get_cefr_level(student.id)
-    visible_levels = cefr_levels_up_to(student_level)
-
     cards = await UserVocabularyCard.find(
         {"student_id": student.id, "excluded": {"$ne": True}}
     ).to_list()
@@ -46,9 +43,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         word_map = {w.id: w for w in words}
         for card in cards:
             card.word = word_map.get(card.word.ref.id)
-    cards = [
-        c for c in cards if c.word is not None and c.word.cefr_level in visible_levels
-    ]
+    cards = [c for c in cards if c.word is not None]
 
     today = date.today()
     due = sorted(
@@ -87,7 +82,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
             "known": known,
             "today": today,
             "stats": stats,
-            "visible_levels": visible_levels,
+            "visible_levels": [lv for lv in CEFR_ORDER if stats["cefr"].get(lv)],
             "hints": hints_for_page("vocab_page", dismissed),
         },
     )
@@ -220,7 +215,6 @@ async def vocab_practice(
     mode: str = "random",
 ):
     student_level = await get_cefr_level(student.id)
-    visible_levels = cefr_levels_up_to(student_level)
 
     due_cards = await UserVocabularyCard.find(
         {
@@ -235,11 +229,7 @@ async def vocab_practice(
         word_map = {w.id: w for w in words}
         for c in due_cards:
             c.word = word_map.get(c.word.ref.id)
-    card = None
-    for c in due_cards:
-        if c.word is not None and c.word.cefr_level in visible_levels:
-            card = c
-            break
+    card = next((c for c in due_cards if c.word is not None), None)
     if card is None:
         return await render_with_discover(
             request,

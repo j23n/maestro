@@ -179,9 +179,7 @@ async def prepare_lesson_immediate(
     vocab_count = slots.get(ActivityType.VOCAB_REVIEW, 0)
 
     if vocab_count > 0:
-        due_cards = await get_due_vocab_cards(
-            vocab_count, cefr_level, student_id=student_id
-        )
+        due_cards = await get_due_vocab_cards(vocab_count, student_id=student_id)
         if due_cards:
             activities.append(
                 LessonActivity(

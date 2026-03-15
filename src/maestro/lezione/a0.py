@@ -159,7 +159,7 @@ async def _generate_a0_lesson_background(
             )
 
     # Add vocab review if there are due cards
-    due_cards = await get_due_vocab_cards(5, "A0", student_id=lesson.student_id)
+    due_cards = await get_due_vocab_cards(5, student_id=lesson.student_id)
     if due_cards:
         new_activities.append(
             LessonActivity(
