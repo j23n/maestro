@@ -23,7 +23,7 @@ from maestro.models import (
     CurriculumScenario,
     ScenarioProgress,
 )
-from maestro.profile import get_profile, get_or_create_profile, save_onboarding_field
+from maestro.profile import get_profile, save_onboarding_field
 from maestro.hints import hints_for_page
 from maestro.learning.weakness import (
     build_gp_titles,
@@ -109,7 +109,7 @@ async def lezione_index(
             for s in a0_scenarios
             if progress.get(s.slug, ScenarioProgress()).depth >= 1
         )
-        a0_total = len(a0_scenarios) or 1
+        a0_total = len(a0_scenarios)
         a0_lesson_number = a0_completed + 1
         return await render_with_discover(
             request,
@@ -1295,12 +1295,3 @@ async def lezione_complete(
         },
         student_id=student.id,
     )
-
-
-@router.post("/hints/{hint_id}/dismiss")
-async def dismiss_hint(hint_id: str, student: Student = Depends(get_current_student)):
-    profile = await get_or_create_profile(student.id)
-    if hint_id not in profile.dismissed_hints:
-        profile.dismissed_hints.append(hint_id)
-        await profile.save()
-    return Response(status_code=204)
