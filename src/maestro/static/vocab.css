@@ -142,11 +142,17 @@
   background: #fff;
   border: 1px solid var(--c-border);
   border-radius: 5px;
-  text-decoration: none;
   color: var(--c-text);
   font-size: 13px;
   line-height: 1.3;
   transition: border-color 0.12s, box-shadow 0.12s;
+}
+.vocab-chip > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  color: inherit;
 }
 .vocab-chip:hover {
   border-color: var(--c-text-muted);
@@ -167,6 +173,28 @@
 
 .chip-word { font-weight: 500; }
 .vocab-chip .cefr-badge { font-size: 9px; padding: 0 4px; }
+
+/* Exclude button on chips */
+.chip-exclude {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin-left: 0.15rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--c-text-muted);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.chip-exclude:hover { background: var(--c-terracotta); }
+.vocab-chip:hover .chip-exclude { display: inline-flex; }
 
 .vocab-empty {
   text-align: center;

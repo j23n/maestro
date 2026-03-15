@@ -578,6 +578,69 @@ def get_profile():
     )
 
 
+def get_vocab():
+    """Get /vocab page with structured chip data."""
+    t0 = time.monotonic()
+    with _client() as c:
+        resp = c.get("/vocab")
+    elapsed = int((time.monotonic() - t0) * 1000)
+    soup = _soup(resp.text)
+    chips = []
+    for chip in soup.find_all(class_="vocab-chip"):
+        word_el = chip.find(class_="chip-word")
+        cefr_el = chip.find(class_="cefr-badge")
+        exclude_btn = chip.find(class_="chip-exclude")
+        href = chip.get("href", "")
+        entry_id = href.split("/vocab/word/")[-1] if "/vocab/word/" in href else ""
+        chips.append(
+            {
+                "word": word_el.get_text(strip=True) if word_el else "",
+                "cefr": cefr_el.get_text(strip=True) if cefr_el else "",
+                "entry_id": entry_id,
+                "has_exclude_btn": exclude_btn is not None,
+            }
+        )
+    _out(
+        {
+            "status": resp.status_code,
+            "chip_count": len(chips),
+            "chips": chips[:20],
+            "elapsed_ms": elapsed,
+        }
+    )
+
+
+def add_word(entry_id: str):
+    """POST /vocab/word/<entry_id>/add — add or un-exclude a word."""
+    t0 = time.monotonic()
+    with _client() as c:
+        resp = c.post(f"/vocab/word/{entry_id}/add")
+    elapsed = int((time.monotonic() - t0) * 1000)
+    _out(
+        {
+            "status": resp.status_code,
+            "body": resp.text[:300],
+            "has_added_badge": "added-badge" in resp.text,
+            "elapsed_ms": elapsed,
+        }
+    )
+
+
+def exclude_word(entry_id: str):
+    """POST /vocab/word/<entry_id>/exclude — soft-delete a vocab card."""
+    t0 = time.monotonic()
+    with _client() as c:
+        resp = c.post(f"/vocab/word/{entry_id}/exclude")
+    elapsed = int((time.monotonic() - t0) * 1000)
+    _out(
+        {
+            "status": resp.status_code,
+            "body": resp.text[:300],
+            "elapsed_ms": elapsed,
+        }
+    )
+
+
 # ── Main dispatch ───────────────────────────────────────────────────────
 
 COMMANDS = {
@@ -599,6 +662,9 @@ COMMANDS = {
     "submit_skip": lambda args: submit_skip(args[0], args[1]),
     "get_complete": lambda args: get_complete(args[0]),
     "get_profile": lambda args: get_profile(),
+    "get_vocab": lambda args: get_vocab(),
+    "add_word": lambda args: add_word(args[0]),
+    "exclude_word": lambda args: exclude_word(args[0]),
 }
 
 

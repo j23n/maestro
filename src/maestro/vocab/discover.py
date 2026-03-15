@@ -156,6 +156,7 @@ async def discover(
     response_text: str,
     student_id: PydanticObjectId | None = None,
     message=None,
+    create_cards: bool = True,
 ) -> str:
     from maestro.config import settings
 
@@ -209,7 +210,7 @@ async def discover(
 
     new_words = [w for w in words_with_vocab.values() if w.id not in existing_word_ids]
 
-    if new_words:
+    if new_words and create_cards:
         await UserVocabularyCard.insert_many(
             [
                 UserVocabularyCard(student_id=student_id, word=w, message=message)
