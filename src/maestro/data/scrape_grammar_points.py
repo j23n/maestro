@@ -19,10 +19,11 @@ import unicodedata
 from pathlib import Path
 
 import httpx
+import yaml
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://www.unistrapg.it/profilo_lingua_italiana/site/"
-OUT_PATH = Path(__file__).parent / "grammar_points.json"
+OUT_PATH = Path(__file__).parent / "grammar_points.yaml"
 
 CATEGORIES = {
     "nome": "gram_nome",
@@ -310,11 +311,14 @@ async def main() -> None:
     all_entries = resolve_global_codes(all_entries)
     print(f"\nTotal grammar points: {len(all_entries)}", file=sys.stderr)
 
-    output = json.dumps(all_entries, indent=2, ensure_ascii=False)
     if debug:
+        output = json.dumps(all_entries, indent=2, ensure_ascii=False)
         print(output)
     else:
-        OUT_PATH.write_text(output)
+        with open(OUT_PATH, "w") as f:
+            yaml.dump(
+                all_entries, f, default_flow_style=False, allow_unicode=True, width=200
+            )
         print(f"Written to {OUT_PATH}", file=sys.stderr)
 
 

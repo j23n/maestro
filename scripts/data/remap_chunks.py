@@ -4,7 +4,7 @@ Re-map grammar points to grammar book chunks using embedding similarity.
 Embeds all 124 chunks (passage: prefix) and all GP labels (query: prefix) using
 intfloat/multilingual-e5-large, then assigns each GP the closest chunk by cosine sim.
 
-Results are written directly into grammar_points.json as chunk_ref.
+Results are written directly into grammar_points.yaml as chunk_ref.
 
 Run:  uv run python scripts/remap_chunks.py [--threshold 0.5] [--show-top N]
 """
@@ -15,8 +15,20 @@ import argparse
 import json
 
 import numpy as np
+import yaml
 
 DATA_DIR = "src/maestro/data/it"
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
 
 
 def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
@@ -28,8 +40,8 @@ def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 def main(threshold: float, show_top: int, dry_run: bool) -> None:
     # --- load data ---
-    with open(f"{DATA_DIR}/grammar_points.json") as f:
-        gps = json.load(f)
+    with open(f"{DATA_DIR}/grammar_points.yaml") as f:
+        gps = yaml.safe_load(f)
 
     with open(f"{DATA_DIR}/chunk_enrichment.json") as f:
         enrichment: dict[str, str] = json.load(f)
@@ -97,10 +109,18 @@ def main(threshold: float, show_top: int, dry_run: bool) -> None:
         print("[DRY RUN] Not writing.")
         return
 
-    with open(f"{DATA_DIR}/grammar_points.json", "w") as f:
-        json.dump(gps, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    print(f"Written to {DATA_DIR}/grammar_points.json")
+    # Wrap multiline strings for block-scalar output
+    for gp in gps:
+        for key in ("description",):
+            if isinstance(gp.get(key), str) and "\n" in gp[key]:
+                gp[key] = LiteralStr(gp[key])
+        for lang, expl in gp.get("explanations", {}).items():
+            for field in ("explanation", "tip", "why_this_matters"):
+                if isinstance(expl.get(field), str) and "\n" in expl[field]:
+                    expl[field] = LiteralStr(expl[field])
+    with open(f"{DATA_DIR}/grammar_points.yaml", "w") as f:
+        yaml.dump(gps, f, default_flow_style=False, allow_unicode=True, width=200)
+    print(f"Written to {DATA_DIR}/grammar_points.yaml")
 
 
 if __name__ == "__main__":

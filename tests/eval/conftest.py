@@ -6,6 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+import yaml
 from mongomock_motor import AsyncMongoMockClient
 from beanie import init_beanie
 
@@ -194,7 +195,7 @@ async def seeded_lesson_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for lesson_analyzer tests."""
     from maestro import taxonomy
 
-    gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+    gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
     taxonomy.seed(
@@ -224,7 +225,7 @@ async def seeded_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for analyzer tests."""
     from maestro import taxonomy
 
-    gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+    gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
     taxonomy.seed(

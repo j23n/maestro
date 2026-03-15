@@ -9,7 +9,7 @@ from maestro.utils import data_dir
 
 SCENARIOS_FILE = data_dir("it") / "scenarios_a0.yaml"
 LESSONS_FILE = data_dir("it") / "a0_lessons.yaml"
-GRAMMAR_POINTS_FILE = data_dir("it") / "grammar_points.json"
+GRAMMAR_POINTS_FILE = data_dir("it") / "grammar_points.yaml"
 COMM_FUNCTIONS_FILE = data_dir("it") / "comm_functions.json"
 
 
@@ -29,18 +29,18 @@ def test_every_a0_scenario_has_lesson_content():
 
 @pytest.mark.unit
 def test_a0_scenario_gp_codes_exist():
-    """All gp_codes referenced by A0 scenarios exist in grammar_points.json."""
+    """All gp_codes referenced by A0 scenarios exist in grammar_points.yaml."""
     with open(SCENARIOS_FILE) as f:
         scenarios = yaml.safe_load(f)["scenarios"]
     with open(GRAMMAR_POINTS_FILE) as f:
-        gps = json.load(f)
+        gps = yaml.safe_load(f)
 
     gp_codes = {gp["code"] for gp in gps}
     referenced = set()
     for s in scenarios:
         referenced.update(s.get("gp_codes", []))
     missing = referenced - gp_codes
-    assert not missing, f"A0 scenario gp_codes not in grammar_points.json: {missing}"
+    assert not missing, f"A0 scenario gp_codes not in grammar_points.yaml: {missing}"
 
 
 @pytest.mark.unit
@@ -73,11 +73,11 @@ def test_a0_scenarios_have_sequential_ordering():
 
 @pytest.mark.unit
 def test_a0_lesson_gp_codes_exist_in_grammar_points():
-    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.json."""
+    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.yaml."""
     with open(LESSONS_FILE) as f:
         lessons = yaml.safe_load(f)
     with open(GRAMMAR_POINTS_FILE) as f:
-        gps = json.load(f)
+        gps = yaml.safe_load(f)
 
     json_gp_codes = {gp["code"] for gp in gps}
     yaml_gp_codes: set[str] = set()
@@ -89,7 +89,7 @@ def test_a0_lesson_gp_codes_exist_in_grammar_points():
 
     missing = yaml_gp_codes - json_gp_codes
     assert not missing, (
-        f"a0_lessons.yaml grammar_point_codes not in grammar_points.json: {missing}"
+        f"a0_lessons.yaml grammar_point_codes not in grammar_points.yaml: {missing}"
     )
 
 

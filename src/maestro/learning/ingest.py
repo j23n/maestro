@@ -1,6 +1,6 @@
 """
 One-off ingest script:
-  1. Replace all GrammarPoint documents from grammar_points.json (full replace)
+  1. Replace all GrammarPoint documents from grammar_points.yaml (full replace)
   2. Set chunk_ref on each GP from the static mapping file
   3. Replace all CommunicativeFunction documents from comm_functions.json
   4. Create empty LearningProfile if none exists
@@ -34,8 +34,8 @@ logger = logging.getLogger(__name__)
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
-    with open(data_dir() / "grammar_points.json") as f:
-        items = json.load(f)
+    with open(data_dir() / "grammar_points.yaml") as f:
+        items = yaml.safe_load(f)
     new_codes = {item["code"] for item in items}
     # Remove GPs that no longer exist in the data file
     existing = await GrammarPoint.find_all().to_list()
