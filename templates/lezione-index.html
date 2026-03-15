@@ -11,17 +11,17 @@
     {% if cefr == "A0" %}
     {% if show_welcome %}
     <div class="welcome-card">
-      <h2>Welcome to Maestro</h2>
-      <p>Maestro teaches you Italian through short, focused lessons. Each lesson combines grammar explanations, reading, listening, writing, and speaking activities — all tailored to your level.</p>
+      <h2>{{ t("welcome_title") }}</h2>
+      <p>{{ t("welcome_body") }}</p>
       <ul>
-        <li><strong>Personalized</strong> — lessons adapt to your interests and progress</li>
-        <li><strong>Speech assessment</strong> — practice speaking and get pronunciation feedback</li>
-        <li><strong>Rigorous approach</strong> — built on a structured curriculum from A0 to B2</li>
+        <li><strong>{{ t("welcome_personalized") }}</strong> — {{ t("welcome_personalized_desc") }}</li>
+        <li><strong>{{ t("welcome_speech") }}</strong> — {{ t("welcome_speech_desc") }}</li>
+        <li><strong>{{ t("welcome_rigorous") }}</strong> — {{ t("welcome_rigorous_desc") }}</li>
       </ul>
-      <p>Lessons are the building blocks of Maestro. Let's start your first one.</p>
+      <p>{{ t("welcome_cta") }}</p>
     </div>
     {% else %}
-    <div class="onboarding-progress">Lesson {{ a0_lesson_number }} of {{ a0_total }}</div>
+    <div class="onboarding-progress">{{ t("onboarding_progress", number=a0_lesson_number, total=a0_total) }}</div>
     {% endif %}
     <input type="hidden" name="duration" value="20">
     {% else %}
@@ -94,7 +94,7 @@
     </div>
     {% endif %}
 
-    <button class="btn-start" type="submit">{% if show_welcome %}Start your first lesson{% else %}{{ t("new_lesson_start") }}{% endif %}</button>
+    <button class="btn-start" type="submit">{% if show_welcome %}{{ t("welcome_start_btn") }}{% else %}{{ t("new_lesson_start") }}{% endif %}</button>
     <p class="loading-hint">{{ t("new_lesson_note") }}</p>
   </form>
 </div>

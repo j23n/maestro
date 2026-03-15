@@ -6,6 +6,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import Response
+
+from maestro.auth import get_current_student
+from maestro.models import Student
+from maestro.profile import get_or_create_profile
+
+router = APIRouter()
+
 
 @dataclass
 class HintConfig:
@@ -55,3 +64,14 @@ def hints_for_page(page_key: str, dismissed: list[str]) -> list[HintConfig]:
     """Return undismissed hints relevant to a page."""
     hint_ids = _PAGE_HINTS.get(page_key, [])
     return [HINTS[hid] for hid in hint_ids if hid not in dismissed]
+
+
+@router.post("/hints/{hint_id}/dismiss")
+async def dismiss_hint(hint_id: str, student: Student = Depends(get_current_student)):
+    if hint_id not in HINTS:
+        raise HTTPException(status_code=404)
+    profile = await get_or_create_profile(student.id)
+    if hint_id not in profile.dismissed_hints:
+        profile.dismissed_hints.append(hint_id)
+        await profile.save()
+    return Response(status_code=204)
