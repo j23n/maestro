@@ -17,6 +17,7 @@
     <div class="grammar-content" lang="it">
       {{ preprocessed_content | markdown | safe }}
     </div>
+    {% if hints %}{% include "partials/hint.html" %}{% endif %}
 
     {% if activity.grammar_point_code %}
       {% set flag_call_type = "grammar_explanation" %}

@@ -24,6 +24,7 @@ from maestro.models import (
     ScenarioProgress,
 )
 from maestro.profile import get_profile, save_onboarding_field
+from maestro.hints import hints_for_page
 from maestro.learning.weakness import (
     build_gp_titles,
     build_grammar_by_level,
@@ -101,8 +102,25 @@ async def lezione_index(
     cefr = profile.cefr_estimate if profile else "A0"
 
     if cefr == "A0":
+        a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+        progress = profile.scenario_progress if profile else {}
+        a0_completed = sum(
+            1
+            for s in a0_scenarios
+            if progress.get(s.slug, ScenarioProgress()).depth >= 1
+        )
+        a0_total = len(a0_scenarios)
+        a0_lesson_number = a0_completed + 1
         return await render_with_discover(
-            request, "lezione-index.html", {"cefr": cefr}, student_id=student.id
+            request,
+            "lezione-index.html",
+            {
+                "cefr": cefr,
+                "show_welcome": a0_lesson_number == 1,
+                "a0_lesson_number": a0_lesson_number,
+                "a0_total": a0_total,
+            },
+            student_id=student.id,
         )
 
     # A1+: build config screen data
@@ -387,6 +405,10 @@ async def lezione_activity(
 
     total = len(lesson.activities)
 
+    # Compute dismissed hints for contextual feature hints
+    _hint_profile = await get_profile(student.id)
+    _dismissed = _hint_profile.dismissed_hints if _hint_profile else []
+
     ctx = {
         "lesson": lesson,
         "activity": activity,
@@ -422,11 +444,13 @@ async def lezione_activity(
         ctx["card"] = card
         ctx["word_def"] = word_def
         ctx["mode"] = "word"
+        ctx["hints"] = hints_for_page("lesson_activity_vocab", _dismissed)
         return await render_with_discover(
             request, "lezione-activity-vocab.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.READING:
+        ctx["hints"] = hints_for_page("lesson_activity_reading", _dismissed)
         return await render_with_discover(
             request,
             "lezione-activity-reading.html",
@@ -473,6 +497,7 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
+        ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
             request, "lezione-activity-grammar.html", ctx, student_id=student.id
         )
