@@ -9,15 +9,12 @@
     <h1 class="gp-title">{{ display_title }}</h1>
   </div>
 
-  {% if why_this_matters %}
-  <h2>{{ t("grammar_why_matters") }}</h2>
-  <div class="why-this-matters">
-    {{ why_this_matters | markdown | safe }}
-  </div>
-  {% endif %}
-
   {% if content %}
-  <div class="grammar-content"{% if content_lang %} lang="{{ content_lang }}"{% endif %}>
+  <div class="grammar-content">
+    {% if why_this_matters %}
+    <h2>{{ t("grammar_why_matters") }}</h2>
+    {{ why_this_matters | markdown | safe }}
+    {% endif %}
     {{ content | markdown | safe }}
   </div>
   {% else %}

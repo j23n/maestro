@@ -77,7 +77,7 @@ async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     return lesson
 
 
-@router.post("/onboarding/skip")
+@router.get("/onboarding/skip")
 async def skip_onboarding(
     request: Request, student: Student = Depends(get_current_student)
 ):

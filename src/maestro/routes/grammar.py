@@ -6,7 +6,6 @@ from maestro.models import GrammarPoint, GrammarChunk, Student
 from maestro.profile import get_cefr_level
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
-from maestro.config import settings as _settings
 
 router = APIRouter()
 
@@ -68,14 +67,8 @@ async def grammar_detail(
 
     ctx: dict = {"gp": gp}
     if expl:
-        fallback_lang = (
-            _settings.TARGET_LANGUAGE
-            if expl.language == _settings.TARGET_LANGUAGE
-            else None
-        )
         ctx["content"] = expl.explanation
         ctx["why_this_matters"] = expl.why_this_matters
-        ctx["content_lang"] = fallback_lang
 
     display_title = strip_lang_spans(expl.title) if expl and expl.title else gp.label
     ctx["display_title"] = display_title

@@ -641,6 +641,25 @@ def exclude_word(entry_id: str):
     )
 
 
+def run_server(port: str = "8000"):
+    """Start the FastAPI dev server."""
+    import subprocess
+
+    subprocess.run(
+        [
+            "uv",
+            "run",
+            "fastapi",
+            "dev",
+            "src/maestro/main.py",
+            "--host",
+            "0.0.0.0",
+            "--port",
+            port,
+        ],
+    )
+
+
 # ── Main dispatch ───────────────────────────────────────────────────────
 
 COMMANDS = {
@@ -665,6 +684,7 @@ COMMANDS = {
     "get_vocab": lambda args: get_vocab(),
     "add_word": lambda args: add_word(args[0]),
     "exclude_word": lambda args: exclude_word(args[0]),
+    "run_server": lambda args: run_server(args[0] if args else "8000"),
 }
 
 
