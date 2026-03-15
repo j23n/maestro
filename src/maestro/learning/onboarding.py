@@ -9,7 +9,6 @@ from maestro.models import (
     ScenarioProgress,
 )
 from maestro.profile import get_or_create_profile
-from maestro.lezione.selection import fill_vocab_cards
 from maestro.utils import utcnow
 
 
@@ -39,8 +38,6 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
             profile.functions_counts[code] = max(
                 profile.functions_counts.get(code, 0), 3
             )
-
-    await fill_vocab_cards(25, "A1", student_id=student_id)
 
     profile.onboarding_skipped = True
     profile.onboarding_completed = True

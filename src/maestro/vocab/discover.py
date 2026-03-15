@@ -56,7 +56,9 @@ def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
     ]
 
 
-def _build_vocab_attrs(word, wdef, *, anonymous: bool = False) -> str:
+def _build_vocab_attrs(
+    word, wdef, *, anonymous: bool = False, in_vocab: bool = False
+) -> str:
     """Build the data-attribute string for a vocab-word popover span."""
     senses_data = []
     translation = ""
@@ -73,7 +75,7 @@ def _build_vocab_attrs(word, wdef, *, anonymous: bool = False) -> str:
 
     senses_json = json.dumps(senses_data, ensure_ascii=False).replace("'", "&#39;")
 
-    entry_id = "" if anonymous else (word.entry_id or "")
+    entry_id = "" if (anonymous or in_vocab) else (word.entry_id or "")
 
     return (
         f' class="vocab-word"'
@@ -83,6 +85,7 @@ def _build_vocab_attrs(word, wdef, *, anonymous: bool = False) -> str:
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
         f' data-entry-id="{entry_id}"'
+        f' data-in-vocab="{"true" if in_vocab else ""}"'
         f' data-audio-path="{getattr(word, "audio_url", None) or ""}"'
     )
 
@@ -121,14 +124,19 @@ def get_target_text(lang_elements: list) -> str:
 
 
 def _annotate_in_elements(
-    lang_elements: list, word, wdef, *, anonymous: bool = False
+    lang_elements: list,
+    word,
+    wdef,
+    *,
+    anonymous: bool = False,
+    in_vocab: bool = False,
 ) -> bool:
     """Annotate the first occurrence of word within the given BS4 elements.
 
     Returns True if a match was found and annotated.
     """
     pattern = re.compile(rf"\b({re.escape(word.word)})\b", re.IGNORECASE)
-    attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous)
+    attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous, in_vocab=in_vocab)
 
     for el in lang_elements:
         for text_node in list(el.descendants):
@@ -243,13 +251,20 @@ async def discover(
 
     student_level = await get_cefr_level(student_id) if student_id else "A1"
     anonymous = student_id is None
+    owned_word_ids = existing_word_ids | {w.id for w in new_words}
 
     for w in words_with_vocab.values():
         word_id = str(w.id)
         wdef = _cache.get_definition(word_id, student_level)
         if wdef is None and student_level == "A0":
             wdef = _cache.get_definition(word_id, "A1")
-        _annotate_in_elements(lang_elements, w, wdef, anonymous=anonymous)
+        _annotate_in_elements(
+            lang_elements,
+            w,
+            wdef,
+            anonymous=anonymous,
+            in_vocab=w.id in owned_word_ids,
+        )
 
     return str(soup)
 

@@ -17,7 +17,7 @@ from maestro.models import (
 from maestro.profile import get_profile
 from maestro.strings import t
 from maestro.utils import data_dir
-from maestro.lezione.selection import pick_scenario, fill_vocab_cards
+from maestro.lezione.selection import pick_scenario, get_due_vocab_cards
 
 logger = logging.getLogger(__name__)
 
@@ -159,7 +159,7 @@ async def _generate_a0_lesson_background(
             )
 
     # Add vocab review if there are due cards
-    due_cards = await fill_vocab_cards(5, "A0", student_id=lesson.student_id)
+    due_cards = await get_due_vocab_cards(5, "A0", student_id=lesson.student_id)
     if due_cards:
         new_activities.append(
             LessonActivity(

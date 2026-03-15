@@ -73,9 +73,14 @@
 
       // "Add to vocabulary" button in tooltip
       const entryId = word.dataset.entryId;
+      const inVocab = word.dataset.inVocab === 'true';
       const addBtn = tooltip.querySelector('.tt-add-btn');
       const addedSpan = tooltip.querySelector('.tt-added');
-      if (entryId) {
+      if (inVocab) {
+        addBtn.style.display = 'none';
+        addedSpan.textContent = tooltip.dataset.labelAdded;
+        addedSpan.style.display = '';
+      } else if (entryId) {
         addBtn.textContent = tooltip.dataset.labelAdd;
         addBtn.style.display = '';
         addedSpan.style.display = 'none';
@@ -90,6 +95,7 @@
               addBtn.style.display = 'none';
               addedSpan.textContent = tooltip.dataset.labelAdded;
               addedSpan.style.display = '';
+              word.dataset.inVocab = 'true';
             }
           });
         };
