@@ -63,6 +63,16 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+_LEARNING_TYPES = {
+    ActivityType.GRAMMAR,
+    ActivityType.DRILL,
+    ActivityType.READING,
+    ActivityType.LISTENING,
+    ActivityType.WRITING,
+    ActivityType.SPEAKING,
+    ActivityType.VOCAB_REVIEW,
+}
+
 
 async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     lesson = await Lesson.get(lesson_id)
@@ -1246,12 +1256,9 @@ async def lezione_complete(
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
-    completed_count = sum(
-        1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED
-    )
-    skipped_count = sum(
-        1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED
-    )
+    learning = [a for a in lesson.activities if a.type in _LEARNING_TYPES]
+    completed_count = sum(1 for a in learning if a.status == ActivityStatus.COMPLETED)
+    skipped_count = sum(1 for a in learning if a.status == ActivityStatus.SKIPPED)
     events = await get_lesson_events(lesson)
     weak_grammar_points = await get_weak_grammar_points(lesson, events)
     await ensure_lesson_feedback(lesson, weak_grammar_points, events)
@@ -1295,6 +1302,7 @@ async def lezione_complete(
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
             "graduated_to": graduated_to,
+            "is_a0": lesson.cefr_at_start == "A0",
         },
         student_id=student.id,
     )

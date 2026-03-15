@@ -69,3 +69,56 @@ def test_a0_scenarios_have_sequential_ordering():
     assert sequences == list(range(1, len(scenarios) + 1)), (
         f"A0 scenario sequences should be 1..{len(scenarios)}, got {sequences}"
     )
+
+
+@pytest.mark.unit
+def test_a0_lesson_gp_codes_exist_in_grammar_points():
+    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.json."""
+    with open(LESSONS_FILE) as f:
+        lessons = yaml.safe_load(f)
+    with open(GRAMMAR_POINTS_FILE) as f:
+        gps = json.load(f)
+
+    json_gp_codes = {gp["code"] for gp in gps}
+    yaml_gp_codes: set[str] = set()
+    for lesson_data in lessons.values():
+        for act in lesson_data.get("activities", []):
+            code = act.get("grammar_point_code")
+            if code:
+                yaml_gp_codes.add(code)
+
+    missing = yaml_gp_codes - json_gp_codes
+    assert not missing, (
+        f"a0_lessons.yaml grammar_point_codes not in grammar_points.json: {missing}"
+    )
+
+
+@pytest.mark.unit
+def test_a0_no_why_important():
+    """No activities should have why_important after cleanup."""
+    with open(LESSONS_FILE) as f:
+        lessons = yaml.safe_load(f)
+
+    found = []
+    for slug, lesson_data in lessons.items():
+        for i, act in enumerate(lesson_data.get("activities", [])):
+            if "why_important" in act:
+                found.append(f"{slug} activity {i} ({act.get('title', '?')})")
+
+    assert not found, f"Activities still have why_important: {found}"
+
+
+@pytest.mark.unit
+def test_a0_speaking_activities_exist():
+    """Lessons a0-04, a0-05, a0-07 should have speaking activities."""
+    with open(LESSONS_FILE) as f:
+        lessons = yaml.safe_load(f)
+
+    expected = ["a0-04-si-e-no", "a0-05-per-favore", "a0-07-io-sono"]
+    for slug in expected:
+        lesson_data = lessons.get(slug)
+        assert lesson_data, f"Missing lesson {slug}"
+        types = [a["type"] for a in lesson_data.get("activities", [])]
+        assert "speaking" in types, (
+            f"{slug} should have a speaking activity, has: {types}"
+        )

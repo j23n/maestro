@@ -248,5 +248,8 @@
   "landing_persona_foodie": "Il buongustaio",
   "landing_persona_student": "Lo studente",
   "landing_persona_enthusiast": "L\u2019appassionato",
-  "landing_cta_ready": "Pronto a iniziare?"
+  "landing_cta_ready": "Pronto a iniziare?",
+  "complete_activities_info": "Ecco un riepilogo delle attività di apprendimento completate, con feedback sulla tua performance e i punti grammaticali trattati.",
+  "complete_where_next_title": "Dove andare ora?",
+  "complete_where_next_body": "Visita il tuo <a href=\"/vocab\">vocabolario</a> per ripassare le parole, esplora i <a href=\"/grammar\">punti grammaticali</a> che hai imparato, o continua con la prossima lezione."
 }

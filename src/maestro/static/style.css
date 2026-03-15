@@ -763,6 +763,17 @@ a.weakness-tag:hover { background: #f9e2db; }
 .graduation-banner h2 { font-size: 1.3rem; margin: 0 0 0.5rem; color: #6b5900; }
 .graduation-banner p { font-size: 0.9rem; color: #6b5900; margin: 0; line-height: 1.5; }
 
+.info-callout {
+  background: #e8f4fd;
+  border: 1px solid #b8d4e8;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.88rem;
+  color: #2c5f7c;
+  line-height: 1.5;
+}
+
 .persona-field { margin-bottom: 0.6rem; }
 .persona-label { font-weight: 600; margin-right: 0.4rem; }
 .persona-label::after { content: ":"; }
