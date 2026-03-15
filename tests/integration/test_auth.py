@@ -73,7 +73,7 @@ async def test_signup_duplicate_email(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 200
-    assert "already exists" in resp.text or "Esiste già" in resp.text
+    assert "already exists" in resp.text
 
 
 @pytest.mark.integration
@@ -88,7 +88,7 @@ async def test_signup_password_mismatch(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 200
-    assert "don\u2019t match" in resp.text or "non corrispondono" in resp.text
+    assert "don\u2019t match" in resp.text
 
 
 @pytest.mark.integration
@@ -103,14 +103,14 @@ async def test_signup_password_too_short(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 200
-    assert "8 characters" in resp.text or "8 caratteri" in resp.text
+    assert "8 characters" in resp.text
 
 
 @pytest.mark.integration
 async def test_login_get_renders_form(auth_app):
     resp = auth_app.get("/auth/login")
     assert resp.status_code == 200
-    assert "login" in resp.text.lower() or "Log in" in resp.text
+    assert "Log in" in resp.text
 
 
 @pytest.mark.integration
@@ -152,7 +152,7 @@ async def test_login_wrong_password(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 200
-    assert "Invalid email" in resp.text or "non validi" in resp.text
+    assert "Invalid email" in resp.text
 
 
 @pytest.mark.integration
@@ -163,7 +163,7 @@ async def test_login_nonexistent_email(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 200
-    assert "Invalid email" in resp.text or "non validi" in resp.text
+    assert "Invalid email" in resp.text
 
 
 @pytest.mark.integration
@@ -209,7 +209,7 @@ async def test_login_rate_limit(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 429
-    assert "Too many attempts" in resp.text or "Troppi tentativi" in resp.text
+    assert "Too many attempts" in resp.text
 
 
 @pytest.mark.integration
@@ -237,7 +237,7 @@ async def test_signup_rate_limit(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 429
-    assert "Too many attempts" in resp.text or "Troppi tentativi" in resp.text
+    assert "Too many attempts" in resp.text
 
 
 @pytest.mark.integration
@@ -265,7 +265,7 @@ async def test_rate_limit_htmx_response(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 429
-    assert "Too many attempts" in resp.text or "Troppi tentativi" in resp.text
+    assert "Too many attempts" in resp.text
     assert resp.headers.get("Retry-After") == "60"
     # HTMX response should be a fragment, not a full page
     assert resp.text.strip().startswith("<p")
