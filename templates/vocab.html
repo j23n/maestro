@@ -50,6 +50,8 @@
     </div>
   </div>
 
+  {% if hints %}{% include "partials/hint.html" %}{% endif %}
+
   <div class="vocab-search-wrap">
     <input type="text" name="q" placeholder="{{ t("vocab_search_placeholder") }}"
            hx-get="/vocab/search" hx-trigger="input changed delay:200ms"

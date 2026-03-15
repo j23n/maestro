@@ -16,8 +16,9 @@ from maestro.models import (
     VocabularyWordDefinition,
     UserVocabularyCard,
 )
-from maestro.profile import get_cefr_level
+from maestro.profile import get_cefr_level, get_profile
 from maestro.utils import cefr_levels_up_to, CEFR_ORDER
+from maestro.hints import hints_for_page
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio
 from maestro.vocab.query import get_word_definition
@@ -74,6 +75,9 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
         },
     }
 
+    profile = await get_profile(student.id)
+    dismissed = profile.dismissed_hints if profile else []
+
     return render(
         request,
         "vocab.html",
@@ -84,6 +88,7 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
             "today": today,
             "stats": stats,
             "visible_levels": visible_levels,
+            "hints": hints_for_page("vocab_page", dismissed),
         },
     )
 
