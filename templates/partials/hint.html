@@ -1,7 +1,7 @@
 {# Feature hint partial — renders dismissable contextual hints.
    Expects `hints` list of HintConfig objects in template context. #}
 {% for hint in hints %}
-<div class="feature-hint" data-hint-id="{{ hint.id }}" data-anchor="{{ hint.anchor_selector }}">
+<div class="feature-hint" lang="en" data-hint-id="{{ hint.id }}" data-anchor="{{ hint.anchor_selector }}">
   <button type="button" class="hint-info-btn" title="Info">(i)</button>
   <div class="hint-bubble">
     <p class="hint-message">{{ hint.message }}</p>
