@@ -1,4 +1,4 @@
-version: "7"
+version: "8"
 
 explanation_system:
   description: >
@@ -31,12 +31,14 @@ explanation_system:
     no jargon — as it will appear as a tooltip or inline hint in the app. Use the same
     language as the explanation (English or {{target_language}}).
 
+    **why_this_matters** (2–3 sentences): what this rule unlocks for the student — why
+    they will encounter it constantly, what they cannot express without it, or how
+    mastering it removes a common source of errors. Make it motivating and concrete.
+    No heading marker — just the plain text. Use the same language as the explanation.
+
     **explanation** (markdown): a complete grammar reference entry. This is not a lesson
     tip — it is a reference a student consults when they need to understand a rule fully.
     It must include, in this order:
-    - **Why this matters** (2–3 sentences): what this rule unlocks for the student — why
-      they will encounter it constantly, what they cannot express without it, or how
-      mastering it removes a common source of errors. Make it motivating and concrete.
     - A precise statement of the rule, including how to form it
     - All important variants and the most common exceptions
     - 4–6 {{target_language}} examples with English translations, covering the main uses
@@ -53,12 +55,12 @@ explanation_system:
     {{span_tagging}}
 
     Correct tagging example:
-    <span lang="en">Use </span><span lang="{{target_language_code}}">avere</span><span lang="en"> for transitive verbs: </span><span lang="{{target_language_code}}">Ho mangiato la pizza.</span><span lang="en"> (I ate the pizza.) Use </span><span lang="{{target_language_code}}">essere</span><span lang="en"> for motion and reflexive verbs: </span><span lang="{{target_language_code}}">Sono andato a casa.</span><span lang="en"> (I went home.) Mistake: </span><span lang="{{target_language_code}}">*ho andato</span><span lang="en"> — incorrect; motion verbs always take </span><span lang="{{target_language_code}}">essere</span><span lang="en">.</span>
+    Use <span lang="{{target_language_code}}">avere</span> for transitive verbs: <span lang="{{target_language_code}}">Ho mangiato la pizza.</span> (I ate the pizza.) Use <span lang="{{target_language_code}}">essere</span> for motion and reflexive verbs: <span lang="{{target_language_code}}">Sono andato a casa.</span> (I went home.) Mistake: <span lang="{{target_language_code}}">*ho andato</span> — incorrect; motion verbs always take <span lang="{{target_language_code}}">essere</span>.
 
     ## Output format
 
     Return ONLY a valid JSON object — no markdown fences, no preamble, no trailing text:
-    {"title": "…", "tip": "…", "explanation": "…"}
+    {"title": "…", "tip": "…", "why_this_matters": "…", "explanation": "…"}
 
     Inside the explanation and tip values, use single quotes ('…') for any quoted words
     or phrases — never double quotes, as they break JSON string parsing.
