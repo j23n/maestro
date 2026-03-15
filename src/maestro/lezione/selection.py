@@ -21,7 +21,7 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
-from maestro.utils import CEFR_ORDER, cefr_levels_up_to, ensure_utc, utcnow
+from maestro.utils import CEFR_ORDER, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -254,14 +254,9 @@ async def pick_comm_functions(
 
 
 async def get_due_vocab_cards(
-    vocab_count: int, cefr_level: str, student_id=None
+    vocab_count: int, student_id=None
 ) -> list[UserVocabularyCard]:
-    """Return up to vocab_count cards due today (only already-discovered words).
-
-    Only considers words at the student's CEFR level +1 (e.g. A1 student sees A1+A2 words).
-    """
-    visible_levels = cefr_levels_up_to(cefr_level)
-
+    """Return up to vocab_count cards due today (only already-discovered words)."""
     card_filter: dict = {
         "next_review": {"$lte": date.today()},
         "excluded": {"$ne": True},
@@ -278,13 +273,12 @@ async def get_due_vocab_cards(
     words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
     word_map = {w.id: w for w in words}
 
-    # Filter to words within the student's level range
     due = []
     for c in due_all:
         ref = c.word
         wid = ref.ref.id if hasattr(ref, "ref") else ref.id
         word = word_map.get(wid)
-        if word and word.cefr_level in visible_levels:
+        if word:
             c.word = word  # resolve Link so downstream code can access word fields
             due.append(c)
 

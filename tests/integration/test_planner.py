@@ -122,7 +122,7 @@ async def test_get_due_vocab_cards_only_returns_existing(db):
             word=f"parola{i}", part_of_speech="s.f.", cefr_level="A1"
         ).insert()
 
-    cards = await get_due_vocab_cards(5, "A1", student_id=_FAKE_STUDENT_ID)
+    cards = await get_due_vocab_cards(5, student_id=_FAKE_STUDENT_ID)
     assert len(cards) == 0
     db_cards = await UserVocabularyCard.find({"student_id": _FAKE_STUDENT_ID}).to_list()
     assert len(db_cards) == 0

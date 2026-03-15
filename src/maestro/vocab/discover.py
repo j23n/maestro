@@ -187,9 +187,18 @@ async def discover(
     if not lang_elements:
         return response_text
 
-    # Lemmatize only text within target-language elements (skip nested lang tags)
-    target_text = get_target_text(lang_elements)
-    text_lemmas = lemmatize_with_pos(target_text)
+    # Split into saveable (create cards) vs no-save (tooltip only) elements
+    save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
+    nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
+
+    # Lemmatize all elements for annotation, but track which lemmas are saveable
+    all_text = get_target_text(lang_elements)
+    text_lemmas = lemmatize_with_pos(all_text)
+
+    save_text = get_target_text(save_elements) if nosave_elements else all_text
+    save_lemma_set = (
+        {lem for lem, _ in lemmatize_with_pos(save_text)} if nosave_elements else None
+    )
 
     # Match lemmas to vocab entries, preferring the POS variant that matches context.
     # First occurrence's POS wins — if a word appears as both noun and verb in the
@@ -223,7 +232,12 @@ async def discover(
     else:
         existing_word_ids = set()
 
-    new_words = [w for w in words_with_vocab.values() if w.id not in existing_word_ids]
+    new_words = [
+        w
+        for lem, w in words_with_vocab.items()
+        if w.id not in existing_word_ids
+        and (save_lemma_set is None or lem in save_lemma_set)
+    ]
 
     if new_words and create_cards:
         await UserVocabularyCard.insert_many(
