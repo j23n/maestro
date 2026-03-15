@@ -1581,3 +1581,136 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   max-height: 600px;
   padding: 1.25rem 2rem;
 }
+
+/* =====================================================================
+   Graduation details (A1 banner enhancement)
+   ===================================================================== */
+.graduation-details {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.graduation-details li {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: inherit;
+  margin-bottom: 0.3rem;
+}
+
+/* =====================================================================
+   Welcome card + onboarding progress
+   ===================================================================== */
+.welcome-card {
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+}
+
+.welcome-card h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+}
+
+.welcome-card p {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--c-text);
+}
+
+.welcome-card ul {
+  margin: 0 0 0.6rem;
+  padding-left: 1.25rem;
+}
+
+.welcome-card li {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--c-text);
+}
+
+.onboarding-progress {
+  display: inline-block;
+  background: var(--c-blue);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+/* =====================================================================
+   Feature hints
+   ===================================================================== */
+.feature-hint {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 0.35rem;
+  z-index: 50;
+}
+
+.hint-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-blue);
+  background: none;
+  color: var(--c-blue);
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-style: italic;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.hint-bubble {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: 260px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 51;
+}
+
+.hint-bubble.hint-visible {
+  display: block;
+}
+
+.hint-message {
+  margin: 0 0 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--c-text);
+}
+
+.hint-dismiss {
+  display: inline-block;
+  background: none;
+  border: 1px solid var(--c-blue);
+  border-radius: 4px;
+  color: var(--c-blue);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+  cursor: pointer;
+}
+
+.hint-dismiss:hover {
+  background: var(--c-blue);
+  color: #fff;
+}

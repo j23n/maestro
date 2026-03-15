@@ -27,6 +27,7 @@ from maestro.templates import render_with_discover
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import auth, vocab, profilo, grammar, lezione, feedback
+from maestro import hints
 
 
 class _JsonFormatter(logging.Formatter):
@@ -179,6 +180,7 @@ app.include_router(vocab.router)
 app.include_router(profilo.router)
 app.include_router(grammar.router)
 app.include_router(lezione.router)
+app.include_router(hints.router)
 app.include_router(feedback.router)
 
 

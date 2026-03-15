@@ -15,6 +15,11 @@
     <h2>{{ t("graduation_title") }}</h2>
     {% if graduated_to == "A1" %}
     <p>{{ t("graduation_a1_body") }}</p>
+    <ul class="graduation-details">
+      <li>{{ t("graduation_a1_analyzed") }}</li>
+      <li>{{ t("graduation_a1_journey") }}</li>
+      <li>{{ t("graduation_a1_customized") }}</li>
+    </ul>
     {% else %}
     <p>{{ t("graduation_body", level=graduated_to) }}</p>
     {% endif %}
