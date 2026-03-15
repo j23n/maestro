@@ -254,33 +254,6 @@ async def discover(
     return str(soup)
 
 
-def preprocess_grammar_markdown(text: str) -> str:
-    """Fix LLM span-tagging patterns that break markdown parsing.
-
-    Two known failure modes:
-    1. Headings wrapped in a lang span: <span lang="en">## Heading\n\n</span>
-       — the markdown parser never sees ## at the start of a line.
-    2. Table rows whose first cell is inside an opening span:
-       <span lang="en">| col1 | col2 |
-       — the parser doesn't recognise the line as a table row.
-
-    Ideally the LLM would place spans INSIDE the heading marker:
-      ## <span lang="it">Formazione</span>
-    which the markdown parser handles correctly without any preprocessing.
-    The prompt instructs this but the LLM occasionally wraps the marker too.
-    """
-    # Fix 1: Strip span wrappers around markdown headings.
-    # No \s* before </span> so trailing \n\n inside the span is preserved in group 1.
-    text = re.sub(r"<span[^>]*>(#{1,6}\s[^<]+?)</span>", r"\1", text)
-    # Fix 2: Strip all span tags from table rows.
-    lines = []
-    for line in text.split("\n"):
-        if re.sub(r"</?span[^>]*>", "", line).lstrip().startswith("|"):
-            line = re.sub(r"</?span[^>]*>", "", line)
-        lines.append(line)
-    return "\n".join(lines)
-
-
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:
     """Background task: generate CEFR-aware definitions and update the cache."""
     for word in words:

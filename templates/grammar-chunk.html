@@ -13,7 +13,7 @@
        which conditionally sets lang based on the student's level, chunks
        are standalone reference content that is always in Italian. -->
   <div class="grammar-content" lang="it">
-    {{ preprocessed_content | markdown | safe }}
+    {{ content | markdown | safe }}
   </div>
 
   <a class="back-link" href="javascript:history.back()">{{ t("back_link") }}</a>
