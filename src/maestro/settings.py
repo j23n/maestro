@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     EXPLANATION_MODEL: str = "claude-sonnet-4-6"
     TARGET_LANGUAGE: str = "it"  # ISO 639-1
     TARGET_LANGUAGE_NAME: str = "Italian"  # for LLM prompts
+    UI_LANGUAGE: str = "en"  # ISO 639-1; language for UI chrome
     SPACY_MODEL: str = "it_core_news_md"  # per-language NLP model
     LOG_LEVEL: str = "INFO"
     FREE_TIER_LESSON_LIMIT_EX_A0: int = 999

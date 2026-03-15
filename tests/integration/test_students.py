@@ -16,7 +16,7 @@ def test_404_returns_html(test_app):
     response = test_app.get("/nonexistent-page")
     assert response.status_code == 404
     assert "text/html" in response.headers["content-type"]
-    assert "Pagina non trovata" in response.text
+    assert "Page not found" in response.text or "Pagina non trovata" in response.text
 
 
 @pytest.mark.integration
@@ -24,7 +24,7 @@ def test_404_includes_nav(test_app):
     response = test_app.get("/nonexistent-page")
     assert response.status_code == 404
     assert "Maestro" in response.text or "nav" in response.text
-    assert "Lezione" in response.text
+    assert "Lesson" in response.text or "Lezione" in response.text
 
 
 @pytest.mark.integration
@@ -48,7 +48,7 @@ def test_404_htmx_returns_fragment(test_app):
 def test_500_returns_friendly_page(test_app):
     response = test_app.get("/sentry-debug")
     assert response.status_code == 500
-    assert "Errore del server" in response.text
+    assert "Server error" in response.text or "Errore del server" in response.text
 
 
 @pytest.mark.integration

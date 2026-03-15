@@ -235,5 +235,17 @@
   "speaking_tap_word": "Tocca una parola per ascoltarla",
   "vocab_remove": "Rimuovi",
   "vocab_add_tooltip": "+ Aggiungi",
-  "vocab_added_tooltip": "Nel tuo vocabolario"
+  "vocab_added_tooltip": "Nel tuo vocabolario",
+  "landing_cta_inizia": "Inizia",
+  "landing_label_path": "Il percorso",
+  "landing_label_method": "Il metodo",
+  "landing_label_lesson": "Una lezione",
+  "landing_label_inside": "Dentro Maestro",
+  "landing_label_profile": "Il tuo profilo",
+  "landing_label_personalized": "Personalizzato per te",
+  "landing_persona_traveler": "Il viaggiatore",
+  "landing_persona_foodie": "Il buongustaio",
+  "landing_persona_student": "Lo studente",
+  "landing_persona_enthusiast": "L'appassionato",
+  "landing_cta_ready": "Pronto a iniziare?"
 }

@@ -56,7 +56,7 @@ def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
     ]
 
 
-def _build_vocab_attrs(word, wdef) -> str:
+def _build_vocab_attrs(word, wdef, *, anonymous: bool = False) -> str:
     """Build the data-attribute string for a vocab-word popover span."""
     senses_data = []
     translation = ""
@@ -73,6 +73,8 @@ def _build_vocab_attrs(word, wdef) -> str:
 
     senses_json = json.dumps(senses_data, ensure_ascii=False).replace("'", "&#39;")
 
+    entry_id = "" if anonymous else (word.entry_id or "")
+
     return (
         f' class="vocab-word"'
         f' data-word="{word.word}"'
@@ -80,7 +82,7 @@ def _build_vocab_attrs(word, wdef) -> str:
         f' data-syllabization="{word.syllabization or ""}"'
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
-        f' data-entry-id="{word.entry_id or ""}"'
+        f' data-entry-id="{entry_id}"'
         f' data-audio-path="{getattr(word, "audio_url", None) or ""}"'
     )
 
@@ -118,13 +120,15 @@ def get_target_text(lang_elements: list) -> str:
     return " ".join(parts)
 
 
-def _annotate_in_elements(lang_elements: list, word, wdef) -> bool:
+def _annotate_in_elements(
+    lang_elements: list, word, wdef, *, anonymous: bool = False
+) -> bool:
     """Annotate the first occurrence of word within the given BS4 elements.
 
     Returns True if a match was found and annotated.
     """
     pattern = re.compile(rf"\b({re.escape(word.word)})\b", re.IGNORECASE)
-    attrs = _build_vocab_attrs(word, wdef)
+    attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous)
 
     for el in lang_elements:
         for text_node in list(el.descendants):
@@ -201,12 +205,15 @@ async def discover(
             )
     matched_word_ids = [w.id for w in words_with_vocab.values()]
 
-    word_refs = [DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids]
-    card_filter: dict = {"word": {"$in": word_refs}}
     if student_id is not None:
-        card_filter["student_id"] = student_id
-    existing_cards = await UserVocabularyCard.find(card_filter).to_list()
-    existing_word_ids = {card.word.ref.id for card in existing_cards}
+        word_refs = [
+            DBRef(VocabularyWord.Settings.name, wid) for wid in matched_word_ids
+        ]
+        card_filter: dict = {"word": {"$in": word_refs}, "student_id": student_id}
+        existing_cards = await UserVocabularyCard.find(card_filter).to_list()
+        existing_word_ids = {card.word.ref.id for card in existing_cards}
+    else:
+        existing_word_ids = set()
 
     new_words = [w for w in words_with_vocab.values() if w.id not in existing_word_ids]
 
@@ -235,13 +242,14 @@ async def discover(
             )
 
     student_level = await get_cefr_level(student_id) if student_id else "A1"
+    anonymous = student_id is None
 
     for w in words_with_vocab.values():
         word_id = str(w.id)
         wdef = _cache.get_definition(word_id, student_level)
         if wdef is None and student_level == "A0":
             wdef = _cache.get_definition(word_id, "A1")
-        _annotate_in_elements(lang_elements, w, wdef)
+        _annotate_in_elements(lang_elements, w, wdef, anonymous=anonymous)
 
     return str(soup)
 
