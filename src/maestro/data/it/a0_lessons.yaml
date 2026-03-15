@@ -4,7 +4,7 @@ a0-01-benvenuto:
   overview: "In this first lesson you'll meet Maestro, tell us about yourself, and learn your very first Italian words."
   activities:
     - type: grammar
-      title: "Welcome to Maestro"
+      title: "Your first Italian Lesson!"
       description: "How Maestro works"
       content: |
         ## Welcome to Maestro!
@@ -45,7 +45,8 @@ a0-01-benvenuto:
       description: "Tell us about yourself"
       content: "What describes you? For example: student, retired, working in finance, living abroad, parent..."
       profile_field: background
-      response_template: "Great — we'll use this to personalise your lessons. In Italian, **Sono...** means 'I am...'."
+      response_template: >
+        Great — we'll use this to personalise your lessons. In Italian, **<span lang="it">Sono</span>...** means 'I am...'.
 
     - type: onboarding
       title: "Cosa ti piace?"
