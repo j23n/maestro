@@ -10,7 +10,7 @@
   </div>
 
   {% if why_this_matters %}
-  <h2>Why this matters</h2>
+  <h2>{{ t("grammar_why_matters") }}</h2>
   <div class="why-this-matters">
     {{ why_this_matters | markdown | safe }}
   </div>

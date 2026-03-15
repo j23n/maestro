@@ -159,8 +159,8 @@ def verify_entry(text: str, why: str, code: str, lang: str) -> list[str]:
     if re.search(r'<span\s+lang="en"', why):
         errors.append(f'{code}/{lang}: residual <span lang="en"> in why_this_matters')
 
-    # Check balanced it spans
-    opens = len(re.findall(r'<span\s+lang="it"[^>]*>', text))
+    # Check balanced spans (counts all remaining lang spans, not just "it")
+    opens = len(re.findall(r'<span\s+lang="[^"]*"[^>]*>', text))
     closes = len(re.findall(r"</span>", text))
     if opens != closes:
         errors.append(
@@ -228,11 +228,20 @@ def update_lock(json_items: list[dict]) -> None:
         counts = by_level.setdefault(level, {})
         for lng in gp.get("explanations", {}):
             counts[lng] = counts.get(lng, 0) + 1
+    # Only update generated_at when the content actually changed
+    old_lock = {}
+    if LOCK_FILE.exists():
+        old_lock = json.loads(LOCK_FILE.read_text())
+    generated_at = (
+        old_lock.get("generated_at", datetime.now(timezone.utc).isoformat())
+        if old_lock.get("sha256") == sha
+        else datetime.now(timezone.utc).isoformat()
+    )
     lock = {
         "sha256": sha,
         "gp_count": len(json_items),
         "explanations_by_level": by_level,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at,
     }
     LOCK_FILE.write_text(json.dumps(lock, indent=2) + "\n")
 
