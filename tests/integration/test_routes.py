@@ -35,5 +35,5 @@ def test_lezione_index_no_active_shows_config(test_app):
     """With no active lesson, /lezione/ should show the lesson config screen."""
     response = test_app.get("/lezione/", follow_redirects=False)
     assert response.status_code == 200
-    # A0 student sees the start button; A1+ would see the config form
-    assert "Inizia la lezione" in response.text
+    # A0 student with no progress sees the welcome card + first-lesson button
+    assert "Start your first lesson" in response.text

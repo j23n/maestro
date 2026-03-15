@@ -9,6 +9,20 @@
   <form method="post" action="/lezione/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='{{ t("new_lesson_preparing") }}'">
 
     {% if cefr == "A0" %}
+    {% if show_welcome %}
+    <div class="welcome-card">
+      <h2>Welcome to Maestro</h2>
+      <p>Maestro teaches you Italian through short, focused lessons. Each lesson combines grammar explanations, reading, listening, writing, and speaking activities — all tailored to your level.</p>
+      <ul>
+        <li><strong>Personalized</strong> — lessons adapt to your interests and progress</li>
+        <li><strong>Speech assessment</strong> — practice speaking and get pronunciation feedback</li>
+        <li><strong>Rigorous approach</strong> — built on a structured curriculum from A0 to B2</li>
+      </ul>
+      <p>Lessons are the building blocks of Maestro. Let's start your first one.</p>
+    </div>
+    {% else %}
+    <div class="onboarding-progress">Lesson {{ a0_lesson_number }} of {{ a0_total }}</div>
+    {% endif %}
     <input type="hidden" name="duration" value="20">
     {% else %}
 
@@ -80,7 +94,7 @@
     </div>
     {% endif %}
 
-    <button class="btn-start" type="submit">{{ t("new_lesson_start") }}</button>
+    <button class="btn-start" type="submit">{% if show_welcome %}Start your first lesson{% else %}{{ t("new_lesson_start") }}{% endif %}</button>
     <p class="loading-hint">{{ t("new_lesson_note") }}</p>
   </form>
 </div>
