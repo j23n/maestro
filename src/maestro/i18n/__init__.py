@@ -27,6 +27,6 @@ def _load(lang: str) -> dict:
 
 def t(key: str, **kwargs) -> str:
     """Look up a template-facing string by key and format with kwargs."""
-    strings = _load(settings.TARGET_LANGUAGE)
+    strings = _load(settings.UI_LANGUAGE)
     template = strings.get(key, key)
     return template.format(**kwargs) if kwargs else template
