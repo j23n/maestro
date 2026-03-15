@@ -36,4 +36,4 @@ def test_lezione_index_no_active_shows_config(test_app):
     response = test_app.get("/lezione/", follow_redirects=False)
     assert response.status_code == 200
     # A0 student with no progress sees the welcome card + first-lesson button
-    assert "Inizia la tua prima lezione" in response.text
+    assert "Start your first lesson" in response.text

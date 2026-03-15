@@ -122,6 +122,15 @@ def reset_taxonomy():
 
 
 @pytest.fixture(autouse=True)
+def reset_i18n_cache():
+    from maestro.i18n import _cache
+
+    _cache.clear()
+    yield
+    _cache.clear()
+
+
+@pytest.fixture(autouse=True)
 def reset_limiter():
     """Reset rate limiter state between tests."""
     from maestro.rate_limit import limiter
