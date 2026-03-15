@@ -15,7 +15,7 @@
     </div>
     {% endif %}
     <div class="grammar-content" lang="it">
-      {{ preprocessed_content | markdown | safe }}
+      {{ content | markdown | safe }}
     </div>
     {% if hints %}{% include "partials/hint.html" %}{% endif %}
 

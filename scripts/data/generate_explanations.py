@@ -95,6 +95,7 @@ def _parse_response(raw: str) -> dict[str, str] | None:
     return {
         "title": str(data.get("title", "")).strip(),
         "tip": str(data.get("tip", "")).strip(),
+        "why_this_matters": str(data.get("why_this_matters", "")).strip(),
         "explanation": str(data["explanation"]).strip(),
     }
 
@@ -283,6 +284,7 @@ async def generate(
         item.setdefault("explanations", {})[lng] = {
             "title": data["title"],
             "tip": data["tip"],
+            "why_this_matters": data["why_this_matters"],
             "explanation": data["explanation"],
             "language": lng,
         }

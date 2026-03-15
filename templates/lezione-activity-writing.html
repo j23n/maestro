@@ -7,7 +7,7 @@
 
   <div class="card">
     <div class="card-label">{{ t("page_title_writing") }}</div>
-    <div class="prompt-text" lang="it">{{ preprocessed_content | markdown | safe }}</div>
+    <div class="prompt-text" lang="it">{{ content | markdown | safe }}</div>
 
     {% if is_review %}
     <div class="review-banner">

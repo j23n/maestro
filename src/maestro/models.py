@@ -202,6 +202,7 @@ class GrammarExplanation(BaseModel):
 
     title: str = ""
     tip: str = ""  # 2-3 sentence plain-language summary; shown as tooltip on incorrect usage in activity feedback
+    why_this_matters: str = ""
     explanation: str
     language: str = "en"  # "en" or "it"
 

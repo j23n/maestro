@@ -7,7 +7,6 @@ from maestro.profile import get_cefr_level
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 from maestro.config import settings as _settings
-from maestro.vocab.discover import preprocess_grammar_markdown
 
 router = APIRouter()
 
@@ -74,7 +73,8 @@ async def grammar_detail(
             if expl.language == _settings.TARGET_LANGUAGE
             else None
         )
-        ctx["preprocessed_content"] = preprocess_grammar_markdown(expl.explanation)
+        ctx["content"] = expl.explanation
+        ctx["why_this_matters"] = expl.why_this_matters
         ctx["content_lang"] = fallback_lang
 
     display_title = strip_lang_spans(expl.title) if expl and expl.title else gp.label
@@ -95,7 +95,6 @@ async def grammar_chunk_detail(
     chunk = await GrammarChunk.find_one({"ref": ref})
     if chunk is None:
         raise HTTPException(404)
-    preprocessed_content = preprocess_grammar_markdown(chunk.content)
     heading = chunk.chunk_metadata.get("heading", ref)
     return await render_with_discover(
         request,
@@ -103,7 +102,7 @@ async def grammar_chunk_detail(
         {
             "chunk": chunk,
             "heading": heading,
-            "preprocessed_content": preprocessed_content,
+            "content": chunk.content,
         },
         student_id=student.id,
         create_cards=False,
