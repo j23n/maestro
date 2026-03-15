@@ -7,7 +7,7 @@ which maps each GP to the best chunk ref — or null if no chunk covers the conc
 This avoids the embedding approach's core flaw: cosine similarity always picks *something*,
 so A0 formulaic items (saluti, mi_chiamo, …) end up with spurious chunk_refs.
 
-Results are written directly into grammar_points.json as chunk_ref.
+Results are written directly into grammar_points.yaml as chunk_ref.
 
 Run:  uv run python scripts/llm_remap_chunks.py [--dry-run] [--batch-size 30]
 """
@@ -19,9 +19,22 @@ import json
 import logging
 import time
 
+import yaml
+
 logger = logging.getLogger(__name__)
 
 DATA_DIR = "src/maestro/data/it"
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
 _BATCH_SIZE = 30
 _MAX_RETRIES = 3
 
@@ -83,8 +96,8 @@ def _call_llm(system: str, user: str, client) -> dict[str, str | None] | None:
 def main(dry_run: bool, batch_size: int) -> None:
     from maestro.llm import get_client
 
-    with open(f"{DATA_DIR}/grammar_points.json") as f:
-        gps = json.load(f)
+    with open(f"{DATA_DIR}/grammar_points.yaml") as f:
+        gps = yaml.safe_load(f)
 
     with open(f"{DATA_DIR}/chunk_enrichment.json") as f:
         enrichment: dict[str, str] = json.load(f)
@@ -149,10 +162,18 @@ def main(dry_run: bool, batch_size: int) -> None:
         logger.info("[DRY RUN] Not writing.")
         return
 
-    with open(f"{DATA_DIR}/grammar_points.json", "w") as f:
-        json.dump(gps, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    logger.info(f"Written to {DATA_DIR}/grammar_points.json")
+    # Wrap multiline strings for block-scalar output
+    for gp in gps:
+        for key in ("description",):
+            if isinstance(gp.get(key), str) and "\n" in gp[key]:
+                gp[key] = LiteralStr(gp[key])
+        for lang, expl in gp.get("explanations", {}).items():
+            for field in ("explanation", "tip", "why_this_matters"):
+                if isinstance(expl.get(field), str) and "\n" in expl[field]:
+                    expl[field] = LiteralStr(expl[field])
+    with open(f"{DATA_DIR}/grammar_points.yaml", "w") as f:
+        yaml.dump(gps, f, default_flow_style=False, allow_unicode=True, width=200)
+    logger.info(f"Written to {DATA_DIR}/grammar_points.yaml")
 
 
 if __name__ == "__main__":

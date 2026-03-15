@@ -1,9 +1,9 @@
 """
-Generate grammar reference explanations and write them into grammar_points.json.
+Generate grammar reference explanations and write them into grammar_points.yaml.
 
 Entirely offline — no database connection required.
-Reads from grammar_points.json and (optionally) grammar_chunk_contents.json.
-Writes back to grammar_points.json and updates grammar_points.lock.
+Reads from grammar_points.yaml and (optionally) grammar_chunk_contents.json.
+Writes back to grammar_points.yaml and updates grammar_points.lock.
 The next app startup will detect the lock change and sync the DB automatically.
 
 Each grammar point gets two explanations keyed by language:
@@ -31,6 +31,8 @@ import json
 import logging
 from datetime import datetime, timezone
 
+import yaml
+
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
@@ -39,9 +41,35 @@ from maestro.utils import data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
 
-GP_JSON = data_dir() / "grammar_points.json"
+GP_YAML = data_dir() / "grammar_points.yaml"
 CHUNK_CONTENTS_JSON = data_dir() / "grammar_chunk_contents.json"
 LOCK_FILE = data_dir() / "grammar_points.lock"
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
+
+
+def _write_yaml(path, items: list) -> None:
+    """Write grammar points to YAML, using block scalars for multiline strings."""
+    for gp in items:
+        for key in ("description",):
+            if isinstance(gp.get(key), str) and "\n" in gp[key]:
+                gp[key] = LiteralStr(gp[key])
+        for lang, expl in gp.get("explanations", {}).items():
+            for field in ("explanation", "tip", "why_this_matters"):
+                if isinstance(expl.get(field), str) and "\n" in expl[field]:
+                    expl[field] = LiteralStr(expl[field])
+    with open(path, "w") as f:
+        yaml.dump(items, f, default_flow_style=False, allow_unicode=True, width=200)
+
 
 _LANG_GUIDANCE_KEYS = {
     "en": "language_guidance_en",
@@ -141,8 +169,8 @@ async def _call_api(gp: dict, chunk_content: str, lang: str) -> dict[str, str] |
 
 
 def _update_lock(json_items: list) -> None:
-    """Recompute and write grammar_points.lock from the current JSON on disk."""
-    content = GP_JSON.read_bytes()
+    """Recompute and write grammar_points.lock from the current YAML on disk."""
+    content = GP_YAML.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
     by_level: dict[str, dict[str, int]] = {}
     for gp in json_items:
@@ -165,8 +193,8 @@ def _update_lock(json_items: list) -> None:
 
 
 def list_codes(level: str | None = None, lang: str | None = None) -> None:
-    with open(GP_JSON) as f:
-        json_items = json.load(f)
+    with open(GP_YAML) as f:
+        json_items = yaml.safe_load(f)
     if level:
         json_items = [gp for gp in json_items if gp["cefr_level"] == level]
     done = sum(
@@ -201,8 +229,8 @@ async def generate(
     lang: str | None = None,
     clear: bool = False,
 ) -> None:
-    with open(GP_JSON) as f:
-        json_items = json.load(f)
+    with open(GP_YAML) as f:
+        json_items = yaml.safe_load(f)
 
     # Load chunk content for richer context (optional)
     chunk_contents: dict[str, str] = {}
@@ -219,7 +247,7 @@ async def generate(
     if code:
         all_items = [item for item in json_items if item["code"] == code]
         if not all_items:
-            logger.error(f"Grammar point '{code}' not found in grammar_points.json")
+            logger.error(f"Grammar point '{code}' not found in grammar_points.yaml")
             return
     else:
         all_items = list(json_items)
@@ -238,11 +266,9 @@ async def generate(
                 continue
             for lng in langs_to_generate:
                 item.get("explanations", {}).pop(lng, None)
-        with open(GP_JSON, "w") as f:
-            json.dump(json_items, f, indent=2, ensure_ascii=False)
-            f.write("\n")
+        _write_yaml(GP_YAML, json_items)
         logger.info(
-            "Cleared %s explanations from grammar_points.json", langs_to_generate
+            "Cleared %s explanations from grammar_points.yaml", langs_to_generate
         )
 
     # Build work list: (gp_dict, lang) pairs that still need generation
@@ -292,10 +318,8 @@ async def generate(
         changed = True
 
     if changed:
-        with open(GP_JSON, "w") as f:
-            json.dump(json_items, f, indent=2, ensure_ascii=False)
-            f.write("\n")
-        logger.info("Updated grammar_points.json")
+        _write_yaml(GP_YAML, json_items)
+        logger.info("Updated grammar_points.yaml")
         _update_lock(json_items)
 
     logger.info("Done.")

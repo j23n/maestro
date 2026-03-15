@@ -1,5 +1,5 @@
 """
-Generate concise Italian labels for all GrammarPoints and write them to grammar_points.json.
+Generate concise Italian labels for all GrammarPoints and write them to grammar_points.yaml.
 
 Labels are precise Italian noun phrases (5–12 words) using standard grammatical terminology.
 They serve as the primary display name in LLM lesson-planning and scoring prompts.
@@ -23,8 +23,21 @@ import argparse
 import json
 import logging
 
+import yaml
+
 from maestro.llm import get_client
 from maestro.utils import data_dir
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
 
 logger = logging.getLogger(__name__)
 
@@ -101,9 +114,9 @@ def _generate_batch(batch: list[dict], client) -> list[str] | None:
 
 
 def generate(force: bool = False, code: str | None = None) -> None:
-    json_path = data_dir() / "grammar_points.json"
-    with open(json_path) as f:
-        items = json.load(f)
+    yaml_path = data_dir() / "grammar_points.yaml"
+    with open(yaml_path) as f:
+        items = yaml.safe_load(f)
 
     if code:
         todo = [i for i, gp in enumerate(items) if gp["code"] == code]
@@ -135,11 +148,19 @@ def generate(force: bool = False, code: str | None = None) -> None:
             items[idx]["label"] = label
             logger.info(f"  {items[idx]['code']:20s}  →  {label}")
 
-    with open(json_path, "w") as f:
-        json.dump(items, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    # Wrap multiline strings for block-scalar output
+    for item in items:
+        for key in ("description",):
+            if isinstance(item.get(key), str) and "\n" in item[key]:
+                item[key] = LiteralStr(item[key])
+        for lang, expl in item.get("explanations", {}).items():
+            for field in ("explanation", "tip", "why_this_matters"):
+                if isinstance(expl.get(field), str) and "\n" in expl[field]:
+                    expl[field] = LiteralStr(expl[field])
+    with open(yaml_path, "w") as f:
+        yaml.dump(items, f, default_flow_style=False, allow_unicode=True, width=200)
 
-    logger.info("Done. Updated grammar_points.json.")
+    logger.info("Done. Updated grammar_points.yaml.")
 
 
 if __name__ == "__main__":

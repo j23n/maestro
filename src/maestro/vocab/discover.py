@@ -265,7 +265,9 @@ async def discover(
 
     student_level = await get_cefr_level(student_id) if student_id else "A1"
     anonymous = student_id is None
-    owned_word_ids = existing_word_ids | {w.id for w in new_words}
+    owned_word_ids = existing_word_ids | (
+        {w.id for w in new_words} if create_cards else set()
+    )
 
     for w in words_with_vocab.values():
         word_id = str(w.id)

@@ -3,10 +3,10 @@ Migration 0003 — Remap grammar point references from verbose unistr_codes to s
 
 Prerequisites:
   1. Run `uv run python scripts/data/generate_short_codes.py` to populate `unistr_code`
-     fields in grammar_points.json.
+     fields in grammar_points.yaml.
   2. Run `uv run python -m maestro.learning.ingest` to sync grammar_points to MongoDB.
 
-This migration builds a unistr_code → short code mapping from grammar_points.json and
+This migration builds a unistr_code → short code mapping from grammar_points.yaml and
 remaps all collections that stored the old verbose codes.
 
 Collections affected:
@@ -19,9 +19,9 @@ Collections affected:
 
 from __future__ import annotations
 
-import json
 import logging
 
+import yaml
 from pymongo import UpdateOne
 
 from maestro.utils import data_dir
@@ -31,10 +31,10 @@ logger = logging.getLogger(__name__)
 
 async def run(db) -> None:
     # ── Step 0: Build unistr_code → short code mapping ─────────────────────
-    # Primary source: grammar_points.json (reliable even after unistr_code is
-    # removed from the Beanie model, because the field lives in the JSON file).
-    with open(data_dir() / "grammar_points.json") as f:
-        gp_items = json.load(f)
+    # Primary source: grammar_points.yaml (reliable even after unistr_code is
+    # removed from the Beanie model, because the field lives in the YAML file).
+    with open(data_dir() / "grammar_points.yaml") as f:
+        gp_items = yaml.safe_load(f)
 
     unistr_to_code: dict[str, str] = {
         item["unistr_code"]: item["code"]
@@ -44,7 +44,7 @@ async def run(db) -> None:
 
     # Pre-JSON-era codes that existed in the DB before the unistr_code scheme
     # was introduced. Verified by comparing old GP labels against new GP labels
-    # in grammar_points.json at migration time (March 2026).
+    # in grammar_points.yaml at migration time (March 2026).
     # Re-run the migration (it is idempotent) if any mapping is incorrect.
     _LEGACY_MAP = {
         "presente_indicativo": "ind_pres",
@@ -62,7 +62,7 @@ async def run(db) -> None:
     for old, new in _LEGACY_MAP.items():
         if new not in current_codes:
             logger.warning(
-                "0003: _LEGACY_MAP target %r not found in grammar_points.json "
+                "0003: _LEGACY_MAP target %r not found in grammar_points.yaml "
                 "(old code %r) — verify the mapping is still correct",
                 new,
                 old,

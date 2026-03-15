@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/grammar_points.lock after modifying grammar_points.json.
+"""Recompute src/maestro/data/it/grammar_points.lock after modifying grammar_points.yaml.
 
-The lock file stores the SHA256 hash of grammar_points.json and is committed to the repo.
+The lock file stores the SHA256 hash of grammar_points.yaml and is committed to the repo.
 At app startup, gp_sync compares this hash against what's stored in the database and
-re-runs ingest if they differ — ensuring the DB always matches the committed JSON.
+re-runs ingest if they differ — ensuring the DB always matches the committed YAML.
 
 Usage: uv run python scripts/update_gp_lock.py
 """
@@ -14,8 +14,10 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GP_JSON = REPO_ROOT / "src/maestro/data/it/grammar_points.json"
+GP_YAML = REPO_ROOT / "src/maestro/data/it/grammar_points.yaml"
 LOCK_FILE = REPO_ROOT / "src/maestro/data/it/grammar_points.lock"
 
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
@@ -58,13 +60,13 @@ def _format_level_summary(by_level: dict[str, dict[str, int]], data: list) -> li
 
 
 def main() -> None:
-    if not GP_JSON.exists():
-        print(f"ERROR: {GP_JSON} not found", file=sys.stderr)
+    if not GP_YAML.exists():
+        print(f"ERROR: {GP_YAML} not found", file=sys.stderr)
         sys.exit(1)
 
-    content = GP_JSON.read_bytes()
+    content = GP_YAML.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
-    data = json.loads(content)
+    data = yaml.safe_load(content)
 
     old_sha = None
     if LOCK_FILE.exists():
@@ -79,9 +81,9 @@ def main() -> None:
     if old_sha is None:
         print(f"  + grammar_points.lock: created (gps={lock['gp_count']})")
     elif old_sha != sha:
-        print(f"  ~ grammar_points.json: hash changed (gps={lock['gp_count']})")
+        print(f"  ~ grammar_points.yaml: hash changed (gps={lock['gp_count']})")
     else:
-        print(f"  . grammar_points.json: unchanged (hash={sha[:16]})")
+        print(f"  . grammar_points.yaml: unchanged (hash={sha[:16]})")
 
     for line in _format_level_summary(lock["explanations_by_level"], data):
         print(line)
