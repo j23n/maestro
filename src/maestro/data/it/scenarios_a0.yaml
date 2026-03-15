@@ -32,7 +32,7 @@ scenarios:
     label: "I numeri"
     description: "Numbers 0-20"
     cefr_level: A0
-    sequence: 3
+    sequence: 4
     cf_codes:
       - a0_contare
     gp_codes:
@@ -44,7 +44,7 @@ scenarios:
     label: "Si e no"
     description: "Yes, no, and simple negation"
     cefr_level: A0
-    sequence: 4
+    sequence: 3
     cf_codes:
       - a0_rispondere_si_no
     gp_codes:
