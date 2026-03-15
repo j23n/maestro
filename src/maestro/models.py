@@ -178,11 +178,18 @@ class UserVocabularyCard(Document):
     interval: int = 1
     repetitions: int = 0
     next_review: date = Field(default_factory=date.today)
+    excluded: bool = False
 
     class Settings:
         name = "user_vocabulary_cards"
         indexes = [
-            IndexModel([("student_id", ASCENDING), ("next_review", ASCENDING)]),
+            IndexModel(
+                [
+                    ("student_id", ASCENDING),
+                    ("excluded", ASCENDING),
+                    ("next_review", ASCENDING),
+                ]
+            ),
             IndexModel([("student_id", ASCENDING), ("word", ASCENDING)]),
         ]
 

@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% macro chip_exclude(entry_id) %}
+<button class="chip-exclude"
+        hx-post="/vocab/word/{{ entry_id }}/exclude"
+        hx-target="closest .vocab-chip"
+        hx-swap="delete">x</button>
+{% endmacro %}
 {% block title %}{{ t("page_title_vocab") }} — Maestro{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/vocab.css">{% endblock %}
 
@@ -67,11 +73,14 @@
     </div>
     <div class="vocab-chips">
       {% for card in due %}
-      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
-        <span class="chip-dot"></span>
-        <span class="chip-word">{{ card.word.word }}</span>
-        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
-      </a>
+      <div class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
+        <a href="/vocab/word/{{ card.word.entry_id }}">
+          <span class="chip-dot"></span>
+          <span class="chip-word">{{ card.word.word }}</span>
+          <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        </a>
+        {{ chip_exclude(card.word.entry_id) }}
+      </div>
       {% endfor %}
     </div>
   </section>
@@ -86,11 +95,14 @@
     </div>
     <div class="vocab-chips">
       {% for card in learning %}
-      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
-        <span class="chip-dot"></span>
-        <span class="chip-word">{{ card.word.word }}</span>
-        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
-      </a>
+      <div class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
+        <a href="/vocab/word/{{ card.word.entry_id }}">
+          <span class="chip-dot"></span>
+          <span class="chip-word">{{ card.word.word }}</span>
+          <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        </a>
+        {{ chip_exclude(card.word.entry_id) }}
+      </div>
       {% endfor %}
     </div>
   </section>
@@ -105,11 +117,14 @@
     </div>
     <div class="vocab-chips">
       {% for card in known %}
-      <a href="/vocab/word/{{ card.word.entry_id }}" class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
-        <span class="chip-dot"></span>
-        <span class="chip-word">{{ card.word.word }}</span>
-        <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
-      </a>
+      <div class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
+        <a href="/vocab/word/{{ card.word.entry_id }}">
+          <span class="chip-dot"></span>
+          <span class="chip-word">{{ card.word.word }}</span>
+          <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
+        </a>
+        {{ chip_exclude(card.word.entry_id) }}
+      </div>
       {% endfor %}
     </div>
   </section>

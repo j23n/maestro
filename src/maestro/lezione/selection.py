@@ -264,7 +264,10 @@ async def fill_vocab_cards(
     """
     visible_levels = cefr_levels_up_to(cefr_level)
 
-    card_filter: dict = {"next_review": {"$lte": date.today()}}
+    card_filter: dict = {
+        "next_review": {"$lte": date.today()},
+        "excluded": {"$ne": True},
+    }
     if student_id is not None:
         card_filter["student_id"] = student_id
     due_all = await UserVocabularyCard.find(card_filter).to_list()

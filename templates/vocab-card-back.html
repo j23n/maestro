@@ -62,20 +62,25 @@
   {% endif %}
 
   <div class="rating-buttons">
-    {% for label, value in [(t("srs_again"), 1), (t("srs_hard"), 3), (t("srs_good"), 4), (t("srs_easy"), 5)] %}
     <form hx-post="{{ review_url }}"
           hx-target="#practice-card"
           hx-swap="outerHTML">
-      <input type="hidden" name="rating" value="{{ value }}">
+      <input type="hidden" name="rating" value="1">
       <input type="hidden" name="{{ review_extra_name }}" value="{{ review_extra_value }}">
-      <button>{{ label }}</button>
+      <button class="btn-incorrect">{{ t("srs_incorrect") }}</button>
     </form>
-    {% endfor %}
+    <form hx-post="{{ review_url }}"
+          hx-target="#practice-card"
+          hx-swap="outerHTML">
+      <input type="hidden" name="rating" value="4">
+      <input type="hidden" name="{{ review_extra_name }}" value="{{ review_extra_value }}">
+      <button class="btn-correct">{{ t("srs_correct") }}</button>
+    </form>
   </div>
 
   <script>
     document.addEventListener('keydown', function(e) {
-      if (e.key >= '1' && e.key <= '4') {
+      if (e.key === '1' || e.key === '2') {
         var buttons = document.querySelectorAll('.rating-buttons button');
         var idx = parseInt(e.key) - 1;
         if (buttons[idx]) buttons[idx].click();
