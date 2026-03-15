@@ -167,5 +167,29 @@
       if (toggle) toggle.classList.toggle('revealed');
     });
   </script>
+  <script>
+    // Feature hints: position near anchor, auto-show, dismiss/toggle
+    function _initHints() {
+      document.querySelectorAll('.feature-hint').forEach(function(hint) {
+        var anchor = document.querySelector(hint.dataset.anchor);
+        if (!anchor) { hint.style.display = 'none'; return; }
+        // Position hint after the anchor element
+        anchor.parentNode.insertBefore(hint, anchor.nextSibling);
+        // Auto-show bubble on first appearance
+        var bubble = hint.querySelector('.hint-bubble');
+        bubble.classList.add('hint-visible');
+        // Dismiss button: hide bubble, keep (i)
+        hint.querySelector('.hint-dismiss').addEventListener('click', function() {
+          bubble.classList.remove('hint-visible');
+        });
+        // (i) button: toggle bubble
+        hint.querySelector('.hint-info-btn').addEventListener('click', function() {
+          bubble.classList.toggle('hint-visible');
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', _initHints);
+    document.addEventListener('htmx:afterSettle', _initHints);
+  </script>
 </body>
 </html>
