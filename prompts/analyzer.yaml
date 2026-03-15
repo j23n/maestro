@@ -1,4 +1,4 @@
-version: "6"
+version: "7"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -7,51 +7,6 @@ version: "6"
 # All tasks share a unified "expert teacher" persona. JSON-output tasks use
 # the same strong output directive; the plain-text task (feedback_fill_blank)
 # uses a prose directive instead.
-# ---------------------------------------------------------------------------
-
-message_analysis:
-  description: >
-    Analyze a student message in the target language to identify grammar structures used
-    correctly vs errors, communicative functions performed, and themes.
-  # variables: text, grammar_lines, function_lines, context_block, feedback_field, target_language
-  system: |
-    You are an expert {{target_language}} language teacher performing linguistic analysis.
-    Output only raw JSON — no preamble, no reasoning, no markdown, no text after the closing brace.
-    Your entire response is the JSON object. Nothing else.
-  user: |
-    Analyze this {{target_language}} learner's message. Identify which grammar structures
-    appear (correctly used vs errors), communicative functions performed, and themes.
-
-    {{context_block}}Student message: "{{text}}"
-
-    Grammar point codes + descriptions:
-    {{grammar_lines}}
-
-    Communicative function codes:
-    {{function_lines}}
-
-    Themes: self_identity, family, daily_routine, food_home, health_body,
-    shopping, work_study, travel, culture_society, nature_environment
-
-    Always populate grammar_correct_codes with every code from the list above that the
-    student demonstrably uses correctly. Do not leave it empty if the text uses any of
-    those grammar structures. Only leave it empty if none of the listed structures appear.
-
-    Return ONLY this JSON schema:
-    {"grammar_correct_codes":[...],"grammar_error_codes":[...],"functions_performed":[...],"themes":[...]{{feedback_field}}}
-
-# Fragment inserted as {{context_block}} when a drill context is present.
-# Leave blank (empty string) when not in a drill context.
-drill_context_fragment:
-  # variable: drill_context
-  user: "Drill context (what the student was asked to do):\n{{drill_context}}\n\n"
-
-# Fragment inserted as {{feedback_field}} when grading a drill response.
-# Leave blank (empty string) for normal conversation analysis.
-drill_errors_fragment:
-  user: |
-    ,"errors":[{"wrong":"<exact wrong phrase from student text>","correct":"<corrected version>","explanation":"<one sentence in {{feedback_language}} explaining the rule>"}]
-
 # ---------------------------------------------------------------------------
 
 scoring_system:
