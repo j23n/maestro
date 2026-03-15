@@ -27,6 +27,38 @@ def test_404_includes_nav(test_app):
     assert "Lezione" in response.text
 
 
+@pytest.mark.integration
+def test_404_shows_custom_icon(test_app):
+    response = test_app.get("/nonexistent-page")
+    assert response.status_code == 404
+    # Compass SVG icon for 404
+    assert "<circle cx=" in response.text
+    assert "<polygon" in response.text
+
+
+@pytest.mark.integration
+def test_404_htmx_returns_fragment(test_app):
+    response = test_app.get("/nonexistent-page", headers={"HX-Request": "true"})
+    assert response.status_code == 404
+    assert "<nav" not in response.text
+    assert "generating-error-card" in response.text
+
+
+@pytest.mark.integration
+def test_500_returns_friendly_page(test_app):
+    response = test_app.get("/sentry-debug")
+    assert response.status_code == 500
+    assert "Errore del server" in response.text
+
+
+@pytest.mark.integration
+def test_500_htmx_returns_fragment(test_app):
+    response = test_app.get("/sentry-debug", headers={"HX-Request": "true"})
+    assert response.status_code == 500
+    assert "<nav" not in response.text
+    assert "generating-error-card" in response.text
+
+
 # ---------------------------------------------------------------------------
 # Onboarding name validation
 # ---------------------------------------------------------------------------
