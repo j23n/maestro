@@ -268,6 +268,8 @@ async def lezione_generating(
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
+    is_htmx = request.headers.get("HX-Request") == "true"
+
     if not lesson.generating:
         if lesson.generation_error:
             # Show error state with retry button
@@ -277,6 +279,7 @@ async def lezione_generating(
                 {"lesson": lesson},
                 student_id=student.id,
             )
+        dest = None
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
             if lesson.activities[next_idx].status == ActivityStatus.PENDING:
@@ -290,24 +293,28 @@ async def lezione_generating(
                         }
                     }
                 )
-                return RedirectResponse(
-                    url=activity_url(lesson_id, next_idx), status_code=303
-                )
+                dest = activity_url(lesson_id, next_idx)
+                break
             next_idx += 1
-        if lesson.status != LessonStatus.COMPLETED:
-            now = utcnow()
-            lesson.status = LessonStatus.COMPLETED
-            lesson.completed_at = now
-            set_fields = {
-                "status": LessonStatus.COMPLETED.value,
-                "completed_at": now,
-            }
-            _sweep_leftover_activities(lesson, set_fields)
-            await lesson.update({"$set": set_fields})
-            await update_scenario_progress(lesson)
-            if lesson.cefr_at_start == "A0":
-                await _credit_a0_mastery(lesson)
-        return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
+        if dest is None:
+            if lesson.status != LessonStatus.COMPLETED:
+                now = utcnow()
+                lesson.status = LessonStatus.COMPLETED
+                lesson.completed_at = now
+                set_fields = {
+                    "status": LessonStatus.COMPLETED.value,
+                    "completed_at": now,
+                }
+                _sweep_leftover_activities(lesson, set_fields)
+                await lesson.update({"$set": set_fields})
+                await update_scenario_progress(lesson)
+                if lesson.cefr_at_start == "A0":
+                    await _credit_a0_mastery(lesson)
+            dest = f"/lezione/{lesson_id}/complete"
+        # HX-Redirect forces a full page navigation so scripts reinitialize
+        if is_htmx:
+            return Response(status_code=200, headers={"HX-Redirect": dest})
+        return RedirectResponse(url=dest, status_code=303)
     return await render_with_discover(
         request,
         "lezione-generating.html",
