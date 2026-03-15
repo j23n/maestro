@@ -13,6 +13,11 @@
       <div class="why-label">{{ t("grammar_why_matters") }}</div>
       <p><span lang="{{ why_lang }}">{{ activity.why_important }}</span></p>
     </div>
+    {% elif why_this_matters %}
+    <div class="why-important">
+      <div class="why-label">{{ t("grammar_why_matters") }}</div>
+      {{ why_this_matters | markdown | safe }}
+    </div>
     {% endif %}
     <div class="grammar-content" lang="it">
       {{ content | markdown | safe }}

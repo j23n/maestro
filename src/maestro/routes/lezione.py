@@ -492,6 +492,14 @@ async def lezione_activity(
             gp = await GrammarPoint.find_one({"label": gp_label})
         if gp:
             ctx["chunk_ref"] = gp.chunk_ref
+            if not activity.why_important:
+                expl_lang = "it" if level in ("B1", "B2") else "en"
+                expl = gp.explanations.get(expl_lang) or next(
+                    (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+                    None,
+                )
+                if expl and expl.why_this_matters:
+                    ctx["why_this_matters"] = expl.why_this_matters
         ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
             request, "lezione-activity-grammar.html", ctx, student_id=student.id
