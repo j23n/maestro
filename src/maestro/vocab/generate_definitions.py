@@ -208,13 +208,23 @@ async def generate(
     test: bool = False,
     my_cards: bool = False,
     missing: bool = False,
+    words_filter: list[str] | None = None,
+    level: str | None = None,
+    defs_only: bool = False,
+    audio_only: bool = False,
+    force: bool = False,
+    dry_run: bool = False,
 ):
     await init_db()
 
     if missing:
         my_cards = True  # --missing implies --my-cards
 
-    if my_cards:
+    # --- collect candidate words ---
+    if words_filter:
+        words = await VocabularyWord.find({"word": {"$in": words_filter}}).to_list()
+        logger.info(f"Found {len(words)} words matching --words filter")
+    elif my_cards:
         cards = await UserVocabularyCard.find_all().to_list()
         word_ids = set()
         for c in cards:
@@ -226,56 +236,111 @@ async def generate(
         words = await VocabularyWord.find_all().to_list()
         logger.info(f"Found {len(words)} vocabulary words")
 
-    if missing:
-        # Include words missing definitions OR audio
-        words_missing_audio = [w for w in words if not word_audio_path(w.word).exists()]
-        todo_defs = await _collect_words_needing_regen(words)
-        todo_def_ids = {w.id for w in todo_defs}
-        todo = todo_defs + [w for w in words_missing_audio if w.id not in todo_def_ids]
-        logger.info(f"{len(todo)} words need (re)generation or audio (--missing)")
+    if level:
+        words = [w for w in words if w.cefr_level == level]
+        logger.info(f"{len(words)} words after --level {level} filter")
+
+    # --- determine what needs work ---
+    if audio_only:
+        need_defs: list[VocabularyWord] = []
+    elif force:
+        need_defs = [w for w in words if w.senses]
     else:
-        todo = await _collect_words_needing_regen(words)
-        logger.info(f"{len(todo)} words need (re)generation")
+        need_defs = await _collect_words_needing_regen(words)
+
+    if defs_only:
+        need_audio: list[VocabularyWord] = []
+    elif force:
+        need_audio = list(words)
+    else:
+        # Find words missing audio files — excluding words that will get audio
+        # as a side effect of definition generation
+        words_missing_audio = [w for w in words if not word_audio_path(w.word).exists()]
+        need_defs_ids = {w.id for w in need_defs}
+        need_audio = [w for w in words_missing_audio if w.id not in need_defs_ids]
+
+    logger.info(
+        f"{len(need_defs)} words need definitions, {len(need_audio)} need audio"
+    )
+
+    if dry_run:
+        if need_defs:
+            logger.info(
+                "Would regenerate definitions for: %s",
+                ", ".join(w.word for w in need_defs),
+            )
+        if need_audio:
+            logger.info(
+                "Would regenerate audio for: %s",
+                ", ".join(w.word for w in need_audio),
+            )
+        return
 
     if test:
-        todo = todo[:BATCH_SIZE]
-        logger.info(f"  --test: limiting to {len(todo)} words (one batch)")
+        need_defs = need_defs[:BATCH_SIZE]
+        need_audio = need_audio[:BATCH_SIZE]
+        logger.info(f"  --test: limiting to {BATCH_SIZE} words")
 
-    # Process in batches
-    total_batches = (len(todo) + BATCH_SIZE - 1) // BATCH_SIZE
-    for i in range(0, len(todo), BATCH_SIZE):
-        batch = todo[i : i + BATCH_SIZE]
-        batch_num = i // BATCH_SIZE + 1
-        words_str = ", ".join(w.word for w in batch)
-        logger.info(f"Batch {batch_num}/{total_batches}: {words_str}")
+    # --- process definitions in batches ---
+    if need_defs:
+        total_batches = (len(need_defs) + BATCH_SIZE - 1) // BATCH_SIZE
+        for i in range(0, len(need_defs), BATCH_SIZE):
+            batch = need_defs[i : i + BATCH_SIZE]
+            batch_num = i // BATCH_SIZE + 1
+            words_str = ", ".join(w.word for w in batch)
+            logger.info(f"Batch {batch_num}/{total_batches}: {words_str}")
 
-        try:
-            claude_data = await _call_api(batch)
-        except Exception as exc:
-            logger.error(f"API error on batch {batch_num}: {exc}")
-            continue
-
-        for word in batch:
             try:
-                key = _word_key(word)
-                entry = claude_data.get(key) or claude_data.get(key.lower())
-                if entry and word.cefr_level is None:
-                    cefr = entry.get("cefr_level")
-                    if cefr in ("A1", "A2", "B1", "B2"):
-                        word.cefr_level = cefr
-                        await word.save()
-                        logger.info(
-                            "classified word CEFR level",
-                            extra={"word": word.word, "cefr_level": cefr},
-                        )
-                await _save_all_levels(word, claude_data)
-                # Generate audio if missing
-                if word.audio_url is None:
-                    from maestro.tts import generate_word_audio
-
-                    await generate_word_audio(word.word)
+                claude_data = await _call_api(batch)
             except Exception as exc:
-                logger.error(f"Failed to save definitions for '{word.word}': {exc}")
+                logger.error(f"API error on batch {batch_num}: {exc}")
+                continue
+
+            # Delete existing definitions only after successful API response
+            # to avoid data loss if the LLM call fails.
+            if force:
+                for word in batch:
+                    await VocabularyWordDefinition.find(
+                        {"word": DBRef(VocabularyWord.Settings.name, word.id)}
+                    ).delete()
+
+            for word in batch:
+                try:
+                    key = _word_key(word)
+                    entry = claude_data.get(key) or claude_data.get(key.lower())
+                    if entry and word.cefr_level is None:
+                        cefr = entry.get("cefr_level")
+                        if cefr in ("A1", "A2", "B1", "B2"):
+                            word.cefr_level = cefr
+                            await word.save()
+                            logger.info(
+                                "classified word CEFR level",
+                                extra={"word": word.word, "cefr_level": cefr},
+                            )
+                    await _save_all_levels(word, claude_data)
+                    # Generate audio if missing (side effect of def generation)
+                    if not defs_only and word.audio_url is None:
+                        from maestro.tts import generate_word_audio
+
+                        await generate_word_audio(word.word)
+                except Exception as exc:
+                    logger.error(f"Failed to save definitions for '{word.word}': {exc}")
+
+    # --- process audio-only words ---
+    for i, word in enumerate(need_audio, 1):
+        try:
+            logger.info(
+                "[%d/%d] Generating audio for '%s'", i, len(need_audio), word.word
+            )
+            if force:
+                path = word_audio_path(word.word)
+                if path.exists():
+                    path.unlink()
+            from maestro.tts import generate_word_audio
+
+            await generate_word_audio(word.word)
+        except Exception as exc:
+            logger.error(f"Failed to generate audio for '{word.word}': {exc}")
 
     logger.info("Done.")
 
@@ -298,5 +363,56 @@ if __name__ == "__main__":
         action="store_true",
         help="Process UserVocabularyCard words missing definitions OR audio",
     )
+    parser.add_argument(
+        "--words",
+        type=str,
+        default=None,
+        help="Comma-separated list of words to regenerate (default: all)",
+    )
+    parser.add_argument(
+        "--level",
+        type=str,
+        default=None,
+        choices=["A0", "A1", "A2", "B1", "B2"],
+        help="Filter by CEFR level",
+    )
+    parser.add_argument(
+        "--defs-only",
+        action="store_true",
+        help="Only regenerate definitions (skip audio)",
+    )
+    parser.add_argument(
+        "--audio-only",
+        action="store_true",
+        help="Only regenerate audio (skip definitions)",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Regenerate even if definitions/audio already exist",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview what would be regenerated without making changes",
+    )
     args = parser.parse_args()
-    asyncio.run(generate(test=args.test, my_cards=args.my_cards, missing=args.missing))
+
+    if args.defs_only and args.audio_only:
+        parser.error("--defs-only and --audio-only are mutually exclusive")
+
+    words_list = [w.strip() for w in args.words.split(",")] if args.words else None
+
+    asyncio.run(
+        generate(
+            test=args.test,
+            my_cards=args.my_cards,
+            missing=args.missing,
+            words_filter=words_list,
+            level=args.level,
+            defs_only=args.defs_only,
+            audio_only=args.audio_only,
+            force=args.force,
+            dry_run=args.dry_run,
+        )
+    )
