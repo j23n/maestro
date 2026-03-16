@@ -29,7 +29,9 @@ _HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
 _SKIP_DISCOVER_TAGS = frozenset({"html", "head", "title", "script", "style", "nav"})
 
 # Word IDs currently being generated — prevents concurrent LLM calls for the
-# same word when multiple requests discover it simultaneously.
+# same word when multiple requests discover it simultaneously.  Unbounded but
+# entries are removed in _generate_and_cache's finally block; if the process is
+# killed mid-generation, stale entries are cleared on restart.
 _pending_def_gen: set[str] = set()
 
 
