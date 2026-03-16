@@ -413,7 +413,8 @@ async def lezione_activity(
             student_id=student.id,
         )
 
-    # Completed scored activities with stored feedback — show the result page
+    # Completed scored activities with stored feedback — show the result page.
+    # LISTENING is included because it submits through /reading-submit, which stores feedback.
     if is_review and activity.result and activity.result.get("feedback"):
         if activity.type in (
             ActivityType.DRILL,
