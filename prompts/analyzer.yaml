@@ -1,4 +1,4 @@
-version: "8"
+version: "9"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -32,7 +32,10 @@ scoring_system:
     Field definitions:
     - objective_correct: true/false per the OBJECTIVE stated in the user message; read it first
     - objective_note: empty string when correct; one sentence in {{feedback_language}} when incorrect
-    - grammar_errors: freetext strings describing grammar issues found, e.g.
+    - grammar_errors: freetext strings describing grammar issues NOT already explained
+      in objective_note. If the grammar error IS the reason for objective_correct=false
+      and is already covered by objective_note, do NOT repeat it here. Only list
+      additional/secondary grammar issues, e.g.
       "ho andato → sono andato (auxiliary essere with motion verbs)". Up to 4.
       Grammar errors NEVER affect objective_correct.
     - tips: short spelling/accent notes only (e.g. "città not citta"). Up to 3.

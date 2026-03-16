@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from maestro.learning.profile import _outcome_ok
 from maestro.models import GrammarPoint, LearningProfile
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 
@@ -20,7 +21,10 @@ def build_grammar_by_level(
             correct = profile.grammar_correct_counts.get(p.code, 0) if profile else 0
             errors = profile.grammar_error_counts.get(p.code, 0) if profile else 0
             recent = profile.grammar_recent_outcomes.get(p.code, []) if profile else []
-            mastered = len(recent) >= 5 and sum(recent) / len(recent) >= 0.8
+            recent_bools = [_outcome_ok(r) for r in recent]
+            mastered = (
+                len(recent_bools) >= 5 and sum(recent_bools) / len(recent_bools) >= 0.8
+            )
             title = gp_titles.get(p.code, "")
             skills.append(
                 {

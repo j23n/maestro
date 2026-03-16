@@ -568,7 +568,9 @@ async def test_skip_onboarding_sets_flags_and_graduates(db):
 
     # GP mastery credited
     assert profile.grammar_correct_counts.get("gp_saluti", 0) >= 5
-    assert profile.grammar_recent_outcomes.get("gp_saluti") == [True] * 5
+    recent = profile.grammar_recent_outcomes.get("gp_saluti")
+    assert len(recent) == 5
+    assert all(r["ok"] is True for r in recent)
     assert profile.grammar_correct_counts.get("gp_addio", 0) >= 5
 
     # CF mastery credited

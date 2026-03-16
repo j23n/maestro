@@ -234,7 +234,8 @@
           <div class="skill-row {% if skill.mastered %}mastered{% endif %}">
             <div class="pip-track">
               {% for outcome in skill.recent %}
-                <span class="pip {% if outcome %}ok{% else %}err{% endif %}"></span>
+                {% set ok = outcome.ok if outcome is mapping else outcome %}
+                <span class="pip {% if ok %}ok{% else %}err{% endif %}"></span>
               {% endfor %}
               {% for _ in range(10 - (skill.recent | length)) %}
                 <span class="pip"></span>

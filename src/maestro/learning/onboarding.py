@@ -32,7 +32,8 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
             profile.grammar_correct_counts[code] = max(
                 profile.grammar_correct_counts.get(code, 0), 5
             )
-            profile.grammar_recent_outcomes[code] = [True] * 5
+            now = utcnow().isoformat()
+            profile.grammar_recent_outcomes[code] = [{"ok": True, "ts": now}] * 5
         # Credit CFs: set count to 3 (demonstration threshold)
         for code in scenario.cf_codes or []:
             profile.functions_counts[code] = max(

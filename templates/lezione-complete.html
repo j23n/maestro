@@ -83,12 +83,21 @@
   {% if covered_grammar_points %}
   <div class="review-box">
     <div class="review-heading">{{ t("lesson_grammar_covered_label") }}</div>
-    <div class="review-links">
+    <div class="skill-list">
       {% for gp in covered_grammar_points %}
-      <a href="/grammar/{{ gp.code }}" class="review-link">
-        {{ gp_titles.get(gp.code, gp.label) }}
-        <span class="review-level">{{ gp.cefr_level }}</span>
-      </a>
+      <div class="skill-row pip-animate">
+        <div class="pip-track">
+          {% for outcome in gp_outcomes.get(gp.code, []) %}
+            {% set ok = outcome.ok if outcome is mapping else outcome %}
+            {% set ts = outcome.ts if outcome is mapping else "" %}
+            <span class="pip {% if ok %}ok{% else %}err{% endif %}" {% if ts %}title="{{ ts[:10] }}"{% endif %}></span>
+          {% endfor %}
+          {% for _ in range(10 - (gp_outcomes.get(gp.code, []) | length)) %}
+            <span class="pip"></span>
+          {% endfor %}
+        </div>
+        <a class="skill-label" href="/grammar/{{ gp.code }}">{{ gp_titles.get(gp.code, gp.label) }}</a>
+      </div>
       {% endfor %}
     </div>
   </div>
@@ -97,17 +106,37 @@
   {% if weak_grammar_points %}
   <div class="review-box">
     <div class="review-heading">{{ t("lesson_review_label") }}</div>
-    <div class="review-links">
+    <div class="skill-list">
       {% for gp in weak_grammar_points %}
-      <a href="/grammar/{{ gp.code }}" class="review-link">
-        {{ gp_titles.get(gp.code, gp.label) }}
-        <span class="review-level">{{ gp.cefr_level }}</span>
-      </a>
+      <div class="skill-row pip-animate">
+        <div class="pip-track">
+          {% for outcome in gp_outcomes.get(gp.code, []) %}
+            {% set ok = outcome.ok if outcome is mapping else outcome %}
+            {% set ts = outcome.ts if outcome is mapping else "" %}
+            <span class="pip {% if ok %}ok{% else %}err{% endif %}" {% if ts %}title="{{ ts[:10] }}"{% endif %}></span>
+          {% endfor %}
+          {% for _ in range(10 - (gp_outcomes.get(gp.code, []) | length)) %}
+            <span class="pip"></span>
+          {% endfor %}
+        </div>
+        <a class="skill-label" href="/grammar/{{ gp.code }}">{{ gp_titles.get(gp.code, gp.label) }}</a>
+      </div>
       {% if gp.chunk_ref %}
       <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">
         {{ t("lesson_full_rule") }}
       </a>
       {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if covered_comm_functions %}
+  <div class="review-box">
+    <div class="review-heading">{{ t("lesson_cf_covered_label") }}</div>
+    <div class="cf-tags">
+      {% for cf in covered_comm_functions %}
+      <span class="cf-tag" lang="it">{{ cf.label }}</span>
       {% endfor %}
     </div>
   </div>
