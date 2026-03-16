@@ -5,6 +5,7 @@ a natural-language description for the system prompt.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -21,6 +22,8 @@ from maestro.models import (
 )
 from maestro.profile import get_or_create_profile
 from maestro.utils import CEFR_ORDER, utcnow
+
+logger = logging.getLogger(__name__)
 
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
 
@@ -64,8 +67,22 @@ async def update_profile(event: "LearningEvent") -> None:
         profile.grammar_mastery_scores[code] = await compute_gp_mastery(
             event.student_id, code
         )
+    if affected_codes:
+        logger.info(
+            "mastery recomputed for %d GP codes, student=%s",
+            len(affected_codes),
+            event.student_id,
+        )
 
+    old_cefr = profile.cefr_estimate
     profile.cefr_estimate = await _compute_cefr(profile)
+    if profile.cefr_estimate != old_cefr:
+        logger.info(
+            "CEFR level changed %s -> %s, student=%s",
+            old_cefr,
+            profile.cefr_estimate,
+            event.student_id,
+        )
     profile.description = await _generate_description(profile)
     profile.updated_at = utcnow()
     await profile.save()

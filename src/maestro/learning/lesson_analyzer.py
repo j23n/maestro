@@ -97,6 +97,12 @@ async def analyze_lesson(lesson: "Lesson") -> None:
                 for code in act.cf_codes
             )
         )
+        if cf_codes:
+            logger.info(
+                "collected %d CF codes from productive activities",
+                len(cf_codes),
+                extra={"lesson_id": str(lesson.id), "cf_codes": cf_codes},
+            )
 
         # Create a summary event for profile update
         event = LearningEvent(
