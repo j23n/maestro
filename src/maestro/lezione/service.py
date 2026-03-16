@@ -203,10 +203,10 @@ async def generate_lesson_feedback(
         labels = ", ".join(gp.label for gp in weak_grammar_points)
         weak_note = f"\nThe student specifically struggled with: {labels}. Reference these by name."
 
-    prompt = (
-        f"A student just completed a {settings.TARGET_LANGUAGE_NAME} lesson. Summary:\n{activity_summary}{weak_note}\n\n"
-        "Write 2-3 sentences of feedback in English that: mentions what was practiced, "
-        "notes any areas of difficulty, and ends with one specific encouragement."
+    prompt = _planner_prompts.lesson_feedback.render(
+        target_language=settings.TARGET_LANGUAGE_NAME,
+        activity_summary=activity_summary,
+        weak_note=weak_note,
     )
     response = await llm_messages_create(
         model=settings.DRILL_MODEL,

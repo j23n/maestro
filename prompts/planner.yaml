@@ -1,4 +1,4 @@
-version: "4"
+version: "5"
 
 # ---------------------------------------------------------------------------
 
@@ -18,6 +18,43 @@ lesson_feedback:
   system: |
     You are an encouraging language teacher.
     Write brief, honest lesson feedback in English.
+  # variables: target_language, activity_summary, weak_note
+  user: |
+    A student just completed a {{target_language}} lesson. Summary:
+    {{activity_summary}}{{weak_note}}
+
+    Write 2-3 sentences of feedback in English that: mentions what was practiced,
+    notes any areas of difficulty, and ends with one specific encouragement.
+
+# ---------------------------------------------------------------------------
+
+archetype_introduction:
+  description: >
+    Guidance inserted when the lesson archetype is "introduction" (new grammar).
+  user: |
+    LESSON TYPE: Introduction
+    This lesson INTRODUCES new grammar points for the first time.
+    Explain each grammar point clearly before drilling it.
+    Use simple, supportive language. Drills should be straightforward
+    and build confidence with the new concept.
+
+archetype_consolidation:
+  description: >
+    Guidance inserted when the lesson archetype is "consolidation" (practice).
+  user: |
+    LESSON TYPE: Consolidation
+    This is a PRACTICE lesson. The student has seen all these grammar
+    points before. Focus on varied drills and usage in context.
+    No lengthy grammar explanations needed — brief reminders only.
+
+archetype_application:
+  description: >
+    Guidance inserted when the lesson archetype is "application" (immersive).
+  user: |
+    LESSON TYPE: Application
+    This is an IMMERSIVE scenario lesson. Grammar should support
+    communication, not be the focus. Prioritize natural dialogue,
+    real-world usage, and communicative tasks over explicit grammar work.
 
 # ---------------------------------------------------------------------------
 
