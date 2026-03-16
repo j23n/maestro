@@ -33,6 +33,26 @@ logger = logging.getLogger(__name__)
 _PASS_THRESHOLD = 0.7  # fraction of items correct to count the drill as passed
 
 
+def _dedup_grammar_errors(objective_note: str, grammar_errors: list[str]) -> list[str]:
+    """Remove grammar_errors that overlap with objective_note."""
+    if not objective_note or not grammar_errors:
+        return grammar_errors
+    note_lower = objective_note.lower()
+    deduped = []
+    for err in grammar_errors:
+        # Extract the correction portion: text before " (" parenthetical explanation
+        correction = err.split(" (")[0].strip() if " (" in err else err
+        # Also try the part after "→" (e.g. "no parlo → non parlo")
+        arrow_parts = correction.split("→")
+        key_phrases = [correction.lower()]
+        if len(arrow_parts) == 2:
+            key_phrases.append(arrow_parts[1].strip().lower())
+            key_phrases.append(arrow_parts[0].strip().lower())
+        if not any(phrase in note_lower for phrase in key_phrases if len(phrase) > 2):
+            deduped.append(err)
+    return deduped
+
+
 async def _get_rule_context(
     drill: "GeneratedDrill",
 ) -> tuple[str, list[dict]]:
@@ -88,7 +108,10 @@ async def score_attempt(
                 "student_answer": answers[j] if j < len(answers) else "",
                 "objective_correct": raw_results[j].get("objective_correct", False),
                 "objective_note": raw_results[j].get("objective_note", ""),
-                "grammar_errors": raw_results[j].get("grammar_errors", []),
+                "grammar_errors": _dedup_grammar_errors(
+                    raw_results[j].get("objective_note", ""),
+                    raw_results[j].get("grammar_errors", []),
+                ),
                 "tips": raw_results[j].get("tips", []),
             }
             for j in range(n)

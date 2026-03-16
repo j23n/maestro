@@ -874,6 +874,69 @@ a.weakness-tag:hover { background: #f9e2db; }
   flex-shrink: 0;
 }
 
+/* Pip track (scoring pips — reused from profile) */
+.review-box .skill-list { display: flex; flex-direction: column; gap: 0; }
+.review-box .skill-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 0.9rem;
+}
+.review-box .skill-row:last-child { border-bottom: none; }
+.review-box .skill-label { flex: 1; color: var(--c-charcoal); text-decoration: none; }
+.review-box a.skill-label:hover { color: var(--c-terracotta); }
+.pip-track { display: flex; gap: 2px; flex-shrink: 0; }
+.pip { width: 8px; height: 8px; border-radius: 2px; background: var(--c-border); flex-shrink: 0; }
+.pip.ok  { background: var(--c-sage); }
+.pip.err { background: #C75050; }
+
+@keyframes pip-fade-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.pip-animate .pip.ok,
+.pip-animate .pip.err {
+  animation: pip-fade-in 0.3s ease-out both;
+}
+.pip-animate .pip:nth-child(1)  { animation-delay: 0.05s; }
+.pip-animate .pip:nth-child(2)  { animation-delay: 0.10s; }
+.pip-animate .pip:nth-child(3)  { animation-delay: 0.15s; }
+.pip-animate .pip:nth-child(4)  { animation-delay: 0.20s; }
+.pip-animate .pip:nth-child(5)  { animation-delay: 0.25s; }
+.pip-animate .pip:nth-child(6)  { animation-delay: 0.30s; }
+.pip-animate .pip:nth-child(7)  { animation-delay: 0.35s; }
+.pip-animate .pip:nth-child(8)  { animation-delay: 0.40s; }
+.pip-animate .pip:nth-child(9)  { animation-delay: 0.45s; }
+.pip-animate .pip:nth-child(10) { animation-delay: 0.50s; }
+
+/* Communicative function tags */
+.cf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cf-tag {
+  font-size: 0.82rem;
+  background: var(--c-border);
+  color: var(--c-charcoal);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+}
+
+/* Student writing response */
+.student-writing-response {
+  background: var(--c-surface);
+  border-left: 3px solid var(--c-border);
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--c-charcoal);
+  border-radius: 0 6px 6px 0;
+}
+
+@media (max-width: 480px) {
+  .pip { width: 7px; height: 7px; }
+}
+
 /* =====================================================================
    8. Page: Lezione generating
    ===================================================================== */

@@ -302,10 +302,13 @@ async def test_full_lesson_profile_updated_after_analysis(
     assert updated_profile.grammar_error_counts.get("GP_C", 0) == 1
     assert updated_profile.grammar_correct_counts.get("GP_C", 0) == 0
 
-    # recent_outcomes should reflect the counts
-    assert updated_profile.grammar_recent_outcomes.get("GP_A") == [True]
-    assert updated_profile.grammar_recent_outcomes.get("GP_B") == [True, True]
-    assert updated_profile.grammar_recent_outcomes.get("GP_C") == [False]
+    # recent_outcomes should reflect the counts (new format: list of {ok, ts} dicts)
+    gp_a = updated_profile.grammar_recent_outcomes.get("GP_A")
+    assert len(gp_a) == 1 and gp_a[0]["ok"] is True
+    gp_b = updated_profile.grammar_recent_outcomes.get("GP_B")
+    assert len(gp_b) == 2 and all(r["ok"] is True for r in gp_b)
+    gp_c = updated_profile.grammar_recent_outcomes.get("GP_C")
+    assert len(gp_c) == 1 and gp_c[0]["ok"] is False
 
     # Summary event should exist (activity_type=None)
     all_events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
