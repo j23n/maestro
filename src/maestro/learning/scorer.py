@@ -98,9 +98,10 @@ async def _score_single(
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation."""
     await taxonomy.ensure_loaded()
-    logger.debug(f"{label} prompt: {prompt}")
+    effective_model = model or settings.SCORING_MODEL
+    logger.debug("%s using model=%s", label, effective_model)
     response = await llm_messages_create(
-        model=model or settings.SCORING_MODEL,
+        model=effective_model,
         max_tokens=max_tokens,
         system=_system_prompt(cefr_level),
         messages=[{"role": "user", "content": prompt}],
@@ -154,9 +155,10 @@ async def _score_multi(
     if n == 0:
         return []
     await taxonomy.ensure_loaded()
-    logger.debug(f"{label} prompt: {prompt}")
+    effective_model = model or settings.SCORING_MODEL
+    logger.debug("%s using model=%s (n=%d)", label, effective_model, n)
     response = await llm_messages_create(
-        model=model or settings.SCORING_MODEL,
+        model=effective_model,
         max_tokens=max_tokens,
         system=_system_prompt(cefr_level),
         messages=[{"role": "user", "content": prompt}],

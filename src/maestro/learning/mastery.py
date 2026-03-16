@@ -6,6 +6,7 @@ mastery scores computed from per-activity LearningEvents.
 
 from __future__ import annotations
 
+import logging
 from datetime import timezone
 from typing import TYPE_CHECKING
 
@@ -14,6 +15,8 @@ from maestro.utils import utcnow
 
 if TYPE_CHECKING:
     from beanie import PydanticObjectId
+
+logger = logging.getLogger(__name__)
 
 # Evidence type weights: productive use (writing/speaking) is stronger evidence
 # than targeted drill practice, which is stronger than receptive (reading).
@@ -54,6 +57,7 @@ async def compute_gp_mastery(student_id: "PydanticObjectId", gp_code: str) -> fl
     )
 
     if not events:
+        logger.debug("mastery %s: no events", gp_code)
         return 0.0
 
     numerator = 0.0
@@ -78,9 +82,24 @@ async def compute_gp_mastery(student_id: "PydanticObjectId", gp_code: str) -> fl
         denominator += weighted
 
     if denominator < MIN_WEIGHTED_DENOM:
+        logger.debug(
+            "mastery %s: insufficient evidence (denom=%.2f < %.1f, %d events)",
+            gp_code,
+            denominator,
+            MIN_WEIGHTED_DENOM,
+            len(events),
+        )
         return 0.0
 
-    return numerator / denominator
+    score = numerator / denominator
+    logger.info(
+        "mastery %s: score=%.3f (%d events, denom=%.2f)",
+        gp_code,
+        score,
+        len(events),
+        denominator,
+    )
+    return score
 
 
 def is_mastered(score: float) -> bool:
