@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Admin Feedback — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/admin.css">{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+  <h1>LLM Critiques</h1>
+  <p><a href="/admin/">&larr; Back to dashboard</a></p>
+
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Call type</th>
+          <th>URL</th>
+          <th>Issue</th>
+          <th>Exported</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in critiques %}
+        <tr>
+          <td>{{ c.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ c.call_type.value }}</td>
+          <td class="admin-url-cell"><a href="{{ c.url }}">{{ c.url }}</a></td>
+          <td>{{ c.issue_description or '—' }}</td>
+          <td>{{ 'Yes' if c.exported else 'No' }}</td>
+        </tr>
+        {% endfor %}
+        {% if not critiques %}
+        <tr><td colspan="5" class="admin-empty">No critiques yet</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
