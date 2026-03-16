@@ -295,11 +295,16 @@ async def _generate_lesson_background(
     logger.info("slot allocation", extra={"slots": slots})
 
     # --- Pick scenario ---
+    # Fetch all scenarios once — reused by pick_scenario and the curriculum engine below
+    all_scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+
     if scenario_slug:
         scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
         if scenario_doc:
             progress = profile.scenario_progress if profile else {}
             sp = progress.get(scenario_slug, ScenarioProgress())
+            # Intentional: explicit slug selection bypasses depth gating —
+            # this is a manual override, so students can revisit any scenario.
             depth = min(sp.depth + 1, len(scenario_doc.depths))
             scenario = scenario_doc
         else:
@@ -307,13 +312,16 @@ async def _generate_lesson_background(
                 "scenario not found, falling back to auto-pick",
                 extra={"scenario_slug": scenario_slug},
             )
-            scenario, depth = await pick_scenario(profile, cefr_level)
+            scenario, depth = await pick_scenario(
+                profile, cefr_level, scenarios=all_scenarios
+            )
     else:
-        scenario, depth = await pick_scenario(profile, cefr_level)
+        scenario, depth = await pick_scenario(
+            profile, cefr_level, scenarios=all_scenarios
+        )
     logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
 
     # --- Curriculum engine: unlock GPs and pick archetype ---
-    all_scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
     all_gp_codes = {code for s in all_scenarios for code in s.gp_codes}
     all_gps = await GrammarPoint.find({"code": {"$in": list(all_gp_codes)}}).to_list()
     prereqs_map = {gp.code: gp.prerequisites for gp in all_gps if gp.prerequisites}
@@ -434,13 +442,15 @@ async def _generate_lesson_background(
         },
     )
 
-    # --- Record newly introduced GPs ---
+    # --- Record newly introduced GPs (atomic to avoid race with concurrent lessons) ---
     if profile and grammar_gps:
         introduced_set = set(profile.grammar_introduced)
         new_intros = [gp.code for gp in grammar_gps if gp.code not in introduced_set]
         if new_intros:
-            profile.grammar_introduced.extend(new_intros)
-            await profile.save()
+            await LearningProfile.get_motor_collection().update_one(
+                {"_id": profile.id},
+                {"$addToSet": {"grammar_introduced": {"$each": new_intros}}},
+            )
             logger.info("grammar introduced", extra={"new_gps": new_intros})
 
     # --- Single LLM call ---

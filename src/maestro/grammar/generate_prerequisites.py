@@ -65,7 +65,7 @@ Only include grammar points that HAVE prerequisites. Omit codes with no prerequi
 def main() -> None:
     gps = _load_a1_grammar_points()
     if not gps:
-        print("No A1 grammar points found in grammar_points.json")
+        print("No A1 grammar points found in grammar_points.yaml")
         sys.exit(1)
 
     print(f"Found {len(gps)} A1 grammar points. Sending to Claude...")

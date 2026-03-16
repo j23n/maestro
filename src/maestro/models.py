@@ -85,7 +85,7 @@ class CurriculumScenario(Document):
     gp_codes: List[str]  # GP codes exercised in this scenario
     depths: List[str]  # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
     sequence: Optional[int] = None  # sequential ordering for A0 lessons (1-10)
-    phase: Optional[int] = None  # A1 curriculum phase: 1, 2, or 3
+    phase: int = 1  # A1 curriculum phase: 1, 2, or 3
     language: str = "it"
 
     class Settings:
