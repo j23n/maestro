@@ -810,3 +810,119 @@ async def test_reading_scoring_failure_returns_unavailable(test_app, db, student
 
     assert response.status_code == 200
     assert "Automatic scoring is temporarily unavailable" in response.text
+
+
+# ---------------------------------------------------------------------------
+# Review navigation tests (progress pills → past activities)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_completed_drill_with_feedback_returns_200(test_app, db, student):
+    """GET a completed drill activity with stored feedback should return 200 (result page)."""
+    drill = GeneratedDrill(
+        student_id=student.id,
+        grammar_point_code="GP_001",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+        prompt="",
+        items=[DrillItem(prompt="Io ___ al parco.", correct_answer="vado")],
+        scenario_slug="test",
+    )
+    await drill.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.DRILL,
+                title="Test drill",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.COMPLETED,
+                drill_id=drill.id,
+                result={
+                    "correct": True,
+                    "student_answer": "vado",
+                    "feedback": {"items": [], "correct_count": 1, "total": 1},
+                },
+            ),
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="Grammar",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=1,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
+    ):
+        response = test_app.get(f"/lezione/{lesson.id}/activity/0")
+
+    assert response.status_code == 200
+    assert "continue-btn" in response.text
+
+
+@pytest.mark.integration
+async def test_completed_drill_without_feedback_returns_200(test_app, db, student):
+    """GET a completed drill with no stored feedback falls through to is_review template."""
+    drill = GeneratedDrill(
+        student_id=student.id,
+        grammar_point_code="GP_001",
+        cefr_level="A1",
+        exercise_type=ExerciseType.FILL_BLANK,
+        prompt="",
+        items=[DrillItem(prompt="Io ___ al parco.", correct_answer="vado")],
+        scenario_slug="test",
+    )
+    await drill.insert()
+
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        activities=[
+            LessonActivity(
+                type=ActivityType.DRILL,
+                title="Test drill",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.COMPLETED,
+                drill_id=drill.id,
+                result={"correct": True, "student_answer": "vado"},
+            ),
+            LessonActivity(
+                type=ActivityType.GRAMMAR,
+                title="Grammar",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+            ),
+        ],
+        current_index=1,
+    )
+    await lesson.insert()
+
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
+    ):
+        response = test_app.get(f"/lezione/{lesson.id}/activity/0")
+
+    # Falls through to drill template with is_review — shows review banner, not redirect
+    assert response.status_code == 200
+    assert "review-banner" in response.text

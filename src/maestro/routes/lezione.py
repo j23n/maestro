@@ -413,11 +413,40 @@ async def lezione_activity(
             student_id=student.id,
         )
 
-    # Completed non-grammar/info activities are not revisitable — redirect to current
-    if is_review and activity.type not in (ActivityType.GRAMMAR, ActivityType.INFO):
-        return RedirectResponse(
-            url=activity_url(lesson_id, lesson.current_index), status_code=303
-        )
+    # Completed scored activities with stored feedback — show the result page.
+    # LISTENING is included because it submits through /reading-submit, which stores feedback.
+    if is_review and activity.result and activity.result.get("feedback"):
+        if activity.type in (
+            ActivityType.DRILL,
+            ActivityType.WRITING,
+            ActivityType.READING,
+            ActivityType.LISTENING,
+        ):
+            result = activity.result
+            next_url = activity_url(lesson_id, lesson.current_index)
+            if lesson.status == LessonStatus.COMPLETED:
+                next_url = f"/lezione/{lesson_id}/complete"
+            drill = None
+            if activity.type == ActivityType.DRILL and activity.drill_id:
+                drill = await GeneratedDrill.get(activity.drill_id)
+            return await render_with_discover(
+                request,
+                "lezione-drill-result.html",
+                {
+                    "lesson": lesson,
+                    "activity": activity,
+                    "drill": drill,
+                    "attempt": None,
+                    "correct": result.get("correct"),
+                    "feedback": result.get("feedback"),
+                    "rule_refs": [],
+                    "next_url": next_url,
+                    "idx": idx,
+                    "total": len(lesson.activities),
+                    "is_writing": activity.type == ActivityType.WRITING,
+                },
+                student_id=student.id,
+            )
 
     total = len(lesson.activities)
 
@@ -446,6 +475,10 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.VOCAB_REVIEW:
+        if is_review:
+            return await render_with_discover(
+                request, "lezione-activity-vocab.html", ctx, student_id=student.id
+            )
         card_ids = activity.card_ids
         if card_idx >= len(card_ids):
             redirect_url = await advance_lesson(lesson, idx)
@@ -669,8 +702,11 @@ async def lezione_drill_submit(
         logger.exception(
             "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
         )
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
         next_url = await advance_lesson(
-            lesson, idx, result={"correct": None, "student_answer": ""}
+            lesson,
+            idx,
+            result={"correct": None, "student_answer": "", "feedback": _err_feedback},
         )
         return await render_with_discover(
             request,
@@ -681,7 +717,7 @@ async def lezione_drill_submit(
                 "drill": drill,
                 "attempt": None,
                 "correct": None,
-                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "feedback": _err_feedback,
                 "rule_refs": [],
                 "next_url": next_url,
                 "idx": idx,
@@ -733,6 +769,7 @@ async def lezione_drill_submit(
             for item in feedback.get("items", [])
         ]
     feedback = feedback or None
+    drill_result["feedback"] = feedback
     next_url = await advance_lesson(lesson, idx, result=drill_result)
 
     return await render_with_discover(
@@ -861,7 +898,10 @@ async def lezione_writing_submit(
             "scoring failed for writing",
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
-        next_url = await advance_lesson(lesson, idx, result={"student_answer": answer})
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
+        next_url = await advance_lesson(
+            lesson, idx, result={"student_answer": answer, "feedback": _err_feedback}
+        )
         # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
         return await render_with_discover(
             request,
@@ -872,7 +912,7 @@ async def lezione_writing_submit(
                 "drill": None,
                 "attempt": None,
                 "correct": None,
-                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "feedback": _err_feedback,
                 "rule_refs": [],
                 "next_url": next_url,
                 "idx": idx,
@@ -907,7 +947,7 @@ async def lezione_writing_submit(
         },
     )
 
-    writing_result = {"student_answer": answer}
+    writing_result = {"student_answer": answer, "feedback": feedback}
     next_url = await advance_lesson(lesson, idx, result=writing_result)
 
     return await render_with_discover(
@@ -1213,8 +1253,15 @@ async def lezione_reading_submit(
             "scoring failed for reading",
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
         next_url = await advance_lesson(
-            lesson, idx, result={"student_answers": answers, "correct": None}
+            lesson,
+            idx,
+            result={
+                "student_answers": answers,
+                "correct": None,
+                "feedback": _err_feedback,
+            },
         )
         # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
         return await render_with_discover(
@@ -1226,7 +1273,7 @@ async def lezione_reading_submit(
                 "drill": None,
                 "attempt": None,
                 "correct": None,
-                "feedback": {"scoring_unavailable": t("scoring_unavailable")},
+                "feedback": _err_feedback,
                 "rule_refs": [],
                 "next_url": next_url,
                 "idx": idx,
@@ -1247,7 +1294,11 @@ async def lezione_reading_submit(
     )
     await event.insert()
 
-    reading_result = {"student_answers": answers, "correct": overall_correct}
+    reading_result = {
+        "student_answers": answers,
+        "correct": overall_correct,
+        "feedback": feedback,
+    }
     next_url = await advance_lesson(lesson, idx, result=reading_result)
 
     return await render_with_discover(

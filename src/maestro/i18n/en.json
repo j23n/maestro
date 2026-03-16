@@ -34,6 +34,8 @@
   "vocab_translation_prompt": "How do you say this in {language}?",
   "vocab_reveal": "Reveal",
   "vocab_skip_activity": "Skip activity \u2192",
+  "vocab_review_complete": "You've completed this vocabulary review.",
+  "vocab_practice_link": "Practice vocabulary",
   "writing_placeholder": "Write your answer in Italian here\u2026",
   "reading_title": "Reading",
   "reading_comprehension": "Comprehension",
