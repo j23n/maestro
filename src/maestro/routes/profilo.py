@@ -3,11 +3,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 
+from maestro import taxonomy
 from maestro.auth import get_current_student
 from maestro.models import (
-    CommunicativeFunction,
     CurriculumScenario,
-    GrammarPoint,
     Lesson,
     LessonStatus,
     ScenarioProgress,
@@ -43,8 +42,9 @@ async def profilo_page(
     request: Request, student: Student = Depends(get_current_student)
 ):
     profile = await get_profile(student.id)
-    grammar_points = await GrammarPoint.find_all().to_list()
-    comm_functions = await CommunicativeFunction.find_all().to_list()
+    await taxonomy.ensure_loaded()
+    grammar_points = taxonomy.grammar_points()
+    comm_functions = taxonomy.comm_functions()
 
     cefr = profile.cefr_estimate if profile else "A0"
     gp_titles = build_gp_titles(grammar_points, cefr)
@@ -73,12 +73,23 @@ async def profilo_page(
             cf_by_code[code].label for code, _ in top_cfs if code in cf_by_code
         ]
 
-    scenarios = await CurriculumScenario.find({"cefr_level": cefr}).to_list()
-    # Sort A0 by sequence, others by label
-    if cefr == "A0":
-        scenarios.sort(key=lambda s: s.sequence or 0)
-    else:
-        scenarios.sort(key=lambda s: s.label)
+    # Fetch all scenarios up to the current level in one query
+    current_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
+    all_scenarios = await CurriculumScenario.find(
+        {"cefr_level": {"$in": CEFR_ORDER[: current_idx + 1]}}
+    ).to_list()
+
+    # Partition by level and sort
+    scenarios_by_level: dict[str, list[CurriculumScenario]] = {}
+    for s in all_scenarios:
+        scenarios_by_level.setdefault(s.cefr_level, []).append(s)
+    for level, level_scenarios in scenarios_by_level.items():
+        if level == "A0":
+            level_scenarios.sort(key=lambda s: s.sequence or 0)
+        else:
+            level_scenarios.sort(key=lambda s: s.label)
+
+    # Current-level scenario map
     progress = profile.scenario_progress if profile else {}
     _no_progress = ScenarioProgress()
     scenario_map = [
@@ -88,26 +99,20 @@ async def profilo_page(
             "lesson_count": progress.get(s.slug, _no_progress).lesson_count,
             "last_visited": progress.get(s.slug, _no_progress).last_visited,
         }
-        for s in scenarios
+        for s in scenarios_by_level.get(cefr, [])
     ]
 
-    # Build scenario maps for completed levels
-    current_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
+    # Completed-level scenario maps
     completed_levels = CEFR_ORDER[:current_idx]
     completed_scenario_maps = []
     for level in completed_levels:
-        level_scenarios = await CurriculumScenario.find({"cefr_level": level}).to_list()
-        if level == "A0":
-            level_scenarios.sort(key=lambda s: s.sequence or 0)
-        else:
-            level_scenarios.sort(key=lambda s: s.label)
         level_map = [
             {
                 "scenario": s,
                 "depth_completed": progress.get(s.slug, _no_progress).depth,
                 "lesson_count": progress.get(s.slug, _no_progress).lesson_count,
             }
-            for s in level_scenarios
+            for s in scenarios_by_level.get(level, [])
         ]
         if level_map:
             completed_scenario_maps.append((level, level_map))
@@ -120,15 +125,20 @@ async def profilo_page(
         .to_list()
     )
 
-    scenario_slugs = {
-        lesson.scenario_slug for lesson in recent_lessons if lesson.scenario_slug
+    # Build scenario labels from already-fetched scenarios
+    scenario_labels = {s.slug: s.label for s in all_scenarios}
+    # Fetch any slugs from lessons not covered by the level-based query
+    missing_slugs = {
+        lesson.scenario_slug
+        for lesson in recent_lessons
+        if lesson.scenario_slug and lesson.scenario_slug not in scenario_labels
     }
-    scenarios_list = (
-        await CurriculumScenario.find({"slug": {"$in": list(scenario_slugs)}}).to_list()
-        if scenario_slugs
-        else []
-    )
-    scenario_labels = {s.slug: s.label for s in scenarios_list}
+    if missing_slugs:
+        extra = await CurriculumScenario.find(
+            {"slug": {"$in": list(missing_slugs)}}
+        ).to_list()
+        for s in extra:
+            scenario_labels[s.slug] = s.label
 
     lesson_history = [
         {
