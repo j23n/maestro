@@ -223,7 +223,28 @@ async def ingest():
     logger.info("=== Seeding A0 vocabulary ===")
     await seed_a0_vocab()
 
+    logger.info("=== Validating grammar prerequisites ===")
+    await _validate_prerequisites()
+
     logger.info("Done.")
+
+
+async def _validate_prerequisites() -> None:
+    """Validate that all prerequisite GP codes reference existing grammar points."""
+    all_gps = await GrammarPoint.find_all().to_list()
+    valid_codes = {gp.code for gp in all_gps}
+    gps_with_prereqs = [gp for gp in all_gps if gp.prerequisites]
+    if not gps_with_prereqs:
+        logger.info("No grammar points have prerequisites")
+        return
+    for gp in gps_with_prereqs:
+        for dep in gp.prerequisites:
+            if dep not in valid_codes:
+                logger.warning(
+                    "prerequisite '%s' (for '%s') not found in grammar points",
+                    dep,
+                    gp.code,
+                )
 
 
 if __name__ == "__main__":

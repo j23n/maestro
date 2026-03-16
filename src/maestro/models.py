@@ -85,6 +85,7 @@ class CurriculumScenario(Document):
     gp_codes: List[str]  # GP codes exercised in this scenario
     depths: List[str]  # index 0 = depth 1, etc. Always 3 entries for A1+, 1 for A0.
     sequence: Optional[int] = None  # sequential ordering for A0 lessons (1-10)
+    phase: Optional[int] = None  # A1 curriculum phase: 1, 2, or 3
     language: str = "it"
 
     class Settings:
@@ -220,6 +221,9 @@ class GrammarPoint(Document):
     chunk_ref: Optional[str] = (
         None  # GrammarChunk.ref — set from mapping file at ingest
     )
+    prerequisites: List[str] = Field(
+        default_factory=list
+    )  # GP codes that must be introduced first
     explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
     language: str = "it"
 
@@ -284,6 +288,9 @@ class LearningProfile(Document):
     onboarding_skipped: bool = False  # True when explicitly skipped via route
     target_language: str = "it"
     dismissed_hints: List[str] = Field(default_factory=list)
+    grammar_introduced: List[str] = Field(
+        default_factory=list
+    )  # GP codes introduced in lessons
 
     class Settings:
         name = "learning_profile"
@@ -405,6 +412,7 @@ class Lesson(Document):
     generating: bool = True  # True while background LLM generation is in progress
     generation_started_at: Optional[datetime] = None  # set when generation begins
     generation_error: Optional[str] = None  # set when background generation fails
+    archetype: Optional[str] = None  # "introduction", "consolidation", "application"
     language: str = "it"
 
     class Settings:

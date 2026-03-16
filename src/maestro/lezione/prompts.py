@@ -25,6 +25,29 @@ def build_lesson_content_system() -> str:
     )
 
 
+_ARCHETYPE_GUIDANCE = {
+    "introduction": (
+        "LESSON TYPE: Introduction\n"
+        "This lesson INTRODUCES new grammar points for the first time. "
+        "Explain each grammar point clearly before drilling it. "
+        "Use simple, supportive language. Drills should be straightforward "
+        "and build confidence with the new concept."
+    ),
+    "consolidation": (
+        "LESSON TYPE: Consolidation\n"
+        "This is a PRACTICE lesson. The student has seen all these grammar "
+        "points before. Focus on varied drills and usage in context. "
+        "No lengthy grammar explanations needed — brief reminders only."
+    ),
+    "application": (
+        "LESSON TYPE: Application\n"
+        "This is an IMMERSIVE scenario lesson. Grammar should support "
+        "communication, not be the focus. Prioritize natural dialogue, "
+        "real-world usage, and communicative tasks over explicit grammar work."
+    ),
+}
+
+
 def build_lesson_content_prompt(
     cefr_level: str,
     scenario: CurriculumScenario,
@@ -36,6 +59,7 @@ def build_lesson_content_prompt(
     include_writing: bool,
     speaking_cfs: list[CommunicativeFunction],
     lesson_context: str = "",
+    archetype: str = "",
 ) -> str:
     """Build the complete prompt string for lesson content generation.
 
@@ -55,6 +79,9 @@ def build_lesson_content_prompt(
         f'Curriculum scenario: "{scenario.label}" (depth {depth})',
         f"Depth focus: {depth_description}",
     ]
+
+    if archetype and archetype in _ARCHETYPE_GUIDANCE:
+        parts.append(_ARCHETYPE_GUIDANCE[archetype])
 
     # Persona — include in ~70% of lessons; when included, pick 1-2 fields
     if profile and profile.persona and random.random() < 0.7:
