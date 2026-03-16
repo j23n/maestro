@@ -2,6 +2,7 @@ import json
 import logging
 import re
 
+import simplemma
 from beanie import PydanticObjectId
 from bs4 import BeautifulSoup, NavigableString, Tag
 from bson import DBRef
@@ -242,9 +243,6 @@ async def discover(
             forms.append(surface)
 
     save_text = get_target_text(save_elements) if nosave_elements else all_text
-    save_lemma_set = (
-        {lem for lem, _ in lemmatize_with_pos(save_text)} if nosave_elements else None
-    )
 
     # Match lemmas to vocab entries, preferring the POS variant that matches context.
     # First occurrence's POS wins — if a word appears as both noun and verb in the
@@ -255,7 +253,24 @@ async def discover(
             continue
         entries = _cache.word_index().get(lem)
         if not entries:
-            continue
+            # Fallback: try simplemma on the original surface form(s).
+            # spaCy often returns the surface form unchanged as the lemma;
+            # simplemma uses dictionary lookup and handles these correctly.
+            for surface in surface_map.get(lem, []):
+                candidate = simplemma.lemmatize(surface, lang="it").lower()
+                if candidate != lem:
+                    entries = _cache.word_index().get(candidate)
+                    if entries:
+                        # Remap surface forms so annotation uses the corrected lemma.
+                        # pop() is safe: duplicate spaCy lemmas hit the
+                        # `if lem in words_with_vocab: continue` guard above.
+                        surface_map.setdefault(candidate, []).extend(
+                            surface_map.pop(lem, [])
+                        )
+                        lem = candidate
+                        break
+            if not entries:
+                continue
         if len(entries) == 1:
             words_with_vocab[lem] = entries[0]
         else:
@@ -267,6 +282,20 @@ async def discover(
                 match or sorted(entries, key=lambda e: e.part_of_speech)[0]
             )
     matched_word_ids = [w.id for w in words_with_vocab.values()]
+
+    # Determine which lemmas appear in save-eligible elements (those without
+    # data-no-save). Uses corrected surface_map so simplemma-remapped lemmas
+    # are handled correctly.  Token-set check avoids substring false positives
+    # (e.g. surface "ara" matching inside "preparare").
+    if nosave_elements:
+        save_tokens = set(save_text.lower().split())
+        save_lemma_set = {
+            lem
+            for lem in words_with_vocab
+            if any(s.lower() in save_tokens for s in surface_map.get(lem, []))
+        }
+    else:
+        save_lemma_set = None
 
     if student_id is not None:
         word_refs = [
