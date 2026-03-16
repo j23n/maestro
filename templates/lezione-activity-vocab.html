@@ -5,6 +5,18 @@
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
+  {% if is_review %}
+  <div class="card">
+    <div class="card-label">{{ activity.title }}</div>
+    <p>{{ t("vocab_review_complete") }}</p>
+    <div class="review-banner">
+      <a href="/vocab" class="continue-btn" style="margin-right:0.75rem;">{{ t("vocab_practice_link") }}</a>
+      <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+        {{ t("back_to_current") }}
+      </a>
+    </div>
+  </div>
+  {% else %}
   <div class="card" id="practice-card">
     <div class="card-queue">{{ card_idx + 1 }} / {{ activity.card_ids | length }}</div>
     <div class="word"><span lang="it">{{ card.word.word }}</span></div>
@@ -34,5 +46,6 @@
        hx-target="body"
        href="#">{{ t("vocab_skip_activity") }}</a>
   </div>
+  {% endif %}
 </div>
 {% endblock %}
