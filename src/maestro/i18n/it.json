@@ -34,6 +34,8 @@
   "vocab_translation_prompt": "How do you say this in {language}?",
   "vocab_reveal": "Mostra",
   "vocab_skip_activity": "Salta attivit\u00e0 \u2192",
+  "vocab_review_complete": "Hai completato questa revisione del vocabolario.",
+  "vocab_practice_link": "Pratica vocabolario",
   "writing_placeholder": "Scrivi qui la tua risposta in italiano\u2026",
   "reading_title": "Lettura",
   "reading_comprehension": "Comprensione",
