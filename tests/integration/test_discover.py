@@ -26,16 +26,10 @@ async def test_discover_creates_cards_for_new_words(db):
 
     _vocab_cache.seed(words={"mangiare": [word]}, defs={})
 
-    with (
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
-        patch(
-            "maestro.vocab.discover.get_cefr_level",
-            new_callable=AsyncMock,
-            return_value="A1",
-        ),
+    with patch(
+        "maestro.vocab.discover.get_cefr_level",
+        new_callable=AsyncMock,
+        return_value="A1",
     ):
         result = await discover(
             '<span lang="it">Voglio mangiare la pizza.</span>',
@@ -64,15 +58,10 @@ async def test_discover_annotates_known_words(db):
 
     _vocab_cache.seed(words={"bere": [word]}, defs={})
 
-    with (
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos", return_value=[("bere", "VERB")]
-        ),
-        patch(
-            "maestro.vocab.discover.get_cefr_level",
-            new_callable=AsyncMock,
-            return_value="A1",
-        ),
+    with patch(
+        "maestro.vocab.discover.get_cefr_level",
+        new_callable=AsyncMock,
+        return_value="A1",
     ):
         result = await discover(
             '<span lang="it">Voglio bere acqua.</span>', student_id=_FAKE_STUDENT_ID
@@ -98,16 +87,10 @@ async def test_discover_skips_non_target_lang(db):
 
     _vocab_cache.seed(words={"house": [word]}, defs={})
 
-    with (
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("house", "NOUN")],
-        ),
-        patch(
-            "maestro.vocab.discover.get_cefr_level",
-            new_callable=AsyncMock,
-            return_value="A1",
-        ),
+    with patch(
+        "maestro.vocab.discover.get_cefr_level",
+        new_callable=AsyncMock,
+        return_value="A1",
     ):
         result = await discover(
             '<span lang="en">The house is big.</span>', student_id=_FAKE_STUDENT_ID
@@ -119,7 +102,12 @@ async def test_discover_skips_non_target_lang(db):
 
 @pytest.mark.integration
 async def test_discover_simplemma_fallback(db):
-    """discover() should find words via simplemma when spaCy's lemma misses the word_index."""
+    """discover() should find words via simplemma when spaCy's lemma misses the word_index.
+
+    NOTE: relies on spaCy it_core_news_md returning "parlo" (surface) as the
+    lemma for "Parlo".  If a future model update fixes this, the test still
+    passes but no longer exercises the fallback path.
+    """
     from maestro.vocab.discover import discover
 
     word = VocabularyWord(

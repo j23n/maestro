@@ -255,7 +255,9 @@ async def discover(
                 if candidate != lem:
                     entries = _cache.word_index().get(candidate)
                     if entries:
-                        # Remap surface forms so annotation uses the corrected lemma
+                        # Remap surface forms so annotation uses the corrected lemma.
+                        # pop() is safe: duplicate spaCy lemmas hit the
+                        # `if lem in words_with_vocab: continue` guard above.
                         surface_map.setdefault(candidate, []).extend(
                             surface_map.pop(lem, [])
                         )
@@ -277,12 +279,14 @@ async def discover(
 
     # Determine which lemmas appear in save-eligible elements (those without
     # data-no-save). Uses corrected surface_map so simplemma-remapped lemmas
-    # are handled correctly.
+    # are handled correctly.  Token-set check avoids substring false positives
+    # (e.g. surface "ara" matching inside "preparare").
     if nosave_elements:
+        save_tokens = set(save_text.lower().split())
         save_lemma_set = {
             lem
             for lem in words_with_vocab
-            if any(s in save_text for s in surface_map.get(lem, []))
+            if any(s.lower() in save_tokens for s in surface_map.get(lem, []))
         }
     else:
         save_lemma_set = None
