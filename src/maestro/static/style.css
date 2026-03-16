@@ -308,23 +308,6 @@ a.progress-seg { display: block; text-decoration: none; }
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
-/* Grammar quick-link in progress footer */
-.grammar-link {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--c-text-muted);
-  text-decoration: none;
-  border: 1px solid var(--c-border);
-  border-radius: 3px;
-  padding: 0.05rem 0.45rem;
-  margin-right: 0.5rem;
-  white-space: nowrap;
-}
-.grammar-link:hover {
-  color: var(--c-charcoal);
-  border-color: var(--c-text-muted);
-}
 
 /* Review banner */
 .review-banner { margin-top: 1.75rem; text-align: center; }

@@ -11,6 +11,14 @@
 
     <div id="onboarding-form">
       <p class="onboarding-prompt">{{ activity.content }}</p>
+
+      {% if is_review %}
+      <div class="review-banner">
+        <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+          {{ t("back_to_current") }}
+        </a>
+      </div>
+      {% else %}
       <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/onboarding-submit"
             hx-target="#onboarding-form"
             hx-swap="outerHTML">
@@ -49,6 +57,7 @@
              href="#">{{ t("onboarding_skip") }}</a>
         </div>
       </form>
+      {% endif %}
     </div>
   </div>
 </div>
