@@ -272,7 +272,7 @@ class LearningProfile(Document):
     grammar_error_counts: dict = Field(default_factory=dict)
     grammar_recent_outcomes: dict = Field(
         default_factory=dict
-    )  # code → list[bool], sliding window of last 10
+    )  # code → list[{ok: bool, ts: str} | bool], sliding window of last 10
     functions_counts: dict = Field(default_factory=dict)
     themes_seen: List[str] = Field(default_factory=list)
     cefr_estimate: str = "A0"
