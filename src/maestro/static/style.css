@@ -311,6 +311,7 @@ a.progress-seg { display: block; text-decoration: none; }
 
 /* Review banner */
 .review-banner { margin-top: 1.75rem; text-align: center; }
+.review-banner .continue-btn + .continue-btn { margin-left: 0.75rem; }
 
 /* Shared action buttons */
 .submit-btn, .continue-btn, .reveal-btn {
