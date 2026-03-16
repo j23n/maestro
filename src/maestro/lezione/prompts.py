@@ -25,6 +25,13 @@ def build_lesson_content_system() -> str:
     )
 
 
+_ARCHETYPE_TEMPLATES = {
+    "introduction": _prompts.archetype_introduction,
+    "consolidation": _prompts.archetype_consolidation,
+    "application": _prompts.archetype_application,
+}
+
+
 def build_lesson_content_prompt(
     cefr_level: str,
     scenario: CurriculumScenario,
@@ -36,6 +43,7 @@ def build_lesson_content_prompt(
     include_writing: bool,
     speaking_cfs: list[CommunicativeFunction],
     lesson_context: str = "",
+    archetype: str = "",
 ) -> str:
     """Build the complete prompt string for lesson content generation.
 
@@ -55,6 +63,9 @@ def build_lesson_content_prompt(
         f'Curriculum scenario: "{scenario.label}" (depth {depth})',
         f"Depth focus: {depth_description}",
     ]
+
+    if archetype and archetype in _ARCHETYPE_TEMPLATES:
+        parts.append(_ARCHETYPE_TEMPLATES[archetype].render())
 
     # Persona — include in ~70% of lessons; when included, pick 1-2 fields
     if profile and profile.persona and random.random() < 0.7:

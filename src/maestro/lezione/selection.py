@@ -21,29 +21,13 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
+from maestro.lezione.curriculum import get_available_scenarios, get_max_available_depth
 from maestro.utils import CEFR_ORDER, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
 
 # Cooldown: recently visited scenarios get a penalty (seconds)
 _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
-
-# A1 early/late scenario weighting
-_EARLY_A1_SLUGS = {
-    "presentarsi",
-    "al-bar",
-    "al-ristorante",
-    "fare-la-spesa",
-    "la-famiglia",
-    "la-giornata",
-}
-_LATE_A1_SLUGS = {
-    "capire-e-farsi-capire",
-    "opinioni-e-accordo",
-    "permessi-e-regole",
-    "scrivere-un-messaggio",
-}
-_EARLY_A1_LESSON_THRESHOLD = 5
 
 
 async def _pick_a0_scenario(
@@ -79,22 +63,33 @@ async def _pick_a0_scenario(
 async def pick_scenario(
     profile: Optional[LearningProfile],
     cefr_level: str,
+    scenarios: list[CurriculumScenario] | None = None,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
     For A0: sequential progression through fixed lessons.
     For A1+: weighted scoring with variety.
 
+    Args:
+        scenarios: pre-fetched scenario list to avoid a redundant DB query.
+
     Returns (scenario, next_depth).
     """
     if cefr_level == "A0":
         return await _pick_a0_scenario(profile)
 
-    scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
-    if not scenarios:
-        scenarios = await CurriculumScenario.find_all().to_list()
-    if not scenarios:
+    all_scenarios = (
+        scenarios or await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+    )
+    if not all_scenarios:
+        all_scenarios = await CurriculumScenario.find_all().to_list()
+    if not all_scenarios:
         raise ValueError("No curriculum scenarios found")
+
+    # Filter to unlocked phases
+    scenarios = get_available_scenarios(profile, all_scenarios)
+    if not scenarios:
+        scenarios = all_scenarios  # safety fallback
 
     progress = profile.scenario_progress if profile else {}
     now = utcnow()
@@ -108,18 +103,11 @@ async def pick_scenario(
         if total > 0 and error_counts[code] / total > 0.4:
             weak_gps.add(code)
 
-    # Count total A1 lessons for early weighting (exclude A0 lessons)
-    a1_slugs = {s.slug for s in scenarios}
-    a1_lesson_total = (
-        sum(sp.lesson_count for slug, sp in progress.items() if slug in a1_slugs)
-        if progress
-        else 0
-    )
-
     scored: list[tuple[float, CurriculumScenario, int]] = []
     for scenario in scenarios:
         sp = progress.get(scenario.slug, ScenarioProgress())
-        next_depth = min(sp.depth + 1, len(scenario.depths))
+        max_depth = get_max_available_depth(profile, scenario, all_scenarios)
+        next_depth = min(sp.depth + 1, max_depth, len(scenario.depths))
 
         score = 0.0
 
@@ -140,12 +128,10 @@ async def pick_scenario(
             if elapsed < _COOLDOWN_SECONDS:
                 score -= 5.0 * (1 - elapsed / _COOLDOWN_SECONDS)
 
-        # 5. Early A1 weighting — steer beginners to easier scenarios first
-        if cefr_level == "A1" and a1_lesson_total < _EARLY_A1_LESSON_THRESHOLD:
-            if scenario.slug in _EARLY_A1_SLUGS:
-                score += 3.0
-            elif scenario.slug in _LATE_A1_SLUGS:
-                score -= 3.0
+        # 5. Breadth bonus — encourage visiting unstarted scenarios in the
+        #    current phase before going deeper in already-visited ones
+        if sp.depth == 0:
+            score += 3.0
 
         # 6. Jitter
         score += random.uniform(0, 1.0)
@@ -166,10 +152,12 @@ async def pick_grammar_points(
     cefr_level: str,
     count: int,
     candidate_codes: list[str] | None = None,
+    unlocked_codes: set[str] | None = None,
 ) -> list[GrammarPoint]:
     """Pick grammar points to practise, prioritising weakest within level.
 
     When candidate_codes is provided (from a scenario), filter to those codes.
+    When unlocked_codes is provided, only consider GPs in the unlocked set.
     Among the top candidates, prefer GPs that share the same chunk_ref
     so lessons are coherent around a textbook section.
     """
@@ -179,6 +167,9 @@ async def pick_grammar_points(
         ).to_list()
     else:
         candidates = await GrammarPoint.find({"cefr_level": cefr_level}).to_list()
+
+    if unlocked_codes is not None:
+        candidates = [gp for gp in candidates if gp.code in unlocked_codes]
     if not candidates:
         logger.warning("no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()

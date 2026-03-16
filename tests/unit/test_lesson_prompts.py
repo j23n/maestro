@@ -253,3 +253,45 @@ def test_student_persona_defaults_to_empty_strings():
     assert p.background == ""
     assert p.interests == ""
     assert p.goal == ""
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "archetype,expected_text",
+    [
+        ("introduction", "INTRODUCES new grammar"),
+        ("consolidation", "PRACTICE lesson"),
+        ("application", "IMMERSIVE scenario"),
+    ],
+)
+def test_prompt_contains_archetype_guidance(archetype, expected_text):
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        archetype=archetype,
+    )
+    assert expected_text in prompt
+
+
+@pytest.mark.unit
+def test_prompt_no_archetype_guidance_when_empty():
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        archetype="",
+    )
+    assert "LESSON TYPE" not in prompt
