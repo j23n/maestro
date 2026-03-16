@@ -36,12 +36,14 @@ def get_current_phase(
 
     Phase N+1 unlocks when >= PHASE_GATE_THRESHOLD scenarios in phase N
     have been completed at depth >= 1.
+
+    Note: assumes exactly 3 phases. If a 4th phase is added, extend the loop.
     """
     if profile is None:
         return 1
     progress = profile.scenario_progress or {}
     for phase in (1, 2):
-        phase_scenarios = [s for s in scenarios if (s.phase or 1) == phase]
+        phase_scenarios = [s for s in scenarios if s.phase == phase]
         completed = sum(
             1
             for s in phase_scenarios
@@ -58,7 +60,7 @@ def get_available_scenarios(
 ) -> list[CurriculumScenario]:
     """Return scenarios in unlocked phases only."""
     max_phase = get_current_phase(profile, scenarios)
-    return [s for s in scenarios if (s.phase or 1) <= max_phase]
+    return [s for s in scenarios if s.phase <= max_phase]
 
 
 # ---------------------------------------------------------------------------
@@ -83,8 +85,7 @@ def get_max_available_depth(
     if profile is None:
         return 1
     progress = profile.scenario_progress or {}
-    phase = scenario.phase or 1
-    phase_scenarios = [s for s in scenarios if (s.phase or 1) == phase]
+    phase_scenarios = [s for s in scenarios if s.phase == scenario.phase]
     depth1_completed = sum(
         1
         for s in phase_scenarios
@@ -125,9 +126,54 @@ def get_unlocked_gps(
     return unlocked
 
 
+def detect_prerequisite_cycles(
+    prerequisites: dict[str, list[str]],
+) -> list[list[str]]:
+    """Detect cycles in a prerequisite DAG using DFS.
+
+    Returns a list of cycles found, each cycle being a list of GP codes
+    forming the loop (e.g. ["A", "B", "A"] for A→B→A).
+    Returns an empty list if the DAG is acyclic.
+    """
+    WHITE, GRAY, BLACK = 0, 1, 2
+    color: dict[str, int] = {}
+    # Collect all nodes (both keys and values)
+    all_nodes = set(prerequisites.keys())
+    for deps in prerequisites.values():
+        all_nodes.update(deps)
+    for node in all_nodes:
+        color[node] = WHITE
+
+    cycles: list[list[str]] = []
+    path: list[str] = []
+
+    def dfs(node: str) -> None:
+        color[node] = GRAY
+        path.append(node)
+        for dep in prerequisites.get(node, []):
+            if color.get(dep, WHITE) == GRAY:
+                # Back edge — extract cycle from path
+                cycle_start = path.index(dep)
+                cycles.append(path[cycle_start:] + [dep])
+            elif color.get(dep, WHITE) == WHITE:
+                dfs(dep)
+        path.pop()
+        color[node] = BLACK
+
+    for node in all_nodes:
+        if color[node] == WHITE:
+            dfs(node)
+
+    return cycles
+
+
 # ---------------------------------------------------------------------------
 # Archetype selection
 # ---------------------------------------------------------------------------
+
+_MASTERY_MIN_OUTCOMES = 5
+_MASTERY_ACCURACY = 0.8
+_APPLICATION_THRESHOLD = 0.7
 
 
 def pick_archetype(
@@ -140,7 +186,7 @@ def pick_archetype(
 
     - focus_weak -> always CONSOLIDATION
     - Has newly unlocked, never-introduced GPs among scenario's GPs -> INTRODUCTION
-    - >= 70% scenario GPs mastered -> APPLICATION
+    - >= _APPLICATION_THRESHOLD of scenario GPs mastered -> APPLICATION
     - Otherwise -> CONSOLIDATION
     """
     if focus_weak:
@@ -162,14 +208,17 @@ def pick_archetype(
     # Check mastery of scenario GPs
     def _is_mastered(code: str) -> bool:
         outcomes = recent.get(code, [])
-        return len(outcomes) >= 5 and sum(outcomes) / len(outcomes) >= 0.8
+        return (
+            len(outcomes) >= _MASTERY_MIN_OUTCOMES
+            and sum(outcomes) / len(outcomes) >= _MASTERY_ACCURACY
+        )
 
     scenario_codes = [c for c in scenario_gp_codes if c]
     if not scenario_codes:
         return LessonArchetype.CONSOLIDATION
 
     mastered_count = sum(1 for c in scenario_codes if _is_mastered(c))
-    if mastered_count >= len(scenario_codes) * 0.7:
+    if mastered_count >= len(scenario_codes) * _APPLICATION_THRESHOLD:
         return LessonArchetype.APPLICATION
 
     return LessonArchetype.CONSOLIDATION

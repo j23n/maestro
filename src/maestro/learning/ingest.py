@@ -28,6 +28,7 @@ from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
 )
+from maestro.lezione.curriculum import detect_prerequisite_cycles
 from maestro.utils import data_dir, utcnow
 
 logger = logging.getLogger(__name__)
@@ -245,6 +246,15 @@ async def _validate_prerequisites() -> None:
                     dep,
                     gp.code,
                 )
+
+    # Check for cycles — a cycle would permanently lock those GPs
+    prereqs_map = {gp.code: gp.prerequisites for gp in gps_with_prereqs}
+    cycles = detect_prerequisite_cycles(prereqs_map)
+    for cycle in cycles:
+        logger.warning(
+            "prerequisite cycle detected: %s",
+            " → ".join(cycle),
+        )
 
 
 if __name__ == "__main__":

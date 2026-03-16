@@ -5,6 +5,7 @@ from types import SimpleNamespace
 from maestro.lezione.curriculum import (
     LessonArchetype,
     PHASE_GATE_THRESHOLD,
+    detect_prerequisite_cycles,
     get_available_scenarios,
     get_current_phase,
     get_max_available_depth,
@@ -234,3 +235,49 @@ class TestPickArchetype:
         )
         result = pick_archetype(profile, {"gp1", "gp2"}, ["gp1", "gp2"])
         assert result == LessonArchetype.INTRODUCTION
+
+
+# ---------------------------------------------------------------------------
+# Cycle detection
+# ---------------------------------------------------------------------------
+
+
+class TestDetectPrerequisiteCycles:
+    def test_no_prerequisites_no_cycles(self):
+        assert detect_prerequisite_cycles({}) == []
+
+    def test_acyclic_dag_no_cycles(self):
+        prereqs = {"gp2": ["gp1"], "gp3": ["gp1", "gp2"]}
+        assert detect_prerequisite_cycles(prereqs) == []
+
+    def test_simple_cycle_detected(self):
+        prereqs = {"gp1": ["gp2"], "gp2": ["gp1"]}
+        cycles = detect_prerequisite_cycles(prereqs)
+        assert len(cycles) > 0
+        # At least one cycle should contain both nodes
+        cycle_nodes = {node for cycle in cycles for node in cycle}
+        assert "gp1" in cycle_nodes
+        assert "gp2" in cycle_nodes
+
+    def test_longer_cycle_detected(self):
+        prereqs = {"gp1": ["gp3"], "gp2": ["gp1"], "gp3": ["gp2"]}
+        cycles = detect_prerequisite_cycles(prereqs)
+        assert len(cycles) > 0
+        cycle_nodes = {node for cycle in cycles for node in cycle}
+        assert {"gp1", "gp2", "gp3"} <= cycle_nodes
+
+    def test_mixed_dag_and_cycle(self):
+        """Cycle in one part of the graph, clean DAG in another."""
+        prereqs = {
+            "gp2": ["gp1"],  # clean edge
+            "gp3": ["gp4"],  # cycle
+            "gp4": ["gp3"],  # cycle
+        }
+        cycles = detect_prerequisite_cycles(prereqs)
+        assert len(cycles) > 0
+        cycle_nodes = {node for cycle in cycles for node in cycle}
+        assert "gp3" in cycle_nodes
+        assert "gp4" in cycle_nodes
+        # gp1 and gp2 should NOT be in any cycle
+        assert "gp1" not in cycle_nodes
+        assert "gp2" not in cycle_nodes

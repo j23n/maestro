@@ -63,18 +63,24 @@ async def _pick_a0_scenario(
 async def pick_scenario(
     profile: Optional[LearningProfile],
     cefr_level: str,
+    scenarios: list[CurriculumScenario] | None = None,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
     For A0: sequential progression through fixed lessons.
     For A1+: weighted scoring with variety.
 
+    Args:
+        scenarios: pre-fetched scenario list to avoid a redundant DB query.
+
     Returns (scenario, next_depth).
     """
     if cefr_level == "A0":
         return await _pick_a0_scenario(profile)
 
-    all_scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+    all_scenarios = (
+        scenarios or await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+    )
     if not all_scenarios:
         all_scenarios = await CurriculumScenario.find_all().to_list()
     if not all_scenarios:
