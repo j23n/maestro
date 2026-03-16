@@ -80,7 +80,7 @@ async def profilo_page(
     ).to_list()
 
     # Partition by level and sort
-    scenarios_by_level: dict[str, list] = {}
+    scenarios_by_level: dict[str, list[CurriculumScenario]] = {}
     for s in all_scenarios:
         scenarios_by_level.setdefault(s.cefr_level, []).append(s)
     for level, level_scenarios in scenarios_by_level.items():
