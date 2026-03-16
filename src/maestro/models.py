@@ -89,6 +89,10 @@ class CurriculumScenario(Document):
 
     class Settings:
         name = "curriculum_scenarios"
+        indexes = [
+            IndexModel([("cefr_level", ASCENDING)]),
+            IndexModel([("slug", ASCENDING)], unique=True),
+        ]
 
 
 class StudentPersona(BaseModel):
