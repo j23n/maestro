@@ -118,6 +118,38 @@ async def test_discover_skips_non_target_lang(db):
 
 
 @pytest.mark.integration
+async def test_discover_simplemma_fallback(db):
+    """discover() should find words via simplemma when spaCy's lemma misses the word_index."""
+    from maestro.vocab.discover import discover
+
+    word = VocabularyWord(
+        word="parlare",
+        part_of_speech="v.intr.",
+        cefr_level="A1",
+        entry_id="LM-PARLARE",
+        senses=[],
+    )
+    await word.insert()
+
+    _vocab_cache.seed(words={"parlare": [word]}, defs={})
+
+    with patch(
+        "maestro.vocab.discover.get_cefr_level",
+        new_callable=AsyncMock,
+        return_value="A1",
+    ):
+        # spaCy returns "parlo" as the lemma for "Parlo" (a known failure);
+        # simplemma should correct it to "parlare" and find the word_index entry.
+        result = await discover(
+            '<span lang="it">Parlo italiano.</span>',
+            student_id=_FAKE_STUDENT_ID,
+        )
+
+    assert "vocab-word" in result
+    assert 'data-word="parlare"' in result
+
+
+@pytest.mark.integration
 async def test_discover_no_lang_returns_unchanged(db):
     """discover() returns text unchanged when no lang attributes are present."""
     from maestro.vocab.discover import discover

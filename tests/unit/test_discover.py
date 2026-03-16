@@ -1,6 +1,7 @@
 """Unit tests for vocab/discover.py — _annotate() and lang-aware helpers."""
 
 import pytest
+import simplemma
 from types import SimpleNamespace
 
 from maestro.vocab.discover import (
@@ -250,3 +251,28 @@ def test_lemmatize_excludes_non_alpha():
     assert "mondo" in lemmas
     assert "123" not in lemmas
     assert "!" not in lemmas
+
+
+# --- simplemma fallback sanity checks ---
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "surface, expected",
+    [
+        ("chiamo", "chiamare"),
+        ("parlo", "parlare"),
+        ("mangio", "mangiare"),
+        ("vado", "andare"),
+        ("dormo", "dormire"),
+        ("capisco", "capire"),
+        ("bevo", "bere"),
+        ("esco", "uscire"),
+        ("giocavo", "giocare"),
+        ("partirò", "partire"),
+        ("mangerei", "mangiare"),
+    ],
+)
+def test_simplemma_corrects_common_verb_forms(surface, expected):
+    """simplemma should produce the correct infinitive for forms spaCy gets wrong."""
+    assert simplemma.lemmatize(surface, lang="it").lower() == expected
