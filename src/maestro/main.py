@@ -18,6 +18,7 @@ from maestro.config import settings
 from maestro.csrf import CSRFMiddleware
 from maestro.db import get_db, init_db
 from maestro.learning.gp_sync import sync_if_changed as sync_grammar_points
+from maestro.learning.vocab_sync import sync_if_changed as sync_a0_vocab
 from maestro.migrations import run_pending
 from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t
@@ -133,6 +134,7 @@ async def lifespan(app: FastAPI):
     await init_db()
     await run_pending(get_db())
     await sync_grammar_points(get_db())
+    await sync_a0_vocab(get_db())
     await seed_if_empty(get_db())
     logger.info("startup: loading NLP model")
     get_nlp()  # warm up spaCy model

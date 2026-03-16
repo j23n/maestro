@@ -1,0 +1,21 @@
+{
+  "sha256": "4ecadb80ab75ace39a90206ea740012d5a39269f2054b6b2536c595f60797b75",
+  "word_count": 165,
+  "by_part_of_speech": {
+    "agg.": 17,
+    "agg.num.": 23,
+    "art.": 6,
+    "avv.": 18,
+    "cong.": 3,
+    "inter.": 9,
+    "loc.": 17,
+    "prep.": 4,
+    "pron.": 8,
+    "s.f.": 14,
+    "s.m.": 30,
+    "s.m.pl.": 2,
+    "v.intr.": 6,
+    "v.tr.": 8
+  },
+  "generated_at": "2026-03-16T13:05:15.444460+00:00"
+}

@@ -86,7 +86,7 @@
     <div class="review-links">
       {% for gp in covered_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span lang="it">{{ gp.label }}</span>
+        {{ gp_titles.get(gp.code, gp.label) }}
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% endfor %}
@@ -100,7 +100,7 @@
     <div class="review-links">
       {% for gp in weak_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span lang="it">{{ gp.label }}</span>
+        {{ gp_titles.get(gp.code, gp.label) }}
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% if gp.chunk_ref %}
