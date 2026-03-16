@@ -981,6 +981,9 @@ a.weakness-tag:hover { background: #f9e2db; }
 
 .submit-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
 
+.field + .field { margin-top: 0.75rem; }
+.field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--c-charcoal); margin-bottom: 0.25rem; }
+
 /* =====================================================================
    10. Page: Activity grammar — extra elements
    ===================================================================== */

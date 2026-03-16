@@ -14,10 +14,33 @@
       <form hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/onboarding-submit"
             hx-target="#onboarding-form"
             hx-swap="outerHTML">
+        {% if activity.profile_field == "combined" %}
+        <div class="field">
+          <label for="ob-name">{{ t("onboarding_name_label") }}</label>
+          <input type="text" id="ob-name" name="name" placeholder="{{ t("onboarding_name_placeholder") }}"
+                 autofocus class="onboarding-input">
+        </div>
+        <div class="field">
+          <label for="ob-background">{{ t("profile_background_label") }}</label>
+          <input type="text" id="ob-background" name="background" placeholder="{{ t("profile_background_placeholder") }}"
+                 class="onboarding-input">
+        </div>
+        <div class="field">
+          <label for="ob-interests">{{ t("profile_interests_label") }}</label>
+          <input type="text" id="ob-interests" name="interests" placeholder="{{ t("profile_interests_placeholder") }}"
+                 class="onboarding-input">
+        </div>
+        <div class="field">
+          <label for="ob-goal">{{ t("profile_goal_label") }}</label>
+          <input type="text" id="ob-goal" name="goal" placeholder="{{ t("profile_goal_placeholder") }}"
+                 class="onboarding-input">
+        </div>
+        {% else %}
         <div class="field">
           <input type="text" name="answer" placeholder="{{ t("onboarding_placeholder") }}"
                  autofocus required class="onboarding-input">
         </div>
+        {% endif %}
         <div class="submit-row">
           <button type="submit" class="continue-btn">{{ t("onboarding_submit") }}</button>
           <a class="skip-link"

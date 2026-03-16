@@ -413,8 +413,8 @@ async def lezione_activity(
             student_id=student.id,
         )
 
-    # Completed non-grammar activities are not revisitable — redirect to current activity
-    if is_review and activity.type != ActivityType.GRAMMAR:
+    # Completed non-grammar/info activities are not revisitable — redirect to current
+    if is_review and activity.type not in (ActivityType.GRAMMAR, ActivityType.INFO):
         return RedirectResponse(
             url=activity_url(lesson_id, lesson.current_index), status_code=303
         )
@@ -522,6 +522,12 @@ async def lezione_activity(
             request, "lezione-activity-grammar.html", ctx, student_id=student.id
         )
 
+    if activity.type == ActivityType.INFO:
+        ctx["content"] = activity.content or ""
+        return await render_with_discover(
+            request, "lezione-activity-info.html", ctx, student_id=student.id
+        )
+
     if activity.type == ActivityType.SPEAKING:
         return await render_with_discover(
             request, "lezione-activity-speaking.html", ctx, student_id=student.id
@@ -582,7 +588,6 @@ async def lezione_onboarding_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
-    answer: Annotated[str, Form()],
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
@@ -590,17 +595,30 @@ async def lezione_onboarding_submit(
         raise HTTPException(404)
     activity = lesson.activities[idx]
 
-    # Save to student profile based on profile_field
-    await save_onboarding_field(student, activity.profile_field, answer)
+    form = await request.form()
 
-    # Build response text from template
-    response_text = activity.response_template or "Got it!"
-    response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+    if activity.profile_field == "combined":
+        # Combined form: save all fields at once
+        result = {}
+        for field in ("name", "background", "interests", "goal"):
+            value = form.get(field, "")
+            if value and value.strip():
+                await save_onboarding_field(student, field, value.strip())
+                result[field] = value.strip()
 
-    # Mark as answered in result
-    await lesson.update(
-        {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
-    )
+        await lesson.update({"$set": {f"activities.{idx}.result": result}})
+
+        response_text = t("onboarding_combined_response")
+    else:
+        answer = form.get("answer", "")
+        await save_onboarding_field(student, activity.profile_field, answer)
+
+        response_text = activity.response_template or "Got it!"
+        response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+
+        await lesson.update(
+            {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
+        )
 
     return await render_with_discover(
         request,

@@ -3,7 +3,7 @@ a0-01-benvenuto:
   topic_description: "Welcome to Maestro — your Italian learning journey starts here"
   overview: "In this first lesson you'll meet Maestro, tell us about yourself, and learn your very first Italian words."
   activities:
-    - type: grammar
+    - type: info
       title: "Your first Italian Lesson!"
       description: "How Maestro works"
       content: |
@@ -27,40 +27,25 @@ a0-01-benvenuto:
 
         ### Your first Italian words
 
-        **<span lang="it">Ciao!</span>** — Hello! (informal, also used for goodbye)
+        **<span lang="it">Ciao!</span>** — Hello! / Bye! (informal)
 
         **<span lang="it">Buongiorno!</span>** — Good morning! / Good day! (formal)
 
-        Try saying them out loud: *chow* and *bwon-JOR-no*.
+        **<span lang="it">Buonasera!</span>** — Good evening! (formal)
+
+        **<span lang="it">Grazie!</span>** — Thank you!
+
+        **<span lang="it">Per favore</span>** — Please
+
+        Try saying them out loud: *chow*, *bwon-JOR-no*, *bwon-ah-SEH-rah*.
 
     - type: onboarding
       title: "Come ti chiami?"
       description: "Tell us your name"
       content: "What's your name? Type it below — we'll show you how to say it in Italian!"
       profile_field: name
-      response_template: "Nice to meet you! In Italian you'd say: **Mi chiamo {answer}!** (mee KYAH-mo)"
-
-    - type: onboarding
-      title: "Chi sei?"
-      description: "Tell us about yourself"
-      content: "What describes you? For example: student, retired, working in finance, living abroad, parent..."
-      profile_field: background
       response_template: >
-        Great — we'll use this to personalise your lessons. In Italian, **<span lang="it">Sono</span>...** means 'I am...'.
-
-    - type: onboarding
-      title: "Cosa ti piace?"
-      description: "Tell us your interests"
-      content: "What are your interests? For example: cooking, football, travel, wine, music, history..."
-      profile_field: interests
-      response_template: "Noted! In Italian, **Mi piace...** means 'I like...'. We'll weave your interests into future lessons."
-
-    - type: onboarding
-      title: "Perché l'italiano?"
-      description: "Your motivation"
-      content: "Why are you learning Italian? For example: travel, family, work, love of Italian culture..."
-      profile_field: goal
-      response_template: "Great motivation! **Perché** means 'why' (and also 'because'). We'll keep your goal in mind."
+        Nice to meet you! In Italian you'd say: **<span lang="it">Mi chiamo {answer}</span>!** (mee KYAH-mo)
 
     - type: drill
       title: "First words"
@@ -80,23 +65,46 @@ a0-01-benvenuto:
         - prompt: "How do you say 'good evening' in Italian? = ___!"
           correct_answer: "Buonasera"
 
-    - type: grammar
-      title: "Vocabulary trainer"
-      description: "How your vocabulary grows"
+    - type: reading
+      title: "At the café"
+      description: "A short dialogue using your first Italian words"
       content: |
-        ## Your vocabulary
+        <span lang="it">— Buongiorno!</span>
 
-        As you work through lessons, Maestro automatically adds new Italian words to your personal vocabulary.
+        <span lang="it">— Buongiorno! Un caffè, per favore.</span>
 
-        Each word becomes a **flashcard** that uses **spaced repetition** — words come back for review just when you're about to forget them.
+        <span lang="it">— Ecco.</span> (Here you go.)
 
-        - New words are added automatically when they appear in grammar, reading, and listening activities
-        - You can also tap any Italian word in a lesson to see its meaning and add it manually
-        - Visit your **Vocabulary** page any time to review due cards
+        <span lang="it">— Grazie!</span>
 
-        This system means you don't need to make your own flashcards — Maestro handles it for you.
+        <span lang="it">— Ciao!</span>
 
-    - type: grammar
+        <span lang="it">— Ciao!</span>
+      questions:
+        - "What does the customer order?"
+        - "Which greeting is used at the start?"
+        - "How does the customer say 'thank you'?"
+      correct_answers:
+        - "un caffè / a coffee"
+        - "Buongiorno"
+        - "Grazie"
+
+    - type: drill
+      title: "Match the meaning"
+      description: "English to Italian"
+      grammar_point_code: saluti
+      exercise_type: fill_blank
+      items:
+        - prompt: "'Good evening' in Italian = ___"
+          correct_answer: "Buonasera"
+        - prompt: "'Thank you' in Italian = ___"
+          correct_answer: "Grazie"
+        - prompt: "'Goodbye' (informal) in Italian = ___"
+          correct_answer: "Ciao"
+        - prompt: "My name is... = Mi ___..."
+          correct_answer: "chiamo"
+
+    - type: info
       title: "What's next"
       description: "How your learning journey continues"
       content: |
@@ -121,6 +129,24 @@ a0-02-saluti:
   topic_description: "Formal and informal greetings and goodbyes throughout the day"
   overview: "Learn all the ways Italians greet each other and say goodbye, from casual ciao to formal buonasera."
   activities:
+    - type: info
+      title: "Vocabulary review"
+      description: "How your vocabulary grows"
+      content: |
+        ## Your vocabulary
+
+        Every lesson starts with a **vocabulary review** — flashcards for words you've learned so far.
+
+        As you work through lessons, Maestro automatically adds new Italian words to your personal vocabulary. Each word becomes a flashcard that uses **spaced repetition** — words come back for review just when you're about to forget them.
+
+        - New words are added automatically when they appear in grammar, reading, and listening activities
+        - You can also tap any Italian word in a lesson to see its meaning and add it manually
+        - Visit your **<a href="/vocab">Vocabulary</a>** page any time to review due cards
+
+        This system means you don't need to make your own flashcards — Maestro handles it for you.
+
+    - type: vocab_review
+
     - type: grammar
       title: "Italian pronunciation basics"
       description: "How to pronounce Italian sounds"
@@ -277,6 +303,8 @@ a0-04-si-e-no:
   topic_description: "Saying yes and no, and forming simple negative sentences"
   overview: "Learn to affirm, deny, and form basic Italian sentences with correct word order."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Sì, no, and non"
       description: "Affirmation and negation in Italian"
@@ -403,6 +431,8 @@ a0-03-numeri:
   topic_description: "Learn to count from 0 to 20 in Italian"
   overview: "Numbers are everywhere — prices, addresses, phone numbers. Learn 0-20 so you're ready."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Numbers 0-10"
       description: "Learn Italian numbers from zero to ten"
@@ -537,6 +567,8 @@ a0-05-per-favore:
   topic_description: "Polite phrases and how to ask for things with vorrei"
   overview: "Being polite goes a long way in Italy. Learn the magic words and how to order like a local."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Polite phrases"
       description: "Essential courtesy expressions"
@@ -677,6 +709,8 @@ a0-06-che-cose:
   topic_description: "Learning il and la, and asking what things are"
   overview: "Every Italian noun has a gender. Learn the two most common articles and how to ask about objects."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Il e la"
       description: "The basic definite articles"
@@ -805,6 +839,8 @@ a0-07-io-sono:
   topic_description: "Subject pronouns and the verb essere (to be) in singular"
   overview: "Learn to talk about yourself and others using the most important Italian verb: essere."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Pronouns and essere"
       description: "I am, you are, he/she is"
@@ -924,6 +960,8 @@ a0-08-mi-piace:
   topic_description: "Expressing what you like and don't like"
   overview: "Everyone has opinions! Learn to say what you like and don't like in Italian."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Mi piace"
       description: "Likes and dislikes"
@@ -1026,6 +1064,8 @@ a0-09-dove:
   topic_description: "Asking where things are and using basic prepositions"
   overview: "Learn to ask for directions and talk about locations with simple prepositions."
   activities:
+    - type: vocab_review
+
     - type: grammar
       title: "Dov'è? and prepositions"
       description: "Where is it? and basic prepositions"
@@ -1121,7 +1161,9 @@ a0-10-ripasso:
   topic_description: "Cumulative review of everything you've learned in the introduction"
   overview: "You've come a long way! Let's review everything from greetings to prepositions before moving on to A1."
   activities:
-    - type: grammar
+    - type: vocab_review
+
+    - type: info
       title: "What you've learned"
       description: "Summary of A0"
       content: |
@@ -1129,15 +1171,17 @@ a0-10-ripasso:
 
         You've completed the Maestro introduction. Here's everything you now know:
 
-        - **Greetings:** <span lang="it">Ciao, Buongiorno, Buonasera, Arrivederci</span>
-        - **Numbers:** 0-20
-        - **Polite phrases:** <span lang="it">Per favore, Grazie, Prego, Scusi, Vorrei</span>
-        - **Yes/No:** <span lang="it">Sì, No, Non</span> + verb
+        - **Pronunciation:** the Italian alphabet, vowels, tricky consonants (<span lang="it">c, g, gl, gn, sc</span>), and double consonants
+        - **Greetings:** <span lang="it">Ciao, Buongiorno, Buonasera, Buonanotte, Arrivederci</span>
+        - **Yes, no and negation:** <span lang="it">Sì, No, Non</span> + verb
+        - **Numbers:** 0–20
+        - **Polite phrases:** <span lang="it">Per favore, Grazie, Prego, Scusi, Mi dispiace, Vorrei</span>
         - **Articles:** <span lang="it">il</span> (m.), <span lang="it">la</span> (f.)
-        - **Essere:** <span lang="it">sono, sei, è</span>
-        - **Likes:** <span lang="it">Mi piace</span> / <span lang="it">Non mi piace</span>
-        - **Locations:** <span lang="it">Dov'è?</span> + <span lang="it">a, in, di</span>
-        - **Self-intro:** <span lang="it">Mi chiamo...</span>
+        - **Asking what something is:** <span lang="it">Che cos'è? Questo è... / Questa è...</span>
+        - **Essere:** <span lang="it">sono, sei, è</span> — introducing yourself and describing things
+        - **Likes and dislikes:** <span lang="it">Mi piace</span> / <span lang="it">Non mi piace</span>
+        - **Asking where:** <span lang="it">Dov'è?</span> + prepositions <span lang="it">a, in, di</span>
+        - **Simple sentences:** subject + verb + object word order
 
         After this lesson, you'll graduate to **A1** — where lessons become dynamic, personalised, and increasingly in Italian.
 
@@ -1223,7 +1267,13 @@ a0-10-ripasso:
       description: "Write a full self-introduction"
       content: "Write 4-5 sentences about yourself. Include your name, where you're from, something you like, something you don't like, and a polite phrase. Use everything you've learned!"
 
-    - type: grammar
+    - type: onboarding
+      title: "Before we move on"
+      description: "Tell us about yourself"
+      content: "Before we move on to A1, tell us a bit about yourself so we can tailor the content to you. You can always update these later in your profile."
+      profile_field: combined
+
+    - type: info
       title: "Next steps"
       description: "What comes after A0"
       content: |
