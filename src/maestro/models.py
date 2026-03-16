@@ -399,6 +399,7 @@ class Lesson(Document):
     focus_weak: bool = False  # when True, grammar selection ignores scenario constraint
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
     generating: bool = True  # True while background LLM generation is in progress
+    generation_started_at: Optional[datetime] = None  # set when generation begins
     generation_error: Optional[str] = None  # set when background generation fails
     language: str = "it"
 

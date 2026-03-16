@@ -40,7 +40,7 @@ from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import render_with_discover
-from maestro.utils import create_background_task, utcnow
+from maestro.utils import create_background_task, ensure_utc, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
@@ -62,6 +62,8 @@ from maestro.lezione.service import (
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+_GENERATION_TIMEOUT_SECONDS = 180  # 3 minutes
 
 _LEARNING_TYPES = {
     ActivityType.GRAMMAR,
@@ -270,6 +272,37 @@ async def lezione_generating(
     lesson = await _get_lesson(lesson_id, student)
     is_htmx = request.headers.get("HX-Request") == "true"
 
+    # Detect generation timeout
+    if (
+        lesson.generating
+        and lesson.generation_started_at is not None
+        and (utcnow() - ensure_utc(lesson.generation_started_at)).total_seconds()
+        > _GENERATION_TIMEOUT_SECONDS
+    ):
+        elapsed = (utcnow() - ensure_utc(lesson.generation_started_at)).total_seconds()
+        logger.warning(
+            "lesson generation timed out",
+            extra={
+                "lesson_id": str(lesson_id),
+                "started_at": lesson.generation_started_at.isoformat(),
+                "elapsed_s": round(elapsed, 1),
+            },
+        )
+        await Lesson.find_one(
+            Lesson.id == lesson_id,
+            Lesson.generating == True,  # noqa: E712
+        ).update(
+            {
+                "$set": {
+                    "generating": False,
+                    "generation_error": "Lesson generation took too long. Please try again.",
+                    "status": LessonStatus.ABANDONED.value,
+                }
+            }
+        )
+        # Re-fetch to get authoritative state (handles race with background task)
+        lesson = await _get_lesson(lesson_id, student)
+
     if not lesson.generating:
         if lesson.generation_error:
             # Show error state with retry button
@@ -331,7 +364,15 @@ async def lezione_retry(
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
 
-    await lesson.update({"$set": {"generating": True, "generation_error": None}})
+    await lesson.update(
+        {
+            "$set": {
+                "generating": True,
+                "generation_error": None,
+                "generation_started_at": utcnow(),
+            }
+        }
+    )
 
     create_background_task(
         generate_lesson_background(lesson.id, lesson.duration_minutes),
