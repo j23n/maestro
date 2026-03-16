@@ -20,8 +20,8 @@
     "sha256": "e85007ea50fc1eca458ab77f93a1cc48643846d081cb42b51036ddad65d9c9d1"
   },
   "planner.yaml": {
-    "version": "4",
-    "sha256": "8aa90bc700c8222e9291a62dd64725deafda579b60b1acda0a6ff1ae65dec244"
+    "version": "5",
+    "sha256": "9360d40ff3f151d0e6f479f8d8312cd09236b594e8aac1b1291465b3cdd29605"
   },
   "vocab_definitions.yaml": {
     "version": "4",
