@@ -208,6 +208,7 @@ async def discover(
         el
         for el in soup.find_all(attrs={"lang": target_lang})
         if el.name not in _SKIP_DISCOVER_TAGS
+        and not el.find_parent(attrs={"data-no-discover": True})
     ]
     if not lang_elements:
         return response_text

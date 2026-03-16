@@ -62,7 +62,7 @@ a0-01-benvenuto:
           correct_answer: "Grazie"
         - prompt: "Please = Per ___"
           correct_answer: "favore"
-        - prompt: "How do you say 'good evening' in Italian? = ___!"
+        - prompt: "Good evening = ___!"
           correct_answer: "Buonasera"
 
     - type: reading
@@ -95,11 +95,11 @@ a0-01-benvenuto:
       grammar_point_code: saluti
       exercise_type: fill_blank
       items:
-        - prompt: "'Good evening' in Italian = ___"
+        - prompt: "Good evening = ___"
           correct_answer: "Buonasera"
-        - prompt: "'Thank you' in Italian = ___"
+        - prompt: "Thank you = ___"
           correct_answer: "Grazie"
-        - prompt: "'Goodbye' (informal) in Italian = ___"
+        - prompt: "Goodbye (informal) = ___"
           correct_answer: "Ciao"
         - prompt: "My name is... = Mi ___..."
           correct_answer: "chiamo"
@@ -191,9 +191,8 @@ a0-02-saluti:
 
         In Italian, double consonants are **held longer**. This changes meaning:
 
-        - <span lang="it">*nono*</span> (NOH-no) = grandfather vs <span lang="it">*nonno*</span> (NON-no) = grandfather
-        - <span lang="it">*pena*</span> (PEH-nah) = penalty vs <span lang="it">*penna*</span> (PEN-nah) = pen
-        - <span lang="it">*notte*</span> (NOT-teh), <span lang="it">*caffè*</span> (kaf-FEH), <span lang="it">*pizza*</span> (PIT-tsah)
+        - <span lang="it" data-no-save>*pena*</span> (PEH-nah) = penalty vs <span lang="it" data-no-save>*penna*</span> (PEN-nah) = pen
+        - <span lang="it" data-no-save>*notte*</span> (NOT-teh), <span lang="it" data-no-save>*caffè*</span> (kaf-FEH), <span lang="it" data-no-save>*pizza*</span> (PIT-tsah)
 
     - type: grammar
       title: "Greetings throughout the day"

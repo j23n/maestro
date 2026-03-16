@@ -180,6 +180,7 @@
   "welcome_cta": "Lessons are the building blocks of Maestro. Let\u2019s start with the first one.",
   "welcome_start_btn": "Start your first lesson",
   "onboarding_progress": "Lesson {number} of {total}",
+  "onboarding_continue_body": "Pick up where you left off. Each lesson builds on what you\u2019ve learned so far.",
   "graduation_body": "You\u2019ve reached level {level}! Your dedication is paying off.",
   "profile_completed_level": "Completed",
   "profile_of_level": "of level",

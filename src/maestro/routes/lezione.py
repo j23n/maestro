@@ -467,6 +467,9 @@ async def lezione_activity(
 
     if activity.type == ActivityType.READING:
         ctx["hints"] = hints_for_page("lesson_activity_reading", _dismissed)
+        ctx["question_lang"] = (
+            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+        )
         return await render_with_discover(
             request,
             "lezione-activity-reading.html",
@@ -477,6 +480,9 @@ async def lezione_activity(
 
     if activity.type == ActivityType.LISTENING:
         ctx["audio_url"] = activity.audio_path
+        ctx["question_lang"] = (
+            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+        )
         return await render_with_discover(
             request,
             "lezione-activity-listening.html",

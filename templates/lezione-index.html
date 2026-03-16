@@ -21,7 +21,10 @@
       <p>{{ t("welcome_cta") }}</p>
     </div>
     {% else %}
-    <div class="onboarding-progress">{{ t("onboarding_progress", number=a0_lesson_number, total=a0_total) }}</div>
+    <div class="welcome-card">
+      <div class="onboarding-progress">{{ t("onboarding_progress", number=a0_lesson_number, total=a0_total) }}</div>
+      <p>{{ t("onboarding_continue_body") }}</p>
+    </div>
     {% endif %}
     <input type="hidden" name="duration" value="20">
     {% else %}
