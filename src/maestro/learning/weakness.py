@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from maestro.learning.profile import outcome_ok
 from maestro.models import GrammarPoint, LearningProfile
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 
