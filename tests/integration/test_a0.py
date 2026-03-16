@@ -163,9 +163,9 @@ async def test_a0_lesson_generates_static_content(db):
     assert lesson.topic_title == "Benvenuto!"
     assert len(lesson.activities) > 0
 
-    # Check activity types include onboarding and grammar
+    # Check activity types include onboarding, info, and drill
     types = [a.type for a in lesson.activities]
-    assert ActivityType.GRAMMAR in types
+    assert ActivityType.INFO in types
     assert ActivityType.ONBOARDING in types
     assert ActivityType.DRILL in types
 
@@ -173,11 +173,11 @@ async def test_a0_lesson_generates_static_content(db):
     assert not lesson.overview.startswith("<span")
     assert not lesson.topic_description.startswith("<span")
 
-    # Grammar: title/description plain text, content unchanged (has inline spans)
-    grammar = next(a for a in lesson.activities if a.type == ActivityType.GRAMMAR)
-    assert not grammar.title.startswith("<span")
-    assert not grammar.description.startswith("<span")
-    assert not grammar.content.startswith("<span")  # mixed lang, not outer-wrapped
+    # Info: title/description plain text, content unchanged (has inline spans)
+    info = next(a for a in lesson.activities if a.type == ActivityType.INFO)
+    assert not info.title.startswith("<span")
+    assert not info.description.startswith("<span")
+    assert not info.content.startswith("<span")  # mixed lang, not outer-wrapped
 
     # Onboarding: title/content are plain text (no longer wrapped)
     onboarding = next(a for a in lesson.activities if a.type == ActivityType.ONBOARDING)

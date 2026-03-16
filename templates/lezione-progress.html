@@ -7,10 +7,11 @@
     {% set is_done = a.status in ('completed', 'skipped') %}
     {% set is_current_view = (loop.index0 == idx) %}
     {% set is_grammar = (a.type == 'grammar') %}
+    {% set is_revisitable = (a.type in ('grammar', 'info')) %}
     {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
     {% set grammar_class %}{% if is_grammar %} grammar-seg{% endif %}{% endset %}
-    {# Only grammar activities are clickable when completed #}
-    {% if is_done and not is_current_view and is_grammar %}
+    {# Grammar and info activities are clickable when completed #}
+    {% if is_done and not is_current_view and is_revisitable %}
     <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
        class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></a>
     {% else %}

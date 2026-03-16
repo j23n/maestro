@@ -1,6 +1,6 @@
 # Grammar Data Pipeline
 
-All offline scripts that build and maintain `src/maestro/data/it/grammar_points.json` —
+All offline scripts that build and maintain `src/maestro/data/it/grammar_points.yaml` —
 the single source of truth for grammar point data. Changes propagate to MongoDB via ingest.
 
 Run all scripts from the repo root with `uv run python scripts/data/<script>.py`.
@@ -39,17 +39,17 @@ uv run python scripts/data/llm_remap_chunks.py
 LLM maps each GP to the best chapter in the grammar book using
 `chunk_enrichment.json` (40–80-word descriptions of all 124 chunks) as context.
 Outputs `null` for A0 formulaic items with no corresponding chapter.
-Writes `chunk_ref` directly into `grammar_points.json`.
+Writes `chunk_ref` directly into `grammar_points.yaml`.
 
 ### 5. Export existing DB explanations to JSON  *(one-time — run before clearing DB)*
 ```
 uv run python scripts/data/export_explanations_to_json.py
 ```
 Reads the old `grammar_point_explanations` MongoDB collection and writes
-explanations into `grammar_points.json`. Only needed when migrating from the
+explanations into `grammar_points.yaml`. Only needed when migrating from the
 separate-collection model to the inline model.
 
-### 6. Ingest JSON → MongoDB
+### 6. Ingest YAML → MongoDB
 ```
 uv run python -m maestro.learning.ingest
 ```
@@ -67,7 +67,7 @@ uv run python scripts/data/generate_explanations.py
 ```
 For each GP (A1–B2), generates one complete reference entry at the GP's own CEFR level,
 using the GP's linked grammar chunk as the authoritative source.
-Writes to both MongoDB and `grammar_points.json`. A0 GPs are intentionally skipped.
+Writes to both MongoDB and `grammar_points.yaml`. A0 GPs are intentionally skipped.
 Use `--clear` to wipe and regenerate from scratch. Use `--level` or `--code` to target.
 
 ---
@@ -78,11 +78,11 @@ Use `--clear` to wipe and regenerate from scratch. Use `--level` or `--code` to 
 
 | File | Description |
 |------|-------------|
-| `src/maestro/data/it/grammar_points.json` | Master GP list — 344 entries |
+| `src/maestro/data/it/grammar_points.yaml` | Master GP list — 344 entries |
 | `src/maestro/data/it/chunk_enrichment.json` | 124 grammar book chunk descriptions |
 | `src/maestro/data/it/grammar_point_chunks.yaml` | Legacy YAML chunk mapping (superseded) |
 
-### GP JSON fields
+### GP YAML fields
 
 | Field | Description |
 |-------|-------------|

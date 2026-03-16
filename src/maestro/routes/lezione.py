@@ -63,6 +63,16 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+_LEARNING_TYPES = {
+    ActivityType.GRAMMAR,
+    ActivityType.DRILL,
+    ActivityType.READING,
+    ActivityType.LISTENING,
+    ActivityType.WRITING,
+    ActivityType.SPEAKING,
+    ActivityType.VOCAB_REVIEW,
+}
+
 
 async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     lesson = await Lesson.get(lesson_id)
@@ -258,6 +268,8 @@ async def lezione_generating(
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
+    is_htmx = request.headers.get("HX-Request") == "true"
+
     if not lesson.generating:
         if lesson.generation_error:
             # Show error state with retry button
@@ -267,6 +279,7 @@ async def lezione_generating(
                 {"lesson": lesson},
                 student_id=student.id,
             )
+        dest = None
         next_idx = lesson.current_index
         while next_idx < len(lesson.activities):
             if lesson.activities[next_idx].status == ActivityStatus.PENDING:
@@ -280,24 +293,28 @@ async def lezione_generating(
                         }
                     }
                 )
-                return RedirectResponse(
-                    url=activity_url(lesson_id, next_idx), status_code=303
-                )
+                dest = activity_url(lesson_id, next_idx)
+                break
             next_idx += 1
-        if lesson.status != LessonStatus.COMPLETED:
-            now = utcnow()
-            lesson.status = LessonStatus.COMPLETED
-            lesson.completed_at = now
-            set_fields = {
-                "status": LessonStatus.COMPLETED.value,
-                "completed_at": now,
-            }
-            _sweep_leftover_activities(lesson, set_fields)
-            await lesson.update({"$set": set_fields})
-            await update_scenario_progress(lesson)
-            if lesson.cefr_at_start == "A0":
-                await _credit_a0_mastery(lesson)
-        return RedirectResponse(url=f"/lezione/{lesson_id}/complete", status_code=303)
+        if dest is None:
+            if lesson.status != LessonStatus.COMPLETED:
+                now = utcnow()
+                lesson.status = LessonStatus.COMPLETED
+                lesson.completed_at = now
+                set_fields = {
+                    "status": LessonStatus.COMPLETED.value,
+                    "completed_at": now,
+                }
+                _sweep_leftover_activities(lesson, set_fields)
+                await lesson.update({"$set": set_fields})
+                await update_scenario_progress(lesson)
+                if lesson.cefr_at_start == "A0":
+                    await _credit_a0_mastery(lesson)
+            dest = f"/lezione/{lesson_id}/complete"
+        # HX-Redirect forces a full page navigation so scripts reinitialize
+        if is_htmx:
+            return Response(status_code=200, headers={"HX-Redirect": dest})
+        return RedirectResponse(url=dest, status_code=303)
     return await render_with_discover(
         request,
         "lezione-generating.html",
@@ -396,8 +413,8 @@ async def lezione_activity(
             student_id=student.id,
         )
 
-    # Completed non-grammar activities are not revisitable — redirect to current activity
-    if is_review and activity.type != ActivityType.GRAMMAR:
+    # Completed non-grammar/info activities are not revisitable — redirect to current
+    if is_review and activity.type not in (ActivityType.GRAMMAR, ActivityType.INFO):
         return RedirectResponse(
             url=activity_url(lesson_id, lesson.current_index), status_code=303
         )
@@ -450,6 +467,9 @@ async def lezione_activity(
 
     if activity.type == ActivityType.READING:
         ctx["hints"] = hints_for_page("lesson_activity_reading", _dismissed)
+        ctx["question_lang"] = (
+            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+        )
         return await render_with_discover(
             request,
             "lezione-activity-reading.html",
@@ -460,6 +480,9 @@ async def lezione_activity(
 
     if activity.type == ActivityType.LISTENING:
         ctx["audio_url"] = activity.audio_path
+        ctx["question_lang"] = (
+            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+        )
         return await render_with_discover(
             request,
             "lezione-activity-listening.html",
@@ -503,6 +526,12 @@ async def lezione_activity(
         ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
             request, "lezione-activity-grammar.html", ctx, student_id=student.id
+        )
+
+    if activity.type == ActivityType.INFO:
+        ctx["content"] = activity.content or ""
+        return await render_with_discover(
+            request, "lezione-activity-info.html", ctx, student_id=student.id
         )
 
     if activity.type == ActivityType.SPEAKING:
@@ -565,7 +594,6 @@ async def lezione_onboarding_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
-    answer: Annotated[str, Form()],
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
@@ -573,17 +601,30 @@ async def lezione_onboarding_submit(
         raise HTTPException(404)
     activity = lesson.activities[idx]
 
-    # Save to student profile based on profile_field
-    await save_onboarding_field(student, activity.profile_field, answer)
+    form = await request.form()
 
-    # Build response text from template
-    response_text = activity.response_template or "Got it!"
-    response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+    if activity.profile_field == "combined":
+        # Combined form: save all fields at once
+        result = {}
+        for field in ("name", "background", "interests", "goal"):
+            value = form.get(field, "")
+            if value and value.strip():
+                await save_onboarding_field(student, field, value.strip())
+                result[field] = value.strip()
 
-    # Mark as answered in result
-    await lesson.update(
-        {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
-    )
+        await lesson.update({"$set": {f"activities.{idx}.result": result}})
+
+        response_text = t("onboarding_combined_response")
+    else:
+        answer = form.get("answer", "")
+        await save_onboarding_field(student, activity.profile_field, answer)
+
+        response_text = activity.response_template or "Got it!"
+        response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+
+        await lesson.update(
+            {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
+        )
 
     return await render_with_discover(
         request,
@@ -1246,12 +1287,9 @@ async def lezione_complete(
     student: Student = Depends(get_current_student),
 ):
     lesson = await _get_lesson(lesson_id, student)
-    completed_count = sum(
-        1 for a in lesson.activities if a.status == ActivityStatus.COMPLETED
-    )
-    skipped_count = sum(
-        1 for a in lesson.activities if a.status == ActivityStatus.SKIPPED
-    )
+    learning = [a for a in lesson.activities if a.type in _LEARNING_TYPES]
+    completed_count = sum(1 for a in learning if a.status == ActivityStatus.COMPLETED)
+    skipped_count = sum(1 for a in learning if a.status == ActivityStatus.SKIPPED)
     events = await get_lesson_events(lesson)
     weak_grammar_points = await get_weak_grammar_points(lesson, events)
     await ensure_lesson_feedback(lesson, weak_grammar_points, events)
@@ -1273,17 +1311,19 @@ async def lezione_complete(
         if a.type == ActivityType.GRAMMAR and a.grammar_point_code
     ]
     if covered_gp_codes:
-        gp_by_code = {
-            gp.code: gp
-            for gp in await GrammarPoint.find(
-                {"code": {"$in": covered_gp_codes}}
-            ).to_list()
-        }
+        covered_gps = await GrammarPoint.find(
+            {"code": {"$in": covered_gp_codes}}
+        ).to_list()
+        gp_by_code = {gp.code: gp for gp in covered_gps}
         covered_grammar_points = [
             gp_by_code[c] for c in covered_gp_codes if c in gp_by_code
         ]
+        all_gps = list(covered_gps)
     else:
         covered_grammar_points = []
+        all_gps = []
+    all_gps.extend(weak_grammar_points)
+    gp_titles = build_gp_titles(all_gps, lesson.cefr_at_start) if all_gps else {}
 
     return await render_with_discover(
         request,
@@ -1294,7 +1334,9 @@ async def lezione_complete(
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
+            "gp_titles": gp_titles,
             "graduated_to": graduated_to,
+            "is_a0": lesson.cefr_at_start == "A0",
         },
         student_id=student.id,
     )

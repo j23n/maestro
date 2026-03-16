@@ -21,8 +21,8 @@ OUTPUT = data_dir() / "scenarios_a1.yaml"
 
 
 def main():
-    with open(data_dir() / "grammar_points.json") as f:
-        all_gps = json.load(f)
+    with open(data_dir() / "grammar_points.yaml") as f:
+        all_gps = yaml.safe_load(f)
     with open(data_dir() / "comm_functions.json") as f:
         all_cfs = json.load(f)
 

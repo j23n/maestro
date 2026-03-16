@@ -197,13 +197,14 @@ def test_annotate_in_elements_no_elements():
 
 
 @pytest.mark.unit
-def test_annotate_in_elements_only_first_occurrence():
-    """Only the first occurrence across all elements gets annotated."""
+def test_annotate_in_elements_all_occurrences():
+    """All occurrences across all elements get annotated."""
     html = '<span lang="it">La casa è bella.</span> <span lang="it">La casa è grande.</span>'
     soup, els = _make_soup_and_elements(html, lang="it")
     word = _make_word(word="casa")
-    _annotate_in_elements(els, word, None)
-    assert str(soup).count("vocab-word") == 1
+    count = _annotate_in_elements(els, word, None)
+    assert count == 2
+    assert str(soup).count("vocab-word") == 2
 
 
 # --- lemmatize tests ---
@@ -227,10 +228,10 @@ def test_lemmatize_includes_two_char_words():
 
 
 @pytest.mark.unit
-def test_lemmatize_excludes_single_char():
-    """Single-character tokens (e.g. 'è' as standalone) should be excluded."""
+def test_lemmatize_single_char_surface_with_valid_lemma():
+    """Single-char surface forms like 'è' are included when lemma is valid (essere)."""
     lemmas = lemmatize("è")
-    assert len(lemmas) == 0
+    assert "essere" in lemmas
 
 
 @pytest.mark.unit

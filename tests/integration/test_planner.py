@@ -16,7 +16,6 @@ from maestro.models import (
     ScenarioProgress,
     UserVocabularyCard,
     VocabularyWord,
-    ActivityType,
     LessonStatus,
 )
 
@@ -114,19 +113,19 @@ async def test_pick_comm_functions_with_candidate_codes(db):
 
 
 @pytest.mark.integration
-async def test_fill_vocab_cards_introduces_new_words(db):
-    """When not enough cards are due, new words should be introduced."""
-    from maestro.lezione.selection import fill_vocab_cards
+async def test_get_due_vocab_cards_only_returns_existing(db):
+    """get_due_vocab_cards should never introduce new words."""
+    from maestro.lezione.selection import get_due_vocab_cards
 
     for i in range(10):
         await VocabularyWord(
             word=f"parola{i}", part_of_speech="s.f.", cefr_level="A1"
         ).insert()
 
-    cards = await fill_vocab_cards(5, "A1", student_id=_FAKE_STUDENT_ID)
-    assert len(cards) == 5
+    cards = await get_due_vocab_cards(5, student_id=_FAKE_STUDENT_ID)
+    assert len(cards) == 0
     db_cards = await UserVocabularyCard.find({"student_id": _FAKE_STUDENT_ID}).to_list()
-    assert len(db_cards) == 5
+    assert len(db_cards) == 0
 
 
 # ---------------------------------------------------------------------------
@@ -253,13 +252,8 @@ async def test_pick_scenario_weak_gp_boost(db):
 
 @pytest.mark.integration
 async def test_prepare_lesson_immediate_creates_lesson(db):
-    """Should create a Lesson with vocab_review activity and generating=True."""
+    """Should create a Lesson with generating=True; no vocab_review without due cards."""
     from maestro.lezione.planner import prepare_lesson_immediate
-
-    for i in range(10):
-        await VocabularyWord(
-            word=f"word{i}", part_of_speech="s.f.", cefr_level="A1"
-        ).insert()
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
@@ -268,8 +262,8 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
     assert lesson.status == LessonStatus.ACTIVE
     assert lesson.generating is True
     assert lesson.student_id == _FAKE_STUDENT_ID
-    assert len(lesson.activities) >= 1
-    assert lesson.activities[0].type == ActivityType.VOCAB_REVIEW
+    # No due vocab cards → no vocab_review activity
+    assert len(lesson.activities) == 0
 
 
 # ---------------------------------------------------------------------------

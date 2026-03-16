@@ -1,5 +1,5 @@
 """
-One-shot cleanup of grammar_points.json: strip redundant <span lang="en"> wrappers,
+One-shot cleanup of grammar_points.yaml: strip redundant <span lang="en"> wrappers,
 fix structural span issues, and extract "## Why this matters" into a separate field.
 
 Run:  uv run python scripts/data/clean_grammar_explanations.py
@@ -16,11 +16,24 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import yaml
+
 DATA_DIR = (
     Path(__file__).resolve().parent.parent.parent / "src" / "maestro" / "data" / "it"
 )
-GP_JSON = DATA_DIR / "grammar_points.json"
+GP_YAML = DATA_DIR / "grammar_points.yaml"
 LOCK_FILE = DATA_DIR / "grammar_points.lock"
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
 
 
 # ---------------------------------------------------------------------------
@@ -220,7 +233,7 @@ def process_json(json_items: list[dict], *, verbose: bool = False) -> list[str]:
 
 def update_lock(json_items: list[dict]) -> None:
     """Recompute and write grammar_points.lock."""
-    content = GP_JSON.read_bytes()
+    content = GP_YAML.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
     by_level: dict[str, dict[str, int]] = {}
     for gp in json_items:
@@ -413,7 +426,7 @@ def run_tests() -> bool:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Clean grammar_points.json explanations"
+        description="Clean grammar_points.yaml explanations"
     )
     parser.add_argument(
         "--test", action="store_true", help="Run inline test cases only"
@@ -430,10 +443,10 @@ if __name__ == "__main__":
         ok = run_tests()
         sys.exit(0 if ok else 1)
 
-    with open(GP_JSON) as f:
-        json_items = json.load(f)
+    with open(GP_YAML) as f:
+        json_items = yaml.safe_load(f)
 
-    print(f"Loaded {len(json_items)} grammar points from {GP_JSON}")
+    print(f"Loaded {len(json_items)} grammar points from {GP_YAML}")
 
     errors = process_json(json_items, verbose=args.verbose)
 
@@ -463,10 +476,20 @@ if __name__ == "__main__":
         print("Dry run — no files written")
         sys.exit(0)
 
-    with open(GP_JSON, "w") as f:
-        json.dump(json_items, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    print(f"Wrote {GP_JSON}")
+    # Wrap multiline strings for block-scalar output
+    for gp in json_items:
+        for key in ("description",):
+            if isinstance(gp.get(key), str) and "\n" in gp[key]:
+                gp[key] = LiteralStr(gp[key])
+        for lang, expl in gp.get("explanations", {}).items():
+            for field in ("explanation", "tip", "why_this_matters"):
+                if isinstance(expl.get(field), str) and "\n" in expl[field]:
+                    expl[field] = LiteralStr(expl[field])
+    with open(GP_YAML, "w") as f:
+        yaml.dump(
+            json_items, f, default_flow_style=False, allow_unicode=True, width=200
+        )
+    print(f"Wrote {GP_YAML}")
 
     update_lock(json_items)
     print(f"Updated {LOCK_FILE}")

@@ -7,6 +7,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 import pytest
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ def seed_cache_for_scoring():
     cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())
     codes = {c["grammar_point_code"] for c in cases}
 
-    gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+    gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     relevant = [g for g in gps if g["code"] in codes]
 
     taxonomy.seed(gps=[SimpleNamespace(**g) for g in relevant])

@@ -120,11 +120,15 @@
   "vocab_in_your_vocab": "Nel tuo vocabolario",
   "vocab_add_to_mine": "Aggiungi al mio vocabolario",
   "vocab_english_label": "Inglese",
+  "info_label": "Info",
   "onboarding_label": "Introduzione",
   "onboarding_placeholder": "Scrivi la tua risposta\u2026",
   "onboarding_submit": "Invia",
   "onboarding_skip": "Salta",
   "onboarding_continue": "Continua",
+  "onboarding_name_label": "Il tuo nome",
+  "onboarding_name_placeholder": "es. Marco, Sarah, Yuki\u2026",
+  "onboarding_combined_response": "Grazie! Useremo queste informazioni per personalizzare le tue lezioni da A1 in poi. Puoi aggiornare tutto in qualsiasi momento nel tuo <a href=\"/profilo\">profilo</a>.",
   "practice_title": "Pratica",
   "practice_mode_word": "Parola",
   "practice_mode_definition": "Definizione",
@@ -176,6 +180,7 @@
   "welcome_cta": "Le lezioni sono i mattoni di Maestro. Iniziamo con la prima.",
   "welcome_start_btn": "Inizia la tua prima lezione",
   "onboarding_progress": "Lezione {number} di {total}",
+  "onboarding_continue_body": "Riprendi da dove avevi lasciato. Ogni lezione si basa su ci\u00f2 che hai imparato finora.",
   "graduation_body": "Hai raggiunto il livello {level}! La tua dedizione sta dando i suoi frutti.",
   "profile_completed_level": "Completato",
   "profile_of_level": "del livello",
@@ -248,5 +253,8 @@
   "landing_persona_foodie": "Il buongustaio",
   "landing_persona_student": "Lo studente",
   "landing_persona_enthusiast": "L\u2019appassionato",
-  "landing_cta_ready": "Pronto a iniziare?"
+  "landing_cta_ready": "Pronto a iniziare?",
+  "complete_activities_info": "Ecco un riepilogo delle attività di apprendimento completate, con feedback sulla tua performance e i punti grammaticali trattati.",
+  "complete_where_next_title": "Dove andare ora?",
+  "complete_where_next_body": "Visita il tuo <a href=\"/vocab\">vocabolario</a> per ripassare le parole, esplora i <a href=\"/grammar\">punti grammaticali</a> che hai imparato, o continua con la prossima lezione."
 }

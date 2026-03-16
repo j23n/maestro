@@ -5,6 +5,7 @@ import logging
 from pathlib import Path
 
 import pytest
+import yaml
 
 _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
 
@@ -161,7 +162,7 @@ async def test_grammar_code_matching_by_level(db, record_eval, record_item):
     from maestro import taxonomy
     from maestro.learning.scorer import generate_writing_feedback
 
-    all_gps = json.loads((_DATA_DIR / "grammar_points.json").read_text())
+    all_gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
 
     student_text = "Oggi no lo so come si dice in italiano."  # "no" instead of "non"
     writing_prompt = "Scrivi una frase sulla tua giornata."
