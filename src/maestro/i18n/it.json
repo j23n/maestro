@@ -180,6 +180,7 @@
   "welcome_cta": "Le lezioni sono i mattoni di Maestro. Iniziamo con la prima.",
   "welcome_start_btn": "Inizia la tua prima lezione",
   "onboarding_progress": "Lezione {number} di {total}",
+  "onboarding_continue_body": "Riprendi da dove avevi lasciato. Ogni lezione si basa su ci\u00f2 che hai imparato finora.",
   "graduation_body": "Hai raggiunto il livello {level}! La tua dedizione sta dando i suoi frutti.",
   "profile_completed_level": "Completato",
   "profile_of_level": "del livello",

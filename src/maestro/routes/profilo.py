@@ -155,6 +155,7 @@ async def profilo_page(
             "top_cf_labels": top_cf_labels,
         },
         student_id=student.id,
+        create_cards=False,
     )
 
 

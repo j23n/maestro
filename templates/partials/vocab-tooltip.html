@@ -1,4 +1,4 @@
-  <div id="vocab-tooltip"
+  <div id="vocab-tooltip" data-no-discover
        data-label-add="{{ t('vocab_add_tooltip') }}"
        data-label-added="{{ t('vocab_added_tooltip') }}"
        data-label-listen="{{ t('listen_btn') }}">
@@ -19,6 +19,8 @@
     // element after htmx body swaps.
     if (!window._vtInit) {
       window._vtInit = true;
+      // TODO: remove _stripTags after full vocab definition regeneration (see #89)
+      function _stripTags(s) { return s.replace(/<[^>]*>/g, ''); }
       let _ttHideTimer = null;
       function _vtEl() { return document.getElementById('vocab-tooltip'); }
       function _ttScheduleHide() { _ttHideTimer = setTimeout(() => { var t = _vtEl(); if (t) t.style.display = 'none'; }, 180); }
@@ -46,7 +48,7 @@
           const wrap = document.createElement('div');
           wrap.className = 'tt-sense';
           const defLine = document.createElement('div');
-          defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + s.definition;
+          defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + _stripTags(s.definition);
           if (s.translation) {
             defLine.textContent += ' (' + s.translation + ')';
           }
@@ -55,7 +57,7 @@
           if (s.examples && s.examples[0]) {
             const ex = document.createElement('div');
             ex.className = 'tt-example';
-            ex.textContent = s.examples[0];
+            ex.textContent = _stripTags(s.examples[0]);
             wrap.appendChild(ex);
           }
 
