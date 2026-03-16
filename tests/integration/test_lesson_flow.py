@@ -306,8 +306,8 @@ async def test_collect_activity_events_no_events(db):
 
 
 @pytest.mark.integration
-async def test_collect_activity_events_preserves_counts(db):
-    """Same GP code from multiple events should appear once per occurrence."""
+async def test_collect_activity_events_deduplicates_codes(db):
+    """Same GP code from multiple events should be deduplicated per-lesson."""
     from maestro.learning.lesson_analyzer import _collect_activity_events
 
     lesson = _make_lesson([])
@@ -327,7 +327,7 @@ async def test_collect_activity_events_preserves_counts(db):
     ).insert()
 
     correct, errors, _ = await _collect_activity_events(lesson)
-    assert correct.count("GP_001") == 2
+    assert correct.count("GP_001") == 1  # deduplicated
 
 
 # ---------------------------------------------------------------------------

@@ -92,14 +92,16 @@ async def _score_single(
     max_tokens: int = 512,
     label: str,
     cefr_level: str,
+    model: str | None = None,
     student_id=None,
     lesson_id=None,
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation."""
     await taxonomy.ensure_loaded()
-    logger.debug(f"{label} prompt: {prompt}")
+    effective_model = model or settings.SCORING_MODEL
+    logger.debug("%s using model=%s", label, effective_model)
     response = await llm_messages_create(
-        model=settings.SCORING_MODEL,
+        model=effective_model,
         max_tokens=max_tokens,
         system=_system_prompt(cefr_level),
         messages=[{"role": "user", "content": prompt}],
@@ -145,6 +147,7 @@ async def _score_multi(
     max_tokens: int = 4000,
     label: str,
     cefr_level: str,
+    model: str | None = None,
     student_id=None,
     lesson_id=None,
 ) -> list[dict]:
@@ -152,9 +155,10 @@ async def _score_multi(
     if n == 0:
         return []
     await taxonomy.ensure_loaded()
-    logger.debug(f"{label} prompt: {prompt}")
+    effective_model = model or settings.SCORING_MODEL
+    logger.debug("%s using model=%s (n=%d)", label, effective_model, n)
     response = await llm_messages_create(
-        model=settings.SCORING_MODEL,
+        model=effective_model,
         max_tokens=max_tokens,
         system=_system_prompt(cefr_level),
         messages=[{"role": "user", "content": prompt}],
@@ -214,7 +218,7 @@ async def feedback_fill_blank(
     try:
         logger.debug(f"feedback_fill_blank prompt: {prompt}")
         response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
+            model=settings.DRILL_MODEL,
             max_tokens=128,
             system=_prompts.feedback_fill_blank.render_system(
                 target_language=_target_language(),
@@ -275,7 +279,7 @@ async def evaluate_error_correction(
     try:
         logger.debug(f"evaluate_error_correction prompt: {prompt}")
         response = await llm_messages_create(
-            model=settings.SCORING_MODEL,
+            model=settings.DRILL_MODEL,
             max_tokens=256,
             system=_prompts.error_correction_eval.render_system(
                 target_language=_target_language(),
@@ -373,6 +377,7 @@ async def score_multi_item_drill(
         n,
         label="score_multi_item_drill",
         cefr_level=cefr_level,
+        model=settings.DRILL_MODEL,
         student_id=student_id,
         lesson_id=lesson_id,
     )

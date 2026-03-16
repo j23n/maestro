@@ -5,6 +5,7 @@ a natural-language description for the system prompt.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -21,6 +22,8 @@ from maestro.models import (
 )
 from maestro.profile import get_or_create_profile
 from maestro.utils import CEFR_ORDER, utcnow
+
+logger = logging.getLogger(__name__)
 
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
 
@@ -56,7 +59,30 @@ async def update_profile(event: "LearningEvent") -> None:
         if theme not in profile.themes_seen:
             profile.themes_seen.append(theme)
 
+    # Recompute weighted mastery for affected GP codes
+    from maestro.learning.mastery import compute_gp_mastery
+
+    affected_codes = set(event.grammar_correct) | set(event.grammar_errors)
+    for code in affected_codes:
+        profile.grammar_mastery_scores[code] = await compute_gp_mastery(
+            event.student_id, code
+        )
+    if affected_codes:
+        logger.info(
+            "mastery recomputed for %d GP codes, student=%s",
+            len(affected_codes),
+            event.student_id,
+        )
+
+    old_cefr = profile.cefr_estimate
     profile.cefr_estimate = await _compute_cefr(profile)
+    if profile.cefr_estimate != old_cefr:
+        logger.info(
+            "CEFR level changed %s -> %s, student=%s",
+            old_cefr,
+            profile.cefr_estimate,
+            event.student_id,
+        )
     profile.description = await _generate_description(profile)
     profile.updated_at = utcnow()
     await profile.save()
@@ -94,9 +120,7 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         cf_by_level.setdefault(cf.cefr_level, []).append(cf.code)
 
     def _gp_mastered(code: str) -> bool:
-        recent = profile.grammar_recent_outcomes.get(code, [])
-        bools = [outcome_ok(r) for r in recent]
-        return len(bools) >= 5 and sum(bools) / len(bools) >= 0.8
+        return profile.grammar_mastery_scores.get(code, 0.0) >= 0.8
 
     def _cf_demonstrated(code: str) -> bool:
         return profile.functions_counts.get(code, 0) >= 3
