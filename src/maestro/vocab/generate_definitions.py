@@ -245,8 +245,6 @@ async def generate(
         need_defs: list[VocabularyWord] = []
     elif force:
         need_defs = [w for w in words if w.senses]
-    elif missing:
-        need_defs = await _collect_words_needing_regen(words)
     else:
         need_defs = await _collect_words_needing_regen(words)
 
@@ -254,12 +252,12 @@ async def generate(
         need_audio: list[VocabularyWord] = []
     elif force:
         need_audio = list(words)
-    elif missing:
+    else:
+        # Find words missing audio files — excluding words that will get audio
+        # as a side effect of definition generation
         words_missing_audio = [w for w in words if not word_audio_path(w.word).exists()]
         need_defs_ids = {w.id for w in need_defs}
         need_audio = [w for w in words_missing_audio if w.id not in need_defs_ids]
-    else:
-        need_audio = []  # default: only generate defs (audio is a side effect)
 
     logger.info(
         f"{len(need_defs)} words need definitions, {len(need_audio)} need audio"
@@ -292,17 +290,19 @@ async def generate(
             words_str = ", ".join(w.word for w in batch)
             logger.info(f"Batch {batch_num}/{total_batches}: {words_str}")
 
-            if force:
-                for word in batch:
-                    await VocabularyWordDefinition.find(
-                        {"word": DBRef(VocabularyWord.Settings.name, word.id)}
-                    ).delete()
-
             try:
                 claude_data = await _call_api(batch)
             except Exception as exc:
                 logger.error(f"API error on batch {batch_num}: {exc}")
                 continue
+
+            # Delete existing definitions only after successful API response
+            # to avoid data loss if the LLM call fails.
+            if force:
+                for word in batch:
+                    await VocabularyWordDefinition.find(
+                        {"word": DBRef(VocabularyWord.Settings.name, word.id)}
+                    ).delete()
 
             for word in batch:
                 try:
