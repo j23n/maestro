@@ -120,12 +120,10 @@
           {% endfor %}
         </div>
         <a class="skill-label" href="/grammar/{{ gp.code }}">{{ gp_titles.get(gp.code, gp.label) }}</a>
+        {% if gp.chunk_ref %}
+        <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">{{ t("lesson_full_rule") }}</a>
+        {% endif %}
       </div>
-      {% if gp.chunk_ref %}
-      <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">
-        {{ t("lesson_full_rule") }}
-      </a>
-      {% endif %}
       {% endfor %}
     </div>
   </div>

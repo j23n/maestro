@@ -25,7 +25,7 @@ from maestro.utils import CEFR_ORDER, utcnow
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
 
 
-def _outcome_ok(r) -> bool:
+def outcome_ok(r) -> bool:
     """Extract the boolean from a recent-outcome entry (handles both old bool and new dict)."""
     return r["ok"] if isinstance(r, dict) else r
 
@@ -95,7 +95,7 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
     def _gp_mastered(code: str) -> bool:
         recent = profile.grammar_recent_outcomes.get(code, [])
-        bools = [_outcome_ok(r) for r in recent]
+        bools = [outcome_ok(r) for r in recent]
         return len(bools) >= 5 and sum(bools) / len(bools) >= 0.8
 
     def _cf_demonstrated(code: str) -> bool:
