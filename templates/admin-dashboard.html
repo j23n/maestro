@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/admin.css">{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+
+  <h1>Admin Dashboard</h1>
+
+  <div class="admin-cards">
+    <div class="admin-card">
+      <span class="admin-card-value">{{ total_users }}</span>
+      <span class="admin-card-label">Total users</span>
+    </div>
+    <div class="admin-card">
+      <span class="admin-card-value">{{ signups_week }}</span>
+      <span class="admin-card-label">Signups (7d)</span>
+    </div>
+    <div class="admin-card">
+      <span class="admin-card-value">{{ active_users_7d }}</span>
+      <span class="admin-card-label">Active users (7d)</span>
+    </div>
+    <div class="admin-card">
+      <span class="admin-card-value">{{ lessons_today }}</span>
+      <span class="admin-card-label">Lessons today</span>
+    </div>
+    <div class="admin-card">
+      <span class="admin-card-value">{{ completion_rate }}%</span>
+      <span class="admin-card-label">Completion rate</span>
+    </div>
+    <div class="admin-card">
+      <span class="admin-card-value">${{ "%.2f"|format(llm_spend_week) }}</span>
+      <span class="admin-card-label">LLM spend (7d)</span>
+    </div>
+  </div>
+
+  <h2>Users</h2>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Lessons</th>
+          <th>CEFR</th>
+          <th>Vocab (known)</th>
+          <th>Vocab (total)</th>
+          <th>Drill accuracy</th>
+          <th>LLM cost</th>
+          <th>Last active</th>
+          <th>Signed up</th>
+          <th>Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in user_rows %}
+        <tr>
+          <td>User #{{ row.label }}</td>
+          <td>{{ row.lessons_completed }}</td>
+          <td>{{ row.cefr }}</td>
+          <td>{{ row.vocab_known }}</td>
+          <td>{{ row.vocab_total }}</td>
+          <td>{{ row.drill_accuracy }}</td>
+          <td>${{ "%.2f"|format(row.llm_cost) }}</td>
+          <td>{{ row.last_active.strftime('%Y-%m-%d') if row.last_active else '—' }}</td>
+          <td>{{ row.signup_date.strftime('%Y-%m-%d') }}</td>
+          <td>{{ row.tier }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>LLM costs (last 7 days)</h2>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Call type</th>
+          <th>Calls</th>
+          <th>Tokens</th>
+          <th>Cost (USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in llm_breakdown %}
+        <tr>
+          <td>{{ row.call_type }}</td>
+          <td>{{ "{:,}"|format(row.call_count) }}</td>
+          <td>{{ "{:,}"|format(row.total_tokens) }}</td>
+          <td>${{ "%.4f"|format(row.total_cost) }}</td>
+        </tr>
+        {% endfor %}
+        {% if not llm_breakdown %}
+        <tr><td colspan="4" class="admin-empty">No LLM calls in the last 7 days</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:2rem;"><a href="/admin/feedback">View LLM critique/flag list &rarr;</a></p>
+
+</div>
+{% endblock %}
