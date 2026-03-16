@@ -118,14 +118,12 @@ async def main(
         except Exception as exc:
             logger.error("Failed to generate definitions for '%s': %s", word.word, exc)
 
-    # Process audio (skip words that already got audio via generate_definitions_for_word)
-    for i, word in enumerate(need_audio, 1):
-        if word.id in need_defs_ids and not force:
-            # generate_definitions_for_word already handles audio
-            continue
+    # Process audio — skip words that already got audio via generate_definitions_for_word
+    need_audio_only = [w for w in need_audio if w.id not in need_defs_ids or force]
+    for i, word in enumerate(need_audio_only, 1):
         try:
             logger.info(
-                "[%d/%d] Generating audio for '%s'", i, len(need_audio), word.word
+                "[%d/%d] Generating audio for '%s'", i, len(need_audio_only), word.word
             )
             if force:
                 path = word_audio_path(word.word)
