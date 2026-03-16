@@ -1,8 +1,9 @@
 """Pre-generate WAV audio for all A0 static assets.
 
-Generates two kinds of audio:
+Generates three kinds of audio:
 1. Listening-activity audio — from a0_lessons.yaml (a0_*.wav)
-2. Vocabulary word audio — from vocab_a0.json (word_*.wav)
+2. Pronunciation audio — vowels and numbers referenced in grammar tables
+3. Vocabulary word audio — from vocab_a0.json (word_*.wav)
 
 Usage (with Azure credentials in environment):
     uv run scripts/generate_a0_audio.py
@@ -20,6 +21,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -27,6 +29,36 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 _DATA_DIR = Path(__file__).parent.parent / "src" / "maestro" / "data" / "it"
+
+# Pronunciation audio: filename stem -> Italian text to synthesize
+_PRONUNCIATION_ITEMS: dict[str, str] = {
+    "vowel_a": "a",
+    "vowel_e": "e",
+    "vowel_i": "i",
+    "vowel_o": "o",
+    "vowel_u": "u",
+    "num_0": "zero",
+    "num_1": "uno",
+    "num_2": "due",
+    "num_3": "tre",
+    "num_4": "quattro",
+    "num_5": "cinque",
+    "num_6": "sei",
+    "num_7": "sette",
+    "num_8": "otto",
+    "num_9": "nove",
+    "num_10": "dieci",
+    "num_11": "undici",
+    "num_12": "dodici",
+    "num_13": "tredici",
+    "num_14": "quattordici",
+    "num_15": "quindici",
+    "num_16": "sedici",
+    "num_17": "diciassette",
+    "num_18": "diciotto",
+    "num_19": "diciannove",
+    "num_20": "venti",
+}
 
 
 def _load_lessons() -> dict:
@@ -50,6 +82,23 @@ def _collect_strings(obj: object) -> list[str]:
     if isinstance(obj, dict):
         return [s for v in obj.values() for s in _collect_strings(v)]
     return []
+
+
+def _collect_pronunciation_paths(all_lessons: dict) -> list[str]:
+    """Extract /static/audio/*.wav paths from grammar content (not listening audio_path)."""
+    paths: list[str] = []
+    for lesson_data in all_lessons.values():
+        for act in lesson_data.get("activities", []):
+            content = act.get("content", "") or ""
+            paths.extend(re.findall(r"/static/audio/(\w+)\.wav", content))
+    # Deduplicate preserving order
+    seen: set[str] = set()
+    unique: list[str] = []
+    for p in paths:
+        if p not in seen:
+            seen.add(p)
+            unique.append(p)
+    return unique
 
 
 def _lesson_lemmas(all_lessons: dict) -> set[str]:
@@ -90,8 +139,9 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
 
 def check(all_lessons: dict, vocab_items: list[dict]) -> int:
     """Report missing audio files and lesson↔vocab coverage gaps. Returns exit code."""
-    from maestro.tts import a0_audio_path, word_audio_path
+    from maestro.tts import _audio_dir, a0_audio_path, word_audio_path
 
+    audio_dir = _audio_dir()
     problems = 0
 
     # 1. Listening-activity audio
@@ -107,7 +157,23 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
                 print(f"  MISS  {slug:30s} -> {path.name}")
                 problems += 1
 
-    # 2. Word audio
+    # 2. Pronunciation audio (vowels, numbers, etc.)
+    print("\nPronunciation audio:")
+    pron_paths = _collect_pronunciation_paths(all_lessons)
+    for stem in pron_paths:
+        path = audio_dir / f"{stem}.wav"
+        text = _PRONUNCIATION_ITEMS.get(stem)
+        if not text:
+            print(f"  WARN  {stem}.wav — no text mapping (add to _PRONUNCIATION_ITEMS)")
+            problems += 1
+            continue
+        if path.exists():
+            print(f"  OK    {stem:20s} -> {path.name}")
+        else:
+            print(f"  MISS  {stem:20s} -> {path.name}")
+            problems += 1
+
+    # 3. Word audio
     print("\nVocabulary word audio (word_*.wav):")
     for item in vocab_items:
         word = item["word"]
@@ -118,7 +184,7 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
             print(f"  MISS  {word:20s} -> {path.name}")
             problems += 1
 
-    # 3. Lesson↔vocab coverage — replicate discover()'s matching direction:
+    # 4. Lesson↔vocab coverage — replicate discover()'s matching direction:
     #    check which vocab headwords appear in the lemmatized lesson text.
     #    This is immune to bad lemmas (they just silently fail to match).
     print("\nLesson↔vocab coverage (discover-style headword matching):")
@@ -150,13 +216,23 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
 
 async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
     """Generate all A0 audio. Returns exit code."""
-    from maestro.tts import generate_a0_audio, generate_word_audio
+    from maestro.tts import (
+        _audio_dir,
+        _synth_to_file,
+        generate_a0_audio,
+        generate_word_audio,
+    )
+
+    audio_dir = _audio_dir()
+    audio_dir.mkdir(parents=True, exist_ok=True)
 
     generated = 0
     skipped = 0
     failed = 0
 
-    # 1. Listening-activity audio
+    # 1. Listening-activity audio (always regenerate — content may have changed)
+    from maestro.tts import a0_audio_path
+
     print("Listening-activity audio:")
     for slug, lesson_data in all_lessons.items():
         for act in lesson_data.get("activities", []):
@@ -167,6 +243,10 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
                 print(f"  SKIP  {slug}: no content")
                 skipped += 1
                 continue
+            # Delete existing file so generate_a0_audio re-synthesizes
+            existing = a0_audio_path(slug)
+            if existing.exists():
+                existing.unlink()
             print(f"  GEN   {slug} ...", end=" ", flush=True)
             url = await generate_a0_audio(slug, content)
             if url:
@@ -176,7 +256,30 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
                 print("FAILED")
                 failed += 1
 
-    # 2. Word audio
+    # 2. Pronunciation audio (vowels, numbers, etc.)
+    print("\nPronunciation audio:")
+    pron_paths = _collect_pronunciation_paths(all_lessons)
+    for stem in pron_paths:
+        text = _PRONUNCIATION_ITEMS.get(stem)
+        if not text:
+            print(f"  SKIP  {stem}.wav — no text mapping")
+            skipped += 1
+            continue
+        path = audio_dir / f"{stem}.wav"
+        if path.exists():
+            print(f"  SKIP  {path.name} (exists)")
+            skipped += 1
+            continue
+        print(f"  GEN   {path.name} ...", end=" ", flush=True)
+        try:
+            await _synth_to_file(text, path)
+            print("OK")
+            generated += 1
+        except Exception as e:
+            print(f"FAILED: {e}")
+            failed += 1
+
+    # 3. Word audio
     print("\nVocabulary word audio:")
     for item in vocab_items:
         word = item["word"]

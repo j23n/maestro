@@ -1311,17 +1311,19 @@ async def lezione_complete(
         if a.type == ActivityType.GRAMMAR and a.grammar_point_code
     ]
     if covered_gp_codes:
-        gp_by_code = {
-            gp.code: gp
-            for gp in await GrammarPoint.find(
-                {"code": {"$in": covered_gp_codes}}
-            ).to_list()
-        }
+        covered_gps = await GrammarPoint.find(
+            {"code": {"$in": covered_gp_codes}}
+        ).to_list()
+        gp_by_code = {gp.code: gp for gp in covered_gps}
         covered_grammar_points = [
             gp_by_code[c] for c in covered_gp_codes if c in gp_by_code
         ]
+        all_gps = list(covered_gps)
     else:
         covered_grammar_points = []
+        all_gps = []
+    all_gps.extend(weak_grammar_points)
+    gp_titles = build_gp_titles(all_gps, lesson.cefr_at_start) if all_gps else {}
 
     return await render_with_discover(
         request,
@@ -1332,6 +1334,7 @@ async def lezione_complete(
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
+            "gp_titles": gp_titles,
             "graduated_to": graduated_to,
             "is_a0": lesson.cefr_at_start == "A0",
         },

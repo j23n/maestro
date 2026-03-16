@@ -51,4 +51,21 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+(function() {
+  document.querySelectorAll('.grammar-content td').forEach(function(td) {
+    var m = td.textContent.match(/^\s*(\/static\/audio\/\S+\.wav)\s*$/);
+    if (!m) return;
+    var src = m[1];
+    td.textContent = '';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'inline-play-btn';
+    btn.textContent = '\u25B6 {{ t("listen_btn") }}';
+    btn.onclick = function() { new Audio(src).play(); };
+    td.appendChild(btn);
+  });
+})();
+</script>
 {% endblock %}

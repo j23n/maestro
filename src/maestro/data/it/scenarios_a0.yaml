@@ -29,44 +29,47 @@ scenarios:
       - "Formal and informal greetings, goodbyes, time-of-day greetings"
 
   - slug: a0-03-numeri
-    label: "I numeri"
-    description: "Numbers 0-20"
+    label: "Comunicare"
+    description: "Essential phrases for daily interactions"
     cefr_level: A0
     sequence: 4
     cf_codes:
-      - a0_contare
+      - a0_scusarsi
     gp_codes:
-      - num_0_20
+      - polite_exp
+      - simp_sent
     depths:
-      - "Counting, saying phone numbers, ordering quantities"
+      - "Everyday expressions, asking and clarifying"
 
   - slug: a0-04-si-e-no
-    label: "Si e no"
-    description: "Yes, no, and simple negation"
+    label: "Frasi utili"
+    description: "Survival phrases for understanding and being understood"
     cefr_level: A0
     sequence: 3
     cf_codes:
       - a0_rispondere_si_no
     gp_codes:
-      - si_no_non
       - simp_sent
+      - si_no_non
     depths:
-      - "Answering questions, simple affirmative and negative sentences"
+      - "Simple sentences, negation, and essential survival phrases"
 
   - slug: a0-05-per-favore
     label: "Per favore"
-    description: "Polite phrases and vorrei"
+    description: "Polite phrases, ordering, and numbers"
     cefr_level: A0
     sequence: 5
     cf_codes:
       - a0_chiedere_cortesemente
       - a0_ringraziare
       - a0_scusarsi
+      - a0_contare
     gp_codes:
       - vorrei
       - polite_exp
+      - num_0_20
     depths:
-      - "Polite requests, thanking, apologizing"
+      - "Polite requests, ordering with vorrei, numbers 0-20"
 
   - slug: a0-06-che-cose
     label: "Che cos'e?"
@@ -129,16 +132,19 @@ scenarios:
       - a0_salutare
       - a0_congedarsi
       - a0_ringraziare
+      - a0_scusarsi
       - a0_presentarsi
       - a0_chiedere_cortesemente
       - a0_rispondere_si_no
+      - a0_contare
       - a0_identificare
       - a0_esprimere_gusti
       - a0_chiedere_dove
     gp_codes:
       - saluti
-      - num_0_20
+      - simp_sent
       - si_no_non
+      - num_0_20
       - vorrei
       - polite_exp
       - art_il_la

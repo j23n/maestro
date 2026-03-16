@@ -1347,6 +1347,20 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 }
 .tt-audio-btn:hover { background: var(--c-cream); }
 
+/* Inline audio play button (grammar tables) — reuses .tt-audio-btn style */
+.inline-play-btn {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text);
+  text-align: center;
+}
+.inline-play-btn:hover { background: var(--c-cream); }
+
 /* Tooltip add-to-vocab action */
 .tt-actions { margin-top: 0.35rem; }
 .tt-add-btn {
