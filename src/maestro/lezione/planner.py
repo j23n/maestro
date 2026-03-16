@@ -447,7 +447,7 @@ async def _generate_lesson_background(
         introduced_set = set(profile.grammar_introduced)
         new_intros = [gp.code for gp in grammar_gps if gp.code not in introduced_set]
         if new_intros:
-            await LearningProfile.get_motor_collection().update_one(
+            await LearningProfile.get_pymongo_collection().update_one(
                 {"_id": profile.id},
                 {"$addToSet": {"grammar_introduced": {"$each": new_intros}}},
             )
