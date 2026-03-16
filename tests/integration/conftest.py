@@ -164,3 +164,13 @@ def bg_test_mode():
     enable_test_mode()
     yield
     disable_test_mode()
+
+
+@pytest.fixture(autouse=True)
+def reset_pending_def_gen():
+    """Reset discover's deduplication set between tests."""
+    from maestro.vocab import discover
+
+    discover._pending_def_gen.clear()
+    yield
+    discover._pending_def_gen.clear()
