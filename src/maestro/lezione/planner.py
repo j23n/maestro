@@ -168,6 +168,7 @@ async def prepare_lesson_immediate(
             status=LessonStatus.ACTIVE,
             started_at=utcnow(),
             generating=True,
+            generation_started_at=utcnow(),
             activities=activities,
             current_index=0,
         )
@@ -202,6 +203,7 @@ async def prepare_lesson_immediate(
         status=LessonStatus.ACTIVE,
         started_at=utcnow(),
         generating=True,
+        generation_started_at=utcnow(),
         activities=activities,
         current_index=0,
     )
