@@ -32,7 +32,7 @@ def _make_event(
 
 
 @pytest.fixture
-def mock_find():
+def mock_find(request):
     """Patch LearningEvent.find to return controlled events."""
     from unittest.mock import MagicMock as _MagicMock
 
@@ -49,22 +49,28 @@ def mock_find():
         async def to_list(self):
             return self._events
 
+    _patcher = None
+
     def _setup(events):
+        nonlocal _patcher
         mock = _MagicMock()
         mock.return_value = _MockQuery(events)
-        patcher = patch("maestro.learning.mastery.LearningEvent.find", mock)
-        patcher.start()
-        return patcher
+        _patcher = patch("maestro.learning.mastery.LearningEvent.find", mock)
+        _patcher.start()
 
-    yield _setup
+    def _cleanup():
+        if _patcher is not None:
+            _patcher.stop()
+
+    request.addfinalizer(_cleanup)
+    return _setup
 
 
 @pytest.mark.asyncio
 async def test_no_events_returns_zero(mock_find):
-    p = mock_find([])
+    mock_find([])
     score = await compute_gp_mastery("student1", "GP_001")
     assert score == 0.0
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -73,11 +79,10 @@ async def test_all_correct_high_score(mock_find):
         _make_event(grammar_correct=["GP_001"], evidence_type="targeted", days_ago=i)
         for i in range(5)
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     assert score > 0.9
     assert is_mastered(score)
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -86,11 +91,10 @@ async def test_all_errors_negative_score(mock_find):
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=i)
         for i in range(5)
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     assert score < 0
     assert not is_mastered(score)
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -102,11 +106,10 @@ async def test_mixed_outcomes(mock_find):
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=3),
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=4),
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     # 3 correct, 2 errors — score should be positive but below mastery
     assert 0 < score < MASTERY_THRESHOLD
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -120,11 +123,10 @@ async def test_recency_decay(mock_find):
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=60),
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=61),
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     # Old errors have ~5% weight (0.95^60 ≈ 0.046), should barely affect score
     assert score > 0.8
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -136,14 +138,13 @@ async def test_productive_evidence_weighs_more(mock_find):
         _make_event(grammar_correct=["GP_001"], evidence_type="productive", days_ago=1),
         _make_event(grammar_errors=["GP_001"], evidence_type="targeted", days_ago=0),
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     # 2 productive correct (weight 1.5 each) + 1 targeted error (weight 1.0)
     # numerator ≈ 1.5 + 1.5*0.95 - 1.0 ≈ 1.925
     # denominator ≈ 1.5 + 1.5*0.95 + 1.0 ≈ 3.925
     # score ≈ 0.49
     assert 0 < score < 0.7
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -152,10 +153,9 @@ async def test_below_min_denominator_returns_zero(mock_find):
     events = [
         _make_event(grammar_correct=["GP_001"], evidence_type="targeted", days_ago=0),
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     assert score == 0.0
-    p.stop()
 
 
 @pytest.mark.asyncio
@@ -167,10 +167,9 @@ async def test_at_min_denominator(mock_find):
         _make_event(grammar_correct=["GP_001"], evidence_type="targeted", days_ago=0),
         _make_event(grammar_correct=["GP_001"], evidence_type="targeted", days_ago=1),
     ]
-    p = mock_find(events)
+    mock_find(events)
     score = await compute_gp_mastery("student1", "GP_001")
     assert score > 0.9  # All correct
-    p.stop()
 
 
 def test_is_mastered_threshold():
