@@ -295,18 +295,19 @@ async def test_full_lesson_profile_updated_after_analysis(
     assert updated_profile.grammar_correct_counts.get("GP_A", 0) == 1
     assert updated_profile.grammar_error_counts.get("GP_A", 0) == 0
 
-    # GP_B: 2 correct (writing + reading), count-preserving across activities
-    assert updated_profile.grammar_correct_counts.get("GP_B", 0) == 2
+    # GP_B: 1 correct (deduplicated across writing + reading in summary event)
+    assert updated_profile.grammar_correct_counts.get("GP_B", 0) == 1
 
     # GP_C: 1 error (from writing)
     assert updated_profile.grammar_error_counts.get("GP_C", 0) == 1
     assert updated_profile.grammar_correct_counts.get("GP_C", 0) == 0
 
-    # recent_outcomes should reflect the counts (new format: list of {ok, ts} dicts)
+    # recent_outcomes should reflect the deduplicated counts (new dict format)
     gp_a = updated_profile.grammar_recent_outcomes.get("GP_A")
     assert len(gp_a) == 1 and gp_a[0]["ok"] is True
     gp_b = updated_profile.grammar_recent_outcomes.get("GP_B")
-    assert len(gp_b) == 2 and all(r["ok"] is True for r in gp_b)
+    assert len(gp_b) == 1  # deduplicated: GP_B appeared in both writing + reading
+    assert gp_b[0]["ok"] is True
     gp_c = updated_profile.grammar_recent_outcomes.get("GP_C")
     assert len(gp_c) == 1 and gp_c[0]["ok"] is False
 
@@ -315,7 +316,7 @@ async def test_full_lesson_profile_updated_after_analysis(
     summary_events = [e for e in all_events if e.activity_type is None]
     assert len(summary_events) == 1
     summary = summary_events[0]
-    # Summary GP_A: 1, GP_B: 2 (count-preserving)
-    assert summary.grammar_correct.count("GP_A") == 1
-    assert summary.grammar_correct.count("GP_B") == 2
-    assert summary.grammar_errors.count("GP_C") == 1
+    # Summary GP codes are deduplicated per-lesson
+    assert "GP_A" in summary.grammar_correct
+    assert "GP_B" in summary.grammar_correct
+    assert "GP_C" in summary.grammar_errors

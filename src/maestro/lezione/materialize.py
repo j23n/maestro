@@ -193,10 +193,14 @@ async def materialize_activities(
                 description=t("speaking_desc", label=cf.label),
                 duration_minutes=3,
                 content=prompt_text,
+                cf_codes=[cf.code],
             )
         )
 
     # --- Writing activities ---
+    # Writing prompts are topic-based, not CF-based, so no cf_codes.
+    # CFs are only declared on speaking activities where the planner
+    # explicitly selects a communicative function to practise.
     writing_activities: list[LessonActivity] = []
     if include_writing and content.writing:
         writing_activities.append(

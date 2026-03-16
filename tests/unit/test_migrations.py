@@ -47,6 +47,8 @@ def _make_db(applied_names: list[str] = None):
         coll = MagicMock()
         coll.find.return_value = _empty_cursor()
         coll.bulk_write = AsyncMock(return_value=MagicMock(modified_count=0))
+        coll.update_many = AsyncMock(return_value=MagicMock(modified_count=0))
+        coll.update_one = AsyncMock(return_value=MagicMock(modified_count=0))
         return coll
 
     grammar_points_coll = MagicMock()
@@ -69,18 +71,20 @@ def _make_db(applied_names: list[str] = None):
 
     vocabulary_words_coll.aggregate = AsyncMock(return_value=_empty_agg_cursor())
 
+    _coll_cache = {
+        "_migrations": migrations_coll,
+        "drill_templates": drill_templates_coll,
+        "generated_drills": generated_drills_coll,
+        "grammar_points": grammar_points_coll,
+        "vocabulary_words": vocabulary_words_coll,
+        "learning_profile": _empty_coll(),
+        "learning_events": _empty_coll(),
+        "curriculum_scenarios": _empty_coll(),
+        "lessons": _empty_coll(),
+    }
+
     def _get_coll(name):
-        return {
-            "_migrations": migrations_coll,
-            "drill_templates": drill_templates_coll,
-            "generated_drills": generated_drills_coll,
-            "grammar_points": grammar_points_coll,
-            "vocabulary_words": vocabulary_words_coll,
-            "learning_profile": _empty_coll(),
-            "learning_events": _empty_coll(),
-            "curriculum_scenarios": _empty_coll(),
-            "lessons": _empty_coll(),
-        }.get(name, MagicMock())
+        return _coll_cache.get(name, MagicMock())
 
     db = MagicMock()
     db.__getitem__ = MagicMock(side_effect=_get_coll)
@@ -109,8 +113,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all five migrations as applied
-    assert migrations_coll.insert_one.await_count == 5
+    # Runner should have recorded all six migrations as applied
+    assert migrations_coll.insert_one.await_count == 6
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -120,6 +124,7 @@ async def test_runner_applies_pending_migration():
         "0003_short_codes",
         "0004_vocab_compound_unique",
         "0005_backfill_grammar_introduced",
+        "0006_mastery_scores",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -137,6 +142,7 @@ async def test_runner_skips_already_applied():
             "0003_short_codes",
             "0004_vocab_compound_unique",
             "0005_backfill_grammar_introduced",
+            "0006_mastery_scores",
         ]
     )
 
