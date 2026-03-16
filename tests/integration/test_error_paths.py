@@ -1,5 +1,7 @@
 """Integration tests for error paths — verifying graceful degradation."""
 
+from datetime import timedelta
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -18,6 +20,7 @@ from maestro.models import (
     ActivityStatus,
     LessonStatus,
 )
+from maestro.utils import utcnow
 from maestro import taxonomy
 
 
@@ -382,3 +385,86 @@ async def test_generating_page_shows_error_and_retry(test_app, db, student):
     html = response.text
     assert "Content generation failed" in html
     assert "retry" in html.lower()
+
+
+# ---------------------------------------------------------------------------
+# 9. Generation timeout detection
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+async def test_generation_timeout_sets_error(test_app, db, student):
+    """Lesson stuck generating too long is auto-timed-out on poll."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        generating=True,
+        generation_started_at=utcnow() - timedelta(seconds=200),
+        activities=[],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    assert response.status_code == 200
+    html = response.text
+    assert "too long" in html.lower()
+    assert "retry" in html.lower()
+
+    lesson = await Lesson.get(lesson.id)
+    assert lesson.generating is False
+    assert lesson.generation_error is not None
+    assert "too long" in lesson.generation_error.lower()
+    assert lesson.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+async def test_generation_no_false_timeout(test_app, db, student):
+    """Lesson that recently started generating is NOT timed out."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        generating=True,
+        generation_started_at=utcnow(),
+        activities=[],
+        current_index=0,
+    )
+    await lesson.insert()
+
+    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    assert response.status_code == 200
+    html = response.text
+    assert "spinner" in html
+    assert "retry" not in html.lower()
+
+    lesson = await Lesson.get(lesson.id)
+    assert lesson.generating is True
+    assert lesson.generation_error is None
+
+
+@pytest.mark.integration
+async def test_retry_resets_generation_started_at(test_app, db, student):
+    """Retrying a timed-out lesson resets generation_started_at."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ABANDONED,
+        generating=False,
+        generation_error="Lesson generation took too long. Please try again.",
+        generation_started_at=utcnow() - timedelta(seconds=300),
+        activities=[],
+        current_index=0,
+        duration_minutes=20,
+    )
+    await lesson.insert()
+
+    with patch("maestro.routes.lezione.generate_lesson_background"):
+        response = test_app.post(f"/lezione/{lesson.id}/retry", follow_redirects=False)
+    assert response.status_code == 303
+
+    lesson = await Lesson.get(lesson.id)
+    assert lesson.generating is True
+    assert lesson.generation_error is None
+    assert lesson.generation_started_at is not None
+    from maestro.utils import ensure_utc
+
+    assert (utcnow() - ensure_utc(lesson.generation_started_at)).total_seconds() < 5
