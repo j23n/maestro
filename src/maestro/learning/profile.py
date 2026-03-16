@@ -25,21 +25,31 @@ from maestro.utils import CEFR_ORDER, utcnow
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
 
 
+def outcome_ok(r) -> bool:
+    """Extract the boolean from a recent-outcome entry (handles both old bool and new dict)."""
+    return r["ok"] if isinstance(r, dict) else r
+
+
 async def update_profile(event: "LearningEvent") -> None:
     profile = await get_or_create_profile(event.student_id)
+    now = utcnow().isoformat()
 
     for code in event.grammar_correct:
         profile.grammar_correct_counts[code] = (
             profile.grammar_correct_counts.get(code, 0) + 1
         )
         recent = profile.grammar_recent_outcomes.get(code, [])
-        profile.grammar_recent_outcomes[code] = (recent + [True])[-10:]
+        profile.grammar_recent_outcomes[code] = (recent + [{"ok": True, "ts": now}])[
+            -10:
+        ]
     for code in event.grammar_errors:
         profile.grammar_error_counts[code] = (
             profile.grammar_error_counts.get(code, 0) + 1
         )
         recent = profile.grammar_recent_outcomes.get(code, [])
-        profile.grammar_recent_outcomes[code] = (recent + [False])[-10:]
+        profile.grammar_recent_outcomes[code] = (recent + [{"ok": False, "ts": now}])[
+            -10:
+        ]
     for code in event.functions_performed:
         profile.functions_counts[code] = profile.functions_counts.get(code, 0) + 1
     for theme in event.themes:
@@ -85,7 +95,8 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
     def _gp_mastered(code: str) -> bool:
         recent = profile.grammar_recent_outcomes.get(code, [])
-        return len(recent) >= 5 and sum(recent) / len(recent) >= 0.8
+        bools = [outcome_ok(r) for r in recent]
+        return len(bools) >= 5 and sum(bools) / len(bools) >= 0.8
 
     def _cf_demonstrated(code: str) -> bool:
         return profile.functions_counts.get(code, 0) >= 3

@@ -21,6 +21,7 @@ from maestro.models import (
     ActivityStatus,
     LessonStatus,
     CurriculumScenario,
+    CommunicativeFunction,
     ScenarioProgress,
 )
 from maestro.profile import get_profile, save_onboarding_field
@@ -1003,6 +1004,7 @@ async def lezione_writing_submit(
             if isinstance(feedback, dict)
             else True,
             "feedback": feedback,
+            "student_answer": answer,
             "rule_refs": [],
             "next_url": next_url,
             "idx": idx,
@@ -1417,6 +1419,24 @@ async def lezione_complete(
     all_gps.extend(weak_grammar_points)
     gp_titles = build_gp_titles(all_gps, lesson.cefr_at_start) if all_gps else {}
 
+    # Build GP recent outcomes for pip display
+    gp_outcomes: dict[str, list] = {}
+    if profile:
+        all_gp_codes = {gp.code for gp in all_gps}
+        for code in all_gp_codes:
+            gp_outcomes[code] = profile.grammar_recent_outcomes.get(code, [])
+
+    # Collect communicative functions covered in this lesson
+    cf_codes = list(dict.fromkeys(c for ev in events for c in ev.functions_performed))
+    if cf_codes:
+        covered_comm_functions = await CommunicativeFunction.find(
+            {"code": {"$in": cf_codes}}
+        ).to_list()
+        cf_by_code = {cf.code: cf for cf in covered_comm_functions}
+        covered_comm_functions = [cf_by_code[c] for c in cf_codes if c in cf_by_code]
+    else:
+        covered_comm_functions = []
+
     return await render_with_discover(
         request,
         "lezione-complete.html",
@@ -1426,7 +1446,9 @@ async def lezione_complete(
             "skipped_count": skipped_count,
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
+            "covered_comm_functions": covered_comm_functions,
             "gp_titles": gp_titles,
+            "gp_outcomes": gp_outcomes,
             "graduated_to": graduated_to,
             "is_a0": lesson.cefr_at_start == "A0",
         },

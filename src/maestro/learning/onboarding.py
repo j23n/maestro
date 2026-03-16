@@ -28,11 +28,14 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
             depth=1, last_visited=utcnow(), lesson_count=0
         )
         # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
+        now = utcnow().isoformat()
         for code in scenario.gp_codes or []:
             profile.grammar_correct_counts[code] = max(
                 profile.grammar_correct_counts.get(code, 0), 5
             )
-            profile.grammar_recent_outcomes[code] = [True] * 5
+            profile.grammar_recent_outcomes[code] = [
+                {"ok": True, "ts": now} for _ in range(5)
+            ]
         # Credit CFs: set count to 3 (demonstration threshold)
         for code in scenario.cf_codes or []:
             profile.functions_counts[code] = max(
