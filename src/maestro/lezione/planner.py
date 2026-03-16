@@ -48,6 +48,10 @@ from maestro.lezione.prompts import (
 from maestro.lezione.materialize import materialize_activities
 from maestro.lezione.a0 import _generate_a0_lesson_background
 from maestro.lezione.schemas import LessonContentResponse
+from maestro.lezione.curriculum import (
+    get_unlocked_gps,
+    pick_archetype,
+)
 from maestro.lezione.selection import (
     pick_scenario,
     pick_grammar_points,
@@ -77,6 +81,7 @@ async def _generate_lesson_content(
     lesson_context: str = "",
     student_id=None,
     lesson_id=None,
+    archetype: str = "",
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
@@ -92,6 +97,7 @@ async def _generate_lesson_content(
         include_writing=include_writing,
         speaking_cfs=speaking_cfs,
         lesson_context=lesson_context,
+        archetype=archetype,
     )
 
     logger.debug(f"lesson content prompt: {prompt_text}")
@@ -289,11 +295,16 @@ async def _generate_lesson_background(
     logger.info("slot allocation", extra={"slots": slots})
 
     # --- Pick scenario ---
+    # Fetch all scenarios once — reused by pick_scenario and the curriculum engine below
+    all_scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+
     if scenario_slug:
         scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
         if scenario_doc:
             progress = profile.scenario_progress if profile else {}
             sp = progress.get(scenario_slug, ScenarioProgress())
+            # Intentional: explicit slug selection bypasses depth gating —
+            # this is a manual override, so students can revisit any scenario.
             depth = min(sp.depth + 1, len(scenario_doc.depths))
             scenario = scenario_doc
         else:
@@ -301,10 +312,29 @@ async def _generate_lesson_background(
                 "scenario not found, falling back to auto-pick",
                 extra={"scenario_slug": scenario_slug},
             )
-            scenario, depth = await pick_scenario(profile, cefr_level)
+            scenario, depth = await pick_scenario(
+                profile, cefr_level, scenarios=all_scenarios
+            )
     else:
-        scenario, depth = await pick_scenario(profile, cefr_level)
+        scenario, depth = await pick_scenario(
+            profile, cefr_level, scenarios=all_scenarios
+        )
     logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
+
+    # --- Curriculum engine: unlock GPs and pick archetype ---
+    all_gp_codes = {code for s in all_scenarios for code in s.gp_codes}
+    all_gps = await GrammarPoint.find({"code": {"$in": list(all_gp_codes)}}).to_list()
+    prereqs_map = {gp.code: gp.prerequisites for gp in all_gps if gp.prerequisites}
+    unlocked = get_unlocked_gps(profile, all_gp_codes, prereqs_map)
+    archetype = pick_archetype(profile, unlocked, scenario.gp_codes, focus_weak)
+    logger.info(
+        "curriculum engine",
+        extra={
+            "unlocked_gps": len(unlocked),
+            "total_gps": len(all_gp_codes),
+            "archetype": archetype.value,
+        },
+    )
 
     # --- Pick grammar points (multiple) ---
     grammar_count = slots.get(ActivityType.GRAMMAR, 0)
@@ -315,7 +345,11 @@ async def _generate_lesson_background(
 
     if grammar_count > 0:
         grammar_gps = await pick_grammar_points(
-            profile, cefr_level, grammar_count, candidate_codes=gp_candidate_codes
+            profile,
+            cefr_level,
+            grammar_count,
+            candidate_codes=gp_candidate_codes,
+            unlocked_codes=unlocked,
         )
 
     expl_lang = explanation_lang_for_level(cefr_level)
@@ -356,7 +390,11 @@ async def _generate_lesson_background(
     elif drill_count > 0:
         # Fallback: no grammar_gps selected, pick independently
         gps_for_drills = await pick_grammar_points(
-            profile, cefr_level, drill_count, candidate_codes=gp_candidate_codes
+            profile,
+            cefr_level,
+            drill_count,
+            candidate_codes=gp_candidate_codes,
+            unlocked_codes=unlocked,
         )
         for gp in gps_for_drills:
             exercise_type = random.choice(
@@ -404,6 +442,17 @@ async def _generate_lesson_background(
         },
     )
 
+    # --- Record newly introduced GPs (atomic to avoid race with concurrent lessons) ---
+    if profile and grammar_gps:
+        introduced_set = set(profile.grammar_introduced)
+        new_intros = [gp.code for gp in grammar_gps if gp.code not in introduced_set]
+        if new_intros:
+            await LearningProfile.get_pymongo_collection().update_one(
+                {"_id": profile.id},
+                {"$addToSet": {"grammar_introduced": {"$each": new_intros}}},
+            )
+            logger.info("grammar introduced", extra={"new_gps": new_intros})
+
     # --- Single LLM call ---
     # The LLM generates reading texts for both LISTENING and READING activities;
     # pass the combined total so it produces enough passages.
@@ -420,6 +469,7 @@ async def _generate_lesson_background(
         lesson_context=lesson.lesson_context or "",
         student_id=lesson.student_id,
         lesson_id=lesson.id,
+        archetype=archetype.value,
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)
@@ -461,6 +511,7 @@ async def _generate_lesson_background(
                 "scenario_depth": depth,
                 "topic_title": topic_title,
                 "topic_description": topic_description,
+                "archetype": archetype.value,
                 "generating": False,
             },
         }

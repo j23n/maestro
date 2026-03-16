@@ -109,8 +109,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all four migrations as applied
-    assert migrations_coll.insert_one.await_count == 4
+    # Runner should have recorded all five migrations as applied
+    assert migrations_coll.insert_one.await_count == 5
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -119,6 +119,7 @@ async def test_runner_applies_pending_migration():
         "0002_drop_drill_templates",
         "0003_short_codes",
         "0004_vocab_compound_unique",
+        "0005_backfill_grammar_introduced",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -135,6 +136,7 @@ async def test_runner_skips_already_applied():
             "0002_drop_drill_templates",
             "0003_short_codes",
             "0004_vocab_compound_unique",
+            "0005_backfill_grammar_introduced",
         ]
     )
 
@@ -216,3 +218,80 @@ async def test_0002_drops_collection_and_unsets_field():
     generated_drills_coll.update_many.assert_awaited_once_with(
         {}, {"$unset": {"template": ""}}
     )
+
+
+# ---------------------------------------------------------------------------
+# Migration 0005 tests
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_0005_backfills_grammar_introduced():
+    """Migration 0005 sets grammar_introduced from grammar_recent_outcomes keys."""
+    from bson import ObjectId
+
+    profile_id = ObjectId()
+    profile_doc = {
+        "_id": profile_id,
+        "grammar_recent_outcomes": {"pres_ind": [True, False], "def_art": [True]},
+    }
+
+    updated_docs = {}
+
+    async def _profile_cursor():
+        yield profile_doc
+
+    profile_coll = MagicMock()
+    profile_coll.find.return_value = _profile_cursor()
+
+    async def _capture_update(filter_doc, update_doc):
+        updated_docs[filter_doc["_id"]] = update_doc
+
+    profile_coll.update_one = AsyncMock(side_effect=_capture_update)
+
+    db = MagicMock()
+    db.__getitem__ = MagicMock(return_value=profile_coll)
+
+    import importlib
+
+    m = importlib.import_module("maestro.migrations.0005_backfill_grammar_introduced")
+
+    await m.run(db)
+
+    assert profile_id in updated_docs
+    introduced = updated_docs[profile_id]["$set"]["grammar_introduced"]
+    assert set(introduced) == {"pres_ind", "def_art"}
+
+
+@pytest.mark.asyncio
+async def test_0005_skips_profiles_with_empty_outcomes():
+    """Migration 0005 sets empty grammar_introduced when no outcomes exist."""
+    from bson import ObjectId
+
+    profile_id = ObjectId()
+    profile_doc = {"_id": profile_id}  # no grammar_recent_outcomes
+
+    updated_docs = {}
+
+    async def _profile_cursor():
+        yield profile_doc
+
+    profile_coll = MagicMock()
+    profile_coll.find.return_value = _profile_cursor()
+
+    async def _capture_update(filter_doc, update_doc):
+        updated_docs[filter_doc["_id"]] = update_doc
+
+    profile_coll.update_one = AsyncMock(side_effect=_capture_update)
+
+    db = MagicMock()
+    db.__getitem__ = MagicMock(return_value=profile_coll)
+
+    import importlib
+
+    m = importlib.import_module("maestro.migrations.0005_backfill_grammar_introduced")
+
+    await m.run(db)
+
+    assert profile_id in updated_docs
+    assert updated_docs[profile_id]["$set"]["grammar_introduced"] == []

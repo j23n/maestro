@@ -3,6 +3,7 @@ scenarios:
     label: "Presentarsi"
     description: "Introducing yourself and meeting new people"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - intritsoc_salutare_a1
       - intritsoc_rispsal_a1
@@ -26,6 +27,7 @@ scenarios:
     label: "Al bar"
     description: "Ordering drinks and snacks at an Italian cafe"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - intritsoc_salutare_a1
       - intritsoc_rispsal_a1
@@ -49,6 +51,7 @@ scenarios:
     label: "Al ristorante"
     description: "Eating out at a restaurant — ordering, asking about the menu"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - intazio_chiincserv_a1
       - interag_inform01_a1
@@ -72,6 +75,7 @@ scenarios:
     label: "Fare la spesa"
     description: "Grocery shopping at the market or supermarket"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - interag_inform05_a1
       - intazio_chiincserv_a1
@@ -95,6 +99,7 @@ scenarios:
     label: "Chiedere indicazioni"
     description: "Asking for and giving directions around town"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - interag_inform03_a1
       - interag_rispondere04_a1
@@ -118,6 +123,7 @@ scenarios:
     label: "Al telefono"
     description: "Making and receiving phone calls"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - intritsoc_inttelrisp_a1
       - intritsoc_inttelpres_a1
@@ -141,6 +147,7 @@ scenarios:
     label: "In classe"
     description: "Communicating in an Italian language class"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - strutdisc_cerparfrase_a1
       - strutdisc_chiedespres_a1
@@ -164,6 +171,7 @@ scenarios:
     label: "La famiglia"
     description: "Talking about your family and relationships"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - interag_descriv_a1
       - interag_identi_a1
@@ -187,6 +195,7 @@ scenarios:
     label: "La casa"
     description: "Describing where you live — rooms, furniture, neighbourhood"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - interag_descriv_a1
       - interag_inform03_a1
@@ -210,6 +219,7 @@ scenarios:
     label: "La giornata"
     description: "Describing your daily routine and schedule"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - interag_inform02_a1
       - interag_rispondere03_a1
@@ -235,6 +245,7 @@ scenarios:
     label: "Il tempo libero"
     description: "Hobbies, sports, and free-time activities"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - intemo_espamappqual_a1
       - intemo_espnonama_a1
@@ -259,6 +270,7 @@ scenarios:
     label: "Dal medico"
     description: "Visiting the doctor — describing symptoms and understanding advice"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - intemo_espsoffis_a1
       - interag_descriv_a1
@@ -282,6 +294,7 @@ scenarios:
     label: "In viaggio"
     description: "Traveling by train, bus, or plane — buying tickets and asking about schedules"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intazio_chiincserv_a1
       - interag_inform02_a1
@@ -305,6 +318,7 @@ scenarios:
     label: "In albergo"
     description: "Checking in and out of a hotel — making reservations"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intazio_chiincserv_a1
       - interag_inform02_a1
@@ -328,6 +342,7 @@ scenarios:
     label: "In negozio"
     description: "Shopping for clothes and everyday items"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - intazio_chiincserv_a1
       - interag_inform01_a1
@@ -351,6 +366,7 @@ scenarios:
     label: "Al lavoro"
     description: "Talking about your job, studies, and daily work life"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - interag_asserire_a1
       - interag_descriv_a1
@@ -375,6 +391,7 @@ scenarios:
     label: "Una festa"
     description: "At a party or celebration — socialising, toasts, congratulations"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - intritsoc_farebrind_a1
       - intritsoc_congratul_a1
@@ -401,6 +418,7 @@ scenarios:
     label: "Scrivere un messaggio"
     description: "Writing emails, text messages, and short notes"
     cefr_level: A1
+    phase: 2
     cf_codes:
       - intritsoc_intcoremail_a1
       - intritsoc_intconcemail_a1
@@ -422,6 +440,7 @@ scenarios:
     label: "Opinioni e accordo"
     description: "Expressing opinions, agreeing and disagreeing"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intatt_espaccsrisp_a1
       - intatt_espdisaspo_a1
@@ -445,6 +464,7 @@ scenarios:
     label: "Emozioni e stati d'animo"
     description: "Expressing emotions, moods, and feelings"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intemo_espfelicita_a1
       - intemo_esptrisnost_a1
@@ -468,6 +488,7 @@ scenarios:
     label: "Prendere un appuntamento"
     description: "Making appointments and scheduling meetings"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intazio_proqualins_a1
       - intazio_rispproacc_a1
@@ -493,6 +514,7 @@ scenarios:
     label: "Capire e farsi capire"
     description: "Communication strategies — clarifying, repeating, checking understanding"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - strintverb_asscapbenesil_a1
       - strintverb_assfacpres_a1
@@ -519,6 +541,7 @@ scenarios:
     label: "Permessi e regole"
     description: "Asking for permission, understanding rules and prohibitions"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - intazio_chiautor_a1
       - intazio_dareautsris_a1
@@ -543,6 +566,7 @@ scenarios:
     label: "Descrivere le persone"
     description: "Describing people's appearance, personality, and habits"
     cefr_level: A1
+    phase: 3
     cf_codes:
       - interag_descriv_a1
       - interag_identi_a1

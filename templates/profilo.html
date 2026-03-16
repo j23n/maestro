@@ -10,6 +10,9 @@
     <button class="tab active" data-tab="progress">{{ t("profile_tab_progress") }}</button>
     <button class="tab" data-tab="details">{{ t("profile_tab_details") }}</button>
     <button class="tab" data-tab="preferences">{{ t("profile_tab_preferences") }}</button>
+    {% if percorso %}
+    <button class="tab" data-tab="percorso">{{ t("profile_tab_percorso") }}</button>
+    {% endif %}
   </div>
 
   {# ================================================================
@@ -310,6 +313,102 @@
 
   </div>{# /tab-preferences #}
 
+  {# ================================================================
+     TAB: PERCORSO (skill tree — A1+ only)
+     ================================================================ #}
+  {% if percorso %}
+  <div class="tab-panel" id="tab-percorso">
+
+    {# Phase stepper #}
+    <div class="phase-stepper">
+      {% for phase in percorso.phases %}
+      <div class="phase-step {{ phase.status }}">
+        <div class="phase-num">{{ phase.number }}</div>
+        <div class="phase-title">{{ t(phase.title_key) }}</div>
+        {% if phase.status == "current" and phase.number < 3 %}
+        <div class="phase-gate">{{ phase.completion_count }}/{{ percorso.phase_gate_threshold }} {{ t("percorso_unlock_hint") }}</div>
+        {% endif %}
+      </div>
+      {% if not loop.last %}
+      <div class="phase-connector {{ 'filled' if phase.status == 'completed' else '' }}"></div>
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    {# Scenarios by phase #}
+    {% for phase in percorso.phases %}
+    <details class="phase-section" {% if phase.status == "current" %}open{% endif %}>
+      <summary class="phase-heading">
+        <h2>{{ t(phase.title_key) }}</h2>
+        <span class="phase-badge {{ phase.status }}">
+          {% if phase.status == "locked" %}
+          <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M11 7V5a3 3 0 10-6 0v2H4a1 1 0 00-1 1v5a1 1 0 001 1h8a1 1 0 001-1V8a1 1 0 00-1-1h-1zm-4-2a1 1 0 112 0v2H7V5z"/></svg>
+          {% endif %}
+          {{ phase.completion_count }}/{{ phase.total }}
+        </span>
+      </summary>
+      <div class="scenario-grid percorso-grid {% if phase.status == 'locked' %}phase-locked{% endif %}">
+        {% for item in phase.scenarios %}
+        <div class="scenario-card {% if item.depth_completed >= item.max_depth %}completed{% elif item.depth_completed > 0 %}in-progress{% endif %}">
+          <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+          <div class="scenario-dots">
+            {% for d in range(1, item.max_depth + 1) %}
+            <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
+            {% endfor %}
+          </div>
+          {% if item.gp_statuses %}
+          <div class="scenario-gp-chips">
+            {% for gp in item.gp_statuses %}
+            <span class="gp-chip {{ gp.status }}" title="{{ gp.label }}">{{ gp.label }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if item.lesson_count > 0 %}
+          <div class="scenario-meta">{{ item.lesson_count }} {{ t("profile_lessons") }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+    {% endfor %}
+
+    {# Grammar prerequisite map #}
+    <details class="gp-dag-section" open>
+      <summary class="section-heading gp-dag-toggle">{{ t("percorso_grammar_map") }}</summary>
+      {% for group in percorso.gp_dag %}
+      <div class="gp-category">
+        <div class="subsection-label"><span lang="it">{{ group.category | replace("_", " ") }}</span></div>
+        <div class="gp-node-list">
+          {% for node in group.nodes %}
+          <div class="gp-node {{ node.status }}" data-code="{{ node.code }}" data-prereqs="{{ node.prereqs | map(attribute='code') | join(',') }}">
+            <a href="/grammar/{{ node.code }}" class="gp-node-label">{{ node.label }}</a>
+            {% if node.prereqs %}
+            <div class="gp-prereqs">
+              <span class="prereq-arrow">&larr;</span>
+              {{ t("percorso_requires") }}:
+              {% for p in node.prereqs %}
+              <span class="prereq-ref" data-code="{{ p.code }}">{{ p.label }}</span>{% if not loop.last %}, {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+      {# Legend #}
+      <div class="gp-legend">
+        <span class="gp-chip locked">{{ t("percorso_locked") }}</span>
+        <span class="gp-chip unlocked">{{ t("percorso_ready") }}</span>
+        <span class="gp-chip introduced">{{ t("percorso_learning") }}</span>
+        <span class="gp-chip mastered">{{ t("percorso_mastered") }}</span>
+      </div>
+    </details>
+
+  </div>{# /tab-percorso #}
+  {% endif %}
+
 
 </div>
 
@@ -320,7 +419,7 @@
 
   // Check URL hash for initial tab
   var hash = window.location.hash.replace('#', '');
-  var validTabs = ['progress', 'details', 'preferences'];
+  var validTabs = ['progress', 'details', 'preferences', 'percorso'];
 
   // Handle ?saved=1 → open preferences tab
   if (new URLSearchParams(window.location.search).get('saved')) {
@@ -338,6 +437,22 @@
       tabs.forEach(function(t) { t.classList.toggle('active', t.dataset.tab === target); });
       panels.forEach(function(p) { p.classList.toggle('active', p.id === 'tab-' + target); });
       history.replaceState(null, '', '#' + target);
+    });
+  });
+
+  // GP prerequisite highlight on hover
+  document.querySelectorAll('.gp-node').forEach(function(node) {
+    node.addEventListener('mouseenter', function() {
+      var prereqs = (this.dataset.prereqs || '').split(',').filter(Boolean);
+      prereqs.forEach(function(code) {
+        var target = document.querySelector('.gp-node[data-code="' + code + '"]');
+        if (target) target.classList.add('gp-highlight');
+      });
+    });
+    node.addEventListener('mouseleave', function() {
+      document.querySelectorAll('.gp-highlight').forEach(function(n) {
+        n.classList.remove('gp-highlight');
+      });
     });
   });
 })();
