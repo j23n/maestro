@@ -1,4 +1,4 @@
-version: "7"
+version: "8"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -112,8 +112,8 @@ reading_scoring:
   # variables: items_block, n
   user: |
     OBJECTIVE: Did the student's answer correctly address the question?
-    Accept paraphrasing and approximate wording. The answer must be in {{target_language}};
-    reject answers given entirely in English (numbers and proper nouns are fine either way).
+    Accept paraphrasing and approximate wording. The answer must be in {{answer_language}};
+    reject answers given entirely in other languages (numbers and proper nouns are fine either way).
     Focus on whether the student understood the text, not perfect grammar.
 
     Items:

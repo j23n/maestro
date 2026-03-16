@@ -172,6 +172,8 @@ async def generate_lesson_feedback(
 
     lines = []
     for i, a in enumerate(lesson.activities):
+        if a.type in (ActivityType.ONBOARDING, ActivityType.INFO):
+            continue
         if a.status == ActivityStatus.SKIPPED:
             lines.append(f"- {a.title}: skipped")
         elif a.status == ActivityStatus.COMPLETED:
@@ -216,7 +218,7 @@ async def generate_lesson_feedback(
         student_id=lesson.student_id,
     )
     text = response.content[0].text.strip()
-    text = re.sub(r"^#+\s+\S+\s*\n", "", text).strip()
+    text = re.sub(r"^#+\s+.+\s*\n", "", text).strip()
     return text
 
 

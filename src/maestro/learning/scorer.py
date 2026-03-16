@@ -464,8 +464,12 @@ async def score_reading_answers(
         for i in range(n)
     ]
 
+    answer_language = (
+        f"{_target_language()} or English" if cefr_level == "A0" else _target_language()
+    )
     prompt = _prompts.reading_scoring.render(
         target_language=_target_language(),
+        answer_language=answer_language,
         items_block="\n".join(lines),
         n=n,
     )

@@ -1,14 +1,14 @@
-"""Grammar point data versioning: sync grammar_points.json → MongoDB on startup.
+"""Grammar point data versioning: sync grammar_points.yaml → MongoDB on startup.
 
 How it works:
-  1. scripts/update_gp_lock.py writes grammar_points.lock (SHA256 of grammar_points.json)
-     whenever the JSON changes. This file is committed to the repo.
+  1. scripts/update_gp_lock.py writes grammar_points.lock (SHA256 of grammar_points.yaml)
+     whenever the YAML changes. This file is committed to the repo.
   2. At app startup, sync_if_changed() reads the lock hash and compares it against
      the hash stored in the _data_versions collection in MongoDB.
-  3. If the hashes differ (new deploy with updated JSON), a full ingest runs and
+  3. If the hashes differ (new deploy with updated YAML), a full ingest runs and
      the stored hash is updated.
 
-This means grammar_points.json is the single source of truth: edit the JSON
+This means grammar_points.yaml is the single source of truth: edit the YAML
 (or run generate_explanations.py which edits it), update the lock, deploy —
 the database catches up automatically on the next startup.
 """

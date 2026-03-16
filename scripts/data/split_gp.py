@@ -1,5 +1,5 @@
 """
-Split omnibus GrammarPoint entries in grammar_points.json into individual GPs.
+Split omnibus GrammarPoint entries in grammar_points.yaml into individual GPs.
 
 Two categories:
   - verbi:        codes listed in VERBI_CODES  → split description on ' - '
@@ -14,11 +14,23 @@ Run:
 """
 
 from __future__ import annotations
-import json
 import re
 import sys
 
-JSON_PATH = "src/maestro/data/it/grammar_points.json"
+import yaml
+
+YAML_PATH = "src/maestro/data/it/grammar_points.yaml"
+
+
+class LiteralStr(str):
+    pass
+
+
+def _lit_repr(dumper, data):
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+
+yaml.add_representer(LiteralStr, _lit_repr)
 
 # Verbi codes whose descriptions contain ' - ' delimited bullets
 VERBI_CODES = ["aux_reg_vb", "verbs_a2", "verbs_b1", "verbs_b2"]
@@ -343,8 +355,8 @@ def split_gp(items: list[dict], dry_run: bool) -> list[dict]:
 
 def main():
     dry_run = "--dry-run" in sys.argv
-    with open(JSON_PATH) as f:
-        items = json.load(f)
+    with open(YAML_PATH) as f:
+        items = yaml.safe_load(f)
 
     print(f"Loaded {len(items)} grammar points\n")
     result = split_gp(items, dry_run)
@@ -353,10 +365,9 @@ def main():
         print("\n[DRY RUN] Not writing.")
         return
 
-    with open(JSON_PATH, "w") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    print(f"Written to {JSON_PATH}")
+    with open(YAML_PATH, "w") as f:
+        yaml.dump(result, f, default_flow_style=False, allow_unicode=True, width=200)
+    print(f"Written to {YAML_PATH}")
 
 
 if __name__ == "__main__":

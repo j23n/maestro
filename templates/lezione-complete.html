@@ -41,10 +41,17 @@
     </div>
   </div>
 
+  {% if is_a0 %}
+  <div class="info-callout">
+    {{ t("complete_activities_info") }}
+  </div>
+  {% endif %}
+
   {% if lesson.activities %}
   <div class="activity-summary">
     <div class="activity-summary-title">{{ t("lesson_activities_done") }}</div>
     {% for a in lesson.activities %}
+    {% if a.type not in ("onboarding", "info") %}
     <div class="summary-item {{ 'summary-skipped' if a.status == 'skipped' else '' }}">
       <span class="summary-status">
         {%- if a.status == "completed" %}✓
@@ -58,6 +65,7 @@
         {% include "partials/flag-button.html" %}
       {% endif %}
     </div>
+    {% endif %}
     {% endfor %}
   </div>
   {% endif %}
@@ -78,7 +86,7 @@
     <div class="review-links">
       {% for gp in covered_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span lang="it">{{ gp.label }}</span>
+        {{ gp_titles.get(gp.code, gp.label) }}
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% endfor %}
@@ -92,7 +100,7 @@
     <div class="review-links">
       {% for gp in weak_grammar_points %}
       <a href="/grammar/{{ gp.code }}" class="review-link">
-        <span lang="it">{{ gp.label }}</span>
+        {{ gp_titles.get(gp.code, gp.label) }}
         <span class="review-level">{{ gp.cefr_level }}</span>
       </a>
       {% if gp.chunk_ref %}
@@ -102,6 +110,13 @@
       {% endif %}
       {% endfor %}
     </div>
+  </div>
+  {% endif %}
+
+  {% if is_a0 %}
+  <div class="info-callout">
+    <strong>{{ t("complete_where_next_title") }}</strong><br>
+    {{ t("complete_where_next_body") | safe }}
   </div>
   {% endif %}
 
