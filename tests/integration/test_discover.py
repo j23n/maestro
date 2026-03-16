@@ -10,6 +10,16 @@ from maestro.vocab import cache as _vocab_cache
 _FAKE_STUDENT_ID = PydanticObjectId()
 
 
+@pytest.fixture(autouse=True)
+def reset_pending_def_gen():
+    """Reset discover's deduplication set between tests."""
+    from maestro.vocab import discover
+
+    discover._pending_def_gen.clear()
+    yield
+    discover._pending_def_gen.clear()
+
+
 @pytest.mark.integration
 async def test_discover_creates_cards_for_new_words(db):
     """discover() should create UserVocabularyCards for words not yet in the user's collection."""
