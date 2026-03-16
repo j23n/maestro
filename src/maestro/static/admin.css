@@ -1,0 +1,105 @@
+.admin-container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0;
+}
+
+.admin-container h1 {
+  margin: 0 0 1.5rem;
+}
+
+.admin-container h2 {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Summary cards */
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.admin-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-card-value {
+  font-family: var(--f-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--c-charcoal);
+}
+
+.admin-card-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+}
+
+/* Tables */
+.admin-table-wrap {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 2px solid var(--c-border);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-url-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-url-cell a {
+  color: var(--c-blue);
+}
+
+.admin-empty {
+  color: var(--c-text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .admin-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .admin-table {
+    font-size: 0.78rem;
+  }
+}

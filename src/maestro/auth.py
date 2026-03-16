@@ -2,7 +2,7 @@ import logging
 
 import sentry_sdk
 from bson.errors import InvalidId
-from fastapi import Request
+from fastapi import HTTPException, Request
 from beanie import PydanticObjectId
 
 from maestro.models import Account, Student
@@ -49,3 +49,11 @@ async def get_current_student(request: Request) -> Student:
     request.state.account = account
     request.state.student = student
     return student
+
+
+async def get_admin_account(request: Request) -> Account:
+    """Require an authenticated admin user, otherwise 403."""
+    await get_current_student(request)  # sets request.state.account
+    if not request.state.account.is_admin:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return request.state.account
