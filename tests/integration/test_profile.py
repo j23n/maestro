@@ -200,6 +200,7 @@ async def test_compute_cefr_a1_mastered_returns_a1(db):
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={"GP_001": [True] * 5},
+        grammar_mastery_scores={"GP_001": 1.0},
         functions_counts={"CF_001": 3},
     )
     result = await _compute_cefr(profile)
@@ -236,6 +237,7 @@ async def test_compute_cefr_both_a1_a2_mastered(db):
             "GP_001": [True] * 5,
             "GP_002": [True] * 5,
         },
+        grammar_mastery_scores={"GP_001": 1.0, "GP_002": 1.0},
         functions_counts={"CF_001": 5, "CF_002": 5},
     )
     result = await _compute_cefr(profile)
@@ -269,6 +271,7 @@ async def test_compute_cefr_empty_level_blocks_advancement(db):
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
         grammar_recent_outcomes={"GP_001": [True] * 5},
+        grammar_mastery_scores={"GP_001": 1.0},
         functions_counts={"CF_001": 5, "CF_002": 5},
     )
     result = await _compute_cefr(profile)
@@ -307,6 +310,7 @@ async def test_compute_cefr_no_skip_levels(db):
             "GP_001": [True] * 5,
             "GP_003": [True] * 5,
         },
+        grammar_mastery_scores={"GP_001": 1.0, "GP_003": 1.0},
         functions_counts={"CF_001": 5, "CF_003": 5},
     )
     result = await _compute_cefr(profile)

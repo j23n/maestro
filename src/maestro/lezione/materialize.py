@@ -193,6 +193,7 @@ async def materialize_activities(
                 description=t("speaking_desc", label=cf.label),
                 duration_minutes=3,
                 content=prompt_text,
+                cf_codes=[cf.code],
             )
         )
 

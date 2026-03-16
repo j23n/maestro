@@ -11,6 +11,7 @@ def make_profile(**kwargs):
         grammar_correct_counts={},
         grammar_error_counts={},
         grammar_recent_outcomes={},
+        grammar_mastery_scores={},
         functions_counts={},
     )
     defaults.update(kwargs)
@@ -51,8 +52,11 @@ def test_build_grammar_by_level_grouping():
 @pytest.mark.unit
 def test_build_grammar_mastered_flag_at_threshold():
     gp = make_gp("GP_001", "A1")
-    # 5 outcomes, all True → 100% >= 80% → mastered
-    profile = make_profile(grammar_recent_outcomes={"GP_001": [True] * 5})
+    # mastery score >= 0.8 → mastered
+    profile = make_profile(
+        grammar_recent_outcomes={"GP_001": [True] * 5},
+        grammar_mastery_scores={"GP_001": 1.0},
+    )
     result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is True
 
@@ -60,9 +64,10 @@ def test_build_grammar_mastered_flag_at_threshold():
 @pytest.mark.unit
 def test_build_grammar_not_mastered_below_threshold():
     gp = make_gp("GP_001", "A1")
-    # 5 outcomes, 3 True → 60% < 80% → not mastered
+    # mastery score < 0.8 → not mastered
     profile = make_profile(
-        grammar_recent_outcomes={"GP_001": [True, True, True, False, False]}
+        grammar_recent_outcomes={"GP_001": [True, True, True, False, False]},
+        grammar_mastery_scores={"GP_001": 0.6},
     )
     result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is False
@@ -71,7 +76,7 @@ def test_build_grammar_not_mastered_below_threshold():
 @pytest.mark.unit
 def test_build_grammar_not_mastered_too_few_reviews():
     gp = make_gp("GP_001", "A1")
-    # Only 4 reviews (< 5 required) even if all correct
+    # mastery score not set → not mastered
     profile = make_profile(grammar_recent_outcomes={"GP_001": [True, True, True, True]})
     result = _build_grammar_by_level([gp], profile, {})
     assert result["A1"][0]["mastered"] is False

@@ -971,6 +971,7 @@ async def lezione_writing_submit(
         lesson_id=lesson.id,
         activity_type=ActivityType.WRITING.value,
         activity_index=idx,
+        evidence_type="productive",
         student_text=answer,
         grammar_correct=[
             c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
@@ -978,6 +979,7 @@ async def lezione_writing_submit(
         grammar_errors=[
             c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
         ],
+        themes=feedback.get("themes", []),
     )
     await event.insert()
     logger.debug(
@@ -1201,9 +1203,11 @@ async def lezione_speaking_submit(
         lesson_id=lesson.id,
         activity_type=ActivityType.SPEAKING.value,
         activity_index=idx,
+        evidence_type="productive",
         student_text=recognized_text,
         grammar_correct=grammar_correct,
         grammar_errors=grammar_errors,
+        themes=feedback.get("themes", []) if feedback else [],
     )
     await event.insert()
     logger.debug(
@@ -1331,6 +1335,7 @@ async def lezione_reading_submit(
         lesson_id=lesson.id,
         activity_type=activity.type.value,
         activity_index=idx,
+        evidence_type="receptive",
         student_text=joined_answers,
         grammar_correct=gp_correct,
         grammar_errors=gp_errors,
