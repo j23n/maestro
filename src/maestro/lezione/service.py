@@ -322,12 +322,14 @@ async def _credit_a0_mastery(lesson: Lesson) -> None:
     profile = await get_or_create_profile(lesson.student_id)
 
     # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
+    now = utcnow().isoformat()
     for code in scenario.gp_codes or []:
         profile.grammar_correct_counts[code] = max(
             profile.grammar_correct_counts.get(code, 0), 5
         )
-        now = utcnow().isoformat()
-        profile.grammar_recent_outcomes[code] = [{"ok": True, "ts": now}] * 5
+        profile.grammar_recent_outcomes[code] = [
+            {"ok": True, "ts": now} for _ in range(5)
+        ]
 
     # Credit CFs: set count to 3 (demonstration threshold)
     for code in scenario.cf_codes or []:
