@@ -1,5 +1,5 @@
 import asyncio
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
@@ -137,7 +137,7 @@ async def admin_dashboard(
     # --- Per-user stats ---
     accounts = await Account.find().to_list()
     user_rows = list(await asyncio.gather(*[_user_stats(a) for a in accounts]))
-    user_rows.sort(key=lambda r: r["last_active"] or now.min, reverse=True)
+    user_rows.sort(key=lambda r: r["last_active"] or datetime.min, reverse=True)
     for i, row in enumerate(user_rows, 1):
         row["label"] = i
 
