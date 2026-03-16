@@ -56,10 +56,10 @@ async def _generate_a0_lesson_background(
     for act_data in lesson_data.get("activities", []):
         act_type = act_data["type"]
 
-        if act_type == ActivityType.GRAMMAR:
+        if act_type in (ActivityType.GRAMMAR, ActivityType.INFO):
             new_activities.append(
                 LessonActivity(
-                    type=ActivityType.GRAMMAR,
+                    type=ActivityType(act_type),
                     title=act_data.get("title", ""),
                     description=act_data.get("description", ""),
                     content=act_data.get("content", ""),  # mixed lang; has inline spans
@@ -158,17 +158,17 @@ async def _generate_a0_lesson_background(
                 )
             )
 
-    # Add vocab review if there are due cards
-    due_cards = await get_due_vocab_cards(5, student_id=lesson.student_id)
-    if due_cards:
-        new_activities.append(
-            LessonActivity(
-                type=ActivityType.VOCAB_REVIEW,
-                title=t("vocab_title", count=len(due_cards)),
-                description=t("vocab_desc"),
-                card_ids=[c.id for c in due_cards],
-            )
-        )
+        elif act_type == ActivityType.VOCAB_REVIEW:
+            due_cards = await get_due_vocab_cards(5, student_id=lesson.student_id)
+            if due_cards:
+                new_activities.append(
+                    LessonActivity(
+                        type=ActivityType.VOCAB_REVIEW,
+                        title=t("vocab_title", count=len(due_cards)),
+                        description=t("vocab_desc"),
+                        card_ids=[c.id for c in due_cards],
+                    )
+                )
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]

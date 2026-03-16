@@ -172,7 +172,7 @@ async def generate_lesson_feedback(
 
     lines = []
     for i, a in enumerate(lesson.activities):
-        if a.type == ActivityType.ONBOARDING:
+        if a.type in (ActivityType.ONBOARDING, ActivityType.INFO):
             continue
         if a.status == ActivityStatus.SKIPPED:
             lines.append(f"- {a.title}: skipped")

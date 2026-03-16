@@ -17,6 +17,7 @@ class ActivityType(str, Enum):
     GRAMMAR = "grammar"
     SPEAKING = "speaking"
     ONBOARDING = "onboarding"
+    INFO = "info"
 
 
 class ActivityStatus(str, Enum):

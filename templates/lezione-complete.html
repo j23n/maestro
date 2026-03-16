@@ -51,7 +51,7 @@
   <div class="activity-summary">
     <div class="activity-summary-title">{{ t("lesson_activities_done") }}</div>
     {% for a in lesson.activities %}
-    {% if a.type != "onboarding" %}
+    {% if a.type not in ("onboarding", "info") %}
     <div class="summary-item {{ 'summary-skipped' if a.status == 'skipped' else '' }}">
       <span class="summary-status">
         {%- if a.status == "completed" %}✓
