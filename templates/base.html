@@ -20,7 +20,7 @@
       <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") }}</a>
       {% if request.state.student is defined and request.state.student %}
       <div class="nav-right">
-        <a href="/profilo" class="student-name {% if request.url.path.startswith('/profilo') %}active{% endif %}">{{ request.state.student.name or t("students_default_name") }}</a>
+        <a href="/profilo" class="student-name">{{ request.state.student.name or t("students_default_name") }}</a>
         <form method="post" action="/auth/logout" style="display:inline">
           <button type="submit" class="nav-logout">{{ t("nav_logout") }}</button>
         </form>
