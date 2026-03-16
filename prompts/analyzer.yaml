@@ -27,7 +27,7 @@ scoring_system:
     For multi-item tasks, return a JSON array of exactly N objects (one per item, in order).
 
     Schema for each result:
-    {"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": [], "grammar_correct_codes": [], "grammar_error_codes": []}
+    {"objective_correct": true, "objective_note": "", "grammar_errors": [], "tips": [], "grammar_correct_codes": [], "grammar_error_codes": [], "themes": []}
 
     Field definitions:
     - objective_correct: true/false per the OBJECTIVE stated in the user message; read it first
@@ -42,6 +42,7 @@ scoring_system:
       Tips NEVER affect objective_correct.
     - grammar_correct_codes: codes from the list above for grammar points the student used CORRECTLY
     - grammar_error_codes: codes from the list above for grammar points the student used INCORRECTLY
+    - themes: up to 3 short topic tags describing what the student wrote/spoke about (e.g. "family", "food", "travel"). Only for writing and speaking tasks; leave empty for drills and reading.
 
     {{span_tagging}}
 
@@ -88,6 +89,9 @@ writing_scoring:
     Set objective_correct=false ONLY if the text is blank, completely off-topic, or
     just a random word/phrase with no relation to the task.
 
+    For EVERY grammar_errors entry, you MUST include the corresponding code in grammar_error_codes.
+    For grammar points used correctly, include the code in grammar_correct_codes.
+
     Student level: {{cefr_level}}
     Writing prompt: {{prompt}}
     Student's text: {{student_text}}
@@ -101,6 +105,9 @@ speaking_scoring:
     OBJECTIVE: Did the student make a genuine attempt to respond to the speaking prompt?
     Set objective_correct=false ONLY if the transcription is blank, completely off-topic, or
     just a random word/phrase with no relation to the task.
+
+    For EVERY grammar_errors entry, you MUST include the corresponding code in grammar_error_codes.
+    For grammar points used correctly, include the code in grammar_correct_codes.
 
     Student level: {{cefr_level}}
     Speaking prompt: {{prompt}}

@@ -153,6 +153,7 @@ async def score_attempt(
         if overall_correct:
             event = LearningEvent(
                 student_id=student_id,
+                evidence_type="targeted",
                 grammar_correct=[code] + [c for c in all_correct_codes if c != code],
                 grammar_errors=all_error_codes,
             )
@@ -160,6 +161,7 @@ async def score_attempt(
 
         event = LearningEvent(
             student_id=student_id,
+            evidence_type="targeted",
             grammar_correct=all_correct_codes,
             grammar_errors=[code] + [c for c in all_error_codes if c != code],
             feedback=json.dumps(feedback),

@@ -16,6 +16,8 @@ import logging
 from typing import TYPE_CHECKING
 
 from maestro.models import (
+    ActivityStatus,
+    ActivityType,
     LearningEvent,
 )
 from maestro.learning.profile import update_profile
@@ -23,7 +25,6 @@ from maestro import taxonomy
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
-from maestro.profile import get_profile
 from maestro.prompts import lesson_analyzer as _prompts
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
 from maestro.utils import parse_llm_json
@@ -47,13 +48,13 @@ async def _collect_activity_events(
         {"lesson_id": lesson.id, "activity_type": {"$ne": None}}
     ).to_list()
 
-    correct_codes: list[str] = []
-    error_codes: list[str] = []
+    correct_set: set[str] = set()
+    error_set: set[str] = set()
     texts: list[str] = []
 
     for ev in events:
-        correct_codes.extend(ev.grammar_correct)
-        error_codes.extend(ev.grammar_errors)
+        correct_set.update(ev.grammar_correct)
+        error_set.update(ev.grammar_errors)
         if ev.student_text:
             texts.append(ev.student_text)
         logger.debug(
@@ -71,11 +72,11 @@ async def _collect_activity_events(
         extra={
             "lesson_id": str(lesson.id),
             "n_events": len(events),
-            "n_correct_codes": len(correct_codes),
-            "n_error_codes": len(error_codes),
+            "n_correct_codes": len(correct_set),
+            "n_error_codes": len(error_set),
         },
     )
-    return correct_codes, error_codes, "\n---\n".join(texts)
+    return list(correct_set), list(error_set), "\n---\n".join(texts)
 
 
 async def _analyze_cfs_staged(
@@ -173,21 +174,21 @@ async def analyze_lesson(lesson: "Lesson") -> None:
             extra={"lesson_id": str(lesson.id), "student_id": str(lesson.student_id)},
         )
         await taxonomy.ensure_loaded()
-        profile = await get_profile(lesson.student_id) if lesson.student_id else None
-        cefr_level = profile.cefr_estimate if profile else "A0"
 
         # Phase 1: aggregate per-activity events
         gp_correct, gp_errors, combined = await _collect_activity_events(lesson)
 
-        # Phase 2: CF two-stage analysis
-        cf_codes: list[str] = []
-        if combined.strip():
-            cf_codes = await _analyze_cfs_staged(
-                combined,
-                cefr_level,
-                student_id=lesson.student_id,
-                lesson_id=lesson.id,
+        # Phase 2: Collect CFs declared on completed productive activities
+        _productive = {ActivityType.SPEAKING.value, ActivityType.WRITING.value}
+        cf_codes = list(
+            dict.fromkeys(
+                code
+                for act in lesson.activities
+                if act.status == ActivityStatus.COMPLETED
+                and act.type.value in _productive
+                for code in act.cf_codes
             )
+        )
 
         # Create a summary event for profile update
         event = LearningEvent(

@@ -36,6 +36,7 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
             profile.grammar_recent_outcomes[code] = [
                 {"ok": True, "ts": now} for _ in range(5)
             ]
+            profile.grammar_mastery_scores[code] = 1.0
         # Credit CFs: set count to 3 (demonstration threshold)
         for code in scenario.cf_codes or []:
             profile.functions_counts[code] = max(

@@ -21,9 +21,10 @@ def build_grammar_by_level(
             correct = profile.grammar_correct_counts.get(p.code, 0) if profile else 0
             errors = profile.grammar_error_counts.get(p.code, 0) if profile else 0
             recent = profile.grammar_recent_outcomes.get(p.code, []) if profile else []
-            recent_bools = [outcome_ok(r) for r in recent]
             mastered = (
-                len(recent_bools) >= 5 and sum(recent_bools) / len(recent_bools) >= 0.8
+                profile.grammar_mastery_scores.get(p.code, 0.0) >= 0.8
+                if profile
+                else False
             )
             title = gp_titles.get(p.code, "")
             skills.append(

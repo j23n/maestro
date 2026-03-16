@@ -12,3 +12,4 @@ class ScoringResult(BaseModel):
     tips: list[str] = []
     grammar_correct_codes: list[str] = []
     grammar_error_codes: list[str] = []
+    themes: list[str] = []

@@ -254,6 +254,7 @@ class LearningEvent(Document):
     lesson_id: Optional[PydanticObjectId] = None
     activity_type: Optional[str] = None
     activity_index: Optional[int] = None
+    evidence_type: Optional[str] = None  # "targeted" | "productive" | "receptive"
     student_text: str = ""
     grammar_correct: List[str] = Field(default_factory=list)
     grammar_errors: List[str] = Field(default_factory=list)
@@ -277,6 +278,9 @@ class LearningProfile(Document):
     grammar_recent_outcomes: dict = Field(
         default_factory=dict
     )  # code → list[{ok: bool, ts: str} | bool], sliding window of last 10
+    grammar_mastery_scores: dict = Field(
+        default_factory=dict
+    )  # code → float, weighted mastery score
     functions_counts: dict = Field(default_factory=dict)
     themes_seen: List[str] = Field(default_factory=list)
     cefr_estimate: str = "A0"
@@ -386,6 +390,7 @@ class LessonActivity(BaseModel):
     grammar_label: Optional[str] = (
         None  # short label for grammar activities (e.g. "Articoli")
     )
+    cf_codes: List[str] = Field(default_factory=list)  # communicative function codes
     audio_path: Optional[str] = None  # /static/audio/lesson_{id}_{idx}.wav
 
 
