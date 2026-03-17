@@ -137,7 +137,12 @@ async def admin_dashboard(
     # --- Per-user stats ---
     accounts = await Account.find().to_list()
     user_rows = list(await asyncio.gather(*[_user_stats(a) for a in accounts]))
-    user_rows.sort(key=lambda r: r["last_active"] or datetime.min, reverse=True)
+    user_rows.sort(
+        key=lambda r: (
+            r["last_active"].replace(tzinfo=None) if r["last_active"] else datetime.min
+        ),
+        reverse=True,
+    )
     for i, row in enumerate(user_rows, 1):
         row["label"] = i
 
