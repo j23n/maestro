@@ -322,14 +322,13 @@ async def discover(
             ]
         )
 
-    # Definition generation — for ANY discovered word missing definitions,
-    # regardless of auth state or card creation.  A0 words have simple
-    # built-in definitions so skip LLM generation for those.
+    # Definition generation — for ANY discovered word missing A1–B2 definitions,
+    # regardless of auth state or card creation.  A0 words have hardcoded A0-level
+    # definitions (shown to A0 students) but still need LLM-generated A1–B2 ones.
     words_without_defs = [
         w
         for w in words_with_vocab.values()
-        if w.cefr_level != "A0"
-        and w.senses
+        if w.senses
         and not any(
             _cache.get_definition(str(w.id), lvl) for lvl in ("A1", "A2", "B1", "B2")
         )

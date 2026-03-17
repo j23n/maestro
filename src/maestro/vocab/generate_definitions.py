@@ -57,6 +57,17 @@ def _word_key(w: VocabularyWord) -> str:
     return f"{w.word} ({w.part_of_speech})" if w.part_of_speech else w.word
 
 
+def _find_entry(word: VocabularyWord, claude_data: dict[str, Any]) -> dict | None:
+    """Look up a word's entry in LLM response, tolerating dropped POS in key."""
+    key = _word_key(word)
+    return (
+        claude_data.get(key)
+        or claude_data.get(key.lower())
+        or claude_data.get(word.word)
+        or claude_data.get(word.word.lower())
+    )
+
+
 async def _call_api(
     batch: list[VocabularyWord], max_tokens: int = 16384
 ) -> dict[str, Any]:
@@ -102,8 +113,7 @@ def _is_complete(defs: list[VocabularyWordDefinition]) -> bool:
 
 async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) -> None:
     """Persist A1–B2 definitions from Claude's response. Replaces existing."""
-    key = _word_key(word)
-    entry = claude_data.get(key) or claude_data.get(key.lower())
+    entry = _find_entry(word, claude_data)
     if not entry:
         logger.error("LLM returned no data for word", extra={"word": word.word})
         return
@@ -166,8 +176,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         return
     logger.info("generating definitions", extra={"word": word.word})
     claude_data = await _call_api([word], max_tokens=4096)
-    key = _word_key(word)
-    entry = claude_data.get(key) or claude_data.get(key.lower())
+    entry = _find_entry(word, claude_data)
     if entry and word.cefr_level is None:
         cefr = entry.get("cefr_level")
         if cefr in ("A1", "A2", "B1", "B2"):
@@ -306,8 +315,7 @@ async def generate(
 
             for word in batch:
                 try:
-                    key = _word_key(word)
-                    entry = claude_data.get(key) or claude_data.get(key.lower())
+                    entry = _find_entry(word, claude_data)
                     if entry and word.cefr_level is None:
                         cefr = entry.get("cefr_level")
                         if cefr in ("A1", "A2", "B1", "B2"):
