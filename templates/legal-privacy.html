@@ -8,49 +8,123 @@
 
   <p>Maestro ("we", "us", "our") is an Italian language learning application. This policy explains what personal data we collect, how we use it, and your rights under the General Data Protection Regulation (GDPR) and other applicable laws.</p>
 
-  <h2>1. Data we collect</h2>
+  <h2>1. Data controller</h2>
+  <p>The data controller responsible for your personal data is:</p>
+  <p>
+    Maestro<br>
+    Email: <strong>privacy@maestro.dev</strong>
+  </p>
+  <p>If you have appointed a Data Protection Officer or a representative in the EU/EEA, add their contact details here.</p>
+  <!-- TODO: Replace with your legal entity name, registered address, and DPO contact if applicable. -->
+
+  <h2>2. Data we collect</h2>
   <ul>
     <li><strong>Account information:</strong> email address and hashed password.</li>
     <li><strong>Student profile:</strong> your name (optional), CEFR level estimate, learning preferences, and persona details you provide (background, interests, goals).</li>
     <li><strong>Lesson history:</strong> lessons taken, drill attempts, scores, learning events, and vocabulary cards.</li>
     <li><strong>LLM interaction logs:</strong> prompts sent to AI models and their responses, token counts, and cost records. These are used to generate lessons and score your answers.</li>
+    <li><strong>Payment information:</strong> billing details processed by Stripe. We do not store credit card numbers on our servers; Stripe handles this as an independent data controller for payment fraud prevention and compliance.</li>
+    <li><strong>Technical data:</strong> IP address, browser type, operating system, and access timestamps collected automatically by our hosting infrastructure and error-tracking services.</li>
   </ul>
 
-  <h2>2. Data processors</h2>
-  <p>We use the following third-party services to operate Maestro:</p>
+  <h2>3. How we use your data</h2>
+  <p>We use the data listed above for the following purposes:</p>
   <ul>
-    <li><strong>MongoDB Atlas</strong> — database hosting</li>
-    <li><strong>Railway</strong> — application hosting</li>
-    <li><strong>Stripe</strong> — payment processing</li>
-    <li><strong>Resend</strong> — transactional email</li>
-    <li><strong>Sentry</strong> — error tracking and performance monitoring</li>
-    <li><strong>OpenAI / Anthropic</strong> — AI model providers for lesson generation and scoring</li>
+    <li>Providing the core language-learning service: generating lessons, tracking your progress, and personalising content to your level and goals.</li>
+    <li>Managing your account and authenticating your sessions.</li>
+    <li>Processing subscription payments via Stripe.</li>
+    <li>Sending transactional emails (e.g. password resets, subscription confirmations) via Resend.</li>
+    <li>Monitoring application errors and performance via Sentry to maintain service reliability.</li>
+    <li>Improving the service based on aggregated, anonymised usage patterns.</li>
   </ul>
 
-  <h2>3. Lawful basis for processing</h2>
+  <h2>4. Lawful basis for processing</h2>
   <p>Under GDPR Article 6, we process your data on the following bases:</p>
   <ul>
     <li><strong>Contract performance</strong> (Art. 6(1)(b)): processing necessary to provide the core language learning service — account management, lesson generation, progress tracking, and subscription billing.</li>
-    <li><strong>Legitimate interest</strong> (Art. 6(1)(f)): error tracking via Sentry and basic usage analytics to maintain and improve service reliability.</li>
+    <li><strong>Legitimate interest</strong> (Art. 6(1)(f)): error tracking via Sentry and basic usage analytics to maintain and improve service reliability. We have conducted a balancing test and concluded that these processing activities do not override your rights, given their limited scope and the technical safeguards in place.</li>
+  </ul>
+  <p>We do not rely on consent as a legal basis for any core processing. If we ever introduce optional features that require consent (e.g. marketing emails), we will request it separately and you may withdraw it at any time.</p>
+
+  <h2>5. Data processors and third-party services</h2>
+  <p>We use the following third-party services to operate Maestro. Each acts as a data processor under a Data Processing Agreement (DPA) with us, unless otherwise noted:</p>
+  <ul>
+    <li><strong>MongoDB Atlas</strong> (MongoDB, Inc. — USA) — database hosting.</li>
+    <li><strong>Railway</strong> (Railway Corp. — USA) — application hosting.</li>
+    <li><strong>Stripe</strong> (Stripe, Inc. — USA) — payment processing. Stripe also acts as an independent data controller for fraud prevention and financial compliance.</li>
+    <li><strong>Resend</strong> (Resend, Inc. — USA) — transactional email delivery.</li>
+    <li><strong>Sentry</strong> (Functional Software, Inc. — USA) — error tracking and performance monitoring.</li>
+    <li><strong>OpenAI</strong> (OpenAI, LLC — USA) — AI model provider for lesson generation and scoring.</li>
+    <li><strong>Anthropic</strong> (Anthropic, PBC — USA) — AI model provider for lesson generation and scoring.</li>
   </ul>
 
-  <h2>4. Data retention and deletion</h2>
-  <p>We retain your data for as long as your account is active. You may delete your account and all associated data at any time from your account settings or by sending a request to the contact address below. Upon deletion, all personal data is permanently removed from our database.</p>
+  <h2>6. International data transfers</h2>
+  <p>Your data may be transferred to and processed in the United States by the processors listed above. Since you are located in the EU/EEA (Bulgaria), these transfers are protected by one or more of the following safeguards under GDPR Chapter V:</p>
+  <ul>
+    <li>The EU–US Data Privacy Framework, where the recipient is a certified participant.</li>
+    <li>Standard Contractual Clauses (SCCs) adopted by the European Commission, incorporated into our DPAs with each processor.</li>
+  </ul>
+  <p>You may request a copy of the relevant transfer safeguards by contacting us at the address below.</p>
 
-  <h2>5. Your rights</h2>
+  <h2>7. Data retention and deletion</h2>
+  <p>We retain your data for as long as your account is active. Specifically:</p>
+  <ul>
+    <li><strong>Account and profile data:</strong> retained until you delete your account.</li>
+    <li><strong>Lesson history and LLM logs:</strong> retained until you delete your account.</li>
+    <li><strong>Payment records:</strong> retained for the period required by applicable tax and accounting laws (typically 5 years in Bulgaria under the Accountancy Act), after which they are deleted.</li>
+    <li><strong>Error logs (Sentry):</strong> automatically purged after 90 days.</li>
+  </ul>
+  <p>You may delete your account and all associated data at any time from your account settings or by sending a request to the contact address below. Upon deletion, all personal data is permanently removed from our database within 30 days. Backups containing your data are overwritten within the normal backup rotation cycle (up to 30 days).</p>
+
+  <h2>8. Your rights</h2>
   <p>Under the GDPR, you have the right to:</p>
   <ul>
-    <li><strong>Access</strong> your personal data — use the data export feature in your account.</li>
-    <li><strong>Rectification</strong> — correct inaccurate data via your profile settings.</li>
-    <li><strong>Erasure</strong> ("right to be forgotten") — delete your account and all data.</li>
-    <li><strong>Data portability</strong> — download your data in machine-readable JSON format.</li>
-    <li><strong>Restriction and objection</strong> — contact us to restrict or object to processing.</li>
+    <li><strong>Access</strong> (Art. 15) — obtain a copy of your personal data. Use the data export feature in your account settings.</li>
+    <li><strong>Rectification</strong> (Art. 16) — correct inaccurate data via your profile settings or by contacting us.</li>
+    <li><strong>Erasure</strong> (Art. 17, "right to be forgotten") — delete your account and all associated data.</li>
+    <li><strong>Restriction of processing</strong> (Art. 18) — request that we limit how we use your data in certain circumstances.</li>
+    <li><strong>Data portability</strong> (Art. 20) — download your data in machine-readable JSON format from your account settings.</li>
+    <li><strong>Object</strong> (Art. 21) — object to processing based on legitimate interest. We will stop processing unless we demonstrate compelling grounds that override your interests.</li>
+    <li><strong>Withdraw consent</strong> (Art. 7(3)) — where processing is based on consent, withdraw it at any time without affecting the lawfulness of prior processing.</li>
+  </ul>
+  <p>To exercise any of these rights, use the relevant feature in your account settings or email us at <strong>privacy@maestro.dev</strong>. We will respond within 30 days.</p>
+
+  <h2>9. Right to lodge a complaint</h2>
+  <p>If you believe we have violated your data protection rights, you have the right to lodge a complaint with your national supervisory authority. For users in Bulgaria, this is:</p>
+  <p>
+    Commission for Personal Data Protection (КЗЛД)<br>
+    Address: 2 Prof. Tsvetan Lazarov Blvd., Sofia 1592, Bulgaria<br>
+    Website: <a href="https://www.cpdp.bg" target="_blank" rel="noopener">www.cpdp.bg</a><br>
+    Email: kzld@cpdp.bg
+  </p>
+
+  <h2>10. Cookies</h2>
+  <p>Maestro uses only the following strictly necessary cookies:</p>
+  <ul>
+    <li><code>session</code> — a signed session cookie required for authentication.</li>
+    <li><code>csrftoken</code> — a CSRF protection cookie to prevent cross-site request forgery.</li>
+  </ul>
+  <p>These cookies are exempt from the consent requirement under the ePrivacy Directive (Art. 5(3)) because they are strictly necessary for the service to function. We do not use any tracking cookies, analytics cookies, or third-party advertising cookies.</p>
+
+  <h2>11. Automated decision-making</h2>
+  <p>Maestro uses AI models to generate lessons and score your answers. These automated processes produce educational content and performance feedback but do not make decisions that have legal or similarly significant effects on you. You are always free to retake exercises and your scores are used solely for learning progress.</p>
+
+  <h2>12. Children's privacy</h2>
+  <p>Maestro is not directed at children under the age of 16. We do not knowingly collect personal data from children under 16. If you believe a child under 16 has provided us with personal data, please contact us and we will delete the data promptly.</p>
+
+  <h2>13. Security</h2>
+  <p>We implement appropriate technical and organisational measures to protect your personal data, including:</p>
+  <ul>
+    <li>Passwords stored using industry-standard one-way hashing.</li>
+    <li>All data transmitted over HTTPS/TLS encryption.</li>
+    <li>Access to production systems restricted to authorised personnel.</li>
+    <li>Regular dependency updates and security monitoring.</li>
   </ul>
 
-  <h2>6. Cookies</h2>
-  <p>Maestro uses a single signed session cookie (<code>session</code>) that is strictly necessary for authentication. We also set a CSRF protection cookie (<code>csrftoken</code>). We do not use any tracking cookies, analytics cookies, or third-party advertising cookies.</p>
+  <h2>14. Changes to this policy</h2>
+  <p>We may update this privacy policy from time to time. If we make material changes, we will notify you by email or by a prominent notice within the application at least 14 days before the changes take effect. Continued use of Maestro after the effective date constitutes acceptance of the updated policy.</p>
 
-  <h2>7. Contact</h2>
+  <h2>15. Contact</h2>
   <p>For privacy requests or questions, contact us at: <strong>privacy@maestro.dev</strong></p>
 </div>
 {% endblock %}
