@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy — Maestro{% endblock %}
+
+{% block content %}
+<div class="legal-page">
+  <h1>Privacy Policy</h1>
+  <p class="legal-updated">Last updated: 17 March 2026</p>
+
+  <p>Maestro ("we", "us", "our") is an Italian language learning application. This policy explains what personal data we collect, how we use it, and your rights under the General Data Protection Regulation (GDPR) and other applicable laws.</p>
+
+  <h2>1. Data we collect</h2>
+  <ul>
+    <li><strong>Account information:</strong> email address and hashed password.</li>
+    <li><strong>Student profile:</strong> your name (optional), CEFR level estimate, learning preferences, and persona details you provide (background, interests, goals).</li>
+    <li><strong>Lesson history:</strong> lessons taken, drill attempts, scores, learning events, and vocabulary cards.</li>
+    <li><strong>LLM interaction logs:</strong> prompts sent to AI models and their responses, token counts, and cost records. These are used to generate lessons and score your answers.</li>
+  </ul>
+
+  <h2>2. Data processors</h2>
+  <p>We use the following third-party services to operate Maestro:</p>
+  <ul>
+    <li><strong>MongoDB Atlas</strong> — database hosting</li>
+    <li><strong>Railway</strong> — application hosting</li>
+    <li><strong>Stripe</strong> — payment processing</li>
+    <li><strong>Resend</strong> — transactional email</li>
+    <li><strong>Sentry</strong> — error tracking and performance monitoring</li>
+    <li><strong>OpenAI / Anthropic</strong> — AI model providers for lesson generation and scoring</li>
+  </ul>
+
+  <h2>3. Lawful basis for processing</h2>
+  <p>Under GDPR Article 6, we process your data on the following bases:</p>
+  <ul>
+    <li><strong>Contract performance</strong> (Art. 6(1)(b)): processing necessary to provide the core language learning service — account management, lesson generation, progress tracking, and subscription billing.</li>
+    <li><strong>Legitimate interest</strong> (Art. 6(1)(f)): error tracking via Sentry and basic usage analytics to maintain and improve service reliability.</li>
+  </ul>
+
+  <h2>4. Data retention and deletion</h2>
+  <p>We retain your data for as long as your account is active. You may delete your account and all associated data at any time from your account settings or by sending a request to the contact address below. Upon deletion, all personal data is permanently removed from our database.</p>
+
+  <h2>5. Your rights</h2>
+  <p>Under the GDPR, you have the right to:</p>
+  <ul>
+    <li><strong>Access</strong> your personal data — use the data export feature in your account.</li>
+    <li><strong>Rectification</strong> — correct inaccurate data via your profile settings.</li>
+    <li><strong>Erasure</strong> ("right to be forgotten") — delete your account and all data.</li>
+    <li><strong>Data portability</strong> — download your data in machine-readable JSON format.</li>
+    <li><strong>Restriction and objection</strong> — contact us to restrict or object to processing.</li>
+  </ul>
+
+  <h2>6. Cookies</h2>
+  <p>Maestro uses a single signed session cookie (<code>session</code>) that is strictly necessary for authentication. We also set a CSRF protection cookie (<code>csrftoken</code>). We do not use any tracking cookies, analytics cookies, or third-party advertising cookies.</p>
+
+  <h2>7. Contact</h2>
+  <p>For privacy requests or questions, contact us at: <strong>privacy@maestro.dev</strong></p>
+</div>
+{% endblock %}
