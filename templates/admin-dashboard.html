@@ -85,8 +85,8 @@
         {% for row in llm_breakdown %}
         <tr>
           <td>{{ row.call_type }}</td>
-          <td>{{ "{:,}"|format(row.call_count) }}</td>
-          <td>{{ "{:,}"|format(row.total_tokens) }}</td>
+          <td>{{ "{:,}".format(row.call_count) }}</td>
+          <td>{{ "{:,}".format(row.total_tokens) }}</td>
           <td>${{ "%.4f"|format(row.total_cost) }}</td>
         </tr>
         {% endfor %}
