@@ -1,21 +1,23 @@
 {
-  "sha256": "4ecadb80ab75ace39a90206ea740012d5a39269f2054b6b2536c595f60797b75",
-  "word_count": 165,
+  "sha256": "b77b3c02d937a9b59ce4742c32a11527989e47721fa0f18dbce873ac74553725",
+  "word_count": 236,
   "by_part_of_speech": {
-    "agg.": 17,
-    "agg.num.": 23,
-    "art.": 6,
-    "avv.": 18,
-    "cong.": 3,
+    "agg.": 14,
+    "agg.num.": 30,
+    "art.": 8,
+    "avv.": 20,
+    "cong.": 4,
     "inter.": 9,
-    "loc.": 17,
-    "prep.": 4,
+    "loc.": 39,
+    "prep.": 5,
     "pron.": 8,
-    "s.f.": 14,
-    "s.m.": 30,
-    "s.m.pl.": 2,
-    "v.intr.": 6,
-    "v.tr.": 8
+    "s.f.": 29,
+    "s.f.pl.": 2,
+    "s.m.": 52,
+    "s.m.pl.": 1,
+    "v.intr.": 4,
+    "v.intr./s.m.": 1,
+    "v.tr.": 10
   },
-  "generated_at": "2026-03-16T13:05:15.444460+00:00"
+  "generated_at": "2026-03-17T14:34:34.049203+00:00"
 }

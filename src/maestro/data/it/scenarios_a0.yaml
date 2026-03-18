@@ -1,158 +1,227 @@
 scenarios:
-  - slug: a0-01-benvenuto
-    label: "Benvenuto!"
-    description: "Welcome to Maestro — your Italian learning journey starts here"
+  - slug: a0-01-in-aereo
+    label: "In aereo"
+    description: "Your first Italian words — on the plane and at the airport"
     cefr_level: A0
     sequence: 1
     cf_codes:
       - a0_salutare
-      - a0_presentarsi
-      - a0_dire_nome
+      - a0_ringraziare
+      - a0_rispondere_si_no
+      - a0_ordinare
     gp_codes:
       - saluti
-      - mi_chiamo
+      - polite_exp
+      - si_no_non
+      - vorrei
     depths:
-      - "Onboarding and first Italian words"
+      - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk"
 
-  - slug: a0-02-saluti
-    label: "Saluti"
-    description: "Greetings and goodbyes in depth"
+  - slug: a0-02-in-albergo
+    label: "In albergo"
+    description: "Checking into the hotel — names, numbers, and Italian sounds"
     cefr_level: A0
     sequence: 2
     cf_codes:
-      - a0_salutare
-      - a0_congedarsi
+      - a0_presentarsi
+      - a0_dire_nome
+      - a0_contare
     gp_codes:
-      - saluti
+      - mi_chiamo
+      - num_0_20
       - pronun_bas
     depths:
-      - "Formal and informal greetings, goodbyes, time-of-day greetings"
+      - "Self-introduction, numbers 0-20, pronunciation reference"
 
-  - slug: a0-03-numeri
-    label: "Comunicare"
-    description: "Essential phrases for daily interactions"
-    cefr_level: A0
-    sequence: 4
-    cf_codes:
-      - a0_scusarsi
-    gp_codes:
-      - polite_exp
-      - simp_sent
-    depths:
-      - "Everyday expressions, asking and clarifying"
-
-  - slug: a0-04-si-e-no
-    label: "Frasi utili"
-    description: "Survival phrases for understanding and being understood"
+  - slug: a0-03-al-bar
+    label: "Al bar"
+    description: "Your first Italian coffee — un/una, counting, and café culture"
     cefr_level: A0
     sequence: 3
     cf_codes:
-      - a0_rispondere_si_no
+      - a0_ordinare
+      - a0_chiedere_cortesemente
+      - a0_contare
     gp_codes:
-      - simp_sent
-      - si_no_non
+      - art_un_una
+      - vorrei
     depths:
-      - "Simple sentences, negation, and essential survival phrases"
+      - "Indefinite articles un/una/un', ordering with numbers, quanto costa"
 
-  - slug: a0-05-per-favore
-    label: "Per favore"
-    description: "Polite phrases, ordering, and numbers"
+  - slug: a0-04-in-giro
+    label: "In giro"
+    description: "Walking around the city — il/la, asking where things are"
+    cefr_level: A0
+    sequence: 4
+    cf_codes:
+      - a0_chiedere_dove
+      - a0_scusarsi
+    gp_codes:
+      - art_il_la
+      - dove_e
+    depths:
+      - "Definite articles il/la/l', asking directions, a destra/sinistra/dritto"
+
+  - slug: a0-05-chiedere-aiuto
+    label: "Chiedere aiuto"
+    description: "Getting help — asking for repetition, clarifying, key phrases"
     cefr_level: A0
     sequence: 5
     cf_codes:
-      - a0_chiedere_cortesemente
-      - a0_ringraziare
+      - a0_chiedere_aiuto
       - a0_scusarsi
-      - a0_contare
     gp_codes:
-      - vorrei
       - polite_exp
-      - num_0_20
+      - prep_place
     depths:
-      - "Polite requests, ordering with vorrei, numbers 0-20"
+      - "Come si dice, può ripetere, non lo so, prepositions a/in/di"
 
-  - slug: a0-06-che-cose
-    label: "Che cos'e?"
-    description: "Articles il/la and asking what things are"
+  - slug: a0-06-a-pranzo
+    label: "A pranzo"
+    description: "Lunch at a trattoria — menu vocabulary, ordering a meal"
     cefr_level: A0
     sequence: 6
     cf_codes:
+      - a0_ordinare
       - a0_identificare
+      - a0_chiedere_cortesemente
     gp_codes:
-      - art_il_la
+      - vocab_cibo
       - che_cose
     depths:
-      - "Naming everyday objects, asking and answering what something is"
+      - "Menu structure, che cos'è questo/a, dietary needs, restaurant phrases"
 
-  - slug: a0-07-io-sono
-    label: "Io sono"
-    description: "Subject pronouns and the verb essere"
+  - slug: a0-07-mi-piace
+    label: "Mi piace"
+    description: "Expressing what you like and don't like"
     cefr_level: A0
     sequence: 7
-    cf_codes:
-      - a0_presentarsi
-      - a0_dire_nome
-    gp_codes:
-      - subj_pron
-      - essere_pre
-    depths:
-      - "Talking about yourself and others with io sono, tu sei, lui/lei e"
-
-  - slug: a0-08-mi-piace
-    label: "Mi piace"
-    description: "Expressing likes and dislikes"
-    cefr_level: A0
-    sequence: 8
     cf_codes:
       - a0_esprimere_gusti
     gp_codes:
       - mi_piace
+      - art_i_le
     depths:
-      - "Saying what you like and don't like"
+      - "Mi piace/non mi piace/mi piacciono, plural articles i/le"
 
-  - slug: a0-09-dove
-    label: "Dov'e?"
-    description: "Asking where things are and basic prepositions"
+  - slug: a0-08-i-numeri-grandi
+    label: "I numeri grandi"
+    description: "Numbers 20-100, telling time, and days of the week"
+    cefr_level: A0
+    sequence: 8
+    cf_codes:
+      - a0_contare
+      - a0_dire_ora
+    gp_codes:
+      - num_20_100
+      - ore_giorni
+    depths:
+      - "Tens 20-100, combining numbers, che ore sono, days of the week, 24-hour clock"
+
+  - slug: a0-09-in-viaggio
+    label: "In viaggio"
+    description: "At the train station — buying tickets, platforms, timetables"
     cefr_level: A0
     sequence: 9
     cf_codes:
+      - a0_comprare_biglietto
       - a0_chiedere_dove
+      - a0_dire_ora
+      - a0_contare
     gp_codes:
-      - dove_e
-      - prep_place
+      - vocab_viaggio
     depths:
-      - "Asking for locations, using a/in/di"
+      - "Transport vocabulary, buying tickets, andata e ritorno, platform and time"
 
-  - slug: a0-10-ripasso
+  - slug: a0-10-conoscere-qualcuno
+    label: "Conoscere qualcuno"
+    description: "Meeting people — essere, pronouns, nationality, origin"
+    cefr_level: A0
+    sequence: 10
+    cf_codes:
+      - a0_presentarsi
+      - a0_dire_nome
+      - a0_rispondere_si_no
+    gp_codes:
+      - essere_pre
+      - subj_pron
+      - simp_sent
+    depths:
+      - "Essere sono/sei/è, subject pronouns, nationality, sono di, simple sentences"
+
+  - slug: a0-11-un-problema
+    label: "Un problema"
+    description: "When things go wrong — clarifying, emergencies, and staying calm"
+    cefr_level: A0
+    sequence: 11
+    cf_codes:
+      - a0_chiedere_aiuto
+      - a0_descrivere_problema
+      - a0_scusarsi
+    gp_codes:
+      - polite_exp
+      - si_no_non
+    depths:
+      - "Più lentamente, emergency phrases, ho bisogno di, ho perso, pharmacy visit"
+
+  - slug: a0-12-ultimo-giorno
+    label: "L'ultimo giorno"
+    description: "Your last day — goodbyes, expressing thanks, reflections"
+    cefr_level: A0
+    sequence: 12
+    cf_codes:
+      - a0_congedarsi
+      - a0_ringraziare
+      - a0_salutare
+    gp_codes:
+      - saluti
+    depths:
+      - "Farewell phrases, grazie di tutto, buon viaggio, cumulative mixed review"
+
+  - slug: a0-13-ripasso
     label: "Ripasso A0"
     description: "Cumulative review of everything learned in A0"
     cefr_level: A0
-    sequence: 10
+    sequence: 13
     cf_codes:
       - a0_salutare
       - a0_congedarsi
       - a0_ringraziare
       - a0_scusarsi
       - a0_presentarsi
+      - a0_dire_nome
       - a0_chiedere_cortesemente
       - a0_rispondere_si_no
       - a0_contare
+      - a0_dire_ora
       - a0_identificare
       - a0_esprimere_gusti
       - a0_chiedere_dove
+      - a0_ordinare
+      - a0_comprare_biglietto
+      - a0_chiedere_aiuto
+      - a0_descrivere_problema
     gp_codes:
       - saluti
-      - simp_sent
-      - si_no_non
-      - num_0_20
-      - vorrei
       - polite_exp
+      - si_no_non
+      - vorrei
+      - mi_chiamo
+      - num_0_20
+      - pronun_bas
+      - art_un_una
       - art_il_la
-      - subj_pron
-      - essere_pre
-      - mi_piace
+      - art_i_le
       - dove_e
       - prep_place
-      - mi_chiamo
+      - vocab_cibo
+      - che_cose
+      - mi_piace
+      - num_20_100
+      - ore_giorni
+      - vocab_viaggio
+      - essere_pre
+      - subj_pron
+      - simp_sent
     depths:
-      - "Full review of all A0 material"
+      - "Full review of all A0 material, final conversation, onboarding for A1"

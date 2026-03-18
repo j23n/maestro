@@ -170,6 +170,63 @@ async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
             return None
 
 
+async def sync_a0_listening_audio() -> None:
+    """Generate missing WAV files for A0 listening activities.
+
+    Reads a0_lessons.yaml, finds listening activities with audio_path set,
+    and synthesizes any that don't exist on disk yet. Skips silently if
+    Azure credentials are not configured.
+    """
+    from maestro.config import settings
+
+    if not settings.AZURE_SPEECH_KEY or not settings.AZURE_SPEECH_REGION:
+        logger.info("a0_audio_sync: no Azure credentials, skipping audio generation")
+        return
+
+    import yaml
+    from maestro.utils import data_dir
+
+    lessons_path = data_dir() / "a0_lessons.yaml"
+    if not lessons_path.exists():
+        return
+
+    with open(lessons_path) as f:
+        all_lessons = yaml.safe_load(f)
+
+    audio_dir = _audio_dir()
+    audio_dir.mkdir(parents=True, exist_ok=True)
+
+    generated = 0
+    for slug, lesson_data in all_lessons.items():
+        for act in lesson_data.get("activities", []):
+            if act.get("type") != "listening":
+                continue
+            audio_url = act.get("audio_path")
+            content = act.get("content", "")
+            if not audio_url or not content:
+                continue
+            # audio_path is e.g. "/static/audio/a0_01_in_aereo.wav"
+            filename = audio_url.rsplit("/", 1)[-1]
+            path = audio_dir / filename
+            if path.exists():
+                continue
+            try:
+                await _synth_to_file(_strip_markup(content), path)
+                generated += 1
+                logger.info("a0_audio_sync: generated %s", filename)
+            except Exception:
+                logger.warning(
+                    "a0_audio_sync: failed to generate %s",
+                    filename,
+                    exc_info=True,
+                )
+
+    if generated:
+        logger.info("a0_audio_sync: generated %d listening audio files", generated)
+    else:
+        logger.info("a0_audio_sync: all listening audio up to date")
+
+
 async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional[str]:
     """Generate WAV for a lesson reading and return its static URL.
 

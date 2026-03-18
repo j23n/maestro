@@ -182,6 +182,95 @@
     "description": "Counting and using numbers"
   },
   {
+    "code": "a0_ordinare",
+    "label": "Ordinare",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Vorrei...",
+      "Vorrei + numero + cosa...",
+      "Un/una..., per favore."
+    ],
+    "examples": [
+      "Vorrei un caffè, per favore.",
+      "Vorrei due cornetti.",
+      "Vorrei la pasta come primo."
+    ],
+    "description": "Ordering food, drinks, or services"
+  },
+  {
+    "code": "a0_chiedere_aiuto",
+    "label": "Chiedere aiuto",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Può ripetere, per favore?",
+      "Più lentamente, per favore.",
+      "Come si dice ... in italiano?",
+      "Come?"
+    ],
+    "examples": [
+      "Scusi, può ripetere?",
+      "Più lentamente, per favore.",
+      "Come si dice 'train' in italiano?"
+    ],
+    "description": "Asking for repetition, clarification, or help understanding"
+  },
+  {
+    "code": "a0_dire_ora",
+    "label": "Dire l'ora",
+    "macro_category": "interagire_informazioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Che ore sono?",
+      "Sono le...",
+      "È l'una.",
+      "A che ora...?"
+    ],
+    "examples": [
+      "Che ore sono?",
+      "Sono le tre e mezza.",
+      "A che ora parte il treno?"
+    ],
+    "description": "Asking and telling the time"
+  },
+  {
+    "code": "a0_comprare_biglietto",
+    "label": "Comprare un biglietto",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Vorrei un biglietto per...",
+      "Andata e ritorno.",
+      "Da che binario?",
+      "A che ora parte...?"
+    ],
+    "examples": [
+      "Vorrei un biglietto per Roma, per favore.",
+      "Andata e ritorno.",
+      "Da che binario parte il treno?"
+    ],
+    "description": "Buying transport tickets and asking about timetables"
+  },
+  {
+    "code": "a0_descrivere_problema",
+    "label": "Descrivere un problema",
+    "macro_category": "interagire_attivita_azioni",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ho perso...",
+      "Ho bisogno di...",
+      "Aiuto!",
+      "Dov'è l'ospedale / la farmacia?"
+    ],
+    "examples": [
+      "Ho perso il passaporto.",
+      "Ho bisogno di un medico.",
+      "Dov'è la farmacia?"
+    ],
+    "description": "Describing an emergency or problem and asking for help"
+  },
+  {
     "code": "interag_identi_a1",
     "label": "Identificare",
     "macro_category": "interagire_informazioni",

@@ -1,3 +1,249 @@
+- code: art_un_una
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_articoli_un_una
+  unistr_label: 'Indefinite articles: un, una, un'''
+  label: Articoli indeterminativi singolari un una un'
+  chunk_ref: book_5_l_articolo_le_forme
+  bridges_to: all_det_in
+  explanations:
+    en:
+      title: 'Indefinite Articles: un, una, un'''
+      tip: ''
+      explanation: |
+        ## A / An in Italian
+
+        In English you say "a coffee" or "an apple." In Italian, the word for "a" changes depending on the gender of the noun:
+
+        - <span lang="it">**un**</span> = a (masculine) — <span lang="it">un caffè, un cornetto, un biglietto</span>
+        - <span lang="it">**una**</span> = a (feminine) — <span lang="it">una pizza, una birra, una stazione</span>
+        - <span lang="it">**un'**</span> = a (feminine, before a vowel) — <span lang="it">un'acqua, un'aranciata</span>
+
+        **Quick rule of thumb:**
+        - If the noun uses <span lang="it">**il**</span>, use <span lang="it">**un**</span>
+        - If the noun uses <span lang="it">**la**</span>, use <span lang="it">**una**</span> (or <span lang="it">**un'**</span> before a vowel)
+
+        **Examples:**
+
+        - <span lang="it">*Vorrei **un** caffè.*</span> (I'd like a coffee.)
+        - <span lang="it">*Vorrei **una** pizza.*</span> (I'd like a pizza.)
+        - <span lang="it">*Vorrei **un'**acqua.*</span> (I'd like a water.)
+      language: en
+      why_this_matters: ''
+
+- code: art_i_le
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_articoli_i_le
+  unistr_label: 'Plural articles: i, le'
+  label: Articoli determinativi plurali i e le
+  chunk_ref: book_5_l_articolo_le_forme
+  bridges_to: all_det_in
+  explanations:
+    en:
+      title: 'Plural Articles: i and le'
+      tip: ''
+      explanation: |
+        ## "The" in the plural
+
+        You already know <span lang="it">**il**</span> (the, m.) and <span lang="it">**la**</span> (the, f.) for single things. When talking about more than one, use:
+
+        - <span lang="it">**i**</span> = the (masculine plural) — <span lang="it">i gatti, i libri, i treni</span>
+        - <span lang="it">**le**</span> = the (feminine plural) — <span lang="it">le pizze, le case, le stazioni</span>
+
+        **How nouns change:**
+        - Masculine nouns ending in **-o** → **-i**: <span lang="it">gatto → gatti</span>
+        - Feminine nouns ending in **-a** → **-e**: <span lang="it">pizza → pizze</span>
+
+        At this stage, you just need to recognize <span lang="it">**i**</span> and <span lang="it">**le**</span> when you see them — especially with <span lang="it">*mi piacciono*</span>:
+
+        - <span lang="it">*Mi piacciono **i** gatti.*</span> (I like cats.)
+        - <span lang="it">*Mi piacciono **le** pizze.*</span> (I like pizzas.)
+      language: en
+      why_this_matters: ''
+
+- code: num_20_100
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_numeri_20_100
+  unistr_label: Numbers 20–100
+  label: Numeri da venti a cento
+  chunk_ref: null
+  bridges_to: card_1_100
+  explanations:
+    en:
+      title: Numbers from Twenty to One Hundred
+      tip: ''
+      explanation: |
+        ## I numeri da 20 a 100
+
+        You already know 0–20. Now for prices, times, and addresses, you need the rest:
+
+        ### Tens
+
+        | Number | Italian |
+        |--------|---------|
+        | 20 | <span lang="it">venti</span> |
+        | 30 | <span lang="it">trenta</span> |
+        | 40 | <span lang="it">quaranta</span> |
+        | 50 | <span lang="it">cinquanta</span> |
+        | 60 | <span lang="it">sessanta</span> |
+        | 70 | <span lang="it">settanta</span> |
+        | 80 | <span lang="it">ottanta</span> |
+        | 90 | <span lang="it">novanta</span> |
+        | 100 | <span lang="it">cento</span> |
+
+        ### Combining tens and units
+
+        Just join the ten and the unit: <span lang="it">*venti* + *uno* = **ventuno**</span>.
+
+        **Drop the final vowel of the ten** before <span lang="it">*uno*</span> and <span lang="it">*otto*</span>:
+        - <span lang="it">vent**uno**</span> (21), <span lang="it">vent**otto**</span> (28)
+        - <span lang="it">trent**uno**</span> (31), <span lang="it">trent**otto**</span> (38)
+
+        All others just join: <span lang="it">venti**due**</span> (22), <span lang="it">trenta**cinque**</span> (35), <span lang="it">quaranta**sei**</span> (46).
+
+        **Examples:**
+
+        - <span lang="it">*Sono quarantacinque euro.*</span> (It's forty-five euros.)
+        - <span lang="it">*Binario ventuno.*</span> (Platform twenty-one.)
+      language: en
+      why_this_matters: ''
+
+- code: ore_giorni
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ore_giorni
+  unistr_label: Telling time and days of the week
+  label: Ore e giorni della settimana
+  chunk_ref: null
+  bridges_to: art_hora
+  explanations:
+    en:
+      title: Telling Time and Days of the Week
+      tip: ''
+      explanation: |
+        ## Che ore sono? — What time is it?
+
+        ### Asking the time
+
+        - <span lang="it">**Che ore sono?**</span> — What time is it?
+        - <span lang="it">**A che ora...?**</span> — At what time...?
+
+        ### Telling the time
+
+        - <span lang="it">**È l'una.**</span> — It's one o'clock. (singular)
+        - <span lang="it">**Sono le due.**</span> — It's two o'clock. (plural for 2–12)
+        - <span lang="it">**Sono le tre e mezza.**</span> — It's three thirty.
+        - <span lang="it">**Sono le dieci e un quarto.**</span> — It's quarter past ten.
+
+        Italy uses the 24-hour clock in formal contexts (timetables, appointments):
+        - <span lang="it">**Sono le quindici.**</span> — It's 3 PM. (15:00)
+        - <span lang="it">**Il treno parte alle diciotto.**</span> — The train leaves at 6 PM.
+
+        ### Days of the week
+
+        | Italian | English |
+        |---------|---------|
+        | <span lang="it">lunedì</span> | Monday |
+        | <span lang="it">martedì</span> | Tuesday |
+        | <span lang="it">mercoledì</span> | Wednesday |
+        | <span lang="it">giovedì</span> | Thursday |
+        | <span lang="it">venerdì</span> | Friday |
+        | <span lang="it">sabato</span> | Saturday |
+        | <span lang="it">domenica</span> | Sunday |
+
+        Days are not capitalised in Italian.
+
+        - <span lang="it">*Oggi è lunedì.*</span> (Today is Monday.)
+        - <span lang="it">*Il museo è chiuso il martedì.*</span> (The museum is closed on Tuesdays.)
+      language: en
+      why_this_matters: ''
+
+- code: vocab_cibo
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_cibo
+  unistr_label: Food and restaurant vocabulary
+  label: Vocabolario del cibo e del ristorante
+  chunk_ref: null
+  explanations:
+    en:
+      title: Food and Restaurant Vocabulary
+      tip: ''
+      explanation: |
+        ## Al ristorante
+
+        ### The Italian menu
+
+        An Italian meal follows a traditional order:
+
+        | Course | Italian | What it is |
+        |--------|---------|------------|
+        | Starters | <span lang="it">**antipasti**</span> | Cold cuts, bruschetta, etc. |
+        | First course | <span lang="it">**primo**</span> | Pasta, risotto, soup |
+        | Second course | <span lang="it">**secondo**</span> | Meat or fish |
+        | Side dish | <span lang="it">**contorno**</span> | Vegetables, salad |
+        | Dessert | <span lang="it">**dolce**</span> | Cake, tiramisù, gelato |
+
+        You don't have to order every course — a <span lang="it">primo</span> and a <span lang="it">contorno</span> is a perfectly normal lunch.
+
+        ### Useful restaurant phrases
+
+        - <span lang="it">**Un tavolo per due, per favore.**</span> — A table for two, please.
+        - <span lang="it">**Il menù, per favore.**</span> — The menu, please.
+        - <span lang="it">**Il conto, per favore.**</span> — The bill, please.
+        - <span lang="it">**Acqua naturale o frizzante?**</span> — Still or sparkling water?
+
+        ### Dietary needs
+
+        - <span lang="it">**Sono vegetariano/a.**</span> — I'm vegetarian.
+        - <span lang="it">**Sono allergico/a a...**</span> — I'm allergic to...
+        - <span lang="it">**Senza glutine**</span> — Gluten-free
+      language: en
+      why_this_matters: ''
+
+- code: vocab_viaggio
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_viaggio
+  unistr_label: Transport and travel vocabulary
+  label: Vocabolario del viaggio e dei trasporti
+  chunk_ref: null
+  explanations:
+    en:
+      title: Transport and Travel Vocabulary
+      tip: ''
+      explanation: |
+        ## In viaggio — Getting around
+
+        ### Key transport words
+
+        | Italian | English |
+        |---------|---------|
+        | <span lang="it">il treno</span> | the train |
+        | <span lang="it">l'autobus</span> | the bus |
+        | <span lang="it">il taxi</span> | the taxi |
+        | <span lang="it">la metropolitana / la metro</span> | the metro / underground |
+        | <span lang="it">il biglietto</span> | the ticket |
+        | <span lang="it">andata</span> | one way |
+        | <span lang="it">andata e ritorno</span> | return / round trip |
+        | <span lang="it">il binario</span> | the platform |
+        | <span lang="it">la fermata</span> | the stop (bus/tram) |
+        | <span lang="it">la stazione</span> | the station |
+        | <span lang="it">l'aeroporto</span> | the airport |
+
+        ### Essential travel phrases
+
+        - <span lang="it">**Vorrei un biglietto per Roma.**</span> — I'd like a ticket to Rome.
+        - <span lang="it">**Andata e ritorno.**</span> — Round trip.
+        - <span lang="it">**A che ora parte il treno?**</span> — What time does the train leave?
+        - <span lang="it">**Da che binario?**</span> — From which platform?
+        - <span lang="it">**Quanto costa il biglietto?**</span> — How much is the ticket?
+        - <span lang="it">**Dov'è la fermata dell'autobus?**</span> — Where is the bus stop?
+      language: en
+      why_this_matters: ''
+
 - code: saluti
   cefr_level: A0
   category: basics
