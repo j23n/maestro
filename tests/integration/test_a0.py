@@ -32,7 +32,7 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
     from maestro.lezione.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto",
+        slug="a0-01-in-aereo",
         label="Benvenuto",
         description="",
         cefr_level="A0",
@@ -42,7 +42,7 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
         sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02-saluti",
+        slug="a0-02-in-albergo",
         label="Saluti",
         description="",
         cefr_level="A0",
@@ -57,12 +57,10 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
     # s1 completed, s2 not
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={
-            "a0-01-benvenuto": ScenarioProgress(depth=1, lesson_count=1)
-        },
+        scenario_progress={"a0-01-in-aereo": ScenarioProgress(depth=1, lesson_count=1)},
     )
     scenario, depth = await _pick_a0_scenario(profile)
-    assert scenario.slug == "a0-02-saluti"
+    assert scenario.slug == "a0-02-in-albergo"
     assert depth == 1
 
 
@@ -72,7 +70,7 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
     from maestro.lezione.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto",
+        slug="a0-01-in-aereo",
         label="Benvenuto",
         description="",
         cefr_level="A0",
@@ -82,7 +80,7 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
         sequence=1,
     )
     s2 = CurriculumScenario(
-        slug="a0-02-saluti",
+        slug="a0-02-in-albergo",
         label="Saluti",
         description="",
         cefr_level="A0",
@@ -96,7 +94,7 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID)
     scenario, depth = await _pick_a0_scenario(profile)
-    assert scenario.slug == "a0-01-benvenuto"
+    assert scenario.slug == "a0-01-in-aereo"
 
 
 @pytest.mark.integration
@@ -105,7 +103,7 @@ async def test_pick_scenario_a0_delegates(db):
     from maestro.lezione.selection import pick_scenario
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto",
+        slug="a0-01-in-aereo",
         label="Benvenuto",
         description="",
         cefr_level="A0",
@@ -118,7 +116,7 @@ async def test_pick_scenario_a0_delegates(db):
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID)
     scenario, depth = await pick_scenario(profile, "A0")
-    assert scenario.slug == "a0-01-benvenuto"
+    assert scenario.slug == "a0-01-in-aereo"
     assert depth == 1
 
 
@@ -136,7 +134,7 @@ async def test_a0_lesson_generates_static_content(db):
     await profile.insert()
 
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto",
+        slug="a0-01-in-aereo",
         label="Benvenuto",
         description="Welcome",
         cefr_level="A0",
@@ -159,8 +157,8 @@ async def test_a0_lesson_generates_static_content(db):
 
     lesson = await Lesson.get(lesson.id)
     assert lesson.generating is False
-    assert lesson.scenario_slug == "a0-01-benvenuto"
-    assert lesson.topic_title == "Benvenuto!"
+    assert lesson.scenario_slug == "a0-01-in-aereo"
+    assert lesson.topic_title == "In aereo"
     assert len(lesson.activities) > 0
 
     # Check activity types include onboarding, info, and drill
@@ -194,7 +192,7 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     await profile.insert()
 
     s = CurriculumScenario(
-        slug="a0-02-saluti",
+        slug="a0-02-in-albergo",
         label="Saluti",
         description="Greetings",
         cefr_level="A0",
@@ -205,14 +203,14 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     )
     await s.insert()
     # Mark lesson 1 as done so lesson 2 is picked
-    profile.scenario_progress["a0-01-benvenuto"] = ScenarioProgress(
+    profile.scenario_progress["a0-01-in-aereo"] = ScenarioProgress(
         depth=1, lesson_count=1
     )
     await profile.save()
 
     # Also need scenario 1 to exist for the query
     s1 = CurriculumScenario(
-        slug="a0-01-benvenuto",
+        slug="a0-01-in-aereo",
         label="Benvenuto",
         description="",
         cefr_level="A0",

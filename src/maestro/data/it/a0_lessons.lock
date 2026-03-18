@@ -1,0 +1,21 @@
+{
+  "sha256": "4aafc4e6d156e914d4e371eee37ac452347675521d14a7c4a3639900a7e4b5ee",
+  "lesson_count": 13,
+  "scenario_count": 13,
+  "activities_per_lesson": {
+    "a0-01-in-aereo": 10,
+    "a0-02-in-albergo": 10,
+    "a0-03-al-bar": 10,
+    "a0-04-in-giro": 10,
+    "a0-05-chiedere-aiuto": 10,
+    "a0-06-a-pranzo": 10,
+    "a0-07-mi-piace": 11,
+    "a0-08-i-numeri-grandi": 9,
+    "a0-09-in-viaggio": 8,
+    "a0-10-conoscere-qualcuno": 11,
+    "a0-11-un-problema": 10,
+    "a0-12-ultimo-giorno": 9,
+    "a0-13-ripasso": 10
+  },
+  "generated_at": "2026-03-18T05:41:13.371255+00:00"
+}

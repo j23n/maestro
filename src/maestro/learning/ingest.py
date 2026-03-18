@@ -98,6 +98,7 @@ async def upsert_comm_functions() -> None:
 async def seed_scenarios() -> None:
     """Upsert CurriculumScenario documents from scenario YAML files."""
     total = 0
+    all_slugs: set[str] = set()
     for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
         scenario_file = data_dir() / filename
         if not scenario_file.exists():
@@ -109,6 +110,7 @@ async def seed_scenarios() -> None:
 
         scenarios = data.get("scenarios", [])
         for item in scenarios:
+            all_slugs.add(item["slug"])
             existing = await CurriculumScenario.find_one({"slug": item["slug"]})
             if existing:
                 for key, val in item.items():
@@ -119,6 +121,19 @@ async def seed_scenarios() -> None:
                     **item, language=settings.TARGET_LANGUAGE
                 ).insert()
         total += len(scenarios)
+
+    # Remove scenarios that no longer exist in the YAML files
+    existing_all = await CurriculumScenario.find_all().to_list()
+    stale = [s for s in existing_all if s.slug not in all_slugs]
+    for s in stale:
+        await s.delete()
+    if stale:
+        logger.info(
+            "Scenarios: removed %d stale: %s",
+            len(stale),
+            [s.slug for s in stale],
+        )
+
     logger.info(f"Scenarios: upserted {total} records")
 
 

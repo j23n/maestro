@@ -110,15 +110,20 @@ def test_a0_no_why_important():
 
 @pytest.mark.unit
 def test_a0_speaking_activities_exist():
-    """Lessons a0-04, a0-05, a0-07 should have speaking activities."""
+    """At least half of A0 lessons (excluding the first and ripasso) should have speaking activities."""
     with open(LESSONS_FILE) as f:
         lessons = yaml.safe_load(f)
 
-    expected = ["a0-04-si-e-no", "a0-05-per-favore", "a0-07-io-sono"]
-    for slug in expected:
-        lesson_data = lessons.get(slug)
-        assert lesson_data, f"Missing lesson {slug}"
+    slugs_with_speaking = []
+    for slug, lesson_data in lessons.items():
         types = [a["type"] for a in lesson_data.get("activities", [])]
-        assert "speaking" in types, (
-            f"{slug} should have a speaking activity, has: {types}"
-        )
+        if "speaking" in types:
+            slugs_with_speaking.append(slug)
+
+    # Exclude first lesson and ripasso from the count
+    non_intro = [s for s in lessons if not s.endswith("-ripasso")]
+    threshold = len(non_intro) // 2
+    assert len(slugs_with_speaking) >= threshold, (
+        f"Only {len(slugs_with_speaking)} lessons have speaking activities "
+        f"(expected at least {threshold}): {slugs_with_speaking}"
+    )

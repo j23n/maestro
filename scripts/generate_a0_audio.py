@@ -139,7 +139,7 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
 
 def check(all_lessons: dict, vocab_items: list[dict]) -> int:
     """Report missing audio files and lesson↔vocab coverage gaps. Returns exit code."""
-    from maestro.tts import _audio_dir, a0_audio_path, word_audio_path
+    from maestro.tts import _audio_dir, word_audio_path
 
     audio_dir = _audio_dir()
     problems = 0
@@ -150,11 +150,17 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
         for act in lesson_data.get("activities", []):
             if act.get("type") != "listening":
                 continue
-            path = a0_audio_path(slug)
+            audio_url = act.get("audio_path", "")
+            if not audio_url:
+                print(f"  MISS  {slug:30s} -> (no audio_path in YAML)")
+                problems += 1
+                continue
+            filename = audio_url.rsplit("/", 1)[-1]
+            path = audio_dir / filename
             if path.exists():
-                print(f"  OK    {slug:30s} -> {path.name}")
+                print(f"  OK    {slug:30s} -> {filename}")
             else:
-                print(f"  MISS  {slug:30s} -> {path.name}")
+                print(f"  MISS  {slug:30s} -> {filename}")
                 problems += 1
 
     # 2. Pronunciation audio (vowels, numbers, etc.)
@@ -218,8 +224,8 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
     """Generate all A0 audio. Returns exit code."""
     from maestro.tts import (
         _audio_dir,
+        _strip_markup,
         _synth_to_file,
-        generate_a0_audio,
         generate_word_audio,
     )
 
@@ -231,29 +237,29 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
     failed = 0
 
     # 1. Listening-activity audio (always regenerate — content may have changed)
-    from maestro.tts import a0_audio_path
-
     print("Listening-activity audio:")
     for slug, lesson_data in all_lessons.items():
         for act in lesson_data.get("activities", []):
             if act.get("type") != "listening":
                 continue
             content = act.get("content", "")
-            if not content:
-                print(f"  SKIP  {slug}: no content")
+            audio_url = act.get("audio_path", "")
+            if not content or not audio_url:
+                print(f"  SKIP  {slug}: no content or audio_path")
                 skipped += 1
                 continue
-            # Delete existing file so generate_a0_audio re-synthesizes
-            existing = a0_audio_path(slug)
-            if existing.exists():
-                existing.unlink()
-            print(f"  GEN   {slug} ...", end=" ", flush=True)
-            url = await generate_a0_audio(slug, content)
-            if url:
-                print(f"-> {url}")
+            filename = audio_url.rsplit("/", 1)[-1]
+            path = audio_dir / filename
+            # Delete existing file so we re-synthesize with updated content
+            if path.exists():
+                path.unlink()
+            print(f"  GEN   {slug} -> {filename} ...", end=" ", flush=True)
+            try:
+                await _synth_to_file(_strip_markup(content), path)
+                print(f"-> {audio_url}")
                 generated += 1
-            else:
-                print("FAILED")
+            except Exception as e:
+                print(f"FAILED: {e}")
                 failed += 1
 
     # 2. Pronunciation audio (vowels, numbers, etc.)
