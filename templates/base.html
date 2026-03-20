@@ -7,6 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
   <!-- htmx 2.0.4 -->
   <script src="/static/js/htmx.min.js"></script>
+  <script src="/static/js/popup.js"></script>
   <link rel="stylesheet" href="/static/style.css">
   {% block head %}{% endblock %}
 </head>
@@ -56,35 +57,34 @@
     });
   </script>
   <script>
-    // Feature hints: position near anchor, auto-show, dismiss/toggle
-    function _positionHintBubble(hint, bubble) {
-      var r = hint.getBoundingClientRect();
-      var gap = 8;
-      var top = r.bottom + gap;
-      bubble.style.left = '0'; bubble.style.top = '0'; bubble.style.display = 'block';
-      var bw = bubble.offsetWidth;
-      if (top + bubble.offsetHeight > window.innerHeight) top = r.top - bubble.offsetHeight - gap;
-      var left = Math.max(8, Math.min(r.left, window.innerWidth - bw - 8));
-      bubble.style.top = top + 'px';
-      bubble.style.left = left + 'px';
-    }
+    // Feature hints: auto-show via Popup, dismiss/toggle via event delegation
     function _initHints() {
       document.querySelectorAll('.feature-hint').forEach(function(hint) {
+        if (hint._hintReady) return;
+        hint._hintReady = true;
         var anchor = document.querySelector(hint.dataset.anchor);
         if (!anchor) { hint.style.display = 'none'; return; }
-        anchor.parentNode.insertBefore(hint, anchor.nextSibling);
         var bubble = hint.querySelector('.hint-bubble');
+        var popup = new Popup(bubble);
+        var infoBtn = hint.querySelector('.hint-info-btn');
+        hint._popup = popup;
+        hint._infoBtn = infoBtn;
+        // Auto-show on init
         bubble.classList.add('hint-visible');
-        _positionHintBubble(hint, bubble);
-        hint.querySelector('.hint-dismiss').addEventListener('click', function() {
-          hint.style.display = 'none';
-        });
-        hint.querySelector('.hint-info-btn').addEventListener('click', function() {
+        popup.show(infoBtn);
+        infoBtn.addEventListener('click', function() {
           bubble.classList.toggle('hint-visible');
-          if (bubble.classList.contains('hint-visible')) _positionHintBubble(hint, bubble);
+          if (bubble.classList.contains('hint-visible')) popup.show(infoBtn);
         });
       });
     }
+    // Event delegation for dismiss — survives HTMX swaps
+    document.addEventListener('click', function(e) {
+      var dismiss = e.target.closest('.hint-dismiss');
+      if (!dismiss) return;
+      var hint = dismiss.closest('.feature-hint');
+      if (hint) hint.style.display = 'none';
+    });
     document.addEventListener('DOMContentLoaded', _initHints);
     document.addEventListener('htmx:afterSettle', _initHints);
   </script>

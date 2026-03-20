@@ -1,4 +1,4 @@
-  <div id="vocab-tooltip"
+  <div id="vocab-tooltip" class="popup" data-no-discover
        data-label-add="{{ t('vocab_add_tooltip') }}"
        data-label-added="{{ t('vocab_added_tooltip') }}"
        data-label-listen="{{ t('listen_btn') }}">
@@ -21,19 +21,17 @@
       window._vtInit = true;
       // TODO: remove _stripTags after full vocab definition regeneration (see #89)
       function _stripTags(s) { return s.replace(/<[^>]*>/g, ''); }
-      let _ttHideTimer = null;
       function _vtEl() { return document.getElementById('vocab-tooltip'); }
-      function _ttScheduleHide() { _ttHideTimer = setTimeout(() => { var t = _vtEl(); if (t) t.style.display = 'none'; }, 180); }
-      function _ttCancelHide()   { clearTimeout(_ttHideTimer); }
+      var _ttPopup = Popup.withDelayedHide(_vtEl(), 180);
 
       document.addEventListener('mouseover', e => {
-        if (e.target.closest('#vocab-tooltip')) { _ttCancelHide(); return; }
+        if (e.target.closest('#vocab-tooltip')) { _ttPopup.cancelHide(); return; }
 
         const word = e.target.closest('.vocab-word');
         if (!word) return;
         const tooltip = _vtEl();
         if (!tooltip) return;
-        _ttCancelHide();
+        _ttPopup.cancelHide();
         tooltip.querySelector('.tt-word').textContent = word.dataset.word || '';
         tooltip.querySelector('.tt-pos').textContent = word.dataset.pos || '';
         const syl = word.dataset.syllabization;
@@ -128,18 +126,12 @@
           addedSpan.style.display = 'none';
         }
 
-        const r = word.getBoundingClientRect();
-        tooltip.style.display = 'block';
-        const gap = 8;
-        let top = r.bottom + gap;
-        if (top + tooltip.offsetHeight > window.innerHeight) top = r.top - tooltip.offsetHeight - gap;
-        tooltip.style.top = top + 'px';
-        tooltip.style.left = Math.min(r.left, window.innerWidth - tooltip.offsetWidth - 8) + 'px';
+        _ttPopup.show(word);
       });
       document.addEventListener('mouseout', e => {
-        if (e.target.closest('#vocab-tooltip')) { _ttScheduleHide(); return; }
+        if (e.target.closest('#vocab-tooltip')) { _ttPopup.scheduleHide(); return; }
         if (!e.target.closest('.vocab-word')) return;
-        _ttScheduleHide();
+        _ttPopup.scheduleHide();
       });
       document.addEventListener('click', e => {
         var toggle = e.target.closest('.translation-toggle');

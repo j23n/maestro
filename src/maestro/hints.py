@@ -49,6 +49,13 @@ HINTS: dict[str, HintConfig] = {
         ),
         anchor_selector=".vocab-section-header",
     ),
+    "discovered_words_intro": HintConfig(
+        id="discovered_words_intro",
+        message=(
+            "Underlined Italian words show a definition when you hover over them. Try it!"
+        ),
+        anchor_selector=".vocab-word",
+    ),
 }
 
 # Which hints appear on which page
@@ -57,6 +64,7 @@ _PAGE_HINTS: dict[str, list[str]] = {
     "lesson_activity_reading": ["word_discovery"],
     "lesson_activity_vocab": ["vocab_trainer"],
     "vocab_page": ["vocab_page"],
+    "lesson_activity_info": ["discovered_words_intro"],
 }
 
 

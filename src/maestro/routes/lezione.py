@@ -626,6 +626,7 @@ async def lezione_activity(
 
     if activity.type == ActivityType.INFO:
         ctx["content"] = activity.content or ""
+        ctx["hints"] = hints_for_page("lesson_activity_info", _dismissed)
         return await render_with_discover(
             request,
             "lezione-activity-info.html",
