@@ -44,7 +44,7 @@
         {{ t("listening_reveal_transcript") }}
       </button>
       {% endif %}
-      <div id="listening-transcript" class="listening-transcript{% if not audio_url %} revealed{% endif %}" lang="it">{{ activity.content | safe }}</div>
+      <div id="listening-transcript" class="listening-transcript{% if not audio_url %} revealed{% endif %}" lang="it">{{ activity.content | hide_translations | safe }}</div>
     </div>
   </div>
 

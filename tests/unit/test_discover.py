@@ -1,14 +1,16 @@
-"""Unit tests for vocab/discover.py — _annotate() and lang-aware helpers."""
+"""Unit tests for vocab/discover.py — annotation, text extraction, and lemmatization."""
 
 import pytest
 import simplemma
 from types import SimpleNamespace
 
 from maestro.vocab.discover import (
-    _annotate,
     _annotate_in_elements,
+    discover,
+    get_target_text,
     lemmatize,
 )
+from maestro.vocab import cache as _vocab_cache
 from bs4 import BeautifulSoup
 
 
@@ -37,79 +39,6 @@ def _make_wdef(translation="house", senses=None):
             )
         ],
     )
-
-
-# --- Existing _annotate tests (string-based) ---
-
-
-@pytest.mark.unit
-def test_annotate_wraps_first_occurrence():
-    word = _make_word(word="casa")
-    wdef = _make_wdef()
-    result = _annotate("La casa è grande.", word, wdef)
-    assert '<span class="vocab-word"' in result
-    assert 'data-word="casa"' in result
-    assert result.count("vocab-word") == 1  # only first occurrence
-
-
-@pytest.mark.unit
-def test_annotate_case_insensitive():
-    word = _make_word(word="casa")
-    result = _annotate("CASA bella", word, None)
-    assert "vocab-word" in result
-
-
-@pytest.mark.unit
-def test_annotate_skips_headings():
-    word = _make_word(word="tema")
-    result = _annotate("# Tema principale\nIl tema è interessante.", word, None)
-    lines = result.split("\n")
-    assert "vocab-word" not in lines[0]  # heading untouched
-    assert "vocab-word" in lines[1]  # body annotated
-
-
-@pytest.mark.unit
-def test_annotate_preserves_existing_html_tags():
-    word = _make_word(word="bello")
-    result = _annotate(
-        "Un <strong>bello</strong> giorno e un bello tramonto.", word, None
-    )
-    assert "<strong>" in result
-    assert "vocab-word" in result
-
-
-@pytest.mark.unit
-def test_annotate_no_match_returns_unchanged():
-    word = _make_word(word="casa")
-    text = "Il giardino è grande."
-    result = _annotate(text, word, None)
-    assert result == text
-
-
-@pytest.mark.unit
-def test_annotate_includes_senses_json():
-    word = _make_word(word="tavolo")
-    wdef = _make_wdef(translation="table")
-    result = _annotate("Il tavolo è rotondo.", word, wdef)
-    assert 'data-translation="table"' in result
-    assert "data-senses" in result
-
-
-@pytest.mark.unit
-def test_annotate_no_wdef_produces_empty_senses():
-    """When wdef is None, data-senses should be an empty JSON array."""
-    word = _make_word(word="libro")
-    result = _annotate("Ho letto un libro.", word, None)
-    assert "vocab-word" in result
-    assert "data-senses='[]'" in result
-
-
-@pytest.mark.unit
-def test_annotate_word_boundary():
-    """'casa' should not match inside 'casamento'."""
-    word = _make_word(word="casa")
-    result = _annotate("Il casamento è vecchio.", word, None)
-    assert "vocab-word" not in result
 
 
 # --- _annotate_in_elements tests (lang-aware BS4) ---
@@ -176,16 +105,14 @@ def test_annotate_in_elements_nested_lang_annotates_outer():
 
 
 @pytest.mark.unit
-def test_annotate_in_elements_skips_headings():
-    """Text inside h1-h6 is not annotated."""
+def test_annotate_in_elements_annotates_headings():
+    """Text inside h1-h6 IS annotated (headings get tooltips like any other text)."""
     html = '<span lang="it"><h2>Casa bella</h2><p>La casa è grande.</p></span>'
     soup, els = _make_soup_and_elements(html, lang="it")
     word = _make_word(word="casa")
     assert _annotate_in_elements(els, word, None)
-    str(soup)
-    # Heading should not be annotated, but paragraph should
     h2 = soup.find("h2")
-    assert "vocab-word" not in str(h2)
+    assert "vocab-word" in str(h2)
     p = soup.find("p")
     assert "vocab-word" in str(p)
 
@@ -206,6 +133,48 @@ def test_annotate_in_elements_all_occurrences():
     count = _annotate_in_elements(els, word, None)
     assert count == 2
     assert str(soup).count("vocab-word") == 2
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_case_insensitive():
+    """Annotation is case-insensitive."""
+    soup, els = _make_soup_and_elements('<span lang="it">CASA bella</span>')
+    word = _make_word(word="casa")
+    assert _annotate_in_elements(els, word, None)
+    assert "vocab-word" in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_word_boundary():
+    """'casa' should not match inside 'casamento'."""
+    soup, els = _make_soup_and_elements(
+        '<span lang="it">Il casamento è vecchio.</span>'
+    )
+    word = _make_word(word="casa")
+    assert not _annotate_in_elements(els, word, None)
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_includes_senses_json():
+    """Annotated span includes translation and senses data."""
+    soup, els = _make_soup_and_elements('<span lang="it">Il tavolo è rotondo.</span>')
+    word = _make_word(word="tavolo")
+    wdef = _make_wdef(translation="table")
+    _annotate_in_elements(els, word, wdef)
+    result = str(soup)
+    assert 'data-translation="table"' in result
+    assert "data-senses" in result
+
+
+@pytest.mark.unit
+def test_annotate_in_elements_no_wdef_produces_empty_senses():
+    """When wdef is None, data-senses should be an empty JSON array."""
+    soup, els = _make_soup_and_elements('<span lang="it">Ho letto un libro.</span>')
+    word = _make_word(word="libro")
+    _annotate_in_elements(els, word, None)
+    result = str(soup)
+    assert "vocab-word" in result
+    assert 'data-senses="[]"' in result or "data-senses='[]'" in result
 
 
 # --- lemmatize tests ---
@@ -253,6 +222,15 @@ def test_lemmatize_excludes_non_alpha():
     assert "!" not in lemmas
 
 
+@pytest.mark.unit
+def test_lemmatize_excludes_proper_nouns():
+    """Proper nouns (PROPN) should not appear in lemmatize results."""
+    lemmas = lemmatize("Marco va al mercato")
+    assert "marco" not in lemmas
+    assert "andare" in lemmas
+    assert "mercato" in lemmas
+
+
 # --- simplemma fallback sanity checks ---
 
 
@@ -276,3 +254,227 @@ def test_lemmatize_excludes_non_alpha():
 def test_simplemma_corrects_common_verb_forms(surface, expected):
     """simplemma should produce the correct infinitive for forms spaCy gets wrong."""
     assert simplemma.lemmatize(surface, lang="it").lower() == expected
+
+
+# ---------------------------------------------------------------------------
+# Observation tests — #104 user testing
+#
+# Document every known discover() failure so pipeline fixes can be validated.
+# xfail = current broken behavior.  Plain @pytest.mark.unit = already correct.
+# Easy to extend: just append a new pytest.param tuple.
+# ---------------------------------------------------------------------------
+
+
+# --- Lemmatization observations (lemmatize / lemmatize_with_pos) -----------
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "text, expected, unexpected",
+    [
+        # -- Proper nouns should not produce lemmas (fixed: PROPN filter) --
+        pytest.param(
+            "Marco va al mercato",
+            ["andare", "mercato"],
+            ["marco"],
+            id="propn-marco",
+        ),
+        pytest.param(
+            "La signora Rossi",
+            ["signore"],
+            ["rossi"],
+            id="propn-rossi",
+        ),
+        # -- Elision — apostrophe-split tokens --
+        pytest.param(
+            "cos'è questo",
+            ["cosa", "essere", "questo"],
+            [],
+            id="elision-cosa",
+        ),
+        pytest.param(
+            "mezz'ora di attesa",
+            ["mezzo", "ora", "attesa"],
+            [],
+            marks=pytest.mark.xfail(
+                reason="#104: spaCy lemma for mezz' is not alpha — filtered out, 'mezzo' missing"
+            ),
+            id="elision-mezzo",
+        ),
+        pytest.param(
+            "l'acqua è fredda",
+            ["acqua", "essere", "freddo"],
+            [],
+            id="elision-acqua",
+        ),
+        # -- Short tokens should be included --
+        pytest.param(
+            "è bello",
+            ["essere", "bello"],
+            [],
+            id="short-token-essere",
+        ),
+        # -- POS disambiguation --
+        pytest.param(
+            "abito in Italia",
+            ["abitare"],
+            [],
+            marks=pytest.mark.xfail(
+                reason="#104: spaCy tags 'abito' as NOUN (dress) not VERB (to live)"
+            ),
+            id="pos-abito-verb",
+        ),
+        pytest.param(
+            "mi dispiace molto",
+            ["dispiacere"],
+            [],
+            id="pos-dispiacere",
+        ),
+    ],
+)
+def test_lemmatize_observations(text, expected, unexpected):
+    """Observation: lemmatize() should produce expected lemmas and exclude unexpected ones."""
+    result = lemmatize(text)
+    for word in expected:
+        assert word in result, f"Expected {word!r} in lemmatize({text!r}), got {result}"
+    for word in unexpected:
+        assert word not in result, (
+            f"Unexpected {word!r} found in lemmatize({text!r}), got {result}"
+        )
+
+
+# --- Text extraction observations (get_target_text) -----------------------
+
+
+def _get_target_text_from_html(html: str) -> str:
+    """Helper: parse HTML, find lang='it' elements, return get_target_text()."""
+    soup = BeautifulSoup(html, "html.parser")
+    lang_elements = soup.find_all(attrs={"lang": "it"})
+    return get_target_text(lang_elements)
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "html, expected_text",
+    [
+        # Inline tags should not split words (fixed: inline-aware text extraction)
+        pytest.param(
+            '<span lang="it"><b>a</b>more</span>',
+            "amore",
+            id="inline-tag-splitting",
+        ),
+        pytest.param(
+            '<span lang="it">un <em>bel</em> giorno</span>',
+            "un bel giorno",
+            id="inline-tag-preserves-spaces",
+        ),
+        # Syllabization should come through as-is (filtering happens later)
+        pytest.param(
+            '<span lang="it">bi-na-rio</span>',
+            "bi-na-rio",
+            id="syllabization-passthrough",
+        ),
+        # Nested lang should be excluded
+        pytest.param(
+            '<span lang="it">casa <span lang="en">(house)</span> bella</span>',
+            "casa bella",
+            id="nested-lang-excluded",
+        ),
+        # Block elements should insert spaces
+        pytest.param(
+            '<div lang="it"><p>ciao</p><p>mondo</p></div>',
+            "ciao mondo",
+            id="block-elements-space",
+        ),
+    ],
+)
+def test_get_target_text_observations(html, expected_text):
+    """Observation: get_target_text() should produce clean text from HTML."""
+    result = _get_target_text_from_html(html)
+    assert result == expected_text
+
+
+# --- Full pipeline observations (discover) ---------------------------------
+
+
+def _make_vocab_word(word, pos="s.f.", entry_id=None):
+    """Create a mock VocabularyWord for cache seeding."""
+    return SimpleNamespace(
+        word=word,
+        part_of_speech=pos,
+        syllabization="",
+        entry_id=entry_id or f"LM-{word.upper()}",
+        senses=[],
+        id=f"fake-{word}",
+        audio_url=None,
+    )
+
+
+@pytest.fixture()
+def seeded_cache():
+    """Seed vocab cache with test words, clean up after."""
+    words = {
+        "mercato": [_make_vocab_word("mercato", pos="s.m.")],
+        "marcare": [_make_vocab_word("marcare", pos="v.tr.")],
+        "amore": [_make_vocab_word("amore", pos="s.m.")],
+        "dire": [_make_vocab_word("dire", pos="v.tr.")],
+        "binario": [_make_vocab_word("binario", pos="s.m.")],
+        "andare": [_make_vocab_word("andare", pos="v.intr.")],
+    }
+    _vocab_cache.seed(words=words, defs={})
+    yield
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "html, should_discover, should_not_discover",
+    [
+        # Proper nouns — Marco should not trigger "marcare" (fixed: PROPN filter)
+        pytest.param(
+            '<span lang="it">Marco va al mercato</span>',
+            ["mercato"],
+            ["marcare"],
+            id="propn-marco-pipeline",
+        ),
+        # HTML tag splitting — text extraction now gives "amore" (not "a more"),
+        # but annotation can't span across tag boundaries so no tooltip appears.
+        # The word IS correctly discovered/matched; it just doesn't get annotated.
+        pytest.param(
+            '<span lang="it"><b>a</b>more mio</span>',
+            ["amore"],
+            [],
+            marks=pytest.mark.xfail(
+                reason="annotation can't span across inline tag boundaries (acceptable; to improve later)"
+            ),
+            id="inline-tag-amore",
+        ),
+        # Syllabization not discovered as base word
+        pytest.param(
+            '<span lang="it">si dice bi-na-rio</span>',
+            ["dire"],
+            ["binario"],
+            id="syllabization-not-discovered",
+        ),
+        # Content without lang="it" should not trigger discovery
+        pytest.param(
+            '<div class="scoring">Good job!</div>',
+            [],
+            [],
+            id="no-lang-no-discovery",
+        ),
+    ],
+)
+async def test_discover_pipeline_observations(
+    html, should_discover, should_not_discover, seeded_cache
+):
+    """Observation: discover() end-to-end with a seeded word_index."""
+    result = await discover(html, student_id=None, create_cards=False)
+    for word in should_discover:
+        assert f'data-word="{word}"' in result, (
+            f"Expected {word!r} to be discovered in {html!r}, output: {result}"
+        )
+    for word in should_not_discover:
+        assert f'data-word="{word}"' not in result, (
+            f"Unexpected {word!r} discovered in {html!r}, output: {result}"
+        )
