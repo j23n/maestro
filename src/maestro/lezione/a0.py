@@ -11,6 +11,7 @@ from maestro.models import (
     LessonActivity,
     GeneratedDrill,
     DrillItem,
+    QuestionItem,
     ActivityType,
     ExerciseType,
 )
@@ -90,6 +91,7 @@ async def _generate_a0_lesson_background(
                 DrillItem(
                     prompt=it["prompt"],
                     correct_answer=it.get("correct_answer"),
+                    grammar_point_code=it.get("grammar_point_code"),
                 )
                 for it in act_data.get("items", [])
             ]
@@ -114,26 +116,40 @@ async def _generate_a0_lesson_background(
             )
 
         elif act_type == ActivityType.READING:
+            q_items = [
+                QuestionItem(
+                    text=q["text"],
+                    correct_answer=q.get("correct_answer", ""),
+                    grammar_point_codes=q.get("grammar_point_codes", []),
+                )
+                for q in act_data.get("questions", [])
+            ]
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.READING,
                     title=act_data.get("title", t("a0_reading_title")),
                     description=act_data.get("description", ""),
                     content=act_data.get("content", ""),
-                    questions=act_data.get("questions", []),
-                    correct_answers=act_data.get("correct_answers", []),
+                    questions=q_items,
                 )
             )
 
         elif act_type == ActivityType.LISTENING:
+            q_items = [
+                QuestionItem(
+                    text=q["text"],
+                    correct_answer=q.get("correct_answer", ""),
+                    grammar_point_codes=q.get("grammar_point_codes", []),
+                )
+                for q in act_data.get("questions", [])
+            ]
             new_activities.append(
                 LessonActivity(
                     type=ActivityType.LISTENING,
                     title=act_data.get("title", t("listening_title")),
                     description=act_data.get("description", ""),
                     content=act_data.get("content", ""),
-                    questions=act_data.get("questions", []),
-                    correct_answers=act_data.get("correct_answers", []),
+                    questions=q_items,
                     audio_path=act_data.get("audio_path"),
                 )
             )
@@ -145,6 +161,7 @@ async def _generate_a0_lesson_background(
                     title=act_data.get("title", t("a0_writing_title")),
                     description=act_data.get("description", ""),
                     content=act_data.get("content", ""),
+                    grammar_point_codes=act_data.get("grammar_point_codes", []),
                 )
             )
 
@@ -155,6 +172,7 @@ async def _generate_a0_lesson_background(
                     title=act_data.get("title", t("speaking_title", label="")),
                     description=act_data.get("description", ""),
                     content=act_data.get("content", ""),
+                    grammar_point_codes=act_data.get("grammar_point_codes", []),
                 )
             )
 

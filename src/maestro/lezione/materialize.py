@@ -12,15 +12,39 @@ from maestro.models import (
     GrammarExplanation,
     GeneratedDrill,
     DrillItem,
+    QuestionItem,
     CommunicativeFunction,
     ActivityType,
     ExerciseType,
 )
-from maestro.lezione.schemas import LessonContentResponse
+from maestro.lezione.schemas import LessonContentResponse, ReadingQuestionResponse
 from maestro.strings import t
 from maestro.utils import strip_lang_spans
 
 logger = logging.getLogger(__name__)
+
+
+def _reading_to_question_items(reading) -> list[QuestionItem]:
+    """Convert a ReadingResponse into a list of QuestionItem.
+
+    Handles both structured questions (ReadingQuestionResponse) and
+    legacy flat strings (with answers list fallback).
+    """
+    items: list[QuestionItem] = []
+    for i, q in enumerate(reading.questions):
+        if isinstance(q, ReadingQuestionResponse):
+            items.append(
+                QuestionItem(
+                    text=q.text,
+                    correct_answer=q.correct_answer,
+                    grammar_point_codes=q.grammar_point_codes,
+                )
+            )
+        else:
+            # Legacy flat string format — pair with answers list
+            answer = reading.answers[i] if i < len(reading.answers) else ""
+            items.append(QuestionItem(text=str(q), correct_answer=answer))
+    return items
 
 
 async def materialize_activities(
@@ -93,8 +117,7 @@ async def materialize_activities(
                 description=t("listening_desc", topic=topic_title),
                 duration_minutes=5,
                 content=reading.text,
-                questions=reading.questions,
-                correct_answers=reading.answers,
+                questions=_reading_to_question_items(reading),
             )
         )
 
@@ -113,8 +136,7 @@ async def materialize_activities(
                 description=t("reading_desc", topic=topic_title),
                 duration_minutes=5,
                 content=reading.text,
-                questions=reading.questions,
-                correct_answers=reading.answers,
+                questions=_reading_to_question_items(reading),
             )
         )
 

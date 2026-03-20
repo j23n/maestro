@@ -1,4 +1,4 @@
-version: "9"
+version: "10"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -52,11 +52,11 @@ drill_scoring:
   description: >
     Grade all items in a fill_blank or error_correction drill in a single call.
     Returns one result per item: objective correctness + side issues.
-  # variables: task_desc, gp_label, grammar_point_code, rule_block, items_block, n
+  # variables: task_desc, rule_block, items_block, n
   user: |
     {{task_desc}}
 
-    OBJECTIVE: Did the student correctly demonstrate '{{gp_label}}' ({{grammar_point_code}})?
+    OBJECTIVE: For each item, did the student give the correct answer for the grammar point listed on that item?
     Ignore accents, spelling typos, and unrelated grammar when judging objective_correct.
     {{rule_block}}
 

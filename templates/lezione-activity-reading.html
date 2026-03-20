@@ -26,7 +26,7 @@
           hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("submitting") }}'">
       {% for q in activity.questions %}
       <div class="question-item">
-        <div class="question-label">{{ loop.index }}. <span lang="{{ question_lang }}">{{ q }}</span></div>
+        <div class="question-label">{{ loop.index }}. <span lang="{{ question_lang }}">{{ q.text }}</span></div>
         <input class="question-input" type="text" name="answers" placeholder="{{ t("reading_answer_placeholder") }}" required>
       </div>
       {% endfor %}
