@@ -135,7 +135,9 @@ async def test_materialize_listening_activity(db):
     assert len(activities) == 1
     assert activities[0].type == ActivityType.LISTENING
     assert activities[0].content == "Marco va al bar."
-    assert activities[0].questions == ["Dove va Marco?"]
+    assert len(activities[0].questions) == 1
+    assert activities[0].questions[0].text == "Dove va Marco?"
+    assert activities[0].questions[0].correct_answer == "Al bar"
 
 
 @pytest.mark.integration
@@ -167,7 +169,9 @@ async def test_materialize_reading_activity(db):
     assert len(activities) == 1
     assert activities[0].type == ActivityType.READING
     assert activities[0].content == "Marco va al bar."
-    assert activities[0].questions == ["Dove va Marco?"]
+    assert len(activities[0].questions) == 1
+    assert activities[0].questions[0].text == "Dove va Marco?"
+    assert activities[0].questions[0].correct_answer == "Al bar"
 
 
 @pytest.mark.integration
@@ -196,8 +200,10 @@ async def test_materialize_mixed_listening_and_reading(db):
     assert len(activities) == 2
     assert activities[0].type == ActivityType.LISTENING
     assert activities[0].content == "Ascolto."
+    assert activities[0].questions[0].text == "Capito?"
     assert activities[1].type == ActivityType.READING
     assert activities[1].content == "Lettura."
+    assert activities[1].questions[0].text == "Letto?"
 
 
 @pytest.mark.integration

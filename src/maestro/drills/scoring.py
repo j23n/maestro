@@ -125,7 +125,21 @@ async def score_attempt(
             "total": n,
         }
 
-        # Aggregate GP codes detected across all items, filtering out hallucinated codes
+        # Build per-item effective GP codes (item-level override or drill-level fallback)
+        item_gp_codes = [
+            generated_drill.items[j].grammar_point_code or code for j in range(n)
+        ]
+
+        # Credit/debit per-item GP codes based on objective_correct
+        correct_gp_set: set[str] = set()
+        error_gp_set: set[str] = set()
+        for j in range(n):
+            if enriched[j]["objective_correct"]:
+                correct_gp_set.add(item_gp_codes[j])
+            else:
+                error_gp_set.add(item_gp_codes[j])
+
+        # Also aggregate LLM-detected GP codes, filtering out hallucinated ones
         valid_codes = {g.code for g in taxonomy.grammar_points()}
         raw_correct = [
             c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
@@ -133,14 +147,18 @@ async def score_attempt(
         raw_errors = [
             c for r in raw_results[:n] for c in r.get("grammar_error_codes", [])
         ]
-        all_correct_codes = list({c for c in raw_correct if c in valid_codes})
-        all_error_codes = list({c for c in raw_errors if c in valid_codes})
+        llm_correct_codes = {c for c in raw_correct if c in valid_codes}
+        llm_error_codes = {c for c in raw_errors if c in valid_codes}
         filtered_out = [c for c in raw_correct + raw_errors if c not in valid_codes]
         if filtered_out:
             logger.debug(
                 "GP codes filtered out (not in taxonomy)",
                 extra={"lesson_id": str(lesson_id), "filtered_codes": filtered_out},
             )
+
+        # Merge per-item GP tracking with LLM-detected codes
+        all_correct_codes = list(correct_gp_set | llm_correct_codes)
+        all_error_codes = list(error_gp_set | llm_error_codes)
         logger.debug(
             "drill GP codes after filter",
             extra={
@@ -154,7 +172,7 @@ async def score_attempt(
             event = LearningEvent(
                 student_id=student_id,
                 evidence_type="targeted",
-                grammar_correct=[code] + [c for c in all_correct_codes if c != code],
+                grammar_correct=all_correct_codes,
                 grammar_errors=all_error_codes,
             )
             return overall_correct, event, feedback, []
@@ -163,7 +181,7 @@ async def score_attempt(
             student_id=student_id,
             evidence_type="targeted",
             grammar_correct=all_correct_codes,
-            grammar_errors=[code] + [c for c in all_error_codes if c != code],
+            grammar_errors=all_error_codes,
             feedback=json.dumps(feedback),
         )
         return overall_correct, event, feedback, rule_refs

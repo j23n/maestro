@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Union
 
 from pydantic import BaseModel
 
@@ -20,10 +20,16 @@ class DrillResponse(BaseModel):
     distractors: list[str] = []
 
 
+class ReadingQuestionResponse(BaseModel):
+    text: str = ""
+    correct_answer: str = ""
+    grammar_point_codes: list[str] = []
+
+
 class ReadingResponse(BaseModel):
     text: str = ""
-    questions: list[str] = []
-    answers: list[str] = []
+    questions: list[Union[ReadingQuestionResponse, str]] = []
+    answers: list[str] = []  # used when questions are flat strings (LLM output)
 
 
 class WritingResponse(BaseModel):

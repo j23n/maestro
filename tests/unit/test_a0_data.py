@@ -73,21 +73,39 @@ def test_a0_scenarios_have_sequential_ordering():
 
 @pytest.mark.unit
 def test_a0_lesson_gp_codes_exist_in_grammar_points():
-    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.yaml."""
+    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.yaml.
+
+    Checks: activity-level grammar_point_code, per-item grammar_point_code on drills,
+    grammar_point_codes on questions/writing/speaking.
+    """
     with open(LESSONS_FILE) as f:
         lessons = yaml.safe_load(f)
     with open(GRAMMAR_POINTS_FILE) as f:
         gps = yaml.safe_load(f)
 
-    json_gp_codes = {gp["code"] for gp in gps}
-    yaml_gp_codes: set[str] = set()
+    valid_gp_codes = {gp["code"] for gp in gps}
+    referenced: set[str] = set()
     for lesson_data in lessons.values():
         for act in lesson_data.get("activities", []):
+            # Activity-level GP code
             code = act.get("grammar_point_code")
             if code:
-                yaml_gp_codes.add(code)
+                referenced.add(code)
+            # Per-item GP codes on drill items
+            for item in act.get("items", []):
+                item_code = item.get("grammar_point_code")
+                if item_code:
+                    referenced.add(item_code)
+            # GP codes on structured questions (reading/listening)
+            for q in act.get("questions", []):
+                if isinstance(q, dict):
+                    for gp in q.get("grammar_point_codes", []):
+                        referenced.add(gp)
+            # GP codes on writing/speaking activities
+            for gp in act.get("grammar_point_codes", []):
+                referenced.add(gp)
 
-    missing = yaml_gp_codes - json_gp_codes
+    missing = referenced - valid_gp_codes
     assert not missing, (
         f"a0_lessons.yaml grammar_point_codes not in grammar_points.yaml: {missing}"
     )
@@ -127,3 +145,85 @@ def test_a0_speaking_activities_exist():
         f"Only {len(slugs_with_speaking)} lessons have speaking activities "
         f"(expected at least {threshold}): {slugs_with_speaking}"
     )
+
+
+@pytest.mark.unit
+def test_a0_review_drills_have_per_item_gp_codes():
+    """Review drills (last drill in each lesson) must have explicit grammar_point_code on every item."""
+    with open(LESSONS_FILE) as f:
+        lessons = yaml.safe_load(f)
+
+    problems = []
+    for slug, lesson_data in lessons.items():
+        activities = lesson_data.get("activities", [])
+        # Find all drill activities
+        drills = [
+            (i, act) for i, act in enumerate(activities) if act.get("type") == "drill"
+        ]
+        if len(drills) < 2:
+            # Lesson has 0 or 1 drill — no review drill to check
+            continue
+
+        # The last drill is the review drill (may have multiple review drills at end)
+        # Check: any drill where at least one item has a different GP than the drill level
+        # For simplicity, check the LAST drill in each lesson
+        last_idx, last_drill = drills[-1]
+        items = last_drill.get("items", [])
+        has_any_override = any(it.get("grammar_point_code") for it in items)
+        if not has_any_override:
+            # If the last drill is truly a review (title contains "review" or "ripasso"
+            # or "everything"), it should have per-item GP codes
+            title = last_drill.get("title", "").lower()
+            if any(kw in title for kw in ("review", "ripasso", "everything")):
+                missing_items = [
+                    f"item {j}: {it.get('prompt', '')[:40]}"
+                    for j, it in enumerate(items)
+                    if not it.get("grammar_point_code")
+                ]
+                if missing_items:
+                    problems.append(
+                        f"{slug} '{last_drill.get('title')}': {missing_items}"
+                    )
+
+    assert not problems, (
+        "Review drills missing per-item grammar_point_code:\n" + "\n".join(problems)
+    )
+
+
+@pytest.mark.unit
+def test_a0_reading_listening_have_structured_questions():
+    """Reading/listening activities must use structured question format (text + correct_answer)."""
+    with open(LESSONS_FILE) as f:
+        lessons = yaml.safe_load(f)
+
+    problems = []
+    for slug, lesson_data in lessons.items():
+        for i, act in enumerate(lesson_data.get("activities", [])):
+            if act.get("type") not in ("reading", "listening"):
+                continue
+            questions = act.get("questions", [])
+            if not questions:
+                continue
+            for j, q in enumerate(questions):
+                if isinstance(q, str):
+                    problems.append(
+                        f"{slug} activity {i} ({act.get('title', '?')}) "
+                        f"question {j}: still a plain string"
+                    )
+                elif isinstance(q, dict):
+                    if "text" not in q:
+                        problems.append(
+                            f"{slug} activity {i} question {j}: missing 'text' key"
+                        )
+                    if "correct_answer" not in q:
+                        problems.append(
+                            f"{slug} activity {i} question {j}: missing 'correct_answer'"
+                        )
+            # Should not have old correct_answers key
+            if "correct_answers" in act:
+                problems.append(
+                    f"{slug} activity {i} ({act.get('title', '?')}): "
+                    f"still has 'correct_answers' key (should be removed)"
+                )
+
+    assert not problems, "Structured question format issues:\n" + "\n".join(problems)
