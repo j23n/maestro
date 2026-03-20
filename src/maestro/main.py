@@ -29,7 +29,17 @@ from maestro.session import clear_session_cookie, read_session
 from maestro.templates import render_with_discover
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
-from maestro.routes import admin, auth, vocab, profilo, grammar, lezione, feedback
+from maestro.routes import (
+    admin,
+    auth,
+    vocab,
+    profilo,
+    grammar,
+    lezione,
+    feedback,
+    legal,
+    account,
+)
 from maestro import hints
 
 
@@ -188,6 +198,8 @@ app.include_router(grammar.router)
 app.include_router(lezione.router)
 app.include_router(hints.router)
 app.include_router(feedback.router)
+app.include_router(legal.router)
+app.include_router(account.router)
 app.include_router(admin.router)
 
 
