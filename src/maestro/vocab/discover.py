@@ -21,13 +21,38 @@ from maestro.vocab import cache as _cache
 
 logger = logging.getLogger(__name__)
 
-_TAG_RE = re.compile(r"(<[^>]+>)")
-_TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
+# Inline tags that should NOT insert a space when joining adjacent text nodes.
+_INLINE_TAGS = frozenset(
+    {
+        "b",
+        "i",
+        "u",
+        "em",
+        "strong",
+        "span",
+        "a",
+        "mark",
+        "sup",
+        "sub",
+        "abbr",
+        "cite",
+        "code",
+        "dfn",
+        "kbd",
+        "q",
+        "s",
+        "samp",
+        "small",
+        "time",
+        "var",
+        "wbr",
+    }
+)
 
-_HEADING_TAGS = frozenset({"h1", "h2", "h3", "h4", "h5", "h6"})
-# Tags that should never be targets for vocab discovery, even if they carry lang="it".
-# <html lang="en"> is the norm; `html` here is defense-in-depth.
-_SKIP_DISCOVER_TAGS = frozenset({"html", "head", "title", "script", "style", "nav"})
+# Syllabization pattern: short segments joined by hyphens (e.g. "bi-na-rio", "PEN-nah").
+_SYLLABIZATION_RE = re.compile(
+    r"^[a-zA-ZàèéìòùÀÈÉÌÒÙ]{1,4}(-[a-zA-ZàèéìòùÀÈÉÌÒÙ]{1,4}){1,}$"
+)
 
 # Word IDs currently being generated — prevents concurrent LLM calls for the
 # same word when multiple requests discover it simultaneously.  Unbounded but
@@ -41,9 +66,15 @@ def _keep_token(token) -> bool:
 
     Checks the *lemma* rather than the surface form so that elided tokens
     like ``dov'`` (lemma ``dove``) and ``l'`` (lemma ``il``) are included.
+    Excludes proper nouns (PROPN) to prevent names like Marco → marcare.
     """
     lem = token.lemma_
-    return lem.isalpha() and len(lem) > 1
+    return lem.isalpha() and token.pos_ != "PROPN"
+
+
+def _is_syllabization(surface: str) -> bool:
+    """True if the surface form looks like a syllabization (e.g. 'bi-na-rio')."""
+    return bool(_SYLLABIZATION_RE.match(surface))
 
 
 def lemmatize(text: str) -> list[str]:
@@ -103,14 +134,6 @@ def _build_vocab_attrs(
     )
 
 
-def _is_inside_heading(node) -> bool:
-    """Check if a node is inside an h1-h6 element."""
-    for parent in node.parents:
-        if isinstance(parent, Tag) and parent.name in _HEADING_TAGS:
-            return True
-    return False
-
-
 def _has_nested_lang(node, lang_element) -> bool:
     """True if node is inside a nested element with its own lang attr (under lang_element)."""
     parent = node.parent
@@ -122,18 +145,27 @@ def _has_nested_lang(node, lang_element) -> bool:
 
 
 def get_target_text(lang_elements: list) -> str:
-    """Extract text from lang elements, skipping text inside nested lang elements."""
-    parts = []
+    """Extract text from lang elements, skipping text inside nested lang elements.
+
+    Inline tags (b, i, em, strong, span, etc.) do NOT insert spaces between
+    adjacent text nodes, so ``<b>a</b>more`` produces ``"amore"`` rather than
+    ``"a more"``.  Block tags (div, p, br, etc.) insert a space.
+    """
+    parts: list[str] = []
     for el in lang_elements:
         for desc in el.descendants:
+            if isinstance(desc, Tag):
+                # Block element boundary → ensure a space separator
+                if desc.name not in _INLINE_TAGS and parts:
+                    parts.append(" ")
+                continue
             if not isinstance(desc, NavigableString):
                 continue
             if _has_nested_lang(desc, el):
                 continue
-            text = str(desc).strip()
-            if text:
-                parts.append(text)
-    return " ".join(parts)
+            parts.append(str(desc))
+    # Join all parts, then collapse whitespace
+    return " ".join("".join(parts).split())
 
 
 def _annotate_in_elements(
@@ -171,7 +203,6 @@ def _annotate_in_elements(
             n
             for n in el.descendants
             if isinstance(n, NavigableString)
-            and not _is_inside_heading(n)
             and not _has_nested_lang(n, el)
             and not (
                 isinstance(n.parent, Tag)
@@ -211,12 +242,21 @@ async def discover(
         return response_text
 
     soup = BeautifulSoup(response_text, "html.parser")
-    lang_elements = [
-        el
-        for el in soup.find_all(attrs={"lang": target_lang})
-        if el.name not in _SKIP_DISCOVER_TAGS
-        and not el.find_parent(attrs={"data-no-discover": True})
-    ]
+
+    # Scope discovery to lang="it" elements inside the content .site-container
+    # (excludes nav, head, vocab-tooltip, scripts automatically).
+    # Fall back to all lang elements if no .site-container is found (e.g. fragments).
+    content_container = None
+    for sc in soup.find_all("div", class_="site-container"):
+        if not sc.find_parent("nav"):
+            content_container = sc
+            break
+
+    if content_container is not None:
+        lang_elements = list(content_container.find_all(attrs={"lang": target_lang}))
+    else:
+        lang_elements = list(soup.find_all(attrs={"lang": target_lang}))
+
     if not lang_elements:
         return response_text
 
@@ -231,7 +271,7 @@ async def discover(
     text_tokens = [
         (token.lemma_.lower(), token.pos_, token.text)
         for token in doc
-        if _keep_token(token)
+        if _keep_token(token) and not _is_syllabization(token.text)
     ]
     text_lemmas = [(lem, pos) for lem, pos, _ in text_tokens]
 
@@ -387,32 +427,3 @@ async def _generate_and_cache(words: list[VocabularyWord]) -> None:
             )
         finally:
             _pending_def_gen.discard(word_id_str)
-
-
-def hide_translations(html: str) -> str:
-    """Wrap parenthesized English translations after </span> in a toggleable span."""
-    return _TRANSLATION_RE.sub(r'\1 <span class="translation-toggle">\2</span>', html)
-
-
-def _annotate(
-    text: str, word: VocabularyWord, wdef: VocabularyWordDefinition | None
-) -> str:
-    """Wrap the first occurrence of word.word in a popover span, skipping headings."""
-    pattern = re.compile(rf"\b({re.escape(word.word)})\b", re.IGNORECASE)
-    attrs = _build_vocab_attrs(word, wdef)
-    replacement = f"<span{attrs}>" + r"\1</span>"
-
-    lines = text.split("\n")
-    for i, line in enumerate(lines):
-        if line.startswith("#"):
-            continue
-        # Split into alternating text nodes (even indices) and HTML tags (odd indices).
-        # Only replace inside text nodes to avoid corrupting attribute values.
-        parts = _TAG_RE.split(line)
-        for j in range(0, len(parts), 2):
-            new_part, n = pattern.subn(replacement, parts[j], count=1)
-            if n:
-                parts[j] = new_part
-                lines[i] = "".join(parts)
-                return "\n".join(lines)
-    return text
