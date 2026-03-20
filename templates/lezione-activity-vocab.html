@@ -21,7 +21,6 @@
     <div class="card-queue">{{ card_idx + 1 }} / {{ activity.card_ids | length }}</div>
     <div class="word"><span lang="it">{{ card.word.word }}</span></div>
 
-    {% if hints %}{% include "partials/hint.html" %}{% endif %}
     <button class="reveal-btn"
             id="reveal-btn"
             hx-get="/lezione/{{ lesson.id }}/activity/{{ idx }}/vocab-reveal?card_idx={{ card_idx }}"
@@ -40,6 +39,7 @@
     </script>
   </div>
 
+  {% if hints %}{% include "partials/hint.html" %}{% endif %}
   <div class="submit-row" style="justify-content:flex-end;">
     <a class="skip-link"
        hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"

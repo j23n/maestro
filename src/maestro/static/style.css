@@ -155,8 +155,8 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   user-select: auto;
 }
 
-/* Vocab tooltip */
-#vocab-tooltip {
+/* Shared popup base */
+.popup {
   position: fixed;
   display: none;
   z-index: 100;
@@ -166,6 +166,10 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 0.6rem 0.85rem;
   pointer-events: auto;
+}
+
+/* Vocab tooltip */
+#vocab-tooltip {
   max-width: 300px;
 }
 
@@ -503,7 +507,15 @@ a.progress-seg { display: block; text-decoration: none; }
   margin-right: 0.25rem;
 }
 
-.item-tip { font-size: 0.78rem; color: var(--c-text-muted); font-style: italic; }
+.item-tip {
+  font-size: 0.82rem;
+  color: var(--c-text);
+  background: rgba(212, 168, 67, 0.12);
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem 0.65rem;
+  line-height: 1.45;
+}
 
 /* Drill result banners */
 .result-ok {
@@ -1808,15 +1820,8 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .hint-info-btn svg { display: block; }
 
 .hint-bubble {
-  display: none;
-  position: fixed;
   width: 260px;
   max-width: calc(100vw - 16px);
-  background: #fff;
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  padding: 0.6rem 0.85rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   z-index: 101;
   pointer-events: none;
 }
