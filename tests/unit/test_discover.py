@@ -330,6 +330,44 @@ def test_simplemma_corrects_common_verb_forms(surface, expected):
             [],
             id="pos-dispiacere",
         ),
+        # -- More proper nouns (from #104/#106 user testing) --
+        pytest.param(
+            "Roma è bella",
+            ["essere", "bello"],
+            ["roma"],
+            id="propn-roma",
+        ),
+        pytest.param(
+            "Paolo mangia la pizza",
+            ["mangiare", "pizza"],
+            ["paolo"],
+            id="propn-paolo",
+        ),
+        pytest.param(
+            "un'amica di Roma",
+            ["amico"],
+            ["roma"],
+            id="propn-roma-elision",
+        ),
+        # -- More elision cases --
+        pytest.param(
+            "dov'è il bagno",
+            ["dove", "essere", "bagno"],
+            [],
+            id="elision-dove",
+        ),
+        pytest.param(
+            "com'è il tempo",
+            ["come", "essere", "tempo"],
+            [],
+            id="elision-come",
+        ),
+        pytest.param(
+            "l'uomo è alto",
+            ["uomo", "essere", "alto"],
+            [],
+            id="elision-uomo",
+        ),
     ],
 )
 def test_lemmatize_observations(text, expected, unexpected):
@@ -386,6 +424,40 @@ def _get_target_text_from_html(html: str) -> str:
             "ciao mondo",
             id="block-elements-space",
         ),
+        # More inline tag cases (from #104/#106)
+        pytest.param(
+            '<span lang="it"><i>buon</i>giorno</span>',
+            "buongiorno",
+            id="inline-tag-buongiorno",
+        ),
+        pytest.param(
+            '<span lang="it"><strong>pre</strong>ndere un caffè</span>',
+            "prendere un caffè",
+            id="inline-tag-prendere",
+        ),
+        pytest.param(
+            '<span lang="it">il <b>bi</b><b>glie</b><b>tto</b></span>',
+            "il biglietto",
+            id="inline-tag-biglietto-multi",
+        ),
+        # Block elements: headings + paragraphs
+        pytest.param(
+            '<div lang="it"><h2>Lezione uno</h2><p>Benvenuti alla lezione.</p></div>',
+            "Lezione uno Benvenuti alla lezione.",
+            id="block-heading-paragraph",
+        ),
+        # Inline <mark> should not split
+        pytest.param(
+            '<span lang="it">una <mark>parola</mark> importante</span>',
+            "una parola importante",
+            id="inline-mark-no-split",
+        ),
+        # Nested lang with inline context
+        pytest.param(
+            '<span lang="it">ciao <span lang="en">(hello)</span> come stai</span>',
+            "ciao come stai",
+            id="nested-lang-inline-excluded",
+        ),
     ],
 )
 def test_get_target_text_observations(html, expected_text):
@@ -414,12 +486,40 @@ def _make_vocab_word(word, pos="s.f.", entry_id=None):
 def seeded_cache():
     """Seed vocab cache with test words, clean up after."""
     words = {
+        # Original test words
         "mercato": [_make_vocab_word("mercato", pos="s.m.")],
         "marcare": [_make_vocab_word("marcare", pos="v.tr.")],
         "amore": [_make_vocab_word("amore", pos="s.m.")],
         "dire": [_make_vocab_word("dire", pos="v.tr.")],
         "binario": [_make_vocab_word("binario", pos="s.m.")],
         "andare": [_make_vocab_word("andare", pos="v.intr.")],
+        # Common vocabulary for pipeline tests
+        "gatto": [_make_vocab_word("gatto", pos="s.m.")],
+        "dormire": [_make_vocab_word("dormire", pos="v.intr.")],
+        "divano": [_make_vocab_word("divano", pos="s.m.")],
+        "volere": [_make_vocab_word("volere", pos="v.tr.")],
+        "caffè": [_make_vocab_word("caffè", pos="s.m.")],
+        "favore": [_make_vocab_word("favore", pos="s.m.")],
+        "stazione": [_make_vocab_word("stazione", pos="s.f.")],
+        "essere": [_make_vocab_word("essere", pos="v.intr.")],
+        "lontano": [_make_vocab_word("lontano", pos="agg.")],
+        "comprare": [_make_vocab_word("comprare", pos="v.tr.")],
+        "biglietto": [_make_vocab_word("biglietto", pos="s.m.")],
+        "treno": [_make_vocab_word("treno", pos="s.m.")],
+        "partire": [_make_vocab_word("partire", pos="v.intr.")],
+        "bello": [_make_vocab_word("bello", pos="agg.")],
+        "dove": [_make_vocab_word("dove", pos="avv.")],
+        "bagno": [_make_vocab_word("bagno", pos="s.m.")],
+        "mangiare": [_make_vocab_word("mangiare", pos="v.tr.")],
+        "pizza": [_make_vocab_word("pizza", pos="s.f.")],
+        "uomo": [_make_vocab_word("uomo", pos="s.m.")],
+        "alto": [_make_vocab_word("alto", pos="agg.")],
+        "come": [_make_vocab_word("come", pos="avv.")],
+        "stare": [_make_vocab_word("stare", pos="v.intr.")],
+        "ciao": [_make_vocab_word("ciao", pos="inter.")],
+        # PROPN trap words — in dictionary but should NOT be discovered as proper nouns
+        "roma": [_make_vocab_word("roma", pos="s.f.")],
+        "paolo": [_make_vocab_word("paolo", pos="s.m.")],
     }
     _vocab_cache.seed(words=words, defs={})
     yield
@@ -462,6 +562,77 @@ def seeded_cache():
             [],
             [],
             id="no-lang-no-discovery",
+        ),
+        # -- Full chain: conjugated surface → lemma → dictionary word --
+        pytest.param(
+            '<span lang="it">il gatto dorme sul divano</span>',
+            ["gatto", "dormire", "divano"],
+            [],
+            id="chain-gatto-dorme-divano",
+        ),
+        pytest.param(
+            '<span lang="it">vorrei un caffè per favore</span>',
+            ["volere", "caffè", "favore"],
+            [],
+            id="chain-vorrei-caffe",
+        ),
+        pytest.param(
+            '<span lang="it">la stazione è lontana</span>',
+            ["stazione", "essere", "lontano"],
+            [],
+            id="chain-stazione-lontana",
+        ),
+        pytest.param(
+            '<span lang="it">ho comprato due biglietti</span>',
+            ["comprare", "biglietto"],
+            [],
+            id="chain-comprato-biglietti",
+        ),
+        pytest.param(
+            '<span lang="it">il treno parte alle otto</span>',
+            ["treno", "partire"],
+            [],
+            id="chain-treno-parte",
+        ),
+        # -- PROPN filter: proper nouns should NOT discover even if word is in dict --
+        pytest.param(
+            '<span lang="it">Roma è bella</span>',
+            ["essere", "bello"],
+            ["roma"],
+            id="propn-roma-pipeline",
+        ),
+        pytest.param(
+            '<span lang="it">Paolo mangia la pizza</span>',
+            ["mangiare", "pizza"],
+            ["paolo"],
+            id="propn-paolo-pipeline",
+        ),
+        # -- Elision: apostrophe-split tokens resolve through full chain --
+        pytest.param(
+            '<span lang="it">dov\'è il bagno</span>',
+            ["dove", "essere", "bagno"],
+            [],
+            id="elision-dove-pipeline",
+        ),
+        pytest.param(
+            '<span lang="it">l\'uomo è alto</span>',
+            ["uomo", "essere", "alto"],
+            [],
+            id="elision-uomo-pipeline",
+        ),
+        # -- Mixed: proper noun + elision + conjugation in one phrase --
+        pytest.param(
+            '<span lang="it">ciao come stai</span>',
+            ["ciao", "come", "stare"],
+            [],
+            id="chain-ciao-come-stai",
+        ),
+        # -- Nested lang: English gloss should not pollute Italian discovery --
+        pytest.param(
+            '<span lang="it">il gatto <span lang="en">(the cat)</span> dorme</span>',
+            ["gatto", "dormire"],
+            [],
+            id="nested-lang-cat-gloss",
         ),
     ],
 )
