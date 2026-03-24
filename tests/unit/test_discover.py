@@ -125,6 +125,24 @@ _TEST_WORD_INDEX = {
     "grande": [_make_vocab_word("grande", pos="agg.")],
     "mezzo": [_make_vocab_word("mezzo", pos="agg.")],
     "questo": [_make_vocab_word("questo", pos="agg.")],
+    # Articles / determiners
+    "il": [_make_vocab_word("il", pos="art.")],
+    "uno": [_make_vocab_word("uno", pos="art.")],
+    # Prepositions
+    "di": [_make_vocab_word("di", pos="prep.")],
+    "per": [_make_vocab_word("per", pos="prep.")],
+    "in": [_make_vocab_word("in", pos="prep.")],
+    # Conjunctions / pronouns
+    "che": [_make_vocab_word("che", pos="cong.")],
+    # Adjectives (continued)
+    "quello": [_make_vocab_word("quello", pos="agg.")],
+    # Adverbs (continued)
+    "molto": [_make_vocab_word("molto", pos="avv.")],
+    # Numerals
+    "due": [_make_vocab_word("due", pos="num.")],
+    "otto": [_make_vocab_word("otto", pos="num.")],
+    # Verbs (continued)
+    "avere": [_make_vocab_word("avere", pos="v.tr.")],
     # Other
     "ciao": [_make_vocab_word("ciao", pos="inter.")],
     "come": [_make_vocab_word("come", pos="avv.")],
@@ -165,7 +183,7 @@ def seeded_cache():
         ),
         pytest.param(
             "La signora Rossi",
-            {"signore"},
+            {"il", "signore"},
             id="propn-rossi",
         ),
         pytest.param(
@@ -175,12 +193,12 @@ def seeded_cache():
         ),
         pytest.param(
             "Paolo mangia la pizza",
-            {"mangiare", "pizza"},
+            {"il", "mangiare", "pizza"},
             id="propn-paolo",
         ),
         pytest.param(
             "un'amica di Roma",
-            {"amico"},
+            {"uno", "amico", "di"},
             id="propn-roma-elision",
         ),
         # -- Elision: apostrophe-split tokens --
@@ -191,37 +209,37 @@ def seeded_cache():
         ),
         pytest.param(
             "Che cos'è? Che cos'è questo? Che cos'è quella cosa?",
-            {"cosa", "essere", "questo"},
+            {"che", "cosa", "essere", "questo", "quello"},
             id="elision-cosa-repeated",
         ),
         pytest.param(
             "mezz'ora di attesa",
-            {"mezzo", "ora", "attesa"},
+            {"mezzo", "ora", "di", "attesa"},
             id="elision-mezzo",
         ),
         pytest.param(
             "un grand'uomo",
-            {"grande", "uomo"},
+            {"uno", "grande", "uomo"},
             id="elision-grande",
         ),
         pytest.param(
             "l'acqua è fredda",
-            {"acqua", "essere", "freddo"},
+            {"il", "acqua", "essere", "freddo"},
             id="elision-acqua",
         ),
         pytest.param(
             "dov'è il bagno",
-            {"dove", "essere", "bagno"},
+            {"dove", "essere", "il", "bagno"},
             id="elision-dove",
         ),
         pytest.param(
             "com'è il tempo",
-            {"come", "essere", "tempo"},
+            {"come", "essere", "il", "tempo"},
             id="elision-come",
         ),
         pytest.param(
             "l'uomo è alto",
-            {"uomo", "essere", "alto"},
+            {"il", "uomo", "essere", "alto"},
             id="elision-uomo",
         ),
         # -- Short tokens / stop words --
@@ -233,27 +251,27 @@ def seeded_cache():
         # -- Conjugated surface → lemma → dictionary word --
         pytest.param(
             "il gatto dorme sul divano",
-            {"gatto", "dormire", "divano"},
+            {"il", "gatto", "dormire", "divano"},
             id="chain-gatto-dorme-divano",
         ),
         pytest.param(
             "vorrei un caffè per favore",
-            {"volere", "caffè", "favore"},
+            {"volere", "uno", "caffè", "per", "favore"},
             id="chain-vorrei-caffe",
         ),
         pytest.param(
             "la stazione è lontana",
-            {"stazione", "essere", "lontano"},
+            {"il", "stazione", "essere", "lontano"},
             id="chain-stazione-lontana",
         ),
         pytest.param(
             "ho comprato due biglietti",
-            {"comprare", "biglietto"},
+            {"avere", "comprare", "due", "biglietto"},
             id="chain-comprato-biglietti",
         ),
         pytest.param(
             "il treno parte alle otto",
-            {"treno", "partire"},
+            {"il", "treno", "partire", "otto"},
             id="chain-treno-parte",
         ),
         pytest.param(
@@ -265,12 +283,12 @@ def seeded_cache():
         # spaCy tags "abito" as NOUN, but simplemma fallback resolves to "abitare"
         pytest.param(
             "abito in Italia",
-            {"abitare"},
+            {"abitare", "in"},
             id="pos-abito-verb",
         ),
         pytest.param(
             "mi dispiace molto",
-            {"dispiacere"},
+            {"dispiacere", "molto"},
             id="pos-dispiacere",
         ),
         # -- Syllabization: hyphenated pronunciation guides are not words --
