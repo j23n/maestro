@@ -495,6 +495,10 @@ async def discover(
             target_lang,
         )
 
+    # Filter out elements marked data-no-discover (e.g. the drilled word on
+    # the vocab practice page — annotating it would reveal the answer).
+    lang_elements = [el for el in lang_elements if not el.has_attr("data-no-discover")]
+
     if not lang_elements:
         logger.debug("[discover] no lang elements found — returning unchanged")
         return response_text

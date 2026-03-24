@@ -12,7 +12,7 @@
   {% if card %}
   <div class="card" id="practice-card">
     {% if mode == 'word' %}
-      <div class="word"><span lang="it">{{ card.word.word }}</span></div>
+      <div class="word"><span lang="it" data-no-discover>{{ card.word.word }}</span></div>
     {% elif mode == 'definition' %}
       <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
       <div class="clue" lang="it">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
