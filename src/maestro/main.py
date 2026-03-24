@@ -40,7 +40,6 @@ from maestro.routes import (
     legal,
     account,
 )
-from maestro import hints
 
 
 class _JsonFormatter(logging.Formatter):
@@ -196,7 +195,6 @@ app.include_router(vocab.router)
 app.include_router(profilo.router)
 app.include_router(grammar.router)
 app.include_router(lezione.router)
-app.include_router(hints.router)
 app.include_router(feedback.router)
 app.include_router(legal.router)
 app.include_router(account.router)

@@ -56,38 +56,6 @@
       }
     });
   </script>
-  <script>
-    // Feature hints: auto-show via Popup, dismiss/toggle via event delegation
-    function _initHints() {
-      document.querySelectorAll('.feature-hint').forEach(function(hint) {
-        if (hint._hintReady) return;
-        hint._hintReady = true;
-        var anchor = document.querySelector(hint.dataset.anchor);
-        if (!anchor) { hint.style.display = 'none'; return; }
-        var bubble = hint.querySelector('.hint-bubble');
-        var popup = new Popup(bubble);
-        var infoBtn = hint.querySelector('.hint-info-btn');
-        hint._popup = popup;
-        hint._infoBtn = infoBtn;
-        // Auto-show on init
-        bubble.classList.add('hint-visible');
-        popup.show(infoBtn);
-        infoBtn.addEventListener('click', function() {
-          bubble.classList.toggle('hint-visible');
-          if (bubble.classList.contains('hint-visible')) popup.show(infoBtn);
-        });
-      });
-    }
-    // Event delegation for dismiss — survives HTMX swaps
-    document.addEventListener('click', function(e) {
-      var dismiss = e.target.closest('.hint-dismiss');
-      if (!dismiss) return;
-      var hint = dismiss.closest('.feature-hint');
-      if (hint) hint.style.display = 'none';
-    });
-    document.addEventListener('DOMContentLoaded', _initHints);
-    document.addEventListener('htmx:afterSettle', _initHints);
-  </script>
   <footer class="site-footer">
     <div class="site-container">
       Maestro &mdash; Italian A1 to B2 · <a href="/legal/privacy">Privacy</a> · <a href="/legal/terms">Terms</a>

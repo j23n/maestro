@@ -12,8 +12,6 @@
       {{ content | markdown | safe }}
     </div>
 
-    {% if hints %}{% include "partials/hint.html" %}{% endif %}
-
     {% if is_review %}
     <div class="review-banner">
       <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">

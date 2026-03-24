@@ -39,7 +39,6 @@
     </script>
   </div>
 
-  {% if hints %}{% include "partials/hint.html" %}{% endif %}
   <div class="submit-row" style="justify-content:flex-end;">
     <a class="skip-link"
        hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
