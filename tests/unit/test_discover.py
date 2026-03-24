@@ -122,6 +122,7 @@ _TEST_WORD_INDEX = {
     "lontano": [_make_vocab_word("lontano", pos="agg.")],
     "alto": [_make_vocab_word("alto", pos="agg.")],
     "freddo": [_make_vocab_word("freddo", pos="agg.")],
+    "grande": [_make_vocab_word("grande", pos="agg.")],
     "mezzo": [_make_vocab_word("mezzo", pos="agg.")],
     "questo": [_make_vocab_word("questo", pos="agg.")],
     # Other
@@ -196,10 +197,12 @@ def seeded_cache():
         pytest.param(
             "mezz'ora di attesa",
             {"mezzo", "ora", "attesa"},
-            marks=pytest.mark.xfail(
-                reason="#104: spaCy lemma 'mezz'' not resolved, simplemma can't recover"
-            ),
             id="elision-mezzo",
+        ),
+        pytest.param(
+            "un grand'uomo",
+            {"grande", "uomo"},
+            id="elision-grande",
         ),
         pytest.param(
             "l'acqua è fredda",

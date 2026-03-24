@@ -50,6 +50,9 @@ _INLINE_TAGS = frozenset(
     }
 )
 
+# Vowel endings tried when reconstructing an elided lemma (mezz' → mezzo).
+_ELISION_VOWELS = ("o", "a", "e", "i")
+
 
 @dataclass
 class VocabMatch:
@@ -187,6 +190,28 @@ def match_vocab_words(
                             "[discover]   simplemma fallback MISS: %r not in word_index",
                             candidate,
                         )
+            # Elision repair: mezz' → mezzo, grand' → grande, etc.
+            if not entries and lem.endswith("'"):
+                stem = lem.rstrip("'")
+                for vowel in _ELISION_VOWELS:
+                    candidate = stem + vowel
+                    entries = word_index.get(candidate)
+                    if entries:
+                        logger.debug(
+                            "[discover]   elision repair HIT: %r → %s",
+                            candidate,
+                            [e.word for e in entries],
+                        )
+                        surface_map.setdefault(candidate, []).extend(
+                            surface_map.pop(lem, [])
+                        )
+                        resolved_lem = candidate
+                        break
+                else:
+                    logger.debug(
+                        "[discover]   elision repair MISS: %r + vowels not in word_index",
+                        stem,
+                    )
             if not entries:
                 logger.debug("[discover] lemma %r → NO MATCH (not in vocabulary)", lem)
                 continue
