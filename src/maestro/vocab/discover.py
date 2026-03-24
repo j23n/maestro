@@ -483,7 +483,7 @@ async def discover(
     if content_container is not None:
         lang_elements = list(content_container.find_all(attrs={"lang": target_lang}))
         logger.debug(
-            "[discover] scoped to .site-container, found %d lang='%s' elements",
+            "[discover] scoped to <main>, found %d lang='%s' elements",
             len(lang_elements),
             target_lang,
         )
