@@ -378,7 +378,7 @@ def prod_word_index() -> dict[str, list]:
         # -- Basic sentences: content words + function words --
         pytest.param(
             "Marco va al mercato",
-            {"andare", "mercato"},
+            {"andare", "al", "mercato"},
             id="basic-mercato",
         ),
         pytest.param(
@@ -410,7 +410,7 @@ def prod_word_index() -> dict[str, list]:
         # -- Conjugated surface → lemma → dictionary word --
         pytest.param(
             "il gatto dorme sul divano",
-            {"il", "gatto", "dormire", "divano"},
+            {"il", "gatto", "dormire", "sul", "divano"},
             id="chain-gatto-dorme-divano",
         ),
         pytest.param(
@@ -430,7 +430,7 @@ def prod_word_index() -> dict[str, list]:
         ),
         pytest.param(
             "il treno parte alle otto",
-            {"il", "treno", "partire", "otto"},
+            {"il", "treno", "partire", "alle", "otto"},
             id="chain-treno-parte",
         ),
         pytest.param(
