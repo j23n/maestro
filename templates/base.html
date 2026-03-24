@@ -28,9 +28,11 @@
       {% endif %}
     </div>
   </nav>
+  <main>
   <div class="site-container">
     {% block content %}{% endblock %}
   </div>
+  </main>
 
   <script>
     // CSRF: send token header on HTMX requests

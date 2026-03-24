@@ -109,7 +109,7 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
     2. Drill item prompts/answers — these are bare Italian text with no spans.
     """
     from bs4 import BeautifulSoup
-    from maestro.vocab.discover import lemmatize, get_target_text
+    from maestro.vocab.discover import tokenize, get_target_text
 
     lemmas: set[str] = set()
     for lesson_data in all_lessons.values():
@@ -123,14 +123,14 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
                 if not lang_elements:
                     continue
                 target_text = get_target_text(lang_elements)
-                lemmas.update(lemmatize(target_text))
+                lemmas.update(lem for lem, _, _ in tokenize(target_text))
 
             # 2. Drill items — prompts and answers are bare Italian
             for item in act.get("items") or []:
                 for field in ("prompt", "correct_answer"):
                     text = item.get(field, "") or ""
                     if text:
-                        lemmas.update(lemmatize(text))
+                        lemmas.update(lem for lem, _, _ in tokenize(text))
     return lemmas
 
 

@@ -1,5 +1,9 @@
 """Integration tests for vocab/discover.py — discover() flow."""
 
+import json
+from pathlib import Path
+from types import SimpleNamespace
+
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -190,10 +194,6 @@ async def test_anonymous_discover_triggers_definition_generation(db):
 
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
         patch("maestro.vocab.discover.create_background_task") as mock_bg,
     ):
         await discover(
@@ -234,10 +234,6 @@ async def test_deduplication_prevents_duplicate_tasks(db):
 
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
         patch("maestro.vocab.discover.create_background_task") as mock_bg,
     ):
         await discover(
@@ -313,10 +309,6 @@ async def test_authenticated_discover_creates_cards_and_triggers_defs(db):
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
         patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
-        patch(
             "maestro.vocab.discover.get_cefr_level",
             new_callable=AsyncMock,
             return_value="A1",
@@ -335,3 +327,147 @@ async def test_authenticated_discover_creates_cards_and_triggers_defs(db):
 
     # Background task also fired
     assert mock_bg.called
+
+
+# ---------------------------------------------------------------------------
+# Vocabulary coverage — match_vocab_words against real production dictionary
+# ---------------------------------------------------------------------------
+
+_FIXTURES_DIR = Path(__file__).resolve().parent.parent / "fixtures"
+
+
+def _make_vocab_obj(word: str, pos: str) -> SimpleNamespace:
+    """Lightweight stand-in for VocabularyWord (no DB required)."""
+    return SimpleNamespace(
+        word=word,
+        part_of_speech=pos,
+        syllabization="",
+        entry_id=f"LM-{word.upper()[:10]}",
+        senses=[],
+        id=f"fixture-{word}-{pos}",
+        audio_url=None,
+    )
+
+
+@pytest.fixture(scope="module")
+def prod_word_index() -> dict[str, list]:
+    """Build a word_index from the production vocabulary fixture.
+
+    The fixture (tests/fixtures/vocab_headwords.json) is generated from the
+    EPUB dictionary — the ground truth source for production vocabulary.
+    Loading it here lets us test match_vocab_words against the real
+    vocabulary without needing MongoDB or the EPUB on disk.
+    """
+    fixture_path = _FIXTURES_DIR / "vocab_headwords.json"
+    if not fixture_path.exists():
+        pytest.skip(
+            "vocab_headwords.json fixture not found — run scripts/dump_vocab_fixture.py"
+        )
+    with open(fixture_path) as f:
+        raw = json.load(f)
+    idx: dict[str, list] = {}
+    for word, pos in raw:
+        idx.setdefault(word, []).append(_make_vocab_obj(word, pos))
+    return idx
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize(
+    "text, expected_words",
+    [
+        # -- Basic sentences: content words + function words --
+        pytest.param(
+            "Marco va al mercato",
+            {"andare", "al", "mercato"},
+            id="basic-mercato",
+        ),
+        pytest.param(
+            "La signora Rossi",
+            {"la", "signora"},
+            id="basic-signora",
+        ),
+        pytest.param(
+            "Paolo mangia la pizza",
+            {"la", "mangiare", "pizza"},
+            id="basic-pizza",
+        ),
+        pytest.param(
+            "un'amica di Roma",
+            {"uno", "amico", "di"},
+            id="basic-amica",
+        ),
+        # -- Elision --
+        pytest.param(
+            "l'acqua è fredda",
+            {"il", "acqua", "essere", "freddo"},
+            id="elision-acqua",
+        ),
+        pytest.param(
+            "dov'è il bagno",
+            {"dove", "essere", "il", "bagno"},
+            id="elision-dove",
+        ),
+        # -- Conjugated surface → lemma → dictionary word --
+        pytest.param(
+            "il gatto dorme sul divano",
+            {"il", "gatto", "dormire", "sul", "divano"},
+            id="chain-gatto-dorme-divano",
+        ),
+        pytest.param(
+            "vorrei un caffè per favore",
+            {"volere", "uno", "caffè", "per", "favore"},
+            id="chain-vorrei-caffe",
+        ),
+        pytest.param(
+            "la stazione è lontana",
+            {"la", "stazione", "essere", "lontano"},
+            id="chain-stazione-lontana",
+        ),
+        pytest.param(
+            "ho comprato due biglietti",
+            {"avere", "comprare", "due", "biglietto"},
+            id="chain-comprato-biglietti",
+        ),
+        pytest.param(
+            "il treno parte alle otto",
+            {"il", "treno", "partire", "alle", "otto"},
+            id="chain-treno-parte",
+        ),
+        pytest.param(
+            "ciao come stai",
+            {"ciao", "come", "stare"},
+            id="chain-ciao-come-stai",
+        ),
+        # -- POS: "abito" exists in EPUB as noun, so no simplemma fallback --
+        pytest.param(
+            "abito in Italia",
+            {"abito", "in"},
+            id="pos-abito-noun",
+        ),
+        pytest.param(
+            "mi dispiace molto",
+            {"mi", "dispiacere", "molto"},
+            id="pos-dispiacere",
+        ),
+    ],
+)
+def test_vocab_coverage(prod_word_index, text, expected_words):
+    """match_vocab_words against the real production dictionary.
+
+    These tests catch two classes of bugs that unit tests (with a hand-crafted
+    word_index) cannot:
+      1. Missing vocabulary — function words like "il", "di", "per" absent
+         from the dictionary would silently drop from annotations.
+      2. Dictionary-dependent POS behaviour — e.g. "abito" resolves to the
+         noun entry in the real dictionary instead of falling back to
+         simplemma → "abitare".
+    """
+    from maestro.vocab.discover import match_vocab_words
+
+    matches = match_vocab_words(text, prod_word_index)
+    matched_words = {m.word.word for m in matches}
+    assert matched_words == expected_words, (
+        f"match_vocab_words({text!r})\n"
+        f"  expected: {sorted(expected_words)}\n"
+        f"  got:      {sorted(matched_words)}"
+    )
