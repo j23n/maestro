@@ -154,56 +154,48 @@ def seeded_cache():
 
 @pytest.mark.unit
 @pytest.mark.parametrize(
-    "text, expected_words, unexpected_words",
+    "text, expected_words",
     [
         # -- Proper nouns: should NOT match even when headword is in word_index --
         pytest.param(
             "Marco va al mercato",
-            ["mercato"],
-            ["marcare"],
+            {"andare", "mercato"},
             id="propn-marco",
         ),
         pytest.param(
             "La signora Rossi",
-            ["signore"],
-            [],
+            {"signore"},
             id="propn-rossi",
         ),
         pytest.param(
             "Roma è bella",
-            ["essere", "bello"],
-            ["roma"],
+            {"essere", "bello"},
             id="propn-roma",
         ),
         pytest.param(
             "Paolo mangia la pizza",
-            ["mangiare", "pizza"],
-            ["paolo"],
+            {"mangiare", "pizza"},
             id="propn-paolo",
         ),
         pytest.param(
             "un'amica di Roma",
-            ["amico"],
-            ["roma"],
+            {"amico"},
             id="propn-roma-elision",
         ),
         # -- Elision: apostrophe-split tokens --
         pytest.param(
             "cos'è questo",
-            ["cosa", "essere", "questo"],
-            [],
+            {"cosa", "essere", "questo"},
             id="elision-cosa",
         ),
         pytest.param(
             "Che cos'è? Che cos'è questo? Che cos'è quella cosa?",
-            ["cosa", "essere", "questo"],
-            [],
+            {"cosa", "essere", "questo"},
             id="elision-cosa-repeated",
         ),
         pytest.param(
             "mezz'ora di attesa",
-            ["mezzo", "ora", "attesa"],
-            [],
+            {"mezzo", "ora", "attesa"},
             marks=pytest.mark.xfail(
                 reason="#104: spaCy lemma 'mezz'' not resolved, simplemma can't recover"
             ),
@@ -211,107 +203,90 @@ def seeded_cache():
         ),
         pytest.param(
             "l'acqua è fredda",
-            ["acqua", "essere", "freddo"],
-            [],
+            {"acqua", "essere", "freddo"},
             id="elision-acqua",
         ),
         pytest.param(
             "dov'è il bagno",
-            ["dove", "essere", "bagno"],
-            [],
+            {"dove", "essere", "bagno"},
             id="elision-dove",
         ),
         pytest.param(
             "com'è il tempo",
-            ["come", "essere", "tempo"],
-            [],
+            {"come", "essere", "tempo"},
             id="elision-come",
         ),
         pytest.param(
             "l'uomo è alto",
-            ["uomo", "essere", "alto"],
-            [],
+            {"uomo", "essere", "alto"},
             id="elision-uomo",
         ),
         # -- Short tokens / stop words --
         pytest.param(
             "è bello",
-            ["essere", "bello"],
-            [],
+            {"essere", "bello"},
             id="short-token-essere",
         ),
         # -- Conjugated surface → lemma → dictionary word --
         pytest.param(
             "il gatto dorme sul divano",
-            ["gatto", "dormire", "divano"],
-            [],
+            {"gatto", "dormire", "divano"},
             id="chain-gatto-dorme-divano",
         ),
         pytest.param(
             "vorrei un caffè per favore",
-            ["volere", "caffè", "favore"],
-            [],
+            {"volere", "caffè", "favore"},
             id="chain-vorrei-caffe",
         ),
         pytest.param(
             "la stazione è lontana",
-            ["stazione", "essere", "lontano"],
-            [],
+            {"stazione", "essere", "lontano"},
             id="chain-stazione-lontana",
         ),
         pytest.param(
             "ho comprato due biglietti",
-            ["comprare", "biglietto"],
-            [],
+            {"comprare", "biglietto"},
             id="chain-comprato-biglietti",
         ),
         pytest.param(
             "il treno parte alle otto",
-            ["treno", "partire"],
-            [],
+            {"treno", "partire"},
             id="chain-treno-parte",
         ),
         pytest.param(
             "ciao come stai",
-            ["ciao", "come", "stare"],
-            [],
+            {"ciao", "come", "stare"},
             id="chain-ciao-come-stai",
         ),
         # -- POS disambiguation --
         # spaCy tags "abito" as NOUN, but simplemma fallback resolves to "abitare"
         pytest.param(
             "abito in Italia",
-            ["abitare"],
-            [],
+            {"abitare"},
             id="pos-abito-verb",
         ),
         pytest.param(
             "mi dispiace molto",
-            ["dispiacere"],
-            [],
+            {"dispiacere"},
             id="pos-dispiacere",
         ),
         # -- Syllabization: hyphenated pronunciation guides are not words --
         pytest.param(
             "si dice bi-na-rio",
-            ["dire"],
-            ["binario"],
+            {"dire"},
             id="syllabization-not-discovered",
         ),
     ],
 )
-def test_match_vocab_words_observations(text, expected_words, unexpected_words):
-    """match_vocab_words() should find correct dictionary entries from Italian text."""
+def test_match_vocab_words_observations(text, expected_words):
+    """match_vocab_words() should produce exactly the expected set of dictionary matches."""
     matches = match_vocab_words(text, _TEST_WORD_INDEX)
     matched_words = {m.word.word for m in matches}
-    for w in expected_words:
-        assert w in matched_words, (
-            f"Expected {w!r} in match_vocab_words({text!r}), got {matched_words}"
-        )
-    for w in unexpected_words:
-        assert w not in matched_words, (
-            f"Unexpected {w!r} in match_vocab_words({text!r}), got {matched_words}"
-        )
+    assert matched_words == expected_words, (
+        f"match_vocab_words({text!r})\n"
+        f"  expected: {sorted(expected_words)}\n"
+        f"  got:      {sorted(matched_words)}"
+    )
 
 
 @pytest.mark.unit
