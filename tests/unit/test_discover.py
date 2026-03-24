@@ -13,6 +13,7 @@ import simplemma
 from types import SimpleNamespace
 
 from maestro.vocab.discover import (
+    TokenOccurrence,
     VocabMatch,
     _annotate_in_elements,
     discover,
@@ -363,6 +364,52 @@ def test_match_vocab_words_multi_pos():
     pos_set = {m.word.part_of_speech for m in piano_matches}
     assert "s.m." in pos_set
     assert "agg." in pos_set
+    # Each match should have exactly one occurrence
+    for m in piano_matches:
+        assert len(m.occurrences) == 1, (
+            f"Expected 1 occurrence per multi-POS match, got {len(m.occurrences)}"
+        )
+        assert m.occurrences[0].surface == "piano"
+
+
+@pytest.mark.unit
+def test_match_vocab_words_occurrence_index():
+    """Each VocabMatch should carry TokenOccurrences with correct token indices."""
+    matches = match_vocab_words("il gatto dorme sul divano", _TEST_WORD_INDEX)
+    # All single-POS matches — each should have exactly one occurrence
+    for m in matches:
+        assert len(m.occurrences) >= 1
+        assert all(isinstance(occ, TokenOccurrence) for occ in m.occurrences)
+    # Token indices should be unique across all occurrences
+    all_indices = [occ.index for m in matches for occ in m.occurrences]
+    assert len(all_indices) == len(set(all_indices)), "Token indices must be unique"
+
+
+@pytest.mark.unit
+def test_match_vocab_words_dedup_groups_occurrences():
+    """Same lemma + same dictionary entry appearing twice → one VocabMatch with two occurrences."""
+    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX)
+    gatto_matches = [m for m in matches if m.word.word == "gatto"]
+    assert len(gatto_matches) == 1
+    assert len(gatto_matches[0].occurrences) == 2
+    assert gatto_matches[0].occurrences[0].index < gatto_matches[0].occurrences[1].index
+
+
+@pytest.mark.unit
+def test_match_vocab_words_per_pos_surface_forms():
+    """Multi-POS matches should carry only their own POS's surface forms."""
+    # "piano" as both noun and adjective — each match should have surface "piano"
+    # but critically, if we had different surface forms per POS, they wouldn't leak.
+    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX)
+    piano_matches = [m for m in matches if m.lemma == "piano"]
+    noun_match = next(m for m in piano_matches if m.word.part_of_speech == "s.m.")
+    adj_match = next(m for m in piano_matches if m.word.part_of_speech == "agg.")
+    # Each carries only its own occurrence's surface
+    assert noun_match.surface_forms == ["piano"]
+    assert adj_match.surface_forms == ["piano"]
+    # POS on each occurrence matches what spaCy assigned
+    assert noun_match.occurrences[0].pos == "NOUN"
+    assert adj_match.occurrences[0].pos == "ADJ"
 
 
 @pytest.mark.unit
