@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+from dataclasses import dataclass, field
 
 import simplemma
 from beanie import PydanticObjectId
@@ -49,10 +50,16 @@ _INLINE_TAGS = frozenset(
     }
 )
 
-# Syllabization pattern: short segments joined by hyphens (e.g. "bi-na-rio", "PEN-nah").
-_SYLLABIZATION_RE = re.compile(
-    r"^[a-zA-ZàèéìòùÀÈÉÌÒÙ]{1,4}(-[a-zA-ZàèéìòùÀÈÉÌÒÙ]{1,4}){1,}$"
-)
+
+@dataclass
+class VocabMatch:
+    """A single vocabulary match: one lemma resolved to one dictionary entry."""
+
+    lemma: str  # resolved lemma (post-simplemma fallback)
+    pos: str  # spaCy universal POS for this occurrence
+    word: VocabularyWord  # matched dictionary entry
+    surface_forms: list[str] = field(default_factory=list)
+
 
 # Word IDs currently being generated — prevents concurrent LLM calls for the
 # same word when multiple requests discover it simultaneously.  Unbounded but
@@ -66,38 +73,162 @@ def _keep_token(token) -> bool:
 
     Checks the *lemma* rather than the surface form so that elided tokens
     like ``dov'`` (lemma ``dove``) and ``l'`` (lemma ``il``) are included.
+    Strips trailing apostrophes before the alpha check so that unresolved
+    elisions like ``cos'`` (lemma ``cos'`` instead of ``cosa``) aren't dropped.
     Excludes proper nouns (PROPN) to prevent names like Marco → marcare.
     """
-    lem = token.lemma_
+    lem = token.lemma_.rstrip("'")
     return lem.isalpha() and token.pos_ != "PROPN"
 
 
-def _is_syllabization(surface: str) -> bool:
-    """True if the surface form looks like a syllabization (e.g. 'bi-na-rio')."""
-    return bool(_SYLLABIZATION_RE.match(surface))
+def tokenize(text: str) -> list[tuple[str, str, str]]:
+    """Run spaCy on *text* and return kept tokens as (lemma, POS, surface) triples.
 
-
-def lemmatize(text: str) -> list[str]:
-    """Return the lemma of each token in text, lowercased, alphabetic only.
-
-    No stop-word filter — the vocab word_index already gates which lemmas
-    produce matches, and stop words (sì, no, come, bene …) are legitimate
-    vocabulary for language learners.
+    Filters out punctuation, non-alpha, and proper nouns.
     """
     nlp = get_nlp()
     doc = nlp(text)
-    return [token.lemma_.lower() for token in doc if _keep_token(token)]
+    tokens = []
+    for token in doc:
+        keep = _keep_token(token)
+        if keep:
+            tokens.append((token.lemma_.lower(), token.pos_, token.text))
+        logger.debug(
+            "[discover] token: %-15s lemma=%-15s POS=%-6s keep=%s",
+            token.text,
+            token.lemma_,
+            token.pos_,
+            keep,
+        )
+    return tokens
 
 
-def lemmatize_with_pos(text: str) -> list[tuple[str, str]]:
-    """Return (lemma, universal_POS) for each token, lowercased, alphabetic only.
+def match_vocab_words(
+    text: str,
+    word_index: dict[str, list[VocabularyWord]] | None = None,
+) -> list[VocabMatch]:
+    """Tokenize *text*, match lemmas against *word_index*, return matches.
 
-    Like lemmatize(), but also captures the spaCy POS tag for disambiguation
-    when multiple dictionary entries exist for the same lemma.
+    Uses spaCy for lemmatization with a simplemma fallback for lemmas that
+    spaCy gets wrong (e.g. ``capisco`` → ``capiscare`` instead of ``capire``).
+
+    Supports per-occurrence POS disambiguation: if the same lemma appears with
+    different POS tags that resolve to different dictionary entries (e.g.
+    "piano" as noun vs adjective), both matches are returned.
+
+    Parameters
+    ----------
+    text : str
+        Plain text to tokenize and match (no HTML).
+    word_index : dict, optional
+        headword → list of VocabularyWord entries.  Defaults to the global
+        vocab cache when ``None``.
+
+    Returns
+    -------
+    list[VocabMatch]
+        Matches in token order, deduplicated by (lemma, word.id).
     """
-    nlp = get_nlp()
-    doc = nlp(text)
-    return [(token.lemma_.lower(), token.pos_) for token in doc if _keep_token(token)]
+    if word_index is None:
+        word_index = _cache.word_index()
+
+    logger.debug("[discover] extracted text: %r", text)
+    logger.debug("[discover] word_index has %d headwords", len(word_index))
+
+    text_tokens = tokenize(text)
+    logger.debug(
+        "[discover] kept tokens: %s", [(s, lem, p) for lem, p, s in text_tokens]
+    )
+
+    # Map lemma → list of inflected surface forms seen in the text
+    surface_map: dict[str, list[str]] = {}
+    for lem, _, surface in text_tokens:
+        forms = surface_map.setdefault(lem, [])
+        if surface not in forms:
+            forms.append(surface)
+
+    # Match tokens to vocab entries with per-occurrence POS disambiguation.
+    # Dedup key is (lemma, word.id) — same lemma can produce multiple matches
+    # when different POS tags resolve to different dictionary entries.
+    matches: list[VocabMatch] = []
+    seen: set[tuple[str, str]] = set()
+    for lem, upos, _ in text_tokens:
+        entries = word_index.get(lem)
+        resolved_lem = lem
+        if entries:
+            logger.debug(
+                "[discover] lemma %r → word_index HIT (%d entries: %s)",
+                lem,
+                len(entries),
+                [e.word for e in entries],
+            )
+        if not entries:
+            logger.debug(
+                "[discover] lemma %r → word_index MISS, trying simplemma fallback", lem
+            )
+            for surface in surface_map.get(lem, []):
+                candidate = simplemma.lemmatize(surface, lang="it").lower()
+                logger.debug("[discover]   simplemma(%r) → %r", surface, candidate)
+                if candidate != lem:
+                    entries = word_index.get(candidate)
+                    if entries:
+                        logger.debug(
+                            "[discover]   simplemma fallback HIT: %r → %s",
+                            candidate,
+                            [e.word for e in entries],
+                        )
+                        surface_map.setdefault(candidate, []).extend(
+                            surface_map.pop(lem, [])
+                        )
+                        resolved_lem = candidate
+                        break
+                    else:
+                        logger.debug(
+                            "[discover]   simplemma fallback MISS: %r not in word_index",
+                            candidate,
+                        )
+            if not entries:
+                logger.debug("[discover] lemma %r → NO MATCH (not in vocabulary)", lem)
+                continue
+        if len(entries) == 1:
+            matched_word = entries[0]
+        else:
+            matched_word = (
+                next((e for e in entries if matches_pos(e.part_of_speech, upos)), None)
+                or sorted(entries, key=lambda e: e.part_of_speech)[0]
+            )
+
+        key = (resolved_lem, str(matched_word.id))
+        if key in seen:
+            logger.debug(
+                "[discover] lemma %r (word=%r) already matched — skip",
+                resolved_lem,
+                matched_word.word,
+            )
+            continue
+        seen.add(key)
+
+        matches.append(
+            VocabMatch(
+                lemma=resolved_lem,
+                pos=upos,
+                word=matched_word,
+                surface_forms=surface_map.get(resolved_lem, []),
+            )
+        )
+        logger.debug(
+            "[discover] lemma %r → matched vocab word %r (pos=%s)",
+            resolved_lem,
+            matched_word.word,
+            matched_word.part_of_speech,
+        )
+
+    logger.debug(
+        "[discover] SUMMARY: %d matches: %s",
+        len(matches),
+        [(m.lemma, m.word.word, m.word.part_of_speech) for m in matches],
+    )
+    return matches
 
 
 def _build_vocab_attrs(
@@ -153,6 +284,8 @@ def get_target_text(lang_elements: list) -> str:
     """
     parts: list[str] = []
     for el in lang_elements:
+        if parts:
+            parts.append(" ")  # space between separate lang elements
         for desc in el.descendants:
             if isinstance(desc, Tag):
                 # Block element boundary → ensure a space separator
@@ -176,11 +309,16 @@ def _annotate_in_elements(
     anonymous: bool = False,
     in_vocab: bool = False,
     surface_forms: list[str] | None = None,
+    max_count: int | None = None,
 ) -> int:
-    """Annotate all occurrences of word within the given BS4 elements.
+    """Annotate occurrences of word within the given BS4 elements.
 
     Tries the dictionary headword and any inflected surface forms found
     during lemmatization. Returns the number of matches annotated.
+
+    When *max_count* is set, stops after that many matches.  Used by the
+    multi-POS annotation path to annotate one occurrence at a time so each
+    gets the correct dictionary entry's attributes.
     """
     attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous, in_vocab=in_vocab)
 
@@ -218,11 +356,15 @@ def _annotate_in_elements(
                 parts.append(f"<span{attrs}>{match.group()}</span>")
                 last_end = match.end()
                 count += 1
+                if max_count is not None and count >= max_count:
+                    break
             if last_end == 0:
                 continue
             parts.append(original[last_end:])
             fragment = BeautifulSoup("".join(parts), "html.parser")
             text_node.replace_with(*list(fragment.children))
+            if max_count is not None and count >= max_count:
+                return count
 
     return count
 
@@ -243,96 +385,58 @@ async def discover(
 
     soup = BeautifulSoup(response_text, "html.parser")
 
-    # Scope discovery to lang="it" elements inside the content .site-container
+    # Scope discovery to lang="it" elements inside <main>
     # (excludes nav, head, vocab-tooltip, scripts automatically).
-    # Fall back to all lang elements if no .site-container is found (e.g. fragments).
-    content_container = None
-    for sc in soup.find_all("div", class_="site-container"):
-        if not sc.find_parent("nav"):
-            content_container = sc
-            break
+    # Fall back to all lang elements if no <main> is found (e.g. fragments).
+    content_container = soup.find("main")
 
     if content_container is not None:
         lang_elements = list(content_container.find_all(attrs={"lang": target_lang}))
+        logger.debug(
+            "[discover] scoped to .site-container, found %d lang='%s' elements",
+            len(lang_elements),
+            target_lang,
+        )
     else:
         lang_elements = list(soup.find_all(attrs={"lang": target_lang}))
+        logger.debug(
+            "[discover] no .site-container found (fragment mode), found %d lang='%s' elements",
+            len(lang_elements),
+            target_lang,
+        )
 
     if not lang_elements:
+        logger.debug("[discover] no lang elements found — returning unchanged")
         return response_text
 
     # Split into saveable (create cards) vs no-save (tooltip only) elements
     save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
     nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
 
-    # Lemmatize all elements for annotation, tracking surface forms for each lemma
+    # --- Vocabulary matching (pure NLP, no DB) ---
     all_text = get_target_text(lang_elements)
-    nlp = get_nlp()
-    doc = nlp(all_text)
-    text_tokens = [
-        (token.lemma_.lower(), token.pos_, token.text)
-        for token in doc
-        if _keep_token(token) and not _is_syllabization(token.text)
-    ]
-    text_lemmas = [(lem, pos) for lem, pos, _ in text_tokens]
+    matches = match_vocab_words(all_text, _cache.word_index())
 
-    # Map lemma → list of inflected surface forms seen in the text
-    surface_map: dict[str, list[str]] = {}
-    for lem, _, surface in text_tokens:
-        forms = surface_map.setdefault(lem, [])
-        if surface not in forms:
-            forms.append(surface)
+    # Unique words by id — for card creation, def generation, DB queries.
+    unique_words: dict[str, VocabMatch] = {}
+    for m in matches:
+        wid = str(m.word.id)
+        if wid not in unique_words:
+            unique_words[wid] = m
+    matched_word_ids = [m.word.id for m in unique_words.values()]
 
+    # --- Card creation (DB) ---
     save_text = get_target_text(save_elements) if nosave_elements else all_text
 
-    # Match lemmas to vocab entries, preferring the POS variant that matches context.
-    # First occurrence's POS wins — if a word appears as both noun and verb in the
-    # same text, the POS from its first occurrence is used for disambiguation.
-    words_with_vocab: dict[str, VocabularyWord] = {}
-    for lem, upos in text_lemmas:
-        if lem in words_with_vocab:
-            continue
-        entries = _cache.word_index().get(lem)
-        if not entries:
-            # Fallback: try simplemma on the original surface form(s).
-            # spaCy often returns the surface form unchanged as the lemma;
-            # simplemma uses dictionary lookup and handles these correctly.
-            for surface in surface_map.get(lem, []):
-                candidate = simplemma.lemmatize(surface, lang="it").lower()
-                if candidate != lem:
-                    entries = _cache.word_index().get(candidate)
-                    if entries:
-                        # Remap surface forms so annotation uses the corrected lemma.
-                        # pop() is safe: duplicate spaCy lemmas hit the
-                        # `if lem in words_with_vocab: continue` guard above.
-                        surface_map.setdefault(candidate, []).extend(
-                            surface_map.pop(lem, [])
-                        )
-                        lem = candidate
-                        break
-            if not entries:
-                continue
-        if len(entries) == 1:
-            words_with_vocab[lem] = entries[0]
-        else:
-            match = next(
-                (e for e in entries if matches_pos(e.part_of_speech, upos)), None
-            )
-            # Fallback: sort by part_of_speech for deterministic selection
-            words_with_vocab[lem] = (
-                match or sorted(entries, key=lambda e: e.part_of_speech)[0]
-            )
-    matched_word_ids = [w.id for w in words_with_vocab.values()]
-
     # Determine which lemmas appear in save-eligible elements (those without
-    # data-no-save). Uses corrected surface_map so simplemma-remapped lemmas
-    # are handled correctly.  Token-set check avoids substring false positives
+    # data-no-save). Token-set check avoids substring false positives
     # (e.g. surface "ara" matching inside "preparare").
     if nosave_elements:
         save_tokens = set(save_text.lower().split())
         save_lemma_set = {
-            lem
-            for lem in words_with_vocab
-            if any(s.lower() in save_tokens for s in surface_map.get(lem, []))
+            m.lemma
+            for m in matches
+            if any(s.lower() in save_tokens for s in m.surface_forms)
         }
     else:
         save_lemma_set = None
@@ -348,10 +452,10 @@ async def discover(
         existing_word_ids = set()
 
     new_words = [
-        w
-        for lem, w in words_with_vocab.items()
-        if w.id not in existing_word_ids
-        and (save_lemma_set is None or lem in save_lemma_set)
+        m.word
+        for m in unique_words.values()
+        if m.word.id not in existing_word_ids
+        and (save_lemma_set is None or m.lemma in save_lemma_set)
     ]
 
     if new_words and create_cards:
@@ -362,18 +466,19 @@ async def discover(
             ]
         )
 
-    # Definition generation — for ANY discovered word missing A1–B2 definitions,
-    # regardless of auth state or card creation.  A0 words have hardcoded A0-level
-    # definitions (shown to A0 students) but still need LLM-generated A1–B2 ones.
+    # --- Definition generation (background) ---
+    # For ANY discovered word missing A1–B2 definitions, regardless of auth
+    # state or card creation.  A0 words have hardcoded A0-level definitions
+    # (shown to A0 students) but still need LLM-generated A1–B2 ones.
     words_without_defs = [
-        w
-        for w in words_with_vocab.values()
-        if w.senses
+        m.word
+        for m in unique_words.values()
+        if m.word.senses
         and not any(
-            _cache.get_definition(str(w.id), lvl) for lvl in ("A1", "A2", "B1", "B2")
+            _cache.get_definition(str(m.word.id), lvl)
+            for lvl in ("A1", "A2", "B1", "B2")
         )
     ]
-    # Filter out words already being generated by a concurrent request
     words_to_generate = [
         w for w in words_without_defs if str(w.id) not in _pending_def_gen
     ]
@@ -384,25 +489,51 @@ async def discover(
             name=f"vocab-defs-{'-'.join(w.word for w in words_to_generate[:3])}",
         )
 
+    # --- Annotation (HTML) ---
     student_level = await get_cefr_level(student_id) if student_id else "A1"
     anonymous = student_id is None
     owned_word_ids = existing_word_ids | (
         {w.id for w in new_words} if create_cards else set()
     )
 
-    for lem, w in words_with_vocab.items():
-        word_id = str(w.id)
-        wdef = _cache.get_definition(word_id, student_level)
-        if wdef is None and student_level == "A0":
-            wdef = _cache.get_definition(word_id, "A1")
-        _annotate_in_elements(
-            lang_elements,
-            w,
-            wdef,
-            anonymous=anonymous,
-            in_vocab=w.id in owned_word_ids,
-            surface_forms=surface_map.get(lem),
-        )
+    # Group matches by lemma for annotation.  When all matches for a lemma
+    # point to the same dictionary entry, annotate all occurrences at once.
+    # When they point to different entries (multi-POS), annotate one at a
+    # time so each occurrence gets the correct entry's attributes.
+    lemma_groups: dict[str, list[VocabMatch]] = {}
+    for m in matches:
+        lemma_groups.setdefault(m.lemma, []).append(m)
+
+    for lemma, group in lemma_groups.items():
+        word_ids_in_group = {str(m.word.id) for m in group}
+        multi_pos = len(word_ids_in_group) > 1
+
+        for m in group:
+            word_id = str(m.word.id)
+            wdef = _cache.get_definition(word_id, student_level)
+            if wdef is None and student_level == "A0":
+                wdef = _cache.get_definition(word_id, "A1")
+            count = _annotate_in_elements(
+                lang_elements,
+                m.word,
+                wdef,
+                anonymous=anonymous,
+                in_vocab=m.word.id in owned_word_ids,
+                surface_forms=m.surface_forms,
+                max_count=1 if multi_pos else None,
+            )
+            logger.debug(
+                "[discover] annotate %r (headword=%r, pos=%s, surfaces=%s, has_def=%s, multi_pos=%s) → %d matches",
+                m.lemma,
+                m.word.word,
+                m.word.part_of_speech,
+                m.surface_forms,
+                wdef is not None,
+                multi_pos,
+                count,
+            )
+            if not multi_pos:
+                break  # single entry — already annotated all occurrences
 
     return str(soup)
 
