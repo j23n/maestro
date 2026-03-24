@@ -261,6 +261,7 @@ async def lezione_overview(
         "lezione.html",
         {"lesson": lesson, "overview_lang": overview_lang},
         student_id=student.id,
+        create_cards=True,
     )
 
 
@@ -513,13 +514,21 @@ async def lezione_activity(
             raise HTTPException(404)
         ctx["drill"] = drill
         return await render_with_discover(
-            request, "lezione-activity-drill.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-drill.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.VOCAB_REVIEW:
         if is_review:
             return await render_with_discover(
-                request, "lezione-activity-vocab.html", ctx, student_id=student.id
+                request,
+                "lezione-activity-vocab.html",
+                ctx,
+                student_id=student.id,
+                create_cards=True,
             )
         card_ids = activity.card_ids
         if card_idx >= len(card_ids):
@@ -537,7 +546,11 @@ async def lezione_activity(
         ctx["mode"] = "word"
         ctx["hints"] = hints_for_page("lesson_activity_vocab", _dismissed)
         return await render_with_discover(
-            request, "lezione-activity-vocab.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-vocab.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.READING:
@@ -550,7 +563,7 @@ async def lezione_activity(
             "lezione-activity-reading.html",
             ctx,
             student_id=student.id,
-            should_hide_translations=True,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.LISTENING:
@@ -563,13 +576,17 @@ async def lezione_activity(
             "lezione-activity-listening.html",
             ctx,
             student_id=student.id,
-            should_hide_translations=True,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.WRITING:
         ctx["content"] = activity.content or ""
         return await render_with_discover(
-            request, "lezione-activity-writing.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-writing.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.GRAMMAR:
@@ -600,23 +617,39 @@ async def lezione_activity(
                     ctx["why_this_matters"] = expl.why_this_matters
         ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
-            request, "lezione-activity-grammar.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-grammar.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.INFO:
         ctx["content"] = activity.content or ""
         return await render_with_discover(
-            request, "lezione-activity-info.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-info.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.SPEAKING:
         return await render_with_discover(
-            request, "lezione-activity-speaking.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-speaking.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.ONBOARDING:
         return await render_with_discover(
-            request, "lezione-activity-onboarding.html", ctx, student_id=student.id
+            request,
+            "lezione-activity-onboarding.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
         )
 
     raise HTTPException(400, f"Unknown activity type: {activity.type}")
