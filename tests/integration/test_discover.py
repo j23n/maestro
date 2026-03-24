@@ -190,10 +190,6 @@ async def test_anonymous_discover_triggers_definition_generation(db):
 
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
         patch("maestro.vocab.discover.create_background_task") as mock_bg,
     ):
         await discover(
@@ -234,10 +230,6 @@ async def test_deduplication_prevents_duplicate_tasks(db):
 
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
         patch("maestro.vocab.discover.create_background_task") as mock_bg,
     ):
         await discover(
@@ -312,10 +304,6 @@ async def test_authenticated_discover_creates_cards_and_triggers_defs(db):
 
     with (
         patch("maestro.vocab.discover.get_nlp", return_value=mock_nlp),
-        patch(
-            "maestro.vocab.discover.lemmatize_with_pos",
-            return_value=[("mangiare", "VERB")],
-        ),
         patch(
             "maestro.vocab.discover.get_cefr_level",
             new_callable=AsyncMock,
