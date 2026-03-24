@@ -7,6 +7,7 @@ from maestro.models import (
     GrammarPoint,
     GeneratedDrill,
     DrillItem,
+    QuestionItem,
     LearningEvent,
     LearningProfile,
     Lesson,
@@ -91,8 +92,11 @@ async def a1_lesson(db, student):
                 duration_minutes=5,
                 status=ActivityStatus.PENDING,
                 content="Il gatto dorme sul divano.",
-                questions=["Dove dorme il gatto?"],
-                correct_answers=["Sul divano"],
+                questions=[
+                    QuestionItem(
+                        text="Dove dorme il gatto?", correct_answer="Sul divano"
+                    )
+                ],
             ),
         ],
         current_index=0,

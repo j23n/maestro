@@ -1316,8 +1316,9 @@ async def lezione_reading_submit(
     form = await request.form()
     answers = list(form.getlist("answers"))
 
-    questions = activity.questions or []
-    correct_answers = activity.correct_answers or []
+    q_items = activity.questions or []
+    questions = [q.text for q in q_items]
+    correct_answers = [q.correct_answer for q in q_items]
 
     try:
         overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(

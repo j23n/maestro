@@ -14,7 +14,7 @@ from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 
-from maestro.models import ExerciseType
+from maestro.models import DrillItem, ExerciseType
 from maestro.prompts import analyzer as _prompts, span_tagging_block as _stb
 from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
@@ -316,7 +316,7 @@ async def evaluate_error_correction(
 async def score_multi_item_drill(
     exercise_type: str,
     grammar_point_code: str,
-    items: list,
+    items: list[DrillItem],
     student_answers: list[str],
     rag_content: str = "",
     cefr_level: str = "A1",
@@ -326,6 +326,7 @@ async def score_multi_item_drill(
     """Score all items in a single LLM call.
 
     Returns a list of {objective_correct, objective_note, grammar_errors, tips} per item.
+    Items may carry per-item grammar_point_code overrides; the drill-level code is the fallback.
     """
     n = min(len(items), len(student_answers))
     logger.info(
@@ -339,34 +340,36 @@ async def score_multi_item_drill(
     )
 
     await taxonomy.ensure_loaded()
-    gp_label = next(
-        (g.label for g in taxonomy.grammar_points() if g.code == grammar_point_code),
-        grammar_point_code,
-    )
+    gp_lookup = {g.code: g.label for g in taxonomy.grammar_points()}
+
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
         task_desc = _prompts.fill_blank_task_fragment.render(
             target_language=_target_language()
         )
-        lines = [
-            f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
-            for i in range(n)
-        ]
+        lines = []
+        for i in range(n):
+            item_gp = items[i].grammar_point_code or grammar_point_code
+            item_label = gp_lookup.get(item_gp, item_gp)
+            lines.append(
+                f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
+            )
     else:  # error_correction
         task_desc = _prompts.error_correction_task_fragment.render(
             target_language=_target_language()
         )
-        lines = [
-            f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}"'
-            for i in range(n)
-        ]
+        lines = []
+        for i in range(n):
+            item_gp = items[i].grammar_point_code or grammar_point_code
+            item_label = gp_lookup.get(item_gp, item_gp)
+            lines.append(
+                f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
+            )
 
     prompt = _prompts.drill_scoring.render(
         target_language=_target_language(),
         task_desc=task_desc,
-        gp_label=gp_label,
-        grammar_point_code=grammar_point_code,
         rule_block=rule_block,
         items_block="\n".join(lines),
         n=n,
