@@ -354,9 +354,9 @@ def prod_word_index() -> dict[str, list]:
     """Build a word_index from the production vocabulary fixture.
 
     The fixture (tests/fixtures/vocab_headwords.json) is generated from the
-    EPUB dictionary + A0 vocab JSON — the same data that populates the
-    production database.  Loading it here lets us test match_vocab_words
-    against the real vocabulary without needing MongoDB or the EPUB on disk.
+    EPUB dictionary — the ground truth source for production vocabulary.
+    Loading it here lets us test match_vocab_words against the real
+    vocabulary without needing MongoDB or the EPUB on disk.
     """
     fixture_path = _FIXTURES_DIR / "vocab_headwords.json"
     if not fixture_path.exists():
