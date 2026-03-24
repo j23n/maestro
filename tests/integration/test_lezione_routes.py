@@ -9,6 +9,7 @@ from maestro.models import (
     LearningEvent,
     GeneratedDrill,
     DrillItem,
+    QuestionItem,
     ActivityType,
     ActivityStatus,
     LessonStatus,
@@ -210,8 +211,9 @@ async def active_lesson_with_listening(db, student):
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Marco va al bar.</span>",
-                questions=["Dove va Marco?"],
-                correct_answers=["Al bar"],
+                questions=[
+                    QuestionItem(text="Dove va Marco?", correct_answer="Al bar")
+                ],
                 audio_path="/static/audio/lesson_test_0.wav",
             ),
         ],
@@ -288,8 +290,7 @@ async def test_reading_submit_on_reading_records_reading_event(test_app, db, stu
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="<span lang='it'>Testo.</span>",
-                questions=["Domanda?"],
-                correct_answers=["Risposta"],
+                questions=[QuestionItem(text="Domanda?", correct_answer="Risposta")],
             ),
         ],
         current_index=0,
@@ -501,8 +502,9 @@ async def test_reading_submit_creates_learning_event(
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Il gatto è sul tavolo.",
-                questions=["Dove è il gatto?"],
-                correct_answers=["Sul tavolo"],
+                questions=[
+                    QuestionItem(text="Dove è il gatto?", correct_answer="Sul tavolo")
+                ],
             ),
         ],
         current_index=0,
@@ -790,8 +792,9 @@ async def test_reading_scoring_failure_returns_unavailable(test_app, db, student
                 duration_minutes=5,
                 status=ActivityStatus.ACTIVE,
                 content="Il gatto è sul tavolo.",
-                questions=["Dove è il gatto?"],
-                correct_answers=["Sul tavolo"],
+                questions=[
+                    QuestionItem(text="Dove è il gatto?", correct_answer="Sul tavolo")
+                ],
             ),
         ],
         current_index=0,

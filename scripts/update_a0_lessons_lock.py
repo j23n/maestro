@@ -27,7 +27,7 @@ LOCK_FILE = REPO_ROOT / "src/maestro/data/it/a0_lessons.lock"
 
 # Bump this to force a re-sync even when source files haven't changed
 # (e.g. to regenerate audio after a TTS fix).
-LOCK_VERSION = 2
+LOCK_VERSION = 3
 
 
 def combined_sha(lessons_bytes: bytes, scenarios_bytes: bytes) -> str:

@@ -7,1991 +7,2121 @@
 #   - Never more than 2 grammar cards before a practice activity
 #   - Listening + speaking in every lesson
 #   - ~15 new vocab items per lesson (max 18)
-#   - Active:passive ratio ≥ 2:1
+#   - Active:passive ratio >= 2:1
 #   - 10-12 activities per lesson
 #   - Every lesson ends with a review drill of earlier material
 ##############################################################################
 
-a0-01-in-aereo:
-  topic_title: "In aereo"
-  topic_description: "Your first Italian words — on the plane and at the airport"
-  overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one phrase that gets you anything."
+"a0-01-in-aereo":
+  topic_title: In aereo
+  topic_description: Your first Italian words — on the plane and at the airport
+  overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one\
+    \ phrase that gets you anything."
   activities:
-    - type: info
-      title: "Your first Italian lesson!"
-      description: "How Maestro works"
-      content: |
-        ## Welcome to Maestro!
+  - type: info
+    title: "Your first Italian lesson!"
+    description: How Maestro works
+    content: |
+      ## Welcome to Maestro!
 
-        Each lesson is built around a real situation you'll face in Italy. Along the way you'll pick up grammar, vocabulary, and cultural tips.
+      Each lesson is built around a real situation you'll face in Italy. Along the way you'll pick up grammar, vocabulary, and cultural tips.
 
-        Activities include:
+      Activities include:
 
-        - **<span lang="it" data-no-save>Grammatica</span>** — grammar explanations (look for the grammar pill icon)
-        - **<span lang="it" data-no-save>Vocabolario</span>** — flashcards to build your word bank
-        - **<span lang="it" data-no-save>Esercizio</span>** — drills to practise what you've learned
-        - **<span lang="it" data-no-save>Lettura</span>** — reading passages with comprehension questions
-        - **<span lang="it" data-no-save>Ascolto</span>** — listening activities with audio
-        - **<span lang="it" data-no-save>Scrittura</span>** — writing prompts
-        - **<span lang="it" data-no-save>Parlare</span>** — speaking practice
+      - **<span lang="it" data-no-save>Grammatica</span>** — grammar explanations (look for the grammar pill icon)
+      - **<span lang="it" data-no-save>Vocabolario</span>** — flashcards to build your word bank
+      - **<span lang="it" data-no-save>Esercizio</span>** — drills to practise what you've learned
+      - **<span lang="it" data-no-save>Lettura</span>** — reading passages with comprehension questions
+      - **<span lang="it" data-no-save>Ascolto</span>** — listening activities with audio
+      - **<span lang="it" data-no-save>Scrittura</span>** — writing prompts
+      - **<span lang="it" data-no-save>Parlare</span>** — speaking practice
 
-        You can **skip** any activity — just click the skip link at the bottom.
+      You can **skip** any activity — just click the skip link at the bottom.
 
-        ---
+      ---
 
-        ### The scene
+      ### The scene
 
-        You're on a plane to Italy. The cabin crew greets you, the drinks trolley comes around, and you land at the airport.
+      You're on a plane to Italy. The cabin crew greets you, the drinks trolley comes around, and you land at the airport.
+  - type: onboarding
+    title: "Come ti chiami?"
+    description: Tell us your name
+    content: "What's your name? Type it below — we'll show you how to say it in Italian!"
+    profile_field: name
+    response_template: |
+      Nice to meet you! In Italian you'd say: **<span lang="it">Mi chiamo {answer}</span>!** (mee KYAH-mo)
+  - type: grammar
+    title: Greetings and magic words
+    description: "Hello, goodbye, please, thank you"
+    grammar_point_code: saluti
+    content: |
+      ## Your first Italian words
 
-    - type: onboarding
-      title: "Come ti chiami?"
-      description: "Tell us your name"
-      content: "What's your name? Type it below — we'll show you how to say it in Italian!"
-      profile_field: name
-      response_template: >
-        Nice to meet you! In Italian you'd say: **<span lang="it">Mi chiamo {answer}</span>!** (mee KYAH-mo)
+      ### Greetings
 
-    - type: grammar
-      title: "Greetings and magic words"
-      description: "Hello, goodbye, please, thank you"
-      grammar_point_code: saluti
-      content: |
-        ## Your first Italian words
+      | Italian | Meaning | When | Pronunciation |
+      |---------|---------|------|---------------|
+      | **<span lang="it">Ciao!</span>** | Hello! / Bye! | Informal | *chow* |
+      | **<span lang="it">Buongiorno!</span>** | Good morning | Formal, daytime | *bwon-JOR-no* |
+      | **<span lang="it">Buonasera!</span>** | Good evening | Formal, evening | *bwon-ah-SEH-rah* |
+      | **<span lang="it">Arrivederci!</span>** | Goodbye | Formal | *ah-ree-veh-DEHR-chee* |
 
-        ### Greetings
+      ### Magic words
 
-        | Italian | Meaning | When | Pronunciation |
-        |---------|---------|------|---------------|
-        | **<span lang="it">Ciao!</span>** | Hello! / Bye! | Informal | *chow* |
-        | **<span lang="it">Buongiorno!</span>** | Good morning | Formal, daytime | *bwon-JOR-no* |
-        | **<span lang="it">Buonasera!</span>** | Good evening | Formal, evening | *bwon-ah-SEH-rah* |
-        | **<span lang="it">Arrivederci!</span>** | Goodbye | Formal | *ah-ree-veh-DEHR-chee* |
+      | Italian | Meaning | Pronunciation |
+      |---------|---------|---------------|
+      | **<span lang="it">Grazie!</span>** | Thank you! | *GRAH-tsyeh* |
+      | **<span lang="it">Per favore</span>** | Please | *pair fah-VOH-reh* |
+      | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
+      | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
 
-        ### Magic words
+      > **On the plane:** The crew will greet you with <span lang="it">*Buongiorno!*</span> or <span lang="it">*Buonasera!*</span>. A smile and the same word back is all you need.
+  - type: drill
+    title: First words
+    description: Practise greetings and polite phrases
+    hint: "These are the words you just learned — try to recall them!"
+    grammar_point_code: saluti
+    exercise_type: fill_blank
+    items:
+    - prompt: "Hello! (informal) = ___!"
+      correct_answer: Ciao
+    - prompt: "Good morning! = ___!"
+      correct_answer: Buongiorno
+    - prompt: "Thank you! = ___!"
+      correct_answer: Grazie
+    - prompt: "Please = Per ___"
+      correct_answer: favore
+    - prompt: "Excuse me! (formal) = ___!"
+      correct_answer: Scusi
+  - type: grammar
+    title: Survival Italian
+    description: When you don't understand + ordering
+    grammar_point_code: si_no_non
+    content: |
+      ## Survival phrases
 
-        | Italian | Meaning | Pronunciation |
-        |---------|---------|---------------|
-        | **<span lang="it">Grazie!</span>** | Thank you! | *GRAH-tsyeh* |
-        | **<span lang="it">Per favore</span>** | Please | *pair fah-VOH-reh* |
-        | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
-        | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
+      - **<span lang="it">Sì</span>** — Yes
+      - **<span lang="it">No</span>** — No
+      - **<span lang="it">Non capisco.</span>** — I don't understand.
+      - **<span lang="it">Parla inglese?</span>** — Do you speak English?
+      - **<span lang="it">Mi dispiace.</span>** — I'm sorry.
 
-        > **On the plane:** The crew will greet you with <span lang="it">*Buongiorno!*</span> or <span lang="it">*Buonasera!*</span>. A smile and the same word back is all you need.
+      ### How to say "not"
 
-    - type: drill
-      title: "First words"
-      description: "Practise greetings and polite phrases"
-      hint: "These are the words you just learned — try to recall them!"
-      grammar_point_code: saluti
-      exercise_type: fill_blank
-      items:
-        - prompt: "Hello! (informal) = ___!"
-          correct_answer: "Ciao"
-        - prompt: "Good morning! = ___!"
-          correct_answer: "Buongiorno"
-        - prompt: "Thank you! = ___!"
-          correct_answer: "Grazie"
-        - prompt: "Please = Per ___"
-          correct_answer: "favore"
-        - prompt: "Excuse me! (formal) = ___!"
-          correct_answer: "Scusi"
+      Put **<span lang="it">non</span>** before any verb. That's it — one rule, works every time:
+      - <span lang="it">**Capisco**</span> → <span lang="it">**Non capisco**</span> (I don't understand)
 
-    - type: grammar
-      title: "Survival Italian"
-      description: "When you don't understand + ordering"
-      grammar_point_code: si_no_non
-      content: |
-        ## Survival phrases
+      ### The most useful phrase in Italy
 
-        - **<span lang="it">Sì</span>** — Yes
-        - **<span lang="it">No</span>** — No
-        - **<span lang="it">Non capisco.</span>** — I don't understand.
-        - **<span lang="it">Parla inglese?</span>** — Do you speak English?
-        - **<span lang="it">Mi dispiace.</span>** — I'm sorry.
+      **<span lang="it">Vorrei</span>** means "I would like." It works everywhere — cafés, restaurants, ticket counters, shops:
+      - <span lang="it">**Vorrei un caffè, per favore.**</span> — I'd like a coffee, please.
+      - <span lang="it">**Vorrei un'acqua.**</span> — I'd like a water.
 
-        ### How to say "not"
+      Don't worry about the grammar — just use <span lang="it">**vorrei**</span> + what you want + <span lang="it">**per favore**</span>.
+  - type: drill
+    title: Survival check
+    description: "Can you get by?"
+    hint: "Non capisco = I don't understand. Vorrei = I would like."
+    grammar_point_code: si_no_non
+    exercise_type: fill_blank
+    items:
+    - prompt: "I don't understand. = Non ___."
+      correct_answer: capisco
+    - prompt: "Do you speak English? = ___ inglese?"
+      correct_answer: Parla
+    - prompt: "I'd like a coffee. = ___ un caffè."
+      correct_answer: Vorrei
+    - prompt: "Goodbye! (formal) = ___!"
+      correct_answer: Arrivederci
+    - prompt: "I'm sorry. = Mi ___."
+      correct_answer: dispiace
+  - type: reading
+    title: On the plane
+    description: A short exchange with the cabin crew
+    content: |
+      <span lang="it">— Buongiorno!</span> (Good morning!)
 
-        Put **<span lang="it">non</span>** before any verb. That's it — one rule, works every time:
-        - <span lang="it">**Capisco**</span> → <span lang="it">**Non capisco**</span> (I don't understand)
+      <span lang="it">— Buongiorno! Vorrei un'acqua, per favore.</span> (I'd like a water, please.)
 
-        ### The most useful phrase in Italy
+      <span lang="it">— Ecco.</span> (Here you go.)
 
-        **<span lang="it">Vorrei</span>** means "I would like." It works everywhere — cafés, restaurants, ticket counters, shops:
-        - <span lang="it">**Vorrei un caffè, per favore.**</span> — I'd like a coffee, please.
-        - <span lang="it">**Vorrei un'acqua.**</span> — I'd like a water.
+      <span lang="it">— Grazie!</span>
 
-        Don't worry about the grammar — just use <span lang="it">**vorrei**</span> + what you want + <span lang="it">**per favore**</span>.
+      <span lang="it">— Prego!</span>
+    questions:
+    - text: "What does the passenger order?"
+      correct_answer: un'acqua / a water
+      grammar_point_codes:
+      - vorrei
+    - text: "What does 'prego' mean here?"
+      correct_answer: You're welcome
+      grammar_point_codes:
+      - saluti
+  - type: listening
+    title: At the airport
+    description: Listen to a short exchange at arrivals
+    audio_path: /static/audio/a0_01_in_aereo.wav
+    content: |
+      — Buonasera!
+      — Buonasera. Scusi, parla inglese?
+      — No, mi dispiace.
+      — Va bene. Grazie!
+      — Prego. Arrivederci!
+    questions:
+    - text: "Does the airport worker speak English?"
+      correct_answer: 'No'
+      grammar_point_codes:
+      - si_no_non
+    - text: "Is this conversation formal or informal?"
+      correct_answer: Formal
+      grammar_point_codes:
+      - saluti
+  - type: speaking
+    title: Say it out loud
+    description: Practice your first Italian
+    content: "Say these three sentences out loud, one after the other: **Buongiorno!** ... **Vorrei un caffè, per favore.**\
+      \ ... **Grazie!** Try to sound natural — Italians appreciate the effort!"
+    grammar_point_codes:
+    - saluti
+    - si_no_non
+    - vorrei
+  - type: info
+    title: What's next
+    description: How your learning journey continues
+    content: |
+      ## What happens next
 
-    - type: drill
-      title: "Survival check"
-      description: "Can you get by?"
-      hint: "Non capisco = I don't understand. Vorrei = I would like."
-      grammar_point_code: si_no_non
-      exercise_type: fill_blank
-      items:
-        - prompt: "I don't understand. = Non ___."
-          correct_answer: "capisco"
-        - prompt: "Do you speak English? = ___ inglese?"
-          correct_answer: "Parla"
-        - prompt: "I'd like a coffee. = ___ un caffè."
-          correct_answer: "Vorrei"
-        - prompt: "Goodbye! (formal) = ___!"
-          correct_answer: "Arrivederci"
-        - prompt: "I'm sorry. = Mi ___."
-          correct_answer: "dispiace"
+      You've just completed your first Maestro lesson!
 
-    - type: reading
-      title: "On the plane"
-      description: "A short exchange with the cabin crew"
-      content: |
-        <span lang="it">— Buongiorno!</span> (Good morning!)
+      **Lessons** follow your trip chronologically — next you'll check into the hotel.
 
-        <span lang="it">— Buongiorno! Vorrei un'acqua, per favore.</span> (I'd like a water, please.)
+      **Vocabulary** cards use spaced repetition — words come back just when you're about to forget them.
 
-        <span lang="it">— Ecco.</span> (Here you go.)
+      **Tip:** Short daily sessions beat long infrequent ones. Even 10 minutes a day works.
 
-        <span lang="it">— Grazie!</span>
-
-        <span lang="it">— Prego!</span>
-      questions:
-        - "What does the passenger order?"
-        - "What does 'prego' mean here?"
-      correct_answers:
-        - "un'acqua / a water"
-        - "You're welcome"
-
-    - type: listening
-      title: "At the airport"
-      description: "Listen to a short exchange at arrivals"
-      audio_path: "/static/audio/a0_01_in_aereo.wav"
-      content: |
-        — Buonasera!
-        — Buonasera. Scusi, parla inglese?
-        — No, mi dispiace.
-        — Va bene. Grazie!
-        — Prego. Arrivederci!
-      questions:
-        - "Does the airport worker speak English?"
-        - "Is this conversation formal or informal?"
-      correct_answers:
-        - "No"
-        - "Formal"
-
-    - type: speaking
-      title: "Say it out loud"
-      description: "Practice your first Italian"
-      content: "Say these three sentences out loud, one after the other: **Buongiorno!** ... **Vorrei un caffè, per favore.** ... **Grazie!** Try to sound natural — Italians appreciate the effort!"
-
-    - type: info
-      title: "What's next"
-      description: "How your learning journey continues"
-      content: |
-        ## What happens next
-
-        You've just completed your first Maestro lesson!
-
-        **Lessons** follow your trip chronologically — next you'll check into the hotel.
-
-        **Vocabulary** cards use spaced repetition — words come back just when you're about to forget them.
-
-        **Tip:** Short daily sessions beat long infrequent ones. Even 10 minutes a day works.
-
-        <span lang="it">**Avanti!**</span> (Let's go!)
-
-a0-02-in-albergo:
-  topic_title: "In albergo"
+      <span lang="it">**Avanti!**</span> (Let's go!)
+"a0-02-in-albergo":
+  topic_title: In albergo
   topic_description: "Checking into the hotel — names, numbers, and Italian sounds"
-  overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian out loud."
+  overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian\
+    \ out loud."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Mi chiamo...
+    description: Giving your name
+    grammar_point_code: mi_chiamo
+    content: |
+      ## At the reception
 
-    - type: grammar
-      title: "Mi chiamo..."
-      description: "Giving your name"
-      grammar_point_code: mi_chiamo
-      content: |
-        ## At the reception
+      - **<span lang="it">Mi chiamo...</span>** — My name is... (*mee KYAH-mo*)
+      - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation.
+      - **<span lang="it">Come si chiama?</span>** — What is your name? (formal)
 
-        - **<span lang="it">Mi chiamo...</span>** — My name is... (*mee KYAH-mo*)
-        - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation.
-        - **<span lang="it">Come si chiama?</span>** — What is your name? (formal)
+      > Walk up to reception and say: <span lang="it">*Buonasera. Mi chiamo [your name]. Ho una prenotazione.*</span> That's all you need.
+  - type: drill
+    title: "Check-in phrases"
+    description: At the hotel reception
+    hint: "Mi chiamo = My name is. Ho una prenotazione = I have a reservation."
+    grammar_point_code: mi_chiamo
+    exercise_type: fill_blank
+    items:
+    - prompt: "My name is Maria. = Mi ___ Maria."
+      correct_answer: chiamo
+    - prompt: "I have a reservation. = Ho una ___."
+      correct_answer: prenotazione
+    - prompt: "What is your name? (formal) = Come si ___?"
+      correct_answer: chiama
+  - type: grammar
+    title: "Numbers 0-20"
+    description: "For room numbers, floors, and times"
+    grammar_point_code: num_0_20
+    content: |
+      ## I numeri da 0 a 20
 
-        > Walk up to reception and say: <span lang="it">*Buonasera. Mi chiamo [your name]. Ho una prenotazione.*</span> That's all you need.
+      The receptionist will tell you your room number and floor:
 
-    - type: drill
-      title: "Check-in phrases"
-      description: "At the hotel reception"
-      hint: "Mi chiamo = My name is. Ho una prenotazione = I have a reservation."
-      grammar_point_code: mi_chiamo
-      exercise_type: fill_blank
-      items:
-        - prompt: "My name is Maria. = Mi ___ Maria."
-          correct_answer: "chiamo"
-        - prompt: "I have a reservation. = Ho una ___."
-          correct_answer: "prenotazione"
-        - prompt: "What is your name? (formal) = Come si ___?"
-          correct_answer: "chiama"
+      | # | Italian | | # | Italian |
+      |---|---------|---|---|---------|
+      | 0 | **<span lang="it">zero</span>** | | 11 | **<span lang="it">undici</span>** |
+      | 1 | **<span lang="it">uno</span>** | | 12 | **<span lang="it">dodici</span>** |
+      | 2 | **<span lang="it">due</span>** | | 13 | **<span lang="it">tredici</span>** |
+      | 3 | **<span lang="it">tre</span>** | | 14 | **<span lang="it">quattordici</span>** |
+      | 4 | **<span lang="it">quattro</span>** | | 15 | **<span lang="it">quindici</span>** |
+      | 5 | **<span lang="it">cinque</span>** | | 16 | **<span lang="it">sedici</span>** |
+      | 6 | **<span lang="it">sei</span>** | | 17 | **<span lang="it">diciassette</span>** |
+      | 7 | **<span lang="it">sette</span>** | | 18 | **<span lang="it">diciotto</span>** |
+      | 8 | **<span lang="it">otto</span>** | | 19 | **<span lang="it">diciannove</span>** |
+      | 9 | **<span lang="it">nove</span>** | | 20 | **<span lang="it">venti</span>** |
+      | 10 | **<span lang="it">dieci</span>** | | | |
 
-    - type: grammar
-      title: "Numbers 0-20"
-      description: "For room numbers, floors, and times"
-      grammar_point_code: num_0_20
-      content: |
-        ## I numeri da 0 a 20
+      **Patterns:** 11–16 end in <span lang="it">*-dici*</span>. 17–19 start with <span lang="it">*dici-*</span>.
+  - type: drill
+    title: Numbers
+    description: Write the Italian number
+    hint: "11-16 end in -dici, 17-19 start with dici-."
+    grammar_point_code: num_0_20
+    exercise_type: fill_blank
+    items:
+    - prompt: "3 = ___"
+      correct_answer: tre
+    - prompt: "7 = ___"
+      correct_answer: sette
+    - prompt: "12 = ___"
+      correct_answer: dodici
+    - prompt: "15 = ___"
+      correct_answer: quindici
+    - prompt: "20 = ___"
+      correct_answer: venti
+  - type: reading
+    title: At the reception
+    description: Checking in
+    content: |
+      <span lang="it">— Buonasera!</span>
 
-        The receptionist will tell you your room number and floor:
+      <span lang="it">— Buonasera. Mi chiamo Sarah Jones. Ho una prenotazione.</span>
 
-        | # | Italian | | # | Italian |
-        |---|---------|---|---|---------|
-        | 0 | **<span lang="it">zero</span>** | | 11 | **<span lang="it">undici</span>** |
-        | 1 | **<span lang="it">uno</span>** | | 12 | **<span lang="it">dodici</span>** |
-        | 2 | **<span lang="it">due</span>** | | 13 | **<span lang="it">tredici</span>** |
-        | 3 | **<span lang="it">tre</span>** | | 14 | **<span lang="it">quattordici</span>** |
-        | 4 | **<span lang="it">quattro</span>** | | 15 | **<span lang="it">quindici</span>** |
-        | 5 | **<span lang="it">cinque</span>** | | 16 | **<span lang="it">sedici</span>** |
-        | 6 | **<span lang="it">sei</span>** | | 17 | **<span lang="it">diciassette</span>** |
-        | 7 | **<span lang="it">sette</span>** | | 18 | **<span lang="it">diciotto</span>** |
-        | 8 | **<span lang="it">otto</span>** | | 19 | **<span lang="it">diciannove</span>** |
-        | 9 | **<span lang="it">nove</span>** | | 20 | **<span lang="it">venti</span>** |
-        | 10 | **<span lang="it">dieci</span>** | | | |
+      <span lang="it">— Sì, camera dodici, secondo piano.</span> (Yes, room twelve, second floor.)
 
-        **Patterns:** 11–16 end in <span lang="it">*-dici*</span>. 17–19 start with <span lang="it">*dici-*</span>.
+      <span lang="it">— Grazie!</span>
 
-    - type: drill
-      title: "Numbers"
-      description: "Write the Italian number"
-      hint: "11-16 end in -dici, 17-19 start with dici-."
-      grammar_point_code: num_0_20
-      exercise_type: fill_blank
-      items:
-        - prompt: "3 = ___"
-          correct_answer: "tre"
-        - prompt: "7 = ___"
-          correct_answer: "sette"
-        - prompt: "12 = ___"
-          correct_answer: "dodici"
-        - prompt: "15 = ___"
-          correct_answer: "quindici"
-        - prompt: "20 = ___"
-          correct_answer: "venti"
+      <span lang="it">— Prego. La colazione è dalle sette alle dieci.</span> (Breakfast is from seven to ten.)
 
-    - type: reading
-      title: "At the reception"
-      description: "Checking in"
-      content: |
-        <span lang="it">— Buonasera!</span>
+      <span lang="it">— Grazie mille! Buonanotte!</span>
+    questions:
+    - text: "What room number does Sarah get?"
+      correct_answer: dodici / 12
+      grammar_point_codes:
+      - num_0_20
+    - text: "What time does breakfast start?"
+      correct_answer: sette / 7
+      grammar_point_codes:
+      - num_0_20
+  - type: listening
+    title: Checking in
+    description: "Listen to a hotel check-in"
+    audio_path: /static/audio/a0_02_in_albergo.wav
+    content: |
+      — Buonasera. Mi chiamo Marco Bianchi. Ho una prenotazione.
+      — Sì, signor Bianchi. Camera diciotto, terzo piano.
+      — Grazie. Scusi, dov'è l'ascensore?
+      — Là, a destra.
+      — Grazie mille!
+    questions:
+    - text: "What room number does Marco get?"
+      correct_answer: diciotto / 18
+      grammar_point_codes:
+      - num_0_20
+    - text: "Where is the lift?"
+      correct_answer: "là, a destra / there, on the right"
+      grammar_point_codes:
+      - dove_e
+  - type: speaking
+    title: Check in
+    description: "Practice your hotel check-in"
+    content: "Say this out loud as one smooth phrase: **Buonasera. Mi chiamo [your name]. Ho una prenotazione.** Then try:\
+      \ **Grazie mille! Buonanotte!**"
+    grammar_point_codes:
+    - mi_chiamo
+    - saluti
+  - type: info
+    title: Italian sounds
+    description: A pronunciation reference card
+    content: |
+      ## Italian pronunciation — reference card
 
-        <span lang="it">— Buonasera. Mi chiamo Sarah Jones. Ho una prenotazione.</span>
+      Good news: Italian is mostly phonetic — you read it as it's written! Keep this card handy.
 
-        <span lang="it">— Sì, camera dodici, secondo piano.</span> (Yes, room twelve, second floor.)
+      ### Vowels (always the same sound)
 
-        <span lang="it">— Grazie!</span>
+      | Letter | Sound | Example |
+      |--------|-------|---------|
+      | **a** | ah (father) | <span lang="it">casa</span> (KAH-za) |
+      | **e** | eh (bed) | <span lang="it">bene</span> (BEH-neh) |
+      | **i** | ee (feet) | <span lang="it">vino</span> (VEE-no) |
+      | **o** | oh (go) | <span lang="it">notte</span> (NOT-teh) |
+      | **u** | oo (moon) | <span lang="it">uno</span> (OO-no) |
 
-        <span lang="it">— Prego. La colazione è dalle sette alle dieci.</span> (Breakfast is from seven to ten.)
+      ### Tricky consonants
 
-        <span lang="it">— Grazie mille! Buonanotte!</span>
-      questions:
-        - "What room number does Sarah get?"
-        - "What time does breakfast start?"
-      correct_answers:
-        - "dodici / 12"
-        - "sette / 7"
+      | Pattern | Sound | Example |
+      |---------|-------|---------|
+      | **c** before e/i | "ch" | <span lang="it">ciao</span> = chow |
+      | **c** before a/o/u | "k" | <span lang="it">caffè</span> = kaf-FEH |
+      | **g** before e/i | "j" | <span lang="it">gelato</span> = jeh-LAH-to |
+      | **g** before a/o/u | hard "g" | <span lang="it">grazie</span> = GRAH-tsyeh |
+      | **gn** | "ny" | <span lang="it">gnocchi</span> = NYOH-kee |
+      | **sc** before e/i | "sh" | <span lang="it">pesce</span> = PEH-sheh |
 
-    - type: listening
-      title: "Checking in"
-      description: "Listen to a hotel check-in"
-      audio_path: "/static/audio/a0_02_in_albergo.wav"
-      content: |
-        — Buonasera. Mi chiamo Marco Bianchi. Ho una prenotazione.
-        — Sì, signor Bianchi. Camera diciotto, terzo piano.
-        — Grazie. Scusi, dov'è l'ascensore?
-        — Là, a destra.
-        — Grazie mille!
-      questions:
-        - "What room number does Marco get?"
-        - "Where is the lift?"
-      correct_answers:
-        - "diciotto / 18"
-        - "là, a destra / there, on the right"
+      Double consonants are **held longer**: <span lang="it" data-no-save>*penna*</span> (PEN-nah), <span lang="it" data-no-save>*notte*</span> (NOT-teh).
 
-    - type: speaking
-      title: "Check in"
-      description: "Practice your hotel check-in"
-      content: "Say this out loud as one smooth phrase: **Buonasera. Mi chiamo [your name]. Ho una prenotazione.** Then try: **Grazie mille! Buonanotte!**"
-
-    - type: info
-      title: "Italian sounds"
-      description: "A pronunciation reference card"
-      content: |
-        ## Italian pronunciation — reference card
-
-        Good news: Italian is mostly phonetic — you read it as it's written! Keep this card handy.
-
-        ### Vowels (always the same sound)
-
-        | Letter | Sound | Example |
-        |--------|-------|---------|
-        | **a** | ah (father) | <span lang="it">casa</span> (KAH-za) |
-        | **e** | eh (bed) | <span lang="it">bene</span> (BEH-neh) |
-        | **i** | ee (feet) | <span lang="it">vino</span> (VEE-no) |
-        | **o** | oh (go) | <span lang="it">notte</span> (NOT-teh) |
-        | **u** | oo (moon) | <span lang="it">uno</span> (OO-no) |
-
-        ### Tricky consonants
-
-        | Pattern | Sound | Example |
-        |---------|-------|---------|
-        | **c** before e/i | "ch" | <span lang="it">ciao</span> = chow |
-        | **c** before a/o/u | "k" | <span lang="it">caffè</span> = kaf-FEH |
-        | **g** before e/i | "j" | <span lang="it">gelato</span> = jeh-LAH-to |
-        | **g** before a/o/u | hard "g" | <span lang="it">grazie</span> = GRAH-tsyeh |
-        | **gn** | "ny" | <span lang="it">gnocchi</span> = NYOH-kee |
-        | **sc** before e/i | "sh" | <span lang="it">pesce</span> = PEH-sheh |
-
-        Double consonants are **held longer**: <span lang="it" data-no-save>*penna*</span> (PEN-nah), <span lang="it" data-no-save>*notte*</span> (NOT-teh).
-
-        > You don't need to memorise this — come back to it whenever you meet a new word.
-
-    - type: drill
-      title: "Review: lesson 1"
-      description: "Keep yesterday's words fresh"
-      hint: "Vorrei = I would like. Non capisco = I don't understand."
+      > You don't need to memorise this — come back to it whenever you meet a new word.
+  - type: drill
+    title: "Review: lesson 1"
+    description: Keep yesterday's words fresh
+    hint: "Vorrei = I would like. Non capisco = I don't understand."
+    grammar_point_code: saluti
+    exercise_type: fill_blank
+    items:
+    - prompt: "I'd like a water. = ___ un'acqua."
+      correct_answer: Vorrei
+      grammar_point_code: vorrei
+    - prompt: "I don't understand. = Non ___."
+      correct_answer: capisco
+      grammar_point_code: si_no_non
+    - prompt: "Good evening! = ___!"
+      correct_answer: Buonasera
       grammar_point_code: saluti
-      exercise_type: fill_blank
-      items:
-        - prompt: "I'd like a water. = ___ un'acqua."
-          correct_answer: "Vorrei"
-        - prompt: "I don't understand. = Non ___."
-          correct_answer: "capisco"
-        - prompt: "Good evening! = ___!"
-          correct_answer: "Buonasera"
-        - prompt: "You're welcome. = ___!"
-          correct_answer: "Prego"
-
-a0-03-al-bar:
-  topic_title: "Al bar"
+    - prompt: "You're welcome. = ___!"
+      correct_answer: Prego
+      grammar_point_code: saluti
+"a0-03-al-bar":
+  topic_title: Al bar
   topic_description: "Your first Italian coffee — un/una, counting, and café culture"
-  overview: "Morning in Italy starts at the bar. Learn to order with the right articles and numbers."
+  overview: Morning in Italy starts at the bar. Learn to order with the right articles and numbers.
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: "Un caffè, una pizza"
+    description: A/an in Italian
+    grammar_point_code: art_un_una
+    content: |
+      ## Un e una — a / an
 
-    - type: grammar
-      title: "Un caffè, una pizza"
-      description: "A/an in Italian"
-      grammar_point_code: art_un_una
-      content: |
-        ## Un e una — a / an
+      When you order, you need the right word for "a":
 
-        When you order, you need the right word for "a":
+      - <span lang="it">**un**</span> = a (masculine) — <span lang="it">un caffè, un cornetto, un cappuccino</span>
+      - <span lang="it">**una**</span> = a (feminine) — <span lang="it">una pizza, una birra</span>
+      - <span lang="it">**un'**</span> = a (feminine, before a vowel) — <span lang="it">un'acqua, un'aranciata</span>
 
-        - <span lang="it">**un**</span> = a (masculine) — <span lang="it">un caffè, un cornetto, un cappuccino</span>
-        - <span lang="it">**una**</span> = a (feminine) — <span lang="it">una pizza, una birra</span>
-        - <span lang="it">**un'**</span> = a (feminine, before a vowel) — <span lang="it">un'acqua, un'aranciata</span>
+      **Quick rule:** Words ending in **-o** → <span lang="it">un</span>. Words ending in **-a** → <span lang="it">una</span>.
 
-        **Quick rule:** Words ending in **-o** → <span lang="it">un</span>. Words ending in **-a** → <span lang="it">una</span>.
+      > **Cultural note:** In Italy, a <span lang="it">*bar*</span> is where you get morning coffee and pastry. Standing at the counter is cheaper than sitting!
+  - type: drill
+    title: "Un or una?"
+    description: Choose the right article
+    hint: "Words ending in -o → un. Words ending in -a → una. Feminine before a vowel → un'."
+    grammar_point_code: art_un_una
+    exercise_type: fill_blank
+    items:
+    - prompt: "a coffee = ___ caffè"
+      correct_answer: un
+    - prompt: "a pizza = ___ pizza"
+      correct_answer: una
+    - prompt: "a water = ___ acqua"
+      correct_answer: un'
+    - prompt: "a croissant = ___ cornetto"
+      correct_answer: un
+    - prompt: "a beer = ___ birra"
+      correct_answer: una
+  - type: grammar
+    title: Ordering with numbers
+    description: "Due caffè, tre cornetti..."
+    grammar_point_code: vorrei
+    content: |
+      ## Ordering for the group
 
-        > **Cultural note:** In Italy, a <span lang="it">*bar*</span> is where you get morning coffee and pastry. Standing at the counter is cheaper than sitting!
+      You already know <span lang="it">*vorrei*</span>. Now add numbers:
 
-    - type: drill
-      title: "Un or una?"
-      description: "Choose the right article"
-      hint: "Words ending in -o → un. Words ending in -a → una. Feminine before a vowel → un'."
-      grammar_point_code: art_un_una
-      exercise_type: fill_blank
-      items:
-        - prompt: "a coffee = ___ caffè"
-          correct_answer: "un"
-        - prompt: "a pizza = ___ pizza"
-          correct_answer: "una"
-        - prompt: "a water = ___ acqua"
-          correct_answer: "un'"
-        - prompt: "a croissant = ___ cornetto"
-          correct_answer: "un"
-        - prompt: "a beer = ___ birra"
-          correct_answer: "una"
+      - <span lang="it">**Vorrei due caffè, per favore.**</span> — I'd like two coffees.
+      - <span lang="it">**Vorrei tre cornetti.**</span> — I'd like three croissants.
 
-    - type: grammar
-      title: "Ordering with numbers"
-      description: "Due caffè, tre cornetti..."
-      grammar_point_code: vorrei
-      content: |
-        ## Ordering for the group
+      Formula: <span lang="it">**Vorrei**</span> + number + item + <span lang="it">**per favore**</span>.
 
-        You already know <span lang="it">*vorrei*</span>. Now add numbers:
+      To ask the price:
+      - **<span lang="it">Quanto costa?</span>** — How much does it cost?
+  - type: drill
+    title: At the counter
+    description: Order and pay
+    hint: "Vorrei + number + item. Quanto costa? = How much?"
+    grammar_point_code: vorrei
+    exercise_type: fill_blank
+    items:
+    - prompt: "I'd like two coffees. = Vorrei ___ caffè."
+      correct_answer: due
+    - prompt: "How much does it cost? = ___ costa?"
+      correct_answer: Quanto
+    - prompt: "I'd like the bill. = Vorrei il ___."
+      correct_answer: conto
+    - prompt: "Thank you very much! = Grazie ___!"
+      correct_answer: mille
+  - type: reading
+    title: Morning coffee
+    description: Ordering at an Italian bar
+    content: |
+      <span lang="it">— Buongiorno!</span>
 
-        - <span lang="it">**Vorrei due caffè, per favore.**</span> — I'd like two coffees.
-        - <span lang="it">**Vorrei tre cornetti.**</span> — I'd like three croissants.
+      <span lang="it">— Buongiorno. Vorrei due caffè e tre cornetti, per favore.</span>
 
-        Formula: <span lang="it">**Vorrei**</span> + number + item + <span lang="it">**per favore**</span>.
+      <span lang="it">— Certo. Sette euro.</span> (Sure. Seven euros.)
 
-        To ask the price:
-        - **<span lang="it">Quanto costa?</span>** — How much does it cost?
+      <span lang="it">— Ecco dieci euro.</span> (Here's ten euros.)
 
-    - type: drill
-      title: "At the counter"
-      description: "Order and pay"
-      hint: "Vorrei + number + item. Quanto costa? = How much?"
-      grammar_point_code: vorrei
-      exercise_type: fill_blank
-      items:
-        - prompt: "I'd like two coffees. = Vorrei ___ caffè."
-          correct_answer: "due"
-        - prompt: "How much does it cost? = ___ costa?"
-          correct_answer: "Quanto"
-        - prompt: "I'd like the bill. = Vorrei il ___."
-          correct_answer: "conto"
-        - prompt: "Thank you very much! = Grazie ___!"
-          correct_answer: "mille"
+      <span lang="it">— Grazie. Tre euro di resto.</span> (Thanks. Three euros change.)
 
-    - type: reading
-      title: "Morning coffee"
-      description: "Ordering at an Italian bar"
-      content: |
-        <span lang="it">— Buongiorno!</span>
-
-        <span lang="it">— Buongiorno. Vorrei due caffè e tre cornetti, per favore.</span>
-
-        <span lang="it">— Certo. Sette euro.</span> (Sure. Seven euros.)
-
-        <span lang="it">— Ecco dieci euro.</span> (Here's ten euros.)
-
-        <span lang="it">— Grazie. Tre euro di resto.</span> (Thanks. Three euros change.)
-
-        <span lang="it">— Prego. Buona giornata!</span> (Have a nice day!)
-      questions:
-        - "How many coffees are ordered?"
-        - "How much change does the customer get?"
-      correct_answers:
-        - "due / 2"
-        - "tre euro / 3 euros"
-
-    - type: listening
-      title: "Al bar"
-      description: "Listen to a café order"
-      audio_path: "/static/audio/a0_03_al_bar.wav"
-      content: |
-        — Buongiorno!
-        — Buongiorno. Vorrei un cappuccino e una brioche, per favore.
-        — Certo. Tre euro e cinquanta.
-        — Ecco cinque euro.
-        — Grazie. Un euro e cinquanta di resto.
-        — Grazie! Buona giornata!
-      questions:
-        - "What does the customer order?"
-        - "How much is the total?"
-      correct_answers:
-        - "un cappuccino e una brioche"
-        - "tre euro e cinquanta / 3.50 euros"
-
-    - type: writing
-      title: "Your order"
-      description: "Write a café order"
-      content: "You're at an Italian bar. Write a sentence ordering something for breakfast. Use **Vorrei** + un/una + item + **per favore**."
-
-    - type: speaking
-      title: "Order politely"
-      description: "Practice ordering at a café"
-      content: "Say this as one smooth sentence: **Buongiorno. Vorrei un cappuccino e un cornetto, per favore.** Then try asking: **Quanto costa?**"
-
-    - type: drill
-      title: "Review: hotel"
-      description: "Keep lesson 2 fresh"
-      hint: "Mi chiamo = My name is. Numbers: tre, sette, dodici..."
+      <span lang="it">— Prego. Buona giornata!</span> (Have a nice day!)
+    questions:
+    - text: "How many coffees are ordered?"
+      correct_answer: due / 2
+      grammar_point_codes:
+      - vorrei
+      - num_0_20
+    - text: "How much change does the customer get?"
+      correct_answer: tre euro / 3 euros
+      grammar_point_codes:
+      - num_0_20
+  - type: listening
+    title: Al bar
+    description: Listen to a café order
+    audio_path: /static/audio/a0_03_al_bar.wav
+    content: |
+      — Buongiorno!
+      — Buongiorno. Vorrei un cappuccino e una brioche, per favore.
+      — Certo. Tre euro e cinquanta.
+      — Ecco cinque euro.
+      — Grazie. Un euro e cinquanta di resto.
+      — Grazie! Buona giornata!
+    questions:
+    - text: "What does the customer order?"
+      correct_answer: un cappuccino e una brioche
+      grammar_point_codes:
+      - vorrei
+      - art_un_una
+    - text: "How much is the total?"
+      correct_answer: tre euro e cinquanta / 3.50 euros
+      grammar_point_codes:
+      - num_0_20
+  - type: writing
+    title: Your order
+    description: Write a café order
+    content: "You're at an Italian bar. Write a sentence ordering something for breakfast. Use **Vorrei** + un/una + item\
+      \ + **per favore**."
+    grammar_point_codes:
+    - vorrei
+    - art_un_una
+  - type: speaking
+    title: Order politely
+    description: Practice ordering at a café
+    content: "Say this as one smooth sentence: **Buongiorno. Vorrei un cappuccino e un cornetto, per favore.** Then try asking:\
+      \ **Quanto costa?**"
+    grammar_point_codes:
+    - vorrei
+    - art_un_una
+    - saluti
+  - type: drill
+    title: "Review: hotel"
+    description: Keep lesson 2 fresh
+    hint: "Mi chiamo = My name is. Numbers: tre, sette, dodici..."
+    grammar_point_code: mi_chiamo
+    exercise_type: fill_blank
+    items:
+    - prompt: "My name is... = Mi ___..."
+      correct_answer: chiamo
       grammar_point_code: mi_chiamo
-      exercise_type: fill_blank
-      items:
-        - prompt: "My name is... = Mi ___..."
-          correct_answer: "chiamo"
-        - prompt: "Good night! = ___!"
-          correct_answer: "Buonanotte"
-        - prompt: "7 = ___"
-          correct_answer: "sette"
-        - prompt: "12 = ___"
-          correct_answer: "dodici"
-
-a0-04-in-giro:
-  topic_title: "In giro"
+    - prompt: "Good night! = ___!"
+      correct_answer: Buonanotte
+      grammar_point_code: saluti
+    - prompt: "7 = ___"
+      correct_answer: sette
+      grammar_point_code: num_0_20
+    - prompt: "12 = ___"
+      correct_answer: dodici
+      grammar_point_code: num_0_20
+"a0-04-in-giro":
+  topic_title: In giro
   topic_description: "Walking around the city — il/la, asking where things are"
   overview: "Time to explore! Learn the word for 'the', ask where things are, and follow basic directions."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Il e la — the
+    description: Every noun has a gender
+    grammar_point_code: art_il_la
+    content: |
+      ## Il e la
 
-    - type: grammar
-      title: "Il e la — the"
-      description: "Every noun has a gender"
-      grammar_point_code: art_il_la
-      content: |
-        ## Il e la
+      Every Italian noun is either **masculine** or **feminine**. The word for "the" changes:
 
-        Every Italian noun is either **masculine** or **feminine**. The word for "the" changes:
+      - <span lang="it">**il**</span> = the (masculine) — <span lang="it">il museo, il bagno, il ristorante</span>
+      - <span lang="it">**la**</span> = the (feminine) — <span lang="it">la stazione, la piazza, la farmacia</span>
 
-        - <span lang="it">**il**</span> = the (masculine) — <span lang="it">il museo, il bagno, il ristorante</span>
-        - <span lang="it">**la**</span> = the (feminine) — <span lang="it">la stazione, la piazza, la farmacia</span>
+      Before a vowel, both become <span lang="it">**l'**</span>:
+      - <span lang="it">**l'**albergo</span> (the hotel, m.), <span lang="it">**l'**acqua</span> (the water, f.)
 
-        Before a vowel, both become <span lang="it">**l'**</span>:
-        - <span lang="it">**l'**albergo</span> (the hotel, m.), <span lang="it">**l'**acqua</span> (the water, f.)
+      **Rule of thumb:** words ending in **-o** → <span lang="it">il</span>; words ending in **-a** → <span lang="it">la</span>.
 
-        **Rule of thumb:** words ending in **-o** → <span lang="it">il</span>; words ending in **-a** → <span lang="it">la</span>.
+      You already know <span lang="it">*un/una*</span> (a). Now <span lang="it">*il/la*</span> (the) works the same way: <span lang="it">*un museo*</span> → <span lang="it">*il museo*</span>.
+  - type: drill
+    title: "Il or la?"
+    description: Choose the right article
+    hint: "-o ending → il. -a ending → la. Before a vowel → l'."
+    grammar_point_code: art_il_la
+    exercise_type: fill_blank
+    items:
+    - prompt: "___ museo (museum, m.)"
+      correct_answer: il
+    - prompt: "___ stazione (station, f.)"
+      correct_answer: la
+    - prompt: "___ bagno (bathroom, m.)"
+      correct_answer: il
+    - prompt: "___ farmacia (pharmacy, f.)"
+      correct_answer: la
+    - prompt: "___ albergo (hotel, m.)"
+      correct_answer: l'
+  - type: grammar
+    title: "Dov'è...?"
+    description: Asking where things are
+    grammar_point_code: dove_e
+    content: |
+      ## Dov'è...? — Where is...?
 
-        You already know <span lang="it">*un/una*</span> (a). Now <span lang="it">*il/la*</span> (the) works the same way: <span lang="it">*un museo*</span> → <span lang="it">*il museo*</span>.
+      - <span lang="it">**Dov'è il bagno?**</span> — Where is the bathroom?
+      - <span lang="it">**Dov'è la stazione?**</span> — Where is the station?
 
-    - type: drill
-      title: "Il or la?"
-      description: "Choose the right article"
-      hint: "-o ending → il. -a ending → la. Before a vowel → l'."
-      grammar_point_code: art_il_la
-      exercise_type: fill_blank
-      items:
-        - prompt: "___ museo (museum, m.)"
-          correct_answer: "il"
-        - prompt: "___ stazione (station, f.)"
-          correct_answer: "la"
-        - prompt: "___ bagno (bathroom, m.)"
-          correct_answer: "il"
-        - prompt: "___ farmacia (pharmacy, f.)"
-          correct_answer: "la"
-        - prompt: "___ albergo (hotel, m.)"
-          correct_answer: "l'"
+      <span lang="it">**Dov'è**</span> = <span lang="it">dove</span> (where) + <span lang="it">è</span> (is).
 
-    - type: grammar
-      title: "Dov'è...?"
-      description: "Asking where things are"
-      grammar_point_code: dove_e
-      content: |
-        ## Dov'è...? — Where is...?
+      ### Basic directions
 
-        - <span lang="it">**Dov'è il bagno?**</span> — Where is the bathroom?
-        - <span lang="it">**Dov'è la stazione?**</span> — Where is the station?
+      - <span lang="it">**a destra**</span> — on the right
+      - <span lang="it">**a sinistra**</span> — on the left
+      - <span lang="it">**sempre dritto**</span> — straight ahead
+      - <span lang="it">**qui vicino**</span> — near here
 
-        <span lang="it">**Dov'è**</span> = <span lang="it">dove</span> (where) + <span lang="it">è</span> (is).
+      > Start with <span lang="it">*Scusi*</span> to get attention: <span lang="it">*Scusi, dov'è la stazione?*</span>
+  - type: drill
+    title: "Where is...?"
+    description: Ask for directions
+    hint: "Dov'è + il/la + place. A destra = right. A sinistra = left."
+    grammar_point_code: dove_e
+    exercise_type: fill_blank
+    items:
+    - prompt: "Where is the bathroom? = Dov'è ___ bagno?"
+      correct_answer: il
+    - prompt: "On the right = A ___"
+      correct_answer: destra
+    - prompt: "Straight ahead = Sempre ___"
+      correct_answer: dritto
+    - prompt: "Where is the pharmacy? = Dov'è ___ farmacia?"
+      correct_answer: la
+  - type: reading
+    title: "Where is the museum?"
+    description: A tourist asking for directions
+    content: |
+      <span lang="it">— Scusi, dov'è il museo?</span> (Excuse me, where is the museum?)
 
-        ### Basic directions
+      <span lang="it">— Il museo? Sempre dritto, poi a sinistra.</span> (Straight ahead, then left.)
 
-        - <span lang="it">**a destra**</span> — on the right
-        - <span lang="it">**a sinistra**</span> — on the left
-        - <span lang="it">**sempre dritto**</span> — straight ahead
-        - <span lang="it">**qui vicino**</span> — near here
+      <span lang="it">— Grazie! E dov'è la farmacia?</span>
 
-        > Start with <span lang="it">*Scusi*</span> to get attention: <span lang="it">*Scusi, dov'è la stazione?*</span>
+      <span lang="it">— La farmacia è là, a destra.</span> (The pharmacy is there, on the right.)
 
-    - type: drill
-      title: "Where is...?"
-      description: "Ask for directions"
-      hint: "Dov'è + il/la + place. A destra = right. A sinistra = left."
-      grammar_point_code: dove_e
-      exercise_type: fill_blank
-      items:
-        - prompt: "Where is the bathroom? = Dov'è ___ bagno?"
-          correct_answer: "il"
-        - prompt: "On the right = A ___"
-          correct_answer: "destra"
-        - prompt: "Straight ahead = Sempre ___"
-          correct_answer: "dritto"
-        - prompt: "Where is the pharmacy? = Dov'è ___ farmacia?"
-          correct_answer: "la"
-
-    - type: reading
-      title: "Where is the museum?"
-      description: "A tourist asking for directions"
-      content: |
-        <span lang="it">— Scusi, dov'è il museo?</span> (Excuse me, where is the museum?)
-
-        <span lang="it">— Il museo? Sempre dritto, poi a sinistra.</span> (Straight ahead, then left.)
-
-        <span lang="it">— Grazie! E dov'è la farmacia?</span>
-
-        <span lang="it">— La farmacia è là, a destra.</span> (The pharmacy is there, on the right.)
-
-        <span lang="it">— Grazie mille!</span>
-      questions:
-        - "How do you get to the museum?"
-        - "Where is the pharmacy?"
-      correct_answers:
-        - "sempre dritto, poi a sinistra / straight then left"
-        - "là, a destra / there, on the right"
-
-    - type: listening
-      title: "Finding the station"
-      description: "Listen to someone asking directions"
-      audio_path: "/static/audio/a0_04_in_giro.wav"
-      content: |
-        — Scusi, dov'è la stazione?
-        — La stazione? È qui vicino. Sempre dritto, cinque minuti.
-        — Grazie!
-        — Prego.
-      questions:
-        - "How far is the station?"
-        - "Which direction?"
-      correct_answers:
-        - "cinque minuti / 5 minutes"
-        - "sempre dritto / straight ahead"
-
-    - type: speaking
-      title: "Ask for directions"
-      description: "Practice asking where things are"
-      content: "Say these two questions out loud: **Scusi, dov'è il bagno?** Then: **Scusi, dov'è la stazione?** Notice how *il* and *la* change!"
-
-    - type: writing
-      title: "You're lost"
-      description: "Write a question about a location"
-      content: "Write 2 sentences: ask where a place is and say where you are from. Use **Scusi, dov'è...?** and **Sono di...**"
-
-    - type: drill
-      title: "Review: café"
-      description: "Keep lesson 3 fresh"
-      hint: "un (masculine), una (feminine), un' (feminine before vowel)."
+      <span lang="it">— Grazie mille!</span>
+    questions:
+    - text: "How do you get to the museum?"
+      correct_answer: "sempre dritto, poi a sinistra / straight then left"
+      grammar_point_codes:
+      - dove_e
+    - text: "Where is the pharmacy?"
+      correct_answer: "là, a destra / there, on the right"
+      grammar_point_codes:
+      - dove_e
+  - type: listening
+    title: Finding the station
+    description: Listen to someone asking directions
+    audio_path: /static/audio/a0_04_in_giro.wav
+    content: |
+      — Scusi, dov'è la stazione?
+      — La stazione? È qui vicino. Sempre dritto, cinque minuti.
+      — Grazie!
+      — Prego.
+    questions:
+    - text: "How far is the station?"
+      correct_answer: cinque minuti / 5 minutes
+      grammar_point_codes:
+      - dove_e
+    - text: "Which direction?"
+      correct_answer: sempre dritto / straight ahead
+      grammar_point_codes:
+      - dove_e
+  - type: speaking
+    title: Ask for directions
+    description: Practice asking where things are
+    content: "Say these two questions out loud: **Scusi, dov'è il bagno?** Then: **Scusi, dov'è la stazione?** Notice how\
+      \ *il* and *la* change!"
+    grammar_point_codes:
+    - dove_e
+    - art_il_la
+  - type: writing
+    title: You're lost
+    description: Write a question about a location
+    content: "Write 2 sentences: ask where a place is and say where you are from. Use **Scusi, dov'è...?** and **Sono di...**"
+    grammar_point_codes:
+    - dove_e
+    - prep_place
+  - type: drill
+    title: "Review: café"
+    description: Keep lesson 3 fresh
+    hint: "un (masculine), una (feminine), un' (feminine before vowel)."
+    grammar_point_code: art_un_una
+    exercise_type: fill_blank
+    items:
+    - prompt: "I'd like a cappuccino. = Vorrei ___ cappuccino."
+      correct_answer: un
       grammar_point_code: art_un_una
-      exercise_type: fill_blank
-      items:
-        - prompt: "I'd like a cappuccino. = Vorrei ___ cappuccino."
-          correct_answer: "un"
-        - prompt: "I'd like a pizza. = Vorrei ___ pizza."
-          correct_answer: "una"
-        - prompt: "How much? = ___ costa?"
-          correct_answer: "Quanto"
-        - prompt: "15 = ___"
-          correct_answer: "quindici"
-a0-05-chiedere-aiuto:
-  topic_title: "Chiedere aiuto"
+    - prompt: "I'd like a pizza. = Vorrei ___ pizza."
+      correct_answer: una
+      grammar_point_code: art_un_una
+    - prompt: "How much? = ___ costa?"
+      correct_answer: Quanto
+      grammar_point_code: vorrei
+    - prompt: "15 = ___"
+      correct_answer: quindici
+      grammar_point_code: num_0_20
+"a0-05-chiedere-aiuto":
+  topic_title: Chiedere aiuto
   topic_description: "Getting help — asking for repetition, clarifying, key phrases"
-  overview: "You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck."
+  overview: You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck.
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: When you're stuck
+    description: Phrases to keep the conversation going
+    grammar_point_code: polite_exp
+    content: |
+      ## Getting unstuck
 
-    - type: grammar
-      title: "When you're stuck"
-      description: "Phrases to keep the conversation going"
-      grammar_point_code: polite_exp
-      content: |
-        ## Getting unstuck
+      These phrases will save you every day:
 
-        These phrases will save you every day:
+      - <span lang="it">**Come?**</span> — What? / Pardon?
+      - <span lang="it">**Può ripetere, per favore?**</span> — Can you repeat, please?
+      - <span lang="it">**Come si dice ___ in italiano?**</span> — How do you say ___ in Italian?
+      - <span lang="it">**Non lo so.**</span> — I don't know.
+      - <span lang="it">**Va bene.**</span> — OK. / That's fine.
+      - <span lang="it">**Un momento, per favore.**</span> — One moment, please.
 
-        - <span lang="it">**Come?**</span> — What? / Pardon?
-        - <span lang="it">**Può ripetere, per favore?**</span> — Can you repeat, please?
-        - <span lang="it">**Come si dice ___ in italiano?**</span> — How do you say ___ in Italian?
-        - <span lang="it">**Non lo so.**</span> — I don't know.
-        - <span lang="it">**Va bene.**</span> — OK. / That's fine.
-        - <span lang="it">**Un momento, per favore.**</span> — One moment, please.
+      > <span lang="it">*Come?*</span> is the most natural way to ask someone to repeat. Italians say it all the time!
+  - type: drill
+    title: "What do you say?"
+    description: Choose the right phrase
+    hint: "Think about the situation — what gets you unstuck?"
+    grammar_point_code: polite_exp
+    exercise_type: fill_blank
+    items:
+    - prompt: "The waiter speaks too fast. → Può ___, per favore?"
+      correct_answer: ripetere
+    - prompt: "You want to know a word in Italian. → Come si ___ in italiano?"
+      correct_answer: dice
+    - prompt: Someone asks you something. You don't know. → Non lo ___.
+      correct_answer: so
+    - prompt: "You need a second to think. → Un ___, per favore."
+      correct_answer: momento
+    - prompt: "You didn't hear. → ___?"
+      correct_answer: Come
+  - type: grammar
+    title: "Prepositions: a, in, di"
+    description: Basic location words
+    grammar_point_code: prep_place
+    content: |
+      ## Where things are
 
-        > <span lang="it">*Come?*</span> is the most natural way to ask someone to repeat. Italians say it all the time!
+      Three little words that tell you where:
 
-    - type: drill
-      title: "What do you say?"
-      description: "Choose the right phrase"
-      hint: "Think about the situation — what gets you unstuck?"
-      grammar_point_code: polite_exp
-      exercise_type: fill_blank
-      items:
-        - prompt: "The waiter speaks too fast. → Può ___, per favore?"
-          correct_answer: "ripetere"
-        - prompt: "You want to know a word in Italian. → Come si ___ in italiano?"
-          correct_answer: "dice"
-        - prompt: "Someone asks you something. You don't know. → Non lo ___."
-          correct_answer: "so"
-        - prompt: "You need a second to think. → Un ___, per favore."
-          correct_answer: "momento"
-        - prompt: "You didn't hear. → ___?"
-          correct_answer: "Come"
+      | Italian | English | Example |
+      |---------|---------|---------|
+      | <span lang="it">**a**</span> | to, at | <span lang="it">Vado **a** Roma.</span> (I go to Rome.) |
+      | <span lang="it">**in**</span> | in | <span lang="it">Sono **in** Italia.</span> (I'm in Italy.) |
+      | <span lang="it">**di**</span> | of, from | <span lang="it">Sono **di** Londra.</span> (I'm from London.) |
 
-    - type: grammar
-      title: "Prepositions: a, in, di"
-      description: "Basic location words"
-      grammar_point_code: prep_place
-      content: |
-        ## Where things are
+      Common phrases:
+      - <span lang="it">**a casa**</span> — at home
+      - <span lang="it">**in centro**</span> — in the centre / downtown
+      - <span lang="it">**di Roma**</span> — from Rome
+  - type: drill
+    title: "A, in, or di?"
+    description: Choose the right preposition
+    hint: "a = to/at. in = in. di = of/from."
+    grammar_point_code: prep_place
+    exercise_type: fill_blank
+    items:
+    - prompt: "I am in Italy. = Sono ___ Italia."
+      correct_answer: in
+    - prompt: "I am from London. = Sono ___ Londra."
+      correct_answer: di
+    - prompt: "I go to Rome. = Vado ___ Roma."
+      correct_answer: a
+    - prompt: "I am at home. = Sono ___ casa."
+      correct_answer: a
+  - type: reading
+    title: At the information desk
+    description: Asking for help at a train station
+    content: |
+      <span lang="it">— Scusi, come si dice "platform" in italiano?</span>
 
-        Three little words that tell you where:
+      <span lang="it">— Binario.</span>
 
-        | Italian | English | Example |
-        |---------|---------|---------|
-        | <span lang="it">**a**</span> | to, at | <span lang="it">Vado **a** Roma.</span> (I go to Rome.) |
-        | <span lang="it">**in**</span> | in | <span lang="it">Sono **in** Italia.</span> (I'm in Italy.) |
-        | <span lang="it">**di**</span> | of, from | <span lang="it">Sono **di** Londra.</span> (I'm from London.) |
+      <span lang="it">— Può ripetere, per favore?</span>
 
-        Common phrases:
-        - <span lang="it">**a casa**</span> — at home
-        - <span lang="it">**in centro**</span> — in the centre / downtown
-        - <span lang="it">**di Roma**</span> — from Rome
+      <span lang="it">— Bi-na-rio.</span>
 
-    - type: drill
-      title: "A, in, or di?"
-      description: "Choose the right preposition"
-      hint: "a = to/at. in = in. di = of/from."
-      grammar_point_code: prep_place
-      exercise_type: fill_blank
-      items:
-        - prompt: "I am in Italy. = Sono ___ Italia."
-          correct_answer: "in"
-        - prompt: "I am from London. = Sono ___ Londra."
-          correct_answer: "di"
-        - prompt: "I go to Rome. = Vado ___ Roma."
-          correct_answer: "a"
-        - prompt: "I am at home. = Sono ___ casa."
-          correct_answer: "a"
+      <span lang="it">— Ah, grazie! E quanto costa il biglietto?</span>
 
-    - type: reading
-      title: "At the information desk"
-      description: "Asking for help at a train station"
-      content: |
-        <span lang="it">— Scusi, come si dice "platform" in italiano?</span>
+      <span lang="it">— Mi dispiace, non lo so. Chieda alla biglietteria.</span> (Ask at the ticket office.)
 
-        <span lang="it">— Binario.</span>
-
-        <span lang="it">— Può ripetere, per favore?</span>
-
-        <span lang="it">— Bi-na-rio.</span>
-
-        <span lang="it">— Ah, grazie! E quanto costa il biglietto?</span>
-
-        <span lang="it">— Mi dispiace, non lo so. Chieda alla biglietteria.</span> (Ask at the ticket office.)
-
-        <span lang="it">— Va bene. Grazie!</span>
-      questions:
-        - "What word does the tourist learn?"
-        - "Does the person know the ticket price?"
-      correct_answers:
-        - "binario / platform"
-        - "No"
-
-    - type: listening
-      title: "At the tourist office"
-      description: "Listen to someone asking for help"
-      audio_path: "/static/audio/a0_05_chiedere_aiuto.wav"
-      content: |
-        — Buongiorno. Scusi, parla inglese?
-        — Un po'. Mi dica.
-        — Come si dice "church" in italiano?
-        — Chiesa.
-        — Come?
-        — Chie-sa.
-        — Grazie! E dov'è la chiesa?
-        — In centro, a sinistra dopo la piazza.
-        — Grazie mille!
-      questions:
-        - "What word does the tourist learn?"
-        - "Where is the church?"
-      correct_answers:
-        - "chiesa / church"
-        - "in centro, a sinistra dopo la piazza / in the centre, left after the square"
-
-    - type: speaking
-      title: "Ask for help"
-      description: "Practice the help phrases"
-      content: "Say these out loud: **Scusi, come si dice 'train' in italiano?** Then: **Può ripetere, per favore?** These two phrases will rescue you constantly!"
-
-    - type: writing
-      title: "A tricky situation"
-      description: "Write what you'd say"
-      content: "You're at a shop and don't understand the shopkeeper. Write 2-3 sentences using your help phrases: **Non capisco**, **Può ripetere?**, **Come si dice...?**, **Parla inglese?**"
-
-    - type: drill
-      title: "Review: directions"
-      description: "Keep lesson 4 fresh"
-      hint: "il (masculine), la (feminine). Dov'è = where is."
+      <span lang="it">— Va bene. Grazie!</span>
+    questions:
+    - text: "What word does the tourist learn?"
+      correct_answer: binario / platform
+      grammar_point_codes:
+      - polite_exp
+    - text: "Does the person know the ticket price?"
+      correct_answer: 'No'
+      grammar_point_codes:
+      - polite_exp
+  - type: listening
+    title: At the tourist office
+    description: Listen to someone asking for help
+    audio_path: /static/audio/a0_05_chiedere_aiuto.wav
+    content: |
+      — Buongiorno. Scusi, parla inglese?
+      — Un po'. Mi dica.
+      — Come si dice "church" in italiano?
+      — Chiesa.
+      — Come?
+      — Chie-sa.
+      — Grazie! E dov'è la chiesa?
+      — In centro, a sinistra dopo la piazza.
+      — Grazie mille!
+    questions:
+    - text: "What word does the tourist learn?"
+      correct_answer: chiesa / church
+      grammar_point_codes:
+      - polite_exp
+    - text: "Where is the church?"
+      correct_answer: "in centro, a sinistra dopo la piazza / in the centre, left after the square"
+      grammar_point_codes:
+      - dove_e
+  - type: speaking
+    title: Ask for help
+    description: Practice the help phrases
+    content: "Say these out loud: **Scusi, come si dice 'train' in italiano?** Then: **Può ripetere, per favore?** These two\
+      \ phrases will rescue you constantly!"
+    grammar_point_codes:
+    - polite_exp
+  - type: writing
+    title: A tricky situation
+    description: Write what you'd say
+    content: "You're at a shop and don't understand the shopkeeper. Write 2-3 sentences using your help phrases: **Non capisco**,\
+      \ **Può ripetere?**, **Come si dice...?**, **Parla inglese?**"
+    grammar_point_codes:
+    - polite_exp
+    - si_no_non
+  - type: drill
+    title: "Review: directions"
+    description: Keep lesson 4 fresh
+    hint: "il (masculine), la (feminine). Dov'è = where is."
+    grammar_point_code: dove_e
+    exercise_type: fill_blank
+    items:
+    - prompt: "Where is the museum? = Dov'è ___ museo?"
+      correct_answer: il
+      grammar_point_code: art_il_la
+    - prompt: "On the left = A ___"
+      correct_answer: sinistra
       grammar_point_code: dove_e
-      exercise_type: fill_blank
-      items:
-        - prompt: "Where is the museum? = Dov'è ___ museo?"
-          correct_answer: "il"
-        - prompt: "On the left = A ___"
-          correct_answer: "sinistra"
-        - prompt: "Near here = Qui ___"
-          correct_answer: "vicino"
-        - prompt: "___ stazione (the station, f.)"
-          correct_answer: "la"
-
-a0-06-a-pranzo:
-  topic_title: "A pranzo"
+    - prompt: "Near here = Qui ___"
+      correct_answer: vicino
+      grammar_point_code: dove_e
+    - prompt: "___ stazione (the station, f.)"
+      correct_answer: la
+      grammar_point_code: art_il_la
+"a0-06-a-pranzo":
+  topic_title: A pranzo
   topic_description: "Lunch at a trattoria — menu vocabulary, ordering a meal"
   overview: "It's lunchtime! Learn to read an Italian menu, ask what things are, and order a full meal."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: The Italian menu
+    description: How a meal is structured
+    grammar_point_code: vocab_cibo
+    content: |
+      ## Al ristorante
 
-    - type: grammar
-      title: "The Italian menu"
-      description: "How a meal is structured"
-      grammar_point_code: vocab_cibo
-      content: |
-        ## Al ristorante
+      An Italian meal follows a traditional order:
 
-        An Italian meal follows a traditional order:
+      | Course | Italian | What it is |
+      |--------|---------|------------|
+      | Starters | **<span lang="it">antipasti</span>** | Cold cuts, bruschetta |
+      | First course | **<span lang="it">primo</span>** | Pasta, risotto, soup |
+      | Second course | **<span lang="it">secondo</span>** | Meat or fish |
+      | Side dish | **<span lang="it">contorno</span>** | Vegetables, salad |
+      | Dessert | **<span lang="it">dolce</span>** | Cake, tiramisù, gelato |
 
-        | Course | Italian | What it is |
-        |--------|---------|------------|
-        | Starters | **<span lang="it">antipasti</span>** | Cold cuts, bruschetta |
-        | First course | **<span lang="it">primo</span>** | Pasta, risotto, soup |
-        | Second course | **<span lang="it">secondo</span>** | Meat or fish |
-        | Side dish | **<span lang="it">contorno</span>** | Vegetables, salad |
-        | Dessert | **<span lang="it">dolce</span>** | Cake, tiramisù, gelato |
+      You don't need every course — a <span lang="it">primo</span> and a <span lang="it">contorno</span> is a perfectly normal lunch.
 
-        You don't need every course — a <span lang="it">primo</span> and a <span lang="it">contorno</span> is a perfectly normal lunch.
+      ### At the table
 
-        ### At the table
+      - <span lang="it">**Un tavolo per due, per favore.**</span> — A table for two.
+      - <span lang="it">**Il menù, per favore.**</span> — The menu, please.
+      - <span lang="it">**Acqua naturale o frizzante?**</span> — Still or sparkling water?
+      - <span lang="it">**Il conto, per favore.**</span> — The bill, please.
+  - type: drill
+    title: Restaurant basics
+    description: Ordering and menu vocab
+    hint: "Primo = pasta. Secondo = meat/fish. Contorno = side."
+    grammar_point_code: vocab_cibo
+    exercise_type: fill_blank
+    items:
+    - prompt: "A table for two. = Un tavolo per ___, per favore."
+      correct_answer: due
+    - prompt: "The menu, please. = Il ___, per favore."
+      correct_answer: menù
+    - prompt: "The bill, please. = Il ___, per favore."
+      correct_answer: conto
+    - prompt: "Still or sparkling? = ___ o frizzante?"
+      correct_answer: Naturale
+    - prompt: "The pasta course = il ___"
+      correct_answer: primo
+  - type: grammar
+    title: "Che cos'è questo?"
+    description: Asking what things are
+    grammar_point_code: che_cose
+    content: |
+      ## What is it?
 
-        - <span lang="it">**Un tavolo per due, per favore.**</span> — A table for two.
-        - <span lang="it">**Il menù, per favore.**</span> — The menu, please.
-        - <span lang="it">**Acqua naturale o frizzante?**</span> — Still or sparkling water?
-        - <span lang="it">**Il conto, per favore.**</span> — The bill, please.
+      At a restaurant, point at the menu or a dish and ask:
 
-    - type: drill
-      title: "Restaurant basics"
-      description: "Ordering and menu vocab"
-      hint: "Primo = pasta. Secondo = meat/fish. Contorno = side."
-      grammar_point_code: vocab_cibo
-      exercise_type: fill_blank
-      items:
-        - prompt: "A table for two. = Un tavolo per ___, per favore."
-          correct_answer: "due"
-        - prompt: "The menu, please. = Il ___, per favore."
-          correct_answer: "menù"
-        - prompt: "The bill, please. = Il ___, per favore."
-          correct_answer: "conto"
-        - prompt: "Still or sparkling? = ___ o frizzante?"
-          correct_answer: "Naturale"
-        - prompt: "The pasta course = il ___"
-          correct_answer: "primo"
+      - <span lang="it">**Che cos'è?**</span> — What is it?
+      - <span lang="it">**Che cos'è questo?**</span> — What is this? (m.)
+      - <span lang="it">**Che cos'è questa?**</span> — What is this? (f.)
 
-    - type: grammar
-      title: "Che cos'è questo?"
-      description: "Asking what things are"
-      grammar_point_code: che_cose
-      content: |
-        ## What is it?
+      To answer: <span lang="it">**È...**</span> (It is...)
+      - <span lang="it">*Che cos'è questo?*</span> → <span lang="it">*È il tiramisù.*</span>
 
-        At a restaurant, point at the menu or a dish and ask:
+      **<span lang="it">Questo</span>** (this, m.) and **<span lang="it">questa</span>** (this, f.) match the noun's gender.
 
-        - <span lang="it">**Che cos'è?**</span> — What is it?
-        - <span lang="it">**Che cos'è questo?**</span> — What is this? (m.)
-        - <span lang="it">**Che cos'è questa?**</span> — What is this? (f.)
+      ### Dietary needs
 
-        To answer: <span lang="it">**È...**</span> (It is...)
-        - <span lang="it">*Che cos'è questo?*</span> → <span lang="it">*È il tiramisù.*</span>
+      - <span lang="it">**Sono vegetariano/a.**</span> — I'm vegetarian. (m./f.)
+      - <span lang="it">**Sono allergico/a a...**</span> — I'm allergic to... (m./f.)
+      - <span lang="it">**Senza glutine**</span> — Gluten-free
+  - type: drill
+    title: "What is this?"
+    description: Asking about dishes
+    hint: "Che cos'è = what is it? Questo (m.), questa (f.)."
+    grammar_point_code: che_cose
+    exercise_type: fill_blank
+    items:
+    - prompt: "What is this? (m.) = Che cos'è ___?"
+      correct_answer: questo
+    - prompt: "I'm vegetarian. (m.) = Sono ___."
+      correct_answer: vegetariano
+    - prompt: "Gluten-free = Senza ___"
+      correct_answer: glutine
+    - prompt: "I'm allergic to... (f.) = Sono ___ a..."
+      correct_answer: allergica
+  - type: reading
+    title: Ordering lunch
+    description: At a trattoria
+    content: |
+      <span lang="it">— Buongiorno! Un tavolo per due, per favore.</span>
 
-        **<span lang="it">Questo</span>** (this, m.) and **<span lang="it">questa</span>** (this, f.) match the noun's gender.
+      <span lang="it">— Certo, prego. Ecco il menù.</span>
 
-        ### Dietary needs
+      <span lang="it">— Grazie. Che cos'è questo?</span>
 
-        - <span lang="it">**Sono vegetariano/a.**</span> — I'm vegetarian. (m./f.)
-        - <span lang="it">**Sono allergico/a a...**</span> — I'm allergic to... (m./f.)
-        - <span lang="it">**Senza glutine**</span> — Gluten-free
+      <span lang="it">— È la ribollita, una zuppa toscana.</span> (It's ribollita, a Tuscan soup.)
 
-    - type: drill
-      title: "What is this?"
-      description: "Asking about dishes"
-      hint: "Che cos'è = what is it? Questo (m.), questa (f.)."
-      grammar_point_code: che_cose
-      exercise_type: fill_blank
-      items:
-        - prompt: "What is this? (m.) = Che cos'è ___?"
-          correct_answer: "questo"
-        - prompt: "I'm vegetarian. (m.) = Sono ___."
-          correct_answer: "vegetariano"
-        - prompt: "Gluten-free = Senza ___"
-          correct_answer: "glutine"
-        - prompt: "I'm allergic to... (f.) = Sono ___ a..."
-          correct_answer: "allergica"
+      <span lang="it">— Vorrei la ribollita come primo e un'insalata come contorno.</span>
 
-    - type: reading
-      title: "Ordering lunch"
-      description: "At a trattoria"
-      content: |
-        <span lang="it">— Buongiorno! Un tavolo per due, per favore.</span>
+      <span lang="it">— E da bere?</span> (And to drink?)
 
-        <span lang="it">— Certo, prego. Ecco il menù.</span>
-
-        <span lang="it">— Grazie. Che cos'è questo?</span>
-
-        <span lang="it">— È la ribollita, una zuppa toscana.</span> (It's ribollita, a Tuscan soup.)
-
-        <span lang="it">— Vorrei la ribollita come primo e un'insalata come contorno.</span>
-
-        <span lang="it">— E da bere?</span> (And to drink?)
-
-        <span lang="it">— Acqua naturale, per favore.</span>
-      questions:
-        - "What is the ribollita?"
-        - "What does the customer order to drink?"
-      correct_answers:
-        - "una zuppa toscana / a Tuscan soup"
-        - "acqua naturale / still water"
-
-    - type: listening
-      title: "At the trattoria"
-      description: "Listen to a lunch order"
-      audio_path: "/static/audio/a0_06_a_pranzo.wav"
-      content: |
-        — Buongiorno! Un tavolo per tre, per favore.
-        — Prego. Ecco il menù. Acqua naturale o frizzante?
-        — Frizzante, per favore.
-        — Cosa prendete?
-        — Vorrei la pasta al pomodoro come primo.
-        — E per lei?
-        — Vorrei il pesce come secondo e un'insalata come contorno.
-        — Certo!
-      questions:
-        - "How many people at the table?"
-        - "What water do they choose?"
-      correct_answers:
-        - "tre / 3"
-        - "frizzante / sparkling"
-
-    - type: speaking
-      title: "Order a meal"
-      description: "Practice ordering at a restaurant"
-      content: "Say this out loud: **Vorrei la pasta come primo e un'insalata come contorno. Acqua naturale, per favore.** Try it as one continuous flow!"
-
-    - type: writing
-      title: "Your lunch"
-      description: "Write a restaurant order"
-      content: "You're at a trattoria. Write 2-3 sentences ordering a meal. Include a primo, something to drink, and use **Vorrei...** and **per favore**."
-
-    - type: drill
-      title: "Review: asking for help"
-      description: "Keep lesson 5 fresh"
-      hint: "Può ripetere = can you repeat. Come si dice = how do you say."
+      <span lang="it">— Acqua naturale, per favore.</span>
+    questions:
+    - text: "What is the ribollita?"
+      correct_answer: una zuppa toscana / a Tuscan soup
+      grammar_point_codes:
+      - che_cose
+    - text: "What does the customer order to drink?"
+      correct_answer: acqua naturale / still water
+      grammar_point_codes:
+      - vocab_cibo
+  - type: listening
+    title: At the trattoria
+    description: Listen to a lunch order
+    audio_path: /static/audio/a0_06_a_pranzo.wav
+    content: |
+      — Buongiorno! Un tavolo per tre, per favore.
+      — Prego. Ecco il menù. Acqua naturale o frizzante?
+      — Frizzante, per favore.
+      — Cosa prendete?
+      — Vorrei la pasta al pomodoro come primo.
+      — E per lei?
+      — Vorrei il pesce come secondo e un'insalata come contorno.
+      — Certo!
+    questions:
+    - text: "How many people at the table?"
+      correct_answer: tre / 3
+      grammar_point_codes:
+      - num_0_20
+    - text: "What water do they choose?"
+      correct_answer: frizzante / sparkling
+      grammar_point_codes:
+      - vocab_cibo
+  - type: speaking
+    title: Order a meal
+    description: Practice ordering at a restaurant
+    content: "Say this out loud: **Vorrei la pasta come primo e un'insalata come contorno. Acqua naturale, per favore.** Try\
+      \ it as one continuous flow!"
+    grammar_point_codes:
+    - vocab_cibo
+    - vorrei
+  - type: writing
+    title: Your lunch
+    description: Write a restaurant order
+    content: "You're at a trattoria. Write 2-3 sentences ordering a meal. Include a primo, something to drink, and use **Vorrei...**\
+      \ and **per favore**."
+    grammar_point_codes:
+    - vocab_cibo
+    - vorrei
+  - type: drill
+    title: "Review: asking for help"
+    description: Keep lesson 5 fresh
+    hint: "Può ripetere = can you repeat. Come si dice = how do you say."
+    grammar_point_code: polite_exp
+    exercise_type: fill_blank
+    items:
+    - prompt: "Can you repeat? = Può ___, per favore?"
+      correct_answer: ripetere
       grammar_point_code: polite_exp
-      exercise_type: fill_blank
-      items:
-        - prompt: "Can you repeat? = Può ___, per favore?"
-          correct_answer: "ripetere"
-        - prompt: "I don't know. = Non lo ___."
-          correct_answer: "so"
-        - prompt: "OK. = Va ___."
-          correct_answer: "bene"
-        - prompt: "I'm from London. = Sono ___ Londra."
-          correct_answer: "di"
-
-a0-07-mi-piace:
-  topic_title: "Mi piace"
-  topic_description: "Expressing what you like and don't like — with a preview of plural articles"
+    - prompt: "I don't know. = Non lo ___."
+      correct_answer: so
+      grammar_point_code: polite_exp
+    - prompt: "OK. = Va ___."
+      correct_answer: bene
+      grammar_point_code: polite_exp
+    - prompt: "I'm from London. = Sono ___ Londra."
+      correct_answer: di
+      grammar_point_code: prep_place
+"a0-07-mi-piace":
+  topic_title: Mi piace
+  topic_description: Expressing what you like and don't like — with a preview of plural articles
   overview: "Everyone has opinions about food! Learn to say what you like and don't like in Italian."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Mi piace / Non mi piace
+    description: Likes and dislikes
+    grammar_point_code: mi_piace
+    content: |
+      ## Likes and dislikes
 
-    - type: grammar
-      title: "Mi piace / Non mi piace"
-      description: "Likes and dislikes"
-      grammar_point_code: mi_piace
-      content: |
-        ## Likes and dislikes
+      - <span lang="it">**Mi piace**</span> + one thing = I like...
+      - <span lang="it">**Non mi piace**</span> + one thing = I don't like...
+      - <span lang="it">**Mi piacciono**</span> + several things = I like... (plural)
 
-        - <span lang="it">**Mi piace**</span> + one thing = I like...
-        - <span lang="it">**Non mi piace**</span> + one thing = I don't like...
-        - <span lang="it">**Mi piacciono**</span> + several things = I like... (plural)
+      Examples:
+      - <span lang="it">**Mi piace la pizza.**</span> — I like pizza.
+      - <span lang="it">**Mi piace il gelato.**</span> — I like gelato.
+      - <span lang="it">**Non mi piace la carne.**</span> — I don't like meat.
+      - <span lang="it">**Mi piacciono i dolci.**</span> — I like desserts.
 
-        Examples:
-        - <span lang="it">**Mi piace la pizza.**</span> — I like pizza.
-        - <span lang="it">**Mi piace il gelato.**</span> — I like gelato.
-        - <span lang="it">**Non mi piace la carne.**</span> — I don't like meat.
-        - <span lang="it">**Mi piacciono i dolci.**</span> — I like desserts.
+      > <span lang="it">*Mi piace*</span> literally means "it pleases me" — the thing you like is the subject. That's why it changes to <span lang="it">*mi piacciono*</span> for plural things.
+  - type: drill
+    title: Mi piace
+    description: Express your preferences
+    hint: Mi piace + singular. Mi piacciono + plural. Non goes before mi.
+    grammar_point_code: mi_piace
+    exercise_type: fill_blank
+    items:
+    - prompt: "I like pizza. = Mi ___ la pizza."
+      correct_answer: piace
+    - prompt: "I don't like meat. = ___ mi piace la carne."
+      correct_answer: Non
+    - prompt: "I like desserts. = Mi ___ i dolci."
+      correct_answer: piacciono
+    - prompt: "I like fish. = Mi piace il ___."
+      correct_answer: pesce
+  - type: grammar
+    title: "Plural articles: i and le"
+    description: The in the plural
+    grammar_point_code: art_i_le
+    content: |
+      ## I and le — "the" in the plural
 
-        > <span lang="it">*Mi piace*</span> literally means "it pleases me" — the thing you like is the subject. That's why it changes to <span lang="it">*mi piacciono*</span> for plural things.
+      You know <span lang="it">**il**</span> and <span lang="it">**la**</span> for one thing. For more than one:
 
-    - type: drill
-      title: "Mi piace"
-      description: "Express your preferences"
-      hint: "Mi piace + singular. Mi piacciono + plural. Non goes before mi."
-      grammar_point_code: mi_piace
-      exercise_type: fill_blank
-      items:
-        - prompt: "I like pizza. = Mi ___ la pizza."
-          correct_answer: "piace"
-        - prompt: "I don't like meat. = ___ mi piace la carne."
-          correct_answer: "Non"
-        - prompt: "I like desserts. = Mi ___ i dolci."
-          correct_answer: "piacciono"
-        - prompt: "I like fish. = Mi piace il ___."
-          correct_answer: "pesce"
+      - <span lang="it">**i**</span> = the (masculine plural) — <span lang="it">i gatti, i dolci, i libri</span>
+      - <span lang="it">**le**</span> = the (feminine plural) — <span lang="it">le pizze, le verdure</span>
 
-    - type: grammar
-      title: "Plural articles: i and le"
-      description: "The in the plural"
-      grammar_point_code: art_i_le
-      content: |
-        ## I and le — "the" in the plural
+      **How nouns change:**
+      - Masculine **-o** → **-i**: <span lang="it">gatto → gatti</span>
+      - Feminine **-a** → **-e**: <span lang="it">pizza → pizze</span>
 
-        You know <span lang="it">**il**</span> and <span lang="it">**la**</span> for one thing. For more than one:
+      You mainly need these with <span lang="it">*mi piacciono*</span>:
+      - <span lang="it">*Mi piacciono **i** gatti.*</span> — I like cats.
+      - <span lang="it">*Mi piacciono **le** pizze.*</span> — I like pizzas.
+  - type: drill
+    title: "Singular or plural?"
+    description: Choose the right form
+    hint: il → i (m. plural). la → le (f. plural). Mi piace → mi piacciono.
+    grammar_point_code: art_i_le
+    exercise_type: fill_blank
+    items:
+    - prompt: "___ gatti (the cats, m.)"
+      correct_answer: i
+    - prompt: "___ pizze (the pizzas, f.)"
+      correct_answer: le
+    - prompt: "I like cats. = Mi ___ i gatti."
+      correct_answer: piacciono
+    - prompt: "I like the gelato. = Mi ___ il gelato."
+      correct_answer: piace
+  - type: drill
+    title: Fix the sentence
+    description: Correct the errors
+    hint: Mi piace + singular. Mi piacciono + plural. Non before mi.
+    grammar_point_code: mi_piace
+    exercise_type: error_correction
+    items:
+    - prompt: Mi piacciono la pizza.
+      correct_answer: Mi piace la pizza.
+    - prompt: Mi piace i dolci.
+      correct_answer: Mi piacciono i dolci.
+    - prompt: Mi non piace il pesce.
+      correct_answer: Non mi piace il pesce.
+  - type: reading
+    title: "What do you like?"
+    description: Friends discussing preferences
+    content: |
+      <span lang="it">— Mi piace il caffè. E a te?</span> (I like coffee. And you?)
 
-        - <span lang="it">**i**</span> = the (masculine plural) — <span lang="it">i gatti, i dolci, i libri</span>
-        - <span lang="it">**le**</span> = the (feminine plural) — <span lang="it">le pizze, le verdure</span>
+      <span lang="it">— Non mi piace il caffè. Mi piace il tè.</span> (I don't like coffee. I like tea.)
 
-        **How nouns change:**
-        - Masculine **-o** → **-i**: <span lang="it">gatto → gatti</span>
-        - Feminine **-a** → **-e**: <span lang="it">pizza → pizze</span>
+      <span lang="it">— Mi piacciono i dolci. Ti piacciono i dolci?</span> (I like desserts. Do you like desserts?)
 
-        You mainly need these with <span lang="it">*mi piacciono*</span>:
-        - <span lang="it">*Mi piacciono **i** gatti.*</span> — I like cats.
-        - <span lang="it">*Mi piacciono **le** pizze.*</span> — I like pizzas.
-
-    - type: drill
-      title: "Singular or plural?"
-      description: "Choose the right form"
-      hint: "il → i (m. plural). la → le (f. plural). Mi piace → mi piacciono."
-      grammar_point_code: art_i_le
-      exercise_type: fill_blank
-      items:
-        - prompt: "___ gatti (the cats, m.)"
-          correct_answer: "i"
-        - prompt: "___ pizze (the pizzas, f.)"
-          correct_answer: "le"
-        - prompt: "I like cats. = Mi ___ i gatti."
-          correct_answer: "piacciono"
-        - prompt: "I like the gelato. = Mi ___ il gelato."
-          correct_answer: "piace"
-
-    - type: drill
-      title: "Fix the sentence"
-      description: "Correct the errors"
-      hint: "Mi piace + singular. Mi piacciono + plural. Non before mi."
-      grammar_point_code: mi_piace
-      exercise_type: error_correction
-      items:
-        - prompt: "Mi piacciono la pizza."
-          correct_answer: "Mi piace la pizza."
-        - prompt: "Mi piace i dolci."
-          correct_answer: "Mi piacciono i dolci."
-        - prompt: "Mi non piace il pesce."
-          correct_answer: "Non mi piace il pesce."
-
-    - type: reading
-      title: "What do you like?"
-      description: "Friends discussing preferences"
-      content: |
-        <span lang="it">— Mi piace il caffè. E a te?</span> (I like coffee. And you?)
-
-        <span lang="it">— Non mi piace il caffè. Mi piace il tè.</span> (I don't like coffee. I like tea.)
-
-        <span lang="it">— Mi piacciono i dolci. Ti piacciono i dolci?</span> (I like desserts. Do you like desserts?)
-
-        <span lang="it">— Sì, mi piacciono molto!</span> (Yes, I like them a lot!)
-      questions:
-        - "Does the second person like coffee?"
-        - "Do both people like desserts?"
-      correct_answers:
-        - "No"
-        - "Sì / Yes"
-
-    - type: listening
-      title: "Cosa ti piace?"
-      description: "Listen to friends discussing preferences"
-      audio_path: "/static/audio/a0_07_mi_piace.wav"
-      content: |
-        — Mi piace la pizza. E a te?
-        — Anche a me! Mi piace il calcio.
-        — Non mi piace il calcio. Mi piacciono i gatti.
-        — Anch'io! Mi piacciono molto i gatti.
-      questions:
-        - "What food does the first speaker like?"
-        - "What sport does the second speaker like?"
-      correct_answers:
-        - "la pizza"
-        - "il calcio / football"
-
-    - type: speaking
-      title: "Your preferences"
-      description: "Say what you like"
-      content: "Say these out loud: **Mi piace la pizza.** Then: **Mi piace il gelato.** Now try the negative: **Non mi piace il tè.** And the plural: **Mi piacciono i dolci.**"
-
-    - type: writing
-      title: "Likes and dislikes"
-      description: "Write about your preferences"
-      content: "Write 3 sentences about things you like and don't like. Use **Mi piace...**, **Non mi piace...**, and **Mi piacciono...**"
-
-    - type: drill
-      title: "Review: restaurant"
-      description: "Keep lesson 6 fresh"
-      hint: "Primo = pasta. Che cos'è = what is it."
+      <span lang="it">— Sì, mi piacciono molto!</span> (Yes, I like them a lot!)
+    questions:
+    - text: "Does the second person like coffee?"
+      correct_answer: 'No'
+      grammar_point_codes:
+      - mi_piace
+    - text: "Do both people like desserts?"
+      correct_answer: Sì / Yes
+      grammar_point_codes:
+      - mi_piace
+  - type: listening
+    title: "Cosa ti piace?"
+    description: Listen to friends discussing preferences
+    audio_path: /static/audio/a0_07_mi_piace.wav
+    content: |
+      — Mi piace la pizza. E a te?
+      — Anche a me! Mi piace il calcio.
+      — Non mi piace il calcio. Mi piacciono i gatti.
+      — Anch'io! Mi piacciono molto i gatti.
+    questions:
+    - text: "What food does the first speaker like?"
+      correct_answer: la pizza
+      grammar_point_codes:
+      - mi_piace
+    - text: "What sport does the second speaker like?"
+      correct_answer: il calcio / football
+      grammar_point_codes:
+      - mi_piace
+  - type: speaking
+    title: Your preferences
+    description: Say what you like
+    content: "Say these out loud: **Mi piace la pizza.** Then: **Mi piace il gelato.** Now try the negative: **Non mi piace\
+      \ il tè.** And the plural: **Mi piacciono i dolci.**"
+    grammar_point_codes:
+    - mi_piace
+  - type: writing
+    title: Likes and dislikes
+    description: Write about your preferences
+    content: "Write 3 sentences about things you like and don't like. Use **Mi piace...**, **Non mi piace...**, and **Mi piacciono...**"
+    grammar_point_codes:
+    - mi_piace
+  - type: drill
+    title: "Review: restaurant"
+    description: Keep lesson 6 fresh
+    hint: "Primo = pasta. Che cos'è = what is it."
+    grammar_point_code: vocab_cibo
+    exercise_type: fill_blank
+    items:
+    - prompt: "What is this? = Che cos'è ___?"
+      correct_answer: questo
+      grammar_point_code: che_cose
+    - prompt: "The bill, please. = Il ___, per favore."
+      correct_answer: conto
       grammar_point_code: vocab_cibo
-      exercise_type: fill_blank
-      items:
-        - prompt: "What is this? = Che cos'è ___?"
-          correct_answer: "questo"
-        - prompt: "The bill, please. = Il ___, per favore."
-          correct_answer: "conto"
-        - prompt: "I'm vegetarian. (f.) = Sono ___."
-          correct_answer: "vegetariana"
-        - prompt: "A table for two. = Un ___ per due."
-          correct_answer: "tavolo"
-
-a0-08-i-numeri-grandi:
-  topic_title: "I numeri grandi"
+    - prompt: "I'm vegetarian. (f.) = Sono ___."
+      correct_answer: vegetariana
+      grammar_point_code: che_cose
+    - prompt: "A table for two. = Un ___ per due."
+      correct_answer: tavolo
+      grammar_point_code: vocab_cibo
+"a0-08-i-numeri-grandi":
+  topic_title: I numeri grandi
   topic_description: "Numbers 20-100 and telling time — for prices and timetables"
   overview: "Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and how to tell time."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: "Numbers 20-100"
+    description: For prices and addresses
+    grammar_point_code: num_20_100
+    content: |
+      ## Tens
 
-    - type: grammar
-      title: "Numbers 20-100"
-      description: "For prices and addresses"
-      grammar_point_code: num_20_100
-      content: |
-        ## Tens
+      | # | Italian | | # | Italian |
+      |---|---------|---|---|---------|
+      | 20 | **<span lang="it">venti</span>** | | 60 | **<span lang="it">sessanta</span>** |
+      | 30 | **<span lang="it">trenta</span>** | | 70 | **<span lang="it">settanta</span>** |
+      | 40 | **<span lang="it">quaranta</span>** | | 80 | **<span lang="it">ottanta</span>** |
+      | 50 | **<span lang="it">cinquanta</span>** | | 90 | **<span lang="it">novanta</span>** |
+      | | | | 100 | **<span lang="it">cento</span>** |
 
-        | # | Italian | | # | Italian |
-        |---|---------|---|---|---------|
-        | 20 | **<span lang="it">venti</span>** | | 60 | **<span lang="it">sessanta</span>** |
-        | 30 | **<span lang="it">trenta</span>** | | 70 | **<span lang="it">settanta</span>** |
-        | 40 | **<span lang="it">quaranta</span>** | | 80 | **<span lang="it">ottanta</span>** |
-        | 50 | **<span lang="it">cinquanta</span>** | | 90 | **<span lang="it">novanta</span>** |
-        | | | | 100 | **<span lang="it">cento</span>** |
+      ### Combining
 
-        ### Combining
+      Join the ten and the unit: <span lang="it">*trenta* + *due* = **trentadue**</span> (32).
 
-        Join the ten and the unit: <span lang="it">*trenta* + *due* = **trentadue**</span> (32).
+      **Drop the final vowel** before <span lang="it">*uno*</span> and <span lang="it">*otto*</span>:
+      - <span lang="it">vent**uno**</span> (21), <span lang="it">vent**otto**</span> (28)
 
-        **Drop the final vowel** before <span lang="it">*uno*</span> and <span lang="it">*otto*</span>:
-        - <span lang="it">vent**uno**</span> (21), <span lang="it">vent**otto**</span> (28)
+      All others just join: <span lang="it">venti**due**</span> (22), <span lang="it">trenta**cinque**</span> (35).
+  - type: drill
+    title: Bigger numbers
+    description: "Numbers 20-100"
+    hint: "Drop the final vowel before -uno and -otto."
+    grammar_point_code: num_20_100
+    exercise_type: fill_blank
+    items:
+    - prompt: "30 = ___"
+      correct_answer: trenta
+    - prompt: "50 = ___"
+      correct_answer: cinquanta
+    - prompt: "21 = ___"
+      correct_answer: ventuno
+    - prompt: "45 = ___"
+      correct_answer: quarantacinque
+    - prompt: "100 = ___"
+      correct_answer: cento
+  - type: grammar
+    title: "Che ore sono?"
+    description: Telling time and days of the week
+    grammar_point_code: ore_giorni
+    content: |
+      ## Telling time
 
-        All others just join: <span lang="it">venti**due**</span> (22), <span lang="it">trenta**cinque**</span> (35).
+      - **<span lang="it">Che ore sono?</span>** — What time is it?
+      - <span lang="it">**È l'una.**</span> — It's 1:00. (singular)
+      - <span lang="it">**Sono le due.**</span> — It's 2:00. (plural for 2+)
+      - <span lang="it">**Sono le tre e mezza.**</span> — It's 3:30.
 
-    - type: drill
-      title: "Bigger numbers"
-      description: "Numbers 20-100"
-      hint: "Drop the final vowel before -uno and -otto."
-      grammar_point_code: num_20_100
-      exercise_type: fill_blank
-      items:
-        - prompt: "30 = ___"
-          correct_answer: "trenta"
-        - prompt: "50 = ___"
-          correct_answer: "cinquanta"
-        - prompt: "21 = ___"
-          correct_answer: "ventuno"
-        - prompt: "45 = ___"
-          correct_answer: "quarantacinque"
-        - prompt: "100 = ___"
-          correct_answer: "cento"
+      Italy uses the 24-hour clock for timetables:
+      - <span lang="it">**Sono le quindici.**</span> — It's 3 PM.
+      - <span lang="it">**Il treno parte alle diciotto.**</span> — The train leaves at 6 PM.
 
-    - type: grammar
-      title: "Che ore sono?"
-      description: "Telling time and days of the week"
-      grammar_point_code: ore_giorni
-      content: |
-        ## Telling time
+      ### Days of the week
 
-        - **<span lang="it">Che ore sono?</span>** — What time is it?
-        - <span lang="it">**È l'una.**</span> — It's 1:00. (singular)
-        - <span lang="it">**Sono le due.**</span> — It's 2:00. (plural for 2+)
-        - <span lang="it">**Sono le tre e mezza.**</span> — It's 3:30.
+      | Italian | English | | Italian | English |
+      |---------|---------|---|---------|---------|
+      | <span lang="it">lunedì</span> | Monday | | <span lang="it">venerdì</span> | Friday |
+      | <span lang="it">martedì</span> | Tuesday | | <span lang="it">sabato</span> | Saturday |
+      | <span lang="it">mercoledì</span> | Wednesday | | <span lang="it">domenica</span> | Sunday |
+      | <span lang="it">giovedì</span> | Thursday | | | |
 
-        Italy uses the 24-hour clock for timetables:
-        - <span lang="it">**Sono le quindici.**</span> — It's 3 PM.
-        - <span lang="it">**Il treno parte alle diciotto.**</span> — The train leaves at 6 PM.
+      Days are not capitalised in Italian.
+  - type: drill
+    title: Time and days
+    description: Telling time
+    hint: "È l'una (1:00). Sono le + number (for 2+). E mezza = :30."
+    grammar_point_code: ore_giorni
+    exercise_type: fill_blank
+    items:
+    - prompt: "What time is it? = Che ___ sono?"
+      correct_answer: ore
+    - prompt: "It's 3:00. = Sono ___ tre."
+      correct_answer: le
+    - prompt: "It's 1:00. = È ___."
+      correct_answer: l'una
+    - prompt: "Monday = ___"
+      correct_answer: lunedì
+    - prompt: "Saturday = ___"
+      correct_answer: sabato
+  - type: reading
+    title: "What time is it?"
+    description: A conversation about schedules
+    content: |
+      <span lang="it">— Scusi, che ore sono?</span> (Excuse me, what time is it?)
 
-        ### Days of the week
+      <span lang="it">— Sono le undici e mezza.</span> (It's 11:30.)
 
-        | Italian | English | | Italian | English |
-        |---------|---------|---|---------|---------|
-        | <span lang="it">lunedì</span> | Monday | | <span lang="it">venerdì</span> | Friday |
-        | <span lang="it">martedì</span> | Tuesday | | <span lang="it">sabato</span> | Saturday |
-        | <span lang="it">mercoledì</span> | Wednesday | | <span lang="it">domenica</span> | Sunday |
-        | <span lang="it">giovedì</span> | Thursday | | | |
+      <span lang="it">— Grazie. E il museo, a che ora apre?</span> (Thanks. And the museum, what time does it open?)
 
-        Days are not capitalised in Italian.
+      <span lang="it">— Alle nove. Ma oggi è lunedì — il museo è chiuso il lunedì.</span> (At nine. But today is Monday — the museum is closed on Mondays.)
 
-    - type: drill
-      title: "Time and days"
-      description: "Telling time"
-      hint: "È l'una (1:00). Sono le + number (for 2+). E mezza = :30."
-      grammar_point_code: ore_giorni
-      exercise_type: fill_blank
-      items:
-        - prompt: "What time is it? = Che ___ sono?"
-          correct_answer: "ore"
-        - prompt: "It's 3:00. = Sono ___ tre."
-          correct_answer: "le"
-        - prompt: "It's 1:00. = È ___."
-          correct_answer: "l'una"
-        - prompt: "Monday = ___"
-          correct_answer: "lunedì"
-        - prompt: "Saturday = ___"
-          correct_answer: "sabato"
-
-    - type: reading
-      title: "What time is it?"
-      description: "A conversation about schedules"
-      content: |
-        <span lang="it">— Scusi, che ore sono?</span> (Excuse me, what time is it?)
-
-        <span lang="it">— Sono le undici e mezza.</span> (It's 11:30.)
-
-        <span lang="it">— Grazie. E il museo, a che ora apre?</span> (Thanks. And the museum, what time does it open?)
-
-        <span lang="it">— Alle nove. Ma oggi è lunedì — il museo è chiuso il lunedì.</span> (At nine. But today is Monday — the museum is closed on Mondays.)
-
-        <span lang="it">— Ah, mi dispiace! Grazie.</span>
-      questions:
-        - "What time is it?"
-        - "Why can't they visit the museum?"
-      correct_answers:
-        - "le undici e mezza / 11:30"
-        - "è chiuso il lunedì / it's closed on Mondays"
-
-    - type: listening
-      title: "The schedule"
-      description: "Listen: what time does it open?"
-      audio_path: "/static/audio/a0_08_i_numeri_grandi.wav"
-      content: |
-        — Buongiorno. A che ora parte il treno per Napoli?
-        — Alle quattordici e trenta. Binario sette.
-        — Quanto costa?
-        — Ventidue euro.
-        — Ecco trenta euro.
-        — Otto euro di resto. Buon viaggio!
-      questions:
-        - "What time does the train leave?"
-        - "How much change does the customer get?"
-      correct_answers:
-        - "alle quattordici e trenta / 14:30"
-        - "otto euro / 8 euros"
-
-    - type: speaking
-      title: "Numbers and time"
-      description: "Practice saying times and prices"
-      content: "Say these out loud: **Sono le tre e mezza.** Then: **Quarantacinque euro.** Then: **Il treno parte alle quindici.** Numbers need practice — say each one twice!"
-
-    - type: drill
-      title: "Review: mi piace"
-      description: "Keep lesson 7 fresh"
-      hint: "Mi piace + singular. Mi piacciono + plural."
+      <span lang="it">— Ah, mi dispiace! Grazie.</span>
+    questions:
+    - text: "What time is it?"
+      correct_answer: "le undici e mezza / 11:30"
+      grammar_point_codes:
+      - ore_giorni
+    - text: "Why can't they visit the museum?"
+      correct_answer: è chiuso il lunedì / it's closed on Mondays
+      grammar_point_codes:
+      - ore_giorni
+  - type: listening
+    title: The schedule
+    description: "Listen: what time does it open?"
+    audio_path: /static/audio/a0_08_i_numeri_grandi.wav
+    content: |
+      — Buongiorno. A che ora parte il treno per Napoli?
+      — Alle quattordici e trenta. Binario sette.
+      — Quanto costa?
+      — Ventidue euro.
+      — Ecco trenta euro.
+      — Otto euro di resto. Buon viaggio!
+    questions:
+    - text: "What time does the train leave?"
+      correct_answer: "alle quattordici e trenta / 14:30"
+      grammar_point_codes:
+      - ore_giorni
+    - text: "How much change does the customer get?"
+      correct_answer: otto euro / 8 euros
+      grammar_point_codes:
+      - num_20_100
+  - type: speaking
+    title: Numbers and time
+    description: Practice saying times and prices
+    content: "Say these out loud: **Sono le tre e mezza.** Then: **Quarantacinque euro.** Then: **Il treno parte alle quindici.**\
+      \ Numbers need practice — say each one twice!"
+    grammar_point_codes:
+    - num_20_100
+    - ore_giorni
+  - type: drill
+    title: "Review: mi piace"
+    description: Keep lesson 7 fresh
+    hint: Mi piace + singular. Mi piacciono + plural.
+    grammar_point_code: mi_piace
+    exercise_type: fill_blank
+    items:
+    - prompt: "I like pizza. = Mi ___ la pizza."
+      correct_answer: piace
       grammar_point_code: mi_piace
-      exercise_type: fill_blank
-      items:
-        - prompt: "I like pizza. = Mi ___ la pizza."
-          correct_answer: "piace"
-        - prompt: "I like desserts. = Mi ___ i dolci."
-          correct_answer: "piacciono"
-        - prompt: "I don't like meat. = ___ mi piace la carne."
-          correct_answer: "Non"
-        - prompt: "___ gatti (the cats)"
-          correct_answer: "i"
-a0-09-in-viaggio:
-  topic_title: "In viaggio"
+    - prompt: "I like desserts. = Mi ___ i dolci."
+      correct_answer: piacciono
+      grammar_point_code: mi_piace
+    - prompt: "I don't like meat. = ___ mi piace la carne."
+      correct_answer: Non
+      grammar_point_code: mi_piace
+    - prompt: ___ gatti (the cats)
+      correct_answer: i
+      grammar_point_code: art_i_le
+"a0-09-in-viaggio":
+  topic_title: In viaggio
   topic_description: "At the train station — buying tickets, platforms, timetables"
   overview: "Time to travel! Put your numbers and time skills to work buying train tickets and navigating the station."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: At the train station
+    description: Transport vocabulary
+    grammar_point_code: vocab_viaggio
+    content: |
+      ## In stazione
 
-    - type: grammar
-      title: "At the train station"
-      description: "Transport vocabulary"
-      grammar_point_code: vocab_viaggio
-      content: |
-        ## In stazione
+      | Italian | English |
+      |---------|---------|
+      | <span lang="it">**il treno**</span> | the train |
+      | <span lang="it">**il biglietto**</span> | the ticket |
+      | <span lang="it">**andata**</span> | one way |
+      | <span lang="it">**andata e ritorno**</span> | round trip |
+      | <span lang="it">**il binario**</span> | the platform |
+      | <span lang="it">**la fermata**</span> | the stop (bus/tram) |
+      | <span lang="it">**l'autobus**</span> | the bus |
+      | <span lang="it">**il taxi**</span> | the taxi |
+      | <span lang="it">**la metro**</span> | the underground |
 
-        | Italian | English |
-        |---------|---------|
-        | <span lang="it">**il treno**</span> | the train |
-        | <span lang="it">**il biglietto**</span> | the ticket |
-        | <span lang="it">**andata**</span> | one way |
-        | <span lang="it">**andata e ritorno**</span> | round trip |
-        | <span lang="it">**il binario**</span> | the platform |
-        | <span lang="it">**la fermata**</span> | the stop (bus/tram) |
-        | <span lang="it">**l'autobus**</span> | the bus |
-        | <span lang="it">**il taxi**</span> | the taxi |
-        | <span lang="it">**la metro**</span> | the underground |
+      ### Essential phrases
 
-        ### Essential phrases
+      - <span lang="it">**Vorrei un biglietto per Roma.**</span> — I'd like a ticket to Rome.
+      - <span lang="it">**Andata e ritorno.**</span> — Round trip.
+      - <span lang="it">**A che ora parte il treno?**</span> — What time does the train leave?
+      - <span lang="it">**Da che binario?**</span> — From which platform?
+      - <span lang="it">**Quanto costa il biglietto?**</span> — How much is the ticket?
+  - type: drill
+    title: Buying a ticket
+    description: At the ticket counter
+    hint: "Biglietto = ticket. Andata e ritorno = round trip. Binario = platform."
+    grammar_point_code: vocab_viaggio
+    exercise_type: fill_blank
+    items:
+    - prompt: "I'd like a ticket to Rome. = Vorrei un ___ per Roma."
+      correct_answer: biglietto
+    - prompt: "Round trip. = Andata e ___."
+      correct_answer: ritorno
+    - prompt: "What time does the train leave? = A che ___ parte il treno?"
+      correct_answer: ora
+    - prompt: "From which platform? = Da che ___?"
+      correct_answer: binario
+    - prompt: "How much is the ticket? = Quanto ___ il biglietto?"
+      correct_answer: costa
+  - type: reading
+    title: At the ticket counter
+    description: Buying a train ticket
+    content: |
+      <span lang="it">— Buongiorno. Vorrei un biglietto per Firenze, per favore.</span>
 
-        - <span lang="it">**Vorrei un biglietto per Roma.**</span> — I'd like a ticket to Rome.
-        - <span lang="it">**Andata e ritorno.**</span> — Round trip.
-        - <span lang="it">**A che ora parte il treno?**</span> — What time does the train leave?
-        - <span lang="it">**Da che binario?**</span> — From which platform?
-        - <span lang="it">**Quanto costa il biglietto?**</span> — How much is the ticket?
+      <span lang="it">— Andata o andata e ritorno?</span>
 
-    - type: drill
-      title: "Buying a ticket"
-      description: "At the ticket counter"
-      hint: "Biglietto = ticket. Andata e ritorno = round trip. Binario = platform."
-      grammar_point_code: vocab_viaggio
-      exercise_type: fill_blank
-      items:
-        - prompt: "I'd like a ticket to Rome. = Vorrei un ___ per Roma."
-          correct_answer: "biglietto"
-        - prompt: "Round trip. = Andata e ___."
-          correct_answer: "ritorno"
-        - prompt: "What time does the train leave? = A che ___ parte il treno?"
-          correct_answer: "ora"
-        - prompt: "From which platform? = Da che ___?"
-          correct_answer: "binario"
-        - prompt: "How much is the ticket? = Quanto ___ il biglietto?"
-          correct_answer: "costa"
+      <span lang="it">— Andata e ritorno.</span>
 
-    - type: reading
-      title: "At the ticket counter"
-      description: "Buying a train ticket"
-      content: |
-        <span lang="it">— Buongiorno. Vorrei un biglietto per Firenze, per favore.</span>
+      <span lang="it">— Sono quarantacinque euro.</span> (Forty-five euros.)
 
-        <span lang="it">— Andata o andata e ritorno?</span>
+      <span lang="it">— Ecco cinquanta euro. A che ora parte il treno?</span>
 
-        <span lang="it">— Andata e ritorno.</span>
+      <span lang="it">— Alle undici e mezza. Binario tre.</span>
 
-        <span lang="it">— Sono quarantacinque euro.</span> (Forty-five euros.)
-
-        <span lang="it">— Ecco cinquanta euro. A che ora parte il treno?</span>
-
-        <span lang="it">— Alle undici e mezza. Binario tre.</span>
-
-        <span lang="it">— Grazie mille!</span>
-      questions:
-        - "How much does the ticket cost?"
-        - "What time and platform?"
-      correct_answers:
-        - "quarantacinque euro / 45 euros"
-        - "alle undici e mezza, binario tre / 11:30, platform 3"
-
-    - type: listening
-      title: "Two tickets to Naples"
-      description: "Listen to a ticket purchase"
-      audio_path: "/static/audio/a0_09_in_viaggio.wav"
-      content: |
-        — Buongiorno. Vorrei due biglietti per Napoli.
-        — Andata?
-        — Sì, solo andata. Quanto costa?
-        — Ventidue euro a persona. Quarantaquattro in tutto.
-        — Ecco cinquanta euro.
-        — Sei euro di resto. Il treno parte alle quattordici, binario sette.
-        — Grazie!
-      questions:
-        - "How much is the total?"
-        - "What platform?"
-      correct_answers:
-        - "quarantaquattro euro / 44 euros"
-        - "binario sette / platform 7"
-
-    - type: speaking
-      title: "Buy a ticket"
-      description: "Practice at the ticket counter"
-      content: "Say this smoothly: **Vorrei un biglietto per Firenze, andata e ritorno, per favore.** Then ask: **A che ora parte il treno?** And: **Da che binario?**"
-
-    - type: writing
-      title: "Plan your journey"
-      description: "Write a ticket-buying conversation"
-      content: "Write a short dialogue (4-6 lines) where you buy a train ticket. Include: your destination, andata or andata e ritorno, the price, and the time."
-
-    - type: drill
-      title: "Review: numbers and time"
-      description: "Keep lesson 8 fresh"
-      hint: "Venti, trenta, quaranta... È l'una, sono le due..."
+      <span lang="it">— Grazie mille!</span>
+    questions:
+    - text: "How much does the ticket cost?"
+      correct_answer: quarantacinque euro / 45 euros
+      grammar_point_codes:
+      - num_20_100
+    - text: "What time and platform?"
+      correct_answer: "alle undici e mezza, binario tre / 11:30, platform 3"
+      grammar_point_codes:
+      - vocab_viaggio
+  - type: listening
+    title: Two tickets to Naples
+    description: Listen to a ticket purchase
+    audio_path: /static/audio/a0_09_in_viaggio.wav
+    content: |
+      — Buongiorno. Vorrei due biglietti per Napoli.
+      — Andata?
+      — Sì, solo andata. Quanto costa?
+      — Ventidue euro a persona. Quarantaquattro in tutto.
+      — Ecco cinquanta euro.
+      — Sei euro di resto. Il treno parte alle quattordici, binario sette.
+      — Grazie!
+    questions:
+    - text: "How much is the total?"
+      correct_answer: quarantaquattro euro / 44 euros
+      grammar_point_codes:
+      - num_20_100
+    - text: "What platform?"
+      correct_answer: binario sette / platform 7
+      grammar_point_codes:
+      - vocab_viaggio
+  - type: speaking
+    title: Buy a ticket
+    description: Practice at the ticket counter
+    content: "Say this smoothly: **Vorrei un biglietto per Firenze, andata e ritorno, per favore.** Then ask: **A che ora\
+      \ parte il treno?** And: **Da che binario?**"
+    grammar_point_codes:
+    - vocab_viaggio
+    - vorrei
+  - type: writing
+    title: Plan your journey
+    description: "Write a ticket-buying conversation"
+    content: "Write a short dialogue (4-6 lines) where you buy a train ticket. Include: your destination, andata or andata\
+      \ e ritorno, the price, and the time."
+    grammar_point_codes:
+    - vocab_viaggio
+    - num_20_100
+  - type: drill
+    title: "Review: numbers and time"
+    description: Keep lesson 8 fresh
+    hint: "Venti, trenta, quaranta... È l'una, sono le due..."
+    grammar_point_code: num_20_100
+    exercise_type: fill_blank
+    items:
+    - prompt: "38 = ___"
+      correct_answer: trentotto
       grammar_point_code: num_20_100
-      exercise_type: fill_blank
-      items:
-        - prompt: "38 = ___"
-          correct_answer: "trentotto"
-        - prompt: "It's 2:00. = Sono ___ due."
-          correct_answer: "le"
-        - prompt: "Wednesday = ___"
-          correct_answer: "mercoledì"
-        - prompt: "Sunday = ___"
-          correct_answer: "domenica"
-
-a0-10-conoscere-qualcuno:
-  topic_title: "Conoscere qualcuno"
+    - prompt: "It's 2:00. = Sono ___ due."
+      correct_answer: le
+      grammar_point_code: ore_giorni
+    - prompt: "Wednesday = ___"
+      correct_answer: mercoledì
+      grammar_point_code: ore_giorni
+    - prompt: "Sunday = ___"
+      correct_answer: domenica
+      grammar_point_code: ore_giorni
+"a0-10-conoscere-qualcuno":
+  topic_title: Conoscere qualcuno
   topic_description: "Meeting people — essere, pronouns, nationality, origin"
   overview: "You meet someone at the piazza. Learn to say who you are, where you're from, and ask others the same."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Essere — to be
+    description: The most important Italian verb
+    grammar_point_code: essere_pre
+    content: |
+      ## Essere (to be)
 
-    - type: grammar
-      title: "Essere — to be"
-      description: "The most important Italian verb"
+      | Pronoun | Essere | Example |
+      |---------|--------|---------|
+      | <span lang="it">**io**</span> (I) | <span lang="it">**sono**</span> | <span lang="it">Sono Marco.</span> |
+      | <span lang="it">**tu**</span> (you) | <span lang="it">**sei**</span> | <span lang="it">Sei italiano?</span> |
+      | <span lang="it">**lui/lei**</span> (he/she) | <span lang="it">**è**</span> | <span lang="it">Lei è Maria.</span> |
+
+      You can drop the pronoun — the verb tells you who:
+      - <span lang="it">**Sono italiano.**</span> = I am Italian.
+      - <span lang="it">**Sei pronto?**</span> = Are you ready?
+
+      To ask a question, just raise your voice:
+      - <span lang="it">**Sei italiano?**</span> ↗
+  - type: drill
+    title: Essere
+    description: Fill in the right form
+    hint: "io → sono, tu → sei, lui/lei → è."
+    grammar_point_code: essere_pre
+    exercise_type: fill_blank
+    items:
+    - prompt: "I am Italian. = ___ italiano."
+      correct_answer: Sono
+    - prompt: "Are you English? = ___ inglese?"
+      correct_answer: Sei
+    - prompt: "She is Maria. = Lei ___ Maria."
+      correct_answer: è
+    - prompt: "I am a student. = Sono uno ___."
+      correct_answer: studente
+  - type: grammar
+    title: "Where are you from?"
+    description: "Origin, nationality, simple sentences"
+    grammar_point_code: simp_sent
+    content: |
+      ## Introducing yourself
+
+      - <span lang="it">**Sono di Londra.**</span> — I'm from London.
+      - <span lang="it">**Di dove sei?**</span> — Where are you from?
+
+      ### Nationalities
+
+      | Italian | English |
+      |---------|---------|
+      | <span lang="it">inglese</span> | English |
+      | <span lang="it">americano/a</span> | American (m./f.) |
+      | <span lang="it">tedesco/a</span> | German (m./f.) |
+      | <span lang="it">francese</span> | French |
+      | <span lang="it">spagnolo/a</span> | Spanish (m./f.) |
+
+      ### Simple sentences
+
+      Italian follows the same order as English: **Subject + Verb + Object**
+      - <span lang="it">**Parlo italiano.**</span> — I speak Italian.
+
+      And you can drop the pronoun:
+      - <span lang="it">**(Io) Parlo un po' di italiano.**</span> — I speak a little Italian.
+  - type: drill
+    title: About yourself
+    description: Introductions
+    hint: "Sono di... = I'm from. Sono + nationality."
+    grammar_point_code: simp_sent
+    exercise_type: fill_blank
+    items:
+    - prompt: "I'm from London. = Sono ___ Londra."
+      correct_answer: di
+    - prompt: "Where are you from? = Di ___ sei?"
+      correct_answer: dove
+    - prompt: "I speak a little Italian. = Parlo un ___ di italiano."
+      correct_answer: po'
+    - prompt: "I am French. = Sono ___."
+      correct_answer: francese
+  - type: reading
+    title: Meeting at the piazza
+    description: Two people introducing themselves
+    content: |
+      <span lang="it">— Ciao! Mi chiamo Luca. E tu, come ti chiami?</span>
+
+      <span lang="it">— Ciao! Mi chiamo Sophie. Sei italiano?</span>
+
+      <span lang="it">— Sì, sono italiano, di Roma. E tu?</span>
+
+      <span lang="it">— Sono francese, di Parigi. Parlo un po' di italiano.</span>
+
+      <span lang="it">— Parli molto bene! Ti piace l'Italia?</span> (You speak very well!)
+
+      <span lang="it">— Sì, mi piace molto!</span>
+    questions:
+    - text: "Where is Sophie from?"
+      correct_answer: Parigi / Paris
+      grammar_point_codes:
+      - simp_sent
+    - text: "Does she speak Italian?"
+      correct_answer: "Sì, un po' / Yes, a little"
+      grammar_point_codes:
+      - simp_sent
+  - type: listening
+    title: New friends
+    description: Listen to two people meeting
+    audio_path: /static/audio/a0_10_conoscere_qualcuno.wav
+    content: |
+      — Buonasera! Mi chiamo Anna. Sei americano?
+      — Sì, sono americano, di Chicago. Mi chiamo David.
+      — Parli italiano?
+      — Un po'. E tu, sei italiana?
+      — Sì, di Firenze.
+      — Mi piace molto Firenze!
+    questions:
+    - text: "Where is David from?"
+      correct_answer: Chicago
+      grammar_point_codes:
+      - simp_sent
+    - text: "Where is Anna from?"
+      correct_answer: Firenze / Florence
+      grammar_point_codes:
+      - simp_sent
+  - type: speaking
+    title: Introduce yourself
+    description: "Practice your self-introduction"
+    content: "Say this out loud: **Ciao! Mi chiamo [your name]. Sono [nationality]. Sono di [city]. Parlo un po' di italiano.**\
+      \ Try to sound natural and confident!"
+    grammar_point_codes:
+    - mi_chiamo
+    - simp_sent
+  - type: writing
+    title: About you
+    description: Write your introduction
+    content: "Write 3-4 sentences introducing yourself. Include your name, nationality, city, and something you like about\
+      \ Italy."
+    grammar_point_codes:
+    - mi_chiamo
+    - simp_sent
+    - essere_pre
+  - type: drill
+    title: Fix the mistakes
+    description: Error correction
+    hint: "io → sono, tu → sei. il (m.), la (f.)."
+    grammar_point_code: essere_pre
+    exercise_type: error_correction
+    items:
+    - prompt: Io è italiano.
+      correct_answer: Io sono italiano.
       grammar_point_code: essere_pre
-      content: |
-        ## Essere (to be)
-
-        | Pronoun | Essere | Example |
-        |---------|--------|---------|
-        | <span lang="it">**io**</span> (I) | <span lang="it">**sono**</span> | <span lang="it">Sono Marco.</span> |
-        | <span lang="it">**tu**</span> (you) | <span lang="it">**sei**</span> | <span lang="it">Sei italiano?</span> |
-        | <span lang="it">**lui/lei**</span> (he/she) | <span lang="it">**è**</span> | <span lang="it">Lei è Maria.</span> |
-
-        You can drop the pronoun — the verb tells you who:
-        - <span lang="it">**Sono italiano.**</span> = I am Italian.
-        - <span lang="it">**Sei pronto?**</span> = Are you ready?
-
-        To ask a question, just raise your voice:
-        - <span lang="it">**Sei italiano?**</span> ↗
-
-    - type: drill
-      title: "Essere"
-      description: "Fill in the right form"
-      hint: "io → sono, tu → sei, lui/lei → è."
+    - prompt: Tu sono inglese.
+      correct_answer: Tu sei inglese.
       grammar_point_code: essere_pre
-      exercise_type: fill_blank
-      items:
-        - prompt: "I am Italian. = ___ italiano."
-          correct_answer: "Sono"
-        - prompt: "Are you English? = ___ inglese?"
-          correct_answer: "Sei"
-        - prompt: "She is Maria. = Lei ___ Maria."
-          correct_answer: "è"
-        - prompt: "I am a student. = Sono uno ___."
-          correct_answer: "studente"
-
-    - type: grammar
-      title: "Where are you from?"
-      description: "Origin, nationality, simple sentences"
-      grammar_point_code: simp_sent
-      content: |
-        ## Introducing yourself
-
-        - <span lang="it">**Sono di Londra.**</span> — I'm from London.
-        - <span lang="it">**Di dove sei?**</span> — Where are you from?
-
-        ### Nationalities
-
-        | Italian | English |
-        |---------|---------|
-        | <span lang="it">inglese</span> | English |
-        | <span lang="it">americano/a</span> | American (m./f.) |
-        | <span lang="it">tedesco/a</span> | German (m./f.) |
-        | <span lang="it">francese</span> | French |
-        | <span lang="it">spagnolo/a</span> | Spanish (m./f.) |
-
-        ### Simple sentences
-
-        Italian follows the same order as English: **Subject + Verb + Object**
-        - <span lang="it">**Parlo italiano.**</span> — I speak Italian.
-
-        And you can drop the pronoun:
-        - <span lang="it">**(Io) Parlo un po' di italiano.**</span> — I speak a little Italian.
-
-    - type: drill
-      title: "About yourself"
-      description: "Introductions"
-      hint: "Sono di... = I'm from. Sono + nationality."
-      grammar_point_code: simp_sent
-      exercise_type: fill_blank
-      items:
-        - prompt: "I'm from London. = Sono ___ Londra."
-          correct_answer: "di"
-        - prompt: "Where are you from? = Di ___ sei?"
-          correct_answer: "dove"
-        - prompt: "I speak a little Italian. = Parlo un ___ di italiano."
-          correct_answer: "po'"
-        - prompt: "I am French. = Sono ___."
-          correct_answer: "francese"
-
-    - type: reading
-      title: "Meeting at the piazza"
-      description: "Two people introducing themselves"
-      content: |
-        <span lang="it">— Ciao! Mi chiamo Luca. E tu, come ti chiami?</span>
-
-        <span lang="it">— Ciao! Mi chiamo Sophie. Sei italiano?</span>
-
-        <span lang="it">— Sì, sono italiano, di Roma. E tu?</span>
-
-        <span lang="it">— Sono francese, di Parigi. Parlo un po' di italiano.</span>
-
-        <span lang="it">— Parli molto bene! Ti piace l'Italia?</span> (You speak very well!)
-
-        <span lang="it">— Sì, mi piace molto!</span>
-      questions:
-        - "Where is Sophie from?"
-        - "Does she speak Italian?"
-      correct_answers:
-        - "Parigi / Paris"
-        - "Sì, un po' / Yes, a little"
-
-    - type: listening
-      title: "New friends"
-      description: "Listen to two people meeting"
-      audio_path: "/static/audio/a0_10_conoscere_qualcuno.wav"
-      content: |
-        — Buonasera! Mi chiamo Anna. Sei americano?
-        — Sì, sono americano, di Chicago. Mi chiamo David.
-        — Parli italiano?
-        — Un po'. E tu, sei italiana?
-        — Sì, di Firenze.
-        — Mi piace molto Firenze!
-      questions:
-        - "Where is David from?"
-        - "Where is Anna from?"
-      correct_answers:
-        - "Chicago"
-        - "Firenze / Florence"
-
-    - type: speaking
-      title: "Introduce yourself"
-      description: "Practice your self-introduction"
-      content: "Say this out loud: **Ciao! Mi chiamo [your name]. Sono [nationality]. Sono di [city]. Parlo un po' di italiano.** Try to sound natural and confident!"
-
-    - type: writing
-      title: "About you"
-      description: "Write your introduction"
-      content: "Write 3-4 sentences introducing yourself. Include your name, nationality, city, and something you like about Italy."
-
-    - type: drill
-      title: "Fix the mistakes"
-      description: "Error correction"
-      hint: "io → sono, tu → sei. il (m.), la (f.)."
-      grammar_point_code: essere_pre
-      exercise_type: error_correction
-      items:
-        - prompt: "Io è italiano."
-          correct_answer: "Io sono italiano."
-        - prompt: "Tu sono inglese."
-          correct_answer: "Tu sei inglese."
-        - prompt: "Il casa è grande."
-          correct_answer: "La casa è grande."
-
-    - type: drill
-      title: "Review: transport"
-      description: "Keep lesson 9 fresh"
-      hint: "Biglietto = ticket. Binario = platform."
+    - prompt: Il casa è grande.
+      correct_answer: La casa è grande.
+      grammar_point_code: art_il_la
+  - type: drill
+    title: "Review: transport"
+    description: Keep lesson 9 fresh
+    hint: "Biglietto = ticket. Binario = platform."
+    grammar_point_code: vocab_viaggio
+    exercise_type: fill_blank
+    items:
+    - prompt: "A ticket to Rome. = Un biglietto ___ Roma."
+      correct_answer: per
       grammar_point_code: vocab_viaggio
-      exercise_type: fill_blank
-      items:
-        - prompt: "A ticket to Rome. = Un biglietto ___ Roma."
-          correct_answer: "per"
-        - prompt: "Round trip. = Andata e ___."
-          correct_answer: "ritorno"
-        - prompt: "The bus = ___"
-          correct_answer: "l'autobus"
-        - prompt: "The train leaves at 6 PM. = Il treno parte alle ___."
-          correct_answer: "diciotto"
-
-a0-11-un-problema:
-  topic_title: "Un problema"
+    - prompt: "Round trip. = Andata e ___."
+      correct_answer: ritorno
+      grammar_point_code: vocab_viaggio
+    - prompt: "The bus = ___"
+      correct_answer: l'autobus
+      grammar_point_code: vocab_viaggio
+    - prompt: "The train leaves at 6 PM. = Il treno parte alle ___."
+      correct_answer: diciotto
+      grammar_point_code: ore_giorni
+"a0-11-un-problema":
+  topic_title: Un problema
   topic_description: "When things go wrong — clarifying, emergencies, and staying calm"
   overview: "Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency phrases."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Slowing things down
+    description: Phrases for when it's all too fast
+    grammar_point_code: polite_exp
+    content: |
+      ## When things go wrong
 
-    - type: grammar
-      title: "Slowing things down"
-      description: "Phrases for when it's all too fast"
-      grammar_point_code: polite_exp
-      content: |
-        ## When things go wrong
+      You already know <span lang="it">*Non capisco*</span> and <span lang="it">*Può ripetere?*</span>. Here's the full toolkit:
 
-        You already know <span lang="it">*Non capisco*</span> and <span lang="it">*Può ripetere?*</span>. Here's the full toolkit:
+      - <span lang="it">**Più lentamente, per favore.**</span> — More slowly, please.
+      - <span lang="it">**Parlo un po' di italiano.**</span> — I speak a little Italian.
+      - <span lang="it">**D'accordo.**</span> — Agreed. / OK.
+      - <span lang="it">**Perfetto!**</span> — Perfect!
+  - type: drill
+    title: Staying calm
+    description: "What do you say?"
+    hint: "Think about the situation — which phrase helps?"
+    grammar_point_code: polite_exp
+    exercise_type: fill_blank
+    items:
+    - prompt: "More slowly, please. = Più ___, per favore."
+      correct_answer: lentamente
+    - prompt: "I speak a little Italian. = Parlo un ___ di italiano."
+      correct_answer: po'
+    - prompt: "Agreed. = D'___."
+      correct_answer: accordo
+    - prompt: "I don't understand. = Non ___."
+      correct_answer: capisco
+  - type: grammar
+    title: Emergency phrases
+    description: For when you really need help
+    grammar_point_code: si_no_non
+    content: |
+      ## Emergencies
 
-        - <span lang="it">**Più lentamente, per favore.**</span> — More slowly, please.
-        - <span lang="it">**Parlo un po' di italiano.**</span> — I speak a little Italian.
-        - <span lang="it">**D'accordo.**</span> — Agreed. / OK.
-        - <span lang="it">**Perfetto!**</span> — Perfect!
+      Hopefully you won't need these, but just in case:
 
-    - type: drill
-      title: "Staying calm"
-      description: "What do you say?"
-      hint: "Think about the situation — which phrase helps?"
-      grammar_point_code: polite_exp
-      exercise_type: fill_blank
-      items:
-        - prompt: "More slowly, please. = Più ___, per favore."
-          correct_answer: "lentamente"
-        - prompt: "I speak a little Italian. = Parlo un ___ di italiano."
-          correct_answer: "po'"
-        - prompt: "Agreed. = D'___."
-          correct_answer: "accordo"
-        - prompt: "I don't understand. = Non ___."
-          correct_answer: "capisco"
+      - <span lang="it">**Aiuto!**</span> — Help!
+      - <span lang="it">**Ho bisogno di un medico.**</span> — I need a doctor.
+      - <span lang="it">**Dov'è l'ospedale?**</span> — Where is the hospital?
+      - <span lang="it">**Dov'è la farmacia?**</span> — Where is the pharmacy?
+      - <span lang="it">**Ho perso il passaporto.**</span> — I've lost my passport.
+      - <span lang="it">**Ho perso il portafoglio.**</span> — I've lost my wallet.
 
-    - type: grammar
-      title: "Emergency phrases"
-      description: "For when you really need help"
-      grammar_point_code: si_no_non
-      content: |
-        ## Emergencies
+      > Italian pharmacies (<span lang="it">*farmacie*</span>) have a green cross. Pharmacists can advise on minor ailments without a doctor.
+  - type: drill
+    title: Emergency drill
+    description: Practice emergency phrases
+    hint: "Ho bisogno di = I need. Ho perso = I've lost. Dov'è = where is."
+    grammar_point_code: si_no_non
+    exercise_type: fill_blank
+    items:
+    - prompt: "Help! = ___!"
+      correct_answer: Aiuto
+    - prompt: "I need a doctor. = Ho bisogno di un ___."
+      correct_answer: medico
+    - prompt: "I've lost my passport. = Ho perso il ___."
+      correct_answer: passaporto
+    - prompt: "Where is the pharmacy? = Dov'è la ___?"
+      correct_answer: farmacia
+    - prompt: "I've lost my wallet. = Ho perso il ___."
+      correct_answer: portafoglio
+  - type: reading
+    title: A lost wallet
+    description: Asking for help
+    content: |
+      <span lang="it">— Scusi! Ho perso il portafoglio!</span>
 
-        Hopefully you won't need these, but just in case:
+      <span lang="it">— Oh no. Dov'era?</span> (Where was it?)
 
-        - <span lang="it">**Aiuto!**</span> — Help!
-        - <span lang="it">**Ho bisogno di un medico.**</span> — I need a doctor.
-        - <span lang="it">**Dov'è l'ospedale?**</span> — Where is the hospital?
-        - <span lang="it">**Dov'è la farmacia?**</span> — Where is the pharmacy?
-        - <span lang="it">**Ho perso il passaporto.**</span> — I've lost my passport.
-        - <span lang="it">**Ho perso il portafoglio.**</span> — I've lost my wallet.
+      <span lang="it">— Non capisco. Può ripetere, più lentamente?</span>
 
-        > Italian pharmacies (<span lang="it">*farmacie*</span>) have a green cross. Pharmacists can advise on minor ailments without a doctor.
+      <span lang="it">— Dove... era... il portafoglio?</span>
 
-    - type: drill
-      title: "Emergency drill"
-      description: "Practice emergency phrases"
-      hint: "Ho bisogno di = I need. Ho perso = I've lost. Dov'è = where is."
-      grammar_point_code: si_no_non
-      exercise_type: fill_blank
-      items:
-        - prompt: "Help! = ___!"
-          correct_answer: "Aiuto"
-        - prompt: "I need a doctor. = Ho bisogno di un ___."
-          correct_answer: "medico"
-        - prompt: "I've lost my passport. = Ho perso il ___."
-          correct_answer: "passaporto"
-        - prompt: "Where is the pharmacy? = Dov'è la ___?"
-          correct_answer: "farmacia"
-        - prompt: "I've lost my wallet. = Ho perso il ___."
-          correct_answer: "portafoglio"
+      <span lang="it">— Al bar, credo.</span> (At the bar, I think.)
 
-    - type: reading
-      title: "A lost wallet"
-      description: "Asking for help"
-      content: |
-        <span lang="it">— Scusi! Ho perso il portafoglio!</span>
+      <span lang="it">— Va bene. Andiamo al bar.</span> (OK. Let's go to the bar.)
 
-        <span lang="it">— Oh no. Dov'era?</span> (Where was it?)
-
-        <span lang="it">— Non capisco. Può ripetere, più lentamente?</span>
-
-        <span lang="it">— Dove... era... il portafoglio?</span>
-
-        <span lang="it">— Al bar, credo.</span> (At the bar, I think.)
-
-        <span lang="it">— Va bene. Andiamo al bar.</span> (OK. Let's go to the bar.)
-
-        <span lang="it">— Grazie mille!</span>
-      questions:
-        - "What did the tourist lose?"
-        - "Where do they think they lost it?"
-      correct_answers:
-        - "il portafoglio / the wallet"
-        - "al bar / at the bar"
-
-    - type: listening
-      title: "At the pharmacy"
-      description: "Listen to someone asking for help"
-      audio_path: "/static/audio/a0_11_un_problema.wav"
-      content: |
-        — Buongiorno. Ho bisogno di aiuto.
-        — Mi dica.
-        — Mi fa male la testa.
-        — Ecco, queste pastiglie. Due al giorno.
-        — Quanto costa?
-        — Cinque euro e cinquanta.
-        — Grazie mille!
-      questions:
-        - "What is the problem?"
-        - "How much do the tablets cost?"
-      correct_answers:
-        - "mal di testa / headache"
-        - "cinque euro e cinquanta / 5.50 euros"
-
-    - type: speaking
-      title: "Emergency practice"
-      description: "Say the emergency phrases out loud"
-      content: "Say these clearly and firmly: **Non capisco. Può ripetere, per favore?** Then: **Più lentamente, per favore.** Then: **Ho bisogno di aiuto.** These phrases could genuinely help you — practice them until they feel automatic."
-
-    - type: writing
-      title: "Something went wrong"
-      description: "Write what you'd say in a crisis"
-      content: "You lost your bag at the train station. Write 3-4 sentences explaining what happened and asking for help. Use **Scusi**, **Ho perso...**, **Dov'è...?**, and **Ho bisogno di...**"
-
-    - type: drill
-      title: "Review: introductions"
-      description: "Keep lesson 10 fresh"
-      hint: "Sono = I am. Sei = you are. Di dove sei? = where are you from?"
+      <span lang="it">— Grazie mille!</span>
+    questions:
+    - text: "What did the tourist lose?"
+      correct_answer: il portafoglio / the wallet
+      grammar_point_codes:
+      - si_no_non
+    - text: "Where do they think they lost it?"
+      correct_answer: al bar / at the bar
+      grammar_point_codes:
+      - dove_e
+  - type: listening
+    title: At the pharmacy
+    description: Listen to someone asking for help
+    audio_path: /static/audio/a0_11_un_problema.wav
+    content: |
+      — Buongiorno. Ho bisogno di aiuto.
+      — Mi dica.
+      — Mi fa male la testa.
+      — Ecco, queste pastiglie. Due al giorno.
+      — Quanto costa?
+      — Cinque euro e cinquanta.
+      — Grazie mille!
+    questions:
+    - text: "What is the problem?"
+      correct_answer: mal di testa / headache
+      grammar_point_codes:
+      - si_no_non
+    - text: "How much do the tablets cost?"
+      correct_answer: cinque euro e cinquanta / 5.50 euros
+      grammar_point_codes:
+      - num_20_100
+  - type: speaking
+    title: Emergency practice
+    description: Say the emergency phrases out loud
+    content: "Say these clearly and firmly: **Non capisco. Può ripetere, per favore?** Then: **Più lentamente, per favore.**\
+      \ Then: **Ho bisogno di aiuto.** These phrases could genuinely help you — practice them until they feel automatic."
+    grammar_point_codes:
+    - polite_exp
+    - si_no_non
+  - type: writing
+    title: Something went wrong
+    description: Write what you'd say in a crisis
+    content: "You lost your bag at the train station. Write 3-4 sentences explaining what happened and asking for help. Use\
+      \ **Scusi**, **Ho perso...**, **Dov'è...?**, and **Ho bisogno di...**"
+    grammar_point_codes:
+    - si_no_non
+    - polite_exp
+    - dove_e
+  - type: drill
+    title: "Review: introductions"
+    description: Keep lesson 10 fresh
+    hint: "Sono = I am. Sei = you are. Di dove sei? = where are you from?"
+    grammar_point_code: essere_pre
+    exercise_type: fill_blank
+    items:
+    - prompt: "I am English. = ___ inglese."
+      correct_answer: Sono
       grammar_point_code: essere_pre
-      exercise_type: fill_blank
-      items:
-        - prompt: "I am English. = ___ inglese."
-          correct_answer: "Sono"
-        - prompt: "Are you Italian? = ___ italiano?"
-          correct_answer: "Sei"
-        - prompt: "She is French. = Lei ___ francese."
-          correct_answer: "è"
-        - prompt: "Where are you from? = Di ___ sei?"
-          correct_answer: "dove"
-
-a0-12-ultimo-giorno:
-  topic_title: "L'ultimo giorno"
+    - prompt: "Are you Italian? = ___ italiano?"
+      correct_answer: Sei
+      grammar_point_code: essere_pre
+    - prompt: "She is French. = Lei ___ francese."
+      correct_answer: è
+      grammar_point_code: essere_pre
+    - prompt: "Where are you from? = Di ___ sei?"
+      correct_answer: dove
+      grammar_point_code: simp_sent
+"a0-12-ultimo-giorno":
+  topic_title: L'ultimo giorno
   topic_description: "Your last day — goodbyes, expressing thanks, reflections"
   overview: "Your trip is ending. Review everything through one final day of farewells, thanks, and looking back."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: grammar
+    title: Goodbyes and thanks
+    description: Saying farewell like an Italian
+    grammar_point_code: saluti
+    content: |
+      ## Saying goodbye
 
-    - type: grammar
-      title: "Goodbyes and thanks"
-      description: "Saying farewell like an Italian"
+      Let's bring all the farewells together:
+
+      - <span lang="it">**Ciao!**</span> — Bye! (informal)
+      - <span lang="it">**Arrivederci!**</span> — Goodbye! (formal)
+      - <span lang="it">**A presto!**</span> — See you soon!
+      - <span lang="it">**A domani!**</span> — See you tomorrow!
+      - <span lang="it">**Buonanotte!**</span> — Good night!
+      - <span lang="it">**Buon viaggio!**</span> — Have a good trip!
+
+      ### Expressing thanks
+
+      - <span lang="it">**Grazie di tutto!**</span> — Thanks for everything!
+      - <span lang="it">**È stato bellissimo!**</span> — It was wonderful!
+  - type: drill
+    title: Goodbyes
+    description: Match the farewell
+    hint: Think about the context.
+    grammar_point_code: saluti
+    exercise_type: fill_blank
+    items:
+    - prompt: "See you soon! = A ___!"
+      correct_answer: presto
+    - prompt: "Have a good trip! = Buon ___!"
+      correct_answer: viaggio
+    - prompt: "Thanks for everything! = Grazie di ___!"
+      correct_answer: tutto
+    - prompt: "See you tomorrow! = A ___!"
+      correct_answer: domani
+    - prompt: "Good night! = ___!"
+      correct_answer: Buonanotte
+  - type: reading
+    title: Checking out
+    description: Leaving the hotel
+    content: |
+      <span lang="it">— Buongiorno. Vorrei il conto, per favore. Camera dodici.</span>
+
+      <span lang="it">— Certo. Sono centoventi euro per tre notti.</span> (120 euros for three nights.)
+
+      <span lang="it">— Ecco. Grazie di tutto! L'albergo è bellissimo.</span>
+
+      <span lang="it">— Grazie a Lei! Torna presto!</span> (Come back soon!)
+
+      <span lang="it">— Sicuramente! Arrivederci!</span> (Definitely!)
+
+      <span lang="it">— Arrivederci! Buon viaggio!</span>
+    questions:
+    - text: "How many nights did the guest stay?"
+      correct_answer: tre / 3
+      grammar_point_codes:
+      - num_0_20
+    - text: "How much is the total?"
+      correct_answer: centoventi euro / 120 euros
+      grammar_point_codes:
+      - num_20_100
+  - type: drill
+    title: Everything review
+    description: Mixed review of all lessons
+    hint: "This covers everything — take your time!"
+    grammar_point_code: saluti
+    exercise_type: fill_blank
+    items:
+    - prompt: "Hello! = ___!"
+      correct_answer: Ciao
       grammar_point_code: saluti
-      content: |
-        ## Saying goodbye
-
-        Let's bring all the farewells together:
-
-        - <span lang="it">**Ciao!**</span> — Bye! (informal)
-        - <span lang="it">**Arrivederci!**</span> — Goodbye! (formal)
-        - <span lang="it">**A presto!**</span> — See you soon!
-        - <span lang="it">**A domani!**</span> — See you tomorrow!
-        - <span lang="it">**Buonanotte!**</span> — Good night!
-        - <span lang="it">**Buon viaggio!**</span> — Have a good trip!
-
-        ### Expressing thanks
-
-        - <span lang="it">**Grazie di tutto!**</span> — Thanks for everything!
-        - <span lang="it">**È stato bellissimo!**</span> — It was wonderful!
-
-    - type: drill
-      title: "Goodbyes"
-      description: "Match the farewell"
-      hint: "Think about the context."
-      grammar_point_code: saluti
-      exercise_type: fill_blank
-      items:
-        - prompt: "See you soon! = A ___!"
-          correct_answer: "presto"
-        - prompt: "Have a good trip! = Buon ___!"
-          correct_answer: "viaggio"
-        - prompt: "Thanks for everything! = Grazie di ___!"
-          correct_answer: "tutto"
-        - prompt: "See you tomorrow! = A ___!"
-          correct_answer: "domani"
-        - prompt: "Good night! = ___!"
-          correct_answer: "Buonanotte"
-
-    - type: reading
-      title: "Checking out"
-      description: "Leaving the hotel"
-      content: |
-        <span lang="it">— Buongiorno. Vorrei il conto, per favore. Camera dodici.</span>
-
-        <span lang="it">— Certo. Sono centoventi euro per tre notti.</span> (120 euros for three nights.)
-
-        <span lang="it">— Ecco. Grazie di tutto! L'albergo è bellissimo.</span>
-
-        <span lang="it">— Grazie a Lei! Torna presto!</span> (Come back soon!)
-
-        <span lang="it">— Sicuramente! Arrivederci!</span> (Definitely!)
-
-        <span lang="it">— Arrivederci! Buon viaggio!</span>
-      questions:
-        - "How many nights did the guest stay?"
-        - "How much is the total?"
-      correct_answers:
-        - "tre / 3"
-        - "centoventi euro / 120 euros"
-
-    - type: drill
-      title: "Everything review"
-      description: "Mixed review of all lessons"
-      hint: "This covers everything — take your time!"
-      grammar_point_code: saluti
-      exercise_type: fill_blank
-      items:
-        - prompt: "Hello! = ___!"
-          correct_answer: "Ciao"
-        - prompt: "I'd like a coffee. = ___ un caffè."
-          correct_answer: "Vorrei"
-        - prompt: "Where is the station? = Dov'è la ___?"
-          correct_answer: "stazione"
-        - prompt: "I am American. = Sono ___."
-          correct_answer: "americano"
-        - prompt: "I like pizza. = Mi ___ la pizza."
-          correct_answer: "piace"
-        - prompt: "A ticket to Rome. = Un biglietto ___ Roma."
-          correct_answer: "per"
-
-    - type: drill
-      title: "Fix the mistakes"
-      description: "Error correction review"
-      hint: "Articles, verb forms, word order."
-      grammar_point_code: simp_sent
-      exercise_type: error_correction
-      items:
-        - prompt: "Io è italiano."
-          correct_answer: "Io sono italiano."
-        - prompt: "Mi piacciono la pizza."
-          correct_answer: "Mi piace la pizza."
-        - prompt: "Vorrei un pizza."
-          correct_answer: "Vorrei una pizza."
-        - prompt: "Non capisco non."
-          correct_answer: "Non capisco."
-
-    - type: listening
-      title: "A farewell conversation"
-      description: "Listen to friends saying goodbye"
-      audio_path: "/static/audio/a0_12_ultimo_giorno.wav"
-      content: |
-        — Allora, domani parti?
-        — Sì, il treno parte alle nove. Mi dispiace!
-        — È stato bellissimo! Mi è piaciuto molto.
-        — Anche a me. Grazie di tutto!
-        — Torna presto! A presto!
-        — Sicuramente! Arrivederci!
-        — Ciao! Buon viaggio!
-      questions:
-        - "What time does the train leave?"
-        - "How did both people feel about the visit?"
-      correct_answers:
-        - "alle nove / at 9:00"
-        - "È stato bellissimo / It was wonderful"
-
-    - type: speaking
-      title: "Your farewell"
-      description: "Say goodbye in Italian"
-      content: "Say this out loud: **Grazie di tutto! È stato bellissimo! Mi piace molto l'Italia.** Then: **Arrivederci! A presto!** Say it like you mean it!"
-
-    - type: writing
-      title: "Goodbye letter"
-      description: "Write a short farewell"
-      content: "Write 4-5 sentences about your trip. Include: your name, where you're from, something you liked, a place you visited, and a farewell. Use everything you've learned!"
-
-a0-13-ripasso:
-  topic_title: "Ripasso A0"
-  topic_description: "Cumulative review before A1"
+    - prompt: "I'd like a coffee. = ___ un caffè."
+      correct_answer: Vorrei
+      grammar_point_code: vorrei
+    - prompt: "Where is the station? = Dov'è la ___?"
+      correct_answer: stazione
+      grammar_point_code: dove_e
+    - prompt: "I am American. = Sono ___."
+      correct_answer: americano
+      grammar_point_code: essere_pre
+    - prompt: "I like pizza. = Mi ___ la pizza."
+      correct_answer: piace
+      grammar_point_code: mi_piace
+    - prompt: "A ticket to Rome. = Un biglietto ___ Roma."
+      correct_answer: per
+      grammar_point_code: vocab_viaggio
+  - type: drill
+    title: Fix the mistakes
+    description: Error correction review
+    hint: "Articles, verb forms, word order."
+    grammar_point_code: simp_sent
+    exercise_type: error_correction
+    items:
+    - prompt: Io è italiano.
+      correct_answer: Io sono italiano.
+      grammar_point_code: essere_pre
+    - prompt: Mi piacciono la pizza.
+      correct_answer: Mi piace la pizza.
+      grammar_point_code: mi_piace
+    - prompt: Vorrei un pizza.
+      correct_answer: Vorrei una pizza.
+      grammar_point_code: art_un_una
+    - prompt: Non capisco non.
+      correct_answer: Non capisco.
+      grammar_point_code: si_no_non
+  - type: listening
+    title: A farewell conversation
+    description: Listen to friends saying goodbye
+    audio_path: /static/audio/a0_12_ultimo_giorno.wav
+    content: |
+      — Allora, domani parti?
+      — Sì, il treno parte alle nove. Mi dispiace!
+      — È stato bellissimo! Mi è piaciuto molto.
+      — Anche a me. Grazie di tutto!
+      — Torna presto! A presto!
+      — Sicuramente! Arrivederci!
+      — Ciao! Buon viaggio!
+    questions:
+    - text: "What time does the train leave?"
+      correct_answer: "alle nove / at 9:00"
+      grammar_point_codes:
+      - ore_giorni
+    - text: "How did both people feel about the visit?"
+      correct_answer: È stato bellissimo / It was wonderful
+      grammar_point_codes:
+      - saluti
+  - type: speaking
+    title: Your farewell
+    description: Say goodbye in Italian
+    content: "Say this out loud: **Grazie di tutto! È stato bellissimo! Mi piace molto l'Italia.** Then: **Arrivederci! A\
+      \ presto!** Say it like you mean it!"
+    grammar_point_codes:
+    - saluti
+    - mi_piace
+  - type: writing
+    title: Goodbye letter
+    description: Write a short farewell
+    content: "Write 4-5 sentences about your trip. Include: your name, where you're from, something you liked, a place you\
+      \ visited, and a farewell. Use everything you've learned!"
+    grammar_point_codes:
+    - saluti
+    - mi_chiamo
+    - simp_sent
+    - mi_piace
+"a0-13-ripasso":
+  topic_title: Ripasso A0
+  topic_description: Cumulative review before A1
   overview: "You've come a long way! Final review of everything before moving on to A1."
   activities:
-    - type: vocab_review
+  - type: vocab_review
+  - type: info
+    title: What you've learned
+    description: Summary of A0
+    content: |
+      ## Congratulations!
 
-    - type: info
-      title: "What you've learned"
-      description: "Summary of A0"
-      content: |
-        ## Congratulations!
+      Over 12 lessons you've learned to:
 
-        Over 12 lessons you've learned to:
+      - **Greet and say goodbye:** <span lang="it">Ciao, Buongiorno, Buonasera, Arrivederci, A presto</span>
+      - **Be polite:** <span lang="it">Per favore, Grazie, Prego, Scusi, Mi dispiace</span>
+      - **Survive when lost:** <span lang="it">Non capisco, Parla inglese?, Può ripetere?</span>
+      - **Order anything:** <span lang="it">Vorrei + un/una + item + per favore</span>
+      - **Count and pay:** numbers 0–100, <span lang="it">Quanto costa?</span>
+      - **Ask directions:** <span lang="it">Dov'è...? A destra, a sinistra, sempre dritto</span>
+      - **Navigate menus:** <span lang="it">primo, secondo, contorno, dolce</span>
+      - **Tell time:** <span lang="it">Che ore sono? Sono le tre e mezza</span>
+      - **Buy tickets:** <span lang="it">biglietto, andata e ritorno, binario</span>
+      - **Introduce yourself:** <span lang="it">Mi chiamo... Sono di... Sono + nationality</span>
+      - **Use essere:** <span lang="it">sono, sei, è</span>
+      - **Express preferences:** <span lang="it">Mi piace / Non mi piace / Mi piacciono</span>
+      - **Handle problems:** <span lang="it">Aiuto! Ho bisogno di... Ho perso...</span>
+      - **Use articles:** <span lang="it">il/la/l', un/una/un', i/le</span>
 
-        - **Greet and say goodbye:** <span lang="it">Ciao, Buongiorno, Buonasera, Arrivederci, A presto</span>
-        - **Be polite:** <span lang="it">Per favore, Grazie, Prego, Scusi, Mi dispiace</span>
-        - **Survive when lost:** <span lang="it">Non capisco, Parla inglese?, Può ripetere?</span>
-        - **Order anything:** <span lang="it">Vorrei + un/una + item + per favore</span>
-        - **Count and pay:** numbers 0–100, <span lang="it">Quanto costa?</span>
-        - **Ask directions:** <span lang="it">Dov'è...? A destra, a sinistra, sempre dritto</span>
-        - **Navigate menus:** <span lang="it">primo, secondo, contorno, dolce</span>
-        - **Tell time:** <span lang="it">Che ore sono? Sono le tre e mezza</span>
-        - **Buy tickets:** <span lang="it">biglietto, andata e ritorno, binario</span>
-        - **Introduce yourself:** <span lang="it">Mi chiamo... Sono di... Sono + nationality</span>
-        - **Use essere:** <span lang="it">sono, sei, è</span>
-        - **Express preferences:** <span lang="it">Mi piace / Non mi piace / Mi piacciono</span>
-        - **Handle problems:** <span lang="it">Aiuto! Ho bisogno di... Ho perso...</span>
-        - **Use articles:** <span lang="it">il/la/l', un/una/un', i/le</span>
-
-        <span lang="it">**Bravissimo!**</span>
-
-    - type: drill
-      title: "Ripasso generale"
-      description: "All A0 material"
-      hint: "Take your time — this covers everything!"
+      <span lang="it">**Bravissimo!**</span>
+  - type: drill
+    title: Ripasso generale
+    description: All A0 material
+    hint: "Take your time — this covers everything!"
+    grammar_point_code: saluti
+    exercise_type: fill_blank
+    items:
+    - prompt: "My name is... = Mi ___..."
+      correct_answer: chiamo
+      grammar_point_code: mi_chiamo
+    - prompt: "5 = ___"
+      correct_answer: cinque
+      grammar_point_code: num_0_20
+    - prompt: "50 = ___"
+      correct_answer: cinquanta
+      grammar_point_code: num_20_100
+    - prompt: "I don't understand. = Non ___."
+      correct_answer: capisco
+      grammar_point_code: si_no_non
+    - prompt: "I'd like a coffee. = ___ un caffè."
+      correct_answer: Vorrei
+      grammar_point_code: vorrei
+    - prompt: "___ pizza (the, f.)"
+      correct_answer: la
+      grammar_point_code: art_il_la
+    - prompt: "I am Italian. = ___ italiano."
+      correct_answer: Sono
+      grammar_point_code: essere_pre
+    - prompt: "I like music. = Mi ___ la musica."
+      correct_answer: piace
+      grammar_point_code: mi_piace
+    - prompt: "A round-trip ticket. = Andata e ___."
+      correct_answer: ritorno
+      grammar_point_code: vocab_viaggio
+    - prompt: "Goodbye! (formal) = ___!"
+      correct_answer: Arrivederci
       grammar_point_code: saluti
-      exercise_type: fill_blank
-      items:
-        - prompt: "My name is... = Mi ___..."
-          correct_answer: "chiamo"
-        - prompt: "5 = ___"
-          correct_answer: "cinque"
-        - prompt: "50 = ___"
-          correct_answer: "cinquanta"
-        - prompt: "I don't understand. = Non ___."
-          correct_answer: "capisco"
-        - prompt: "I'd like a coffee. = ___ un caffè."
-          correct_answer: "Vorrei"
-        - prompt: "___ pizza (the, f.)"
-          correct_answer: "la"
-        - prompt: "I am Italian. = ___ italiano."
-          correct_answer: "Sono"
-        - prompt: "I like music. = Mi ___ la musica."
-          correct_answer: "piace"
-        - prompt: "A round-trip ticket. = Andata e ___."
-          correct_answer: "ritorno"
-        - prompt: "Goodbye! (formal) = ___!"
-          correct_answer: "Arrivederci"
+  - type: reading
+    title: A full day in Italy
+    description: All your skills in one conversation
+    content: |
+      <span lang="it">— Buongiorno! Mi chiamo Luca. E tu?</span>
 
-    - type: reading
-      title: "A full day in Italy"
-      description: "All your skills in one conversation"
-      content: |
-        <span lang="it">— Buongiorno! Mi chiamo Luca. E tu?</span>
+      <span lang="it">— Ciao! Mi chiamo Sofia. Sono di Londra. Sei italiano?</span>
 
-        <span lang="it">— Ciao! Mi chiamo Sofia. Sono di Londra. Sei italiano?</span>
+      <span lang="it">— Sì, di Roma. Ti piace l'Italia?</span>
 
-        <span lang="it">— Sì, di Roma. Ti piace l'Italia?</span>
+      <span lang="it">— Sì, mi piace molto! Vorrei un caffè, per favore.</span>
 
-        <span lang="it">— Sì, mi piace molto! Vorrei un caffè, per favore.</span>
+      <span lang="it">— Anch'io! Due caffè, per favore. Quanto costa?</span>
 
-        <span lang="it">— Anch'io! Due caffè, per favore. Quanto costa?</span>
+      <span lang="it">— Tre euro. Ecco.</span>
 
-        <span lang="it">— Tre euro. Ecco.</span>
+      <span lang="it">— Grazie! Poi vorrei un biglietto per Firenze.</span>
 
-        <span lang="it">— Grazie! Poi vorrei un biglietto per Firenze.</span>
+      <span lang="it">— A che ora parte il treno?</span>
 
-        <span lang="it">— A che ora parte il treno?</span>
+      <span lang="it">— Alle quattordici e trenta. Binario cinque.</span>
 
-        <span lang="it">— Alle quattordici e trenta. Binario cinque.</span>
+      <span lang="it">— Perfetto! Grazie di tutto. Arrivederci!</span>
 
-        <span lang="it">— Perfetto! Grazie di tutto. Arrivederci!</span>
+      <span lang="it">— Arrivederci! Buon viaggio!</span>
+    questions:
+    - text: "Where is Sofia from?"
+      correct_answer: Londra / London
+      grammar_point_codes:
+      - simp_sent
+    - text: "How many coffees do they order?"
+      correct_answer: due / 2
+      grammar_point_codes:
+      - vorrei
+      - num_0_20
+    - text: "What time is the train?"
+      correct_answer: "alle quattordici e trenta / 14:30"
+      grammar_point_codes:
+      - ore_giorni
+    - text: "Which platform?"
+      correct_answer: binario cinque / platform 5
+      grammar_point_codes:
+      - vocab_viaggio
+  - type: listening
+    title: The whole trip
+    description: Listen to a traveller's story
+    audio_path: /static/audio/a0_13_ripasso.wav
+    content: |
+      — Ciao! Mi chiamo Emma. Sono inglese, di Manchester.
+      — Parlo un po' di italiano. Mi piace molto l'Italia!
+      — Mi piace la pizza e il gelato. Non mi piace la carne.
+      — Sono a Roma da lunedì. Domani vado a Firenze — il treno parte alle dieci.
+      — Il biglietto costa trentacinque euro, andata e ritorno.
+      — È stato bellissimo! Grazie di tutto. Arrivederci!
+    questions:
+    - text: "Where is Emma from?"
+      correct_answer: Manchester
+      grammar_point_codes:
+      - simp_sent
+    - text: "What does she not like?"
+      correct_answer: la carne / meat
+      grammar_point_codes:
+      - mi_piace
+    - text: "How much is her train ticket?"
+      correct_answer: trentacinque euro / 35 euros
+      grammar_point_codes:
+      - num_20_100
+      - vocab_viaggio
+  - type: speaking
+    title: Your Italian story
+    description: Tell your whole story
+    content: "Say this out loud as a flowing monologue: **Ciao! Mi chiamo [name]. Sono [nationality], di [city]. Parlo un\
+      \ po' di italiano. Mi piace la pizza e il gelato. Vorrei un caffè, per favore. Grazie! Arrivederci!**"
+    grammar_point_codes:
+    - mi_chiamo
+    - simp_sent
+    - vorrei
+    - saluti
+  - type: drill
+    title: Final fix the mistakes
+    description: Mixed error correction
+    hint: "Articles, verbs, negation — everything."
+    grammar_point_code: simp_sent
+    exercise_type: error_correction
+    items:
+    - prompt: Vorrei un'caffè.
+      correct_answer: Vorrei un caffè.
+      grammar_point_code: art_un_una
+    - prompt: Mi piacciono la pizza.
+      correct_answer: Mi piace la pizza.
+      grammar_point_code: mi_piace
+    - prompt: Io è americano.
+      correct_answer: Io sono americano.
+      grammar_point_code: essere_pre
+    - prompt: Il stazione è là.
+      correct_answer: La stazione è là.
+      grammar_point_code: art_il_la
+  - type: writing
+    title: Your trip diary
+    description: Write about your Italian experience
+    content: "Write 5-6 sentences summarising your trip. Include: your name, where you're from, places you went, food you\
+      \ liked, how you got around, and a farewell. Use everything you've learned!"
+    grammar_point_codes:
+    - mi_chiamo
+    - simp_sent
+    - mi_piace
+    - vocab_viaggio
+    - saluti
+  - type: onboarding
+    title: Before we move on
+    description: Tell us about yourself
+    content: "Before we move on to A1, tell us a bit about yourself so we can tailor the content to you."
+    profile_field: combined
+  - type: info
+    title: Next steps
+    description: What comes after A0
+    content: |
+      ## What's next: A1
 
-        <span lang="it">— Arrivederci! Buon viaggio!</span>
-      questions:
-        - "Where is Sofia from?"
-        - "How many coffees do they order?"
-        - "What time is the train?"
-        - "Which platform?"
-      correct_answers:
-        - "Londra / London"
-        - "due / 2"
-        - "alle quattordici e trenta / 14:30"
-        - "binario cinque / platform 5"
+      Starting from your next lesson, Maestro will:
 
-    - type: listening
-      title: "The whole trip"
-      description: "Listen to a traveller's story"
-      audio_path: "/static/audio/a0_13_ripasso.wav"
-      content: |
-        — Ciao! Mi chiamo Emma. Sono inglese, di Manchester.
-        — Parlo un po' di italiano. Mi piace molto l'Italia!
-        — Mi piace la pizza e il gelato. Non mi piace la carne.
-        — Sono a Roma da lunedì. Domani vado a Firenze — il treno parte alle dieci.
-        — Il biglietto costa trentacinque euro, andata e ritorno.
-        — È stato bellissimo! Grazie di tutto. Arrivederci!
-      questions:
-        - "Where is Emma from?"
-        - "What does she not like?"
-        - "How much is her train ticket?"
-      correct_answers:
-        - "Manchester"
-        - "la carne / meat"
-        - "trentacinque euro / 35 euros"
+      - **Generate lessons dynamically** based on your profile and interests
+      - **Write grammar explanations in Italian** (with English translations available)
+      - **Create personalised drills** that target your weak areas
+      - **Track your progress** across grammar points and communicative functions
 
-    - type: speaking
-      title: "Your Italian story"
-      description: "Tell your whole story"
-      content: "Say this out loud as a flowing monologue: **Ciao! Mi chiamo [name]. Sono [nationality], di [city]. Parlo un po' di italiano. Mi piace la pizza e il gelato. Vorrei un caffè, per favore. Grazie! Arrivederci!**"
+      The A1 curriculum covers 24 real-life scenarios — from renting a flat to discussing your hobbies.
 
-    - type: drill
-      title: "Final fix the mistakes"
-      description: "Mixed error correction"
-      hint: "Articles, verbs, negation — everything."
-      grammar_point_code: simp_sent
-      exercise_type: error_correction
-      items:
-        - prompt: "Vorrei un'caffè."
-          correct_answer: "Vorrei un caffè."
-        - prompt: "Mi piacciono la pizza."
-          correct_answer: "Mi piace la pizza."
-        - prompt: "Io è americano."
-          correct_answer: "Io sono americano."
-        - prompt: "Il stazione è là."
-          correct_answer: "La stazione è là."
+      Don't worry if you don't feel ready — the first A1 lessons review what you learned here. Maestro adapts to your level.
 
-    - type: writing
-      title: "Your trip diary"
-      description: "Write about your Italian experience"
-      content: "Write 5-6 sentences summarising your trip. Include: your name, where you're from, places you went, food you liked, how you got around, and a farewell. Use everything you've learned!"
-
-    - type: onboarding
-      title: "Before we move on"
-      description: "Tell us about yourself"
-      content: "Before we move on to A1, tell us a bit about yourself so we can tailor the content to you."
-      profile_field: combined
-
-    - type: info
-      title: "Next steps"
-      description: "What comes after A0"
-      content: |
-        ## What's next: A1
-
-        Starting from your next lesson, Maestro will:
-
-        - **Generate lessons dynamically** based on your profile and interests
-        - **Write grammar explanations in Italian** (with English translations available)
-        - **Create personalised drills** that target your weak areas
-        - **Track your progress** across grammar points and communicative functions
-
-        The A1 curriculum covers 24 real-life scenarios — from renting a flat to discussing your hobbies.
-
-        Don't worry if you don't feel ready — the first A1 lessons review what you learned here. Maestro adapts to your level.
-
-        <span lang="it">**In bocca al lupo!**</span> (Good luck! — literally "in the mouth of the wolf")
+      <span lang="it">**In bocca al lupo!**</span> (Good luck! — literally "in the mouth of the wolf")

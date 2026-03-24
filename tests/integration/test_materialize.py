@@ -15,6 +15,7 @@ from maestro.lezione.schemas import (
     DrillResponse,
     DrillItemResponse,
     ReadingResponse,
+    ReadingQuestionResponse,
     SpeakingResponse,
     WritingResponse,
 )
@@ -113,8 +114,11 @@ async def test_materialize_listening_activity(db):
         readings=[
             ReadingResponse(
                 text="Marco va al bar.",
-                questions=["Dove va Marco?"],
-                answers=["Al bar"],
+                questions=[
+                    ReadingQuestionResponse(
+                        text="Dove va Marco?", correct_answer="Al bar"
+                    )
+                ],
             )
         ],
     )
@@ -135,7 +139,9 @@ async def test_materialize_listening_activity(db):
     assert len(activities) == 1
     assert activities[0].type == ActivityType.LISTENING
     assert activities[0].content == "Marco va al bar."
-    assert activities[0].questions == ["Dove va Marco?"]
+    assert len(activities[0].questions) == 1
+    assert activities[0].questions[0].text == "Dove va Marco?"
+    assert activities[0].questions[0].correct_answer == "Al bar"
 
 
 @pytest.mark.integration
@@ -145,8 +151,11 @@ async def test_materialize_reading_activity(db):
         readings=[
             ReadingResponse(
                 text="Marco va al bar.",
-                questions=["Dove va Marco?"],
-                answers=["Al bar"],
+                questions=[
+                    ReadingQuestionResponse(
+                        text="Dove va Marco?", correct_answer="Al bar"
+                    )
+                ],
             )
         ],
     )
@@ -167,7 +176,9 @@ async def test_materialize_reading_activity(db):
     assert len(activities) == 1
     assert activities[0].type == ActivityType.READING
     assert activities[0].content == "Marco va al bar."
-    assert activities[0].questions == ["Dove va Marco?"]
+    assert len(activities[0].questions) == 1
+    assert activities[0].questions[0].text == "Dove va Marco?"
+    assert activities[0].questions[0].correct_answer == "Al bar"
 
 
 @pytest.mark.integration
@@ -175,8 +186,16 @@ async def test_materialize_mixed_listening_and_reading(db):
     """listening_count=1 + reading_count=1 → LISTENING first, then READING."""
     content = LessonContentResponse(
         readings=[
-            ReadingResponse(text="Ascolto.", questions=["Capito?"], answers=["Sì"]),
-            ReadingResponse(text="Lettura.", questions=["Letto?"], answers=["Sì"]),
+            ReadingResponse(
+                text="Ascolto.",
+                questions=[
+                    ReadingQuestionResponse(text="Capito?", correct_answer="Sì")
+                ],
+            ),
+            ReadingResponse(
+                text="Lettura.",
+                questions=[ReadingQuestionResponse(text="Letto?", correct_answer="Sì")],
+            ),
         ],
     )
     activities = await materialize_activities(
@@ -196,8 +215,10 @@ async def test_materialize_mixed_listening_and_reading(db):
     assert len(activities) == 2
     assert activities[0].type == ActivityType.LISTENING
     assert activities[0].content == "Ascolto."
+    assert activities[0].questions[0].text == "Capito?"
     assert activities[1].type == ActivityType.READING
     assert activities[1].content == "Lettura."
+    assert activities[1].questions[0].text == "Letto?"
 
 
 @pytest.mark.integration
@@ -242,8 +263,14 @@ async def test_materialize_single_grammar_block(grammar_gp, db):
             )
         ],
         readings=[
-            ReadingResponse(text="listen", questions=["q"], answers=["a"]),
-            ReadingResponse(text="read", questions=["q2"], answers=["a2"]),
+            ReadingResponse(
+                text="listen",
+                questions=[ReadingQuestionResponse(text="q", correct_answer="a")],
+            ),
+            ReadingResponse(
+                text="read",
+                questions=[ReadingQuestionResponse(text="q2", correct_answer="a2")],
+            ),
         ],
         writing=WritingResponse(prompt="write"),
         speakings=[SpeakingResponse(prompt="speak")],
@@ -421,8 +448,14 @@ async def test_materialize_multi_grammar_blocks(db):
             ),
         ],
         readings=[
-            ReadingResponse(text="read1", questions=["q1"], answers=["a1"]),
-            ReadingResponse(text="read2", questions=["q2"], answers=["a2"]),
+            ReadingResponse(
+                text="read1",
+                questions=[ReadingQuestionResponse(text="q1", correct_answer="a1")],
+            ),
+            ReadingResponse(
+                text="read2",
+                questions=[ReadingQuestionResponse(text="q2", correct_answer="a2")],
+            ),
         ],
         writing=WritingResponse(prompt="write it"),
     )

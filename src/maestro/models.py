@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from maestro.utils import utcnow
 
 
@@ -306,9 +306,18 @@ class LearningProfile(Document):
 # --- Drills ---
 
 
+class QuestionItem(BaseModel):
+    """Structured comprehension question for reading/listening activities."""
+
+    text: str
+    correct_answer: str = ""
+    grammar_point_codes: List[str] = Field(default_factory=list)
+
+
 class DrillItem(BaseModel):
     prompt: str
     correct_answer: Optional[str] = None
+    grammar_point_code: Optional[str] = None  # overrides drill-level GP
 
 
 class GeneratedDrill(Document):
@@ -358,6 +367,25 @@ class GrammarChunkResult:
 
 
 class LessonActivity(BaseModel):
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_legacy_questions(cls, data):
+        """Coerce pre-QuestionItem documents: questions=[str] + correct_answers=[str]."""
+        if isinstance(data, dict):
+            qs = data.get("questions")
+            if qs and isinstance(qs, list) and qs and isinstance(qs[0], str):
+                answers = data.pop("correct_answers", [])
+                data["questions"] = [
+                    {
+                        "text": q,
+                        "correct_answer": answers[i] if i < len(answers) else "",
+                    }
+                    for i, q in enumerate(qs)
+                ]
+            elif "correct_answers" in data:
+                data.pop("correct_answers")
+        return data
+
     type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str
@@ -369,12 +397,12 @@ class LessonActivity(BaseModel):
     drill_id: Optional[PydanticObjectId] = None
     card_ids: List[PydanticObjectId] = Field(default_factory=list)
     content: Optional[str] = None  # generated text for reading/writing/grammar
-    questions: List[str] = Field(
+    questions: List[QuestionItem] = Field(
         default_factory=list
-    )  # comprehension questions for reading
-    correct_answers: List[str] = Field(
+    )  # structured comprehension questions for reading/listening
+    grammar_point_codes: List[str] = Field(
         default_factory=list
-    )  # expected answers for reading
+    )  # GP codes for writing/speaking activities
     result: Optional[dict] = None
     why_important: Optional[str] = (
         None  # 1-2 sentence motivation for grammar activities

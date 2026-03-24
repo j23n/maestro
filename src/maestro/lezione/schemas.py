@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 
 class DrillItemResponse(BaseModel):
@@ -20,10 +20,34 @@ class DrillResponse(BaseModel):
     distractors: list[str] = []
 
 
+class ReadingQuestionResponse(BaseModel):
+    text: str = ""
+    correct_answer: str = ""
+    grammar_point_codes: list[str] = []
+
+
 class ReadingResponse(BaseModel):
     text: str = ""
-    questions: list[str] = []
-    answers: list[str] = []
+    questions: list[ReadingQuestionResponse] = []
+
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_flat_questions(cls, data):
+        """LLM may return questions as flat strings; coerce into structured form."""
+        if isinstance(data, dict):
+            qs = data.get("questions")
+            if qs and isinstance(qs, list) and qs and isinstance(qs[0], str):
+                answers = data.pop("answers", [])
+                data["questions"] = [
+                    {
+                        "text": q,
+                        "correct_answer": answers[i] if i < len(answers) else "",
+                    }
+                    for i, q in enumerate(qs)
+                ]
+            elif "answers" in data:
+                data.pop("answers")
+        return data
 
 
 class WritingResponse(BaseModel):
