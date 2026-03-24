@@ -152,6 +152,12 @@ _TEST_WORD_INDEX = {
         _make_vocab_word("piano", pos="s.m."),
         _make_vocab_word("piano", pos="agg."),
     ],
+    # Contractions (preposizioni articolate) — headwords in the EPUB dictionary
+    "sul": [_make_vocab_word("sul", pos="prep. articolata")],
+    "nella": [_make_vocab_word("nella", pos="prep. articolata")],
+    "al": [_make_vocab_word("al", pos="prep. articolata")],
+    "del": [_make_vocab_word("del", pos="prep. articolata")],
+    "dalle": [_make_vocab_word("dalle", pos="prep. articolata")],
     # PROPN trap words — in dictionary but should NOT be discovered as proper nouns
     "roma": [_make_vocab_word("roma", pos="s.f.")],
     "paolo": [_make_vocab_word("paolo", pos="s.m.")],
@@ -178,7 +184,7 @@ def seeded_cache():
         # -- Proper nouns: should NOT match even when headword is in word_index --
         pytest.param(
             "Marco va al mercato",
-            {"andare", "mercato"},
+            {"andare", "al", "mercato"},
             id="propn-marco",
         ),
         pytest.param(
@@ -251,7 +257,7 @@ def seeded_cache():
         # -- Conjugated surface → lemma → dictionary word --
         pytest.param(
             "il gatto dorme sul divano",
-            {"il", "gatto", "dormire", "divano"},
+            {"il", "gatto", "dormire", "sul", "divano"},
             id="chain-gatto-dorme-divano",
         ),
         pytest.param(
@@ -296,6 +302,17 @@ def seeded_cache():
             "si dice bi-na-rio",
             {"dire"},
             id="syllabization-not-discovered",
+        ),
+        # -- Contractions (preposizioni articolate) --
+        pytest.param(
+            "nella stazione",
+            {"nella", "stazione"},
+            id="contraction-nella",
+        ),
+        pytest.param(
+            "al mercato dalle otto",
+            {"al", "mercato", "dalle", "otto"},
+            id="contraction-al-dalle",
         ),
     ],
 )
@@ -706,3 +723,28 @@ async def test_discover_multi_pos_annotation(seeded_cache):
     assert result.count('data-word="piano"') == 2
     assert 'data-pos="s.m."' in result
     assert 'data-pos="agg."' in result
+
+
+@pytest.mark.unit
+async def test_discover_contraction_annotated(seeded_cache):
+    """Contractions like 'nella' should be annotated as vocab words."""
+    result = await discover(
+        '<span lang="it">nella stazione</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="nella"' in result
+    assert 'data-word="stazione"' in result
+
+
+@pytest.mark.unit
+async def test_discover_elision_essere_annotated(seeded_cache):
+    """è should be annotated as essere in elided forms like dov'è."""
+    result = await discover(
+        '<span lang="it">Dov\'è il bagno</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="dove"' in result
+    assert 'data-word="essere"' in result
+    assert 'data-word="bagno"' in result

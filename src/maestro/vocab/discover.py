@@ -78,10 +78,14 @@ def _keep_token(token) -> bool:
     like ``dov'`` (lemma ``dove``) and ``l'`` (lemma ``il``) are included.
     Strips trailing apostrophes before the alpha check so that unresolved
     elisions like ``cos'`` (lemma ``cos'`` instead of ``cosa``) aren't dropped.
+    Accepts compound lemmas from spaCy contractions (``sul`` → lemma
+    ``su il``) where each part is alphabetic.
     Excludes proper nouns (PROPN) to prevent names like Marco → marcare.
     """
     lem = token.lemma_.rstrip("'")
-    return lem.isalpha() and token.pos_ != "PROPN"
+    if not (lem.isalpha() or all(p.isalpha() for p in lem.split())):
+        return False
+    return token.pos_ != "PROPN"
 
 
 def tokenize(text: str) -> list[tuple[str, str, str]]:
@@ -95,7 +99,12 @@ def tokenize(text: str) -> list[tuple[str, str, str]]:
     for token in doc:
         keep = _keep_token(token)
         if keep:
-            tokens.append((token.lemma_.lower(), token.pos_, token.text))
+            lem = token.lemma_.lower()
+            # Compound lemmas from contractions (sul → "su il"): use the
+            # surface form so it matches dictionary headwords like "sul".
+            if " " in lem:
+                lem = token.text.lower()
+            tokens.append((lem, token.pos_, token.text))
         logger.debug(
             "[discover] token: %-15s lemma=%-15s POS=%-6s keep=%s",
             token.text,
