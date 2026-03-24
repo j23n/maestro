@@ -14,7 +14,7 @@ from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
 
-from maestro.models import ExerciseType
+from maestro.models import DrillItem, ExerciseType
 from maestro.prompts import analyzer as _prompts, span_tagging_block as _stb
 from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
@@ -316,7 +316,7 @@ async def evaluate_error_correction(
 async def score_multi_item_drill(
     exercise_type: str,
     grammar_point_code: str,
-    items: list,
+    items: list[DrillItem],
     student_answers: list[str],
     rag_content: str = "",
     cefr_level: str = "A1",
@@ -350,9 +350,7 @@ async def score_multi_item_drill(
         )
         lines = []
         for i in range(n):
-            item_gp = (
-                getattr(items[i], "grammar_point_code", None) or grammar_point_code
-            )
+            item_gp = items[i].grammar_point_code or grammar_point_code
             item_label = gp_lookup.get(item_gp, item_gp)
             lines.append(
                 f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
@@ -363,9 +361,7 @@ async def score_multi_item_drill(
         )
         lines = []
         for i in range(n):
-            item_gp = (
-                getattr(items[i], "grammar_point_code", None) or grammar_point_code
-            )
+            item_gp = items[i].grammar_point_code or grammar_point_code
             item_label = gp_lookup.get(item_gp, item_gp)
             lines.append(
                 f'{i + 1}. Erroneous: "{items[i].prompt}" | Reference: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
