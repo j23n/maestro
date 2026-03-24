@@ -55,13 +55,37 @@ _ELISION_VOWELS = ("o", "a", "e", "i")
 
 
 @dataclass
+class TokenOccurrence:
+    """A single token occurrence in the input text."""
+
+    surface: str  # exact text as it appeared
+    pos: str  # spaCy UPOS tag
+    index: int  # position among kept tokens (document order)
+
+
+@dataclass
 class VocabMatch:
     """A single vocabulary match: one lemma resolved to one dictionary entry."""
 
     lemma: str  # resolved lemma (post-simplemma fallback)
-    pos: str  # spaCy universal POS for this occurrence
     word: VocabularyWord  # matched dictionary entry
-    surface_forms: list[str] = field(default_factory=list)
+    occurrences: list[TokenOccurrence] = field(default_factory=list)
+
+    @property
+    def surface_forms(self) -> list[str]:
+        """Unique surface forms from occurrences, preserving first-seen order."""
+        seen: set[str] = set()
+        forms: list[str] = []
+        for occ in self.occurrences:
+            if occ.surface not in seen:
+                seen.add(occ.surface)
+                forms.append(occ.surface)
+        return forms
+
+    @property
+    def pos(self) -> str:
+        """UPOS of first occurrence (backward compat)."""
+        return self.occurrences[0].pos if self.occurrences else ""
 
 
 # Word IDs currently being generated — prevents concurrent LLM calls for the
@@ -152,35 +176,45 @@ def match_vocab_words(
         "[discover] kept tokens: %s", [(s, lem, p) for lem, p, s in text_tokens]
     )
 
-    # Map lemma → list of inflected surface forms seen in the text
-    surface_map: dict[str, list[str]] = {}
+    # Map lemma → all inflected surface forms (for simplemma/elision fallback).
+    # Read-only after construction — per-token surfaces are tracked via
+    # TokenOccurrence on each VocabMatch instead.
+    lemma_surfaces: dict[str, list[str]] = {}
     for lem, _, surface in text_tokens:
-        forms = surface_map.setdefault(lem, [])
+        forms = lemma_surfaces.setdefault(lem, [])
         if surface not in forms:
             forms.append(surface)
 
     # Match tokens to vocab entries with per-occurrence POS disambiguation.
     # Dedup key is (lemma, word.id) — same lemma can produce multiple matches
     # when different POS tags resolve to different dictionary entries.
+    # Duplicate keys append an occurrence to the existing match.
     matches: list[VocabMatch] = []
-    seen: set[tuple[str, str]] = set()
-    for lem, upos, _ in text_tokens:
-        entries = word_index.get(lem)
-        resolved_lem = lem
+    seen: dict[tuple[str, str], int] = {}  # key → index in matches
+    resolved_lemmas: dict[str, str] = {}  # cache: spaCy lemma → resolved lemma
+    for token_idx, (lem, upos, surface) in enumerate(text_tokens):
+        # Check if a previous token already resolved this lemma
+        if lem in resolved_lemmas:
+            resolved_lem = resolved_lemmas[lem]
+            entries = word_index.get(resolved_lem)
+        else:
+            entries = word_index.get(lem)
+            resolved_lem = lem
+
         if entries:
             logger.debug(
                 "[discover] lemma %r → word_index HIT (%d entries: %s)",
-                lem,
+                resolved_lem,
                 len(entries),
                 [e.word for e in entries],
             )
-        if not entries:
+        if not entries and lem not in resolved_lemmas:
             logger.debug(
                 "[discover] lemma %r → word_index MISS, trying simplemma fallback", lem
             )
-            for surface in surface_map.get(lem, []):
-                candidate = simplemma.lemmatize(surface, lang="it").lower()
-                logger.debug("[discover]   simplemma(%r) → %r", surface, candidate)
+            for surf in lemma_surfaces.get(lem, []):
+                candidate = simplemma.lemmatize(surf, lang="it").lower()
+                logger.debug("[discover]   simplemma(%r) → %r", surf, candidate)
                 if candidate != lem:
                     entries = word_index.get(candidate)
                     if entries:
@@ -189,10 +223,8 @@ def match_vocab_words(
                             candidate,
                             [e.word for e in entries],
                         )
-                        surface_map.setdefault(candidate, []).extend(
-                            surface_map.pop(lem, [])
-                        )
                         resolved_lem = candidate
+                        resolved_lemmas[lem] = candidate
                         break
                     else:
                         logger.debug(
@@ -211,10 +243,8 @@ def match_vocab_words(
                             candidate,
                             [e.word for e in entries],
                         )
-                        surface_map.setdefault(candidate, []).extend(
-                            surface_map.pop(lem, [])
-                        )
                         resolved_lem = candidate
+                        resolved_lemmas[lem] = candidate
                         break
                 else:
                     logger.debug(
@@ -224,6 +254,9 @@ def match_vocab_words(
             if not entries:
                 logger.debug("[discover] lemma %r → NO MATCH (not in vocabulary)", lem)
                 continue
+        elif not entries:
+            # resolved_lemmas cache pointed to a lemma no longer in word_index
+            continue
         if len(entries) == 1:
             matched_word = entries[0]
         else:
@@ -233,21 +266,23 @@ def match_vocab_words(
             )
 
         key = (resolved_lem, str(matched_word.id))
+        occ = TokenOccurrence(surface=surface, pos=upos, index=token_idx)
         if key in seen:
+            matches[seen[key]].occurrences.append(occ)
             logger.debug(
-                "[discover] lemma %r (word=%r) already matched — skip",
+                "[discover] lemma %r (word=%r) — added occurrence #%d",
                 resolved_lem,
                 matched_word.word,
+                len(matches[seen[key]].occurrences),
             )
             continue
-        seen.add(key)
+        seen[key] = len(matches)
 
         matches.append(
             VocabMatch(
                 lemma=resolved_lem,
-                pos=upos,
                 word=matched_word,
-                surface_forms=surface_map.get(resolved_lem, []),
+                occurrences=[occ],
             )
         )
         logger.debug(
@@ -542,7 +577,9 @@ async def discover(
         word_ids_in_group = {str(m.word.id) for m in group}
         multi_pos = len(word_ids_in_group) > 1
 
-        for m in group:
+        if not multi_pos:
+            # Single dictionary entry — annotate all occurrences at once.
+            m = group[0]
             word_id = str(m.word.id)
             wdef = _cache.get_definition(word_id, student_level)
             if wdef is None and student_level == "A0":
@@ -554,20 +591,49 @@ async def discover(
                 anonymous=anonymous,
                 in_vocab=m.word.id in owned_word_ids,
                 surface_forms=m.surface_forms,
-                max_count=1 if multi_pos else None,
             )
             logger.debug(
-                "[discover] annotate %r (headword=%r, pos=%s, surfaces=%s, has_def=%s, multi_pos=%s) → %d matches",
+                "[discover] annotate %r (headword=%r, pos=%s, surfaces=%s, has_def=%s) → %d matches",
                 m.lemma,
                 m.word.word,
                 m.word.part_of_speech,
                 m.surface_forms,
                 wdef is not None,
-                multi_pos,
                 count,
             )
-            if not multi_pos:
-                break  # single entry — already annotated all occurrences
+        else:
+            # Multi-POS: different dictionary entries for the same lemma.
+            # Annotate each occurrence individually in document order so each
+            # gets the correct entry's attributes and only its own surface form.
+            all_occs: list[tuple[TokenOccurrence, VocabMatch]] = []
+            for m in group:
+                for occ in m.occurrences:
+                    all_occs.append((occ, m))
+            all_occs.sort(key=lambda x: x[0].index)
+
+            for occ, m in all_occs:
+                word_id = str(m.word.id)
+                wdef = _cache.get_definition(word_id, student_level)
+                if wdef is None and student_level == "A0":
+                    wdef = _cache.get_definition(word_id, "A1")
+                count = _annotate_in_elements(
+                    lang_elements,
+                    m.word,
+                    wdef,
+                    anonymous=anonymous,
+                    in_vocab=m.word.id in owned_word_ids,
+                    surface_forms=[occ.surface],
+                    max_count=1,
+                )
+                logger.debug(
+                    "[discover] annotate %r (headword=%r, pos=%s, surface=%r, has_def=%s, multi_pos=True) → %d matches",
+                    m.lemma,
+                    m.word.word,
+                    m.word.part_of_speech,
+                    occ.surface,
+                    wdef is not None,
+                    count,
+                )
 
     return str(soup)
 
