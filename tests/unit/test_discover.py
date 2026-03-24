@@ -795,3 +795,20 @@ async def test_discover_elision_essere_annotated(seeded_cache):
     assert 'data-word="dove"' in result
     assert 'data-word="essere"' in result
     assert 'data-word="bagno"' in result
+
+
+@pytest.mark.unit
+async def test_discover_no_discover_skips_element(seeded_cache):
+    """Elements with data-no-discover should be excluded from discovery entirely."""
+    result = await discover(
+        '<span lang="it" data-no-discover>gatto</span> <span lang="it">il gatto dorme</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    # The no-discover span should be left untouched — plain text, no vocab-word
+    assert 'data-no-discover=""' in result
+    no_discover_span = result.split("data-no-discover")[1].split("</span>")[0]
+    assert "vocab-word" not in no_discover_span
+    # The other span should still be annotated
+    assert 'data-word="gatto"' in result
+    assert 'data-word="dormire"' in result
