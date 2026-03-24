@@ -383,12 +383,12 @@ def prod_word_index() -> dict[str, list]:
         ),
         pytest.param(
             "La signora Rossi",
-            {"il", "signore"},
+            {"la", "signora"},
             id="basic-signora",
         ),
         pytest.param(
             "Paolo mangia la pizza",
-            {"il", "mangiare", "pizza"},
+            {"la", "mangiare", "pizza"},
             id="basic-pizza",
         ),
         pytest.param(
@@ -420,7 +420,7 @@ def prod_word_index() -> dict[str, list]:
         ),
         pytest.param(
             "la stazione è lontana",
-            {"il", "stazione", "essere", "lontano"},
+            {"la", "stazione", "essere", "lontano"},
             id="chain-stazione-lontana",
         ),
         pytest.param(

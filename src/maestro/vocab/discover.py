@@ -201,6 +201,27 @@ def match_vocab_words(
             entries = word_index.get(lem)
             resolved_lem = lem
 
+        # Prefer surface form when it's a distinct headword with a POS that
+        # matches the spaCy tag.  spaCy collapses gendered forms to a base
+        # lemma (la→il, questa→questo, signora→signore) but the dictionary
+        # carries each form as its own entry.  We only override when the
+        # surface entry POS-matches the spaCy tag — this prevents "parte"
+        # (s.f.) from stealing a VERB token away from lemma "partire" (v.intr.).
+        surface_lower = surface.lower()
+        if surface_lower != resolved_lem:
+            surface_entries = word_index.get(surface_lower)
+            if surface_entries and any(
+                matches_pos(e.part_of_speech, upos) for e in surface_entries
+            ):
+                resolved_lem = surface_lower
+                entries = surface_entries
+                logger.debug(
+                    "[discover] surface %r POS-matches %s — preferring over lemma %r",
+                    surface_lower,
+                    upos,
+                    lem,
+                )
+
         if entries:
             logger.debug(
                 "[discover] lemma %r → word_index HIT (%d entries: %s)",
