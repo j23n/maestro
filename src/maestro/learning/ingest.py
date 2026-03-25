@@ -14,7 +14,6 @@ import json
 import logging
 
 import yaml
-from bson import DBRef
 
 from maestro.config import settings
 from maestro.db import init_db
@@ -151,6 +150,13 @@ async def seed_a0_vocab() -> None:
     with open(vocab_file) as f:
         items = yaml.safe_load(f)
 
+    # Purge all existing A0-level definitions — the old JSON pipeline created
+    # A0 defs with Italian text for dictionary words. Those are stale now;
+    # only vocab_a0.yaml words should have A0 definitions (translation only).
+    purged = await VocabularyWordDefinition.find({"student_level": "A0"}).delete()
+    if purged and purged.deleted_count:
+        logger.info(f"A0 vocab: purged {purged.deleted_count} old A0 definitions")
+
     count = 0
     def_count = 0
     for item in items:
@@ -179,33 +185,21 @@ async def seed_a0_vocab() -> None:
             await word_doc.insert()
             count += 1
 
-        # Create/update A0-level definition with translation only
+        # Create A0-level definition with translation only
         translation = item.get("translation", "")
         if not translation:
             continue
 
-        existing_def = await VocabularyWordDefinition.find_one(
-            {
-                "word": DBRef(VocabularyWord.Settings.name, word_doc.id),
-                "student_level": "A0",
-            }
-        )
         cefr_senses = [CefrSense(definition="", translation=translation)]
-        if existing_def:
-            existing_def.senses = cefr_senses
-            existing_def.translation = translation
-            existing_def.updated_at = utcnow()
-            await existing_def.save()
-        else:
-            await VocabularyWordDefinition(
-                word=word_doc,
-                student_level="A0",
-                senses=cefr_senses,
-                translation=translation,
-                language=settings.TARGET_LANGUAGE,
-                created_at=utcnow(),
-            ).insert()
-            def_count += 1
+        await VocabularyWordDefinition(
+            word=word_doc,
+            student_level="A0",
+            senses=cefr_senses,
+            translation=translation,
+            language=settings.TARGET_LANGUAGE,
+            created_at=utcnow(),
+        ).insert()
+        def_count += 1
 
     logger.info(
         f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)"
