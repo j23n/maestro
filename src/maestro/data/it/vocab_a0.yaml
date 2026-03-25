@@ -1,0 +1,358 @@
+# A0 Vocabulary — words and phrases not in the EPUB dictionary
+#
+# These entries create VocabularyWord + VocabularyWordDefinition(student_level="A0")
+# records.  Words already in the EPUB dictionary (the vast majority of A0 vocab)
+# are handled automatically by the standard ingest pipeline.
+#
+# All entries are implicitly cefr_level: A0.
+#
+# For single words, the issue is usually that:
+#   - the word doesn't appear in the EPUB dictionary at all (menù, tiramisù)
+#   - spaCy lemmatises the surface form to something wrong (scusi → scondere)
+#   - the word is a truncated / irregular form (buon, buona)
+#
+# For phrases, the standard per-token matching can't find them — they're
+# matched via the phrase index instead (exact text match on lang="it" elements).
+
+##############################################################################
+# Single words not in EPUB dictionary
+##############################################################################
+
+# --- Greetings & exclamations ---
+- word: ciao
+  part_of_speech: inter.
+  translation: hello, goodbye
+
+- word: buongiorno
+  part_of_speech: inter.
+  translation: good morning
+
+- word: buonasera
+  part_of_speech: inter.
+  translation: good evening
+
+- word: buonanotte
+  part_of_speech: inter.
+  translation: good night
+
+- word: arrivederci
+  part_of_speech: inter.
+  translation: goodbye
+
+- word: prego
+  part_of_speech: inter.
+  translation: you're welcome; go ahead
+
+- word: scusi
+  part_of_speech: inter.
+  translation: excuse me (formal)
+
+- word: bravissimo
+  part_of_speech: inter.
+  translation: very good!, excellent!
+
+- word: perfetto
+  part_of_speech: inter.
+  translation: perfect!
+
+# --- Food & drink ---
+- word: tiramisù
+  part_of_speech: s.m.
+  translation: tiramisù (coffee-flavoured dessert)
+
+- word: ribollita
+  part_of_speech: s.f.
+  translation: ribollita (Tuscan bread soup)
+
+- word: menù
+  part_of_speech: s.m.
+  translation: menu
+
+- word: cappuccino
+  part_of_speech: s.m.
+  translation: cappuccino
+
+- word: cornetto
+  part_of_speech: s.m.
+  translation: croissant
+
+- word: brioche
+  part_of_speech: s.f.
+  translation: pastry, croissant
+
+- word: antipasti
+  part_of_speech: s.m.pl.
+  translation: starters, appetisers
+
+# --- Irregular / truncated forms ---
+- word: buon
+  part_of_speech: agg.
+  translation: good (truncated, before masculine nouns)
+
+- word: buona
+  part_of_speech: agg.
+  translation: good (feminine)
+
+- word: vorrei
+  part_of_speech: v.
+  translation: I would like
+
+- word: bellissimo
+  part_of_speech: agg.
+  translation: very beautiful, wonderful
+
+# --- Adverbs not in EPUB ---
+- word: lentamente
+  part_of_speech: avv.
+  translation: slowly
+
+# --- Compound numbers (used in A0 lessons) ---
+- word: ventuno
+  part_of_speech: agg.num.
+  translation: twenty-one
+
+- word: ventidue
+  part_of_speech: agg.num.
+  translation: twenty-two
+
+- word: ventotto
+  part_of_speech: agg.num.
+  translation: twenty-eight
+
+- word: trentuno
+  part_of_speech: agg.num.
+  translation: thirty-one
+
+- word: trentadue
+  part_of_speech: agg.num.
+  translation: thirty-two
+
+- word: trentacinque
+  part_of_speech: agg.num.
+  translation: thirty-five
+
+- word: trentotto
+  part_of_speech: agg.num.
+  translation: thirty-eight
+
+- word: quarantacinque
+  part_of_speech: agg.num.
+  translation: forty-five
+
+- word: quarantasei
+  part_of_speech: agg.num.
+  translation: forty-six
+
+- word: centoventi
+  part_of_speech: agg.num.
+  translation: one hundred and twenty
+
+##############################################################################
+# Phrases — matched via phrase index (exact text on lang="it" elements)
+##############################################################################
+
+# --- Core survival phrases ---
+- word: per favore
+  part_of_speech: loc.
+  translation: please
+
+- word: grazie mille
+  part_of_speech: loc.
+  translation: thank you very much
+
+- word: mi dispiace
+  part_of_speech: loc.
+  translation: I'm sorry
+
+- word: va bene
+  part_of_speech: loc.
+  translation: OK, that's fine
+
+- word: d'accordo
+  part_of_speech: loc.
+  translation: agreed, OK
+
+- word: non capisco
+  part_of_speech: loc.
+  translation: I don't understand
+
+- word: non lo so
+  part_of_speech: loc.
+  translation: I don't know
+
+- word: può ripetere
+  part_of_speech: loc.
+  translation: can you repeat?
+
+- word: più lentamente
+  part_of_speech: loc.
+  translation: more slowly
+
+- word: un po'
+  part_of_speech: loc.
+  translation: a little
+
+# --- Introductions ---
+- word: mi chiamo
+  part_of_speech: loc.
+  translation: my name is
+
+- word: come ti chiami
+  part_of_speech: loc.
+  translation: what's your name? (informal)
+
+- word: come si chiama?
+  part_of_speech: loc.
+  translation: what is your name? (formal)
+
+- word: di dove sei?
+  part_of_speech: loc.
+  translation: where are you from?
+
+- word: parla inglese?
+  part_of_speech: loc.
+  translation: do you speak English?
+
+- word: parlo italiano
+  part_of_speech: loc.
+  translation: I speak Italian
+
+# --- Likes & dislikes ---
+- word: mi piace
+  part_of_speech: loc.
+  translation: I like
+
+- word: non mi piace
+  part_of_speech: loc.
+  translation: I don't like
+
+- word: mi piacciono
+  part_of_speech: loc.
+  translation: I like (plural things)
+
+- word: ti piace
+  part_of_speech: loc.
+  translation: do you like?
+
+# --- Ordering & restaurant ---
+- word: quanto costa
+  part_of_speech: loc.
+  translation: how much does it cost?
+
+- word: che cos'è
+  part_of_speech: loc.
+  translation: what is it?
+
+- word: senza glutine
+  part_of_speech: loc.
+  translation: gluten-free
+
+- word: il conto, per favore
+  part_of_speech: loc.
+  translation: the bill, please
+
+- word: il menù, per favore
+  part_of_speech: loc.
+  translation: the menu, please
+
+# --- Accommodation ---
+- word: ho una prenotazione
+  part_of_speech: loc.
+  translation: I have a reservation
+
+# --- Directions & locations ---
+- word: a destra
+  part_of_speech: loc.
+  translation: to the right
+
+- word: a sinistra
+  part_of_speech: loc.
+  translation: to the left
+
+- word: sempre dritto
+  part_of_speech: loc.
+  translation: straight ahead
+
+- word: qui vicino
+  part_of_speech: loc.
+  translation: near here
+
+- word: dov'è
+  part_of_speech: loc.
+  translation: where is?
+
+# --- Travel ---
+- word: andata e ritorno
+  part_of_speech: loc.
+  translation: round trip
+
+- word: a che ora
+  part_of_speech: loc.
+  translation: at what time
+
+- word: da che binario?
+  part_of_speech: loc.
+  translation: from which platform?
+
+- word: che ore sono?
+  part_of_speech: loc.
+  translation: what time is it?
+
+- word: e mezza
+  part_of_speech: loc.
+  translation: half past
+
+- word: e un quarto
+  part_of_speech: loc.
+  translation: quarter past
+
+# --- Emergencies & help ---
+- word: ho bisogno di
+  part_of_speech: loc.
+  translation: I need
+
+- word: ho perso
+  part_of_speech: loc.
+  translation: I've lost
+
+# --- Farewells & well-wishes ---
+- word: a presto
+  part_of_speech: loc.
+  translation: see you soon
+
+- word: a domani
+  part_of_speech: loc.
+  translation: see you tomorrow
+
+- word: buon viaggio
+  part_of_speech: loc.
+  translation: have a good trip
+
+- word: buona giornata
+  part_of_speech: loc.
+  translation: have a nice day
+
+- word: grazie di tutto
+  part_of_speech: loc.
+  translation: thanks for everything
+
+- word: in bocca al lupo
+  part_of_speech: loc.
+  translation: good luck (lit. in the mouth of the wolf)
+
+- word: è stato bellissimo
+  part_of_speech: loc.
+  translation: it was wonderful
+
+# --- Other useful expressions ---
+- word: come si dice
+  part_of_speech: loc.
+  translation: how do you say
+
+- word: acqua naturale
+  part_of_speech: loc.
+  translation: still water
+
+- word: acqua frizzante
+  part_of_speech: loc.
+  translation: sparkling water

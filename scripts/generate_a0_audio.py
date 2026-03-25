@@ -3,7 +3,7 @@
 Generates three kinds of audio:
 1. Listening-activity audio — from a0_lessons.yaml (a0_*.wav)
 2. Pronunciation audio — vowels and numbers referenced in grammar tables
-3. Vocabulary word audio — from vocab_a0.json (word_*.wav)
+3. Vocabulary word audio — from vocab_a0.yaml (word_*.wav)
 
 Usage (with Azure credentials in environment):
     uv run scripts/generate_a0_audio.py
@@ -20,10 +20,11 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import re
 import sys
 from pathlib import Path
+
+import yaml
 
 # Allow running from repo root without installing the package
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -62,15 +63,13 @@ _PRONUNCIATION_ITEMS: dict[str, str] = {
 
 
 def _load_lessons() -> dict:
-    import yaml
-
     with open(_DATA_DIR / "a0_lessons.yaml") as f:
         return yaml.safe_load(f)
 
 
 def _load_vocab() -> list[dict]:
-    with open(_DATA_DIR / "vocab_a0.json") as f:
-        return json.load(f)
+    with open(_DATA_DIR / "vocab_a0.yaml") as f:
+        return yaml.safe_load(f)
 
 
 def _collect_strings(obj: object) -> list[str]:

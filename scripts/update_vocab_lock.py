@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/vocab_a0.lock after modifying vocab_a0.json.
+"""Recompute src/maestro/data/it/vocab_a0.lock after modifying vocab_a0.yaml.
 
-The lock file stores the SHA256 hash of vocab_a0.json and is committed to the repo.
+The lock file stores the SHA256 hash of vocab_a0.yaml and is committed to the repo.
 At app startup, vocab_sync compares this hash against what's stored in the database and
-re-runs ingest if they differ — ensuring the DB always matches the committed JSON.
+re-runs ingest if they differ — ensuring the DB always matches the committed YAML.
 
 Usage: uv run python scripts/update_vocab_lock.py
 """
@@ -14,8 +14,10 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-VOCAB_JSON = REPO_ROOT / "src/maestro/data/it/vocab_a0.json"
+VOCAB_YAML = REPO_ROOT / "src/maestro/data/it/vocab_a0.yaml"
 LOCK_FILE = REPO_ROOT / "src/maestro/data/it/vocab_a0.lock"
 
 
@@ -34,13 +36,13 @@ def compute_lock(data: list, sha: str) -> dict:
 
 
 def main() -> None:
-    if not VOCAB_JSON.exists():
-        print(f"ERROR: {VOCAB_JSON} not found", file=sys.stderr)
+    if not VOCAB_YAML.exists():
+        print(f"ERROR: {VOCAB_YAML} not found", file=sys.stderr)
         sys.exit(1)
 
-    content = VOCAB_JSON.read_bytes()
+    content = VOCAB_YAML.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
-    data = json.loads(content)
+    data = yaml.safe_load(content)
 
     old_sha = None
     if LOCK_FILE.exists():
@@ -55,9 +57,9 @@ def main() -> None:
     if old_sha is None:
         print(f"  + vocab_a0.lock: created (words={lock['word_count']})")
     elif old_sha != sha:
-        print(f"  ~ vocab_a0.json: hash changed (words={lock['word_count']})")
+        print(f"  ~ vocab_a0.yaml: hash changed (words={lock['word_count']})")
     else:
-        print(f"  . vocab_a0.json: unchanged (hash={sha[:16]})")
+        print(f"  . vocab_a0.yaml: unchanged (hash={sha[:16]})")
 
     for pos, count in lock["by_part_of_speech"].items():
         print(f"    {pos}: {count}")
