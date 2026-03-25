@@ -458,6 +458,28 @@ def test_cache_get_definition_a0_fallback_to_a1():
 
 
 @pytest.mark.unit
+def test_cache_get_definition_a0_deduplicates_translations():
+    """A0 fallback should deduplicate senses with the same translation."""
+    a1_def = _make_wdef(
+        translation="door",
+        senses=[
+            SimpleNamespace(
+                definition="apertura", translation="door (opening)", examples=[]
+            ),
+            SimpleNamespace(
+                definition="porta di legno", translation="door", examples=[]
+            ),
+            SimpleNamespace(definition="ingresso", translation="door", examples=[]),
+        ],
+    )
+    _vocab_cache.seed(defs={("word-1", "A1"): a1_def})
+    result = _vocab_cache.get_definition("word-1", "A0")
+    translations = [s.translation for s in result.senses]
+    assert translations == ["door (opening)", "door"]
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
 def test_cache_get_definition_a0_with_own_def():
     """A0 lookup with an A0 def should return it directly (no fallback)."""
     a0_def = _make_wdef(

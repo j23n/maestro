@@ -80,17 +80,19 @@ def get_definition(word_id: str, level: str) -> VocabularyWordDefinition | None:
         return wdef
     if level != "A0":
         return None
-    # A0 fallback: use A1 definition, translation only
+    # A0 fallback: use A1 definition, translation only (deduplicated)
     a1 = _def_index.get((word_id, "A1"))
     if a1 is None:
         return None
-    return SimpleNamespace(
-        translation=a1.translation,
-        senses=[
-            SimpleNamespace(definition="", translation=s.translation, examples=[])
-            for s in a1.senses
-        ],
-    )
+    seen: set[str] = set()
+    senses = []
+    for s in a1.senses:
+        if s.translation and s.translation not in seen:
+            seen.add(s.translation)
+            senses.append(
+                SimpleNamespace(definition="", translation=s.translation, examples=[])
+            )
+    return SimpleNamespace(translation=a1.translation, senses=senses)
 
 
 def set_definition(word_id: str, level: str, wdef: VocabularyWordDefinition) -> None:
