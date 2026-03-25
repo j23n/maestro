@@ -24,10 +24,10 @@
   <div id="vocab-add">
     {% if has_card %}
       <span class="added-badge">{{ t("vocab_in_your_vocab") }}</span>
-      <button class="btn-remove" hx-post="/vocab/word/{{ word.entry_id }}/exclude"
+      <button class="btn-remove" hx-post="/vocab/word/{{ word.id }}/exclude"
               hx-target="#vocab-add" hx-swap="innerHTML">{{ t("vocab_remove") }}</button>
-    {% elif word.entry_id %}
-      <button hx-post="/vocab/word/{{ word.entry_id }}/add"
+    {% else %}
+      <button hx-post="/vocab/word/{{ word.id }}/add"
               hx-target="#vocab-add" hx-swap="innerHTML">{{ t("vocab_add_to_mine") }}</button>
     {% endif %}
   </div>

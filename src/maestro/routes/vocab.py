@@ -6,6 +6,7 @@ import random
 
 from beanie import PydanticObjectId
 from bson import DBRef
+from bson.errors import InvalidId
 from fastapi import APIRouter, Depends, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, Response
 
@@ -29,7 +30,7 @@ from maestro.vocab.srs import review
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-QUIZ_MODES = ("word", "definition", "translation")
+QUIZ_MODES = ("word", "translation")
 
 
 @router.get("/vocab", response_class=HTMLResponse)
@@ -88,14 +89,17 @@ async def vocab_list(request: Request, student: Student = Depends(get_current_st
     )
 
 
-@router.get("/vocab/word/{entry_id}", response_class=HTMLResponse)
+@router.get("/vocab/word/{word_id}", response_class=HTMLResponse)
 async def vocab_entry(
-    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+    request: Request, word_id: str, student: Student = Depends(get_current_student)
 ):
-    word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
+    try:
+        word = await VocabularyWord.get(PydanticObjectId(word_id))
+    except InvalidId:
+        raise HTTPException(status_code=404, detail="Word not found")
     if word is None:
         raise HTTPException(status_code=404, detail="Word not found")
-    logger.info("vocab entry page", extra={"word": word.word, "entry_id": entry_id})
+    logger.info("vocab entry page", extra={"word": word.word, "word_id": word_id})
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
     definitions = await VocabularyWordDefinition.find({"word": word_ref}).to_list()
     logger.debug(
@@ -142,11 +146,14 @@ async def vocab_entry(
     )
 
 
-@router.post("/vocab/word/{entry_id}/add", response_class=HTMLResponse)
+@router.post("/vocab/word/{word_id}/add", response_class=HTMLResponse)
 async def vocab_add(
-    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+    request: Request, word_id: str, student: Student = Depends(get_current_student)
 ):
-    word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
+    try:
+        word = await VocabularyWord.get(PydanticObjectId(word_id))
+    except InvalidId:
+        raise HTTPException(status_code=404)
     if word is None:
         raise HTTPException(status_code=404)
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
@@ -172,11 +179,14 @@ async def vocab_add(
     return HTMLResponse(f'<span class="added-badge">{t("vocab_in_your_vocab")}</span>')
 
 
-@router.post("/vocab/word/{entry_id}/exclude", response_class=HTMLResponse)
+@router.post("/vocab/word/{word_id}/exclude", response_class=HTMLResponse)
 async def vocab_exclude(
-    request: Request, entry_id: str, student: Student = Depends(get_current_student)
+    request: Request, word_id: str, student: Student = Depends(get_current_student)
 ):
-    word = await VocabularyWord.find_one(VocabularyWord.entry_id == entry_id)
+    try:
+        word = await VocabularyWord.get(PydanticObjectId(word_id))
+    except InvalidId:
+        raise HTTPException(status_code=404)
     if word is None:
         raise HTTPException(status_code=404)
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
@@ -253,6 +263,7 @@ async def vocab_practice(
             "mode": resolved_mode,
             "selected_mode": mode,
             "word_def": word_def,
+            "student_level": student_level,
         },
         student_id=student.id,
         create_cards=False,
@@ -279,6 +290,7 @@ async def vocab_reveal(
             "card": card,
             "mode": mode,
             "word_def": word_def,
+            "student_level": level,
             "review_url": f"/vocab/practice/{card.id}/review",
             "review_extra_name": "mode",
             "review_extra_value": mode,

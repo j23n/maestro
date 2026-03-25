@@ -8,6 +8,8 @@ Test layers:
 - simplemma: smoke tests for the third-party fallback library
 """
 
+from unittest.mock import patch
+
 import pytest
 import simplemma
 from types import SimpleNamespace
@@ -1025,3 +1027,77 @@ async def test_discover_phrase_data_no_save(seeded_cache_with_phrases):
     )
     assert 'data-word="mi chiamo"' in result
     assert 'data-word="gatto"' in result
+
+
+# ---------------------------------------------------------------------------
+# Audio background task — fired in parallel with definition generation
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+async def test_discover_fires_audio_task_for_missing_audio(seeded_cache):
+    """discover() should fire a vocab-audio background task for words missing audio."""
+    with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+        await discover(
+            '<span lang="it">il gatto dorme</span>',
+            student_id=None,
+            create_cards=False,
+        )
+
+    # All test words have audio_url=None, so audio task should fire
+    audio_calls = [
+        c
+        for c in mock_bg.call_args_list
+        if "vocab-audio-" in (c.kwargs.get("name") or "")
+    ]
+    assert len(audio_calls) == 1
+
+
+@pytest.mark.unit
+async def test_discover_no_audio_task_when_audio_exists():
+    """discover() should NOT fire audio task when all words already have audio."""
+    gatto_with_audio = SimpleNamespace(
+        word="gatto",
+        part_of_speech="s.m.",
+        syllabization="",
+        entry_id="LM-GATTO",
+        senses=[],
+        id="fake-gatto-sm",
+        audio_url="/static/audio/word_gatto.wav",
+    )
+    _vocab_cache.seed(words={"gatto": [gatto_with_audio]}, defs={})
+    try:
+        with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+            await discover(
+                '<span lang="it">il gatto</span>',
+                student_id=None,
+                create_cards=False,
+            )
+
+        audio_calls = [
+            c
+            for c in mock_bg.call_args_list
+            if "vocab-audio-" in (c.kwargs.get("name") or "")
+        ]
+        assert len(audio_calls) == 0
+    finally:
+        _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
+    """Audio and definition tasks should fire independently based on what's missing."""
+    with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+        await discover(
+            '<span lang="it">il gatto dorme</span>',
+            student_id=None,
+            create_cards=False,
+        )
+
+    names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]
+    audio_tasks = [n for n in names if "vocab-audio-" in n]
+    # Audio task should fire (words have audio_url=None)
+    assert len(audio_tasks) == 1
+    # Def task should NOT fire (test words have senses=[], so they're skipped)
+    def_tasks = [n for n in names if "vocab-defs-" in n]
+    assert len(def_tasks) == 0
