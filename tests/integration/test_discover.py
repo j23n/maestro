@@ -198,7 +198,8 @@ async def test_anonymous_discover_triggers_definition_generation(db):
 
     # But background task was fired for definition generation
     assert mock_bg.called
-    assert "vocab-defs-" in mock_bg.call_args.kwargs.get("name", "")
+    bg_names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]
+    assert any("vocab-defs-" in n for n in bg_names)
 
 
 @pytest.mark.integration
@@ -232,8 +233,9 @@ async def test_deduplication_prevents_duplicate_tasks(db):
             create_cards=False,
         )
 
-    # Background task should NOT be fired — word is already in _pending_def_gen
-    assert not mock_bg.called
+    # Definition task should NOT be fired — word is already in _pending_def_gen
+    bg_names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]
+    assert not any("vocab-defs-" in n for n in bg_names)
 
 
 @pytest.mark.integration

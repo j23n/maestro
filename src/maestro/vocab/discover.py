@@ -340,7 +340,7 @@ def _build_vocab_attrs(
 
     senses_json = json.dumps(senses_data, ensure_ascii=False).replace("'", "&#39;")
 
-    entry_id = "" if (anonymous or in_vocab) else (word.entry_id or "")
+    word_id = "" if anonymous else str(word.id)
 
     return (
         f' class="vocab-word"'
@@ -349,7 +349,7 @@ def _build_vocab_attrs(
         f' data-syllabization="{word.syllabization or ""}"'
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
-        f' data-entry-id="{entry_id}"'
+        f' data-word-id="{word_id}"'
         f' data-in-vocab="{"true" if in_vocab else ""}"'
         f' data-audio-path="{getattr(word, "audio_url", None) or ""}"'
     )
@@ -630,6 +630,16 @@ async def discover(
             name=f"vocab-defs-{'-'.join(w.word for w in words_to_generate[:3])}",
         )
 
+    # --- Audio generation (background, parallel to defs) ---
+    words_missing_audio = [
+        m.word for m in unique_words.values() if m.word.audio_url is None
+    ]
+    if words_missing_audio:
+        create_background_task(
+            _generate_missing_audio(words_missing_audio),
+            name=f"vocab-audio-{'-'.join(w.word for w in words_missing_audio[:3])}",
+        )
+
     # --- Annotation (HTML) ---
     student_level = await get_cefr_level(student_id) if student_id else "A1"
     anonymous = student_id is None
@@ -725,6 +735,19 @@ async def discover(
         )
 
     return str(soup)
+
+
+async def _generate_missing_audio(words: list[VocabularyWord]) -> None:
+    """Background task: generate missing word audio via Azure TTS."""
+    from maestro.tts import generate_word_audio
+
+    for word in words:
+        try:
+            await generate_word_audio(word.word)
+        except Exception as exc:
+            logger.warning(
+                "[discover] audio generation failed for '%s': %s", word.word, exc
+            )
 
 
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:

@@ -96,7 +96,7 @@
         }
 
         // "Add to vocabulary" button in tooltip
-        const entryId = word.dataset.entryId;
+        const wordId = word.dataset.wordId;
         const inVocab = word.dataset.inVocab === 'true';
         const addBtn = tooltip.querySelector('.tt-add-btn');
         const addedSpan = tooltip.querySelector('.tt-added');
@@ -104,14 +104,14 @@
           addBtn.style.display = 'none';
           addedSpan.textContent = tooltip.dataset.labelAdded;
           addedSpan.style.display = '';
-        } else if (entryId) {
+        } else if (wordId) {
           addBtn.textContent = tooltip.dataset.labelAdd;
           addBtn.style.display = '';
           addedSpan.style.display = 'none';
           addBtn.onclick = e => {
             e.stopPropagation();
             var m = document.cookie.match(/csrftoken=([^;]+)/);
-            fetch('/vocab/word/' + entryId + '/add', {
+            fetch('/vocab/word/' + wordId + '/add', {
               method: 'POST',
               headers: m ? {'x-csrftoken': m[1]} : {}
             }).then(r => {
