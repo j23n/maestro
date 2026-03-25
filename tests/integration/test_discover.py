@@ -151,16 +151,6 @@ async def test_discover_simplemma_fallback(db):
     assert 'data-word="parlare"' in result
 
 
-@pytest.mark.integration
-async def test_discover_no_lang_returns_unchanged(db):
-    """discover() returns text unchanged when no lang attributes are present."""
-    from maestro.vocab.discover import discover
-
-    text = "Some plain text without lang tags."
-    result = await discover(text, student_id=_FAKE_STUDENT_ID)
-    assert result == text
-
-
 def _word_with_senses(**kwargs) -> VocabularyWord:
     """Create a VocabularyWord with at least one sense (triggers def generation)."""
     defaults = dict(

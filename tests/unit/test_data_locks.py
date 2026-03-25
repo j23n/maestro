@@ -1,6 +1,6 @@
 """Unit test: verify data files match their lock files.
 
-If vocab_a0.json, grammar_points.yaml, or a0_lessons.yaml/scenarios_a0.yaml
+If vocab_a0.yaml, grammar_points.yaml, or a0_lessons.yaml/scenarios_a0.yaml
 content has changed but the corresponding lock file was not updated, this test
 fails with a clear message explaining how to fix the problem.
 """
@@ -19,7 +19,7 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "src" / "maestro" / "data" / "i
 @pytest.mark.parametrize(
     "data_file, lock_file, update_script",
     [
-        ("vocab_a0.json", "vocab_a0.lock", "scripts/update_vocab_lock.py"),
+        ("vocab_a0.yaml", "vocab_a0.lock", "scripts/update_vocab_lock.py"),
         ("grammar_points.yaml", "grammar_points.lock", "scripts/update_gp_lock.py"),
         ("comm_functions.json", "comm_functions.lock", "scripts/update_cf_lock.py"),
     ],

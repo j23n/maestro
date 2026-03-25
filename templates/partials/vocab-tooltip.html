@@ -48,9 +48,12 @@
           const wrap = document.createElement('div');
           wrap.className = 'tt-sense';
           const defLine = document.createElement('div');
-          defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + _stripTags(s.definition);
-          if (s.translation) {
-            defLine.textContent += ' (' + s.translation + ')';
+          const prefix = shown.length > 1 ? (i + 1) + '. ' : '';
+          if (s.definition) {
+            defLine.textContent = prefix + _stripTags(s.definition);
+            if (s.translation) defLine.textContent += ' (' + s.translation + ')';
+          } else if (s.translation) {
+            defLine.textContent = prefix + s.translation;
           }
 
           wrap.appendChild(defLine);

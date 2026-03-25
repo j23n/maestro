@@ -507,13 +507,55 @@ async def discover(
     save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
     nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
 
+    # --- Phrase matching (exact text, before per-token matching) ---
+    # Check each lang element's full text against the phrase index.
+    # Phrase matches take priority: matched elements are annotated and
+    # excluded from subsequent per-token word matching.
+    phrase_idx = _cache.phrase_index()
+    phrase_matched_elements: set[int] = set()  # ids of elements matched as phrases
+    phrase_matches: list[VocabMatch] = []
+
+    if phrase_idx:
+        for el in lang_elements:
+            text = el.get_text(strip=True).lower()
+            entries = phrase_idx.get(text)
+            if not entries:
+                continue
+            phrase_word = entries[0]  # first POS variant
+            phrase_matched_elements.add(id(el))
+            phrase_matches.append(
+                VocabMatch(
+                    lemma=text,
+                    word=phrase_word,
+                    occurrences=[
+                        TokenOccurrence(
+                            surface=el.get_text(strip=True), pos="", index=0
+                        )
+                    ],
+                )
+            )
+            logger.debug(
+                "[discover] phrase match: %r → %r (%s)",
+                text,
+                phrase_word.word,
+                phrase_word.part_of_speech,
+            )
+
+    # Elements not matched as phrases → per-token matching
+    word_elements = [
+        el for el in lang_elements if id(el) not in phrase_matched_elements
+    ]
+
     # --- Vocabulary matching (pure NLP, no DB) ---
-    all_text = get_target_text(lang_elements)
-    matches = match_vocab_words(all_text, _cache.word_index())
+    all_text = get_target_text(word_elements) if word_elements else ""
+    matches = match_vocab_words(all_text, _cache.word_index()) if all_text else []
+
+    # Combine phrase matches and word matches
+    all_matches = phrase_matches + matches
 
     # Unique words by id — for card creation, def generation, DB queries.
     unique_words: dict[str, VocabMatch] = {}
-    for m in matches:
+    for m in all_matches:
         wid = str(m.word.id)
         if wid not in unique_words:
             unique_words[wid] = m
@@ -532,6 +574,11 @@ async def discover(
             for m in matches
             if any(s.lower() in save_tokens for s in m.surface_forms)
         }
+        # Phrase matches: saveable if the matched element lacks data-no-save
+        save_el_ids = {id(el) for el in save_elements}
+        for el in lang_elements:
+            if id(el) in phrase_matched_elements and id(el) in save_el_ids:
+                save_lemma_set.add(el.get_text(strip=True).lower())
     else:
         save_lemma_set = None
 
@@ -607,8 +654,6 @@ async def discover(
             m = group[0]
             word_id = str(m.word.id)
             wdef = _cache.get_definition(word_id, student_level)
-            if wdef is None and student_level == "A0":
-                wdef = _cache.get_definition(word_id, "A1")
             count = _annotate_in_elements(
                 lang_elements,
                 m.word,
@@ -639,8 +684,6 @@ async def discover(
             for occ, m in all_occs:
                 word_id = str(m.word.id)
                 wdef = _cache.get_definition(word_id, student_level)
-                if wdef is None and student_level == "A0":
-                    wdef = _cache.get_definition(word_id, "A1")
                 count = _annotate_in_elements(
                     lang_elements,
                     m.word,
@@ -659,6 +702,27 @@ async def discover(
                     wdef is not None,
                     count,
                 )
+
+    # Annotate phrase matches — entire element text is the surface form
+    for m in phrase_matches:
+        word_id = str(m.word.id)
+        wdef = _cache.get_definition(word_id, student_level)
+        count = _annotate_in_elements(
+            lang_elements,
+            m.word,
+            wdef,
+            anonymous=anonymous,
+            in_vocab=m.word.id in owned_word_ids,
+            surface_forms=m.surface_forms,
+        )
+        logger.debug(
+            "[discover] annotate phrase %r (headword=%r, pos=%s, has_def=%s) → %d matches",
+            m.lemma,
+            m.word.word,
+            m.word.part_of_speech,
+            wdef is not None,
+            count,
+        )
 
     return str(soup)
 
