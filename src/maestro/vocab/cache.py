@@ -10,11 +10,20 @@ Call invalidate() in tests to reset state between runs.
 from __future__ import annotations
 
 import logging
-from types import SimpleNamespace
+from dataclasses import dataclass, field
 
-from maestro.models import VocabularyWord, VocabularyWordDefinition
+from maestro.models import CefrSense, VocabularyWord, VocabularyWordDefinition
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class TranslationOnlyDef:
+    """Lightweight stand-in for VocabularyWordDefinition used in A0 fallback."""
+
+    translation: str = ""
+    senses: list[CefrSense] = field(default_factory=list)
+
 
 # headword (str, lowercased) → list of VocabularyWord (one per POS variant)
 _word_index: dict[str, list[VocabularyWord]] = {}
@@ -68,7 +77,9 @@ def phrase_index() -> dict[str, list[VocabularyWord]]:
     return _phrase_index
 
 
-def get_definition(word_id: str, level: str) -> VocabularyWordDefinition | None:
+def get_definition(
+    word_id: str, level: str
+) -> VocabularyWordDefinition | TranslationOnlyDef | None:
     """Look up a definition by word id and student level.
 
     For A0: returns the A0 def if it exists (vocab_a0.yaml words), otherwise
@@ -89,10 +100,8 @@ def get_definition(word_id: str, level: str) -> VocabularyWordDefinition | None:
     for s in a1.senses:
         if s.translation and s.translation not in seen:
             seen.add(s.translation)
-            senses.append(
-                SimpleNamespace(definition="", translation=s.translation, examples=[])
-            )
-    return SimpleNamespace(translation=a1.translation, senses=senses)
+            senses.append(CefrSense(definition="", translation=s.translation))
+    return TranslationOnlyDef(translation=a1.translation, senses=senses)
 
 
 def set_definition(word_id: str, level: str, wdef: VocabularyWordDefinition) -> None:

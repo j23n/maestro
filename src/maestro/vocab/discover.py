@@ -413,16 +413,27 @@ def _annotate_in_elements(
     attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous, in_vocab=in_vocab)
 
     # Build combined pattern: dictionary form + surface forms
+    headword_ends_alnum = word.word and word.word[-1].isalnum()
     forms = {word.word.lower(): word.word}
     if surface_forms:
         for f in surface_forms:
+            # Strip trailing apostrophes from elision artifacts (e.g. Dov' → Dov,
+            # l' → l) when the headword itself ends in a word character.  Phrases
+            # like "un po'" keep their apostrophe because the headword also ends
+            # with it.
+            if headword_ends_alnum and f and not f[-1].isalnum():
+                f = f.rstrip("'")
+                if not f:
+                    continue
             key = f.lower()
             # Keep the longest form per lowercased key
             if key not in forms or len(f) > len(forms[key]):
                 forms[key] = f
 
     alternatives = "|".join(re.escape(f) for f in forms.values())
-    pattern = re.compile(rf"\b({alternatives})\b", re.IGNORECASE)
+    # Use lookaround boundaries instead of \b so phrases ending in non-word
+    # characters (un po', come si chiama?) are matched correctly.
+    pattern = re.compile(rf"(?<!\w)({alternatives})(?!\w)", re.IGNORECASE)
     count = 0
 
     for el in lang_elements:
