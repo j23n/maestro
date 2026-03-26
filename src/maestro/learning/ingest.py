@@ -14,7 +14,6 @@ import json
 import logging
 
 import yaml
-from bson import DBRef
 
 from maestro.config import settings
 from maestro.db import init_db
@@ -24,7 +23,6 @@ from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
     GrammarPoint,
-    Sense,
     VocabularyWord,
     VocabularyWordDefinition,
 )
@@ -138,14 +136,26 @@ async def seed_scenarios() -> None:
 
 
 async def seed_a0_vocab() -> None:
-    """Upsert A0 vocabulary words from vocab_a0.json and create A0-level definitions."""
-    vocab_file = data_dir() / "vocab_a0.json"
+    """Upsert A0 vocabulary words from vocab_a0.yaml and create A0-level definitions.
+
+    Each YAML entry has word, part_of_speech, and translation.  These are words
+    and phrases NOT in the EPUB dictionary — they get a translation-only A0
+    definition (no Italian definition text, just the English gloss).
+    """
+    vocab_file = data_dir() / "vocab_a0.yaml"
     if not vocab_file.exists():
         logger.warning(f"A0 vocab file not found: {vocab_file}")
         return
 
     with open(vocab_file) as f:
-        items = json.load(f)
+        items = yaml.safe_load(f)
+
+    # Purge all existing A0-level definitions — the old JSON pipeline created
+    # A0 defs with Italian text for dictionary words. Those are stale now;
+    # only vocab_a0.yaml words should have A0 definitions (translation only).
+    purged = await VocabularyWordDefinition.find({"student_level": "A0"}).delete()
+    if purged and purged.deleted_count:
+        logger.info(f"A0 vocab: purged {purged.deleted_count} old A0 definitions")
 
     count = 0
     def_count = 0
@@ -156,24 +166,22 @@ async def seed_a0_vocab() -> None:
             query["part_of_speech"] = item_pos
         existing = await VocabularyWord.find_one(query)
         now = utcnow()
+        syllabization = item.get("syllabization", "")
         if existing:
-            existing.cefr_level = item.get("cefr_level", "A0")
-            existing.part_of_speech = item.get(
-                "part_of_speech", existing.part_of_speech
-            )
+            existing.cefr_level = "A0"
+            existing.part_of_speech = item_pos or existing.part_of_speech
+            if syllabization:
+                existing.syllabization = syllabization
             existing.updated_at = now
             await existing.save()
             word_doc = existing
         else:
-            senses = [
-                Sense(**{k: v for k, v in s.items() if k in ("definition", "examples")})
-                for s in item.get("senses", [])
-            ]
             word_doc = VocabularyWord(
                 word=item["word"],
-                part_of_speech=item.get("part_of_speech", ""),
-                cefr_level=item.get("cefr_level", "A0"),
-                senses=senses,
+                part_of_speech=item_pos,
+                syllabization=syllabization or None,
+                cefr_level="A0",
+                senses=[],
                 language=settings.TARGET_LANGUAGE,
                 created_at=now,
                 updated_at=now,
@@ -181,43 +189,21 @@ async def seed_a0_vocab() -> None:
             await word_doc.insert()
             count += 1
 
-        # Create A0-level VocabularyWordDefinition from enriched sense data
-        raw_senses = item.get("senses", [])
-        cefr_senses = [
-            CefrSense(
-                definition=s.get("definition", ""),
-                translation=s.get("translation", ""),
-                examples=[],
-            )
-            for s in raw_senses
-            if s.get("definition")
-        ]
-        if cefr_senses:
-            # Aggregate translations for top-level
-            translations = [s.translation for s in cefr_senses if s.translation]
-            top_translation = "; ".join(translations) if translations else ""
+        # Create A0-level definition with translation only
+        translation = item.get("translation", "")
+        if not translation:
+            continue
 
-            existing_def = await VocabularyWordDefinition.find_one(
-                {
-                    "word": DBRef(VocabularyWord.Settings.name, word_doc.id),
-                    "student_level": "A0",
-                }
-            )
-            if existing_def:
-                existing_def.senses = cefr_senses
-                existing_def.translation = top_translation
-                existing_def.updated_at = utcnow()
-                await existing_def.save()
-            else:
-                await VocabularyWordDefinition(
-                    word=word_doc,
-                    student_level="A0",
-                    senses=cefr_senses,
-                    translation=top_translation,
-                    language=settings.TARGET_LANGUAGE,
-                    created_at=utcnow(),
-                ).insert()
-                def_count += 1
+        cefr_senses = [CefrSense(definition="", translation=translation)]
+        await VocabularyWordDefinition(
+            word=word_doc,
+            student_level="A0",
+            senses=cefr_senses,
+            translation=translation,
+            language=settings.TARGET_LANGUAGE,
+            created_at=utcnow(),
+        ).insert()
+        def_count += 1
 
     logger.info(
         f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)"

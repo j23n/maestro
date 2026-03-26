@@ -1,14 +1,14 @@
-"""A0 vocabulary data versioning: sync vocab_a0.json → MongoDB on startup.
+"""A0 vocabulary data versioning: sync vocab_a0.yaml → MongoDB on startup.
 
 How it works:
-  1. scripts/update_vocab_lock.py writes vocab_a0.lock (SHA256 of vocab_a0.json)
-     whenever the JSON changes. This file is committed to the repo.
+  1. scripts/update_vocab_lock.py writes vocab_a0.lock (SHA256 of vocab_a0.yaml)
+     whenever the YAML changes. This file is committed to the repo.
   2. At app startup, sync_if_changed() reads the lock hash and compares it against
      the hash stored in the _data_versions collection in MongoDB.
-  3. If the hashes differ (new deploy with updated JSON), a full ingest runs and
+  3. If the hashes differ (new deploy with updated YAML), a full ingest runs and
      the stored hash is updated.
 
-This means vocab_a0.json is the single source of truth: edit the JSON, update the
+This means vocab_a0.yaml is the single source of truth: edit the YAML, update the
 lock, deploy — the database catches up automatically on the next startup.
 """
 

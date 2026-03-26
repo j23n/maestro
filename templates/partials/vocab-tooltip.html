@@ -44,25 +44,39 @@
         let senses = [];
         try { senses = JSON.parse(word.dataset.senses || '[]'); } catch(_) {}
         const shown = senses.slice(0, 3);
-        shown.forEach((s, i) => {
+        const translationOnly = shown.every(s => !s.definition && s.translation);
+        if (translationOnly) {
+          // A0 / translation-only: compact semicolon-separated list
           const wrap = document.createElement('div');
           wrap.className = 'tt-sense';
           const defLine = document.createElement('div');
-          defLine.textContent = (shown.length > 1 ? (i + 1) + '. ' : '') + _stripTags(s.definition);
-          if (s.translation) {
-            defLine.textContent += ' (' + s.translation + ')';
-          }
-
+          defLine.textContent = shown.map(s => s.translation).join('; ');
           wrap.appendChild(defLine);
-          if (s.examples && s.examples[0]) {
-            const ex = document.createElement('div');
-            ex.className = 'tt-example';
-            ex.textContent = _stripTags(s.examples[0]);
-            wrap.appendChild(ex);
-          }
-
           sensesEl.appendChild(wrap);
-        });
+        } else {
+          shown.forEach((s, i) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'tt-sense';
+            const defLine = document.createElement('div');
+            const prefix = shown.length > 1 ? (i + 1) + '. ' : '';
+            if (s.definition) {
+              defLine.textContent = prefix + _stripTags(s.definition);
+              if (s.translation) defLine.textContent += ' (' + s.translation + ')';
+            } else if (s.translation) {
+              defLine.textContent = prefix + s.translation;
+            }
+
+            wrap.appendChild(defLine);
+            if (s.examples && s.examples[0]) {
+              const ex = document.createElement('div');
+              ex.className = 'tt-example';
+              ex.textContent = _stripTags(s.examples[0]);
+              wrap.appendChild(ex);
+            }
+
+            sensesEl.appendChild(wrap);
+          });
+        }
 
         // Audio play button in tooltip
         const audioPath = word.dataset.audioPath;
@@ -82,7 +96,7 @@
         }
 
         // "Add to vocabulary" button in tooltip
-        const entryId = word.dataset.entryId;
+        const wordId = word.dataset.wordId;
         const inVocab = word.dataset.inVocab === 'true';
         const addBtn = tooltip.querySelector('.tt-add-btn');
         const addedSpan = tooltip.querySelector('.tt-added');
@@ -90,14 +104,14 @@
           addBtn.style.display = 'none';
           addedSpan.textContent = tooltip.dataset.labelAdded;
           addedSpan.style.display = '';
-        } else if (entryId) {
+        } else if (wordId) {
           addBtn.textContent = tooltip.dataset.labelAdd;
           addBtn.style.display = '';
           addedSpan.style.display = 'none';
           addBtn.onclick = e => {
             e.stopPropagation();
             var m = document.cookie.match(/csrftoken=([^;]+)/);
-            fetch('/vocab/word/' + entryId + '/add', {
+            fetch('/vocab/word/' + wordId + '/add', {
               method: 'POST',
               headers: m ? {'x-csrftoken': m[1]} : {}
             }).then(r => {

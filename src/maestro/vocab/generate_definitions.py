@@ -187,11 +187,6 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
                 extra={"word": word.word, "cefr_level": cefr},
             )
     await _save_all_levels(word, claude_data)
-    # Generate audio if missing
-    if word.audio_url is None:
-        from maestro.tts import generate_word_audio
-
-        await generate_word_audio(word.word)
 
 
 async def _collect_words_needing_regen(
@@ -326,11 +321,6 @@ async def generate(
                                 extra={"word": word.word, "cefr_level": cefr},
                             )
                     await _save_all_levels(word, claude_data)
-                    # Generate audio if missing (side effect of def generation)
-                    if not defs_only and word.audio_url is None:
-                        from maestro.tts import generate_word_audio
-
-                        await generate_word_audio(word.word)
                 except Exception as exc:
                     logger.error(f"Failed to save definitions for '{word.word}': {exc}")
 

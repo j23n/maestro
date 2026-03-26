@@ -21,7 +21,7 @@ class TestMatchesPos:
             ("agg.", "ADJ"),
             ("avv.", "ADV"),
             ("prep.", "ADP"),
-            ("pron.", "PRON"),
+            ("pronome pers.", "PRON"),
             ("art.", "DET"),
             ("cong.", "CCONJ"),
             ("cong.", "SCONJ"),

@@ -340,7 +340,7 @@ def _build_vocab_attrs(
 
     senses_json = json.dumps(senses_data, ensure_ascii=False).replace("'", "&#39;")
 
-    entry_id = "" if (anonymous or in_vocab) else (word.entry_id or "")
+    word_id = "" if anonymous else str(word.id)
 
     return (
         f' class="vocab-word"'
@@ -349,7 +349,7 @@ def _build_vocab_attrs(
         f' data-syllabization="{word.syllabization or ""}"'
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
-        f' data-entry-id="{entry_id}"'
+        f' data-word-id="{word_id}"'
         f' data-in-vocab="{"true" if in_vocab else ""}"'
         f' data-audio-path="{getattr(word, "audio_url", None) or ""}"'
     )
@@ -413,16 +413,27 @@ def _annotate_in_elements(
     attrs = _build_vocab_attrs(word, wdef, anonymous=anonymous, in_vocab=in_vocab)
 
     # Build combined pattern: dictionary form + surface forms
+    headword_ends_alnum = word.word and word.word[-1].isalnum()
     forms = {word.word.lower(): word.word}
     if surface_forms:
         for f in surface_forms:
+            # Strip trailing apostrophes from elision artifacts (e.g. Dov' → Dov,
+            # l' → l) when the headword itself ends in a word character.  Phrases
+            # like "un po'" keep their apostrophe because the headword also ends
+            # with it.
+            if headword_ends_alnum and f and not f[-1].isalnum():
+                f = f.rstrip("'")
+                if not f:
+                    continue
             key = f.lower()
             # Keep the longest form per lowercased key
             if key not in forms or len(f) > len(forms[key]):
                 forms[key] = f
 
     alternatives = "|".join(re.escape(f) for f in forms.values())
-    pattern = re.compile(rf"\b({alternatives})\b", re.IGNORECASE)
+    # Use lookaround boundaries instead of \b so phrases ending in non-word
+    # characters (un po', come si chiama?) are matched correctly.
+    pattern = re.compile(rf"(?<!\w)({alternatives})(?!\w)", re.IGNORECASE)
     count = 0
 
     for el in lang_elements:
@@ -507,13 +518,55 @@ async def discover(
     save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
     nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
 
+    # --- Phrase matching (exact text, before per-token matching) ---
+    # Check each lang element's full text against the phrase index.
+    # Phrase matches take priority: matched elements are annotated and
+    # excluded from subsequent per-token word matching.
+    phrase_idx = _cache.phrase_index()
+    phrase_matched_elements: set[int] = set()  # ids of elements matched as phrases
+    phrase_matches: list[VocabMatch] = []
+
+    if phrase_idx:
+        for el in lang_elements:
+            text = el.get_text(strip=True).lower()
+            entries = phrase_idx.get(text)
+            if not entries:
+                continue
+            phrase_word = entries[0]  # first POS variant
+            phrase_matched_elements.add(id(el))
+            phrase_matches.append(
+                VocabMatch(
+                    lemma=text,
+                    word=phrase_word,
+                    occurrences=[
+                        TokenOccurrence(
+                            surface=el.get_text(strip=True), pos="", index=0
+                        )
+                    ],
+                )
+            )
+            logger.debug(
+                "[discover] phrase match: %r → %r (%s)",
+                text,
+                phrase_word.word,
+                phrase_word.part_of_speech,
+            )
+
+    # Elements not matched as phrases → per-token matching
+    word_elements = [
+        el for el in lang_elements if id(el) not in phrase_matched_elements
+    ]
+
     # --- Vocabulary matching (pure NLP, no DB) ---
-    all_text = get_target_text(lang_elements)
-    matches = match_vocab_words(all_text, _cache.word_index())
+    all_text = get_target_text(word_elements) if word_elements else ""
+    matches = match_vocab_words(all_text, _cache.word_index()) if all_text else []
+
+    # Combine phrase matches and word matches
+    all_matches = phrase_matches + matches
 
     # Unique words by id — for card creation, def generation, DB queries.
     unique_words: dict[str, VocabMatch] = {}
-    for m in matches:
+    for m in all_matches:
         wid = str(m.word.id)
         if wid not in unique_words:
             unique_words[wid] = m
@@ -532,6 +585,11 @@ async def discover(
             for m in matches
             if any(s.lower() in save_tokens for s in m.surface_forms)
         }
+        # Phrase matches: saveable if the matched element lacks data-no-save
+        save_el_ids = {id(el) for el in save_elements}
+        for el in lang_elements:
+            if id(el) in phrase_matched_elements and id(el) in save_el_ids:
+                save_lemma_set.add(el.get_text(strip=True).lower())
     else:
         save_lemma_set = None
 
@@ -583,6 +641,16 @@ async def discover(
             name=f"vocab-defs-{'-'.join(w.word for w in words_to_generate[:3])}",
         )
 
+    # --- Audio generation (background, parallel to defs) ---
+    words_missing_audio = [
+        m.word for m in unique_words.values() if m.word.audio_url is None
+    ]
+    if words_missing_audio:
+        create_background_task(
+            _generate_missing_audio(words_missing_audio),
+            name=f"vocab-audio-{'-'.join(w.word for w in words_missing_audio[:3])}",
+        )
+
     # --- Annotation (HTML) ---
     student_level = await get_cefr_level(student_id) if student_id else "A1"
     anonymous = student_id is None
@@ -607,8 +675,6 @@ async def discover(
             m = group[0]
             word_id = str(m.word.id)
             wdef = _cache.get_definition(word_id, student_level)
-            if wdef is None and student_level == "A0":
-                wdef = _cache.get_definition(word_id, "A1")
             count = _annotate_in_elements(
                 lang_elements,
                 m.word,
@@ -639,8 +705,6 @@ async def discover(
             for occ, m in all_occs:
                 word_id = str(m.word.id)
                 wdef = _cache.get_definition(word_id, student_level)
-                if wdef is None and student_level == "A0":
-                    wdef = _cache.get_definition(word_id, "A1")
                 count = _annotate_in_elements(
                     lang_elements,
                     m.word,
@@ -660,7 +724,41 @@ async def discover(
                     count,
                 )
 
+    # Annotate phrase matches — entire element text is the surface form
+    for m in phrase_matches:
+        word_id = str(m.word.id)
+        wdef = _cache.get_definition(word_id, student_level)
+        count = _annotate_in_elements(
+            lang_elements,
+            m.word,
+            wdef,
+            anonymous=anonymous,
+            in_vocab=m.word.id in owned_word_ids,
+            surface_forms=m.surface_forms,
+        )
+        logger.debug(
+            "[discover] annotate phrase %r (headword=%r, pos=%s, has_def=%s) → %d matches",
+            m.lemma,
+            m.word.word,
+            m.word.part_of_speech,
+            wdef is not None,
+            count,
+        )
+
     return str(soup)
+
+
+async def _generate_missing_audio(words: list[VocabularyWord]) -> None:
+    """Background task: generate missing word audio via Azure TTS."""
+    from maestro.tts import generate_word_audio
+
+    for word in words:
+        try:
+            await generate_word_audio(word.word)
+        except Exception as exc:
+            logger.warning(
+                "[discover] audio generation failed for '%s': %s", word.word, exc
+            )
 
 
 async def _generate_and_cache(words: list[VocabularyWord]) -> None:

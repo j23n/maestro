@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% macro chip_exclude(entry_id) %}
+{% macro chip_exclude(word_id) %}
 <button class="chip-exclude"
-        hx-post="/vocab/word/{{ entry_id }}/exclude"
+        hx-post="/vocab/word/{{ word_id }}/exclude"
         hx-target="closest .vocab-chip"
         hx-swap="delete">x</button>
 {% endmacro %}
@@ -76,12 +76,12 @@
     <div class="vocab-chips">
       {% for card in due %}
       <div class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
-        <a href="/vocab/word/{{ card.word.entry_id }}">
+        <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.entry_id) }}
+        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>
@@ -98,12 +98,12 @@
     <div class="vocab-chips">
       {% for card in learning %}
       <div class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
-        <a href="/vocab/word/{{ card.word.entry_id }}">
+        <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.entry_id) }}
+        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>
@@ -120,12 +120,12 @@
     <div class="vocab-chips">
       {% for card in known %}
       <div class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
-        <a href="/vocab/word/{{ card.word.entry_id }}">
+        <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.entry_id) }}
+        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>

@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="mode-selector">
-    {% for m in [("word", t("practice_mode_word")), ("definition", t("practice_mode_definition")), ("translation", t("practice_mode_translation")), ("random", t("practice_mode_random"))] %}
+    {% for m in [("word", t("practice_mode_word")), ("translation", t("practice_mode_translation")), ("random", t("practice_mode_random"))] %}
     <a href="/vocab/practice?mode={{ m[0] }}"
        class="{{ 'active' if selected_mode == m[0] else '' }}">{{ m[1] }}</a>
     {% endfor %}
@@ -12,10 +12,8 @@
   {% if card %}
   <div class="card" id="practice-card">
     {% if mode == 'word' %}
+      <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
       <div class="word"><span lang="it" data-no-discover>{{ card.word.word }}</span></div>
-    {% elif mode == 'definition' %}
-      <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
-      <div class="clue" lang="it">{{ word_def.senses[0].definition if word_def and word_def.senses else "—" }}</div>
     {% elif mode == 'translation' %}
       <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
       <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>

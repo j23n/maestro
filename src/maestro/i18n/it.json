@@ -31,6 +31,7 @@
   "vocab_mastered_header": "Acquisite",
   "vocab_empty": "Nessuna parola ancora. Le parole appariranno qui durante le lezioni.",
   "vocab_definition_prompt": "What's the {language} word?",
+  "vocab_word_prompt": "What does this {language} word mean?",
   "vocab_translation_prompt": "How do you say this in {language}?",
   "vocab_reveal": "Mostra",
   "vocab_skip_activity": "Salta attivit\u00e0 \u2192",
