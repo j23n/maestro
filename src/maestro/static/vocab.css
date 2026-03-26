@@ -12,17 +12,18 @@
 .vocab-header h2 { margin: 0; font-size: 1.1rem; }
 .vocab-practice-btn {
   display: inline-block;
-  padding: 0.35rem 0.9rem;
+  padding: 0.3rem 0.75rem;
   font-size: 13px;
   font-weight: 600;
   color: #fff;
   background: var(--c-terracotta);
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   text-decoration: none;
   cursor: pointer;
+  transition: background 0.15s;
 }
-.vocab-practice-btn:hover { opacity: 0.88; }
+.vocab-practice-btn:hover { background: #B5492D; }
 
 .vocab-stats {
   display: flex;
@@ -76,7 +77,7 @@
   font-size: 12px;
   font-weight: 600;
   border: 1px solid var(--c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
   color: var(--c-text-muted);
   cursor: pointer;
@@ -192,19 +193,19 @@
 }
 
 .vocab-select-btn {
-  padding: 0.35rem 0.75rem;
+  padding: 0.3rem 0.75rem;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--c-text-muted);
   background: transparent;
   border: 1px solid var(--c-border);
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .vocab-select-btn:hover {
+  background: var(--c-surface);
   color: var(--c-text);
-  border-color: var(--c-text-muted);
 }
 
 /* In select mode: swap button label appearance */
@@ -274,29 +275,29 @@
 }
 
 .select-bar-cancel {
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.75rem;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   background: transparent;
   border: 1px solid var(--c-border);
-  border-radius: 5px;
+  border-radius: 6px;
   color: var(--c-text-muted);
   cursor: pointer;
 }
-.select-bar-cancel:hover { color: var(--c-text); border-color: var(--c-text-muted); }
+.select-bar-cancel:hover { background: var(--c-surface); color: var(--c-text); }
 
 .select-bar-remove {
-  padding: 0.3rem 0.85rem;
+  padding: 0.3rem 0.75rem;
   font-size: 13px;
   font-weight: 600;
   background: var(--c-terracotta);
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.15s;
 }
-.select-bar-remove:hover { opacity: 0.88; }
+.select-bar-remove:hover { background: #B5492D; }
 .select-bar-remove:disabled {
   background: var(--c-border);
   color: var(--c-text-muted);
