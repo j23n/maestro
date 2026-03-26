@@ -664,7 +664,7 @@ a.skill-label:hover { color: var(--c-terracotta); }
 
 /* ----- Responsive ----- */
 @media (max-width: 480px) {
-  .profilo-container { margin: 1.25rem auto; }
+  .profilo-container { margin: 1.25rem auto; padding: 0; }
   .tab-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .tab { padding: 0.5rem 0.7rem; font-size: 0.78rem; white-space: nowrap; }
   .progress-pct { font-size: 1.6rem; }
