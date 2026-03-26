@@ -1,10 +1,4 @@
 {% extends "base.html" %}
-{% macro chip_exclude(word_id) %}
-<button class="chip-exclude"
-        hx-post="/vocab/word/{{ word_id }}/exclude"
-        hx-target="closest .vocab-chip"
-        hx-swap="delete">x</button>
-{% endmacro %}
 {% block title %}{{ t("page_title_vocab") }} — Maestro{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/vocab.css">{% endblock %}
 
@@ -13,7 +7,24 @@
 
   <div class="vocab-header">
     <h2>{{ t("page_title_vocab") }}</h2>
-    <a href="/vocab/practice" class="vocab-practice-btn">{{ t("vocab_review_btn") }}</a>
+    <div class="vocab-header-actions">
+      {% if due or learning or known %}
+      <button class="vocab-select-btn" type="button" onclick="toggleSelectMode()">{{ t("vocab_select_btn") if t("vocab_select_btn") != "vocab_select_btn" else "Select" }}</button>
+      {% endif %}
+      <a href="/vocab/practice" class="vocab-practice-btn">{{ t("vocab_review_btn") }}</a>
+    </div>
+  </div>
+
+  {# Floating action bar for select mode #}
+  <div class="vocab-select-bar" id="vocab-select-bar">
+    <span class="select-bar-count" id="select-bar-count">0 selected</span>
+    <div class="select-bar-actions">
+      <button class="select-bar-cancel" type="button" onclick="toggleSelectMode()">Cancel</button>
+      <form method="post" action="/vocab/bulk-exclude" id="bulk-exclude-form"
+            hx-post="/vocab/bulk-exclude" hx-target="body">
+        <button class="select-bar-remove" type="submit" id="select-bar-remove" disabled>Remove</button>
+      </form>
+    </div>
   </div>
 
   <div class="vocab-stats">
@@ -73,13 +84,12 @@
     </div>
     <div class="vocab-chips">
       {% for card in due %}
-      <div class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}">
+      <div class="vocab-chip vocab-chip--due" data-level="{{ card.word.cefr_level | lower }}" data-word-id="{{ card.word.id }}">
         <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>
@@ -95,13 +105,12 @@
     </div>
     <div class="vocab-chips">
       {% for card in learning %}
-      <div class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}">
+      <div class="vocab-chip vocab-chip--learning" data-level="{{ card.word.cefr_level | lower }}" data-word-id="{{ card.word.id }}">
         <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>
@@ -117,13 +126,12 @@
     </div>
     <div class="vocab-chips">
       {% for card in known %}
-      <div class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}">
+      <div class="vocab-chip vocab-chip--known" data-level="{{ card.word.cefr_level | lower }}" data-word-id="{{ card.word.id }}">
         <a href="/vocab/word/{{ card.word.id }}">
           <span class="chip-dot"></span>
           <span class="chip-word">{{ card.word.word }}</span>
           <span class="cefr-badge {{ card.word.cefr_level | lower }}">{{ card.word.cefr_level }}</span>
         </a>
-        {{ chip_exclude(card.word.id) }}
       </div>
       {% endfor %}
     </div>
@@ -154,5 +162,57 @@ function filterLevel(level, btn) {
     }
   });
 }
+
+// Select mode for bulk delete
+var _selectedIds = new Set();
+
+function toggleSelectMode() {
+  var page = document.querySelector('.vocab-page');
+  var active = page.classList.toggle('select-mode');
+  if (!active) {
+    _selectedIds.clear();
+    document.querySelectorAll('.vocab-chip.selected').forEach(function(c) {
+      c.classList.remove('selected');
+    });
+    _syncSelectBar();
+  }
+}
+
+function _syncSelectBar() {
+  var count = _selectedIds.size;
+  var countEl = document.getElementById('select-bar-count');
+  var removeBtn = document.getElementById('select-bar-remove');
+  var form = document.getElementById('bulk-exclude-form');
+  countEl.textContent = count + ' selected';
+  removeBtn.disabled = count === 0;
+  removeBtn.textContent = count > 0 ? 'Remove ' + count : 'Remove';
+  // Sync hidden inputs
+  form.querySelectorAll('input[name="word_ids"]').forEach(function(i) { i.remove(); });
+  _selectedIds.forEach(function(id) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'word_ids';
+    input.value = id;
+    form.appendChild(input);
+  });
+}
+
+document.addEventListener('click', function(e) {
+  var page = document.querySelector('.vocab-page');
+  if (!page || !page.classList.contains('select-mode')) return;
+  var chip = e.target.closest('.vocab-chip');
+  if (!chip) return;
+  e.preventDefault();
+  var wordId = chip.dataset.wordId;
+  if (!wordId) return;
+  if (_selectedIds.has(wordId)) {
+    _selectedIds.delete(wordId);
+    chip.classList.remove('selected');
+  } else {
+    _selectedIds.add(wordId);
+    chip.classList.add('selected');
+  }
+  _syncSelectBar();
+});
 </script>
 {% endblock %}
