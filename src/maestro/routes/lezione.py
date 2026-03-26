@@ -114,6 +114,8 @@ async def lezione_index(
     cefr = profile.cefr_estimate if profile else "A0"
 
     if cefr == "A0":
+        from maestro.lezione.selection import pick_scenario as _pick_a0_scenario
+
         a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
         progress = profile.scenario_progress if profile else {}
         a0_completed = sum(
@@ -123,14 +125,44 @@ async def lezione_index(
         )
         a0_total = len(a0_scenarios)
         a0_lesson_number = a0_completed + 1
+        show_welcome = a0_lesson_number == 1
+
+        # Next scenario preview + lesson history (only for returning students)
+        next_scenario = None
+        lesson_history: list[dict] = []
+        if not show_welcome:
+            next_scenario_doc, _ = await _pick_a0_scenario(
+                profile, "A0", scenarios=a0_scenarios
+            )
+            next_scenario = next_scenario_doc
+
+            recent_lessons = (
+                await Lesson.find(
+                    {"student_id": student.id, "status": LessonStatus.COMPLETED}
+                )
+                .sort(-Lesson.completed_at)
+                .limit(5)
+                .to_list()
+            )
+            scenario_labels = {s.slug: s.label for s in a0_scenarios}
+            lesson_history = [
+                {
+                    "lesson": lesson,
+                    "scenario_label": scenario_labels.get(lesson.scenario_slug, ""),
+                }
+                for lesson in recent_lessons
+            ]
+
         return await render_with_discover(
             request,
             "lezione-index.html",
             {
                 "cefr": cefr,
-                "show_welcome": a0_lesson_number == 1,
+                "show_welcome": show_welcome,
                 "a0_lesson_number": a0_lesson_number,
                 "a0_total": a0_total,
+                "next_scenario": next_scenario,
+                "lesson_history": lesson_history,
             },
             student_id=student.id,
         )

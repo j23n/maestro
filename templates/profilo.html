@@ -186,20 +186,9 @@
     {% endfor %}
 
     {# Recent lessons #}
-    {% if lesson_history %}
-    <div class="history-section">
-      <h2 class="section-heading">{{ t("profile_recent_lessons") }}</h2>
-      <div class="history-list">
-        {% for item in lesson_history %}
-        <a href="/lezione/{{ item.lesson.id }}/complete" class="history-row">
-          <span class="history-date">{{ item.lesson.completed_at.strftime('%d/%m') if item.lesson.completed_at else '' }}</span>
-          <span class="history-topic">{{ item.lesson.topic_title or t("lesson_no_topic") }}</span>
-          <span class="history-scenario">{{ item.scenario_label }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
+    {% with history_heading=t("profile_recent_lessons") %}
+    {% include "partials/lesson-history.html" %}
+    {% endwith %}
 
   </div>{# /tab-progress #}
 
