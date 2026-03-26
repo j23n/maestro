@@ -13,10 +13,6 @@
 ##############################################################################
 
 "a0-01-in-aereo":
-  topic_title: In aereo
-  topic_description: Your first Italian words — on the plane and at the airport
-  overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one\
-    \ phrase that gets you anything."
   activities:
   - type: info
     title: "Your first Italian lesson!"
@@ -135,6 +131,7 @@
       correct_answer: Arrivederci
     - prompt: "I'm sorry. = Mi ___."
       correct_answer: dispiace
+  - type: vocab_review
   - type: reading
     title: On the plane
     description: A short exchange with the cabin crew
@@ -235,10 +232,6 @@
 
       <span lang="it">**Avanti!**</span> (Let's go!)
 "a0-02-in-albergo":
-  topic_title: In albergo
-  topic_description: "Checking into the hotel — names, numbers, and Italian sounds"
-  overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian\
-    \ out loud."
   activities:
   - type: vocab_review
   - type: grammar
@@ -307,6 +300,7 @@
       correct_answer: quindici
     - prompt: "20 = ___"
       correct_answer: venti
+  - type: vocab_review
   - type: reading
     title: At the reception
     description: Checking in
@@ -379,9 +373,6 @@
       correct_answer: Prego
       grammar_point_code: saluti
 "a0-03-al-bar":
-  topic_title: Al bar
-  topic_description: "Your first Italian coffee — un/una, counting, and café culture"
-  overview: Morning in Italy starts at the bar. Learn to order with the right articles and numbers.
   activities:
   - type: vocab_review
   - type: grammar
@@ -448,6 +439,7 @@
       correct_answer: conto
     - prompt: "Thank you very much! = Grazie ___!"
       correct_answer: mille
+  - type: vocab_review
   - type: reading
     title: Morning coffee
     description: Ordering at an Italian bar
@@ -532,9 +524,6 @@
       correct_answer: dodici
       grammar_point_code: num_0_20
 "a0-04-in-giro":
-  topic_title: In giro
-  topic_description: "Walking around the city — il/la, asking where things are"
-  overview: "Time to explore! Learn the word for 'the', ask where things are, and follow basic directions."
   activities:
   - type: vocab_review
   - type: grammar
@@ -607,6 +596,7 @@
       correct_answer: dritto
     - prompt: "Where is the pharmacy? = Dov'è ___ farmacia?"
       correct_answer: la
+  - type: vocab_review
   - type: reading
     title: "Where is the museum?"
     description: A tourist asking for directions
@@ -683,9 +673,6 @@
       correct_answer: quindici
       grammar_point_code: num_0_20
 "a0-05-chiedere-aiuto":
-  topic_title: Chiedere aiuto
-  topic_description: "Getting help — asking for repetition, clarifying, key phrases"
-  overview: You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck.
   activities:
   - type: vocab_review
   - type: grammar
@@ -756,6 +743,7 @@
       correct_answer: a
     - prompt: "I am at home. = Sono ___ casa."
       correct_answer: a
+  - type: vocab_review
   - type: reading
     title: At the information desk
     description: Asking for help at a train station
@@ -841,9 +829,6 @@
       correct_answer: la
       grammar_point_code: art_il_la
 "a0-06-a-pranzo":
-  topic_title: A pranzo
-  topic_description: "Lunch at a trattoria — menu vocabulary, ordering a meal"
-  overview: "It's lunchtime! Learn to read an Italian menu, ask what things are, and order a full meal."
   activities:
   - type: vocab_review
   - type: grammar
@@ -926,6 +911,7 @@
       correct_answer: glutine
     - prompt: "I'm allergic to... (f.) = Sono ___ a..."
       correct_answer: allergica
+  - type: vocab_review
   - type: reading
     title: Ordering lunch
     description: At a trattoria
@@ -1011,9 +997,6 @@
       correct_answer: di
       grammar_point_code: prep_place
 "a0-07-mi-piace":
-  topic_title: Mi piace
-  topic_description: Expressing what you like and don't like — with a preview of plural articles
-  overview: "Everyone has opinions about food! Learn to say what you like and don't like in Italian."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1096,6 +1079,7 @@
       correct_answer: Mi piacciono i dolci.
     - prompt: Mi non piace il pesce.
       correct_answer: Non mi piace il pesce.
+  - type: vocab_review
   - type: reading
     title: "What do you like?"
     description: Friends discussing preferences
@@ -1168,9 +1152,6 @@
       correct_answer: tavolo
       grammar_point_code: vocab_cibo
 "a0-08-i-numeri-grandi":
-  topic_title: I numeri grandi
-  topic_description: "Numbers 20-100 and telling time — for prices and timetables"
-  overview: "Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and how to tell time."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1256,6 +1237,7 @@
       correct_answer: lunedì
     - prompt: "Saturday = ___"
       correct_answer: sabato
+  - type: vocab_review
   - type: reading
     title: "What time is it?"
     description: A conversation about schedules
@@ -1327,9 +1309,6 @@
       correct_answer: i
       grammar_point_code: art_i_le
 "a0-09-in-viaggio":
-  topic_title: In viaggio
-  topic_description: "At the train station — buying tickets, platforms, timetables"
-  overview: "Time to travel! Put your numbers and time skills to work buying train tickets and navigating the station."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1375,6 +1354,7 @@
       correct_answer: binario
     - prompt: "How much is the ticket? = Quanto ___ il biglietto?"
       correct_answer: costa
+  - type: vocab_review
   - type: reading
     title: At the ticket counter
     description: Buying a train ticket
@@ -1459,9 +1439,6 @@
       correct_answer: domenica
       grammar_point_code: ore_giorni
 "a0-10-conoscere-qualcuno":
-  topic_title: Conoscere qualcuno
-  topic_description: "Meeting people — essere, pronouns, nationality, origin"
-  overview: "You meet someone at the piazza. Learn to say who you are, where you're from, and ask others the same."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1540,6 +1517,7 @@
       correct_answer: po'
     - prompt: "I am French. = Sono ___."
       correct_answer: francese
+  - type: vocab_review
   - type: reading
     title: Meeting at the piazza
     description: Two people introducing themselves
@@ -1638,9 +1616,6 @@
       correct_answer: diciotto
       grammar_point_code: ore_giorni
 "a0-11-un-problema":
-  topic_title: Un problema
-  topic_description: "When things go wrong — clarifying, emergencies, and staying calm"
-  overview: "Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency phrases."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1740,6 +1715,7 @@
     - prompt: "Where is the pharmacy? = Dov'è la ___?"
       correct_answer: farmacia
       grammar_point_code: dove_e
+  - type: vocab_review
   - type: reading
     title: A lost wallet
     description: Asking for help
@@ -1825,9 +1801,6 @@
       correct_answer: dove
       grammar_point_code: simp_sent
 "a0-12-ultimo-giorno":
-  topic_title: L'ultimo giorno
-  topic_description: "Your last day — goodbyes, expressing thanks, reflections"
-  overview: "Your trip is ending. Review everything through one final day of farewells, thanks, and looking back."
   activities:
   - type: vocab_review
   - type: grammar
@@ -1867,6 +1840,7 @@
       correct_answer: domani
     - prompt: "Good night! = ___!"
       correct_answer: Buonanotte
+  - type: vocab_review
   - type: reading
     title: Checking out
     description: Leaving the hotel
@@ -1976,9 +1950,6 @@
     - simp_sent
     - mi_piace
 "a0-13-ripasso":
-  topic_title: Ripasso A0
-  topic_description: Cumulative review before A1
-  overview: "You've come a long way! Final review of everything before moving on to A1."
   activities:
   - type: vocab_review
   - type: info
@@ -2042,6 +2013,7 @@
     - prompt: "Goodbye! (formal) = ___!"
       correct_answer: Arrivederci
       grammar_point_code: saluti
+  - type: vocab_review
   - type: reading
     title: A full day in Italy
     description: All your skills in one conversation

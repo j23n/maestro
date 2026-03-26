@@ -123,6 +123,7 @@
         {% if gp.chunk_ref %}
         <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">{{ t("lesson_full_rule") }}</a>
         {% endif %}
+        <a href="/grammar/{{ gp.code }}/practice" class="chunk-link-small">{{ t("lesson_practice_weak") }}</a>
       </div>
       {% endfor %}
     </div>
@@ -135,6 +136,17 @@
     <div class="cf-tags">
       {% for cf in covered_comm_functions %}
       <span class="cf-tag" lang="it">{{ cf.label }}</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if discovered_words %}
+  <div class="review-box">
+    <div class="review-heading">{{ t("lesson_discovered_words_label") }}</div>
+    <div class="discovered-words">
+      {% for card in discovered_words %}
+      <span class="discovered-word-tag" lang="it">{{ card.word.word }}</span>
       {% endfor %}
     </div>
   </div>

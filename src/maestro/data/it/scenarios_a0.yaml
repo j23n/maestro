@@ -2,6 +2,7 @@ scenarios:
   - slug: a0-01-in-aereo
     label: "In aereo"
     description: "Your first Italian words — on the plane and at the airport"
+    overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one phrase that gets you anything."
     cefr_level: A0
     sequence: 1
     cf_codes:
@@ -21,6 +22,7 @@ scenarios:
   - slug: a0-02-in-albergo
     label: "In albergo"
     description: "Checking into the hotel — names, numbers, and Italian sounds"
+    overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian out loud."
     cefr_level: A0
     sequence: 2
     cf_codes:
@@ -36,6 +38,7 @@ scenarios:
   - slug: a0-03-al-bar
     label: "Al bar"
     description: "Your first Italian coffee — un/una, counting, and café culture"
+    overview: "Morning in Italy starts at the bar. Learn to order with the right articles and numbers."
     cefr_level: A0
     sequence: 3
     cf_codes:
@@ -51,6 +54,7 @@ scenarios:
   - slug: a0-04-in-giro
     label: "In giro"
     description: "Walking around the city — il/la, asking where things are"
+    overview: "Time to explore! Learn the word for 'the', ask where things are, and follow basic directions."
     cefr_level: A0
     sequence: 4
     cf_codes:
@@ -65,6 +69,7 @@ scenarios:
   - slug: a0-05-chiedere-aiuto
     label: "Chiedere aiuto"
     description: "Getting help — asking for repetition, clarifying, key phrases"
+    overview: "You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck."
     cefr_level: A0
     sequence: 5
     cf_codes:
@@ -79,6 +84,7 @@ scenarios:
   - slug: a0-06-a-pranzo
     label: "A pranzo"
     description: "Lunch at a trattoria — menu vocabulary, ordering a meal"
+    overview: "It's lunchtime! Learn to read an Italian menu, ask what things are, and order a full meal."
     cefr_level: A0
     sequence: 6
     cf_codes:
@@ -94,6 +100,7 @@ scenarios:
   - slug: a0-07-mi-piace
     label: "Mi piace"
     description: "Expressing what you like and don't like"
+    overview: "Everyone has opinions about food! Learn to say what you like and don't like in Italian."
     cefr_level: A0
     sequence: 7
     cf_codes:
@@ -107,6 +114,7 @@ scenarios:
   - slug: a0-08-i-numeri-grandi
     label: "I numeri grandi"
     description: "Numbers 20-100, telling time, and days of the week"
+    overview: "Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and how to tell time."
     cefr_level: A0
     sequence: 8
     cf_codes:
@@ -121,6 +129,7 @@ scenarios:
   - slug: a0-09-in-viaggio
     label: "In viaggio"
     description: "At the train station — buying tickets, platforms, timetables"
+    overview: "Time to travel! Put your numbers and time skills to work buying train tickets and navigating the station."
     cefr_level: A0
     sequence: 9
     cf_codes:
@@ -136,6 +145,7 @@ scenarios:
   - slug: a0-10-conoscere-qualcuno
     label: "Conoscere qualcuno"
     description: "Meeting people — essere, pronouns, nationality, origin"
+    overview: "You meet someone at the piazza. Learn to say who you are, where you're from, and ask others the same."
     cefr_level: A0
     sequence: 10
     cf_codes:
@@ -152,6 +162,7 @@ scenarios:
   - slug: a0-11-un-problema
     label: "Un problema"
     description: "When things go wrong — clarifying, emergencies, and staying calm"
+    overview: "Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency phrases."
     cefr_level: A0
     sequence: 11
     cf_codes:
@@ -168,6 +179,7 @@ scenarios:
   - slug: a0-12-ultimo-giorno
     label: "L'ultimo giorno"
     description: "Your last day — goodbyes, expressing thanks, reflections"
+    overview: "Your trip is ending. Review everything through one final day of farewells, thanks, and looking back."
     cefr_level: A0
     sequence: 12
     cf_codes:
@@ -182,6 +194,7 @@ scenarios:
   - slug: a0-13-ripasso
     label: "Ripasso A0"
     description: "Cumulative review of everything learned in A0"
+    overview: "You've come a long way! Final review of everything before moving on to A1."
     cefr_level: A0
     sequence: 13
     cf_codes:

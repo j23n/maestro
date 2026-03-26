@@ -19,6 +19,8 @@ from maestro.models import (
     LearningEvent,
     Lesson,
     ScenarioProgress,
+    UserVocabularyCard,
+    VocabularyWord,
     ActivityType,
     ActivityStatus,
     LessonStatus,
@@ -238,6 +240,32 @@ async def get_weak_grammar_points(
     # Preserve order from error_codes
     gp_by_code = {gp.code: gp for gp in gps}
     return [gp_by_code[c] for c in error_codes if c in gp_by_code]
+
+
+async def get_lesson_discovered_words(lesson: Lesson) -> list[UserVocabularyCard]:
+    """Fetch vocabulary cards discovered during this lesson."""
+    if not lesson.student_id or not lesson.created_at:
+        return []
+    end_time = lesson.completed_at or utcnow()
+    cards = await UserVocabularyCard.find(
+        {
+            "student_id": lesson.student_id,
+            "discovered_at": {"$gte": lesson.created_at, "$lte": end_time},
+        }
+    ).to_list()
+    # Resolve word links in batch
+    word_ids = []
+    for c in cards:
+        ref = c.word
+        word_ids.append(ref.ref.id if hasattr(ref, "ref") else ref.id)
+    if word_ids:
+        words = await VocabularyWord.find({"_id": {"$in": word_ids}}).to_list()
+        word_map = {w.id: w for w in words}
+        for c in cards:
+            ref = c.word
+            wid = ref.ref.id if hasattr(ref, "ref") else ref.id
+            c.word = word_map.get(wid)
+    return [c for c in cards if c.word is not None]
 
 
 async def score_reading_activity(

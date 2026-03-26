@@ -50,9 +50,12 @@ async def _generate_a0_lesson_background(
         await lesson.update({"$set": {"generating": False}})
         return
 
-    topic_title = lesson_data.get("topic_title", scenario.label)
-    topic_description = lesson_data.get("topic_description", scenario.description)
-    overview = lesson_data.get("overview", "")
+    topic_title = scenario.label
+    topic_description = scenario.description
+    overview = scenario.overview or ""
+
+    all_due_cards = await get_due_vocab_cards(30, student_id=lesson.student_id)
+    vocab_cursor = 0
 
     new_activities: list[LessonActivity] = []
     for act_data in lesson_data.get("activities", []):
@@ -178,7 +181,8 @@ async def _generate_a0_lesson_background(
             )
 
         elif act_type == ActivityType.VOCAB_REVIEW:
-            due_cards = await get_due_vocab_cards(5, student_id=lesson.student_id)
+            due_cards = all_due_cards[vocab_cursor : vocab_cursor + 15]
+            vocab_cursor += len(due_cards)
             if due_cards:
                 new_activities.append(
                     LessonActivity(
