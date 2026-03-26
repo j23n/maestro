@@ -527,6 +527,15 @@ async def lezione_activity(
                 create_cards=True,
             )
         card_ids = activity.card_ids
+        if not card_ids:
+            ctx["no_cards"] = True
+            return await render_with_discover(
+                request,
+                "lezione-activity-vocab.html",
+                ctx,
+                student_id=student.id,
+                create_cards=False,
+            )
         if card_idx >= len(card_ids):
             redirect_url = await advance_lesson(lesson, idx)
             return RedirectResponse(url=redirect_url, status_code=303)
