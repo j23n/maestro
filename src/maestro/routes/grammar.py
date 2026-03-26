@@ -13,7 +13,8 @@ from maestro.models import (
     GrammarPoint,
     Student,
 )
-from maestro.profile import get_cefr_level, update_profile
+from maestro.learning.profile import update_profile
+from maestro.profile import get_cefr_level
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 
