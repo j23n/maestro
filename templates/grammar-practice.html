@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ display_title | striptags }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="grammar-detail">
+  <a class="back-link" href="/grammar/{{ gp.code }}">&larr; {{ display_title }}</a>
+
+  {% if drill and drill.items %}
+  <div class="card">
+    <div class="card-meta">
+      <span>{{ display_title }}</span>
+      <span class="badge">{{ drill.cefr_level }}</span>
+      <span class="badge">{{ drill.exercise_type.replace('_', ' ') }}</span>
+    </div>
+
+    {% if drill.exercise_type == "fill_blank" %}
+      <div class="drill-instruction">{{ t("drill_fill_blank_instruction") }}</div>
+    {% else %}
+      <div class="drill-instruction">{{ t("drill_error_correction_instruction") }}</div>
+    {% endif %}
+
+    <form method="post"
+          action="/grammar/{{ gp.code }}/practice/submit"
+          hx-post="/grammar/{{ gp.code }}/practice/submit"
+          hx-target=".grammar-detail"
+          hx-swap="innerHTML"
+          hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("drill_evaluating") }}'">
+      <input type="hidden" name="drill_id" value="{{ drill.id }}">
+      <div class="items-form">
+        {% for item in drill.items %}
+        <div class="drill-item">
+          <div class="item-num">{{ loop.index }}</div>
+          <div class="item-body">
+            <div class="item-sentence">{{ item.prompt | safe }}</div>
+            <input class="item-input" type="text" name="answers"
+                   placeholder="{% if drill.exercise_type == 'fill_blank' %}{{ t("drill_fill_blank_placeholder") }}{% else %}{{ t("drill_error_correction_placeholder") }}{% endif %}"
+                   required autocomplete="off">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="submit-row">
+        <button class="submit-btn" type="submit">{{ t("drill_submit_all") }}</button>
+      </div>
+    </form>
+  </div>
+  {% else %}
+  <div class="no-explanation">
+    {{ t("grammar_no_drills") }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -80,6 +80,7 @@ class CurriculumScenario(Document):
     slug: str  # "al-bar" (unique)
     label: str  # "Al bar"
     description: str  # English description of the scenario
+    overview: str = ""  # 2-3 sentence lesson overview
     cefr_level: str  # "A1"
     cf_codes: List[str]  # CF codes exercised in this scenario
     gp_codes: List[str]  # GP codes exercised in this scenario
@@ -339,6 +340,7 @@ class GeneratedDrill(Document):
         name = "generated_drills"
         indexes = [
             IndexModel([("student_id", ASCENDING), ("used", ASCENDING)]),
+            IndexModel([("grammar_point_code", ASCENDING), ("used", ASCENDING)]),
         ]
 
 

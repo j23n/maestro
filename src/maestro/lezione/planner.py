@@ -364,10 +364,10 @@ async def _generate_lesson_background(
     # This ensures drills are always tied to covered grammar (goals 4 & 5).
     drill_count = slots.get(ActivityType.DRILL, 0)
     drill_specs: list[dict] = []
+    chunk_cache: dict[str, str] = {}
     if drill_count > 0 and grammar_gps:
         drills_per_gp = drill_count // len(grammar_gps)
         remainder = drill_count % len(grammar_gps)
-        chunk_cache: dict[str, str] = {}
         for i, gp in enumerate(grammar_gps):
             count = drills_per_gp + (1 if i < remainder else 0)
             if gp.chunk_ref and gp.chunk_ref not in chunk_cache:
@@ -414,6 +414,47 @@ async def _generate_lesson_background(
                     "chunk_ref": gp.chunk_ref,
                 }
             )
+
+    # --- Inject one review drill for the weakest past GP (A1+) ---
+    if profile and drill_specs:
+        lesson_gp_codes = {s["grammar_point_code"] for s in drill_specs}
+        weak_candidates: list[tuple[str, float]] = []
+        for gp_code, outcomes in profile.grammar_recent_outcomes.items():
+            if gp_code in lesson_gp_codes:
+                continue
+            ok_count = sum(
+                1 for o in outcomes if (o.get("ok") if isinstance(o, dict) else o)
+            )
+            total = len(outcomes)
+            if total >= 2 and (total - ok_count) / total > 0.3:
+                weak_candidates.append((gp_code, (total - ok_count) / total))
+        if weak_candidates:
+            weak_candidates.sort(key=lambda x: x[1], reverse=True)
+            review_code = weak_candidates[0][0]
+            review_gp = await GrammarPoint.find_one(GrammarPoint.code == review_code)
+            if review_gp:
+                chunk_excerpt = ""
+                if review_gp.chunk_ref:
+                    if review_gp.chunk_ref not in chunk_cache:
+                        chunk = await GrammarChunk.find_one(
+                            {"ref": review_gp.chunk_ref}
+                        )
+                        chunk_cache[review_gp.chunk_ref] = (
+                            chunk.content[:500] if chunk else ""
+                        )
+                    chunk_excerpt = chunk_cache.get(review_gp.chunk_ref, "")
+                drill_specs.append(
+                    {
+                        "grammar_point_code": review_gp.code,
+                        "gp_label": review_gp.label,
+                        "exercise_type": random.choice(
+                            [ExerciseType.FILL_BLANK, ExerciseType.ERROR_CORRECTION]
+                        ),
+                        "rag_excerpt": chunk_excerpt,
+                        "chunk_ref": review_gp.chunk_ref,
+                    }
+                )
+                logger.info("review drill injected", extra={"gp_code": review_code})
 
     # --- Pick communicative functions for speaking ---
     speaking_count = slots.get(ActivityType.SPEAKING, 0)

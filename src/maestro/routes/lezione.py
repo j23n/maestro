@@ -51,6 +51,7 @@ from maestro.lezione.service import (
     advance_lesson,
     count_paid_lessons,
     ensure_lesson_feedback,
+    get_lesson_discovered_words,
     get_lesson_events,
     get_weak_grammar_points,
     score_reading_activity,
@@ -1468,6 +1469,8 @@ async def lezione_complete(
     else:
         covered_comm_functions = []
 
+    discovered_words = await get_lesson_discovered_words(lesson)
+
     return await render_with_discover(
         request,
         "lezione-complete.html",
@@ -1478,6 +1481,7 @@ async def lezione_complete(
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
             "covered_comm_functions": covered_comm_functions,
+            "discovered_words": discovered_words,
             "gp_titles": gp_titles,
             "gp_outcomes": gp_outcomes,
             "graduated_to": graduated_to,
