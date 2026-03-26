@@ -13,6 +13,7 @@ from maestro.models import (
     DrillItem,
     QuestionItem,
     ActivityType,
+    ActivityStatus,
     ExerciseType,
 )
 from maestro.profile import get_profile
@@ -190,6 +191,7 @@ async def _generate_a0_lesson_background(
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]
+    initial_count = len(lesson.activities)
     await Lesson.find_one(Lesson.id == lesson_id).update(
         {
             "$push": {"activities": {"$each": activities_dicts}},
@@ -203,6 +205,15 @@ async def _generate_a0_lesson_background(
             },
         }
     )
+    # If the lesson had no initial activities, activate the first appended one
+    if initial_count == 0 and new_activities:
+        await Lesson.find_one(Lesson.id == lesson_id).update(
+            {
+                "$set": {
+                    f"activities.{initial_count}.status": ActivityStatus.ACTIVE.value
+                }
+            }
+        )
 
     logger.info(
         "A0 lesson background generation complete",
