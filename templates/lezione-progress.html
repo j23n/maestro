@@ -10,8 +10,8 @@
     {% set is_revisitable = (a.type in ('grammar', 'info')) %}
     {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
     {% set grammar_class %}{% if is_grammar %} grammar-seg{% endif %}{% endset %}
-    {# All completed/skipped activities are clickable for review #}
-    {% if is_done and not is_current_view %}
+    {# Completed/skipped and current activities are clickable #}
+    {% if (is_done and not is_current_view) or is_current_view %}
     <a href="/lezione/{{ lesson.id }}/activity/{{ loop.index0 }}"
        class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></a>
     {% else %}

@@ -10,7 +10,7 @@
 
   {% if mode == 'word' %}
     <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
-    <div class="word"><span lang="it">{{ card.word.word }}</span></div>
+    <div class="word"><span lang="it" data-no-discover>{{ card.word.word }}</span></div>
     <div class="back">
       <div class="pos">{{ pos_line }}</div>
       {% if card.word.audio_url %}
@@ -33,7 +33,7 @@
     <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
     <div class="clue">{{ translation }}</div>
     <div class="back">
-      <div class="word"><span lang="it">{{ card.word.word }}</span></div>
+      <div class="word"><span lang="it" data-no-discover>{{ card.word.word }}</span></div>
       <div class="pos">{{ pos_line }}</div>
       {% if card.word.audio_url %}
       <button class="inline-play-btn" type="button" style="margin-bottom: 0.75rem"
