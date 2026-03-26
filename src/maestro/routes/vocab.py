@@ -196,6 +196,32 @@ async def vocab_exclude(
     return HTMLResponse("")
 
 
+@router.post("/vocab/bulk-exclude", response_class=HTMLResponse)
+async def vocab_bulk_exclude(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    form = await request.form()
+    word_ids_raw = form.getlist("word_ids")
+    excluded = 0
+    for raw_id in word_ids_raw:
+        try:
+            word = await VocabularyWord.get(PydanticObjectId(raw_id))
+        except InvalidId:
+            continue
+        if word is None:
+            continue
+        word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+        card = await UserVocabularyCard.find_one(
+            {"student_id": student.id, "word": word_ref}
+        )
+        if card and not card.excluded:
+            card.excluded = True
+            await card.save()
+            excluded += 1
+    logger.info("bulk excluded words", extra={"count": excluded})
+    return Response(status_code=204, headers={"HX-Redirect": "/vocab"})
+
+
 @router.get("/vocab/search", response_class=HTMLResponse)
 async def vocab_search(
     request: Request, student: Student = Depends(get_current_student), q: str = ""
@@ -278,6 +304,9 @@ async def vocab_reveal(
     await card.fetch_all_links()
     level = await get_cefr_level(student.id)
     word_def = await get_word_definition(card.word, level)
+    if word_def is None and card.word.senses:
+        await generate_definitions_for_word(card.word)
+        word_def = await get_word_definition(card.word, level)
     return await render_with_discover(
         request,
         "vocab-card-back.html",

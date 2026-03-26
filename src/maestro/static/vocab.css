@@ -174,31 +174,131 @@
 .chip-word { font-weight: 500; }
 .vocab-chip .cefr-badge { font-size: 9px; padding: 0 4px; }
 
-/* Exclude button on chips */
-.chip-exclude {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  margin-left: 0.15rem;
-  border: none;
-  border-radius: 50%;
-  background: var(--c-text-muted);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.chip-exclude:hover { background: var(--c-terracotta); }
-.vocab-chip:hover .chip-exclude { display: inline-flex; }
-
 .vocab-empty {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--c-text-muted);
   font-style: italic;
+}
+
+/* =====================================================================
+   Select mode
+   ===================================================================== */
+
+.vocab-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vocab-select-btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.vocab-select-btn:hover {
+  color: var(--c-text);
+  border-color: var(--c-text-muted);
+}
+
+/* In select mode: swap button label appearance */
+.select-mode .vocab-select-btn {
+  color: var(--c-terracotta);
+  border-color: var(--c-terracotta);
+}
+
+/* Disable link navigation in select mode */
+.select-mode .vocab-chip > a { pointer-events: none; }
+
+/* Selection indicator: replace chip-dot with a selectable circle */
+.select-mode .chip-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--c-border);
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+/* Selected chip */
+.select-mode .vocab-chip.selected {
+  border-color: rgba(199, 91, 57, 0.4);
+  background: rgba(199, 91, 57, 0.06);
+}
+.select-mode .vocab-chip.selected .chip-dot {
+  background: var(--c-terracotta);
+  border-color: var(--c-terracotta);
+}
+
+/* Chip cursor in select mode */
+.select-mode .vocab-chip { cursor: pointer; }
+
+/* Floating action bar */
+.vocab-select-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  padding: 0.65rem 1.25rem;
+  background: #fff;
+  border-top: 1px solid var(--c-border);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  justify-content: space-between;
+  animation: select-bar-in 0.2s ease-out;
+}
+.select-mode .vocab-select-bar { display: flex; }
+
+@keyframes select-bar-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.select-bar-count {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.select-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.select-bar-cancel {
+  padding: 0.3rem 0.7rem;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: 5px;
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+.select-bar-cancel:hover { color: var(--c-text); border-color: var(--c-text-muted); }
+
+.select-bar-remove {
+  padding: 0.3rem 0.85rem;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--c-terracotta);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.select-bar-remove:hover { opacity: 0.88; }
+.select-bar-remove:disabled {
+  background: var(--c-border);
+  color: var(--c-text-muted);
+  cursor: default;
 }

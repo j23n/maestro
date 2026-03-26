@@ -20,12 +20,12 @@
      ================================================================ #}
   <div class="tab-panel active" id="tab-progress">
 
-    {# CEFR level tracker #}
+    {# CEFR level tracker — uses `cefr` (falls back to A0 for new accounts) #}
     <div class="cefr-tracker">
       {% set ns_cefr = namespace(found_active=false) %}
       {% for level in cefr_order %}
       {% set level_label = t("onboarding_label") if level == "A0" else level %}
-      {% if profile and profile.cefr_estimate == level %}
+      {% if cefr == level %}
         {% set ns_cefr.found_active = true %}
         <div class="cefr-badge active">{{ level_label }}</div>
       {% elif not ns_cefr.found_active %}
@@ -209,7 +209,9 @@
   <div class="tab-panel" id="tab-details">
 
     <div class="skills-section">
+      {# Only show levels up to and including the student's current CEFR level #}
       {% for level in cefr_order %}
+      {% if loop.index0 <= cefr_idx %}
       {% set level_label = t("onboarding_label") if level == "A0" else level %}
       {% set gp_skills = grammar_by_level[level] %}
       {% set cf_items  = cf_by_level[level] %}
@@ -219,18 +221,20 @@
       {% set cf_total = cf_items  | length %}
       {% set combined_mastered = gp_mastered + cf_demonstrated %}
       {% set combined_total    = gp_total + cf_total %}
+      {% set any_cf_activity = cf_items | selectattr("count") | list | length > 0 %}
 
       {% if combined_total > 0 %}
-      <details class="level-group" {% if profile and profile.cefr_estimate == level %}open{% endif %}>
+      <details class="level-group" {% if cefr == level %}open{% endif %}>
         <summary class="level-heading">
           <h2>{{ level_label }}</h2>
-          <span class="level-stats">{{ t("profile_grammar_short") }} {{ gp_mastered }}/{{ gp_total }} &middot; {{ t("profile_functions_short") }} {{ cf_demonstrated }}/{{ cf_total }}</span>
+          <span class="level-stats">{{ t("profile_grammar_short") }} {{ gp_mastered }}/{{ gp_total }}{% if cf_total > 0 %} &middot; {{ t("profile_functions_short") }} {{ cf_demonstrated }}/{{ cf_total }}{% endif %}</span>
           <div class="level-bar">
             <div class="level-bar-fill" style="width: {% if combined_total > 0 %}{{ (combined_mastered / combined_total * 100) | int }}%{% else %}0%{% endif %}"></div>
           </div>
         </summary>
 
         {# Grammar — last 10 outcomes as green/red/grey pips #}
+        {% if gp_total > 0 %}
         <div class="subsection-label">{{ t("profile_grammar") }}</div>
         <div class="skill-list">
           {% for skill in gp_skills %}
@@ -248,15 +252,17 @@
           </div>
           {% endfor %}
         </div>
+        {% endif %}
 
-        {# Communicative functions — usage count as green/grey pips #}
+        {# Communicative functions — only show if the level has CF items #}
+        {% if cf_total > 0 %}
         <div class="subsection-label">{{ t("profile_comm_functions") }}</div>
         {% set ns = namespace(current_macro="") %}
         <div class="skill-list">
           {% for item in cf_items %}
           {% if item.cf.macro_category != ns.current_macro %}
           {% set ns.current_macro = item.cf.macro_category %}
-          <div class="macro-label"><span lang="it">{{ ns.current_macro | replace("_", " ") }}</span></div>
+          <div class="macro-label">{{ ns.current_macro | replace("_", " ") | title }}</div>
           {% endif %}
           <div class="skill-row">
             <div class="pip-track">
@@ -272,8 +278,10 @@
           </div>
           {% endfor %}
         </div>
+        {% endif %}
 
       </details>
+      {% endif %}
       {% endif %}
       {% endfor %}
     </div>
