@@ -1,6 +1,6 @@
 /**
  * Shared popup primitive — positioning, show/hide, viewport clamping.
- * Used by vocab tooltips and feature hints.
+ * Used by vocab tooltips.
  */
 (function() {
   'use strict';
