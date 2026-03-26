@@ -22,8 +22,6 @@
     <div class="grammar-content">
       {{ content | markdown | safe }}
     </div>
-    {% if hints %}{% include "partials/hint.html" %}{% endif %}
-
     {% if activity.grammar_point_code %}
       {% set flag_call_type = "grammar_explanation" %}
       {% set flag_refs = {"grammar_point_code": activity.grammar_point_code, "cefr_level": lesson.cefr_at_start} | tojson %}
