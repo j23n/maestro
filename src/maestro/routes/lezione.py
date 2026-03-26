@@ -658,6 +658,29 @@ async def lezione_activity(
             create_cards=True,
         )
 
+    if activity.type == ActivityType.INTRO:
+        gp_codes = activity.grammar_point_codes
+        cf_codes = activity.cf_codes
+        grammar_points = (
+            await GrammarPoint.find({"code": {"$in": gp_codes}}).to_list()
+            if gp_codes
+            else []
+        )
+        comm_functions = (
+            await CommunicativeFunction.find({"code": {"$in": cf_codes}}).to_list()
+            if cf_codes
+            else []
+        )
+        ctx["grammar_points"] = grammar_points
+        ctx["comm_functions"] = comm_functions
+        return await render_with_discover(
+            request,
+            "lezione-activity-intro.html",
+            ctx,
+            student_id=student.id,
+            create_cards=False,
+        )
+
     if activity.type == ActivityType.INFO:
         ctx["content"] = activity.content or ""
         return await render_with_discover(

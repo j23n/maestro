@@ -195,6 +195,25 @@ async def _generate_a0_lesson_background(
                 )
             )
 
+    # Insert intro activity after any info/onboarding activities
+    intro_activity = LessonActivity(
+        type=ActivityType.INTRO,
+        title=topic_title,
+        description=topic_description,
+        content=overview,
+        grammar_point_codes=scenario.gp_codes,
+        cf_codes=scenario.cf_codes,
+        duration_minutes=1,
+    )
+    # Find insertion point: after all INFO and ONBOARDING activities
+    insert_idx = 0
+    for i, act in enumerate(new_activities):
+        if act.type in (ActivityType.INFO, ActivityType.ONBOARDING):
+            insert_idx = i + 1
+        else:
+            break
+    new_activities.insert(insert_idx, intro_activity)
+
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]
     await Lesson.find_one(Lesson.id == lesson_id).update(
