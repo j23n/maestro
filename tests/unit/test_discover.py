@@ -172,6 +172,10 @@ _TEST_PHRASE_INDEX = {
     "mi chiamo": [_make_vocab_word("mi chiamo", pos="loc.")],
     "a destra": [_make_vocab_word("a destra", pos="loc.")],
     "quanto costa": [_make_vocab_word("quanto costa", pos="loc.")],
+    # Phrases ending in punctuation — \b boundary bug
+    "un po'": [_make_vocab_word("un po'", pos="loc.")],
+    "come si chiama?": [_make_vocab_word("come si chiama?", pos="loc.")],
+    "che ore sono?": [_make_vocab_word("che ore sono?", pos="loc.")],
 }
 
 
@@ -1027,6 +1031,56 @@ async def test_discover_phrase_data_no_save(seeded_cache_with_phrases):
     )
     assert 'data-word="mi chiamo"' in result
     assert 'data-word="gatto"' in result
+
+
+# ---------------------------------------------------------------------------
+# Phrase annotation — punctuation endings and mixed phrase+word sentences
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "phrase",
+    [
+        pytest.param("un po'", id="apostrophe-ending"),
+        pytest.param("come si chiama?", id="question-mark-ending"),
+        pytest.param("che ore sono?", id="question-mark-ending-2"),
+    ],
+)
+def test_annotate_phrase_with_trailing_punctuation(phrase):
+    """Phrases ending in ' or ? should be annotated by the regex."""
+    soup, els = _make_soup_and_elements(f'<span lang="it">{phrase}</span>')
+    word = _make_word(word=phrase, pos="loc.")
+    count = _annotate_in_elements(els, word, None, surface_forms=[phrase])
+    assert count == 1, f"Expected 1 annotation for {phrase!r}, got {count}"
+    assert f'data-word="{phrase}"' in str(soup)
+
+
+@pytest.mark.unit
+async def test_discover_phrase_with_punctuation(seeded_cache_with_phrases):
+    """Phrases ending in punctuation are discovered and annotated."""
+    result = await discover(
+        '<span lang="it">un po\'</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="un po\'"' in result
+
+
+@pytest.mark.unit
+async def test_discover_mixed_phrases_and_words(seeded_cache_with_phrases):
+    """Phrases and vocab words coexist in longer multi-element sentences."""
+    html = (
+        '<p><span lang="it">ciao</span>, '
+        '<span lang="it">mi chiamo</span> Giovanni. '
+        '<span lang="it">Vorrei un caffè per favore.</span></p>'
+    )
+    result = await discover(html, student_id=None, create_cards=False)
+    # Phrase matches (exact element text)
+    assert 'data-word="mi chiamo"' in result
+    assert 'data-word="ciao"' in result
+    # Word match inside longer element (per-token matching)
+    assert 'data-word="caffè"' in result
 
 
 # ---------------------------------------------------------------------------
