@@ -1,0 +1,377 @@
+# A0 Vocabulary — words and phrases not in the EPUB dictionary
+#
+# These entries create VocabularyWord + VocabularyWordDefinition(student_level="A0")
+# records.  Words already in the EPUB dictionary (the vast majority of A0 vocab)
+# are handled automatically by the standard ingest pipeline.
+#
+# All entries are implicitly cefr_level: A0.
+#
+# For single words, the issue is usually that:
+#   - the word doesn't appear in the EPUB dictionary at all (menù, tiramisù)
+#   - spaCy lemmatises the surface form to something wrong (scusi → scondere)
+#   - the word is a truncated / irregular form (buon, buona)
+#
+# For phrases, the standard per-token matching can't find them — they're
+# matched via the phrase index instead (exact text match on lang="it" elements).
+
+##############################################################################
+# Single words not in EPUB dictionary
+##############################################################################
+
+# --- Greetings & exclamations ---
+- word: scusi
+  part_of_speech: inter.
+  syllabization: scù-si
+  translation: excuse me (formal)
+
+- word: bravissimo
+  part_of_speech: inter.
+  syllabization: bra-vìs-si-mo
+  translation: very good!, excellent!
+
+- word: perfetto
+  part_of_speech: inter.
+  syllabization: per-fét-to
+  translation: perfect!
+
+# --- Food & drink ---
+- word: tiramisù
+  part_of_speech: s.m.
+  syllabization: ti-ra-mi-sù
+  translation: tiramisù (coffee-flavoured dessert)
+
+- word: ribollita
+  part_of_speech: s.f.
+  syllabization: ri-bol-lì-ta
+  translation: ribollita (Tuscan bread soup)
+
+- word: menù
+  part_of_speech: s.m.
+  syllabization: me-nù
+  translation: menu
+
+- word: antipasti
+  part_of_speech: s.m.pl.
+  syllabization: an-ti-pà-sti
+  translation: starters, appetisers
+
+# --- Irregular / truncated forms ---
+- word: buon
+  part_of_speech: agg.
+  syllabization: buòn
+  translation: good (truncated, before masculine nouns)
+
+- word: buona
+  part_of_speech: agg.
+  syllabization: buò-na
+  translation: good (feminine)
+
+- word: vorrei
+  part_of_speech: v.
+  syllabization: vor-rèi
+  translation: I would like
+
+- word: bellissimo
+  part_of_speech: agg.
+  syllabization: bel-lìs-si-mo
+  translation: very beautiful, wonderful
+
+# --- Compound numbers (used in A0 lessons) ---
+- word: ventotto
+  part_of_speech: agg.num.
+  syllabization: ven-tót-to
+  translation: twenty-eight
+
+- word: trentuno
+  part_of_speech: agg.num.
+  syllabization: tren-tù-no
+  translation: thirty-one
+
+- word: trentadue
+  part_of_speech: agg.num.
+  syllabization: tren-ta-dù-e
+  translation: thirty-two
+
+- word: trentacinque
+  part_of_speech: agg.num.
+  syllabization: tren-ta-cìn-que
+  translation: thirty-five
+
+- word: trentotto
+  part_of_speech: agg.num.
+  syllabization: tren-tót-to
+  translation: thirty-eight
+
+- word: quarantacinque
+  part_of_speech: agg.num.
+  syllabization: qua-ran-ta-cìn-que
+  translation: forty-five
+
+- word: quarantasei
+  part_of_speech: agg.num.
+  syllabization: qua-ran-ta-sèi
+  translation: forty-six
+
+- word: centoventi
+  part_of_speech: agg.num.
+  syllabization: cen-to-vén-ti
+  translation: one hundred and twenty
+
+##############################################################################
+# Phrases — matched via phrase index (exact text on lang="it" elements)
+##############################################################################
+
+# --- Core survival phrases ---
+- word: per favore
+  part_of_speech: loc.
+  syllabization: per fa-vó-re
+  translation: please
+
+- word: grazie mille
+  part_of_speech: loc.
+  syllabization: grà-zie mìl-le
+  translation: thank you very much
+
+- word: mi dispiace
+  part_of_speech: loc.
+  syllabization: mi di-spiá-ce
+  translation: I'm sorry
+
+- word: va bene
+  part_of_speech: loc.
+  syllabization: va bè-ne
+  translation: OK, that's fine
+
+- word: d'accordo
+  part_of_speech: loc.
+  syllabization: d'ac-cór-do
+  translation: agreed, OK
+
+- word: non capisco
+  part_of_speech: loc.
+  syllabization: non ca-pì-sco
+  translation: I don't understand
+
+- word: non lo so
+  part_of_speech: loc.
+  syllabization: non lo so
+  translation: I don't know
+
+- word: può ripetere
+  part_of_speech: loc.
+  syllabization: può ri-pé-te-re
+  translation: can you repeat?
+
+- word: più lentamente
+  part_of_speech: loc.
+  syllabization: più len-ta-mén-te
+  translation: more slowly
+
+- word: un po'
+  part_of_speech: loc.
+  syllabization: un po'
+  translation: a little
+
+# --- Introductions ---
+- word: mi chiamo
+  part_of_speech: loc.
+  syllabization: mi chiá-mo
+  translation: my name is
+
+- word: come ti chiami
+  part_of_speech: loc.
+  syllabization: có-me ti chiá-mi
+  translation: what's your name? (informal)
+
+- word: come si chiama?
+  part_of_speech: loc.
+  syllabization: có-me si chiá-ma
+  translation: what is your name? (formal)
+
+- word: di dove sei?
+  part_of_speech: loc.
+  syllabization: di dó-ve sèi
+  translation: where are you from?
+
+- word: parla inglese?
+  part_of_speech: loc.
+  syllabization: pàr-la in-glé-se
+  translation: do you speak English?
+
+- word: parlo italiano
+  part_of_speech: loc.
+  syllabization: pàr-lo i-ta-lià-no
+  translation: I speak Italian
+
+# --- Likes & dislikes ---
+- word: mi piace
+  part_of_speech: loc.
+  syllabization: mi piá-ce
+  translation: I like
+
+- word: non mi piace
+  part_of_speech: loc.
+  syllabization: non mi piá-ce
+  translation: I don't like
+
+- word: mi piacciono
+  part_of_speech: loc.
+  syllabization: mi piàc-cio-no
+  translation: I like (plural things)
+
+- word: ti piace
+  part_of_speech: loc.
+  syllabization: ti piá-ce
+  translation: do you like?
+
+# --- Ordering & restaurant ---
+- word: quanto costa
+  part_of_speech: loc.
+  syllabization: quàn-to cò-sta
+  translation: how much does it cost?
+
+- word: che cos'è
+  part_of_speech: loc.
+  syllabization: che co-s'è
+  translation: what is it?
+
+- word: senza glutine
+  part_of_speech: loc.
+  syllabization: sèn-za glù-ti-ne
+  translation: gluten-free
+
+- word: il conto, per favore
+  part_of_speech: loc.
+  syllabization: il cón-to per fa-vó-re
+  translation: the bill, please
+
+- word: il menù, per favore
+  part_of_speech: loc.
+  syllabization: il me-nù per fa-vó-re
+  translation: the menu, please
+
+# --- Accommodation ---
+- word: ho una prenotazione
+  part_of_speech: loc.
+  syllabization: ho ù-na pre-no-ta-zió-ne
+  translation: I have a reservation
+
+# --- Directions & locations ---
+- word: a destra
+  part_of_speech: loc.
+  syllabization: a dè-stra
+  translation: to the right
+
+- word: a sinistra
+  part_of_speech: loc.
+  syllabization: a si-nì-stra
+  translation: to the left
+
+- word: sempre dritto
+  part_of_speech: loc.
+  syllabization: sém-pre drìt-to
+  translation: straight ahead
+
+- word: qui vicino
+  part_of_speech: loc.
+  syllabization: quì vi-cì-no
+  translation: near here
+
+- word: dov'è
+  part_of_speech: loc.
+  syllabization: do-v'è
+  translation: where is?
+
+# --- Travel ---
+- word: andata e ritorno
+  part_of_speech: loc.
+  syllabization: an-dà-ta e ri-tór-no
+  translation: round trip
+
+- word: a che ora
+  part_of_speech: loc.
+  syllabization: a che ó-ra
+  translation: at what time
+
+- word: da che binario?
+  part_of_speech: loc.
+  syllabization: da che bi-nà-rio
+  translation: from which platform?
+
+- word: che ore sono?
+  part_of_speech: loc.
+  syllabization: che ó-re só-no
+  translation: what time is it?
+
+- word: e mezza
+  part_of_speech: loc.
+  syllabization: e mèz-za
+  translation: half past
+
+- word: e un quarto
+  part_of_speech: loc.
+  syllabization: e un quàr-to
+  translation: quarter past
+
+# --- Emergencies & help ---
+- word: ho bisogno di
+  part_of_speech: loc.
+  syllabization: ho bi-só-gno di
+  translation: I need
+
+- word: ho perso
+  part_of_speech: loc.
+  syllabization: ho pèr-so
+  translation: I've lost
+
+# --- Farewells & well-wishes ---
+- word: a presto
+  part_of_speech: loc.
+  syllabization: a prè-sto
+  translation: see you soon
+
+- word: a domani
+  part_of_speech: loc.
+  syllabization: a do-mà-ni
+  translation: see you tomorrow
+
+- word: buon viaggio
+  part_of_speech: loc.
+  syllabization: buòn viàg-gio
+  translation: have a good trip
+
+- word: buona giornata
+  part_of_speech: loc.
+  syllabization: buò-na gior-nà-ta
+  translation: have a nice day
+
+- word: grazie di tutto
+  part_of_speech: loc.
+  syllabization: grà-zie di tùt-to
+  translation: thanks for everything
+
+- word: in bocca al lupo
+  part_of_speech: loc.
+  syllabization: in bóc-ca al lù-po
+  translation: good luck (lit. in the mouth of the wolf)
+
+- word: è stato bellissimo
+  part_of_speech: loc.
+  syllabization: è stà-to bel-lìs-si-mo
+  translation: it was wonderful
+
+# --- Other useful expressions ---
+- word: come si dice
+  part_of_speech: loc.
+  syllabization: có-me si dì-ce
+  translation: how do you say
+
+- word: acqua naturale
+  part_of_speech: loc.
+  syllabization: àc-qua na-tu-rà-le
+  translation: still water
+
+- word: acqua frizzante
+  part_of_speech: loc.
+  syllabization: àc-qua friz-zàn-te
+  translation: sparkling water

@@ -8,6 +8,8 @@ Test layers:
 - simplemma: smoke tests for the third-party fallback library
 """
 
+from unittest.mock import patch
+
 import pytest
 import simplemma
 from types import SimpleNamespace
@@ -164,11 +166,31 @@ _TEST_WORD_INDEX = {
     "paolo": [_make_vocab_word("paolo", pos="s.m.")],
 }
 
+# Phrase index for phrase-matching tests.
+_TEST_PHRASE_INDEX = {
+    "per favore": [_make_vocab_word("per favore", pos="loc.")],
+    "mi chiamo": [_make_vocab_word("mi chiamo", pos="loc.")],
+    "a destra": [_make_vocab_word("a destra", pos="loc.")],
+    "quanto costa": [_make_vocab_word("quanto costa", pos="loc.")],
+    # Phrases ending in punctuation — \b boundary bug
+    "un po'": [_make_vocab_word("un po'", pos="loc.")],
+    "come si chiama?": [_make_vocab_word("come si chiama?", pos="loc.")],
+    "che ore sono?": [_make_vocab_word("che ore sono?", pos="loc.")],
+}
+
 
 @pytest.fixture()
 def seeded_cache():
     """Seed global vocab cache with _TEST_WORD_INDEX for discover() tests."""
     _vocab_cache.seed(words=_TEST_WORD_INDEX, defs={})
+    yield
+    _vocab_cache.invalidate()
+
+
+@pytest.fixture()
+def seeded_cache_with_phrases():
+    """Seed global vocab cache with words AND phrases for discover() tests."""
+    _vocab_cache.seed(words=_TEST_WORD_INDEX, defs={}, phrases=_TEST_PHRASE_INDEX)
     yield
     _vocab_cache.invalidate()
 
@@ -417,6 +439,93 @@ def test_match_vocab_words_default_word_index(seeded_cache):
     """match_vocab_words() should use the global cache when word_index is omitted."""
     matches = match_vocab_words("il gatto dorme")
     assert any(m.word.word == "gatto" for m in matches)
+
+
+# ---------------------------------------------------------------------------
+# cache.get_definition — A0 fallback behaviour
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_cache_get_definition_a0_fallback_to_a1():
+    """A0 lookup with no A0 def should return A1 def with translation only."""
+    a1_def = _make_wdef(translation="cat")
+    _vocab_cache.seed(defs={("word-1", "A1"): a1_def})
+    result = _vocab_cache.get_definition("word-1", "A0")
+    assert result is not None
+    assert result.translation == "cat"
+    # Definition text should be stripped
+    assert all(s.definition == "" for s in result.senses)
+    # Translation preserved
+    assert all(s.translation == "cat" for s in result.senses)
+    # Examples stripped
+    assert all(s.examples == [] for s in result.senses)
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+def test_cache_get_definition_a0_deduplicates_translations():
+    """A0 fallback should deduplicate senses with the same translation."""
+    a1_def = _make_wdef(
+        translation="door",
+        senses=[
+            SimpleNamespace(
+                definition="apertura", translation="door (opening)", examples=[]
+            ),
+            SimpleNamespace(
+                definition="porta di legno", translation="door", examples=[]
+            ),
+            SimpleNamespace(definition="ingresso", translation="door", examples=[]),
+        ],
+    )
+    _vocab_cache.seed(defs={("word-1", "A1"): a1_def})
+    result = _vocab_cache.get_definition("word-1", "A0")
+    translations = [s.translation for s in result.senses]
+    assert translations == ["door (opening)", "door"]
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+def test_cache_get_definition_a0_with_own_def():
+    """A0 lookup with an A0 def should return it directly (no fallback)."""
+    a0_def = _make_wdef(
+        translation="hello, goodbye",
+        senses=[
+            SimpleNamespace(definition="", translation="hello, goodbye", examples=[])
+        ],
+    )
+    _vocab_cache.seed(defs={("word-1", "A0"): a0_def})
+    result = _vocab_cache.get_definition("word-1", "A0")
+    assert result is a0_def  # exact same object, not a copy
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+def test_cache_get_definition_a0_no_a1_returns_none():
+    """A0 lookup with no A0 or A1 def should return None."""
+    _vocab_cache.seed(defs={})
+    result = _vocab_cache.get_definition("word-1", "A0")
+    assert result is None
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+def test_cache_get_definition_a1_no_fallback():
+    """A1 lookup with no A1 def should return None (no fallback for non-A0)."""
+    a2_def = _make_wdef(translation="cat")
+    _vocab_cache.seed(defs={("word-1", "A2"): a2_def})
+    result = _vocab_cache.get_definition("word-1", "A1")
+    assert result is None
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+def test_cache_phrase_index_seeded():
+    """seed() with phrases param populates phrase_index()."""
+    phrases = {"per favore": [_make_vocab_word("per favore", pos="loc.")]}
+    _vocab_cache.seed(phrases=phrases)
+    assert _vocab_cache.phrase_index() == phrases
+    _vocab_cache.invalidate()
 
 
 # ---------------------------------------------------------------------------
@@ -812,3 +921,237 @@ async def test_discover_no_discover_skips_element(seeded_cache):
     # The other span should still be annotated
     assert 'data-word="gatto"' in result
     assert 'data-word="dormire"' in result
+
+
+# ---------------------------------------------------------------------------
+# _annotate_in_elements — phrase annotation
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_annotate_phrase_surface_form():
+    """Multi-word phrase surface form gets annotated."""
+    soup, els = _make_soup_and_elements('<span lang="it">per favore</span>')
+    word = _make_word(word="per favore", pos="loc.")
+    count = _annotate_in_elements(els, word, None, surface_forms=["per favore"])
+    assert count == 1
+    assert 'data-word="per favore"' in str(soup)
+
+
+@pytest.mark.unit
+def test_annotate_phrase_inside_longer_text():
+    """Phrase is annotated when it appears inside a longer element."""
+    soup, els = _make_soup_and_elements(
+        '<span lang="it">Sì, per favore, grazie.</span>'
+    )
+    word = _make_word(word="per favore", pos="loc.")
+    count = _annotate_in_elements(els, word, None, surface_forms=["per favore"])
+    assert count == 1
+    assert 'data-word="per favore"' in str(soup)
+
+
+# ---------------------------------------------------------------------------
+# discover() — phrase matching
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+async def test_discover_phrase_matched(seeded_cache_with_phrases):
+    """Exact phrase match on a lang element should annotate as a phrase."""
+    result = await discover(
+        '<span lang="it">per favore</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="per favore"' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_takes_priority(seeded_cache_with_phrases):
+    """Phrase match takes priority — individual tokens 'per' and 'favore' should not match separately."""
+    result = await discover(
+        '<span lang="it">per favore</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    # "per favore" matched as phrase — element excluded from word matching,
+    # so "per" and "favore" should NOT appear as individual word annotations
+    assert 'data-word="per favore"' in result
+    # Only one vocab-word annotation (the phrase), not two individual words
+    assert result.count("vocab-word") == 1
+
+
+@pytest.mark.unit
+async def test_discover_phrase_and_words_coexist(seeded_cache_with_phrases):
+    """Phrase and word matches work together across different elements."""
+    result = await discover(
+        '<span lang="it">per favore</span> <span lang="it">il gatto dorme</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="per favore"' in result
+    assert 'data-word="gatto"' in result
+    assert 'data-word="dormire"' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_case_insensitive(seeded_cache_with_phrases):
+    """Phrase matching is case-insensitive."""
+    result = await discover(
+        '<span lang="it">Per Favore</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="per favore"' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_no_match_on_partial(seeded_cache_with_phrases):
+    """Element text that doesn't exactly match a phrase is not phrase-matched."""
+    result = await discover(
+        '<span lang="it">per favore signora</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    # "per favore signora" is not an exact phrase match — falls through to word matching
+    assert 'data-word="per favore"' not in result
+    # Individual words should still be matched via word matching
+    assert 'data-word="per"' in result
+    assert 'data-word="favore"' in result
+    assert 'data-word="signore"' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_data_no_save(seeded_cache_with_phrases):
+    """Phrase on a data-no-save element is annotated but excluded from card creation."""
+    result = await discover(
+        '<span lang="it" data-no-save>mi chiamo</span> <span lang="it">il gatto</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="mi chiamo"' in result
+    assert 'data-word="gatto"' in result
+
+
+# ---------------------------------------------------------------------------
+# Phrase annotation — punctuation endings and mixed phrase+word sentences
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "phrase",
+    [
+        pytest.param("un po'", id="apostrophe-ending"),
+        pytest.param("come si chiama?", id="question-mark-ending"),
+        pytest.param("che ore sono?", id="question-mark-ending-2"),
+    ],
+)
+def test_annotate_phrase_with_trailing_punctuation(phrase):
+    """Phrases ending in ' or ? should be annotated by the regex."""
+    soup, els = _make_soup_and_elements(f'<span lang="it">{phrase}</span>')
+    word = _make_word(word=phrase, pos="loc.")
+    count = _annotate_in_elements(els, word, None, surface_forms=[phrase])
+    assert count == 1, f"Expected 1 annotation for {phrase!r}, got {count}"
+    assert f'data-word="{phrase}"' in str(soup)
+
+
+@pytest.mark.unit
+async def test_discover_phrase_with_punctuation(seeded_cache_with_phrases):
+    """Phrases ending in punctuation are discovered and annotated."""
+    result = await discover(
+        '<span lang="it">un po\'</span>',
+        student_id=None,
+        create_cards=False,
+    )
+    assert 'data-word="un po\'"' in result
+
+
+@pytest.mark.unit
+async def test_discover_mixed_phrases_and_words(seeded_cache_with_phrases):
+    """Phrases and vocab words coexist in longer multi-element sentences."""
+    html = (
+        '<p><span lang="it">ciao</span>, '
+        '<span lang="it">mi chiamo</span> Giovanni. '
+        '<span lang="it">Vorrei un caffè per favore.</span></p>'
+    )
+    result = await discover(html, student_id=None, create_cards=False)
+    # Phrase matches (exact element text)
+    assert 'data-word="mi chiamo"' in result
+    assert 'data-word="ciao"' in result
+    # Word match inside longer element (per-token matching)
+    assert 'data-word="caffè"' in result
+
+
+# ---------------------------------------------------------------------------
+# Audio background task — fired in parallel with definition generation
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+async def test_discover_fires_audio_task_for_missing_audio(seeded_cache):
+    """discover() should fire a vocab-audio background task for words missing audio."""
+    with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+        await discover(
+            '<span lang="it">il gatto dorme</span>',
+            student_id=None,
+            create_cards=False,
+        )
+
+    # All test words have audio_url=None, so audio task should fire
+    audio_calls = [
+        c
+        for c in mock_bg.call_args_list
+        if "vocab-audio-" in (c.kwargs.get("name") or "")
+    ]
+    assert len(audio_calls) == 1
+
+
+@pytest.mark.unit
+async def test_discover_no_audio_task_when_audio_exists():
+    """discover() should NOT fire audio task when all words already have audio."""
+    gatto_with_audio = SimpleNamespace(
+        word="gatto",
+        part_of_speech="s.m.",
+        syllabization="",
+        entry_id="LM-GATTO",
+        senses=[],
+        id="fake-gatto-sm",
+        audio_url="/static/audio/word_gatto.wav",
+    )
+    _vocab_cache.seed(words={"gatto": [gatto_with_audio]}, defs={})
+    try:
+        with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+            await discover(
+                '<span lang="it">il gatto</span>',
+                student_id=None,
+                create_cards=False,
+            )
+
+        audio_calls = [
+            c
+            for c in mock_bg.call_args_list
+            if "vocab-audio-" in (c.kwargs.get("name") or "")
+        ]
+        assert len(audio_calls) == 0
+    finally:
+        _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
+    """Audio and definition tasks should fire independently based on what's missing."""
+    with patch("maestro.vocab.discover.create_background_task") as mock_bg:
+        await discover(
+            '<span lang="it">il gatto dorme</span>',
+            student_id=None,
+            create_cards=False,
+        )
+
+    names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]
+    audio_tasks = [n for n in names if "vocab-audio-" in n]
+    # Audio task should fire (words have audio_url=None)
+    assert len(audio_tasks) == 1
+    # Def task should NOT fire (test words have senses=[], so they're skipped)
+    def_tasks = [n for n in names if "vocab-defs-" in n]
+    assert len(def_tasks) == 0

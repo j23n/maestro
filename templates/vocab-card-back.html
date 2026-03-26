@@ -1,6 +1,7 @@
 <div class="card" id="practice-card">
   {% set translation = word_def.translation if word_def and word_def.translation else "—" %}
   {% set senses = word_def.senses if word_def else [] %}
+  {% set has_sense_trs = senses | selectattr('translation') | list | length > 0 %}
   {% set pos_line %}{{ card.word.part_of_speech }}{% if card.word.syllabization %} · [{{ card.word.syllabization }}]{% endif %} · {{ card.word.cefr_level }}{% endset %}
 
   {% if total_cards %}
@@ -8,19 +9,24 @@
   {% endif %}
 
   {% if mode == 'word' %}
+    <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
     <div class="word"><span lang="it">{{ card.word.word }}</span></div>
     <div class="back">
       <div class="pos">{{ pos_line }}</div>
-      <div class="translation">{{ translation }}</div>
-      <ol class="senses">
-        {% for s in senses %}
-        <li>
-          <span class="sense-def" lang="it">{{ s.definition }}</span>
-          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
-        </li>
-        {% endfor %}
-      </ol>
+      {% if card.word.audio_url %}
+      <button class="inline-play-btn" type="button" style="margin-bottom: 0.75rem"
+              onclick="new Audio('{{ card.word.audio_url }}').play()">▶ {{ t("listen_btn") }}</button>
+      {% endif %}
+      {% if has_sense_trs %}
+        {% for s in senses %}{% if s.translation %}
+        <div class="sense-line">
+          <span class="sense-tr">{{ s.translation }}</span>
+          {% if s.examples %}<span class="sense-ex" lang="it">{{ s.examples[0] }}</span>{% endif %}
+        </div>
+        {% endif %}{% endfor %}
+      {% else %}
+        <div class="translation">{{ translation }}</div>
+      {% endif %}
     </div>
 
   {% elif mode == 'translation' %}
@@ -29,36 +35,20 @@
     <div class="back">
       <div class="word"><span lang="it">{{ card.word.word }}</span></div>
       <div class="pos">{{ pos_line }}</div>
-      <ol class="senses">
-        {% for s in senses %}
-        <li>
-          <span class="sense-def" lang="it">{{ s.definition }}</span>
-          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
-
-  {% elif mode == 'definition' %}
-    <div class="prompt">{{ t("vocab_definition_prompt", language=target_language) }}</div>
-    <div class="clue" lang="it">{{ senses[0].definition if senses else "—" }}</div>
-    <div class="back">
-      <div class="word"><span lang="it">{{ card.word.word }}</span></div>
-      <div class="pos">{{ pos_line }}</div>
-      <div class="translation">{{ translation }}</div>
-      {% if senses|length > 1 %}
-      <ol class="senses" start="2">
-        {% for s in senses[1:] %}
-        <li>
-          <span class="sense-def" lang="it">{{ s.definition }}</span>
-          {% if s.translation %}<div class="sense-translation">{{ s.translation }}</div>{% endif %}
-          {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
-        </li>
-        {% endfor %}
-      </ol>
+      {% if card.word.audio_url %}
+      <button class="inline-play-btn" type="button" style="margin-bottom: 0.75rem"
+              onclick="new Audio('{{ card.word.audio_url }}').play()">▶ {{ t("listen_btn") }}</button>
+      {% endif %}
+      {% if has_sense_trs %}
+        {% for s in senses %}{% if s.translation %}
+        <div class="sense-line">
+          <span class="sense-tr">{{ s.translation }}</span>
+          {% if s.examples %}<span class="sense-ex" lang="it">{{ s.examples[0] }}</span>{% endif %}
+        </div>
+        {% endif %}{% endfor %}
       {% endif %}
     </div>
+
   {% endif %}
 
   <div class="rating-buttons">

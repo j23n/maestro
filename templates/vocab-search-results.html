@@ -1,4 +1,4 @@
-{% for w in words %}<a href="/vocab/word/{{ w.entry_id }}" class="search-result-link">
+{% for w in words %}<a href="/vocab/word/{{ w.id }}" class="search-result-link">
   <span lang="it">{{ w.word }}</span>
   <span class="cefr-badge {{ w.cefr_level | lower }}">{{ w.cefr_level }}</span>
 </a>{% endfor %}

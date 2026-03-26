@@ -92,6 +92,17 @@ a.student-name {
 }
 a.student-name:hover { color: var(--c-terracotta); }
 
+.site-footer {
+  margin-top: 3rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--c-border);
+  font-size: 0.78rem;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+.site-footer a { color: var(--c-text-muted); text-decoration: none; }
+.site-footer a:hover { color: var(--c-charcoal); }
+
 /* =====================================================================
    3. Form elements: button, input
    ===================================================================== */
@@ -243,6 +254,10 @@ input[type="text"]:focus { border-color: var(--c-terracotta); }
 .senses li { margin-bottom: 0.4rem; }
 .sense-def { color: var(--c-charcoal); }
 .sense-ex { font-style: italic; color: var(--c-text-muted); font-size: 0.9em; margin-top: 0.1rem; }
+.sense-line { margin-bottom: 0.3rem; font-size: 0.95rem; }
+.sense-tr { font-weight: 600; }
+.sense-line .sense-ex { display: inline; margin-top: 0; }
+.sense-line .sense-ex::before { content: ": "; font-style: normal; }
 .rating-buttons { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
 .btn-incorrect {
   background: var(--c-terracotta) !important;
