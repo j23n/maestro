@@ -6,6 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from beanie import PydanticObjectId
 
 from maestro.models import (
+    ActivityType,
     CurriculumScenario,
     GrammarPoint,
     GrammarExplanation,
@@ -252,7 +253,7 @@ async def test_pick_scenario_weak_gp_boost(db):
 
 @pytest.mark.integration
 async def test_prepare_lesson_immediate_creates_lesson(db):
-    """Should create a Lesson with generating=True; no vocab_review without due cards."""
+    """Should create a Lesson with generating=True; vocab_review always present."""
     from maestro.lezione.planner import prepare_lesson_immediate
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
@@ -262,8 +263,10 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
     assert lesson.status == LessonStatus.ACTIVE
     assert lesson.generating is True
     assert lesson.student_id == _FAKE_STUDENT_ID
-    # No due vocab cards → no vocab_review activity
-    assert len(lesson.activities) == 0
+    # Vocab review is always created (shows "no cards" state if empty)
+    assert len(lesson.activities) == 1
+    assert lesson.activities[0].type == ActivityType.VOCAB_REVIEW
+    assert lesson.activities[0].card_ids == []
 
 
 # ---------------------------------------------------------------------------

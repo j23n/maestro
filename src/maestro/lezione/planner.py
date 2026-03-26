@@ -187,17 +187,20 @@ async def prepare_lesson_immediate(
 
     if vocab_count > 0:
         due_cards = await get_due_vocab_cards(vocab_count, student_id=student_id)
-        if due_cards:
-            activities.append(
-                LessonActivity(
-                    type=ActivityType.VOCAB_REVIEW,
-                    title=t("vocab_title", count=len(due_cards)),
-                    description=t("vocab_desc"),
-                    duration_minutes=max(2, len(due_cards) * 1),
-                    card_ids=[c.id for c in due_cards],
-                    status=ActivityStatus.ACTIVE,
-                )
+        logger.debug(
+            "vocab review (immediate)",
+            extra={"requested": vocab_count, "due_cards": len(due_cards)},
+        )
+        activities.append(
+            LessonActivity(
+                type=ActivityType.VOCAB_REVIEW,
+                title=t("vocab_title", count=len(due_cards)),
+                description=t("vocab_desc"),
+                duration_minutes=max(2, len(due_cards) * 1) if due_cards else 1,
+                card_ids=[c.id for c in due_cards],
+                status=ActivityStatus.ACTIVE,
             )
+        )
 
     lesson = Lesson(
         student_id=student_id,
