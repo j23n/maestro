@@ -23,8 +23,21 @@
     {% else %}
     <div class="welcome-card">
       <div class="onboarding-progress">{{ t("onboarding_progress", number=a0_lesson_number, total=a0_total) }}</div>
-      <p>{{ t("onboarding_continue_body") }}</p>
+
+      {% if next_scenario %}
+      <div class="next-scenario">
+        <div class="next-scenario-label">{{ next_scenario.label }}</div>
+        <p class="next-scenario-desc">{{ next_scenario.description }}</p>
+        {% if next_scenario.overview %}
+        <p class="next-scenario-overview">{{ next_scenario.overview }}</p>
+        {% endif %}
+      </div>
+      {% endif %}
     </div>
+
+    {% with history_heading=t("profile_recent_lessons") %}
+    {% include "partials/lesson-history.html" %}
+    {% endwith %}
     {% endif %}
     <input type="hidden" name="duration" value="20">
     {% else %}

@@ -271,48 +271,6 @@
 .scenario-dots .dot.filled { background: var(--c-sage); border-color: #5a7a5f; }
 .scenario-meta { font-size: 0.7rem; color: var(--c-text-muted); }
 
-/* ----- Lesson history ----- */
-.history-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.history-list {
-  display: flex;
-  flex-direction: column;
-  border-left: 2px solid var(--c-border);
-  margin-left: 0.5rem;
-}
-.history-row {
-  display: flex; gap: 0.75rem; align-items: baseline;
-  padding: 0.45rem 0.6rem 0.45rem 1rem;
-  text-decoration: none; color: inherit;
-  font-size: 0.85rem;
-  position: relative;
-  transition: background 0.1s;
-}
-.history-row::before {
-  content: '';
-  position: absolute;
-  left: -5px; top: 50%;
-  transform: translateY(-50%);
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--c-surface);
-  border: 2px solid var(--c-border);
-}
-.history-row:hover { background: var(--c-surface); border-radius: 0 4px 4px 0; }
-.history-row:hover::before { border-color: var(--c-terracotta); background: #fff; }
-.history-date {
-  color: var(--c-text-muted);
-  min-width: 3rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-.history-topic { flex: 1; }
-.history-scenario { color: var(--c-text-muted); font-size: 0.8rem; }
-
 /* ----- Skills by CEFR level (details tab) ----- */
 .skills-section { display: flex; flex-direction: column; gap: 1.5rem; }
 .level-group { border: none; padding: 0; }
