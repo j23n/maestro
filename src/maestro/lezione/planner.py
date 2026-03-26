@@ -502,6 +502,7 @@ async def _generate_lesson_background(
 
     # --- Atomically update lesson ---
     activities_dicts = [a.model_dump() for a in new_activities]
+    initial_count = len(lesson.activities)
     await Lesson.find_one(Lesson.id == lesson_id).update(
         {
             "$push": {"activities": {"$each": activities_dicts}},
@@ -516,6 +517,17 @@ async def _generate_lesson_background(
             },
         }
     )
+    # If the lesson had no initial activities, activate the first appended one
+    # (must be a separate update — $push and $set on the same array in one op
+    # has undefined field-ordering behaviour in MongoDB)
+    if initial_count == 0 and new_activities:
+        await Lesson.find_one(Lesson.id == lesson_id).update(
+            {
+                "$set": {
+                    f"activities.{initial_count}.status": ActivityStatus.ACTIVE.value
+                }
+            }
+        )
 
     elapsed_total = time.monotonic() - t_start
     logger.info(
