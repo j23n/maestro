@@ -114,8 +114,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all eight migrations as applied
-    assert migrations_coll.insert_one.await_count == 8
+    # Runner should have recorded all nine migrations as applied
+    assert migrations_coll.insert_one.await_count == 9
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -128,6 +128,7 @@ async def test_runner_applies_pending_migration():
         "0006_mastery_scores",
         "0007_remove_stale_a0_vocab_dupes",
         "0008_remove_html_tagged_definitions",
+        "0009_fix_stuck_pending_lessons",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -148,6 +149,7 @@ async def test_runner_skips_already_applied():
             "0006_mastery_scores",
             "0007_remove_stale_a0_vocab_dupes",
             "0008_remove_html_tagged_definitions",
+            "0009_fix_stuck_pending_lessons",
         ]
     )
 
