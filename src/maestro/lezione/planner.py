@@ -537,6 +537,20 @@ async def _generate_lesson_background(
         student_id=lesson.student_id,
     )
 
+    # --- Prepend intro activity ---
+    all_gp_codes = [gp.code for gp in grammar_gps]
+    all_cf_codes = scenario.cf_codes
+    intro_activity = LessonActivity(
+        type=ActivityType.INTRO,
+        title=topic_title,
+        description=topic_description,
+        content=content.overview or "",
+        grammar_point_codes=all_gp_codes,
+        cf_codes=all_cf_codes,
+        duration_minutes=1,
+    )
+    new_activities.insert(0, intro_activity)
+
     # --- Generate audio for LISTENING activities ---
     from maestro.tts import generate_lesson_audio
 
