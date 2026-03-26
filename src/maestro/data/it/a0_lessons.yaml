@@ -71,7 +71,18 @@
       | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
       | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
 
-      > **On the plane:** The crew will greet you with <span lang="it">*Buongiorno!*</span> or <span lang="it">*Buonasera!*</span>. A smile and the same word back is all you need.
+      ### Formal vs informal
+
+      Italian has two registers — and using the right one matters:
+
+      | | Formal (<span lang="it">Lei</span>) | Informal (<span lang="it">tu</span>) |
+      |---|---|---|
+      | **Use with** | Strangers, staff, older people | Friends, young people, children |
+      | **Hello** | <span lang="it">Buongiorno / Buonasera</span> | <span lang="it">Ciao!</span> |
+      | **Excuse me** | <span lang="it">Scusi</span> | <span lang="it">Scusa</span> |
+      | **Goodbye** | <span lang="it">Arrivederci</span> | <span lang="it">Ciao!</span> |
+
+      > **Rule of thumb:** If in doubt, go formal. Italians will switch to informal if they prefer it. In the next few lessons, most situations are formal — you're a traveller talking to hotel staff, waiters, and strangers.
   - type: drill
     title: First words
     description: Practise greetings and polite phrases
@@ -317,7 +328,11 @@
 
       <span lang="it">— Grazie mille! Buonanotte!</span>
     questions:
-    - text: "What room number does Sarah get?"
+    - text: "What is the guest's name?"
+      correct_answer: Sarah Jones
+      grammar_point_codes:
+      - mi_chiamo
+    - text: "What room number does she get?"
       correct_answer: dodici / 12
       grammar_point_codes:
       - num_0_20
@@ -336,7 +351,11 @@
       — Là, a destra.
       — Grazie mille!
     questions:
-    - text: "What room number does Marco get?"
+    - text: "What is the guest's surname?"
+      correct_answer: Bianchi
+      grammar_point_codes:
+      - mi_chiamo
+    - text: "What room number does he get?"
       correct_answer: diciotto / 18
       grammar_point_codes:
       - num_0_20
@@ -619,6 +638,10 @@
       correct_answer: "là, a destra / there, on the right"
       grammar_point_codes:
       - dove_e
+    - text: "The tourist says 'il museo' but 'la farmacia'. Why the different article?"
+      correct_answer: "il = masculine, la = feminine / museo is masculine, farmacia is feminine"
+      grammar_point_codes:
+      - art_il_la
   - type: listening
     title: Finding the station
     description: Listen to someone asking directions
@@ -637,6 +660,10 @@
       correct_answer: sempre dritto / straight ahead
       grammar_point_codes:
       - dove_e
+    - text: "Is stazione masculine (il) or feminine (la)?"
+      correct_answer: "feminine / la"
+      grammar_point_codes:
+      - art_il_la
   - type: speaking
     title: Ask for directions
     description: Practice asking where things are
@@ -649,9 +676,10 @@
   - type: writing
     title: You're lost
     description: Write a question about a location
-    content: "Write 2 sentences: ask where a place is and say where you are from. Use **Scusi, dov'è...?** and **Sono di...**"
+    content: "Write 3 sentences: ask where two different places are (one with **il**, one with **la**), and say where you are from. Use **Scusi, dov'è...?** and **Sono di...**"
     grammar_point_codes:
     - dove_e
+    - art_il_la
     - prep_place
   - type: drill
     title: "Review: café"
@@ -793,6 +821,7 @@
       correct_answer: "in centro, a sinistra dopo la piazza / in the centre, left after the square"
       grammar_point_codes:
       - dove_e
+      - prep_place
   - type: speaking
     title: Ask for help
     description: Practice the help phrases
@@ -907,10 +936,13 @@
       correct_answer: questo
     - prompt: "I'm vegetarian. (m.) = Sono ___."
       correct_answer: vegetariano
+      grammar_point_code: vocab_cibo
     - prompt: "Gluten-free = Senza ___"
       correct_answer: glutine
+      grammar_point_code: vocab_cibo
     - prompt: "I'm allergic to... (f.) = Sono ___ a..."
       correct_answer: allergica
+      grammar_point_code: vocab_cibo
   - type: vocab_review
   - type: reading
     title: Ordering lunch
@@ -943,19 +975,22 @@
     description: Listen to a lunch order
     audio_path: /static/audio/a0_06_a_pranzo.wav
     content: |
-      — Buongiorno! Un tavolo per tre, per favore.
-      — Prego. Ecco il menù. Acqua naturale o frizzante?
-      — Frizzante, per favore.
-      — Cosa prendete?
-      — Vorrei la pasta al pomodoro come primo.
-      — E per lei?
-      — Vorrei il pesce come secondo e un'insalata come contorno.
+      — Buongiorno! Un tavolo per due, per favore.
+      — Prego. Ecco il menù.
+      — Grazie. Che cos'è la panzanella?
+      — È un'insalata toscana con pane e pomodoro. (It's a Tuscan salad with bread and tomato.)
+      — Ah, vorrei la panzanella come primo. E acqua frizzante, per favore.
       — Certo!
     questions:
-    - text: "How many people at the table?"
-      correct_answer: tre / 3
+    - text: "What does the customer ask about?"
+      correct_answer: la panzanella
       grammar_point_codes:
-      - num_0_20
+      - che_cose
+    - text: "What is the panzanella?"
+      correct_answer: "un'insalata toscana / a Tuscan salad"
+      grammar_point_codes:
+      - che_cose
+      - vocab_cibo
     - text: "What water do they choose?"
       correct_answer: frizzante / sparkling
       grammar_point_codes:
@@ -963,18 +998,20 @@
   - type: speaking
     title: Order a meal
     description: Practice ordering at a restaurant
-    content: "Say this out loud: **Vorrei la pasta come primo e un'insalata come contorno. Acqua naturale, per favore.** Try\
-      \ it as one continuous flow!"
+    content: "Say these out loud, one after the other: First, ask what something is: **Che cos'è questo?** Then order: **Vorrei\
+      \ la pasta come primo e un'insalata come contorno. Acqua naturale, per favore.**"
     grammar_point_codes:
+    - che_cose
     - vocab_cibo
     - vorrei
     - pronun_bas
   - type: writing
     title: Your lunch
     description: Write a restaurant order
-    content: "You're at a trattoria. Write 2-3 sentences ordering a meal. Include a primo, something to drink, and use **Vorrei...**\
-      \ and **per favore**."
+    content: "You're at a trattoria and you see something unfamiliar on the menu. Write 3-4 sentences: ask what the dish is (**Che\
+      \ cos'è...?**), then order a meal with a primo and something to drink. Use **Vorrei...** and **per favore**."
     grammar_point_codes:
+    - che_cose
     - vocab_cibo
     - vorrei
   - type: drill
@@ -1100,6 +1137,11 @@
       correct_answer: Sì / Yes
       grammar_point_codes:
       - mi_piace
+    - text: "Why does the speaker say 'mi piacciono' instead of 'mi piace' for desserts?"
+      correct_answer: "i dolci is plural / because desserts is plural"
+      grammar_point_codes:
+      - art_i_le
+      - mi_piace
   - type: listening
     title: "Cosa ti piace?"
     description: Listen to friends discussing preferences
@@ -1114,24 +1156,27 @@
       correct_answer: la pizza
       grammar_point_codes:
       - mi_piace
-    - text: "What sport does the second speaker like?"
-      correct_answer: il calcio / football
+    - text: "The speakers say 'i gatti' — is gatti masculine or feminine?"
+      correct_answer: "masculine / i = masculine plural"
       grammar_point_codes:
-      - mi_piace
+      - art_i_le
   - type: speaking
     title: Your preferences
     description: Say what you like
-    content: "Say these out loud: **Mi piace la pizza.** Then: **Mi piace il gelato.** Now try the negative: **Non mi piace\
-      \ il tè.** And the plural: **Mi piacciono i dolci.**"
+    content: "Say these out loud: **Mi piace la pizza.** (singular — *la*) Then the plural: **Mi piacciono i dolci.** (plural\
+      \ — *i*) Now try with feminine plural: **Mi piacciono le fragole.** (strawberries) And the negative: **Non mi piace il tè.**"
     grammar_point_codes:
     - mi_piace
+    - art_i_le
     - pronun_bas
   - type: writing
     title: Likes and dislikes
     description: Write about your preferences
-    content: "Write 3 sentences about things you like and don't like. Use **Mi piace...**, **Non mi piace...**, and **Mi piacciono...**"
+    content: "Write 4 sentences about things you like and don't like. Use at least one singular noun (**mi piace il/la...**)\
+      \ and one plural noun (**mi piacciono i/le...**). Pay attention to whether the noun needs **i** (masculine) or **le** (feminine)."
     grammar_point_codes:
     - mi_piace
+    - art_i_le
   - type: drill
     title: "Review: restaurant"
     description: Keep lesson 6 fresh
@@ -1147,7 +1192,7 @@
       grammar_point_code: vocab_cibo
     - prompt: "I'm vegetarian. (f.) = Sono ___."
       correct_answer: vegetariana
-      grammar_point_code: che_cose
+      grammar_point_code: vocab_cibo
     - prompt: "A table for two. = Un ___ per due."
       correct_answer: tavolo
       grammar_point_code: vocab_cibo
@@ -1476,6 +1521,45 @@
     - prompt: "I am a student. = Sono uno ___."
       correct_answer: studente
   - type: grammar
+    title: "Io, tu, lui/lei"
+    description: Subject pronouns
+    grammar_point_code: subj_pron
+    content: |
+      ## Subject pronouns
+
+      | Italian | English | Example |
+      |---------|---------|---------|
+      | <span lang="it">**io**</span> | I | <span lang="it">**Io** sono inglese.</span> |
+      | <span lang="it">**tu**</span> | you (informal) | <span lang="it">**Tu** sei italiano?</span> |
+      | <span lang="it">**lui**</span> | he | <span lang="it">**Lui** è Marco.</span> |
+      | <span lang="it">**lei**</span> | she | <span lang="it">**Lei** è Maria.</span> |
+      | <span lang="it">**Lei**</span> | you (formal) | <span lang="it">**Lei** è americano?</span> |
+
+      ### When to use them
+
+      Italian usually **drops** the pronoun — the verb ending is enough:
+      - <span lang="it">**Sono** italiano.</span> = I'm Italian. (no need for <span lang="it">*io*</span>)
+
+      Use the pronoun when you need **emphasis** or **contrast**:
+      - <span lang="it">**Io** sono inglese, **tu** sei italiano.</span> — **I'm** English, **you're** Italian.
+
+      > <span lang="it">**Lei**</span> (capitalized) = formal "you." You'll hear it in shops, hotels, and from anyone you'd address with <span lang="it">*Scusi*</span> rather than <span lang="it">*Scusa*</span>.
+  - type: drill
+    title: Subject pronouns
+    description: "Which pronoun fits?"
+    hint: "io = I, tu = you, lui = he, lei = she. Drop the pronoun when the verb is enough."
+    grammar_point_code: subj_pron
+    exercise_type: fill_blank
+    items:
+    - prompt: "___ sono Marco. (I)"
+      correct_answer: Io
+    - prompt: "___ sei francese? (you, informal)"
+      correct_answer: Tu
+    - prompt: "___ è Maria. (she)"
+      correct_answer: Lei
+    - prompt: "I'm Italian. = ___ italiano. (no pronoun needed)"
+      correct_answer: Sono
+  - type: grammar
     title: "Where are you from?"
     description: "Origin, nationality, simple sentences"
     grammar_point_code: simp_sent
@@ -1538,10 +1622,15 @@
       correct_answer: Parigi / Paris
       grammar_point_codes:
       - simp_sent
+      - essere_pre
     - text: "Does she speak Italian?"
       correct_answer: "Sì, un po' / Yes, a little"
       grammar_point_codes:
       - simp_sent
+    - text: "Luca says 'E tu?' — what does 'tu' mean here?"
+      correct_answer: "you (informal) / and you?"
+      grammar_point_codes:
+      - subj_pron
   - type: listening
     title: New friends
     description: Listen to two people meeting
@@ -1558,28 +1647,37 @@
       correct_answer: Chicago
       grammar_point_codes:
       - simp_sent
+      - essere_pre
     - text: "Where is Anna from?"
       correct_answer: Firenze / Florence
       grammar_point_codes:
       - simp_sent
+      - essere_pre
+    - text: "David asks 'E tu, sei italiana?' — is he being formal or informal?"
+      correct_answer: "informal / tu is informal"
+      grammar_point_codes:
+      - subj_pron
   - type: speaking
     title: Introduce yourself
     description: "Practice your self-introduction"
     content: "Say this out loud: **Ciao! Mi chiamo [your name]. Sono [nationality]. Sono di [city]. Parlo un po' di italiano.**\
-      \ Try to sound natural and confident!"
+      \ Now ask someone else: **E tu? Sei italiano/a?** Notice you can drop 'io' — 'Sono' is enough."
     grammar_point_codes:
     - mi_chiamo
+    - essere_pre
     - simp_sent
+    - subj_pron
     - pronun_bas
   - type: writing
     title: About you
     description: Write your introduction
-    content: "Write 3-4 sentences introducing yourself. Include your name, nationality, city, and something you like about\
-      \ Italy."
+    content: "Write 4-5 sentences: introduce yourself (name, nationality, city), then write a contrast — '**Io** sono [nationality],\
+      \ **tu** sei italiano/a.' Use the pronouns when you want to emphasise the contrast."
     grammar_point_codes:
     - mi_chiamo
     - simp_sent
     - essere_pre
+    - subj_pron
   - type: drill
     title: Fix the mistakes
     description: Error correction
