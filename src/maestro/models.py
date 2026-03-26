@@ -291,7 +291,6 @@ class LearningProfile(Document):
     onboarding_completed: bool = False  # True when all A0 done (by lessons or skip)
     onboarding_skipped: bool = False  # True when explicitly skipped via route
     target_language: str = "it"
-    dismissed_hints: List[str] = Field(default_factory=list)
     grammar_introduced: List[str] = Field(
         default_factory=list
     )  # GP codes introduced in lessons

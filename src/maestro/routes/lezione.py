@@ -25,7 +25,6 @@ from maestro.models import (
     ScenarioProgress,
 )
 from maestro.profile import get_profile, save_onboarding_field
-from maestro.hints import hints_for_page
 from maestro.learning.weakness import (
     build_gp_titles,
     build_grammar_by_level,
@@ -493,10 +492,6 @@ async def lezione_activity(
 
     total = len(lesson.activities)
 
-    # Compute dismissed hints for contextual feature hints
-    _hint_profile = await get_profile(student.id)
-    _dismissed = _hint_profile.dismissed_hints if _hint_profile else []
-
     ctx = {
         "lesson": lesson,
         "activity": activity,
@@ -544,7 +539,6 @@ async def lezione_activity(
         ctx["card"] = card
         ctx["word_def"] = word_def
         ctx["mode"] = "word"
-        ctx["hints"] = hints_for_page("lesson_activity_vocab", _dismissed)
         return await render_with_discover(
             request,
             "lezione-activity-vocab.html",
@@ -554,7 +548,6 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.READING:
-        ctx["hints"] = hints_for_page("lesson_activity_reading", _dismissed)
         ctx["question_lang"] = (
             "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
         )
@@ -615,7 +608,6 @@ async def lezione_activity(
                 )
                 if expl and expl.why_this_matters:
                     ctx["why_this_matters"] = expl.why_this_matters
-        ctx["hints"] = hints_for_page("lesson_activity_grammar", _dismissed)
         return await render_with_discover(
             request,
             "lezione-activity-grammar.html",
