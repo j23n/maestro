@@ -1464,8 +1464,9 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   }
   nav.nav-open .nav-links { display: flex; }
   .nav-right { order: 2; }
-  /* Reduce margins on lesson-new page */
-  .lesson-new { margin: 1.25rem auto; }
+  /* Remove horizontal padding on lesson-new and activity pages */
+  .lesson-new { margin: 1.25rem auto; padding: 0; }
+  .activity-container { padding: 0 0 3rem; }
   /* Tighten drill/scoring item grids */
   .drill-item { grid-template-columns: 1.2rem 1fr; gap: 0.3rem 0.4rem; }
   .item-row { grid-template-columns: 1.2rem 1fr; gap: 0.3rem 0.4rem; }
