@@ -196,6 +196,33 @@ async def vocab_exclude(
     return HTMLResponse("")
 
 
+@router.post("/vocab/bulk-exclude", response_class=HTMLResponse)
+async def vocab_bulk_exclude(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    form = await request.form()
+    word_ids_raw = form.getlist("word_ids")
+    oids = []
+    for raw_id in word_ids_raw:
+        try:
+            oids.append(PydanticObjectId(raw_id))
+        except InvalidId:
+            continue
+    if not oids:
+        return Response(status_code=204, headers={"HX-Redirect": "/vocab"})
+    word_refs = [DBRef(VocabularyWord.Settings.name, oid) for oid in oids]
+    result = await UserVocabularyCard.find(
+        {
+            "student_id": student.id,
+            "word": {"$in": word_refs},
+            "excluded": {"$ne": True},
+        }
+    ).update_many({"$set": {"excluded": True}})
+    excluded = result.modified_count if result else 0
+    logger.info("bulk excluded words", extra={"count": excluded})
+    return Response(status_code=204, headers={"HX-Redirect": "/vocab"})
+
+
 @router.get("/vocab/search", response_class=HTMLResponse)
 async def vocab_search(
     request: Request, student: Student = Depends(get_current_student), q: str = ""
@@ -278,6 +305,14 @@ async def vocab_reveal(
     await card.fetch_all_links()
     level = await get_cefr_level(student.id)
     word_def = await get_word_definition(card.word, level)
+    if word_def is None and card.word.senses:
+        try:
+            await generate_definitions_for_word(card.word)
+            word_def = await get_word_definition(card.word, level)
+        except Exception:
+            logger.warning(
+                "on-demand definition generation failed", extra={"word": card.word.word}
+            )
     return await render_with_discover(
         request,
         "vocab-card-back.html",

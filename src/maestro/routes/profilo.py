@@ -290,6 +290,8 @@ async def profilo_page(
         "profilo.html",
         {
             "profile": profile,
+            "cefr": cefr,
+            "cefr_idx": current_idx,
             "grammar_by_level": grammar_by_level,
             "cf_by_level": cf_by_level,
             "cefr_order": CEFR_ORDER,

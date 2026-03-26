@@ -6,11 +6,11 @@
 /* ── Buttons ── */
 .btn {
   display: inline-block;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   font-family: var(--f-sans);
-  border-radius: 8px;
+  border-radius: 6px;
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -19,8 +19,8 @@
 .btn:active { transform: scale(0.98); }
 .btn-landing-primary { background: var(--c-terracotta); color: #fff; }
 .btn-landing-primary:hover { background: #B5492D; }
-.btn-ghost { background: transparent; color: var(--c-text); border: 1px solid var(--c-border); }
-.btn-ghost:hover { background: var(--c-surface); }
+.btn-ghost { background: transparent; color: var(--c-text-muted); border: 1px solid var(--c-border); }
+.btn-ghost:hover { background: var(--c-surface); color: var(--c-text); }
 
 /* ── Section spacing ── */
 section { padding: 5rem 0; }
@@ -278,7 +278,7 @@ section:nth-child(even) { background: #fff; }
 
 .cta-footer h2 { font-size: 1.75rem; margin: 0 0 0.5rem; color: #fff; }
 .cta-footer .cta-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
-.cta-footer .btn-landing-primary { font-size: 1.1rem; padding: 0.9rem 2.5rem; }
+.cta-footer .btn-landing-primary { font-size: 1rem; padding: 0.65rem 2rem; }
 
 .site-footer {
   text-align: center;
