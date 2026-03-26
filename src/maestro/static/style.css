@@ -93,12 +93,12 @@ a.student-name {
 a.student-name:hover { color: var(--c-terracotta); }
 
 .nav-logout {
-  padding: 0.25rem 0.65rem;
+  padding: 0.3rem 0.75rem;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   border: 1px solid var(--c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
   color: var(--c-text-muted);
   cursor: pointer;
@@ -124,12 +124,16 @@ a.student-name:hover { color: var(--c-terracotta); }
    3. Form elements: button, input
    ===================================================================== */
 button {
-  padding: 0.4rem 0.8rem;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
   border: 1px solid var(--c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background: var(--c-surface);
+  color: var(--c-text);
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 button:hover { background: var(--c-cream); }
@@ -290,28 +294,31 @@ textarea, select {
   background: var(--c-terracotta) !important;
   color: #fff !important;
   border-color: var(--c-terracotta) !important;
+  border-radius: 6px;
 }
-.btn-incorrect:hover { opacity: 0.88; }
+.btn-incorrect:hover { background: #B5492D !important; }
 .btn-correct {
   background: var(--c-sage) !important;
   color: #fff !important;
   border-color: var(--c-sage) !important;
+  border-radius: 6px;
 }
-.btn-correct:hover { opacity: 0.88; }
+.btn-correct:hover { background: #5a7d60 !important; }
 
 /* Remove button on vocab entry page */
 .btn-remove {
   display: inline-block;
   margin-left: 0.5rem;
-  padding: 0.2rem 0.6rem;
-  font-size: 12px;
+  padding: 0.3rem 0.75rem;
+  font-size: 13px;
+  font-weight: 600;
   background: transparent;
-  border: 1px solid var(--c-text-muted);
-  border-radius: 4px;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
   color: var(--c-text-muted);
   cursor: pointer;
 }
-.btn-remove:hover { border-color: var(--c-terracotta); color: var(--c-terracotta); }
+.btn-remove:hover { background: var(--c-surface); color: var(--c-terracotta); border-color: var(--c-terracotta); }
 
 /* Lesson progress bar */
 .lesson-progress { padding: 1rem 0 0; margin-bottom: 1.5rem; }
@@ -371,8 +378,9 @@ a.progress-seg:hover { opacity: 0.75; }
 /* Shared action buttons */
 .submit-btn, .continue-btn, .reveal-btn {
   display: inline-block;
-  padding: 0.55rem 1.4rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   background: var(--c-terracotta);
   color: #fff;
   border: none;
@@ -665,13 +673,13 @@ a.progress-seg:hover { opacity: 0.75; }
 
 .btn-primary {
   display: inline-block;
-  padding: 0.65rem 1.5rem;
-  font-size: 0.95rem;
-  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   background: var(--c-terracotta);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.15s;
@@ -786,13 +794,13 @@ a.weakness-tag:hover { background: #f9e2db; }
 
 .btn-start {
   width: 100%;
-  padding: 0.7rem;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   background: var(--c-terracotta);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -865,15 +873,16 @@ a.weakness-tag:hover { background: #f9e2db; }
 
 .complete-container .btn-secondary {
   display: inline-block;
-  padding: 0.6rem 1.4rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   border: 1px solid var(--c-border);
-  border-radius: 8px;
-  color: var(--c-text);
+  border-radius: 6px;
+  color: var(--c-text-muted);
   text-decoration: none;
   background: transparent;
 }
-.complete-container .btn-secondary:hover { background: var(--c-surface); }
+.complete-container .btn-secondary:hover { background: var(--c-surface); color: var(--c-text); }
 
 /* Lesson feedback box */
 .lesson-feedback {
@@ -1065,8 +1074,8 @@ a.weakness-tag:hover { background: #f9e2db; }
 
 .hidden { display: none; }
 .hint-container { margin-bottom: 1rem; }
-.hint-toggle { background: none; border: 1px solid var(--c-border); color: var(--c-text-muted); font-size: 0.82rem; padding: 0.3rem 0.7rem; border-radius: 4px; cursor: pointer; }
-.hint-toggle:hover { background: var(--c-surface); }
+.hint-toggle { background: none; border: 1px solid var(--c-border); color: var(--c-text-muted); font-size: 13px; font-weight: 600; padding: 0.3rem 0.75rem; border-radius: 6px; cursor: pointer; }
+.hint-toggle:hover { background: var(--c-surface); color: var(--c-text); }
 .hint-text { margin-top: 0.5rem; padding: 0.6rem 0.8rem; background: var(--c-surface); border-radius: 6px; font-size: 0.88rem; color: var(--c-text); border-left: 3px solid var(--c-accent); }
 .hint-text table { border-collapse: collapse; margin: 0.3rem 0; font-size: 0.9em; }
 .hint-text th, .hint-text td { border: 1px solid var(--c-border); padding: 0.25rem 0.6rem; text-align: left; }
@@ -1168,13 +1177,13 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 #vocab-add button { padding: 0.35rem 0.85rem; font-size: 0.85rem; cursor: pointer; }
 .added-badge {
   display: inline-block;
-  padding: 0.35rem 0.85rem;
+  padding: 0.3rem 0.75rem;
   background: var(--c-surface);
   color: var(--c-text-muted);
   border: 1px solid var(--c-border);
   border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   cursor: default;
 }
 
@@ -1336,14 +1345,14 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 }
 .new-student-form input[type="text"]:focus { border-color: var(--c-terracotta); }
 .new-student-form button {
-  padding: 0.55rem 1.2rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   background: var(--c-terracotta);
   color: #fff;
   border: none;
   border-radius: 6px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s;
 }
 .new-student-form button:hover { background: #B5492D; }
 
@@ -1506,15 +1515,15 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   background: var(--c-terracotta);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 0.3rem 0.75rem;
-  font-size: 0.85rem;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   min-width: 6rem;
 }
 
-.play-btn:hover { background: #b34a2e; }
+.play-btn:hover { background: #B5492D; }
 .play-btn:disabled { background: #c4bfb6; cursor: not-allowed; }
 
 .play-btn-sm {
@@ -1555,28 +1564,29 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 /* Inline audio play button (grammar tables) — reuses .tt-audio-btn style */
 .inline-play-btn {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.78rem;
-  background: var(--c-surface);
+  padding: 0.3rem 0.75rem;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
   border: 1px solid var(--c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  color: var(--c-text);
+  color: var(--c-text-muted);
   text-align: center;
 }
-.inline-play-btn:hover { background: var(--c-cream); }
+.inline-play-btn:hover { background: var(--c-surface); color: var(--c-text); }
 
 /* Tooltip add-to-vocab action */
 .tt-actions { margin-top: 0.35rem; }
 .tt-add-btn {
   display: block;
   width: 100%;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.78rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 13px;
   font-weight: 600;
   background: var(--c-sage);
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   color: #fff;
   text-align: center;
@@ -1585,14 +1595,14 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .tt-added {
   display: block;
   width: 100%;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.78rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--c-text-muted);
   background: var(--c-surface);
   border: 1px solid var(--c-border);
-  border-radius: 4px;
+  border-radius: 6px;
   text-align: center;
-  font-weight: 500;
   cursor: default;
 }
 
