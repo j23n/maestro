@@ -291,7 +291,7 @@ async def profilo_page(
         {
             "profile": profile,
             "cefr": cefr,
-            "cefr_idx": CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0,
+            "cefr_idx": current_idx,
             "grammar_by_level": grammar_by_level,
             "cf_by_level": cf_by_level,
             "cefr_order": CEFR_ORDER,
