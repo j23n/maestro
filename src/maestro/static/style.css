@@ -93,14 +93,14 @@ a.student-name {
 a.student-name:hover { color: var(--c-terracotta); }
 
 .nav-logout {
-  background: transparent;
+  background: none;
   border: none;
+  font: inherit;
   color: var(--c-text-muted);
-  font-size: 0.82rem;
-  padding: 0.2rem 0;
+  padding: 0.3rem 0;
   cursor: pointer;
 }
-.nav-logout:hover { color: var(--c-terracotta); text-decoration: underline; }
+.nav-logout:hover { color: var(--c-charcoal); }
 
 /* Hamburger — hidden on desktop */
 .nav-hamburger { display: none; }
