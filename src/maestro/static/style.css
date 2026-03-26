@@ -1464,9 +1464,15 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   }
   nav.nav-open .nav-links { display: flex; }
   .nav-right { order: 2; }
-  /* Remove horizontal padding on lesson-new and activity pages */
+  /* Remove horizontal padding on content containers */
   .lesson-new { margin: 1.25rem auto; padding: 0; }
   .activity-container { padding: 0 0 3rem; }
+  .lesson-index { padding: 0; }
+  .lesson-plan { padding: 0; }
+  .complete-container { padding: 0; }
+  .grammar-detail { padding: 0 0 3rem; }
+  .grammar-index { padding: 0 0 3rem; }
+  .generating-wrap { padding: 0; }
   /* Tighten drill/scoring item grids */
   .drill-item { grid-template-columns: 1.2rem 1fr; gap: 0.3rem 0.4rem; }
   .item-row { grid-template-columns: 1.2rem 1fr; gap: 0.3rem 0.4rem; }
