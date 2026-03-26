@@ -176,6 +176,39 @@
       correct_answer: Formal
       grammar_point_codes:
       - saluti
+  - type: grammar
+    title: Italian sounds
+    description: A pronunciation reference card
+    grammar_point_code: pronun_bas
+    content: |
+      ## Italian pronunciation — reference card
+
+      Good news: Italian is mostly phonetic — you read it as it's written! Keep this card handy.
+
+      ### Vowels (always the same sound)
+
+      | Letter | Sound | Example |
+      |--------|-------|---------|
+      | **a** | ah (father) | <span lang="it">casa</span> (KAH-za) |
+      | **e** | eh (bed) | <span lang="it">bene</span> (BEH-neh) |
+      | **i** | ee (feet) | <span lang="it">vino</span> (VEE-no) |
+      | **o** | oh (not) | <span lang="it">notte</span> (NOT-teh) |
+      | **u** | oo (moon) | <span lang="it">uno</span> (OO-no) |
+
+      ### Tricky consonants
+
+      | Pattern | Sound | Example |
+      |---------|-------|---------|
+      | **c** before e/i | "ch" | <span lang="it">ciao</span> = chow |
+      | **c** before a/o/u | "k" | <span lang="it">caffè</span> = kaf-FEH |
+      | **g** before e/i | "j" | <span lang="it">gelato</span> = jeh-LAH-to |
+      | **g** before a/o/u | hard "g" | <span lang="it">grazie</span> = GRAH-tsyeh |
+      | **gn** | "ny" | <span lang="it">gnocchi</span> = NYOH-kee |
+      | **sc** before e/i | "sh" | <span lang="it">pesce</span> = PEH-sheh |
+
+      Double consonants are **held longer**: <span lang="it" data-no-save>*penna*</span> (PEN-nah), <span lang="it" data-no-save>*notte*</span> (NOT-teh).
+
+      > You don't need to memorise this — come back to it whenever you meet a new word.
   - type: speaking
     title: Say it out loud
     description: Practice your first Italian
@@ -185,6 +218,7 @@
     - saluti
     - si_no_non
     - vorrei
+    - pronun_bas
   - type: info
     title: What's next
     description: How your learning journey continues
@@ -215,7 +249,7 @@
       ## At the reception
 
       - **<span lang="it">Mi chiamo...</span>** — My name is... (*mee KYAH-mo*)
-      - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation.
+      - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation. (**ho** = I have)
       - **<span lang="it">Come si chiama?</span>** — What is your name? (formal)
 
       > Walk up to reception and say: <span lang="it">*Buonasera. Mi chiamo [your name]. Ho una prenotazione.*</span> That's all you need.
@@ -324,38 +358,7 @@
     grammar_point_codes:
     - mi_chiamo
     - saluti
-  - type: info
-    title: Italian sounds
-    description: A pronunciation reference card
-    content: |
-      ## Italian pronunciation — reference card
-
-      Good news: Italian is mostly phonetic — you read it as it's written! Keep this card handy.
-
-      ### Vowels (always the same sound)
-
-      | Letter | Sound | Example |
-      |--------|-------|---------|
-      | **a** | ah (father) | <span lang="it">casa</span> (KAH-za) |
-      | **e** | eh (bed) | <span lang="it">bene</span> (BEH-neh) |
-      | **i** | ee (feet) | <span lang="it">vino</span> (VEE-no) |
-      | **o** | oh (go) | <span lang="it">notte</span> (NOT-teh) |
-      | **u** | oo (moon) | <span lang="it">uno</span> (OO-no) |
-
-      ### Tricky consonants
-
-      | Pattern | Sound | Example |
-      |---------|-------|---------|
-      | **c** before e/i | "ch" | <span lang="it">ciao</span> = chow |
-      | **c** before a/o/u | "k" | <span lang="it">caffè</span> = kaf-FEH |
-      | **g** before e/i | "j" | <span lang="it">gelato</span> = jeh-LAH-to |
-      | **g** before a/o/u | hard "g" | <span lang="it">grazie</span> = GRAH-tsyeh |
-      | **gn** | "ny" | <span lang="it">gnocchi</span> = NYOH-kee |
-      | **sc** before e/i | "sh" | <span lang="it">pesce</span> = PEH-sheh |
-
-      Double consonants are **held longer**: <span lang="it" data-no-save>*penna*</span> (PEN-nah), <span lang="it" data-no-save>*notte*</span> (NOT-teh).
-
-      > You don't need to memorise this — come back to it whenever you meet a new word.
+    - pronun_bas
   - type: drill
     title: "Review: lesson 1"
     description: Keep yesterday's words fresh
@@ -508,6 +511,7 @@
     - vorrei
     - art_un_una
     - saluti
+    - pronun_bas
   - type: drill
     title: "Review: hotel"
     description: Keep lesson 2 fresh
@@ -651,6 +655,7 @@
     grammar_point_codes:
     - dove_e
     - art_il_la
+    - pronun_bas
   - type: writing
     title: You're lost
     description: Write a question about a location
@@ -807,6 +812,7 @@
       \ phrases will rescue you constantly!"
     grammar_point_codes:
     - polite_exp
+    - pronun_bas
   - type: writing
     title: A tricky situation
     description: Write what you'd say
@@ -976,6 +982,7 @@
     grammar_point_codes:
     - vocab_cibo
     - vorrei
+    - pronun_bas
   - type: writing
     title: Your lunch
     description: Write a restaurant order
@@ -1134,6 +1141,7 @@
       \ il tè.** And the plural: **Mi piacciono i dolci.**"
     grammar_point_codes:
     - mi_piace
+    - pronun_bas
   - type: writing
     title: Likes and dislikes
     description: Write about your preferences
@@ -1298,6 +1306,7 @@
     grammar_point_codes:
     - num_20_100
     - ore_giorni
+    - pronun_bas
   - type: drill
     title: "Review: mi piace"
     description: Keep lesson 7 fresh
@@ -1421,6 +1430,7 @@
     grammar_point_codes:
     - vocab_viaggio
     - vorrei
+    - pronun_bas
   - type: writing
     title: Plan your journey
     description: "Write a ticket-buying conversation"
@@ -1582,6 +1592,7 @@
     grammar_point_codes:
     - mi_chiamo
     - simp_sent
+    - pronun_bas
   - type: writing
     title: About you
     description: Write your introduction
@@ -1661,8 +1672,48 @@
     - prompt: "I don't understand. = Non ___."
       correct_answer: capisco
   - type: grammar
-    title: Emergency phrases
-    description: For when you really need help
+    title: "Ho bisogno di... / Ho perso..."
+    description: "Saying what you need and what you've lost"
+    grammar_point_code: avere_pre
+    content: |
+      ## Ho — I have, I need, I've lost
+
+      When things go wrong, <span lang="it">**ho**</span> (I have) is your most useful word:
+
+      | Pattern | Meaning | Example |
+      |---------|---------|---------|
+      | <span lang="it">**ho bisogno di...**</span> | I need... | <span lang="it">Ho bisogno di un medico.</span> |
+      | <span lang="it">**ho perso...**</span> | I've lost... | <span lang="it">Ho perso il passaporto.</span> |
+
+      <span lang="it">**Ho**</span> comes from the verb <span lang="it">*avere*</span> (to have). You'll also hear <span lang="it">**hai**</span> (you have) and <span lang="it">**ha**</span> (he/she has):
+      - <span lang="it">**Ha bisogno di aiuto?**</span> — Do you need help? (formal)
+
+      ### More examples
+
+      - <span lang="it">**Ho bisogno di aiuto.**</span> — I need help.
+      - <span lang="it">**Ho bisogno di un medico.**</span> — I need a doctor.
+      - <span lang="it">**Ho perso il passaporto.**</span> — I've lost my passport.
+      - <span lang="it">**Ho perso il portafoglio.**</span> — I've lost my wallet.
+  - type: drill
+    title: "Ho bisogno / Ho perso"
+    description: "What you need and what you've lost"
+    hint: "Ho bisogno di = I need. Ho perso = I've lost."
+    grammar_point_code: avere_pre
+    exercise_type: fill_blank
+    items:
+    - prompt: "I need a doctor. = Ho ___ di un medico."
+      correct_answer: bisogno
+    - prompt: "I've lost my passport. = Ho ___ il passaporto."
+      correct_answer: perso
+    - prompt: "I need help. = ___ bisogno di aiuto."
+      correct_answer: Ho
+    - prompt: "I've lost my wallet. = Ho perso il ___."
+      correct_answer: portafoglio
+    - prompt: "Do you need help? (formal) = ___ bisogno di aiuto?"
+      correct_answer: Ha
+  - type: grammar
+    title: Emergency quick reference
+    description: Key phrases for emergencies
     grammar_point_code: si_no_non
     content: |
       ## Emergencies
@@ -1670,30 +1721,25 @@
       Hopefully you won't need these, but just in case:
 
       - <span lang="it">**Aiuto!**</span> — Help!
-      - <span lang="it">**Ho bisogno di un medico.**</span> — I need a doctor.
       - <span lang="it">**Dov'è l'ospedale?**</span> — Where is the hospital?
       - <span lang="it">**Dov'è la farmacia?**</span> — Where is the pharmacy?
-      - <span lang="it">**Ho perso il passaporto.**</span> — I've lost my passport.
-      - <span lang="it">**Ho perso il portafoglio.**</span> — I've lost my wallet.
 
       > Italian pharmacies (<span lang="it">*farmacie*</span>) have a green cross. Pharmacists can advise on minor ailments without a doctor.
   - type: drill
     title: Emergency drill
     description: Practice emergency phrases
-    hint: "Ho bisogno di = I need. Ho perso = I've lost. Dov'è = where is."
+    hint: "Aiuto = help. Dov'è = where is."
     grammar_point_code: si_no_non
     exercise_type: fill_blank
     items:
     - prompt: "Help! = ___!"
       correct_answer: Aiuto
-    - prompt: "I need a doctor. = Ho bisogno di un ___."
-      correct_answer: medico
-    - prompt: "I've lost my passport. = Ho perso il ___."
-      correct_answer: passaporto
+    - prompt: "Where is the hospital? = Dov'è l'___?"
+      correct_answer: ospedale
+      grammar_point_code: dove_e
     - prompt: "Where is the pharmacy? = Dov'è la ___?"
       correct_answer: farmacia
-    - prompt: "I've lost my wallet. = Ho perso il ___."
-      correct_answer: portafoglio
+      grammar_point_code: dove_e
   - type: reading
     title: A lost wallet
     description: Asking for help
@@ -1715,7 +1761,7 @@
     - text: "What did the tourist lose?"
       correct_answer: il portafoglio / the wallet
       grammar_point_codes:
-      - si_no_non
+      - avere_pre
     - text: "Where do they think they lost it?"
       correct_answer: al bar / at the bar
       grammar_point_codes:
@@ -1736,7 +1782,7 @@
     - text: "What is the problem?"
       correct_answer: mal di testa / headache
       grammar_point_codes:
-      - si_no_non
+      - avere_pre
     - text: "How much do the tablets cost?"
       correct_answer: cinque euro e cinquanta / 5.50 euros
       grammar_point_codes:
@@ -1748,14 +1794,15 @@
       \ Then: **Ho bisogno di aiuto.** These phrases could genuinely help you — practice them until they feel automatic."
     grammar_point_codes:
     - polite_exp
-    - si_no_non
+    - avere_pre
+    - pronun_bas
   - type: writing
     title: Something went wrong
     description: Write what you'd say in a crisis
     content: "You lost your bag at the train station. Write 3-4 sentences explaining what happened and asking for help. Use\
       \ **Scusi**, **Ho perso...**, **Dov'è...?**, and **Ho bisogno di...**"
     grammar_point_codes:
-    - si_no_non
+    - avere_pre
     - polite_exp
     - dove_e
   - type: drill
@@ -1917,6 +1964,7 @@
     grammar_point_codes:
     - saluti
     - mi_piace
+    - pronun_bas
   - type: writing
     title: Goodbye letter
     description: Write a short farewell
@@ -2072,6 +2120,7 @@
     - simp_sent
     - vorrei
     - saluti
+    - pronun_bas
   - type: drill
     title: Final fix the mistakes
     description: Mixed error correction

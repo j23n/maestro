@@ -14,8 +14,9 @@ scenarios:
       - polite_exp
       - si_no_non
       - vorrei
+      - pronun_bas
     depths:
-      - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk"
+      - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk, pronunciation reference"
 
   - slug: a0-02-in-albergo
     label: "In albergo"
@@ -29,9 +30,8 @@ scenarios:
     gp_codes:
       - mi_chiamo
       - num_0_20
-      - pronun_bas
     depths:
-      - "Self-introduction, numbers 0-20, pronunciation reference"
+      - "Self-introduction, numbers 0-20"
 
   - slug: a0-03-al-bar
     label: "Al bar"
@@ -159,10 +159,11 @@ scenarios:
       - a0_descrivere_problema
       - a0_scusarsi
     gp_codes:
+      - avere_pre
       - polite_exp
       - si_no_non
     depths:
-      - "Più lentamente, emergency phrases, ho bisogno di, ho perso, pharmacy visit"
+      - "Ho bisogno di, ho perso, più lentamente, emergency phrases, pharmacy visit"
 
   - slug: a0-12-ultimo-giorno
     label: "L'ultimo giorno"
@@ -221,6 +222,7 @@ scenarios:
       - ore_giorni
       - vocab_viaggio
       - essere_pre
+      - avere_pre
       - subj_pron
       - simp_sent
     depths:
