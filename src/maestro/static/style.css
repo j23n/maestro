@@ -940,7 +940,6 @@ a.weakness-tag:hover { background: #f9e2db; }
 }
 
 /* Pip track (scoring pips — reused from profile + complete) */
-.review-box .skill-list { display: flex; flex-direction: column; gap: 0; }
 .pip-track { display: flex; gap: 2px; flex-shrink: 0; }
 .pip { width: 8px; height: 8px; border-radius: 2px; background: var(--c-border); flex-shrink: 0; }
 .pip.ok  { background: var(--c-sage); }
