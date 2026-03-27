@@ -21,7 +21,7 @@
       <ul class="intro-list">
         {% for gp in grammar_points %}
         <li>
-          <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp.unistr_label or gp.label }}</a>
+          <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp_titles.get(gp.code) or gp.label }}</a>
         </li>
         {% endfor %}
       </ul>

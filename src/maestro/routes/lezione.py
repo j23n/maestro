@@ -40,7 +40,7 @@ from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import render_with_discover
-from maestro.utils import create_background_task, ensure_utc, utcnow
+from maestro.utils import create_background_task, ensure_utc, strip_lang_spans, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
@@ -671,7 +671,14 @@ async def lezione_activity(
             if cf_codes
             else []
         )
+        # Build English titles from GP explanations (same approach as grammar index)
+        gp_titles = {}
+        for gp in grammar_points:
+            expl = gp.explanations.get("en") or gp.explanations.get("it")
+            if expl and expl.title:
+                gp_titles[gp.code] = strip_lang_spans(expl.title)
         ctx["grammar_points"] = grammar_points
+        ctx["gp_titles"] = gp_titles
         ctx["comm_functions"] = comm_functions
         return await render_with_discover(
             request,
