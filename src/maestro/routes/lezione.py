@@ -603,11 +603,17 @@ async def lezione_activity(
         # Discovered-scope: populate card_ids dynamically on first visit
         if activity.review_scope == "discovered" and not activity.card_ids:
             discovered = await get_lesson_discovered_words(lesson)
+            # Exclude cards already assigned to earlier discovered reviews
+            already_reviewed: set = set()
+            for prev in lesson.activities[:idx]:
+                if prev.review_scope == "discovered" and prev.card_ids:
+                    already_reviewed.update(prev.card_ids)
+            discovered = [w for w in discovered if w.id not in already_reviewed]
             if not discovered:
-                # No words discovered yet — auto-skip
+                # No new words discovered — auto-skip
                 redirect_url = await advance_lesson(lesson, idx, skip=True)
                 return RedirectResponse(url=redirect_url, status_code=303)
-            card_ids_new = [c.id for c in discovered]
+            card_ids_new = [w.id for w in discovered]
             title = st("vocab_discovered_title", count=len(card_ids_new))
             await lesson.update(
                 {
