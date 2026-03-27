@@ -45,6 +45,7 @@ from maestro.utils import create_background_task, ensure_utc, strip_lang_spans, 
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
+from maestro.strings import t as st
 from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
 from markupsafe import escape
 from maestro.lezione.service import (
@@ -599,7 +600,32 @@ async def lezione_activity(
                 student_id=student.id,
                 create_cards=True,
             )
-
+        # Discovered-scope: populate card_ids dynamically on first visit
+        if activity.review_scope == "discovered" and not activity.card_ids:
+            discovered = await get_lesson_discovered_words(lesson)
+            # Exclude cards already assigned to earlier discovered reviews
+            already_reviewed: set = set()
+            for prev in lesson.activities[:idx]:
+                if prev.review_scope == "discovered" and prev.card_ids:
+                    already_reviewed.update(prev.card_ids)
+            discovered = [w for w in discovered if w.id not in already_reviewed]
+            if not discovered:
+                # No new words discovered — auto-skip
+                redirect_url = await advance_lesson(lesson, idx, skip=True)
+                return RedirectResponse(url=redirect_url, status_code=303)
+            card_ids_new = [w.id for w in discovered]
+            title = st("vocab_discovered_title", count=len(card_ids_new))
+            await lesson.update(
+                {
+                    "$set": {
+                        f"activities.{idx}.card_ids": card_ids_new,
+                        f"activities.{idx}.title": title,
+                    }
+                }
+            )
+            activity.card_ids = card_ids_new
+            activity.title = title
+        card_ids = activity.card_ids
         if not card_ids:
             # No vocab cards — auto-skip this activity
             redirect_url = await advance_lesson(lesson, idx)

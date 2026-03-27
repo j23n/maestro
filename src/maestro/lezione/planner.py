@@ -47,6 +47,7 @@ from maestro.lezione.prompts import (
 )
 from maestro.lezione.materialize import materialize_activities
 from maestro.lezione.a0 import _generate_a0_lesson_background
+from maestro.lezione.service import inject_discovered_reviews
 from maestro.lezione.schemas import LessonContentResponse
 from maestro.lezione.curriculum import (
     get_unlocked_gps,
@@ -550,6 +551,9 @@ async def _generate_lesson_background(
         duration_minutes=1,
     )
     new_activities.insert(0, intro_activity)
+
+    # --- Inject mid-lesson and end-of-lesson discovered-word reviews ---
+    inject_discovered_reviews(new_activities)
 
     # --- Generate audio for LISTENING activities ---
     from maestro.tts import generate_lesson_audio

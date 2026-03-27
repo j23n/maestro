@@ -19,6 +19,7 @@ from maestro.profile import get_profile
 from maestro.strings import t
 from maestro.utils import data_dir
 from maestro.lezione.selection import pick_scenario, get_due_vocab_cards
+from maestro.lezione.service import inject_discovered_reviews
 
 logger = logging.getLogger(__name__)
 
@@ -213,6 +214,9 @@ async def _generate_a0_lesson_background(
         else:
             break
     new_activities.insert(insert_idx, intro_activity)
+
+    # Inject mid-lesson and end-of-lesson discovered-word reviews
+    inject_discovered_reviews(new_activities)
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]
