@@ -119,22 +119,9 @@
   </div>
 </div>
 
+{% include "partials/enter-to-continue.html" %}
 <script>
 (function() {
-  function onEnter(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      var btn = document.querySelector('.continue-btn');
-      if (btn) { e.preventDefault(); btn.click(); }
-    }
-  }
-  document.addEventListener('keydown', onEnter);
-  var container = document.querySelector('.activity-container');
-  if (container) {
-    container.addEventListener('htmx:beforeSwap', function() {
-      document.removeEventListener('keydown', onEnter);
-    }, {once: true});
-  }
-
   // --- Pronunciation word tooltip ---
   var audioB64 = '{{ recorded_audio_b64 | default("") }}';
 

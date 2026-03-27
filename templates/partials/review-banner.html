@@ -1,0 +1,5 @@
+<div class="review-banner">
+  <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+    {{ t("back_to_current") }}
+  </a>
+</div>

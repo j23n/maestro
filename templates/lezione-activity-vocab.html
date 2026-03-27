@@ -1,18 +1,11 @@
-{% extends "base.html" %}
-{% block title %}{{ activity.title }} — Maestro{% endblock %}
+{% extends "lezione-activity-layout.html" %}
 
-{% block content %}
-<div class="activity-container">
-  {% include "lezione-progress.html" %}
+{% block activity_card %}
   {% include "vocab-card-front.html" %}
 
   {% if card and not is_complete %}
   <div class="submit-row" style="justify-content:flex-end;">
-    <a class="skip-link"
-       hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
-       hx-target="body"
-       href="#">{{ t("vocab_skip_activity") }}</a>
+    {% include "partials/skip-link.html" %}
   </div>
   {% endif %}
-</div>
 {% endblock %}
