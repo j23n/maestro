@@ -6,17 +6,19 @@
 
 {% if is_complete %}
 <div class="card">
-  <div class="card-label">{{ t("vocab_review_complete") }}</div>
-  {% if correct + incorrect > 0 %}
-  <div class="review-result">
-    {{ correct }} {{ t("srs_correct") }} · {{ incorrect }} {{ t("srs_incorrect") }}
-  </div>
-  {% endif %}
-  <div class="review-banner">
-    {% if continue_url %}
-    <a href="{{ continue_url }}" class="continue-btn">{{ t("back_to_current") }}</a>
+  {% set total_reviewed = correct + incorrect %}
+  {% if total_reviewed > 0 %}
+    {% if incorrect == 0 %}
+    <div class="result-ok">{{ t("result_correct_multi", correct=correct, total=total_reviewed) }}</div>
+    {% else %}
+    <div class="result-wrong">{{ t("result_wrong_multi", correct=correct, total=total_reviewed) }}</div>
     {% endif %}
-    <a href="/vocab" class="continue-btn">{{ t("vocab_practice_link") }}</a>
+  {% else %}
+    <div class="result-ok">{{ t("vocab_review_complete") }}</div>
+  {% endif %}
+
+  <div style="margin-top:1.5rem;">
+    <a href="{{ continue_url or '/vocab' }}" class="continue-btn">{{ t("continue_btn") }}</a>
   </div>
 </div>
 
