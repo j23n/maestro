@@ -1858,39 +1858,7 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   margin-bottom: 0.3rem;
 }
 
-/* =====================================================================
-   Welcome card + onboarding progress
-   ===================================================================== */
-.welcome-card {
-  border: 1px solid var(--c-border);
-  border-radius: 10px;
-  padding: 1.5rem 1.75rem;
-  margin-bottom: 1.5rem;
-  background: #fff;
-}
-
-.welcome-card h2 {
-  margin: 0 0 0.6rem;
-  font-size: 1.2rem;
-}
-
-.welcome-card p {
-  margin: 0 0 0.6rem;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--c-text);
-}
-
-.welcome-card ul {
-  margin: 0 0 0.6rem;
-  padding-left: 1.25rem;
-}
-
-.welcome-card li {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--c-text);
-}
+/* Welcome card (returning A0 students) + onboarding progress — see also welcome.css */
 
 .onboarding-progress {
   display: inline-block;

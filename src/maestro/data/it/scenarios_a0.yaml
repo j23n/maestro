@@ -19,8 +19,6 @@ scenarios:
     gp_codes:
       - saluti
       - polite_exp
-      - si_no_non
-      - vorrei
       - pronun_bas
     depths:
       - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk, pronunciation reference"
