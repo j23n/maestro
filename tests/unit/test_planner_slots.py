@@ -1,6 +1,6 @@
 import pytest
 
-from maestro.lezione.slots import _allocate_slots
+from maestro.lessons.slots import _allocate_slots
 from maestro.models import ActivityType
 
 

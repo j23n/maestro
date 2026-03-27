@@ -125,7 +125,7 @@ async def test_full_lesson_events_match_answers(
     )
     with (
         patch(
-            "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
+            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -140,7 +140,7 @@ async def test_full_lesson_events_match_answers(
             [],
         )
         resp = test_app.post(
-            f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
+            f"/lessons/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
         )
     assert resp.status_code == 200
 
@@ -154,12 +154,12 @@ async def test_full_lesson_events_match_answers(
         "grammar_error_codes": ["GP_C"],
     }
     with patch(
-        "maestro.routes.lezione.generate_writing_feedback",
+        "maestro.routes.lessons.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=writing_feedback,
     ):
         resp = test_app.post(
-            f"/lezione/{lesson.id}/activity/1/writing-submit",
+            f"/lessons/{lesson.id}/activity/1/writing-submit",
             data={"answer": "Oggi ho mangiato la pizza."},
         )
     assert resp.status_code == 200
@@ -173,7 +173,7 @@ async def test_full_lesson_events_match_answers(
         ]
     )
     resp = test_app.post(
-        f"/lezione/{lesson.id}/activity/2/reading-submit",
+        f"/lessons/{lesson.id}/activity/2/reading-submit",
         data={"answers": "Sul divano"},
     )
     assert resp.status_code == 200
@@ -232,7 +232,7 @@ async def test_full_lesson_profile_updated_after_analysis(
     )
     with (
         patch(
-            "maestro.routes.lezione.score_attempt", new_callable=AsyncMock
+            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -247,7 +247,7 @@ async def test_full_lesson_profile_updated_after_analysis(
             [],
         )
         test_app.post(
-            f"/lezione/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
+            f"/lessons/{lesson.id}/activity/0/drill-submit", data={"answers": "vado"}
         )
 
     writing_feedback = {
@@ -259,12 +259,12 @@ async def test_full_lesson_profile_updated_after_analysis(
         "grammar_error_codes": ["GP_C"],
     }
     with patch(
-        "maestro.routes.lezione.generate_writing_feedback",
+        "maestro.routes.lessons.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=writing_feedback,
     ):
         test_app.post(
-            f"/lezione/{lesson.id}/activity/1/writing-submit",
+            f"/lessons/{lesson.id}/activity/1/writing-submit",
             data={"answer": "Oggi ho mangiato la pizza."},
         )
 
@@ -276,7 +276,7 @@ async def test_full_lesson_profile_updated_after_analysis(
         ]
     )
     test_app.post(
-        f"/lezione/{lesson.id}/activity/2/reading-submit",
+        f"/lessons/{lesson.id}/activity/2/reading-submit",
         data={"answers": "Sul divano"},
     )
 

@@ -18,12 +18,12 @@ class TestCSRF:
                 yield client
 
     def test_post_without_csrf_token_returns_403(self, raw_client):
-        resp = raw_client.post("/lezione/", data={"duration": "15"})
+        resp = raw_client.post("/lessons/", data={"duration": "15"})
         assert resp.status_code == 403
 
     def test_post_with_valid_csrf_token_succeeds(self, test_app):
         # test_app fixture already includes CSRF token — POST should not 403
-        resp = test_app.post("/lezione/", data={"duration": "15"})
+        resp = test_app.post("/lessons/", data={"duration": "15"})
         assert resp.status_code != 403
 
     def test_csrf_cookie_set_on_first_get(self, raw_client):
@@ -33,7 +33,7 @@ class TestCSRF:
     def test_tampered_csrf_token_returns_403(self, raw_client):
         raw_client.get("/")
         resp = raw_client.post(
-            "/lezione/",
+            "/lessons/",
             data={"duration": "15"},
             headers={"x-csrftoken": "wrong-token"},
         )
@@ -44,7 +44,7 @@ class TestCSRF:
         raw_client.get("/")
         token = raw_client.cookies.get("csrftoken")
         resp = raw_client.post(
-            "/lezione/",
+            "/lessons/",
             data={"duration": "15", "csrftoken": token},
             # No x-csrftoken header — token only in form body
         )
@@ -62,7 +62,7 @@ class TestCSRF:
         """Empty cookie + empty header must not pass validation."""
         raw_client.cookies.set("csrftoken", "")
         resp = raw_client.post(
-            "/lezione/",
+            "/lessons/",
             data={"duration": "15"},
             headers={"x-csrftoken": ""},
         )

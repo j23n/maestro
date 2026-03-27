@@ -1,4 +1,4 @@
-"""Integration tests for lezione/service.py helper functions."""
+"""Integration tests for lessons/lifecycle.py helper functions."""
 
 import pytest
 from unittest.mock import MagicMock
@@ -17,7 +17,7 @@ from maestro.utils import utcnow
 @pytest.mark.integration
 async def test_score_reading_activity_all_correct(mock_scorer_client, db):
     """All correct answers → overall_correct=True, correct_count matches."""
-    from maestro.lezione.service import score_reading_activity
+    from maestro.lessons.lifecycle import score_reading_activity
 
     mock_scorer_client.messages.create.return_value = MagicMock(
         content=[
@@ -43,7 +43,7 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
 @pytest.mark.integration
 async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
     """Below 70% correct → overall_correct=False."""
-    from maestro.lezione.service import score_reading_activity
+    from maestro.lessons.lifecycle import score_reading_activity
 
     # 1 correct out of 3 = 33% < 70%
     mock_scorer_client.messages.create.return_value = MagicMock(
@@ -69,7 +69,7 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
 @pytest.mark.integration
 async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
     """Enriched feedback items contain prompt, correct_answer, and student_answer."""
-    from maestro.lezione.service import score_reading_activity
+    from maestro.lessons.lifecycle import score_reading_activity
 
     mock_scorer_client.messages.create.return_value = MagicMock(
         content=[
@@ -116,7 +116,7 @@ async def test_advance_lesson_creates_profile_and_updates_scenario_progress(
     db, student
 ):
     """Complete last activity with no profile → profile created + scenario progress recorded."""
-    from maestro.lezione.service import advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson
 
     lesson = _make_lesson(
         student.id,
@@ -147,7 +147,7 @@ async def test_advance_lesson_creates_profile_and_updates_scenario_progress(
 @pytest.mark.integration
 async def test_advance_lesson_sweeps_leftover_activities(db, student):
     """Earlier PENDING/ACTIVE activities become SKIPPED when lesson completes."""
-    from maestro.lezione.service import advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson
 
     lesson = _make_lesson(
         student.id,
@@ -191,7 +191,7 @@ async def test_advance_lesson_sweeps_leftover_activities(db, student):
 @pytest.mark.integration
 async def test_advance_lesson_normal_progression(db, student):
     """Complete activity 0 of 2 → activity 1 becomes ACTIVE."""
-    from maestro.lezione.service import advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson
 
     lesson = _make_lesson(
         student.id,
@@ -245,7 +245,7 @@ def _make_tier_lesson(student_id, cefr_at_start="A1", status=LessonStatus.COMPLE
 @pytest.mark.integration
 async def test_count_paid_lessons_empty(db, student):
     """Student with no lessons returns 0."""
-    from maestro.lezione.service import count_paid_lessons
+    from maestro.lessons.lifecycle import count_paid_lessons
 
     result = await count_paid_lessons(student.id)
     assert result == 0
@@ -254,7 +254,7 @@ async def test_count_paid_lessons_empty(db, student):
 @pytest.mark.integration
 async def test_count_paid_lessons_counts_non_a0(db, student):
     """Student with A1 completed and abandoned lessons counts them all."""
-    from maestro.lezione.service import count_paid_lessons
+    from maestro.lessons.lifecycle import count_paid_lessons
 
     for _ in range(3):
         await _make_tier_lesson(
@@ -276,7 +276,7 @@ async def test_count_paid_lessons_counts_non_a0(db, student):
 @pytest.mark.integration
 async def test_count_paid_lessons_excludes_a0(db, student):
     """A0 lessons are not counted toward the A1 cap."""
-    from maestro.lezione.service import count_paid_lessons
+    from maestro.lessons.lifecycle import count_paid_lessons
 
     for _ in range(5):
         await _make_tier_lesson(
@@ -290,7 +290,7 @@ async def test_count_paid_lessons_excludes_a0(db, student):
 @pytest.mark.integration
 async def test_count_paid_lessons_counts_all_statuses(db, student):
     """All lesson statuses (PLANNING, ACTIVE, COMPLETED, ABANDONED) are counted."""
-    from maestro.lezione.service import count_paid_lessons
+    from maestro.lessons.lifecycle import count_paid_lessons
 
     await _make_tier_lesson(
         student.id, cefr_at_start="A1", status=LessonStatus.PLANNING

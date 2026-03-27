@@ -8,21 +8,21 @@ from fastapi.testclient import TestClient
 @pytest.mark.integration
 def test_no_cookie_redirects_to_login(test_app):
     test_app.cookies.clear()
-    response = test_app.get("/lezione/", follow_redirects=False)
+    response = test_app.get("/lessons/", follow_redirects=False)
     assert response.status_code in (302, 303, 307)
     assert "/auth/login" in response.headers["location"]
 
 
 @pytest.mark.integration
 def test_valid_session_returns_200(test_app):
-    response = test_app.get("/lezione/", follow_redirects=False)
+    response = test_app.get("/lessons/", follow_redirects=False)
     assert response.status_code == 200
 
 
 @pytest.mark.integration
 def test_tampered_cookie_redirects_to_login(test_app):
     test_app.cookies.set("session", "garbage.tampered.value")
-    response = test_app.get("/lezione/", follow_redirects=False)
+    response = test_app.get("/lessons/", follow_redirects=False)
     assert response.status_code in (302, 303, 307)
     assert "/auth/login" in response.headers["location"]
 
@@ -38,7 +38,7 @@ async def test_orphaned_student_redirects_to_login(db, account, student):
 
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
-            response = client.get("/lezione/", follow_redirects=False)
+            response = client.get("/lessons/", follow_redirects=False)
             assert response.status_code in (302, 303, 307)
             assert "/auth/login" in response.headers["location"]
 
@@ -54,7 +54,7 @@ def test_nonexistent_account_redirects_to_login(db):
 
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(fake_account_id))
-            response = client.get("/lezione/", follow_redirects=False)
+            response = client.get("/lessons/", follow_redirects=False)
             assert response.status_code in (302, 303, 307)
             assert "/auth/login" in response.headers["location"]
 
@@ -73,7 +73,7 @@ def test_garbled_account_id_clears_session_cookie(db):
 
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session("not-a-valid-objectid"))
-            response = client.get("/lezione/", follow_redirects=False)
+            response = client.get("/lessons/", follow_redirects=False)
 
             assert response.status_code in (302, 303, 307)
             assert "/auth/login" in response.headers["location"]
@@ -100,7 +100,7 @@ def test_db_timeout_preserves_session_cookie(db, account):
             TestClient(app, raise_server_exceptions=False) as client,
         ):
             client.cookies.set("session", sign_session(str(account.id)))
-            response = client.get("/lezione/", follow_redirects=False)
+            response = client.get("/lessons/", follow_redirects=False)
 
             assert response.status_code in (302, 303, 307)
             assert "/auth/login" in response.headers["location"]

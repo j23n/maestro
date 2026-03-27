@@ -120,7 +120,7 @@ async def send_reset_email(email: str, token: str) -> bool:
 async def send_welcome_email(email: str) -> bool:
     from maestro.config import settings
 
-    lesson_url = f"{settings.SITE_URL.rstrip('/')}/lezione/"
+    lesson_url = f"{settings.SITE_URL.rstrip('/')}/lessons/"
     html_body = _render("welcome.html", lesson_url=lesson_url)
     text_body = (
         f"{t('email_welcome_heading')}\n\n{t('email_welcome_body')}\n\n{lesson_url}"

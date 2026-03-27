@@ -1,0 +1,11 @@
+{% extends "lesson-activity-layout.html" %}
+
+{% block activity_card %}
+  {% include "vocab-card-front.html" %}
+
+  {% if card and not is_complete %}
+  <div class="submit-row" style="justify-content:flex-end;">
+    {% include "partials/skip-link.html" %}
+  </div>
+  {% endif %}
+{% endblock %}

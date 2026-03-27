@@ -1,0 +1,44 @@
+{% extends "lesson-activity-layout.html" %}
+{% block activity_title %}{{ t("page_title_reading") }} — Maestro{% endblock %}
+
+{% block activity_card %}
+<div class="reading-card">
+  <div class="reading-title">{{ t("reading_title") }}</div>
+  <div class="reading-text">{{ activity.content | markdown | hide_translations | safe }}</div>
+</div>
+
+{% if is_review %}
+  {% include "partials/review-banner.html" %}
+{% elif activity.questions %}
+<div class="questions-card">
+  <div class="questions-title">{{ t("reading_comprehension") }}</div>
+  <form hx-post="/lessons/{{ lesson.id }}/activity/{{ idx }}/reading-submit"
+        hx-target=".activity-container"
+        hx-swap="innerHTML"
+        hx-on:htmx:before-request="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='{{ t("submitting") }}'">
+    {% for q in activity.questions %}
+    <div class="drill-item">
+      <div class="item-num">{{ loop.index }}</div>
+      <div class="item-body">
+        <div class="item-sentence"><span lang="{{ question_lang }}">{{ q.text }}</span></div>
+        <input class="item-input" type="text" name="answers" placeholder="{{ t("reading_answer_placeholder") }}" required>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="submit-row">
+      <button class="submit-btn" type="submit">{{ t("reading_submit") }}</button>
+      {% include "partials/skip-link.html" %}
+    </div>
+  </form>
+</div>
+{% else %}
+<div style="text-align:center;margin-top:1.5rem;">
+  <button class="submit-btn"
+          hx-post="/lessons/{{ lesson.id }}/activity/{{ idx }}/complete"
+          hx-target="body"
+          hx-on:htmx:before-request="this.disabled=true; this.textContent='{{ t("submitting") }}'">
+    {{ t("continue_btn") }}
+  </button>
+</div>
+{% endif %}
+{% endblock %}

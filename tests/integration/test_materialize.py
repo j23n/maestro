@@ -9,8 +9,8 @@ from maestro.models import (
     ActivityType,
     ExerciseType,
 )
-from maestro.lezione.materialize import materialize_activities
-from maestro.lezione.schemas import (
+from maestro.lessons.materialize import materialize_activities
+from maestro.lessons.schemas import (
     LessonContentResponse,
     DrillResponse,
     DrillItemResponse,

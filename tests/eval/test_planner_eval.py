@@ -17,7 +17,7 @@ _DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "
 async def test_lesson_content_structure(db, record_eval, record_item):
     """Validate structural properties of _generate_lesson_content output."""
     import json as _json
-    from maestro.lezione.planner import _generate_lesson_content
+    from maestro.lessons.planner import _generate_lesson_content
     from maestro.models import CurriculumScenario
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 

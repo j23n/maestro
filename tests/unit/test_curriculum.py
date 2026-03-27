@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 
-from maestro.lezione.curriculum import (
+from maestro.lessons.curriculum import (
     LessonArchetype,
     PHASE_GATE_THRESHOLD,
     detect_prerequisite_cycles,

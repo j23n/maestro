@@ -39,7 +39,7 @@ async def test_signup_success(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 303
-    assert resp.headers["location"] == "/lezione/"
+    assert resp.headers["location"] == "/lessons/"
 
     # Verify session cookie is set
     assert "session" in resp.cookies
@@ -135,7 +135,7 @@ async def test_login_success(auth_app):
         follow_redirects=False,
     )
     assert resp.status_code == 303
-    assert resp.headers["location"] == "/lezione/"
+    assert resp.headers["location"] == "/lessons/"
     assert "session" in resp.cookies
 
 

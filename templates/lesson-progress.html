@@ -1,0 +1,30 @@
+{# Shared progress bar partial — include in every activity template #}
+{# Expects: lesson, idx, total #}
+
+<div class="lesson-progress">
+  <div class="progress-segments">
+    {% for a in lesson.activities %}
+    {% set is_done = a.status in ('completed', 'skipped') %}
+    {% set is_current_view = (loop.index0 == idx) %}
+    {% set is_grammar = (a.type == 'grammar') %}
+    {% set is_revisitable = (a.type in ('grammar', 'info')) %}
+    {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
+    {% set grammar_class %}{% if is_grammar %} grammar-seg{% endif %}{% endset %}
+    {# Completed/skipped and current activities are clickable #}
+    {% if (is_done and not is_current_view) or is_current_view %}
+    <a href="/lessons/{{ lesson.id }}/activity/{{ loop.index0 }}"
+       class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></a>
+    {% else %}
+    <div class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="progress-footer">
+    <div class="progress-label">
+      {{ t("progress_label", current=idx + 1, total=total) }}
+    </div>
+    <button class="abandon-link"
+            hx-post="/lessons/{{ lesson.id }}/abandon"
+            hx-confirm="{{ t('lesson_abandon_confirm') }}">{{ t("lesson_abandon_btn") }}</button>
+  </div>
+</div>

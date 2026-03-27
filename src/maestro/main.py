@@ -33,9 +33,9 @@ from maestro.routes import (
     admin,
     auth,
     vocab,
-    profilo,
+    profile,
     grammar,
-    lezione,
+    lessons,
     feedback,
     legal,
     account,
@@ -192,9 +192,9 @@ async def trigger_error():
 
 app.include_router(auth.router)
 app.include_router(vocab.router)
-app.include_router(profilo.router)
+app.include_router(profile.router)
 app.include_router(grammar.router)
-app.include_router(lezione.router)
+app.include_router(lessons.router)
 app.include_router(feedback.router)
 app.include_router(legal.router)
 app.include_router(account.router)
@@ -204,7 +204,7 @@ app.include_router(admin.router)
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
     if read_session(request):
-        return RedirectResponse(url="/lezione/")
+        return RedirectResponse(url="/lessons/")
     return await render_with_discover(
         request, "landing.html", {}, discover_anonymous=True
     )
