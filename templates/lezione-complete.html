@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ t("page_title_lesson_complete") }} — Maestro{% endblock %}
 
+{% block head %}<link rel="stylesheet" href="/static/complete.css">{% endblock %}
+
 {% block content %}
 <div class="complete-container">
   <div class="complete-hero">
@@ -89,8 +91,9 @@
     <div class="review-heading">{{ t("lesson_grammar_covered_label") }}</div>
     <div class="skill-list">
       {% for gp in covered_grammar_points %}
-      <div class="skill-row pip-animate">
-        <div class="pip-track">
+      <a class="skill-row pip-animate" href="/grammar/{{ gp.code }}">
+        <span class="skill-label">{{ gp_titles.get(gp.code, gp.label) }}</span>
+        <span class="pip-track">
           {% for outcome in gp_outcomes.get(gp.code, []) %}
             {% set ok = outcome.ok if outcome is mapping else outcome %}
             {% set ts = outcome.ts if outcome is mapping else "" %}
@@ -99,9 +102,8 @@
           {% for _ in range(10 - (gp_outcomes.get(gp.code, []) | length)) %}
             <span class="pip"></span>
           {% endfor %}
-        </div>
-        <a class="skill-label" href="/grammar/{{ gp.code }}">{{ gp_titles.get(gp.code, gp.label) }}</a>
-      </div>
+        </span>
+      </a>
       {% endfor %}
     </div>
   </div>
@@ -112,8 +114,9 @@
     <div class="review-heading">{{ t("lesson_review_label") }}</div>
     <div class="skill-list">
       {% for gp in weak_grammar_points %}
-      <div class="skill-row pip-animate">
-        <div class="pip-track">
+      <a class="skill-row pip-animate" href="/grammar/{{ gp.code }}">
+        <span class="skill-label">{{ gp_titles.get(gp.code, gp.label) }}</span>
+        <span class="pip-track">
           {% for outcome in gp_outcomes.get(gp.code, []) %}
             {% set ok = outcome.ok if outcome is mapping else outcome %}
             {% set ts = outcome.ts if outcome is mapping else "" %}
@@ -122,13 +125,8 @@
           {% for _ in range(10 - (gp_outcomes.get(gp.code, []) | length)) %}
             <span class="pip"></span>
           {% endfor %}
-        </div>
-        <a class="skill-label" href="/grammar/{{ gp.code }}">{{ gp_titles.get(gp.code, gp.label) }}</a>
-        {% if gp.chunk_ref %}
-        <a href="/grammar/chunk/{{ gp.chunk_ref }}" class="chunk-link-small">{{ t("lesson_full_rule") }}</a>
-        {% endif %}
-        <a href="/grammar/{{ gp.code }}/practice" class="chunk-link-small">{{ t("lesson_practice_weak") }}</a>
-      </div>
+        </span>
+      </a>
       {% endfor %}
     </div>
   </div>
