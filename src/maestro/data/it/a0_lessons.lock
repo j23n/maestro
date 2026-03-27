@@ -1,9 +1,9 @@
 {
-  "sha256": "73c1ca17866a30bc6e470cc81f355b312f2617c9363a1affafcc074a0459d2b1",
+  "sha256": "0b166bc8935608a08182b08c4c0f63dde355f2c6832d1160a36a4ebdcb6b2299",
   "lesson_count": 13,
   "scenario_count": 13,
   "activities_per_lesson": {
-    "a0-01-in-aereo": 12,
+    "a0-01-in-aereo": 10,
     "a0-02-in-albergo": 10,
     "a0-03-al-bar": 11,
     "a0-04-in-giro": 11,
@@ -17,5 +17,5 @@
     "a0-12-ultimo-giorno": 10,
     "a0-13-ripasso": 11
   },
-  "generated_at": "2026-03-27T09:57:55.136670+00:00"
+  "generated_at": "2026-03-27T10:40:56.301132+00:00"
 }

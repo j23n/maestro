@@ -127,15 +127,15 @@ async def lezione_index(
         a0_lesson_number = a0_completed + 1
         show_welcome = a0_lesson_number == 1
 
-        # Next scenario preview + lesson history (only for returning students)
+        # Next scenario preview (always) + lesson history (returning students only)
         next_scenario = None
-        lesson_history: list[dict] = []
-        if not show_welcome:
+        if a0_scenarios:
             next_scenario_doc, _ = await _pick_a0_scenario(
                 profile, "A0", scenarios=a0_scenarios
             )
             next_scenario = next_scenario_doc
-
+        lesson_history: list[dict] = []
+        if not show_welcome:
             recent_lessons = (
                 await Lesson.find(
                     {"student_id": student.id, "status": LessonStatus.COMPLETED}

@@ -14,31 +14,6 @@
 
 "a0-01-in-aereo":
   activities:
-  - type: info
-    title: "Your first Italian lesson!"
-    description: How Maestro works
-    content: |
-      ## Welcome to Maestro!
-
-      Each lesson is built around a real situation you'll face in Italy. Along the way you'll pick up grammar, vocabulary, and cultural tips.
-
-      Activities include:
-
-      - **<span lang="it" data-no-save>Grammatica</span>** — grammar explanations
-      - **<span lang="it" data-no-save>Vocabolario</span>** — flashcards to build your word bank
-      - **<span lang="it" data-no-save>Esercizio</span>** — drills to practise what you've learned
-      - **<span lang="it" data-no-save>Lettura</span>** — reading passages with comprehension questions
-      - **<span lang="it" data-no-save>Ascolto</span>** — listening activities with audio
-      - **<span lang="it" data-no-save>Scrittura</span>** — writing prompts
-      - **<span lang="it" data-no-save>Parlare</span>** — speaking practice
-
-      You can **skip** any activity — just click the skip link at the bottom.
-
-      ---
-
-      ### The scene
-
-      You're on a plane to Italy. The cabin crew greets you, the drinks trolley comes around, and you land at the airport.
   - type: onboarding
     title: "Come ti chiami?"
     description: Tell us your name
@@ -47,8 +22,8 @@
     response_template: |
       Nice to meet you! In Italian you'd say: **<span lang="it">Mi chiamo {answer}</span>!** (mee KYAH-mo)
   - type: grammar
-    title: Greetings and magic words
-    description: "Hello, goodbye, please, thank you"
+    title: Greetings
+    description: "Hello, goodbye, and survival phrases"
     grammar_point_code: saluti
     content: |
       ## Your first Italian words
@@ -62,15 +37,6 @@
       | **<span lang="it">Buonasera!</span>** | Good evening | Formal, evening | *bwon-ah-SEH-rah* |
       | **<span lang="it">Arrivederci!</span>** | Goodbye | Formal | *ah-ree-veh-DEHR-chee* |
 
-      ### Magic words
-
-      | Italian | Meaning | Pronunciation |
-      |---------|---------|---------------|
-      | **<span lang="it">Grazie!</span>** | Thank you! | *GRAH-tsyeh* |
-      | **<span lang="it">Per favore</span>** | Please | *pair fah-VOH-reh* |
-      | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
-      | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
-
       ### Formal vs informal
 
       Italian has two registers — and using the right one matters:
@@ -79,13 +45,23 @@
       |---|---|---|
       | **Use with** | Strangers, staff, older people | Friends, young people, children |
       | **Hello** | <span lang="it">Buongiorno / Buonasera</span> | <span lang="it">Ciao!</span> |
-      | **Excuse me** | <span lang="it">Scusi</span> | <span lang="it">Scusa</span> |
       | **Goodbye** | <span lang="it">Arrivederci</span> | <span lang="it">Ciao!</span> |
 
-      > **Rule of thumb:** If in doubt, go formal. Italians will switch to informal if they prefer it. In the next few lessons, most situations are formal — you're a traveller talking to hotel staff, waiters, and strangers.
+      > **Rule of thumb:** If in doubt, go formal. Italians will switch to informal if they prefer it.
+
+      ### Survival phrases
+
+      Two phrases that save you when you're lost:
+
+      | Italian | Meaning | Pronunciation |
+      |---------|---------|---------------|
+      | **<span lang="it">Non capisco.</span>** | I don't understand. | *non kah-PEE-sko* |
+      | **<span lang="it">Non parlo italiano.</span>** | I don't speak Italian. | *non PAR-lo ee-tah-LYAH-no* |
+
+      Put **<span lang="it">non</span>** before any verb to make it negative — that's the only rule you need for now.
   - type: drill
     title: First words
-    description: Practise greetings and polite phrases
+    description: Practise greetings
     hint: "These are the words you just learned — try to recall them!"
     grammar_point_code: saluti
     exercise_type: fill_blank
@@ -94,92 +70,97 @@
       correct_answer: Ciao
     - prompt: "Good morning! = ___!"
       correct_answer: Buongiorno
+    - prompt: "Goodbye! (formal) = ___!"
+      correct_answer: Arrivederci
+    - prompt: "Good evening! = ___!"
+      correct_answer: Buonasera
+    - prompt: "I don't understand. = Non ___."
+      correct_answer: capisco
+    - prompt: "I don't speak Italian. = Non ___ italiano."
+      correct_answer: parlo
+  - type: reading
+    title: Landing in Rome
+    description: A short exchange after the plane lands
+    content: |
+      *You've just landed. Walking through the airport, you pass a security officer.*
+
+      <span lang="it">— Buonasera!</span>
+
+      <span lang="it">— Buonasera!</span>
+
+      *At the exit, a taxi driver catches your eye.*
+
+      <span lang="it">— Ciao! Taxi?</span>
+
+      <span lang="it">— No, grazie. Arrivederci!</span>
+
+      <span lang="it">— Arrivederci!</span>
+    questions:
+    - text: "Is the exchange with the security officer formal or informal?"
+      correct_answer: Formal (Buonasera)
+      grammar_point_codes:
+      - saluti
+    - text: "Which greeting does the taxi driver use — formal or informal?"
+      correct_answer: Informal (Ciao)
+      grammar_point_codes:
+      - saluti
+  - type: grammar
+    title: Polite phrases
+    description: "Thank you, please, you're welcome, excuse me"
+    grammar_point_code: polite_exp
+    content: |
+      ## The magic words
+
+      These four phrases will get you through almost any interaction in Italy:
+
+      | Italian | Meaning | Pronunciation |
+      |---------|---------|---------------|
+      | **<span lang="it">Grazie!</span>** | Thank you! | *GRAH-tsyeh* |
+      | **<span lang="it">Per favore</span>** | Please | *pair fah-VOH-reh* |
+      | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
+      | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
+
+      ### When to use them
+
+      - Bump into someone? **<span lang="it">Scusi!</span>**
+      - Need to get past? **<span lang="it">Scusi, per favore.</span>**
+      - Someone helps you? **<span lang="it">Grazie!</span>**
+      - Someone thanks you? **<span lang="it">Prego!</span>**
+
+      > <span lang="it">**Scusi**</span> is formal. With friends you'd say <span lang="it">**scusa**</span> — but for now, stick with <span lang="it">scusi</span>.
+  - type: drill
+    title: Magic words
+    description: Practise polite phrases
+    hint: "Grazie = thank you. Per favore = please. Prego = you're welcome. Scusi = excuse me."
+    grammar_point_code: polite_exp
+    exercise_type: fill_blank
+    items:
     - prompt: "Thank you! = ___!"
       correct_answer: Grazie
     - prompt: "Please = Per ___"
       correct_answer: favore
     - prompt: "Excuse me! (formal) = ___!"
       correct_answer: Scusi
-  - type: grammar
-    title: Survival Italian
-    description: When you don't understand + ordering
-    grammar_point_code: si_no_non
-    content: |
-      ## Survival phrases
-
-      - **<span lang="it">Sì</span>** — Yes
-      - **<span lang="it">No</span>** — No
-      - **<span lang="it">Non capisco.</span>** — I don't understand.
-      - **<span lang="it">Parla inglese?</span>** — Do you speak English?
-      - **<span lang="it">Mi dispiace.</span>** — I'm sorry.
-
-      ### How to say "not"
-
-      Put **<span lang="it">non</span>** before any verb. That's it — one rule, works every time:
-      - <span lang="it">**Capisco**</span> → <span lang="it">**Non capisco**</span> (I don't understand)
-
-      ### The most useful phrase in Italy
-
-      **<span lang="it">Vorrei</span>** means "I would like." It works everywhere — cafés, restaurants, ticket counters, shops:
-      - <span lang="it">**Vorrei un caffè, per favore.**</span> — I'd like a coffee, please.
-      - <span lang="it">**Vorrei un'acqua.**</span> — I'd like a water.
-
-      Don't worry about the grammar — just use <span lang="it">**vorrei**</span> + what you want + <span lang="it">**per favore**</span>.
-  - type: drill
-    title: Survival check
-    description: "Can you get by?"
-    hint: "Non capisco = I don't understand. Vorrei = I would like."
-    grammar_point_code: si_no_non
-    exercise_type: fill_blank
-    items:
-    - prompt: "I don't understand. = Non ___."
-      correct_answer: capisco
-    - prompt: "Do you speak English? = ___ inglese?"
-      correct_answer: Parla
-    - prompt: "I'd like a coffee. = ___ un caffè."
-      correct_answer: Vorrei
-    - prompt: "Goodbye! (formal) = ___!"
-      correct_answer: Arrivederci
-    - prompt: "I'm sorry. = Mi ___."
-      correct_answer: dispiace
+    - prompt: "You're welcome! = ___!"
+      correct_answer: Prego
+    - prompt: "Someone hands you your bag. You say: ___!"
+      correct_answer: Grazie
   - type: vocab_review
-  - type: reading
-    title: On the plane
-    description: A short exchange with the cabin crew
-    content: |
-      <span lang="it">— Buongiorno!</span> (Good morning!)
-
-      <span lang="it">— Buongiorno! Vorrei un'acqua, per favore.</span> (I'd like a water, please.)
-
-      <span lang="it">— Ecco.</span> (Here you go.)
-
-      <span lang="it">— Grazie!</span>
-
-      <span lang="it">— Prego!</span>
-    questions:
-    - text: "What does the passenger order?"
-      correct_answer: un'acqua / a water
-      grammar_point_codes:
-      - vorrei
-    - text: "What does 'prego' mean here?"
-      correct_answer: You're welcome
-      grammar_point_codes:
-      - saluti
   - type: listening
     title: At the airport
     description: Listen to a short exchange at arrivals
     audio_path: /static/audio/a0_01_in_aereo.wav
     content: |
       — Buonasera!
-      — Buonasera. Scusi, parla inglese?
-      — No, mi dispiace.
-      — Va bene. Grazie!
+      — Buonasera. Scusi, dov'è l'uscita?
+      — Dritto e a sinistra.
+      — Grazie!
       — Prego. Arrivederci!
     questions:
-    - text: "Does the airport worker speak English?"
-      correct_answer: 'No'
+    - text: "What polite word does the traveller use to get attention?"
+      correct_answer: Scusi
       grammar_point_codes:
-      - si_no_non
+      - polite_exp
     - text: "Is this conversation formal or informal?"
       correct_answer: Formal
       grammar_point_codes:
@@ -219,29 +200,14 @@
       > You don't need to memorise this — come back to it whenever you meet a new word.
   - type: speaking
     title: Say it out loud
-    description: Practice your first Italian
-    content: "Say these three sentences out loud, one after the other: **Buongiorno!** ... **Vorrei un caffè, per favore.**\
-      \ ... **Grazie!** Try to sound natural — Italians appreciate the effort!"
+    description: Practice your first Italian phrases
+    content: "Say these phrases out loud, one after the other: **Buongiorno!** ... **Grazie!**\
+      \ ... **Scusi, per favore.** ... **Arrivederci!** Try to sound natural — Italians\
+      \ appreciate the effort!"
     grammar_point_codes:
     - saluti
-    - si_no_non
-    - vorrei
+    - polite_exp
     - pronun_bas
-  - type: info
-    title: What's next
-    description: How your learning journey continues
-    content: |
-      ## What happens next
-
-      You've just completed your first Maestro lesson!
-
-      **Lessons** follow your trip chronologically — next you'll check into the hotel.
-
-      **Vocabulary** cards use spaced repetition — words come back just when you're about to forget them.
-
-      **Tip:** Short daily sessions beat long infrequent ones. Even 10 minutes a day works.
-
-      <span lang="it">**Avanti!**</span> (Let's go!)
 "a0-02-in-albergo":
   activities:
   - type: vocab_review
@@ -432,9 +398,11 @@
     description: "Due caffè, tre cornetti..."
     grammar_point_code: vorrei
     content: |
-      ## Ordering for the group
+      ## Ordering with vorrei
 
-      You already know <span lang="it">*vorrei*</span>. Now add numbers:
+      The most useful phrase in Italy is **<span lang="it">vorrei</span>** — "I would like." It works everywhere — cafés, restaurants, ticket counters, shops. Just say <span lang="it">**vorrei**</span> + what you want + <span lang="it">**per favore**</span>.
+
+      Now add numbers:
 
       - <span lang="it">**Vorrei due caffè, per favore.**</span> — I'd like two coffees.
       - <span lang="it">**Vorrei tre cornetti.**</span> — I'd like three croissants.
