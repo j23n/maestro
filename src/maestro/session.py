@@ -8,7 +8,7 @@ SESSION_COOKIE = "session"
 MAX_AGE = 30 * 24 * 3600  # 30 days
 
 
-def _get_serializer() -> URLSafeTimedSerializer:
+def get_serializer() -> URLSafeTimedSerializer:
     global _serializer
     if _serializer is None:
         from maestro.config import settings
@@ -20,7 +20,7 @@ def _get_serializer() -> URLSafeTimedSerializer:
 def create_session_cookie(response: Response, account_id: str) -> None:
     from maestro.config import settings
 
-    token = _get_serializer().dumps({"account_id": account_id})
+    token = get_serializer().dumps({"account_id": account_id})
     response.set_cookie(
         SESSION_COOKIE,
         token,
@@ -36,7 +36,7 @@ def read_session(request: Request) -> dict | None:
     if not token:
         return None
     try:
-        return _get_serializer().loads(token, max_age=MAX_AGE)
+        return get_serializer().loads(token, max_age=MAX_AGE)
     except (BadSignature, SignatureExpired):
         return None
 

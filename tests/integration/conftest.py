@@ -59,9 +59,9 @@ async def account(db, student):
 
 def sign_session(account_id: str) -> str:
     """Sign a session cookie for the given account ID."""
-    from maestro.session import _get_serializer
+    from maestro.session import get_serializer
 
-    return _get_serializer().dumps({"account_id": account_id})
+    return get_serializer().dumps({"account_id": account_id})
 
 
 @pytest.fixture

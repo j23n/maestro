@@ -14,6 +14,7 @@ from maestro.models import Account, Student
 from maestro.session import create_session_cookie, clear_session_cookie, read_session
 from maestro.templates import render, render_with_discover
 from maestro.tokens import (
+    decode_reset_token,
     generate_reset_token,
     generate_verify_token,
     validate_reset_token,
@@ -173,7 +174,7 @@ async def forgot_submit(request: Request):
 
     account = await Account.find_one({"email": email})
     if account:
-        token = generate_reset_token(str(account.id))
+        token = generate_reset_token(str(account.id), account.password_hash)
         create_background_task(
             send_reset_email(account.email, token), name="reset-email"
         )
@@ -187,7 +188,7 @@ async def forgot_submit(request: Request):
 @router.get("/reset", response_class=HTMLResponse)
 async def reset_form(request: Request):
     token = request.query_params.get("token", "")
-    account_id = validate_reset_token(token)
+    account_id = decode_reset_token(token)
     if not account_id:
         return render(
             request, "auth-reset.html", {"error": "reset_error_invalid", "token": ""}
@@ -202,8 +203,24 @@ async def reset_submit(request: Request):
     password = form.get("password") or ""
     password_confirm = form.get("password_confirm") or ""
 
-    account_id = validate_reset_token(token)
+    # Decode to get account_id, then load account for fingerprint check
+    account_id = decode_reset_token(token)
     if not account_id:
+        return render(
+            request, "auth-reset.html", {"error": "reset_error_invalid", "token": ""}
+        )
+
+    try:
+        account = await Account.get(PydanticObjectId(account_id))
+    except (InvalidId, ValueError):
+        account = None
+    if not account:
+        return render(
+            request, "auth-reset.html", {"error": "reset_error_invalid", "token": ""}
+        )
+
+    # Full validation: signature + expiry + password fingerprint
+    if not validate_reset_token(token, account.password_hash):
         return render(
             request, "auth-reset.html", {"error": "reset_error_invalid", "token": ""}
         )
@@ -220,15 +237,6 @@ async def reset_submit(request: Request):
 
     if error:
         return render(request, "auth-reset.html", {"error": error, "token": token})
-
-    try:
-        account = await Account.get(PydanticObjectId(account_id))
-    except (InvalidId, ValueError):
-        account = None
-    if not account:
-        return render(
-            request, "auth-reset.html", {"error": "reset_error_invalid", "token": ""}
-        )
 
     account.password_hash = _bcrypt.hashpw(
         password.encode(), _bcrypt.gensalt()

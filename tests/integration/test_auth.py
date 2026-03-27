@@ -6,6 +6,8 @@ import pytest
 from maestro.models import Account, Student
 from maestro.tokens import generate_verify_token, generate_reset_token
 
+FAKE_PW = "password123"
+
 
 def _hash_password(password: str) -> str:
     return _bcrypt.hashpw(password.encode(), _bcrypt.gensalt()).decode()
@@ -382,7 +384,7 @@ async def test_reset_valid_token_renders_form(auth_app):
     )
     await account.insert()
 
-    token = generate_reset_token(str(account.id))
+    token = generate_reset_token(str(account.id), account.password_hash)
     resp = auth_app.get(f"/auth/reset?token={token}")
     assert resp.status_code == 200
     assert "password" in resp.text.lower()
@@ -406,7 +408,7 @@ async def test_reset_submit_success(auth_app):
     )
     await account.insert()
 
-    token = generate_reset_token(str(account.id))
+    token = generate_reset_token(str(account.id), account.password_hash)
     resp = auth_app.post(
         "/auth/reset",
         data={
@@ -458,7 +460,7 @@ async def test_reset_submit_password_too_short(auth_app):
     )
     await account.insert()
 
-    token = generate_reset_token(str(account.id))
+    token = generate_reset_token(str(account.id), account.password_hash)
     resp = auth_app.post(
         "/auth/reset",
         data={"token": token, "password": "short", "password_confirm": "short"},

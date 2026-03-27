@@ -15,17 +15,7 @@ from maestro.i18n import t
 
 logger = logging.getLogger(__name__)
 
-_PKG_DIR = Path(__file__).resolve().parent
-_TEMPLATE_DIR = _PKG_DIR.parent.parent / "templates" / "email"
-_CSS_PATH = _PKG_DIR / "static" / "email.css"
-
-
-@lru_cache(maxsize=1)
-def _get_css() -> str:
-    try:
-        return _CSS_PATH.read_text()
-    except FileNotFoundError:
-        return ""
+_TEMPLATE_DIR = Path(__file__).resolve().parent.parent.parent / "templates" / "email"
 
 
 @lru_cache(maxsize=1)
@@ -50,10 +40,21 @@ def _get_client() -> httpx.AsyncClient:
 def _render(template_name: str, **ctx: str) -> str:
     env = _get_jinja_env()
     tmpl = env.get_template(template_name)
-    return tmpl.render(css=_get_css(), t=t, **ctx)
+    return tmpl.render(t=t, **ctx)
 
 
-async def send_email(to: str, subject: str, html_body: str) -> bool:
+def _parse_from_email(raw: str) -> tuple[str, str]:
+    """Parse 'Name <addr>' or plain 'addr' into (email, name)."""
+    if "<" in raw and ">" in raw:
+        name = raw.split("<")[0].strip()
+        email = raw.split("<")[1].rstrip(">").strip()
+        return email, name or "Maestro"
+    return raw.strip(), "Maestro"
+
+
+async def send_email(
+    to: str, subject: str, html_body: str, text_body: str = ""
+) -> bool:
     """Send an email via Mailjet. Returns True on success, False on skip/error."""
     from maestro.config import settings
 
@@ -66,22 +67,17 @@ async def send_email(to: str, subject: str, html_body: str) -> bool:
         )
         return False
 
-    payload = {
-        "Messages": [
-            {
-                "From": {
-                    "Email": settings.MAILJET_FROM_EMAIL.split("<")[-1]
-                    .rstrip(">")
-                    .strip(),
-                    "Name": settings.MAILJET_FROM_EMAIL.split("<")[0].strip()
-                    or "Maestro",
-                },
-                "To": [{"Email": to}],
-                "Subject": subject,
-                "HTMLPart": html_body,
-            }
-        ]
+    from_email, from_name = _parse_from_email(settings.MAILJET_FROM_EMAIL)
+    message: dict = {
+        "From": {"Email": from_email, "Name": from_name},
+        "To": [{"Email": to}],
+        "Subject": subject,
+        "HTMLPart": html_body,
     }
+    if text_body:
+        message["TextPart"] = text_body
+
+    payload = {"Messages": [message]}
 
     try:
         resp = await _get_client().post("send", json=payload)
@@ -98,7 +94,13 @@ async def send_verification_email(email: str, token: str) -> bool:
 
     verify_url = f"{settings.SITE_URL.rstrip('/')}/auth/verify?token={token}"
     html_body = _render("verify.html", verify_url=verify_url)
-    return await send_email(email, t("email_verify_subject"), html_body)
+    text_body = (
+        f"{t('email_verify_heading')}\n\n"
+        f"{t('email_verify_body')}\n\n"
+        f"{verify_url}\n\n"
+        f"{t('email_verify_note')}"
+    )
+    return await send_email(email, t("email_verify_subject"), html_body, text_body)
 
 
 async def send_reset_email(email: str, token: str) -> bool:
@@ -106,7 +108,13 @@ async def send_reset_email(email: str, token: str) -> bool:
 
     reset_url = f"{settings.SITE_URL.rstrip('/')}/auth/reset?token={token}"
     html_body = _render("reset.html", reset_url=reset_url)
-    return await send_email(email, t("email_reset_subject"), html_body)
+    text_body = (
+        f"{t('email_reset_heading')}\n\n"
+        f"{t('email_reset_body')}\n\n"
+        f"{reset_url}\n\n"
+        f"{t('email_reset_note')}"
+    )
+    return await send_email(email, t("email_reset_subject"), html_body, text_body)
 
 
 async def send_welcome_email(email: str) -> bool:
@@ -114,4 +122,7 @@ async def send_welcome_email(email: str) -> bool:
 
     lesson_url = f"{settings.SITE_URL.rstrip('/')}/lezione/"
     html_body = _render("welcome.html", lesson_url=lesson_url)
-    return await send_email(email, t("email_welcome_subject"), html_body)
+    text_body = (
+        f"{t('email_welcome_heading')}\n\n{t('email_welcome_body')}\n\n{lesson_url}"
+    )
+    return await send_email(email, t("email_welcome_subject"), html_body, text_body)

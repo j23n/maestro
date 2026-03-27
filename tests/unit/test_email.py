@@ -6,15 +6,13 @@ import httpx
 
 @pytest.fixture(autouse=True)
 def reset_caches():
-    from maestro.email import _get_client, _get_jinja_env, _get_css
+    from maestro.email import _get_client, _get_jinja_env
 
     _get_client.cache_clear()
     _get_jinja_env.cache_clear()
-    _get_css.cache_clear()
     yield
     _get_client.cache_clear()
     _get_jinja_env.cache_clear()
-    _get_css.cache_clear()
 
 
 @pytest.mark.unit
