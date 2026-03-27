@@ -5,7 +5,19 @@
 <div class="activity-container">
   {% include "lezione-progress.html" %}
 
-  {% if is_review %}
+  {% if no_cards %}
+  <div class="card">
+    <div class="card-label">{{ activity.title }}</div>
+    <p>{{ t("practice_no_cards") }}</p>
+    <p style="color:#999;font-size:0.9rem;">{{ t("practice_no_cards_hint") }}</p>
+    <div style="margin-top:1.5rem;">
+      <a href="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+         class="continue-btn"
+         hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/skip"
+         hx-target="body">{{ t("continue_btn") }}</a>
+    </div>
+  </div>
+  {% elif is_review %}
   <div class="card">
     <div class="card-label">{{ activity.title }}</div>
     <p>{{ t("vocab_review_complete") }}</p>

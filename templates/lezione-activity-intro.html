@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ activity.title }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="activity-container">
+  {% include "lezione-progress.html" %}
+
+  <div class="card">
+    <div class="card-label">{{ t("intro_label") }}</div>
+    <h2 class="intro-scenario-title">{{ activity.title }}</h2>
+    {% if activity.description %}
+    <p class="intro-scenario-desc">{{ activity.description }}</p>
+    {% endif %}
+    {% if activity.content %}
+    <p class="intro-scenario-overview">{{ activity.content }}</p>
+    {% endif %}
+
+    {% if grammar_points %}
+    <div class="intro-section">
+      <div class="intro-section-heading">{{ t("intro_grammar_heading") }}</div>
+      <ul class="intro-list">
+        {% for gp in grammar_points %}
+        <li>
+          <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp_titles.get(gp.code) or gp.label }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if comm_functions %}
+    <div class="intro-section">
+      <div class="intro-section-heading">{{ t("intro_cf_heading") }}</div>
+      <ul class="intro-list">
+        {% for cf in comm_functions %}
+        <li>{{ cf.description or cf.label }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if is_review %}
+    <div class="review-banner">
+      <a href="{% if lesson.status == 'completed' %}/lezione/{{ lesson.id }}/complete{% else %}/lezione/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
+        {{ t("back_to_current") }}
+      </a>
+    </div>
+    {% else %}
+    <div class="submit-row" style="margin-top:1.75rem;">
+      <button class="continue-btn"
+              hx-post="/lezione/{{ lesson.id }}/activity/{{ idx }}/complete"
+              hx-target="body">
+        {{ t("intro_begin_btn") }}
+      </button>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

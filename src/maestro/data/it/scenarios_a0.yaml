@@ -2,6 +2,13 @@ scenarios:
   - slug: a0-01-in-aereo
     label: "In aereo"
     description: "Your first Italian words — on the plane and at the airport"
+    overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one phrase that gets you anything."
+    scene_setting: |
+      You're on a plane to Italy. The captain just announced the descent
+      into Rome in Italian — and you didn't catch a word. By the end of
+      this lesson, you'll know how to say hello, thank the flight
+      attendant, and ask for what you need. That's all it takes to start.
+    outro: "You learned your first Italian words — enough to land in Italy and not feel lost."
     cefr_level: A0
     sequence: 1
     cf_codes:
@@ -12,14 +19,20 @@ scenarios:
     gp_codes:
       - saluti
       - polite_exp
-      - si_no_non
-      - vorrei
+      - pronun_bas
     depths:
-      - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk"
+      - "Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk, pronunciation reference"
 
   - slug: a0-02-in-albergo
     label: "In albergo"
     description: "Checking into the hotel — names, numbers, and Italian sounds"
+    overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian out loud."
+    scene_setting: |
+      The taxi pulls up to a small hotel in the centre of Rome. You walk
+      in with your suitcase and the receptionist greets you with a warm
+      "Buonasera!" Time to check in — you'll need your name and a few
+      numbers.
+    outro: "You checked into your hotel in Italian. The receptionist smiled — you're doing great."
     cefr_level: A0
     sequence: 2
     cf_codes:
@@ -29,13 +42,18 @@ scenarios:
     gp_codes:
       - mi_chiamo
       - num_0_20
-      - pronun_bas
     depths:
-      - "Self-introduction, numbers 0-20, pronunciation reference"
+      - "Self-introduction, numbers 0-20"
 
   - slug: a0-03-al-bar
     label: "Al bar"
     description: "Your first Italian coffee — un/una, counting, and café culture"
+    overview: "Morning in Italy starts at the bar. Learn to order with the right articles and numbers."
+    scene_setting: |
+      It's your first morning in Italy. You follow the smell of coffee into
+      a tiny bar on the corner — the espresso machine hisses, locals chat
+      at the counter. Time to order your first caffè the way Italians do.
+    outro: "You ordered your first Italian coffee — and you even got the article right."
     cefr_level: A0
     sequence: 3
     cf_codes:
@@ -51,6 +69,12 @@ scenarios:
   - slug: a0-04-in-giro
     label: "In giro"
     description: "Walking around the city — il/la, asking where things are"
+    overview: "Time to explore! Learn the word for 'the', ask where things are, and follow basic directions."
+    scene_setting: |
+      Coffee done, you step outside with a city map. There's a piazza
+      nearby, a museo you want to find, and a farmacia just in case.
+      But first — you need to ask someone where things are.
+    outro: "You found your way around an Italian city. Dov'è? is already second nature."
     cefr_level: A0
     sequence: 4
     cf_codes:
@@ -65,6 +89,13 @@ scenarios:
   - slug: a0-05-chiedere-aiuto
     label: "Chiedere aiuto"
     description: "Getting help — asking for repetition, clarifying, key phrases"
+    overview: "You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck."
+    scene_setting: |
+      Someone on the street gives you directions — but they're speaking
+      too fast and you only caught "a sinistra." It's completely normal.
+      In this lesson, you'll learn the phrases that keep a conversation
+      going even when you don't understand everything.
+    outro: "You now know how to ask for help in Italian. Getting stuck is no longer a dead end."
     cefr_level: A0
     sequence: 5
     cf_codes:
@@ -79,6 +110,13 @@ scenarios:
   - slug: a0-06-a-pranzo
     label: "A pranzo"
     description: "Lunch at a trattoria — menu vocabulary, ordering a meal"
+    overview: "It's lunchtime! Learn to read an Italian menu, ask what things are, and order a full meal."
+    scene_setting: |
+      You've worked up an appetite. A small trattoria catches your eye —
+      handwritten menu on a chalkboard, the sound of plates clinking
+      inside. You sit down and the waiter hands you the menu. Half the
+      dishes are a mystery — but you're about to fix that.
+    outro: "You read an Italian menu and ordered a full meal. The waiter didn't switch to English once."
     cefr_level: A0
     sequence: 6
     cf_codes:
@@ -94,6 +132,13 @@ scenarios:
   - slug: a0-07-mi-piace
     label: "Mi piace"
     description: "Expressing what you like and don't like"
+    overview: "Everyone has opinions about food! Learn to say what you like and don't like in Italian."
+    scene_setting: |
+      After lunch, you're chatting with someone at the next table about
+      the food. They ask what you thought of the pasta. You want to say
+      you loved it — but how? Time to learn how Italians express what
+      they like (and what they really don't).
+    outro: "You can say what you like and don't like in Italian. Opinions: unlocked."
     cefr_level: A0
     sequence: 7
     cf_codes:
@@ -107,6 +152,13 @@ scenarios:
   - slug: a0-08-i-numeri-grandi
     label: "I numeri grandi"
     description: "Numbers 20-100, telling time, and days of the week"
+    overview: "Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and how to tell time."
+    scene_setting: |
+      You're browsing a leather shop and the price tag says "quarantacinque
+      euro." You check the train schedule — departure at "sedici e trenta."
+      Numbers beyond twenty are everywhere in Italy, and so is the clock.
+      Time to catch up.
+    outro: "Prices, times, and days of the week — the numbers that run daily life in Italy are yours now."
     cefr_level: A0
     sequence: 8
     cf_codes:
@@ -121,6 +173,13 @@ scenarios:
   - slug: a0-09-in-viaggio
     label: "In viaggio"
     description: "At the train station — buying tickets, platforms, timetables"
+    overview: "Time to travel! Put your numbers and time skills to work buying train tickets and navigating the station."
+    scene_setting: |
+      You're heading south. The departures board at Roma Termini is a wall
+      of city names and platform numbers. You need a ticket to Napoli,
+      the right platform, and the right time. Everything you've learned
+      with numbers and directions comes together here.
+    outro: "You bought a train ticket and found your platform. Italy just got bigger."
     cefr_level: A0
     sequence: 9
     cf_codes:
@@ -136,6 +195,13 @@ scenarios:
   - slug: a0-10-conoscere-qualcuno
     label: "Conoscere qualcuno"
     description: "Meeting people — essere, pronouns, nationality, origin"
+    overview: "You meet someone at the piazza. Learn to say who you are, where you're from, and ask others the same."
+    scene_setting: |
+      You're sitting on a bench in a piazza when someone sits down next
+      to you and strikes up a conversation. "Di dove sei?" — where are
+      you from? You want to answer, and ask them the same. This is where
+      Italian stops being just transactions and starts being connection.
+    outro: "You introduced yourself and had a real conversation with someone. That's a milestone."
     cefr_level: A0
     sequence: 10
     cf_codes:
@@ -152,6 +218,13 @@ scenarios:
   - slug: a0-11-un-problema
     label: "Un problema"
     description: "When things go wrong — clarifying, emergencies, and staying calm"
+    overview: "Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency phrases."
+    scene_setting: |
+      Not everything goes smoothly when you travel. You can't find your
+      wallet, the pharmacy is closed, and you need to explain what's wrong
+      to someone who doesn't speak English. Staying calm and knowing the
+      right phrases makes all the difference.
+    outro: "You can handle a problem in Italian. That's real confidence — not just vocabulary."
     cefr_level: A0
     sequence: 11
     cf_codes:
@@ -159,14 +232,22 @@ scenarios:
       - a0_descrivere_problema
       - a0_scusarsi
     gp_codes:
+      - avere_pre
       - polite_exp
       - si_no_non
     depths:
-      - "Più lentamente, emergency phrases, ho bisogno di, ho perso, pharmacy visit"
+      - "Ho bisogno di, ho perso, più lentamente, emergency phrases, pharmacy visit"
 
   - slug: a0-12-ultimo-giorno
     label: "L'ultimo giorno"
     description: "Your last day — goodbyes, expressing thanks, reflections"
+    overview: "Your trip is ending. Review everything through one final day of farewells, thanks, and looking back."
+    scene_setting: |
+      It's your last day. You say goodbye to the hotel staff, thank the
+      barista who made your coffee every morning, and pick up a few last
+      souvenirs. Everything you've learned comes together in one final
+      day of farewells and thank-yous.
+    outro: "You said goodbye in Italian — properly. Arrivederci, and grazie di tutto."
     cefr_level: A0
     sequence: 12
     cf_codes:
@@ -181,6 +262,13 @@ scenarios:
   - slug: a0-13-ripasso
     label: "Ripasso A0"
     description: "Cumulative review of everything learned in A0"
+    overview: "You've come a long way! Final review of everything before moving on to A1."
+    scene_setting: |
+      You've travelled across Italy, ordered meals, asked for help, met
+      people, and handled problems — all in Italian. This final lesson
+      pulls everything together. Think of it as packing your suitcase:
+      making sure nothing gets left behind before the next chapter.
+    outro: "You've completed A0. From zero Italian to real conversations — that took courage. Bravo."
     cefr_level: A0
     sequence: 13
     cf_codes:
@@ -221,6 +309,7 @@ scenarios:
       - ore_giorni
       - vocab_viaggio
       - essere_pre
+      - avere_pre
       - subj_pron
       - simp_sent
     depths:

@@ -13,7 +13,6 @@ from maestro.models import (
     DrillItem,
     QuestionItem,
     ActivityType,
-    ActivityStatus,
     ExerciseType,
 )
 from maestro.profile import get_profile
@@ -50,9 +49,12 @@ async def _generate_a0_lesson_background(
         await lesson.update({"$set": {"generating": False}})
         return
 
-    topic_title = lesson_data.get("topic_title", scenario.label)
-    topic_description = lesson_data.get("topic_description", scenario.description)
-    overview = lesson_data.get("overview", "")
+    topic_title = scenario.label
+    topic_description = scenario.description
+    overview = scenario.overview or ""
+
+    all_due_cards = await get_due_vocab_cards(30, student_id=lesson.student_id)
+    vocab_cursor = 0
 
     new_activities: list[LessonActivity] = []
     for act_data in lesson_data.get("activities", []):
@@ -178,20 +180,42 @@ async def _generate_a0_lesson_background(
             )
 
         elif act_type == ActivityType.VOCAB_REVIEW:
-            due_cards = await get_due_vocab_cards(5, student_id=lesson.student_id)
-            if due_cards:
-                new_activities.append(
-                    LessonActivity(
-                        type=ActivityType.VOCAB_REVIEW,
-                        title=t("vocab_title", count=len(due_cards)),
-                        description=t("vocab_desc"),
-                        card_ids=[c.id for c in due_cards],
-                    )
+            due_cards = all_due_cards[vocab_cursor : vocab_cursor + 15]
+            vocab_cursor += len(due_cards)
+            logger.debug(
+                "vocab_review activity",
+                extra={"cards_in_batch": len(due_cards), "cursor": vocab_cursor},
+            )
+            new_activities.append(
+                LessonActivity(
+                    type=ActivityType.VOCAB_REVIEW,
+                    title=t("vocab_title", count=len(due_cards)),
+                    description=t("vocab_desc"),
+                    card_ids=[c.id for c in due_cards],
                 )
+            )
+
+    # Insert intro activity after any info/onboarding activities
+    intro_activity = LessonActivity(
+        type=ActivityType.INTRO,
+        title=topic_title,
+        description=topic_description,
+        content=scenario.scene_setting,
+        grammar_point_codes=scenario.gp_codes,
+        cf_codes=scenario.cf_codes,
+        duration_minutes=1,
+    )
+    # Find insertion point: after all INFO and ONBOARDING activities
+    insert_idx = 0
+    for i, act in enumerate(new_activities):
+        if act.type in (ActivityType.INFO, ActivityType.ONBOARDING):
+            insert_idx = i + 1
+        else:
+            break
+    new_activities.insert(insert_idx, intro_activity)
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]
-    initial_count = len(lesson.activities)
     await Lesson.find_one(Lesson.id == lesson_id).update(
         {
             "$push": {"activities": {"$each": activities_dicts}},
@@ -205,15 +229,8 @@ async def _generate_a0_lesson_background(
             },
         }
     )
-    # If the lesson had no initial activities, activate the first appended one
-    if initial_count == 0 and new_activities:
-        await Lesson.find_one(Lesson.id == lesson_id).update(
-            {
-                "$set": {
-                    f"activities.{initial_count}.status": ActivityStatus.ACTIVE.value
-                }
-            }
-        )
+    # Don't pre-activate — the generating redirect scans for PENDING and
+    # activates the first one, which keeps A0 consistent with the A1+ flow.
 
     logger.info(
         "A0 lesson background generation complete",
