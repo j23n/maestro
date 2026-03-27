@@ -253,6 +253,10 @@ async def vocab_practice(
     correct: int = 0,
     incorrect: int = 0,
 ):
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, correct)
+    incorrect = max(0, incorrect)
     student_level = await get_cefr_level(student.id)
 
     due_cards = await UserVocabularyCard.find(
@@ -364,6 +368,10 @@ async def vocab_review(
     correct: Annotated[int, Form()] = 0,
     incorrect: Annotated[int, Form()] = 0,
 ):
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, correct)
+    incorrect = max(0, incorrect)
     card = await UserVocabularyCard.get(card_id)
     if card is None or card.student_id != student.id:
         raise HTTPException(403)
