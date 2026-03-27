@@ -939,19 +939,8 @@ a.weakness-tag:hover { background: #f9e2db; }
   flex-shrink: 0;
 }
 
-/* Pip track (scoring pips — reused from profile) */
+/* Pip track (scoring pips — reused from profile + complete) */
 .review-box .skill-list { display: flex; flex-direction: column; gap: 0; }
-.review-box .skill-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.28rem 0;
-  border-bottom: 1px solid var(--c-border);
-  font-size: 0.9rem;
-}
-.review-box .skill-row:last-child { border-bottom: none; }
-.review-box .skill-label { flex: 1; color: var(--c-charcoal); text-decoration: none; }
-.review-box a.skill-label:hover { color: var(--c-terracotta); }
 .pip-track { display: flex; gap: 2px; flex-shrink: 0; }
 .pip { width: 8px; height: 8px; border-radius: 2px; background: var(--c-border); flex-shrink: 0; }
 .pip.ok  { background: var(--c-sage); }
