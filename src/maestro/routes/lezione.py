@@ -3,7 +3,6 @@ import base64
 import json
 import logging
 import random
-from pathlib import Path
 from typing import Annotated
 
 from beanie import PydanticObjectId
@@ -776,17 +775,9 @@ async def lezione_activity(
         ctx["gp_titles"] = gp_titles
         ctx["comm_functions"] = comm_functions
         if lesson.scenario_slug:
-            for ext in ("webp", "png"):
-                img = (
-                    Path(_settings.STATIC_DIR)
-                    / "scenarios"
-                    / f"{lesson.scenario_slug}.{ext}"
-                )
-                if img.exists():
-                    ctx["scenario_image_url"] = (
-                        f"/static/scenarios/{lesson.scenario_slug}.{ext}"
-                    )
-                    break
+            scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+            if scenario and scenario.image:
+                ctx["scenario_image_url"] = f"/static/{scenario.image}"
         return await render_with_discover(
             request,
             "lezione-activity-intro.html",

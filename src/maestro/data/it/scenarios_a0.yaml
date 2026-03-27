@@ -3,6 +3,7 @@ scenarios:
     label: "In aereo"
     description: "Your first Italian words — on the plane and at the airport"
     overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one phrase that gets you anything."
+    image: "scenarios/a0-01-in-aereo.png"
     scene_setting: |
       You're on a plane to Italy. The captain just announced the descent
       into Rome in Italian — and you didn't catch a word. By the end of
