@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ t("reset_title") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  <h1>{{ t("reset_title") }}</h1>
+
+  {% if error and not token %}
+  <div class="form-error">{{ t(error) }}</div>
+  <p class="auth-switch"><a href="/auth/forgot">{{ t("forgot_title") }}</a></p>
+  {% else %}
+  <p class="subtitle">{{ t("reset_subtitle") }}</p>
+
+  {% if error %}
+  <div class="form-error">{{ t(error) }}</div>
+  {% endif %}
+
+  <form method="post" action="/auth/reset">
+    <input type="hidden" name="token" value="{{ token }}">
+    <div class="form-section">
+      <label class="section-label" for="password">{{ t("reset_password_label") }}</label>
+      <input class="config-text-input" type="password" id="password" name="password" required>
+    </div>
+    <div class="form-section">
+      <label class="section-label" for="password_confirm">{{ t("reset_password_confirm_label") }}</label>
+      <input class="config-text-input" type="password" id="password_confirm" name="password_confirm" required>
+    </div>
+    <button type="submit" class="btn-start">{{ t("reset_submit") }}</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

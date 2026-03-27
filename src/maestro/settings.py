@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     AZURE_SPEECH_KEY: str = ""
     AZURE_SPEECH_REGION: str = "eastus"
     AZURE_TTS_VOICE: str = "it-IT-IsabellaNeural"
+    MAILJET_API_KEY: str = ""
+    MAILJET_SECRET_KEY: str = ""
+    MAILJET_FROM_EMAIL: str = "Maestro <noreply@maestro.app>"
+    SITE_URL: str = "http://localhost:8000"
 
     @model_validator(mode="after")
     def _default_data_dir(self) -> "Settings":

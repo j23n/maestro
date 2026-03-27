@@ -6,6 +6,9 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from pymongo.errors import DuplicateKeyError
 
 from maestro.auth import get_current_student
+from maestro.email import send_verification_email
+from maestro.tokens import generate_verify_token
+from maestro.utils import create_background_task
 from maestro.models import (
     Account,
     DrillAttempt,
@@ -105,6 +108,10 @@ async def change_email(
         )
 
     logger.info("email changed: account=%s", account.id)
+    token = generate_verify_token(str(account.id))
+    create_background_task(
+        send_verification_email(account.email, token), name="verify-email"
+    )
     return RedirectResponse(url="/account?saved=email", status_code=303)
 
 

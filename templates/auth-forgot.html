@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ t("forgot_title") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  <h1>{{ t("forgot_title") }}</h1>
+  <p class="subtitle">{{ t("forgot_subtitle") }}</p>
+
+  {% if sent %}
+  <div class="form-success">{{ t("forgot_success") }}</div>
+  {% else %}
+  <form method="post" action="/auth/forgot">
+    <div class="form-section">
+      <label class="section-label" for="email">{{ t("forgot_email_label") }}</label>
+      <input class="config-text-input" type="email" id="email" name="email" required>
+    </div>
+    <button type="submit" class="btn-start">{{ t("forgot_submit") }}</button>
+  </form>
+  {% endif %}
+
+  <p class="auth-switch"><a href="/auth/login">{{ t("forgot_back_to_login") }}</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ t("email_verify_subject") }}{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  {% if success %}
+  <h1>{{ t("verify_success") }}</h1>
+  <p class="auth-switch"><a href="/lezione/">{{ t("continue_btn") }}</a></p>
+  {% else %}
+  <h1>{{ t("verify_error_invalid") }}</h1>
+  <p class="auth-switch"><a href="/auth/login">{{ t("forgot_back_to_login") }}</a></p>
+  {% endif %}
+</div>
+{% endblock %}

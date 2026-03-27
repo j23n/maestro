@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>{{ css }}</style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-card">
+      <h1 class="email-heading">{{ t("email_verify_heading") }}</h1>
+      <p class="email-text">{{ t("email_verify_body") }}</p>
+      <a href="{{ verify_url }}" class="email-cta">{{ t("email_verify_cta") }}</a>
+      <p class="email-note">{{ t("email_verify_note") }}</p>
+    </div>
+    <div class="email-footer">Maestro</div>
+  </div>
+</body>
+</html>

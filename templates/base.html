@@ -38,6 +38,14 @@
       {% endif %}
     </div>
   </nav>
+  {% if request.state.account is defined and request.state.account and not request.state.account.email_verified %}
+  <div class="verify-banner" id="verify-banner">
+    <div class="site-container">
+      {{ t("verify_banner_text") }}
+      <a href="#" class="verify-banner-dismiss" onclick="document.getElementById('verify-banner').remove(); return false;">{{ t("verify_banner_dismiss") }}</a>
+    </div>
+  </div>
+  {% endif %}
   <main>
   <div class="site-container">
     {% block content %}{% endblock %}
