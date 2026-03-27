@@ -1,7 +1,9 @@
+import bcrypt as _bcrypt
 import logging
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from pymongo.errors import DuplicateKeyError
 
 from maestro.auth import get_current_student
 from maestro.models import (
@@ -15,11 +17,135 @@ from maestro.models import (
     Student,
     UserVocabularyCard,
 )
+from maestro.rate_limit import limiter
 from maestro.session import clear_session_cookie
+from maestro.templates import render
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/account")
+
+
+@router.get("", response_class=HTMLResponse)
+async def account_page(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    account: Account = request.state.account
+    return render(
+        request,
+        "account.html",
+        {
+            "student": student,
+            "account": account,
+            "saved": request.query_params.get("saved"),
+            "error": request.query_params.get("error"),
+        },
+    )
+
+
+@router.post("/name")
+async def change_name(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    form = await request.form()
+    name = (form.get("name") or "").strip()
+
+    if not name:
+        return RedirectResponse(
+            url="/account?error=account_error_name_required", status_code=303
+        )
+    if len(name) > 30:
+        return RedirectResponse(
+            url="/account?error=account_error_name_too_long", status_code=303
+        )
+
+    student.name = name
+    await student.save()
+    logger.info("name changed: account=%s", request.state.account.id)
+    return RedirectResponse(url="/account?saved=name", status_code=303)
+
+
+@router.post("/email")
+@limiter.limit("3/minute")
+async def change_email(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    account: Account = request.state.account
+    form = await request.form()
+    email = (form.get("email") or "").strip().lower()
+    password = form.get("password") or ""
+
+    if not email:
+        return RedirectResponse(
+            url="/account?error=account_error_email_required", status_code=303
+        )
+    if "@" not in email:
+        return RedirectResponse(
+            url="/account?error=account_error_email_invalid", status_code=303
+        )
+    if not _bcrypt.checkpw(password.encode(), account.password_hash.encode()):
+        return RedirectResponse(
+            url="/account?error=account_error_password_wrong", status_code=303
+        )
+
+    # Check for duplicate before saving (unique index is the safety net)
+    existing = await Account.find_one(Account.email == email)
+    if existing and existing.id != account.id:
+        return RedirectResponse(
+            url="/account?error=account_error_email_taken", status_code=303
+        )
+
+    account.email = email
+    account.email_verified = False
+    try:
+        await account.save()
+    except DuplicateKeyError:
+        return RedirectResponse(
+            url="/account?error=account_error_email_taken", status_code=303
+        )
+
+    logger.info("email changed: account=%s", account.id)
+    return RedirectResponse(url="/account?saved=email", status_code=303)
+
+
+@router.post("/password")
+@limiter.limit("3/minute")
+async def change_password(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    account: Account = request.state.account
+    form = await request.form()
+    current_password = form.get("current_password") or ""
+    new_password = form.get("new_password") or ""
+    new_password_confirm = form.get("new_password_confirm") or ""
+
+    if not _bcrypt.checkpw(current_password.encode(), account.password_hash.encode()):
+        return RedirectResponse(
+            url="/account?error=account_error_password_wrong", status_code=303
+        )
+    if not new_password:
+        return RedirectResponse(
+            url="/account?error=account_error_password_required", status_code=303
+        )
+    if len(new_password) < 8:
+        return RedirectResponse(
+            url="/account?error=account_error_password_too_short", status_code=303
+        )
+    if len(new_password) > 128:
+        return RedirectResponse(
+            url="/account?error=account_error_password_too_long", status_code=303
+        )
+    if new_password != new_password_confirm:
+        return RedirectResponse(
+            url="/account?error=account_error_password_mismatch", status_code=303
+        )
+
+    account.password_hash = _bcrypt.hashpw(
+        new_password.encode(), _bcrypt.gensalt()
+    ).decode()
+    await account.save()
+    logger.info("password changed: account=%s", account.id)
+    return RedirectResponse(url="/account?saved=password", status_code=303)
 
 
 @router.delete("")
