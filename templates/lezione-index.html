@@ -50,14 +50,6 @@
       </div>
     </div>
 
-    {% if next_scenario and next_scenario.scene_setting %}
-    <div class="welcome-scene-card">
-      <div class="welcome-scene-eyebrow">{{ t("welcome_first_lesson") }}</div>
-      <div class="welcome-scene-title">{{ next_scenario.label }}</div>
-      <p class="welcome-scene-text">{{ next_scenario.scene_setting }}</p>
-    </div>
-    {% endif %}
-
     <details class="welcome-details">
       <summary>{{ t("welcome_how_it_works") }}</summary>
       <p>{{ t("welcome_how_it_works_body") }}</p>

@@ -78,41 +78,6 @@
   line-height: 1.4;
 }
 
-/* --- Scene-setting card --- */
-.welcome-scene-card {
-  border-left: 3px solid var(--c-terracotta);
-  padding: 1.25rem 1.25rem 1.25rem 1.5rem;
-  margin-bottom: 2rem;
-  background: #fff;
-  border-radius: 0 8px 8px 0;
-  box-shadow: 0 1px 4px rgba(45, 41, 38, 0.06);
-}
-
-.welcome-scene-eyebrow {
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--c-terracotta);
-  margin-bottom: 0.35rem;
-}
-
-.welcome-scene-title {
-  font-family: var(--f-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--c-charcoal);
-  margin-bottom: 0.5rem;
-}
-
-.welcome-scene-text {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: var(--c-text);
-  margin: 0;
-  font-style: italic;
-}
-
 /* --- How it works (collapsible) --- */
 .welcome-details {
   margin-bottom: 2rem;
