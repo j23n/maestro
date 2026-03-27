@@ -11,6 +11,11 @@
     {% if activity.description %}
     <p class="intro-scenario-desc">{{ activity.description }}</p>
     {% endif %}
+    {% if scenario_image_url %}
+    <div class="intro-scenario-image">
+      <img src="{{ scenario_image_url }}" alt="{{ activity.title }}">
+    </div>
+    {% endif %}
     {% if activity.content %}
     <p class="intro-scenario-overview">{{ activity.content }}</p>
     {% endif %}
