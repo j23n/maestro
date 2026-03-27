@@ -82,6 +82,8 @@ class CurriculumScenario(Document):
     label: str  # "Al bar"
     description: str  # English description of the scenario
     overview: str = ""  # 2-3 sentence lesson overview
+    scene_setting: str = ""  # narrative intro paragraph for the lesson intro activity
+    outro: str = ""  # narrative recap shown on the lesson completion page
     cefr_level: str  # "A1"
     cf_codes: List[str]  # CF codes exercised in this scenario
     gp_codes: List[str]  # GP codes exercised in this scenario

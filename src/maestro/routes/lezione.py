@@ -1542,6 +1542,13 @@ async def lezione_complete(
 
     discovered_words = await get_lesson_discovered_words(lesson)
 
+    # Look up scenario outro for narrative recap
+    scenario_outro = ""
+    if lesson.scenario_slug:
+        scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+        if scenario and scenario.outro:
+            scenario_outro = scenario.outro
+
     return await render_with_discover(
         request,
         "lezione-complete.html",
@@ -1557,6 +1564,7 @@ async def lezione_complete(
             "gp_outcomes": gp_outcomes,
             "graduated_to": graduated_to,
             "is_a0": lesson.cefr_at_start == "A0",
+            "scenario_outro": scenario_outro,
         },
         student_id=student.id,
     )

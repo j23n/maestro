@@ -6,7 +6,11 @@
   <div class="complete-hero">
     <div class="complete-icon">🎉</div>
     <h1 class="complete-title">{{ t("lesson_complete_title") }}</h1>
+    {% if scenario_outro %}
+    <p class="complete-subtitle">{{ scenario_outro }}</p>
+    {% else %}
     <p class="complete-subtitle">{{ t("lesson_complete_subtitle") }}</p>
+    {% endif %}
   </div>
 
   {% if graduated_to %}
