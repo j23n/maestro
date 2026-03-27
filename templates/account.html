@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}{{ t("account_title") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="lesson-new">
+  <h1>{{ t("account_title") }}</h1>
+  <p class="subtitle">{{ t("account_subtitle") }}</p>
+
+  {% if saved %}
+  <div class="account-saved-banner">
+    {% if saved == "name" %}{{ t("account_saved_name") }}
+    {% elif saved == "email" %}{{ t("account_saved_email") }}
+    {% elif saved == "password" %}{{ t("account_saved_password") }}
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if error %}
+  <div class="form-error">{{ t(error) }}</div>
+  {% endif %}
+
+  {# ── Name ── #}
+  <div class="account-section">
+    <div class="account-section-label">{{ t("account_name_label") }}</div>
+    <form method="post" action="/account/name">
+      <div class="form-section">
+        <input class="config-text-input" type="text" name="name"
+          value="{{ student.name }}" maxlength="30" required>
+      </div>
+      <button type="submit" class="submit-btn">{{ t("profile_save_btn") }}</button>
+    </form>
+  </div>
+
+  {# ── Email ── #}
+  <div class="account-section">
+    <div class="account-section-label">{{ t("account_email_label") }}</div>
+    <form method="post" action="/account/email">
+      <div class="form-section">
+        <label class="section-label" for="account-email">{{ t("account_new_email_label") }}</label>
+        <input class="config-text-input" type="email" id="account-email" name="email"
+          value="{{ account.email }}" required>
+      </div>
+      <div class="form-section">
+        <label class="section-label" for="email-password">{{ t("account_confirm_password_label") }}</label>
+        <input class="config-text-input" type="password" id="email-password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">{{ t("profile_save_btn") }}</button>
+    </form>
+  </div>
+
+  {# ── Password ── #}
+  <div class="account-section">
+    <div class="account-section-label">{{ t("account_password_label") }}</div>
+    <form method="post" action="/account/password">
+      <div class="form-section">
+        <label class="section-label" for="current-password">{{ t("account_current_password_label") }}</label>
+        <input class="config-text-input" type="password" id="current-password" name="current_password" required>
+      </div>
+      <div class="form-section">
+        <label class="section-label" for="new-password">{{ t("account_new_password_label") }}</label>
+        <input class="config-text-input" type="password" id="new-password" name="new_password" required>
+      </div>
+      <div class="form-section">
+        <label class="section-label" for="new-password-confirm">{{ t("account_new_password_confirm_label") }}</label>
+        <input class="config-text-input" type="password" id="new-password-confirm" name="new_password_confirm" required>
+      </div>
+      <button type="submit" class="submit-btn">{{ t("profile_save_btn") }}</button>
+    </form>
+  </div>
+
+  {# ── Data ── #}
+  <div class="account-section">
+    <div class="account-section-label">{{ t("account_data_label") }}</div>
+    <p class="account-section-hint">{{ t("account_export_hint") }}</p>
+    <a href="/account/export" class="submit-btn" style="display:inline-block;text-align:center;text-decoration:none">{{ t("account_export_btn") }}</a>
+  </div>
+
+  {# ── Danger zone ── #}
+  <div class="account-section account-danger">
+    <div class="account-section-label">{{ t("account_danger_label") }}</div>
+    <p class="account-section-hint">{{ t("account_delete_hint") }}</p>
+    <button type="button" class="btn-danger" id="delete-account-btn">{{ t("account_delete_btn") }}</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var btn = document.getElementById('delete-account-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var ok = confirm(
+      '{{ t("account_delete_confirm") }}'
+    );
+    if (!ok) return;
+    var csrf = document.cookie.match(/csrftoken=([^;]+)/);
+    fetch('/account', {
+      method: 'DELETE',
+      headers: csrf ? {'x-csrftoken': csrf[1]} : {},
+      redirect: 'manual'
+    }).then(function() {
+      window.location.href = '/';
+    });
+  });
+})();
+</script>
+{% endblock %}

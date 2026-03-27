@@ -1377,7 +1377,68 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .auth-switch a { color: var(--c-terracotta); }
 
 /* =====================================================================
-   22. Media queries
+   22. Account settings
+   ===================================================================== */
+.nav-settings {
+  display: inline-flex;
+  align-items: center;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  margin-left: 0.25rem;
+  transition: color 0.15s;
+}
+.nav-settings:hover { color: var(--c-charcoal); }
+
+.account-section {
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.account-section-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-muted);
+  margin-bottom: 0.75rem;
+}
+.account-section-hint {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.account-saved-banner {
+  background: #e8f0ea;
+  color: #2d5a35;
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.account-danger {
+  border-color: #e5c5c5;
+  background: #fef8f8;
+}
+.account-danger .account-section-label { color: #b91c1c; }
+
+.btn-danger {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #b91c1c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover { background: #991b1b; }
+
+/* =====================================================================
+   23. Media queries
    ===================================================================== */
 @media (max-width: 640px) {
   /* Full-width content — remove card chrome on small screens */
