@@ -1,5 +1,7 @@
 /* Lesson completion page — skill-row overrides */
 
+.review-box .skill-list { display: flex; flex-direction: column; gap: 0; }
+
 .review-box a.skill-row {
   display: flex;
   align-items: center;
