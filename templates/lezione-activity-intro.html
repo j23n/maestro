@@ -21,7 +21,7 @@
       <ul class="intro-list">
         {% for gp in grammar_points %}
         <li>
-          <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp.label }}</a>
+          <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp.unistr_label or gp.label }}</a>
         </li>
         {% endfor %}
       </ul>
@@ -33,7 +33,7 @@
       <div class="intro-section-heading">{{ t("intro_cf_heading") }}</div>
       <ul class="intro-list">
         {% for cf in comm_functions %}
-        <li>{{ cf.label }}</li>
+        <li>{{ cf.description or cf.label }}</li>
         {% endfor %}
       </ul>
     </div>
