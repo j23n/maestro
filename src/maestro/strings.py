@@ -28,6 +28,9 @@ _STRINGS: dict[str, dict[str, str]] = {
         # planner.py vocab activity
         "vocab_title": "Vocabulary ({count} words)",
         "vocab_desc": "Review the words due today",
+        # a0.py discovered vocab review
+        "vocab_discovered_title": "Quick review ({count} words)",
+        "vocab_discovered_desc": "Review words from this lesson",
         # a0.py fallback titles
         "a0_drill_title": "Drill: {code}",
         "a0_reading_title": "Reading",
@@ -53,6 +56,9 @@ _STRINGS: dict[str, dict[str, str]] = {
         # planner.py vocab activity
         "vocab_title": "Vocabolario ({count} parole)",
         "vocab_desc": "Ripassa le parole in scadenza oggi",
+        # a0.py discovered vocab review
+        "vocab_discovered_title": "Ripasso veloce ({count} parole)",
+        "vocab_discovered_desc": "Ripassa le parole di questa lezione",
         # a0.py fallback titles
         "a0_drill_title": "Esercizio: {code}",
         "a0_reading_title": "Lettura",

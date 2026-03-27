@@ -18,6 +18,7 @@ from maestro.models import (
     GrammarPoint,
     LearningEvent,
     Lesson,
+    LessonActivity,
     ScenarioProgress,
     UserVocabularyCard,
     VocabularyWord,
@@ -55,6 +56,38 @@ async def count_paid_lessons(student_id: PydanticObjectId) -> int:
 
 def activity_url(lesson_id, idx: int) -> str:
     return f"/lezione/{lesson_id}/activity/{idx}"
+
+
+def inject_discovered_reviews(activities: list[LessonActivity]) -> None:
+    """Insert mid-lesson and end-of-lesson discovered-word review placeholders.
+
+    Modifies the list in place.  The mid-lesson review is placed after the
+    first reading or listening activity; the end-of-lesson review is appended
+    last.  Card IDs are left empty — populated at serve time from words
+    discovered so far.
+    """
+    from maestro.strings import t as st
+
+    def _make_placeholder() -> LessonActivity:
+        return LessonActivity(
+            type=ActivityType.VOCAB_REVIEW,
+            title=st("vocab_discovered_title", count=0),
+            description=st("vocab_discovered_desc"),
+            review_scope="discovered",
+        )
+
+    # Mid-lesson: after the first reading/listening activity
+    mid_idx = None
+    for i, act in enumerate(activities):
+        if act.type in (ActivityType.READING, ActivityType.LISTENING):
+            mid_idx = i + 1
+            break
+
+    if mid_idx is not None:
+        activities.insert(mid_idx, _make_placeholder())
+
+    # End-of-lesson: always last
+    activities.append(_make_placeholder())
 
 
 async def advance_lesson(

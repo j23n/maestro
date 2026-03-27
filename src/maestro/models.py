@@ -400,6 +400,7 @@ class LessonActivity(BaseModel):
     # Content references (set when lesson is created)
     drill_id: Optional[PydanticObjectId] = None
     card_ids: List[PydanticObjectId] = Field(default_factory=list)
+    review_scope: Optional[Literal["due", "discovered"]] = None
     content: Optional[str] = None  # generated text for reading/writing/grammar
     questions: List[QuestionItem] = Field(
         default_factory=list

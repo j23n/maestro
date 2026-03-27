@@ -551,6 +551,11 @@ async def _generate_lesson_background(
     )
     new_activities.insert(0, intro_activity)
 
+    # --- Inject mid-lesson and end-of-lesson discovered-word reviews ---
+    from maestro.lezione.service import inject_discovered_reviews
+
+    inject_discovered_reviews(new_activities)
+
     # --- Generate audio for LISTENING activities ---
     from maestro.tts import generate_lesson_audio
 

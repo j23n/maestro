@@ -182,6 +182,15 @@ async def test_a0_lesson_generates_static_content(db):
     assert not onboarding.title.startswith("<span")
     assert not onboarding.content.startswith("<span")
 
+    # Discovered-scope vocab reviews injected (mid-lesson + end-of-lesson)
+    discovered = [a for a in lesson.activities if a.review_scope == "discovered"]
+    assert len(discovered) == 2, f"Expected 2 discovered reviews, got {len(discovered)}"
+    for d in discovered:
+        assert d.type == ActivityType.VOCAB_REVIEW
+        assert d.card_ids == []  # placeholder — populated at serve time
+    # End-of-lesson review is last activity
+    assert lesson.activities[-1].review_scope == "discovered"
+
 
 @pytest.mark.integration
 async def test_a0_drill_creates_generated_drill_doc(db):
