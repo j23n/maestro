@@ -556,10 +556,27 @@ async def lezione_activity(
     if activity.type == ActivityType.VOCAB_REVIEW:
         card_ids = activity.card_ids
         total_cards = len(card_ids)
+        if mode not in ("word", "translation", "random"):
+            mode = "random"
+        correct = max(0, min(correct, total_cards))
+        incorrect = max(0, min(incorrect, total_cards))
         selected_mode = mode
         resolved_mode = (
             random.choice(("word", "translation")) if mode == "random" else mode
         )
+
+        def _vocab_complete_ctx(c: int, ic: int, cont_url: str) -> dict:
+            return dict(
+                is_complete=True,
+                correct=c,
+                incorrect=ic,
+                continue_url=cont_url,
+                card=None,
+                mode=resolved_mode,
+                selected_mode=selected_mode,
+                mode_url_prefix=f"/lezione/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
+                total_cards=total_cards,
+            )
 
         if is_review:
             result = activity.result or {}
@@ -569,15 +586,11 @@ async def lezione_activity(
                 else activity_url(lesson_id, lesson.current_index)
             )
             ctx.update(
-                is_complete=True,
-                correct=result.get("correct", 0),
-                incorrect=result.get("incorrect", 0),
-                continue_url=continue_url,
-                card=None,
-                mode=resolved_mode,
-                selected_mode=selected_mode,
-                mode_url_prefix=f"/lezione/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
-                total_cards=total_cards,
+                _vocab_complete_ctx(
+                    result.get("correct", 0),
+                    result.get("incorrect", 0),
+                    continue_url,
+                )
             )
             return await render_with_discover(
                 request,
@@ -602,17 +615,7 @@ async def lezione_activity(
                 if lesson.status == LessonStatus.COMPLETED
                 else activity_url(lesson_id, lesson.current_index)
             )
-            ctx.update(
-                is_complete=True,
-                correct=correct,
-                incorrect=incorrect,
-                continue_url=continue_url,
-                card=None,
-                mode=resolved_mode,
-                selected_mode=selected_mode,
-                mode_url_prefix=f"/lezione/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
-                total_cards=total_cards,
-            )
+            ctx.update(_vocab_complete_ctx(correct, incorrect, continue_url))
             return await render_with_discover(
                 request,
                 "lezione-activity-vocab.html",
@@ -1058,6 +1061,10 @@ async def lezione_vocab_rate(
     card_ids = activity.card_ids
     if card_idx >= len(card_ids):
         raise HTTPException(404)
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, min(correct, len(card_ids)))
+    incorrect = max(0, min(incorrect, len(card_ids)))
 
     card = await UserVocabularyCard.get(card_ids[card_idx])
     if card is None:
