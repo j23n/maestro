@@ -6,6 +6,10 @@
   <h1>{{ t("login_title") }}</h1>
   <p class="subtitle">{{ t("login_subtitle") }}</p>
 
+  {% if request.query_params.get("reset") %}
+  <div class="form-success">{{ t("reset_success") }}</div>
+  {% endif %}
+
   {% if error %}
   <div class="form-error">{{ t(error) }}</div>
   {% endif %}
@@ -20,6 +24,7 @@
       <input class="config-text-input" type="password" id="password" name="password" required>
     </div>
     <button type="submit" class="btn-start">{{ t("login_submit") }}</button>
+    <p class="form-note"><a href="/auth/forgot">{{ t("login_forgot_link") }}</a></p>
   </form>
 
   <p class="auth-switch">{{ t("login_no_account") }} <a href="/auth/signup">{{ t("login_signup_link") }}</a></p>
