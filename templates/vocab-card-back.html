@@ -57,6 +57,9 @@
           hx-swap="outerHTML">
       <input type="hidden" name="rating" value="1">
       <input type="hidden" name="{{ review_extra_name }}" value="{{ review_extra_value }}">
+      <input type="hidden" name="mode" value="{{ mode }}">
+      <input type="hidden" name="correct" value="{{ correct|default(0) }}">
+      <input type="hidden" name="incorrect" value="{{ incorrect|default(0) }}">
       <button class="btn-incorrect">{{ t("srs_incorrect") }}</button>
     </form>
     <form hx-post="{{ review_url }}"
@@ -64,6 +67,8 @@
           hx-swap="outerHTML">
       <input type="hidden" name="rating" value="4">
       <input type="hidden" name="{{ review_extra_name }}" value="{{ review_extra_value }}">
+      <input type="hidden" name="correct" value="{{ correct|default(0) }}">
+      <input type="hidden" name="incorrect" value="{{ incorrect|default(0) }}">
       <button class="btn-correct">{{ t("srs_correct") }}</button>
     </form>
   </div>

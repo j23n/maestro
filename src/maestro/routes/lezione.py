@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 import logging
+import random
 from typing import Annotated
 
 from beanie import PydanticObjectId
@@ -447,6 +448,9 @@ async def lezione_activity(
     request: Request,
     student: Student = Depends(get_current_student),
     card_idx: int = 0,
+    mode: str = "random",
+    correct: int = 0,
+    incorrect: int = 0,
 ):
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
@@ -550,7 +554,31 @@ async def lezione_activity(
         )
 
     if activity.type == ActivityType.VOCAB_REVIEW:
+        card_ids = activity.card_ids
+        total_cards = len(card_ids)
+        selected_mode = mode
+        resolved_mode = (
+            random.choice(("word", "translation")) if mode == "random" else mode
+        )
+
         if is_review:
+            result = activity.result or {}
+            continue_url = (
+                f"/lezione/{lesson_id}/complete"
+                if lesson.status == LessonStatus.COMPLETED
+                else activity_url(lesson_id, lesson.current_index)
+            )
+            ctx.update(
+                is_complete=True,
+                correct=result.get("correct", 0),
+                incorrect=result.get("incorrect", 0),
+                continue_url=continue_url,
+                card=None,
+                mode=resolved_mode,
+                selected_mode=selected_mode,
+                mode_url_prefix=f"/lezione/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
+                total_cards=total_cards,
+            )
             return await render_with_discover(
                 request,
                 "lezione-activity-vocab.html",
@@ -558,19 +586,41 @@ async def lezione_activity(
                 student_id=student.id,
                 create_cards=True,
             )
-        card_ids = activity.card_ids
+
         if not card_ids:
-            ctx["no_cards"] = True
+            # No vocab cards — auto-skip this activity
+            redirect_url = await advance_lesson(lesson, idx)
+            return RedirectResponse(url=redirect_url, status_code=303)
+
+        if card_idx >= total_cards:
+            # All cards reviewed — advance and show results
+            await advance_lesson(
+                lesson, idx, result={"correct": correct, "incorrect": incorrect}
+            )
+            continue_url = (
+                f"/lezione/{lesson_id}/complete"
+                if lesson.status == LessonStatus.COMPLETED
+                else activity_url(lesson_id, lesson.current_index)
+            )
+            ctx.update(
+                is_complete=True,
+                correct=correct,
+                incorrect=incorrect,
+                continue_url=continue_url,
+                card=None,
+                mode=resolved_mode,
+                selected_mode=selected_mode,
+                mode_url_prefix=f"/lezione/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
+                total_cards=total_cards,
+            )
             return await render_with_discover(
                 request,
                 "lezione-activity-vocab.html",
                 ctx,
                 student_id=student.id,
-                create_cards=False,
+                create_cards=True,
             )
-        if card_idx >= len(card_ids):
-            redirect_url = await advance_lesson(lesson, idx)
-            return RedirectResponse(url=redirect_url, status_code=303)
+
         card = await UserVocabularyCard.get(card_ids[card_idx])
         if card is None:
             raise HTTPException(404)
@@ -578,9 +628,24 @@ async def lezione_activity(
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
         word_def = await get_word_definition(card.word, level)
-        ctx["card"] = card
-        ctx["word_def"] = word_def
-        ctx["mode"] = "word"
+        ctx.update(
+            card=card,
+            word_def=word_def,
+            mode=resolved_mode,
+            selected_mode=selected_mode,
+            correct=correct,
+            incorrect=incorrect,
+            total_cards=total_cards,
+            reveal_url=(
+                f"/lezione/{lesson_id}/activity/{idx}/vocab-reveal"
+                f"?card_idx={card_idx}&mode={resolved_mode}"
+                f"&correct={correct}&incorrect={incorrect}"
+            ),
+            mode_url_prefix=(
+                f"/lezione/{lesson_id}/activity/{idx}"
+                f"?card_idx={card_idx}&correct={correct}&incorrect={incorrect}&mode="
+            ),
+        )
         return await render_with_discover(
             request,
             "lezione-activity-vocab.html",
@@ -939,6 +1004,9 @@ async def lezione_vocab_reveal(
     request: Request,
     student: Student = Depends(get_current_student),
     card_idx: int = 0,
+    mode: str = "word",
+    correct: int = 0,
+    incorrect: int = 0,
 ):
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
@@ -960,12 +1028,14 @@ async def lezione_vocab_reveal(
         {
             "card": card,
             "word_def": word_def,
-            "mode": "word",
+            "mode": mode,
             "card_idx": card_idx,
             "total_cards": len(card_ids),
             "review_url": f"/lezione/{lesson_id}/activity/{idx}/vocab-rate",
             "review_extra_name": "card_idx",
             "review_extra_value": card_idx,
+            "correct": correct,
+            "incorrect": incorrect,
         },
     )
 
@@ -977,6 +1047,9 @@ async def lezione_vocab_rate(
     rating: Annotated[int, Form()],
     card_idx: Annotated[int, Form()],
     student: Student = Depends(get_current_student),
+    mode: Annotated[str, Form()] = "random",
+    correct: Annotated[int, Form()] = 0,
+    incorrect: Annotated[int, Form()] = 0,
 ):
     lesson = await _get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
@@ -994,15 +1067,15 @@ async def lezione_vocab_rate(
     card = review(card, rating)
     await card.save()
 
+    new_correct = correct + (1 if rating >= 3 else 0)
+    new_incorrect = incorrect + (1 if rating < 3 else 0)
+
     next_card_idx = card_idx + 1
-    if next_card_idx < len(card_ids):
-        return Response(
-            status_code=204,
-            headers={
-                "HX-Redirect": f"/lezione/{lesson_id}/activity/{idx}?card_idx={next_card_idx}"
-            },
-        )
-    redirect_url = await advance_lesson(lesson, idx)
+    redirect_url = (
+        f"/lezione/{lesson_id}/activity/{idx}"
+        f"?card_idx={next_card_idx}&mode={mode}"
+        f"&correct={new_correct}&incorrect={new_incorrect}"
+    )
     return Response(status_code=204, headers={"HX-Redirect": redirect_url})
 
 

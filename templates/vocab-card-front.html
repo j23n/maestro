@@ -1,0 +1,68 @@
+{% set correct = correct|default(0) %}
+{% set incorrect = incorrect|default(0) %}
+{% set is_complete = is_complete|default(false) %}
+{% set total_cards = total_cards|default(0) %}
+{% set card_idx = card_idx|default(0) %}
+
+{% if is_complete %}
+<div class="card">
+  <div class="card-label">{{ t("vocab_review_complete") }}</div>
+  {% if correct + incorrect > 0 %}
+  <div class="review-result">
+    {{ correct }} {{ t("srs_correct") }} · {{ incorrect }} {{ t("srs_incorrect") }}
+  </div>
+  {% endif %}
+  <div class="review-banner">
+    {% if continue_url %}
+    <a href="{{ continue_url }}" class="continue-btn">{{ t("back_to_current") }}</a>
+    {% endif %}
+    <a href="/vocab" class="continue-btn">{{ t("vocab_practice_link") }}</a>
+  </div>
+</div>
+
+{% elif card %}
+<div class="mode-selector">
+  {% for m in [("word", t("practice_mode_word")), ("translation", t("practice_mode_translation")), ("random", t("practice_mode_random"))] %}
+  <a href="{{ mode_url_prefix }}{{ m[0] }}"
+     class="{{ 'active' if selected_mode == m[0] else '' }}">{{ m[1] }}</a>
+  {% endfor %}
+</div>
+
+<div class="card" id="practice-card">
+  {% if total_cards %}
+  <div class="card-queue">{{ card_idx + 1 }} / {{ total_cards }}</div>
+  {% endif %}
+
+  {% if mode == 'word' %}
+    <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
+    <div class="word"><span lang="it">{{ card.word.word }}</span></div>
+  {% elif mode == 'translation' %}
+    <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
+    <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
+  {% endif %}
+
+  <button class="reveal-btn"
+          id="reveal-btn"
+          hx-get="{{ reveal_url }}"
+          hx-target="#practice-card"
+          hx-swap="outerHTML">
+    {{ t("vocab_reveal") }}
+  </button>
+
+  <script>
+    document.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        var btn = document.getElementById('reveal-btn');
+        if (btn) { e.preventDefault(); btn.click(); }
+      }
+    });
+  </script>
+</div>
+
+{% else %}
+<div style="text-align:center; margin-top:3rem; color:#999">
+  <p>{{ t("practice_no_cards") }}</p>
+  <p>{{ t("practice_no_cards_hint") }}</p>
+  <a href="/lezione/" class="btn" style="margin-top:1rem">{{ t("new_lesson_title") }}</a>
+</div>
+{% endif %}
