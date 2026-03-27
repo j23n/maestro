@@ -2,44 +2,5 @@
 {% block title %}{{ t("practice_title") }} — Maestro{% endblock %}
 
 {% block content %}
-  <div class="mode-selector">
-    {% for m in [("word", t("practice_mode_word")), ("translation", t("practice_mode_translation")), ("random", t("practice_mode_random"))] %}
-    <a href="/vocab/practice?mode={{ m[0] }}"
-       class="{{ 'active' if selected_mode == m[0] else '' }}">{{ m[1] }}</a>
-    {% endfor %}
-  </div>
-
-  {% if card %}
-  <div class="card" id="practice-card">
-    {% if mode == 'word' %}
-      <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
-      <div class="word"><span lang="it" data-no-discover>{{ card.word.word }}</span></div>
-    {% elif mode == 'translation' %}
-      <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
-      <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>
-    {% endif %}
-
-    <button hx-get="/vocab/practice/{{ card.id }}/reveal?mode={{ mode }}"
-            hx-target="#practice-card"
-            hx-swap="outerHTML"
-            id="reveal-btn">
-      {{ t("vocab_reveal") }}
-    </button>
-
-    <script>
-      document.addEventListener('keydown', function(e) {
-        if (e.key === ' ' || e.key === 'Enter') {
-          var btn = document.getElementById('reveal-btn');
-          if (btn) { e.preventDefault(); btn.click(); }
-        }
-      });
-    </script>
-  </div>
-  {% else %}
-  <div style="text-align:center; margin-top:3rem; color:#999">
-    <p>{{ t("practice_no_cards") }}</p>
-    <p>{{ t("practice_no_cards_hint") }}</p>
-    <a href="/lezione/" class="btn" style="margin-top:1rem">{{ t("new_lesson_title") }}</a>
-  </div>
-  {% endif %}
+  {% include "vocab-card-front.html" %}
 {% endblock %}

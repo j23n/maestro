@@ -250,7 +250,13 @@ async def vocab_practice(
     request: Request,
     student: Student = Depends(get_current_student),
     mode: str = "random",
+    correct: int = 0,
+    incorrect: int = 0,
 ):
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, correct)
+    incorrect = max(0, incorrect)
     student_level = await get_cefr_level(student.id)
 
     due_cards = await UserVocabularyCard.find(
@@ -268,10 +274,19 @@ async def vocab_practice(
             c.word = word_map.get(c.word.ref.id)
     card = next((c for c in due_cards if c.word is not None), None)
     if card is None:
+        is_complete = (correct + incorrect) > 0
         return await render_with_discover(
             request,
             "vocab-practice.html",
-            {"card": None, "mode": mode},
+            {
+                "card": None,
+                "mode": mode,
+                "selected_mode": mode,
+                "is_complete": is_complete,
+                "correct": correct,
+                "incorrect": incorrect,
+                "mode_url_prefix": "/vocab/practice?correct=0&incorrect=0&mode=",
+            },
             student_id=student.id,
             create_cards=False,
         )
@@ -286,6 +301,15 @@ async def vocab_practice(
             "selected_mode": mode,
             "word_def": word_def,
             "student_level": student_level,
+            "correct": correct,
+            "incorrect": incorrect,
+            "reveal_url": (
+                f"/vocab/practice/{card.id}/reveal"
+                f"?mode={resolved_mode}&correct={correct}&incorrect={incorrect}"
+            ),
+            "mode_url_prefix": (
+                f"/vocab/practice?correct={correct}&incorrect={incorrect}&mode="
+            ),
         },
         student_id=student.id,
         create_cards=False,
@@ -298,6 +322,8 @@ async def vocab_reveal(
     request: Request,
     student: Student = Depends(get_current_student),
     mode: str = "word",
+    correct: int = 0,
+    incorrect: int = 0,
 ):
     card = await UserVocabularyCard.get(card_id)
     if card is None or card.student_id != student.id:
@@ -324,6 +350,8 @@ async def vocab_reveal(
             "review_url": f"/vocab/practice/{card.id}/review",
             "review_extra_name": "mode",
             "review_extra_value": mode,
+            "correct": correct,
+            "incorrect": incorrect,
         },
         student_id=student.id,
         create_cards=False,
@@ -337,12 +365,21 @@ async def vocab_review(
     rating: Annotated[int, Form()],
     student: Student = Depends(get_current_student),
     mode: Annotated[str, Form()] = "random",
+    correct: Annotated[int, Form()] = 0,
+    incorrect: Annotated[int, Form()] = 0,
 ):
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, correct)
+    incorrect = max(0, incorrect)
     card = await UserVocabularyCard.get(card_id)
     if card is None or card.student_id != student.id:
         raise HTTPException(403)
     card = review(card, rating)
     await card.save()
-    return Response(
-        status_code=204, headers={"HX-Redirect": f"/vocab/practice?mode={mode}"}
+    new_correct = correct + (1 if rating >= 3 else 0)
+    new_incorrect = incorrect + (1 if rating < 3 else 0)
+    redirect_url = (
+        f"/vocab/practice?mode={mode}&correct={new_correct}&incorrect={new_incorrect}"
     )
+    return Response(status_code=204, headers={"HX-Redirect": redirect_url})
