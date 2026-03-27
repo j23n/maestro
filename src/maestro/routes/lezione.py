@@ -774,6 +774,10 @@ async def lezione_activity(
         ctx["grammar_points"] = grammar_points
         ctx["gp_titles"] = gp_titles
         ctx["comm_functions"] = comm_functions
+        if lesson.scenario_slug:
+            scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+            if scenario and scenario.image:
+                ctx["scenario_image_url"] = f"/static/{scenario.image}"
         return await render_with_discover(
             request,
             "lezione-activity-intro.html",
