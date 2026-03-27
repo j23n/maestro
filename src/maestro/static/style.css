@@ -1120,7 +1120,7 @@ a.weakness-tag:hover { background: #f9e2db; }
    11. Page: Activity reading — extra elements
    ===================================================================== */
 .reading-card { border: 1px solid var(--c-border); border-radius: 10px; padding: 2rem; margin-bottom: 1.25rem; background: #fff; }
-.reading-text { font-size: 1rem; line-height: 1.8; color: var(--c-charcoal); white-space: pre-wrap; }
+.reading-text { font-size: 1rem; line-height: 1.8; color: var(--c-charcoal); }
 .questions-card { border: 1px solid var(--c-border); border-radius: 10px; padding: 2rem; background: #fff; }
 /* reading/listening questions now use .drill-item / .item-* classes (unified with drills) */
 
@@ -1882,7 +1882,6 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   font-size: 0.97rem;
   line-height: 1.8;
   color: var(--c-charcoal);
-  white-space: pre-wrap;
   padding: 0 2rem;
 }
 
