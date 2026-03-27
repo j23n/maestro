@@ -200,7 +200,7 @@ async def _generate_a0_lesson_background(
         type=ActivityType.INTRO,
         title=topic_title,
         description=topic_description,
-        content=overview,
+        content=scenario.scene_setting,
         grammar_point_codes=scenario.gp_codes,
         cf_codes=scenario.cf_codes,
         duration_minutes=1,
