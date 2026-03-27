@@ -40,7 +40,7 @@ from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro import taxonomy
 from maestro.templates import render_with_discover
-from maestro.utils import create_background_task, ensure_utc, utcnow
+from maestro.utils import create_background_task, ensure_utc, strip_lang_spans, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lezione.planner import prepare_lesson_immediate, generate_lesson_background
@@ -51,6 +51,7 @@ from maestro.lezione.service import (
     advance_lesson,
     count_paid_lessons,
     ensure_lesson_feedback,
+    get_lesson_discovered_words,
     get_lesson_events,
     get_weak_grammar_points,
     score_reading_activity,
@@ -113,6 +114,8 @@ async def lezione_index(
     cefr = profile.cefr_estimate if profile else "A0"
 
     if cefr == "A0":
+        from maestro.lezione.selection import pick_scenario as _pick_a0_scenario
+
         a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
         progress = profile.scenario_progress if profile else {}
         a0_completed = sum(
@@ -122,14 +125,44 @@ async def lezione_index(
         )
         a0_total = len(a0_scenarios)
         a0_lesson_number = a0_completed + 1
+        show_welcome = a0_lesson_number == 1
+
+        # Next scenario preview (always) + lesson history (returning students only)
+        next_scenario = None
+        if a0_scenarios:
+            next_scenario_doc, _ = await _pick_a0_scenario(
+                profile, "A0", scenarios=a0_scenarios
+            )
+            next_scenario = next_scenario_doc
+        lesson_history: list[dict] = []
+        if not show_welcome:
+            recent_lessons = (
+                await Lesson.find(
+                    {"student_id": student.id, "status": LessonStatus.COMPLETED}
+                )
+                .sort(-Lesson.completed_at)
+                .limit(5)
+                .to_list()
+            )
+            scenario_labels = {s.slug: s.label for s in a0_scenarios}
+            lesson_history = [
+                {
+                    "lesson": lesson,
+                    "scenario_label": scenario_labels.get(lesson.scenario_slug, ""),
+                }
+                for lesson in recent_lessons
+            ]
+
         return await render_with_discover(
             request,
             "lezione-index.html",
             {
                 "cefr": cefr,
-                "show_welcome": a0_lesson_number == 1,
+                "show_welcome": show_welcome,
                 "a0_lesson_number": a0_lesson_number,
                 "a0_total": a0_total,
+                "next_scenario": next_scenario,
+                "lesson_history": lesson_history,
             },
             student_id=student.id,
         )
@@ -526,6 +559,15 @@ async def lezione_activity(
                 create_cards=True,
             )
         card_ids = activity.card_ids
+        if not card_ids:
+            ctx["no_cards"] = True
+            return await render_with_discover(
+                request,
+                "lezione-activity-vocab.html",
+                ctx,
+                student_id=student.id,
+                create_cards=False,
+            )
         if card_idx >= len(card_ids):
             redirect_url = await advance_lesson(lesson, idx)
             return RedirectResponse(url=redirect_url, status_code=303)
@@ -614,6 +656,36 @@ async def lezione_activity(
             ctx,
             student_id=student.id,
             create_cards=True,
+        )
+
+    if activity.type == ActivityType.INTRO:
+        gp_codes = activity.grammar_point_codes
+        cf_codes = activity.cf_codes
+        grammar_points = (
+            await GrammarPoint.find({"code": {"$in": gp_codes}}).to_list()
+            if gp_codes
+            else []
+        )
+        comm_functions = (
+            await CommunicativeFunction.find({"code": {"$in": cf_codes}}).to_list()
+            if cf_codes
+            else []
+        )
+        # Build English titles from GP explanations (same approach as grammar index)
+        gp_titles = {}
+        for gp in grammar_points:
+            expl = gp.explanations.get("en") or gp.explanations.get("it")
+            if expl and expl.title:
+                gp_titles[gp.code] = strip_lang_spans(expl.title)
+        ctx["grammar_points"] = grammar_points
+        ctx["gp_titles"] = gp_titles
+        ctx["comm_functions"] = comm_functions
+        return await render_with_discover(
+            request,
+            "lezione-activity-intro.html",
+            ctx,
+            student_id=student.id,
+            create_cards=False,
         )
 
     if activity.type == ActivityType.INFO:
@@ -1468,6 +1540,15 @@ async def lezione_complete(
     else:
         covered_comm_functions = []
 
+    discovered_words = await get_lesson_discovered_words(lesson)
+
+    # Look up scenario outro for narrative recap
+    scenario_outro = ""
+    if lesson.scenario_slug:
+        scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+        if scenario and scenario.outro:
+            scenario_outro = scenario.outro
+
     return await render_with_discover(
         request,
         "lezione-complete.html",
@@ -1478,10 +1559,12 @@ async def lezione_complete(
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
             "covered_comm_functions": covered_comm_functions,
+            "discovered_words": discovered_words,
             "gp_titles": gp_titles,
             "gp_outcomes": gp_outcomes,
             "graduated_to": graduated_to,
             "is_a0": lesson.cefr_at_start == "A0",
+            "scenario_outro": scenario_outro,
         },
         student_id=student.id,
     )

@@ -1,21 +1,21 @@
 {
-  "sha256": "9da8dcd8051721e70084ce83dd7a7f8cc9bca34839c46fe00cb6cac36c2b56bc",
+  "sha256": "0b166bc8935608a08182b08c4c0f63dde355f2c6832d1160a36a4ebdcb6b2299",
   "lesson_count": 13,
   "scenario_count": 13,
   "activities_per_lesson": {
     "a0-01-in-aereo": 10,
     "a0-02-in-albergo": 10,
-    "a0-03-al-bar": 10,
-    "a0-04-in-giro": 10,
-    "a0-05-chiedere-aiuto": 10,
-    "a0-06-a-pranzo": 10,
-    "a0-07-mi-piace": 11,
-    "a0-08-i-numeri-grandi": 9,
-    "a0-09-in-viaggio": 8,
-    "a0-10-conoscere-qualcuno": 11,
-    "a0-11-un-problema": 10,
-    "a0-12-ultimo-giorno": 9,
-    "a0-13-ripasso": 10
+    "a0-03-al-bar": 11,
+    "a0-04-in-giro": 11,
+    "a0-05-chiedere-aiuto": 11,
+    "a0-06-a-pranzo": 11,
+    "a0-07-mi-piace": 12,
+    "a0-08-i-numeri-grandi": 10,
+    "a0-09-in-viaggio": 9,
+    "a0-10-conoscere-qualcuno": 14,
+    "a0-11-un-problema": 13,
+    "a0-12-ultimo-giorno": 10,
+    "a0-13-ripasso": 11
   },
-  "generated_at": "2026-03-24T19:46:35.672275+00:00"
+  "generated_at": "2026-03-27T10:40:56.301132+00:00"
 }

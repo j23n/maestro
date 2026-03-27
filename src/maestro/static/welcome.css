@@ -1,0 +1,167 @@
+/* =====================================================================
+   Welcome page — first-time A0 students
+   ===================================================================== */
+
+.lesson-new--welcome { max-width: 560px; }
+
+/* --- Hero --- */
+.welcome-hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcome-hero-accent {
+  width: 48px;
+  height: 3px;
+  background: var(--c-terracotta);
+  border-radius: 2px;
+  margin: 0 auto 1.25rem;
+}
+
+.welcome-heading {
+  font-family: var(--f-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--c-charcoal);
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.welcome-lead {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--c-text-muted);
+  margin: 0 auto;
+  max-width: 440px;
+}
+
+/* --- Feature highlights --- */
+.welcome-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.welcome-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  background: var(--c-surface);
+}
+
+.welcome-feature-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--c-cream);
+  color: var(--c-terracotta);
+}
+
+.welcome-feature strong {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-charcoal);
+  margin-bottom: 0.1rem;
+}
+
+.welcome-feature span {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+}
+
+/* --- How it works (collapsible) --- */
+.welcome-details {
+  margin-bottom: 2rem;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.welcome-details summary {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.welcome-details summary::before {
+  content: "\25B8";
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.welcome-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.welcome-details summary::-webkit-details-marker { display: none; }
+
+.welcome-details > p {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--c-text-muted);
+  margin: 0 1rem 0.75rem;
+}
+
+.welcome-activity-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.welcome-atag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-weight: 500;
+}
+
+.welcome-skip-hint {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  font-style: italic;
+  padding: 0 1rem 1rem;
+  margin: 0;
+}
+
+/* --- CTA button override --- */
+.lesson-new--welcome .btn-start {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+/* --- Returning A0 card (non-welcome) --- */
+.welcome-card {
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  background: #fff;
+}
+
+.welcome-card p {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--c-text);
+}

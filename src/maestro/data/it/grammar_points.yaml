@@ -720,6 +720,56 @@
         ready to go!'
       language: en
       why_this_matters: ''
+- code: avere_pre
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_avere
+  unistr_label: 'To have: ho'
+  label: Indicativo presente di avere forma ho
+  chunk_ref: null
+  explanations:
+    en:
+      title: 'The Verb avere: ho (I have)'
+      tip: ''
+      explanation: '## The verb *avere* (to have)
+
+
+        In Italian, the verb <span lang="it">**avere**</span> means *to have*. At
+        this stage, focus on the first person — <span lang="it">**ho**</span> (I have):
+
+
+        | Italian | English |
+
+        |---|---|
+
+        | <span lang="it">io **ho**</span> | I have |
+
+        | <span lang="it">tu **hai**</span> | you have |
+
+        | <span lang="it">lui/lei **ha**</span> | he/she has |
+
+
+        ## Ho + something
+
+
+        The most useful pattern is <span lang="it">**ho**</span> + a noun or phrase:
+
+
+        - <span lang="it">*Ho una prenotazione.*</span> (I have a reservation.)
+
+        - <span lang="it">*Ho bisogno di aiuto.*</span> (I need help. — literally: I
+        have need of help.)
+
+        - <span lang="it">*Ho perso il passaporto.*</span> (I''ve lost my passport.
+        — literally: I have lost the passport.)
+
+
+        > <span lang="it">**Ho**</span> is one of the most common words in Italian.
+        You''ll use it to talk about what you have, what you need (<span lang="it">ho
+        bisogno di...</span>), and what happened (<span lang="it">ho perso...</span>,
+        <span lang="it">ho fatto...</span>).'
+      language: en
+      why_this_matters: ''
 - code: mi_piace
   cefr_level: A0
   category: basics
