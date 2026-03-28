@@ -101,7 +101,7 @@ async def skip_onboarding(
 
 
 @router.get("/lessons/", response_class=HTMLResponse)
-async def lezione_index(
+async def lesson_index(
     request: Request, student: Student = Depends(get_current_student)
 ):
     active = await Lesson.find_one(
@@ -215,7 +215,7 @@ async def lezione_index(
 
 
 @router.post("/lessons/", response_class=HTMLResponse)
-async def lezione_create(
+async def lesson_create(
     request: Request,
     student: Student = Depends(get_current_student),
     duration: Annotated[int, Form()] = 20,
@@ -279,7 +279,7 @@ async def lezione_create(
 
 
 @router.get("/lessons/{lesson_id}", response_class=HTMLResponse)
-async def lezione_overview(
+async def lesson_overview(
     lesson_id: PydanticObjectId,
     request: Request,
     student: Student = Depends(get_current_student),
@@ -300,7 +300,7 @@ async def lezione_overview(
 
 
 @router.get("/lessons/{lesson_id}/generating", response_class=HTMLResponse)
-async def lezione_generating(
+async def lesson_generating(
     lesson_id: PydanticObjectId,
     request: Request,
     student: Student = Depends(get_current_student),
@@ -393,7 +393,7 @@ async def lezione_generating(
 
 
 @router.post("/lessons/{lesson_id}/retry")
-async def lezione_retry(
+async def lesson_retry(
     lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
 ):
     lesson = await _get_lesson(lesson_id, student)
@@ -419,7 +419,7 @@ async def lezione_retry(
 
 
 @router.post("/lessons/{lesson_id}/start", response_class=HTMLResponse)
-async def lezione_start(
+async def lesson_start(
     lesson_id: PydanticObjectId,
     request: Request,
     student: Student = Depends(get_current_student),
@@ -443,7 +443,7 @@ async def lezione_start(
 
 
 @router.get("/lessons/{lesson_id}/activity/{idx}", response_class=HTMLResponse)
-async def lezione_activity(
+async def lesson_activity(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -819,7 +819,7 @@ async def lezione_activity(
 
 
 @router.post("/lessons/{lesson_id}/activity/{idx}/skip")
-async def lezione_activity_skip(
+async def lesson_activity_skip(
     lesson_id: PydanticObjectId,
     idx: int,
     student: Student = Depends(get_current_student),
@@ -839,7 +839,7 @@ async def lezione_activity_skip(
 
 
 @router.post("/lessons/{lesson_id}/activity/{idx}/complete")
-async def lezione_activity_complete(
+async def lesson_activity_complete(
     lesson_id: PydanticObjectId,
     idx: int,
     student: Student = Depends(get_current_student),
@@ -861,7 +861,7 @@ async def lezione_activity_complete(
 @router.post(
     "/lessons/{lesson_id}/activity/{idx}/onboarding-submit", response_class=HTMLResponse
 )
-async def lezione_onboarding_submit(
+async def lesson_onboarding_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -908,7 +908,7 @@ async def lezione_onboarding_submit(
 @router.post(
     "/lessons/{lesson_id}/activity/{idx}/drill-submit", response_class=HTMLResponse
 )
-async def lezione_drill_submit(
+async def lesson_drill_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -1032,7 +1032,7 @@ async def lezione_drill_submit(
 @router.get(
     "/lessons/{lesson_id}/activity/{idx}/vocab-reveal", response_class=HTMLResponse
 )
-async def lezione_vocab_reveal(
+async def lesson_vocab_reveal(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -1075,7 +1075,7 @@ async def lezione_vocab_reveal(
 
 
 @router.post("/lessons/{lesson_id}/activity/{idx}/vocab-rate")
-async def lezione_vocab_rate(
+async def lesson_vocab_rate(
     lesson_id: PydanticObjectId,
     idx: int,
     rating: Annotated[int, Form()],
@@ -1120,7 +1120,7 @@ async def lezione_vocab_rate(
 @router.post(
     "/lessons/{lesson_id}/activity/{idx}/writing-submit", response_class=HTMLResponse
 )
-async def lezione_writing_submit(
+async def lesson_writing_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -1228,7 +1228,7 @@ async def lezione_writing_submit(
 @router.post(
     "/lessons/{lesson_id}/activity/{idx}/speaking-submit", response_class=HTMLResponse
 )
-async def lezione_speaking_submit(
+async def lesson_speaking_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -1477,7 +1477,7 @@ async def speaking_word_audio(
 @router.post(
     "/lessons/{lesson_id}/activity/{idx}/reading-submit", response_class=HTMLResponse
 )
-async def lezione_reading_submit(
+async def lesson_reading_submit(
     lesson_id: PydanticObjectId,
     idx: int,
     request: Request,
@@ -1578,7 +1578,7 @@ async def lezione_reading_submit(
 
 
 @router.post("/lessons/{lesson_id}/abandon")
-async def lezione_abandon(
+async def lesson_abandon(
     lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
 ):
     lesson = await _get_lesson(lesson_id, student)
@@ -1589,7 +1589,7 @@ async def lezione_abandon(
 
 
 @router.get("/lessons/{lesson_id}/complete", response_class=HTMLResponse)
-async def lezione_complete(
+async def lesson_complete(
     lesson_id: PydanticObjectId,
     request: Request,
     student: Student = Depends(get_current_student),
