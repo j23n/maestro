@@ -118,7 +118,7 @@ async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
 
     calls = []
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         calls.append((text, path))
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -136,7 +136,7 @@ async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
 
     synth_calls = []
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         synth_calls.append((text, path))
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"fake wav")
@@ -157,7 +157,7 @@ async def test_generate_word_audio_returns_none_on_error(tmp_path, monkeypatch):
     """Returns None without raising when synthesis throws."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         raise RuntimeError("synthesis failed")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -172,7 +172,7 @@ async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
     """URL must start with /static/audio/ and end with .wav."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         path.write_bytes(b"wav")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -197,7 +197,7 @@ async def test_generate_lesson_audio_idempotent(tmp_path, monkeypatch):
 
     calls = []
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         calls.append((text, path))
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -215,7 +215,7 @@ async def test_generate_lesson_audio_calls_synthesis(tmp_path, monkeypatch):
 
     synth_calls = []
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         synth_calls.append((text, path))
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"fake wav")
@@ -236,7 +236,7 @@ async def test_generate_lesson_audio_returns_none_on_error(tmp_path, monkeypatch
     """Returns None without raising when synthesis throws."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         raise OSError("disk full")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -251,7 +251,7 @@ async def test_generate_lesson_audio_url_format(tmp_path, monkeypatch):
     """URL must start with /static/audio/ and end with .wav."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         path.write_bytes(b"wav")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -272,7 +272,7 @@ async def test_generate_lesson_audio_different_indices_different_files(
 
     created = []
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         path.write_bytes(b"wav")
         created.append(path.name)
 
@@ -363,7 +363,7 @@ async def test_generate_word_audio_returns_none_on_api_unavailable(
 
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         raise APITimeoutError("timed out", provider="azure")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
@@ -381,7 +381,7 @@ async def test_generate_lesson_audio_returns_none_on_api_unavailable(
 
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
-    async def fake_synth(text, path):
+    async def fake_synth(text, path, **kwargs):
         raise APIRateLimitError("rate limited", provider="azure")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)

@@ -21,7 +21,9 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
     if profile.cefr_estimate != "A0":
         return False
 
-    a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+    a0_scenarios = await CurriculumScenario.find(
+        {"cefr_level": "A0", "language": profile.target_language}
+    ).to_list()
     for scenario in a0_scenarios:
         # Mark scenario as completed (lesson_count=0: student didn't do lessons)
         profile.scenario_progress[scenario.slug] = ScenarioProgress(

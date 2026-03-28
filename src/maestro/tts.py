@@ -53,13 +53,14 @@ def _get_tts_client() -> httpx.AsyncClient:
     )
 
 
-def _build_ssml(text: str) -> str:
-    from maestro.config import settings
+def _build_ssml(text: str, *, language: str | None = None) -> str:
+    from maestro.language import DEFAULT_LANGUAGE, get_language_config
 
-    voice = settings.AZURE_TTS_VOICE
-    lang = "-".join(voice.split("-")[:2])  # "it-IT" from "it-IT-IsabellaNeural"
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    voice = lang_cfg.tts_voice
+    locale = lang_cfg.stt_locale
     return (
-        f'<speak version="1.0" xml:lang="{lang}">'
+        f'<speak version="1.0" xml:lang="{locale}">'
         f'<voice name="{voice}">{escape(text)}</voice>'
         f"</speak>"
     )
@@ -85,14 +86,14 @@ def _lesson_audio_path(lesson_id: str, idx: int) -> Path:
     return _audio_dir() / f"lesson_{lesson_id}_{idx}.wav"
 
 
-async def _synth_to_file(text: str, path: Path) -> None:
+async def _synth_to_file(text: str, path: Path, *, language: str | None = None) -> None:
     """Call Azure TTS REST API and write the WAV response to path."""
     client = _get_tts_client()
     t0 = time.monotonic()
     try:
         response = await client.post(
             "/cognitiveservices/v1",
-            content=_build_ssml(text).encode(),
+            content=_build_ssml(text, language=language).encode(),
             headers={"Content-Type": "application/ssml+xml"},
         )
         response.raise_for_status()
@@ -119,7 +120,9 @@ async def _synth_to_file(text: str, path: Path) -> None:
     )
 
 
-async def generate_word_audio(word: str) -> Optional[str]:
+async def generate_word_audio(
+    word: str, *, language: str | None = None
+) -> Optional[str]:
     """Generate WAV for a single word and return its static URL.
 
     Returns None if synthesis fails.
@@ -133,7 +136,7 @@ async def generate_word_audio(word: str) -> Optional[str]:
         if path.exists():  # re-check after acquiring
             return url
         try:
-            await _synth_to_file(word, path)
+            await _synth_to_file(word, path, language=language)
             return url
         except Exception:
             logger.warning(
@@ -172,6 +175,8 @@ async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
 
 async def sync_a0_listening_audio() -> None:
     """Generate missing WAV files for A0 listening activities.
+
+    TODO: Iterate over all languages with A0 content once non-Italian data lands.
 
     Reads a0_lessons.yaml, finds listening activities with audio_path set,
     and synthesizes any that don't exist on disk yet. Skips silently if
@@ -227,7 +232,13 @@ async def sync_a0_listening_audio() -> None:
         logger.info("a0_audio_sync: all listening audio up to date")
 
 
-async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional[str]:
+async def generate_lesson_audio(
+    text: str,
+    lesson_id: str,
+    idx: int,
+    *,
+    language: str | None = None,
+) -> Optional[str]:
     """Generate WAV for a lesson reading and return its static URL.
 
     Returns None if synthesis fails.
@@ -241,7 +252,7 @@ async def generate_lesson_audio(text: str, lesson_id: str, idx: int) -> Optional
         if path.exists():  # re-check after acquiring
             return url
         try:
-            await _synth_to_file(_strip_markup(text), path)
+            await _synth_to_file(_strip_markup(text), path, language=language)
             return url
         except Exception:
             logger.warning(

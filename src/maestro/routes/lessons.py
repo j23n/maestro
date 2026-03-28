@@ -173,14 +173,17 @@ async def lesson_index(
     from maestro.lessons.selection import pick_scenario as _pick_scenario
 
     # All scenarios at level with progress
-    scenarios = await CurriculumScenario.find({"cefr_level": cefr}).to_list()
+    lang = request.state.lang_ctx.code
+    scenarios = await CurriculumScenario.find(
+        {"cefr_level": cefr, "language": lang}
+    ).to_list()
     if not scenarios:
         # No scenarios seeded for this level — fall back to simple start
         return await render_with_discover(
             request, "lesson-index.html", {"cefr": "A0"}, student_id=student.id
         )
 
-    auto_scenario, auto_depth = await _pick_scenario(profile, cefr)
+    auto_scenario, auto_depth = await _pick_scenario(profile, cefr, language=lang)
 
     scenarios.sort(key=lambda s: s.label)
     progress = profile.scenario_progress if profile else {}
@@ -289,7 +292,7 @@ async def lesson_overview(
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lessons/{lesson_id}/complete")
-    overview_lang = "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
+    overview_lang = "en" if lesson.cefr_at_start == "A0" else lesson.language
     return await render_with_discover(
         request,
         "lesson.html",
@@ -685,9 +688,7 @@ async def lesson_activity(
         )
 
     if activity.type == ActivityType.READING:
-        ctx["question_lang"] = (
-            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
-        )
+        ctx["question_lang"] = "en" if lesson.cefr_at_start == "A0" else lesson.language
         return await render_with_discover(
             request,
             "lesson-activity-reading.html",
@@ -698,9 +699,7 @@ async def lesson_activity(
 
     if activity.type == ActivityType.LISTENING:
         ctx["audio_url"] = activity.audio_path
-        ctx["question_lang"] = (
-            "en" if lesson.cefr_at_start == "A0" else _settings.TARGET_LANGUAGE
-        )
+        ctx["question_lang"] = "en" if lesson.cefr_at_start == "A0" else lesson.language
         return await render_with_discover(
             request,
             "lesson-activity-listening.html",
@@ -724,9 +723,7 @@ async def lesson_activity(
         profile = await get_profile(student.id)
         level = profile.cefr_estimate if profile else "A0"
         if activity.why_important:
-            why_lang = (
-                "en" if level in ("A0", "A1", "A2") else _settings.TARGET_LANGUAGE
-            )
+            why_lang = "en" if level in ("A0", "A1", "A2") else lesson.language
             ctx["why_lang"] = why_lang
         # Find the GP and its explanation for translation + chunk_ref
         if activity.grammar_point_code:
@@ -939,7 +936,11 @@ async def lesson_drill_submit(
 
     try:
         correct, event, feedback, rule_refs = await score_attempt(
-            drill, student_input, student_id=student.id, lesson_id=lesson.id
+            drill,
+            student_input,
+            student_id=student.id,
+            lesson_id=lesson.id,
+            language=lesson.language,
         )
     except Exception:
         logger.exception(
@@ -1147,6 +1148,7 @@ async def lesson_writing_submit(
             cefr_level,
             student_id=student.id,
             lesson_id=lesson.id,
+            language=lesson.language,
         )
     except Exception:
         logger.exception(
@@ -1177,8 +1179,8 @@ async def lesson_writing_submit(
             student_id=student.id,
         )
 
-    await grammar_cache.ensure_loaded()
-    valid_codes = {g.code for g in grammar_cache.grammar_points()}
+    await grammar_cache.ensure_loaded(lesson.language)
+    valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
     event = LearningEvent(
         student_id=student.id,
         lesson_id=lesson.id,
@@ -1262,7 +1264,7 @@ async def lesson_speaking_submit(
 
     recognized_text = None
     try:
-        transcription = await transcribe(audio_bytes)
+        transcription = await transcribe(audio_bytes, language=lesson.language)
         recognized_text = transcription.recognized_text
     except Exception:
         logger.exception(
@@ -1322,8 +1324,11 @@ async def lesson_speaking_submit(
         cefr_level,
         student_id=student.id,
         lesson_id=lesson.id,
+        language=lesson.language,
     )
-    pronunciation_coro = assess_pronunciation(audio_bytes, recognized_text)
+    pronunciation_coro = assess_pronunciation(
+        audio_bytes, recognized_text, language=lesson.language
+    )
 
     results = await asyncio.gather(
         feedback_coro, pronunciation_coro, return_exceptions=True
@@ -1400,8 +1405,8 @@ async def lesson_speaking_submit(
     grammar_correct = []
     grammar_errors = []
     if feedback:
-        await grammar_cache.ensure_loaded()
-        valid_codes = {g.code for g in grammar_cache.grammar_points()}
+        await grammar_cache.ensure_loaded(lesson.language)
+        valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
         grammar_correct = [
             c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
         ]
@@ -1473,7 +1478,7 @@ async def speaking_word_audio(
     """Generate TTS for a word and return its static URL (JSON)."""
     from maestro.tts import generate_word_audio
 
-    url = await generate_word_audio(word)
+    url = await generate_word_audio(word, language=request.state.lang_ctx.code)
     if url is None:
         raise HTTPException(503, "TTS unavailable")
     return {"url": url}
@@ -1508,6 +1513,7 @@ async def lesson_reading_submit(
             cefr_level=lesson.cefr_at_start,
             student_id=student.id,
             lesson_id=lesson.id,
+            language=lesson.language,
         )
     except Exception:
         logger.exception(

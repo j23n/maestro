@@ -71,6 +71,7 @@ async def score_attempt(
     student_answer: str | list[str],
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> tuple[bool | None, object | None, dict | str, list[dict]]:
     """Returns (correct, learning_event, feedback, rule_refs).
 
@@ -98,6 +99,7 @@ async def score_attempt(
             cefr_level=generated_drill.cefr_level,
             student_id=student_id,
             lesson_id=lesson_id,
+            language=language,
         )
 
         n = min(len(generated_drill.items), len(answers), len(raw_results))

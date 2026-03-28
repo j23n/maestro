@@ -12,6 +12,14 @@
 
   <form method="post" action="/auth/signup">
     <div class="form-section">
+      <label class="section-label" for="target_language">{{ t("signup_language_label") }}</label>
+      <select class="config-text-input" id="target_language" name="target_language">
+        {% for code, lang in languages.items() %}
+        <option value="{{ code }}" {{ 'selected' if code == selected_language }}>{{ lang.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-section">
       <label class="section-label" for="email">{{ t("signup_email_label") }}</label>
       <input class="config-text-input" type="email" id="email" name="email" value="{{ email|default('', true) }}" required>
     </div>

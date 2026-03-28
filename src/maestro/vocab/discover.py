@@ -112,12 +112,12 @@ def _keep_token(token) -> bool:
     return token.pos_ != "PROPN"
 
 
-def tokenize(text: str) -> list[tuple[str, str, str]]:
+def tokenize(text: str, *, language: str | None = None) -> list[tuple[str, str, str]]:
     """Run spaCy on *text* and return kept tokens as (lemma, POS, surface) triples.
 
     Filters out punctuation, non-alpha, and proper nouns.
     """
-    nlp = get_nlp()
+    nlp = get_nlp(language)
     doc = nlp(text)
     tokens = []
     for token in doc:
@@ -142,6 +142,7 @@ def tokenize(text: str) -> list[tuple[str, str, str]]:
 def match_vocab_words(
     text: str,
     word_index: dict[str, list[VocabularyWord]] | None = None,
+    language: str | None = None,
 ) -> list[VocabMatch]:
     """Tokenize *text*, match lemmas against *word_index*, return matches.
 
@@ -166,7 +167,10 @@ def match_vocab_words(
         Matches in token order, deduplicated by (lemma, word.id).
     """
     if word_index is None:
-        word_index = _cache.word_index()
+        from maestro.config import settings
+
+        lang = language or settings.TARGET_LANGUAGE
+        word_index = _cache.word_index(lang)
 
     logger.debug("[discover] extracted text: %r", text)
     logger.debug("[discover] word_index has %d headwords", len(word_index))
@@ -475,10 +479,14 @@ async def discover(
     student_id: PydanticObjectId | None = None,
     message=None,
     create_cards: bool = True,
+    language: str | None = None,
 ) -> str:
-    from maestro.config import settings
+    if language is None:
+        from maestro.config import settings
 
-    target_lang = settings.TARGET_LANGUAGE
+        language = settings.TARGET_LANGUAGE
+
+    target_lang = language
 
     # No lang attributes → return unchanged (safe default for untagged content)
     if ' lang="' not in response_text and " lang='" not in response_text:
@@ -522,7 +530,7 @@ async def discover(
     # Check each lang element's full text against the phrase index.
     # Phrase matches take priority: matched elements are annotated and
     # excluded from subsequent per-token word matching.
-    phrase_idx = _cache.phrase_index()
+    phrase_idx = _cache.phrase_index(target_lang)
     phrase_matched_elements: set[int] = set()  # ids of elements matched as phrases
     phrase_matches: list[VocabMatch] = []
 
@@ -559,7 +567,9 @@ async def discover(
 
     # --- Vocabulary matching (pure NLP, no DB) ---
     all_text = get_target_text(word_elements) if word_elements else ""
-    matches = match_vocab_words(all_text, _cache.word_index()) if all_text else []
+    matches = (
+        match_vocab_words(all_text, _cache.word_index(target_lang)) if all_text else []
+    )
 
     # Combine phrase matches and word matches
     all_matches = phrase_matches + matches
@@ -627,7 +637,7 @@ async def discover(
         for m in unique_words.values()
         if m.word.senses
         and not any(
-            _cache.get_definition(str(m.word.id), lvl)
+            _cache.get_definition(str(m.word.id), lvl, target_lang)
             for lvl in ("A1", "A2", "B1", "B2")
         )
     ]
@@ -674,7 +684,7 @@ async def discover(
             # Single dictionary entry — annotate all occurrences at once.
             m = group[0]
             word_id = str(m.word.id)
-            wdef = _cache.get_definition(word_id, student_level)
+            wdef = _cache.get_definition(word_id, student_level, target_lang)
             count = _annotate_in_elements(
                 lang_elements,
                 m.word,
@@ -704,7 +714,7 @@ async def discover(
 
             for occ, m in all_occs:
                 word_id = str(m.word.id)
-                wdef = _cache.get_definition(word_id, student_level)
+                wdef = _cache.get_definition(word_id, student_level, target_lang)
                 count = _annotate_in_elements(
                     lang_elements,
                     m.word,
@@ -727,7 +737,7 @@ async def discover(
     # Annotate phrase matches — entire element text is the surface form
     for m in phrase_matches:
         word_id = str(m.word.id)
-        wdef = _cache.get_definition(word_id, student_level)
+        wdef = _cache.get_definition(word_id, student_level, target_lang)
         count = _annotate_in_elements(
             lang_elements,
             m.word,
@@ -754,7 +764,7 @@ async def _generate_missing_audio(words: list[VocabularyWord]) -> None:
 
     for word in words:
         try:
-            await generate_word_audio(word.word)
+            await generate_word_audio(word.word, language=word.language)
         except Exception as exc:
             logger.warning(
                 "[discover] audio generation failed for '%s': %s", word.word, exc
@@ -771,7 +781,7 @@ async def _generate_and_cache(words: list[VocabularyWord]) -> None:
                 {"word": DBRef(VocabularyWord.Settings.name, word.id)}
             ).to_list()
             for d in defs:
-                _cache.set_definition(str(word.id), d.student_level, d)
+                _cache.set_definition(str(word.id), d.student_level, d, word.language)
             logger.info(
                 f"[discover] generated {len(defs)} definition(s) for '{word.word}'"
             )

@@ -83,6 +83,7 @@ async def _generate_lesson_content(
     student_id=None,
     lesson_id=None,
     archetype: str = "",
+    language: str | None = None,
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
@@ -99,6 +100,7 @@ async def _generate_lesson_content(
         speaking_cfs=speaking_cfs,
         lesson_context=lesson_context,
         archetype=archetype,
+        language=language,
     )
 
     logger.debug(f"lesson content prompt: {prompt_text}")
@@ -118,7 +120,7 @@ async def _generate_lesson_content(
     response = await llm_messages_create(
         model=settings.LESSON_MODEL,
         max_tokens=16000,
-        system=build_lesson_content_system(),
+        system=build_lesson_content_system(language),
         messages=[{"role": "user", "content": prompt_text}],
         entity_id=lesson_id,
         call_type=CallType.LESSON_PLAN,
@@ -163,12 +165,15 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
 
+    lesson_lang = profile.target_language if profile else "it"
+
     # A0 lessons are fully static — no vocab review needed at creation
     if cefr_level == "A0":
         lesson = Lesson(
             student_id=student_id,
             duration_minutes=duration_minutes,
             cefr_at_start=cefr_level,
+            language=lesson_lang,
             lesson_context=lesson_context or None,
             focus_weak=focus_weak,
             scenario_slug=scenario_slug,
@@ -207,6 +212,7 @@ async def prepare_lesson_immediate(
         student_id=student_id,
         duration_minutes=duration_minutes,
         cefr_at_start=cefr_level,
+        language=lesson_lang,
         lesson_context=lesson_context or None,
         focus_weak=focus_weak,
         scenario_slug=scenario_slug,
@@ -300,7 +306,10 @@ async def _generate_lesson_background(
 
     # --- Pick scenario ---
     # Fetch all scenarios once — reused by pick_scenario and the curriculum engine below
-    all_scenarios = await CurriculumScenario.find({"cefr_level": cefr_level}).to_list()
+    lesson_lang = lesson.language
+    all_scenarios = await CurriculumScenario.find(
+        {"cefr_level": cefr_level, "language": lesson_lang}
+    ).to_list()
 
     if scenario_slug:
         scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
@@ -327,7 +336,9 @@ async def _generate_lesson_background(
 
     # --- Curriculum engine: unlock GPs and pick archetype ---
     all_gp_codes = {code for s in all_scenarios for code in s.gp_codes}
-    all_gps = await GrammarPoint.find({"code": {"$in": list(all_gp_codes)}}).to_list()
+    all_gps = await GrammarPoint.find(
+        {"code": {"$in": list(all_gp_codes)}, "language": lesson_lang}
+    ).to_list()
     prereqs_map = {gp.code: gp.prerequisites for gp in all_gps if gp.prerequisites}
     unlocked = get_unlocked_gps(profile, all_gp_codes, prereqs_map)
     archetype = pick_archetype(profile, unlocked, scenario.gp_codes, focus_weak)
@@ -354,6 +365,7 @@ async def _generate_lesson_background(
             grammar_count,
             candidate_codes=gp_candidate_codes,
             unlocked_codes=unlocked,
+            language=lesson_lang,
         )
 
     expl_lang = explanation_lang_for_level(cefr_level)
@@ -399,6 +411,7 @@ async def _generate_lesson_background(
             drill_count,
             candidate_codes=gp_candidate_codes,
             unlocked_codes=unlocked,
+            language=lesson_lang,
         )
         for gp in gps_for_drills:
             exercise_type = random.choice(
@@ -465,7 +478,11 @@ async def _generate_lesson_background(
     speaking_cfs: list[CommunicativeFunction] = []
     if speaking_count > 0:
         speaking_cfs = await pick_comm_functions(
-            profile, cefr_level, speaking_count, candidate_codes=scenario.cf_codes
+            profile,
+            cefr_level,
+            speaking_count,
+            candidate_codes=scenario.cf_codes,
+            language=lesson_lang,
         )
     logger.info(
         "speaking CFs selected", extra={"speaking_cfs": [c.code for c in speaking_cfs]}
@@ -515,6 +532,7 @@ async def _generate_lesson_background(
         student_id=lesson.student_id,
         lesson_id=lesson.id,
         archetype=archetype.value,
+        language=lesson_lang,
     )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)
@@ -560,7 +578,9 @@ async def _generate_lesson_background(
 
     for i, act in enumerate(new_activities):
         if act.type == ActivityType.LISTENING and act.content:
-            act.audio_path = await generate_lesson_audio(act.content, str(lesson_id), i)
+            act.audio_path = await generate_lesson_audio(
+                act.content, str(lesson_id), i, language=lesson_lang
+            )
 
     # --- Atomically update lesson ---
     activities_dicts = [a.model_dump() for a in new_activities]

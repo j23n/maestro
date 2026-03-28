@@ -32,7 +32,10 @@ async def grammar_index(
         else CEFR_ORDER
     )
 
-    gps = await GrammarPoint.find({"cefr_level": {"$in": visible_levels}}).to_list()
+    lang = request.state.lang_ctx.code
+    gps = await GrammarPoint.find(
+        {"cefr_level": {"$in": visible_levels}, "language": lang}
+    ).to_list()
 
     # Build titles from inline explanations, keyed by gp id
     student_lang = explanation_lang_for_level(student_level)

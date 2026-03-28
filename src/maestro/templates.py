@@ -28,10 +28,21 @@ _templates.env.globals["t"] = i18n_t
 _templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
 
 
+def _inject_language(request, context: dict) -> dict:
+    """Override target_language from per-student lang_ctx if available."""
+    lang_ctx = getattr(getattr(request, "state", None), "lang_ctx", None)
+    if lang_ctx is not None:
+        context.setdefault("target_language", lang_ctx.name)
+    return context
+
+
 def render(request, name, context, *, status_code=200):
     """Render a Jinja template without vocab discovery."""
     return _templates.TemplateResponse(
-        request=request, name=name, context=context, status_code=status_code
+        request=request,
+        name=name,
+        context=_inject_language(request, context),
+        status_code=status_code,
     )
 
 
@@ -49,14 +60,19 @@ async def render_with_discover(
     from maestro.vocab.discover import discover
 
     response = _templates.TemplateResponse(
-        request=request, name=name, context=context, status_code=status_code
+        request=request,
+        name=name,
+        context=_inject_language(request, context),
+        status_code=status_code,
     )
     if student_id is not None or discover_anonymous:
+        lang_ctx = getattr(getattr(request, "state", None), "lang_ctx", None)
         html = response.body.decode("utf-8")
         html = await discover(
             html,
             student_id=student_id,
             create_cards=student_id is not None and create_cards,
+            language=lang_ctx.code if lang_ctx else None,
         )
         response.body = html.encode("utf-8")
         response.headers["content-length"] = str(len(response.body))

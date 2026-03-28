@@ -114,7 +114,7 @@ async def vocab_entry(
         )
     # Generate audio on demand if file is missing
     if word.audio_url is None:
-        await generate_word_audio(word.word)
+        await generate_word_audio(word.word, language=word.language)
     has_card = (
         await UserVocabularyCard.find_one(
             {"student_id": student.id, "word": word_ref, "excluded": {"$ne": True}}

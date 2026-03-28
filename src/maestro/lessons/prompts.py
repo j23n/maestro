@@ -6,7 +6,7 @@ import json
 import random
 from typing import Optional
 
-from maestro.config import settings
+from maestro.language import DEFAULT_LANGUAGE, get_language_config
 from maestro.models import (
     LearningProfile,
     GrammarPoint,
@@ -18,11 +18,10 @@ from maestro.prompts import planner as _prompts, span_tagging_block as _stb
 from maestro.lessons.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
 
 
-def build_lesson_content_system() -> str:
+def build_lesson_content_system(language: str | None = None) -> str:
     """Return the system prompt for lesson content generation."""
-    return _prompts.lesson_content_system.render_system(
-        target_language=settings.TARGET_LANGUAGE_NAME
-    )
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    return _prompts.lesson_content_system.render_system(target_language=lang_cfg.name)
 
 
 _ARCHETYPE_TEMPLATES = {
@@ -44,6 +43,7 @@ def build_lesson_content_prompt(
     speaking_cfs: list[CommunicativeFunction],
     lesson_context: str = "",
     archetype: str = "",
+    language: str | None = None,
 ) -> str:
     """Build the complete prompt string for lesson content generation.
 
@@ -56,7 +56,8 @@ def build_lesson_content_prompt(
         else scenario.depths[-1]
     )
 
-    lang = settings.TARGET_LANGUAGE_NAME
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang = lang_cfg.name
     parts: list[str] = [
         _prompts.lesson_content_header.render(target_language=lang),
         f"Student CEFR level: {cefr_level}",
@@ -190,12 +191,12 @@ def build_lesson_content_prompt(
     parts.append(
         _prompts.lesson_content_footer.render(
             target_language=lang,
-            target_language_code=settings.TARGET_LANGUAGE,
+            target_language_code=lang_cfg.code,
             schema_json=json.dumps(schema, indent=2, ensure_ascii=False),
             reading_count=reading_count,
             speaking_count=len(speaking_cfs),
             grammar_count=len(grammar_gps),
-            span_tagging=_stb(lang, settings.TARGET_LANGUAGE),
+            span_tagging=_stb(lang, lang_cfg.code),
         )
     )
 
