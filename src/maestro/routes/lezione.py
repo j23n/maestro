@@ -626,6 +626,7 @@ async def lezione_activity(
             activity.card_ids = card_ids_new
             activity.title = title
         card_ids = activity.card_ids
+        total_cards = len(card_ids)
         if not card_ids:
             # No vocab cards — auto-skip this activity
             redirect_url = await advance_lesson(lesson, idx)
