@@ -51,7 +51,7 @@ separate-collection model to the inline model.
 
 ### 6. Ingest YAML → MongoDB
 ```
-uv run python -m maestro.learning.ingest
+uv run python -m maestro.sync.ingest
 ```
 Upserts all GPs (labels, codes, chunk_refs, explanations) into MongoDB.
 Also ingests vocab, communicative functions, and curriculum scenarios.

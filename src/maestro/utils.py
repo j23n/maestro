@@ -35,7 +35,8 @@ def ensure_utc(dt: datetime) -> datetime:
     return dt
 
 
-# Absolute path to data/ at repository root
+# Absolute path to data/ at repository root.
+# Assumes utils.py is at src/maestro/utils.py (2 levels below repo root).
 DATA_DIR_ROOT = Path(__file__).resolve().parents[2] / "data"
 
 
