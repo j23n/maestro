@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 
+from maestro.language import DEFAULT_LANGUAGE, get_language_config
 from maestro.learning import grammar_cache
 from maestro.config import settings
 from maestro.llm import llm_messages_create
@@ -20,19 +21,6 @@ from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
 
 logger = logging.getLogger(__name__)
-
-_TL = None  # lazy cache for target language name
-
-
-def _target_language() -> str:
-    global _TL
-    if _TL is None:
-        _TL = settings.TARGET_LANGUAGE_NAME
-    return _TL
-
-
-def _span_tagging() -> str:
-    return _stb(_target_language(), settings.TARGET_LANGUAGE)
 
 
 def _validate_results(result: list, n: int, label: str) -> list[dict]:
@@ -61,28 +49,32 @@ def _validate_results(result: list, n: int, label: str) -> list[dict]:
     return validated
 
 
-def _grammar_code_list(cefr_level: str) -> str:
+def _grammar_code_list(cefr_level: str, language: str | None = None) -> str:
     return "\n".join(
         f"  {g.code}: {g.label}"
-        for g in grammar_cache.grammar_points()
+        for g in grammar_cache.grammar_points(language)
         if g.cefr_level == cefr_level
     )
 
 
-def _feedback_language(cefr_level: str) -> str:
+def _feedback_language(cefr_level: str, language_name: str) -> str:
     if cefr_level == "A0":
-        return "English (use only Italian words the student has learned)"
+        return f"English (use only {language_name} words the student has learned)"
     elif cefr_level == "A1":
-        return "a mix of Italian and English"
-    return _target_language()
+        return f"a mix of {language_name} and English"
+    return language_name
 
 
-def _system_prompt(cefr_level: str) -> str:
+def _system_prompt(
+    cefr_level: str,
+    language_name: str,
+    language_code: str,
+) -> str:
     return _prompts.scoring_system.render_system(
-        target_language=_target_language(),
-        feedback_language=_feedback_language(cefr_level),
-        grammar_code_list=_grammar_code_list(cefr_level),
-        span_tagging=_span_tagging(),
+        target_language=language_name,
+        feedback_language=_feedback_language(cefr_level, language_name),
+        grammar_code_list=_grammar_code_list(cefr_level, language_code),
+        span_tagging=_stb(language_name, language_code),
     )
 
 
@@ -95,15 +87,17 @@ async def _score_single(
     model: str | None = None,
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation."""
-    await grammar_cache.ensure_loaded()
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    await grammar_cache.ensure_loaded(lang_cfg.code)
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s", label, effective_model)
     response = await llm_messages_create(
         model=effective_model,
         max_tokens=max_tokens,
-        system=_system_prompt(cefr_level),
+        system=_system_prompt(cefr_level, lang_cfg.name, lang_cfg.code),
         messages=[{"role": "user", "content": prompt}],
         entity_id=lesson_id,
         call_type=CallType.SCORER_SINGLE,
@@ -150,17 +144,19 @@ async def _score_multi(
     model: str | None = None,
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> list[dict]:
     """LLM call -> JSON array parse -> per-item ScoringResult validation."""
     if n == 0:
         return []
-    await grammar_cache.ensure_loaded()
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    await grammar_cache.ensure_loaded(lang_cfg.code)
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s (n=%d)", label, effective_model, n)
     response = await llm_messages_create(
         model=effective_model,
         max_tokens=max_tokens,
-        system=_system_prompt(cefr_level),
+        system=_system_prompt(cefr_level, lang_cfg.name, lang_cfg.code),
         messages=[{"role": "user", "content": prompt}],
         entity_id=lesson_id,
         call_type=CallType.SCORER_MULTI,
@@ -185,6 +181,7 @@ async def feedback_fill_blank(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> dict | str:
     """Generate structured feedback for a wrong fill-blank answer.
 
@@ -196,15 +193,17 @@ async def feedback_fill_blank(
         if rag_content
         else ""
     )
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    _ln, _lc = lang_cfg.name, lang_cfg.code
     prompt = _prompts.feedback_fill_blank.render(
-        target_language=_target_language(),
-        feedback_language=_feedback_language(cefr_level),
+        target_language=_ln,
+        feedback_language=_feedback_language(cefr_level, _ln),
         grammar_point_code=grammar_point_code,
         drill_prompt=drill_prompt,
         correct_answer=correct_answer,
         student_answer=student_answer,
         rule_block=rule_block,
-        span_tagging=_span_tagging(),
+        span_tagging=_stb(_ln, _lc),
     )
 
     logger.info(
@@ -221,9 +220,9 @@ async def feedback_fill_blank(
             model=settings.DRILL_MODEL,
             max_tokens=128,
             system=_prompts.feedback_fill_blank.render_system(
-                target_language=_target_language(),
-                feedback_language=_feedback_language(cefr_level),
-                span_tagging=_span_tagging(),
+                target_language=_ln,
+                feedback_language=_feedback_language(cefr_level, _ln),
+                span_tagging=_stb(_ln, _lc),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
@@ -250,6 +249,7 @@ async def evaluate_error_correction(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> tuple[bool, dict | str]:
     """
     Use the LLM to judge whether the student's correction is essentially correct,
@@ -257,19 +257,21 @@ async def evaluate_error_correction(
     Returns (correct, feedback) where feedback is
     {"wrong": ..., "correct": ..., "explanation": ...} or "" on failure.
     """
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    _ln, _lc = lang_cfg.name, lang_cfg.code
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content
         else ""
     )
     prompt = _prompts.error_correction_eval.render(
-        target_language=_target_language(),
-        feedback_language=_feedback_language(cefr_level),
+        target_language=_ln,
+        feedback_language=_feedback_language(cefr_level, _ln),
         erroneous=erroneous,
         reference=reference,
         student=student,
         rule_block=rule_block,
-        span_tagging=_span_tagging(),
+        span_tagging=_stb(_ln, _lc),
     )
 
     logger.info(
@@ -282,8 +284,8 @@ async def evaluate_error_correction(
             model=settings.DRILL_MODEL,
             max_tokens=256,
             system=_prompts.error_correction_eval.render_system(
-                target_language=_target_language(),
-                span_tagging=_span_tagging(),
+                target_language=_ln,
+                span_tagging=_stb(_ln, _lc),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
@@ -322,6 +324,7 @@ async def score_multi_item_drill(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> list[dict]:
     """Score all items in a single LLM call.
 
@@ -339,15 +342,15 @@ async def score_multi_item_drill(
         },
     )
 
-    await grammar_cache.ensure_loaded()
-    gp_lookup = {g.code: g.label for g in grammar_cache.grammar_points()}
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    _ln = lang_cfg.name
+    await grammar_cache.ensure_loaded(lang_cfg.code)
+    gp_lookup = {g.code: g.label for g in grammar_cache.grammar_points(lang_cfg.code)}
 
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
-        task_desc = _prompts.fill_blank_task_fragment.render(
-            target_language=_target_language()
-        )
+        task_desc = _prompts.fill_blank_task_fragment.render(target_language=_ln)
         lines = []
         for i in range(n):
             item_gp = items[i].grammar_point_code or grammar_point_code
@@ -356,9 +359,7 @@ async def score_multi_item_drill(
                 f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
             )
     else:  # error_correction
-        task_desc = _prompts.error_correction_task_fragment.render(
-            target_language=_target_language()
-        )
+        task_desc = _prompts.error_correction_task_fragment.render(target_language=_ln)
         lines = []
         for i in range(n):
             item_gp = items[i].grammar_point_code or grammar_point_code
@@ -368,7 +369,7 @@ async def score_multi_item_drill(
             )
 
     prompt = _prompts.drill_scoring.render(
-        target_language=_target_language(),
+        target_language=_ln,
         task_desc=task_desc,
         rule_block=rule_block,
         items_block="\n".join(lines),
@@ -383,6 +384,7 @@ async def score_multi_item_drill(
         model=settings.DRILL_MODEL,
         student_id=student_id,
         lesson_id=lesson_id,
+        language=language,
     )
 
 
@@ -392,12 +394,14 @@ async def generate_writing_feedback(
     cefr_level: str,
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> dict:
     """Generate feedback for a free-writing activity.
 
     Returns {objective_correct, objective_note, grammar_errors, tips} or
     {objective_correct: True, ...} on disabled / failure.
     """
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
     word_count = len(student_text.split())
     logger.info(
         "generate_writing_feedback",
@@ -405,7 +409,7 @@ async def generate_writing_feedback(
     )
 
     llm_prompt = _prompts.writing_scoring.render(
-        target_language=_target_language(),
+        target_language=lang_cfg.name,
         cefr_level=cefr_level,
         prompt=prompt,
         student_text=student_text,
@@ -417,6 +421,7 @@ async def generate_writing_feedback(
         cefr_level=cefr_level,
         student_id=student_id,
         lesson_id=lesson_id,
+        language=language,
     )
 
 
@@ -426,6 +431,7 @@ async def generate_speaking_feedback(
     cefr_level: str,
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> dict:
     """Generate feedback for a free-form speaking activity.
 
@@ -449,6 +455,7 @@ async def generate_speaking_feedback(
         cefr_level=cefr_level,
         student_id=student_id,
         lesson_id=lesson_id,
+        language=language,
     )
 
 
@@ -459,11 +466,14 @@ async def score_reading_answers(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> list[dict]:
     """Score student answers to reading comprehension questions in a single LLM call.
 
     Returns a list of {objective_correct, objective_note, grammar_errors, tips} per question.
     """
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    _ln = lang_cfg.name
     n = min(len(questions), len(student_answers))
     logger.info("score_reading_answers", extra={"n": n})
 
@@ -472,11 +482,9 @@ async def score_reading_answers(
         for i in range(n)
     ]
 
-    answer_language = (
-        f"{_target_language()} or English" if cefr_level == "A0" else _target_language()
-    )
+    answer_language = f"{_ln} or English" if cefr_level == "A0" else _ln
     prompt = _prompts.reading_scoring.render(
-        target_language=_target_language(),
+        target_language=_ln,
         answer_language=answer_language,
         items_block="\n".join(lines),
         n=n,
@@ -489,4 +497,5 @@ async def score_reading_answers(
         cefr_level=cefr_level,
         student_id=student_id,
         lesson_id=lesson_id,
+        language=language,
     )

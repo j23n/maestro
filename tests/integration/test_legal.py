@@ -40,8 +40,13 @@ class TestAccountDelete:
     @pytest.fixture
     async def populated_student(self, student, account):
         """Create related records for the student so we can verify they get deleted."""
-        profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
-        await profile.insert()
+        profile = await LearningProfile.find_one({"student_id": student.id})
+        if profile is None:
+            profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+            await profile.insert()
+        else:
+            profile.cefr_estimate = "A1"
+            await profile.save()
 
         lesson = Lesson(student_id=student.id, duration_minutes=10)
         await lesson.insert()

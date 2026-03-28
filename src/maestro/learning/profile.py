@@ -36,11 +36,18 @@ async def get_profile(student_id: PydanticObjectId) -> LearningProfile | None:
     return await LearningProfile.find_one({"student_id": student_id})
 
 
-async def get_or_create_profile(student_id: PydanticObjectId) -> LearningProfile:
+async def get_or_create_profile(
+    student_id: PydanticObjectId,
+    *,
+    target_language: str | None = None,
+) -> LearningProfile:
     """Return the LearningProfile for a student, creating an empty one if needed."""
     profile = await LearningProfile.find_one({"student_id": student_id})
     if profile is None:
-        profile = LearningProfile(student_id=student_id)
+        kwargs: dict = {"student_id": student_id}
+        if target_language is not None:
+            kwargs["target_language"] = target_language
+        profile = LearningProfile(**kwargs)
         await profile.insert()
     return profile
 
@@ -142,7 +149,9 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
     """
     # A0 check: have all A0 scenarios been completed?
     if not (profile.onboarding_completed or profile.onboarding_skipped):
-        a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+        a0_scenarios = await CurriculumScenario.find(
+            {"cefr_level": "A0", "language": profile.target_language}
+        ).to_list()
         if a0_scenarios:
             progress = profile.scenario_progress or {}
             for scenario in a0_scenarios:
@@ -152,9 +161,10 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         # All A0 scenarios done — mark onboarding as completed
         profile.onboarding_completed = True
 
-    await grammar_cache.ensure_loaded()
-    grammar_points = grammar_cache.grammar_points()
-    comm_functions = grammar_cache.comm_functions()
+    lang = profile.target_language
+    await grammar_cache.ensure_loaded(lang)
+    grammar_points = grammar_cache.grammar_points(lang)
+    comm_functions = grammar_cache.comm_functions(lang)
 
     gp_by_level: dict[str, list[str]] = {}
     for gp in grammar_points:
@@ -195,8 +205,9 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
 
 async def _generate_description(profile: "LearningProfile") -> str:
-    await grammar_cache.ensure_loaded()
-    gp_labels = {gp.code: gp.label for gp in grammar_cache.grammar_points()}
+    lang = profile.target_language
+    await grammar_cache.ensure_loaded(lang)
+    gp_labels = {gp.code: gp.label for gp in grammar_cache.grammar_points(lang)}
 
     # Grammar narrative
     demonstrated = [
@@ -248,7 +259,7 @@ async def _generate_description(profile: "LearningProfile") -> str:
     a2_pct = pct("A2")
 
     # Communicative functions narrative
-    cf_by_code = {cf.code: cf for cf in grammar_cache.comm_functions()}
+    cf_by_code = {cf.code: cf for cf in grammar_cache.comm_functions(lang)}
 
     macro_counts: dict[str, int] = {}
     for code, count in profile.functions_counts.items():

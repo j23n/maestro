@@ -168,6 +168,8 @@ def _parse_response(data: dict) -> PronunciationResult:
 async def assess_pronunciation(
     audio_bytes: bytes,
     reference_text: str,
+    *,
+    language: str | None = None,
 ) -> PronunciationResult:
     """Send audio to Azure for pronunciation assessment.
 
@@ -181,12 +183,11 @@ async def assess_pronunciation(
     Raises:
         APITimeoutError, APIRateLimitError, APIStatusError on failure.
     """
-    from maestro.config import settings
+    from maestro.language import DEFAULT_LANGUAGE, get_language_config
 
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
     client = _get_stt_client()
-    lang_tag = (
-        f"{settings.TARGET_LANGUAGE}-{settings.TARGET_LANGUAGE.upper()}"  # "it-IT"
-    )
+    lang_tag = lang_cfg.stt_locale
 
     t0 = time.monotonic()
     try:
@@ -224,7 +225,9 @@ async def assess_pronunciation(
     return result
 
 
-async def transcribe(audio_bytes: bytes) -> TranscriptionResult:
+async def transcribe(
+    audio_bytes: bytes, *, language: str | None = None
+) -> TranscriptionResult:
     """Transcribe audio without pronunciation assessment.
 
     Args:
@@ -236,12 +239,11 @@ async def transcribe(audio_bytes: bytes) -> TranscriptionResult:
     Raises:
         APITimeoutError, APIRateLimitError, APIStatusError on failure.
     """
-    from maestro.config import settings
+    from maestro.language import DEFAULT_LANGUAGE, get_language_config
 
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
     client = _get_stt_client()
-    lang_tag = (
-        f"{settings.TARGET_LANGUAGE}-{settings.TARGET_LANGUAGE.upper()}"  # "it-IT"
-    )
+    lang_tag = lang_cfg.stt_locale
 
     t0 = time.monotonic()
     try:

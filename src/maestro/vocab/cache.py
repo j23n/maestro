@@ -5,6 +5,8 @@ and per-level VocabularyWordDefinition lookup.
 Call ensure_loaded() at startup (or before first use). Use set_definition()
 to update the cache after on-demand generation without a restart.
 Call invalidate() in tests to reset state between runs.
+
+Caches are keyed by language code so multiple target languages can coexist.
 """
 
 from __future__ import annotations
@@ -25,60 +27,78 @@ class TranslationOnlyDef:
     senses: list[CefrSense] = field(default_factory=list)
 
 
-# headword (str, lowercased) → list of VocabularyWord (one per POS variant)
-_word_index: dict[str, list[VocabularyWord]] = {}
-# phrase (str, lowercased, multi-word) → list of VocabularyWord
-_phrase_index: dict[str, list[VocabularyWord]] = {}
-# (word_id_str, student_level) → VocabularyWordDefinition
-_def_index: dict[tuple[str, str], VocabularyWordDefinition] = {}
-_loaded: bool = False
-
-
-async def ensure_loaded() -> None:
-    """Load vocab data from DB if not already cached."""
-    global _word_index, _phrase_index, _def_index, _loaded
-    if _loaded:
-        return
-    words = await VocabularyWord.find_all().to_list()
-    # Use the raw headword as the index key — dictionary headwords are already
-    # lemmas, and running them through spaCy in isolation produces wrong lemmas
-    # for some words (e.g. "attrezzatura" → "attrezzaturare").
-    _word_index = {}
-    _phrase_index = {}
-    for word in words:
-        key = word.word.lower()
-        if " " in key:
-            _phrase_index.setdefault(key, []).append(word)
-        else:
-            _word_index.setdefault(key, []).append(word)
-
-    defs = await VocabularyWordDefinition.find_all().to_list()
-    _def_index = {}
-    for d in defs:
-        word_id = str(d.word.ref.id) if hasattr(d.word, "ref") else str(d.word.id)
-        _def_index[(word_id, d.student_level)] = d
-
-    _loaded = True
-    logger.info(
-        "loaded %d words, %d phrases, %d definitions",
-        len(_word_index),
-        len(_phrase_index),
-        len(_def_index),
+@dataclass
+class _LangCache:
+    word_index: dict[str, list[VocabularyWord]] = field(default_factory=dict)
+    phrase_index: dict[str, list[VocabularyWord]] = field(default_factory=dict)
+    def_index: dict[tuple[str, str], VocabularyWordDefinition] = field(
+        default_factory=dict
     )
 
 
-def word_index() -> dict[str, list[VocabularyWord]]:
-    """Return the lemma→words index. Must call ensure_loaded() first."""
-    return _word_index
+_caches: dict[str, _LangCache] = {}
 
 
-def phrase_index() -> dict[str, list[VocabularyWord]]:
-    """Return the phrase→words index. Must call ensure_loaded() first."""
-    return _phrase_index
+def _default_language() -> str:
+    from maestro.config import settings
+
+    return settings.TARGET_LANGUAGE
+
+
+def _get(language: str | None) -> _LangCache:
+    lang = language if language is not None else _default_language()
+    return _caches.get(lang, _LangCache())
+
+
+async def ensure_loaded(language: str | None = None) -> None:
+    """Load vocab data from DB if not already cached for *language*."""
+    lang = language if language is not None else _default_language()
+    if lang in _caches:
+        return
+
+    words = await VocabularyWord.find(VocabularyWord.language == lang).to_list()
+    cache = _LangCache()
+    # Use the raw headword as the index key — dictionary headwords are already
+    # lemmas, and running them through spaCy in isolation produces wrong lemmas
+    # for some words (e.g. "attrezzatura" → "attrezzaturare").
+    for word in words:
+        key = word.word.lower()
+        if " " in key:
+            cache.phrase_index.setdefault(key, []).append(word)
+        else:
+            cache.word_index.setdefault(key, []).append(word)
+
+    defs = await VocabularyWordDefinition.find(
+        VocabularyWordDefinition.language == lang
+    ).to_list()
+    for d in defs:
+        word_id = str(d.word.ref.id) if hasattr(d.word, "ref") else str(d.word.id)
+        cache.def_index[(word_id, d.student_level)] = d
+
+    _caches[lang] = cache
+    logger.info(
+        "loaded %d words, %d phrases, %d definitions (language=%s)",
+        len(cache.word_index),
+        len(cache.phrase_index),
+        len(cache.def_index),
+        lang,
+    )
+
+
+def word_index(language: str | None = None) -> dict[str, list[VocabularyWord]]:
+    """Return the lemma->words index. Must call ensure_loaded() first."""
+    return _get(language).word_index
+
+
+def phrase_index(language: str | None = None) -> dict[str, list[VocabularyWord]]:
+    """Return the phrase->words index. Must call ensure_loaded() first."""
+    return _get(language).phrase_index
 
 
 def get_definition(
-    word_id: str, level: str
+    word_id: str,
+    level: str,
+    language: str | None = None,
 ) -> VocabularyWordDefinition | TranslationOnlyDef | None:
     """Look up a definition by word id and student level.
 
@@ -86,13 +106,14 @@ def get_definition(
     falls back to the A1 def with definitions/examples stripped — A0 students
     see only English translations in tooltips.
     """
-    wdef = _def_index.get((word_id, level))
+    cache = _get(language)
+    wdef = cache.def_index.get((word_id, level))
     if wdef is not None:
         return wdef
     if level != "A0":
         return None
     # A0 fallback: use A1 definition, translation only (deduplicated)
-    a1 = _def_index.get((word_id, "A1"))
+    a1 = cache.def_index.get((word_id, "A1"))
     if a1 is None:
         return None
     seen: set[str] = set()
@@ -104,31 +125,43 @@ def get_definition(
     return TranslationOnlyDef(translation=a1.translation, senses=senses)
 
 
-def set_definition(word_id: str, level: str, wdef: VocabularyWordDefinition) -> None:
+def set_definition(
+    word_id: str,
+    level: str,
+    wdef: VocabularyWordDefinition,
+    language: str | None = None,
+) -> None:
     """Update the cache after on-demand definition generation."""
-    _def_index[(word_id, level)] = wdef
+    lang = language if language is not None else _default_language()
+    if lang not in _caches:
+        _caches[lang] = _LangCache()
+    _caches[lang].def_index[(word_id, level)] = wdef
 
 
-def invalidate() -> None:
-    """Clear the cache, forcing a reload on next ensure_loaded() call."""
-    global _word_index, _phrase_index, _def_index, _loaded
-    _word_index = {}
-    _phrase_index = {}
-    _def_index = {}
-    _loaded = False
+def invalidate(language: str | None = None) -> None:
+    """Clear the cache, forcing a reload on next ensure_loaded() call.
+
+    Pass a language code to clear only that language, or None to clear all.
+    """
+    if language is None:
+        _caches.clear()
+    else:
+        _caches.pop(language, None)
 
 
 def seed(
     words: dict[str, list[VocabularyWord]] | None = None,
     defs: dict[tuple[str, str], VocabularyWordDefinition] | None = None,
     phrases: dict[str, list[VocabularyWord]] | None = None,
+    *,
+    language: str = "it",
 ) -> None:
     """Directly populate cache for testing. Marks cache as loaded."""
-    global _word_index, _phrase_index, _def_index, _loaded
+    cache = _caches.get(language, _LangCache())
     if words is not None:
-        _word_index = words
+        cache.word_index = words
     if defs is not None:
-        _def_index = defs
+        cache.def_index = defs
     if phrases is not None:
-        _phrase_index = phrases
-    _loaded = True
+        cache.phrase_index = phrases
+    _caches[language] = cache

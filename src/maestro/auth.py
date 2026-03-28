@@ -5,6 +5,7 @@ from bson.errors import InvalidId
 from fastapi import HTTPException, Request
 from beanie import PydanticObjectId
 
+from maestro.language import get_language_config
 from maestro.models import Account, Student
 from maestro.session import read_session
 
@@ -48,6 +49,14 @@ async def get_current_student(request: Request) -> Student:
 
     request.state.account = account
     request.state.student = student
+
+    # Load profile and resolve per-student language config
+    from maestro.learning.profile import get_or_create_profile
+
+    profile = await get_or_create_profile(student.id)
+    request.state.profile = profile
+    request.state.lang_ctx = get_language_config(profile.target_language)
+
     return student
 
 

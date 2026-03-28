@@ -69,8 +69,13 @@ def _find_entry(word: VocabularyWord, claude_data: dict[str, Any]) -> dict | Non
 
 
 async def _call_api(
-    batch: list[VocabularyWord], max_tokens: int = 16384
+    batch: list[VocabularyWord],
+    max_tokens: int = 16384,
+    language: str | None = None,
 ) -> dict[str, Any]:
+    from maestro.language import DEFAULT_LANGUAGE, get_language_config
+
+    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
     payload = {_word_key(w): _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(_word_key(w) for w in batch)
@@ -78,7 +83,7 @@ async def _call_api(
         "calling LLM for vocabulary definitions",
         extra={"n_words": len(batch), "words": words_str},
     )
-    lang = settings.TARGET_LANGUAGE_NAME
+    lang = lang_cfg.name
     logger.debug(
         f"Claude request — system: {_prompts.definition_system.render_system(target_language=lang)!r}"
     )
@@ -175,7 +180,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
         )
         return
     logger.info("generating definitions", extra={"word": word.word})
-    claude_data = await _call_api([word], max_tokens=4096)
+    claude_data = await _call_api([word], max_tokens=4096, language=word.language)
     entry = _find_entry(word, claude_data)
     if entry and word.cefr_level is None:
         cefr = entry.get("cefr_level")
@@ -295,7 +300,7 @@ async def generate(
             logger.info(f"Batch {batch_num}/{total_batches}: {words_str}")
 
             try:
-                claude_data = await _call_api(batch)
+                claude_data = await _call_api(batch, language=batch[0].language)
             except Exception as exc:
                 logger.error(f"API error on batch {batch_num}: {exc}")
                 continue
@@ -336,7 +341,7 @@ async def generate(
                     path.unlink()
             from maestro.tts import generate_word_audio
 
-            await generate_word_audio(word.word)
+            await generate_word_audio(word.word, language=word.language)
         except Exception as exc:
             logger.error(f"Failed to generate audio for '{word.word}': {exc}")
 

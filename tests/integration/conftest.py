@@ -87,8 +87,9 @@ async def test_app(db, student, account):
 
         with TestClient(app, raise_server_exceptions=False) as client:
             client.cookies.set("session", sign_session(str(account.id)))
-            # Trigger CSRF cookie and set default header for POST requests
-            client.get("/")
+            # Trigger CSRF cookie without following redirects (avoid
+            # hitting auth middleware which now creates a LearningProfile)
+            client.get("/", follow_redirects=False)
             csrf_token = client.cookies.get("csrftoken")
             if csrf_token:
                 client.headers["x-csrftoken"] = csrf_token

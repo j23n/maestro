@@ -12,8 +12,8 @@
     "sha256": "57bf96f5f372c3a8cee313d7ff72a53fc53164b46bd2d8b4a8eb719b526599e0"
   },
   "judge.yaml": {
-    "version": "1",
-    "sha256": "3a51a767c618859f3e2148e257e4f654fdc6c78f7772835e62cbd39356a87e3e"
+    "version": "2",
+    "sha256": "365e1fbb5ba0710324e1f9780d679cf0b5919d50f5ac0616a7864bc3cb69d60a"
   },
   "lesson_analyzer.yaml": {
     "version": "3",

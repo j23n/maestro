@@ -35,10 +35,10 @@ async def _generate_a0_lesson_background(
         return
 
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
-    scenario, depth = await pick_scenario(profile, "A0")
+    scenario, depth = await pick_scenario(profile, "A0", language=lesson.language)
 
     # Load static content
-    lessons_file = data_dir() / "a0_lessons.yaml"
+    lessons_file = data_dir(lesson.language) / "a0_lessons.yaml"
     with open(lessons_file) as f:
         all_lessons = yaml.safe_load(f)
 

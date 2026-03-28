@@ -20,6 +20,7 @@ from maestro.tokens import (
     validate_reset_token,
     validate_verify_token,
 )
+from maestro.language import DEFAULT_LANGUAGE, LANGUAGES
 from maestro.utils import create_background_task
 
 logger = logging.getLogger(__name__)
@@ -36,7 +37,11 @@ def _masked_email(email: str) -> str:
 
 @router.get("/signup", response_class=HTMLResponse)
 async def signup_form(request: Request):
-    return await render_with_discover(request, "auth-signup.html", {"error": None})
+    return await render_with_discover(
+        request,
+        "auth-signup.html",
+        {"error": None, "languages": LANGUAGES, "selected_language": DEFAULT_LANGUAGE},
+    )
 
 
 @router.post("/signup", response_class=HTMLResponse)
@@ -46,6 +51,11 @@ async def signup(request: Request):
     email = (form.get("email") or "").strip().lower()
     password = form.get("password") or ""
     password_confirm = form.get("password_confirm") or ""
+    target_language = form.get("target_language") or DEFAULT_LANGUAGE
+
+    # Validate language choice
+    if target_language not in LANGUAGES:
+        target_language = DEFAULT_LANGUAGE
 
     # Validation
     error = None
@@ -65,7 +75,14 @@ async def signup(request: Request):
     if error:
         logger.warning("signup failed: %s", error)
         return await render_with_discover(
-            request, "auth-signup.html", {"error": error, "email": email}
+            request,
+            "auth-signup.html",
+            {
+                "error": error,
+                "email": email,
+                "languages": LANGUAGES,
+                "selected_language": target_language,
+            },
         )
 
     # Create student + account (unique index catches race conditions)
@@ -84,10 +101,20 @@ async def signup(request: Request):
         return await render_with_discover(
             request,
             "auth-signup.html",
-            {"error": "signup_error_email_taken", "email": email},
+            {
+                "error": "signup_error_email_taken",
+                "email": email,
+                "languages": LANGUAGES,
+                "selected_language": target_language,
+            },
         )
 
-    logger.info("signup success: %s", account.id)
+    # Create profile with chosen language
+    from maestro.learning.profile import get_or_create_profile
+
+    await get_or_create_profile(student.id, target_language=target_language)
+
+    logger.info("signup success: %s lang=%s", account.id, target_language)
     token = generate_verify_token(str(account.id))
     create_background_task(
         send_verification_email(account.email, token), name="verify-email"

@@ -172,9 +172,10 @@ async def profile_page(
     request: Request, student: Student = Depends(get_current_student)
 ):
     profile = await get_profile(student.id)
-    await grammar_cache.ensure_loaded()
-    grammar_points = grammar_cache.grammar_points()
-    comm_functions = grammar_cache.comm_functions()
+    lang = request.state.lang_ctx.code
+    await grammar_cache.ensure_loaded(lang)
+    grammar_points = grammar_cache.grammar_points(lang)
+    comm_functions = grammar_cache.comm_functions(lang)
 
     cefr = profile.cefr_estimate if profile else "A0"
     gp_titles = build_gp_titles(grammar_points, cefr)
@@ -206,7 +207,7 @@ async def profile_page(
     # Fetch all scenarios up to the current level in one query
     current_idx = CEFR_ORDER.index(cefr) if cefr in CEFR_ORDER else 0
     all_scenarios = await CurriculumScenario.find(
-        {"cefr_level": {"$in": CEFR_ORDER[: current_idx + 1]}}
+        {"cefr_level": {"$in": CEFR_ORDER[: current_idx + 1]}, "language": lang}
     ).to_list()
 
     # Partition by level and sort
@@ -265,7 +266,7 @@ async def profile_page(
     }
     if missing_slugs:
         extra = await CurriculumScenario.find(
-            {"slug": {"$in": list(missing_slugs)}}
+            {"slug": {"$in": list(missing_slugs)}, "language": lang}
         ).to_list()
         for s in extra:
             scenario_labels[s.slug] = s.label

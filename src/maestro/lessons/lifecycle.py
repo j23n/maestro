@@ -32,6 +32,7 @@ from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.prompts import planner as _planner_prompts
 from maestro.config import settings
+from maestro.language import get_language_config
 from maestro.learning.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
 
@@ -239,7 +240,7 @@ async def generate_lesson_feedback(
         weak_note = f"\nThe student specifically struggled with: {labels}. Reference these by name."
 
     prompt = _planner_prompts.lesson_feedback.render(
-        target_language=settings.TARGET_LANGUAGE_NAME,
+        target_language=get_language_config(lesson.language).name,
         activity_summary=activity_summary,
         weak_note=weak_note,
     )
@@ -308,6 +309,7 @@ async def score_reading_activity(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
+    language: str | None = None,
 ) -> tuple[bool, dict, list[str], list[str]]:
     """Score reading answers and build enriched feedback.
 
@@ -320,6 +322,7 @@ async def score_reading_activity(
         cefr_level=cefr_level,
         student_id=student_id,
         lesson_id=lesson_id,
+        language=language,
     )
 
     n = min(len(questions), len(student_answers), len(raw_results))
@@ -342,8 +345,8 @@ async def score_reading_activity(
     # Aggregate GP codes across all items
     from maestro.learning import grammar_cache
 
-    await grammar_cache.ensure_loaded()
-    valid_codes = {g.code for g in grammar_cache.grammar_points()}
+    await grammar_cache.ensure_loaded(language)
+    valid_codes = {g.code for g in grammar_cache.grammar_points(language)}
     gp_correct = list(
         {
             c
