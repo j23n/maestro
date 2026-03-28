@@ -18,7 +18,7 @@ from maestro.models import (
     ExerciseType,
 )
 from maestro.lessons.schemas import LessonContentResponse
-from maestro.strings import t
+from maestro.i18n import strings_t as t
 from maestro.utils import strip_lang_spans
 
 logger = logging.getLogger(__name__)

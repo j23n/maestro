@@ -117,11 +117,11 @@ def reset_serializer():
 @pytest.fixture(autouse=True)
 def reset_taxonomy():
     """Reset taxonomy cache between tests."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
     yield
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 @pytest.fixture(autouse=True)

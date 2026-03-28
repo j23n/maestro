@@ -32,7 +32,7 @@ from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.prompts import planner as _planner_prompts
 from maestro.config import settings
-from maestro.profile import get_or_create_profile
+from maestro.learning.profile import get_or_create_profile
 from maestro.utils import utcnow, create_background_task
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,7 @@ def inject_discovered_reviews(activities: list[LessonActivity]) -> None:
     last.  Card IDs are left empty — populated at serve time from words
     discovered so far.
     """
-    from maestro.strings import t as st
+    from maestro.i18n import strings_t as st
 
     def _make_placeholder() -> LessonActivity:
         return LessonActivity(
@@ -340,10 +340,10 @@ async def score_reading_activity(
     feedback = {"items": enriched, "correct_count": correct_count, "total": n}
 
     # Aggregate GP codes across all items
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
-    await taxonomy.ensure_loaded()
-    valid_codes = {g.code for g in taxonomy.grammar_points()}
+    await grammar_cache.ensure_loaded()
+    valid_codes = {g.code for g in grammar_cache.grammar_points()}
     gp_correct = list(
         {
             c

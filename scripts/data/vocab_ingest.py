@@ -1,7 +1,7 @@
 """
 Vocabulary ingest — enriched from the EPUB dictionary via epub_parser.
 
-Run with:  python -m maestro.vocab.ingest
+Run with:  uv run python scripts/data/vocab_ingest.py
 
 Words without an EPUB entry are skipped (no fallback).
 """

@@ -5,7 +5,7 @@ import pytest
 from unittest.mock import MagicMock
 
 import maestro.learning.scorer as scorer_module
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 from maestro.models import ExerciseType
 
 
@@ -22,7 +22,7 @@ def _make_llm_response(text: str) -> MagicMock:
 
 def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",), level="B2"):
     """Populate taxonomy cache (avoids DB hit)."""
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[
             MagicMock(code=c, cefr_level=level, label=c, description=c)
             for c in gp_codes
@@ -38,7 +38,7 @@ def _seed_cache(gp_codes=("GP_001", "GP_002"), cf_codes=("CF_001",), level="B2")
 def reset_cache():
     """Reset analyzer state between tests."""
     yield
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 @pytest.mark.integration

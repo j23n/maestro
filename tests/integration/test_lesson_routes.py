@@ -372,10 +372,10 @@ async def test_abandoned_lessons_not_in_history(test_app, db, student):
 @pytest.mark.integration
 async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_drill):
     """POST drill-submit should persist a LearningEvent with correct fields."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     lesson, drill = active_lesson_with_drill
-    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
+    grammar_cache.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     event = LearningEvent(
         student_id=lesson.student_id,

@@ -22,11 +22,11 @@ async def test_cf_detection(seeded_lesson_analyzer_cache, record_eval, record_it
     cf_cases = [c for c in cases if c["type"] == "cf"]
 
     # Build code → macro_category lookup from seeded cache
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     code_to_macro = {
         cf.code: cf.macro_category
-        for cf in taxonomy.comm_functions()
+        for cf in grammar_cache.comm_functions()
         if hasattr(cf, "macro_category")
     }
 

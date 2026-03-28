@@ -88,7 +88,7 @@ async def sync_if_changed(db) -> None:
         lock_sha[:16],
     )
 
-    from maestro.learning.ingest import seed_scenarios
+    from maestro.sync.ingest import seed_scenarios
 
     await seed_scenarios()
 

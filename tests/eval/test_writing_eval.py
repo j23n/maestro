@@ -159,7 +159,7 @@ async def test_grammar_code_matching_by_level(db, record_eval, record_item):
     are undetectable because _grammar_code_list only includes exact-level codes.
     """
     from types import SimpleNamespace
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
     from maestro.learning.scorer import generate_writing_feedback
 
     all_gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
@@ -172,25 +172,25 @@ async def test_grammar_code_matching_by_level(db, record_eval, record_item):
     # Also include the A0 negation GP so it appears in the code list
     neg_gp = next((g for g in all_gps if g["code"] == "a0_si_no_non"), None)
     seed_gps = a1_gps + ([neg_gp] if neg_gp else [])
-    taxonomy.seed(gps=[SimpleNamespace(**g) for g in seed_gps])
+    grammar_cache.seed(gps=[SimpleNamespace(**g) for g in seed_gps])
 
     feedback_a1 = await generate_writing_feedback(
         prompt=writing_prompt,
         student_text=student_text,
         cefr_level="A1",
     )
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
     # --- A2 context: only A2 GPs seeded, negation GP absent ---
     a2_gps = [g for g in all_gps if g["cefr_level"] == "A2"]
-    taxonomy.seed(gps=[SimpleNamespace(**g) for g in a2_gps])
+    grammar_cache.seed(gps=[SimpleNamespace(**g) for g in a2_gps])
 
     feedback_a2 = await generate_writing_feedback(
         prompt=writing_prompt,
         student_text=student_text,
         cefr_level="A2",
     )
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
     a1_codes = feedback_a1.get("grammar_error_codes", [])
     a2_codes = feedback_a2.get("grammar_error_codes", [])

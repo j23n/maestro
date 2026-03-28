@@ -15,8 +15,8 @@ from maestro.models import (
     ActivityType,
     ExerciseType,
 )
-from maestro.profile import get_profile
-from maestro.strings import t
+from maestro.learning.profile import get_profile
+from maestro.i18n import strings_t as t
 from maestro.utils import data_dir
 from maestro.lessons.selection import pick_scenario, get_due_vocab_cards
 from maestro.lessons.lifecycle import inject_discovered_reviews

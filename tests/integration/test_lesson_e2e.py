@@ -110,11 +110,11 @@ async def test_full_lesson_events_match_answers(
     test_app, a1_lesson, mock_scorer_client
 ):
     """Submit all activities via routes, verify LearningEvents match the answers given."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     lesson, drill = a1_lesson
     gps = await GrammarPoint.find_all().to_list()
-    taxonomy.seed(gps=gps, cfs=[])
+    grammar_cache.seed(gps=gps, cfs=[])
 
     # --- 1. Drill submit (correct) ---
     # score_attempt returns a LearningEvent with GP_A correct
@@ -213,12 +213,12 @@ async def test_full_lesson_profile_updated_after_analysis(
     test_app, a1_lesson, mock_scorer_client
 ):
     """After analyze_lesson runs, the profile should reflect aggregated GP counts."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
     from maestro.learning.lesson_analyzer import analyze_lesson
 
     lesson, drill = a1_lesson
     gps = await GrammarPoint.find_all().to_list()
-    taxonomy.seed(gps=gps, cfs=[])
+    grammar_cache.seed(gps=gps, cfs=[])
 
     # Create a LearningProfile for the student
     profile = LearningProfile(student_id=lesson.student_id, cefr_estimate="A1")

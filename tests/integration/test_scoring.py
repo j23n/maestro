@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import MagicMock, AsyncMock
 
 from maestro.models import GeneratedDrill, DrillItem, ExerciseType
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 
 
 def _make_drill(exercise_type: str, gp_code: str, items: list = None) -> MagicMock:
@@ -20,7 +20,7 @@ def _make_drill(exercise_type: str, gp_code: str, items: list = None) -> MagicMo
 @pytest.mark.integration
 async def test_unknown_exercise_type_returns_none(db):
     """Drills with unknown exercise_type return (None, None, '', [])."""
-    from maestro.drills.scoring import score_attempt
+    from maestro.lessons.drill_scoring import score_attempt
 
     drill = _make_drill("unknown_type", "GP_001")
     drill.items = []
@@ -36,7 +36,7 @@ async def test_unknown_exercise_type_returns_none(db):
 @pytest.mark.integration
 async def test_fill_blank_passing(db, mocker):
     """fill_blank with ≥70% correct items passes and creates event with grammar_correct."""
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")]
     )
 
@@ -56,12 +56,12 @@ async def test_fill_blank_passing(db, mocker):
         for _ in range(3)
     ]
     mocker.patch(
-        "maestro.drills.scoring.score_multi_item_drill",
+        "maestro.lessons.drill_scoring.score_multi_item_drill",
         new_callable=AsyncMock,
         return_value=llm_results,
     )
 
-    from maestro.drills.scoring import score_attempt
+    from maestro.lessons.drill_scoring import score_attempt
 
     correct, event, feedback, refs = await score_attempt(drill, ["answer"] * 3)
 
@@ -74,7 +74,7 @@ async def test_fill_blank_passing(db, mocker):
 @pytest.mark.integration
 async def test_fill_blank_failing(db, mocker):
     """fill_blank with <70% correct items fails and creates event with grammar_errors."""
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[MagicMock(code="GP_001", label="Passato Prossimo", cefr_level="A1")]
     )
 
@@ -105,12 +105,12 @@ async def test_fill_blank_failing(db, mocker):
         },
     ]
     mocker.patch(
-        "maestro.drills.scoring.score_multi_item_drill",
+        "maestro.lessons.drill_scoring.score_multi_item_drill",
         new_callable=AsyncMock,
         return_value=llm_results,
     )
 
-    from maestro.drills.scoring import score_attempt
+    from maestro.lessons.drill_scoring import score_attempt
 
     correct, event, feedback, refs = await score_attempt(drill, ["wrong"] * 3)
 
@@ -124,7 +124,7 @@ async def test_fill_blank_failing(db, mocker):
 @pytest.mark.integration
 async def test_pass_threshold_exactly_at_70(db, mocker):
     """2/3 items (67%) is below the 0.7 threshold → fail; 3/3 (100%) → pass."""
-    taxonomy.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
+    grammar_cache.seed(gps=[MagicMock(code="GP_001", label="Test GP", cefr_level="A1")])
 
     items = [DrillItem(prompt=f"Q{i} ___", correct_answer="x") for i in range(3)]
     drill = _make_drill(ExerciseType.FILL_BLANK, "GP_001", items)
@@ -150,12 +150,12 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
         },
     ]
     mocker.patch(
-        "maestro.drills.scoring.score_multi_item_drill",
+        "maestro.lessons.drill_scoring.score_multi_item_drill",
         new_callable=AsyncMock,
         return_value=two_of_three,
     )
 
-    from maestro.drills.scoring import score_attempt
+    from maestro.lessons.drill_scoring import score_attempt
 
     correct, event, feedback, refs = await score_attempt(drill, ["x"] * 3)
     # 2/3 = 0.667 < 0.7

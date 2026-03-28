@@ -193,19 +193,19 @@ def record_item():
 @pytest.fixture
 async def seeded_lesson_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for lesson_analyzer tests."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[SimpleNamespace(**g) for g in gps],
         cfs=[SimpleNamespace(**c) for c in cfs],
     )
 
     yield
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 @pytest.fixture
@@ -223,16 +223,16 @@ async def eval_student(db):
 @pytest.fixture
 async def seeded_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for analyzer tests."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[SimpleNamespace(**g) for g in gps],
         cfs=[SimpleNamespace(**cf) for cf in cfs],
     )
 
     yield
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()

@@ -25,27 +25,27 @@ from maestro.models import (
     CommunicativeFunction,
     ScenarioProgress,
 )
-from maestro.profile import get_profile, save_onboarding_field
+from maestro.learning.profile import get_profile, save_onboarding_field
 from maestro.learning.weakness import (
     build_gp_titles,
     build_grammar_by_level,
     top_weaknesses,
 )
 from maestro.vocab.query import get_word_definition
-from maestro.drills.scoring import score_attempt
+from maestro.lessons.drill_scoring import score_attempt
 from maestro.learning.scorer import (
     generate_writing_feedback,
     generate_speaking_feedback,
 )
 from maestro.i18n import t
 from maestro.rate_limit import limiter
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 from maestro.templates import render_with_discover
 from maestro.utils import create_background_task, ensure_utc, strip_lang_spans, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lessons.planner import prepare_lesson_immediate, generate_lesson_background
-from maestro.strings import t as st
+from maestro.i18n import strings_t as st
 from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
 from markupsafe import escape
 from maestro.lessons.lifecycle import (
@@ -1172,8 +1172,8 @@ async def lesson_writing_submit(
             student_id=student.id,
         )
 
-    await taxonomy.ensure_loaded()
-    valid_codes = {g.code for g in taxonomy.grammar_points()}
+    await grammar_cache.ensure_loaded()
+    valid_codes = {g.code for g in grammar_cache.grammar_points()}
     event = LearningEvent(
         student_id=student.id,
         lesson_id=lesson.id,
@@ -1395,8 +1395,8 @@ async def lesson_speaking_submit(
     grammar_correct = []
     grammar_errors = []
     if feedback:
-        await taxonomy.ensure_loaded()
-        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        await grammar_cache.ensure_loaded()
+        valid_codes = {g.code for g in grammar_cache.grammar_points()}
         grammar_correct = [
             c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
         ]

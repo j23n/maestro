@@ -17,10 +17,10 @@ from maestro.auth import RedirectToLogin, get_current_student
 from maestro.config import settings
 from maestro.csrf import CSRFMiddleware
 from maestro.db import get_db, init_db
-from maestro.learning.a0_lessons_sync import sync_if_changed as sync_a0_lessons
-from maestro.learning.cf_sync import sync_if_changed as sync_comm_functions
-from maestro.learning.gp_sync import sync_if_changed as sync_grammar_points
-from maestro.learning.vocab_sync import sync_if_changed as sync_a0_vocab
+from maestro.sync.a0_lessons import sync_if_changed as sync_a0_lessons
+from maestro.sync.functions import sync_if_changed as sync_comm_functions
+from maestro.sync.grammar import sync_if_changed as sync_grammar_points
+from maestro.sync.vocab import sync_if_changed as sync_a0_vocab
 from maestro.migrations import run_pending
 from maestro.seed import seed_if_empty
 from maestro.i18n import t as i18n_t

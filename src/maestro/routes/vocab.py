@@ -17,7 +17,7 @@ from maestro.models import (
     VocabularyWordDefinition,
     UserVocabularyCard,
 )
-from maestro.profile import get_cefr_level
+from maestro.learning.profile import get_cefr_level
 from maestro.utils import CEFR_ORDER
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.tts import generate_word_audio

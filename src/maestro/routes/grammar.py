@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
 from maestro.auth import get_current_student
-from maestro.drills.scoring import score_attempt
+from maestro.lessons.drill_scoring import score_attempt
 from maestro.models import (
     ActivityType,
     DrillAttempt,
@@ -14,7 +14,7 @@ from maestro.models import (
     Student,
 )
 from maestro.learning.profile import update_profile
-from maestro.profile import get_cefr_level
+from maestro.learning.profile import get_cefr_level
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 

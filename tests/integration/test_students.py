@@ -3,7 +3,7 @@
 import pytest
 
 from maestro.models import Student
-from maestro.profile import save_onboarding_field
+from maestro.learning.profile import save_onboarding_field
 
 
 # ---------------------------------------------------------------------------

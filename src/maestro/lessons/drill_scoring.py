@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
 from maestro.models import LearningEvent, GrammarChunk, ExerciseType
 from maestro.learning.scorer import score_multi_item_drill
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 
 logger = logging.getLogger(__name__)
 
@@ -140,7 +140,7 @@ async def score_attempt(
                 error_gp_set.add(item_gp_codes[j])
 
         # Also aggregate LLM-detected GP codes, filtering out hallucinated ones
-        valid_codes = {g.code for g in taxonomy.grammar_points()}
+        valid_codes = {g.code for g in grammar_cache.grammar_points()}
         raw_correct = [
             c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
         ]

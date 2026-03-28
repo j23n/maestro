@@ -64,10 +64,10 @@ def test_en_json_keys_match_it_json():
 
 @pytest.mark.unit
 def test_strings_t_english():
-    """strings.t() returns English when UI_LANGUAGE='en'."""
-    from maestro import strings
+    """strings_t() returns English when UI_LANGUAGE='en'."""
+    from maestro import i18n
 
-    with patch("maestro.strings.settings") as mock_settings:
+    with patch("maestro.i18n.settings") as mock_settings:
         mock_settings.UI_LANGUAGE = "en"
-        result = strings.t("grammar_title", label="X")
+        result = i18n.strings_t("grammar_title", label="X")
         assert result == "Grammar: X"
