@@ -189,7 +189,7 @@ def get_page(path: str):
 def start_lesson(duration: int = 20):
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.post("/lezione/", data={"duration": str(duration)})
+        resp = c.post("/lessons/", data={"duration": str(duration)})
     elapsed = int((time.monotonic() - t0) * 1000)
     final_url = str(resp.url)
     # Parse lesson_id from URL
@@ -198,7 +198,7 @@ def start_lesson(duration: int = 20):
     state = "unknown"
     activity_idx = 0
     for i, p in enumerate(parts):
-        if p == "lezione" and i + 1 < len(parts):
+        if p == "lessons" and i + 1 < len(parts):
             candidate = parts[i + 1]
             if candidate not in ("", "generating") and len(candidate) > 10:
                 lesson_id = candidate
@@ -229,7 +229,7 @@ def poll_generating(lesson_id: str):
     while True:
         polls += 1
         with _client() as c:
-            resp = c.get(f"/lezione/{lesson_id}/generating")
+            resp = c.get(f"/lessons/{lesson_id}/generating")
         final_url = str(resp.url)
         elapsed = int((time.monotonic() - t0) * 1000)
         if "generating" not in final_url:
@@ -274,7 +274,7 @@ def poll_generating(lesson_id: str):
 def get_activity(lesson_id: str, idx: str):
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.get(f"/lezione/{lesson_id}/activity/{idx}")
+        resp = c.get(f"/lessons/{lesson_id}/activity/{idx}")
     elapsed = int((time.monotonic() - t0) * 1000)
     final_url = str(resp.url)
     soup = _soup(resp.text)
@@ -328,7 +328,7 @@ def get_activity(lesson_id: str, idx: str):
 def submit_grammar(lesson_id: str, idx: str):
     t0 = time.monotonic()
     with _client(follow_redirects=False) as c:
-        resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
+        resp = c.post(f"/lessons/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
     _out({"next_url": next_url, "status": resp.status_code, "elapsed_ms": elapsed})
@@ -339,7 +339,7 @@ def submit_onboarding(lesson_id: str, idx: str, answer: str):
     with _client() as c:
         # First submit the answer
         resp = c.post(
-            f"/lezione/{lesson_id}/activity/{idx}/onboarding-submit",
+            f"/lessons/{lesson_id}/activity/{idx}/onboarding-submit",
             data={"answer": answer},
         )
     soup = _soup(resp.text)
@@ -348,7 +348,7 @@ def submit_onboarding(lesson_id: str, idx: str, answer: str):
 
     # Then complete the activity
     with _client(follow_redirects=False) as c:
-        resp2 = c.post(f"/lezione/{lesson_id}/activity/{idx}/complete")
+        resp2 = c.post(f"/lessons/{lesson_id}/activity/{idx}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp2.headers.get("HX-Redirect", resp2.headers.get("location", ""))
     _out({"response_text": response_text, "next_url": next_url, "elapsed_ms": elapsed})
@@ -363,7 +363,7 @@ def submit_drill(lesson_id: str, idx: str, answers_json: str):
     body = urlencode([("answers", a) for a in answers])
     with _client() as c:
         resp = c.post(
-            f"/lezione/{lesson_id}/activity/{idx}/drill-submit",
+            f"/lessons/{lesson_id}/activity/{idx}/drill-submit",
             content=body,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -418,7 +418,7 @@ def submit_vocab_card(lesson_id: str, idx: str, card_idx: str, rating: str):
     t0 = time.monotonic()
     with _client(follow_redirects=False) as c:
         resp = c.post(
-            f"/lezione/{lesson_id}/activity/{idx}/vocab-rate",
+            f"/lessons/{lesson_id}/activity/{idx}/vocab-rate",
             data={"rating": rating, "card_idx": card_idx},
         )
     elapsed = int((time.monotonic() - t0) * 1000)
@@ -430,7 +430,7 @@ def reveal_vocab(lesson_id: str, idx: str, card_idx: str):
     t0 = time.monotonic()
     with _client() as c:
         resp = c.get(
-            f"/lezione/{lesson_id}/activity/{idx}/vocab-reveal",
+            f"/lessons/{lesson_id}/activity/{idx}/vocab-reveal",
             params={"card_idx": card_idx},
         )
     elapsed = int((time.monotonic() - t0) * 1000)
@@ -458,7 +458,7 @@ def submit_reading(lesson_id: str, idx: str, answers_json: str):
     body = urlencode([("answers", a) for a in answers])
     with _client() as c:
         resp = c.post(
-            f"/lezione/{lesson_id}/activity/{idx}/reading-submit",
+            f"/lessons/{lesson_id}/activity/{idx}/reading-submit",
             content=body,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
@@ -485,7 +485,7 @@ def submit_writing(lesson_id: str, idx: str, answer: str):
     t0 = time.monotonic()
     with _client() as c:
         resp = c.post(
-            f"/lezione/{lesson_id}/activity/{idx}/writing-submit",
+            f"/lessons/{lesson_id}/activity/{idx}/writing-submit",
             data={"answer": answer},
         )
     elapsed = int((time.monotonic() - t0) * 1000)
@@ -511,7 +511,7 @@ def submit_writing(lesson_id: str, idx: str, answer: str):
 def submit_skip(lesson_id: str, idx: str):
     t0 = time.monotonic()
     with _client(follow_redirects=False) as c:
-        resp = c.post(f"/lezione/{lesson_id}/activity/{idx}/skip")
+        resp = c.post(f"/lessons/{lesson_id}/activity/{idx}/skip")
     elapsed = int((time.monotonic() - t0) * 1000)
     next_url = resp.headers.get("HX-Redirect", resp.headers.get("location", ""))
     _out({"next_url": next_url, "status": resp.status_code, "elapsed_ms": elapsed})
@@ -520,7 +520,7 @@ def submit_skip(lesson_id: str, idx: str):
 def get_complete(lesson_id: str):
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.get(f"/lezione/{lesson_id}/complete")
+        resp = c.get(f"/lessons/{lesson_id}/complete")
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     # Parse stats
@@ -564,7 +564,7 @@ def get_complete(lesson_id: str):
 def get_profile():
     t0 = time.monotonic()
     with _client() as c:
-        resp = c.get("/profilo")
+        resp = c.get("/profile")
     elapsed = int((time.monotonic() - t0) * 1000)
     soup = _soup(resp.text)
     body_text = soup.get_text(separator=" ", strip=True)[:3000]

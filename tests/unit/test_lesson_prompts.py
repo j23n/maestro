@@ -3,7 +3,7 @@
 import pytest
 from types import SimpleNamespace
 
-from maestro.lezione.prompts import build_lesson_content_prompt
+from maestro.lessons.prompts import build_lesson_content_prompt
 from maestro.models import ExerciseType, StudentPersona
 
 
@@ -130,7 +130,7 @@ def test_prompt_contains_speaking_cf():
 @pytest.mark.unit
 def test_prompt_includes_persona(monkeypatch):
     # Force persona inclusion: random() < 0.7, randint → 2, sample returns first k
-    import maestro.lezione.prompts as _mod
+    import maestro.lessons.prompts as _mod
 
     monkeypatch.setattr(_mod.random, "random", lambda: 0.0)
     monkeypatch.setattr(_mod.random, "randint", lambda a, b: b)
@@ -167,7 +167,7 @@ def test_prompt_includes_persona(monkeypatch):
 @pytest.mark.unit
 def test_prompt_excludes_persona_when_random_skips(monkeypatch):
     # Force persona exclusion: random() >= 0.7
-    import maestro.lezione.prompts as _mod
+    import maestro.lessons.prompts as _mod
 
     monkeypatch.setattr(_mod.random, "random", lambda: 0.8)
 

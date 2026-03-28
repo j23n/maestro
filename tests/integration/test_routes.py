@@ -18,14 +18,14 @@ def test_vocab_word_not_found(test_app):
 
 
 @pytest.mark.integration
-def test_profilo_page_ok(test_app):
+def test_profile_page_ok(test_app):
     """Profile page renders even with no profile in DB."""
-    response = test_app.get("/profilo")
+    response = test_app.get("/profile")
     assert response.status_code == 200
 
 
 @pytest.mark.integration
-async def test_profilo_with_seeded_profile(test_app, student):
+async def test_profile_with_seeded_profile(test_app, student):
     """Profile page renders completed-level sections and lesson history labels."""
     from maestro.models import (
         CurriculumScenario,
@@ -89,7 +89,7 @@ async def test_profilo_with_seeded_profile(test_app, student):
     )
     await lesson.insert()
 
-    response = test_app.get("/profilo")
+    response = test_app.get("/profile")
     assert response.status_code == 200
     # Completed A0 scenario label should appear
     assert "Intro" in response.text
@@ -107,8 +107,8 @@ def test_grammar_nonexistent_returns_404(test_app):
 
 @pytest.mark.integration
 def test_lezione_index_no_active_shows_config(test_app):
-    """With no active lesson, /lezione/ should show the lesson config screen."""
-    response = test_app.get("/lezione/", follow_redirects=False)
+    """With no active lesson, /lessons/ should show the lesson config screen."""
+    response = test_app.get("/lessons/", follow_redirects=False)
     assert response.status_code == 200
     # A0 student with no progress sees the welcome card + first-lesson button
     assert "Start your first lesson" in response.text

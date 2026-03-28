@@ -93,7 +93,7 @@ async def signup(request: Request):
         send_verification_email(account.email, token), name="verify-email"
     )
     create_background_task(send_welcome_email(account.email), name="welcome-email")
-    response = RedirectResponse(url="/lezione/", status_code=303)
+    response = RedirectResponse(url="/lessons/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
 
@@ -125,7 +125,7 @@ async def login(request: Request):
         )
 
     logger.info("login success: %s", account.id)
-    response = RedirectResponse(url="/lezione/", status_code=303)
+    response = RedirectResponse(url="/lessons/", status_code=303)
     create_session_cookie(response, str(account.id))
     return response
 

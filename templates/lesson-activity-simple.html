@@ -1,0 +1,22 @@
+{% extends "lesson-activity-layout.html" %}
+
+{% block activity_card %}
+<div class="card">
+  {% block card_content %}{% endblock %}
+
+  {% if is_review %}
+    {% include "partials/review-banner.html" %}
+  {% else %}
+    {% block card_actions %}
+    <div class="submit-row" style="margin-top:1.75rem;">
+      <button class="continue-btn"
+              hx-post="/lessons/{{ lesson.id }}/activity/{{ idx }}/complete"
+              hx-target="body">
+        {% block continue_label %}{{ t("continue_btn") }}{% endblock %}
+      </button>
+      {% include "partials/skip-link.html" %}
+    </div>
+    {% endblock %}
+  {% endif %}
+</div>
+{% endblock %}

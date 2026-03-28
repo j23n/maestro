@@ -26,7 +26,7 @@ from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
 )
-from maestro.lezione.curriculum import detect_prerequisite_cycles
+from maestro.lessons.curriculum import detect_prerequisite_cycles
 from maestro.utils import data_dir, utcnow
 
 logger = logging.getLogger(__name__)

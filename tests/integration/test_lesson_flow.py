@@ -36,7 +36,7 @@ def _make_lesson(activities: list[LessonActivity], generating: bool = False) -> 
 
 @pytest.mark.integration
 async def test_advance_lesson_marks_current_completed(db):
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -68,7 +68,7 @@ async def test_advance_lesson_marks_current_completed(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_activates_next_pending(db):
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -96,7 +96,7 @@ async def test_advance_lesson_activates_next_pending(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_skip_does_not_mark_completed(db):
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -123,7 +123,7 @@ async def test_advance_lesson_skip_does_not_mark_completed(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_generating_redirect(db):
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -143,7 +143,7 @@ async def test_advance_lesson_generating_redirect(db):
 
 @pytest.mark.integration
 async def test_advance_lesson_all_done_marks_completed(db):
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -170,7 +170,7 @@ async def test_advance_lesson_all_done_marks_completed(db):
 @pytest.mark.integration
 async def test_advance_lesson_persists_result(db):
     """The result parameter should be atomically persisted on the activity."""
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -206,7 +206,7 @@ async def test_advance_lesson_persists_result(db):
 @pytest.mark.integration
 async def test_advance_lesson_generating_persists_atomically(db):
     """When generating=True, advance should persist status + current_index + result."""
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -233,7 +233,7 @@ async def test_advance_lesson_generating_persists_atomically(db):
 @pytest.mark.integration
 async def test_advance_lesson_completion_persists_all_fields(db):
     """When all done (no generating), status/completed_at/result all persist atomically."""
-    from maestro.lezione.service import advance_lesson as _advance_lesson
+    from maestro.lessons.lifecycle import advance_lesson as _advance_lesson
 
     activities = [
         LessonActivity(
@@ -449,7 +449,7 @@ async def completed_lesson(db):
 @pytest.mark.integration
 async def test_get_weak_grammar_points(db, completed_lesson):
     """Should return grammar points for drills the student got wrong."""
-    from maestro.lezione.service import get_weak_grammar_points
+    from maestro.lessons.lifecycle import get_weak_grammar_points
 
     weak = await get_weak_grammar_points(completed_lesson)
     codes = {gp.code for gp in weak}
@@ -460,7 +460,7 @@ async def test_get_weak_grammar_points(db, completed_lesson):
 @pytest.mark.integration
 async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
     """Feedback should return a non-empty string."""
-    from maestro.lezione.service import generate_lesson_feedback
+    from maestro.lessons.lifecycle import generate_lesson_feedback
 
     mock_response = MagicMock(
         content=[MagicMock(text="Great work on present tense drills!")]
@@ -478,7 +478,7 @@ async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
 @pytest.mark.integration
 async def test_generate_lesson_feedback_uses_prefetched_events(db):
     """Passing events avoids a DB query and groups errors by activity index."""
-    from maestro.lezione.service import generate_lesson_feedback
+    from maestro.lessons.lifecycle import generate_lesson_feedback
 
     lesson = Lesson(
         student_id=_FAKE_STUDENT_ID,
@@ -656,7 +656,7 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
 @pytest.mark.integration
 async def test_get_weak_grammar_points_no_events(db):
     """Lesson with no LearningEvents → empty weak list."""
-    from maestro.lezione.service import get_weak_grammar_points
+    from maestro.lessons.lifecycle import get_weak_grammar_points
 
     lesson = Lesson(
         student_id=_FAKE_STUDENT_ID,

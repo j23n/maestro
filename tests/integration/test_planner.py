@@ -1,4 +1,4 @@
-"""Integration tests for lezione/planner.py and lezione/selection.py."""
+"""Integration tests for lessons/planner.py and lessons/selection.py."""
 
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -31,7 +31,7 @@ _FAKE_STUDENT_ID = PydanticObjectId()
 @pytest.mark.integration
 async def test_pick_grammar_points_prioritises_weak(db):
     """Grammar points with higher error rates should be picked first."""
-    from maestro.lezione.selection import pick_grammar_points
+    from maestro.lessons.selection import pick_grammar_points
 
     gp1 = GrammarPoint(
         code="GP_A", label="A", cefr_level="A1", category="test", description="A"
@@ -55,7 +55,7 @@ async def test_pick_grammar_points_prioritises_weak(db):
 @pytest.mark.integration
 async def test_pick_grammar_points_falls_back_when_no_level_match(db):
     """When no GPs exist at the target level, fall back to all GPs."""
-    from maestro.lezione.selection import pick_grammar_points
+    from maestro.lessons.selection import pick_grammar_points
 
     gp = GrammarPoint(
         code="GP_B2",
@@ -73,7 +73,7 @@ async def test_pick_grammar_points_falls_back_when_no_level_match(db):
 @pytest.mark.integration
 async def test_pick_grammar_points_with_candidate_codes(db):
     """When candidate_codes is provided, filter to those codes."""
-    from maestro.lezione.selection import pick_grammar_points
+    from maestro.lessons.selection import pick_grammar_points
 
     gp1 = GrammarPoint(
         code="GP_A", label="A", cefr_level="A1", category="test", description="A"
@@ -97,7 +97,7 @@ async def test_pick_grammar_points_with_candidate_codes(db):
 @pytest.mark.integration
 async def test_pick_comm_functions_with_candidate_codes(db):
     """When candidate_codes is provided, filter to those codes."""
-    from maestro.lezione.selection import pick_comm_functions
+    from maestro.lessons.selection import pick_comm_functions
 
     cf1 = CommunicativeFunction(
         code="CF_A", label="A", macro_category="test", cefr_level="A1"
@@ -116,7 +116,7 @@ async def test_pick_comm_functions_with_candidate_codes(db):
 @pytest.mark.integration
 async def test_get_due_vocab_cards_only_returns_existing(db):
     """get_due_vocab_cards should never introduce new words."""
-    from maestro.lezione.selection import get_due_vocab_cards
+    from maestro.lessons.selection import get_due_vocab_cards
 
     for i in range(10):
         await VocabularyWord(
@@ -137,7 +137,7 @@ async def test_get_due_vocab_cards_only_returns_existing(db):
 @pytest.mark.integration
 async def test_pick_scenario_prefers_unvisited(db):
     """Unvisited scenarios should be strongly preferred."""
-    from maestro.lezione.selection import pick_scenario
+    from maestro.lessons.selection import pick_scenario
 
     s1 = CurriculumScenario(
         slug="visited",
@@ -176,7 +176,7 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     """last_visited as a naive datetime (as returned by MongoDB without tz_aware)
     must not crash when compared with timezone-aware utcnow()."""
     from datetime import datetime, timedelta
-    from maestro.lezione.selection import pick_scenario
+    from maestro.lessons.selection import pick_scenario
 
     s = CurriculumScenario(
         slug="recent",
@@ -211,7 +211,7 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
 @pytest.mark.integration
 async def test_pick_scenario_weak_gp_boost(db):
     """Scenarios with weak GP overlap should get a boost."""
-    from maestro.lezione.selection import pick_scenario
+    from maestro.lessons.selection import pick_scenario
 
     s1 = CurriculumScenario(
         slug="no-overlap",
@@ -254,7 +254,7 @@ async def test_pick_scenario_weak_gp_boost(db):
 @pytest.mark.integration
 async def test_prepare_lesson_immediate_creates_lesson(db):
     """Should create a Lesson with generating=True; vocab_review always present."""
-    from maestro.lezione.planner import prepare_lesson_immediate
+    from maestro.lessons.planner import prepare_lesson_immediate
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
@@ -277,7 +277,7 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
 @pytest.mark.integration
 async def test_drill_materialization_creates_generated_drills(db):
     """Drill specs from LLM content should be materialized into GeneratedDrill documents."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
@@ -336,7 +336,7 @@ async def test_drill_materialization_creates_generated_drills(db):
     with (
         patch("maestro.llm.get_async_client", return_value=mock_client),
         patch(
-            "maestro.lezione.planner.GrammarChunk.find_one",
+            "maestro.lessons.planner.GrammarChunk.find_one",
             new_callable=AsyncMock,
             return_value=None,
         ),

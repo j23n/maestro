@@ -16,7 +16,7 @@ def test_inject_adds_two_discovered_reviews():
         LessonActivity(type=ActivityType.SPEAKING, title="S1", description=""),
     ]
 
-    from maestro.lezione.service import inject_discovered_reviews
+    from maestro.lessons.lifecycle import inject_discovered_reviews
 
     inject_discovered_reviews(activities)
 
@@ -43,7 +43,7 @@ def test_inject_no_reading_or_listening():
         LessonActivity(type=ActivityType.DRILL, title="D1", description=""),
     ]
 
-    from maestro.lezione.service import inject_discovered_reviews
+    from maestro.lessons.lifecycle import inject_discovered_reviews
 
     inject_discovered_reviews(activities)
 
@@ -62,7 +62,7 @@ def test_inject_does_not_affect_existing_vocab_reviews():
         LessonActivity(type=ActivityType.DRILL, title="D1", description=""),
     ]
 
-    from maestro.lezione.service import inject_discovered_reviews
+    from maestro.lessons.lifecycle import inject_discovered_reviews
 
     inject_discovered_reviews(activities)
 

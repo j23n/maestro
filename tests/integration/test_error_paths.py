@@ -110,7 +110,7 @@ async def test_missing_drill_returns_404(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/activity/0")
+    response = test_app.get(f"/lessons/{lesson.id}/activity/0")
     assert response.status_code == 404
 
 
@@ -122,7 +122,7 @@ async def test_missing_drill_returns_404(test_app, db, student):
 @pytest.mark.integration
 async def test_background_generation_failure_sets_error(db, student):
     """If LLM call raises during generation, generating=False and generation_error is set."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
     profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
@@ -170,7 +170,7 @@ async def test_background_generation_failure_sets_error(db, student):
 @pytest.mark.integration
 async def test_score_reading_empty_answers(mock_scorer_client, db):
     """Scoring with no student answers returns safe defaults."""
-    from maestro.lezione.service import score_reading_activity
+    from maestro.lessons.lifecycle import score_reading_activity
 
     overall_correct, feedback, _, _ = await score_reading_activity(
         questions=["What color?"],
@@ -199,9 +199,9 @@ async def test_activity_index_out_of_range(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/activity/99", follow_redirects=False)
+    response = test_app.get(f"/lessons/{lesson.id}/activity/99", follow_redirects=False)
     assert response.status_code == 303
-    assert f"/lezione/{lesson.id}/complete" in response.headers["location"]
+    assert f"/lessons/{lesson.id}/complete" in response.headers["location"]
 
 
 # ---------------------------------------------------------------------------
@@ -282,7 +282,7 @@ async def test_score_multi_raises_on_api_unavailable(mock_scorer_client, db):
 @pytest.mark.integration
 async def test_background_generation_api_unavailable_sets_error(db, student):
     """APIUnavailableError from LLM sets generation_error and status=ABANDONED."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
     profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
@@ -323,7 +323,7 @@ async def test_background_generation_api_unavailable_sets_error(db, student):
 @pytest.mark.integration
 async def test_generation_error_message_is_user_friendly(db, student):
     """The stored generation_error does not contain raw status codes or provider names."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
     profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
@@ -380,7 +380,7 @@ async def test_generating_page_shows_error_and_retry(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    response = test_app.get(f"/lessons/{lesson.id}/generating")
     assert response.status_code == 200
     html = response.text
     assert "Content generation failed" in html
@@ -405,7 +405,7 @@ async def test_generation_timeout_sets_error(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    response = test_app.get(f"/lessons/{lesson.id}/generating")
     assert response.status_code == 200
     html = response.text
     assert "too long" in html.lower()
@@ -431,7 +431,7 @@ async def test_generation_no_false_timeout(test_app, db, student):
     )
     await lesson.insert()
 
-    response = test_app.get(f"/lezione/{lesson.id}/generating")
+    response = test_app.get(f"/lessons/{lesson.id}/generating")
     assert response.status_code == 200
     html = response.text
     assert "spinner" in html
@@ -457,8 +457,8 @@ async def test_retry_resets_generation_started_at(test_app, db, student):
     )
     await lesson.insert()
 
-    with patch("maestro.routes.lezione.generate_lesson_background"):
-        response = test_app.post(f"/lezione/{lesson.id}/retry", follow_redirects=False)
+    with patch("maestro.routes.lessons.generate_lesson_background"):
+        response = test_app.post(f"/lessons/{lesson.id}/retry", follow_redirects=False)
     assert response.status_code == 303
 
     lesson = await Lesson.get(lesson.id)

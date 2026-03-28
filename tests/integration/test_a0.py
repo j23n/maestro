@@ -29,7 +29,7 @@ _FAKE_STUDENT_ID = PydanticObjectId()
 @pytest.mark.integration
 async def test_pick_a0_scenario_returns_first_incomplete(db):
     """Should return the first A0 scenario not yet completed."""
-    from maestro.lezione.selection import _pick_a0_scenario
+    from maestro.lessons.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
         slug="a0-01-in-aereo",
@@ -67,7 +67,7 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
 @pytest.mark.integration
 async def test_pick_a0_scenario_returns_first_when_none_completed(db):
     """With no progress, should return the very first scenario."""
-    from maestro.lezione.selection import _pick_a0_scenario
+    from maestro.lessons.selection import _pick_a0_scenario
 
     s1 = CurriculumScenario(
         slug="a0-01-in-aereo",
@@ -100,7 +100,7 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
 @pytest.mark.integration
 async def test_pick_scenario_a0_delegates(db):
     """pick_scenario with cefr_level='A0' should delegate to _pick_a0_scenario."""
-    from maestro.lezione.selection import pick_scenario
+    from maestro.lessons.selection import pick_scenario
 
     s1 = CurriculumScenario(
         slug="a0-01-in-aereo",
@@ -128,7 +128,7 @@ async def test_pick_scenario_a0_delegates(db):
 @pytest.mark.integration
 async def test_a0_lesson_generates_static_content(db):
     """A0 lesson background should load static content from YAML — no LLM calls."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A0")
     await profile.insert()
@@ -195,7 +195,7 @@ async def test_a0_lesson_generates_static_content(db):
 @pytest.mark.integration
 async def test_a0_drill_creates_generated_drill_doc(db):
     """A0 drill activities should create GeneratedDrill documents."""
-    from maestro.lezione.planner import generate_lesson_background
+    from maestro.lessons.planner import generate_lesson_background
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A0")
     await profile.insert()
@@ -380,7 +380,7 @@ def test_onboarding_submit_saves_name(test_app, student, db):
     lesson = asyncio.get_event_loop().run_until_complete(_setup())
 
     resp = test_app.post(
-        f"/lezione/{lesson.id}/activity/0/onboarding-submit",
+        f"/lessons/{lesson.id}/activity/0/onboarding-submit",
         data={"answer": "Giovanni"},
     )
     assert resp.status_code == 200
@@ -432,7 +432,7 @@ def test_onboarding_submit_saves_background(test_app, student, db):
     lesson = asyncio.get_event_loop().run_until_complete(_setup())
 
     resp = test_app.post(
-        f"/lezione/{lesson.id}/activity/0/onboarding-submit",
+        f"/lessons/{lesson.id}/activity/0/onboarding-submit",
         data={"answer": "university student"},
     )
     assert resp.status_code == 200
@@ -506,7 +506,7 @@ def test_signup_then_onboarding_saves_name(auth_app, db):
 
     # 3. Submit onboarding — should save name on the Student
     resp = auth_app.post(
-        f"/lezione/{lesson.id}/activity/0/onboarding-submit",
+        f"/lessons/{lesson.id}/activity/0/onboarding-submit",
         data={"answer": "Maria"},
     )
     assert resp.status_code == 200
@@ -716,7 +716,7 @@ async def test_compute_cefr_sets_onboarding_completed_on_natural_graduation(db):
 
 @pytest.mark.integration
 def test_skip_onboarding_route(test_app, student, db):
-    """GET /onboarding/skip should redirect to /lezione/."""
+    """GET /onboarding/skip should redirect to /lessons/."""
     import asyncio
 
     async def _setup():
@@ -739,7 +739,7 @@ def test_skip_onboarding_route(test_app, student, db):
 
     resp = test_app.get("/onboarding/skip", follow_redirects=False)
     assert resp.status_code == 303
-    assert resp.headers["location"] == "/lezione/"
+    assert resp.headers["location"] == "/lessons/"
 
     async def _check():
         profile = await LearningProfile.find_one({"student_id": student.id})

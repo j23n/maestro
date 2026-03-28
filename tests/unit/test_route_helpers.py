@@ -1,9 +1,9 @@
 import pytest
 from types import SimpleNamespace
 
-from maestro.lezione.service import activity_url as _activity_url
+from maestro.lessons.lifecycle import activity_url as _activity_url
 from maestro.learning.weakness import build_grammar_by_level as _build_grammar_by_level
-from maestro.routes.profilo import _build_cf_by_level
+from maestro.routes.profile import _build_cf_by_level
 
 
 def make_profile(**kwargs):
@@ -29,12 +29,12 @@ def make_cf(code, level="A1", label=""):
 @pytest.mark.unit
 def test_activity_url():
     lesson_id = "abc123"
-    assert _activity_url(lesson_id, 3) == "/lezione/abc123/activity/3"
+    assert _activity_url(lesson_id, 3) == "/lessons/abc123/activity/3"
 
 
 @pytest.mark.unit
 def test_activity_url_zero_index():
-    assert _activity_url("xyz", 0) == "/lezione/xyz/activity/0"
+    assert _activity_url("xyz", 0) == "/lessons/xyz/activity/0"
 
 
 @pytest.mark.unit

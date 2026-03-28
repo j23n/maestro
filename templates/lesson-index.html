@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}{{ t("page_title_new_lesson") }} — Maestro{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/welcome.css">{% endblock %}
+
+{% block content %}
+<div class="lesson-new{% if show_welcome %} lesson-new--welcome{% endif %}">
+
+  {% if not show_welcome %}
+  <h1>{{ t("new_lesson_title") }}</h1>
+  <p class="subtitle">{{ t("new_lesson_subtitle") }}</p>
+  {% endif %}
+
+  <form method="post" action="/lessons/" onsubmit="this.querySelector('.btn-start').disabled=true; this.querySelector('.btn-start').textContent='{{ t("new_lesson_preparing") }}'">
+
+    {% if cefr == "A0" %}
+    {% if show_welcome %}
+    <div class="welcome-hero">
+      <div class="welcome-hero-accent"></div>
+      <h1 class="welcome-heading">{{ t("welcome_title") }}</h1>
+      <p class="welcome-lead">{{ t("welcome_body") }}</p>
+    </div>
+
+    <div class="welcome-features">
+      <div class="welcome-feature">
+        <div class="welcome-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <strong>{{ t("welcome_personalized") }}</strong>
+          <span>{{ t("welcome_personalized_desc") }}</span>
+        </div>
+      </div>
+      <div class="welcome-feature">
+        <div class="welcome-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </div>
+        <div>
+          <strong>{{ t("welcome_speech") }}</strong>
+          <span>{{ t("welcome_speech_desc") }}</span>
+        </div>
+      </div>
+      <div class="welcome-feature">
+        <div class="welcome-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div>
+          <strong>{{ t("welcome_rigorous") }}</strong>
+          <span>{{ t("welcome_rigorous_desc") }}</span>
+        </div>
+      </div>
+    </div>
+
+    <details class="welcome-details">
+      <summary>{{ t("welcome_how_it_works") }}</summary>
+      <p>{{ t("welcome_how_it_works_body") }}</p>
+      <div class="welcome-activity-tags">
+        <span class="welcome-atag">{{ t("welcome_activity_grammar") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_vocab") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_drill") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_reading") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_listening") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_writing") }}</span>
+        <span class="welcome-atag">{{ t("welcome_activity_speaking") }}</span>
+      </div>
+      <p class="welcome-skip-hint">{{ t("welcome_skip_hint") }}</p>
+    </details>
+    {% else %}
+    <div class="welcome-card">
+      <div class="onboarding-progress">{{ t("onboarding_progress", number=a0_lesson_number, total=a0_total) }}</div>
+
+      {% if next_scenario %}
+      <div class="next-scenario">
+        <div class="next-scenario-label">{{ next_scenario.label }}</div>
+        <p class="next-scenario-desc">{{ next_scenario.description }}</p>
+        {% if next_scenario.overview %}
+        <p class="next-scenario-overview">{{ next_scenario.overview }}</p>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+
+    <input type="hidden" name="duration" value="20">
+    <button class="btn-start" type="submit">{{ t("new_lesson_start") }}</button>
+    <p class="loading-hint">{{ t("new_lesson_note") }}</p>
+
+    {% with history_heading=t("profile_recent_lessons") %}
+    {% include "partials/lesson-history.html" %}
+    {% endwith %}
+    {% endif %}
+    {% else %}
+
+    {# --- Topic selector --- #}
+    <div class="form-section">
+      <label class="section-label" for="scenario_slug">{{ t("config_topic_label") }}</label>
+      <select name="scenario_slug" id="scenario_slug" class="config-select">
+        {% for opt in scenario_options %}
+        <option value="{{ opt.scenario.slug }}"
+          {% if opt.scenario.slug == auto_scenario_slug %}selected{% endif %}>
+          {{ opt.scenario.label }} · {{ opt.depth_completed }}/{{ opt.max_depth }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {# --- Focus weak grammar --- #}
+    <div class="form-section">
+      <label class="config-checkbox-card">
+        <input type="checkbox" name="focus_weak" value="true">
+        <span class="config-checkbox-label">{{ t("config_focus_weak") }}</span>
+        {% if weaknesses %}
+        <span class="config-weakness-tags">
+          {% for w in weaknesses %}
+          <span class="weakness-tag">{{ w.label }}</span>
+          {% endfor %}
+        </span>
+        {% else %}
+        <span class="config-checkbox-hint">{{ t("config_no_weaknesses") }}</span>
+        {% endif %}
+      </label>
+    </div>
+
+    {# --- Lesson context --- #}
+    <div class="form-section">
+      <label class="section-label" for="lesson_context">{{ t("config_context_label") }}</label>
+      <input type="text" name="lesson_context" id="lesson_context"
+             class="config-text-input"
+             placeholder="{{ t("config_context_placeholder") }}"
+             maxlength="200">
+    </div>
+
+    {# --- Duration --- #}
+    <div class="form-section">
+      <label class="section-label">{{ t("new_lesson_duration") }}</label>
+      <div class="duration-options">
+        <span>
+          <input type="radio" name="duration" id="d10" value="10">
+          <label for="d10">
+            <span class="dur-min">10</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d20" value="20" checked>
+          <label for="d20">
+            <span class="dur-min">20</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+        <span>
+          <input type="radio" name="duration" id="d40" value="40">
+          <label for="d40">
+            <span class="dur-min">40</span>
+            <span class="dur-label">{{ t("new_lesson_minutes") }}</span>
+          </label>
+        </span>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show_welcome %}
+    <input type="hidden" name="duration" value="20">
+    <button class="btn-start" type="submit">{{ t("welcome_start_btn") }}</button>
+    <p class="loading-hint">{{ t("new_lesson_note") }}</p>
+    {% elif cefr != "A0" %}
+    <button class="btn-start" type="submit">{{ t("new_lesson_start") }}</button>
+    <p class="loading-hint">{{ t("new_lesson_note") }}</p>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

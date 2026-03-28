@@ -1,9 +1,0 @@
-{% extends "lezione-activity-simple.html" %}
-
-{% block card_content %}
-  <div class="card-label">{{ t("info_label") }}</div>
-  <h2>{{ activity.title }}</h2>
-  <div class="grammar-content">
-    {{ content | markdown | safe }}
-  </div>
-{% endblock %}
