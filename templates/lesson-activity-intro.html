@@ -21,7 +21,8 @@
     <ul class="intro-list">
       {% for gp in grammar_points %}
       <li>
-        <a href="/grammar/{{ gp.code }}" class="intro-gp-link">{{ gp_titles.get(gp.code) or gp.label }}</a>
+        <span class="intro-gp-link"
+            data-gp-summary="{{ gp_summaries.get(gp.code, '') }}">{{ gp_titles.get(gp.code) or gp.label }}</span>
       </li>
       {% endfor %}
     </ul>
@@ -37,6 +38,38 @@
       {% endfor %}
     </ul>
   </div>
+  {% endif %}
+  {% if grammar_points %}
+  <div id="gp-tooltip" class="popup" data-no-discover>
+    <div class="gp-tt-title"></div>
+    <div class="gp-tt-summary"></div>
+  </div>
+  <script>
+  if (!window._gpTtInit) {
+    window._gpTtInit = true;
+    function _gpTtEl() { return document.getElementById('gp-tooltip'); }
+    var _gpPopup = Popup.withDelayedHide(_gpTtEl(), 180);
+
+    document.addEventListener('mouseover', function(e) {
+      if (e.target.closest('#gp-tooltip')) { _gpPopup.cancelHide(); return; }
+      var link = e.target.closest('.intro-gp-link');
+      if (!link) return;
+      var summary = link.dataset.gpSummary;
+      if (!summary) return;
+      var tooltip = _gpTtEl();
+      if (!tooltip) return;
+      _gpPopup.cancelHide();
+      tooltip.querySelector('.gp-tt-title').textContent = link.textContent.trim();
+      tooltip.querySelector('.gp-tt-summary').textContent = summary;
+      _gpPopup.show(link);
+    });
+    document.addEventListener('mouseout', function(e) {
+      if (e.target.closest('#gp-tooltip')) { _gpPopup.scheduleHide(); return; }
+      if (!e.target.closest('.intro-gp-link')) return;
+      _gpPopup.scheduleHide();
+    });
+  }
+  </script>
   {% endif %}
 {% endblock %}
 

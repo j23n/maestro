@@ -2058,7 +2058,10 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .intro-list li:last-child { border-bottom: none; }
 .intro-gp-link {
   color: var(--c-terracotta);
-  text-decoration: none;
+  cursor: help;
+  border-bottom: 1px dashed var(--c-text-muted);
 }
-.intro-gp-link:hover { text-decoration: underline; }
+#gp-tooltip { max-width: 300px; }
+#gp-tooltip .gp-tt-title { font-weight: 600; margin-bottom: 0.2rem; }
+#gp-tooltip .gp-tt-summary { font-size: 0.88em; color: var(--c-text); line-height: 1.4; }
 
