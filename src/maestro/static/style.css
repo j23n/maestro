@@ -2058,7 +2058,7 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
 .intro-list li:last-child { border-bottom: none; }
 .intro-gp-link {
   color: var(--c-terracotta);
-  text-decoration: none;
+  cursor: help;
+  border-bottom: 1px dashed var(--c-text-muted);
 }
-.intro-gp-link:hover { text-decoration: underline; }
 
