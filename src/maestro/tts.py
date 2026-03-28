@@ -176,6 +176,8 @@ async def generate_a0_audio(slug: str, text: str) -> Optional[str]:
 async def sync_a0_listening_audio() -> None:
     """Generate missing WAV files for A0 listening activities.
 
+    TODO: Iterate over all languages with A0 content once non-Italian data lands.
+
     Reads a0_lessons.yaml, finds listening activities with audio_path set,
     and synthesizes any that don't exist on disk yet. Skips silently if
     Azure credentials are not configured.

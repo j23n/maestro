@@ -47,7 +47,15 @@ def _default_language() -> str:
 
 def _get(language: str | None) -> _LangCache:
     lang = language if language is not None else _default_language()
-    return _caches.get(lang, _LangCache())
+    cache = _caches.get(lang)
+    if cache is None:
+        logger.warning(
+            "vocab cache not loaded for language '%s' — returning empty; "
+            "call ensure_loaded() first",
+            lang,
+        )
+        return _LangCache()
+    return cache
 
 
 async def ensure_loaded(language: str | None = None) -> None:

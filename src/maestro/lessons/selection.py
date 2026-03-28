@@ -12,6 +12,7 @@ import random
 from datetime import date
 from typing import Optional
 
+from maestro.language import DEFAULT_LANGUAGE
 from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
@@ -39,8 +40,6 @@ async def _pick_a0_scenario(
     Returns the first scenario whose depth < 1 (i.e. not yet completed).
     Falls back to the last scenario if all are done.
     """
-    from maestro.language import DEFAULT_LANGUAGE
-
     lang = language or DEFAULT_LANGUAGE
     scenarios = (
         await CurriculumScenario.find({"cefr_level": "A0", "language": lang})
@@ -83,8 +82,6 @@ async def pick_scenario(
 
     Returns (scenario, next_depth).
     """
-    from maestro.language import DEFAULT_LANGUAGE
-
     lang = language or DEFAULT_LANGUAGE
 
     if cefr_level == "A0":
@@ -177,8 +174,6 @@ async def pick_grammar_points(
     Among the top candidates, prefer GPs that share the same chunk_ref
     so lessons are coherent around a textbook section.
     """
-    from maestro.language import DEFAULT_LANGUAGE
-
     lang = language or DEFAULT_LANGUAGE
 
     if candidate_codes:
@@ -240,8 +235,6 @@ async def pick_comm_functions(
     When candidate_codes is provided (from a scenario), filter to those codes.
     Falls back to least-practised ordering.
     """
-    from maestro.language import DEFAULT_LANGUAGE
-
     lang = language or DEFAULT_LANGUAGE
 
     if candidate_codes:

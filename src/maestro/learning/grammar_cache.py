@@ -79,7 +79,13 @@ def seed(
     *,
     language: str = "it",
 ) -> None:
-    """Directly populate cache for testing. Marks cache as loaded."""
+    """Directly populate cache for testing. Marks cache as loaded.
+
+    Always sets both dicts for the language so ensure_loaded() considers
+    the language fully cached.
+    """
+    _grammar_points.setdefault(language, [])
+    _comm_functions.setdefault(language, [])
     if gps is not None:
         _grammar_points[language] = gps
     if cfs is not None:

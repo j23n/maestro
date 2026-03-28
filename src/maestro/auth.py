@@ -1,4 +1,5 @@
 import logging
+import time
 
 import sentry_sdk
 from bson.errors import InvalidId
@@ -10,6 +11,13 @@ from maestro.models import Account, Student
 from maestro.session import read_session
 
 logger = logging.getLogger(__name__)
+
+# Short-lived per-student profile cache to avoid a DB round-trip on every
+# authenticated request.  Entries expire after _PROFILE_TTL seconds.
+_PROFILE_TTL = 60  # seconds
+_profile_cache: dict[
+    PydanticObjectId, tuple[float, object]
+] = {}  # student_id → (ts, profile)
 
 
 class RedirectToLogin(Exception):
@@ -50,10 +58,18 @@ async def get_current_student(request: Request) -> Student:
     request.state.account = account
     request.state.student = student
 
-    # Load profile and resolve per-student language config
-    from maestro.learning.profile import get_or_create_profile
+    # Load profile and resolve per-student language config.
+    # Uses a short-lived in-memory cache to avoid a DB query on every request.
+    now = time.monotonic()
+    cached = _profile_cache.get(student.id)
+    if cached and (now - cached[0]) < _PROFILE_TTL:
+        profile = cached[1]
+    else:
+        from maestro.learning.profile import get_or_create_profile
 
-    profile = await get_or_create_profile(student.id)
+        profile = await get_or_create_profile(student.id)
+        _profile_cache[student.id] = (now, profile)
+
     request.state.profile = profile
     request.state.lang_ctx = get_language_config(profile.target_language)
 

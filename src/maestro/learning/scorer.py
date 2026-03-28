@@ -194,16 +194,16 @@ async def feedback_fill_blank(
         else ""
     )
     lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
-    _ln, _lc = lang_cfg.name, lang_cfg.code
+    lang_name, lang_code = lang_cfg.name, lang_cfg.code
     prompt = _prompts.feedback_fill_blank.render(
-        target_language=_ln,
-        feedback_language=_feedback_language(cefr_level, _ln),
+        target_language=lang_name,
+        feedback_language=_feedback_language(cefr_level, lang_name),
         grammar_point_code=grammar_point_code,
         drill_prompt=drill_prompt,
         correct_answer=correct_answer,
         student_answer=student_answer,
         rule_block=rule_block,
-        span_tagging=_stb(_ln, _lc),
+        span_tagging=_stb(lang_name, lang_code),
     )
 
     logger.info(
@@ -220,9 +220,9 @@ async def feedback_fill_blank(
             model=settings.DRILL_MODEL,
             max_tokens=128,
             system=_prompts.feedback_fill_blank.render_system(
-                target_language=_ln,
-                feedback_language=_feedback_language(cefr_level, _ln),
-                span_tagging=_stb(_ln, _lc),
+                target_language=lang_name,
+                feedback_language=_feedback_language(cefr_level, lang_name),
+                span_tagging=_stb(lang_name, lang_code),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
@@ -258,20 +258,20 @@ async def evaluate_error_correction(
     {"wrong": ..., "correct": ..., "explanation": ...} or "" on failure.
     """
     lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
-    _ln, _lc = lang_cfg.name, lang_cfg.code
+    lang_name, lang_code = lang_cfg.name, lang_cfg.code
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
         if rag_content
         else ""
     )
     prompt = _prompts.error_correction_eval.render(
-        target_language=_ln,
-        feedback_language=_feedback_language(cefr_level, _ln),
+        target_language=lang_name,
+        feedback_language=_feedback_language(cefr_level, lang_name),
         erroneous=erroneous,
         reference=reference,
         student=student,
         rule_block=rule_block,
-        span_tagging=_stb(_ln, _lc),
+        span_tagging=_stb(lang_name, lang_code),
     )
 
     logger.info(
@@ -284,8 +284,8 @@ async def evaluate_error_correction(
             model=settings.DRILL_MODEL,
             max_tokens=256,
             system=_prompts.error_correction_eval.render_system(
-                target_language=_ln,
-                span_tagging=_stb(_ln, _lc),
+                target_language=lang_name,
+                span_tagging=_stb(lang_name, lang_code),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,
@@ -343,14 +343,14 @@ async def score_multi_item_drill(
     )
 
     lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
-    _ln = lang_cfg.name
+    lang_name = lang_cfg.name
     await grammar_cache.ensure_loaded(lang_cfg.code)
     gp_lookup = {g.code: g.label for g in grammar_cache.grammar_points(lang_cfg.code)}
 
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 
     if exercise_type == ExerciseType.FILL_BLANK:
-        task_desc = _prompts.fill_blank_task_fragment.render(target_language=_ln)
+        task_desc = _prompts.fill_blank_task_fragment.render(target_language=lang_name)
         lines = []
         for i in range(n):
             item_gp = items[i].grammar_point_code or grammar_point_code
@@ -359,7 +359,9 @@ async def score_multi_item_drill(
                 f'{i + 1}. Sentence: "{items[i].prompt}" | Correct: "{items[i].correct_answer}" | Student: "{student_answers[i]}" | GP: {item_gp} ({item_label})'
             )
     else:  # error_correction
-        task_desc = _prompts.error_correction_task_fragment.render(target_language=_ln)
+        task_desc = _prompts.error_correction_task_fragment.render(
+            target_language=lang_name
+        )
         lines = []
         for i in range(n):
             item_gp = items[i].grammar_point_code or grammar_point_code
@@ -369,7 +371,7 @@ async def score_multi_item_drill(
             )
 
     prompt = _prompts.drill_scoring.render(
-        target_language=_ln,
+        target_language=lang_name,
         task_desc=task_desc,
         rule_block=rule_block,
         items_block="\n".join(lines),
@@ -473,7 +475,7 @@ async def score_reading_answers(
     Returns a list of {objective_correct, objective_note, grammar_errors, tips} per question.
     """
     lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
-    _ln = lang_cfg.name
+    lang_name = lang_cfg.name
     n = min(len(questions), len(student_answers))
     logger.info("score_reading_answers", extra={"n": n})
 
@@ -482,9 +484,9 @@ async def score_reading_answers(
         for i in range(n)
     ]
 
-    answer_language = f"{_ln} or English" if cefr_level == "A0" else _ln
+    answer_language = f"{lang_name} or English" if cefr_level == "A0" else lang_name
     prompt = _prompts.reading_scoring.render(
-        target_language=_ln,
+        target_language=lang_name,
         answer_language=answer_language,
         items_block="\n".join(lines),
         n=n,
