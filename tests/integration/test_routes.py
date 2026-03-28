@@ -34,14 +34,14 @@ async def test_profile_with_seeded_profile(test_app, student):
         LearningProfile,
         LessonStatus,
     )
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     # Seed taxonomy (A0 + A1 grammar points)
     gp_a0 = GrammarPoint(code="gp_a0", label="GP A0", cefr_level="A0", category="test")
     gp_a1 = GrammarPoint(code="gp_a1", label="GP A1", cefr_level="A1", category="test")
     await gp_a0.insert()
     await gp_a1.insert()
-    taxonomy.seed(gps=[gp_a0, gp_a1], cfs=[])
+    grammar_cache.seed(gps=[gp_a0, gp_a1], cfs=[])
 
     # Seed scenarios for A0 (completed) and A1 (current)
     sc_a0 = CurriculumScenario(

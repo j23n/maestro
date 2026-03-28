@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/comm_functions.lock after modifying comm_functions.json.
+"""Recompute data/it/comm_functions.lock after modifying comm_functions.json.
 
 The lock file stores the SHA256 hash of comm_functions.json and is committed to the repo.
 At app startup, cf_sync compares this hash against what's stored in the database and
@@ -15,8 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CF_JSON = REPO_ROOT / "src/maestro/data/it/comm_functions.json"
-LOCK_FILE = REPO_ROOT / "src/maestro/data/it/comm_functions.lock"
+CF_JSON = REPO_ROOT / "data/it/comm_functions.json"
+LOCK_FILE = REPO_ROOT / "data/it/comm_functions.lock"
 
 
 def compute_lock(data: list, sha: str) -> dict:

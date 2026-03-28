@@ -1,6 +1,6 @@
 """Generate grammar prerequisite DAG via LLM and write into grammar_points.json.
 
-Usage: uv run python -m maestro.grammar.generate_prerequisites
+Usage: uv run python scripts/data/generate_prerequisites.py
 
 Loads all A1 grammar point codes and labels, sends them to Claude asking
 for prerequisite relationships, and writes the `prerequisites` field back

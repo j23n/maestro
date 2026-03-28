@@ -17,7 +17,7 @@ import json
 import numpy as np
 import yaml
 
-DATA_DIR = "src/maestro/data/it"
+DATA_DIR = "data/it"
 
 
 class LiteralStr(str):

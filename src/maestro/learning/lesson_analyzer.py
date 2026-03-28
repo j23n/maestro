@@ -20,7 +20,7 @@ from maestro.models import (
     LearningEvent,
 )
 from maestro.learning.profile import update_profile
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 
 if TYPE_CHECKING:
     from maestro.models import Lesson
@@ -81,7 +81,7 @@ async def analyze_lesson(lesson: "Lesson") -> None:
             "analyze_lesson start",
             extra={"lesson_id": str(lesson.id), "student_id": str(lesson.student_id)},
         )
-        await taxonomy.ensure_loaded()
+        await grammar_cache.ensure_loaded()
 
         # Phase 1: aggregate per-activity events
         gp_correct, gp_errors, combined = await _collect_activity_events(lesson)

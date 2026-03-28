@@ -4,7 +4,7 @@ Migration 0003 — Remap grammar point references from verbose unistr_codes to s
 Prerequisites:
   1. Run `uv run python scripts/data/generate_short_codes.py` to populate `unistr_code`
      fields in grammar_points.yaml.
-  2. Run `uv run python -m maestro.learning.ingest` to sync grammar_points to MongoDB.
+  2. Run `uv run python -m maestro.sync.ingest` to sync grammar_points to MongoDB.
 
 This migration builds a unistr_code → short code mapping from grammar_points.yaml and
 remaps all collections that stored the old verbose codes.

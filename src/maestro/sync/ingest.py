@@ -6,7 +6,7 @@ One-off ingest script:
   4. Create empty LearningProfile if none exists
 
 Run with:
-  python -m maestro.learning.ingest
+  python -m maestro.sync.ingest
 """
 
 import asyncio

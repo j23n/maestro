@@ -1,6 +1,8 @@
 """
-Aggregate LearningEvents into a LearningProfile and generate
-a natural-language description for the system prompt.
+Per-student learning profile access and aggregation.
+
+Provides helpers to get/create profiles, and aggregates LearningEvents
+into a LearningProfile with a natural-language description for the system prompt.
 """
 
 from __future__ import annotations
@@ -8,10 +10,12 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from maestro.models import LearningEvent
+from beanie import PydanticObjectId
 
-from maestro import taxonomy
+if TYPE_CHECKING:
+    from maestro.models import LearningEvent, Student
+
+from maestro.learning import grammar_cache
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
 from maestro.models import (
     CurriculumScenario,
@@ -20,12 +24,53 @@ from maestro.models import (
     UserVocabularyCard,
     VocabularyWord,
 )
-from maestro.profile import get_or_create_profile
 from maestro.utils import CEFR_ORDER, utcnow
 
 logger = logging.getLogger(__name__)
 
 _MACRO_LABELS = {k: v[1] for k, v in _MACRO_TUPLES.items()}
+
+
+async def get_profile(student_id: PydanticObjectId) -> LearningProfile | None:
+    """Return the LearningProfile for a student, or None if not yet created."""
+    return await LearningProfile.find_one({"student_id": student_id})
+
+
+async def get_or_create_profile(student_id: PydanticObjectId) -> LearningProfile:
+    """Return the LearningProfile for a student, creating an empty one if needed."""
+    profile = await LearningProfile.find_one({"student_id": student_id})
+    if profile is None:
+        profile = LearningProfile(student_id=student_id)
+        await profile.insert()
+    return profile
+
+
+async def get_cefr_level(student_id: PydanticObjectId) -> str:
+    """Return the student's current CEFR estimate, defaulting to 'A0'."""
+    profile = await get_profile(student_id)
+    return profile.cefr_estimate if profile else "A0"
+
+
+async def save_onboarding_field(
+    student: "Student", profile_field: str, answer: str
+) -> None:
+    """Save an onboarding answer to the appropriate student/profile field."""
+    if not answer.strip():
+        return
+
+    answer = answer.strip()
+
+    if profile_field == "name":
+        student.name = answer[:30]
+        await student.save()
+    elif profile_field in ("background", "interests", "goal"):
+        profile = await get_or_create_profile(student.id)
+        existing = getattr(profile.persona, profile_field, "")
+        if existing:
+            setattr(profile.persona, profile_field, f"{existing}, {answer}")
+        else:
+            setattr(profile.persona, profile_field, answer)
+        await profile.save()
 
 
 def outcome_ok(r) -> bool:
@@ -107,9 +152,9 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         # All A0 scenarios done — mark onboarding as completed
         profile.onboarding_completed = True
 
-    await taxonomy.ensure_loaded()
-    grammar_points = taxonomy.grammar_points()
-    comm_functions = taxonomy.comm_functions()
+    await grammar_cache.ensure_loaded()
+    grammar_points = grammar_cache.grammar_points()
+    comm_functions = grammar_cache.comm_functions()
 
     gp_by_level: dict[str, list[str]] = {}
     for gp in grammar_points:
@@ -150,8 +195,8 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
 
 async def _generate_description(profile: "LearningProfile") -> str:
-    await taxonomy.ensure_loaded()
-    gp_labels = {gp.code: gp.label for gp in taxonomy.grammar_points()}
+    await grammar_cache.ensure_loaded()
+    gp_labels = {gp.code: gp.label for gp in grammar_cache.grammar_points()}
 
     # Grammar narrative
     demonstrated = [
@@ -203,7 +248,7 @@ async def _generate_description(profile: "LearningProfile") -> str:
     a2_pct = pct("A2")
 
     # Communicative functions narrative
-    cf_by_code = {cf.code: cf for cf in taxonomy.comm_functions()}
+    cf_by_code = {cf.code: cf for cf in grammar_cache.comm_functions()}
 
     macro_counts: dict[str, int] = {}
     for code, count in profile.functions_counts.items():

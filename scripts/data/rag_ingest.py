@@ -10,7 +10,7 @@ from pymongo import AsyncMongoClient
 from maestro.models import GrammarChunk
 from maestro.config import settings
 from maestro.db import init_db, init_indices
-from maestro.rag.retrieve import get_model
+from maestro.rag import get_model
 
 from maestro.utils import data_dir
 

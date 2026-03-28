@@ -3,7 +3,6 @@
 import json
 import logging
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 
@@ -15,7 +14,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 @pytest.mark.llm_eval
 async def test_grammar_explanation_quality(record_eval, record_item):
     """Validate that explanations are generated for all expected levels with sufficient content."""
-    from maestro.grammar.generate_explanations import _call_api, _target_levels
+    from generate_explanations import _call_api
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "grammar_explanation_cases.json").read_text())
@@ -25,16 +24,19 @@ async def test_grammar_explanation_quality(record_eval, record_item):
     all_data: dict[str, dict] = {}  # code → {level: text}
 
     for case in cases:
-        gp = SimpleNamespace(
-            id=None,
-            code=case["code"],
-            label=case["label"],
-            cefr_level=case["cefr_level"],
-            description=case["description"],
-        )
-        levels = _target_levels(gp)
-        data = await _call_api(gp, levels, chunk_content="")
-        all_data[case["code"]] = data or {}
+        gp = {
+            "code": case["code"],
+            "label": case["label"],
+            "cefr_level": case["cefr_level"],
+            "description": case["description"],
+        }
+        # _call_api now generates one language at a time; call for each expected level
+        data = {}
+        for lang in case["expected_levels"]:
+            result = await _call_api(gp, chunk_content="", lang=lang)
+            if result:
+                data[lang] = result
+        all_data[case["code"]] = data
 
         failures = []
 

@@ -139,7 +139,7 @@ Move Italian data files into a language subdirectory.
 
 **Current layout:**
 ```
-src/maestro/data/
+data/
   grammar_points.json
   comm_functions.json
   scenarios_a0.yaml
@@ -155,7 +155,7 @@ src/maestro/data/
 
 **New layout:**
 ```
-src/maestro/data/
+data/
   it/
     grammar_points.json
     comm_functions.json
@@ -658,7 +658,7 @@ every abstraction from Phase 1.
 
 ### Step 2.1 — Create language data files
 
-**New directory: `src/maestro/data/de/`**
+**New directory: `data/de/`**
 
 Required files and how to source them:
 
@@ -983,19 +983,19 @@ Every file that needs modification, organized by phase.
 | `src/maestro/vocab/morphology/__init__.py` | Language dispatch for morphological processing |
 | `src/maestro/vocab/morphology/it.py` | Italian clitic/reflexive handling (extracted from `vocab/ingest.py`) |
 | `scripts/migrate_multilang.py` | One-time MongoDB migration |
-| `src/maestro/data/it/` | Directory containing all existing data files (moved) |
+| `data/it/` | Directory containing all existing data files (moved) |
 
 ### Phase 2 additional files
 
 | File | Purpose |
 |------|---------|
-| `src/maestro/data/de/grammar_points.json` | German grammar taxonomy |
-| `src/maestro/data/de/comm_functions.json` | German communicative functions |
-| `src/maestro/data/de/scenarios_a0.yaml` | German A0 scenarios |
-| `src/maestro/data/de/scenarios_a1.yaml` | German A1 scenarios |
-| `src/maestro/data/de/a0_lessons.yaml` | German static A0 lesson content |
-| `src/maestro/data/de/vocab_a0.json` | German A0 vocabulary |
-| `src/maestro/data/de/a0_grammar_explanations.json` | German A0 grammar explanations |
+| `data/de/grammar_points.json` | German grammar taxonomy |
+| `data/de/comm_functions.json` | German communicative functions |
+| `data/de/scenarios_a0.yaml` | German A0 scenarios |
+| `data/de/scenarios_a1.yaml` | German A1 scenarios |
+| `data/de/a0_lessons.yaml` | German static A0 lesson content |
+| `data/de/vocab_a0.json` | German A0 vocabulary |
+| `data/de/a0_grammar_explanations.json` | German A0 grammar explanations |
 | `src/maestro/i18n/de.json` | German template strings |
 | `src/maestro/vocab/morphology/de.py` | German morphological processing |
 | `templates/landing-de.html` | German landing page |

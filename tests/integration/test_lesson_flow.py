@@ -546,10 +546,10 @@ async def test_generate_lesson_feedback_uses_prefetched_events(db):
 async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     """analyze_lesson should aggregate per-activity events and create a summary event."""
     from maestro.learning.lesson_analyzer import analyze_lesson
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = await GrammarPoint.find_all().to_list()
-    taxonomy.seed(gps=gps, cfs=[])
+    grammar_cache.seed(gps=gps, cfs=[])
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
@@ -580,10 +580,10 @@ async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
 async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
     """Full pipeline: per-activity events → analyze_lesson → profile updated."""
     from maestro.learning.lesson_analyzer import analyze_lesson
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = await GrammarPoint.find_all().to_list()
-    taxonomy.seed(gps=gps, cfs=[])
+    grammar_cache.seed(gps=gps, cfs=[])
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
     await profile.insert()
@@ -608,13 +608,13 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
 async def test_analyze_lesson_no_text_skips_cf_analysis(db):
     """Lesson with only drill events (no student_text) → no LLM call."""
     from maestro.learning.lesson_analyzer import analyze_lesson
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gp = GrammarPoint(
         code="GP_ONLY", label="Solo", cefr_level="A1", category="t", description=""
     )
     await gp.insert()
-    taxonomy.seed(gps=[gp], cfs=[])
+    grammar_cache.seed(gps=[gp], cfs=[])
 
     lesson = Lesson(
         student_id=_FAKE_STUDENT_ID,

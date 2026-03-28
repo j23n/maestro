@@ -38,12 +38,12 @@ async def test_sync_skips_when_up_to_date():
     db, data_versions_coll = _make_db(stored_hash="abc123")
 
     with (
-        patch("maestro.learning.gp_sync._read_lock_hash", return_value="abc123"),
+        patch("maestro.sync.grammar._read_lock_hash", return_value="abc123"),
         patch(
-            "maestro.learning.ingest.upsert_grammar_points", new_callable=AsyncMock
+            "maestro.sync.ingest.upsert_grammar_points", new_callable=AsyncMock
         ) as mock_upsert,
     ):
-        from maestro.learning.gp_sync import sync_if_changed
+        from maestro.sync.grammar import sync_if_changed
 
         await sync_if_changed(db)
 
@@ -58,14 +58,14 @@ async def test_sync_runs_on_first_deploy():
     mock_gps = [MagicMock(), MagicMock()]
 
     with (
-        patch("maestro.learning.gp_sync._read_lock_hash", return_value="deadbeef"),
+        patch("maestro.sync.grammar._read_lock_hash", return_value="deadbeef"),
         patch(
-            "maestro.learning.ingest.upsert_grammar_points",
+            "maestro.sync.ingest.upsert_grammar_points",
             new_callable=AsyncMock,
             return_value=mock_gps,
         ),
     ):
-        from maestro.learning.gp_sync import sync_if_changed
+        from maestro.sync.grammar import sync_if_changed
 
         await sync_if_changed(db)
 
@@ -83,14 +83,14 @@ async def test_sync_runs_when_hash_changed():
     mock_gps = [MagicMock()]
 
     with (
-        patch("maestro.learning.gp_sync._read_lock_hash", return_value="new_hash"),
+        patch("maestro.sync.grammar._read_lock_hash", return_value="new_hash"),
         patch(
-            "maestro.learning.ingest.upsert_grammar_points",
+            "maestro.sync.ingest.upsert_grammar_points",
             new_callable=AsyncMock,
             return_value=mock_gps,
         ) as mock_upsert,
     ):
-        from maestro.learning.gp_sync import sync_if_changed
+        from maestro.sync.grammar import sync_if_changed
 
         await sync_if_changed(db)
 
@@ -105,15 +105,15 @@ async def test_sync_skips_when_lock_missing(caplog):
     db, data_versions_coll = _make_db()
 
     with (
-        patch("maestro.learning.gp_sync._read_lock_hash", return_value=None),
+        patch("maestro.sync.grammar._read_lock_hash", return_value=None),
         patch(
-            "maestro.learning.ingest.upsert_grammar_points", new_callable=AsyncMock
+            "maestro.sync.ingest.upsert_grammar_points", new_callable=AsyncMock
         ) as mock_upsert,
     ):
         import logging
 
-        with caplog.at_level(logging.WARNING, logger="maestro.learning.gp_sync"):
-            from maestro.learning.gp_sync import sync_if_changed
+        with caplog.at_level(logging.WARNING, logger="maestro.sync.grammar"):
+            from maestro.sync.grammar import sync_if_changed
 
             await sync_if_changed(db)
 
@@ -132,14 +132,14 @@ def test_read_lock_hash_returns_sha(tmp_path):
     lock_file = tmp_path / "grammar_points.lock"
     lock_file.write_text(json.dumps({"sha256": "cafebabe", "gp_count": 10}))
 
-    from maestro.learning.gp_sync import _read_lock_hash
+    from maestro.sync.grammar import _read_lock_hash
 
     assert _read_lock_hash(lock_file) == "cafebabe"
 
 
 def test_read_lock_hash_returns_none_when_missing(tmp_path):
     """Returns None when the lock file does not exist."""
-    from maestro.learning.gp_sync import _read_lock_hash
+    from maestro.sync.grammar import _read_lock_hash
 
     assert _read_lock_hash(tmp_path / "nonexistent.lock") is None
 
@@ -149,6 +149,6 @@ def test_read_lock_hash_returns_none_on_corrupt_file(tmp_path):
     lock_file = tmp_path / "grammar_points.lock"
     lock_file.write_text("not valid json {{")
 
-    from maestro.learning.gp_sync import _read_lock_hash
+    from maestro.sync.grammar import _read_lock_hash
 
     assert _read_lock_hash(lock_file) is None

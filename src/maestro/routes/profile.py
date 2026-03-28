@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 from maestro.auth import get_current_student
 from maestro.models import (
     CurriculumScenario,
@@ -13,7 +13,7 @@ from maestro.models import (
     Student,
     UserVocabularyCard,
 )
-from maestro.profile import get_profile, get_or_create_profile
+from maestro.learning.profile import get_profile, get_or_create_profile
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER
 from maestro.lessons.curriculum import (
@@ -172,9 +172,9 @@ async def profile_page(
     request: Request, student: Student = Depends(get_current_student)
 ):
     profile = await get_profile(student.id)
-    await taxonomy.ensure_loaded()
-    grammar_points = taxonomy.grammar_points()
-    comm_functions = taxonomy.comm_functions()
+    await grammar_cache.ensure_loaded()
+    grammar_points = grammar_cache.grammar_points()
+    comm_functions = grammar_cache.comm_functions()
 
     cefr = profile.cefr_estimate if profile else "A0"
     gp_titles = build_gp_titles(grammar_points, cefr)

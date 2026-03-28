@@ -21,7 +21,7 @@ from maestro.models import (
     LessonStatus,
 )
 from maestro.utils import utcnow
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 
 
 # ---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ async def test_malformed_llm_json_raises(mock_scorer_client, db):
         category="test",
     )
     await gp.insert()
-    taxonomy.seed([gp], [])
+    grammar_cache.seed([gp], [])
 
     # Mock LLM to return non-JSON
     mock_scorer_client.messages.create.return_value = MagicMock(
@@ -71,7 +71,7 @@ async def test_malformed_llm_json_writing_raises(mock_scorer_client, db):
         category="test",
     )
     await gp.insert()
-    taxonomy.seed([gp], [])
+    grammar_cache.seed([gp], [])
 
     mock_scorer_client.messages.create.return_value = MagicMock(
         content=[MagicMock(text="Not JSON")]
@@ -217,7 +217,7 @@ def _seed_gp(gp_code="GP_TEST"):
         cefr_level="A1",
         category="test",
     )
-    taxonomy.seed([gp], [])
+    grammar_cache.seed([gp], [])
     return gp
 
 

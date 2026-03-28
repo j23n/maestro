@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/grammar_points.lock after modifying grammar_points.yaml.
+"""Recompute data/it/grammar_points.lock after modifying grammar_points.yaml.
 
 The lock file stores the SHA256 hash of grammar_points.yaml and is committed to the repo.
 At app startup, gp_sync compares this hash against what's stored in the database and
@@ -17,8 +17,8 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GP_YAML = REPO_ROOT / "src/maestro/data/it/grammar_points.yaml"
-LOCK_FILE = REPO_ROOT / "src/maestro/data/it/grammar_points.lock"
+GP_YAML = REPO_ROOT / "data/it/grammar_points.yaml"
+LOCK_FILE = REPO_ROOT / "data/it/grammar_points.lock"
 
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 

@@ -29,7 +29,7 @@ def seed_cache_for_scoring():
     Using the full 231-GP list makes the grammar_code_list section of the
     score_multi_item_drill prompt enormous and degrades model accuracy.
     """
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     cases = json.loads((FIXTURES_DIR / "scoring_cases.json").read_text())
     codes = {c["grammar_point_code"] for c in cases}
@@ -37,11 +37,11 @@ def seed_cache_for_scoring():
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     relevant = [g for g in gps if g["code"] in codes]
 
-    taxonomy.seed(gps=[SimpleNamespace(**g) for g in relevant])
+    grammar_cache.seed(gps=[SimpleNamespace(**g) for g in relevant])
 
     yield
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 @pytest.mark.llm_eval

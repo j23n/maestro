@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 
-from maestro import taxonomy
+from maestro.learning import grammar_cache
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
@@ -64,7 +64,7 @@ def _validate_results(result: list, n: int, label: str) -> list[dict]:
 def _grammar_code_list(cefr_level: str) -> str:
     return "\n".join(
         f"  {g.code}: {g.label}"
-        for g in taxonomy.grammar_points()
+        for g in grammar_cache.grammar_points()
         if g.cefr_level == cefr_level
     )
 
@@ -97,7 +97,7 @@ async def _score_single(
     lesson_id=None,
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation."""
-    await taxonomy.ensure_loaded()
+    await grammar_cache.ensure_loaded()
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s", label, effective_model)
     response = await llm_messages_create(
@@ -154,7 +154,7 @@ async def _score_multi(
     """LLM call -> JSON array parse -> per-item ScoringResult validation."""
     if n == 0:
         return []
-    await taxonomy.ensure_loaded()
+    await grammar_cache.ensure_loaded()
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s (n=%d)", label, effective_model, n)
     response = await llm_messages_create(
@@ -339,8 +339,8 @@ async def score_multi_item_drill(
         },
     )
 
-    await taxonomy.ensure_loaded()
-    gp_lookup = {g.code: g.label for g in taxonomy.grammar_points()}
+    await grammar_cache.ensure_loaded()
+    gp_lookup = {g.code: g.label for g in grammar_cache.grammar_points()}
 
     rule_block = f"\n\nGrammar rule reference:\n{rag_content}" if rag_content else ""
 

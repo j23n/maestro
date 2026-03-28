@@ -53,14 +53,14 @@ def seed_cache_for_scoring():
     comparable across the two tests, but the model-vs-model comparison
     within this test is valid since all models see the same prompt.
     """
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     a1_gps = [g for g in gps if g.get("cefr_level") == "A1"]
 
-    taxonomy.seed(gps=[SimpleNamespace(**g) for g in a1_gps])
+    grammar_cache.seed(gps=[SimpleNamespace(**g) for g in a1_gps])
     yield
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 def _compute_metrics(results: list[dict]) -> dict:

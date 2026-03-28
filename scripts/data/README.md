@@ -1,6 +1,6 @@
 # Grammar Data Pipeline
 
-All offline scripts that build and maintain `src/maestro/data/it/grammar_points.yaml` —
+All offline scripts that build and maintain `data/it/grammar_points.yaml` —
 the single source of truth for grammar point data. Changes propagate to MongoDB via ingest.
 
 Run all scripts from the repo root with `uv run python scripts/data/<script>.py`.
@@ -51,7 +51,7 @@ separate-collection model to the inline model.
 
 ### 6. Ingest YAML → MongoDB
 ```
-uv run python -m maestro.learning.ingest
+uv run python -m maestro.sync.ingest
 ```
 Upserts all GPs (labels, codes, chunk_refs, explanations) into MongoDB.
 Also ingests vocab, communicative functions, and curriculum scenarios.
@@ -78,9 +78,9 @@ Use `--clear` to wipe and regenerate from scratch. Use `--level` or `--code` to 
 
 | File | Description |
 |------|-------------|
-| `src/maestro/data/it/grammar_points.yaml` | Master GP list — 344 entries |
-| `src/maestro/data/it/chunk_enrichment.json` | 124 grammar book chunk descriptions |
-| `src/maestro/data/it/grammar_point_chunks.yaml` | Legacy YAML chunk mapping (superseded) |
+| `data/it/grammar_points.yaml` | Master GP list — 344 entries |
+| `data/it/chunk_enrichment.json` | 124 grammar book chunk descriptions |
+| `data/it/grammar_point_chunks.yaml` | Legacy YAML chunk mapping (superseded) |
 
 ### GP YAML fields
 

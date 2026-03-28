@@ -19,7 +19,7 @@ import sys
 
 import yaml
 
-YAML_PATH = "src/maestro/data/it/grammar_points.yaml"
+YAML_PATH = "data/it/grammar_points.yaml"
 
 
 class LiteralStr(str):

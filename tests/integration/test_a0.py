@@ -403,7 +403,7 @@ def test_onboarding_submit_saves_background(test_app, student, db):
 
     async def _setup():
         # Create a profile first
-        from maestro.profile import get_or_create_profile
+        from maestro.learning.profile import get_or_create_profile
 
         await get_or_create_profile(student.id)
 
@@ -530,7 +530,7 @@ def test_signup_then_onboarding_saves_name(auth_app, db):
 async def test_skip_onboarding_sets_flags_and_graduates(db):
     """_skip_onboarding should set flags, credit mastery, and graduate to A1."""
     from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
-    from maestro.profile import get_or_create_profile
+    from maestro.learning.profile import get_or_create_profile
 
     student = Student(name="")
     await student.insert()
@@ -589,7 +589,7 @@ async def test_skip_onboarding_sets_flags_and_graduates(db):
 async def test_skip_onboarding_already_past_a0(db):
     """_skip_onboarding should return False if already past A0."""
     from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
-    from maestro.profile import get_or_create_profile
+    from maestro.learning.profile import get_or_create_profile
 
     student = Student(name="")
     await student.insert()
@@ -606,7 +606,7 @@ async def test_skip_onboarding_already_past_a0(db):
 async def test_skip_onboarding_abandons_active_lesson(db):
     """_skip_onboarding should abandon any active A0 lesson."""
     from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
-    from maestro.profile import get_or_create_profile
+    from maestro.learning.profile import get_or_create_profile
     from maestro.utils import utcnow
 
     student = Student(name="")
@@ -720,7 +720,7 @@ def test_skip_onboarding_route(test_app, student, db):
     import asyncio
 
     async def _setup():
-        from maestro.profile import get_or_create_profile
+        from maestro.learning.profile import get_or_create_profile
 
         await get_or_create_profile(student.id)
         s1 = CurriculumScenario(

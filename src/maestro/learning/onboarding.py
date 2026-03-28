@@ -8,7 +8,7 @@ from maestro.models import (
     LessonStatus,
     ScenarioProgress,
 )
-from maestro.profile import get_or_create_profile
+from maestro.learning.profile import get_or_create_profile
 from maestro.utils import utcnow
 
 

@@ -59,7 +59,7 @@ async def sync_if_changed(db) -> None:
         lock_sha[:16],
     )
 
-    from maestro.learning.ingest import upsert_grammar_points
+    from maestro.sync.ingest import upsert_grammar_points
 
     grammar_points = await upsert_grammar_points()
 

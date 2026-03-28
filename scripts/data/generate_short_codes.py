@@ -197,7 +197,7 @@ def generate(force: bool = False) -> None:
     logger.info(
         f"Done. Updated {len(todo_indices)} codes in grammar_points.yaml.\n"
         "Next steps:\n"
-        "  1. python -m maestro.learning.ingest\n"
+        "  1. python -m maestro.sync.ingest\n"
         "  2. Migration 0003_short_codes runs on next app startup"
     )
 

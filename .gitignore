@@ -2,11 +2,11 @@
 .env.scripts
 __pycache__
 
-src/maestro/data/it/grammar_book.epub
-src/maestro/data/it/book_contents/
-src/maestro/data/it/it-dictionary.gz
-src/maestro/data/it/dizionario.epub
-src/maestro/data/it/dizionario_book/
+data/it/grammar_book.epub
+data/it/book_contents/
+data/it/it-dictionary.gz
+data/it/dizionario.epub
+data/it/dizionario_book/
 data/seed/*
 !data/seed/current/
 src/maestro/static/audio/*.wav

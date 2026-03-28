@@ -33,7 +33,7 @@ from maestro.models import (
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
-from maestro.profile import get_profile
+from maestro.learning.profile import get_profile
 from maestro.utils import (
     explanation_lang_for_level,
     parse_llm_json,
@@ -59,7 +59,7 @@ from maestro.lessons.selection import (
     pick_comm_functions,
     get_due_vocab_cards,
 )
-from maestro.strings import t
+from maestro.i18n import strings_t as t
 
 logger = logging.getLogger(__name__)
 

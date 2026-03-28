@@ -13,7 +13,7 @@ from maestro.models import (
     VocabularyWordDefinition,
     UserVocabularyCard,
 )
-from maestro.profile import get_cefr_level
+from maestro.learning.profile import get_cefr_level
 from maestro.utils import create_background_task
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp

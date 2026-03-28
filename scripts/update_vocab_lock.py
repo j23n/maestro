@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/vocab_a0.lock after modifying vocab_a0.yaml.
+"""Recompute data/it/vocab_a0.lock after modifying vocab_a0.yaml.
 
 The lock file stores the SHA256 hash of vocab_a0.yaml and is committed to the repo.
 At app startup, vocab_sync compares this hash against what's stored in the database and
@@ -17,8 +17,8 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-VOCAB_YAML = REPO_ROOT / "src/maestro/data/it/vocab_a0.yaml"
-LOCK_FILE = REPO_ROOT / "src/maestro/data/it/vocab_a0.lock"
+VOCAB_YAML = REPO_ROOT / "data/it/vocab_a0.yaml"
+LOCK_FILE = REPO_ROOT / "data/it/vocab_a0.lock"
 
 
 def compute_lock(data: list, sha: str) -> dict:

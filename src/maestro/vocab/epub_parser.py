@@ -2,7 +2,7 @@
 EPUB → TEI Lex-0 parser for the dizionario italiano di base.
 
 Run with:  python -m maestro.vocab.epub_parser
-Outputs:   src/maestro/data/dizionario_it_lex0.xml
+Outputs:   data/dizionario_it_lex0.xml
 
 Also provides parse_epub() → {epub_by_form, epub_by_lemma} for direct import
 by the ingest script (avoids re-parsing XML).

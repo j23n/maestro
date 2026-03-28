@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -12,7 +13,13 @@ from beanie import init_beanie
 
 from maestro.models import ALL_DOCUMENT_MODELS
 
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_DATA_DIR = _REPO_ROOT / "data" / "it"
+
+# Allow importing scripts under scripts/data/ (e.g. generate_explanations)
+_SCRIPTS_DATA = str(_REPO_ROOT / "scripts" / "data")
+if _SCRIPTS_DATA not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DATA)
 _PROMPTS_DIR = Path(__file__).parent.parent.parent / "prompts"
 _LOCK_FILE = _PROMPTS_DIR / "versions.lock"
 
@@ -66,7 +73,7 @@ def use_eval_model(monkeypatch):
     monkeypatch.setattr(settings, "SCORING_MODEL", settings.EVAL_MODEL)
 
     import maestro.vocab.generate_definitions as _vocab_mod
-    import maestro.grammar.generate_explanations as _grammar_mod
+    import generate_explanations as _grammar_mod
 
     monkeypatch.setattr(_vocab_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
     monkeypatch.setattr(_grammar_mod.settings, "EXPLANATION_MODEL", settings.EVAL_MODEL)
@@ -193,19 +200,19 @@ def record_item():
 @pytest.fixture
 async def seeded_lesson_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for lesson_analyzer tests."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[SimpleNamespace(**g) for g in gps],
         cfs=[SimpleNamespace(**c) for c in cfs],
     )
 
     yield
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
 
 
 @pytest.fixture
@@ -223,16 +230,16 @@ async def eval_student(db):
 @pytest.fixture
 async def seeded_analyzer_cache(db):
     """Seed the taxonomy cache from JSON data files for analyzer tests."""
-    from maestro import taxonomy
+    from maestro.learning import grammar_cache
 
     gps = yaml.safe_load((_DATA_DIR / "grammar_points.yaml").read_text())
     cfs = json.loads((_DATA_DIR / "comm_functions.json").read_text())
 
-    taxonomy.seed(
+    grammar_cache.seed(
         gps=[SimpleNamespace(**g) for g in gps],
         cfs=[SimpleNamespace(**cf) for cf in cfs],
     )
 
     yield
 
-    taxonomy.invalidate()
+    grammar_cache.invalidate()
