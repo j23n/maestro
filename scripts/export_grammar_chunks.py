@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Export GrammarChunk content to a static JSON file for offline explanation generation.
 
-Writes src/maestro/data/it/grammar_chunk_contents.json:
+Writes data/it/grammar_chunk_contents.json:
   { "chunk_ref": "markdown content ...", ... }
 
 Run this once after ingesting the grammar book, then commit the output.
@@ -15,7 +15,7 @@ import json
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUT_FILE = REPO_ROOT / "src/maestro/data/it/grammar_chunk_contents.json"
+OUT_FILE = REPO_ROOT / "data/it/grammar_chunk_contents.json"
 
 
 async def main() -> None:

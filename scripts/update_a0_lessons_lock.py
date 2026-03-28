@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute src/maestro/data/it/a0_lessons.lock after modifying a0_lessons.yaml or scenarios_a0.yaml.
+"""Recompute data/it/a0_lessons.lock after modifying a0_lessons.yaml or scenarios_a0.yaml.
 
 The lock file stores a combined SHA256 hash of both files (they must stay in sync)
 and is committed to the repo. At app startup, a0_lessons_sync compares this hash
@@ -21,9 +21,9 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-LESSONS_YAML = REPO_ROOT / "src/maestro/data/it/a0_lessons.yaml"
-SCENARIOS_YAML = REPO_ROOT / "src/maestro/data/it/scenarios_a0.yaml"
-LOCK_FILE = REPO_ROOT / "src/maestro/data/it/a0_lessons.lock"
+LESSONS_YAML = REPO_ROOT / "data/it/a0_lessons.yaml"
+SCENARIOS_YAML = REPO_ROOT / "data/it/scenarios_a0.yaml"
+LOCK_FILE = REPO_ROOT / "data/it/a0_lessons.lock"
 
 # Bump this to force a re-sync even when source files haven't changed
 # (e.g. to regenerate audio after a TTS fix).

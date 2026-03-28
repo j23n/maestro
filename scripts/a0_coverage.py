@@ -16,7 +16,7 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = REPO_ROOT / "src/maestro/data/it"
+DATA_DIR = REPO_ROOT / "data/it"
 LESSONS_YAML = DATA_DIR / "a0_lessons.yaml"
 SCENARIOS_YAML = DATA_DIR / "scenarios_a0.yaml"
 GRAMMAR_POINTS_YAML = DATA_DIR / "grammar_points.yaml"

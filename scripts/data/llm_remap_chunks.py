@@ -23,7 +23,7 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = "src/maestro/data/it"
+DATA_DIR = "data/it"
 
 
 class LiteralStr(str):

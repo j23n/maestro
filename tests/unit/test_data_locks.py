@@ -13,7 +13,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "src" / "maestro" / "data" / "it"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "it"
 
 
 @pytest.mark.parametrize(
