@@ -766,17 +766,16 @@ async def lesson_activity(
             if cf_codes
             else []
         )
-        # Build English titles from GP explanations (same approach as grammar index)
+        # Build English titles + summaries from GP explanations
         gp_titles = {}
-        for gp in grammar_points:
-            expl = gp.explanations.get("en") or gp.explanations.get("it")
-            if expl and expl.title:
-                gp_titles[gp.code] = strip_lang_spans(expl.title)
         gp_summaries = {}
         for gp in grammar_points:
             expl = gp.explanations.get("en") or gp.explanations.get("it")
-            if expl and expl.why_this_matters:
-                gp_summaries[gp.code] = strip_lang_spans(expl.why_this_matters)
+            if expl:
+                if expl.title:
+                    gp_titles[gp.code] = strip_lang_spans(expl.title)
+                if expl.why_this_matters:
+                    gp_summaries[gp.code] = strip_lang_spans(expl.why_this_matters)
         ctx["grammar_points"] = grammar_points
         ctx["gp_titles"] = gp_titles
         ctx["gp_summaries"] = gp_summaries

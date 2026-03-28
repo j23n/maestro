@@ -1,5 +1,9 @@
 {% extends "lesson-activity-simple.html" %}
 
+{% block activity_head %}
+<link rel="stylesheet" href="/static/lesson-intro.css">
+{% endblock %}
+
 {% block card_content %}
   <div class="card-label">{{ t("intro_label") }}</div>
   <h2 class="intro-scenario-title">{{ activity.title }}</h2>
@@ -67,6 +71,25 @@
       if (e.target.closest('#gp-tooltip')) { _gpPopup.scheduleHide(); return; }
       if (!e.target.closest('.intro-gp-link')) return;
       _gpPopup.scheduleHide();
+    });
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('#gp-tooltip')) return;
+      var link = e.target.closest('.intro-gp-link');
+      if (!link) { _gpPopup.hide(); return; }
+      var summary = link.dataset.gpSummary;
+      if (!summary) return;
+      var tooltip = _gpTtEl();
+      if (!tooltip) return;
+      var title = link.textContent.trim();
+      if (tooltip.style.display !== 'none'
+          && tooltip.querySelector('.gp-tt-title').textContent === title) {
+        _gpPopup.hide();
+      } else {
+        _gpPopup.cancelHide();
+        tooltip.querySelector('.gp-tt-title').textContent = title;
+        tooltip.querySelector('.gp-tt-summary').textContent = summary;
+        _gpPopup.show(link);
+      }
     });
   }
   </script>
