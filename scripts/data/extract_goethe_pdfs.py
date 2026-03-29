@@ -4,11 +4,11 @@ from Goethe-Institut Prüfungsziele/Testbeschreibung PDFs for A1 and A2.
 
 Requires: pdftotext (from poppler-utils) installed on the system.
 
-Source PDFs (downloaded from goethe.de, stored in src/maestro/data/de/pdfs/):
+Source PDFs (downloaded from goethe.de, stored in data/de/pdfs/):
   - Pruefungsziele_Testbeschreibung_A1_SD1.pdf  (Start Deutsch 1)
   - Pruefungsziele_Testbeschreibung_A2_SD2.pdf  (Start Deutsch 2)
 
-Output: cleaned text files in src/maestro/data/de/extracted/
+Output: cleaned text files in data/de/extracted/
   - A1_grammatik.txt, A2_grammatik.txt
   - A1_sprachhandlungen.txt, A2_sprachhandlungen.txt
   - A1_strategien.txt, A2_strategien.txt

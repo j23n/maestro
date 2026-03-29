@@ -2517,7 +2517,7 @@
     "description": "Using a definition or circumlocution to explain an individual word or concept to the listener at A2 level."
   },
   {
-    "code": "check_understanding_",
+    "code": "check_understanding",
     "label": "Rückfragen zur Verständniskontrolle",
     "macro_category": "verstaendnissicherung",
     "cefr_level": "A2",
@@ -2711,7 +2711,7 @@
     "description": "Explicitly stating that a word is unknown or has been forgotten as a compensation strategy at A2 level."
   },
   {
-    "code": "check_comprehension_",
+    "code": "check_comprehension",
     "label": "nachfragen, ob man verstanden wurde",
     "macro_category": "kompensation",
     "cefr_level": "A2",

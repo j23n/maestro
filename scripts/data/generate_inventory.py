@@ -2,7 +2,7 @@
 Generate structured grammar points (GPs) and communicative functions (CFs) from
 extracted Goethe-Institut PDF text using LLM-assisted parsing.
 
-Reads cleaned text files in src/maestro/data/<lang>/extracted/ and uses Claude to
+Reads cleaned text files in data/<lang>/extracted/ and uses Claude to
 parse them into structured YAML (GPs) and JSON (CFs) matching the existing data
 schema.
 
@@ -353,7 +353,7 @@ def _sanitize_code(code: str, max_len: int = 20) -> str:
     code = code.lower().strip()
     code = re.sub(r"[^a-z0-9_]", "_", code)
     code = re.sub(r"_+", "_", code).strip("_")
-    return code[:max_len]
+    return code[:max_len].rstrip("_")
 
 
 def _call_llm(
