@@ -223,6 +223,9 @@ class GrammarPoint(Document):
     label: str
     cefr_level: str
     category: str
+    subcategory: str = ""
+    description: str = ""
+    examples: List[str] = Field(default_factory=list)
     chunk_ref: Optional[str] = (
         None  # GrammarChunk.ref — set from mapping file at ingest
     )

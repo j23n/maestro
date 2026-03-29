@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Recompute data/it/grammar_points.lock after modifying grammar_points.yaml.
+"""Recompute grammar_points.lock after modifying grammar_points.yaml.
 
 The lock file stores the SHA256 hash of grammar_points.yaml and is committed to the repo.
 At app startup, gp_sync compares this hash against what's stored in the database and
 re-runs ingest if they differ — ensuring the DB always matches the committed YAML.
 
-Usage: uv run python scripts/update_gp_lock.py
+Usage:
+  uv run python scripts/update_gp_lock.py             # Italian (default)
+  uv run python scripts/update_gp_lock.py --language de
 """
 
+import argparse
 import hashlib
 import json
 import sys
@@ -17,8 +20,11 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GP_YAML = REPO_ROOT / "data/it/grammar_points.yaml"
-LOCK_FILE = REPO_ROOT / "data/it/grammar_points.lock"
+
+
+def _data_dir(language: str) -> Path:
+    return REPO_ROOT / "data" / language
+
 
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
@@ -60,23 +66,31 @@ def _format_level_summary(by_level: dict[str, dict[str, int]], data: list) -> li
 
 
 def main() -> None:
-    if not GP_YAML.exists():
-        print(f"ERROR: {GP_YAML} not found", file=sys.stderr)
+    parser = argparse.ArgumentParser(description="Update grammar_points.lock")
+    parser.add_argument("--language", default="it", help="Language code (default: it)")
+    args = parser.parse_args()
+
+    data_dir = _data_dir(args.language)
+    gp_yaml = data_dir / "grammar_points.yaml"
+    lock_file = data_dir / "grammar_points.lock"
+
+    if not gp_yaml.exists():
+        print(f"ERROR: {gp_yaml} not found", file=sys.stderr)
         sys.exit(1)
 
-    content = GP_YAML.read_bytes()
+    content = gp_yaml.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
     data = yaml.safe_load(content)
 
     old_sha = None
-    if LOCK_FILE.exists():
+    if lock_file.exists():
         try:
-            old_sha = json.loads(LOCK_FILE.read_text())["sha256"]
+            old_sha = json.loads(lock_file.read_text())["sha256"]
         except Exception:
             pass
 
     lock = compute_lock(data, sha)
-    LOCK_FILE.write_text(json.dumps(lock, indent=2) + "\n")
+    lock_file.write_text(json.dumps(lock, indent=2) + "\n")
 
     if old_sha is None:
         print(f"  + grammar_points.lock: created (gps={lock['gp_count']})")
@@ -88,7 +102,7 @@ def main() -> None:
     for line in _format_level_summary(lock["explanations_by_level"], data):
         print(line)
 
-    print(f"\nLock file written: {LOCK_FILE}")
+    print(f"\nLock file written: {lock_file}")
 
 
 if __name__ == "__main__":

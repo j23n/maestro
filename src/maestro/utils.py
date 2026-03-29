@@ -9,8 +9,10 @@ CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
 def explanation_lang_for_level(cefr: str) -> str:
-    """Return 'it' for B1/B2, 'en' for all others (A0/A1/A2)."""
-    return "it" if cefr in ("B1", "B2") else "en"
+    """Return the target language for B1/B2 explanations, 'en' for A0/A1/A2."""
+    from maestro.config import settings
+
+    return settings.TARGET_LANGUAGE if cefr in ("B1", "B2") else "en"
 
 
 def cefr_levels_up_to(level: str) -> list[str]:
