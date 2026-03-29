@@ -1,3 +1,521 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7bc6b534c8fb3205c370ca51c2933eac2e520bb136fca2b1c8273e99237087f0
-size 8176
+Sprachhandlungen
+Die Sprachhandlungen definieren die sprachlichen Intentionen, die Teilnehmende in der deutschen Sprache realisieren können sollen.
+Informationsaustausch
+• benennen/definieren/
+identifizieren
+• beschreiben
+• erklären
+• berichten
+
+•
+•
+•
+•
+
+Mitteilung/Ankündigung
+Nachfrage
+Zweck und Bestimmung angeben
+Wissen/Unwissen
+
+Bewertung, Kommentar
+• Meinung/Ansicht
+• Zufriedenheit/Unzufriedenheit
+• Gefallen/Missfallen
+• Interesse/Desinteresse
+• Billigung/Missbilligung
+• Zustimmung/Ablehnung
+
+•
+•
+•
+•
+•
+•
+
+Wunsch
+Vorlieben
+Wichtigkeit
+verneinen/Widerspruch
+Beschwerde
+Rechtfertigung/Begründung
+
+Gefühlsausdruck
+• Freude/Bedauern
+• Neigung/Abneigung
+• Gelassenheit/Gleichgültigkeit
+• Mitgefühl
+
+•
+•
+•
+•
+
+Erstaunen/Überraschung
+Hoffnung
+Sorge/Befürchtung
+Enttäuschung
+
+•
+•
+•
+•
+•
+
+Erlaubnis/Genehmigung
+Vorschlag
+Versprechung
+Einladung
+Verabredung
+
+•
+
+eine Anerkennung aussprechen/
+ein Kompliment machen
+Dank
+Entschuldigung
+Verabschiedung
+
+Handlungs­regulierung
+• Bitte/Aufforderung
+• Bestätigung
+• Hilfe anbieten/annehmen und
+ablehnen
+• Bestellung/Wunsch
+• Rat/Empfehlung/Warnung
+
+
+Soziale Konventionen
+• Kontaktaufnahme: ansprechen
+• grüßen
+• sich/jemanden vorstellen
+• über das Befinden sprechen
+• gute Wünsche
+• Gratulation
+
+•
+•
+•
+
+
+Informations­austausch
+
+benennen/
+definieren/
+identifizieren
+
+Wer ist das?
+Das ist Wolfgang/Frau Schuster/
+meine Kollegin.
+Was ist das?
+Das ist eine Blume.
+Ist das eine Orange?
+Nein, eine Zitrone.
+Wie heißt das auf Deutsch?
+Erklären Sie mal.
+
+Der Film heißt „Abgeschminkt“.
+Diese CD gehört mir.
+
+beschreiben
+
+Wie sieht die Tasche aus?
+Sie ist braun.
+
+erklären
+
+Wie geht das?
+
+berichten
+
+Was ist passiert?
+Ich hatte einen Unfall.
+
+Mitteilung/Ankündigung
+
+Was machst du heute Abend?
+Ich besuche Freunde.
+
+Wann fährst du (wieder)?
+
+
+Nächstes Jahr fahren wir nach
+Griechenland.
+
+Zweck und Bestimmung angeben
+
+Was ist das?
+
+Wissen/Unwissen
+
+Weiß sie das?
+Ja./Nein./Vielleicht.
+
+
+Bewertung, Kommentar
+
+Zufriedenheit/Unzufriedenheit
+
+Wie waren eure Ferien?
+(Sehr) Schön./Prima./(Ganz) Gut./
+(Nicht) Schlecht.
+
+
+Der Film war sehr gut.
+
+Gefallen/Missfallen
+
+Was denkst du? Gefällt es dir hier?
+Ja (sehr)./(Es ist) Super!/Toll!/Klasse!
+Nein, leider nicht.
+Gefällt es Ihnen?
+Ich finde es toll/(sehr) schön/
+gut/prima.
+Ich bin zufrieden./Das finde ich nicht
+gut/hässlich/langweilig.
+Das Hotel gefällt mir nicht./
+Ich finde es hier langweilig.
+Das Restaurant sieht gut/nett/
+schrecklich aus.
+Ich liebe diese Stadt./Ich mag diese
+Stadt nicht.
+
+Interesse/Desinteresse
+
+Gefallen dir die Geschenke?
+Ja klar./Na ja, es geht./Nicht so.
+Was sind deine Hobbys?
+
+Billigung/Missbilligung
+
+Wie findest du das?
+Gut./(Un-) Interessant./Es geht./
+Langweilig./(Nicht) Schlecht.
+Wie finden Sie das Lehrbuch?
+Es ist (sehr) interessant/zu langweilig.
+So geht das nicht.
+
+Zustimmung/Ablehnung
+
+Das stimmt (nicht).
+Das ist richtig/falsch.
+
+Wunsch
+
+Was wollen wir heute Abend
+machen?
+Willst du auf das Fest gehen?
+Möchten Sie noch etwas Milch?
+Ich möchte einen Kaffee./Peter will
+ein Eis.
+Ich möchte den Film sehen.
+Ich brauche jetzt eine Pause.
+
+
+Vorlieben
+
+Tee oder Kaffee?
+Kaffee, bitte.
+Magst du Tee oder Kaffee?
+Ich trinke lieber Tee.
+Nichts, danke.
+
+Wichtigkeit
+
+Ist das (wirklich) wichtig?
+Das ist (schon/sehr) wichtig.
+Nicht so wichtig.
+
+verneinen/Widerspruch
+
+Nein!/Doch!/Das stimmt
+nicht./Das ist falsch./Unsinn!
+
+Beschwerde
+
+Es ist zu warm hier!/Das ist zu teuer!
+Entschuldigen Sie, die Heizung funktioniert nicht.
+
+Rechtfertigung/Begründung
+
+Warum kommst du nicht?
+Ich habe keine Zeit.
+Seine Mutter ist krank. Deshalb
+kommt er heute nicht.
+
+
+Gefühlsausdruck
+Freude/Bedauern
+
+Ist das nicht toll!
+Ja, super!/Finde ich auch.
+Ich bin glücklich. Und du?
+Sehr.
+Glückwunsch!
+Danke!
+Leider./Das ist schade!/Das tut mir
+leid.
+
+Neigung/Abneigung
+
+Schmeckt‘s dir nicht?
+Doch, sehr gut.
+Nein, ich mag eigentlich keinen
+Fisch.
+Isst du gern Chinesisch?
+Ja, gern(e)./Nein, nie.
+
+Gelassenheit/Gleichgültigkeit
+
+Ich kann leider nicht kommen.
+Egal./Na und?
+Das ist mir egal
+
+Mitleid
+
+(Es) Tut mir (wirklich) (sehr) leid.
+Das finde ich aber traurig.
+
+Erstaunen/Überraschung
+
+Komisch!/Das ist ja komisch!/Wie
+komisch!
+Ja, sehr komisch.
+
+Hoffnung
+
+Hoffentlich regnet es nicht.
+Hoffentlich kommt bald der Bus.
+
+Sorge/Befürchtung
+
+Ich habe Angst.
+Schon 10 Uhr, und er ist immer noch
+nicht da.
+
+Enttäuschung
+
+Was? Du bleibst zu Hause? Schade!
+
+
+Handlungs­regulierung
+Bitte/Aufforderung
+
+Kaufst du bitte Brot?
+Kannst du Milch kaufen?
+Haben Sie eine Briefmarke?
+Na klar./Aber natürlich./Ja, natürlich.
+Gehen wir zusammen essen?
+Gerne.
+Eine Frage bitte: Wie spät ist es?
+Es ist halb acht (Uhr).
+
+Bestätigung
+
+Stimmt das?/Richtig?
+Ja./Doch./Das ist richtig./Stimmt./
+Genau (so).
+
+Hilfe anbieten/annehmen und
+ablehnen
+
+Kann ich Ihnen helfen?
+Ja, danke./Gerne./Sehr nett,
+danke.
+Nein, danke.
+
+Bestellung und Wunsch
+
+Ich möchte ein Zimmer reservieren.
+Ich nehme die Tomatensuppe und
+den Salat.
+Einen Moment./Sofort./Gleich.
+
+Rat/Empfehlung/Warnung
+
+Das ist zu gefährlich/heiß/kalt/...
+Vorsicht!/Achtung!/Halt!/Hilfe!/
+Stopp!
+
+Erlaubnis/Genehmigung
+
+Kann man hier rauchen?/
+Gerne./Natürlich./Ja natürlich.
+Bitte nicht./Nein, tut mir leid./Das ist
+hier verboten.
+Kann ich mal telefonieren?
+Kann man hier parken?
+Nein, hier ist Parken verboten.
+
+Vorschlag
+
+Gehen wir heute ins Kino?
+Ja, gerne.
+Kommst du mit zu Claudia?
+Gute Idee./Ja, warum nicht./Gut.
+Nein, leider nicht./Keine Lust/Zeit.
+
+
+Versprechungen
+
+Morgen bekommst du das Geld.
+Gut./Danke.
+Hoffentlich!
+Wirklich?/Versprochen?
+Ich mache es morgen.
+Das mache ich!
+
+Verabredung
+
+Kannst du morgen Abend?/Hast du
+am Mittwoch Zeit?
+Ja, wann?/Ja, das ist gut.
+Vielleicht.
+Nein, (morgen kann ich/geht es)
+leider nicht.
+Wann hast du (mal/denn) Zeit?
+
+Einladung
+
+Möchten Sie (noch) etwas trinken/
+Orangensaft?
+Nein, danke.
+Was möchten Sie bitte?
+Nichts, danke.
+Setz dich!/Setzen Sie sich doch!
+
+
+Soziale
+Konventionen
+Kontaktaufnahme:
+jemanden ansprechen
+
+Telefon
+
+Brief
+
+
+grüßen
+
+Hallo!
+Roman Jaremkow.
+Marija Kosik.
+Helmut!/Frau Klein! 1
+Ja, bitte?
+Wie bitte?
+Sind Sie nicht Frau Yilmaz?
+Ja (das stimmt)./Ja, warum?
+Nein, ich bin .../ich heiße .../mein
+Name ist ...
+
+(Hier) Heine.
+Guten Tag, Frau Heine.
+Hier ist Josefa Karosz.
+Hallo, ist Julia da?
+Guten Tag. Frau Heuer bitte!
+Ja, Moment bitte.
+Tut mir leid, sie ist nicht da.
+Nein, hier ist ...
+
+Liebe Renate/Frau Haushofer,
+Sehr geehrter Herr Liebermann,
+Sehr geehrte Damen und Herren,
+
+(Guten) Tag/Hallo, Ulrike!
+(Guten) Tag/Hallo, Karina.
+Guten Morgen/Tag/Abend, Frau
+Schneider.
+Guten Morgen/Tag/Abend, Frau
+Kowalski.
+Gute Nacht, Christian.
+Gute Nacht, Bea.
+Hallo, wie geht’s?/wie geht es dir?
+Danke, gut.
+Grüß Gott! (süddeutsch)
+Grüß Gott!
+
+
+1 Es handelt sich hier um
+
+Beispielsätze. Gemäß dem
+Gleichheitsgrundsatz wurde
+in den Beispielsätzen bei der
+Wahl der Anrede und der
+sprechenden bzw. angesprochenen Person darauf geachtet, dass die Formen du/Sie
+bzw. er/sie bzw. Frau/Herr
+etc. in einem aus­gewogenem
+Verhältnis vor­kommen.
+
+
+sich/jemanden vorstellen
+
+(Hallo) Mein Name ist/Ich heiße
+Vera.
+Hallo, Vera. Ich heiße Mario.
+(Guten Tag) Ich bin Petra Holl.
+Guten Tag. Ich bin Ulrike Meyer.
+Das ist Ulrich Pfeiffer.
+Ah ja. Ich heiße/Ich bin Johanna
+Hauser.
+
+über das Befinden sprechen
+
+Wie geht’s/geht es dir (heute)?
+Danke, gut/es geht/nicht gut. Und
+dir?
+Geht es Ihnen gut?
+Ja, super./Na ja, es geht!/Ach, nicht
+so gut.
+
+Gute Wünsche
+
+Alles Gute./Schöne Ferien!
+Gut gemacht!
+Prost!
+
+Gratulieren
+
+Herzlichen Glückwunsch
+Danke (schön)!/Herzlichen/Vielen
+Dank.
+Ihnen auch./Danke, ebenfalls.
+
+eine Anerkennung aus­sprechen/
+ein Kompliment machen
+
+Sie sprechen (sehr) gut Deutsch.
+Das ist toll/(sehr) schön/gut.
+Das schmeckt gut.
+
+Dank
+
+Danke (schön)!/Herzlichen/
+Vielen Dank.
+Ihnen auch./Danke, ebenfalls.
+(Aber) Bitte.
+
+Brief
+
+Vielen Dank.
+
+Entschuldigung
+
+Entschuldigung./Entschuldigen Sie
+bitte!
+Bitte!/Schon gut./Kein Problem.
+
+
+Verabschiedung
+
+(Auf) Wiedersehen!
+Tschüss!
+Bis bald/später.
+Gute Nacht!
+
+Telefon
+
+(Auf) Wiederhören!
+
+Brief
+
+Liebe/Herzliche Grüße
+Mit freundlichen Grüßen

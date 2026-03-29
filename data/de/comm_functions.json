@@ -1,3 +1,2892 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9602dc9ba128720391bc746d8e1b479d746ed7fe8ae695354343f79c27d5c13b
-size 98608
+[
+  {
+    "code": "name_identify",
+    "label": "Benennen, Definieren, Identifizieren",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wer ist das?",
+      "Das ist ...",
+      "Was ist das?",
+      "Wie heißt das auf Deutsch?",
+      "Diese CD gehört mir."
+    ],
+    "examples": [
+      "Wer ist das? – Das ist Wolfgang/Frau Schuster/meine Kollegin.",
+      "Was ist das? – Das ist eine Blume.",
+      "Ist das eine Orange? – Nein, eine Zitrone.",
+      "Wie heißt das auf Deutsch? – Erklären Sie mal."
+    ],
+    "description": "Naming, defining or identifying people, objects or things by label. Used to establish what or who something or someone is."
+  },
+  {
+    "code": "describe",
+    "label": "Beschreiben",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie sieht ... aus?",
+      "Sie/Er ist ..."
+    ],
+    "examples": [
+      "Wie sieht die Tasche aus? – Sie ist braun."
+    ],
+    "description": "Describing the appearance or characteristics of people, objects or places. Typically uses adjectives or simple predicative constructions."
+  },
+  {
+    "code": "explain",
+    "label": "Erklären",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie geht das?",
+      "Erklären Sie mal."
+    ],
+    "examples": [
+      "Wie geht das?"
+    ],
+    "description": "Asking for or providing an explanation of how something works or is done. Often triggered by a 'Wie'-question."
+  },
+  {
+    "code": "report",
+    "label": "Berichten",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Was ist passiert?",
+      "Ich hatte einen Unfall."
+    ],
+    "examples": [
+      "Was ist passiert? – Ich hatte einen Unfall."
+    ],
+    "description": "Reporting or narrating past events or experiences. Typically uses simple past or perfect tense constructions."
+  },
+  {
+    "code": "announce",
+    "label": "Mitteilung und Ankündigung",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Was machst du heute Abend?",
+      "Ich besuche ...",
+      "Nächstes Jahr fahren wir nach ..."
+    ],
+    "examples": [
+      "Was machst du heute Abend? – Ich besuche Freunde.",
+      "Wann fährst du (wieder)? – Nächstes Jahr fahren wir nach Griechenland."
+    ],
+    "description": "Making an announcement or communicating plans and intentions to others. Often refers to near-future or scheduled activities."
+  },
+  {
+    "code": "state_purpose",
+    "label": "Zweck und Bestimmung angeben",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Was ist das?",
+      "Das ist zum/für ..."
+    ],
+    "examples": [
+      "Was ist das? – Das ist zum Schreiben."
+    ],
+    "description": "Stating the purpose or function of an object or action. Answers the question of what something is used for."
+  },
+  {
+    "code": "express_knowledge",
+    "label": "Wissen und Unwissen ausdrücken",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A1",
+    "patterns": [
+      "Weiß sie das?",
+      "Ja./Nein./Vielleicht.",
+      "Ich weiß (nicht)."
+    ],
+    "examples": [
+      "Weiß sie das? – Ja./Nein./Vielleicht."
+    ],
+    "description": "Expressing whether one knows or does not know something. Uses simple affirmation, negation or hedging forms."
+  },
+  {
+    "code": "express_satisfaction",
+    "label": "Zufriedenheit und Unzufriedenheit",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie waren eure Ferien?",
+      "(Sehr) Schön./Prima./(Ganz) Gut./(Nicht) Schlecht.",
+      "Der Film war sehr gut."
+    ],
+    "examples": [
+      "Wie waren eure Ferien? – (Sehr) Schön./Prima./(Ganz) Gut./(Nicht) Schlecht.",
+      "Der Film war sehr gut."
+    ],
+    "description": "Expressing satisfaction or dissatisfaction with an experience or situation. Uses evaluative adjectives in simple predicative constructions."
+  },
+  {
+    "code": "express_liking",
+    "label": "Gefallen und Missfallen ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Gefällt es dir/Ihnen?",
+      "Ich finde es toll/(sehr) schön/gut.",
+      "Ich bin zufrieden.",
+      "Das gefällt mir nicht.",
+      "Ich liebe .../Ich mag ... nicht."
+    ],
+    "examples": [
+      "Was denkst du? Gefällt es dir hier? – Ja (sehr)./(Es ist) Super!/Toll!/Klasse! / Nein, leider nicht.",
+      "Gefällt es Ihnen? – Ich finde es toll/(sehr) schön/gut/prima.",
+      "Das Hotel gefällt mir nicht./Ich finde es hier langweilig.",
+      "Ich liebe diese Stadt./Ich mag diese Stadt nicht."
+    ],
+    "description": "Expressing liking or disliking of something such as a place, object or activity. Uses gefallen, finden, lieben and mögen constructions."
+  },
+  {
+    "code": "express_interest",
+    "label": "Interesse und Desinteresse",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Gefallen dir ...?",
+      "Ja klar./Na ja, es geht./Nicht so.",
+      "Was sind deine Hobbys?"
+    ],
+    "examples": [
+      "Gefallen dir die Geschenke? – Ja klar./Na ja, es geht./Nicht so.",
+      "Was sind deine Hobbys?"
+    ],
+    "description": "Expressing interest or lack of interest in something. Uses simple affirmative or hedging responses to questions about preferences."
+  },
+  {
+    "code": "express_approval",
+    "label": "Billigung und Missbilligung",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie findest du das?",
+      "Gut./(Un-)Interessant./Es geht./Langweilig./(Nicht) Schlecht.",
+      "So geht das nicht.",
+      "Es ist (sehr) interessant/zu langweilig."
+    ],
+    "examples": [
+      "Wie findest du das? – Gut./(Un-)Interessant./Es geht./Langweilig./(Nicht) Schlecht.",
+      "Wie finden Sie das Lehrbuch? – Es ist (sehr) interessant/zu langweilig.",
+      "So geht das nicht."
+    ],
+    "description": "Approving or disapproving of something by offering a judgement or assessment. Uses finden plus evaluative adjectives."
+  },
+  {
+    "code": "agree_disagree",
+    "label": "Zustimmung und Ablehnung",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Das stimmt (nicht).",
+      "Das ist richtig/falsch."
+    ],
+    "examples": [
+      "Das stimmt (nicht).",
+      "Das ist richtig/falsch."
+    ],
+    "description": "Agreeing with or rejecting a statement or proposition. Uses simple predicative phrases to confirm or deny correctness."
+  },
+  {
+    "code": "express_wish",
+    "label": "Wunsch ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich möchte ...",
+      "Peter will ...",
+      "Möchten Sie ...?",
+      "Ich brauche ..."
+    ],
+    "examples": [
+      "Was wollen wir heute Abend machen? – Ich möchte den Film sehen.",
+      "Möchten Sie noch etwas Milch? – Ich möchte einen Kaffee./Peter will ein Eis.",
+      "Ich brauche jetzt eine Pause."
+    ],
+    "description": "Expressing a personal wish or desire using modal verbs möchten and wollen. Also covers expressing a need with brauchen."
+  },
+  {
+    "code": "express_preference",
+    "label": "Vorlieben ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Tee oder Kaffee?",
+      "Kaffee, bitte.",
+      "Ich trinke lieber Tee.",
+      "Nichts, danke."
+    ],
+    "examples": [
+      "Tee oder Kaffee? – Kaffee, bitte.",
+      "Magst du Tee oder Kaffee? – Ich trinke lieber Tee.",
+      "Nichts, danke."
+    ],
+    "description": "Expressing a preference between options. Uses lieber and mag to indicate which alternative is favoured."
+  },
+  {
+    "code": "state_importance",
+    "label": "Wichtigkeit ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ist das (wirklich) wichtig?",
+      "Das ist (schon/sehr) wichtig.",
+      "Nicht so wichtig."
+    ],
+    "examples": [
+      "Ist das (wirklich) wichtig? – Das ist (schon/sehr) wichtig./Nicht so wichtig."
+    ],
+    "description": "Stating the degree of importance of something. Uses the adjective wichtig with intensifiers or negation."
+  },
+  {
+    "code": "negate_contradict",
+    "label": "Verneinen und Widersprechen",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Nein!",
+      "Doch!",
+      "Das stimmt nicht.",
+      "Das ist falsch.",
+      "Unsinn!"
+    ],
+    "examples": [
+      "Nein!/Doch!/Das stimmt nicht./Das ist falsch./Unsinn!"
+    ],
+    "description": "Negating a statement or contradicting what someone has said. Doch is used specifically to contradict a negative assertion."
+  },
+  {
+    "code": "complain",
+    "label": "Beschwerde äußern",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Es ist zu warm hier!",
+      "Das ist zu teuer!",
+      "Entschuldigen Sie, ... funktioniert nicht."
+    ],
+    "examples": [
+      "Es ist zu warm hier!/Das ist zu teuer!",
+      "Entschuldigen Sie, die Heizung funktioniert nicht."
+    ],
+    "description": "Making a complaint about an unsatisfactory situation or object. Often uses zu plus adjective or a polite opening with Entschuldigen Sie."
+  },
+  {
+    "code": "justify_reason",
+    "label": "Rechtfertigen und Begründen",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A1",
+    "patterns": [
+      "Warum ...?",
+      "Ich habe keine Zeit.",
+      "Deshalb kommt er heute nicht.",
+      "Seine Mutter ist krank."
+    ],
+    "examples": [
+      "Warum kommst du nicht? – Ich habe keine Zeit.",
+      "Seine Mutter ist krank. Deshalb kommt er heute nicht."
+    ],
+    "description": "Providing a reason or justification for an action or situation. Uses warum as the question prompt and deshalb or simple causal statements in replies."
+  },
+  {
+    "code": "express_joy_regret",
+    "label": "Freude und Bedauern ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ist das nicht toll!",
+      "Ich bin glücklich.",
+      "Leider.",
+      "Das ist schade!",
+      "Das tut mir leid."
+    ],
+    "examples": [
+      "Ist das nicht toll! – Ja, super!/Finde ich auch.",
+      "Ich bin glücklich. Und du? – Sehr.",
+      "Glückwunsch! – Danke!",
+      "Leider./Das ist schade!/Das tut mir leid."
+    ],
+    "description": "Expressing joy or regret about an event or situation. Uses exclamations like super/toll for joy and leider/schade/tut mir leid for regret."
+  },
+  {
+    "code": "express_liking_disli",
+    "label": "Neigung und Abneigung",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Schmeckt's dir nicht?",
+      "Doch, sehr gut.",
+      "Ich mag eigentlich keinen ...",
+      "Isst du gern ...?",
+      "Ja, gerne./Nein, nie."
+    ],
+    "examples": [
+      "Schmeckt's dir nicht? – Doch, sehr gut.",
+      "Nein, ich mag eigentlich keinen Fisch.",
+      "Isst du gern Chinesisch? – Ja, gerne./Nein, nie."
+    ],
+    "description": "Expressing fondness or aversion toward food or activities. Uses mögen, gern and doch to convey inclination or reluctance."
+  },
+  {
+    "code": "express_indifference",
+    "label": "Gelassenheit und Gleichgültigkeit",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Egal.",
+      "Na und?",
+      "Das ist mir egal."
+    ],
+    "examples": [
+      "Ich kann leider nicht kommen. – Egal./Na und?",
+      "Das ist mir egal."
+    ],
+    "description": "Expressing indifference or an unconcerned attitude towards a situation. Uses egal and na und as fixed response formulae."
+  },
+  {
+    "code": "express_sympathy",
+    "label": "Mitleid ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "(Es) Tut mir (wirklich) (sehr) leid.",
+      "Das finde ich aber traurig."
+    ],
+    "examples": [
+      "(Es) Tut mir (wirklich) (sehr) leid.",
+      "Das finde ich aber traurig."
+    ],
+    "description": "Expressing sympathy or compassion for someone else's misfortune. Uses tut mir leid with optional intensifiers and traurig."
+  },
+  {
+    "code": "express_surprise",
+    "label": "Erstaunen und Überraschung",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Komisch!",
+      "Das ist ja komisch!",
+      "Wie komisch!"
+    ],
+    "examples": [
+      "Komisch!/Das ist ja komisch!/Wie komisch!",
+      "Ja, sehr komisch."
+    ],
+    "description": "Expressing astonishment or surprise at an unexpected situation. Uses exclamatory constructions with komisch and the flavour particle ja."
+  },
+  {
+    "code": "express_hope",
+    "label": "Hoffnung ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Hoffentlich ... nicht.",
+      "Hoffentlich kommt bald ..."
+    ],
+    "examples": [
+      "Hoffentlich regnet es nicht.",
+      "Hoffentlich kommt bald der Bus."
+    ],
+    "description": "Expressing hope about a desired or feared outcome. Uses the adverb hoffentlich at the start of the sentence."
+  },
+  {
+    "code": "express_worry",
+    "label": "Sorge und Befürchtung ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich habe Angst.",
+      "Schon ... Uhr, und er ist immer noch nicht da."
+    ],
+    "examples": [
+      "Ich habe Angst.",
+      "Schon 10 Uhr, und er ist immer noch nicht da."
+    ],
+    "description": "Expressing worry or fear about a situation. Uses Angst haben or observations about unexpected absence/lateness."
+  },
+  {
+    "code": "express_disappointme",
+    "label": "Enttäuschung ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A1",
+    "patterns": [
+      "Was? Du bleibst zu Hause?",
+      "Schade!"
+    ],
+    "examples": [
+      "Was? Du bleibst zu Hause? Schade!"
+    ],
+    "description": "Expressing disappointment at an unwelcome development. Uses the exclamation Schade often preceded by a surprised question."
+  },
+  {
+    "code": "request",
+    "label": "Bitte und Aufforderung",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Kaufst du bitte ...?",
+      "Kannst du ... kaufen?",
+      "Haben Sie ...?",
+      "Gehen wir zusammen ...?",
+      "Eine Frage bitte: ..."
+    ],
+    "examples": [
+      "Kaufst du bitte Brot? – Na klar./Aber natürlich./Ja, natürlich.",
+      "Kannst du Milch kaufen?",
+      "Haben Sie eine Briefmarke?",
+      "Gehen wir zusammen essen? – Gerne.",
+      "Eine Frage bitte: Wie spät ist es? – Es ist halb acht (Uhr)."
+    ],
+    "description": "Making a request or issuing a mild directive to someone. Uses bitte, kannst du and collective wir-questions for polite requests."
+  },
+  {
+    "code": "confirm",
+    "label": "Bestätigung geben",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Stimmt das?/Richtig?",
+      "Ja./Doch./Das ist richtig./Stimmt./Genau (so)."
+    ],
+    "examples": [
+      "Stimmt das?/Richtig? – Ja./Doch./Das ist richtig./Stimmt./Genau (so)."
+    ],
+    "description": "Asking for or providing confirmation that something is correct. Uses short affirmative formulae such as stimmt, genau and richtig."
+  },
+  {
+    "code": "offer_help",
+    "label": "Hilfe anbieten, annehmen, ablehnen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Kann ich Ihnen helfen?",
+      "Ja, danke./Gerne./Sehr nett, danke.",
+      "Nein, danke."
+    ],
+    "examples": [
+      "Kann ich Ihnen helfen? – Ja, danke./Gerne./Sehr nett, danke.",
+      "Kann ich Ihnen helfen? – Nein, danke."
+    ],
+    "description": "Offering assistance to someone and accepting or declining such an offer. Uses können plus helfen for the offer and danke-formulae for acceptance or refusal."
+  },
+  {
+    "code": "order_request_item",
+    "label": "Bestellen und Wünschen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich möchte ... reservieren.",
+      "Ich nehme ... und ...",
+      "Einen Moment./Sofort./Gleich."
+    ],
+    "examples": [
+      "Ich möchte ein Zimmer reservieren.",
+      "Ich nehme die Tomatensuppe und den Salat.",
+      "Einen Moment./Sofort./Gleich."
+    ],
+    "description": "Placing an order or stating what one wants in a service context such as a restaurant or hotel. Uses möchten and nehmen for the order."
+  },
+  {
+    "code": "advise_warn",
+    "label": "Rat, Empfehlung, Warnung",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Das ist zu gefährlich/heiß/kalt.",
+      "Vorsicht!/Achtung!/Halt!/Hilfe!/Stopp!"
+    ],
+    "examples": [
+      "Das ist zu gefährlich/heiß/kalt/...",
+      "Vorsicht!/Achtung!/Halt!/Hilfe!/Stopp!"
+    ],
+    "description": "Giving advice, a recommendation or a warning about a dangerous or inadvisable situation. Uses evaluative adjectives with zu or imperative-style exclamations."
+  },
+  {
+    "code": "grant_deny_permissio",
+    "label": "Erlaubnis erteilen oder verweigern",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Kann man hier ...?",
+      "Gerne./Natürlich./Ja natürlich.",
+      "Bitte nicht./Nein, tut mir leid./Das ist hier verboten."
+    ],
+    "examples": [
+      "Kann man hier rauchen? – Gerne./Natürlich./Ja natürlich.",
+      "Kann man hier rauchen? – Bitte nicht./Nein, tut mir leid./Das ist hier verboten.",
+      "Kann man hier parken? – Nein, hier ist Parken verboten."
+    ],
+    "description": "Asking for, granting or denying permission to do something. Uses kann man-questions and verboten or natürlich in responses."
+  },
+  {
+    "code": "suggest",
+    "label": "Vorschlag machen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Gehen wir heute ...?",
+      "Kommst du mit zu ...?",
+      "Gute Idee./Ja, warum nicht./Gut.",
+      "Nein, leider nicht./Keine Lust/Zeit."
+    ],
+    "examples": [
+      "Gehen wir heute ins Kino? – Ja, gerne.",
+      "Kommst du mit zu Claudia? – Gute Idee./Ja, warum nicht./Gut.",
+      "Kommst du mit zu Claudia? – Nein, leider nicht./Keine Lust/Zeit."
+    ],
+    "description": "Making a suggestion about a joint activity and accepting or declining it. Uses wir-questions and idiomatic acceptance or refusal formulae."
+  },
+  {
+    "code": "promise",
+    "label": "Versprechen machen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Morgen bekommst du ...",
+      "Ich mache es morgen.",
+      "Das mache ich!",
+      "Versprochen?"
+    ],
+    "examples": [
+      "Morgen bekommst du das Geld. – Gut./Danke./Hoffentlich!/Wirklich?/Versprochen?",
+      "Ich mache es morgen. – Das mache ich!"
+    ],
+    "description": "Making a promise or commitment to carry out an action in the future. Uses future time expressions and versprochen as a confirmation formula."
+  },
+  {
+    "code": "make_appointment",
+    "label": "Verabredung treffen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Kannst du morgen Abend?",
+      "Hast du am ... Zeit?",
+      "Ja, wann?/Ja, das ist gut.",
+      "Nein, leider nicht.",
+      "Wann hast du (mal/denn) Zeit?"
+    ],
+    "examples": [
+      "Kannst du morgen Abend?/Hast du am Mittwoch Zeit? – Ja, wann?/Ja, das ist gut.",
+      "Kannst du morgen Abend? – Vielleicht.",
+      "Kannst du morgen Abend? – Nein, (morgen kann ich/geht es) leider nicht.",
+      "Wann hast du (mal/denn) Zeit?"
+    ],
+    "description": "Arranging a meeting or date with someone. Involves proposing a time, accepting, hedging or declining."
+  },
+  {
+    "code": "invite",
+    "label": "Einladen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Möchten Sie (noch) etwas ...?",
+      "Nein, danke.",
+      "Was möchten Sie bitte?",
+      "Nichts, danke.",
+      "Setz dich!/Setzen Sie sich doch!"
+    ],
+    "examples": [
+      "Möchten Sie (noch) etwas trinken/Orangensaft? – Nein, danke.",
+      "Was möchten Sie bitte? – Nichts, danke.",
+      "Setz dich!/Setzen Sie sich doch!"
+    ],
+    "description": "Inviting someone to take something or sit down, and accepting or declining the invitation. Uses möchten and imperative forms."
+  },
+  {
+    "code": "approach_contact",
+    "label": "Jemanden ansprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Hallo!",
+      "Ja, bitte?",
+      "Wie bitte?",
+      "Sind Sie nicht Frau ...?",
+      "Nein, ich bin .../ich heiße .../mein Name ist ..."
+    ],
+    "examples": [
+      "Hallo! – Ja, bitte?",
+      "Sind Sie nicht Frau Yilmaz? – Ja (das stimmt)./Ja, warum?",
+      "Sind Sie nicht Frau Yilmaz? – Nein, ich bin.../ich heiße.../mein Name ist..."
+    ],
+    "description": "Initiating contact with someone in person by addressing them. Includes identifying or checking who someone is."
+  },
+  {
+    "code": "contact_by_phone",
+    "label": "Telefonkontakt aufnehmen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "(Hier) Heine.",
+      "Hier ist ...",
+      "Hallo, ist ... da?",
+      "Ja, Moment bitte.",
+      "Tut mir leid, sie ist nicht da."
+    ],
+    "examples": [
+      "(Hier) Heine. – Guten Tag, Frau Heine.",
+      "Hier ist Josefa Karosz.",
+      "Hallo, ist Julia da? – Ja, Moment bitte.",
+      "Guten Tag. Frau Heuer bitte! – Tut mir leid, sie ist nicht da."
+    ],
+    "description": "Making or receiving a telephone call, including identifying oneself, asking for a person and responding to availability."
+  },
+  {
+    "code": "contact_by_letter",
+    "label": "Brief beginnen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Liebe .../Lieber ...,",
+      "Sehr geehrter Herr ...,",
+      "Sehr geehrte Damen und Herren,"
+    ],
+    "examples": [
+      "Liebe Renate/Frau Haushofer,",
+      "Sehr geehrter Herr Liebermann,",
+      "Sehr geehrte Damen und Herren,"
+    ],
+    "description": "Opening a written letter with an appropriate salutation. Distinguishes between informal liebe/lieber and formal sehr geehrte/geehrter forms."
+  },
+  {
+    "code": "greet",
+    "label": "Grüßen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Guten Morgen/Tag/Abend, ...",
+      "Hallo, ...",
+      "Gute Nacht, ...",
+      "Grüß Gott!",
+      "Hallo, wie geht's?"
+    ],
+    "examples": [
+      "(Guten) Tag/Hallo, Ulrike! – (Guten) Tag/Hallo, Karina.",
+      "Guten Morgen/Tag/Abend, Frau Schneider. – Guten Morgen/Tag/Abend, Frau Kowalski.",
+      "Gute Nacht, Christian. – Gute Nacht, Bea.",
+      "Hallo, wie geht's?/wie geht es dir? – Danke, gut.",
+      "Grüß Gott! – Grüß Gott!"
+    ],
+    "description": "Greeting someone at the start of an encounter using time-of-day greetings or informal hallo. Includes regional forms like Grüß Gott."
+  },
+  {
+    "code": "introduce",
+    "label": "Sich und andere vorstellen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Mein Name ist .../Ich heiße ...",
+      "Ich bin ...",
+      "Das ist ...",
+      "Hallo, Vera. Ich heiße Mario."
+    ],
+    "examples": [
+      "(Hallo) Mein Name ist/Ich heiße Vera. – Hallo, Vera. Ich heiße Mario.",
+      "(Guten Tag) Ich bin Petra Holl. – Guten Tag. Ich bin Ulrike Meyer.",
+      "Das ist Ulrich Pfeiffer. – Ah ja. Ich heiße/Ich bin Johanna Hauser."
+    ],
+    "description": "Introducing oneself or another person. Uses Ich heiße, mein Name ist and Ich bin as well as Das ist for third-person introductions."
+  },
+  {
+    "code": "ask_wellbeing",
+    "label": "Über das Befinden sprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie geht's/geht es dir (heute)?",
+      "Danke, gut/es geht/nicht gut. Und dir?",
+      "Geht es Ihnen gut?",
+      "Ja, super./Na ja, es geht!/Ach, nicht so gut."
+    ],
+    "examples": [
+      "Wie geht's/geht es dir (heute)? – Danke, gut/es geht/nicht gut. Und dir?",
+      "Geht es Ihnen gut? – Ja, super./Na ja, es geht!/Ach, nicht so gut."
+    ],
+    "description": "Asking about and responding to someone's state of wellbeing. Uses Wie geht es dir/Ihnen and standard formulaic responses."
+  },
+  {
+    "code": "give_good_wishes",
+    "label": "Gute Wünsche aussprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Alles Gute.",
+      "Schöne Ferien!",
+      "Gut gemacht!",
+      "Prost!"
+    ],
+    "examples": [
+      "Alles Gute./Schöne Ferien!",
+      "Gut gemacht!",
+      "Prost!"
+    ],
+    "description": "Expressing good wishes for someone on an occasion or in a situation. Uses fixed formulaic expressions such as Alles Gute and Prost."
+  },
+  {
+    "code": "congratulate",
+    "label": "Gratulieren",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Herzlichen Glückwunsch!",
+      "Danke (schön)!/Herzlichen/Vielen Dank.",
+      "Ihnen auch./Danke, ebenfalls."
+    ],
+    "examples": [
+      "Herzlichen Glückwunsch! – Danke (schön)!/Herzlichen/Vielen Dank.",
+      "Herzlichen Glückwunsch! – Ihnen auch./Danke, ebenfalls."
+    ],
+    "description": "Offering congratulations and responding to them. Uses the fixed formula Herzlichen Glückwunsch and reciprocal responses."
+  },
+  {
+    "code": "compliment",
+    "label": "Anerkennung und Kompliment",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Sie sprechen (sehr) gut Deutsch.",
+      "Das ist toll/(sehr) schön/gut.",
+      "Das schmeckt gut."
+    ],
+    "examples": [
+      "Sie sprechen (sehr) gut Deutsch.",
+      "Das ist toll/(sehr) schön/gut.",
+      "Das schmeckt gut."
+    ],
+    "description": "Paying a compliment or expressing recognition for someone's achievement or quality. Uses simple predicative constructions with positive adjectives."
+  },
+  {
+    "code": "thank",
+    "label": "Danken",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Danke (schön)!",
+      "Herzlichen/Vielen Dank.",
+      "Ihnen auch./Danke, ebenfalls.",
+      "(Aber) Bitte.",
+      "Vielen Dank."
+    ],
+    "examples": [
+      "Danke (schön)!/Herzlichen/Vielen Dank.",
+      "Ihnen auch./Danke, ebenfalls.",
+      "(Aber) Bitte.",
+      "Vielen Dank. (in letters)"
+    ],
+    "description": "Expressing thanks and responding to them. Uses Danke with optional intensifiers and Bitte as the standard acknowledgement."
+  },
+  {
+    "code": "apologise",
+    "label": "Entschuldigung",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "Entschuldigung.",
+      "Entschuldigen Sie bitte!",
+      "Bitte!/Schon gut./Kein Problem."
+    ],
+    "examples": [
+      "Entschuldigung./Entschuldigen Sie bitte!",
+      "Entschuldigung. – Bitte!/Schon gut./Kein Problem."
+    ],
+    "description": "Apologising and accepting an apology. Uses Entschuldigung or Entschuldigen Sie as the apology and Kein Problem or Schon gut as reassurance."
+  },
+  {
+    "code": "say_goodbye",
+    "label": "Verabschiedung",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "(Auf) Wiedersehen!",
+      "Tschüss!",
+      "Bis bald/später.",
+      "Gute Nacht!",
+      "(Auf) Wiederhören!",
+      "Liebe/Herzliche Grüße",
+      "Mit freundlichen Grüßen"
+    ],
+    "examples": [
+      "(Auf) Wiedersehen!/Tschüss!",
+      "Bis bald/später.",
+      "Gute Nacht!",
+      "(Auf) Wiederhören! (am Telefon)",
+      "Liebe/Herzliche Grüße (im Brief)",
+      "Mit freundlichen Grüßen (im Brief)"
+    ],
+    "description": "Taking leave of someone in person, on the phone or in writing. Uses context-specific formulae for face-to-face, telephone and written farewells."
+  },
+  {
+    "code": "open_utterance",
+    "label": "eine Äußerung einleiten",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Entschuldigung ...",
+      "Entschuldigen Sie ...",
+      "Kann ich etwas fragen?",
+      "Was kann ich für Sie tun?",
+      "Brauchen Sie Hilfe?"
+    ],
+    "examples": [
+      "Entschuldigung, kann ich etwas fragen?",
+      "Entschuldigen Sie, brauchen Sie Hilfe?",
+      "Was kann ich für Sie tun?",
+      "Hallo! Entschuldigung bitte!"
+    ],
+    "description": "Phrases used to open or initiate an utterance or conversation, typically to attract attention or signal the start of an interaction."
+  },
+  {
+    "code": "close_utterance",
+    "label": "eine Äußerung abschließen",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Danke. Ich muss jetzt leider gehen.",
+      "Okay, tschüss bis bald.",
+      "Gut: ...",
+      "Na gut.",
+      "Dann, herzlichen Dank/auf Wiedersehen."
+    ],
+    "examples": [
+      "Danke. Ich muss jetzt leider gehen.",
+      "Okay, tschüss bis bald.",
+      "Na gut.",
+      "Dann, herzlichen Dank und auf Wiedersehen."
+    ],
+    "description": "Phrases used to close or wrap up an utterance or conversation, signalling that the interaction is coming to an end."
+  },
+  {
+    "code": "take_floor",
+    "label": "um das Wort bitten",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Moment bitte.",
+      "Bitte!"
+    ],
+    "examples": [
+      "Moment bitte.",
+      "Bitte!"
+    ],
+    "description": "Short phrases used to request or claim a turn to speak in a conversation."
+  },
+  {
+    "code": "signal_listening",
+    "label": "Zuhören signalisieren",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ja?/So?/Wirklich?",
+      "Ach./Sicher.",
+      "Aha./Naja.",
+      "Bitte?",
+      "(Na) Klar."
+    ],
+    "examples": [
+      "Ja? Wirklich?",
+      "Ach so.",
+      "Aha, naja.",
+      "Na klar!"
+    ],
+    "description": "Brief back-channel responses that indicate the listener is paying attention and following along in a conversation."
+  },
+  {
+    "code": "prompt_speaker",
+    "label": "zum Sprechen auffordern",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Also?",
+      "Ja?",
+      "Und?",
+      "Ja bitte!",
+      "Und dann?/Und?"
+    ],
+    "examples": [
+      "Also?",
+      "Ja, und dann?",
+      "Und?",
+      "Ja bitte!"
+    ],
+    "description": "Short prompts or invitations used to encourage another person to continue speaking or to take their turn."
+  },
+  {
+    "code": "give_examples",
+    "label": "Beispiele geben/etwas verdeutlichen",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "zum Beispiel ...",
+      "... zum Beispiel Orangen, Bananen und Erdbeeren"
+    ],
+    "examples": [
+      "Ich esse gern Obst, zum Beispiel Orangen, Bananen und Erdbeeren."
+    ],
+    "description": "Using concrete examples to clarify or illustrate a point being made in conversation."
+  },
+  {
+    "code": "politeness",
+    "label": "Höflichkeit ausdrücken",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Kann ich Sie etwas fragen?",
+      "Darf ich Sie etwas fragen?"
+    ],
+    "examples": [
+      "Kann ich Sie etwas fragen?",
+      "Darf ich Sie etwas fragen?"
+    ],
+    "description": "Polite formulations used to soften requests or introduce questions respectfully."
+  },
+  {
+    "code": "mitigation",
+    "label": "Abschwächung verwenden",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A1",
+    "patterns": [
+      "ein bisschen",
+      "Ja, ein bisschen."
+    ],
+    "examples": [
+      "Möchtest du noch etwas?",
+      "Ja, ein bisschen."
+    ],
+    "description": "Words or phrases used to tone down or soften a statement, making it less direct or absolute."
+  },
+  {
+    "code": "paraphrase_words",
+    "label": "Verständnishilfen anbieten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Da kann man ... kaufen.",
+      "[Wort]: Das ist ein/eine ...",
+      "Das bedeutet ..."
+    ],
+    "examples": [
+      "Apotheke: Da kann man Medikamente kaufen."
+    ],
+    "description": "Offering comprehension support by paraphrasing or circumscribing difficult words and concepts for the listener."
+  },
+  {
+    "code": "check_understanding",
+    "label": "Rückfragen zur Verständniskontrolle",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Haben Sie das verstanden?",
+      "Ist das klar?"
+    ],
+    "examples": [
+      "Haben Sie das verstanden?",
+      "Ist das klar?"
+    ],
+    "description": "Questions directed at the listener to check whether they have understood the information just provided."
+  },
+  {
+    "code": "spell_word",
+    "label": "schwierige Wörter buchstabieren",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich buchstabiere: ...",
+      "Mein Name ist ..., ich buchstabiere: ..."
+    ],
+    "examples": [
+      "Mein Name ist 'Kuntz', ich buchstabiere: K-U-N-T-Z."
+    ],
+    "description": "Spelling out a difficult or unusual word letter by letter to ensure the listener can understand or write it correctly."
+  },
+  {
+    "code": "signal_not_understoo",
+    "label": "signalisieren, nicht verstanden zu haben",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Entschuldigung, wie bitte?",
+      "Langsamer bitte.",
+      "Das habe ich nicht verstanden.",
+      "Das Wort verstehe ich nicht."
+    ],
+    "examples": [
+      "Entschuldigung, wie bitte?",
+      "Langsamer bitte.",
+      "Das habe ich nicht verstanden.",
+      "Das (Wort) verstehe ich nicht."
+    ],
+    "description": "Phrases used to signal to the speaker that something was not understood, prompting them to repeat or clarify."
+  },
+  {
+    "code": "ask_repeat",
+    "label": "um Wiederholung bitten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Noch einmal bitte.",
+      "Kannst du das bitte noch einmal sagen?",
+      "Wie bitte?",
+      "Entschuldigung, noch einmal bitte."
+    ],
+    "examples": [
+      "Noch einmal bitte.",
+      "Kannst du das bitte noch einmal sagen?",
+      "Wie bitte?",
+      "Entschuldigung, noch einmal bitte."
+    ],
+    "description": "Requests directed at the speaker to repeat what they said because it was not heard or understood."
+  },
+  {
+    "code": "ask_explanation",
+    "label": "um Erläuterung bitten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Entschuldigung, was heißt das?",
+      "Was bedeutet ... ?"
+    ],
+    "examples": [
+      "Entschuldigung, was heißt das?",
+      "Was bedeutet das?"
+    ],
+    "description": "Requests for clarification or explanation of a word or expression that was not understood."
+  },
+  {
+    "code": "ask_spelling",
+    "label": "jemanden bitten zu buchstabieren",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Bitte buchstabieren Sie mir den Namen.",
+      "Können Sie das Wort buchstabieren?"
+    ],
+    "examples": [
+      "Bitte buchstabieren Sie mir den Namen.",
+      "Können Sie das Wort buchstabieren?"
+    ],
+    "description": "Asking another person to spell out a word or name so that it can be understood or written down correctly."
+  },
+  {
+    "code": "ask_write_down",
+    "label": "bitten, etwas aufzuschreiben",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie schreibt man ... ?",
+      "Bitte schreiben Sie das auf."
+    ],
+    "examples": [
+      "Wie schreibt man das?",
+      "Bitte schreiben Sie das auf."
+    ],
+    "description": "Asking someone to write something down or asking how a word is written to aid comprehension."
+  },
+  {
+    "code": "ask_speak_slower",
+    "label": "bitten, langsamer zu sprechen",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A1",
+    "patterns": [
+      "Bitte ein bisschen langsamer.",
+      "Langsamer bitte."
+    ],
+    "examples": [
+      "Bitte ein bisschen langsamer.",
+      "Langsamer bitte."
+    ],
+    "description": "Requesting that the speaker slow down their speech to make it easier to understand."
+  },
+  {
+    "code": "use_synonym",
+    "label": "Synonyme oder ähnliche Begriffe verwenden",
+    "macro_category": "kompensation",
+    "cefr_level": "A1",
+    "patterns": [
+      "... nicht ein Buch ... ein Schreibbuch.",
+      "Ah, dein Heft?"
+    ],
+    "examples": [
+      "Wo ist mein Buch ... nicht ein Buch ... ein Schreibbuch.",
+      "Ah, dein Heft?"
+    ],
+    "description": "Using a synonym or a related word as a substitute when the exact word is not known or cannot be recalled."
+  },
+  {
+    "code": "self_correct",
+    "label": "Selbstkorrektur",
+    "macro_category": "kompensation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich möchte sagen ...",
+      "... nein, ..."
+    ],
+    "examples": [
+      "Ich möchte sagen ...",
+      "Ich fahre zu Paris ... nein, nach Paris."
+    ],
+    "description": "Recognising and correcting one's own linguistic error mid-utterance to convey the intended meaning more accurately."
+  },
+  {
+    "code": "unknown_word",
+    "label": "ausdrücken, Wort nicht zu kennen",
+    "macro_category": "kompensation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Wie sagt man auf Deutsch?",
+      "Auf Englisch sagt man ..."
+    ],
+    "examples": [
+      "Wie sagt man das auf Deutsch?",
+      "Auf Englisch sagt man ..."
+    ],
+    "description": "Expressing that a word is unknown or has been forgotten, often by asking for it in German or providing the word in another language."
+  },
+  {
+    "code": "check_comprehension",
+    "label": "nachfragen, ob man verstanden wurde",
+    "macro_category": "kompensation",
+    "cefr_level": "A1",
+    "patterns": [
+      "Ich spreche nicht gut Deutsch.",
+      "Haben Sie verstanden?"
+    ],
+    "examples": [
+      "Ich spreche nicht gut Deutsch.",
+      "Haben Sie verstanden?"
+    ],
+    "description": "Acknowledging limited German proficiency and checking whether the interlocutor has understood, despite possible errors in the utterance."
+  },
+  {
+    "code": "expr_existence",
+    "label": "Existenz von Personen und Dingen ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "es gibt",
+      "gibt es",
+      "hier gibt es",
+      "nur eine",
+      "viele"
+    ],
+    "examples": [
+      "Gibt es hier einen Kindergarten?",
+      "Nein, es gibt nur eine Grundschule.",
+      "Hier gibt es aber viele Kinos."
+    ],
+    "description": "Expresses the existence or non-existence of persons and things in a given place or situation, using 'es gibt' constructions."
+  },
+  {
+    "code": "expr_presence",
+    "label": "Anwesenheit oder Abwesenheit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "(nicht) da sein",
+      "ist ... da?",
+      "ja",
+      "nein, leider nicht"
+    ],
+    "examples": [
+      "Ist Elke da?",
+      "Ja.",
+      "Nein, leider nicht."
+    ],
+    "description": "Expresses whether a person or thing is present or absent in a given context."
+  },
+  {
+    "code": "expr_availability",
+    "label": "Verfügbarkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "hast du ...?",
+      "leider nicht",
+      "ich habe kein/keine",
+      "haben/nicht haben"
+    ],
+    "examples": [
+      "Hast du ein Auto?",
+      "Nein, leider nicht.",
+      "Nein, ich habe kein Auto."
+    ],
+    "description": "Expresses whether something is available or unavailable to a person, using 'haben' and its negation."
+  },
+  {
+    "code": "expr_occurrence",
+    "label": "Vorkommen oder Geschehen ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "was ist passiert?",
+      "wann ist das passiert?",
+      "passieren"
+    ],
+    "examples": [
+      "Was ist passiert?",
+      "Wann ist das passiert?"
+    ],
+    "description": "Expresses that an event or occurrence has taken place, asking or stating what happened and when."
+  },
+  {
+    "code": "expr_inclusion_excl",
+    "label": "Inklusion und Exklusion ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "mit",
+      "ohne",
+      "ich komme mit",
+      "er kommt ohne"
+    ],
+    "examples": [
+      "Ich komme mit meiner Freundin.",
+      "Er kommt ohne Auto."
+    ],
+    "description": "Expresses inclusion or exclusion of persons or things from an action or situation, using 'mit' and 'ohne'."
+  },
+  {
+    "code": "expr_possession",
+    "label": "Besitz und Zugehörigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wem gehört ...?",
+      "das ist mein/dein/sein/ihr",
+      "gehören",
+      "bei ... arbeiten"
+    ],
+    "examples": [
+      "Wem gehört der Mercedes?",
+      "Das ist mein/dein/sein/ihr Auto.",
+      "Simon arbeitet jetzt bei Siemens."
+    ],
+    "description": "Expresses ownership, belonging, and affiliation of objects or persons to other persons or organisations."
+  },
+  {
+    "code": "expr_place",
+    "label": "Ort angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wo ...?",
+      "in",
+      "bei",
+      "hier/dort/da",
+      "zu Hause",
+      "liegen an/auf"
+    ],
+    "examples": [
+      "Wo wohnst du? In Köln.",
+      "Ich wohne jetzt bei Petra.",
+      "Wo sind die Kinder? Zu Hause./In der Schule.",
+      "Die Schlüssel liegen auf dem Tisch."
+    ],
+    "description": "Expresses the location of persons or things, answering 'wo?' questions with place names, prepositions, and adverbs."
+  },
+  {
+    "code": "expr_origin",
+    "label": "Herkunft angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "woher ...?",
+      "aus",
+      "vom",
+      "aus der Ukraine",
+      "aus Prag"
+    ],
+    "examples": [
+      "Woher kommst du?",
+      "Aus der Ukraine.",
+      "Aus Prag.",
+      "Vom Arzt."
+    ],
+    "description": "Expresses the origin or starting point of a person or movement, answering 'woher?' with 'aus' or 'von'."
+  },
+  {
+    "code": "expr_direction",
+    "label": "Richtung angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wohin ...?",
+      "nach Hause",
+      "zur Arbeit",
+      "in die Schule",
+      "zu",
+      "auf",
+      "ans Meer"
+    ],
+    "examples": [
+      "Wohin gehst/fährst du?",
+      "Nach Hause.",
+      "Zur Arbeit.",
+      "Nach Österreich."
+    ],
+    "description": "Expresses the destination or direction of movement, answering 'wohin?' with directional prepositions and place names."
+  },
+  {
+    "code": "expr_distance",
+    "label": "Distanz angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie weit ist es bis ...?",
+      "nur ... Kilometer",
+      "Entfernung"
+    ],
+    "examples": [
+      "Wie weit ist es bis Bonn?",
+      "Nur zehn Kilometer."
+    ],
+    "description": "Expresses the distance between two places, asking 'wie weit?' and giving a measurement in kilometres."
+  },
+  {
+    "code": "expr_time_point",
+    "label": "Zeitpunkt angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wann ...?",
+      "um ... Uhr",
+      "am ... (Datum)",
+      "im ... (Monat)",
+      "wie spät ist es?"
+    ],
+    "examples": [
+      "Wann kommst du? Um 3 (Uhr).",
+      "Am 20. September.",
+      "Im Juli.",
+      "Wie spät ist es bitte? Es ist jetzt 7 Uhr."
+    ],
+    "description": "Expresses a specific point in time by stating the clock time, date, or month in answer to 'wann?' or 'wie spät?'."
+  },
+  {
+    "code": "expr_time_ref",
+    "label": "Zeitangaben machen",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wann sind Sie geboren?",
+      "am ... (Datum)",
+      "im Mai",
+      "in Urlaub fahren"
+    ],
+    "examples": [
+      "Wann sind Sie geboren?",
+      "Am 12. Mai 1988.",
+      "Wir fahren im Mai in Urlaub."
+    ],
+    "description": "Provides calendar-based time references such as dates and months to situate events in time."
+  },
+  {
+    "code": "expr_anteriority",
+    "label": "Vorzeitigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "vor ... Uhr",
+      "bitte vor",
+      "zu früh",
+      "(zu) früh sein"
+    ],
+    "examples": [
+      "Komm bitte vor 10 Uhr.",
+      "Wir sind (zu) früh."
+    ],
+    "description": "Expresses that an event occurs or should occur before a certain point in time."
+  },
+  {
+    "code": "expr_posteriority",
+    "label": "Nachzeitigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "nach ... Uhr",
+      "bitte nach",
+      "zu spät",
+      "zu spät sein"
+    ],
+    "examples": [
+      "Bitte nach 23 Uhr nicht mehr anrufen.",
+      "Wir sind leider zu spät."
+    ],
+    "description": "Expresses that an event occurs or should occur after a certain point in time."
+  },
+  {
+    "code": "expr_future_ref",
+    "label": "Zukunftsbezug ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "morgen",
+      "bald",
+      "später",
+      "heute Abend",
+      "am Montag"
+    ],
+    "examples": [
+      "Morgen muss ich arbeiten.",
+      "Wir machen das bald/später.",
+      "Heute Abend rufe ich dich an.",
+      "Am Montag gehen wir ins Kino."
+    ],
+    "description": "Refers to future events or actions using temporal adverbs and future-oriented time expressions."
+  },
+  {
+    "code": "expr_present_ref",
+    "label": "Gegenwartsbezug ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "jetzt",
+      "schon",
+      "heute",
+      "im Moment"
+    ],
+    "examples": [
+      "Wir essen jetzt.",
+      "Ich bin schon da.",
+      "Er ist heute in Mainz."
+    ],
+    "description": "Refers to actions or states occurring at the present moment using adverbs such as 'jetzt', 'schon', and 'heute'."
+  },
+  {
+    "code": "expr_past_ref",
+    "label": "Vergangenheitsbezug ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "gestern",
+      "vor zwei Tagen",
+      "habe ... gemacht",
+      "Perfekt"
+    ],
+    "examples": [
+      "Gestern habe ich die Prüfung gemacht.",
+      "Vor zwei Tagen habe ich die Prüfung gemacht."
+    ],
+    "description": "Refers to past events using temporal adverbs such as 'gestern' and 'vor ... Tagen' combined with the Perfekt."
+  },
+  {
+    "code": "expr_lateness",
+    "label": "Verspätung oder Frühzeitigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "es ist schon spät",
+      "zu spät",
+      "zu früh",
+      "schon spät"
+    ],
+    "examples": [
+      "Es ist schon spät."
+    ],
+    "description": "Expresses that the current time is late or early relative to an expected or normal point in time."
+  },
+  {
+    "code": "expr_duration",
+    "label": "Dauer angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie lange ...?",
+      "drei Wochen",
+      "(nicht) lange",
+      "bis Montag"
+    ],
+    "examples": [
+      "Wie lange bleibt ihr in Berlin?",
+      "Drei Wochen.",
+      "(Nicht) Lange.",
+      "Bis Montag."
+    ],
+    "description": "Expresses the length of time an action or state lasts, answering 'wie lange?' with durations or end-point expressions."
+  },
+  {
+    "code": "expr_start",
+    "label": "Beginn angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wann beginnt ...?",
+      "um ... Uhr fängt ... an",
+      "anfangen",
+      "beginnen"
+    ],
+    "examples": [
+      "Wann beginnt der Film?",
+      "Um 20 Uhr fängt er an."
+    ],
+    "description": "Expresses the starting time of an event or activity, using 'beginnen' and 'anfangen'."
+  },
+  {
+    "code": "expr_end",
+    "label": "Ende angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "bis wann ...?",
+      "bis ... Uhr",
+      "heute bis 18 Uhr"
+    ],
+    "examples": [
+      "Bis wann arbeitest du?",
+      "Heute bis 18 Uhr."
+    ],
+    "description": "Expresses the end point or finishing time of an activity, answering 'bis wann?' with a time expression."
+  },
+  {
+    "code": "expr_frequency",
+    "label": "Häufigkeit angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie oft ...?",
+      "zweimal im Monat",
+      "nie",
+      "oft",
+      "selten"
+    ],
+    "examples": [
+      "Wie oft geht sie ins Kino?",
+      "Zweimal im Monat.",
+      "Nie!",
+      "Oft."
+    ],
+    "description": "Expresses how often an action occurs, answering 'wie oft?' with frequency adverbs or numerical expressions."
+  },
+  {
+    "code": "expr_quantity",
+    "label": "Zahlen und Mengenangaben machen",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie viel kostet ...?",
+      "ein Pfund",
+      "eine Flasche",
+      "wie viel möchten Sie?",
+      "ein bisschen"
+    ],
+    "examples": [
+      "Was/Wie viel kostet die Zeitung? Vier Euro.",
+      "Ein Pfund Tomaten/Ein Glas Milch/Eine Flasche Wein, bitte.",
+      "Wie viel möchten Sie? (Nicht) Alles./Viel./Ein bisschen, bitte."
+    ],
+    "description": "Expresses numerical quantities, amounts, and measures of goods or substances using numbers and container/unit expressions."
+  },
+  {
+    "code": "expr_degree",
+    "label": "Grad ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "sehr",
+      "zu",
+      "das ist sehr/zu",
+      "intensitätsangabe"
+    ],
+    "examples": [
+      "Das ist sehr/zu gefährlich."
+    ],
+    "description": "Expresses the degree or intensity of a quality using degree adverbs such as 'sehr' and 'zu'."
+  },
+  {
+    "code": "expr_dimension",
+    "label": "Dimension und Maßangaben machen",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie lang/groß ...?",
+      "wie schwer ...?",
+      "wie warm ...?",
+      "wie schnell ...?",
+      "Meter/Kilo/Grad/km/h"
+    ],
+    "examples": [
+      "Wie lang/groß ...? 1,5 Meter.",
+      "Wie schwer ...? 500 Gramm/2 Kilo(gramm).",
+      "Wie warm ...? 20 Grad.",
+      "Wie schnell ...? Nur maximal 60 km/h."
+    ],
+    "description": "Expresses physical dimensions and measurements such as length, weight, temperature, volume, and speed."
+  },
+  {
+    "code": "expr_manner_phys",
+    "label": "Art und Weise physisch beschreiben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie schmeckt/riecht ...?",
+      "welche Farbe hat ...?",
+      "wie alt ist ...?",
+      "offen/geschlossen"
+    ],
+    "examples": [
+      "Wie schmeckt/riecht das Essen? Wirklich (nicht) gut.",
+      "Welche Farbe hat das Auto? Es ist rot/blau/grün/gelb/schwarz/weiß/braun.",
+      "Wie alt ist Dieter? Nicht sehr alt./Schon 60./Erst 50.",
+      "Die Tür ist offen/geschlossen."
+    ],
+    "description": "Describes the physical qualities of persons or things, including taste, smell, colour, age, and physical state."
+  },
+  {
+    "code": "expr_evaluation",
+    "label": "Wertung ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "(nicht) teuer/billig",
+      "(nicht) (sehr) gut",
+      "(nicht) in Ordnung",
+      "(nicht) richtig",
+      "(nicht) wichtig",
+      "(nicht) normal",
+      "(nicht) leicht"
+    ],
+    "examples": [
+      "(nicht) teuer/billig",
+      "(nicht) (sehr) gut",
+      "(nicht) in Ordnung",
+      "(nicht) richtig"
+    ],
+    "description": "Expresses evaluative judgements about price, quality, acceptability, importance, normality, and difficulty using simple adjectives and their negations."
+  },
+  {
+    "code": "expr_comparison",
+    "label": "Vergleich ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "wie",
+      "so ... wie",
+      "gleich alt",
+      "wie meine Schwester"
+    ],
+    "examples": [
+      "Spielst du Fußball? Ja, wie meine Schwester.",
+      "Sie ist so alt wie ich.",
+      "Wir sind gleich alt."
+    ],
+    "description": "Expresses similarity or equality between persons or things using comparative structures with 'wie' and 'so ... wie'."
+  },
+  {
+    "code": "expr_reason",
+    "label": "Grund angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "warum ...?",
+      "er kann nicht",
+      "weil",
+      "er arbeitet heute lange"
+    ],
+    "examples": [
+      "Warum kommt er nicht mit zur Party?",
+      "Er kann nicht. Er arbeitet heute lange."
+    ],
+    "description": "Expresses the reason or cause behind an action or situation, answering 'warum?' with an explanatory statement."
+  },
+  {
+    "code": "expr_condition",
+    "label": "Bedingung ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "aber nur",
+      "ja, aber",
+      "nur für eine Stunde",
+      "wenn"
+    ],
+    "examples": [
+      "Kann ich das Auto haben?",
+      "Ja, aber nur für eine Stunde."
+    ],
+    "description": "Expresses a condition or restriction attached to a permission or agreement, using 'aber nur' and similar limiting expressions."
+  },
+  {
+    "code": "expr_enumeration",
+    "label": "Aufzählung und Alternative ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "und",
+      "oder",
+      "er isst und trinkt gern",
+      "Wasser oder Wein"
+    ],
+    "examples": [
+      "Er isst und trinkt gern.",
+      "Möchtest du Wasser oder Wein?"
+    ],
+    "description": "Connects items in a list or presents alternatives using the conjunctions 'und' and 'oder'."
+  },
+  {
+    "code": "expr_ability",
+    "label": "Fähigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "können Sie ...?",
+      "ja klar",
+      "sicher",
+      "Russisch sprechen"
+    ],
+    "examples": [
+      "Können Sie Russisch (sprechen)?",
+      "Ja klar.",
+      "Sicher."
+    ],
+    "description": "Expresses the ability or skill of a person to do something, using the modal verb 'können'."
+  },
+  {
+    "code": "expr_possibility",
+    "label": "Möglichkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "können Sie morgen ...?",
+      "ist es möglich",
+      "können"
+    ],
+    "examples": [
+      "Können Sie morgen kommen?"
+    ],
+    "description": "Expresses whether it is possible for someone to do something, using 'können' in a situational rather than skill-based sense."
+  },
+  {
+    "code": "expr_necessity",
+    "label": "Notwendigkeit und Verpflichtung ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A1",
+    "patterns": [
+      "müssen",
+      "muss ... sein",
+      "mein Sohn muss",
+      "um 8 Uhr zu Hause sein"
+    ],
+    "examples": [
+      "Mein Sohn muss um 8 Uhr zu Hause sein."
+    ],
+    "description": "Expresses necessity or obligation using the modal verb 'müssen', indicating that something is required or must happen."
+  },
+  {
+    "code": "identify_name",
+    "label": "Benennen und Identifizieren",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Der Film heißt ...",
+      "Diese CD gehört mir.",
+      "Was ist das deutsche Wort für ...?",
+      "Auf Deutsch sagt man dazu ...",
+      "Er ist ein typischer ...",
+      "Von Beruf ist sie ..."
+    ],
+    "examples": [
+      "Der Film heißt 'Abgeschminkt'.",
+      "Diese CD gehört mir.",
+      "Was ist das deutsche Wort für '...'? Auf Deutsch sagt man dazu 'Blume'.",
+      "Von Beruf ist sie Ärztin."
+    ],
+    "description": "Naming, defining, and identifying people, objects, or concepts by their German designation or role. Extends A1 identification to include ownership, profession, and vocabulary explanation."
+  },
+  {
+    "code": "describe_object",
+    "label": "Beschreiben",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Kannst du das beschreiben?",
+      "In meinem Buch steht, dass ...",
+      "Was sagte er? Was hat sie erzählt?",
+      "Er sagte / erzählte, dass ...",
+      "Erzähl (doch) mal!"
+    ],
+    "examples": [
+      "Kannst du das beschreiben?",
+      "In meinem Buch steht, dass dieses Hotel billig ist.",
+      "Was sagte er? Er sagte / erzählte, dass ...",
+      "Erzählen Sie mal!"
+    ],
+    "description": "Describing people, objects, or situations in more detail, including relaying what others have said. At A2 level this extends to reported speech and indirect description."
+  },
+  {
+    "code": "explain_how",
+    "label": "Erklären und Funktionieren",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Wie geht das?",
+      "Wie funktioniert das?",
+      "Wie geht der Computer an?",
+      "Du musst nur hier drauf drücken, dann ..."
+    ],
+    "examples": [
+      "Wie geht der Computer an? Du musst nur hier drauf drücken, dann geht er an.",
+      "Wie funktioniert das?",
+      "Wie geht das?"
+    ],
+    "description": "Explaining how something works or how a process is carried out, using imperative or modal constructions to give step-by-step instructions."
+  },
+  {
+    "code": "report_events",
+    "label": "Berichten und Erzählen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was ist passiert?",
+      "Ich hatte einen Unfall.",
+      "Hast du alles erledigt?",
+      "Die Kinder sind ... nach Hause gekommen.",
+      "Ich habe ihnen etwas zu essen gemacht und danach ..."
+    ],
+    "examples": [
+      "Was ist passiert? Ich hatte einen Unfall.",
+      "Hast du alles erledigt? Die Kinder sind von der Schule nach Hause gekommen. Ich habe ihnen etwas zu essen gemacht und danach deinen Mann angerufen."
+    ],
+    "description": "Reporting past events or completed actions in sequence, using the Perfekt tense. At A2 this includes narrating a chain of events and summarising what happened."
+  },
+  {
+    "code": "announce_plans",
+    "label": "Mitteilung und Ankündigung",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was hast du nächstes Wochenende vor?",
+      "Ich habe es fest vor.",
+      "Nach dem Kurs suche ich eine Arbeit.",
+      "Im neuen Jahr möchte ich endlich ...",
+      "Nächstes Jahr fahren wir nach ..."
+    ],
+    "examples": [
+      "Was hast du nächstes Wochenende vor? Skifahren gehen.",
+      "Willst du wirklich in eine andere Wohnung ziehen? Ich habe es fest vor.",
+      "Im neuen Jahr möchte ich endlich umziehen.",
+      "Nächstes Jahr fahren wir nach Griechenland."
+    ],
+    "description": "Announcing or communicating future plans and intentions, including firm decisions and upcoming events. At A2 this extends to expressing planned future actions with temporal markers."
+  },
+  {
+    "code": "ask_follow_up",
+    "label": "Nachfrage stellen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was machst du damit?",
+      "Wozu brauchst du das?",
+      "Wie funktioniert das?",
+      "Das Treffen ist in der Mozartstraße. – Nicht bei Herrn Hübner?"
+    ],
+    "examples": [
+      "Was machst du damit? Wozu brauchst du das?",
+      "Das Treffen ist in der Mozartstraße. – Nicht bei Herrn Hübner? – Nein, morgen um 11 in der Mozartstraße."
+    ],
+    "description": "Asking follow-up or clarifying questions to obtain more precise information about a previous statement. Includes questioning purpose and seeking confirmation of details."
+  },
+  {
+    "code": "express_certainty",
+    "label": "Wissen und Unwissen ausdrücken",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A2",
+    "patterns": [
+      "Bist du (dir) sicher? / Weißt du das genau?",
+      "Ich bin (nicht) sicher.",
+      "Ja, er kommt bestimmt (nicht).",
+      "Vielleicht. / Wahrscheinlich hat sie's vergessen."
+    ],
+    "examples": [
+      "Bist du dir sicher? Weißt du das genau?",
+      "Ich bin nicht sicher. / Ja, er kommt bestimmt nicht.",
+      "Vielleicht. / Wahrscheinlich hat sie's vergessen."
+    ],
+    "description": "Expressing degrees of certainty or uncertainty about known and unknown facts. At A2 this includes hedging with adverbs like 'bestimmt', 'wahrscheinlich', 'vielleicht'."
+  },
+  {
+    "code": "express_opinion",
+    "label": "Meinung äußern",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was denkst du?",
+      "Ich bin dafür / dagegen.",
+      "Ich finde das nicht (so) gut.",
+      "Was denken Sie? Also ich glaube / denke, ..."
+    ],
+    "examples": [
+      "Was denkst du? Ich bin dafür.",
+      "Ich bin dagegen. / Ich finde das nicht so gut.",
+      "Was denken Sie? Also ich glaube / denke, ..."
+    ],
+    "description": "Expressing a personal opinion or viewpoint on a matter, including taking a position for or against something. At A2 this includes using 'Ich glaube/denke' and positional statements."
+  },
+  {
+    "code": "approve_disapprove",
+    "label": "Billigung und Missbilligung",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A2",
+    "patterns": [
+      "Stimmt das etwa nicht?",
+      "Doch, du hast Recht.",
+      "Ich denke, das ist richtig / falsch.",
+      "So geht das nicht."
+    ],
+    "examples": [
+      "Stimmt das etwa nicht? Doch, du hast Recht.",
+      "Ich denke, das ist richtig / falsch. Und Sie?",
+      "So geht das nicht."
+    ],
+    "description": "Expressing approval or disapproval of an action, statement, or behaviour. At A2 this includes contrastive use of 'doch' and explicit judgement statements."
+  },
+  {
+    "code": "state_preference",
+    "label": "Vorlieben ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was machen Sie am liebsten in Ihrer Freizeit?",
+      "Am liebsten lese ich.",
+      "Was möchtest du lieber tun?",
+      "Ich möchte lieber essen gehen."
+    ],
+    "examples": [
+      "Was machen Sie am liebsten in Ihrer Freizeit? Am liebsten lese ich.",
+      "Was möchtest du lieber tun? Ich möchte lieber essen gehen.",
+      "Tee oder Kaffee? Ich trinke lieber Tee."
+    ],
+    "description": "Expressing personal preferences and favourite activities using comparative and superlative adverbs like 'lieber' and 'am liebsten'."
+  },
+  {
+    "code": "contradict_deny",
+    "label": "Verneinen und widersprechen",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A2",
+    "patterns": [
+      "Das ist doch Unsinn!",
+      "Sie haben nicht Recht / Unrecht.",
+      "Also, ich weiß nicht.",
+      "Ich glaube nicht."
+    ],
+    "examples": [
+      "Das ist doch Unsinn! Sie haben nicht Recht.",
+      "Also, ich weiß nicht. / Ich glaube nicht.",
+      "Das stimmt nicht."
+    ],
+    "description": "Contradicting or denying a statement made by another person, using stronger or more emphatic expressions than at A1 level."
+  },
+  {
+    "code": "make_complaint",
+    "label": "Beschwerde einlegen",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A2",
+    "patterns": [
+      "Würden Sie bitte nicht so einen Lärm machen!",
+      "Verzeihen Sie, aber das Essen ist kalt.",
+      "Ich möchte mich beschweren!"
+    ],
+    "examples": [
+      "Würden Sie bitte nicht so einen Lärm machen!",
+      "Verzeihen Sie, aber das Essen ist kalt.",
+      "Ich möchte mich beschweren!"
+    ],
+    "description": "Making a formal or polite complaint about a problem or unsatisfactory situation. At A2 this includes more elaborate complaint formulas and polite but firm requests."
+  },
+  {
+    "code": "express_joy",
+    "label": "Freude und Bedauern ausdrücken",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A2",
+    "patterns": [
+      "Die Arbeit macht mir (viel) Spaß.",
+      "Schön, dass du da bist.",
+      "Ich freue mich sehr auf das Wochenende.",
+      "Das finde ich (aber) traurig.",
+      "Schade, es hat leider nicht geklappt."
+    ],
+    "examples": [
+      "Schön, dass du da bist. Ich bin sehr froh, dass du kommst.",
+      "Das Geschenk hat uns sehr gefreut. Schön, dass es euch gefällt.",
+      "Das finde ich aber traurig. Ja, ich auch.",
+      "Schade, es hat leider nicht geklappt. Ja, leider."
+    ],
+    "description": "Expressing joy, happiness, or regret about situations and events. At A2 this includes using subordinate clauses with 'dass' and anticipatory joy with 'freue mich auf'."
+  },
+  {
+    "code": "express_dislike_food",
+    "label": "Neigung und Abneigung äußern",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A2",
+    "patterns": [
+      "Schmeckt's dir nicht?",
+      "Nein, ich mag eigentlich keinen Fisch.",
+      "Isst du gern Chinesisch?",
+      "Ja, gern(e). / Nein, nie."
+    ],
+    "examples": [
+      "Schmeckt's dir nicht? Doch, sehr gut.",
+      "Nein, ich mag eigentlich keinen Fisch.",
+      "Isst du gern Chinesisch? Ja, gerne. / Nein, nie."
+    ],
+    "description": "Expressing inclination towards or aversion to food and activities, using 'mögen', 'eigentlich', and frequency adverbs to indicate personal taste."
+  },
+  {
+    "code": "show_sympathy",
+    "label": "Mitgefühl zeigen",
+    "macro_category": "gefuehlsausdruck",
+    "cefr_level": "A2",
+    "patterns": [
+      "Es tut mir sehr Leid, dass du so viel Pech hast.",
+      "Tut sie dir Leid?"
+    ],
+    "examples": [
+      "Es tut mir sehr Leid, dass du so viel Pech hast.",
+      "Tut sie dir Leid? (Ja,) es tut mir wirklich sehr Leid."
+    ],
+    "description": "Expressing sympathy and compassion for another person's difficult situation. At A2 this includes subordinate clause constructions expressing the reason for sympathy."
+  },
+  {
+    "code": "make_polite_request",
+    "label": "Höfliche Bitte formulieren",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Würdest du mich bitte abholen?",
+      "Gib mir bitte den Zucker.",
+      "Können Sie mir bitte Feuer geben?",
+      "Kannst du mir bitte helfen?",
+      "Können Sie mir diesen Schein wechseln?"
+    ],
+    "examples": [
+      "Würdest du mich bitte abholen? Ja, bitte. / Bitte sehr.",
+      "Gib mir bitte den Zucker. / Können Sie mir bitte Feuer geben?",
+      "Kannst du mir bitte helfen? Na klar. / Gerne. / Tut mir Leid, nein.",
+      "Können Sie mir diesen Schein wechseln? Ja. / Ich schaue mal nach. / Leider nicht."
+    ],
+    "description": "Making polite requests using Konjunktiv II forms such as 'würdest du' and more varied response formulas including refusals. Extends A1 requests to more formal and elaborate forms."
+  },
+  {
+    "code": "seek_confirmation",
+    "label": "Bestätigung einholen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ist das so richtig?",
+      "(Aber) Natürlich. / Sicher.",
+      "Ja, das hat sie gesagt.",
+      "Er ist doch bei Rot gefahren!",
+      "Können Sie mir das bitte schriftlich geben?"
+    ],
+    "examples": [
+      "Ist das so richtig? Aber natürlich. / Sicher.",
+      "Ja, das hat sie gesagt.",
+      "Er ist doch bei Rot gefahren!",
+      "Können Sie mir das bitte schriftlich geben?"
+    ],
+    "description": "Seeking confirmation of facts, statements, or actions, and requesting written proof. At A2 this includes the confirmatory use of 'doch' and requests for documentation."
+  },
+  {
+    "code": "place_order",
+    "label": "Bestellen und Wünschen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ich möchte bitte etwas bestellen.",
+      "Bringen Sie mir bitte die Karte.",
+      "Können Sie mir bitte einen Platz im Zug nach ... reservieren?",
+      "Ich möchte / Ich hätte gerne ein Kilo Bananen."
+    ],
+    "examples": [
+      "Ich möchte bitte etwas bestellen. Bringen Sie mir bitte die Karte.",
+      "Können Sie mir bitte einen Platz im Zug nach Leipzig reservieren?",
+      "Ich möchte / Ich hätte gerne ein Kilo Bananen."
+    ],
+    "description": "Placing orders for food, goods, or services and making specific requests in shops and restaurants. At A2 this extends to reservations and quantity-based purchases."
+  },
+  {
+    "code": "give_advice",
+    "label": "Rat und Empfehlung geben",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was kannst du mir empfehlen? / Hast du einen Tipp für mich?",
+      "Nimm doch den Fisch. Der ist hier sehr gut.",
+      "Was würdest du machen? / Was soll ich machen?",
+      "Besser, du fährst heute schon.",
+      "Pass auf!"
+    ],
+    "examples": [
+      "Was kannst du mir empfehlen? Hast du einen Tipp für mich?",
+      "Nimm doch den Fisch. Der ist hier sehr gut.",
+      "Was würdest du machen? Besser, du fährst heute schon.",
+      "Pass auf!"
+    ],
+    "description": "Giving advice, making recommendations, or issuing warnings. At A2 this includes using 'doch' for suggestions and Konjunktiv II for hypothetical advice."
+  },
+  {
+    "code": "ask_permission",
+    "label": "Erlaubnis erfragen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Kann man hier rauchen? / Gerne. / Natürlich.",
+      "Bitte nicht. / Nein, tut mir Leid. / Das ist hier verboten.",
+      "Kann ich mal telefonieren?",
+      "Kann man hier parken?",
+      "Hast du was dagegen?"
+    ],
+    "examples": [
+      "Kann man hier rauchen? Gerne. / Natürlich, wir sind ja im Raucherabteil.",
+      "Bitte nicht. / Nein, tut mir Leid. / Das ist hier verboten.",
+      "Kann man hier parken? Nein, hier ist Parken verboten.",
+      "Kann ich hereinkommen? Das geht leider nicht mehr. Wir haben schon geschlossen."
+    ],
+    "description": "Asking for permission to do something and receiving a grant or refusal. At A2 this extends to a wider range of public situations and formal refusals with explanation."
+  },
+  {
+    "code": "make_suggestion",
+    "label": "Vorschlag machen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Darf ich etwas vorschlagen?",
+      "Lass doch das Auto um die Ecke reparieren.",
+      "Wollen wir noch einen Kaffee trinken?",
+      "Was hältst du davon?",
+      "Ich habe da einen Vorschlag!"
+    ],
+    "examples": [
+      "Darf ich etwas vorschlagen? Ja, aber bitte!",
+      "Wollen wir noch einen Kaffee trinken? Okay, das machen wir. / Einverstanden.",
+      "Ach nein, ich habe keine Lust. / Das ist aber keine gute Idee.",
+      "Was hältst du davon? Ich bin dafür / dagegen."
+    ],
+    "description": "Making suggestions and proposals for joint activities, and responding to them positively or negatively. At A2 this includes more elaborate suggestion formulas and responses."
+  },
+  {
+    "code": "make_promise",
+    "label": "Versprechen machen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Morgen bekommst du das Geld.",
+      "Wirklich? / Versprochen?",
+      "Ich mache es morgen.",
+      "Das mache ich!",
+      "Doch ganz sicher / bestimmt, morgen fahren wir zum Baden!"
+    ],
+    "examples": [
+      "Morgen bekommst du das Geld. Gut. / Danke. / Hoffentlich!",
+      "Wirklich? Versprochen? Ich mache es morgen.",
+      "Doch ganz sicher / bestimmt, morgen fahren wir zum Baden!"
+    ],
+    "description": "Making promises or firm commitments about future actions, and responding to requests for confirmation. Includes asking for and giving assurances."
+  },
+  {
+    "code": "extend_invitation",
+    "label": "Einladung aussprechen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Darf ich Sie (zu einem Kaffee) einladen?",
+      "Bleiben Sie noch zum Abendessen?",
+      "Kommen Sie doch mal zum Essen!",
+      "Ja, gerne. / Sehr nett, danke aber (+ Grund).",
+      "Ich habe leider keine Zeit (mehr)."
+    ],
+    "examples": [
+      "Darf ich Sie zu einem Kaffee einladen?",
+      "Bleiben Sie noch zum Abendessen? Bleiben Sie doch noch ein bisschen.",
+      "Kommen Sie doch mal zum Essen! Ja, gerne.",
+      "Sehr nett, danke aber ich habe leider keine Zeit mehr."
+    ],
+    "description": "Extending invitations for meals or social occasions and accepting or declining them with appropriate formulas. At A2 this includes formal invitations and polite refusals with reasons."
+  },
+  {
+    "code": "address_someone",
+    "label": "Jemanden ansprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Sind Sie nicht Frau Yilmaz?",
+      "Ja (das stimmt). / Ja, warum?",
+      "Nein, ich bin ... / ich heiße ... / mein Name ist ...",
+      "Hier ist Josefa Karosz.",
+      "Guten Tag. Frau Heuer bitte!"
+    ],
+    "examples": [
+      "Sind Sie nicht Frau Yilmaz? Ja, das stimmt. / Nein, ich bin ...",
+      "Hier ist Josefa Karosz. Hallo, ist Julia da?",
+      "Guten Tag. Frau Heuer bitte! Ja, Moment bitte. / Tut mir Leid, sie ist nicht da."
+    ],
+    "description": "Addressing someone directly in person or by telephone, including verifying identity and asking to speak to a specific person. At A2 this extends to telephone contact formulas."
+  },
+  {
+    "code": "telephone_contact",
+    "label": "Telefonieren",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Guten Tag, mein Name ist Fernandez. Kann ich (mit) Herrn Jung sprechen?",
+      "Gern, Augenblick / Moment, er spricht gerade.",
+      "Hier ist Lehmann. Sie sind falsch verbunden.",
+      "Leider ist er gerade nicht da. Kann er Sie zurückrufen?"
+    ],
+    "examples": [
+      "Guten Tag, mein Name ist Fernandez. Kann ich mit Herrn Jung sprechen?",
+      "Gern, Augenblick, er spricht gerade.",
+      "Hier ist Lehmann. Sie sind falsch verbunden.",
+      "Leider ist er gerade nicht da. Kann er Sie zurückrufen?"
+    ],
+    "description": "Making and managing telephone calls, including asking for a specific person, being put on hold, and dealing with wrong numbers or absent parties."
+  },
+  {
+    "code": "greet_welcome",
+    "label": "Begrüßen und Willkommen heißen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Herzlich willkommen!",
+      "Danke, (sehr / ganz) gut / es geht. Und dir?"
+    ],
+    "examples": [
+      "Herzlich willkommen!",
+      "Hallo, wie geht's? Danke, sehr gut. Und dir?"
+    ],
+    "description": "Welcoming someone and exchanging extended greetings. At A2 this adds the formula 'Herzlich willkommen' and more varied well-being responses."
+  },
+  {
+    "code": "introduce_self_other",
+    "label": "Sich und andere vorstellen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Kennt ihr euch?",
+      "Nein, (noch nicht). / Ja, wir natürlich.",
+      "Darf ich Ihnen Stephan Dreyer vorstellen?",
+      "Freut mich, Herr Dreyer. Gerlinde Meier."
+    ],
+    "examples": [
+      "Kennt ihr euch? Nein, noch nicht. / Ja, wir natürlich.",
+      "Darf ich Ihnen Stephan Dreyer vorstellen? Freut mich, Herr Dreyer. Gerlinde Meier.",
+      "Guten Tag. Ich bin Julia Populic. Freut mich. Kirsten Jagoda."
+    ],
+    "description": "Introducing oneself or others in social or professional contexts. At A2 this extends to third-party introductions and checking whether people already know each other."
+  },
+  {
+    "code": "discuss_wellbeing",
+    "label": "Über das Befinden sprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Wie geht es Ihnen?",
+      "Danke, besser / nicht mehr so schlecht.",
+      "Du schaust schlecht aus. Was ist los?",
+      "Mir geht's nicht (sehr) gut.",
+      "Sie sehen heute besser aus. Tut Ihnen der Zahn noch weh?"
+    ],
+    "examples": [
+      "Wie geht es Ihnen? Danke, besser / nicht mehr so schlecht.",
+      "Du schaust schlecht aus. Was ist los? Was hast du? Mir geht's nicht sehr gut.",
+      "Sie sehen heute besser aus. Tut Ihnen der Zahn noch weh? Ja, immer noch. / Es geht schon etwas besser, danke."
+    ],
+    "description": "Discussing health and wellbeing in more detail, including noticing that someone looks unwell and asking about specific ailments. At A2 this extends to follow-up health enquiries."
+  },
+  {
+    "code": "express_good_wishes",
+    "label": "Gute Wünsche aussprechen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Schöne Feiertage! / Frohe Weihnachten!",
+      "Ein gutes / frohes neues Jahr!",
+      "Gute Reise! / Schönes Wochenende.",
+      "Gute Besserung! / Gesundheit! / Guten Appetit.",
+      "Alles Gute (zum Geburtstag)! / Viel Glück! / Spaß!"
+    ],
+    "examples": [
+      "Schöne Feiertage! Frohe Weihnachten! Ein gutes neues Jahr!",
+      "Gute Reise! / Schönes Wochenende. / Schönen Tag!",
+      "Gute Besserung! / Gesundheit! / Guten Appetit.",
+      "Alles Gute zum Geburtstag! Viel Glück und Spaß!"
+    ],
+    "description": "Expressing good wishes for various occasions including holidays, travel, health, and celebrations. At A2 this introduces a wide variety of seasonal and situational wish formulas."
+  },
+  {
+    "code": "give_compliment",
+    "label": "Anerkennung und Kompliment",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Das Kleid sieht gut / toll aus.",
+      "Das ist sehr nett / freundlich von Ihnen.",
+      "Das haben Sie (sehr) gut gemacht.",
+      "Das Essen war (sehr) gut.",
+      "Das freut mich."
+    ],
+    "examples": [
+      "Das Kleid sieht gut / toll aus.",
+      "Das ist sehr nett / freundlich von Ihnen.",
+      "Das haben Sie sehr gut gemacht.",
+      "Das Essen war sehr gut. Das freut mich."
+    ],
+    "description": "Paying compliments and expressing appreciation for someone's appearance, work, or hospitality. At A2 this extends to more specific and elaborate compliment formulas."
+  },
+  {
+    "code": "express_thanks",
+    "label": "Dankbarkeit ausdrücken",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Besten Dank. / Vielen Dank für die Hilfe.",
+      "Gern.",
+      "Sehr nett von Ihnen."
+    ],
+    "examples": [
+      "Besten Dank. / Vielen Dank für die Hilfe.",
+      "Gern. / Sehr nett von Ihnen.",
+      "Vielen Dank. (Brief)"
+    ],
+    "description": "Expressing gratitude for specific help or services received. At A2 this extends to specifying what one is grateful for and responding to thanks more naturally."
+  },
+  {
+    "code": "take_leave",
+    "label": "Verabschiedung",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Jetzt muss ich aber (leider) gehen.",
+      "Ich muss jetzt leider Schluss machen!",
+      "Gut, dann auf Wiederhören.",
+      "Liebe / Herzliche Grüße",
+      "Mit freundlichen Grüßen"
+    ],
+    "examples": [
+      "Jetzt muss ich aber leider gehen.",
+      "Ich muss jetzt leider Schluss machen! Gut, dann auf Wiederhören.",
+      "Liebe / Herzliche Grüße (Brief)",
+      "Mit freundlichen Grüßen (Brief)"
+    ],
+    "description": "Taking leave in person, by telephone, or in writing with appropriate closing formulas. At A2 this extends to initiating the farewell and using formal written sign-offs."
+  },
+  {
+    "code": "open_conv_a2",
+    "label": "eine Äußerung einleiten",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Entschuldigung. Haben Sie einen Moment Zeit?",
+      "Hallo [Name]! Na, wie war's ...",
+      "[Name], sagen Sie mal: Wo finde ich ...?"
+    ],
+    "examples": [
+      "Entschuldigung. Haben Sie einen Moment Zeit?",
+      "Hallo Jan! Na, wie war's im Urlaub / gestern Abend?",
+      "Herr Zacharias, sagen Sie mal: Wo finde ich ...?"
+    ],
+    "description": "Phrases used to open or initiate a conversation or utterance in a polite and contextually appropriate way at A2 level."
+  },
+  {
+    "code": "close_conv_a2",
+    "label": "eine Äußerung abschließen",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Entschuldigung, ich muss jetzt weg.",
+      "Danke. Das war sehr interessant.",
+      "Also, wir sehen uns nächste Woche?",
+      "So, ich glaube, das war's.",
+      "Danke für Ihre Hilfe / für das Gespräch."
+    ],
+    "examples": [
+      "Entschuldigung, ich muss jetzt weg.",
+      "Danke. Das war sehr interessant.",
+      "Also, wir sehen uns nächste Woche?",
+      "Danke für Ihre Hilfe / für das Gespräch."
+    ],
+    "description": "Phrases used to politely close or wrap up a conversation or utterance at A2 level."
+  },
+  {
+    "code": "take_floor_a2",
+    "label": "um das Wort bitten",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Nur noch kurz, ich bin gleich fertig.",
+      "Einen Augenblick, ich möchte etwas sagen."
+    ],
+    "examples": [
+      "Nur noch kurz, ich bin gleich fertig.",
+      "Einen Augenblick, ich möchte etwas sagen."
+    ],
+    "description": "Phrases used to signal that the speaker wishes to take or hold the floor in a conversation at A2 level."
+  },
+  {
+    "code": "signal_listening_a2",
+    "label": "Zuhören signalisieren",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ach so.",
+      "Ah ja.",
+      "Na und?",
+      "Wie bitte?"
+    ],
+    "examples": [
+      "Ach so.",
+      "Ah ja.",
+      "Na und?",
+      "Wie bitte?"
+    ],
+    "description": "Short backchannel expressions used at A2 level to signal that the listener is following and engaged in the conversation."
+  },
+  {
+    "code": "prompt_speaking_a2",
+    "label": "zum Sprechen auffordern",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Sprechen Sie bitte weiter."
+    ],
+    "examples": [
+      "Sprechen Sie bitte weiter."
+    ],
+    "description": "Phrase used to encourage the interlocutor to continue speaking at A2 level."
+  },
+  {
+    "code": "shared_knowledge_a2",
+    "label": "gemeinsames Wissen andeuten",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Nein, morgen kann ich nicht.",
+      "Da habe ich doch Geburtstag."
+    ],
+    "examples": [
+      "Nein, morgen kann ich nicht. Da habe ich doch Geburtstag."
+    ],
+    "description": "Utterances that implicitly reference shared background knowledge between speakers to explain or justify a statement at A2 level."
+  },
+  {
+    "code": "give_examples_a2",
+    "label": "Beispiele geben und verdeutlichen",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ich muss den Haushalt machen: waschen, kochen etc.",
+      "Wir, das sind meine kleine Tochter, unsere Katze und ich, ..."
+    ],
+    "examples": [
+      "Ich muss den Haushalt machen: waschen, kochen etc.",
+      "Wir, das sind meine kleine Tochter, unsere Katze und ich, laden Sie herzlich ein."
+    ],
+    "description": "Strategies for clarifying or illustrating a point by giving concrete examples or elaborating with additional detail at A2 level."
+  },
+  {
+    "code": "simplify_language_a2",
+    "label": "die Sprache vereinfachen",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Das heißt: ...",
+      "Also, das heißt: Man darf nicht hinein.",
+      "Dreimal, verstehen Sie, dreimal musste ich anrufen."
+    ],
+    "examples": [
+      "Kein Zutritt. Also, das heißt: Man darf nicht hinein.",
+      "Dreimal, verstehen Sie, dreimal musste ich anrufen."
+    ],
+    "description": "Strategies for offering simplified or repeated language to aid the listener's comprehension at A2 level."
+  },
+  {
+    "code": "paraphrase_words_a2",
+    "label": "einzelne Wörter umschreiben",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Pauschalurlaub ist eine Reise mit Flug, Hotel und Essen.",
+      "Apotheke: Da kann man Medikamente kaufen."
+    ],
+    "examples": [
+      "Pauschalurlaub ist eine Reise mit Flug, Hotel und Essen.",
+      "Apotheke: Da kann man Medikamente kaufen."
+    ],
+    "description": "Using a definition or circumlocution to explain an individual word or concept to the listener at A2 level."
+  },
+  {
+    "code": "check_understanding_",
+    "label": "Rückfragen zur Verständniskontrolle",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Haben Sie das verstanden?",
+      "Ist das klar?",
+      "Noch eine Frage?",
+      "Soll ich langsamer sprechen?"
+    ],
+    "examples": [
+      "Haben Sie das verstanden?",
+      "Ist das klar?",
+      "Soll ich langsamer sprechen?"
+    ],
+    "description": "Phrases used by the speaker to check whether the listener has understood what was said at A2 level."
+  },
+  {
+    "code": "spell_words_a2",
+    "label": "schwierige Wörter buchstabieren",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Stadt wird am Ende mit 'dt' geschrieben, Staat mit zwei 'a' und 't'."
+    ],
+    "examples": [
+      "Stadt wird am Ende mit 'dt' geschrieben, Staat mit zwei 'a' und 't'."
+    ],
+    "description": "Offering to spell out difficult words to ensure correct comprehension or writing at A2 level."
+  },
+  {
+    "code": "ask_repeat_a2",
+    "label": "um Wiederholung bitten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Bitte wiederholen Sie den Satz noch einmal.",
+      "Wie bitte?",
+      "Entschuldigung, noch einmal bitte."
+    ],
+    "examples": [
+      "Bitte wiederholen Sie den Satz noch einmal.",
+      "Wie bitte?",
+      "Entschuldigung, noch einmal bitte."
+    ],
+    "description": "Phrases used to ask the interlocutor to repeat something at A2 level."
+  },
+  {
+    "code": "confirm_understood_a",
+    "label": "sich bestätigen lassen",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Sagten Sie heute Morgen oder Abend?",
+      "Entschuldigung, habe ich das richtig verstanden?",
+      "Habe ich Sie richtig verstanden?",
+      "Entschuldigung. Sie meinen also, ..."
+    ],
+    "examples": [
+      "Sagten Sie heute Morgen oder Abend?",
+      "Entschuldigung, habe ich das richtig verstanden?",
+      "Habe ich Sie richtig verstanden?",
+      "Entschuldigung. Sie meinen also, ..."
+    ],
+    "description": "Phrases used to check whether one has correctly heard or understood what was said or meant at A2 level."
+  },
+  {
+    "code": "ask_explanation_a2",
+    "label": "um Erläuterung bitten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Entschuldigung, was heißt das?",
+      "Was bedeutet ... ?",
+      "Ich kenne das Wort nicht. Bitte erklären Sie (mir) das."
+    ],
+    "examples": [
+      "Entschuldigung, was heißt das?",
+      "Was bedeutet ... ?",
+      "Ich kenne das Wort nicht. Bitte erklären Sie (mir) das."
+    ],
+    "description": "Phrases used to ask for a word or expression to be explained at A2 level."
+  },
+  {
+    "code": "ask_spell_a2",
+    "label": "jemanden bitten zu buchstabieren",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Bitte buchstabieren Sie mir den Namen.",
+      "Können Sie das Wort buchstabieren?"
+    ],
+    "examples": [
+      "Bitte buchstabieren Sie mir den Namen.",
+      "Können Sie das Wort buchstabieren?"
+    ],
+    "description": "Asking the interlocutor to spell out a word at A2 level to ensure correct understanding."
+  },
+  {
+    "code": "ask_write_down_a2",
+    "label": "bitten, etwas aufzuschreiben",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Wie schreibt man ... ?",
+      "Bitte schreiben Sie das auf.",
+      "Können Sie mir das bitte aufschreiben?"
+    ],
+    "examples": [
+      "Wie schreibt man ... ?",
+      "Bitte schreiben Sie das auf.",
+      "Können Sie mir das bitte aufschreiben?"
+    ],
+    "description": "Asking the interlocutor to write something down to aid comprehension or retention at A2 level."
+  },
+  {
+    "code": "ask_slower_a2",
+    "label": "bitten, langsamer zu sprechen",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A2",
+    "patterns": [
+      "Bitte reden Sie etwas langsamer.",
+      "Können Sie bitte etwas / ein wenig langsamer sprechen."
+    ],
+    "examples": [
+      "Bitte reden Sie etwas langsamer.",
+      "Können Sie bitte etwas / ein wenig langsamer sprechen."
+    ],
+    "description": "Asking the interlocutor to slow down their speech to improve comprehension at A2 level."
+  },
+  {
+    "code": "circumlocute_word_a2",
+    "label": "Wörter und Begriffe umschreiben",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Meine Angehörigen wohnen in der Türkei – Angehörige? – Meine Familie ...",
+      "Es ist ein Gemüse, es ist lang, grün und rund."
+    ],
+    "examples": [
+      "Meine Angehörigen wohnen in der Türkei – Angehörige? – Meine Familie ...",
+      "Ich koche heute Abend und brauche ... ich weiß nicht, wie man sagt / Wie nennt man das? ... Es ist ein Gemüse, es ist lang, grün und rund."
+    ],
+    "description": "Using descriptions or paraphrases to compensate for unknown or forgotten words at A2 level."
+  },
+  {
+    "code": "use_synonyms_a2",
+    "label": "Synonyme oder ähnliche Begriffe verwenden",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Wie nennt man das?",
+      "Auf Englisch sagt man ...",
+      "Entschuldigung, ich weiß das Wort nicht auf Deutsch."
+    ],
+    "examples": [
+      "Entschuldigung, ich weiß das Wort nicht auf Deutsch.",
+      "Jetzt weiß ich das Wort nicht mehr!"
+    ],
+    "description": "Using synonyms, near-equivalents, or words from another language as a compensation strategy when the target word is unknown at A2 level."
+  },
+  {
+    "code": "self_correct_a2",
+    "label": "Selbstkorrektur",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Entschuldigung, ich fange noch einmal an: Ich meine ...",
+      "Ich meine ..."
+    ],
+    "examples": [
+      "Entschuldigung, ich fange noch einmal an: Ich meine ...",
+      "Ich fahre zu Paris ... nein, nach Paris."
+    ],
+    "description": "Correcting oneself mid-utterance when an error is noticed, in order to communicate more accurately at A2 level."
+  },
+  {
+    "code": "express_word_unknown",
+    "label": "ausdrücken, ein Wort nicht zu kennen",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Entschuldigung, ich weiß das Wort nicht auf Deutsch.",
+      "Jetzt weiß ich das Wort nicht mehr!",
+      "Wie sagt man auf Deutsch?"
+    ],
+    "examples": [
+      "Entschuldigung, ich weiß das Wort nicht auf Deutsch.",
+      "Jetzt weiß ich das Wort nicht mehr!",
+      "Wie sagt man auf Deutsch?"
+    ],
+    "description": "Explicitly stating that a word is unknown or has been forgotten as a compensation strategy at A2 level."
+  },
+  {
+    "code": "check_comprehension_",
+    "label": "nachfragen, ob man verstanden wurde",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Haben Sie mich verstanden?"
+    ],
+    "examples": [
+      "Haben Sie mich verstanden?"
+    ],
+    "description": "Checking whether the interlocutor has understood despite possible errors or imperfect German at A2 level."
+  },
+  {
+    "code": "ask_help_formulating",
+    "label": "Hilfestellung beim Formulieren",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Möchtest du sagen ...?",
+      "Meinen Sie vielleicht ...?"
+    ],
+    "examples": [
+      "Möchtest du sagen ...?",
+      "Meinen Sie vielleicht ...?"
+    ],
+    "description": "Asking the interlocutor for help in finding the right words or formulation at A2 level."
+  },
+  {
+    "code": "change_topic_a2",
+    "label": "das Thema wechseln",
+    "macro_category": "redeorganisation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Was ich noch sagen wollte: ...",
+      "Ach ja, wenn wir gerade von Computern reden. Hast du dir einen gekauft?"
+    ],
+    "examples": [
+      "Was ich noch sagen wollte: ...",
+      "Ach ja, wenn wir gerade von Computern reden. Hast du dir einen gekauft?"
+    ],
+    "description": "Phrases used to shift the topic of conversation at A2 level."
+  },
+  {
+    "code": "hedge_politeness_a2",
+    "label": "Höflichkeit und Abschwächung",
+    "macro_category": "kompensation",
+    "cefr_level": "A2",
+    "patterns": [
+      "Seien/Wären Sie bitte so nett und ...",
+      "Das ist sehr freundlich. Danke.",
+      "Wie findest du den Film? Eigentlich ganz gut.",
+      "Möchtest du noch etwas? Ja, ein bisschen."
+    ],
+    "examples": [
+      "Seien/Wären Sie bitte so nett und ...",
+      "Wie findest du den Film? Eigentlich ganz gut.",
+      "Möchtest du noch etwas? Ja, ein bisschen."
+    ],
+    "description": "Using polite or softening expressions to mitigate directness or show courtesy at A2 level."
+  },
+  {
+    "code": "expr_absence",
+    "label": "Anwesend / abwesend sein ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Sie ist im Moment leider nicht da.",
+      "Sie fehlt heute.",
+      "Tut mir Leid, sie ist gerade nicht da.",
+      "Tut mir Leid, sie ist schon weg.",
+      "Wir haben alles, nur die Butter fehlt noch."
+    ],
+    "examples": [
+      "Sie ist im Moment leider nicht da. / Sie fehlt heute.",
+      "Tut mir Leid, sie ist gerade nicht da.",
+      "Tut mir Leid, sie ist schon weg.",
+      "Wir haben alles, nur die Butter fehlt noch."
+    ],
+    "description": "Expressing that a person or thing is currently absent, unavailable, or missing from a place or situation."
+  },
+  {
+    "code": "expr_location",
+    "label": "Ort angeben",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ich wohne in der Nähe vom Bahnhof.",
+      "Im Schrank dort.",
+      "Vor / hinter dem Haus",
+      "Augsburg liegt zwischen München und Stuttgart.",
+      "Das Kaufhaus liegt rechts / links von der Kirche."
+    ],
+    "examples": [
+      "Ich wohne in der Nähe vom Bahnhof.",
+      "Vor / hinter dem Haus stehen zwei große Bäume.",
+      "Augsburg liegt zwischen München und Stuttgart. / im Norden / im Süden / im Osten / im Westen von ...",
+      "Das Kaufhaus liegt rechts / links von der Kirche."
+    ],
+    "description": "Describing the location of persons or objects using prepositions of place, compass directions, and relative position."
+  },
+  {
+    "code": "expr_sequence",
+    "label": "Abfolge ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Zuerst gehen wir einkaufen, dann gehen wir nach Hause."
+    ],
+    "examples": [
+      "Zuerst gehen wir einkaufen, dann gehen wir nach Hause."
+    ],
+    "description": "Expressing the sequential order of events using temporal connectors."
+  },
+  {
+    "code": "expr_simultaneity",
+    "label": "Gleichzeitigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Ich fahre jetzt zum Supermarkt.",
+      "Kannst du in dieser Zeit auf die Kinder aufpassen?",
+      "Er geht gerade aus dem Haus."
+    ],
+    "examples": [
+      "Ich fahre jetzt zum Supermarkt. Kannst du in dieser Zeit auf die Kinder aufpassen?",
+      "Er geht gerade aus dem Haus."
+    ],
+    "description": "Expressing that two events or states occur at the same time."
+  },
+  {
+    "code": "expr_change",
+    "label": "Veränderung und Beständigkeit ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Das Wetter wird schlechter.",
+      "Morgen bleibt es schön."
+    ],
+    "examples": [
+      "Das Wetter wird schlechter.",
+      "Morgen bleibt es schön."
+    ],
+    "description": "Expressing change in a state or the continuity of a situation over time."
+  },
+  {
+    "code": "expr_beginning",
+    "label": "Beginn ausdrücken",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Seit wann läuft der Film?",
+      "Seit 15 Minuten."
+    ],
+    "examples": [
+      "Seit wann läuft der Film?",
+      "Seit 15 Minuten."
+    ],
+    "description": "Expressing when something began, especially using 'seit' to indicate a starting point still relevant now."
+  },
+  {
+    "code": "expr_physical_qual",
+    "label": "Physische Beschaffenheit beschreiben",
+    "macro_category": "notionen",
+    "cefr_level": "A2",
+    "patterns": [
+      "Das Auto ist hell(blau), dunkel(blau) / neu / sauber.",
+      "Das Bett ist aber hart / weich.",
+      "Welche Form hat es? Es ist rund / quadratisch.",
+      "Aus welchem Material ist es? Aus Plastik / Holz / Leder."
+    ],
+    "examples": [
+      "Das Auto ist hell(blau), dunkel(blau) / neu / sauber.",
+      "Das Bett ist aber hart / weich.",
+      "Welche Form hat es? Es ist rund / quadratisch.",
+      "Aus welchem Material ist es? Aus Plastik / Papier / Holz / Leder / Metall / Stoff / Glas."
+    ],
+    "description": "Describing the physical properties of objects including colour shades, texture, shape, and material."
+  }
+]

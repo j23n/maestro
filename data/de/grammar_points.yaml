@@ -1,3 +1,1093 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1fb2171b0a93b4432e3437e3dae726d829a8e5d2c04a6ac619f78c83ac2ee1f9
-size 39721
+- category: verb
+  cefr_level: A1
+  code: present_tense
+  description: Present tense forms of all verbs in the A1 word list, including regular, irregular, and mixed verbs.
+  examples:
+  - Kommst du mit?
+  - Wann fängt der Kurs an?
+  - Wo kaufst du gerne ein?
+  explanations: {}
+  label: Präsens aller Verben der Wortliste
+  source_note: Präsens aller Verben der Wortliste
+  subcategory: Tempus
+- category: verb
+  cefr_level: A1
+  code: perfect_tense
+  description: Perfect tense of a selected set of verbs including arbeiten, bleiben, essen, fahren, fragen, glauben, haben, lesen, lernen, machen, schlafen, sehen, passieren, trinken, verstehen.
+  examples:
+  - Ich habe schon gegessen.
+  explanations: {}
+  label: Perfekt ausgewählter Verben
+  source_note: 'Perfekt der Verben: arbeiten/bleiben/essen/fahren/fragen/glauben/haben/lesen/lernen/machen/schlafen/sehen/passieren/trinken/verstehen'
+  subcategory: Tempus
+- category: verb
+  cefr_level: A1
+  code: selected_participles
+  description: Selected past participles used in isolation or as adjectives, e.g. in signs or notices.
+  examples:
+  - Heute geöffnet.
+  - Bis Donnerstag geschlossen.
+  explanations: {}
+  label: Ausgewählte Partizipien
+  source_note: Ausgewählte Partizipien
+  subcategory: Tempus
+- category: verb
+  cefr_level: A1
+  code: praeteritum_haben_se
+  description: Simple past (Präteritum) of haben and sein in the 1st and 3rd person singular only.
+  examples:
+  - Sie/ich hatte keine Zeit.
+  - Ich/er war nicht da.
+  explanations: {}
+  label: Präteritum haben/sein 1./3. Person
+  source_note: 'Präteritum: ausgewählte Form: 1. und 3. Person haben/sein'
+  subcategory: Tempus
+- category: verb
+  cefr_level: A1
+  code: indicative_mood
+  description: Indicative mood for all verbs in the A1 word list, used for statements and questions about real situations.
+  examples:
+  - Kommst du mit?
+  - Wann fängt der Kurs an?
+  explanations: {}
+  label: Indikativ aller Verben der Wortliste
+  source_note: Indikativ aller Verben der Wortliste
+  subcategory: Modus
+- category: verb
+  cefr_level: A1
+  code: konjunktiv2_moegen_w
+  description: Konjunktiv II forms of mögen (möchte) and werden (würde), used as lexical items for polite requests and wishes.
+  examples:
+  - Ich möchte mehr Deutsch lernen.
+  - Ich würde gerne ins Kino gehen.
+  explanations: {}
+  label: Konjunktiv II mögen/werden
+  source_note: Konjunktiv II der Verben mögen und werden; treated as lexical units, not systematically
+  subcategory: Modus
+- category: verb
+  cefr_level: A1
+  code: imperative
+  description: Imperative forms of verbs in the du, ihr, and Sie address forms, used for instructions and requests.
+  examples:
+  - Geh bitte nach Hause!
+  - Kommt bitte alle mit!
+  - Kommen Sie bitte mit!
+  - Mach bitte das Fenster zu!
+  explanations: {}
+  label: Imperativ du-, ihr- und Sie-Form
+  source_note: Imperativ in der du-, ihr- und Sie-Form
+  subcategory: Modus
+- category: verb
+  cefr_level: A1
+  code: modal_verbs_present
+  description: 'Present tense of all six modal verbs: können, wollen, müssen, dürfen, sollen, möchten, expressing ability, desire, necessity, permission, obligation, and polite requests.'
+  examples:
+  - Kannst du Gitarre spielen?
+  - Er will eine Ausbildung als Schreiner machen.
+  - Du musst zuerst die Hausaufgaben machen.
+  - Sie dürfen hier nicht rauchen.
+  - Was soll ich machen?
+  - Möchtest du eine Tasse Tee?
+  explanations: {}
+  label: Modalverben im Präsens
+  source_note: Präsens von können, wollen, müssen, dürfen, sollen, möchten
+  subcategory: Modalverben
+- category: verb
+  cefr_level: A1
+  code: separable_verbs
+  description: Verbs with separable prefixes where the prefix is split off and placed at the end of the main clause.
+  examples:
+  - Wann fängt der Kurs an?
+  - Wo kaufst du gerne ein?
+  - Mach bitte das Fenster zu!
+  - Der Unterricht fängt um 9 Uhr an.
+  explanations: {}
+  label: Verben mit trennbarem Präfix
+  source_note: Verben mit trennbarem Präfix
+  subcategory: Verben mit trennbarem Präfix
+- category: nomen
+  cefr_level: A1
+  code: noun_gender
+  description: Grammatical gender of nouns (masculine, feminine, neuter) as listed in the word list.
+  examples:
+  - der Apfel/die Sonne/das Kind
+  explanations: {}
+  label: 'Genus der Nomen: der/die/das'
+  source_note: 'Genus: der/die/das'
+  subcategory: Genus
+- category: nomen
+  cefr_level: A1
+  code: noun_plural
+  description: Singular and plural forms of nouns as specified in the A1 word list.
+  examples:
+  - Drei Fahrkarten nach Berlin und eine Fahrkarte nach Karlsruhe, bitte.
+  explanations: {}
+  label: Singular und Plural der Nomen
+  source_note: Singular/Plural der Nomen wie in der Wortliste
+  subcategory: Numerus
+- category: nomen
+  cefr_level: A1
+  code: nominative_case
+  description: Nominative case of all nouns in the word list, used for the subject of a sentence.
+  examples:
+  - der Mann
+  - Er heißt Heinz Bartels.
+  explanations: {}
+  label: Nominativ aller Nomen der Wortliste
+  source_note: Nominativ aller Nomen in der Wortliste
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A1
+  code: accusative_case
+  description: Accusative case of all nouns in the word list, used for direct objects and with certain prepositions.
+  examples:
+  - den Mann
+  - Ich nehme eine Coca Cola.
+  explanations: {}
+  label: Akkusativ aller Nomen der Wortliste
+  source_note: Akkusativ aller Nomen in der Wortliste
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A1
+  code: dative_case
+  description: Dative case of all nouns in the word list, used for indirect objects and with certain verbs and prepositions. Marked as A2 addition (*) but listed here.
+  examples:
+  - dem Mann
+  - Gib mir bitte mal dein Wörterbuch.
+  - Kann ich dir helfen?
+  explanations: {}
+  label: Dativ aller Nomen der Wortliste
+  source_note: Dativ* aller Nomen in der Wortliste (marked with * as A2 addition)
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A1
+  code: genitive_proper_name
+  description: Genitive case used with proper names in the singular (possessive -s), and genitive recognized receptively.
+  examples:
+  - Karls Freunde kommen heute Nachmittag.
+  - die Nummer des Wagens
+  explanations: {}
+  label: Genitiv bei Eigennamen im Singular
+  source_note: Genitiv bei Eigennamen im Singular; Genitiv (rezeptiv)
+  subcategory: Kasus
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: definite_article
+  description: Definite articles der, die, das (singular) and die (plural) used with nouns across cases.
+  examples:
+  - der Tisch/die Lampe/das Bett/die Sachen
+  explanations: {}
+  label: Definiter Artikel der/die/das/die
+  source_note: 'Definit: der/die/das/die'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: demonstrative_articl
+  description: Demonstrative articles dieser, diese, dieses, diese used to point to specific nouns.
+  examples:
+  - dieser Tisch/diese Lampe/dieses Bett/diese Sachen
+  explanations: {}
+  label: Demonstrativartikel dieser/diese/dieses
+  source_note: 'Demonstrativ: dieser/diese/dieses/diese'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: indefinite_article
+  description: Indefinite articles ein, eine, ein used to introduce unspecified nouns.
+  examples:
+  - ein Tisch/eine Lampe/ein Bett
+  explanations: {}
+  label: Indefiniter Artikel ein/eine/ein
+  source_note: 'Indefinit: ein/eine/ein'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: zero_article
+  description: Use of nouns without any article, e.g. with uncountable nouns or in certain fixed expressions.
+  examples:
+  - Ich esse gern Fleisch.
+  - Sachen
+  explanations: {}
+  label: Nullartikel bei Nomen
+  source_note: Nullartikel
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: possessive_article
+  description: Possessive articles mein, dein, sein, ihr, Ihr, unser and their inflected forms to express ownership or belonging.
+  examples:
+  - mein/dein/sein/ihr/Ihr Tisch
+  - meine/deine/seine/ihre/Ihre Lampe
+  - unser Lehrer
+  - uns(e)re Lehrerin
+  explanations: {}
+  label: Possessivartikel mein/dein/sein/ihr
+  source_note: 'Possessiv: mein/dein/sein/ihr/Ihr; unser'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: negative_article_kei
+  description: Negative article kein/keine/kein used to negate nouns, corresponding to the indefinite article.
+  examples:
+  - Er ist kein Lehrer.
+  - Sie ist keine Ärztin.
+  - Wir haben jetzt keine Zeit.
+  explanations: {}
+  label: Negativartikel kein/keine
+  source_note: 'Negativ: kein'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: indef_pronoun_man
+  description: Indefinite pronoun man used to refer to people in general without specifying who.
+  examples:
+  - Kann man hier Fahrkarten kaufen?
+  explanations: {}
+  label: Indefinitpronomen man
+  source_note: 'Indefinit: man'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: indef_pronoun_etwas_
+  description: Indefinite pronouns etwas, nichts, mehr, alles, and welch- used for unspecified quantities or amounts.
+  examples:
+  - Möchten Sie etwas trinken?
+  - Ich esse jetzt nichts.
+  - Möchten Sie noch mehr?
+  - Er versteht alles.
+  - Ich habe keine Milch mehr. Hast du welche?
+  explanations: {}
+  label: Indefinitpronomen etwas/nichts/mehr/alles/welch-
+  source_note: 'Indefinit: etwas, nichts, mehr, alles, welch-'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: personal_pronoun_nom
+  description: Personal pronouns in the nominative case (ich, du, er, sie, es, wir, ihr, sie, Sie) used as subjects.
+  examples:
+  - Ich gehe jetzt.
+  - Wer ist da?
+  explanations: {}
+  label: Personalpronomen im Nominativ
+  source_note: Personalpronomen im Nominativ
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: personal_pronoun_acc
+  description: 'Personal pronouns in the accusative case: mich, dich, ihn, sie, es, used as direct objects.'
+  examples:
+  - Ich liebe dich/ihn/sie.
+  explanations: {}
+  label: Personalpronomen im Akkusativ
+  source_note: 'Akkusativ: mich/dich/ihn/sie/es'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: personal_pronoun_dat
+  description: Dative personal pronouns mir, dir, euch, Ihnen used with specific dative verbs such as danken, gehören, helfen, and in the expression es geht.
+  examples:
+  - Ich danke Ihnen sehr.
+  - Es geht mir gut.
+  - Kann ich dir helfen?
+  explanations: {}
+  label: Personalpronomen im Dativ
+  source_note: 'Dativ bei den Verben: danken/gehören/helfen/es geht/mir/dir/euch/Ihnen'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: reciprocal_pronoun
+  description: Reciprocal pronouns sich and uns used to express mutual actions.
+  examples:
+  - Wir sehen uns morgen.
+  explanations: {}
+  label: Reziprokpronomen sich/uns
+  source_note: 'Reziprokpronomen: sich/uns'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A1
+  code: interrogative_pronou
+  description: Interrogative pronouns wer and was in the nominative, wen and was in the accusative, and wem in the dative.
+  examples:
+  - Wer ist da?
+  - Was ist das?
+  - Wen besuchst du?
+  - Was machst du morgen?
+  - Wem gehört die Jacke?
+  explanations: {}
+  label: Fragepronomen wer/was/wen/wem
+  source_note: 'Fragepronomen im Nominativ: Wer?/Was?, im Akkusativ: Wen?/Was? und im Dativ: Wem?'
+  subcategory: Pronomen
+- category: adjektiv
+  cefr_level: A1
+  code: adj_predicative
+  description: Adjectives used predicatively after verbs like sein, werden, without inflectional endings.
+  examples:
+  - Das Haus ist modern.
+  - Der Film ist langweilig.
+  explanations: {}
+  label: Adjektiv prädikativ
+  source_note: Adjektiv prädikativ
+  subcategory: prädikativ
+- category: adjektiv
+  cefr_level: A1
+  code: adj_adverbial
+  description: Adjectives used adverbially to modify verbs, without inflectional endings.
+  examples:
+  - Ich lese gern.
+  - Wo kaufst du gerne ein?
+  explanations: {}
+  label: Adjektiv adverbial
+  source_note: Adjektiv adverbial
+  subcategory: adverbial
+- category: praeposition
+  cefr_level: A1
+  code: prep_temporal
+  description: 'Prepositions used to express time relationships: an, ab, für, in, nach, über, um, von...bis, vor with their required cases.'
+  examples:
+  - am Morgen/am Dienstag
+  - ab Februar 2004
+  - für die nächsten drei Wochen
+  - im Sommer/in dieser Woche
+  - nach dem Essen
+  - über 20 Minuten
+  - um halb sieben/um 18.30 Uhr
+  - geschlossen von Dienstag bis Donnerstag
+  - vor dem Konzert
+  explanations: {}
+  label: Temporale Präpositionen
+  source_note: 'temporal: an + Dativ, ab + Akkusativ, für + Akkusativ, in + Dativ, nach + Dativ, über, um + Akkusativ, von...bis, vor + Dativ'
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A1
+  code: prep_local
+  description: 'Prepositions used to express location and direction: an, auf, aus, bei, in, nach, von...nach, unter, zu with their required cases.'
+  examples:
+  - Ferien am Meer/an den See fahren
+  - auf dem Marktplatz/auf dem Tisch
+  - aus Italien
+  - bei Familie Müller/bei Siemens
+  - im Park spielen/in die Stadt fahren
+  - nach Paris/nach Deutschland fahren
+  - von Hamburg nach Bremen
+  - unter der Nummer
+  - zur Schule/zu meiner Freundin gehen
+  explanations: {}
+  label: Lokale Präpositionen
+  source_note: 'lokal: an + Dativ/Akkusativ, auf + Dativ, aus + Dativ, bei + Dativ, in + Dativ/Akkusativ, nach + Dativ, von...nach + Dativ/–, unter + Dativ, zu + Dativ'
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A1
+  code: prep_modal
+  description: 'Prepositions used to express manner or means: aus, für, mit, ohne with their required cases.'
+  examples:
+  - aus Plastik
+  - für meinen Freund/für dich
+  - mit dem Auto
+  - ohne Hilfe/ohne dich
+  explanations: {}
+  label: Modale Präpositionen
+  source_note: 'modal: aus + Dativ, für + Akkusativ, mit + Dativ, ohne + Akkusativ'
+  subcategory: modal
+- category: syntax
+  cefr_level: A1
+  code: verb_second_position
+  description: The finite verb always occupies the second position in declarative main clauses, even when an adverb or other element is placed first.
+  examples:
+  - Morgen fahre ich nach Stuttgart.
+  - Ich fahre morgen nach Paris.
+  explanations: {}
+  label: Verbzweitstellung im Aussagesatz
+  source_note: Verbzweitstellung
+  subcategory: Verbzweitstellung
+- category: syntax
+  cefr_level: A1
+  code: verb_complement_nom
+  description: Nominative complement required by certain verbs such as heißen and sein.
+  examples:
+  - Er heißt Heinz Bartels.
+  explanations: {}
+  label: Nominativergänzung
+  source_note: Nominativergänzung
+  subcategory: Verbergänzung
+- category: syntax
+  cefr_level: A1
+  code: verb_complement_acc
+  description: Accusative complement (direct object) required by transitive verbs.
+  examples:
+  - Ich nehme eine Coca Cola.
+  explanations: {}
+  label: Akkusativergänzung
+  source_note: Akkusativergänzung
+  subcategory: Verbergänzung
+- category: syntax
+  cefr_level: A1
+  code: verb_complement_dat
+  description: Dative complement required by verbs danken, gehören, geben, and helfen.
+  examples:
+  - Gib mir bitte mal dein Wörterbuch.
+  explanations: {}
+  label: Dativergänzung bei ausgewählten Verben
+  source_note: Dativergänzung bei den Verben danken/gehören/geben/helfen
+  subcategory: Verbergänzung
+- category: syntax
+  cefr_level: A1
+  code: verb_complement_loca
+  description: Local complement expressing place where an action occurs or direction of movement, required by verbs like wohnen.
+  examples:
+  - Wir wohnen in der Heinestraße 7.
+  explanations: {}
+  label: Lokalergänzung
+  source_note: Lokalergänzung
+  subcategory: Verbergänzung
+- category: syntax
+  cefr_level: A1
+  code: verb_complement_qual
+  description: Qualitative complement (predicate adjective) required by verbs like sein expressing a quality or state.
+  examples:
+  - Der Film ist langweilig.
+  explanations: {}
+  label: Qualitativergänzung
+  source_note: Qualitativergänzung
+  subcategory: Verbergänzung
+- category: syntax
+  cefr_level: A1
+  code: sentence_bracket
+  description: The verbal bracket formed by the finite verb in second position and a non-finite verb element (infinitive, participle, or separable prefix) at the end of the clause.
+  examples:
+  - Der Unterricht fängt um 9 Uhr an.
+  - Ich will meine Tante besuchen.
+  - Ich habe schon gegessen.
+  explanations: {}
+  label: Satzklammer
+  source_note: Satzklammer
+  subcategory: Satzklammer
+- category: syntax
+  cefr_level: A1
+  code: negation_nicht
+  description: Negation of verbs, adjectives, and adverbs using nicht.
+  examples:
+  - Leider verstehe ich dich nicht.
+  - Ich gehe heute nicht spazieren, denn es ist zu kalt.
+  explanations: {}
+  label: Negation mit nicht
+  source_note: 'Negation: nicht'
+  subcategory: Negation
+- category: syntax
+  cefr_level: A1
+  code: negation_kein
+  description: Negation of nouns using kein/keine as a negative article replacing ein/eine or the zero article.
+  examples:
+  - Wir haben jetzt keine Zeit.
+  - Er ist kein Lehrer.
+  explanations: {}
+  label: Negation mit kein
+  source_note: 'Negation: kein'
+  subcategory: Negation
+- category: syntax
+  cefr_level: A1
+  code: yes_no_question
+  description: Yes/no questions formed by placing the finite verb in first position.
+  examples:
+  - Kaufst du heute ein?
+  - Kommst du mit?
+  explanations: {}
+  label: Entscheidungsfrage
+  source_note: Entscheidungsfrage
+  subcategory: Fragesatz
+- category: syntax
+  cefr_level: A1
+  code: wh_question
+  description: Information questions (W-questions) formed with an interrogative word in first position followed by the finite verb.
+  examples:
+  - Wo ist Peter?
+  - Wann fängt der Kurs an?
+  - Was machst du morgen?
+  explanations: {}
+  label: Ergänzungsfrage mit Fragewort
+  source_note: Ergänzungsfrage
+  subcategory: Fragesatz
+- category: syntax
+  cefr_level: A1
+  code: coord_conj_und_oder
+  description: Coordinating conjunctions und (and) and oder (or) used to connect clauses or elements.
+  examples:
+  - Ich hätte gern eine Coca und ein Brötchen.
+  - Möchten Sie lieber Tee oder Kaffee?
+  explanations: {}
+  label: Satzverbindung mit und/oder
+  source_note: 'Satzverbindungen: und, oder'
+  subcategory: Satzverbindungen
+- category: syntax
+  cefr_level: A1
+  code: coord_conj_aber_denn
+  description: Coordinating conjunctions aber (but) and denn (because/for) used to connect contrasting or causal clauses.
+  examples:
+  - Das ist sehr schön, aber leider zu teuer.
+  - Ich gehe heute nicht spazieren, denn es ist zu kalt.
+  explanations: {}
+  label: Satzverbindung mit aber/denn
+  source_note: 'Satzverbindungen: aber, denn'
+  subcategory: Satzverbindungen
+- category: syntax
+  cefr_level: A1
+  code: coord_conj_dann
+  description: The adverbial connector dann (then) used to sequence events or actions in connected sentences.
+  examples:
+  - Ich muss noch kurz telefonieren, dann gehen wir.
+  explanations: {}
+  label: Satzverbindung mit dann
+  source_note: 'Satzverbindungen: dann'
+  subcategory: Satzverbindungen
+- category: syntax
+  cefr_level: A1
+  code: subord_conj_wenn
+  description: Subordinating conjunction wenn (when/if) introducing a subordinate clause with verb-final word order. Marked as A2 addition.
+  examples: []
+  explanations: {}
+  label: Satzverbindung mit wenn
+  source_note: 'Satzverbindungen: wenn* (A2 addition)'
+  subcategory: Satzverbindungen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_deriv_er
+  description: Nouns derived from verbs using the suffix -er to form (typically masculine) agent nouns.
+  examples:
+  - Ausländer, Arbeiter, Bewohner, Teilnehmer
+  explanations: {}
+  label: Nominalisierung mit -er
+  source_note: 'Nominalisierung -er: Ausländer, Arbeiter, Bewohner, Teilnehmer'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_deriv_ung
+  description: Nouns derived from verbs using the suffix -ung to form feminine abstract nouns.
+  examples:
+  - Wohnung, Lösung, Mitteilung, Zahlung
+  explanations: {}
+  label: Nominalisierung mit -ung
+  source_note: 'Nominalisierung -ung: Wohnung, Lösung, Mitteilung, Zahlung'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_feminine_in
+  description: Formation of feminine nouns by adding the suffix -in to the masculine base form.
+  examples:
+  - Nachbarin, Kollegin, Kundin, Leiterin
+  explanations: {}
+  label: Feminine Formen mit -in
+  source_note: 'feminine Formen -in: Nachbarin, Kollegin, Kundin, Leiterin'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_compound_same_d
+  description: Compound nouns sharing the same first element (Bestimmungswort), illustrating how one modifier can combine with multiple base nouns.
+  examples:
+  - Reisegruppe, Reiseführer
+  explanations: {}
+  label: Komposita mit gleichem Bestimmungswort
+  source_note: 'Komposita gleiches Bestimmungswort: Reisegruppe, Reiseführer'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_compound_same_b
+  description: Compound nouns sharing the same final element (Grundwort), illustrating how one base noun can combine with multiple modifiers.
+  examples:
+  - Frauenarzt, Zahnarzt
+  - Postkarte, Scheckkarte
+  - Familienfoto, Passfoto
+  explanations: {}
+  label: Komposita mit gleichem Grundwort
+  source_note: 'Komposita gleiches Grundwort: Frauenarzt/Zahnarzt, Postkarte/Scheckkarte, Familienfoto/Passfoto'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: noun_participle
+  description: Nouns formed from participles, such as agent or patient nouns derived from present or past participles.
+  examples:
+  - Reisender
+  explanations: {}
+  label: Nominalisierte Partizipien
+  source_note: 'Partizipien (nominalisiert): Reisender'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A1
+  code: adj_prefix_un
+  description: Adjectives negated or reversed in meaning by adding the prefix un-.
+  examples:
+  - unbekannt
+  explanations: {}
+  label: Adjektiv mit Vorsilbe un-
+  source_note: 'Adjektive Vorsilbe un-: unbekannt'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A1
+  code: adj_suffix_los
+  description: Adjectives formed by adding the suffix -los (meaning 'without' or 'lacking') to a noun stem.
+  examples:
+  - arbeitslos
+  explanations: {}
+  label: Adjektiv mit Nachsilbe -los
+  source_note: 'Adjektive Nachsilbe -los: arbeitslos'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A1
+  code: adj_suffix_bar
+  description: Adjectives formed by adding the suffix -bar (meaning 'able to be') to a verb stem.
+  examples:
+  - erreichbar
+  explanations: {}
+  label: Adjektiv mit Nachsilbe -bar
+  source_note: 'Adjektive Nachsilbe -bar: erreichbar'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A1
+  code: adj_compound_colour
+  description: Compound adjectives formed by combining a modifier with a colour adjective, e.g. to express shades.
+  examples:
+  - hellblau, dunkelblau
+  explanations: {}
+  label: Adjektiv-Komposita mit Farben
+  source_note: 'Adjektive Komposita: hellblau, dunkelblau'
+  subcategory: Adjektive
+- category: verb
+  cefr_level: A2
+  code: perfekt_all_verbs
+  description: Formation and use of the Perfekt (present perfect) tense for all verbs in the A2 word list, extending beyond the limited set of verbs covered at A1.
+  examples: []
+  explanations: {}
+  label: Perfekt aller Verben der Wortliste
+  source_note: Perfekt aller Verben der Wortliste* — extends A1 Perfekt which covered only a select list of verbs
+  subcategory: Tempus
+- category: verb
+  cefr_level: A2
+  code: praeteritum_kommen_s
+  description: Simple past (Präteritum) forms of the verbs kommen and sagen, used in narrative contexts at A2 level.
+  examples:
+  - Wir kamen zu spät.
+  - Sie sagte nichts.
+  explanations: {}
+  label: Präteritum von kommen und sagen
+  source_note: Präteritum der Verben kommen*, sagen*
+  subcategory: Tempus
+- category: verb
+  cefr_level: A2
+  code: praeteritum_modal
+  description: Simple past (Präteritum) forms of modal verbs (müssen, dürfen, sollen, können, wollen, mögen), used for expressing past obligation, ability, or permission.
+  examples:
+  - Ich konnte gestern leider nicht.
+  explanations: {}
+  label: Präteritum der Modalverben
+  source_note: Modalverben* Präteritum
+  subcategory: Tempus
+- category: verb
+  cefr_level: A2
+  code: passiv_present
+  description: The present passive voice (werden + Partizip II), used to describe actions where the agent is not the focus. Also includes passive-like participial phrases.
+  examples:
+  - Das Auto wird repariert.
+  - Heute geöffnet.
+  - Bis Donnerstag geschlossen.
+  explanations: {}
+  label: Passiv Präsens
+  source_note: Passiv* — including short participial passive forms
+  subcategory: Modus
+- category: verb
+  cefr_level: A2
+  code: konjunktiv2_haben_ko
+  description: Konjunktiv II forms of haben and können used for polite requests and hypothetical statements, extending the A1 coverage of mögen/werden.
+  examples:
+  - Ich hätte gerne ein Brot, bitte.
+  - Könnten Sie bitte zu mir kommen.
+  explanations: {}
+  label: Konjunktiv II haben und können
+  source_note: Konjunktiv II der Verben haben*, können* (mögen and werden already in A1)
+  subcategory: Modus
+- category: nomen
+  cefr_level: A2
+  code: dativ_case_nouns
+  description: The dative case for all nouns in the A2 word list, extending A1 coverage of nominative and accusative cases.
+  examples:
+  - dem Mann
+  - Gib mir bitte mal dein Wörterbuch.
+  - Kann ich dir helfen?
+  explanations: {}
+  label: Dativ aller Nomen der Wortliste
+  source_note: Nominativ, Akkusativ, Dativ* aller Nomen in der Wortliste
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A2
+  code: genitiv_eigennamen
+  description: Genitive case used with proper names (Eigennamen) in the singular to express possession.
+  examples:
+  - Karls Freunde kommen heute Nachmittag.
+  explanations: {}
+  label: Genitiv bei Eigennamen im Singular
+  source_note: Genitiv bei Eigennamen im Singular
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A2
+  code: genitiv_receptive
+  description: Receptive understanding of the genitive case with definite articles, recognising possession or attribution without requiring active production.
+  examples:
+  - die Nummer des Wagens
+  explanations: {}
+  label: Genitiv rezeptiv
+  source_note: Genitiv (rezeptiv)
+  subcategory: Kasus
+- category: nomen
+  cefr_level: A2
+  code: genitiv_ersatzform
+  description: The use of 'von + Dativ' as a colloquial substitute for the genitive case to express possession or association.
+  examples:
+  - Freunde von Karl kommen heute.
+  explanations: {}
+  label: Genitiv Ersatzform mit von
+  source_note: Ersatzform* — von + Dativ as substitute for genitive
+  subcategory: Kasus
+- category: artikelwoerter_pronomen
+  cefr_level: A2
+  code: indef_pronoun_jemand
+  description: The indefinite pronouns jemand (someone) and niemand (no one) used to refer to unspecified persons.
+  examples:
+  - Hat jemand meine Schlüssel gesehen?
+  - Hier ist niemand.
+  explanations: {}
+  label: Indefinitpronomen jemand und niemand
+  source_note: 'Indefinit: jemand*, niemand*'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A2
+  code: interrogativ_welch
+  description: The interrogative article welch- (which) in nominative and accusative forms, and the determiner alle (all), used in questions and general statements.
+  examples:
+  - Welchen Film meinst du?
+  - alle Kursteilnehmer
+  explanations: {}
+  label: Interrogativartikel welch- und alle
+  source_note: 'interrogativ*: Nominativ / Akkusativ: welch-, alle'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A2
+  code: possessiv_unser_euer
+  description: The possessive determiners unser (our) and euer (your, plural informal) with their inflected forms across genders.
+  examples:
+  - unser / euer Lehrer
+  - uns(e)re / eure Lehrerin
+  - unser / euer Haus
+  explanations: {}
+  label: Possessivartikel unser und euer
+  source_note: 'Possessiv: unser / euer*'
+  subcategory: Artikel
+- category: artikelwoerter_pronomen
+  cefr_level: A2
+  code: reflexivpron_akkusat
+  description: Reflexive pronouns in the accusative case (mich, dich, euch, sich) used with reflexive verbs to indicate that the subject acts upon itself.
+  examples:
+  - Er wäscht sich.
+  - Wir sehen uns morgen.
+  explanations: {}
+  label: Reflexivpronomen im Akkusativ
+  source_note: 'Reflexivpronomen* im Akkusativ: mich / dich / euch / sich; Reziprokpronomen: sich / uns'
+  subcategory: Pronomen
+- category: artikelwoerter_pronomen
+  cefr_level: A2
+  code: dativ_fragepronomen
+  description: The interrogative pronoun wem used in the dative case to ask about the indirect object of a sentence.
+  examples:
+  - Wem gehört die Jacke?
+  explanations: {}
+  label: Fragepronomen Wem im Dativ
+  source_note: 'Fragepronomen im Dativ: Wem? — extends A1 Nominativ/Akkusativ coverage'
+  subcategory: Pronomen
+- category: adjektiv
+  cefr_level: A2
+  code: adjektiv_attributiv
+  description: Adjective declension in attributive position after both definite and indefinite articles, covering nominative, accusative and dative cases.
+  examples:
+  - der neue Arbeitsplatz / die neue Stelle / das neue Haus
+  - ein neuer Arbeitsplatz / eine neue Stelle / ein neues Haus
+  explanations: {}
+  label: Attributives Adjektiv nach definitem und indefinitem Artikel
+  source_note: attributiv* — nach definitem Artikel im Nominativ / Akkusativ / Dativ; nach indefinitem Artikel im Nominativ / Akkusativ / Dativ
+  subcategory: attributiv
+- category: adjektiv
+  cefr_level: A2
+  code: komparation_adj
+  description: Comparative and superlative forms of selected adjectives and adverbs, including irregular forms like gern/lieber/am liebsten and gut/besser/am besten.
+  examples:
+  - Hier ist das Obst billiger.
+  - Er ist jünger als ich.
+  - Ich trinke lieber Tee.
+  - Ich verstehe jetzt besser Deutsch als vor drei Monaten.
+  explanations: {}
+  label: Komparation ausgewählter Adjektive
+  source_note: Komparation* — ausgewählte Komparative; gern/lieber/am liebsten, viel/mehr/am meisten, gut/besser/am besten
+  subcategory: Komparation
+- category: praeposition
+  cefr_level: A2
+  code: temporal_prep_bis
+  description: The temporal preposition bis (until/by) with accusative, expressing a time limit or deadline.
+  examples:
+  - bis nächsten Montag
+  - bis morgen
+  explanations: {}
+  label: Temporale Präposition bis
+  source_note: bis + Akkusativ*
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A2
+  code: temporal_prep_seit
+  description: The temporal preposition seit (since/for) with dative, expressing the starting point or duration of an ongoing situation.
+  examples:
+  - seit einer Woche
+  explanations: {}
+  label: Temporale Präposition seit
+  source_note: seit + Dativ*
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A2
+  code: temporal_prep_vom_an
+  description: The temporal expression vom … an (from … onwards), used to indicate the starting point of a period.
+  examples:
+  - vom Herbst an
+  explanations: {}
+  label: Temporale Präposition vom … an
+  source_note: vom ... an*
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A2
+  code: temporal_prep_waehre
+  description: The temporal preposition während (during) governing the genitive case, expressing concurrent events.
+  examples:
+  - während des Urlaubs
+  explanations: {}
+  label: Temporale Präposition während
+  source_note: während + Genitiv*
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A2
+  code: temporal_prep_zu
+  description: The temporal preposition zu (at/for) with dative, used to express time in relation to meals or occasions.
+  examples:
+  - zum Frühstück
+  explanations: {}
+  label: Temporale Präposition zu
+  source_note: zu + Dativ* (temporal)
+  subcategory: temporal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_hinter
+  description: The two-way preposition hinter (behind) with dative for location and accusative for direction.
+  examples:
+  - hinter dem Haus
+  explanations: {}
+  label: Lokale Präposition hinter
+  source_note: hinter + Dativ / Akkusativ*
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_gegenuebe
+  description: The local preposition gegenüber (opposite/across from) with dative, typically postposed after a noun or pronoun.
+  examples:
+  - in dem Geschäft gegenüber
+  explanations: {}
+  label: Lokale Präposition gegenüber
+  source_note: gegenüber + Dativ* (nachgestellt)
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_neben
+  description: The two-way preposition neben (next to/beside) with dative for static location and accusative for movement.
+  examples:
+  - in der Wohnung neben mir
+  explanations: {}
+  label: Lokale Präposition neben
+  source_note: neben + Dativ / Akkusativ*
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_unter
+  description: The two-way preposition unter (under/below) with dative for static location and accusative for directional movement.
+  examples:
+  - unter dem Tisch
+  - unter der Nummer
+  explanations: {}
+  label: Lokale Präposition unter
+  source_note: unter + Dativ / Akkusativ*
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_ueber
+  description: The two-way preposition über (above/over) with dative for static location and accusative for directional movement.
+  examples:
+  - über dem Tisch
+  explanations: {}
+  label: Lokale Präposition über
+  source_note: über + Dativ / Akkusativ*
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_von
+  description: The local preposition von (from) with dative, indicating origin or starting point of movement.
+  examples:
+  - von der Arbeit / vom Arzt kommen
+  - von Hamburg nach Bremen
+  explanations: {}
+  label: Lokale Präposition von
+  source_note: von + Dativ*
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_vor
+  description: The local preposition vor (in front of) with dative, indicating position in front of a place or object.
+  examples:
+  - vor dem Kino
+  explanations: {}
+  label: Lokale Präposition vor
+  source_note: vor + Dativ* (lokal)
+  subcategory: lokal
+- category: praeposition
+  cefr_level: A2
+  code: lokal_prep_zwischen
+  description: The two-way preposition zwischen (between) with dative for location and accusative for direction, indicating a position between two points.
+  examples:
+  - zwischen Frankfurt und Stuttgart
+  explanations: {}
+  label: Lokale Präposition zwischen
+  source_note: zwischen + Dativ / Akkusativ*
+  subcategory: lokal
+- category: syntax
+  cefr_level: A2
+  code: konj_deshalb
+  description: The connective deshalb (therefore/so) used as a coordinating adverbial conjunction to express consequence, triggering verb-second word order.
+  examples:
+  - Peter muss lernen, deshalb kommt er heute nicht mit.
+  explanations: {}
+  label: Konjunktion deshalb
+  source_note: deshalb*
+  subcategory: Satzverbindungen
+- category: syntax
+  cefr_level: A2
+  code: konj_weil
+  description: The subordinating conjunction weil (because), which introduces a causal subordinate clause with verb-final word order.
+  examples:
+  - Er kommt nicht mit, weil er krank ist.
+  explanations: {}
+  label: Konjunktion weil (Kausalangabe)
+  source_note: weil*
+  subcategory: Satzverbindungen
+- category: syntax
+  cefr_level: A2
+  code: konj_wenn
+  description: The subordinating conjunction wenn (when/if), introducing conditional or temporal subordinate clauses with verb-final word order.
+  examples:
+  - Schreib mir bitte, wenn du Zeit hast.
+  explanations: {}
+  label: Konjunktion wenn (Konditional/Temporal)
+  source_note: wenn*
+  subcategory: Satzverbindungen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_nomen_er
+  description: Formation of nouns using the suffix -er, typically to derive agent nouns (people who do something) from verbs.
+  examples:
+  - Ausländer
+  - Arbeiter
+  - Bewohner
+  - Teilnehmer
+  explanations: {}
+  label: Nomenbildung mit Suffix -er
+  source_note: 'Nomen -er: Ausländer, Arbeiter, Bewohner, Teilnehmer'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_nomen_un
+  description: Formation of feminine nouns using the suffix -ung, typically derived from verbs to express a process or result.
+  examples:
+  - Wohnung
+  - Lösung
+  - Mitteilung
+  - Zahlung
+  explanations: {}
+  label: Nomenbildung mit Suffix -ung
+  source_note: 'Nomen -ung: Wohnung, Lösung, Mitteilung, Zahlung'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_nomen_in
+  description: Formation of feminine agent nouns using the suffix -in, used to derive the female form from a masculine base noun.
+  examples:
+  - Nachbarin
+  - Kollegin
+  - Kundin
+  - Leiterin
+  explanations: {}
+  label: Nomenbildung feminine Formen auf -in
+  source_note: 'feminine Formen -in: Nachbarin, Kollegin, Kundin, Leiterin'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_komposit
+  description: Formation of compound nouns (Komposita) by combining two nouns, either sharing the same first element (Bestimmungswort) or the same final element (Grundwort).
+  examples:
+  - Reisegruppe
+  - Reiseführer
+  - Frauenarzt
+  - Zahnarzt
+  - Postkarte
+  - Familienfoto
+  explanations: {}
+  label: Komposita mit gleichem Bestimmungs- oder Grundwort
+  source_note: Komposita — gleiches Bestimmungswort (z.B. Reise-) oder gleiches Grundwort (z.B. -arzt, -karte, -foto)
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_partizip
+  description: Nominalisation of present or past participles to form nouns referring to persons or things.
+  examples:
+  - Reisender
+  explanations: {}
+  label: Nominalisierung von Partizipien
+  source_note: 'Nominalisierung — Partizipien: Reisender'
+  subcategory: Nomen
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_adj_un
+  description: Formation of adjectives with the negative prefix un-, which reverses or negates the meaning of the base adjective.
+  examples:
+  - unbekannt
+  explanations: {}
+  label: Adjektivbildung mit Vorsilbe un-
+  source_note: 'Adjektive Vorsilbe un-: unbekannt'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_adj_los
+  description: Formation of adjectives with the suffix -los (without/lacking), typically derived from nouns to express the absence of something.
+  examples:
+  - arbeitslos
+  explanations: {}
+  label: Adjektivbildung mit Nachsilbe -los
+  source_note: 'Adjektive Nachsilbe -los: arbeitslos'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_adj_bar
+  description: Formation of adjectives with the suffix -bar (expressible as '-able' or '-ible' in English), typically derived from verbs to express possibility or capability.
+  examples:
+  - erreichbar
+  explanations: {}
+  label: Adjektivbildung mit Nachsilbe -bar
+  source_note: 'Adjektive Nachsilbe -bar: erreichbar'
+  subcategory: Adjektive
+- category: wortbildung
+  cefr_level: A2
+  code: wortbildung_adj_komp
+  description: Formation of compound adjectives using hell- (light) or dunkel- (dark) as the first element to modify a colour adjective.
+  examples:
+  - hellblau
+  - dunkelblau
+  explanations: {}
+  label: Adjektiv-Komposita mit hell- und dunkel-
+  source_note: 'Adjektive Komposita: hellblau, dunkelblau'
+  subcategory: Adjektive

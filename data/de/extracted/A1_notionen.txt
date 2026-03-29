@@ -1,3 +1,308 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:592085b2827949a342c87e6fb02e7b6c8351cab3d39ef37c0545802a3e4c7919
-size 4631
+Allgemeine Begriffe (Notionen)
+
+
+Die Notionen definieren, über welche allgemeinsprachlichen Ausdrucks­mittel
+die Teilnehmenden der Prüfungen Start Deutsch 1 bzw.
+Start Deutsch 2 in der deutschen Sprache verfügen sollen. Notionen sind
+nicht an bestimmte Handlungssituationen oder Themen gebunden.
+
+Existenz von Personen und
+Dingen, Besitz/Zugehörigkeit
+ausdrücken
+• (nicht) sein
+• anwesend/abwesend sein
+• (nicht) verfügbar sein
+• (nicht) vorkommen
+• Inklusion/Exklusion
+• Besitz/Zugehörigkeit
+ausdrücken
+
+Quantität angeben
+• Zahlen/Mengenangaben
+• Menge
+• Grad
+• Dimension/Maßangabe
+
+Raum definieren
+• Ort
+• Herkunft
+• Richtung
+• Distanz
+
+Logische Verknüpfung
+herstellen
+• Grund
+• Bedingung
+• Aufzählung/Alternative
+
+Zeit angeben
+• Zeitpunkt
+• Zeitangaben
+• Dauer
+• Häufigkeit
+
+Modales ausdrücken
+• Fähigkeit
+• Möglichkeit
+• Notwendigkeit/Verpflichtung
+
+Art und Weise angeben
+• physisch
+• Wertung
+• Vergleich
+
+
+Existenz von Personen und
+Dingen/Besitz/Zugehörigkeit
+ausdrücken
+(nicht) sein
+
+Gibt es hier einen Kindergarten?
+Nein, es gibt nur eine Grundschule.
+Hier gibt es aber viele Kinos.
+
+anwesend/
+abwesend sein
+
+Ist Elke da?
+Ja./Nein, leider nicht.
+
+(nicht) verfügbar sein
+
+Hast du ein Auto?
+Nein, leider nicht.
+Nein, ich habe kein Auto.
+
+(nicht) vorkommen
+
+Was ist passiert?
+Wann ist das passiert?
+
+Inklusion/Exklusion
+
+Ich komme mit meiner Freundin.
+Er kommt ohne Auto.
+
+Besitz/Zugehörigkeit
+
+Wem gehört der Mercedes?
+Das ist mein/dein/sein/ihr Auto.
+Simon arbeitet jetzt bei Siemens.
+
+Raum definieren
+Ort
+
+Wo wohnst du?
+In Köln.
+Ich wohne jetzt bei Petra.
+Wo ist denn meine Brille?
+Hier./Dort./Da ist sie ja.
+Wo sind die Kinder?
+Zu Hause./In der Schule.
+Wo liegt ...?
+Kiel liegt an der Ostsee.
+Die Schlüssel liegen auf dem Tisch.
+
+
+Herkunft
+
+Woher kommst du?
+Aus der Ukraine./Aus Prag./
+Vom Arzt.
+
+
+Richtung
+
+Wohin gehst/fährst du?
+Nach Hause./Zur Arbeit./In die
+Schule./Zu Susi./Auf die Bank./Ans
+Meer./Nach Österreich.
+
+Distanz
+
+Wie weit ist es bis Bonn?
+Nur zehn Kilometer.
+
+
+Zeit angeben
+Zeitpunkt
+
+Wann kommst du?
+Um 3 (Uhr).
+Am 20. September.
+Im Juli.
+Wie spät ist es bitte?
+Es ist jetzt 7 Uhr.
+
+Zeitangaben
+
+Wann sind Sie geboren?
+Am 12. Mai 1988.
+Wir fahren im Mai in Urlaub.
+
+Vorzeitigkeit
+
+Komm bitte vor 10 Uhr.
+Wir sind (zu) früh.
+
+Nachzeitigkeit
+
+Bitte nach 23 Uhr nicht mehr
+anrufen.
+Wir sind leider zu spät.
+
+Zukunftsbezug
+
+Morgen muss ich arbeiten.
+Wir machen das bald/später.
+Heute Abend rufe ich dich an.
+Am Montag gehen wir ins Kino.
+
+Gegenwartsbezug
+
+Wir essen jetzt.
+Ich bin schon da.
+Er ist heute in Mainz.
+
+Vergangenheitsbezug
+
+Gestern/vor zwei Tagen habe ich
+die Prüfung gemacht.
+
+Verspätung/Frühzeitigkeit
+
+Es ist schon spät.
+
+
+Dauer
+
+Wie lange bleibt ihr in Berlin?
+Drei Wochen.
+(Nicht) Lange.
+Bis Montag.
+
+Beginn
+
+Wann beginnt der Film?
+Um 20 Uhr fängt er an.
+
+Ende
+
+Bis wann arbeitest du?
+Heute bis 18 Uhr.
+
+Häufigkeit
+
+Wie oft geht sie ins Kino?
+Zweimal im Monat./Nie!/Oft.
+
+
+Quantität angeben
+Zahlen/Mengenangaben
+
+Was/Wie viel kostet die Zeitung?
+Vier Euro.
+Was darf‘s denn sein?
+Ein Pfund Tomaten/Ein Glas Milch/
+Eine Flasche Wein/Eine Tasse Tee ,
+bitte. 1,5 Liter.
+Wie viel möchten Sie?
+(Nicht) Alles./Viel./Ein bisschen,
+bitte.
+
+Grad
+
+Das ist sehr/zu gefährlich.
+
+Dimension/Maßangabe
+
+Wie lang/groß ...? 1,5 Meter.
+Wie schwer ...? 500 Gramm/
+2 Kilo(gramm).
+Wie warm ...?
+20 Grad./Sehr
+warm./Nicht kalt.
+Wie viel ...?
+Einen Liter.
+Wie schnell ...? Nur maximal
+60 km/h.
+
+
+Art und Weise
+physisch
+
+Wie schmeckt/riecht das Essen?
+Wirklich (nicht) gut.
+Welche Farbe hat das Auto?
+Es ist rot/blau/grün/gelb/schwarz/
+weiß/braun.
+Wie alt ist Dieter?
+Nicht sehr alt./Schon 60./
+Erst 50.
+Die Tür ist offen/geschlossen.
+
+Wertung
+
+(Wert/Preis?)
+(Qualität?)
+(akzeptabel?)
+(adäquat?)
+
+Vergleich
+
+Spielst du Fußball?
+Ja, wie meine Schwester.
+Sie ist so alt wie ich./Wir sind gleich
+alt.
+
+(nicht) teuer/billig
+(nicht) (sehr) gut
+(nicht) in Ordnung
+(nicht) in Ordnung,
+genug
+(richtig?)
+(nicht) richtig
+(Fähigkeit?)
+(nicht) können
+(Wichtigkeit?)
+(nicht) wichtig,
+wie wichtig?
+(Normalität?)
+(nicht) normal
+(Schwierigkeit?) (nicht) leicht
+
+
+Logische Verknüpfung herstellen
+Grund
+
+Warum kommt er nicht mit zur
+Party?
+Er kann nicht. Er arbeitet heute
+lange.
+
+Bedingung
+
+Kann ich das Auto haben?
+Ja, aber nur für eine Stunde.
+
+Aufzählung, Alternativen
+
+Er isst und trinkt gern.
+Möchtest du Wasser oder Wein?
+
+
+Modales ausdrücken
+Fähigkeit
+
+Können Sie Russisch (sprechen)?
+Ja klar./Sicher.
+
+Möglichkeit
+
+Können Sie morgen kommen?
+
+Notwendigkeit/
+Verpflichtung
+
+Mein Sohn muss um 8 Uhr zu
+Hause sein.

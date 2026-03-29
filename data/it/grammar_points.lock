@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2d258323982679f7d0ef6de1c7e85246278358f1befb4dc1e68424fd84848c26
-size 299
+{
+  "sha256": "a52d05970bc0a8dd7868c2b2338106a0babae65a1d0a0f95c8905eb37e15f4d9",
+  "gp_count": 351,
+  "explanations_by_level": {
+    "A0": {
+      "en": 22
+    },
+    "A1": {
+      "en": 59
+    },
+    "A2": {},
+    "B1": {},
+    "B2": {}
+  },
+  "generated_at": "2026-03-29T14:36:42.347766+00:00"
+}

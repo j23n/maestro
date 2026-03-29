@@ -1,3 +1,531 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6ddc3e91ce4d34fa17c05ffddc5b37c11ca2ff79e1284d9b30c659cf23cd71c3
-size 9481
+GRAMMATIK
+Mehr als jeder andere Feinlernzielbereich ordnet sich die Grammatik der
+Aufgabenorientierung unter, d.h. grammatikalische Strukturen sollen nicht
+um ihrer selbst willen gelehrt und gelernt werden, sondern als notwendiges
+Repertoire zur Ausführung sprachlicher Handlungen.
+Im Rahmen der elementaren Sprachbeherrschung auf A1 und A2 hat die
+Verständlichkeit ohnehin einen höheren Stellenwert als die formale Korrektheit. Folglich ist beispielsweise die Verwendung von Verbformen oder das
+Formulieren von Fragen im produktiven Fertigkeitsbereich handlungsorientiert relevant, weniger jedoch der Aspekt der Richtigkeit morphologischer
+und syntaktischer Strukturen. Grammatikalisch schwierige Einzelelemente
+wie der Konjunktiv II sind zwar grammatikalisch komplex, allerdings zur
+Formulierung höflicher Bitten unabdingbar. Da sie für das Leben in der deutschen Umgebung von vitaler Bedeutung sind, sollten diese Formen bereits
+auf den Stufen A1 und A2 gelernt werden, jedoch noch nicht systematisch,
+sondern lediglich als lexikalische Einheiten.
+Die Leistungen der Prüfungsteilnehmenden im produktiven Bereich bleiben
+auf diesen Spracherwerbsstufen noch weit hinter denen im rezeptiven zurück. Die Inventarisierung der Grammatik bezieht sich dementsprechend in
+erster Linie auf die Aufgabenstellung im Bereich der rezeptiven Fertigkeiten,
+d.h. lösungsrelevante Elemente in Hör- und Lesetexten sowie Formulierungen in den Aufgabestellungen selbst (z.B. „Sie sollen ...“) dürfen die hier
+festgelegte Eingrenzung nicht überschreiten. Für die mündliche und schriftliche Produktion ist die Grammatik-Liste dagegen von untergeordneter Bedeutung.
+
+
+Verb
+• Tempus
+• Modus
+• Modalverben
+• Verben mit trennbarem Präfix
+Nomen
+• Genus
+• Numerus
+• Kasus
+
+Syntax
+• Verbzweitstellung
+• Verbergänzung
+• Satzklammer
+• Negation
+• Fragesatz
+• Satzverbindungen
+Wortbildung
+• Nomen
+• Adjektive
+
+Artikelwörter / Pronomen
+• Artikel
+• Pronomen
+Adjektiv
+• attributiv
+• prädikativ
+• adverbial
+• Komparation
+• Zahlwörter
+Präposition
+• temporal
+• lokal
+• modal
+
+Die Einträge ohne Sternchen gelten für Start Deutsch 1.
+Für Start Deutsch 2 gelten darüber hinaus auch die mit Sternchen *
+gekennzeichneten Strukturen.
+
+
+Verb
+Tempus
+
+Präsens von
+können
+wollen
+
+Präsens aller Verben der Wortliste
+Perfekt der Verben: arbeiten /
+bleiben / essen / fahren / fragen /
+glauben / haben / lesen / lernen /
+machen / schlafen / sehen /
+passieren / trinken / verstehen
+Perfekt aller Verben der Wortliste*
+Ausgewählte Partizipien
+
+Präteritum der Verben
+haben*
+kommen*
+sagen*
+sein*
+Modalverben *
+Präteritum
+Ausgewählte Form:
+1. und 3. Person haben / sein
+Modus
+
+
+müssen
+dürfen
+sollen
+möchten
+Heute geöffnet.
+Bis Donnerstag geschlossen.
+
+Modalverben
+Kannst du Gitarre spielen?
+Er will eine Ausbildung als
+Schreiner machen.
+Du musst zuerst die Hausaufgaben
+machen.
+Sie dürfen hier nicht rauchen.
+Was soll ich machen?
+Möchtest du eine Tasse Tee?
+Das Auto wird repariert.
+
+Passiv*
+
+Kommst du mit?
+Wann fängt der Kurs an?
+Wo kaufst du gerne ein?
+Mach bitte das Fenster zu!
+
+Verben mit
+trennbarem Präfix
+
+Wir hatten keine Zeit.
+Wir kamen zu spät.
+Sie sagte nichts.
+Wo wart ihr gestern?
+Ich konnte gestern leider nicht.
+
+der / die / das
+
+der Apfel / die Sonne / das Kind
+
+Sie/ich hatte keine Zeit.
+Ich/er war nicht da.
+
+Singular / Plural der Nomen wie in
+der Wortliste
+
+Drei Fahrkarten nach Berlin und
+eine Fahrkarte nach Karlsruhe,
+bitte.
+
+Numerus
+
+Nominativ, Akkusativ, Dativ* aller
+Nomen in der Wortliste
+
+der Mann
+den Mann
+dem Mann
+Karls Freunde kommen heute Nachmittag.
+
+Kasus
+
+Nomen
+Genus
+
+Indikativ aller Verben der Wortliste
+Konjunktiv II der Verben
+haben*
+können*
+mögen
+werden
+Imperativ in der
+du-, ihr- und Sie-Form
+
+
+Ich hätte gerne ein Brot, bitte.
+Könnten Sie bitte zu mir kommen.
+Ich möchte mehr Deutsch lernen.
+Ich würde gerne ins Kino gehen.
+Geh bitte nach Hause!
+Kommt bitte alle mit!
+Kommen Sie bitte mit!
+
+Genitiv bei Eigennamen im Singular
+
+Genitiv (rezeptiv)
+
+die Nummer des Wagens
+
+Ersatzform *
+
+Freunde von Karl kommen heute.
+
+
+Artikelwörter /
+Pronomen
+Artikel
+
+
+Indefinit: man
+jemand*
+Definit:
+der / die / das / die
+
+der Tisch / die Lampe / das Bett /
+die Sachen
+
+demonstrativ:
+dieser / diese / dieses / diese
+
+dieser Tisch / diese Lampe /
+dieses Bett / diese Sachen
+
+Indefinit:
+ein / eine / ein
+Nullartikel
+interrogativ *:
+Nominativ / Akkusativ: Welchalle
+Possessiv:
+mein / dein / sein / ihr / Ihr
+
+ein Tisch / eine Lampe / ein Bett
+Sachen
+Ich esse gern Fleisch.
+
+unser / euer *
+
+Negativ: kein
+
+
+Welchen Film meinst du?
+alle Kursteilnehmer
+mein/ dein/ sein/ ihr / Ihr Tisch
+meine/ deine/ seine/ ihre / Ihre
+Lampe
+mein/ dein/ sein/ ihr / Ihr Bett
+meine/ deine/ seine/ihre / Ihre
+Sachen,
+unser / euer Lehrer
+uns(e)re/ eure Lehrerin
+unser/ euer Haus
+Er ist kein Lehrer. / Sie ist keine
+Ärztin / kein Kind mehr.
+
+niemand*
+etwas
+nichts
+mehr
+alles
+welchPersonalpronomen im Nominativ
+Akkusativ: mich / dich / ihn /
+sie / es
+Dativ bei den Verben: danken /
+gehören / helfen / gehören /
+es geht / mir / dir / euch / Ihnen
+Reflexivpronomen* im Akkusativ:
+mich / dich / euch / sich
+Reziprokpronomen: sich / uns
+Fragepronomen im Nominativ: Wer?
+/ Was?, im Akkusativ: Wen? / Was?
+und im Dativ: Wem?
+
+Kann man hier Fahrkarten kaufen?
+Hat jemand meine Schlüssel
+gesehen?
+Hier ist niemand.
+Möchten Sie etwas trinken?
+Ich esse jetzt nichts.
+Möchten Sie noch mehr ?
+Er versteht alles.
+Ich habe keine Milch mehr. Hast du
+welche ?
+Ich gehe jetzt.
+Ich liebe dich / ihn / sie.
+Ich danke Ihnen sehr.
+Es geht mir gut.
+Kann ich dir helfen?
+Er wäscht sich.
+Wir sehen uns morgen.
+Wer ist da? / Was ist das?
+Wen besuchst du? / Was machst du
+morgen?
+Wem gehört die Jacke?
+
+
+Pronomen
+
+
+Adjektiv
+attributiv*
+
+nach definitem Artikel im
+Nominativ / Akkusativ / Dativ
+nach indefinitem Artikel im
+Nominativ / Akkusativ / Dativ
+
+
+der neue Arbeitsplatz / die neue
+Stelle / das neue Haus
+ein neuer Arbeitsplatz / eine neue
+Stelle / ein neues Haus
+
+prädikativ
+
+Das Haus ist modern.
+
+adverbial
+
+Ich lese gern.
+
+Komparation*
+
+Ausgewählte Komparative
+
+gern / lieber / am liebsten
+viel / mehr / am meisten
+gut / besser / am besten
+
+Hier ist das Obst billiger.
+Er ist jünger als ich.
+Nein, ich bin älter.
+Ich höre gern Musik.
+Ich trinke lieber Tee.
+Peter hat von uns allen am meisten
+gegessen.
+Ich verstehe jetzt besser Deutsch
+als vor drei Monaten.
+
+an + Dativ
+ab +Akkusativ
+bis + Akkusativ *
+für +Akkusativ
+in + Dativ
+nach + Dativ
+seit + Dativ *
+über
+um + Akkusativ
+vom ... an*
+von ... bis
+vor + Dativ
+während + Genitiv*
+zu + Dativ *
+an + Dativ / Akkusativ
+auf + Dativ
+aus + Dativ
+bei + Dativ
+hinter + Dativ / Akkusativ *
+in + Dativ / Akkusativ
+gegenüber + Dativ * (nachgestellt)
+nach + Dativ
+neben + Dativ / Akkusativ *
+unter + Dativ / Akkusativ *
+über + Dativ / Akkusativ *
+von + Dativ *
+von ... nach + Dativ /–
+vor + Dativ*
+unter + Dativ
+
+
+am Morgen / am Dienstag
+ab Februar 2004
+bis nächsten Montag / bis morgen
+für die nächsten drei Wochen
+im Sommer / in dieser Woche /
+im Februar
+nach dem Essen
+seit einer Woche
+über 20 Minuten
+um halb sieben / um 18.30 Uhr
+vom Herbst an
+geschlossen von Dienstag bis
+Donnerstag
+vor dem Konzert
+während des Urlaubs
+zum Frühstück
+Ferien am Meer / an den See
+fahren / auf dem Marktplatz / auf
+dem Tisch
+aus Italien
+bei Familie Müller / bei Siemens
+hinter dem Haus
+im Park spielen / in die Stadt fahren
+in dem Geschäft gegenüber
+nach Paris / nach Deutschland
+fahren
+in der Wohnung neben mir
+unter dem Tisch
+über dem Tisch
+von der Arbeit / vom Arzt kommen
+von Hamburg nach Bremen
+vor dem Kino
+unter der Nummer
+
+
+Präposition
+temporal
+
+lokal
+
+
+zu + Dativ
+zwischen + Dativ / Akkusativ *
+
+
+zur Schule / zu meiner Freundin
+gehen
+zwischen Frankfurt und Stuttgart
+
+und
+oder
+aber
+denn
+
+modal
+
+aus + Dativ
+für + Akkusativ
+mit + Dativ
+ohne + Akkusativ
+
+Syntax
+Verbzweitstellung
+
+Verbergänzung
+
+Fragesatz
+
+deshalb *
+dann
+weil *
+
+Morgen fahre ich nach Stuttgart.
+Ich fahre morgen nach Paris.
+Nominativergänzung
+Akkusativergänzung
+Dativergänzung bei den Verben
+danken / gehören / es gibt / helfen
+Lokalergänzung
+Qualitativergänzung
+
+Satzklammer
+
+Negation
+
+aus Plastik
+für meinen Freund / für dich
+mit dem Auto
+ohne Hilfe / ohne dich
+
+Er heißt Heinz Bartels.
+Ich nehme eine Coca Cola.
+Gib mir bitte mal dein Wörterbuch.
+-er:
+Wir wohnen in der Heinestraße 7.
+Der Film ist langweilig.
+Der Unterricht fängt um 9 Uhr an.
+Ich will meine Tante besuchen.
+Ich habe schon gegessen.
+
+nicht
+kein
+
+Leider verstehe ich dich nicht.
+Wir haben jetzt keine Zeit.
+
+Entscheidungsfrage
+Ergänzungsfrage
+
+Kaufst du heute ein?
+Wo ist Peter ?
+
+
+wenn *
+
+Ich hätte gern eine Coca und ein
+Brötchen.
+Möchten Sie lieber Tee oder Kaffee?
+Das ist sehr schön, aber leider zu
+teuer.
+Ich gehe heute nicht spazieren,
+denn es ist zu kalt.
+Peter muss lernen, deshalb kommt
+er heute nicht mit.
+Ich muss noch kurz telefonieren,
+dann gehen wir.
+Er kommt nicht mit, weil er krank
+ist.
+Schreib mir bitte, wenn du Zeit
+hast.
+
+-ung:
+
+-in:
+
+Satzverbindungen
+
+Wortbildung
+Nomen
+Nominalisierung
+
+Ausländer, Arbeiter, Bewohner,
+Teilnehmer
+Wohnung, Lösung, Mitteilung,
+Zahlung
+
+feminine Formen
+
+Nachbarin, Kollegin, Kundin,
+Leiterin
+
+Komposita
+gleiches
+Bestimmungswort
+
+Reisegruppe
+Reiseführer
+
+
+gleiches
+Grundwort
+
+
+Frauenarzt, Zahnarzt
+Postkarte, Scheckkarte
+Familienfoto, Passfoto
+
+
+Partizipien
+Adjektive
+Vorsilbe
+Nachsilbe
+
+Reisender
+
+un-:
+-los:
+-bar:
+
+Komposita
+
+unbekannt
+arbeitslos
+erreichbar
+hellblau,
+dunkelblau
