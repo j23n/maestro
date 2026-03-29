@@ -1,0 +1,322 @@
+scenarios:
+  - slug: a0-01-im-flugzeug
+    label: "Im Flugzeug"
+    description: "Your first German words \u2014 on the plane and at the airport"
+    overview: "You're on the plane to Munich. Learn the absolute essentials: hello, thank you, please, and the one phrase that gets you anything."
+    image: "scenarios/a0-01-im-flugzeug.png"
+    scene_setting: |
+      You're on a plane to Munich. The pilot just announced the descent
+      into Franz Josef Strau\xDF Airport in German \u2014 and you didn't catch
+      a word. By the end of this lesson, you'll know how to say hello,
+      thank the flight attendant, and ask for what you need. That's all
+      it takes to start.
+    outro: "You learned your first German words \u2014 enough to land in Munich and not feel lost."
+    cefr_level: A0
+    sequence: 1
+    cf_codes:
+      - a0_begruessen
+      - a0_danken
+      - a0_ja_nein_antworten
+      - a0_bestellen
+    gp_codes:
+      - begruessungen
+      - hoeflich_ausdruecke
+      - aussprache_bas
+    depths:
+      - "Onboarding, greetings, polite phrases, survival phrases, ich m\xF6chte as a chunk, pronunciation reference"
+
+  - slug: a0-02-im-hotel
+    label: "Im Hotel"
+    description: "Checking into the hotel \u2014 names, numbers, and German sounds"
+    overview: "You've arrived at the hotel near Marienplatz. Learn to introduce yourself, understand room numbers, and start reading German out loud."
+    scene_setting: |
+      The S-Bahn drops you off at Marienplatz. You walk through the old
+      town with your suitcase and find your hotel. The receptionist greets
+      you with a warm "Guten Abend!" Time to check in \u2014 you'll need
+      your name and a few numbers.
+    outro: "You checked into your hotel in German. The receptionist smiled \u2014 you're doing great."
+    cefr_level: A0
+    sequence: 2
+    cf_codes:
+      - a0_sich_vorstellen
+      - a0_name_sagen
+      - a0_zaehlen
+    gp_codes:
+      - ich_heisse
+      - zahlen_0_20
+    depths:
+      - "Self-introduction, numbers 0\u201320"
+
+  - slug: a0-03-im-cafe
+    label: "Im Caf\xE9"
+    description: "Your first German coffee \u2014 ein/eine, counting, and Kaffee und Kuchen"
+    overview: "Morning in Munich starts with Kaffee und Kuchen. Learn to order with the right articles and numbers."
+    scene_setting: |
+      It's your first morning in Munich. You follow the smell of fresh
+      coffee into a cozy caf\xE9 on Sendlinger Stra\xDFe \u2014 warm wood panelling,
+      the hiss of the espresso machine, and a glass display case full of
+      cakes. Time to order your first Kaffee und Kuchen the Bavarian way.
+    outro: "You ordered your first German coffee and cake \u2014 and you even got the article right."
+    cefr_level: A0
+    sequence: 3
+    cf_codes:
+      - a0_bestellen
+      - a0_hoeflich_bitten
+      - a0_zaehlen
+    gp_codes:
+      - art_ein_eine
+      - ich_moechte
+    depths:
+      - "Indefinite articles ein/eine, ordering with numbers, was kostet das"
+
+  - slug: a0-04-in-der-stadt
+    label: "In der Stadt"
+    description: "Walking around Munich \u2014 der/die/das, asking where things are"
+    overview: "Time to explore! Learn the words for 'the', ask where things are, and follow basic directions."
+    scene_setting: |
+      Coffee done, you step outside with a city map. Marienplatz is right
+      there with its famous Glockenspiel, the Frauenkirche towers are
+      visible above the rooftops, and you want to find a pharmacy just
+      in case. But first \u2014 you need to ask someone where things are.
+    outro: "You found your way around Munich. Wo ist...? is already second nature."
+    cefr_level: A0
+    sequence: 4
+    cf_codes:
+      - a0_nach_weg_fragen
+      - a0_sich_entschuldigen
+    gp_codes:
+      - art_der_die_das
+      - wo_ist
+    depths:
+      - "Definite articles der/die/das, asking directions, rechts/links/geradeaus"
+
+  - slug: a0-05-um-hilfe-bitten
+    label: "Um Hilfe bitten"
+    description: "Getting help \u2014 asking for repetition, clarifying, key phrases"
+    overview: "You'll need to ask for help. Learn the phrases that keep conversations going when you're stuck."
+    scene_setting: |
+      Someone on the street gives you directions \u2014 but they're speaking
+      too fast and you only caught "links." It's completely normal.
+      In this lesson, you'll learn the phrases that keep a conversation
+      going even when you don't understand everything.
+    outro: "You now know how to ask for help in German. Getting stuck is no longer a dead end."
+    cefr_level: A0
+    sequence: 5
+    cf_codes:
+      - a0_um_hilfe_bitten
+      - a0_sich_entschuldigen
+    gp_codes:
+      - hoeflich_ausdruecke
+      - ortspraepositionen
+    depths:
+      - "Wie sagt man, k\xF6nnen Sie das wiederholen, ich wei\xDF nicht, prepositions in/nach/zu"
+
+  - slug: a0-06-im-biergarten
+    label: "Im Biergarten"
+    description: "Lunch at a Biergarten \u2014 menu vocabulary, ordering a meal"
+    overview: "It's lunchtime! Learn to read a German menu, ask what things are, and order a full meal."
+    scene_setting: |
+      You've worked up an appetite. A traditional Biergarten catches your
+      eye \u2014 long wooden tables under chestnut trees, the clink of
+      Ma\xDFkr\xFCge, and the smell of grilled sausage. You sit down and the
+      waiter brings a menu. Half the dishes are a mystery \u2014 but you're
+      about to fix that.
+    outro: "You read a German menu and ordered a full meal. The waiter didn't switch to English once."
+    cefr_level: A0
+    sequence: 6
+    cf_codes:
+      - a0_bestellen
+      - a0_identifizieren
+      - a0_hoeflich_bitten
+    gp_codes:
+      - essen_trinken
+      - was_ist_das
+    depths:
+      - "Menu structure, was ist das, dietary needs, restaurant phrases"
+
+  - slug: a0-07-das-mag-ich
+    label: "Das mag ich"
+    description: "Expressing what you like and don't like"
+    overview: "Everyone has opinions about food! Learn to say what you like and don't like in German."
+    scene_setting: |
+      After lunch, you're chatting with someone at the next table about
+      the food. They ask what you thought of the Wei\xDFwurst. You want to
+      say you loved it \u2014 but how? Time to learn how Germans express what
+      they like (and what they really don't).
+    outro: "You can say what you like and don't like in German. Opinions: unlocked."
+    cefr_level: A0
+    sequence: 7
+    cf_codes:
+      - a0_vorlieben_ausdruecken
+    gp_codes:
+      - ich_mag
+      - art_plural
+    depths:
+      - "Ich mag/ich mag nicht, mir gef\xE4llt, plural article die"
+
+  - slug: a0-08-grosse-zahlen
+    label: "Gro\xDFe Zahlen"
+    description: "Numbers 20\u2013100, telling time, and days of the week"
+    overview: "Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and how to tell time."
+    scene_setting: |
+      You're browsing a souvenir shop and the price tag says "f\xFCnfundvierzig
+      Euro." You check the train schedule \u2014 departure at "achtzehn Uhr
+      drei\xDFig." Numbers beyond twenty are everywhere in Germany, and so
+      is the clock. Time to catch up.
+    outro: "Prices, times, and days of the week \u2014 the numbers that run daily life in Germany are yours now."
+    cefr_level: A0
+    sequence: 8
+    cf_codes:
+      - a0_zaehlen
+      - a0_uhrzeit_sagen
+    gp_codes:
+      - zahlen_20_100
+      - uhrzeit_wochentage
+    depths:
+      - "Tens 20\u2013100, reversed number order (einundzwanzig), halb drei, days of the week, 24-hour clock"
+
+  - slug: a0-09-am-hauptbahnhof
+    label: "Am Hauptbahnhof"
+    description: "At the train station \u2014 buying tickets, platforms, timetables"
+    overview: "Time to travel! Put your numbers and time skills to work buying train tickets and navigating the station."
+    scene_setting: |
+      You're heading to Salzburg for the day. The departures board at
+      M\xFCnchen Hauptbahnhof is a wall of city names and platform numbers.
+      You need a ticket, the right Gleis, and the right time. Everything
+      you've learned with numbers and directions comes together here.
+    outro: "You bought a train ticket and found your platform. Germany just got bigger."
+    cefr_level: A0
+    sequence: 9
+    cf_codes:
+      - a0_fahrkarte_kaufen
+      - a0_nach_weg_fragen
+      - a0_uhrzeit_sagen
+      - a0_zaehlen
+    gp_codes:
+      - reise_verkehr
+    depths:
+      - "Transport vocabulary, buying tickets, hin und zur\xFCck, platform and time"
+
+  - slug: a0-10-neue-leute
+    label: "Neue Leute"
+    description: "Meeting people \u2014 sein, pronouns, nationality, origin"
+    overview: "You meet someone at the Englischer Garten. Learn to say who you are, where you're from, and ask others the same."
+    scene_setting: |
+      You're sitting on a bench in the Englischer Garten, watching the
+      surfers on the Eisbach wave, when someone sits down next to you
+      and strikes up a conversation. "Woher kommen Sie?" \u2014 where are
+      you from? You want to answer, and ask them the same. This is where
+      German stops being just transactions and starts being connection.
+    outro: "You introduced yourself and had a real conversation with someone. That's a milestone."
+    cefr_level: A0
+    sequence: 10
+    cf_codes:
+      - a0_sich_vorstellen
+      - a0_name_sagen
+      - a0_ja_nein_antworten
+    gp_codes:
+      - sein_praesens
+      - personalpronomen
+      - einfache_saetze
+    depths:
+      - "Sein bin/bist/ist, subject pronouns, nationality, ich komme aus, simple sentences"
+
+  - slug: a0-11-ein-problem
+    label: "Ein Problem"
+    description: "When things go wrong \u2014 clarifying, emergencies, and staying calm"
+    overview: "Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency phrases."
+    scene_setting: |
+      Not everything goes smoothly when you travel. You can't find your
+      wallet, the pharmacy is closed, and you need to explain what's wrong
+      to someone who doesn't speak English. Staying calm and knowing the
+      right phrases makes all the difference.
+    outro: "You can handle a problem in German. That's real confidence \u2014 not just vocabulary."
+    cefr_level: A0
+    sequence: 11
+    cf_codes:
+      - a0_um_hilfe_bitten
+      - a0_problem_beschreiben
+      - a0_sich_entschuldigen
+    gp_codes:
+      - haben_praesens
+      - hoeflich_ausdruecke
+      - ja_nein_nicht
+    depths:
+      - "Ich brauche, ich habe verloren, langsamer bitte, emergency phrases, pharmacy visit"
+
+  - slug: a0-12-letzter-tag
+    label: "Letzter Tag"
+    description: "Your last day \u2014 goodbyes, expressing thanks, reflections"
+    overview: "Your trip is ending. Review everything through one final day of farewells, thanks, and looking back."
+    scene_setting: |
+      It's your last day. You say goodbye to the hotel staff, thank the
+      barista who made your coffee every morning, and pick up a few last
+      souvenirs at Viktualienmarkt. Everything you've learned comes
+      together in one final day of farewells and thank-yous.
+    outro: "You said goodbye in German \u2014 properly. Auf Wiedersehen, und vielen Dank!"
+    cefr_level: A0
+    sequence: 12
+    cf_codes:
+      - a0_verabschieden
+      - a0_danken
+      - a0_begruessen
+    gp_codes:
+      - begruessungen
+    depths:
+      - "Farewell phrases, vielen Dank f\xFCr alles, gute Reise, cumulative mixed review"
+
+  - slug: a0-13-wiederholung
+    label: "Wiederholung A0"
+    description: "Cumulative review of everything learned in A0"
+    overview: "You've come a long way! Final review of everything before moving on to A1."
+    scene_setting: |
+      You've travelled across Bavaria, ordered meals, asked for help, met
+      people, and handled problems \u2014 all in German. This final lesson
+      pulls everything together. Think of it as packing your suitcase:
+      making sure nothing gets left behind before the next chapter.
+    outro: "You've completed A0. From zero German to real conversations \u2014 that took courage. Sehr gut!"
+    cefr_level: A0
+    sequence: 13
+    cf_codes:
+      - a0_begruessen
+      - a0_verabschieden
+      - a0_danken
+      - a0_sich_entschuldigen
+      - a0_sich_vorstellen
+      - a0_name_sagen
+      - a0_hoeflich_bitten
+      - a0_ja_nein_antworten
+      - a0_zaehlen
+      - a0_uhrzeit_sagen
+      - a0_identifizieren
+      - a0_vorlieben_ausdruecken
+      - a0_nach_weg_fragen
+      - a0_bestellen
+      - a0_fahrkarte_kaufen
+      - a0_um_hilfe_bitten
+      - a0_problem_beschreiben
+    gp_codes:
+      - begruessungen
+      - hoeflich_ausdruecke
+      - ja_nein_nicht
+      - ich_moechte
+      - ich_heisse
+      - zahlen_0_20
+      - aussprache_bas
+      - art_ein_eine
+      - art_der_die_das
+      - art_plural
+      - wo_ist
+      - ortspraepositionen
+      - essen_trinken
+      - was_ist_das
+      - ich_mag
+      - zahlen_20_100
+      - uhrzeit_wochentage
+      - reise_verkehr
+      - sein_praesens
+      - haben_praesens
+      - personalpronomen
+      - einfache_saetze
+    depths:
+      - "Full review of all A0 material, final conversation, onboarding for A1"

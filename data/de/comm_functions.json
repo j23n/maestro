@@ -1,5 +1,269 @@
 [
   {
+    "code": "a0_begruessen",
+    "label": "Begrüßen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A0",
+    "patterns": [
+      "Hallo!",
+      "Guten Tag!",
+      "Guten Morgen!"
+    ],
+    "examples": [
+      "Hallo!",
+      "Guten Tag, Herr Müller!"
+    ],
+    "description": "Greeting someone informally or formally"
+  },
+  {
+    "code": "a0_verabschieden",
+    "label": "Sich verabschieden",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A0",
+    "patterns": [
+      "Auf Wiedersehen!",
+      "Tschüß!",
+      "Bis bald!"
+    ],
+    "examples": [
+      "Auf Wiedersehen!",
+      "Tschüß, bis bald!"
+    ],
+    "description": "Saying goodbye"
+  },
+  {
+    "code": "a0_danken",
+    "label": "Danken",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A0",
+    "patterns": [
+      "Danke!",
+      "Danke schön!",
+      "Vielen Dank!"
+    ],
+    "examples": [
+      "Danke!",
+      "Danke schön!"
+    ],
+    "description": "Thanking someone"
+  },
+  {
+    "code": "a0_sich_vorstellen",
+    "label": "Sich vorstellen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich heiße...",
+      "Ich bin..."
+    ],
+    "examples": [
+      "Ich heiße Anna.",
+      "Ich bin Thomas."
+    ],
+    "description": "Introducing yourself by name"
+  },
+  {
+    "code": "a0_hoeflich_bitten",
+    "label": "Höflich bitten",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A0",
+    "patterns": [
+      "..., bitte.",
+      "Ich möchte..."
+    ],
+    "examples": [
+      "Einen Kaffee, bitte.",
+      "Ich möchte ein Wasser."
+    ],
+    "description": "Making a polite request"
+  },
+  {
+    "code": "a0_ja_nein_antworten",
+    "label": "Ja/Nein antworten",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ja.",
+      "Nein.",
+      "Nein, danke."
+    ],
+    "examples": [
+      "Ja!",
+      "Nein, danke."
+    ],
+    "description": "Answering yes or no"
+  },
+  {
+    "code": "a0_identifizieren",
+    "label": "Gegenstände identifizieren",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Das ist...",
+      "Was ist das?"
+    ],
+    "examples": [
+      "Was ist das?",
+      "Das ist eine Brezel."
+    ],
+    "description": "Identifying objects"
+  },
+  {
+    "code": "a0_vorlieben_ausdruecken",
+    "label": "Vorlieben ausdrücken",
+    "macro_category": "bewertung_kommentar",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich mag...",
+      "Ich mag kein/keine..."
+    ],
+    "examples": [
+      "Ich mag Kaffee.",
+      "Ich mag kein Bier."
+    ],
+    "description": "Expressing likes and dislikes"
+  },
+  {
+    "code": "a0_nach_weg_fragen",
+    "label": "Nach dem Weg fragen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Wo ist...?",
+      "Wie komme ich zu...?"
+    ],
+    "examples": [
+      "Wo ist die Toilette?",
+      "Wo ist der Bahnhof?"
+    ],
+    "description": "Asking where something/someone is"
+  },
+  {
+    "code": "a0_sich_entschuldigen",
+    "label": "Sich entschuldigen",
+    "macro_category": "soziale_konventionen",
+    "cefr_level": "A0",
+    "patterns": [
+      "Entschuldigung!",
+      "Es tut mir leid."
+    ],
+    "examples": [
+      "Entschuldigung, wo ist der Bahnhof?",
+      "Es tut mir leid!"
+    ],
+    "description": "Apologizing or getting attention"
+  },
+  {
+    "code": "a0_name_sagen",
+    "label": "Den eigenen Namen sagen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich heiße...",
+      "Mein Name ist..."
+    ],
+    "examples": [
+      "Ich heiße Anna."
+    ],
+    "description": "Stating your name"
+  },
+  {
+    "code": "a0_zaehlen",
+    "label": "Zählen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "eins, zwei, drei..."
+    ],
+    "examples": [
+      "Zwei Kaffee, bitte.",
+      "Drei Euro."
+    ],
+    "description": "Counting and using numbers"
+  },
+  {
+    "code": "a0_bestellen",
+    "label": "Bestellen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich möchte...",
+      "Ich möchte + Anzahl + Sache...",
+      "Ein/Eine..., bitte."
+    ],
+    "examples": [
+      "Ich möchte einen Kaffee, bitte.",
+      "Ich möchte zwei Brezeln.",
+      "Ich möchte das Schnitzel."
+    ],
+    "description": "Ordering food, drinks, or services"
+  },
+  {
+    "code": "a0_um_hilfe_bitten",
+    "label": "Um Hilfe bitten",
+    "macro_category": "verstaendnissicherung",
+    "cefr_level": "A0",
+    "patterns": [
+      "Können Sie mir helfen?",
+      "Ich verstehe nicht.",
+      "Sprechen Sie Englisch?",
+      "Noch einmal, bitte."
+    ],
+    "examples": [
+      "Entschuldigung, können Sie mir helfen?",
+      "Ich verstehe nicht. Noch einmal, bitte.",
+      "Sprechen Sie Englisch?"
+    ],
+    "description": "Asking for help or clarification"
+  },
+  {
+    "code": "a0_uhrzeit_sagen",
+    "label": "Die Uhrzeit sagen",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Es ist ... Uhr.",
+      "Um ... Uhr."
+    ],
+    "examples": [
+      "Es ist drei Uhr.",
+      "Um zehn Uhr."
+    ],
+    "description": "Telling the time"
+  },
+  {
+    "code": "a0_fahrkarte_kaufen",
+    "label": "Eine Fahrkarte kaufen",
+    "macro_category": "handlungsregulierung",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich möchte eine Fahrkarte nach...",
+      "Einfach oder hin und zurück?"
+    ],
+    "examples": [
+      "Ich möchte eine Fahrkarte nach Salzburg.",
+      "Hin und zurück, bitte."
+    ],
+    "description": "Buying a ticket"
+  },
+  {
+    "code": "a0_problem_beschreiben",
+    "label": "Ein Problem beschreiben",
+    "macro_category": "informationsaustausch",
+    "cefr_level": "A0",
+    "patterns": [
+      "Ich habe ein Problem.",
+      "Ich habe ... verloren.",
+      "Ich brauche..."
+    ],
+    "examples": [
+      "Ich habe mein Portemonnaie verloren.",
+      "Ich brauche Hilfe.",
+      "Ich brauche einen Arzt."
+    ],
+    "description": "Describing a problem or emergency"
+  },
+  {
     "code": "name_identify",
     "label": "Benennen, Definieren, Identifizieren",
     "macro_category": "informationsaustausch",

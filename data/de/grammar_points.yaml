@@ -1,3 +1,1172 @@
+- code: begruessungen
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_begruessungen
+  unistr_label: Greetings and farewells
+  label: Begrüßungen und Verabschiedungen
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Greetings and Farewells in German
+      tip: ''
+      explanation: 'In German, you use different greetings depending on the time of day and how formal the situation is. <span
+        lang="de">**Hallo**</span> is a friendly, informal word that means "hello" — you can use it with friends and people
+        you know. For more formal situations, use <span lang="de">**Guten Tag**</span> (good day), <span lang="de">**Guten
+        Morgen**</span> (good morning), or <span lang="de">**Guten Abend**</span> (good evening).
+
+
+        - <span lang="de">**Hallo, Anna!**</span> (Hi, Anna!)
+
+        - <span lang="de">**Guten Morgen, Herr M\xFCller.**</span> (Good morning, Mr. M\xFCller.)
+
+        - <span lang="de">**Guten Abend!**</span> (Good evening!)
+
+
+        When saying goodbye, <span lang="de">**Auf Wiedersehen**</span> is the polite way (literally "until we see again"),
+        and <span lang="de">**Tsch\xFC\xDF**</span> is the casual equivalent — like "bye." In Bavaria (where Munich is), you
+        will also hear <span lang="de">**Gr\xFC\xDF Gott**</span> (hello, formal) and <span lang="de">**Servus**</span> (hello
+        and goodbye, informal).
+
+
+        | German | Meaning | When | |--------|---------|------| | <span lang="de">**Hallo!**</span> | Hello! | Informal |
+        | <span lang="de">**Guten Morgen!**</span> | Good morning! | Before noon | | <span lang="de">**Guten Tag!**</span>
+        | Good day! | Formal, daytime | | <span lang="de">**Guten Abend!**</span> | Good evening! | Formal, evening | | <span
+        lang="de">**Auf Wiedersehen!**</span> | Goodbye! | Formal | | <span lang="de">**Tsch\xFC\xDF!**</span> | Bye! | Informal
+        |
+
+
+        > **Tip:** If in doubt, go formal with <span lang="de">**Guten Tag**</span>. Germans will switch to informal if they
+        prefer it.'
+      language: en
+      why_this_matters: ''
+- code: aussprache_bas
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_aussprache
+  unistr_label: German pronunciation basics
+  label: Deutsche Aussprache Grundlagen
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: German Pronunciation Basics
+      tip: ''
+      explanation: '## How to Pronounce German
+
+
+        German spelling is mostly **phonetic** — once you learn the sounds, you can read almost any German word out loud!
+
+
+        ### The Vowels
+
+
+        German has the same five vowels as English, plus three special ones with **Umlaute** (two dots above):
+
+
+        | Letter | Sound | Example |
+
+        |--------|-------|---------|
+
+        | **a** | like ''ah'' | <span lang="de">**A**bend</span> (evening) |
+
+        | **e** | like ''eh'' | <span lang="de">**E**ssen</span> (food) |
+
+        | **i** | like ''ee'' | <span lang="de">**i**mmer</span> (always) |
+
+        | **o** | like ''oh'' | <span lang="de">**o**ft</span> (often) |
+
+        | **u** | like ''oo'' | <span lang="de">**U**hr</span> (clock) |
+
+        | **ä** | like ''eh'' (open) | <span lang="de">sp**ä**t</span> (late) |
+
+        | **ö** | like ''ur'' (round lips) | <span lang="de">sch**ö**n</span> (beautiful) |
+
+        | **ü** | like ''oo'' (round lips, say ''ee'') | <span lang="de">f**ü**nf</span> (five) |
+
+
+        ### Key Consonant Sounds
+
+
+        | Letters | Sound | Example |
+
+        |---------|-------|---------|
+
+        | **ch** | soft hiss (after e, i) | <span lang="de">i**ch**</span> (I) |
+
+        | **ch** | throat sound (after a, o, u) | <span lang="de">Bu**ch**</span> (book) |
+
+        | **sch** | like English ''sh'' | <span lang="de">**Sch**ule</span> (school) |
+
+        | **w** | like English ''v'' | <span lang="de">**W**asser</span> (water) |
+
+        | **v** | like English ''f'' | <span lang="de">**V**ater</span> (father) |
+
+        | **z** | like ''ts'' | <span lang="de">**Z**eit</span> (time) |
+
+        | **ß** | like ''ss'' | <span lang="de">Stra**ß**e</span> (street) |
+
+        | **ei** | like ''eye'' | <span lang="de">n**ei**n</span> (no) |
+
+        | **ie** | like ''ee'' | <span lang="de">v**ie**l</span> (much) |
+
+        | **eu/äu** | like ''oy'' | <span lang="de">h**eu**te</span> (today) |
+
+
+        ### Quick Tips
+
+        - Stress usually falls on the **first syllable**: <span lang="de">*’**Gu**-ten*</span>, <span lang="de">***Dan**-ke*</span>,
+        <span lang="de">***Mor**-gen*</span>.
+
+        - German **W** sounds like English **V**, and German **V** sounds like English **F**. This catches everyone at first!
+
+        - The letter <span lang="de">**ß**</span> (Eszett) is just a special way to write **ss**.'
+      language: en
+      why_this_matters: ''
+- code: zahlen_0_20
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_zahlen_0_20
+  unistr_label: Numbers 0-20
+  label: Zahlen von null bis zwanzig
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Numbers from Zero to Twenty
+      tip: ''
+      explanation: 'Numbers in German from 0 to 20 are essential building blocks for everyday communication. Here are the
+        numbers to memorize:
+
+
+        | Number | German | |--------|--------| | 0 | <span lang="de">null</span> | | 1 | <span lang="de">eins</span> | |
+        2 | <span lang="de">zwei</span> | | 3 | <span lang="de">drei</span> | | 4 | <span lang="de">vier</span> | | 5 | <span
+        lang="de">f\xFCnf</span> | | 6 | <span lang="de">sechs</span> | | 7 | <span lang="de">sieben</span> | | 8 | <span
+        lang="de">acht</span> | | 9 | <span lang="de">neun</span> | | 10 | <span lang="de">zehn</span> | | 11 | <span lang="de">elf</span>
+        | | 12 | <span lang="de">zw\xF6lf</span> | | 13 | <span lang="de">dreizehn</span> | | 14 | <span lang="de">vierzehn</span>
+        | | 15 | <span lang="de">f\xFCnfzehn</span> | | 16 | <span lang="de">sechzehn</span> | | 17 | <span lang="de">siebzehn</span>
+        | | 18 | <span lang="de">achtzehn</span> | | 19 | <span lang="de">neunzehn</span> | | 20 | <span lang="de">zwanzig</span>
+        |
+
+
+        **Examples:**
+
+        - <span lang="de">*Ich habe zwei Kinder.*</span> (I have two children.)
+
+        - <span lang="de">*Zimmer Nummer f\xFCnfzehn.*</span> (Room number fifteen.)
+
+
+        > **Tip:** Numbers 13-19 follow a clear pattern: the unit + <span lang="de">**-zehn**</span> (like English "-teen").
+        Note that <span lang="de">sech**zehn**</span> (not *sechszehn*) and <span lang="de">sieb**zehn**</span> (not *siebenzehn*)
+        drop a letter!'
+      language: en
+      why_this_matters: ''
+- code: hoeflich_ausdruecke
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_hoeflichkeit
+  unistr_label: Polite expressions
+  label: Höfliche Ausdrücke
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Polite Words: bitte, danke and More'
+      tip: ''
+      explanation: 'German has a few very important **polite words** that you will use every day. Learning these words first
+        will help you be friendly and respectful right away.
+
+
+        **The key polite words:**
+
+
+        | German | English | |---|---| | <span lang="de">bitte</span> | please / you''re welcome | | <span lang="de">danke</span>
+        | thank you | | <span lang="de">danke sch\xF6n</span> | thank you very much | | <span lang="de">Entschuldigung</span>
+        | excuse me / sorry | | <span lang="de">es tut mir leid</span> | I''m sorry |
+
+
+        **Examples:**
+
+
+        - <span lang="de">*Einen Kaffee, bitte.*</span> (A coffee, please.)
+
+        - <span lang="de">*Danke!*</span> \u2014 <span lang="de">*Bitte!*</span> (Thank you! \u2014 You''re welcome!)
+
+        - <span lang="de">*Entschuldigung, wo ist der Bahnhof?*</span> (Excuse me, where is the train station?)
+
+
+        **Quick tip:** <span lang="de">**Bitte**</span> is a magic word in German \u2014 it means both "please" and "you''re
+        welcome." Use <span lang="de">**Entschuldigung**</span> to get a stranger''s attention or to apologize for a small
+        mistake. Use <span lang="de">**es tut mir leid**</span> when you feel genuinely sorry.'
+      language: en
+      why_this_matters: ''
+- code: ich_heisse
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ich_heisse
+  unistr_label: My name is... (Ich hei\xDFe)
+  label: Sich vorstellen mit ich heiße
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Introducing Yourself: Ich hei\xDFe...'
+      tip: ''
+      explanation: '## Saying Your Name in German
+
+
+        In German, the most natural way to introduce yourself is <span lang="de">**Ich hei\xDFe...**</span> followed by your
+        name. It literally means "I am called..." and is the standard self-introduction.
+
+
+        **The formula is simple:**
+
+        > <span lang="de">**Ich hei\xDFe**</span> + [your name]
+
+
+        ### Examples
+
+
+        - <span lang="de">**Ich hei\xDFe Anna.**</span> (My name is Anna.)
+
+        - <span lang="de">**Ich hei\xDFe Thomas.**</span> (My name is Thomas.)
+
+        - <span lang="de">**Ich hei\xDFe Sofia. Und Sie?**</span> (My name is Sofia. And you?)
+
+
+        ### Asking Someone''s Name
+
+
+        - <span lang="de">**Wie hei\xDFen Sie?**</span> (What is your name? \u2014 formal)
+
+        - <span lang="de">**Wie hei\xDFt du?**</span> (What is your name? \u2014 informal)
+
+
+        And they will answer:
+
+        - <span lang="de">**Ich hei\xDFe Lukas.**</span> (My name is Lukas.)
+
+
+        > **Tip:** Use <span lang="de">**Sie**</span> (formal "you") with strangers and adults, and <span lang="de">**du**</span>
+        (informal "you") with friends and children. When in doubt, use <span lang="de">**Sie**</span>!'
+      language: en
+      why_this_matters: ''
+- code: art_ein_eine
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_artikel_ein_eine
+  unistr_label: 'Indefinite articles: ein, eine'
+  label: 'Unbestimmte Artikel: ein, eine'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Indefinite Articles: ein, eine'
+      tip: ''
+      explanation: '## A / An in German
+
+
+        In English you say "a coffee" or "an apple." In German, the word for "a" changes depending on the gender of the noun.
+        German has **three** genders:
+
+
+        - <span lang="de">**ein**</span> = a (masculine) — <span lang="de">ein Kaffee, ein Kuchen, ein Tisch</span>
+
+        - <span lang="de">**eine**</span> = a (feminine) — <span lang="de">eine Pizza, eine Brezel, eine Tasse</span>
+
+        - <span lang="de">**ein**</span> = a (neuter) — <span lang="de">ein Bier, ein Brot, ein Wasser</span>
+
+
+        > Notice: masculine and neuter share the same form <span lang="de">**ein**</span>!
+
+
+        **Quick rule of thumb:**
+
+        - If the noun uses <span lang="de">**der**</span>, use <span lang="de">**ein**</span>
+
+        - If the noun uses <span lang="de">**die**</span>, use <span lang="de">**eine**</span>
+
+        - If the noun uses <span lang="de">**das**</span>, use <span lang="de">**ein**</span>
+
+
+        **Examples:**
+
+
+        - <span lang="de">*Ich m\xF6chte **ein** Bier.*</span> (I''d like a beer.)
+
+        - <span lang="de">*Ich m\xF6chte **eine** Brezel.*</span> (I''d like a pretzel.)
+
+        - <span lang="de">*Ich m\xF6chte **ein** Wasser.*</span> (I''d like a water.)
+
+        '
+      language: en
+      why_this_matters: ''
+- code: ich_moechte
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ich_moechte
+  unistr_label: I would like (Ich m\xF6chte)
+  label: 'Konjunktiv II von mögen: ich möchte'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Ich m\xF6chte: Making Polite Requests'
+      tip: ''
+      explanation: '<span lang="de">**Ich m\xF6chte**</span> means **"I would like"** and is the polite way to ask for something
+        in German. It is much more common and courteous than simply saying "I want" (<span lang="de">*ich will*</span>). Use
+        it whenever you are ordering food, shopping, or making a request.
+
+
+        **How to use it:**
+
+        Just say <span lang="de">**Ich m\xF6chte**</span> + the thing you want.
+
+
+        **Examples:**
+
+        - <span lang="de">*Ich m\xF6chte einen Kaffee.*</span> (I would like a coffee.)
+
+        - <span lang="de">*Ich m\xF6chte eine Brezel, bitte.*</span> (I would like a pretzel, please.)
+
+        - <span lang="de">*Ich m\xF6chte ein Wasser.*</span> (I would like a water.)
+
+
+        > **Tip:** You can always add <span lang="de">**bitte**</span> (please) at the end to sound extra polite!'
+      language: en
+      why_this_matters: ''
+- code: art_der_die_das
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_artikel_der_die_das
+  unistr_label: 'Definite articles: der, die, das'
+  label: 'Bestimmte Artikel: der, die, das'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Articles der, die, das: The Three Genders'
+      tip: ''
+      explanation: '## "The" in German: der, die, das
+
+
+        In German, every noun has one of **three genders**: masculine, feminine, or neuter. The word for "the" changes depending
+        on the gender:
+
+
+        | Gender | Article | Example |
+
+        |--------|---------|---------|
+
+        | Masculine | <span lang="de">**der**</span> | <span lang="de">**der** Tisch</span> (the table) |
+
+        | Feminine | <span lang="de">**die**</span> | <span lang="de">**die** Tasse</span> (the cup) |
+
+        | Neuter | <span lang="de">**das**</span> | <span lang="de">**das** Bier</span> (the beer) |
+
+
+        ### How to remember?
+
+
+        There are no perfect rules, but some patterns help:
+
+        - **der** (masculine): male persons, days, months, seasons — <span lang="de">der Mann, der Montag, der Januar</span>
+
+        - **die** (feminine): female persons, most nouns ending in **-e** — <span lang="de">die Frau, die Tasse, die Stra\xDFe</span>
+
+        - **das** (neuter): diminutives (-chen, -lein), many nouns ending in **-ment** — <span lang="de">das M\xE4dchen, das
+        Dokument</span>
+
+
+        > **Important:** You must learn the article **together** with the noun. Don''t just learn <span lang="de">Tisch</span>
+        — learn <span lang="de">**der** Tisch</span>. This is the single most important habit in German!
+
+
+        **Examples:**
+
+
+        - <span lang="de">*Wo ist **der** Bahnhof?*</span> (Where is the train station?)
+
+        - <span lang="de">***Die** Kirche ist sch\xF6n.*</span> (The church is beautiful.)
+
+        - <span lang="de">***Das** Hotel ist hier.*</span> (The hotel is here.)
+
+        '
+      language: en
+      why_this_matters: ''
+- code: wo_ist
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_wo_ist
+  unistr_label: Where is it? (Wo ist...?)
+  label: Frage nach dem Ort wo ist
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Asking Where Something Is: Wo ist...?'
+      tip: ''
+      explanation: '## Asking "Where is...?" in German
+
+
+        <span lang="de">**Wo ist...?**</span> is how you ask "Where is...?" in German. Simply say <span lang="de">**Wo ist**</span>
+        and then the person or thing you are looking for.
+
+
+        > <span lang="de">**Wo ist**</span> + [the thing/person you want to find]
+
+
+        ### Examples
+
+
+        - <span lang="de">**Wo ist die Toilette?**</span> (Where is the toilet?)
+
+        - <span lang="de">**Wo ist der Bahnhof?**</span> (Where is the train station?)
+
+        - <span lang="de">**Wo ist das Hotel?**</span> (Where is the hotel?)
+
+
+        ### Quick answer phrases
+
+
+        When someone answers, they might say:
+
+        - <span lang="de">**Hier.**</span> (Here.)
+
+        - <span lang="de">**Dort / Da.**</span> (There.)
+
+        - <span lang="de">**Rechts.**</span> (On the right.)
+
+        - <span lang="de">**Links.**</span> (On the left.)
+
+        - <span lang="de">**Geradeaus.**</span> (Straight ahead.)
+
+
+        > **Tip:** Notice the article changes: <span lang="de">**der** Bahnhof</span>, <span lang="de">**die** Toilette</span>,
+        <span lang="de">**das** Hotel</span>. The question itself is always the same \u2014 just swap the noun!'
+      language: en
+      why_this_matters: ''
+- code: was_ist_das
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_was_ist_das
+  unistr_label: What is it? (Was ist das?)
+  label: Identifikationsfrage was ist das
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Asking What Something Is: Was ist das?'
+      tip: ''
+      explanation: "## Asking \"What is it?\" in German\n\n<span lang=\"de\">**Was ist das?**</span> is how you ask *\"What\
+        \ is that?\"* or *\"What is this?\"* in German. It is one of the most useful questions for beginners!\n\n### Examples\n\
+        \n- <span lang=\"de\">**Was ist das?**</span> (What is that?)\n- <span lang=\"de\">**Was ist das hier?**</span> (What\
+        \ is this here?)\n\n### How to answer\n\nTo answer, you use <span lang=\"de\">**Das ist**</span> (That is) followed\
+        \ by the name of the thing:\n\n- — <span lang=\"de\">Was ist das?</span> *(What is that?)*\n  — <span lang=\"de\"\
+        >**Das ist ein Buch.**</span> *(That is a book.)*\n- — <span lang=\"de\">Was ist das?</span> *(What is that?)*\n \
+        \ — <span lang=\"de\">**Das ist eine Brezel.**</span> *(That is a pretzel.)*\n\n> **Tip:** <span lang=\"de\">**Das**</span>\
+        \ here doesn't mean \"the\" — it means \"that\" or \"this.\" The answer always starts with <span lang=\"de\">**Das\
+        \ ist...**</span> regardless of the noun's gender."
+      language: en
+      why_this_matters: ''
+- code: ja_nein_nicht
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ja_nein_nicht
+  unistr_label: Yes, no, not
+  label: Bejahung und Verneinung ja nein nicht kein
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: How to Say Yes, No, and Not
+      tip: ''
+      explanation: 'In German, you use <span lang="de">**ja**</span> to say yes and <span lang="de">**nein**</span> to say
+        no. When you want to make a sentence negative, you use <span lang="de">**nicht**</span> (not) or <span lang="de">**kein/keine**</span>
+        (not a / no).
+
+
+        ### nicht vs. kein
+
+
+        - Use <span lang="de">**nicht**</span> to negate **verbs and adjectives**:
+
+        - <span lang="de">*Ich verstehe **nicht**.*</span> (I don''t understand.)
+
+        - <span lang="de">*Das ist **nicht** richtig.*</span> (That is not correct.)
+
+
+        - Use <span lang="de">**kein/keine**</span> to negate **nouns with ein/eine**:
+
+        - <span lang="de">*Ich habe **keinen** Kaffee.*</span> (I don''t have a coffee.)
+
+        - <span lang="de">*Das ist **keine** Brezel.*</span> (That is not a pretzel.)
+
+
+        > **Tip for now:** Just remember <span lang="de">**nicht**</span> = "not" and <span lang="de">**nein**</span> = "no."
+        You''ll get a feel for <span lang="de">**kein**</span> as you hear it more!'
+      language: en
+      why_this_matters: ''
+- code: einfache_saetze
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_einfache_saetze
+  unistr_label: Simple sentences (V2 word order)
+  label: Einfache Sätze und Verbzweitstellung
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Simple Sentences and Verb-Second Rule
+      tip: ''
+      explanation: '## Building Simple Sentences in German
+
+
+        German sentence structure has one golden rule: **the verb goes in second position**. This is called the V2 rule (Verbzweitstellung),
+        and it is the most important thing to know about German word order.
+
+
+        ### Subject + Verb + Rest
+
+
+        The simplest pattern is just like English:
+
+
+        - <span lang="de">**Ich trinke Kaffee.**</span> (I drink coffee.)
+
+        - <span lang="de">**Er kommt aus Berlin.**</span> (He comes from Berlin.)
+
+        - <span lang="de">**Wir wohnen in M\xFCnchen.**</span> (We live in Munich.)
+
+
+        ### Verb always in second position
+
+
+        Even when you start the sentence with something other than the subject, the verb stays **second**:
+
+
+        - <span lang="de">**Heute trinke ich Kaffee.**</span> (Today I drink coffee.)
+
+        - <span lang="de">**In M\xFCnchen wohnen wir.**</span> (In Munich we live.)
+
+
+        Notice how the subject (ich, wir) flips to come *after* the verb — but the verb stays in position 2.
+
+
+        ### Questions
+
+
+        For yes/no questions, put the verb **first**:
+
+
+        - <span lang="de">**Trinken Sie Kaffee?**</span> (Do you drink coffee?)
+
+        - <span lang="de">**Ist das richtig?**</span> (Is that correct?)
+
+
+        > **Tip for now:** Just remember — verb in **second** place. If the sentence starts with a time word like <span lang="de">*heute*</span>
+        or <span lang="de">*morgen*</span>, the subject slides right after the verb.
+
+        '
+      language: en
+      why_this_matters: ''
+- code: personalpronomen
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_personalpronomen
+  unistr_label: 'Subject pronouns: ich, du, er/sie/es'
+  label: Personalpronomen ich du er sie es
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Subject Pronouns: ich, du, er, sie, es'
+      tip: ''
+      explanation: 'In German, subject pronouns tell us *who* is doing the action. Unlike English, German has a formal "you"
+        (<span lang="de">**Sie**</span>) in addition to the informal one (<span lang="de">**du**</span>).
+
+
+        | German | English | |---|---| | <span lang="de">**ich**</span> | I | | <span lang="de">**du**</span> | you (informal)
+        | | <span lang="de">**er**</span> | he | | <span lang="de">**sie**</span> | she | | <span lang="de">**es**</span>
+        | it | | <span lang="de">**wir**</span> | we | | <span lang="de">**ihr**</span> | you (plural, informal) | | <span
+        lang="de">**sie**</span> | they | | <span lang="de">**Sie**</span> | you (formal, singular + plural) |
+
+
+        **Examples:**
+
+        - <span lang="de">**Ich bin Thomas.**</span> (I am Thomas.)
+
+        - <span lang="de">**Du bist nett.**</span> (You are nice.)
+
+        - <span lang="de">**Er kommt aus Berlin.**</span> (He comes from Berlin.)
+
+        - <span lang="de">**Sie ist Studentin.**</span> (She is a student.)
+
+
+        > **Tip:** <span lang="de">**sie**</span> (lowercase) means "she" or "they" depending on the verb. <span lang="de">**Sie**</span>
+        (capitalized) always means the formal "you." In speech, context makes it clear!'
+      language: en
+      why_this_matters: ''
+- code: sein_praesens
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_sein
+  unistr_label: 'To be: bin, bist, ist'
+  label: 'Präsens von sein: bin bist ist'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'The Verb sein: bin, bist, ist...'
+      tip: ''
+      explanation: '## The verb *sein* (to be)
+
+
+        In German, the verb <span lang="de">**sein**</span> means *to be*. Like English, it is highly irregular. Here are
+        all the forms:
+
+
+        | German | English | |---|---| | <span lang="de">ich **bin**</span> | I am | | <span lang="de">du **bist**</span>
+        | you are | | <span lang="de">er/sie/es **ist**</span> | he/she/it is | | <span lang="de">wir **sind**</span> | we
+        are | | <span lang="de">ihr **seid**</span> | you (plural) are | | <span lang="de">sie/Sie **sind**</span> | they/you
+        (formal) are |
+
+
+        > Focus on <span lang="de">ich</span>/<span lang="de">du</span>/<span lang="de">er/sie</span> for now \u2014 you''ll
+        practice the others soon!
+
+
+        **Examples:**
+
+
+        - <span lang="de">*Ich bin Anna.*</span> (I am Anna.)
+
+        - <span lang="de">*Du bist sehr nett.*</span> (You are very nice.)
+
+        - <span lang="de">*Er ist aus M\xFCnchen.*</span> (He is from Munich.)
+
+        - <span lang="de">*Sie sind Herr M\xFCller?*</span> (You are Mr. M\xFCller? \u2014 formal)'
+      language: en
+      why_this_matters: ''
+- code: haben_praesens
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_haben
+  unistr_label: 'To have: habe, hast, hat'
+  label: 'Präsens von haben: habe hast hat'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'The Verb haben: habe (I have)'
+      tip: ''
+      explanation: '## The verb *haben* (to have)
+
+
+        In German, the verb <span lang="de">**haben**</span> means *to have*. Here are the forms you need:
+
+
+        | German | English | |---|---| | <span lang="de">ich **habe**</span> | I have | | <span lang="de">du **hast**</span>
+        | you have | | <span lang="de">er/sie/es **hat**</span> | he/she/it has |
+
+
+        ## Habe + something
+
+
+        The most useful pattern is <span lang="de">**Ich habe**</span> + a noun:
+
+
+        - <span lang="de">*Ich habe eine Reservierung.*</span> (I have a reservation.)
+
+        - <span lang="de">*Ich habe ein Problem.*</span> (I have a problem.)
+
+        - <span lang="de">*Ich habe Hunger.*</span> (I''m hungry. \u2014 literally: I have hunger.)
+
+
+        > <span lang="de">**Haben**</span> is also used for feelings in German where English uses "to be": <span lang="de">*Ich
+        habe Hunger*</span> (I''m hungry), <span lang="de">*Ich habe Durst*</span> (I''m thirsty).'
+      language: en
+      why_this_matters: ''
+- code: ich_mag
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ich_mag
+  unistr_label: I like / I don't like
+  label: 'Vorlieben ausdrücken: ich mag / mir gefällt'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Likes and Dislikes: Ich mag / Mir gef\xE4llt'
+      tip: ''
+      explanation: '## Saying What You Like and Don''t Like
+
+
+        German has two common ways to say you like something:
+
+
+        ### 1. Ich mag... (I like...)
+
+
+        Use <span lang="de">**Ich mag**</span> for things you generally like (especially food and people):
+
+
+        - <span lang="de">**Ich mag Kaffee.**</span> (I like coffee.)
+
+        - <span lang="de">**Ich mag keine Milch.**</span> (I don''t like milk.)
+
+        - <span lang="de">**Magst du Bier?**</span> (Do you like beer?)
+
+
+        ### 2. Mir gef\xE4llt... (I like... / It pleases me)
+
+
+        Use <span lang="de">**Mir gef\xE4llt**</span> for things that appeal to you (places, experiences, things):
+
+
+        - <span lang="de">**Mir gef\xE4llt M\xFCnchen.**</span> (I like Munich.)
+
+        - <span lang="de">**Mir gef\xE4llt das Hotel.**</span> (I like the hotel.)
+
+
+        For **plural** things, use <span lang="de">**Mir gefallen**</span>:
+
+
+        - <span lang="de">**Mir gefallen die Berge.**</span> (I like the mountains.)
+
+
+        ### Quick summary
+
+
+        | German | English |
+
+        |---|---|
+
+        | <span lang="de">Ich mag Kaffee.</span> | I like coffee. |
+
+        | <span lang="de">Ich mag keinen Tee.</span> | I don''t like tea. |
+
+        | <span lang="de">Mir gef\xE4llt das.</span> | I like that. |
+
+        | <span lang="de">Magst du das?</span> | Do you like that? |
+
+
+        > **Tip for now:** Start with <span lang="de">**Ich mag**</span> — it''s simpler and covers most situations at this
+        stage!
+
+        '
+      language: en
+      why_this_matters: ''
+- code: ortspraepositionen
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_ortspraepositionen
+  unistr_label: 'Prepositions of place: in, auf, an, nach, zu'
+  label: 'Ortspräpositionen: in, auf, an, nach, zu'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Prepositions of Place: in, auf, nach, zu'
+      tip: ''
+      explanation: '## Prepositions of Place
+
+
+        In German, small words called **prepositions** tell us where something is or where someone is going. Here are the
+        most useful ones for beginners:
+
+
+        ### nach — to (cities and countries)
+
+
+        Use <span lang="de">**nach**</span> before city and country names:
+
+
+        - <span lang="de">*Ich fahre **nach** M\xFCnchen.*</span> (I''m going to Munich.)
+
+        - <span lang="de">*Wir fliegen **nach** Deutschland.*</span> (We''re flying to Germany.)
+
+
+        ### in — in / into
+
+
+        Use <span lang="de">**in**</span> to say you are inside a place:
+
+
+        - <span lang="de">*Ich bin **in** M\xFCnchen.*</span> (I am in Munich.)
+
+        - <span lang="de">*Wir gehen **in** das Caf\xE9.*</span> (We''re going into the caf\xE9.)
+
+
+        ### zu — to (a person or specific place)
+
+
+        Use <span lang="de">**zu**</span> to go to a specific destination:
+
+
+        - <span lang="de">*Ich gehe **zum** Bahnhof.*</span> (I''m going to the train station.)
+
+        - <span lang="de">*Gehen Sie **zur** Apotheke.*</span> (Go to the pharmacy.)
+
+
+        > <span lang="de">**zum**</span> = <span lang="de">zu + dem</span> (masculine/neuter), <span lang="de">**zur**</span>
+        = <span lang="de">zu + der</span> (feminine)
+
+
+        ### auf — on
+
+
+        - <span lang="de">*Das Buch ist **auf** dem Tisch.*</span> (The book is on the table.)
+
+
+        > **Tip:** For now, focus on <span lang="de">**nach**</span> (to cities/countries) and <span lang="de">**in**</span>
+        (inside a place). You''ll pick up the others naturally!
+
+        '
+      language: en
+      why_this_matters: ''
+- code: art_plural
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_artikel_plural
+  unistr_label: 'Plural article: die (all genders)'
+  label: 'Bestimmter Artikel Plural: die'
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: 'Plural Article: die (for All Genders)'
+      tip: ''
+      explanation: '## "The" in the plural
+
+
+        You already know <span lang="de">**der**</span> (m.), <span lang="de">**die**</span> (f.), and <span lang="de">**das**</span>
+        (n.) for single things. Good news: in the plural, **all three genders** use the same article:
+
+
+        > <span lang="de">**die**</span> = the (plural, all genders)
+
+
+        - <span lang="de">**die** M\xE4nner</span> (the men) — from <span lang="de">der Mann</span>
+
+        - <span lang="de">**die** Frauen</span> (the women) — from <span lang="de">die Frau</span>
+
+        - <span lang="de">**die** Kinder</span> (the children) — from <span lang="de">das Kind</span>
+
+
+        ### How nouns form plurals
+
+
+        German plurals are less predictable than English. Common patterns:
+
+        - Add **-e**: <span lang="de">der Tisch \u2192 die Tische</span>
+
+        - Add **-er**: <span lang="de">das Kind \u2192 die Kinder</span>
+
+        - Add **-en**: <span lang="de">die Frau \u2192 die Frauen</span>
+
+        - Add **umlaut**: <span lang="de">der Mann \u2192 die M\xE4nner</span>
+
+        - No change: <span lang="de">das M\xE4dchen \u2192 die M\xE4dchen</span>
+
+
+        > **Tip:** Learn each noun with its plural form, just like you learn it with its article. Dictionaries list both!
+
+        '
+      language: en
+      why_this_matters: ''
+- code: zahlen_20_100
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_zahlen_20_100
+  unistr_label: Numbers 20-100
+  label: Zahlen von zwanzig bis hundert
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Numbers from Twenty to One Hundred
+      tip: ''
+      explanation: '## Die Zahlen von 20 bis 100
+
+
+        You already know 0-20. Now for prices, times, and addresses, you need the rest:
+
+
+        ### Tens
+
+
+        | Number | German |
+
+        |--------|--------|
+
+        | 20 | <span lang="de">zwanzig</span> |
+
+        | 30 | <span lang="de">drei\xDFig</span> |
+
+        | 40 | <span lang="de">vierzig</span> |
+
+        | 50 | <span lang="de">f\xFCnfzig</span> |
+
+        | 60 | <span lang="de">sechzig</span> |
+
+        | 70 | <span lang="de">siebzig</span> |
+
+        | 80 | <span lang="de">achtzig</span> |
+
+        | 90 | <span lang="de">neunzig</span> |
+
+        | 100 | <span lang="de">hundert</span> |
+
+
+        ### Combining tens and units — THE TWIST!
+
+
+        In German, numbers are said **backwards** compared to English: the unit comes **before** the ten, joined by <span
+        lang="de">**und**</span> (and):
+
+
+        - 21 = <span lang="de">**einundzwanzig**</span> (one-and-twenty)
+
+        - 35 = <span lang="de">**f\xFCnfunddrei\xDFig**</span> (five-and-thirty)
+
+        - 47 = <span lang="de">**siebenundvierzig**</span> (seven-and-forty)
+
+
+        **Examples:**
+
+
+        - <span lang="de">*Das kostet f\xFCnfundvierzig Euro.*</span> (That costs forty-five euros.)
+
+        - <span lang="de">*Gleis einundzwanzig.*</span> (Platform twenty-one.)
+
+
+        > **Tip:** Think of it like old English "four-and-twenty blackbirds." German still does this for all numbers!
+
+        '
+      language: en
+      why_this_matters: ''
+- code: uhrzeit_wochentage
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_uhrzeit_wochentage
+  unistr_label: Telling time and days of the week
+  label: Uhrzeit und Wochentage
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Telling Time and Days of the Week
+      tip: ''
+      explanation: '## Wie sp\xE4t ist es? — What time is it?
+
+
+        ### Asking the time
+
+
+        - <span lang="de">**Wie sp\xE4t ist es?**</span> — What time is it?
+
+        - <span lang="de">**Um wie viel Uhr...?**</span> — At what time...?
+
+
+        ### Telling the time
+
+
+        - <span lang="de">**Es ist ein Uhr.**</span> — It''s one o''clock.
+
+        - <span lang="de">**Es ist zwei Uhr.**</span> — It''s two o''clock.
+
+        - <span lang="de">**Es ist halb drei.**</span> — It''s half past two. (literally: half three!)
+
+        - <span lang="de">**Es ist Viertel nach zehn.**</span> — It''s quarter past ten.
+
+        - <span lang="de">**Es ist Viertel vor drei.**</span> — It''s quarter to three.
+
+
+        Germany uses the 24-hour clock in formal contexts (timetables, appointments):
+
+        - <span lang="de">**Es ist f\xFCnfzehn Uhr.**</span> — It''s 3 PM. (15:00)
+
+        - <span lang="de">**Der Zug f\xE4hrt um achtzehn Uhr.**</span> — The train leaves at 6 PM.
+
+
+        > **Watch out:** <span lang="de">**halb drei**</span> means 2:30, NOT 3:30! It means "half *to* three."
+
+
+        ### Days of the week
+
+
+        | German | English |
+
+        |--------|---------|
+
+        | <span lang="de">Montag</span> | Monday |
+
+        | <span lang="de">Dienstag</span> | Tuesday |
+
+        | <span lang="de">Mittwoch</span> | Wednesday |
+
+        | <span lang="de">Donnerstag</span> | Thursday |
+
+        | <span lang="de">Freitag</span> | Friday |
+
+        | <span lang="de">Samstag</span> | Saturday |
+
+        | <span lang="de">Sonntag</span> | Sunday |
+
+
+        Days **are** capitalized in German (unlike Italian)!
+
+
+        - <span lang="de">*Heute ist Montag.*</span> (Today is Monday.)
+
+        - <span lang="de">*Das Museum ist am Dienstag geschlossen.*</span> (The museum is closed on Tuesday.)
+
+        '
+      language: en
+      why_this_matters: ''
+- code: essen_trinken
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_essen_trinken
+  unistr_label: Food and restaurant vocabulary
+  label: Essen und Trinken im Restaurant
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Food and Restaurant Vocabulary
+      tip: ''
+      explanation: '## Im Restaurant / Im Biergarten
+
+
+        ### Bavarian food essentials
+
+
+        | German | English |
+
+        |--------|---------|
+
+        | <span lang="de">die Brezel</span> | the pretzel |
+
+        | <span lang="de">die Wei\xDFwurst</span> | the white sausage (Bavarian specialty) |
+
+        | <span lang="de">das Schnitzel</span> | the schnitzel |
+
+        | <span lang="de">die Suppe</span> | the soup |
+
+        | <span lang="de">der Salat</span> | the salad |
+
+        | <span lang="de">die Kartoffeln</span> | the potatoes |
+
+        | <span lang="de">der Kuchen</span> | the cake |
+
+        | <span lang="de">das Brot</span> | the bread |
+
+        | <span lang="de">das Bier</span> | the beer |
+
+        | <span lang="de">der Kaffee</span> | the coffee |
+
+        | <span lang="de">das Wasser</span> | the water |
+
+        | <span lang="de">der Saft</span> | the juice |
+
+        | <span lang="de">die Apfelschorle</span> | the apple spritzer |
+
+
+        ### Useful restaurant phrases
+
+
+        - <span lang="de">**Einen Tisch f\xFCr zwei, bitte.**</span> — A table for two, please.
+
+        - <span lang="de">**Die Speisekarte, bitte.**</span> — The menu, please.
+
+        - <span lang="de">**Die Rechnung, bitte.**</span> — The bill, please.
+
+        - <span lang="de">**Mit oder ohne Kohlens\xE4ure?**</span> — With or without carbonation? (for water)
+
+
+        ### Dietary needs
+
+
+        - <span lang="de">**Ich bin Vegetarier/Vegetarierin.**</span> — I''m vegetarian.
+
+        - <span lang="de">**Ich bin allergisch gegen...**</span> — I''m allergic to...
+
+        - <span lang="de">**Glutenfrei**</span> — Gluten-free
+
+        '
+      language: en
+      why_this_matters: ''
+- code: reise_verkehr
+  cefr_level: A0
+  category: basics
+  unistr_code: a0_reise_verkehr
+  unistr_label: Transport and travel vocabulary
+  label: Reise- und Verkehrsvokabular
+  chunk_ref: null
+  prerequisites: []
+  explanations:
+    en:
+      title: Transport and Travel Vocabulary
+      tip: ''
+      explanation: '## Unterwegs — Getting Around
+
+
+        ### Key transport words
+
+
+        | German | English |
+
+        |--------|---------|
+
+        | <span lang="de">der Zug</span> | the train |
+
+        | <span lang="de">der Bus</span> | the bus |
+
+        | <span lang="de">das Taxi</span> | the taxi |
+
+        | <span lang="de">die U-Bahn</span> | the metro / underground |
+
+        | <span lang="de">die S-Bahn</span> | the suburban train |
+
+        | <span lang="de">die Fahrkarte</span> | the ticket |
+
+        | <span lang="de">einfach</span> | one way |
+
+        | <span lang="de">hin und zur\xFCck</span> | return / round trip |
+
+        | <span lang="de">das Gleis</span> | the platform / track |
+
+        | <span lang="de">die Haltestelle</span> | the stop (bus/tram) |
+
+        | <span lang="de">der Bahnhof</span> | the train station |
+
+        | <span lang="de">der Flughafen</span> | the airport |
+
+        | <span lang="de">die Abfahrt</span> | the departure |
+
+        | <span lang="de">die Ankunft</span> | the arrival |
+
+
+        ### Essential travel phrases
+
+
+        - <span lang="de">**Ich m\xF6chte eine Fahrkarte nach Salzburg.**</span> — I''d like a ticket to Salzburg.
+
+        - <span lang="de">**Hin und zur\xFCck.**</span> — Round trip.
+
+        - <span lang="de">**Wann f\xE4hrt der Zug?**</span> — When does the train leave?
+
+        - <span lang="de">**Von welchem Gleis?**</span> — From which platform?
+
+        - <span lang="de">**Was kostet die Fahrkarte?**</span> — How much is the ticket?
+
+        - <span lang="de">**Wo ist die Haltestelle?**</span> — Where is the stop?
+
+        '
+      language: en
+      why_this_matters: ''
 - category: verb
   cefr_level: A1
   code: present_tense
@@ -13,7 +1182,8 @@
 - category: verb
   cefr_level: A1
   code: perfect_tense
-  description: Perfect tense of a selected set of verbs including arbeiten, bleiben, essen, fahren, fragen, glauben, haben, lesen, lernen, machen, schlafen, sehen, passieren, trinken, verstehen.
+  description: Perfect tense of a selected set of verbs including arbeiten, bleiben, essen, fahren, fragen, glauben, haben,
+    lesen, lernen, machen, schlafen, sehen, passieren, trinken, verstehen.
   examples:
   - Ich habe schon gegessen.
   explanations: {}
@@ -80,7 +1250,8 @@
 - category: verb
   cefr_level: A1
   code: modal_verbs_present
-  description: 'Present tense of all six modal verbs: können, wollen, müssen, dürfen, sollen, möchten, expressing ability, desire, necessity, permission, obligation, and polite requests.'
+  description: 'Present tense of all six modal verbs: können, wollen, müssen, dürfen, sollen, möchten, expressing ability,
+    desire, necessity, permission, obligation, and polite requests.'
   examples:
   - Kannst du Gitarre spielen?
   - Er will eine Ausbildung als Schreiner machen.
@@ -150,7 +1321,8 @@
 - category: nomen
   cefr_level: A1
   code: dative_case
-  description: Dative case of all nouns in the word list, used for indirect objects and with certain verbs and prepositions. Marked as A2 addition (*) but listed here.
+  description: Dative case of all nouns in the word list, used for indirect objects and with certain verbs and prepositions.
+    Marked as A2 addition (*) but listed here.
   examples:
   - dem Mann
   - Gib mir bitte mal dein Wörterbuch.
@@ -284,7 +1456,8 @@
 - category: artikelwoerter_pronomen
   cefr_level: A1
   code: personal_pronoun_dat
-  description: Dative personal pronouns mir, dir, euch, Ihnen used with specific dative verbs such as danken, gehören, helfen, and in the expression es geht.
+  description: Dative personal pronouns mir, dir, euch, Ihnen used with specific dative verbs such as danken, gehören, helfen,
+    and in the expression es geht.
   examples:
   - Ich danke Ihnen sehr.
   - Es geht mir gut.
@@ -342,7 +1515,8 @@
 - category: praeposition
   cefr_level: A1
   code: prep_temporal
-  description: 'Prepositions used to express time relationships: an, ab, für, in, nach, über, um, von...bis, vor with their required cases.'
+  description: 'Prepositions used to express time relationships: an, ab, für, in, nach, über, um, von...bis, vor with their
+    required cases.'
   examples:
   - am Morgen/am Dienstag
   - ab Februar 2004
@@ -355,12 +1529,14 @@
   - vor dem Konzert
   explanations: {}
   label: Temporale Präpositionen
-  source_note: 'temporal: an + Dativ, ab + Akkusativ, für + Akkusativ, in + Dativ, nach + Dativ, über, um + Akkusativ, von...bis, vor + Dativ'
+  source_note: 'temporal: an + Dativ, ab + Akkusativ, für + Akkusativ, in + Dativ, nach + Dativ, über, um + Akkusativ, von...bis,
+    vor + Dativ'
   subcategory: temporal
 - category: praeposition
   cefr_level: A1
   code: prep_local
-  description: 'Prepositions used to express location and direction: an, auf, aus, bei, in, nach, von...nach, unter, zu with their required cases.'
+  description: 'Prepositions used to express location and direction: an, auf, aus, bei, in, nach, von...nach, unter, zu with
+    their required cases.'
   examples:
   - Ferien am Meer/an den See fahren
   - auf dem Marktplatz/auf dem Tisch
@@ -373,7 +1549,8 @@
   - zur Schule/zu meiner Freundin gehen
   explanations: {}
   label: Lokale Präpositionen
-  source_note: 'lokal: an + Dativ/Akkusativ, auf + Dativ, aus + Dativ, bei + Dativ, in + Dativ/Akkusativ, nach + Dativ, von...nach + Dativ/–, unter + Dativ, zu + Dativ'
+  source_note: 'lokal: an + Dativ/Akkusativ, auf + Dativ, aus + Dativ, bei + Dativ, in + Dativ/Akkusativ, nach + Dativ, von...nach
+    + Dativ/–, unter + Dativ, zu + Dativ'
   subcategory: lokal
 - category: praeposition
   cefr_level: A1
@@ -391,7 +1568,8 @@
 - category: syntax
   cefr_level: A1
   code: verb_second_position
-  description: The finite verb always occupies the second position in declarative main clauses, even when an adverb or other element is placed first.
+  description: The finite verb always occupies the second position in declarative main clauses, even when an adverb or other
+    element is placed first.
   examples:
   - Morgen fahre ich nach Stuttgart.
   - Ich fahre morgen nach Paris.
@@ -452,7 +1630,8 @@
 - category: syntax
   cefr_level: A1
   code: sentence_bracket
-  description: The verbal bracket formed by the finite verb in second position and a non-finite verb element (infinitive, participle, or separable prefix) at the end of the clause.
+  description: The verbal bracket formed by the finite verb in second position and a non-finite verb element (infinitive,
+    participle, or separable prefix) at the end of the clause.
   examples:
   - Der Unterricht fängt um 9 Uhr an.
   - Ich will meine Tante besuchen.
@@ -497,7 +1676,8 @@
 - category: syntax
   cefr_level: A1
   code: wh_question
-  description: Information questions (W-questions) formed with an interrogative word in first position followed by the finite verb.
+  description: Information questions (W-questions) formed with an interrogative word in first position followed by the finite
+    verb.
   examples:
   - Wo ist Peter?
   - Wann fängt der Kurs an?
@@ -541,7 +1721,8 @@
 - category: syntax
   cefr_level: A1
   code: subord_conj_wenn
-  description: Subordinating conjunction wenn (when/if) introducing a subordinate clause with verb-final word order. Marked as A2 addition.
+  description: Subordinating conjunction wenn (when/if) introducing a subordinate clause with verb-final word order. Marked
+    as A2 addition.
   examples: []
   explanations: {}
   label: Satzverbindung mit wenn
@@ -580,7 +1761,8 @@
 - category: wortbildung
   cefr_level: A1
   code: noun_compound_same_d
-  description: Compound nouns sharing the same first element (Bestimmungswort), illustrating how one modifier can combine with multiple base nouns.
+  description: Compound nouns sharing the same first element (Bestimmungswort), illustrating how one modifier can combine
+    with multiple base nouns.
   examples:
   - Reisegruppe, Reiseführer
   explanations: {}
@@ -590,7 +1772,8 @@
 - category: wortbildung
   cefr_level: A1
   code: noun_compound_same_b
-  description: Compound nouns sharing the same final element (Grundwort), illustrating how one base noun can combine with multiple modifiers.
+  description: Compound nouns sharing the same final element (Grundwort), illustrating how one base noun can combine with
+    multiple modifiers.
   examples:
   - Frauenarzt, Zahnarzt
   - Postkarte, Scheckkarte
@@ -652,7 +1835,8 @@
 - category: verb
   cefr_level: A2
   code: perfekt_all_verbs
-  description: Formation and use of the Perfekt (present perfect) tense for all verbs in the A2 word list, extending beyond the limited set of verbs covered at A1.
+  description: Formation and use of the Perfekt (present perfect) tense for all verbs in the A2 word list, extending beyond
+    the limited set of verbs covered at A1.
   examples: []
   explanations: {}
   label: Perfekt aller Verben der Wortliste
@@ -672,7 +1856,8 @@
 - category: verb
   cefr_level: A2
   code: praeteritum_modal
-  description: Simple past (Präteritum) forms of modal verbs (müssen, dürfen, sollen, können, wollen, mögen), used for expressing past obligation, ability, or permission.
+  description: Simple past (Präteritum) forms of modal verbs (müssen, dürfen, sollen, können, wollen, mögen), used for expressing
+    past obligation, ability, or permission.
   examples:
   - Ich konnte gestern leider nicht.
   explanations: {}
@@ -682,7 +1867,8 @@
 - category: verb
   cefr_level: A2
   code: passiv_present
-  description: The present passive voice (werden + Partizip II), used to describe actions where the agent is not the focus. Also includes passive-like participial phrases.
+  description: The present passive voice (werden + Partizip II), used to describe actions where the agent is not the focus.
+    Also includes passive-like participial phrases.
   examples:
   - Das Auto wird repariert.
   - Heute geöffnet.
@@ -694,7 +1880,8 @@
 - category: verb
   cefr_level: A2
   code: konjunktiv2_haben_ko
-  description: Konjunktiv II forms of haben and können used for polite requests and hypothetical statements, extending the A1 coverage of mögen/werden.
+  description: Konjunktiv II forms of haben and können used for polite requests and hypothetical statements, extending the
+    A1 coverage of mögen/werden.
   examples:
   - Ich hätte gerne ein Brot, bitte.
   - Könnten Sie bitte zu mir kommen.
@@ -727,7 +1914,8 @@
 - category: nomen
   cefr_level: A2
   code: genitiv_receptive
-  description: Receptive understanding of the genitive case with definite articles, recognising possession or attribution without requiring active production.
+  description: Receptive understanding of the genitive case with definite articles, recognising possession or attribution
+    without requiring active production.
   examples:
   - die Nummer des Wagens
   explanations: {}
@@ -758,7 +1946,8 @@
 - category: artikelwoerter_pronomen
   cefr_level: A2
   code: interrogativ_welch
-  description: The interrogative article welch- (which) in nominative and accusative forms, and the determiner alle (all), used in questions and general statements.
+  description: The interrogative article welch- (which) in nominative and accusative forms, and the determiner alle (all),
+    used in questions and general statements.
   examples:
   - Welchen Film meinst du?
   - alle Kursteilnehmer
@@ -781,7 +1970,8 @@
 - category: artikelwoerter_pronomen
   cefr_level: A2
   code: reflexivpron_akkusat
-  description: Reflexive pronouns in the accusative case (mich, dich, euch, sich) used with reflexive verbs to indicate that the subject acts upon itself.
+  description: Reflexive pronouns in the accusative case (mich, dich, euch, sich) used with reflexive verbs to indicate that
+    the subject acts upon itself.
   examples:
   - Er wäscht sich.
   - Wir sehen uns morgen.
@@ -802,18 +1992,21 @@
 - category: adjektiv
   cefr_level: A2
   code: adjektiv_attributiv
-  description: Adjective declension in attributive position after both definite and indefinite articles, covering nominative, accusative and dative cases.
+  description: Adjective declension in attributive position after both definite and indefinite articles, covering nominative,
+    accusative and dative cases.
   examples:
   - der neue Arbeitsplatz / die neue Stelle / das neue Haus
   - ein neuer Arbeitsplatz / eine neue Stelle / ein neues Haus
   explanations: {}
   label: Attributives Adjektiv nach definitem und indefinitem Artikel
-  source_note: attributiv* — nach definitem Artikel im Nominativ / Akkusativ / Dativ; nach indefinitem Artikel im Nominativ / Akkusativ / Dativ
+  source_note: attributiv* — nach definitem Artikel im Nominativ / Akkusativ / Dativ; nach indefinitem Artikel im Nominativ
+    / Akkusativ / Dativ
   subcategory: attributiv
 - category: adjektiv
   cefr_level: A2
   code: komparation_adj
-  description: Comparative and superlative forms of selected adjectives and adverbs, including irregular forms like gern/lieber/am liebsten and gut/besser/am besten.
+  description: Comparative and superlative forms of selected adjectives and adverbs, including irregular forms like gern/lieber/am
+    liebsten and gut/besser/am besten.
   examples:
   - Hier ist das Obst billiger.
   - Er ist jünger als ich.
@@ -837,7 +2030,8 @@
 - category: praeposition
   cefr_level: A2
   code: temporal_prep_seit
-  description: The temporal preposition seit (since/for) with dative, expressing the starting point or duration of an ongoing situation.
+  description: The temporal preposition seit (since/for) with dative, expressing the starting point or duration of an ongoing
+    situation.
   examples:
   - seit einer Woche
   explanations: {}
@@ -907,7 +2101,8 @@
 - category: praeposition
   cefr_level: A2
   code: lokal_prep_unter
-  description: The two-way preposition unter (under/below) with dative for static location and accusative for directional movement.
+  description: The two-way preposition unter (under/below) with dative for static location and accusative for directional
+    movement.
   examples:
   - unter dem Tisch
   - unter der Nummer
@@ -949,7 +2144,8 @@
 - category: praeposition
   cefr_level: A2
   code: lokal_prep_zwischen
-  description: The two-way preposition zwischen (between) with dative for location and accusative for direction, indicating a position between two points.
+  description: The two-way preposition zwischen (between) with dative for location and accusative for direction, indicating
+    a position between two points.
   examples:
   - zwischen Frankfurt und Stuttgart
   explanations: {}
@@ -959,7 +2155,8 @@
 - category: syntax
   cefr_level: A2
   code: konj_deshalb
-  description: The connective deshalb (therefore/so) used as a coordinating adverbial conjunction to express consequence, triggering verb-second word order.
+  description: The connective deshalb (therefore/so) used as a coordinating adverbial conjunction to express consequence,
+    triggering verb-second word order.
   examples:
   - Peter muss lernen, deshalb kommt er heute nicht mit.
   explanations: {}
@@ -969,7 +2166,8 @@
 - category: syntax
   cefr_level: A2
   code: konj_weil
-  description: The subordinating conjunction weil (because), which introduces a causal subordinate clause with verb-final word order.
+  description: The subordinating conjunction weil (because), which introduces a causal subordinate clause with verb-final
+    word order.
   examples:
   - Er kommt nicht mit, weil er krank ist.
   explanations: {}
@@ -979,7 +2177,8 @@
 - category: syntax
   cefr_level: A2
   code: konj_wenn
-  description: The subordinating conjunction wenn (when/if), introducing conditional or temporal subordinate clauses with verb-final word order.
+  description: The subordinating conjunction wenn (when/if), introducing conditional or temporal subordinate clauses with
+    verb-final word order.
   examples:
   - Schreib mir bitte, wenn du Zeit hast.
   explanations: {}
@@ -1015,7 +2214,8 @@
 - category: wortbildung
   cefr_level: A2
   code: wortbildung_nomen_in
-  description: Formation of feminine agent nouns using the suffix -in, used to derive the female form from a masculine base noun.
+  description: Formation of feminine agent nouns using the suffix -in, used to derive the female form from a masculine base
+    noun.
   examples:
   - Nachbarin
   - Kollegin
@@ -1028,7 +2228,8 @@
 - category: wortbildung
   cefr_level: A2
   code: wortbildung_komposit
-  description: Formation of compound nouns (Komposita) by combining two nouns, either sharing the same first element (Bestimmungswort) or the same final element (Grundwort).
+  description: Formation of compound nouns (Komposita) by combining two nouns, either sharing the same first element (Bestimmungswort)
+    or the same final element (Grundwort).
   examples:
   - Reisegruppe
   - Reiseführer
@@ -1063,7 +2264,8 @@
 - category: wortbildung
   cefr_level: A2
   code: wortbildung_adj_los
-  description: Formation of adjectives with the suffix -los (without/lacking), typically derived from nouns to express the absence of something.
+  description: Formation of adjectives with the suffix -los (without/lacking), typically derived from nouns to express the
+    absence of something.
   examples:
   - arbeitslos
   explanations: {}
@@ -1073,7 +2275,8 @@
 - category: wortbildung
   cefr_level: A2
   code: wortbildung_adj_bar
-  description: Formation of adjectives with the suffix -bar (expressible as '-able' or '-ible' in English), typically derived from verbs to express possibility or capability.
+  description: Formation of adjectives with the suffix -bar (expressible as '-able' or '-ible' in English), typically derived
+    from verbs to express possibility or capability.
   examples:
   - erreichbar
   explanations: {}
@@ -1083,7 +2286,8 @@
 - category: wortbildung
   cefr_level: A2
   code: wortbildung_adj_komp
-  description: Formation of compound adjectives using hell- (light) or dunkel- (dark) as the first element to modify a colour adjective.
+  description: Formation of compound adjectives using hell- (light) or dunkel- (dark) as the first element to modify a colour
+    adjective.
   examples:
   - hellblau
   - dunkelblau

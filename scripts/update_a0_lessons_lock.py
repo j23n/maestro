@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute data/it/a0_lessons.lock after modifying a0_lessons.yaml or scenarios_a0.yaml.
+"""Recompute a0_lessons.lock after modifying a0_lessons.yaml or scenarios_a0.yaml.
 
 The lock file stores a combined SHA256 hash of both files (they must stay in sync)
 and is committed to the repo. At app startup, a0_lessons_sync compares this hash
@@ -9,9 +9,12 @@ ensuring the DB always matches the committed YAML.
 It also validates that every scenario slug in scenarios_a0.yaml has a matching
 top-level key in a0_lessons.yaml (the exact bug this lock prevents).
 
-Usage: uv run python scripts/update_a0_lessons_lock.py
+Usage:
+  uv run python scripts/update_a0_lessons_lock.py            # Italian (default)
+  uv run python scripts/update_a0_lessons_lock.py --lang de   # German
 """
 
+import argparse
 import hashlib
 import json
 import sys
@@ -21,9 +24,6 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-LESSONS_YAML = REPO_ROOT / "data/it/a0_lessons.yaml"
-SCENARIOS_YAML = REPO_ROOT / "data/it/scenarios_a0.yaml"
-LOCK_FILE = REPO_ROOT / "data/it/a0_lessons.lock"
 
 # Bump this to force a re-sync even when source files haven't changed
 # (e.g. to regenerate audio after a TTS fix).
@@ -60,6 +60,15 @@ def compute_lock(lessons_data: dict, scenarios_data: dict, sha: str) -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Update a0_lessons.lock")
+    parser.add_argument("--lang", default="it", help="Language code (default: it)")
+    args = parser.parse_args()
+
+    data_dir = REPO_ROOT / "data" / args.lang
+    LESSONS_YAML = data_dir / "a0_lessons.yaml"
+    SCENARIOS_YAML = data_dir / "scenarios_a0.yaml"
+    LOCK_FILE = data_dir / "a0_lessons.lock"
+
     for path, name in [
         (LESSONS_YAML, "a0_lessons.yaml"),
         (SCENARIOS_YAML, "scenarios_a0.yaml"),

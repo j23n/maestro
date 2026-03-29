@@ -1,0 +1,21 @@
+{
+  "sha256": "c6439ee96b9c3c537d4c5ec41cf85f00d7b2ee60f2e4f7171e3ce11aa8dc5412",
+  "lesson_count": 13,
+  "scenario_count": 13,
+  "activities_per_lesson": {
+    "a0-01-im-flugzeug": 10,
+    "a0-02-im-hotel": 10,
+    "a0-03-im-cafe": 11,
+    "a0-04-in-der-stadt": 12,
+    "a0-05-um-hilfe-bitten": 12,
+    "a0-06-im-biergarten": 11,
+    "a0-07-das-mag-ich": 12,
+    "a0-08-grosse-zahlen": 10,
+    "a0-09-am-hauptbahnhof": 9,
+    "a0-10-neue-leute": 14,
+    "a0-11-ein-problem": 13,
+    "a0-12-letzter-tag": 10,
+    "a0-13-wiederholung": 10
+  },
+  "generated_at": "2026-03-30T07:40:16.373462+00:00"
+}
