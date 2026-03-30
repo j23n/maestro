@@ -4,11 +4,14 @@
 Parses a0_lessons.yaml, scenarios_a0.yaml, grammar_points.yaml, and
 comm_functions.json.
 
-Usage: uv run python scripts/a0_coverage.py
+Usage:
+  uv run python scripts/a0_coverage.py           # Italian (default)
+  uv run python scripts/a0_coverage.py --lang de  # German
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -16,11 +19,6 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = REPO_ROOT / "data/it"
-LESSONS_YAML = DATA_DIR / "a0_lessons.yaml"
-SCENARIOS_YAML = DATA_DIR / "scenarios_a0.yaml"
-GRAMMAR_POINTS_YAML = DATA_DIR / "grammar_points.yaml"
-COMM_FUNCTIONS_JSON = DATA_DIR / "comm_functions.json"
 
 GP_COLUMNS = [
     "grammar",
@@ -285,17 +283,28 @@ def _print_per_lesson_summary(lessons: dict, scenarios: list[dict]) -> None:
 
 
 def main() -> None:
-    with open(LESSONS_YAML) as f:
+    parser = argparse.ArgumentParser(description="Print A0 coverage matrices")
+    parser.add_argument(
+        "--lang",
+        default="it",
+        help="Language code (default: it)",
+    )
+    args = parser.parse_args()
+
+    data_dir = REPO_ROOT / "data" / args.lang
+    with open(data_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
-    with open(SCENARIOS_YAML) as f:
+    with open(data_dir / "scenarios_a0.yaml") as f:
         scenarios = yaml.safe_load(f)["scenarios"]
-    with open(GRAMMAR_POINTS_YAML) as f:
+    with open(data_dir / "grammar_points.yaml") as f:
         gps = yaml.safe_load(f)
-    with open(COMM_FUNCTIONS_JSON) as f:
+    with open(data_dir / "comm_functions.json") as f:
         cfs = json.load(f)
 
     gp_labels = {gp["code"]: gp["label"] for gp in gps}
     cf_labels = {cf["code"]: cf["label"] for cf in cfs}
+
+    print(f"Language: {args.lang}")
 
     # GP coverage
     gp_coverage, a0_gp_codes = _collect_gp_coverage(lessons, scenarios)
