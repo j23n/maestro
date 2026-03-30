@@ -9,12 +9,14 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from bson import DBRef
 
 from maestro.models import (
+    Sense,
     VocabularyWord,
     VocabularyWordDefinition,
     UserVocabularyCard,
 )
+from maestro.language import DEFAULT_LANGUAGE
 from maestro.learning.profile import get_cefr_level
-from maestro.utils import create_background_task
+from maestro.utils import create_background_task, utcnow
 from maestro.vocab.generate_definitions import generate_definitions_for_word
 from maestro.vocab.nlp import get_nlp
 from maestro.vocab.pos import matches_pos
@@ -215,7 +217,7 @@ def match_vocab_words(
         if surface_lower != resolved_lem:
             surface_entries = word_index.get(surface_lower)
             if surface_entries and any(
-                matches_pos(e.part_of_speech, upos) for e in surface_entries
+                matches_pos(e.part_of_speech, upos, language) for e in surface_entries
             ):
                 resolved_lem = surface_lower
                 entries = surface_entries
@@ -237,8 +239,9 @@ def match_vocab_words(
             logger.debug(
                 "[discover] lemma %r → word_index MISS, trying simplemma fallback", lem
             )
+            _lang = language or DEFAULT_LANGUAGE
             for surf in lemma_surfaces.get(lem, []):
-                candidate = simplemma.lemmatize(surf, lang="it").lower()
+                candidate = simplemma.lemmatize(surf, lang=_lang).lower()
                 logger.debug("[discover]   simplemma(%r) → %r", surf, candidate)
                 if candidate != lem:
                     entries = word_index.get(candidate)
@@ -286,7 +289,14 @@ def match_vocab_words(
             matched_word = entries[0]
         else:
             matched_word = (
-                next((e for e in entries if matches_pos(e.part_of_speech, upos)), None)
+                next(
+                    (
+                        e
+                        for e in entries
+                        if matches_pos(e.part_of_speech, upos, language)
+                    ),
+                    None,
+                )
                 or sorted(entries, key=lambda e: e.part_of_speech)[0]
             )
 
@@ -632,14 +642,15 @@ async def discover(
     # For ANY discovered word missing A1–B2 definitions, regardless of auth
     # state or card creation.  A0 words have hardcoded A0-level definitions
     # (shown to A0 students) but still need LLM-generated A1–B2 ones.
-    words_without_defs = [
-        m.word
-        for m in unique_words.values()
-        if m.word.senses
-        and not any(
-            _cache.get_definition(str(m.word.id), lvl, target_lang)
+    def _no_defs(w):
+        return not any(
+            _cache.get_definition(str(w.id), lvl, target_lang)
             for lvl in ("A1", "A2", "B1", "B2")
         )
+
+    # Words WITH senses but no definitions → standard LLM rewrite path
+    words_without_defs = [
+        m.word for m in unique_words.values() if m.word.senses and _no_defs(m.word)
     ]
     words_to_generate = [
         w for w in words_without_defs if str(w.id) not in _pending_def_gen
@@ -649,6 +660,21 @@ async def discover(
         create_background_task(
             _generate_and_cache(words_to_generate),
             name=f"vocab-defs-{'-'.join(w.word for w in words_to_generate[:3])}",
+        )
+
+    # Words WITHOUT senses and no definitions → enrich from DWDS then generate
+    # (German on-demand pipeline: bare VocabularyWord → fetch page → parse → LLM)
+    words_needing_enrichment = [
+        m.word for m in unique_words.values() if not m.word.senses and _no_defs(m.word)
+    ]
+    words_to_enrich = [
+        w for w in words_needing_enrichment if str(w.id) not in _pending_def_gen
+    ]
+    if words_to_enrich:
+        _pending_def_gen.update(str(w.id) for w in words_to_enrich)
+        create_background_task(
+            _enrich_and_generate(words_to_enrich),
+            name=f"vocab-enrich-{'-'.join(w.word for w in words_to_enrich[:3])}",
         )
 
     # --- Audio generation (background, parallel to defs) ---
@@ -788,6 +814,64 @@ async def _generate_and_cache(words: list[VocabularyWord]) -> None:
         except Exception as exc:
             logger.warning(
                 f"[discover] definition generation failed for '{word.word}': {exc}"
+            )
+        finally:
+            _pending_def_gen.discard(word_id_str)
+
+
+async def _enrich_and_generate(words: list[VocabularyWord]) -> None:
+    """Background task: fetch DWDS page, populate senses, then generate defs.
+
+    Used for German bare VocabularyWord docs that were ingested from the DWDS
+    headwords JSON without senses.  Fetches the DWDS web page for each word,
+    parses definitions/examples, saves senses to the VocabularyWord, then
+    runs the standard LLM definition generation pipeline.
+    """
+    from maestro.vocab.dwds_parser import fetch_and_parse
+
+    for word in words:
+        word_id_str = str(word.id)
+        try:
+            entries = await fetch_and_parse(word.word)
+            if not entries:
+                logger.info(
+                    "[discover] DWDS returned no entries for '%s', skipping", word.word
+                )
+                continue
+
+            # Use the first entry (primary homograph)
+            entry = entries[0]
+            word.senses = [
+                Sense(definition=s.definition, examples=s.examples)
+                for s in entry.senses
+                if s.definition
+            ]
+            if entry.pos_abbrev:
+                word.part_of_speech = entry.pos_abbrev
+            word.updated_at = utcnow()
+            await word.save()
+            logger.info(
+                "[discover] enriched '%s' from DWDS: %d senses, POS=%s",
+                word.word,
+                len(word.senses),
+                word.part_of_speech,
+            )
+
+            # Now generate CEFR definitions using the enriched senses
+            await generate_definitions_for_word(word)
+            defs = await VocabularyWordDefinition.find(
+                {"word": DBRef(VocabularyWord.Settings.name, word.id)}
+            ).to_list()
+            for d in defs:
+                _cache.set_definition(str(word.id), d.student_level, d, word.language)
+            logger.info(
+                "[discover] generated %d definition(s) for '%s'",
+                len(defs),
+                word.word,
+            )
+        except Exception as exc:
+            logger.warning(
+                "[discover] enrich+generate failed for '%s': %s", word.word, exc
             )
         finally:
             _pending_def_gen.discard(word_id_str)

@@ -53,3 +53,41 @@ class TestMatchesPos:
 
     def test_both_empty(self):
         assert matches_pos("", "") is False
+
+
+class TestMatchesPosGerman:
+    """matches_pos with language='de' maps DWDS abbreviations to spaCy UPOS."""
+
+    @pytest.mark.parametrize(
+        "dwds_pos,spacy_pos",
+        [
+            ("Subst.", "NOUN"),
+            ("V.", "VERB"),
+            ("V.", "AUX"),
+            ("Adj.", "ADJ"),
+            ("Adv.", "ADV"),
+            ("Praep.", "ADP"),
+            ("Pron.", "PRON"),
+            ("Art.", "DET"),
+            ("Konj.", "CCONJ"),
+            ("Konj.", "SCONJ"),
+            ("Interj.", "INTJ"),
+            ("Num.", "NUM"),
+        ],
+    )
+    def test_matching_pairs(self, dwds_pos, spacy_pos):
+        assert matches_pos(dwds_pos, spacy_pos, language="de") is True
+
+    @pytest.mark.parametrize(
+        "dwds_pos,spacy_pos",
+        [
+            ("Subst.", "VERB"),
+            ("V.", "NOUN"),
+            ("Adj.", "NOUN"),
+        ],
+    )
+    def test_non_matching_pairs(self, dwds_pos, spacy_pos):
+        assert matches_pos(dwds_pos, spacy_pos, language="de") is False
+
+    def test_empty_dwds_pos(self):
+        assert matches_pos("", "NOUN", language="de") is False

@@ -1,12 +1,12 @@
-"""Coarse mapping from spaCy universal POS tags to EPUB dictionary POS prefixes."""
+"""Coarse mapping from spaCy universal POS tags to dictionary POS prefixes."""
 
 from __future__ import annotations
 
-# spaCy universal POS → EPUB POS prefix(es)
-#
-# The EPUB dictionary uses Italian abbreviations (s.m., v.tr., agg., etc.)
-# while spaCy uses Universal Dependencies POS tags (NOUN, VERB, ADJ, etc.).
-# Each spaCy tag maps to one or more EPUB prefixes checked via startswith().
+from maestro.language import DEFAULT_LANGUAGE
+
+# ---------------------------------------------------------------------------
+# Italian: EPUB dictionary POS abbreviations
+# ---------------------------------------------------------------------------
 UPOS_TO_EPUB: dict[str, tuple[str, ...]] = {
     "NOUN": ("s.",),  # s.m., s.f., s.m.f., s.m.invar., …
     "VERB": ("v.",),  # v.tr., v.intr., v.pr., v.tr.e.v.intr., …
@@ -22,10 +22,34 @@ UPOS_TO_EPUB: dict[str, tuple[str, ...]] = {
     "NUM": ("agg.num.", "num."),  # agg.num.card., agg.num.ord., …
 }
 
+# ---------------------------------------------------------------------------
+# German: DWDS dictionary POS abbreviations
+# ---------------------------------------------------------------------------
+UPOS_TO_DWDS: dict[str, tuple[str, ...]] = {
+    "NOUN": ("Subst.",),
+    "VERB": ("V.",),
+    "AUX": ("V.",),
+    "ADJ": ("Adj.",),
+    "ADV": ("Adv.",),
+    "ADP": ("Praep.",),
+    "PRON": ("Pron.",),
+    "DET": ("Art.", "Adj."),
+    "CCONJ": ("Konj.",),
+    "SCONJ": ("Konj.",),
+    "INTJ": ("Interj.",),
+    "NUM": ("Num.",),
+}
 
-def matches_pos(epub_pos: str, spacy_pos: str) -> bool:
-    """Check if an EPUB POS abbreviation matches a spaCy universal POS tag."""
-    prefixes = UPOS_TO_EPUB.get(spacy_pos)
+_LANG_TO_MAP: dict[str, dict[str, tuple[str, ...]]] = {
+    "it": UPOS_TO_EPUB,
+    "de": UPOS_TO_DWDS,
+}
+
+
+def matches_pos(dict_pos: str, spacy_pos: str, language: str | None = None) -> bool:
+    """Check if a dictionary POS abbreviation matches a spaCy universal POS tag."""
+    mapping = _LANG_TO_MAP.get(language or DEFAULT_LANGUAGE, UPOS_TO_EPUB)
+    prefixes = mapping.get(spacy_pos)
     if not prefixes:
         return False
-    return any(epub_pos.startswith(p) for p in prefixes)
+    return any(dict_pos.startswith(p) for p in prefixes)
