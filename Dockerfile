@@ -1,3 +1,12 @@
+## Stage 1: Resolve Git LFS pointers into real files
+FROM alpine:3.21 AS lfs
+RUN apk add --no-cache git git-lfs
+WORKDIR /repo
+COPY .git .git
+COPY .gitattributes .
+RUN git lfs install && git lfs pull
+
+## Stage 2: Application
 FROM python:3.13-slim
 
 ENV PYTHONUNBUFFERED=1 \
@@ -16,6 +25,9 @@ RUN uv pip install --system --group deploy
 COPY src/ /app/src/
 COPY templates/ /app/templates/
 COPY prompts/ /app/prompts/
+
+# Overwrite LFS pointer files with real files from stage 1
+COPY --from=lfs /repo/src/ /app/src/
 
 ENV PYTHONPATH=/app/src
 
