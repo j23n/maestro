@@ -1,0 +1,150 @@
+# A0 Vocabulary — words and phrases not in the DWDS dictionary
+#
+# These entries create VocabularyWord + VocabularyWordDefinition(student_level="A0")
+# records.  Words already in the DWDS dictionary (the vast majority of A0 vocab)
+# are handled automatically by the standard ingest pipeline.
+#
+# All entries are implicitly cefr_level: A0.
+#
+# Single words here are only those truly absent from DWDS (compound numbers).
+# Inflected forms (möchte, heiße, Magst, etc.) resolve via spaCy lemmatisation.
+#
+# Phrases are limited to genuinely idiomatic or non-compositional expressions
+# where understanding the individual words doesn't convey the meaning.
+# Compositional phrases (e.g. "Wo ist der Bahnhof") are better learned by
+# understanding each word separately.
+
+##############################################################################
+# Single words — compound numbers not in DWDS
+##############################################################################
+
+- word: einundzwanzig
+  part_of_speech: num.
+  translation: twenty-one
+
+- word: vierundzwanzig
+  part_of_speech: num.
+  translation: twenty-four
+
+- word: siebenundzwanzig
+  part_of_speech: num.
+  translation: twenty-seven
+
+- word: fünfunddreißig
+  part_of_speech: num.
+  translation: thirty-five
+
+- word: neununddreißig
+  part_of_speech: num.
+  translation: thirty-nine
+
+- word: fünfundvierzig
+  part_of_speech: num.
+  translation: forty-five
+
+- word: siebenundvierzig
+  part_of_speech: num.
+  translation: forty-seven
+
+- word: achtundvierzig
+  part_of_speech: num.
+  translation: forty-eight
+
+- word: zweiundfünfzig
+  part_of_speech: num.
+  translation: fifty-two
+
+##############################################################################
+# Phrases — idiomatic / non-compositional expressions
+##############################################################################
+
+# --- Fixed greetings & farewells ---
+- word: Guten Tag
+  part_of_speech: loc.
+  translation: good day, hello
+
+- word: Guten Morgen
+  part_of_speech: loc.
+  translation: good morning
+
+- word: Guten Abend
+  part_of_speech: loc.
+  translation: good evening
+
+- word: Gute Nacht
+  part_of_speech: loc.
+  translation: good night
+
+- word: Auf Wiedersehen
+  part_of_speech: loc.
+  translation: goodbye (formal)
+
+- word: Danke schön
+  part_of_speech: loc.
+  translation: thank you very much
+
+- word: Bitte schön
+  part_of_speech: loc.
+  translation: here you go / you're welcome
+
+- word: Grüß Gott
+  part_of_speech: loc.
+  translation: hello (Bavarian/Austrian)
+
+- word: Vielen Dank
+  part_of_speech: loc.
+  translation: many thanks
+
+- word: Gute Reise
+  part_of_speech: loc.
+  translation: have a good trip
+
+- word: Gute Besserung
+  part_of_speech: loc.
+  translation: get well soon
+
+- word: Bis bald
+  part_of_speech: loc.
+  translation: see you soon
+
+# --- Idiomatic expressions ---
+- word: Es tut mir leid
+  part_of_speech: loc.
+  translation: I'm sorry (lit. it does me sorrow)
+
+- word: Wie bitte
+  part_of_speech: loc.
+  translation: pardon? (lit. how please)
+
+- word: Ein bisschen
+  part_of_speech: loc.
+  translation: a little
+
+- word: Kein Problem
+  part_of_speech: loc.
+  translation: no problem
+
+- word: hin und zurück
+  part_of_speech: loc.
+  translation: round trip (lit. there and back)
+
+- word: Es ist halb drei
+  part_of_speech: loc.
+  translation: it's half past two (not three — German counts toward the next hour)
+
+# --- Non-obvious chunk patterns ---
+- word: Ich heiße
+  part_of_speech: loc.
+  translation: my name is (lit. I am called)
+
+- word: Ich möchte
+  part_of_speech: loc.
+  translation: I would like (subjunctive of mögen)
+
+- word: Mir gefällt
+  part_of_speech: loc.
+  translation: I like (dative construction, lit. to-me pleases)
+
+- word: Mir gefallen
+  part_of_speech: loc.
+  translation: I like (plural, dative construction)
