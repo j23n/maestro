@@ -8,7 +8,7 @@ The next app startup will detect the lock change and sync the DB automatically.
 
 Each grammar point gets two explanations keyed by language:
   "en" — written in English, vocabulary pitched at the GP's CEFR level
-  "it" — written in Italian, vocabulary pitched at the GP's CEFR level
+  "<target>" — written in the target language, vocabulary pitched at the GP's CEFR level
 
 A0 GPs are formulaic vocabulary items with no grammar rule to explain; they are skipped.
 
@@ -19,7 +19,7 @@ grammar_chunk_contents.json is present. Generate it first with:
 Idempotent — skips (GP, language) pairs that already have an explanation.
 Use --clear to regenerate from scratch.
 
-Run with:  uv run python scripts/data/generate_explanations.py
+Run with:  uv run python scripts/data/generate_explanations.py --target-lang it
 """
 
 from __future__ import annotations
@@ -30,6 +30,7 @@ import hashlib
 import json
 import logging
 from datetime import datetime, timezone
+from pathlib import Path
 
 import yaml
 
@@ -41,9 +42,13 @@ from maestro.utils import data_dir, parse_llm_json
 
 logger = logging.getLogger(__name__)
 
-GP_YAML = data_dir() / "grammar_points.yaml"
-CHUNK_CONTENTS_JSON = data_dir() / "grammar_chunk_contents.json"
-LOCK_FILE = data_dir() / "grammar_points.lock"
+LANGUAGE_NAMES = {
+    "de": "German",
+    "it": "Italian",
+    "es": "Spanish",
+    "fr": "French",
+    "pt": "Portuguese",
+}
 
 
 class LiteralStr(str):
@@ -71,45 +76,49 @@ def _write_yaml(path, items: list) -> None:
         yaml.dump(items, f, default_flow_style=False, allow_unicode=True, width=200)
 
 
-_LANG_GUIDANCE_KEYS = {
-    "en": "language_guidance_en",
-    "it": "language_guidance_it",
-}
-
-_TITLE_GUIDANCE = {
-    "en": 'Write the title in English. Example: "The present tense", "Using definite articles"',
-    "it": 'Write the title in Italian. Example: "Il passato prossimo", "I pronomi riflessivi"',
-}
+def _lang_guidance_key(lang: str) -> str:
+    """Return the prompt template key for the given explanation language."""
+    # "en" → English explanation; anything else → target-language explanation
+    return "language_guidance_en" if lang == "en" else "language_guidance_it"
 
 
-def _needs_explanation(gp: dict, lang: str | None = None) -> bool:
+def _title_guidance(lang: str, target_lang_name: str) -> str:
+    if lang == "en":
+        return 'Write the title in English. Example: "The present tense", "Using definite articles"'
+    return f"Write the title in {target_lang_name}."
+
+
+def _needs_explanation(
+    gp: dict, lang: str | None = None, target_lang_code: str = "it"
+) -> bool:
     """True if this GP still needs an explanation for the given language (or either)."""
     if gp["cefr_level"] == "A0":
         return False
     if lang:
         return lang not in gp.get("explanations", {})
-    return "en" not in gp.get("explanations", {}) or "it" not in gp.get(
+    return "en" not in gp.get("explanations", {}) or target_lang_code not in gp.get(
         "explanations", {}
     )
 
 
-def _build_system_prompt(cefr_level: str, lang: str) -> str:
-    target_lang = settings.TARGET_LANGUAGE_NAME
-    lang_code = settings.TARGET_LANGUAGE
-    title_guidance = _TITLE_GUIDANCE[lang]
-    language_guidance = getattr(_prompts, _LANG_GUIDANCE_KEYS[lang]).render(
-        target_language=target_lang,
-        target_language_code=lang_code,
+def _build_system_prompt(
+    cefr_level: str, lang: str, target_lang_name: str, target_lang_code: str
+) -> str:
+    title_guid = _title_guidance(lang, target_lang_name)
+    guidance_key = _lang_guidance_key(lang)
+    language_guidance = getattr(_prompts, guidance_key).render(
+        target_language=target_lang_name,
+        target_language_code=target_lang_code,
         cefr_level=cefr_level,
-        title_guidance=title_guidance,
+        title_guidance=title_guid,
     )
     return _prompts.explanation_system.render_system(
-        target_language=target_lang,
-        target_language_code=lang_code,
+        target_language=target_lang_name,
+        target_language_code=target_lang_code,
         cefr_level=cefr_level,
-        title_guidance=title_guidance,
+        title_guidance=title_guid,
         level_guidance=language_guidance,
-        span_tagging=_stb(target_lang, lang_code),
+        span_tagging=_stb(target_lang_name, target_lang_code),
     )
 
 
@@ -128,8 +137,16 @@ def _parse_response(raw: str) -> dict[str, str] | None:
     }
 
 
-async def _call_api(gp: dict, chunk_content: str, lang: str) -> dict[str, str] | None:
-    system_msg = _build_system_prompt(gp["cefr_level"], lang)
+async def _call_api(
+    gp: dict,
+    chunk_content: str,
+    lang: str,
+    target_lang_name: str,
+    target_lang_code: str,
+) -> dict[str, str] | None:
+    system_msg = _build_system_prompt(
+        gp["cefr_level"], lang, target_lang_name, target_lang_code
+    )
     chunk_block = (
         f"Authoritative textbook excerpt:\n{chunk_content}\n\n" if chunk_content else ""
     )
@@ -168,9 +185,11 @@ async def _call_api(gp: dict, chunk_content: str, lang: str) -> dict[str, str] |
     return None
 
 
-def _update_lock(json_items: list) -> None:
+def _update_lock(
+    json_items: list, gp_yaml: Path, lock_file: Path, target_lang_code: str
+) -> None:
     """Recompute and write grammar_points.lock from the current YAML on disk."""
-    content = GP_YAML.read_bytes()
+    content = gp_yaml.read_bytes()
     sha = hashlib.sha256(content).hexdigest()
     by_level: dict[str, dict[str, int]] = {}
     for gp in json_items:
@@ -184,33 +203,40 @@ def _update_lock(json_items: list) -> None:
         "explanations_by_level": by_level,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
-    LOCK_FILE.write_text(json.dumps(lock, indent=2) + "\n")
+    lock_file.write_text(json.dumps(lock, indent=2) + "\n")
+    explanation_langs = sorted({lng for c in by_level.values() for lng in c})
     summary = "  ".join(
-        f"{lvl} en={c.get('en', 0)} it={c.get('it', 0)}"
+        f"{lvl} " + " ".join(f"{lng}={c.get(lng, 0)}" for lng in explanation_langs)
         for lvl, c in sorted(by_level.items())
     )
     logger.info("Updated grammar_points.lock (gps=%d)  %s", len(json_items), summary)
 
 
-def list_codes(level: str | None = None, lang: str | None = None) -> None:
-    with open(GP_YAML) as f:
+def list_codes(
+    target_lang_code: str,
+    level: str | None = None,
+    lang: str | None = None,
+) -> None:
+    gp_yaml = data_dir(target_lang_code) / "grammar_points.yaml"
+    with open(gp_yaml) as f:
         json_items = yaml.safe_load(f)
     if level:
         json_items = [gp for gp in json_items if gp["cefr_level"] == level]
     done = sum(
         1
         for gp in json_items
-        if not _needs_explanation(gp, lang) and gp["cefr_level"] != "A0"
+        if not _needs_explanation(gp, lang, target_lang_code)
+        and gp["cefr_level"] != "A0"
     )
     for gp in json_items:
         if gp["cefr_level"] == "A0":
             marker = "-"
-        elif not _needs_explanation(gp, lang):
+        elif not _needs_explanation(gp, lang, target_lang_code):
             marker = "✓"
         else:
             marker = " "
         langs_done = "/".join(
-            k for k in ("en", "it") if k in gp.get("explanations", {})
+            k for k in ("en", target_lang_code) if k in gp.get("explanations", {})
         )
         print(
             f"  [{marker}] {gp['code']:30s} {gp['cefr_level']}  "
@@ -223,19 +249,26 @@ def list_codes(level: str | None = None, lang: str | None = None) -> None:
 
 
 async def generate(
+    target_lang_code: str,
     test: bool = False,
     code: str | None = None,
     level: str | None = None,
     lang: str | None = None,
     clear: bool = False,
 ) -> None:
-    with open(GP_YAML) as f:
+    target_lang_name = LANGUAGE_NAMES[target_lang_code]
+    lang_dir = data_dir(target_lang_code)
+    gp_yaml = lang_dir / "grammar_points.yaml"
+    chunk_contents_json = lang_dir / "grammar_chunk_contents.json"
+    lock_file = lang_dir / "grammar_points.lock"
+
+    with open(gp_yaml) as f:
         json_items = yaml.safe_load(f)
 
     # Load chunk content for richer context (optional)
     chunk_contents: dict[str, str] = {}
-    if CHUNK_CONTENTS_JSON.exists():
-        with open(CHUNK_CONTENTS_JSON) as f:
+    if chunk_contents_json.exists():
+        with open(chunk_contents_json) as f:
             chunk_contents = json.load(f)
         logger.info("Loaded %d grammar chunk contents", len(chunk_contents))
     else:
@@ -255,7 +288,7 @@ async def generate(
     if level:
         all_items = [gp for gp in all_items if gp["cefr_level"] == level]
 
-    langs_to_generate = [lang] if lang else ["en", "it"]
+    langs_to_generate = [lang] if lang else ["en", target_lang_code]
     logger.info(
         "Found %d grammar points, generating: %s", len(all_items), langs_to_generate
     )
@@ -266,7 +299,7 @@ async def generate(
                 continue
             for lng in langs_to_generate:
                 item.get("explanations", {}).pop(lng, None)
-        _write_yaml(GP_YAML, json_items)
+        _write_yaml(gp_yaml, json_items)
         logger.info(
             "Cleared %s explanations from grammar_points.yaml", langs_to_generate
         )
@@ -276,7 +309,7 @@ async def generate(
         (item, lng)
         for item in all_items
         for lng in langs_to_generate
-        if _needs_explanation(item, lng)
+        if _needs_explanation(item, lng, target_lang_code)
     ]
     logger.info("%d (GP, lang) pairs need explanations", len(todo))
 
@@ -300,7 +333,9 @@ async def generate(
         chunk_content = chunk_contents.get(item.get("chunk_ref") or "", "")
 
         try:
-            data = await _call_api(item, chunk_content, lng)
+            data = await _call_api(
+                item, chunk_content, lng, target_lang_name, target_lang_code
+            )
         except Exception as exc:
             logger.error(f"  API error: {exc}")
             continue
@@ -318,9 +353,9 @@ async def generate(
         changed = True
 
     if changed:
-        _write_yaml(GP_YAML, json_items)
+        _write_yaml(gp_yaml, json_items)
         logger.info("Updated grammar_points.yaml")
-        _update_lock(json_items)
+        _update_lock(json_items, gp_yaml, lock_file, target_lang_code)
 
     logger.info("Done.")
 
@@ -328,6 +363,12 @@ async def generate(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Generate grammar reference explanations (offline, no DB required)"
+    )
+    parser.add_argument(
+        "--target-lang",
+        required=True,
+        choices=sorted(LANGUAGE_NAMES),
+        help="Target language ISO code (e.g. it, de)",
     )
     parser.add_argument(
         "--test", action="store_true", help="One GP per (CEFR level, language) only"
@@ -345,8 +386,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--lang",
         type=str,
-        choices=["en", "it"],
-        help="Only generate explanations in this language (default: both)",
+        help="Explanation language: 'en' or the target language code (default: both)",
     )
     parser.add_argument(
         "--clear",
@@ -357,14 +397,22 @@ if __name__ == "__main__":
         "--list", action="store_true", help="List all GP codes with completion status"
     )
     args = parser.parse_args()
+
+    # Validate --lang: must be "en" or the target language code
+    if args.lang and args.lang not in ("en", args.target_lang):
+        parser.error(
+            f"--lang must be 'en' or '{args.target_lang}' (the target language)"
+        )
+
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     if args.debug:
         logger.setLevel(logging.DEBUG)
     if args.list:
-        list_codes(level=args.level, lang=args.lang)
+        list_codes(target_lang_code=args.target_lang, level=args.level, lang=args.lang)
     else:
         asyncio.run(
             generate(
+                target_lang_code=args.target_lang,
                 test=args.test,
                 code=args.code,
                 level=args.level,

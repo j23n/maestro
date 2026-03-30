@@ -123,8 +123,8 @@ Example: ["pres_ind", "def_art", "pos_adj"]"""
     return []
 
 
-def generate(force: bool = False) -> None:
-    yaml_path = data_dir() / "grammar_points.yaml"
+def generate(lang: str, force: bool = False) -> None:
+    yaml_path = data_dir(lang) / "grammar_points.yaml"
     with open(yaml_path) as f:
         items = yaml.safe_load(f)
 
@@ -207,6 +207,11 @@ if __name__ == "__main__":
         description="Generate short ≤10 char codes for grammar points"
     )
     parser.add_argument(
+        "--lang",
+        required=True,
+        help="Target language ISO code (e.g. it, de)",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Regenerate codes even for GPs that already have short codes",
@@ -216,4 +221,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     if args.debug:
         logger.setLevel(logging.DEBUG)
-    generate(force=args.force)
+    generate(lang=args.lang, force=args.force)

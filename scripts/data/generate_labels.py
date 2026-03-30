@@ -113,8 +113,8 @@ def _generate_batch(batch: list[dict], client) -> list[str] | None:
     return None
 
 
-def generate(force: bool = False, code: str | None = None) -> None:
-    yaml_path = data_dir() / "grammar_points.yaml"
+def generate(lang: str, force: bool = False, code: str | None = None) -> None:
+    yaml_path = data_dir(lang) / "grammar_points.yaml"
     with open(yaml_path) as f:
         items = yaml.safe_load(f)
 
@@ -168,6 +168,11 @@ if __name__ == "__main__":
         description="Generate Italian labels for grammar points"
     )
     parser.add_argument(
+        "--lang",
+        required=True,
+        help="Target language ISO code (e.g. it, de)",
+    )
+    parser.add_argument(
         "--force", action="store_true", help="Regenerate existing labels"
     )
     parser.add_argument(
@@ -178,4 +183,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     if args.debug:
         logger.setLevel(logging.DEBUG)
-    generate(force=args.force, code=args.code)
+    generate(lang=args.lang, force=args.force, code=args.code)
