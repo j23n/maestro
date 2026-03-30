@@ -1,9 +1,19 @@
 - code: art_un_una
   cefr_level: A0
   category: basics
+  subcategory: articoli indeterminativi
   unistr_code: a0_articoli_un_una
   unistr_label: 'Indefinite articles: un, una, un'''
   label: Articoli indeterminativi singolari un una un'
+  description: The Italian indefinite article ('a' or 'an' in English). Use un, una,
+    or un' before singular nouns to mean 'a/an'.
+  examples:
+  - <span lang='it'>Ho un gatto.</span>
+  - <span lang='it'>Vorrei una pizza, per favore.</span>
+  - <span lang='it'>C'è un'amica di Marco qui.</span>
+  - <span lang='it'>Questo è un libro interessante.</span>
+  - <span lang='it'>Ho una borsa rossa.</span>
+  - <span lang='it'>Lui è un amico.</span>
   chunk_ref: book_5_l_articolo_le_forme
   explanations:
     en:
@@ -33,9 +43,19 @@
 - code: art_i_le
   cefr_level: A0
   category: basics
+  subcategory: articoli determinativi
   unistr_code: a0_articoli_i_le
   unistr_label: 'Plural articles: i, le'
   label: Articoli determinativi plurali i e le
+  description: The plural definite articles 'i' (masculine) and 'le' (feminine) mean
+    'the' for plural nouns.
+  examples:
+  - <span lang='it'>I bambini giocano nel parco.</span>
+  - <span lang='it'>Le ragazze sono in classe.</span>
+  - <span lang='it'>I libri sono sul tavolo.</span>
+  - <span lang='it'>Le scarpe sono nuove.</span>
+  - <span lang='it'>Gli studenti arrivano alle otto.</span>
+  - <span lang='it'>Le amiche di Maria sono simpatiche.</span>
   chunk_ref: book_5_l_articolo_le_forme
   explanations:
     en:
@@ -63,9 +83,19 @@
 - code: num_20_100
   cefr_level: A0
   category: basics
+  subcategory: numerali cardinali
   unistr_code: a0_numeri_20_100
   unistr_label: Numbers 20–100
   label: Numeri da venti a cento
+  description: Cardinal numbers from 20 to 100 in Italian. Some numbers drop a vowel
+    or double a consonant when combined.
+  examples:
+  - Ho venti anni.
+  - Il treno parte alle trentatré.
+  - Quel libro costa quarantadue euro.
+  - Ci sono cinquantotto studenti in palestra.
+  - Mia nonna ha settantasei anni.
+  - Cento persone aspettano all'aeroporto.
   chunk_ref: null
   explanations:
     en:
@@ -110,9 +140,19 @@
 - code: ore_giorni
   cefr_level: A0
   category: basics
+  subcategory: vocabolario
   unistr_code: a0_ore_giorni
   unistr_label: Telling time and days of the week
   label: Ore e giorni della settimana
+  description: How to say the time (e.g. 'It's two o'clock') and name the days of
+    the week in Italian.
+  examples:
+  - Sono le tre.
+  - È l'una.
+  - Che ore sono?
+  - Oggi è lunedì.
+  - Il negozio è aperto il martedì.
+  - La lezione è alle nove.
   chunk_ref: null
   explanations:
     en:
@@ -159,9 +199,19 @@
 - code: vocab_cibo
   cefr_level: A0
   category: basics
+  subcategory: lessico tematico
   unistr_code: a0_cibo
   unistr_label: Food and restaurant vocabulary
   label: Vocabolario del cibo e del ristorante
+  description: Core Italian words for food, drinks, and ordering in a restaurant.
+    Essential for eating out and everyday shopping.
+  examples:
+  - Vorrei un caffè, per favore.
+  - Il menu, per favore.
+  - Prendo la pasta al pomodoro.
+  - Hai il pane?
+  - Un bicchiere d'acqua, grazie.
+  - Il conto, per favore.
   chunk_ref: null
   explanations:
     en:
@@ -202,9 +252,19 @@
 - code: vocab_viaggio
   cefr_level: A0
   category: basics
+  subcategory: lessico tematico
   unistr_code: a0_viaggio
   unistr_label: Transport and travel vocabulary
   label: Vocabolario del viaggio e dei trasporti
+  description: Core Italian words for travel, transport, and getting around — airports,
+    trains, tickets, and directions.
+  examples:
+  - <span lang="it">Il treno parte alle nove.</span>
+  - <span lang="it">Vorrei un biglietto per Roma.</span>
+  - <span lang="it">Dov'è la stazione degli autobus?</span>
+  - <span lang="it">L'aereo arriva in ritardo.</span>
+  - <span lang="it">Prendo il taxi per l'aeroporto.</span>
+  - <span lang="it">Il passaporto è nella borsa.</span>
   chunk_ref: null
   explanations:
     en:
@@ -243,9 +303,19 @@
 - code: saluti
   cefr_level: A0
   category: basics
+  subcategory: vocabolario base
   unistr_code: a0_saluti
   unistr_label: Greetings and farewells
   label: Saluti e congedi
+  description: Fixed Italian phrases for saying hello and goodbye, used in everyday
+    social interactions.
+  examples:
+  - <span lang='it'>Ciao, come stai?</span>
+  - <span lang='it'>Buongiorno, signora Rossi!</span>
+  - <span lang='it'>Buonasera, mi chiamo Marco.</span>
+  - <span lang='it'>Arrivederci e grazie!</span>
+  - <span lang='it'>A domani, ragazzi!</span>
+  - <span lang='it'>Buonanotte, mamma.</span>
   chunk_ref: null
   explanations:
     en:
@@ -265,9 +335,19 @@
 - code: pronun_bas
   cefr_level: A0
   category: basics
+  subcategory: fonetica
   unistr_code: a0_pronuncia
   unistr_label: Italian pronunciation basics
   label: Pronuncia italiana fondamentale
+  description: 'The core rules of Italian sound and spelling: every letter is pronounced
+    consistently, making Italian highly predictable once you learn the patterns.'
+  examples:
+  - <span lang="it">Buongiorno! Come stai?</span>
+  - <span lang="it">Mi chiamo Giovanni.</span>
+  - <span lang="it">La chiesa è bella.</span>
+  - <span lang="it">Ciao, sono un'amica!</span>
+  - <span lang="it">Il gatto è grande.</span>
+  - <span lang="it">Grazie mille!</span>
   chunk_ref: null
   explanations:
     en:
@@ -324,9 +404,19 @@
 - code: num_0_20
   cefr_level: A0
   category: basics
+  subcategory: numerali cardinali
   unistr_code: a0_numeri_0_20
   unistr_label: Numbers 0–20
   label: Numeri da zero a venti
+  description: The Italian cardinal numbers from 0 to 20. Used for counting, ages,
+    quantities, and basic arithmetic.
+  examples:
+  - <span lang="it">Ho tre fratelli e due sorelle.</span>
+  - <span lang="it">Il numero di telefono è zero, sette, uno.</span>
+  - <span lang="it">Ho diciotto anni.</span>
+  - <span lang="it">Vorrei cinque caffè, per favore.</span>
+  - <span lang="it">Sono le undici di mattina.</span>
+  - '<span lang="it">C''è un solo posto: il numero venti.</span>'
   chunk_ref: null
   explanations:
     en:
@@ -372,9 +462,18 @@
 - code: si_no_non
   cefr_level: A0
   category: basics
+  subcategory: affermazione e negazione
   unistr_code: a0_si_no_non
   unistr_label: Yes, no, not
   label: Affermazione, negazione e negativo
+  description: Use 'sì' for yes, 'no' for no, and 'non' before a verb to make it negative.
+  examples:
+  - <span lang='it'>Sì, parlo italiano.</span>
+  - <span lang='it'>No, non parlo inglese.</span>
+  - <span lang='it'>Non capisco.</span>
+  - <span lang='it'>— Sei italiano? — Sì, sono italiano.</span>
+  - <span lang='it'>— Hai fame? — No, non ho fame.</span>
+  - <span lang='it'>Non mi chiamo Marco.</span>
   chunk_ref: null
   explanations:
     en:
@@ -396,9 +495,19 @@
 - code: simp_sent
   cefr_level: A0
   category: basics
+  subcategory: struttura della frase
   unistr_code: a0_frase_semplice
   unistr_label: Simple sentences
   label: Frasi semplici dichiarative
+  description: A simple declarative sentence states a fact using a subject and a verb,
+    often with extra details like an object or place.
+  examples:
+  - Io sono Mario.
+  - Lei è italiana.
+  - Il gatto è piccolo.
+  - Marco mangia una pizza.
+  - Noi siamo a Roma.
+  - La borsa è rossa.
   chunk_ref: book_2_la_frase
   explanations:
     en:
@@ -420,9 +529,18 @@
 - code: vorrei
   cefr_level: A0
   category: basics
+  subcategory: condizionale presente
   unistr_code: a0_vorrei
   unistr_label: Vorrei (I would like)
   label: Condizionale presente di volere per cortesia
+  description: Use 'vorrei' (I would like) to make polite requests and orders. It
+    is the conditional form of 'volere'.
+  examples:
+  - <span lang="it">Vorrei un caffè, per favore.</span>
+  - <span lang="it">Vorrei una pizza margherita.</span>
+  - <span lang="it">Vorrei dell'acqua, grazie.</span>
+  - <span lang="it">Vorrei un tavolo per due persone.</span>
+  - <span lang="it">Vorrei il menu, per favore.</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_condizionale
   explanations:
     en:
@@ -446,9 +564,19 @@
 - code: polite_exp
   cefr_level: A0
   category: basics
+  subcategory: cortesia
   unistr_code: a0_cortesia
   unistr_label: Polite expressions
   label: Espressioni di cortesia e ringraziamento
+  description: 'Key Italian polite expressions: please, thank you, you''re welcome,
+    sorry, and excuse me for everyday interactions.'
+  examples:
+  - <span lang="it">Un caffè, per favore.</span>
+  - <span lang="it">Grazie mille!</span>
+  - <span lang="it">Prego, si accomodi.</span>
+  - <span lang="it">Scusi, dov'è il bagno?</span>
+  - <span lang="it">Mi dispiace, non capisco.</span>
+  - <span lang="it">Permesso! Posso entrare?</span>
   chunk_ref: null
   explanations:
     en:
@@ -480,9 +608,19 @@
 - code: art_il_la
   cefr_level: A0
   category: basics
+  subcategory: articoli determinativi
   unistr_code: a0_articoli_il_la
   unistr_label: 'Articles: il and la'
   label: Articoli determinativi singolari il e la
+  description: The Italian definite articles 'il' (masculine) and 'la' (feminine)
+    mean 'the' for singular nouns.
+  examples:
+  - <span lang='it'>Il caffè è caldo.</span>
+  - <span lang='it'>La pizza è buona.</span>
+  - <span lang='it'>Il libro è sul tavolo.</span>
+  - <span lang='it'>La borsa è rossa.</span>
+  - <span lang='it'>Il ragazzo si chiama Marco.</span>
+  - <span lang='it'>La città è grande.</span>
   chunk_ref: book_5_l_articolo_le_forme
   explanations:
     en:
@@ -504,9 +642,18 @@
 - code: che_cose
   cefr_level: A0
   category: basics
+  subcategory: domande
   unistr_code: a0_che_cose
   unistr_label: What is it? (Che cos'è?)
   label: Domanda identificativa che cos'è
+  description: Use 'che cos'è?' to ask 'what is it/this/that?' when identifying an
+    unknown object, person, or concept.
+  examples:
+  - <span lang='it'>Che cos'è questo?</span>
+  - <span lang='it'>Che cos'è una pizza?</span>
+  - <span lang='it'>Che cos'è il cappuccino?</span>
+  - <span lang='it'>Scusa, che cos'è?</span>
+  - <span lang='it'>Che cos'è quella cosa rossa?</span>
   chunk_ref: null
   explanations:
     en:
@@ -539,9 +686,18 @@
 - code: subj_pron
   cefr_level: A0
   category: basics
+  subcategory: pronomi personali
   unistr_code: a0_pronomi_soggetto
   unistr_label: 'Subject pronouns: io, tu, lui/lei'
   label: Pronomi personali soggetto io tu lui lei
+  description: Subject pronouns identify who is doing the action. Italian has specific
+    forms for I, you, he, and she.
+  examples:
+  - <span lang='it'>Io sono Marco.</span>
+  - <span lang='it'>Tu sei italiana?</span>
+  - <span lang='it'>Lui si chiama Paolo.</span>
+  - <span lang='it'>Lei è la mia professoressa.</span>
+  - <span lang='it'>Io ho un gatto e lui ha un cane.</span>
   chunk_ref: book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto
   explanations:
     en:
@@ -563,9 +719,18 @@
 - code: essere_pre
   cefr_level: A0
   category: basics
+  subcategory: indicativo presente
   unistr_code: a0_essere
   unistr_label: 'To be: sono, sei, è'
   label: Indicativo presente di essere forme sono sei è
+  description: The present tense of 'to be' in Italian. Used to describe identity,
+    origin, profession, and characteristics.
+  examples:
+  - <span lang="it">Io sono Marco.</span>
+  - <span lang="it">Tu sei italiana?</span>
+  - <span lang="it">Lei è una studentessa.</span>
+  - <span lang="it">Noi siamo di Roma.</span>
+  - <span lang="it">Loro sono stanchi.</span>
   chunk_ref: book_8_il_verbo_prospetto_dei_modi_e_dei_tempi_del_verbopresente_passato_futuro_essere
   explanations:
     en:
@@ -602,9 +767,18 @@
 - code: avere_pre
   cefr_level: A0
   category: basics
+  subcategory: indicativo presente
   unistr_code: a0_avere
   unistr_label: 'To have: ho'
   label: Indicativo presente di avere forma ho
+  description: The first-person singular of 'avere' (to have). In Italian, 'I have'
+    is 'ho' — used to express possession and more.
+  examples:
+  - <span lang='it'>Ho un gatto.</span>
+  - <span lang='it'>Ho fame.</span>
+  - <span lang='it'>Ho diciotto anni.</span>
+  - <span lang='it'>Ho una borsa rossa.</span>
+  - <span lang='it'>Non ho il passaporto.</span>
   chunk_ref: null
   explanations:
     en:
@@ -636,9 +810,18 @@
 - code: mi_piace
   cefr_level: A0
   category: basics
+  subcategory: indicativo presente
   unistr_code: a0_mi_piace
   unistr_label: I like / I don't like
   label: Indicativo presente di piacere forme mi piace non mi piace
+  description: Use 'mi piace' to say you like something. Add 'non' before it to say
+    you don't like it.
+  examples:
+  - <span lang='it'>Mi piace il caffè.</span>
+  - <span lang='it'>Non mi piace il pesce.</span>
+  - <span lang='it'>Mi piace la pizza.</span>
+  - <span lang='it'>Non mi piace studiare.</span>
+  - <span lang='it'>Mi piace questo libro.</span>
   chunk_ref: null
   explanations:
     en:
@@ -691,9 +874,18 @@
 - code: dove_e
   cefr_level: A0
   category: basics
+  subcategory: interrogativi
   unistr_code: a0_dove
   unistr_label: Where is it? (Dov'è?)
   label: Domanda di localizzazione dov'è
+  description: Use dov'è to ask where something or someone is. It combines dove (where)
+    with è (is).
+  examples:
+  - Dov'è il bagno?
+  - Dov'è la stazione?
+  - Scusi, dov'è l'hotel?
+  - Dov'è Maria oggi?
+  - Dov'è il mio passaporto?
   chunk_ref: null
   explanations:
     en:
@@ -743,9 +935,19 @@
 - code: prep_place
   cefr_level: A0
   category: basics
+  subcategory: preposizioni semplici
   unistr_code: a0_preposizioni
   unistr_label: 'Prepositions of place: a, in, di'
   label: 'Preposizioni di luogo: a, in, di'
+  description: The prepositions a, in, and di express location or origin in Italian
+    — where you are, where you go, and where you're from.
+  examples:
+  - Sono a Roma.
+  - Abito in Italia.
+  - Lei è di Milano.
+  - Il libro è in borsa.
+  - Vado a scuola.
+  - Lui è di Napoli.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -781,9 +983,18 @@
 - code: mi_chiamo
   cefr_level: A0
   category: basics
+  subcategory: riflessivi
   unistr_code: a0_mi_chiamo
   unistr_label: My name is... (Mi chiamo)
   label: Verbo chiamarsi al presente indicativo per l'autopresentazione
+  description: Use 'mi chiamo' (literally 'I call myself') to state your name. It
+    comes from the reflexive verb 'chiamarsi'.
+  examples:
+  - <span lang='it'>Mi chiamo Marco.</span>
+  - <span lang='it'>Come ti chiami?</span>
+  - <span lang='it'>Mi chiamo Sofia. E tu?</span>
+  - <span lang='it'>Lei si chiama Anna.</span>
+  - <span lang='it'>Lui si chiama Luca.</span>
   chunk_ref: null
   explanations:
     en:
@@ -5863,10 +6074,20 @@
 - code: art_om_ind
   cefr_level: A1
   category: articoli
+  subcategory: articolo determinativo
   unistr_code: omissione_dellarticolo_determinativo_con_gli_aggettivi_indefiniti_es_molti_libri
   unistr_label: Omissione dell’articolo determinativo con gli aggettivi indefiniti,
     es. molti libri
   label: Omissione dell'articolo determinativo con aggettivi indefiniti
+  description: In Italian, the definite article is dropped after certain indefinite
+    adjectives like 'ogni', 'qualche', and 'nessun'.
+  examples:
+  - <span lang='it'>Ogni giorno vado a scuola a piedi.</span>
+  - <span lang='it'>Qualche studente arriva in ritardo.</span>
+  - <span lang='it'>Non ho nessun problema con questo esercizio.</span>
+  - <span lang='it'>Qualche amico viene a casa mia stasera.</span>
+  - <span lang='it'>Ogni persona ha un nome.</span>
+  - <span lang='it'>Non c'è nessuna sedia libera in classe.</span>
   chunk_ref: book_5_l_articolo_usi_particolari
   prerequisites:
   - all_det_in
@@ -5992,10 +6213,20 @@
 - code: art_pos_ad
   cefr_level: A1
   category: articoli
+  subcategory: determinativo
   unistr_code: presenza_dellarticolo_determinativo_in_posizione_che_precede_gli_aggettivi
   unistr_label: Presenza dell’articolo determinativo in posizione che precede gli
     aggettivi possessivi, es. la mia sedia
   label: Articolo determinativo con aggettivi possessivi
+  description: 'In Italian, possessive adjectives (my, your, his…) are almost always
+    preceded by a definite article: il mio, la tua, il suo.'
+  examples:
+  - <span lang='it'>Il mio nome è Marco.</span>
+  - <span lang='it'>La mia famiglia abita a Roma.</span>
+  - <span lang='it'>Dov'è il tuo zaino?</span>
+  - <span lang='it'>I miei genitori lavorano molto.</span>
+  - <span lang='it'>La sua macchina è nuova.</span>
+  - <span lang='it'>Mia madre si chiama Anna.</span>
   chunk_ref: book_5_l_articolo_usi_particolari
   prerequisites:
   - all_det_in
@@ -6277,9 +6508,19 @@
 - code: ind_pres
   cefr_level: A1
   category: verbi
+  subcategory: indicativo
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: indicativo presente
   label: Indicativo presente
+  description: The Italian present tense used for current actions, habits, and general
+    truths. Formed by adding endings to the verb stem.
+  examples:
+  - <span lang='it'>Io parlo italiano ogni giorno.</span>
+  - <span lang='it'>Maria beve un caffè la mattina.</span>
+  - <span lang='it'>Noi abitiamo a Roma.</span>
+  - <span lang='it'>Il treno parte alle nove.</span>
+  - <span lang='it'>Loro finiscono il lavoro alle cinque.</span>
+  - <span lang='it'>Tu hai un fratello?</span>
   chunk_ref: book_8_il_verbo_uso_dell_indicativo_presente
   explanations:
     en:
@@ -6421,10 +6662,19 @@
 - code: cond_simp
   cefr_level: A1
   category: verbi
+  subcategory: condizionale
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: condizionale semplice solo del verbo volere alla I persona singolare
     ( vorrei )
   label: Condizionale semplice del verbo volere alla prima persona singolare
+  description: The form 'vorrei' means 'I would like' — a polite way to express wishes
+    or make requests in Italian.
+  examples:
+  - <span lang="it">Vorrei un caffè, per favore.</span>
+  - <span lang="it">Vorrei parlare con il direttore.</span>
+  - <span lang="it">Vorrei una camera singola per due notti.</span>
+  - <span lang="it">Vorrei andare al mare quest'estate.</span>
+  - <span lang="it">Scusi, vorrei prenotare un tavolo.</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_condizionale
   prerequisites:
   - ind_pres
@@ -6515,9 +6765,18 @@
 - code: imper_form
   cefr_level: A1
   category: verbi
+  subcategory: imperativo
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: imperativo formale ed informale del verbo scusare ( scusi/scusa )
   label: Imperativo formale e informale del verbo scusare
+  description: Use 'scusa' (informal) or 'scusi' (formal) to apologise or get someone's
+    attention. These are the imperative forms of 'scusare'.
+  examples:
+  - <span lang="it">Scusa, puoi ripetere?</span>
+  - <span lang="it">Scusi, dov'è la stazione?</span>
+  - <span lang="it">Scusa, non capisco.</span>
+  - <span lang="it">Scusi, signora, è libero questo posto?</span>
+  - <span lang="it">Scusa, come ti chiami?</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_imperativo
   prerequisites:
   - ind_pres
@@ -6597,9 +6856,18 @@
 - code: imper_prim
   cefr_level: A1
   category: verbi
+  subcategory: imperativo
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: imperativo prima persona plurale per invitare (andiamo )
   label: Imperativo prima persona plurale per invitare
+  description: The first-person plural imperative (noi form) is used to suggest doing
+    something together, like English 'let's'.
+  examples:
+  - <span lang="it">Andiamo al bar insieme!</span>
+  - <span lang="it">Mangiamo la pizza stasera!</span>
+  - <span lang="it">Prendiamo un caffè!</span>
+  - <span lang="it">Parliamo un po' di te!</span>
+  - <span lang="it">Usciamo adesso!</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_imperativo
   prerequisites:
   - ind_pres
@@ -6685,9 +6953,19 @@
 - code: percez_sig
   cefr_level: A1
   category: verbi
+  subcategory: verbi modali
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: la percezione del significato modale dei verbi potere, volere e dovere
   label: Valore modale dei verbi potere, volere e dovere
+  description: The verbs potere, volere, and dovere express ability, desire, and obligation.
+    They precede an infinitive.
+  examples:
+  - <span lang="it">Posso parlare italiano un po'.</span>
+  - <span lang="it">Vuoi venire al cinema stasera?</span>
+  - <span lang="it">Devo studiare adesso.</span>
+  - <span lang="it">Non posso uscire oggi.</span>
+  - <span lang="it">Voglio un caffè, per favore.</span>
+  - <span lang="it">Deve andare a casa.</span>
   chunk_ref: book_8_il_verbo_verbi_servili
   prerequisites:
   - ind_pres
@@ -6804,10 +7082,20 @@
 - code: costru_ess
   cefr_level: A1
   category: verbi
+  subcategory: costruzioni esistenziali
   unistr_code: la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone
   unistr_label: la costruzione ci + verbo essere solo alla III persona singolare e
     plurale dell’indicativo presente ( c’è, ci sono )
   label: Costruzione ci + indicativo presente del verbo essere
+  description: 'The construction ''ci + essere'' (c''è / ci sono) expresses existence
+    or presence: ''there is / there are''.'
+  examples:
+  - C'è un bar vicino alla stazione.
+  - Ci sono due bambini nel parco.
+  - C'è latte nel frigorifero?
+  - Non c'è nessuno in casa.
+  - Ci sono molti studenti in classe oggi.
+  - C'è un problema con il computer.
   chunk_ref: book_7_il_pronome_pronomi_dimostrativi_ci
   prerequisites:
   - ind_pres
@@ -6905,10 +7193,19 @@
 - code: inf_final
   cefr_level: A1
   category: verbi
+  subcategory: infinito
   unistr_code: infinito_presente_nelle_proposizioni_finali_implicite_es_sono_qui_per_studiare
   unistr_label: Infinito presente nelle proposizioni finali implicite, es. Sono qui
     per studiare l’italiano .
   label: Infinito presente in proposizioni finali implicite
+  description: The present infinitive used to express purpose ('in order to'), typically
+    after verbs of motion or after 'per'.
+  examples:
+  - <span lang="it">Vado al supermercato per comprare il latte.</span>
+  - <span lang="it">Studio molto per imparare l'italiano.</span>
+  - <span lang="it">Telefono a Maria per invitarla a cena.</span>
+  - <span lang="it">Usciamo presto per prendere il treno.</span>
+  - <span lang="it">Vieni a casa mia per vedere il film?</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_infinito
   prerequisites:
   - ind_pres
@@ -7514,9 +7811,19 @@
 - code: prep_di_or
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: di_provenienza_es_sono_di_berlino
   unistr_label: di provenienza, es. Sono di Berlino .
   label: Preposizione di con valore di provenienza
+  description: The preposition 'di' followed by a city or country name expresses where
+    someone is from. Used with 'essere' to state origin.
+  examples:
+  - Sono di Roma.
+  - Lei è di Napoli.
+  - Marco è di Milano, ma abita a Torino.
+  - Di dove sei?
+  - Siamo di una piccola città del nord.
+  - Il professore è di Firenze.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -7618,9 +7925,19 @@
 - code: prep_a_ind
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
   unistr_label: a termine, es. Do il libro a Giovanni
   label: Preposizione a con valore di termine
+  description: The preposition 'a' marks the indirect object — the person or thing
+    receiving something or benefiting from an action.
+  examples:
+  - <span lang="it">Do il libro a Maria.</span>
+  - <span lang="it">Scrivo una lettera a mio fratello.</span>
+  - <span lang="it">Il professore spiega la lezione agli studenti.</span>
+  - <span lang="it">Puoi portare questo messaggio a mia madre?</span>
+  - <span lang="it">Chiedo un'informazione al signore.</span>
+  - <span lang="it">Diamo i biglietti ai bambini.</span>
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -7734,9 +8051,18 @@
 - code: prep_a_tem
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni di tempo
   unistr_code: a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
   unistr_label: tempo es. a mezzogiorno, alle tre
   label: Preposizione a con valore di tempo
+  description: The preposition 'a' marks specific times of day and fixed time expressions
+    like hours, noon, and midnight.
+  examples:
+  - <span lang="it">Il treno parte alle otto di mattina.</span>
+  - <span lang="it">La lezione finisce a mezzogiorno.</span>
+  - <span lang="it">Ci vediamo a mezzanotte.</span>
+  - <span lang="it">Il negozio apre alle nove e mezza.</span>
+  - <span lang="it">Mangio a pranzo alle tredici.</span>
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -7857,9 +8183,19 @@
 - code: prep_a_dom
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni di tempo
   unistr_code: a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
   unistr_label: a domani!
   label: Preposizione a in espressioni di distanza temporale prossima
+  description: Uses 'a' to express how soon something will happen, as in 'in a moment'
+    or 'see you tomorrow'.
+  examples:
+  - A domani!
+  - A presto, ragazzi!
+  - Ci vediamo a lunedì.
+  - A tra poco, mamma.
+  - A dopo la lezione!
+  - A fra un'ora, va bene?
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -7984,10 +8320,20 @@
 - code: prep_a_loc
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni di luogo
   unistr_code: a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
   unistr_label: stato in e moto a luogo, es. Sono / vado a casa / a scuola, vado a
     fare la spesa
   label: Preposizione a con valore di stato in luogo e moto a luogo
+  description: The preposition 'a' expresses being at or going to a specific place,
+    like a building, room, or named location.
+  examples:
+  - Sono a casa tutto il giorno.
+  - Vado a scuola ogni mattina.
+  - Marco lavora a teatro.
+  - Andiamo a letto presto stasera.
+  - Sei a tavola adesso?
+  - La mamma va al mercato.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8085,9 +8431,19 @@
 - code: prep_a_l_2
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni di luogo
   unistr_code: a_termine_es_do_il_libro_a_giovanni_tempo_es_a_mezzogiorno_alle_tre_a_domani
   unistr_label: stato in e moto a luogo con nomi di città, es. Vado a Roma.
   label: Preposizione a con valore di luogo con nomi di città
+  description: The preposition 'a' is used with city names to express both location
+    (being in a city) and movement toward a city.
+  examples:
+  - <span lang="it">Abito a Roma da tre anni.</span>
+  - <span lang="it">Domani vado a Milano per lavoro.</span>
+  - <span lang="it">I miei genitori vivono a Napoli.</span>
+  - <span lang="it">Sei mai stato a Venezia?</span>
+  - <span lang="it">Partiamo a Firenze questo weekend.</span>
+  - <span lang="it">Mia sorella studia a Bologna.</span>
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8170,10 +8526,20 @@
 - code: prep_in_lo
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni di luogo
   unistr_code: in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es
   unistr_label: in stato in e moto a luogo con nomi di nazioni, es. Abito / vado in
     Italia
   label: Preposizione in con valore di stato in luogo e moto a luogo con nazioni
+  description: Use 'in' with countries to express both location (being in a place)
+    and movement (going to a place). No article needed.
+  examples:
+  - <span lang="it">Vivo in Italia da molti anni.</span>
+  - <span lang="it">Quest'estate vado in Francia con la mia famiglia.</span>
+  - <span lang="it">Mia sorella lavora in Germania.</span>
+  - <span lang="it">Domani partiamo in Spagna per le vacanze.</span>
+  - <span lang="it">Hai mai vissuto in Giappone?</span>
+  - <span lang="it">I miei genitori abitano in Brasile.</span>
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8288,9 +8654,18 @@
 - code: prep_in_me
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: in_stato_in_e_moto_a_luogo_con_nomi_di_nazioni_es_abito_vado_in_italia_mezzo_es
   unistr_label: mezzo, es. in treno, in macchina
   label: Preposizione in con valore di mezzo
+  description: The preposition 'in' is used with means of transport in Italian, e.g.
+    'in treno' (by train), 'in macchina' (by car).
+  examples:
+  - <span lang="it">Vado a Roma in treno.</span>
+  - <span lang="it">Mia madre va al lavoro in macchina ogni mattina.</span>
+  - <span lang="it">Vengo a scuola in autobus.</span>
+  - <span lang="it">Viaggiate in aereo o in treno?</span>
+  - <span lang="it">Marco va in bicicletta al parco.</span>
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8377,9 +8752,19 @@
 - code: prep_con_c
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: con_compagnia_es_vado_a_scuola_con_mario
   unistr_label: con compagnia, es. Vado a scuola con Mario .
   label: Preposizione con con valore di compagnia
+  description: The preposition 'con' means 'with' and shows that someone is together
+    with another person or group.
+  examples:
+  - Vado al cinema con Marco.
+  - Mangio la pizza con i miei amici.
+  - Mia sorella studia con te?
+  - Vengo con voi alla festa.
+  - Marco abita con la sua famiglia.
+  - Oggi lavoro con la professoressa Rossi.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8481,9 +8866,18 @@
 - code: prep_pe_va
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno
   unistr_label: 'per : vantaggio es. Il regalo è per Luca'
   label: Preposizione per con valore di vantaggio
+  description: The preposition 'per' meaning 'for' when indicating who benefits from
+    something, e.g. a gift or action.
+  examples:
+  - Questo regalo è per te.
+  - Ho comprato i fiori per mia madre.
+  - C'è un messaggio per Marco.
+  - Preparo la cena per tutta la famiglia.
+  - Ho preso un caffè per lui.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8586,11 +8980,21 @@
 - code: prep_pe_mv
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: per_vantaggio_es_il_regalo_e_per_luca_moto_a_luogoes_a_che_ora_parte_il_treno
   unistr_label: moto a luogo,es. A che ora parte il treno per Roma? introduzione di
     proposizione secondaria finale implicita, es. Sono qui per studiare l’italiano
     .
   label: Preposizione per con valore di moto a luogo e finalità
+  description: The preposition 'per' expresses movement toward a destination or the
+    purpose of an action ('going to/for', 'in order to').
+  examples:
+  - Parto per Roma domani mattina.
+  - Prendo l'autobus per il centro.
+  - Studio per imparare l'italiano.
+  - Questo treno è per Napoli?
+  - Esco per comprare il pane.
+  - Partiamo per la spiaggia alle nove.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8704,10 +9108,20 @@
 - code: prep_idiom
   cefr_level: A1
   category: preposizioni
+  subcategory: uso idiomatico
   unistr_code: uso_idiomatico_di_preposizioni_in_forme_di_uso_frequente_es_giocare_a
   unistr_label: Uso idiomatico di preposizioni in forme di uso frequente, es. giocare
     a
   label: Uso idiomatico di preposizioni in forme frequenti
+  description: Fixed phrases where Italian prepositions don't follow regular rules
+    — you must learn them as set expressions.
+  examples:
+  - Vado a piedi perché abito vicino alla scuola.
+  - Sei di fretta? Il treno parte tra cinque minuti!
+  - Di solito faccio colazione a casa.
+  - Marco lavora in centro, vicino alla stazione.
+  - Vieni da solo o con i tuoi amici?
+  - A volte mangio la pizza a mezzogiorno.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -8815,9 +9229,19 @@
 - code: prep_other
   cefr_level: A1
   category: preposizioni
+  subcategory: preposizioni semplici
   unistr_code: altre_forme_preposizionali_es_senza_nota_acquisite_a_livello_formulaico
   unistr_label: 'Altre forme preposizionali, es. senza Nota: acquisite a livello formulaico'
   label: Altre preposizioni semplici di uso formulaico
+  description: Fixed, high-frequency Italian prepositions (da, su, fra/tra, verso,
+    senza) used in set everyday expressions at A1 level.
+  examples:
+  - Arrivo da Roma domani.
+  - Il libro è su tavolo.
+  - Ci vediamo fra cinque minuti.
+  - Vado verso la stazione.
+  - Un caffè senza zucchero, per favore.
+  - Torno tra due giorni.
   chunk_ref: book_10_la_preposizione_preposizioni_proprie
   explanations:
     en:
@@ -9676,9 +10100,19 @@
 - code: adv_manner
   cefr_level: A1
   category: avverbi
+  subcategory: modo
   unistr_code: di_modo_bene_male
   unistr_label: 'Di modo: bene, male'
   label: 'Avverbi di modo: bene, male'
+  description: The adverbs 'bene' (well) and 'male' (badly/poorly) describe how an
+    action is done. They never change form.
+  examples:
+  - <span lang="it">Parli italiano molto bene!</span>
+  - <span lang="it">Marco canta male.</span>
+  - <span lang="it">Sto bene, grazie.</span>
+  - <span lang="it">Questo non va bene.</span>
+  - <span lang="it">La bambina disegna molto male.</span>
+  - <span lang="it">Parla bene l'inglese?</span>
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -9799,11 +10233,21 @@
 - code: adv_place
   cefr_level: A1
   category: avverbi
+  subcategory: di luogo
   unistr_code: di_luogo_qui_qua_li_la_fuori_dentro_dietro_davanti_sopra_sotto_vicino_lontano
   unistr_label: 'Di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra,
     sotto, vicino, lontano, su, giù, indietro, avanti'
   label: 'Avverbi di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra,
     sotto, vicino, lontano, su, giù, indietro, avanti'
+  description: Place adverbs like qui, lì, fuori, dentro, sopra tell where something
+    is or happens. They modify verbs without changing form.
+  examples:
+  - Il gatto è qui con me.
+  - La borsa è là, sul tavolo.
+  - I bambini giocano fuori.
+  - Il libro è dentro la borsa.
+  - Il supermercato è vicino, a cinque minuti.
+  - Siediti davanti, vicino alla finestra!
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -9914,11 +10358,21 @@
 - code: adv_time_a
   cefr_level: A1
   category: avverbi
+  subcategory: temporali
   unistr_code: di_tempo_ora_adessooggi_dopo_ieri_domani_spesso_sempre_mai_presto_tardi
   unistr_label: 'Di tempo: ora, adesso,oggi, dopo, ieri, domani, spesso, sempre, mai
     , presto, tardi'
   label: 'Avverbi di tempo: ora, adesso, oggi, dopo, ieri, domani, spesso, sempre,
     mai, presto, tardi'
+  description: Time adverbs like 'oggi', 'domani', 'sempre', and 'mai' tell you when
+    or how often something happens.
+  examples:
+  - <span lang="it">Oggi studio italiano a casa.</span>
+  - <span lang="it">Ieri ho mangiato la pizza con gli amici.</span>
+  - <span lang="it">Domani andiamo al mercato.</span>
+  - <span lang="it">Arrivo sempre tardi la mattina.</span>
+  - <span lang="it">Non mangio mai la carne.</span>
+  - <span lang="it">Il treno parte presto, alle sei.</span>
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -10035,9 +10489,19 @@
 - code: adv_quant
   cefr_level: A1
   category: avverbi
+  subcategory: quantità
   unistr_code: di_quantita_molto_poco_tanto_piu_meno_niente_un_po
   unistr_label: 'Di quantità: molto, poco, tanto, più, meno, niente, un po’'
   label: 'Avverbi di quantità: molto, poco, tanto, più, meno, niente, un po'''
+  description: Adverbs like molto, poco, tanto modify verbs, adjectives, or other
+    adverbs to express degree or quantity. They are invariable.
+  examples:
+  - Mangio molto a colazione.
+  - Parla poco in classe.
+  - Mi piace tanto il gelato!
+  - Oggi ho dormito un po'.
+  - Costa meno di ieri.
+  - Non capisco niente.
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -10172,9 +10636,18 @@
 - code: adv_judge
   cefr_level: A1
   category: avverbi
+  subcategory: giudizio
   unistr_code: di_giudizio_si_no_non_certo_quasi
   unistr_label: 'Di giudizio: sì, no, non, certo, quasi'
   label: 'Avverbi di giudizio: sì, no, non, certo, quasi'
+  description: Words like sì, no, non, certo, and quasi that affirm, deny, or qualify
+    a statement. Non is used before verbs.
+  examples:
+  - <span lang="it">Sì, parlo italiano.</span>
+  - <span lang="it">No, non ho fame.</span>
+  - <span lang="it">Non capisco questa parola.</span>
+  - <span lang="it">Certo, vengo alla festa!</span>
+  - <span lang="it">Hai quasi finito il caffè.</span>
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -10292,9 +10765,19 @@
 - code: adv_interr
   cefr_level: A1
   category: avverbi
+  subcategory: interrogativi
   unistr_code: interrogativi_come_dove_quando_quanto_perche
   unistr_label: 'Interrogativi: come, dove, quando, quanto, perché'
   label: 'Avverbi interrogativi: come, dove, quando, quanto, perché'
+  description: Question adverbs like come, dove, quando, quanto, perché introduce
+    information questions asking how, where, when, how much, and why.
+  examples:
+  - <span lang="it">Come stai?</span>
+  - <span lang="it">Dove abiti?</span>
+  - <span lang="it">Quando arriva il treno?</span>
+  - <span lang="it">Quanto costa questo libro?</span>
+  - <span lang="it">Perché non mangi?</span>
+  - <span lang="it">Come si chiama tua sorella?</span>
   chunk_ref: book_9_l_avverbio
   explanations:
     en:
@@ -10625,9 +11108,19 @@
 - code: sent_affir
   cefr_level: A1
   category: frase_semplice
+  subcategory: enunciativa
   unistr_code: proposizioni_enunciative_affermative_e_negative
   unistr_label: 'Proposizioni enunciative: affermative e negative'
   label: Proposizioni enunciative affermative e negative
+  description: Affirmative sentences state that something is true; negative sentences
+    add 'non' before the verb to say something is not true.
+  examples:
+  - <span lang="it">Maria parla italiano.</span>
+  - <span lang="it">Io non parlo francese.</span>
+  - <span lang="it">Il caffè è caldo.</span>
+  - <span lang="it">Luca non è a casa oggi.</span>
+  - <span lang="it">Abbiamo un cane e un gatto.</span>
+  - <span lang="it">Non ho la macchina.</span>
   chunk_ref: book_2_la_frase
   explanations:
     en:
@@ -10735,9 +11228,18 @@
 - code: sent_desir
   cefr_level: A1
   category: frase_semplice
+  subcategory: frasi volitive
   unistr_code: proposizioni_volitive_desiderative_introdotte_da_vorrei
   unistr_label: 'Proposizioni volitive: desiderative introdotte da vorrei'
   label: Proposizioni volitive desiderative con verbo volitivo
+  description: Desiderative sentences using volitive verbs like 'volere' or 'desiderare'
+    to express what someone wants or wishes for.
+  examples:
+  - <span lang="it">Voglio un caffè, per favore.</span>
+  - <span lang="it">Desidero parlare con il direttore.</span>
+  - <span lang="it">Voglio andare al mare quest'estate.</span>
+  - <span lang="it">Vuole una camera singola o doppia?</span>
+  - <span lang="it">Vogliamo mangiare la pizza stasera.</span>
   chunk_ref: book_8_il_verbo_uso_degli_altri_modi_condizionale
   prerequisites:
   - ind_pres
@@ -10839,9 +11341,19 @@
 - code: sent_excla
   cefr_level: A1
   category: frase_semplice
+  subcategory: esclamative
   unistr_code: esclamative_quasi_sempre_con_il_verbo_sottinteso
   unistr_label: Esclamative, quasi sempre con il verbo sottinteso
   label: Proposizioni esclamative con verbo sottinteso
+  description: Exclamatory phrases that express strong feeling using just a word or
+    short phrase, with no verb needed.
+  examples:
+  - Che bello!
+  - Che peccato!
+  - Che caldo oggi!
+  - Che bella giornata!
+  - Quanta gente qui!
+  - Che fame!
   chunk_ref: book_2_la_frase
   prerequisites:
   - sent_affir
@@ -10940,10 +11452,20 @@
 - code: sent_inter
   cefr_level: A1
   category: frase_semplice
+  subcategory: interrogativa
   unistr_code: interrogative_totali_sino_e_parziali_introdotte_da_come_dove_quando_perche
   unistr_label: 'Interrogative: totali (SÌ/NO) e parziali introdotte da: come, dove,
     quando, perché, quanto, chi, che, cosa, che cosa, quale?'
   label: Proposizioni interrogative totali e parziali
+  description: Yes/no questions (total) ask about a whole event; partial questions
+    use a question word to ask about one detail.
+  examples:
+  - <span lang="it">Parli italiano?</span>
+  - <span lang="it">Sei di Roma?</span>
+  - <span lang="it">Chi è quella signora?</span>
+  - <span lang="it">Dove abiti?</span>
+  - <span lang="it">Quando arriva il treno?</span>
+  - <span lang="it">Perché non mangi?</span>
   chunk_ref: book_2_la_frase
   prerequisites:
   - sent_affir
@@ -11110,10 +11632,20 @@
 - code: coord_copu
   cefr_level: A1
   category: frase_complessa
+  subcategory: coordinate copulative
   unistr_code: proposizioni_coordinate_copulative_utilizzando_il_connettivo_e_es_abito_a
   unistr_label: Proposizioni coordinate copulative utilizzando il connettivo e , es.
     Abito a Madrid e studio economia .
   label: Proposizioni coordinate copulative con congiunzione e
+  description: Use 'e' (and) to link two words, phrases, or clauses together, adding
+    one idea to another.
+  examples:
+  - <span lang='it'>Ho un fratello e una sorella.</span>
+  - <span lang='it'>Marco studia e lavora ogni giorno.</span>
+  - <span lang='it'>La casa è grande e bella.</span>
+  - <span lang='it'>Compro il pane e il latte al supermercato.</span>
+  - <span lang='it'>Lei parla italiano e io parlo inglese.</span>
+  - <span lang='it'>Mangio una mela ed bevo un caffè.</span>
   chunk_ref: book_11_la_congiunzione_congiunzioni_coordinative
   prerequisites:
   - sent_affir
@@ -11222,10 +11754,19 @@
 - code: coord_disj
   cefr_level: A1
   category: frase_complessa
+  subcategory: coordinate disgiuntive
   unistr_code: proposizioni_coordinate_disgiuntive_utilizzando_il_connettivo_o_es_mangi_qui_o
   unistr_label: Proposizioni coordinate disgiuntive utilizzando il connettivo o ,
     es. Mangi qui o vai a casa?
   label: Proposizioni coordinate disgiuntive con congiunzione o
+  description: Uses 'o' (or) to link two words, phrases, or clauses as alternatives.
+    Either option is possible, but not necessarily both.
+  examples:
+  - <span lang='it'>Vuoi caffè o tè?</span>
+  - <span lang='it'>Vieni tu o viene Marco?</span>
+  - <span lang='it'>Prendo il treno o l'autobus.</span>
+  - <span lang='it'>Studi italiano o spagnolo?</span>
+  - <span lang='it'>Andiamo al mare o in montagna quest'estate.</span>
   chunk_ref: book_11_la_congiunzione_congiunzioni_coordinative
   prerequisites:
   - sent_affir
@@ -11316,10 +11857,19 @@
 - code: subord_cau
   cefr_level: A1
   category: frase_complessa
+  subcategory: causali
   unistr_code: proposizioni_causali_introdotte_da_perche_es_perche_vai_a_casa_perche_sono
   unistr_label: Proposizioni causali introdotte da perché , es. (Perché vai a casa?)
     Perché sono stanco .
   label: Proposizioni causali con congiunzione perché
+  description: Use 'perché' to introduce a reason clause explaining why something
+    happens. It links two clauses with cause and effect.
+  examples:
+  - <span lang='it'>Non vengo perché sono stanco.</span>
+  - <span lang='it'>Mangio la pizza perché mi piace molto.</span>
+  - <span lang='it'>Marco studia l'italiano perché vuole vivere a Roma.</span>
+  - <span lang='it'>Lei non parla perché non capisce la domanda.</span>
+  - <span lang='it'>Resto a casa perché fa freddo.</span>
   chunk_ref: book_11_la_congiunzione_congiunzioni_subordinative
   prerequisites:
   - sent_affir
@@ -11418,10 +11968,19 @@
 - code: subord_fin
   cefr_level: A1
   category: frase_complessa
+  subcategory: proposizioni finali
   unistr_code: proposizioni_finali_implicite_con_uso_della_preposizione_per_infinito_es_sono
   unistr_label: Proposizioni finali implicite con uso della preposizione per + infinito,
     es. Sono qui per imparare l’italiano .
   label: Proposizioni finali implicite con preposizione per e infinito
+  description: Use 'per' + infinitive to say why you do something — like 'in order
+    to'. It links an action to its purpose.
+  examples:
+  - <span lang="it">Studio per imparare l'italiano.</span>
+  - <span lang="it">Vado al bar per prendere un caffè.</span>
+  - <span lang="it">Uso il dizionario per capire le parole nuove.</span>
+  - <span lang="it">Chiamo Marco per parlare con lui.</span>
+  - <span lang="it">Andiamo in centro per fare la spesa.</span>
   chunk_ref: book_11_la_congiunzione_congiunzioni_subordinative
   prerequisites:
   - sent_affir
@@ -11960,10 +12519,19 @@
 - code: ord_svo
   cefr_level: A1
   category: costruzione_frase
+  subcategory: ordine delle parole
   unistr_code: percezione_della_pertinenza_dellordine_non_marcato_svo_dei_costituenti_di_un
   unistr_label: Percezione della pertinenza dell’ordine non marcato (SVO) dei costituenti
     di un enunciato semplice
   label: Ordine non marcato SVO dei costituenti in enunciato semplice
+  description: In Italian, the default sentence order is Subject–Verb–Object (SVO),
+    just like in English.
+  examples:
+  - <span lang="it">Marco mangia una pizza.</span>
+  - <span lang="it">La bambina beve il latte.</span>
+  - <span lang="it">Io ho un gatto.</span>
+  - <span lang="it">Mia madre compra il pane ogni giorno.</span>
+  - <span lang="it">Il professore spiega la lezione.</span>
   chunk_ref: book_2_la_frase
   prerequisites:
   - sent_affir
@@ -12068,10 +12636,20 @@
 - code: omiss_sogg
   cefr_level: A1
   category: costruzione_frase
+  subcategory: pronomi soggetto
   unistr_code: consapevolezza_dellomissione_del_soggetto_in_frasi_dichiarative_e_interrogative
   unistr_label: 'Consapevolezza dell’omissione del soggetto in frasi dichiarative
     e interrogative: Sono americano; vai al cinema ?'
   label: Omissione del soggetto in frasi dichiarative e interrogative
+  description: In Italian, subject pronouns are usually dropped because the verb ending
+    already shows who is acting. They are kept only for emphasis or clarity.
+  examples:
+  - <span lang='it'>Parlo italiano.</span>
+  - <span lang='it'>Sei italiano?</span>
+  - <span lang='it'>Abita a Roma con la sua famiglia.</span>
+  - <span lang='it'>Studiamo insieme stasera?</span>
+  - <span lang='it'>— Chi viene alla festa? — Vengo io!</span>
+  - <span lang='it'>Lei lavora in banca, lui lavora a scuola.</span>
   chunk_ref: book_7_il_pronome_pronomi_personali_pronomi_personali_soggetto
   prerequisites:
   - pron_pers
@@ -12214,10 +12792,20 @@
 - code: ord_vs
   cefr_level: A1
   category: costruzione_frase
+  subcategory: ordine delle parole
   unistr_code: consapevolezza_dellordine_vs_nelle_interrogative_introdotte_da_un_pronome_o_un
   unistr_label: 'Consapevolezza dell’ordine VS nelle interrogative introdotte da un
     pronome o un avverbio: Dove va Luca? Quando parte Luca?'
   label: Ordine VS nelle interrogative con pronome o avverbio
+  description: In Italian questions with a question word, the verb often comes before
+    the subject (VS order), unlike in statements.
+  examples:
+  - Dove abita tua sorella?
+  - Come si chiama il tuo professore?
+  - Quando arriva il treno?
+  - Perché piange il bambino?
+  - Chi è la tua amica?
+  - Quanto costa questo libro?
   chunk_ref: book_2_la_frase
   prerequisites:
   - sent_inter
