@@ -14,6 +14,7 @@ RUN uv pip install --system --group deploy
 
 # Copy application code
 COPY src/ /app/src/
+COPY data/ /app/data/
 COPY templates/ /app/templates/
 COPY prompts/ /app/prompts/
 
