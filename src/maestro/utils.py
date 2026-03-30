@@ -8,11 +8,9 @@ from pathlib import Path
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
-def explanation_lang_for_level(cefr: str) -> str:
-    """Return the target language for B1/B2 explanations, 'en' for A0/A1/A2."""
-    from maestro.config import settings
-
-    return settings.TARGET_LANGUAGE if cefr in ("B1", "B2") else "en"
+def explanation_lang_for_level(cefr: str, target_language: str = "it") -> str:
+    """Return target_language for B1/B2 explanations, 'en' for A0/A1/A2."""
+    return target_language if cefr in ("B1", "B2") else "en"
 
 
 def cefr_levels_up_to(level: str) -> list[str]:

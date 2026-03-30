@@ -178,7 +178,7 @@ async def profile_page(
     comm_functions = grammar_cache.comm_functions(lang)
 
     cefr = profile.cefr_estimate if profile else "A0"
-    gp_titles = build_gp_titles(grammar_points, cefr)
+    gp_titles = build_gp_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     cf_by_level = _build_cf_by_level(comm_functions, profile)
 

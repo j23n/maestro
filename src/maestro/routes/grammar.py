@@ -38,8 +38,8 @@ async def grammar_index(
     ).to_list()
 
     # Build titles from inline explanations, keyed by gp id
-    student_lang = explanation_lang_for_level(student_level)
-    fallback_lang = "it" if student_lang == "en" else "en"
+    student_lang = explanation_lang_for_level(student_level, lang)
+    fallback_lang = lang if student_lang == "en" else "en"
     titles: dict = {}
     for gp in gps:
         expl = gp.explanations.get(student_lang) or gp.explanations.get(fallback_lang)
@@ -72,10 +72,11 @@ async def grammar_detail(
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
 
-    # Pick the explanation at the student's language (en for A0-A2, it for B1-B2)
-    expl_lang = explanation_lang_for_level(student_level)
+    # Pick the explanation at the student's language (en for A0-A2, target lang for B1-B2)
+    target_lang = request.state.lang_ctx.code
+    expl_lang = explanation_lang_for_level(student_level, target_lang)
     expl = gp.explanations.get(expl_lang) or next(
-        (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+        (gp.explanations[k] for k in ("en", target_lang) if k in gp.explanations),
         None,
     )
 
@@ -112,9 +113,10 @@ async def grammar_practice(
     )
 
     student_level = await get_cefr_level(student.id)
-    expl_lang = explanation_lang_for_level(student_level)
+    target_lang = request.state.lang_ctx.code
+    expl_lang = explanation_lang_for_level(student_level, target_lang)
     expl = gp.explanations.get(expl_lang) or next(
-        (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+        (gp.explanations[k] for k in ("en", target_lang) if k in gp.explanations),
         None,
     )
     display_title = strip_lang_spans(expl.title) if expl and expl.title else gp.label

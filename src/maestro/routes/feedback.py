@@ -207,8 +207,8 @@ async def _reconstruct_grammar_explanation(refs: dict) -> tuple[dict, dict]:
     if gp is None:
         return {"error": "GrammarPoint not found"}, {}
 
-    lang = explanation_lang_for_level(cefr_level)
-    fallback_lang = "it" if lang == "en" else "en"
+    lang = explanation_lang_for_level(cefr_level, gp.language)
+    fallback_lang = gp.language if lang == "en" else "en"
     expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
     if expl is None:
         return {"error": "GrammarPointExplanation not found"}, {}

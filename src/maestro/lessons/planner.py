@@ -368,8 +368,8 @@ async def _generate_lesson_background(
             language=lesson_lang,
         )
 
-    expl_lang = explanation_lang_for_level(cefr_level)
-    fallback_lang = "it" if expl_lang == "en" else "en"
+    expl_lang = explanation_lang_for_level(cefr_level, lesson_lang)
+    fallback_lang = lesson_lang if expl_lang == "en" else "en"
     grammar_explanations = [
         gp.explanations.get(expl_lang) or gp.explanations.get(fallback_lang)
         for gp in grammar_gps

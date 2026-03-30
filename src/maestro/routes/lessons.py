@@ -199,7 +199,7 @@ async def lesson_index(
 
     # Compute weak GPs
     grammar_points = await GrammarPoint.find({"cefr_level": cefr}).to_list()
-    gp_titles = build_gp_titles(grammar_points, cefr)
+    gp_titles = build_gp_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     weaknesses = top_weaknesses(grammar_by_level, cefr)
 
@@ -1642,7 +1642,11 @@ async def lesson_complete(
         covered_grammar_points = []
         all_gps = []
     all_gps.extend(weak_grammar_points)
-    gp_titles = build_gp_titles(all_gps, lesson.cefr_at_start) if all_gps else {}
+    gp_titles = (
+        build_gp_titles(all_gps, lesson.cefr_at_start, lesson.language)
+        if all_gps
+        else {}
+    )
 
     # Build GP recent outcomes for pip display
     gp_outcomes: dict[str, list] = {}
