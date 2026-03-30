@@ -157,7 +157,12 @@ class VocabularyWord(Document):
         name = "vocabulary_words"
         indexes = [
             IndexModel(
-                [("word", ASCENDING), ("part_of_speech", ASCENDING)], unique=True
+                [
+                    ("word", ASCENDING),
+                    ("part_of_speech", ASCENDING),
+                    ("language", ASCENDING),
+                ],
+                unique=True,
             ),
         ]
 

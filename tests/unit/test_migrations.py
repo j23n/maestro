@@ -63,6 +63,9 @@ def _make_db(applied_names: list[str] = None):
     vocabulary_words_coll.delete_many = AsyncMock(
         return_value=MagicMock(deleted_count=0)
     )
+    vocabulary_words_coll.update_many = AsyncMock(
+        return_value=MagicMock(modified_count=0)
+    )
 
     # aggregate() is a coroutine returning an async cursor — no duplicates in test data
     async def _empty_agg_cursor():
@@ -114,8 +117,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all nine migrations as applied
-    assert migrations_coll.insert_one.await_count == 9
+    # Runner should have recorded all ten migrations as applied
+    assert migrations_coll.insert_one.await_count == 10
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -129,6 +132,7 @@ async def test_runner_applies_pending_migration():
         "0007_remove_stale_a0_vocab_dupes",
         "0008_remove_html_tagged_definitions",
         "0009_fix_stuck_pending_lessons",
+        "0010_vocab_language_unique",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -150,6 +154,7 @@ async def test_runner_skips_already_applied():
             "0007_remove_stale_a0_vocab_dupes",
             "0008_remove_html_tagged_definitions",
             "0009_fix_stuck_pending_lessons",
+            "0010_vocab_language_unique",
         ]
     )
 

@@ -10,4 +10,8 @@ def get_lookup_factory(language: str | None = None):
         from maestro.vocab.morphology.it import make_lookup
 
         return make_lookup
+    if lang == "de":
+        from maestro.vocab.morphology.de import make_lookup as de_make_lookup
+
+        return de_make_lookup
     raise ValueError(f"No morphology module for {lang}")

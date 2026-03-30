@@ -135,14 +135,15 @@ async def seed_scenarios() -> None:
     logger.info(f"Scenarios: upserted {total} records")
 
 
-async def seed_a0_vocab() -> None:
+async def seed_a0_vocab(language: str | None = None) -> None:
     """Upsert A0 vocabulary words from vocab_a0.yaml and create A0-level definitions.
 
     Each YAML entry has word, part_of_speech, and translation.  These are words
-    and phrases NOT in the EPUB dictionary — they get a translation-only A0
-    definition (no Italian definition text, just the English gloss).
+    and phrases NOT in the dictionary — they get a translation-only A0
+    definition (no target-language definition text, just the English gloss).
     """
-    vocab_file = data_dir() / "vocab_a0.yaml"
+    lang = language or settings.TARGET_LANGUAGE
+    vocab_file = data_dir(lang) / "vocab_a0.yaml"
     if not vocab_file.exists():
         logger.warning(f"A0 vocab file not found: {vocab_file}")
         return
@@ -150,18 +151,21 @@ async def seed_a0_vocab() -> None:
     with open(vocab_file) as f:
         items = yaml.safe_load(f)
 
-    # Purge all existing A0-level definitions — the old JSON pipeline created
-    # A0 defs with Italian text for dictionary words. Those are stale now;
-    # only vocab_a0.yaml words should have A0 definitions (translation only).
-    purged = await VocabularyWordDefinition.find({"student_level": "A0"}).delete()
+    # Purge existing A0-level definitions for this language — only
+    # vocab_a0.yaml words should have A0 definitions (translation only).
+    purged = await VocabularyWordDefinition.find(
+        {"student_level": "A0", "language": lang}
+    ).delete()
     if purged and purged.deleted_count:
-        logger.info(f"A0 vocab: purged {purged.deleted_count} old A0 definitions")
+        logger.info(
+            f"A0 vocab [{lang}]: purged {purged.deleted_count} old A0 definitions"
+        )
 
     count = 0
     def_count = 0
     for item in items:
         item_pos = item.get("part_of_speech", "")
-        query = {"word": item["word"]}
+        query = {"word": item["word"], "language": lang}
         if item_pos:
             query["part_of_speech"] = item_pos
         existing = await VocabularyWord.find_one(query)
@@ -182,7 +186,7 @@ async def seed_a0_vocab() -> None:
                 syllabization=syllabization or None,
                 cefr_level="A0",
                 senses=[],
-                language=settings.TARGET_LANGUAGE,
+                language=lang,
                 created_at=now,
                 updated_at=now,
             )
@@ -200,13 +204,13 @@ async def seed_a0_vocab() -> None:
             student_level="A0",
             senses=cefr_senses,
             translation=translation,
-            language=settings.TARGET_LANGUAGE,
+            language=lang,
             created_at=utcnow(),
         ).insert()
         def_count += 1
 
     logger.info(
-        f"A0 vocab: {count} new words inserted, {def_count} new definitions ({len(items)} total)"
+        f"A0 vocab [{lang}]: {count} new words inserted, {def_count} new definitions ({len(items)} total)"
     )
 
 

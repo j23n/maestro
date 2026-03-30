@@ -31,7 +31,7 @@ from bs4 import BeautifulSoup
 # ---------------------------------------------------------------------------
 
 
-def _make_vocab_word(word, pos="s.f.", entry_id=None):
+def _make_vocab_word(word, pos="s.f.", entry_id=None, language="it"):
     """Create a mock VocabularyWord for word_index / cache seeding."""
     pos_slug = pos.replace(".", "").replace("/", "")
     return SimpleNamespace(
@@ -42,6 +42,7 @@ def _make_vocab_word(word, pos="s.f.", entry_id=None):
         senses=[],
         id=f"fake-{word}-{pos_slug}",
         audio_url=None,
+        language=language,
     )
 
 
