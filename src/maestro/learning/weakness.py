@@ -43,10 +43,11 @@ def build_grammar_by_level(
 def build_gp_titles(
     grammar_points: list[GrammarPoint],
     cefr: str,
+    target_language: str = "it",
 ) -> dict[str, str]:
     """Build a {gp_code: explanation_title} map using inline GP explanations."""
-    lang = explanation_lang_for_level(cefr)
-    fallback_lang = "it" if lang == "en" else "en"
+    lang = explanation_lang_for_level(cefr, target_language)
+    fallback_lang = target_language if lang == "en" else "en"
     gp_titles: dict[str, str] = {}
     for gp in grammar_points:
         expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)

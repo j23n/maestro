@@ -5,7 +5,7 @@
   unistr_label: 'Indefinite articles: un, una, un'''
   label: Articoli indeterminativi singolari un una un'
   chunk_ref: book_5_l_articolo_le_forme
-  bridges_to: all_det_in
+
   explanations:
     en:
       title: 'Indefinite Articles: un, una, un'''
@@ -38,7 +38,7 @@
   unistr_label: 'Plural articles: i, le'
   label: Articoli determinativi plurali i e le
   chunk_ref: book_5_l_articolo_le_forme
-  bridges_to: all_det_in
+
   explanations:
     en:
       title: 'Plural Articles: i and le'
@@ -69,7 +69,6 @@
   unistr_label: Numbers 20–100
   label: Numeri da venti a cento
   chunk_ref: null
-  bridges_to: card_1_100
   explanations:
     en:
       title: Numbers from Twenty to One Hundred
@@ -117,7 +116,7 @@
   unistr_label: Telling time and days of the week
   label: Ore e giorni della settimana
   chunk_ref: null
-  bridges_to: art_hora
+
   explanations:
     en:
       title: Telling Time and Days of the Week
