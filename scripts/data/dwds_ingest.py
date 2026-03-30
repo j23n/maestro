@@ -13,6 +13,8 @@ import logging
 import re
 import unicodedata
 
+from pymongo.errors import BulkWriteError
+
 from maestro.db import init_db
 from maestro.models import VocabularyWord
 from maestro.utils import data_dir, utcnow
@@ -81,7 +83,7 @@ async def ingest():
         try:
             await VocabularyWord.insert_many(batch)
             inserted += len(batch)
-        except Exception:
+        except BulkWriteError:
             # Fall back to individual inserts for duplicate-key handling
             for doc in batch:
                 existing = await VocabularyWord.find_one(

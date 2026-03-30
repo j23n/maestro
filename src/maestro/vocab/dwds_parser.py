@@ -21,7 +21,7 @@ from maestro.vocab.epub_parser import ParsedEntry, ParsedSense
 logger = logging.getLogger(__name__)
 
 _BASE_URL = "https://www.dwds.de/wb"
-_HEADERS = {
+HEADERS = {
     "User-Agent": "maestro-language-tutor/1.0 (language learning app; contact via github)"
 }
 _SEMAPHORE = asyncio.Semaphore(3)
@@ -143,20 +143,28 @@ def _examples_from(container: Tag) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
-async def fetch_and_parse(word: str) -> list[ParsedEntry]:
+async def fetch_and_parse(
+    word: str, *, client: httpx.AsyncClient | None = None
+) -> list[ParsedEntry]:
     """Fetch the DWDS page for *word* and return parsed entries.
 
     Returns one ParsedEntry per homograph (e.g. Bank¹ bench vs Bank² bank).
     Returns ``[]`` on network/parse failure.
+
+    Pass a shared *client* to avoid per-request connection overhead when
+    enriching a batch of words.
     """
     url = f"{_BASE_URL}/{word}"
     async with _SEMAPHORE:
         try:
-            async with httpx.AsyncClient(
-                headers=_HEADERS, timeout=15, follow_redirects=True
-            ) as client:
+            if client is not None:
                 resp = await client.get(url)
-                resp.raise_for_status()
+            else:
+                async with httpx.AsyncClient(
+                    headers=HEADERS, timeout=15, follow_redirects=True
+                ) as _client:
+                    resp = await _client.get(url)
+            resp.raise_for_status()
         except httpx.HTTPError as exc:
             logger.warning("DWDS fetch failed for %r: %s", word, exc)
             return []

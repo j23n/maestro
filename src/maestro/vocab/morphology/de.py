@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import simplemma
 
+from maestro.vocab.dwds_parser import POS_ABBREV as POS_MAP  # noqa: F401
+
 
 def make_lookup(by_form: dict, nlp):
     """
@@ -54,19 +56,3 @@ def make_lookup(by_form: dict, nlp):
 
 # No CEFR wordlist source for German yet — LLM classifies level on demand.
 WORDLISTS: list[tuple[str, str]] = []
-
-# DWDS POS terms → short abbreviations (from dwds_parser.POS_ABBREV).
-POS_MAP: dict[str, str] = {
-    "Substantiv": "Subst.",
-    "Verb": "V.",
-    "Adjektiv": "Adj.",
-    "Adverb": "Adv.",
-    "Präposition": "Praep.",
-    "Praeposition": "Praep.",
-    "Pronomen": "Pron.",
-    "Artikel": "Art.",
-    "Konjunktion": "Konj.",
-    "Interjektion": "Interj.",
-    "Numerale": "Num.",
-    "Partikel": "Part.",
-}

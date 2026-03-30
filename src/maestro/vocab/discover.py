@@ -662,10 +662,16 @@ async def discover(
             name=f"vocab-defs-{'-'.join(w.word for w in words_to_generate[:3])}",
         )
 
-    # Words WITHOUT senses and no definitions → enrich from DWDS then generate
-    # (German on-demand pipeline: bare VocabularyWord → fetch page → parse → LLM)
+    # Words WITHOUT senses and no definitions → enrich from DWDS then generate.
+    # Only German words go through this path — Italian words always have senses
+    # from the EPUB dictionary.  An Italian word with empty senses is a data
+    # issue, not something to send to DWDS.
     words_needing_enrichment = [
-        m.word for m in unique_words.values() if not m.word.senses and _no_defs(m.word)
+        m.word
+        for m in unique_words.values()
+        if not m.word.senses
+        and _no_defs(m.word)
+        and getattr(m.word, "language", "") == "de"
     ]
     words_to_enrich = [
         w for w in words_needing_enrichment if str(w.id) not in _pending_def_gen
@@ -827,51 +833,63 @@ async def _enrich_and_generate(words: list[VocabularyWord]) -> None:
     parses definitions/examples, saves senses to the VocabularyWord, then
     runs the standard LLM definition generation pipeline.
     """
+    import httpx
+
+    from maestro.vocab.dwds_parser import HEADERS as _DWDS_HEADERS
     from maestro.vocab.dwds_parser import fetch_and_parse
 
-    for word in words:
-        word_id_str = str(word.id)
-        try:
-            entries = await fetch_and_parse(word.word)
-            if not entries:
+    async with httpx.AsyncClient(
+        headers=_DWDS_HEADERS, timeout=15, follow_redirects=True
+    ) as client:
+        for word in words:
+            word_id_str = str(word.id)
+            try:
+                entries = await fetch_and_parse(word.word, client=client)
+                if not entries:
+                    logger.info(
+                        "[discover] DWDS returned no entries for '%s', skipping",
+                        word.word,
+                    )
+                    continue
+
+                # Merge senses from all homograph entries that share this word's
+                # POS.  E.g. "Bank" has two Subst. articles (bench vs.
+                # institution) — both map to the same VocabularyWord doc, so we
+                # combine their senses.
+                word.senses = [
+                    Sense(definition=s.definition, examples=s.examples)
+                    for entry in entries
+                    for s in entry.senses
+                    if s.definition
+                ]
+                if not word.part_of_speech and entries[0].pos_abbrev:
+                    word.part_of_speech = entries[0].pos_abbrev
+                word.updated_at = utcnow()
+                await word.save()
                 logger.info(
-                    "[discover] DWDS returned no entries for '%s', skipping", word.word
+                    "[discover] enriched '%s' from DWDS: %d senses, POS=%s",
+                    word.word,
+                    len(word.senses),
+                    word.part_of_speech,
                 )
-                continue
 
-            # Use the first entry (primary homograph)
-            entry = entries[0]
-            word.senses = [
-                Sense(definition=s.definition, examples=s.examples)
-                for s in entry.senses
-                if s.definition
-            ]
-            if entry.pos_abbrev:
-                word.part_of_speech = entry.pos_abbrev
-            word.updated_at = utcnow()
-            await word.save()
-            logger.info(
-                "[discover] enriched '%s' from DWDS: %d senses, POS=%s",
-                word.word,
-                len(word.senses),
-                word.part_of_speech,
-            )
-
-            # Now generate CEFR definitions using the enriched senses
-            await generate_definitions_for_word(word)
-            defs = await VocabularyWordDefinition.find(
-                {"word": DBRef(VocabularyWord.Settings.name, word.id)}
-            ).to_list()
-            for d in defs:
-                _cache.set_definition(str(word.id), d.student_level, d, word.language)
-            logger.info(
-                "[discover] generated %d definition(s) for '%s'",
-                len(defs),
-                word.word,
-            )
-        except Exception as exc:
-            logger.warning(
-                "[discover] enrich+generate failed for '%s': %s", word.word, exc
-            )
-        finally:
-            _pending_def_gen.discard(word_id_str)
+                # Now generate CEFR definitions using the enriched senses
+                await generate_definitions_for_word(word)
+                defs = await VocabularyWordDefinition.find(
+                    {"word": DBRef(VocabularyWord.Settings.name, word.id)}
+                ).to_list()
+                for d in defs:
+                    _cache.set_definition(
+                        str(word.id), d.student_level, d, word.language
+                    )
+                logger.info(
+                    "[discover] generated %d definition(s) for '%s'",
+                    len(defs),
+                    word.word,
+                )
+            except Exception as exc:
+                logger.warning(
+                    "[discover] enrich+generate failed for '%s': %s", word.word, exc
+                )
+            finally:
+                _pending_def_gen.discard(word_id_str)
