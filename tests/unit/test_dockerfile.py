@@ -15,13 +15,19 @@ DOCKERFILE = REPO_ROOT / "Dockerfile"
 DOCKERIGNORE = REPO_ROOT / ".dockerignore"
 
 # Top-level directories that are intentionally NOT in the Docker image
-# and NOT in .dockerignore.  When you add a new top-level directory that
-# is NOT needed at runtime, either add it to .dockerignore or list it here.
-_DEV_ONLY_DIRS = {"evals"}
+# and NOT in .dockerignore.  Prefer adding dirs to .dockerignore instead;
+# this set is a fallback for dirs that must stay in the build context.
+_DEV_ONLY_DIRS: set[str] = set()
 
 
 def _parse_dockerignore_dirs() -> set[str]:
-    """Top-level names excluded by .dockerignore."""
+    """Top-level names excluded by .dockerignore.
+
+    NOTE: This is a simplified parser — it treats each line as a literal
+    top-level name.  It does not handle negation (``!``), globs with path
+    separators, or ``**`` patterns.  That's fine for the current file; if
+    .dockerignore grows more complex, this function will need updating.
+    """
     if not DOCKERIGNORE.exists():
         return set()
     return {
