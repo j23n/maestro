@@ -12,10 +12,11 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 COPY pyproject.toml uv.lock /app/
 RUN uv pip install --system --group deploy
 
-# Copy application code
-COPY src/ /app/src/
+# Copy application code (least-frequently-changed dirs first for layer caching)
+COPY data/ /app/data/
 COPY templates/ /app/templates/
 COPY prompts/ /app/prompts/
+COPY src/ /app/src/
 
 ENV PYTHONPATH=/app/src
 
