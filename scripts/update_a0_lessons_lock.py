@@ -65,20 +65,20 @@ def main() -> None:
     args = parser.parse_args()
 
     data_dir = REPO_ROOT / "data" / args.lang
-    LESSONS_YAML = data_dir / "a0_lessons.yaml"
-    SCENARIOS_YAML = data_dir / "scenarios_a0.yaml"
-    LOCK_FILE = data_dir / "a0_lessons.lock"
+    lessons_yaml = data_dir / "a0_lessons.yaml"
+    scenarios_yaml = data_dir / "scenarios_a0.yaml"
+    lock_file = data_dir / "a0_lessons.lock"
 
     for path, name in [
-        (LESSONS_YAML, "a0_lessons.yaml"),
-        (SCENARIOS_YAML, "scenarios_a0.yaml"),
+        (lessons_yaml, "a0_lessons.yaml"),
+        (scenarios_yaml, "scenarios_a0.yaml"),
     ]:
         if not path.exists():
             print(f"ERROR: {path} not found", file=sys.stderr)
             sys.exit(1)
 
-    lessons_bytes = LESSONS_YAML.read_bytes()
-    scenarios_bytes = SCENARIOS_YAML.read_bytes()
+    lessons_bytes = lessons_yaml.read_bytes()
+    scenarios_bytes = scenarios_yaml.read_bytes()
     sha = combined_sha(lessons_bytes, scenarios_bytes)
 
     lessons_data = yaml.safe_load(lessons_bytes)
@@ -96,14 +96,14 @@ def main() -> None:
         sys.exit(1)
 
     old_sha = None
-    if LOCK_FILE.exists():
+    if lock_file.exists():
         try:
-            old_sha = json.loads(LOCK_FILE.read_text())["sha256"]
+            old_sha = json.loads(lock_file.read_text())["sha256"]
         except Exception:
             pass
 
     lock = compute_lock(lessons_data, scenarios_data, sha)
-    LOCK_FILE.write_text(json.dumps(lock, indent=2) + "\n")
+    lock_file.write_text(json.dumps(lock, indent=2) + "\n")
 
     if old_sha is None:
         print(
@@ -119,7 +119,7 @@ def main() -> None:
     for key, count in lock["activities_per_lesson"].items():
         print(f"    {key}: {count} activities")
 
-    print(f"\nLock file written: {LOCK_FILE}")
+    print(f"\nLock file written: {lock_file}")
 
 
 if __name__ == "__main__":

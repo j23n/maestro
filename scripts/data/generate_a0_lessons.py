@@ -44,14 +44,6 @@ LANGUAGE_NAMES = {
     "pt": "Portuguese",
 }
 
-LANGUAGE_TAGS = {
-    "de": "de",
-    "it": "it",
-    "es": "es",
-    "fr": "fr",
-    "pt": "pt",
-}
-
 # ---------------------------------------------------------------------------
 # Prompts
 # ---------------------------------------------------------------------------
@@ -198,6 +190,7 @@ def _validate_lesson(slug: str, data: dict) -> list[str]:
 def generate_lesson(
     scenario: dict,
     italian_lessons: dict,
+    it_scenarios: list[dict],
     gps_by_code: dict,
     cfs_by_code: dict,
     client: anthropic.Anthropic,
@@ -207,10 +200,9 @@ def generate_lesson(
     """Generate lesson content for a single scenario."""
     slug = scenario["slug"]
     target_language = LANGUAGE_NAMES.get(lang, lang)
-    lang_tag = LANGUAGE_TAGS.get(lang, lang)
+    lang_tag = lang
 
     # Find the matching Italian scenario by sequence number
-    it_scenarios = _load_yaml(DATA_ROOT / "it" / "scenarios_a0.yaml")["scenarios"]
     it_scenario = next(
         (s for s in it_scenarios if s["sequence"] == scenario["sequence"]),
         None,
@@ -260,23 +252,8 @@ def generate_lesson(
             cf_parts.append(f"- **{code}** (not found)")
     cf_section = "\n".join(cf_parts)
 
-    # Determine location context
-    location_map = {
-        1: "on a plane to Munich",
-        2: "a hotel near Marienplatz in Munich",
-        3: "a café on Sendlinger Straße in Munich",
-        4: "walking around Marienplatz and the old town",
-        5: "on the streets of Munich, asking for help",
-        6: "a traditional Biergarten in Munich",
-        7: "chatting after lunch at the Biergarten",
-        8: "a souvenir shop and checking train schedules",
-        9: "München Hauptbahnhof (central station)",
-        10: "the Englischer Garten park",
-        11: "dealing with a lost wallet and visiting a pharmacy",
-        12: "your last day — saying goodbye at the hotel and Viktualienmarkt",
-        13: "a final review across all Munich locations",
-    }
-    location_context = location_map.get(scenario["sequence"], "Munich, Germany")
+    # Determine location context from the scenario's own scene_setting
+    location_context = scenario.get("scene_setting", "")
 
     # Scenario short name for audio path
     scenario_short = slug.replace("a0-", "").replace("-", "_")
@@ -390,6 +367,9 @@ def main():
     italian_lessons = _load_yaml(DATA_ROOT / "it" / "a0_lessons.yaml")
     logger.info(f"Loaded Italian reference lessons ({len(italian_lessons)} scenarios)")
 
+    it_scenarios = _load_yaml(DATA_ROOT / "it" / "scenarios_a0.yaml")["scenarios"]
+    logger.info(f"Loaded {len(it_scenarios)} Italian reference scenarios")
+
     # Filter scenarios if --scenario specified
     if args.scenario:
         scenarios = [s for s in scenarios if s["slug"] == args.scenario]
@@ -407,6 +387,7 @@ def main():
 
     # Generate lessons
     all_lessons = {}
+    failed_scenarios: list[str] = []
     output_path = Path(args.output) if args.output else lang_dir / "a0_lessons.yaml"
 
     # If generating a single scenario and output file exists, load existing
@@ -423,6 +404,7 @@ def main():
         result = generate_lesson(
             scenario=scenario,
             italian_lessons=italian_lessons,
+            it_scenarios=it_scenarios,
             gps_by_code=gps_by_code,
             cfs_by_code=cfs_by_code,
             client=client,
@@ -431,6 +413,14 @@ def main():
         )
         if result:
             all_lessons.update(result)
+        elif not args.dry_run:
+            failed_scenarios.append(scenario["slug"])
+
+    if failed_scenarios:
+        logger.error(
+            f"{len(failed_scenarios)} scenario(s) failed: "
+            + ", ".join(failed_scenarios)
+        )
 
     if args.dry_run:
         logger.info("Dry run complete — no files written")
@@ -480,6 +470,9 @@ def main():
         acts = all_lessons[slug].get("activities", [])
         types = [a.get("type", "?") for a in acts]
         logger.info(f"  {slug}: {len(acts)} activities — {', '.join(types)}")
+
+    if failed_scenarios:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
