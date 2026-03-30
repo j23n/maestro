@@ -1,7 +1,8 @@
-# Grammar Data Pipeline
+# Data Pipeline
 
-All offline scripts that build and maintain `data/it/grammar_points.yaml` —
-the single source of truth for grammar point data. Changes propagate to MongoDB via ingest.
+All offline scripts that build and maintain grammar points and communicative
+functions — the single source of truth for learning-outcome data. Changes
+propagate to MongoDB via ingest.
 
 Run all scripts from the repo root with `uv run python scripts/data/<script>.py`.
 
@@ -9,66 +10,60 @@ Run all scripts from the repo root with `uv run python scripts/data/<script>.py`
 
 ## Pipeline (run in order)
 
-### 1. Split omnibus GPs  *(one-time — already done)*
-```
-uv run python scripts/data/split_gp.py
-```
-Splits umbrella entries for verbi and preposizioni into individual GPs using
-delimiter rules. Grew the taxonomy from 246 → 344 entries.
+### 1. Source parse
 
-### 2. Generate Italian labels
+**Italian:** Scrape grammar points and communicative functions from Profilo della
+Lingua Italiana website.
 ```
-uv run python scripts/data/generate_labels.py
+uv run python scripts/data/scrape_grammar_points.py
+uv run python scripts/data/scrape_comm_functions.py
 ```
-LLM-generated Italian noun-phrase labels (5–12 words) for every GP.
-These are the primary display name used in LLM prompts.
-Idempotent — skips GPs that already have a `label`. Use `--force` or `--code` to redo.
 
-### 3. Generate short codes
+**German:** Extract grammar points from Goethe test PDFs.
 ```
-uv run python scripts/data/generate_short_codes.py
+uv run python scripts/data/extract_goethe_pdfs.py
 ```
-LLM-generates a ≤10-char snake_case English code (e.g. `pres_ind`, `def_art`)
-for every GP. The old verbose code is preserved as `unistr_code`.
-After running, re-run ingest and migration `0003_short_codes` remaps all collections.
 
-### 4. Map GPs to grammar book chunks
+### 2. Augment grammar points
+```
+uv run python scripts/data/augment_gp.py --lang it --level A1
+uv run python scripts/data/augment_gp.py --lang de --level A1
+```
+Fills missing fields via LLM: `subcategory`, `description`, `examples`,
+`explanations` (en + target language). Idempotent — only generates missing
+fields. Use `--force` to regenerate all augmentable fields.
+
+Use `--list` to see completion status, `--test` for one GP per level,
+`--code` for a single GP, `--explanation-lang` for a single explanation language.
+
+### 3. Augment communicative functions
+```
+uv run python scripts/data/augment_cf.py --lang it --level A1
+uv run python scripts/data/augment_cf.py --lang de --level A1
+```
+Fills missing fields via LLM: `description`, `examples`, `explanations`
+(en + target language). Same CLI options as augment_gp.
+
+### 4. Generate prerequisite DAG
+```
+uv run python scripts/data/generate_prerequisites.py --lang it --level A1
+uv run python scripts/data/generate_prerequisites.py --lang de --level A1
+```
+LLM generates direct prerequisite relationships between grammar points.
+Cross-entity operation — sees all GPs at the target level + lower levels.
+
+### 5. Map GPs to grammar book chunks *(Italian only)*
 ```
 uv run python scripts/data/llm_remap_chunks.py
 ```
 LLM maps each GP to the best chapter in the grammar book using
-`chunk_enrichment.json` (40–80-word descriptions of all 124 chunks) as context.
-Outputs `null` for A0 formulaic items with no corresponding chapter.
-Writes `chunk_ref` directly into `grammar_points.yaml`.
+`chunk_enrichment.json`. Writes `chunk_ref` into `grammar_points.yaml`.
 
-### 5. Export existing DB explanations to JSON  *(one-time — run before clearing DB)*
-```
-uv run python scripts/data/export_explanations_to_json.py
-```
-Reads the old `grammar_point_explanations` MongoDB collection and writes
-explanations into `grammar_points.yaml`. Only needed when migrating from the
-separate-collection model to the inline model.
-
-### 6. Ingest YAML → MongoDB
+### 6. Ingest → MongoDB
 ```
 uv run python -m maestro.sync.ingest
 ```
-Upserts all GPs (labels, codes, chunk_refs, explanations) into MongoDB.
-Also ingests vocab, communicative functions, and curriculum scenarios.
-
-### 7. (Automatic) Migration on app startup
-Migration `0003_short_codes` runs automatically on the next `uvicorn` start and
-remaps `grammar_point_code` references across `generated_drills`, `lessons`,
-`learning_events`, `learning_profile`, and `curriculum_scenarios`.
-
-### 8. Generate grammar reference explanations
-```
-uv run python scripts/data/generate_explanations.py
-```
-For each GP (A1–B2), generates one complete reference entry at the GP's own CEFR level,
-using the GP's linked grammar chunk as the authoritative source.
-Writes to both MongoDB and `grammar_points.yaml`. A0 GPs are intentionally skipped.
-Use `--clear` to wipe and regenerate from scratch. Use `--level` or `--code` to target.
+Upserts all GPs, CFs, vocab, and curriculum scenarios into MongoDB.
 
 ---
 
@@ -78,20 +73,37 @@ Use `--clear` to wipe and regenerate from scratch. Use `--level` or `--code` to 
 
 | File | Description |
 |------|-------------|
-| `data/it/grammar_points.yaml` | Master GP list — 344 entries |
-| `data/it/chunk_enrichment.json` | 124 grammar book chunk descriptions |
-| `data/it/grammar_point_chunks.yaml` | Legacy YAML chunk mapping (superseded) |
+| `data/{lang}/grammar_points.yaml` | Master GP list |
+| `data/{lang}/comm_functions.json` | Master CF list |
+| `data/{lang}/grammar_points.lock` | SHA256 + metadata for change detection |
+| `data/{lang}/comm_functions.lock` | SHA256 + metadata for change detection |
+| `data/it/chunk_enrichment.json` | Grammar book chunk descriptions (Italian) |
 
 ### GP YAML fields
 
-| Field | Description |
-|-------|-------------|
-| `code` | Short ≤10-char snake_case English identifier (`pres_ind`) |
-| `unistr_code` | Original verbose code preserved for migration lookup |
-| `label` | Italian noun-phrase display name (`Indicativo presente dei verbi regolari`) |
-| `unistr_label` | Original verbose label |
-| `cefr_level` | A0–B2 |
-| `category` | Grammar category (verbi, preposizioni, …) |
-| `description` | One-sentence description of the grammar concept |
-| `chunk_ref` | Grammar book chapter ref, or `null` for A0 formulaic items |
-| `explanations` | Dict keyed by CEFR level: `{"A1": {"title": …, "explanation": …}}` |
+| Field | Source |
+|-------|--------|
+| `code` | Source parse (short ≤10-char snake_case) |
+| `label` | Source parse |
+| `cefr_level` | Source parse (A0–B2) |
+| `category` | Source parse |
+| `subcategory` | augment_gp |
+| `description` | augment_gp (short tooltip) |
+| `examples` | augment_gp (4-6 target-language sentences) |
+| `explanations` | augment_gp (en + target lang, keyed by language code) |
+| `prerequisites` | generate_prerequisites (GP codes) |
+| `chunk_ref` | llm_remap_chunks (Italian only) |
+| `source_note` | Source parse (optional) |
+
+### CF JSON fields
+
+| Field | Source |
+|-------|--------|
+| `code` | Source parse |
+| `label` | Source parse |
+| `macro_category` | Source parse |
+| `cefr_level` | Source parse (A0–B2) |
+| `patterns` | Source parse |
+| `description` | augment_cf (short tooltip) |
+| `examples` | augment_cf (4-6 target-language utterances) |
+| `explanations` | augment_cf (en + target lang, keyed by language code) |

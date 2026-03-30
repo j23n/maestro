@@ -106,6 +106,8 @@ lesson_analyzer = _PromptFile(_PROMPTS_DIR / "lesson_analyzer.yaml")
 planner = _PromptFile(_PROMPTS_DIR / "planner.yaml")
 vocab = _PromptFile(_PROMPTS_DIR / "vocab_definitions.yaml")
 grammar = _PromptFile(_PROMPTS_DIR / "grammar_explanations.yaml")
+augment_gp_prompts = _PromptFile(_PROMPTS_DIR / "augment_gp.yaml")
+augment_cf_prompts = _PromptFile(_PROMPTS_DIR / "augment_cf.yaml")
 judge = _PromptFile(_PROMPTS_DIR / "judge.yaml")
 
 # The scorer uses analyzer.yaml prompts — alias so record_eval("scorer") gets the right version

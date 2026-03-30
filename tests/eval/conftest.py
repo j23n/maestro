@@ -16,7 +16,7 @@ from maestro.models import ALL_DOCUMENT_MODELS
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DATA_DIR = _REPO_ROOT / "data" / "it"
 
-# Allow importing scripts under scripts/data/ (e.g. generate_explanations)
+# Allow importing scripts under scripts/data/ (e.g. augment_gp)
 _SCRIPTS_DATA = str(_REPO_ROOT / "scripts" / "data")
 if _SCRIPTS_DATA not in sys.path:
     sys.path.insert(0, _SCRIPTS_DATA)
@@ -73,10 +73,12 @@ def use_eval_model(monkeypatch):
     monkeypatch.setattr(settings, "SCORING_MODEL", settings.EVAL_MODEL)
 
     import maestro.vocab.generate_definitions as _vocab_mod
-    import generate_explanations as _grammar_mod
+    import augment_gp as _augment_gp_mod
 
     monkeypatch.setattr(_vocab_mod.settings, "CHAT_MODEL", settings.EVAL_MODEL)
-    monkeypatch.setattr(_grammar_mod.settings, "EXPLANATION_MODEL", settings.EVAL_MODEL)
+    monkeypatch.setattr(
+        _augment_gp_mod.settings, "EXPLANATION_MODEL", settings.EVAL_MODEL
+    )
 
 
 @pytest.fixture

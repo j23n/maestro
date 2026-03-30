@@ -26,13 +26,18 @@ def _data_dir(language: str) -> Path:
 
 def compute_lock(data: list, sha: str) -> dict:
     by_level: dict[str, int] = {}
+    explanations_by_level: dict[str, dict[str, int]] = {}
     for item in data:
         level = item.get("cefr_level", "?")
         by_level[level] = by_level.get(level, 0) + 1
+        counts = explanations_by_level.setdefault(level, {})
+        for lng in item.get("explanations", {}):
+            counts[lng] = counts.get(lng, 0) + 1
     return {
         "sha256": sha,
         "cf_count": len(data),
         "by_cefr_level": dict(sorted(by_level.items())),
+        "explanations_by_level": explanations_by_level,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
 
