@@ -2,11 +2,7 @@
 .env.scripts
 __pycache__
 
-data/it/grammar_book.epub
-data/it/book_contents/
-data/it/it-dictionary.gz
-data/it/dizionario.epub
-data/it/dizionario_book/
+data/it/sources/
 data/de/pdfs/
 data/seed/*
 !data/seed/current/
