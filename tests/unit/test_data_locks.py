@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from maestro.utils import iter_language_dirs
+from maestro.utils import DATA_DIR_ROOT, iter_language_dirs
 
 # Discover all languages that have data directories
 _LANG_DIRS = list(iter_language_dirs())
