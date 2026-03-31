@@ -27,8 +27,9 @@ from maestro.models import (
 )
 from maestro.learning.profile import get_profile, save_onboarding_field
 from maestro.learning.weakness import (
-    build_gp_titles,
     build_grammar_by_level,
+    build_titles,
+    build_tooltip_data,
     top_weaknesses,
 )
 from maestro.vocab.query import get_word_definition
@@ -41,7 +42,7 @@ from maestro.i18n import t
 from maestro.rate_limit import limiter
 from maestro.learning import grammar_cache
 from maestro.templates import render_with_discover
-from maestro.utils import create_background_task, ensure_utc, strip_lang_spans, utcnow
+from maestro.utils import create_background_task, ensure_utc, utcnow
 from maestro.config import settings as _settings
 from maestro.vocab.srs import review
 from maestro.lessons.planner import prepare_lesson_immediate, generate_lesson_background
@@ -199,7 +200,7 @@ async def lesson_index(
 
     # Compute weak GPs
     grammar_points = await GrammarPoint.find({"cefr_level": cefr}).to_list()
-    gp_titles = build_gp_titles(grammar_points, cefr, lang)
+    gp_titles = build_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     weaknesses = top_weaknesses(grammar_by_level, cefr)
 
@@ -763,20 +764,14 @@ async def lesson_activity(
             if cf_codes
             else []
         )
-        # Build English titles + summaries from GP explanations
-        gp_titles = {}
-        gp_summaries = {}
-        for gp in grammar_points:
-            expl = gp.explanations.get("en") or gp.explanations.get("it")
-            if expl:
-                if expl.title:
-                    gp_titles[gp.code] = strip_lang_spans(expl.title)
-                if expl.why_this_matters:
-                    gp_summaries[gp.code] = strip_lang_spans(expl.why_this_matters)
+        cefr = lesson.cefr_at_start or "A1"
+        lang = lesson.language or "it"
         ctx["grammar_points"] = grammar_points
-        ctx["gp_titles"] = gp_titles
-        ctx["gp_summaries"] = gp_summaries
+        ctx["gp_titles"] = build_titles(grammar_points, cefr, lang)
+        ctx["gp_tooltip_data"] = build_tooltip_data(grammar_points, cefr, lang)
         ctx["comm_functions"] = comm_functions
+        ctx["cf_titles"] = build_titles(comm_functions, cefr, lang)
+        ctx["cf_tooltip_data"] = build_tooltip_data(comm_functions, cefr, lang)
         if lesson.scenario_slug:
             scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
             if scenario and scenario.image:
@@ -1643,9 +1638,7 @@ async def lesson_complete(
         all_gps = []
     all_gps.extend(weak_grammar_points)
     gp_titles = (
-        build_gp_titles(all_gps, lesson.cefr_at_start, lesson.language)
-        if all_gps
-        else {}
+        build_titles(all_gps, lesson.cefr_at_start, lesson.language) if all_gps else {}
     )
 
     # Build GP recent outcomes for pip display
@@ -1687,6 +1680,11 @@ async def lesson_complete(
             "weak_grammar_points": weak_grammar_points,
             "covered_grammar_points": covered_grammar_points,
             "covered_comm_functions": covered_comm_functions,
+            "cf_titles": build_titles(
+                covered_comm_functions,
+                lesson.cefr_at_start or "A1",
+                lesson.language or "it",
+            ),
             "discovered_words": discovered_words,
             "gp_titles": gp_titles,
             "gp_outcomes": gp_outcomes,

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ t("page_title_functions") }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="grammar-index">
+  <div class="grammar-index-header">
+    <h1>{{ t("page_title_functions") }}</h1>
+  </div>
+
+  <div class="gi-tabs">
+    {% for level in grouped %}
+    <button class="gi-tab{% if level == student_level %} active{% endif %}"
+            onclick="showCiLevel('{{ level }}', this)">{{ level }}</button>
+    {% endfor %}
+  </div>
+
+  {% for level in grouped %}
+  <div class="gi-panel{% if level == student_level %} active{% endif %}" id="ci-panel-{{ level }}">
+    {% set cats = grouped.get(level, {}) %}
+    {% for cat in cats | sort %}
+    {% set items = cats[cat] %}
+    <div class="gi-category">
+      <div class="gi-cat-heading">{{ cat | replace('_', ' ') | title }}</div>
+      <ul class="gi-list">
+        {% for cf in items %}
+        <li>
+          <a href="/cf/{{ cf.code }}" class="gi-link">{{ titles.get(cf.code) or cf.label }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+function showCiLevel(level, btn) {
+  document.querySelectorAll('.gi-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.gi-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('ci-panel-' + level).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+{% endblock %}

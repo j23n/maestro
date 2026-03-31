@@ -262,9 +262,7 @@ async def _generate_description(profile: "LearningProfile") -> str:
     for code, count in lp.functions_counts.items():
         cf = cf_by_code.get(code)
         if cf:
-            macro_counts[cf.macro_category] = (
-                macro_counts.get(cf.macro_category, 0) + count
-            )
+            macro_counts[cf.category] = macro_counts.get(cf.category, 0) + count
 
     top_functions = sorted(
         lp.functions_counts.items(), key=lambda x: x[1], reverse=True

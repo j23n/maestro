@@ -694,7 +694,7 @@ Required files and how to source them:
   {
     "code": "a0_begruessen",
     "label": "Begruessen",
-    "macro_category": "interaktion_soziale_rituale",
+    "category": "interaktion_soziale_rituale",
     "cefr_level": "A0",
     "patterns": ["Hallo!", "Guten Tag!"],
     "examples": [],

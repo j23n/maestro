@@ -24,6 +24,7 @@
         <a href="/lessons/" {% if request.url.path.startswith('/lessons') %}class="active"{% endif %}>{{ t("nav_lesson") }}</a>
         <a href="/vocab" {% if request.url.path.startswith('/vocab') %}class="active"{% endif %}>{{ t("nav_vocab") }}</a>
         <a href="/grammar" {% if request.url.path.startswith('/grammar') %}class="active"{% endif %}>{{ t("nav_grammar") }}</a>
+        <a href="/cf" {% if request.url.path.startswith('/cf') %}class="active"{% endif %}>{{ t("nav_functions") }}</a>
       </div>
       {% if request.state.student is defined and request.state.student %}
       <div class="nav-right">

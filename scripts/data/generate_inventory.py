@@ -181,7 +181,7 @@ For each function, produce:
 {{
   "code": "<≤20 char snake_case English code, e.g. greet, ask_name, express_joy>",
   "label": "<German label, 2-6 words, e.g. Begrüßung, Sich vorstellen>",
-  "macro_category": "<one of: informationsaustausch, bewertung_kommentar, gefuehlsausdruck, handlungsregulierung, soziale_konventionen>",
+  "category": "<one of: informationsaustausch, bewertung_kommentar, gefuehlsausdruck, handlungsregulierung, soziale_konventionen>",
   "cefr_level": "{level}",
   "patterns": ["<2-6 key phrases/sentence patterns from the PDF>"],
   "examples": ["<2-4 complete example exchanges from the PDF>"],
@@ -190,7 +190,7 @@ For each function, produce:
 
 Important guidelines:
 - Each entry should be a single communicative function, not a section heading
-- Map to the correct macro_category based on the PDF's section structure:
+- Map to the correct category based on the PDF's section structure:
   - Informationsaustausch: benennen, beschreiben, erklären, berichten, Mitteilung, Nachfrage, etc.
   - Bewertung, Kommentar: Meinung, Zufriedenheit, Gefallen, Interesse, Billigung, Zustimmung, Wunsch, Vorlieben, etc.
   - Gefühlsausdruck: Freude, Neigung, Gelassenheit, Mitgefühl, Erstaunen, Hoffnung, Sorge, etc.
@@ -217,7 +217,7 @@ For each strategy, produce:
 {{
   "code": "<≤20 char snake_case English code, e.g. open_conv, ask_repeat, self_correct>",
   "label": "<German label, 2-6 words, e.g. eine Äußerung einleiten>",
-  "macro_category": "<one of: redeorganisation, verstaendnissicherung, kompensation>",
+  "category": "<one of: redeorganisation, verstaendnissicherung, kompensation>",
   "cefr_level": "{level}",
   "patterns": ["<2-6 key phrases/patterns from the PDF>"],
   "examples": ["<2-4 complete example sentences from the PDF>"],
@@ -225,7 +225,7 @@ For each strategy, produce:
 }}
 
 Important guidelines:
-- Map to the correct macro_category:
+- Map to the correct category:
   - Redeorganisation: Äußerung einleiten/abschließen, um das Wort bitten, Zuhören signalisieren, zum Sprechen auffordern, etc.
   - Verständnissicherung: Verständnishilfen anbieten/bitten, Rückfragen, buchstabieren, etc.
   - Kompensation: Synonyme verwenden, Selbstkorrektur, ausdrücken dass man ein Wort nicht kennt, etc.
@@ -251,7 +251,7 @@ For each function, produce:
 {{
   "code": "<≤20 char snake_case English code, e.g. expr_existence, expr_time, expr_place>",
   "label": "<German label, 2-6 words, e.g. Existenz ausdrücken, Ort angeben>",
-  "macro_category": "notionen",
+  "category": "notionen",
   "cefr_level": "{level}",
   "patterns": ["<2-6 key phrases/patterns from the PDF>"],
   "examples": ["<2-4 complete example sentences from the PDF>"],
@@ -461,9 +461,9 @@ def _validate_cf(cf: dict, idx: int, valid_cats: set[str]) -> list[str]:
         warnings.append(f"  CF #{idx}: code '{code}' exceeds 20 chars ({len(code)})")
     if not code.replace("_", "").isalnum():
         warnings.append(f"  CF #{idx}: code '{code}' has invalid characters")
-    cat = cf.get("macro_category", "")
+    cat = cf.get("category", "")
     if cat not in valid_cats:
-        warnings.append(f"  CF #{idx}: unknown macro_category '{cat}'")
+        warnings.append(f"  CF #{idx}: unknown category '{cat}'")
     if not cf.get("label"):
         warnings.append(f"  CF #{idx}: missing label")
     return warnings
@@ -557,7 +557,7 @@ def _cf_to_json(cf: dict) -> dict:
     return {
         "code": cf["code"],
         "label": cf["label"],
-        "macro_category": cf["macro_category"],
+        "category": cf["category"],
         "cefr_level": cf["cefr_level"],
         "patterns": cf.get("patterns", []),
         "examples": cf.get("examples", []),

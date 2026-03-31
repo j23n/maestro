@@ -3,6 +3,14 @@
     "version": "10",
     "sha256": "8f60ad7191c908577634f9945d9a2055b2bd2eba98ec0750ea5dcec3fba0f58b"
   },
+  "augment_cf.yaml": {
+    "version": "1",
+    "sha256": "449070fafd0f2c2932b7585e91072961dd7e7824ca41c0d3409a54f5b7da1b0c"
+  },
+  "augment_gp.yaml": {
+    "version": "1",
+    "sha256": "6569c62406feab8bc112bc902acd44bafa4d045ed4de77e4bfbc722f62b9ef19"
+  },
   "common.yaml": {
     "version": "2",
     "sha256": "0fc6a6b80df00c456c8efbd8c6fb1b5e0fdca688f7c5ba33eba1d2ab90a70821"

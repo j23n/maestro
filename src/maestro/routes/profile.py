@@ -22,8 +22,8 @@ from maestro.lessons.curriculum import (
     PHASE_GATE_THRESHOLD,
 )
 from maestro.learning.weakness import (
-    build_gp_titles,
     build_grammar_by_level,
+    build_titles,
     top_weaknesses,
 )
 
@@ -183,8 +183,9 @@ async def profile_page(
     comm_functions = grammar_cache.comm_functions(lang)
 
     cefr = profile.active_progress.cefr_estimate if profile else "A0"
-    gp_titles = build_gp_titles(grammar_points, cefr, lang)
+    gp_titles = build_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
+    cf_titles = build_titles(comm_functions, cefr, lang)
     cf_by_level = _build_cf_by_level(comm_functions, profile)
 
     # Top weaknesses for the summary
@@ -307,6 +308,7 @@ async def profile_page(
             "cefr_idx": current_idx,
             "grammar_by_level": grammar_by_level,
             "cf_by_level": cf_by_level,
+            "cf_titles": cf_titles,
             "cefr_order": CEFR_ORDER,
             "scenario_map": scenario_map,
             "completed_scenario_maps": completed_scenario_maps,

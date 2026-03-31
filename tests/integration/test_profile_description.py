@@ -26,7 +26,7 @@ async def test_generate_description_empty_profile(db):
     cf = CommunicativeFunction(
         code="CF_001",
         label="Salutare",
-        macro_category="interagire_rituali_sociali",
+        category="interagire_rituali_sociali",
         cefr_level="A1",
     )
     await cf.insert()
@@ -78,7 +78,7 @@ async def test_generate_description_with_functions(db):
     cf = CommunicativeFunction(
         code="CF_001",
         label="Salutare",
-        macro_category="interagire_rituali_sociali",
+        category="interagire_rituali_sociali",
         cefr_level="A1",
     )
     await cf.insert()

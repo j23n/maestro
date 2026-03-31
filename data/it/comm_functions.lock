@@ -1,5 +1,5 @@
 {
-  "sha256": "854bd5391e7ac09e1bfdcd9b76d299d26bab57408ef8d2eda74a93dbd387256e",
+  "sha256": "2901eade53cc31ce9e4811d32dfd1665bf8c36b1d7c16db28514f30776458f68",
   "cf_count": 465,
   "by_cefr_level": {
     "A0": 17,
@@ -8,5 +8,14 @@
     "B1": 131,
     "B2": 135
   },
-  "generated_at": "2026-03-17T15:16:25.623806+00:00"
+  "explanations_by_level": {
+    "A0": {},
+    "A1": {
+      "en": 74
+    },
+    "A2": {},
+    "B2": {},
+    "B1": {}
+  },
+  "generated_at": "2026-03-31T16:02:37.607557+00:00"
 }

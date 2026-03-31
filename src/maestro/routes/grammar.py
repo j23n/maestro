@@ -15,6 +15,7 @@ from maestro.models import (
 )
 from maestro.learning.profile import update_profile
 from maestro.learning.profile import get_cefr_level
+from maestro.learning.weakness import build_titles
 from maestro.templates import render_with_discover
 from maestro.utils import CEFR_ORDER, explanation_lang_for_level, strip_lang_spans
 
@@ -37,14 +38,7 @@ async def grammar_index(
         {"cefr_level": {"$in": visible_levels}, "language": lang}
     ).to_list()
 
-    # Build titles from inline explanations, keyed by gp id
-    student_lang = explanation_lang_for_level(student_level, lang)
-    fallback_lang = lang if student_lang == "en" else "en"
-    titles: dict = {}
-    for gp in gps:
-        expl = gp.explanations.get(student_lang) or gp.explanations.get(fallback_lang)
-        if expl and expl.title:
-            titles[str(gp.id)] = strip_lang_spans(expl.title)
+    titles = build_titles(gps, student_level, lang)
 
     # Build nested dict: level → category → [gp, ...]
     grouped: dict[str, dict[str, list]] = {}
@@ -52,7 +46,7 @@ async def grammar_index(
         grouped.setdefault(gp.cefr_level, {}).setdefault(gp.category, []).append(gp)
     for level in grouped:
         for cat in grouped[level]:
-            grouped[level][cat].sort(key=lambda g: titles.get(str(g.id)) or g.label)
+            grouped[level][cat].sort(key=lambda g: titles.get(g.code) or g.label)
 
     return await render_with_discover(
         request,

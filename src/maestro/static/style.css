@@ -2067,7 +2067,7 @@ th { font-weight: 600; color: var(--c-text-muted); font-size: 12px; text-transfo
   border-bottom: 1px solid var(--c-border);
 }
 .intro-list li:last-child { border-bottom: none; }
-.intro-gp-link {
+.intro-tt-link {
   color: var(--c-terracotta);
   cursor: help;
   border-bottom: 1px dashed var(--c-text-muted);

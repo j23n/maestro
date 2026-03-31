@@ -135,9 +135,11 @@
   {% if covered_comm_functions %}
   <div class="review-box">
     <div class="review-heading">{{ t("lesson_cf_covered_label") }}</div>
-    <div class="cf-tags">
+    <div class="skill-list">
       {% for cf in covered_comm_functions %}
-      <span class="cf-tag" lang="it">{{ cf.label }}</span>
+      <a class="skill-row" href="/cf/{{ cf.code }}">
+        <span class="skill-label">{{ cf_titles.get(cf.code, cf.label) }}</span>
+      </a>
       {% endfor %}
     </div>
   </div>

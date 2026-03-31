@@ -4,7 +4,7 @@ import pytest
 
 from maestro.models import (
     GrammarPoint,
-    GrammarExplanation,
+    Explanation,
     CommunicativeFunction,
     ActivityType,
     ExerciseType,
@@ -35,12 +35,12 @@ async def grammar_gp(db):
 
 @pytest.fixture
 def grammar_explanation():
-    return GrammarExplanation(explanation="Gli articoli definiti in italiano.")
+    return Explanation(explanation="Gli articoli definiti in italiano.")
 
 
 @pytest.fixture
 def grammar_explanation_with_spans():
-    return GrammarExplanation(
+    return Explanation(
         title='<span lang="en">Definite Articles: </span><span lang="it">il, la, lo</span>',
         explanation="Gli articoli definiti in italiano.",
     )
@@ -250,7 +250,7 @@ async def test_materialize_single_grammar_block(grammar_gp, db):
     cf = CommunicativeFunction(
         code="CF_TEST",
         label="Test CF",
-        macro_category="test",
+        category="test",
         cefr_level="A1",
     )
     await cf.insert()
@@ -425,8 +425,8 @@ async def test_materialize_multi_grammar_blocks(db):
     )
     await gp1.insert()
     await gp2.insert()
-    exp1 = GrammarExplanation(explanation="Il presente indicativo.")
-    exp2 = GrammarExplanation(explanation="L'imperfetto indicativo.")
+    exp1 = Explanation(explanation="Il presente indicativo.")
+    exp2 = Explanation(explanation="L'imperfetto indicativo.")
 
     content = LessonContentResponse(
         drills=[

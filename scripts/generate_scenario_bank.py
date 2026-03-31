@@ -105,7 +105,7 @@ def main():
     for cf in a1_cfs:
         desc = cf.get("description", cf["label"])
         cf_lines.append(
-            f"  {cf['code']}  |  {cf['label']}  |  macro: {cf['macro_category']}  |  {desc[:80]}"
+            f"  {cf['code']}  |  {cf['label']}  |  macro: {cf['category']}  |  {desc[:80]}"
         )
 
     reference = _build_reference_block(lang)

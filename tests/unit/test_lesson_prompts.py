@@ -38,7 +38,7 @@ def _cf(**kwargs):
     defaults = dict(
         code="CF001",
         label="Salutare",
-        macro_category="interagire",
+        category="interagire",
         cefr_level="A1",
         description="Greeting someone",
         examples=["Ciao!", "Buongiorno!"],

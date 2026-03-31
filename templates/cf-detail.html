@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ display_title | striptags }} — Maestro{% endblock %}
+
+{% block content %}
+<div class="grammar-detail">
+  <a class="back-link" href="/cf">&larr; {{ t("nav_functions") }}</a>
+  <div class="gp-header">
+    <div class="gp-level">{{ cf.cefr_level }}</div>
+    <h1 class="gp-title">{{ display_title }}</h1>
+  </div>
+
+  {% if content %}
+  <div class="grammar-content">
+    {% if why_this_matters %}
+    <h2>{{ t("cf_why_matters") }}</h2>
+    {{ why_this_matters | markdown | safe }}
+    {% endif %}
+    {{ content | markdown | safe }}
+  </div>
+  {% else %}
+  <div class="no-explanation">
+    {{ t("cf_no_explanation") }}
+  </div>
+  {% endif %}
+
+  {% if cf.patterns %}
+  <div class="grammar-content">
+    <h2>{{ t("cf_patterns_heading") }}</h2>
+    <ul class="cf-patterns-list">
+      {% for p in cf.patterns %}
+      <li lang="{{ cf.language }}">{{ p }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

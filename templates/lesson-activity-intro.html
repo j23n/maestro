@@ -25,8 +25,10 @@
     <ul class="intro-list">
       {% for gp in grammar_points %}
       <li>
-        <span class="intro-gp-link"
-            data-gp-summary="{{ gp_summaries.get(gp.code, '') }}">{{ gp_titles.get(gp.code) or gp.label }}</span>
+        {% set tt = gp_tooltip_data.get(gp.code, {}) %}
+        <span class="intro-tt-link"
+            data-tt-tip="{{ tt.get('tip', '') }}"
+            data-tt-examples="{{ tt.get('examples', []) | tojson }}">{{ gp_titles.get(gp.code) or gp.label }}</span>
       </li>
       {% endfor %}
     </ul>
@@ -38,57 +40,68 @@
     <div class="intro-section-heading">{{ t("intro_cf_heading") }}</div>
     <ul class="intro-list">
       {% for cf in comm_functions %}
-      <li>{{ cf.description or cf.label }}</li>
+      <li>
+        {% set tt = cf_tooltip_data.get(cf.code, {}) %}
+        <span class="intro-tt-link"
+            data-tt-tip="{{ tt.get('tip', '') }}"
+            data-tt-examples="{{ tt.get('examples', []) | tojson }}">{{ cf_titles.get(cf.code) or cf.label }}</span>
+      </li>
       {% endfor %}
     </ul>
   </div>
   {% endif %}
-  {% if grammar_points %}
-  <div id="gp-tooltip" class="popup" data-no-discover>
-    <div class="gp-tt-title"></div>
-    <div class="gp-tt-summary"></div>
+
+  {% if grammar_points or comm_functions %}
+  <div id="intro-tooltip" class="popup" data-no-discover>
+    <div class="tt-title"></div>
+    <div class="tt-tip"></div>
+    <div class="tt-examples"></div>
   </div>
   <script>
-  if (!window._gpTtInit) {
-    window._gpTtInit = true;
-    function _gpTtEl() { return document.getElementById('gp-tooltip'); }
-    var _gpPopup = Popup.withDelayedHide(_gpTtEl(), 180);
+  if (!window._ttInit) {
+    window._ttInit = true;
+    var _ttEl = document.getElementById('intro-tooltip');
+    var _ttPopup = Popup.withDelayedHide(_ttEl, 180);
+
+    function _showTooltip(link) {
+      var tip = link.dataset.ttTip;
+      var examplesRaw = link.dataset.ttExamples;
+      if (!tip && (!examplesRaw || examplesRaw === '[]')) return false;
+      _ttEl.querySelector('.tt-title').textContent = link.textContent.trim();
+      _ttEl.querySelector('.tt-tip').textContent = tip || '';
+      var exEl = _ttEl.querySelector('.tt-examples');
+      exEl.textContent = '';
+      try {
+        var examples = JSON.parse(examplesRaw || '[]');
+        if (examples.length) exEl.textContent = examples.join(' · ');
+      } catch(e) {}
+      _ttPopup.show(link);
+      return true;
+    }
 
     document.addEventListener('mouseover', function(e) {
-      if (e.target.closest('#gp-tooltip')) { _gpPopup.cancelHide(); return; }
-      var link = e.target.closest('.intro-gp-link');
+      if (e.target.closest('#intro-tooltip')) { _ttPopup.cancelHide(); return; }
+      var link = e.target.closest('.intro-tt-link');
       if (!link) return;
-      var summary = link.dataset.gpSummary;
-      if (!summary) return;
-      var tooltip = _gpTtEl();
-      if (!tooltip) return;
-      _gpPopup.cancelHide();
-      tooltip.querySelector('.gp-tt-title').textContent = link.textContent.trim();
-      tooltip.querySelector('.gp-tt-summary').textContent = summary;
-      _gpPopup.show(link);
+      _ttPopup.cancelHide();
+      _showTooltip(link);
     });
     document.addEventListener('mouseout', function(e) {
-      if (e.target.closest('#gp-tooltip')) { _gpPopup.scheduleHide(); return; }
-      if (!e.target.closest('.intro-gp-link')) return;
-      _gpPopup.scheduleHide();
+      if (e.target.closest('#intro-tooltip')) { _ttPopup.scheduleHide(); return; }
+      if (!e.target.closest('.intro-tt-link')) return;
+      _ttPopup.scheduleHide();
     });
     document.addEventListener('click', function(e) {
-      if (e.target.closest('#gp-tooltip')) return;
-      var link = e.target.closest('.intro-gp-link');
-      if (!link) { _gpPopup.hide(); return; }
-      var summary = link.dataset.gpSummary;
-      if (!summary) return;
-      var tooltip = _gpTtEl();
-      if (!tooltip) return;
+      if (e.target.closest('#intro-tooltip')) return;
+      var link = e.target.closest('.intro-tt-link');
+      if (!link) { _ttPopup.hide(); return; }
       var title = link.textContent.trim();
-      if (tooltip.style.display !== 'none'
-          && tooltip.querySelector('.gp-tt-title').textContent === title) {
-        _gpPopup.hide();
+      if (_ttEl.style.display !== 'none'
+          && _ttEl.querySelector('.tt-title').textContent === title) {
+        _ttPopup.hide();
       } else {
-        _gpPopup.cancelHide();
-        tooltip.querySelector('.gp-tt-title').textContent = title;
-        tooltip.querySelector('.gp-tt-summary').textContent = summary;
-        _gpPopup.show(link);
+        _ttPopup.cancelHide();
+        _showTooltip(link);
       }
     });
   }
