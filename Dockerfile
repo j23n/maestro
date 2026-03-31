@@ -5,14 +5,17 @@ ARG GITHUB_TOKEN
 ARG RAILWAY_GIT_COMMIT_SHA=main
 WORKDIR /repo
 COPY data/ data/
-# Download real content for any LFS pointer files
+# Download real content for any LFS pointer files via GitHub's media endpoint
 RUN find /repo -type f -size -1k | while IFS= read -r f; do \
       if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
         rel="${f#/repo/}"; \
         echo "Resolving LFS: ${rel}"; \
         curl -sfL -H "Authorization: token ${GITHUB_TOKEN}" \
-          "https://raw.githubusercontent.com/j23n/maestro/${RAILWAY_GIT_COMMIT_SHA}/${rel}" \
+          "https://media.githubusercontent.com/media/j23n/maestro/${RAILWAY_GIT_COMMIT_SHA}/${rel}" \
           -o "$f" || { echo "ERROR: failed to download ${rel}"; exit 1; }; \
+        if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
+          echo "ERROR: ${rel} is still an LFS pointer after download"; exit 1; \
+        fi; \
       fi; \
     done
 
