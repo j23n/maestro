@@ -142,9 +142,11 @@ def test_prompt_includes_persona(monkeypatch):
             interests="cooking",
             goal="travel to Italy",
         ),
-        description="",
-        grammar_error_counts={},
-        grammar_correct_counts={},
+        active_progress=SimpleNamespace(
+            description="",
+            grammar_error_counts={},
+            grammar_correct_counts={},
+        ),
     )
     prompt = build_lesson_content_prompt(
         cefr_level="A1",
@@ -177,9 +179,11 @@ def test_prompt_excludes_persona_when_random_skips(monkeypatch):
             interests="cooking",
             goal="travel to Italy",
         ),
-        description="",
-        grammar_error_counts={},
-        grammar_correct_counts={},
+        active_progress=SimpleNamespace(
+            description="",
+            grammar_error_counts={},
+            grammar_correct_counts={},
+        ),
     )
     prompt = build_lesson_content_prompt(
         cefr_level="A1",

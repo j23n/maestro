@@ -161,7 +161,7 @@ async def prepare_lesson_immediate(
 
     Sets status=active, generating=True. Returns the inserted Lesson.
     """
-    cefr_level = profile.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
 
     activities: list[LessonActivity] = []
 
@@ -192,7 +192,9 @@ async def prepare_lesson_immediate(
     vocab_count = slots.get(ActivityType.VOCAB_REVIEW, 0)
 
     if vocab_count > 0:
-        due_cards = await get_due_vocab_cards(vocab_count, student_id=student_id)
+        due_cards = await get_due_vocab_cards(
+            vocab_count, student_id=student_id, language=lesson_lang
+        )
         logger.debug(
             "vocab review (immediate)",
             extra={"requested": vocab_count, "due_cards": len(due_cards)},
@@ -292,7 +294,7 @@ async def _generate_lesson_background(
         logger.error("lesson not found", extra={"lesson_id": str(lesson_id)})
         return
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
-    cefr_level = profile.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
 
     if cefr_level == "A0":
         return await _generate_a0_lesson_background(lesson_id, duration_minutes)
@@ -314,7 +316,7 @@ async def _generate_lesson_background(
     if scenario_slug:
         scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
         if scenario_doc:
-            progress = profile.scenario_progress if profile else {}
+            progress = profile.active_progress.scenario_progress if profile else {}
             sp = progress.get(scenario_slug, ScenarioProgress())
             # Intentional: explicit slug selection bypasses depth gating —
             # this is a manual override, so students can revisit any scenario.
@@ -436,7 +438,10 @@ async def _generate_lesson_background(
     if profile and drill_specs:
         lesson_gp_codes = {s["grammar_point_code"] for s in drill_specs}
         weak_candidates: list[tuple[str, float]] = []
-        for gp_code, outcomes in profile.grammar_recent_outcomes.items():
+        for (
+            gp_code,
+            outcomes,
+        ) in profile.active_progress.grammar_recent_outcomes.items():
             if gp_code in lesson_gp_codes:
                 continue
             ok_count = sum(
@@ -506,12 +511,17 @@ async def _generate_lesson_background(
 
     # --- Record newly introduced GPs (atomic to avoid race with concurrent lessons) ---
     if profile and grammar_gps:
-        introduced_set = set(profile.grammar_introduced)
+        introduced_set = set(profile.active_progress.grammar_introduced)
         new_intros = [gp.code for gp in grammar_gps if gp.code not in introduced_set]
         if new_intros:
+            lang = profile.target_language
             await LearningProfile.get_pymongo_collection().update_one(
                 {"_id": profile.id},
-                {"$addToSet": {"grammar_introduced": {"$each": new_intros}}},
+                {
+                    "$addToSet": {
+                        f"progress.{lang}.grammar_introduced": {"$each": new_intros}
+                    }
+                },
             )
             logger.info("grammar introduced", extra={"new_gps": new_intros})
 

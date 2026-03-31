@@ -30,6 +30,7 @@ async def test_profile_with_seeded_profile(test_app, student):
     from maestro.models import (
         CurriculumScenario,
         GrammarPoint,
+        LanguageProgress,
         Lesson,
         LearningProfile,
         LessonStatus,
@@ -78,7 +79,10 @@ async def test_profile_with_seeded_profile(test_app, student):
     await sc_b1.insert()
 
     # Create profile at A1 (so A0 is a completed level)
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     # Create a completed lesson referencing the B1 scenario (missing_slugs path)

@@ -15,7 +15,8 @@ def make_profile(**kwargs):
         functions_counts={},
     )
     defaults.update(kwargs)
-    return SimpleNamespace(**defaults)
+    progress = SimpleNamespace(**defaults)
+    return SimpleNamespace(active_progress=progress)
 
 
 def make_gp(code, level="A1", label=""):

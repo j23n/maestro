@@ -138,8 +138,8 @@ async def test_advance_lesson_creates_profile_and_updates_scenario_progress(
 
     profile = await LearningProfile.find_one({"student_id": student.id})
     assert profile is not None
-    assert "test-scenario" in profile.scenario_progress
-    progress = profile.scenario_progress["test-scenario"]
+    assert "test-scenario" in profile.active_progress.scenario_progress
+    progress = profile.active_progress.scenario_progress["test-scenario"]
     assert progress.depth == 1
     assert progress.lesson_count == 1
 

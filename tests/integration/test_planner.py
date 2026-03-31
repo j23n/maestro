@@ -12,6 +12,7 @@ from maestro.models import (
     GrammarExplanation,
     CommunicativeFunction,
     GeneratedDrill,
+    LanguageProgress,
     LearningProfile,
     Lesson,
     ScenarioProgress,
@@ -44,8 +45,12 @@ async def test_pick_grammar_points_prioritises_weak(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_error_counts={"GP_A": 5, "GP_B": 0},
-        grammar_correct_counts={"GP_A": 1, "GP_B": 5},
+        progress={
+            "it": LanguageProgress(
+                grammar_error_counts={"GP_A": 5, "GP_B": 0},
+                grammar_correct_counts={"GP_A": 1, "GP_B": 5},
+            )
+        },
     )
 
     picked = await pick_grammar_points(profile, "A1", 1)
@@ -162,7 +167,13 @@ async def test_pick_scenario_prefers_unvisited(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"visited": ScenarioProgress(depth=1, lesson_count=2)},
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={
+                    "visited": ScenarioProgress(depth=1, lesson_count=2)
+                },
+            )
+        },
     )
     await profile.insert()
 
@@ -193,11 +204,15 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     naive_last_visited = datetime.utcnow() - timedelta(minutes=5)
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={
-            "recent": ScenarioProgress(
-                depth=1,
-                lesson_count=1,
-                last_visited=naive_last_visited,
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={
+                    "recent": ScenarioProgress(
+                        depth=1,
+                        lesson_count=1,
+                        last_visited=naive_last_visited,
+                    )
+                },
             )
         },
     )
@@ -236,8 +251,12 @@ async def test_pick_scenario_weak_gp_boost(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_error_counts={"GP_WEAK1": 5, "GP_WEAK2": 5},
-        grammar_correct_counts={"GP_WEAK1": 1, "GP_WEAK2": 1},
+        progress={
+            "it": LanguageProgress(
+                grammar_error_counts={"GP_WEAK1": 5, "GP_WEAK2": 5},
+                grammar_correct_counts={"GP_WEAK1": 1, "GP_WEAK2": 1},
+            )
+        },
     )
     await profile.insert()
 
@@ -256,7 +275,10 @@ async def test_prepare_lesson_immediate_creates_lesson(db):
     """Should create a Lesson with generating=True; vocab_review always present."""
     from maestro.lessons.planner import prepare_lesson_immediate
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     lesson = await prepare_lesson_immediate(20, profile, student_id=_FAKE_STUDENT_ID)
@@ -279,7 +301,10 @@ async def test_drill_materialization_creates_generated_drills(db):
     """Drill specs from LLM content should be materialized into GeneratedDrill documents."""
     from maestro.lessons.planner import generate_lesson_background
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     gp = GrammarPoint(

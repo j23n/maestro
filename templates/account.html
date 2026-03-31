@@ -11,6 +11,7 @@
     {% if saved == "name" %}{{ t("account_saved_name") }}
     {% elif saved == "email" %}{{ t("account_saved_email") }}
     {% elif saved == "password" %}{{ t("account_saved_password") }}
+    {% elif saved == "language" %}{{ t("account_saved_language") }}
     {% endif %}
   </div>
   {% endif %}
@@ -18,6 +19,21 @@
   {% if error %}
   <div class="form-error">{{ t(error) }}</div>
   {% endif %}
+
+  {# ── Language ── #}
+  <div class="account-section">
+    <div class="account-section-label">{{ t("account_language_label") }}</div>
+    <form method="post" action="/account/language">
+      <div class="form-section">
+        <select class="config-text-input" name="language">
+          {% for code, lang in languages.items() %}
+          <option value="{{ code }}" {% if profile and profile.target_language == code %}selected{% endif %}>{{ lang.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">{{ t("profile_save_btn") }}</button>
+    </form>
+  </div>
 
   {# ── Name ── #}
   <div class="account-section">

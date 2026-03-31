@@ -633,7 +633,9 @@ async def discover(
     if new_words and create_cards:
         await UserVocabularyCard.insert_many(
             [
-                UserVocabularyCard(student_id=student_id, word=w, message=message)
+                UserVocabularyCard(
+                    student_id=student_id, word=w, message=message, language=w.language
+                )
                 for w in new_words
             ]
         )

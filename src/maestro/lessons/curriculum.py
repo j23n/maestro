@@ -41,7 +41,7 @@ def get_current_phase(
     """
     if profile is None:
         return 1
-    progress = profile.scenario_progress or {}
+    progress = profile.active_progress.scenario_progress or {}
     for phase in (1, 2):
         phase_scenarios = [s for s in scenarios if s.phase == phase]
         completed = sum(
@@ -84,7 +84,7 @@ def get_max_available_depth(
     """
     if profile is None:
         return 1
-    progress = profile.scenario_progress or {}
+    progress = profile.active_progress.scenario_progress or {}
     phase_scenarios = [s for s in scenarios if s.phase == scenario.phase]
     depth1_completed = sum(
         1
@@ -116,7 +116,7 @@ def get_unlocked_gps(
         prerequisites: mapping of GP code → list of prerequisite GP codes,
             built from GrammarPoint.prerequisites fields.
     """
-    introduced = set(profile.grammar_introduced) if profile else set()
+    introduced = set(profile.active_progress.grammar_introduced) if profile else set()
 
     unlocked = set()
     for code in all_gp_codes:
@@ -195,8 +195,8 @@ def pick_archetype(
     if profile is None:
         return LessonArchetype.INTRODUCTION
 
-    introduced = set(profile.grammar_introduced)
-    recent = profile.grammar_recent_outcomes or {}
+    introduced = set(profile.active_progress.grammar_introduced)
+    recent = profile.active_progress.grammar_recent_outcomes or {}
 
     # Check if any scenario GPs are unlocked but never introduced
     new_gps = [

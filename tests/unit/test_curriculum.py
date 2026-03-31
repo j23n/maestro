@@ -27,10 +27,14 @@ def _scenario(slug, phase=1, depths=None):
 def _profile(
     scenario_progress=None, grammar_introduced=None, grammar_recent_outcomes=None
 ):
-    return SimpleNamespace(
+    progress = SimpleNamespace(
         scenario_progress=scenario_progress or {},
         grammar_introduced=grammar_introduced or [],
         grammar_recent_outcomes=grammar_recent_outcomes or {},
+    )
+    return SimpleNamespace(
+        active_progress=progress,
+        target_language="it",
     )
 
 

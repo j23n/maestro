@@ -5,6 +5,7 @@ import pytest
 from maestro.models import (
     GrammarPoint,
     CommunicativeFunction,
+    LanguageProgress,
     LearningProfile,
 )
 
@@ -30,7 +31,9 @@ async def test_generate_description_empty_profile(db):
     )
     await cf.insert()
 
-    profile = LearningProfile(cefr_estimate="A1")
+    profile = LearningProfile(
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     desc = await _generate_description(profile)
 
     assert isinstance(desc, str)
@@ -53,9 +56,13 @@ async def test_generate_description_with_struggles(db):
     await gp.insert()
 
     profile = LearningProfile(
-        cefr_estimate="A1",
-        grammar_correct_counts={"GP_001": 1},
-        grammar_error_counts={"GP_001": 5},  # 5/6 ≈ 83% error rate > 40%
+        progress={
+            "it": LanguageProgress(
+                cefr_estimate="A1",
+                grammar_correct_counts={"GP_001": 1},
+                grammar_error_counts={"GP_001": 5},  # 5/6 ≈ 83% error rate > 40%
+            )
+        },
     )
     desc = await _generate_description(profile)
 
@@ -77,8 +84,12 @@ async def test_generate_description_with_functions(db):
     await cf.insert()
 
     profile = LearningProfile(
-        cefr_estimate="A1",
-        functions_counts={"CF_001": 10},
+        progress={
+            "it": LanguageProgress(
+                cefr_estimate="A1",
+                functions_counts={"CF_001": 10},
+            )
+        },
     )
     desc = await _generate_description(profile)
 

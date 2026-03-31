@@ -54,7 +54,9 @@ async def _generate_a0_lesson_background(
     topic_description = scenario.description
     overview = scenario.overview or ""
 
-    all_due_cards = await get_due_vocab_cards(30, student_id=lesson.student_id)
+    all_due_cards = await get_due_vocab_cards(
+        30, student_id=lesson.student_id, language=lesson.language
+    )
     vocab_cursor = 0
 
     new_activities: list[LessonActivity] = []

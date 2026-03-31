@@ -61,7 +61,7 @@ async def _user_stats(account: Account) -> dict:
 
     return {
         "lessons_completed": lessons,
-        "cefr": profile.cefr_estimate if profile else "A0",
+        "cefr": profile.active_progress.cefr_estimate if profile else "A0",
         "vocab_known": vocab_known,
         "vocab_total": vocab_total,
         "drill_accuracy": drill_accuracy,

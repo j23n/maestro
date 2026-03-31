@@ -17,13 +17,12 @@ def build_grammar_by_level(
         points = [p for p in grammar_points if p.cefr_level == level]
         skills = []
         for p in points:
-            correct = profile.grammar_correct_counts.get(p.code, 0) if profile else 0
-            errors = profile.grammar_error_counts.get(p.code, 0) if profile else 0
-            recent = profile.grammar_recent_outcomes.get(p.code, []) if profile else []
+            lp = profile.active_progress if profile else None
+            correct = lp.grammar_correct_counts.get(p.code, 0) if lp else 0
+            errors = lp.grammar_error_counts.get(p.code, 0) if lp else 0
+            recent = lp.grammar_recent_outcomes.get(p.code, []) if lp else []
             mastered = (
-                profile.grammar_mastery_scores.get(p.code, 0.0) >= 0.8
-                if profile
-                else False
+                lp.grammar_mastery_scores.get(p.code, 0.0) >= 0.8 if lp else False
             )
             title = gp_titles.get(p.code, "")
             skills.append(

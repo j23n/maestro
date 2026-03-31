@@ -613,10 +613,14 @@ async def test_free_tier_a1_limit_blocks_after_cap(
     """Free-tier student with 10 A1 lessons gets a 402 on POST /lessons/."""
     import maestro.routes.lessons as _lessons_routes
     from maestro.learning.profile import LearningProfile
+    from maestro.models import LanguageProgress
 
     monkeypatch.setattr(_lessons_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     for _ in range(10):
@@ -632,8 +636,12 @@ async def test_free_tier_a1_limit_blocks_after_cap(
 async def test_free_tier_a1_under_limit_creates_lesson(test_app, db, student, account):
     """Free-tier student with 9 A1 lessons can create a 10th."""
     from maestro.learning.profile import LearningProfile
+    from maestro.models import LanguageProgress
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     for _ in range(9):
@@ -649,8 +657,12 @@ async def test_free_tier_a1_under_limit_creates_lesson(test_app, db, student, ac
 async def test_pro_tier_no_a1_limit(test_app, db, student, account):
     """Pro-tier student is never blocked regardless of A1 lesson count."""
     from maestro.learning.profile import LearningProfile
+    from maestro.models import LanguageProgress
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     await account.update({"$set": {"subscription_tier": "pro"}})
@@ -668,8 +680,12 @@ async def test_pro_tier_no_a1_limit(test_app, db, student, account):
 async def test_a0_student_always_allowed(test_app, db, student, account):
     """A0 student on free tier is never blocked, even with many lessons."""
     from maestro.learning.profile import LearningProfile
+    from maestro.models import LanguageProgress
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A0")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A0")},
+    )
     await profile.insert()
 
     # Insert many A0 lessons — cap should never apply
@@ -697,10 +713,14 @@ async def test_free_tier_limit_response_contains_upgrade_text(
     """The 402 response body contains the upgrade prompt."""
     import maestro.routes.lessons as _lessons_routes
     from maestro.learning.profile import LearningProfile
+    from maestro.models import LanguageProgress
 
     monkeypatch.setattr(_lessons_routes._settings, "FREE_TIER_LESSON_LIMIT_EX_A0", 10)
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     for _ in range(10):

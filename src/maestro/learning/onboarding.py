@@ -18,7 +18,8 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
     Returns True if onboarding was skipped, False if already past A0.
     """
     profile = await get_or_create_profile(student_id)
-    if profile.cefr_estimate != "A0":
+    lp = profile.active_progress
+    if lp.cefr_estimate != "A0":
         return False
 
     a0_scenarios = await CurriculumScenario.find(
@@ -26,28 +27,26 @@ async def skip_onboarding(student_id: PydanticObjectId) -> bool:
     ).to_list()
     for scenario in a0_scenarios:
         # Mark scenario as completed (lesson_count=0: student didn't do lessons)
-        profile.scenario_progress[scenario.slug] = ScenarioProgress(
+        lp.scenario_progress[scenario.slug] = ScenarioProgress(
             depth=1, last_visited=utcnow(), lesson_count=0
         )
         # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
         now = utcnow().isoformat()
         for code in scenario.gp_codes or []:
-            profile.grammar_correct_counts[code] = max(
-                profile.grammar_correct_counts.get(code, 0), 5
+            lp.grammar_correct_counts[code] = max(
+                lp.grammar_correct_counts.get(code, 0), 5
             )
-            profile.grammar_recent_outcomes[code] = [
+            lp.grammar_recent_outcomes[code] = [
                 {"ok": True, "ts": now} for _ in range(5)
             ]
-            profile.grammar_mastery_scores[code] = 1.0
+            lp.grammar_mastery_scores[code] = 1.0
         # Credit CFs: set count to 3 (demonstration threshold)
         for code in scenario.cf_codes or []:
-            profile.functions_counts[code] = max(
-                profile.functions_counts.get(code, 0), 3
-            )
+            lp.functions_counts[code] = max(lp.functions_counts.get(code, 0), 3)
 
-    profile.onboarding_skipped = True
-    profile.onboarding_completed = True
-    profile.cefr_estimate = "A1"
+    lp.onboarding_skipped = True
+    lp.onboarding_completed = True
+    lp.cefr_estimate = "A1"
     profile.updated_at = utcnow()
     await profile.save()
 

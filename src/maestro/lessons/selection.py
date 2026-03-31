@@ -49,7 +49,7 @@ async def _pick_a0_scenario(
     if not scenarios:
         raise ValueError("No A0 curriculum scenarios found")
 
-    progress = profile.scenario_progress if profile else {}
+    progress = profile.active_progress.scenario_progress if profile else {}
     for scenario in scenarios:
         sp = progress.get(scenario.slug, ScenarioProgress())
         if sp.depth < 1:
@@ -103,12 +103,13 @@ async def pick_scenario(
     if not scenarios:
         scenarios = all_scenarios  # safety fallback
 
-    progress = profile.scenario_progress if profile else {}
+    lp = profile.active_progress if profile else None
+    progress = lp.scenario_progress if lp else {}
     now = utcnow()
 
     # Identify weak GP codes (high error rate)
-    error_counts = profile.grammar_error_counts if profile else {}
-    correct_counts = profile.grammar_correct_counts if profile else {}
+    error_counts = lp.grammar_error_counts if lp else {}
+    correct_counts = lp.grammar_correct_counts if lp else {}
     weak_gps: set[str] = set()
     for code in error_counts:
         total = correct_counts.get(code, 0) + error_counts.get(code, 0)
@@ -191,8 +192,9 @@ async def pick_grammar_points(
         logger.warning("no grammar points for codes/level, using all")
         candidates = await GrammarPoint.find_all().to_list()
 
-    error_counts: dict = profile.grammar_error_counts if profile else {}
-    correct_counts: dict = profile.grammar_correct_counts if profile else {}
+    lp = profile.active_progress if profile else None
+    error_counts: dict = lp.grammar_error_counts if lp else {}
+    correct_counts: dict = lp.grammar_correct_counts if lp else {}
 
     def _score(gp: GrammarPoint) -> float:
         total = correct_counts.get(gp.code, 0) + error_counts.get(gp.code, 0)
@@ -251,7 +253,7 @@ async def pick_comm_functions(
         logger.warning("no comm functions found")
         return []
 
-    fn_counts: dict = profile.functions_counts if profile else {}
+    fn_counts: dict = profile.active_progress.functions_counts if profile else {}
 
     def _score(cf: CommunicativeFunction) -> float:
         return fn_counts.get(cf.code, 0) + random.uniform(0, 0.5)
@@ -265,7 +267,7 @@ async def pick_comm_functions(
 
 
 async def get_due_vocab_cards(
-    vocab_count: int, student_id=None
+    vocab_count: int, student_id=None, language: str | None = None
 ) -> list[UserVocabularyCard]:
     """Return up to vocab_count cards due today (only already-discovered words)."""
     card_filter: dict = {
@@ -274,6 +276,8 @@ async def get_due_vocab_cards(
     }
     if student_id is not None:
         card_filter["student_id"] = student_id
+    if language is not None:
+        card_filter["language"] = language
     due_all = await UserVocabularyCard.find(card_filter).to_list()
 
     # Batch fetch all referenced words in one query instead of N+1 fetch_all_links()
