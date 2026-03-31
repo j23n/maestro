@@ -27,7 +27,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.lessons.curriculum import detect_prerequisite_cycles
-from maestro.utils import data_dir, utcnow
+from maestro.utils import DATA_DIR_ROOT, data_dir, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -97,28 +97,30 @@ async def seed_scenarios() -> None:
     """Upsert CurriculumScenario documents from scenario YAML files."""
     total = 0
     all_slugs: set[str] = set()
-    for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
-        scenario_file = data_dir() / filename
-        if not scenario_file.exists():
-            logger.warning(f"Scenario file not found: {scenario_file}")
+    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
+        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
             continue
+        lang = lang_dir.name
+        for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
+            scenario_file = lang_dir / filename
+            if not scenario_file.exists():
+                continue
 
-        with open(scenario_file) as f:
-            data = yaml.safe_load(f)
+            with open(scenario_file) as f:
+                data = yaml.safe_load(f)
 
-        scenarios = data.get("scenarios", [])
-        for item in scenarios:
-            all_slugs.add(item["slug"])
-            existing = await CurriculumScenario.find_one({"slug": item["slug"]})
-            if existing:
-                for key, val in item.items():
-                    setattr(existing, key, val)
-                await existing.save()
-            else:
-                await CurriculumScenario(
-                    **item, language=settings.TARGET_LANGUAGE
-                ).insert()
-        total += len(scenarios)
+            scenarios = data.get("scenarios", [])
+            for item in scenarios:
+                all_slugs.add(item["slug"])
+                existing = await CurriculumScenario.find_one({"slug": item["slug"]})
+                if existing:
+                    for key, val in item.items():
+                        setattr(existing, key, val)
+                    existing.language = lang
+                    await existing.save()
+                else:
+                    await CurriculumScenario(**item, language=lang).insert()
+            total += len(scenarios)
 
     # Remove scenarios that no longer exist in the YAML files
     existing_all = await CurriculumScenario.find_all().to_list()
