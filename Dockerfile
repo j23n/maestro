@@ -1,10 +1,20 @@
 ## Stage 1: Resolve Git LFS pointers into real files
 FROM alpine:3.21 AS lfs
-RUN apk add --no-cache git git-lfs
+RUN apk add --no-cache curl
+ARG GITHUB_TOKEN
+ARG RAILWAY_GIT_COMMIT_SHA=main
 WORKDIR /repo
-COPY .git .git
-COPY .gitattributes .
-RUN git lfs install && git lfs pull
+COPY data/ data/
+# Download real content for any LFS pointer files
+RUN find /repo -type f -size -1k | while IFS= read -r f; do \
+      if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
+        rel="${f#/repo/}"; \
+        echo "Resolving LFS: ${rel}"; \
+        curl -sfL -H "Authorization: token ${GITHUB_TOKEN}" \
+          "https://raw.githubusercontent.com/j23n/maestro/${RAILWAY_GIT_COMMIT_SHA}/${rel}" \
+          -o "$f" || { echo "ERROR: failed to download ${rel}"; exit 1; }; \
+      fi; \
+    done
 
 ## Stage 2: Application
 FROM python:3.13-slim
@@ -28,7 +38,7 @@ COPY prompts/ /app/prompts/
 COPY src/ /app/src/
 
 # Overwrite LFS pointer files with real files from stage 1
-COPY --from=lfs /repo/src/ /app/src/
+COPY --from=lfs /repo/data/ /app/data/
 
 ENV PYTHONPATH=/app/src
 

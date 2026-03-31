@@ -3,7 +3,7 @@ scenarios:
     label: "In aereo"
     description: "Your first Italian words — on the plane and at the airport"
     overview: "You're on the plane to Italy. Learn the absolute essentials: hello, thank you, please, excuse me, and the one phrase that gets you anything."
-    image: "scenarios/a0-01-in-aereo.png"
+    image: "images/a0-01-in-aereo.png"
     scene_setting: |
       You're on a plane to Italy. The captain just announced the descent
       into Rome in Italian — and you didn't catch a word. By the end of
@@ -28,6 +28,7 @@ scenarios:
     label: "In albergo"
     description: "Checking into the hotel — names, numbers, and Italian sounds"
     overview: "You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and start reading Italian out loud."
+    image: "images/a0-02-in-albergo.png"
     scene_setting: |
       The taxi pulls up to a small hotel in the centre of Rome. You walk
       in with your suitcase and the receptionist greets you with a warm
