@@ -12,12 +12,9 @@ This means comm_functions.json is the single source of truth: edit the JSON, upd
 lock, deploy — the database catches up automatically on the next startup.
 """
 
-import hashlib
-import json
 import logging
-from pathlib import Path
 
-from maestro.utils import DATA_DIR_ROOT, utcnow
+from maestro.utils import combined_lock_hash, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -25,27 +22,8 @@ _VERSIONS_COLL = "_data_versions"
 _CF_KEY = "comm_functions"
 
 
-def _read_lock_hash(lock_path: Path) -> str | None:
-    if not lock_path.exists():
-        return None
-    try:
-        return json.loads(lock_path.read_text())["sha256"]
-    except Exception:
-        return None
-
-
 def _combined_lock_hash() -> str | None:
-    """Combine lock hashes from all language directories."""
-    h = hashlib.sha256()
-    found = False
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
-        lock_sha = _read_lock_hash(lang_dir / "comm_functions.lock")
-        if lock_sha:
-            h.update(f"{lang_dir.name}:{lock_sha}".encode())
-            found = True
-    return h.hexdigest() if found else None
+    return combined_lock_hash("comm_functions.lock")
 
 
 async def sync_if_changed(db) -> None:

@@ -26,7 +26,7 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.lessons.curriculum import detect_prerequisite_cycles
-from maestro.utils import DATA_DIR_ROOT, data_dir, utcnow
+from maestro.utils import data_dir, iter_language_dirs, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +34,7 @@ logger = logging.getLogger(__name__)
 async def upsert_grammar_points() -> list[GrammarPoint]:
     all_codes: set[str] = set()
     gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         lang = lang_dir.name
         gp_file = lang_dir / "grammar_points.yaml"
         if not gp_file.exists():
@@ -67,15 +65,15 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
 
 async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> None:
     """Set chunk_ref on each GP from the static mapping file."""
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         chunk_file = lang_dir / "grammar_point_chunks.yaml"
         if not chunk_file.exists():
             continue
         with open(chunk_file) as f:
             mapping = yaml.safe_load(f) or {}
         for gp in grammar_points:
+            if gp.language != lang_dir.name:
+                continue
             ref = mapping.get(gp.code)
             if ref:
                 gp.chunk_ref = ref
@@ -86,15 +84,15 @@ async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> N
 
 
 async def upsert_comm_functions() -> None:
-    await CommunicativeFunction.find().delete()
     total = 0
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         lang = lang_dir.name
         cf_file = lang_dir / "comm_functions.json"
         if not cf_file.exists():
             continue
+        await CommunicativeFunction.find(
+            CommunicativeFunction.language == lang
+        ).delete()
         with open(cf_file) as f:
             items = json.load(f)
         docs = []
@@ -114,9 +112,7 @@ async def seed_scenarios() -> None:
     """Upsert CurriculumScenario documents from scenario YAML files."""
     total = 0
     all_slugs: set[str] = set()
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         lang = lang_dir.name
         for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
             scenario_file = lang_dir / filename

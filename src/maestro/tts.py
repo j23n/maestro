@@ -187,15 +187,13 @@ async def sync_a0_listening_audio() -> None:
         return
 
     import yaml
-    from maestro.utils import DATA_DIR_ROOT
+    from maestro.utils import iter_language_dirs
 
     audio_dir = _audio_dir()
     audio_dir.mkdir(parents=True, exist_ok=True)
 
     generated = 0
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         lang = lang_dir.name
         lessons_path = lang_dir / "a0_lessons.yaml"
         if not lessons_path.exists():

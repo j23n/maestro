@@ -5,16 +5,10 @@ import json
 import pytest
 import yaml
 
-from maestro.utils import DATA_DIR_ROOT
+from maestro.utils import iter_language_dirs
 
 # Discover all languages that have A0 lesson data
-_LANG_DIRS = sorted(
-    d
-    for d in DATA_DIR_ROOT.iterdir()
-    if d.is_dir()
-    and d.name not in ("seed", "images")
-    and (d / "a0_lessons.yaml").exists()
-)
+_LANG_DIRS = [d for d in iter_language_dirs() if (d / "a0_lessons.yaml").exists()]
 _LANG_IDS = [d.name for d in _LANG_DIRS]
 
 

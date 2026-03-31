@@ -123,32 +123,44 @@ async def test_sync_skips_when_lock_missing(caplog):
 
 
 # ---------------------------------------------------------------------------
-# _read_lock_hash tests
+# combined_lock_hash tests
 # ---------------------------------------------------------------------------
 
 
-def test_read_lock_hash_returns_sha(tmp_path):
-    """Reads the sha256 field from a valid lock file."""
-    lock_file = tmp_path / "grammar_points.lock"
+def test_combined_lock_hash_returns_hash(tmp_path):
+    """Returns a combined hash when lock files exist."""
+    lang_dir = tmp_path / "it"
+    lang_dir.mkdir()
+    lock_file = lang_dir / "grammar_points.lock"
     lock_file.write_text(json.dumps({"sha256": "cafebabe", "gp_count": 10}))
 
-    from maestro.sync.grammar import _read_lock_hash
+    with patch("maestro.utils.iter_language_dirs", return_value=iter([lang_dir])):
+        from maestro.utils import combined_lock_hash
 
-    assert _read_lock_hash(lock_file) == "cafebabe"
-
-
-def test_read_lock_hash_returns_none_when_missing(tmp_path):
-    """Returns None when the lock file does not exist."""
-    from maestro.sync.grammar import _read_lock_hash
-
-    assert _read_lock_hash(tmp_path / "nonexistent.lock") is None
+        result = combined_lock_hash("grammar_points.lock")
+    assert result is not None
+    assert len(result) == 64  # sha256 hex
 
 
-def test_read_lock_hash_returns_none_on_corrupt_file(tmp_path):
-    """Returns None gracefully when the lock file is malformed."""
-    lock_file = tmp_path / "grammar_points.lock"
+def test_combined_lock_hash_returns_none_when_missing(tmp_path):
+    """Returns None when no lock files exist."""
+    lang_dir = tmp_path / "it"
+    lang_dir.mkdir()
+
+    with patch("maestro.utils.iter_language_dirs", return_value=iter([lang_dir])):
+        from maestro.utils import combined_lock_hash
+
+        assert combined_lock_hash("grammar_points.lock") is None
+
+
+def test_combined_lock_hash_skips_corrupt_files(tmp_path):
+    """Skips corrupt lock files gracefully."""
+    lang_dir = tmp_path / "it"
+    lang_dir.mkdir()
+    lock_file = lang_dir / "grammar_points.lock"
     lock_file.write_text("not valid json {{")
 
-    from maestro.sync.grammar import _read_lock_hash
+    with patch("maestro.utils.iter_language_dirs", return_value=iter([lang_dir])):
+        from maestro.utils import combined_lock_hash
 
-    assert _read_lock_hash(lock_file) is None
+        assert combined_lock_hash("grammar_points.lock") is None

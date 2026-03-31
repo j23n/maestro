@@ -16,14 +16,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from maestro.utils import DATA_DIR_ROOT
+from maestro.utils import iter_language_dirs
 
 # Discover all languages that have data directories
-_LANG_DIRS = sorted(
-    d
-    for d in DATA_DIR_ROOT.iterdir()
-    if d.is_dir() and d.name not in ("seed", "images")
-)
+_LANG_DIRS = list(iter_language_dirs())
 _LANG_IDS = [d.name for d in _LANG_DIRS]
 
 DE_DATA_DIR = DATA_DIR_ROOT / "de"
