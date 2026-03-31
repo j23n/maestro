@@ -35,6 +35,7 @@ from maestro.routes import (
     vocab,
     profile,
     grammar,
+    functions,
     lessons,
     feedback,
     legal,
@@ -197,6 +198,7 @@ app.include_router(auth.router)
 app.include_router(vocab.router)
 app.include_router(profile.router)
 app.include_router(grammar.router)
+app.include_router(functions.router)
 app.include_router(lessons.router)
 app.include_router(feedback.router)
 app.include_router(legal.router)

@@ -39,19 +39,39 @@ def build_grammar_by_level(
     return grammar_by_level
 
 
-def build_gp_titles(
-    grammar_points: list[GrammarPoint],
+def build_titles(
+    items: list,
     cefr: str,
     target_language: str = "it",
 ) -> dict[str, str]:
-    """Build a {gp_code: explanation_title} map using inline GP explanations."""
+    """Build {code: display_title} for any model with .code, .label, .explanations."""
     lang = explanation_lang_for_level(cefr, target_language)
     fallback_lang = target_language if lang == "en" else "en"
-    gp_titles: dict[str, str] = {}
-    for gp in grammar_points:
-        expl = gp.explanations.get(lang) or gp.explanations.get(fallback_lang)
-        gp_titles[gp.code] = strip_lang_spans(expl.title) if expl else gp.label
-    return gp_titles
+    titles: dict[str, str] = {}
+    for item in items:
+        expl = item.explanations.get(lang) or item.explanations.get(fallback_lang)
+        titles[item.code] = (
+            strip_lang_spans(expl.title) if expl and expl.title else item.label
+        )
+    return titles
+
+
+def build_tooltip_data(
+    items: list,
+    cefr: str,
+    target_language: str = "it",
+) -> dict[str, dict]:
+    """Build {code: {"tip": str, "examples": [str]}} from CEFR-appropriate explanation."""
+    lang = explanation_lang_for_level(cefr, target_language)
+    fallback_lang = target_language if lang == "en" else "en"
+    data: dict[str, dict] = {}
+    for item in items:
+        expl = item.explanations.get(lang) or item.explanations.get(fallback_lang)
+        tip = strip_lang_spans(expl.tip) if expl and expl.tip else ""
+        examples = [strip_lang_spans(ex) for ex in item.examples[:3]]
+        if tip or examples:
+            data[item.code] = {"tip": tip, "examples": examples}
+    return data
 
 
 def top_weaknesses(

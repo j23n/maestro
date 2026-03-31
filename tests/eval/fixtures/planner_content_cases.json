@@ -47,7 +47,7 @@
       {
         "code": "interag_identi_a1",
         "label": "Identificare",
-        "macro_category": "interagire_informazioni",
+        "category": "interagire_informazioni",
         "examples": ["È la mia professoressa.", "Lui si chiama Mario."],
         "patterns": ["…si chiama nome …", "…è gruppo nominale …"]
       }

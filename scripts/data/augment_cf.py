@@ -5,7 +5,7 @@ to generate them, and writes back. All augmentable fields are generated in a
 single LLM call per CF for consistency.
 
 Fields augmented: description, examples, explanations (en + target).
-Fields NOT touched: code, label, macro_category, cefr_level, patterns,
+Fields NOT touched: code, label, category, cefr_level, patterns,
 source_url, language (those come from source parse).
 
 Usage:
@@ -147,7 +147,7 @@ def _build_user_prompt(
         "code": cf["code"],
         "label": cf.get("label", ""),
         "cefr_level": cf["cefr_level"],
-        "macro_category": cf.get("macro_category", ""),
+        "category": cf.get("category", ""),
         "patterns": cf.get("patterns", []),
         "description": cf.get("description", ""),
         "examples": cf.get("examples", []),

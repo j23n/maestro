@@ -123,7 +123,7 @@ def build_lesson_content_prompt(
             cf_patterns = cf.patterns[:3]
             cf_block = [
                 f"Speaking activity — Communicative function: {cf.label} ({cf.code})",
-                f"Category: {cf.macro_category}",
+                f"Category: {cf.category}",
             ]
             if cf_examples:
                 cf_block.append("Examples: " + "; ".join(cf_examples))

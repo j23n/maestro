@@ -9,7 +9,7 @@ from typing import Optional
 from maestro.models import (
     LessonActivity,
     GrammarPoint,
-    GrammarExplanation,
+    Explanation,
     GeneratedDrill,
     DrillItem,
     QuestionItem,
@@ -39,7 +39,7 @@ def _reading_to_question_items(reading) -> list[QuestionItem]:
 async def materialize_activities(
     content: LessonContentResponse,
     grammar_gps: list[GrammarPoint],
-    grammar_explanations: list[Optional[GrammarExplanation]],
+    grammar_explanations: list[Optional[Explanation]],
     drill_specs: list[dict],
     speaking_cfs: list[CommunicativeFunction],
     include_writing: bool,

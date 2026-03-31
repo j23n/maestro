@@ -346,7 +346,7 @@ async def test_compute_cefr_graduates_to_a1(db):
             code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
         ).insert()
         await CommunicativeFunction(
-            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+            code=f"CF_{lvl}", label=lvl, category="test", cefr_level=lvl
         ).insert()
 
     profile = LearningProfile(
@@ -687,7 +687,7 @@ async def test_compute_cefr_respects_skip_flag(db):
             code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
         ).insert()
         await CommunicativeFunction(
-            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+            code=f"CF_{lvl}", label=lvl, category="test", cefr_level=lvl
         ).insert()
 
     profile = LearningProfile(
@@ -721,7 +721,7 @@ async def test_compute_cefr_sets_onboarding_completed_on_natural_graduation(db):
             code=f"GP_{lvl}", label=lvl, cefr_level=lvl, category="test", description=""
         ).insert()
         await CommunicativeFunction(
-            code=f"CF_{lvl}", label=lvl, macro_category="test", cefr_level=lvl
+            code=f"CF_{lvl}", label=lvl, category="test", cefr_level=lvl
         ).insert()
 
     profile = LearningProfile(

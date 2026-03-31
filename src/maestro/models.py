@@ -236,7 +236,7 @@ class UserVocabularyCard(Document):
 # --- Learning outcome taxonomy ---
 
 
-class GrammarExplanation(BaseModel):
+class Explanation(BaseModel):
     """Language-specific explanation stored inline on GrammarPoint or CommunicativeFunction."""
 
     title: str = ""
@@ -261,7 +261,7 @@ class GrammarPoint(Document):
     prerequisites: List[str] = Field(
         default_factory=list
     )  # GP codes that must be introduced first
-    explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
+    explanations: dict[str, Explanation] = Field(default_factory=dict)
     language: str = "it"
 
     class Settings:
@@ -271,12 +271,12 @@ class GrammarPoint(Document):
 class CommunicativeFunction(Document):
     code: str
     label: str
-    macro_category: str
+    category: str
     cefr_level: str
     patterns: List[str] = Field(default_factory=list)
     examples: List[str] = Field(default_factory=list)
     description: str = ""  # built from patterns at ingest; used in analyzer prompt
-    explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
+    explanations: dict[str, Explanation] = Field(default_factory=dict)
     source_url: str = ""
     language: str = "it"
 

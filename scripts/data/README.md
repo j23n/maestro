@@ -101,7 +101,7 @@ Upserts all GPs, CFs, vocab, and curriculum scenarios into MongoDB.
 |-------|--------|
 | `code` | Source parse |
 | `label` | Source parse |
-| `macro_category` | Source parse |
+| `category` | Source parse |
 | `cefr_level` | Source parse (A0–B2) |
 | `patterns` | Source parse |
 | `description` | augment_cf (short tooltip) |

@@ -9,7 +9,7 @@ from maestro.models import (
     ActivityType,
     CurriculumScenario,
     GrammarPoint,
-    GrammarExplanation,
+    Explanation,
     CommunicativeFunction,
     GeneratedDrill,
     LanguageProgress,
@@ -105,10 +105,10 @@ async def test_pick_comm_functions_with_candidate_codes(db):
     from maestro.lessons.selection import pick_comm_functions
 
     cf1 = CommunicativeFunction(
-        code="CF_A", label="A", macro_category="test", cefr_level="A1"
+        code="CF_A", label="A", category="test", cefr_level="A1"
     )
     cf2 = CommunicativeFunction(
-        code="CF_B", label="B", macro_category="test", cefr_level="A1"
+        code="CF_B", label="B", category="test", cefr_level="A1"
     )
     await cf1.insert()
     await cf2.insert()
@@ -314,7 +314,7 @@ async def test_drill_materialization_creates_generated_drills(db):
         category="verbi",
     )
     await gp.insert()
-    gp.explanations = {"en": GrammarExplanation(explanation="Il presente indicativo.")}
+    gp.explanations = {"en": Explanation(explanation="Il presente indicativo.")}
     await gp.save()
 
     scenario = CurriculumScenario(

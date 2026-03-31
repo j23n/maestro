@@ -249,11 +249,11 @@
         {% set ns = namespace(current_macro="") %}
         <div class="skill-list">
           {% for item in cf_items %}
-          {% if item.cf.macro_category != ns.current_macro %}
-          {% set ns.current_macro = item.cf.macro_category %}
+          {% if item.cf.category != ns.current_macro %}
+          {% set ns.current_macro = item.cf.category %}
           <div class="macro-label">{{ ns.current_macro | replace("_", " ") | title }}</div>
           {% endif %}
-          <div class="skill-row">
+          <a class="skill-row" href="/cf/{{ item.cf.code }}">
             <div class="pip-track">
               {% set filled = [item.count, 10] | min %}
               {% for _ in range(filled) %}
@@ -263,8 +263,8 @@
                 <span class="pip"></span>
               {% endfor %}
             </div>
-            <span class="skill-label"><span lang="it">{{ item.cf.label }}</span></span>
-          </div>
+            <span class="skill-label">{{ cf_titles.get(item.cf.code, item.cf.label) }}</span>
+          </a>
           {% endfor %}
         </div>
         {% endif %}

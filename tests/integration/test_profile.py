@@ -36,7 +36,7 @@ async def _seed_comm_functions(db, codes_by_level: dict):
             cf = CommunicativeFunction(
                 code=code,
                 label=code,
-                macro_category="test",
+                category="test",
                 cefr_level=level,
             )
             await cf.insert()

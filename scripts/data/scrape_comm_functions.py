@@ -132,7 +132,7 @@ def parse_include(html: str, link: dict) -> list[dict]:
             {
                 "code": f"{link['slug']}_{level.lower()}",
                 "label": link["label"],
-                "macro_category": macro,
+                "category": macro,
                 "cefr_level": level,
                 "patterns": patterns,
                 "examples": examples,
