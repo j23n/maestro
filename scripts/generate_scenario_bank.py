@@ -45,10 +45,8 @@ def _build_reference_block(lang: str) -> str:
     )
 
 
-def _language_prompt(lang: str, lang_name: str) -> str:
-    """Return language-specific guidance for the LLM prompt."""
-    if lang == "de":
-        return """
+LANGUAGE_PROMPTS: dict[str, str] = {
+    "de": """
 Language-specific guidance for German:
 - Labels should be short German phrases (e.g. "Sich vorstellen", "Im Café")
 - Slugs must be URL-safe (lowercase, hyphens, no umlauts — use ae/oe/ue/ss)
@@ -59,14 +57,20 @@ Language-specific guidance for German:
   are central to German — spread these across multiple scenarios
 - Some Italian scenarios overlap with German A0 (café, hotel) — make the A1 versions
   substantially more complex, or replace with fresh scenarios if the theme is exhausted
-"""
-    if lang == "it":
-        return """
+""",
+    "it": """
 Language-specific guidance for Italian:
 - Labels should be short Italian phrases (e.g. "Al bar", "Presentarsi")
 - Slugs must be URL-safe (lowercase, hyphens, no accents)
-"""
-    return f"\nLabels should be in {lang_name}. Slugs must be URL-safe.\n"
+""",
+}
+
+
+def _language_prompt(lang: str, lang_name: str) -> str:
+    """Return language-specific guidance for the LLM prompt."""
+    return LANGUAGE_PROMPTS.get(
+        lang, f"\nLabels should be in {lang_name}. Slugs must be URL-safe.\n"
+    )
 
 
 def main():
@@ -117,12 +121,12 @@ GRAMMAR POINTS ({len(a1_gps)} items):
 {chr(10).join(gp_lines)}
 {reference}
 {_language_prompt(lang, lang_name)}
-Cluster these into 20-24 real-world SCENARIOS for A1 {lang_name} learners.
+Cluster these into 25-30 real-world SCENARIOS for A1 {lang_name} learners.
 Each scenario is a concrete, everyday situation.
 
 Rules:
 - Assign each scenario to a phase (1, 2, or 3). Phase 1 = survival basics done first,
-  phase 2 = daily life, phase 3 = more abstract/complex. Aim for ~8 scenarios per phase.
+  phase 2 = daily life, phase 3 = more abstract/complex. Keep phases roughly balanced.
 - Each scenario maps to 4-8 CF codes and 4-8 GP codes naturally exercised in that situation
 - CFs and GPs CAN appear in multiple scenarios (real life overlaps)
 - EVERY CF code and EVERY GP code must appear in at least one scenario — no orphans
