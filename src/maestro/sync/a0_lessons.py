@@ -21,7 +21,7 @@ from pathlib import Path
 
 import yaml
 
-from maestro.utils import data_dir, utcnow
+from maestro.utils import DATA_DIR_ROOT, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -38,10 +38,10 @@ def _read_lock_hash(lock_path: Path) -> str | None:
         return None
 
 
-def _validate_slug_alignment() -> list[str]:
+def _validate_slug_alignment(lang_dir: Path) -> list[str]:
     """Return scenario slugs that have no matching key in a0_lessons.yaml."""
-    lessons_path = data_dir() / "a0_lessons.yaml"
-    scenarios_path = data_dir() / "scenarios_a0.yaml"
+    lessons_path = lang_dir / "a0_lessons.yaml"
+    scenarios_path = lang_dir / "scenarios_a0.yaml"
     if not lessons_path.exists() or not scenarios_path.exists():
         return []
     with open(lessons_path) as f:
@@ -53,14 +53,29 @@ def _validate_slug_alignment() -> list[str]:
     return [slug for slug in scenario_slugs if slug not in lesson_keys]
 
 
+def _combined_lock_hash() -> str | None:
+    """Combine lock hashes from all language directories."""
+    import hashlib
+
+    h = hashlib.sha256()
+    found = False
+    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
+        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
+            continue
+        lock_sha = _read_lock_hash(lang_dir / "a0_lessons.lock")
+        if lock_sha:
+            h.update(f"{lang_dir.name}:{lock_sha}".encode())
+            found = True
+    return h.hexdigest() if found else None
+
+
 async def sync_if_changed(db) -> None:
     """Compare a0_lessons.lock against DB; re-ingest scenarios if hash differs."""
-    lock_path = data_dir() / "a0_lessons.lock"
-    lock_sha = _read_lock_hash(lock_path)
+    combined_sha = _combined_lock_hash()
 
-    if lock_sha is None:
+    if combined_sha is None:
         logger.warning(
-            "a0_lessons_sync: a0_lessons.lock not found — "
+            "a0_lessons_sync: no a0_lessons.lock found in any language dir — "
             "run: uv run python scripts/update_a0_lessons_lock.py"
         )
         return
@@ -68,24 +83,28 @@ async def sync_if_changed(db) -> None:
     doc = await db[_VERSIONS_COLL].find_one({"key": _A0_LESSONS_KEY})
     db_sha = doc["hash"] if doc else None
 
-    if lock_sha == db_sha:
-        logger.info("a0_lessons_sync: a0_lessons up to date (%s)", lock_sha[:16])
+    if combined_sha == db_sha:
+        logger.info("a0_lessons_sync: a0_lessons up to date (%s)", combined_sha[:16])
         return
 
-    # Validate slug alignment before ingesting
-    missing = _validate_slug_alignment()
-    if missing:
-        logger.error(
-            "a0_lessons_sync: scenario slugs missing from a0_lessons.yaml: %s — "
-            "fix the YAML files and re-run: uv run python scripts/update_a0_lessons_lock.py",
-            missing,
-        )
-        return
+    # Validate slug alignment for all languages before ingesting
+    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
+        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
+            continue
+        missing = _validate_slug_alignment(lang_dir)
+        if missing:
+            logger.error(
+                "a0_lessons_sync: [%s] scenario slugs missing from a0_lessons.yaml: %s — "
+                "fix the YAML files and re-run: uv run python scripts/update_a0_lessons_lock.py",
+                lang_dir.name,
+                missing,
+            )
+            return
 
     logger.info(
         "a0_lessons_sync: hash changed (%s → %s), syncing scenarios",
         (db_sha or "none")[:16],
-        lock_sha[:16],
+        combined_sha[:16],
     )
 
     from maestro.sync.ingest import seed_scenarios
@@ -99,7 +118,7 @@ async def sync_if_changed(db) -> None:
 
     await db[_VERSIONS_COLL].update_one(
         {"key": _A0_LESSONS_KEY},
-        {"$set": {"hash": lock_sha, "applied_at": utcnow()}},
+        {"$set": {"hash": combined_sha, "applied_at": utcnow()}},
         upsert=True,
     )
     logger.info("a0_lessons_sync: synced a0 lessons + scenarios")
