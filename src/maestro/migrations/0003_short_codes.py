@@ -33,7 +33,7 @@ async def run(db) -> None:
     # ── Step 0: Build unistr_code → short code mapping ─────────────────────
     # Primary source: grammar_points.yaml (reliable even after unistr_code is
     # removed from the Beanie model, because the field lives in the YAML file).
-    with open(data_dir() / "grammar_points.yaml") as f:
+    with open(data_dir("it") / "grammar_points.yaml") as f:
         gp_items = yaml.safe_load(f)
 
     unistr_to_code: dict[str, str] = {

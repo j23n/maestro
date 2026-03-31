@@ -5,34 +5,49 @@ import json
 import pytest
 import yaml
 
-from maestro.utils import data_dir
+from maestro.utils import DATA_DIR_ROOT
 
-SCENARIOS_FILE = data_dir("it") / "scenarios_a0.yaml"
-LESSONS_FILE = data_dir("it") / "a0_lessons.yaml"
-GRAMMAR_POINTS_FILE = data_dir("it") / "grammar_points.yaml"
-COMM_FUNCTIONS_FILE = data_dir("it") / "comm_functions.json"
+# Discover all languages that have A0 lesson data
+_LANG_DIRS = sorted(
+    d
+    for d in DATA_DIR_ROOT.iterdir()
+    if d.is_dir()
+    and d.name not in ("seed", "images")
+    and (d / "a0_lessons.yaml").exists()
+)
+_LANG_IDS = [d.name for d in _LANG_DIRS]
+
+
+@pytest.fixture(params=_LANG_DIRS, ids=_LANG_IDS)
+def lang_dir(request):
+    return request.param
 
 
 @pytest.mark.unit
-def test_every_a0_scenario_has_lesson_content():
+def test_every_a0_scenario_has_lesson_content(lang_dir):
     """Every slug in scenarios_a0.yaml must have an entry in a0_lessons.yaml."""
-    with open(SCENARIOS_FILE) as f:
+    with open(lang_dir / "scenarios_a0.yaml") as f:
         scenarios = yaml.safe_load(f)["scenarios"]
-    with open(LESSONS_FILE) as f:
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
 
     scenario_slugs = {s["slug"] for s in scenarios}
     lesson_slugs = set(lessons.keys())
     missing = scenario_slugs - lesson_slugs
-    assert not missing, f"A0 scenarios with no lesson content: {missing}"
+    assert not missing, (
+        f"[{lang_dir.name}] A0 scenarios with no lesson content: {missing}"
+    )
 
 
 @pytest.mark.unit
-def test_a0_scenario_gp_codes_exist():
+def test_a0_scenario_gp_codes_exist(lang_dir):
     """All gp_codes referenced by A0 scenarios exist in grammar_points.yaml."""
-    with open(SCENARIOS_FILE) as f:
+    gp_file = lang_dir / "grammar_points.yaml"
+    if not gp_file.exists():
+        pytest.skip(f"[{lang_dir.name}] grammar_points.yaml not found")
+    with open(lang_dir / "scenarios_a0.yaml") as f:
         scenarios = yaml.safe_load(f)["scenarios"]
-    with open(GRAMMAR_POINTS_FILE) as f:
+    with open(gp_file) as f:
         gps = yaml.safe_load(f)
 
     gp_codes = {gp["code"] for gp in gps}
@@ -40,15 +55,20 @@ def test_a0_scenario_gp_codes_exist():
     for s in scenarios:
         referenced.update(s.get("gp_codes", []))
     missing = referenced - gp_codes
-    assert not missing, f"A0 scenario gp_codes not in grammar_points.yaml: {missing}"
+    assert not missing, (
+        f"[{lang_dir.name}] A0 scenario gp_codes not in grammar_points.yaml: {missing}"
+    )
 
 
 @pytest.mark.unit
-def test_a0_scenario_cf_codes_exist():
+def test_a0_scenario_cf_codes_exist(lang_dir):
     """All cf_codes referenced by A0 scenarios exist in comm_functions.json."""
-    with open(SCENARIOS_FILE) as f:
+    cf_file = lang_dir / "comm_functions.json"
+    if not cf_file.exists():
+        pytest.skip(f"[{lang_dir.name}] comm_functions.json not found")
+    with open(lang_dir / "scenarios_a0.yaml") as f:
         scenarios = yaml.safe_load(f)["scenarios"]
-    with open(COMM_FUNCTIONS_FILE) as f:
+    with open(cf_file) as f:
         cfs = json.load(f)
 
     cf_codes = {cf["code"] for cf in cfs}
@@ -56,65 +76,62 @@ def test_a0_scenario_cf_codes_exist():
     for s in scenarios:
         referenced.update(s.get("cf_codes", []))
     missing = referenced - cf_codes
-    assert not missing, f"A0 scenario cf_codes not in comm_functions.json: {missing}"
-
-
-@pytest.mark.unit
-def test_a0_scenarios_have_sequential_ordering():
-    """All A0 scenarios must have a sequence field with no gaps."""
-    with open(SCENARIOS_FILE) as f:
-        scenarios = yaml.safe_load(f)["scenarios"]
-
-    sequences = sorted(s["sequence"] for s in scenarios)
-    assert sequences == list(range(1, len(scenarios) + 1)), (
-        f"A0 scenario sequences should be 1..{len(scenarios)}, got {sequences}"
+    assert not missing, (
+        f"[{lang_dir.name}] A0 scenario cf_codes not in comm_functions.json: {missing}"
     )
 
 
 @pytest.mark.unit
-def test_a0_lesson_gp_codes_exist_in_grammar_points():
-    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.yaml.
+def test_a0_scenarios_have_sequential_ordering(lang_dir):
+    """All A0 scenarios must have a sequence field with no gaps."""
+    with open(lang_dir / "scenarios_a0.yaml") as f:
+        scenarios = yaml.safe_load(f)["scenarios"]
 
-    Checks: activity-level grammar_point_code, per-item grammar_point_code on drills,
-    grammar_point_codes on questions/writing/speaking.
-    """
-    with open(LESSONS_FILE) as f:
+    sequences = sorted(s["sequence"] for s in scenarios)
+    assert sequences == list(range(1, len(scenarios) + 1)), (
+        f"[{lang_dir.name}] A0 scenario sequences should be 1..{len(scenarios)}, got {sequences}"
+    )
+
+
+@pytest.mark.unit
+def test_a0_lesson_gp_codes_exist_in_grammar_points(lang_dir):
+    """All grammar_point_code values in a0_lessons.yaml must exist in grammar_points.yaml."""
+    gp_file = lang_dir / "grammar_points.yaml"
+    if not gp_file.exists():
+        pytest.skip(f"[{lang_dir.name}] grammar_points.yaml not found")
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
-    with open(GRAMMAR_POINTS_FILE) as f:
+    with open(gp_file) as f:
         gps = yaml.safe_load(f)
 
     valid_gp_codes = {gp["code"] for gp in gps}
     referenced: set[str] = set()
     for lesson_data in lessons.values():
         for act in lesson_data.get("activities", []):
-            # Activity-level GP code
             code = act.get("grammar_point_code")
             if code:
                 referenced.add(code)
-            # Per-item GP codes on drill items
             for item in act.get("items", []):
                 item_code = item.get("grammar_point_code")
                 if item_code:
                     referenced.add(item_code)
-            # GP codes on structured questions (reading/listening)
             for q in act.get("questions", []):
                 if isinstance(q, dict):
                     for gp in q.get("grammar_point_codes", []):
                         referenced.add(gp)
-            # GP codes on writing/speaking activities
             for gp in act.get("grammar_point_codes", []):
                 referenced.add(gp)
 
     missing = referenced - valid_gp_codes
     assert not missing, (
-        f"a0_lessons.yaml grammar_point_codes not in grammar_points.yaml: {missing}"
+        f"[{lang_dir.name}] a0_lessons.yaml grammar_point_codes not in grammar_points.yaml: {missing}"
     )
 
 
 @pytest.mark.unit
-def test_a0_no_why_important():
+def test_a0_no_why_important(lang_dir):
     """No activities should have why_important after cleanup."""
-    with open(LESSONS_FILE) as f:
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
 
     found = []
@@ -123,13 +140,13 @@ def test_a0_no_why_important():
             if "why_important" in act:
                 found.append(f"{slug} activity {i} ({act.get('title', '?')})")
 
-    assert not found, f"Activities still have why_important: {found}"
+    assert not found, f"[{lang_dir.name}] Activities still have why_important: {found}"
 
 
 @pytest.mark.unit
-def test_a0_speaking_activities_exist():
+def test_a0_speaking_activities_exist(lang_dir):
     """At least half of A0 lessons (excluding the first and ripasso) should have speaking activities."""
-    with open(LESSONS_FILE) as f:
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
 
     slugs_with_speaking = []
@@ -138,43 +155,38 @@ def test_a0_speaking_activities_exist():
         if "speaking" in types:
             slugs_with_speaking.append(slug)
 
-    # Exclude first lesson and ripasso from the count
-    non_intro = [s for s in lessons if not s.endswith("-ripasso")]
+    non_intro = [s for s in lessons if not s.endswith(("-ripasso", "-wiederholung"))]
     threshold = len(non_intro) // 2
     assert len(slugs_with_speaking) >= threshold, (
-        f"Only {len(slugs_with_speaking)} lessons have speaking activities "
+        f"[{lang_dir.name}] Only {len(slugs_with_speaking)} lessons have speaking activities "
         f"(expected at least {threshold}): {slugs_with_speaking}"
     )
 
 
 @pytest.mark.unit
-def test_a0_review_drills_have_per_item_gp_codes():
+def test_a0_review_drills_have_per_item_gp_codes(lang_dir):
     """Review drills (last drill in each lesson) must have explicit grammar_point_code on every item."""
-    with open(LESSONS_FILE) as f:
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
 
     problems = []
     for slug, lesson_data in lessons.items():
         activities = lesson_data.get("activities", [])
-        # Find all drill activities
         drills = [
             (i, act) for i, act in enumerate(activities) if act.get("type") == "drill"
         ]
         if len(drills) < 2:
-            # Lesson has 0 or 1 drill — no review drill to check
             continue
 
-        # The last drill is the review drill (may have multiple review drills at end)
-        # Check: any drill where at least one item has a different GP than the drill level
-        # For simplicity, check the LAST drill in each lesson
         last_idx, last_drill = drills[-1]
         items = last_drill.get("items", [])
         has_any_override = any(it.get("grammar_point_code") for it in items)
         if not has_any_override:
-            # If the last drill is truly a review (title contains "review" or "ripasso"
-            # or "everything"), it should have per-item GP codes
             title = last_drill.get("title", "").lower()
-            if any(kw in title for kw in ("review", "ripasso", "everything")):
+            if any(
+                kw in title
+                for kw in ("review", "ripasso", "everything", "wiederholung", "alles")
+            ):
                 missing_items = [
                     f"item {j}: {it.get('prompt', '')[:40]}"
                     for j, it in enumerate(items)
@@ -186,14 +198,15 @@ def test_a0_review_drills_have_per_item_gp_codes():
                     )
 
     assert not problems, (
-        "Review drills missing per-item grammar_point_code:\n" + "\n".join(problems)
+        f"[{lang_dir.name}] Review drills missing per-item grammar_point_code:\n"
+        + "\n".join(problems)
     )
 
 
 @pytest.mark.unit
-def test_a0_reading_listening_have_structured_questions():
+def test_a0_reading_listening_have_structured_questions(lang_dir):
     """Reading/listening activities must use structured question format (text + correct_answer)."""
-    with open(LESSONS_FILE) as f:
+    with open(lang_dir / "a0_lessons.yaml") as f:
         lessons = yaml.safe_load(f)
 
     problems = []
@@ -219,11 +232,18 @@ def test_a0_reading_listening_have_structured_questions():
                         problems.append(
                             f"{slug} activity {i} question {j}: missing 'correct_answer'"
                         )
-            # Should not have old correct_answers key
+                    elif not isinstance(q["correct_answer"], str):
+                        problems.append(
+                            f"{slug} activity {i} question {j}: correct_answer must be "
+                            f"a string, got {type(q['correct_answer']).__name__}: {q['correct_answer']!r} "
+                            f"(hint: quote bare true/false/yes/no in YAML)"
+                        )
             if "correct_answers" in act:
                 problems.append(
                     f"{slug} activity {i} ({act.get('title', '?')}): "
                     f"still has 'correct_answers' key (should be removed)"
                 )
 
-    assert not problems, "Structured question format issues:\n" + "\n".join(problems)
+    assert not problems, (
+        f"[{lang_dir.name}] Structured question format issues:\n" + "\n".join(problems)
+    )

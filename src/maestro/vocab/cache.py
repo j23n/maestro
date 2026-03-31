@@ -40,9 +40,9 @@ _caches: dict[str, _LangCache] = {}
 
 
 def _default_language() -> str:
-    from maestro.config import settings
+    from maestro.language import DEFAULT_LANGUAGE
 
-    return settings.TARGET_LANGUAGE
+    return DEFAULT_LANGUAGE
 
 
 def _get(language: str | None) -> _LangCache:

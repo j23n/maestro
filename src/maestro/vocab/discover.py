@@ -169,9 +169,7 @@ def match_vocab_words(
         Matches in token order, deduplicated by (lemma, word.id).
     """
     if word_index is None:
-        from maestro.config import settings
-
-        lang = language or settings.TARGET_LANGUAGE
+        lang = language or DEFAULT_LANGUAGE
         word_index = _cache.word_index(lang)
 
     logger.debug("[discover] extracted text: %r", text)
@@ -492,9 +490,7 @@ async def discover(
     language: str | None = None,
 ) -> str:
     if language is None:
-        from maestro.config import settings
-
-        language = settings.TARGET_LANGUAGE
+        language = DEFAULT_LANGUAGE
 
     target_lang = language
 

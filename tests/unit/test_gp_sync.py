@@ -34,11 +34,11 @@ def _make_db(stored_hash: str | None = None):
 
 @pytest.mark.asyncio
 async def test_sync_skips_when_up_to_date():
-    """No ingest runs when the lock hash matches what is stored in the DB."""
+    """No ingest runs when the combined lock hash matches what is stored in the DB."""
     db, data_versions_coll = _make_db(stored_hash="abc123")
 
     with (
-        patch("maestro.sync.grammar._read_lock_hash", return_value="abc123"),
+        patch("maestro.sync.grammar._combined_lock_hash", return_value="abc123"),
         patch(
             "maestro.sync.ingest.upsert_grammar_points", new_callable=AsyncMock
         ) as mock_upsert,
@@ -58,7 +58,7 @@ async def test_sync_runs_on_first_deploy():
     mock_gps = [MagicMock(), MagicMock()]
 
     with (
-        patch("maestro.sync.grammar._read_lock_hash", return_value="deadbeef"),
+        patch("maestro.sync.grammar._combined_lock_hash", return_value="deadbeef"),
         patch(
             "maestro.sync.ingest.upsert_grammar_points",
             new_callable=AsyncMock,
@@ -83,7 +83,7 @@ async def test_sync_runs_when_hash_changed():
     mock_gps = [MagicMock()]
 
     with (
-        patch("maestro.sync.grammar._read_lock_hash", return_value="new_hash"),
+        patch("maestro.sync.grammar._combined_lock_hash", return_value="new_hash"),
         patch(
             "maestro.sync.ingest.upsert_grammar_points",
             new_callable=AsyncMock,
@@ -101,11 +101,11 @@ async def test_sync_runs_when_hash_changed():
 
 @pytest.mark.asyncio
 async def test_sync_skips_when_lock_missing(caplog):
-    """No ingest runs when the lock file is absent; a warning is logged."""
+    """No ingest runs when no lock files are found; a warning is logged."""
     db, data_versions_coll = _make_db()
 
     with (
-        patch("maestro.sync.grammar._read_lock_hash", return_value=None),
+        patch("maestro.sync.grammar._combined_lock_hash", return_value=None),
         patch(
             "maestro.sync.ingest.upsert_grammar_points", new_callable=AsyncMock
         ) as mock_upsert,

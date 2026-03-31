@@ -4,8 +4,8 @@ import re
 
 from fastapi.templating import Jinja2Templates
 
-from maestro.config import settings
 from maestro.i18n import t as i18n_t
+from maestro.language import DEFAULT_LANGUAGE, get_language_config
 
 _TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
@@ -25,7 +25,7 @@ _templates.env.filters["markdown"] = lambda x: markdown.markdown(
 _templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
 _templates.env.filters["hide_translations"] = _hide_translations
 _templates.env.globals["t"] = i18n_t
-_templates.env.globals["target_language"] = settings.TARGET_LANGUAGE_NAME
+_templates.env.globals["target_language"] = get_language_config(DEFAULT_LANGUAGE).name
 
 
 def _inject_language(request, context: dict) -> dict:

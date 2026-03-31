@@ -40,12 +40,8 @@ def ensure_utc(dt: datetime) -> datetime:
 DATA_DIR_ROOT = Path(__file__).resolve().parents[2] / "data"
 
 
-def data_dir(language: str | None = None) -> Path:
+def data_dir(language: str) -> Path:
     """Return the data directory for the given language."""
-    if language is None:
-        from maestro.config import settings
-
-        language = settings.TARGET_LANGUAGE
     return DATA_DIR_ROOT / language
 
 
