@@ -68,8 +68,7 @@ async def change_language(
 
     profile = await get_or_create_profile(student.id)
     profile.target_language = language
-    # Trigger lazy init of LanguageProgress for the new language
-    _ = profile.active_progress
+    _ = profile.active_progress  # ensure LanguageProgress entry exists for new language
     await profile.save()
 
     invalidate_profile_cache(student.id)

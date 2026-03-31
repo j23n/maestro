@@ -29,6 +29,7 @@ async def _user_stats(account: Account) -> dict:
         {"student_id": sid, "status": LessonStatus.COMPLETED}
     ).count()
     profile_q = LearningProfile.find_one({"student_id": sid})
+    # Intentionally not filtered by language — admin overview shows cross-language totals
     vocab_known_q = UserVocabularyCard.find(
         {"student_id": sid, "interval": {"$gte": 14}, "excluded": {"$ne": True}}
     ).count()

@@ -154,6 +154,7 @@ async def vocab_add(
     if word is None:
         raise HTTPException(status_code=404)
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+    # word_ref is a DBRef with a unique ObjectId — already language-specific
     existing = await UserVocabularyCard.find_one(
         {"student_id": student.id, "word": word_ref}
     )
