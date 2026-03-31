@@ -6,7 +6,7 @@ ARG RAILWAY_GIT_COMMIT_SHA=main
 WORKDIR /repo
 COPY data/ data/
 # Download real content for any LFS pointer files
-RUN find /repo -type f -size -1k | while read f; do \
+RUN find /repo -type f -size -1k | while IFS= read -r f; do \
       if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
         rel="${f#/repo/}"; \
         echo "Resolving LFS: ${rel}"; \
