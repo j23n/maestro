@@ -51,7 +51,8 @@ def _build_percorso(
         return None
 
     current_phase = get_current_phase(profile, current_scenarios)
-    progress = profile.scenario_progress if profile else {}
+    lp = profile.active_progress if profile else None
+    progress = lp.scenario_progress if lp else {}
     _no_progress = ScenarioProgress()
 
     # GP status sets
@@ -60,7 +61,7 @@ def _build_percorso(
     prereqs_map = {gp.code: gp.prerequisites for gp in level_gps if gp.prerequisites}
     all_gp_codes = {gp.code for gp in level_gps}
     unlocked_gps = get_unlocked_gps(profile, all_gp_codes, prereqs_map)
-    introduced_set = set(profile.grammar_introduced) if profile else set()
+    introduced_set = set(lp.grammar_introduced) if lp else set()
     mastered_set = {
         s["point"].code for s in grammar_by_level.get(cefr, []) if s["mastered"]
     }
@@ -161,7 +162,11 @@ def _build_cf_by_level(comm_functions, profile):
         cfs = [cf for cf in comm_functions if cf.cefr_level == level]
         items = []
         for cf in cfs:
-            count = profile.functions_counts.get(cf.code, 0) if profile else 0
+            count = (
+                profile.active_progress.functions_counts.get(cf.code, 0)
+                if profile
+                else 0
+            )
             items.append({"cf": cf, "count": count, "demonstrated": count >= 3})
         cf_by_level[level] = items
     return cf_by_level
@@ -177,7 +182,7 @@ async def profile_page(
     grammar_points = grammar_cache.grammar_points(lang)
     comm_functions = grammar_cache.comm_functions(lang)
 
-    cefr = profile.cefr_estimate if profile else "A0"
+    cefr = profile.active_progress.cefr_estimate if profile else "A0"
     gp_titles = build_gp_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     cf_by_level = _build_cf_by_level(comm_functions, profile)
@@ -190,7 +195,12 @@ async def profile_page(
         {"student_id": student.id, "status": LessonStatus.COMPLETED}
     ).count()
     vocab_known = await UserVocabularyCard.find(
-        {"student_id": student.id, "interval": {"$gte": 14}, "excluded": {"$ne": True}}
+        {
+            "student_id": student.id,
+            "language": lang,
+            "interval": {"$gte": 14},
+            "excluded": {"$ne": True},
+        }
     ).count()
 
     # Top communicative functions
@@ -198,7 +208,9 @@ async def profile_page(
     if profile:
         cf_by_code = {cf.code: cf for cf in comm_functions}
         top_cfs = sorted(
-            profile.functions_counts.items(), key=lambda x: x[1], reverse=True
+            profile.active_progress.functions_counts.items(),
+            key=lambda x: x[1],
+            reverse=True,
         )[:3]
         top_cf_labels = [
             cf_by_code[code].label for code, _ in top_cfs if code in cf_by_code
@@ -221,7 +233,7 @@ async def profile_page(
             level_scenarios.sort(key=lambda s: s.label)
 
     # Current-level scenario map
-    progress = profile.scenario_progress if profile else {}
+    progress = profile.active_progress.scenario_progress if profile else {}
     _no_progress = ScenarioProgress()
     scenario_map = [
         {

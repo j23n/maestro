@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from pymongo.errors import DuplicateKeyError
 
-from maestro.auth import get_current_student
+from maestro.auth import get_current_student, invalidate_profile_cache
 from maestro.email import send_verification_email
 from maestro.tokens import generate_verify_token
 from maestro.utils import create_background_task
@@ -33,17 +33,47 @@ router = APIRouter(prefix="/account")
 async def account_page(
     request: Request, student: Student = Depends(get_current_student)
 ):
+    from maestro.language import LANGUAGES
+
     account: Account = request.state.account
+    profile = request.state.profile
     return render(
         request,
         "account.html",
         {
             "student": student,
             "account": account,
+            "profile": profile,
+            "languages": LANGUAGES,
             "saved": request.query_params.get("saved"),
             "error": request.query_params.get("error"),
         },
     )
+
+
+@router.post("/language")
+async def change_language(
+    request: Request, student: Student = Depends(get_current_student)
+):
+    from maestro.language import LANGUAGES
+    from maestro.learning.profile import get_or_create_profile
+
+    form = await request.form()
+    language = (form.get("language") or "").strip()
+
+    if language not in LANGUAGES:
+        return RedirectResponse(
+            url="/account?error=account_error_invalid_language", status_code=303
+        )
+
+    profile = await get_or_create_profile(student.id)
+    profile.target_language = language
+    _ = profile.active_progress  # ensure LanguageProgress entry exists for new language
+    await profile.save()
+
+    invalidate_profile_cache(student.id)
+    logger.info("language changed to %s: student=%s", language, student.id)
+    return RedirectResponse(url="/account?saved=language", status_code=303)
 
 
 @router.post("/name")

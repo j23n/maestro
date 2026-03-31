@@ -113,13 +113,13 @@ async def lesson_index(
         return RedirectResponse(url=activity_url(active.id, active.current_index))
 
     profile = await get_profile(student.id)
-    cefr = profile.cefr_estimate if profile else "A0"
+    cefr = profile.active_progress.cefr_estimate if profile else "A0"
 
     if cefr == "A0":
         from maestro.lessons.selection import pick_scenario as _pick_a0_scenario
 
         a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
-        progress = profile.scenario_progress if profile else {}
+        progress = profile.active_progress.scenario_progress if profile else {}
         a0_completed = sum(
             1
             for s in a0_scenarios
@@ -186,7 +186,7 @@ async def lesson_index(
     auto_scenario, auto_depth = await _pick_scenario(profile, cefr, language=lang)
 
     scenarios.sort(key=lambda s: s.label)
-    progress = profile.scenario_progress if profile else {}
+    progress = profile.active_progress.scenario_progress if profile else {}
     _no_progress = ScenarioProgress()
     scenario_options = [
         {
@@ -659,7 +659,7 @@ async def lesson_activity(
             raise HTTPException(404)
         await card.fetch_all_links()
         profile = await get_profile(student.id)
-        level = profile.cefr_estimate if profile else "A0"
+        level = profile.active_progress.cefr_estimate if profile else "A0"
         word_def = await get_word_definition(card.word, level)
         ctx.update(
             card=card,
@@ -721,7 +721,7 @@ async def lesson_activity(
     if activity.type == ActivityType.GRAMMAR:
         ctx["content"] = activity.content or ""
         profile = await get_profile(student.id)
-        level = profile.cefr_estimate if profile else "A0"
+        level = profile.active_progress.cefr_estimate if profile else "A0"
         if activity.why_important:
             why_lang = "en" if level in ("A0", "A1", "A2") else lesson.language
             ctx["why_lang"] = why_lang
@@ -1060,7 +1060,7 @@ async def lesson_vocab_reveal(
         raise HTTPException(404)
     await card.fetch_all_links()
     profile = await get_profile(student.id)
-    level = profile.cefr_estimate if profile else "A0"
+    level = profile.active_progress.cefr_estimate if profile else "A0"
     word_def = await get_word_definition(card.word, level)
     return await render_with_discover(
         request,
@@ -1139,7 +1139,7 @@ async def lesson_writing_submit(
 
     activity = lesson.activities[idx]
     profile = await get_profile(student.id)
-    cefr_level = profile.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
 
     try:
         feedback = await generate_writing_feedback(
@@ -1315,7 +1315,7 @@ async def lesson_speaking_submit(
 
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
     profile = await get_profile(student.id)
-    cefr_level = profile.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
     prompt_text = activity.content or ""
 
     feedback_coro = generate_speaking_feedback(
@@ -1619,9 +1619,9 @@ async def lesson_complete(
     if (
         profile
         and lesson.cefr_at_start
-        and profile.cefr_estimate != lesson.cefr_at_start
+        and profile.active_progress.cefr_estimate != lesson.cefr_at_start
     ):
-        graduated_to = profile.cefr_estimate
+        graduated_to = profile.active_progress.cefr_estimate
 
     # Collect grammar points covered in this lesson (preserving block order)
     covered_gp_codes = [
@@ -1653,7 +1653,9 @@ async def lesson_complete(
     if profile:
         all_gp_codes = {gp.code for gp in all_gps}
         for code in all_gp_codes:
-            gp_outcomes[code] = profile.grammar_recent_outcomes.get(code, [])
+            gp_outcomes[code] = profile.active_progress.grammar_recent_outcomes.get(
+                code, []
+            )
 
     # Collect communicative functions covered in this lesson
     cf_codes = list(dict.fromkeys(c for ev in events for c in ev.functions_performed))

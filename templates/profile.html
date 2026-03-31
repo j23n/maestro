@@ -38,8 +38,8 @@
 
     {# Progress summary #}
     {% if profile %}
-    {% set current_gp = grammar_by_level[profile.cefr_estimate] %}
-    {% set current_cf = cf_by_level[profile.cefr_estimate] %}
+    {% set current_gp = grammar_by_level[profile.active_progress.cefr_estimate] %}
+    {% set current_cf = cf_by_level[profile.active_progress.cefr_estimate] %}
     {% set gp_mastered = current_gp | selectattr("mastered") | list | length %}
     {% set cf_demonstrated = current_cf | selectattr("demonstrated") | list | length %}
     {% set skills_done = gp_mastered + cf_demonstrated %}
@@ -49,7 +49,7 @@
     <div class="progress-header">
       <div class="progress-headline">
         <span class="progress-pct">{{ pct }}%</span>
-        {% set cefr_label = t("onboarding_label") if profile.cefr_estimate == "A0" else profile.cefr_estimate %}
+        {% set cefr_label = t("onboarding_label") if profile.active_progress.cefr_estimate == "A0" else profile.active_progress.cefr_estimate %}
         <span class="progress-label-text">{{ t("profile_of_level") }} {{ cefr_label }}</span>
       </div>
       <div class="progress-bar-outer">

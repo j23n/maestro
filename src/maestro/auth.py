@@ -20,6 +20,11 @@ _profile_cache: dict[
 ] = {}  # student_id → (ts, profile)
 
 
+def invalidate_profile_cache(student_id: PydanticObjectId) -> None:
+    """Evict cached profile so the next request picks up fresh data."""
+    _profile_cache.pop(student_id, None)
+
+
 class RedirectToLogin(Exception):
     def __init__(self, clear_cookie: bool = False):
         self.clear_cookie = clear_cookie

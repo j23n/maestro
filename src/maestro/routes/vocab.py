@@ -34,8 +34,10 @@ QUIZ_MODES = ("word", "translation")
 
 @router.get("/vocab", response_class=HTMLResponse)
 async def vocab_list(request: Request, student: Student = Depends(get_current_student)):
+    profile = request.state.profile
+    language = profile.target_language if profile else "it"
     cards = await UserVocabularyCard.find(
-        {"student_id": student.id, "excluded": {"$ne": True}}
+        {"student_id": student.id, "language": language, "excluded": {"$ne": True}}
     ).to_list()
     if cards:
         word_ids = [c.word.ref.id for c in cards]
@@ -152,11 +154,14 @@ async def vocab_add(
     if word is None:
         raise HTTPException(status_code=404)
     word_ref = DBRef(VocabularyWord.Settings.name, word.id)
+    # word_ref is a DBRef with a unique ObjectId — already language-specific
     existing = await UserVocabularyCard.find_one(
         {"student_id": student.id, "word": word_ref}
     )
     if existing is None:
-        card = UserVocabularyCard(student_id=student.id, word=word)
+        card = UserVocabularyCard(
+            student_id=student.id, word=word, language=word.language
+        )
         await card.insert()
         logger.info("added word to vocabulary", extra={"word": word.word})
     elif existing.excluded:
@@ -259,9 +264,12 @@ async def vocab_practice(
     incorrect = max(0, incorrect)
     student_level = await get_cefr_level(student.id)
 
+    profile = request.state.profile
+    language = profile.target_language if profile else "it"
     due_cards = await UserVocabularyCard.find(
         {
             "student_id": student.id,
+            "language": language,
             "next_review": {"$lte": date.today()},
             "excluded": {"$ne": True},
         }

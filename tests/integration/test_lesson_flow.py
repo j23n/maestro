@@ -12,6 +12,7 @@ from maestro.models import (
     GeneratedDrill,
     GrammarPoint,
     LearningProfile,
+    LanguageProgress,
     ActivityType,
     ActivityStatus,
     LessonStatus,
@@ -551,7 +552,10 @@ async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     gps = await GrammarPoint.find_all().to_list()
     grammar_cache.seed(gps=gps, cfs=[])
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     # Only CF stage1 LLM call needed (no GP LLM calls)
@@ -585,7 +589,10 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
     gps = await GrammarPoint.find_all().to_list()
     grammar_cache.seed(gps=gps, cfs=[])
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     cf_stage1_response = MagicMock(content=[MagicMock(text='{"categories": []}')])
@@ -597,11 +604,11 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
 
     # Profile should reflect the per-activity events
     refreshed = await LearningProfile.find_one({"student_id": _FAKE_STUDENT_ID})
-    assert refreshed.grammar_correct_counts.get("GP_OK", 0) >= 1
-    assert refreshed.grammar_error_counts.get("GP_BAD", 0) >= 1
+    assert refreshed.active_progress.grammar_correct_counts.get("GP_OK", 0) >= 1
+    assert refreshed.active_progress.grammar_error_counts.get("GP_BAD", 0) >= 1
     # GP_OK should not be in errors, GP_BAD should not be in correct
-    assert refreshed.grammar_correct_counts.get("GP_BAD", 0) == 0
-    assert refreshed.grammar_error_counts.get("GP_OK", 0) == 0
+    assert refreshed.active_progress.grammar_correct_counts.get("GP_BAD", 0) == 0
+    assert refreshed.active_progress.grammar_error_counts.get("GP_OK", 0) == 0
 
 
 @pytest.mark.integration
@@ -638,7 +645,10 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
         grammar_errors=[],
     ).insert()
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     mock_client = AsyncMock()
@@ -650,7 +660,7 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
 
     # But GP codes should still be aggregated into profile
     refreshed = await LearningProfile.find_one({"student_id": _FAKE_STUDENT_ID})
-    assert refreshed.grammar_correct_counts.get("GP_ONLY", 0) >= 1
+    assert refreshed.active_progress.grammar_correct_counts.get("GP_ONLY", 0) >= 1
 
 
 @pytest.mark.integration

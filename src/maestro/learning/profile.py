@@ -55,7 +55,7 @@ async def get_or_create_profile(
 async def get_cefr_level(student_id: PydanticObjectId) -> str:
     """Return the student's current CEFR estimate, defaulting to 'A0'."""
     profile = await get_profile(student_id)
-    return profile.cefr_estimate if profile else "A0"
+    return profile.active_progress.cefr_estimate if profile else "A0"
 
 
 async def save_onboarding_field(
@@ -87,36 +87,29 @@ def outcome_ok(r) -> bool:
 
 async def update_profile(event: "LearningEvent") -> None:
     profile = await get_or_create_profile(event.student_id)
+    lp = profile.active_progress
     now = utcnow().isoformat()
 
     for code in event.grammar_correct:
-        profile.grammar_correct_counts[code] = (
-            profile.grammar_correct_counts.get(code, 0) + 1
-        )
-        recent = profile.grammar_recent_outcomes.get(code, [])
-        profile.grammar_recent_outcomes[code] = (recent + [{"ok": True, "ts": now}])[
-            -10:
-        ]
+        lp.grammar_correct_counts[code] = lp.grammar_correct_counts.get(code, 0) + 1
+        recent = lp.grammar_recent_outcomes.get(code, [])
+        lp.grammar_recent_outcomes[code] = (recent + [{"ok": True, "ts": now}])[-10:]
     for code in event.grammar_errors:
-        profile.grammar_error_counts[code] = (
-            profile.grammar_error_counts.get(code, 0) + 1
-        )
-        recent = profile.grammar_recent_outcomes.get(code, [])
-        profile.grammar_recent_outcomes[code] = (recent + [{"ok": False, "ts": now}])[
-            -10:
-        ]
+        lp.grammar_error_counts[code] = lp.grammar_error_counts.get(code, 0) + 1
+        recent = lp.grammar_recent_outcomes.get(code, [])
+        lp.grammar_recent_outcomes[code] = (recent + [{"ok": False, "ts": now}])[-10:]
     for code in event.functions_performed:
-        profile.functions_counts[code] = profile.functions_counts.get(code, 0) + 1
+        lp.functions_counts[code] = lp.functions_counts.get(code, 0) + 1
     for theme in event.themes:
-        if theme not in profile.themes_seen:
-            profile.themes_seen.append(theme)
+        if theme not in lp.themes_seen:
+            lp.themes_seen.append(theme)
 
     # Recompute weighted mastery for affected GP codes
     from maestro.learning.mastery import compute_gp_mastery
 
     affected_codes = set(event.grammar_correct) | set(event.grammar_errors)
     for code in affected_codes:
-        profile.grammar_mastery_scores[code] = await compute_gp_mastery(
+        lp.grammar_mastery_scores[code] = await compute_gp_mastery(
             event.student_id, code
         )
     if affected_codes:
@@ -126,16 +119,16 @@ async def update_profile(event: "LearningEvent") -> None:
             event.student_id,
         )
 
-    old_cefr = profile.cefr_estimate
-    profile.cefr_estimate = await _compute_cefr(profile)
-    if profile.cefr_estimate != old_cefr:
+    old_cefr = lp.cefr_estimate
+    lp.cefr_estimate = await _compute_cefr(profile)
+    if lp.cefr_estimate != old_cefr:
         logger.info(
             "CEFR level changed %s -> %s, student=%s",
             old_cefr,
-            profile.cefr_estimate,
+            lp.cefr_estimate,
             event.student_id,
         )
-    profile.description = await _generate_description(profile)
+    lp.description = await _generate_description(profile)
     profile.updated_at = utcnow()
     await profile.save()
 
@@ -145,21 +138,22 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
     A0 graduation: all A0 scenarios must be completed (depth >= 1).
 
-    Note: may mutate ``profile.onboarding_completed``; caller must save.
+    Note: may mutate ``profile.active_progress.onboarding_completed``; caller must save.
     """
+    lp = profile.active_progress
     # A0 check: have all A0 scenarios been completed?
-    if not (profile.onboarding_completed or profile.onboarding_skipped):
+    if not (lp.onboarding_completed or lp.onboarding_skipped):
         a0_scenarios = await CurriculumScenario.find(
             {"cefr_level": "A0", "language": profile.target_language}
         ).to_list()
         if a0_scenarios:
-            progress = profile.scenario_progress or {}
+            progress = lp.scenario_progress or {}
             for scenario in a0_scenarios:
                 sp = progress.get(scenario.slug, ScenarioProgress())
                 if sp.depth < 1:
                     return "A0"
         # All A0 scenarios done — mark onboarding as completed
-        profile.onboarding_completed = True
+        lp.onboarding_completed = True
 
     lang = profile.target_language
     await grammar_cache.ensure_loaded(lang)
@@ -175,10 +169,10 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         cf_by_level.setdefault(cf.cefr_level, []).append(cf.code)
 
     def _gp_mastered(code: str) -> bool:
-        return profile.grammar_mastery_scores.get(code, 0.0) >= 0.8
+        return lp.grammar_mastery_scores.get(code, 0.0) >= 0.8
 
     def _cf_demonstrated(code: str) -> bool:
-        return profile.functions_counts.get(code, 0) >= 3
+        return lp.functions_counts.get(code, 0) >= 3
 
     best = "A1"
     for level in CEFR_ORDER:
@@ -205,21 +199,22 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
 
 
 async def _generate_description(profile: "LearningProfile") -> str:
+    lp = profile.active_progress
     lang = profile.target_language
     await grammar_cache.ensure_loaded(lang)
     gp_labels = {gp.code: gp.label for gp in grammar_cache.grammar_points(lang)}
 
     # Grammar narrative
     demonstrated = [
-        gp_labels.get(c, c) for c, n in profile.grammar_correct_counts.items() if n >= 3
+        gp_labels.get(c, c) for c, n in lp.grammar_correct_counts.items() if n >= 3
     ][:4]
     struggling = [
         gp_labels.get(c, c)
-        for c in profile.grammar_error_counts
-        if profile.grammar_error_counts[c]
+        for c in lp.grammar_error_counts
+        if lp.grammar_error_counts[c]
         / max(
             1,
-            profile.grammar_correct_counts.get(c, 0) + profile.grammar_error_counts[c],
+            lp.grammar_correct_counts.get(c, 0) + lp.grammar_error_counts[c],
         )
         > 0.4
     ][:3]
@@ -228,12 +223,14 @@ async def _generate_description(profile: "LearningProfile") -> str:
     total_by_level: dict[str, int] = {}
     discovered_by_level: dict[str, int] = {}
 
-    all_vocab = await VocabularyWord.find({"cefr_level": {"$ne": None}}).to_list()
+    all_vocab = await VocabularyWord.find(
+        {"cefr_level": {"$ne": None}, "language": lang}
+    ).to_list()
     for w in all_vocab:
         total_by_level[w.cefr_level] = total_by_level.get(w.cefr_level, 0) + 1
 
     # Batch fetch word docs instead of N+1 fetch_all_links()
-    card_filter: dict = {"excluded": {"$ne": True}}
+    card_filter: dict = {"excluded": {"$ne": True}, "language": lang}
     if profile.student_id:
         card_filter["student_id"] = profile.student_id
     cards = await UserVocabularyCard.find(card_filter).to_list()
@@ -262,7 +259,7 @@ async def _generate_description(profile: "LearningProfile") -> str:
     cf_by_code = {cf.code: cf for cf in grammar_cache.comm_functions(lang)}
 
     macro_counts: dict[str, int] = {}
-    for code, count in profile.functions_counts.items():
+    for code, count in lp.functions_counts.items():
         cf = cf_by_code.get(code)
         if cf:
             macro_counts[cf.macro_category] = (
@@ -270,14 +267,14 @@ async def _generate_description(profile: "LearningProfile") -> str:
             )
 
     top_functions = sorted(
-        profile.functions_counts.items(), key=lambda x: x[1], reverse=True
+        lp.functions_counts.items(), key=lambda x: x[1], reverse=True
     )[:3]
     top_function_labels = [
         cf_by_code[code].label for code, _ in top_functions if code in cf_by_code
     ]
     top_macros = sorted(macro_counts, key=macro_counts.get, reverse=True)[:2]  # type: ignore[arg-type]
 
-    s1 = f"The student is at approximately {profile.cefr_estimate} level" + (
+    s1 = f"The student is at approximately {lp.cefr_estimate} level" + (
         f", having demonstrated: {', '.join(demonstrated)}." if demonstrated else "."
     )
     if struggling:

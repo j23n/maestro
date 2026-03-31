@@ -7,6 +7,7 @@ from beanie import PydanticObjectId
 from maestro.models import (
     GrammarPoint,
     CommunicativeFunction,
+    LanguageProgress,
     LearningProfile,
     LearningEvent,
 )
@@ -62,7 +63,7 @@ async def test_update_profile_increments_correct_counts(db):
 
     profile = await LearningProfile.find_one()
     assert profile is not None
-    assert profile.grammar_correct_counts.get("GP_001", 0) == 1
+    assert profile.active_progress.grammar_correct_counts.get("GP_001", 0) == 1
 
 
 @pytest.mark.integration
@@ -85,7 +86,7 @@ async def test_update_profile_increments_error_counts(db):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
-    assert profile.grammar_error_counts.get("GP_002", 0) == 1
+    assert profile.active_progress.grammar_error_counts.get("GP_002", 0) == 1
 
 
 @pytest.mark.integration
@@ -93,7 +94,10 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
     from maestro.learning.profile import update_profile
 
     profile = LearningProfile(
-        student_id=_FAKE_STUDENT_ID, grammar_recent_outcomes={"GP_001": [True] * 10}
+        student_id=_FAKE_STUDENT_ID,
+        progress={
+            "it": LanguageProgress(grammar_recent_outcomes={"GP_001": [True] * 10})
+        },
     )
     await profile.insert()
 
@@ -114,7 +118,7 @@ async def test_update_profile_recent_outcomes_capped_at_10(db):
         await update_profile(event)
 
     profile = await LearningProfile.find_one()
-    assert len(profile.grammar_recent_outcomes["GP_001"]) == 10
+    assert len(profile.active_progress.grammar_recent_outcomes["GP_001"]) == 10
 
 
 @pytest.mark.integration
@@ -199,9 +203,13 @@ async def test_compute_cefr_a1_mastered_returns_a1(db):
     # A1 mastered; A2 not mastered → best = A1
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_recent_outcomes={"GP_001": [True] * 5},
-        grammar_mastery_scores={"GP_001": 1.0},
-        functions_counts={"CF_001": 3},
+        progress={
+            "it": LanguageProgress(
+                grammar_recent_outcomes={"GP_001": [True] * 5},
+                grammar_mastery_scores={"GP_001": 1.0},
+                functions_counts={"CF_001": 3},
+            )
+        },
     )
     result = await _compute_cefr(profile)
     assert result == "A1"
@@ -233,12 +241,16 @@ async def test_compute_cefr_both_a1_a2_mastered(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_recent_outcomes={
-            "GP_001": [True] * 5,
-            "GP_002": [True] * 5,
+        progress={
+            "it": LanguageProgress(
+                grammar_recent_outcomes={
+                    "GP_001": [True] * 5,
+                    "GP_002": [True] * 5,
+                },
+                grammar_mastery_scores={"GP_001": 1.0, "GP_002": 1.0},
+                functions_counts={"CF_001": 5, "CF_002": 5},
+            )
         },
-        grammar_mastery_scores={"GP_001": 1.0, "GP_002": 1.0},
-        functions_counts={"CF_001": 5, "CF_002": 5},
     )
     result = await _compute_cefr(profile)
     assert result == "A2"
@@ -270,9 +282,13 @@ async def test_compute_cefr_empty_level_blocks_advancement(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_recent_outcomes={"GP_001": [True] * 5},
-        grammar_mastery_scores={"GP_001": 1.0},
-        functions_counts={"CF_001": 5, "CF_002": 5},
+        progress={
+            "it": LanguageProgress(
+                grammar_recent_outcomes={"GP_001": [True] * 5},
+                grammar_mastery_scores={"GP_001": 1.0},
+                functions_counts={"CF_001": 5, "CF_002": 5},
+            )
+        },
     )
     result = await _compute_cefr(profile)
     # A1 mastered, but A2 has no GPs → can't pass A2, stays at A1
@@ -306,12 +322,16 @@ async def test_compute_cefr_no_skip_levels(db):
     # A1 mastered, A2 NOT mastered, B1 mastered
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        grammar_recent_outcomes={
-            "GP_001": [True] * 5,
-            "GP_003": [True] * 5,
+        progress={
+            "it": LanguageProgress(
+                grammar_recent_outcomes={
+                    "GP_001": [True] * 5,
+                    "GP_003": [True] * 5,
+                },
+                grammar_mastery_scores={"GP_001": 1.0, "GP_003": 1.0},
+                functions_counts={"CF_001": 5, "CF_003": 5},
+            )
         },
-        grammar_mastery_scores={"GP_001": 1.0, "GP_003": 1.0},
-        functions_counts={"CF_001": 5, "CF_003": 5},
     )
     result = await _compute_cefr(profile)
     # Can't skip A2, so stays at A1

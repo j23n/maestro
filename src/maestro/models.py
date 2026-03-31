@@ -115,6 +115,25 @@ class ScenarioProgress(BaseModel):
     lesson_count: int = 0
 
 
+class LanguageProgress(BaseModel):
+    grammar_correct_counts: dict = Field(default_factory=dict)
+    grammar_error_counts: dict = Field(default_factory=dict)
+    grammar_recent_outcomes: dict = Field(
+        default_factory=dict
+    )  # code → list[{ok: bool, ts: str} | bool], sliding window of last 10
+    grammar_mastery_scores: dict = Field(
+        default_factory=dict
+    )  # code → float, weighted mastery score
+    grammar_introduced: List[str] = Field(default_factory=list)
+    functions_counts: dict = Field(default_factory=dict)
+    scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
+    cefr_estimate: str = "A0"
+    onboarding_completed: bool = False
+    onboarding_skipped: bool = False
+    themes_seen: List[str] = Field(default_factory=list)
+    description: str = ""
+
+
 class GrammarChunk(Document):
     ref: str = Field(unique=True)
     content: str
@@ -191,6 +210,7 @@ class VocabularyWordDefinition(Document):
 class UserVocabularyCard(Document):
     student_id: Optional[PydanticObjectId] = None
     word: Link[VocabularyWord]
+    language: str = "it"  # denormalized from VocabularyWord.language
     discovered_at: datetime = Field(default_factory=utcnow)
     ease_factor: float = 2.5
     interval: int = 1
@@ -204,6 +224,7 @@ class UserVocabularyCard(Document):
             IndexModel(
                 [
                     ("student_id", ASCENDING),
+                    ("language", ASCENDING),
                     ("excluded", ASCENDING),
                     ("next_review", ASCENDING),
                 ]
@@ -290,27 +311,22 @@ class LearningEvent(Document):
 
 class LearningProfile(Document):
     student_id: Optional[PydanticObjectId] = None
-    grammar_correct_counts: dict = Field(default_factory=dict)
-    grammar_error_counts: dict = Field(default_factory=dict)
-    grammar_recent_outcomes: dict = Field(
-        default_factory=dict
-    )  # code → list[{ok: bool, ts: str} | bool], sliding window of last 10
-    grammar_mastery_scores: dict = Field(
-        default_factory=dict
-    )  # code → float, weighted mastery score
-    functions_counts: dict = Field(default_factory=dict)
-    themes_seen: List[str] = Field(default_factory=list)
-    cefr_estimate: str = "A0"
-    description: str = ""
-    updated_at: datetime = Field(default_factory=utcnow)
-    persona: StudentPersona = Field(default_factory=StudentPersona)
-    scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
-    onboarding_completed: bool = False  # True when all A0 done (by lessons or skip)
-    onboarding_skipped: bool = False  # True when explicitly skipped via route
     target_language: str = "it"
-    grammar_introduced: List[str] = Field(
-        default_factory=list
-    )  # GP codes introduced in lessons
+    persona: StudentPersona = Field(default_factory=StudentPersona)
+    progress: dict[str, LanguageProgress] = Field(default_factory=dict)
+    updated_at: datetime = Field(default_factory=utcnow)
+
+    @property
+    def active_progress(self) -> LanguageProgress:
+        """Return LanguageProgress for the current target_language.
+
+        Lazily initializes an empty LanguageProgress if the language key
+        doesn't exist yet (e.g. when switching to a new language).
+        """
+        lang = self.target_language
+        if lang not in self.progress:
+            self.progress[lang] = LanguageProgress()
+        return self.progress[lang]
 
     class Settings:
         name = "learning_profile"

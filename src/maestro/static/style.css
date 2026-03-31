@@ -92,6 +92,17 @@ a.student-name {
 }
 a.student-name:hover { color: var(--c-terracotta); }
 
+.nav-lang-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+}
+.nav-lang-badge:hover { color: var(--c-terracotta); border-color: var(--c-terracotta); }
+
 .nav-logout {
   padding: 0.3rem 0.75rem;
   font: inherit;

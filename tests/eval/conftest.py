@@ -220,11 +220,14 @@ async def seeded_lesson_analyzer_cache(db):
 @pytest.fixture
 async def eval_student(db):
     """Create a test student with A1 profile for eval tests that need student context."""
-    from maestro.models import Student, LearningProfile
+    from maestro.models import Student, LearningProfile, LanguageProgress
 
     s = Student(name="Eval Student")
     await s.insert()
-    p = LearningProfile(student_id=s.id, cefr_estimate="A1")
+    p = LearningProfile(
+        student_id=s.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await p.insert()
     return s
 

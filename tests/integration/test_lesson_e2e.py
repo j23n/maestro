@@ -10,6 +10,7 @@ from maestro.models import (
     QuestionItem,
     LearningEvent,
     LearningProfile,
+    LanguageProgress,
     Lesson,
     LessonActivity,
     ActivityType,
@@ -221,7 +222,10 @@ async def test_full_lesson_profile_updated_after_analysis(
     grammar_cache.seed(gps=gps, cfs=[])
 
     # Create a LearningProfile for the student
-    profile = LearningProfile(student_id=lesson.student_id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=lesson.student_id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     # --- Submit all 3 activities (same as above) ---
@@ -296,23 +300,23 @@ async def test_full_lesson_profile_updated_after_analysis(
     updated_profile = await LearningProfile.find_one({"student_id": lesson.student_id})
 
     # GP_A: 1 correct (from drill)
-    assert updated_profile.grammar_correct_counts.get("GP_A", 0) == 1
-    assert updated_profile.grammar_error_counts.get("GP_A", 0) == 0
+    assert updated_profile.active_progress.grammar_correct_counts.get("GP_A", 0) == 1
+    assert updated_profile.active_progress.grammar_error_counts.get("GP_A", 0) == 0
 
     # GP_B: 1 correct (deduplicated across writing + reading in summary event)
-    assert updated_profile.grammar_correct_counts.get("GP_B", 0) == 1
+    assert updated_profile.active_progress.grammar_correct_counts.get("GP_B", 0) == 1
 
     # GP_C: 1 error (from writing)
-    assert updated_profile.grammar_error_counts.get("GP_C", 0) == 1
-    assert updated_profile.grammar_correct_counts.get("GP_C", 0) == 0
+    assert updated_profile.active_progress.grammar_error_counts.get("GP_C", 0) == 1
+    assert updated_profile.active_progress.grammar_correct_counts.get("GP_C", 0) == 0
 
     # recent_outcomes should reflect the deduplicated counts (new dict format)
-    gp_a = updated_profile.grammar_recent_outcomes.get("GP_A")
+    gp_a = updated_profile.active_progress.grammar_recent_outcomes.get("GP_A")
     assert len(gp_a) == 1 and gp_a[0]["ok"] is True
-    gp_b = updated_profile.grammar_recent_outcomes.get("GP_B")
+    gp_b = updated_profile.active_progress.grammar_recent_outcomes.get("GP_B")
     assert len(gp_b) == 1  # deduplicated: GP_B appeared in both writing + reading
     assert gp_b[0]["ok"] is True
-    gp_c = updated_profile.grammar_recent_outcomes.get("GP_C")
+    gp_c = updated_profile.active_progress.grammar_recent_outcomes.get("GP_C")
     assert len(gp_c) == 1 and gp_c[0]["ok"] is False
 
     # Summary event should exist (activity_type=None)

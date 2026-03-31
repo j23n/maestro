@@ -180,11 +180,12 @@ async def update_scenario_progress(lesson: Lesson) -> None:
     if not lesson.scenario_slug or not lesson.student_id:
         return
     profile = await get_or_create_profile(lesson.student_id)
-    progress = profile.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
+    lp = profile.active_progress
+    progress = lp.scenario_progress.get(lesson.scenario_slug, ScenarioProgress())
     progress.depth = max(progress.depth, lesson.scenario_depth or 1)
     progress.last_visited = utcnow()
     progress.lesson_count += 1
-    profile.scenario_progress[lesson.scenario_slug] = progress
+    lp.scenario_progress[lesson.scenario_slug] = progress
     await profile.save()
 
 
@@ -384,24 +385,21 @@ async def _credit_a0_mastery(lesson: Lesson) -> None:
         return
 
     profile = await get_or_create_profile(lesson.student_id)
+    lp = profile.active_progress
 
     # Credit GPs: fill recent_outcomes with 5 True entries -> instant mastery
     now = utcnow().isoformat()
     for code in scenario.gp_codes or []:
-        profile.grammar_correct_counts[code] = max(
-            profile.grammar_correct_counts.get(code, 0), 5
-        )
-        profile.grammar_recent_outcomes[code] = [
-            {"ok": True, "ts": now} for _ in range(5)
-        ]
-        profile.grammar_mastery_scores[code] = 1.0
+        lp.grammar_correct_counts[code] = max(lp.grammar_correct_counts.get(code, 0), 5)
+        lp.grammar_recent_outcomes[code] = [{"ok": True, "ts": now} for _ in range(5)]
+        lp.grammar_mastery_scores[code] = 1.0
 
     # Credit CFs: set count to 3 (demonstration threshold)
     for code in scenario.cf_codes or []:
-        profile.functions_counts[code] = max(profile.functions_counts.get(code, 0), 3)
+        lp.functions_counts[code] = max(lp.functions_counts.get(code, 0), 3)
 
     # Recompute CEFR (may trigger A0->A1 graduation if all scenarios done)
-    profile.cefr_estimate = await _compute_cefr(profile)
+    lp.cefr_estimate = await _compute_cefr(profile)
     profile.updated_at = utcnow()
     await profile.save()
 

@@ -85,16 +85,15 @@ def build_lesson_content_prompt(
     if lesson_context:
         parts.append(f"Lesson context requested by the student: {lesson_context}")
 
-    if profile and profile.description:
-        parts.append(f"Student profile: {profile.description}")
+    lp = profile.active_progress if profile else None
+    if lp and lp.description:
+        parts.append(f"Student profile: {lp.description}")
 
     if grammar_gps:
         gp_lines = []
         for gp in grammar_gps:
-            gp_errors = profile.grammar_error_counts.get(gp.code, 0) if profile else 0
-            gp_correct = (
-                profile.grammar_correct_counts.get(gp.code, 0) if profile else 0
-            )
+            gp_errors = lp.grammar_error_counts.get(gp.code, 0) if lp else 0
+            gp_correct = lp.grammar_correct_counts.get(gp.code, 0) if lp else 0
             gp_lines.append(
                 f"  - {gp.label} ({gp.code})\n"
                 f"    Performance: {gp_correct} correct, {gp_errors} errors"

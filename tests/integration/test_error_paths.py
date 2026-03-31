@@ -13,6 +13,7 @@ from maestro.models import (
     DrillItem,
     ExerciseType,
     GrammarPoint,
+    LanguageProgress,
     Lesson,
     LessonActivity,
     LearningProfile,
@@ -125,7 +126,10 @@ async def test_background_generation_failure_sets_error(db, student):
     from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     # Seed a scenario so pick_scenario can find one before hitting the LLM
@@ -285,7 +289,10 @@ async def test_background_generation_api_unavailable_sets_error(db, student):
     from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     scenario = CurriculumScenario(
@@ -326,7 +333,10 @@ async def test_generation_error_message_is_user_friendly(db, student):
     from maestro.lessons.planner import generate_lesson_background
     from maestro.models import CurriculumScenario
 
-    profile = LearningProfile(student_id=student.id, cefr_estimate="A1")
+    profile = LearningProfile(
+        student_id=student.id,
+        progress={"it": LanguageProgress(cefr_estimate="A1")},
+    )
     await profile.insert()
 
     scenario = CurriculumScenario(

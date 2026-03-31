@@ -8,6 +8,7 @@ from maestro.models import (
     Account,
     CurriculumScenario,
     GeneratedDrill,
+    LanguageProgress,
     LearningProfile,
     Lesson,
     LessonActivity,
@@ -57,7 +58,13 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
     # s1 completed, s2 not
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"a0-01-in-aereo": ScenarioProgress(depth=1, lesson_count=1)},
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={
+                    "a0-01-in-aereo": ScenarioProgress(depth=1, lesson_count=1)
+                },
+            )
+        },
     )
     scenario, depth = await _pick_a0_scenario(profile)
     assert scenario.slug == "a0-02-in-albergo"
@@ -130,7 +137,10 @@ async def test_a0_lesson_generates_static_content(db):
     """A0 lesson background should load static content from YAML — no LLM calls."""
     from maestro.lessons.planner import generate_lesson_background
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A0")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A0")},
+    )
     await profile.insert()
 
     s1 = CurriculumScenario(
@@ -197,7 +207,10 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     """A0 drill activities should create GeneratedDrill documents."""
     from maestro.lessons.planner import generate_lesson_background
 
-    profile = LearningProfile(student_id=_FAKE_STUDENT_ID, cefr_estimate="A0")
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A0")},
+    )
     await profile.insert()
 
     s = CurriculumScenario(
@@ -212,7 +225,7 @@ async def test_a0_drill_creates_generated_drill_doc(db):
     )
     await s.insert()
     # Mark lesson 1 as done so lesson 2 is picked
-    profile.scenario_progress["a0-01-in-aereo"] = ScenarioProgress(
+    profile.active_progress.scenario_progress["a0-01-in-aereo"] = ScenarioProgress(
         depth=1, lesson_count=1
     )
     await profile.save()
@@ -288,7 +301,11 @@ async def test_compute_cefr_stays_a0_when_incomplete(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"a0-01": ScenarioProgress(depth=1, lesson_count=1)},
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={"a0-01": ScenarioProgress(depth=1, lesson_count=1)},
+            )
+        },
     )
     result = await _compute_cefr(profile)
     assert result == "A0"
@@ -334,9 +351,13 @@ async def test_compute_cefr_graduates_to_a1(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={
-            "a0-01": ScenarioProgress(depth=1, lesson_count=1),
-            "a0-02": ScenarioProgress(depth=1, lesson_count=1),
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={
+                    "a0-01": ScenarioProgress(depth=1, lesson_count=1),
+                    "a0-02": ScenarioProgress(depth=1, lesson_count=1),
+                },
+            )
         },
     )
     result = await _compute_cefr(profile)
@@ -559,30 +580,30 @@ async def test_skip_onboarding_sets_flags_and_graduates(db):
     await s2.insert()
 
     profile = await get_or_create_profile(student.id)
-    assert profile.cefr_estimate == "A0"
+    assert profile.active_progress.cefr_estimate == "A0"
 
     result = await _skip_onboarding(student.id)
     assert result is True
 
     profile = await LearningProfile.find_one({"student_id": student.id})
-    assert profile.onboarding_skipped is True
-    assert profile.onboarding_completed is True
-    assert profile.cefr_estimate == "A1"
+    assert profile.active_progress.onboarding_skipped is True
+    assert profile.active_progress.onboarding_completed is True
+    assert profile.active_progress.cefr_estimate == "A1"
 
     # Scenario progress filled
-    assert profile.scenario_progress["a0-01"].depth == 1
-    assert profile.scenario_progress["a0-02"].depth == 1
+    assert profile.active_progress.scenario_progress["a0-01"].depth == 1
+    assert profile.active_progress.scenario_progress["a0-02"].depth == 1
 
     # GP mastery credited
-    assert profile.grammar_correct_counts.get("gp_saluti", 0) >= 5
-    recent = profile.grammar_recent_outcomes.get("gp_saluti")
+    assert profile.active_progress.grammar_correct_counts.get("gp_saluti", 0) >= 5
+    recent = profile.active_progress.grammar_recent_outcomes.get("gp_saluti")
     assert len(recent) == 5
     assert all(r["ok"] is True for r in recent)
-    assert profile.grammar_correct_counts.get("gp_addio", 0) >= 5
+    assert profile.active_progress.grammar_correct_counts.get("gp_addio", 0) >= 5
 
     # CF mastery credited
-    assert profile.functions_counts.get("cf_greet", 0) >= 3
-    assert profile.functions_counts.get("cf_bye", 0) >= 3
+    assert profile.active_progress.functions_counts.get("cf_greet", 0) >= 3
+    assert profile.active_progress.functions_counts.get("cf_bye", 0) >= 3
 
 
 @pytest.mark.integration
@@ -595,7 +616,7 @@ async def test_skip_onboarding_already_past_a0(db):
     await student.insert()
 
     profile = await get_or_create_profile(student.id)
-    profile.cefr_estimate = "A1"
+    profile.active_progress.cefr_estimate = "A1"
     await profile.save()
 
     result = await _skip_onboarding(student.id)
@@ -671,7 +692,7 @@ async def test_compute_cefr_respects_skip_flag(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        onboarding_skipped=True,
+        progress={"it": LanguageProgress(onboarding_skipped=True)},
     )
     result = await _compute_cefr(profile)
     assert result == "A1"  # Not A0, because skip flag bypasses A0 check
@@ -705,13 +726,17 @@ async def test_compute_cefr_sets_onboarding_completed_on_natural_graduation(db):
 
     profile = LearningProfile(
         student_id=_FAKE_STUDENT_ID,
-        scenario_progress={"a0-01": ScenarioProgress(depth=1, lesson_count=1)},
+        progress={
+            "it": LanguageProgress(
+                scenario_progress={"a0-01": ScenarioProgress(depth=1, lesson_count=1)},
+            )
+        },
     )
-    assert profile.onboarding_completed is False
+    assert profile.active_progress.onboarding_completed is False
 
     result = await _compute_cefr(profile)
     assert result == "A1"
-    assert profile.onboarding_completed is True
+    assert profile.active_progress.onboarding_completed is True
 
 
 @pytest.mark.integration
@@ -746,5 +771,5 @@ def test_skip_onboarding_route(test_app, student, db):
         return profile
 
     profile = asyncio.get_event_loop().run_until_complete(_check())
-    assert profile.onboarding_skipped is True
-    assert profile.cefr_estimate == "A1"
+    assert profile.active_progress.onboarding_skipped is True
+    assert profile.active_progress.cefr_estimate == "A1"
