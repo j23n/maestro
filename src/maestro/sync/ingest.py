@@ -216,6 +216,83 @@ async def seed_a0_vocab(language: str | None = None) -> None:
     )
 
 
+async def seed_dwds_headwords() -> None:
+    """Ingest bare VocabularyWord documents from DWDS headwords JSON.
+
+    Creates one VocabularyWord per headword with empty senses — enrichment
+    from DWDS web pages happens on-demand when words are discovered.
+    Skips words that already exist (by word + part_of_speech + language).
+    """
+    import re
+    import unicodedata
+
+    from pymongo.errors import BulkWriteError
+
+    headwords_path = data_dir("de") / "dwds_headwords.json"
+    if not headwords_path.exists():
+        logger.warning("dwds: headwords file not found: %s", headwords_path)
+        return
+
+    superscript_re = re.compile(r"[¹²³⁴⁵⁶⁷⁸⁹⁰]+$")
+
+    raw: dict[str, str] = json.loads(headwords_path.read_text())
+    seen: set[str] = set()
+    words: list[str] = []
+    for headword in raw:
+        stripped = headword.strip()
+        if not stripped or stripped.startswith("-") or not stripped[0].isalpha():
+            continue
+        stripped = superscript_re.sub("", stripped)
+        stripped = unicodedata.normalize("NFC", stripped)
+        if stripped and stripped not in seen:
+            seen.add(stripped)
+            words.append(stripped)
+
+    logger.info("dwds: loaded %d unique headwords", len(words))
+
+    now = utcnow()
+    docs = [
+        VocabularyWord(
+            word=w,
+            part_of_speech="",
+            language="de",
+            senses=[],
+            cefr_level=None,
+            created_at=now,
+            updated_at=now,
+        )
+        for w in words
+    ]
+
+    batch_size = 500
+    inserted = 0
+    for i in range(0, len(docs), batch_size):
+        batch = docs[i : i + batch_size]
+        try:
+            await VocabularyWord.insert_many(batch)
+            inserted += len(batch)
+        except BulkWriteError:
+            for doc in batch:
+                existing = await VocabularyWord.find_one(
+                    VocabularyWord.word == doc.word,
+                    VocabularyWord.part_of_speech == doc.part_of_speech,
+                    VocabularyWord.language == doc.language,
+                )
+                if not existing:
+                    try:
+                        await doc.insert()
+                        inserted += 1
+                    except Exception:
+                        pass
+
+        if (i + batch_size) % 5000 < batch_size:
+            logger.info(
+                "dwds: progress %d / %d", min(i + batch_size, len(docs)), len(docs)
+            )
+
+    logger.info("dwds: ingested %d new VocabularyWord documents", inserted)
+
+
 async def ingest():
     await init_db()
 

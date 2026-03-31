@@ -104,6 +104,18 @@ async def test_profile_with_seeded_profile(test_app, student):
 
 
 @pytest.mark.integration
+def test_cf_index_ok(test_app):
+    response = test_app.get("/cf")
+    assert response.status_code == 200
+
+
+@pytest.mark.integration
+def test_cf_nonexistent_returns_404(test_app):
+    response = test_app.get("/cf/NONEXISTENT")
+    assert response.status_code == 404
+
+
+@pytest.mark.integration
 def test_grammar_nonexistent_returns_404(test_app):
     response = test_app.get("/grammar/NONEXISTENT")
     assert response.status_code == 404
