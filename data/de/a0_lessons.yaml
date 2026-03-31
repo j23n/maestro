@@ -223,7 +223,7 @@ a0-01-im-flugzeug:
       grammar_point_codes:
       - hoeflich_ausdruecke
       text: What does the passenger order?
-    - correct_answer: false
+    - correct_answer: "Nein"
       grammar_point_codes:
       - hoeflich_ausdruecke
       text: Does the passenger want milk in their coffee?
