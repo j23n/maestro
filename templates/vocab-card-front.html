@@ -37,7 +37,7 @@
 
   {% if mode == 'word' %}
     <div class="prompt">{{ t("vocab_word_prompt", language=target_language) }}</div>
-    <div class="word"><span lang="it">{{ card.word.word }}</span></div>
+    <div class="word"><span lang="{{ target_language_code }}">{{ card.word.word }}</span></div>
   {% elif mode == 'translation' %}
     <div class="prompt">{{ t("vocab_translation_prompt", language=target_language) }}</div>
     <div class="clue">{{ word_def.translation if word_def and word_def.translation else "—" }}</div>

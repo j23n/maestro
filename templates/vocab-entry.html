@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="card" id="entry-card">
-  <div class="word"><span lang="it">{{ word.word }}</span></div>
+  <div class="word"><span lang="{{ target_language_code }}">{{ word.word }}</span></div>
   <div class="pos">{{ word.part_of_speech }}{% if word.syllabization %} · [{{ word.syllabization }}]{% endif %}{% if word.cefr_level %} · {{ word.cefr_level }}{% endif %}</div>
 
   {% if audio_url %}
@@ -67,8 +67,8 @@
     <ol class="senses">
       {% for s in lvl_def.senses %}
       <li>
-        <span class="sense-def" lang="it">{{ s.definition }}</span>
-        {% if s.examples %}<div class="sense-ex" lang="it">{{ s.examples[0] }}</div>{% endif %}
+        <span class="sense-def" lang="{{ target_language_code }}">{{ s.definition }}</span>
+        {% if s.examples %}<div class="sense-ex" lang="{{ target_language_code }}">{{ s.examples[0] }}</div>{% endif %}
         {% if s.translation %}<div class="sense-translation"><strong>{{ t("vocab_english_label") }}</strong>: {{ s.translation }}</div>{% endif %}
       </li>
       {% endfor %}

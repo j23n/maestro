@@ -8,11 +8,7 @@
     <h1 class="gp-title">{{ heading }}</h1>
   </div>
 
-  <!-- lang="it" is always correct here: chunks are grammar explanations
-       written in the target language (Italian). Unlike grammar-detail.html,
-       which conditionally sets lang based on the student's level, chunks
-       are standalone reference content that is always in Italian. -->
-  <div class="grammar-content" lang="it">
+  <div class="grammar-content" lang="{{ target_language_code }}">
     {{ content | markdown | safe }}
   </div>
 
