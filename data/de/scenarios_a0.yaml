@@ -3,7 +3,7 @@ scenarios:
     label: "Im Flugzeug"
     description: "Your first German words \u2014 on the plane and at the airport"
     overview: "You're on the plane to Munich. Learn the absolute essentials: hello, thank you, please, and the one phrase that gets you anything."
-    image: "scenarios/a0-01-im-flugzeug.png"
+    image: "images/a0-01-im-flugzeug.png"
     scene_setting: |
       You're on a plane to Munich. The pilot just announced the descent
       into Franz Josef Strau\xDF Airport in German \u2014 and you didn't catch
@@ -29,6 +29,7 @@ scenarios:
     label: "Im Hotel"
     description: "Checking into the hotel \u2014 names, numbers, and German sounds"
     overview: "You've arrived at the hotel near Marienplatz. Learn to introduce yourself, understand room numbers, and start reading German out loud."
+    image: "images/a0-02-im-hotel.png"
     scene_setting: |
       The S-Bahn drops you off at Marienplatz. You walk through the old
       town with your suitcase and find your hotel. The receptionist greets

@@ -177,6 +177,7 @@ if settings.DATA_DIR != settings.STATIC_DIR:
         StaticFiles(directory=Path(settings.DATA_DIR) / "audio"),
         name="audio",
     )
+app.mount("/static/images", StaticFiles(directory="data/images"), name="images")
 app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
 
 

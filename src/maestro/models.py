@@ -84,7 +84,7 @@ class CurriculumScenario(Document):
     label: str  # "Al bar"
     description: str  # English description of the scenario
     overview: str = ""  # 2-3 sentence lesson overview
-    image: str = ""  # path relative to /static (e.g. "scenarios/a0-01-in-aereo.png")
+    image: str = ""  # path relative to /static (e.g. "images/a0-01-in-aereo.png")
     scene_setting: str = ""  # narrative intro paragraph for the lesson intro activity
     outro: str = ""  # narrative recap shown on the lesson completion page
     cefr_level: str  # "A1"
