@@ -1,18 +1,20 @@
 ## Stage 1: Resolve Git LFS pointers into real files
 FROM alpine:3.21 AS lfs
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl jq
 ARG GITHUB_TOKEN
 ARG RAILWAY_GIT_COMMIT_SHA=main
 WORKDIR /repo
 COPY data/ data/
-# Download real content for any LFS pointer files via GitHub's media endpoint
+# Download real LFS content via GitHub API (raw endpoint only returns pointers)
 RUN find /repo -type f -size -1k | while IFS= read -r f; do \
       if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
         rel="${f#/repo/}"; \
         echo "Resolving LFS: ${rel}"; \
-        curl -sfL -H "Authorization: token ${GITHUB_TOKEN}" \
-          "https://media.githubusercontent.com/media/j23n/maestro/${RAILWAY_GIT_COMMIT_SHA}/${rel}" \
-          -o "$f" || { echo "ERROR: failed to download ${rel}"; exit 1; }; \
+        dl_url=$(curl -sf -H "Authorization: token ${GITHUB_TOKEN}" \
+          "https://api.github.com/repos/j23n/maestro/contents/${rel}?ref=${RAILWAY_GIT_COMMIT_SHA}" \
+          | jq -r '.download_url') \
+        && curl -sfL -o "$f" "$dl_url" \
+        || { echo "ERROR: failed to download ${rel}"; exit 1; }; \
         if head -1 "$f" 2>/dev/null | grep -q "version https://git-lfs"; then \
           echo "ERROR: ${rel} is still an LFS pointer after download"; exit 1; \
         fi; \
