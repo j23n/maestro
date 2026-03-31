@@ -1,12 +1,14 @@
 {
-  "sha256": "0a8382b815af2bfb6cd32d8ab50bb8a7f2b3f5e3f9446ccedba2c950432a01e5",
+  "sha256": "5a48c7afd6571c26d845526212d3118393e33c55a76e009580e3cdff7a6d94be",
   "gp_count": 121,
   "explanations_by_level": {
     "A0": {
       "en": 22
     },
-    "A1": {},
+    "A1": {
+      "en": 58
+    },
     "A2": {}
   },
-  "generated_at": "2026-03-30T08:22:32.738774+00:00"
+  "generated_at": "2026-03-30T15:20:13.522511+00:00"
 }

@@ -14,7 +14,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 @pytest.mark.llm_eval
 async def test_grammar_explanation_quality(record_eval, record_item):
     """Validate that explanations are generated for all expected levels with sufficient content."""
-    from generate_explanations import _call_api
+    from augment_gp import _call_llm
     from tests.eval.judge import judge as _judge, judge_against_reference as _judge_ref
 
     cases = json.loads((FIXTURES_DIR / "grammar_explanation_cases.json").read_text())
@@ -28,14 +28,26 @@ async def test_grammar_explanation_quality(record_eval, record_item):
             "code": case["code"],
             "label": case["label"],
             "cefr_level": case["cefr_level"],
+            "category": case.get("category", ""),
             "description": case["description"],
         }
-        # _call_api now generates one language at a time; call for each expected level
+        explanation_langs = case["expected_levels"]
+        missing = [f"explanations.{lang}" for lang in explanation_langs]
+        result = await _call_llm(
+            gp,
+            missing=missing,
+            context_list="",
+            chunk_content="",
+            explanation_langs=explanation_langs,
+            target_lang_name="Italian",
+            target_lang_code="it",
+        )
         data = {}
-        for lang in case["expected_levels"]:
-            result = await _call_api(gp, chunk_content="", lang=lang)
-            if result:
-                data[lang] = result
+        if result:
+            for lang in explanation_langs:
+                expl = result.get("explanations", {}).get(lang)
+                if expl:
+                    data[lang] = expl
         all_data[case["code"]] = data
 
         failures = []

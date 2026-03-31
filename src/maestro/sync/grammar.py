@@ -9,7 +9,7 @@ How it works:
      the stored hash is updated.
 
 This means grammar_points.yaml is the single source of truth: edit the YAML
-(or run generate_explanations.py which edits it), update the lock, deploy —
+(or run augment_gp.py which edits it), update the lock, deploy —
 the database catches up automatically on the next startup.
 """
 

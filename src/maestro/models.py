@@ -50,6 +50,8 @@ class CallType(str, Enum):
     LESSON_ANALYZER_CF2 = "lesson_analyzer_cf2"
     VOCAB_DEFINITION = "vocab_definition"
     GRAMMAR_EXPLANATION = "grammar_explanation"
+    AUGMENT_GP = "augment_gp"
+    AUGMENT_CF = "augment_cf"
 
 
 class Student(Document):
@@ -214,7 +216,7 @@ class UserVocabularyCard(Document):
 
 
 class GrammarExplanation(BaseModel):
-    """Language-specific explanation for a grammar point, stored inline on GrammarPoint."""
+    """Language-specific explanation stored inline on GrammarPoint or CommunicativeFunction."""
 
     title: str = ""
     tip: str = ""  # 2-3 sentence plain-language summary; shown as tooltip on incorrect usage in activity feedback
@@ -253,6 +255,7 @@ class CommunicativeFunction(Document):
     patterns: List[str] = Field(default_factory=list)
     examples: List[str] = Field(default_factory=list)
     description: str = ""  # built from patterns at ingest; used in analyzer prompt
+    explanations: dict[str, GrammarExplanation] = Field(default_factory=dict)
     source_url: str = ""
     language: str = "it"
 
