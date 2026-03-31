@@ -22,17 +22,9 @@ from pathlib import Path
 import anthropic
 import yaml
 
+from _shared import CEFR_ORDER, LANGUAGE_NAMES, write_gp_yaml
+
 DATA_ROOT = Path(__file__).resolve().parent.parent.parent / "data"
-
-LANGUAGE_NAMES = {
-    "de": "German",
-    "it": "Italian",
-    "es": "Spanish",
-    "fr": "French",
-    "pt": "Portuguese",
-}
-
-CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
 def _gp_path(lang: str) -> Path:
@@ -229,10 +221,7 @@ def main() -> None:
             # Clear prerequisites for targeted GPs not in the DAG
             gp.pop("prerequisites", None)
 
-    with open(gp_path, "w") as f:
-        yaml.dump(
-            all_gps, f, default_flow_style=False, allow_unicode=True, sort_keys=False
-        )
+    write_gp_yaml(gp_path, all_gps)
 
     print(f"\nUpdated {updated} grammar points with prerequisites in {gp_path}")
     print("Please review the file before committing.")

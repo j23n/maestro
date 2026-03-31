@@ -4,12 +4,17 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
 
 from maestro.language import LANGUAGES
+from maestro.llm import compute_cost_usd
+from maestro.utils import parse_llm_json
+
+logger = logging.getLogger(__name__)
 
 LANGUAGE_NAMES: dict[str, str] = {code: lc.name for code, lc in LANGUAGES.items()}
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
@@ -113,4 +118,64 @@ def compute_sha256(path: Path) -> str:
 
 def write_lock(lock_path: Path, lock_data: dict) -> None:
     lock_data["generated_at"] = datetime.now(timezone.utc).isoformat()
-    lock_path.write_text(json.dumps(lock_data, indent=2) + "\n")
+    lock_path.write_text(json.dumps(lock_data, indent=2, sort_keys=True) + "\n")
+
+
+# ---------------------------------------------------------------------------
+# LLM response helpers
+# ---------------------------------------------------------------------------
+
+
+_EXPLANATION_FIELDS = ("title", "tip", "why_this_matters", "explanation")
+
+
+def parse_response(raw: str) -> dict | None:
+    """Parse JSON response from LLM. Returns the dict or None on failure."""
+    data = parse_llm_json(raw)
+    if not isinstance(data, dict):
+        return None
+    return data
+
+
+def validate_explanation(expl: dict, lang: str) -> dict | None:
+    """Validate and normalise an explanation dict."""
+    if not expl.get("explanation"):
+        return None
+    return {
+        "title": str(expl.get("title", "")).strip(),
+        "tip": str(expl.get("tip", "")).strip(),
+        "why_this_matters": str(expl.get("why_this_matters", "")).strip(),
+        "explanation": str(expl["explanation"]).strip(),
+        "language": lang,
+    }
+
+
+class UsageStats:
+    """Accumulates token counts and cost across multiple LLM calls."""
+
+    def __init__(self) -> None:
+        self.input_tokens = 0
+        self.output_tokens = 0
+        self.cost_usd = 0.0
+        self.calls = 0
+
+    def record(self, response) -> float:
+        """Record usage from an LLM response. Returns cost for this call."""
+        usage = response.usage
+        model = response.model
+        cost = compute_cost_usd(model, usage.input_tokens, usage.output_tokens)
+        self.input_tokens += usage.input_tokens
+        self.output_tokens += usage.output_tokens
+        self.cost_usd += cost
+        self.calls += 1
+        return cost
+
+    def log_summary(self) -> None:
+        logger.info(
+            "Token usage: %d calls, %d input + %d output = %d tokens, $%.4f",
+            self.calls,
+            self.input_tokens,
+            self.output_tokens,
+            self.input_tokens + self.output_tokens,
+            self.cost_usd,
+        )

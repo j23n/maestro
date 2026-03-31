@@ -5,7 +5,7 @@ Writes data/it/grammar_chunk_contents.json:
   { "chunk_ref": "markdown content ...", ... }
 
 Run this once after ingesting the grammar book, then commit the output.
-The generate_explanations script reads from this file instead of hitting the database.
+The augment_gp script reads from this file instead of hitting the database.
 
 Usage: uv run python scripts/export_grammar_chunks.py
 """

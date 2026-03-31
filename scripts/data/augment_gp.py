@@ -25,16 +25,20 @@ from pathlib import Path
 import yaml
 
 from maestro.config import settings
-from maestro.llm import compute_cost_usd, llm_messages_create
+from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.prompts import augment_gp_prompts as _prompts, span_tagging_block as _stb
-from maestro.utils import data_dir, parse_llm_json
+from maestro.utils import data_dir
 
 from _shared import (
     CEFR_ORDER,
     LANGUAGE_NAMES,
-    write_gp_yaml,
+    UsageStats,
+    _EXPLANATION_FIELDS,
     compute_sha256,
+    parse_response,
+    validate_explanation,
+    write_gp_yaml,
     write_lock,
 )
 
@@ -42,7 +46,6 @@ logger = logging.getLogger(__name__)
 
 # Fields the augment script manages (everything else is left alone)
 _AUGMENTABLE_SIMPLE = ("subcategory", "description", "examples")
-_EXPLANATION_FIELDS = ("title", "tip", "why_this_matters", "explanation")
 
 
 # ---------------------------------------------------------------------------
@@ -186,57 +189,6 @@ def _build_user_prompt(
 # ---------------------------------------------------------------------------
 
 
-def _parse_response(raw: str) -> dict | None:
-    """Parse JSON response. Returns the dict or None on failure."""
-    data = parse_llm_json(raw)
-    if not isinstance(data, dict):
-        return None
-    return data
-
-
-def _validate_explanation(expl: dict) -> dict | None:
-    """Validate and normalise an explanation dict."""
-    if not expl.get("explanation"):
-        return None
-    return {
-        "title": str(expl.get("title", "")).strip(),
-        "tip": str(expl.get("tip", "")).strip(),
-        "why_this_matters": str(expl.get("why_this_matters", "")).strip(),
-        "explanation": str(expl["explanation"]).strip(),
-        "language": str(expl.get("language", "en")).strip(),
-    }
-
-
-class _UsageStats:
-    """Accumulates token counts and cost across multiple LLM calls."""
-
-    def __init__(self) -> None:
-        self.input_tokens = 0
-        self.output_tokens = 0
-        self.cost_usd = 0.0
-        self.calls = 0
-
-    def record(self, response) -> None:
-        usage = response.usage
-        model = response.model
-        self.input_tokens += usage.input_tokens
-        self.output_tokens += usage.output_tokens
-        self.cost_usd += compute_cost_usd(
-            model, usage.input_tokens, usage.output_tokens
-        )
-        self.calls += 1
-
-    def log_summary(self) -> None:
-        logger.info(
-            "Token usage: %d calls, %d input + %d output = %d tokens, $%.4f",
-            self.calls,
-            self.input_tokens,
-            self.output_tokens,
-            self.input_tokens + self.output_tokens,
-            self.cost_usd,
-        )
-
-
 async def _call_llm(
     gp: dict,
     missing: list[str],
@@ -246,7 +198,7 @@ async def _call_llm(
     target_lang_name: str,
     target_lang_code: str,
     force: bool = False,
-    stats: _UsageStats | None = None,
+    stats: UsageStats | None = None,
 ) -> dict | None:
     system_msg = _build_system_prompt(
         gp["cefr_level"], explanation_langs, target_lang_name, target_lang_code
@@ -265,13 +217,7 @@ async def _call_llm(
             entity_id=None,
             call_type=CallType.AUGMENT_GP,
         )
-        if stats:
-            stats.record(response)
-        cost = compute_cost_usd(
-            response.model,
-            response.usage.input_tokens,
-            response.usage.output_tokens,
-        )
+        cost = stats.record(response) if stats else 0.0
         logger.info(
             "  tokens: %d in + %d out = $%.4f",
             response.usage.input_tokens,
@@ -281,7 +227,7 @@ async def _call_llm(
         raw = response.content[0].text
         logger.debug("  STOP: %s  USAGE: %s", response.stop_reason, response.usage)
         logger.debug("  RESPONSE:\n%s", raw)
-        data = _parse_response(raw)
+        data = parse_response(raw)
         if data:
             return data
         if response.stop_reason == "max_tokens" and attempt < 2:
@@ -291,11 +237,11 @@ async def _call_llm(
             )
         else:
             logger.warning(
-                "  Parse error (attempt %d/3) for '%s': %s",
-                attempt + 1,
+                "  Parse error for '%s', not retrying: %s",
                 gp["label"],
                 raw[:300],
             )
+            break
     return None
 
 
@@ -331,9 +277,8 @@ def _apply(gp: dict, data: dict, missing: list[str]) -> int:
         expl_raw = explanations_data.get(lang)
         if not expl_raw:
             continue
-        validated = _validate_explanation(expl_raw)
+        validated = validate_explanation(expl_raw, lang)
         if validated:
-            validated["language"] = lang
             gp.setdefault("explanations", {})[lang] = validated
             updated += 1
 
@@ -467,7 +412,7 @@ async def generate(
                 f"- {g['code']}: {g.get('label', '')}" for g in level_gps
             )
 
-    stats = _UsageStats()
+    stats = UsageStats()
     changed = False
     for i, (gp, missing) in enumerate(todo, 1):
         logger.info(
@@ -493,7 +438,7 @@ async def generate(
                 missing,
                 context,
                 chunk_content,
-                gp_explanation_langs or explanation_langs,
+                gp_explanation_langs,
                 target_lang_name,
                 target_lang_code,
                 force=force,

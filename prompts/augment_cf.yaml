@@ -49,8 +49,8 @@ augment_system:
 
     Return ONLY a valid JSON object containing exactly the requested fields —
     no markdown fences, no preamble, no trailing text.
-    Inside string values, use single quotes ('…') — never double quotes, as
-    they break JSON parsing.
+    Inside JSON string values, prefer single quotes over double quotes to
+    avoid escaping issues.
 
 explanation_guidance_en:
   user: |
