@@ -1,34 +1,95 @@
 """
-One-off script: use Claude to cluster A1 CFs and GPs into curriculum scenarios.
+Generate A1 curriculum scenarios by clustering CFs and GPs with an LLM.
 
-Outputs data/scenarios_a1.yaml.
+Uses the Italian A1 scenarios as structural reference when generating for
+other languages, so themes can be reused where appropriate.
 
-Run with:  uv run python scripts/generate_scenario_bank.py
+Run with:
+  uv run python scripts/generate_scenario_bank.py --lang de
+  uv run python scripts/generate_scenario_bank.py --lang it
 """
 
+import argparse
 import json
 import logging
 
+import httpx
 import yaml
 
+from maestro.language import LANGUAGES
 from maestro.llm import get_client
 from maestro.utils import data_dir
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-OUTPUT = data_dir() / "scenarios_a1.yaml"
+IT_SCENARIOS = data_dir("it") / "scenarios_a1.yaml"
+
+
+def _build_reference_block(lang: str) -> str:
+    """Return Italian A1 scenarios as structural reference (only for non-Italian)."""
+    if lang == "it" or not IT_SCENARIOS.exists():
+        return ""
+    with open(IT_SCENARIOS) as f:
+        it_data = yaml.safe_load(f)
+    lines = []
+    for s in it_data["scenarios"]:
+        lines.append(
+            f"  phase {s['phase']}  {s['slug']:30s}  "
+            f"GPs: {len(s['gp_codes'])}  CFs: {len(s['cf_codes'])}  "
+            f"— {s['description']}"
+        )
+    return (
+        "\n\nREFERENCE — Italian A1 scenarios (reuse themes where they fit, "
+        "adapt or replace where German culture differs):\n" + "\n".join(lines)
+    )
+
+
+def _language_prompt(lang: str, lang_name: str) -> str:
+    """Return language-specific guidance for the LLM prompt."""
+    if lang == "de":
+        return """
+Language-specific guidance for German:
+- Labels should be short German phrases (e.g. "Sich vorstellen", "Im Café")
+- Slugs must be URL-safe (lowercase, hyphens, no umlauts — use ae/oe/ue/ss)
+- Scenarios should reflect life in a German-speaking city (Munich flavour is fine)
+- German-specific situations to consider: Bäckerei, Biergarten, Mülltrennung,
+  Anmeldung (city registration), Deutsche Bahn, Wochenmarkt
+- The case system (Nominativ/Akkusativ/Dativ) and sentence bracket (Satzklammer)
+  are central to German — spread these across multiple scenarios
+- Some Italian scenarios overlap with German A0 (café, hotel) — make the A1 versions
+  substantially more complex, or replace with fresh scenarios if the theme is exhausted
+"""
+    if lang == "it":
+        return """
+Language-specific guidance for Italian:
+- Labels should be short Italian phrases (e.g. "Al bar", "Presentarsi")
+- Slugs must be URL-safe (lowercase, hyphens, no accents)
+"""
+    return f"\nLabels should be in {lang_name}. Slugs must be URL-safe.\n"
 
 
 def main():
-    with open(data_dir() / "grammar_points.yaml") as f:
+    parser = argparse.ArgumentParser(description="Generate A1 curriculum scenarios")
+    parser.add_argument(
+        "--lang",
+        required=True,
+        choices=sorted(LANGUAGES),
+        help="Target language code (e.g. de, it)",
+    )
+    args = parser.parse_args()
+
+    lang = args.lang
+    lang_name = LANGUAGES[lang].name
+
+    with open(data_dir(lang) / "grammar_points.yaml") as f:
         all_gps = yaml.safe_load(f)
-    with open(data_dir() / "comm_functions.json") as f:
+    with open(data_dir(lang) / "comm_functions.json") as f:
         all_cfs = json.load(f)
 
     a1_gps = [g for g in all_gps if g["cefr_level"] == "A1"]
     a1_cfs = [c for c in all_cfs if c["cefr_level"] == "A1"]
-    logger.info(f"A1 GPs: {len(a1_gps)}, A1 CFs: {len(a1_cfs)}")
+    logger.info(f"{lang_name} A1 GPs: {len(a1_gps)}, A1 CFs: {len(a1_cfs)}")
 
     gp_lines = []
     for gp in a1_gps:
@@ -43,33 +104,39 @@ def main():
             f"  {cf['code']}  |  {cf['label']}  |  macro: {cf['macro_category']}  |  {desc[:80]}"
         )
 
-    prompt = f"""You are an expert Italian language curriculum designer.
+    reference = _build_reference_block(lang)
 
-Below are ALL A1-level communicative functions (CFs) and grammar points (GPs) from the CEFR Italian curriculum.
+    prompt = f"""You are an expert {lang_name} language curriculum designer.
+
+Below are ALL A1-level communicative functions (CFs) and grammar points (GPs) from the CEFR {lang_name} curriculum.
 
 COMMUNICATIVE FUNCTIONS ({len(a1_cfs)} items):
 {chr(10).join(cf_lines)}
 
 GRAMMAR POINTS ({len(a1_gps)} items):
 {chr(10).join(gp_lines)}
-
-Cluster these into 15-20 real-world SCENARIOS for A1 Italian learners. Each scenario is a concrete, everyday situation (ordering at a bar, asking for directions, introducing yourself, etc.).
+{reference}
+{_language_prompt(lang, lang_name)}
+Cluster these into 20-24 real-world SCENARIOS for A1 {lang_name} learners.
+Each scenario is a concrete, everyday situation.
 
 Rules:
-- Each scenario maps to 3-6 CF codes and 3-8 GP codes that are naturally exercised in that situation
+- Assign each scenario to a phase (1, 2, or 3). Phase 1 = survival basics done first,
+  phase 2 = daily life, phase 3 = more abstract/complex. Aim for ~8 scenarios per phase.
+- Each scenario maps to 4-8 CF codes and 4-8 GP codes naturally exercised in that situation
 - CFs and GPs CAN appear in multiple scenarios (real life overlaps)
 - EVERY CF code and EVERY GP code must appear in at least one scenario — no orphans
+- Only use codes from the lists above — do not invent new codes
 - Each scenario has 3 depth levels: 1=introduction, 2=developing, 3=consolidating
-- Slugs must be URL-safe (lowercase, hyphens, no accents)
-- Labels should be short Italian phrases
 - Descriptions in English
 
 Output ONLY valid YAML matching this exact structure (no markdown fences):
 scenarios:
-  - slug: al-bar
-    label: "Al bar"
-    description: "Ordering drinks and snacks at an Italian cafe"
+  - slug: example-slug
+    label: "Example Label"
+    description: "English description of the scenario"
     cefr_level: A1
+    phase: 1
     cf_codes:
       - code_1
       - code_2
@@ -77,14 +144,17 @@ scenarios:
       - code_1
       - code_2
     depths:
-      - "Depth 1: ordering a coffee — basic requests, greetings, numbers for paying"
-      - "Depth 2: asking what's available, expressing preferences, small talk"
-      - "Depth 3: handling a misunderstanding, asking about ingredients"
+      - "Depth 1: basic introduction to the situation"
+      - "Depth 2: developing competence, more variety"
+      - "Depth 3: consolidating, handling complications"
 
 Output ALL scenarios now."""
 
     client = get_client()
-    logger.info("Calling Claude to generate scenario bank...")
+    client = client.with_options(
+        timeout=httpx.Timeout(300.0, connect=10.0),
+    )
+    logger.info(f"Calling Claude to generate {lang_name} A1 scenario bank...")
     response = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=16000,
@@ -129,14 +199,13 @@ Output ALL scenarios now."""
     if invalid_cfs:
         logger.warning(f"Invalid CF codes ({len(invalid_cfs)}): {invalid_cfs}")
 
-    if not orphan_gps and not orphan_cfs:
-        logger.info(
-            "Full coverage: all GPs and CFs are assigned to at least one scenario"
-        )
+    if not orphan_gps and not orphan_cfs and not invalid_gps and not invalid_cfs:
+        logger.info("Full coverage: all GPs and CFs assigned, no invalid codes")
 
-    with open(OUTPUT, "w") as f:
+    output = data_dir(lang) / "scenarios_a1.yaml"
+    with open(output, "w") as f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True, width=200)
-    logger.info(f"Written to {OUTPUT}")
+    logger.info(f"Written to {output}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,774 @@
+scenarios:
+- cefr_level: A1
+  cf_codes:
+  - introduce
+  - greet
+  - ask_wellbeing
+  - name_identify
+  - expr_origin
+  - expr_possession
+  - expr_ability
+  - express_knowledge
+  - politeness
+  depths:
+  - 'Depth 1: Say your name, where you are from, and greet someone new using Ich heiße / Ich komme aus.'
+  - 'Depth 2: Introduce a third person, ask follow-up questions about age and language, use formal and informal register.'
+  - 'Depth 3: Hold a short introduction exchange with multiple people, handle unexpected questions, and introduce yourself in a semi-formal setting such as a language class or workplace.'
+  description: Introducing yourself and others in everyday contexts — name, age, origin, language, occupation. Meeting people for the first time in a German-speaking city.
+  gp_codes:
+  - present_tense
+  - personal_pronoun_nom
+  - verb_second_position
+  - verb_complement_nom
+  - wh_question
+  - yes_no_question
+  - nominative_case
+  - zero_article
+  - modal_verbs_present
+  - indicative_mood
+  label: Sich vorstellen
+  phase: 1
+  slug: sich-vorstellen
+- cefr_level: A1
+  cf_codes:
+  - order_request_item
+  - request
+  - express_wish
+  - expr_quantity
+  - expr_availability
+  - thank
+  depths:
+  - 'Depth 1: Order one drink or snack using Ich möchte and pay with simple numbers.'
+  - 'Depth 2: Ask what is available, handle an item being unavailable, and order for two people.'
+  - 'Depth 3: Ask about prices, make a special request, handle a mistake in the order and complain politely.'
+  description: Ordering drinks and snacks at a German café or Bäckerei. Paying, asking about items on the menu, and handling basic service interactions.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - konjunktiv2_moegen_w
+  - accusative_case
+  - indefinite_article
+  - negative_article_kei
+  - verb_complement_acc
+  - negation_kein
+  label: Im Café
+  phase: 1
+  slug: im-cafe
+- cefr_level: A1
+  cf_codes:
+  - order_request_item
+  - ask_explanation
+  - express_preference
+  - complain
+  - express_satisfaction
+  - confirm
+  - express_liking_disli
+  - expr_enumeration
+  - negate_contradict
+  - expr_occurrence
+  depths:
+  - 'Depth 1: Order a main course and a drink using the menu, and ask for the bill.'
+  - 'Depth 2: Ask what a dish contains, express a preference between two options, and confirm the order.'
+  - 'Depth 3: Handle a wrong dish being brought, make a polite complaint, and discuss what was good or bad about the meal.'
+  description: Eating out at a German restaurant — reading the menu, ordering food and drinks, asking about dishes, paying the bill, and tipping.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - accusative_case
+  - definite_article
+  - indefinite_article
+  - wh_question
+  - negation_nicht
+  - adj_predicative
+  - negative_article_kei
+  - coord_conj_und_oder
+  - noun_participle
+  label: Im Restaurant
+  phase: 1
+  slug: im-restaurant
+- cefr_level: A1
+  cf_codes:
+  - order_request_item
+  - expr_quantity
+  - expr_evaluation
+  - expr_availability
+  - express_liking
+  - negate_contradict
+  - request
+  - expr_place
+  - express_wish
+  - confirm
+  depths:
+  - 'Depth 1: Ask for specific quantities of one or two items and pay the correct amount.'
+  - 'Depth 2: Ask whether certain products are available, compare prices, and buy several different items.'
+  - 'Depth 3: Ask about the origin of produce, express a preference, handle an item being sold out, and negotiate a small purchase.'
+  description: Shopping at a German Wochenmarkt — buying fruit, vegetables and other fresh goods. Asking for quantities, prices, and making small talk with vendors.
+  gp_codes:
+  - present_tense
+  - accusative_case
+  - indefinite_article
+  - negative_article_kei
+  - indef_pronoun_etwas
+  - noun_plural
+  - verb_complement_acc
+  - prep_modal
+  - dative_case
+  - definite_article
+  - prep_local
+  - interrogative_pronou
+  label: Auf dem Markt
+  phase: 1
+  slug: auf-dem-markt
+- cefr_level: A1
+  cf_codes:
+  - expr_direction
+  - expr_place
+  - expr_distance
+  - request
+  - confirm
+  - approach_contact
+  depths:
+  - 'Depth 1: Ask where the nearest U-Bahn stop or supermarket is and understand a simple answer.'
+  - 'Depth 2: Give multi-step directions using left/right/straight on, and ask for confirmation at each step.'
+  - 'Depth 3: Handle a situation where the first directions were unclear, ask for repetition, and use a landmark as a reference point.'
+  description: Asking for and giving directions in a German city — finding a street, a shop, a station or a landmark on foot or by public transport.
+  gp_codes:
+  - present_tense
+  - imperative
+  - prep_local
+  - verb_complement_loca
+  - wh_question
+  - yes_no_question
+  - personal_pronoun_nom
+  - separable_verbs
+  label: Nach dem Weg fragen
+  phase: 1
+  slug: nach-dem-weg-fragen
+- cefr_level: A1
+  cf_codes:
+  - contact_by_phone
+  - introduce
+  - request
+  - confirm
+  - say_goodbye
+  - ask_repeat
+  depths:
+  - 'Depth 1: Call a friend, identify yourself, and arrange a simple meeting time.'
+  - 'Depth 2: Call a business, ask to speak to a specific person, and leave a short message when they are not available.'
+  - 'Depth 3: Handle a bad connection, ask for repetition, spell your name, and confirm key details such as time and address before ending the call.'
+  description: Making and receiving telephone calls in German — identifying yourself, asking for someone, leaving a message, and ending the call politely.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - personal_pronoun_nom
+  - personal_pronoun_acc
+  - yes_no_question
+  - verb_second_position
+  - negation_nicht
+  - sentence_bracket
+  label: Am Telefon
+  phase: 1
+  slug: am-telefon
+- cefr_level: A1
+  cf_codes:
+  - ask_explanation
+  - ask_spelling
+  - signal_not_understoo
+  - ask_repeat
+  - check_understanding
+  - spell_word
+  - offer_help
+  depths:
+  - 'Depth 1: Ask the teacher what a word means and how it is spelled.'
+  - 'Depth 2: Ask a classmate to repeat something, signal you did not understand, and ask the teacher to speak more slowly.'
+  - 'Depth 3: Paraphrase an unknown word, check that your classmate understood your explanation, and use self-correction when you make a mistake.'
+  description: Communicating in a German language class — asking for help with words, spelling, checking understanding, and classroom interaction.
+  gp_codes:
+  - present_tense
+  - wh_question
+  - yes_no_question
+  - imperative
+  - modal_verbs_present
+  - personal_pronoun_nom
+  - negation_nicht
+  - indef_pronoun_etwas
+  label: Im Sprachkurs
+  phase: 1
+  slug: im-sprachkurs
+- cefr_level: A1
+  cf_codes:
+  - expr_time_point
+  - expr_time_ref
+  - expr_quantity
+  - expr_duration
+  - expr_frequency
+  - confirm
+  - expr_dimension
+  - expr_degree
+  - expr_evaluation
+  - expr_comparison
+  - expr_reason
+  - expr_end
+  - expr_start
+  depths:
+  - 'Depth 1: Say and ask what time it is, state opening and closing times of a shop or office.'
+  - 'Depth 2: Discuss the date and day of the week, ask how long something takes, and talk about how often you do something.'
+  - 'Depth 3: Read a Deutsche Bahn timetable, discuss departure and arrival times, and handle time zones or changes to a schedule.'
+  description: Talking about numbers, times, dates and prices in everyday German situations — reading timetables, asking what time it is, and discussing opening hours.
+  gp_codes:
+  - present_tense
+  - prep_temporal
+  - wh_question
+  - verb_second_position
+  - noun_gender
+  - definite_article
+  - accusative_case
+  - indefinite_article
+  - noun_plural
+  - adj_predicative
+  - adj_adverbial
+  - prep_modal
+  label: Zahlen und Zeiten
+  phase: 1
+  slug: zahlen-und-zeiten
+- cefr_level: A1
+  cf_codes:
+  - describe
+  - name_identify
+  - expr_possession
+  - expr_quantity
+  - introduce
+  depths:
+  - 'Depth 1: Name your family members and say how many siblings or children you have.'
+  - 'Depth 2: Describe a family member''s age, job and where they live, and ask the same questions.'
+  - 'Depth 3: Compare your family with a friend''s family, talk about extended family and use possessive articles correctly across all persons.'
+  description: Talking about your family — introducing family members, describing relationships, ages and where people live. Showing photos and asking about someone else's family.
+  gp_codes:
+  - present_tense
+  - possessive_article
+  - noun_gender
+  - noun_plural
+  - nominative_case
+  - accusative_case
+  - adj_predicative
+  - noun_feminine_in
+  label: Die Familie
+  phase: 2
+  slug: die-familie
+- cefr_level: A1
+  cf_codes:
+  - describe
+  - expr_place
+  - expr_evaluation
+  - expr_existence
+  - express_liking
+  - express_satisfaction
+  - expr_distance
+  - express_approval
+  - expr_inclusion_excl
+  depths:
+  - 'Depth 1: Name the rooms in your flat and say what furniture is in each room.'
+  - 'Depth 2: Describe the size and location of the flat, the rent, and what you like or dislike about it.'
+  - 'Depth 3: Compare two flats, discuss the neighbourhood and transport links, and express a preference for one option with reasons.'
+  description: Describing your home in a German city — rooms, furniture, size, rent and neighbourhood. Showing someone around and comparing flats.
+  gp_codes:
+  - present_tense
+  - prep_local
+  - definite_article
+  - nominative_case
+  - dative_case
+  - verb_complement_loca
+  - adj_predicative
+  - noun_compound_same_b
+  - demonstrative_articl
+  - noun_compound_same_d
+  - verb_complement_qual
+  label: Meine Wohnung
+  phase: 2
+  slug: meine-wohnung
+- cefr_level: A1
+  cf_codes:
+  - report
+  - expr_time_point
+  - expr_frequency
+  - expr_present_ref
+  - expr_past_ref
+  - expr_future_ref
+  depths:
+  - 'Depth 1: Describe what you do in the morning using a sequence of separable-verb actions.'
+  - 'Depth 2: Talk about your whole day from morning to evening, including work, meals and leisure, with specific times.'
+  - 'Depth 3: Compare your weekday routine with your weekend routine, talk about changes to the schedule, and discuss what you did yesterday.'
+  description: Describing your daily routine — getting up, eating, working, exercising and going to bed. Talking about times and how often you do things.
+  gp_codes:
+  - present_tense
+  - separable_verbs
+  - prep_temporal
+  - sentence_bracket
+  - verb_second_position
+  - personal_pronoun_nom
+  - coord_conj_und_oder
+  - coord_conj_dann
+  label: Mein Alltag
+  phase: 2
+  slug: mein-alltag
+- cefr_level: A1
+  cf_codes:
+  - express_preference
+  - express_liking_disli
+  - invite
+  - suggest
+  - express_interest
+  - expr_frequency
+  depths:
+  - 'Depth 1: Say what hobbies you have and how often you do them.'
+  - 'Depth 2: Ask a friend about their hobbies, express liking and disliking, and suggest a joint activity.'
+  - 'Depth 3: Invite someone to a specific event, handle an acceptance or refusal with reasons, and discuss alternative plans.'
+  description: Talking about hobbies, sport and free-time activities. Expressing preferences, inviting someone to join you, and discussing leisure plans.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - accusative_case
+  - verb_complement_acc
+  - yes_no_question
+  - coord_conj_aber_denn
+  - adj_adverbial
+  - negation_nicht
+  label: Freizeit und Hobbys
+  phase: 2
+  slug: freizeit-und-hobbys
+- cefr_level: A1
+  cf_codes:
+  - describe
+  - express_worry
+  - advise_warn
+  - make_appointment
+  - expr_duration
+  - report
+  depths:
+  - 'Depth 1: Say where it hurts and describe one or two basic symptoms.'
+  - 'Depth 2: Explain how long you have had the symptoms, answer the doctor''s questions, and understand simple advice.'
+  - 'Depth 3: Describe a more complex health problem, ask what you should or should not do, and make a follow-up appointment.'
+  description: Visiting a German doctor's surgery — describing symptoms, understanding questions and advice, making a follow-up appointment.
+  gp_codes:
+  - present_tense
+  - perfect_tense
+  - modal_verbs_present
+  - accusative_case
+  - adj_predicative
+  - adj_adverbial
+  - prep_temporal
+  - personal_pronoun_dat
+  label: Beim Arzt
+  phase: 2
+  slug: beim-arzt
+- cefr_level: A1
+  cf_codes:
+  - introduce
+  - describe
+  - announce
+  - expr_necessity
+  - expr_ability
+  - express_satisfaction
+  depths:
+  - 'Depth 1: Introduce yourself at work, say what your job title is and where you work.'
+  - 'Depth 2: Describe your daily tasks, working hours and who your colleagues are.'
+  - 'Depth 3: Discuss what you must or can do at work, express satisfaction or dissatisfaction with aspects of the job, and talk about a recent work event.'
+  description: Talking about your job and workplace in German — your role, colleagues, working hours and daily tasks. Simple office communication and introductions at work.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - separable_verbs
+  - sentence_bracket
+  - possessive_article
+  - nominative_case
+  - verb_complement_nom
+  - noun_deriv_er
+  label: Im Büro
+  phase: 2
+  slug: im-buero
+- cefr_level: A1
+  cf_codes:
+  - invite
+  - give_good_wishes
+  - congratulate
+  - compliment
+  - thank
+  - express_joy_regret
+  depths:
+  - 'Depth 1: Invite a friend to a birthday party, give the date and time, and get an acceptance.'
+  - 'Depth 2: Write a short invitation message, respond formally to a decline, and offer good wishes.'
+  - 'Depth 3: Socialise at the party — give compliments, congratulate the host, toast, and express joy or disappointment about who can or cannot attend.'
+  description: Inviting someone to a party or social event, accepting or declining, writing a short message, and socialising at the event itself.
+  gp_codes:
+  - present_tense
+  - konjunktiv2_moegen_w
+  - coord_conj_aber_denn
+  - personal_pronoun_acc
+  - yes_no_question
+  - prep_temporal
+  - adj_predicative
+  label: Eine Einladung
+  phase: 2
+  slug: eine-einladung
+- cefr_level: A1
+  cf_codes:
+  - contact_by_letter
+  - announce
+  - express_wish
+  - say_goodbye
+  - open_utterance
+  - close_utterance
+  depths:
+  - 'Depth 1: Write a short WhatsApp to a friend arranging a meeting — time and place.'
+  - 'Depth 2: Write a semi-formal email to a language school asking about a course, with a correct opening and closing.'
+  - 'Depth 3: Write a message that reports on a past event, makes a future plan, and includes a polite request — handling both informal and formal register.'
+  description: Writing short informal and semi-formal messages in German — text messages, emails and WhatsApp. Using appropriate openings, closings and tone.
+  gp_codes:
+  - present_tense
+  - perfect_tense
+  - verb_second_position
+  - coord_conj_und_oder
+  - possessive_article
+  - personal_pronoun_nom
+  - sentence_bracket
+  - noun_deriv_ung
+  label: Eine Nachricht schreiben
+  phase: 2
+  slug: eine-nachricht-schreiben
+- cefr_level: A1
+  cf_codes:
+  - agree_disagree
+  - express_approval
+  - negate_contradict
+  - justify_reason
+  - express_interest
+  - state_importance
+  - mitigation
+  depths:
+  - 'Depth 1: Agree or disagree with a simple statement about a topic you know well.'
+  - 'Depth 2: Give a reason for your opinion using denn, ask for someone else''s opinion, and respond to theirs.'
+  - 'Depth 3: Discuss a topic where you and a partner have different views, use mitigation to soften disagreement, and justify your position with two or more reasons.'
+  description: Expressing and exchanging opinions, agreeing and disagreeing on everyday topics such as food, weather, travel and leisure.
+  gp_codes:
+  - present_tense
+  - coord_conj_aber_denn
+  - negation_nicht
+  - adj_predicative
+  - adj_adverbial
+  - personal_pronoun_nom
+  - verb_second_position
+  label: Meinungen ausdrücken
+  phase: 3
+  slug: meinungen-ausdruecken
+- cefr_level: A1
+  cf_codes:
+  - express_joy_regret
+  - express_surprise
+  - express_worry
+  - express_disappointme
+  - express_sympathy
+  - express_hope
+  - express_indifference
+  depths:
+  - 'Depth 1: React to good or bad news with a fixed expression of joy or sympathy.'
+  - 'Depth 2: Express worry or hope about a specific situation and explain why using aber or denn.'
+  - 'Depth 3: Hold a short conversation in which you express, ask about and respond to a range of emotions, using softening and degree adverbs appropriately.'
+  description: Expressing emotions and moods in German — happiness, worry, surprise, disappointment, sympathy and hope in everyday situations.
+  gp_codes:
+  - present_tense
+  - adj_predicative
+  - personal_pronoun_nom
+  - personal_pronoun_dat
+  - verb_complement_dat
+  - negation_nicht
+  - indef_pronoun_etwas
+  - coord_conj_aber_denn
+  label: Gefühle und Stimmungen
+  phase: 3
+  slug: gefuehle-und-stimmungen
+- cefr_level: A1
+  cf_codes:
+  - make_appointment
+  - suggest
+  - confirm
+  - express_wish
+  - expr_time_point
+  - apologise
+  - negate_contradict
+  depths:
+  - 'Depth 1: Call to make a simple appointment, propose a day and time, and confirm it.'
+  - 'Depth 2: Negotiate a time when the first suggestion is not available, and confirm the rescheduled appointment.'
+  - 'Depth 3: Handle a cancellation, apologise, propose a new time, and confirm all key details including address and what to bring.'
+  description: Arranging and managing appointments — at the doctor, hairdresser, Bürgeramt or with a friend. Proposing, accepting, declining and rescheduling times.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - prep_temporal
+  - yes_no_question
+  - wh_question
+  - konjunktiv2_moegen_w
+  - sentence_bracket
+  - separable_verbs
+  label: Einen Termin machen
+  phase: 3
+  slug: einen-termin-machen
+- cefr_level: A1
+  cf_codes:
+  - signal_not_understoo
+  - ask_repeat
+  - ask_speak_slower
+  - ask_write_down
+  - paraphrase_words
+  - check_comprehension
+  - use_synonym
+  - self_correct
+  - unknown_word
+  depths:
+  - 'Depth 1: Signal that you did not understand and ask the speaker to repeat or speak more slowly.'
+  - 'Depth 2: Ask someone to write something down, spell a word, or explain what a word means by paraphrasing.'
+  - 'Depth 3: Manage a full interaction using multiple strategies — paraphrasing an unknown word, self-correcting, checking that the other person has understood you, and expressing that your German is limited.'
+  description: Communication strategies for coping when language breaks down — asking for clarification, paraphrasing, spelling, and expressing limited proficiency.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - imperative
+  - wh_question
+  - personal_pronoun_nom
+  - indef_pronoun_etwas
+  - negation_nicht
+  - interrogative_pronou
+  label: Verstehen und verstanden werden
+  phase: 3
+  slug: verstehen-und-verstanden-werden
+- cefr_level: A1
+  cf_codes:
+  - grant_deny_permissio
+  - advise_warn
+  - request
+  - expr_necessity
+  - expr_possibility
+  - expr_condition
+  depths:
+  - 'Depth 1: Ask whether something is allowed in a simple situation and understand a yes or no answer.'
+  - 'Depth 2: Ask about rules in a shared flat or public space, understand a warning, and express what you must or must not do.'
+  - 'Depth 3: Handle a situation where permission is conditional, use wenn to express the condition, and politely negotiate or accept a restriction.'
+  description: Asking for and giving permission, understanding rules and prohibitions — in public spaces, on public transport, in shared flats and at the Bürgeramt.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - indef_pronoun_man
+  - negation_nicht
+  - negation_kein
+  - subord_conj_wenn
+  - yes_no_question
+  - imperative
+  label: Erlaubnis und Regeln
+  phase: 3
+  slug: erlaubnis-und-regeln
+- cefr_level: A1
+  cf_codes:
+  - order_request_item
+  - expr_direction
+  - expr_time_point
+  - expr_lateness
+  - report
+  - ask_explanation
+  depths:
+  - 'Depth 1: Buy a single ticket to a destination, confirm the platform and departure time.'
+  - 'Depth 2: Ask about a connection, understand a timetable, and check whether your ticket is valid for a particular train.'
+  - 'Depth 3: Handle a train delay, report what happened, ask about alternative connections, and understand a public announcement on the platform.'
+  description: Travelling by train in Germany — buying tickets, checking timetables, asking about platforms and delays, and understanding announcements.
+  gp_codes:
+  - present_tense
+  - perfect_tense
+  - praeteritum_haben_se
+  - prep_temporal
+  - prep_local
+  - wh_question
+  - accusative_case
+  - sentence_bracket
+  label: Auf der Deutschen Bahn
+  phase: 3
+  slug: auf-der-deutschen-bahn
+- cefr_level: A1
+  cf_codes:
+  - describe
+  - name_identify
+  - expr_comparison
+  - expr_manner_phys
+  - express_approval
+  - expr_degree
+  depths:
+  - 'Depth 1: Describe a person''s basic physical appearance — height, hair colour and clothing.'
+  - 'Depth 2: Describe personality as well as appearance, and identify a specific person in a group by their description.'
+  - 'Depth 3: Compare two people, express evaluative judgements about character, and use a range of adjectives including those with un-, -los and colour compounds.'
+  description: Describing people's appearance and character — height, hair colour, clothing, and personality traits. Comparing people and identifying someone in a group.
+  gp_codes:
+  - present_tense
+  - adj_predicative
+  - adj_adverbial
+  - adj_prefix_un
+  - adj_compound_colour
+  - adj_suffix_los
+  - adj_suffix_bar
+  - nominative_case
+  label: Personen beschreiben
+  phase: 3
+  slug: personen-beschreiben
+- cefr_level: A1
+  cf_codes:
+  - greet
+  - order_request_item
+  - give_good_wishes
+  - express_liking
+  - prompt_speaker
+  - signal_listening
+  - take_floor
+  - expr_presence
+  depths:
+  - 'Depth 1: Order a drink at the counter and find a free table, using basic polite phrases.'
+  - 'Depth 2: Make small talk with someone at the table — where they are from, what they do, what they think of Munich.'
+  - 'Depth 3: Join an existing group, take turns in conversation, give a toast, express enthusiasm, and wrap up the conversation politely before leaving.'
+  description: Socialising at a Munich Biergarten — ordering at the counter, finding a table, making small talk, giving toasts and handling a relaxed social situation.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - accusative_case
+  - dative_case
+  - yes_no_question
+  - personal_pronoun_dat
+  - coord_conj_und_oder
+  - adj_predicative
+  label: Im Biergarten
+  phase: 2
+  slug: im-biergarten
+- cefr_level: A1
+  cf_codes:
+  - name_identify
+  - expr_origin
+  - expr_place
+  - expr_possession
+  - confirm
+  - spell_word
+  - ask_write_down
+  - express_knowledge
+  depths:
+  - 'Depth 1: State your name, date of birth and current address clearly and spell your name if asked.'
+  - 'Depth 2: Answer official questions about nationality, civil status and previous address, and ask for clarification when a form question is unclear.'
+  - 'Depth 3: Handle follow-up questions about a shared flat (Wohngemeinschaft), provide a landlord''s name using the genitive, and confirm all details are correct before signing.'
+  description: Registering your address at a German Bürgeramt (Anmeldung) — filling in forms, answering official questions about name, address, nationality and civil status.
+  gp_codes:
+  - present_tense
+  - nominative_case
+  - accusative_case
+  - genitive_proper_name
+  - definite_article
+  - possessive_article
+  - wh_question
+  - selected_participles
+  label: Stadtanmeldung
+  phase: 3
+  slug: stadtanmeldung
+- cefr_level: A1
+  cf_codes:
+  - express_preference
+  - expr_evaluation
+  - request
+  - negate_contradict
+  - expr_dimension
+  - express_liking
+  - complain
+  depths:
+  - 'Depth 1: Ask for a specific item in a particular colour and size.'
+  - 'Depth 2: Try on two items, compare them, express a preference and ask about the return policy.'
+  - 'Depth 3: Return an item that is the wrong size or faulty, explain the problem, and negotiate an exchange or refund politely.'
+  description: Shopping for clothes in a German shop — asking for sizes and colours, trying things on, expressing opinions about items, and making a purchase or returning something.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - demonstrative_articl
+  - accusative_case
+  - adj_predicative
+  - adj_compound_colour
+  - personal_pronoun_acc
+  - reciprocal_pronoun
+  label: Einkaufen gehen — Kleidung
+  phase: 2
+  slug: einkaufen-gehen-kleidung
+- cefr_level: A1
+  cf_codes:
+  - explain
+  - advise_warn
+  - expr_necessity
+  - grant_deny_permissio
+  - state_purpose
+  - expr_enumeration
+  - state_importance
+  depths:
+  - 'Depth 1: Explain which bin is used for which type of waste using basic vocabulary.'
+  - 'Depth 2: Advise a new flatmate on household rules, explain why each rule is important, and list the responsibilities.'
+  - 'Depth 3: Discuss a dispute about shared chores, express what must and must not be done, give reasons, and reach a polite agreement about responsibilities.'
+  description: Understanding and discussing practical daily-life rules in Germany — waste separation (Mülltrennung), recycling, household chores, and shared responsibilities.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - indef_pronoun_man
+  - negation_nicht
+  - negation_kein
+  - noun_compound_same_d
+  - coord_conj_und_oder
+  - prep_modal
+  label: Mülltrennung und Alltag
+  phase: 3
+  slug: muelltrennung-und-alltag
+- cefr_level: A1
+  cf_codes:
+  - report
+  - expr_past_ref
+  - expr_anteriority
+  - express_joy_regret
+  - give_examples
+  - justify_reason
+  depths:
+  - 'Depth 1: Say what you did yesterday or at the weekend using three or four Perfekt sentences.'
+  - 'Depth 2: Narrate a short sequence of events in the correct order, using dann and time adverbs.'
+  - 'Depth 3: Tell the story of a recent experience in detail, express how you felt, give examples, and answer follow-up questions from a partner.'
+  description: Talking about past events and experiences — what you did at the weekend, a recent trip, or a memorable event. Using the Perfekt and past time expressions.
+  gp_codes:
+  - perfect_tense
+  - selected_participles
+  - praeteritum_haben_se
+  - prep_temporal
+  - personal_pronoun_nom
+  - coord_conj_dann
+  - coord_conj_aber_denn
+  - sentence_bracket
+  label: Von der Vergangenheit erzählen
+  phase: 3
+  slug: vergangenheit-erzaehlen
+- cefr_level: A1
+  cf_codes:
+  - announce
+  - expr_future_ref
+  - expr_posteriority
+  - express_wish
+  - promise
+  - suggest
+  - express_hope
+  depths:
+  - 'Depth 1: Say what you want to do next weekend or on your next holiday using möchten and wollen.'
+  - 'Depth 2: Announce a longer-term plan, express hope about the outcome, and invite a friend to join you.'
+  - 'Depth 3: Discuss several future plans, make a promise to a friend, suggest alternatives if one plan does not work, and use a range of future time expressions.'
+  description: Talking about plans and intentions for the future — holidays, studies, moving house, or personal goals. Using future time expressions and modal verbs.
+  gp_codes:
+  - present_tense
+  - modal_verbs_present
+  - konjunktiv2_moegen_w
+  - prep_temporal
+  - verb_second_position
+  - sentence_bracket
+  - separable_verbs
+  - coord_conj_und_oder
+  label: Zukunftspläne
+  phase: 3
+  slug: zukunftsplaene
