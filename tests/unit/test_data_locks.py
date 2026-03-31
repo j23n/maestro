@@ -13,7 +13,9 @@ from pathlib import Path
 import pytest
 import yaml
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "it"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = DATA_ROOT / "it"
+DE_DATA_DIR = DATA_ROOT / "de"
 
 
 @pytest.mark.parametrize(
@@ -108,4 +110,33 @@ def test_a0_lesson_slug_alignment():
         pytest.fail(
             f"Scenario slugs with no matching lesson in a0_lessons.yaml: {missing}. "
             f"Either update the YAML keys or scenarios_a0.yaml slugs to match."
+        )
+
+
+def test_dwds_headwords_lock():
+    """Verify dwds_headwords.json matches dwds_headwords.lock."""
+    data_path = DE_DATA_DIR / "dwds_headwords.json"
+    lock_path = DE_DATA_DIR / "dwds_headwords.lock"
+    update_script = "scripts/update_dwds_lock.py"
+
+    if not data_path.exists():
+        pytest.skip("dwds_headwords.json not found")
+
+    if not lock_path.exists():
+        pytest.fail(
+            f"dwds_headwords.lock not found. Run: uv run python {update_script}"
+        )
+
+    try:
+        lock_data = json.loads(lock_path.read_text())
+    except (json.JSONDecodeError, OSError) as exc:
+        pytest.fail(f"Could not read dwds_headwords.lock: {exc}")
+
+    actual_sha = hashlib.sha256(data_path.read_bytes()).hexdigest()
+    locked_sha = lock_data.get("sha256", "")
+
+    if actual_sha != locked_sha:
+        pytest.fail(
+            f"dwds_headwords.json content changed but dwds_headwords.lock was not updated. "
+            f"Run: uv run python {update_script}"
         )

@@ -48,12 +48,11 @@ async def cf_index(request: Request, student: Student = Depends(get_current_stud
 async def cf_detail(
     code: str, request: Request, student: Student = Depends(get_current_student)
 ):
-    cf = await CommunicativeFunction.find_one(CommunicativeFunction.code == code)
+    target_lang = request.state.lang_ctx.code
+    cf = await CommunicativeFunction.find_one({"code": code, "language": target_lang})
     if cf is None:
         raise HTTPException(404)
     student_level = await get_cefr_level(student.id)
-
-    target_lang = request.state.lang_ctx.code
     expl_lang = explanation_lang_for_level(student_level, target_lang)
     expl = cf.explanations.get(expl_lang) or next(
         (cf.explanations[k] for k in ("en", target_lang) if k in cf.explanations),
