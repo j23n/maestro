@@ -1233,6 +1233,8 @@
     passieren, trinken, verstehen.
   examples:
   - Ich habe schon gegessen.
+  prerequisites:
+  - present_tense
   source_note: 'Perfekt der Verben: arbeiten/bleiben/essen/fahren/fragen/glauben/haben/lesen/lernen/machen/schlafen/sehen/passieren/trinken/verstehen'
   explanations:
     en:
@@ -1419,6 +1421,8 @@
   examples:
   - Heute geöffnet.
   - Bis Donnerstag geschlossen.
+  prerequisites:
+  - present_tense
   source_note: Ausgewählte Partizipien
   explanations:
     en:
@@ -1545,6 +1549,9 @@
   examples:
   - Sie/ich hatte keine Zeit.
   - Ich/er war nicht da.
+  prerequisites:
+  - haben_praesens
+  - sein_praesens
   source_note: 'Präteritum: ausgewählte Form: 1. und 3. Person haben/sein'
   explanations:
     en:
@@ -1653,6 +1660,8 @@
   examples:
   - Kommst du mit?
   - Wann fängt der Kurs an?
+  prerequisites:
+  - present_tense
   source_note: Indikativ aller Verben der Wortliste
   explanations:
     en:
@@ -1809,6 +1818,8 @@
   examples:
   - Ich möchte mehr Deutsch lernen.
   - Ich würde gerne ins Kino gehen.
+  prerequisites:
+  - ich_moechte
   source_note: Konjunktiv II der Verben mögen und werden; treated as lexical units,
     not systematically
   explanations:
@@ -1976,6 +1987,8 @@
   - Kommt bitte alle mit!
   - Kommen Sie bitte mit!
   - Mach bitte das Fenster zu!
+  prerequisites:
+  - present_tense
   source_note: Imperativ in der du-, ihr- und Sie-Form
   explanations:
     en:
@@ -2149,6 +2162,8 @@
   - Sie dürfen hier nicht rauchen.
   - Was soll ich machen?
   - Möchtest du eine Tasse Tee?
+  prerequisites:
+  - present_tense
   source_note: Präsens von können, wollen, müssen, dürfen, sollen, möchten
   explanations:
     en:
@@ -2347,6 +2362,8 @@
   - Wo kaufst du gerne ein?
   - Mach bitte das Fenster zu!
   - Der Unterricht fängt um 9 Uhr an.
+  prerequisites:
+  - present_tense
   source_note: Verben mit trennbarem Präfix
   explanations:
     en:
@@ -2626,6 +2643,8 @@
   description: Singular and plural forms of nouns as specified in the A1 word list.
   examples:
   - Drei Fahrkarten nach Berlin und eine Fahrkarte nach Karlsruhe, bitte.
+  prerequisites:
+  - noun_gender
   source_note: Singular/Plural der Nomen wie in der Wortliste
   explanations:
     en:
@@ -2781,6 +2800,8 @@
   examples:
   - der Mann
   - Er heißt Heinz Bartels.
+  prerequisites:
+  - noun_gender
   source_note: Nominativ aller Nomen in der Wortliste
   explanations:
     en:
@@ -2897,6 +2918,8 @@
   examples:
   - den Mann
   - Ich nehme eine Coca Cola.
+  prerequisites:
+  - nominative_case
   source_note: Akkusativ aller Nomen in der Wortliste
   explanations:
     en:
@@ -3049,6 +3072,8 @@
   - dem Mann
   - Gib mir bitte mal dein Wörterbuch.
   - Kann ich dir helfen?
+  prerequisites:
+  - accusative_case
   source_note: Dativ* aller Nomen in der Wortliste (marked with * as A2 addition)
   explanations:
     en:
@@ -3236,6 +3261,8 @@
   examples:
   - Karls Freunde kommen heute Nachmittag.
   - die Nummer des Wagens
+  prerequisites:
+  - noun_gender
   source_note: Genitiv bei Eigennamen im Singular; Genitiv (rezeptiv)
   explanations:
     en:
@@ -3350,6 +3377,8 @@
     nouns across cases.
   examples:
   - der Tisch/die Lampe/das Bett/die Sachen
+  prerequisites:
+  - art_der_die_das
   source_note: 'Definit: der/die/das/die'
   explanations:
     en:
@@ -3488,6 +3517,8 @@
     specific nouns.
   examples:
   - dieser Tisch/diese Lampe/dieses Bett/diese Sachen
+  prerequisites:
+  - definite_article
   source_note: 'Demonstrativ: dieser/diese/dieses/diese'
   explanations:
     en:
@@ -3595,6 +3626,8 @@
   description: Indefinite articles ein, eine, ein used to introduce unspecified nouns.
   examples:
   - ein Tisch/eine Lampe/ein Bett
+  prerequisites:
+  - art_ein_eine
   source_note: 'Indefinit: ein/eine/ein'
   explanations:
     en:
@@ -3799,6 +3832,9 @@
   - meine/deine/seine/ihre/Ihre Lampe
   - unser Lehrer
   - uns(e)re Lehrerin
+  prerequisites:
+  - noun_gender
+  - indefinite_article
   source_note: 'Possessiv: mein/dein/sein/ihr/Ihr; unser'
   explanations:
     en:
@@ -3930,6 +3966,8 @@
   - Er ist kein Lehrer.
   - Sie ist keine Ärztin.
   - Wir haben jetzt keine Zeit.
+  prerequisites:
+  - indefinite_article
   source_note: 'Negativ: kein'
   explanations:
     en:
@@ -4441,6 +4479,9 @@
     used as direct objects.'
   examples:
   - Ich liebe dich/ihn/sie.
+  prerequisites:
+  - personal_pronoun_nom
+  - accusative_case
   source_note: 'Akkusativ: mich/dich/ihn/sie/es'
   explanations:
     en:
@@ -4582,6 +4623,9 @@
   - Ich danke Ihnen sehr.
   - Es geht mir gut.
   - Kann ich dir helfen?
+  prerequisites:
+  - personal_pronoun_nom
+  - dative_case
   source_note: 'Dativ bei den Verben: danken/gehören/helfen/es geht/mir/dir/euch/Ihnen'
   explanations:
     en:
@@ -4818,6 +4862,9 @@
   - Wen besuchst du?
   - Was machst du morgen?
   - Wem gehört die Jacke?
+  prerequisites:
+  - nominative_case
+  - accusative_case
   source_note: 'Fragepronomen im Nominativ: Wer?/Was?, im Akkusativ: Wen?/Was? und
     im Dativ: Wem?'
   explanations:
@@ -5189,6 +5236,8 @@
   - um halb sieben/um 18.30 Uhr
   - geschlossen von Dienstag bis Donnerstag
   - vor dem Konzert
+  prerequisites:
+  - accusative_case
   source_note: 'temporal: an + Dativ, ab + Akkusativ, für + Akkusativ, in + Dativ,
     nach + Dativ, über, um + Akkusativ, von...bis, vor + Dativ'
   explanations:
@@ -5357,6 +5406,8 @@
   - von Hamburg nach Bremen
   - unter der Nummer
   - zur Schule/zu meiner Freundin gehen
+  prerequisites:
+  - ortspraepositionen
   source_note: 'lokal: an + Dativ/Akkusativ, auf + Dativ, aus + Dativ, bei + Dativ,
     in + Dativ/Akkusativ, nach + Dativ, von...nach + Dativ/–, unter + Dativ, zu +
     Dativ'
@@ -5561,6 +5612,8 @@
   - für meinen Freund/für dich
   - mit dem Auto
   - ohne Hilfe/ohne dich
+  prerequisites:
+  - accusative_case
   source_note: 'modal: aus + Dativ, für + Akkusativ, mit + Dativ, ohne + Akkusativ'
   explanations:
     en:
@@ -5732,6 +5785,8 @@
   examples:
   - Morgen fahre ich nach Stuttgart.
   - Ich fahre morgen nach Paris.
+  prerequisites:
+  - einfache_saetze
   source_note: Verbzweitstellung
   explanations:
     en:
@@ -5877,6 +5932,8 @@
     sein.
   examples:
   - Er heißt Heinz Bartels.
+  prerequisites:
+  - nominative_case
   source_note: Nominativergänzung
   explanations:
     en:
@@ -5986,6 +6043,8 @@
   description: Accusative complement (direct object) required by transitive verbs.
   examples:
   - Ich nehme eine Coca Cola.
+  prerequisites:
+  - accusative_case
   source_note: Akkusativergänzung
   explanations:
     en:
@@ -6145,6 +6204,8 @@
   description: Dative complement required by verbs danken, gehören, geben, and helfen.
   examples:
   - Gib mir bitte mal dein Wörterbuch.
+  prerequisites:
+  - dative_case
   source_note: Dativergänzung bei den Verben danken/gehören/geben/helfen
   explanations:
     en:
@@ -6253,6 +6314,8 @@
     of movement, required by verbs like wohnen.
   examples:
   - Wir wohnen in der Heinestraße 7.
+  prerequisites:
+  - prep_local
   source_note: Lokalergänzung
   explanations:
     en:
@@ -6513,6 +6576,8 @@
   - Der Unterricht fängt um 9 Uhr an.
   - Ich will meine Tante besuchen.
   - Ich habe schon gegessen.
+  prerequisites:
+  - verb_second_position
   source_note: Satzklammer
   explanations:
     en:
@@ -6644,6 +6709,8 @@
   examples:
   - Leider verstehe ich dich nicht.
   - Ich gehe heute nicht spazieren, denn es ist zu kalt.
+  prerequisites:
+  - ja_nein_nicht
   source_note: 'Negation: nicht'
   explanations:
     en:
@@ -6760,6 +6827,8 @@
   examples:
   - Wir haben jetzt keine Zeit.
   - Er ist kein Lehrer.
+  prerequisites:
+  - negative_article_kei
   source_note: 'Negation: kein'
   explanations:
     en:
@@ -6863,6 +6932,8 @@
   examples:
   - Kaufst du heute ein?
   - Kommst du mit?
+  prerequisites:
+  - verb_second_position
   source_note: Entscheidungsfrage
   explanations:
     en:
@@ -7002,6 +7073,8 @@
   - Wo ist Peter?
   - Wann fängt der Kurs an?
   - Was machst du morgen?
+  prerequisites:
+  - interrogative_pronou
   source_note: Ergänzungsfrage
   explanations:
     en:
@@ -7285,6 +7358,8 @@
   examples:
   - Das ist sehr schön, aber leider zu teuer.
   - Ich gehe heute nicht spazieren, denn es ist zu kalt.
+  prerequisites:
+  - coord_conj_und_oder
   source_note: 'Satzverbindungen: aber, denn'
   explanations:
     en:
@@ -7422,6 +7497,8 @@
     in connected sentences.
   examples:
   - Ich muss noch kurz telefonieren, dann gehen wir.
+  prerequisites:
+  - coord_conj_und_oder
   source_note: 'Satzverbindungen: dann'
   explanations:
     en:
@@ -7539,6 +7616,8 @@
   - <span lang='de'>Wenn du Hunger hast, essen wir zusammen.</span>
   - <span lang='de'>Wir gehen spazieren, wenn das Wetter schön ist.</span>
   - <span lang='de'>Wenn ich müde bin, gehe ich früh ins Bett.</span>
+  prerequisites:
+  - verb_second_position
   source_note: 'Satzverbindungen: wenn* (A2 addition)'
   explanations:
     en:
@@ -7645,6 +7724,8 @@
     agent nouns.
   examples:
   - Ausländer, Arbeiter, Bewohner, Teilnehmer
+  prerequisites:
+  - noun_gender
   source_note: 'Nominalisierung -er: Ausländer, Arbeiter, Bewohner, Teilnehmer'
   explanations:
     en:
@@ -7772,6 +7853,8 @@
     nouns.
   examples:
   - Wohnung, Lösung, Mitteilung, Zahlung
+  prerequisites:
+  - noun_gender
   source_note: 'Nominalisierung -ung: Wohnung, Lösung, Mitteilung, Zahlung'
   explanations:
     en:
@@ -7876,6 +7959,8 @@
     base form.
   examples:
   - Nachbarin, Kollegin, Kundin, Leiterin
+  prerequisites:
+  - noun_gender
   source_note: 'feminine Formen -in: Nachbarin, Kollegin, Kundin, Leiterin'
   explanations:
     en:
@@ -8017,6 +8102,8 @@
     how one modifier can combine with multiple base nouns.
   examples:
   - Reisegruppe, Reiseführer
+  prerequisites:
+  - noun_gender
   source_note: 'Komposita gleiches Bestimmungswort: Reisegruppe, Reiseführer'
   explanations:
     en:
@@ -8116,6 +8203,8 @@
   - Frauenarzt, Zahnarzt
   - Postkarte, Scheckkarte
   - Familienfoto, Passfoto
+  prerequisites:
+  - noun_gender
   source_note: 'Komposita gleiches Grundwort: Frauenarzt/Zahnarzt, Postkarte/Scheckkarte,
     Familienfoto/Passfoto'
   explanations:
@@ -8231,6 +8320,8 @@
     from present or past participles.
   examples:
   - Reisender
+  prerequisites:
+  - selected_participles
   source_note: 'Partizipien (nominalisiert): Reisender'
   explanations:
     en:
