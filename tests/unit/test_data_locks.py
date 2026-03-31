@@ -1,8 +1,11 @@
 """Unit test: verify data files match their lock files.
 
-If vocab_a0.yaml, grammar_points.yaml, or a0_lessons.yaml/scenarios_a0.yaml
-content has changed but the corresponding lock file was not updated, this test
-fails with a clear message explaining how to fix the problem.
+If vocab_a0.yaml, grammar_points.yaml, comm_functions.json, or
+a0_lessons.yaml/scenarios_a0.yaml content has changed but the corresponding
+lock file was not updated, this test fails with a clear message explaining
+how to fix the problem.
+
+Tests are parametrized over all language directories under data/.
 """
 
 import hashlib
@@ -13,11 +16,21 @@ from pathlib import Path
 import pytest
 import yaml
 
-DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
-DATA_DIR = DATA_ROOT / "it"
-DE_DATA_DIR = DATA_ROOT / "de"
+from maestro.utils import DATA_DIR_ROOT, iter_language_dirs
+
+# Discover all languages that have data directories
+_LANG_DIRS = list(iter_language_dirs())
+_LANG_IDS = [d.name for d in _LANG_DIRS]
+
+DE_DATA_DIR = DATA_DIR_ROOT / "de"
 
 
+@pytest.fixture(params=_LANG_DIRS, ids=_LANG_IDS)
+def lang_dir(request):
+    return request.param
+
+
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "data_file, lock_file, update_script",
     [
@@ -26,50 +39,56 @@ DE_DATA_DIR = DATA_ROOT / "de"
         ("comm_functions.json", "comm_functions.lock", "scripts/update_cf_lock.py"),
     ],
 )
-def test_data_file_matches_lock(data_file, lock_file, update_script):
-    data_path = DATA_DIR / data_file
-    lock_path = DATA_DIR / lock_file
+def test_data_file_matches_lock(lang_dir, data_file, lock_file, update_script):
+    data_path = lang_dir / data_file
+    lock_path = lang_dir / lock_file
 
     if not data_path.exists():
-        pytest.skip(f"{data_file} not found")
+        pytest.skip(f"[{lang_dir.name}] {data_file} not found")
 
     if not lock_path.exists():
-        pytest.fail(f"{lock_file} not found. Run: uv run python {update_script}")
+        pytest.fail(
+            f"[{lang_dir.name}] {lock_file} not found. Run: uv run python {update_script}"
+        )
 
     try:
         lock_data = json.loads(lock_path.read_text())
     except (json.JSONDecodeError, OSError) as exc:
-        pytest.fail(f"Could not read {lock_file}: {exc}")
+        pytest.fail(f"[{lang_dir.name}] Could not read {lock_file}: {exc}")
 
     actual_sha = hashlib.sha256(data_path.read_bytes()).hexdigest()
     locked_sha = lock_data.get("sha256", "")
 
     if actual_sha != locked_sha:
         pytest.fail(
-            f"{data_file} content changed but {lock_file} was not updated. "
+            f"[{lang_dir.name}] {data_file} content changed but {lock_file} was not updated. "
             f"Run: uv run python {update_script}"
         )
 
 
-def test_a0_lessons_lock():
+@pytest.mark.unit
+def test_a0_lessons_lock(lang_dir):
     """Verify a0_lessons.yaml + scenarios_a0.yaml match a0_lessons.lock."""
-    lessons_path = DATA_DIR / "a0_lessons.yaml"
-    scenarios_path = DATA_DIR / "scenarios_a0.yaml"
-    lock_path = DATA_DIR / "a0_lessons.lock"
+    lessons_path = lang_dir / "a0_lessons.yaml"
+    scenarios_path = lang_dir / "scenarios_a0.yaml"
+    lock_path = lang_dir / "a0_lessons.lock"
     update_script = "scripts/update_a0_lessons_lock.py"
 
     if not lessons_path.exists():
-        pytest.skip("a0_lessons.yaml not found")
+        pytest.skip(f"[{lang_dir.name}] a0_lessons.yaml not found")
     if not scenarios_path.exists():
-        pytest.skip("scenarios_a0.yaml not found")
+        pytest.skip(f"[{lang_dir.name}] scenarios_a0.yaml not found")
 
     if not lock_path.exists():
-        pytest.fail(f"a0_lessons.lock not found. Run: uv run python {update_script}")
+        pytest.fail(
+            f"[{lang_dir.name}] a0_lessons.lock not found. "
+            f"Run: uv run python {update_script} --lang {lang_dir.name}"
+        )
 
     try:
         lock_data = json.loads(lock_path.read_text())
     except (json.JSONDecodeError, OSError) as exc:
-        pytest.fail(f"Could not read a0_lessons.lock: {exc}")
+        pytest.fail(f"[{lang_dir.name}] Could not read a0_lessons.lock: {exc}")
 
     # Import LOCK_VERSION to keep hash in sync with the lock script
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
@@ -84,18 +103,20 @@ def test_a0_lessons_lock():
 
     if actual_sha != locked_sha:
         pytest.fail(
-            f"a0_lessons.yaml or scenarios_a0.yaml changed but a0_lessons.lock "
-            f"was not updated. Run: uv run python {update_script}"
+            f"[{lang_dir.name}] a0_lessons.yaml or scenarios_a0.yaml changed but "
+            f"a0_lessons.lock was not updated. "
+            f"Run: uv run python {update_script} --lang {lang_dir.name}"
         )
 
 
-def test_a0_lesson_slug_alignment():
+@pytest.mark.unit
+def test_a0_lesson_slug_alignment(lang_dir):
     """Every scenario slug must have a matching key in a0_lessons.yaml."""
-    lessons_path = DATA_DIR / "a0_lessons.yaml"
-    scenarios_path = DATA_DIR / "scenarios_a0.yaml"
+    lessons_path = lang_dir / "a0_lessons.yaml"
+    scenarios_path = lang_dir / "scenarios_a0.yaml"
 
     if not lessons_path.exists() or not scenarios_path.exists():
-        pytest.skip("a0_lessons.yaml or scenarios_a0.yaml not found")
+        pytest.skip(f"[{lang_dir.name}] a0_lessons.yaml or scenarios_a0.yaml not found")
 
     with open(lessons_path) as f:
         lessons_data = yaml.safe_load(f)
@@ -108,7 +129,7 @@ def test_a0_lesson_slug_alignment():
 
     if missing:
         pytest.fail(
-            f"Scenario slugs with no matching lesson in a0_lessons.yaml: {missing}. "
+            f"[{lang_dir.name}] Scenario slugs with no matching lesson in a0_lessons.yaml: {missing}. "
             f"Either update the YAML keys or scenarios_a0.yaml slugs to match."
         )
 

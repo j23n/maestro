@@ -108,7 +108,7 @@
         <div class="scenario-grid">
           {% for item in active_incomplete %}
           <div class="scenario-card in-progress">
-            <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+            <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
             <div class="scenario-dots">
               {% for d in range(1, item.scenario.depths | length + 1) %}
                 <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
@@ -127,7 +127,7 @@
         <div class="scenario-grid">
           {% for item in not_started %}
           <div class="scenario-card">
-            <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+            <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
             <div class="scenario-dots">
               {% for d in range(1, item.scenario.depths | length + 1) %}
                 <span class="dot"></span>
@@ -146,7 +146,7 @@
           <div class="scenario-grid" style="margin-top: 0.5rem">
             {% for item in active_complete %}
             <div class="scenario-card completed">
-              <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+              <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
               <div class="scenario-dots">
                 {% for d in range(1, item.scenario.depths | length + 1) %}
                   <span class="dot filled"></span>
@@ -171,7 +171,7 @@
         <div class="scenario-grid" style="margin-top: 0.75rem">
           {% for item in level_map %}
           <div class="scenario-card completed muted">
-            <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+            <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
             <div class="scenario-dots">
               {% for d in range(1, item.scenario.depths | length + 1) %}
                 <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
@@ -347,7 +347,7 @@
       <div class="scenario-grid percorso-grid {% if phase.status == 'locked' %}phase-locked{% endif %}">
         {% for item in phase.scenarios %}
         <div class="scenario-card {% if item.depth_completed >= item.max_depth %}completed{% elif item.depth_completed > 0 %}in-progress{% endif %}">
-          <div class="scenario-label"><span lang="it">{{ item.scenario.label }}</span></div>
+          <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
           <div class="scenario-dots">
             {% for d in range(1, item.max_depth + 1) %}
             <span class="dot {% if d <= item.depth_completed %}filled{% endif %}"></span>
@@ -374,7 +374,7 @@
       <summary class="section-heading gp-dag-toggle">{{ t("percorso_grammar_map") }}</summary>
       {% for group in percorso.gp_dag %}
       <div class="gp-category">
-        <div class="subsection-label"><span lang="it">{{ group.category | replace("_", " ") }}</span></div>
+        <div class="subsection-label"><span lang="{{ target_language_code }}">{{ group.category | replace("_", " ") }}</span></div>
         <div class="gp-node-list">
           {% for node in group.nodes %}
           <div class="gp-node {{ node.status }}" data-code="{{ node.code }}" data-prereqs="{{ node.prereqs | map(attribute='code') | join(',') }}">

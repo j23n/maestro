@@ -1155,14 +1155,19 @@ a0-04-in-der-stadt:
     hint: 'Remember: learn the article with every noun. der = m., die = f., das = n.'
     items:
     - correct_answer: der
+      grammar_point_code: art_der_die_das
       prompt: ___ Kaffee (coffee, m.)
     - correct_answer: die
+      grammar_point_code: art_der_die_das
       prompt: ___ Tasse (cup, f.)
     - correct_answer: das
+      grammar_point_code: art_der_die_das
       prompt: ___ Bier (beer, n.)
     - correct_answer: Entschuldigung
+      grammar_point_code: hoeflich_ausdruecke
       prompt: 'To get someone''s attention politely: ___!'
     - correct_answer: geradeaus
+      grammar_point_code: ortspraepositionen
       prompt: Straight ahead = ___
     title: 'Review: articles and directions'
     type: drill
@@ -1460,14 +1465,19 @@ a0-05-um-hilfe-bitten:
     hint: bitte = please/you're welcome. danke = thank you. Entschuldigung = excuse me.
     items:
     - correct_answer: bitte
+      grammar_point_code: hoeflich_ausdruecke
       prompt: 'Someone thanks you. You say: ___! (You''re welcome)'
     - correct_answer: Entschuldigung
+      grammar_point_code: hoeflich_ausdruecke
       prompt: 'You bump into someone. You say: ___ (Sorry / Excuse me)'
     - correct_answer: danke
+      grammar_point_code: hoeflich_ausdruecke
       prompt: 'The waiter brings your coffee. You say: ___ schön!'
     - correct_answer: leid
+      grammar_point_code: hoeflich_ausdruecke
       prompt: 'You feel genuinely sorry. You say: Es tut mir ___.'
     - correct_answer: bitte
+      grammar_point_code: hoeflich_ausdruecke
       prompt: You order a coffee. Ein Kaffee, ___.
     title: 'Review: polite words'
     type: drill
@@ -1775,14 +1785,19 @@ a0-06-im-biergarten:
     hint: 'Review: numbers, greetings, and polite phrases from earlier lessons.'
     items:
     - correct_answer: Guten
+      grammar_point_code: begruessungen
       prompt: Good morning! = ___ Morgen!
     - correct_answer: bitte
+      grammar_point_code: hoeflich_ausdruecke
       prompt: The bill, please. = Die Rechnung, ___.
     - correct_answer: möchte
+      grammar_point_code: ich_moechte
       prompt: I would like a coffee. = Ich ___ einen Kaffee.
     - correct_answer: bin
+      grammar_point_code: sein_praesens
       prompt: I am vegetarian. (m.) = Ich ___ Vegetarier.
     - correct_answer: ohne
+      grammar_point_code: essen_trinken
       prompt: Without carbonation. = ___ Kohlensäure.
     title: Wiederholung — Review
     type: drill
@@ -2076,14 +2091,19 @@ a0-07-das-mag-ich:
     hint: Think back to restaurant and food words from earlier lessons.
     items:
     - correct_answer: Weißwurst
+      grammar_point_code: essen_trinken
       prompt: A classic Bavarian sausage = die ___
     - correct_answer: Brezel
+      grammar_point_code: essen_trinken
       prompt: A classic German snack with salt = die ___
     - correct_answer: Speisekarte
+      grammar_point_code: essen_trinken
       prompt: The menu, please. = Die ___, bitte.
     - correct_answer: Wasser
+      grammar_point_code: ich_moechte
       prompt: I'd like water. = Ich möchte ___.
     - correct_answer: lecker
+      grammar_point_code: essen_trinken
       prompt: That tastes delicious! = Das ist ___!
     title: 'Review: food and restaurant'
     type: drill
@@ -2354,12 +2374,16 @@ a0-08-grosse-zahlen:
     items:
     - prompt: 15 = <span lang="de">___</span>
       correct_answer: fünfzehn
+      grammar_point_code: zahlen_0_20
     - prompt: 12 = <span lang="de">___</span>
       correct_answer: zwölf
+      grammar_point_code: zahlen_0_20
     - prompt: 8 = <span lang="de">___</span>
       correct_answer: acht
+      grammar_point_code: zahlen_0_20
     - prompt: 19 = <span lang="de">___</span>
       correct_answer: neunzehn
+      grammar_point_code: zahlen_0_20
 a0-09-am-hauptbahnhof:
   activities:
   - type: vocab_review
@@ -2567,14 +2591,19 @@ a0-09-am-hauptbahnhof:
     hint: Numbers, times, and station words — you've got this!
     items:
     - correct_answer: achtzehn
+      grammar_point_code: zahlen_0_20
       prompt: 18 = ___
     - correct_answer: Uhr
+      grammar_point_code: uhrzeit_wochentage
       prompt: It's 9 o'clock. = Es ist neun ___.
     - correct_answer: fünfundvierzig
+      grammar_point_code: zahlen_20_100
       prompt: 45 = ___
     - correct_answer: Bahnhof
+      grammar_point_code: reise_verkehr
       prompt: Where is the train station? = Wo ist der ___?
     - correct_answer: Gleis
+      grammar_point_code: reise_verkehr
       prompt: The train leaves from platform 7. = Der Zug fährt von ___ sieben.
     title: 'Review: Zahlen, Uhrzeit und Bahnhof'
     type: drill
@@ -2949,12 +2978,16 @@ a0-10-neue-leute:
     hint: Wie heißt du? = What's your name? Freut mich = Nice to meet you. Woher = where from.
     items:
     - correct_answer: heiße
+      grammar_point_code: ich_heisse
       prompt: My name is Maria. = Ich ___ Maria.
     - correct_answer: Freut
+      grammar_point_code: begruessungen
       prompt: Nice to meet you. = ___ mich!
     - correct_answer: Woher
+      grammar_point_code: einfache_saetze
       prompt: Where are you from? (informal) = ___ kommst du?
     - correct_answer: aus
+      grammar_point_code: ortspraepositionen
       prompt: He comes from Hamburg. = Er kommt ___ Hamburg.
     title: 'Wiederholung — Review: greetings and introductions'
     type: drill
@@ -3246,14 +3279,19 @@ a0-11-ein-problem:
     hint: Bitte = please/you're welcome. Danke = thank you. Es tut mir leid = I'm sorry.
     items:
     - correct_answer: bitte
+      grammar_point_code: hoeflich_ausdruecke
       prompt: A coffee, please. = Einen Kaffee, ___.
     - correct_answer: Danke
+      grammar_point_code: hoeflich_ausdruecke
       prompt: Thank you! = ___!
     - correct_answer: leid
+      grammar_point_code: hoeflich_ausdruecke
       prompt: I'm sorry. = Es tut mir ___.
     - correct_answer: Entschuldigung
+      grammar_point_code: hoeflich_ausdruecke
       prompt: Excuse me, where is the station? = ___, wo ist der Bahnhof?
     - correct_answer: Bitte
+      grammar_point_code: hoeflich_ausdruecke
       prompt: You're welcome! = ___!
     title: 'Wiederholung: Höfliche Ausdrücke'
     type: drill

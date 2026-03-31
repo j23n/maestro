@@ -15,27 +15,17 @@ This means a0_lessons.yaml + scenarios_a0.yaml are the source of truth: edit the
 update the lock, deploy — the database catches up automatically on the next startup.
 """
 
-import json
 import logging
 from pathlib import Path
 
 import yaml
 
-from maestro.utils import DATA_DIR_ROOT, utcnow
+from maestro.utils import combined_lock_hash, iter_language_dirs, utcnow
 
 logger = logging.getLogger(__name__)
 
 _VERSIONS_COLL = "_data_versions"
 _A0_LESSONS_KEY = "a0_lessons"
-
-
-def _read_lock_hash(lock_path: Path) -> str | None:
-    if not lock_path.exists():
-        return None
-    try:
-        return json.loads(lock_path.read_text())["sha256"]
-    except Exception:
-        return None
 
 
 def _validate_slug_alignment(lang_dir: Path) -> list[str]:
@@ -54,19 +44,7 @@ def _validate_slug_alignment(lang_dir: Path) -> list[str]:
 
 
 def _combined_lock_hash() -> str | None:
-    """Combine lock hashes from all language directories."""
-    import hashlib
-
-    h = hashlib.sha256()
-    found = False
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
-        lock_sha = _read_lock_hash(lang_dir / "a0_lessons.lock")
-        if lock_sha:
-            h.update(f"{lang_dir.name}:{lock_sha}".encode())
-            found = True
-    return h.hexdigest() if found else None
+    return combined_lock_hash("a0_lessons.lock")
 
 
 async def sync_if_changed(db) -> None:
@@ -88,9 +66,7 @@ async def sync_if_changed(db) -> None:
         return
 
     # Validate slug alignment for all languages before ingesting
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         missing = _validate_slug_alignment(lang_dir)
         if missing:
             logger.error(

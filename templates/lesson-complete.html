@@ -150,7 +150,7 @@
     <div class="review-heading">{{ t("lesson_discovered_words_label") }}</div>
     <div class="discovered-words">
       {% for card in discovered_words %}
-      <span class="discovered-word-tag" lang="it">{{ card.word.word }}</span>
+      <span class="discovered-word-tag" lang="{{ target_language_code }}">{{ card.word.word }}</span>
       {% endfor %}
     </div>
   </div>

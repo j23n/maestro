@@ -1,7 +1,9 @@
 import asyncio
+import hashlib
 import json
 import logging
 import re
+from collections.abc import Iterator
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -40,13 +42,39 @@ def ensure_utc(dt: datetime) -> datetime:
 DATA_DIR_ROOT = Path(__file__).resolve().parents[2] / "data"
 
 
-def data_dir(language: str | None = None) -> Path:
-    """Return the data directory for the given language."""
-    if language is None:
-        from maestro.config import settings
+_DATA_SKIP_DIRS = frozenset({"seed", "images"})
 
-        language = settings.TARGET_LANGUAGE
+
+def iter_language_dirs() -> Iterator[Path]:
+    """Yield each language directory under data/, sorted alphabetically."""
+    for d in sorted(DATA_DIR_ROOT.iterdir()):
+        if d.is_dir() and d.name not in _DATA_SKIP_DIRS:
+            yield d
+
+
+def data_dir(language: str) -> Path:
+    """Return the data directory for the given language."""
     return DATA_DIR_ROOT / language
+
+
+def combined_lock_hash(lock_filename: str) -> str | None:
+    """Combine per-language lock hashes into a single deterministic hash.
+
+    Returns None if no lock files are found in any language directory.
+    """
+    h = hashlib.sha256()
+    found = False
+    for lang_dir in iter_language_dirs():
+        lock_path = lang_dir / lock_filename
+        if not lock_path.exists():
+            continue
+        try:
+            lock_sha = json.loads(lock_path.read_text())["sha256"]
+        except Exception:
+            continue
+        h.update(f"{lang_dir.name}:{lock_sha}".encode())
+        found = True
+    return h.hexdigest() if found else None
 
 
 _background_tasks: set[asyncio.Task] = set()

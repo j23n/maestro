@@ -15,7 +15,6 @@ import logging
 
 import yaml
 
-from maestro.config import settings
 from maestro.db import init_db
 
 from maestro.models import (
@@ -27,31 +26,38 @@ from maestro.models import (
     VocabularyWordDefinition,
 )
 from maestro.lessons.curriculum import detect_prerequisite_cycles
-from maestro.utils import DATA_DIR_ROOT, data_dir, utcnow
+from maestro.utils import data_dir, iter_language_dirs, utcnow
 
 logger = logging.getLogger(__name__)
 
 
 async def upsert_grammar_points() -> list[GrammarPoint]:
-    with open(data_dir() / "grammar_points.yaml") as f:
-        items = yaml.safe_load(f)
-    new_codes = {item["code"] for item in items}
-    # Remove GPs that no longer exist in the data file
+    all_codes: set[str] = set()
+    gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
+    for lang_dir in iter_language_dirs():
+        lang = lang_dir.name
+        gp_file = lang_dir / "grammar_points.yaml"
+        if not gp_file.exists():
+            continue
+        with open(gp_file) as f:
+            items = yaml.safe_load(f)
+        for item in items:
+            all_codes.add(item["code"])
+            gp = await GrammarPoint.find_one({"code": item["code"]})
+            if gp:
+                for key, val in item.items():
+                    if key in gp_fields:
+                        setattr(gp, key, val)
+                gp.language = lang
+                await gp.save()
+            else:
+                filtered = {k: v for k, v in item.items() if k in gp_fields}
+                await GrammarPoint(**filtered, language=lang).insert()
+    # Remove GPs that no longer exist in any data file
     existing = await GrammarPoint.find_all().to_list()
     for gp in existing:
-        if gp.code not in new_codes:
+        if gp.code not in all_codes:
             await gp.delete()
-    gp_fields = set(GrammarPoint.model_fields.keys()) - {"id"}
-    for item in items:
-        gp = await GrammarPoint.find_one({"code": item["code"]})
-        if gp:
-            for key, val in item.items():
-                if key in gp_fields:
-                    setattr(gp, key, val)
-            await gp.save()
-        else:
-            filtered = {k: v for k, v in item.items() if k in gp_fields}
-            await GrammarPoint(**filtered, language=settings.TARGET_LANGUAGE).insert()
     inserted = await GrammarPoint.find_all().to_list()
     logger.info(f"Grammar points: upserted {len(inserted)} records")
     return inserted
@@ -59,47 +65,54 @@ async def upsert_grammar_points() -> list[GrammarPoint]:
 
 async def link_grammar_points_to_chunks(grammar_points: list[GrammarPoint]) -> None:
     """Set chunk_ref on each GP from the static mapping file."""
-    CHUNK_MAPPING_FILE = data_dir() / "grammar_point_chunks.yaml"
-    if not CHUNK_MAPPING_FILE.exists():
-        logger.warning(f"Chunk mapping file not found: {CHUNK_MAPPING_FILE}")
-        return
-
-    with open(CHUNK_MAPPING_FILE) as f:
-        mapping = yaml.safe_load(f) or {}
-
-    for gp in grammar_points:
-        ref = mapping.get(gp.code)
-        if ref:
-            gp.chunk_ref = ref
-            await gp.save()
-        else:
-            logger.warning(f"  No chunk mapping for GP: {gp.code}")
+    for lang_dir in iter_language_dirs():
+        chunk_file = lang_dir / "grammar_point_chunks.yaml"
+        if not chunk_file.exists():
+            continue
+        with open(chunk_file) as f:
+            mapping = yaml.safe_load(f) or {}
+        for gp in grammar_points:
+            if gp.language != lang_dir.name:
+                continue
+            ref = mapping.get(gp.code)
+            if ref:
+                gp.chunk_ref = ref
+                await gp.save()
 
     mapped = sum(1 for gp in grammar_points if gp.chunk_ref)
     logger.info(f"Chunk refs set: {mapped}/{len(grammar_points)}")
 
 
 async def upsert_comm_functions() -> None:
-    with open(data_dir() / "comm_functions.json") as f:
-        items = json.load(f)
-    await CommunicativeFunction.find().delete()
-    docs = []
-    for item in items:
-        if not item.get("description"):
-            patterns = item.get("patterns", [])
-            item["description"] = "; ".join(patterns[:3]) if patterns else item["label"]
-        docs.append(CommunicativeFunction(**item, language=settings.TARGET_LANGUAGE))
-    await CommunicativeFunction.insert_many(docs)
-    logger.info(f"Communicative functions: inserted {len(docs)} items")
+    total = 0
+    for lang_dir in iter_language_dirs():
+        lang = lang_dir.name
+        cf_file = lang_dir / "comm_functions.json"
+        if not cf_file.exists():
+            continue
+        await CommunicativeFunction.find(
+            CommunicativeFunction.language == lang
+        ).delete()
+        with open(cf_file) as f:
+            items = json.load(f)
+        docs = []
+        for item in items:
+            if not item.get("description"):
+                patterns = item.get("patterns", [])
+                item["description"] = (
+                    "; ".join(patterns[:3]) if patterns else item["label"]
+                )
+            docs.append(CommunicativeFunction(**item, language=lang))
+        await CommunicativeFunction.insert_many(docs)
+        total += len(docs)
+    logger.info(f"Communicative functions: inserted {total} items")
 
 
 async def seed_scenarios() -> None:
     """Upsert CurriculumScenario documents from scenario YAML files."""
     total = 0
     all_slugs: set[str] = set()
-    for lang_dir in sorted(DATA_DIR_ROOT.iterdir()):
-        if not lang_dir.is_dir() or lang_dir.name in ("seed", "images"):
-            continue
+    for lang_dir in iter_language_dirs():
         lang = lang_dir.name
         for filename in ("scenarios_a0.yaml", "scenarios_a1.yaml"):
             scenario_file = lang_dir / filename
@@ -137,14 +150,14 @@ async def seed_scenarios() -> None:
     logger.info(f"Scenarios: upserted {total} records")
 
 
-async def seed_a0_vocab(language: str | None = None) -> None:
+async def seed_a0_vocab(language: str) -> None:
     """Upsert A0 vocabulary words from vocab_a0.yaml and create A0-level definitions.
 
     Each YAML entry has word, part_of_speech, and translation.  These are words
     and phrases NOT in the dictionary — they get a translation-only A0
     definition (no target-language definition text, just the English gloss).
     """
-    lang = language or settings.TARGET_LANGUAGE
+    lang = language
     vocab_file = data_dir(lang) / "vocab_a0.yaml"
     if not vocab_file.exists():
         logger.warning(f"A0 vocab file not found: {vocab_file}")

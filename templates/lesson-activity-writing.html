@@ -4,7 +4,7 @@
 {% block activity_card %}
 <div class="card">
   <div class="card-label">{{ t("page_title_writing") }}</div>
-  <div class="prompt-text" lang="it">{{ content | markdown | safe }}</div>
+  <div class="prompt-text" lang="{{ target_language_code }}">{{ content | markdown | safe }}</div>
 
   {% if is_review %}
     {% include "partials/review-banner.html" %}

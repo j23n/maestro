@@ -13,11 +13,9 @@ This means grammar_points.yaml is the single source of truth: edit the YAML
 the database catches up automatically on the next startup.
 """
 
-import json
 import logging
-from pathlib import Path
 
-from maestro.utils import data_dir, utcnow
+from maestro.utils import combined_lock_hash, utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -25,23 +23,17 @@ _VERSIONS_COLL = "_data_versions"
 _GP_KEY = "grammar_points"
 
 
-def _read_lock_hash(lock_path: Path) -> str | None:
-    if not lock_path.exists():
-        return None
-    try:
-        return json.loads(lock_path.read_text())["sha256"]
-    except Exception:
-        return None
+def _combined_lock_hash() -> str | None:
+    return combined_lock_hash("grammar_points.lock")
 
 
 async def sync_if_changed(db) -> None:
     """Compare grammar_points.lock against DB; run full GP ingest if hash differs."""
-    lock_path = data_dir() / "grammar_points.lock"
-    lock_sha = _read_lock_hash(lock_path)
+    combined_sha = _combined_lock_hash()
 
-    if lock_sha is None:
+    if combined_sha is None:
         logger.warning(
-            "gp_sync: grammar_points.lock not found — "
+            "gp_sync: no grammar_points.lock found in any language dir — "
             "run: uv run python scripts/update_gp_lock.py"
         )
         return
@@ -49,14 +41,14 @@ async def sync_if_changed(db) -> None:
     doc = await db[_VERSIONS_COLL].find_one({"key": _GP_KEY})
     db_sha = doc["hash"] if doc else None
 
-    if lock_sha == db_sha:
-        logger.info("gp_sync: grammar_points up to date (%s)", lock_sha[:16])
+    if combined_sha == db_sha:
+        logger.info("gp_sync: grammar_points up to date (%s)", combined_sha[:16])
         return
 
     logger.info(
         "gp_sync: hash changed (%s → %s), syncing grammar_points",
         (db_sha or "none")[:16],
-        lock_sha[:16],
+        combined_sha[:16],
     )
 
     from maestro.sync.ingest import upsert_grammar_points
@@ -65,7 +57,7 @@ async def sync_if_changed(db) -> None:
 
     await db[_VERSIONS_COLL].update_one(
         {"key": _GP_KEY},
-        {"$set": {"hash": lock_sha, "applied_at": utcnow()}},
+        {"$set": {"hash": combined_sha, "applied_at": utcnow()}},
         upsert=True,
     )
     logger.info("gp_sync: synced %d grammar points", len(grammar_points))
