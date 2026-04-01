@@ -71,11 +71,12 @@ def _find_entry(word: VocabularyWord, claude_data: dict[str, Any]) -> dict | Non
 async def _call_api(
     batch: list[VocabularyWord],
     max_tokens: int = 16384,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> dict[str, Any]:
-    from maestro.language import DEFAULT_LANGUAGE, get_language_config
+    from maestro.language import get_language_config
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     payload = {_word_key(w): _word_payload(w) for w in batch}
     user_content = json.dumps(payload, ensure_ascii=False)
     words_str = ", ".join(_word_key(w) for w in batch)

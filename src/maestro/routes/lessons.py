@@ -134,7 +134,7 @@ async def lesson_index(
         next_scenario = None
         if a0_scenarios:
             next_scenario_doc, _ = await _pick_a0_scenario(
-                profile, "A0", scenarios=a0_scenarios
+                profile, "A0", scenarios=a0_scenarios, language=profile.target_language
             )
             next_scenario = next_scenario_doc
         lesson_history: list[dict] = []
@@ -765,7 +765,7 @@ async def lesson_activity(
             else []
         )
         cefr = lesson.cefr_at_start or "A1"
-        lang = lesson.language or "it"
+        lang = lesson.language
         ctx["grammar_points"] = grammar_points
         ctx["gp_titles"] = build_titles(grammar_points, cefr, lang)
         ctx["gp_tooltip_data"] = build_tooltip_data(grammar_points, cefr, lang)
@@ -1683,7 +1683,7 @@ async def lesson_complete(
             "cf_titles": build_titles(
                 covered_comm_functions,
                 lesson.cefr_at_start or "A1",
-                lesson.language or "it",
+                lesson.language,
             ),
             "discovered_words": discovered_words,
             "gp_titles": gp_titles,

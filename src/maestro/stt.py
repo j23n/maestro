@@ -169,7 +169,7 @@ async def assess_pronunciation(
     audio_bytes: bytes,
     reference_text: str,
     *,
-    language: str | None = None,
+    language: str,
 ) -> PronunciationResult:
     """Send audio to Azure for pronunciation assessment.
 
@@ -183,9 +183,9 @@ async def assess_pronunciation(
     Raises:
         APITimeoutError, APIRateLimitError, APIStatusError on failure.
     """
-    from maestro.language import DEFAULT_LANGUAGE, get_language_config
+    from maestro.language import get_language_config
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     client = _get_stt_client()
     lang_tag = lang_cfg.stt_locale
 
@@ -225,9 +225,7 @@ async def assess_pronunciation(
     return result
 
 
-async def transcribe(
-    audio_bytes: bytes, *, language: str | None = None
-) -> TranscriptionResult:
+async def transcribe(audio_bytes: bytes, *, language: str) -> TranscriptionResult:
     """Transcribe audio without pronunciation assessment.
 
     Args:
@@ -239,9 +237,9 @@ async def transcribe(
     Raises:
         APITimeoutError, APIRateLimitError, APIStatusError on failure.
     """
-    from maestro.language import DEFAULT_LANGUAGE, get_language_config
+    from maestro.language import get_language_config
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     client = _get_stt_client()
     lang_tag = lang_cfg.stt_locale
 

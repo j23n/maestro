@@ -35,7 +35,7 @@ QUIZ_MODES = ("word", "translation")
 @router.get("/vocab", response_class=HTMLResponse)
 async def vocab_list(request: Request, student: Student = Depends(get_current_student)):
     profile = request.state.profile
-    language = profile.target_language if profile else "it"
+    language = profile.target_language
     cards = await UserVocabularyCard.find(
         {"student_id": student.id, "language": language, "excluded": {"$ne": True}}
     ).to_list()
@@ -265,7 +265,7 @@ async def vocab_practice(
     student_level = await get_cefr_level(student.id)
 
     profile = request.state.profile
-    language = profile.target_language if profile else "it"
+    language = profile.target_language
     due_cards = await UserVocabularyCard.find(
         {
             "student_id": student.id,

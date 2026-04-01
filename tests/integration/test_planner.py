@@ -53,7 +53,7 @@ async def test_pick_grammar_points_prioritises_weak(db):
         },
     )
 
-    picked = await pick_grammar_points(profile, "A1", 1)
+    picked = await pick_grammar_points(profile, "A1", 1, language="it")
     assert picked[0].code == "GP_A"  # higher error rate → picked first
 
 
@@ -70,7 +70,7 @@ async def test_pick_grammar_points_falls_back_when_no_level_match(db):
     )
     await gp.insert()
 
-    picked = await pick_grammar_points(None, "A1", 1)
+    picked = await pick_grammar_points(None, "A1", 1, language="it")
     assert len(picked) == 1
     assert picked[0].code == "GP_B2"
 
@@ -93,7 +93,9 @@ async def test_pick_grammar_points_with_candidate_codes(db):
     await gp2.insert()
     await gp3.insert()
 
-    picked = await pick_grammar_points(None, "A1", 2, candidate_codes=["GP_A", "GP_C"])
+    picked = await pick_grammar_points(
+        None, "A1", 2, candidate_codes=["GP_A", "GP_C"], language="it"
+    )
     codes = {g.code for g in picked}
     assert codes <= {"GP_A", "GP_C"}
     assert "GP_B" not in codes
@@ -113,7 +115,9 @@ async def test_pick_comm_functions_with_candidate_codes(db):
     await cf1.insert()
     await cf2.insert()
 
-    picked = await pick_comm_functions(None, "A1", 1, candidate_codes=["CF_A"])
+    picked = await pick_comm_functions(
+        None, "A1", 1, candidate_codes=["CF_A"], language="it"
+    )
     assert len(picked) == 1
     assert picked[0].code == "CF_A"
 
@@ -177,7 +181,7 @@ async def test_pick_scenario_prefers_unvisited(db):
     )
     await profile.insert()
 
-    scenario, depth = await pick_scenario(profile, "A1")
+    scenario, depth = await pick_scenario(profile, "A1", language="it")
     assert scenario.slug == "unvisited"
     assert depth == 1
 
@@ -219,7 +223,7 @@ async def test_pick_scenario_cooldown_with_naive_datetime(db):
     await profile.insert()
 
     # Should not raise "can't subtract offset-naive and offset-aware datetimes"
-    scenario, depth = await pick_scenario(profile, "A1")
+    scenario, depth = await pick_scenario(profile, "A1", language="it")
     assert scenario.slug == "recent"
 
 
@@ -261,7 +265,7 @@ async def test_pick_scenario_weak_gp_boost(db):
     await profile.insert()
 
     # Both are unvisited, so weak GP overlap should be the tiebreaker
-    scenario, _ = await pick_scenario(profile, "A1")
+    scenario, _ = await pick_scenario(profile, "A1", language="it")
     assert scenario.slug == "weak-overlap"
 
 

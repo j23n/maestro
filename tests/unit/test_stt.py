@@ -216,7 +216,9 @@ async def test_assess_pronunciation_success():
     mock_client = _mock_stt_client_with_response(SAMPLE_AZURE_RESPONSE)
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
-        result = await assess_pronunciation(b"fake-wav-bytes", "Buon giorno.")
+        result = await assess_pronunciation(
+            b"fake-wav-bytes", "Buon giorno.", language="it"
+        )
 
     assert isinstance(result, PronunciationResult)
     assert result.pronunciation_score == 90.5
@@ -237,7 +239,7 @@ async def test_assess_pronunciation_timeout():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APITimeoutError) as exc_info:
-            await assess_pronunciation(b"wav", "ciao")
+            await assess_pronunciation(b"wav", "ciao", language="it")
 
     assert exc_info.value.provider == "azure"
 
@@ -254,7 +256,7 @@ async def test_assess_pronunciation_rate_limit():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APIRateLimitError) as exc_info:
-            await assess_pronunciation(b"wav", "ciao")
+            await assess_pronunciation(b"wav", "ciao", language="it")
 
     assert exc_info.value.provider == "azure"
 
@@ -271,7 +273,7 @@ async def test_assess_pronunciation_server_error():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APIStatusError) as exc_info:
-            await assess_pronunciation(b"wav", "ciao")
+            await assess_pronunciation(b"wav", "ciao", language="it")
 
     assert exc_info.value.status_code == 500
     assert exc_info.value.provider == "azure"
@@ -287,7 +289,7 @@ async def test_assess_pronunciation_recognition_failure():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APIStatusError, match="Recognition failed"):
-            await assess_pronunciation(b"wav", "ciao")
+            await assess_pronunciation(b"wav", "ciao", language="it")
 
 
 # ---------------------------------------------------------------------------
@@ -344,7 +346,7 @@ async def test_transcribe_success():
     mock_client = _mock_stt_client_with_response(SAMPLE_TRANSCRIPTION_RESPONSE)
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
-        result = await transcribe(b"fake-wav-bytes")
+        result = await transcribe(b"fake-wav-bytes", language="it")
 
     assert isinstance(result, TranscriptionResult)
     assert result.recognized_text == "La mia famiglia è grande."
@@ -366,7 +368,7 @@ async def test_transcribe_timeout():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APITimeoutError) as exc_info:
-            await transcribe(b"wav")
+            await transcribe(b"wav", language="it")
 
     assert exc_info.value.provider == "azure"
 
@@ -381,4 +383,4 @@ async def test_transcribe_no_match():
 
     with patch.object(stt_module, "_get_stt_client", return_value=mock_client):
         with pytest.raises(APIStatusError, match="Recognition failed"):
-            await transcribe(b"wav")
+            await transcribe(b"wav", language="it")

@@ -136,12 +136,14 @@ async def grammar_practice_submit(
     if drill is None:
         raise HTTPException(404)
 
+    target_lang = request.state.lang_ctx.code
+
     student_input: list[str] | str = (
         answers if drill.items else (answers[0] if answers else "")
     )
 
     correct, event, feedback, rule_refs = await score_attempt(
-        drill, student_input, student_id=student.id
+        drill, student_input, student_id=student.id, language=target_lang
     )
 
     stored_answer = (

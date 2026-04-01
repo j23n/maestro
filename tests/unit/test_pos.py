@@ -30,7 +30,7 @@ class TestMatchesPos:
         ],
     )
     def test_matching_pairs(self, epub_pos, spacy_pos):
-        assert matches_pos(epub_pos, spacy_pos) is True
+        assert matches_pos(epub_pos, spacy_pos, language="it") is True
 
     @pytest.mark.parametrize(
         "epub_pos,spacy_pos",
@@ -42,17 +42,17 @@ class TestMatchesPos:
         ],
     )
     def test_non_matching_pairs(self, epub_pos, spacy_pos):
-        assert matches_pos(epub_pos, spacy_pos) is False
+        assert matches_pos(epub_pos, spacy_pos, language="it") is False
 
     @pytest.mark.parametrize("spacy_pos", ["X", "PUNCT", "SYM", "SPACE", ""])
     def test_unknown_spacy_pos_returns_false(self, spacy_pos):
-        assert matches_pos("s.m.", spacy_pos) is False
+        assert matches_pos("s.m.", spacy_pos, language="it") is False
 
     def test_empty_epub_pos(self):
-        assert matches_pos("", "NOUN") is False
+        assert matches_pos("", "NOUN", language="it") is False
 
     def test_both_empty(self):
-        assert matches_pos("", "") is False
+        assert matches_pos("", "", language="it") is False
 
 
 class TestMatchesPosGerman:

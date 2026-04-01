@@ -342,7 +342,7 @@ def seeded_cache_with_phrases():
 )
 def test_match_vocab_words_observations(text, expected_words):
     """match_vocab_words() should produce exactly the expected set of dictionary matches."""
-    matches = match_vocab_words(text, _TEST_WORD_INDEX)
+    matches = match_vocab_words(text, _TEST_WORD_INDEX, language="it")
     matched_words = {m.word.word for m in matches}
     assert matched_words == expected_words, (
         f"match_vocab_words({text!r})\n"
@@ -354,7 +354,7 @@ def test_match_vocab_words_observations(text, expected_words):
 @pytest.mark.unit
 def test_match_vocab_words_returns_vocab_match():
     """match_vocab_words() should return a list of VocabMatch dataclasses."""
-    matches = match_vocab_words("il gatto dorme", _TEST_WORD_INDEX)
+    matches = match_vocab_words("il gatto dorme", _TEST_WORD_INDEX, language="it")
     assert isinstance(matches, list)
     assert all(isinstance(m, VocabMatch) for m in matches)
 
@@ -362,7 +362,7 @@ def test_match_vocab_words_returns_vocab_match():
 @pytest.mark.unit
 def test_match_vocab_words_surface_forms():
     """Each VocabMatch should carry the inflected surface forms seen in the text."""
-    matches = match_vocab_words("i gatti dormono", _TEST_WORD_INDEX)
+    matches = match_vocab_words("i gatti dormono", _TEST_WORD_INDEX, language="it")
     gatto_match = next(m for m in matches if m.word.word == "gatto")
     assert "gatti" in gatto_match.surface_forms
 
@@ -370,7 +370,7 @@ def test_match_vocab_words_surface_forms():
 @pytest.mark.unit
 def test_match_vocab_words_dedup():
     """Same lemma + same dictionary entry appearing twice → only one VocabMatch."""
-    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX)
+    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX, language="it")
     gatto_matches = [m for m in matches if m.word.word == "gatto"]
     assert len(gatto_matches) == 1
 
@@ -378,7 +378,7 @@ def test_match_vocab_words_dedup():
 @pytest.mark.unit
 def test_match_vocab_words_multi_pos():
     """Same lemma with different POS should return multiple VocabMatch entries."""
-    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX)
+    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX, language="it")
     piano_matches = [m for m in matches if m.lemma == "piano"]
     assert len(piano_matches) == 2, (
         f"Expected 2 piano matches (noun + adj), got {len(piano_matches)}: "
@@ -398,7 +398,9 @@ def test_match_vocab_words_multi_pos():
 @pytest.mark.unit
 def test_match_vocab_words_occurrence_index():
     """Each VocabMatch should carry TokenOccurrences with correct token indices."""
-    matches = match_vocab_words("il gatto dorme sul divano", _TEST_WORD_INDEX)
+    matches = match_vocab_words(
+        "il gatto dorme sul divano", _TEST_WORD_INDEX, language="it"
+    )
     # All single-POS matches — each should have exactly one occurrence
     for m in matches:
         assert len(m.occurrences) >= 1
@@ -411,7 +413,7 @@ def test_match_vocab_words_occurrence_index():
 @pytest.mark.unit
 def test_match_vocab_words_dedup_groups_occurrences():
     """Same lemma + same dictionary entry appearing twice → one VocabMatch with two occurrences."""
-    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX)
+    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX, language="it")
     gatto_matches = [m for m in matches if m.word.word == "gatto"]
     assert len(gatto_matches) == 1
     assert len(gatto_matches[0].occurrences) == 2
@@ -423,7 +425,7 @@ def test_match_vocab_words_per_pos_surface_forms():
     """Multi-POS matches should carry only their own POS's surface forms."""
     # "piano" as both noun and adjective — each match should have surface "piano"
     # but critically, if we had different surface forms per POS, they wouldn't leak.
-    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX)
+    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX, language="it")
     piano_matches = [m for m in matches if m.lemma == "piano"]
     noun_match = next(m for m in piano_matches if m.word.part_of_speech == "s.m.")
     adj_match = next(m for m in piano_matches if m.word.part_of_speech == "agg.")
@@ -438,7 +440,7 @@ def test_match_vocab_words_per_pos_surface_forms():
 @pytest.mark.unit
 def test_match_vocab_words_default_word_index(seeded_cache):
     """match_vocab_words() should use the global cache when word_index is omitted."""
-    matches = match_vocab_words("il gatto dorme")
+    matches = match_vocab_words("il gatto dorme", language="it")
     assert any(m.word.word == "gatto" for m in matches)
 
 
@@ -452,7 +454,7 @@ def test_cache_get_definition_a0_fallback_to_a1():
     """A0 lookup with no A0 def should return A1 def with translation only."""
     a1_def = _make_wdef(translation="cat")
     _vocab_cache.seed(defs={("word-1", "A1"): a1_def})
-    result = _vocab_cache.get_definition("word-1", "A0")
+    result = _vocab_cache.get_definition("word-1", "A0", language="it")
     assert result is not None
     assert result.translation == "cat"
     # Definition text should be stripped
@@ -480,7 +482,7 @@ def test_cache_get_definition_a0_deduplicates_translations():
         ],
     )
     _vocab_cache.seed(defs={("word-1", "A1"): a1_def})
-    result = _vocab_cache.get_definition("word-1", "A0")
+    result = _vocab_cache.get_definition("word-1", "A0", language="it")
     translations = [s.translation for s in result.senses]
     assert translations == ["door (opening)", "door"]
     _vocab_cache.invalidate()
@@ -496,7 +498,7 @@ def test_cache_get_definition_a0_with_own_def():
         ],
     )
     _vocab_cache.seed(defs={("word-1", "A0"): a0_def})
-    result = _vocab_cache.get_definition("word-1", "A0")
+    result = _vocab_cache.get_definition("word-1", "A0", language="it")
     assert result is a0_def  # exact same object, not a copy
     _vocab_cache.invalidate()
 
@@ -505,7 +507,7 @@ def test_cache_get_definition_a0_with_own_def():
 def test_cache_get_definition_a0_no_a1_returns_none():
     """A0 lookup with no A0 or A1 def should return None."""
     _vocab_cache.seed(defs={})
-    result = _vocab_cache.get_definition("word-1", "A0")
+    result = _vocab_cache.get_definition("word-1", "A0", language="it")
     assert result is None
     _vocab_cache.invalidate()
 
@@ -515,7 +517,7 @@ def test_cache_get_definition_a1_no_fallback():
     """A1 lookup with no A1 def should return None (no fallback for non-A0)."""
     a2_def = _make_wdef(translation="cat")
     _vocab_cache.seed(defs={("word-1", "A2"): a2_def})
-    result = _vocab_cache.get_definition("word-1", "A1")
+    result = _vocab_cache.get_definition("word-1", "A1", language="it")
     assert result is None
     _vocab_cache.invalidate()
 
@@ -525,7 +527,7 @@ def test_cache_phrase_index_seeded():
     """seed() with phrases param populates phrase_index()."""
     phrases = {"per favore": [_make_vocab_word("per favore", pos="loc.")]}
     _vocab_cache.seed(phrases=phrases)
-    assert _vocab_cache.phrase_index() == phrases
+    assert _vocab_cache.phrase_index("it") == phrases
     _vocab_cache.invalidate()
 
 
@@ -805,7 +807,9 @@ def test_annotate_max_count():
 async def test_discover_no_lang_returns_unchanged(seeded_cache):
     """Content without lang attributes should pass through unchanged."""
     html = '<div class="scoring">Good job!</div>'
-    assert await discover(html, student_id=None, create_cards=False) == html
+    assert (
+        await discover(html, student_id=None, create_cards=False, language="it") == html
+    )
 
 
 @pytest.mark.unit
@@ -815,7 +819,7 @@ async def test_discover_main_scoping(seeded_cache):
         '<nav><span lang="it">ciao</span></nav>'
         '<main><span lang="it">il gatto dorme</span></main>'
     )
-    result = await discover(html, student_id=None, create_cards=False)
+    result = await discover(html, student_id=None, create_cards=False, language="it")
     assert 'data-word="gatto"' in result
     assert 'data-word="ciao"' not in result
 
@@ -824,7 +828,7 @@ async def test_discover_main_scoping(seeded_cache):
 async def test_discover_fragment_mode(seeded_cache):
     """Without <main>, all lang elements are discovered (HTMX fragment mode)."""
     html = '<span lang="it">il gatto dorme</span>'
-    result = await discover(html, student_id=None, create_cards=False)
+    result = await discover(html, student_id=None, create_cards=False, language="it")
     assert 'data-word="gatto"' in result
 
 
@@ -835,6 +839,7 @@ async def test_discover_inline_tag_amore(seeded_cache):
         '<span lang="it"><b>a</b>more mio</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     # The word IS matched (text extraction gives "amore"), but annotation
     # can't wrap across <b> boundary, so no data-word appears.
@@ -848,6 +853,7 @@ async def test_discover_nested_lang_excluded(seeded_cache):
         '<span lang="it">il gatto <span lang="en">(the cat)</span> dorme</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="gatto"' in result
     assert 'data-word="dormire"' in result
@@ -864,7 +870,7 @@ async def test_discover_grammar_page_multi_span(seeded_cache):
         '- <span lang="it"><em>la porta</em></span> (the door)'
         "</p>"
     )
-    result = await discover(html, student_id=None, create_cards=False)
+    result = await discover(html, student_id=None, create_cards=False, language="it")
     for word in ("ragazzo", "ragazza", "libro", "porta"):
         assert f'data-word="{word}"' in result, f"{word!r} not annotated"
 
@@ -876,6 +882,7 @@ async def test_discover_multi_pos_annotation(seeded_cache):
         '<span lang="it">suono il piano piano</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert result.count('data-word="piano"') == 2
     assert 'data-pos="s.m."' in result
@@ -889,6 +896,7 @@ async def test_discover_contraction_annotated(seeded_cache):
         '<span lang="it">nella stazione</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="nella"' in result
     assert 'data-word="stazione"' in result
@@ -901,6 +909,7 @@ async def test_discover_elision_essere_annotated(seeded_cache):
         '<span lang="it">Dov\'è il bagno</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="dove"' in result
     assert 'data-word="essere"' in result
@@ -914,6 +923,7 @@ async def test_discover_no_discover_skips_element(seeded_cache):
         '<span lang="it" data-no-discover>gatto</span> <span lang="it">il gatto dorme</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     # The no-discover span should be left untouched — plain text, no vocab-word
     assert 'data-no-discover=""' in result
@@ -963,6 +973,7 @@ async def test_discover_phrase_matched(seeded_cache_with_phrases):
         '<span lang="it">per favore</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="per favore"' in result
 
@@ -974,6 +985,7 @@ async def test_discover_phrase_takes_priority(seeded_cache_with_phrases):
         '<span lang="it">per favore</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     # "per favore" matched as phrase — element excluded from word matching,
     # so "per" and "favore" should NOT appear as individual word annotations
@@ -989,6 +1001,7 @@ async def test_discover_phrase_and_words_coexist(seeded_cache_with_phrases):
         '<span lang="it">per favore</span> <span lang="it">il gatto dorme</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="per favore"' in result
     assert 'data-word="gatto"' in result
@@ -1002,6 +1015,7 @@ async def test_discover_phrase_case_insensitive(seeded_cache_with_phrases):
         '<span lang="it">Per Favore</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="per favore"' in result
 
@@ -1013,6 +1027,7 @@ async def test_discover_phrase_no_match_on_partial(seeded_cache_with_phrases):
         '<span lang="it">per favore signora</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     # "per favore signora" is not an exact phrase match — falls through to word matching
     assert 'data-word="per favore"' not in result
@@ -1029,6 +1044,7 @@ async def test_discover_phrase_data_no_save(seeded_cache_with_phrases):
         '<span lang="it" data-no-save>mi chiamo</span> <span lang="it">il gatto</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="mi chiamo"' in result
     assert 'data-word="gatto"' in result
@@ -1064,6 +1080,7 @@ async def test_discover_phrase_with_punctuation(seeded_cache_with_phrases):
         '<span lang="it">un po\'</span>',
         student_id=None,
         create_cards=False,
+        language="it",
     )
     assert 'data-word="un po\'"' in result
 
@@ -1076,7 +1093,7 @@ async def test_discover_mixed_phrases_and_words(seeded_cache_with_phrases):
         '<span lang="it">mi chiamo</span> Giovanni. '
         '<span lang="it">Vorrei un caffè per favore.</span></p>'
     )
-    result = await discover(html, student_id=None, create_cards=False)
+    result = await discover(html, student_id=None, create_cards=False, language="it")
     # Phrase matches (exact element text)
     assert 'data-word="mi chiamo"' in result
     assert 'data-word="ciao"' in result
@@ -1097,6 +1114,7 @@ async def test_discover_fires_audio_task_for_missing_audio(seeded_cache):
             '<span lang="it">il gatto dorme</span>',
             student_id=None,
             create_cards=False,
+            language="it",
         )
 
     # All test words have audio_url=None, so audio task should fire
@@ -1127,6 +1145,7 @@ async def test_discover_no_audio_task_when_audio_exists():
                 '<span lang="it">il gatto</span>',
                 student_id=None,
                 create_cards=False,
+                language="it",
             )
 
         audio_calls = [
@@ -1147,6 +1166,7 @@ async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
             '<span lang="it">il gatto dorme</span>',
             student_id=None,
             create_cards=False,
+            language="it",
         )
 
     names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]

@@ -28,6 +28,7 @@ from maestro.i18n import t as i18n_t
 from maestro.rate_limit import limiter
 from maestro.session import clear_session_cookie, read_session
 from maestro.templates import render_with_discover
+from maestro.language import LANGUAGES
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import (
@@ -152,9 +153,10 @@ async def lifespan(app: FastAPI):
     await sync_dwds_headwords(get_db())
     await sync_a0_lessons(get_db())
     await seed_if_empty(get_db())
-    logger.info("startup: loading NLP model")
-    get_nlp()  # warm up spaCy model
-    await load_vocab()
+    logger.info("startup: loading NLP models and vocab for all languages")
+    for _lang_code in LANGUAGES:
+        get_nlp(_lang_code)
+        await load_vocab(_lang_code)
     logger.info("startup complete")
     yield
     logger.info("shutdown")
@@ -213,7 +215,10 @@ async def landing(request: Request):
     if read_session(request):
         return RedirectResponse(url="/lessons/")
     return await render_with_discover(
-        request, "landing.html", {}, discover_anonymous=True
+        request,
+        "landing.html",
+        {"target_language": "Italian", "target_language_code": "it"},
+        discover_anonymous=True,
     )
 
 

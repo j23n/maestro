@@ -37,7 +37,10 @@ LANGUAGES: dict[str, LanguageConfig] = {
     ),
 }
 
-DEFAULT_LANGUAGE = "it"
+
+def all_language_codes() -> list[str]:
+    """Return all supported language codes."""
+    return list(LANGUAGES.keys())
 
 
 def get_language_config(code: str) -> LanguageConfig:

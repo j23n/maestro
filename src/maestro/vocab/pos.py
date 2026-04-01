@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from maestro.language import DEFAULT_LANGUAGE
 
 # ---------------------------------------------------------------------------
 # Italian: EPUB dictionary POS abbreviations
@@ -46,9 +45,9 @@ _LANG_TO_MAP: dict[str, dict[str, tuple[str, ...]]] = {
 }
 
 
-def matches_pos(dict_pos: str, spacy_pos: str, language: str | None = None) -> bool:
+def matches_pos(dict_pos: str, spacy_pos: str, language: str) -> bool:
     """Check if a dictionary POS abbreviation matches a spaCy universal POS tag."""
-    mapping = _LANG_TO_MAP.get(language or DEFAULT_LANGUAGE, UPOS_TO_EPUB)
+    mapping = _LANG_TO_MAP.get(language, UPOS_TO_EPUB)
     prefixes = mapping.get(spacy_pos)
     if not prefixes:
         return False

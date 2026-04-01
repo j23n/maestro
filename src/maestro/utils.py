@@ -10,7 +10,7 @@ from pathlib import Path
 CEFR_ORDER = ["A0", "A1", "A2", "B1", "B2"]
 
 
-def explanation_lang_for_level(cefr: str, target_language: str = "it") -> str:
+def explanation_lang_for_level(cefr: str, target_language: str) -> str:
     """Return target_language for B1/B2 explanations, 'en' for A0/A1/A2."""
     return target_language if cefr in ("B1", "B2") else "en"
 

@@ -60,6 +60,7 @@ def test_prompt_contains_scenario_and_level():
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "A1" in prompt
     assert "Al bar" in prompt
@@ -79,6 +80,7 @@ def test_prompt_contains_grammar_points():
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "GP001" in prompt
     assert "Presente indicativo" in prompt
@@ -104,6 +106,7 @@ def test_prompt_contains_drill_specs():
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "GP001" in prompt
     assert "fill_blank" in prompt
@@ -122,6 +125,7 @@ def test_prompt_contains_speaking_cf():
         reading_count=0,
         include_writing=False,
         speaking_cfs=[cf],
+        language="it",
     )
     assert "Salutare" in prompt
     assert "CF001" in prompt
@@ -158,6 +162,7 @@ def test_prompt_includes_persona(monkeypatch):
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     # randint(1,2) returns 2 → picks first 2 fields (background, interests)
     assert "wine enthusiast" in prompt
@@ -195,6 +200,7 @@ def test_prompt_excludes_persona_when_random_skips(monkeypatch):
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "wine enthusiast" not in prompt
     assert "cooking" not in prompt
@@ -213,6 +219,7 @@ def test_prompt_reading_schema():
         reading_count=2,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "readings" in prompt
 
@@ -229,6 +236,7 @@ def test_prompt_writing_schema():
         reading_count=0,
         include_writing=True,
         speaking_cfs=[],
+        language="it",
     )
     assert "writing" in prompt
 
@@ -247,6 +255,7 @@ def test_prompt_depth_description():
         reading_count=0,
         include_writing=False,
         speaking_cfs=[],
+        language="it",
     )
     assert "detailed" in prompt
 
@@ -280,6 +289,7 @@ def test_prompt_contains_archetype_guidance(archetype, expected_text):
         include_writing=False,
         speaking_cfs=[],
         archetype=archetype,
+        language="it",
     )
     assert expected_text in prompt
 
@@ -297,5 +307,6 @@ def test_prompt_no_archetype_guidance_when_empty():
         include_writing=False,
         speaking_cfs=[],
         archetype="",
+        language="it",
     )
     assert "LESSON TYPE" not in prompt

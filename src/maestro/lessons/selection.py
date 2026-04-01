@@ -12,7 +12,6 @@ import random
 from datetime import date
 from typing import Optional
 
-from maestro.language import DEFAULT_LANGUAGE
 from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
@@ -33,16 +32,15 @@ _COOLDOWN_SECONDS = 3 * 24 * 3600  # 3 days
 
 async def _pick_a0_scenario(
     profile: Optional[LearningProfile],
-    language: str | None = None,
+    language: str,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next A0 scenario in sequential order.
 
     Returns the first scenario whose depth < 1 (i.e. not yet completed).
     Falls back to the last scenario if all are done.
     """
-    lang = language or DEFAULT_LANGUAGE
     scenarios = (
-        await CurriculumScenario.find({"cefr_level": "A0", "language": lang})
+        await CurriculumScenario.find({"cefr_level": "A0", "language": language})
         .sort("sequence")
         .to_list()
     )
@@ -69,7 +67,8 @@ async def pick_scenario(
     profile: Optional[LearningProfile],
     cefr_level: str,
     scenarios: list[CurriculumScenario] | None = None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
@@ -78,19 +77,17 @@ async def pick_scenario(
 
     Args:
         scenarios: pre-fetched scenario list to avoid a redundant DB query.
-        language: ISO language code (e.g. "it", "de"). Defaults to DEFAULT_LANGUAGE.
+        language: ISO language code (e.g. "it", "de").
 
     Returns (scenario, next_depth).
     """
-    lang = language or DEFAULT_LANGUAGE
-
     if cefr_level == "A0":
-        return await _pick_a0_scenario(profile, language=lang)
+        return await _pick_a0_scenario(profile, language=language)
 
     all_scenarios = (
         scenarios
         or await CurriculumScenario.find(
-            {"cefr_level": cefr_level, "language": lang}
+            {"cefr_level": cefr_level, "language": language}
         ).to_list()
     )
     if not all_scenarios:
@@ -166,7 +163,8 @@ async def pick_grammar_points(
     count: int,
     candidate_codes: list[str] | None = None,
     unlocked_codes: set[str] | None = None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> list[GrammarPoint]:
     """Pick grammar points to practise, prioritising weakest within level.
 
@@ -175,15 +173,13 @@ async def pick_grammar_points(
     Among the top candidates, prefer GPs that share the same chunk_ref
     so lessons are coherent around a textbook section.
     """
-    lang = language or DEFAULT_LANGUAGE
-
     if candidate_codes:
         candidates = await GrammarPoint.find(
-            {"code": {"$in": candidate_codes}, "language": lang}
+            {"code": {"$in": candidate_codes}, "language": language}
         ).to_list()
     else:
         candidates = await GrammarPoint.find(
-            {"cefr_level": cefr_level, "language": lang}
+            {"cefr_level": cefr_level, "language": language}
         ).to_list()
 
     if unlocked_codes is not None:
@@ -230,24 +226,23 @@ async def pick_comm_functions(
     cefr_level: str,
     count: int,
     candidate_codes: list[str] | None = None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> list[CommunicativeFunction]:
     """Pick CFs at or below the current level.
 
     When candidate_codes is provided (from a scenario), filter to those codes.
     Falls back to least-practised ordering.
     """
-    lang = language or DEFAULT_LANGUAGE
-
     if candidate_codes:
         candidates = await CommunicativeFunction.find(
-            {"code": {"$in": candidate_codes}, "language": lang}
+            {"code": {"$in": candidate_codes}, "language": language}
         ).to_list()
     else:
         level_idx = CEFR_ORDER.index(cefr_level) if cefr_level in CEFR_ORDER else 0
         eligible_levels = CEFR_ORDER[: level_idx + 1]
         candidates = await CommunicativeFunction.find(
-            {"cefr_level": {"$in": eligible_levels}, "language": lang}
+            {"cefr_level": {"$in": eligible_levels}, "language": language}
         ).to_list()
     if not candidates:
         logger.warning("no comm functions found")

@@ -52,7 +52,9 @@ async def test_malformed_llm_json_raises(mock_scorer_client, db):
 
     items = [DrillItem(prompt="Il ___ è bello", correct_answer="gatto")]
     with pytest.raises(ValueError):
-        await score_multi_item_drill(ExerciseType.FILL_BLANK, "GP001", items, ["cane"])
+        await score_multi_item_drill(
+            ExerciseType.FILL_BLANK, "GP001", items, ["cane"], language="it"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -83,6 +85,7 @@ async def test_malformed_llm_json_writing_raises(mock_scorer_client, db):
             prompt="Descrivi la tua giornata.",
             student_text="Oggi mangio pizza.",
             cefr_level="A1",
+            language="it",
         )
 
 
@@ -180,6 +183,7 @@ async def test_score_reading_empty_answers(mock_scorer_client, db):
         questions=["What color?"],
         correct_answers=["Red"],
         student_answers=[],
+        language="it",
     )
     # With 0 items (n=0), the 'if n > 0 else True' branch returns True
     assert overall_correct is True
@@ -253,6 +257,7 @@ async def test_score_single_raises_on_api_unavailable(mock_scorer_client, db):
             prompt="Write about your day",
             student_text="Oggi ho mangiato una pizza.",
             cefr_level="A1",
+            language="it",
         )
 
 
@@ -274,7 +279,11 @@ async def test_score_multi_raises_on_api_unavailable(mock_scorer_client, db):
     ]
     with pytest.raises(APIUnavailableError):
         await score_multi_item_drill(
-            ExerciseType.FILL_BLANK, "GP_MULTI", items, ["cane", "porta"]
+            ExerciseType.FILL_BLANK,
+            "GP_MULTI",
+            items,
+            ["cane", "porta"],
+            language="it",
         )
 
 

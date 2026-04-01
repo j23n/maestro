@@ -83,7 +83,8 @@ async def _generate_lesson_content(
     student_id=None,
     lesson_id=None,
     archetype: str = "",
-    language: str | None = None,
+    *,
+    language: str,
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
@@ -165,7 +166,7 @@ async def prepare_lesson_immediate(
 
     activities: list[LessonActivity] = []
 
-    lesson_lang = profile.target_language if profile else "it"
+    lesson_lang = profile.target_language
 
     # A0 lessons are fully static — no vocab review needed at creation
     if cefr_level == "A0":
@@ -328,11 +329,11 @@ async def _generate_lesson_background(
                 extra={"scenario_slug": scenario_slug},
             )
             scenario, depth = await pick_scenario(
-                profile, cefr_level, scenarios=all_scenarios
+                profile, cefr_level, scenarios=all_scenarios, language=lesson_lang
             )
     else:
         scenario, depth = await pick_scenario(
-            profile, cefr_level, scenarios=all_scenarios
+            profile, cefr_level, scenarios=all_scenarios, language=lesson_lang
         )
     logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
 

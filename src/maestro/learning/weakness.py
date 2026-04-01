@@ -42,7 +42,7 @@ def build_grammar_by_level(
 def build_titles(
     items: list,
     cefr: str,
-    target_language: str = "it",
+    target_language: str,
 ) -> dict[str, str]:
     """Build {code: display_title} for any model with .code, .label, .explanations."""
     lang = explanation_lang_for_level(cefr, target_language)
@@ -59,7 +59,7 @@ def build_titles(
 def build_tooltip_data(
     items: list,
     cefr: str,
-    target_language: str = "it",
+    target_language: str,
 ) -> dict[str, dict]:
     """Build {code: {"tip": str, "examples": [str]}} from CEFR-appropriate explanation."""
     lang = explanation_lang_for_level(cefr, target_language)

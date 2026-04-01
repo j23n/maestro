@@ -53,10 +53,10 @@ def _get_tts_client() -> httpx.AsyncClient:
     )
 
 
-def _build_ssml(text: str, *, language: str | None = None) -> str:
-    from maestro.language import DEFAULT_LANGUAGE, get_language_config
+def _build_ssml(text: str, *, language: str) -> str:
+    from maestro.language import get_language_config
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     voice = lang_cfg.tts_voice
     locale = lang_cfg.stt_locale
     return (
@@ -86,7 +86,7 @@ def _lesson_audio_path(lesson_id: str, idx: int) -> Path:
     return _audio_dir() / f"lesson_{lesson_id}_{idx}.wav"
 
 
-async def _synth_to_file(text: str, path: Path, *, language: str | None = None) -> None:
+async def _synth_to_file(text: str, path: Path, *, language: str) -> None:
     """Call Azure TTS REST API and write the WAV response to path."""
     client = _get_tts_client()
     t0 = time.monotonic()
@@ -120,9 +120,7 @@ async def _synth_to_file(text: str, path: Path, *, language: str | None = None) 
     )
 
 
-async def generate_word_audio(
-    word: str, *, language: str | None = None
-) -> Optional[str]:
+async def generate_word_audio(word: str, *, language: str) -> Optional[str]:
     """Generate WAV for a single word and return its static URL.
 
     Returns None if synthesis fails.
@@ -237,7 +235,7 @@ async def generate_lesson_audio(
     lesson_id: str,
     idx: int,
     *,
-    language: str | None = None,
+    language: str,
 ) -> Optional[str]:
     """Generate WAV for a lesson reading and return its static URL.
 

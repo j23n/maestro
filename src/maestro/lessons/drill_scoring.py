@@ -71,7 +71,8 @@ async def score_attempt(
     student_answer: str | list[str],
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> tuple[bool | None, object | None, dict | str, list[dict]]:
     """Returns (correct, learning_event, feedback, rule_refs).
 
@@ -142,7 +143,7 @@ async def score_attempt(
                 error_gp_set.add(item_gp_codes[j])
 
         # Also aggregate LLM-detected GP codes, filtering out hallucinated ones
-        valid_codes = {g.code for g in grammar_cache.grammar_points()}
+        valid_codes = {g.code for g in grammar_cache.grammar_points(language)}
         raw_correct = [
             c for r in raw_results[:n] for c in r.get("grammar_correct_codes", [])
         ]

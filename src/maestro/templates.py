@@ -5,7 +5,6 @@ import re
 from fastapi.templating import Jinja2Templates
 
 from maestro.i18n import t as i18n_t
-from maestro.language import DEFAULT_LANGUAGE, get_language_config
 
 _TRANSLATION_RE = re.compile(r"(</span>)\s*\(([^)]+)\)")
 
@@ -25,9 +24,6 @@ _templates.env.filters["markdown"] = lambda x: markdown.markdown(
 _templates.env.filters["shuffle"] = lambda lst: random.sample(lst, len(lst))
 _templates.env.filters["hide_translations"] = _hide_translations
 _templates.env.globals["t"] = i18n_t
-_default_cfg = get_language_config(DEFAULT_LANGUAGE)
-_templates.env.globals["target_language"] = _default_cfg.name
-_templates.env.globals["target_language_code"] = _default_cfg.code
 
 
 def _inject_language(request, context: dict) -> dict:
@@ -70,13 +66,15 @@ async def render_with_discover(
     )
     if student_id is not None or discover_anonymous:
         lang_ctx = getattr(getattr(request, "state", None), "lang_ctx", None)
-        html = response.body.decode("utf-8")
-        html = await discover(
-            html,
-            student_id=student_id,
-            create_cards=student_id is not None and create_cards,
-            language=lang_ctx.code if lang_ctx else None,
-        )
-        response.body = html.encode("utf-8")
-        response.headers["content-length"] = str(len(response.body))
+        lang_code = lang_ctx.code if lang_ctx else context.get("target_language_code")
+        if lang_code:
+            html = response.body.decode("utf-8")
+            html = await discover(
+                html,
+                student_id=student_id,
+                create_cards=student_id is not None and create_cards,
+                language=lang_code,
+            )
+            response.body = html.encode("utf-8")
+            response.headers["content-length"] = str(len(response.body))
     return response
