@@ -344,10 +344,10 @@ wheels = [
 ]
 
 [[package]]
-name = "de-core-news-sm"
+name = "de-core-news-md"
 version = "3.8.0"
-source = { url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0.tar.gz" }
-sdist = { hash = "sha256:06960052d5346291f94fb1c928bccd4898e46ea0f5953758f30348653ad66045" }
+source = { url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.8.0/de_core_news_md-3.8.0.tar.gz" }
+sdist = { hash = "sha256:b2209393ecb12445b5e3d4fb53f1ed5f46ba172a6eef97c1e323e39cc42370cd" }
 
 [[package]]
 name = "deprecated"
@@ -788,7 +788,7 @@ dependencies = [
     { name = "bcrypt" },
     { name = "beanie" },
     { name = "beautifulsoup4" },
-    { name = "de-core-news-sm" },
+    { name = "de-core-news-md" },
     { name = "fastapi", extra = ["standard"] },
     { name = "httpx" },
     { name = "it-core-news-md" },
@@ -809,7 +809,7 @@ deploy = [
     { name = "bcrypt" },
     { name = "beanie" },
     { name = "beautifulsoup4" },
-    { name = "de-core-news-sm" },
+    { name = "de-core-news-md" },
     { name = "fastapi", extra = ["standard"] },
     { name = "it-core-news-md" },
     { name = "itsdangerous" },
@@ -841,7 +841,7 @@ requires-dist = [
     { name = "bcrypt", specifier = ">=4.0" },
     { name = "beanie", specifier = ">=2.0.1" },
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
-    { name = "de-core-news-sm", url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0.tar.gz" },
+    { name = "de-core-news-md", url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.8.0/de_core_news_md-3.8.0.tar.gz" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.129.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "it-core-news-md", url = "https://github.com/explosion/spacy-models/releases/download/it_core_news_md-3.8.0/it_core_news_md-3.8.0.tar.gz" },
@@ -862,7 +862,7 @@ deploy = [
     { name = "bcrypt", specifier = ">=4.0" },
     { name = "beanie", specifier = ">=2.0.1" },
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
-    { name = "de-core-news-sm", url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0.tar.gz" },
+    { name = "de-core-news-md", url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_md-3.8.0/de_core_news_md-3.8.0.tar.gz" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.129.0" },
     { name = "it-core-news-md", url = "https://github.com/explosion/spacy-models/releases/download/it_core_news_md-3.8.0/it_core_news_md-3.8.0.tar.gz" },
     { name = "itsdangerous", specifier = ">=2.1" },

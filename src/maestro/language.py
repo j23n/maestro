@@ -31,7 +31,7 @@ LANGUAGES: dict[str, LanguageConfig] = {
     "de": LanguageConfig(
         code="de",
         name="German",
-        spacy_model="de_core_news_sm",
+        spacy_model="de_core_news_md",
         tts_voice="de-DE-KatjaNeural",
         stt_locale="de-DE",
     ),

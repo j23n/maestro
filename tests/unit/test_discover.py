@@ -1176,3 +1176,326 @@ async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
     # Def task should NOT fire (test words have senses=[], so they're skipped)
     def_tasks = [n for n in names if "vocab-defs-" in n]
     assert len(def_tasks) == 0
+
+
+# ===========================================================================
+# German (de) — match_vocab_words tests
+# ===========================================================================
+
+# German word index: uses DWDS POS abbreviations.
+# Mirrors _TEST_WORD_INDEX structure but with German vocabulary.
+_DE_WORD_INDEX = {
+    # Nouns (DWDS: "Subst.")
+    "kaffee": [_make_vocab_word("Kaffee", pos="Subst.", language="de")],
+    "wasser": [_make_vocab_word("Wasser", pos="Subst.", language="de")],
+    "milch": [_make_vocab_word("Milch", pos="Subst.", language="de")],
+    "tee": [_make_vocab_word("Tee", pos="Subst.", language="de")],
+    "morgen": [
+        _make_vocab_word("Morgen", pos="Subst.", language="de"),
+        _make_vocab_word("morgen", pos="Adv.", language="de"),
+    ],
+    "tag": [_make_vocab_word("Tag", pos="Subst.", language="de")],
+    "abend": [_make_vocab_word("Abend", pos="Subst.", language="de")],
+    "nacht": [_make_vocab_word("Nacht", pos="Subst.", language="de")],
+    "entschuldigung": [_make_vocab_word("Entschuldigung", pos="Subst.", language="de")],
+    "wiedersehen": [_make_vocab_word("Wiedersehen", pos="Subst.", language="de")],
+    "dank": [
+        _make_vocab_word("Dank", pos="Subst.", language="de"),
+        _make_vocab_word("dank", pos="Praep.", language="de"),
+    ],
+    "glas": [_make_vocab_word("Glas", pos="Subst.", language="de")],
+    "deutsch": [_make_vocab_word("Deutsch", pos="Subst.", language="de")],
+    "bitte": [
+        _make_vocab_word("Bitte", pos="Subst.", language="de"),
+        _make_vocab_word("bitte", pos="Part.", language="de"),
+    ],
+    "danke": [_make_vocab_word("danke", pos="Part.", language="de")],
+    "etwas": [
+        _make_vocab_word("etwas", pos="Part.", language="de"),
+        _make_vocab_word("Etwas", pos="Subst.", language="de"),
+    ],
+    "leid": [_make_vocab_word("Leid", pos="Subst.", language="de")],
+    # Verbs (DWDS: "V.")
+    "trinken": [_make_vocab_word("trinken", pos="V.", language="de")],
+    "sprechen": [_make_vocab_word("sprechen", pos="V.", language="de")],
+    "kommen": [_make_vocab_word("kommen", pos="V.", language="de")],
+    "heißen": [_make_vocab_word("heißen", pos="V.", language="de")],
+    "tun": [_make_vocab_word("tun", pos="V.", language="de")],
+    "mögen": [_make_vocab_word("mögen", pos="V.", language="de")],
+    "möchten": [_make_vocab_word("möchten", pos="V.", language="de")],
+    "danken": [_make_vocab_word("danken", pos="V.", language="de")],
+    "sein": [_make_vocab_word("sein", pos="V.", language="de")],
+    "haben": [_make_vocab_word("haben", pos="V.", language="de")],
+    # Adjectives (DWDS: "Adj.")
+    "gut": [
+        _make_vocab_word("gut", pos="Adj.", language="de"),
+        _make_vocab_word("Gut", pos="Subst.", language="de"),
+    ],
+    "schön": [_make_vocab_word("schön", pos="Adj.", language="de")],
+    # Adverbs (DWDS: "Adv.")
+    "sehr": [_make_vocab_word("sehr", pos="Adv.", language="de")],
+    "hier": [_make_vocab_word("hier", pos="Adv.", language="de")],
+    # Prepositions (DWDS: "Praep.")
+    "auf": [_make_vocab_word("auf", pos="Praep.", language="de")],
+    "aus": [_make_vocab_word("aus", pos="Praep.", language="de")],
+    "mit": [_make_vocab_word("mit", pos="Praep.", language="de")],
+    # Particles + nominalized noun forms (DWDS stores both)
+    "ja": [
+        _make_vocab_word("ja", pos="Part.", language="de"),
+        _make_vocab_word("Ja", pos="Subst.", language="de"),
+    ],
+    "nein": [
+        _make_vocab_word("nein", pos="Part.", language="de"),
+        _make_vocab_word("Nein", pos="Subst.", language="de"),
+    ],
+    # Determiners / articles (DWDS: "Art.")
+    "ein": [_make_vocab_word("ein", pos="Art.", language="de")],
+    "der": [_make_vocab_word("der", pos="Art.", language="de")],
+    "kein": [_make_vocab_word("kein", pos="Art.", language="de")],
+    # Pronouns (DWDS: "Pron.")
+    "ich": [_make_vocab_word("ich", pos="Pron.", language="de")],
+    "sie": [_make_vocab_word("sie", pos="Pron.", language="de")],
+    "es": [_make_vocab_word("es", pos="Pron.", language="de")],
+    "mir": [_make_vocab_word("mir", pos="Pron.", language="de")],
+    # Interjections (DWDS: "Interj.")
+    "hallo": [_make_vocab_word("hallo", pos="Interj.", language="de")],
+    "tschüss": [_make_vocab_word("tschüss", pos="Interj.", language="de")],
+}
+
+_DE_PHRASE_INDEX = {
+    "guten morgen": [_make_vocab_word("Guten Morgen", pos="loc.", language="de")],
+    "guten tag": [_make_vocab_word("Guten Tag", pos="loc.", language="de")],
+    "guten abend": [_make_vocab_word("Guten Abend", pos="loc.", language="de")],
+    "gute nacht": [_make_vocab_word("Gute Nacht", pos="loc.", language="de")],
+    "auf wiedersehen": [_make_vocab_word("Auf Wiedersehen", pos="loc.", language="de")],
+    "danke schön": [_make_vocab_word("Danke schön", pos="loc.", language="de")],
+    "bitte schön": [_make_vocab_word("Bitte schön", pos="loc.", language="de")],
+    "vielen dank": [_make_vocab_word("Vielen Dank", pos="loc.", language="de")],
+    "es tut mir leid": [_make_vocab_word("Es tut mir leid", pos="loc.", language="de")],
+    "ich möchte": [_make_vocab_word("Ich möchte", pos="loc.", language="de")],
+}
+
+
+@pytest.fixture()
+def seeded_de_cache():
+    """Seed global vocab cache with _DE_WORD_INDEX for German discover() tests."""
+    _vocab_cache.seed(words=_DE_WORD_INDEX, defs={}, language="de")
+    yield
+    _vocab_cache.invalidate()
+
+
+@pytest.fixture()
+def seeded_de_cache_with_phrases():
+    """Seed global vocab cache with German words AND phrases."""
+    _vocab_cache.seed(
+        words=_DE_WORD_INDEX,
+        defs={},
+        phrases=_DE_PHRASE_INDEX,
+        language="de",
+    )
+    yield
+    _vocab_cache.invalidate()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "text, expected_words",
+    [
+        # -- Basic nouns: spaCy lemma matches headword --
+        pytest.param(
+            "Ich trinke Kaffee",
+            {"ich", "trinken", "Kaffee"},
+            id="de-basic-nouns",
+        ),
+        pytest.param(
+            "Ich trinke Wasser",
+            {"ich", "trinken", "Wasser"},
+            id="de-wasser",
+        ),
+        # -- Conjugation: inflected verb → lemma --
+        pytest.param(
+            "Ich spreche Deutsch",
+            {"ich", "sprechen", "Deutsch"},
+            id="de-verb-conjugation",
+        ),
+        # -- Particles: ja, nein --
+        pytest.param(
+            "Ja, ich trinke Milch",
+            {"ja", "ich", "trinken", "Milch"},
+            id="de-ja-particle",
+        ),
+        pytest.param(
+            "Nein, kein Wasser",
+            {"nein", "kein", "Wasser"},
+            id="de-nein-particle",
+        ),
+        # -- Adjective: "gut" should match the adjective, not the noun --
+        pytest.param(
+            "Das ist sehr gut",
+            {"der", "sein", "sehr", "gut"},
+            id="de-gut-adj",
+        ),
+        # -- Prepositions --
+        pytest.param(
+            "Ich komme aus Deutschland",
+            {"ich", "kommen", "aus"},
+            id="de-preposition-aus",
+        ),
+        # -- Determiners --
+        pytest.param(
+            "Ich möchte ein Glas Wasser",
+            {"ich", "möchten", "ein", "Glas", "Wasser"},
+            id="de-determiner-ein",
+        ),
+        # -- "Es tut mir leid" as individual words --
+        pytest.param(
+            "Es tut mir leid",
+            {"es", "tun", "mir", "Leid"},
+            id="de-es-tut-mir-leid",
+        ),
+        # -- Entschuldigung: long compound, should match directly --
+        pytest.param(
+            "Entschuldigung",
+            {"Entschuldigung"},
+            id="de-entschuldigung",
+        ),
+        # -- Multi-POS: "morgen" as adverb vs "Morgen" as noun --
+        # In "Guten Morgen" (after phrase matching), "Morgen" is a noun.
+        # In "Ich komme morgen" (standalone), spaCy tags it as ADV.
+        # Both resolve to the "morgen" key which has two entries.
+        pytest.param(
+            "Ich komme morgen",
+            {"ich", "kommen", "morgen"},
+            id="de-morgen-adverb",
+        ),
+    ],
+)
+def test_de_match_vocab_words(text, expected_words):
+    """German match_vocab_words() should produce the expected dictionary matches."""
+    matches = match_vocab_words(text, _DE_WORD_INDEX, language="de")
+    matched_words = {m.word.word for m in matches}
+    assert matched_words == expected_words, (
+        f"match_vocab_words({text!r})\n"
+        f"  expected: {sorted(expected_words)}\n"
+        f"  got:      {sorted(matched_words)}"
+    )
+
+
+@pytest.mark.unit
+def test_de_match_returns_vocab_match():
+    """German match results are VocabMatch dataclasses."""
+    matches = match_vocab_words("Ich trinke Kaffee", _DE_WORD_INDEX, language="de")
+    assert isinstance(matches, list)
+    assert all(isinstance(m, VocabMatch) for m in matches)
+
+
+@pytest.mark.unit
+def test_de_match_surface_forms():
+    """German VocabMatch should carry inflected surface forms."""
+    matches = match_vocab_words("Ich trinke Wasser", _DE_WORD_INDEX, language="de")
+    trinken_match = next(m for m in matches if m.word.word == "trinken")
+    assert "trinke" in trinken_match.surface_forms
+
+
+@pytest.mark.unit
+def test_de_match_dedup():
+    """Same lemma appearing twice → only one VocabMatch."""
+    matches = match_vocab_words(
+        "Ich trinke und ich trinke", _DE_WORD_INDEX, language="de"
+    )
+    ich_matches = [m for m in matches if m.word.word == "ich"]
+    assert len(ich_matches) == 1
+
+
+# ---------------------------------------------------------------------------
+# German: case-variant disambiguation
+#
+# DWDS stores "Gut" (noun = estate) and "gut" (adjective = good) as separate
+# entries.  The cache merges them under one lowercase key.  The pipeline must
+# consistently pick the common form (lowercase), not the rare nominalized noun.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "text, lemma, expected_word, expected_pos",
+    [
+        # "Gut." as a standalone response → should be the adjective, not the noun
+        pytest.param("Gut.", "gut", "gut", "Adj.", id="de-gut-standalone"),
+        # "Das ist gut" → adjective
+        pytest.param("Das ist gut", "gut", "gut", "Adj.", id="de-gut-predicate"),
+        # "Ja." standalone → particle, not the noun "das Ja"
+        pytest.param("Ja.", "ja", "ja", "Part.", id="de-ja-standalone"),
+        # "Ja, ich trinke Kaffee" → particle
+        pytest.param("Ja, ich trinke Kaffee", "ja", "ja", "Part.", id="de-ja-sentence"),
+        # "Nein." → particle, not the noun "das Nein"
+        pytest.param("Nein.", "nein", "nein", "Part.", id="de-nein-standalone"),
+        # "etwas Milch" → the common determiner/pronoun, not the noun "das Etwas"
+        pytest.param(
+            "Ich trinke etwas Milch", "etwas", "etwas", "Part.", id="de-etwas-det"
+        ),
+        # "dank" as preposition → Praep., not the noun "Dank"
+        pytest.param(
+            "Dank sei Gott",
+            "dank",
+            "dank",
+            "Praep.",
+            id="de-dank-prep",
+        ),
+    ],
+)
+def test_de_case_variant_disambiguation(text, lemma, expected_word, expected_pos):
+    """German case variants: pipeline should pick the common form, not the nominalized noun."""
+    matches = match_vocab_words(text, _DE_WORD_INDEX, language="de")
+    target = next((m for m in matches if m.lemma == lemma), None)
+    assert target is not None, (
+        f"lemma {lemma!r} not matched in {text!r}; "
+        f"got: {[(m.lemma, m.word.word, m.word.part_of_speech) for m in matches]}"
+    )
+    assert target.word.word == expected_word, (
+        f"Expected {expected_word!r} ({expected_pos}) but got "
+        f"{target.word.word!r} ({target.word.part_of_speech})"
+    )
+    assert target.word.part_of_speech == expected_pos
+
+
+@pytest.mark.unit
+def test_de_no_duplicate_cards_for_case_variants():
+    """'Ja' and 'ja' under the same cache key should produce exactly one match."""
+    matches = match_vocab_words("Ja, bitte.", _DE_WORD_INDEX, language="de")
+    ja_matches = [m for m in matches if m.lemma == "ja"]
+    assert len(ja_matches) == 1, (
+        f"Expected 1 match for 'ja', got {len(ja_matches)}: "
+        f"{[(m.word.word, m.word.part_of_speech) for m in ja_matches]}"
+    )
+
+
+# ---------------------------------------------------------------------------
+# German: known spaCy issues (xfail)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+@pytest.mark.xfail(reason="spaCy tags Hallo as PROPN — filtered by _keep_token")
+def test_de_hallo_propn_bug():
+    """spaCy tags 'Hallo' as PROPN, so it gets filtered out."""
+    matches = match_vocab_words("Hallo!", _DE_WORD_INDEX, language="de")
+    matched_words = {m.word.word for m in matches}
+    assert "hallo" in matched_words
+
+
+@pytest.mark.unit
+@pytest.mark.xfail(reason="spaCy tags Tschüss as PROPN — filtered by _keep_token")
+def test_de_tschuess_propn_bug():
+    """spaCy tags 'Tschüss' as PROPN, so it gets filtered out."""
+    matches = match_vocab_words("Tschüss!", _DE_WORD_INDEX, language="de")
+    matched_words = {m.word.word for m in matches}
+    assert "tschüss" in matched_words
+
+
+@pytest.mark.unit
+def test_de_wiedersehen_simplemma_fallback():
+    """spaCy truncates 'Wiedersehen'→'Wiedersehe', but simplemma fixes it."""
+    matches = match_vocab_words("Auf Wiedersehen", _DE_WORD_INDEX, language="de")
+    matched_words = {m.word.word for m in matches}
+    assert "Wiedersehen" in matched_words

@@ -1,0 +1,2592 @@
+{
+  "Abend (Subst.)": {
+    "translation": "evening",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Die Zeit am Ende des Tages, wenn es dunkel wird.",
+          "translation": "evening",
+          "examples": [
+            "Es ist ein schöner Abend heute."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Die Zeit am Ende des Tages, wenn es dunkel wird.",
+          "translation": "evening",
+          "examples": [
+            "Der gestrige Abend war sehr kalt und klar."
+          ]
+        },
+        {
+          "definition": "Eine Veranstaltung oder ein Treffen am Abend.",
+          "translation": "evening event",
+          "examples": [
+            "Es war ein lustiger, geselliger Abend mit Freunden."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Die Zeit am Ende des Tages, wenn es dunkel wird.",
+          "translation": "evening",
+          "examples": [
+            "Ein kühler, herbstlicher Abend senkte sich über die Stadt."
+          ]
+        },
+        {
+          "definition": "Eine Veranstaltung oder ein besonderes Treffen am Abend.",
+          "translation": "evening event",
+          "examples": [
+            "Der literarische Abend war sehr anregend und denkwürdig."
+          ]
+        },
+        {
+          "definition": "Der 24. Dezember, also der Heilige Abend.",
+          "translation": "Christmas Eve",
+          "examples": [
+            "Am Heiligen Abend trifft sich die ganze Familie."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Die Zeit am Ende des Tages, wenn es dunkel wird.",
+          "translation": "evening",
+          "examples": [
+            "Ein schwüler, stürmischer Abend kündigte das Unwetter an."
+          ]
+        },
+        {
+          "definition": "Eine kulturelle oder gesellschaftliche Veranstaltung am Abend.",
+          "translation": "evening event",
+          "examples": [
+            "Der musikalische Abend hinterließ bei allen einen bleibenden Eindruck."
+          ]
+        },
+        {
+          "definition": "Der 24. Dezember, Heiliger Abend.",
+          "translation": "Christmas Eve",
+          "examples": [
+            "Am Heiligen Abend wird in vielen Betrieben nur bis mittags gearbeitet."
+          ]
+        },
+        {
+          "definition": "Veraltete oder gehobene Bezeichnung für die Himmelsrichtung Westen.",
+          "translation": "west",
+          "examples": [
+            "Der Wind kam von Abend her und brachte Regen."
+          ]
+        }
+      ]
+    }
+  },
+  "Bitte (Subst.)": {
+    "translation": "request",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Etwas, das man höflich von jemanden haben möchte.",
+          "translation": "request",
+          "examples": [
+            "Ich habe eine Bitte an dich."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein höflich ausgedrückter Wunsch an eine andere Person.",
+          "translation": "request",
+          "examples": [
+            "Er hat eine dringende Bitte um Hilfe."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Ein höflich und oft eindringlich geäußerter Wunsch, den man an jemanden richtet.",
+          "translation": "request",
+          "examples": [
+            "Sie richtete eine inständige Bitte um Unterstützung an ihren Chef."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Ein höflich oder flehentlich geäußerter Wunsch, den man an jemanden richtet, oft mit der Erwartung einer Reaktion.",
+          "translation": "request",
+          "examples": [
+            "Ihre schüchterne, aber dringende Bitte um Rückgabe der Unterlagen blieb unbeantwortet."
+          ]
+        }
+      ]
+    }
+  },
+  "Entschuldigung (Subst.)": {
+    "translation": "apology",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Ein höfliches Wort, das man sagt, wenn man jemanden stört oder einen Fehler macht.",
+          "translation": "sorry, excuse me",
+          "examples": [
+            "Entschuldigung! Ich habe deinen Platz genommen."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein höfliches Wort, das man sagt, wenn man jemanden stört oder um Verzeihung bittet.",
+          "translation": "excuse me, sorry",
+          "examples": [
+            "Entschuldigung, können Sie mir helfen?"
+          ]
+        },
+        {
+          "definition": "Eine Erklärung, warum man etwas falsch gemacht hat.",
+          "translation": "excuse",
+          "examples": [
+            "Er hat immer eine Entschuldigung für seine Fehler."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Höflichkeitsformel, mit der man um Verzeihung bittet oder jemanden anspricht.",
+          "translation": "excuse me, sorry",
+          "examples": [
+            "Ich bitte Sie um Entschuldigung für die Störung."
+          ]
+        },
+        {
+          "definition": "Eine Erklärung oder ein Grund, den man vorgibt, um eine Schuld zu rechtfertigen.",
+          "translation": "excuse",
+          "examples": [
+            "Für alles, was er anstellt, hat er eine Entschuldigung parat."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Höflichkeitsformel, mit der man Verständnis oder Nachsicht erbittet.",
+          "translation": "apology, excuse me",
+          "examples": [
+            "Ich bitte Sie vielmals um Entschuldigung für die Unannehmlichkeiten."
+          ]
+        },
+        {
+          "definition": "Ein Sachverhalt oder eine Begründung, die eine Schuld rechtfertigen oder einen Vorwurf entkräften soll, manchmal unglaubwürdig oder fadenscheinig.",
+          "translation": "excuse, justification",
+          "examples": [
+            "Seine leicht durchschaubare Entschuldigung überzeugte niemanden."
+          ]
+        }
+      ]
+    }
+  },
+  "Etwas (Subst.)": {
+    "translation": "something",
+    "cefr_level": "B1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Eine nicht genauer bestimmte Sache oder Eigenschaft.",
+          "translation": "something",
+          "examples": [
+            "Sie hat das gewisse Etwas."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Eine nicht genauer bestimmte Sache oder besondere Eigenschaft.",
+          "translation": "something",
+          "examples": [
+            "Sie hat das gewisse Etwas, das alle mögen."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Eine nicht näher beschriebene oder schwer zu benennende Sache oder Eigenschaft.",
+          "translation": "something",
+          "examples": [
+            "Sie hat das gewisse Etwas, das sie von anderen unterscheidet."
+          ]
+        },
+        {
+          "definition": "Umgangssprachlich für ein kleines, hilfloses Lebewesen.",
+          "translation": "little thing, creature",
+          "examples": [
+            "Das kleine, hilflose Etwas kuschelte sich ins Stroh."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Eine nicht näher bestimmte oder schwer fassbare Eigenschaft, oft mit besonderem Charme oder Ausstrahlung.",
+          "translation": "certain something",
+          "examples": [
+            "Sie hat das gewisse Etwas, das man nicht beschreiben kann."
+          ]
+        },
+        {
+          "definition": "Umgangssprachlich oder abwertend für ein kleines, hilfloses oder unbedeutendes Lebewesen oder eine Person.",
+          "translation": "little thing, creature",
+          "examples": [
+            "Das winzige, hilflose Etwas kuschelte sich in die Kissen."
+          ]
+        }
+      ]
+    }
+  },
+  "Gut (Subst.)": {
+    "translation": "estate",
+    "cefr_level": "B1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Ein großes Grundstück mit Gebäuden auf dem Land, wo Landwirtschaft betrieben wird.",
+          "translation": "estate, farm",
+          "examples": [
+            "Die Familie wohnt auf einem großen Gut auf dem Land."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein großes Grundstück mit Wohn- und Wirtschaftsgebäuden auf dem Land.",
+          "translation": "estate, farm",
+          "examples": [
+            "Er bewirtschaftet ein Gut mit vielen Feldern."
+          ]
+        },
+        {
+          "definition": "Etwas, das einen Wert oder Besitz darstellt.",
+          "translation": "property, possession",
+          "examples": [
+            "Das ist sein rechtmäßiges Gut."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Großer landwirtschaftlicher Besitz mit Wohn- und Wirtschaftsgebäuden.",
+          "translation": "estate, manor",
+          "examples": [
+            "Er zog sich auf seine Güter auf dem Land zurück."
+          ]
+        },
+        {
+          "definition": "Etwas, das einen materiellen oder ideellen Wert darstellt und jemandem gehört.",
+          "translation": "property, asset",
+          "examples": [
+            "Man soll fremdes Gut respektieren."
+          ]
+        },
+        {
+          "definition": "Die zweitbeste Schulnote oder Bewertung in Deutschland.",
+          "translation": "good (grade)",
+          "examples": []
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Großer landwirtschaftlicher Grundbesitz mit Wohn- und Wirtschaftsgebäuden, der gepachtet oder bewirtschaftet werden kann.",
+          "translation": "estate, manor",
+          "examples": [
+            "Er lebte zurückgezogen auf seinen weitläufigen Gütern."
+          ]
+        },
+        {
+          "definition": "Etwas, das einen materiellen oder ideellen Wert darstellt, z.B. Eigentum oder Besitz.",
+          "translation": "property, asset",
+          "examples": [
+            "Das gestohlene, herrenlose Gut wurde sichergestellt."
+          ]
+        },
+        {
+          "definition": "Versandfertige Ware oder Frachtstück im Transport- und Speditionswesen.",
+          "translation": "goods, freight",
+          "examples": [
+            "Leicht verderbliches Gut muss schnell befördert werden."
+          ]
+        },
+        {
+          "definition": "Material oder Stoff für einen bestimmten Arbeitsprozess, z.B. in der Handwerks- oder Seemannssprache.",
+          "translation": "material, stuff",
+          "examples": [
+            "In der Seemannssprache bezeichnet man alle Taue als stehendes und laufendes Gut."
+          ]
+        },
+        {
+          "definition": "Die zweitbeste Schulnote oder Bewertung, entspricht einer Zwei auf der deutschen Notenskala.",
+          "translation": "good (grade B)",
+          "examples": []
+        }
+      ]
+    }
+  },
+  "Ich (Subst.)": {
+    "translation": "self",
+    "cefr_level": "B1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "die eigene Person, man selbst",
+          "translation": "self",
+          "examples": [
+            "Das bin ich – mein Ich."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "die eigene Person, das eigene Selbst",
+          "translation": "self",
+          "examples": [
+            "Mein anderes Ich ist ruhiger als ich im Alltag."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "die eigene Persönlichkeit oder Identität einer Person; das Selbst",
+          "translation": "self, ego",
+          "examples": [
+            "Er sucht nach seinem wahren Ich."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "das eigene Sein, die innere Identität und Persönlichkeit eines Menschen; auch im psychologischen Sinne das bewusste Selbst, das die eigene Wahrnehmung und das Handeln steuert",
+          "translation": "self, ego",
+          "examples": [
+            "Das liebe Ich steht bei manchen Menschen immer im Mittelpunkt."
+          ]
+        },
+        {
+          "definition": "eine andere Seite der eigenen Persönlichkeit, ein zweites Selbst",
+          "translation": "alter ego",
+          "examples": [
+            "Diese Figur im Roman ist sein zweites, anderes Ich."
+          ]
+        }
+      ]
+    }
+  },
+  "Ja (Subst.)": {
+    "translation": "yes",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "das Wort 'ja' als Antwort, wenn man einer Frage zustimmt",
+          "translation": "yes",
+          "examples": [
+            "Ich sage Ja zu deinem Vorschlag."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "eine zustimmende Antwort auf eine Frage oder einen Vorschlag",
+          "translation": "yes",
+          "examples": [
+            "Auf die Frage antwortete sie mit einem klaren Ja."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "eine Zustimmung oder positive Entscheidung, oft als Substantiv verwendet",
+          "translation": "yes, affirmative",
+          "examples": [
+            "Ihr Ja zur Hochzeit machte ihn sehr glücklich."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "die ausdrückliche Zustimmung oder Bejahung einer Entscheidungsfrage; ein klares Bekenntnis zu etwas",
+          "translation": "yes, affirmation",
+          "examples": [
+            "Das Ja der Wähler zu dieser Reform war eindeutig."
+          ]
+        }
+      ]
+    }
+  },
+  "Kaffee (Subst.)": {
+    "translation": "coffee",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "ein warmes, dunkles Getränk, das man aus Kaffeebohnen macht",
+          "translation": "coffee",
+          "examples": [
+            "Ich trinke jeden Morgen einen Kaffee."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "ein warmes, aromatisches Getränk aus gemahlenen Kaffeebohnen",
+          "translation": "coffee",
+          "examples": [
+            "Er bestellte drei Tassen Kaffee."
+          ]
+        },
+        {
+          "definition": "die gerösteten oder gemahlenen Kaffeebohnen, aus denen man das Getränk macht",
+          "translation": "coffee beans/grounds",
+          "examples": [
+            "Ich nehme heute etwas mehr Kaffee für die Kanne."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "anregendes, aromatisches Getränk aus gemahlenen, gerösteten Kaffeebohnen",
+          "translation": "coffee",
+          "examples": [
+            "Er bestellte einen Kaffee mit Zucker und Sahne."
+          ]
+        },
+        {
+          "definition": "geröstete oder gemahlene Kaffeebohnen als Zutat oder Produkt",
+          "translation": "coffee",
+          "examples": [
+            "Pro Tasse habe ich einen gehäuften Teelöffel Kaffee genommen."
+          ]
+        },
+        {
+          "definition": "die Mahlzeit oder Kaffeepause am Nachmittag",
+          "translation": "afternoon coffee",
+          "examples": [
+            "Um vier Uhr trinken wir Kaffee."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "anregendes, aromatisches Getränk aus gemahlenen Kaffeebohnen, in vielen Varianten erhältlich",
+          "translation": "coffee",
+          "examples": [
+            "Ich möchte einen Kaffee komplett, also mit Zucker und Sahne."
+          ]
+        },
+        {
+          "definition": "geröstete Kaffeebohnen oder gemahlener Kaffee als Handelsware oder Zutat",
+          "translation": "coffee",
+          "examples": [
+            "Ich nehme heute etwas mehr Kaffee, damit der Geschmack kräftiger wird."
+          ]
+        },
+        {
+          "definition": "die nachmittägliche Mahlzeit oder Kaffeepause, bei der Kaffee getrunken wird; auch das erste Frühstück",
+          "translation": "coffee break, afternoon coffee",
+          "examples": [
+            "Hast du schon Kaffee getrunken?"
+          ]
+        }
+      ]
+    }
+  },
+  "Milch (Subst.)": {
+    "translation": "milk",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "eine weiße Flüssigkeit, die Kühe produzieren und die wir als Nahrungsmittel trinken oder kaufen",
+          "translation": "milk",
+          "examples": [
+            "Ich trinke ein Glas Milch zum Frühstück."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "weiße Flüssigkeit von Kühen oder anderen Tieren, die man als Nahrungsmittel verwendet",
+          "translation": "milk",
+          "examples": [
+            "Aus Milch kann man Butter und Käse machen."
+          ]
+        },
+        {
+          "definition": "weißliche Flüssigkeit, die aus Pflanzen wie Soja oder Hafer hergestellt wird und als Ersatz für Kuhmilch dient",
+          "translation": "plant milk",
+          "examples": [
+            "Sie kauft Hafermilch als Ersatz für normale Milch."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "weiße, nahrhafte Flüssigkeit, die von weiblichen Säugetieren nach der Geburt produziert wird, um ihre Jungen zu ernähren",
+          "translation": "milk",
+          "examples": [
+            "Muttermilch ist die beste Nahrung für Neugeborene."
+          ]
+        },
+        {
+          "definition": "von Kühen, Ziegen oder Schafen gewonnenes Nahrungsmittel, das man trinkt oder zu Produkten wie Käse und Joghurt verarbeitet",
+          "translation": "milk",
+          "examples": [
+            "Aus Kuhmilch werden viele Milchprodukte hergestellt."
+          ]
+        },
+        {
+          "definition": "pflanzlicher Milchersatz aus Soja, Hafer, Mandeln oder anderen Pflanzen",
+          "translation": "plant-based milk",
+          "examples": [
+            "Viele Veganer verwenden Mandelmilch statt Kuhmilch."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "weiße, undurchsichtige und nahrhafte Flüssigkeit, die in den Milchdrüsen von Frauen und weiblichen Säugetieren nach der Geburt gebildet wird und als Nahrung für Neugeborene dient",
+          "translation": "milk",
+          "examples": [
+            "Die Mutter stillt ihr Kind mit ihrer eigenen Milch."
+          ]
+        },
+        {
+          "definition": "durch Melken gewonnenes Nahrungsmittel von Kühen, Ziegen oder anderen weiblichen Tieren, das vielseitig verwendet und zu Produkten wie Butter, Käse oder Joghurt verarbeitet wird",
+          "translation": "milk",
+          "examples": [
+            "Der Betrieb liefert täglich frische Milch an die Molkerei."
+          ]
+        },
+        {
+          "definition": "veganer Milchersatz, der aus Pflanzen wie Soja, Hafer, Mandeln oder Reis hergestellt wird",
+          "translation": "plant milk",
+          "examples": [
+            "Hafermilch wird aus eingeweichten und gemahlenen Haferkörnern gewonnen."
+          ]
+        },
+        {
+          "definition": "milchiger, weißlicher Saft bestimmter Pflanzen oder ihrer Früchte",
+          "translation": "plant sap, latex",
+          "examples": [
+            "Der weiße Saft des Löwenzahns wird auch als Milch bezeichnet."
+          ]
+        },
+        {
+          "definition": "kosmetisches Produkt mit weißlicher, dickflüssiger Konsistenz, zum Beispiel eine Reinigungsmilch oder Körpermilch",
+          "translation": "lotion, cleansing milk",
+          "examples": [
+            "Sie trägt jeden Abend eine feuchtigkeitsspendende Milch auf die Haut auf."
+          ]
+        }
+      ]
+    }
+  },
+  "Morgen (Subst.)": {
+    "translation": "morning",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "der Beginn des Tages, wenn es hell wird und bevor der Mittag kommt",
+          "translation": "morning",
+          "examples": [
+            "Der Morgen ist kühl und sonnig."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "der frühe Teil des Tages, wenn es hell wird",
+          "translation": "morning",
+          "examples": [
+            "An diesem Morgen schien die Sonne hell."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "der Tagesbeginn, die Zeit vom Sonnenaufgang bis zum Mittag",
+          "translation": "morning",
+          "examples": [
+            "Ein klarer, frischer Morgen begann mit Vogelgesang."
+          ]
+        },
+        {
+          "definition": "veraltete oder gehobene Bezeichnung für die Himmelsrichtung Osten",
+          "translation": "east",
+          "examples": [
+            "Die Reisenden zogen von Abend nach Morgen."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "der Tagesbeginn, die Vormittagszeit; oft auch im übertragenen Sinne für einen Neubeginn oder Aufbruch",
+          "translation": "morning",
+          "examples": [
+            "Ein strahlender, klarer Morgen brach über der Stadt an."
+          ]
+        },
+        {
+          "definition": "veraltete oder dichterische Bezeichnung für die Himmelsrichtung Osten",
+          "translation": "east",
+          "examples": [
+            "Gen Morgen zogen die Händler in unbekannte Länder."
+          ]
+        },
+        {
+          "definition": "altes Flächenmaß für Ackerland, dessen genaue Größe je nach Region unterschiedlich war",
+          "translation": "morgen (land measure)",
+          "examples": [
+            "Er besaß zwei Morgen Land am Rande des Dorfes."
+          ]
+        }
+      ]
+    }
+  },
+  "Nein (Subst.)": {
+    "translation": "no",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "eine Antwort, die 'Nein' bedeutet",
+          "translation": "no",
+          "examples": [
+            "Ein klares Nein ist auch eine Antwort."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "eine verneinende Antwort auf eine Ja-oder-Nein-Frage",
+          "translation": "no",
+          "examples": [
+            "Sie sagt immer Nein, wenn ich sie um Hilfe bitte."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "eine klare Ablehnung oder verneinende Antwort auf eine Frage oder Bitte",
+          "translation": "refusal, no",
+          "examples": [
+            "Er hat sich über das Nein seines Chefs sehr geärgert."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "eine ausdrückliche Verneinung oder Ablehnung, oft als feste Entscheidung",
+          "translation": "refusal, no",
+          "examples": [
+            "Ihr Nein zu dem Vorschlag war endgültig und nicht verhandelbar."
+          ]
+        }
+      ]
+    }
+  },
+  "Sie (Pron.)": {
+    "translation": "you (formal)",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "höfliche Form von 'du' oder 'ihr', die man benutzt, wenn man eine Person nicht gut kennt",
+          "translation": "you (formal)",
+          "examples": [
+            "Bringen Sie mir bitte ein Glas Wasser."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "höfliche und formelle Anrede an eine oder mehrere Personen, die man nicht gut kennt",
+          "translation": "you (formal)",
+          "examples": [
+            "Kommen Sie alle drei zu uns oder nur Sie allein?"
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "förmliche Anrede an eine oder mehrere Personen, mit denen man kein vertrautes Verhältnis hat",
+          "translation": "you (formal)",
+          "examples": [
+            "Darf ich fragen, wie lange Sie schon hier arbeiten?"
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "höfliche, formelle Anrede an eine oder mehrere weniger vertraute Personen beiderlei Geschlechts, die Respekt oder soziale Distanz ausdrückt",
+          "translation": "you (formal)",
+          "examples": [
+            "Würden Sie mir bitte erklären, wie Sie zu dieser Entscheidung gekommen sind?"
+          ]
+        }
+      ]
+    }
+  },
+  "Trinken (Subst.)": {
+    "translation": "drinking",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "das Aufnehmen von Flüssigkeit durch den Mund",
+          "translation": "drinking",
+          "examples": [
+            "Beim Sport ist Trinken sehr wichtig."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "das Aufnehmen von Flüssigkeit durch den Mund, zum Beispiel Wasser oder Saft",
+          "translation": "drinking",
+          "examples": [
+            "Das Trinken von viel Wasser ist gesund."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "das Zu-sich-Nehmen von Flüssigkeiten; auch das regelmäßige Trinken von Alkohol",
+          "translation": "drinking",
+          "examples": [
+            "Das Trinken hatte sein Leben vollständig verändert."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "das Aufnehmen von Getränken; im übertragenen Sinne auch der übermäßige Konsum von Alkohol als Gewohnheit oder Problem",
+          "translation": "drinking",
+          "examples": [
+            "Das Trinken wurde für ihn zum ernsthaften Problem."
+          ]
+        }
+      ]
+    }
+  },
+  "Wasser (Subst.)": {
+    "translation": "water",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "eine klare, farblose Flüssigkeit, die man trinkt und zum Waschen benutzt",
+          "translation": "water",
+          "examples": [
+            "Ich trinke jeden Tag viel Wasser."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "eine klare, farblose Flüssigkeit, die man trinkt und zum Waschen benutzt",
+          "translation": "water",
+          "examples": [
+            "Das Wasser im Schwimmbad ist heute sehr kalt."
+          ]
+        },
+        {
+          "definition": "ein Gewässer wie ein Fluss, See oder Meer",
+          "translation": "waters, body of water",
+          "examples": [
+            "Die Kinder spielen gern am Wasser."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "farblose, geruchlose Flüssigkeit aus Wasserstoff und Sauerstoff, die man zum Trinken und im Alltag braucht",
+          "translation": "water",
+          "examples": [
+            "Wasser gefriert bei null Grad Celsius."
+          ]
+        },
+        {
+          "definition": "ein natürliches Gewässer wie ein Fluss, See oder Meer",
+          "translation": "waters",
+          "examples": [
+            "Die schnellen Wasser der Gebirgsbäche sind gefährlich."
+          ]
+        },
+        {
+          "definition": "ein Getränk oder eine Flüssigkeit auf Wasserbasis, zum Beispiel Mineralwasser oder Parfüm",
+          "translation": "water, solution",
+          "examples": [
+            "Ein Wasser mit Zitronengeschmack, bitte."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "weitgehend farblose, geruchlose und geschmacklose chemische Verbindung aus Wasserstoff und Sauerstoff, die bei 0 Grad Celsius gefriert und bei 100 Grad Celsius siedet",
+          "translation": "water",
+          "examples": [
+            "Ohne sauberes Wasser ist menschliches Leben nicht möglich."
+          ]
+        },
+        {
+          "definition": "ein Gewässer oder die darin enthaltene Wassermasse",
+          "translation": "waters",
+          "examples": [
+            "Die Wasser des Meeres können sehr tückisch sein."
+          ]
+        },
+        {
+          "definition": "wässrige Lösung oder Flüssigkeit mit bestimmten Zusätzen, zum Beispiel Mineralwasser oder Parfüm",
+          "translation": "water, solution",
+          "examples": [
+            "Das wohlriechende Wässerchen auf ihrer Haut roch nach Rosen."
+          ]
+        },
+        {
+          "definition": "wässrige Flüssigkeit, die sich im menschlichen Körper ansammeln kann, zum Beispiel bei einer Erkrankung",
+          "translation": "fluid, water",
+          "examples": [
+            "Der Arzt stellte fest, dass sich Wasser in den Beinen angesammelt hatte."
+          ]
+        }
+      ]
+    }
+  },
+  "Wiedersehen (Subst.)": {
+    "translation": "reunion",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "wenn man jemanden nach langer Zeit wieder trifft",
+          "translation": "reunion, meeting again",
+          "examples": [
+            "Das Wiedersehen mit meiner Familie macht mich glücklich."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "ein Treffen mit einer Person, die man lange nicht gesehen hat",
+          "translation": "reunion, meeting again",
+          "examples": [
+            "Das Wiedersehen mit alten Freunden war sehr schön."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "eine erneute Begegnung mit jemandem oder etwas nach einer längeren Zeit der Trennung",
+          "translation": "reunion, reunion meeting",
+          "examples": [
+            "Das Wiedersehen nach zehn Jahren war sehr emotional."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "eine erneute Begegnung mit einer Person oder einem Ort nach längerer Abwesenheit oder Trennung",
+          "translation": "reunion, meeting again",
+          "examples": [
+            "Das Wiedersehen mit ihrer Heimatstadt weckte viele Erinnerungen in ihr."
+          ]
+        }
+      ]
+    }
+  },
+  "auf (Praep.)": {
+    "translation": "on",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "zeigt, dass etwas oben auf einer Fläche liegt oder steht",
+          "translation": "on",
+          "examples": [
+            "Das Buch liegt auf dem Tisch."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "zeigt, dass etwas oben auf einer Fläche liegt oder steht",
+          "translation": "on",
+          "examples": [
+            "Das Buch liegt auf dem Tisch."
+          ]
+        },
+        {
+          "definition": "zeigt, wohin sich jemand oder etwas bewegt, auf eine Fläche",
+          "translation": "onto",
+          "examples": [
+            "Er legt das Heft auf den Tisch."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "zeigt, dass etwas oben auf einer Fläche liegt oder steht",
+          "translation": "on",
+          "examples": [
+            "Er sitzt auf dem Stuhl."
+          ]
+        },
+        {
+          "definition": "zeigt die Richtung einer Bewegung auf eine Fläche hin",
+          "translation": "onto",
+          "examples": [
+            "Sie stellt die Tasse auf den Tisch."
+          ]
+        },
+        {
+          "definition": "zeigt, dass man sich an einem öffentlichen Ort oder einer Veranstaltung befindet",
+          "translation": "at",
+          "examples": [
+            "Wir treffen uns auf dem Markt."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "zeigt, dass etwas oben auf einer Fläche liegt oder steht",
+          "translation": "on",
+          "examples": [
+            "Das Buch liegt auf dem Tisch."
+          ]
+        },
+        {
+          "definition": "zeigt die Richtung einer Bewegung auf eine Fläche hin",
+          "translation": "onto",
+          "examples": [
+            "Er legt die Schlüssel auf den Schreibtisch."
+          ]
+        },
+        {
+          "definition": "zeigt, dass man sich an einem öffentlichen Ort oder einer Institution befindet",
+          "translation": "at",
+          "examples": [
+            "Sie ist auf der Bank, um Geld abzuheben."
+          ]
+        },
+        {
+          "definition": "drückt in festen Ausdrücken eine zeitliche oder modale Beziehung aus",
+          "translation": "in, for",
+          "examples": [
+            "Er ist auf Dienstreise."
+          ]
+        }
+      ]
+    }
+  },
+  "bitte (Part.)": {
+    "translation": "please",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "höfliches Wort, das man benutzt, wenn man jemanden um etwas bittet",
+          "translation": "please",
+          "examples": [
+            "Kannst du mir bitte helfen?"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "höfliches Wort, das man benutzt, wenn man jemanden um etwas bittet",
+          "translation": "please",
+          "examples": [
+            "Kannst du mir bitte das Salz geben?"
+          ]
+        },
+        {
+          "definition": "höfliche Antwort, wenn man sich bei jemandem bedankt",
+          "translation": "you're welcome",
+          "examples": [
+            "Danke! – Bitte sehr!"
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "höfliches Wort, das man benutzt, wenn man jemanden um etwas bittet",
+          "translation": "please",
+          "examples": [
+            "Bitte sprechen Sie etwas lauter."
+          ]
+        },
+        {
+          "definition": "höfliche Antwort, wenn man sich bei jemandem bedankt",
+          "translation": "you're welcome",
+          "examples": [
+            "Vielen Dank! – Bitte, gern geschehen."
+          ]
+        },
+        {
+          "definition": "verstärkt eine Aufforderung und kann dabei ungeduldig oder bestimmt klingen",
+          "translation": "please, now",
+          "examples": [
+            "Bitte, hör jetzt damit auf!"
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "höfliches Wort, das man benutzt, wenn man jemanden um etwas bittet",
+          "translation": "please",
+          "examples": [
+            "Würden Sie bitte einen Moment warten?"
+          ]
+        },
+        {
+          "definition": "höfliche Antwort auf einen Dank",
+          "translation": "you're welcome",
+          "examples": [
+            "Danke vielmals! – Bitte sehr, keine Ursache."
+          ]
+        },
+        {
+          "definition": "verstärkt eine energische oder ungeduldig gemeinte Aufforderung",
+          "translation": "please, come on",
+          "examples": [
+            "Also bitte! So kann man sich doch nicht benehmen."
+          ]
+        },
+        {
+          "definition": "wird verwendet, um Aufmerksamkeit zu erregen oder eine Aussage einzuleiten",
+          "translation": "if you please",
+          "examples": [
+            "Bitte, darf ich kurz unterbrechen?"
+          ]
+        }
+      ]
+    }
+  },
+  "danke (Part.)": {
+    "translation": "thank you",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Wort, das man sagt, wenn man sich bei jemandem bedanken möchte",
+          "translation": "thank you",
+          "examples": [
+            "Danke, das ist sehr nett von dir!"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Wort, das man sagt, wenn man sich bei jemandem bedanken möchte",
+          "translation": "thank you",
+          "examples": [
+            "Danke für deine Hilfe!"
+          ]
+        },
+        {
+          "definition": "höfliche Ablehnung eines Angebots",
+          "translation": "no thank you",
+          "examples": [
+            "Möchtest du noch Kaffee? – Nein, danke."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Wort, das man sagt, wenn man sich bei jemandem bedanken möchte",
+          "translation": "thank you",
+          "examples": [
+            "Danke, ich habe das Paket erhalten."
+          ]
+        },
+        {
+          "definition": "höfliche Ablehnung eines Angebots",
+          "translation": "no thank you",
+          "examples": [
+            "Noch ein Stück Kuchen? – Danke, ich bin satt."
+          ]
+        },
+        {
+          "definition": "wird ironisch verwendet, um Ablehnung oder Missbilligung auszudrücken",
+          "translation": "no thanks",
+          "examples": [
+            "Na, danke! Das hätte ich mir denken können."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Höflichkeitsformel, mit der man Dankbarkeit für etwas ausdrückt",
+          "translation": "thank you",
+          "examples": [
+            "Danke für Ihr Verständnis."
+          ]
+        },
+        {
+          "definition": "höfliche Ablehnung eines Angebots",
+          "translation": "no thank you",
+          "examples": [
+            "Darf ich Ihnen helfen? – Danke, ich komme allein zurecht."
+          ]
+        },
+        {
+          "definition": "wird ironisch oder sarkastisch verwendet, um Unmut oder Ablehnung zu zeigen",
+          "translation": "no thanks",
+          "examples": [
+            "Na danke, das war ja zu erwarten!"
+          ]
+        }
+      ]
+    }
+  },
+  "ein": {
+    "translation": "a, an",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Artikel, der eine Person oder Sache nennt, die noch nicht bekannt ist oder zum ersten Mal erwähnt wird",
+          "translation": "a, an",
+          "examples": [
+            "Auf dem Berg steht eine kleine Kirche."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Artikel, der eine Person oder Sache nennt, die noch nicht bekannt ist oder zum ersten Mal erwähnt wird",
+          "translation": "a, an",
+          "examples": [
+            "Mein Freund hat sich einen Wagen gekauft."
+          ]
+        },
+        {
+          "definition": "zeigt, dass jemand oder etwas zu einer bestimmten Gruppe oder Kategorie gehört",
+          "translation": "a, one",
+          "examples": [
+            "Sie ist eine gute Lehrerin."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Artikel, der eine unbekannte oder erstmals genannte Person oder Sache einführt",
+          "translation": "a, an",
+          "examples": [
+            "Er hat sich eine goldene Armbanduhr gekauft."
+          ]
+        },
+        {
+          "definition": "zeigt die Zugehörigkeit zu einer Gruppe oder Kategorie",
+          "translation": "a, one",
+          "examples": [
+            "Das ist ein echtes Problem."
+          ]
+        },
+        {
+          "definition": "in Ausrufen, um Bewunderung oder Erstaunen auszudrücken",
+          "translation": "what a",
+          "examples": [
+            "Was für ein schöner Tag!"
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "unbestimmter Artikel, der eine unbekannte oder nicht näher bestimmte Person oder Sache einführt",
+          "translation": "a, an",
+          "examples": [
+            "Auf dem Berg steht eine kleine Kirche."
+          ]
+        },
+        {
+          "definition": "zeigt die Zugehörigkeit zu einer Gruppe oder Kategorie",
+          "translation": "a, one",
+          "examples": [
+            "Er ist ein erfahrener Arzt."
+          ]
+        },
+        {
+          "definition": "steht in Ausrufen, um etwas hervorzuheben oder Bewunderung auszudrücken",
+          "translation": "what a",
+          "examples": [
+            "Was für eine Überraschung!"
+          ]
+        },
+        {
+          "definition": "drückt in bestimmten Kontexten so ein oder solch ein aus und betont die Qualität",
+          "translation": "such a",
+          "examples": [
+            "So ein Fehler hätte nicht passieren dürfen."
+          ]
+        }
+      ]
+    }
+  },
+  "einen (V.)": {
+    "translation": "to unite",
+    "cefr_level": "B2",
+    "A1": {
+      "senses": [
+        {
+          "definition": "mehrere Dinge oder Menschen zusammenbringen, sodass sie eins werden",
+          "translation": "to unite",
+          "examples": [
+            "Sie einen ihre Kräfte."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "mehrere Dinge oder Menschen zusammenbringen, sodass sie gemeinsam handeln oder eine Einheit bilden",
+          "translation": "to unite",
+          "examples": [
+            "Das Ziel einen die Gruppe."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "verschiedene Personen, Gruppen oder Dinge zu einer Einheit zusammenführen",
+          "translation": "to unite, to unify",
+          "examples": [
+            "Der gemeinsame Feind einte das Volk."
+          ]
+        },
+        {
+          "definition": "Gegensätze oder unterschiedliche Meinungen miteinander verbinden oder in Einklang bringen",
+          "translation": "to bring together",
+          "examples": [
+            "Es ist schwer, so verschiedene Interessen zu einen."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "verschiedenartige Personen, Völker oder Gruppen zu einer gemeinsamen Einheit verbinden",
+          "translation": "to unite, to unify",
+          "examples": [
+            "Der Vertrag sollte die zerstrittenen Parteien einen."
+          ]
+        },
+        {
+          "definition": "gegensätzliche Ideen, Interessen oder Elemente miteinander in Einklang bringen",
+          "translation": "to reconcile, to merge",
+          "examples": [
+            "Es gelang dem Künstler, Tradition und Moderne in seinem Werk zu einen."
+          ]
+        }
+      ]
+    }
+  },
+  "etwas (Pron.)": {
+    "translation": "something",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Ein Ding oder eine Sache, die man nicht genau kennt oder nennt.",
+          "translation": "something",
+          "examples": [
+            "Hast du etwas von ihm gehört?"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein Ding oder eine Sache, die man nicht genau kennt oder nennt.",
+          "translation": "something",
+          "examples": [
+            "Er sah im Dunkeln etwas vorüberhuschen."
+          ]
+        },
+        {
+          "definition": "Ein kleines bisschen von etwas.",
+          "translation": "a little, some",
+          "examples": [
+            "Etwas von dem Geld gehört mir."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Ein Ding oder eine Sache, die man nicht genau kennt oder nennt.",
+          "translation": "something",
+          "examples": [
+            "Hast du etwas von ihm erfahren?"
+          ]
+        },
+        {
+          "definition": "Ein kleines bisschen von etwas.",
+          "translation": "a little, some",
+          "examples": [
+            "Er legt etwas von seinem Gehalt für den Urlaub zurück."
+          ]
+        },
+        {
+          "definition": "Etwas Wichtiges oder Bedeutsames im Leben erreichen.",
+          "translation": "something worthwhile",
+          "examples": [
+            "Sie wird es noch zu etwas bringen."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Ein Ding oder eine Sache, die man nicht genau kennt oder nennt.",
+          "translation": "something",
+          "examples": [
+            "Er sah im Dunkeln etwas vorüberhuschen."
+          ]
+        },
+        {
+          "definition": "Ein kleines bisschen von etwas.",
+          "translation": "a little, some",
+          "examples": [
+            "Etwas von seinem Gehalt für den Urlaub zurücklegen."
+          ]
+        },
+        {
+          "definition": "Etwas Wichtiges oder Bedeutsames erreichen oder werden.",
+          "translation": "something worthwhile",
+          "examples": [
+            "Aus dem Jungen wird einmal etwas werden."
+          ]
+        },
+        {
+          "definition": "Verweist auf einen bestimmten Vorgang oder Zustand, der gerade erwähnt wurde, oft mit Erstaunen oder Missbilligung.",
+          "translation": "that, such a thing",
+          "examples": [
+            "Wie kannst du so etwas sagen!"
+          ]
+        }
+      ]
+    }
+  },
+  "gut (Adj.)": {
+    "translation": "good",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Von hoher Qualität; so, wie es sein soll.",
+          "translation": "good, fine",
+          "examples": [
+            "Mein Gehör ist gut."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Von hoher Qualität; so, wie es sein soll.",
+          "translation": "good, fine",
+          "examples": [
+            "Er hat gute Augen und gute Ohren."
+          ]
+        },
+        {
+          "definition": "Freundlich und wohlgesonnen gegenüber anderen Menschen.",
+          "translation": "good, close",
+          "examples": [
+            "Das sind gute Bekannte von uns."
+          ]
+        },
+        {
+          "definition": "Angenehm und günstig für jemanden.",
+          "translation": "pleasant, friendly",
+          "examples": [
+            "Wir sind im Guten auseinandergegangen."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Von hoher Qualität; so, wie es sein soll.",
+          "translation": "good, fine",
+          "examples": [
+            "Diese Ware wurde gut verkauft."
+          ]
+        },
+        {
+          "definition": "Freundlich und wohlgesonnen gegenüber anderen Menschen.",
+          "translation": "good, close",
+          "examples": [
+            "Gute Freunde helfen sich gegenseitig."
+          ]
+        },
+        {
+          "definition": "Moralisch einwandfrei und ehrenhaft.",
+          "translation": "good, decent",
+          "examples": [
+            "Er ist ein guter Mensch."
+          ]
+        },
+        {
+          "definition": "Ziemlich viel oder reichlich; mehr als erwartet.",
+          "translation": "a good, more than",
+          "examples": [
+            "Ich habe eine gute Stunde gewartet."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Von einwandfreier Qualität oder Leistung; vortrefflich.",
+          "translation": "good, fine",
+          "examples": [
+            "Das ist gut zu behalten."
+          ]
+        },
+        {
+          "definition": "Reichlich, mehr als die genannte Menge oder Zeit.",
+          "translation": "a good, well over",
+          "examples": [
+            "Bis dahin ist es gut ein Kilometer."
+          ]
+        },
+        {
+          "definition": "Moralisch einwandfrei und integer.",
+          "translation": "good, decent",
+          "examples": [
+            "Umgangssprachlich nennt man ihn einen guten Kerl."
+          ]
+        },
+        {
+          "definition": "Für besondere oder festliche Anlässe reserviert; nicht für den Alltag.",
+          "translation": "best, special",
+          "examples": [
+            "Er trug seinen guten Anzug zur Hochzeit."
+          ]
+        },
+        {
+          "definition": "Ausreichend oder zufriedenstellend; es bei einer Sache bewenden lassen.",
+          "translation": "enough, sufficient",
+          "examples": [
+            "Er ließ es mit dieser einen Ermahnung gut sein."
+          ]
+        }
+      ]
+    }
+  },
+  "ich (Pron.)": {
+    "translation": "I",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Das Wort, das man benutzt, um von sich selbst zu sprechen.",
+          "translation": "I, me",
+          "examples": [
+            "Frag mich, wenn du etwas nicht weißt!"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Das Wort, das man benutzt, um von sich selbst zu sprechen.",
+          "translation": "I, me",
+          "examples": [
+            "Die Angelegenheit geht mich nichts an."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Das Wort, das man benutzt, um von sich selbst zu sprechen.",
+          "translation": "I, me",
+          "examples": [
+            "Frag mich, wenn du etwas nicht weißt!"
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Das Wort, das man benutzt, um von sich selbst zu sprechen.",
+          "translation": "I, me",
+          "examples": [
+            "Die Angelegenheit geht mich nichts an."
+          ]
+        }
+      ]
+    }
+  },
+  "ja": {
+    "translation": "yes",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Ein Wort, das man sagt, wenn man einer Frage oder Aussage zustimmt.",
+          "translation": "yes",
+          "examples": [
+            "»Gehst du mit?« »Ja.«"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein Wort, das man sagt, wenn man einer Frage oder Aussage zustimmt.",
+          "translation": "yes",
+          "examples": [
+            "»Wollt ihr mitspielen?« »Mit euch, ja.«"
+          ]
+        },
+        {
+          "definition": "Drückt aus, dass etwas bekannt oder selbstverständlich ist; doch, bekanntlich.",
+          "translation": "after all, you know",
+          "examples": [
+            "Das war ja allen bekannt."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Ein Wort, das man sagt, wenn man einer Frage oder Aussage zustimmt.",
+          "translation": "yes",
+          "examples": [
+            "»Gehst du mit?« »Ja.«"
+          ]
+        },
+        {
+          "definition": "Drückt aus, dass etwas bekannt oder selbstverständlich ist; betont eine Aussage.",
+          "translation": "after all, you know",
+          "examples": [
+            "Es ist ja noch Zeit."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Ein Wort, das man sagt, wenn man einer Frage oder Aussage zustimmt.",
+          "translation": "yes",
+          "examples": [
+            "»Wollt ihr mitspielen?« »Mit euch, ja.«"
+          ]
+        },
+        {
+          "definition": "Drückt aus, dass etwas allgemein bekannt oder selbstverständlich ist; verstärkt eine Feststellung.",
+          "translation": "after all, indeed",
+          "examples": [
+            "Das war ja allen bekannt."
+          ]
+        },
+        {
+          "definition": "Drückt eine Steigerung oder Verstärkung aus; sogar.",
+          "translation": "even, in fact",
+          "examples": [
+            "Es ist ja noch Zeit, sogar mehr als genug."
+          ]
+        }
+      ]
+    }
+  },
+  "mit (Praep.)": {
+    "translation": "with",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Zeigt an, dass man zusammen mit einer anderen Person etwas tut.",
+          "translation": "with, together with",
+          "examples": [
+            "Wir gehen mit ihm."
+          ]
+        },
+        {
+          "definition": "Zeigt an, womit man etwas macht; nennt das Werkzeug oder Mittel.",
+          "translation": "with, by",
+          "examples": [
+            "Er schreibt mit dem Bleistift."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Zeigt an, dass man zusammen mit einer anderen Person etwas tut.",
+          "translation": "with, together with",
+          "examples": [
+            "Sie tanzt mit ihm."
+          ]
+        },
+        {
+          "definition": "Zeigt an, womit oder wie man etwas tut; nennt das Werkzeug oder Transportmittel.",
+          "translation": "with, by",
+          "examples": [
+            "Wir fahren mit dem Zug."
+          ]
+        },
+        {
+          "definition": "Gibt das Alter einer Person zu einem bestimmten Zeitpunkt an.",
+          "translation": "at the age of",
+          "examples": [
+            "Mit fünf Jahren lernte er lesen."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Zeigt an, dass man zusammen mit einer anderen Person etwas tut.",
+          "translation": "with, together with",
+          "examples": [
+            "Er arbeitet mit ihr zusammen."
+          ]
+        },
+        {
+          "definition": "Zeigt an, womit oder wie man etwas tut; nennt das Werkzeug oder Transportmittel.",
+          "translation": "with, by",
+          "examples": [
+            "Mit dem Auto fahren sie in den Urlaub."
+          ]
+        },
+        {
+          "definition": "Gibt das Alter einer Person zu einem bestimmten Zeitpunkt an.",
+          "translation": "at the age of",
+          "examples": [
+            "Er machte mit 23 sein Examen."
+          ]
+        },
+        {
+          "definition": "Gibt den Grund für einen Zustand oder eine Einschränkung an.",
+          "translation": "with, due to",
+          "examples": [
+            "Er lag mit Angina im Bett."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Zeigt an, dass jemand gemeinsam mit einer anderen Person handelt oder lebt.",
+          "translation": "with, together with",
+          "examples": [
+            "Mit jmdm. zusammenzuleben erfordert Kompromisse."
+          ]
+        },
+        {
+          "definition": "Bezeichnet das Mittel oder Werkzeug, mit dem eine Handlung ausgeführt wird.",
+          "translation": "with, by means of",
+          "examples": [
+            "Mit dem Füller schreibt man eleganter."
+          ]
+        },
+        {
+          "definition": "Gibt das Alter einer Person zu einem bestimmten Zeitpunkt oder Ereignis an.",
+          "translation": "at the age of",
+          "examples": [
+            "Mit 23 Jahren machte er sein Examen."
+          ]
+        },
+        {
+          "definition": "Gibt die Ursache oder den Grund für einen körperlichen Zustand oder eine Einschränkung an.",
+          "translation": "with, because of",
+          "examples": [
+            "Er musste sich mit seinem kranken Bein setzen."
+          ]
+        }
+      ]
+    }
+  },
+  "morgen (Adv.)": {
+    "translation": "tomorrow",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "am Tag nach heute",
+          "translation": "tomorrow",
+          "examples": [
+            "Morgen gehe ich in die Schule."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "am Tag nach heute",
+          "translation": "tomorrow",
+          "examples": [
+            "Morgen haben wir keinen Unterricht."
+          ]
+        },
+        {
+          "definition": "in der Zukunft, in der Zeit, die noch kommt",
+          "translation": "in the future",
+          "examples": [
+            "Die Welt von morgen sieht anders aus."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "am folgenden Tag, am Tag nach heute",
+          "translation": "tomorrow",
+          "examples": [
+            "Das lässt sich nicht von heute auf morgen ändern."
+          ]
+        },
+        {
+          "definition": "in naher Zukunft, in der kommenden Zeit",
+          "translation": "in the future",
+          "examples": [
+            "Die Technologie von morgen beginnt heute."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "am kommenden, unmittelbar folgenden Tag",
+          "translation": "tomorrow",
+          "examples": [
+            "Das geht nicht von heut auf morgen."
+          ]
+        },
+        {
+          "definition": "in naher oder fernerer Zukunft; das Zukünftige betreffend",
+          "translation": "in the future",
+          "examples": [
+            "Die Messe zeigt die Erfindungen der Welt von morgen."
+          ]
+        }
+      ]
+    }
+  },
+  "mögen (V.)": {
+    "translation": "to like",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "jemanden oder etwas gern haben, Freude an jemandem oder etwas haben",
+          "translation": "to like",
+          "examples": [
+            "Ich mag Schokolade sehr."
+          ]
+        },
+        {
+          "definition": "etwas haben oder tun wollen (als höfliche Form: möchte)",
+          "translation": "would like",
+          "examples": [
+            "Ich möchte einen Apfel, bitte."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "jemanden oder etwas gern haben, jemanden sympathisch finden",
+          "translation": "to like",
+          "examples": [
+            "Wir mögen unsere neue Lehrerin."
+          ]
+        },
+        {
+          "definition": "etwas wünschen oder haben wollen (höfliche Wunschform: möchte)",
+          "translation": "would like",
+          "examples": [
+            "Ich möchte gern Herrn Müller sprechen."
+          ]
+        },
+        {
+          "definition": "drückt aus, dass etwas möglich ist oder sein könnte",
+          "translation": "may, might",
+          "examples": [
+            "Das mag stimmen, ich bin mir aber nicht sicher."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "jemanden sympathisch finden oder Gefallen an etwas haben",
+          "translation": "to like",
+          "examples": [
+            "Ich habe ihn schon immer gemocht."
+          ]
+        },
+        {
+          "definition": "etwas wünschen oder haben wollen (höfliche Wunschform: möchte)",
+          "translation": "would like",
+          "examples": [
+            "Ich möchte gern einen Kaffee haben."
+          ]
+        },
+        {
+          "definition": "drückt aus, dass etwas möglich ist oder dass der Sprecher es für möglich hält",
+          "translation": "may, might",
+          "examples": [
+            "Den einen oder anderen mag ich schon einmal gesehen haben."
+          ]
+        },
+        {
+          "definition": "drückt aus, dass man bereit ist, etwas zu akzeptieren oder zu dulden",
+          "translation": "may, can",
+          "examples": [
+            "Das mag diesmal noch hingehen, aber nächstes Mal gibt es Konsequenzen."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "jemanden sympathisch finden oder an etwas Gefallen haben",
+          "translation": "to like",
+          "examples": [
+            "Wir mochten ihn alle gern, er war sehr hilfsbereit."
+          ]
+        },
+        {
+          "definition": "drückt einen höflichen Wunsch oder eine Absicht aus (Konjunktiv II: möchte)",
+          "translation": "would like",
+          "examples": [
+            "Ich möchte gern Herrn N sprechen."
+          ]
+        },
+        {
+          "definition": "drückt aus, dass der Sprecher bereit ist, etwas hinzunehmen oder zu tolerieren",
+          "translation": "may, can",
+          "examples": [
+            "Das mag diesmal noch hingehen, aber das nächste Mal wirst du dafür bestraft."
+          ]
+        },
+        {
+          "definition": "drückt eine Möglichkeit oder Wahrscheinlichkeit aus, oft mit konzessivem Charakter",
+          "translation": "may, might",
+          "examples": [
+            "Die meisten mögen sich bei diesem Vortrag gelangweilt haben, mich hat er sehr interessiert."
+          ]
+        }
+      ]
+    }
+  },
+  "natürlich (Adj.)": {
+    "translation": "natural",
+    "cefr_level": "A2",
+    "A1": {
+      "senses": [
+        {
+          "definition": "von der Natur gemacht, nicht vom Menschen hergestellt",
+          "translation": "natural",
+          "examples": [
+            "Das ist natürliches Wasser aus der Quelle."
+          ]
+        },
+        {
+          "definition": "selbstverständlich, klar",
+          "translation": "of course",
+          "examples": [
+            "Natürlich komme ich zur Party!"
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "von der Natur gegeben, nicht künstlich hergestellt",
+          "translation": "natural",
+          "examples": [
+            "Das Land hat viele natürliche Reichtümer."
+          ]
+        },
+        {
+          "definition": "angeboren, von Geburt an vorhanden",
+          "translation": "natural, innate",
+          "examples": [
+            "Das sind ihre natürlichen Haare, sie färbt sie nicht."
+          ]
+        },
+        {
+          "definition": "selbstverständlich, wie erwartet",
+          "translation": "of course, naturally",
+          "examples": [
+            "Das Geld reichte natürlich wieder nicht."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "von der Natur stammend, nicht künstlich oder vom Menschen erzeugt",
+          "translation": "natural",
+          "examples": [
+            "Das Land ist reich an natürlichen Rohstoffen."
+          ]
+        },
+        {
+          "definition": "angeboren, von Natur aus vorhanden",
+          "translation": "natural, innate",
+          "examples": [
+            "Sie hat natürlich gelockte Haare."
+          ]
+        },
+        {
+          "definition": "ungezwungen, ohne Verstellung, offen und echt",
+          "translation": "natural, unaffected",
+          "examples": [
+            "Sie ist ein sehr natürlicher Mensch und stellt sich nicht an."
+          ]
+        },
+        {
+          "definition": "selbstverständlich, wie es zu erwarten ist",
+          "translation": "of course, naturally",
+          "examples": [
+            "Er hat natürlich wieder übertrieben."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "von der Natur aus gegeben, nicht künstlich geschaffen oder verändert",
+          "translation": "natural",
+          "examples": [
+            "Die Region verfügt über reiche natürliche Schätze."
+          ]
+        },
+        {
+          "definition": "angeboren, von Geburt an im Wesen oder Aussehen vorhanden",
+          "translation": "natural, innate",
+          "examples": [
+            "Das ist nicht ihre natürliche Haarfarbe."
+          ]
+        },
+        {
+          "definition": "ungezwungen, unverbildet, ohne Künstlichkeit oder Verstellung",
+          "translation": "natural, unaffected",
+          "examples": [
+            "Sie hat sich ihr natürliches Wesen bewahrt."
+          ]
+        },
+        {
+          "definition": "wirklichkeitsgetreu, der Natur oder dem Leben entsprechend dargestellt",
+          "translation": "true to life, lifelike",
+          "examples": [
+            "Der Maler hat ihn sehr natürlich gemalt."
+          ]
+        },
+        {
+          "definition": "selbstverständlich, wie es sich ergibt oder zu erwarten ist",
+          "translation": "of course, naturally",
+          "examples": [
+            "Er hat natürlich sehr übertrieben."
+          ]
+        }
+      ]
+    }
+  },
+  "nein (Part.)": {
+    "translation": "no",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "drückt Ablehnung oder Verneinung aus, das Gegenteil von ja",
+          "translation": "no",
+          "examples": [
+            "Kommst du mit? Nein."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "drückt Ablehnung oder Widerspruch aus",
+          "translation": "no",
+          "examples": [
+            "Seid ihr fertig? Nein, noch nicht."
+          ]
+        },
+        {
+          "definition": "drückt eine entschiedene Ablehnung aus: auf keinen Fall, keinesfalls",
+          "translation": "no, certainly not",
+          "examples": [
+            "Nein, das geht entschieden zu weit."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "drückt Ablehnung oder Widerspruch gegenüber einer Aussage oder Frage aus",
+          "translation": "no",
+          "examples": [
+            "Kommst du mit? Nein, ich habe keine Zeit."
+          ]
+        },
+        {
+          "definition": "keinesfalls, auf keinen Fall, eine Ablehnung bekräftigend",
+          "translation": "no, certainly not",
+          "examples": [
+            "Nein, das geht entschieden zu weit."
+          ]
+        },
+        {
+          "definition": "in fragendem Ton gebraucht, um eine Bestätigung zu suchen oder einen möglichen Widerspruch einzuräumen",
+          "translation": "isn't it, right",
+          "examples": [
+            "Das ist doch sehr interessant, nein?"
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "drückt Ablehnung oder Widerspruch gegen eine Aussage, Frage oder Aufforderung aus",
+          "translation": "no",
+          "examples": [
+            "Kommst du mit? Nein, ich bleibe hier."
+          ]
+        },
+        {
+          "definition": "keinesfalls, entschieden ablehnend oder bekräftigend",
+          "translation": "no, certainly not",
+          "examples": [
+            "Nein, das geht entschieden zu weit."
+          ]
+        },
+        {
+          "definition": "in fragendem Ton gebraucht, um einen möglichen Widerspruch einzuräumen oder Zustimmung zu erfragen",
+          "translation": "isn't it, right",
+          "examples": [
+            "Das ist doch sehr interessant, nein?"
+          ]
+        },
+        {
+          "definition": "korrigierend oder steigernd gebraucht, im Sinne von vielmehr oder sogar",
+          "translation": "rather, in fact",
+          "examples": [
+            "Das war nicht schön von ihm, nein, das zeigte wenig Verständnis."
+          ]
+        }
+      ]
+    }
+  },
+  "noch (Adv.)": {
+    "translation": "still",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "drückt aus, dass ein Zustand oder eine Handlung weiter andauert",
+          "translation": "still",
+          "examples": [
+            "Er ist noch krank."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "drückt aus, dass etwas weiterhin so ist oder weiter andauert",
+          "translation": "still",
+          "examples": [
+            "Er ist noch krank, er kommt nicht zur Schule."
+          ]
+        },
+        {
+          "definition": "drückt aus, dass man sich an etwas nicht mehr genau erinnert und nachfragt",
+          "translation": "again, now",
+          "examples": [
+            "Wie hieß er noch?"
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "drückt aus, dass ein Zustand oder eine Handlung weiter andauert oder immer noch gilt",
+          "translation": "still",
+          "examples": [
+            "Sie ist geistig noch sehr rege."
+          ]
+        },
+        {
+          "definition": "drückt eine Nachfrage aus, wenn man sich an etwas Bekanntes gerade nicht mehr erinnert",
+          "translation": "again",
+          "examples": [
+            "Wie war das noch? Ich habe es vergessen."
+          ]
+        },
+        {
+          "definition": "drückt eine Steigerung oder Verstärkung aus: sogar, selbst",
+          "translation": "even",
+          "examples": [
+            "Das ist noch besser als ich dachte."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "drückt das Fortbestehen eines Zustands oder einer Handlung aus; immer noch, weiterhin",
+          "translation": "still",
+          "examples": [
+            "Sie ist geistig noch sehr rege, obwohl sie über achtzig ist."
+          ]
+        },
+        {
+          "definition": "drückt eine Nachfrage aus, wenn etwas Bekanntes momentan vergessen wurde",
+          "translation": "again, now",
+          "examples": [
+            "Wie hieß er noch? Ich komme gerade nicht drauf."
+          ]
+        },
+        {
+          "definition": "drückt eine Verstärkung oder Steigerung aus: sogar, selbst",
+          "translation": "even",
+          "examples": [
+            "Er ist noch krank, und trotzdem arbeitet er weiter."
+          ]
+        }
+      ]
+    }
+  },
+  "schön (Adj.)": {
+    "translation": "beautiful",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Ein Mensch oder eine Sache gefällt sehr gut. Man findet ihn oder sie hübsch.",
+          "translation": "beautiful, pretty",
+          "examples": [
+            "Das Mädchen ist sehr schön."
+          ]
+        },
+        {
+          "definition": "Etwas ist angenehm und macht Spaß.",
+          "translation": "nice, lovely",
+          "examples": [
+            "Wir haben einen schönen Tag."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Ein Mensch oder eine Sache sieht sehr gut aus und gefällt den Augen.",
+          "translation": "beautiful, pretty",
+          "examples": [
+            "Sie ist eine sehr schöne Frau."
+          ]
+        },
+        {
+          "definition": "Etwas ist angenehm und macht Freude.",
+          "translation": "nice, lovely",
+          "examples": [
+            "Wir haben einen schönen Abend verbracht."
+          ]
+        },
+        {
+          "definition": "Man benutzt schön, um einen Gruß freundlich zu machen.",
+          "translation": "kind, warm",
+          "examples": [
+            "Ich soll dir einen schönen Gruß von meiner Mutter ausrichten."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Ein Mensch oder eine Sache gefällt sehr, weil sie hübsch oder attraktiv aussieht.",
+          "translation": "beautiful, attractive",
+          "examples": [
+            "Das ist ein wirklich schöner Mann."
+          ]
+        },
+        {
+          "definition": "Etwas ist angenehm, macht Freude oder Spaß.",
+          "translation": "nice, pleasant",
+          "examples": [
+            "Wir haben schöne Stunden zusammen verbracht."
+          ]
+        },
+        {
+          "definition": "Etwas ist ziemlich groß oder stark, mehr als erwartet.",
+          "translation": "quite, rather",
+          "examples": [
+            "Dort ist es schön ruhig."
+          ]
+        },
+        {
+          "definition": "Schön wird benutzt, um Zustimmung oder Einverständnis auszudrücken.",
+          "translation": "all right, fine",
+          "examples": [
+            "Na schön, ich helfe dir dabei."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Ein Mensch oder eine Sache berührt das ästhetische Empfinden sehr positiv und ruft Bewunderung hervor.",
+          "translation": "beautiful, handsome",
+          "examples": [
+            "Sie hat ein schönes Gesicht und eine elegante Ausstrahlung."
+          ]
+        },
+        {
+          "definition": "Etwas ist in seiner Art ansprechend und angenehm.",
+          "translation": "nice, enjoyable",
+          "examples": [
+            "Wir verlebten einen schönen Abend mit Freunden."
+          ]
+        },
+        {
+          "definition": "Schön verstärkt ein Adjektiv oder eine Situation und bedeutet ziemlich oder beträchtlich.",
+          "translation": "nicely, quite",
+          "examples": [
+            "Das Wasser ist schön klar."
+          ]
+        },
+        {
+          "definition": "Schön beschreibt, dass etwas so abläuft, wie es sich gehört oder der Ordnung entspricht.",
+          "translation": "properly, orderly",
+          "examples": [
+            "Schön der Reihe nach, bitte!"
+          ]
+        },
+        {
+          "definition": "Schön beschreibt, dass man sich mitten in einer Tätigkeit oder in einem Zustand befindet.",
+          "translation": "right in the middle of",
+          "examples": [
+            "Ich lag im schönsten Schlaf, als es an der Tür klingelte."
+          ]
+        }
+      ]
+    }
+  },
+  "sie (Pron.)": {
+    "translation": "she / they",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Sie ist ein Pronomen für eine Frau oder ein Mädchen, über die man spricht.",
+          "translation": "she",
+          "examples": [
+            "Das ist meine Schwester. Sie ist nett."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Sie ist ein Pronomen für eine Frau, ein Mädchen oder eine weibliche Sache, über die man spricht.",
+          "translation": "she, it",
+          "examples": [
+            "Diese Idee, sie lässt mich nicht los."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Sie bezeichnet eine weibliche Person oder Sache, über die gerade gesprochen wird.",
+          "translation": "she, it",
+          "examples": [
+            "Diese junge Frau – was hatte sie durchmachen müssen!"
+          ]
+        },
+        {
+          "definition": "Sie wurde früher als Anrede für eine untergebene Person weiblichen Geschlechts benutzt.",
+          "translation": "you (archaic address)",
+          "examples": []
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Sie bezeichnet eine bestimmte weibliche Person oder Sache, über die gesprochen wird, und nimmt auf etwas bereits Erwähntes Bezug.",
+          "translation": "she, it",
+          "examples": [
+            "Diese neue Idee – sie verfolgte ihn auf Schritt und Tritt."
+          ]
+        },
+        {
+          "definition": "Sie wurde in früheren Zeiten als distanzierte Anrede für eine weibliche, meist untergebene Person verwendet.",
+          "translation": "you (archaic formal)",
+          "examples": []
+        }
+      ]
+    }
+  },
+  "trinken (V.)": {
+    "translation": "to drink",
+    "cefr_level": "A1",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Eine Flüssigkeit in den Mund nehmen und schlucken.",
+          "translation": "to drink",
+          "examples": [
+            "Ich trinke ein Glas Wasser."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Eine Flüssigkeit in den Mund nehmen und schlucken.",
+          "translation": "to drink",
+          "examples": [
+            "Er trinkt jeden Morgen eine Tasse Kaffee."
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Eine Flüssigkeit zu sich nehmen, auf verschiedene Weisen und in verschiedenen Mengen.",
+          "translation": "to drink",
+          "examples": [
+            "Sie trinkt das Wasser langsam und in kleinen Schlucken."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Eine Flüssigkeit zu sich nehmen; kann auch regelmäßigen oder übermäßigen Alkoholkonsum bezeichnen.",
+          "translation": "to drink",
+          "examples": [
+            "Er isst und trinkt gut, aber man sagt, er trinke auch zu viel."
+          ]
+        }
+      ]
+    }
+  },
+  "wiedersehen (V.)": {
+    "translation": "to see again",
+    "cefr_level": "A2",
+    "A1": {
+      "senses": [
+        {
+          "definition": "Eine Person oder Sache noch einmal sehen, nach einer Zeit ohne Kontakt.",
+          "translation": "to see again",
+          "examples": [
+            "Ich sehe meine Freundin heute wieder."
+          ]
+        }
+      ]
+    },
+    "A2": {
+      "senses": [
+        {
+          "definition": "Eine Person oder Sache nach einer Trennung oder Abwesenheit erneut sehen.",
+          "translation": "to see again",
+          "examples": [
+            "Werden wir uns bald wiedersehen?"
+          ]
+        }
+      ]
+    },
+    "B1": {
+      "senses": [
+        {
+          "definition": "Eine Person oder einen Ort nach längerer Zeit erneut treffen oder besuchen.",
+          "translation": "to meet again, to see again",
+          "examples": [
+            "Er hat sie nach vielen Jahren wiedergesehen und war sehr gerührt."
+          ]
+        }
+      ]
+    },
+    "B2": {
+      "senses": [
+        {
+          "definition": "Eine Person, einen Ort oder eine Sache nach einer längeren Abwesenheit oder Trennung erneut sehen oder antreffen.",
+          "translation": "to see again, to meet again",
+          "examples": [
+            "Nach langen Jahren sah er die Stadt seiner Kindheit wieder und erkannte kaum etwas."
+          ]
+        }
+      ]
+    }
+  }
+}

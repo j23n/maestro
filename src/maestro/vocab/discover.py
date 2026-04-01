@@ -664,13 +664,31 @@ async def discover(
     # Only German words go through this path — Italian words always have senses
     # from the EPUB dictionary.  An Italian word with empty senses is a data
     # issue, not something to send to DWDS.
-    words_needing_enrichment = [
-        m.word
-        for m in unique_words.values()
-        if not m.word.senses
-        and _no_defs(m.word)
-        and getattr(m.word, "language", "") == "de"
-    ]
+    #
+    # Include ALL word_index siblings (other POS variants under the same
+    # lowercase key) that also lack senses, not just the single matched entry.
+    # This ensures every POS variant gets enriched so that future POS
+    # disambiguation works correctly.
+    _seen_enrich_ids: set[str] = set()
+    words_needing_enrichment: list[VocabularyWord] = []
+    for m in unique_words.values():
+        if (
+            not m.word.senses
+            and _no_defs(m.word)
+            and getattr(m.word, "language", "") == "de"
+        ):
+            # Add the matched word itself
+            wid = str(m.word.id)
+            if wid not in _seen_enrich_ids:
+                _seen_enrich_ids.add(wid)
+                words_needing_enrichment.append(m.word)
+            # Also add unenriched siblings from the same word_index key
+            siblings = _cache.word_index(target_lang).get(m.lemma, [])
+            for sib in siblings:
+                sid = str(sib.id)
+                if sid not in _seen_enrich_ids and not sib.senses and _no_defs(sib):
+                    _seen_enrich_ids.add(sid)
+                    words_needing_enrichment.append(sib)
     words_to_enrich = [
         w for w in words_needing_enrichment if str(w.id) not in _pending_def_gen
     ]
