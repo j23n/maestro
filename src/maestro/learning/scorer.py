@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 
-from maestro.language import DEFAULT_LANGUAGE, get_language_config
+from maestro.language import get_language_config
 from maestro.learning import grammar_cache
 from maestro.config import settings
 from maestro.llm import llm_messages_create
@@ -49,7 +49,7 @@ def _validate_results(result: list, n: int, label: str) -> list[dict]:
     return validated
 
 
-def _grammar_code_list(cefr_level: str, language: str | None = None) -> str:
+def _grammar_code_list(cefr_level: str, language: str) -> str:
     return "\n".join(
         f"  {g.code}: {g.label}"
         for g in grammar_cache.grammar_points(language)
@@ -87,10 +87,10 @@ async def _score_single(
     model: str | None = None,
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    language: str,
 ) -> dict:
     """LLM call -> JSON parse -> ScoringResult validation."""
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     await grammar_cache.ensure_loaded(lang_cfg.code)
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s", label, effective_model)
@@ -144,12 +144,12 @@ async def _score_multi(
     model: str | None = None,
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    language: str,
 ) -> list[dict]:
     """LLM call -> JSON array parse -> per-item ScoringResult validation."""
     if n == 0:
         return []
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     await grammar_cache.ensure_loaded(lang_cfg.code)
     effective_model = model or settings.SCORING_MODEL
     logger.debug("%s using model=%s (n=%d)", label, effective_model, n)
@@ -181,7 +181,8 @@ async def feedback_fill_blank(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> dict | str:
     """Generate structured feedback for a wrong fill-blank answer.
 
@@ -193,7 +194,7 @@ async def feedback_fill_blank(
         if rag_content
         else ""
     )
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     lang_name, lang_code = lang_cfg.name, lang_cfg.code
     prompt = _prompts.feedback_fill_blank.render(
         target_language=lang_name,
@@ -249,7 +250,8 @@ async def evaluate_error_correction(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> tuple[bool, dict | str]:
     """
     Use the LLM to judge whether the student's correction is essentially correct,
@@ -257,7 +259,7 @@ async def evaluate_error_correction(
     Returns (correct, feedback) where feedback is
     {"wrong": ..., "correct": ..., "explanation": ...} or "" on failure.
     """
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     lang_name, lang_code = lang_cfg.name, lang_cfg.code
     rule_block = (
         f"\n\nRelevant grammar rule from the reference book:\n{rag_content}"
@@ -324,7 +326,8 @@ async def score_multi_item_drill(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> list[dict]:
     """Score all items in a single LLM call.
 
@@ -342,7 +345,7 @@ async def score_multi_item_drill(
         },
     )
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     lang_name = lang_cfg.name
     await grammar_cache.ensure_loaded(lang_cfg.code)
     gp_lookup = {g.code: g.label for g in grammar_cache.grammar_points(lang_cfg.code)}
@@ -396,14 +399,15 @@ async def generate_writing_feedback(
     cefr_level: str,
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> dict:
     """Generate feedback for a free-writing activity.
 
     Returns {objective_correct, objective_note, grammar_errors, tips} or
     {objective_correct: True, ...} on disabled / failure.
     """
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     word_count = len(student_text.split())
     logger.info(
         "generate_writing_feedback",
@@ -433,7 +437,8 @@ async def generate_speaking_feedback(
     cefr_level: str,
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> dict:
     """Generate feedback for a free-form speaking activity.
 
@@ -468,13 +473,14 @@ async def score_reading_answers(
     cefr_level: str = "A1",
     student_id=None,
     lesson_id=None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> list[dict]:
     """Score student answers to reading comprehension questions in a single LLM call.
 
     Returns a list of {objective_correct, objective_note, grammar_errors, tips} per question.
     """
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     lang_name = lang_cfg.name
     n = min(len(questions), len(student_answers))
     logger.info("score_reading_answers", extra={"n": n})

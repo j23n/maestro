@@ -54,6 +54,7 @@ async def test_feedback_fill_blank_success(mock_scorer_client):
         correct_answer="sono andato",
         student_answer="ho andato",
         grammar_point_code="GP_001",
+        language="it",
     )
     assert isinstance(result, dict)
     assert "wrong" in result
@@ -74,6 +75,7 @@ async def test_feedback_fill_blank_failure(mock_scorer_client):
         correct_answer="sono andato",
         student_answer="ho andato",
         grammar_point_code="GP_001",
+        language="it",
     )
     assert result == ""
 
@@ -90,6 +92,7 @@ async def test_evaluate_error_correction_correct(mock_scorer_client):
         erroneous="Ho andato a scuola.",
         reference="Sono andato a scuola.",
         student="Sono andato a scuola.",
+        language="it",
     )
     assert is_correct is True
     assert isinstance(feedback, dict)
@@ -108,6 +111,7 @@ async def test_evaluate_error_correction_incorrect(mock_scorer_client):
         erroneous="Ho andato a scuola.",
         reference="Sono andato a scuola.",
         student="Ho andato a scuola.",
+        language="it",
     )
     assert is_correct is False
 
@@ -143,6 +147,7 @@ async def test_score_multi_item_drill_success(mock_scorer_client):
         grammar_point_code="GP_001",
         items=items,
         student_answers=["sono andato", "ho mangiato"],
+        language="it",
     )
     assert len(result) == 2
     assert result[0]["objective_correct"] is True
@@ -162,6 +167,7 @@ async def test_score_multi_item_drill_raises_on_failure(mock_scorer_client):
             grammar_point_code="GP_001",
             items=items,
             student_answers=["wrong"],
+            language="it",
         )
 
 
@@ -183,6 +189,7 @@ async def test_generate_writing_feedback_success(mock_scorer_client):
         prompt="Descrivi la tua famiglia.",
         student_text="Ho una sorella e due fratelli.",
         cefr_level="A1",
+        language="it",
     )
     assert isinstance(result, dict)
     assert "objective_correct" in result

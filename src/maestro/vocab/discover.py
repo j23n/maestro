@@ -14,7 +14,6 @@ from maestro.models import (
     VocabularyWordDefinition,
     UserVocabularyCard,
 )
-from maestro.language import DEFAULT_LANGUAGE
 from maestro.learning.profile import get_cefr_level
 from maestro.utils import create_background_task, utcnow
 from maestro.vocab.generate_definitions import generate_definitions_for_word
@@ -114,7 +113,7 @@ def _keep_token(token) -> bool:
     return token.pos_ != "PROPN"
 
 
-def tokenize(text: str, *, language: str | None = None) -> list[tuple[str, str, str]]:
+def tokenize(text: str, *, language: str) -> list[tuple[str, str, str]]:
     """Run spaCy on *text* and return kept tokens as (lemma, POS, surface) triples.
 
     Filters out punctuation, non-alpha, and proper nouns.
@@ -144,7 +143,8 @@ def tokenize(text: str, *, language: str | None = None) -> list[tuple[str, str, 
 def match_vocab_words(
     text: str,
     word_index: dict[str, list[VocabularyWord]] | None = None,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> list[VocabMatch]:
     """Tokenize *text*, match lemmas against *word_index*, return matches.
 
@@ -169,13 +169,12 @@ def match_vocab_words(
         Matches in token order, deduplicated by (lemma, word.id).
     """
     if word_index is None:
-        lang = language or DEFAULT_LANGUAGE
-        word_index = _cache.word_index(lang)
+        word_index = _cache.word_index(language)
 
     logger.debug("[discover] extracted text: %r", text)
     logger.debug("[discover] word_index has %d headwords", len(word_index))
 
-    text_tokens = tokenize(text)
+    text_tokens = tokenize(text, language=language)
     logger.debug(
         "[discover] kept tokens: %s", [(s, lem, p) for lem, p, s in text_tokens]
     )
@@ -237,9 +236,8 @@ def match_vocab_words(
             logger.debug(
                 "[discover] lemma %r → word_index MISS, trying simplemma fallback", lem
             )
-            _lang = language or DEFAULT_LANGUAGE
             for surf in lemma_surfaces.get(lem, []):
-                candidate = simplemma.lemmatize(surf, lang=_lang).lower()
+                candidate = simplemma.lemmatize(surf, lang=language).lower()
                 logger.debug("[discover]   simplemma(%r) → %r", surf, candidate)
                 if candidate != lem:
                     entries = word_index.get(candidate)
@@ -487,11 +485,9 @@ async def discover(
     student_id: PydanticObjectId | None = None,
     message=None,
     create_cards: bool = True,
-    language: str | None = None,
+    *,
+    language: str,
 ) -> str:
-    if language is None:
-        language = DEFAULT_LANGUAGE
-
     target_lang = language
 
     # No lang attributes → return unchanged (safe default for untagged content)
@@ -574,7 +570,11 @@ async def discover(
     # --- Vocabulary matching (pure NLP, no DB) ---
     all_text = get_target_text(word_elements) if word_elements else ""
     matches = (
-        match_vocab_words(all_text, _cache.word_index(target_lang)) if all_text else []
+        match_vocab_words(
+            all_text, _cache.word_index(target_lang), language=target_lang
+        )
+        if all_text
+        else []
     )
 
     # Combine phrase matches and word matches

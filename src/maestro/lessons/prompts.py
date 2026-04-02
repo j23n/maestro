@@ -6,7 +6,7 @@ import json
 import random
 from typing import Optional
 
-from maestro.language import DEFAULT_LANGUAGE, get_language_config
+from maestro.language import get_language_config
 from maestro.models import (
     LearningProfile,
     GrammarPoint,
@@ -18,9 +18,9 @@ from maestro.prompts import planner as _prompts, span_tagging_block as _stb
 from maestro.lessons.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
 
 
-def build_lesson_content_system(language: str | None = None) -> str:
+def build_lesson_content_system(language: str) -> str:
     """Return the system prompt for lesson content generation."""
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     return _prompts.lesson_content_system.render_system(target_language=lang_cfg.name)
 
 
@@ -43,7 +43,8 @@ def build_lesson_content_prompt(
     speaking_cfs: list[CommunicativeFunction],
     lesson_context: str = "",
     archetype: str = "",
-    language: str | None = None,
+    *,
+    language: str,
 ) -> str:
     """Build the complete prompt string for lesson content generation.
 
@@ -56,7 +57,7 @@ def build_lesson_content_prompt(
         else scenario.depths[-1]
     )
 
-    lang_cfg = get_language_config(language or DEFAULT_LANGUAGE)
+    lang_cfg = get_language_config(language)
     lang = lang_cfg.name
     parts: list[str] = [
         _prompts.lesson_content_header.render(target_language=lang),

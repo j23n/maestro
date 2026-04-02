@@ -48,6 +48,7 @@ async def test_discover_creates_cards_for_new_words(db):
         result = await discover(
             '<span lang="it">Voglio mangiare la pizza.</span>',
             student_id=_FAKE_STUDENT_ID,
+            language="it",
         )
 
     cards = await UserVocabularyCard.find_all().to_list()
@@ -78,7 +79,9 @@ async def test_discover_annotates_known_words(db):
         return_value="A1",
     ):
         result = await discover(
-            '<span lang="it">Voglio bere acqua.</span>', student_id=_FAKE_STUDENT_ID
+            '<span lang="it">Voglio bere acqua.</span>',
+            student_id=_FAKE_STUDENT_ID,
+            language="it",
         )
 
     assert "vocab-word" in result
@@ -107,7 +110,9 @@ async def test_discover_skips_non_target_lang(db):
         return_value="A1",
     ):
         result = await discover(
-            '<span lang="en">The house is big.</span>', student_id=_FAKE_STUDENT_ID
+            '<span lang="en">The house is big.</span>',
+            student_id=_FAKE_STUDENT_ID,
+            language="it",
         )
 
     # No annotation because the text is in English, not target language (it)
@@ -145,6 +150,7 @@ async def test_discover_simplemma_fallback(db):
         result = await discover(
             '<span lang="it">Parlo italiano.</span>',
             student_id=_FAKE_STUDENT_ID,
+            language="it",
         )
 
     assert "vocab-word" in result
@@ -190,6 +196,7 @@ async def test_anonymous_discover_triggers_definition_generation(db):
             '<span lang="it">mangiare</span>',
             student_id=None,
             create_cards=False,
+            language="it",
         )
 
     # No cards created for anonymous user
@@ -231,6 +238,7 @@ async def test_deduplication_prevents_duplicate_tasks(db):
             '<span lang="it">mangiare</span>',
             student_id=None,
             create_cards=False,
+            language="it",
         )
 
     # Definition task should NOT be fired — word is already in _pending_def_gen
@@ -311,6 +319,7 @@ async def test_authenticated_discover_creates_cards_and_triggers_defs(db):
             '<span lang="it">mangiare</span>',
             student_id=_FAKE_STUDENT_ID,
             create_cards=True,
+            language="it",
         )
 
     # Cards created
@@ -456,7 +465,7 @@ def test_vocab_coverage(prod_word_index, text, expected_words):
     """
     from maestro.vocab.discover import match_vocab_words
 
-    matches = match_vocab_words(text, prod_word_index)
+    matches = match_vocab_words(text, prod_word_index, language="it")
     matched_words = {m.word.word for m in matches}
     assert matched_words == expected_words, (
         f"match_vocab_words({text!r})\n"

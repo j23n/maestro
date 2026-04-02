@@ -35,6 +35,7 @@ async def test_signup_success(auth_app):
             "email": "test@example.com",
             "password": "password123",
             "password_confirm": "password123",
+            "target_language": "it",
         },
         follow_redirects=False,
     )
@@ -73,6 +74,7 @@ async def test_signup_duplicate_email(auth_app):
             "email": "taken@example.com",
             "password": "password123",
             "password_confirm": "password123",
+            "target_language": "it",
         },
         follow_redirects=False,
     )
@@ -88,6 +90,7 @@ async def test_signup_password_mismatch(auth_app):
             "email": "test@example.com",
             "password": "password123",
             "password_confirm": "different456",
+            "target_language": "it",
         },
         follow_redirects=False,
     )
@@ -103,6 +106,7 @@ async def test_signup_password_too_short(auth_app):
             "email": "test@example.com",
             "password": "short",
             "password_confirm": "short",
+            "target_language": "it",
         },
         follow_redirects=False,
     )
@@ -487,6 +491,7 @@ async def test_signup_dispatches_emails(auth_app):
                 "email": "dispatch@example.com",
                 "password": "password123",
                 "password_confirm": "password123",
+                "target_language": "it",
             },
             follow_redirects=False,
         )

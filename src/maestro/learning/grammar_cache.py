@@ -18,13 +18,8 @@ _grammar_points: dict[str, list[GrammarPoint]] = {}
 _comm_functions: dict[str, list[CommunicativeFunction]] = {}
 
 
-async def ensure_loaded(language: str | None = None) -> None:
+async def ensure_loaded(language: str) -> None:
     """Load taxonomy data from DB if not already cached for *language*."""
-    if language is None:
-        from maestro.language import DEFAULT_LANGUAGE
-
-        language = DEFAULT_LANGUAGE
-
     if language in _grammar_points:
         return
 
@@ -42,21 +37,13 @@ async def ensure_loaded(language: str | None = None) -> None:
     )
 
 
-def grammar_points(language: str | None = None) -> list[GrammarPoint]:
+def grammar_points(language: str) -> list[GrammarPoint]:
     """Return cached grammar points. Must call ensure_loaded() first."""
-    if language is None:
-        from maestro.language import DEFAULT_LANGUAGE
-
-        language = DEFAULT_LANGUAGE
     return _grammar_points.get(language, [])
 
 
-def comm_functions(language: str | None = None) -> list[CommunicativeFunction]:
+def comm_functions(language: str) -> list[CommunicativeFunction]:
     """Return cached communicative functions. Must call ensure_loaded() first."""
-    if language is None:
-        from maestro.language import DEFAULT_LANGUAGE
-
-        language = DEFAULT_LANGUAGE
     return _comm_functions.get(language, [])
 
 

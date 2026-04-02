@@ -33,6 +33,7 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
         questions=["What color?"],
         correct_answers=["Red"],
         student_answers=["Red"],
+        language="it",
     )
     assert overall is True
     assert feedback["correct_count"] == 1
@@ -60,6 +61,7 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
         questions=["Q1", "Q2", "Q3"],
         correct_answers=["A1", "A2", "A3"],
         student_answers=["A1", "wrong", "wrong"],
+        language="it",
     )
     assert overall is False
     assert feedback["correct_count"] == 1
@@ -85,6 +87,7 @@ async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
         questions=["What color is the sky?"],
         correct_answers=["Blue"],
         student_answers=["Green"],
+        language="it",
     )
     item = feedback["items"][0]
     assert item["prompt"] == "What color is the sky?"

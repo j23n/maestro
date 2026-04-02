@@ -123,7 +123,7 @@ async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
 
     assert url == "/static/audio/word_ciao.wav"
     assert calls == [], "synthesis should not be called when file already exists"
@@ -143,7 +143,7 @@ async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
 
     assert url == "/static/audio/word_ciao.wav"
     assert len(synth_calls) == 1
@@ -162,7 +162,7 @@ async def test_generate_word_audio_returns_none_on_error(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
 
     assert url is None
 
@@ -177,7 +177,7 @@ async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_word_audio("parlare")
+    url = await generate_word_audio("parlare", language="it")
 
     assert url is not None
     assert url.startswith("/static/audio/")
@@ -202,7 +202,7 @@ async def test_generate_lesson_audio_idempotent(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_lesson_audio("Marco va al bar.", "abc123", 0)
+    url = await generate_lesson_audio("Marco va al bar.", "abc123", 0, language="it")
 
     assert url == "/static/audio/lesson_abc123_0.wav"
     assert calls == [], "synthesis should not be called when file already exists"
@@ -222,7 +222,7 @@ async def test_generate_lesson_audio_calls_synthesis(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_lesson_audio("Marco va al bar.", "abc123", 2)
+    url = await generate_lesson_audio("Marco va al bar.", "abc123", 2, language="it")
 
     assert url == "/static/audio/lesson_abc123_2.wav"
     assert len(synth_calls) == 1
@@ -241,7 +241,7 @@ async def test_generate_lesson_audio_returns_none_on_error(tmp_path, monkeypatch
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_lesson_audio("Testo.", "abc123", 0)
+    url = await generate_lesson_audio("Testo.", "abc123", 0, language="it")
 
     assert url is None
 
@@ -256,7 +256,7 @@ async def test_generate_lesson_audio_url_format(tmp_path, monkeypatch):
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_lesson_audio("Testo.", "lesson999", 1)
+    url = await generate_lesson_audio("Testo.", "lesson999", 1, language="it")
 
     assert url is not None
     assert url.startswith("/static/audio/")
@@ -278,8 +278,8 @@ async def test_generate_lesson_audio_different_indices_different_files(
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url0 = await generate_lesson_audio("Prima lettura.", "lesson1", 0)
-    url1 = await generate_lesson_audio("Seconda lettura.", "lesson1", 1)
+    url0 = await generate_lesson_audio("Prima lettura.", "lesson1", 0, language="it")
+    url1 = await generate_lesson_audio("Seconda lettura.", "lesson1", 1, language="it")
 
     assert url0 != url1
     assert "lesson_lesson1_0.wav" in created
@@ -307,7 +307,7 @@ async def test_synth_to_file_raises_api_timeout_on_httpx_timeout(tmp_path):
 
     with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
         with pytest.raises(APITimeoutError) as exc_info:
-            await _synth_to_file("ciao", tmp_path / "test.wav")
+            await _synth_to_file("ciao", tmp_path / "test.wav", language="it")
 
     assert exc_info.value.provider == "azure"
     assert isinstance(exc_info.value.__cause__, httpx.TimeoutException)
@@ -328,7 +328,7 @@ async def test_synth_to_file_raises_api_rate_limit_on_429(tmp_path):
 
     with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
         with pytest.raises(APIRateLimitError) as exc_info:
-            await _synth_to_file("ciao", tmp_path / "test.wav")
+            await _synth_to_file("ciao", tmp_path / "test.wav", language="it")
 
     assert exc_info.value.provider == "azure"
 
@@ -348,7 +348,7 @@ async def test_synth_to_file_raises_api_status_error_on_500(tmp_path):
 
     with patch.object(tts_module, "_get_tts_client", return_value=mock_client):
         with pytest.raises(APIStatusError) as exc_info:
-            await _synth_to_file("ciao", tmp_path / "test.wav")
+            await _synth_to_file("ciao", tmp_path / "test.wav", language="it")
 
     assert exc_info.value.status_code == 500
     assert exc_info.value.provider == "azure"
@@ -368,7 +368,7 @@ async def test_generate_word_audio_returns_none_on_api_unavailable(
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
     assert url is None
 
 
@@ -386,5 +386,5 @@ async def test_generate_lesson_audio_returns_none_on_api_unavailable(
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
 
-    url = await generate_lesson_audio("Testo.", "abc123", 0)
+    url = await generate_lesson_audio("Testo.", "abc123", 0, language="it")
     assert url is None

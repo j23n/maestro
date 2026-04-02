@@ -68,7 +68,7 @@ async def test_synth_pipeline_posts_ssml_and_writes_response(audio_dir, monkeypa
 
     monkeypatch.setattr(tts_mod, "_get_tts_client", lambda: mock_client)
 
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
 
     assert url == "/static/audio/word_ciao.wav"
     assert (audio_dir / "word_ciao.wav").read_bytes() == _FAKE_WAV
@@ -89,13 +89,13 @@ async def test_synth_pipeline_posts_ssml_and_writes_response(audio_dir, monkeypa
 
 @_requires_key
 async def test_generate_word_audio_returns_url(audio_dir):
-    url = await generate_word_audio("ciao")
+    url = await generate_word_audio("ciao", language="it")
     assert url == "/static/audio/word_ciao.wav"
 
 
 @_requires_key
 async def test_generate_word_audio_creates_nonempty_file(audio_dir):
-    await generate_word_audio("ciao")
+    await generate_word_audio("ciao", language="it")
     wav_path = audio_dir / "word_ciao.wav"
     assert wav_path.exists()
     assert wav_path.stat().st_size > 0
@@ -104,7 +104,7 @@ async def test_generate_word_audio_creates_nonempty_file(audio_dir):
 @_requires_key
 async def test_generate_word_audio_valid_wav_properties(audio_dir):
     """WAV must be 24 kHz riff-24khz-16bit-mono-pcm."""
-    await generate_word_audio("ciao")
+    await generate_word_audio("ciao", language="it")
     sr = _read_wav_sample_rate(audio_dir / "word_ciao.wav")
     assert sr == 24000
 
@@ -112,10 +112,10 @@ async def test_generate_word_audio_valid_wav_properties(audio_dir):
 @_requires_key
 async def test_generate_word_audio_idempotent(audio_dir):
     """Second call returns the same URL and does not overwrite the file."""
-    url1 = await generate_word_audio("ciao")
+    url1 = await generate_word_audio("ciao", language="it")
     mtime1 = (audio_dir / "word_ciao.wav").stat().st_mtime
 
-    url2 = await generate_word_audio("ciao")
+    url2 = await generate_word_audio("ciao", language="it")
     mtime2 = (audio_dir / "word_ciao.wav").stat().st_mtime
 
     assert url1 == url2
@@ -125,7 +125,7 @@ async def test_generate_word_audio_idempotent(audio_dir):
 @_requires_key
 async def test_generate_word_audio_accent_word(audio_dir):
     """Accented words are slugified correctly and produce valid audio."""
-    url = await generate_word_audio("caffè")
+    url = await generate_word_audio("caffè", language="it")
     assert url == "/static/audio/word_caffe.wav"
     sr = _read_wav_sample_rate(audio_dir / "word_caffe.wav")
     assert sr == 24000
@@ -133,13 +133,17 @@ async def test_generate_word_audio_accent_word(audio_dir):
 
 @_requires_key
 async def test_generate_lesson_audio_returns_url(audio_dir):
-    url = await generate_lesson_audio("Ciao, mi chiamo Marco.", "lesson_test", 0)
+    url = await generate_lesson_audio(
+        "Ciao, mi chiamo Marco.", "lesson_test", 0, language="it"
+    )
     assert url == "/static/audio/lesson_lesson_test_0.wav"
 
 
 @_requires_key
 async def test_generate_lesson_audio_creates_nonempty_file(audio_dir):
-    await generate_lesson_audio("Ciao, mi chiamo Marco.", "lesson_test", 0)
+    await generate_lesson_audio(
+        "Ciao, mi chiamo Marco.", "lesson_test", 0, language="it"
+    )
     wav_path = audio_dir / "lesson_lesson_test_0.wav"
     assert wav_path.exists()
     assert wav_path.stat().st_size > 0
@@ -147,7 +151,9 @@ async def test_generate_lesson_audio_creates_nonempty_file(audio_dir):
 
 @_requires_key
 async def test_generate_lesson_audio_valid_wav_properties(audio_dir):
-    await generate_lesson_audio("Ciao, mi chiamo Marco.", "lesson_test", 0)
+    await generate_lesson_audio(
+        "Ciao, mi chiamo Marco.", "lesson_test", 0, language="it"
+    )
     sr = _read_wav_sample_rate(audio_dir / "lesson_lesson_test_0.wav")
     assert sr == 24000
 
@@ -155,10 +161,10 @@ async def test_generate_lesson_audio_valid_wav_properties(audio_dir):
 @_requires_key
 async def test_generate_lesson_audio_idempotent(audio_dir):
     """Second call returns the same URL and does not overwrite the file."""
-    url1 = await generate_lesson_audio("Testo.", "lesson_idem", 0)
+    url1 = await generate_lesson_audio("Testo.", "lesson_idem", 0, language="it")
     mtime1 = (audio_dir / "lesson_lesson_idem_0.wav").stat().st_mtime
 
-    url2 = await generate_lesson_audio("Testo.", "lesson_idem", 0)
+    url2 = await generate_lesson_audio("Testo.", "lesson_idem", 0, language="it")
     mtime2 = (audio_dir / "lesson_lesson_idem_0.wav").stat().st_mtime
 
     assert url1 == url2
@@ -168,8 +174,8 @@ async def test_generate_lesson_audio_idempotent(audio_dir):
 @_requires_key
 async def test_generate_lesson_audio_different_indices_are_independent(audio_dir):
     """Two readings from the same lesson use distinct file names."""
-    url0 = await generate_lesson_audio("Prima lettura.", "lesson_x", 0)
-    url1 = await generate_lesson_audio("Seconda lettura.", "lesson_x", 1)
+    url0 = await generate_lesson_audio("Prima lettura.", "lesson_x", 0, language="it")
+    url1 = await generate_lesson_audio("Seconda lettura.", "lesson_x", 1, language="it")
 
     assert url0 != url1
     assert (audio_dir / "lesson_lesson_x_0.wav").exists()

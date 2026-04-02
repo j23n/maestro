@@ -66,7 +66,7 @@ async def test_pick_a0_scenario_returns_first_incomplete(db):
             )
         },
     )
-    scenario, depth = await _pick_a0_scenario(profile)
+    scenario, depth = await _pick_a0_scenario(profile, "it")
     assert scenario.slug == "a0-02-in-albergo"
     assert depth == 1
 
@@ -100,7 +100,7 @@ async def test_pick_a0_scenario_returns_first_when_none_completed(db):
     await s2.insert()
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID)
-    scenario, depth = await _pick_a0_scenario(profile)
+    scenario, depth = await _pick_a0_scenario(profile, "it")
     assert scenario.slug == "a0-01-in-aereo"
 
 
@@ -122,7 +122,7 @@ async def test_pick_scenario_a0_delegates(db):
     await s1.insert()
 
     profile = LearningProfile(student_id=_FAKE_STUDENT_ID)
-    scenario, depth = await pick_scenario(profile, "A0")
+    scenario, depth = await pick_scenario(profile, "A0", language="it")
     assert scenario.slug == "a0-01-in-aereo"
     assert depth == 1
 
@@ -485,6 +485,7 @@ def test_signup_then_onboarding_saves_name(auth_app, db):
             "email": "e2e@example.com",
             "password": "password123",
             "password_confirm": "password123",
+            "target_language": "it",
         },
         follow_redirects=False,
     )

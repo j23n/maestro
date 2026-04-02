@@ -25,7 +25,9 @@ async def test_unknown_exercise_type_returns_none(db):
     drill = _make_drill("unknown_type", "GP_001")
     drill.items = []
 
-    correct, event, feedback, refs = await score_attempt(drill, "some answer")
+    correct, event, feedback, refs = await score_attempt(
+        drill, "some answer", language="it"
+    )
 
     assert correct is None
     assert event is None
@@ -63,7 +65,9 @@ async def test_fill_blank_passing(db, mocker):
 
     from maestro.lessons.drill_scoring import score_attempt
 
-    correct, event, feedback, refs = await score_attempt(drill, ["answer"] * 3)
+    correct, event, feedback, refs = await score_attempt(
+        drill, ["answer"] * 3, language="it"
+    )
 
     assert correct is True
     assert event is not None
@@ -112,7 +116,9 @@ async def test_fill_blank_failing(db, mocker):
 
     from maestro.lessons.drill_scoring import score_attempt
 
-    correct, event, feedback, refs = await score_attempt(drill, ["wrong"] * 3)
+    correct, event, feedback, refs = await score_attempt(
+        drill, ["wrong"] * 3, language="it"
+    )
 
     assert correct is False
     assert event is not None
@@ -157,6 +163,8 @@ async def test_pass_threshold_exactly_at_70(db, mocker):
 
     from maestro.lessons.drill_scoring import score_attempt
 
-    correct, event, feedback, refs = await score_attempt(drill, ["x"] * 3)
+    correct, event, feedback, refs = await score_attempt(
+        drill, ["x"] * 3, language="it"
+    )
     # 2/3 = 0.667 < 0.7
     assert correct is False
