@@ -214,6 +214,8 @@ app.include_router(admin.router)
 async def landing(request: Request):
     if read_session(request):
         return RedirectResponse(url="/lessons/")
+    # Landing page showcases Italian for anonymous visitors — the primary
+    # language of the app's content.  Logged-in users get their own language.
     return await render_with_discover(
         request,
         "landing.html",
