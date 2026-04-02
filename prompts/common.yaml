@@ -5,7 +5,7 @@ span_tagging:
   user: |
     ## Span-tagging (required)
     Wrap only {{target_language}} text in a language span:
-    - {{target_language}} text -> <span lang="{{target_language_code}}">...</span>
+    - {{target_language}} text -> <span lang='{{target_language_code}}'>...</span>
     - English text needs NO wrapping (English is the base language).
     Apply to every {{target_language}} word, including punctuation attached to it.
     Exception: markdown headings (##, ###) are structural — do NOT wrap them.
