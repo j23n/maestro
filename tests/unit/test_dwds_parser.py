@@ -156,7 +156,8 @@ class TestParseHtml:
     def test_empty_html_returns_empty(self):
         assert parse_html("<html><body></body></html>", "foo") == []
 
-    def test_no_senses_skipped(self):
+    def test_pos_without_senses_still_returned(self):
+        """Entry with POS but no senses should still be returned."""
         html = """
         <div class="dwdswb-artikel">
           <div class="dwdswb-ft-blocks">
@@ -167,7 +168,135 @@ class TestParseHtml:
           <div class="dwdswb-lesarten"></div>
         </div>
         """
+        entries = parse_html(html, "test")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Subst."
+        assert entries[0].senses == []
+
+    def test_no_pos_no_senses_skipped(self):
+        """Entry with neither POS nor senses should be skipped."""
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-lesarten"></div>
+        </div>
+        """
         assert parse_html(html, "test") == []
+
+    def test_compound_pos_indefinitpronomen(self):
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-ft-blocks">
+            <div class="dwdswb-ft-block">
+              <span class="dwdswb-ft-blocktext">Indefinitpronomen · undeklinierbar</span>
+            </div>
+          </div>
+          <div class="dwdswb-lesarten">
+            <div class="dwdswb-lesart">
+              <div class="dwdswb-lesart-def">
+                <span class="dwdswb-definition">ein wenig</span>
+              </div>
+              <div class="dwdswb-lesart-content"></div>
+            </div>
+          </div>
+        </div>
+        """
+        entries = parse_html(html, "etwas")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Pron."
+
+    def test_compound_pos_personalpronomen(self):
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-ft-blocks">
+            <div class="dwdswb-ft-block">
+              <span class="dwdswb-ft-blocktext">Personalpronomen · 1. Person Singular</span>
+            </div>
+          </div>
+          <div class="dwdswb-lesarten">
+            <div class="dwdswb-lesart">
+              <div class="dwdswb-lesart-def">
+                <span class="dwdswb-definition">bezeichnet den Sprecher</span>
+              </div>
+              <div class="dwdswb-lesart-content"></div>
+            </div>
+          </div>
+        </div>
+        """
+        entries = parse_html(html, "ich")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Pron."
+
+    def test_compound_pos_gradpartikel(self):
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-ft-blocks">
+            <div class="dwdswb-ft-block">
+              <span class="dwdswb-ft-blocktext">Gradpartikel</span>
+            </div>
+          </div>
+          <div class="dwdswb-lesarten">
+            <div class="dwdswb-lesart">
+              <div class="dwdswb-lesart-def">
+                <span class="dwdswb-definition">drückt eine Einschränkung aus</span>
+              </div>
+              <div class="dwdswb-lesart-content"></div>
+            </div>
+          </div>
+        </div>
+        """
+        entries = parse_html(html, "nur")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Part."
+
+    def test_definition_spezifizierung(self):
+        """Senses using dwdswb-definition-spezifizierung should be extracted."""
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-ft-blocks">
+            <div class="dwdswb-ft-block">
+              <span class="dwdswb-ft-blocktext">Partikel</span>
+            </div>
+          </div>
+          <div class="dwdswb-lesarten">
+            <div class="dwdswb-lesart">
+              <div class="dwdswb-lesart-def">
+                <span class="dwdswb-definition-spezifizierung">als Antwort auf eine Frage</span>
+              </div>
+              <div class="dwdswb-lesart-content"></div>
+            </div>
+          </div>
+        </div>
+        """
+        entries = parse_html(html, "ja")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Part."
+        assert len(entries[0].senses) == 1
+        assert "Antwort" in entries[0].senses[0].definition
+
+    def test_paraphrase_fallback(self):
+        """Senses using dwdswb-paraphrase should be extracted as fallback."""
+        html = """
+        <div class="dwdswb-artikel">
+          <div class="dwdswb-ft-blocks">
+            <div class="dwdswb-ft-block">
+              <span class="dwdswb-ft-blocktext">Partikel</span>
+            </div>
+          </div>
+          <div class="dwdswb-lesarten">
+            <div class="dwdswb-lesart">
+              <div class="dwdswb-lesart-def">
+                <span class="dwdswb-paraphrase">höfliche Aufforderung</span>
+              </div>
+              <div class="dwdswb-lesart-content"></div>
+            </div>
+          </div>
+        </div>
+        """
+        entries = parse_html(html, "bitte")
+        assert len(entries) == 1
+        assert entries[0].pos_abbrev == "Part."
+        assert len(entries[0].senses) == 1
+        assert "höfliche" in entries[0].senses[0].definition
 
     def test_adjective_pos(self):
         html = """

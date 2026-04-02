@@ -127,13 +127,16 @@ def create_background_task(coro, *, name: str | None = None) -> asyncio.Task:
     return task
 
 
-_LANG_SPAN_RE = re.compile(r'<span\s+lang="[^"]*"\s*>')
+_LANG_SPAN_RE = re.compile(r"<span\s+lang=[\"'][^\"']*[\"']\s*>")
 
 
 def strip_lang_spans(text: str) -> str:
     """Remove <span lang="..."> wrappers, leaving inner text intact."""
     text = _LANG_SPAN_RE.sub("", text)
     return text.replace("</span>", "")
+
+
+_HTML_DQ_ATTR_RE = re.compile(r'(<\w+\s+\w+=)"([^"]*)"(\s*/?>)')
 
 
 def parse_llm_json(text: str) -> dict | list | None:
@@ -143,7 +146,15 @@ def parse_llm_json(text: str) -> dict | list | None:
     match = re.search(r"(\[.*\]|\{.*\})", text, re.DOTALL)
     if not match:
         return None
+    raw = match.group()
     try:
-        return json.loads(match.group())
+        return json.loads(raw)
     except json.JSONDecodeError:
-        return None
+        # LLMs sometimes emit unescaped double-quoted HTML attributes inside
+        # JSON strings (e.g. <span lang="de">), breaking the JSON.  Replace
+        # them with single quotes and retry.
+        repaired = _HTML_DQ_ATTR_RE.sub(r"\1'\2'\3", raw)
+        try:
+            return json.loads(repaired)
+        except json.JSONDecodeError:
+            return None

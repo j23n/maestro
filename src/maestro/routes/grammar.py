@@ -131,6 +131,7 @@ async def grammar_practice_submit(
     form = await request.form()
     drill_id = form.get("drill_id")
     answers = list(form.getlist("answers"))
+    target_lang = request.state.lang_ctx.code
 
     drill = await GeneratedDrill.get(drill_id)
     if drill is None:

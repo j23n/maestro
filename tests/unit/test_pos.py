@@ -73,6 +73,7 @@ class TestMatchesPosGerman:
             ("Konj.", "SCONJ"),
             ("Interj.", "INTJ"),
             ("Num.", "NUM"),
+            ("Part.", "PART"),
         ],
     )
     def test_matching_pairs(self, dwds_pos, spacy_pos):

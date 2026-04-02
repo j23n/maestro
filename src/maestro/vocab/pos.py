@@ -37,6 +37,7 @@ UPOS_TO_DWDS: dict[str, tuple[str, ...]] = {
     "SCONJ": ("Konj.",),
     "INTJ": ("Interj.",),
     "NUM": ("Num.",),
+    "PART": ("Part.",),
 }
 
 _LANG_TO_MAP: dict[str, dict[str, tuple[str, ...]]] = {

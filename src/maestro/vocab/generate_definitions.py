@@ -175,9 +175,14 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
 
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
     """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
-    if not word.senses:
+    # Skip only if the word has neither senses nor POS — German particles
+    # (bitte, ja) often have POS from DWDS but no extractable senses, and the
+    # LLM can still generate definitions from POS alone.  Italian words always
+    # have senses from the EPUB dictionary, so this change has no effect there.
+    if not word.senses and not word.part_of_speech:
         logger.info(
-            "skipping definition generation: no senses", extra={"word": word.word}
+            "skipping definition generation: no senses or POS",
+            extra={"word": word.word},
         )
         return
     logger.info("generating definitions", extra={"word": word.word})

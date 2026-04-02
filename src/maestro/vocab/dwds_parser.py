@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import re
 
 import httpx
 from bs4 import BeautifulSoup, Tag
@@ -32,12 +31,6 @@ _DELAY = 0.5  # seconds between requests
 # POS extraction
 # ---------------------------------------------------------------------------
 
-# First word in the grammar block is the POS, e.g. "Substantiv (Neutrum)"
-_POS_RE = re.compile(
-    r"^(Substantiv|Verb|Adjektiv|Adverb|Pr[aä]position|Pronomen|Artikel"
-    r"|Konjunktion|Interjektion|Numerale|Partikel|Affix)"
-)
-
 # Normalise DWDS POS terms to short abbreviations stored on VocabularyWord.
 POS_ABBREV: dict[str, str] = {
     "Substantiv": "Subst.",
@@ -55,20 +48,47 @@ POS_ABBREV: dict[str, str] = {
     "Affix": "Affix",
 }
 
+# Known DWDS POS base terms, sorted longest-first so that "Partikel" (8 chars)
+# is checked before "Artikel" (7 chars) — "Partikel" contains "artikel" as a suffix.
+_POS_TERMS_BY_LEN: list[str] = sorted(POS_ABBREV.keys(), key=len, reverse=True)
+
+
+def _pos_from_text(text: str) -> str:
+    """Match the first word of *text* against known DWDS POS terms."""
+    first_word = text.split()[0] if text else ""
+    first_lower = first_word.lower()
+    for term in _POS_TERMS_BY_LEN:
+        if first_lower.endswith(term.lower()):
+            return POS_ABBREV[term]
+    return ""
+
 
 def _extract_pos(artikel: Tag) -> str:
-    """Extract abbreviated POS from a dwdswb-artikel container."""
+    """Extract abbreviated POS from a dwdswb-artikel container.
+
+    Looks for the "Grammatik"-labeled ft-block first (the standard location
+    on real DWDS pages), then falls back to the first ft-blocktext (for
+    simpler HTML like unit-test fixtures).
+    """
     ft_blocks = artikel.find("div", class_="dwdswb-ft-blocks")
     if not ft_blocks:
         return ""
+
+    # Prefer the block explicitly labeled "Grammatik"
+    for block in ft_blocks.find_all("div", class_="dwdswb-ft-block", recursive=False):
+        label = block.find("span", class_="dwdswb-ft-blocklabel")
+        if label and "Grammatik" in label.get_text():
+            text_span = block.find("span", class_="dwdswb-ft-blocktext")
+            if text_span:
+                result = _pos_from_text(text_span.get_text(" ", strip=True))
+                if result:
+                    return result
+
+    # Fallback: first blocktext (handles minimal HTML without labels)
     first_block = ft_blocks.find("span", class_="dwdswb-ft-blocktext")
     if not first_block:
         return ""
-    text = first_block.get_text(" ", strip=True)
-    m = _POS_RE.match(text)
-    if not m:
-        return ""
-    return POS_ABBREV.get(m.group(1), m.group(1))
+    return _pos_from_text(first_block.get_text(" ", strip=True))
 
 
 # ---------------------------------------------------------------------------
@@ -89,6 +109,10 @@ def _extract_senses(artikel: Tag) -> list[ParsedSense]:
 
     for la in top_lesarts:
         defn_el = la.find("span", class_="dwdswb-definition")
+        if not defn_el:
+            defn_el = la.find("span", class_="dwdswb-definition-spezifizierung")
+        if not defn_el:
+            defn_el = la.find("span", class_="dwdswb-paraphrase")
         definition = defn_el.get_text(strip=True) if defn_el else ""
 
         content = la.find("div", class_="dwdswb-lesart-content")
@@ -191,8 +215,8 @@ def parse_html(html: str, word: str) -> list[ParsedEntry]:
         pos = _extract_pos(art)
         senses = _extract_senses(art)
 
-        if not senses:
-            logger.debug("no senses found for %r artikel %d", word, i)
+        if not senses and not pos:
+            logger.debug("no POS or senses found for %r artikel %d", word, i)
             continue
 
         entries.append(
