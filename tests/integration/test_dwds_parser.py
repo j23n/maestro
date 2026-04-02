@@ -3,6 +3,9 @@
 These tests verify that parse_html() correctly extracts POS and senses from
 actual DWDS pages for German A0 words that were previously broken (particles,
 pronouns, etc.).
+
+Fixtures in tests/fixtures/dwds/ were captured from dwds.de on 2026-03-31.
+If DWDS changes their HTML structure, re-capture and update these files.
 """
 
 from pathlib import Path
