@@ -279,7 +279,7 @@ a0-01-im-flugzeug:
 
       | **ö** | øː | somewhat like h**ear**d or h**ur**t | <span lang="de">schön</span> | 
 
-      | **ü** | yː | somehwat like f**ew** | <span lang="de">Tschüss</span> | 
+      | **ü** | yː | somewhat like f**ew** | <span lang="de">Tschüss</span> | 
 
       ### Tricky consonants
 
@@ -369,7 +369,7 @@ a0-02-im-hotel:
 
       - <span lang="de">**Wie heißen Sie?**</span> — What is your name? (formal)
 
-      - <span lang="de">**Wie heißt du?**</span> (*vee hysst doo*) — What is your name? (informal)
+      - <span lang="de">**Wie heißt du?**</span> — What is your name? (informal)
 
       > **Tip:** At a hotel reception, always use <span lang="de">**Sie**</span> (formal). It shows respect and is standard
       with strangers.
@@ -495,7 +495,7 @@ a0-02-im-hotel:
 
       — <span lang="de">Guten Abend. Ich heiße Ben Carter. Ich habe eine Reservierung.</span>
 
-      — <span lang="de">Herzlich wilkommen, Herr Carter! Zimmer Nummer achtzehn, dritter Stock.</span>
+      — <span lang="de">Herzlich willkommen, Herr Carter! Zimmer Nummer achtzehn, dritter Stock.</span>
 
       — <span lang="de">Achtzehn. Danke. Und das WLAN — wie ist das Passwort?</span>
 
@@ -797,11 +797,10 @@ a0-03-im-cafe: # MARK review
       1. Greet the server: <span lang="de">**Guten Morgen!**</span>
 
       2. Order a coffee and a piece of cake: <span lang="de">**Ich möchte einen Kaffee und ein Stück Kuchen, bitte.**</span>
-      (*ikh mœkh-tuh eye-nen ka-feh oont eyn shtük koo-khen, bi-tuh*)
 
       3. Ask the price: <span lang="de">**Was kostet das?**</span>
 
-      4. Say thank you: <span lang="de">**Danke schön!**</span> (*dan-kuh shœn*)
+      4. Say thank you: <span lang="de">**Danke schön!**</span>
 
 
       Try to say all four as one smooth conversation — imagine the server is right in front of you!
@@ -935,15 +934,15 @@ a0-04-in-der-stadt:
       ### Basic directions
 
 
-      - <span lang="de">**rechts**</span> (*rexts*) — on the right
+      - <span lang="de">**rechts**</span> — on the right
 
-      - <span lang="de">**links**</span> (*links*) — on the left
+      - <span lang="de">**links**</span> — on the left
 
       - <span lang="de">**geradeaus**</span> — straight ahead
 
-      - <span lang="de">**hier**</span> (*heer*) — here
+      - <span lang="de">**hier**</span> — here
 
-      - <span lang="de">**dort / da**</span> (*dort / dah*) — there
+      - <span lang="de">**dort / da**</span> — there
 
 
       > <span lang="de">*Entschuldigung, wo ist die Apotheke?*</span>
@@ -1168,7 +1167,7 @@ a0-05-um-hilfe-bitten:
 
       - <span lang="de">**Ich verstehe nicht.**</span> — I don''t understand.
 
-      - <span lang="de">**Ich weiß nicht.**</span> — I don''t know. (*ikh vice nikht*)
+      - <span lang="de">**Ich weiß nicht.**</span> — I don''t know.
 
       - <span lang="de">**Sprechen Sie Englisch?**</span> — Do you speak English?
 
@@ -1227,9 +1226,9 @@ a0-05-um-hilfe-bitten:
       **Shortcuts to remember:**
 
 
-      - <span lang="de">**zum**</span> = <span lang="de">zu + dem</span> (used with masculine and neuter nouns) → *tsoom*
+      - <span lang="de">**zum**</span> = <span lang="de">zu + dem</span> (used with masculine and neuter nouns)
 
-      - <span lang="de">**zur**</span> = <span lang="de">zu + der</span> (used with feminine nouns) → *tsoor*
+      - <span lang="de">**zur**</span> = <span lang="de">zu + der</span> (used with feminine nouns)
 
 
       **More examples:**
@@ -1372,9 +1371,9 @@ a0-05-um-hilfe-bitten:
   - content: 'Say these phrases out loud — imagine you''re really standing on a Munich street corner:
 
 
-      1. <span lang="de">**Entschuldigung, können Sie mir helfen?**</span> (*ent-shool-dee-goong, kur-nen zee meer hel-fen*)
+      1. <span lang="de">**Entschuldigung, können Sie mir helfen?**</span>
 
-      2. <span lang="de">**Ich verstehe nicht. Noch einmal, bitte.**</span> (*ikh fair-shtay-uh nikht. nohkh ayn-mahl bit-teh*)
+      2. <span lang="de">**Ich verstehe nicht. Noch einmal, bitte.**</span>
 
       3. <span lang="de">**Sprechen Sie Englisch?**</span>
 
@@ -1488,15 +1487,15 @@ a0-06-im-biergarten:
 
       | <span lang="de">der Kuchen</span> | /static/audio/de/phrase_der_kuchen.wav | the cake |
 
-      | <span lang="de">das Brot</span> | *broht* | the bread |
+      | <span lang="de">das Brot</span> | /static/audio/de/phrase_das_brot.wav | the bread |
 
-      | <span lang="de">das Bier</span> | *beer* | the beer |
+      | <span lang="de">das Bier</span> | /static/audio/de/phrase_das_bier.wav | the beer |
 
       | <span lang="de">der Kaffee</span> | /static/audio/de/phrase_der_kaffee.wav | the coffee |
 
       | <span lang="de">das Wasser</span> | /static/audio/de/phrase_das_wasser.wav | the water |
 
-      | <span lang="de">der Saft</span> | *zahft* | the juice |
+      | <span lang="de">der Saft</span> | /static/audio/de/phrase_der_saft.wav | the juice |
 
       | <span lang="de">die Apfelschorle</span> | /static/audio/de/phrase_die_apfelschorle.wav | the apple spritzer |
 
@@ -1550,7 +1549,7 @@ a0-06-im-biergarten:
       ### How to answer
 
 
-      Use <span lang="de">**Das ist...**</span> (*dahs ist*) — "That is..." — to identify anything, regardless of gender:
+      Use <span lang="de">**Das ist...**</span> — "That is..." — to identify anything, regardless of gender:
 
 
       | Question | Answer |
@@ -1781,7 +1780,7 @@ a0-07-das-mag-ich:
 
       | <span lang="de">Ich mag keine Milch.</span> | /static/audio/de/phrase_ich_mag_keine_milch.wav | I don''t like milk. |
 
-      | <span lang="de">Magst du Bier?</span> | *mahkst doo beer* | Do you like beer? |
+      | <span lang="de">Magst du Bier?</span> | /static/audio/de/phrase_magst_du_bier.wav | Do you like beer? |
 
 
       ### 2. Mir gefällt... (I like... / It pleases me)
@@ -1995,7 +1994,7 @@ a0-07-das-mag-ich:
 
       **Asking a friend:**
 
-      <span lang="de">Magst du Bier?</span> (*mahkst doo beer*)
+      <span lang="de">Magst du Bier?</span>
 
       <span lang="de">Magst du Weißwurst?</span>
 
@@ -2093,11 +2092,11 @@ a0-08-grosse-zahlen:
       Join the unit + <span lang="de">**und**</span> + ten — all as **one word**:
 
 
-      - 21 → <span lang="de">**einundzwanzig**</span> *(ine-oont-tsvahn-tsig)*
+      - 21 → <span lang="de">**einundzwanzig**</span>
 
-      - 35 → <span lang="de">**fünfunddreißig**</span> *(fuenf-oont-dry-sig)*
+      - 35 → <span lang="de">**fünfunddreißig**</span>
 
-      - 47 → <span lang="de">**siebenundvierzig**</span> *(zee-ben-oont-feer-tsig)*
+      - 47 → <span lang="de">**siebenundvierzig**</span>
 
 
       **Examples:**
@@ -2349,7 +2348,7 @@ a0-09-am-hauptbahnhof:
 
       |--------|--------------|--------|
 
-      | <span lang="de">**der Zug**</span> | *tsoog* | the train |
+      | <span lang="de">**der Zug**</span> | /static/audio/de/phrase_der_zug.wav | the train |
 
       | <span lang="de">**die Fahrkarte**</span> | /static/audio/de/phrase_die_fahrkarte.wav | the ticket |
 
@@ -2357,7 +2356,7 @@ a0-09-am-hauptbahnhof:
 
       | <span lang="de">**hin und zurück**</span> | /static/audio/de/phrase_hin_und_zuruck.wav | round trip |
 
-      | <span lang="de">**das Gleis**</span> | *glice* | the platform / track |
+      | <span lang="de">**das Gleis**</span> | /static/audio/de/phrase_das_gleis.wav | the platform / track |
 
       | <span lang="de">**die Haltestelle**</span> | /static/audio/de/phrase_die_haltestelle.wav | the stop (bus/tram) |
 
@@ -2708,9 +2707,9 @@ a0-10-neue-leute:
 
       - <span lang="de">**Ich bin aus [country/city].**</span> — I''m from…
 
-      - <span lang="de">**Woher kommen Sie?**</span> — Where are you from? (formal) *voh-hair KOM-en zee*
+      - <span lang="de">**Woher kommen Sie?**</span> — Where are you from? (formal)
 
-      - <span lang="de">**Woher kommst du?**</span> — Where are you from? (informal) *voh-hair KOMST doo*
+      - <span lang="de">**Woher kommst du?**</span> — Where are you from? (informal)
 
 
       ### Nationalities
@@ -3195,15 +3194,15 @@ a0-11-ein-problem:
   - content: 'Say these phrases clearly and with confidence — they could genuinely help you in an emergency:
 
 
-      1. <span lang="de">**Entschuldigung! Können Sie mir helfen?**</span> (*ent-shool-dee-goong! kern-en zee meer hell-fen?*)
+      1. <span lang="de">**Entschuldigung! Können Sie mir helfen?**</span>
 
       2. <span lang="de">**Ich habe mein Portemonnaie verloren.**</span>
 
       3. <span lang="de">**Ich brauche einen Arzt.**</span>
 
-      4. <span lang="de">**Langsamer, bitte.**</span> (*lang-zah-mer, bit-teh*)
+      4. <span lang="de">**Langsamer, bitte.**</span>
 
-      5. <span lang="de">**Hilfe!**</span> (*hill-feh!*)
+      5. <span lang="de">**Hilfe!**</span>
 
 
       Practice until these feel automatic — say each one three times out loud.
@@ -3259,31 +3258,31 @@ a0-12-letzter-tag:
       It''s your last day in Munich. Here are all the farewell phrases you need:
 
 
-      - <span lang="de">**Auf Wiedersehen!**</span> — Goodbye! (formal) *owf VEE-der-zay-en*
+      - <span lang="de">**Auf Wiedersehen!**</span> — Goodbye! (formal)
 
-      - <span lang="de">**Tschüß!**</span> — Bye! (informal) *choos*
+      - <span lang="de">**Tschüß!**</span> — Bye! (informal)
 
-      - <span lang="de">**Bis bald!**</span> — See you soon! *biss balt*
+      - <span lang="de">**Bis bald!**</span> — See you soon!
 
-      - <span lang="de">**Bis morgen!**</span> — See you tomorrow! *biss MOR-gen*
+      - <span lang="de">**Bis morgen!**</span> — See you tomorrow!
 
-      - <span lang="de">**Gute Reise!**</span> — Have a good trip! *GOO-teh RYE-zeh*
+      - <span lang="de">**Gute Reise!**</span> — Have a good trip!
 
-      - <span lang="de">**Servus!**</span> — Bye! (Bavarian informal) *ZAIR-voos*
+      - <span lang="de">**Servus!**</span> — Bye! (Bavarian informal)
 
 
       ### Expressing thanks
 
 
-      - <span lang="de">**Danke!**</span> — Thanks! *DAHN-keh*
+      - <span lang="de">**Danke!**</span> — Thanks!
 
-      - <span lang="de">**Danke schön!**</span> — Thank you! *DAHN-keh shurn*
+      - <span lang="de">**Danke schön!**</span> — Thank you!
 
-      - <span lang="de">**Vielen Dank!**</span> — Many thanks! *FEE-len dahnk*
+      - <span lang="de">**Vielen Dank!**</span> — Many thanks!
 
-      - <span lang="de">**Vielen Dank für alles!**</span> — Thank you for everything! *FEE-len dahnk fyur AH-les*
+      - <span lang="de">**Vielen Dank für alles!**</span> — Thank you for everything!
 
-      - <span lang="de">**Es war wunderbar!**</span> — It was wonderful! *es var VOON-der-bar*
+      - <span lang="de">**Es war wunderbar!**</span> — It was wonderful!
 
 
       > **Bavarian tip:** In Munich, locals often say <span lang="de">**Servus**</span> both as a hello and a goodbye. You''ll
@@ -3451,15 +3450,15 @@ a0-12-letzter-tag:
   - content: 'Say these phrases out loud — imagine you are leaving Munich for the last time:
 
 
-      1. <span lang="de">**Vielen Dank für alles!**</span> *FEE-len dahnk fyur AH-les*
+      1. <span lang="de">**Vielen Dank für alles!**</span>
 
-      2. <span lang="de">**Es war wunderbar!**</span> *es var VOON-der-bar*
+      2. <span lang="de">**Es war wunderbar!**</span>
 
-      3. <span lang="de">**München ist eine schöne Stadt.**</span> *MYOON-khen ist EYE-neh SHUR-neh shtat*
+      3. <span lang="de">**München ist eine schöne Stadt.**</span>
 
-      4. <span lang="de">**Auf Wiedersehen! Gute Reise!**</span> *owf VEE-der-zay-en! GOO-teh RYE-zeh*
+      4. <span lang="de">**Auf Wiedersehen! Gute Reise!**</span>
 
-      5. <span lang="de">**Bis bald! Servus!**</span> *biss balt! ZAIR-voos*
+      5. <span lang="de">**Bis bald! Servus!**</span>
 
 
       Say them all together as one farewell — like you really mean it!

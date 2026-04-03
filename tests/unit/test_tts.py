@@ -12,6 +12,7 @@ import httpx
 import maestro.tts as tts_module
 from maestro.tts import (
     _slugify,
+    phrase_audio_path,
     word_audio_path,
     _lesson_audio_path,
     _synth_to_file,
@@ -101,6 +102,22 @@ def test_word_audio_path_no_language():
 def test_word_audio_path_is_under_audio_dir():
     path = word_audio_path("ciao", language="it")
     assert path.parent.parent == tts_module._audio_dir()
+
+
+@pytest.mark.unit
+def test_phrase_audio_path_basic():
+    path = phrase_audio_path("Guten Morgen", language="de")
+    assert path.name == "phrase_guten_morgen.wav"
+    assert path.parent.name == "de"
+
+
+@pytest.mark.unit
+def test_phrase_audio_path_language_isolation():
+    de_path = phrase_audio_path("Danke", language="de")
+    it_path = phrase_audio_path("Danke", language="it")
+    assert de_path != it_path
+    assert de_path.parent.name == "de"
+    assert it_path.parent.name == "it"
 
 
 @pytest.mark.unit

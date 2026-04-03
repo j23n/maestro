@@ -173,6 +173,27 @@ async def _save_all_levels(word: VocabularyWord, claude_data: dict[str, Any]) ->
             logger.info("saved definition", extra={"word": word.word, "level": level})
 
 
+async def _apply_entry_metadata(word: VocabularyWord, entry: dict) -> None:
+    """Set CEFR level and IPA on a word from an LLM response entry."""
+    save_needed = False
+    if word.cefr_level is None:
+        cefr = entry.get("cefr_level")
+        if cefr in ("A1", "A2", "B1", "B2"):
+            word.cefr_level = cefr
+            save_needed = True
+            logger.info(
+                "classified word CEFR level",
+                extra={"word": word.word, "cefr_level": cefr},
+            )
+    ipa = entry.get("ipa")
+    if ipa and not word.ipa:
+        word.ipa = ipa
+        save_needed = True
+        logger.info("set word IPA", extra={"word": word.word, "ipa": ipa})
+    if save_needed:
+        await word.save()
+
+
 async def generate_definitions_for_word(word: VocabularyWord) -> None:
     """Generate A1–B2 VocabularyWordDefinitions for a single word and classify its CEFR level."""
     # Skip only if the word has neither senses nor POS — German particles
@@ -189,23 +210,7 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
     claude_data = await _call_api([word], max_tokens=4096, language=word.language)
     entry = _find_entry(word, claude_data)
     if entry:
-        save_needed = False
-        if word.cefr_level is None:
-            cefr = entry.get("cefr_level")
-            if cefr in ("A1", "A2", "B1", "B2"):
-                word.cefr_level = cefr
-                save_needed = True
-                logger.info(
-                    "classified word CEFR level",
-                    extra={"word": word.word, "cefr_level": cefr},
-                )
-        ipa = entry.get("ipa")
-        if ipa and not word.ipa:
-            word.ipa = ipa
-            save_needed = True
-            logger.info("set word IPA", extra={"word": word.word, "ipa": ipa})
-        if save_needed:
-            await word.save()
+        await _apply_entry_metadata(word, entry)
     await _save_all_levels(word, claude_data)
 
 
@@ -343,26 +348,7 @@ async def generate(
                 try:
                     entry = _find_entry(word, claude_data)
                     if entry:
-                        save_needed = False
-                        if word.cefr_level is None:
-                            cefr = entry.get("cefr_level")
-                            if cefr in ("A1", "A2", "B1", "B2"):
-                                word.cefr_level = cefr
-                                save_needed = True
-                                logger.info(
-                                    "classified word CEFR level",
-                                    extra={"word": word.word, "cefr_level": cefr},
-                                )
-                        ipa = entry.get("ipa")
-                        if ipa and not word.ipa:
-                            word.ipa = ipa
-                            save_needed = True
-                            logger.info(
-                                "set word IPA",
-                                extra={"word": word.word, "ipa": ipa},
-                            )
-                        if save_needed:
-                            await word.save()
+                        await _apply_entry_metadata(word, entry)
                     await _save_all_levels(word, claude_data)
                 except Exception as exc:
                     logger.error(f"Failed to save definitions for '{word.word}': {exc}")
