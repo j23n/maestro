@@ -34,8 +34,9 @@
         _ttPopup.cancelHide();
         tooltip.querySelector('.tt-word').textContent = word.dataset.word || '';
         tooltip.querySelector('.tt-pos').textContent = word.dataset.pos || '';
+        const ipa = word.dataset.ipa;
         const syl = word.dataset.syllabization;
-        tooltip.querySelector('.tt-syllabization').textContent = syl ? '[' + syl + ']' : '';
+        tooltip.querySelector('.tt-syllabization').textContent = ipa || (syl ? '[' + syl + ']' : '');
 
         const sensesEl = tooltip.querySelector('.tt-senses');
         sensesEl.innerHTML = '';

@@ -19,7 +19,7 @@ a0-01-im-flugzeug:
   - content: What's your name? Type it below — we'll show you how to say it in German!
     description: Tell us your name
     profile_field: name
-    response_template: 'Nice to meet you! In German you''d say: **<span lang="de">Ich heiße {answer}.</span>** (*ikh HY-suh*)
+    response_template: 'Nice to meet you! In German you''d say: **<span lang="de">Ich heiße</span> {answer}.**
       — "My name is {answer}."
 
       '
@@ -35,21 +35,21 @@ a0-01-im-flugzeug:
       ### Greetings
 
 
-      | German | Meaning | When | Pronunciation |
+      | German | Meaning | When | Audio |
 
       |--------|---------|------|---------------|
 
-      | **<span lang="de">Hallo!</span>** | Hello! | Informal, any time | *HAH-lo* |
+      | **<span lang="de">Hallo!</span>** | Hello! | Informal, any time | /static/audio/de/phrase_hallo.wav |
 
-      | **<span lang="de">Guten Morgen!</span>** | Good morning! | Before noon | *GOO-ten MOR-gen* |
+      | **<span lang="de">Guten Morgen!</span>** | Good morning! | Before noon | /static/audio/de/phrase_guten_morgen.wav |
 
-      | **<span lang="de">Guten Tag!</span>** | Good day! | Formal, daytime | *GOO-ten TAHK* |
+      | **<span lang="de">Guten Tag!</span>** | Good day! | Formal, daytime | /static/audio/de/phrase_guten_tag.wav |
 
-      | **<span lang="de">Guten Abend!</span>** | Good evening! | Formal, evening | *GOO-ten AH-bent* |
+      | **<span lang="de">Guten Abend!</span>** | Good evening! | Formal, evening | /static/audio/de/phrase_guten_abend.wav |
 
-      | **<span lang="de">Auf Wiedersehen!</span>** | Goodbye! | Formal | *owf VEE-der-zay-en* |
+      | **<span lang="de">Auf Wiedersehen!</span>** | Goodbye! | Formal | /static/audio/de/phrase_auf_wiedersehen.wav |
 
-      | **<span lang="de">Tschüss!</span>** | Bye! | Informal | *chüss* |
+      | **<span lang="de">Tschüss!</span>** | Bye! | Informal | /static/audio/de/phrase_tschuess.wav |
 
 
       ### Formal vs informal
@@ -74,9 +74,9 @@ a0-01-im-flugzeug:
 
       |--------|---------|------|
 
-      | **<span lang="de">Grüß Gott!</span>** | Hello! | Formal, Southern Germany |
+      | **<span lang="de">Grüß Gott!</span>** | Hello! | Formal, Southern Germany | /static/audio/de/phrase_gruess_gott.wav |
 
-      | **<span lang="de">Servus!</span>** | Hi! / Bye! | Informal, Bavaria & Austria |
+      | **<span lang="de">Servus!</span>** | Hi! / Bye! | Informal, Bavaria & Austria | /static/audio/de/phrase_servus.wav |
 
 
       > **Tip:** When in doubt, use <span lang="de">**Guten Tag**</span>. Germans will switch to informal if they prefer it.
@@ -111,19 +111,17 @@ a0-01-im-flugzeug:
       These polite phrases will get you through almost any situation on the plane and at the airport:
 
 
-      | German | Meaning | Pronunciation |
+      | German | Meaning | Audio |
 
       |--------|---------|---------------|
 
-      | **<span lang="de">Bitte</span>** | Please / You''re welcome | *BIT-uh* |
+      | **<span lang="de">Bitte</span>** | Please / You''re welcome | /static/audio/de/phrase_bitte.wav |
 
-      | **<span lang="de">Danke!</span>** | Thank you! | *DAHN-kuh* |
+      | **<span lang="de">Danke!</span>** | Thank you! | /static/audio/de/phrase_danke.wav |
 
-      | **<span lang="de">Danke schön!</span>** | Thank you very much! | *DAHN-kuh shurn* |
+      | **<span lang="de">Danke schön!</span>** | Thank you very much! | /static/audio/de/phrase_danke_schon.wav |
 
-      | **<span lang="de">Entschuldigung!</span>** | Excuse me! / Sorry! | *ent-SHOOL-dee-goong* |
-
-      | **<span lang="de">Es tut mir leid.</span>** | I''m sorry. | *es toot meer lyte* |
+      | **<span lang="de">Entschuldigung!</span>** | Excuse me! / Sorry! | /static/audio/de/phrase_entschuldigung.wav |
 
 
       ### When to use them
@@ -131,11 +129,11 @@ a0-01-im-flugzeug:
 
       - Flight attendant brings your drink? **<span lang="de">Danke!</span>**
 
-      - Someone thanks you? **<span lang="de">Bitte!</span>** (You''re welcome!)
+      - Someone thanks you? **<span lang="de">Bitte!</span>**
 
       - Need to get past someone in the aisle? **<span lang="de">Entschuldigung!</span>**
 
-      - You accidentally bump into someone? **<span lang="de">Es tut mir leid.</span>**
+      - You accidentally bump into someone? **<span lang="de">Entschuldigung!</span>**
 
 
       ### The power phrase: <span lang="de">Ich möchte…</span>
@@ -144,15 +142,13 @@ a0-01-im-flugzeug:
       This one phrase lets you order anything:
 
 
-      | German | Meaning | Pronunciation |
+      | German | Meaning | Audio |
 
       |--------|---------|---------------|
 
-      | **<span lang="de">Ich möchte einen Kaffee, bitte.</span>** | I''d like a coffee, please. | *ikh MURK-tuh EYE-nen KAH-feh
-      BIT-uh* |
+      | **<span lang="de">Ich möchte einen Kaffee, bitte.</span>** | I''d like a coffee, please. | /static/audio/de/phrase_ich_moechte_einen_kaffee_bitte.wav |
 
-      | **<span lang="de">Ich möchte ein Wasser, bitte.</span>** | I''d like a water, please. | *ikh MURK-tuh eyen VAH-ser
-      BIT-uh* |
+      | **<span lang="de">Ich möchte ein Wasser, bitte.</span>** | I''d like a water, please. | /static/audio/de/phrase_ich_moechte_ein_wasser_bitte.wav |
 
 
       > **<span lang="de">Ich möchte</span>** means "I would like" — it''s polite and natural. Learn it as a chunk for now.
@@ -175,8 +171,8 @@ a0-01-im-flugzeug:
       prompt: Excuse me! = ___!
     - correct_answer: möchte
       prompt: I'd like a coffee, please. = Ich ___ einen Kaffee, bitte.
-    - correct_answer: leid
-      prompt: I'm sorry. = Es tut mir ___.
+    - correct_answer: Entschuldigung
+      prompt: Sorry! =  ___.
     - correct_answer: schön
       prompt: Thank you very much! = Danke ___!
     title: Magic words
@@ -184,22 +180,22 @@ a0-01-im-flugzeug:
   - content: '*You are in your seat on the plane to Munich. The flight attendant walks down the aisle with a smile.*
 
 
-      <span lang="de">— Guten Morgen! Möchten Sie etwas trinken?</span>
+      — <span lang="de">Guten Morgen! Möchten Sie etwas trinken?</span>
 
       *Good morning! Would you like something to drink?*
 
 
-      <span lang="de">— Guten Morgen! Ja, ich möchte einen Kaffee, bitte.</span>
+      — <span lang="de">Guten Morgen! Ja, ich möchte einen Kaffee, bitte.</span>
 
       *Good morning! Yes, I''d like a coffee, please.*
 
 
-      <span lang="de">— Mit Milch?</span>
+      — <span lang="de">Mit Milch?</span>
 
       *With milk?*
 
 
-      <span lang="de">— Nein, danke.</span>
+      — <span lang="de">Nein, danke.</span>
 
       *No, thank you.*
 
@@ -207,12 +203,12 @@ a0-01-im-flugzeug:
       *The flight attendant hands over the coffee.*
 
 
-      <span lang="de">— Bitte schön!</span>
+      — <span lang="de">Bitte schön!</span>
 
       *Here you go!*
 
 
-      <span lang="de">— Danke schön!</span>
+      — <span lang="de">Danke schön!</span>
 
       *Thank you very much!*
 
@@ -235,19 +231,19 @@ a0-01-im-flugzeug:
     type: reading
   - type: vocab_review
   - audio_path: /static/audio/a0_01_01_im_flugzeug.wav
-    content: '<span lang="de">— Guten Abend!</span>
+    content: '— <span lang="de">Guten Abend!</span>
 
-      <span lang="de">— Guten Abend. Entschuldigung, ich möchte ein Wasser, bitte.</span>
+      — <span lang="de">Guten Abend. Entschuldigung, ich möchte ein Wasser, bitte.</span>
 
-      <span lang="de">— Ja, natürlich. Bitte schön!</span>
+      — <span lang="de">Ja, natürlich. Bitte schön!</span>
 
-      <span lang="de">— Danke schön!</span>
+      — <span lang="de">Danke schön!</span>
 
-      <span lang="de">— Bitte! Noch etwas?</span>
+      — <span lang="de">Bitte! Noch etwas?</span>
 
-      <span lang="de">— Nein, danke. Auf Wiedersehen!</span>
+      — <span lang="de">Nein, danke. Auf Wiedersehen!</span>
 
-      <span lang="de">— Auf Wiedersehen!</span>
+      — <span lang="de">Auf Wiedersehen!</span>
 
       '
     description: Listen to a short exchange on the evening flight
@@ -275,51 +271,49 @@ a0-01-im-flugzeug:
       ### The special vowels (Umlaute)
 
 
-      | Letter | Sound | Example | Pronunciation |
+      | Letter | IPA | English | Example |
 
-      |--------|-------|---------|---------------|
+      |--------|-----|---------|---------|
 
-      | **<span lang="de">ä</span>** | like "eh" (open) | <span lang="de">spät</span> (late) | *shpayt* |
+      | **ä** | ɛː | somewhat like h**air** | <span lang="de">spät</span> |
 
-      | **<span lang="de">ö</span>** | like "ur" — round your lips | <span lang="de">schön</span> (beautiful) | *shurn* |
+      | **ö** | øː | somewhat like h**ear**d or h**ur**t | <span lang="de">schön</span> | 
 
-      | **<span lang="de">ü</span>** | say "ee" with rounded lips | <span lang="de">Tschüss</span> (bye) | *chüss* |
-
+      | **ü** | yː | somehwat like f**ew** | <span lang="de">Tschüss</span> | 
 
       ### Tricky consonants
 
 
-      | Letters | Sound | Example | Pronunciation |
+      | Letters | IPA | English | Example |
 
-      |---------|-------|---------|---------------|
+      |---------|-----|---------|---------|
 
-      | **<span lang="de">w</span>** | like English "v" | <span lang="de">Wasser</span> (water) | *VAH-ser* |
+      | **w** | v | **v**anish | <span lang="de">Wasser</span> |
 
-      | **<span lang="de">v</span>** | like English "f" | <span lang="de">Vielen Dank</span> (many thanks) | *FEE-len dahnk*
-      |
+      | **v** | f | **f**uss | <span lang="de">Vielen Dank</span> | 
 
-      | **<span lang="de">z</span>** | like "ts" | <span lang="de">Zusammen</span> (together) | *tsoo-ZAH-men* |
+      | **z** | ts | ca**ts** | <span lang="de" data-no-save>Zug</span> |
 
-      | **<span lang="de">sch</span>** | like English "sh" | <span lang="de">schön</span> (beautiful) | *shurn* |
+      | **sch** | ʃ | **sh**all | <span lang="de">schön</span> |
 
-      | **<span lang="de">ch</span>** | soft hiss (after e/i) | <span lang="de">ich</span> (I) | *ikh* |
+      | **ch** | ç | **h**ue | <span lang="de">ich</span> |
 
-      | **<span lang="de">ß</span>** | like "ss" | <span lang="de">Straße</span> (street) | *SHTRAH-suh* |
+      | **ß** | s | fa**s**t | <span lang="de" data-no-save>Straße</span> |
 
-      | **<span lang="de">ei</span>** | like "eye" | <span lang="de">nein</span> (no) | *nine* |
+      | **ei** | aɪ | h**igh** | <span lang="de">nein</span>  |
 
-      | **<span lang="de">ie</span>** | like "ee" | <span lang="de">viel</span> (much) | *feel* |
+      | **ie** | iː | s**ee**d | <span lang="de">viel</span> |
+
+      > If your keyboard doesn''t allow you to type ä, ö, ü or ß, you can substitute them with the following:
+      >> ä → ae
+      >> ö → oe
+      >> ü → ue
+      >> ß → ss
 
 
-      ### Quick tips
+      ### Stress
 
-      - Stress usually falls on the **first syllable**: <span lang="de">**Dan**-ke</span>, <span lang="de">**Hal**-lo</span>,
-      <span lang="de">**Mor**-gen</span>.
-
-      - German **W** sounds like English **V** — and German **V** sounds like English **F**. This surprises everyone at first!
-
-      - <span lang="de">**ß**</span> (called Eszett) is simply a fancy way to write **ss**.
-
+      Stress usually falls on the **first syllable**: **Dan**-ke, **Hal**-lo, **Mor**-gen.
 
       > You don''t need to memorise this now — come back whenever you meet a new word.
 
@@ -328,17 +322,18 @@ a0-01-im-flugzeug:
     grammar_point_code: aussprache_bas
     title: German sounds
     type: grammar
-  - content: 'Say these phrases out loud, one after the other. Imagine the flight attendant is right in front of you!
+  - content: >
+      Say these phrases out loud, one after the other. Imagine the flight attendant is right in front of you!
 
+      **<span lang="de">Guten Morgen!</span>**
 
-      **<span lang="de">Guten Morgen!</span>** (*GOO-ten MOR-gen*) ... **<span lang="de">Ich möchte einen Kaffee, bitte.</span>**
-      (*ikh MURK-tuh EYE-nen KAH-feh BIT-uh*) ... **<span lang="de">Danke schön!</span>** (*DAHN-kuh shurn*) ... **<span lang="de">Auf
-      Wiedersehen!</span>** (*owf VEE-der-zay-en*)
+      **<span lang="de">Ich möchte einen Kaffee, bitte.</span>**
 
+      **<span lang="de">Danke schön!</span>**
 
-      Try to say them smoothly, without pausing too long. Germans will love the effort — and now you''re ready to land in
-      Munich!
+      **<span lang="de">Auf Wiedersehen!</span>**
 
+      Try to say them smoothly, without pausing too long. Germans will love the effort!
       '
     description: Practise your first German phrases out loud
     grammar_point_codes:
@@ -352,12 +347,9 @@ a0-02-im-hotel:
   - type: vocab_review
   - content: '## Sich vorstellen — Introducing yourself
 
-
       In German, the most natural way to say your name is:
 
-
-      > <span lang="de">**Ich heiße...**</span> (*ikh HY-suh*) — My name is...
-
+      > <span lang="de">**Ich heiße...**</span> — My name is...
 
       **The formula is simple:**
 
@@ -370,19 +362,17 @@ a0-02-im-hotel:
 
       - <span lang="de">**Ich heiße Thomas.**</span> — My name is Thomas.
 
-      - <span lang="de">**Mein Name ist Sofia.**</span> (*myne NAH-muh ist*) — My name is Sofia.
+      - <span lang="de">**Mein Name ist Sofia.**</span> — My name is Sofia.
 
 
       ### Asking someone''s name
 
-      - <span lang="de">**Wie heißen Sie?**</span> (*vee HY-sun zee*) — What is your name? (formal)
+      - <span lang="de">**Wie heißen Sie?**</span> — What is your name? (formal)
 
       - <span lang="de">**Wie heißt du?**</span> (*vee hysst doo*) — What is your name? (informal)
 
-
       > **Tip:** At a hotel reception, always use <span lang="de">**Sie**</span> (formal). It shows respect and is standard
       with strangers.
-
       '
     description: Giving your name at the hotel
     grammar_point_code: ich_heisse
@@ -411,54 +401,31 @@ a0-02-im-hotel:
       The receptionist will tell you your room number — listen carefully!
 
 
-      | # | Deutsch | Pronunciation |
+      | # | Deutsch | 
+      |---|---------|
+      | 0 | <span lang="de">**null**</span> |
+      | 1 | <span lang="de">**eins**</span> |
+      | 2 | <span lang="de">**zwei**</span> |
+      | 3 | <span lang="de">**drei**</span> |
+      | 4 | <span lang="de">**vier**</span> |
+      | 5 | <span lang="de">**fünf**</span> |
+      | 6 | <span lang="de">**sechs**</span> |
+      | 7 | <span lang="de">**sieben**</span> |
+      | 8 | <span lang="de">**acht**</span> |
+      | 9 | <span lang="de">**neun**</span> |
+      | 10 | <span lang="de">**zehn**</span> |
+      | 11 | <span lang="de">**elf**</span> |
+      | 12 | <span lang="de">**zwölf**</span> |
+      | 13 | <span lang="de">**dreizehn**</span> |
+      | 14 | <span lang="de">**vierzehn**</span> |
+      | 15 | <span lang="de">**fünfzehn**</span> |
+      | 16 | <span lang="de">**sechzehn**</span> |
+      | 17 | <span lang="de">**siebzehn**</span> |
+      | 18 | <span lang="de">**achtzehn**</span> |
+      | 19 | <span lang="de">**neunzehn**</span> |
+      | 20 | <span lang="de">**zwanzig**</span> |
 
-      |---|---------|---------------|
-
-      | 0 | <span lang="de">**null**</span> | *nul* |
-
-      | 1 | <span lang="de">**eins**</span> | *ynce* |
-
-      | 2 | <span lang="de">**zwei**</span> | *tsvy* |
-
-      | 3 | <span lang="de">**drei**</span> | *dry* |
-
-      | 4 | <span lang="de">**vier**</span> | *feer* |
-
-      | 5 | <span lang="de">**fünf**</span> | *fuenf* |
-
-      | 6 | <span lang="de">**sechs**</span> | *zeks* |
-
-      | 7 | <span lang="de">**sieben**</span> | *ZEE-ben* |
-
-      | 8 | <span lang="de">**acht**</span> | *akht* |
-
-      | 9 | <span lang="de">**neun**</span> | *noyn* |
-
-      | 10 | <span lang="de">**zehn**</span> | *tsayn* |
-
-      | 11 | <span lang="de">**elf**</span> | *elf* |
-
-      | 12 | <span lang="de">**zwölf**</span> | *tsvurlf* |
-
-      | 13 | <span lang="de">**dreizehn**</span> | *DRY-tsayn* |
-
-      | 14 | <span lang="de">**vierzehn**</span> | *FEER-tsayn* |
-
-      | 15 | <span lang="de">**fünfzehn**</span> | *FUENF-tsayn* |
-
-      | 16 | <span lang="de">**sechzehn**</span> | *ZEK-tsayn* |
-
-      | 17 | <span lang="de">**siebzehn**</span> | *ZEEP-tsayn* |
-
-      | 18 | <span lang="de">**achtzehn**</span> | *AKHT-tsayn* |
-
-      | 19 | <span lang="de">**neunzehn**</span> | *NOYN-tsayn* |
-
-      | 20 | <span lang="de">**zwanzig**</span> | *TSVAN-tsikh* |
-
-
-      > **Tip:** Numbers 13–19 follow a clear pattern: unit + <span lang="de">**-zehn**</span> (like English "-teen"). Watch
+      > **Tip:** Numbers 13–19 follow a clear pattern: unit + **-zehn** (like English "-teen"). Watch
       out: <span lang="de">**sechzehn**</span> (not *sechszehn*) and <span lang="de">**siebzehn**</span> (not *siebenzehn*)
       each drop a letter!
 
@@ -487,29 +454,21 @@ a0-02-im-hotel:
     title: Zahlen
     type: drill
   - type: vocab_review
-  - content: '*You walk into the hotel near Marienplatz, suitcase in hand. A receptionist looks up and smiles.*
+  - content: '*Finally, you walk into the hotel near Marienplatz, suitcase in hand. A receptionist looks up and smiles.*
 
+      — <span lang="de">Guten Abend! Willkommen!</span>
 
-      <span lang="de">— Guten Abend! Willkommen!</span>
+      — <span lang="de">Guten Abend. Ich heiße Emma Schneider. Ich habe eine Reservierung.</span>
 
+      — <span lang="de">Ja, Frau Schneider. Zimmer Nummer dreizehn, zweiter Stock.</span>
 
-      <span lang="de">— Guten Abend. Ich heiße Emma Schneider. Ich habe eine Reservierung.</span>
+      — <span lang="de">Dreizehn? Gut. Danke schön!</span>
 
+      — <span lang="de">Bitte sehr. Das Frühstück ist von sieben bis zehn Uhr.</span>
 
-      <span lang="de">— Ja, Frau Schneider. Zimmer Nummer dreizehn, zweiter Stock.</span>
+      — <span lang="de">Von sieben bis zehn. Verstanden. Gute Nacht!</span>
 
-
-      <span lang="de">— Dreizehn? Gut. Danke schön!</span>
-
-
-      <span lang="de">— Bitte sehr. Das Frühstück ist von sieben bis zehn Uhr.</span>
-
-
-      <span lang="de">— Von sieben bis zehn. Verstanden. Gute Nacht!</span>
-
-
-      <span lang="de">— Gute Nacht, Frau Schneider!</span>
-
+      — <span lang="de">Gute Nacht, Frau Schneider!</span>
 
       *The receptionist hands over the room key with a warm smile.*
 
@@ -531,25 +490,20 @@ a0-02-im-hotel:
     title: An der Rezeption
     type: reading
   - audio_path: /static/audio/a0_02_02_im_hotel.wav
-    content: '<span lang="de">— Guten Abend!</span>
+    content: '
+      — <span lang="de">Guten Abend!</span>
 
+      — <span lang="de">Guten Abend. Ich heiße Ben Carter. Ich habe eine Reservierung.</span>
 
-      <span lang="de">— Guten Abend. Ich heiße Ben Carter. Ich habe eine Reservierung.</span>
+      — <span lang="de">Herzlich wilkommen, Herr Carter! Zimmer Nummer achtzehn, dritter Stock.</span>
 
+      — <span lang="de">Achtzehn. Danke. Und das WLAN — wie ist das Passwort?</span>
 
-      <span lang="de">— Ja, Herr Carter. Zimmer Nummer achtzehn, dritter Stock.</span>
+      — <span lang="de">Das Passwort ist: Hotel — neun — fünf — zwei.</span>
 
+      — <span lang="de">Neun, fünf, zwei. Perfekt. Vielen Dank!</span>
 
-      <span lang="de">— Achtzehn. Danke. Und das WLAN — wie ist das Passwort?</span>
-
-
-      <span lang="de">— Das Passwort ist: Hotel — neun — fünf — zwei.</span>
-
-
-      <span lang="de">— Neun, fünf, zwei. Perfekt. Vielen Dank!</span>
-
-
-      <span lang="de">— Gern geschehen. Gute Nacht!</span>
+      — <span lang="de">Gern geschehen. Gute Nacht!</span>
 
       '
     description: Listen to a hotel check-in in Munich
@@ -576,16 +530,17 @@ a0-02-im-hotel:
     content: '*You''re standing at the hotel reception near Marienplatz. Say these phrases out loud:*
 
 
-      1. Greet the receptionist: <span lang="de">**Guten Abend!**</span> (*GOO-ten AH-bent*)
+      <span lang="de">**Guten Abend!**</span>
 
-      2. Give your name: <span lang="de">**Ich heiße [your name].**</span> (*ikh HY-suh...*)
+      <span lang="de">**Ich heiße [your name].**</span>
 
-      3. Say you have a reservation: <span lang="de">**Ich habe eine Reservierung.**</span> (*ikh HAH-buh EYE-nuh reh-zehr-VEER-ung*)
+      <span lang="de">**Ich habe eine Reservierung.**</span>
 
-      4. The receptionist says your room is number 15. Repeat it back: <span lang="de">**Zimmer fünfzehn.**</span> (*TSIM-uh
-      FUENF-tsayn*)
+      *The receptionist says your room is number 15.*
 
-      5. Say thank you and good night: <span lang="de">**Vielen Dank! Gute Nacht!**</span> (*FEE-len dank, GOO-tuh nakht*)
+      <span lang="de">**Zimmer fünfzehn.**</span>
+
+      <span lang="de">**Vielen Dank! Gute Nacht!**</span>
 
 
       > **Challenge:** Try saying all five phrases as one smooth check-in, without pausing!
@@ -612,7 +567,7 @@ a0-02-im-hotel:
       prompt: Excuse me! = ___!
     title: 'Wiederholung: Lektion 1'
     type: drill
-a0-03-im-cafe:
+a0-03-im-cafe: # MARK review
   activities:
   - type: vocab_review
   - content: '## Ein und eine — a / an in German
@@ -672,7 +627,7 @@ a0-03-im-cafe:
   - content: '## Ich möchte — I would like
 
 
-      <span lang="de">**Ich möchte**</span> (*ikh mœkh-tuh*) is the polite way to order in German. Always use it instead of
+      <span lang="de">**Ich möchte**</span> is the polite way to order in German. Always use it instead of
       <span lang="de">*ich will*</span> (I want) — it''s much more courteous.
 
 
@@ -699,7 +654,7 @@ a0-03-im-cafe:
 
       To ask the price:
 
-      - <span lang="de">**Was kostet das?**</span> (*vas kos-tet das*) — How much does that cost?
+      - <span lang="de">**Was kostet das?**</span> — How much does that cost?
 
       '
     description: Ordering politely with numbers
@@ -839,12 +794,12 @@ a0-03-im-cafe:
   - content: '*You''re at the counter of the café on Sendlinger Straße. Say these phrases out loud:*
 
 
-      1. Greet the server: <span lang="de">**Guten Morgen!**</span> (*goo-ten mor-gen*)
+      1. Greet the server: <span lang="de">**Guten Morgen!**</span>
 
       2. Order a coffee and a piece of cake: <span lang="de">**Ich möchte einen Kaffee und ein Stück Kuchen, bitte.**</span>
       (*ikh mœkh-tuh eye-nen ka-feh oont eyn shtük koo-khen, bi-tuh*)
 
-      3. Ask the price: <span lang="de">**Was kostet das?**</span> (*vas kos-tet das*)
+      3. Ask the price: <span lang="de">**Was kostet das?**</span>
 
       4. Say thank you: <span lang="de">**Danke schön!**</span> (*dan-kuh shœn*)
 
@@ -973,7 +928,7 @@ a0-04-in-der-stadt:
       ### Getting attention first
 
 
-      Start with <span lang="de">**Entschuldigung!**</span> (*en-tshool-dee-goong*) to politely get someone''s attention —
+      Start with <span lang="de">**Entschuldigung!**</span> to politely get someone''s attention —
       like "Excuse me!"
 
 
@@ -984,7 +939,7 @@ a0-04-in-der-stadt:
 
       - <span lang="de">**links**</span> (*links*) — on the left
 
-      - <span lang="de">**geradeaus**</span> (*geh-rah-deh-ows*) — straight ahead
+      - <span lang="de">**geradeaus**</span> — straight ahead
 
       - <span lang="de">**hier**</span> (*heer*) — here
 
@@ -1205,21 +1160,21 @@ a0-05-um-hilfe-bitten:
       You''re on a street in Munich and someone gives you directions — but too fast. Use these phrases to stay in the conversation:
 
 
-      - <span lang="de">**Entschuldigung!**</span> — Excuse me! / Sorry! (*ent-shool-dee-goong*)
+      - <span lang="de">**Entschuldigung!**</span> — Excuse me! / Sorry!
 
-      - <span lang="de">**Können Sie das wiederholen?**</span> — Can you repeat that? (*kur-nen zee das vee-der-hoh-len*)
+      - <span lang="de">**Können Sie das wiederholen?**</span> — Can you repeat that?
 
-      - <span lang="de">**Noch einmal, bitte.**</span> — Once more, please. (*nohkh ayn-mahl bit-teh*)
+      - <span lang="de">**Noch einmal, bitte.**</span> — Once more, please.
 
-      - <span lang="de">**Ich verstehe nicht.**</span> — I don''t understand. (*ikh fair-shtay-uh nikht*)
+      - <span lang="de">**Ich verstehe nicht.**</span> — I don''t understand.
 
       - <span lang="de">**Ich weiß nicht.**</span> — I don''t know. (*ikh vice nikht*)
 
-      - <span lang="de">**Sprechen Sie Englisch?**</span> — Do you speak English? (*shpreh-khen zee eng-lish*)
+      - <span lang="de">**Sprechen Sie Englisch?**</span> — Do you speak English?
 
-      - <span lang="de">**Langsamer, bitte.**</span> — Slower, please. (*lang-zah-mer bit-teh*)
+      - <span lang="de">**Langsamer, bitte.**</span> — Slower, please.
 
-      - <span lang="de">**Danke schön!**</span> — Thank you very much! (*dan-keh shurn*)
+      - <span lang="de">**Danke schön!**</span> — Thank you very much!
 
 
       > <span lang="de">*Entschuldigung*</span> is the word you''ll use most on the street — it grabs attention politely and
@@ -1421,9 +1376,9 @@ a0-05-um-hilfe-bitten:
 
       2. <span lang="de">**Ich verstehe nicht. Noch einmal, bitte.**</span> (*ikh fair-shtay-uh nikht. nohkh ayn-mahl bit-teh*)
 
-      3. <span lang="de">**Sprechen Sie Englisch?**</span> (*shpreh-khen zee eng-lish*)
+      3. <span lang="de">**Sprechen Sie Englisch?**</span>
 
-      4. <span lang="de">**Langsamer, bitte!**</span> (*lang-zah-mer bit-teh*)
+      4. <span lang="de">**Langsamer, bitte!**</span>
 
 
       Now say them again — a little faster each time. These four phrases will rescue you in almost any situation!
@@ -1515,35 +1470,35 @@ a0-06-im-biergarten:
       A traditional Bavarian Biergarten menu is full of hearty classics. Here are the key food and drink words:
 
 
-      | German | Pronunciation | English |
+      | German | Audio | English |
 
       |--------|--------------|---------|
 
-      | <span lang="de">die Brezel</span> | *BREH-tsel* | the pretzel |
+      | <span lang="de">die Brezel</span> | /static/audio/de/phrase_die_brezel.wav | the pretzel |
 
-      | <span lang="de">die Weißwurst</span> | *VICE-voorst* | the white sausage |
+      | <span lang="de">die Weißwurst</span> | /static/audio/de/phrase_die_wei_wurst.wav | the white sausage |
 
-      | <span lang="de">das Schnitzel</span> | *SHNIT-sel* | the schnitzel |
+      | <span lang="de">das Schnitzel</span> | /static/audio/de/phrase_das_schnitzel.wav | the schnitzel |
 
-      | <span lang="de">die Suppe</span> | *ZOO-puh* | the soup |
+      | <span lang="de">die Suppe</span> | /static/audio/de/phrase_die_suppe.wav | the soup |
 
-      | <span lang="de">der Salat</span> | *zah-LAHT* | the salad |
+      | <span lang="de">der Salat</span> | /static/audio/de/phrase_der_salat.wav | the salad |
 
-      | <span lang="de">die Kartoffeln</span> | *kar-TOF-eln* | the potatoes |
+      | <span lang="de">die Kartoffeln</span> | /static/audio/de/phrase_die_kartoffeln.wav | the potatoes |
 
-      | <span lang="de">der Kuchen</span> | *KOO-khen* | the cake |
+      | <span lang="de">der Kuchen</span> | /static/audio/de/phrase_der_kuchen.wav | the cake |
 
       | <span lang="de">das Brot</span> | *broht* | the bread |
 
       | <span lang="de">das Bier</span> | *beer* | the beer |
 
-      | <span lang="de">der Kaffee</span> | *KAH-feh* | the coffee |
+      | <span lang="de">der Kaffee</span> | /static/audio/de/phrase_der_kaffee.wav | the coffee |
 
-      | <span lang="de">das Wasser</span> | *VAH-ser* | the water |
+      | <span lang="de">das Wasser</span> | /static/audio/de/phrase_das_wasser.wav | the water |
 
       | <span lang="de">der Saft</span> | *zahft* | the juice |
 
-      | <span lang="de">die Apfelschorle</span> | *AHP-fel-SHOR-luh* | the apple spritzer |
+      | <span lang="de">die Apfelschorle</span> | /static/audio/de/phrase_die_apfelschorle.wav | the apple spritzer |
 
 
       ### At the table
@@ -1816,15 +1771,15 @@ a0-07-das-mag-ich:
       Use <span lang="de">**Ich mag**</span> for food, drinks, and people:
 
 
-      | German | Pronunciation | English |
+      | German | Audio | English |
 
       |---|---|---|
 
-      | <span lang="de">Ich mag Weißwurst.</span> | *ikh mahg VYS-voorst* | I like Weißwurst. |
+      | <span lang="de">Ich mag Weißwurst.</span> | /static/audio/de/phrase_ich_mag_wei_wurst.wav | I like Weißwurst. |
 
-      | <span lang="de">Ich mag Kaffee.</span> | *ikh mahg kah-FAY* | I like coffee. |
+      | <span lang="de">Ich mag Kaffee.</span> | /static/audio/de/phrase_ich_mag_kaffee.wav | I like coffee. |
 
-      | <span lang="de">Ich mag keine Milch.</span> | *ikh mahg KY-neh milkh* | I don''t like milk. |
+      | <span lang="de">Ich mag keine Milch.</span> | /static/audio/de/phrase_ich_mag_keine_milch.wav | I don''t like milk. |
 
       | <span lang="de">Magst du Bier?</span> | *mahkst doo beer* | Do you like beer? |
 
@@ -2031,25 +1986,25 @@ a0-07-das-mag-ich:
 
       **Singular food:**
 
-      <span lang="de">Ich mag Weißwurst.</span> (*ikh mahg VYS-voorst*)
+      <span lang="de">Ich mag Weißwurst.</span>
 
-      <span lang="de">Ich mag Brezeln.</span> (*ikh mahg BRAY-tseln*)
+      <span lang="de">Ich mag Brezeln.</span>
 
-      <span lang="de">Ich mag keinen Kaffee.</span> (*ikh mahg KY-nen kah-FAY*)
+      <span lang="de">Ich mag keinen Kaffee.</span>
 
 
       **Asking a friend:**
 
       <span lang="de">Magst du Bier?</span> (*mahkst doo beer*)
 
-      <span lang="de">Magst du Weißwurst?</span> (*mahkst doo VYS-voorst*)
+      <span lang="de">Magst du Weißwurst?</span>
 
 
       **Mir gefällt / gefallen:**
 
-      <span lang="de">Mir gefällt der Biergarten.</span> (*meer geh-FELLT dair BEER-gar-ten*)
+      <span lang="de">Mir gefällt der Biergarten.</span>
 
-      <span lang="de">Mir gefallen die Würste.</span> (*meer geh-FAH-len dee VOOR-steh*)
+      <span lang="de">Mir gefallen die Würste.</span>
 
 
       Now say two things YOU like and one thing you don''t like. Use <span lang="de">Ich mag...</span> and <span lang="de">Ich
@@ -2390,33 +2345,33 @@ a0-09-am-hauptbahnhof:
   - content: '## Am Bahnhof — At the Station
 
 
-      | German | Pronunciation | English |
+      | German | Audio | English |
 
       |--------|--------------|--------|
 
       | <span lang="de">**der Zug**</span> | *tsoog* | the train |
 
-      | <span lang="de">**die Fahrkarte**</span> | *far-kar-tuh* | the ticket |
+      | <span lang="de">**die Fahrkarte**</span> | /static/audio/de/phrase_die_fahrkarte.wav | the ticket |
 
-      | <span lang="de">**einfach**</span> | *ine-fakh* | one way |
+      | <span lang="de">**einfach**</span> | /static/audio/de/phrase_einfach.wav | one way |
 
-      | <span lang="de">**hin und zurück**</span> | *hin oont tsoo-rück* | round trip |
+      | <span lang="de">**hin und zurück**</span> | /static/audio/de/phrase_hin_und_zuruck.wav | round trip |
 
       | <span lang="de">**das Gleis**</span> | *glice* | the platform / track |
 
-      | <span lang="de">**die Haltestelle**</span> | *hal-tuh-shtel-uh* | the stop (bus/tram) |
+      | <span lang="de">**die Haltestelle**</span> | /static/audio/de/phrase_die_haltestelle.wav | the stop (bus/tram) |
 
-      | <span lang="de">**der Bahnhof**</span> | *bahn-hoff* | the train station |
+      | <span lang="de">**der Bahnhof**</span> | /static/audio/de/phrase_der_bahnhof.wav | the train station |
 
-      | <span lang="de">**die Abfahrt**</span> | *ap-fart* | the departure |
+      | <span lang="de">**die Abfahrt**</span> | /static/audio/de/phrase_die_abfahrt.wav | the departure |
 
-      | <span lang="de">**die Ankunft**</span> | *an-koonft* | the arrival |
+      | <span lang="de">**die Ankunft**</span> | /static/audio/de/phrase_die_ankunft.wav | the arrival |
 
-      | <span lang="de">**die S-Bahn**</span> | *ess-bahn* | the suburban train |
+      | <span lang="de">**die S-Bahn**</span> | /static/audio/de/phrase_die_s_bahn.wav | the suburban train |
 
-      | <span lang="de">**die U-Bahn**</span> | *oo-bahn* | the metro / underground |
+      | <span lang="de">**die U-Bahn**</span> | /static/audio/de/phrase_die_u_bahn.wav | the metro / underground |
 
-      | <span lang="de">**der Flughafen**</span> | *floog-hah-fen* | the airport |
+      | <span lang="de">**der Flughafen**</span> | /static/audio/de/phrase_der_flughafen.wav | the airport |
 
 
       ### Essential travel phrases
@@ -3105,12 +3060,12 @@ a0-11-ein-problem:
       Hopefully you won''t need these, but just in case:
 
 
-      - <span lang="de">**Hilfe!**</span> — Help! (*hill-feh*)
+      - <span lang="de">**Hilfe!**</span> — Help!
 
       - <span lang="de">**Notruf: 110 (Polizei), 112 (Feuerwehr / Notarzt)**</span> — Emergency: 110 (police), 112 (fire /
       ambulance)
 
-      - <span lang="de">**Wo ist die Apotheke?**</span> — Where is the pharmacy? (*voh ist dee ah-po-tay-keh*)
+      - <span lang="de">**Wo ist die Apotheke?**</span> — Where is the pharmacy?
 
       - <span lang="de">**Wo ist das Krankenhaus?**</span> — Where is the hospital?
 
@@ -3242,9 +3197,9 @@ a0-11-ein-problem:
 
       1. <span lang="de">**Entschuldigung! Können Sie mir helfen?**</span> (*ent-shool-dee-goong! kern-en zee meer hell-fen?*)
 
-      2. <span lang="de">**Ich habe mein Portemonnaie verloren.**</span> (*ikh hah-beh mine por-teh-mo-neh fair-lor-en*)
+      2. <span lang="de">**Ich habe mein Portemonnaie verloren.**</span>
 
-      3. <span lang="de">**Ich brauche einen Arzt.**</span> (*ikh brow-kheh eye-nen artst*)
+      3. <span lang="de">**Ich brauche einen Arzt.**</span>
 
       4. <span lang="de">**Langsamer, bitte.**</span> (*lang-zah-mer, bit-teh*)
 

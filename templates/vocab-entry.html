@@ -4,7 +4,8 @@
 {% block content %}
 <div class="card" id="entry-card">
   <div class="word"><span lang="{{ target_language_code }}">{{ word.word }}</span></div>
-  <div class="pos">{{ word.part_of_speech }}{% if word.syllabization %} · [{{ word.syllabization }}]{% endif %}{% if word.cefr_level %} · {{ word.cefr_level }}{% endif %}</div>
+  {% set pron = word.ipa if word.ipa else ('[' + word.syllabization + ']' if word.syllabization else '') %}
+  <div class="pos">{{ word.part_of_speech }}{% if pron %} · {{ pron }}{% endif %}{% if word.cefr_level %} · {{ word.cefr_level }}{% endif %}</div>
 
   {% if audio_url %}
   <div class="audio-player-wrap audio-player-inline">

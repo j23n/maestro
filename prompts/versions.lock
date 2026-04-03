@@ -32,7 +32,7 @@
     "sha256": "9360d40ff3f151d0e6f479f8d8312cd09236b594e8aac1b1291465b3cdd29605"
   },
   "vocab_definitions.yaml": {
-    "version": "4",
-    "sha256": "257862897772b42b038dc95474d83672aded9e3898b0eadfd943614085449e28"
+    "version": "5",
+    "sha256": "7635ca2b3a535a5998b66a3904d2214fa3ec094a518330e17f2062573a610620"
   }
 }

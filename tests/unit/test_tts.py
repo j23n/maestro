@@ -71,20 +71,36 @@ def test_slugify_strips_leading_trailing_underscores():
 
 @pytest.mark.unit
 def test_word_audio_path_plain():
-    path = word_audio_path("ciao")
+    path = word_audio_path("ciao", language="it")
     assert path.name == "word_ciao.wav"
+    assert path.parent.name == "it"
 
 
 @pytest.mark.unit
 def test_word_audio_path_accent():
-    path = word_audio_path("caffè")
+    path = word_audio_path("caffè", language="it")
     assert path.name == "word_caffe.wav"
 
 
 @pytest.mark.unit
-def test_word_audio_path_is_under_audio_dir():
+def test_word_audio_path_language_isolation():
+    de_path = word_audio_path("Hotel", language="de")
+    it_path = word_audio_path("Hotel", language="it")
+    assert de_path != it_path
+    assert de_path.parent.name == "de"
+    assert it_path.parent.name == "it"
+
+
+@pytest.mark.unit
+def test_word_audio_path_no_language():
     path = word_audio_path("ciao")
     assert path.parent == tts_module._audio_dir()
+
+
+@pytest.mark.unit
+def test_word_audio_path_is_under_audio_dir():
+    path = word_audio_path("ciao", language="it")
+    assert path.parent.parent == tts_module._audio_dir()
 
 
 @pytest.mark.unit

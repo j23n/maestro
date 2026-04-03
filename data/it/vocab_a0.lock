@@ -1,5 +1,5 @@
 {
-  "sha256": "641367b413c810c2cecbf3c59132b55fa476db855f9f958cb5d1bc89de78ca50",
+  "sha256": "c876379c8bfe9fcd672d67df8d3244104604afaae70cf3921fc2550a77714bd0",
   "word_count": 68,
   "by_part_of_speech": {
     "agg.": 3,
@@ -11,5 +11,5 @@
     "s.m.pl.": 1,
     "v.": 1
   },
-  "generated_at": "2026-03-25T13:39:18.541667+00:00"
+  "generated_at": "2026-04-02T14:53:34.043270+00:00"
 }

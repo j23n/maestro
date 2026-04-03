@@ -20,38 +20,47 @@
 
 - word: einundzwanzig
   part_of_speech: num.
+  ipa: /ˈaɪ̯nʊntˌtsvant͡sɪç/
   translation: twenty-one
 
 - word: vierundzwanzig
   part_of_speech: num.
+  ipa: /ˈfiːɐ̯ʊntˌtsvant͡sɪç/
   translation: twenty-four
 
 - word: siebenundzwanzig
   part_of_speech: num.
+  ipa: /ˈziːbn̩ʊntˌtsvant͡sɪç/
   translation: twenty-seven
 
 - word: fünfunddreißig
   part_of_speech: num.
+  ipa: /ˈfʏnfʊntˌdʁaɪ̯sɪç/
   translation: thirty-five
 
 - word: neununddreißig
   part_of_speech: num.
+  ipa: /ˈnɔɪ̯nʊntˌdʁaɪ̯sɪç/
   translation: thirty-nine
 
 - word: fünfundvierzig
   part_of_speech: num.
+  ipa: /ˈfʏnfʊntˌfɪʁt͡sɪç/
   translation: forty-five
 
 - word: siebenundvierzig
   part_of_speech: num.
+  ipa: /ˈziːbn̩ʊntˌfɪʁt͡sɪç/
   translation: forty-seven
 
 - word: achtundvierzig
   part_of_speech: num.
+  ipa: /ˈaxtʊntˌfɪʁt͡sɪç/
   translation: forty-eight
 
 - word: zweiundfünfzig
   part_of_speech: num.
+  ipa: /ˈt͡svaɪ̯ʊntˌfʏnft͡sɪç/
   translation: fifty-two
 
 ##############################################################################
@@ -61,90 +70,112 @@
 # --- Fixed greetings & farewells ---
 - word: Guten Tag
   part_of_speech: loc.
+  ipa: /ˌɡuːtn̩ ˈtaːk/
   translation: good day, hello
 
 - word: Guten Morgen
   part_of_speech: loc.
+  ipa: /ˌɡuːtn̩ ˈmɔʁɡn̩/
   translation: good morning
 
 - word: Guten Abend
   part_of_speech: loc.
+  ipa: /ˌɡuːtn̩ ˈʔaːbn̩t/
   translation: good evening
 
 - word: Gute Nacht
   part_of_speech: loc.
+  ipa: /ˌɡuːtə ˈnaxt/
   translation: good night
 
 - word: Auf Wiedersehen
   part_of_speech: loc.
+  ipa: /ˌaʊ̯f ˈviːdɐˌzeːən/
   translation: goodbye (formal)
 
 - word: Danke schön
   part_of_speech: loc.
+  ipa: /ˌdaŋkə ˈʃøːn/
   translation: thank you very much
 
 - word: Bitte schön
   part_of_speech: loc.
+  ipa: /ˌbɪtə ˈʃøːn/
   translation: here you go / you're welcome
 
 - word: Grüß Gott
   part_of_speech: loc.
+  ipa: /ˌɡʁyːs ˈɡɔt/
   translation: hello (Bavarian/Austrian)
 
 - word: Vielen Dank
   part_of_speech: loc.
+  ipa: /ˌfiːlən ˈdaŋk/
   translation: many thanks
 
 - word: Gute Reise
   part_of_speech: loc.
+  ipa: /ˌɡuːtə ˈʁaɪ̯zə/
   translation: have a good trip
 
 - word: Gute Besserung
   part_of_speech: loc.
+  ipa: /ˌɡuːtə ˈbɛsəʁʊŋ/
   translation: get well soon
 
 - word: Bis bald
   part_of_speech: loc.
+  ipa: /ˌbɪs ˈbalt/
   translation: see you soon
 
 # --- Idiomatic expressions ---
 - word: Es tut mir leid
   part_of_speech: loc.
+  ipa: /ɛs ˌtuːt miːɐ̯ ˈlaɪ̯t/
   translation: I'm sorry (lit. it does me sorrow)
 
 - word: Wie bitte
   part_of_speech: loc.
+  ipa: /ˌviː ˈbɪtə/
   translation: pardon? (lit. how please)
 
 - word: Ein bisschen
   part_of_speech: loc.
+  ipa: /aɪ̯n ˈbɪsçən/
   translation: a little
 
 - word: Kein Problem
   part_of_speech: loc.
+  ipa: /kaɪ̯n pʁoˈbleːm/
   translation: no problem
 
 - word: hin und zurück
   part_of_speech: loc.
+  ipa: /ˌhɪn ʊnt t͡suˈʁʏk/
   translation: round trip (lit. there and back)
 
 - word: Es ist halb drei
   part_of_speech: loc.
+  ipa: /ɛs ɪst ˌhalp ˈdʁaɪ̯/
   translation: it's half past two (not three — German counts toward the next hour)
 
 # --- Non-obvious chunk patterns ---
 - word: Ich heiße
   part_of_speech: loc.
+  ipa: /ɪç ˈhaɪ̯sə/
   translation: my name is (lit. I am called)
 
 - word: Ich möchte
   part_of_speech: loc.
+  ipa: /ɪç ˈmœçtə/
   translation: I would like (subjunctive of mögen)
 
 - word: Mir gefällt
   part_of_speech: loc.
+  ipa: /miːɐ̯ ɡəˈfɛlt/
   translation: I like (dative construction, lit. to-me pleases)
 
 - word: Mir gefallen
   part_of_speech: loc.
+  ipa: /miːɐ̯ ɡəˈfalən/
   translation: I like (plural, dative construction)

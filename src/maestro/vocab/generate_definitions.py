@@ -188,15 +188,24 @@ async def generate_definitions_for_word(word: VocabularyWord) -> None:
     logger.info("generating definitions", extra={"word": word.word})
     claude_data = await _call_api([word], max_tokens=4096, language=word.language)
     entry = _find_entry(word, claude_data)
-    if entry and word.cefr_level is None:
-        cefr = entry.get("cefr_level")
-        if cefr in ("A1", "A2", "B1", "B2"):
-            word.cefr_level = cefr
+    if entry:
+        save_needed = False
+        if word.cefr_level is None:
+            cefr = entry.get("cefr_level")
+            if cefr in ("A1", "A2", "B1", "B2"):
+                word.cefr_level = cefr
+                save_needed = True
+                logger.info(
+                    "classified word CEFR level",
+                    extra={"word": word.word, "cefr_level": cefr},
+                )
+        ipa = entry.get("ipa")
+        if ipa and not word.ipa:
+            word.ipa = ipa
+            save_needed = True
+            logger.info("set word IPA", extra={"word": word.word, "ipa": ipa})
+        if save_needed:
             await word.save()
-            logger.info(
-                "classified word CEFR level",
-                extra={"word": word.word, "cefr_level": cefr},
-            )
     await _save_all_levels(word, claude_data)
 
 
@@ -229,6 +238,7 @@ async def generate(
     audio_only: bool = False,
     force: bool = False,
     dry_run: bool = False,
+    missing_ipa: bool = False,
 ):
     await init_db()
 
@@ -255,6 +265,12 @@ async def generate(
         words = [w for w in words if w.cefr_level == level]
         logger.info(f"{len(words)} words after --level {level} filter")
 
+    if missing_ipa:
+        words = [w for w in words if not w.ipa and w.senses]
+        logger.info(f"{len(words)} words missing IPA (with senses)")
+        force = True  # re-run definitions to get IPA
+        defs_only = True
+
     # --- determine what needs work ---
     if audio_only:
         need_defs: list[VocabularyWord] = []
@@ -270,7 +286,11 @@ async def generate(
     else:
         # Find words missing audio files — excluding words that will get audio
         # as a side effect of definition generation
-        words_missing_audio = [w for w in words if not word_audio_path(w.word).exists()]
+        words_missing_audio = [
+            w
+            for w in words
+            if not word_audio_path(w.word, language=w.language).exists()
+        ]
         need_defs_ids = {w.id for w in need_defs}
         need_audio = [w for w in words_missing_audio if w.id not in need_defs_ids]
 
@@ -322,15 +342,27 @@ async def generate(
             for word in batch:
                 try:
                     entry = _find_entry(word, claude_data)
-                    if entry and word.cefr_level is None:
-                        cefr = entry.get("cefr_level")
-                        if cefr in ("A1", "A2", "B1", "B2"):
-                            word.cefr_level = cefr
-                            await word.save()
+                    if entry:
+                        save_needed = False
+                        if word.cefr_level is None:
+                            cefr = entry.get("cefr_level")
+                            if cefr in ("A1", "A2", "B1", "B2"):
+                                word.cefr_level = cefr
+                                save_needed = True
+                                logger.info(
+                                    "classified word CEFR level",
+                                    extra={"word": word.word, "cefr_level": cefr},
+                                )
+                        ipa = entry.get("ipa")
+                        if ipa and not word.ipa:
+                            word.ipa = ipa
+                            save_needed = True
                             logger.info(
-                                "classified word CEFR level",
-                                extra={"word": word.word, "cefr_level": cefr},
+                                "set word IPA",
+                                extra={"word": word.word, "ipa": ipa},
                             )
+                        if save_needed:
+                            await word.save()
                     await _save_all_levels(word, claude_data)
                 except Exception as exc:
                     logger.error(f"Failed to save definitions for '{word.word}': {exc}")
@@ -342,7 +374,7 @@ async def generate(
                 "[%d/%d] Generating audio for '%s'", i, len(need_audio), word.word
             )
             if force:
-                path = word_audio_path(word.word)
+                path = word_audio_path(word.word, language=word.language)
                 if path.exists():
                     path.unlink()
             from maestro.tts import generate_word_audio
@@ -405,6 +437,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Preview what would be regenerated without making changes",
     )
+    parser.add_argument(
+        "--missing-ipa",
+        action="store_true",
+        help="Regenerate definitions for words that have definitions but no IPA",
+    )
     args = parser.parse_args()
 
     if args.defs_only and args.audio_only:
@@ -423,5 +460,6 @@ if __name__ == "__main__":
             audio_only=args.audio_only,
             force=args.force,
             dry_run=args.dry_run,
+            missing_ipa=args.missing_ipa,
         )
     )

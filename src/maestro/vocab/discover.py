@@ -357,6 +357,7 @@ def _build_vocab_attrs(
         f' data-word="{word.word}"'
         f' data-pos="{word.part_of_speech or ""}"'
         f' data-syllabization="{word.syllabization or ""}"'
+        f' data-ipa="{getattr(word, "ipa", None) or ""}"'
         f" data-senses='{senses_json}'"
         f' data-translation="{translation}"'
         f' data-word-id="{word_id}"'

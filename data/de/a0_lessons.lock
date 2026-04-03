@@ -1,5 +1,5 @@
 {
-  "sha256": "514b3cd3c32a549d7c54e919c8a1c6e4711fbdd2aae5c42c9b821effc8c610c7",
+  "sha256": "01c37c9aab603e61b9778724d3af8a8d9f573a12915ab803e5f1095c28c3cf8d",
   "lesson_count": 13,
   "scenario_count": 13,
   "activities_per_lesson": {
@@ -17,5 +17,5 @@
     "a0-12-letzter-tag": 10,
     "a0-13-wiederholung": 10
   },
-  "generated_at": "2026-04-02T15:48:05.984037+00:00"
+  "generated_at": "2026-04-07T14:14:10.746407+00:00"
 }

@@ -186,11 +186,14 @@ async def seed_a0_vocab(language: str) -> None:
         existing = await VocabularyWord.find_one(query)
         now = utcnow()
         syllabization = item.get("syllabization", "")
+        ipa = item.get("ipa", "")
         if existing:
             existing.cefr_level = "A0"
             existing.part_of_speech = item_pos or existing.part_of_speech
             if syllabization:
                 existing.syllabization = syllabization
+            if ipa:
+                existing.ipa = ipa
             existing.updated_at = now
             await existing.save()
             word_doc = existing
@@ -199,6 +202,7 @@ async def seed_a0_vocab(language: str) -> None:
                 word=item["word"],
                 part_of_speech=item_pos,
                 syllabization=syllabization or None,
+                ipa=ipa or None,
                 cefr_level="A0",
                 senses=[],
                 language=lang,
