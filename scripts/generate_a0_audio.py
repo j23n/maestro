@@ -205,21 +205,24 @@ def check(all_lessons: dict, vocab_items: list[dict], lang: str = "it") -> int:
                 print(f"  MISS  {slug:30s} -> {filename}")
                 problems += 1
 
-    # 2. Pronunciation audio (vowels, numbers, etc.)
-    print("\nPronunciation audio:")
-    pron_paths = _collect_pronunciation_paths(all_lessons)
-    for stem in pron_paths:
-        path = audio_dir / f"{stem}.wav"
-        text = _PRONUNCIATION_ITEMS.get(stem)
-        if not text:
-            print(f"  WARN  {stem}.wav — no text mapping (add to _PRONUNCIATION_ITEMS)")
-            problems += 1
-            continue
-        if path.exists():
-            print(f"  OK    {stem:20s} -> {path.name}")
-        else:
-            print(f"  MISS  {stem:20s} -> {path.name}")
-            problems += 1
+    # 2. Pronunciation audio (vowels, numbers — Italian only)
+    if lang == "it":
+        print("\nPronunciation audio:")
+        pron_paths = _collect_pronunciation_paths(all_lessons)
+        for stem in pron_paths:
+            path = audio_dir / f"{stem}.wav"
+            text = _PRONUNCIATION_ITEMS.get(stem)
+            if not text:
+                print(
+                    f"  WARN  {stem}.wav — no text mapping (add to _PRONUNCIATION_ITEMS)"
+                )
+                problems += 1
+                continue
+            if path.exists():
+                print(f"  OK    {stem:20s} -> {path.name}")
+            else:
+                print(f"  MISS  {stem:20s} -> {path.name}")
+                problems += 1
 
     # 3. Word audio
     print("\nVocabulary word audio (word_*.wav):")
@@ -319,27 +322,28 @@ async def generate(all_lessons: dict, vocab_items: list[dict], lang: str = "it")
                 print(f"FAILED: {e}")
                 failed += 1
 
-    # 2. Pronunciation audio (vowels, numbers, etc.)
-    print("\nPronunciation audio:")
-    pron_paths = _collect_pronunciation_paths(all_lessons)
-    for stem in pron_paths:
-        text = _PRONUNCIATION_ITEMS.get(stem)
-        if not text:
-            print(f"  SKIP  {stem}.wav — no text mapping")
-            skipped += 1
-            continue
-        path = audio_dir / f"{stem}.wav"
-        if path.exists():
-            print(f"  SKIP  {path.name} (exists)")
-            skipped += 1
-            continue
-        print(f"  GEN   {path.name} ...", end=" ", flush=True)
-        try:
-            await _synth_to_file(text, path, language=lang)
-            print("OK")
-            generated += 1
-        except Exception as e:
-            print(f"FAILED: {e}")
+    # 2. Pronunciation audio (vowels, numbers — Italian only)
+    if lang == "it":
+        print("\nPronunciation audio:")
+        pron_paths = _collect_pronunciation_paths(all_lessons)
+        for stem in pron_paths:
+            text = _PRONUNCIATION_ITEMS.get(stem)
+            if not text:
+                print(f"  SKIP  {stem}.wav — no text mapping")
+                skipped += 1
+                continue
+            path = audio_dir / f"{stem}.wav"
+            if path.exists():
+                print(f"  SKIP  {path.name} (exists)")
+                skipped += 1
+                continue
+            print(f"  GEN   {path.name} ...", end=" ", flush=True)
+            try:
+                await _synth_to_file(text, path, language=lang)
+                print("OK")
+                generated += 1
+            except Exception as e:
+                print(f"FAILED: {e}")
             failed += 1
 
     # 3. Word audio
@@ -393,13 +397,28 @@ async def main() -> int:
     )
     args = parser.parse_args()
 
-    lang = args.lang
-    all_lessons = _load_lessons(lang)
-    vocab_items = _load_vocab(lang)
+    langs = (
+        [
+            d.name
+            for d in _DATA_ROOT.iterdir()
+            if d.is_dir() and (d / "a0_lessons.yaml").exists()
+        ]
+        if args.lang == "all"
+        else [args.lang]
+    )
 
-    if args.check:
-        return check(all_lessons, vocab_items, lang)
-    return await generate(all_lessons, vocab_items, lang)
+    exit_code = 0
+    for lang in sorted(langs):
+        print(f"\n{'=' * 60}\n  Language: {lang}\n{'=' * 60}\n")
+        all_lessons = _load_lessons(lang)
+        vocab_items = _load_vocab(lang)
+
+        if args.check:
+            exit_code |= check(all_lessons, vocab_items, lang)
+        else:
+            exit_code |= await generate(all_lessons, vocab_items, lang)
+
+    return exit_code
 
 
 if __name__ == "__main__":
