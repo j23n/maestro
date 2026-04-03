@@ -24,12 +24,12 @@
         In German, you use different greetings depending on the time of day and how formal the situation is. <span lang="de">**Hallo**</span> is a friendly, informal word that means "hello" — you can use it with friends and people you know. For more formal situations, use <span lang="de">**Guten Tag**</span> (good day), <span lang="de">**Guten Morgen**</span> (good morning), or <span lang="de">**Guten Abend**</span> (good evening).
 
         - <span lang="de">**Hallo, Anna!**</span> (Hi, Anna!)
-        - <span lang="de">**Guten Morgen, Herr M\xFCller.**</span> (Good morning, Mr. M\xFCller.)
+        - <span lang="de">**Guten Morgen, Herr Müller.**</span> (Good morning, Mr. Müller.)
         - <span lang="de">**Guten Abend!**</span> (Good evening!)
 
-        When saying goodbye, <span lang="de">**Auf Wiedersehen**</span> is the polite way (literally "until we see again"), and <span lang="de">**Tsch\xFC\xDF**</span> is the casual equivalent — like "bye." In Bavaria (where Munich is), you will also hear <span lang="de">**Gr\xFC\xDF Gott**</span> (hello, formal) and <span lang="de">**Servus**</span> (hello and goodbye, informal).
+        When saying goodbye, <span lang="de">**Auf Wiedersehen**</span> is the polite way (literally "until we see again"), and <span lang="de">**Tschüß**</span> is the casual equivalent — like "bye." In Bavaria (where Munich is), you will also hear <span lang="de">**Grüß Gott**</span> (hello, formal) and <span lang="de">**Servus**</span> (hello and goodbye, informal).
 
-        | German | Meaning | When | |--------|---------|------| | <span lang="de">**Hallo!**</span> | Hello! | Informal | | <span lang="de">**Guten Morgen!**</span> | Good morning! | Before noon | | <span lang="de">**Guten Tag!**</span> | Good day! | Formal, daytime | | <span lang="de">**Guten Abend!**</span> | Good evening! | Formal, evening | | <span lang="de">**Auf Wiedersehen!**</span> | Goodbye! | Formal | | <span lang="de">**Tsch\xFC\xDF!**</span> | Bye! | Informal |
+        | German | Meaning | When | |--------|---------|------| | <span lang="de">**Hallo!**</span> | Hello! | Informal | | <span lang="de">**Guten Morgen!**</span> | Good morning! | Before noon | | <span lang="de">**Guten Tag!**</span> | Good day! | Formal, daytime | | <span lang="de">**Guten Abend!**</span> | Good evening! | Formal, evening | | <span lang="de">**Auf Wiedersehen!**</span> | Goodbye! | Formal | | <span lang="de">**Tschüß!**</span> | Bye! | Informal |
 
         > **Tip:** If in doubt, go formal with <span lang="de">**Guten Tag**</span>. Germans will switch to informal if they prefer it.
       language: en
@@ -124,11 +124,11 @@
       explanation: |-
         Numbers in German from 0 to 20 are essential building blocks for everyday communication. Here are the numbers to memorize:
 
-        | Number | German | |--------|--------| | 0 | <span lang="de">null</span> | | 1 | <span lang="de">eins</span> | | 2 | <span lang="de">zwei</span> | | 3 | <span lang="de">drei</span> | | 4 | <span lang="de">vier</span> | | 5 | <span lang="de">f\xFCnf</span> | | 6 | <span lang="de">sechs</span> | | 7 | <span lang="de">sieben</span> | | 8 | <span lang="de">acht</span> | | 9 | <span lang="de">neun</span> | | 10 | <span lang="de">zehn</span> | | 11 | <span lang="de">elf</span> | | 12 | <span lang="de">zw\xF6lf</span> | | 13 | <span lang="de">dreizehn</span> | | 14 | <span lang="de">vierzehn</span> | | 15 | <span lang="de">f\xFCnfzehn</span> | | 16 | <span lang="de">sechzehn</span> | | 17 | <span lang="de">siebzehn</span> | | 18 | <span lang="de">achtzehn</span> | | 19 | <span lang="de">neunzehn</span> | | 20 | <span lang="de">zwanzig</span> |
+        | Number | German | |--------|--------| | 0 | <span lang="de">null</span> | | 1 | <span lang="de">eins</span> | | 2 | <span lang="de">zwei</span> | | 3 | <span lang="de">drei</span> | | 4 | <span lang="de">vier</span> | | 5 | <span lang="de">fünf</span> | | 6 | <span lang="de">sechs</span> | | 7 | <span lang="de">sieben</span> | | 8 | <span lang="de">acht</span> | | 9 | <span lang="de">neun</span> | | 10 | <span lang="de">zehn</span> | | 11 | <span lang="de">elf</span> | | 12 | <span lang="de">zwölf</span> | | 13 | <span lang="de">dreizehn</span> | | 14 | <span lang="de">vierzehn</span> | | 15 | <span lang="de">fünfzehn</span> | | 16 | <span lang="de">sechzehn</span> | | 17 | <span lang="de">siebzehn</span> | | 18 | <span lang="de">achtzehn</span> | | 19 | <span lang="de">neunzehn</span> | | 20 | <span lang="de">zwanzig</span> |
 
         **Examples:**
         - <span lang="de">*Ich habe zwei Kinder.*</span> (I have two children.)
-        - <span lang="de">*Zimmer Nummer f\xFCnfzehn.*</span> (Room number fifteen.)
+        - <span lang="de">*Zimmer Nummer fünfzehn.*</span> (Room number fifteen.)
 
         > **Tip:** Numbers 13-19 follow a clear pattern: the unit + <span lang="de">**-zehn**</span> (like English "-teen"). Note that <span lang="de">sech**zehn**</span> (not *sechszehn*) and <span lang="de">sieb**zehn**</span> (not *siebenzehn*) drop a letter!
       language: en
@@ -161,15 +161,15 @@
 
         **The key polite words:**
 
-        | German | English | |---|---| | <span lang="de">bitte</span> | please / you're welcome | | <span lang="de">danke</span> | thank you | | <span lang="de">danke sch\xF6n</span> | thank you very much | | <span lang="de">Entschuldigung</span> | excuse me / sorry | | <span lang="de">es tut mir leid</span> | I'm sorry |
+        | German | English | |---|---| | <span lang="de">bitte</span> | please / you're welcome | | <span lang="de">danke</span> | thank you | | <span lang="de">danke schön</span> | thank you very much | | <span lang="de">Entschuldigung</span> | excuse me / sorry | | <span lang="de">es tut mir leid</span> | I'm sorry |
 
         **Examples:**
 
         - <span lang="de">*Einen Kaffee, bitte.*</span> (A coffee, please.)
-        - <span lang="de">*Danke!*</span> \u2014 <span lang="de">*Bitte!*</span> (Thank you! \u2014 You're welcome!)
+        - <span lang="de">*Danke!*</span> — <span lang="de">*Bitte!*</span> (Thank you! — You're welcome!)
         - <span lang="de">*Entschuldigung, wo ist der Bahnhof?*</span> (Excuse me, where is the train station?)
 
-        **Quick tip:** <span lang="de">**Bitte**</span> is a magic word in German \u2014 it means both "please" and "you're welcome." Use <span lang="de">**Entschuldigung**</span> to get a stranger's attention or to apologize for a small mistake. Use <span lang="de">**es tut mir leid**</span> when you feel genuinely sorry.
+        **Quick tip:** <span lang="de">**Bitte**</span> is a magic word in German — it means both "please" and "you're welcome." Use <span lang="de">**Entschuldigung**</span> to get a stranger's attention or to apologize for a small mistake. Use <span lang="de">**es tut mir leid**</span> when you feel genuinely sorry.
       language: en
       why_this_matters: ''
 
@@ -178,7 +178,7 @@
   category: basics
   subcategory: Vorstellung
   unistr_code: a0_ich_heisse
-  unistr_label: My name is... (Ich hei\xDFe)
+  unistr_label: My name is... (Ich heiße)
   label: Sich vorstellen mit ich heiße
   description: Use 'ich heiße' to say your name when introducing yourself. It means
     'my name is' or 'I am called'.
@@ -192,29 +192,29 @@
   prerequisites: []
   explanations:
     en:
-      title: 'Introducing Yourself: Ich hei\xDFe...'
+      title: 'Introducing Yourself: Ich heiße...'
       tip: ''
       explanation: |-
         ## Saying Your Name in German
 
-        In German, the most natural way to introduce yourself is <span lang="de">**Ich hei\xDFe...**</span> followed by your name. It literally means "I am called..." and is the standard self-introduction.
+        In German, the most natural way to introduce yourself is <span lang="de">**Ich heiße...**</span> followed by your name. It literally means "I am called..." and is the standard self-introduction.
 
         **The formula is simple:**
-        > <span lang="de">**Ich hei\xDFe**</span> + [your name]
+        > <span lang="de">**Ich heiße**</span> + [your name]
 
         ### Examples
 
-        - <span lang="de">**Ich hei\xDFe Anna.**</span> (My name is Anna.)
-        - <span lang="de">**Ich hei\xDFe Thomas.**</span> (My name is Thomas.)
-        - <span lang="de">**Ich hei\xDFe Sofia. Und Sie?**</span> (My name is Sofia. And you?)
+        - <span lang="de">**Ich heiße Anna.**</span> (My name is Anna.)
+        - <span lang="de">**Ich heiße Thomas.**</span> (My name is Thomas.)
+        - <span lang="de">**Ich heiße Sofia. Und Sie?**</span> (My name is Sofia. And you?)
 
         ### Asking Someone's Name
 
-        - <span lang="de">**Wie hei\xDFen Sie?**</span> (What is your name? \u2014 formal)
-        - <span lang="de">**Wie hei\xDFt du?**</span> (What is your name? \u2014 informal)
+        - <span lang="de">**Wie heißen Sie?**</span> (What is your name? — formal)
+        - <span lang="de">**Wie heißt du?**</span> (What is your name? — informal)
 
         And they will answer:
-        - <span lang="de">**Ich hei\xDFe Lukas.**</span> (My name is Lukas.)
+        - <span lang="de">**Ich heiße Lukas.**</span> (My name is Lukas.)
 
         > **Tip:** Use <span lang="de">**Sie**</span> (formal "you") with strangers and adults, and <span lang="de">**du**</span> (informal "you") with friends and children. When in doubt, use <span lang="de">**Sie**</span>!
       language: en
@@ -260,9 +260,9 @@
 
         **Examples:**
 
-        - <span lang="de">*Ich m\xF6chte **ein** Bier.*</span> (I'd like a beer.)
-        - <span lang="de">*Ich m\xF6chte **eine** Brezel.*</span> (I'd like a pretzel.)
-        - <span lang="de">*Ich m\xF6chte **ein** Wasser.*</span> (I'd like a water.)
+        - <span lang="de">*Ich möchte **ein** Bier.*</span> (I'd like a beer.)
+        - <span lang="de">*Ich möchte **eine** Brezel.*</span> (I'd like a pretzel.)
+        - <span lang="de">*Ich möchte **ein** Wasser.*</span> (I'd like a water.)
       language: en
       why_this_matters: ''
 
@@ -271,7 +271,7 @@
   category: basics
   subcategory: Konjunktiv II
   unistr_code: a0_ich_moechte
-  unistr_label: I would like (Ich m\xF6chte)
+  unistr_label: I would like (Ich möchte)
   label: 'Konjunktiv II von mögen: ich möchte'
   description: Use 'ich möchte' (I would like) to make polite requests or express
     wishes. It is softer and more polite than 'ich will' (I want).
@@ -286,18 +286,18 @@
   prerequisites: []
   explanations:
     en:
-      title: 'Ich m\xF6chte: Making Polite Requests'
+      title: 'Ich möchte: Making Polite Requests'
       tip: ''
       explanation: |-
-        <span lang="de">**Ich m\xF6chte**</span> means **"I would like"** and is the polite way to ask for something in German. It is much more common and courteous than simply saying "I want" (<span lang="de">*ich will*</span>). Use it whenever you are ordering food, shopping, or making a request.
+        <span lang="de">**Ich möchte**</span> means **"I would like"** and is the polite way to ask for something in German. It is much more common and courteous than simply saying "I want" (<span lang="de">*ich will*</span>). Use it whenever you are ordering food, shopping, or making a request.
 
         **How to use it:**
-        Just say <span lang="de">**Ich m\xF6chte**</span> + the thing you want.
+        Just say <span lang="de">**Ich möchte**</span> + the thing you want.
 
         **Examples:**
-        - <span lang="de">*Ich m\xF6chte einen Kaffee.*</span> (I would like a coffee.)
-        - <span lang="de">*Ich m\xF6chte eine Brezel, bitte.*</span> (I would like a pretzel, please.)
-        - <span lang="de">*Ich m\xF6chte ein Wasser.*</span> (I would like a water.)
+        - <span lang="de">*Ich möchte einen Kaffee.*</span> (I would like a coffee.)
+        - <span lang="de">*Ich möchte eine Brezel, bitte.*</span> (I would like a pretzel, please.)
+        - <span lang="de">*Ich möchte ein Wasser.*</span> (I would like a water.)
 
         > **Tip:** You can always add <span lang="de">**bitte**</span> (please) at the end to sound extra polite!
       language: en
@@ -340,15 +340,15 @@
 
         There are no perfect rules, but some patterns help:
         - **der** (masculine): male persons, days, months, seasons — <span lang="de">der Mann, der Montag, der Januar</span>
-        - **die** (feminine): female persons, most nouns ending in **-e** — <span lang="de">die Frau, die Tasse, die Stra\xDFe</span>
-        - **das** (neuter): diminutives (-chen, -lein), many nouns ending in **-ment** — <span lang="de">das M\xE4dchen, das Dokument</span>
+        - **die** (feminine): female persons, most nouns ending in **-e** — <span lang="de">die Frau, die Tasse, die Straße</span>
+        - **das** (neuter): diminutives (-chen, -lein), many nouns ending in **-ment** — <span lang="de">das Mädchen, das Dokument</span>
 
         > **Important:** You must learn the article **together** with the noun. Don't just learn <span lang="de">Tisch</span> — learn <span lang="de">**der** Tisch</span>. This is the single most important habit in German!
 
         **Examples:**
 
         - <span lang="de">*Wo ist **der** Bahnhof?*</span> (Where is the train station?)
-        - <span lang="de">***Die** Kirche ist sch\xF6n.*</span> (The church is beautiful.)
+        - <span lang="de">***Die** Kirche ist schön.*</span> (The church is beautiful.)
         - <span lang="de">***Das** Hotel ist hier.*</span> (The hotel is here.)
       language: en
       why_this_matters: ''
@@ -397,7 +397,7 @@
         - <span lang="de">**Links.**</span> (On the left.)
         - <span lang="de">**Geradeaus.**</span> (Straight ahead.)
 
-        > **Tip:** Notice the article changes: <span lang="de">**der** Bahnhof</span>, <span lang="de">**die** Toilette</span>, <span lang="de">**das** Hotel</span>. The question itself is always the same \u2014 just swap the noun!
+        > **Tip:** Notice the article changes: <span lang="de">**der** Bahnhof</span>, <span lang="de">**die** Toilette</span>, <span lang="de">**das** Hotel</span>. The question itself is always the same — just swap the noun!
       language: en
       why_this_matters: ''
 
@@ -515,14 +515,14 @@
 
         - <span lang="de">**Ich trinke Kaffee.**</span> (I drink coffee.)
         - <span lang="de">**Er kommt aus Berlin.**</span> (He comes from Berlin.)
-        - <span lang="de">**Wir wohnen in M\xFCnchen.**</span> (We live in Munich.)
+        - <span lang="de">**Wir wohnen in München.**</span> (We live in Munich.)
 
         ### Verb always in second position
 
         Even when you start the sentence with something other than the subject, the verb stays **second**:
 
         - <span lang="de">**Heute trinke ich Kaffee.**</span> (Today I drink coffee.)
-        - <span lang="de">**In M\xFCnchen wohnen wir.**</span> (In Munich we live.)
+        - <span lang="de">**In München wohnen wir.**</span> (In Munich we live.)
 
         Notice how the subject (ich, wir) flips to come *after* the verb — but the verb stays in position 2.
 
@@ -603,14 +603,14 @@
 
         | German | English | |---|---| | <span lang="de">ich **bin**</span> | I am | | <span lang="de">du **bist**</span> | you are | | <span lang="de">er/sie/es **ist**</span> | he/she/it is | | <span lang="de">wir **sind**</span> | we are | | <span lang="de">ihr **seid**</span> | you (plural) are | | <span lang="de">sie/Sie **sind**</span> | they/you (formal) are |
 
-        > Focus on <span lang="de">ich</span>/<span lang="de">du</span>/<span lang="de">er/sie</span> for now \u2014 you'll practice the others soon!
+        > Focus on <span lang="de">ich</span>/<span lang="de">du</span>/<span lang="de">er/sie</span> for now — you'll practice the others soon!
 
         **Examples:**
 
         - <span lang="de">*Ich bin Anna.*</span> (I am Anna.)
         - <span lang="de">*Du bist sehr nett.*</span> (You are very nice.)
-        - <span lang="de">*Er ist aus M\xFCnchen.*</span> (He is from Munich.)
-        - <span lang="de">*Sie sind Herr M\xFCller?*</span> (You are Mr. M\xFCller? \u2014 formal)
+        - <span lang="de">*Er ist aus München.*</span> (He is from Munich.)
+        - <span lang="de">*Sie sind Herr Müller?*</span> (You are Mr. Müller? — formal)
       language: en
       why_this_matters: ''
 
@@ -649,7 +649,7 @@
 
         - <span lang="de">*Ich habe eine Reservierung.*</span> (I have a reservation.)
         - <span lang="de">*Ich habe ein Problem.*</span> (I have a problem.)
-        - <span lang="de">*Ich habe Hunger.*</span> (I'm hungry. \u2014 literally: I have hunger.)
+        - <span lang="de">*Ich habe Hunger.*</span> (I'm hungry. — literally: I have hunger.)
 
         > <span lang="de">**Haben**</span> is also used for feelings in German where English uses "to be": <span lang="de">*Ich habe Hunger*</span> (I'm hungry), <span lang="de">*Ich habe Durst*</span> (I'm thirsty).
       language: en
@@ -675,7 +675,7 @@
   prerequisites: []
   explanations:
     en:
-      title: 'Likes and Dislikes: Ich mag / Mir gef\xE4llt'
+      title: 'Likes and Dislikes: Ich mag / Mir gefällt'
       tip: ''
       explanation: |
         ## Saying What You Like and Don't Like
@@ -690,12 +690,12 @@
         - <span lang="de">**Ich mag keine Milch.**</span> (I don't like milk.)
         - <span lang="de">**Magst du Bier?**</span> (Do you like beer?)
 
-        ### 2. Mir gef\xE4llt... (I like... / It pleases me)
+        ### 2. Mir gefällt... (I like... / It pleases me)
 
-        Use <span lang="de">**Mir gef\xE4llt**</span> for things that appeal to you (places, experiences, things):
+        Use <span lang="de">**Mir gefällt**</span> for things that appeal to you (places, experiences, things):
 
-        - <span lang="de">**Mir gef\xE4llt M\xFCnchen.**</span> (I like Munich.)
-        - <span lang="de">**Mir gef\xE4llt das Hotel.**</span> (I like the hotel.)
+        - <span lang="de">**Mir gefällt München.**</span> (I like Munich.)
+        - <span lang="de">**Mir gefällt das Hotel.**</span> (I like the hotel.)
 
         For **plural** things, use <span lang="de">**Mir gefallen**</span>:
 
@@ -707,7 +707,7 @@
         |---|---|
         | <span lang="de">Ich mag Kaffee.</span> | I like coffee. |
         | <span lang="de">Ich mag keinen Tee.</span> | I don't like tea. |
-        | <span lang="de">Mir gef\xE4llt das.</span> | I like that. |
+        | <span lang="de">Mir gefällt das.</span> | I like that. |
         | <span lang="de">Magst du das?</span> | Do you like that? |
 
         > **Tip for now:** Start with <span lang="de">**Ich mag**</span> — it's simpler and covers most situations at this stage!
@@ -745,15 +745,15 @@
 
         Use <span lang="de">**nach**</span> before city and country names:
 
-        - <span lang="de">*Ich fahre **nach** M\xFCnchen.*</span> (I'm going to Munich.)
+        - <span lang="de">*Ich fahre **nach** München.*</span> (I'm going to Munich.)
         - <span lang="de">*Wir fliegen **nach** Deutschland.*</span> (We're flying to Germany.)
 
         ### in — in / into
 
         Use <span lang="de">**in**</span> to say you are inside a place:
 
-        - <span lang="de">*Ich bin **in** M\xFCnchen.*</span> (I am in Munich.)
-        - <span lang="de">*Wir gehen **in** das Caf\xE9.*</span> (We're going into the caf\xE9.)
+        - <span lang="de">*Ich bin **in** München.*</span> (I am in Munich.)
+        - <span lang="de">*Wir gehen **in** das Café.*</span> (We're going into the café.)
 
         ### zu — to (a person or specific place)
 
@@ -801,18 +801,18 @@
 
         > <span lang="de">**die**</span> = the (plural, all genders)
 
-        - <span lang="de">**die** M\xE4nner</span> (the men) — from <span lang="de">der Mann</span>
+        - <span lang="de">**die** Männer</span> (the men) — from <span lang="de">der Mann</span>
         - <span lang="de">**die** Frauen</span> (the women) — from <span lang="de">die Frau</span>
         - <span lang="de">**die** Kinder</span> (the children) — from <span lang="de">das Kind</span>
 
         ### How nouns form plurals
 
         German plurals are less predictable than English. Common patterns:
-        - Add **-e**: <span lang="de">der Tisch \u2192 die Tische</span>
-        - Add **-er**: <span lang="de">das Kind \u2192 die Kinder</span>
-        - Add **-en**: <span lang="de">die Frau \u2192 die Frauen</span>
-        - Add **umlaut**: <span lang="de">der Mann \u2192 die M\xE4nner</span>
-        - No change: <span lang="de">das M\xE4dchen \u2192 die M\xE4dchen</span>
+        - Add **-e**: <span lang="de">der Tisch → die Tische</span>
+        - Add **-er**: <span lang="de">das Kind → die Kinder</span>
+        - Add **-en**: <span lang="de">die Frau → die Frauen</span>
+        - Add **umlaut**: <span lang="de">der Mann → die Männer</span>
+        - No change: <span lang="de">das Mädchen → die Mädchen</span>
 
         > **Tip:** Learn each noun with its plural form, just like you learn it with its article. Dictionaries list both!
       language: en
@@ -850,9 +850,9 @@
         | Number | German |
         |--------|--------|
         | 20 | <span lang="de">zwanzig</span> |
-        | 30 | <span lang="de">drei\xDFig</span> |
+        | 30 | <span lang="de">dreißig</span> |
         | 40 | <span lang="de">vierzig</span> |
-        | 50 | <span lang="de">f\xFCnfzig</span> |
+        | 50 | <span lang="de">fünfzig</span> |
         | 60 | <span lang="de">sechzig</span> |
         | 70 | <span lang="de">siebzig</span> |
         | 80 | <span lang="de">achtzig</span> |
@@ -864,12 +864,12 @@
         In German, numbers are said **backwards** compared to English: the unit comes **before** the ten, joined by <span lang="de">**und**</span> (and):
 
         - 21 = <span lang="de">**einundzwanzig**</span> (one-and-twenty)
-        - 35 = <span lang="de">**f\xFCnfunddrei\xDFig**</span> (five-and-thirty)
+        - 35 = <span lang="de">**fünfunddreißig**</span> (five-and-thirty)
         - 47 = <span lang="de">**siebenundvierzig**</span> (seven-and-forty)
 
         **Examples:**
 
-        - <span lang="de">*Das kostet f\xFCnfundvierzig Euro.*</span> (That costs forty-five euros.)
+        - <span lang="de">*Das kostet fünfundvierzig Euro.*</span> (That costs forty-five euros.)
         - <span lang="de">*Gleis einundzwanzig.*</span> (Platform twenty-one.)
 
         > **Tip:** Think of it like old English "four-and-twenty blackbirds." German still does this for all numbers!
@@ -899,11 +899,11 @@
       title: Telling Time and Days of the Week
       tip: ''
       explanation: |
-        ## Wie sp\xE4t ist es? — What time is it?
+        ## Wie spät ist es? — What time is it?
 
         ### Asking the time
 
-        - <span lang="de">**Wie sp\xE4t ist es?**</span> — What time is it?
+        - <span lang="de">**Wie spät ist es?**</span> — What time is it?
         - <span lang="de">**Um wie viel Uhr...?**</span> — At what time...?
 
         ### Telling the time
@@ -915,8 +915,8 @@
         - <span lang="de">**Es ist Viertel vor drei.**</span> — It's quarter to three.
 
         Germany uses the 24-hour clock in formal contexts (timetables, appointments):
-        - <span lang="de">**Es ist f\xFCnfzehn Uhr.**</span> — It's 3 PM. (15:00)
-        - <span lang="de">**Der Zug f\xE4hrt um achtzehn Uhr.**</span> — The train leaves at 6 PM.
+        - <span lang="de">**Es ist fünfzehn Uhr.**</span> — It's 3 PM. (15:00)
+        - <span lang="de">**Der Zug fährt um achtzehn Uhr.**</span> — The train leaves at 6 PM.
 
         > **Watch out:** <span lang="de">**halb drei**</span> means 2:30, NOT 3:30! It means "half *to* three."
 
@@ -969,7 +969,7 @@
         | German | English |
         |--------|---------|
         | <span lang="de">die Brezel</span> | the pretzel |
-        | <span lang="de">die Wei\xDFwurst</span> | the white sausage (Bavarian specialty) |
+        | <span lang="de">die Weißwurst</span> | the white sausage (Bavarian specialty) |
         | <span lang="de">das Schnitzel</span> | the schnitzel |
         | <span lang="de">die Suppe</span> | the soup |
         | <span lang="de">der Salat</span> | the salad |
@@ -984,10 +984,10 @@
 
         ### Useful restaurant phrases
 
-        - <span lang="de">**Einen Tisch f\xFCr zwei, bitte.**</span> — A table for two, please.
+        - <span lang="de">**Einen Tisch für zwei, bitte.**</span> — A table for two, please.
         - <span lang="de">**Die Speisekarte, bitte.**</span> — The menu, please.
         - <span lang="de">**Die Rechnung, bitte.**</span> — The bill, please.
-        - <span lang="de">**Mit oder ohne Kohlens\xE4ure?**</span> — With or without carbonation? (for water)
+        - <span lang="de">**Mit oder ohne Kohlensäure?**</span> — With or without carbonation? (for water)
 
         ### Dietary needs
 
@@ -1033,7 +1033,7 @@
         | <span lang="de">die S-Bahn</span> | the suburban train |
         | <span lang="de">die Fahrkarte</span> | the ticket |
         | <span lang="de">einfach</span> | one way |
-        | <span lang="de">hin und zur\xFCck</span> | return / round trip |
+        | <span lang="de">hin und zurück</span> | return / round trip |
         | <span lang="de">das Gleis</span> | the platform / track |
         | <span lang="de">die Haltestelle</span> | the stop (bus/tram) |
         | <span lang="de">der Bahnhof</span> | the train station |
@@ -1043,9 +1043,9 @@
 
         ### Essential travel phrases
 
-        - <span lang="de">**Ich m\xF6chte eine Fahrkarte nach Salzburg.**</span> — I'd like a ticket to Salzburg.
-        - <span lang="de">**Hin und zur\xFCck.**</span> — Round trip.
-        - <span lang="de">**Wann f\xE4hrt der Zug?**</span> — When does the train leave?
+        - <span lang="de">**Ich möchte eine Fahrkarte nach Salzburg.**</span> — I'd like a ticket to Salzburg.
+        - <span lang="de">**Hin und zurück.**</span> — Round trip.
+        - <span lang="de">**Wann fährt der Zug?**</span> — When does the train leave?
         - <span lang="de">**Von welchem Gleis?**</span> — From which platform?
         - <span lang="de">**Was kostet die Fahrkarte?**</span> — How much is the ticket?
         - <span lang="de">**Wo ist die Haltestelle?**</span> — Where is the stop?

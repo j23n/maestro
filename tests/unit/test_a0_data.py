@@ -1,6 +1,7 @@
 """Validate A0 data files: every scenario has lesson content, GP/CF codes match."""
 
 import json
+import re
 
 import pytest
 import yaml
@@ -240,4 +241,29 @@ def test_a0_reading_listening_have_structured_questions(lang_dir):
 
     assert not problems, (
         f"[{lang_dir.name}] Structured question format issues:\n" + "\n".join(problems)
+    )
+
+
+_ESCAPE_RE = re.compile(r"\\x[0-9A-Fa-f]{2}|\\u[0-9A-Fa-f]{4}")
+
+# All YAML files across all languages
+_ALL_LANG_DIRS = list(iter_language_dirs())
+_ALL_LANG_IDS = [d.name for d in _ALL_LANG_DIRS]
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize("lang_dir", _ALL_LANG_DIRS, ids=_ALL_LANG_IDS)
+def test_no_escaped_unicode_in_yaml(lang_dir):
+    """YAML data files must not contain literal \\xNN or \\uNNNN escape sequences."""
+    problems = []
+    for yaml_file in sorted(lang_dir.glob("*.yaml")):
+        text = yaml_file.read_text()
+        for i, line in enumerate(text.splitlines(), 1):
+            matches = _ESCAPE_RE.findall(line)
+            if matches:
+                problems.append(f"{yaml_file.name}:{i}: {', '.join(matches)}")
+
+    assert not problems, (
+        f"[{lang_dir.name}] YAML files contain Python-style escape sequences "
+        f"(use actual UTF-8 characters instead):\n" + "\n".join(problems)
     )
