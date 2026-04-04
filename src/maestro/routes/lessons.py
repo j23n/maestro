@@ -83,6 +83,7 @@ def _review_redirect(lesson_id, idx) -> Response:
         headers={"HX-Redirect": url},
     )
 
+
 _LEARNING_TYPES = {
     ActivityType.GRAMMAR,
     ActivityType.DRILL,
@@ -1278,11 +1279,13 @@ async def lesson_speaking_submit(
     # Both failed → scoring_unavailable
     if feedback is None and pronunciation is None:
         await advance_lesson(
-            lesson, idx, result={
+            lesson,
+            idx,
+            result={
                 "student_answer": recognized_text,
                 "recognized_text": recognized_text,
                 "correct": None,
-            }
+            },
         )
         return _review_redirect(lesson_id, idx)
 
