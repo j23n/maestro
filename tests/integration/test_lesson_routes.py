@@ -57,8 +57,8 @@ async def active_lesson_with_drill(db, student):
 
 
 @pytest.mark.integration
-def test_drill_submit_returns_result_page(test_app, active_lesson_with_drill):
-    """POST drill-submit should return the drill result template."""
+def test_drill_submit_redirects_to_review(test_app, active_lesson_with_drill):
+    """POST drill-submit should redirect to the activity review page."""
     lesson, drill = active_lesson_with_drill
 
     mock_event = MagicMock()
@@ -85,6 +85,7 @@ def test_drill_submit_returns_result_page(test_app, active_lesson_with_drill):
         )
 
     assert response.status_code == 200
+    assert "HX-Redirect" in response.headers
 
 
 @pytest.mark.integration
@@ -739,8 +740,8 @@ async def test_free_tier_limit_response_contains_upgrade_text(
 
 
 @pytest.mark.integration
-def test_drill_scoring_failure_returns_unavailable(test_app, active_lesson_with_drill):
-    """When score_attempt raises, user sees scoring_unavailable message."""
+def test_drill_scoring_failure_redirects_to_review(test_app, active_lesson_with_drill):
+    """When score_attempt raises, handler redirects to the activity review page."""
     lesson, drill = active_lesson_with_drill
 
     with patch(
@@ -754,12 +755,13 @@ def test_drill_scoring_failure_returns_unavailable(test_app, active_lesson_with_
         )
 
     assert response.status_code == 200
-    assert "Automatic scoring is temporarily unavailable" in response.text
+    assert "HX-Redirect" in response.headers
+    assert f"/lessons/{lesson.id}/activity/0" in response.headers["HX-Redirect"]
 
 
 @pytest.mark.integration
-async def test_writing_scoring_failure_returns_unavailable(test_app, db, student):
-    """When generate_writing_feedback raises, user sees scoring_unavailable message."""
+async def test_writing_scoring_failure_redirects_to_review(test_app, db, student):
+    """When generate_writing_feedback raises, handler redirects to the activity review page."""
     lesson = Lesson(
         student_id=student.id,
         status=LessonStatus.ACTIVE,
@@ -791,12 +793,13 @@ async def test_writing_scoring_failure_returns_unavailable(test_app, db, student
         )
 
     assert response.status_code == 200
-    assert "Automatic scoring is temporarily unavailable" in response.text
+    assert "HX-Redirect" in response.headers
+    assert f"/lessons/{lesson.id}/activity/0" in response.headers["HX-Redirect"]
 
 
 @pytest.mark.integration
-async def test_reading_scoring_failure_returns_unavailable(test_app, db, student):
-    """When score_reading_activity raises, user sees scoring_unavailable message."""
+async def test_reading_scoring_failure_redirects_to_review(test_app, db, student):
+    """When score_reading_activity raises, handler redirects to the activity review page."""
     lesson = Lesson(
         student_id=student.id,
         status=LessonStatus.ACTIVE,
@@ -832,7 +835,8 @@ async def test_reading_scoring_failure_returns_unavailable(test_app, db, student
         )
 
     assert response.status_code == 200
-    assert "Automatic scoring is temporarily unavailable" in response.text
+    assert "HX-Redirect" in response.headers
+    assert f"/lessons/{lesson.id}/activity/0" in response.headers["HX-Redirect"]
 
 
 # ---------------------------------------------------------------------------

@@ -36,7 +36,7 @@
         <div class="item-body">
           <div class="item-sentence">{{ item.prompt | safe }}</div>
 
-          {% if feedback and feedback is mapping and "items" in feedback %}
+          {% if feedback and feedback is mapping and "items" in feedback and loop.index0 < feedback["items"] | length %}
             {% set fb = feedback["items"][loop.index0] %}
             {% if fb.objective_correct %}
               <div class="review-answer review-answer-correct">{{ fb.student_answer | safe }}</div>
