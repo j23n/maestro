@@ -473,62 +473,71 @@ async def lesson_activity(
 
     is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
 
-    # Completed speaking activities — show stored result
-    if is_review and activity.type == ActivityType.SPEAKING:
-        result = activity.result or {}
-        next_url = activity_url(lesson_id, lesson.current_index)
-        return await render_with_discover(
-            request,
-            "lesson-speaking-result-page.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "recognized_text": result.get("recognized_text"),
-                "pronunciation_score": result.get("pronunciation_score"),
-                "accuracy_score": result.get("accuracy_score"),
-                "fluency_score": result.get("fluency_score"),
-                "words": result.get("word_assessments", []),
-                "recorded_audio_b64": "",
-                "feedback": None,
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
-        )
+    # Completed scored activities — show review template with original context + corrections
+    if is_review and activity.result:
+        result = activity.result
+        total = len(lesson.activities)
+        review_ctx = {
+            "lesson": lesson,
+            "activity": activity,
+            "idx": idx,
+            "total": total,
+            "is_review": True,
+            "correct": result.get("correct"),
+            "feedback": result.get("feedback"),
+        }
 
-    # Completed scored activities with stored feedback — show the result page.
-    # LISTENING is included because it submits through /reading-submit, which stores feedback.
-    if is_review and activity.result and activity.result.get("feedback"):
-        if activity.type in (
-            ActivityType.DRILL,
-            ActivityType.WRITING,
-            ActivityType.READING,
-            ActivityType.LISTENING,
-        ):
-            result = activity.result
-            next_url = activity_url(lesson_id, lesson.current_index)
-            if lesson.status == LessonStatus.COMPLETED:
-                next_url = f"/lessons/{lesson_id}/complete"
-            drill = None
-            if activity.type == ActivityType.DRILL and activity.drill_id:
-                drill = await GeneratedDrill.get(activity.drill_id)
+        if activity.type == ActivityType.SPEAKING:
+            review_ctx.update(
+                recognized_text=result.get("recognized_text"),
+                pronunciation_score=result.get("pronunciation_score"),
+                accuracy_score=result.get("accuracy_score"),
+                fluency_score=result.get("fluency_score"),
+                words=result.get("word_assessments", []),
+            )
             return await render_with_discover(
                 request,
-                "lesson-drill-result.html",
-                {
-                    "lesson": lesson,
-                    "activity": activity,
-                    "drill": drill,
-                    "attempt": None,
-                    "correct": result.get("correct"),
-                    "feedback": result.get("feedback"),
-                    "rule_refs": [],
-                    "next_url": next_url,
-                    "idx": idx,
-                    "total": len(lesson.activities),
-                    "is_writing": activity.type == ActivityType.WRITING,
-                },
+                "review-activity-speaking.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type == ActivityType.DRILL and activity.drill_id:
+            drill = await GeneratedDrill.get(activity.drill_id)
+            review_ctx.update(drill=drill, rule_refs=[])
+            return await render_with_discover(
+                request,
+                "review-activity-drill.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type == ActivityType.WRITING:
+            review_ctx.update(
+                content=activity.content or "",
+                student_answer=result.get("student_answer", ""),
+            )
+            return await render_with_discover(
+                request,
+                "review-activity-writing.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type in (ActivityType.READING, ActivityType.LISTENING):
+            review_ctx.update(
+                student_answers=result.get("student_answers", []),
+                question_lang="en" if lesson.cefr_at_start == "A0" else lesson.language,
+            )
+            if activity.type == ActivityType.LISTENING:
+                review_ctx["audio_url"] = activity.audio_path
+                template = "review-activity-listening.html"
+            else:
+                template = "review-activity-reading.html"
+            return await render_with_discover(
+                request,
+                template,
+                review_ctx,
                 student_id=student.id,
             )
 

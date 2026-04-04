@@ -1,0 +1,88 @@
+{% extends "lesson-activity-layout.html" %}
+{% block activity_title %}{{ t("page_title_speaking") }} — Maestro{% endblock %}
+{% block activity_head %}<link rel="stylesheet" href="/static/speaking.css">{% endblock %}
+
+{% block activity_card %}
+<div class="card review-mode" id="speaking-card">
+  <div class="card-label">{{ t("speaking_title") }}</div>
+
+  {# ── Original prompt (same as student view) ── #}
+  <div class="speaking-prompt">
+    <div class="speaking-prompt-label">{{ t("speaking_prompt_label") }}</div>
+    <div class="speaking-prompt-text" lang="{{ target_language_code }}">{{ activity.content }}</div>
+  </div>
+
+  {# ── Transcribed text ── #}
+  {% if recognized_text %}
+  <div class="sr-transcript">
+    <div class="sr-section-label">{{ t("speaking_you_said") }}</div>
+    <p class="sr-transcript-text">{{ recognized_text }}</p>
+  </div>
+  {% endif %}
+
+  {# ── Pronunciation scores ── #}
+  {% if pronunciation_score is not none %}
+  <div class="sr-score-hero">
+    <div class="sr-score-ring" style="--pct: {{ pronunciation_score | round | int }}">
+      <svg viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="35" class="sr-ring-bg"/>
+        <circle cx="40" cy="40" r="35" class="sr-ring-fg"/>
+      </svg>
+      <span class="sr-score-number">{{ pronunciation_score | round | int }}</span>
+    </div>
+    <div class="sr-score-hero-label">{{ t("speaking_overall") }}</div>
+  </div>
+
+  <div class="sr-scores-row">
+    <div class="sr-metric">
+      <span class="sr-metric-value">{{ accuracy_score | round | int }}</span>
+      <span class="sr-metric-label">{{ t("speaking_accuracy") }}</span>
+    </div>
+    <div class="sr-metric-divider"></div>
+    <div class="sr-metric">
+      <span class="sr-metric-value">{{ fluency_score | round | int }}</span>
+      <span class="sr-metric-label">{{ t("speaking_fluency") }}</span>
+    </div>
+  </div>
+
+  {% if words %}
+  <div class="sr-words-label">{{ t("speaking_tap_word") }}</div>
+  <div class="sr-words">
+    {% for w in words %}
+    <span class="sr-word {% if w.error_type == 'Omission' %}sr-w-omit{% elif w.error_type == 'Mispronunciation' or w.accuracy_score < 60 %}sr-w-bad{% elif w.accuracy_score < 80 %}sr-w-mid{% else %}sr-w-good{% endif %}"
+          data-word="{{ w.word }}"
+          data-accuracy="{{ w.accuracy_score | round | int }}"
+          data-error="{{ w.error_type }}">{{ w.word }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endif %}
+
+  {# ── Grammar/content feedback ── #}
+  {% if feedback and feedback is mapping %}
+  <div class="sr-feedback">
+    <div class="sr-section-label">{{ t("speaking_feedback_label") }}</div>
+    {% if feedback.objective_note %}
+      <p class="sr-feedback-note">{{ feedback.objective_note | safe }}</p>
+    {% endif %}
+    {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
+    {% set tips = feedback.tips if feedback.tips is defined else [] %}
+    {% if grammar_errors or tips %}
+      <div class="sr-section-label" style="margin-top:0.6rem;">{{ t("result_notes_label") }}</div>
+      <div class="item-secondary" style="margin-bottom:0.5rem;">
+        {% for err in grammar_errors %}
+          <div><span class="item-grammar-error">{{ err | safe }}</span></div>
+        {% endfor %}
+        {% for tip in tips %}
+          <div class="item-tip">{{ tip | safe }}</div>
+        {% endfor %}
+      </div>
+    {% elif feedback.objective_correct is defined and feedback.objective_correct %}
+      <p class="sr-feedback-note" style="color:var(--c-sage);">{{ t("result_great_answer") }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% include "partials/review-banner.html" %}
+</div>
+{% endblock %}

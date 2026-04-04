@@ -1,0 +1,54 @@
+{% extends "lesson-activity-layout.html" %}
+{% block activity_title %}{{ t("page_title_writing") }} — Maestro{% endblock %}
+
+{% block activity_card %}
+<div class="card review-mode">
+  <div class="card-label">{{ t("page_title_writing") }}</div>
+
+  {# ── Original prompt (same as student view) ── #}
+  <div class="prompt-text" lang="{{ target_language_code }}">{{ content | markdown | safe }}</div>
+
+  {# ── Score banner ── #}
+  {% if feedback and feedback is mapping and "objective_correct" in feedback %}
+    {% if correct %}
+      <div class="result-ok">{{ t("result_submitted") }}</div>
+    {% else %}
+      <div class="result-wrong">{{ t("result_not_completed") }}</div>
+      {% if feedback.objective_note %}
+        <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;">{{ feedback.objective_note | safe }}</p>
+      {% endif %}
+    {% endif %}
+  {% elif feedback and feedback is mapping and "scoring_unavailable" in feedback %}
+    <div class="result-unavailable">{{ feedback.scoring_unavailable }}</div>
+  {% endif %}
+
+  {# ── Student's answer ── #}
+  {% if student_answer %}
+    <div class="review-answer-block">
+      <div class="review-answer-label">{{ t("review_student_wrote") }}</div>
+      <div class="student-writing-response">{{ student_answer }}</div>
+    </div>
+  {% endif %}
+
+  {# ── Grammar errors & tips ── #}
+  {% if feedback and feedback is mapping %}
+    {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
+    {% set tips = feedback.tips if feedback.tips is defined else [] %}
+    {% if grammar_errors or tips %}
+      <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">{{ t("result_notes_label") }}</div>
+      <div class="item-secondary" style="margin-bottom:1rem;">
+        {% for err in grammar_errors %}
+          <div><span class="item-grammar-error">{{ err | safe }}</span></div>
+        {% endfor %}
+        {% for tip in tips %}
+          <div class="item-tip">{{ tip | safe }}</div>
+        {% endfor %}
+      </div>
+    {% elif correct %}
+      <p style="font-size:0.9rem;color:#333;margin-bottom:1rem;">{{ t("result_great_answer") }}</p>
+    {% endif %}
+  {% endif %}
+
+  {% include "partials/review-banner.html" %}
+</div>
+{% endblock %}

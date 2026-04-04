@@ -1,0 +1,37 @@
+{# Progress bar for review mode — prev/next nav instead of abandon #}
+{# Expects: lesson, idx, total, prev_url, next_url #}
+
+<div class="lesson-progress">
+  <div class="progress-segments">
+    {% for a in lesson.activities %}
+    {% set is_done = a.status in ('completed', 'skipped') %}
+    {% set is_current_view = (loop.index0 == idx) %}
+    {% set is_grammar = (a.type == 'grammar') %}
+    {% set seg_class %}{% if is_current_view %}current{% elif is_done %}completed{% else %}upcoming{% endif %}{% endset %}
+    {% set grammar_class %}{% if is_grammar %} grammar-seg{% endif %}{% endset %}
+    {% if is_done or is_current_view %}
+    <a href="/lessons/{{ lesson.id }}/activity/{{ loop.index0 }}"
+       class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></a>
+    {% else %}
+    <div class="progress-seg {{ seg_class }}{{ grammar_class }}" title="{{ a.title }}"></div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="progress-footer">
+    <div class="review-nav">
+      {% if prev_url %}
+      <a href="{{ prev_url }}" class="review-nav-link">&larr; {{ t("review_prev") }}</a>
+      {% else %}
+      <span class="review-nav-link review-nav-disabled">&larr; {{ t("review_prev") }}</span>
+      {% endif %}
+      <span class="progress-label">
+        {{ t("progress_label", current=idx + 1, total=total) }}
+      </span>
+      {% if next_url %}
+      <a href="{{ next_url }}" class="review-nav-link">{{ t("review_next") }} &rarr;</a>
+      {% else %}
+      <a href="/lessons/{{ lesson.id }}/complete" class="review-nav-link">{{ t("review_done") }} &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
