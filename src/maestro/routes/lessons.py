@@ -1,5 +1,4 @@
 import asyncio
-import base64
 import json
 import logging
 import random
@@ -68,6 +67,21 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 _GENERATION_TIMEOUT_SECONDS = 180  # 3 minutes
+
+
+def _review_redirect(lesson_id, idx) -> Response:
+    """Redirect to the activity review page after submission.
+
+    Returns HX-Redirect for HTMX requests and a <script> redirect
+    for fetch-based handlers (speaking).
+    """
+    url = f"/lessons/{lesson_id}/activity/{idx}"
+    html = f'<script>window.location.href="{url}"</script>'
+    return Response(
+        content=html,
+        media_type="text/html",
+        headers={"HX-Redirect": url},
+    )
 
 _LEARNING_TYPES = {
     ActivityType.GRAMMAR,
@@ -951,28 +965,12 @@ async def lesson_drill_submit(
             "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
         )
         _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
-        next_url = await advance_lesson(
+        await advance_lesson(
             lesson,
             idx,
             result={"correct": None, "student_answer": "", "feedback": _err_feedback},
         )
-        return await render_with_discover(
-            request,
-            "lesson-drill-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "drill": drill,
-                "attempt": None,
-                "correct": None,
-                "feedback": _err_feedback,
-                "rule_refs": [],
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
-        )
+        return _review_redirect(lesson_id, idx)
 
     stored_answer = (
         json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
@@ -1018,25 +1016,9 @@ async def lesson_drill_submit(
         ]
     feedback = feedback or None
     drill_result["feedback"] = feedback
-    next_url = await advance_lesson(lesson, idx, result=drill_result)
+    await advance_lesson(lesson, idx, result=drill_result)
 
-    return await render_with_discover(
-        request,
-        "lesson-drill-result.html",
-        {
-            "lesson": lesson,
-            "activity": activity,
-            "drill": drill,
-            "attempt": attempt,
-            "correct": correct,
-            "feedback": feedback,
-            "rule_refs": rule_refs,
-            "next_url": next_url,
-            "idx": idx,
-            "total": len(lesson.activities),
-        },
-        student_id=student.id,
-    )
+    return _review_redirect(lesson_id, idx)
 
 
 @router.get(
@@ -1160,28 +1142,10 @@ async def lesson_writing_submit(
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
         _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
-        next_url = await advance_lesson(
+        await advance_lesson(
             lesson, idx, result={"student_answer": answer, "feedback": _err_feedback}
         )
-        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
-        return await render_with_discover(
-            request,
-            "lesson-drill-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "drill": None,
-                "attempt": None,
-                "correct": None,
-                "feedback": _err_feedback,
-                "rule_refs": [],
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-                "is_writing": True,
-            },
-            student_id=student.id,
-        )
+        return _review_redirect(lesson_id, idx)
 
     await grammar_cache.ensure_loaded(lesson.language)
     valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
@@ -1211,29 +1175,9 @@ async def lesson_writing_submit(
     )
 
     writing_result = {"student_answer": answer, "feedback": feedback}
-    next_url = await advance_lesson(lesson, idx, result=writing_result)
+    await advance_lesson(lesson, idx, result=writing_result)
 
-    return await render_with_discover(
-        request,
-        "lesson-drill-result.html",
-        {
-            "lesson": lesson,
-            "activity": activity,
-            "drill": None,
-            "attempt": None,
-            "correct": feedback.get("objective_correct", True)
-            if isinstance(feedback, dict)
-            else True,
-            "feedback": feedback,
-            "student_answer": answer,
-            "rule_refs": [],
-            "next_url": next_url,
-            "idx": idx,
-            "total": len(lesson.activities),
-            "is_writing": True,
-        },
-        student_id=student.id,
-    )
+    return _review_redirect(lesson_id, idx)
 
 
 @router.post(
@@ -1275,47 +1219,17 @@ async def lesson_speaking_submit(
             "transcription failed for speaking",
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
-        next_url = await advance_lesson(
+        await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return await render_with_discover(
-            request,
-            "lesson-speaking-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "recognized_text": None,
-                "pronunciation_score": None,
-                "feedback": None,
-                "scoring_unavailable": t("scoring_unavailable"),
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
-        )
+        return _review_redirect(lesson_id, idx)
 
     # --- Empty check ---
     if not recognized_text or not recognized_text.strip():
-        next_url = await advance_lesson(
+        await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return await render_with_discover(
-            request,
-            "lesson-speaking-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "recognized_text": "",
-                "pronunciation_score": None,
-                "feedback": None,
-                "nothing_recognized": t("speaking_nothing_recognized"),
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
-        )
+        return _review_redirect(lesson_id, idx)
 
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
     profile = await get_profile(student.id)
@@ -1363,25 +1277,14 @@ async def lesson_speaking_submit(
 
     # Both failed → scoring_unavailable
     if feedback is None and pronunciation is None:
-        next_url = await advance_lesson(
-            lesson, idx, result={"student_answer": recognized_text, "correct": None}
-        )
-        return await render_with_discover(
-            request,
-            "lesson-speaking-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
+        await advance_lesson(
+            lesson, idx, result={
+                "student_answer": recognized_text,
                 "recognized_text": recognized_text,
-                "pronunciation_score": None,
-                "feedback": None,
-                "scoring_unavailable": t("scoring_unavailable"),
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
+                "correct": None,
+            }
         )
+        return _review_redirect(lesson_id, idx)
 
     # --- Build result and LearningEvent ---
     speaking_result = {"student_answer": recognized_text}
@@ -1405,6 +1308,11 @@ async def lesson_speaking_submit(
             }
             for w in pronunciation.words
         ]
+    else:
+        speaking_result["recognized_text"] = recognized_text
+
+    if feedback:
+        speaking_result["feedback"] = feedback
 
     grammar_correct = []
     grammar_errors = []
@@ -1418,7 +1326,7 @@ async def lesson_speaking_submit(
             c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
         ]
 
-    next_url = await advance_lesson(lesson, idx, result=speaking_result)
+    await advance_lesson(lesson, idx, result=speaking_result)
 
     event = LearningEvent(
         student_id=student.id,
@@ -1444,32 +1352,7 @@ async def lesson_speaking_submit(
         },
     )
 
-    # --- Render combined result ---
-    recorded_audio_b64 = base64.b64encode(audio_bytes).decode() if pronunciation else ""
-
-    ctx = {
-        "lesson": lesson,
-        "activity": activity,
-        "recognized_text": recognized_text,
-        "pronunciation_score": pronunciation.pronunciation_score
-        if pronunciation
-        else None,
-        "accuracy_score": pronunciation.accuracy_score if pronunciation else None,
-        "fluency_score": pronunciation.fluency_score if pronunciation else None,
-        "words": [w.model_dump() for w in pronunciation.words] if pronunciation else [],
-        "recorded_audio_b64": recorded_audio_b64,
-        "feedback": feedback,
-        "next_url": next_url,
-        "idx": idx,
-        "total": len(lesson.activities),
-    }
-
-    return await render_with_discover(
-        request,
-        "lesson-speaking-result.html",
-        ctx,
-        student_id=student.id,
-    )
+    return _review_redirect(lesson_id, idx)
 
 
 @router.get("/speaking/word-audio/{word:path}")
@@ -1525,7 +1408,7 @@ async def lesson_reading_submit(
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
         _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
-        next_url = await advance_lesson(
+        await advance_lesson(
             lesson,
             idx,
             result={
@@ -1534,24 +1417,7 @@ async def lesson_reading_submit(
                 "feedback": _err_feedback,
             },
         )
-        # Reuse drill-result template — the scoring_unavailable branch is activity-agnostic
-        return await render_with_discover(
-            request,
-            "lesson-drill-result.html",
-            {
-                "lesson": lesson,
-                "activity": activity,
-                "drill": None,
-                "attempt": None,
-                "correct": None,
-                "feedback": _err_feedback,
-                "rule_refs": [],
-                "next_url": next_url,
-                "idx": idx,
-                "total": len(lesson.activities),
-            },
-            student_id=student.id,
-        )
+        return _review_redirect(lesson_id, idx)
 
     joined_answers = " | ".join(a for a in answers if a)
     event = LearningEvent(
@@ -1571,25 +1437,9 @@ async def lesson_reading_submit(
         "correct": overall_correct,
         "feedback": feedback,
     }
-    next_url = await advance_lesson(lesson, idx, result=reading_result)
+    await advance_lesson(lesson, idx, result=reading_result)
 
-    return await render_with_discover(
-        request,
-        "lesson-drill-result.html",
-        {
-            "lesson": lesson,
-            "activity": activity,
-            "drill": None,
-            "attempt": None,
-            "correct": overall_correct,
-            "feedback": feedback,
-            "rule_refs": [],
-            "next_url": next_url,
-            "idx": idx,
-            "total": len(lesson.activities),
-        },
-        student_id=student.id,
-    )
+    return _review_redirect(lesson_id, idx)
 
 
 @router.post("/lessons/{lesson_id}/abandon")

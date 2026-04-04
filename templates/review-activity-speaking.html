@@ -12,6 +12,11 @@
     <div class="speaking-prompt-text" lang="{{ target_language_code }}">{{ activity.content }}</div>
   </div>
 
+  {# ── Nothing recognized / scoring unavailable ── #}
+  {% if not recognized_text and not pronunciation_score is defined %}
+    <div class="sr-notice">{{ t("scoring_unavailable") }}</div>
+  {% endif %}
+
   {# ── Transcribed text ── #}
   {% if recognized_text %}
   <div class="sr-transcript">
