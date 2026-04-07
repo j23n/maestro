@@ -78,8 +78,14 @@ def _slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", ascii_text).strip("_")
 
 
-def word_audio_path(word: str) -> Path:
-    return _audio_dir() / f"word_{_slugify(word)}.wav"
+def word_audio_path(word: str, language: str | None = None) -> Path:
+    base = _audio_dir() / language if language else _audio_dir()
+    return base / f"word_{_slugify(word)}.wav"
+
+
+def phrase_audio_path(phrase: str, language: str | None = None) -> Path:
+    base = _audio_dir() / language if language else _audio_dir()
+    return base / f"phrase_{_slugify(phrase)}.wav"
 
 
 def _lesson_audio_path(lesson_id: str, idx: int) -> Path:
@@ -125,8 +131,12 @@ async def generate_word_audio(word: str, *, language: str) -> Optional[str]:
 
     Returns None if synthesis fails.
     """
-    path = word_audio_path(word)
-    url = f"/static/audio/{path.name}"
+    path = word_audio_path(word, language=language)
+    url = (
+        f"/static/audio/{language}/{path.name}"
+        if language
+        else f"/static/audio/{path.name}"
+    )
     if path.exists():
         return url
     lock = _synth_locks.setdefault(path, asyncio.Lock())
@@ -139,6 +149,35 @@ async def generate_word_audio(word: str, *, language: str) -> Optional[str]:
         except Exception:
             logger.warning(
                 "word TTS synthesis failed", extra={"word": word}, exc_info=True
+            )
+            return None
+
+
+async def generate_phrase_audio(
+    phrase: str, *, language: str | None = None
+) -> Optional[str]:
+    """Generate WAV for a phrase and return its static URL.
+
+    Returns None if synthesis fails.
+    """
+    path = phrase_audio_path(phrase, language=language)
+    url = (
+        f"/static/audio/{language}/{path.name}"
+        if language
+        else f"/static/audio/{path.name}"
+    )
+    if path.exists():
+        return url
+    lock = _synth_locks.setdefault(path, asyncio.Lock())
+    async with lock:
+        if path.exists():  # re-check after acquiring
+            return url
+        try:
+            await _synth_to_file(phrase, path, language=language)
+            return url
+        except Exception:
+            logger.warning(
+                "phrase TTS synthesis failed", extra={"phrase": phrase}, exc_info=True
             )
             return None
 

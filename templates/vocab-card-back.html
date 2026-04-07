@@ -2,7 +2,8 @@
   {% set translation = word_def.translation if word_def and word_def.translation else "—" %}
   {% set senses = word_def.senses if word_def else [] %}
   {% set has_sense_trs = senses | selectattr('translation') | list | length > 0 %}
-  {% set pos_line %}{{ card.word.part_of_speech }}{% if card.word.syllabization %} · [{{ card.word.syllabization }}]{% endif %} · {{ card.word.cefr_level }}{% endset %}
+  {% set pron = card.word.ipa if card.word.ipa else ('[' + card.word.syllabization + ']' if card.word.syllabization else '') %}
+  {% set pos_line %}{{ card.word.part_of_speech }}{% if pron %} · {{ pron }}{% endif %} · {{ card.word.cefr_level }}{% endset %}
 
   {% if total_cards %}
   <div class="card-queue">{{ card_idx + 1 }} / {{ total_cards }}</div>

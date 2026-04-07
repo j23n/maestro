@@ -158,6 +158,7 @@ class Sense(BaseModel):
 class VocabularyWord(Document):
     word: str
     syllabization: Optional[str] = None  # "af-flùs-so" (no brackets)
+    ipa: Optional[str] = None  # IPA transcription, e.g. /ˈbɪtə/
     part_of_speech: str  # raw abbrev: "s.m.", "v.tr.", etc.
     cefr_level: Optional[str] = None  # A1–B2, or None for non-CEFR entries
     entry_id: Optional[str] = None  # "LM-00595"
@@ -171,8 +172,9 @@ class VocabularyWord(Document):
         """Return the static URL for this word's audio, or None if the file doesn't exist."""
         from maestro.tts import word_audio_path
 
-        path = word_audio_path(self.word)
-        return f"/static/audio/{path.name}" if path.exists() else None
+        path = word_audio_path(self.word, language=self.language)
+        lang = self.language
+        return f"/static/audio/{lang}/{path.name}" if path.exists() else None
 
     class Settings:
         name = "vocabulary_words"

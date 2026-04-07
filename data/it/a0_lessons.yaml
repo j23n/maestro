@@ -30,12 +30,12 @@
 
       ### Greetings
 
-      | Italian | Meaning | When | Pronunciation |
+      | Italian | Meaning | When | Audio |
       |---------|---------|------|---------------|
-      | **<span lang="it">Ciao!</span>** | Hello! / Bye! | Informal | *chow* |
-      | **<span lang="it">Buongiorno!</span>** | Good morning | Formal, daytime | *bwon-JOR-no* |
-      | **<span lang="it">Buonasera!</span>** | Good evening | Formal, evening | *bwon-ah-SEH-rah* |
-      | **<span lang="it">Arrivederci!</span>** | Goodbye | Formal | *ah-ree-veh-DEHR-chee* |
+      | **<span lang="it">Ciao!</span>** | Hello! / Bye! | Informal | /static/audio/it/phrase_ciao.wav |
+      | **<span lang="it">Buongiorno!</span>** | Good morning | Formal, daytime | /static/audio/it/phrase_buongiorno.wav |
+      | **<span lang="it">Buonasera!</span>** | Good evening | Formal, evening | /static/audio/it/phrase_buonasera.wav |
+      | **<span lang="it">Arrivederci!</span>** | Goodbye | Formal | /static/audio/it/phrase_arrivederci.wav |
 
       ### Formal vs informal
 
@@ -53,10 +53,10 @@
 
       Two phrases that save you when you're lost:
 
-      | Italian | Meaning | Pronunciation |
+      | Italian | Meaning | Audio |
       |---------|---------|---------------|
-      | **<span lang="it">Non capisco.</span>** | I don't understand. | *non kah-PEE-sko* |
-      | **<span lang="it">Non parlo italiano.</span>** | I don't speak Italian. | *non PAR-lo ee-tah-LYAH-no* |
+      | **<span lang="it">Non capisco.</span>** | I don't understand. | /static/audio/it/phrase_non_capisco.wav |
+      | **<span lang="it">Non parlo italiano.</span>** | I don't speak Italian. | /static/audio/it/phrase_non_parlo_italiano.wav |
 
       Put **<span lang="it">non</span>** before any verb to make it negative — that's the only rule you need for now.
   - type: drill
@@ -113,12 +113,12 @@
 
       These four phrases will get you through almost any interaction in Italy:
 
-      | Italian | Meaning | Pronunciation |
+      | Italian | Meaning | Audio |
       |---------|---------|---------------|
-      | **<span lang="it">Grazie!</span>** | Thank you! | *GRAH-tsyeh* |
-      | **<span lang="it">Per favore</span>** | Please | *pair fah-VOH-reh* |
-      | **<span lang="it">Prego!</span>** | You're welcome | *PREH-go* |
-      | **<span lang="it">Scusi</span>** | Excuse me (formal) | *SKOO-zee* |
+      | **<span lang="it">Grazie!</span>** | Thank you! | /static/audio/it/phrase_grazie.wav |
+      | **<span lang="it">Per favore</span>** | Please | /static/audio/it/phrase_per_favore.wav |
+      | **<span lang="it">Prego!</span>** | You're welcome | /static/audio/it/phrase_prego.wav |
+      | **<span lang="it">Scusi</span>** | Excuse me (formal) | /static/audio/it/phrase_scusi.wav |
 
       ### When to use them
 
@@ -218,7 +218,7 @@
     content: |
       ## At the reception
 
-      - **<span lang="it">Mi chiamo...</span>** — My name is... (*mee KYAH-mo*)
+      - **<span lang="it">Mi chiamo...</span>** — My name is...
       - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation. (**ho** = I have)
       - **<span lang="it">Come si chiama?</span>** — What is your name? (formal)
 

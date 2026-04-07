@@ -1,16 +1,19 @@
 """Pre-generate WAV audio for all A0 static assets.
 
-Generates three kinds of audio:
+Generates four kinds of audio:
 1. Listening-activity audio — from a0_lessons.yaml (a0_*.wav)
 2. Pronunciation audio — vowels and numbers referenced in grammar tables
 3. Vocabulary word audio — from vocab_a0.yaml (word_*.wav)
+4. Grammar table phrases — target-language phrases from grammar card tables
 
 Usage (with Azure credentials in environment):
     uv run scripts/generate_a0_audio.py
+    uv run scripts/generate_a0_audio.py --lang de
 
 Optional flags:
     --check   Dry-run: report missing audio files and lesson↔vocab coverage
               gaps without calling Azure. Exit code 1 if anything is missing.
+    --lang    Language code (default: it). Use 'all' for all languages.
 
 Requires:
     AZURE_SPEECH_KEY and AZURE_SPEECH_REGION set in .env or environment.
@@ -29,7 +32,10 @@ import yaml
 # Allow running from repo root without installing the package
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-_DATA_DIR = Path(__file__).parent.parent / "src" / "maestro" / "data" / "it"
+_REPO_ROOT = Path(__file__).parent.parent
+_DATA_ROOT = _REPO_ROOT / "data"
+# Legacy default for Italian
+_DATA_DIR = _REPO_ROOT / "src" / "maestro" / "data" / "it"
 
 # Pronunciation audio: filename stem -> Italian text to synthesize
 _PRONUNCIATION_ITEMS: dict[str, str] = {
@@ -62,13 +68,20 @@ _PRONUNCIATION_ITEMS: dict[str, str] = {
 }
 
 
-def _load_lessons() -> dict:
-    with open(_DATA_DIR / "a0_lessons.yaml") as f:
+def _load_lessons(lang: str = "it") -> dict:
+    path = _DATA_ROOT / lang / "a0_lessons.yaml"
+    if not path.exists():
+        # Fall back to legacy path for Italian
+        path = _DATA_DIR / "a0_lessons.yaml"
+    with open(path) as f:
         return yaml.safe_load(f)
 
 
-def _load_vocab() -> list[dict]:
-    with open(_DATA_DIR / "vocab_a0.yaml") as f:
+def _load_vocab(lang: str = "it") -> list[dict]:
+    path = _DATA_ROOT / lang / "vocab_a0.yaml"
+    if not path.exists():
+        path = _DATA_DIR / "vocab_a0.yaml"
+    with open(path) as f:
         return yaml.safe_load(f)
 
 
@@ -133,12 +146,42 @@ def _lesson_lemmas(all_lessons: dict) -> set[str]:
     return lemmas
 
 
+def _collect_grammar_phrases(all_lessons: dict, lang: str) -> list[str]:
+    """Extract target-language phrases from grammar card tables.
+
+    Finds <span lang="xx">text</span> in grammar activity content and returns
+    unique phrases suitable for TTS generation.
+    """
+    span_re = re.compile(rf'<span\s+lang="{lang}">\*{{0,2}}(.*?)\*{{0,2}}</span>')
+    phrases: list[str] = []
+    seen: set[str] = set()
+
+    for lesson_data in all_lessons.values():
+        for act in lesson_data.get("activities", []):
+            if act.get("type") != "grammar":
+                continue
+            content = act.get("content", "") or ""
+            for m in span_re.finditer(content):
+                text = m.group(1).strip()
+                # Clean up bold markers
+                text = text.replace("**", "").strip()
+                # Skip single letters (used in pronunciation tables)
+                if len(text) <= 1:
+                    continue
+                # Skip if already a word_*.wav or already seen
+                if text.lower() not in seen:
+                    seen.add(text.lower())
+                    phrases.append(text)
+
+    return phrases
+
+
 # ── check mode ──────────────────────────────────────────────────────
 
 
-def check(all_lessons: dict, vocab_items: list[dict]) -> int:
+def check(all_lessons: dict, vocab_items: list[dict], lang: str = "it") -> int:
     """Report missing audio files and lesson↔vocab coverage gaps. Returns exit code."""
-    from maestro.tts import _audio_dir, word_audio_path
+    from maestro.tts import _audio_dir, phrase_audio_path, word_audio_path
 
     audio_dir = _audio_dir()
     problems = 0
@@ -162,51 +205,68 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
                 print(f"  MISS  {slug:30s} -> {filename}")
                 problems += 1
 
-    # 2. Pronunciation audio (vowels, numbers, etc.)
-    print("\nPronunciation audio:")
-    pron_paths = _collect_pronunciation_paths(all_lessons)
-    for stem in pron_paths:
-        path = audio_dir / f"{stem}.wav"
-        text = _PRONUNCIATION_ITEMS.get(stem)
-        if not text:
-            print(f"  WARN  {stem}.wav — no text mapping (add to _PRONUNCIATION_ITEMS)")
-            problems += 1
-            continue
-        if path.exists():
-            print(f"  OK    {stem:20s} -> {path.name}")
-        else:
-            print(f"  MISS  {stem:20s} -> {path.name}")
-            problems += 1
+    # 2. Pronunciation audio (vowels, numbers — Italian only)
+    if lang == "it":
+        print("\nPronunciation audio:")
+        pron_paths = _collect_pronunciation_paths(all_lessons)
+        for stem in pron_paths:
+            path = audio_dir / f"{stem}.wav"
+            text = _PRONUNCIATION_ITEMS.get(stem)
+            if not text:
+                print(
+                    f"  WARN  {stem}.wav — no text mapping (add to _PRONUNCIATION_ITEMS)"
+                )
+                problems += 1
+                continue
+            if path.exists():
+                print(f"  OK    {stem:20s} -> {path.name}")
+            else:
+                print(f"  MISS  {stem:20s} -> {path.name}")
+                problems += 1
 
     # 3. Word audio
     print("\nVocabulary word audio (word_*.wav):")
     for item in vocab_items:
         word = item["word"]
-        path = word_audio_path(word)
+        path = word_audio_path(word, language=lang)
         if path.exists():
             print(f"  OK    {word:20s} -> {path.name}")
         else:
             print(f"  MISS  {word:20s} -> {path.name}")
             problems += 1
 
-    # 4. Lesson↔vocab coverage — replicate discover()'s matching direction:
+    # 4. Grammar table phrase audio
+    print("\nGrammar table phrase audio (phrase_*.wav):")
+    grammar_phrases = _collect_grammar_phrases(all_lessons, lang)
+    for phrase in grammar_phrases:
+        path = phrase_audio_path(phrase, language=lang)
+        if path.exists():
+            print(f"  OK    {phrase:30s} -> {path.name}")
+        else:
+            print(f"  MISS  {phrase:30s} -> {path.name}")
+            problems += 1
+
+    # 5. Lesson↔vocab coverage — replicate discover()'s matching direction:
     #    check which vocab headwords appear in the lemmatized lesson text.
     #    This is immune to bad lemmas (they just silently fail to match).
-    print("\nLesson↔vocab coverage (discover-style headword matching):")
-    lemmas = _lesson_lemmas(all_lessons)
-    found = []
-    not_found = []
-    for item in vocab_items:
-        headword = item["word"].lower()
-        if headword in lemmas:
-            found.append(headword)
-        else:
-            not_found.append(headword)
-    for w in found:
-        print(f"  OK    {w}")
-    for w in not_found:
-        print(f"  MISS  {w}")
-    print(f"\n  {len(found)}/{len(vocab_items)} A0 vocab words discoverable in lessons")
+    if lang == "it":
+        print("\nLesson↔vocab coverage (discover-style headword matching):")
+        lemmas = _lesson_lemmas(all_lessons)
+        found = []
+        not_found = []
+        for item in vocab_items:
+            headword = item["word"].lower()
+            if headword in lemmas:
+                found.append(headword)
+            else:
+                not_found.append(headword)
+        for w in found:
+            print(f"  OK    {w}")
+        for w in not_found:
+            print(f"  MISS  {w}")
+        print(
+            f"\n  {len(found)}/{len(vocab_items)} A0 vocab words discoverable in lessons"
+        )
 
     if problems:
         print(f"\n{problems} audio file(s) missing.")
@@ -219,12 +279,13 @@ def check(all_lessons: dict, vocab_items: list[dict]) -> int:
 # ── generate mode ───────────────────────────────────────────────────
 
 
-async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
+async def generate(all_lessons: dict, vocab_items: list[dict], lang: str = "it") -> int:
     """Generate all A0 audio. Returns exit code."""
     from maestro.tts import (
         _audio_dir,
         _strip_markup,
         _synth_to_file,
+        generate_phrase_audio,
         generate_word_audio,
     )
 
@@ -254,34 +315,35 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
                 path.unlink()
             print(f"  GEN   {slug} -> {filename} ...", end=" ", flush=True)
             try:
-                await _synth_to_file(_strip_markup(content), path)
+                await _synth_to_file(_strip_markup(content), path, language=lang)
                 print(f"-> {audio_url}")
                 generated += 1
             except Exception as e:
                 print(f"FAILED: {e}")
                 failed += 1
 
-    # 2. Pronunciation audio (vowels, numbers, etc.)
-    print("\nPronunciation audio:")
-    pron_paths = _collect_pronunciation_paths(all_lessons)
-    for stem in pron_paths:
-        text = _PRONUNCIATION_ITEMS.get(stem)
-        if not text:
-            print(f"  SKIP  {stem}.wav — no text mapping")
-            skipped += 1
-            continue
-        path = audio_dir / f"{stem}.wav"
-        if path.exists():
-            print(f"  SKIP  {path.name} (exists)")
-            skipped += 1
-            continue
-        print(f"  GEN   {path.name} ...", end=" ", flush=True)
-        try:
-            await _synth_to_file(text, path)
-            print("OK")
-            generated += 1
-        except Exception as e:
-            print(f"FAILED: {e}")
+    # 2. Pronunciation audio (vowels, numbers — Italian only)
+    if lang == "it":
+        print("\nPronunciation audio:")
+        pron_paths = _collect_pronunciation_paths(all_lessons)
+        for stem in pron_paths:
+            text = _PRONUNCIATION_ITEMS.get(stem)
+            if not text:
+                print(f"  SKIP  {stem}.wav — no text mapping")
+                skipped += 1
+                continue
+            path = audio_dir / f"{stem}.wav"
+            if path.exists():
+                print(f"  SKIP  {path.name} (exists)")
+                skipped += 1
+                continue
+            print(f"  GEN   {path.name} ...", end=" ", flush=True)
+            try:
+                await _synth_to_file(text, path, language=lang)
+                print("OK")
+                generated += 1
+            except Exception as e:
+                print(f"FAILED: {e}")
             failed += 1
 
     # 3. Word audio
@@ -289,7 +351,20 @@ async def generate(all_lessons: dict, vocab_items: list[dict]) -> int:
     for item in vocab_items:
         word = item["word"]
         print(f"  GEN   {word:20s} ...", end=" ", flush=True)
-        url = await generate_word_audio(word)
+        url = await generate_word_audio(word, language=lang)
+        if url:
+            print(f"-> {url}")
+            generated += 1
+        else:
+            print("FAILED")
+            failed += 1
+
+    # 4. Grammar table phrase audio
+    print("\nGrammar table phrase audio:")
+    grammar_phrases = _collect_grammar_phrases(all_lessons, lang)
+    for phrase in grammar_phrases:
+        print(f"  GEN   {phrase:30s} ...", end=" ", flush=True)
+        url = await generate_phrase_audio(phrase, language=lang)
         if url:
             print(f"-> {url}")
             generated += 1
@@ -315,14 +390,35 @@ async def main() -> int:
         action="store_true",
         help="Dry-run: report missing files and coverage gaps (no Azure needed)",
     )
+    parser.add_argument(
+        "--lang",
+        default="it",
+        help="Language code (default: it)",
+    )
     args = parser.parse_args()
 
-    all_lessons = _load_lessons()
-    vocab_items = _load_vocab()
+    langs = (
+        [
+            d.name
+            for d in _DATA_ROOT.iterdir()
+            if d.is_dir() and (d / "a0_lessons.yaml").exists()
+        ]
+        if args.lang == "all"
+        else [args.lang]
+    )
 
-    if args.check:
-        return check(all_lessons, vocab_items)
-    return await generate(all_lessons, vocab_items)
+    exit_code = 0
+    for lang in sorted(langs):
+        print(f"\n{'=' * 60}\n  Language: {lang}\n{'=' * 60}\n")
+        all_lessons = _load_lessons(lang)
+        vocab_items = _load_vocab(lang)
+
+        if args.check:
+            exit_code |= check(all_lessons, vocab_items, lang)
+        else:
+            exit_code |= await generate(all_lessons, vocab_items, lang)
+
+    return exit_code
 
 
 if __name__ == "__main__":

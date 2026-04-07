@@ -12,6 +12,7 @@ import httpx
 import maestro.tts as tts_module
 from maestro.tts import (
     _slugify,
+    phrase_audio_path,
     word_audio_path,
     _lesson_audio_path,
     _synth_to_file,
@@ -71,20 +72,52 @@ def test_slugify_strips_leading_trailing_underscores():
 
 @pytest.mark.unit
 def test_word_audio_path_plain():
-    path = word_audio_path("ciao")
+    path = word_audio_path("ciao", language="it")
     assert path.name == "word_ciao.wav"
+    assert path.parent.name == "it"
 
 
 @pytest.mark.unit
 def test_word_audio_path_accent():
-    path = word_audio_path("caffè")
+    path = word_audio_path("caffè", language="it")
     assert path.name == "word_caffe.wav"
 
 
 @pytest.mark.unit
-def test_word_audio_path_is_under_audio_dir():
+def test_word_audio_path_language_isolation():
+    de_path = word_audio_path("Hotel", language="de")
+    it_path = word_audio_path("Hotel", language="it")
+    assert de_path != it_path
+    assert de_path.parent.name == "de"
+    assert it_path.parent.name == "it"
+
+
+@pytest.mark.unit
+def test_word_audio_path_no_language():
     path = word_audio_path("ciao")
     assert path.parent == tts_module._audio_dir()
+
+
+@pytest.mark.unit
+def test_word_audio_path_is_under_audio_dir():
+    path = word_audio_path("ciao", language="it")
+    assert path.parent.parent == tts_module._audio_dir()
+
+
+@pytest.mark.unit
+def test_phrase_audio_path_basic():
+    path = phrase_audio_path("Guten Morgen", language="de")
+    assert path.name == "phrase_guten_morgen.wav"
+    assert path.parent.name == "de"
+
+
+@pytest.mark.unit
+def test_phrase_audio_path_language_isolation():
+    de_path = phrase_audio_path("Danke", language="de")
+    it_path = phrase_audio_path("Danke", language="it")
+    assert de_path != it_path
+    assert de_path.parent.name == "de"
+    assert it_path.parent.name == "it"
 
 
 @pytest.mark.unit
@@ -114,7 +147,8 @@ def test_lesson_audio_path_is_under_audio_dir():
 async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
     """Returns the cached URL immediately when the WAV already exists."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
-    (tmp_path / "word_ciao.wav").write_bytes(b"fake wav")
+    (tmp_path / "it").mkdir()
+    (tmp_path / "it" / "word_ciao.wav").write_bytes(b"fake wav")
 
     calls = []
 
@@ -125,7 +159,7 @@ async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
 
     url = await generate_word_audio("ciao", language="it")
 
-    assert url == "/static/audio/word_ciao.wav"
+    assert url == "/static/audio/it/word_ciao.wav"
     assert calls == [], "synthesis should not be called when file already exists"
 
 
@@ -145,7 +179,7 @@ async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
 
     url = await generate_word_audio("ciao", language="it")
 
-    assert url == "/static/audio/word_ciao.wav"
+    assert url == "/static/audio/it/word_ciao.wav"
     assert len(synth_calls) == 1
     text, path = synth_calls[0]
     assert text == "ciao"
@@ -173,6 +207,7 @@ async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path, **kwargs):
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"wav")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)

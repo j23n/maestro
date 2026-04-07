@@ -38,6 +38,7 @@ def _make_vocab_word(word, pos="s.f.", entry_id=None, language="it"):
         word=word,
         part_of_speech=pos,
         syllabization="",
+        ipa=None,
         entry_id=entry_id or f"LM-{word.upper()}",
         senses=[],
         id=f"fake-{word}-{pos_slug}",
@@ -47,13 +48,19 @@ def _make_vocab_word(word, pos="s.f.", entry_id=None, language="it"):
 
 
 def _make_word(
-    word="casa", pos="s.f.", syllabization="cà-sa", entry_id="LM-001", senses=None
+    word="casa",
+    pos="s.f.",
+    syllabization="cà-sa",
+    entry_id="LM-001",
+    senses=None,
+    ipa=None,
 ):
     """Create a mock VocabularyWord for _annotate_in_elements tests."""
     return SimpleNamespace(
         word=word,
         part_of_speech=pos,
         syllabization=syllabization,
+        ipa=ipa,
         entry_id=entry_id,
         senses=senses or [],
         id="fake-id",
@@ -1133,6 +1140,7 @@ async def test_discover_no_audio_task_when_audio_exists():
         word="gatto",
         part_of_speech="s.m.",
         syllabization="",
+        ipa=None,
         entry_id="LM-GATTO",
         senses=[],
         id="fake-gatto-sm",

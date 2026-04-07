@@ -70,8 +70,8 @@ async def test_synth_pipeline_posts_ssml_and_writes_response(audio_dir, monkeypa
 
     url = await generate_word_audio("ciao", language="it")
 
-    assert url == "/static/audio/word_ciao.wav"
-    assert (audio_dir / "word_ciao.wav").read_bytes() == _FAKE_WAV
+    assert url == "/static/audio/it/word_ciao.wav"
+    assert (audio_dir / "it" / "word_ciao.wav").read_bytes() == _FAKE_WAV
 
     mock_client.post.assert_called_once()
     args, kwargs = mock_client.post.call_args
@@ -90,13 +90,13 @@ async def test_synth_pipeline_posts_ssml_and_writes_response(audio_dir, monkeypa
 @_requires_key
 async def test_generate_word_audio_returns_url(audio_dir):
     url = await generate_word_audio("ciao", language="it")
-    assert url == "/static/audio/word_ciao.wav"
+    assert url == "/static/audio/it/word_ciao.wav"
 
 
 @_requires_key
 async def test_generate_word_audio_creates_nonempty_file(audio_dir):
     await generate_word_audio("ciao", language="it")
-    wav_path = audio_dir / "word_ciao.wav"
+    wav_path = audio_dir / "it" / "word_ciao.wav"
     assert wav_path.exists()
     assert wav_path.stat().st_size > 0
 
@@ -105,7 +105,7 @@ async def test_generate_word_audio_creates_nonempty_file(audio_dir):
 async def test_generate_word_audio_valid_wav_properties(audio_dir):
     """WAV must be 24 kHz riff-24khz-16bit-mono-pcm."""
     await generate_word_audio("ciao", language="it")
-    sr = _read_wav_sample_rate(audio_dir / "word_ciao.wav")
+    sr = _read_wav_sample_rate(audio_dir / "it" / "word_ciao.wav")
     assert sr == 24000
 
 
@@ -113,10 +113,10 @@ async def test_generate_word_audio_valid_wav_properties(audio_dir):
 async def test_generate_word_audio_idempotent(audio_dir):
     """Second call returns the same URL and does not overwrite the file."""
     url1 = await generate_word_audio("ciao", language="it")
-    mtime1 = (audio_dir / "word_ciao.wav").stat().st_mtime
+    mtime1 = (audio_dir / "it" / "word_ciao.wav").stat().st_mtime
 
     url2 = await generate_word_audio("ciao", language="it")
-    mtime2 = (audio_dir / "word_ciao.wav").stat().st_mtime
+    mtime2 = (audio_dir / "it" / "word_ciao.wav").stat().st_mtime
 
     assert url1 == url2
     assert mtime1 == mtime2, "WAV was overwritten on the second call"
@@ -126,8 +126,8 @@ async def test_generate_word_audio_idempotent(audio_dir):
 async def test_generate_word_audio_accent_word(audio_dir):
     """Accented words are slugified correctly and produce valid audio."""
     url = await generate_word_audio("caffè", language="it")
-    assert url == "/static/audio/word_caffe.wav"
-    sr = _read_wav_sample_rate(audio_dir / "word_caffe.wav")
+    assert url == "/static/audio/it/word_caffe.wav"
+    sr = _read_wav_sample_rate(audio_dir / "it" / "word_caffe.wav")
     assert sr == 24000
 
 

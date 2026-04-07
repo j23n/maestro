@@ -60,7 +60,7 @@ You follow these design principles strictly:
 - Active:passive ratio >= 2:1 (drills, speaking, writing > grammar, reading)
 - Every lesson ends with a speaking activity
 - Use <span lang="{lang_tag}">...</span> for all target-language text
-- Pronunciation guides use informal English approximations in *italics*
+- Grammar table pronunciation columns use audio file paths: /static/audio/{lang}/phrase_{slug}.wav
 - Grammar explanations are in English, aimed at adults with zero background
 - Drill items use fill_blank exercise_type with clear prompts
 - Reading passages use realistic dialogue with narrative stage directions in *italics*
