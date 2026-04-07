@@ -2,75 +2,102 @@
   <defs>
     <style>
       text { font-family: system-ui, -apple-system, sans-serif; }
+      .serif { font-family: Georgia, 'Times New Roman', serif; }
     </style>
   </defs>
   <!-- Background -->
-  <rect width="800" height="600" fill="#fff"/>
+  <rect width="800" height="600" fill="#FAF7F2"/>
+
   <!-- Nav -->
-  <rect width="800" height="40" fill="#fff"/>
-  <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e5e5"/>
-  <text x="150" y="26" font-size="13" fill="#555">Lezione</text>
-  <text x="230" y="26" font-size="13" fill="#555">Vocabolario</text>
-  <text x="330" y="26" font-size="13" fill="#555">Grammatica</text>
-  <text x="430" y="26" font-size="13" fill="#555">Profilo</text>
+  <rect width="800" height="44" fill="#fff"/>
+  <line x1="0" y1="43" x2="800" y2="43" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="150" y="28" font-size="14" font-weight="600" fill="#2D2926">Lesson</text>
+  <text x="220" y="28" font-size="14" fill="#8A8279">Vocabulary</text>
+  <text x="320" y="28" font-size="14" fill="#8A8279">Grammar</text>
+  <text x="410" y="28" font-size="14" fill="#8A8279">Functions</text>
+  <text x="590" y="28" font-size="14" font-weight="600" fill="#2D2926">Sara</text>
+  <rect x="625" y="15" width="46" height="20" rx="4" fill="none" stroke="#E8E2D9"/>
+  <text x="648" y="29" font-size="10" font-weight="600" fill="#8A8279" text-anchor="middle">Italian</text>
 
   <!-- Hero -->
-  <text x="400" y="90" font-size="36" text-anchor="middle">🎉</text>
-  <text x="400" y="125" font-size="22" font-weight="600" fill="#111" text-anchor="middle">Lezione completata!</text>
-  <text x="400" y="150" font-size="14" fill="#888" text-anchor="middle">Ottimo lavoro. Ecco il riepilogo.</text>
+  <text x="400" y="92" font-size="36" text-anchor="middle">&#127881;</text>
+  <text x="400" y="128" class="serif" font-size="24" font-weight="600" fill="#2D2926" text-anchor="middle">Lesson complete!</text>
+  <text x="400" y="152" font-size="14" fill="#8A8279" text-anchor="middle">Great work. Here's your summary.</text>
 
-  <!-- Stats grid (3 cards) -->
-  <rect x="190" y="170" width="130" height="72" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="255" y="205" font-size="26" font-weight="600" fill="#111" text-anchor="middle">12</text>
-  <text x="255" y="225" font-size="11" fill="#999" text-anchor="middle">completate</text>
+  <!-- Stats grid -->
+  <rect x="190" y="172" width="130" height="68" rx="8" fill="#fff" stroke="#E8E2D9"/>
+  <text x="255" y="206" font-size="26" font-weight="600" fill="#2D2926" text-anchor="middle">12</text>
+  <text x="255" y="226" font-size="11" fill="#8A8279" text-anchor="middle">completed</text>
 
-  <rect x="335" y="170" width="130" height="72" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="400" y="205" font-size="26" font-weight="600" fill="#111" text-anchor="middle">1</text>
-  <text x="400" y="225" font-size="11" fill="#999" text-anchor="middle">saltate</text>
+  <rect x="335" y="172" width="130" height="68" rx="8" fill="#fff" stroke="#E8E2D9"/>
+  <text x="400" y="206" font-size="26" font-weight="600" fill="#2D2926" text-anchor="middle">1</text>
+  <text x="400" y="226" font-size="11" fill="#8A8279" text-anchor="middle">skipped</text>
 
-  <rect x="480" y="170" width="130" height="72" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="545" y="205" font-size="26" font-weight="600" fill="#111" text-anchor="middle">20'</text>
-  <text x="545" y="225" font-size="11" fill="#999" text-anchor="middle">durata prevista</text>
+  <rect x="480" y="172" width="130" height="68" rx="8" fill="#fff" stroke="#E8E2D9"/>
+  <text x="545" y="206" font-size="26" font-weight="600" fill="#2D2926" text-anchor="middle">20'</text>
+  <text x="545" y="226" font-size="11" fill="#8A8279" text-anchor="middle">planned duration</text>
 
   <!-- Activity summary -->
-  <rect x="190" y="258" width="420" height="170" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="210" y="282" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">ATTIVITÀ SVOLTE</text>
-  <line x1="190" y1="290" x2="610" y2="290" stroke="#e5e5e5"/>
+  <rect x="190" y="256" width="420" height="150" rx="8" fill="#fff" stroke="#E8E2D9"/>
+  <text x="210" y="280" font-size="11" font-weight="600" fill="#8A8279" letter-spacing="0.05em">ACTIVITIES</text>
+  <line x1="190" y1="288" x2="610" y2="288" stroke="#E8E2D9"/>
 
-  <text x="210" y="312" font-size="12" fill="#16a34a">✓</text>
-  <text x="230" y="312" font-size="13" fill="#333">Ripasso vocabolario</text>
-  <line x1="190" y1="322" x2="610" y2="322" stroke="#f0f0f0"/>
+  <text x="210" y="310" font-size="13" fill="#16a34a">&#10003;</text>
+  <text x="230" y="310" font-size="13" fill="#3D3833">Vocabulary review</text>
+  <line x1="190" y1="320" x2="610" y2="320" stroke="#F3EDE4"/>
 
-  <text x="210" y="342" font-size="12" fill="#16a34a">✓</text>
-  <text x="230" y="342" font-size="13" fill="#333">Esercizio 1 — Al ristorante</text>
-  <line x1="190" y1="352" x2="610" y2="352" stroke="#f0f0f0"/>
+  <text x="210" y="340" font-size="13" fill="#16a34a">&#10003;</text>
+  <text x="230" y="340" font-size="13" fill="#3D3833">Drill 1 — Al ristorante</text>
+  <line x1="190" y1="350" x2="610" y2="350" stroke="#F3EDE4"/>
 
-  <text x="210" y="372" font-size="12" fill="#16a34a">✓</text>
-  <text x="230" y="372" font-size="13" fill="#333">Esercizio 2 — Articoli</text>
-  <line x1="190" y1="382" x2="610" y2="382" stroke="#f0f0f0"/>
+  <text x="210" y="370" font-size="13" fill="#16a34a">&#10003;</text>
+  <text x="230" y="370" font-size="13" fill="#3D3833">Drill 2 — Articles</text>
+  <line x1="190" y1="380" x2="610" y2="380" stroke="#F3EDE4"/>
 
-  <text x="210" y="402" font-size="12" fill="#16a34a">✓</text>
-  <text x="230" y="402" font-size="13" fill="#333">Lettura — La giornata di Marco</text>
-  <line x1="190" y1="412" x2="610" y2="412" stroke="#f0f0f0"/>
+  <text x="210" y="395" font-size="13" fill="#8A8279">–</text>
+  <text x="230" y="395" font-size="13" fill="#8A8279">Writing — Al mercato</text>
 
-  <text x="210" y="418" font-size="12" fill="#bbb">–</text>
-  <text x="230" y="418" font-size="13" fill="#bbb">Scrittura — Al mercato</text>
+  <!-- Feedback -->
+  <rect x="190" y="420" width="420" height="62" rx="8" fill="#fff" stroke="#E8E2D9"/>
+  <text x="210" y="442" font-size="11" font-weight="600" fill="#8A8279" letter-spacing="0.05em">FEEDBACK</text>
+  <text x="210" y="465" font-size="13" fill="#3D3833">Good control of definite articles. Review the accent on "è".</text>
 
-  <!-- Feedback box -->
-  <rect x="190" y="440" width="420" height="72" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="210" y="462" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">FEEDBACK</text>
-  <text x="210" y="485" font-size="13" fill="#333">
-    <tspan x="210" dy="0">Hai dimostrato buon controllo degli articoli</tspan>
-    <tspan x="210" dy="18">determinativi. Ripassa l'uso dell'accento su "è".</tspan>
-  </text>
+  <!-- Grammar pips -->
+  <text x="190" y="510" font-size="11" font-weight="600" fill="#8A8279" letter-spacing="0.05em">GRAMMAR COVERED</text>
+  <g transform="translate(190, 520)">
+    <rect x="0" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="10" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="20" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="30" y="0" width="8" height="8" rx="2" fill="#dc2626"/>
+    <rect x="40" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="50" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="60" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="70" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="80" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="90" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <text x="110" y="9" font-size="12" fill="#3D3833">Presente indicativo regolare</text>
+  </g>
+  <g transform="translate(190, 538)">
+    <rect x="0" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="10" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="20" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="30" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="40" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="50" y="0" width="8" height="8" rx="2" fill="#16a34a"/>
+    <rect x="60" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="70" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="80" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <rect x="90" y="0" width="8" height="8" rx="2" fill="#ebebeb"/>
+    <text x="110" y="9" font-size="12" fill="#3D3833">Articolo determinativo</text>
+  </g>
 
-  <!-- Action links -->
-  <rect x="190" y="530" width="160" height="40" rx="8" fill="#111"/>
-  <text x="270" y="555" font-size="14" font-weight="500" fill="#fff" text-anchor="middle">Nuova lezione →</text>
+  <!-- Action buttons -->
+  <rect x="190" y="562" width="150" height="38" rx="6" fill="#C75B39"/>
+  <text x="265" y="586" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">New lesson →</text>
 
-  <rect x="365" y="530" width="110" height="40" rx="8" fill="#fff" stroke="#d0d0d0"/>
-  <text x="420" y="555" font-size="14" fill="#333" text-anchor="middle">Vocabolario</text>
+  <rect x="355" y="562" width="110" height="38" rx="6" fill="#fff" stroke="#E8E2D9"/>
+  <text x="410" y="586" font-size="14" fill="#3D3833" text-anchor="middle">Vocabulary</text>
 
-  <rect x="490" y="530" width="90" height="40" rx="8" fill="#fff" stroke="#d0d0d0"/>
-  <text x="535" y="555" font-size="14" fill="#333" text-anchor="middle">Profilo</text>
+  <rect x="480" y="562" width="80" height="38" rx="6" fill="#fff" stroke="#E8E2D9"/>
+  <text x="520" y="586" font-size="14" fill="#3D3833" text-anchor="middle">Profile</text>
 </svg>

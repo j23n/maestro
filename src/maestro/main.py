@@ -214,14 +214,76 @@ app.include_router(admin.router)
 async def landing(request: Request):
     if read_session(request):
         return RedirectResponse(url="/lessons/")
-    # Landing page showcases Italian for anonymous visitors — the primary
-    # language of the app's content.  Logged-in users get their own language.
+    from maestro.language import LANGUAGES
+
+    interest_state = request.cookies.get("interest")  # "pending" | "confirmed"
     return await render_with_discover(
         request,
         "landing.html",
-        {"target_language": "Italian", "target_language_code": "it"},
+        {"languages": LANGUAGES, "interest_state": interest_state},
         discover_anonymous=True,
     )
+
+
+@app.post("/register-interest", response_class=HTMLResponse)
+async def register_interest(request: Request):
+    import secrets
+    from maestro.models import InterestRegistration
+    from maestro.email import send_interest_confirm_email
+
+    form = await request.form()
+    email = (form.get("email") or "").strip().lower()
+    if not email:
+        return RedirectResponse(url="/", status_code=303)
+
+    token = secrets.token_urlsafe(32)
+    try:
+        reg = InterestRegistration(email=email, token=token)
+        await reg.insert()
+    except Exception:
+        # Duplicate email — resend confirmation with existing token
+        existing = await InterestRegistration.find_one(
+            InterestRegistration.email == email
+        )
+        if existing and not existing.verified:
+            token = existing.token
+        else:
+            response = RedirectResponse(url="/", status_code=303)
+            response.set_cookie(
+                "interest",
+                "confirmed",
+                max_age=60 * 60 * 24 * 365,
+                httponly=True,
+                samesite="lax",
+            )
+            return response
+
+    await send_interest_confirm_email(email, token)
+    response = RedirectResponse(url="/", status_code=303)
+    response.set_cookie(
+        "interest", "pending", max_age=60 * 60 * 24 * 7, httponly=True, samesite="lax"
+    )
+    return response
+
+
+@app.get("/register-interest/confirm/{token}", response_class=HTMLResponse)
+async def confirm_interest(request: Request, token: str):
+    from maestro.models import InterestRegistration
+
+    reg = await InterestRegistration.find_one(InterestRegistration.token == token)
+    if reg and not reg.verified:
+        reg.verified = True
+        await reg.save()
+
+    response = RedirectResponse(url="/", status_code=303)
+    response.set_cookie(
+        "interest",
+        "confirmed",
+        max_age=60 * 60 * 24 * 365,
+        httponly=True,
+        samesite="lax",
+    )
+    return response
 
 
 @app.exception_handler(RedirectToLogin)

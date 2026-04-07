@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Maestro — Italian A1 to B2</title>
-  <meta name="description" content="A structured Italian curriculum from A1 to B2. Personalized to your level, your interests, and what you actually need to practise.">
-  <meta property="og:title" content="Maestro — Italian A1 to B2">
-  <meta property="og:description" content="Scenario-based Italian lessons. Adaptive curriculum, spaced repetition, instant feedback. From A1 to B2.">
+  <title>Maestro — Learn a Language, Properly</title>
+  <meta name="description" content="A structured language curriculum from A1 to B2. Personalized to your level, your interests, and what you actually need to practise.">
+  <meta property="og:title" content="Maestro — Learn a Language, Properly">
+  <meta property="og:description" content="Scenario-based language lessons. Adaptive curriculum, spaced repetition, instant feedback. From A1 to B2.">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
   <link rel="stylesheet" href="/static/style.css">
@@ -15,77 +15,42 @@
 </head>
 <body>
 
+  {% if interest_state == "confirmed" %}
+  <div class="flash flash-success" role="alert">
+    You&rsquo;re on the list &mdash; we&rsquo;ll be in touch when we launch.
+    <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">&times;</button>
+  </div>
+  {% elif interest_state == "pending" %}
+  <div class="flash flash-info" role="alert">
+    Check your email &mdash; we sent you a confirmation link.
+    <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">&times;</button>
+  </div>
+  {% endif %}
+
   <!-- ════════════════════════════════════
        Hero
        ════════════════════════════════════ -->
   <section class="hero">
     <div class="container">
       <div class="hero-wordmark">maestro</div>
-      <h1>Learn Italian.<br><em>Properly.</em></h1>
+      <h1>Learn a language.<br><em>Properly.</em></h1>
       <p class="hero-sub">
         A structured curriculum from A1 to B2 &mdash; personalized to your level,
         your interests, and the grammar you actually need to practise.
       </p>
-<div class="hero-actions">
-        <a href="/auth/signup" class="btn btn-landing-primary"><span lang="{{ target_language_code }}">{{ t('landing_cta_inizia') }}</span> &mdash; Start Learning</a>
-        <a href="#percorso" class="btn btn-ghost">See how it works</a>
+      <div class="hero-actions">
+        <a href="#interest" class="btn btn-landing-primary">Register interest</a>
+        <a href="#method" class="btn btn-ghost">See how it works</a>
       </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════════
-       CEFR Progression
-       ════════════════════════════════════ -->
-  <section id="percorso">
-    <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_path') }}</span></div>
-      <h2 class="section-heading">A clear path from A1 to B2</h2>
-      <p class="section-sub">Every lesson moves you forward. Maestro always knows exactly where you are and what comes next.</p>
-
-      <div class="cefr-track">
-        <div class="cefr-step">
-          <div class="cefr-badge cefr-a1">A1</div>
-          <div class="cefr-level-name">Beginner</div>
-          <ul class="cefr-skills">
-            <li>Greetings and introductions</li>
-            <li>Numbers, dates, times</li>
-            <li>Simple questions and answers</li>
-            <li>Present tense essentials</li>
-          </ul>
+      <div class="language-chips">
+        {% for code, lang in languages.items() %}
+        <div class="language-chip">
+          <span class="language-flag">{{ lang.flag }}</span>
+          {{ lang.name }}
+          <span class="language-level-tag">A1&ndash;B2</span>
         </div>
-        <div class="cefr-step">
-          <div class="cefr-badge cefr-a2">A2</div>
-          <div class="cefr-level-name">Elementary</div>
-          <ul class="cefr-skills">
-            <li>Shopping and ordering</li>
-            <li>Talking about routines</li>
-            <li>Past and future tenses</li>
-            <li>Getting around a city</li>
-          </ul>
-        </div>
-        <div class="cefr-step">
-          <div class="cefr-badge cefr-b1">B1</div>
-          <div class="cefr-level-name">Intermediate</div>
-          <ul class="cefr-skills">
-            <li>Expressing opinions and preferences</li>
-            <li>Recounting events and experiences</li>
-            <li>Subjunctive and conditionals</li>
-            <li>Spontaneous conversation</li>
-          </ul>
-        </div>
-        <div class="cefr-step">
-          <div class="cefr-badge cefr-b2">B2</div>
-          <div class="cefr-level-name">Upper-Intermediate</div>
-          <ul class="cefr-skills">
-            <li>Nuanced, complex discussions</li>
-            <li>Advanced grammar structures</li>
-            <li>Formal and informal register</li>
-            <li>Near-fluent conversation</li>
-          </ul>
-        </div>
+        {% endfor %}
       </div>
-
-      <p class="cefr-note">Maestro tracks 231 grammar points and 448 communicative functions across all four levels. Your profile updates after every lesson.</p>
     </div>
   </section>
 
@@ -94,14 +59,14 @@
        ════════════════════════════════════ -->
   <section id="method">
     <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_method') }}</span></div>
+      <div class="section-label">The method</div>
       <h2 class="section-heading">How Maestro teaches</h2>
       <p class="section-sub">Not a chatbot. Not a textbook. A structured curriculum that responds to how you learn.</p>
 
       <div class="method-grid">
         <div class="method-card">
           <div class="method-icon">S</div>
-          <h3>Scenarios from real Italian life</h3>
+          <h3>Scenarios from real life</h3>
           <p>Every lesson is set in a real-world scenario &mdash; ordering at a bar, navigating a train station, making plans with friends. You learn grammar and vocabulary in context, the way language actually works.</p>
         </div>
         <div class="method-card">
@@ -119,11 +84,45 @@
   </section>
 
   <!-- ════════════════════════════════════
+       Personalization
+       ════════════════════════════════════ -->
+  <section id="personalization">
+    <div class="container">
+      <div class="section-label">Personalized for you</div>
+      <h2 class="section-heading">Your lessons, in your world</h2>
+      <p class="section-sub">Tell Maestro who you are, and your scenarios will match your life. Same grammar. Your world.</p>
+
+      <div class="persona-grid">
+        <div class="persona-card">
+          <h3>✈️ The traveller</h3>
+          <p>Airports, hotels, train stations, asking for directions. Practical language for navigating daily life with confidence.</p>
+        </div>
+        <div class="persona-card">
+          <h3>🍝 The food lover</h3>
+          <p>Markets, restaurants, cooking vocabulary, regional dishes. Grammar through the language of food and culture.</p>
+        </div>
+        <div class="persona-card">
+          <h3>📚 The student</h3>
+          <p>Universities, libraries, academic discussion. Formal register and the vocabulary of learning and ideas.</p>
+        </div>
+        <div class="persona-card">
+          <h3>🎭 The culture enthusiast</h3>
+          <p>Art, history, cinema, music. A gateway to centuries of literature, film, and culture.</p>
+        </div>
+      </div>
+
+      <div class="persona-note">
+        <p>Beyond interests, Maestro personalizes every lesson to your current level and grammar history. It knows which grammar points you&rsquo;ve already mastered &mdash; and which ones to practise next.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════
        Walkthrough
        ════════════════════════════════════ -->
   <section id="walkthrough">
     <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_lesson') }}</span></div>
+      <div class="section-label">A lesson</div>
       <h2 class="section-heading">A lesson in Maestro</h2>
       <p class="section-sub">Pick your time, and Maestro builds a lesson that fits.</p>
 
@@ -166,7 +165,7 @@
           <div class="step-text">
             <div class="step-number">04</div>
             <h3>Read, write, speak</h3>
-            <p>Longer activities build fluency: read an Italian passage and answer questions, write responses to prompts and get grammar feedback, practice conversation starters.</p>
+            <p>Longer activities build fluency: read a passage in your target language and answer questions, write responses to prompts and get grammar feedback, practice conversation starters.</p>
           </div>
           <div class="step-visual">
             <img src="/static/screenshots/reading.svg" alt="Reading comprehension activity">
@@ -189,28 +188,89 @@
   </section>
 
   <!-- ════════════════════════════════════
+       CEFR Progression
+       ════════════════════════════════════ -->
+  <section id="percorso">
+    <div class="container">
+      <div class="section-label">The path</div>
+      <h2 class="section-heading">A clear path from A1 to B2</h2>
+
+      <div class="path-grid">
+        <div class="path-stop">
+          <div class="path-badge cefr-a1">A1</div>
+          <div class="path-detail">
+            <div class="path-name">🌱 Beginner</div>
+            <ul class="path-skills">
+              <li>Greetings & introductions</li>
+              <li>Numbers, dates, times</li>
+              <li>Simple questions & answers</li>
+              <li>Present tense</li>
+            </ul>
+          </div>
+        </div>
+        <div class="path-stop">
+          <div class="path-badge cefr-a2">A2</div>
+          <div class="path-detail">
+            <div class="path-name">🗺️ Elementary</div>
+            <ul class="path-skills">
+              <li>Shopping & ordering</li>
+              <li>Daily routines</li>
+              <li>Past & future tenses</li>
+              <li>Getting around</li>
+            </ul>
+          </div>
+        </div>
+        <div class="path-stop">
+          <div class="path-badge cefr-b1">B1</div>
+          <div class="path-detail">
+            <div class="path-name">💬 Intermediate</div>
+            <ul class="path-skills">
+              <li>Opinions & preferences</li>
+              <li>Recounting events</li>
+              <li>Subjunctive & conditionals</li>
+              <li>Spontaneous conversation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="path-stop">
+          <div class="path-badge cefr-b2">B2</div>
+          <div class="path-detail">
+            <div class="path-name">🎯 Upper-Intermediate</div>
+            <ul class="path-skills">
+              <li>Complex discussions</li>
+              <li>Advanced grammar</li>
+              <li>Formal & informal register</li>
+              <li>Near-fluent conversation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════
        Features
        ════════════════════════════════════ -->
   <section>
     <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_inside') }}</span></div>
+      <div class="section-label">Inside Maestro</div>
       <h2 class="section-heading">What&rsquo;s inside</h2>
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-stat">231</div>
+          <div class="feature-stat">Hundreds</div>
           <h3>Grammar points</h3>
           <p>A1 through B2, organized by category. Each with explanations written for every CEFR level.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-stat">448</div>
+          <div class="feature-stat">Hundreds</div>
           <h3>Communicative functions</h3>
           <p>Real language acts: introducing yourself, expressing opinions, making requests. Tracked across every lesson.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-stat">24+</div>
+          <div class="feature-stat">40+</div>
           <h3>Curriculum scenarios</h3>
-          <p>From <em><span lang="{{ target_language_code }}">Presentarsi</span></em> to <em><span lang="{{ target_language_code }}">Dal medico</span></em>. Each with 3 depth levels that progressively challenge you.</p>
+          <p>From introducing yourself to visiting the doctor. Each with 3 depth levels that progressively challenge you.</p>
         </div>
         <div class="feature-card">
           <div class="feature-stat">A1&ndash;B2</div>
@@ -224,7 +284,7 @@
         </div>
         <div class="feature-card">
           <div class="feature-stat">&infin;</div>
-          <h3>Full Italian dictionary</h3>
+          <h3>Full dictionary</h3>
           <p>Lemmatized vocabulary with per-level definitions, examples, synonyms, and English translations. Hover any word for a tooltip.</p>
         </div>
       </div>
@@ -236,7 +296,7 @@
        ════════════════════════════════════ -->
   <section class="showcase">
     <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_profile') }}</span></div>
+      <div class="section-label">Your profile</div>
       <h2 class="section-heading">Your progress, visualized</h2>
 
       <div class="showcase-frame">
@@ -247,58 +307,34 @@
   </section>
 
   <!-- ════════════════════════════════════
-       Personalization
+       Register interest + Footer
        ════════════════════════════════════ -->
-  <section id="personalization">
+  <section class="interest-section" id="interest">
     <div class="container">
-      <div class="section-label"><span lang="{{ target_language_code }}">{{ t('landing_label_personalized') }}</span></div>
-      <h2 class="section-heading">Your lessons, in your world</h2>
-      <p class="section-sub">Tell Maestro who you are, and your scenarios will match your life. Same grammar. Your world.</p>
-
-      <div class="persona-grid">
-        <div class="persona-card">
-          <span class="persona-label" lang="{{ target_language_code }}">{{ t('landing_persona_traveler') }}</span>
-          <h3>The traveller</h3>
-          <p>Airports, hotels, train stations, asking for directions. Practical Italian for navigating Italy with confidence.</p>
-        </div>
-        <div class="persona-card">
-          <span class="persona-label" lang="{{ target_language_code }}">{{ t('landing_persona_foodie') }}</span>
-          <h3>The food lover</h3>
-          <p>Markets, restaurants, cooking vocabulary, regional dishes. Grammar through the language of Italian food and culture.</p>
-        </div>
-        <div class="persona-card">
-          <span class="persona-label" lang="{{ target_language_code }}">{{ t('landing_persona_student') }}</span>
-          <h3>The student</h3>
-          <p>Universities, libraries, academic discussion. Formal Italian and the vocabulary of learning and ideas.</p>
-        </div>
-        <div class="persona-card">
-          <span class="persona-label" lang="{{ target_language_code }}">{{ t('landing_persona_enthusiast') }}</span>
-          <h3>The culture enthusiast</h3>
-          <p>Art, history, cinema, music. Italian as a gateway to centuries of culture &mdash; from Dante to De Sica.</p>
-        </div>
-      </div>
-
-      <div class="persona-note">
-        <p>Beyond interests, Maestro personalizes every lesson to your current level and grammar history. It knows which of those 231 grammar points you&rsquo;ve already mastered &mdash; and which ones to practise next.</p>
-      </div>
+      <h2>Coming soon</h2>
+      <p class="interest-sub">Maestro is in private beta. Leave your email and we&rsquo;ll reach out when we&rsquo;re ready for you.</p>
+      {% if interest_state == "confirmed" %}
+      <div class="interest-confirmed">You&rsquo;re on the list &mdash; we&rsquo;ll be in touch.</div>
+      {% elif interest_state == "pending" %}
+      <div class="interest-pending">Check your email &mdash; we sent you a confirmation link.</div>
+      {% else %}
+      <form class="interest-form" method="POST" action="/register-interest" id="interest-form">
+        <input type="hidden" name="csrftoken" id="interest-csrf">
+        <input type="email" name="email" placeholder="your@email.com" required class="interest-email" autocomplete="email">
+        <button type="submit" class="btn btn-interest">Notify me</button>
+      </form>
+      <script>
+        var m = document.cookie.match(/csrftoken=([^;]+)/);
+        if (m) document.getElementById('interest-csrf').value = decodeURIComponent(m[1]);
+      </script>
+      <p class="interest-note">No spam. One email when we launch.</p>
+      {% endif %}
     </div>
   </section>
 
-  <!-- ════════════════════════════════════
-       CTA + Footer
-       ════════════════════════════════════ -->
-  <div class="cta-footer">
+  <footer class="site-footer landing-footer">
     <div class="container">
-      <h2><span lang="{{ target_language_code }}">{{ t('landing_cta_ready') }}</span></h2>
-      <p class="cta-sub">Ready to start?</p>
-      <a href="/auth/signup" class="btn btn-landing-primary"><span lang="{{ target_language_code }}">{{ t('landing_cta_inizia') }}</span> &mdash; Start Learning</a>
-    </div>
-  </div>
-
-  <footer class="site-footer">
-    <div class="container">
-      <span>Maestro &mdash; Italian A1 to B2</span>
-      <span><a href="/legal/privacy">Privacy</a> · <a href="/legal/terms">Terms</a></span>
+      Maestro &middot; <a href="/legal/privacy">Privacy</a> &middot; <a href="/legal/terms">Terms</a>
     </div>
   </footer>
 

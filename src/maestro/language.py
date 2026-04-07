@@ -15,6 +15,7 @@ class LanguageConfig:
 
     code: str  # ISO 639-1, e.g. "it"
     name: str  # human-readable, e.g. "Italian"
+    flag: str  # emoji flag, e.g. "🇮🇹"
     spacy_model: str  # e.g. "it_core_news_md"
     tts_voice: str  # Azure TTS voice name
     stt_locale: str  # e.g. "it-IT"
@@ -24,6 +25,7 @@ LANGUAGES: dict[str, LanguageConfig] = {
     "it": LanguageConfig(
         code="it",
         name="Italian",
+        flag="🇮🇹",
         spacy_model="it_core_news_md",
         tts_voice="it-IT-IsabellaNeural",
         stt_locale="it-IT",
@@ -31,6 +33,7 @@ LANGUAGES: dict[str, LanguageConfig] = {
     "de": LanguageConfig(
         code="de",
         name="German",
+        flag="🇩🇪",
         spacy_model="de_core_news_md",
         tts_voice="de-DE-KatjaNeural",
         stt_locale="de-DE",
