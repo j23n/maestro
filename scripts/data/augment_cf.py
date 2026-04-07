@@ -83,7 +83,10 @@ def _missing_fields(
         missing.append("examples")
     if cf["cefr_level"] != "A0":
         for lang in explanation_langs:
-            if lang not in cf.get("explanations", {}):
+            expl = cf.get("explanations", {}).get(lang)
+            if not expl:
+                missing.append(f"explanations.{lang}")
+            elif not expl.get("tip") or not expl.get("why_this_matters"):
                 missing.append(f"explanations.{lang}")
     return missing
 
@@ -152,13 +155,15 @@ def _build_user_prompt(
         "description": cf.get("description", ""),
         "examples": cf.get("examples", []),
     }
+    # Include full existing explanation when it needs regeneration (e.g. missing
+    # tip) or when force-regenerating, so the LLM can preserve good content.
+    # Otherwise just send the title to keep the prompt lighter.
     for lang, expl in cf.get("explanations", {}).items():
-        if force:
-            existing[f"explanations.{lang}"] = {
-                k: expl.get(k, "") for k in _EXPLANATION_FIELDS
-            }
+        expl_key = f"explanations.{lang}"
+        if force or expl_key in missing:
+            existing[expl_key] = {k: expl.get(k, "") for k in _EXPLANATION_FIELDS}
         else:
-            existing[f"explanations.{lang}.title"] = expl.get("title", "")
+            existing[f"{expl_key}.title"] = expl.get("title", "")
 
     existing_block = json.dumps(existing, ensure_ascii=False, indent=2)
 
@@ -273,6 +278,12 @@ def _apply(cf: dict, data: dict, missing: list[str]) -> int:
         if validated:
             cf.setdefault("explanations", {})[lang] = validated
             updated += 1
+            if not validated.get("tip"):
+                logger.warning(
+                    "%s: LLM returned empty tip for explanations.%s",
+                    cf["code"],
+                    lang,
+                )
 
     return updated
 
