@@ -28,7 +28,7 @@
         {% set tt = gp_tooltip_data.get(gp.code, {}) %}
         <span class="intro-tt-link"
             data-tt-tip="{{ tt.get('tip', '') }}"
-            data-tt-examples="{{ tt.get('examples', []) | tojson }}">{{ gp_titles.get(gp.code) or gp.label }}</span>
+            data-tt-examples="{{ tt.get('examples', []) | tojson | forceescape }}">{{ gp_titles.get(gp.code) or gp.label }}</span>
       </li>
       {% endfor %}
     </ul>
@@ -44,7 +44,7 @@
         {% set tt = cf_tooltip_data.get(cf.code, {}) %}
         <span class="intro-tt-link"
             data-tt-tip="{{ tt.get('tip', '') }}"
-            data-tt-examples="{{ tt.get('examples', []) | tojson }}">{{ cf_titles.get(cf.code) or cf.label }}</span>
+            data-tt-examples="{{ tt.get('examples', []) | tojson | forceescape }}">{{ cf_titles.get(cf.code) or cf.label }}</span>
       </li>
       {% endfor %}
     </ul>
