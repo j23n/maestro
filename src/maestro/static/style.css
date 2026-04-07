@@ -12,6 +12,10 @@
   --c-text: #3D3833;
   --c-text-muted: #8A8279;
   --c-surface: #F3EDE4;
+  --c-success-bg: #ecfdf5;
+  --c-success: #065f46;
+  --c-error-bg: #fef2f2;
+  --c-error: #b91c1c;
   --f-serif: 'Lora', 'Source Serif 4', 'Georgia', serif;
   --f-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -570,20 +574,20 @@ a.progress-seg:hover { opacity: 0.75; }
   border-left: 3px solid var(--c-border);
 }
 .review-answer-correct {
-  background: #ecfdf5;
-  border-left-color: #065f46;
-  color: #065f46;
+  background: var(--c-success-bg);
+  border-left-color: var(--c-success);
+  color: var(--c-success);
 }
 .review-answer-correct::before { content: "✓ "; font-weight: 600; }
 .review-answer-wrong {
-  background: #fef2f2;
-  border-left-color: #b91c1c;
-  color: #b91c1c;
+  background: var(--c-error-bg);
+  border-left-color: var(--c-error);
+  color: var(--c-error);
   text-decoration: line-through;
 }
 .review-correction {
   font-size: 0.9rem;
-  color: #065f46;
+  color: var(--c-success);
   font-weight: 500;
   padding-left: 0.6rem;
 }
