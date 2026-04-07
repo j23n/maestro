@@ -536,34 +536,6 @@ a.progress-seg:hover { opacity: 0.75; }
 
 .item-row-num { font-size: 0.78rem; color: var(--c-text-muted); padding-top: 0.25rem; text-align: right; }
 .item-row-body { display: flex; flex-direction: column; gap: 0.25rem; }
-.item-prompt-text { font-size: 0.9rem; color: var(--c-text-muted); font-style: italic; }
-.item-student-wrong { font-size: 0.9rem; color: #b91c1c; text-decoration: line-through; }
-.item-correct-answer { font-size: 0.9rem; color: #065f46; font-weight: 500; }
-.item-explanation { font-size: 0.82rem; color: var(--c-text-muted); margin-top: 0.1rem; }
-.item-ok-mark { font-size: 0.85rem; color: var(--c-sage); }
-
-.item-secondary { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
-
-.item-grammar-error {
-  font-size: 0.78rem;
-  color: #92400e;
-  background: #fef3c7;
-  border-radius: 3px;
-  padding: 0.1rem 0.4rem;
-  display: inline-block;
-  margin-right: 0.25rem;
-}
-
-.item-tip {
-  font-size: 0.82rem;
-  color: var(--c-text);
-  background: rgba(212, 168, 67, 0.12);
-  border: 1px solid rgba(212, 168, 67, 0.3);
-  border-radius: 6px;
-  padding: 0.4rem 0.65rem;
-  line-height: 1.45;
-}
-
 /* Drill result banners */
 .result-ok {
   background: #ecfdf5;
