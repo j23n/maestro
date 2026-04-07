@@ -147,7 +147,8 @@ def test_lesson_audio_path_is_under_audio_dir():
 async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
     """Returns the cached URL immediately when the WAV already exists."""
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
-    (tmp_path / "word_ciao.wav").write_bytes(b"fake wav")
+    (tmp_path / "it").mkdir()
+    (tmp_path / "it" / "word_ciao.wav").write_bytes(b"fake wav")
 
     calls = []
 
@@ -158,7 +159,7 @@ async def test_generate_word_audio_idempotent(tmp_path, monkeypatch):
 
     url = await generate_word_audio("ciao", language="it")
 
-    assert url == "/static/audio/word_ciao.wav"
+    assert url == "/static/audio/it/word_ciao.wav"
     assert calls == [], "synthesis should not be called when file already exists"
 
 
@@ -178,7 +179,7 @@ async def test_generate_word_audio_calls_synthesis(tmp_path, monkeypatch):
 
     url = await generate_word_audio("ciao", language="it")
 
-    assert url == "/static/audio/word_ciao.wav"
+    assert url == "/static/audio/it/word_ciao.wav"
     assert len(synth_calls) == 1
     text, path = synth_calls[0]
     assert text == "ciao"
@@ -206,6 +207,7 @@ async def test_generate_word_audio_url_format(tmp_path, monkeypatch):
     monkeypatch.setattr(tts_module, "_audio_dir", lambda: tmp_path)
 
     async def fake_synth(text, path, **kwargs):
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"wav")
 
     monkeypatch.setattr(tts_module, "_synth_to_file", fake_synth)
