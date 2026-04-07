@@ -27,15 +27,15 @@ LANGUAGES: dict[str, LanguageConfig] = {
         name="Italian",
         flag="🇮🇹",
         spacy_model="it_core_news_md",
-        tts_voice="it-IT-Alessio:DragonHDLatestNeural",
+        tts_voice="it-IT-IsabellaNeural",
         stt_locale="it-IT",
     ),
     "de": LanguageConfig(
         code="de",
         name="German",
         flag="🇩🇪",
-        spacy_model="de_core_news_sm",
-        tts_voice="de-DE-Seraphina:DragonHDLatestNeural",
+        spacy_model="de_core_news_md",
+        tts_voice="de-DE-KatjaNeural",
         stt_locale="de-DE",
     ),
 }
