@@ -537,9 +537,24 @@ class LLMCritique(Document):
         ]
 
 
+class InterestRegistration(Document):
+    email: str
+    token: str
+    verified: bool = False
+    created_at: datetime = Field(default_factory=utcnow)
+
+    class Settings:
+        name = "interest_registrations"
+        indexes = [
+            IndexModel([("email", ASCENDING)], unique=True),
+            IndexModel([("token", ASCENDING)], unique=True),
+        ]
+
+
 ALL_DOCUMENT_MODELS = [
     Student,
     Account,
+    InterestRegistration,
     CurriculumScenario,
     GrammarChunk,
     VocabularyWord,

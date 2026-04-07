@@ -117,6 +117,22 @@ async def send_reset_email(email: str, token: str) -> bool:
     return await send_email(email, t("email_reset_subject"), html_body, text_body)
 
 
+async def send_interest_confirm_email(email: str, token: str) -> bool:
+    from maestro.config import settings
+
+    confirm_url = f"{settings.SITE_URL.rstrip('/')}/register-interest/confirm/{token}"
+    html_body = _render("interest_confirm.html", confirm_url=confirm_url)
+    text_body = (
+        f"Thanks for your interest in Maestro!\n\n"
+        f"Please confirm your email address by visiting:\n\n"
+        f"{confirm_url}\n\n"
+        f"If you didn't request this, you can safely ignore this email."
+    )
+    return await send_email(
+        email, "Confirm your interest in Maestro", html_body, text_body
+    )
+
+
 async def send_welcome_email(email: str) -> bool:
     from maestro.config import settings
 

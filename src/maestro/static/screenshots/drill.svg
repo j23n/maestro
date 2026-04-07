@@ -5,80 +5,95 @@
     </style>
   </defs>
   <!-- Background -->
-  <rect width="800" height="600" fill="#fff"/>
-  <!-- Nav -->
-  <rect width="800" height="40" fill="#fff"/>
-  <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e5e5"/>
-  <text x="150" y="26" font-size="13" fill="#555">Lezione</text>
-  <text x="230" y="26" font-size="13" fill="#555">Vocabolario</text>
-  <text x="330" y="26" font-size="13" fill="#555">Grammatica</text>
-  <text x="430" y="26" font-size="13" fill="#555">Profilo</text>
+  <rect width="800" height="600" fill="#FAF7F2"/>
 
-  <!-- Progress bar -->
-  <rect x="150" y="60" width="500" height="4" rx="2" fill="#e5e5e5"/>
-  <rect x="150" y="60" width="300" height="4" rx="2" fill="#111"/>
-  <text x="150" y="78" font-size="11" fill="#aaa">8 / 14</text>
+  <!-- Nav -->
+  <rect width="800" height="44" fill="#fff"/>
+  <line x1="0" y1="43" x2="800" y2="43" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="150" y="28" font-size="14" font-weight="600" fill="#2D2926">Lesson</text>
+  <text x="220" y="28" font-size="14" fill="#8A8279">Vocabulary</text>
+  <text x="320" y="28" font-size="14" fill="#8A8279">Grammar</text>
+  <text x="410" y="28" font-size="14" fill="#8A8279">Functions</text>
+  <text x="590" y="28" font-size="14" font-weight="600" fill="#2D2926">Sara</text>
+  <rect x="625" y="15" width="46" height="20" rx="4" fill="none" stroke="#E8E2D9"/>
+  <text x="648" y="29" font-size="10" font-weight="600" fill="#8A8279" text-anchor="middle">Italian</text>
+
+  <!-- Segmented progress -->
+  <g transform="translate(150, 65)">
+    <rect x="0" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="38" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="76" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="114" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="152" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="190" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="228" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="266" y="0" width="35" height="8" rx="4" fill="#C75B39"/>
+    <rect x="304" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+    <rect x="342" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+    <rect x="380" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+    <rect x="418" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+    <rect x="456" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+  </g>
+  <text x="150" y="88" font-size="11" fill="#8A8279">8 / 13</text>
 
   <!-- Card -->
-  <rect x="150" y="95" width="500" height="460" rx="8" fill="#fff" stroke="#e5e5e5"/>
+  <rect x="150" y="100" width="500" height="460" rx="10" fill="#fff" stroke="#E8E2D9"/>
 
   <!-- Card meta -->
-  <text x="170" y="125" font-size="12" fill="#999">Esercizio 2</text>
-  <rect x="260" y="112" width="28" height="18" rx="10" fill="#f0f0f0"/>
-  <text x="274" y="125" font-size="10" fill="#555" text-anchor="middle">A1</text>
-  <rect x="296" y="112" width="62" height="18" rx="10" fill="#f0f0f0"/>
-  <text x="327" y="125" font-size="10" fill="#555" text-anchor="middle">fill blank</text>
+  <text x="170" y="130" font-size="13" fill="#8A8279">Drill 2</text>
+  <rect x="230" y="117" width="28" height="18" rx="9" fill="#F3EDE4"/>
+  <text x="244" y="130" font-size="10" fill="#8A8279" text-anchor="middle">A1</text>
+  <rect x="264" y="117" width="62" height="18" rx="9" fill="#F3EDE4"/>
+  <text x="295" y="130" font-size="10" fill="#8A8279" text-anchor="middle">fill blank</text>
 
   <!-- Instruction -->
-  <text x="170" y="160" font-size="13" fill="#666" font-style="italic">Scrivi la parola mancante nella forma corretta.</text>
+  <text x="170" y="165" font-size="13" fill="#8A8279" font-style="italic">Write the missing word in the correct form.</text>
 
-  <!-- Item 1 — answered correctly -->
-  <text x="178" y="200" font-size="12" fill="#bbb" text-anchor="end">1</text>
-  <rect x="190" y="186" width="440" height="32" rx="4" fill="#fafafa"/>
-  <line x1="190" y1="186" x2="190" y2="218" stroke="#e0e0e0" stroke-width="2"/>
-  <text x="200" y="207" font-size="14" fill="#111" font-style="italic">Io ___ al bar ogni mattina.</text>
+  <!-- Item 1 — correct -->
+  <text x="178" y="205" font-size="12" fill="#8A8279" text-anchor="end">1</text>
+  <rect x="190" y="191" width="440" height="32" rx="4" fill="#FAF7F2"/>
+  <line x1="190" y1="191" x2="190" y2="223" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="200" y="212" font-size="14" fill="#2D2926" font-style="italic">Io ___ al bar ogni mattina.</text>
 
-  <!-- Correct answer indicator -->
-  <rect x="190" y="225" width="440" height="28" rx="0" fill="#f0fdf4"/>
-  <line x1="190" y1="225" x2="190" y2="253" stroke="#4ade80" stroke-width="3"/>
-  <text x="200" y="244" font-size="13" fill="#14532d">vado</text>
-  <text x="240" y="244" font-size="13" fill="#16a34a">✓</text>
+  <rect x="190" y="228" width="440" height="26" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="228" x2="190" y2="254" stroke="#6B8F71" stroke-width="3"/>
+  <text x="200" y="246" font-size="13" fill="#14532d">vado</text>
+  <text x="240" y="246" font-size="13" fill="#16a34a">&#10003;</text>
 
-  <!-- Item 2 — answered wrong -->
-  <text x="178" y="290" font-size="12" fill="#bbb" text-anchor="end">2</text>
-  <rect x="190" y="276" width="440" height="32" rx="4" fill="#fafafa"/>
-  <line x1="190" y1="276" x2="190" y2="308" stroke="#e0e0e0" stroke-width="2"/>
-  <text x="200" y="297" font-size="14" fill="#111" font-style="italic">Maria ___ una studentessa brava.</text>
+  <!-- Item 2 — wrong -->
+  <text x="178" y="285" font-size="12" fill="#8A8279" text-anchor="end">2</text>
+  <rect x="190" y="271" width="440" height="32" rx="4" fill="#FAF7F2"/>
+  <line x1="190" y1="271" x2="190" y2="303" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="200" y="292" font-size="14" fill="#2D2926" font-style="italic">Maria ___ una studentessa brava.</text>
 
-  <!-- Wrong answer -->
-  <rect x="190" y="315" width="440" height="28" rx="0" fill="#fff5f5"/>
-  <line x1="190" y1="315" x2="190" y2="343" stroke="#f87171" stroke-width="3"/>
-  <text x="200" y="333" font-size="13" fill="#7f1d1d" text-decoration="line-through">e</text>
+  <rect x="190" y="308" width="440" height="26" rx="0" fill="#fef2f2"/>
+  <line x1="190" y1="308" x2="190" y2="334" stroke="#dc2626" stroke-width="3"/>
+  <text x="200" y="326" font-size="13" fill="#7f1d1d" text-decoration="line-through">e</text>
 
-  <!-- Correct answer -->
-  <rect x="190" y="348" width="440" height="28" rx="0" fill="#f0fdf4"/>
-  <line x1="190" y1="348" x2="190" y2="376" stroke="#4ade80" stroke-width="3"/>
-  <text x="200" y="367" font-size="13" fill="#14532d">è</text>
+  <rect x="190" y="339" width="440" height="26" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="339" x2="190" y2="365" stroke="#6B8F71" stroke-width="3"/>
+  <text x="200" y="357" font-size="13" fill="#14532d">è</text>
 
   <!-- Explanation -->
-  <text x="200" y="400" font-size="12" fill="#555">L'accento è obbligatorio per distinguere "è" (verbo) da "e" (congiunzione).</text>
+  <text x="200" y="388" font-size="12" fill="#3D3833">The accent distinguishes "è" (verb) from "e" (conjunction).</text>
 
-  <!-- Grammar error tag -->
-  <rect x="200" y="415" width="160" height="20" rx="3" fill="#fef3c7"/>
-  <text x="210" y="430" font-size="11" fill="#92400e">accento: è vs e</text>
+  <!-- Grammar tag -->
+  <rect x="200" y="400" width="100" height="20" rx="3" fill="#fef3c7"/>
+  <text x="210" y="414" font-size="10" fill="#92400e">accent: è vs e</text>
 
   <!-- Rule ref -->
-  <rect x="190" y="450" width="440" height="28" rx="0" fill="#f5f5f5"/>
-  <line x1="190" y1="450" x2="190" y2="478" stroke="#ccc" stroke-width="2"/>
-  <text x="200" y="469" font-size="11" fill="#555">→ Accenti obbligatori (A1)</text>
+  <rect x="190" y="430" width="440" height="26" rx="0" fill="#F3EDE4"/>
+  <line x1="190" y1="430" x2="190" y2="456" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="200" y="448" font-size="11" fill="#3D3833">→ Required accents (A1)</text>
 
-  <!-- Item 3 -->
-  <text x="178" y="510" font-size="12" fill="#bbb" text-anchor="end">3</text>
-  <rect x="190" y="496" width="440" height="32" rx="4" fill="#fafafa"/>
-  <line x1="190" y1="496" x2="190" y2="528" stroke="#e0e0e0" stroke-width="2"/>
-  <text x="200" y="517" font-size="14" fill="#111" font-style="italic">Noi ___ la pizza il venerdì.</text>
-  <rect x="190" y="533" width="440" height="28" rx="0" fill="#f0fdf4"/>
-  <line x1="190" y1="533" x2="190" y2="561" stroke="#4ade80" stroke-width="3"/>
-  <text x="200" y="551" font-size="13" fill="#14532d">mangiamo</text>
-  <text x="270" y="551" font-size="13" fill="#16a34a">✓</text>
+  <!-- Item 3 — correct -->
+  <text x="178" y="485" font-size="12" fill="#8A8279" text-anchor="end">3</text>
+  <rect x="190" y="471" width="440" height="32" rx="4" fill="#FAF7F2"/>
+  <line x1="190" y1="471" x2="190" y2="503" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="200" y="492" font-size="14" fill="#2D2926" font-style="italic">Noi ___ la pizza il venerdì.</text>
+
+  <rect x="190" y="508" width="440" height="26" rx="0" fill="#f0fdf4"/>
+  <line x1="190" y1="508" x2="190" y2="534" stroke="#6B8F71" stroke-width="3"/>
+  <text x="200" y="526" font-size="13" fill="#14532d">mangiamo</text>
+  <text x="270" y="526" font-size="13" fill="#16a34a">&#10003;</text>
 </svg>

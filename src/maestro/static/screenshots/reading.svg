@@ -5,52 +5,69 @@
     </style>
   </defs>
   <!-- Background -->
-  <rect width="800" height="600" fill="#fff"/>
-  <!-- Nav -->
-  <rect width="800" height="40" fill="#fff"/>
-  <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e5e5"/>
-  <text x="150" y="26" font-size="13" fill="#555">Lezione</text>
-  <text x="230" y="26" font-size="13" fill="#555">Vocabolario</text>
-  <text x="330" y="26" font-size="13" fill="#555">Grammatica</text>
-  <text x="430" y="26" font-size="13" fill="#555">Profilo</text>
+  <rect width="800" height="600" fill="#FAF7F2"/>
 
-  <!-- Progress bar -->
-  <rect x="150" y="60" width="500" height="4" rx="2" fill="#e5e5e5"/>
-  <rect x="150" y="60" width="400" height="4" rx="2" fill="#111"/>
-  <text x="150" y="78" font-size="11" fill="#aaa">11 / 14</text>
+  <!-- Nav -->
+  <rect width="800" height="44" fill="#fff"/>
+  <line x1="0" y1="43" x2="800" y2="43" stroke="#E8E2D9" stroke-width="2"/>
+  <text x="150" y="28" font-size="14" font-weight="600" fill="#2D2926">Lesson</text>
+  <text x="220" y="28" font-size="14" fill="#8A8279">Vocabulary</text>
+  <text x="320" y="28" font-size="14" fill="#8A8279">Grammar</text>
+  <text x="410" y="28" font-size="14" fill="#8A8279">Functions</text>
+  <text x="590" y="28" font-size="14" font-weight="600" fill="#2D2926">Sara</text>
+  <rect x="625" y="15" width="46" height="20" rx="4" fill="none" stroke="#E8E2D9"/>
+  <text x="648" y="29" font-size="10" font-weight="600" fill="#8A8279" text-anchor="middle">Italian</text>
+
+  <!-- Segmented progress -->
+  <g transform="translate(150, 65)">
+    <rect x="0" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="38" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="76" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="114" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="152" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="190" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="228" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="266" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="304" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="342" y="0" width="35" height="8" rx="4" fill="#6B8F71"/>
+    <rect x="380" y="0" width="35" height="8" rx="4" fill="#C75B39"/>
+    <rect x="418" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+    <rect x="456" y="0" width="35" height="8" rx="4" fill="#E8E2D9"/>
+  </g>
+  <text x="150" y="88" font-size="11" fill="#8A8279">11 / 13</text>
 
   <!-- Reading card -->
-  <rect x="150" y="95" width="500" height="230" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="170" y="122" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">LETTURA</text>
+  <rect x="150" y="100" width="500" height="230" rx="10" fill="#fff" stroke="#E8E2D9"/>
+  <text x="170" y="127" font-size="11" font-weight="600" fill="#8A8279" letter-spacing="0.05em">READING</text>
 
-  <text x="170" y="152" font-size="15" fill="#222" line-height="1.8">
+  <text x="170" y="158" font-size="15" fill="#3D3833">
     <tspan x="170" dy="0">Marco abita a Roma con la sua famiglia. Ogni</tspan>
-    <tspan x="170" dy="26">mattina si sveglia alle sette, fa colazione con</tspan>
-    <tspan x="170" dy="26">un caffè e un cornetto, e poi prende l'autobus</tspan>
-    <tspan x="170" dy="26">per andare al lavoro. La sera, dopo cena, gli</tspan>
-    <tspan x="170" dy="26">piace leggere un libro o guardare un film.</tspan>
-    <tspan x="170" dy="26">Il fine settimana esce con gli amici.</tspan>
+    <tspan x="170" dy="24">mattina si sveglia alle sette, fa colazione con</tspan>
+    <tspan x="170" dy="24">un caffè e un cornetto, e poi prende l'autobus</tspan>
+    <tspan x="170" dy="24">per andare al lavoro. La sera, dopo cena, gli</tspan>
+    <tspan x="170" dy="24">piace leggere un libro o guardare un film.</tspan>
+    <tspan x="170" dy="24">Il fine settimana esce con gli amici.</tspan>
   </text>
 
-  <!-- Vocab word underline hints -->
-  <line x1="170" y1="156" x2="208" y2="156" stroke="#aaa" stroke-dasharray="3,2"/>
-  <line x1="354" y1="182" x2="404" y2="182" stroke="#aaa" stroke-dasharray="3,2"/>
+  <!-- Dotted underlines for discoverable vocab -->
+  <line x1="170" y1="162" x2="208" y2="162" stroke="#8A8279" stroke-dasharray="3,2"/>
+  <line x1="352" y1="186" x2="405" y2="186" stroke="#8A8279" stroke-dasharray="3,2"/>
 
   <!-- Questions card -->
-  <rect x="150" y="340" width="500" height="220" rx="8" fill="#fff" stroke="#e5e5e5"/>
-  <text x="170" y="367" font-size="11" font-weight="500" fill="#aaa" letter-spacing="0.05em">COMPRENSIONE</text>
+  <rect x="150" y="345" width="500" height="210" rx="10" fill="#fff" stroke="#E8E2D9"/>
+  <text x="170" y="372" font-size="11" font-weight="600" fill="#8A8279" letter-spacing="0.05em">COMPREHENSION</text>
 
   <!-- Q1 -->
-  <text x="170" y="400" font-size="14" font-weight="500" fill="#333">1. Dove abita Marco?</text>
-  <rect x="170" y="410" width="460" height="32" rx="6" fill="#fff" stroke="#d0d0d0"/>
-  <text x="182" y="431" font-size="13" fill="#999">La tua risposta…</text>
+  <text x="170" y="405" font-size="14" font-weight="500" fill="#2D2926">1. Dove abita Marco?</text>
+  <rect x="170" y="415" width="460" height="32" rx="6" fill="#FAF7F2" stroke="#E8E2D9"/>
+  <text x="182" y="436" font-size="13" fill="#8A8279">Your answer…</text>
 
   <!-- Q2 -->
-  <text x="170" y="470" font-size="14" font-weight="500" fill="#333">2. Cosa fa Marco la sera?</text>
-  <rect x="170" y="480" width="460" height="32" rx="6" fill="#fff" stroke="#d0d0d0"/>
-  <text x="182" y="501" font-size="13" fill="#999">La tua risposta…</text>
+  <text x="170" y="475" font-size="14" font-weight="500" fill="#2D2926">2. Cosa fa Marco la sera?</text>
+  <rect x="170" y="485" width="460" height="32" rx="6" fill="#FAF7F2" stroke="#E8E2D9"/>
+  <text x="182" y="506" font-size="13" fill="#8A8279">Your answer…</text>
 
   <!-- Submit -->
-  <rect x="170" y="528" width="130" height="36" rx="6" fill="#111"/>
-  <text x="235" y="551" font-size="14" font-weight="500" fill="#fff" text-anchor="middle">Invia risposte</text>
+  <rect x="170" y="533" width="130" height="36" rx="6" fill="#C75B39"/>
+  <text x="235" y="556" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Submit answers</text>
 </svg>
