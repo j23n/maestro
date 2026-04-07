@@ -1,0 +1,13 @@
+{% extends "lesson-activity-layout.html" %}
+{% block activity_title %}{{ t("page_title_reading") }} — Maestro{% endblock %}
+
+{% block activity_card %}
+{# ── Original passage (same as student view) ── #}
+<div class="reading-card">
+  <div class="reading-title">{{ t("reading_title") }}</div>
+  <div class="reading-text">{{ activity.content | markdown | hide_translations | safe }}</div>
+</div>
+
+{# ── Comprehension answers with corrections ── #}
+{% include "partials/review-comprehension.html" %}
+{% endblock %}

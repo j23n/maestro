@@ -12,6 +12,10 @@
   --c-text: #3D3833;
   --c-text-muted: #8A8279;
   --c-surface: #F3EDE4;
+  --c-success-bg: #ecfdf5;
+  --c-success: #065f46;
+  --c-error-bg: #fef2f2;
+  --c-error: #b91c1c;
   --f-serif: 'Lora', 'Source Serif 4', 'Georgia', serif;
   --f-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -559,6 +563,64 @@ a.progress-seg:hover { opacity: 0.75; }
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--c-border);
+}
+
+/* Review mode — student answers filled in with corrections */
+.review-answer {
+  font-size: 0.9rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  background: var(--c-surface);
+  border-left: 3px solid var(--c-border);
+}
+.review-answer-correct {
+  background: var(--c-success-bg);
+  border-left-color: var(--c-success);
+  color: var(--c-success);
+}
+.review-answer-correct::before { content: "✓ "; font-weight: 600; }
+.review-answer-wrong {
+  background: var(--c-error-bg);
+  border-left-color: var(--c-error);
+  color: var(--c-error);
+  text-decoration: line-through;
+}
+.review-correction {
+  font-size: 0.9rem;
+  color: var(--c-success);
+  font-weight: 500;
+  padding-left: 0.6rem;
+}
+.review-correction::before { content: "→ "; }
+.review-answer-block {
+  margin-top: 1rem;
+}
+.review-answer-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
+}
+
+/* Review navigation */
+.review-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.review-nav-link {
+  font-size: 0.82rem;
+  color: var(--c-sage);
+  text-decoration: none;
+  font-weight: 500;
+}
+.review-nav-link:hover { text-decoration: underline; }
+.review-nav-disabled {
+  color: var(--c-text-muted);
+  pointer-events: none;
 }
 
 /* Activity container */

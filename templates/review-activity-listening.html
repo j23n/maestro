@@ -1,0 +1,110 @@
+{% extends "lesson-activity-layout.html" %}
+{% block activity_title %}{{ t("page_title_listening") }} — Maestro{% endblock %}
+
+{% block activity_card %}
+{# ── Audio player + transcript (same as student view) ── #}
+<div class="listening-card">
+  <div class="listening-header">
+    <div class="listening-label">{{ activity.title }}</div>
+
+    {% if audio_url %}
+    <audio id="lesson-audio" src="{{ audio_url }}" preload="auto"></audio>
+
+    {% set heights = [8, 12, 18, 24, 32, 24, 18, 32, 40, 36, 40, 32, 18, 24, 32, 24, 18, 12, 8, 12] %}
+    <div class="waveform" id="waveform" aria-hidden="true">
+      {% for h in heights %}
+      <div class="wave-bar" style="height: {{ h }}px; --i: {{ loop.index0 }};"></div>
+      {% endfor %}
+    </div>
+
+    <button class="listening-play-btn" id="play-btn" onclick="togglePlay()" type="button"
+            aria-label="{{ t('listen_btn') }}">
+      <span id="play-icon">▶</span>
+    </button>
+
+    <div class="seek-row">
+      <input class="seek-bar" id="seek-bar" type="range" min="0" max="100" step="0.1" value="0"
+             oninput="seekAudio(this.value)" aria-label="Seek">
+    </div>
+
+    <div class="listening-controls-row">
+      <span id="time-display" class="listening-time">0:00</span>
+      <input class="speed-slider listening-speed-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0"
+             oninput="setSpeed(this.value)">
+      <span class="speed-label listening-speed-label" id="speed-label">1.0×</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="listening-body">
+    {# Transcript always revealed in review mode #}
+    <div id="listening-transcript" class="listening-transcript revealed">{{ activity.content | markdown | hide_translations | safe }}</div>
+  </div>
+</div>
+
+{# ── Comprehension answers with corrections ── #}
+{% include "partials/review-comprehension.html" %}
+{% endblock %}
+
+{% block activity_scripts %}
+{% if audio_url %}
+<script>
+  var _audio      = document.getElementById('lesson-audio');
+  var _playBtn    = document.getElementById('play-btn');
+  var _playIcon   = document.getElementById('play-icon');
+  var _speedLabel = document.getElementById('speed-label');
+  var _waveform   = document.getElementById('waveform');
+  var _timeEl     = document.getElementById('time-display');
+  var _seekBar    = document.getElementById('seek-bar');
+
+  function togglePlay() {
+    if (_audio.paused) {
+      _audio.play();
+      _playIcon.textContent = '⏸';
+      _waveform.classList.add('playing');
+    } else {
+      _audio.pause();
+      _playIcon.textContent = '▶';
+      _waveform.classList.remove('playing');
+    }
+  }
+
+  function setSpeed(val) {
+    _audio.playbackRate = parseFloat(val);
+    _speedLabel.textContent = parseFloat(val).toFixed(1) + '×';
+  }
+
+  _audio.addEventListener('ended', function() {
+    _playIcon.textContent = '▶';
+    _waveform.classList.remove('playing');
+  });
+
+  _audio.addEventListener('loadedmetadata', function() {
+    _seekBar.max = _audio.duration;
+  });
+
+  _audio.addEventListener('timeupdate', function() {
+    if (!_audio.seeking) {
+      _seekBar.value = _audio.currentTime;
+      var pct = _audio.duration ? (_audio.currentTime / _audio.duration * 100) : 0;
+      _seekBar.style.setProperty('--seek-pct', pct + '%');
+    }
+    var s   = Math.floor(_audio.currentTime);
+    var curr = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+    if (_audio.duration) {
+      var td    = Math.floor(_audio.duration);
+      var total = Math.floor(td / 60) + ':' + String(td % 60).padStart(2, '0');
+      _timeEl.textContent = curr + ' / ' + total;
+    } else {
+      _timeEl.textContent = curr;
+    }
+  });
+
+  function seekAudio(val) {
+    _audio.currentTime = parseFloat(val);
+    var pct = _audio.duration ? (parseFloat(val) / _audio.duration * 100) : 0;
+    _seekBar.style.setProperty('--seek-pct', pct + '%');
+  }
+</script>
+{% endif %}
+{% endblock %}
