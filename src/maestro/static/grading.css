@@ -1,0 +1,124 @@
+/* =====================================================================
+   Grading result styles — shared across drill, writing, speaking results
+   ===================================================================== */
+
+/* ── Sentence with inline answer (fill-in-blank drills) ── */
+.graded-sentence { font-size: 0.92rem; line-height: 1.7; color: var(--c-text); }
+
+/* Correct answer — green underline */
+.answer-ok {
+  font-weight: 600;
+  color: #065f46;
+  border-bottom: 2px solid var(--c-sage);
+  padding: 0 0.1rem;
+}
+
+/* Correct but has notes — amber underline */
+.answer-note {
+  font-weight: 600;
+  color: #7A5C00;
+  border-bottom: 2px solid var(--c-gold);
+  padding: 0 0.1rem;
+}
+
+/* Wrong answer — teacher-style: wrong crossed out inline, correct written above */
+.inline-correction {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  margin: 0 0.1rem;
+}
+.inline-correction .correct-above {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #065f46;
+  line-height: 1.1;
+}
+.inline-correction .wrong-below {
+  font-weight: 600;
+  color: #b91c1c;
+  text-decoration: line-through;
+}
+
+/* Extra top padding on first item row to accommodate correction text above */
+.item-row:first-child { padding-top: 1rem; }
+
+/* ── Explanation for wrong answers — red left-border backdrop ── */
+.grading-explanation {
+  font-size: 0.82rem;
+  color: #991b1b;
+  background: rgba(254, 202, 202, 0.25);
+  border-left: 3px solid #ef4444;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  line-height: 1.45;
+  margin-top: 0.15rem;
+}
+
+/* ── Unified notes block (grammar_errors + tips, same style) ── */
+.notes-list { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.3rem; }
+.note-item {
+  font-size: 0.82rem;
+  color: #78621A;
+  background: rgba(212, 168, 67, 0.15);
+  border-left: 3px solid var(--c-gold);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  line-height: 1.45;
+}
+.notes-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+/* ── Error correction: full-sentence display ── */
+.sentence-wrong {
+  font-size: 0.92rem;
+  color: #b91c1c;
+  text-decoration: line-through;
+  line-height: 1.55;
+  background: rgba(254, 242, 242, 0.5);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+.sentence-correct {
+  font-size: 0.92rem;
+  color: #065f46;
+  font-weight: 500;
+  line-height: 1.55;
+  margin-top: 0.15rem;
+  background: rgba(236, 253, 245, 0.6);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+.sentence-ok {
+  font-size: 0.92rem;
+  color: var(--c-text);
+  line-height: 1.55;
+}
+.sentence-ok::before {
+  content: "\2713\00a0";
+  color: var(--c-sage);
+  font-weight: 600;
+}
+
+/* ── Writing / Speaking student text ── */
+.student-text {
+  font-size: 0.9rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}

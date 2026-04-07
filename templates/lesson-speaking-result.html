@@ -1,6 +1,7 @@
 {# Partial — swapped into .activity-container after speaking submit #}
 {# Loaded here for innerHTML-swap path; full-page review uses {% block head %} #}
 <link rel="stylesheet" href="/static/speaking.css">
+<link rel="stylesheet" href="/static/grading.css">
 {% include "lesson-progress.html" %}
 
 <div class="card">
@@ -76,18 +77,17 @@
     <div class="sr-feedback">
       <div class="sr-section-label">{{ t("speaking_feedback_label") }}</div>
       {% if feedback.objective_note %}
-        <p class="sr-feedback-note">{{ feedback.objective_note | safe }}</p>
+        <div class="grading-explanation">{{ feedback.objective_note | safe }}</div>
       {% endif %}
       {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
       {% set tips = feedback.tips if feedback.tips is defined else [] %}
       {% if grammar_errors or tips %}
-        <div class="sr-section-label" style="margin-top:0.6rem;">{{ t("result_notes_label") }}</div>
-        <div class="item-secondary" style="margin-bottom:0.5rem;">
+        <div class="notes-list" style="margin-bottom:0.5rem;">
           {% for err in grammar_errors %}
-            <div><span class="item-grammar-error">{{ err | safe }}</span></div>
+            <div class="note-item">{{ err | safe }}</div>
           {% endfor %}
           {% for tip in tips %}
-            <div class="item-tip">{{ tip | safe }}</div>
+            <div class="note-item">{{ tip | safe }}</div>
           {% endfor %}
         </div>
       {% elif feedback.objective_correct is defined and feedback.objective_correct %}

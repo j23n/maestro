@@ -1,4 +1,5 @@
 {# Partial — swapped into .grammar-detail after practice submit #}
+<link rel="stylesheet" href="/static/grading.css">
 
 <a class="back-link" href="/grammar/{{ gp_code }}">&larr; {{ t("nav_grammar") }}</a>
 
@@ -20,26 +21,35 @@
 
     <div style="margin-bottom:1.5rem;">
       {% for item in feedback["items"] %}
+      {% set has_notes = item.grammar_errors or item.tips %}
       <div class="item-row">
         <div class="item-row-num">{{ loop.index }}</div>
         <div class="item-row-body">
-          <div class="item-prompt-text">{{ item.prompt | safe }}</div>
-          {% if item.objective_correct %}
-            <div class="item-ok-mark">✓ {{ item.student_answer | safe }}</div>
+
+          {% if drill.exercise_type == "fill_blank" %}
+            {# ── Fill-in-blank: inline answer in sentence ── #}
+            {% set parts = item.prompt.split("___") %}
+            <div class="graded-sentence">{{ parts[0] | safe }}{% if item.objective_correct %}<span class="{% if has_notes %}answer-note{% else %}answer-ok{% endif %}">{{ item.student_answer | safe }}</span>{% else %}<span class="inline-correction"><span class="correct-above">{{ item.correct_answer | safe }}</span><span class="wrong-below">{{ item.student_answer | safe }}</span></span>{% endif %}{{ parts[1] | safe if parts | length > 1 }}</div>
           {% else %}
-            <div class="item-student-wrong">{{ item.student_answer | safe }}</div>
-            <div class="item-correct-answer">{{ item.correct_answer | safe }}</div>
-            {% if item.objective_note %}
-            <div class="item-explanation">{{ item.objective_note | safe }}</div>
+            {# ── Error correction: full-sentence display ── #}
+            {% if item.objective_correct %}
+              <div class="sentence-ok">{{ item.student_answer | safe }}</div>
+            {% else %}
+              <div class="sentence-wrong">{{ item.student_answer | safe }}</div>
+              <div class="sentence-correct">{{ item.correct_answer | safe }}</div>
             {% endif %}
           {% endif %}
-          {% if item.grammar_errors or item.tips %}
-          <div class="item-secondary">
+
+          {% if not item.objective_correct and item.objective_note %}
+            <div class="grading-explanation">{{ item.objective_note | safe }}</div>
+          {% endif %}
+          {% if has_notes %}
+          <div class="notes-list">
             {% for err in item.grammar_errors %}
-            <div><span class="item-grammar-error">{{ err | safe }}</span></div>
+            <div class="note-item">{{ err | safe }}</div>
             {% endfor %}
             {% for tip in item.tips %}
-            <div class="item-tip">{{ tip | safe }}</div>
+            <div class="note-item">{{ tip | safe }}</div>
             {% endfor %}
           </div>
           {% endif %}
@@ -54,19 +64,18 @@
     {% else %}
       <div class="result-wrong">{{ t("result_not_correct") }}</div>
       {% if feedback.objective_note %}
-        <p style="font-size:0.9rem;color:#555;margin-bottom:1rem;">{{ feedback.objective_note | safe }}</p>
+        <div class="grading-explanation" style="margin-bottom:0.75rem;">{{ feedback.objective_note | safe }}</div>
       {% endif %}
     {% endif %}
     {% set grammar_errors = feedback.grammar_errors if feedback.grammar_errors is defined else [] %}
     {% set tips = feedback.tips if feedback.tips is defined else [] %}
     {% if grammar_errors or tips %}
-      <div style="margin-bottom:0.5rem;font-size:0.8rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.04em;">{{ t("result_notes_label") }}</div>
-      <div class="item-secondary" style="margin-bottom:1rem;">
+      <div class="notes-list" style="margin-bottom:1rem;">
         {% for err in grammar_errors %}
-          <div><span class="item-grammar-error">{{ err | safe }}</span></div>
+          <div class="note-item">{{ err | safe }}</div>
         {% endfor %}
         {% for tip in tips %}
-          <div class="item-tip">{{ tip | safe }}</div>
+          <div class="note-item">{{ tip | safe }}</div>
         {% endfor %}
       </div>
     {% elif correct %}

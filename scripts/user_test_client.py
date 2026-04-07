@@ -382,21 +382,27 @@ def submit_drill(lesson_id: str, idx: str, answers_json: str):
     feedback_items = []
     for row in soup.find_all(class_="item-row"):
         item = {}
-        prompt_el = row.find(class_="item-prompt-text")
-        item["prompt"] = prompt_el.get_text(strip=True) if prompt_el else ""
-        ok_mark = row.find(class_="item-ok-mark")
-        if ok_mark:
+        ok_el = (
+            row.find(class_="answer-ok")
+            or row.find(class_="answer-note")
+            or row.find(class_="sentence-ok")
+        )
+        if ok_el:
             item["correct"] = True
-            item["student_answer"] = ok_mark.get_text(strip=True).lstrip("✓ ")
+            item["student_answer"] = ok_el.get_text(strip=True).lstrip("\u2713 ")
         else:
             item["correct"] = False
-            wrong_el = row.find(class_="item-student-wrong")
+            wrong_el = row.find(class_="wrong-below") or row.find(
+                class_="sentence-wrong"
+            )
             item["student_answer"] = wrong_el.get_text(strip=True) if wrong_el else ""
-            correct_el = row.find(class_="item-correct-answer")
+            correct_el = row.find(class_="correct-above") or row.find(
+                class_="sentence-correct"
+            )
             item["correct_answer"] = (
                 correct_el.get_text(strip=True) if correct_el else ""
             )
-            expl_el = row.find(class_="item-explanation")
+            expl_el = row.find(class_="grading-explanation")
             item["explanation"] = expl_el.get_text(strip=True) if expl_el else ""
         feedback_items.append(item)
     # Next URL
@@ -494,7 +500,7 @@ def submit_writing(lesson_id: str, idx: str, answer: str):
     next_url = continue_btn["href"] if continue_btn and continue_btn.get("href") else ""
     # Extract feedback
     feedback_text = ""
-    for cls in ("item-secondary", "result-ok", "result-wrong"):
+    for cls in ("notes-list", "result-ok", "result-wrong"):
         el = soup.find(class_=cls)
         if el:
             feedback_text += el.get_text(strip=True) + " "
