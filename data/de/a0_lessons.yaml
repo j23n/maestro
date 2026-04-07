@@ -576,25 +576,25 @@ a0-03-im-cafe: # MARK review
       When you order in a German café, you need the right word for "a":
 
 
-      - <span lang="de">**ein**</span> = a (masculine) — <span lang="de">ein Kaffee, ein Kuchen, ein Tisch</span>
+      - **ein** = a (masculine) — <span lang="de">ein Kaffee, ein Kuchen, ein Tisch</span>
 
-      - <span lang="de">**eine**</span> = a (feminine) — <span lang="de">eine Brezel, eine Tasse, eine Torte</span>
+      - **eine** = a (feminine) — <span lang="de">eine Brezel, eine Tasse, eine Torte</span>
 
-      - <span lang="de">**ein**</span> = a (neuter) — <span lang="de">ein Bier, ein Wasser, ein Stück</span>
+      - **ein** = a (neuter) — <span lang="de">ein Bier, ein Wasser, ein Stück</span>
 
 
       | Gender | Article | Example |
 
       |--------|---------|---------|
 
-      | masculine (<span lang="de">der</span>) | <span lang="de">**ein**</span> | <span lang="de">ein Kaffee</span> |
+      | masculine (der) | **ein** | <span lang="de">ein Kaffee</span> |
 
-      | feminine (<span lang="de">die</span>) | <span lang="de">**eine**</span> | <span lang="de">eine Brezel</span> |
+      | feminine (die) | **eine** | <span lang="de">eine Brezel</span> |
 
-      | neuter (<span lang="de">das</span>) | <span lang="de">**ein**</span> | <span lang="de">ein Wasser</span> |
+      | neuter (das) | **ein** | <span lang="de">ein Wasser</span> |
 
 
-      > **Tip:** Masculine and neuter look the same — both use <span lang="de">**ein**</span>. Only feminine is different:
+      > **Tip:** Masculine and neuter look the same — both use **ein**. Only feminine is different:
       <span lang="de">**eine**</span>.
 
 
@@ -649,7 +649,7 @@ a0-03-im-cafe: # MARK review
 
       - <span lang="de">*Ich möchte **zwei** Kaffee, bitte.*</span> — I''d like two coffees.
 
-      - <span lang="de">*Ich möchte **drei** Stück Kuchen.*</span> — I''d like three pieces of cake.
+      - <span lang="de">*Ich möchte **drei** Stücke Kuchen.*</span> — I''d like three pieces of cake.
 
 
       To ask the price:
@@ -738,23 +738,23 @@ a0-03-im-cafe: # MARK review
     title: Guten Morgen im Café
     type: reading
   - audio_path: /static/audio/a0_03_03_im_cafe.wav
-    content: '<span lang="de">— Guten Morgen!</span>
+    content: '— <span lang="de">Guten Morgen!</span>
 
-      <span lang="de">— Guten Morgen. Ich möchte zwei Kaffee und eine Brezel, bitte.</span>
+      — <span lang="de">Guten Morgen. Ich möchte zwei Kaffee und eine Brezel, bitte.</span>
 
-      <span lang="de">— Gerne. Zwei Kaffee und eine Brezel. Das macht vier Euro.</span>
+      — <span lang="de">Gerne. Zwei Kaffee und eine Brezel. Das macht vier Euro.</span>
 
-      <span lang="de">— Was kostet die Torte?</span>
+      — <span lang="de">Was kostet die Torte?</span>
 
-      <span lang="de">— Die Torte kostet drei Euro fünfzig.</span>
+      — <span lang="de">Die Torte kostet drei Euro fünfzig.</span>
 
-      <span lang="de">— Okay, dann auch ein Stück Torte, bitte.</span>
+      — <span lang="de">Okay, dann auch ein Stück Torte, bitte.</span>
 
-      <span lang="de">— Also zusammen sieben Euro fünfzig.</span>
+      — <span lang="de">Also zusammen sieben Euro fünfzig.</span>
 
-      <span lang="de">— Hier sind acht Euro.</span>
+      — <span lang="de">Hier sind acht Euro.</span>
 
-      <span lang="de">— Danke schön. Fünfzig Cent zurück. Guten Appetit!</span>
+      — <span lang="de">Danke schön. Fünfzig Cent zurück. Guten Appetit!</span>
 
       '
     description: Listen to a café order
