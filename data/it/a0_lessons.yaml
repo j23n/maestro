@@ -201,9 +201,15 @@
   - type: speaking
     title: Say it out loud
     description: Practice your first Italian phrases
-    content: "Say these phrases out loud, one after the other: **Buongiorno!** ... **Grazie!**\
-      \ ... **Scusi, per favore.** ... **Arrivederci!** Try to sound natural — Italians\
-      \ appreciate the effort!"
+    content: >
+      "Say these phrases out loud, one after the other:
+
+      - **<span lang="it">Buongiorno!</span>**
+      - **<span lang="it">Grazie!</span>**
+      - **<span lang="it">Scusi, per favore.</span>**
+      - **<span lang="it">Arrivederci!</span>**
+
+      Try to sound natural — Italians appreciate the effort!"
     grammar_point_codes:
     - saluti
     - polite_exp
@@ -219,7 +225,7 @@
       ## At the reception
 
       - **<span lang="it">Mi chiamo...</span>** — My name is...
-      - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation. (**ho** = I have)
+      - **<span lang="it">Ho una prenotazione.</span>** — I have a reservation.
       - **<span lang="it">Come si chiama?</span>** — What is your name? (formal)
 
       > Walk up to reception and say: <span lang="it">*Buonasera. Mi chiamo [your name]. Ho una prenotazione.*</span> That's all you need.
@@ -227,15 +233,17 @@
     title: "Check-in phrases"
     description: At the hotel reception
     hint: "Mi chiamo = My name is. Ho una prenotazione = I have a reservation."
-    grammar_point_code: mi_chiamo
     exercise_type: fill_blank
     items:
     - prompt: "My name is Maria. = Mi ___ Maria."
       correct_answer: chiamo
+      grammar_point_code: mi_chiamo
     - prompt: "I have a reservation. = Ho una ___."
       correct_answer: prenotazione
+      grammar_point_code: avere_pre
     - prompt: "What is your name? (formal) = Come si ___?"
       correct_answer: chiama
+      grammar_point_code: mi_chiamo
   - type: grammar
     title: "Numbers 0-20"
     description: "For room numbers, floors, and times"
@@ -313,9 +321,7 @@
     content: |
       — Buonasera. Mi chiamo Marco Bianchi. Ho una prenotazione.
       — Sì, signor Bianchi. Camera diciotto, terzo piano.
-      — Grazie. Scusi, dov'è l'ascensore?
-      — Là, a destra.
-      — Grazie mille!
+      — Grazie.
     questions:
     - text: "What is the guest's surname?"
       correct_answer: Bianchi

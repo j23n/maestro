@@ -180,6 +180,7 @@ _TEST_PHRASE_INDEX = {
     "mi chiamo": [_make_vocab_word("mi chiamo", pos="loc.")],
     "a destra": [_make_vocab_word("a destra", pos="loc.")],
     "quanto costa": [_make_vocab_word("quanto costa", pos="loc.")],
+    "ho una prenotazione": [_make_vocab_word("ho una prenotazione", pos="loc.")],
     # Phrases ending in punctuation — \b boundary bug
     "un po'": [_make_vocab_word("un po'", pos="loc.")],
     "come si chiama?": [_make_vocab_word("come si chiama?", pos="loc.")],
@@ -1028,20 +1029,35 @@ async def test_discover_phrase_case_insensitive(seeded_cache_with_phrases):
 
 
 @pytest.mark.unit
-async def test_discover_phrase_no_match_on_partial(seeded_cache_with_phrases):
-    """Element text that doesn't exactly match a phrase is not phrase-matched."""
+async def test_discover_phrase_substring_match(seeded_cache_with_phrases):
+    """Phrase is matched as a substring within longer element text."""
     result = await discover(
         '<span lang="it">per favore signora</span>',
         student_id=None,
         create_cards=False,
         language="it",
     )
-    # "per favore signora" is not an exact phrase match — falls through to word matching
-    assert 'data-word="per favore"' not in result
-    # Individual words should still be matched via word matching
-    assert 'data-word="per"' in result
-    assert 'data-word="favore"' in result
+    # "per favore" matched as substring phrase
+    assert 'data-word="per favore"' in result
+    # Individual "per"/"favore" should NOT appear — subsumed by phrase span
+    assert 'data-word="per"' not in result
+    assert 'data-word="favore"' not in result
+    # "signora" still matched as individual word
     assert 'data-word="signore"' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_substring_in_sentence(seeded_cache_with_phrases):
+    """Phrase within a full sentence is discovered and annotated as a phrase."""
+    result = await discover(
+        '<span lang="it">Ho una prenotazione per due.</span>',
+        student_id=None,
+        create_cards=False,
+        language="it",
+    )
+    assert 'data-word="ho una prenotazione"' in result
+    # Individual words inside the phrase span should NOT get separate annotations
+    assert result.count('data-word="ho una prenotazione"') == 1
 
 
 @pytest.mark.unit
@@ -1101,9 +1117,10 @@ async def test_discover_mixed_phrases_and_words(seeded_cache_with_phrases):
         '<span lang="it">Vorrei un caffè per favore.</span></p>'
     )
     result = await discover(html, student_id=None, create_cards=False, language="it")
-    # Phrase matches (exact element text)
+    # Phrase matches (exact element text + substring)
     assert 'data-word="mi chiamo"' in result
     assert 'data-word="ciao"' in result
+    assert 'data-word="per favore"' in result  # substring phrase within longer element
     # Word match inside longer element (per-token matching)
     assert 'data-word="caffè"' in result
 

@@ -134,7 +134,9 @@ async def lesson_index(
     if cefr == "A0":
         from maestro.lessons.selection import pick_scenario as _pick_a0_scenario
 
-        a0_scenarios = await CurriculumScenario.find({"cefr_level": "A0"}).to_list()
+        a0_scenarios = await CurriculumScenario.find(
+            {"cefr_level": "A0", "language": profile.target_language}
+        ).to_list()
         progress = profile.active_progress.scenario_progress if profile else {}
         a0_completed = sum(
             1
@@ -156,7 +158,11 @@ async def lesson_index(
         if not show_welcome:
             recent_lessons = (
                 await Lesson.find(
-                    {"student_id": student.id, "status": LessonStatus.COMPLETED}
+                    {
+                        "student_id": student.id,
+                        "status": LessonStatus.COMPLETED,
+                        "language": profile.target_language,
+                    }
                 )
                 .sort(-Lesson.completed_at)
                 .limit(5)
@@ -491,12 +497,19 @@ async def lesson_activity(
     if is_review and activity.result:
         result = activity.result
         total = len(lesson.activities)
+        # "just completed" = the activity right before current_index (natural
+        # progression).  Past reviews get a "back to current activity" banner
+        # instead of the forward-navigation controls.
+        is_past_review = is_review and (
+            lesson.status != LessonStatus.COMPLETED and idx + 1 < lesson.current_index
+        )
         review_ctx = {
             "lesson": lesson,
             "activity": activity,
             "idx": idx,
             "total": total,
             "is_review": True,
+            "is_past_review": is_past_review,
             "correct": result.get("correct"),
             "feedback": result.get("feedback"),
         }
@@ -557,6 +570,9 @@ async def lesson_activity(
 
     total = len(lesson.activities)
 
+    is_past_review = is_review and (
+        lesson.status != LessonStatus.COMPLETED and idx + 1 < lesson.current_index
+    )
     ctx = {
         "lesson": lesson,
         "activity": activity,
@@ -564,6 +580,7 @@ async def lesson_activity(
         "total": total,
         "card_idx": card_idx,
         "is_review": is_review,
+        "is_past_review": is_past_review,
     }
 
     if activity.type == ActivityType.DRILL:
@@ -628,18 +645,28 @@ async def lesson_activity(
             )
         # Discovered-scope: populate card_ids dynamically on first visit
         if activity.review_scope == "discovered" and not activity.card_ids:
+            _MAX_DISCOVERED_CARDS = 15
             discovered = await get_lesson_discovered_words(lesson)
-            # Exclude cards already assigned to earlier discovered reviews
+            # Separate new vs already-reviewed cards
             already_reviewed: set = set()
             for prev in lesson.activities[:idx]:
                 if prev.review_scope == "discovered" and prev.card_ids:
                     already_reviewed.update(prev.card_ids)
-            discovered = [w for w in discovered if w.id not in already_reviewed]
-            if not discovered:
-                # No new words discovered — auto-skip
+            new_cards = [w for w in discovered if w.id not in already_reviewed]
+            old_cards = [w for w in discovered if w.id in already_reviewed]
+            if not new_cards and not old_cards:
+                # No words discovered at all — auto-skip
                 redirect_url = await advance_lesson(lesson, idx, skip=True)
                 return RedirectResponse(url=redirect_url, status_code=303)
-            card_ids_new = [w.id for w in discovered]
+            # New words first, then backfill from earlier reviews up to max
+            selected = new_cards[:_MAX_DISCOVERED_CARDS]
+            if len(selected) < _MAX_DISCOVERED_CARDS:
+                selected += old_cards[: _MAX_DISCOVERED_CARDS - len(selected)]
+            if not selected:
+                redirect_url = await advance_lesson(lesson, idx, skip=True)
+                return RedirectResponse(url=redirect_url, status_code=303)
+            card_ids_new = [w.id for w in selected]
+            random.shuffle(card_ids_new)
             title = st("vocab_discovered_title", count=len(card_ids_new))
             await lesson.update(
                 {
@@ -653,6 +680,10 @@ async def lesson_activity(
             activity.title = title
         card_ids = activity.card_ids
         total_cards = len(card_ids)
+        # Shuffle on fresh start so review order varies each attempt
+        if card_idx == 0 and correct == 0 and incorrect == 0 and total_cards > 1:
+            random.shuffle(card_ids)
+            await lesson.update({"$set": {f"activities.{idx}.card_ids": card_ids}})
         if not card_ids:
             # No vocab cards — auto-skip this activity
             redirect_url = await advance_lesson(lesson, idx)
@@ -768,6 +799,7 @@ async def lesson_activity(
             "lesson-activity-grammar.html",
             ctx,
             student_id=student.id,
+            create_cards=True,
         )
 
     if activity.type == ActivityType.INTRO:
