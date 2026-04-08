@@ -314,7 +314,6 @@ async def lesson_overview(
         "lesson.html",
         {"lesson": lesson, "overview_lang": overview_lang},
         student_id=student.id,
-        create_cards=True,
     )
 
 
@@ -626,7 +625,6 @@ async def lesson_activity(
                 "lesson-activity-vocab.html",
                 ctx,
                 student_id=student.id,
-                create_cards=True,
             )
         # Discovered-scope: populate card_ids dynamically on first visit
         if activity.review_scope == "discovered" and not activity.card_ids:
@@ -676,7 +674,6 @@ async def lesson_activity(
                 "lesson-activity-vocab.html",
                 ctx,
                 student_id=student.id,
-                create_cards=True,
             )
 
         card = await UserVocabularyCard.get(card_ids[card_idx])
@@ -709,7 +706,6 @@ async def lesson_activity(
             "lesson-activity-vocab.html",
             ctx,
             student_id=student.id,
-            create_cards=True,
         )
 
     if activity.type == ActivityType.READING:
@@ -772,7 +768,6 @@ async def lesson_activity(
             "lesson-activity-grammar.html",
             ctx,
             student_id=student.id,
-            create_cards=True,
         )
 
     if activity.type == ActivityType.INTRO:
@@ -815,7 +810,6 @@ async def lesson_activity(
             "lesson-activity-info.html",
             ctx,
             student_id=student.id,
-            create_cards=True,
         )
 
     if activity.type == ActivityType.SPEAKING:
@@ -833,7 +827,6 @@ async def lesson_activity(
             "lesson-activity-onboarding.html",
             ctx,
             student_id=student.id,
-            create_cards=True,
         )
 
     raise HTTPException(400, f"Unknown activity type: {activity.type}")
