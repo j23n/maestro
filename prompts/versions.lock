@@ -1,38 +1,38 @@
 {
   "analyzer.yaml": {
-    "version": "10",
-    "sha256": "8f60ad7191c908577634f9945d9a2055b2bd2eba98ec0750ea5dcec3fba0f58b"
+    "version": "12",
+    "sha256": "f073d700a9e9239432941b3ef7c3b529d7ef03d0568bfb85ac167d525baa3118"
   },
   "augment_cf.yaml": {
-    "version": "1",
-    "sha256": "449070fafd0f2c2932b7585e91072961dd7e7824ca41c0d3409a54f5b7da1b0c"
+    "version": "2",
+    "sha256": "682c50587f6dcbc5968dead5cc5c8677543bc78eb4fc6bd88028d09b7f8d050b"
   },
   "augment_gp.yaml": {
-    "version": "1",
-    "sha256": "6569c62406feab8bc112bc902acd44bafa4d045ed4de77e4bfbc722f62b9ef19"
+    "version": "2",
+    "sha256": "144d1d60df24de831a9eee930f032415f5a8be7747d80680ff6ce75c89a0b4d0"
   },
   "common.yaml": {
-    "version": "2",
-    "sha256": "72c82134f2a8a410b0d8baaf5ce6e5292553cab10384114db945d851adddb98e"
+    "version": "3",
+    "sha256": "5067e736e17cad1e00428539a6ebc776f83564c0c395f02e295dd374ba6cbb56"
   },
   "grammar_explanations.yaml": {
-    "version": "8",
-    "sha256": "57bf96f5f372c3a8cee313d7ff72a53fc53164b46bd2d8b4a8eb719b526599e0"
+    "version": "9",
+    "sha256": "7c1c56f838942c47199b0fc6815a94482b697d0c65cf3ee98089dd1426b2bd02"
   },
   "judge.yaml": {
-    "version": "2",
-    "sha256": "365e1fbb5ba0710324e1f9780d679cf0b5919d50f5ac0616a7864bc3cb69d60a"
+    "version": "3",
+    "sha256": "3684b6480959668dcc872f914e24318e079ee202737c549f00930d14f2ff0c12"
   },
   "lesson_analyzer.yaml": {
-    "version": "3",
-    "sha256": "e85007ea50fc1eca458ab77f93a1cc48643846d081cb42b51036ddad65d9c9d1"
+    "version": "4",
+    "sha256": "6bd7eb8a00edccbcbea8bccc1ae55ab6ea8a3e7e23cbf8e207299e9a18e02056"
   },
   "planner.yaml": {
-    "version": "5",
-    "sha256": "9360d40ff3f151d0e6f479f8d8312cd09236b594e8aac1b1291465b3cdd29605"
+    "version": "6",
+    "sha256": "a2fac04047fcd56fc167f4cf76eb424abad7d7a3e9b8172fff114933874f5f52"
   },
   "vocab_definitions.yaml": {
-    "version": "5",
-    "sha256": "7635ca2b3a535a5998b66a3904d2214fa3ec094a518330e17f2062573a610620"
+    "version": "6",
+    "sha256": "3bb3ed411c09164ee7f500e059e9f6f50f734fd13fa71445830c7ce9483ae8e3"
   }
 }

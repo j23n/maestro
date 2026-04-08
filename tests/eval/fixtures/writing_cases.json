@@ -28,5 +28,18 @@
     "prompt": "Racconta cosa hai fatto ieri.",
     "student_text": "Ieri ho andato al mercato e ho comprare le mele.",
     "expected_objective_correct": true
+  },
+  {
+    "id": "off_topic_but_perfect_grammar",
+    "prompt": "Descrivi la tua famiglia.",
+    "student_text": "Il tempo oggi è molto bello. Mi piace andare al parco quando c'è il sole. La primavera è la mia stagione preferita.",
+    "expected_objective_correct": false
+  },
+  {
+    "id": "very_short_on_topic_a0",
+    "prompt": "Presenta te stesso.",
+    "student_text": "Mi chiamo Anna.",
+    "cefr_level": "A0",
+    "expected_objective_correct": true
   }
 ]

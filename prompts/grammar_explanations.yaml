@@ -1,4 +1,4 @@
-version: "8"
+version: "9"
 
 explanation_system:
   description: >
@@ -59,8 +59,8 @@ explanation_system:
 
     ## Output format
 
-    Return ONLY a valid JSON object — no markdown fences, no preamble, no trailing text:
-    {"title": "…", "tip": "…", "why_this_matters": "…", "explanation": "…"}
+    {{json_output}}
+    Schema: {"title": "…", "tip": "…", "why_this_matters": "…", "explanation": "…"}
 
     Inside the explanation and tip values, use single quotes ('…') for any quoted words
     or phrases — never double quotes, as they break JSON string parsing.

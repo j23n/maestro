@@ -4,7 +4,7 @@ import logging
 import anthropic
 
 from maestro.config import settings
-from maestro.prompts import judge as _prompts
+from maestro.prompts import judge as _prompts, json_output_block as _job
 from maestro.utils import parse_llm_json
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ def judge(prompt: str) -> tuple[bool, str]:
     response = client.messages.create(
         model=settings.EVAL_MODEL,
         max_tokens=256,
-        system=_prompts.system.render_system(),
+        system=_prompts.system.render_system(json_output=_job()),
         messages=[
             {
                 "role": "user",
@@ -54,7 +54,7 @@ def judge_against_reference(
     response = client.messages.create(
         model=settings.EVAL_MODEL,
         max_tokens=256,
-        system=_prompts.system.render_system(),
+        system=_prompts.system.render_system(json_output=_job()),
         messages=[
             {
                 "role": "user",

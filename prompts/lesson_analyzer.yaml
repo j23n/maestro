@@ -1,4 +1,4 @@
-version: "3"
+version: "4"
 
 cf_macro_detection:
   description: >
@@ -7,7 +7,7 @@ cf_macro_detection:
   # variables: combined, macro_lines
   system: |
     You are a communicative function classifier for language learning analysis.
-    Respond only with valid JSON.
+    {{json_output}}
   user: |
     Student responses:
     """
@@ -31,7 +31,7 @@ cf_function_detection:
   # variables: combined, cf_lines
   system: |
     You are a communicative function classifier for language learning analysis.
-    Respond only with valid JSON.
+    {{json_output}}
   user: |
     Student responses:
     """

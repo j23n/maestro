@@ -1,4 +1,4 @@
-version: "1"
+version: "2"
 
 augment_system:
   description: >
@@ -47,23 +47,8 @@ augment_system:
 
     ## Output format
 
-    Return ONLY a valid JSON object containing exactly the requested fields —
-    no markdown fences, no preamble, no trailing text.
+    {{json_output}}
+    Return exactly the requested fields.
     Inside JSON string values, prefer single quotes over double quotes to
     avoid escaping issues.
 
-explanation_guidance_en:
-  user: |
-    For the "en" explanation:
-    Write entirely in English. {{target_language}} appears only for examples,
-    terms, and phrases — always wrapped in <span lang="{{target_language_code}}">.
-    Pitch vocabulary and example complexity at CEFR {{cefr_level}}.
-    {{title_guidance_en}}
-
-explanation_guidance_target:
-  user: |
-    For the "{{target_language_code}}" explanation:
-    Write entirely in {{target_language}}, as a native-speaker teacher would.
-    English appears only as inline translations in parentheses.
-    Pitch vocabulary and example complexity at CEFR {{cefr_level}}.
-    {{title_guidance_target}}

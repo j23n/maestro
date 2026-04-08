@@ -25,7 +25,12 @@ from pathlib import Path
 from maestro.config import settings
 from maestro.llm import llm_messages_create
 from maestro.models import CallType
-from maestro.prompts import augment_cf_prompts as _prompts, span_tagging_block as _stb
+from maestro.prompts import (
+    augment_cf_prompts as _prompts,
+    span_tagging_block as _stb,
+    json_output_block as _job,
+    language_guidance_block as _lgb,
+)
 from maestro.utils import data_dir
 
 from _shared import (
@@ -114,21 +119,10 @@ def _build_system_prompt(
 ) -> str:
     guidance_parts = []
     for lang in explanation_langs:
-        if lang == "en":
-            tpl = _prompts.explanation_guidance_en
-        else:
-            tpl = _prompts.explanation_guidance_target
-        guidance_parts.append(
-            tpl.render(
-                target_language=target_lang_name,
-                target_language_code=target_lang_code,
-                cefr_level=cefr_level,
-                title_guidance_en=_title_guidance("en", target_lang_name),
-                title_guidance_target=_title_guidance(
-                    target_lang_code, target_lang_name
-                ),
-            )
-        )
+        base = _lgb(lang, target_lang_name, target_lang_code, cefr_level)
+        title = _title_guidance(lang, target_lang_name)
+        label = "en" if lang == "en" else target_lang_code
+        guidance_parts.append(f'For the "{label}" explanation:\n{base}{title}')
     explanation_guidance = "\n\n".join(guidance_parts)
 
     return _prompts.augment_system.render_system(
@@ -137,6 +131,7 @@ def _build_system_prompt(
         cefr_level=cefr_level,
         explanation_guidance=explanation_guidance,
         span_tagging=_stb(target_lang_name, target_lang_code),
+        json_output=_job(),
     )
 
 

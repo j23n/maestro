@@ -14,14 +14,21 @@ from maestro.models import (
     CurriculumScenario,
     ExerciseType,
 )
-from maestro.prompts import planner as _prompts, span_tagging_block as _stb
+from maestro.prompts import (
+    planner as _prompts,
+    span_tagging_block as _stb,
+    json_output_block as _job,
+)
 from maestro.lessons.slots import _READING_WORD_COUNT, _READING_QUESTION_COUNT
 
 
 def build_lesson_content_system(language: str) -> str:
     """Return the system prompt for lesson content generation."""
     lang_cfg = get_language_config(language)
-    return _prompts.lesson_content_system.render_system(target_language=lang_cfg.name)
+    return _prompts.lesson_content_system.render_system(
+        target_language=lang_cfg.name,
+        json_output=_job(),
+    )
 
 
 _ARCHETYPE_TEMPLATES = {
@@ -197,6 +204,7 @@ def build_lesson_content_prompt(
             speaking_count=len(speaking_cfs),
             grammar_count=len(grammar_gps),
             span_tagging=_stb(lang, lang_cfg.code),
+            json_output=_job(),
         )
     )
 

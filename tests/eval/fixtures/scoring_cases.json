@@ -43,5 +43,70 @@
     "correct_answer": "Ieri sono andato al cinema con gli amici.",
     "student_answer": "Ieri ho andato al cinema con gli amici.",
     "expected_objective_correct": false
+  },
+  {
+    "id": "fill_blank_full_sentence",
+    "exercise_type": "fill_blank",
+    "grammar_point_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "prompt": "Ieri ___ (andare) al supermercato con mia madre.",
+    "correct_answer": "sono andato",
+    "student_answer": "Ieri sono andato al supermercato con mia madre.",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "fill_blank_equivalent_contraction",
+    "exercise_type": "fill_blank",
+    "grammar_point_code": "avere_pre",
+    "cefr_level": "A0",
+    "prompt": "Io ___ (avere) un gatto.",
+    "correct_answer": "ho",
+    "student_answer": "ho",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "fill_blank_near_miss_accent",
+    "exercise_type": "fill_blank",
+    "grammar_point_code": "subord_cau",
+    "prompt": "Non esco ___ (perché) piove.",
+    "correct_answer": "perché",
+    "student_answer": "perche",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "fill_blank_wrong_but_grammatical",
+    "exercise_type": "fill_blank",
+    "grammar_point_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "prompt": "Ieri ___ (andare) al mercato.",
+    "correct_answer": "sono andato",
+    "student_answer": "andavo",
+    "expected_objective_correct": false
+  },
+  {
+    "id": "fill_blank_informal_register_a0",
+    "exercise_type": "fill_blank",
+    "grammar_point_code": "saluti",
+    "cefr_level": "A0",
+    "prompt": "Come ___? (stare — tu)",
+    "correct_answer": "stai",
+    "student_answer": "stai",
+    "expected_objective_correct": true
+  },
+  {
+    "id": "error_correction_cosmetic_only",
+    "exercise_type": "error_correction",
+    "grammar_point_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "prompt": "Ieri ho andato al cinema con gli amici.",
+    "correct_answer": "Ieri sono andato al cinema con gli amici.",
+    "student_answer": "Ieri ho andato al cinema con gli amici!",
+    "expected_objective_correct": false
+  },
+  {
+    "id": "error_correction_equivalent_fix",
+    "exercise_type": "error_correction",
+    "grammar_point_code": "la_coniugazione_attiva_con_particolare_riferimento_a_tutte_e_tre_le_persone",
+    "prompt": "Ieri ho andato al cinema con gli amici.",
+    "correct_answer": "Ieri sono andato al cinema con gli amici.",
+    "student_answer": "Sono andato al cinema ieri con gli amici.",
+    "expected_objective_correct": true
   }
 ]

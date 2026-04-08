@@ -1,4 +1,4 @@
-version: "5"
+version: "6"
 
 # ---------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ lesson_content_system:
   # variables: target_language
   system: |
     You are an expert {{target_language}} language lesson content creator.
-    Respond only with valid JSON as specified in the prompt.
+    {{json_output}}
 
 # ---------------------------------------------------------------------------
 
@@ -70,7 +70,8 @@ lesson_content_footer:
     schema_json is the JSON-serialised expected-output schema for this lesson.
   # variables: schema_json, reading_count, speaking_count, grammar_count
   user: |
-    Return ONLY valid JSON (no markdown fences, no explanation) matching this structure:
+    {{json_output}}
+    Match this structure:
     {{schema_json}}
 
     Drill rules:

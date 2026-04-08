@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_DATA_DIR = Path(__file__).parent.parent.parent / "data" / "it"
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,8 @@ async def test_writing_task_completion_accuracy(db, record_eval, record_item):
         feedback = await generate_writing_feedback(
             prompt=case["prompt"],
             student_text=case["student_text"],
-            cefr_level="A1",
+            cefr_level=case.get("cefr_level", "A1"),
+            language="it",
         )
         got = (
             feedback.get("objective_correct", True)
@@ -178,6 +179,7 @@ async def test_grammar_code_matching_by_level(db, record_eval, record_item):
         prompt=writing_prompt,
         student_text=student_text,
         cefr_level="A1",
+        language="it",
     )
     grammar_cache.invalidate()
 
@@ -189,6 +191,7 @@ async def test_grammar_code_matching_by_level(db, record_eval, record_item):
         prompt=writing_prompt,
         student_text=student_text,
         cefr_level="A2",
+        language="it",
     )
     grammar_cache.invalidate()
 
