@@ -8,3 +8,5 @@ data/seed/*
 !data/seed/current/
 src/maestro/static/audio/*.wav
 !src/maestro/static/audio/a0_*.wav
+
+.claude
