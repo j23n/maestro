@@ -568,6 +568,37 @@ async def discover(
         el for el in lang_elements if id(el) not in phrase_matched_elements
     ]
 
+    # --- Substring phrase matching ---
+    # Phrases that appear *within* element text (not just as the entire element).
+    # Uses word-boundary regex so "a destra" doesn't match inside "la destra".
+    if phrase_idx and word_elements:
+        _substr_text = get_target_text(word_elements)
+        _already = {str(m.word.id) for m in phrase_matches}
+        for _pk, _entries in phrase_idx.items():
+            if str(_entries[0].id) in _already:
+                continue
+            _pat = re.compile(rf"(?<!\w){re.escape(_pk)}(?!\w)", re.IGNORECASE)
+            if _pat.search(_substr_text):
+                _pw = _entries[0]
+                phrase_matches.append(
+                    VocabMatch(
+                        lemma=_pk,
+                        word=_pw,
+                        occurrences=[
+                            TokenOccurrence(surface=_pw.word, pos="", index=0)
+                        ],
+                    )
+                )
+                logger.debug(
+                    "[discover] substring phrase match: %r → %r (%s)",
+                    _pk,
+                    _pw.word,
+                    _pw.part_of_speech,
+                )
+
+    # Sort phrase matches longest-first so longer phrases get annotation priority
+    phrase_matches.sort(key=lambda m: len(m.word.word), reverse=True)
+
     # --- Vocabulary matching (pure NLP, no DB) ---
     all_text = get_target_text(word_elements) if word_elements else ""
     matches = (
@@ -717,6 +748,28 @@ async def discover(
         {w.id for w in new_words} if create_cards else set()
     )
 
+    # Annotate phrase matches FIRST so their spans block per-word annotation
+    # inside phrases (text nodes inside vocab-word spans are skipped).
+    for m in phrase_matches:
+        word_id = str(m.word.id)
+        wdef = _cache.get_definition(word_id, student_level, target_lang)
+        count = _annotate_in_elements(
+            lang_elements,
+            m.word,
+            wdef,
+            anonymous=anonymous,
+            in_vocab=m.word.id in owned_word_ids,
+            surface_forms=m.surface_forms,
+        )
+        logger.debug(
+            "[discover] annotate phrase %r (headword=%r, pos=%s, has_def=%s) → %d matches",
+            m.lemma,
+            m.word.word,
+            m.word.part_of_speech,
+            wdef is not None,
+            count,
+        )
+
     # Group matches by lemma for annotation.  When all matches for a lemma
     # point to the same dictionary entry, annotate all occurrences at once.
     # When they point to different entries (multi-POS), annotate one at a
@@ -782,27 +835,6 @@ async def discover(
                     wdef is not None,
                     count,
                 )
-
-    # Annotate phrase matches — entire element text is the surface form
-    for m in phrase_matches:
-        word_id = str(m.word.id)
-        wdef = _cache.get_definition(word_id, student_level, target_lang)
-        count = _annotate_in_elements(
-            lang_elements,
-            m.word,
-            wdef,
-            anonymous=anonymous,
-            in_vocab=m.word.id in owned_word_ids,
-            surface_forms=m.surface_forms,
-        )
-        logger.debug(
-            "[discover] annotate phrase %r (headword=%r, pos=%s, has_def=%s) → %d matches",
-            m.lemma,
-            m.word.word,
-            m.word.part_of_speech,
-            wdef is not None,
-            count,
-        )
 
     return str(soup)
 

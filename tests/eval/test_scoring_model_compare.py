@@ -20,7 +20,7 @@ from maestro.config import settings
 logger = logging.getLogger(__name__)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_DATA_DIR = Path(__file__).parent.parent.parent / "data" / "it"
 
 MODELS = [
     m.strip()
@@ -99,6 +99,8 @@ async def _run_scoring_cases(cases: list[dict]) -> tuple[list[dict], list[tuple]
             grammar_point_code=case["grammar_point_code"],
             items=[item],
             student_answers=[case["student_answer"]],
+            cefr_level=case.get("cefr_level", "A1"),
+            language="it",
         )
         got = raw[0]["objective_correct"] if raw else False
         expected = case["expected_objective_correct"]
@@ -124,6 +126,7 @@ async def _run_reading_cases(cases: list[dict]) -> list[dict]:
             questions=case["questions"],
             correct_answers=case["correct_answers"],
             student_answers=case["student_answers"],
+            language="it",
         )
         for i, (item, expected) in enumerate(zip(scored, case["expected_results"])):
             got = (
@@ -151,7 +154,8 @@ async def _run_writing_cases(cases: list[dict]) -> list[dict]:
         feedback = await generate_writing_feedback(
             prompt=case["prompt"],
             student_text=case["student_text"],
-            cefr_level="A1",
+            cefr_level=case.get("cefr_level", "A1"),
+            language="it",
         )
         got = (
             feedback.get("objective_correct", True)

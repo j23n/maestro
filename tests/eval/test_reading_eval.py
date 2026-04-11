@@ -29,6 +29,7 @@ async def test_reading_comprehension_scoring(db, record_eval, record_item):
             questions=case["questions"],
             correct_answers=case["correct_answers"],
             student_answers=case["student_answers"],
+            language="it",
         )
         passage_scores.append((case, scored))
 

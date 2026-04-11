@@ -950,6 +950,6 @@ async def test_completed_drill_without_feedback_returns_200(test_app, db, studen
     ):
         response = test_app.get(f"/lessons/{lesson.id}/activity/0")
 
-    # Falls through to drill template with is_review — shows review banner, not redirect
+    # Falls through to drill template with is_review — shows continue button, not redirect
     assert response.status_code == 200
-    assert "review-banner" in response.text
+    assert "continue-btn" in response.text

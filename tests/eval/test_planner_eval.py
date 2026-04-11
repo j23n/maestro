@@ -10,7 +10,7 @@ import pytest
 logger = logging.getLogger(__name__)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_DATA_DIR = Path(__file__).parent.parent.parent / "data" / "it"
 
 
 @pytest.mark.llm_eval

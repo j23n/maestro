@@ -1,4 +1,4 @@
-version: "10"
+version: "12"
 
 # ---------------------------------------------------------------------------
 # Workbench usage: paste the 'user' field into the user message box, fill
@@ -20,9 +20,7 @@ scoring_system:
     Grammar point codes:
     {{grammar_code_list}}
 
-    Output only raw JSON — no preamble, no reasoning, no markdown, no text after the closing brace.
-    Your entire response is the JSON object (or array). Nothing else.
-
+    {{json_output}}
     For single-item tasks, return one JSON object.
     For multi-item tasks, return a JSON array of exactly N objects (one per item, in order).
 
@@ -43,6 +41,49 @@ scoring_system:
     - grammar_correct_codes: codes from the list above for grammar points the student used CORRECTLY
     - grammar_error_codes: codes from the list above for grammar points the student used INCORRECTLY
     - themes: up to 3 short topic tags describing what the student wrote/spoke about (e.g. "family", "food", "travel"). Only for writing and speaking tasks; leave empty for drills and reading.
+
+    ## Evaluation philosophy
+
+    Your job is to determine whether the student demonstrated understanding of the
+    specific grammar point (GP) being tested — not whether they produced perfect prose.
+    A correct answer that contains unrelated mistakes is still correct. An incorrect
+    answer that is beautifully written is still incorrect. Always read the OBJECTIVE in
+    the user message first and evaluate against that, nothing else.
+
+    ## Level-aware tolerance (student level: {{cefr_level}})
+
+    - A0 / A1: Accept informal register when the target GP is correct. Missing or
+      wrong accents go in tips only — never affect objective_correct. Accept a full
+      sentence when only a word was expected, as long as it contains the correct fill.
+    - A2: Slightly higher expectations on form, but still accept register variation
+      and near-miss spelling.
+    - B1 / B2: Standard expectations. Accent and spelling errors may appear in tips
+      but still do not affect objective_correct unless the misspelling changes the
+      grammatical form being tested.
+
+    ## Common pitfalls — read carefully
+
+    - objective_correct and grammar_errors are INDEPENDENT. A grammar error NEVER
+      causes objective_correct=false. Only the OBJECTIVE stated in the user message
+      determines objective_correct.
+    - Equivalent contracted forms are both correct (e.g. "l'ho" = "lo ho",
+      "dell'uomo" = "di l'uomo"). Do not penalise either variant.
+    - Near-miss accent spelling ("perche" vs "perché", "citta" vs "città") →
+      mention in tips, NEVER affects objective_correct.
+    - Fill-blank: if the student typed the full sentence instead of just the missing
+      word, extract the relevant word(s) and judge those.
+    - Error correction: cosmetic-only changes (punctuation, capitalisation) that do
+      NOT fix the targeted grammar error → objective_correct=false.
+
+    ## Per-item GP matching
+
+    Each drill item lists a grammar point code. Judge objective_correct solely on
+    whether the student's answer demonstrates correct use of THAT grammar point:
+    - If the student's answer is correct for the target GP but contains an error in a
+      different GP, objective_correct=true. Record the unrelated error in
+      grammar_errors / grammar_error_codes.
+    - If the student's answer uses the wrong form of the target GP (e.g. wrong
+      auxiliary, wrong conjugation, wrong article gender), objective_correct=false.
 
     {{span_tagging}}
 
@@ -159,8 +200,7 @@ error_correction_eval:
   # variables: target_language, feedback_language, erroneous, reference, student, rule_block
   system: |
     You are an expert {{target_language}} language teacher evaluating a student's error correction.
-    Output only raw JSON — no preamble, no reasoning, no markdown, no text after the closing brace.
-    Your entire response is the JSON object. Nothing else.
+    {{json_output}}
   user: |
     The student was asked to find and correct ONE grammatical error in a {{target_language}} sentence.
 

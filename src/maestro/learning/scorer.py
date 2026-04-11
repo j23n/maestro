@@ -16,7 +16,11 @@ from maestro.llm import llm_messages_create
 from maestro.models import CallType
 
 from maestro.models import DrillItem, ExerciseType
-from maestro.prompts import analyzer as _prompts, span_tagging_block as _stb
+from maestro.prompts import (
+    analyzer as _prompts,
+    span_tagging_block as _stb,
+    json_output_block as _job,
+)
 from maestro.utils import parse_llm_json
 from maestro.learning.schemas import ScoringResult
 
@@ -72,9 +76,11 @@ def _system_prompt(
 ) -> str:
     return _prompts.scoring_system.render_system(
         target_language=language_name,
+        cefr_level=cefr_level,
         feedback_language=_feedback_language(cefr_level, language_name),
         grammar_code_list=_grammar_code_list(cefr_level, language_code),
         span_tagging=_stb(language_name, language_code),
+        json_output=_job(),
     )
 
 
@@ -288,6 +294,7 @@ async def evaluate_error_correction(
             system=_prompts.error_correction_eval.render_system(
                 target_language=lang_name,
                 span_tagging=_stb(lang_name, lang_code),
+                json_output=_job(),
             ),
             messages=[{"role": "user", "content": prompt}],
             entity_id=lesson_id,

@@ -12,7 +12,7 @@ import yaml
 logger = logging.getLogger(__name__)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
-_DATA_DIR = Path(__file__).parent.parent.parent / "src" / "maestro" / "data" / "it"
+_DATA_DIR = Path(__file__).parent.parent.parent / "data" / "it"
 
 
 def _make_item(prompt: str, correct_answer: str) -> MagicMock:
@@ -64,6 +64,8 @@ async def test_scoring_accuracy(db, record_eval, record_item):
             grammar_point_code=case["grammar_point_code"],
             items=[item],
             student_answers=[case["student_answer"]],
+            cefr_level=case.get("cefr_level", "A1"),
+            language="it",
         )
         got = raw[0]["objective_correct"] if raw else False
         expected = case["expected_objective_correct"]

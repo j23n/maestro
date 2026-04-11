@@ -9,7 +9,7 @@
   {# ── Original prompt (same as student view) ── #}
   <div class="speaking-prompt">
     <div class="speaking-prompt-label">{{ t("speaking_prompt_label") }}</div>
-    <div class="speaking-prompt-text" lang="{{ target_language_code }}">{{ activity.content }}</div>
+    <div class="speaking-prompt-text">{{ activity.content | markdown | safe }}</div>
   </div>
 
   {# ── Nothing recognized / scoring unavailable ── #}

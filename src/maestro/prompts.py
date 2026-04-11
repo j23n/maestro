@@ -120,3 +120,28 @@ def span_tagging_block(target_language: str, target_language_code: str) -> str:
         target_language=target_language,
         target_language_code=target_language_code,
     )
+
+
+def json_output_block() -> str:
+    """Return the shared JSON-only output directive."""
+    return common.json_output.render()
+
+
+def language_guidance_block(
+    lang: str,
+    target_language: str,
+    target_language_code: str,
+    cefr_level: str,
+) -> str:
+    """Return shared language guidance for the given output language."""
+    if lang == "en":
+        return common.language_guidance_en.render(
+            target_language=target_language,
+            target_language_code=target_language_code,
+            cefr_level=cefr_level,
+        )
+    return common.language_guidance_target.render(
+        target_language=target_language,
+        target_language_code=target_language_code,
+        cefr_level=cefr_level,
+    )

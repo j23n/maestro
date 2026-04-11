@@ -1,5 +1,15 @@
+{% if is_past_review | default(false) %}
 <div class="review-banner">
   <a href="{% if lesson.status == 'completed' %}/lessons/{{ lesson.id }}/complete{% else %}/lessons/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}" class="continue-btn">
     {{ t("back_to_current") }}
   </a>
 </div>
+{% else %}
+<div class="submit-row" style="margin-top:1.75rem;">
+  <a class="continue-btn"
+     href="{% if lesson.status == 'completed' %}/lessons/{{ lesson.id }}/complete{% else %}/lessons/{{ lesson.id }}/activity/{{ lesson.current_index }}{% endif %}">
+    {{ t("continue_btn") }}
+  </a>
+</div>
+{% include "partials/enter-to-continue.html" %}
+{% endif %}

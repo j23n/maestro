@@ -30,7 +30,7 @@ from maestro.models import (
     VocabularyWord,
     VocabularyWordDefinition,
 )
-from maestro.prompts import vocab as _prompts
+from maestro.prompts import vocab as _prompts, json_output_block as _job
 from maestro.utils import utcnow
 
 logger = logging.getLogger(__name__)
@@ -86,13 +86,15 @@ async def _call_api(
     )
     lang = lang_cfg.name
     logger.debug(
-        f"Claude request — system: {_prompts.definition_system.render_system(target_language=lang)!r}"
+        f"Claude request — system: {_prompts.definition_system.render_system(target_language=lang, json_output=_job())!r}"
     )
     logger.debug(f"Claude request — user: {user_content}")
     msg = await llm_messages_create(
         model=settings.DEFINITION_MODEL,
         max_tokens=max_tokens,
-        system=_prompts.definition_system.render_system(target_language=lang),
+        system=_prompts.definition_system.render_system(
+            target_language=lang, json_output=_job()
+        ),
         messages=[{"role": "user", "content": user_content}],
         # entity_id is keyed to the first word in the batch; the single LLM call
         # covers all words in the batch, so only one usage record is written.

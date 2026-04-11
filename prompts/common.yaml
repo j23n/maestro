@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 span_tagging:
   description: "Shared span-tagging instruction fragment injected into prompts via {{span_tagging}}"
@@ -10,3 +10,27 @@ span_tagging:
     Apply to every {{target_language}} word, including punctuation attached to it.
     Exception: markdown headings (##, ###) are structural — do NOT wrap them.
     Tags go inside JSON string values where applicable, not around JSON structure.
+
+json_output:
+  description: "Shared JSON-only output directive injected into prompts via {{json_output}}"
+  user: |
+    Output only raw JSON — no preamble, no reasoning, no markdown fences,
+    no text after the closing brace. Your entire response must be valid JSON.
+
+language_guidance_en:
+  description: "Shared English-language writing guidance for grammar/augment prompts"
+  user: |
+    Write entirely in English. {{target_language}} appears only for examples,
+    terms, and forms — always wrapped in <span lang="{{target_language_code}}">.
+    When introducing a {{target_language}} grammatical term, write it tagged
+    followed by an English definition in parentheses on first use only.
+    Pitch vocabulary and example complexity at CEFR {{cefr_level}}.
+
+language_guidance_target:
+  description: "Shared target-language writing guidance for grammar/augment prompts"
+  user: |
+    Write entirely in {{target_language}}, as a native-speaker teacher would.
+    English appears only as inline translations of examples in parentheses.
+    For grammatical terms that may be unfamiliar, add an English gloss on first
+    use only.
+    Pitch vocabulary and example complexity at CEFR {{cefr_level}}.

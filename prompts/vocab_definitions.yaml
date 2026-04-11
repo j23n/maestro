@@ -1,4 +1,4 @@
-version: "5"
+version: "6"
 
 definition_system:
   description: >
@@ -34,7 +34,8 @@ definition_system:
 
     Write all definitions, examples, and translations as plain text — no HTML tags or markup.
 
-    Return a JSON object only — no markdown fences, no prose. Schema:
+    {{json_output}}
+    Schema:
     {
       "<word>": {
         "translation": "<primary English gloss>",
