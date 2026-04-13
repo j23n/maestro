@@ -175,6 +175,16 @@ app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter
 app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
 app.add_middleware(SlowAPIMiddleware)
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
+
 if settings.DATA_DIR != settings.STATIC_DIR:
     Path(settings.DATA_DIR, "audio").mkdir(parents=True, exist_ok=True)
     app.mount(
@@ -191,11 +201,6 @@ app.mount("/static", StaticFiles(directory=settings.STATIC_DIR), name="static")
 @app.get("/health")
 async def health():
     return {"status": "ok"}
-
-
-@app.get("/sentry-debug")
-async def trigger_error():
-    division_by_zero = 1 / 0  # noqa: F841
 
 
 app.include_router(auth.router)

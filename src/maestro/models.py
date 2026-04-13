@@ -1,10 +1,9 @@
 from typing import Literal, Optional, List
 from datetime import datetime, date
-from dataclasses import dataclass
 from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 from maestro.utils import utcnow
 
 
@@ -67,7 +66,6 @@ class Account(Document):
     password_hash: str
     email_verified: bool = False
     student_id: PydanticObjectId
-    stripe_customer_id: Optional[str] = None
     subscription_tier: Literal["free", "pro"] = "free"
     is_admin: bool = False
     created_at: datetime = Field(default_factory=utcnow)
@@ -392,35 +390,10 @@ class DrillAttempt(Document):
         ]
 
 
-@dataclass
-class GrammarChunkResult:
-    chunk: GrammarChunk
-    similarity: float
-
-
 # --- Lezione ---
 
 
 class LessonActivity(BaseModel):
-    @model_validator(mode="before")
-    @classmethod
-    def _coerce_legacy_questions(cls, data):
-        """Coerce pre-QuestionItem documents: questions=[str] + correct_answers=[str]."""
-        if isinstance(data, dict):
-            qs = data.get("questions")
-            if qs and isinstance(qs, list) and qs and isinstance(qs[0], str):
-                answers = data.pop("correct_answers", [])
-                data["questions"] = [
-                    {
-                        "text": q,
-                        "correct_answer": answers[i] if i < len(answers) else "",
-                    }
-                    for i, q in enumerate(qs)
-                ]
-            elif "correct_answers" in data:
-                data.pop("correct_answers")
-        return data
-
     type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str

@@ -1,5 +1,12 @@
+from dataclasses import dataclass
 from functools import lru_cache
-from maestro.models import GrammarChunk, GrammarChunkResult
+from maestro.models import GrammarChunk
+
+
+@dataclass
+class GrammarChunkResult:
+    chunk: GrammarChunk
+    similarity: float
 
 
 @lru_cache(maxsize=1)

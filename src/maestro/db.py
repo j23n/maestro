@@ -28,25 +28,3 @@ async def init_db():
 
 def get_db():
     return _db
-
-
-def init_indices(client):
-    collection = client[settings.MONGODB_DB]["grammar_chunks"]
-    collection.create_search_index(
-        {
-            "name": "embedding_index",
-            "definition": {
-                "mappings": {
-                    "dynamic": False,
-                    "fields": {
-                        "embedding": {
-                            "type": "knnVector",
-                            "dimensions": 1024,
-                            "similarity": "cosine",
-                        },
-                        "chunk_type": {"type": "token"},
-                    },
-                }
-            },
-        }
-    )
