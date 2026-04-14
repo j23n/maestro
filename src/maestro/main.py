@@ -32,6 +32,7 @@ from maestro.language import LANGUAGES
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import (
+    activities,
     admin,
     auth,
     vocab,
@@ -185,6 +186,7 @@ async def security_headers(request: Request, call_next):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
 
+
 if settings.DATA_DIR != settings.STATIC_DIR:
     Path(settings.DATA_DIR, "audio").mkdir(parents=True, exist_ok=True)
     app.mount(
@@ -209,6 +211,7 @@ app.include_router(profile.router)
 app.include_router(grammar.router)
 app.include_router(functions.router)
 app.include_router(lessons.router)
+app.include_router(activities.router)
 app.include_router(feedback.router)
 app.include_router(legal.router)
 app.include_router(account.router)

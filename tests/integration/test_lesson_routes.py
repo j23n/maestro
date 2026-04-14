@@ -65,7 +65,7 @@ def test_drill_submit_redirects_to_review(test_app, active_lesson_with_drill):
     mock_event.insert = AsyncMock()
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -140,7 +140,7 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
         "grammar_error_codes": [],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -259,7 +259,7 @@ async def test_reading_submit_on_listening_records_listening_event(
     """POST reading-submit on a LISTENING activity should store activity_type='listening'."""
     lesson = active_lesson_with_listening
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         return_value=(True, {}, [], []),
     ):
@@ -299,7 +299,7 @@ async def test_reading_submit_on_reading_records_reading_event(test_app, db, stu
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         return_value=(True, {}, [], []),
     ):
@@ -385,7 +385,7 @@ async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_
     )
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -456,7 +456,7 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
         "grammar_error_codes": [],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -575,7 +575,7 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
         "grammar_error_codes": ["GP_ERR"],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -745,7 +745,7 @@ def test_drill_scoring_failure_redirects_to_review(test_app, active_lesson_with_
     lesson, drill = active_lesson_with_drill
 
     with patch(
-        "maestro.routes.lessons.score_attempt",
+        "maestro.routes.activities.score_attempt",
         new_callable=AsyncMock,
         side_effect=RuntimeError("LLM down"),
     ):
@@ -783,7 +783,7 @@ async def test_writing_scoring_failure_redirects_to_review(test_app, db, student
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         side_effect=ValueError("bad LLM response"),
     ):
@@ -825,7 +825,7 @@ async def test_reading_scoring_failure_redirects_to_review(test_app, db, student
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         side_effect=ValueError("bad LLM response"),
     ):

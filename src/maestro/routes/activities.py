@@ -1,0 +1,1053 @@
+import asyncio
+import json
+import logging
+import random
+from typing import Annotated
+
+from beanie import PydanticObjectId
+from fastapi import APIRouter, Depends, Request, HTTPException, Form
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
+from markupsafe import escape
+
+from maestro.auth import get_current_student
+from maestro.models import (
+    Student,
+    UserVocabularyCard,
+    GeneratedDrill,
+    DrillAttempt,
+    GrammarPoint,
+    LearningEvent,
+    ActivityType,
+    ActivityStatus,
+    LessonStatus,
+    CurriculumScenario,
+    CommunicativeFunction,
+)
+from maestro.learning.profile import get_profile, save_onboarding_field
+from maestro.learning.weakness import build_titles, build_tooltip_data
+from maestro.vocab.query import get_word_definition
+from maestro.lessons.drill_scoring import score_attempt
+from maestro.learning.scorer import (
+    generate_writing_feedback,
+    generate_speaking_feedback,
+)
+from maestro.i18n import t, strings_t as st
+from maestro.rate_limit import limiter
+from maestro.learning import grammar_cache
+from maestro.templates import render_with_discover
+from maestro.vocab.srs import review
+from maestro.lessons.lifecycle import (
+    activity_url,
+    advance_lesson,
+    get_lesson_discovered_words,
+    score_reading_activity,
+)
+from maestro.routes.lessons import _get_lesson, _review_redirect
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
+
+
+@router.get("/lessons/{lesson_id}/activity/{idx}", response_class=HTMLResponse)
+async def lesson_activity(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+    card_idx: int = 0,
+    mode: str = "random",
+    correct: int = 0,
+    incorrect: int = 0,
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        if lesson.generating:
+            return RedirectResponse(
+                url=f"/lessons/{lesson_id}/generating", status_code=303
+            )
+        return RedirectResponse(url=f"/lessons/{lesson_id}/complete", status_code=303)
+    activity = lesson.activities[idx]
+
+    if activity.status == ActivityStatus.PENDING:
+        return RedirectResponse(
+            url=activity_url(lesson_id, lesson.current_index), status_code=303
+        )
+
+    is_review = activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED)
+
+    # Completed scored activities — show review template with original context + corrections
+    if is_review and activity.result:
+        result = activity.result
+        total = len(lesson.activities)
+        # "just completed" = the activity right before current_index (natural
+        # progression).  Past reviews get a "back to current activity" banner
+        # instead of the forward-navigation controls.
+        is_past_review = is_review and (
+            lesson.status != LessonStatus.COMPLETED and idx + 1 < lesson.current_index
+        )
+        review_ctx = {
+            "lesson": lesson,
+            "activity": activity,
+            "idx": idx,
+            "total": total,
+            "is_review": True,
+            "is_past_review": is_past_review,
+            "correct": result.get("correct"),
+            "feedback": result.get("feedback"),
+        }
+
+        if activity.type == ActivityType.SPEAKING:
+            review_ctx.update(
+                recognized_text=result.get("recognized_text"),
+                pronunciation_score=result.get("pronunciation_score"),
+                accuracy_score=result.get("accuracy_score"),
+                fluency_score=result.get("fluency_score"),
+                words=result.get("word_assessments", []),
+            )
+            return await render_with_discover(
+                request,
+                "review-activity-speaking.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type == ActivityType.DRILL and activity.drill_id:
+            drill = await GeneratedDrill.get(activity.drill_id)
+            review_ctx.update(drill=drill, rule_refs=[])
+            return await render_with_discover(
+                request,
+                "review-activity-drill.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type == ActivityType.WRITING:
+            review_ctx.update(
+                content=activity.content or "",
+                student_answer=result.get("student_answer", ""),
+            )
+            return await render_with_discover(
+                request,
+                "review-activity-writing.html",
+                review_ctx,
+                student_id=student.id,
+            )
+
+        if activity.type in (ActivityType.READING, ActivityType.LISTENING):
+            review_ctx.update(
+                student_answers=result.get("student_answers", []),
+                question_lang="en" if lesson.cefr_at_start == "A0" else lesson.language,
+            )
+            if activity.type == ActivityType.LISTENING:
+                review_ctx["audio_url"] = activity.audio_path
+                template = "review-activity-listening.html"
+            else:
+                template = "review-activity-reading.html"
+            return await render_with_discover(
+                request,
+                template,
+                review_ctx,
+                student_id=student.id,
+            )
+
+    total = len(lesson.activities)
+
+    is_past_review = is_review and (
+        lesson.status != LessonStatus.COMPLETED and idx + 1 < lesson.current_index
+    )
+    ctx = {
+        "lesson": lesson,
+        "activity": activity,
+        "idx": idx,
+        "total": total,
+        "card_idx": card_idx,
+        "is_review": is_review,
+        "is_past_review": is_past_review,
+    }
+
+    if activity.type == ActivityType.DRILL:
+        if activity.drill_id is None:
+            raise HTTPException(400, "No drill attached to this activity")
+        drill = await GeneratedDrill.get(activity.drill_id)
+        if drill is None:
+            raise HTTPException(404)
+        ctx["drill"] = drill
+        return await render_with_discover(
+            request,
+            "lesson-activity-drill.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.VOCAB_REVIEW:
+        card_ids = activity.card_ids
+        total_cards = len(card_ids)
+        if mode not in ("word", "translation", "random"):
+            mode = "random"
+        correct = max(0, min(correct, total_cards))
+        incorrect = max(0, min(incorrect, total_cards))
+        selected_mode = mode
+        resolved_mode = (
+            random.choice(("word", "translation")) if mode == "random" else mode
+        )
+
+        def _vocab_complete_ctx(c: int, ic: int, cont_url: str) -> dict:
+            return dict(
+                is_complete=True,
+                correct=c,
+                incorrect=ic,
+                continue_url=cont_url,
+                card=None,
+                mode=resolved_mode,
+                selected_mode=selected_mode,
+                mode_url_prefix=f"/lessons/{lesson_id}/activity/{idx}?card_idx=0&correct=0&incorrect=0&mode=",
+                total_cards=total_cards,
+            )
+
+        if is_review:
+            result = activity.result or {}
+            continue_url = (
+                f"/lessons/{lesson_id}/complete"
+                if lesson.status == LessonStatus.COMPLETED
+                else activity_url(lesson_id, lesson.current_index)
+            )
+            ctx.update(
+                _vocab_complete_ctx(
+                    result.get("correct", 0),
+                    result.get("incorrect", 0),
+                    continue_url,
+                )
+            )
+            return await render_with_discover(
+                request,
+                "lesson-activity-vocab.html",
+                ctx,
+                student_id=student.id,
+            )
+        # Discovered-scope: populate card_ids dynamically on first visit
+        if activity.review_scope == "discovered" and not activity.card_ids:
+            _MAX_DISCOVERED_CARDS = 15
+            discovered = await get_lesson_discovered_words(lesson)
+            # Separate new vs already-reviewed cards
+            already_reviewed: set = set()
+            for prev in lesson.activities[:idx]:
+                if prev.review_scope == "discovered" and prev.card_ids:
+                    already_reviewed.update(prev.card_ids)
+            new_cards = [w for w in discovered if w.id not in already_reviewed]
+            old_cards = [w for w in discovered if w.id in already_reviewed]
+            if not new_cards and not old_cards:
+                # No words discovered at all — auto-skip
+                redirect_url = await advance_lesson(lesson, idx, skip=True)
+                return RedirectResponse(url=redirect_url, status_code=303)
+            # New words first, then backfill from earlier reviews up to max
+            selected = new_cards[:_MAX_DISCOVERED_CARDS]
+            if len(selected) < _MAX_DISCOVERED_CARDS:
+                selected += old_cards[: _MAX_DISCOVERED_CARDS - len(selected)]
+            if not selected:
+                redirect_url = await advance_lesson(lesson, idx, skip=True)
+                return RedirectResponse(url=redirect_url, status_code=303)
+            card_ids_new = [w.id for w in selected]
+            random.shuffle(card_ids_new)
+            title = st("vocab_discovered_title", count=len(card_ids_new))
+            await lesson.update(
+                {
+                    "$set": {
+                        f"activities.{idx}.card_ids": card_ids_new,
+                        f"activities.{idx}.title": title,
+                    }
+                }
+            )
+            activity.card_ids = card_ids_new
+            activity.title = title
+        card_ids = activity.card_ids
+        total_cards = len(card_ids)
+        # Shuffle on fresh start so review order varies each attempt
+        if card_idx == 0 and correct == 0 and incorrect == 0 and total_cards > 1:
+            random.shuffle(card_ids)
+            await lesson.update({"$set": {f"activities.{idx}.card_ids": card_ids}})
+        if not card_ids:
+            # No vocab cards — auto-skip this activity
+            redirect_url = await advance_lesson(lesson, idx)
+            return RedirectResponse(url=redirect_url, status_code=303)
+
+        if card_idx >= total_cards:
+            # All cards reviewed — advance and show results
+            await advance_lesson(
+                lesson, idx, result={"correct": correct, "incorrect": incorrect}
+            )
+            continue_url = (
+                f"/lessons/{lesson_id}/complete"
+                if lesson.status == LessonStatus.COMPLETED
+                else activity_url(lesson_id, lesson.current_index)
+            )
+            ctx.update(_vocab_complete_ctx(correct, incorrect, continue_url))
+            return await render_with_discover(
+                request,
+                "lesson-activity-vocab.html",
+                ctx,
+                student_id=student.id,
+            )
+
+        card = await UserVocabularyCard.get(card_ids[card_idx])
+        if card is None:
+            raise HTTPException(404)
+        await card.fetch_all_links()
+        profile = await get_profile(student.id)
+        level = profile.active_progress.cefr_estimate if profile else "A0"
+        word_def = await get_word_definition(card.word, level)
+        ctx.update(
+            card=card,
+            word_def=word_def,
+            mode=resolved_mode,
+            selected_mode=selected_mode,
+            correct=correct,
+            incorrect=incorrect,
+            total_cards=total_cards,
+            reveal_url=(
+                f"/lessons/{lesson_id}/activity/{idx}/vocab-reveal"
+                f"?card_idx={card_idx}&mode={resolved_mode}"
+                f"&correct={correct}&incorrect={incorrect}"
+            ),
+            mode_url_prefix=(
+                f"/lessons/{lesson_id}/activity/{idx}"
+                f"?card_idx={card_idx}&correct={correct}&incorrect={incorrect}&mode="
+            ),
+        )
+        return await render_with_discover(
+            request,
+            "lesson-activity-vocab.html",
+            ctx,
+            student_id=student.id,
+        )
+
+    if activity.type == ActivityType.READING:
+        ctx["question_lang"] = "en" if lesson.cefr_at_start == "A0" else lesson.language
+        return await render_with_discover(
+            request,
+            "lesson-activity-reading.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.LISTENING:
+        ctx["audio_url"] = activity.audio_path
+        ctx["question_lang"] = "en" if lesson.cefr_at_start == "A0" else lesson.language
+        return await render_with_discover(
+            request,
+            "lesson-activity-listening.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.WRITING:
+        ctx["content"] = activity.content or ""
+        return await render_with_discover(
+            request,
+            "lesson-activity-writing.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.GRAMMAR:
+        ctx["content"] = activity.content or ""
+        profile = await get_profile(student.id)
+        level = profile.active_progress.cefr_estimate if profile else "A0"
+        if activity.why_important:
+            why_lang = "en" if level in ("A0", "A1", "A2") else lesson.language
+            ctx["why_lang"] = why_lang
+        # Find the GP and its explanation for translation + chunk_ref
+        if activity.grammar_point_code:
+            gp = await GrammarPoint.find_one({"code": activity.grammar_point_code})
+        else:
+            # Fallback for old lessons without the field
+            gp_label = activity.title.replace("Grammatica: ", "")
+            gp = await GrammarPoint.find_one({"label": gp_label})
+        if gp:
+            ctx["chunk_ref"] = gp.chunk_ref
+            if not activity.why_important:
+                expl_lang = "it" if level in ("B1", "B2") else "en"
+                expl = gp.explanations.get(expl_lang) or next(
+                    (gp.explanations[k] for k in ("en", "it") if k in gp.explanations),
+                    None,
+                )
+                if expl and expl.why_this_matters:
+                    ctx["why_this_matters"] = expl.why_this_matters
+        return await render_with_discover(
+            request,
+            "lesson-activity-grammar.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.INTRO:
+        gp_codes = activity.grammar_point_codes
+        cf_codes = activity.cf_codes
+        grammar_points = (
+            await GrammarPoint.find({"code": {"$in": gp_codes}}).to_list()
+            if gp_codes
+            else []
+        )
+        comm_functions = (
+            await CommunicativeFunction.find({"code": {"$in": cf_codes}}).to_list()
+            if cf_codes
+            else []
+        )
+        cefr = lesson.cefr_at_start or "A1"
+        lang = lesson.language
+        ctx["grammar_points"] = grammar_points
+        ctx["gp_titles"] = build_titles(grammar_points, cefr, lang)
+        ctx["gp_tooltip_data"] = build_tooltip_data(grammar_points, cefr, lang)
+        ctx["comm_functions"] = comm_functions
+        ctx["cf_titles"] = build_titles(comm_functions, cefr, lang)
+        ctx["cf_tooltip_data"] = build_tooltip_data(comm_functions, cefr, lang)
+        if lesson.scenario_slug:
+            scenario = await CurriculumScenario.find_one({"slug": lesson.scenario_slug})
+            if scenario and scenario.image:
+                ctx["scenario_image_url"] = f"/static/{scenario.image}"
+        return await render_with_discover(
+            request,
+            "lesson-activity-intro.html",
+            ctx,
+            student_id=student.id,
+            create_cards=False,
+        )
+
+    if activity.type == ActivityType.INFO:
+        ctx["content"] = activity.content or ""
+        return await render_with_discover(
+            request,
+            "lesson-activity-info.html",
+            ctx,
+            student_id=student.id,
+        )
+
+    if activity.type == ActivityType.SPEAKING:
+        return await render_with_discover(
+            request,
+            "lesson-activity-speaking.html",
+            ctx,
+            student_id=student.id,
+            create_cards=True,
+        )
+
+    if activity.type == ActivityType.ONBOARDING:
+        return await render_with_discover(
+            request,
+            "lesson-activity-onboarding.html",
+            ctx,
+            student_id=student.id,
+        )
+
+    raise HTTPException(400, f"Unknown activity type: {activity.type}")
+
+
+@router.post("/lessons/{lesson_id}/activity/{idx}/skip")
+async def lesson_activity_skip(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+    if activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED):
+        if lesson.status == LessonStatus.COMPLETED:
+            url = f"/lessons/{lesson.id}/complete"
+        else:
+            url = activity_url(lesson.id, lesson.current_index)
+        return Response(status_code=204, headers={"HX-Redirect": url})
+    redirect_url = await advance_lesson(lesson, idx, skip=True)
+    return Response(status_code=204, headers={"HX-Redirect": redirect_url})
+
+
+@router.post("/lessons/{lesson_id}/activity/{idx}/complete")
+async def lesson_activity_complete(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+    if activity.status in (ActivityStatus.COMPLETED, ActivityStatus.SKIPPED):
+        if lesson.status == LessonStatus.COMPLETED:
+            url = f"/lessons/{lesson.id}/complete"
+        else:
+            url = activity_url(lesson.id, lesson.current_index)
+        return Response(status_code=204, headers={"HX-Redirect": url})
+    redirect_url = await advance_lesson(lesson, idx)
+    return Response(status_code=204, headers={"HX-Redirect": redirect_url})
+
+
+@router.post(
+    "/lessons/{lesson_id}/activity/{idx}/onboarding-submit", response_class=HTMLResponse
+)
+async def lesson_onboarding_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+
+    form = await request.form()
+
+    if activity.profile_field == "combined":
+        # Combined form: save all fields at once
+        result = {}
+        for field in ("name", "background", "interests", "goal"):
+            value = form.get(field, "")
+            if value and value.strip():
+                await save_onboarding_field(student, field, value.strip())
+                result[field] = value.strip()
+
+        await lesson.update({"$set": {f"activities.{idx}.result": result}})
+
+        response_text = t("onboarding_combined_response")
+    else:
+        answer = form.get("answer", "")
+        await save_onboarding_field(student, activity.profile_field, answer)
+
+        response_text = activity.response_template or "Got it!"
+        response_text = response_text.replace("{answer}", str(escape(answer.strip())))
+
+        await lesson.update(
+            {"$set": {f"activities.{idx}.result": {"answer": answer.strip()}}}
+        )
+
+    return await render_with_discover(
+        request,
+        "lesson-onboarding-response.html",
+        {"lesson": lesson, "idx": idx, "response_text": response_text},
+        student_id=student.id,
+    )
+
+
+@router.post(
+    "/lessons/{lesson_id}/activity/{idx}/drill-submit", response_class=HTMLResponse
+)
+async def lesson_drill_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+    if activity.drill_id is None:
+        raise HTTPException(400)
+
+    drill = await GeneratedDrill.get(activity.drill_id)
+    if drill is None:
+        raise HTTPException(404)
+
+    form = await request.form()
+    answers = list(form.getlist("answers"))
+
+    student_input: list[str] | str = (
+        answers if drill.items else (answers[0] if answers else "")
+    )
+
+    try:
+        correct, event, feedback, rule_refs = await score_attempt(
+            drill,
+            student_input,
+            student_id=student.id,
+            lesson_id=lesson.id,
+            language=lesson.language,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
+        )
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
+        await advance_lesson(
+            lesson,
+            idx,
+            result={"correct": None, "student_answer": "", "feedback": _err_feedback},
+        )
+        return _review_redirect(lesson_id, idx)
+
+    stored_answer = (
+        json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
+    )
+    attempt = DrillAttempt(
+        student_id=student.id,
+        generated_drill=drill,
+        student_answer=stored_answer,
+        correct=correct,
+    )
+    await attempt.insert()
+    drill.used = True
+    await drill.save()
+
+    if event:
+        event.lesson_id = lesson.id
+        event.activity_type = ActivityType.DRILL.value
+        event.activity_index = idx
+        event.student_text = stored_answer
+        await event.insert()
+        logger.debug(
+            "drill event stored",
+            extra={
+                "lesson_id": str(lesson.id),
+                "grammar_errors": event.grammar_errors,
+                "grammar_correct": event.grammar_correct,
+            },
+        )
+
+    drill_result: dict = {"correct": correct, "student_answer": stored_answer}
+
+    # Capture per-item scoring detail for later inspection / flagging
+    if drill.items and isinstance(feedback, dict) and "items" in feedback:
+        # Multi-item drill: store per-item scores
+        drill_result["item_scores"] = [
+            {
+                "objective_correct": item.get("objective_correct", False),
+                "tips": item.get("tips", []),
+                "objective_note": item.get("objective_note", ""),
+                "grammar_errors": item.get("grammar_errors", []),
+            }
+            for item in feedback.get("items", [])
+        ]
+    feedback = feedback or None
+    drill_result["feedback"] = feedback
+    await advance_lesson(lesson, idx, result=drill_result)
+
+    return _review_redirect(lesson_id, idx)
+
+
+@router.get(
+    "/lessons/{lesson_id}/activity/{idx}/vocab-reveal", response_class=HTMLResponse
+)
+async def lesson_vocab_reveal(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+    card_idx: int = 0,
+    mode: str = "word",
+    correct: int = 0,
+    incorrect: int = 0,
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+    card_ids = activity.card_ids
+    if card_idx >= len(card_ids):
+        raise HTTPException(404)
+    card = await UserVocabularyCard.get(card_ids[card_idx])
+    if card is None:
+        raise HTTPException(404)
+    await card.fetch_all_links()
+    profile = await get_profile(student.id)
+    level = profile.active_progress.cefr_estimate if profile else "A0"
+    word_def = await get_word_definition(card.word, level)
+    return await render_with_discover(
+        request,
+        "vocab-card-back.html",
+        {
+            "card": card,
+            "word_def": word_def,
+            "mode": mode,
+            "card_idx": card_idx,
+            "total_cards": len(card_ids),
+            "review_url": f"/lessons/{lesson_id}/activity/{idx}/vocab-rate",
+            "review_extra_name": "card_idx",
+            "review_extra_value": card_idx,
+            "correct": correct,
+            "incorrect": incorrect,
+        },
+    )
+
+
+@router.post("/lessons/{lesson_id}/activity/{idx}/vocab-rate")
+async def lesson_vocab_rate(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    rating: Annotated[int, Form()],
+    card_idx: Annotated[int, Form()],
+    student: Student = Depends(get_current_student),
+    mode: Annotated[str, Form()] = "random",
+    correct: Annotated[int, Form()] = 0,
+    incorrect: Annotated[int, Form()] = 0,
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+    activity = lesson.activities[idx]
+    card_ids = activity.card_ids
+    if card_idx >= len(card_ids):
+        raise HTTPException(404)
+    if mode not in ("word", "translation", "random"):
+        mode = "random"
+    correct = max(0, min(correct, len(card_ids)))
+    incorrect = max(0, min(incorrect, len(card_ids)))
+
+    card = await UserVocabularyCard.get(card_ids[card_idx])
+    if card is None:
+        raise HTTPException(404)
+    if card.student_id != student.id:
+        raise HTTPException(403)
+    card = review(card, rating)
+    await card.save()
+
+    new_correct = correct + (1 if rating >= 3 else 0)
+    new_incorrect = incorrect + (1 if rating < 3 else 0)
+
+    next_card_idx = card_idx + 1
+    redirect_url = (
+        f"/lessons/{lesson_id}/activity/{idx}"
+        f"?card_idx={next_card_idx}&mode={mode}"
+        f"&correct={new_correct}&incorrect={new_incorrect}"
+    )
+    return Response(status_code=204, headers={"HX-Redirect": redirect_url})
+
+
+@router.post(
+    "/lessons/{lesson_id}/activity/{idx}/writing-submit", response_class=HTMLResponse
+)
+async def lesson_writing_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    answer: Annotated[str, Form()],
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+
+    activity = lesson.activities[idx]
+    profile = await get_profile(student.id)
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+
+    try:
+        feedback = await generate_writing_feedback(
+            activity.content or "",
+            answer,
+            cefr_level,
+            student_id=student.id,
+            lesson_id=lesson.id,
+            language=lesson.language,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for writing",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
+        await advance_lesson(
+            lesson, idx, result={"student_answer": answer, "feedback": _err_feedback}
+        )
+        return _review_redirect(lesson_id, idx)
+
+    await grammar_cache.ensure_loaded(lesson.language)
+    valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.WRITING.value,
+        activity_index=idx,
+        evidence_type="productive",
+        student_text=answer,
+        grammar_correct=[
+            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+        ],
+        grammar_errors=[
+            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+        ],
+        themes=feedback.get("themes", []),
+    )
+    await event.insert()
+    logger.debug(
+        "writing event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "grammar_errors": event.grammar_errors,
+            "grammar_correct": event.grammar_correct,
+        },
+    )
+
+    writing_result = {"student_answer": answer, "feedback": feedback}
+    await advance_lesson(lesson, idx, result=writing_result)
+
+    return _review_redirect(lesson_id, idx)
+
+
+@router.post(
+    "/lessons/{lesson_id}/activity/{idx}/speaking-submit", response_class=HTMLResponse
+)
+async def lesson_speaking_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+
+    activity = lesson.activities[idx]
+    form = await request.form()
+    audio_file = form.get("audio")
+    if audio_file is None or not hasattr(audio_file, "read"):
+        raise HTTPException(400, "No audio file provided")
+
+    max_audio_bytes = 2 * 1024 * 1024  # 2 MB
+    audio_bytes = await audio_file.read(max_audio_bytes + 1)
+    if len(audio_bytes) > max_audio_bytes:
+        raise HTTPException(413, "Audio file too large")
+
+    if audio_bytes[:4] != b"RIFF":
+        raise HTTPException(400, "Invalid audio format — expected WAV")
+
+    # --- Stage 1: Transcribe ---
+    from maestro.stt import transcribe, assess_pronunciation
+
+    recognized_text = None
+    try:
+        transcription = await transcribe(audio_bytes, language=lesson.language)
+        recognized_text = transcription.recognized_text
+    except Exception:
+        logger.exception(
+            "transcription failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        await advance_lesson(
+            lesson, idx, result={"student_answer": "", "correct": None}
+        )
+        return _review_redirect(lesson_id, idx)
+
+    # --- Empty check ---
+    if not recognized_text or not recognized_text.strip():
+        await advance_lesson(
+            lesson, idx, result={"student_answer": "", "correct": None}
+        )
+        return _review_redirect(lesson_id, idx)
+
+    # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
+    profile = await get_profile(student.id)
+    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+    prompt_text = activity.content or ""
+
+    feedback_coro = generate_speaking_feedback(
+        prompt_text,
+        recognized_text,
+        cefr_level,
+        student_id=student.id,
+        lesson_id=lesson.id,
+        language=lesson.language,
+    )
+    pronunciation_coro = assess_pronunciation(
+        audio_bytes, recognized_text, language=lesson.language
+    )
+
+    results = await asyncio.gather(
+        feedback_coro, pronunciation_coro, return_exceptions=True
+    )
+    feedback_result = results[0]
+    pronunciation_result = results[1]
+
+    # Handle partial failures
+    feedback = None
+    if isinstance(feedback_result, Exception):
+        logger.error(
+            "LLM feedback failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+            exc_info=feedback_result,
+        )
+    else:
+        feedback = feedback_result
+
+    pronunciation = None
+    if isinstance(pronunciation_result, Exception):
+        logger.error(
+            "pronunciation scoring failed for speaking",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+            exc_info=pronunciation_result,
+        )
+    else:
+        pronunciation = pronunciation_result
+
+    # Both failed → scoring_unavailable
+    if feedback is None and pronunciation is None:
+        await advance_lesson(
+            lesson,
+            idx,
+            result={
+                "student_answer": recognized_text,
+                "recognized_text": recognized_text,
+                "correct": None,
+            },
+        )
+        return _review_redirect(lesson_id, idx)
+
+    # --- Build result and LearningEvent ---
+    speaking_result = {"student_answer": recognized_text}
+    if pronunciation:
+        speaking_result.update(
+            {
+                "pronunciation_score": pronunciation.pronunciation_score,
+                "accuracy_score": pronunciation.accuracy_score,
+                "fluency_score": pronunciation.fluency_score,
+                "completeness_score": pronunciation.completeness_score,
+                "recognized_text": recognized_text,
+            }
+        )
+        speaking_result["word_assessments"] = [
+            {
+                "word": w.word,
+                "accuracy_score": w.accuracy_score,
+                "error_type": w.error_type,
+                "offset_seconds": w.offset_seconds,
+                "duration_seconds": w.duration_seconds,
+            }
+            for w in pronunciation.words
+        ]
+    else:
+        speaking_result["recognized_text"] = recognized_text
+
+    if feedback:
+        speaking_result["feedback"] = feedback
+
+    grammar_correct = []
+    grammar_errors = []
+    if feedback:
+        await grammar_cache.ensure_loaded(lesson.language)
+        valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
+        grammar_correct = [
+            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+        ]
+        grammar_errors = [
+            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+        ]
+
+    await advance_lesson(lesson, idx, result=speaking_result)
+
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=ActivityType.SPEAKING.value,
+        activity_index=idx,
+        evidence_type="productive",
+        student_text=recognized_text,
+        grammar_correct=grammar_correct,
+        grammar_errors=grammar_errors,
+        themes=feedback.get("themes", []) if feedback else [],
+    )
+    await event.insert()
+    logger.debug(
+        "speaking event stored",
+        extra={
+            "lesson_id": str(lesson.id),
+            "pronunciation_score": pronunciation.pronunciation_score
+            if pronunciation
+            else None,
+            "grammar_errors": grammar_errors,
+            "grammar_correct": grammar_correct,
+        },
+    )
+
+    return _review_redirect(lesson_id, idx)
+
+
+@router.get("/speaking/word-audio/{word:path}")
+@limiter.limit("30/minute")
+async def speaking_word_audio(
+    request: Request,
+    word: str,
+    student: Student = Depends(get_current_student),
+):
+    """Generate TTS for a word and return its static URL (JSON)."""
+    from maestro.tts import generate_word_audio
+
+    url = await generate_word_audio(word, language=request.state.lang_ctx.code)
+    if url is None:
+        raise HTTPException(503, "TTS unavailable")
+    return {"url": url}
+
+
+@router.post(
+    "/lessons/{lesson_id}/activity/{idx}/reading-submit", response_class=HTMLResponse
+)
+async def lesson_reading_submit(
+    lesson_id: PydanticObjectId,
+    idx: int,
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    lesson = await _get_lesson(lesson_id, student)
+    if idx >= len(lesson.activities):
+        raise HTTPException(404)
+
+    activity = lesson.activities[idx]
+    form = await request.form()
+    answers = list(form.getlist("answers"))
+
+    q_items = activity.questions or []
+    questions = [q.text for q in q_items]
+    correct_answers = [q.correct_answer for q in q_items]
+
+    try:
+        overall_correct, feedback, gp_correct, gp_errors = await score_reading_activity(
+            questions,
+            correct_answers,
+            answers,
+            cefr_level=lesson.cefr_at_start,
+            student_id=student.id,
+            lesson_id=lesson.id,
+            language=lesson.language,
+        )
+    except Exception:
+        logger.exception(
+            "scoring failed for reading",
+            extra={"lesson_id": str(lesson.id), "idx": idx},
+        )
+        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
+        await advance_lesson(
+            lesson,
+            idx,
+            result={
+                "student_answers": answers,
+                "correct": None,
+                "feedback": _err_feedback,
+            },
+        )
+        return _review_redirect(lesson_id, idx)
+
+    joined_answers = " | ".join(a for a in answers if a)
+    event = LearningEvent(
+        student_id=student.id,
+        lesson_id=lesson.id,
+        activity_type=activity.type.value,
+        activity_index=idx,
+        evidence_type="receptive",
+        student_text=joined_answers,
+        grammar_correct=gp_correct,
+        grammar_errors=gp_errors,
+    )
+    await event.insert()
+
+    reading_result = {
+        "student_answers": answers,
+        "correct": overall_correct,
+        "feedback": feedback,
+    }
+    await advance_lesson(lesson, idx, result=reading_result)
+
+    return _review_redirect(lesson_id, idx)
