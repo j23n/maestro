@@ -195,6 +195,7 @@ async def delete_account(
 
     logger.info("account deletion requested: account=%s student=%s", account.id, sid)
 
+    invalidate_profile_cache(sid)
     await LearningEvent.find(LearningEvent.student_id == sid).delete()
     await LearningProfile.find(LearningProfile.student_id == sid).delete()
     await Lesson.find(Lesson.student_id == sid).delete()

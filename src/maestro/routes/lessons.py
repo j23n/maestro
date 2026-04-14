@@ -47,7 +47,7 @@ router = APIRouter()
 _GENERATION_TIMEOUT_SECONDS = 180  # 3 minutes
 
 
-def _review_redirect(lesson_id, idx) -> Response:
+def review_redirect(lesson_id, idx) -> Response:
     """Redirect to the activity review page after submission.
 
     Returns HX-Redirect for HTMX requests and a <script> redirect
@@ -73,7 +73,7 @@ _LEARNING_TYPES = {
 }
 
 
-async def _get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
+async def get_lesson(lesson_id: PydanticObjectId, student: Student) -> Lesson:
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
         logger.warning("lesson not found: %s for student=%s", lesson_id, student.id)
@@ -287,7 +287,7 @@ async def lesson_overview(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         return RedirectResponse(url=activity_url(lesson_id, lesson.current_index))
     if lesson.status == LessonStatus.COMPLETED:
@@ -307,7 +307,7 @@ async def lesson_generating(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     is_htmx = request.headers.get("HX-Request") == "true"
 
     # Detect generation timeout
@@ -339,7 +339,7 @@ async def lesson_generating(
             }
         )
         # Re-fetch to get authoritative state (handles race with background task)
-        lesson = await _get_lesson(lesson_id, student)
+        lesson = await get_lesson(lesson_id, student)
 
     if not lesson.generating:
         if lesson.generation_error:
@@ -398,7 +398,7 @@ async def lesson_generating(
 async def lesson_retry(
     lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.COMPLETED:
         return RedirectResponse(url=f"/lessons/{lesson_id}/complete", status_code=303)
 
@@ -426,7 +426,7 @@ async def lesson_start(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if not lesson.activities:
         raise HTTPException(400, "Lesson has no activities")
     now = utcnow()
@@ -448,7 +448,7 @@ async def lesson_start(
 async def lesson_abandon(
     lesson_id: PydanticObjectId, student: Student = Depends(get_current_student)
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if lesson.status == LessonStatus.ACTIVE:
         await lesson.update({"$set": {"status": LessonStatus.ABANDONED.value}})
         logger.info("lesson abandoned: lesson=%s", lesson_id)
@@ -461,7 +461,7 @@ async def lesson_complete(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     learning = [a for a in lesson.activities if a.type in _LEARNING_TYPES]
     completed_count = sum(1 for a in learning if a.status == ActivityStatus.COMPLETED)
     skipped_count = sum(1 for a in learning if a.status == ActivityStatus.SKIPPED)

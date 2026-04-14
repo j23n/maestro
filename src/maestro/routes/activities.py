@@ -42,7 +42,7 @@ from maestro.lessons.lifecycle import (
     get_lesson_discovered_words,
     score_reading_activity,
 )
-from maestro.routes.lessons import _get_lesson, _review_redirect
+from maestro.routes.lessons import get_lesson, review_redirect
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +60,7 @@ async def lesson_activity(
     correct: int = 0,
     incorrect: int = 0,
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         if lesson.generating:
             return RedirectResponse(
@@ -453,7 +453,7 @@ async def lesson_activity_skip(
     idx: int,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -473,7 +473,7 @@ async def lesson_activity_complete(
     idx: int,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -496,7 +496,7 @@ async def lesson_onboarding_submit(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -543,7 +543,7 @@ async def lesson_drill_submit(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -579,7 +579,7 @@ async def lesson_drill_submit(
             idx,
             result={"correct": None, "student_answer": "", "feedback": _err_feedback},
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     stored_answer = (
         json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
@@ -627,7 +627,7 @@ async def lesson_drill_submit(
     drill_result["feedback"] = feedback
     await advance_lesson(lesson, idx, result=drill_result)
 
-    return _review_redirect(lesson_id, idx)
+    return review_redirect(lesson_id, idx)
 
 
 @router.get(
@@ -643,7 +643,7 @@ async def lesson_vocab_reveal(
     correct: int = 0,
     incorrect: int = 0,
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -686,7 +686,7 @@ async def lesson_vocab_rate(
     correct: Annotated[int, Form()] = 0,
     incorrect: Annotated[int, Form()] = 0,
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
     activity = lesson.activities[idx]
@@ -728,7 +728,7 @@ async def lesson_writing_submit(
     answer: Annotated[str, Form()],
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
 
@@ -754,7 +754,7 @@ async def lesson_writing_submit(
         await advance_lesson(
             lesson, idx, result={"student_answer": answer, "feedback": _err_feedback}
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     await grammar_cache.ensure_loaded(lesson.language)
     valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
@@ -786,7 +786,7 @@ async def lesson_writing_submit(
     writing_result = {"student_answer": answer, "feedback": feedback}
     await advance_lesson(lesson, idx, result=writing_result)
 
-    return _review_redirect(lesson_id, idx)
+    return review_redirect(lesson_id, idx)
 
 
 @router.post(
@@ -798,7 +798,7 @@ async def lesson_speaking_submit(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
 
@@ -831,14 +831,14 @@ async def lesson_speaking_submit(
         await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     # --- Empty check ---
     if not recognized_text or not recognized_text.strip():
         await advance_lesson(
             lesson, idx, result={"student_answer": "", "correct": None}
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
     profile = await get_profile(student.id)
@@ -895,7 +895,7 @@ async def lesson_speaking_submit(
                 "correct": None,
             },
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     # --- Build result and LearningEvent ---
     speaking_result = {"student_answer": recognized_text}
@@ -963,7 +963,7 @@ async def lesson_speaking_submit(
         },
     )
 
-    return _review_redirect(lesson_id, idx)
+    return review_redirect(lesson_id, idx)
 
 
 @router.get("/speaking/word-audio/{word:path}")
@@ -991,7 +991,7 @@ async def lesson_reading_submit(
     request: Request,
     student: Student = Depends(get_current_student),
 ):
-    lesson = await _get_lesson(lesson_id, student)
+    lesson = await get_lesson(lesson_id, student)
     if idx >= len(lesson.activities):
         raise HTTPException(404)
 
@@ -1028,7 +1028,7 @@ async def lesson_reading_submit(
                 "feedback": _err_feedback,
             },
         )
-        return _review_redirect(lesson_id, idx)
+        return review_redirect(lesson_id, idx)
 
     joined_answers = " | ".join(a for a in answers if a)
     event = LearningEvent(
@@ -1050,4 +1050,4 @@ async def lesson_reading_submit(
     }
     await advance_lesson(lesson, idx, result=reading_result)
 
-    return _review_redirect(lesson_id, idx)
+    return review_redirect(lesson_id, idx)
