@@ -126,7 +126,7 @@ async def test_full_lesson_events_match_answers(
     )
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -155,7 +155,7 @@ async def test_full_lesson_events_match_answers(
         "grammar_error_codes": ["GP_C"],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=writing_feedback,
     ):
@@ -236,7 +236,7 @@ async def test_full_lesson_profile_updated_after_analysis(
     )
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -263,7 +263,7 @@ async def test_full_lesson_profile_updated_after_analysis(
         "grammar_error_codes": ["GP_C"],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=writing_feedback,
     ):

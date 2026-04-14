@@ -1,6 +1,7 @@
 """Integration tests for error pages and onboarding name validation."""
 
 import pytest
+from unittest.mock import patch
 
 from maestro.models import Student
 from maestro.learning.profile import save_onboarding_field
@@ -46,14 +47,16 @@ def test_404_htmx_returns_fragment(test_app):
 
 @pytest.mark.integration
 def test_500_returns_friendly_page(test_app):
-    response = test_app.get("/sentry-debug")
+    with patch("maestro.main.read_session", side_effect=RuntimeError("boom")):
+        response = test_app.get("/")
     assert response.status_code == 500
     assert "Server error" in response.text or "Errore del server" in response.text
 
 
 @pytest.mark.integration
 def test_500_htmx_returns_fragment(test_app):
-    response = test_app.get("/sentry-debug", headers={"HX-Request": "true"})
+    with patch("maestro.main.read_session", side_effect=RuntimeError("boom")):
+        response = test_app.get("/", headers={"HX-Request": "true"})
     assert response.status_code == 500
     assert "<nav" not in response.text
     assert "generating-error-card" in response.text

@@ -3,10 +3,15 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import io
+from datetime import timedelta
+from types import SimpleNamespace
+
 from maestro.models import (
     Lesson,
     LessonActivity,
     LearningEvent,
+    LearningProfile,
     GeneratedDrill,
     DrillItem,
     QuestionItem,
@@ -15,6 +20,7 @@ from maestro.models import (
     LessonStatus,
     ExerciseType,
 )
+
 from maestro.utils import utcnow
 
 # test_app fixture provided by conftest.py (shares the db fixture's database)
@@ -65,7 +71,7 @@ def test_drill_submit_redirects_to_review(test_app, active_lesson_with_drill):
     mock_event.insert = AsyncMock()
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -140,7 +146,7 @@ async def test_writing_submit_returns_feedback(test_app, db, student):
         "grammar_error_codes": [],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -259,7 +265,7 @@ async def test_reading_submit_on_listening_records_listening_event(
     """POST reading-submit on a LISTENING activity should store activity_type='listening'."""
     lesson = active_lesson_with_listening
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         return_value=(True, {}, [], []),
     ):
@@ -299,7 +305,7 @@ async def test_reading_submit_on_reading_records_reading_event(test_app, db, stu
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         return_value=(True, {}, [], []),
     ):
@@ -385,7 +391,7 @@ async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_
     )
     with (
         patch(
-            "maestro.routes.lessons.score_attempt", new_callable=AsyncMock
+            "maestro.routes.activities.score_attempt", new_callable=AsyncMock
         ) as mock_score,
         patch(
             "maestro.vocab.discover.discover",
@@ -456,7 +462,7 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
         "grammar_error_codes": [],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -575,7 +581,7 @@ async def test_writing_submit_event_captures_error_codes(test_app, db, student):
         "grammar_error_codes": ["GP_ERR"],
     }
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         return_value=mock_feedback,
     ):
@@ -745,7 +751,7 @@ def test_drill_scoring_failure_redirects_to_review(test_app, active_lesson_with_
     lesson, drill = active_lesson_with_drill
 
     with patch(
-        "maestro.routes.lessons.score_attempt",
+        "maestro.routes.activities.score_attempt",
         new_callable=AsyncMock,
         side_effect=RuntimeError("LLM down"),
     ):
@@ -783,7 +789,7 @@ async def test_writing_scoring_failure_redirects_to_review(test_app, db, student
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.generate_writing_feedback",
+        "maestro.routes.activities.generate_writing_feedback",
         new_callable=AsyncMock,
         side_effect=ValueError("bad LLM response"),
     ):
@@ -825,7 +831,7 @@ async def test_reading_scoring_failure_redirects_to_review(test_app, db, student
     await lesson.insert()
 
     with patch(
-        "maestro.routes.lessons.score_reading_activity",
+        "maestro.routes.activities.score_reading_activity",
         new_callable=AsyncMock,
         side_effect=ValueError("bad LLM response"),
     ):
@@ -953,3 +959,239 @@ async def test_completed_drill_without_feedback_returns_200(test_app, db, studen
     # Falls through to drill template with is_review — shows continue button, not redirect
     assert response.status_code == 200
     assert "continue-btn" in response.text
+
+
+# ---------------------------------------------------------------------------
+# Lesson generation timeout / retry flow
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+async def generating_lesson(db, student):
+    """A lesson stuck in generating state, started 10 minutes ago (well past timeout)."""
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        generating=True,
+        generation_started_at=utcnow() - timedelta(minutes=10),
+        activities=[],
+        current_index=0,
+    )
+    await lesson.insert()
+    return lesson
+
+
+@pytest.mark.integration
+def test_generating_timeout_marks_abandoned(test_app, generating_lesson):
+    """GET /generating should detect timeout and mark lesson abandoned with error."""
+    lesson = generating_lesson
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
+    ):
+        response = test_app.get(
+            f"/lessons/{lesson.id}/generating", follow_redirects=False
+        )
+
+    assert response.status_code == 200
+    assert "try again" in response.text.lower() or "retry" in response.text.lower()
+
+    import asyncio
+    from maestro.models import Lesson as _Lesson
+
+    updated = asyncio.get_event_loop().run_until_complete(_Lesson.get(lesson.id))
+    assert updated.generating is False
+    assert updated.generation_error is not None
+    assert updated.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+def test_retry_restarts_generation(test_app, generating_lesson):
+    """POST /retry should reset generating state and redirect back."""
+    lesson = generating_lesson
+    # First trigger timeout to get error state
+    with patch(
+        "maestro.vocab.discover.discover",
+        new_callable=AsyncMock,
+        side_effect=lambda html, **kw: html,
+    ):
+        test_app.get(f"/lessons/{lesson.id}/generating", follow_redirects=False)
+
+    with patch("maestro.routes.lessons.generate_lesson_background"):
+        response = test_app.post(f"/lessons/{lesson.id}/retry", follow_redirects=False)
+
+    assert response.status_code == 303
+    assert f"/lessons/{lesson.id}/generating" in response.headers["location"]
+
+    import asyncio
+    from maestro.models import Lesson as _Lesson
+
+    updated = asyncio.get_event_loop().run_until_complete(_Lesson.get(lesson.id))
+    assert updated.generating is True
+    assert updated.generation_error is None
+
+
+# ---------------------------------------------------------------------------
+# Speaking activity submission with partial failures
+# ---------------------------------------------------------------------------
+
+# Minimal valid WAV header (RIFF marker + 40 bytes of filler)
+_WAV_HEADER = b"RIFF" + b"\x00" * 40
+
+
+@pytest.fixture
+async def active_lesson_with_speaking(db, student):
+    """Active lesson with a single speaking activity."""
+    await LearningProfile(student_id=student.id).insert()
+    lesson = Lesson(
+        student_id=student.id,
+        status=LessonStatus.ACTIVE,
+        duration_minutes=10,
+        started_at=utcnow(),
+        generating=False,
+        language="it",
+        activities=[
+            LessonActivity(
+                type=ActivityType.SPEAKING,
+                title="Test speaking",
+                description="",
+                duration_minutes=3,
+                status=ActivityStatus.ACTIVE,
+                content="Dimmi come stai.",
+            ),
+        ],
+        current_index=0,
+    )
+    await lesson.insert()
+    return lesson
+
+
+def _make_pronunciation_result():
+    return SimpleNamespace(
+        pronunciation_score=85.0,
+        accuracy_score=90.0,
+        fluency_score=80.0,
+        completeness_score=100.0,
+        words=[
+            SimpleNamespace(
+                word="sto",
+                accuracy_score=95.0,
+                error_type="None",
+                offset_seconds=0.1,
+                duration_seconds=0.3,
+            )
+        ],
+    )
+
+
+@pytest.mark.integration
+def test_speaking_submit_pronunciation_fails(test_app, active_lesson_with_speaking):
+    """Speaking submit should still succeed when pronunciation assessment fails."""
+    lesson = active_lesson_with_speaking
+    feedback = {
+        "feedback": "Good job!",
+        "grammar_correct_codes": [],
+        "grammar_error_codes": [],
+        "themes": [],
+    }
+    with (
+        patch(
+            "maestro.routes.activities.generate_speaking_feedback",
+            new_callable=AsyncMock,
+            return_value=feedback,
+        ),
+        patch(
+            "maestro.stt.transcribe",
+            new_callable=AsyncMock,
+            return_value=SimpleNamespace(recognized_text="Sto bene", confidence=0.9),
+        ),
+        patch(
+            "maestro.stt.assess_pronunciation",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError("Azure STT down"),
+        ),
+        patch(
+            "maestro.vocab.discover.discover",
+            new_callable=AsyncMock,
+            side_effect=lambda html, **kw: html,
+        ),
+    ):
+        response = test_app.post(
+            f"/lessons/{lesson.id}/activity/0/speaking-submit",
+            files={"audio": ("audio.wav", io.BytesIO(_WAV_HEADER), "audio/wav")},
+        )
+
+    assert response.status_code == 200
+    assert "HX-Redirect" in response.headers
+
+
+@pytest.mark.integration
+def test_speaking_submit_feedback_fails(test_app, active_lesson_with_speaking):
+    """Speaking submit should still succeed when LLM feedback fails."""
+    lesson = active_lesson_with_speaking
+    with (
+        patch(
+            "maestro.routes.activities.generate_speaking_feedback",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError("LLM down"),
+        ),
+        patch(
+            "maestro.stt.transcribe",
+            new_callable=AsyncMock,
+            return_value=SimpleNamespace(recognized_text="Sto bene", confidence=0.9),
+        ),
+        patch(
+            "maestro.stt.assess_pronunciation",
+            new_callable=AsyncMock,
+            return_value=_make_pronunciation_result(),
+        ),
+        patch(
+            "maestro.vocab.discover.discover",
+            new_callable=AsyncMock,
+            side_effect=lambda html, **kw: html,
+        ),
+    ):
+        response = test_app.post(
+            f"/lessons/{lesson.id}/activity/0/speaking-submit",
+            files={"audio": ("audio.wav", io.BytesIO(_WAV_HEADER), "audio/wav")},
+        )
+
+    assert response.status_code == 200
+    assert "HX-Redirect" in response.headers
+
+
+@pytest.mark.integration
+def test_speaking_submit_both_fail(test_app, active_lesson_with_speaking):
+    """Speaking submit should still advance the lesson when both feedback and pronunciation fail."""
+    lesson = active_lesson_with_speaking
+    with (
+        patch(
+            "maestro.routes.activities.generate_speaking_feedback",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError("LLM down"),
+        ),
+        patch(
+            "maestro.stt.transcribe",
+            new_callable=AsyncMock,
+            return_value=SimpleNamespace(recognized_text="Sto bene", confidence=0.9),
+        ),
+        patch(
+            "maestro.stt.assess_pronunciation",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError("Azure STT down"),
+        ),
+        patch(
+            "maestro.vocab.discover.discover",
+            new_callable=AsyncMock,
+            side_effect=lambda html, **kw: html,
+        ),
+    ):
+        response = test_app.post(
+            f"/lessons/{lesson.id}/activity/0/speaking-submit",
+            files={"audio": ("audio.wav", io.BytesIO(_WAV_HEADER), "audio/wav")},
+        )
+
+    assert response.status_code == 200
+    assert "HX-Redirect" in response.headers

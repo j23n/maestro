@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 # Short-lived per-student profile cache to avoid a DB round-trip on every
 # authenticated request.  Entries expire after _PROFILE_TTL seconds.
 _PROFILE_TTL = 60  # seconds
+_PROFILE_CACHE_MAX = 500  # max entries before eviction
 _profile_cache: dict[
     PydanticObjectId, tuple[float, object]
 ] = {}  # student_id → (ts, profile)
@@ -74,6 +75,11 @@ async def get_current_student(request: Request) -> Student:
 
         profile = await get_or_create_profile(student.id)
         _profile_cache[student.id] = (now, profile)
+        # Evict oldest entries when cache exceeds max size
+        if len(_profile_cache) > _PROFILE_CACHE_MAX:
+            oldest = sorted(_profile_cache, key=lambda k: _profile_cache[k][0])
+            for k in oldest[: len(_profile_cache) - _PROFILE_CACHE_MAX]:
+                _profile_cache.pop(k, None)
 
     request.state.profile = profile
     request.state.lang_ctx = get_language_config(profile.target_language)

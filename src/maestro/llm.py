@@ -194,7 +194,7 @@ async def llm_messages_create(
 
 @lru_cache(maxsize=1)
 def get_client() -> anthropic.Anthropic:
-    """Return a synchronous Anthropic client."""
+    """Return a synchronous Anthropic client (used by offline scripts only)."""
     return anthropic.Anthropic(
         api_key=settings.ANTHROPIC_API_KEY,
         max_retries=2,

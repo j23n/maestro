@@ -32,6 +32,7 @@ from maestro.language import LANGUAGES
 from maestro.vocab.cache import ensure_loaded as load_vocab
 from maestro.vocab.nlp import get_nlp
 from maestro.routes import (
+    activities,
     admin,
     auth,
     vocab,
@@ -175,6 +176,27 @@ app = FastAPI(lifespan=lifespan)
 app.state.limiter = limiter
 app.add_middleware(CSRFMiddleware, cookie_secure=settings.ENVIRONMENT == "production")
 app.add_middleware(SlowAPIMiddleware)
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "style-src 'self' 'unsafe-inline'; "
+        "frame-ancestors 'none'"
+    )
+    if settings.ENVIRONMENT == "production":
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=31536000; includeSubDomains"
+        )
+    return response
+
+
 if settings.DATA_DIR != settings.STATIC_DIR:
     Path(settings.DATA_DIR, "audio").mkdir(parents=True, exist_ok=True)
     app.mount(
@@ -193,17 +215,13 @@ async def health():
     return {"status": "ok"}
 
 
-@app.get("/sentry-debug")
-async def trigger_error():
-    division_by_zero = 1 / 0  # noqa: F841
-
-
 app.include_router(auth.router)
 app.include_router(vocab.router)
 app.include_router(profile.router)
 app.include_router(grammar.router)
 app.include_router(functions.router)
 app.include_router(lessons.router)
+app.include_router(activities.router)
 app.include_router(feedback.router)
 app.include_router(legal.router)
 app.include_router(account.router)
