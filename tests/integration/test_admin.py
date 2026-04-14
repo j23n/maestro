@@ -59,6 +59,15 @@ async def test_admin_feedback_admin_gets_200(test_app, account):
     assert "LLM Critiques" in resp.text
 
 
+async def test_admin_dashboard_empty_database(test_app, account):
+    """Admin dashboard renders correctly when no lessons, drills, or usage exist."""
+    account.is_admin = True
+    await account.save()
+    resp = test_app.get("/admin/")
+    assert resp.status_code == 200
+    assert "Admin Dashboard" in resp.text
+
+
 def test_admin_feedback_requires_login(auth_app):
     """Unauthenticated request to /admin/feedback redirects to login."""
     resp = auth_app.get("/admin/feedback", follow_redirects=False)
