@@ -3,7 +3,7 @@ from datetime import datetime, date
 from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from maestro.utils import utcnow
 
 
@@ -345,6 +345,14 @@ class QuestionItem(BaseModel):
     correct_answer: str = ""
     grammar_point_codes: List[str] = Field(default_factory=list)
 
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_from_string(cls, data):
+        """Accept plain strings (legacy DB docs / LLM output) as question text."""
+        if isinstance(data, str):
+            return {"text": data}
+        return data
+
 
 class DrillItem(BaseModel):
     prompt: str
@@ -394,6 +402,25 @@ class DrillAttempt(Document):
 
 
 class LessonActivity(BaseModel):
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_legacy_questions(cls, data):
+        """Coerce pre-QuestionItem documents: questions=[str] + correct_answers=[str]."""
+        if isinstance(data, dict):
+            qs = data.get("questions")
+            if qs and isinstance(qs, list) and qs and isinstance(qs[0], str):
+                answers = data.pop("correct_answers", [])
+                data["questions"] = [
+                    {
+                        "text": q,
+                        "correct_answer": answers[i] if i < len(answers) else "",
+                    }
+                    for i, q in enumerate(qs)
+                ]
+            elif "correct_answers" in data:
+                data.pop("correct_answers")
+        return data
+
     type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str
