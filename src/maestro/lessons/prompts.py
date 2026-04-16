@@ -173,13 +173,13 @@ def build_lesson_content_prompt(
                 )
         schema["drills"] = example_drills
     if reading_count > 0:
-        q_labels = [f"question {i + 1}" for i in range(_READING_QUESTION_COUNT)]
-        a_labels = [f"answer {i + 1}" for i in range(_READING_QUESTION_COUNT)]
         schema["readings"] = [
             {
                 "text": f"{lang} reading text (~{reading_word_count} words at {cefr_level} level) on the lesson topic. Must be grammatically correct and natural.",
-                "questions": q_labels,
-                "answers": a_labels,
+                "questions": [
+                    {"text": f"question {i + 1}", "correct_answer": f"answer {i + 1}"}
+                    for i in range(_READING_QUESTION_COUNT)
+                ],
             }
             for _ in range(reading_count)
         ]

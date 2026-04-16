@@ -402,6 +402,25 @@ class DrillAttempt(Document):
 
 
 class LessonActivity(BaseModel):
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_legacy_questions(cls, data):
+        """Coerce pre-QuestionItem documents: questions=[str] + correct_answers=[str]."""
+        if isinstance(data, dict):
+            qs = data.get("questions")
+            if qs and isinstance(qs, list) and qs and isinstance(qs[0], str):
+                answers = data.pop("correct_answers", [])
+                data["questions"] = [
+                    {
+                        "text": q,
+                        "correct_answer": answers[i] if i < len(answers) else "",
+                    }
+                    for i, q in enumerate(qs)
+                ]
+            elif "correct_answers" in data:
+                data.pop("correct_answers")
+        return data
+
     type: ActivityType  # "drill" | "vocab_review" | "reading" | "writing" | "grammar" | "speaking" | "onboarding"
     title: str
     description: str
