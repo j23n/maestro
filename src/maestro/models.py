@@ -3,7 +3,7 @@ from datetime import datetime, date
 from enum import Enum
 from beanie import Document, Link, PydanticObjectId
 from pymongo import IndexModel, ASCENDING, DESCENDING
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from maestro.utils import utcnow
 
 
@@ -344,6 +344,14 @@ class QuestionItem(BaseModel):
     text: str
     correct_answer: str = ""
     grammar_point_codes: List[str] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_from_string(cls, data):
+        """Accept plain strings (legacy DB docs / LLM output) as question text."""
+        if isinstance(data, str):
+            return {"text": data}
+        return data
 
 
 class DrillItem(BaseModel):
