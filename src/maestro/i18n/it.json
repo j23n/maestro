@@ -125,6 +125,8 @@
   "result_correct_single": "Corretto! \u2713",
   "result_not_completed": "Non completato",
   "result_not_correct": "Non corretto",
+  "result_item_correct": "Corretto \u2713",
+  "result_item_wrong": "Errato",
   "result_notes_label": "Note da ricordare",
   "result_great_answer": "Ottima risposta!",
   "grammar_rule_label": "Regola",

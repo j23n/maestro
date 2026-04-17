@@ -17,7 +17,6 @@ Returns (correct, event, feedback, rule_refs):
 
 from __future__ import annotations
 
-import json
 import logging
 from typing import TYPE_CHECKING
 
@@ -171,23 +170,13 @@ async def score_attempt(
             },
         )
 
-        if overall_correct:
-            event = LearningEvent(
-                student_id=student_id,
-                evidence_type="targeted",
-                grammar_correct=all_correct_codes,
-                grammar_errors=all_error_codes,
-            )
-            return overall_correct, event, feedback, []
-
         event = LearningEvent(
             student_id=student_id,
             evidence_type="targeted",
             grammar_correct=all_correct_codes,
             grammar_errors=all_error_codes,
-            feedback=json.dumps(feedback),
         )
-        return overall_correct, event, feedback, rule_refs
+        return overall_correct, event, feedback, ([] if overall_correct else rule_refs)
 
     logger.warning(
         "unknown exercise type", extra={"exercise_type": generated_drill.exercise_type}

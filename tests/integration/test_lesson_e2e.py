@@ -194,19 +194,16 @@ async def test_full_lesson_events_match_answers(
     assert ev_by_idx[0].activity_type == "drill"
     assert "GP_A" in ev_by_idx[0].grammar_correct
     assert ev_by_idx[0].grammar_errors == []
-    assert ev_by_idx[0].student_text == "vado"
 
     # Writing event (idx=1): GP_B correct, GP_C error
     assert ev_by_idx[1].activity_type == "writing"
     assert "GP_B" in ev_by_idx[1].grammar_correct
     assert "GP_C" in ev_by_idx[1].grammar_errors
-    assert ev_by_idx[1].student_text == "Oggi ho mangiato la pizza."
 
     # Reading event (idx=2): GP_B correct
     assert ev_by_idx[2].activity_type == "reading"
     assert "GP_B" in ev_by_idx[2].grammar_correct
     assert ev_by_idx[2].grammar_errors == []
-    assert "Sul divano" in ev_by_idx[2].student_text
 
 
 @pytest.mark.integration

@@ -2,16 +2,13 @@
 Lesson lifecycle helpers.
 
 - advance_lesson: state machine for moving between activities
-- generate_lesson_feedback: end-of-lesson AI feedback
 - get_weak_grammar_points: identify grammar areas needing work
 - score_reading_activity: score reading comprehension answers
-- ensure_lesson_feedback: ensure lesson has feedback (analyse + generate)
 """
 
 from __future__ import annotations
 
 import logging
-import re
 
 from beanie import PydanticObjectId
 from maestro.models import (
@@ -27,14 +24,8 @@ from maestro.models import (
     LessonStatus,
 )
 from maestro.learning.scorer import score_reading_answers
-from maestro.learning.lesson_analyzer import analyze_lesson
-from maestro.llm import llm_messages_create
-from maestro.models import CallType
-from maestro.prompts import planner as _planner_prompts
-from maestro.config import settings
-from maestro.language import get_language_config
 from maestro.learning.profile import get_or_create_profile
-from maestro.utils import utcnow, create_background_task
+from maestro.utils import utcnow
 
 logger = logging.getLogger(__name__)
 
@@ -194,71 +185,6 @@ async def get_lesson_events(lesson: Lesson) -> list[LearningEvent]:
     return await LearningEvent.find({"lesson_id": lesson.id}).to_list()
 
 
-async def generate_lesson_feedback(
-    lesson: Lesson,
-    weak_grammar_points: list,
-    events: list[LearningEvent] | None = None,
-) -> str:
-    """Async Haiku call: brief English feedback on the completed lesson."""
-    if events is None:
-        events = await get_lesson_events(lesson)
-    event_by_idx: dict[int, list[LearningEvent]] = {}
-    for ev in events:
-        if ev.activity_index is not None:
-            event_by_idx.setdefault(ev.activity_index, []).append(ev)
-
-    lines = []
-    for i, a in enumerate(lesson.activities):
-        if a.type in (ActivityType.ONBOARDING, ActivityType.INFO):
-            continue
-        if a.status == ActivityStatus.SKIPPED:
-            lines.append(f"- {a.title}: skipped")
-        elif a.status == ActivityStatus.COMPLETED:
-            idx_events = event_by_idx.get(i, [])
-            if a.type == ActivityType.DRILL and a.result:
-                correct = a.result.get("correct")
-                status = (
-                    "correct"
-                    if correct
-                    else "incorrect"
-                    if correct is not None
-                    else "completed"
-                )
-                lines.append(f"- Drill ({a.title}): {status}")
-            elif idx_events:
-                n_errors = sum(len(ev.grammar_errors) for ev in idx_events)
-                lines.append(
-                    f"- {a.title}: completed"
-                    + (f" ({n_errors} grammar issues)" if n_errors else "")
-                )
-            else:
-                lines.append(f"- {a.title}: completed")
-
-    activity_summary = "\n".join(lines) if lines else "No activities recorded."
-    weak_note = ""
-    if weak_grammar_points:
-        labels = ", ".join(gp.label for gp in weak_grammar_points)
-        weak_note = f"\nThe student specifically struggled with: {labels}. Reference these by name."
-
-    prompt = _planner_prompts.lesson_feedback.render(
-        target_language=get_language_config(lesson.language).name,
-        activity_summary=activity_summary,
-        weak_note=weak_note,
-    )
-    response = await llm_messages_create(
-        model=settings.DRILL_MODEL,
-        max_tokens=200,
-        system=_planner_prompts.lesson_feedback.render_system(),
-        messages=[{"role": "user", "content": prompt}],
-        entity_id=lesson.id,
-        call_type=CallType.LESSON_FEEDBACK,
-        student_id=lesson.student_id,
-    )
-    text = response.content[0].text.strip()
-    text = re.sub(r"^#+\s+.+\s*\n", "", text).strip()
-    return text
-
-
 async def get_weak_grammar_points(
     lesson: Lesson,
     events: list[LearningEvent] | None = None,
@@ -327,21 +253,16 @@ async def score_reading_activity(
     )
 
     n = min(len(questions), len(student_answers), len(raw_results))
-    enriched = [
+    items = [
         {
-            "prompt": questions[j] if j < len(questions) else "",
-            "correct_answer": correct_answers[j] if j < len(correct_answers) else "",
-            "student_answer": student_answers[j] if j < len(student_answers) else "",
-            "objective_correct": raw_results[j].get("objective_correct", False),
-            "objective_note": raw_results[j].get("objective_note", ""),
+            "correct": bool(raw_results[j].get("objective_correct", False)),
             "grammar_errors": raw_results[j].get("grammar_errors", []),
-            "tips": raw_results[j].get("tips", []),
         }
         for j in range(n)
     ]
-    correct_count = sum(1 for r in enriched if r["objective_correct"])
+    correct_count = sum(1 for r in items if r["correct"])
     overall_correct = correct_count / max(n, 1) >= _PASS_THRESHOLD if n > 0 else True
-    feedback = {"items": enriched, "correct_count": correct_count, "total": n}
+    feedback = {"items": items, "correct_count": correct_count, "total": n}
 
     # Aggregate GP codes across all items
     from maestro.learning import grammar_cache
@@ -404,29 +325,16 @@ async def _credit_a0_mastery(lesson: Lesson) -> None:
     await profile.save()
 
 
-async def ensure_lesson_feedback(
-    lesson: Lesson,
-    weak_grammar_points: list,
-    events: list[LearningEvent] | None = None,
-) -> str | None:
-    """Ensure lesson has feedback. Triggers analysis if needed, generates feedback if missing.
+async def ensure_lesson_analyzed(lesson: Lesson) -> None:
+    """Trigger background lesson analysis if the lesson is complete.
 
-    Returns the feedback_summary (may be None if generation fails).
+    Analysis updates learning profile counts from grammar/CF events.
     """
-    if lesson.status == LessonStatus.COMPLETED and not lesson.feedback_summary:
+    from maestro.learning.lesson_analyzer import analyze_lesson
+    from maestro.utils import create_background_task
+
+    if lesson.status == LessonStatus.COMPLETED:
         create_background_task(
             analyze_lesson(lesson),
             name=f"lesson-analyze-{lesson.id}",
         )
-
-    if not lesson.feedback_summary:
-        try:
-            feedback = await generate_lesson_feedback(
-                lesson, weak_grammar_points, events
-            )
-            lesson.feedback_summary = feedback
-            await lesson.update({"$set": {"feedback_summary": feedback}})
-        except Exception:
-            logger.exception("lesson feedback generation failed: lesson=%s", lesson.id)
-
-    return lesson.feedback_summary

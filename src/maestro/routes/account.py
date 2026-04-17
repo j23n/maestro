@@ -217,7 +217,12 @@ async def delete_account(
 async def export_data(
     request: Request, student: Student = Depends(get_current_student)
 ):
-    """GDPR right to portability — export all user data as JSON."""
+    """GDPR right to portability — export all user data as JSON.
+
+    Note: student-generated content (answers, transcripts) is not persisted by
+    the application, so it does not appear in the export. Only scoring results,
+    learning-profile state, and metadata are returned.
+    """
     account: Account = request.state.account
     sid = student.id
 

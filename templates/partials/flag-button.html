@@ -2,8 +2,15 @@
   Flag button partial — any logged-in user.
 
   Required parameters (pass via Jinja2 include with context or set before including):
-    flag_call_type  — CallType string, e.g. "scorer_multi"
-    flag_refs       — JSON string, e.g. '{"lesson_id": "...", "activity_index": 0}'
+    flag_call_type       — CallType string, e.g. "scorer_multi"
+    flag_refs            — JSON string, e.g. '{"lesson_id": "...", "activity_index": 0}'
+
+  Optional (required for call types that touch student content; see
+  routes/feedback.py for the set):
+    flag_input_snapshot  — JSON string with the reviewer's local snapshot of the
+                           LLM input (student text + prompt fields).
+    flag_actual_output   — JSON string with the reviewer's local snapshot of
+                           the LLM output (feedback/score text).
 
   The CSRF token is injected automatically by the htmx:configRequest listener in base.html.
 #}
@@ -16,6 +23,12 @@
   <input type="hidden" name="call_type" value="{{ flag_call_type }}">
   <input type="hidden" name="url" value="{{ request.url }}">
   <input type="hidden" name="refs" value="{{ flag_refs }}">
+  {% if flag_input_snapshot is defined %}
+    <input type="hidden" name="input_snapshot" value="{{ flag_input_snapshot }}">
+  {% endif %}
+  {% if flag_actual_output is defined %}
+    <input type="hidden" name="actual_output" value="{{ flag_actual_output }}">
+  {% endif %}
   <button type="button" class="btn-flag" title="Flag this LLM output for review"
           onclick="this.closest('.flag-form').classList.add('expanded');this.style.display='none'">⚑</button>
   <div class="flag-expand">

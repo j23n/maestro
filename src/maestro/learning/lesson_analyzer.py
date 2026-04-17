@@ -5,7 +5,7 @@ LearningEvents (saved during the lesson) and collects CFs declared on
 completed productive activities.
 
 Phases:
-  1 — Aggregate per-activity LearningEvents (GP codes + student text)
+  1 — Aggregate per-activity LearningEvents (GP codes only)
   2 — Collect CFs from completed speaking/writing activities
 """
 
@@ -30,10 +30,10 @@ logger = logging.getLogger(__name__)
 
 async def _collect_activity_events(
     lesson: "Lesson",
-) -> tuple[list[str], list[str], str]:
+) -> tuple[list[str], list[str]]:
     """Query per-activity LearningEvents for this lesson.
 
-    Returns (gp_correct, gp_errors, combined_text).
+    Returns (gp_correct, gp_errors).
     """
     events = await LearningEvent.find(
         {"lesson_id": lesson.id, "activity_type": {"$ne": None}}
@@ -41,13 +41,10 @@ async def _collect_activity_events(
 
     correct_set: set[str] = set()
     error_set: set[str] = set()
-    texts: list[str] = []
 
     for ev in events:
         correct_set.update(ev.grammar_correct)
         error_set.update(ev.grammar_errors)
-        if ev.student_text:
-            texts.append(ev.student_text)
         logger.debug(
             "activity event",
             extra={
@@ -67,7 +64,7 @@ async def _collect_activity_events(
             "n_error_codes": len(error_set),
         },
     )
-    return list(correct_set), list(error_set), "\n---\n".join(texts)
+    return list(correct_set), list(error_set)
 
 
 async def analyze_lesson(lesson: "Lesson") -> None:
@@ -84,7 +81,7 @@ async def analyze_lesson(lesson: "Lesson") -> None:
         await grammar_cache.ensure_loaded(lesson.language)
 
         # Phase 1: aggregate per-activity events
-        gp_correct, gp_errors, combined = await _collect_activity_events(lesson)
+        gp_correct, gp_errors = await _collect_activity_events(lesson)
 
         # Phase 2: Collect CFs declared on completed productive activities
         _productive = {ActivityType.SPEAKING.value, ActivityType.WRITING.value}

@@ -1,5 +1,3 @@
-import json
-
 from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
@@ -147,13 +145,9 @@ async def grammar_practice_submit(
         drill, student_input, student_id=student.id, language=target_lang
     )
 
-    stored_answer = (
-        json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
-    )
     attempt = DrillAttempt(
         student_id=student.id,
         generated_drill=drill,
-        student_answer=stored_answer,
         correct=correct,
     )
     await attempt.insert()
@@ -162,7 +156,6 @@ async def grammar_practice_submit(
 
     if event:
         event.activity_type = ActivityType.DRILL.value
-        event.student_text = stored_answer
         await event.insert()
         await update_profile(event)
 

@@ -117,7 +117,6 @@ async def test_gdpr_deletion_removes_all_user_data(test_app, student, account):
     await DrillAttempt(
         student_id=sid,
         generated_drill=drill,
-        student_answer="test",
         correct=True,
     ).insert()
     vocab_word = VocabularyWord(word="ciao", part_of_speech="interj.")

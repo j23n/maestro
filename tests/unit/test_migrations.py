@@ -86,6 +86,7 @@ def _make_db(applied_names: list[str] = None):
         "curriculum_scenarios": _empty_coll(),
         "lessons": _empty_coll(),
         "user_vocabulary_cards": _empty_coll(),
+        "drill_attempts": _empty_coll(),
     }
 
     def _get_coll(name):
@@ -118,8 +119,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all eleven migrations as applied
-    assert migrations_coll.insert_one.await_count == 11
+    # Runner should have recorded all twelve migrations as applied
+    assert migrations_coll.insert_one.await_count == 12
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -135,6 +136,7 @@ async def test_runner_applies_pending_migration():
         "0009_fix_stuck_pending_lessons",
         "0010_vocab_language_unique",
         "0011_multi_language_progress",
+        "0012_remove_ppi",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -158,6 +160,7 @@ async def test_runner_skips_already_applied():
             "0009_fix_stuck_pending_lessons",
             "0010_vocab_language_unique",
             "0011_multi_language_progress",
+            "0012_remove_ppi",
         ]
     )
 

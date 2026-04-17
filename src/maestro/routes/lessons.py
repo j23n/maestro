@@ -31,7 +31,7 @@ from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
 from maestro.lessons.lifecycle import (
     activity_url,
     count_paid_lessons,
-    ensure_lesson_feedback,
+    ensure_lesson_analyzed,
     get_lesson_discovered_words,
     get_lesson_events,
     get_weak_grammar_points,
@@ -467,7 +467,7 @@ async def lesson_complete(
     skipped_count = sum(1 for a in learning if a.status == ActivityStatus.SKIPPED)
     events = await get_lesson_events(lesson)
     weak_grammar_points = await get_weak_grammar_points(lesson, events)
-    await ensure_lesson_feedback(lesson, weak_grammar_points, events)
+    await ensure_lesson_analyzed(lesson)
 
     # Detect CEFR graduation
     graduated_to = None

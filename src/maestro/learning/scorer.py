@@ -36,7 +36,7 @@ def _validate_results(result: list, n: int, label: str) -> list[dict]:
         if r.get("grammar_errors") and not r.get("grammar_error_codes"):
             logger.warning(
                 "grammar errors detected as freetext but no GP codes returned (multi)",
-                extra={"label": label, "grammar_errors": r["grammar_errors"]},
+                extra={"label": label},
             )
     logger.debug(
         "scored items detail",
@@ -110,10 +110,9 @@ async def _score_single(
         student_id=student_id,
     )
     raw = response.content[0].text.strip()
-    logger.debug(f"{label} LLM response: {raw}")
     data = parse_llm_json(raw)
     if not isinstance(data, dict):
-        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+        raise ValueError(f"unexpected LLM response shape (length={len(raw)})")
     validated = ScoringResult.model_validate(data)
     if validated.grammar_errors and not validated.grammar_error_codes:
         logger.warning(
@@ -122,7 +121,6 @@ async def _score_single(
                 "label": label,
                 "lesson_id": str(lesson_id),
                 "cefr_level": cefr_level,
-                "grammar_errors": validated.grammar_errors,
             },
         )
     logger.info(
@@ -132,7 +130,6 @@ async def _score_single(
             "lesson_id": str(lesson_id),
             "cefr_level": cefr_level,
             "objective_correct": validated.objective_correct,
-            "grammar_errors": validated.grammar_errors,
             "grammar_error_codes": validated.grammar_error_codes,
             "grammar_correct_codes": validated.grammar_correct_codes,
         },
@@ -169,12 +166,11 @@ async def _score_multi(
         student_id=student_id,
     )
     raw = response.content[0].text.strip()
-    logger.debug(f"{label} LLM response: {raw}")
     result = parse_llm_json(raw)
     if isinstance(result, dict) and n == 1:
         result = [result]
     if not isinstance(result, list) or len(result) != n:
-        raise ValueError(f"unexpected LLM response shape: {raw!r}")
+        raise ValueError(f"unexpected LLM response shape (length={len(raw)})")
     return _validate_results(result, n, label)
 
 
@@ -215,14 +211,9 @@ async def feedback_fill_blank(
 
     logger.info(
         "feedback_fill_blank",
-        extra={
-            "grammar_point_code": grammar_point_code,
-            "student_answer": student_answer,
-            "correct_answer": correct_answer,
-        },
+        extra={"grammar_point_code": grammar_point_code},
     )
     try:
-        logger.debug(f"feedback_fill_blank prompt: {prompt}")
         response = await llm_messages_create(
             model=settings.DRILL_MODEL,
             max_tokens=128,
@@ -237,7 +228,6 @@ async def feedback_fill_blank(
             student_id=student_id,
         )
         explanation = response.content[0].text.strip()
-        logger.debug(f"feedback_fill_blank response: {explanation!r}")
         return {
             "wrong": student_answer,
             "correct": correct_answer,
@@ -282,12 +272,8 @@ async def evaluate_error_correction(
         span_tagging=_stb(lang_name, lang_code),
     )
 
-    logger.info(
-        "evaluate_error_correction",
-        extra={"student": student, "reference": reference},
-    )
+    logger.info("evaluate_error_correction")
     try:
-        logger.debug(f"evaluate_error_correction prompt: {prompt}")
         response = await llm_messages_create(
             model=settings.DRILL_MODEL,
             max_tokens=256,
@@ -302,11 +288,11 @@ async def evaluate_error_correction(
             student_id=student_id,
         )
         raw = response.content[0].text
-        logger.debug(f"evaluate_error_correction response: {raw}")
         data = parse_llm_json(raw)
         if data is None:
             logger.error(
-                "evaluate_error_correction failed to parse response", extra={"raw": raw}
+                "evaluate_error_correction failed to parse response",
+                extra={"response_length": len(raw)},
             )
             correct = student.strip().lower() == reference.strip().lower()
             return correct, ""

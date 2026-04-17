@@ -38,7 +38,7 @@ async def test_score_reading_activity_all_correct(mock_scorer_client, db):
     assert overall is True
     assert feedback["correct_count"] == 1
     assert feedback["total"] == 1
-    assert feedback["items"][0]["objective_correct"] is True
+    assert feedback["items"][0]["correct"] is True
 
 
 @pytest.mark.integration
@@ -69,8 +69,8 @@ async def test_score_reading_activity_below_threshold(mock_scorer_client, db):
 
 
 @pytest.mark.integration
-async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
-    """Enriched feedback items contain prompt, correct_answer, and student_answer."""
+async def test_score_reading_activity_item_shape(mock_scorer_client, db):
+    """Enriched feedback items contain only non-PPI scoring signals."""
     from maestro.lessons.lifecycle import score_reading_activity
 
     mock_scorer_client.messages.create.return_value = MagicMock(
@@ -90,12 +90,17 @@ async def test_score_reading_activity_enriched_fields(mock_scorer_client, db):
         language="it",
     )
     item = feedback["items"][0]
-    assert item["prompt"] == "What color is the sky?"
-    assert item["correct_answer"] == "Blue"
-    assert item["student_answer"] == "Green"
-    assert item["objective_note"] == "Wrong color"
+    assert item["correct"] is False
     assert "GP001" in item["grammar_errors"]
-    assert "Check colors" in item["tips"]
+    # PPI-adjacent fields must not be in the persisted shape.
+    for ppi_key in (
+        "prompt",
+        "correct_answer",
+        "student_answer",
+        "objective_note",
+        "tips",
+    ):
+        assert ppi_key not in item
 
 
 def _make_lesson(student_id, activities, **kwargs):

@@ -415,7 +415,6 @@ async def test_drill_submit_creates_learning_event(test_app, active_lesson_with_
     ev = events[0]
     assert ev.activity_type == "drill"
     assert ev.activity_index == 0
-    assert ev.student_text == "vado"
     assert ev.lesson_id == lesson.id
     assert "GP_001" in ev.grammar_correct
 
@@ -475,7 +474,6 @@ async def test_writing_submit_creates_learning_event(test_app, db, student):
     assert len(events) == 1
     ev = events[0]
     assert ev.activity_type == "writing"
-    assert ev.student_text == "Oggi ho mangiato la pizza."
     assert "GP_W01" in ev.grammar_correct
 
 
@@ -535,7 +533,6 @@ async def test_reading_submit_creates_learning_event(
     assert len(events) == 1
     ev = events[0]
     assert ev.activity_type == "reading"
-    assert "Sul tavolo" in ev.student_text
     assert "GP_R01" in ev.grammar_correct
 
 
@@ -880,8 +877,7 @@ async def test_completed_drill_with_feedback_returns_200(test_app, db, student):
                 drill_id=drill.id,
                 result={
                     "correct": True,
-                    "student_answer": "vado",
-                    "feedback": {"items": [], "correct_count": 1, "total": 1},
+                    "item_correct": [True],
                 },
             ),
             LessonActivity(
@@ -935,7 +931,7 @@ async def test_completed_drill_without_feedback_returns_200(test_app, db, studen
                 duration_minutes=3,
                 status=ActivityStatus.COMPLETED,
                 drill_id=drill.id,
-                result={"correct": True, "student_answer": "vado"},
+                result={"correct": True},
             ),
             LessonActivity(
                 type=ActivityType.GRAMMAR,

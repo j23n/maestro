@@ -1,7 +1,7 @@
 """Integration tests for advance_lesson, _collect_activity_events, lesson completion flow."""
 
 import pytest
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, patch
 
 from beanie import PydanticObjectId
 
@@ -192,7 +192,7 @@ async def test_advance_lesson_persists_result(db):
     lesson = _make_lesson(activities)
     await lesson.insert()
 
-    result = {"correct": True, "student_answer": "gatto"}
+    result = {"correct": True}
     await _advance_lesson(lesson, 0, result=result)
 
     # Verify in-memory
@@ -221,7 +221,7 @@ async def test_advance_lesson_generating_persists_atomically(db):
     lesson = _make_lesson(activities, generating=True)
     await lesson.insert()
 
-    result = {"correct": True, "student_answer": "gatto"}
+    result = {"correct": True}
     redirect = await _advance_lesson(lesson, 0, result=result)
     assert "generating" in redirect
 
@@ -248,7 +248,7 @@ async def test_advance_lesson_completion_persists_all_fields(db):
     lesson = _make_lesson(activities, generating=False)
     await lesson.insert()
 
-    result = {"correct": False, "student_answer": "cane"}
+    result = {"correct": False}
     redirect = await _advance_lesson(lesson, 0, result=result)
     assert "complete" in redirect
 
@@ -271,7 +271,6 @@ async def test_collect_activity_events_aggregates_gp_codes(db):
         student_id=_FAKE_STUDENT_ID,
         lesson_id=lesson.id,
         activity_type="drill",
-        student_text="sono andato",
         grammar_correct=["GP_001"],
         grammar_errors=["GP_002"],
     ).insert()
@@ -279,17 +278,14 @@ async def test_collect_activity_events_aggregates_gp_codes(db):
         student_id=_FAKE_STUDENT_ID,
         lesson_id=lesson.id,
         activity_type="writing",
-        student_text="Ho scritto qualcosa.",
         grammar_correct=["GP_001", "GP_003"],
         grammar_errors=[],
     ).insert()
 
-    correct, errors, combined = await _collect_activity_events(lesson)
+    correct, errors = await _collect_activity_events(lesson)
     assert "GP_001" in correct
     assert "GP_003" in correct
     assert "GP_002" in errors
-    assert "sono andato" in combined
-    assert "Ho scritto qualcosa." in combined
 
 
 @pytest.mark.integration
@@ -300,10 +296,9 @@ async def test_collect_activity_events_no_events(db):
     lesson = _make_lesson([])
     await lesson.insert()
 
-    correct, errors, combined = await _collect_activity_events(lesson)
+    correct, errors = await _collect_activity_events(lesson)
     assert correct == []
     assert errors == []
-    assert combined == ""
 
 
 @pytest.mark.integration
@@ -327,7 +322,7 @@ async def test_collect_activity_events_deduplicates_codes(db):
         grammar_correct=["GP_001"],
     ).insert()
 
-    correct, errors, _ = await _collect_activity_events(lesson)
+    correct, errors = await _collect_activity_events(lesson)
     assert correct.count("GP_001") == 1  # deduplicated
 
 
@@ -408,7 +403,7 @@ async def completed_lesson(db):
                 description="",
                 duration_minutes=5,
                 status=ActivityStatus.COMPLETED,
-                result={"student_answer": "Ho scritto."},
+                result={"grammar_correct": True, "grammar_errors": []},
             ),
         ],
         current_index=2,
@@ -421,7 +416,6 @@ async def completed_lesson(db):
         lesson_id=lesson.id,
         activity_type="drill",
         activity_index=0,
-        student_text="gatto",
         grammar_correct=["GP_OK"],
         grammar_errors=[],
     ).insert()
@@ -430,7 +424,6 @@ async def completed_lesson(db):
         lesson_id=lesson.id,
         activity_type="drill",
         activity_index=1,
-        student_text="sbagliato",
         grammar_correct=[],
         grammar_errors=["GP_BAD"],
     ).insert()
@@ -439,7 +432,6 @@ async def completed_lesson(db):
         lesson_id=lesson.id,
         activity_type="writing",
         activity_index=2,
-        student_text="Ho scritto.",
         grammar_correct=[],
         grammar_errors=[],
     ).insert()
@@ -459,91 +451,6 @@ async def test_get_weak_grammar_points(db, completed_lesson):
 
 
 @pytest.mark.integration
-async def test_generate_lesson_feedback_returns_string(db, completed_lesson):
-    """Feedback should return a non-empty string."""
-    from maestro.lessons.lifecycle import generate_lesson_feedback
-
-    mock_response = MagicMock(
-        content=[MagicMock(text="Great work on present tense drills!")]
-    )
-    mock_client = AsyncMock()
-    mock_client.messages.create.return_value = mock_response
-
-    with patch("maestro.llm.get_async_client", return_value=mock_client):
-        feedback = await generate_lesson_feedback(completed_lesson, [])
-
-    assert isinstance(feedback, str)
-    assert len(feedback) > 0
-
-
-@pytest.mark.integration
-async def test_generate_lesson_feedback_uses_prefetched_events(db):
-    """Passing events avoids a DB query and groups errors by activity index."""
-    from maestro.lessons.lifecycle import generate_lesson_feedback
-
-    lesson = Lesson(
-        student_id=_FAKE_STUDENT_ID,
-        status=LessonStatus.COMPLETED,
-        duration_minutes=10,
-        started_at=utcnow(),
-        completed_at=utcnow(),
-        generating=False,
-        activities=[
-            LessonActivity(
-                type=ActivityType.WRITING,
-                title="W1",
-                description="",
-                duration_minutes=5,
-                status=ActivityStatus.COMPLETED,
-            ),
-            LessonActivity(
-                type=ActivityType.WRITING,
-                title="W2",
-                description="",
-                duration_minutes=5,
-                status=ActivityStatus.COMPLETED,
-            ),
-        ],
-        current_index=1,
-    )
-    await lesson.insert()
-
-    # W1 has no errors, W2 has 1 error — must not conflate
-    await LearningEvent(
-        student_id=_FAKE_STUDENT_ID,
-        lesson_id=lesson.id,
-        activity_type="writing",
-        activity_index=0,
-        grammar_correct=["GP_OK"],
-        grammar_errors=[],
-    ).insert()
-    await LearningEvent(
-        student_id=_FAKE_STUDENT_ID,
-        lesson_id=lesson.id,
-        activity_type="writing",
-        activity_index=1,
-        grammar_correct=[],
-        grammar_errors=["GP_BAD"],
-    ).insert()
-
-    events = await LearningEvent.find({"lesson_id": lesson.id}).to_list()
-
-    mock_response = MagicMock(content=[MagicMock(text="Nice job!")])
-    mock_client = AsyncMock()
-    mock_client.messages.create.return_value = mock_response
-
-    with patch("maestro.llm.get_async_client", return_value=mock_client):
-        feedback = await generate_lesson_feedback(lesson, [], events)
-
-    assert isinstance(feedback, str)
-    prompt_sent = mock_client.messages.create.call_args[1]["messages"][0]["content"]
-    # W1 had no errors — just "completed"
-    assert "W1: completed\n" in prompt_sent
-    # W2 had 1 error — should show grammar issues
-    assert "W2: completed (1 grammar issues)" in prompt_sent
-
-
-@pytest.mark.integration
 async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     """analyze_lesson should aggregate per-activity events and create a summary event."""
     from maestro.learning.lesson_analyzer import analyze_lesson
@@ -558,13 +465,7 @@ async def test_analyze_lesson_creates_summary_event(db, completed_lesson):
     )
     await profile.insert()
 
-    # Only CF stage1 LLM call needed (no GP LLM calls)
-    cf_stage1_response = MagicMock(content=[MagicMock(text='{"categories": []}')])
-    mock_client = AsyncMock()
-    mock_client.messages.create.return_value = cf_stage1_response
-
-    with patch("maestro.llm.get_async_client", return_value=mock_client):
-        await analyze_lesson(completed_lesson)
+    await analyze_lesson(completed_lesson)
 
     # 3 per-activity events + 1 summary event = 4
     events = await LearningEvent.find_all().to_list()
@@ -595,12 +496,7 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
     )
     await profile.insert()
 
-    cf_stage1_response = MagicMock(content=[MagicMock(text='{"categories": []}')])
-    mock_client = AsyncMock()
-    mock_client.messages.create.return_value = cf_stage1_response
-
-    with patch("maestro.llm.get_async_client", return_value=mock_client):
-        await analyze_lesson(completed_lesson)
+    await analyze_lesson(completed_lesson)
 
     # Profile should reflect the per-activity events
     refreshed = await LearningProfile.find_one({"student_id": _FAKE_STUDENT_ID})
@@ -612,8 +508,8 @@ async def test_lesson_lifecycle_events_to_profile(db, completed_lesson):
 
 
 @pytest.mark.integration
-async def test_analyze_lesson_no_text_skips_cf_analysis(db):
-    """Lesson with only drill events (no student_text) → no LLM call."""
+async def test_analyze_lesson_drill_only_no_llm_call(db):
+    """Lesson with only drill events → profile still aggregated, no LLM call."""
     from maestro.learning.lesson_analyzer import analyze_lesson
     from maestro.learning import grammar_cache
 
@@ -635,12 +531,10 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
     )
     await lesson.insert()
 
-    # Drill event with no student_text
     await LearningEvent(
         student_id=_FAKE_STUDENT_ID,
         lesson_id=lesson.id,
         activity_type="drill",
-        student_text="",
         grammar_correct=["GP_ONLY"],
         grammar_errors=[],
     ).insert()
@@ -655,7 +549,7 @@ async def test_analyze_lesson_no_text_skips_cf_analysis(db):
     with patch("maestro.llm.get_async_client", return_value=mock_client):
         await analyze_lesson(lesson)
 
-    # No LLM calls should have been made (no text for CF analysis)
+    # Analyzer no longer makes LLM calls
     mock_client.messages.create.assert_not_called()
 
     # But GP codes should still be aggregated into profile

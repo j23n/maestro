@@ -75,7 +75,6 @@ class TestAccountDelete:
         attempt = DrillAttempt(
             student_id=student.id,
             generated_drill=drill.id,
-            student_answer="test",
         )
         await attempt.insert()
 

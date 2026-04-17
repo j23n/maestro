@@ -1,5 +1,4 @@
 import asyncio
-import json
 import logging
 import random
 from typing import Annotated
@@ -94,16 +93,18 @@ async def lesson_activity(
             "is_review": True,
             "is_past_review": is_past_review,
             "correct": result.get("correct"),
-            "feedback": result.get("feedback"),
+            "scoring_unavailable": bool(result.get("scoring_unavailable")),
+            "empty_response": bool(result.get("empty_response")),
+            "grammar_correct": result.get("grammar_correct", []),
+            "grammar_errors": result.get("grammar_errors", []),
         }
 
         if activity.type == ActivityType.SPEAKING:
             review_ctx.update(
-                recognized_text=result.get("recognized_text"),
                 pronunciation_score=result.get("pronunciation_score"),
                 accuracy_score=result.get("accuracy_score"),
                 fluency_score=result.get("fluency_score"),
-                words=result.get("word_assessments", []),
+                completeness_score=result.get("completeness_score"),
             )
             return await render_with_discover(
                 request,
@@ -114,7 +115,10 @@ async def lesson_activity(
 
         if activity.type == ActivityType.DRILL and activity.drill_id:
             drill = await GeneratedDrill.get(activity.drill_id)
-            review_ctx.update(drill=drill, rule_refs=[])
+            review_ctx.update(
+                drill=drill,
+                item_correct=result.get("item_correct", []),
+            )
             return await render_with_discover(
                 request,
                 "review-activity-drill.html",
@@ -123,10 +127,7 @@ async def lesson_activity(
             )
 
         if activity.type == ActivityType.WRITING:
-            review_ctx.update(
-                content=activity.content or "",
-                student_answer=result.get("student_answer", ""),
-            )
+            review_ctx.update(content=activity.content or "")
             return await render_with_discover(
                 request,
                 "review-activity-writing.html",
@@ -136,7 +137,7 @@ async def lesson_activity(
 
         if activity.type in (ActivityType.READING, ActivityType.LISTENING):
             review_ctx.update(
-                student_answers=result.get("student_answers", []),
+                item_correct=result.get("item_correct", []),
                 question_lang="en" if lesson.cefr_at_start == "A0" else lesson.language,
             )
             if activity.type == ActivityType.LISTENING:
@@ -573,21 +574,16 @@ async def lesson_drill_submit(
         logger.exception(
             "scoring failed for drill", extra={"lesson_id": str(lesson.id), "idx": idx}
         )
-        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
         await advance_lesson(
             lesson,
             idx,
-            result={"correct": None, "student_answer": "", "feedback": _err_feedback},
+            result={"correct": None, "scoring_unavailable": True},
         )
         return review_redirect(lesson_id, idx)
 
-    stored_answer = (
-        json.dumps(answers) if len(answers) > 1 else (answers[0] if answers else "")
-    )
     attempt = DrillAttempt(
         student_id=student.id,
         generated_drill=drill,
-        student_answer=stored_answer,
         correct=correct,
     )
     await attempt.insert()
@@ -598,7 +594,6 @@ async def lesson_drill_submit(
         event.lesson_id = lesson.id
         event.activity_type = ActivityType.DRILL.value
         event.activity_index = idx
-        event.student_text = stored_answer
         await event.insert()
         logger.debug(
             "drill event stored",
@@ -609,22 +604,13 @@ async def lesson_drill_submit(
             },
         )
 
-    drill_result: dict = {"correct": correct, "student_answer": stored_answer}
+    drill_result: dict = {"correct": correct}
 
-    # Capture per-item scoring detail for later inspection / flagging
     if drill.items and isinstance(feedback, dict) and "items" in feedback:
-        # Multi-item drill: store per-item scores
-        drill_result["item_scores"] = [
-            {
-                "objective_correct": item.get("objective_correct", False),
-                "tips": item.get("tips", []),
-                "objective_note": item.get("objective_note", ""),
-                "grammar_errors": item.get("grammar_errors", []),
-            }
+        drill_result["item_correct"] = [
+            bool(item.get("objective_correct", False))
             for item in feedback.get("items", [])
         ]
-    feedback = feedback or None
-    drill_result["feedback"] = feedback
     await advance_lesson(lesson, idx, result=drill_result)
 
     return review_redirect(lesson_id, idx)
@@ -750,27 +736,25 @@ async def lesson_writing_submit(
             "scoring failed for writing",
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
-        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
-        await advance_lesson(
-            lesson, idx, result={"student_answer": answer, "feedback": _err_feedback}
-        )
+        await advance_lesson(lesson, idx, result={"scoring_unavailable": True})
         return review_redirect(lesson_id, idx)
 
     await grammar_cache.ensure_loaded(lesson.language)
     valid_codes = {g.code for g in grammar_cache.grammar_points(lesson.language)}
+    grammar_correct = [
+        c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
+    ]
+    grammar_errors = [
+        c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
+    ]
     event = LearningEvent(
         student_id=student.id,
         lesson_id=lesson.id,
         activity_type=ActivityType.WRITING.value,
         activity_index=idx,
         evidence_type="productive",
-        student_text=answer,
-        grammar_correct=[
-            c for c in feedback.get("grammar_correct_codes", []) if c in valid_codes
-        ],
-        grammar_errors=[
-            c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
-        ],
+        grammar_correct=grammar_correct,
+        grammar_errors=grammar_errors,
         themes=feedback.get("themes", []),
     )
     await event.insert()
@@ -783,7 +767,10 @@ async def lesson_writing_submit(
         },
     )
 
-    writing_result = {"student_answer": answer, "feedback": feedback}
+    writing_result = {
+        "grammar_correct": grammar_correct,
+        "grammar_errors": grammar_errors,
+    }
     await advance_lesson(lesson, idx, result=writing_result)
 
     return review_redirect(lesson_id, idx)
@@ -829,14 +816,14 @@ async def lesson_speaking_submit(
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
         await advance_lesson(
-            lesson, idx, result={"student_answer": "", "correct": None}
+            lesson, idx, result={"correct": None, "scoring_unavailable": True}
         )
         return review_redirect(lesson_id, idx)
 
     # --- Empty check ---
     if not recognized_text or not recognized_text.strip():
         await advance_lesson(
-            lesson, idx, result={"student_answer": "", "correct": None}
+            lesson, idx, result={"correct": None, "empty_response": True}
         )
         return review_redirect(lesson_id, idx)
 
@@ -889,16 +876,12 @@ async def lesson_speaking_submit(
         await advance_lesson(
             lesson,
             idx,
-            result={
-                "student_answer": recognized_text,
-                "recognized_text": recognized_text,
-                "correct": None,
-            },
+            result={"correct": None, "scoring_unavailable": True},
         )
         return review_redirect(lesson_id, idx)
 
     # --- Build result and LearningEvent ---
-    speaking_result = {"student_answer": recognized_text}
+    speaking_result: dict = {}
     if pronunciation:
         speaking_result.update(
             {
@@ -906,24 +889,8 @@ async def lesson_speaking_submit(
                 "accuracy_score": pronunciation.accuracy_score,
                 "fluency_score": pronunciation.fluency_score,
                 "completeness_score": pronunciation.completeness_score,
-                "recognized_text": recognized_text,
             }
         )
-        speaking_result["word_assessments"] = [
-            {
-                "word": w.word,
-                "accuracy_score": w.accuracy_score,
-                "error_type": w.error_type,
-                "offset_seconds": w.offset_seconds,
-                "duration_seconds": w.duration_seconds,
-            }
-            for w in pronunciation.words
-        ]
-    else:
-        speaking_result["recognized_text"] = recognized_text
-
-    if feedback:
-        speaking_result["feedback"] = feedback
 
     grammar_correct = []
     grammar_errors = []
@@ -936,6 +903,8 @@ async def lesson_speaking_submit(
         grammar_errors = [
             c for c in feedback.get("grammar_error_codes", []) if c in valid_codes
         ]
+        speaking_result["grammar_correct"] = grammar_correct
+        speaking_result["grammar_errors"] = grammar_errors
 
     await advance_lesson(lesson, idx, result=speaking_result)
 
@@ -945,7 +914,6 @@ async def lesson_speaking_submit(
         activity_type=ActivityType.SPEAKING.value,
         activity_index=idx,
         evidence_type="productive",
-        student_text=recognized_text,
         grammar_correct=grammar_correct,
         grammar_errors=grammar_errors,
         themes=feedback.get("themes", []) if feedback else [],
@@ -1018,36 +986,31 @@ async def lesson_reading_submit(
             "scoring failed for reading",
             extra={"lesson_id": str(lesson.id), "idx": idx},
         )
-        _err_feedback = {"scoring_unavailable": t("scoring_unavailable")}
         await advance_lesson(
             lesson,
             idx,
-            result={
-                "student_answers": answers,
-                "correct": None,
-                "feedback": _err_feedback,
-            },
+            result={"correct": None, "scoring_unavailable": True},
         )
         return review_redirect(lesson_id, idx)
 
-    joined_answers = " | ".join(a for a in answers if a)
     event = LearningEvent(
         student_id=student.id,
         lesson_id=lesson.id,
         activity_type=activity.type.value,
         activity_index=idx,
         evidence_type="receptive",
-        student_text=joined_answers,
         grammar_correct=gp_correct,
         grammar_errors=gp_errors,
     )
     await event.insert()
 
-    reading_result = {
-        "student_answers": answers,
-        "correct": overall_correct,
-        "feedback": feedback,
-    }
+    per_item_correct: list[bool] = []
+    if isinstance(feedback, dict):
+        per_item_correct = [
+            bool(item.get("correct")) for item in feedback.get("items", [])
+        ]
+
+    reading_result = {"correct": overall_correct, "item_correct": per_item_correct}
     await advance_lesson(lesson, idx, result=reading_result)
 
     return review_redirect(lesson_id, idx)

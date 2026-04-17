@@ -1,15 +1,15 @@
 {# Shared comprehension review block for reading + listening activities #}
-{# Expects: activity, feedback, correct, student_answers, question_lang, t #}
+{# Expects: activity, correct, item_correct, question_lang, scoring_unavailable, t #}
 
 {% if activity.questions %}
 <div class="questions-card review-mode">
   <div class="questions-title">{{ t("reading_comprehension") }}</div>
 
-  {% if feedback and feedback is mapping and "scoring_unavailable" in feedback %}
-    <div class="result-unavailable">{{ feedback.scoring_unavailable }}</div>
-  {% elif feedback and feedback is mapping and "items" in feedback %}
-    {% set correct_count = feedback["correct_count"] %}
-    {% set reading_total = feedback["total"] %}
+  {% if scoring_unavailable %}
+    <div class="result-unavailable">{{ t("scoring_unavailable") }}</div>
+  {% elif item_correct %}
+    {% set correct_count = item_correct | select | list | length %}
+    {% set reading_total = item_correct | length %}
     {% if correct %}
       <div class="result-ok">{{ t("result_correct_multi", correct=correct_count, total=reading_total) }}</div>
     {% else %}
@@ -22,37 +22,14 @@
     <div class="item-num">{{ loop.index }}</div>
     <div class="item-body">
       <div class="item-sentence"><span lang="{{ question_lang }}">{{ q.text }}</span></div>
-
-      {% if student_answers and loop.index0 < student_answers | length %}
-        {% set sa = student_answers[loop.index0] %}
-        {% if feedback and feedback is mapping and "items" in feedback and loop.index0 < feedback["items"] | length %}
-          {% set fb = feedback["items"][loop.index0] %}
-          {% if fb.objective_correct %}
-            <div class="review-answer review-answer-correct">{{ sa }}</div>
-          {% else %}
-            <div class="review-answer review-answer-wrong">{{ sa }}</div>
-            <div class="review-correction">{{ q.correct_answer }}</div>
-            {% if fb.objective_note %}
-            <div class="item-explanation">{{ fb.objective_note | safe }}</div>
-            {% endif %}
-          {% endif %}
-          {% if fb.grammar_errors is defined or fb.tips is defined %}
-            {% set ge = fb.grammar_errors if fb.grammar_errors is defined else [] %}
-            {% set ti = fb.tips if fb.tips is defined else [] %}
-            {% if ge or ti %}
-            <div class="item-secondary">
-              {% for err in ge %}
-              <div><span class="item-grammar-error">{{ err | safe }}</span></div>
-              {% endfor %}
-              {% for tip in ti %}
-              <div class="item-tip">{{ tip | safe }}</div>
-              {% endfor %}
-            </div>
-            {% endif %}
-          {% endif %}
+      {% if q.correct_answer %}
+        <div class="review-correction">{{ q.correct_answer }}</div>
+      {% endif %}
+      {% if loop.index0 < item_correct | length %}
+        {% if item_correct[loop.index0] %}
+          <div class="item-status item-status-correct">{{ t("result_item_correct") }}</div>
         {% else %}
-          {# No per-item feedback, just show student answer #}
-          <div class="review-answer">{{ sa }}</div>
+          <div class="item-status item-status-wrong">{{ t("result_item_wrong") }}</div>
         {% endif %}
       {% endif %}
     </div>

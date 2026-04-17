@@ -158,8 +158,7 @@ async def llm_messages_create(
         extra={
             "call_type": call_type.value,
             "model": model,
-            "system": system,
-            "messages": messages,
+            "max_tokens": max_tokens,
         },
     )
     client = get_async_client()

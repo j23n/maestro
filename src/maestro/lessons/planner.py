@@ -104,7 +104,6 @@ async def _generate_lesson_content(
         language=language,
     )
 
-    logger.debug(f"lesson content prompt: {prompt_text}")
     logger.info(
         "generating lesson content",
         extra={
@@ -131,10 +130,12 @@ async def _generate_lesson_content(
     logger.info(
         "lesson content LLM response received", extra={"response_length": len(raw)}
     )
-    logger.debug(f"lesson content raw: {raw}")
     result = parse_llm_json(raw)
     if not result or not isinstance(result, dict):
-        logger.error("failed to parse lesson content LLM response", extra={"raw": raw})
+        logger.error(
+            "failed to parse lesson content LLM response",
+            extra={"response_length": len(raw)},
+        )
         return LessonContentResponse()
     try:
         content = LessonContentResponse.model_validate(result)

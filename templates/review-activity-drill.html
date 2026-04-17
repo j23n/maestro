@@ -10,17 +10,18 @@
     {% endif %}
   </div>
 
-  {% if drill and drill.items %}
+  {% if scoring_unavailable %}
+    <div class="result-unavailable">{{ t("scoring_unavailable") }}</div>
+  {% elif drill and drill.items %}
     {% if drill.exercise_type == "fill_blank" %}
       <div class="drill-instruction">{{ t("drill_fill_blank_instruction") }}</div>
     {% else %}
       <div class="drill-instruction">{{ t("drill_error_correction_instruction") }}</div>
     {% endif %}
 
-    {# ── Score banner ── #}
-    {% if feedback and feedback is mapping and "items" in feedback %}
-      {% set correct_count = feedback["correct_count"] %}
-      {% set drill_total = feedback["total"] %}
+    {% set correct_count = item_correct | select | list | length %}
+    {% set drill_total = item_correct | length %}
+    {% if drill_total %}
       {% if correct %}
         <div class="result-ok">{{ t("result_correct_multi", correct=correct_count, total=drill_total) }}</div>
       {% else %}
@@ -28,52 +29,24 @@
       {% endif %}
     {% endif %}
 
-    {# ── Items with answers filled in ── #}
     <div class="items-form">
       {% for item in drill.items %}
       <div class="drill-item">
         <div class="item-num">{{ loop.index }}</div>
         <div class="item-body">
           <div class="item-sentence">{{ item.prompt | safe }}</div>
-
-          {% if feedback and feedback is mapping and "items" in feedback and loop.index0 < feedback["items"] | length %}
-            {% set fb = feedback["items"][loop.index0] %}
-            {% if fb.objective_correct %}
-              <div class="review-answer review-answer-correct">{{ fb.student_answer | safe }}</div>
+          <div class="review-correction">{{ item.correct_answer | safe }}</div>
+          {% if loop.index0 < item_correct | length %}
+            {% if item_correct[loop.index0] %}
+              <div class="item-status item-status-correct">{{ t("result_item_correct") }}</div>
             {% else %}
-              <div class="review-answer review-answer-wrong">{{ fb.student_answer | safe }}</div>
-              <div class="review-correction">{{ fb.correct_answer | safe }}</div>
-              {% if fb.objective_note %}
-              <div class="item-explanation">{{ fb.objective_note | safe }}</div>
-              {% endif %}
-            {% endif %}
-            {% if fb.grammar_errors or fb.tips %}
-            <div class="item-secondary">
-              {% for err in fb.grammar_errors %}
-              <div><span class="item-grammar-error">{{ err | safe }}</span></div>
-              {% endfor %}
-              {% for tip in fb.tips %}
-              <div class="item-tip">{{ tip | safe }}</div>
-              {% endfor %}
-            </div>
+              <div class="item-status item-status-wrong">{{ t("result_item_wrong") }}</div>
             {% endif %}
           {% endif %}
         </div>
       </div>
       {% endfor %}
     </div>
-  {% elif feedback and feedback is mapping and "scoring_unavailable" in feedback %}
-    <div class="result-unavailable">{{ feedback.scoring_unavailable }}</div>
-  {% endif %}
-
-  {% if rule_refs %}
-  <div class="rule-refs-block">
-    {% for ref in rule_refs %}
-    <a href="/grammar/chunk/{{ ref.ref }}" class="chunk-link" style="font-size:0.8rem;">
-      {{ ref.heading }} →
-    </a>
-    {% endfor %}
-  </div>
   {% endif %}
 
   {% include "partials/review-banner.html" %}

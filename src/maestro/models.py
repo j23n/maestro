@@ -293,12 +293,10 @@ class LearningEvent(Document):
     activity_type: Optional[str] = None
     activity_index: Optional[int] = None
     evidence_type: Optional[str] = None  # "targeted" | "productive" | "receptive"
-    student_text: str = ""
     grammar_correct: List[str] = Field(default_factory=list)
     grammar_errors: List[str] = Field(default_factory=list)
     functions_performed: List[str] = Field(default_factory=list)
     themes: List[str] = Field(default_factory=list)
-    feedback: str = ""
     created_at: datetime = Field(default_factory=utcnow)
 
     class Settings:
@@ -387,7 +385,6 @@ class GeneratedDrill(Document):
 class DrillAttempt(Document):
     student_id: Optional[PydanticObjectId] = None
     generated_drill: Link[GeneratedDrill]
-    student_answer: str
     correct: Optional[bool] = None
     attempted_at: datetime = Field(default_factory=utcnow)
 
@@ -477,7 +474,6 @@ class Lesson(Document):
     overview: Optional[str] = None  # 2-3 sentence lesson overview
     lesson_context: Optional[str] = None  # per-lesson coloring text from student
     focus_weak: bool = False  # when True, grammar selection ignores scenario constraint
-    feedback_summary: Optional[str] = None  # post-lesson AI feedback
     generating: bool = True  # True while background LLM generation is in progress
     generation_started_at: Optional[datetime] = None  # set when generation begins
     generation_error: Optional[str] = None  # set when background generation fails
