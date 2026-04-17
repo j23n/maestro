@@ -60,6 +60,9 @@ _TURN_MARKER_RE = re.compile(r"(?m)^[—–]\s+")
 
 # Pause inserted between dialogue turns for natural pacing.
 _TURN_BREAK_MS = 350
+# Longer pause after a narrator intro so the setting has time to land before
+# the dialogue starts.
+_NARRATOR_BREAK_MS = 800
 
 
 def _parse_dialogue_turns(text: str) -> list[tuple[str, str]]:
@@ -109,16 +112,17 @@ def _build_ssml(text: str, *, language: str) -> str:
     if turns and lang_cfg.tts_conversation_voices:
         speakers = lang_cfg.tts_conversation_voices
         narrator = lang_cfg.tts_narrator_voice or lang_cfg.tts_voice
-        break_tag = f'<break time="{_TURN_BREAK_MS}ms"/>'
         speaker_idx = 0
         parts: list[str] = []
         for i, (role, turn) in enumerate(turns):
             if role == "narrator":
                 voice_name = narrator
+                break_ms = _NARRATOR_BREAK_MS
             else:
                 voice_name = speakers[speaker_idx % len(speakers)]
                 speaker_idx += 1
-            br = break_tag if i < len(turns) - 1 else ""
+                break_ms = _TURN_BREAK_MS
+            br = f'<break time="{break_ms}ms"/>' if i < len(turns) - 1 else ""
             parts.append(f'<voice name="{voice_name}">{escape(turn)}{br}</voice>')
         return f'<speak version="1.0" xml:lang="{locale}">{"".join(parts)}</speak>'
 

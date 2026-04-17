@@ -510,12 +510,26 @@ def test_build_ssml_dialogue_narrator_uses_narrator_voice():
     assert ssml.count("<voice") == 3
     narrator_open = '<voice name="it-IT-GiuseppeNeural">'
     assert ssml.count(narrator_open) == 1
-    assert narrator_open + "Marco entra nel bar." in ssml
+    assert narrator_open.replace(">", "") in ssml
+    assert "Marco entra nel bar." in ssml
     # Speaker pair rotates starting from voice[0] — the narrator does not
     # consume a slot in the cycle.
     assert ssml.count('name="it-IT-DiegoNeural"') == 1
     assert ssml.count('name="it-IT-IsabellaNeural"') == 1
     assert ssml.index("GiuseppeNeural") < ssml.index("DiegoNeural")
+    # The narrator turn is followed by a longer break than the inter-speaker
+    # break so the scene has a beat to land.
+    assert '<break time="800ms"/>' in ssml
+    assert '<break time="350ms"/>' in ssml
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_only_short_breaks_without_narrator():
+    """A pure dialogue (no narrator) uses only the 350 ms inter-turn break."""
+    text = "— Ciao!\n— Ciao, come stai?\n— Bene, grazie.\n"
+    ssml = _build_ssml(text, language="it")
+    assert '<break time="350ms"/>' in ssml
+    assert '<break time="800ms"/>' not in ssml
 
 
 @pytest.mark.unit
