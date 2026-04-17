@@ -12,8 +12,8 @@ import httpx
 import maestro.tts as tts_module
 from maestro.tts import (
     _build_ssml,
+    _parse_dialogue_turns,
     _slugify,
-    _split_conversation_turns,
     phrase_audio_path,
     word_audio_path,
     _lesson_audio_path,
@@ -433,37 +433,40 @@ async def test_generate_lesson_audio_returns_none_on_api_unavailable(
 
 
 @pytest.mark.unit
-def test_split_conversation_turns_single_line_no_marker():
+def test_parse_dialogue_turns_single_line_no_marker():
     """Non-dialogue text returns an empty list."""
-    assert _split_conversation_turns("Marco va al bar.") == []
+    assert _parse_dialogue_turns("Marco va al bar.") == []
 
 
 @pytest.mark.unit
-def test_split_conversation_turns_basic_dialogue():
-    """Em-dash turn markers split into per-speaker chunks."""
+def test_parse_dialogue_turns_basic_dialogue():
+    """Em-dash turn markers are tagged as speaker turns."""
     text = "— Buonasera!\n— Buonasera. Scusi, dov'è l'uscita?\n— Dritto e a sinistra.\n"
-    assert _split_conversation_turns(text) == [
-        "Buonasera!",
-        "Buonasera. Scusi, dov'è l'uscita?",
-        "Dritto e a sinistra.",
+    assert _parse_dialogue_turns(text) == [
+        ("speaker", "Buonasera!"),
+        ("speaker", "Buonasera. Scusi, dov'è l'uscita?"),
+        ("speaker", "Dritto e a sinistra."),
     ]
 
 
 @pytest.mark.unit
-def test_split_conversation_turns_en_dash():
+def test_parse_dialogue_turns_en_dash():
     """En-dash (U+2013) is accepted alongside em-dash (U+2014)."""
     text = "– Ciao!\n– Ciao, come stai?\n"
-    assert _split_conversation_turns(text) == ["Ciao!", "Ciao, come stai?"]
+    assert _parse_dialogue_turns(text) == [
+        ("speaker", "Ciao!"),
+        ("speaker", "Ciao, come stai?"),
+    ]
 
 
 @pytest.mark.unit
-def test_split_conversation_turns_narrator_prefix():
-    """Text before the first turn marker becomes the leading turn."""
+def test_parse_dialogue_turns_narrator_prefix():
+    """Text before the first turn marker is tagged as narrator."""
     text = "Marco entra nel bar.\n— Buongiorno!\n— Un caffè, per favore."
-    assert _split_conversation_turns(text) == [
-        "Marco entra nel bar.",
-        "Buongiorno!",
-        "Un caffè, per favore.",
+    assert _parse_dialogue_turns(text) == [
+        ("narrator", "Marco entra nel bar."),
+        ("speaker", "Buongiorno!"),
+        ("speaker", "Un caffè, per favore."),
     ]
 
 
@@ -492,8 +495,27 @@ def test_build_ssml_dialogue_alternates_voices():
     assert ssml.index("it-IT-DiegoNeural") < ssml.index("it-IT-IsabellaNeural")
     assert ssml.count('name="it-IT-DiegoNeural"') == 2
     assert ssml.count('name="it-IT-IsabellaNeural"') == 2
+    # Narrator voice stays out when there's no narrator text
+    assert "it-IT-GiuseppeNeural" not in ssml
     # Breaks appear between turns but not after the last turn
     assert ssml.count("<break") == 3
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_narrator_uses_narrator_voice():
+    """Narrator prefix gets tts_narrator_voice; speakers cycle the pair."""
+    text = "Marco entra nel bar.\n— Buongiorno!\n— Un caffè, per favore."
+    ssml = _build_ssml(text, language="it")
+
+    assert ssml.count("<voice") == 3
+    narrator_open = '<voice name="it-IT-GiuseppeNeural">'
+    assert ssml.count(narrator_open) == 1
+    assert narrator_open + "Marco entra nel bar." in ssml
+    # Speaker pair rotates starting from voice[0] — the narrator does not
+    # consume a slot in the cycle.
+    assert ssml.count('name="it-IT-DiegoNeural"') == 1
+    assert ssml.count('name="it-IT-IsabellaNeural"') == 1
+    assert ssml.index("GiuseppeNeural") < ssml.index("DiegoNeural")
 
 
 @pytest.mark.unit
@@ -507,10 +529,11 @@ def test_build_ssml_dialogue_escapes_special_chars():
 
 
 @pytest.mark.unit
-def test_build_ssml_dialogue_german():
-    """German dialogues use the de-DE voice pair."""
-    text = "— Guten Tag!\n— Guten Tag, wie geht's?\n"
+def test_build_ssml_dialogue_german_with_narrator():
+    """German dialogues use the de-DE speaker pair and narrator voice."""
+    text = "Es ist Morgen.\n— Guten Tag!\n— Guten Tag, wie geht's?\n"
     ssml = _build_ssml(text, language="de")
+    assert 'name="de-DE-ChristophNeural"' in ssml  # narrator
     assert 'name="de-DE-ConradNeural"' in ssml
     assert 'name="de-DE-KatjaNeural"' in ssml
     assert 'xml:lang="de-DE"' in ssml

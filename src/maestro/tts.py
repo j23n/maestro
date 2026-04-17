@@ -62,18 +62,33 @@ _TURN_MARKER_RE = re.compile(r"(?m)^[—–]\s+")
 _TURN_BREAK_MS = 350
 
 
-def _split_conversation_turns(text: str) -> list[str]:
-    """Split dialogue text into per-turn chunks.
+def _parse_dialogue_turns(text: str) -> list[tuple[str, str]]:
+    """Parse dialogue text into role-tagged turns.
 
-    Returns an empty list when *text* is not a dialogue (no turn markers found).
-    A "turn" is a run of text starting at a line that begins with "— " / "– ".
-    Any text before the first marker (narrator lines, scene-setting) becomes
-    the first turn.
+    Each element is ``(role, turn_text)`` where role is ``"narrator"`` for
+    lines without a dash marker (scene-setting text before the first
+    speaker turn) or ``"speaker"`` for each ``— ``-prefixed line.
+
+    Returns an empty list when *text* contains no turn markers at all —
+    callers should fall back to single-voice rendering.
     """
-    if not _TURN_MARKER_RE.search(text):
+    first_match = _TURN_MARKER_RE.search(text)
+    if not first_match:
         return []
-    parts = [p.strip() for p in _TURN_MARKER_RE.split(text)]
-    return [p for p in parts if p]
+
+    turns: list[tuple[str, str]] = []
+    narrator_prefix = text[: first_match.start()].strip()
+    if narrator_prefix:
+        turns.append(("narrator", narrator_prefix))
+
+    # _TURN_MARKER_RE.split yields [pre_prefix, turn1, turn2, ...]; skip the
+    # pre-prefix since we already captured it above.
+    for chunk in _TURN_MARKER_RE.split(text)[1:]:
+        cleaned = chunk.strip()
+        if cleaned:
+            turns.append(("speaker", cleaned))
+
+    return turns
 
 
 def _build_ssml(text: str, *, language: str) -> str:
@@ -81,24 +96,31 @@ def _build_ssml(text: str, *, language: str) -> str:
 
     Dispatches to multi-voice conversation SSML when *text* contains turn
     markers ("— ") and the language has `tts_conversation_voices` configured;
-    otherwise produces a single-voice wrapper.
+    otherwise produces a single-voice wrapper.  Narrator lines (text before
+    the first speaker turn) use `tts_narrator_voice` when configured so the
+    scene-setter is audibly distinct from the dialogue speakers.
     """
     from maestro.language import get_language_config
 
     lang_cfg = get_language_config(language)
     locale = lang_cfg.stt_locale
-    turns = _split_conversation_turns(text)
+    turns = _parse_dialogue_turns(text)
 
     if turns and lang_cfg.tts_conversation_voices:
-        voices = lang_cfg.tts_conversation_voices
+        speakers = lang_cfg.tts_conversation_voices
+        narrator = lang_cfg.tts_narrator_voice or lang_cfg.tts_voice
         break_tag = f'<break time="{_TURN_BREAK_MS}ms"/>'
-        body = "".join(
-            f'<voice name="{voices[i % len(voices)]}">'
-            f"{escape(turn)}{break_tag if i < len(turns) - 1 else ''}"
-            f"</voice>"
-            for i, turn in enumerate(turns)
-        )
-        return f'<speak version="1.0" xml:lang="{locale}">{body}</speak>'
+        speaker_idx = 0
+        parts: list[str] = []
+        for i, (role, turn) in enumerate(turns):
+            if role == "narrator":
+                voice_name = narrator
+            else:
+                voice_name = speakers[speaker_idx % len(speakers)]
+                speaker_idx += 1
+            br = break_tag if i < len(turns) - 1 else ""
+            parts.append(f'<voice name="{voice_name}">{escape(turn)}{br}</voice>')
+        return f'<speak version="1.0" xml:lang="{locale}">{"".join(parts)}</speak>'
 
     return (
         f'<speak version="1.0" xml:lang="{locale}">'
