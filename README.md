@@ -13,6 +13,13 @@ The main sources of info I used:
 - Postgres database
 - Claude API integration
 
+## Worktrees
+
+After `git worktree add <path> <branch>`, run `scripts/setup-worktree.sh` from
+inside the new worktree. It copies `.env` / `.env.scripts` from the main repo
+and symlinks `src/maestro/static/audio/` so TTS-generated WAVs are shared across
+worktrees (no unnecessary Azure TTS regeneration on startup). Idempotent.
+
 ## LLM Critique / Eval Flow
 
 Logged-in users can flag any LLM output for review using the ⚑ button. Clicking it opens an inline textarea — enter a description of the problem, then submit. The flag is saved as an `LLMCritique` document with the reconstructed input/output snapshot attached.
