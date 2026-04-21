@@ -11,6 +11,8 @@ import httpx
 
 import maestro.tts as tts_module
 from maestro.tts import (
+    _build_ssml,
+    _parse_dialogue_turns,
     _slugify,
     phrase_audio_path,
     word_audio_path,
@@ -423,3 +425,129 @@ async def test_generate_lesson_audio_returns_none_on_api_unavailable(
 
     url = await generate_lesson_audio("Testo.", "abc123", 0, language="it")
     assert url is None
+
+
+# ---------------------------------------------------------------------------
+# Conversation SSML — multi-voice dialogue synthesis
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_parse_dialogue_turns_single_line_no_marker():
+    """Non-dialogue text returns an empty list."""
+    assert _parse_dialogue_turns("Marco va al bar.") == []
+
+
+@pytest.mark.unit
+def test_parse_dialogue_turns_basic_dialogue():
+    """Em-dash turn markers are tagged as speaker turns."""
+    text = "— Buonasera!\n— Buonasera. Scusi, dov'è l'uscita?\n— Dritto e a sinistra.\n"
+    assert _parse_dialogue_turns(text) == [
+        ("speaker", "Buonasera!"),
+        ("speaker", "Buonasera. Scusi, dov'è l'uscita?"),
+        ("speaker", "Dritto e a sinistra."),
+    ]
+
+
+@pytest.mark.unit
+def test_parse_dialogue_turns_en_dash():
+    """En-dash (U+2013) is accepted alongside em-dash (U+2014)."""
+    text = "– Ciao!\n– Ciao, come stai?\n"
+    assert _parse_dialogue_turns(text) == [
+        ("speaker", "Ciao!"),
+        ("speaker", "Ciao, come stai?"),
+    ]
+
+
+@pytest.mark.unit
+def test_parse_dialogue_turns_narrator_prefix():
+    """Text before the first turn marker is tagged as narrator."""
+    text = "Marco entra nel bar.\n— Buongiorno!\n— Un caffè, per favore."
+    assert _parse_dialogue_turns(text) == [
+        ("narrator", "Marco entra nel bar."),
+        ("speaker", "Buongiorno!"),
+        ("speaker", "Un caffè, per favore."),
+    ]
+
+
+@pytest.mark.unit
+def test_build_ssml_single_voice_non_dialogue():
+    """Plain text uses the single configured tts_voice."""
+    ssml = _build_ssml("Marco va al bar.", language="it")
+    assert ssml.count("<voice") == 1
+    assert 'name="it-IT-IsabellaNeural"' in ssml
+    assert "<break" not in ssml
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_alternates_voices():
+    """Dialogue with turn markers emits one <voice> per turn, alternating."""
+    text = (
+        "— Buonasera!\n"
+        "— Buonasera. Una camera, per favore.\n"
+        "— Certo, signore.\n"
+        "— Grazie.\n"
+    )
+    ssml = _build_ssml(text, language="it")
+
+    assert ssml.count("<voice") == 4
+    # Voices alternate: Diego, Isabella, Diego, Isabella
+    assert ssml.index("it-IT-DiegoNeural") < ssml.index("it-IT-IsabellaNeural")
+    assert ssml.count('name="it-IT-DiegoNeural"') == 2
+    assert ssml.count('name="it-IT-IsabellaNeural"') == 2
+    # Narrator voice stays out when there's no narrator text
+    assert "it-IT-GiuseppeNeural" not in ssml
+    # Breaks appear between turns but not after the last turn
+    assert ssml.count("<break") == 3
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_narrator_uses_narrator_voice():
+    """Narrator prefix gets tts_narrator_voice; speakers cycle the pair."""
+    text = "Marco entra nel bar.\n— Buongiorno!\n— Un caffè, per favore."
+    ssml = _build_ssml(text, language="it")
+
+    assert ssml.count("<voice") == 3
+    narrator_open = '<voice name="it-IT-GiuseppeNeural">'
+    assert ssml.count(narrator_open) == 1
+    assert narrator_open.replace(">", "") in ssml
+    assert "Marco entra nel bar." in ssml
+    # Speaker pair rotates starting from voice[0] — the narrator does not
+    # consume a slot in the cycle.
+    assert ssml.count('name="it-IT-DiegoNeural"') == 1
+    assert ssml.count('name="it-IT-IsabellaNeural"') == 1
+    assert ssml.index("GiuseppeNeural") < ssml.index("DiegoNeural")
+    # The narrator turn is followed by a longer break than the inter-speaker
+    # break so the scene has a beat to land.
+    assert '<break time="800ms"/>' in ssml
+    assert '<break time="350ms"/>' in ssml
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_only_short_breaks_without_narrator():
+    """A pure dialogue (no narrator) uses only the 350 ms inter-turn break."""
+    text = "— Ciao!\n— Ciao, come stai?\n— Bene, grazie.\n"
+    ssml = _build_ssml(text, language="it")
+    assert '<break time="350ms"/>' in ssml
+    assert '<break time="800ms"/>' not in ssml
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_escapes_special_chars():
+    """Turn text is XML-escaped so stray < & > don't break SSML."""
+    text = "— A & B\n— <script>"
+    ssml = _build_ssml(text, language="it")
+    assert "A &amp; B" in ssml
+    assert "&lt;script&gt;" in ssml
+    assert "<script>" not in ssml
+
+
+@pytest.mark.unit
+def test_build_ssml_dialogue_german_with_narrator():
+    """German dialogues use the de-DE speaker pair and narrator voice."""
+    text = "Es ist Morgen.\n— Guten Tag!\n— Guten Tag, wie geht's?\n"
+    ssml = _build_ssml(text, language="de")
+    assert 'name="de-DE-ChristophNeural"' in ssml  # narrator
+    assert 'name="de-DE-ConradNeural"' in ssml
+    assert 'name="de-DE-KatjaNeural"' in ssml
+    assert 'xml:lang="de-DE"' in ssml

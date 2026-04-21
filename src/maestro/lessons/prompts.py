@@ -175,7 +175,14 @@ def build_lesson_content_prompt(
     if reading_count > 0:
         schema["readings"] = [
             {
-                "text": f"{lang} reading text (~{reading_word_count} words at {cefr_level} level) on the lesson topic. Must be grammatically correct and natural.",
+                "text": (
+                    f"{lang} reading text (~{reading_word_count} words at {cefr_level} level) "
+                    f"on the lesson topic. Must be grammatically correct and natural. "
+                    f"When the scenario fits a dialogue (café, station, hotel, shop, etc.), "
+                    f"prefer a two-speaker exchange and mark each speaker turn with '— ' "
+                    f"(em dash + space) at the start of its line — these get rendered with "
+                    f"alternating voices in the audio."
+                ),
                 "questions": [
                     {"text": f"question {i + 1}", "correct_answer": f"answer {i + 1}"}
                     for i in range(_READING_QUESTION_COUNT)
@@ -190,7 +197,11 @@ def build_lesson_content_prompt(
     if speaking_cfs:
         schema["speakings"] = [
             {
-                "prompt": f"2-3 sentence {lang} speaking prompt asking the student to practise {cf.label}"
+                "prompt": (
+                    f"2-3 sentence {lang} speaking prompt asking the student to practise {cf.label}. "
+                    f"If the prompt embeds a mini-dialogue for context, mark each speaker turn with "
+                    f"'— ' (em dash + space) at the start of its line."
+                )
             }
             for cf in speaking_cfs
         ]

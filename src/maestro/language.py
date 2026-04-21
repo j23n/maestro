@@ -6,7 +6,7 @@ Used to resolve per-student target language into concrete service parameters.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
@@ -17,8 +17,18 @@ class LanguageConfig:
     name: str  # human-readable, e.g. "Italian"
     flag: str  # emoji flag, e.g. "🇮🇹"
     spacy_model: str  # e.g. "it_core_news_md"
-    tts_voice: str  # Azure TTS voice name
+    tts_voice: str  # Azure TTS voice name for single-speaker synthesis
     stt_locale: str  # e.g. "it-IT"
+    # Voice used for narrator lines (scene-setting, stage directions) in
+    # dialogue content — kept distinct from the speaker pair below so students
+    # can tell the narrator apart from the characters.  Empty string falls
+    # back to `tts_voice`.
+    tts_narrator_voice: str = ""
+    # Voices cycled through for multi-speaker dialogue synthesis.  First voice
+    # is typically male, second female (so the default `tts_voice` matches
+    # voices[1] — single-phrase audio stays consistent with one speaker of
+    # the dialogue pair).
+    tts_conversation_voices: tuple[str, ...] = field(default_factory=tuple)
 
 
 LANGUAGES: dict[str, LanguageConfig] = {
@@ -29,6 +39,8 @@ LANGUAGES: dict[str, LanguageConfig] = {
         spacy_model="it_core_news_md",
         tts_voice="it-IT-IsabellaNeural",
         stt_locale="it-IT",
+        tts_narrator_voice="it-IT-GiuseppeNeural",
+        tts_conversation_voices=("it-IT-DiegoNeural", "it-IT-IsabellaNeural"),
     ),
     "de": LanguageConfig(
         code="de",
@@ -37,6 +49,8 @@ LANGUAGES: dict[str, LanguageConfig] = {
         spacy_model="de_core_news_md",
         tts_voice="de-DE-KatjaNeural",
         stt_locale="de-DE",
+        tts_narrator_voice="de-DE-ChristophNeural",
+        tts_conversation_voices=("de-DE-ConradNeural", "de-DE-KatjaNeural"),
     ),
 }
 
