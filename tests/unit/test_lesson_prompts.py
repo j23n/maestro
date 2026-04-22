@@ -310,3 +310,85 @@ def test_prompt_no_archetype_guidance_when_empty():
         language="it",
     )
     assert "LESSON TYPE" not in prompt
+
+
+def _recent_lesson(**kwargs):
+    defaults = dict(
+        topic_title="Ordering at the bar",
+        topic_description="A quick café exchange over espresso.",
+        scenario_slug="al-bar",
+        archetype="consolidation",
+    )
+    defaults.update(kwargs)
+    return SimpleNamespace(**defaults)
+
+
+@pytest.mark.unit
+def test_prompt_includes_recent_lessons():
+    recent = [
+        _recent_lesson(topic_title="Ordering at the bar", scenario_slug="al-bar"),
+        _recent_lesson(topic_title="At the train station", scenario_slug="in-stazione"),
+    ]
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        recent_lessons=recent,
+        language="it",
+    )
+    assert "Recent lessons" in prompt
+    assert "Ordering at the bar" in prompt
+    assert "At the train station" in prompt
+    assert "scenario: al-bar" in prompt
+    assert "consolidation" in prompt
+
+
+@pytest.mark.unit
+def test_prompt_omits_recent_lessons_block_when_empty():
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        recent_lessons=[],
+        language="it",
+    )
+    assert "Recent lessons" not in prompt
+
+
+@pytest.mark.unit
+def test_prompt_recent_lessons_handles_missing_metadata():
+    recent = [
+        _recent_lesson(
+            topic_title=None,
+            topic_description=None,
+            scenario_slug=None,
+            archetype=None,
+        ),
+    ]
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        recent_lessons=recent,
+        language="it",
+    )
+    assert "Recent lessons" in prompt
+    assert "(untitled)" in prompt

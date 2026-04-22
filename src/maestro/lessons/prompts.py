@@ -13,6 +13,7 @@ from maestro.models import (
     CommunicativeFunction,
     CurriculumScenario,
     ExerciseType,
+    Lesson,
 )
 from maestro.prompts import (
     planner as _prompts,
@@ -50,6 +51,7 @@ def build_lesson_content_prompt(
     speaking_cfs: list[CommunicativeFunction],
     lesson_context: str = "",
     archetype: str = "",
+    recent_lessons: list[Lesson] | None = None,
     *,
     language: str,
 ) -> str:
@@ -96,6 +98,23 @@ def build_lesson_content_prompt(
     lp = profile.active_progress if profile else None
     if lp and lp.description:
         parts.append(f"Student profile: {lp.description}")
+
+    if recent_lessons:
+        recent_lines = []
+        for lesson in recent_lessons:
+            title = lesson.topic_title or "(untitled)"
+            desc = (lesson.topic_description or "").strip()
+            meta_bits = []
+            if lesson.scenario_slug:
+                meta_bits.append(f"scenario: {lesson.scenario_slug}")
+            if lesson.archetype:
+                meta_bits.append(lesson.archetype)
+            meta = f" ({', '.join(meta_bits)})" if meta_bits else ""
+            recent_lines.append(f'  - "{title}" — {desc}{meta}')
+        parts.append(
+            "Recent lessons (avoid repeating these exact setups; "
+            "optional callbacks welcome):\n" + "\n".join(recent_lines)
+        )
 
     if grammar_gps:
         gp_lines = []

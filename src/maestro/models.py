@@ -128,7 +128,6 @@ class LanguageProgress(BaseModel):
     cefr_estimate: str = "A0"
     onboarding_completed: bool = False
     onboarding_skipped: bool = False
-    themes_seen: List[str] = Field(default_factory=list)
     description: str = ""
 
 

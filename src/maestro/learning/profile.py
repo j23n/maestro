@@ -100,9 +100,6 @@ async def update_profile(event: "LearningEvent") -> None:
         lp.grammar_recent_outcomes[code] = (recent + [{"ok": False, "ts": now}])[-10:]
     for code in event.functions_performed:
         lp.functions_counts[code] = lp.functions_counts.get(code, 0) + 1
-    for theme in event.themes:
-        if theme not in lp.themes_seen:
-            lp.themes_seen.append(theme)
 
     # Recompute weighted mastery for affected GP codes
     from maestro.learning.mastery import compute_gp_mastery

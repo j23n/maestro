@@ -69,6 +69,27 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 
+async def _fetch_recent_lessons(
+    student_id, language: str, limit: int = 5
+) -> list[Lesson]:
+    """Return the student's most recent completed lessons in this language.
+
+    Used to pass breadcrumbs to the planner so it can avoid repeating setups
+    and optionally make callbacks to prior topics.
+    """
+    if student_id is None:
+        return []
+    return await Lesson.find(
+        {
+            "student_id": student_id,
+            "language": language,
+            "status": LessonStatus.COMPLETED.value,
+        },
+        sort=[("created_at", -1)],
+        limit=limit,
+    ).to_list()
+
+
 async def _generate_lesson_content(
     cefr_level: str,
     scenario: CurriculumScenario,
@@ -89,6 +110,7 @@ async def _generate_lesson_content(
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
         speaking_cfs = []
+    recent_lessons = await _fetch_recent_lessons(student_id, language)
     prompt_text = build_lesson_content_prompt(
         cefr_level=cefr_level,
         scenario=scenario,
@@ -101,6 +123,7 @@ async def _generate_lesson_content(
         speaking_cfs=speaking_cfs,
         lesson_context=lesson_context,
         archetype=archetype,
+        recent_lessons=recent_lessons,
         language=language,
     )
 
