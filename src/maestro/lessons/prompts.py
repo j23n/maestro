@@ -34,6 +34,7 @@ from maestro.lessons.sections import (
     section_recent_lessons,
     section_scenario,
     section_speaking,
+    section_storyline,
     section_student,
 )
 
@@ -69,6 +70,8 @@ def build_lesson_content_prompt(
     lesson_context: str = "",
     archetype: str = "",
     recent_lessons: list[Lesson] | None = None,
+    storyline: str = "",
+    stale: bool = False,
     *,
     language: str,
 ) -> str:
@@ -98,6 +101,7 @@ def build_lesson_content_prompt(
             lesson_context=lesson_context,
             profile=profile,
         ),
+        section_storyline(storyline, stale=stale),
         section_recent_lessons(recent_lessons or []),
         section_scenario(scenario, depth),
         section_lesson_shape(

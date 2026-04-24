@@ -77,6 +77,29 @@ def section_recent_lessons(lessons: list[Lesson]) -> str:
     return _wrap("recent_lessons", "\n".join(lines))
 
 
+def section_storyline(storyline: str, *, stale: bool = False) -> str:
+    """Render the student's evolving storyline so the LLM can thread it
+    through the lesson setup with natural callbacks.
+
+    When `stale` is True (last lesson > STORYLINE_STALE_DAYS ago), append a
+    welcome-back hint instructing the model to soften callbacks. The stale
+    hint is only emitted alongside a non-empty storyline — there is no
+    dangling instruction without context to anchor to.
+    """
+    text = (storyline or "").strip()
+    if not text:
+        return ""
+    body_lines = [
+        "Thread this through the lesson setup where natural — do not restate verbatim, and do not contradict established facts.",
+        text,
+    ]
+    if stale:
+        body_lines.append(
+            "Note: the student has been away for more than two weeks. Soften any callbacks; do not assume recall of prior specifics."
+        )
+    return _wrap("storyline", "\n\n".join(body_lines))
+
+
 def section_scenario(scenario: CurriculumScenario, depth: int) -> str:
     depth_description = (
         scenario.depths[depth - 1]

@@ -319,3 +319,53 @@ def test_student_persona_defaults_to_empty_strings():
     assert p.background == ""
     assert p.interests == ""
     assert p.goal == ""
+
+
+# ---------------------------------------------------------------------------
+# Storyline + staleness
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_prompt_includes_storyline_when_set():
+    storyline = "Elena moved to Bologna last month and is settling in."
+    prompt = _build(storyline=storyline)
+    assert "<storyline>" in prompt
+    assert storyline in prompt
+
+
+@pytest.mark.unit
+def test_prompt_omits_storyline_when_empty():
+    prompt = _build(storyline="")
+    assert "<storyline>" not in prompt
+
+
+@pytest.mark.unit
+def test_prompt_omits_storyline_when_whitespace_only():
+    prompt = _build(storyline="   \n  ")
+    assert "<storyline>" not in prompt
+
+
+@pytest.mark.unit
+def test_prompt_stale_note_only_when_storyline_present():
+    # Stale flag without storyline — no dangling stale instruction.
+    prompt_no_story = _build(storyline="", stale=True)
+    assert "two weeks" not in prompt_no_story
+
+    prompt_with_story = _build(storyline="A short story.", stale=True)
+    assert "two weeks" in prompt_with_story
+
+
+@pytest.mark.unit
+def test_prompt_storyline_appears_above_recent_lessons():
+    storyline = "Elena's arc so far."
+    recent = [
+        SimpleNamespace(
+            topic_title="Un caffè al volo",
+            topic_description="Quick espresso at a Milan bar.",
+            scenario_slug="al-bar",
+            archetype="introduction",
+        ),
+    ]
+    prompt = _build(storyline=storyline, recent_lessons=recent)
+    assert prompt.index("<storyline>") < prompt.index("<recent_lessons>")

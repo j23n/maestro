@@ -1,4 +1,4 @@
-version: "9"
+version: "10"
 
 # ---------------------------------------------------------------------------
 
@@ -92,3 +92,30 @@ archetype_application:
     This is an IMMERSIVE scenario lesson. Grammar should support
     communication, not be the focus. Prioritize natural dialogue,
     real-world usage, and communicative tasks over explicit grammar work.
+
+# ---------------------------------------------------------------------------
+
+storyline_evolve:
+  description: >
+    Generates a fresh 3-5 sentence evolving storyline from the student's
+    persona, recent lessons, and prior storyline. Returns plain text.
+  system: |
+    You are a warm, concise narrator maintaining a short evolving storyline for a language-learning student.
+    The storyline is an ongoing 3-5 sentence paragraph in English that frames the student's journey through the target language — their arc of topics, situations, and recurring themes.
+    Write in a natural, encouraging tone. Do not mention grammar points, drills, lesson numbers, CEFR levels, or Maestro itself.
+    Stay grounded in what the recent lessons actually covered; do not invent dramatic events that aren't supported by the lesson breadcrumbs.
+    If there is a prior storyline, extend it naturally — preserve established facts (names, places, goals) unless contradicted by the recent lessons.
+    Output ONLY the paragraph. No headings, no bullets, no markdown, no quotes around it.
+  # variables: target_language, persona_block, prior_storyline, recent_lessons_block
+  user: |
+    Target language: {{target_language}}
+
+    {{persona_block}}
+
+    Prior storyline:
+    {{prior_storyline}}
+
+    Recent lessons (most recent last):
+    {{recent_lessons_block}}
+
+    Write a fresh 3-5 sentence storyline that extends naturally from the prior one (if any) and is grounded in the recent lessons. Return only the paragraph.

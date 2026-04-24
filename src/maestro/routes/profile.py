@@ -7,6 +7,7 @@ from maestro.learning import grammar_cache
 from maestro.auth import get_current_student
 from maestro.models import (
     CurriculumScenario,
+    LearningProfile,
     Lesson,
     LessonStatus,
     ScenarioProgress,
@@ -14,8 +15,8 @@ from maestro.models import (
     UserVocabularyCard,
 )
 from maestro.learning.profile import get_profile, get_or_create_profile
-from maestro.templates import render_with_discover
-from maestro.utils import CEFR_ORDER
+from maestro.templates import render, render_with_discover
+from maestro.utils import CEFR_ORDER, utcnow
 from maestro.lessons.curriculum import (
     get_current_phase,
     get_unlocked_gps,
@@ -338,3 +339,68 @@ async def save_profile_persona(
     profile.persona.goal = goal.strip()
     await profile.save()
     return RedirectResponse(url="/profile?saved=1", status_code=303)
+
+
+_STORYLINE_MAX_LEN = 1500
+
+
+@router.post("/profile/storyline")
+async def save_profile_storyline(
+    request: Request,
+    student: Student = Depends(get_current_student),
+    storyline: Annotated[str, Form()] = "",
+):
+    profile = await get_or_create_profile(student.id)
+    lang = profile.target_language
+    trimmed = storyline.strip()[:_STORYLINE_MAX_LEN]
+    await LearningProfile.get_pymongo_collection().update_one(
+        {"_id": profile.id},
+        {
+            "$set": {
+                f"progress.{lang}.storyline": trimmed,
+                f"progress.{lang}.storyline_updated_at": utcnow(),
+            }
+        },
+    )
+    return RedirectResponse(url="/profile?saved=1#tab-preferences", status_code=303)
+
+
+@router.post("/profile/storyline/regenerate", response_class=HTMLResponse)
+async def regenerate_profile_storyline(
+    request: Request,
+    student: Student = Depends(get_current_student),
+):
+    from maestro.lessons.storyline import evolve_storyline, _fetch_recent_completed
+
+    profile = await get_or_create_profile(student.id)
+    lang = profile.target_language
+    lp = profile.active_progress
+    old = lp.storyline if lp else ""
+
+    recent = await _fetch_recent_completed(student.id, lang, limit=5)
+    new_text = await evolve_storyline(
+        old_storyline=old,
+        persona=profile.persona,
+        recent_lessons=recent,
+        language=lang,
+        student_id=student.id,
+        profile_id=profile.id,
+    )
+
+    if new_text and new_text != old:
+        await LearningProfile.get_pymongo_collection().update_one(
+            {"_id": profile.id},
+            {
+                "$set": {
+                    f"progress.{lang}.storyline": new_text,
+                    f"progress.{lang}.storyline_updated_at": utcnow(),
+                    f"progress.{lang}.storyline_lessons_since_evolve": 0,
+                }
+            },
+        )
+
+    return render(
+        request,
+        "partials/storyline-textarea.html",
+        {"storyline": new_text or old},
+    )

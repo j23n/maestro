@@ -374,6 +374,57 @@ a.skill-label:hover { color: var(--c-terracotta); }
   margin-bottom: 0.75rem;
 }
 
+/* ----- Storyline section (preferences tab) ----- */
+.storyline-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--c-border);
+}
+.storyline-section h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.storyline-section .section-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--c-text-muted, #6b6b6b);
+}
+.storyline-form textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  line-height: 1.4;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  background: #fff;
+  resize: vertical;
+}
+.storyline-form textarea:focus { border-color: var(--c-terracotta); }
+.storyline-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.regen-btn {
+  background: transparent;
+  color: var(--c-terracotta);
+  border: 1px solid var(--c-terracotta);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.regen-btn:hover { background: rgba(200, 100, 70, 0.08); }
+.htmx-indicator { display: none; color: var(--c-text-muted, #6b6b6b); font-size: 0.82rem; }
+.htmx-request .htmx-indicator { display: inline; }
+.htmx-request.htmx-indicator { display: inline; }
+
 /* =====================================================================
    Percorso (skill tree) tab
    ===================================================================== */

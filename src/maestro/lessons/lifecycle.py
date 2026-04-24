@@ -162,6 +162,13 @@ async def advance_lesson(
 
     if lesson.cefr_at_start == "A0":
         await _credit_a0_mastery(lesson)
+    elif lesson.student_id is not None:
+        from maestro.lessons.storyline import maybe_evolve_storyline
+
+        create_background_task(
+            maybe_evolve_storyline(lesson),
+            name=f"storyline-evolve-{lesson.id}",
+        )
 
     logger.info("lesson complete: lesson=%s", lesson.id)
     return f"/lessons/{lesson.id}/complete"

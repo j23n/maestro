@@ -308,6 +308,25 @@
       <button class="submit-btn" type="submit">{{ t("profile_save_btn") }}</button>
     </form>
 
+    <div class="storyline-section">
+      <h3>{{ t("profile_storyline_heading") }}</h3>
+      <p class="section-hint">{{ t("profile_storyline_hint") }}</p>
+      <form method="post" action="/profile/storyline" class="storyline-form">
+        {% include "partials/storyline-textarea.html" %}
+        <div class="storyline-actions">
+          <button class="submit-btn" type="submit">{{ t("profile_save_btn") }}</button>
+          <button type="button" class="regen-btn"
+                  hx-post="/profile/storyline/regenerate"
+                  hx-target="#storyline-textarea-wrap"
+                  hx-swap="outerHTML"
+                  hx-indicator="#storyline-spinner">
+            {{ t("profile_storyline_regenerate") }}
+          </button>
+          <span id="storyline-spinner" class="htmx-indicator" aria-hidden="true">…</span>
+        </div>
+      </form>
+    </div>
+
   </div>{# /tab-preferences #}
 
   {# ================================================================

@@ -336,3 +336,104 @@ async def test_compute_cefr_no_skip_levels(db):
     result = await _compute_cefr(profile)
     # Can't skip A2, so stays at A1
     assert result == "A1"
+
+
+# ---------------------------------------------------------------------------
+# Storyline routes
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.integration
+def test_storyline_save_persists_to_active_language(test_app, student):
+    """POST /profile/storyline writes to progress.<target_language>.storyline."""
+    import asyncio
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        await get_or_create_profile(student.id)
+
+    asyncio.get_event_loop().run_until_complete(_setup())
+
+    resp = test_app.post(
+        "/profile/storyline",
+        data={"storyline": "Elena arrived in Bologna last month."},
+        follow_redirects=False,
+    )
+    assert resp.status_code == 303
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        return p.progress[p.target_language].storyline
+
+    stored = asyncio.get_event_loop().run_until_complete(_check())
+    assert stored == "Elena arrived in Bologna last month."
+
+
+@pytest.mark.integration
+def test_storyline_save_trims_and_caps_length(test_app, student):
+    import asyncio
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        await get_or_create_profile(student.id)
+
+    asyncio.get_event_loop().run_until_complete(_setup())
+
+    long_text = "  " + "x" * 5000 + "  "
+    resp = test_app.post(
+        "/profile/storyline", data={"storyline": long_text}, follow_redirects=False
+    )
+    assert resp.status_code == 303
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        return p.progress[p.target_language].storyline
+
+    stored = asyncio.get_event_loop().run_until_complete(_check())
+    assert len(stored) == 1500
+    assert stored == "x" * 1500
+
+
+@pytest.mark.integration
+def test_storyline_regenerate_returns_partial_and_resets_counter(
+    test_app, student, monkeypatch
+):
+    """POST /profile/storyline/regenerate swaps the textarea and resets the counter."""
+    import asyncio
+    from unittest.mock import AsyncMock
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        profile = await get_or_create_profile(student.id)
+        lp = profile.active_progress  # lazily initialises progress[lang]
+        lp.storyline = "old"
+        lp.storyline_lessons_since_evolve = 3
+        await profile.save()
+
+    asyncio.get_event_loop().run_until_complete(_setup())
+
+    # Patch the LLM-driven evolver to a deterministic output.
+    from maestro.lessons import storyline as storyline_mod
+
+    monkeypatch.setattr(
+        storyline_mod,
+        "evolve_storyline",
+        AsyncMock(return_value="A brand new paragraph about Elena."),
+    )
+
+    resp = test_app.post("/profile/storyline/regenerate")
+    assert resp.status_code == 200
+    assert "A brand new paragraph about Elena." in resp.text
+    assert "<textarea" in resp.text
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        lang = p.target_language
+        return (
+            p.progress[lang].storyline,
+            p.progress[lang].storyline_lessons_since_evolve,
+        )
+
+    text, counter = asyncio.get_event_loop().run_until_complete(_check())
+    assert text == "A brand new paragraph about Elena."
+    assert counter == 0

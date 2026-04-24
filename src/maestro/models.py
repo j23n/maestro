@@ -51,6 +51,7 @@ class CallType(str, Enum):
     GRAMMAR_EXPLANATION = "grammar_explanation"
     AUGMENT_GP = "augment_gp"
     AUGMENT_CF = "augment_cf"
+    STORYLINE_EVOLVE = "storyline_evolve"
 
 
 class Student(Document):
@@ -129,6 +130,9 @@ class LanguageProgress(BaseModel):
     onboarding_completed: bool = False
     onboarding_skipped: bool = False
     description: str = ""
+    storyline: str = ""
+    storyline_lessons_since_evolve: int = 0
+    storyline_updated_at: Optional[datetime] = None
 
 
 class GrammarChunk(Document):
