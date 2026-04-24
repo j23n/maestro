@@ -105,3 +105,19 @@ async def compute_gp_mastery(student_id: "PydanticObjectId", gp_code: str) -> fl
 def is_mastered(score: float) -> bool:
     """Check if a mastery score meets the threshold."""
     return score >= MASTERY_THRESHOLD
+
+
+def mastery_label(score: float | None) -> str:
+    """Map a mastery score to a pedagogical label for prompt consumption.
+
+    Returns one of: "new" (no score yet), "weak", "developing", "consolidated".
+    Thresholds match MASTERY_THRESHOLD; "weak" catches negative scores where
+    errors dominate.
+    """
+    if score is None:
+        return "new"
+    if score >= MASTERY_THRESHOLD:
+        return "consolidated"
+    if score >= 0.5:
+        return "developing"
+    return "weak"

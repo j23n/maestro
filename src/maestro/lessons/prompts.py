@@ -7,6 +7,7 @@ import random
 from typing import Optional
 
 from maestro.language import get_language_config
+from maestro.learning.mastery import mastery_label
 from maestro.models import (
     LearningProfile,
     GrammarPoint,
@@ -119,13 +120,15 @@ def build_lesson_content_prompt(
     if grammar_gps:
         gp_lines = []
         for gp in grammar_gps:
-            gp_errors = lp.grammar_error_counts.get(gp.code, 0) if lp else 0
-            gp_correct = lp.grammar_correct_counts.get(gp.code, 0) if lp else 0
-            gp_lines.append(
-                f"  - {gp.label} ({gp.code})\n"
-                f"    Performance: {gp_correct} correct, {gp_errors} errors"
-            )
-        parts.append("Grammar activity points:\n" + "\n".join(gp_lines))
+            score = lp.grammar_mastery_scores.get(gp.code) if lp else None
+            label = mastery_label(score)
+            gp_lines.append(f"  - {gp.label} ({gp.code}) — mastery: {label}")
+        parts.append(
+            "Grammar activity points (calibrate drill difficulty to mastery: "
+            "consolidated → vary contexts; developing → familiar frames; "
+            "weak → scaffold with supportive contexts; new → brief explanation first):\n"
+            + "\n".join(gp_lines)
+        )
 
     if drill_specs:
         drill_lines = []

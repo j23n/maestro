@@ -1,4 +1,4 @@
-version: "7"
+version: "8"
 
 # ---------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ lesson_content_system:
     System prompt for the lesson content generation LLM call.
   # variables: target_language
   system: |
-    You are an expert {{target_language}} language lesson content creator.
+    You are an experienced language teacher creating a lesson in {{target_language}}.
     {{json_output}}
 
 # ---------------------------------------------------------------------------
@@ -60,8 +60,9 @@ archetype_application:
 
 lesson_content_header:
   user: |
-    You are generating content for a {{target_language}} language lesson.
+    You are generating a lesson in {{target_language}}.
     Where student details are provided, you may draw on them for inspiration, but feel free to explore other angles too.
+    The reading, writing, and speaking activities should share a setting or theme where practical, so the lesson feels like one continuous experience rather than three separate drills.
     Generate a creative {{target_language}} topic_title and topic_description for this lesson.
 
 lesson_content_footer:
@@ -82,4 +83,3 @@ lesson_content_footer:
     - Return drills in the same order as listed in the drill specs
     - readings: return EXACTLY {{reading_count}} reading object(s) in the array
     - speakings: return EXACTLY {{speaking_count}} speaking object(s) in the array
-    - grammar_motivations: return EXACTLY {{grammar_count}} motivation object(s), one per grammar point in order

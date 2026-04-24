@@ -84,6 +84,82 @@ def test_prompt_contains_grammar_points():
     )
     assert "GP001" in prompt
     assert "Presente indicativo" in prompt
+    # No profile → no mastery score → "new" label
+    assert "mastery: new" in prompt
+
+
+@pytest.mark.unit
+def test_prompt_grammar_mastery_labels_reflect_scores():
+    gps = [
+        _gp(code="GP_A", label="Strong topic"),
+        _gp(code="GP_B", label="Middling topic"),
+        _gp(code="GP_C", label="Struggle topic"),
+    ]
+    profile = SimpleNamespace(
+        persona=StudentPersona(),
+        active_progress=SimpleNamespace(
+            description="",
+            grammar_error_counts={},
+            grammar_correct_counts={},
+            grammar_mastery_scores={
+                "GP_A": 0.9,
+                "GP_B": 0.6,
+                "GP_C": -0.2,
+            },
+        ),
+    )
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=profile,
+        grammar_gps=gps,
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        language="it",
+    )
+    assert "Strong topic (GP_A) — mastery: consolidated" in prompt
+    assert "Middling topic (GP_B) — mastery: developing" in prompt
+    assert "Struggle topic (GP_C) — mastery: weak" in prompt
+    # Calibration guidance for the LLM
+    assert "calibrate drill difficulty to mastery" in prompt
+
+
+@pytest.mark.unit
+def test_prompt_includes_cross_activity_cohesion_rule():
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        language="it",
+    )
+    assert "one continuous experience" in prompt
+
+
+@pytest.mark.unit
+def test_prompt_footer_drops_grammar_motivations():
+    prompt = build_lesson_content_prompt(
+        cefr_level="A1",
+        scenario=_scenario(),
+        depth=1,
+        profile=None,
+        grammar_gps=[_gp()],
+        drill_specs=[],
+        reading_count=0,
+        include_writing=False,
+        speaking_cfs=[],
+        language="it",
+    )
+    assert "grammar_motivations" not in prompt
+    assert "motivation object" not in prompt
 
 
 @pytest.mark.unit
@@ -150,6 +226,7 @@ def test_prompt_includes_persona(monkeypatch):
             description="",
             grammar_error_counts={},
             grammar_correct_counts={},
+            grammar_mastery_scores={},
         ),
     )
     prompt = build_lesson_content_prompt(
@@ -188,6 +265,7 @@ def test_prompt_excludes_persona_when_random_skips(monkeypatch):
             description="",
             grammar_error_counts={},
             grammar_correct_counts={},
+            grammar_mastery_scores={},
         ),
     )
     prompt = build_lesson_content_prompt(
