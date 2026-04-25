@@ -27,16 +27,18 @@ def section_student(
     cefr_level: str,
     persona_lines: list[str],
     lesson_context: str,
-    profile: Optional[LearningProfile],
+    profile: Optional[LearningProfile] = None,
 ) -> str:
+    # `profile.active_progress.description` is intentionally not rendered:
+    # with <storyline> and <recent_lessons> covering the narrative role, a
+    # third overlapping summary just competes for the model's attention.
+    _ = profile
     lines = [f"Estimated level: {cefr_level}"]
     if persona_lines:
         lines.append("Persona (use only if it fits the scenario naturally):")
         lines.extend(f"  {line}" for line in persona_lines)
     if lesson_context:
         lines.append(f"Lesson context requested by the student: {lesson_context}")
-    if profile and profile.active_progress.description:
-        lines.append(f"Recent narrative: {profile.active_progress.description}")
     return _wrap("student", "\n".join(lines))
 
 
@@ -70,6 +72,13 @@ def section_recent_lessons(lessons: list[Lesson]) -> str:
         return ""
     lines = []
     for lesson in lessons:
+        # Prefer the student-distilled summary when present; fall back to
+        # the planner-supplied title/description for legacy lessons that
+        # never received a summary.
+        summary = (getattr(lesson, "summary", "") or "").strip()
+        if summary:
+            lines.append(f"  - {summary}")
+            continue
         title = lesson.topic_title or "(untitled)"
         desc = (lesson.topic_description or "").strip()
         archetype = f" ({lesson.archetype})" if lesson.archetype else ""

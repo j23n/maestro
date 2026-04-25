@@ -1,4 +1,4 @@
-version: "10"
+version: "11"
 
 # ---------------------------------------------------------------------------
 
@@ -119,3 +119,31 @@ storyline_evolve:
     {{recent_lessons_block}}
 
     Write a fresh 3-5 sentence storyline that extends naturally from the prior one (if any) and is grounded in the recent lessons. Return only the paragraph.
+
+# ---------------------------------------------------------------------------
+
+lesson_summary:
+  description: >
+    Distills a 1-2 sentence summary of what the student actually did in a
+    completed lesson — drawing from their lesson_context note, writing
+    response, and speaking transcript when present. Used to populate
+    Lesson.summary, which is then preferred over the planner-supplied
+    title/description in <recent_lessons>.
+  system: |
+    You write 1-2 sentence recaps of what a student did in a language lesson.
+    Lead with what the student themselves contributed (their note, what they
+    wrote, what they said) — the scenario metadata is supporting context, not
+    the focus. Keep it concrete: who/what, not abstract themes.
+    Write in English. Plain text only — no quotes, no markdown, no labels,
+    no leading "The student…" boilerplate. Stay under 280 characters.
+  # variables: target_language, scenario_block, signals_block
+  user: |
+    Target language: {{target_language}}
+
+    Scenario context:
+    {{scenario_block}}
+
+    Student signals from this lesson:
+    {{signals_block}}
+
+    Write a 1-2 sentence recap centred on the student's contribution. Plain text only.

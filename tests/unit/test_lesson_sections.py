@@ -45,6 +45,8 @@ def test_section_student_minimal():
 
 @pytest.mark.unit
 def test_section_student_with_persona_and_context():
+    # profile.active_progress.description is intentionally not surfaced
+    # in the prompt; <storyline> + <recent_lessons> cover the narrative role.
     profile = SimpleNamespace(
         active_progress=SimpleNamespace(description="Recent narrative blah")
     )
@@ -56,7 +58,8 @@ def test_section_student_with_persona_and_context():
     )
     assert "Background: hiker" in s
     assert "Restaurants this week please" in s
-    assert "Recent narrative" in s
+    assert "Recent narrative" not in s
+    assert "Recent narrative blah" not in s
 
 
 @pytest.mark.unit

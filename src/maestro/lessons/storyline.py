@@ -1,26 +1,35 @@
 """
-Storyline evolution: keeps each student's evolving 3-5 sentence "story so far"
-coherent across lessons.
+Per-lesson summary + storyline evolution. Together these keep each student's
+narrative arc coherent across lessons.
 
-Two triggers update the storyline:
-  1. Auto: every STORYLINE_EVOLVE_EVERY_N_LESSONS completed lessons, from the
-     completion hook in lessons.lifecycle.
-  2. Manual: the /profile/storyline/regenerate route.
+After a non-A0 lesson completes, ``maybe_evolve_storyline`` runs as a
+background task and:
 
-The evolver reads raw Lesson metadata (title, description, scenario, archetype)
-directly — no separate recap storage is needed because the planner already has
-access to the last N completed lessons via _fetch_recent_lessons in planner.py.
+  1. Distills a 1-2 sentence student-specific summary (lesson_context +
+     writing/speaking responses + scenario) via Haiku and persists it on the
+     Lesson. The render code in <recent_lessons> prefers this over the
+     planner-supplied title/description, so personalisation reaches every
+     subsequent lesson — not just the one in 5 that triggers a storyline
+     evolve.
+  2. Increments the per-language evolve counter; when it crosses
+     ``STORYLINE_EVOLVE_EVERY_N_LESSONS`` (atomically guarded against
+     concurrent completions) it generates a fresh long-arc storyline
+     paragraph from the persona, prior storyline, and recent lessons.
+
+Manual storyline regeneration is also exposed via /profile/storyline/regenerate.
 """
 
 from __future__ import annotations
 
 import logging
-import re
+from typing import Iterable
 
 from maestro.config import settings
 from maestro.language import get_language_config
 from maestro.llm import llm_messages_create
 from maestro.models import (
+    ActivityStatus,
+    ActivityType,
     CallType,
     LearningProfile,
     Lesson,
@@ -34,6 +43,7 @@ from pymongo import ReturnDocument
 logger = logging.getLogger(__name__)
 
 _STORYLINE_MAX_CHARS = 800
+_SUMMARY_MAX_CHARS = 280
 
 
 def _render_persona_block(persona: StudentPersona | None) -> str:
@@ -57,6 +67,10 @@ def _render_recent_lessons_block(recent_lessons: list[Lesson]) -> str:
     # Oldest first so the LLM reads chronologically
     lines: list[str] = []
     for lesson in reversed(recent_lessons):
+        summary = (getattr(lesson, "summary", "") or "").strip()
+        if summary:
+            lines.append(f"  - {summary}")
+            continue
         title = (lesson.topic_title or "(untitled)").strip()
         desc = (lesson.topic_description or "").strip()
         meta_bits: list[str] = []
@@ -70,21 +84,119 @@ def _render_recent_lessons_block(recent_lessons: list[Lesson]) -> str:
 
 
 def _clean_storyline_text(raw: str) -> str:
-    """Strip markdown, collapse whitespace, hard-trim to _STORYLINE_MAX_CHARS."""
-    text = raw.strip()
-    # Strip surrounding code fences and quotes
-    text = re.sub(r"^```[a-zA-Z]*\n?|\n?```$", "", text).strip()
-    text = text.strip('"“”‘’')
-    # Remove markdown headings/bullets at line starts
-    text = re.sub(r"(?m)^[#>\-\*]\s+", "", text)
-    # Strip bold/italic markers
-    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
-    text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"\1", text)
-    # Collapse whitespace
-    text = re.sub(r"\s+", " ", text).strip()
+    """Trim whitespace + surrounding quotes, hard-cap to _STORYLINE_MAX_CHARS.
+
+    The system prompt forbids markdown; if the model emits any anyway, the
+    storyline is user-visible and editable, so we trust the prompt and let
+    the user regenerate or fix on the profile page.
+    """
+    text = raw.strip().strip("\"“”‘’'")
     if len(text) > _STORYLINE_MAX_CHARS:
         text = text[:_STORYLINE_MAX_CHARS].rsplit(" ", 1)[0] + "…"
     return text
+
+
+def _clean_summary_text(raw: str) -> str:
+    text = raw.strip().strip("\"“”‘’'")
+    if len(text) > _SUMMARY_MAX_CHARS:
+        text = text[:_SUMMARY_MAX_CHARS].rsplit(" ", 1)[0] + "…"
+    return text
+
+
+def _collect_student_signals(lesson: Lesson) -> list[tuple[str, str]]:
+    """Pull free-form student input out of completed activities.
+
+    Returns a list of ``(label, text)`` pairs. Empty/skipped activities are
+    ignored. When this is empty AND lesson_context is empty, the summarizer
+    has nothing student-specific to distil and short-circuits to "" so the
+    renderer falls back to scenario metadata.
+    """
+    signals: list[tuple[str, str]] = []
+    if lesson.lesson_context:
+        signals.append(
+            ("Student's note at lesson start", lesson.lesson_context.strip())
+        )
+
+    activities: Iterable = lesson.activities or []
+    for act in activities:
+        if act.status != ActivityStatus.COMPLETED:
+            continue
+        result = act.result or {}
+        if act.type == ActivityType.WRITING:
+            answer = (result.get("student_answer") or "").strip()
+            if answer:
+                prompt = (act.content or "").strip()
+                label = f"Writing (prompt: {prompt})" if prompt else "Writing"
+                signals.append((label, answer))
+        elif act.type == ActivityType.SPEAKING:
+            transcript = (
+                result.get("recognized_text") or result.get("student_answer") or ""
+            ).strip()
+            if transcript:
+                prompt = (act.content or "").strip()
+                label = f"Speaking (prompt: {prompt})" if prompt else "Speaking"
+                signals.append((label, transcript))
+    return signals
+
+
+def _render_signals_block(signals: list[tuple[str, str]]) -> str:
+    if not signals:
+        return "  (no student-written or spoken responses)"
+    return "\n".join(f"  - {label}:\n      {text}" for label, text in signals)
+
+
+async def summarize_lesson(lesson: Lesson) -> str:
+    """Distill a 1-2 sentence student-specific recap of this lesson via Haiku.
+
+    Inputs are the student's own contributions (lesson_context, writing,
+    speaking) plus scenario metadata. Returns "" if there are no
+    student-specific signals (the renderer falls back to title/description),
+    or on LLM failure.
+    """
+    signals = _collect_student_signals(lesson)
+    if not signals:
+        return ""
+
+    lang_cfg = get_language_config(lesson.language)
+    scenario_lines = []
+    if lesson.topic_title:
+        scenario_lines.append(f"Title: {lesson.topic_title}")
+    if lesson.topic_description:
+        scenario_lines.append(f"Description: {lesson.topic_description}")
+    if lesson.scenario_slug:
+        scenario_lines.append(f"Scenario: {lesson.scenario_slug}")
+    if lesson.archetype:
+        scenario_lines.append(f"Archetype: {lesson.archetype}")
+    scenario_block = "\n".join(scenario_lines) if scenario_lines else "(none)"
+
+    system = _prompts.lesson_summary.render_system() or ""
+    user = _prompts.lesson_summary.render(
+        target_language=lang_cfg.name,
+        scenario_block=scenario_block,
+        signals_block=_render_signals_block(signals),
+    )
+
+    try:
+        response = await llm_messages_create(
+            model=settings.STORYLINE_MODEL,
+            max_tokens=200,
+            system=system,
+            messages=[{"role": "user", "content": user}],
+            entity_id=lesson.id,
+            call_type=CallType.LESSON_SUMMARY,
+            student_id=lesson.student_id,
+        )
+    except Exception:
+        logger.warning("lesson summary: LLM call failed", exc_info=True)
+        return ""
+
+    try:
+        raw = response.content[0].text if response.content else ""
+    except Exception:
+        logger.warning("lesson summary: unexpected response shape", exc_info=True)
+        return ""
+
+    return _clean_summary_text(raw)
 
 
 async def evolve_storyline(
@@ -157,8 +269,13 @@ async def _fetch_recent_completed(
 
 
 async def maybe_evolve_storyline(lesson: Lesson) -> None:
-    """Completion-hook entry point. Increments the counter and, if the threshold
-    is reached, evolves the storyline and resets the counter atomically.
+    """Post-completion background hook. Two responsibilities:
+
+      1. Distill a per-lesson summary and persist it on the Lesson, so
+         subsequent <recent_lessons> blocks reflect what the student
+         actually did rather than the planner's title/description.
+      2. Increment the per-language evolve counter; when the threshold is
+         crossed (atomically guarded), generate a fresh long-arc storyline.
 
     Fire-and-forget: all exceptions are logged but never raised. Skips A0 and
     anonymous lessons at the caller in lifecycle.py, but also defensive here.
@@ -166,6 +283,27 @@ async def maybe_evolve_storyline(lesson: Lesson) -> None:
     try:
         if lesson.cefr_at_start == "A0" or lesson.student_id is None:
             return
+
+        # --- Per-lesson summary (independent of storyline cadence) ---
+        try:
+            summary = await summarize_lesson(lesson)
+        except Exception:
+            logger.exception(
+                "lesson summary failed",
+                extra={"lesson_id": str(lesson.id)},
+            )
+            summary = ""
+        if summary:
+            try:
+                await Lesson.find_one(Lesson.id == lesson.id).update(
+                    {"$set": {"summary": summary}}
+                )
+                lesson.summary = summary  # so the evolver below reads it
+            except Exception:
+                logger.exception(
+                    "lesson summary persist failed",
+                    extra={"lesson_id": str(lesson.id)},
+                )
 
         lang = lesson.language
         profile = await LearningProfile.find_one(
