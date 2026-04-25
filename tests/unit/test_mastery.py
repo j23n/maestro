@@ -10,6 +10,7 @@ from maestro.learning.mastery import (
     MASTERY_THRESHOLD,
     compute_gp_mastery,
     is_mastered,
+    mastery_label,
 )
 
 
@@ -178,6 +179,24 @@ def test_is_mastered_threshold():
     assert is_mastered(0.79) is False
     assert is_mastered(0.0) is False
     assert is_mastered(-0.5) is False
+
+
+@pytest.mark.parametrize(
+    "score,expected",
+    [
+        (None, "new"),
+        (-1.0, "weak"),
+        (-0.3, "weak"),
+        (0.0, "weak"),
+        (0.49, "weak"),
+        (0.5, "developing"),
+        (0.79, "developing"),
+        (0.8, "consolidated"),
+        (1.0, "consolidated"),
+    ],
+)
+def test_mastery_label(score, expected):
+    assert mastery_label(score) == expected
 
 
 def test_evidence_weights_defined():

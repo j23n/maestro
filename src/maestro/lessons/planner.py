@@ -69,6 +69,27 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 
+async def _fetch_recent_lessons(
+    student_id, language: str, limit: int = 5
+) -> list[Lesson]:
+    """Return the student's most recent completed lessons in this language.
+
+    Used to pass breadcrumbs to the planner so it can avoid repeating setups
+    and optionally make callbacks to prior topics.
+    """
+    if student_id is None:
+        return []
+    return await Lesson.find(
+        {
+            "student_id": student_id,
+            "language": language,
+            "status": LessonStatus.COMPLETED.value,
+        },
+        sort=[("created_at", -1)],
+        limit=limit,
+    ).to_list()
+
+
 async def _generate_lesson_content(
     cefr_level: str,
     scenario: CurriculumScenario,
@@ -76,6 +97,7 @@ async def _generate_lesson_content(
     profile: Optional[LearningProfile],
     grammar_gps: list[GrammarPoint],
     drill_specs: list[dict],
+    listening_count: int,
     reading_count: int,
     include_writing: bool,
     speaking_cfs: list[CommunicativeFunction] | None = None,
@@ -89,6 +111,7 @@ async def _generate_lesson_content(
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
         speaking_cfs = []
+    recent_lessons = await _fetch_recent_lessons(student_id, language)
     prompt_text = build_lesson_content_prompt(
         cefr_level=cefr_level,
         scenario=scenario,
@@ -96,11 +119,13 @@ async def _generate_lesson_content(
         profile=profile,
         grammar_gps=grammar_gps,
         drill_specs=drill_specs,
+        listening_count=listening_count,
         reading_count=reading_count,
         include_writing=include_writing,
         speaking_cfs=speaking_cfs,
         lesson_context=lesson_context,
         archetype=archetype,
+        recent_lessons=recent_lessons,
         language=language,
     )
 
@@ -536,7 +561,8 @@ async def _generate_lesson_background(
         profile,
         grammar_gps,
         drill_specs,
-        reading_count + listening_count,
+        listening_count,
+        reading_count,
         include_writing,
         speaking_cfs,
         lesson_context=lesson.lesson_context or "",
