@@ -111,7 +111,7 @@ async def test_materialize_drill_creates_generated_drill(db):
 async def test_materialize_listening_activity(db):
     """listening_count=1 produces a LISTENING activity."""
     content = LessonContentResponse(
-        readings=[
+        listenings=[
             ReadingResponse(
                 text="Marco va al bar.",
                 questions=[
@@ -185,13 +185,15 @@ async def test_materialize_reading_activity(db):
 async def test_materialize_mixed_listening_and_reading(db):
     """listening_count=1 + reading_count=1 → LISTENING first, then READING."""
     content = LessonContentResponse(
-        readings=[
+        listenings=[
             ReadingResponse(
                 text="Ascolto.",
                 questions=[
                     ReadingQuestionResponse(text="Capito?", correct_answer="Sì")
                 ],
             ),
+        ],
+        readings=[
             ReadingResponse(
                 text="Lettura.",
                 questions=[ReadingQuestionResponse(text="Letto?", correct_answer="Sì")],
@@ -262,11 +264,13 @@ async def test_materialize_single_grammar_block(grammar_gp, db):
                 items=[DrillItemResponse(prompt="test", correct_answer="ans")],
             )
         ],
-        readings=[
+        listenings=[
             ReadingResponse(
                 text="listen",
                 questions=[ReadingQuestionResponse(text="q", correct_answer="a")],
             ),
+        ],
+        readings=[
             ReadingResponse(
                 text="read",
                 questions=[ReadingQuestionResponse(text="q2", correct_answer="a2")],

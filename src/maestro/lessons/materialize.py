@@ -93,7 +93,7 @@ async def materialize_activities(
 
     # --- Listening activities (audio comprehension) ---
     listening_activities: list[LessonActivity] = []
-    for i, reading in enumerate(content.readings[:listening_count]):
+    for i, listening in enumerate(content.listenings[:listening_count]):
         title = (
             t("listening_title_n", n=i + 1)
             if listening_count > 1
@@ -105,16 +105,14 @@ async def materialize_activities(
                 title=title,
                 description=t("listening_desc", topic=topic_title),
                 duration_minutes=5,
-                content=reading.text,
-                questions=_reading_to_question_items(reading),
+                content=listening.text,
+                questions=_reading_to_question_items(listening),
             )
         )
 
     # --- Reading activities (text comprehension) ---
     reading_activities: list[LessonActivity] = []
-    for i, reading in enumerate(
-        content.readings[listening_count : listening_count + reading_count]
-    ):
+    for i, reading in enumerate(content.readings[:reading_count]):
         title = (
             t("reading_title_n", n=i + 1) if reading_count > 1 else t("reading_title")
         )

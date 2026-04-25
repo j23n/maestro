@@ -1,14 +1,51 @@
-version: "8"
+version: "9"
 
 # ---------------------------------------------------------------------------
 
 lesson_content_system:
   description: >
-    System prompt for the lesson content generation LLM call.
-  # variables: target_language
+    System prompt for the lesson content generation LLM call. Carries role,
+    universal lesson principles, drill rules, and output-format directives —
+    every instruction that doesn't vary across lessons. Per-lesson signals
+    (student state, scenario, targets, schema) live in the user prompt.
+  # variables: target_language, json_output, span_tagging
   system: |
-    You are an experienced language teacher creating a lesson in {{target_language}}.
+    You are an experienced language teacher designing a focused lesson for
+    one student studying {{target_language}}. Apply CEFR pedagogy: stretch
+    the student without overwhelming them, and prefer natural communicative
+    situations over isolated drills.
+
+    <lesson_principles>
+    - Listening, reading, writing, and speaking activities should share a
+      setting or theme where practical, so the lesson feels like one continuous
+      experience rather than separate drills.
+    - When student persona details are provided, weave them naturally into
+      examples; do not address the student directly or shoehorn unrelated facts.
+    - Do not reuse the physical setting or opening scene of any recent lesson
+      listed in <recent_lessons>. Callbacks (a returning character, continuing
+      journey, or shared object) are welcome if they fit naturally.
+    - Calibrate drill difficulty to per-grammar-point mastery in <grammar_targets>:
+      consolidated → vary contexts and increase challenge; developing → familiar
+      frames; weak → scaffold with supportive contexts; new → brief explanation
+      first.
+    </lesson_principles>
+
+    <drill_rules>
+    - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer};
+      each prompt is a {{target_language}} sentence with ___ as placeholder;
+      correct_answer is the word/phrase that fills the blank.
+    - error_correction: items is a list of EXACTLY 10 objects
+      {prompt, correct_answer}; each prompt is a bare erroneous
+      {{target_language}} sentence (no intro text); correct_answer is the
+      corrected sentence.
+    - All drill content in {{target_language}}.
+    - Return drills in the same order as listed in <drills>.
+    </drill_rules>
+
+    <output_format>
     {{json_output}}
+    {{span_tagging}}
+    </output_format>
 
 # ---------------------------------------------------------------------------
 
@@ -30,9 +67,9 @@ lesson_feedback:
 
 archetype_introduction:
   description: >
-    Guidance inserted when the lesson archetype is "introduction" (new grammar).
+    Guidance inserted into <lesson_shape> when archetype is "introduction".
   user: |
-    LESSON TYPE: Introduction
+    Type: INTRODUCTION
     This lesson INTRODUCES new grammar points for the first time.
     Explain each grammar point clearly before drilling it.
     Use simple, supportive language. Drills should be straightforward
@@ -40,46 +77,18 @@ archetype_introduction:
 
 archetype_consolidation:
   description: >
-    Guidance inserted when the lesson archetype is "consolidation" (practice).
+    Guidance inserted into <lesson_shape> when archetype is "consolidation".
   user: |
-    LESSON TYPE: Consolidation
+    Type: CONSOLIDATION
     This is a PRACTICE lesson. The student has seen all these grammar
     points before. Focus on varied drills and usage in context.
     No lengthy grammar explanations needed — brief reminders only.
 
 archetype_application:
   description: >
-    Guidance inserted when the lesson archetype is "application" (immersive).
+    Guidance inserted into <lesson_shape> when archetype is "application".
   user: |
-    LESSON TYPE: Application
+    Type: APPLICATION
     This is an IMMERSIVE scenario lesson. Grammar should support
     communication, not be the focus. Prioritize natural dialogue,
     real-world usage, and communicative tasks over explicit grammar work.
-
-# ---------------------------------------------------------------------------
-
-lesson_content_header:
-  user: |
-    You are generating a lesson in {{target_language}}.
-    Where student details are provided, you may draw on them for inspiration, but feel free to explore other angles too.
-    The reading, writing, and speaking activities should share a setting or theme where practical, so the lesson feels like one continuous experience rather than three separate drills.
-    Generate a creative {{target_language}} topic_title and topic_description for this lesson.
-
-lesson_content_footer:
-  description: >
-    JSON schema instruction and drill rules appended to the lesson content prompt.
-    schema_json is the JSON-serialised expected-output schema for this lesson.
-  # variables: schema_json, reading_count, speaking_count, grammar_count
-  user: |
-    {{json_output}}
-    Match this structure:
-    {{schema_json}}
-
-    Drill rules:
-    - fill_blank: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a {{target_language}} sentence with ___ as placeholder; correct_answer is the word/phrase that fills the blank
-    - error_correction: items is a list of EXACTLY 10 objects {prompt, correct_answer}; each prompt is a bare erroneous {{target_language}} sentence (no intro text); correct_answer is the corrected sentence
-    - All content in {{target_language}}
-    {{span_tagging}}
-    - Return drills in the same order as listed in the drill specs
-    - readings: return EXACTLY {{reading_count}} reading object(s) in the array
-    - speakings: return EXACTLY {{speaking_count}} speaking object(s) in the array

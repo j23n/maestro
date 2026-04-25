@@ -63,6 +63,7 @@ class LessonContentResponse(BaseModel):
     topic_description: str = ""
     overview: str = ""
     drills: list[DrillResponse] = []
+    listenings: list[ReadingResponse] = []
     readings: list[ReadingResponse] = []
     writing: Optional[WritingResponse] = None
     speakings: list[SpeakingResponse] = []
