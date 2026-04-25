@@ -32,6 +32,8 @@ router = APIRouter()
 
 _PHASE_TITLES = {1: "percorso_phase_1", 2: "percorso_phase_2", 3: "percorso_phase_3"}
 
+_ALLOWED_OVERRIDE_LEVELS = ("A0", "A1", "A2")
+
 
 def _gp_status(code, unlocked_gps, introduced_set, mastered_set):
     if code in mastered_set:
@@ -183,7 +185,7 @@ async def profile_page(
     grammar_points = grammar_cache.grammar_points(lang)
     comm_functions = grammar_cache.comm_functions(lang)
 
-    cefr = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr = profile.active_progress.effective_cefr_level if profile else "A0"
     gp_titles = build_titles(grammar_points, cefr, lang)
     grammar_by_level = build_grammar_by_level(grammar_points, profile, gp_titles)
     cf_titles = build_titles(comm_functions, cefr, lang)
@@ -300,12 +302,18 @@ async def profile_page(
             profile, cefr, grammar_points, grammar_by_level, scenarios_by_level
         )
 
+    cefr_estimate = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr_override = profile.active_progress.cefr_level_override if profile else None
+
     return await render_with_discover(
         request,
         "profile.html",
         {
             "profile": profile,
             "cefr": cefr,
+            "cefr_estimate": cefr_estimate,
+            "cefr_override": cefr_override,
+            "cefr_override_options": list(_ALLOWED_OVERRIDE_LEVELS),
             "cefr_idx": current_idx,
             "grammar_by_level": grammar_by_level,
             "cf_by_level": cf_by_level,
@@ -323,6 +331,53 @@ async def profile_page(
         student_id=student.id,
         create_cards=False,
     )
+
+
+@router.post("/profile/level")
+async def save_profile_level(
+    request: Request,
+    student: Student = Depends(get_current_student),
+    level: Annotated[str, Form()] = "",
+):
+    if level not in _ALLOWED_OVERRIDE_LEVELS:
+        return RedirectResponse(url="/profile#preferences", status_code=303)
+
+    profile = await get_or_create_profile(student.id)
+    lang = profile.target_language
+    lp = profile.active_progress
+    old_effective = lp.effective_cefr_level
+
+    update_fields: dict = {f"progress.{lang}.cefr_level_override": level}
+    # Picking A1+ marks A0 onboarding as done so auto-advancement isn't blocked
+    # by the A0 graduation gate (which requires completing all A0 scenarios).
+    if level != "A0" and not lp.onboarding_completed:
+        update_fields[f"progress.{lang}.onboarding_completed"] = True
+
+    await LearningProfile.get_pymongo_collection().update_one(
+        {"_id": profile.id}, {"$set": update_fields}
+    )
+
+    profile = await get_or_create_profile(student.id)
+    new_effective = profile.active_progress.effective_cefr_level
+
+    if new_effective != old_effective:
+        await Lesson.get_pymongo_collection().update_many(
+            {
+                "student_id": student.id,
+                "language": lang,
+                "status": {
+                    "$in": [LessonStatus.ACTIVE.value, LessonStatus.PLANNING.value]
+                },
+            },
+            {
+                "$set": {
+                    "status": LessonStatus.ABANDONED.value,
+                    "generating": False,
+                }
+            },
+        )
+
+    return RedirectResponse(url="/profile?saved=1#tab-preferences", status_code=303)
 
 
 @router.post("/profile/persona")

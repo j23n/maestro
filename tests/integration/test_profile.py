@@ -437,3 +437,172 @@ def test_storyline_regenerate_returns_partial_and_resets_counter(
     text, counter = asyncio.get_event_loop().run_until_complete(_check())
     assert text == "A brand new paragraph about Elena."
     assert counter == 0
+
+
+# ---------------------------------------------------------------------------
+# CEFR level override (floor semantics)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_effective_cefr_no_override_returns_estimate():
+    lp = LanguageProgress(cefr_estimate="A1")
+    assert lp.effective_cefr_level == "A1"
+
+
+@pytest.mark.unit
+def test_effective_cefr_override_above_estimate_wins():
+    lp = LanguageProgress(cefr_estimate="A0", cefr_level_override="A2")
+    assert lp.effective_cefr_level == "A2"
+
+
+@pytest.mark.unit
+def test_effective_cefr_estimate_above_override_wins():
+    """Floor semantics: override sets a minimum; estimate can rise higher."""
+    lp = LanguageProgress(cefr_estimate="B1", cefr_level_override="A1")
+    assert lp.effective_cefr_level == "B1"
+
+
+@pytest.mark.unit
+def test_effective_cefr_invalid_override_falls_back_to_estimate():
+    lp = LanguageProgress(cefr_estimate="A1", cefr_level_override="C5")
+    assert lp.effective_cefr_level == "A1"
+
+
+@pytest.mark.integration
+async def test_get_cefr_level_returns_effective_with_override(db):
+    from maestro.learning.profile import get_cefr_level
+
+    profile = LearningProfile(
+        student_id=_FAKE_STUDENT_ID,
+        progress={"it": LanguageProgress(cefr_estimate="A0", cefr_level_override="A2")},
+    )
+    await profile.insert()
+
+    assert await get_cefr_level(_FAKE_STUDENT_ID) == "A2"
+
+
+@pytest.mark.integration
+def test_post_profile_level_rejects_invalid(test_app, student):
+    import asyncio
+    from maestro.learning.profile import get_or_create_profile
+
+    asyncio.get_event_loop().run_until_complete(get_or_create_profile(student.id))
+
+    resp = test_app.post("/profile/level", data={"level": "C2"}, follow_redirects=False)
+    assert resp.status_code == 303
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        lp = p.progress.get(p.target_language)
+        return lp.cefr_level_override if lp else None
+
+    assert asyncio.get_event_loop().run_until_complete(_check()) is None
+
+
+@pytest.mark.integration
+def test_post_profile_level_sets_override_and_marks_onboarding(test_app, student):
+    import asyncio
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        await get_or_create_profile(student.id)
+
+    asyncio.get_event_loop().run_until_complete(_setup())
+
+    resp = test_app.post("/profile/level", data={"level": "A2"}, follow_redirects=False)
+    assert resp.status_code == 303
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        lp = p.progress[p.target_language]
+        return lp.cefr_level_override, lp.onboarding_completed
+
+    override, onboarding_done = asyncio.get_event_loop().run_until_complete(_check())
+    assert override == "A2"
+    assert onboarding_done is True
+
+
+@pytest.mark.integration
+def test_post_profile_level_a0_does_not_force_onboarding_completed(test_app, student):
+    import asyncio
+    from maestro.learning.profile import get_or_create_profile
+
+    asyncio.get_event_loop().run_until_complete(get_or_create_profile(student.id))
+
+    resp = test_app.post("/profile/level", data={"level": "A0"}, follow_redirects=False)
+    assert resp.status_code == 303
+
+    async def _check():
+        p = await LearningProfile.find_one(LearningProfile.student_id == student.id)
+        lp = p.progress[p.target_language]
+        return lp.cefr_level_override, lp.onboarding_completed
+
+    override, onboarding_done = asyncio.get_event_loop().run_until_complete(_check())
+    assert override == "A0"
+    assert onboarding_done is False
+
+
+@pytest.mark.integration
+def test_post_profile_level_change_abandons_active_lesson(test_app, student):
+    import asyncio
+    from maestro.models import Lesson, LessonStatus
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        profile = await get_or_create_profile(student.id)
+        lesson = Lesson(
+            student_id=student.id,
+            language=profile.target_language,
+            status=LessonStatus.ACTIVE,
+            cefr_at_start="A0",
+            generating=False,
+        )
+        await lesson.insert()
+        return lesson.id
+
+    lesson_id = asyncio.get_event_loop().run_until_complete(_setup())
+
+    resp = test_app.post("/profile/level", data={"level": "A2"}, follow_redirects=False)
+    assert resp.status_code == 303
+
+    async def _check():
+        return await Lesson.get(lesson_id)
+
+    lesson = asyncio.get_event_loop().run_until_complete(_check())
+    assert lesson.status == LessonStatus.ABANDONED
+
+
+@pytest.mark.integration
+def test_post_profile_level_no_change_keeps_lesson_active(test_app, student):
+    """Setting the same effective level should not abandon in-progress lessons."""
+    import asyncio
+    from maestro.models import Lesson, LessonStatus
+    from maestro.learning.profile import get_or_create_profile
+
+    async def _setup():
+        profile = await get_or_create_profile(student.id)
+        # Pre-set override A0 (effective A0 since estimate is also A0)
+        lp = profile.active_progress
+        lp.cefr_level_override = "A0"
+        await profile.save()
+        lesson = Lesson(
+            student_id=student.id,
+            language=profile.target_language,
+            status=LessonStatus.ACTIVE,
+            cefr_at_start="A0",
+            generating=False,
+        )
+        await lesson.insert()
+        return lesson.id
+
+    lesson_id = asyncio.get_event_loop().run_until_complete(_setup())
+
+    resp = test_app.post("/profile/level", data={"level": "A0"}, follow_redirects=False)
+    assert resp.status_code == 303
+
+    async def _check():
+        return await Lesson.get(lesson_id)
+
+    lesson = asyncio.get_event_loop().run_until_complete(_check())
+    assert lesson.status == LessonStatus.ACTIVE

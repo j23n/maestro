@@ -38,8 +38,8 @@
 
     {# Progress summary #}
     {% if profile %}
-    {% set current_gp = grammar_by_level[profile.active_progress.cefr_estimate] %}
-    {% set current_cf = cf_by_level[profile.active_progress.cefr_estimate] %}
+    {% set current_gp = grammar_by_level[cefr] %}
+    {% set current_cf = cf_by_level[cefr] %}
     {% set gp_mastered = current_gp | selectattr("mastered") | list | length %}
     {% set cf_demonstrated = current_cf | selectattr("demonstrated") | list | length %}
     {% set skills_done = gp_mastered + cf_demonstrated %}
@@ -49,7 +49,7 @@
     <div class="progress-header">
       <div class="progress-headline">
         <span class="progress-pct">{{ pct }}%</span>
-        {% set cefr_label = t("onboarding_label") if profile.active_progress.cefr_estimate == "A0" else profile.active_progress.cefr_estimate %}
+        {% set cefr_label = t("onboarding_label") if cefr == "A0" else cefr %}
         <span class="progress-label-text">{{ t("profile_of_level") }} {{ cefr_label }}</span>
       </div>
       <div class="progress-bar-outer">
@@ -285,6 +285,25 @@
     {% if request.query_params.get('saved') %}
     <div class="saved-banner">{{ t("profile_saved") }}</div>
     {% endif %}
+
+    <form method="post" action="/profile/level" class="level-form">
+      <h3>{{ t("profile_level_heading") }}</h3>
+      <p class="section-hint">{{ t("profile_level_hint") }}</p>
+      <div class="level-options">
+        {% for opt in cefr_override_options %}
+        {% set opt_label = t("onboarding_label") if opt == "A0" else opt %}
+        {% set is_current = (cefr_override == opt) or (cefr_override is none and opt == "A0") %}
+        <label class="level-option{% if is_current %} selected{% endif %}">
+          <input type="radio" name="level" value="{{ opt }}" {% if is_current %}checked{% endif %}>
+          <span class="level-option-label">{{ opt_label }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      {% if cefr_estimate and cefr_estimate != cefr_override and cefr_estimate != "A0" %}
+      <p class="section-hint level-auto-hint">{{ t("profile_level_auto_detected") }}: {{ cefr_estimate }}</p>
+      {% endif %}
+      <button class="submit-btn" type="submit">{{ t("profile_save_btn") }}</button>
+    </form>
 
     <form method="post" action="/profile/persona" class="persona-form">
       <div class="field">

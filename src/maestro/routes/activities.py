@@ -295,7 +295,7 @@ async def lesson_activity(
             raise HTTPException(404)
         await card.fetch_all_links()
         profile = await get_profile(student.id)
-        level = profile.active_progress.cefr_estimate if profile else "A0"
+        level = profile.active_progress.effective_cefr_level if profile else "A0"
         word_def = await get_word_definition(card.word, level)
         ctx.update(
             card=card,
@@ -356,7 +356,7 @@ async def lesson_activity(
     if activity.type == ActivityType.GRAMMAR:
         ctx["content"] = activity.content or ""
         profile = await get_profile(student.id)
-        level = profile.active_progress.cefr_estimate if profile else "A0"
+        level = profile.active_progress.effective_cefr_level if profile else "A0"
         if activity.why_important:
             why_lang = "en" if level in ("A0", "A1", "A2") else lesson.language
             ctx["why_lang"] = why_lang
@@ -655,7 +655,7 @@ async def lesson_vocab_reveal(
         raise HTTPException(404)
     await card.fetch_all_links()
     profile = await get_profile(student.id)
-    level = profile.active_progress.cefr_estimate if profile else "A0"
+    level = profile.active_progress.effective_cefr_level if profile else "A0"
     word_def = await get_word_definition(card.word, level)
     return await render_with_discover(
         request,
@@ -734,7 +734,7 @@ async def lesson_writing_submit(
 
     activity = lesson.activities[idx]
     profile = await get_profile(student.id)
-    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.effective_cefr_level if profile else "A0"
 
     try:
         feedback = await generate_writing_feedback(
@@ -842,7 +842,7 @@ async def lesson_speaking_submit(
 
     # --- Stage 2 + 3: LLM feedback + Pronunciation (parallel) ---
     profile = await get_profile(student.id)
-    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.effective_cefr_level if profile else "A0"
     prompt_text = activity.content or ""
 
     feedback_coro = generate_speaking_feedback(

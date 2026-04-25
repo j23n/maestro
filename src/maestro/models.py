@@ -128,12 +128,31 @@ class LanguageProgress(BaseModel):
     functions_counts: dict = Field(default_factory=dict)
     scenario_progress: dict[str, ScenarioProgress] = Field(default_factory=dict)
     cefr_estimate: str = "A0"
+    # Student-chosen floor; effective level is max(override, estimate).
+    cefr_level_override: Optional[str] = None
     onboarding_completed: bool = False
     onboarding_skipped: bool = False
     description: str = ""
     storyline: str = ""
     storyline_lessons_since_evolve: int = 0
     storyline_updated_at: Optional[datetime] = None
+
+    @property
+    def effective_cefr_level(self) -> str:
+        from maestro.utils import CEFR_ORDER
+
+        if not self.cefr_level_override:
+            return self.cefr_estimate
+        try:
+            override_idx = CEFR_ORDER.index(self.cefr_level_override)
+        except ValueError:
+            return self.cefr_estimate
+        estimate_idx = (
+            CEFR_ORDER.index(self.cefr_estimate)
+            if self.cefr_estimate in CEFR_ORDER
+            else 0
+        )
+        return CEFR_ORDER[max(override_idx, estimate_idx)]
 
 
 class GrammarChunk(Document):

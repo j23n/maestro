@@ -107,7 +107,7 @@ async def lesson_index(
         return RedirectResponse(url=activity_url(active.id, active.current_index))
 
     profile = await get_profile(student.id)
-    cefr = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr = profile.active_progress.effective_cefr_level if profile else "A0"
 
     if cefr == "A0":
         from maestro.lessons.selection import pick_scenario as _pick_a0_scenario
@@ -475,9 +475,9 @@ async def lesson_complete(
     if (
         profile
         and lesson.cefr_at_start
-        and profile.active_progress.cefr_estimate != lesson.cefr_at_start
+        and profile.active_progress.effective_cefr_level != lesson.cefr_at_start
     ):
-        graduated_to = profile.active_progress.cefr_estimate
+        graduated_to = profile.active_progress.effective_cefr_level
 
     # Collect grammar points covered in this lesson (preserving block order)
     covered_gp_codes = [

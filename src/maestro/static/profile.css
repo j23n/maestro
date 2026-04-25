@@ -374,6 +374,61 @@ a.skill-label:hover { color: var(--c-terracotta); }
   margin-bottom: 0.75rem;
 }
 
+/* ----- Level selector (preferences tab) ----- */
+.level-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+}
+.level-form h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.level-form .section-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--c-text-muted, #6b6b6b);
+}
+.level-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.level-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+.level-option input[type="radio"] {
+  margin: 0;
+}
+.level-option.selected {
+  border-color: var(--c-terracotta);
+  background: #fdf5f1;
+}
+.level-option-label {
+  font-weight: 500;
+}
+.level-auto-hint {
+  font-style: italic;
+  margin: 0.25rem 0 0.5rem;
+}
+.level-form .submit-btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
 /* ----- Storyline section (preferences tab) ----- */
 .storyline-section {
   margin-top: 1.5rem;
