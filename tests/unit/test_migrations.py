@@ -118,8 +118,8 @@ async def test_runner_applies_pending_migration():
     drill_templates_coll.drop.assert_awaited_once()
     generated_drills_coll.update_many.assert_awaited_once()
 
-    # Runner should have recorded all eleven migrations as applied
-    assert migrations_coll.insert_one.await_count == 11
+    # Runner should have recorded all twelve migrations as applied
+    assert migrations_coll.insert_one.await_count == 12
     recorded_names = [
         call.args[0]["name"] for call in migrations_coll.insert_one.call_args_list
     ]
@@ -135,6 +135,7 @@ async def test_runner_applies_pending_migration():
         "0009_fix_stuck_pending_lessons",
         "0010_vocab_language_unique",
         "0011_multi_language_progress",
+        "0012_storyline_fields",
     ]
     for call in migrations_coll.insert_one.call_args_list:
         record = call.args[0]
@@ -158,6 +159,7 @@ async def test_runner_skips_already_applied():
             "0009_fix_stuck_pending_lessons",
             "0010_vocab_language_unique",
             "0011_multi_language_progress",
+            "0012_storyline_fields",
         ]
     )
 
@@ -316,3 +318,91 @@ async def test_0005_skips_profiles_with_empty_outcomes():
 
     assert profile_id in updated_docs
     assert updated_docs[profile_id]["$set"]["grammar_introduced"] == []
+
+
+@pytest.mark.asyncio
+async def test_0012_adds_storyline_defaults_per_language():
+    """Migration 0012 backfills storyline fields under every progress.<lang> key."""
+    from bson import ObjectId
+
+    profile_id = ObjectId()
+    profile_doc = {
+        "_id": profile_id,
+        "progress": {
+            "it": {"cefr_estimate": "A1"},
+            "de": {"cefr_estimate": "A0", "storyline": "already set"},
+        },
+    }
+
+    updated: dict = {}
+
+    async def _cursor():
+        yield profile_doc
+
+    profile_coll = MagicMock()
+    profile_coll.find.return_value = _cursor()
+
+    async def _capture_update(filter_doc, update_doc):
+        updated[filter_doc["_id"]] = update_doc
+
+    profile_coll.update_one = AsyncMock(side_effect=_capture_update)
+    db = MagicMock()
+    db.__getitem__ = MagicMock(return_value=profile_coll)
+
+    import importlib
+
+    m = importlib.import_module("maestro.migrations.0012_storyline_fields")
+    await m.run(db)
+
+    assert profile_id in updated
+    set_ops = updated[profile_id]["$set"]
+    # Italian progress had no storyline — all three added.
+    assert set_ops["progress.it.storyline"] == ""
+    assert set_ops["progress.it.storyline_lessons_since_evolve"] == 0
+    assert set_ops["progress.it.storyline_updated_at"] is None
+    # German progress already had storyline — only the missing two added.
+    assert "progress.de.storyline" not in set_ops
+    assert set_ops["progress.de.storyline_lessons_since_evolve"] == 0
+    assert set_ops["progress.de.storyline_updated_at"] is None
+
+
+@pytest.mark.asyncio
+async def test_0012_is_idempotent():
+    """Running 0012 twice does not re-$set fields that are already present."""
+    from bson import ObjectId
+
+    profile_id = ObjectId()
+    profile_doc = {
+        "_id": profile_id,
+        "progress": {
+            "it": {
+                "cefr_estimate": "A1",
+                "storyline": "existing",
+                "storyline_lessons_since_evolve": 2,
+                "storyline_updated_at": None,
+            }
+        },
+    }
+
+    calls: list = []
+
+    async def _cursor():
+        yield profile_doc
+
+    profile_coll = MagicMock()
+    profile_coll.find.return_value = _cursor()
+
+    async def _capture(filter_doc, update_doc):
+        calls.append((filter_doc, update_doc))
+
+    profile_coll.update_one = AsyncMock(side_effect=_capture)
+    db = MagicMock()
+    db.__getitem__ = MagicMock(return_value=profile_coll)
+
+    import importlib
+
+    m = importlib.import_module("maestro.migrations.0012_storyline_fields")
+    await m.run(db)
+
+    # No update issued because all three fields were already present.
+    assert calls == []

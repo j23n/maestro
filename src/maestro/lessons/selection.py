@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import random
+import re
 from datetime import date
 from typing import Optional
 
@@ -69,6 +70,7 @@ async def pick_scenario(
     scenarios: list[CurriculumScenario] | None = None,
     *,
     language: str,
+    last_scenario_slug: str | None = None,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
@@ -78,6 +80,10 @@ async def pick_scenario(
     Args:
         scenarios: pre-fetched scenario list to avoid a redundant DB query.
         language: ISO language code (e.g. "it", "de").
+        last_scenario_slug: slug of the student's most recent completed lesson's
+            scenario in this language. Applies a recency penalty plus a small
+            bonus for scenarios that share GP/CF codes with the last one, so
+            lessons feel thematically connected without repeating.
 
     Returns (scenario, next_depth).
     """
@@ -103,6 +109,12 @@ async def pick_scenario(
     lp = profile.active_progress if profile else None
     progress = lp.scenario_progress if lp else {}
     now = utcnow()
+
+    last_scenario: CurriculumScenario | None = None
+    if last_scenario_slug:
+        last_scenario = next(
+            (s for s in all_scenarios if s.slug == last_scenario_slug), None
+        )
 
     # Identify weak GP codes (high error rate)
     error_counts = lp.grammar_error_counts if lp else {}
@@ -143,7 +155,16 @@ async def pick_scenario(
         if sp.depth == 0:
             score += 3.0
 
-        # 6. Jitter
+        # 6. Recency penalty + continuity bonus against the previous lesson
+        if last_scenario_slug:
+            if scenario.slug == last_scenario_slug:
+                score -= 4.0
+            elif last_scenario is not None:
+                overlap_gp = len(set(scenario.gp_codes) & set(last_scenario.gp_codes))
+                overlap_cf = len(set(scenario.cf_codes) & set(last_scenario.cf_codes))
+                score += 0.5 * (overlap_gp + overlap_cf)
+
+        # 7. Jitter
         score += random.uniform(0, 1.0)
 
         scored.append((score, scenario, next_depth))
@@ -155,6 +176,115 @@ async def pick_scenario(
         f"(from {len(scenarios)} candidates)"
     )
     return best_scenario, best_depth
+
+
+_CONTEXT_STOPLIST = frozenset(
+    {
+        "the",
+        "and",
+        "for",
+        "with",
+        "have",
+        "that",
+        "this",
+        "from",
+        "been",
+        "want",
+        "like",
+        "need",
+        "was",
+        "are",
+        "is",
+        "about",
+        "into",
+        "would",
+        "could",
+        "some",
+        "any",
+        "will",
+        "was",
+        "not",
+        "but",
+        "can",
+        "you",
+        "your",
+        "our",
+        "me",
+        "my",
+        "i",
+        "to",
+        "a",
+        "an",
+        "at",
+        "on",
+        "in",
+        "of",
+        "it",
+        "be",
+        "am",
+    }
+)
+
+
+def _tokenize_context(text: str) -> set[str]:
+    tokens = re.findall(r"[a-zA-ZÀ-ÿ]+", text.lower())
+    return {t for t in tokens if len(t) >= 3 and t not in _CONTEXT_STOPLIST}
+
+
+def match_scenario_to_context(
+    lesson_context: str,
+    scenarios: list[CurriculumScenario],
+    *,
+    min_score: int = 2,
+) -> CurriculumScenario | None:
+    """Deterministically map a free-form lesson_context to a scenario.
+
+    Scoring:
+      - label match counts double (bias toward scenario name over generic text)
+      - description + depth text contributes 1 per unique overlapping token
+      - English-only stoplist; tokens shorter than 3 chars are dropped
+
+    Returns the highest-scoring scenario if its score >= ``min_score``,
+    otherwise None (caller falls through to pick_scenario).
+    """
+    ctx_tokens = _tokenize_context(lesson_context or "")
+    if not ctx_tokens or not scenarios:
+        return None
+
+    scored: list[tuple[float, CurriculumScenario]] = []
+    for scenario in scenarios:
+        label_tokens = _tokenize_context(scenario.label)
+        body_tokens = _tokenize_context(
+            " ".join([scenario.description] + list(scenario.depths or []))
+        )
+        label_overlap = len(ctx_tokens & label_tokens)
+        body_overlap = len(ctx_tokens & body_tokens)
+        score = 2 * label_overlap + body_overlap
+        if score > 0:
+            scored.append((score, scenario))
+
+    if not scored:
+        return None
+
+    scored.sort(key=lambda x: -x[0])
+    best_score, best = scored[0]
+    if best_score < min_score:
+        return None
+
+    # Tie-break among top-scoring scenarios: prefer lowest-depth scenario
+    # (newer territory), break remaining ties randomly.
+    top = [s for s in scored if s[0] == best_score]
+    if len(top) > 1:
+        random.shuffle(top)
+        top.sort(key=lambda x: x[1].phase)
+        best = top[0][1]
+    logger.info(
+        "match_scenario_to_context: picked %s (score=%.1f from %d candidates)",
+        best.slug,
+        best_score,
+        len(scored),
+    )
+    return best
 
 
 async def pick_grammar_points(

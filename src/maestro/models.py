@@ -51,6 +51,8 @@ class CallType(str, Enum):
     GRAMMAR_EXPLANATION = "grammar_explanation"
     AUGMENT_GP = "augment_gp"
     AUGMENT_CF = "augment_cf"
+    STORYLINE_EVOLVE = "storyline_evolve"
+    LESSON_SUMMARY = "lesson_summary"
 
 
 class Student(Document):
@@ -129,6 +131,9 @@ class LanguageProgress(BaseModel):
     onboarding_completed: bool = False
     onboarding_skipped: bool = False
     description: str = ""
+    storyline: str = ""
+    storyline_lessons_since_evolve: int = 0
+    storyline_updated_at: Optional[datetime] = None
 
 
 class GrammarChunk(Document):
@@ -477,6 +482,10 @@ class Lesson(Document):
     lesson_context: Optional[str] = None  # per-lesson coloring text from student
     focus_weak: bool = False  # when True, grammar selection ignores scenario constraint
     feedback_summary: Optional[str] = None  # post-lesson AI feedback
+    # 1-2 sentence Haiku-distilled recap of what the *student* did this
+    # lesson (lesson_context + writing/speaking responses + scenario). Fed
+    # into <recent_lessons> and the storyline evolver for narrative continuity.
+    summary: Optional[str] = None
     generating: bool = True  # True while background LLM generation is in progress
     generation_started_at: Optional[datetime] = None  # set when generation begins
     generation_error: Optional[str] = None  # set when background generation fails

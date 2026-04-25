@@ -1,4 +1,4 @@
-version: "9"
+version: "11"
 
 # ---------------------------------------------------------------------------
 
@@ -92,3 +92,58 @@ archetype_application:
     This is an IMMERSIVE scenario lesson. Grammar should support
     communication, not be the focus. Prioritize natural dialogue,
     real-world usage, and communicative tasks over explicit grammar work.
+
+# ---------------------------------------------------------------------------
+
+storyline_evolve:
+  description: >
+    Generates a fresh 3-5 sentence evolving storyline from the student's
+    persona, recent lessons, and prior storyline. Returns plain text.
+  system: |
+    You are a warm, concise narrator maintaining a short evolving storyline for a language-learning student.
+    The storyline is an ongoing 3-5 sentence paragraph in English that frames the student's journey through the target language — their arc of topics, situations, and recurring themes.
+    Write in a natural, encouraging tone. Do not mention grammar points, drills, lesson numbers, CEFR levels, or Maestro itself.
+    Stay grounded in what the recent lessons actually covered; do not invent dramatic events that aren't supported by the lesson breadcrumbs.
+    If there is a prior storyline, extend it naturally — preserve established facts (names, places, goals) unless contradicted by the recent lessons.
+    Output ONLY the paragraph. No headings, no bullets, no markdown, no quotes around it.
+  # variables: target_language, persona_block, prior_storyline, recent_lessons_block
+  user: |
+    Target language: {{target_language}}
+
+    {{persona_block}}
+
+    Prior storyline:
+    {{prior_storyline}}
+
+    Recent lessons (most recent last):
+    {{recent_lessons_block}}
+
+    Write a fresh 3-5 sentence storyline that extends naturally from the prior one (if any) and is grounded in the recent lessons. Return only the paragraph.
+
+# ---------------------------------------------------------------------------
+
+lesson_summary:
+  description: >
+    Distills a 1-2 sentence summary of what the student actually did in a
+    completed lesson — drawing from their lesson_context note, writing
+    response, and speaking transcript when present. Used to populate
+    Lesson.summary, which is then preferred over the planner-supplied
+    title/description in <recent_lessons>.
+  system: |
+    You write 1-2 sentence recaps of what a student did in a language lesson.
+    Lead with what the student themselves contributed (their note, what they
+    wrote, what they said) — the scenario metadata is supporting context, not
+    the focus. Keep it concrete: who/what, not abstract themes.
+    Write in English. Plain text only — no quotes, no markdown, no labels,
+    no leading "The student…" boilerplate. Stay under 280 characters.
+  # variables: target_language, scenario_block, signals_block
+  user: |
+    Target language: {{target_language}}
+
+    Scenario context:
+    {{scenario_block}}
+
+    Student signals from this lesson:
+    {{signals_block}}
+
+    Write a 1-2 sentence recap centred on the student's contribution. Plain text only.

@@ -35,6 +35,7 @@ from maestro.llm import llm_messages_create
 from maestro.models import CallType
 from maestro.learning.profile import get_profile
 from maestro.utils import (
+    ensure_utc,
     explanation_lang_for_level,
     parse_llm_json,
     strip_lang_spans,
@@ -58,6 +59,7 @@ from maestro.lessons.selection import (
     pick_grammar_points,
     pick_comm_functions,
     get_due_vocab_cards,
+    match_scenario_to_context,
 )
 from maestro.i18n import strings_t as t
 
@@ -105,13 +107,17 @@ async def _generate_lesson_content(
     student_id=None,
     lesson_id=None,
     archetype: str = "",
+    recent_lessons: list[Lesson] | None = None,
+    storyline: str = "",
+    stale: bool = False,
     *,
     language: str,
 ) -> LessonContentResponse:
     """Single LLM call returning validated lesson content."""
     if speaking_cfs is None:
         speaking_cfs = []
-    recent_lessons = await _fetch_recent_lessons(student_id, language)
+    if recent_lessons is None:
+        recent_lessons = await _fetch_recent_lessons(student_id, language)
     prompt_text = build_lesson_content_prompt(
         cefr_level=cefr_level,
         scenario=scenario,
@@ -126,6 +132,8 @@ async def _generate_lesson_content(
         lesson_context=lesson_context,
         archetype=archetype,
         recent_lessons=recent_lessons,
+        storyline=storyline,
+        stale=stale,
         language=language,
     )
 
@@ -339,26 +347,50 @@ async def _generate_lesson_background(
         {"cefr_level": cefr_level, "language": lesson_lang}
     ).to_list()
 
+    # Recent lessons drive both scenario chaining (last_scenario_slug) and the
+    # planner prompt's "Recent lessons" block + staleness hint. Fetch once.
+    recent_lessons = await _fetch_recent_lessons(lesson.student_id, lesson_lang)
+    last_scenario_slug = recent_lessons[0].scenario_slug if recent_lessons else None
+
+    def _resolve_explicit(slug: str) -> tuple[CurriculumScenario, int] | None:
+        doc = next((s for s in all_scenarios if s.slug == slug), None)
+        if doc is None:
+            return None
+        progress = profile.active_progress.scenario_progress if profile else {}
+        sp = progress.get(slug, ScenarioProgress())
+        # Intentional: explicit slug selection bypasses depth gating —
+        # this is a manual override, so students can revisit any scenario.
+        return doc, min(sp.depth + 1, len(doc.depths))
+
+    scenario = None
+    depth = 0
     if scenario_slug:
-        scenario_doc = await CurriculumScenario.find_one({"slug": scenario_slug})
-        if scenario_doc:
-            progress = profile.active_progress.scenario_progress if profile else {}
-            sp = progress.get(scenario_slug, ScenarioProgress())
-            # Intentional: explicit slug selection bypasses depth gating —
-            # this is a manual override, so students can revisit any scenario.
-            depth = min(sp.depth + 1, len(scenario_doc.depths))
-            scenario = scenario_doc
+        resolved = _resolve_explicit(scenario_slug)
+        if resolved is not None:
+            scenario, depth = resolved
         else:
             logger.warning(
                 "scenario not found, falling back to auto-pick",
                 extra={"scenario_slug": scenario_slug},
             )
-            scenario, depth = await pick_scenario(
-                profile, cefr_level, scenarios=all_scenarios, language=lesson_lang
-            )
-    else:
+    elif lesson.lesson_context:
+        matched = match_scenario_to_context(lesson.lesson_context, all_scenarios)
+        if matched is not None:
+            resolved = _resolve_explicit(matched.slug)
+            if resolved is not None:
+                scenario, depth = resolved
+                logger.info(
+                    "scenario picked from lesson_context",
+                    extra={"scenario": scenario.slug, "context": lesson.lesson_context},
+                )
+
+    if scenario is None:
         scenario, depth = await pick_scenario(
-            profile, cefr_level, scenarios=all_scenarios, language=lesson_lang
+            profile,
+            cefr_level,
+            scenarios=all_scenarios,
+            language=lesson_lang,
+            last_scenario_slug=last_scenario_slug,
         )
     logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
 
@@ -551,9 +583,19 @@ async def _generate_lesson_background(
             )
             logger.info("grammar introduced", extra={"new_gps": new_intros})
 
+    # Storyline and staleness are computed once here so the planner prompt can
+    # thread them through without prompts.py needing access to the DB or clock.
+    storyline = (
+        profile.active_progress.storyline if profile and profile.active_progress else ""
+    )
+    stale = False
+    if recent_lessons and settings.STORYLINE_STALE_DAYS > 0:
+        last_created = recent_lessons[0].created_at
+        if last_created is not None:
+            age_days = (utcnow() - ensure_utc(last_created)).days
+            stale = age_days > settings.STORYLINE_STALE_DAYS
+
     # --- Single LLM call ---
-    # The LLM generates reading texts for both LISTENING and READING activities;
-    # pass the combined total so it produces enough passages.
     content = await _generate_lesson_content(
         cefr_level,
         scenario,
@@ -569,6 +611,9 @@ async def _generate_lesson_background(
         student_id=lesson.student_id,
         lesson_id=lesson.id,
         archetype=archetype.value,
+        recent_lessons=recent_lessons,
+        storyline=storyline,
+        stale=stale,
         language=lesson_lang,
     )
 

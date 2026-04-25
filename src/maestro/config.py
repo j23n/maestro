@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     EVAL_MODEL: str = "claude-opus-4-6"
     DEFINITION_MODEL: str = "claude-sonnet-4-6"
     EXPLANATION_MODEL: str = "claude-sonnet-4-6"
+    STORYLINE_MODEL: str = "claude-haiku-4-5-20251001"
+    STORYLINE_EVOLVE_EVERY_N_LESSONS: int = 5
+    STORYLINE_STALE_DAYS: int = 14
     UI_LANGUAGE: str = "en"  # ISO 639-1; language for UI chrome
     LOG_LEVEL: str = "INFO"
     FREE_TIER_LESSON_LIMIT_EX_A0: int = 999

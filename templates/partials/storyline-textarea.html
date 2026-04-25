@@ -1,0 +1,12 @@
+{# Editable storyline textarea. Used both on initial profile render and as the
+   htmx swap target for the /profile/storyline/regenerate endpoint. The route
+   passes `storyline` directly; the outer profile template falls back to the
+   value on the active progress. #}
+<div id="storyline-textarea-wrap">
+  <textarea name="storyline"
+            id="storyline"
+            rows="6"
+            maxlength="1500"
+            aria-label="{{ t('profile_storyline_aria') }}"
+            placeholder="{{ t('profile_storyline_placeholder') }}">{% if storyline is defined %}{{ storyline }}{% elif profile and profile.active_progress %}{{ profile.active_progress.storyline }}{% endif %}</textarea>
+</div>
