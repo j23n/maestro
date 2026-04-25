@@ -53,9 +53,9 @@ async def get_or_create_profile(
 
 
 async def get_cefr_level(student_id: PydanticObjectId) -> str:
-    """Return the student's current CEFR estimate, defaulting to 'A0'."""
+    """Return the student's effective CEFR level (max of override and estimate)."""
     profile = await get_profile(student_id)
-    return profile.active_progress.cefr_estimate if profile else "A0"
+    return profile.active_progress.effective_cefr_level if profile else "A0"
 
 
 async def save_onboarding_field(

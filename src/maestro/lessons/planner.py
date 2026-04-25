@@ -195,7 +195,7 @@ async def prepare_lesson_immediate(
 
     Sets status=active, generating=True. Returns the inserted Lesson.
     """
-    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.effective_cefr_level if profile else "A0"
 
     activities: list[LessonActivity] = []
 
@@ -328,7 +328,7 @@ async def _generate_lesson_background(
         logger.error("lesson not found", extra={"lesson_id": str(lesson_id)})
         return
     profile = await get_profile(lesson.student_id) if lesson.student_id else None
-    cefr_level = profile.active_progress.cefr_estimate if profile else "A0"
+    cefr_level = profile.active_progress.effective_cefr_level if profile else "A0"
 
     if cefr_level == "A0":
         return await _generate_a0_lesson_background(lesson_id, duration_minutes)
