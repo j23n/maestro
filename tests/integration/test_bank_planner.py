@@ -191,9 +191,7 @@ async def _new_lesson() -> Lesson:
     return lesson
 
 
-async def test_bank_path_builds_lesson_without_generation_llm(
-    curriculum, bank_files
-):
+async def test_bank_path_builds_lesson_without_generation_llm(curriculum, bank_files):
     from maestro.lessons.planner import _generate_lesson_background
 
     lesson = await _new_lesson()
@@ -284,7 +282,9 @@ async def test_bank_path_falls_back_to_scenario_framing_on_adapt_failure(
     assert lesson.overview == "Una lezione al bar."
 
 
-async def test_missing_bank_falls_back_to_llm_generation(curriculum, tmp_path, monkeypatch):
+async def test_missing_bank_falls_back_to_llm_generation(
+    curriculum, tmp_path, monkeypatch
+):
     from maestro.lessons.planner import _generate_lesson_background
     from maestro.lessons.schemas import LessonContentResponse
 

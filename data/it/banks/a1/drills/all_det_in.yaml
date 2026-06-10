@@ -1,0 +1,38 @@
+grammar_point_code: all_det_in
+items:
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ caffè, per favore. (articolo indeterminativo)"
+    correct_answer: "un"
+  - exercise_type: fill_blank
+    prompt: "___ cornetto alla crema è buonissimo qui. (articolo determinativo)"
+    correct_answer: "Il"
+  - exercise_type: fill_blank
+    prompt: "Prendo ___ acqua naturale. (articolo indeterminativo femminile, con apostrofo)"
+    correct_answer: "un'"
+  - exercise_type: fill_blank
+    prompt: "___ zucchero è sul tavolo. (articolo determinativo)"
+    correct_answer: "Lo"
+  - exercise_type: fill_blank
+    prompt: "C'è ___ tavolo libero vicino alla finestra. (articolo indeterminativo)"
+    correct_answer: "un"
+  - exercise_type: fill_blank
+    prompt: "___ spremuta qui è sempre fresca. (articolo determinativo)"
+    correct_answer: "La"
+  - exercise_type: fill_blank
+    prompt: "___ studenti hanno uno sconto. (articolo determinativo plurale)"
+    correct_answer: "Gli"
+  - exercise_type: fill_blank
+    prompt: "___ paste di questo bar sono famose. (articolo determinativo plurale)"
+    correct_answer: "Le"
+  - exercise_type: error_correction
+    prompt: "Vorrei la caffè, per favore."
+    correct_answer: "Vorrei un caffè, per favore."
+  - exercise_type: error_correction
+    prompt: "Il acqua minerale è fredda."
+    correct_answer: "L'acqua minerale è fredda."
+  - exercise_type: error_correction
+    prompt: "Prendo uno cornetto e un cappuccino."
+    correct_answer: "Prendo un cornetto e un cappuccino."
+  - exercise_type: error_correction
+    prompt: "I zaini sono sotto il tavolo."
+    correct_answer: "Gli zaini sono sotto il tavolo."

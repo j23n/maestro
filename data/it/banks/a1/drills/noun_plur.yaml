@@ -1,0 +1,38 @@
+grammar_point_code: noun_plur
+items:
+  - exercise_type: fill_blank
+    prompt: "Dove sono i miei ___? Non vedo niente! (per leggere)"
+    correct_answer: "occhiali"
+  - exercise_type: fill_blank
+    prompt: "Questi ___ sono troppo lunghi. (vestiti per le gambe)"
+    correct_answer: "pantaloni"
+  - exercise_type: fill_blank
+    prompt: "Compro un paio di ___ per il mercato. (per le mani, d'inverno)"
+    correct_answer: "guanti"
+  - exercise_type: fill_blank
+    prompt: "Al supermercato prendo gli ___ per la pasta. (es. fusilli, penne...)"
+    correct_answer: "spaghetti"
+  - exercise_type: fill_blank
+    prompt: "Compro le ___ per tagliare la carta. (strumento, sempre plurale)"
+    correct_answer: "forbici"
+  - exercise_type: fill_blank
+    prompt: "Pago con i ___ , non con la carta. (denaro in monete e banconote)"
+    correct_answer: "contanti"
+  - exercise_type: fill_blank
+    prompt: "In vacanza porto solo due paia di ___ corti. (vestiti per le gambe)"
+    correct_answer: "pantaloni"
+  - exercise_type: fill_blank
+    prompt: "I ___ di questo mercato sono freschissimi. (es. zucchine, carote, pomodori)"
+    correct_answer: "ortaggi"
+  - exercise_type: error_correction
+    prompt: "Il mio occhiale è rotto."
+    correct_answer: "I miei occhiali sono rotti."
+  - exercise_type: error_correction
+    prompt: "Compro un pantalone nero."
+    correct_answer: "Compro un paio di pantaloni neri."
+  - exercise_type: error_correction
+    prompt: "Pago con il contante."
+    correct_answer: "Pago con i contanti."
+  - exercise_type: error_correction
+    prompt: "Lo spaghetto è buono qui."
+    correct_answer: "Gli spaghetti sono buoni qui."

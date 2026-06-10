@@ -42,7 +42,10 @@ src/maestro/
 │   ├── functions.py     # Communicative functions
 │   └── profile.py       # Student profile, skill tree
 ├── lessons/
-│   ├── planner.py       # Two-phase lesson generation (immediate + background LLM)
+│   ├── planner.py       # Two-phase lesson generation (immediate + background)
+│   ├── bank.py          # Static content bank loader (data/<lang>/banks/<level>/)
+│   ├── bank_assembly.py # Assemble lesson content from bank (no LLM)
+│   ├── adapt.py         # Small LLM pass: personalised framing for bank lessons
 │   ├── lifecycle.py     # State machine (advance, complete, scoring)
 │   ├── a0_static.py     # A0 lessons from YAML (no LLM)
 │   └── drill_scoring.py # Drill answer evaluation
@@ -51,7 +54,8 @@ src/maestro/
 │   ├── scorer.py        # Writing/speaking LLM feedback
 │   └── weakness.py      # Grammar weakness detection
 ├── vocab/
-│   ├── discover.py      # Inline vocab discovery (spaCy NLP)
+│   ├── discover.py      # Inline vocab discovery (verified annotations or spaCy NLP)
+│   ├── annotate.py      # Generation-time LLM lemma annotation (word-index validated)
 │   ├── srs.py           # SM-2 spaced repetition
 │   └── cache.py         # Vocab word cache
 ├── llm.py               # Anthropic client wrapper + cost tracking
@@ -65,7 +69,9 @@ src/maestro/
 ## Key Patterns
 
 - **Beanie ODM**: all models in `models.py`, atomic `$set` updates (no `.save()` for partial changes)
-- **Two lesson paths**: A0 = static YAML, A1+ = LLM-generated via background task
+- **Lesson paths**: A0 = static YAML; A1+ = content-bank assembly + small adaptation LLM call when bank covers the lesson (`Lesson.content_source="bank"`), full LLM generation as fallback (`"llm"`)
+- **Content banks**: `data/<lang>/banks/<level>/` (drill pools per GP, texts per scenario/depth); generate with `scripts/generate_content_bank.py`, validate with `scripts/bank_lint.py`
+- **Vocab annotation**: lesson content gets verified surface→lemma mappings (bank files or `vocab/annotate.py` post-pass); only validated mappings create vocabulary cards
 - **Activity flow**: `lessons.py` manages lifecycle, `activities.py` handles per-type rendering/submission
 - **Auth**: signed session cookies (`itsdangerous`), double-submit CSRF, bcrypt passwords
 - **LLM calls**: always through `llm.llm_messages_create()` for automatic cost tracking

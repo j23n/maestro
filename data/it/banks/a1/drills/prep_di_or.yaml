@@ -1,0 +1,38 @@
+grammar_point_code: prep_di_or
+items:
+  - exercise_type: fill_blank
+    prompt: "Sono ___ Berlino, e tu? (preposizione)"
+    correct_answer: "di"
+  - exercise_type: fill_blank
+    prompt: "___ dove sei? (preposizione)"
+    correct_answer: "Di"
+  - exercise_type: fill_blank
+    prompt: "Anna è ___ Napoli ma abita a Milano. (preposizione)"
+    correct_answer: "di"
+  - exercise_type: fill_blank
+    prompt: "Il professore è ___ Torino. (preposizione)"
+    correct_answer: "di"
+  - exercise_type: fill_blank
+    prompt: "— Di dove ___, signora? (essere, forma di cortesia)"
+    correct_answer: "è"
+  - exercise_type: fill_blank
+    prompt: "Noi siamo ___ Palermo. (preposizione)"
+    correct_answer: "di"
+  - exercise_type: fill_blank
+    prompt: "— Sei di Roma? — No, sono ___ Firenze. (preposizione)"
+    correct_answer: "di"
+  - exercise_type: fill_blank
+    prompt: "Marco è ___ Venezia, una città bellissima. (preposizione)"
+    correct_answer: "di"
+  - exercise_type: error_correction
+    prompt: "Sono da Berlino."
+    correct_answer: "Sono di Berlino."
+  - exercise_type: error_correction
+    prompt: "Anna è in Napoli, ma abita a Roma."
+    correct_answer: "Anna è di Napoli, ma abita a Roma."
+  - exercise_type: error_correction
+    prompt: "A dove sei?"
+    correct_answer: "Di dove sei?"
+  - exercise_type: error_correction
+    prompt: "Il mio amico è de Madrid."
+    correct_answer: "Il mio amico è di Madrid."

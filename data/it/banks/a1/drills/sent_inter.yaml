@@ -1,0 +1,38 @@
+grammar_point_code: sent_inter
+items:
+  - exercise_type: fill_blank
+    prompt: "___ ti chiami? (parola interrogativa)"
+    correct_answer: "Come"
+  - exercise_type: fill_blank
+    prompt: "___ abiti? A Milano? (parola interrogativa)"
+    correct_answer: "Dove"
+  - exercise_type: fill_blank
+    prompt: "___ studi l'italiano? Per lavoro? (parola interrogativa)"
+    correct_answer: "Perché"
+  - exercise_type: fill_blank
+    prompt: "___ arriva il treno? Alle otto? (parola interrogativa)"
+    correct_answer: "Quando"
+  - exercise_type: fill_blank
+    prompt: "___ stai? Bene? (parola interrogativa)"
+    correct_answer: "Come"
+  - exercise_type: fill_blank
+    prompt: "___ è il supermercato? Vicino alla stazione? (parola interrogativa)"
+    correct_answer: "Dov'"
+  - exercise_type: fill_blank
+    prompt: "___ apre il mercato? La mattina presto? (parola interrogativa)"
+    correct_answer: "Quando"
+  - exercise_type: fill_blank
+    prompt: "___ non mangi la pasta? Non ti piace? (parola interrogativa)"
+    correct_answer: "Perché"
+  - exercise_type: error_correction
+    prompt: "Dove ti chiami?"
+    correct_answer: "Come ti chiami?"
+  - exercise_type: error_correction
+    prompt: "Come abiti? A Roma?"
+    correct_answer: "Dove abiti? A Roma?"
+  - exercise_type: error_correction
+    prompt: "Quando è la farmacia? In centro?"
+    correct_answer: "Dov'è la farmacia? In centro?"
+  - exercise_type: error_correction
+    prompt: "Perché parte l'autobus? Alle nove?"
+    correct_answer: "Quando parte l'autobus? Alle nove?"

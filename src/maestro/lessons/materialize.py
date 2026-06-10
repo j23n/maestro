@@ -212,9 +212,7 @@ async def materialize_activities(
                 vocab_annotations=(
                     speaking_data.vocab_annotations if speaking_data else []
                 ),
-                vocab_annotated=bool(
-                    speaking_data and speaking_data.vocab_annotations
-                ),
+                vocab_annotated=bool(speaking_data and speaking_data.vocab_annotations),
             )
         )
 

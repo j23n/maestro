@@ -147,26 +147,19 @@ async def pick_scenario(
         # 1. Coverage value: unmastered GPs and undemonstrated CFs this
         #    scenario can advance toward the graduation gates.
         unmastered = [
-            c
-            for c in scenario.gp_codes
-            if mastery.get(c, 0.0) < MASTERY_THRESHOLD
+            c for c in scenario.gp_codes if mastery.get(c, 0.0) < MASTERY_THRESHOLD
         ]
         undemonstrated = [
-            c
-            for c in scenario.cf_codes
-            if fn_counts.get(c, 0) < CF_DEMONSTRATED_COUNT
+            c for c in scenario.cf_codes if fn_counts.get(c, 0) < CF_DEMONSTRATED_COUNT
         ]
         # 2. Introduction pressure: unlocked GPs the student has never seen.
         introducible = [
             c
             for c in unmastered
-            if c not in introduced
-            and (unlocked_codes is None or c in unlocked_codes)
+            if c not in introduced and (unlocked_codes is None or c in unlocked_codes)
         ]
         score = (
-            1.0 * len(unmastered)
-            + 0.5 * len(undemonstrated)
-            + 1.0 * len(introducible)
+            1.0 * len(unmastered) + 0.5 * len(undemonstrated) + 1.0 * len(introducible)
         )
 
         # 3. Weak GP overlap bonus (remediation)

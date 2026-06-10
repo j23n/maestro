@@ -1,0 +1,38 @@
+grammar_point_code: noun_invar
+items:
+  - exercise_type: fill_blank
+    prompt: "Due ___ , per favore. (plurale di 'caffè')"
+    correct_answer: "caffè"
+  - exercise_type: fill_blank
+    prompt: "Roma e Milano sono due ___ italiane. (plurale di 'città')"
+    correct_answer: "città"
+  - exercise_type: fill_blank
+    prompt: "In questo quartiere ci sono tre ___. (plurale di 'cinema')"
+    correct_answer: "cinema"
+  - exercise_type: fill_blank
+    prompt: "Bologna ha una delle ___ più antiche d'Europa. (plurale di 'università')"
+    correct_answer: "università"
+  - exercise_type: fill_blank
+    prompt: "Prendo due ___ al bar della stazione. (plurale di 'tè')"
+    correct_answer: "tè"
+  - exercise_type: fill_blank
+    prompt: "Ci sono molti ___ in centro. (plurale di 'bar')"
+    correct_answer: "bar"
+  - exercise_type: fill_blank
+    prompt: "Guardo due ___ ogni settimana. (plurale di 'film')"
+    correct_answer: "film"
+  - exercise_type: fill_blank
+    prompt: "Per arrivare prendiamo due ___. (plurale di 'autobus')"
+    correct_answer: "autobus"
+  - exercise_type: error_correction
+    prompt: "Vorrei due caffèi, per favore."
+    correct_answer: "Vorrei due caffè, per favore."
+  - exercise_type: error_correction
+    prompt: "Visito molte cittàe in Italia."
+    correct_answer: "Visito molte città in Italia."
+  - exercise_type: error_correction
+    prompt: "In centro ci sono due cinemi."
+    correct_answer: "In centro ci sono due cinema."
+  - exercise_type: error_correction
+    prompt: "Le universitàs italiane sono antiche."
+    correct_answer: "Le università italiane sono antiche."

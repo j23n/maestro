@@ -1,0 +1,38 @@
+grammar_point_code: dem_questo
+items:
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ cornetto qui, alla crema. (dimostrativo vicino)"
+    correct_answer: "questo"
+  - exercise_type: fill_blank
+    prompt: "Quanto costa ___ borsa lì in vetrina? (dimostrativo lontano)"
+    correct_answer: "quella"
+  - exercise_type: fill_blank
+    prompt: "___ mele qui sono fresche. (dimostrativo vicino, plurale)"
+    correct_answer: "Queste"
+  - exercise_type: fill_blank
+    prompt: "Prendo ___ formaggio lì, il pecorino. (dimostrativo lontano)"
+    correct_answer: "quel"
+  - exercise_type: fill_blank
+    prompt: "___ tavolo qui è libero? (dimostrativo vicino)"
+    correct_answer: "Questo"
+  - exercise_type: fill_blank
+    prompt: "Chi è ___ uomo laggiù? (dimostrativo lontano, con apostrofo)"
+    correct_answer: "quell'"
+  - exercise_type: fill_blank
+    prompt: "___ pomodori lì sono più maturi. (dimostrativo lontano, plurale)"
+    correct_answer: "Quei"
+  - exercise_type: fill_blank
+    prompt: "___ pizza qui davanti è la margherita. (dimostrativo vicino)"
+    correct_answer: "Questa"
+  - exercise_type: error_correction
+    prompt: "Vorrei questo torta lì in fondo."
+    correct_answer: "Vorrei quella torta lì in fondo."
+  - exercise_type: error_correction
+    prompt: "Quello libro qui è interessante."
+    correct_answer: "Questo libro qui è interessante."
+  - exercise_type: error_correction
+    prompt: "Prendo quel arance."
+    correct_answer: "Prendo quelle arance."
+  - exercise_type: error_correction
+    prompt: "Questa zaino è pesante."
+    correct_answer: "Questo zaino è pesante."

@@ -1,0 +1,38 @@
+grammar_point_code: coord_disj
+items:
+  - exercise_type: fill_blank
+    prompt: "Mangi qui ___ porti via? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Prendi la pasta ___ la pizza? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Vuoi acqua naturale ___ frizzante? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Preferisci il tavolo dentro ___ fuori? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Paghi in contanti ___ con la carta? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Il dolce: tiramisù ___ panna cotta? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Vieni al mercato sabato ___ domenica? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: fill_blank
+    prompt: "Caffè normale ___ decaffeinato? (connettivo disgiuntivo)"
+    correct_answer: "o"
+  - exercise_type: error_correction
+    prompt: "Mangi qui e porti via?"
+    correct_answer: "Mangi qui o porti via?"
+  - exercise_type: error_correction
+    prompt: "Vuoi tè oppure o caffè?"
+    correct_answer: "Vuoi tè o caffè?"
+  - exercise_type: error_correction
+    prompt: "Preferisci carne ma pesce?"
+    correct_answer: "Preferisci carne o pesce?"
+  - exercise_type: error_correction
+    prompt: "Paghi adesso od dopo?"
+    correct_answer: "Paghi adesso o dopo?"

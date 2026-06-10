@@ -1,0 +1,211 @@
+scenario: presentarsi
+speakings:
+  - cf_code: intritsoc_salutare_a1
+    prompt: "Sei a una festa e vedi una persona che conosci poco. Salutala in modo appropriato: è sera e la persona è più grande di te. Poi saluta anche un tuo amico che arriva."
+  - cf_code: intritsoc_rispsal_a1
+    prompt: "— Buongiorno! Come va?\nRispondi al saluto e chiedi come sta l'altra persona."
+  - cf_code: intritsoc_presentarsi_a1
+    prompt: "È il tuo primo giorno a un corso di italiano. Presentati al gruppo: di' il tuo nome, di dove sei e quanti anni hai."
+  - cf_code: intritsoc_presqualc_a1
+    prompt: "Sei al bar con la tua amica Anna e incontri il tuo collega Marco. Presenta Anna a Marco e Marco ad Anna."
+  - cf_code: intritsoc_risppresent_a1
+    prompt: "— Ti presento Paolo, un mio amico di Napoli.\nRispondi alla presentazione e presentati a tua volta."
+  - cf_code: interag_identi_a1
+    prompt: "Guardi una foto della tua famiglia con un amico italiano. Identifica le persone nella foto: 'Questo è... Questa è...' Di' chi sono e come si chiamano."
+depths:
+  1:
+    listenings:
+      - text: |-
+          Anna e Marco si incontrano a una festa.
+          — Ciao! Io sono Anna, e tu?
+          — Ciao Anna, piacere! Mi chiamo Marco.
+          — Piacere mio. Di dove sei, Marco?
+          — Sono di Napoli, ma abito a Milano. E tu?
+          — Io sono tedesca, di Berlino. Sono in Italia per lavoro.
+          — Che bello! Parli molto bene l'italiano.
+          — Grazie! Studio l'italiano da un anno. Quanti anni hai, Marco?
+          — Ho ventotto anni. E tu?
+          — Io ho venticinque anni.
+          — Benvenuta a Milano, Anna!
+        questions:
+          - text: "Di dove è Marco?"
+            correct_answer: "Di Napoli"
+            grammar_point_codes:
+              - prep_di_or
+          - text: "Dove abita Marco?"
+            correct_answer: "A Milano"
+          - text: "Quanti anni ha Anna?"
+            correct_answer: "Venticinque"
+          - text: "Perché Anna è in Italia?"
+            correct_answer: "Per lavoro"
+    readings:
+      - text: |-
+          Mi chiamo Sofia e sono italiana, di Bologna. Ho ventidue anni e sono studentessa
+          all'università. Studio lingue: parlo italiano, inglese e un po' di spagnolo.
+
+          Questo è il mio amico Tom. Lui non è italiano: è inglese, di Londra. Ha
+          ventiquattro anni e lavora in un bar in centro. Tom studia l'italiano la sera.
+          Lui dice sempre: «L'italiano è difficile ma bellissimo!»
+
+          Io e Tom parliamo italiano insieme ogni giorno. Lui non parla ancora molto bene,
+          ma capisce quasi tutto. E tu? Come ti chiami? Di dove sei?
+        questions:
+          - text: "Di dove è Sofia?"
+            correct_answer: "Di Bologna"
+            grammar_point_codes:
+              - prep_di_or
+          - text: "Quanti anni ha Tom?"
+            correct_answer: "Ventiquattro"
+          - text: "Che lavoro fa Tom?"
+            correct_answer: "Lavora in un bar"
+          - text: "Tom è italiano?"
+            correct_answer: "No, è inglese"
+            grammar_point_codes:
+              - sent_affir
+      - text: |-
+          Buongiorno! Io sono il professor Bianchi e questa è la nostra classe di italiano.
+          Siamo un piccolo gruppo internazionale.
+
+          Lei è Yuki: è giapponese, di Tokyo, e ha trent'anni. Lui è Pablo: è spagnolo,
+          di Madrid. Pablo ha diciannove anni ed è il più giovane della classe.
+
+          Poi c'è Emma. Emma è francese, di Parigi, ma abita in Italia da due anni.
+          Lei parla già bene l'italiano. E infine c'è Ahmed: è egiziano, del Cairo,
+          e ha quarantadue anni. Ahmed è medico.
+
+          Io sono di Firenze, ho cinquanta anni e insegno italiano da venti anni.
+          Benvenuti a tutti!
+        questions:
+          - text: "Chi è la persona più giovane della classe?"
+            correct_answer: "Pablo"
+          - text: "Di dove è Yuki?"
+            correct_answer: "Di Tokyo"
+            grammar_point_codes:
+              - prep_di_or
+          - text: "Che lavoro fa Ahmed?"
+            correct_answer: "È medico"
+          - text: "Da quanti anni insegna il professor Bianchi?"
+            correct_answer: "Da venti anni"
+    writings:
+      - prompt: "Presentati in 4-5 frasi: come ti chiami, di dove sei, quanti anni hai, che lavoro fai o che cosa studi."
+      - prompt: "Scrivi un breve dialogo (6-8 battute) tra due persone che si incontrano per la prima volta a una festa."
+  2:
+    listenings:
+      - text: |-
+          Sofia e Tom parlano davanti all'università.
+          — Ciao Tom! Come stai?
+          — Bene, grazie! E tu?
+          — Benissimo. Senti, dove abiti adesso?
+          — Abito in via Garibaldi, vicino alla stazione. È una zona molto comoda.
+          — Bello! Io abito ancora con la mia famiglia, in periferia.
+          — E il tuo lavoro? Lavori sempre alla libreria?
+          — Sì, lavoro lì tre giorni alla settimana. Il resto del tempo studio.
+          — Che cosa studi?
+          — Studio lingue all'università. E tu? Ti piace il tuo lavoro al bar?
+          — Sì, molto. Parlo con tante persone e imparo l'italiano!
+        questions:
+          - text: "Dove abita Tom?"
+            correct_answer: "In via Garibaldi, vicino alla stazione"
+          - text: "Con chi abita Sofia?"
+            correct_answer: "Con la sua famiglia"
+          - text: "Quanti giorni alla settimana lavora Sofia?"
+            correct_answer: "Tre giorni"
+          - text: "Perché a Tom piace il lavoro al bar?"
+            correct_answer: "Parla con tante persone e impara l'italiano"
+            grammar_point_codes:
+              - sent_inter
+    readings:
+      - text: |-
+          Mi chiamo Lukas e sono austriaco, di Vienna. Adesso abito a Torino, in un piccolo
+          appartamento in centro. Lavoro come ingegnere in una fabbrica di automobili.
+
+          La mia giornata è semplice: lavoro dalle nove alle cinque, e la sera studio
+          l'italiano. Non parlo ancora molto bene, ma capisco abbastanza.
+
+          A Torino ho molti colleghi simpatici. Loro non parlano tedesco e io non parlo
+          ancora bene l'italiano: parliamo un po' in inglese e un po' in italiano.
+          Il fine settimana visito la città o vado in montagna. Torino è una bella città
+          e le montagne sono vicine. Sono contento qui.
+        questions:
+          - text: "Di dove è Lukas?"
+            correct_answer: "Di Vienna"
+            grammar_point_codes:
+              - prep_di_or
+          - text: "Che lavoro fa Lukas?"
+            correct_answer: "L'ingegnere"
+          - text: "Quando studia l'italiano?"
+            correct_answer: "La sera"
+          - text: "Che cosa fa il fine settimana?"
+            correct_answer: "Visita la città o va in montagna"
+      - text: |-
+          Ciao! Sono Marta, ho ventinove anni e faccio l'infermiera in un ospedale di Roma.
+          Sono di Palermo, ma vivo a Roma da cinque anni.
+
+          Il mio lavoro è impegnativo ma bello: aiuto le persone ogni giorno. Lavoro
+          spesso di notte, e dormo di giorno. Non è facile!
+
+          Nel tempo libero cucino. La cucina siciliana è la mia passione: faccio la pasta
+          alla Norma e i cannoli. I miei amici romani dicono: «Marta, apri un ristorante!»
+          Ma io rispondo sempre: «No, io sono infermiera. Cucino solo per gli amici!»
+        questions:
+          - text: "Che lavoro fa Marta?"
+            correct_answer: "L'infermiera"
+          - text: "Da quanti anni vive a Roma?"
+            correct_answer: "Da cinque anni"
+          - text: "Quando lavora spesso?"
+            correct_answer: "Di notte"
+          - text: "Che cosa fa Marta nel tempo libero?"
+            correct_answer: "Cucina"
+    writings:
+      - prompt: "Descrivi la tua situazione in 5-6 frasi: dove abiti, che lavoro fai o che cosa studi, e una cosa che ti piace della tua città."
+      - prompt: "Un amico italiano ti chiede: «Com'è la tua vita adesso?» Rispondi con una breve email (5-6 frasi) su casa, lavoro e tempo libero."
+  3:
+    listenings:
+      - text: |-
+          Anna presenta il suo amico Karl a Marco, al bar.
+          — Marco, ti presento Karl, un mio amico di Berlino.
+          — Piacere, Karl! Io sono Marco.
+          — Piacere mio! Anna parla spesso di te.
+          — Ah sì? Solo cose belle, spero! Da quanto tempo sei in Italia, Karl?
+          — Da tre mesi. Lavoro a Milano, come Anna.
+          — E come ti trovi qui?
+          — Molto bene! La città è bella e il cibo è incredibile.
+          — E tu e Anna, da dove vi conoscete?
+          — Dal corso di italiano! Siamo amici dalla classe di Berlino.
+          — Che bello! Allora, un caffè per festeggiare?
+          — Volentieri!
+        questions:
+          - text: "Chi presenta Karl a Marco?"
+            correct_answer: "Anna"
+          - text: "Da quanto tempo è in Italia Karl?"
+            correct_answer: "Da tre mesi"
+          - text: "Da dove si conoscono Anna e Karl?"
+            correct_answer: "Dal corso di italiano a Berlino"
+          - text: "Che cosa prendono alla fine?"
+            correct_answer: "Un caffè"
+    readings:
+      - text: |-
+          Stasera c'è una cena a casa di Giulia. Giulia presenta gli ospiti:
+
+          «Ragazzi, questo è David, il mio collega americano. David è di Chicago e lavora
+          con me in ufficio. E questa è Elena, la mia vicina di casa: lei è il genio dei
+          dolci, fa una torta al cioccolato fantastica!»
+
+          David saluta tutti: «Piacere! Scusate il mio italiano, sono qui solo da un mese.»
+          Elena risponde: «Ma parli benissimo! Dove studi l'italiano?»
+          «Studio con un'app la mattina, e la sera guardo film italiani.»
+          «Che bravo! E ti piace l'Italia?»
+          «Moltissimo. La gente è simpatica e... il caffè è un'altra cosa!»
+          Tutti ridono. Giulia dice: «Benvenuto, David. Adesso, a tavola!»
+        questions:
+          - text: "Chi è David?"
+            correct_answer: "Il collega americano di Giulia"
+          - text: "Che cosa fa molto bene Elena?"
+            correct_answer: "I dolci (una torta al cioccolato)"
+          - text: "Da quanto tempo è in Italia David?"
+            correct_answer: "Da un mese"
+          - text: "Come studia l'italiano David la sera?"
+            correct_answer: "Guarda film italiani"
+    writings:
+      - prompt: "Scrivi un dialogo (8-10 battute): presenti un tuo amico straniero a un tuo amico italiano. Loro si salutano e fanno due domande l'uno all'altro."
+      - prompt: "Descrivi due persone importanti della tua vita: chi sono, di dove sono, che cosa fanno e perché sono importanti per te (6-8 frasi)."

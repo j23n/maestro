@@ -1,0 +1,38 @@
+grammar_point_code: noun_o_a_e
+items:
+  - exercise_type: fill_blank
+    prompt: "Vorrei due ___ rossi. (plurale di 'pomodoro')"
+    correct_answer: "pomodori"
+  - exercise_type: fill_blank
+    prompt: "Un chilo di ___ , per favore. (plurale di 'mela')"
+    correct_answer: "mele"
+  - exercise_type: fill_blank
+    prompt: "Quanto costano i ___? (plurale di 'limone')"
+    correct_answer: "limoni"
+  - exercise_type: fill_blank
+    prompt: "Compro tre ___ di pane. (plurale di 'pezzo')"
+    correct_answer: "pezzi"
+  - exercise_type: fill_blank
+    prompt: "Le ___ sono fresche stamattina. (plurale di 'arancia')"
+    correct_answer: "arance"
+  - exercise_type: fill_blank
+    prompt: "Due ___ d'uva, per favore. (plurale di 'grappolo')"
+    correct_answer: "grappoli"
+  - exercise_type: fill_blank
+    prompt: "Metto le ___ nella borsa. (plurale di 'carota')"
+    correct_answer: "carote"
+  - exercise_type: fill_blank
+    prompt: "I ___ del mercato sono gentili. (plurale di 'venditore')"
+    correct_answer: "venditori"
+  - exercise_type: error_correction
+    prompt: "Vorrei due meli rosse."
+    correct_answer: "Vorrei due mele rosse."
+  - exercise_type: error_correction
+    prompt: "Compro tre pomodore."
+    correct_answer: "Compro tre pomodori."
+  - exercise_type: error_correction
+    prompt: "Le limone sono gialle."
+    correct_answer: "I limoni sono gialli."
+  - exercise_type: error_correction
+    prompt: "Prendo due bottiglii di acqua."
+    correct_answer: "Prendo due bottiglie di acqua."

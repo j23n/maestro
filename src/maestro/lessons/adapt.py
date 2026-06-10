@@ -145,7 +145,9 @@ async def adapt_lesson_framing(
         )
         result = parse_llm_json(response.content[0].text)
     except Exception:
-        logger.exception("lesson adaptation failed", extra={"lesson_id": str(lesson_id)})
+        logger.exception(
+            "lesson adaptation failed", extra={"lesson_id": str(lesson_id)}
+        )
         return None
 
     if not isinstance(result, dict):

@@ -1,0 +1,231 @@
+scenario: fare-la-spesa
+speakings:
+  - cf_code: interag_inform05_a1
+    prompt: "Sei al mercato davanti al banco della frutta. Chiedi quanto costano le mele e quanti pomodori ci sono in un chilo."
+  - cf_code: intazio_chiincserv_a1
+    prompt: "Sei dal fruttivendolo. Chiedi tre cose per la tua spesa: di' che cosa vuoi e in che quantità (un chilo, due etti, un po' di...)."
+  - cf_code: interag_inform01_a1
+    prompt: "Al mercato vedi un frutto strano che non conosci. Attira l'attenzione del venditore e chiedi: che cos'è? Com'è? Come si mangia?"
+  - cf_code: intazio_rispaccsenris_a1
+    prompt: "— Vuole anche un po' di basilico in regalo?\n— Le metto tutto in una busta?\nRispondi al venditore accettando le sue proposte."
+  - cf_code: intazio_rispricrif_a1
+    prompt: "Il venditore ti offre altre cose: «Vuole anche delle arance? E un melone?» Tu hai già tutto. Rifiuta in modo gentile."
+  - cf_code: intritsoc_attattenz_a1
+    prompt: "Il mercato è pieno di gente e il venditore parla con un altro cliente. Attira la sua attenzione in modo educato per fare il tuo ordine."
+depths:
+  1:
+    listenings:
+      - text: |-
+          Anna fa la spesa al mercato.
+          — Buongiorno! Mi dica.
+          — Buongiorno. Vorrei un chilo di pomodori, per favore.
+          — Ecco. Altro?
+          — Sì, due etti di olive verdi e un po' di basilico.
+          — Il basilico oggi è bellissimo. Altro?
+          — Quanto costano le mele?
+          — Due euro al chilo.
+          — Allora un chilo di mele. Basta così, grazie. Quant'è?
+          — Pomodori, olive, basilico, mele... sono sei euro e cinquanta.
+          — Ecco a lei dieci euro.
+          — E tre euro e cinquanta di resto. Grazie e buona giornata!
+        questions:
+          - text: "Quanti pomodori compra Anna?"
+            correct_answer: "Un chilo"
+          - text: "Quanto costano le mele al chilo?"
+            correct_answer: "Due euro"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Quanto paga Anna in tutto?"
+            correct_answer: "Sei euro e cinquanta"
+          - text: "Quanto riceve di resto?"
+            correct_answer: "Tre euro e cinquanta"
+    readings:
+      - text: |-
+          Come si compra al mercato italiano? Prima di tutto, le quantità.
+
+          Per la frutta e la verdura usiamo il chilo: «un chilo di mele», «mezzo chilo
+          di pomodori». Per il formaggio e i salumi usiamo l'etto: un etto sono cento
+          grammi. «Due etti di prosciutto, per favore.»
+
+          Poi ci sono i numeri: «tre limoni», «sei uova», «due meloni». E le quantità
+          piccole: «un po' di basilico», «un mazzo di prezzemolo».
+
+          Una regola importante: al mercato italiano non tocchi la frutta con le mani!
+          Il venditore sceglie per te. Tu dici solo: «Belle mature, per favore» o
+          «Per oggi o per domani?» Il venditore capisce e sceglie bene.
+        questions:
+          - text: "Quanti grammi sono un etto?"
+            correct_answer: "Cento grammi"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Che cosa usiamo per il prosciutto: il chilo o l'etto?"
+            correct_answer: "L'etto"
+          - text: "Puoi toccare la frutta al mercato italiano?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+          - text: "Chi sceglie la frutta al mercato?"
+            correct_answer: "Il venditore"
+      - text: |-
+          Oggi Lukas fa la spesa per la prima volta al mercato di Porta Palazzo,
+          a Torino. La sua lista: pomodori, pane, formaggio, mele e uova.
+
+          Al banco della verdura: «Un chilo di pomodori, per favore.» Facile!
+          Al banco del formaggio è più difficile: «Vorrei... formaggio.» Il venditore
+          ride: «Quale formaggio? Ne abbiamo cinquanta!» Lukas indica: «Questo qui.»
+          «Il pecorino! Ottima scelta. Quanto? Due etti?» «Sì, due etti, grazie.»
+
+          Poi il pane, le mele, le uova. Alla fine Lukas ha due borse piene e spende
+          solo quindici euro. Al supermercato in centro la stessa spesa costa di più.
+          Lukas è contento: da oggi fa la spesa sempre al mercato!
+        questions:
+          - text: "Dove fa la spesa Lukas?"
+            correct_answer: "Al mercato di Porta Palazzo, a Torino"
+          - text: "Quale formaggio compra?"
+            correct_answer: "Il pecorino"
+          - text: "Quanti etti di formaggio prende?"
+            correct_answer: "Due etti"
+          - text: "Quanto spende in tutto?"
+            correct_answer: "Quindici euro"
+            grammar_point_codes:
+              - card_1_100
+    writings:
+      - prompt: "Scrivi la tua lista della spesa con le quantità (un chilo di..., due etti di..., tre...) per una cena con amici: almeno sei cose."
+      - prompt: "Scrivi un dialogo al mercato (6-8 battute): saluti, chiedi due o tre cose con le quantità, chiedi il prezzo e paghi."
+  2:
+    listenings:
+      - text: |-
+          Marco confronta i prezzi al banco della frutta.
+          — Scusi, quanto costano queste arance?
+          — Queste costano due euro al chilo. Quelle lì, le siciliane, tre euro e cinquanta.
+          — E qual è la differenza?
+          — Le siciliane sono più dolci e più succose. Sono perfette per la spremuta.
+          — Mmm. E queste qui sono buone?
+          — Sì, ma sono meno dolci. Vanno bene per mangiare, non per la spremuta.
+          — Allora prendo un chilo di siciliane per la spremuta e mezzo chilo delle altre.
+          — Perfetto! Le siciliane oggi sono speciali, vedrà.
+          — Grazie! Quant'è in tutto?
+          — Quattro euro e cinquanta.
+        questions:
+          - text: "Quanto costano le arance siciliane?"
+            correct_answer: "Tre euro e cinquanta al chilo"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Perché le siciliane sono migliori per la spremuta?"
+            correct_answer: "Sono più dolci e più succose"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Quante arance siciliane compra Marco?"
+            correct_answer: "Un chilo"
+          - text: "Quanto paga in tutto?"
+            correct_answer: "Quattro euro e cinquanta"
+    readings:
+      - text: |-
+          Mercato o supermercato? Ecco che cosa pensa la signora Rossi.
+
+          «Io compro la frutta e la verdura al mercato: costano meno e sono più fresche.
+          I pomodori del mercato hanno più sapore, e il venditore mi dice sempre quali
+          sono i prodotti di stagione. A dicembre niente pomodori: meglio le arance!
+
+          Al supermercato compro le altre cose: la pasta, l'olio, il latte, i biscotti.
+          Il supermercato è comodo: è aperto tutto il giorno e c'è tutto.
+
+          Il mercato invece apre solo la mattina, dal lunedì al sabato. La domenica
+          è chiuso. Ma per me il sabato mattina al mercato non è solo spesa:
+          è una passeggiata, due chiacchiere, un caffè con le amiche.»
+        questions:
+          - text: "Dove compra la verdura la signora Rossi?"
+            correct_answer: "Al mercato"
+          - text: "Perché i pomodori del mercato sono migliori?"
+            correct_answer: "Hanno più sapore (sono più freschi)"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Quando è chiuso il mercato?"
+            correct_answer: "La domenica"
+          - text: "Che cosa compra al supermercato?"
+            correct_answer: "Pasta, olio, latte, biscotti"
+      - text: |-
+          Emma scrive alla sua amica:
+
+          «Oggi lezione di spesa italiana! Al banco dei salumi chiedo: "Trecento grammi
+          di prosciutto, per favore." Il venditore mi guarda e dice: "Tre etti, signorina!
+          Qui usiamo gli etti." Adesso lo so: un etto = cento grammi.
+
+          Poi i prezzi: al mercato il cartello dice "2,50 €/kg". Al banco del formaggio
+          invece "3,00 €/hg" — all'etto! Il pecorino non costa tre euro al chilo,
+          costa trenta euro al chilo. Differenza importante!
+
+          Ultima lezione: la busta. Al supermercato la busta costa dieci centesimi.
+          Adesso porto sempre la mia borsa, come le nonne italiane. Sono quasi
+          una vera italiana!»
+        questions:
+          - text: "Quanti grammi sono tre etti?"
+            correct_answer: "Trecento grammi"
+          - text: "Quanto costa il pecorino al chilo?"
+            correct_answer: "Trenta euro"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Quanto costa la busta al supermercato?"
+            correct_answer: "Dieci centesimi"
+          - text: "Che cosa porta sempre Emma adesso?"
+            correct_answer: "La sua borsa"
+    writings:
+      - prompt: "Confronta il mercato e il supermercato della tua città (5-6 frasi): dove costa meno? Dove è più fresco? Dove fai la spesa tu e perché?"
+      - prompt: "Scrivi un dialogo (8 battute): chiedi al venditore la differenza tra due prodotti (prezzo e qualità) e scegli uno dei due."
+  3:
+    listenings:
+      - text: |-
+          Sara cerca gli ingredienti per una cena speciale.
+          — Scusi! Stasera cucino per amici italiani. Che cosa mi consiglia?
+          — Che cosa vuole cucinare?
+          — Una pasta semplice ma buona.
+          — Allora pomodorini, aglio e basilico: una pasta fresca estiva. I pomodorini oggi sono dolcissimi.
+          — Perfetto. Mezzo chilo di pomodorini, per favore.
+          — Vuole anche delle zucchine? Sono appena arrivate.
+          — No grazie, niente zucchine. Ma un po' di basilico sì.
+          — Il basilico glielo regalo. E senta: per il dolce, queste fragole?
+          — Mmm, quanto costano?
+          — Quattro euro al cestino, ma per lei tre e cinquanta.
+          — Allora sì, un cestino. Lei è molto gentile!
+          — I clienti nuovi devono tornare! Buona cena!
+        questions:
+          - text: "Che cosa cucina Sara stasera?"
+            correct_answer: "Una pasta semplice (con pomodorini, aglio e basilico)"
+          - text: "Sara compra le zucchine?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+          - text: "Quanto costa il basilico per Sara?"
+            correct_answer: "Niente, è un regalo"
+          - text: "Quanto paga le fragole?"
+            correct_answer: "Tre euro e cinquanta"
+    readings:
+      - text: |-
+          Al mercato di Ballarò, a Palermo, comprare è un'arte. Ecco i consigli di
+          nonna Concetta, esperta di mercati da cinquanta anni.
+
+          «Primo: arriva presto. Alle sette la scelta è migliore. Ma se arrivi tardi,
+          all'una, i prezzi scendono: i venditori non vogliono riportare la merce a casa.
+
+          Secondo: guarda, confronta, chiedi. "Quanto costano i carciofi qui? E là?"
+          Non comprare al primo banco.
+
+          Terzo: fai amicizia con un venditore. Il mio fruttivendolo, Totò, mi tiene
+          sempre le cose migliori. E ogni tanto un regalo: un limone, un mazzetto
+          di odori. Questo non lo trovi al supermercato!
+
+          Quarto: compra di stagione. Costa meno e sa di più. Semplice!»
+        questions:
+          - text: "Quando scendono i prezzi al mercato?"
+            correct_answer: "Tardi, all'una"
+          - text: "Che cosa fa Totò per nonna Concetta?"
+            correct_answer: "Le tiene le cose migliori e ogni tanto fa un regalo"
+          - text: "Perché comprare di stagione?"
+            correct_answer: "Costa meno e sa di più"
+            grammar_point_codes:
+              - adv_quant
+          - text: "A che ora è migliore la scelta?"
+            correct_answer: "Alle sette (presto)"
+    writings:
+      - prompt: "Cucini una cena per amici italiani. Scrivi un dialogo al mercato (8-10 battute): chiedi consigli, accetta una proposta, rifiuta un'altra in modo gentile."
+      - prompt: "Scrivi i tuoi consigli per fare bene la spesa nella tua città (5-6 frasi): dove, quando, che cosa comprare e che cosa non comprare."

@@ -1,0 +1,38 @@
+grammar_point_code: card_1_100
+items:
+  - exercise_type: fill_blank
+    prompt: "Un caffè costa ___ euro. (1, in lettere)"
+    correct_answer: "un"
+  - exercise_type: fill_blank
+    prompt: "Due cappuccini e due cornetti: sono ___ euro. (8, in lettere)"
+    correct_answer: "otto"
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ etti di prosciutto. (2, in lettere)"
+    correct_answer: "due"
+  - exercise_type: fill_blank
+    prompt: "Ho ___ anni. (25, in lettere)"
+    correct_answer: "venticinque"
+  - exercise_type: fill_blank
+    prompt: "Il mercato chiude alle ___. (13, in lettere)"
+    correct_answer: "tredici"
+  - exercise_type: fill_blank
+    prompt: "Un chilo di mele costa ___ euro. (3, in lettere)"
+    correct_answer: "tre"
+  - exercise_type: fill_blank
+    prompt: "Sono ___ euro e cinquanta in tutto. (15, in lettere)"
+    correct_answer: "quindici"
+  - exercise_type: fill_blank
+    prompt: "Mia nonna ha ___ anni. (70, in lettere)"
+    correct_answer: "settanta"
+  - exercise_type: error_correction
+    prompt: "Il conto è venti e uno euro."
+    correct_answer: "Il conto è ventuno euro."
+  - exercise_type: error_correction
+    prompt: "Ho venti otto anni."
+    correct_answer: "Ho ventotto anni."
+  - exercise_type: error_correction
+    prompt: "Sono quaranta e tre euro."
+    correct_answer: "Sono quarantatré euro."
+  - exercise_type: error_correction
+    prompt: "Vorrei dieci sette rose."
+    correct_answer: "Vorrei diciassette rose."

@@ -1,0 +1,38 @@
+grammar_point_code: pron_pers
+items:
+  - exercise_type: fill_blank
+    prompt: "___ sono Marco, e tu? (pronome)"
+    correct_answer: "Io"
+  - exercise_type: fill_blank
+    prompt: "___ sei di Roma? (pronome)"
+    correct_answer: "Tu"
+  - exercise_type: fill_blank
+    prompt: "___ è la mia amica Anna. (pronome femminile)"
+    correct_answer: "Lei"
+  - exercise_type: fill_blank
+    prompt: "___ si chiama Paolo. (pronome maschile)"
+    correct_answer: "Lui"
+  - exercise_type: fill_blank
+    prompt: "Tu sei tedesco e ___ sono italiano. (pronome)"
+    correct_answer: "io"
+  - exercise_type: fill_blank
+    prompt: "E ___, come si chiama? (forma di cortesia)"
+    correct_answer: "Lei"
+  - exercise_type: fill_blank
+    prompt: "Marco non c'è: ___ lavora oggi. (pronome)"
+    correct_answer: "lui"
+  - exercise_type: fill_blank
+    prompt: "Anna è simpatica: ___ parla tre lingue. (pronome)"
+    correct_answer: "lei"
+  - exercise_type: error_correction
+    prompt: "Lui sono Marco."
+    correct_answer: "Io sono Marco."
+  - exercise_type: error_correction
+    prompt: "Io sei di Milano?"
+    correct_answer: "Tu sei di Milano?"
+  - exercise_type: error_correction
+    prompt: "Lei è il mio amico Paolo."
+    correct_answer: "Lui è il mio amico Paolo."
+  - exercise_type: error_correction
+    prompt: "Tu è studente?"
+    correct_answer: "Tu sei studente?"

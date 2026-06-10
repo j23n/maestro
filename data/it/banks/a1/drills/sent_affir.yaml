@@ -1,0 +1,38 @@
+grammar_point_code: sent_affir
+items:
+  - exercise_type: fill_blank
+    prompt: "Io ___ parlo francese, parlo solo italiano. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Anna ___ lavora oggi: è a casa. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "— Sei di Roma? — No, ___ sono di Roma. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Il bar ___ è aperto la domenica. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Io ___ ho fratelli, sono figlio unico. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Lui ___ mangia la carne: è vegetariano. (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Scusi, ___ capisco. Può ripetere? (negazione)"
+    correct_answer: "non"
+  - exercise_type: fill_blank
+    prompt: "Questo vino ___ è buono, prendo l'acqua. (negazione)"
+    correct_answer: "non"
+  - exercise_type: error_correction
+    prompt: "Io parlo non inglese."
+    correct_answer: "Io non parlo inglese."
+  - exercise_type: error_correction
+    prompt: "Anna non è non italiana."
+    correct_answer: "Anna non è italiana."
+  - exercise_type: error_correction
+    prompt: "Il ristorante è no aperto."
+    correct_answer: "Il ristorante non è aperto."
+  - exercise_type: error_correction
+    prompt: "Noi non abbiamo no tempo."
+    correct_answer: "Noi non abbiamo tempo."

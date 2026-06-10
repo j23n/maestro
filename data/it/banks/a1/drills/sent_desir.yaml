@@ -1,0 +1,38 @@
+grammar_point_code: sent_desir
+items:
+  - exercise_type: fill_blank
+    prompt: "___ un cappuccino, per favore. (desiderio, con 'volere')"
+    correct_answer: "Vorrei"
+  - exercise_type: fill_blank
+    prompt: "___ prenotare un tavolo per due. (desiderio, con 'volere')"
+    correct_answer: "Vorrei"
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ il conto, per favore. (verbo: pagare)"
+    correct_answer: "pagare"
+  - exercise_type: fill_blank
+    prompt: "___ un chilo di pomodori. (desiderio, con 'volere')"
+    correct_answer: "Vorrei"
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ la pizza margherita. (verbo: provare)"
+    correct_answer: "provare"
+  - exercise_type: fill_blank
+    prompt: "___ un'acqua frizzante e un succo. (desiderio, con 'volere')"
+    correct_answer: "Vorrei"
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ vicino alla finestra. (verbo: sedere/sedersi → 'sedermi')"
+    correct_answer: "sedermi"
+  - exercise_type: fill_blank
+    prompt: "___ qualcosa di dolce: che cosa avete? (desiderio, con 'volere')"
+    correct_answer: "Vorrei"
+  - exercise_type: error_correction
+    prompt: "Io volere un caffè, per favore."
+    correct_answer: "Io vorrei un caffè, per favore."
+  - exercise_type: error_correction
+    prompt: "Vorrei mangio una pizza."
+    correct_answer: "Vorrei mangiare una pizza."
+  - exercise_type: error_correction
+    prompt: "Io vorrei che un gelato."
+    correct_answer: "Io vorrei un gelato."
+  - exercise_type: error_correction
+    prompt: "Vorrei a pagare il conto."
+    correct_answer: "Vorrei pagare il conto."

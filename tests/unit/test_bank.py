@@ -66,7 +66,10 @@ def bank_data(tmp_path, monkeypatch):
                             {
                                 "text": "— Buongiorno!\n— Un caffè, per favore.",
                                 "questions": [
-                                    {"text": "Cosa ordina?", "correct_answer": "Un caffè"}
+                                    {
+                                        "text": "Cosa ordina?",
+                                        "correct_answer": "Un caffè",
+                                    }
                                 ],
                                 "vocab_annotations": [
                                     {

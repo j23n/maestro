@@ -1,0 +1,38 @@
+grammar_point_code: ord_svo
+items:
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'mangia / Anna / una pizza' → Anna ___ una pizza."
+    correct_answer: "mangia"
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'il caffè / io / prendo' → Io ___ il caffè."
+    correct_answer: "prendo"
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'Marco / la televisione / guarda' → Marco guarda ___."
+    correct_answer: "la televisione"
+  - exercise_type: fill_blank
+    prompt: "Completa con il soggetto al posto giusto: '___ compra il pane.' (Luca)"
+    correct_answer: "Luca"
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'studia / Anna / l'italiano' → Anna ___ l'italiano."
+    correct_answer: "studia"
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'io / un cornetto / vorrei' → Io ___ un cornetto."
+    correct_answer: "vorrei"
+  - exercise_type: fill_blank
+    prompt: "Completa: 'Il cameriere porta ___.' (il menù)"
+    correct_answer: "il menù"
+  - exercise_type: fill_blank
+    prompt: "Metti in ordine: 'la frutta / compriamo / noi' → Noi compriamo ___."
+    correct_answer: "la frutta"
+  - exercise_type: error_correction
+    prompt: "Una pizza Anna mangia."
+    correct_answer: "Anna mangia una pizza."
+  - exercise_type: error_correction
+    prompt: "Compra Luca il pane."
+    correct_answer: "Luca compra il pane."
+  - exercise_type: error_correction
+    prompt: "Il menù porta il cameriere."
+    correct_answer: "Il cameriere porta il menù."
+  - exercise_type: error_correction
+    prompt: "L'italiano studia Anna."
+    correct_answer: "Anna studia l'italiano."

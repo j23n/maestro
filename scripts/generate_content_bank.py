@@ -106,7 +106,15 @@ def _load_curriculum(lang: str, level: str):
     with open(data_dir(lang) / f"scenarios_{level.lower()}.yaml") as f:
         scenarios = yaml.safe_load(f)["scenarios"]
     with open(data_dir(lang) / "grammar_points.yaml") as f:
-        gps = {g["code"]: g for g in yaml.safe_load(f)}
+        gp_items = yaml.safe_load(f)
+    gps = {g["code"]: g for g in gp_items}
+    # Scenario YAML still carries verbose unistr codes; the DB and the bank
+    # use short codes (migration 0003), so remap before generating.
+    unistr_to_code = {
+        g["unistr_code"]: g["code"] for g in gp_items if g.get("unistr_code")
+    }
+    for s in scenarios:
+        s["gp_codes"] = [unistr_to_code.get(c, c) for c in s.get("gp_codes", [])]
     with open(data_dir(lang) / "comm_functions.json") as f:
         cfs = {c["code"]: c for c in json.load(f)}
     return scenarios, gps, cfs

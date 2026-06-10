@@ -1,0 +1,38 @@
+grammar_point_code: indef_poco
+items:
+  - exercise_type: fill_blank
+    prompt: "Al ristorante c'è ___ gente stasera. (molto, concordato)"
+    correct_answer: "molta"
+  - exercise_type: fill_blank
+    prompt: "Ho ___ fame: prendo solo un'insalata. (poco, concordato)"
+    correct_answer: "poca"
+  - exercise_type: fill_blank
+    prompt: "Compriamo ___ pomodori per la salsa. (molto, concordato)"
+    correct_answer: "molti"
+  - exercise_type: fill_blank
+    prompt: "Ci sono ___ mele nel cestino: solo due. (poco, concordato)"
+    correct_answer: "poche"
+  - exercise_type: fill_blank
+    prompt: "Mangio ___ pasta: mi piace tantissimo. (tanto, concordato)"
+    correct_answer: "tanta"
+  - exercise_type: fill_blank
+    prompt: "Al mercato ci sono ___ banchi di frutta. (tanto, concordato)"
+    correct_answer: "tanti"
+  - exercise_type: fill_blank
+    prompt: "Metto ___ olio nell'insalata. (poco, concordato)"
+    correct_answer: "poco"
+  - exercise_type: fill_blank
+    prompt: "Ci sono ___ specialità sul menù. (molto, concordato)"
+    correct_answer: "molte"
+  - exercise_type: error_correction
+    prompt: "C'è molto gente al mercato."
+    correct_answer: "C'è molta gente al mercato."
+  - exercise_type: error_correction
+    prompt: "Compro molto arance."
+    correct_answer: "Compro molte arance."
+  - exercise_type: error_correction
+    prompt: "Ho poco voglia di cucinare."
+    correct_answer: "Ho poca voglia di cucinare."
+  - exercise_type: error_correction
+    prompt: "Ci sono tanto turisti in piazza."
+    correct_answer: "Ci sono tanti turisti in piazza."

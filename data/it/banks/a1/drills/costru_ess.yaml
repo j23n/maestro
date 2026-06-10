@@ -1,0 +1,38 @@
+grammar_point_code: costru_ess
+items:
+  - exercise_type: fill_blank
+    prompt: "Io ___ Anna. (essere)"
+    correct_answer: "sono"
+  - exercise_type: fill_blank
+    prompt: "Tu ___ un lavoro interessante. (avere)"
+    correct_answer: "hai"
+  - exercise_type: fill_blank
+    prompt: "Lei ___ a Firenze. (abitare)"
+    correct_answer: "abita"
+  - exercise_type: fill_blank
+    prompt: "Io ___ italiano e inglese. (parlare)"
+    correct_answer: "parlo"
+  - exercise_type: fill_blank
+    prompt: "Tu ___ il caffè la mattina? (prendere)"
+    correct_answer: "prendi"
+  - exercise_type: fill_blank
+    prompt: "Lui ___ in un ristorante. (lavorare)"
+    correct_answer: "lavora"
+  - exercise_type: fill_blank
+    prompt: "Io ___ una sorella. (avere)"
+    correct_answer: "ho"
+  - exercise_type: fill_blank
+    prompt: "Lei ___ a Bologna, vero? (vivere)"
+    correct_answer: "vive"
+  - exercise_type: error_correction
+    prompt: "Io abita a Roma."
+    correct_answer: "Io abito a Roma."
+  - exercise_type: error_correction
+    prompt: "Tu parla molto bene l'italiano."
+    correct_answer: "Tu parli molto bene l'italiano."
+  - exercise_type: error_correction
+    prompt: "Lui avere trent'anni."
+    correct_answer: "Lui ha trent'anni."
+  - exercise_type: error_correction
+    prompt: "Anna lavoro in una scuola."
+    correct_answer: "Anna lavora in una scuola."

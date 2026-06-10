@@ -1,0 +1,219 @@
+scenario: al-ristorante
+speakings:
+  - cf_code: intazio_chiincserv_a1
+    prompt: "Sei al ristorante e il cameriere arriva al tuo tavolo. Ordina un primo piatto e qualcosa da bere. Usa «vorrei» o «per me», e «per favore»."
+  - cf_code: interag_inform01_a1
+    prompt: "Sul menù c'è un piatto che non conosci: «la ribollita». Chiedi al cameriere che cos'è e che ingredienti ha."
+  - cf_code: intatt_espdesiderio_a1
+    prompt: "È il tuo compleanno e sei al ristorante. Di' al cameriere che cosa vorresti: un tavolo speciale, il tuo piatto preferito, un dolce."
+  - cf_code: intazio_offrqualc_a1
+    prompt: "Sei al ristorante con un amico. Offri qualcosa al tuo amico: «Vuoi un po' di...? Prendi anche tu...?» Proponi un antipasto da dividere."
+  - cf_code: intazio_rispaccsenris_a1
+    prompt: "— Vuole un po' di parmigiano sulla pasta?\n— Le porto ancora un po' di pane?\nRispondi alle domande del cameriere accettando."
+  - cf_code: intemo_espsoddisf_a1
+    prompt: "Il cameriere porta il tuo piatto preferito e tutto è perfetto. Esprimi la tua soddisfazione: di' che cosa ti piace e perché."
+depths:
+  1:
+    listenings:
+      - text: |-
+          Laura e Marco ordinano al ristorante.
+          — Buonasera! Avete scelto?
+          — Sì. Per me gli spaghetti al pomodoro, grazie.
+          — Bene. E per lei?
+          — Io vorrei le lasagne. Sono fatte in casa?
+          — Certo, tutta la pasta è fatta in casa.
+          — Perfetto, allora le lasagne.
+          — Da bere?
+          — Una bottiglia di acqua naturale e due bicchieri di vino rosso.
+          — Benissimo. Volete anche un antipasto?
+          — No, grazie. Magari un dolce dopo!
+          — D'accordo. Torno subito con l'acqua.
+        questions:
+          - text: "Che cosa ordina Laura?"
+            correct_answer: "Le lasagne"
+          - text: "La pasta è fatta in casa?"
+            correct_answer: "Sì"
+          - text: "Che cosa bevono?"
+            correct_answer: "Acqua naturale e vino rosso"
+          - text: "Prendono l'antipasto?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+    readings:
+      - text: |-
+          Il menù della Trattoria da Luigi è semplice e buono.
+
+          Antipasti: bruschetta al pomodoro (cinque euro), prosciutto e melone
+          (sette euro). Primi piatti: spaghetti alla carbonara (nove euro), lasagne
+          della casa (dieci euro), risotto ai funghi (undici euro). Secondi piatti:
+          pollo arrosto con patate (dodici euro), pesce del giorno (quindici euro).
+          Dolci: tiramisù (cinque euro), gelato della casa (quattro euro).
+
+          In un ristorante italiano il pasto completo ha quattro parti: antipasto,
+          primo, secondo e dolce. Ma attenzione: non è obbligatorio ordinare tutto!
+          Molti italiani prendono solo un primo e un caffè, o un secondo e un dolce.
+        questions:
+          - text: "Quanto costano le lasagne della casa?"
+            correct_answer: "Dieci euro"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Qual è il piatto più caro del menù?"
+            correct_answer: "Il pesce del giorno"
+          - text: "Quante parti ha il pasto completo italiano?"
+            correct_answer: "Quattro"
+          - text: "È obbligatorio ordinare tutto il menù?"
+            correct_answer: "No"
+      - text: |-
+          Stasera Yuki mangia per la prima volta in una vera trattoria italiana.
+
+          Il cameriere porta il menù. Yuki legge: «Primi piatti... Secondi piatti...»
+          In Giappone non è così! Yuki chiama il cameriere: «Scusi, una domanda:
+          che cos'è un primo piatto?»
+
+          Il cameriere spiega: «Il primo è pasta, riso o zuppa. Il secondo è carne o
+          pesce, con un contorno: verdure o patate.»
+
+          Yuki ordina una zuppa di verdure e poi il pesce del giorno. Tutto è
+          buonissimo. Alla fine il cameriere chiede: «Un dolce? Un caffè?» Yuki
+          risponde: «Sì, un tiramisù! E poi un caffè.» Che bella cena!
+        questions:
+          - text: "Che cos'è un primo piatto?"
+            correct_answer: "Pasta, riso o zuppa"
+          - text: "Che cosa ordina Yuki come primo?"
+            correct_answer: "Una zuppa di verdure"
+          - text: "Che dolce prende Yuki?"
+            correct_answer: "Un tiramisù"
+          - text: "Com'è la cena?"
+            correct_answer: "Buonissima (bella)"
+    writings:
+      - prompt: "Scrivi un dialogo al ristorante (6-8 battute): il cameriere arriva, tu ordini un primo, qualcosa da bere e chiedi una cosa sul menù."
+      - prompt: "Descrivi il tuo piatto preferito in 4-5 frasi: come si chiama, che ingredienti ha, quando lo mangi."
+  2:
+    listenings:
+      - text: |-
+          Marco chiede consigli al cameriere.
+          — Scusi, che cosa ci consiglia stasera?
+          — Il risotto ai funghi è speciale oggi: funghi freschi di stagione.
+          — Mmm, però i funghi non mi piacciono molto. C'è un'altra specialità?
+          — Allora le tagliatelle al ragù: la nostra cuoca le fa a mano ogni mattina.
+          — Perfetto, le tagliatelle! E come secondo, meglio il pollo o il pesce?
+          — Il pesce è freschissimo, arriva ogni giorno dal mercato.
+          — Va bene, il pesce. Grazie del consiglio!
+          — Prego! E da bere consiglio un vino bianco con il pesce.
+          — Sì, volentieri. Un bicchiere di bianco della casa.
+        questions:
+          - text: "Qual è la specialità di oggi?"
+            correct_answer: "Il risotto ai funghi"
+          - text: "Perché Marco non prende il risotto?"
+            correct_answer: "I funghi non gli piacciono"
+          - text: "Chi fa le tagliatelle a mano?"
+            correct_answer: "La cuoca"
+          - text: "Che cosa beve Marco?"
+            correct_answer: "Un bicchiere di vino bianco della casa"
+    readings:
+      - text: |-
+          Come si chiede il conto in Italia? Ecco una piccola guida.
+
+          In Italia il cameriere non porta il conto subito dopo il pasto: il tavolo è
+          tuo per tutta la sera! Quando vuoi pagare, chiami il cameriere e dici:
+          «Il conto, per favore.»
+
+          Sul conto a volte c'è il «coperto»: uno o due euro a persona per il pane e
+          il servizio del tavolo. Non è una sorpresa cattiva: è normale in Italia.
+
+          E la mancia? In Italia la mancia non è obbligatoria. Molti italiani lasciano
+          poco o niente. Ma se il servizio è molto buono, puoi lasciare qualche euro:
+          il cameriere è sempre contento!
+        questions:
+          - text: "Quando porta il conto il cameriere italiano?"
+            correct_answer: "Quando lo chiedi"
+          - text: "Che cos'è il coperto?"
+            correct_answer: "Uno o due euro a persona per il pane e il servizio"
+          - text: "La mancia è obbligatoria in Italia?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+          - text: "Quanto lasciano di mancia molti italiani?"
+            correct_answer: "Poco o niente"
+            grammar_point_codes:
+              - adv_quant
+      - text: |-
+          Elena e David sono al ristorante. Elena è italiana, David è americano.
+
+          David: «Guarda, c'è la pizza con l'ananas!» Elena: «Dove?! Ah no, quello è
+          un ristorante per turisti. Noi siamo in una trattoria seria.»
+
+          David legge il menù: «Spaghetti alle vongole... carbonara... cacio e pepe...
+          Qual è più buono?» Elena: «Tutti! Ma la cacio e pepe è la più semplice:
+          solo formaggio e pepe. Semplice e perfetta.»
+
+          David: «E tu che cosa prendi?» Elena: «Io prendo le vongole. E dividiamo
+          un antipasto? La bruschetta qui è ottima.» David: «Sì, volentieri!
+          E poi voglio provare la cacio e pepe... o la carbonara... o tutte e due?»
+          Elena ride: «Piano, David. Questa è la prima cena, non l'ultima!»
+        questions:
+          - text: "Che cosa c'è nella cacio e pepe?"
+            correct_answer: "Solo formaggio e pepe"
+          - text: "Che cosa prende Elena?"
+            correct_answer: "Gli spaghetti alle vongole"
+          - text: "Che antipasto dividono?"
+            correct_answer: "La bruschetta"
+          - text: "David prende la cacio e pepe o la carbonara?"
+            correct_answer: "Non decide (vuole provare tutte e due)"
+            grammar_point_codes:
+              - coord_disj
+    writings:
+      - prompt: "Scrivi un dialogo (8 battute): chiedi al cameriere un consiglio tra due piatti, scegli, e alla fine chiedi il conto."
+      - prompt: "Un amico viene nella tua città. Scrivi un messaggio (5-6 frasi): consiglia un ristorante, di' che cosa è buono e quanto costa più o meno."
+  3:
+    listenings:
+      - text: |-
+          Sara ha bisogno di informazioni sugli ingredienti.
+          — Scusi, sono vegetariana. Che cosa posso mangiare?
+          — Abbiamo molte opzioni: la pasta al pomodoro, il risotto alle verdure, la parmigiana di melanzane...
+          — La parmigiana! Ha la carne dentro?
+          — No, niente carne: melanzane, pomodoro, mozzarella e parmigiano.
+          — Perfetto. E un'ultima cosa: mia figlia non mangia il glutine. C'è pasta senza glutine?
+          — Sì, abbiamo pasta senza glutine. Costa un euro in più.
+          — Va benissimo. Allora una parmigiana e una pasta al pomodoro senza glutine.
+          — Perfetto. Qualcosa da bere?
+          — Una bottiglia d'acqua frizzante, grazie.
+        questions:
+          - text: "Che cosa non mangia Sara?"
+            correct_answer: "La carne (è vegetariana)"
+          - text: "La parmigiana ha la carne?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+          - text: "Che problema ha la figlia di Sara?"
+            correct_answer: "Non mangia il glutine"
+          - text: "Quanto costa in più la pasta senza glutine?"
+            correct_answer: "Un euro"
+    readings:
+      - text: |-
+          A volte al ristorante c'è un problema. Come si fa una critica educata in
+          italiano? Ecco tre situazioni.
+
+          La zuppa è fredda. Non dire: «Questa zuppa è terribile!» Meglio: «Scusi,
+          la zuppa è un po' fredda. La può scaldare, per favore?» Il cameriere la
+          scalda volentieri.
+
+          Aspetti da quaranta minuti. Puoi dire: «Scusi, il nostro ordine arriva
+          presto? Aspettiamo da molto tempo.» Una domanda gentile funziona meglio
+          di una critica arrabbiata.
+
+          Il conto è sbagliato. «Scusi, c'è un piccolo errore nel conto: noi non
+          abbiamo ordinato il vino.» Errori così sono normali: con calma e gentilezza,
+          tutto si risolve. E spesso il ristorante offre un caffè per lo sbaglio!
+        questions:
+          - text: "Che cosa dici se la zuppa è fredda?"
+            correct_answer: "Scusi, la zuppa è un po' fredda. La può scaldare?"
+          - text: "Che cosa funziona meglio di una critica arrabbiata?"
+            correct_answer: "Una domanda gentile"
+          - text: "Che cosa offre spesso il ristorante per uno sbaglio?"
+            correct_answer: "Un caffè"
+          - text: "Qual è l'errore nel conto dell'esempio?"
+            correct_answer: "Un vino non ordinato"
+    writings:
+      - prompt: "Al ristorante c'è un problema: il piatto è freddo o l'ordine è sbagliato. Scrivi un dialogo educato (8-10 battute) per risolvere la situazione."
+      - prompt: "Scrivi una recensione del ristorante (6 frasi): che cosa hai mangiato tu e i tuoi amici, che cosa era buono, il servizio, i prezzi. Consigli questo ristorante?"

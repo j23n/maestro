@@ -1,0 +1,38 @@
+grammar_point_code: art_om_ind
+items:
+  - exercise_type: fill_blank
+    prompt: "Al mercato compro ___ mele. ('molto' concordato, senza articolo)"
+    correct_answer: "molte"
+  - exercise_type: fill_blank
+    prompt: "Ho ___ tempo oggi: facciamo la spesa con calma. ('molto' concordato, senza articolo)"
+    correct_answer: "molto"
+  - exercise_type: fill_blank
+    prompt: "Ci sono ___ banchi al mercato del sabato. ('tanto' concordato, senza articolo)"
+    correct_answer: "tanti"
+  - exercise_type: fill_blank
+    prompt: "Compriamo ___ uova: solo sei. ('poco' concordato, senza articolo)"
+    correct_answer: "poche"
+  - exercise_type: fill_blank
+    prompt: "___ persone comprano il pesce qui. ('molto' concordato, senza articolo)"
+    correct_answer: "Molte"
+  - exercise_type: fill_blank
+    prompt: "Ho ___ spiccioli: posso pagare con la carta? ('poco' concordato, senza articolo)"
+    correct_answer: "pochi"
+  - exercise_type: fill_blank
+    prompt: "In questa stagione c'è ___ frutta buona. ('tanto' concordato, senza articolo)"
+    correct_answer: "tanta"
+  - exercise_type: fill_blank
+    prompt: "___ negozi chiudono il lunedì mattina. ('molto' concordato, senza articolo)"
+    correct_answer: "Molti"
+  - exercise_type: error_correction
+    prompt: "Compro le molte mele."
+    correct_answer: "Compro molte mele."
+  - exercise_type: error_correction
+    prompt: "Ho il molto tempo oggi."
+    correct_answer: "Ho molto tempo oggi."
+  - exercise_type: error_correction
+    prompt: "Ci sono i tanti turisti al mercato."
+    correct_answer: "Ci sono tanti turisti al mercato."
+  - exercise_type: error_correction
+    prompt: "Vedo le poche persone in fila."
+    correct_answer: "Vedo poche persone in fila."

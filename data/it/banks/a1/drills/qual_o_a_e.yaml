@@ -1,0 +1,38 @@
+grammar_point_code: qual_o_a_e
+items:
+  - exercise_type: fill_blank
+    prompt: "La pasta è molto ___. (buono)"
+    correct_answer: "buona"
+  - exercise_type: fill_blank
+    prompt: "Il vino della casa è ___. (rosso)"
+    correct_answer: "rosso"
+  - exercise_type: fill_blank
+    prompt: "La zuppa è ___ ma buonissima. (caldo)"
+    correct_answer: "calda"
+  - exercise_type: fill_blank
+    prompt: "Questo ristorante è ___. (grande)"
+    correct_answer: "grande"
+  - exercise_type: fill_blank
+    prompt: "Le lasagne sono ___. (squisito)"
+    correct_answer: "squisite"
+  - exercise_type: fill_blank
+    prompt: "I camerieri sono molto ___. (gentile)"
+    correct_answer: "gentili"
+  - exercise_type: fill_blank
+    prompt: "Gli gnocchi sono ___ oggi? (fresco)"
+    correct_answer: "freschi"
+  - exercise_type: fill_blank
+    prompt: "La torta al limone è ___. (dolce)"
+    correct_answer: "dolce"
+  - exercise_type: error_correction
+    prompt: "La pizza è molto buono."
+    correct_answer: "La pizza è molto buona."
+  - exercise_type: error_correction
+    prompt: "I ravioli sono squisiti e calde."
+    correct_answer: "I ravioli sono squisiti e caldi."
+  - exercise_type: error_correction
+    prompt: "Il cameriere è gentila."
+    correct_answer: "Il cameriere è gentile."
+  - exercise_type: error_correction
+    prompt: "Le verdure sono freschi."
+    correct_answer: "Le verdure sono fresche."

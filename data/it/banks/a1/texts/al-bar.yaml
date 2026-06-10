@@ -1,0 +1,219 @@
+scenario: al-bar
+speakings:
+  - cf_code: intritsoc_salutare_a1
+    prompt: "Entri nel tuo bar preferito la mattina. Saluta il barista e le persone che conosci. Ricorda: la mattina si dice «buongiorno»."
+  - cf_code: intritsoc_rispsal_a1
+    prompt: "— Buongiorno! Benvenuto al Bar Centrale!\nRispondi al saluto del barista in modo gentile."
+  - cf_code: intazio_chiincserv_a1
+    prompt: "Sei al banco del bar. Ordina la tua colazione: una bevanda e qualcosa da mangiare. Usa «per favore» o «vorrei»."
+  - cf_code: interag_inform05_a1
+    prompt: "Vuoi comprare delle paste per i tuoi colleghi. Chiedi al barista quante paste ci sono e quanto costano."
+  - cf_code: intemo_espgratring_a1
+    prompt: "Il barista ti porta il cappuccino e ti dà anche un biscotto in regalo. Ringrazialo in modo caloroso."
+  - cf_code: intemo_rispringr_a1
+    prompt: "— Grazie mille per il caffè, sei molto gentile!\nRispondi al ringraziamento del tuo amico."
+depths:
+  1:
+    listenings:
+      - text: |-
+          Paolo entra al bar per la colazione.
+          — Buongiorno!
+          — Buongiorno! Mi dica.
+          — Un cappuccino e un cornetto, per favore.
+          — Il cornetto: semplice, alla crema o al cioccolato?
+          — Alla crema, grazie.
+          — Subito. Il cappuccino lo vuole caldo o tiepido?
+          — Caldo, grazie. Quant'è?
+          — Sono due euro e cinquanta.
+          — Ecco a lei.
+          — Grazie! Lo scontrino è sul banco.
+          — Grazie, buona giornata!
+          — Altrettanto!
+        questions:
+          - text: "Che cosa ordina Paolo?"
+            correct_answer: "Un cappuccino e un cornetto alla crema"
+          - text: "Quanto paga Paolo?"
+            correct_answer: "Due euro e cinquanta"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Che tipo di cornetto prende?"
+            correct_answer: "Alla crema"
+          - text: "Dove è lo scontrino?"
+            correct_answer: "Sul banco"
+    readings:
+      - text: |-
+          Il Bar Centrale apre alle sei e mezza di mattina. È un bar piccolo ma sempre
+          pieno. Il barista si chiama Gianni e conosce tutti i clienti.
+
+          La mattina gli italiani fanno una colazione veloce: un caffè o un cappuccino
+          e un cornetto. Al banco la colazione costa poco: un caffè costa un euro e
+          venti, un cappuccino un euro e sessanta, un cornetto un euro e dieci.
+          Al tavolo i prezzi sono più alti.
+
+          Attenzione: in Italia il cappuccino è una bevanda della mattina. Gli italiani
+          non prendono un cappuccino dopo pranzo — dopo pranzo prendono un caffè!
+        questions:
+          - text: "A che ora apre il Bar Centrale?"
+            correct_answer: "Alle sei e mezza"
+          - text: "Quanto costa un cappuccino al banco?"
+            correct_answer: "Un euro e sessanta"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Dove costa di più la colazione: al banco o al tavolo?"
+            correct_answer: "Al tavolo"
+          - text: "Che cosa prendono gli italiani dopo pranzo?"
+            correct_answer: "Un caffè"
+      - text: |-
+          Emma è francese e oggi fa colazione in un bar italiano per la prima volta.
+          Guarda il menù sul muro:
+
+          «Caffè un euro e venti. Caffè macchiato un euro e trenta. Cappuccino un euro
+          e sessanta. Tè un euro e cinquanta. Spremuta d'arancia due euro e cinquanta.
+          Cornetto un euro e dieci. Pasta alla crema un euro e trenta.»
+
+          Emma vorrebbe un caffè, ma il caffè italiano è molto piccolo e forte! Allora
+          ordina un cappuccino e una pasta alla crema. Paga tre euro meno dieci
+          centesimi: due euro e novanta. Il barista è gentile e la pasta è buonissima.
+          Emma pensa: «La colazione italiana mi piace!»
+        questions:
+          - text: "Quanto costa una spremuta d'arancia?"
+            correct_answer: "Due euro e cinquanta"
+            grammar_point_codes:
+              - card_1_100
+          - text: "Che cosa ordina Emma?"
+            correct_answer: "Un cappuccino e una pasta alla crema"
+          - text: "Com'è il caffè italiano?"
+            correct_answer: "Piccolo e forte"
+          - text: "Quanto paga Emma?"
+            correct_answer: "Due euro e novanta"
+    writings:
+      - prompt: "Scrivi un breve dialogo al bar (6-8 battute): saluti il barista, ordini la colazione, chiedi il prezzo e paghi."
+      - prompt: "Descrivi la tua colazione ideale in 4-5 frasi: che cosa prendi, dove, a che ora."
+  2:
+    listenings:
+      - text: |-
+          Anna è al bar e non sa che cosa prendere.
+          — Buongiorno! Che cosa avete di buono oggi?
+          — Buongiorno! Abbiamo cornetti freschi, paste alla crema e una torta della nonna fatta in casa.
+          — Mmm, che cosa mi consiglia?
+          — La torta della nonna è speciale: poca crema e tanti pinoli.
+          — Allora una fetta di torta, grazie. E da bere... avete il tè verde?
+          — Certo. Tè verde caldo o freddo?
+          — Caldo, per favore. Con un po' di limone.
+          — Perfetto. Si accomodi al tavolo, porto tutto io.
+          — Grazie mille!
+          — Prego!
+        questions:
+          - text: "Che cosa consiglia il barista?"
+            correct_answer: "La torta della nonna"
+          - text: "Com'è la torta della nonna?"
+            correct_answer: "Poca crema e tanti pinoli"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Che cosa beve Anna?"
+            correct_answer: "Tè verde caldo con un po' di limone"
+          - text: "Dove aspetta Anna?"
+            correct_answer: "Al tavolo"
+    readings:
+      - text: |-
+          Al bar di Gianni ogni cliente ha le sue abitudini.
+
+          La signora Rossi arriva alle sette: «Un caffè macchiato con poco zucchero,
+          Gianni. E questo cornetto qui, il più piccolo!» Lei prende sempre lo stesso
+          cornetto.
+
+          Lo studente Marco arriva alle otto, sempre di corsa: «Gianni, un caffè doppio!
+          Ho l'esame!» Gianni risponde: «Questo caffè o quel caffè speciale della
+          Colombia?» Marco ride: «Quello che arriva prima!»
+
+          La turista americana invece chiede: «Un cappuccino grande, con tanta schiuma,
+          per favore. E quella pasta lì, con più cioccolato!» Gianni sorride: ogni
+          cliente è diverso, e questo è il bello del suo lavoro.
+        questions:
+          - text: "Che cosa prende la signora Rossi?"
+            correct_answer: "Un caffè macchiato con poco zucchero e un cornetto"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Perché Marco vuole un caffè doppio?"
+            correct_answer: "Ha l'esame"
+          - text: "Come vuole il cappuccino la turista?"
+            correct_answer: "Grande, con tanta schiuma"
+          - text: "A che ora arriva Marco?"
+            correct_answer: "Alle otto"
+      - text: |-
+          Tom lavora al Bar Centrale da un mese. Oggi scrive a un amico:
+
+          «Il lavoro al bar è perfetto per il mio italiano. Ogni giorno imparo parole
+          nuove. Per esempio: gli italiani non dicono solo "un caffè". Dicono: caffè
+          ristretto (poco caffè, molto forte), caffè lungo (più acqua), caffè macchiato
+          (con un po' di latte), caffè corretto (con un po' di liquore!).
+
+          E il cappuccino? Va bene solo la mattina. Un cliente dice: "Un cappuccino alle
+          tre del pomeriggio? Sei matto?" Adesso capisco: qui il caffè non è una bevanda,
+          è una religione! Ma io preferisco il tè... non lo dico a nessuno!»
+        questions:
+          - text: "Da quanto tempo lavora Tom al bar?"
+            correct_answer: "Da un mese"
+          - text: "Che cos'è un caffè macchiato?"
+            correct_answer: "Un caffè con un po' di latte"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Quando va bene il cappuccino in Italia?"
+            correct_answer: "Solo la mattina"
+          - text: "Che cosa preferisce Tom?"
+            correct_answer: "Il tè"
+    writings:
+      - prompt: "Sei al bar e non sai che cosa prendere. Scrivi un dialogo (6-8 battute) con il barista: chiedi che cosa c'è, chiedi un consiglio e ordina."
+      - prompt: "Descrivi il tuo bar o caffè preferito in 5-6 frasi: dov'è, com'è, che cosa prendi e perché ti piace."
+  3:
+    listenings:
+      - text: |-
+          C'è un problema con l'ordine di Paolo.
+          — Scusi, ho un problema: questo è un caffè normale, ma io vorrei un decaffeinato.
+          — Oh, mi scusi! Sbaglio mio. Lo cambio subito.
+          — Grazie. E un'altra cosa: questa pasta ha le noci?
+          — La pasta alla crema? No, niente noci. Perché, è allergico?
+          — Sì, sono allergico alle noci. Devo stare attento.
+          — Capisco. Allora la pasta alla crema va bene: solo crema, zucchero e farina.
+          — Perfetto, grazie mille per la pazienza.
+          — Si figuri! Ecco il decaffeinato. Offre la casa, per lo sbaglio.
+          — Oh, grazie! Molto gentile!
+        questions:
+          - text: "Qual è il primo problema di Paolo?"
+            correct_answer: "Ha un caffè normale ma vuole un decaffeinato"
+          - text: "A che cosa è allergico Paolo?"
+            correct_answer: "Alle noci"
+          - text: "La pasta alla crema ha le noci?"
+            correct_answer: "No"
+            grammar_point_codes:
+              - sent_affir
+          - text: "Perché il caffè è gratis?"
+            correct_answer: "Per lo sbaglio del barista (offre la casa)"
+    readings:
+      - text: |-
+          Caro diario, oggi al bar è successa una cosa divertente.
+
+          Ordino «un latte», come a casa mia, in Germania. Il barista mi porta...
+          un bicchiere di latte freddo! Io guardo il latte, lui guarda me.
+          «Scusi», dico, «vorrei un caffè con il latte.»
+          «Ah! Lei vuole un latte macchiato! O forse un cappuccino?»
+          «Qual è la differenza?»
+          «Il latte macchiato è tanto latte con poco caffè. Il cappuccino è caffè,
+          latte e schiuma: più equilibrato.»
+          «Allora un cappuccino, grazie. E... mi scusi per la confusione!»
+          «Ma no, succede sempre! Gli stranieri ordinano "un latte" e io porto il latte.
+          Adesso lei sa una cosa nuova: in Italia, le parole del caffè sono importanti!»
+        questions:
+          - text: "Che cosa porta il barista all'inizio?"
+            correct_answer: "Un bicchiere di latte freddo"
+          - text: "Che cos'è un latte macchiato?"
+            correct_answer: "Tanto latte con poco caffè"
+            grammar_point_codes:
+              - adv_quant
+          - text: "Che cosa ordina alla fine?"
+            correct_answer: "Un cappuccino"
+          - text: "Questo errore succede spesso?"
+            correct_answer: "Sì, succede sempre con gli stranieri"
+    writings:
+      - prompt: "C'è un errore nel tuo ordine al bar (bevanda sbagliata o cosa che non puoi mangiare). Scrivi un dialogo educato (8-10 battute) per risolvere il problema."
+      - prompt: "Scrivi una breve recensione (5-6 frasi) di un bar: che cosa è buono, che cosa non è buono, i prezzi e il servizio."

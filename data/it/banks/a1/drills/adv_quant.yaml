@@ -1,0 +1,38 @@
+grammar_point_code: adv_quant
+items:
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ po' di parmigiano. (quantità)"
+    correct_answer: "un"
+  - exercise_type: fill_blank
+    prompt: "Metto ___ zucchero nel caffè: solo mezzo cucchiaino. (quantità: contrario di 'molto')"
+    correct_answer: "poco"
+  - exercise_type: fill_blank
+    prompt: "Oggi al mercato c'è ___ gente! (quantità: contrario di 'poca')"
+    correct_answer: "molta"
+  - exercise_type: fill_blank
+    prompt: "Vorrei ___ pane, per favore: questo è troppo. (quantità: comparativo)"
+    correct_answer: "meno"
+  - exercise_type: fill_blank
+    prompt: "Non c'è ___ nel frigo: andiamo a fare la spesa. (quantità: nulla)"
+    correct_answer: "niente"
+  - exercise_type: fill_blank
+    prompt: "Posso avere ___ acqua, per favore? Ho ancora sete. (quantità: comparativo)"
+    correct_answer: "più"
+  - exercise_type: fill_blank
+    prompt: "C'è ___ traffico oggi: arriviamo tardi. (quantità: 'così tanto')"
+    correct_answer: "tanto"
+  - exercise_type: fill_blank
+    prompt: "Un ___ di latte nel tè, grazie. (quantità, con apostrofo)"
+    correct_answer: "po'"
+  - exercise_type: error_correction
+    prompt: "Vorrei un pò di formaggio."
+    correct_answer: "Vorrei un po' di formaggio."
+  - exercise_type: error_correction
+    prompt: "Non mangio niente di nulla."
+    correct_answer: "Non mangio niente."
+  - exercise_type: error_correction
+    prompt: "C'è molto persone al bar."
+    correct_answer: "Ci sono molte persone al bar."
+  - exercise_type: error_correction
+    prompt: "Vorrei un po di zucchero."
+    correct_answer: "Vorrei un po' di zucchero."
