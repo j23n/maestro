@@ -354,6 +354,37 @@
   {% if percorso %}
   <div class="tab-panel" id="tab-percorso">
 
+    {# Graduation gates: the 90/90 requirement for the next level #}
+    {% if percorso.gates and percorso.gates.next_level %}
+    {% set gates = percorso.gates %}
+    <div class="gates-panel">
+      <div class="gates-header">
+        <h2>{{ t("percorso_gates_title", level=gates.next_level) }}</h2>
+        <p class="gates-desc">{{ t("percorso_gates_desc") }}</p>
+      </div>
+      <div class="gate">
+        <div class="gate-label">
+          {{ t("percorso_gate_grammar") }}
+          <span class="gate-count">{{ gates.gp_done }}/{{ gates.gp_total }} &middot; {{ t("percorso_gate_target", n=gates.gp_target) }}</span>
+        </div>
+        <div class="gate-bar">
+          <div class="gate-fill {% if gates.gp_done >= gates.gp_target %}met{% endif %}" style="width: {{ gates.gp_pct }}%"></div>
+          <div class="gate-target-marker"></div>
+        </div>
+      </div>
+      <div class="gate">
+        <div class="gate-label">
+          {{ t("percorso_gate_functions") }}
+          <span class="gate-count">{{ gates.cf_done }}/{{ gates.cf_total }} &middot; {{ t("percorso_gate_target", n=gates.cf_target) }}</span>
+        </div>
+        <div class="gate-bar">
+          <div class="gate-fill {% if gates.cf_done >= gates.cf_target %}met{% endif %}" style="width: {{ gates.cf_pct }}%"></div>
+          <div class="gate-target-marker"></div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     {# Phase stepper #}
     <div class="phase-stepper">
       {% for phase in percorso.phases %}
@@ -384,7 +415,10 @@
       </summary>
       <div class="scenario-grid percorso-grid {% if phase.status == 'locked' %}phase-locked{% endif %}">
         {% for item in phase.scenarios %}
-        <div class="scenario-card {% if item.depth_completed >= item.max_depth %}completed{% elif item.depth_completed > 0 %}in-progress{% endif %}">
+        <div class="scenario-card {% if item.depth_completed >= item.max_depth %}completed{% elif item.depth_completed > 0 %}in-progress{% endif %} {% if item.scenario.slug == percorso.recommended_slug %}recommended{% endif %}">
+          {% if item.scenario.slug == percorso.recommended_slug %}
+          <div class="recommended-badge">{{ t("percorso_recommended") }}</div>
+          {% endif %}
           <div class="scenario-label"><span lang="{{ target_language_code }}">{{ item.scenario.label }}</span></div>
           <div class="scenario-dots">
             {% for d in range(1, item.max_depth + 1) %}
@@ -398,9 +432,22 @@
             {% endfor %}
           </div>
           {% endif %}
-          {% if item.lesson_count > 0 %}
-          <div class="scenario-meta">{{ item.lesson_count }} {{ t("profile_lessons") }}</div>
+          {% if item.advances_gp or item.advances_cf %}
+          <div class="scenario-advance">{{ t("percorso_advances", gp=item.advances_gp, cf=item.advances_cf) }}</div>
+          {% else %}
+          <div class="scenario-advance done">{{ t("percorso_no_gaps") }}</div>
           {% endif %}
+          <div class="scenario-footer">
+            {% if item.lesson_count > 0 %}
+            <span class="scenario-meta">{{ item.lesson_count }} {{ t("profile_lessons") }}</span>
+            {% endif %}
+            {% if phase.status != 'locked' %}
+            <form method="post" action="/lessons/" class="scenario-start-form">
+              <input type="hidden" name="scenario_slug" value="{{ item.scenario.slug }}">
+              <button type="submit" class="btn-scenario-start">{{ t("percorso_start_lesson") }}</button>
+            </form>
+            {% endif %}
+          </div>
         </div>
         {% endfor %}
       </div>

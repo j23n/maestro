@@ -1,3 +1,4 @@
+import math
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Request, Form
@@ -22,6 +23,7 @@ from maestro.lessons.curriculum import (
     get_unlocked_gps,
     PHASE_GATE_THRESHOLD,
 )
+from maestro.learning.mastery import CF_DEMONSTRATED_COUNT
 from maestro.learning.weakness import (
     build_grammar_by_level,
     build_titles,
@@ -46,9 +48,17 @@ def _gp_status(code, unlocked_gps, introduced_set, mastered_set):
 
 
 def _build_percorso(
-    profile, cefr, grammar_points, grammar_by_level, scenarios_by_level
+    profile, cefr, grammar_points, grammar_by_level, scenarios_by_level, cf_items
 ):
-    """Build the percorso (skill tree) data structure for A1+ students."""
+    """Build the percorso (skill tree) data structure for A1+ students.
+
+    `cf_items` is the current level's entries from _build_cf_by_level.
+    Includes the graduation gates (>=90% GPs mastered and >=90% CFs
+    demonstrated — see profile._compute_cefr), per-scenario coverage badges
+    (how many gate gaps a scenario advances), and a deterministic
+    "recommended next" scenario mirroring the coverage-driven selection
+    scoring (lessons.selection.pick_scenario) without its jitter/cooldown.
+    """
     current_scenarios = scenarios_by_level.get(cefr, [])
     if not current_scenarios:
         return None
@@ -68,11 +78,34 @@ def _build_percorso(
     mastered_set = {
         s["point"].code for s in grammar_by_level.get(cefr, []) if s["mastered"]
     }
+    demonstrated_set = {i["cf"].code for i in cf_items if i["demonstrated"]}
+    all_cf_codes = {i["cf"].code for i in cf_items}
+
+    # --- Graduation gates (the 90/90 requirement for the next level) ---
+    gp_total = len(level_gps)
+    cf_total = len(cf_items)
+    gp_done = len(mastered_set & all_gp_codes)
+    cf_done = len(demonstrated_set)
+    next_idx = CEFR_ORDER.index(cefr) + 1 if cefr in CEFR_ORDER else 0
+    gates = {
+        "next_level": CEFR_ORDER[next_idx] if next_idx < len(CEFR_ORDER) else None,
+        "gp_total": gp_total,
+        "gp_done": gp_done,
+        "gp_target": math.ceil(0.9 * gp_total),
+        "gp_pct": round(100 * gp_done / gp_total) if gp_total else 0,
+        "cf_total": cf_total,
+        "cf_done": cf_done,
+        "cf_target": math.ceil(0.9 * cf_total),
+        "cf_pct": round(100 * cf_done / cf_total) if cf_total else 0,
+    }
 
     # Group scenarios by phase
     by_phase: dict[int, list] = {1: [], 2: [], 3: []}
     for s in current_scenarios:
         by_phase.setdefault(s.phase, []).append(s)
+
+    recommended_slug = None
+    recommended_key = None
 
     phases = []
     for phase_num in (1, 2, 3):
@@ -103,6 +136,12 @@ def _build_percorso(
                             ),
                         }
                     )
+            # Coverage badges: gate gaps this scenario can advance
+            known_gps = [c for c in s.gp_codes if c in gp_by_code]
+            advances_gp = sum(1 for c in known_gps if c not in mastered_set)
+            advances_cf = sum(
+                1 for c in s.cf_codes if c in all_cf_codes and c not in demonstrated_set
+            )
             scenario_items.append(
                 {
                     "scenario": s,
@@ -110,8 +149,31 @@ def _build_percorso(
                     "max_depth": len(s.depths),
                     "lesson_count": sp.lesson_count,
                     "gp_statuses": gp_statuses,
+                    "advances_gp": advances_gp,
+                    "advances_cf": advances_cf,
                 }
             )
+
+            # Recommended next: deterministic version of the planner's
+            # coverage scoring (unmastered + introducible + 0.5*undemonstrated,
+            # unvisited as tiebreaker) over the current phase only.
+            if status == "current":
+                introducible = sum(
+                    1
+                    for c in known_gps
+                    if c not in mastered_set
+                    and c not in introduced_set
+                    and c in unlocked_gps
+                )
+                key = (
+                    advances_gp + introducible + 0.5 * advances_cf,
+                    1 if sp.depth == 0 else 0,
+                    -sp.depth,
+                    s.slug,  # stable tiebreak
+                )
+                if recommended_key is None or key > recommended_key:
+                    recommended_key = key
+                    recommended_slug = s.slug
 
         phases.append(
             {
@@ -156,6 +218,8 @@ def _build_percorso(
         "phase_gate_threshold": PHASE_GATE_THRESHOLD,
         "phases": phases,
         "gp_dag": gp_dag,
+        "gates": gates,
+        "recommended_slug": recommended_slug,
     }
 
 
@@ -170,7 +234,13 @@ def _build_cf_by_level(comm_functions, profile):
                 if profile
                 else 0
             )
-            items.append({"cf": cf, "count": count, "demonstrated": count >= 3})
+            items.append(
+                {
+                    "cf": cf,
+                    "count": count,
+                    "demonstrated": count >= CF_DEMONSTRATED_COUNT,
+                }
+            )
         cf_by_level[level] = items
     return cf_by_level
 
@@ -299,7 +369,12 @@ async def profile_page(
     percorso = None
     if cefr != "A0":
         percorso = _build_percorso(
-            profile, cefr, grammar_points, grammar_by_level, scenarios_by_level
+            profile,
+            cefr,
+            grammar_points,
+            grammar_by_level,
+            scenarios_by_level,
+            cf_by_level.get(cefr, []),
         )
 
     cefr_estimate = profile.active_progress.cefr_estimate if profile else "A0"

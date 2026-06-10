@@ -743,3 +743,94 @@ a.skill-label:hover { color: var(--c-terracotta); }
   .phase-gate { font-size: 0.56rem; }
   .gp-chip { font-size: 0.52rem; max-width: 85px; }
 }
+
+/* --- Graduation gates (percorso) --- */
+.gates-panel {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.gates-header h2 { margin: 0 0 0.2rem; font-size: 1rem; }
+.gates-desc { margin: 0 0 0.9rem; font-size: 0.78rem; color: var(--c-text-muted); }
+.gate { margin-bottom: 0.8rem; }
+.gate:last-child { margin-bottom: 0; }
+.gate-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.gate-count { font-size: 0.7rem; font-weight: 500; color: var(--c-text-muted); }
+.gate-bar {
+  position: relative;
+  height: 8px;
+  background: var(--c-surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.gate-fill {
+  height: 100%;
+  background: var(--c-gold);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.gate-fill.met { background: var(--c-sage); }
+.gate-target-marker {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: 90%;
+  width: 2px;
+  background: var(--c-charcoal);
+  opacity: 0.35;
+}
+
+/* --- Scenario coverage badges + start --- */
+.scenario-card.recommended {
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 1px var(--c-gold);
+  position: relative;
+}
+.recommended-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a5a10;
+  background: #fef7ec;
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  margin-bottom: 0.3rem;
+}
+.scenario-advance {
+  font-size: 0.66rem;
+  color: var(--c-terracotta);
+  margin-top: 0.35rem;
+}
+.scenario-advance.done { color: var(--c-sage); }
+.scenario-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.45rem;
+  gap: 0.5rem;
+}
+.scenario-footer .scenario-meta { margin: 0; }
+.btn-scenario-start {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--c-terracotta);
+  background: none;
+  border: 1px solid var(--c-terracotta);
+  border-radius: 5px;
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+.btn-scenario-start:hover { background: #fdf0ec; }
+.phase-locked .btn-scenario-start { display: none; }
