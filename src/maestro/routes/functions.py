@@ -72,4 +72,5 @@ async def cf_detail(
         ctx,
         student_id=student.id,
         create_cards=False,
+        vocab_annotations=cf.vocab_annotations,
     )

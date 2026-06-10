@@ -63,6 +63,7 @@ _GP_KEY_ORDER = [
     "source_note",
     "language",
     "explanations",
+    "vocab_annotations",
 ]
 
 _EXPL_KEY_ORDER = ["title", "tip", "explanation", "language", "why_this_matters"]

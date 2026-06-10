@@ -261,6 +261,21 @@ class UserVocabularyCard(Document):
 # --- Learning outcome taxonomy ---
 
 
+class VocabAnnotation(BaseModel):
+    """A verified surface→dictionary mapping for one word in lesson content.
+
+    `lemma` must be an exact headword key in the vocab cache's word index
+    (or phrase index for multi-word lemmas), so render-time resolution is a
+    dict lookup + POS match — no NLP guessing. Produced offline (content
+    banks, reference-content annotation script) or by the generation-time
+    LLM post-pass (vocab.annotate).
+    """
+
+    surface_forms: List[str]  # inflected forms as they appear in the text
+    lemma: str  # dictionary headword (word-index key, lowercase)
+    upos: str = ""  # spaCy-style UPOS tag used for POS disambiguation
+
+
 class Explanation(BaseModel):
     """Language-specific explanation stored inline on GrammarPoint or CommunicativeFunction."""
 
@@ -287,6 +302,9 @@ class GrammarPoint(Document):
         default_factory=list
     )  # GP codes that must be introduced first
     explanations: dict[str, Explanation] = Field(default_factory=dict)
+    # Verified vocab mappings for examples/explanations — populated offline
+    # by scripts/annotate_reference_content.py so reference pages get popovers
+    vocab_annotations: List[VocabAnnotation] = Field(default_factory=list)
     language: str = "it"
 
     class Settings:
@@ -302,6 +320,9 @@ class CommunicativeFunction(Document):
     examples: List[str] = Field(default_factory=list)
     description: str = ""  # built from patterns at ingest; used in analyzer prompt
     explanations: dict[str, Explanation] = Field(default_factory=dict)
+    # Verified vocab mappings for patterns/examples/explanations — populated
+    # offline by scripts/annotate_reference_content.py
+    vocab_annotations: List[VocabAnnotation] = Field(default_factory=list)
     source_url: str = ""
     language: str = "it"
 
@@ -361,20 +382,6 @@ class LearningProfile(Document):
 
 
 # --- Drills ---
-
-
-class VocabAnnotation(BaseModel):
-    """A verified surface→dictionary mapping for one word in lesson content.
-
-    `lemma` must be an exact headword key in the vocab cache's word index
-    (or phrase index for multi-word lemmas), so render-time resolution is a
-    dict lookup + POS match — no NLP guessing. Produced offline (content
-    banks) or by the generation-time LLM post-pass (vocab.annotate).
-    """
-
-    surface_forms: List[str]  # inflected forms as they appear in the text
-    lemma: str  # dictionary headword (word-index key, lowercase)
-    upos: str = ""  # spaCy-style UPOS tag used for POS disambiguation
 
 
 class QuestionItem(BaseModel):

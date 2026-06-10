@@ -87,6 +87,7 @@ async def grammar_detail(
         ctx,
         student_id=student.id,
         create_cards=False,
+        vocab_annotations=gp.vocab_annotations,
     )
 
 
@@ -121,6 +122,7 @@ async def grammar_practice(
         {"gp": gp, "drill": drill, "display_title": display_title},
         student_id=student.id,
         create_cards=False,
+        vocab_annotations=gp.vocab_annotations,
     )
 
 
