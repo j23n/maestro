@@ -1,26 +1,25 @@
-"""Unit tests for vocab/discover.py — matching, annotation, and text extraction.
+"""Unit tests for vocab/discover.py — annotation resolution and HTML annotation.
 
 Test layers:
-- match_vocab_words: the main API boundary ("text + word_index → matches")
+- matches_from_annotations: verified annotations → dictionary entries
 - get_target_text: HTML → plain text extraction
 - _annotate_in_elements: plain text → annotated HTML
-- discover(): integration (HTML scoping, data-no-save, multi-POS annotation)
-- simplemma: smoke tests for the third-party fallback library
+- discover(): integration (HTML scoping, data-no-discover, multi-POS,
+  background definition/audio tasks)
+- cache.get_definition: A0 fallback behaviour
 """
 
 from unittest.mock import patch
 
 import pytest
-import simplemma
 from types import SimpleNamespace
 
+from maestro.models import VocabAnnotation
 from maestro.vocab.discover import (
-    TokenOccurrence,
-    VocabMatch,
     _annotate_in_elements,
     discover,
     get_target_text,
-    match_vocab_words,
+    matches_from_annotations,
 )
 from maestro.vocab import cache as _vocab_cache
 from bs4 import BeautifulSoup
@@ -87,369 +86,84 @@ def _make_soup_and_elements(html, lang="it"):
     return soup, soup.find_all(attrs={"lang": lang})
 
 
-# Shared word index for match_vocab_words and discover tests.
+def _ann(lemma, surfaces, upos=""):
+    return VocabAnnotation(surface_forms=list(surfaces), lemma=lemma, upos=upos)
+
+
+# Word index for annotation-resolution and discover() tests.
 _TEST_WORD_INDEX = {
-    # Nouns
-    "mercato": [_make_vocab_word("mercato", pos="s.m.")],
     "gatto": [_make_vocab_word("gatto", pos="s.m.")],
-    "divano": [_make_vocab_word("divano", pos="s.m.")],
-    "caffè": [_make_vocab_word("caffè", pos="s.m.")],
-    "favore": [_make_vocab_word("favore", pos="s.m.")],
-    "stazione": [_make_vocab_word("stazione", pos="s.f.")],
-    "biglietto": [_make_vocab_word("biglietto", pos="s.m.")],
-    "treno": [_make_vocab_word("treno", pos="s.m.")],
-    "bagno": [_make_vocab_word("bagno", pos="s.m.")],
-    "pizza": [_make_vocab_word("pizza", pos="s.f.")],
-    "uomo": [_make_vocab_word("uomo", pos="s.m.")],
-    "tempo": [_make_vocab_word("tempo", pos="s.m.")],
-    "amore": [_make_vocab_word("amore", pos="s.m.")],
-    "signore": [_make_vocab_word("signore", pos="s.m.")],
-    "amico": [_make_vocab_word("amico", pos="s.m.")],
-    "acqua": [_make_vocab_word("acqua", pos="s.f.")],
-    "binario": [_make_vocab_word("binario", pos="s.m.")],
-    "cosa": [_make_vocab_word("cosa", pos="s.f.")],
-    "ora": [_make_vocab_word("ora", pos="s.f.")],
-    "attesa": [_make_vocab_word("attesa", pos="s.f.")],
-    "ragazzo": [_make_vocab_word("ragazzo", pos="s.m.")],
-    "ragazza": [_make_vocab_word("ragazza", pos="s.f.")],
-    "libro": [_make_vocab_word("libro", pos="s.m.")],
-    "porta": [_make_vocab_word("porta", pos="s.f.")],
-    # Verbs
-    "marcare": [_make_vocab_word("marcare", pos="v.tr.")],
     "dormire": [_make_vocab_word("dormire", pos="v.intr.")],
-    "volere": [_make_vocab_word("volere", pos="v.tr.")],
-    "essere": [_make_vocab_word("essere", pos="v.intr.")],
-    "comprare": [_make_vocab_word("comprare", pos="v.tr.")],
-    "partire": [_make_vocab_word("partire", pos="v.intr.")],
-    "mangiare": [_make_vocab_word("mangiare", pos="v.tr.")],
-    "stare": [_make_vocab_word("stare", pos="v.intr.")],
-    "dire": [_make_vocab_word("dire", pos="v.tr.")],
-    "andare": [_make_vocab_word("andare", pos="v.intr.")],
-    "abitare": [_make_vocab_word("abitare", pos="v.intr.")],
-    "dispiacere": [_make_vocab_word("dispiacere", pos="v.intr.")],
-    "suonare": [_make_vocab_word("suonare", pos="v.tr.")],
-    # Adjectives / adverbs
-    "bello": [_make_vocab_word("bello", pos="agg.")],
-    "lontano": [_make_vocab_word("lontano", pos="agg.")],
-    "alto": [_make_vocab_word("alto", pos="agg.")],
-    "freddo": [_make_vocab_word("freddo", pos="agg.")],
-    "grande": [_make_vocab_word("grande", pos="agg.")],
-    "mezzo": [_make_vocab_word("mezzo", pos="agg.")],
-    "questo": [_make_vocab_word("questo", pos="agg.")],
-    # Articles / determiners
-    "il": [_make_vocab_word("il", pos="art.")],
-    "uno": [_make_vocab_word("uno", pos="art.")],
-    # Prepositions
-    "di": [_make_vocab_word("di", pos="prep.")],
-    "per": [_make_vocab_word("per", pos="prep.")],
-    "in": [_make_vocab_word("in", pos="prep.")],
-    # Conjunctions / pronouns
-    "che": [_make_vocab_word("che", pos="cong.")],
-    # Adjectives (continued)
-    "quello": [_make_vocab_word("quello", pos="agg.")],
-    # Adverbs (continued)
-    "molto": [_make_vocab_word("molto", pos="avv.")],
-    # Numerals
-    "due": [_make_vocab_word("due", pos="num.")],
-    "otto": [_make_vocab_word("otto", pos="num.")],
-    # Verbs (continued)
-    "avere": [_make_vocab_word("avere", pos="v.tr.")],
-    # Other
     "ciao": [_make_vocab_word("ciao", pos="inter.")],
-    "come": [_make_vocab_word("come", pos="avv.")],
-    "dove": [_make_vocab_word("dove", pos="avv.")],
+    "stazione": [_make_vocab_word("stazione", pos="s.f.")],
     # Multi-POS: "piano" as noun (piano/floor) and adjective (quiet/slow)
     "piano": [
         _make_vocab_word("piano", pos="s.m."),
         _make_vocab_word("piano", pos="agg."),
     ],
-    # Contractions (preposizioni articolate) — headwords in the EPUB dictionary
-    "sul": [_make_vocab_word("sul", pos="prep. articolata")],
-    "nella": [_make_vocab_word("nella", pos="prep. articolata")],
-    "al": [_make_vocab_word("al", pos="prep. articolata")],
-    "del": [_make_vocab_word("del", pos="prep. articolata")],
-    "dalle": [_make_vocab_word("dalle", pos="prep. articolata")],
-    # PROPN trap words — in dictionary but should NOT be discovered as proper nouns
-    "roma": [_make_vocab_word("roma", pos="s.f.")],
-    "paolo": [_make_vocab_word("paolo", pos="s.m.")],
 }
 
-# Phrase index for phrase-matching tests.
 _TEST_PHRASE_INDEX = {
     "per favore": [_make_vocab_word("per favore", pos="loc.")],
-    "mi chiamo": [_make_vocab_word("mi chiamo", pos="loc.")],
-    "a destra": [_make_vocab_word("a destra", pos="loc.")],
-    "quanto costa": [_make_vocab_word("quanto costa", pos="loc.")],
-    "ho una prenotazione": [_make_vocab_word("ho una prenotazione", pos="loc.")],
-    # Phrases ending in punctuation — \b boundary bug
-    "un po'": [_make_vocab_word("un po'", pos="loc.")],
-    "come si chiama?": [_make_vocab_word("come si chiama?", pos="loc.")],
-    "che ore sono?": [_make_vocab_word("che ore sono?", pos="loc.")],
 }
 
 
 @pytest.fixture()
 def seeded_cache():
-    """Seed global vocab cache with _TEST_WORD_INDEX for discover() tests."""
-    _vocab_cache.seed(words=_TEST_WORD_INDEX, defs={})
-    yield
-    _vocab_cache.invalidate()
-
-
-@pytest.fixture()
-def seeded_cache_with_phrases():
-    """Seed global vocab cache with words AND phrases for discover() tests."""
+    """Seed global vocab cache for discover() tests."""
     _vocab_cache.seed(words=_TEST_WORD_INDEX, defs={}, phrases=_TEST_PHRASE_INDEX)
     yield
     _vocab_cache.invalidate()
 
 
 # ---------------------------------------------------------------------------
-# match_vocab_words — the main API boundary
+# matches_from_annotations — verified annotations → dictionary entries
 # ---------------------------------------------------------------------------
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize(
-    "text, expected_words",
-    [
-        # -- Proper nouns: should NOT match even when headword is in word_index --
-        pytest.param(
-            "Marco va al mercato",
-            {"andare", "al", "mercato"},
-            id="propn-marco",
-        ),
-        pytest.param(
-            "La signora Rossi",
-            {"il", "signore"},
-            id="propn-rossi",
-        ),
-        pytest.param(
-            "Roma è bella",
-            {"essere", "bello"},
-            id="propn-roma",
-        ),
-        pytest.param(
-            "Paolo mangia la pizza",
-            {"il", "mangiare", "pizza"},
-            id="propn-paolo",
-        ),
-        pytest.param(
-            "un'amica di Roma",
-            {"uno", "amico", "di"},
-            id="propn-roma-elision",
-        ),
-        # -- Elision: apostrophe-split tokens --
-        pytest.param(
-            "cos'è questo",
-            {"cosa", "essere", "questo"},
-            id="elision-cosa",
-        ),
-        pytest.param(
-            "Che cos'è? Che cos'è questo? Che cos'è quella cosa?",
-            {"che", "cosa", "essere", "questo", "quello"},
-            id="elision-cosa-repeated",
-        ),
-        pytest.param(
-            "mezz'ora di attesa",
-            {"mezzo", "ora", "di", "attesa"},
-            id="elision-mezzo",
-        ),
-        pytest.param(
-            "un grand'uomo",
-            {"uno", "grande", "uomo"},
-            id="elision-grande",
-        ),
-        pytest.param(
-            "l'acqua è fredda",
-            {"il", "acqua", "essere", "freddo"},
-            id="elision-acqua",
-        ),
-        pytest.param(
-            "dov'è il bagno",
-            {"dove", "essere", "il", "bagno"},
-            id="elision-dove",
-        ),
-        pytest.param(
-            "com'è il tempo",
-            {"come", "essere", "il", "tempo"},
-            id="elision-come",
-        ),
-        pytest.param(
-            "l'uomo è alto",
-            {"il", "uomo", "essere", "alto"},
-            id="elision-uomo",
-        ),
-        # -- Short tokens / stop words --
-        pytest.param(
-            "è bello",
-            {"essere", "bello"},
-            id="short-token-essere",
-        ),
-        # -- Conjugated surface → lemma → dictionary word --
-        pytest.param(
-            "il gatto dorme sul divano",
-            {"il", "gatto", "dormire", "sul", "divano"},
-            id="chain-gatto-dorme-divano",
-        ),
-        pytest.param(
-            "vorrei un caffè per favore",
-            {"volere", "uno", "caffè", "per", "favore"},
-            id="chain-vorrei-caffe",
-        ),
-        pytest.param(
-            "la stazione è lontana",
-            {"il", "stazione", "essere", "lontano"},
-            id="chain-stazione-lontana",
-        ),
-        pytest.param(
-            "ho comprato due biglietti",
-            {"avere", "comprare", "due", "biglietto"},
-            id="chain-comprato-biglietti",
-        ),
-        pytest.param(
-            "il treno parte alle otto",
-            {"il", "treno", "partire", "otto"},
-            id="chain-treno-parte",
-        ),
-        pytest.param(
-            "ciao come stai",
-            {"ciao", "come", "stare"},
-            id="chain-ciao-come-stai",
-        ),
-        # -- POS disambiguation --
-        # spaCy tags "abito" as NOUN, but simplemma fallback resolves to "abitare"
-        pytest.param(
-            "abito in Italia",
-            {"abitare", "in"},
-            id="pos-abito-verb",
-        ),
-        pytest.param(
-            "mi dispiace molto",
-            {"dispiacere", "molto"},
-            id="pos-dispiacere",
-        ),
-        # -- Syllabization: hyphenated pronunciation guides are not words --
-        pytest.param(
-            "si dice bi-na-rio",
-            {"dire"},
-            id="syllabization-not-discovered",
-        ),
-        # -- Contractions (preposizioni articolate) --
-        pytest.param(
-            "nella stazione",
-            {"nella", "stazione"},
-            id="contraction-nella",
-        ),
-        pytest.param(
-            "al mercato dalle otto",
-            {"al", "mercato", "dalle", "otto"},
-            id="contraction-al-dalle",
-        ),
-    ],
-)
-def test_match_vocab_words_observations(text, expected_words):
-    """match_vocab_words() should produce exactly the expected set of dictionary matches."""
-    matches = match_vocab_words(text, _TEST_WORD_INDEX, language="it")
-    matched_words = {m.word.word for m in matches}
-    assert matched_words == expected_words, (
-        f"match_vocab_words({text!r})\n"
-        f"  expected: {sorted(expected_words)}\n"
-        f"  got:      {sorted(matched_words)}"
+def test_matches_resolves_word_index_lemma(seeded_cache):
+    matches = matches_from_annotations(
+        [_ann("gatto", ["gatti"], "NOUN")], language="it"
     )
+    assert len(matches) == 1
+    assert matches[0].word.word == "gatto"
+    assert matches[0].surface_forms == ["gatti"]
 
 
 @pytest.mark.unit
-def test_match_vocab_words_returns_vocab_match():
-    """match_vocab_words() should return a list of VocabMatch dataclasses."""
-    matches = match_vocab_words("il gatto dorme", _TEST_WORD_INDEX, language="it")
-    assert isinstance(matches, list)
-    assert all(isinstance(m, VocabMatch) for m in matches)
-
-
-@pytest.mark.unit
-def test_match_vocab_words_surface_forms():
-    """Each VocabMatch should carry the inflected surface forms seen in the text."""
-    matches = match_vocab_words("i gatti dormono", _TEST_WORD_INDEX, language="it")
-    gatto_match = next(m for m in matches if m.word.word == "gatto")
-    assert "gatti" in gatto_match.surface_forms
-
-
-@pytest.mark.unit
-def test_match_vocab_words_dedup():
-    """Same lemma + same dictionary entry appearing twice → only one VocabMatch."""
-    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX, language="it")
-    gatto_matches = [m for m in matches if m.word.word == "gatto"]
-    assert len(gatto_matches) == 1
-
-
-@pytest.mark.unit
-def test_match_vocab_words_multi_pos():
-    """Same lemma with different POS should return multiple VocabMatch entries."""
-    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX, language="it")
-    piano_matches = [m for m in matches if m.lemma == "piano"]
-    assert len(piano_matches) == 2, (
-        f"Expected 2 piano matches (noun + adj), got {len(piano_matches)}: "
-        f"{[(m.word.part_of_speech, m.pos) for m in piano_matches]}"
+def test_matches_resolves_phrase_index_lemma(seeded_cache):
+    matches = matches_from_annotations(
+        [_ann("per favore", ["per favore"])], language="it"
     )
-    pos_set = {m.word.part_of_speech for m in piano_matches}
-    assert "s.m." in pos_set
-    assert "agg." in pos_set
-    # Each match should have exactly one occurrence
-    for m in piano_matches:
-        assert len(m.occurrences) == 1, (
-            f"Expected 1 occurrence per multi-POS match, got {len(m.occurrences)}"
-        )
-        assert m.occurrences[0].surface == "piano"
+    assert len(matches) == 1
+    assert matches[0].word.word == "per favore"
 
 
 @pytest.mark.unit
-def test_match_vocab_words_occurrence_index():
-    """Each VocabMatch should carry TokenOccurrences with correct token indices."""
-    matches = match_vocab_words(
-        "il gatto dorme sul divano", _TEST_WORD_INDEX, language="it"
+def test_matches_skips_unresolvable_lemma(seeded_cache):
+    matches = matches_from_annotations(
+        [_ann("capiscare", ["capisco"], "VERB"), _ann("gatto", ["gatto"], "NOUN")],
+        language="it",
     )
-    # All single-POS matches — each should have exactly one occurrence
-    for m in matches:
-        assert len(m.occurrences) >= 1
-        assert all(isinstance(occ, TokenOccurrence) for occ in m.occurrences)
-    # Token indices should be unique across all occurrences
-    all_indices = [occ.index for m in matches for occ in m.occurrences]
-    assert len(all_indices) == len(set(all_indices)), "Token indices must be unique"
+    assert [m.word.word for m in matches] == ["gatto"]
 
 
 @pytest.mark.unit
-def test_match_vocab_words_dedup_groups_occurrences():
-    """Same lemma + same dictionary entry appearing twice → one VocabMatch with two occurrences."""
-    matches = match_vocab_words("il gatto e il gatto", _TEST_WORD_INDEX, language="it")
-    gatto_matches = [m for m in matches if m.word.word == "gatto"]
-    assert len(gatto_matches) == 1
-    assert len(gatto_matches[0].occurrences) == 2
-    assert gatto_matches[0].occurrences[0].index < gatto_matches[0].occurrences[1].index
+def test_matches_pos_disambiguation(seeded_cache):
+    noun = matches_from_annotations([_ann("piano", ["piano"], "NOUN")], language="it")
+    adj = matches_from_annotations([_ann("piano", ["piano"], "ADJ")], language="it")
+    assert noun[0].word.part_of_speech == "s.m."
+    assert adj[0].word.part_of_speech == "agg."
 
 
 @pytest.mark.unit
-def test_match_vocab_words_per_pos_surface_forms():
-    """Multi-POS matches should carry only their own POS's surface forms."""
-    # "piano" as both noun and adjective — each match should have surface "piano"
-    # but critically, if we had different surface forms per POS, they wouldn't leak.
-    matches = match_vocab_words("suono il piano piano", _TEST_WORD_INDEX, language="it")
-    piano_matches = [m for m in matches if m.lemma == "piano"]
-    noun_match = next(m for m in piano_matches if m.word.part_of_speech == "s.m.")
-    adj_match = next(m for m in piano_matches if m.word.part_of_speech == "agg.")
-    # Each carries only its own occurrence's surface
-    assert noun_match.surface_forms == ["piano"]
-    assert adj_match.surface_forms == ["piano"]
-    # POS on each occurrence matches what spaCy assigned
-    assert noun_match.occurrences[0].pos == "NOUN"
-    assert adj_match.occurrences[0].pos == "ADJ"
-
-
-@pytest.mark.unit
-def test_match_vocab_words_default_word_index(seeded_cache):
-    """match_vocab_words() should use the global cache when word_index is omitted."""
-    matches = match_vocab_words("il gatto dorme", language="it")
-    assert any(m.word.word == "gatto" for m in matches)
+def test_matches_dedup_same_entry(seeded_cache):
+    matches = matches_from_annotations(
+        [_ann("gatto", ["gatto"], "NOUN"), _ann("gatto", ["gatti"], "NOUN")],
+        language="it",
+    )
+    assert len(matches) == 1
 
 
 # ---------------------------------------------------------------------------
@@ -537,27 +251,6 @@ def test_cache_phrase_index_seeded():
     _vocab_cache.seed(phrases=phrases)
     assert _vocab_cache.phrase_index("it") == phrases
     _vocab_cache.invalidate()
-
-
-# ---------------------------------------------------------------------------
-# simplemma smoke tests — validate third-party library behaviour
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-@pytest.mark.parametrize(
-    "surface, expected",
-    [
-        ("capisco", "capire"),
-        ("vado", "andare"),
-        ("bevo", "bere"),
-        ("esco", "uscire"),
-        ("mangerei", "mangiare"),
-    ],
-)
-def test_simplemma_smoke(surface, expected):
-    """simplemma should produce correct infinitives for irregular verb forms."""
-    assert simplemma.lemmatize(surface, lang="it").lower() == expected
 
 
 # ---------------------------------------------------------------------------
@@ -802,151 +495,6 @@ def test_annotate_max_count():
     assert str(soup).count("vocab-word") == 2
 
 
-# ---------------------------------------------------------------------------
-# discover() — integration tests (HTML-specific concerns only)
-#
-# Matching logic is tested via match_vocab_words above.  These tests cover
-# behaviour that only discover() can exercise: HTML scoping, annotation
-# across tag boundaries, data-no-save, and multi-POS annotation.
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-async def test_discover_no_lang_returns_unchanged(seeded_cache):
-    """Content without lang attributes should pass through unchanged."""
-    html = '<div class="scoring">Good job!</div>'
-    assert (
-        await discover(html, student_id=None, create_cards=False, language="it") == html
-    )
-
-
-@pytest.mark.unit
-async def test_discover_main_scoping(seeded_cache):
-    """When <main> is present, only lang elements inside it are discovered."""
-    html = (
-        '<nav><span lang="it">ciao</span></nav>'
-        '<main><span lang="it">il gatto dorme</span></main>'
-    )
-    result = await discover(html, student_id=None, create_cards=False, language="it")
-    assert 'data-word="gatto"' in result
-    assert 'data-word="ciao"' not in result
-
-
-@pytest.mark.unit
-async def test_discover_fragment_mode(seeded_cache):
-    """Without <main>, all lang elements are discovered (HTMX fragment mode)."""
-    html = '<span lang="it">il gatto dorme</span>'
-    result = await discover(html, student_id=None, create_cards=False, language="it")
-    assert 'data-word="gatto"' in result
-
-
-@pytest.mark.unit
-async def test_discover_inline_tag_amore(seeded_cache):
-    """Annotation can't span across inline tag boundaries (known limitation)."""
-    result = await discover(
-        '<span lang="it"><b>a</b>more mio</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    # The word IS matched (text extraction gives "amore"), but annotation
-    # can't wrap across <b> boundary, so no data-word appears.
-    assert 'data-word="amore"' not in result
-
-
-@pytest.mark.unit
-async def test_discover_nested_lang_excluded(seeded_cache):
-    """English gloss nested inside Italian span should not pollute discovery."""
-    result = await discover(
-        '<span lang="it">il gatto <span lang="en">(the cat)</span> dorme</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="gatto"' in result
-    assert 'data-word="dormire"' in result
-
-
-@pytest.mark.unit
-async def test_discover_grammar_page_multi_span(seeded_cache):
-    """Multiple separate lang="it" spans should each be annotated independently."""
-    html = (
-        "<p>"
-        '- <span lang="it"><em>il ragazzo</em></span> (the boy)<br>'
-        '- <span lang="it"><em>la ragazza</em></span> (the girl)<br>'
-        '- <span lang="it"><em>il libro</em></span> (the book)<br>'
-        '- <span lang="it"><em>la porta</em></span> (the door)'
-        "</p>"
-    )
-    result = await discover(html, student_id=None, create_cards=False, language="it")
-    for word in ("ragazzo", "ragazza", "libro", "porta"):
-        assert f'data-word="{word}"' in result, f"{word!r} not annotated"
-
-
-@pytest.mark.unit
-async def test_discover_multi_pos_annotation(seeded_cache):
-    """Multi-POS words should get different annotations for each occurrence."""
-    result = await discover(
-        '<span lang="it">suono il piano piano</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert result.count('data-word="piano"') == 2
-    assert 'data-pos="s.m."' in result
-    assert 'data-pos="agg."' in result
-
-
-@pytest.mark.unit
-async def test_discover_contraction_annotated(seeded_cache):
-    """Contractions like 'nella' should be annotated as vocab words."""
-    result = await discover(
-        '<span lang="it">nella stazione</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="nella"' in result
-    assert 'data-word="stazione"' in result
-
-
-@pytest.mark.unit
-async def test_discover_elision_essere_annotated(seeded_cache):
-    """è should be annotated as essere in elided forms like dov'è."""
-    result = await discover(
-        '<span lang="it">Dov\'è il bagno</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="dove"' in result
-    assert 'data-word="essere"' in result
-    assert 'data-word="bagno"' in result
-
-
-@pytest.mark.unit
-async def test_discover_no_discover_skips_element(seeded_cache):
-    """Elements with data-no-discover should be excluded from discovery entirely."""
-    result = await discover(
-        '<span lang="it" data-no-discover>gatto</span> <span lang="it">il gatto dorme</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    # The no-discover span should be left untouched — plain text, no vocab-word
-    assert 'data-no-discover=""' in result
-    no_discover_span = result.split("data-no-discover")[1].split("</span>")[0]
-    assert "vocab-word" not in no_discover_span
-    # The other span should still be annotated
-    assert 'data-word="gatto"' in result
-    assert 'data-word="dormire"' in result
-
-
-# ---------------------------------------------------------------------------
-# _annotate_in_elements — phrase annotation
-# ---------------------------------------------------------------------------
-
-
 @pytest.mark.unit
 def test_annotate_phrase_surface_form():
     """Multi-word phrase surface form gets annotated."""
@@ -969,115 +517,6 @@ def test_annotate_phrase_inside_longer_text():
     assert 'data-word="per favore"' in str(soup)
 
 
-# ---------------------------------------------------------------------------
-# discover() — phrase matching
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-async def test_discover_phrase_matched(seeded_cache_with_phrases):
-    """Exact phrase match on a lang element should annotate as a phrase."""
-    result = await discover(
-        '<span lang="it">per favore</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="per favore"' in result
-
-
-@pytest.mark.unit
-async def test_discover_phrase_takes_priority(seeded_cache_with_phrases):
-    """Phrase match takes priority — individual tokens 'per' and 'favore' should not match separately."""
-    result = await discover(
-        '<span lang="it">per favore</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    # "per favore" matched as phrase — element excluded from word matching,
-    # so "per" and "favore" should NOT appear as individual word annotations
-    assert 'data-word="per favore"' in result
-    # Only one vocab-word annotation (the phrase), not two individual words
-    assert result.count("vocab-word") == 1
-
-
-@pytest.mark.unit
-async def test_discover_phrase_and_words_coexist(seeded_cache_with_phrases):
-    """Phrase and word matches work together across different elements."""
-    result = await discover(
-        '<span lang="it">per favore</span> <span lang="it">il gatto dorme</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="per favore"' in result
-    assert 'data-word="gatto"' in result
-    assert 'data-word="dormire"' in result
-
-
-@pytest.mark.unit
-async def test_discover_phrase_case_insensitive(seeded_cache_with_phrases):
-    """Phrase matching is case-insensitive."""
-    result = await discover(
-        '<span lang="it">Per Favore</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="per favore"' in result
-
-
-@pytest.mark.unit
-async def test_discover_phrase_substring_match(seeded_cache_with_phrases):
-    """Phrase is matched as a substring within longer element text."""
-    result = await discover(
-        '<span lang="it">per favore signora</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    # "per favore" matched as substring phrase
-    assert 'data-word="per favore"' in result
-    # Individual "per"/"favore" should NOT appear — subsumed by phrase span
-    assert 'data-word="per"' not in result
-    assert 'data-word="favore"' not in result
-    # "signora" still matched as individual word
-    assert 'data-word="signore"' in result
-
-
-@pytest.mark.unit
-async def test_discover_phrase_substring_in_sentence(seeded_cache_with_phrases):
-    """Phrase within a full sentence is discovered and annotated as a phrase."""
-    result = await discover(
-        '<span lang="it">Ho una prenotazione per due.</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="ho una prenotazione"' in result
-    # Individual words inside the phrase span should NOT get separate annotations
-    assert result.count('data-word="ho una prenotazione"') == 1
-
-
-@pytest.mark.unit
-async def test_discover_phrase_data_no_save(seeded_cache_with_phrases):
-    """Phrase on a data-no-save element is annotated but excluded from card creation."""
-    result = await discover(
-        '<span lang="it" data-no-save>mi chiamo</span> <span lang="it">il gatto</span>',
-        student_id=None,
-        create_cards=False,
-        language="it",
-    )
-    assert 'data-word="mi chiamo"' in result
-    assert 'data-word="gatto"' in result
-
-
-# ---------------------------------------------------------------------------
-# Phrase annotation — punctuation endings and mixed phrase+word sentences
-# ---------------------------------------------------------------------------
-
-
 @pytest.mark.unit
 @pytest.mark.parametrize(
     "phrase",
@@ -1096,38 +535,128 @@ def test_annotate_phrase_with_trailing_punctuation(phrase):
     assert f'data-word="{phrase}"' in str(soup)
 
 
+# ---------------------------------------------------------------------------
+# discover() — annotations-driven HTML behaviour
+# ---------------------------------------------------------------------------
+
+
 @pytest.mark.unit
-async def test_discover_phrase_with_punctuation(seeded_cache_with_phrases):
-    """Phrases ending in punctuation are discovered and annotated."""
+async def test_discover_without_annotations_returns_unchanged(seeded_cache):
+    """No annotations (None or empty) → content passes through untouched."""
+    html = '<span lang="it">il gatto dorme</span>'
+    assert await discover(html, student_id=None, language="it") == html
+    assert await discover(html, student_id=None, language="it", annotations=[]) == html
+
+
+@pytest.mark.unit
+async def test_discover_no_lang_returns_unchanged(seeded_cache):
+    """Content without lang attributes should pass through unchanged."""
+    html = '<div class="scoring">Good job!</div>'
     result = await discover(
-        '<span lang="it">un po\'</span>',
+        html,
         student_id=None,
         create_cards=False,
         language="it",
+        annotations=[_ann("gatto", ["gatto"], "NOUN")],
     )
-    assert 'data-word="un po\'"' in result
+    assert result == html
 
 
 @pytest.mark.unit
-async def test_discover_mixed_phrases_and_words(seeded_cache_with_phrases):
-    """Phrases and vocab words coexist in longer multi-element sentences."""
+async def test_discover_main_scoping(seeded_cache):
+    """When <main> is present, only lang elements inside it are annotated."""
     html = (
-        '<p><span lang="it">ciao</span>, '
-        '<span lang="it">mi chiamo</span> Giovanni. '
-        '<span lang="it">Vorrei un caffè per favore.</span></p>'
+        '<nav><span lang="it">ciao</span></nav>'
+        '<main><span lang="it">il gatto dorme</span></main>'
     )
-    result = await discover(html, student_id=None, create_cards=False, language="it")
-    # Phrase matches (exact element text + substring)
-    assert 'data-word="mi chiamo"' in result
-    assert 'data-word="ciao"' in result
-    assert 'data-word="per favore"' in result  # substring phrase within longer element
-    # Word match inside longer element (per-token matching)
-    assert 'data-word="caffè"' in result
+    result = await discover(
+        html,
+        student_id=None,
+        create_cards=False,
+        language="it",
+        annotations=[
+            _ann("gatto", ["gatto"], "NOUN"),
+            _ann("ciao", ["ciao"], "INTJ"),
+        ],
+    )
+    assert 'data-word="gatto"' in result
+    assert 'data-word="ciao"' not in result
+
+
+@pytest.mark.unit
+async def test_discover_fragment_mode(seeded_cache):
+    """Without <main>, all lang elements are annotated (HTMX fragment mode)."""
+    html = '<span lang="it">il gatto dorme</span>'
+    result = await discover(
+        html,
+        student_id=None,
+        create_cards=False,
+        language="it",
+        annotations=[
+            _ann("gatto", ["gatto"], "NOUN"),
+            _ann("dormire", ["dorme"], "VERB"),
+        ],
+    )
+    assert 'data-word="gatto"' in result
+    assert 'data-word="dormire"' in result
+
+
+@pytest.mark.unit
+async def test_discover_no_discover_skips_element(seeded_cache):
+    """Elements with data-no-discover should be excluded entirely."""
+    result = await discover(
+        '<span lang="it" data-no-discover>gatto</span> <span lang="it">il gatto dorme</span>',
+        student_id=None,
+        create_cards=False,
+        language="it",
+        annotations=[_ann("gatto", ["gatto"], "NOUN")],
+    )
+    assert 'data-no-discover=""' in result
+    no_discover_span = result.split("data-no-discover")[1].split("</span>")[0]
+    assert "vocab-word" not in no_discover_span
+    assert 'data-word="gatto"' in result
+
+
+@pytest.mark.unit
+async def test_discover_multi_pos_annotation(seeded_cache):
+    """Same lemma with different UPOS resolves to distinct dictionary entries."""
+    result = await discover(
+        '<span lang="it">suono il piano piano</span>',
+        student_id=None,
+        create_cards=False,
+        language="it",
+        annotations=[
+            _ann("piano", ["piano"], "NOUN"),
+            _ann("piano", ["piano"], "ADJ"),
+        ],
+    )
+    assert result.count('data-word="piano"') == 2
+    assert 'data-pos="s.m."' in result
+    assert 'data-pos="agg."' in result
+
+
+@pytest.mark.unit
+async def test_discover_phrase_annotation(seeded_cache):
+    """Multi-word lemmas annotate the whole phrase; inner words stay plain."""
+    result = await discover(
+        '<span lang="it">Sì, per favore, grazie.</span>',
+        student_id=None,
+        create_cards=False,
+        language="it",
+        annotations=[_ann("per favore", ["per favore"])],
+    )
+    assert 'data-word="per favore"' in result
+    assert result.count("vocab-word") == 1
 
 
 # ---------------------------------------------------------------------------
-# Audio background task — fired in parallel with definition generation
+# Background definition/audio tasks
 # ---------------------------------------------------------------------------
+
+_GATTO_ANNS = [
+    _ann("gatto", ["gatto"], "NOUN"),
+    _ann("dormire", ["dorme"], "VERB"),
+]
 
 
 @pytest.mark.unit
@@ -1139,9 +668,9 @@ async def test_discover_fires_audio_task_for_missing_audio(seeded_cache):
             student_id=None,
             create_cards=False,
             language="it",
+            annotations=_GATTO_ANNS,
         )
 
-    # All test words have audio_url=None, so audio task should fire
     audio_calls = [
         c
         for c in mock_bg.call_args_list
@@ -1171,6 +700,7 @@ async def test_discover_no_audio_task_when_audio_exists():
                 student_id=None,
                 create_cards=False,
                 language="it",
+                annotations=[_ann("gatto", ["gatto"], "NOUN")],
             )
 
         audio_calls = [
@@ -1192,6 +722,7 @@ async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
             student_id=None,
             create_cards=False,
             language="it",
+            annotations=_GATTO_ANNS,
         )
 
     names = [c.kwargs.get("name", "") for c in mock_bg.call_args_list]
@@ -1201,326 +732,3 @@ async def test_discover_audio_and_def_tasks_fire_independently(seeded_cache):
     # Def task should NOT fire (test words have senses=[], so they're skipped)
     def_tasks = [n for n in names if "vocab-defs-" in n]
     assert len(def_tasks) == 0
-
-
-# ===========================================================================
-# German (de) — match_vocab_words tests
-# ===========================================================================
-
-# German word index: uses DWDS POS abbreviations.
-# Mirrors _TEST_WORD_INDEX structure but with German vocabulary.
-_DE_WORD_INDEX = {
-    # Nouns (DWDS: "Subst.")
-    "kaffee": [_make_vocab_word("Kaffee", pos="Subst.", language="de")],
-    "wasser": [_make_vocab_word("Wasser", pos="Subst.", language="de")],
-    "milch": [_make_vocab_word("Milch", pos="Subst.", language="de")],
-    "tee": [_make_vocab_word("Tee", pos="Subst.", language="de")],
-    "morgen": [
-        _make_vocab_word("Morgen", pos="Subst.", language="de"),
-        _make_vocab_word("morgen", pos="Adv.", language="de"),
-    ],
-    "tag": [_make_vocab_word("Tag", pos="Subst.", language="de")],
-    "abend": [_make_vocab_word("Abend", pos="Subst.", language="de")],
-    "nacht": [_make_vocab_word("Nacht", pos="Subst.", language="de")],
-    "entschuldigung": [_make_vocab_word("Entschuldigung", pos="Subst.", language="de")],
-    "wiedersehen": [_make_vocab_word("Wiedersehen", pos="Subst.", language="de")],
-    "dank": [
-        _make_vocab_word("Dank", pos="Subst.", language="de"),
-        _make_vocab_word("dank", pos="Praep.", language="de"),
-    ],
-    "glas": [_make_vocab_word("Glas", pos="Subst.", language="de")],
-    "deutsch": [_make_vocab_word("Deutsch", pos="Subst.", language="de")],
-    "bitte": [
-        _make_vocab_word("Bitte", pos="Subst.", language="de"),
-        _make_vocab_word("bitte", pos="Part.", language="de"),
-    ],
-    "danke": [_make_vocab_word("danke", pos="Part.", language="de")],
-    "etwas": [
-        _make_vocab_word("etwas", pos="Part.", language="de"),
-        _make_vocab_word("Etwas", pos="Subst.", language="de"),
-    ],
-    "leid": [_make_vocab_word("Leid", pos="Subst.", language="de")],
-    # Verbs (DWDS: "V.")
-    "trinken": [_make_vocab_word("trinken", pos="V.", language="de")],
-    "sprechen": [_make_vocab_word("sprechen", pos="V.", language="de")],
-    "kommen": [_make_vocab_word("kommen", pos="V.", language="de")],
-    "heißen": [_make_vocab_word("heißen", pos="V.", language="de")],
-    "tun": [_make_vocab_word("tun", pos="V.", language="de")],
-    "mögen": [_make_vocab_word("mögen", pos="V.", language="de")],
-    "möchten": [_make_vocab_word("möchten", pos="V.", language="de")],
-    "danken": [_make_vocab_word("danken", pos="V.", language="de")],
-    "sein": [_make_vocab_word("sein", pos="V.", language="de")],
-    "haben": [_make_vocab_word("haben", pos="V.", language="de")],
-    # Adjectives (DWDS: "Adj.")
-    "gut": [
-        _make_vocab_word("gut", pos="Adj.", language="de"),
-        _make_vocab_word("Gut", pos="Subst.", language="de"),
-    ],
-    "schön": [_make_vocab_word("schön", pos="Adj.", language="de")],
-    # Adverbs (DWDS: "Adv.")
-    "sehr": [_make_vocab_word("sehr", pos="Adv.", language="de")],
-    "hier": [_make_vocab_word("hier", pos="Adv.", language="de")],
-    # Prepositions (DWDS: "Praep.")
-    "auf": [_make_vocab_word("auf", pos="Praep.", language="de")],
-    "aus": [_make_vocab_word("aus", pos="Praep.", language="de")],
-    "mit": [_make_vocab_word("mit", pos="Praep.", language="de")],
-    # Particles + nominalized noun forms (DWDS stores both)
-    "ja": [
-        _make_vocab_word("ja", pos="Part.", language="de"),
-        _make_vocab_word("Ja", pos="Subst.", language="de"),
-    ],
-    "nein": [
-        _make_vocab_word("nein", pos="Part.", language="de"),
-        _make_vocab_word("Nein", pos="Subst.", language="de"),
-    ],
-    # Determiners / articles (DWDS: "Art.")
-    "ein": [_make_vocab_word("ein", pos="Art.", language="de")],
-    "der": [_make_vocab_word("der", pos="Art.", language="de")],
-    "kein": [_make_vocab_word("kein", pos="Art.", language="de")],
-    # Pronouns (DWDS: "Pron.")
-    "ich": [_make_vocab_word("ich", pos="Pron.", language="de")],
-    "sie": [_make_vocab_word("sie", pos="Pron.", language="de")],
-    "es": [_make_vocab_word("es", pos="Pron.", language="de")],
-    "mir": [_make_vocab_word("mir", pos="Pron.", language="de")],
-    # Interjections (DWDS: "Interj.")
-    "hallo": [_make_vocab_word("hallo", pos="Interj.", language="de")],
-    "tschüss": [_make_vocab_word("tschüss", pos="Interj.", language="de")],
-}
-
-_DE_PHRASE_INDEX = {
-    "guten morgen": [_make_vocab_word("Guten Morgen", pos="loc.", language="de")],
-    "guten tag": [_make_vocab_word("Guten Tag", pos="loc.", language="de")],
-    "guten abend": [_make_vocab_word("Guten Abend", pos="loc.", language="de")],
-    "gute nacht": [_make_vocab_word("Gute Nacht", pos="loc.", language="de")],
-    "auf wiedersehen": [_make_vocab_word("Auf Wiedersehen", pos="loc.", language="de")],
-    "danke schön": [_make_vocab_word("Danke schön", pos="loc.", language="de")],
-    "bitte schön": [_make_vocab_word("Bitte schön", pos="loc.", language="de")],
-    "vielen dank": [_make_vocab_word("Vielen Dank", pos="loc.", language="de")],
-    "es tut mir leid": [_make_vocab_word("Es tut mir leid", pos="loc.", language="de")],
-    "ich möchte": [_make_vocab_word("Ich möchte", pos="loc.", language="de")],
-}
-
-
-@pytest.fixture()
-def seeded_de_cache():
-    """Seed global vocab cache with _DE_WORD_INDEX for German discover() tests."""
-    _vocab_cache.seed(words=_DE_WORD_INDEX, defs={}, language="de")
-    yield
-    _vocab_cache.invalidate()
-
-
-@pytest.fixture()
-def seeded_de_cache_with_phrases():
-    """Seed global vocab cache with German words AND phrases."""
-    _vocab_cache.seed(
-        words=_DE_WORD_INDEX,
-        defs={},
-        phrases=_DE_PHRASE_INDEX,
-        language="de",
-    )
-    yield
-    _vocab_cache.invalidate()
-
-
-@pytest.mark.unit
-@pytest.mark.parametrize(
-    "text, expected_words",
-    [
-        # -- Basic nouns: spaCy lemma matches headword --
-        pytest.param(
-            "Ich trinke Kaffee",
-            {"ich", "trinken", "Kaffee"},
-            id="de-basic-nouns",
-        ),
-        pytest.param(
-            "Ich trinke Wasser",
-            {"ich", "trinken", "Wasser"},
-            id="de-wasser",
-        ),
-        # -- Conjugation: inflected verb → lemma --
-        pytest.param(
-            "Ich spreche Deutsch",
-            {"ich", "sprechen", "Deutsch"},
-            id="de-verb-conjugation",
-        ),
-        # -- Particles: ja, nein --
-        pytest.param(
-            "Ja, ich trinke Milch",
-            {"ja", "ich", "trinken", "Milch"},
-            id="de-ja-particle",
-        ),
-        pytest.param(
-            "Nein, kein Wasser",
-            {"nein", "kein", "Wasser"},
-            id="de-nein-particle",
-        ),
-        # -- Adjective: "gut" should match the adjective, not the noun --
-        pytest.param(
-            "Das ist sehr gut",
-            {"der", "sein", "sehr", "gut"},
-            id="de-gut-adj",
-        ),
-        # -- Prepositions --
-        pytest.param(
-            "Ich komme aus Deutschland",
-            {"ich", "kommen", "aus"},
-            id="de-preposition-aus",
-        ),
-        # -- Determiners --
-        pytest.param(
-            "Ich möchte ein Glas Wasser",
-            {"ich", "möchten", "ein", "Glas", "Wasser"},
-            id="de-determiner-ein",
-        ),
-        # -- "Es tut mir leid" as individual words --
-        pytest.param(
-            "Es tut mir leid",
-            {"es", "tun", "mir", "Leid"},
-            id="de-es-tut-mir-leid",
-        ),
-        # -- Entschuldigung: long compound, should match directly --
-        pytest.param(
-            "Entschuldigung",
-            {"Entschuldigung"},
-            id="de-entschuldigung",
-        ),
-        # -- Multi-POS: "morgen" as adverb vs "Morgen" as noun --
-        # In "Guten Morgen" (after phrase matching), "Morgen" is a noun.
-        # In "Ich komme morgen" (standalone), spaCy tags it as ADV.
-        # Both resolve to the "morgen" key which has two entries.
-        pytest.param(
-            "Ich komme morgen",
-            {"ich", "kommen", "morgen"},
-            id="de-morgen-adverb",
-        ),
-    ],
-)
-def test_de_match_vocab_words(text, expected_words):
-    """German match_vocab_words() should produce the expected dictionary matches."""
-    matches = match_vocab_words(text, _DE_WORD_INDEX, language="de")
-    matched_words = {m.word.word for m in matches}
-    assert matched_words == expected_words, (
-        f"match_vocab_words({text!r})\n"
-        f"  expected: {sorted(expected_words)}\n"
-        f"  got:      {sorted(matched_words)}"
-    )
-
-
-@pytest.mark.unit
-def test_de_match_returns_vocab_match():
-    """German match results are VocabMatch dataclasses."""
-    matches = match_vocab_words("Ich trinke Kaffee", _DE_WORD_INDEX, language="de")
-    assert isinstance(matches, list)
-    assert all(isinstance(m, VocabMatch) for m in matches)
-
-
-@pytest.mark.unit
-def test_de_match_surface_forms():
-    """German VocabMatch should carry inflected surface forms."""
-    matches = match_vocab_words("Ich trinke Wasser", _DE_WORD_INDEX, language="de")
-    trinken_match = next(m for m in matches if m.word.word == "trinken")
-    assert "trinke" in trinken_match.surface_forms
-
-
-@pytest.mark.unit
-def test_de_match_dedup():
-    """Same lemma appearing twice → only one VocabMatch."""
-    matches = match_vocab_words(
-        "Ich trinke und ich trinke", _DE_WORD_INDEX, language="de"
-    )
-    ich_matches = [m for m in matches if m.word.word == "ich"]
-    assert len(ich_matches) == 1
-
-
-# ---------------------------------------------------------------------------
-# German: case-variant disambiguation
-#
-# DWDS stores "Gut" (noun = estate) and "gut" (adjective = good) as separate
-# entries.  The cache merges them under one lowercase key.  The pipeline must
-# consistently pick the common form (lowercase), not the rare nominalized noun.
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-@pytest.mark.parametrize(
-    "text, lemma, expected_word, expected_pos",
-    [
-        # "Gut." as a standalone response → should be the adjective, not the noun
-        pytest.param("Gut.", "gut", "gut", "Adj.", id="de-gut-standalone"),
-        # "Das ist gut" → adjective
-        pytest.param("Das ist gut", "gut", "gut", "Adj.", id="de-gut-predicate"),
-        # "Ja." standalone → particle, not the noun "das Ja"
-        pytest.param("Ja.", "ja", "ja", "Part.", id="de-ja-standalone"),
-        # "Ja, ich trinke Kaffee" → particle
-        pytest.param("Ja, ich trinke Kaffee", "ja", "ja", "Part.", id="de-ja-sentence"),
-        # "Nein." → particle, not the noun "das Nein"
-        pytest.param("Nein.", "nein", "nein", "Part.", id="de-nein-standalone"),
-        # "etwas Milch" → the common determiner/pronoun, not the noun "das Etwas"
-        pytest.param(
-            "Ich trinke etwas Milch", "etwas", "etwas", "Part.", id="de-etwas-det"
-        ),
-        # "dank" as preposition → Praep., not the noun "Dank"
-        pytest.param(
-            "Dank sei Gott",
-            "dank",
-            "dank",
-            "Praep.",
-            id="de-dank-prep",
-        ),
-    ],
-)
-def test_de_case_variant_disambiguation(text, lemma, expected_word, expected_pos):
-    """German case variants: pipeline should pick the common form, not the nominalized noun."""
-    matches = match_vocab_words(text, _DE_WORD_INDEX, language="de")
-    target = next((m for m in matches if m.lemma == lemma), None)
-    assert target is not None, (
-        f"lemma {lemma!r} not matched in {text!r}; "
-        f"got: {[(m.lemma, m.word.word, m.word.part_of_speech) for m in matches]}"
-    )
-    assert target.word.word == expected_word, (
-        f"Expected {expected_word!r} ({expected_pos}) but got "
-        f"{target.word.word!r} ({target.word.part_of_speech})"
-    )
-    assert target.word.part_of_speech == expected_pos
-
-
-@pytest.mark.unit
-def test_de_no_duplicate_cards_for_case_variants():
-    """'Ja' and 'ja' under the same cache key should produce exactly one match."""
-    matches = match_vocab_words("Ja, bitte.", _DE_WORD_INDEX, language="de")
-    ja_matches = [m for m in matches if m.lemma == "ja"]
-    assert len(ja_matches) == 1, (
-        f"Expected 1 match for 'ja', got {len(ja_matches)}: "
-        f"{[(m.word.word, m.word.part_of_speech) for m in ja_matches]}"
-    )
-
-
-# ---------------------------------------------------------------------------
-# German: known spaCy issues (xfail)
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.unit
-@pytest.mark.xfail(reason="spaCy tags Hallo as PROPN — filtered by _keep_token")
-def test_de_hallo_propn_bug():
-    """spaCy tags 'Hallo' as PROPN, so it gets filtered out."""
-    matches = match_vocab_words("Hallo!", _DE_WORD_INDEX, language="de")
-    matched_words = {m.word.word for m in matches}
-    assert "hallo" in matched_words
-
-
-@pytest.mark.unit
-@pytest.mark.xfail(reason="spaCy tags Tschüss as PROPN — filtered by _keep_token")
-def test_de_tschuess_propn_bug():
-    """spaCy tags 'Tschüss' as PROPN, so it gets filtered out."""
-    matches = match_vocab_words("Tschüss!", _DE_WORD_INDEX, language="de")
-    matched_words = {m.word.word for m in matches}
-    assert "tschüss" in matched_words
-
-
-@pytest.mark.unit
-def test_de_wiedersehen_simplemma_fallback():
-    """spaCy truncates 'Wiedersehen'→'Wiedersehe', but simplemma fixes it."""
-    matches = match_vocab_words("Auf Wiedersehen", _DE_WORD_INDEX, language="de")
-    matched_words = {m.word.word for m in matches}
-    assert "Wiedersehen" in matched_words

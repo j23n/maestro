@@ -25,6 +25,7 @@ from maestro.learning.weakness import (
 )
 from maestro.templates import render_with_discover
 from maestro.utils import create_background_task, ensure_utc, utcnow
+from maestro.vocab.annotate import merge_annotations
 from maestro.config import settings as _settings
 from maestro.lessons.planner import prepare_lesson_immediate, generate_lesson_background
 from maestro.learning.onboarding import skip_onboarding as _skip_onboarding
@@ -298,6 +299,7 @@ async def lesson_overview(
         "lesson.html",
         {"lesson": lesson, "overview_lang": overview_lang},
         student_id=student.id,
+        vocab_annotations=merge_annotations(lesson.activities),
     )
 
 
@@ -554,4 +556,5 @@ async def lesson_complete(
             "scenario_outro": scenario_outro,
         },
         student_id=student.id,
+        vocab_annotations=merge_annotations(lesson.activities),
     )

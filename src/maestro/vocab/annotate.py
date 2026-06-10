@@ -172,6 +172,9 @@ _ANNOTATABLE_TYPES = (
     ActivityType.SPEAKING,
     ActivityType.WRITING,
     ActivityType.DRILL,
+    ActivityType.GRAMMAR,
+    ActivityType.INTRO,
+    ActivityType.INFO,
 )
 
 
@@ -229,6 +232,23 @@ async def annotate_lesson_activities(
         logger.exception(
             "activity annotation failed", extra={"lesson_id": str(lesson_id)}
         )
+
+
+def merge_annotations(activities: list) -> list[VocabAnnotation]:
+    """Union of all activities' annotations, deduplicated by (lemma, upos).
+
+    Used for pages that render content spanning a whole lesson (overview,
+    completion page) rather than a single activity.
+    """
+    merged: list[VocabAnnotation] = []
+    seen: set[tuple[str, str]] = set()
+    for act in activities:
+        for ann in getattr(act, "vocab_annotations", []) or []:
+            key = (ann.lemma, ann.upos)
+            if key not in seen:
+                seen.add(key)
+                merged.append(ann)
+    return merged
 
 
 def annotations_from_dicts(raw: list[dict] | None) -> list[VocabAnnotation]:

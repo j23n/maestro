@@ -54,7 +54,7 @@ src/maestro/
 │   ├── scorer.py        # Writing/speaking LLM feedback
 │   └── weakness.py      # Grammar weakness detection
 ├── vocab/
-│   ├── discover.py      # Inline vocab discovery (verified annotations or spaCy NLP)
+│   ├── discover.py      # Inline vocab popovers + cards from verified annotations only
 │   ├── annotate.py      # Generation-time LLM lemma annotation (word-index validated)
 │   ├── srs.py           # SM-2 spaced repetition
 │   └── cache.py         # Vocab word cache

@@ -53,13 +53,10 @@ async def test_annotated_path_skips_nlp_and_annotates_verified_words(db):
         VocabAnnotation(surface_forms=["Mangio"], lemma="mangiare", upos="VERB")
     ]
 
-    with (
-        patch(
-            "maestro.vocab.discover.get_cefr_level",
-            new_callable=AsyncMock,
-            return_value="A1",
-        ),
-        patch("maestro.vocab.discover.match_vocab_words") as mock_nlp,
+    with patch(
+        "maestro.vocab.discover.get_cefr_level",
+        new_callable=AsyncMock,
+        return_value="A1",
     ):
         result = await discover(
             '<span lang="it">Mangio una pizza enorme.</span>',
@@ -67,9 +64,6 @@ async def test_annotated_path_skips_nlp_and_annotates_verified_words(db):
             language="it",
             annotations=annotations,
         )
-
-    # NLP matching never runs on the pre-annotated path
-    mock_nlp.assert_not_called()
 
     # Only the verified word is annotated — "pizza" is in the dictionary but
     # wasn't verified for this content, so it gets no popover and no card.
@@ -129,21 +123,18 @@ async def test_empty_annotations_annotate_nothing(db):
     assert await UserVocabularyCard.find_all().to_list() == []
 
 
-async def test_none_annotations_keep_legacy_nlp_path(db):
-    """annotations=None (default) must preserve the existing NLP behavior."""
+async def test_none_annotations_return_unchanged(db):
+    """Without annotations there is no runtime matching — content is untouched
+    and no cards can be created."""
     from maestro.vocab.discover import discover
 
     await _seed_words()
-    with patch(
-        "maestro.vocab.discover.get_cefr_level",
-        new_callable=AsyncMock,
-        return_value="A1",
-    ):
-        result = await discover(
-            '<span lang="it">Voglio mangiare la pizza.</span>',
-            student_id=_FAKE_STUDENT_ID,
-            language="it",
-        )
+    html = '<span lang="it">Voglio mangiare la pizza.</span>'
+    result = await discover(
+        html,
+        student_id=_FAKE_STUDENT_ID,
+        language="it",
+    )
 
-    assert 'data-word="mangiare"' in result
-    assert 'data-word="pizza"' in result
+    assert result == html
+    assert await UserVocabularyCard.find_all().to_list() == []

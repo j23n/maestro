@@ -1,4 +1,8 @@
-"""A0 static lesson generation from pre-authored YAML content (no LLM calls)."""
+"""A0 static lesson generation from pre-authored YAML content.
+
+Content is never LLM-generated; the only LLM call is the small vocab
+annotation post-pass that maps the static text to dictionary entries.
+"""
 
 from __future__ import annotations
 
@@ -28,7 +32,7 @@ async def _generate_a0_lesson_background(
     lesson_id,
     duration_minutes: int,
 ) -> None:
-    """Generate a static A0 lesson from pre-authored YAML content (no LLM calls)."""
+    """Generate a static A0 lesson from pre-authored YAML content."""
     lesson = await Lesson.get(lesson_id)
     if lesson is None:
         logger.error("lesson not found", extra={"lesson_id": str(lesson_id)})
@@ -219,6 +223,18 @@ async def _generate_a0_lesson_background(
 
     # Inject mid-lesson and end-of-lesson discovered-word reviews
     inject_discovered_reviews(new_activities)
+
+    # Verified vocab annotation post-pass — render-time discovery only works
+    # from stored annotations, so A0 content is annotated here too. The single
+    # LLM call is failure-tolerant: unannotated activities render plainly.
+    from maestro.vocab.annotate import annotate_lesson_activities
+
+    await annotate_lesson_activities(
+        new_activities,
+        language=lesson.language,
+        lesson_id=lesson_id,
+        student_id=lesson.student_id,
+    )
 
     # Atomically update lesson
     activities_dicts = [a.model_dump() for a in new_activities]

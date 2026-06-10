@@ -30,7 +30,6 @@ from maestro.session import clear_session_cookie, read_session
 from maestro.templates import render_with_discover
 from maestro.language import LANGUAGES
 from maestro.vocab.cache import ensure_loaded as load_vocab
-from maestro.vocab.nlp import get_nlp
 from maestro.routes import (
     activities,
     admin,
@@ -154,9 +153,8 @@ async def lifespan(app: FastAPI):
     await sync_dwds_headwords(get_db())
     await sync_a0_lessons(get_db())
     await seed_if_empty(get_db())
-    logger.info("startup: loading NLP models and vocab for all languages")
+    logger.info("startup: loading vocab caches for all languages")
     for _lang_code in LANGUAGES:
-        get_nlp(_lang_code)
         await load_vocab(_lang_code)
     logger.info("startup complete")
     yield

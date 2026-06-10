@@ -1,7 +1,7 @@
 import contextlib
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 from mongomock_motor import AsyncMongoMockClient
 from beanie import init_beanie
 from fastapi.testclient import TestClient
@@ -11,7 +11,7 @@ from maestro.models import ALL_DOCUMENT_MODELS
 
 @contextlib.contextmanager
 def patch_lifespan():
-    """Patch all lifespan startup calls (init_db, seed, nlp, vocab)."""
+    """Patch all lifespan startup calls (init_db, seed, vocab)."""
     with (
         patch("maestro.main.init_db", new_callable=AsyncMock),
         patch("maestro.main.run_pending", new_callable=AsyncMock),
@@ -21,7 +21,6 @@ def patch_lifespan():
         patch("maestro.main.sync_dwds_headwords", new_callable=AsyncMock),
         patch("maestro.main.sync_a0_lessons", new_callable=AsyncMock),
         patch("maestro.main.seed_if_empty", new_callable=AsyncMock),
-        patch("maestro.main.get_nlp", return_value=MagicMock()),
         patch("maestro.main.load_vocab", new_callable=AsyncMock),
     ):
         yield
