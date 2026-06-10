@@ -53,6 +53,8 @@ class CallType(str, Enum):
     AUGMENT_CF = "augment_cf"
     STORYLINE_EVOLVE = "storyline_evolve"
     LESSON_SUMMARY = "lesson_summary"
+    LESSON_ADAPT = "lesson_adapt"
+    ANNOTATION = "annotation"
 
 
 class Student(Document):
@@ -361,6 +363,20 @@ class LearningProfile(Document):
 # --- Drills ---
 
 
+class VocabAnnotation(BaseModel):
+    """A verified surface→dictionary mapping for one word in lesson content.
+
+    `lemma` must be an exact headword key in the vocab cache's word index
+    (or phrase index for multi-word lemmas), so render-time resolution is a
+    dict lookup + POS match — no NLP guessing. Produced offline (content
+    banks) or by the generation-time LLM post-pass (vocab.annotate).
+    """
+
+    surface_forms: List[str]  # inflected forms as they appear in the text
+    lemma: str  # dictionary headword (word-index key, lowercase)
+    upos: str = ""  # spaCy-style UPOS tag used for POS disambiguation
+
+
 class QuestionItem(BaseModel):
     """Structured comprehension question for reading/listening activities."""
 
@@ -479,6 +495,11 @@ class LessonActivity(BaseModel):
     )
     cf_codes: List[str] = Field(default_factory=list)  # communicative function codes
     audio_path: Optional[str] = None  # /static/audio/lesson_{id}_{idx}.wav
+    # Verified vocab mappings for this activity's target-language text.
+    # When vocab_annotated is True, render-time discovery uses these instead
+    # of runtime NLP matching (see vocab.discover).
+    vocab_annotations: List[VocabAnnotation] = Field(default_factory=list)
+    vocab_annotated: bool = False
 
 
 class Lesson(Document):
@@ -509,6 +530,7 @@ class Lesson(Document):
     generation_started_at: Optional[datetime] = None  # set when generation begins
     generation_error: Optional[str] = None  # set when background generation fails
     archetype: Optional[str] = None  # "introduction", "consolidation", "application"
+    content_source: Optional[str] = None  # "bank" | "llm" — how A1+ content was built
     language: str = "it"
 
     class Settings:

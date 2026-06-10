@@ -23,6 +23,7 @@ from maestro.models import (
     VocabularyWord,
 )
 from maestro.lessons.curriculum import get_available_scenarios, get_max_available_depth
+from maestro.learning.mastery import CF_DEMONSTRATED_COUNT, MASTERY_THRESHOLD
 from maestro.utils import CEFR_ORDER, ensure_utc, utcnow
 
 logger = logging.getLogger(__name__)
@@ -71,11 +72,17 @@ async def pick_scenario(
     *,
     language: str,
     last_scenario_slug: str | None = None,
+    unlocked_codes: set[str] | None = None,
 ) -> tuple[CurriculumScenario, int]:
     """Pick the next scenario and depth level to cover.
 
     For A0: sequential progression through fixed lessons.
-    For A1+: weighted scoring with variety.
+    For A1+: coverage-driven scoring. The primary signal is how much a
+    scenario advances the per-level graduation gates (>=90% GPs mastered and
+    >=90% CFs demonstrated, see profile._compute_cefr): scenarios containing
+    unmastered GPs and undemonstrated CFs score higher, with extra pressure
+    for GPs that are unlocked but never introduced. Variety heuristics
+    (cooldown, continuity with the last lesson, jitter) act as tiebreakers.
 
     Args:
         scenarios: pre-fetched scenario list to avoid a redundant DB query.
@@ -84,6 +91,8 @@ async def pick_scenario(
             scenario in this language. Applies a recency penalty plus a small
             bonus for scenarios that share GP/CF codes with the last one, so
             lessons feel thematically connected without repeating.
+        unlocked_codes: GP codes whose prerequisites are satisfied (from
+            curriculum.get_unlocked_gps). When None, all GPs count as unlocked.
 
     Returns (scenario, next_depth).
     """
@@ -116,7 +125,11 @@ async def pick_scenario(
             (s for s in all_scenarios if s.slug == last_scenario_slug), None
         )
 
-    # Identify weak GP codes (high error rate)
+    mastery = lp.grammar_mastery_scores if lp else {}
+    fn_counts = lp.functions_counts if lp else {}
+    introduced = set(lp.grammar_introduced) if lp else set()
+
+    # Identify weak GP codes (high error rate) for remediation priority
     error_counts = lp.grammar_error_counts if lp else {}
     correct_counts = lp.grammar_correct_counts if lp else {}
     weak_gps: set[str] = set()
@@ -131,29 +144,44 @@ async def pick_scenario(
         max_depth = get_max_available_depth(profile, scenario, all_scenarios)
         next_depth = min(sp.depth + 1, max_depth, len(scenario.depths))
 
-        score = 0.0
+        # 1. Coverage value: unmastered GPs and undemonstrated CFs this
+        #    scenario can advance toward the graduation gates.
+        unmastered = [
+            c
+            for c in scenario.gp_codes
+            if mastery.get(c, 0.0) < MASTERY_THRESHOLD
+        ]
+        undemonstrated = [
+            c
+            for c in scenario.cf_codes
+            if fn_counts.get(c, 0) < CF_DEMONSTRATED_COUNT
+        ]
+        # 2. Introduction pressure: unlocked GPs the student has never seen.
+        introducible = [
+            c
+            for c in unmastered
+            if c not in introduced
+            and (unlocked_codes is None or c in unlocked_codes)
+        ]
+        score = (
+            1.0 * len(unmastered)
+            + 0.5 * len(undemonstrated)
+            + 1.0 * len(introducible)
+        )
 
-        # 1. Unvisited bonus
+        # 3. Weak GP overlap bonus (remediation)
+        score += 0.5 * len(weak_gps & set(scenario.gp_codes))
+
+        # 4. Unvisited bonus + prefer lower next-depth (breadth before depth)
         if sp.depth == 0:
-            score += 10.0
-
-        # 2. Prefer lower next-depth (introduction first)
+            score += 1.0
         score -= next_depth * 0.5
 
-        # 3. Weak GP overlap bonus
-        overlap = len(weak_gps & set(scenario.gp_codes))
-        score += overlap * 1.5
-
-        # 4. Cooldown penalty
+        # 5. Cooldown penalty
         if sp.last_visited:
             elapsed = (now - ensure_utc(sp.last_visited)).total_seconds()
             if elapsed < _COOLDOWN_SECONDS:
-                score -= 5.0 * (1 - elapsed / _COOLDOWN_SECONDS)
-
-        # 5. Breadth bonus — encourage visiting unstarted scenarios in the
-        #    current phase before going deeper in already-visited ones
-        if sp.depth == 0:
-            score += 3.0
+                score -= 4.0 * (1 - elapsed / _COOLDOWN_SECONDS)
 
         # 6. Recency penalty + continuity bonus against the previous lesson
         if last_scenario_slug:
@@ -162,10 +190,10 @@ async def pick_scenario(
             elif last_scenario is not None:
                 overlap_gp = len(set(scenario.gp_codes) & set(last_scenario.gp_codes))
                 overlap_cf = len(set(scenario.cf_codes) & set(last_scenario.cf_codes))
-                score += 0.5 * (overlap_gp + overlap_cf)
+                score += 0.25 * (overlap_gp + overlap_cf)
 
         # 7. Jitter
-        score += random.uniform(0, 1.0)
+        score += random.uniform(0, 0.5)
 
         scored.append((score, scenario, next_depth))
 
@@ -295,8 +323,14 @@ async def pick_grammar_points(
     unlocked_codes: set[str] | None = None,
     *,
     language: str,
+    archetype: str = "",
 ) -> list[GrammarPoint]:
-    """Pick grammar points to practise, prioritising weakest within level.
+    """Pick grammar points to practise, coverage-driven.
+
+    Ordering (lower score = picked first):
+      1. never-introduced GPs (new material — strongest for introduction lessons)
+      2. introduced but unmastered GPs, weakest (highest error rate) first
+      3. mastered GPs last (only fill slots when nothing else remains)
 
     When candidate_codes is provided (from a scenario), filter to those codes.
     When unlocked_codes is provided, only consider GPs in the unlocked set.
@@ -321,11 +355,25 @@ async def pick_grammar_points(
     lp = profile.active_progress if profile else None
     error_counts: dict = lp.grammar_error_counts if lp else {}
     correct_counts: dict = lp.grammar_correct_counts if lp else {}
+    mastery: dict = lp.grammar_mastery_scores if lp else {}
+    introduced = set(lp.grammar_introduced) if lp else set()
+
+    # New material weighs strongest in introduction lessons; consolidation
+    # lessons revisit weak GPs before pulling in anything new.
+    new_gp_base = -3.0 if archetype == "introduction" else -1.5
 
     def _score(gp: GrammarPoint) -> float:
         total = correct_counts.get(gp.code, 0) + error_counts.get(gp.code, 0)
         error_rate = error_counts.get(gp.code, 0) / max(1, total)
-        return -error_rate + random.uniform(0, 0.1)
+        # Any practice history counts as introduced — legacy profiles predate
+        # the grammar_introduced list.
+        if gp.code not in introduced and total == 0:
+            base = new_gp_base
+        elif mastery.get(gp.code, 0.0) < MASTERY_THRESHOLD:
+            base = -2.0 * error_rate - 0.5
+        else:
+            base = 1.0
+        return base + random.uniform(0, 0.1)
 
     candidates.sort(key=_score)
 
@@ -362,7 +410,8 @@ async def pick_comm_functions(
     """Pick CFs at or below the current level.
 
     When candidate_codes is provided (from a scenario), filter to those codes.
-    Falls back to least-practised ordering.
+    CFs still below the demonstration threshold (the graduation gate) come
+    first; within each tier, least-practised wins.
     """
     if candidate_codes:
         candidates = await CommunicativeFunction.find(
@@ -380,8 +429,10 @@ async def pick_comm_functions(
 
     fn_counts: dict = profile.active_progress.functions_counts if profile else {}
 
-    def _score(cf: CommunicativeFunction) -> float:
-        return fn_counts.get(cf.code, 0) + random.uniform(0, 0.5)
+    def _score(cf: CommunicativeFunction) -> tuple[int, float]:
+        count = fn_counts.get(cf.code, 0)
+        demonstrated = 1 if count >= CF_DEMONSTRATED_COUNT else 0
+        return (demonstrated, count + random.uniform(0, 0.5))
 
     candidates.sort(key=_score)
     picked = candidates[:count]

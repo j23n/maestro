@@ -1,4 +1,10 @@
-"""Typed Pydantic models for LLM lesson-content responses."""
+"""Typed Pydantic models for lesson-content payloads.
+
+Used both for validated LLM responses and for content assembled from the
+static banks (lessons.bank_assembly) — the `vocab_annotations` fields are
+only populated on the bank path, carrying pre-verified vocab mappings
+through to the materialized activities.
+"""
 
 from __future__ import annotations
 
@@ -6,10 +12,13 @@ from typing import Optional
 
 from pydantic import BaseModel, model_validator
 
+from maestro.models import VocabAnnotation
+
 
 class DrillItemResponse(BaseModel):
     prompt: str = ""
     correct_answer: Optional[str] = None
+    hint: Optional[str] = None
 
 
 class DrillResponse(BaseModel):
@@ -18,6 +27,7 @@ class DrillResponse(BaseModel):
     prompt: Optional[str] = None
     correct_answer: Optional[str] = None
     distractors: list[str] = []
+    vocab_annotations: list[VocabAnnotation] = []
 
 
 class ReadingQuestionResponse(BaseModel):
@@ -29,6 +39,7 @@ class ReadingQuestionResponse(BaseModel):
 class ReadingResponse(BaseModel):
     text: str = ""
     questions: list[ReadingQuestionResponse] = []
+    vocab_annotations: list[VocabAnnotation] = []
 
     @model_validator(mode="before")
     @classmethod
@@ -52,10 +63,12 @@ class ReadingResponse(BaseModel):
 
 class WritingResponse(BaseModel):
     prompt: str = ""
+    vocab_annotations: list[VocabAnnotation] = []
 
 
 class SpeakingResponse(BaseModel):
     prompt: str = ""
+    vocab_annotations: list[VocabAnnotation] = []
 
 
 class LessonContentResponse(BaseModel):

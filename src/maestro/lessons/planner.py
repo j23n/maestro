@@ -46,10 +46,13 @@ from maestro.lessons.prompts import (
     build_lesson_content_prompt,
     build_lesson_content_system,
 )
+from maestro.lessons.adapt import adapt_lesson_framing
+from maestro.lessons.bank_assembly import try_assemble_from_bank
 from maestro.lessons.materialize import materialize_activities
 from maestro.lessons.a0_static import _generate_a0_lesson_background
 from maestro.lessons.lifecycle import inject_discovered_reviews
 from maestro.lessons.schemas import LessonContentResponse
+from maestro.vocab.annotate import annotate_lesson_activities
 from maestro.lessons.curriculum import (
     get_unlocked_gps,
     pick_archetype,
@@ -352,6 +355,14 @@ async def _generate_lesson_background(
     recent_lessons = await _fetch_recent_lessons(lesson.student_id, lesson_lang)
     last_scenario_slug = recent_lessons[0].scenario_slug if recent_lessons else None
 
+    # --- Curriculum engine: unlock GPs (feeds both scenario picking and GP picking) ---
+    all_gp_codes = {code for s in all_scenarios for code in s.gp_codes}
+    all_gps = await GrammarPoint.find(
+        {"code": {"$in": list(all_gp_codes)}, "language": lesson_lang}
+    ).to_list()
+    prereqs_map = {gp.code: gp.prerequisites for gp in all_gps if gp.prerequisites}
+    unlocked = get_unlocked_gps(profile, all_gp_codes, prereqs_map)
+
     def _resolve_explicit(slug: str) -> tuple[CurriculumScenario, int] | None:
         doc = next((s for s in all_scenarios if s.slug == slug), None)
         if doc is None:
@@ -391,16 +402,11 @@ async def _generate_lesson_background(
             scenarios=all_scenarios,
             language=lesson_lang,
             last_scenario_slug=last_scenario_slug,
+            unlocked_codes=unlocked,
         )
     logger.info("scenario selected", extra={"scenario": scenario.slug, "depth": depth})
 
-    # --- Curriculum engine: unlock GPs and pick archetype ---
-    all_gp_codes = {code for s in all_scenarios for code in s.gp_codes}
-    all_gps = await GrammarPoint.find(
-        {"code": {"$in": list(all_gp_codes)}, "language": lesson_lang}
-    ).to_list()
-    prereqs_map = {gp.code: gp.prerequisites for gp in all_gps if gp.prerequisites}
-    unlocked = get_unlocked_gps(profile, all_gp_codes, prereqs_map)
+    # --- Pick archetype for the selected scenario ---
     archetype = pick_archetype(profile, unlocked, scenario.gp_codes, focus_weak)
     logger.info(
         "curriculum engine",
@@ -426,6 +432,7 @@ async def _generate_lesson_background(
             candidate_codes=gp_candidate_codes,
             unlocked_codes=unlocked,
             language=lesson_lang,
+            archetype=archetype.value,
         )
 
     expl_lang = explanation_lang_for_level(cefr_level, lesson_lang)
@@ -472,6 +479,7 @@ async def _generate_lesson_background(
             candidate_codes=gp_candidate_codes,
             unlocked_codes=unlocked,
             language=lesson_lang,
+            archetype=archetype.value,
         )
         for gp in gps_for_drills:
             exercise_type = random.choice(
@@ -532,6 +540,9 @@ async def _generate_lesson_background(
                         ),
                         "rag_excerpt": chunk_excerpt,
                         "chunk_ref": review_gp.chunk_ref,
+                        # Review drills are nice-to-have: bank assembly drops
+                        # them (instead of failing) when the GP lacks bank items.
+                        "optional": True,
                     }
                 )
                 logger.info("review drill injected", extra={"gp_code": review_code})
@@ -595,27 +606,71 @@ async def _generate_lesson_background(
             age_days = (utcnow() - ensure_utc(last_created)).days
             stale = age_days > settings.STORYLINE_STALE_DAYS
 
-    # --- Single LLM call ---
-    content = await _generate_lesson_content(
-        cefr_level,
-        scenario,
-        depth,
-        profile,
-        grammar_gps,
-        drill_specs,
-        listening_count,
-        reading_count,
-        include_writing,
-        speaking_cfs,
-        lesson_context=lesson.lesson_context or "",
-        student_id=lesson.student_id,
-        lesson_id=lesson.id,
-        archetype=archetype.value,
-        recent_lessons=recent_lessons,
-        storyline=storyline,
-        stale=stale,
-        language=lesson_lang,
-    )
+    # --- Content: bank assembly first, full LLM generation as fallback ---
+    content: LessonContentResponse | None = None
+    content_source = "llm"
+    if settings.USE_CONTENT_BANKS:
+        content = try_assemble_from_bank(
+            language=lesson_lang,
+            cefr_level=cefr_level,
+            scenario=scenario,
+            depth=depth,
+            profile=profile,
+            drill_specs=drill_specs,
+            listening_count=listening_count,
+            reading_count=reading_count,
+            include_writing=include_writing,
+            speaking_cfs=speaking_cfs,
+        )
+
+    if content is not None:
+        content_source = "bank"
+        # Small adaptation pass: personalised framing around immutable bank
+        # content. Failure falls back to scenario metadata.
+        framing = await adapt_lesson_framing(
+            language=lesson_lang,
+            cefr_level=cefr_level,
+            scenario=scenario,
+            depth=depth,
+            profile=profile,
+            grammar_gps=grammar_gps,
+            speaking_cfs=speaking_cfs,
+            lesson_context=lesson.lesson_context or "",
+            archetype=archetype.value,
+            recent_lessons=recent_lessons,
+            storyline=storyline,
+            stale=stale,
+            lesson_id=lesson.id,
+            student_id=lesson.student_id,
+        )
+        if framing:
+            content.topic_title = framing["topic_title"]
+            content.topic_description = framing["topic_description"]
+            content.overview = framing["overview"]
+        if not content.overview:
+            content.overview = scenario.overview or scenario.scene_setting or ""
+    else:
+        # --- Single LLM call (legacy path / bank gap) ---
+        content = await _generate_lesson_content(
+            cefr_level,
+            scenario,
+            depth,
+            profile,
+            grammar_gps,
+            drill_specs,
+            listening_count,
+            reading_count,
+            include_writing,
+            speaking_cfs,
+            lesson_context=lesson.lesson_context or "",
+            student_id=lesson.student_id,
+            lesson_id=lesson.id,
+            archetype=archetype.value,
+            recent_lessons=recent_lessons,
+            storyline=storyline,
+            stale=stale,
+            language=lesson_lang,
+        )
 
     topic_title = strip_lang_spans(content.topic_title or scenario.label)
     topic_description = strip_lang_spans(
@@ -655,6 +710,14 @@ async def _generate_lesson_background(
     # --- Inject mid-lesson and end-of-lesson discovered-word reviews ---
     inject_discovered_reviews(new_activities)
 
+    # --- Verified vocab annotation post-pass (skips pre-annotated bank content) ---
+    await annotate_lesson_activities(
+        new_activities,
+        language=lesson_lang,
+        lesson_id=lesson_id,
+        student_id=lesson.student_id,
+    )
+
     # --- Generate audio for LISTENING activities ---
     from maestro.tts import generate_lesson_audio
 
@@ -677,6 +740,7 @@ async def _generate_lesson_background(
                 "topic_title": topic_title,
                 "topic_description": topic_description,
                 "archetype": archetype.value,
+                "content_source": content_source,
                 "generating": False,
             },
         }

@@ -54,8 +54,14 @@ async def render_with_discover(
     status_code=200,
     create_cards=False,
     discover_anonymous=False,
+    vocab_annotations=None,
 ):
-    """Render a Jinja template, then run vocab discover() on the full HTML."""
+    """Render a Jinja template, then run vocab discover() on the full HTML.
+
+    When the rendered context contains a pre-annotated lesson activity (or
+    `vocab_annotations` is passed explicitly), discovery uses the verified
+    mappings instead of runtime NLP matching.
+    """
     from maestro.vocab.discover import discover
 
     response = _templates.TemplateResponse(
@@ -64,6 +70,10 @@ async def render_with_discover(
         context=_inject_language(request, context),
         status_code=status_code,
     )
+    if vocab_annotations is None:
+        activity = context.get("activity")
+        if activity is not None and getattr(activity, "vocab_annotated", False):
+            vocab_annotations = activity.vocab_annotations
     if student_id is not None or discover_anonymous:
         lang_ctx = getattr(getattr(request, "state", None), "lang_ctx", None)
         lang_code = lang_ctx.code if lang_ctx else context.get("target_language_code")
@@ -74,6 +84,7 @@ async def render_with_discover(
                 student_id=student_id,
                 create_cards=student_id is not None and create_cards,
                 language=lang_code,
+                annotations=vocab_annotations,
             )
             response.body = html.encode("utf-8")
             response.headers["content-length"] = str(len(response.body))

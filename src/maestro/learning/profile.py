@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
 from maestro.learning import grammar_cache
 from maestro.learning.constants import MACRO_CATEGORIES as _MACRO_TUPLES
+from maestro.learning.mastery import CF_DEMONSTRATED_COUNT, MASTERY_THRESHOLD
 from maestro.models import (
     CurriculumScenario,
     LearningProfile,
@@ -166,10 +167,10 @@ async def _compute_cefr(profile: "LearningProfile") -> str:
         cf_by_level.setdefault(cf.cefr_level, []).append(cf.code)
 
     def _gp_mastered(code: str) -> bool:
-        return lp.grammar_mastery_scores.get(code, 0.0) >= 0.8
+        return lp.grammar_mastery_scores.get(code, 0.0) >= MASTERY_THRESHOLD
 
     def _cf_demonstrated(code: str) -> bool:
-        return lp.functions_counts.get(code, 0) >= 3
+        return lp.functions_counts.get(code, 0) >= CF_DEMONSTRATED_COUNT
 
     best = "A1"
     for level in CEFR_ORDER:

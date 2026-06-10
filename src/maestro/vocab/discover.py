@@ -10,6 +10,7 @@ from bson import DBRef
 
 from maestro.models import (
     Sense,
+    VocabAnnotation,
     VocabularyWord,
     VocabularyWordDefinition,
     UserVocabularyCard,
@@ -481,6 +482,60 @@ def _annotate_in_elements(
     return count
 
 
+def matches_from_annotations(
+    annotations: list[VocabAnnotation],
+    *,
+    language: str,
+) -> list[VocabMatch]:
+    """Resolve pre-verified annotations to dictionary entries — no NLP.
+
+    Each annotation's lemma is looked up directly in the word index (or
+    phrase index for multi-word lemmas); among multiple POS variants, the
+    entry matching the annotation's UPOS wins. Unresolvable lemmas are
+    skipped — they can never create cards.
+    """
+    word_idx = _cache.word_index(language)
+    phrase_idx = _cache.phrase_index(language)
+
+    matches: list[VocabMatch] = []
+    seen: set[tuple[str, str]] = set()
+    for i, ann in enumerate(annotations):
+        key = ann.lemma.lower()
+        entries = word_idx.get(key) or phrase_idx.get(key)
+        if not entries:
+            logger.debug("[discover] annotation lemma %r unresolved — skipped", key)
+            continue
+        if len(entries) == 1:
+            word = entries[0]
+        else:
+            word = (
+                next(
+                    (
+                        e
+                        for e in entries
+                        if matches_pos(e.part_of_speech, ann.upos, language)
+                    ),
+                    None,
+                )
+                or sorted(entries, key=lambda e: e.part_of_speech)[0]
+            )
+        dedup = (key, str(word.id))
+        if dedup in seen:
+            continue
+        seen.add(dedup)
+        matches.append(
+            VocabMatch(
+                lemma=key,
+                word=word,
+                occurrences=[
+                    TokenOccurrence(surface=s, pos=ann.upos, index=i)
+                    for s in ann.surface_forms
+                ],
+            )
+        )
+    return matches
+
+
 async def discover(
     response_text: str,
     student_id: PydanticObjectId | None = None,
@@ -488,7 +543,15 @@ async def discover(
     create_cards: bool = True,
     *,
     language: str,
+    annotations: list[VocabAnnotation] | None = None,
 ) -> str:
+    """Annotate vocab words in rendered HTML and create user cards.
+
+    When `annotations` is provided (pre-verified mappings from content banks
+    or the generation-time post-pass), the runtime NLP matching pipeline is
+    skipped entirely — only the verified mappings are annotated and only
+    they can create cards.
+    """
     target_lang = language
 
     # No lang attributes → return unchanged (safe default for untagged content)
@@ -525,17 +588,38 @@ async def discover(
         logger.debug("[discover] no lang elements found — returning unchanged")
         return response_text
 
-    # Split into saveable (create cards) vs no-save (tooltip only) elements
-    save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
-    nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
+    # --- Pre-annotated path: verified mappings replace all NLP matching ---
+    if annotations is not None:
+        phrase_matched_elements: set[int] = set()
+        phrase_matches: list[VocabMatch] = []
+        word_elements = lang_elements
+        all_text = get_target_text(word_elements)
+        matches = matches_from_annotations(annotations, language=target_lang)
+        logger.debug(
+            "[discover] pre-annotated: %d/%d mappings resolved",
+            len(matches),
+            len(annotations),
+        )
+        return await _finish_discover(
+            soup,
+            lang_elements=lang_elements,
+            phrase_matched_elements=phrase_matched_elements,
+            phrase_matches=phrase_matches,
+            matches=matches,
+            all_text=all_text,
+            target_lang=target_lang,
+            student_id=student_id,
+            message=message,
+            create_cards=create_cards,
+        )
 
     # --- Phrase matching (exact text, before per-token matching) ---
     # Check each lang element's full text against the phrase index.
     # Phrase matches take priority: matched elements are annotated and
     # excluded from subsequent per-token word matching.
     phrase_idx = _cache.phrase_index(target_lang)
-    phrase_matched_elements: set[int] = set()  # ids of elements matched as phrases
-    phrase_matches: list[VocabMatch] = []
+    phrase_matched_elements = set()  # ids of elements matched as phrases
+    phrase_matches = []
 
     if phrase_idx:
         for el in lang_elements:
@@ -608,6 +692,39 @@ async def discover(
         if all_text
         else []
     )
+
+    return await _finish_discover(
+        soup,
+        lang_elements=lang_elements,
+        phrase_matched_elements=phrase_matched_elements,
+        phrase_matches=phrase_matches,
+        matches=matches,
+        all_text=all_text,
+        target_lang=target_lang,
+        student_id=student_id,
+        message=message,
+        create_cards=create_cards,
+    )
+
+
+async def _finish_discover(
+    soup,
+    *,
+    lang_elements: list,
+    phrase_matched_elements: set[int],
+    phrase_matches: list[VocabMatch],
+    matches: list[VocabMatch],
+    all_text: str,
+    target_lang: str,
+    student_id,
+    message,
+    create_cards: bool,
+) -> str:
+    """Shared tail of discover(): card creation, definition/audio generation,
+    and HTML annotation. Used by both the NLP and pre-annotated paths."""
+    # Split into saveable (create cards) vs no-save (tooltip only) elements
+    save_elements = [el for el in lang_elements if not el.has_attr("data-no-save")]
+    nosave_elements = [el for el in lang_elements if el.has_attr("data-no-save")]
 
     # Combine phrase matches and word matches
     all_matches = phrase_matches + matches

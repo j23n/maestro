@@ -28,6 +28,9 @@ EVIDENCE_WEIGHTS: dict[str | None, float] = {
 
 DECAY_BASE = 0.95  # per-day decay factor (30 days ago ≈ 21% weight)
 MASTERY_THRESHOLD = 0.8
+# A communicative function counts as "demonstrated" after this many uses —
+# the CF half of the per-level graduation gate (see profile._compute_cefr).
+CF_DEMONSTRATED_COUNT = 3
 MIN_WEIGHTED_DENOM = 3.0  # minimum evidence mass before scoring
 _EVENT_LIMIT = 50  # cap per-GP query for performance
 

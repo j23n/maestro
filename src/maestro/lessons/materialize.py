@@ -107,6 +107,8 @@ async def materialize_activities(
                 duration_minutes=5,
                 content=listening.text,
                 questions=_reading_to_question_items(listening),
+                vocab_annotations=listening.vocab_annotations,
+                vocab_annotated=bool(listening.vocab_annotations),
             )
         )
 
@@ -124,6 +126,8 @@ async def materialize_activities(
                 duration_minutes=5,
                 content=reading.text,
                 questions=_reading_to_question_items(reading),
+                vocab_annotations=reading.vocab_annotations,
+                vocab_annotated=bool(reading.vocab_annotations),
             )
         )
 
@@ -187,6 +191,8 @@ async def materialize_activities(
                 duration_minutes=3,
                 drill_id=drill.id,
                 grammar_point_code=spec["grammar_point_code"],
+                vocab_annotations=drill_data.vocab_annotations,
+                vocab_annotated=bool(drill_data.vocab_annotations),
             )
         )
 
@@ -203,6 +209,12 @@ async def materialize_activities(
                 duration_minutes=3,
                 content=prompt_text,
                 cf_codes=[cf.code],
+                vocab_annotations=(
+                    speaking_data.vocab_annotations if speaking_data else []
+                ),
+                vocab_annotated=bool(
+                    speaking_data and speaking_data.vocab_annotations
+                ),
             )
         )
 
@@ -219,6 +231,8 @@ async def materialize_activities(
                 description=t("writing_desc", topic=topic_title),
                 duration_minutes=8,
                 content=content.writing.prompt,
+                vocab_annotations=content.writing.vocab_annotations,
+                vocab_annotated=bool(content.writing.vocab_annotations),
             )
         )
 
