@@ -156,7 +156,9 @@ def generate_gp_drills(
     parsed = BankDrillFile.model_validate(
         {"grammar_point_code": gp["code"], "items": result.get("items", [])}
     )
-    bad = [i for i in parsed.items if not i.prompt.strip() or not i.correct_answer.strip()]
+    bad = [
+        i for i in parsed.items if not i.prompt.strip() or not i.correct_answer.strip()
+    ]
     if bad:
         raise ValueError(f"{len(bad)} items with empty prompt/answer")
     return parsed
@@ -185,7 +187,7 @@ def generate_scenario_texts(
         f"  depth {i + 1}: {d}" for i, d in enumerate(scenario.get("depths", []))
     )
     prompt = (
-        f"Scenario: \"{scenario['label']}\" — {scenario['description']}\n"
+        f'Scenario: "{scenario["label"]}" — {scenario["description"]}\n'
         f"Depths:\n{depth_lines}\n\n"
         f"Grammar points:\n{gp_lines}\n\n"
         f"Communicative functions:\n{cf_lines}\n\n"

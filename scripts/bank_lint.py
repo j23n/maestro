@@ -38,9 +38,7 @@ def _load_curriculum(lang: str, level: str):
     gp_codes = {g["code"] for g in gps}
     # Scenario YAML still carries verbose unistr codes; the DB was remapped to
     # short codes (migration 0003) and the bank is keyed by short codes too.
-    unistr_to_code = {
-        g["unistr_code"]: g["code"] for g in gps if g.get("unistr_code")
-    }
+    unistr_to_code = {g["unistr_code"]: g["code"] for g in gps if g.get("unistr_code")}
     for s in scenarios.values():
         s["gp_codes"] = [unistr_to_code.get(c, c) for c in s.get("gp_codes", [])]
     with open(data_dir(lang) / "comm_functions.json") as f:
@@ -93,9 +91,7 @@ def lint(lang: str, level: str) -> tuple[list[str], list[str]]:
         max_depth = len(scenario.get("depths", []))
         for depth, content in parsed.depths.items():
             if not 1 <= depth <= max_depth:
-                errors.append(
-                    f"{path.name}: depth {depth} outside 1..{max_depth}"
-                )
+                errors.append(f"{path.name}: depth {depth} outside 1..{max_depth}")
             for kind, texts in (
                 ("listening", content.listenings),
                 ("reading", content.readings),
