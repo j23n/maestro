@@ -95,6 +95,16 @@ def main() -> int:
         help="comma list of scenarios,vocab,readings",
     )
     sub.choices["review"].add_argument("--port", type=int, default=8321)
+    rel = sub.choices["release"]
+    rel.add_argument("--force", action="store_true", help="replace an existing version")
+    rel.add_argument(
+        "action",
+        nargs="?",
+        default="cut",
+        choices=("cut", "keygen", "verify", "diff"),
+        help="cut (default) | keygen | verify <dir via --dir> | diff",
+    )
+    rel.add_argument("--dir", type=Path, default=None, help="release dir for verify")
 
     args = parser.parse_args()
     pack_dir = Path(args.pack)
@@ -204,9 +214,28 @@ def main() -> int:
         return 0
 
     if args.command == "release":
-        from authoring.release import release
+        from authoring import release as rel
 
-        return release(pack_dir, spec_dir, Path("build/release"))
+        if args.action == "keygen":
+            rel.keygen()
+            return 0
+        if args.action == "verify":
+            if not args.dir:
+                print("verify needs --dir build/release/<version>")
+                return 2
+            return rel.verify_release(args.dir)
+        if args.action == "diff":
+            released = rel.latest_release(Path("build/release"), lang)
+            if released is None:
+                print("no previous release to diff against")
+                return 0
+            diff = rel.release_diff(pack_dir, spec_dir, released)
+            for section, ids in diff.items():
+                print(f"{section} ({len(ids)}):")
+                for i in ids:
+                    print(f"  {i}")
+            return 0
+        return rel.release(pack_dir, spec_dir, Path("build/release"), force=args.force)
 
     return 2
 
