@@ -8,11 +8,14 @@
 use std::collections::HashSet;
 
 use crate::folds::{is_mastered, unlocked_grammar};
-use crate::model::{DerivedState, PlannedActivity, SessionOptions, SessionPlan};
+use crate::model::{unix_day, DerivedState, PlannedActivity, SessionOptions, SessionPlan};
 use crate::pack::{ItemMeta, SpecData, SpecScenario};
 
 const BREADTH_BEFORE_DEPTH: usize = 3;
 const APPLICATION_THRESHOLD: f64 = 0.7;
+/// Vocab-review cards per full session (decision #16's known gap, closed:
+/// due SM-2 cards get a dedicated slot now that packs carry vocab items).
+const VOCAB_REVIEW_COUNT: usize = 3;
 
 /// SplitMix64 — tiny deterministic RNG, no dependency.
 struct Rng(u64);
@@ -95,7 +98,7 @@ pub fn compose(
     // ---- slot layout by archetype and budget -----------------------------
     // (slot name, item-kind, count)
     let quick = opts.time_budget_minutes <= 5;
-    let slots: Vec<(&str, Kind, usize)> = if quick {
+    let mut slots: Vec<(&str, Kind, usize)> = if quick {
         vec![("drill", Kind::Drill, 6)]
     } else {
         match archetype {
@@ -115,6 +118,11 @@ pub fn compose(
             ],
         }
     };
+    // Vocab review closes every full session: due SM-2 cards first,
+    // unseen cards to bootstrap the rotation when nothing is due.
+    if !quick {
+        slots.push(("vocab_review", Kind::VocabReview, VOCAB_REVIEW_COUNT));
+    }
 
     // ---- selection -------------------------------------------------------
     let recent: HashSet<&String> = state.recent_item_ids.iter().collect();
@@ -132,11 +140,17 @@ pub fn compose(
             .filter(|i| kind.matches(i))
             .filter(|i| !taken.contains(&i.id))
             .filter(|i| {
-                matches!(kind, Kind::Receptive | Kind::Production)
+                matches!(kind, Kind::Receptive | Kind::Production | Kind::VocabReview)
                     || i.grammar_ids.iter().any(|g| targeting.contains(g))
             })
             .filter(|i| i.grammar_ids.iter().all(|g| unlocked.contains(g)))
-            .map(|i| (i, weakness_weight(state, i)))
+            .map(|i| {
+                let w = match kind {
+                    Kind::VocabReview => vocab_weight(state, i, opts.now),
+                    _ => weakness_weight(state, i),
+                };
+                (i, w)
+            })
             .collect();
         // Anti-repetition: prefer unseen; fall back to repeats only if the
         // slot would otherwise starve.
@@ -174,6 +188,7 @@ enum Kind {
     DrillTargeting(Vec<String>),
     Receptive,
     Production,
+    VocabReview,
 }
 
 impl Kind {
@@ -187,8 +202,27 @@ impl Kind {
                 item.item_type.starts_with("writing_prompt")
                     || item.item_type.starts_with("speaking_prompt")
             }
+            Kind::VocabReview => item.item_type == "vocab_card",
         }
     }
+}
+
+/// Due cards dominate (more overdue -> heavier), unseen cards bootstrap
+/// the rotation, seen-but-not-due cards only appear under starvation.
+fn vocab_weight(state: &DerivedState, item: &ItemMeta, now: i64) -> f64 {
+    let today = unix_day(now);
+    let mut weight: f64 = 0.0;
+    for lemma in &item.vocab_ids {
+        let w = match state.vocab.get(lemma) {
+            Some(card) if card.due_day <= today => {
+                2.0 + ((today - card.due_day).min(30) as f64) / 10.0
+            }
+            Some(_) => 0.05,
+            None => 0.75,
+        };
+        weight = weight.max(w);
+    }
+    weight
 }
 
 fn mastery_of(state: &DerivedState, gp: &str) -> f64 {

@@ -127,6 +127,8 @@ pub struct ItemMeta {
     pub modality: String,
     pub grammar_ids: Vec<String>,
     pub cando_ids: Vec<String>,
+    /// Spec lemma ids (vocab-axis evidence) — the SRS scheduler's key.
+    pub vocab_ids: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -238,6 +240,12 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
                     .evidence
                     .iter()
                     .filter(|e| e.axis == "cando")
+                    .map(|e| e.id.clone())
+                    .collect(),
+                vocab_ids: ev
+                    .evidence
+                    .iter()
+                    .filter(|e| e.axis == "vocab")
                     .map(|e| e.id.clone())
                     .collect(),
             })
