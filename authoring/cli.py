@@ -26,15 +26,35 @@ def main() -> int:
         p = sub.add_parser(name)
         p.add_argument("--pack", default="packs/it", help="pack source dir")
     sub.choices["build"].add_argument("--out", default="build/it.pack.sqlite")
-    sub.choices["generate"].add_argument("--gp", required=True, help="grammar point id")
-    sub.choices["generate"].add_argument("--count", type=int, default=10)
-    sub.choices["generate"].add_argument(
+    gen = sub.choices["generate"]
+    gen.add_argument(
+        "--type",
+        default="drill",
+        choices=(
+            "drill",
+            "reading",
+            "listening",
+            "vocab",
+            "speaking",
+            "writing",
+            "grammar_ref",
+        ),
+        help="item family to draft",
+    )
+    scope = gen.add_mutually_exclusive_group(required=True)
+    scope.add_argument("--gp", help="grammar point id")
+    scope.add_argument("--scenario", help="scenario id")
+    scope.add_argument("--cando", help="can-do id")
+    scope.add_argument("--theme", help='free theme, e.g. "Ferragosto" (needs --level)')
+    gen.add_argument("--level", default=None, help="CEFR level (required for --theme)")
+    gen.add_argument("--count", type=int, default=10)
+    gen.add_argument(
         "--from-file",
         type=Path,
         default=None,
         help="parse a prepared model response instead of calling the API",
     )
-    sub.choices["generate"].add_argument("--model", default=None)
+    gen.add_argument("--model", default=None)
     sub.choices["review"].add_argument("--port", type=int, default=8321)
 
     args = parser.parse_args()
@@ -43,13 +63,20 @@ def main() -> int:
     spec_dir = Path("spec") / lang
 
     if args.command == "validate":
-        from authoring.build_pack import load_pack_sources, validate_pack
+        from authoring.build_pack import (
+            load_pack_sources,
+            validate_media,
+            validate_pack,
+            validate_tombstones,
+        )
         from authoring.validate_spec import load_spec, validate
 
         spec = load_spec(spec_dir)
         errors, warnings = validate(spec)
-        _m, drills, readings, listenings = load_pack_sources(pack_dir)
-        errors += validate_pack([*drills, *readings, *listenings], spec)
+        sources = load_pack_sources(pack_dir)
+        errors += validate_pack(sources.all_items(), spec)
+        errors += validate_media(sources.all_items(), pack_dir)
+        errors += validate_tombstones(sources)
         for w in warnings:
             print(f"warning: {w}")
         for e in errors:
@@ -63,13 +90,23 @@ def main() -> int:
         return build(pack_dir, spec_dir, Path(args.out))
 
     if args.command == "generate":
-        from authoring.generate import DEFAULT_MODEL, generate_drills
+        from authoring.generate import DEFAULT_MODEL, generate_items, resolve_scope
         from authoring.validate_spec import load_spec
 
-        generate_drills(
+        spec = load_spec(spec_dir)
+        scope_obj = resolve_scope(
+            spec,
+            gp=args.gp,
+            scenario=args.scenario,
+            cando=args.cando,
+            theme=args.theme,
+            level=args.level,
+        )
+        generate_items(
             pack_dir,
-            load_spec(spec_dir),
-            args.gp,
+            spec,
+            args.type,
+            scope_obj,
             args.count,
             from_file=args.from_file,
             model=args.model or DEFAULT_MODEL,

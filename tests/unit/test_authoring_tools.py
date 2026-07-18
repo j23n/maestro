@@ -6,7 +6,13 @@ import pytest
 import yaml
 from fastapi.testclient import TestClient
 
-from authoring.generate import build_prompt, generate_drills
+from authoring.generate import (
+    KINDS,
+    build_prompt,
+    generate_drills,
+    generate_items,
+    resolve_scope,
+)
 from authoring.review import create_app
 from authoring.validate_spec import load_spec
 
@@ -76,9 +82,137 @@ def test_generate_rejects_bad_evidence(tmp_path):
 
 
 def test_build_prompt_mentions_gp_and_existing():
-    prompt = build_prompt(SPEC, "ind_pres", 5, ["Io ___ (parlare) bene."])
+    scope = resolve_scope(SPEC, gp="ind_pres")
+    prompt = build_prompt(SPEC, scope, KINDS["drill"], 5, ["Io ___ (parlare) bene."])
     assert "ind_pres" in prompt
     assert "Io ___ (parlare) bene." in prompt
+    # The allowed-vocabulary constraint is embedded.
+    assert "grazie" in prompt
+
+
+def test_theme_scope_carries_inventories():
+    scope = resolve_scope(SPEC, theme="Ferragosto", level="A1")
+    assert scope.slug == "ferragosto"
+    prompt = build_prompt(SPEC, scope, KINDS["reading"], 2, [])
+    assert "Ferragosto" in prompt
+    assert "essere_pre" in prompt  # allowed grammar inventory
+    assert "a0_ordinare" in prompt  # allowed function inventory
+
+
+def test_theme_scope_requires_level():
+    with pytest.raises(ValueError, match="--level"):
+        resolve_scope(SPEC, theme="Ferragosto")
+
+
+CANNED_READING = """\
+```yaml
+- cefr_level: A1
+  title: "Ferragosto al mare"
+  text: "È il quindici agosto. Anna è al mare con la famiglia."
+  glossary:
+    ferragosto: "mid-August holiday"
+  questions:
+    - prompt: "Dove è Anna?"
+      answers: [{ text: "al mare", canonical: true }]
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+```
+"""
+
+
+def test_generate_reading_with_theme_scope(tmp_path):
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_READING)
+    scope = resolve_scope(SPEC, theme="Ferragosto", level="A1")
+    out = generate_items(pack, SPEC, "reading", scope, 1, from_file=resp)
+    drafted = yaml.safe_load(out.read_text())
+    assert out.name == "ferragosto.draft.yaml"
+    assert drafted[0]["id"] == "reading.ferragosto.001"
+    assert drafted[0]["status"] == "draft"
+
+
+CANNED_VOCAB = """\
+```yaml
+- cefr_level: A0
+  lemma: "caffè"
+  front: "il caffè"
+  back: "coffee"
+  example: "Un caffè, per favore."
+  example_gloss: "A coffee, please."
+  answers: [{ text: "caffè", canonical: true }]
+  evidence:
+    - { axis: vocab, id: "caffè", weight: 1.0 }
+```
+"""
+
+
+def test_generate_vocab_ids_come_from_lemma(tmp_path):
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_VOCAB)
+    scope = resolve_scope(SPEC, theme="Ferragosto", level="A0")
+    out = generate_items(pack, SPEC, "vocab", scope, 1, from_file=resp)
+    drafted = yaml.safe_load(out.read_text())
+    assert drafted[0]["id"] == "vocab.caffe"  # accent-stripped slug
+    assert drafted[0]["lemma"] == "caffè"
+
+    # Drafting the same lemma again is a duplicate, not a new card.
+    with pytest.raises(ValueError, match="already exists"):
+        generate_items(pack, SPEC, "vocab", scope, 1, from_file=resp)
+
+
+CANNED_LISTENING = """\
+```yaml
+- cefr_level: A0
+  title: "Sull'aereo"
+  turns:
+    - { speaker: "Assistente", text: "Buongiorno! Acqua?" }
+    - { speaker: "Marco", text: "Sì, grazie." }
+  questions:
+    - prompt: "Che cosa vuole Marco?"
+      answers: [{ text: "acqua", canonical: true }]
+  evidence:
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+```
+"""
+
+
+def test_generate_listening_with_scenario_scope(tmp_path):
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_LISTENING)
+    scope = resolve_scope(SPEC, scenario="a0-01-in-aereo")
+    prompt = build_prompt(SPEC, scope, KINDS["listening"], 1, [])
+    assert "a0_salutare" in prompt  # scenario functions offered for evidence
+    out = generate_items(pack, SPEC, "listening", scope, 1, from_file=resp)
+    drafted = yaml.safe_load(out.read_text())
+    assert drafted[0]["id"] == "listening.a0_01_in_aereo.001"
+
+
+CANNED_GRAMMAR_REF = """\
+```yaml
+- cefr_level: A1
+  grammar_id: ind_pres
+  title: "The present tense of -are verbs"
+  body_md: |
+    Regular -are verbs swap -are for personal endings: parlo, parli,
+    parla, parliamo, parlate, parlano.
+  examples: ["Noi parliamo italiano."]
+  evidence:
+    - { axis: grammar, id: ind_pres, weight: 0.5 }
+```
+"""
+
+
+def test_generate_grammar_ref_keyed_by_gp(tmp_path):
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_GRAMMAR_REF)
+    scope = resolve_scope(SPEC, gp="ind_pres")
+    out = generate_items(pack, SPEC, "grammar_ref", scope, 1, from_file=resp)
+    drafted = yaml.safe_load(out.read_text())
+    assert drafted[0]["id"] == "grammar_ref.ind_pres"
 
 
 def test_review_flow_accept_and_reject(tmp_path):
