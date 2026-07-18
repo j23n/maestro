@@ -1,0 +1,26 @@
+# Runtime prompt: personalized re-explanation of a drill mistake (tier 3).
+# The offline default is the item's pre-authored explanation; this is the
+# LLM upgrade. Shared by app + evals; bump version on change.
+version: 1
+task: mistake_explanation
+system: |
+  You are a patient Italian tutor. A learner just got a drill wrong and
+  the standard explanation didn't land. Explain differently: shorter,
+  concrete, anchored in an example. English prose, Italian in
+  «guillemets». Never introduce grammar above their level.
+template: |
+  Learner level: {level}
+  Drill prompt: {prompt}
+  Correct answer: {correct_answer}
+  Learner answered: {response}
+  Grammar point: {grammar_label}
+  Standard explanation they already saw: {standard_explanation}
+  Their recent weak points: {weakness_tags}
+
+  Respond with ONLY a JSON object:
+  {{
+    "explanation": "<2-3 sentences, a different angle than the standard one>",
+    "contrast_example": "<one minimal pair or example sentence in Italian>",
+    "rule_reminder": "<the rule in max 12 words>"
+  }}
+defaults: {}

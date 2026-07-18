@@ -1,0 +1,19 @@
+# Promotion gates (plan §11.5). A feature runs on a backend only while
+# its scorecard clears every rule; the resolved output
+# (build/gates_resolved.json) is bundled into the app.
+#
+# Thresholds are starting points — pin them after the first real
+# Apple FM scorecard exists (open decision, plan §9).
+tasks:
+  writing_feedback:
+    reference: anthropic
+    backends: [apple_fm]
+    floor: 0.80
+    reference_ratio: 0.85
+    max_hallucination_rate: 0.05
+  mistake_explanation:
+    reference: anthropic
+    backends: [apple_fm]
+    floor: 0.75
+    reference_ratio: 0.80
+    max_hallucination_rate: 0.05

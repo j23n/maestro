@@ -1,0 +1,62 @@
+# Golden set: mistake_explanation — re-explaining a drill miss differently
+# than the standard explanation. Starter set of 4.
+
+- id: me.aux.001
+  task: mistake_explanation
+  input:
+    level: A2
+    prompt: "Ieri ___ (mangiare) la pizza."
+    correct_answer: "ho mangiato"
+    response: "sono mangiato"
+    grammar_label: "Passato prossimo — choice of auxiliary"
+    standard_explanation: "Passato prossimo of mangiare: present of avere + mangiato."
+    submission: null
+    weakness_tags: [ind_pass_p]
+  expect:
+    must_contain: ["ho mangiato", "avere"]
+    max_field_words: 80
+
+- id: me.article.001
+  task: mistake_explanation
+  input:
+    level: A0
+    prompt: "___ pizza è buona."
+    correct_answer: "La"
+    response: "Il"
+    grammar_label: "Definite articles il/la"
+    standard_explanation: "il for masculine singular, la for feminine singular."
+    submission: null
+    weakness_tags: [art_il_la]
+  expect:
+    must_contain: ["la"]
+    max_field_words: 80
+
+- id: me.piace.001
+  task: mistake_explanation
+  input:
+    level: A0
+    prompt: "Mi ___ gli spaghetti."
+    correct_answer: "piacciono"
+    response: "piace"
+    grammar_label: "mi piace / mi piacciono"
+    standard_explanation: "Mi piace + singular, mi piacciono + plural."
+    submission: null
+    weakness_tags: [mi_piace]
+  expect:
+    must_contain: ["piacciono"]
+    max_field_words: 80
+
+- id: me.conj.001
+  task: mistake_explanation
+  input:
+    level: A1
+    prompt: "Maria ___ (abitare) a Milano."
+    correct_answer: "abita"
+    response: "abito"
+    grammar_label: "Present tense -are conjugation"
+    standard_explanation: "Regular -are verbs: io abito, tu abiti, lui/lei abita."
+    submission: null
+    weakness_tags: [ind_pres]
+  expect:
+    must_contain: ["abita"]
+    max_field_words: 80

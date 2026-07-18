@@ -1,0 +1,135 @@
+# Golden set: writing_feedback, seeded-error construction (plan §11.2).
+# Each submission started as a correct text; the listed errors were
+# injected deliberately, so must_identify is ground truth. must_not_claim
+# lists tags a hallucinating model plausibly invents for that text.
+# Starter set of 10 — grow toward ~50 with the same method.
+
+- id: wf.aux_choice.001
+  task: writing_feedback
+  seeding_note: "correct 'ho mangiato' -> seeded 'sono mangiato' (aux choice)"
+  input:
+    level: A2
+    prompt: "Racconta cosa hai fatto ieri (2-3 frasi)."
+    submission: "Ieri sono mangiato una pizza con Marco. Dopo abbiamo guardato un film a casa sua."
+    weakness_tags: [ind_pass_p]
+  expect:
+    must_identify: [ind_pass_p]
+    must_not_claim: [art_un_una, ind_pres]
+    must_contain: ["ho mangiato"]
+
+- id: wf.agreement.001
+  task: writing_feedback
+  seeding_note: "correct 'la pizza è buona' -> seeded 'buono' (gender agreement)"
+  input:
+    level: A1
+    prompt: "Descrivi il tuo piatto preferito."
+    submission: "Il mio piatto preferito è la pizza. La pizza è molto buono e non è caro."
+    weakness_tags: [qual_o_a_e]
+  expect:
+    must_identify: [qual_o_a_e]
+    must_not_claim: [poss_adj]
+    must_contain: ["buona"]
+
+- id: wf.article.001
+  task: writing_feedback
+  seeding_note: "correct 'la stazione' -> seeded 'il stazione' (article gender)"
+  input:
+    level: A0
+    prompt: "Chiedi dove sono due posti in città."
+    submission: "Scusi, dove è il stazione? E dove è il supermercato?"
+    weakness_tags: [art_il_la]
+  expect:
+    must_identify: [art_il_la]
+    must_not_claim: [dove_e]
+    must_contain: ["la stazione"]
+
+- id: wf.pres_conj.001
+  task: writing_feedback
+  seeding_note: "correct 'lavora' -> seeded 'lavoro' for lui (person mixup)"
+  input:
+    level: A1
+    prompt: "Descrivi la tua famiglia."
+    submission: "Mio padre lavoro in un ufficio. Mia madre è insegnante e lavora a scuola."
+    weakness_tags: [ind_pres]
+  expect:
+    must_identify: [ind_pres]
+    must_not_claim: [poss_adj]
+    must_contain: ["lavora"]
+
+- id: wf.piace.001
+  task: writing_feedback
+  seeding_note: "correct 'mi piacciono gli spaghetti' -> seeded 'mi piace gli spaghetti'"
+  input:
+    level: A1
+    prompt: "Cosa ti piace mangiare?"
+    submission: "Mi piace gli spaghetti e mi piace la pizza. Non mi piace il pesce."
+    weakness_tags: [mi_piace]
+  expect:
+    must_identify: [mi_piace]
+    must_not_claim: [art_i_le]
+    must_contain: ["piacciono"]
+
+- id: wf.essere_avere.001
+  task: writing_feedback
+  seeding_note: "correct 'ho fame' -> seeded 'sono fame' (avere idiom)"
+  input:
+    level: A0
+    prompt: "Sei al ristorante. Cosa dici al cameriere?"
+    submission: "Buonasera. Sono molto fame. Vorrei una pasta e un'acqua, per favore."
+    weakness_tags: [avere_pre]
+  expect:
+    must_identify: [avere_pre]
+    must_not_claim: [vorrei, art_un_una]
+    must_contain: ["ho"]
+
+- id: wf.two_errors.001
+  task: writing_feedback
+  seeding_note: "two seeds: 'sono andato' -> 'ho andato' (aux) + 'nuova' -> 'nuovo' (agreement)"
+  input:
+    level: A2
+    prompt: "Racconta il tuo weekend."
+    submission: "Sabato ho andato al mare con la mia macchina nuovo. Il mare era bellissimo."
+    weakness_tags: [ind_pass_p, qual_o_a_e]
+  expect:
+    must_identify: [ind_pass_p, qual_o_a_e]
+    must_not_claim: [ind_imperf]
+    must_contain: ["sono andato", "nuova"]
+
+- id: wf.clean.001
+  task: writing_feedback
+  seeding_note: "NO seeded errors — hallucination canary"
+  input:
+    level: A1
+    prompt: "Presentati in due frasi."
+    submission: "Mi chiamo Laura e sono di Milano. Lavoro in una scuola e mi piace leggere."
+    weakness_tags: []
+  expect:
+    must_identify: []
+    must_not_claim: [ind_pres, mi_piace, essere_pre, art_un_una, prep_di_or]
+    must_contain: []
+
+- id: wf.preposition.001
+  task: writing_feedback
+  seeding_note: "correct 'in Italia' -> seeded 'a Italia' (country preposition)"
+  input:
+    level: A1
+    prompt: "Dove abiti e dove vai in vacanza?"
+    submission: "Abito a Berlino ma ogni estate vado a Italia, al mare."
+    weakness_tags: [prep_in_lo]
+  expect:
+    must_identify: [prep_in_lo]
+    must_not_claim: [ind_pres]
+    must_contain: ["in Italia"]
+
+- id: wf.possessive.001
+  task: writing_feedback
+  seeding_note: "correct 'mia sorella' -> seeded 'la mia sorella' (article with family singular)"
+  input:
+    level: A1
+    prompt: "Parla della tua famiglia."
+    submission: "La mia sorella si chiama Anna. Ha venti anni e studia all'università."
+    weakness_tags: [poss_adj]
+  expect:
+    must_identify: [poss_adj]
+    must_not_claim: [pron_refl, ind_pres]
+    must_contain: ["mia sorella"]
