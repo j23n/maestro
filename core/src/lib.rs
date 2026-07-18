@@ -1,12 +1,19 @@
-//! Maestro portable core — Phase 0 walking skeleton.
+//! Maestro portable core — everything platform-neutral, behind a
+//! UniFFI-exported API a SwiftUI (later Kotlin) shell calls.
 //!
-//! Scope (docs/plans/03-implementation-plan.md §5, Phase 0): prove the
-//! core boundary end-to-end — open a pack SQLite bundle, fetch an item,
-//! score an answer deterministically, append an evidence event, read it
-//! back — behind a UniFFI-exported API a SwiftUI shell can call.
+//! In here: the pack reader (bundle open + schema compat, items, media,
+//! tombstones, embedded spec), deterministic scoring + the transcript
+//! alignment scorer, the append-only learner record with export/import
+//! backup, derived-state folds (decayed mastery, SM-2 vocab scheduling
+//! — FSRS deliberately deferred, decisions.md #5 — functions, scenario
+//! depth, can-do rollup), the session composer, and the LLM
+//! pending-feedback queue. Conformance vectors in ../conformance/ pin
+//! folds, composer, scoring, normalization, and alignment for any
+//! future second implementation.
 //!
-//! The full folds (mastery, FSRS, session composition) arrive in Phase 3;
-//! nothing here should need rework for them, only extension.
+//! Boundary rule (docs/plans/03-implementation-plan.md §2.1): if it
+//! would behave identically on Android it lives here; anything touching
+//! a platform API (UI, speech, network) is the shell's job.
 
 pub mod align;
 mod events;

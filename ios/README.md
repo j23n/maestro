@@ -40,8 +40,40 @@ compile fixes, not a redesign. The core it calls IS tested (Linux:
 4. Mic + speech permission strings (`NSMicrophoneUsageDescription`,
    `NSSpeechRecognitionUsageDescription`) in the target's Info tab.
 
+## New core surface to wire (landed off-Mac, after this scaffold)
+
+The core now exposes more than the scaffold consumes — each is a
+straightforward wiring task once Spike A compiles:
+
+- **Media from the bundle**: `listMedia()` / `getMedia(path)` — play
+  pack audio (dialogue turns carry `audio` paths, speaking prompts a
+  model pronunciation, vocab cards a front reading) and render images
+  (`images/scenarios/<id>.png` by convention, vocab/reading `image`
+  fields). Replaces the `TODO(on-Mac)` in `SessionView`; keep
+  AVSpeechSynthesizer as the fallback for `audio == null`.
+- **Pack updates**: `packStatus()` (schema compat — prompt for an app
+  update when `compatible == false`), `listTombstones()`;
+  `PackManager` should read `index.json` + `release.json.sig` from the
+  release layout and verify the ed25519 signature with the bundled
+  `keys/release_signing.pub` (sha256 alone is integrity, not
+  authenticity).
+- **Backup**: `exportLog()` / `importLog(data)` — the settings screen's
+  export/restore actions are now one call each.
+- **Vocab review**: sessions include a `vocab_review` slot
+  (`vocab_card` payloads: front/back/example + media) — a flip-card
+  view with SM-2 self-grades (`srs_rating` on the evidence event).
+- **Writing + feedback queue**: `enqueueFeedbackJob` /
+  `listPendingFeedbackJobs` / `completeFeedbackJob(id, backend, result)`
+  — the writing capture UI enqueues offline; when a backend is
+  configured AND its gate allows, drain the queue, and completion folds
+  the evidence event back automatically (the `feedback_source` label
+  comes stamped).
+- **Prompts**: bundle `prompts/runtime/*.yaml` and render the same
+  templates the eval harness measures (including the new
+  `speaking_feedback.yaml`) — hardcoding prompt strings in Swift breaks
+  the "eval measures what ships" invariant.
+
 ## Deliberately not built yet
 
-Vocab-review UI (needs vocab item type in packs), writing capture +
-pending-feedback queue UI, settings/backup screens, scenario narrative
-framing. All have core support or clean seams already.
+Settings/backup screens and the writing-capture UI (both now one core
+call deep, see above), scenario narrative framing.
