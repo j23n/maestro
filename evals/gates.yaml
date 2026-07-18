@@ -17,3 +17,9 @@ tasks:
     floor: 0.75
     reference_ratio: 0.80
     max_hallucination_rate: 0.05
+  speaking_feedback:
+    reference: anthropic
+    backends: [apple_fm]
+    floor: 0.75
+    reference_ratio: 0.80
+    max_hallucination_rate: 0.05

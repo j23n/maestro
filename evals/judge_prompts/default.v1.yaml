@@ -1,0 +1,22 @@
+# Judge prompt v1 — versioned beside the case sets (plan §11.4).
+# Changing this text means bumping the version (new file, keep this one):
+# scorecards record judge_prompt_version, and scores graded by different
+# judge prompts are not comparable.
+version: 1
+system: "You are a strict grader."
+template: |
+  You are grading an Italian tutor model's output against a rubric.
+
+  The learner task/level: {level} — {task_prompt}
+  Learner text: {submission}
+  Model output to grade:
+  ---
+  {raw}
+  ---
+  Grade each criterion 0 or 1 and respond ONLY with JSON:
+  {{
+    "corrections_are_correct": 0 or 1,
+    "explanations_clear": 0 or 1,
+    "tone_appropriate": 0 or 1,
+    "level_appropriate": 0 or 1
+  }}

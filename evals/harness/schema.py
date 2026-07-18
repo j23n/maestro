@@ -26,6 +26,10 @@ class Expectations(BaseModel):
     # Substrings that must appear somewhere in the output (e.g. the
     # corrected form).
     must_contain: list[str] = []
+    # Substrings that must NOT appear — hallucination canaries for tasks
+    # whose output has no tagged error list (e.g. a factually inverted
+    # rule). Hits count as hallucinations.
+    must_not_contain: list[str] = []
     # Hard length cap on any single prose field, in words.
     max_field_words: int = 120
 
@@ -48,6 +52,9 @@ class CaseResult(BaseModel):
     judge_score: float | None = None
     #  0.6 * deterministic + 0.4 * judge (deterministic-only if no judge).
     total: float = Field(ge=0, le=1)
+    # The case claimed a must_not_claim tag — tracked as a typed flag,
+    # not by string-matching failure notes.
+    hallucinated: bool = False
     failures: list[str] = []
     raw_output: str = ""
 
@@ -60,5 +67,10 @@ class Scorecard(BaseModel):
     mean_total: float
     mean_deterministic: float
     mean_judge: float | None
+    # Judge provenance: which pinned model + prompt version graded this
+    # run (None when no judge ran). A scorecard without judge metadata
+    # can't be compared against one with it.
+    judge_model: str | None = None
+    judge_prompt_version: int | None = None
     hallucination_rate: float  # fraction of cases claiming a must_not_claim tag
     results: list[CaseResult]
