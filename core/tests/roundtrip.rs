@@ -40,13 +40,32 @@ fn build_fixture_pack(path: &str) {
             function_ids TEXT NOT NULL DEFAULT '[]'
         );
 
+        CREATE TABLE media (
+            path TEXT PRIMARY KEY, kind TEXT NOT NULL,
+            sha256 TEXT NOT NULL, bytes BLOB NOT NULL
+        );
+        CREATE TABLE tombstones (
+            item_id TEXT PRIMARY KEY, removed_in TEXT NOT NULL, reason TEXT
+        );
+        CREATE TABLE spec_vocab (
+            id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+            pos TEXT NOT NULL, gloss TEXT NOT NULL
+        );
+
         INSERT INTO spec_grammar VALUES ('pass_pros', 'A2', '[]');
         INSERT INTO spec_scenarios VALUES
             ('in-viaggio', 'A1', 1, NULL, 3, '["pass_pros"]', '[]');
+        INSERT INTO spec_vocab VALUES ('mangiare', 'A0', 'verb', 'to eat');
 
         INSERT INTO manifest VALUES
-            ('schema_version', '0'), ('pack_version', '0.0.1-fixture'),
+            ('schema_version', '1'), ('pack_version', '0.0.1-fixture'),
             ('language', 'it');
+
+        INSERT INTO media VALUES (
+            'audio/drill.pp_avere_001.wav', 'audio', 'deadbeef', X'52494646'
+        );
+        INSERT INTO tombstones VALUES
+            ('drill.retired_001', '0.0.1-fixture', 'reworked');
 
         INSERT INTO items VALUES (
             'drill.pp_avere_001', 'drill_cloze', 'A2', 'writing',
@@ -135,6 +154,91 @@ fn full_roundtrip() {
     assert!(core.record_event("not json".into()).is_err());
     let events = core.list_events_json().unwrap();
     assert_eq!(events.len(), 3);
+
+    // Pack status: compatible, and it sees media + tombstones.
+    let status = core.pack_status().unwrap();
+    assert!(status.compatible);
+    assert_eq!(status.schema_version, "1");
+    assert_eq!((status.media_count, status.tombstone_count), (1, 1));
+
+    // Media round-trips bytes; a missing path is NotFound.
+    let media = core.list_media().unwrap();
+    assert_eq!(media[0].path, "audio/drill.pp_avere_001.wav");
+    assert_eq!(media[0].size_bytes, 4);
+    let blob = core.get_media("audio/drill.pp_avere_001.wav".into()).unwrap();
+    assert_eq!(blob.bytes, b"RIFF");
+    assert_eq!(blob.kind, "audio");
+    assert!(core.get_media("audio/nope.wav".into()).is_err());
+
+    // Tombstones surface for history interpretation.
+    let tombs = core.list_tombstones().unwrap();
+    assert_eq!(tombs[0].item_id, "drill.retired_001");
+    assert_eq!(tombs[0].reason.as_deref(), Some("reworked"));
+
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn v0_pack_without_new_tables_still_opens() {
+    let dir = std::env::temp_dir().join(format!("maestro-v0-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let pack_path = dir.join("v0.pack.sqlite");
+    let _ = std::fs::remove_file(&pack_path);
+    let conn = Connection::open(&pack_path).unwrap();
+    conn.execute_batch(
+        r#"
+        CREATE TABLE manifest (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        CREATE TABLE items (
+            id TEXT PRIMARY KEY, item_type TEXT NOT NULL,
+            cefr_level TEXT NOT NULL, modality TEXT NOT NULL,
+            payload TEXT NOT NULL
+        );
+        INSERT INTO manifest VALUES
+            ('schema_version', '0'), ('pack_version', '0.0.0'), ('language', 'it');
+        "#,
+    )
+    .unwrap();
+    drop(conn);
+
+    let learner = dir.join("learner.sqlite");
+    let core = Core::open(
+        pack_path.to_str().unwrap().into(),
+        learner.to_str().unwrap().into(),
+    )
+    .unwrap();
+    let status = core.pack_status().unwrap();
+    assert!(status.compatible);
+    assert_eq!((status.media_count, status.tombstone_count), (0, 0));
+    assert!(core.list_media().unwrap().is_empty());
+    assert!(core.list_tombstones().unwrap().is_empty());
+    assert!(core.get_media("x".into()).is_err());
+
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn future_schema_version_is_refused() {
+    let dir = std::env::temp_dir().join(format!("maestro-v9-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let pack_path = dir.join("v9.pack.sqlite");
+    let _ = std::fs::remove_file(&pack_path);
+    let conn = Connection::open(&pack_path).unwrap();
+    conn.execute_batch(
+        r#"
+        CREATE TABLE manifest (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        INSERT INTO manifest VALUES ('schema_version', '9');
+        "#,
+    )
+    .unwrap();
+    drop(conn);
+
+    let err = Core::open(
+        pack_path.to_str().unwrap().into(),
+        dir.join("learner.sqlite").to_str().unwrap().into(),
+    )
+    .err()
+    .expect("open must refuse a future schema");
+    assert!(err.to_string().contains("schema_version 9"));
 
     std::fs::remove_dir_all(&dir).unwrap();
 }
