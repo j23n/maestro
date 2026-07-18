@@ -438,3 +438,12 @@
 - {id: salutare, cefr_level: A0, pos: verb, gloss: to greet}
 - {id: presentazione, cefr_level: A0, pos: noun, gloss: introduction / presentation}
 - {id: breve, cefr_level: A0, pos: adj, gloss: short / brief}
+
+# Ferragosto / summer-holiday domain (thematic pack support).
+- {id: ferragosto, cefr_level: A1, pos: noun, gloss: Ferragosto (Aug 15 holiday)}
+- {id: spiaggia, cefr_level: A1, pos: noun, gloss: beach}
+- {id: agosto, cefr_level: A1, pos: noun, gloss: August}
+- {id: estate, cefr_level: A1, pos: noun, gloss: summer}
+- {id: ombrellone, cefr_level: A1, pos: noun, gloss: beach umbrella}
+- {id: nuotare, cefr_level: A1, pos: verb, gloss: to swim}
+- {id: frase, cefr_level: A1, pos: noun, gloss: sentence / phrase}

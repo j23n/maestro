@@ -1,0 +1,42 @@
+- status: reviewed
+  id: reading.ferragosto.001
+  cefr_level: A1
+  title: Ferragosto al mare
+  text: 'Oggi è Ferragosto, il quindici di agosto. La città è chiusa: tutti vanno al mare.
+    Anna e la famiglia sono alla spiaggia con un grande ombrellone. Fa molto caldo e c''è
+    il sole. Anna nuota e poi mangia un gelato al bar. Che bella giornata (day out)!'
+  glossary:
+    tutti: everyone
+    giornata: day (as an experience)
+  questions:
+  - prompt: Che giorno è oggi?
+    answers:
+    - text: Ferragosto
+      canonical: true
+    - text: il quindici di agosto
+      canonical: false
+    explanation: 'The first sentence says it: oggi è Ferragosto.'
+  - prompt: Dove sono Anna e la famiglia?
+    answers:
+    - text: alla spiaggia
+      canonical: true
+    - text: al mare
+      canonical: false
+    explanation: null
+  - prompt: Che cosa mangia Anna?
+    answers:
+    - text: un gelato
+      canonical: true
+    - text: gelato
+      canonical: false
+    explanation: null
+  evidence:
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 0.5
+  - axis: vocab
+    id: ferragosto
+    weight: 1.0

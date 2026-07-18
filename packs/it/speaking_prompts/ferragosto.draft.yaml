@@ -1,0 +1,32 @@
+- status: reviewed
+  id: speaking.ferragosto.001
+  item_type: speaking_prompt
+  cefr_level: A1
+  prompt: Sei al bar in spiaggia. Ordina un gelato e un caffè, con cortesia.
+  target_text: Vorrei un gelato e un caffè, per favore.
+  variants:
+  - Un gelato e un caffè, per favore.
+  explanation: «Vorrei ... per favore» is the polite ordering frame.
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+- status: reviewed
+  id: speaking.ferragosto.002
+  item_type: speaking_prompt
+  cefr_level: A1
+  prompt: 'Di'' che cosa fai a Ferragosto. (Say: today you go to the sea with the family.)'
+  target_text: Oggi vado al mare con la famiglia.
+  variants:
+  - A Ferragosto vado al mare con la famiglia.
+  explanation: «Vado» is the io form of andare.
+  evidence:
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5

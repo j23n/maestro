@@ -1,0 +1,22 @@
+- status: reviewed
+  id: writing.ferragosto.001
+  item_type: writing_prompt
+  cefr_level: A1
+  prompt: 'Scrivi tre o quattro frasi sul tuo Ferragosto: dove vai, con chi, che cosa mangi.
+    (Write 3-4 sentences about your Ferragosto: where you go, with whom, what you eat.)'
+  min_words: 20
+  required_grammar:
+  - ind_pres
+  - mi_piace
+  required_vocab:
+  - ferragosto
+  - mare
+  model_answer: A Ferragosto vado al mare con la famiglia. La spiaggia è bella e fa molto
+    caldo. Mangio un panino e un gelato al bar. Mi piace molto l'estate!
+  evidence:
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0

@@ -60,7 +60,7 @@ _FUNCTION_WORDS = set(
     mio mia miei mie tuo tua tuoi tue suo sua suoi sue
     nostro nostra nostri nostre vostro vostra vostri vostre
     questo questa questi queste quello quella quelli quelle
-    c'è ci sono ecco po
+    c ecco po ogni
     uno due tre quattro cinque sei sette otto nove dieci
     undici dodici tredici quattordici quindici sedici diciassette
     diciotto diciannove venti trenta quaranta cinquanta sessanta
@@ -71,17 +71,59 @@ _FUNCTION_WORDS = set(
 
 _WORD_RE = re.compile(r"[a-zA-ZàèéìíòóùúÀÈÉÌÍÒÓÙÚ]+")
 
+# High-frequency irregular forms simplemma mis-lemmatizes; the small map
+# that rescues them beats flagging «vai» as noise.
+_IRREGULAR = {
+    "vado": "andare",
+    "vai": "andare",
+    "va": "andare",
+    "vanno": "andare",
+    "faccio": "fare",
+    "fai": "fare",
+    "fa": "fare",
+    "fanno": "fare",
+    "do": "dare",
+    "dai": "dare",
+    "dà": "dare",
+    "danno": "dare",
+    "sto": "stare",
+    "stai": "stare",
+    "sta": "stare",
+    "stanno": "stare",
+    "dico": "dire",
+    "dici": "dire",
+    "dice": "dire",
+    "dica": "dire",
+    "bevo": "bere",
+    "bevi": "bere",
+    "beve": "bere",
+    "posso": "potere",
+    "puoi": "potere",
+    "può": "potere",
+    "voglio": "volere",
+    "vuoi": "volere",
+    "vuole": "volere",
+    "devo": "dovere",
+    "devi": "dovere",
+    "deve": "dovere",
+    "so": "sapere",
+    "sai": "sapere",
+    "sa": "sapere",
+    "vengo": "venire",
+    "vieni": "venire",
+    "viene": "venire",
+    "esco": "uscire",
+    "esci": "uscire",
+    "esce": "uscire",
+}
+
 
 def _levels_upto(level: str) -> set[str]:
     return set(_LEVEL_ORDER[: _LEVEL_ORDER.index(level) + 1])
 
 
-def _italian_fields(item) -> list[str]:
-    """The item's learner-facing Italian text (English fields excluded).
-
-    Parenthesized spans are dropped first: they hold verb hints in cloze
-    prompts and English glosses/hints by authoring convention.
-    """
+def _raw_texts(item) -> list[str]:
+    """The item's learner-facing Italian text fields, unprocessed."""
     texts: list[str] = []
     if isinstance(item, DrillItem):
         # Authoring convention: when a drill prompt mixes an English
@@ -105,12 +147,23 @@ def _italian_fields(item) -> list[str]:
         texts = [item.prompt, item.model_answer or ""]
     elif isinstance(item, GrammarRefItem):
         texts = list(item.examples)
-    return [re.sub(r"\([^)]*\)", " ", t) for t in texts if t]
+    return [t for t in texts if t]
+
+
+def _italian_fields(item) -> list[str]:
+    """Raw texts with parenthesized spans dropped: they hold verb hints
+    in cloze prompts and English glosses/hints by authoring convention."""
+    return [re.sub(r"\([^)]*\)", " ", t) for t in _raw_texts(item)]
 
 
 def _glossed_words(item) -> set[str]:
+    """Glossary keys plus inline-glossed words («parola (gloss)»)."""
     glossary = getattr(item, "glossary", None) or {}
-    return {w.lower() for w in glossary}
+    glossed = {w.lower() for w in glossary}
+    for text in _raw_texts(item):
+        for m in re.finditer(r"([\w'àèéìíòóùú]+)\s*\([^)]*\)", text):
+            glossed.add(m.group(1).lower())
+    return glossed
 
 
 class Lemmatizer:
@@ -137,6 +190,8 @@ def _candidates(low: str, lemmatize: Lemmatizer) -> set[str]:
     reflexive infinitives.
     """
     cands = {low}
+    if low in _IRREGULAR:
+        cands.add(_IRREGULAR[low])
     if low.endswith("essa"):
         cands.add(low[:-4] + "e")  # studentessa -> studente
     if low.endswith("a"):
