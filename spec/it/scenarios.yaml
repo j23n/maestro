@@ -1,0 +1,993 @@
+- id: a0-01-in-aereo
+  cefr_level: A0
+  phase: 1
+  sequence: 1
+  label: In aereo
+  description: Your first Italian words — on the plane and at the airport
+  depths:
+  - Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk, pronunciation
+    reference
+  grammar_ids:
+  - saluti
+  - polite_exp
+  - pronun_bas
+  function_ids:
+  - a0_salutare
+  - a0_ringraziare
+  - a0_rispondere_si_no
+  - a0_ordinare
+  overview: 'You''re on the plane to Italy. Learn the absolute essentials: hello, thank you,
+    please, excuse me, and the one phrase that gets you anything.'
+  scene_setting: 'You''re on a plane to Italy. The captain just announced the descent
+
+    into Rome in Italian — and you didn''t catch a word. By the end of
+
+    this lesson, you''ll know how to say hello, thank the flight
+
+    attendant, and ask for what you need. That''s all it takes to start.
+
+    '
+  outro: You learned your first Italian words — enough to land in Italy and not feel lost.
+  image: images/a0-01-in-aereo.png
+- id: a0-02-in-albergo
+  cefr_level: A0
+  phase: 1
+  sequence: 2
+  label: In albergo
+  description: Checking into the hotel — names, numbers, and Italian sounds
+  depths:
+  - Self-introduction, numbers 0-20
+  grammar_ids:
+  - mi_chiamo
+  - num_0_20
+  function_ids:
+  - a0_presentarsi
+  - a0_dire_nome
+  - a0_contare
+  overview: You've arrived at the hotel. Learn to introduce yourself, understand room numbers,
+    and start reading Italian out loud.
+  scene_setting: 'The taxi pulls up to a small hotel in the centre of Rome. You walk
+
+    in with your suitcase and the receptionist greets you with a warm
+
+    "Buonasera!" Time to check in — you''ll need your name and a few
+
+    numbers.
+
+    '
+  outro: You checked into your hotel in Italian. The receptionist smiled — you're doing great.
+  image: images/a0-02-in-albergo.png
+- id: a0-03-al-bar
+  cefr_level: A0
+  phase: 1
+  sequence: 3
+  label: Al bar
+  description: Your first Italian coffee — un/una, counting, and café culture
+  depths:
+  - Indefinite articles un/una/un', ordering with numbers, quanto costa
+  grammar_ids:
+  - art_un_una
+  - vorrei
+  function_ids:
+  - a0_ordinare
+  - a0_chiedere_cortesemente
+  - a0_contare
+  overview: Morning in Italy starts at the bar. Learn to order with the right articles and
+    numbers.
+  scene_setting: 'It''s your first morning in Italy. You follow the smell of coffee into
+
+    a tiny bar on the corner — the espresso machine hisses, locals chat
+
+    at the counter. Time to order your first caffè the way Italians do.
+
+    '
+  outro: You ordered your first Italian coffee — and you even got the article right.
+- id: a0-04-in-giro
+  cefr_level: A0
+  phase: 1
+  sequence: 4
+  label: In giro
+  description: Walking around the city — il/la, asking where things are
+  depths:
+  - Definite articles il/la/l', asking directions, a destra/sinistra/dritto
+  grammar_ids:
+  - art_il_la
+  - dove_e
+  function_ids:
+  - a0_chiedere_dove
+  - a0_scusarsi
+  overview: Time to explore! Learn the word for 'the', ask where things are, and follow basic
+    directions.
+  scene_setting: 'Coffee done, you step outside with a city map. There''s a piazza
+
+    nearby, a museo you want to find, and a farmacia just in case.
+
+    But first — you need to ask someone where things are.
+
+    '
+  outro: You found your way around an Italian city. Dov'è? is already second nature.
+- id: a0-05-chiedere-aiuto
+  cefr_level: A0
+  phase: 1
+  sequence: 5
+  label: Chiedere aiuto
+  description: Getting help — asking for repetition, clarifying, key phrases
+  depths:
+  - Come si dice, può ripetere, non lo so, prepositions a/in/di
+  grammar_ids:
+  - polite_exp
+  - prep_place
+  function_ids:
+  - a0_chiedere_aiuto
+  - a0_scusarsi
+  overview: You'll need to ask for help. Learn the phrases that keep conversations going when
+    you're stuck.
+  scene_setting: 'Someone on the street gives you directions — but they''re speaking
+
+    too fast and you only caught "a sinistra." It''s completely normal.
+
+    In this lesson, you''ll learn the phrases that keep a conversation
+
+    going even when you don''t understand everything.
+
+    '
+  outro: You now know how to ask for help in Italian. Getting stuck is no longer a dead end.
+- id: a0-06-a-pranzo
+  cefr_level: A0
+  phase: 1
+  sequence: 6
+  label: A pranzo
+  description: Lunch at a trattoria — menu vocabulary, ordering a meal
+  depths:
+  - Menu structure, che cos'è questo/a, dietary needs, restaurant phrases
+  grammar_ids:
+  - vocab_cibo
+  - che_cose
+  function_ids:
+  - a0_ordinare
+  - a0_identificare
+  - a0_chiedere_cortesemente
+  overview: It's lunchtime! Learn to read an Italian menu, ask what things are, and order
+    a full meal.
+  scene_setting: 'You''ve worked up an appetite. A small trattoria catches your eye —
+
+    handwritten menu on a chalkboard, the sound of plates clinking
+
+    inside. You sit down and the waiter hands you the menu. Half the
+
+    dishes are a mystery — but you''re about to fix that.
+
+    '
+  outro: You read an Italian menu and ordered a full meal. The waiter didn't switch to English
+    once.
+- id: a0-07-mi-piace
+  cefr_level: A0
+  phase: 1
+  sequence: 7
+  label: Mi piace
+  description: Expressing what you like and don't like
+  depths:
+  - Mi piace/non mi piace/mi piacciono, plural articles i/le
+  grammar_ids:
+  - mi_piace
+  - art_i_le
+  function_ids:
+  - a0_esprimere_gusti
+  overview: Everyone has opinions about food! Learn to say what you like and don't like in
+    Italian.
+  scene_setting: 'After lunch, you''re chatting with someone at the next table about
+
+    the food. They ask what you thought of the pasta. You want to say
+
+    you loved it — but how? Time to learn how Italians express what
+
+    they like (and what they really don''t).
+
+    '
+  outro: 'You can say what you like and don''t like in Italian. Opinions: unlocked.'
+- id: a0-08-i-numeri-grandi
+  cefr_level: A0
+  phase: 1
+  sequence: 8
+  label: I numeri grandi
+  description: Numbers 20-100, telling time, and days of the week
+  depths:
+  - Tens 20-100, combining numbers, che ore sono, days of the week, 24-hour clock
+  grammar_ids:
+  - num_20_100
+  - ore_giorni
+  function_ids:
+  - a0_contare
+  - a0_dire_ora
+  overview: Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers
+    and how to tell time.
+  scene_setting: 'You''re browsing a leather shop and the price tag says "quarantacinque
+
+    euro." You check the train schedule — departure at "sedici e trenta."
+
+    Numbers beyond twenty are everywhere in Italy, and so is the clock.
+
+    Time to catch up.
+
+    '
+  outro: Prices, times, and days of the week — the numbers that run daily life in Italy are
+    yours now.
+- id: a0-09-in-viaggio
+  cefr_level: A0
+  phase: 1
+  sequence: 9
+  label: In viaggio
+  description: At the train station — buying tickets, platforms, timetables
+  depths:
+  - Transport vocabulary, buying tickets, andata e ritorno, platform and time
+  grammar_ids:
+  - vocab_viaggio
+  function_ids:
+  - a0_comprare_biglietto
+  - a0_chiedere_dove
+  - a0_dire_ora
+  - a0_contare
+  overview: Time to travel! Put your numbers and time skills to work buying train tickets
+    and navigating the station.
+  scene_setting: 'You''re heading south. The departures board at Roma Termini is a wall
+
+    of city names and platform numbers. You need a ticket to Napoli,
+
+    the right platform, and the right time. Everything you''ve learned
+
+    with numbers and directions comes together here.
+
+    '
+  outro: You bought a train ticket and found your platform. Italy just got bigger.
+- id: a0-10-conoscere-qualcuno
+  cefr_level: A0
+  phase: 1
+  sequence: 10
+  label: Conoscere qualcuno
+  description: Meeting people — essere, pronouns, nationality, origin
+  depths:
+  - Essere sono/sei/è, subject pronouns, nationality, sono di, simple sentences
+  grammar_ids:
+  - essere_pre
+  - subj_pron
+  - simp_sent
+  function_ids:
+  - a0_presentarsi
+  - a0_dire_nome
+  - a0_rispondere_si_no
+  overview: You meet someone at the piazza. Learn to say who you are, where you're from, and
+    ask others the same.
+  scene_setting: 'You''re sitting on a bench in a piazza when someone sits down next
+
+    to you and strikes up a conversation. "Di dove sei?" — where are
+
+    you from? You want to answer, and ask them the same. This is where
+
+    Italian stops being just transactions and starts being connection.
+
+    '
+  outro: You introduced yourself and had a real conversation with someone. That's a milestone.
+- id: a0-11-un-problema
+  cefr_level: A0
+  phase: 1
+  sequence: 11
+  label: Un problema
+  description: When things go wrong — clarifying, emergencies, and staying calm
+  depths:
+  - Ho bisogno di, ho perso, più lentamente, emergency phrases, pharmacy visit
+  grammar_ids:
+  - avere_pre
+  - polite_exp
+  - si_no_non
+  function_ids:
+  - a0_chiedere_aiuto
+  - a0_descrivere_problema
+  - a0_scusarsi
+  overview: Something doesn't go to plan. Learn to handle problems, find help, and know the
+    key emergency phrases.
+  scene_setting: 'Not everything goes smoothly when you travel. You can''t find your
+
+    wallet, the pharmacy is closed, and you need to explain what''s wrong
+
+    to someone who doesn''t speak English. Staying calm and knowing the
+
+    right phrases makes all the difference.
+
+    '
+  outro: You can handle a problem in Italian. That's real confidence — not just vocabulary.
+- id: a0-12-ultimo-giorno
+  cefr_level: A0
+  phase: 1
+  sequence: 12
+  label: L'ultimo giorno
+  description: Your last day — goodbyes, expressing thanks, reflections
+  depths:
+  - Farewell phrases, grazie di tutto, buon viaggio, cumulative mixed review
+  grammar_ids:
+  - saluti
+  function_ids:
+  - a0_congedarsi
+  - a0_ringraziare
+  - a0_salutare
+  overview: Your trip is ending. Review everything through one final day of farewells, thanks,
+    and looking back.
+  scene_setting: 'It''s your last day. You say goodbye to the hotel staff, thank the
+
+    barista who made your coffee every morning, and pick up a few last
+
+    souvenirs. Everything you''ve learned comes together in one final
+
+    day of farewells and thank-yous.
+
+    '
+  outro: You said goodbye in Italian — properly. Arrivederci, and grazie di tutto.
+- id: a0-13-ripasso
+  cefr_level: A0
+  phase: 1
+  sequence: 13
+  label: Ripasso A0
+  description: Cumulative review of everything learned in A0
+  depths:
+  - Full review of all A0 material, final conversation, onboarding for A1
+  grammar_ids:
+  - saluti
+  - polite_exp
+  - si_no_non
+  - vorrei
+  - mi_chiamo
+  - num_0_20
+  - pronun_bas
+  - art_un_una
+  - art_il_la
+  - art_i_le
+  - dove_e
+  - prep_place
+  - vocab_cibo
+  - che_cose
+  - mi_piace
+  - num_20_100
+  - ore_giorni
+  - vocab_viaggio
+  - essere_pre
+  - avere_pre
+  - subj_pron
+  - simp_sent
+  function_ids:
+  - a0_salutare
+  - a0_congedarsi
+  - a0_ringraziare
+  - a0_scusarsi
+  - a0_presentarsi
+  - a0_dire_nome
+  - a0_chiedere_cortesemente
+  - a0_rispondere_si_no
+  - a0_contare
+  - a0_dire_ora
+  - a0_identificare
+  - a0_esprimere_gusti
+  - a0_chiedere_dove
+  - a0_ordinare
+  - a0_comprare_biglietto
+  - a0_chiedere_aiuto
+  - a0_descrivere_problema
+  overview: You've come a long way! Final review of everything before moving on to A1.
+  scene_setting: 'You''ve travelled across Italy, ordered meals, asked for help, met
+
+    people, and handled problems — all in Italian. This final lesson
+
+    pulls everything together. Think of it as packing your suitcase:
+
+    making sure nothing gets left behind before the next chapter.
+
+    '
+  outro: You've completed A0. From zero Italian to real conversations — that took courage.
+    Bravo.
+- id: presentarsi
+  cefr_level: A1
+  phase: 1
+  label: Presentarsi
+  description: Introducing yourself and meeting new people
+  depths:
+  - Saying your name, nationality and age — basic greetings and introductions
+  - Exchanging personal details, talking about where you live and what you do
+  - Introducing others, making small talk, asking follow-up questions
+  grammar_ids:
+  - pron_pers
+  - ind_pres
+  - cond_simp
+  - imper_form
+  - imper_prim
+  - percez_sig
+  - costru_ess
+  - prep_di_or
+  - sent_affir
+  - sent_inter
+  - ord_svo
+  function_ids:
+  - intritsoc_salutare_a1
+  - intritsoc_rispsal_a1
+  - intritsoc_presentarsi_a1
+  - intritsoc_presqualc_a1
+  - intritsoc_risppresent_a1
+  - interag_identi_a1
+- id: al-bar
+  cefr_level: A1
+  phase: 1
+  label: Al bar
+  description: Ordering drinks and snacks at an Italian cafe
+  depths:
+  - Ordering a coffee — basic requests, greetings, numbers for paying
+  - Asking what's available, expressing preferences, small talk with the barista
+  - Handling a misunderstanding, asking about ingredients, making conversation
+  grammar_ids:
+  - all_det_in
+  - card_1_100
+  - noun_invar
+  - sent_desir
+  - adv_quant
+  - dem_questo
+  function_ids:
+  - intritsoc_salutare_a1
+  - intritsoc_rispsal_a1
+  - intazio_chiincserv_a1
+  - interag_inform05_a1
+  - intemo_espgratring_a1
+  - intemo_rispringr_a1
+- id: al-ristorante
+  cefr_level: A1
+  phase: 1
+  label: Al ristorante
+  description: Eating out at a restaurant — ordering, asking about the menu
+  depths:
+  - Reading the menu and ordering a dish — basic food vocabulary and requests
+  - Asking the waiter about dishes, expressing preferences, requesting the bill
+  - Handling dietary needs, making recommendations, complaining politely
+  grammar_ids:
+  - all_det_in
+  - sent_desir
+  - qual_o_a_e
+  - adv_quant
+  - indef_poco
+  - coord_disj
+  function_ids:
+  - intazio_chiincserv_a1
+  - interag_inform01_a1
+  - intatt_espdesiderio_a1
+  - intazio_offrqualc_a1
+  - intazio_rispaccsenris_a1
+  - intemo_espsoddisf_a1
+- id: fare-la-spesa
+  cefr_level: A1
+  phase: 1
+  label: Fare la spesa
+  description: Grocery shopping at the market or supermarket
+  depths:
+  - Asking for items and quantities — basic numbers and nouns
+  - Comparing products, asking prices, understanding weights and measures
+  - Negotiating at the market, asking for recommendations, expressing preferences
+  grammar_ids:
+  - card_1_100
+  - adv_quant
+  - noun_o_a_e
+  - noun_plur
+  - indef_poco
+  - art_om_ind
+  function_ids:
+  - interag_inform05_a1
+  - intazio_chiincserv_a1
+  - interag_inform01_a1
+  - intazio_rispaccsenris_a1
+  - intazio_rispricrif_a1
+  - intritsoc_attattenz_a1
+- id: chiedere-indicazioni
+  cefr_level: A1
+  phase: 1
+  label: Chiedere indicazioni
+  description: Asking for and giving directions around town
+  depths:
+  - Asking where something is — basic location words and prepositions
+  - Understanding directions with landmarks, asking for alternatives
+  - Giving directions yourself, explaining routes, handling misunderstandings
+  grammar_ids:
+  - adv_place
+  - adv_interr
+  - prep_a_ind
+  - prep_a_tem
+  - prep_a_dom
+  - prep_a_loc
+  - prep_a_l_2
+  - prep_in_lo
+  - prep_in_me
+  - subord_fin
+  - ord_vs
+  function_ids:
+  - interag_inform03_a1
+  - interag_rispondere04_a1
+  - intritsoc_scusarsi_a1
+  - intritsoc_attattenz_a1
+  - intemo_espgratring_a1
+  - intatt_espproigno_a1
+- id: al-telefono
+  cefr_level: A1
+  phase: 1
+  label: Al telefono
+  description: Making and receiving phone calls
+  depths:
+  - Answering a call, saying who you are, asking to speak to someone
+  - Taking messages, asking someone to wait, ending the call politely
+  - Handling wrong numbers, leaving voicemails, making appointments by phone
+  grammar_ids:
+  - pron_pers
+  - ind_pres
+  - cond_simp
+  - imper_form
+  - imper_prim
+  - percez_sig
+  - costru_ess
+  - sent_inter
+  - sent_affir
+  - omiss_sogg
+  - adv_interr
+  function_ids:
+  - intritsoc_inttelrisp_a1
+  - intritsoc_inttelpres_a1
+  - intritsoc_inttelparqual_a1
+  - intritsoc_inttelinfint_a1
+  - intritsoc_inttelfacatt_a1
+  - intritsoc_inttelconconv_a1
+- id: in-classe
+  cefr_level: A1
+  phase: 1
+  label: In classe
+  description: Communicating in an Italian language class
+  depths:
+  - Asking the teacher to repeat or explain — basic classroom survival phrases
+  - Asking about meaning, requesting examples, checking your understanding
+  - Explaining what you mean, paraphrasing, asking for definitions
+  grammar_ids:
+  - pron_inter
+  - inter_che
+  - adv_interr
+  - subord_cau
+  - sent_excla
+  - adv_judge
+  function_ids:
+  - strutdisc_cerparfrase_a1
+  - strutdisc_chiedespres_a1
+  - strintverb_assfacpres_a1
+  - strintverb_asschiedrip_a1
+  - strintverb_asschiedparlent_a1
+  - strintverb_asschieddefparaf_a1
+- id: la-famiglia
+  cefr_level: A1
+  phase: 2
+  label: La famiglia
+  description: Talking about your family and relationships
+  depths:
+  - Naming family members — possessive adjectives, basic descriptions
+  - Describing family members' jobs, ages, and where they live
+  - Talking about family relationships, expressing feelings about family
+  grammar_ids:
+  - poss_adj
+  - art_pos_ad
+  - noun_o_a_e
+  - noun_e_ess
+  - noun_irr_p
+  - coord_copu
+  function_ids:
+  - interag_descriv_a1
+  - interag_identi_a1
+  - interag_asserire_a1
+  - interag_inform01_a1
+  - interag_rispondere07_a1
+  - intemo_espamappqual_a1
+- id: la-casa
+  cefr_level: A1
+  phase: 2
+  label: La casa
+  description: Describing where you live — rooms, furniture, neighbourhood
+  depths:
+  - Naming rooms and basic furniture — simple descriptions of your home
+  - Describing your neighbourhood, comparing spaces, saying what you like
+  - Explaining what's missing, expressing wishes about your home
+  grammar_ids:
+  - qual_o_a_e
+  - adv_place
+  - prep_in_lo
+  - prep_in_me
+  - dem_questo
+  - art_omit_d
+  - coord_copu
+  function_ids:
+  - interag_descriv_a1
+  - interag_inform03_a1
+  - interag_rispondere04_a1
+  - intatt_espdesiderio_a1
+  - interag_asserire_a1
+  - intemo_espamappqual_a1
+- id: la-giornata
+  cefr_level: A1
+  phase: 1
+  label: La giornata
+  description: Describing your daily routine and schedule
+  depths:
+  - Telling the time and listing daily activities — basic routine verbs
+  - Describing when things happen, frequency adverbs, weekend vs weekday
+  - Comparing routines with others, explaining why you do things
+  grammar_ids:
+  - ind_pres
+  - cond_simp
+  - imper_form
+  - imper_prim
+  - percez_sig
+  - costru_ess
+  - pron_refl
+  - art_hora
+  - adv_time_a
+  - prep_a_ind
+  - prep_a_tem
+  - prep_a_dom
+  - prep_a_loc
+  - prep_a_l_2
+  - coord_copu
+  - noun_invar
+  - prep_idiom
+  function_ids:
+  - interag_inform02_a1
+  - interag_rispondere03_a1
+  - strutdisc_sviargenumer_a1
+  - interag_descriv_a1
+  - interag_asserire_a1
+  - interag_rispondere02_a1
+- id: tempo-libero
+  cefr_level: A1
+  phase: 2
+  label: Il tempo libero
+  description: Hobbies, sports, and free-time activities
+  depths:
+  - Naming hobbies and saying what you like/don't like doing
+  - Inviting someone to do an activity, accepting or declining
+  - Describing ability, explaining preferences, comparing activities
+  grammar_ids:
+  - inf_final
+  - prep_idiom
+  - adv_manner
+  - ind_pres
+  - cond_simp
+  - imper_form
+  - imper_prim
+  - percez_sig
+  - costru_ess
+  - subord_cau
+  - prep_con_c
+  - noun_forei
+  function_ids:
+  - intemo_espamappqual_a1
+  - intemo_espnonama_a1
+  - intemo_espintqualc_a1
+  - intatt_espprocapincap_a1
+  - intazio_proqualins_a1
+  - intazio_rispproacc_a1
+- id: dal-medico
+  cefr_level: A1
+  phase: 2
+  label: Dal medico
+  description: Visiting the doctor — describing symptoms and understanding advice
+  depths:
+  - Describing basic symptoms — body parts, 'mi fa male', basic questions
+  - Answering the doctor's questions, understanding simple instructions
+  - Explaining how long something has been happening, describing severity
+  grammar_ids:
+  - all_det_in
+  - qual_o_a_e
+  - pron_refl
+  - adv_manner
+  - subord_cau
+  - prep_other
+  function_ids:
+  - intemo_espsoffis_a1
+  - interag_descriv_a1
+  - interag_inform04_a1
+  - interag_rispondere05_a1
+  - intatt_espobbdivieto_a1
+  - intazio_mettguar_a1
+- id: in-viaggio
+  cefr_level: A1
+  phase: 3
+  label: In viaggio
+  description: Traveling by train, bus, or plane — buying tickets and asking about schedules
+  depths:
+  - Buying a ticket — asking for times, prices, and platforms
+  - Understanding schedule announcements, asking about connections
+  - Dealing with delays, changing tickets, asking for help at the station
+  grammar_ids:
+  - card_1_100
+  - art_hora
+  - prep_pe_va
+  - prep_pe_mv
+  - prep_a_ind
+  - prep_a_tem
+  - prep_a_dom
+  - prep_a_loc
+  - prep_a_l_2
+  - adv_interr
+  - ord_primo
+  function_ids:
+  - intazio_chiincserv_a1
+  - interag_inform02_a1
+  - interag_inform03_a1
+  - interag_rispondere03_a1
+  - interag_rispondere04_a1
+  - interag_inform05_a1
+- id: in-albergo
+  cefr_level: A1
+  phase: 3
+  label: In albergo
+  description: Checking in and out of a hotel — making reservations
+  depths:
+  - Checking in — giving your name, asking about the room, basic numbers
+  - Asking about hotel facilities, requesting extras, understanding rules
+  - Handling problems with the room, asking for changes, checking out
+  grammar_ids:
+  - card_1_100
+  - ord_primo
+  - sent_desir
+  - prep_pe_va
+  - prep_pe_mv
+  - inter_che
+  - adv_time_a
+  function_ids:
+  - intazio_chiincserv_a1
+  - interag_inform02_a1
+  - interag_inform05_a1
+  - intazio_chiautor_a1
+  - intazio_dareautsris_a1
+  - intemo_espsoddisf_a1
+- id: in-negozio
+  cefr_level: A1
+  phase: 2
+  label: In negozio
+  description: Shopping for clothes and everyday items
+  depths:
+  - Asking for an item, saying what colour/size you want — basic shopping phrases
+  - Comparing items, asking to try something on, understanding prices
+  - Returning an item, explaining a problem, negotiating
+  grammar_ids:
+  - qual_o_a_e
+  - dem_questo
+  - card_1_100
+  - noun_plur
+  - noun_o_a_e
+  - art_omit_d
+  function_ids:
+  - intazio_chiincserv_a1
+  - interag_inform01_a1
+  - interag_inform05_a1
+  - intatt_espdesiderio_a1
+  - intazio_rispricrif_a1
+  - interag_confsment_a1
+- id: al-lavoro
+  cefr_level: A1
+  phase: 2
+  label: Al lavoro
+  description: Talking about your job, studies, and daily work life
+  depths:
+  - Saying what your job is, where you work — basic work vocabulary
+  - Describing what you do at work, your schedule, who you work with
+  - Talking about career goals, explaining why you chose your job
+  grammar_ids:
+  - ind_pres
+  - cond_simp
+  - imper_form
+  - imper_prim
+  - percez_sig
+  - costru_ess
+  - noun_e_ess
+  - prep_in_lo
+  - prep_in_me
+  - inf_final
+  - subord_fin
+  - noun_forei
+  - prep_di_or
+  function_ids:
+  - interag_asserire_a1
+  - interag_descriv_a1
+  - intatt_direconosce_a1
+  - intatt_espintenz_a1
+  - interag_rispondere02_a1
+  - strutdisc_svitemadesc_a1
+- id: una-festa
+  cefr_level: A1
+  phase: 2
+  label: Una festa
+  description: At a party or celebration — socialising, toasts, congratulations
+  depths:
+  - Basic party phrases — toasts, congratulations, accepting food/drinks
+  - Making conversation, introducing people, expressing enjoyment
+  - Telling stories, explaining occasions, talking about plans
+  grammar_ids:
+  - sent_excla
+  - sent_desir
+  - poss_adj
+  - prep_con_c
+  - coord_copu
+  function_ids:
+  - intritsoc_farebrind_a1
+  - intritsoc_congratul_a1
+  - intritsoc_augqualqual_a1
+  - intritsoc_accqualc_a1
+  - intemo_espfelicita_a1
+  - intazio_offrqualc_a1
+  - intazio_rispproacc_a1
+  - intazio_rispprorifiut_a1
+  - intritsoc_prendcong_a1
+  - intritsoc_presentarsi_a1
+- id: scrivere-un-messaggio
+  cefr_level: A1
+  phase: 2
+  label: Scrivere un messaggio
+  description: Writing emails, text messages, and short notes
+  depths:
+  - Opening and closing an email — basic greetings and sign-offs
+  - Writing a short message to a friend, making plans, apologising
+  - Writing more formal messages, explaining a situation, asking for information
+  grammar_ids:
+  - sent_affir
+  - ord_svo
+  - omiss_sogg
+  - pron_pers
+  - coord_copu
+  function_ids:
+  - intritsoc_intcoremail_a1
+  - intritsoc_intconcemail_a1
+  - intritsoc_prendcong_a1
+  - intatt_scusarsi_a1
+  - strutdisc_corriprend_a1
+- id: opinioni-e-accordo
+  cefr_level: A1
+  phase: 3
+  label: Opinioni e accordo
+  description: Expressing opinions, agreeing and disagreeing
+  depths:
+  - Saying yes/no, agreeing and disagreeing — basic opinion words
+  - Giving simple reasons for your opinion, asking others what they think
+  - Expressing partial agreement, qualifying statements, building arguments
+  grammar_ids:
+  - adv_judge
+  - sent_affir
+  - subord_cau
+  - coord_disj
+  - ord_vs
+  function_ids:
+  - intatt_espaccsrisp_a1
+  - intatt_espdisaspo_a1
+  - intatt_espapprov_a1
+  - interag_confsment_a1
+  - interag_rispondere01_a1
+  - interag_inform06_a1
+  - intatt_direconosce_a1
+- id: emozioni-e-stati
+  cefr_level: A1
+  phase: 3
+  label: Emozioni e stati d'animo
+  description: Expressing emotions, moods, and feelings
+  depths:
+  - Naming basic emotions — happy, sad, tired, hungry — simple adjectives
+  - Explaining why you feel a certain way, asking others how they feel
+  - Describing complex emotions, talking about what makes you anxious or worried
+  grammar_ids:
+  - qual_o_a_e
+  - adv_manner
+  - subord_cau
+  - pron_indef
+  - prep_other
+  - pron_refl
+  function_ids:
+  - intemo_espfelicita_a1
+  - intemo_esptrisnost_a1
+  - intemo_intgioiatrist_a1
+  - intemo_espinquietud_a1
+  - intemo_intsodinsod_a1
+  - intemo_espintqualc_a1
+- id: prendere-un-appuntamento
+  cefr_level: A1
+  phase: 3
+  label: Prendere un appuntamento
+  description: Making appointments and scheduling meetings
+  depths:
+  - Suggesting a time and place — basic time expressions and proposals
+  - Negotiating times, explaining availability, confirming or cancelling
+  - Rescheduling, handling conflicts, making group plans
+  grammar_ids:
+  - art_hora
+  - adv_time_a
+  - prep_a_ind
+  - prep_a_tem
+  - prep_a_dom
+  - prep_a_loc
+  - prep_a_l_2
+  - sent_inter
+  - coord_disj
+  function_ids:
+  - intazio_proqualins_a1
+  - intazio_rispproacc_a1
+  - intazio_rispprorifiut_a1
+  - intazio_chiautor_a1
+  - intazio_vietare_a1
+  - intazio_rifiutare_a1
+  - interag_inform02_a1
+  - intatt_scusarsi_a1
+  - intatt_espintenz_a1
+- id: capire-e-farsi-capire
+  cefr_level: A1
+  phase: 3
+  label: Capire e farsi capire
+  description: Communication strategies — clarifying, repeating, checking understanding
+  depths:
+  - Asking someone to repeat or speak slowly — basic survival phrases
+  - Asking for clarification, checking you understood correctly
+  - Paraphrasing when you don't know a word, self-correcting, asking for definitions
+  grammar_ids:
+  - sent_inter
+  - pron_inter
+  - sent_excla
+  - omiss_sogg
+  - sent_affir
+  function_ids:
+  - strintverb_asscapbenesil_a1
+  - strintverb_assfacpres_a1
+  - strintverb_asschiedrip_a1
+  - strintverb_asschiedscrive_a1
+  - strintverb_asschiedparlent_a1
+  - strutdisc_cerparfrase_a1
+  - strutdisc_chiedespres_a1
+  - strutdisc_corriprend_a1
+  - strutdisc_sviargenumer_a1
+  - interag_rispondere09_a1
+- id: permessi-e-regole
+  cefr_level: A1
+  phase: 3
+  label: Permessi e regole
+  description: Asking for permission, understanding rules and prohibitions
+  depths:
+  - Asking if you can do something — basic permission phrases
+  - Understanding signs and rules, explaining what's allowed and forbidden
+  - Negotiating permissions, explaining reasons for rules
+  grammar_ids:
+  - sent_affir
+  - adv_judge
+  - pron_indef
+  - subord_fin
+  - prep_other
+  - sent_desir
+  function_ids:
+  - intazio_chiautor_a1
+  - intazio_dareautsris_a1
+  - intazio_rifiutare_a1
+  - intazio_vietare_a1
+  - intatt_espobbdivieto_a1
+  - intazio_mettguar_a1
+  - intazio_rispaccsenris_a1
+- id: descrivere-le-persone
+  cefr_level: A1
+  phase: 3
+  label: Descrivere le persone
+  description: Describing people's appearance, personality, and habits
+  depths:
+  - Basic physical descriptions — tall, short, hair colour, clothing
+  - Describing personality traits, comparing people
+  - Describing someone in detail for identification, talking about habits
+  grammar_ids:
+  - qual_o_a_e
+  - poss_adj
+  - noun_o_a_e
+  - noun_e_ess
+  - art_pos_ad
+  - all_det_in
+  function_ids:
+  - interag_descriv_a1
+  - interag_identi_a1
+  - interag_inform07_a1
+  - interag_rispondere06_a1
+  - interag_rispondere07_a1
+  - strutdisc_svitemadesc_a1

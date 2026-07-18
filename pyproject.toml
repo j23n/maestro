@@ -1,0 +1,31 @@
+[project]
+name = "maestro"
+version = "0.2.0"
+description = "Authoring, build, and eval tooling for Maestro content packs"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.83.0",
+    "fastapi>=0.129.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.10",
+    "python-multipart>=0.0.20",
+    "pyyaml>=6.0",
+    "uvicorn>=0.30",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.15.2",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "unit: pure logic, no I/O",
+    "llm_eval: real Anthropic API calls (slow, opt-in)",
+]

@@ -1,0 +1,724 @@
+# Can-do inventory — Italian, A0–A2.
+#
+# The learner-facing spine of the curriculum (docs/plans/03 Phase 1).
+# Descriptor text is original; the CEFR Companion Volume and the Profilo
+# della lingua italiana were used as completeness checklists only.
+#
+# LLM-drafted, awaiting the human curation pass. The *set* of descriptors
+# freezes at the end of Phase 1; wording can be refined in content passes.
+#
+# Conventions:
+# - id: <level>.<slug>, stable forever once packs reference it.
+# - skill: one of the CEFR's five modes (listening, reading,
+#   spoken_interaction, spoken_production, writing).
+# - decomposition may reference grammar/functions at or below the can-do's
+#   level (the validator warns on anything above).
+# - A2 rows reference A1 scenarios where the scenario's depth 2–3 framing
+#   covers them; A2-specific scenarios arrive with Phase 7 content fill.
+
+# ============================================================ A0
+# Survival: the crash-course promise — land in Italy, not feel lost.
+
+- id: a0.greet_take_leave
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can greet people, say goodbye, and use please, thank you, and sorry at the right moments.
+  theme: social
+  function_ids: [a0_salutare, a0_congedarsi, a0_ringraziare, a0_chiedere_cortesemente, a0_scusarsi]
+  grammar_ids: [saluti, polite_exp]
+  scenario_ids: [a0-01-in-aereo, a0-03-al-bar]
+  vocab_domains: [greetings]
+
+- id: a0.say_who_i_am
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can say their name and answer very simple questions about who they are.
+  theme: social
+  function_ids: [a0_dire_nome, a0_presentarsi, a0_rispondere_si_no]
+  grammar_ids: [mi_chiamo, essere_pre, subj_pron]
+  scenario_ids: [a0-02-in-albergo, a0-10-conoscere-qualcuno]
+  vocab_domains: [personal_details]
+
+- id: a0.order_something
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can order a drink or a simple dish using "vorrei" and the name of the thing.
+  theme: services
+  function_ids: [a0_ordinare, a0_chiedere_cortesemente]
+  grammar_ids: [vorrei, art_un_una, vocab_cibo]
+  scenario_ids: [a0-03-al-bar, a0-06-a-pranzo]
+  vocab_domains: [food_drink]
+
+- id: a0.yes_no_answers
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can answer yes/no questions and make a simple sentence negative with "non".
+  theme: information
+  function_ids: [a0_rispondere_si_no]
+  grammar_ids: [si_no_non, simp_sent]
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  vocab_domains: []
+
+- id: a0.numbers_prices
+  cefr_level: A0
+  skill: listening
+  label: Can understand numbers, prices, and room numbers spoken slowly and clearly.
+  theme: services
+  function_ids: [a0_contare]
+  grammar_ids: [num_0_20, num_20_100]
+  scenario_ids: [a0-02-in-albergo, a0-08-i-numeri-grandi]
+  vocab_domains: [numbers, money]
+
+- id: a0.tell_time_days
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can ask and say what time it is and name the days of the week.
+  theme: information
+  function_ids: [a0_dire_ora]
+  grammar_ids: [ore_giorni, num_0_20]
+  scenario_ids: [a0-08-i-numeri-grandi]
+  vocab_domains: [time_dates]
+
+- id: a0.ask_where
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can ask where something is and understand a short answer with a pointing gesture.
+  theme: travel
+  function_ids: [a0_chiedere_dove]
+  grammar_ids: [dove_e, prep_place, art_il_la]
+  scenario_ids: [a0-04-in-giro]
+  vocab_domains: [places_city]
+
+- id: a0.identify_things
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can ask what something is and name everyday objects with their article.
+  theme: information
+  function_ids: [a0_identificare]
+  grammar_ids: [che_cose, art_il_la, art_un_una]
+  scenario_ids: [a0-04-in-giro]
+  vocab_domains: [everyday_objects]
+
+- id: a0.say_likes
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can say that they like or don't like something with "mi piace".
+  theme: personal_life
+  function_ids: [a0_esprimere_gusti]
+  grammar_ids: [mi_piace, si_no_non]
+  scenario_ids: [a0-07-mi-piace]
+  vocab_domains: [food_drink, free_time]
+
+- id: a0.ask_for_help
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can attract attention politely and ask for help when something is wrong.
+  theme: services
+  function_ids: [a0_chiedere_aiuto, a0_scusarsi, a0_descrivere_problema]
+  grammar_ids: [polite_exp, avere_pre]
+  scenario_ids: [a0-05-chiedere-aiuto, a0-11-un-problema]
+  vocab_domains: [emergencies]
+
+- id: a0.buy_ticket
+  cefr_level: A0
+  skill: spoken_interaction
+  label: Can buy a ticket and understand the platform or gate number.
+  theme: travel
+  function_ids: [a0_comprare_biglietto, a0_contare]
+  grammar_ids: [vorrei, num_20_100, vocab_viaggio]
+  scenario_ids: [a0-09-in-viaggio]
+  vocab_domains: [travel_transport, numbers]
+
+- id: a0.read_signs
+  cefr_level: A0
+  skill: reading
+  label: Can recognize very common signs and menu words and sound out Italian spelling.
+  theme: travel
+  function_ids: [a0_identificare]
+  grammar_ids: [pronun_bas, vocab_cibo, vocab_viaggio]
+  scenario_ids: [a0-04-in-giro, a0-09-in-viaggio]
+  vocab_domains: [places_city, food_drink]
+
+- id: a0.catch_courtesy
+  cefr_level: A0
+  skill: listening
+  label: Can recognize greetings, thanks, and simple service questions addressed to them slowly.
+  theme: social
+  function_ids: [a0_salutare, a0_ringraziare, a0_rispondere_si_no]
+  grammar_ids: [saluti, pronun_bas]
+  scenario_ids: [a0-01-in-aereo, a0-12-ultimo-giorno]
+  vocab_domains: [greetings]
+
+# ============================================================ A1
+
+# --- spoken interaction -------------------------------------------------
+
+- id: a1.introduce_self
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can introduce themselves, say where they are from and what they do, and respond when introduced to someone.
+  theme: social
+  function_ids: [intritsoc_presentarsi_a1, intritsoc_risppresent_a1, intritsoc_salutare_a1, intritsoc_rispsal_a1, interag_identi_a1]
+  grammar_ids: [pron_pers, ind_pres, prep_di_or, omiss_sogg]
+  scenario_ids: [presentarsi]
+  vocab_domains: [personal_details, countries_nationalities]
+
+- id: a1.introduce_others
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can introduce someone else and say briefly who they are.
+  theme: social
+  function_ids: [intritsoc_presqualc_a1, interag_identi_a1]
+  grammar_ids: [pron_pers, dem_questo, poss_adj]
+  scenario_ids: [presentarsi, una-festa]
+  vocab_domains: [family, personal_details]
+
+- id: a1.personal_questions
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can ask and answer simple questions about name, home, family, work, and belongings.
+  theme: personal_life
+  function_ids: [interag_inform01_a1, interag_inform03_a1, interag_rispondere03_a1, interag_rispondere07_a1, interag_confsment_a1]
+  grammar_ids: [sent_inter, pron_inter, adv_interr, poss_adj, ord_vs]
+  scenario_ids: [presentarsi, la-famiglia]
+  vocab_domains: [personal_details, family, work_study]
+
+- id: a1.cafe_restaurant
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can order food and drink, ask for the bill, and handle a simple exchange with a waiter.
+  theme: services
+  function_ids: [intazio_chiincserv_a1, intatt_espdesiderio_a1, intemo_espgratring_a1, intemo_rispringr_a1, intazio_offrqualc_a1]
+  grammar_ids: [sent_desir, card_1_100, all_det_in, adv_quant]
+  scenario_ids: [al-bar, al-ristorante]
+  vocab_domains: [food_drink, money]
+
+- id: a1.shopping_basics
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can buy everyday things, ask the price and quantity, and understand the total.
+  theme: services
+  function_ids: [intazio_chiincserv_a1, interag_inform05_a1, interag_rispondere05_a1]
+  grammar_ids: [card_1_100, indef_poco, adv_quant, noun_o_a_e]
+  scenario_ids: [fare-la-spesa, in-negozio]
+  vocab_domains: [shopping, food_drink, clothing, money]
+
+- id: a1.ask_directions
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can ask where a place is and follow short, simple directions.
+  theme: travel
+  function_ids: [interag_inform03_a1, interag_rispondere03_a1, intritsoc_attattenz_a1]
+  grammar_ids: [prep_a_loc, prep_in_lo, adv_place, sent_inter]
+  scenario_ids: [chiedere-indicazioni]
+  vocab_domains: [places_city, travel_transport]
+
+- id: a1.phone_basics
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can answer the phone, say who they are, ask for someone, and close the call.
+  theme: social
+  function_ids: [intritsoc_inttelrisp_a1, intritsoc_inttelpres_a1, intritsoc_inttelparqual_a1, intritsoc_inttelinfint_a1, intritsoc_inttelfacatt_a1, intritsoc_inttelconconv_a1]
+  grammar_ids: [ind_pres, sent_inter]
+  scenario_ids: [al-telefono]
+  vocab_domains: [personal_details]
+
+- id: a1.make_plans
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can suggest doing something together, accept or decline, and agree on a time and place.
+  theme: social
+  function_ids: [intazio_proqualins_a1, intazio_rispproacc_a1, intazio_rispprorifiut_a1, intatt_espintenz_a1]
+  grammar_ids: [prep_a_tem, adv_time_a, ore_giorni, card_1_100]
+  scenario_ids: [prendere-un-appuntamento, una-festa]
+  vocab_domains: [time_dates, free_time]
+
+- id: a1.likes_dislikes
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can say what they like and don't like and ask others the same.
+  theme: personal_life
+  function_ids: [intemo_espamappqual_a1, intemo_espnonama_a1, intemo_espintqualc_a1]
+  grammar_ids: [mi_piace, pron_pers, adv_quant]
+  scenario_ids: [tempo-libero]
+  vocab_domains: [free_time, food_drink]
+
+- id: a1.feelings_basic
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can say simply that they are happy, sad, worried, or unwell, and ask how someone feels.
+  theme: personal_life
+  function_ids: [intemo_espfelicita_a1, intemo_esptrisnost_a1, intemo_espinquietud_a1, intemo_intgioiatrist_a1, intemo_espsoffis_a1]
+  grammar_ids: [essere_pre, avere_pre, qual_o_a_e]
+  scenario_ids: [emozioni-e-stati, dal-medico]
+  vocab_domains: [feelings, health_body]
+
+- id: a1.doctor_basics
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can say what hurts and answer a doctor's simple questions.
+  theme: health
+  function_ids: [intemo_espsoffis_a1, interag_rispondere02_a1, interag_confsment_a1]
+  grammar_ids: [avere_pre, poss_adj, adv_time_a]
+  scenario_ids: [dal-medico]
+  vocab_domains: [health_body]
+
+- id: a1.permission_rules
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can ask if something is allowed and understand a simple yes, no, or prohibition.
+  theme: services
+  function_ids: [intazio_chiautor_a1, intazio_dareautsris_a1, intazio_vietare_a1, intatt_espobbdivieto_a1, intazio_rispricrif_a1]
+  grammar_ids: [sent_inter, si_no_non]
+  scenario_ids: [permessi-e-regole]
+  vocab_domains: [rules_signs]
+
+- id: a1.agree_disagree
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can agree or disagree simply and say what they know or don't know.
+  theme: information
+  function_ids: [intatt_espaccsrisp_a1, intatt_espdisaspo_a1, intatt_espapprov_a1, intatt_direconosce_a1, intatt_espproigno_a1, interag_rispondere09_a1]
+  grammar_ids: [adv_judge, si_no_non, sent_affir]
+  scenario_ids: [opinioni-e-accordo]
+  vocab_domains: []
+
+- id: a1.repair_communication
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can say they don't understand, ask for repetition or slower speech, and ask how a word is spelled.
+  theme: communication
+  function_ids: [strintverb_assfacpres_a1, strintverb_asschiedrip_a1, strintverb_asschiedparlent_a1, strintverb_asschiedscrive_a1, strintverb_asscapbenesil_a1, strutdisc_chiedespres_a1]
+  grammar_ids: [pronun_bas, sent_inter]
+  scenario_ids: [capire-e-farsi-capire]
+  vocab_domains: []
+
+- id: a1.wishes_congratulations
+  cefr_level: A1
+  skill: spoken_interaction
+  label: Can welcome someone, congratulate them, make a toast, and wish them well on common occasions.
+  theme: social
+  function_ids: [intritsoc_accqualc_a1, intritsoc_congratul_a1, intritsoc_farebrind_a1, intritsoc_augqualqual_a1, intritsoc_prendcong_a1]
+  grammar_ids: [saluti, sent_excla]
+  scenario_ids: [una-festa]
+  vocab_domains: [celebrations]
+
+# --- spoken production --------------------------------------------------
+
+- id: a1.describe_family
+  cefr_level: A1
+  skill: spoken_production
+  label: Can describe their family in a few simple sentences — who they are, their ages, what they do.
+  theme: personal_life
+  function_ids: [interag_descriv_a1, interag_asserire_a1]
+  grammar_ids: [poss_adj, avere_pre, essere_pre, card_1_100, noun_o_a_e]
+  scenario_ids: [la-famiglia]
+  vocab_domains: [family, work_study]
+
+- id: a1.describe_home
+  cefr_level: A1
+  skill: spoken_production
+  label: Can describe where they live and name the rooms and main things in their home.
+  theme: personal_life
+  function_ids: [interag_descriv_a1]
+  grammar_ids: [dem_questo, prep_in_lo, adv_place, art_il_la]
+  scenario_ids: [la-casa]
+  vocab_domains: [home]
+
+- id: a1.describe_routine
+  cefr_level: A1
+  skill: spoken_production
+  label: Can describe their typical day and week in simple linked sentences.
+  theme: personal_life
+  function_ids: [interag_descriv_a1, strutdisc_sviargenumer_a1]
+  grammar_ids: [ind_pres, pron_refl, adv_time_a, ore_giorni, coord_copu]
+  scenario_ids: [la-giornata]
+  vocab_domains: [daily_routine, time_dates]
+
+- id: a1.describe_people
+  cefr_level: A1
+  skill: spoken_production
+  label: Can describe what a person looks like and say something about their character.
+  theme: personal_life
+  function_ids: [interag_descriv_a1, strutdisc_svitemadesc_a1]
+  grammar_ids: [qual_o_a_e, avere_pre, essere_pre]
+  scenario_ids: [descrivere-le-persone]
+  vocab_domains: [appearance_character]
+
+- id: a1.talk_work_study
+  cefr_level: A1
+  skill: spoken_production
+  label: Can say what they do for work or study and describe their workplace or class simply.
+  theme: work_study
+  function_ids: [interag_descriv_a1, interag_asserire_a1]
+  grammar_ids: [ind_pres, prep_a_loc, prep_in_lo, noun_e_ess]
+  scenario_ids: [al-lavoro, in-classe]
+  vocab_domains: [work_study]
+
+- id: a1.express_ability
+  cefr_level: A1
+  skill: spoken_production
+  label: Can say what they can and cannot do, and what they want or intend to do.
+  theme: personal_life
+  function_ids: [intatt_espprocapincap_a1, intatt_espdesiderio_a1, intatt_espintenz_a1]
+  grammar_ids: [ind_pres, sent_desir, inf_final]
+  scenario_ids: [tempo-libero]
+  vocab_domains: [free_time]
+
+# --- listening ----------------------------------------------------------
+
+- id: a1.understand_personal_questions
+  cefr_level: A1
+  skill: listening
+  label: Can understand slow, clear questions about themselves and everyday matters.
+  theme: social
+  function_ids: [interag_inform01_a1, interag_inform02_a1, interag_inform03_a1, interag_inform07_a1]
+  grammar_ids: [sent_inter, pron_inter, adv_interr]
+  scenario_ids: [presentarsi, in-classe]
+  vocab_domains: [personal_details]
+
+- id: a1.understand_service_talk
+  cefr_level: A1
+  skill: listening
+  label: Can understand prices, opening times, and simple questions in shops, cafes, and ticket offices.
+  theme: services
+  function_ids: [intazio_chiincserv_a1, interag_inform05_a1]
+  grammar_ids: [card_1_100, ore_giorni, art_hora]
+  scenario_ids: [al-bar, fare-la-spesa, in-negozio]
+  vocab_domains: [money, shopping, time_dates]
+
+- id: a1.follow_directions
+  cefr_level: A1
+  skill: listening
+  label: Can follow short spoken directions from one place to another, given slowly.
+  theme: travel
+  function_ids: [interag_rispondere03_a1]
+  grammar_ids: [adv_place, prep_a_loc, prep_in_lo, imper_form]
+  scenario_ids: [chiedere-indicazioni]
+  vocab_domains: [places_city]
+
+# --- reading ------------------------------------------------------------
+
+- id: a1.read_short_messages
+  cefr_level: A1
+  skill: reading
+  label: Can understand short simple messages, postcards, and greetings from people they know.
+  theme: correspondence
+  function_ids: [intritsoc_intcoremail_a1, intritsoc_intconcemail_a1]
+  grammar_ids: [ind_pres, sent_affir, coord_copu]
+  scenario_ids: [scrivere-un-messaggio]
+  vocab_domains: [correspondence]
+
+- id: a1.read_everyday_texts
+  cefr_level: A1
+  skill: reading
+  label: Can find and understand key information in menus, signs, timetables, and simple forms.
+  theme: services
+  function_ids: [interag_identi_a1]
+  grammar_ids: [noun_o_a_e, card_1_100, ore_giorni]
+  scenario_ids: [al-ristorante, in-viaggio]
+  vocab_domains: [food_drink, travel_transport, rules_signs]
+
+# --- writing ------------------------------------------------------------
+
+- id: a1.write_message
+  cefr_level: A1
+  skill: writing
+  label: Can write a short message or postcard — greeting, a few simple sentences, and a sign-off.
+  theme: correspondence
+  function_ids: [intritsoc_intcoremail_a1, intritsoc_intconcemail_a1, intritsoc_augqualqual_a1]
+  grammar_ids: [sent_affir, coord_copu, ind_pres]
+  scenario_ids: [scrivere-un-messaggio]
+  vocab_domains: [correspondence, greetings]
+
+- id: a1.fill_forms
+  cefr_level: A1
+  skill: writing
+  label: Can fill in a form with name, nationality, address, and other personal details.
+  theme: services
+  function_ids: [interag_identi_a1]
+  grammar_ids: [mi_chiamo, num_20_100]
+  scenario_ids: [in-albergo]
+  vocab_domains: [personal_details]
+
+- id: a1.write_about_self
+  cefr_level: A1
+  skill: writing
+  label: Can write a few linked sentences about themselves, their family, and their day.
+  theme: personal_life
+  function_ids: [interag_descriv_a1, interag_asserire_a1]
+  grammar_ids: [ind_pres, poss_adj, coord_copu, adv_time_a, omiss_sogg]
+  scenario_ids: [la-famiglia, la-giornata]
+  vocab_domains: [personal_details, family, daily_routine]
+
+# ============================================================ A2
+
+# --- spoken interaction -------------------------------------------------
+
+- id: a2.everyday_transactions
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can handle common shop and service situations — sizes, alternatives, small problems — asking politely for what they need.
+  theme: services
+  function_ids: [intazio_chiaatqualfare_a2, intazio_rispacconris_a2, interag_inform08_a2, intemo_esppreferenza_a2]
+  grammar_ids: [comp_super, pron_atoni, dem_questo]
+  scenario_ids: [in-negozio, fare-la-spesa]
+  vocab_domains: [shopping, clothing, money]
+
+- id: a2.restaurant_full
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can manage a full restaurant visit — asking about dishes, stating preferences, and dealing with a problem with the order.
+  theme: services
+  function_ids: [interag_inform01_a2, intemo_esppreferenza_a2, intemo_espsoddisf_a2, intatt_espop_a2, intritsoc_attattenz_a2]
+  grammar_ids: [pron_atoni, comp_super, sent_simpl]
+  scenario_ids: [al-ristorante]
+  vocab_domains: [food_drink]
+
+- id: a2.talk_past_events
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can ask and answer questions about what happened — last weekend, a trip, a piece of news.
+  theme: personal_life
+  function_ids: [interag_racrip_a2, interag_inform02_a2, interag_rispondere02_a2, interag_rispondere06_a2]
+  grammar_ids: [ind_pass_p, ind_imperf, temp_quand, adv_time_2]
+  scenario_ids: [in-viaggio, tempo-libero]
+  vocab_domains: [free_time, travel_transport, time_dates]
+
+- id: a2.talk_future_plans
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can discuss plans and intentions — what they will do next week, next summer, after the course.
+  theme: personal_life
+  function_ids: [intatt_espintenz_a2, interag_inform02_a2, interag_rispondere02_a2]
+  grammar_ids: [ind_fut_si, prep_tr_te, adv_time_2]
+  scenario_ids: [prendere-un-appuntamento]
+  vocab_domains: [time_dates, free_time]
+
+- id: a2.exchange_opinions
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can give an opinion, agree or disagree, and say what they prefer and why.
+  theme: information
+  function_ids: [intatt_espop_a2, intatt_espaccsrisp_a2, intatt_espdisaspo_a2, intemo_esppreferenza_a2, interag_contrad01_a2]
+  grammar_ids: [subord_cau, comp_super, adv_judge2]
+  scenario_ids: [opinioni-e-accordo]
+  vocab_domains: []
+
+- id: a2.express_certainty_doubt
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can express certainty, uncertainty, and probability about everyday matters.
+  theme: information
+  function_ids: [intatt_espprocert_a2, intatt_espproincert_a2, intatt_espprobpos_a2, intatt_espproincred_a2]
+  grammar_ids: [adv_judge2, mod_consap]
+  scenario_ids: [opinioni-e-accordo]
+  vocab_domains: []
+
+- id: a2.wider_feelings
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can express surprise, disappointment, anger, and relief, and comfort or encourage someone simply.
+  theme: personal_life
+  function_ids: [intemo_espsorpresa_a2, intemo_espdelus_a2, intemo_espcollera_a2, intemo_consincoconf_a2, intemo_espindiffer_a2]
+  grammar_ids: [sent_excla, qual_o_a_e]
+  scenario_ids: [emozioni-e-stati]
+  vocab_domains: [feelings]
+
+- id: a2.remember_forget
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can say that they remember or have forgotten something, and ask others if they remember.
+  theme: personal_life
+  function_ids: [intatt_espfatric_a2, intatt_espfatdim_a2]
+  grammar_ids: [ind_pass_p, pron_atoni]
+  scenario_ids: []
+  vocab_domains: []
+
+- id: a2.apologize_properly
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can apologize, give a short reason, and accept someone else's apology.
+  theme: social
+  function_ids: [intatt_scusarsi_a2, intatt_accetscuse_a2]
+  grammar_ids: [ind_pass_p, subord_cau]
+  scenario_ids: []
+  vocab_domains: []
+
+- id: a2.phone_calls
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can make a simple phone call to arrange or change an appointment, and end it politely.
+  theme: services
+  function_ids: [intritsoc_inttelrisp_a2, intritsoc_inttelparqual_a2, intritsoc_inttelconconv_a2, intazio_chiaatqualfare_a2]
+  grammar_ids: [ind_fut_si, cond_simp]
+  scenario_ids: [al-telefono, prendere-un-appuntamento]
+  vocab_domains: [time_dates]
+
+- id: a2.host_and_visit
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can welcome a guest, offer help or something to eat, and respond as a guest — including congratulations and good wishes.
+  theme: social
+  function_ids: [intritsoc_accqualc_a2, intazio_proqualaiuto_a2, intazio_offrqualc_a2, intritsoc_congratul_a2, intritsoc_augqualqual_a2, intazio_rispproaccecris_a2]
+  grammar_ids: [cond_simp, imper_seco]
+  scenario_ids: [una-festa]
+  vocab_domains: [celebrations, food_drink]
+
+- id: a2.give_instructions
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can give simple instructions and directions — how to get somewhere, how to do a familiar task.
+  theme: information
+  function_ids: [intazio_chiordistr_a2, interag_rispondere04_a2]
+  grammar_ids: [imper_seco, adv_place2, prep_a_l_3]
+  scenario_ids: [chiedere-indicazioni]
+  vocab_domains: [places_city]
+
+- id: a2.keep_conversation_going
+  cefr_level: A2
+  skill: spoken_interaction
+  label: Can keep a simple conversation going — checking understanding, asking for confirmation, and paraphrasing around missing words.
+  theme: communication
+  function_ids: [strintverb_asschiedconfer_a2, strintverb_assparespres_a2, strintverb_asschieddefparaf_a2, strutdisc_sostppartout_a2, strutdisc_corriprend_a2, strintverb_cedparola_a2]
+  grammar_ids: [pron_demo, rel_che]
+  scenario_ids: [capire-e-farsi-capire]
+  vocab_domains: []
+
+# --- spoken production --------------------------------------------------
+
+- id: a2.narrate_past
+  cefr_level: A2
+  skill: spoken_production
+  label: Can tell a short story about a past event — what happened, when, and how it felt — as a connected account.
+  theme: personal_life
+  function_ids: [interag_racrip_a2, strutdisc_svitemaracc_a2]
+  grammar_ids: [ind_pass_p, ind_imperf, temp_quand, coord_adve, adv_time_2]
+  scenario_ids: [in-viaggio]
+  vocab_domains: [travel_transport, free_time]
+
+- id: a2.describe_experiences
+  cefr_level: A2
+  skill: spoken_production
+  label: Can describe their background, education, and present or past jobs in connected sentences.
+  theme: work_study
+  function_ids: [interag_descriv_a2, interag_racrip_a2]
+  grammar_ids: [ind_pass_p, ind_imperf, prep_da_te]
+  scenario_ids: [al-lavoro]
+  vocab_domains: [work_study, personal_details]
+
+- id: a2.describe_habits_then_now
+  cefr_level: A2
+  skill: spoken_production
+  label: Can compare how things were with how they are now — habits, places, people.
+  theme: personal_life
+  function_ids: [interag_descriv_a2, strutdisc_svitemadesc_a2]
+  grammar_ids: [ind_imperf, comp_super, adv_time_2]
+  scenario_ids: [la-giornata]
+  vocab_domains: [daily_routine]
+
+- id: a2.present_simple_topic
+  cefr_level: A2
+  skill: spoken_production
+  label: Can give a short, rehearsed presentation of a familiar topic, listing and describing its main points.
+  theme: information
+  function_ids: [strutdisc_intinf_a2, strutdisc_sviargenumer_a2, strutdisc_svitemadesc_a2]
+  grammar_ids: [sent_simpl, coord_adve, rel_che]
+  scenario_ids: [in-classe]
+  vocab_domains: []
+
+# --- listening ----------------------------------------------------------
+
+- id: a2.understand_announcements
+  cefr_level: A2
+  skill: listening
+  label: Can catch the essential information in short announcements — platforms, delays, gate changes, opening hours.
+  theme: travel
+  function_ids: [interag_inform02_a2, interag_inform03_a2]
+  grammar_ids: [art_om_tim, card_100pl, adv_time_2]
+  scenario_ids: [in-viaggio]
+  vocab_domains: [travel_transport, time_dates]
+
+- id: a2.follow_everyday_conversation
+  cefr_level: A2
+  skill: listening
+  label: Can follow the main point of clear, slow conversation about everyday topics.
+  theme: social
+  function_ids: [interag_asserire_a2, interag_racrip_a2]
+  grammar_ids: [ind_pres_2, ind_pass_p]
+  scenario_ids: [una-festa, tempo-libero]
+  vocab_domains: []
+
+- id: a2.follow_spoken_instructions
+  cefr_level: A2
+  skill: listening
+  label: Can follow short spoken instructions for familiar tasks, step by step.
+  theme: information
+  function_ids: [intazio_chiordistr_a2]
+  grammar_ids: [imper_seco, adv_manne2]
+  scenario_ids: [in-classe]
+  vocab_domains: []
+
+# --- reading ------------------------------------------------------------
+
+- id: a2.read_everyday_texts
+  cefr_level: A2
+  skill: reading
+  label: Can understand short everyday texts — ads, brochures, timetables, simple news items — well enough to find what they need.
+  theme: information
+  function_ids: [interag_identi_a2, interag_inform01_a2]
+  grammar_ids: [ind_pres_2, rel_che, art_date]
+  scenario_ids: [in-viaggio]
+  vocab_domains: [travel_transport, shopping]
+
+- id: a2.read_personal_letters
+  cefr_level: A2
+  skill: reading
+  label: Can understand a personal letter or email telling of events, feelings, and wishes.
+  theme: correspondence
+  function_ids: [interag_racrip_a2, intemo_espfelicita_a2]
+  grammar_ids: [ind_pass_p, ind_fut_si, pron_atoni]
+  scenario_ids: [scrivere-un-messaggio]
+  vocab_domains: [correspondence, feelings]
+
+- id: a2.read_simple_instructions
+  cefr_level: A2
+  skill: reading
+  label: Can understand simple written instructions — recipes, appliance directions, rules — for familiar things.
+  theme: information
+  function_ids: [intazio_chiordistr_a2]
+  grammar_ids: [imper_seco, impers, sent_simpl]
+  scenario_ids: [permessi-e-regole]
+  vocab_domains: [home, food_drink, rules_signs]
+
+# --- writing ------------------------------------------------------------
+
+- id: a2.write_short_letters
+  cefr_level: A2
+  skill: writing
+  label: Can write a short personal email or note — thanking, inviting, apologizing, or arranging something.
+  theme: correspondence
+  function_ids: [intritsoc_intconcemail_a2, intemo_espgratring_a2, intazio_proqualins_a2, intatt_scusarsi_a2]
+  grammar_ids: [ind_fut_si, cond_simp, pron_atoni]
+  scenario_ids: [scrivere-un-messaggio]
+  vocab_domains: [correspondence, celebrations]
+
+- id: a2.write_about_past
+  cefr_level: A2
+  skill: writing
+  label: Can write a short connected account of a past event or trip — a diary entry, a message about the weekend.
+  theme: personal_life
+  function_ids: [interag_racrip_a2, strutdisc_svitemaracc_a2]
+  grammar_ids: [ind_pass_p, ind_imperf, temp_quand, coord_adve]
+  scenario_ids: [in-viaggio, scrivere-un-messaggio]
+  vocab_domains: [travel_transport, daily_routine]
+
+- id: a2.write_connected_description
+  cefr_level: A2
+  skill: writing
+  label: Can write linked sentences describing their life — people, places, work, study — using common connectors.
+  theme: personal_life
+  function_ids: [interag_descriv_a2, strutdisc_svitemadesc_a2]
+  grammar_ids: [coord_adve, coord_anch, rel_che, cond_se, sent_simpl]
+  scenario_ids: [la-famiglia, al-lavoro]
+  vocab_domains: [family, work_study, home]

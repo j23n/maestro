@@ -1,0 +1,425 @@
+# Leveled vocabulary — Italian, v0.
+#
+# ~330 lemmas: A0 essentially complete (crash-course scope), A1 core,
+# A2 starter. Expansion to the plan's ~1,500 happens with Phase 7 content
+# fill (frequency-list cross-check + generate tooling); the *schema* and
+# validator wiring are what v0 locks in. Entries are lemmas; multi-word
+# fixed expressions use pos: phrase.
+
+# ============================================================ A0
+# Greetings & courtesy
+- {id: ciao, cefr_level: A0, pos: inter, gloss: hi / bye}
+- {id: buongiorno, cefr_level: A0, pos: inter, gloss: good morning}
+- {id: buonasera, cefr_level: A0, pos: inter, gloss: good evening}
+- {id: buonanotte, cefr_level: A0, pos: inter, gloss: good night}
+- {id: arrivederci, cefr_level: A0, pos: inter, gloss: goodbye}
+- {id: salve, cefr_level: A0, pos: inter, gloss: hello (neutral)}
+- {id: grazie, cefr_level: A0, pos: inter, gloss: thank you}
+- {id: prego, cefr_level: A0, pos: inter, gloss: you're welcome / please go ahead}
+- {id: scusa, cefr_level: A0, pos: inter, gloss: sorry / excuse me (informal)}
+- {id: scusi, cefr_level: A0, pos: inter, gloss: excuse me (formal)}
+- {id: per favore, cefr_level: A0, pos: phrase, gloss: please}
+- {id: sì, cefr_level: A0, pos: adv, gloss: "yes"}
+- {id: "no", cefr_level: A0, pos: adv, gloss: "no"}
+- {id: va bene, cefr_level: A0, pos: phrase, gloss: okay / all right}
+- {id: benvenuto, cefr_level: A0, pos: adj, gloss: welcome}
+# People & identity
+- {id: signore, cefr_level: A0, pos: noun, gloss: sir / gentleman}
+- {id: signora, cefr_level: A0, pos: noun, gloss: madam / lady}
+- {id: amico, cefr_level: A0, pos: noun, gloss: friend}
+- {id: nome, cefr_level: A0, pos: noun, gloss: name}
+- {id: italiano, cefr_level: A0, pos: adj, gloss: Italian}
+- {id: inglese, cefr_level: A0, pos: adj, gloss: English}
+# Core verbs
+- {id: essere, cefr_level: A0, pos: verb, gloss: to be}
+- {id: avere, cefr_level: A0, pos: verb, gloss: to have}
+- {id: chiamarsi, cefr_level: A0, pos: verb, gloss: to be called}
+- {id: parlare, cefr_level: A0, pos: verb, gloss: to speak}
+- {id: mangiare, cefr_level: A0, pos: verb, gloss: to eat}
+- {id: bere, cefr_level: A0, pos: verb, gloss: to drink}
+- {id: andare, cefr_level: A0, pos: verb, gloss: to go}
+- {id: venire, cefr_level: A0, pos: verb, gloss: to come}
+- {id: fare, cefr_level: A0, pos: verb, gloss: to do / make}
+- {id: stare, cefr_level: A0, pos: verb, gloss: to stay / be}
+- {id: volere, cefr_level: A0, pos: verb, gloss: to want}
+- {id: potere, cefr_level: A0, pos: verb, gloss: can / to be able}
+- {id: capire, cefr_level: A0, pos: verb, gloss: to understand}
+- {id: sapere, cefr_level: A0, pos: verb, gloss: to know}
+- {id: prendere, cefr_level: A0, pos: verb, gloss: to take}
+- {id: vedere, cefr_level: A0, pos: verb, gloss: to see}
+- {id: sentire, cefr_level: A0, pos: verb, gloss: to hear / feel}
+- {id: pagare, cefr_level: A0, pos: verb, gloss: to pay}
+- {id: comprare, cefr_level: A0, pos: verb, gloss: to buy}
+- {id: costare, cefr_level: A0, pos: verb, gloss: to cost}
+- {id: abitare, cefr_level: A0, pos: verb, gloss: to live (reside)}
+- {id: lavorare, cefr_level: A0, pos: verb, gloss: to work}
+- {id: studiare, cefr_level: A0, pos: verb, gloss: to study}
+- {id: arrivare, cefr_level: A0, pos: verb, gloss: to arrive}
+- {id: partire, cefr_level: A0, pos: verb, gloss: to leave / depart}
+- {id: aiutare, cefr_level: A0, pos: verb, gloss: to help}
+- {id: cercare, cefr_level: A0, pos: verb, gloss: to look for}
+- {id: trovare, cefr_level: A0, pos: verb, gloss: to find}
+- {id: aspettare, cefr_level: A0, pos: verb, gloss: to wait}
+- {id: piacere, cefr_level: A0, pos: verb, gloss: to be pleasing (mi piace)}
+# Food & drink
+- {id: acqua, cefr_level: A0, pos: noun, gloss: water}
+- {id: caffè, cefr_level: A0, pos: noun, gloss: coffee}
+- {id: tè, cefr_level: A0, pos: noun, gloss: tea}
+- {id: latte, cefr_level: A0, pos: noun, gloss: milk}
+- {id: birra, cefr_level: A0, pos: noun, gloss: beer}
+- {id: vino, cefr_level: A0, pos: noun, gloss: wine}
+- {id: pane, cefr_level: A0, pos: noun, gloss: bread}
+- {id: pizza, cefr_level: A0, pos: noun, gloss: pizza}
+- {id: pasta, cefr_level: A0, pos: noun, gloss: pasta}
+- {id: formaggio, cefr_level: A0, pos: noun, gloss: cheese}
+- {id: prosciutto, cefr_level: A0, pos: noun, gloss: ham}
+- {id: insalata, cefr_level: A0, pos: noun, gloss: salad}
+- {id: carne, cefr_level: A0, pos: noun, gloss: meat}
+- {id: pesce, cefr_level: A0, pos: noun, gloss: fish}
+- {id: pollo, cefr_level: A0, pos: noun, gloss: chicken}
+- {id: frutta, cefr_level: A0, pos: noun, gloss: fruit}
+- {id: mela, cefr_level: A0, pos: noun, gloss: apple}
+- {id: pomodoro, cefr_level: A0, pos: noun, gloss: tomato}
+- {id: zucchero, cefr_level: A0, pos: noun, gloss: sugar}
+- {id: sale, cefr_level: A0, pos: noun, gloss: salt}
+- {id: dolce, cefr_level: A0, pos: noun, gloss: dessert / sweet}
+- {id: gelato, cefr_level: A0, pos: noun, gloss: ice cream}
+- {id: cornetto, cefr_level: A0, pos: noun, gloss: croissant}
+- {id: panino, cefr_level: A0, pos: noun, gloss: sandwich}
+- {id: menù, cefr_level: A0, pos: noun, gloss: menu}
+- {id: conto, cefr_level: A0, pos: noun, gloss: bill / check}
+- {id: tavolo, cefr_level: A0, pos: noun, gloss: table}
+- {id: piatto, cefr_level: A0, pos: noun, gloss: plate / dish}
+- {id: bicchiere, cefr_level: A0, pos: noun, gloss: glass}
+- {id: bottiglia, cefr_level: A0, pos: noun, gloss: bottle}
+- {id: tazza, cefr_level: A0, pos: noun, gloss: cup}
+- {id: colazione, cefr_level: A0, pos: noun, gloss: breakfast}
+- {id: pranzo, cefr_level: A0, pos: noun, gloss: lunch}
+- {id: cena, cefr_level: A0, pos: noun, gloss: dinner}
+- {id: ristorante, cefr_level: A0, pos: noun, gloss: restaurant}
+- {id: bar, cefr_level: A0, pos: noun, gloss: café / bar}
+# Places & travel
+- {id: aeroporto, cefr_level: A0, pos: noun, gloss: airport}
+- {id: aereo, cefr_level: A0, pos: noun, gloss: airplane}
+- {id: treno, cefr_level: A0, pos: noun, gloss: train}
+- {id: stazione, cefr_level: A0, pos: noun, gloss: station}
+- {id: binario, cefr_level: A0, pos: noun, gloss: platform / track}
+- {id: biglietto, cefr_level: A0, pos: noun, gloss: ticket}
+- {id: autobus, cefr_level: A0, pos: noun, gloss: bus}
+- {id: taxi, cefr_level: A0, pos: noun, gloss: taxi}
+- {id: macchina, cefr_level: A0, pos: noun, gloss: car}
+- {id: albergo, cefr_level: A0, pos: noun, gloss: hotel}
+- {id: camera, cefr_level: A0, pos: noun, gloss: room}
+- {id: chiave, cefr_level: A0, pos: noun, gloss: key}
+- {id: bagno, cefr_level: A0, pos: noun, gloss: bathroom}
+- {id: città, cefr_level: A0, pos: noun, gloss: city}
+- {id: strada, cefr_level: A0, pos: noun, gloss: road / street}
+- {id: via, cefr_level: A0, pos: noun, gloss: street}
+- {id: piazza, cefr_level: A0, pos: noun, gloss: square}
+- {id: centro, cefr_level: A0, pos: noun, gloss: center / downtown}
+- {id: museo, cefr_level: A0, pos: noun, gloss: museum}
+- {id: chiesa, cefr_level: A0, pos: noun, gloss: church}
+- {id: mare, cefr_level: A0, pos: noun, gloss: sea}
+- {id: banca, cefr_level: A0, pos: noun, gloss: bank}
+- {id: farmacia, cefr_level: A0, pos: noun, gloss: pharmacy}
+- {id: ospedale, cefr_level: A0, pos: noun, gloss: hospital}
+- {id: supermercato, cefr_level: A0, pos: noun, gloss: supermarket}
+- {id: mercato, cefr_level: A0, pos: noun, gloss: market}
+- {id: negozio, cefr_level: A0, pos: noun, gloss: shop}
+- {id: casa, cefr_level: A0, pos: noun, gloss: house / home}
+- {id: porta, cefr_level: A0, pos: noun, gloss: door}
+- {id: uscita, cefr_level: A0, pos: noun, gloss: exit}
+- {id: entrata, cefr_level: A0, pos: noun, gloss: entrance}
+# Time
+- {id: oggi, cefr_level: A0, pos: adv, gloss: today}
+- {id: domani, cefr_level: A0, pos: adv, gloss: tomorrow}
+- {id: ieri, cefr_level: A0, pos: adv, gloss: yesterday}
+- {id: adesso, cefr_level: A0, pos: adv, gloss: now}
+- {id: ora, cefr_level: A0, pos: noun, gloss: hour / now}
+- {id: giorno, cefr_level: A0, pos: noun, gloss: day}
+- {id: notte, cefr_level: A0, pos: noun, gloss: night}
+- {id: mattina, cefr_level: A0, pos: noun, gloss: morning}
+- {id: sera, cefr_level: A0, pos: noun, gloss: evening}
+- {id: pomeriggio, cefr_level: A0, pos: noun, gloss: afternoon}
+- {id: settimana, cefr_level: A0, pos: noun, gloss: week}
+- {id: lunedì, cefr_level: A0, pos: noun, gloss: Monday}
+- {id: martedì, cefr_level: A0, pos: noun, gloss: Tuesday}
+- {id: mercoledì, cefr_level: A0, pos: noun, gloss: Wednesday}
+- {id: giovedì, cefr_level: A0, pos: noun, gloss: Thursday}
+- {id: venerdì, cefr_level: A0, pos: noun, gloss: Friday}
+- {id: sabato, cefr_level: A0, pos: noun, gloss: Saturday}
+- {id: domenica, cefr_level: A0, pos: noun, gloss: Sunday}
+- {id: mese, cefr_level: A0, pos: noun, gloss: month}
+- {id: anno, cefr_level: A0, pos: noun, gloss: year}
+- {id: tempo, cefr_level: A0, pos: noun, gloss: time / weather}
+# Numbers & money
+- {id: uno, cefr_level: A0, pos: num, gloss: one}
+- {id: due, cefr_level: A0, pos: num, gloss: two}
+- {id: tre, cefr_level: A0, pos: num, gloss: three}
+- {id: quattro, cefr_level: A0, pos: num, gloss: four}
+- {id: cinque, cefr_level: A0, pos: num, gloss: five}
+- {id: sei, cefr_level: A0, pos: num, gloss: six}
+- {id: sette, cefr_level: A0, pos: num, gloss: seven}
+- {id: otto, cefr_level: A0, pos: num, gloss: eight}
+- {id: nove, cefr_level: A0, pos: num, gloss: nine}
+- {id: dieci, cefr_level: A0, pos: num, gloss: ten}
+- {id: cento, cefr_level: A0, pos: num, gloss: hundred}
+- {id: mille, cefr_level: A0, pos: num, gloss: thousand}
+- {id: euro, cefr_level: A0, pos: noun, gloss: euro}
+- {id: numero, cefr_level: A0, pos: noun, gloss: number}
+- {id: prezzo, cefr_level: A0, pos: noun, gloss: price}
+- {id: soldi, cefr_level: A0, pos: noun, gloss: money}
+# Adjectives & adverbs
+- {id: buono, cefr_level: A0, pos: adj, gloss: good}
+- {id: bello, cefr_level: A0, pos: adj, gloss: beautiful / nice}
+- {id: grande, cefr_level: A0, pos: adj, gloss: big}
+- {id: piccolo, cefr_level: A0, pos: adj, gloss: small}
+- {id: caldo, cefr_level: A0, pos: adj, gloss: hot / warm}
+- {id: freddo, cefr_level: A0, pos: adj, gloss: cold}
+- {id: nuovo, cefr_level: A0, pos: adj, gloss: new}
+- {id: aperto, cefr_level: A0, pos: adj, gloss: open}
+- {id: chiuso, cefr_level: A0, pos: adj, gloss: closed}
+- {id: libero, cefr_level: A0, pos: adj, gloss: free / available}
+- {id: occupato, cefr_level: A0, pos: adj, gloss: taken / busy}
+- {id: caro, cefr_level: A0, pos: adj, gloss: expensive / dear}
+- {id: pronto, cefr_level: A0, pos: adj, gloss: ready (also phone hello)}
+- {id: stanco, cefr_level: A0, pos: adj, gloss: tired}
+- {id: contento, cefr_level: A0, pos: adj, gloss: happy / glad}
+- {id: bene, cefr_level: A0, pos: adv, gloss: well}
+- {id: male, cefr_level: A0, pos: adv, gloss: badly}
+- {id: molto, cefr_level: A0, pos: adv, gloss: very / a lot}
+- {id: poco, cefr_level: A0, pos: adv, gloss: little / not much}
+- {id: qui, cefr_level: A0, pos: adv, gloss: here}
+- {id: lì, cefr_level: A0, pos: adv, gloss: there}
+- {id: dove, cefr_level: A0, pos: adv, gloss: where}
+- {id: quando, cefr_level: A0, pos: adv, gloss: when}
+- {id: come, cefr_level: A0, pos: adv, gloss: how}
+- {id: perché, cefr_level: A0, pos: adv, gloss: why / because}
+- {id: chi, cefr_level: A0, pos: pron, gloss: who}
+- {id: cosa, cefr_level: A0, pos: pron, gloss: what / thing}
+- {id: quanto, cefr_level: A0, pos: adv, gloss: how much}
+- {id: anche, cefr_level: A0, pos: adv, gloss: also}
+- {id: subito, cefr_level: A0, pos: adv, gloss: right away}
+- {id: sempre, cefr_level: A0, pos: adv, gloss: always}
+- {id: forse, cefr_level: A0, pos: adv, gloss: maybe}
+# Essentials
+- {id: problema, cefr_level: A0, pos: noun, gloss: problem}
+- {id: aiuto, cefr_level: A0, pos: noun, gloss: help}
+- {id: informazione, cefr_level: A0, pos: noun, gloss: information}
+- {id: bagaglio, cefr_level: A0, pos: noun, gloss: luggage}
+- {id: valigia, cefr_level: A0, pos: noun, gloss: suitcase}
+- {id: passaporto, cefr_level: A0, pos: noun, gloss: passport}
+- {id: documento, cefr_level: A0, pos: noun, gloss: ID / document}
+- {id: telefono, cefr_level: A0, pos: noun, gloss: telephone}
+
+# ============================================================ A1
+# Family & people
+- {id: famiglia, cefr_level: A1, pos: noun, gloss: family}
+- {id: madre, cefr_level: A1, pos: noun, gloss: mother}
+- {id: padre, cefr_level: A1, pos: noun, gloss: father}
+- {id: fratello, cefr_level: A1, pos: noun, gloss: brother}
+- {id: sorella, cefr_level: A1, pos: noun, gloss: sister}
+- {id: figlio, cefr_level: A1, pos: noun, gloss: son / child}
+- {id: marito, cefr_level: A1, pos: noun, gloss: husband}
+- {id: moglie, cefr_level: A1, pos: noun, gloss: wife}
+- {id: genitori, cefr_level: A1, pos: noun, gloss: parents}
+- {id: nonno, cefr_level: A1, pos: noun, gloss: grandfather}
+- {id: nonna, cefr_level: A1, pos: noun, gloss: grandmother}
+- {id: zio, cefr_level: A1, pos: noun, gloss: uncle}
+- {id: zia, cefr_level: A1, pos: noun, gloss: aunt}
+- {id: bambino, cefr_level: A1, pos: noun, gloss: child}
+- {id: ragazzo, cefr_level: A1, pos: noun, gloss: boy / boyfriend}
+- {id: ragazza, cefr_level: A1, pos: noun, gloss: girl / girlfriend}
+- {id: persona, cefr_level: A1, pos: noun, gloss: person}
+- {id: gente, cefr_level: A1, pos: noun, gloss: people}
+# Home
+- {id: cucina, cefr_level: A1, pos: noun, gloss: kitchen}
+- {id: soggiorno, cefr_level: A1, pos: noun, gloss: living room}
+- {id: giardino, cefr_level: A1, pos: noun, gloss: garden}
+- {id: letto, cefr_level: A1, pos: noun, gloss: bed}
+- {id: sedia, cefr_level: A1, pos: noun, gloss: chair}
+- {id: divano, cefr_level: A1, pos: noun, gloss: sofa}
+- {id: frigorifero, cefr_level: A1, pos: noun, gloss: fridge}
+- {id: finestra, cefr_level: A1, pos: noun, gloss: window}
+- {id: piano, cefr_level: A1, pos: noun, gloss: floor / storey}
+- {id: ascensore, cefr_level: A1, pos: noun, gloss: lift / elevator}
+# Work & study
+- {id: lavoro, cefr_level: A1, pos: noun, gloss: work / job}
+- {id: ufficio, cefr_level: A1, pos: noun, gloss: office}
+- {id: scuola, cefr_level: A1, pos: noun, gloss: school}
+- {id: università, cefr_level: A1, pos: noun, gloss: university}
+- {id: studente, cefr_level: A1, pos: noun, gloss: student}
+- {id: insegnante, cefr_level: A1, pos: noun, gloss: teacher}
+- {id: medico, cefr_level: A1, pos: noun, gloss: doctor}
+- {id: dottore, cefr_level: A1, pos: noun, gloss: doctor (title)}
+- {id: cameriere, cefr_level: A1, pos: noun, gloss: waiter}
+- {id: cuoco, cefr_level: A1, pos: noun, gloss: cook}
+- {id: collega, cefr_level: A1, pos: noun, gloss: colleague}
+# Body & health
+- {id: testa, cefr_level: A1, pos: noun, gloss: head}
+- {id: mano, cefr_level: A1, pos: noun, gloss: hand}
+- {id: gamba, cefr_level: A1, pos: noun, gloss: leg}
+- {id: occhio, cefr_level: A1, pos: noun, gloss: eye}
+- {id: stomaco, cefr_level: A1, pos: noun, gloss: stomach}
+- {id: febbre, cefr_level: A1, pos: noun, gloss: fever}
+- {id: medicina, cefr_level: A1, pos: noun, gloss: medicine}
+- {id: dolore, cefr_level: A1, pos: noun, gloss: pain}
+- {id: salute, cefr_level: A1, pos: noun, gloss: health}
+# Clothing & colors
+- {id: vestito, cefr_level: A1, pos: noun, gloss: dress / suit}
+- {id: scarpe, cefr_level: A1, pos: noun, gloss: shoes}
+- {id: camicia, cefr_level: A1, pos: noun, gloss: shirt}
+- {id: pantaloni, cefr_level: A1, pos: noun, gloss: trousers}
+- {id: giacca, cefr_level: A1, pos: noun, gloss: jacket}
+- {id: maglietta, cefr_level: A1, pos: noun, gloss: t-shirt}
+- {id: taglia, cefr_level: A1, pos: noun, gloss: size (clothes)}
+- {id: colore, cefr_level: A1, pos: noun, gloss: color}
+- {id: rosso, cefr_level: A1, pos: adj, gloss: red}
+- {id: blu, cefr_level: A1, pos: adj, gloss: blue}
+- {id: verde, cefr_level: A1, pos: adj, gloss: green}
+- {id: giallo, cefr_level: A1, pos: adj, gloss: yellow}
+- {id: nero, cefr_level: A1, pos: adj, gloss: black}
+- {id: bianco, cefr_level: A1, pos: adj, gloss: white}
+# Verbs
+- {id: alzarsi, cefr_level: A1, pos: verb, gloss: to get up}
+- {id: svegliarsi, cefr_level: A1, pos: verb, gloss: to wake up}
+- {id: lavarsi, cefr_level: A1, pos: verb, gloss: to wash (oneself)}
+- {id: vestirsi, cefr_level: A1, pos: verb, gloss: to get dressed}
+- {id: dormire, cefr_level: A1, pos: verb, gloss: to sleep}
+- {id: leggere, cefr_level: A1, pos: verb, gloss: to read}
+- {id: scrivere, cefr_level: A1, pos: verb, gloss: to write}
+- {id: ascoltare, cefr_level: A1, pos: verb, gloss: to listen}
+- {id: guardare, cefr_level: A1, pos: verb, gloss: to watch / look at}
+- {id: giocare, cefr_level: A1, pos: verb, gloss: to play}
+- {id: cucinare, cefr_level: A1, pos: verb, gloss: to cook}
+- {id: pulire, cefr_level: A1, pos: verb, gloss: to clean}
+- {id: viaggiare, cefr_level: A1, pos: verb, gloss: to travel}
+- {id: telefonare, cefr_level: A1, pos: verb, gloss: to phone}
+- {id: chiedere, cefr_level: A1, pos: verb, gloss: to ask}
+- {id: rispondere, cefr_level: A1, pos: verb, gloss: to answer}
+- {id: dire, cefr_level: A1, pos: verb, gloss: to say}
+- {id: mettere, cefr_level: A1, pos: verb, gloss: to put}
+- {id: portare, cefr_level: A1, pos: verb, gloss: to bring / carry}
+- {id: ricordare, cefr_level: A1, pos: verb, gloss: to remember}
+- {id: dimenticare, cefr_level: A1, pos: verb, gloss: to forget}
+- {id: incontrare, cefr_level: A1, pos: verb, gloss: to meet}
+- {id: invitare, cefr_level: A1, pos: verb, gloss: to invite}
+- {id: preferire, cefr_level: A1, pos: verb, gloss: to prefer}
+- {id: amare, cefr_level: A1, pos: verb, gloss: to love}
+- {id: finire, cefr_level: A1, pos: verb, gloss: to finish}
+- {id: cominciare, cefr_level: A1, pos: verb, gloss: to begin}
+- {id: usare, cefr_level: A1, pos: verb, gloss: to use}
+- {id: provare, cefr_level: A1, pos: verb, gloss: to try}
+- {id: vendere, cefr_level: A1, pos: verb, gloss: to sell}
+- {id: mandare, cefr_level: A1, pos: verb, gloss: to send}
+- {id: ricevere, cefr_level: A1, pos: verb, gloss: to receive}
+- {id: aprire, cefr_level: A1, pos: verb, gloss: to open}
+- {id: chiudere, cefr_level: A1, pos: verb, gloss: to close}
+- {id: entrare, cefr_level: A1, pos: verb, gloss: to enter}
+- {id: uscire, cefr_level: A1, pos: verb, gloss: to go out}
+- {id: dovere, cefr_level: A1, pos: verb, gloss: must / to have to}
+- {id: dare, cefr_level: A1, pos: verb, gloss: to give}
+- {id: piovere, cefr_level: A1, pos: verb, gloss: to rain}
+# Weather
+- {id: sole, cefr_level: A1, pos: noun, gloss: sun}
+- {id: pioggia, cefr_level: A1, pos: noun, gloss: rain}
+- {id: vento, cefr_level: A1, pos: noun, gloss: wind}
+- {id: neve, cefr_level: A1, pos: noun, gloss: snow}
+# Free time & things
+- {id: musica, cefr_level: A1, pos: noun, gloss: music}
+- {id: film, cefr_level: A1, pos: noun, gloss: film}
+- {id: libro, cefr_level: A1, pos: noun, gloss: book}
+- {id: giornale, cefr_level: A1, pos: noun, gloss: newspaper}
+- {id: foto, cefr_level: A1, pos: noun, gloss: photo}
+- {id: sport, cefr_level: A1, pos: noun, gloss: sport}
+- {id: calcio, cefr_level: A1, pos: noun, gloss: football / soccer}
+- {id: festa, cefr_level: A1, pos: noun, gloss: party}
+- {id: regalo, cefr_level: A1, pos: noun, gloss: gift}
+- {id: compleanno, cefr_level: A1, pos: noun, gloss: birthday}
+- {id: auguri, cefr_level: A1, pos: inter, gloss: best wishes}
+- {id: vacanza, cefr_level: A1, pos: noun, gloss: holiday}
+- {id: viaggio, cefr_level: A1, pos: noun, gloss: trip}
+- {id: orario, cefr_level: A1, pos: noun, gloss: timetable / opening hours}
+- {id: appuntamento, cefr_level: A1, pos: noun, gloss: appointment}
+- {id: messaggio, cefr_level: A1, pos: noun, gloss: message}
+- {id: lettera, cefr_level: A1, pos: noun, gloss: letter}
+- {id: indirizzo, cefr_level: A1, pos: noun, gloss: address}
+- {id: bicicletta, cefr_level: A1, pos: noun, gloss: bicycle}
+- {id: metropolitana, cefr_level: A1, pos: noun, gloss: metro / subway}
+- {id: fermata, cefr_level: A1, pos: noun, gloss: stop (bus/metro)}
+# Directions & position
+- {id: destra, cefr_level: A1, pos: noun, gloss: right}
+- {id: sinistra, cefr_level: A1, pos: noun, gloss: left}
+- {id: dritto, cefr_level: A1, pos: adv, gloss: straight ahead}
+- {id: vicino, cefr_level: A1, pos: adv, gloss: near}
+- {id: lontano, cefr_level: A1, pos: adv, gloss: far}
+- {id: davanti, cefr_level: A1, pos: adv, gloss: in front}
+- {id: dietro, cefr_level: A1, pos: adv, gloss: behind}
+- {id: sopra, cefr_level: A1, pos: adv, gloss: above / on}
+- {id: sotto, cefr_level: A1, pos: adv, gloss: below / under}
+# Quantifiers, order, misc
+- {id: primo, cefr_level: A1, pos: adj, gloss: first}
+- {id: secondo, cefr_level: A1, pos: adj, gloss: second}
+- {id: ultimo, cefr_level: A1, pos: adj, gloss: last}
+- {id: prossimo, cefr_level: A1, pos: adj, gloss: next}
+- {id: insieme, cefr_level: A1, pos: adv, gloss: together}
+- {id: presto, cefr_level: A1, pos: adv, gloss: early / soon}
+- {id: tardi, cefr_level: A1, pos: adv, gloss: late}
+- {id: spesso, cefr_level: A1, pos: adv, gloss: often}
+- {id: mai, cefr_level: A1, pos: adv, gloss: never}
+- {id: ancora, cefr_level: A1, pos: adv, gloss: still / again}
+- {id: tutto, cefr_level: A1, pos: pron, gloss: everything / all}
+- {id: niente, cefr_level: A1, pos: pron, gloss: nothing}
+- {id: qualcosa, cefr_level: A1, pos: pron, gloss: something}
+- {id: nessuno, cefr_level: A1, pos: pron, gloss: nobody}
+- {id: facile, cefr_level: A1, pos: adj, gloss: easy}
+- {id: difficile, cefr_level: A1, pos: adj, gloss: difficult}
+- {id: giovane, cefr_level: A1, pos: adj, gloss: young}
+- {id: vecchio, cefr_level: A1, pos: adj, gloss: old}
+- {id: felice, cefr_level: A1, pos: adj, gloss: happy}
+- {id: triste, cefr_level: A1, pos: adj, gloss: sad}
+- {id: simpatico, cefr_level: A1, pos: adj, gloss: nice / likeable}
+- {id: importante, cefr_level: A1, pos: adj, gloss: important}
+- {id: economico, cefr_level: A1, pos: adj, gloss: cheap}
+
+# ============================================================ A2 (starter)
+- {id: diventare, cefr_level: A2, pos: verb, gloss: to become}
+- {id: sembrare, cefr_level: A2, pos: verb, gloss: to seem}
+- {id: sperare, cefr_level: A2, pos: verb, gloss: to hope}
+- {id: pensare, cefr_level: A2, pos: verb, gloss: to think}
+- {id: credere, cefr_level: A2, pos: verb, gloss: to believe}
+- {id: decidere, cefr_level: A2, pos: verb, gloss: to decide}
+- {id: cambiare, cefr_level: A2, pos: verb, gloss: to change}
+- {id: succedere, cefr_level: A2, pos: verb, gloss: to happen}
+- {id: perdere, cefr_level: A2, pos: verb, gloss: to lose / miss}
+- {id: vincere, cefr_level: A2, pos: verb, gloss: to win}
+- {id: nascere, cefr_level: A2, pos: verb, gloss: to be born}
+- {id: vivere, cefr_level: A2, pos: verb, gloss: to live}
+- {id: conoscere, cefr_level: A2, pos: verb, gloss: to know (people/places)}
+- {id: salire, cefr_level: A2, pos: verb, gloss: to go up / get on}
+- {id: scendere, cefr_level: A2, pos: verb, gloss: to go down / get off}
+- {id: tornare, cefr_level: A2, pos: verb, gloss: to return}
+- {id: restare, cefr_level: A2, pos: verb, gloss: to stay}
+- {id: rimanere, cefr_level: A2, pos: verb, gloss: to remain}
+- {id: spiegare, cefr_level: A2, pos: verb, gloss: to explain}
+- {id: raccontare, cefr_level: A2, pos: verb, gloss: to tell / narrate}
+- {id: promettere, cefr_level: A2, pos: verb, gloss: to promise}
+- {id: prenotare, cefr_level: A2, pos: verb, gloss: to book / reserve}
+- {id: ordinare, cefr_level: A2, pos: verb, gloss: to order}
+- {id: esperienza, cefr_level: A2, pos: noun, gloss: experience}
+- {id: notizia, cefr_level: A2, pos: noun, gloss: news item}
+- {id: storia, cefr_level: A2, pos: noun, gloss: story / history}
+- {id: paese, cefr_level: A2, pos: noun, gloss: country / village}
+- {id: mondo, cefr_level: A2, pos: noun, gloss: world}
+- {id: posto, cefr_level: A2, pos: noun, gloss: place}
+- {id: modo, cefr_level: A2, pos: noun, gloss: way / manner}
+- {id: però, cefr_level: A2, pos: conj, gloss: however / but}
+- {id: quindi, cefr_level: A2, pos: conj, gloss: therefore / so}
+- {id: mentre, cefr_level: A2, pos: conj, gloss: while}
+- {id: prima, cefr_level: A2, pos: adv, gloss: before / earlier}
+- {id: dopo, cefr_level: A2, pos: adv, gloss: after / later}
+- {id: durante, cefr_level: A2, pos: prep, gloss: during}
+- {id: già, cefr_level: A2, pos: adv, gloss: already}
+- {id: appena, cefr_level: A2, pos: adv, gloss: just / as soon as}
+- {id: purtroppo, cefr_level: A2, pos: adv, gloss: unfortunately}
+- {id: veramente, cefr_level: A2, pos: adv, gloss: really}

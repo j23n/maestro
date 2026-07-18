@@ -1,0 +1,4447 @@
+- id: a0_salutare
+  cefr_level: A0
+  category: interagire_rituali_sociali
+  label: Salutare
+  description: Greeting someone informally or formally
+  patterns:
+  - Ciao!
+  - Buongiorno!
+  - Buonasera!
+  examples:
+  - Ciao!
+  - Buongiorno, signora!
+- id: a0_congedarsi
+  cefr_level: A0
+  category: interagire_rituali_sociali
+  label: Congedarsi
+  description: Saying goodbye
+  patterns:
+  - Arrivederci!
+  - Ciao!
+  - A presto!
+  examples:
+  - Arrivederci!
+  - Ciao, a presto!
+- id: a0_ringraziare
+  cefr_level: A0
+  category: interagire_rituali_sociali
+  label: Ringraziare
+  description: Thanking someone
+  patterns:
+  - Grazie!
+  - Grazie mille!
+  examples:
+  - Grazie!
+  - Grazie mille!
+- id: a0_presentarsi
+  cefr_level: A0
+  category: interagire_rituali_sociali
+  label: Presentarsi
+  description: Introducing yourself by name
+  patterns:
+  - Mi chiamo...
+  - Sono...
+  examples:
+  - Mi chiamo Marco.
+  - Sono Maria.
+- id: a0_chiedere_cortesemente
+  cefr_level: A0
+  category: interagire_attivita_azioni
+  label: Chiedere cortesemente
+  description: Making a polite request
+  patterns:
+  - Per favore...
+  - Vorrei...
+  examples:
+  - Un caffe, per favore.
+  - Vorrei un'acqua.
+- id: a0_rispondere_si_no
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Rispondere si/no
+  description: Answering yes or no
+  patterns:
+  - Si.
+  - No.
+  - No, grazie.
+  examples:
+  - Si!
+  - No, grazie.
+- id: a0_identificare
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Identificare oggetti
+  description: Identifying objects
+  patterns:
+  - Questo e...
+  - Che cos'e?
+  examples:
+  - Che cos'e questo?
+  - Questo e un libro.
+- id: a0_esprimere_gusti
+  cefr_level: A0
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere gusti
+  description: Expressing likes and dislikes
+  patterns:
+  - Mi piace...
+  - Non mi piace...
+  examples:
+  - Mi piace il caffe.
+  - Non mi piace il te.
+- id: a0_chiedere_dove
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Chiedere dove
+  description: Asking where something/someone is
+  patterns:
+  - Dov'e...?
+  - Dove...?
+  examples:
+  - Dov'e il bagno?
+  - Dove sei?
+- id: a0_scusarsi
+  cefr_level: A0
+  category: interagire_rituali_sociali
+  label: Scusarsi
+  description: Apologizing or getting attention
+  patterns:
+  - Scusi!
+  - Scusa!
+  - Mi dispiace.
+  examples:
+  - Scusi, dov'e il bagno?
+  - Mi dispiace!
+- id: a0_dire_nome
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Dire il proprio nome
+  description: Stating your name
+  patterns:
+  - Mi chiamo...
+  - Il mio nome e...
+  examples:
+  - Mi chiamo Anna.
+- id: a0_contare
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Contare
+  description: Counting and using numbers
+  patterns:
+  - uno, due, tre...
+  examples:
+  - Due caffe, per favore.
+  - Tre euro.
+- id: a0_ordinare
+  cefr_level: A0
+  category: interagire_attivita_azioni
+  label: Ordinare
+  description: Ordering food, drinks, or services
+  patterns:
+  - Vorrei...
+  - Vorrei + numero + cosa...
+  - Un/una..., per favore.
+  examples:
+  - Vorrei un caffè, per favore.
+  - Vorrei due cornetti.
+  - Vorrei la pasta come primo.
+- id: a0_chiedere_aiuto
+  cefr_level: A0
+  category: interagire_attivita_azioni
+  label: Chiedere aiuto
+  description: Asking for repetition, clarification, or help understanding
+  patterns:
+  - Può ripetere, per favore?
+  - Più lentamente, per favore.
+  - Come si dice ... in italiano?
+  - Come?
+  examples:
+  - Scusi, può ripetere?
+  - Più lentamente, per favore.
+  - Come si dice 'train' in italiano?
+- id: a0_dire_ora
+  cefr_level: A0
+  category: interagire_informazioni
+  label: Dire l'ora
+  description: Asking and telling the time
+  patterns:
+  - Che ore sono?
+  - Sono le...
+  - È l'una.
+  - A che ora...?
+  examples:
+  - Che ore sono?
+  - Sono le tre e mezza.
+  - A che ora parte il treno?
+- id: a0_comprare_biglietto
+  cefr_level: A0
+  category: interagire_attivita_azioni
+  label: Comprare un biglietto
+  description: Buying transport tickets and asking about timetables
+  patterns:
+  - Vorrei un biglietto per...
+  - Andata e ritorno.
+  - Da che binario?
+  - A che ora parte...?
+  examples:
+  - Vorrei un biglietto per Roma, per favore.
+  - Andata e ritorno.
+  - Da che binario parte il treno?
+- id: a0_descrivere_problema
+  cefr_level: A0
+  category: interagire_attivita_azioni
+  label: Descrivere un problema
+  description: Describing an emergency or problem and asking for help
+  patterns:
+  - Ho perso...
+  - Ho bisogno di...
+  - Aiuto!
+  - Dov'è l'ospedale / la farmacia?
+  examples:
+  - Ho perso il passaporto.
+  - Ho bisogno di un medico.
+  - Dov'è la farmacia?
+- id: interag_identi_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Identificare
+  description: Point out or name people and things using 'questo', 'quello', or 'si chiama'.
+    E.g. <span lang="it">Questo è il mio libro</span> or <span lang="it">Lei si chiama Anna</span>.
+  patterns:
+  - …questo (a) / quello (a) / questi (e) / quelli (e)
+  - …è gruppo nominale …
+  - …si chiama nome …
+  examples:
+  - Vorrei questo (con supporto gestuale).
+  - È la mia professoressa.
+  - Lui si chiama Mario.
+- id: interag_identi_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Identificare
+  patterns:
+  - …ecco pronome
+  - '... ecco gruppo nominale …'
+  - …è nome …
+  - '...è pronome'
+  - … gruppo nominale …
+  - … pronome è…
+  - …è quello/a che…
+  examples:
+  - Eccola!
+  - Ecco la tua borsa.
+  - Guarda, è Anna!
+  - (Di chi è questo libro?) È il mio.
+  - (Chi è Mario?) È lui.
+  - Oggi metto il vestito blu.
+  - (È questo il Suo cappotto?)
+  - No, il mio è nero e senza tasche.
+  - È quello che ho visto in vetrina.
+- id: interag_identi_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Identificare
+  patterns:
+  - …intendo pronome …
+  - È / sono gruppo nominale che proposizione
+  examples:
+  - Intendo lui, non lei.
+  - È Lucia che ho incontrato in stazione.
+- id: interag_asserire_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Asserire
+  description: State facts about yourself or the world. Use phrases like <span lang="it">Sono
+    stanco</span> or <span lang="it">Abito a Milano</span> to share basic information.
+  patterns:
+  - …sono gruppo nominale / aggettivo o gruppo aggettivale …
+  - Proposizione
+  examples:
+  - Sono uno studente.
+  - Sono stanco.
+  - Abito a Milano.
+  - Non ho capito.
+- id: interag_asserire_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Asserire
+  patterns:
+  - Proposizione (o sequenza di proposizioni )
+  examples:
+  - Piove.
+- id: interag_descriv_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Descrivere
+  description: Describe people, places, and things using adjectives or 'c'è / ci sono'. E.g.
+    <span lang="it">La mia camera è grande</span> or <span lang="it">C'è un tavolo</span>.
+  patterns:
+  - …è aggettivo o gruppo aggettivale …
+  - C’è gruppo nominale …
+  examples:
+  - La mia camera è grande.
+  - Ci sono un letto e un tavolo.
+- id: interag_descriv_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Descrivere
+  patterns:
+  - …c’è gruppo nominale / gruppo preposizionale …
+  - Sta + verbo gerundio
+  - Era / aveva …
+  examples:
+  - Sulla parete del mio soggiorno ci sono due quadri e vicino al divano c’è un mobile antico.
+  - Quel ragazzo sta leggendo.
+  - Era alto e aveva i capelli biondi.
+- id: interag_descriv_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Descrivere
+  patterns:
+  - Proposizione ( o sequenza di proposizioni )
+  examples:
+  - Il mio appartamento si trovava in periferia e ci voleva mezz’ora per arrivare in centro.
+- id: interag_descriv_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Descrivere
+  patterns:
+  - Proposizione ( o sequenza di proposizioni )¹
+  - …come…²
+  examples:
+  - In fondo alla piazza c’è il duomo. A destra il museo e a sinistra la torre.
+  - In primo piano la figura di donna, sullo sfondo il paesaggio.
+  - Il quadro rappresenta un paesaggio.
+  - Era bello come il sole.
+- id: interag_racrip_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Raccontare / Riportare
+  patterns:
+  - Proposizione (o sequenza di proposizioni )
+  - Proposizione (o sequenza di proposizioni )
+  examples:
+  - Ieri sono andato a scuola e poi sono andato in biblioteca.
+  - Ora Luca abita a Londra, è sposato e ha due bambini.
+- id: interag_racrip_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Raccontare / Riportare
+  patterns:
+  - Proposizione (o sequenza di proposizioni )¹
+  - Gruppo nominale / pronome dice / ha detto che proposizione
+  examples:
+  - Domenica scorsa mio fratello ha incontrato un suo vecchio amico mentre camminava sulla
+    spiaggia.
+  - Il professore ha detto che dobbiamo finire l’esercizio .
+- id: interag_racrip_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Raccontare / Riportare
+  patterns:
+  - Gruppo nominale/pronome ha detto proposizione (verbo condizionale)
+  - Si tratta/si parla di ...
+  - Proposizione (o sequenza di proposizioni) presente narrativo
+  - Proposizione (o sequenza di proposizioni) passato remoto
+  examples:
+  - Il professore ha detto che oggi non avrebbe fatto lezione.
+- id: interag_inform01_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi su un oggetto / una persona
+  description: Ask questions to find out about a person or thing. Use interrogative sentences
+    like <span lang="it">Che cosa mangi?</span> or <span lang="it">Chi è quella persona?</span>.
+  patterns:
+  - Proposizione interrogativa
+  examples:
+  - Che cosa mangi?
+- id: interag_inform01_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi su un oggetto / una persona
+  patterns:
+  - Gruppo preposizionale
+  examples:
+  - A che cosa pensi?
+  - Di chi è questo libro?
+- id: interag_inform01_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi su un oggetto / una persona
+  patterns:
+  - Sai proposizione interrogativa
+- id: interag_inform01_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Informarsi su un oggetto / una persona
+  patterns:
+  - Mi piacerebbe sapere chi / che cosa proposizione
+  - Mi piacerebbe conoscere gruppo nominale
+  examples:
+  - Mi piacerebbe sapere che cosa ne pensa lui.
+  - Mi piacerebbe conoscere la tua opinione.
+- id: interag_inform02_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi sul tempo
+  description: Ask about time — when something happens or what time it is. Use questions like
+    <span lang="it">A che ora parte il treno?</span> or <span lang="it">Quando apre il negozio?</span>
+  patterns:
+  - Quando / A che ora /…?
+  examples:
+  - A che ora parte il treno per Roma?
+- id: interag_inform02_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi sul tempo
+  patterns:
+  - Quando / A che ora /…?
+  examples:
+  - Quando hai letto questo libro?
+  - A che ora ci vediamo?
+- id: interag_inform03_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi sul luogo
+  description: Ask where something or someone is located using <span lang="it">Dove /...?</span>
+    (Where is...?). Essential for navigating new places and finding what you need.
+  patterns:
+  - Dove /...?
+  examples:
+  - Dov'è Piazza Maggiore?
+- id: interag_inform03_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi sul luogo
+  patterns:
+  - Dove /...?
+  examples:
+  - Dove sei andato ieri?
+- id: interag_inform03_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi sul luogo
+  patterns:
+  - In quale /...?
+  examples:
+  - In quale regione si trova Roma?
+- id: interag_inform04_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi sul modo
+  description: Ask 'how' questions to find out the way something is done or how someone is.
+    Use <span lang="it">Come ti chiami?</span> or <span lang="it">Come stai?</span>.
+  patterns:
+  - Come /...?
+  examples:
+  - Come ti chiami?
+- id: interag_inform04_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi sul modo
+  patterns:
+  - Come /...?
+  examples:
+  - Come posso fare?
+- id: interag_inform04_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi sul modo
+  patterns:
+  - In che modo /...?
+  examples:
+  - In che modo si prepara l’arrosto?
+- id: interag_inform05_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi sulla quantità
+  description: Ask 'how much/many' about prices, ages, quantities, and more. Use <span lang="it">Quanto
+    costa?</span> or <span lang="it">Quanti anni hai?</span> to get the numbers you need.
+  patterns:
+  - Quanto / i / a / e...?
+  examples:
+  - Quanto costa?
+  - Quanti anni hai?
+- id: interag_inform05_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi sulla quantità
+  patterns:
+  - Quanto / i / a / e...?
+  examples:
+  - Quanti caffè hai bevuto?
+- id: interag_inform06_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi sulla causa
+  description: Ask why something is happening or happened. Use <span lang='it'>Perché?</span>
+    on its own or in a question like <span lang='it'>Perché sei triste?</span>
+  patterns:
+  - Perché?
+  examples:
+  - Perché?
+- id: interag_inform06_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi sulla causa
+  patterns:
+  - Perché?
+  examples:
+  - Perché esci?
+- id: interag_inform06_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi sulla causa
+  patterns:
+  - Per quale motivo /...?
+  examples:
+  - Per quale motivo hai scelto questa facoltà?
+- id: interag_inform06_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Informarsi sulla causa
+  patterns:
+  - Come mai...?
+  examples:
+  - Come mai non è possibile pagare con la carta di credito?
+- id: interag_inform07_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Informarsi chiedendo di identificare
+  description: Ask 'which one?' to identify a specific person, thing, or option. Use <span
+    lang="it">Quale…?</span> or <span lang="it">Qual è…?</span> to narrow down a choice.
+  patterns:
+  - Quale…?
+  examples:
+  - Qual è il tuo numero di telefono?
+- id: interag_inform07_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi chiedendo di identificare
+  patterns:
+  - Quale...?
+  - Che / Chi...come...?
+  - Gruppo preposizionale ...?
+  examples:
+  - Quale camicia preferisci?
+  - Per chi hai comprato questo regalo?
+- id: interag_inform07_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi chiedendo di identificare
+  patterns:
+  - Che tipo di / ...?
+  - '...quale...?'
+  examples:
+  - Che tipo di lavoro dovrei fare?
+  - Tra queste materie quale t’interessa di più?
+- id: interag_inform08_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Informarsi chiedendo una conferma o una smentita
+  patterns:
+  - Va bene?
+- id: interag_inform08_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi chiedendo una conferma o una smentita
+  patterns:
+  - Proposizione , vero?
+  examples:
+  - Parti domani, vero?
+- id: interag_inform08_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Informarsi chiedendo una conferma o una smentita
+  patterns:
+  - Proposizione interrogativa (indiretta)
+  - Proposizione , non credi?
+  - Se ho capito bene/ se non mi sbaglio, proposizione ?
+  - Proposizione , eh?
+  - Proposizione , no?
+  examples:
+  - Vorrei (volevo) sapere se il treno è in orario.
+  - È simpatica, non credi?
+  - Se ho capito bene, l’appuntamento è alle nove?
+  - È bello, eh?
+  - Il film è interessante, no?
+- id: interag_inform09_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Informarsi pretendendo una risposta (conferma o smentita)
+  patterns:
+  - Proposizione , sì o no?
+  - Proposizione o proposizione negativa ?
+  - Proposizione o no?¹
+  examples:
+  - Signorina, il fax lo ha spedito, sì o no?
+  - Mi ascolti o non mi ascolti?
+  - Mi ascolti o no?
+- id: interag_inform10_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Informarsi mettendo in dubbio un’affermazione
+  patterns:
+  - Sei sicuro / a ?
+  - Veramente /…?
+  examples:
+  - Sono già le otto?
+  - Sei sicuro?
+- id: interag_inform11_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Informarsi esprimendo la propria curiosità
+  patterns:
+  - Mi piacerebbe (volevo, vorrei) sapere /… proposizione interrogativa ( indiretta )
+  examples:
+  - Mi piacerebbe sapere che cosa ne pensa lui.
+- id: interag_confsment_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Confermare, smentire
+  description: Confirm or deny a statement using simple words like 'Sì', 'No', 'Certo', or
+    phrases like 'È vero' / 'Non è vero'. Max ~150 chars.
+  patterns:
+  - Sì / No / Certo
+  - Non è vero / È vero
+  examples:
+  - — Sei italiano? — Sì, sono italiano.
+  - — Maria abita a Roma? — No, non abita a Roma.
+  - — È vero che hai un cane? — Certo, ho un cane!
+  - — Questo è il tuo zaino? — No, non è vero, non è mio.
+  - — Parli francese? — No, non parlo francese.
+  - — È vero che la lezione è alle nove? — Sì, è vero.
+- id: interag_confsment_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Confermare, smentire
+  patterns:
+  - Penso / credo di sì / no
+  - No, ti sbagli
+  - No, per niente
+- id: interag_confsment_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Confermare, smentire
+  patterns:
+  - Proposizione negativa affatto
+  examples:
+  - Non è affatto vero.
+- id: interag_contrad01_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Contraddire un’asserzione positiva
+  patterns:
+  - Proposizione negativa ,
+  - proposizione
+  examples:
+  - (Quel ragazzo è italiano)
+- id: interag_contrad01_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Contraddire un’asserzione positiva
+  patterns:
+  - No , proposizione
+  examples:
+  - (Ha ragione lui)
+- id: interag_contrad02_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Contraddire un’asserzione negativa
+  patterns:
+  - Certo che proposizione
+  examples:
+  - (Ma proprio non hai capito!) Certo che ho capito.
+- id: interag_rispondere01_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda con una conferma o una smentita
+  description: Confirm or deny something by answering 'yes', 'no', or 'of course'. Use phrases
+    like <span lang="it">Sì / No / Certo</span> or <span lang="it">È vero / Non è vero</span>.
+  patterns:
+  - Sì / No / Certo
+  - Non è vero / È vero
+  examples:
+  - — Sei italiano? — Sì, sono italiano.
+  - — Parli francese? — No, non parlo francese.
+  - — È vero che Marco è a Roma? — Sì, è vero.
+  - — Questa è la tua borsa? — No, non è mia.
+  - — Sei tu il nuovo studente? — Certo, sono io!
+  - — Non è vero che hai un cane? — È vero, ho un cane.
+- id: interag_rispondere01_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda con una conferma o una smentita
+  patterns:
+  - Penso / credo di sì / no
+  - No, ti sbagli
+  - No, per niente
+- id: interag_rispondere01_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Rispondere a una domanda con una conferma o una smentita
+  patterns:
+  - Proposizione negativa affatto
+  examples:
+  - Non è affatto vero.
+- id: interag_rispondere02_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul tempo
+  description: Answer questions about time — when something happens or how long it takes.
+    Use words like <span lang="it">oggi</span>, <span lang="it">domani</span>, or phrases
+    like <span lang="it">alle 8.00</span>.
+  patterns:
+  - Avverbio …
+  - Preposizione
+  examples:
+  - (Quando parti?) Oggi.
+  - Alle 8.00.
+- id: interag_rispondere02_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul tempo
+  patterns:
+  - Gruppo preposizionale
+  examples:
+  - (Quando parti?)
+- id: interag_rispondere02_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul tempo
+  patterns:
+  - Proposizione
+  examples:
+  - (Quando parti?)
+  - Dopo che avrò finito il corso.
+- id: interag_rispondere03_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul luogo
+  description: Answer 'where' questions using simple location adverbs or short phrases. E.g.
+    <span lang="it">Lì</span>, <span lang="it">Qui</span>, or <span lang="it">È in centro</span>.
+  patterns:
+  - Avverbio …
+  examples:
+  - (Dov’è la scuola?)
+  - Lì (con supporto gestuale).
+- id: interag_rispondere03_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul luogo
+  patterns:
+  - Gruppo preposizionale
+  - Pronome
+  examples:
+  - (Dov’è la scuola?)
+  - Di fronte alla farmacia.
+  - (Sei andato in biblioteca?)
+  - Sì, ci sono andato ieri.
+- id: interag_rispondere04_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul modo
+  description: Answer questions about *how* something happens or how someone feels. Use adverbs
+    like <span lang="it">bene</span>, <span lang="it">male</span>, or <span lang="it">lentamente</span>
+    to describe manner.
+  patterns:
+  - Avverbio
+  examples:
+  - (Come stai?)
+  - Bene, grazie.
+- id: interag_rispondere04_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul modo
+  patterns:
+  - Gruppo preposizionale
+  examples:
+  - (Come chiudi la porta?)
+  - Con questa chiave.
+- id: interag_rispondere04_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul modo
+  patterns:
+  - Avverbio
+  - Gruppo preposizionale
+  examples:
+  - (Come guida tua sorella?) Attentamente.
+  - Con attenzione.
+- id: interag_rispondere04_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sul modo
+  patterns:
+  - Verbo gerundio
+  examples:
+  - (Come passavi il tempo?) Ascoltando la musica.
+- id: interag_rispondere05_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda, dando delle informazioni sul grado e sulla quantità
+  description: Answer questions about degree or quantity using adjectives or adverbs. E.g.
+    'Molto bene' or 'Venticinque.'
+  patterns:
+  - Avverbio
+  - Aggettivo
+  examples:
+  - (Come va?) Molto bene.
+  - (Quanti anni hai?) Venticinque.
+- id: interag_rispondere05_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda, dando delle informazioni sul grado e sulla quantità
+  patterns:
+  - Gruppo nominale
+  examples:
+  - (Quanto ne vuole?) Due etti.
+- id: interag_rispondere05_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda, dando delle informazioni sul grado e sulla quantità
+  patterns:
+  - Pronome
+  examples:
+  - (Quanti ne prende?) Ne prendo due.
+- id: interag_rispondere06_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sulla causa
+  description: Answer 'why' questions by giving a reason. Use <span lang="it">Perché</span>
+    to explain causes, e.g. <span lang="it">Perché sono stanco</span> ('Because I'm tired').
+  patterns:
+  - Perché gruppo verbale
+  examples:
+  - (Perché vai a casa?)
+  - Perché sono stanco.
+- id: interag_rispondere06_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dando delle informazioni sulla causa
+  patterns:
+  - Proposizione
+  examples:
+  - (Perché parti la settimana prossima?)
+  - Perché devo tornare a scuola.
+- id: interag_rispondere07_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda, identificando
+  description: Answer a question by identifying a person or thing. Use 'questo/quello', 'è
+    + noun', or 'si chiama + name' — e.g. 'È la mia professoressa' or 'Lui si chiama Mario.'
+  patterns:
+  - …questo (a) / quello (a) / questi (e) / quelli (e)
+  - …è gruppo nominale …
+  - …si chiama nome …
+  examples:
+  - Vorrei questo (con supporto gestuale).
+  - È la mia professoressa.
+  - Lui si chiama Mario.
+- id: interag_rispondere07_a2
+  cefr_level: A2
+  category: interagire_informazioni
+  label: Rispondere a una domanda, identificando
+  patterns:
+  - …ecco pronome
+  - '... ecco gruppo nominale …'
+  - …è nome …
+  - '...è pronome'
+  - … gruppo nominale …
+  - … pronome è…
+  - …è quello/a che…
+  examples:
+  - Eccola!
+  - Ecco la tua borsa.
+  - Guarda, è Anna!
+  - (Di chi è questo libro?) È il mio.
+  - (Chi è Mario?) È lui.
+  - Oggi metto il vestito blu.
+  - (È questo il Suo cappotto?)
+  - No, il mio è nero e senza tasche.
+  - È quello che ho visto in vetrina.
+- id: interag_rispondere08_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda con un’altra domanda
+  patterns:
+  - E secondo te?
+- id: interag_rispondere08_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Rispondere a una domanda con un’altra domanda
+  patterns:
+  - Proposizione?
+  - Proposizione?
+  examples:
+  - (Pensi di parlargli subito?) Perché me lo chiedi?
+  - Tu che ne dici?
+- id: interag_rispondere09_a1
+  cefr_level: A1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dichiarando la propria ignoranza
+  description: Respond to a question by admitting you don't know the answer. Use phrases like
+    <span lang="it">Non lo so</span> or <span lang="it">Non so</span>.
+  patterns:
+  - Non lo so / Non so¹
+  - '¹ Nota: uso formulaico'
+  examples:
+  - <span lang="it">— Dove abita Marco? — Non lo so.</span>
+  - <span lang="it">— A che ora arriva il treno? — Non so, mi dispiace.</span>
+  - <span lang="it">— Come si chiama quel ristorante? — Non lo so, non sono di qui.</span>
+  - <span lang="it">— Quanti anni ha la professoressa? — Non lo so!</span>
+  - <span lang="it">— Perché Luigi non è venuto? — Non so, forse è malato.</span>
+- id: interag_rispondere09_b1
+  cefr_level: B1
+  category: interagire_informazioni
+  label: Rispondere a una domanda dichiarando la propria ignoranza
+  patterns:
+  - Non ne ho idea
+- id: interag_rispondere09_b2
+  cefr_level: B2
+  category: interagire_informazioni
+  label: Rispondere a una domanda dichiarando la propria ignoranza
+  patterns:
+  - Non ne so niente
+- id: intatt_espop_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria opinione
+  patterns:
+  - Secondo me / per me, proposizione
+  - (Mi) sembra + aggettivo / gruppo nominale
+  examples:
+  - Secondo me Luisa è una ragazza intelligente.
+  - Sembra simpatico.
+- id: intatt_espop_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria opinione
+  patterns:
+  - Penso/credo che proposizione
+  - Sembra + proposizione infinitiva
+  - Mi sembra / pare che proposizione
+  examples:
+  - Penso che tu abbia ragione.
+  - Quella ragazza sembra essere felice.
+  - Mi sembra che Luca non stia bene.
+- id: intatt_espop_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria opinione
+  patterns:
+  - Dal mio punto di vista / a mio parere, proposizione
+  - Per quanto mi riguarda, proposizione
+  - Personalmente, proposizione
+  - Ho l’impressione / Ho la sensazione che proposizione
+  - Direi che proposizione
+  - È opportuno / bene… che proposizione
+  - Trovo che proposizione
+  examples:
+  - Dal mio punto di vista, questa cosa non è corretta.
+  - Per quanto mi riguarda,l’argomento è chiuso.
+  - Personalmente, la lascerei stare.
+  - Ho l’impressione che questa storia vada a finire male.
+  - Direi che non è colpa nostra.
+  - È bene che tu domani vada a scuola.
+  - Trovo che Maria sia davvero simpatica.
+- id: intatt_espaccsrisp_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo senza riserve
+  description: Express full agreement with what someone has said. Use <span lang="it">Sì</span>
+    to confirm you share their view completely.
+  patterns:
+  - Sì
+  examples:
+  - (Fa freddo). Sì.
+- id: intatt_espaccsrisp_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo senza riserve
+  patterns:
+  - Sì, è vero
+  - Sì, va bene
+  - Hai ragione/ Sono d’accordo
+  examples:
+  - (Questo abito è molto bello) Sì, è vero.
+  - (Luca non è molto simpatico) Hai ragione.
+- id: intatt_espaccsrisp_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo senza riserve
+  patterns:
+  - Assolutamente
+- id: intatt_espaccsrisp_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo senza riserve
+  patterns:
+  - Sì è (proprio) vero (che) proposizione
+  examples:
+  - (È veramente un bel quadro)
+  - Sì, è proprio vero che è bello.
+- id: intatt_espaccriserv_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo con delle riserve
+  patterns:
+  - È probabile / possibile
+  - Forse sì, ma
+  - Sì va bene, però
+- id: intatt_espaccriserv_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo con delle riserve
+  patterns:
+  - Chissà
+  - Forse, ma io non ne sarei così sicuro
+  - Potrebbe essere, ma proposizione
+  - Può darsi
+  - Non è sicuro che proposizione
+- id: intatt_espaccaltern_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il proprio accordo proponendo un’alternativa
+  patterns:
+  - È giusto / vero, ma proposizione
+  - Sì certo / sono d’accordo / ma proposizione
+  - È giusto / vero che proposizione , ma proposizione
+  - Proposizione , ma proposizione
+  examples:
+  - È vero, ma sarà comunque interessante.
+  - È giusto che tu ci vada, ma io sceglierei un altro momento.
+  - È una buona occasione, ma io ci penserei un po’.
+- id: intatt_espdisaspo_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione positiva
+  description: Disagree with a positive statement someone has made. Use 'No,' followed by
+    the correct information, e.g. 'No, fa caldo.'
+  patterns:
+  - No, proposizione
+  examples:
+  - (Fa freddo). No, fa caldo.
+- id: intatt_espdisaspo_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione positiva
+  patterns:
+  - Non sono d’accordo, secondo me…
+  - No, non è vero
+  examples:
+  - (È un film noioso)
+  - Non sono d’accordo, secondo me è divertente.
+- id: intatt_espdisaspo_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione positiva
+  patterns:
+  - No, assolutamente / per niente
+- id: intatt_espdisaspo_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione positiva
+  patterns:
+  - Non penso proprio¹
+  - Hai torto
+- id: intatt_espdisasneg_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione negativa
+  patterns:
+  - Sì (...)
+  examples:
+  - (Valeria non frequenta le lezioni).
+- id: intatt_espdisasneg_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo rispetto ad un’asserzione negativa
+  patterns:
+  - Sì / Certo che proposizione
+  examples:
+  - (Questo studente non ha restituito il libro).
+- id: intatt_espdisattenuato_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo in modo attenuato
+  patterns:
+  - Non credo / penso. Io (piuttosto) credo che proposizione
+  - Non ne sono così sicuro, secondo me proposizione
+  - Tu credi / pensi?¹
+  - Sei sicuro?²
+  - Non proprio
+- id: intatt_espdistotale_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo totale
+  patterns:
+  - Hai fatto male
+- id: intatt_espdistotale_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un disaccordo totale
+  patterns:
+  - Male!
+  - Non ha senso!
+  - È assurdo / ridicolo / impensabile /...!
+  - Lascia perdere!
+- id: intatt_espapprov_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria approvazione
+  description: Express approval of something or someone. Use simple words like <span lang="it">Bene!</span>
+    to show you think something is good or done well.
+  patterns:
+  - Bene!
+  examples:
+  - — Ho finito i compiti! — Bene!
+  - — Come stai? — Bene, grazie!
+  - — Ecco il tuo caffè. — Bene, grazie mille!
+  - — Ho prenotato il tavolo per le otto. — Bene! Perfetto.
+  - — Ho parlato con il professore. — Bene! Molto bene.
+- id: intatt_espapprov_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria approvazione
+  patterns:
+  - È una buona idea!
+- id: intatt_espapprov_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria approvazione
+  patterns:
+  - Ottimo!
+  - Perfetto!
+  - Hai fatto bene
+- id: intatt_espdisapprov_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria disapprovazione
+  patterns:
+  - Hai fatto male
+- id: intatt_espdisapprov_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria disapprovazione
+  patterns:
+  - Male!
+  - Non ha senso!
+  - È assurdo / ridicolo / impensabile /...!
+  - Lascia perdere!
+- id: intatt_direconosce_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Dire ciò che si sa / si conosce
+  description: Express that you know something or someone. Use phrases like <span lang="it">Lo
+    so</span> or <span lang="it">Conosco...</span> to share your knowledge in conversation.
+  patterns:
+  - Lo so.
+  examples:
+  - — Sai dov'è la stazione? — Sì, lo so! È vicino al centro.
+  - Conosco Maria. È la mia amica.
+  - So parlare un po' di italiano.
+  - — Come si chiama il professore? — Non lo so, ma so che è italiano.
+  - Conosco questo posto. Ci vengo spesso.
+  - So già la risposta!
+- id: intatt_direconosce_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Dire ciò che si sa / si conosce
+  patterns:
+  - Conoscere gruppo nominale .
+  examples:
+  - Conosco quel ragazzo.
+- id: intatt_direconosce_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Dire ciò che si sa / si conosce
+  patterns:
+  - So che proposizione
+  examples:
+  - So che Mario è già partito.
+- id: intatt_direconosce_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Dire ciò che si sa / si conosce
+  patterns:
+  - Ho sentito dire che proposizione
+  examples:
+  - Ho sentito dire che l’ultimo film di Benigni è molto divertente.
+  - Ho sentito parlare di Italo Calvino.
+- id: intatt_espproigno_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria ignoranza
+  description: Express that you don't know something. Use 'Non lo so' when you can't answer
+    a question or lack information.
+  patterns:
+  - Non lo so¹
+  - '¹ Nota: uso formulaico'
+  examples:
+  - — Dove abita Marco? — Non lo so.
+  - — Quanti anni ha la professoressa? — Non lo so!
+  - — A che ora apre il museo? — Mah, non lo so.
+  - — Com'è il tempo a Milano adesso? — Non lo so, mi dispiace.
+  - — Dov'è la fermata dell'autobus? — Non lo so, sono nuovo qui.
+- id: intatt_espproigno_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria ignoranza
+  patterns:
+  - Non conosco gruppo nominale
+  examples:
+  - Non conosco questa persona.
+- id: intatt_espproigno_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria ignoranza
+  patterns:
+  - Non so se proposizione
+  examples:
+  - Non so se Valeria sia riuscita a prendere il treno in tempo.
+- id: intatt_espfatric_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il fatto di ricordarsi
+  patterns:
+  - Sì, mi ricordo
+  - Mi ricordo / non ho dimenticato gruppo nominale
+  examples:
+  - (Ti ricordi del nostro appuntamento di domani?)
+  - Sì, mi ricordo.
+  - Mi ricordo il suo numero di telefono.
+- id: intatt_espfatric_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il fatto di ricordarsi
+  patterns:
+  - Mi ricordo che proposizione
+  - Mi sono ricordato / non ho dimenticato di proposizione infinitiva
+  - Mi ricordo di gruppo nominale / pronome
+  examples:
+  - Mi ricordo che c’era il sole.
+  - Mi sono ricordato di comprare il vino.
+  - Mi ricordo di sua madre.
+- id: intatt_espfatdim_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il fatto di avere dimenticato
+  patterns:
+  - No, non mi ricordo
+  - Non ricordo / ho dimenticato gruppo nominale
+  examples:
+  - (Ti ricordi di mio cugino Gianni?) No, non mi ricordo.
+  - Non ricordo il suo nome.
+- id: intatt_espfatdim_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il fatto di avere dimenticato
+  patterns:
+  - Ho dimenticato che proposizione
+  - Non mi sono ricordato/ ho dimenticato di proposizione infinitiva
+  - Non mi ricordo di gruppo nominale / pronome
+  examples:
+  - Ho dimenticato che domani è festa.
+  - Non mi sono ricordato di fare la spesa.
+  - Non mi ricordo di lui.
+- id: intatt_espfatdim_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere il fatto di avere dimenticato
+  patterns:
+  - Non mi viene in mente
+  - Non mi ricordo (più) se proposizione
+- id: intatt_ricqualqualcuno_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Ricordare qualcosa a qualcuno
+  patterns:
+  - ( Proposizione ,) ti ricordi?
+  - Ti ricordi che / come / quando... proposizione ?
+  - Ricordati/ non dimenticarti ( gruppo nominale / di) !
+  examples:
+  - L’albergo era bellissimo, ti ricordi?
+  - Ti ricordi come si chiama?
+  - Ti ricordi che domani è il suo compleanno?
+  - Ricordati le chiavi.
+  - Ricordati che domani è vacanza.
+  - Non dimenticarti di pagare l’affitto.
+- id: intatt_espprocert_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria certezza
+  patterns:
+  - Sì, sono sicuro
+- id: intatt_espprocert_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria certezza
+  patterns:
+  - Sono sicuro /… di proposizione infinitiva che proposizione
+  examples:
+  - Sono sicuro che Mario ha trent’anni.
+  - Sono sicuro di incontrarlo alla festa.
+- id: intatt_espprocert_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria certezza
+  patterns:
+  - È sicuro/certo/ ...che proposizione
+  examples:
+  - È sicuro che lui non cambierà idea.
+  - Non c’è dubbio che passerà l’esame.
+  - Lo farà, senza dubbio.
+- id: intatt_espproincert_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria incertezza o la propria perplessità
+  patterns:
+  - No, non sono sicuro
+- id: intatt_espproincert_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria incertezza o la propria perplessità
+  patterns:
+  - Non sono sicuro /… di proposizione infinitiva
+  - Non so che cosa dire
+  examples:
+  - Non sono sicuro di partire domani.
+- id: intatt_espproincert_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria incertezza o la propria perplessità
+  patterns:
+  - Non sono sicuro che.../ proposizione
+  - Non so (bene) se proposizione
+  examples:
+  - Non sono sicuro che lui abbia detto la verità.
+- id: intatt_espproincred_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria incredulità
+  patterns:
+  - Veramente?
+  examples:
+  - (Mia sorella ha avuto una bambina).
+  - Veramente?
+- id: intatt_espproincred_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria incredulità
+  patterns:
+  - Dubito che proposizione
+  - Mi sembra / mi pare improbabile / impossibile /... che proposizione
+  examples:
+  - Dubito che Valeria sia già partita.
+- id: intatt_espevidenza_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere l’evidenza
+  patterns:
+  - È chiaro /... che proposizione
+  examples:
+  - È chiaro che a Mario piace Lucia.
+- id: intatt_espevidenza_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere l’evidenza
+  patterns:
+  - Non c’è (alcun) dubbio che proposizione
+  examples:
+  - Non c’è dubbio che tu abbia capito male.
+- id: intatt_espprobpos_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la probabilità o la possibilità
+  patterns:
+  - Probabilmente / forse proposizione .
+  - È possibile .
+  examples:
+  - Probabilmente tornerà in aereo
+- id: intatt_espprobpos_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la probabilità o la possibilità
+  patterns:
+  - '... verbo futuro (semplice e anteriore)'
+  - È probabile.
+  - Potrei / dovrei
+  examples:
+  - (Che ore saranno) Saranno circa le otto.
+  - (Dov’è Valeria?) Mah, sarà già andata a casa.
+  - Potrei arrivare a casa tua stasera tardi.
+  - Dovrei essere a Milano verso le otto.
+- id: intatt_espprobpos_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la probabilità o la possibilità
+  patterns:
+  - Immagino / ho l’impressione che proposizione
+  examples:
+  - Ho l’impressione che il professore sia di cattivo umore.
+- id: intatt_espimprobab_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere l’improbabilità
+  patterns:
+  - È improbabile.
+  - Non sembra che proposizione
+- id: intatt_espimprobab_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere l’improbabilità
+  patterns:
+  - È improbabile che proposizione
+  - Ci sono poche probabilità che proposizione
+  examples:
+  - È improbabile che venga anche lei stasera.
+- id: intatt_espprocapincap_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria capacità/incapacità
+  description: Express what you can or can't do using <span lang="it">so</span> + infinitive.
+    E.g. <span lang="it">So scrivere</span> (I can write) or <span lang="it">Non so nuotare</span>
+    (I can't swim).
+  patterns:
+  - Proposizione (io) so + verbo infinito
+  examples:
+  - So scrivere.
+- id: intatt_espprocapincap_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria capacità/incapacità
+  patterns:
+  - Posso / non posso verbo infinito
+  examples:
+  - Oggi non posso cucinare.
+- id: intatt_espprocapincap_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria capacità/incapacità
+  patterns:
+  - Sono capace di proposizione infinitiva
+  - Riesco a proposizione infinitiva
+  examples:
+  - Sono capace di nuotare per ore.
+- id: intatt_espprocapincap_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere la propria capacità/incapacità
+  patterns:
+  - Ce la faccio a proposizione infinitiva
+  - Sono in grado di proposizione infinitiva
+  examples:
+  - Ce la faccio a finire in tempo.
+- id: intatt_espdesiderio_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un desiderio
+  description: Express what you want or wish for. Use <span lang="it">Vorrei</span> + a noun
+    to politely say what you'd like, e.g. <span lang="it">Vorrei un caffè</span>.
+  patterns:
+  - Vorrei / gruppo nominale
+  examples:
+  - Vorrei un caffè.
+- id: intatt_espdesiderio_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un desiderio
+  patterns:
+  - Vorrei / verbo infinito
+  - Ho voglia di gruppo nominale
+  examples:
+  - Vorrei andare al mare.
+  - Ho voglia di un bel gelato.
+- id: intatt_espdesiderio_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un desiderio
+  patterns:
+  - Mi piacerebbe proposizione infinitiva / gruppo nominale
+  - Ho voglia di proposizione infinitiva
+  - '...verbo condizionale ( volentieri )...'
+  - Non vedo l’ora di proposizione infinitiva
+  examples:
+  - Mi piacerebbe leggere le favole di Italo Calvino in italiano.
+- id: intatt_espdesiderio_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un desiderio
+  patterns:
+  - Voglio / vorrei / mi piacerebbe che proposizione
+  - Mi auguro di proposizione infinitiva / che proposizione
+  - Desidero / desidererei gruppo nominale / proposizione / che proposizione
+  - Mi va gruppo nominale / di proposizione infinitiva / che proposizione
+  examples:
+  - Voglio che Luca torni presto.
+- id: intatt_espintenz_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’intenzione
+  description: Express what you plan or intend to do. Use 'Voglio + infinitive', e.g. <span
+    lang="it">Voglio cambiare casa</span> or <span lang="it">Voglio studiare italiano</span>.
+  patterns:
+  - Voglio verbo infinito
+  examples:
+  - Voglio cambiare casa.
+- id: intatt_espintenz_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’intenzione
+  patterns:
+  - Verbo futuro
+  examples:
+  - La settimana prossima andrò a Roma.
+- id: intatt_espintenz_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’intenzione
+  patterns:
+  - Credo / penso /... di proposizione infinitiva
+  - Ho deciso di proposizione infinitiva
+  examples:
+  - Penso di tornare verso le otto.
+  - Ho deciso di partire domani.
+- id: intatt_espintenz_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’intenzione
+  patterns:
+  - Ho intenzione di proposizione infinitiva
+  examples:
+  - Ho intenzione di iscrivermi al corso di letteratura contemporanea
+- id: intatt_espobbdivieto_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un obbligo, un divieto
+  description: Express that something must or must not be done. Use 'Devo...' (I must/have
+    to) for obligations, e.g. 'Devo andare a lezione.'
+  patterns:
+  - Devo verbo futuro
+  examples:
+  - Devo andare a lezione.
+- id: intatt_espobbdivieto_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un obbligo, un divieto
+  patterns:
+  - Devo (assolutamente) verbo infinito
+  - Bisogna proposizione infinitiva
+  examples:
+  - Devo assolutamente partire con questo aereo.
+  - Ora bisogna andare.
+- id: intatt_espobbdivieto_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un obbligo, un divieto
+  patterns:
+  - È obbligatorio / necessario / indispensabile proposizione / gruppo nominale
+  - È vietato / proibito proposizione
+  - Proposizione infinitiva
+  - Sono obbligato / costretto a proposizione infinitiva
+  examples:
+  - È obbligatorio mettersi la cintura di sicurezza .
+  - Togliersi le scarpe prima di entrare.¹
+  - Sono obbligato a pagare questa multa.
+- id: intatt_espnorsocmor_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere una norma sociale o morale
+  patterns:
+  - (Non) devi / puoi verbo infinito
+  - Si deve / bisogna proposizione infinitiva
+  examples:
+  - Non devi gettare la carta per terra.
+  - Non puoi attraversare la strada con il semaforo rosso.
+  - Si deve proteggere la natura.
+- id: intatt_espnorsocmor_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere una norma sociale o morale
+  patterns:
+  - È buona educazione / cattiva educazione proposizione infinitiva
+  - È scorretto proposizione infinitiva
+  - Tutti hanno diritto di proposizione infinitiva / a gruppo nominale
+  examples:
+  - È buona educazione spegnere il cellulare a teatro.
+  - È scorretto parlare male degli altri.
+- id: intatt_accusconf_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Accusare, accusarsi, confessare
+  patterns:
+  - È colpa mia / tua /…
+- id: intatt_accusconf_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Accusare, accusarsi, confessare
+  patterns:
+  - È pronome / gruppo nominale che gruppo verbale
+  - È colpa di gruppo nominale se proposizione
+  - È a causa mia (di gruppo nominale ) se proposizione
+  - Gruppo nominale è responsabile di gruppo nominale / proposizione
+  examples:
+  - Sei tu che hai fatto tutto questo.
+  - È colpa di Luca se siamo in ritardo.
+  - È a causa tua se sto così male.
+- id: intatt_respaccusa_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Respingere un’accusa
+  patterns:
+  - Non è colpa mia
+- id: intatt_respaccusa_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Respingere un’accusa
+  patterns:
+  - Non è pronome / gruppo nominale che gruppo verbale
+  - Non è colpa di gruppo nominale se proposizione
+  - Non è a causa mia (di gruppo nominale ) se proposizione
+  - Non gruppo nominale è responsabile di gruppo nominale / proposizione
+  examples:
+  - Non sei tu che hai fatto tutto questo.
+  - Non è colpa di Luca se siamo in ritardo.
+  - Non è a causa mia se sto così male.
+- id: intatt_scusarsi_a1
+  cefr_level: A1
+  category: interagire_opinioni_atteggiamenti
+  label: Scusarsi
+  description: Use this to apologize or excuse yourself. Say <span lang="it">Scusi</span>
+    (formal) or <span lang="it">Scusa</span> (informal) to say sorry or get someone's attention
+    politely.
+  patterns:
+  - Scusi / Scusa¹
+  - '¹ Nota: uso formulaico'
+  examples:
+  - <span lang="it">Scusi, non ho capito.</span>
+  - <span lang="it">Scusa, sono in ritardo!</span>
+  - <span lang="it">Scusi, può ripetere per favore?</span>
+  - <span lang="it">Scusa, ho sbagliato numero.</span>
+  - <span lang="it">Scusi, professore, non ho il libro oggi.</span>
+- id: intatt_scusarsi_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Scusarsi
+  patterns:
+  - (Mi) scusi / scusa (mi) (per gruppo nominale )
+  - Mi dispiace
+  examples:
+  - Scusa per il ritardo .
+- id: intatt_scusarsi_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Scusarsi
+  patterns:
+  - Mi dispiace di proposizione / gruppo nominale
+  examples:
+  - Mi dispiace di essere così in ritardo.
+- id: intatt_scusarsi_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Scusarsi
+  patterns:
+  - Perdonami (per gruppo nominale / verbo infinito; se proposizione )
+  - Ti chiedo scusa / perdono per gruppo nominale / proposizione
+  - Scusa, non volevo
+  examples:
+  - Perdonami per essere arrivato tardi.
+  - Perdonami se insisto.
+  - Ti chiedo scusa per il mio comportamento.
+- id: intatt_accetscuse_a2
+  cefr_level: A2
+  category: interagire_opinioni_atteggiamenti
+  label: Accettare le scuse
+  patterns:
+  - Non c’è problema
+- id: intatt_accetscuse_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Accettare le scuse
+  patterns:
+  - Non importa
+- id: intatt_espipotesi_b1
+  cefr_level: B1
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’ipotesi
+  patterns:
+  - Se verbo indicativo , verbo indicativo
+  examples:
+  - Se mangio troppo, sto male.
+- id: intatt_espipotesi_b2
+  cefr_level: B2
+  category: interagire_opinioni_atteggiamenti
+  label: Esprimere un’ipotesi
+  patterns:
+  - Se verbo congiuntivo, verbo condizionale
+  examples:
+  - Se tu volessi potresti diventare vegetariana.
+  - Se mi fossi trovata in questa situazione avrei fatto la stessa cosa.
+- id: intemo_espfelicita_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere piacere, gioia, felicità
+  description: Express happiness, joy, or pleasure. Use phrases like 'Sono felice' or 'Che
+    bello!' to share positive feelings in everyday situations.
+  patterns:
+  - Sono felice
+  examples:
+  - Sono felice di essere qui con voi!
+  - Che bello! Ho passato l'esame!
+  - Sono molto contenta — oggi è il mio compleanno!
+  - Evviva! Domani andiamo al mare!
+  - Che gioia rivedere tutti!
+- id: intemo_espfelicita_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere piacere, gioia, felicità
+  patterns:
+  - Bellissimo!
+  - Che bello!
+- id: intemo_espfelicita_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere piacere, gioia, felicità
+  patterns:
+  - È magnifico / meraviglioso / fantastico /...
+- id: intemo_espfelicita_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere piacere, gioia, felicità
+  patterns:
+  - Figo / ganzo!
+  - Grande!
+  - Che bellezza!
+  - Mi fa (molto) piacere che proposizione
+  - È un (vero) piacere / una (vera) gioia proposizione infinitiva
+  - Ho il piacere di proposizione infinitiva
+  examples:
+  - Mi fa molto piacere che tu sia venuta con noi.
+- id: intemo_esptrisnost_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere tristezza, nostalgia
+  description: Express sadness or longing. Use phrases like 'Non sto bene' or 'Sono triste'
+    to tell someone how you're feeling emotionally.
+  patterns:
+  - Non sto bene / sono triste
+  examples:
+  - Non sto bene oggi, sono molto triste.
+  - Mi manca tanto la mia famiglia.
+  - Sono triste perché il mio cane è malato.
+  - Non sono felice, mi sento solo.
+  - Mi manca la mia città.
+  - Oggi non sto bene, ho nostalgia di casa.
+- id: intemo_esptrisnost_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere tristezza, nostalgia
+  patterns:
+  - Ho nostalgia di gruppo nominale
+  examples:
+  - Ho nostalgia di casa.
+- id: intemo_esptrisnost_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere tristezza, nostalgia
+  patterns:
+  - Purtroppo proposizione
+  - Sono disperato / depresso
+  - Mi manca...
+  - Mi dispiace di...
+  - Sono di cattivo umore
+  - Che sfortuna!
+- id: intemo_esptrisnost_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere tristezza, nostalgia
+  patterns:
+  - Non ne posso più
+  - Ne ho abbastanza
+  - Non sono in forma
+  - Mi sento giù
+- id: intemo_intgioiatrist_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla gioia o sulla tristezza
+  description: Ask how someone is feeling — happy or sad. Use phrases like 'Come stai?' or
+    'Tutto bene?' to check in on a person's emotional state.
+  patterns:
+  - Come stai?
+  - Tutto bene?
+  examples:
+  - Ciao Maria, come stai oggi?
+  - Tutto bene? Sembri un po' triste.
+  - Come sta tuo fratello? È ancora triste?
+  - Sei felice adesso? Tutto bene con il lavoro?
+  - Signora Rossi, come sta? È contenta?
+- id: intemo_intgioiatrist_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla gioia o sulla tristezza
+  patterns:
+  - Come va?
+  - Sei felice/contento/triste...?
+  - (Non) stai bene/stai bene?
+- id: intemo_intgioiatrist_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla gioia o sulla tristezza
+  patterns:
+  - Cosa è successo?
+  - Hai dei problemi?
+- id: intemo_intgioiatrist_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla gioia o sulla tristezza
+  patterns:
+  - Che hai?
+- id: intemo_consincoconf_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Consolare, incoraggiare, confortare
+  patterns:
+  - Non ti preoccupare
+- id: intemo_consincoconf_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Consolare, incoraggiare, confortare
+  patterns:
+  - Forza! Coraggio!
+  - Non è niente
+  - Non aver paura
+  - Sta tranquillo / calmo
+  - Su! Dai!
+- id: intemo_consincoconf_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Consolare, incoraggiare, confortare
+  patterns:
+  - Che importa!
+  - (Mi raccomando)
+  - rimettiti, riprenditi
+  - Tutto andrà per il meglio
+  - Mantieni la calma
+- id: intemo_esppartecip_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere la propria partecipazione
+  patterns:
+  - Ti capisco
+  - Povero / poverino / poveretto!
+- id: intemo_esppartecip_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere la propria partecipazione
+  patterns:
+  - Beato/a te!
+  - So/immagino come ti senti.
+  - Comprendo/capisco gruppo nominale .
+  - Le mie più sentite condoglianze
+  - Condoglianze vivissime
+  - Partecipo al tuo dolore con affetto¹
+- id: intemo_esperanza_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una speranza
+  patterns:
+  - Spero / che proposizione / di proposizione infinitiva
+  examples:
+  - Spero che guarirai presto.
+  - Spero di superare l’esame.
+- id: intemo_esperanza_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una speranza
+  patterns:
+  - Magari¹
+  - Mi auguro che proposizione / di proposizione infinitiva
+  examples:
+  - (Comprerai una casa al mare?) Magari! Mi piacerebbe.
+  - Mi auguro che l’esame vada bene.
+- id: intemo_espdelus_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una delusione
+  patterns:
+  - (Che) peccato!
+- id: intemo_espdelus_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una delusione
+  patterns:
+  - Come mi dispiace!
+  - Sono (molto) deluso da gruppo nominale .
+  - È una grande delusione (per me).
+  - Accidenti / cavolo /...!
+- id: intemo_espinquietud_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere inquietudine, paura, angoscia
+  description: Express worry, fear, or distress. Use cries like 'Aiuto!' or simple phrases
+    to show you are scared or anxious.
+  patterns:
+  - Aiuto!
+  examples:
+  - Aiuto! C'è un uomo strano!
+  - Ho paura del buio.
+  - Sono molto preoccupata, non trovo il mio passaporto.
+  - Mi fa paura questo cane!
+  - Aiuto! Non so nuotare!
+- id: intemo_espinquietud_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere inquietudine, paura, angoscia
+  patterns:
+  - Che paura!
+  - Ho paura di gruppo nominale
+- id: intemo_espinquietud_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere inquietudine, paura, angoscia
+  patterns:
+  - È orribile, terribile, spaventoso
+  - Ho paura che proposizione / di proposizione infinitiva
+- id: intemo_espinquietud_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere inquietudine, paura, angoscia
+  patterns:
+  - Sono terrorizzato da gruppo nominale
+  - Temo che proposizione / di proposizione infinitiva / gruppo nominale
+  - Mi preoccupo per gruppo nominale
+  - Non mi sento tranquillo / sicuro / a mio agio
+  examples:
+  - Sono terrorizzato dai tuoni.
+- id: intemo_espsollievo_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sollievo
+  patterns:
+  - Va / sto (molto) meglio!
+- id: intemo_espsollievo_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sollievo
+  patterns:
+  - Mi sento meglio.
+  - Meno male!
+  - Meno male che proposizione
+  - Grazie a Dio!
+  - Per fortuna!
+- id: intemo_espsoffis_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sofferenza fisica
+  description: Express physical pain or discomfort. Use phrases like 'Fa male!' or 'Sto male!'
+    to tell someone you are hurting or feeling unwell.
+  patterns:
+  - Fa (molto) male!
+  - Ho male (qui)!¹
+  - Sto male!
+  examples:
+  - Ahi! Fa molto male!
+  - Ho male qui, alla gamba.
+  - Sto male, ho bisogno di un medico.
+  - Mi fa male la testa.
+  - Ho male alla pancia!
+  - Sto molto male, puoi aiutarmi?
+- id: intemo_espsoffis_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sofferenza fisica
+  patterns:
+  - Che male!
+  - Ho mal di gruppo nominale
+  - Ho gruppo nominale
+  examples:
+  - Ho mal di testa.
+  - Ho la tosse, il raffreddore, la febbre.
+- id: intemo_espsoffis_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sofferenza fisica
+  patterns:
+  - Mi fa male!
+  - Che dolore!
+  - Mi fa male gruppo nominale .
+  - Sono aggettivo
+- id: intemo_espsoffis_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sofferenza fisica
+  patterns:
+  - Ho un (forte) dolore a gruppo nominale
+  - Soffro di gruppo nominale .
+  examples:
+  - Ho un forte dolore al braccio.
+  - Soffro di mal di testa.
+- id: intemo_espamappqual_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di amare, di apprezzare qualcosa o qualcuno
+  description: Express love or appreciation for things and people. Use 'Mi piace', 'Amo',
+    or simple adjectives like 'Bello!' and 'Bravo!' to show you like something.
+  patterns:
+  - Gruppo nominale è buono
+  - Mi piace
+  - Amare gruppo nominale
+  - Bene!
+  - Bravo!
+  - Bello!
+  examples:
+  - Questa pizza è buona.
+  - Amo l’Italia.
+- id: intemo_espamappqual_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di amare, di apprezzare qualcosa o qualcuno
+  patterns:
+  - Mi piace gruppo nominale / proposizione infinitiva
+  examples:
+  - Mi piace il cioccolato.
+  - Mi piace ballare.
+- id: intemo_espamappqual_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di amare, di apprezzare qualcosa o qualcuno
+  patterns:
+  - Ottimo!
+  - Amo proposizione infinitiva .
+  - Ti amo!
+  - Voglio bene a gruppo nominale .
+  - Che gruppo nominale !
+  - Gruppo nominale non è male
+  - Sono innamorato di gruppo nominale / pronome .
+  - Sono appassionato / a di gruppo nominale
+  - Con tutto il mio amore, con tutto il mio cuore
+  examples:
+  - Amo andare in bicicletta in campagna.
+  - Voglio bene alla mia famiglia.
+  - Che serata magnifica!
+  - Quel film non è male.
+  - Sono innamorato di te.
+  - Sono appassionata di film gialli.
+- id: intemo_espamappqual_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di amare, di apprezzare qualcosa o qualcuno
+  patterns:
+  - Adoro gruppo nominale / proposizione infinitiva
+  - Ho preso una cotta per gruppo nominale .
+  - Ammiro / apprezzo gruppo nominale .
+  - Vado matto per gruppo nominale
+  examples:
+  - Adoro andare in spiaggia.
+  - Ho preso una cotta per il mio vicino di casa.
+  - Ammiro la tua onestà.
+  - Vado matto per il cioccolato.
+- id: intemo_espnonama_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non amare
+  description: Express dislike for something or someone. Use 'Non mi piace' or '[cosa] non
+    è buono/a' to say you don't like something.
+  patterns:
+  - Gruppo nominale non è buono
+  - Non mi piace
+  examples:
+  - Questa carne non è buona.
+- id: intemo_espnonama_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non amare
+  patterns:
+  - Non mi piace gruppo nominale / proposizione infinitiva
+  examples:
+  - Non mi piace questo ristorante.
+  - Non mi piace guardare la televisione.
+- id: intemo_espnonama_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non amare
+  patterns:
+  - Odio gruppo nominale / proposizione infinitiva .
+  - Che schifo!¹
+  examples:
+  - Odio i romanzi rosa.
+- id: intemo_espnonama_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non amare
+  patterns:
+  - Non sopporto / detesto gruppo nominale / proposizione infinitiva .
+  - È disgustoso.
+  - Mi dà fastidio / gruppo nominale / proposizione infinitiva
+  examples:
+  - Mi dà fastidio la musica troppo alta.
+- id: intemo_esppreferenza_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una preferenza
+  patterns:
+  - Gruppo nominale è ...più
+  - Preferisco gruppo nominale / proposizione infinitiva
+  examples:
+  - Questo vestito è più bello.
+  - Preferisco un caffè, grazie.
+- id: intemo_esppreferenza_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una preferenza
+  patterns:
+  - Proposizione infinitiva ...più / meno che proposizione infinitiva
+  - Proposizione infinitiva è meglio che proposizione infinitiva
+  - è migliore di gruppo nominale
+  - Preferisco gruppo nominale / proposizione infinitiva che gruppo nominale / proposizione
+    infinitiva
+  - Verbo condizionale (volentieri)... piuttosto che...
+  - Mi piace (di) più gruppo nominale / proposizione infinitiva che gruppo nominale / proposizione
+    infinitiva
+  examples:
+  - Leggere un buon romanzo è più interessante che guardare la TV.
+- id: intemo_esppreferenza_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere una preferenza
+  patterns:
+  - Preferisco gruppo nominale a gruppo nominale
+  examples:
+  - Preferisco il mare alla montagna.
+- id: intemo_espsoddisf_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere soddisfazione
+  description: Express satisfaction or delight about something. Use phrases like 'Che bello!'
+    to show you are pleased with a situation, object, or outcome.
+  patterns:
+  - Che bello!
+  examples:
+  - <span lang="it">Che bello! Ho trovato le chiavi!</span>
+  - <span lang="it">Perfetto! La pizza è ottima.</span>
+  - <span lang="it">Sono contento/a di questo regalo, grazie!</span>
+  - <span lang="it">Che bello! Domani non lavoro.</span>
+  - <span lang="it">Benissimo! Il treno arriva in orario.</span>
+- id: intemo_espsoddisf_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere soddisfazione
+  patterns:
+  - Sono (molto) contento
+  - Benissimo!
+- id: intemo_espsoddisf_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere soddisfazione
+  patterns:
+  - Perfetto/ottimo!
+  - Sono (molto) contento di proposizione infinitiva / gruppo nominale che proposizione
+- id: intemo_espsoddisf_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere soddisfazione
+  patterns:
+  - Questo è proprio quello che speravo / volevo / mi aspettavo / desideravo /...
+  - Questo è proprio quello di cui ho bisogno / di cui avevo bisogno
+  - Sono soddisfatto di gruppo nominale
+  - Mi trovo a mio agio …
+- id: intemo_espinsoddisf_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere insoddisfazione, lamentarsi
+  patterns:
+  - Così non va bene
+- id: intemo_espinsoddisf_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere insoddisfazione, lamentarsi
+  patterns:
+  - Non è (proprio) così
+  - Uffa!
+  - Sono deluso di gruppo nominale
+  - Dovrei fare un reclamo
+- id: intemo_intsodinsod_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla soddisfazione e sull’insoddisfazione
+  description: Ask if someone is satisfied or happy with something. Use 'Ti piace?' to check
+    whether a person likes or enjoys what they have.
+  patterns:
+  - Ti piace?
+  examples:
+  - Ti piace la pizza?
+  - Ti piace questo film?
+  - — Come ti sembra l'appartamento? Ti piace? — Sì, mi piace molto!
+  - Ti piace il tuo lavoro?
+  - — Ecco il tuo caffè. Ti piace? — Sì, grazie, è ottimo!
+  - Ti piace vivere a Roma?
+- id: intemo_intsodinsod_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla soddisfazione e sull’insoddisfazione
+  patterns:
+  - Non ti piace?
+- id: intemo_intsodinsod_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla soddisfazione e sull’insoddisfazione
+  patterns:
+  - Ci sono problemi?
+  - Qual è il problema?
+  - Sei contento di proposizione infinitiva / gruppo nominale , che proposizione ?
+- id: intemo_intsodinsod_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Interrogare sulla soddisfazione e sull’insoddisfazione
+  patterns:
+  - Non ti va più?
+  - Sei soddisfatto di gruppo nominale ?
+  examples:
+  - Sei soddisfatto del corso?
+- id: intemo_espcollera_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere collera, cattivo umore
+  patterns:
+  - Sono arrabbiato / nervoso
+- id: intemo_espcollera_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere collera, cattivo umore
+  patterns:
+  - Basta!
+- id: intemo_espcollera_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere collera, cattivo umore
+  patterns:
+  - È pazzesco!
+- id: intemo_placollera_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Placare la collera o il cattivo umore altrui
+  patterns:
+  - Calma!
+  - Dai, calmati!
+- id: intemo_placollera_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Placare la collera o il cattivo umore altrui
+  patterns:
+  - Dai non prendertela!
+  - Non c’è motivo di proposizione infinitiva
+  - Non vale la pena proposizione infinitiva
+  examples:
+  - Non vale la pena arrabbiarsi così tanto.
+- id: intemo_insultare_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Insultare
+  patterns:
+  - Va’ al diavolo / a quel paese!¹
+- id: intemo_imprecare_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Imprecare
+  patterns:
+  - Accidenti!
+  - Porca miseria!¹
+- id: intemo_espintqualc_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per qualcosa
+  description: Express that something caught your attention or fascinates you. Use 'Interessante!'
+    or similar short reactions to show curiosity.
+  patterns:
+  - Interessante!
+  examples:
+  - Interessante! Non lo sapevo.
+  - — Studio il giapponese. — Davvero? Interessante!
+  - Questo museo è molto interessante.
+  - Che interessante! Puoi ripetere?
+  - — Lavoro come architetto. — Oh, interessante!
+- id: intemo_espintqualc_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per qualcosa
+  patterns:
+  - Gruppo nominale è interessante
+  examples:
+  - Questo libro è interessante.
+- id: intemo_espintqualc_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per qualcosa
+  patterns:
+  - Mi interesso di gruppo nominale
+  - Sono (veramente / molto) appassionato di gruppo nominale
+  - Amo proposizione infinitiva
+  - Mi interessa gruppo nominale / proposizione infinitiva
+  examples:
+  - Mi interesso di archeologia.
+  - Amo leggere poesie.
+  - Mi interessano le lezioni di arte.
+- id: intemo_espintqualc_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per qualcosa
+  patterns:
+  - Adoro gruppo nominale
+  examples:
+  - Adoro leggere poesie.
+- id: intemo_espintperqualc_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per ciò che dice qualcuno
+  patterns:
+  - Veramente?
+  - È vero?
+  - Ah sì?
+- id: intemo_espintperqualc_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere interesse per ciò che dice qualcuno
+  patterns:
+  - Davvero?
+  - È veramente interessante.
+- id: intemo_espsorpresa_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sorpresa
+  patterns:
+  - Che sorpresa!
+  - Sei sicuro?
+- id: intemo_espsorpresa_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sorpresa
+  patterns:
+  - Davvero?
+  - Non ci credo!
+  - Non ci posso credere!
+  - Non è possibile!
+  - È incredibile!¹
+- id: intemo_espsorpresa_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere sorpresa
+  patterns:
+  - Scherzi? Stai scherzando?
+  - Dici sul serio?
+  - Pazzesco!
+  - Non è vero!¹
+  - Ah!
+  - Uh!²
+  - (Questo) non me l’aspettavo!
+- id: intemo_espnonsorpresi_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non essere sorpresi
+  patterns:
+  - (Sì), lo so.
+- id: intemo_espnonsorpresi_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non essere sorpresi
+  patterns:
+  - (Sì), lo sapevo.
+  - Era sicuro
+- id: intemo_espnonsorpresi_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere il fatto di non essere sorpresi
+  patterns:
+  - Sono al corrente
+  - Me lo aspettavo
+  - Era evidente
+- id: intemo_espindiffer_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere indifferenza
+  patterns:
+  - È lo stesso
+  - Non è importante
+- id: intemo_espindiffer_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere indifferenza
+  patterns:
+  - Non mi interessa / importa
+- id: intemo_espindiffer_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere indifferenza
+  patterns:
+  - “Boh”
+  - E allora?
+  - (Mi) è indifferente
+  - Come vuoi
+  - Me ne frego
+  - Non me ne frega niente
+- id: intemo_espgratring_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere gratitudine, ringraziare
+  description: Express thanks or gratitude. Use <span lang="it">Grazie</span> or <span lang="it">Grazie
+    mille</span> to thank someone in everyday situations.
+  patterns:
+  - Grazie (mille)
+  examples:
+  - <span lang="it">Grazie mille per il regalo!</span>
+  - <span lang="it">Grazie, sei molto gentile.</span>
+  - <span lang="it">— Ecco il tuo caffè. — Grazie!</span>
+  - <span lang="it">Grazie mille, professore.</span>
+  - <span lang="it">— Ti aiuto con la valigia. — Oh, grazie mille!</span>
+- id: intemo_espgratring_a2
+  cefr_level: A2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere gratitudine, ringraziare
+  patterns:
+  - (Molte/mille/tante) grazie (molte/mille/tante) per gruppo nominale
+  examples:
+  - Molte grazie per la tua cartolina.
+- id: intemo_espgratring_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Esprimere gratitudine, ringraziare
+  patterns:
+  - Ti ringrazio per gruppo nominale
+  examples:
+  - Ti ringrazio per il bel regalo.
+- id: intemo_espgratring_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Esprimere gratitudine, ringraziare
+  patterns:
+  - Essere gentile a proposizione infinitiva
+  - Ti ringrazio (di cuore) per proposizione infinitiva
+  examples:
+  - Sei veramente gentile ad avermi telefonato.
+  - Ti ringrazio di cuore per aver ospitato mia figlia.
+- id: intemo_rispringr_a1
+  cefr_level: A1
+  category: interagire_emozioni_sentimenti
+  label: Rispondere ad un ringraziamento
+  description: Respond when someone thanks you. Use 'Prego' and similar phrases to acknowledge
+    gratitude politely.
+  patterns:
+  - Prego
+  examples:
+  - — Grazie mille! — Prego!
+  - — Grazie per l'aiuto. — Prego, non c'è problema!
+  - — Grazie, sei gentile. — Ma prego, figurati!
+  - — Grazie tante, signora. — Prego, s'immagini!
+  - — Grazie! — Di niente!
+- id: intemo_rispringr_b1
+  cefr_level: B1
+  category: interagire_emozioni_sentimenti
+  label: Rispondere ad un ringraziamento
+  patterns:
+  - Di niente
+- id: intemo_rispringr_b2
+  cefr_level: B2
+  category: interagire_emozioni_sentimenti
+  label: Rispondere ad un ringraziamento
+  patterns:
+  - Non c’è di che¹
+- id: intazio_chiordistr_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa impartendo un ordine o un’istruzione
+  patterns:
+  - Proposizione imperativa (solo in contesto informale)
+  examples:
+  - Prendi / leggi qui.
+- id: intazio_chiordistr_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa impartendo un ordine o un’istruzione
+  patterns:
+  - Proposizione imperativa
+  examples:
+  - Vada dritto e poi giri a destra.
+- id: intazio_chiordistr_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa impartendo un ordine o un’istruzione
+  patterns:
+  - È necessario / bisogna proposizione infinitiva /
+  - proposizione
+  - ', prego'
+  - Pronome ordino di proposizione infinitiva
+  examples:
+  - Bisogna rispettare queste regole.
+  - È necessario che tu ti iscriva al corso.
+- id: intazio_chiaatqualfare_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Chiedere in modo attenuato a qualcuno di fare qualcosa
+  patterns:
+  - Puoi verbo infinito (per favore)?
+  examples:
+  - Puoi chiudere la finestra?
+- id: intazio_chiaatqualfare_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Chiedere in modo attenuato a qualcuno di fare qualcosa
+  patterns:
+  - Potresti verbo infinito (per favore)?
+  examples:
+  - Potresti chiudere la finestra?
+  - Mi daresti la tua penna?
+- id: intazio_chiaatqualfare_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Chiedere in modo attenuato a qualcuno di fare qualcosa
+  patterns:
+  - Sarebbe / è possibile proposizione infinitiva
+  - Potrei domandarti di proposizione infinitiva
+  - Ti dispiacerebbe proposizione infinitiva
+  examples:
+  - Sarebbe possibile chiudere la finestra?
+  - Ti dispiacerebbe chiudere la finestra?
+- id: intazio_chiqualsupplic_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa supplicando
+  patterns:
+  - Ti prego / per favore, proposizione imperativa!
+  examples:
+  - Ti prego, aiutami!
+- id: intazio_chiqualsupplic_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa supplicando
+  patterns:
+  - Ti prego di proposizione infinitiva
+  examples:
+  - Ti prego di non dire questa cosa a Maria.
+- id: intazio_chiincserv_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa in un incontro di servizio (es. negozio, bar,
+    ristorante, ecc.)
+  description: Ask for something in a shop, bar, or restaurant. Use patterns like 'Due caffè,
+    per favore' or 'Vorrei gruppo nominale, per favore' to place an order or make a request.
+  patterns:
+  - Gruppo nominale , per favore
+  - Io prendo gruppo nominale
+  - Vorrei gruppo nominale , per favore
+  examples:
+  - Due caffè, per favore.
+  - Io prendo la pasta al pomodoro.
+- id: intazio_chiincserv_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Chiedere a qualcuno di fare qualcosa in un incontro di servizio (es. negozio, bar,
+    ristorante, ecc.)
+  patterns:
+  - Volevo verbo infinito
+  - Io prenderei gruppo nominale
+  examples:
+  - Volevo due etti di prosciutto, grazie.
+  - Io prenderei la pizza margherita.
+- id: intazio_rispaccsenris_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando senza riserve
+  description: Accept a request without hesitation. Use simple affirmatives like <span lang="it">Sì</span>
+    or <span lang="it">Certo!</span> to show you agree to do what someone has asked.
+  patterns:
+  - Sì
+  examples:
+  - — Puoi aprire la finestra? — Sì, certo!
+  - — Mi passi il sale, per favore? — Sì, ecco a lei.
+  - — Puoi aspettare un momento? — Sì, nessun problema.
+  - — Mi aiuti con i bagagli? — Sì, volentieri!
+  - — Può portarmi un bicchiere d'acqua? — Sì, subito!
+  - — Puoi ripetere, per favore? — Sì, certo, con piacere.
+- id: intazio_rispaccsenris_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando senza riserve
+  patterns:
+  - D’accordo
+  - Non c’è problema
+  - Certo
+  - OK
+- id: intazio_rispaccsenris_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando senza riserve
+  patterns:
+  - Sicuramente
+  - Certamente
+  - Volentieri
+- id: intazio_rispacconris_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando con delle riserve
+  patterns:
+  - Sì, ma proposizione
+  examples:
+  - (Vai a fare la spesa, per favore?)
+  - Sì, ma adesso non posso.
+- id: intazio_rispacconris_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando con delle riserve
+  patterns:
+  - Se è proprio necessario
+- id: intazio_rispacconris_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta accettando con delle riserve
+  patterns:
+  - Solo se proposizione
+  examples:
+  - Solo se me lo restituisci domani.
+- id: intazio_rispricrif_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta rifiutando
+  description: Decline a request politely or directly. Use 'No' or short phrases like <span
+    lang="it">Mi dispiace, non posso</span> to turn someone down.
+  patterns:
+  - 'No'
+  examples:
+  - <span lang="it">— Puoi aiutarmi? — No, mi dispiace.</span>
+  - <span lang="it">— Hai un momento? — No, non ho tempo adesso.</span>
+  - <span lang="it">— Mi dai il tuo numero? — No, mi dispiace.</span>
+  - <span lang="it">— Puoi venire domani? — No, non posso.</span>
+  - <span lang="it">— Mi presti la penna? — No, mi dispiace, non ce l'ho.</span>
+- id: intazio_rispricrif_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta rifiutando
+  patterns:
+  - Mi dispiace, ma …
+  - Non posso
+  examples:
+  - Mi dispiace, ma non posso.
+- id: intazio_rispricrif_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere a una richiesta rifiutando
+  patterns:
+  - È vietato proposizione infinitiva
+  - Non si deve proposizione infinitiva
+  - Non bisogna proposizione infinitiva
+  examples:
+  - È vietato parcheggiare qui.
+- id: intazio_proqualins_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di fare qualcosa insieme
+  description: Suggest doing something together with someone. Use phrases like <span lang="it">Andiamo
+    al bar?</span> or <span lang="it">Andiamo!</span> to invite others to join an activity.
+  patterns:
+  - Proposizione interrogativa verbo alla I persona plurale + luogo
+  - Andiamo!
+  examples:
+  - Andiamo al bar?
+- id: intazio_proqualins_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di fare qualcosa insieme
+  patterns:
+  - Proposizione interrogativa
+  - Proposizione imperativa
+  - Se vuoi, possiamo verbo infinito
+  examples:
+  - Vieni con me al bar?
+  - Vieni con me!
+  - Se vuoi, possiamo andare al cinema insieme.
+- id: intazio_proqualins_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di fare qualcosa insieme
+  patterns:
+  - Ti piacerebbe proposizione infinitiva verbo condizionale
+  - Perché non proposizione
+  examples:
+  - Ti piacerebbe uscire con me stasera?
+  - Perché non smettiamo adesso di lavorare?
+- id: intazio_proqualins_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di fare qualcosa insieme
+  patterns:
+  - Che ne diresti di gruppo nominale / proposizione infinitiva
+- id: intazio_proqualaiuto_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di aiutarlo/la
+  patterns:
+  - Posso aiutarti?
+  - Hai bisogno di aiuto?
+  - Se vuoi, proposizione
+- id: intazio_proqualaiuto_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di aiutarlo/la
+  patterns:
+  - Posso fare qualcosa per te?
+- id: intazio_proqualaiuto_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Proporre a qualcuno di aiutarlo/la
+  patterns:
+  - Hai bisogno di una mano?
+  - Posso darti una mano?
+  - Lascia che ti aiuti.
+  - Posso esserti utile?
+  - Posso verbo infinito io? ¹
+  - Vuoi che proposizione io?
+  - Ce la fai?
+- id: intazio_offrqualc_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Offrire qualcosa a qualcuno
+  description: Offer something to someone using simple questions. Use patterns like <span
+    lang="it">Vuoi...?</span> or <span lang="it">Prendi...?</span> to politely offer food,
+    drinks, or other items.
+  patterns:
+  - Vuoi gruppo nominale ?
+  - Prendi gruppo nominale ?
+  examples:
+  - Vuoi un bicchiere d’acqua?
+  - Prendi un caffè?
+- id: intazio_offrqualc_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Offrire qualcosa a qualcuno
+  patterns:
+  - Posso offrirti gruppo nominale ?
+  - Hai voglia di gruppo nominale ?
+  - Ancora gruppo nominale ?
+- id: intazio_offrqualc_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Offrire qualcosa a qualcuno
+  patterns:
+  - Ne vuoi ancora / di più?
+- id: intazio_offrqualc_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Offrire qualcosa a qualcuno
+  patterns:
+  - Che ne diresti di gruppo nominale ?
+  - Non ti andrebbe gruppo nominale ?
+  examples:
+  - Che ne diresti di un bicchiere di vino?
+- id: intazio_rispproacc_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola
+  patterns:
+  - Sì
+- id: intazio_rispproacc_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola
+  patterns:
+  - (Sì) d’accordo
+  - (Sì) va bene
+  - È una buona idea
+- id: intazio_rispproacc_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola
+  patterns:
+  - Perché no! Volentieri!
+- id: intazio_rispproacc_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola
+  patterns:
+  - Con piacere
+- id: intazio_rispproaccecris_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola con delle riserve
+  patterns:
+  - Sì, ma proposizione
+  examples:
+  - (Andiamo al cinema?)
+  - Sì, ma chiamiamo anche Marco.
+- id: intazio_rispproaccecris_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola con delle riserve
+  patterns:
+  - Non so / non saprei
+  - Ci devo pensare
+  - Volentieri, ma proposizione
+- id: intazio_rispproaccecris_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta accettandola con delle riserve
+  patterns:
+  - Se lo vuoi…
+  - Vediamo / vedremo
+  - Solo se proposizione
+  - Ci penso (su)
+- id: intazio_rispprorifiut_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta rifiutando
+  patterns:
+  - No, grazie
+- id: intazio_rispprorifiut_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta rifiutando
+  patterns:
+  - Mi dispiace, ma non posso
+  - Mi dispiace, ma proposizione
+- id: intazio_rispprorifiut_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta rifiutando
+  patterns:
+  - Purtroppo non è possibile
+- id: intazio_rispprofacprop_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta facendo un’altra proposta
+  patterns:
+  - Non potremmo invece verbo infinito
+  - Perché non proposizione , invece?
+  - Preferirei proposizione
+  examples:
+  - Non potremmo invece andare a teatro?
+  - Perché non andiamo a teatro invece?
+  - Preferirei andare a teatro.
+- id: intazio_rispprofacprop_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Rispondere ad una proposta facendo un’altra proposta
+  patterns:
+  - Non si potrebbe invece proposizione infinitiva
+  - Preferirei che… proposizione
+  examples:
+  - Non si potrebbe invece partire domani?
+  - Preferirei che ci andassimo insieme.
+- id: intazio_consigliare_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Consigliare
+  patterns:
+  - Potresti / puoi verbo infinito
+  - Dovresti verbo infinito
+  - Perché non proposizione
+  - Ti consiglio / consiglierei di proposizione infinitiva
+  - Al posto tuo, io verbo condizionale
+  - Proposizione imperativa
+  examples:
+  - Potresti parlarne con il professore.
+  - Dovresti mangiare più carne.
+  - Perché non ci vai subito?
+  - Ti consiglio di andare in quel ristorante.
+  - Al posto tuo, io lo farei.
+- id: intazio_consigliare_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Consigliare
+  patterns:
+  - Se fossi in te, io verbo condizionale
+  - Faresti bene / meglio a proposizione infinitiva
+  - Sarebbe meglio se proposizione
+  - Se vuoi un consiglio, proposizione
+  - Ti do un consiglio, proposizione imperativa
+  examples:
+  - Se fossi in te, io non glielo chiederei un’altra volta.
+  - Faresti meglio a non uscire con questo freddo.
+  - Sarebbe meglio se ci andassi tu.
+  - Se vuoi un consiglio, dovresti lasciar perdere subito.
+  - Ti do un consiglio, pensaci bene prima di lasciare questo lavoro.
+- id: intazio_mettguar_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Mettere in guardia
+  patterns:
+  - Attenzione!
+  - Attento!
+- id: intazio_mettguar_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Mettere in guardia
+  patterns:
+  - Fa’ attenzione a gruppo nominale
+  examples:
+  - Fa’ attenzione alle macchine!
+- id: intazio_mettguar_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Mettere in guardia
+  patterns:
+  - Attento, è pericoloso / rischioso
+- id: intazio_chiautor_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Chiedere un’autorizzazione
+  patterns:
+  - Posso?
+- id: intazio_chiautor_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Chiedere un’autorizzazione
+  patterns:
+  - Posso verbo infinito
+  examples:
+  - Posso andare, ora?
+- id: intazio_chiautor_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Chiedere un’autorizzazione
+  patterns:
+  - Si può proposizione infinitiva
+  - È permesso proposizione infinitiva
+  - Potrei
+- id: intazio_chiautor_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Chiedere un’autorizzazione
+  patterns:
+  - Sarebbe possibile proposizione ?
+  - Volevo sapere se proposizione
+  - Mi permette di proposizione infinitiva
+  - Ti disturba / dispiace se proposizione
+  - Disturbo?
+  - Le chiedo il permesso di proposizione infinitiva
+  - Le chiedo di poter verbo infinito
+  examples:
+  - Sarebbe possibile fare una telefonata?
+  - Volevo sapere se potevo usare la cucina.
+  - Mi permette di salutare il direttore?
+  - Ti dispiace se lascio qui le mie cose?
+  - Le chiedo il permesso di uscire prima stasera.
+  - Le chiedo di poter andarmene prima.
+- id: intazio_dareautsris_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione senza riserve
+  patterns:
+  - Sì / va bene
+  examples:
+  - (Posso usare la tua penna?)
+  - Sì / va bene.
+- id: intazio_dareautsris_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione senza riserve
+  patterns:
+  - D’accordo
+  - Va bene
+  - Non c’è problema
+  - Sì certo
+  - OK
+- id: intazio_dareautsris_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione senza riserve
+  patterns:
+  - Certamente
+  - Sicuramente
+- id: intazio_dareautsris_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione senza riserve
+  patterns:
+  - Non ho nulla in contrario
+- id: intazio_dareautconris_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione con delle riserve
+  patterns:
+  - Se è necessario …
+- id: intazio_dareautconris_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Dare un’autorizzazione con delle riserve
+  patterns:
+  - Se proprio vuole
+- id: intazio_rifiutare_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Rifiutare
+  patterns:
+  - 'No'
+- id: intazio_rifiutare_a2
+  cefr_level: A2
+  category: interagire_attivita_azioni
+  label: Rifiutare
+  patterns:
+  - No (mi dispiace)
+  - Mi dispiace, ma non è possibile
+  - È impossibile
+  - Non è possibile
+- id: intazio_vietare_a1
+  cefr_level: A1
+  category: interagire_attivita_azioni
+  label: Vietare
+  patterns:
+  - Devo verbo infinito
+  examples:
+  - Devo andare a lezione.
+- id: intazio_vietare_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Vietare
+  patterns:
+  - È vietato proposizione infinitiva
+  examples:
+  - È vietato parcheggiare qui.
+- id: intazio_oppodiv_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Opporsi ad un divieto
+  patterns:
+  - Proposizione comunque / in ogni caso
+  examples:
+  - Io ci vado comunque.
+- id: intazio_minacciare_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Minacciare
+  patterns:
+  - Se tu gruppo verbale , io gruppo verbale
+  examples:
+  - Se non vai via, chiamo la polizia.
+- id: intazio_minacciare_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Minacciare
+  patterns:
+  - Proposizione imperativa, altrimenti proposizione
+  - Sta’ attento a quello che dici / fai
+  examples:
+  - Vada via, altrimenti chiamo la polizia.
+- id: intazio_promettere_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Promettere
+  patterns:
+  - Ti prometto che proposizione
+  - Proposizione , promesso!
+  examples:
+  - Ti prometto che finirò il lavoro domani.
+  - Ci vado domani, promesso!
+- id: intazio_promettere_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Promettere
+  patterns:
+  - Ti giuro / ti assicuro che proposizione
+  examples:
+  - Ti assicuro che ce la faccio.
+- id: intazio_rimproverare_b1
+  cefr_level: B1
+  category: interagire_attivita_azioni
+  label: Rimproverare
+  patterns:
+  - Non dovresti verbo infinito
+  examples:
+  - Non dovresti parlargli così.
+- id: intazio_rimproverare_b2
+  cefr_level: B2
+  category: interagire_attivita_azioni
+  label: Rimproverare
+  patterns:
+  - Non avresti dovuto verbo infinito
+  examples:
+  - Non avresti dovuto dirglielo.
+- id: intritsoc_scusarsi_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Scusarsi
+  patterns:
+  - Scusi / Scusa¹
+  - '¹ Nota: uso formulaico'
+- id: intritsoc_scusarsi_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Scusarsi
+  patterns:
+  - (Mi) scusi / scusa (mi) (per gruppo nominale )
+  - Mi dispiace
+  examples:
+  - Scusa per il ritardo .
+- id: intritsoc_scusarsi_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Scusarsi
+  patterns:
+  - Mi dispiace di proposizione / gruppo nominale
+  examples:
+  - Mi dispiace di essere così in ritardo.
+- id: intritsoc_scusarsi_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Scusarsi
+  patterns:
+  - Perdonami (per gruppo nominale / verbo infinito; se proposizione )
+  - Ti chiedo scusa / perdono per gruppo nominale / proposizione
+  - Scusa, non volevo.
+  examples:
+  - Perdonami per essere arrivato tardi.
+  - Perdonami se insisto.
+  - Ti chiedo scusa per il mio comportamento.
+- id: intritsoc_attattenz_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Attirare l’attenzione
+  patterns:
+  - Scusi / Scusa¹ / Signore / Signora
+  - '¹ Nota: uso formulaico'
+- id: intritsoc_attattenz_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Attirare l’attenzione
+  patterns:
+  - Scusa(mi)! senti (per favore)!
+- id: intritsoc_attattenz_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Attirare l’attenzione
+  patterns:
+  - C’è qualcuno / nessuno?
+- id: intritsoc_salutare_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Salutare
+  description: Greet someone in Italian. Use formal phrases like <span lang="it">Buongiorno,
+    signora</span> or informal <span lang="it">Ciao, come stai?</span> depending on the situation.
+  patterns:
+  - Buongiorno/ buonasera/buonanotte signor/signora /(titolo) prof!
+  - Ciao (nome) / Ciao, come stai?
+  examples:
+  - <span lang="it">Buongiorno, signora Rossi! Come sta?</span>
+  - <span lang="it">Ciao, Marco! Come stai?</span>
+  - <span lang="it">Buonasera, professore!</span>
+  - <span lang="it">Ciao, Giulia! Tutto bene?</span>
+  - <span lang="it">Buongiorno a tutti!</span>
+  - <span lang="it">Buonanotte, signor Bianchi!</span>
+- id: intritsoc_salutare_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Salutare
+  patterns:
+  - Salve! Addio
+- id: intritsoc_rispsal_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Rispondere a un saluto
+  description: Reply to a greeting. Use 'Buongiorno / Ciao' to greet back, or answer 'Come
+    stai?' with 'Bene, grazie — e tu?'
+  patterns:
+  - Buongiorno / buonasera / buonanotte signor / signora / titolo
+  - Ciao (nome)
+  - Bene / non c’è male /... grazie e tu?
+  examples:
+  - — <span lang="it">Buongiorno, signora Rossi!</span> — <span lang="it">Buongiorno!</span>
+  - — <span lang="it">Ciao, Marco! Come stai?</span> — <span lang="it">Bene, grazie! E tu?</span>
+  - — <span lang="it">Buonasera, professore.</span> — <span lang="it">Buonasera, prego, si
+    accomodi.</span>
+  - — <span lang="it">Ciao! Come va?</span> — <span lang="it">Non c'è male, grazie. E tu come
+    stai?</span>
+  - — <span lang="it">Salve, signor Bianchi. Come sta?</span> — <span lang="it">Bene, grazie.
+    E lei?</span>
+- id: intritsoc_presqualc_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Presentare qualcuno
+  description: Introduce someone to others. Use 'Questo è...' for informal introductions or
+    titles like 'Il dottor / La dottoressa' for formal ones.
+  patterns:
+  - Questo è (titolo) Nome / Cognome
+  - Il / la titolo Nome / Cognome
+  examples:
+  - Questo è Mario.
+  - La dottoressa Corti.
+- id: intritsoc_presqualc_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Presentare qualcuno
+  patterns:
+  - Questo / ecco gruppo nominale
+  examples:
+  - Questo è il mio amico Paolo.
+- id: intritsoc_presqualc_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Presentare qualcuno
+  patterns:
+  - Ti presento nome
+  - Posso presentarti (titolo) Nome/Cognome
+- id: intritsoc_presqualc_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Presentare qualcuno
+  patterns:
+  - Ho il piacere di presentarti/ titolo / nome / cognome
+  - Conosci il / la signor / signora titolo / Nome / Cognome
+- id: intritsoc_presentarsi_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Presentarsi
+  description: Introduce yourself by giving your name. Use <span lang="it">Mi chiamo...</span>
+    or <span lang="it">Sono...</span> to tell others who you are.
+  patterns:
+  - Sono Nome / Cognome
+  - Mi chiamo Nome / Cognome
+  - Buongiorno, ( sono / mi chiamo) Nome / Cognome
+  examples:
+  - Sono Anna Rossi.
+- id: intritsoc_presentarsi_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Presentarsi
+  patterns:
+  - Salve, (sono /mi chiamo)
+  - Nome / Cognome
+- id: intritsoc_risppresent_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Rispondere a una presentazione
+  description: Respond when someone introduces themselves or another person. Use 'Piacere'
+    or 'Piacere, sono [name]' to say 'nice to meet you'.
+  patterns:
+  - Piacere
+  - Piacere (sono / mi chiamo) Nome/Cognome
+  examples:
+  - <span lang="it">— Mi chiamo Luca. — Piacere, Luca! Sono Anna.</span>
+  - <span lang="it">— Le presento il dottor Rossi. — Piacere, dottor Rossi. Mi chiamo Giulia
+    Ferri.</span>
+  - <span lang="it">— Ciao, io sono Marco! — Piacere, Marco! Sono Sofia.</span>
+  - <span lang="it">— Questo è il mio collega, Paolo. — Piacere, sono Marta.</span>
+  - <span lang="it">— Ti presento Chiara. — Piacere!</span>
+- id: intritsoc_risppresent_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Rispondere a una presentazione
+  patterns:
+  - È un piacere conoscerti
+- id: intritsoc_risppresent_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Rispondere a una presentazione
+  patterns:
+  - È un piacere fare la Sua conoscenza
+- id: intritsoc_accqualc_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Accogliere qualcuno
+  patterns:
+  - Entra / vieni
+- id: intritsoc_accqualc_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Accogliere qualcuno
+  patterns:
+  - Benvenuto!
+  - Prego, entra / entrate
+- id: intritsoc_accqualc_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Accogliere qualcuno
+  patterns:
+  - Accomodati!
+- id: intritsoc_accqualc_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Accogliere qualcuno
+  patterns:
+  - Fa' come se fossi a casa tua!
+  - Mettiti comodo!
+  - Prego, accomodati pure!
+- id: intritsoc_farebrind_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Fare un brindisi
+  description: Make a toast to celebrate a moment. Use 'Cin cin!' or 'Salute!' when raising
+    your glass with others.
+  patterns:
+  - Cin cin / Salute!
+  examples:
+  - <span lang="it">Cin cin! Buon compleanno, Marco!</span>
+  - <span lang="it">Salute! Benvenuti a tutti!</span>
+  - <span lang="it">Alziamo i bicchieri! Cin cin!</span>
+  - <span lang="it">Salute! Al nuovo anno!</span>
+  - <span lang="it">Cin cin! Auguri a voi due!</span>
+- id: intritsoc_farebrind_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Fare un brindisi
+  patterns:
+  - Brindiamo a
+  - Facciamo un brindisi a…
+  - Alla tua / nostra / vostra…!
+- id: intritsoc_congratul_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Congratularsi
+  description: Congratulate someone on an achievement or good news. Use phrases like <span
+    lang="it">Bravo!</span> or <span lang="it">Molto bene!</span> to show praise and enthusiasm.
+  patterns:
+  - Molto bene! / Bravo!
+  examples:
+  - <span lang="it">Hai superato l'esame? Bravo!</span>
+  - <span lang="it">Molto bene, Sofia! Sei bravissima!</span>
+  - <span lang="it">Complimenti per il tuo compleanno, Marco!</span>
+  - <span lang="it">Bravo, hai vinto! Sono molto contento per te.</span>
+  - <span lang="it">Molto bene! Hai fatto un ottimo lavoro.</span>
+- id: intritsoc_congratul_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Congratularsi
+  patterns:
+  - Congratulazioni!
+  - Complimenti!
+  - (Tanti) auguri!
+  - Bravissimo!
+  - Che bravo!
+- id: intritsoc_congratul_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Congratularsi
+  patterns:
+  - I miei complimenti!
+  - Mi congratulo con te!
+  - Le mie congratulazioni!
+- id: intritsoc_farecond_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Fare le proprie condoglianze
+  patterns:
+  - Condoglianze
+- id: intritsoc_farecond_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Fare le proprie condoglianze
+  patterns:
+  - Le mie più sentite/sincere condoglianze¹
+- id: intritsoc_augqualqual_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Augurare qualcosa a qualcuno
+  description: Wish someone well for a special occasion or event. Use phrases like <span lang="it">Buon
+    Natale!</span> or <span lang="it">Buon viaggio!</span> to express good wishes.
+  patterns:
+  - Buon nome
+  - Buon Natale!
+  - Buon compleanno!
+  - Buona Pasqua!
+  - Buon anno!
+  - Buona giornata!
+  - Buone vacanze!
+  - Buon viaggio!
+  examples:
+  - <span lang="it">Buon compleanno, Marco! Quanti anni compi?</span>
+  - <span lang="it">Buone vacanze a tutti! Ci vediamo a settembre.</span>
+  - <span lang="it">— Parto domani per Roma. — Ah, davvero? Buon viaggio!</span>
+  - <span lang="it">Buon Natale e Buon anno a te e alla tua famiglia!</span>
+  - <span lang="it">Buona giornata! A presto!</span>
+  - <span lang="it">— Domani è Pasqua! — Sì, Buona Pasqua!</span>
+- id: intritsoc_augqualqual_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Augurare qualcosa a qualcuno
+  patterns:
+  - Buon gruppo nominale
+  - Buon appetito!
+  - Buona fortuna!
+  - Buon divertimento!
+  - Buon fine settimana!
+- id: intritsoc_augqualqual_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Augurare qualcosa a qualcuno
+  patterns:
+  - I miei migliori auguri
+  - Spero che proposizione
+  - In bocca al lupo! (Crepi!) ¹
+- id: intritsoc_augqualqual_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Augurare qualcosa a qualcuno
+  patterns:
+  - Mi auguro che proposizione
+  - Altrettanto!
+  examples:
+  - Mi auguro che vada tutto bene.
+- id: intritsoc_prendcong_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Prendere congedo
+  description: Say goodbye in Italian using formal or informal farewells. Use 'Arrivederci'
+    in formal settings and 'Ciao!' or 'Ci vediamo!' with friends.
+  patterns:
+  - Arrivederci / Buongiorno / buonasera / buonanotte
+  - Ciao!/ Ci vediamo!
+  - A …
+  examples:
+  - A presto! A dopo! A domani!
+- id: intritsoc_prendcong_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Prendere congedo
+  patterns:
+  - Ci vediamo…
+  examples:
+  - Ci vediamo la settimana prossima
+- id: intritsoc_prendcong_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Prendere congedo
+  patterns:
+  - È stato un piacere incontrarti
+  - È stato un piacere conoscerti
+- id: intritsoc_prendcong_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Prendere congedo
+  patterns:
+  - Fatti sentire!
+  - Stammi bene!
+- id: intritsoc_inttelrisp_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono rispondendo
+  description: Answer a phone call in Italian. Use <span lang='it'>Sì?</span> or similar short
+    responses to pick up and signal you're ready to speak.
+  patterns:
+  - Sì?
+  examples:
+  - Sì?
+  - Pronto?
+  - Pronto, chi parla?
+  - Sì, sono io.
+  - Sì, pronto!
+  - Pronto, casa Rossi.
+- id: intritsoc_inttelrisp_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono rispondendo
+  patterns:
+  - Pronto?
+- id: intritsoc_inttelrisp_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono rispondendo
+  patterns:
+  - Pronto / Buongiorno gruppo nominale¹
+  examples:
+  - Buongiorno, studio del dottor Donati,
+  - desidera?
+- id: intritsoc_inttelpres_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono presentandosi
+  description: Introduce yourself by name when answering or making a phone call. Use 'Sono
+    [nome]' or state your full name to identify yourself.
+  patterns:
+  - (Sono) nome e cognome
+  examples:
+  - Pronto, sono Marco Rossi.
+  - Buongiorno, sono Anna Bianchi.
+  - Ciao, sono Luca!
+  - Salve, sono la signora Ferretti.
+  - Pronto? Sono Giovanni Marini, chiamo per un appuntamento.
+  - Buonasera, sono Marta Conti dell'agenzia Sole.
+- id: intritsoc_inttelparqual_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono chiedendo di parlare con qualcuno
+  description: Ask to speak with someone on the phone. Use 'C'è nome?' to ask if a person
+    is available.
+  patterns:
+  - C’è nome ( cognome )?
+  examples:
+  - Pronto, c'è Marco?
+  - Buongiorno, c'è la signora Ferretti?
+  - Ciao, c'è Giulia?
+  - Salve, c'è il dottor Bianchi?
+  - Pronto, c'è Paolo Rossi, per favore?
+- id: intritsoc_inttelparqual_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono chiedendo di parlare con qualcuno
+  patterns:
+  - Posso / vorrei parlare con titolo / nome / cognome , per favore?
+  - Parlo con…?
+- id: intritsoc_inttelparqual_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono chiedendo di parlare con qualcuno
+  patterns:
+  - Potrei / volevo parlare con titolo / nome / cognome , per favore?
+- id: intritsoc_inttelparqual_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono chiedendo di parlare con qualcuno
+  patterns:
+  - Potrebbe passarmi titolo / nome / cognome , per favore / cortesia?
+- id: intritsoc_inttelinfint_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono informandosi sull’identità dell’interlocutore
+  description: Ask who is calling during a phone conversation. Use 'Chi è?' to find out the
+    identity of the person on the line.
+  patterns:
+  - Chi è?
+  examples:
+  - — Pronto? — Chi è?
+  - Scusi, chi è? Non ho capito il nome.
+  - — Ciao! — Chi è? Non riconosco la voce.
+  - Chi è, per favore? Vuole parlare con mia madre?
+  - Aspetti un momento — chi è? — Sono Marco, il collega di Paolo.
+- id: intritsoc_inttelinfint_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono informandosi sull’identità dell’interlocutore
+  patterns:
+  - Con chi parlo, scusi?
+  - Chi parla, prego?
+- id: intritsoc_inttelinfint_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono informandosi sull’identità dell’interlocutore
+  patterns:
+  - Chi devo dire?
+- id: intritsoc_inttelfacatt_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono facendo attendere
+  description: Ask a phone caller to wait. Use 'Un momento' to put someone on hold briefly
+    while you find a person or information.
+  patterns:
+  - Un momento
+  examples:
+  - <span lang="it">Un momento, per favore!</span>
+  - <span lang="it">Un momento, la passo subito.</span>
+  - <span lang="it">Un momento, chiamo il signor Rossi.</span>
+  - <span lang="it">Un momento, non riesco a sentirla bene.</span>
+  - <span lang="it">Un momento, sto cercando il numero.</span>
+- id: intritsoc_inttelfacatt_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono facendo attendere
+  patterns:
+  - Mi dispiace è occupato/a
+- id: intritsoc_inttelfacatt_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono facendo attendere
+  patterns:
+  - Mi dispiace è sull’altra linea
+- id: intritsoc_inttelconconv_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono concludendo la conversazione
+  description: End a phone call politely. Use phrases like <span lang="it">Arrivederci</span>
+    or <span lang="it">A presto</span> to say goodbye and close the conversation.
+  patterns:
+  - Arrivederci / Buongiorno / buonasera / buonanotte
+  - Ciao!/ Ci vediamo!
+  - A …
+  examples:
+  - A presto! A dopo! A domani!
+- id: intritsoc_inttelconconv_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono concludendo la conversazione
+  patterns:
+  - Scusi ho sbagliato (numero)
+  - Ci sentiamo
+- id: intritsoc_inttelconconv_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire al telefono concludendo la conversazione
+  patterns:
+  - Grazie della telefonata.
+- id: intritsoc_inttelconconv_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire al telefono concludendo la conversazione
+  patterns:
+  - Grazie di aver chiamato/telefonato.
+- id: intritsoc_intcoremail_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza iniziando una lettera / cartolina /messaggio / e-mail
+  description: Opens a written message, letter, or email with the right greeting. Use phrases
+    like <span lang="it">Caro Marco</span> or <span lang="it">Ciao</span> to address your
+    reader appropriately.
+  patterns:
+  - Mio caro / mia cara Nome ( cognome )
+  - Ciao
+  - Caro Nome ( cognome )
+  - Caro Titolo ( cognome )
+  examples:
+  - <span lang="it">Ciao Giulia, come stai?</span>
+  - <span lang="it">Cara Anna, ti scrivo dalla Sicilia!</span>
+  - <span lang="it">Caro Signor Rossi, Le scrivo per...</span>
+  - <span lang="it">Mio caro Marco, sono a Parigi e penso a te.</span>
+  - <span lang="it">Cara professoressa Bianchi, ho una domanda.</span>
+  - <span lang="it">Caro Luca, come va?</span>
+- id: intritsoc_intcoremail_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza iniziando una lettera / cartolina /messaggio / e-mail
+  patterns:
+  - Gentile / Egregio/a signore / signora ( nome / cognome )
+  - Spettabile ditta
+- id: intritsoc_intconcemail_a1
+  cefr_level: A1
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza concludendo una lettera / cartolina /messaggio / e-mail
+  description: Sign off a letter, postcard, message, or email. Use warm closings like <span
+    lang="it">A presto</span>, <span lang="it">Con affetto</span>, or <span lang="it">Baci</span>
+    to end your message.
+  patterns:
+  - A presto / Baci / Con affetto / Un bacio
+  - Ciao
+  examples:
+  - <span lang="it">A presto! Ciao, Marco</span>
+  - <span lang="it">Un bacio grande. A presto, Giulia</span>
+  - <span lang="it">Con affetto, la tua amica Sara</span>
+  - <span lang="it">Baci a tutti! Ci vediamo presto. Luca</span>
+  - <span lang="it">Ciao per ora! Un bacio, Marta</span>
+  - <span lang="it">Con affetto e a presto, tua nonna Rosa</span>
+- id: intritsoc_intconcemail_a2
+  cefr_level: A2
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza concludendo una lettera / cartolina /messaggio / e-mail
+  patterns:
+  - Cari saluti
+  - Un abbraccio
+  - Un bacione
+- id: intritsoc_intconcemail_b1
+  cefr_level: B1
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza concludendo una lettera / cartolina /messaggio / e-mail
+  patterns:
+  - Con i miei più cari / affettuosi saluti
+  - Cordiali / distinti saluti / cordialmente
+  - Aspetto / attendo Sue / Vostre notizie
+- id: intritsoc_intconcemail_b2
+  cefr_level: B2
+  category: interagire_rituali_sociali
+  label: Interagire per corrispondenza concludendo una lettera / cartolina /messaggio / e-mail
+  patterns:
+  - In attesa di un Suo/ Vostro sollecito riscontro
+  - Colgo l’occasione per porgere distinti saluti
+- id: strutdisc_annarg_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Annunciare l’inizio di un argomento
+  patterns:
+  - All’inizio…
+  - Allora
+  - Dunque
+  - Prima di tutto….
+- id: strutdisc_annarg_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Annunciare l’inizio di un argomento
+  patterns:
+  - Innanzitutto / per cominciare... in seguito / poi /…
+  - Parlerò dei seguenti punti / di nome …
+  - Vedremo che proposizione
+  - Prenderò in considerazione /… i seguenti punti /…
+  - Parlerò di nome / proposizione
+  - Concluderò / finirò proposizione
+  - L’ultimo punto /… che prenderò in considerazione /
+- id: strutdisc_intstoracane_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Introdurre una storia, un racconto, un aneddoto
+  patterns:
+  - Ti racconto proposizione
+  examples:
+  - Ti racconto che cosa è successo a mio fratello.
+- id: strutdisc_intstoracane_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Introdurre una storia, un racconto, un aneddoto
+  patterns:
+  - Non so se lo sai, ma…
+  - Tu non sai quello che mi è successo…
+  - Non ti ho detto che proposizione
+  - C’era una volta …
+- id: strutdisc_intinf_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Introdurre un’informazione
+  patterns:
+  - Sai che proposizione ?
+  examples:
+  - Sai che Mario è partito?
+- id: strutdisc_intinf_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Introdurre un’informazione
+  patterns:
+  - Sapevi che proposizione ?
+  examples:
+  - Sapevi che non c’è lezione oggi?
+- id: strutdisc_intinf_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Introdurre un’informazione
+  patterns:
+  - Ti informo che proposizione
+  - Vorrei dire una parola a proposito di / su gruppo nominale
+  - In quanto a gruppo nominale
+  - E poi proposizione
+  - A proposito di gruppo nominale
+  - Per quanto riguarda gruppo nominale
+  - Vorrei sottolineare / … che proposizione
+  - Questo è l’argomento / l’aspetto /… che prenderò in considerazione
+  - È noto /… che proposizione
+  - È interessante notare / … che proposizione¹
+  examples:
+  - E poi per quel lavoro, hai pensato di rispondere all’annuncio?
+- id: strutdisc_sviargenumer_a1
+  cefr_level: A1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, enumerando
+  description: List items or ideas in sequence using 'e' (and) to link them. E.g. 'un letto,
+    una sedia e un armadio' or 'caffè, cornetto e succo'.
+  patterns:
+  - Gruppo nominale e gruppo nominale
+  examples:
+  - In camera c’è un letto, una sedia e….
+- id: strutdisc_sviargenumer_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, enumerando
+  patterns:
+  - Prima…poi / allora /…
+- id: strutdisc_sviargenumer_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, enumerando
+  patterns:
+  - Primo proposizione , secondo proposizione , terzo proposizione …
+  - Non solo… ma anche
+  - …ed anche
+  - inoltre
+  - Infine
+  - Finalmente
+  - Alla fine
+- id: strutdisc_sviargenumer_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, enumerando
+  patterns:
+  - In primo luogo proposizione , in secondo luogo
+  - proposizione , …
+  - In conclusione, proposizione
+  - Da un lato, … dall’altro …
+  - Eccetera
+- id: strutdisc_sviargclass_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, classificando
+  patterns:
+  - Gruppo nominale appartiene a /… gruppo nominale
+  - È un tipo di gruppo nominale
+  - È dello stesso genere / tipo … di gruppo nominale
+- id: strutdisc_sviargconfront_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, confrontando
+  patterns:
+  - Gruppo nominale è ...come / quanto... gruppo nominale
+  - Gruppo nominale è simile / uguale /… a gruppo nominale
+  examples:
+  - Mc Donald’s non è un ristorante caro come gli altri .
+- id: strutdisc_sviargconfront_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, confrontando
+  patterns:
+  - Si può confrontare / paragonare gruppo nominale a/con gruppo nominale
+  - In confronto / rispetto a gruppo nominale
+- id: strutdisc_svitemadesc_a1
+  cefr_level: A1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, descrivendo
+  description: Develop a topic by describing it. Use '…è aggettivo…' or 'C'è…' to add descriptive
+    details, e.g. 'La mia camera è grande' or 'C'è un parco vicino.'
+  patterns:
+  - …è aggettivo …
+  - C’è gruppo nominale …
+  examples:
+  - La mia camera è grande.
+- id: strutdisc_svitemadesc_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, descrivendo
+  patterns:
+  - C’è gruppo nominale / gruppo preposizionale…
+  examples:
+  - Sulla parete del mio soggiorno ci sono due quadri e vicino al divano c’è un mobile antico.
+- id: strutdisc_svitemadesc_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, descrivendo
+  patterns:
+  - Proposizione ( o sequenza di proposizioni )
+  examples:
+  - Il mio appartamento si trovava in periferia e ci voleva mezz’ora per arrivare in centro.
+- id: strutdisc_svitemadesc_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, descrivendo
+  patterns:
+  - Proposizione ( o sequenza di proposizioni )¹
+  - …come…²
+  examples:
+  - In fondo alla piazza c’è il duomo. A destra il museo e a sinistra la torre.
+  - In primo piano la figura di donna, sullo sfondo il paesaggio.
+  - Il quadro rappresenta un paesaggio.
+  - Era bello come il sole.
+- id: strutdisc_svitemaracc_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, raccontando
+  patterns:
+  - Proposizione (o sequenza di proposizioni )
+  - Proposizione (o sequenza di proposizioni )
+  examples:
+  - Ieri sono andato a scuola e poi sono andato in biblioteca.
+  - Ora Luca abita a Londra, è sposato e ha due bambini.
+- id: strutdisc_svitemaracc_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, raccontando
+  patterns:
+  - Proposizione (o sequenza di proposizioni )
+  - Gruppo nominale / pronome ha detto che proposizione
+  examples:
+  - Domenica scorsa mio fratello ha incontrato un suo vecchio amico mentre camminava sulla
+    spiaggia.
+  - Il professore ha detto che dobbiamo finire l’esercizio.
+- id: strutdisc_svitemaracc_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sviluppare un tema, un argomento, raccontando
+  patterns:
+  - Gruppo nominale/pronome ha detto proposizione (verbo condizionale)
+  - Si tratta/si parla di ...
+  - Proposizione (o sequenza di proposizioni) presente narrativo¹
+  - Proposizione (o sequenza di proposizioni) passato remoto
+  examples:
+  - Il professore ha detto che oggi non avrebbe fatto lezione.
+- id: strutdisc_sotmetevid_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sottolineare, mettere in evidenza
+  patterns:
+  - '...particolarmente / proprio / veramente /....'
+  examples:
+  - Questa pasta è proprio buona.
+- id: strutdisc_sotmetevid_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Sottolineare, mettere in evidenza
+  patterns:
+  - È chiaro / evidente / certo che proposizione
+  - Vorrei sottolineare / mettere in evidenza… il fatto che proposizione
+  examples:
+  - È chiaro che è una questione molto difficile.
+- id: strutdisc_faretransarg_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Fare una transizione, cambiare argomento
+  patterns:
+  - Passiamo ora al prossimo punto / argomento /… ¹
+  - Un altro punto / argomento /… da considerare è gruppo nominale
+  - Il punto / l’argomento /… seguente è gruppo nominale
+  - Al contrario …
+  - Per quanto riguarda gruppo nominale , proposizione
+- id: strutdisc_proptemaarg_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Proporre un nuovo tema, un nuovo argomento
+  patterns:
+  - Che ne pensi di gruppo nominale ?
+  examples:
+  - Che ne pensi del nuovo professore?
+- id: strutdisc_proptemaarg_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Proporre un nuovo tema, un nuovo argomento
+  patterns:
+  - A proposito, proposizione
+  - A parte questo / gruppo nominale , proposizione
+  - Passando ad altro, proposizione
+  examples:
+  - A proposito, quando parti?
+  - A parte il rumore, com’è la tua camera?
+  - Passando ad altro, che ne pensi del nuovo presidente?
+- id: strutdisc_resptemarg_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Respingere un tema, un argomento
+  patterns:
+  - Non ne parliamo più
+  - Questo non c’entra niente
+  - Questo non ha niente a che fare con proposizione
+  - Parliamo d’altro che è meglio
+- id: strutdisc_aprdigres_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Aprire una digressione
+  patterns:
+  - Tra l’altro, …
+  - Tra parentesi, …
+  - A ( questo) proposito, …
+  - Apro una parentesi
+- id: strutdisc_chiudigres_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Chiudere una digressione
+  patterns:
+  - Cosa stavo dicendo?
+  - Quindi…. proposizione
+  - Chiusa parentesi, proposizione
+  - Chiudo la parentesi
+- id: strutdisc_torntemtrat_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Tornare su un tema, su un argomento già trattato
+  patterns:
+  - Riprendendo / continuando / … il discorso
+  - Ritornando a gruppo nominale
+  - Come dicevo / stavo dicendo, proposizione
+  - Come ho detto prima
+- id: strutdisc_daresemp_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Dare un esempio
+  patterns:
+  - Per esempio, proposizione
+  - È come gruppo nominale che…
+  examples:
+  - Per esempio, se spedisco questo pacco, quanto costa?
+  - Sì, è come quella medicina che uso per il mal di testa.
+- id: strutdisc_daresemp_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Dare un esempio
+  patterns:
+  - Ti faccio un esempio, …
+  - Per fare un esempio, proposizione
+- id: strutdisc_rifopialtrui_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Riferire opinioni altrui
+  patterns:
+  - Gruppo nominale dice / pensa /… che
+  - Gruppo nominale spera che .. proposizione
+  examples:
+  - Mio padre dice che Roma è una città molto bella.
+- id: strutdisc_rifopialtrui_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Riferire opinioni altrui
+  patterns:
+  - Gruppo nominale afferma / … che proposizione
+  - Si dice / dicono che proposizione
+- id: strutdisc_citare_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Citare
+  patterns:
+  - 'Cito : “…”'
+  - Nome afferma / sottolinea / … che “ …”
+  - Come afferma / sottolinea / … gruppo nominale “…”
+- id: strutdisc_riassumere_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Riassumere
+  patterns:
+  - Insomma, …
+  examples:
+  - C’era tanta gente e tante cose buone da mangiare, insomma una bella festa!
+- id: strutdisc_riassumere_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Riassumere
+  patterns:
+  - Riassumendo…
+  - In breve, ..
+  - In poche parole, …
+- id: strutdisc_corriprend_a1
+  cefr_level: A1
+  category: strutturare_discorso
+  label: Correggersi, riprendersi
+  description: Use this to correct yourself mid-sentence. Say <span lang="it">no</span> or
+    <span lang="it">scusi/scusa</span> to signal you are starting over, e.g. <span lang="it">Vorrei
+    una matita… no, una penna.</span>
+  patterns:
+  - … no …
+  - …scusi/scusa …¹
+  examples:
+  - Vorrei una matita, … no, una penna.
+  - Vorrei una matita,… scusi, una penna.
+- id: strutdisc_corriprend_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Correggersi, riprendersi
+  patterns:
+  - ….no (scusa / scusi), non
+  - …ma …
+  examples:
+  - Vorrei un etto di formaggio, no scusi non un etto ma due.
+- id: strutdisc_corriprend_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Correggersi, riprendersi
+  patterns:
+  - … o per essere più precisi …
+  - … o più esattamente …
+  - …precisamente …
+  - …anzi …
+- id: strutdisc_cerparfrase_a1
+  cefr_level: A1
+  category: strutturare_discorso
+  label: Cercare una parola o una frase
+  description: Ask what something is called in Italian using gestures. Use 'Come si dice?'
+    or 'Come si chiama?' when you don't know the word for something.
+  patterns:
+  - Come si dice? ( con supporto gestuale )
+  - Come si chiama? ( con supporto gestuale )
+  examples:
+  - Come si dice? (indica la finestra)
+  - Come si chiama questo? (indica il menu sul tavolo)
+  - Scusi, come si dice in italiano? (indica la borsa)
+  - Come si chiama quella cosa lì? (indica il semaforo)
+  - Come si dice 'apple' in italiano?
+  - Come si chiama? Non ricordo la parola. (indica il dizionario)
+- id: strutdisc_cerparfrase_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Cercare una parola o una frase
+  patterns:
+  - …come si dice / come si chiama…?
+  - …. non so le parole…
+  examples:
+  - Io ho un…come si chiama il marito di mia sorella?
+- id: strutdisc_cerparfrase_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Cercare una parola o una frase
+  patterns:
+  - Non mi viene in mente
+- id: strutdisc_sostppartout_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Sostituire una parola dimenticata o sconosciuta con un nome o una parola passe-partout
+  patterns:
+  - …cosa / persona / oggetto…
+  examples:
+  - È la cosa che uso per aprire la bottiglia.
+- id: strutdisc_sostppartout_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Sostituire una parola dimenticata o sconosciuta con un nome o una parola passe-partout
+  patterns:
+  - … qualcosa …
+  examples:
+  - Dottore, vorrei qualcosa per il mal di testa.
+- id: strutdisc_chiedespres_a1
+  cefr_level: A1
+  category: strutturare_discorso
+  label: Chiedere aiuto a proposito di una parola, di una espressione
+  description: Ask how to say a word or phrase in Italian. Use 'Come si dice … in italiano?'
+    to get the translation you need.
+  patterns:
+  - Come si dice …, in …?
+  examples:
+  - Come si dice [espressione in lingua madre] in italiano?
+- id: strutdisc_chiedespres_a2
+  cefr_level: A2
+  category: strutturare_discorso
+  label: Chiedere aiuto a proposito di una parola, di una espressione
+  patterns:
+  - In ..si dice …?
+  - Non so come si dice …
+  examples:
+  - In italiano si dice “monumento”?
+- id: strutdisc_chiedespres_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Chiedere aiuto a proposito di una parola, di una espressione
+  patterns:
+  - Non mi ricordo / Ho dimenticato la parola per…
+  - In italiano qual è la parola per ……
+  examples:
+  - In italiano, qual è la parola per [parola in lingua madre]?
+- id: strutdisc_concdisc_b1
+  cefr_level: B1
+  category: strutturare_discorso
+  label: Concludere un discorso
+  patterns:
+  - Insomma, …
+  - (E) allora, quindi, dunque …
+  - Infine, …
+- id: strutdisc_concdisc_b2
+  cefr_level: B2
+  category: strutturare_discorso
+  label: Concludere un discorso
+  patterns:
+  - Di conseguenza, …
+  - E questo è tutto
+  - Concludo …
+  - Ho concluso (grazie)
+  - In conclusione, …Per concludere / finire
+  - Grazie per la vostra attenzione¹
+  - Speriamo che vada tutto bene²
+  - (Mah) vedremo³
+- id: strintverb_comconv_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Cominciare una conversazione
+  patterns:
+  - Ecco, proposizione
+  - Allora, dunque
+  - Beh, proposizione
+- id: strintverb_comconv_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Cominciare una conversazione
+  patterns:
+  - Vorrei parlarti di gruppo nominale
+  - Posso parlarti di gruppo nominale ?
+  - Hai un minuto?
+  - Ho bisogno di parlarti
+- id: strintverb_preparconv_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Prendere la parola nel corso di una conversazione
+  patterns:
+  - Beh,
+  - Secondo me, …
+- id: strintverb_preparconv_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Prendere la parola nel corso di una conversazione
+  patterns:
+  - Io voglio dire che proposizione
+  - Io penso / credo / … gruppo nominale / che proposizione
+  - A mio parere, …
+  - Beh, guarda,
+  - Ascolta, …
+- id: strintverb_chiupar_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Chiedere la parola
+  patterns:
+  - Vorrei dire una cosa
+  - Potrei dire una cosa?
+- id: strintverb_chiupar_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Chiedere la parola
+  patterns:
+  - Posso / potrei prendere la parola / intervenire?¹
+- id: strintverb_ripparinter_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Riprendere la parola dopo essere stati interrotti
+  patterns:
+  - (Solo) un minuto/secondo, per favore
+  - Per favore¹
+- id: strintverb_ripparinter_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Riprendere la parola dopo essere stati interrotti
+  patterns:
+  - Lasciami finire, per favore
+  - Non mi interrompere, per favore
+  - Devo dire/aggiungere un’ultima cosa
+- id: strintverb_impqualparl_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Impedire a qualcuno di parlare
+  patterns:
+  - Basta!
+  - (Sta’) zitto!
+  - (Fa’) silenzio!¹
+  - Silenzio, per favore
+- id: strintverb_asscapsegue_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene chiedendogli se capisce o sta seguendo
+  patterns:
+  - Capisci?
+  - (Hai) capito?
+- id: strintverb_asscapsegue_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene chiedendogli se capisce o sta seguendo
+  patterns:
+  - È (tutto) chiaro?
+  - Capisci quello che voglio dire?
+- id: strintverb_asscapsegue_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene chiedendogli se capisce o sta seguendo
+  patterns:
+  - Mi segui?
+- id: strintverb_assparespres_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene definendo una parola, un’espressione
+  patterns:
+  - Gruppo nominale è …
+  examples:
+  - La sorella di mio padre è mia zia.
+- id: strintverb_assparespres_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene definendo una parola, un’espressione
+  patterns:
+  - Gruppo nominale è come gruppo nominale
+  - '..., è un / il nome proposizione relativa'
+  - …, è quando proposizione
+  - …, è per proposizione infinitiva
+  examples:
+  - Il giornalista è la persona che scrive sui giornali.
+- id: strintverb_assattparaf_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene attraverso una parafrasi
+  patterns:
+  - … cioè …
+  - …(questo) significa / vuol dire che …
+  - …, dunque …
+  - Voglio dire che
+- id: strintverb_assattparaf_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene attraverso una parafrasi
+  patterns:
+  - …in altre parole …
+  - … vale a dire (che) …
+  - …, con questo voglio dire che …
+  - Mi spiego (meglio), …
+  - … ovvero….
+- id: strintverb_asstradpar_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene traducendo una parola
+  patterns:
+  - … significa …
+  - In [ lingua ], … si dice …
+- id: strintverb_asstradpar_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene traducendo una parola
+  patterns:
+  - … si traduce …
+  - … vuol dire ….
+- id: strintverb_asscapbenesil_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi che l’interlocutore abbia capito bene sillabando
+  description: Spell out a word letter by letter or syllable by syllable so the listener understands
+    correctly. Use patterns like <span lang="it">C-A-N-E</span> or <span lang="it">… si scrive
+    …</span>.
+  patterns:
+  - '[Pronunciando la sequenza di lettere]'
+  - '[Sillabando]'
+  - … si scrive …
+  examples:
+  - C (ci)-A-N (enne)-E
+  - CA- NE
+  - Mamma si scrive M (emme) A doppia M (emme) A
+- id: strintverb_assfacpres_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore facendoglielo presente
+  description: Signal that you didn't understand by saying 'Scusa? Come? Non ho capito.' Keeps
+    the conversation going when something is unclear.
+  patterns:
+  - Scusa / scusi?¹ Come? / Cosa? / Che?
+  - Non ho capito
+  examples:
+  - — Il treno parte alle diciassette e quarantadue. — Scusa? Non ho capito.
+  - — Devi prendere la seconda strada a sinistra. — Come? Puoi ripetere?
+  - — Il suo nome è Bartholomew. — Scusi? Cosa ha detto?
+  - — La riunione è domani mattina presto. — Che? Non ho capito bene.
+  - — Vai sempre dritto fino al semaforo. — Scusa, non ho capito. Puoi ripetere?
+  - — Il prezzo totale è cinquantasette euro. — Come? Non ho capito il prezzo.
+- id: strintverb_assfacpres_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore facendoglielo presente
+  patterns:
+  - Che cosa hai/ha detto?
+  - Come?
+  - Non è chiaro
+  - Non capisco
+- id: strintverb_assfacpres_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore facendoglielo presente
+  patterns:
+  - Cioè?
+  - Non capisco/non ho capito cosa vuoi dire
+  - Eh?¹
+- id: strintverb_assfacpres_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore facendoglielo presente
+  patterns:
+  - Non ti seguo
+  - Scusa che vuoi dire con gruppo nominale ?
+  - Prego?
+  - In che senso?
+- id: strintverb_asschiedrip_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli di ripetere
+  description: Ask someone to repeat what they said to make sure you understood. Use <span
+    lang="it">Scusa/Scusi?</span> or <span lang="it">Puoi/Può ripetere, per favore?</span>
+  patterns:
+  - Scusa /Scusi?¹ / Puoi / può ripetere, per favore?
+  - '¹ Nota: uso formulaico'
+  examples:
+  - — <span lang="it">Il treno parte alle diciassette e quarantadue.</span> — <span lang="it">Scusa?
+    Puoi ripetere, per favore?</span>
+  - <span lang="it">Scusi, non ho capito. Può ripetere, per favore?</span>
+  - — <span lang="it">Mi chiamo Wojciech.</span> — <span lang="it">Scusa? Come?</span>
+  - <span lang="it">Puoi ripetere, per favore? Non ho sentito bene.</span>
+  - — <span lang="it">La farmacia è in via Garibaldi, al numero dodici.</span> — <span lang="it">Scusi,
+    può ripetere? Grazie.</span>
+- id: strintverb_asschiedrip_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli di ripetere
+  patterns:
+  - Scusa, come / cosa hai detto / dici / ?
+- id: strintverb_asschiedrip_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli di ripetere
+  patterns:
+  - Mi potresti dire / spiegare il significato di …?
+  - Prego?
+  examples:
+  - Mi potresti spiegare il significato di “ “?
+- id: strintverb_asschiedscrive_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli come si scrive
+  description: Ask how a word is spelled to make sure you understood correctly. Use 'Come
+    si scrive …?' or 'Come si scrive questa parola?' when you need clarification.
+  patterns:
+  - Come si scrive …?
+  - Come si scrive questa parola?
+  examples:
+  - Scusi, come si scrive il suo cognome?
+  - Come si scrive questa parola? Non capisco.
+  - Come si scrive 'zaino'? Con la zeta?
+  - Mi può dire come si scrive il nome della via?
+  - Come si scrive 'spaghetti'? Con una 'g' o due?
+- id: strintverb_asschiedparlent_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli di parlare lentamente
+  description: Ask someone to slow down so you can understand them. Use phrases like 'Puoi
+    parlare più piano, per favore?' or simply 'Più piano!'
+  patterns:
+  - Puoi parlare più piano, per favore?
+  - Piano! / Più piano!
+  - Più piano, per favore
+  examples:
+  - Scusa, puoi parlare più piano, per favore? Non capisco bene.
+  - Più piano, per favore! Sto imparando l'italiano.
+  - Piano! Parli troppo veloce per me.
+  - Può parlare più piano, per favore? Sono straniero.
+  - Più piano, grazie! Così capisco meglio.
+  - Scusi, può parlare un po' più piano? Non ho capito.
+- id: strintverb_asschieddefparaf_a1
+  cefr_level: A1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli una definizione, una
+    parafrasi
+  description: Ask for a definition or paraphrase to make sure you understood a word or phrase.
+    Use 'Che cos'è…?' or 'Cosa significa…?' to clarify meaning.
+  patterns:
+  - Che cos’è / sono …?
+  - Che / Cosa significa?
+  examples:
+  - Che cos’è “la sala da pranzo”?
+- id: strintverb_asschieddefparaf_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli una definizione, una
+    parafrasi
+  patterns:
+  - Che significa …?
+  examples:
+  - Scusa, che significa “divieto di fermata”?
+- id: strintverb_asschieddefparaf_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli una definizione, una
+    parafrasi
+  patterns:
+  - Che vuol dire ...? ..., che vuol dire ?
+- id: strintverb_asschiedconfer_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore chiedendogli una conferma
+  patterns:
+  - Hai / ha detto …
+  examples:
+  - Scusa, hai detto “il sedici aprile?”
+- id: strintverb_assvercap_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore verificando ciò che si è capito
+  patterns:
+  - Vuoi dire che proposizione?
+  examples:
+  - Mamma, vuoi dire che non mi posso alzare ancora per una settimana?
+- id: strintverb_assvercap_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Assicurarsi di aver capito bene l’interlocutore verificando ciò che si è capito
+  patterns:
+  - Ti riferisci a gruppo nominale ?
+  - Dunque…?
+  examples:
+  - Scusa, ti riferisci al mio conto corrente?
+  - Dunque dobbiamo fare la denuncia alla polizia?
+- id: strintverb_cedparola_a2
+  cefr_level: A2
+  category: strutturare_interazione_verbale
+  label: Cedere la parola
+  patterns:
+  - Non so
+- id: strintverb_cedparola_b1
+  cefr_level: B1
+  category: strutturare_interazione_verbale
+  label: Cedere la parola
+  patterns:
+  - E secondo te?
+  - Tu che ne dici?
+  examples:
+  - Secondo me è così.
+  - Tu che ne dici?
+- id: strintverb_cedparola_b2
+  cefr_level: B2
+  category: strutturare_interazione_verbale
+  label: Cedere la parola
+  patterns:
+  - Non saprei
