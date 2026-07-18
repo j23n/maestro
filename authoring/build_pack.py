@@ -326,19 +326,35 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
     )
 
 
-def _embed_media(conn: sqlite3.Connection, items: list, pack_dir: Path) -> int:
+def _embed_media(
+    conn: sqlite3.Connection, items: list, pack_dir: Path, spec: Spec | None = None
+) -> int:
     embedded: set[str] = set()
+
+    def embed(ref: str) -> None:
+        if ref in embedded:
+            return
+        data = (pack_dir / ref).read_bytes()
+        kind = "audio" if Path(ref).suffix.lower() in _AUDIO_EXT else "image"
+        conn.execute(
+            "INSERT INTO media VALUES (?, ?, ?, ?)",
+            (ref, kind, hashlib.sha256(data).hexdigest(), data),
+        )
+        embedded.add(ref)
+
     for item in items:
         for ref in _media_refs(item):
-            if ref in embedded:
-                continue
-            data = (pack_dir / ref).read_bytes()
-            kind = "audio" if Path(ref).suffix.lower() in _AUDIO_EXT else "image"
-            conn.execute(
-                "INSERT INTO media VALUES (?, ?, ?, ?)",
-                (ref, kind, hashlib.sha256(data).hexdigest(), data),
-            )
-            embedded.add(ref)
+            embed(ref)
+    # Scenario art lives at a conventional path (no spec field): the app
+    # asks the media table for images/scenarios/<id>.png and renders it
+    # if present.
+    if spec is not None:
+        for s in spec.scenarios:
+            for ext in sorted(_IMAGE_EXT):
+                p = pack_dir / "images" / "scenarios" / f"{s.id}{ext}"
+                if p.is_file():
+                    embed(f"images/scenarios/{s.id}{ext}")
+                    break
     return len(embedded)
 
 
@@ -404,7 +420,7 @@ def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
         "INSERT INTO tombstones VALUES (?, ?, ?)",
         [(t.item_id, t.removed_in, t.reason) for t in sources.tombstones],
     )
-    media_count = _embed_media(conn, reviewed, pack_dir)
+    media_count = _embed_media(conn, reviewed, pack_dir, spec)
 
     built = 0
     for item in reviewed:

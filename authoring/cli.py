@@ -22,7 +22,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(prog="maestro-pack")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    for name in ("validate", "build", "generate", "review", "release"):
+    for name in (
+        "validate",
+        "build",
+        "generate",
+        "generate-audio",
+        "generate-images",
+        "review",
+        "release",
+    ):
         p = sub.add_parser(name)
         p.add_argument("--pack", default="packs/it", help="pack source dir")
     val = sub.choices["validate"]
@@ -73,6 +81,19 @@ def main() -> int:
         help="parse a prepared model response instead of calling the API",
     )
     gen.add_argument("--model", default=None)
+    aud = sub.choices["generate-audio"]
+    aud.add_argument("--provider", default="mock", choices=("mock", "azure", "openai"))
+    aud.add_argument("--force", action="store_true", help="re-render everything")
+    aud.add_argument("--voice-a", default=None, help="override primary voice")
+    aud.add_argument("--voice-b", default=None, help="override secondary voice")
+    img = sub.choices["generate-images"]
+    img.add_argument("--provider", default="mock", choices=("mock", "openai"))
+    img.add_argument("--force", action="store_true", help="re-generate everything")
+    img.add_argument(
+        "--targets",
+        default="scenarios,vocab,readings",
+        help="comma list of scenarios,vocab,readings",
+    )
     sub.choices["review"].add_argument("--port", type=int, default=8321)
 
     args = parser.parse_args()
@@ -150,6 +171,27 @@ def main() -> int:
             args.count,
             from_file=args.from_file,
             model=args.model or DEFAULT_MODEL,
+        )
+        return 0
+
+    if args.command == "generate-audio":
+        from authoring.audio import generate_audio
+
+        voices = None
+        if args.voice_a and args.voice_b:
+            voices = (args.voice_a, args.voice_b)
+        generate_audio(pack_dir, args.provider, force=args.force, voices=voices)
+        return 0
+
+    if args.command == "generate-images":
+        from authoring.images import generate_images
+
+        generate_images(
+            pack_dir,
+            spec_dir,
+            args.provider,
+            targets=set(args.targets.split(",")),
+            force=args.force,
         )
         return 0
 
