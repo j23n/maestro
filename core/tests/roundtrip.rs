@@ -121,7 +121,7 @@ fn full_roundtrip() {
         .unwrap();
     assert!(other.feedback.unwrap().contains("Passato prossimo"));
 
-    // Evidence events round-trip in order.
+    // Evidence events round-trip in order and are schema-validated.
     let attempt = |outcome: &str| {
         format!(
             r#"{{"type":"attempt","item_id":"drill.pp_avere_001","outcome":"{outcome}",
@@ -133,8 +133,21 @@ fn full_roundtrip() {
     core.record_event(attempt("correct")).unwrap();
     core.record_event(attempt("correct")).unwrap();
     assert!(core.record_event("not json".into()).is_err());
+    assert!(core
+        .record_event(r#"{"type":"attempt","outcome":"correct","evidence":[]}"#.into())
+        .is_err());
     let events = core.list_events_json().unwrap();
     assert_eq!(events.len(), 3);
+
+    // Derived state reflects the three fresh corrects (mass 3.0 -> mastered).
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs() as i64;
+    let summary: serde_json::Value =
+        serde_json::from_str(&core.progress_summary(now).unwrap()).unwrap();
+    assert_eq!(summary["grammar"]["pass_pros"]["label"], "consolidated");
+    assert_eq!(summary["modality_evidence"]["writing"], 3);
 
     std::fs::remove_dir_all(&dir).unwrap();
 }

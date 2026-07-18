@@ -5,10 +5,12 @@
 //! score an answer deterministically, append an evidence event, read it
 //! back — behind a UniFFI-exported API a SwiftUI shell can call.
 //!
-//! The full folds (mastery, SRS, session composition) arrive in later
-//! stages; nothing here should need rework for them, only extension.
+//! The typed learner model and derived-state folds live in `model` and
+//! `folds`; session composition arrives in the next stage.
 
 mod events;
+pub mod folds;
+pub mod model;
 mod normalize;
 pub mod pack;
 
@@ -110,14 +112,48 @@ impl Core {
         pack::score_attempt(&self.pack.lock().unwrap(), &item_id, &response)
     }
 
-    /// Append an evidence event (a JSON object) to the learner record.
-    /// Schema validation arrives with the typed learner model.
+    /// Append an evidence event (a JSON object matching `model::EvidenceEvent`)
+    /// to the learner record. Validated before insert.
     pub fn record_event(&self, event_json: String) -> Result<(), CoreError> {
+        let ev: model::EvidenceEvent =
+            serde_json::from_str(&event_json).map_err(|e| CoreError::Invalid {
+                message: format!("event does not match schema: {e}"),
+            })?;
+        ev.validate().map_err(|message| CoreError::Invalid { message })?;
         events::record(&self.learner.lock().unwrap(), &event_json)
     }
 
     /// All recorded events, oldest first, as JSON objects.
     pub fn list_events_json(&self) -> Result<Vec<String>, CoreError> {
         events::list(&self.learner.lock().unwrap())
+    }
+
+    /// Full derived learner state (`model::DerivedState`) as JSON.
+    /// `now` is unix seconds — explicit so folds are deterministic.
+    pub fn progress_summary(&self, now: i64) -> Result<String, CoreError> {
+        let events = self.load_events()?;
+        let spec = pack::load_spec(&self.pack.lock().unwrap())?;
+        let state = folds::fold(&events, &spec, now);
+        serde_json::to_string(&state).map_err(|e| CoreError::Storage {
+            message: e.to_string(),
+        })
+    }
+}
+
+impl Core {
+    fn load_events(&self) -> Result<Vec<model::EvidenceEvent>, CoreError> {
+        let raw = events::list_with_times(&self.learner.lock().unwrap())?;
+        let mut out = Vec::with_capacity(raw.len());
+        for (created_at, payload) in raw {
+            let mut ev: model::EvidenceEvent =
+                serde_json::from_str(&payload).map_err(|e| CoreError::Storage {
+                    message: format!("corrupt event in log: {e}"),
+                })?;
+            if ev.at.is_none() {
+                ev.at = Some(created_at);
+            }
+            out.push(ev);
+        }
+        Ok(out)
     }
 }

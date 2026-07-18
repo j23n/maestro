@@ -1,0 +1,20 @@
+{
+  "name": "fresh learner: nothing introduced, first session introduces the DAG root",
+  "spec": {
+    "grammar": [
+      {"id": "gp_a", "cefr_level": "A0", "prerequisites": []},
+      {"id": "gp_b", "cefr_level": "A1", "prerequisites": ["gp_a"]}
+    ],
+    "scenarios": [
+      {"id": "sc-1", "cefr_level": "A0", "phase": 1, "sequence": 1,
+       "depth_count": 2, "grammar_ids": ["gp_a", "gp_b"], "function_ids": []}
+    ]
+  },
+  "events": [],
+  "now": 1800000000,
+  "expect_state": {
+    "cefr_estimate": "A0",
+    "current_phase": 1
+  },
+  "expect_unlocked": ["gp_a"]
+}

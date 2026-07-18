@@ -52,3 +52,13 @@ pub fn list(conn: &Connection) -> Result<Vec<String>, CoreError> {
         .collect::<Result<Vec<String>, _>>()?;
     Ok(events)
 }
+
+/// (created_at, payload) pairs, oldest first — created_at backfills events
+/// whose JSON carries no explicit `at`.
+pub fn list_with_times(conn: &Connection) -> Result<Vec<(i64, String)>, CoreError> {
+    let mut stmt = conn.prepare("SELECT created_at, payload FROM events ORDER BY seq")?;
+    let events = stmt
+        .query_map([], |row| Ok((row.get(0)?, row.get(1)?)))?
+        .collect::<Result<Vec<(i64, String)>, _>>()?;
+    Ok(events)
+}

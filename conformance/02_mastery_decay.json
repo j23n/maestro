@@ -1,0 +1,24 @@
+{
+  "name": "mastery: weights, decay, minimum evidence mass (mastery.py port)",
+  "spec": {
+    "grammar": [{"id": "gp_a", "cefr_level": "A0", "prerequisites": []}]
+  },
+  "events": [
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "gp_a", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "gp_a", "weight": 1.0}]},
+    {"type": "attempt", "at": 1794816000, "outcome": "incorrect",
+     "evidence_class": "productive",
+     "evidence": [{"axis": "grammar", "id": "gp_a", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "gp_a", "weight": 1.0}]}
+  ],
+  "now": 1800000000,
+  "comment": "3 fresh targeted corrects (mass 3.0) + productive incorrect 60 days old (1.5 * 0.95^60 = 0.0692). score = (3 - 0.0692) / 3.0692 = 0.9549 -> consolidated",
+  "expect_state": {
+    "grammar": {
+      "gp_a": {"label": "consolidated", "mastery_approx": 0.9549, "tolerance": 0.001}
+    }
+  }
+}
