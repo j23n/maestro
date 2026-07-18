@@ -252,9 +252,106 @@ def test_review_flow_accept_and_reject(tmp_path):
     assert drafts[0]["status"] == "reviewed"
 
     # Accepted item now counts toward coverage, queue is empty.
+    assert "Queue empty" in client.get("/").text
+    assert "ind_pres" in client.get("/coverage").text
+
+
+def test_review_covers_all_item_families(tmp_path):
+    import shutil
+
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    # Demote one non-drill item of each family to draft.
+    for subdir in ("readings", "vocab", "speaking_prompts"):
+        f = next((pack / subdir).glob("*.yaml"))
+        entries = yaml.safe_load(f.read_text())
+        entries[0]["status"] = "draft"
+        f.write_text(yaml.dump(entries, allow_unicode=True, sort_keys=False))
+
+    client = TestClient(create_app(pack, ROOT / "spec" / "it"))
     page = client.get("/").text
-    assert "Queue empty" in page
-    assert "ind_pres" in page  # coverage row
+    assert "reading." in page and "vocab." in page and "speaking." in page
+
+    # Accepting a vocab card through the tool works like a drill.
+    cards = yaml.safe_load((pack / "vocab" / "a0_basics.yaml").read_text())
+    card_id = cards[0]["id"]
+    source = yaml.dump([cards[0]], allow_unicode=True, sort_keys=False)
+    r = client.post(
+        f"/item/{card_id}",
+        data={"action": "accept", "source": source},
+        follow_redirects=False,
+    )
+    assert r.status_code == 303 and "error" not in r.headers["location"]
+    cards = yaml.safe_load((pack / "vocab" / "a0_basics.yaml").read_text())
+    assert cards[0]["status"] == "reviewed"
+
+
+def test_review_context_panel_and_warnings(tmp_path):
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_RESPONSE)
+    generate_drills(pack, SPEC, "ind_pres", count=2, from_file=resp)
+    client = TestClient(create_app(pack, ROOT / "spec" / "it"))
+
+    page = client.get("/item/drill.ind_pres.001").text
+    assert "Spec context" in page
+    assert "ind_pres" in page  # the grammar point's own material
+
+
+def test_review_l1_mode_flags_reviewed_items(tmp_path):
+    import shutil
+
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    client = TestClient(create_app(pack, ROOT / "spec" / "it"))
+
+    # L1 queue lists reviewed items.
+    page = client.get("/?mode=l1").text
+    assert "drill.essere_pre.001" in page
+
+    r = client.post(
+        "/flag/drill.essere_pre.001",
+        data={"note": "sounds unnatural"},
+        follow_redirects=False,
+    )
+    assert r.status_code == 303
+    drills = yaml.safe_load((pack / "drills" / "a0_basics.yaml").read_text())
+    flagged = next(d for d in drills if d["id"] == "drill.essere_pre.001")
+    assert flagged["status"] == "flagged"
+    assert flagged["review_note"] == "sounds unnatural"
+
+    # ... which puts it back in the maintainer's queue.
+    assert "drill.essere_pre.001" in client.get("/").text
+
+
+def test_review_coverage_matrix(tmp_path):
+    import shutil
+
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    client = TestClient(create_app(pack, ROOT / "spec" / "it"))
+    page = client.get("/coverage").text
+    assert "vocab_card" in page  # family columns
+    assert "generate --gp" in page  # thin cells carry the command
+
+
+def test_review_media_route_serves_and_guards(tmp_path):
+    import shutil
+
+    from authoring.audio import generate_audio
+
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    generate_audio(pack, "mock")
+    client = TestClient(create_app(pack, ROOT / "spec" / "it"))
+
+    ok = client.get("/media/audio/speaking.a0_ordinare.001.wav")
+    assert ok.status_code == 200 and ok.content[:4] == b"RIFF"
+    assert client.get("/media/../../etc/passwd").status_code == 404
+
+    # The item page embeds the player.
+    page = client.get("/item/speaking.a0_ordinare.001?mode=l1").text
+    assert "<audio" in page
 
 
 def test_review_rejects_invalid_edit(tmp_path):
