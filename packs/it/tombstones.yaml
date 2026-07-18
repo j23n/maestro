@@ -1,0 +1,4 @@
+# Items removed from this pack, kept forever so learner history that
+# references them stays interpretable across pack updates.
+# Entries: { item_id, removed_in (first pack_version without the item), reason? }
+[]

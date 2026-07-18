@@ -1,0 +1,23 @@
+{
+  "description": "Golden vectors pinning answer normalization. authoring/build_pack._normalize (distractor keys at build time) and core/src/normalize.rs (responses at scoring time) MUST both map input -> normalized for every vector; a mismatch means distractor lookups silently break. Extend, never edit, existing vectors.",
+  "vectors": [
+    { "input": "Ciao", "normalized": "ciao" },
+    { "input": "  Ciao   mondo  ", "normalized": "ciao mondo" },
+    { "input": "Perché?", "normalized": "perché" },
+    { "input": "perche", "normalized": "perche" },
+    { "input": "È vero.", "normalized": "è vero" },
+    { "input": "e vero", "normalized": "e vero" },
+    { "input": "L’amica", "normalized": "l'amica" },
+    { "input": "Lʼamica", "normalized": "l'amica" },
+    { "input": "L'amica", "normalized": "l'amica" },
+    { "input": "«Buongiorno!»", "normalized": "buongiorno" },
+    { "input": "\"Va bene,\" disse.", "normalized": "va bene disse" },
+    { "input": "Sono; sei: è!", "normalized": "sono sei è" },
+    { "input": "UN CAFFÈ, PER FAVORE!", "normalized": "un caffè per favore" },
+    { "input": "C'è   un  problema?", "normalized": "c'è un problema" },
+    { "input": "Ho ventitré anni.", "normalized": "ho ventitré anni" },
+    { "input": "", "normalized": "" },
+    { "input": "   ", "normalized": "" },
+    { "input": "già!", "normalized": "già" }
+  ]
+}
