@@ -29,6 +29,11 @@ fn golden_vectors() {
     for path in paths {
         let raw = std::fs::read_to_string(&path).unwrap();
         let vector: Value = serde_json::from_str(&raw).unwrap();
+        if vector.get("spec").is_none_or(Value::is_null) {
+            // Not a fold vector (e.g. normalize_vectors.json, which has
+            // its own dedicated runner in tests/normalize_parity.rs).
+            continue;
+        }
         let name = vector["name"].as_str().unwrap_or("unnamed");
         let ctx = format!("{}: {name}", path.file_name().unwrap().to_string_lossy());
 

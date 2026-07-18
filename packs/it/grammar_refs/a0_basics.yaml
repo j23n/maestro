@@ -1,0 +1,30 @@
+# Seed grammar reference pages — hand-written, hand-checked. Learner-
+# facing markdown, versioned with the pack (the spec's own explanations
+# are the author-side source material, not what ships).
+
+- id: grammar_ref.essere_pre
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: essere_pre
+  title: "The verb essere (to be) in the present"
+  body_md: |
+    **Essere** (to be) is the most common verb in Italian. Its present
+    tense is irregular, so learn the forms as words of their own:
+
+    | Italian | English |
+    |---|---|
+    | io **sono** | I am |
+    | tu **sei** | you are |
+    | lui/lei **è** | he/she is |
+    | noi **siamo** | we are |
+    | voi **siete** | you (pl.) are |
+    | loro **sono** | they are |
+
+    Note the accent on **è** (is): without it, *e* means *and*.
+    Subject pronouns are usually dropped — «Sono Marco» is complete.
+  examples:
+    - "Io sono Marco."
+    - "Tu sei italiana?"
+    - "Lei è una studentessa."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 0.5 }
