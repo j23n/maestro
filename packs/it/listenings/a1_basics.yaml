@@ -1,0 +1,30 @@
+# Seed listening dialogues — hand-written, hand-checked.
+# Audio rendered at release time (Phase 7); `audio` stays null until then
+# and the shell falls back to system TTS per turn.
+
+- id: listening.al_bar.001
+  cefr_level: A1
+  title: "Al bar"
+  turns:
+    - { speaker: "Barista", text: "Buongiorno! Mi dica." }
+    - { speaker: "Cliente", text: "Buongiorno. Vorrei un cappuccino e un cornetto, per favore." }
+    - { speaker: "Barista", text: "Il cornetto semplice o con la crema?" }
+    - { speaker: "Cliente", text: "Con la crema, grazie. Quant'è?" }
+    - { speaker: "Barista", text: "Tre euro e venti." }
+  audio: null
+  questions:
+    - prompt: "Che cosa ordina il cliente?"
+      answers:
+        - { text: "un cappuccino e un cornetto", canonical: true }
+        - { text: "cappuccino e cornetto", canonical: false }
+      explanation: "«Vorrei un cappuccino e un cornetto, per favore.»"
+    - prompt: "Quanto costa in tutto? (in euro)"
+      answers:
+        - { text: "tre euro e venti", canonical: true }
+        - { text: "3,20", canonical: false }
+        - { text: "3.20", canonical: false }
+      explanation: "«Tre euro e venti.»"
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: intazio_chiincserv_a1, weight: 1.0 }
+    - { axis: function, id: interag_inform05_a1, weight: 0.5 }

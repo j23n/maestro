@@ -1,0 +1,180 @@
+# Seed drill bank — A0 basics + first A1 verbs.
+#
+# Purpose: prove the authoring → build → core pipeline end-to-end with a
+# handful of hand-checked items. Real banks (30+ items per sub-skill) are
+# LLM-drafted and human-reviewed in Phase 2; these were written by hand.
+
+- id: drill.essere_pre.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Io ___ di Londra."
+  answers:
+    - { text: "sono", canonical: true }
+  distractor_feedback:
+    sei: "«Sei» is the *tu* (you) form. With «io» (I), essere is «sono»."
+    è: "«È» is the *lui/lei* (he/she) form. With «io» (I), essere is «sono»."
+  explanation: "Essere (to be), present: io sono, tu sei, lui/lei è."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+
+- id: drill.essere_pre.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Tu ___ italiano?"
+  answers:
+    - { text: "sei", canonical: true }
+  distractor_feedback:
+    sono: "«Sono» is the *io* (I) form. With «tu» (you), essere is «sei»."
+  explanation: "Essere (to be), present: io sono, tu sei, lui/lei è."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+
+- id: drill.essere_pre.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Maria ___ a Roma."
+  answers:
+    - { text: "è", canonical: true }
+  distractor_feedback:
+    e: "«e» without the accent means *and*. *Is* is «è», with the accent."
+  explanation: "Essere (to be), present: io sono, tu sei, lui/lei è."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+
+- id: drill.avere_pre.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Io ___ una prenotazione."
+  answers:
+    - { text: "ho", canonical: true }
+  distractor_feedback:
+    hai: "«Hai» is the *tu* (you) form. With «io» (I), avere is «ho»."
+    o: "«o» means *or*. The verb is «ho», with the silent h."
+  explanation: "Avere (to have), present: io ho, tu hai, lui/lei ha."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- id: drill.avere_pre.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Tu ___ fame?"
+  answers:
+    - { text: "hai", canonical: true }
+  distractor_feedback:
+    ho: "«Ho» is the *io* (I) form. With «tu» (you), avere is «hai»."
+  explanation: "Avere (to have), present: io ho, tu hai, lui/lei ha. Italian uses avere for hunger: ho fame = I'm hungry."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- id: drill.art_il_la.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ caffè è buono."
+  answers:
+    - { text: "Il", canonical: true }
+  distractor_feedback:
+    la: "«Caffè» is masculine, so it takes «il». «La» goes with feminine nouns."
+  explanation: "Definite articles: il for masculine singular (il caffè), la for feminine singular (la pizza)."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- id: drill.art_il_la.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ pizza è buona."
+  answers:
+    - { text: "La", canonical: true }
+  distractor_feedback:
+    il: "«Pizza» is feminine, so it takes «la». «Il» goes with masculine nouns."
+  explanation: "Definite articles: il for masculine singular (il caffè), la for feminine singular (la pizza)."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- id: drill.art_un_una.001
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Vorrei ___ acqua, per favore."
+  choices: ["un", "una", "un'"]
+  answers:
+    - { text: "un'", canonical: true }
+  distractor_feedback:
+    una: "«Acqua» is feminine and starts with a vowel, so «una» shortens to «un'»."
+    un: "«Un» is for masculine nouns. «Acqua» is feminine: before a vowel it takes «un'»."
+  explanation: "Indefinite articles: un (masc.), una (fem.), un' (fem. before a vowel): un'acqua."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- id: drill.vorrei.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ un cappuccino, per favore."
+  answers:
+    - { text: "Vorrei", canonical: true }
+  distractor_feedback:
+    voglio: "«Voglio» (I want) sounds blunt in a café. The polite form is «vorrei» (I would like)."
+  explanation: "«Vorrei» = I would like — the all-purpose polite way to ask for anything."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- id: drill.vorrei.002
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Make it polite: «Voglio un caffè.»"
+  answers:
+    - { text: "Vorrei un caffè", canonical: true }
+    - { text: "Vorrei un caffè, per favore", canonical: false }
+  explanation: "Swap voglio (I want) for vorrei (I would like): Vorrei un caffè."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+
+- id: drill.mi_piace.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Mi ___ la pizza."
+  answers:
+    - { text: "piace", canonical: true }
+  distractor_feedback:
+    piacciono: "«Piacciono» is for plural things. «La pizza» is singular: mi piace."
+  explanation: "Mi piace + singular (mi piace la pizza), mi piacciono + plural (mi piacciono gli spaghetti)."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+
+- id: drill.mi_piace.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Mi ___ gli spaghetti."
+  answers:
+    - { text: "piacciono", canonical: true }
+  distractor_feedback:
+    piace: "«Gli spaghetti» is plural, so the verb is plural too: mi piacciono."
+  explanation: "Mi piace + singular (mi piace la pizza), mi piacciono + plural (mi piacciono gli spaghetti)."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+
+- id: drill.ind_pres.001
+  item_type: drill_cloze
+  cefr_level: A1
+  prompt: "Io ___ (parlare) un po' di italiano."
+  answers:
+    - { text: "parlo", canonical: true }
+  distractor_feedback:
+    parla: "«Parla» is the *lui/lei* form. With «io», -are verbs end in -o: parlo."
+  explanation: "Regular -are verbs, present: io parlo, tu parli, lui/lei parla."
+  evidence:
+    - { axis: grammar, id: ind_pres, weight: 1.0 }
+
+- id: drill.ind_pres.002
+  item_type: drill_cloze
+  cefr_level: A1
+  prompt: "Maria ___ (abitare) a Milano."
+  answers:
+    - { text: "abita", canonical: true }
+  distractor_feedback:
+    abito: "«Abito» is the *io* form. With «Maria» (lei), -are verbs end in -a: abita."
+  explanation: "Regular -are verbs, present: io abito, tu abiti, lui/lei abita."
+  evidence:
+    - { axis: grammar, id: ind_pres, weight: 1.0 }
