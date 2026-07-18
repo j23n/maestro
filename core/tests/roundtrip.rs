@@ -149,5 +149,15 @@ fn full_roundtrip() {
     assert_eq!(summary["grammar"]["pass_pros"]["label"], "consolidated");
     assert_eq!(summary["modality_evidence"]["writing"], 3);
 
+    // Session composition returns a plan over the fixture pack.
+    let plan: serde_json::Value = serde_json::from_str(
+        &core
+            .compose_session(format!(r#"{{"now": {now}, "seed": 7}}"#))
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(plan["scenario_id"], "in-viaggio");
+    assert!(!plan["activities"].as_array().unwrap().is_empty());
+
     std::fs::remove_dir_all(&dir).unwrap();
 }

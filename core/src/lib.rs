@@ -5,14 +5,16 @@
 //! score an answer deterministically, append an evidence event, read it
 //! back — behind a UniFFI-exported API a SwiftUI shell can call.
 //!
-//! The typed learner model and derived-state folds live in `model` and
-//! `folds`; session composition arrives in the next stage.
+//! The full folds (mastery, FSRS, session composition) arrive in Phase 3;
+//! nothing here should need rework for them, only extension.
 
+pub mod align;
 mod events;
 pub mod folds;
 pub mod model;
 mod normalize;
 pub mod pack;
+pub mod session;
 
 use std::sync::{Arc, Mutex};
 
@@ -135,6 +137,26 @@ impl Core {
         let spec = pack::load_spec(&self.pack.lock().unwrap())?;
         let state = folds::fold(&events, &spec, now);
         serde_json::to_string(&state).map_err(|e| CoreError::Storage {
+            message: e.to_string(),
+        })
+    }
+
+    /// Compose the next session (`model::SessionPlan`) as JSON.
+    /// Options JSON matches `model::SessionOptions` ({now, time_budget_minutes,
+    /// scenario_id?, seed}).
+    pub fn compose_session(&self, options_json: String) -> Result<String, CoreError> {
+        let opts: model::SessionOptions =
+            serde_json::from_str(&options_json).map_err(|e| CoreError::Invalid {
+                message: format!("bad session options: {e}"),
+            })?;
+        let events = self.load_events()?;
+        let pack_conn = self.pack.lock().unwrap();
+        let spec = pack::load_spec(&pack_conn)?;
+        let items = pack::list_item_meta(&pack_conn)?;
+        drop(pack_conn);
+        let state = folds::fold(&events, &spec, opts.now);
+        let plan = session::compose(&items, &spec, &state, &opts);
+        serde_json::to_string(&plan).map_err(|e| CoreError::Storage {
             message: e.to_string(),
         })
     }
