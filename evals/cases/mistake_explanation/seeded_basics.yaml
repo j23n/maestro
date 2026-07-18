@@ -60,3 +60,70 @@
   expect:
     must_contain: ["abita"]
     max_field_words: 80
+
+# Round 2: reflexives, prepositions with cities, avere idioms,
+# politeness. Where a high-precision canary exists, must_not_contain
+# pins it (a factually inverted rule counts as a hallucination — this
+# task's output has no tagged error list for must_not_claim to check).
+
+- id: me.refl.001
+  task: mistake_explanation
+  input:
+    level: A1
+    prompt: "La mattina (io) ___ (alzarsi) alle sette."
+    correct_answer: "mi alzo"
+    response: "alzo"
+    grammar_label: "Reflexive verbs — alzarsi"
+    standard_explanation: "Reflexive verbs need the pronoun: mi alzo, ti alzi, si alza."
+    submission: null
+    weakness_tags: [pron_refl]
+  expect:
+    must_contain: ["mi alzo"]
+    max_field_words: 80
+
+- id: me.prep.001
+  task: mistake_explanation
+  input:
+    level: A1
+    prompt: "Domani vado ___ Roma."
+    correct_answer: "a"
+    response: "in"
+    grammar_label: "Prepositions with places — a + city"
+    standard_explanation: "Cities take a (vado a Roma); countries take in (vado in Italia)."
+    submission: null
+    weakness_tags: [prep_place]
+  expect:
+    must_contain: ["a roma"]
+    must_not_contain: ["in roma"]
+    max_field_words: 80
+
+- id: me.avere.001
+  task: mistake_explanation
+  input:
+    level: A0
+    prompt: "Io ___ vent'anni."
+    correct_answer: "ho"
+    response: "sono"
+    grammar_label: "avere for age"
+    standard_explanation: "Age uses avere in Italian: ho vent'anni (I have twenty years)."
+    submission: null
+    weakness_tags: [avere_pre]
+  expect:
+    must_contain: ["ho vent"]
+    must_not_contain: ["sono vent'anni is correct"]
+    max_field_words: 80
+
+- id: me.vorrei.001
+  task: mistake_explanation
+  input:
+    level: A0
+    prompt: "Make it polite: «Voglio un gelato.»"
+    correct_answer: "Vorrei un gelato."
+    response: "Voglio un gelato per favore"
+    grammar_label: "vorrei — polite requests"
+    standard_explanation: "Vorrei is the conditional of volere: the polite want."
+    submission: null
+    weakness_tags: [vorrei]
+  expect:
+    must_contain: ["vorrei"]
+    max_field_words: 80

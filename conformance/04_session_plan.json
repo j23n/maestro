@@ -1,0 +1,77 @@
+{
+  "name": "consolidation session with due vocab review, fixed seed",
+  "description": "Pins the composer end to end: scenario choice, archetype selection, weakness-weighted drill picks, the receptive slot, and the vocab_review slot (due SM-2 card first, unseen card to bootstrap). Deterministic for seed 42; any implementation must reproduce this exact ordered plan.",
+  "spec": {
+    "grammar": [
+      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] },
+      { "id": "gp_b", "cefr_level": "A0", "prerequisites": ["gp_a"] }
+    ],
+    "functions": [],
+    "scenarios": [
+      {
+        "id": "sc-uno",
+        "cefr_level": "A0",
+        "phase": 1,
+        "sequence": 1,
+        "depth_count": 2,
+        "grammar_ids": ["gp_a"],
+        "function_ids": []
+      }
+    ],
+    "can_dos": [],
+    "vocab": [
+      { "id": "ciao", "cefr_level": "A0", "pos": "inter", "gloss": "hi" },
+      { "id": "grazie", "cefr_level": "A0", "pos": "inter", "gloss": "thanks" }
+    ]
+  },
+  "events": [
+    {
+      "type": "introduced",
+      "at": 1699000000,
+      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+    },
+    {
+      "type": "attempt",
+      "at": 1699000100,
+      "item_id": "drill.a.001",
+      "outcome": "correct",
+      "modality": "writing",
+      "evidence_class": "targeted",
+      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+    },
+    {
+      "type": "attempt",
+      "at": 1699740800,
+      "item_id": "vocab.ciao",
+      "outcome": "correct",
+      "modality": "vocab",
+      "evidence_class": "targeted",
+      "srs_rating": 4,
+      "evidence": [{ "axis": "vocab", "id": "ciao", "weight": 1.0 }]
+    }
+  ],
+  "items": [
+    { "id": "drill.a.001", "item_type": "drill_cloze", "grammar_ids": ["gp_a"] },
+    { "id": "drill.a.002", "item_type": "drill_cloze", "grammar_ids": ["gp_a"] },
+    {
+      "id": "reading.a.001",
+      "item_type": "reading",
+      "modality": "reading",
+      "grammar_ids": ["gp_a"]
+    },
+    { "id": "vocab.ciao", "item_type": "vocab_card", "modality": "vocab", "vocab_ids": ["ciao"] },
+    { "id": "vocab.grazie", "item_type": "vocab_card", "modality": "vocab", "vocab_ids": ["grazie"] }
+  ],
+  "session_options": { "now": 1700000000, "time_budget_minutes": 15, "seed": 42 },
+  "expect_plan": {
+    "scenario_id": "sc-uno",
+    "archetype": "consolidation",
+    "activities": [
+      { "item_id": "drill.a.001", "slot": "weakness_drill" },
+      { "item_id": "drill.a.002", "slot": "weakness_drill" },
+      { "item_id": "reading.a.001", "slot": "receptive" },
+      { "item_id": "vocab.ciao", "slot": "vocab_review" },
+      { "item_id": "vocab.grazie", "slot": "vocab_review" }
+    ]
+  }
+}

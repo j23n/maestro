@@ -1,0 +1,97 @@
+- status: reviewed
+  id: drill.ferragosto.001
+  item_type: drill_cloze
+  cefr_level: A1
+  modality: writing
+  prompt: A Ferragosto noi ___ (andare) al mare.
+  answers:
+  - text: andiamo
+    canonical: true
+  distractor_feedback:
+    andate: «Andate» is the *voi* form. With «noi», use «andiamo».
+    vanno: «Vanno» is the *loro* form. With «noi», use «andiamo».
+  explanation: 'Andare is irregular: noi andiamo.'
+  evidence:
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+- status: reviewed
+  id: drill.ferragosto.002
+  item_type: drill_cloze
+  cefr_level: A1
+  modality: writing
+  prompt: 'Oggi è il quindici di agosto: è ___!'
+  answers:
+  - text: Ferragosto
+    canonical: true
+  - text: ferragosto
+    canonical: false
+  explanation: August 15th is Ferragosto, Italy's mid-summer holiday.
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 0.5
+  - axis: vocab
+    id: ferragosto
+    weight: 1.0
+- status: reviewed
+  id: drill.ferragosto.003
+  item_type: drill_multiple_choice
+  cefr_level: A1
+  modality: writing
+  prompt: Mi ___ la spiaggia e il sole.
+  answers:
+  - text: piace
+    canonical: true
+  distractor_feedback:
+    piacciono: '«Piacciono» is for plural things; «la spiaggia» is singular (the second noun
+      does not change that — the verb agrees with the first subject here: one thing at a time
+      is safest at A1).'
+    piaci: «Piaci» means *you are pleasing* — a different person, not a thing.
+  explanation: 'Mi piace + singular noun: mi piace la spiaggia.'
+  evidence:
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  choices:
+  - piace
+  - piacciono
+  - piaci
+- status: reviewed
+  id: drill.ferragosto.004
+  item_type: drill_cloze
+  cefr_level: A1
+  modality: writing
+  prompt: In estate io ___ (nuotare) ogni giorno (every day).
+  answers:
+  - text: nuoto
+    canonical: true
+  distractor_feedback:
+    nuota: «Nuota» is the *lui/lei* form. With «io», -are verbs end in -o.
+  explanation: 'Regular -are verbs: io nuoto.'
+  evidence:
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+- status: reviewed
+  id: drill.ferragosto.005
+  item_type: drill_transform
+  cefr_level: A1
+  modality: writing
+  prompt: 'Make it polite: «Voglio un gelato.»'
+  answers:
+  - text: Vorrei un gelato.
+    canonical: true
+  - text: Vorrei un gelato
+    canonical: false
+  explanation: «Vorrei» is the polite form of «voglio».
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0

@@ -1,0 +1,31 @@
+# Seed speaking prompts — hand-written, hand-checked. Closed tasks: the
+# learner's transcript is aligned against target_text by the core's
+# alignment scorer; variants are alternate acceptable targets.
+
+- id: speaking.a0_ordinare.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Ordina un caffè, con cortesia."
+  target_text: "Vorrei un caffè, per favore."
+  variants:
+    - "Un caffè, per favore."
+  explanation: >-
+    «Vorrei» (I would like) is the polite way to order; adding «per
+    favore» makes the request complete.
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- id: speaking.a0_presentarsi.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Presentati: saluta e di' il tuo nome. (Usa «Marco».)"
+  target_text: "Ciao, sono Marco."
+  variants:
+    - "Buongiorno, sono Marco."
+  explanation: >-
+    «Sono» + name is the simplest self-introduction; any greeting
+    (ciao/buongiorno) works.
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }

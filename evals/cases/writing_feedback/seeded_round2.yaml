@@ -1,0 +1,81 @@
+# Golden set: writing_feedback, round 2 (same seeded-error method as
+# seeded_a1_a2.yaml). Adds reflexives, articles, piace-agreement, a
+# second aux case, and a second clean hallucination canary.
+
+- id: wf.conj.002
+  task: writing_feedback
+  seeding_note: "correct 'abitiamo' -> seeded 'abitamo' (noi conjugation)"
+  input:
+    level: A1
+    prompt: "Presenta te e la tua famiglia."
+    submission: "Marco e io abitamo a Roma con la famiglia. La casa è bella."
+    weakness_tags: [ind_pres]
+  expect:
+    must_identify: [ind_pres]
+    must_not_claim: [essere_pre, art_il_la]
+    must_contain: ["abitiamo"]
+
+- id: wf.refl.001
+  task: writing_feedback
+  seeding_note: "correct 'mi alzo' -> seeded 'alzo' (dropped reflexive)"
+  input:
+    level: A1
+    prompt: "Descrivi la tua mattina."
+    submission: "La mattina alzo alle sette. Poi bevo un caffè e vado al lavoro."
+    weakness_tags: [pron_refl]
+  expect:
+    must_identify: [pron_refl]
+    must_not_claim: [ind_pass_p]
+    must_contain: ["mi alzo"]
+
+- id: wf.article.002
+  task: writing_feedback
+  seeding_note: "correct 'il caffè' -> seeded 'la caffè' (article gender)"
+  input:
+    level: A0
+    prompt: "Ordina qualcosa al bar."
+    submission: "Buongiorno! Vorrei la caffè e un cornetto, per favore. Grazie!"
+    weakness_tags: [art_il_la]
+  expect:
+    must_identify: [art_il_la]
+    must_not_claim: [vorrei]
+    must_contain: ["il caffè"]
+
+- id: wf.aux.002
+  task: writing_feedback
+  seeding_note: "correct 'abbiamo mangiato' -> seeded 'siamo mangiato'"
+  input:
+    level: A2
+    prompt: "Racconta la tua serata."
+    submission: "Ieri sera siamo mangiato al ristorante. La pizza era molto buona."
+    weakness_tags: [ind_pass_p]
+  expect:
+    must_identify: [ind_pass_p]
+    must_not_claim: [mi_piace, qual_o_a_e]
+    must_contain: ["abbiamo mangiato"]
+
+- id: wf.piace.001
+  task: writing_feedback
+  seeding_note: "correct 'mi piace' -> seeded 'mi piacciono' + singular"
+  input:
+    level: A1
+    prompt: "Che cosa ti piace dell'Italia?"
+    submission: "Mi piacciono la musica italiana. Mi piace anche il mare."
+    weakness_tags: [mi_piace]
+  expect:
+    must_identify: [mi_piace]
+    must_not_claim: [qual_o_a_e]
+    must_contain: ["mi piace"]
+
+- id: wf.clean.002
+  task: writing_feedback
+  seeding_note: "no errors seeded — second hallucination canary, A1"
+  input:
+    level: A1
+    prompt: "Presentati in due frasi."
+    submission: "Mi chiamo Laura e abito a Torino. Mi piace il caffè italiano."
+    weakness_tags: []
+  expect:
+    must_identify: []
+    must_not_claim: [ind_pres, mi_piace, art_il_la, pron_refl]
+    must_contain: []

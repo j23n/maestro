@@ -11,11 +11,30 @@ from __future__ import annotations
 
 import json
 import re
+from pathlib import Path
 
-from evals.harness.schema import Case, CaseResult, Scorecard
+import yaml
+
 from evals.harness.runners import PromptTemplate, Runner
+from evals.harness.schema import Case, CaseResult, Scorecard
 
 JUDGE_WEIGHT = 0.4
+
+# The pinned judge (plan §11.4): a fixed strong model, deliberately
+# separate from whatever runner is being graded. Changing it invalidates
+# scorecard comparisons, so it changes here, on purpose, not per run.
+JUDGE_MODEL = "claude-opus-4-8"
+
+JUDGE_PROMPTS_DIR = Path("evals/judge_prompts")
+_judge_prompt_cache: dict = {}
+
+
+def load_judge_prompt(version: int = 1) -> dict:
+    if version not in _judge_prompt_cache:
+        _judge_prompt_cache[version] = yaml.safe_load(
+            (JUDGE_PROMPTS_DIR / f"default.v{version}.yaml").read_text()
+        )
+    return _judge_prompt_cache[version]
 
 
 def extract_json(text: str) -> dict | None:
@@ -68,6 +87,13 @@ def deterministic_checks(case: Case, raw: str) -> tuple[float, list[str], bool]:
             passed += 1
         else:
             failures.append(f"missing required content: {needle}")
+    for needle in case.expect.must_not_contain:
+        checks += 1
+        if needle.lower() in flat:
+            hallucinated = True
+            failures.append(f"forbidden content present: {needle}")
+        else:
+            passed += 1
 
     checks += 1
     too_long = [
@@ -83,22 +109,15 @@ def deterministic_checks(case: Case, raw: str) -> tuple[float, list[str], bool]:
     return (passed / checks if checks else 1.0), failures, hallucinated
 
 
-def judge_prompt(case: Case, raw: str) -> str:
-    return f"""You are grading an Italian tutor model's output against a rubric.
-
-The learner task/level: {case.input.level} — {case.input.prompt or "(drill)"}
-Learner text: {case.input.submission or "(n/a)"}
-Model output to grade:
----
-{raw}
----
-Grade each criterion 0 or 1 and respond ONLY with JSON:
-{{
-  "corrections_are_correct": 0 or 1,   // proposed Italian is actually right
-  "explanations_clear": 0 or 1,        // a learner at this level would get it
-  "tone_appropriate": 0 or 1,          // encouraging, not condescending
-  "level_appropriate": 0 or 1          // no grammar above {case.input.level}
-}}"""
+def judge_prompt(case: Case, raw: str, version: int = 1) -> str:
+    """Render the versioned judge prompt (evals/judge_prompts/)."""
+    tpl = load_judge_prompt(version)
+    return tpl["template"].format(
+        level=case.input.level,
+        task_prompt=case.input.prompt or "(drill)",
+        submission=case.input.submission or "(n/a)",
+        raw=raw,
+    )
 
 
 def judge_score(judge_output: str) -> float | None:
@@ -116,7 +135,7 @@ def run_case(
     judge: Runner | None = None,
 ) -> CaseResult:
     raw = runner.run(case, prompt)
-    det, failures, _hallucinated = deterministic_checks(case, raw)
+    det, failures, hallucinated = deterministic_checks(case, raw)
     j: float | None = None
     if judge is not None:
         judge_case = case.model_copy()
@@ -128,6 +147,7 @@ def run_case(
         deterministic_score=det,
         judge_score=j,
         total=total,
+        hallucinated=hallucinated,
         failures=failures,
         raw_output=raw,
     )
@@ -153,12 +173,12 @@ def make_scorecard(
     prompt_version: int,
     cases: list[Case],
     results: list[CaseResult],
+    judge_model: str | None = None,
+    judge_prompt_version: int | None = None,
 ) -> Scorecard:
     n = len(results) or 1
     judged = [r.judge_score for r in results if r.judge_score is not None]
-    hallucinations = sum(
-        1 for r in results if any(f.startswith("hallucinated") for f in r.failures)
-    )
+    hallucinations = sum(1 for r in results if r.hallucinated)
     return Scorecard(
         task=task,
         runner=runner_name,
@@ -167,6 +187,8 @@ def make_scorecard(
         mean_total=sum(r.total for r in results) / n,
         mean_deterministic=sum(r.deterministic_score for r in results) / n,
         mean_judge=(sum(judged) / len(judged)) if judged else None,
+        judge_model=judge_model if judged else None,
+        judge_prompt_version=judge_prompt_version if judged else None,
         hallucination_rate=hallucinations / n,
         results=results,
     )

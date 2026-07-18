@@ -232,3 +232,54 @@ pub const DAY_SECS: i64 = 86_400;
 pub fn unix_day(unix_secs: i64) -> i64 {
     unix_secs.div_euclid(DAY_SECS)
 }
+
+// --------------------------------------------------------------------------
+// The LLM feedback-job contract (plan §2.1). The core owns the queue and
+// the fold-back; making the network call is the shell's job. Offline-first:
+// submissions queue while there's no backend and drain when one appears.
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FeedbackJobRequest {
+    /// writing_feedback | speaking_feedback | mistake_explanation —
+    /// matches the prompt template + eval task name.
+    pub kind: String,
+    pub item_id: String,
+    /// The learner's submission (writing text, speaking transcript, or
+    /// the wrong answer to explain). Stays on device until a backend is
+    /// explicitly asked to look at it.
+    pub submission: String,
+    /// Minimal extra prompt context (weakness tags, item prompt) — keep
+    /// small on purpose; the privacy ledger shows exactly this.
+    #[serde(default)]
+    pub context: serde_json::Value,
+}
+
+impl FeedbackJobRequest {
+    pub fn validate(&self) -> Result<(), String> {
+        if !matches!(
+            self.kind.as_str(),
+            "writing_feedback" | "speaking_feedback" | "mistake_explanation"
+        ) {
+            return Err(format!("unknown feedback kind: {}", self.kind));
+        }
+        if self.item_id.is_empty() {
+            return Err("feedback job requires item_id".into());
+        }
+        if self.submission.is_empty() {
+            return Err("feedback job requires a submission".into());
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FeedbackResult {
+    /// The feedback text to show the learner (already parsed/validated
+    /// by the shell against the task's output schema).
+    pub feedback_text: String,
+    /// Evidence to fold back into the learner model, if the feedback
+    /// carries a verdict (e.g. rubric grading). `feedback_source` is
+    /// stamped with the backend name by `complete_feedback_job`.
+    #[serde(default)]
+    pub evidence_event: Option<EvidenceEvent>,
+}

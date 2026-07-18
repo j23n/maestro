@@ -1,19 +1,20 @@
 //! Read-only access to a content pack bundle (one SQLite file).
 //!
-//! Phase 0 bundle schema (grows in Phase 2's `maestro-pack build`):
+//! Bundle schema (written by `authoring/build_pack.py` — that file and
+//! this one are the two ends of the contract):
 //!
 //! ```sql
 //! CREATE TABLE manifest (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 //! CREATE TABLE items (
 //!     id         TEXT PRIMARY KEY,   -- stable forever
-//!     item_type  TEXT NOT NULL,      -- drill_cloze, reading, ...
+//!     item_type  TEXT NOT NULL,      -- drill_cloze, reading, vocab_card, ...
 //!     cefr_level TEXT NOT NULL,
-//!     modality   TEXT NOT NULL,      -- reading, listening, writing, speaking
+//!     modality   TEXT NOT NULL,      -- reading/listening/writing/speaking/vocab
 //!     payload    TEXT NOT NULL       -- JSON, shape depends on item_type
 //! );
 //! CREATE TABLE acceptable_answers (
 //!     item_id      TEXT NOT NULL REFERENCES items(id),
-//!     answer       TEXT NOT NULL,    -- stored pre-normalized at build time
+//!     answer       TEXT NOT NULL,    -- stored as authored
 //!     is_canonical INTEGER NOT NULL DEFAULT 0
 //! );
 //! CREATE TABLE distractor_feedback (
@@ -25,13 +26,37 @@
 //!     item_id  TEXT PRIMARY KEY REFERENCES items(id),
 //!     feedback TEXT NOT NULL         -- general mistake explanation
 //! );
+//! -- schema_version >= 1:
+//! CREATE TABLE media (
+//!     path   TEXT PRIMARY KEY,       -- as referenced by item payloads
+//!     kind   TEXT NOT NULL,          -- audio | image
+//!     sha256 TEXT NOT NULL,
+//!     bytes  BLOB NOT NULL
+//! );
+//! CREATE TABLE tombstones (
+//!     item_id    TEXT PRIMARY KEY,   -- removed item, id never reused
+//!     removed_in TEXT NOT NULL,      -- first pack_version without it
+//!     reason     TEXT
+//! );
+//! CREATE TABLE spec_vocab (
+//!     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+//!     pos TEXT NOT NULL, gloss TEXT NOT NULL
+//! );
 //! ```
+//!
+//! Scenario art is convention-addressed: `images/scenarios/<id>.png` in
+//! the media table, no spec column.
 
 use rusqlite::{Connection, OpenFlags, OptionalExtension};
 use serde::Deserialize;
 
 use crate::normalize::normalize;
-use crate::{CoreError, PackManifest, ScoreResult};
+use crate::{CoreError, MediaBlob, MediaInfo, PackManifest, PackStatus, ScoreResult, TombstoneRecord};
+
+/// Bundle schema versions this core knows how to read. Opening anything
+/// else fails fast — the app should prompt for an update instead of
+/// misreading a newer bundle.
+pub const SUPPORTED_SCHEMA_VERSIONS: &[&str] = &["0", "1"];
 
 // --------------------------------------------------------------------------
 // Curriculum spec tables, embedded in the bundle by `authoring/build_pack.py`
@@ -76,11 +101,21 @@ pub struct SpecCanDo {
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
 #[serde(default)]
+pub struct SpecVocab {
+    pub id: String,
+    pub cefr_level: String,
+    pub pos: String,
+    pub gloss: String,
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
 pub struct SpecData {
     pub grammar: Vec<SpecGrammar>,
     pub functions: Vec<SpecFunction>,
     pub scenarios: Vec<SpecScenario>,
     pub can_dos: Vec<SpecCanDo>,
+    pub vocab: Vec<SpecVocab>,
 }
 
 /// Item metadata the session composer selects on (payload stays lazy).
@@ -92,6 +127,8 @@ pub struct ItemMeta {
     pub modality: String,
     pub grammar_ids: Vec<String>,
     pub cando_ids: Vec<String>,
+    /// Spec lemma ids (vocab-axis evidence) — the SRS scheduler's key.
+    pub vocab_ids: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -162,6 +199,20 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
             })
         })?
         .collect::<Result<_, _>>()?;
+    // schema_version >= 1 only; older bundles just have no vocab data.
+    if table_exists(conn, "spec_vocab")? {
+        let mut stmt = conn.prepare("SELECT id, cefr_level, pos, gloss FROM spec_vocab")?;
+        spec.vocab = stmt
+            .query_map([], |r| {
+                Ok(SpecVocab {
+                    id: r.get(0)?,
+                    cefr_level: r.get(1)?,
+                    pos: r.get(2)?,
+                    gloss: r.get(3)?,
+                })
+            })?
+            .collect::<Result<_, _>>()?;
+    }
     Ok(spec)
 }
 
@@ -191,6 +242,12 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
                     .filter(|e| e.axis == "cando")
                     .map(|e| e.id.clone())
                     .collect(),
+                vocab_ids: ev
+                    .evidence
+                    .iter()
+                    .filter(|e| e.axis == "vocab")
+                    .map(|e| e.id.clone())
+                    .collect(),
             })
         })?
         .collect::<Result<Vec<_>, _>>()?;
@@ -204,7 +261,124 @@ pub fn open_readonly(path: &str) -> Result<Connection, CoreError> {
         .map_err(|_| CoreError::Invalid {
             message: format!("{path} is not a Maestro pack bundle"),
         })?;
+    // ... or one from a future schema this core can't interpret.
+    let schema_version: String = conn
+        .query_row(
+            "SELECT value FROM manifest WHERE key = 'schema_version'",
+            [],
+            |row| row.get(0),
+        )
+        .optional()?
+        .unwrap_or_default();
+    if !SUPPORTED_SCHEMA_VERSIONS.contains(&schema_version.as_str()) {
+        return Err(CoreError::Invalid {
+            message: format!(
+                "pack schema_version {schema_version} is newer than this app \
+                 supports ({SUPPORTED_SCHEMA_VERSIONS:?}) — update the app"
+            ),
+        });
+    }
     Ok(conn)
+}
+
+fn table_exists(conn: &Connection, name: &str) -> Result<bool, CoreError> {
+    let n: u32 = conn.query_row(
+        "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = ?1",
+        [name],
+        |row| row.get(0),
+    )?;
+    Ok(n > 0)
+}
+
+/// Everything the shell needs for the pack-manager screen: identity,
+/// compatibility, and what the bundle carries. Unlike `read_manifest`,
+/// this can't fail on a healthy bundle of any supported version.
+pub fn pack_status(conn: &Connection) -> Result<PackStatus, CoreError> {
+    let manifest = read_manifest(conn)?;
+    let media_count: u32 = if table_exists(conn, "media")? {
+        conn.query_row("SELECT count(*) FROM media", [], |row| row.get(0))?
+    } else {
+        0
+    };
+    let tombstone_count: u32 = if table_exists(conn, "tombstones")? {
+        conn.query_row("SELECT count(*) FROM tombstones", [], |row| row.get(0))?
+    } else {
+        0
+    };
+    Ok(PackStatus {
+        compatible: SUPPORTED_SCHEMA_VERSIONS.contains(&manifest.schema_version.as_str()),
+        schema_version: manifest.schema_version,
+        pack_version: manifest.pack_version,
+        language: manifest.language,
+        item_count: manifest.item_count,
+        media_count,
+        tombstone_count,
+    })
+}
+
+/// Removed-item records: learner history referencing these ids stays
+/// interpretable across pack updates.
+pub fn list_tombstones(conn: &Connection) -> Result<Vec<TombstoneRecord>, CoreError> {
+    if !table_exists(conn, "tombstones")? {
+        return Ok(vec![]);
+    }
+    let mut stmt =
+        conn.prepare("SELECT item_id, removed_in, reason FROM tombstones ORDER BY item_id")?;
+    let rows = stmt
+        .query_map([], |r| {
+            Ok(TombstoneRecord {
+                item_id: r.get(0)?,
+                removed_in: r.get(1)?,
+                reason: r.get(2)?,
+            })
+        })?
+        .collect::<Result<_, _>>()?;
+    Ok(rows)
+}
+
+/// Media inventory without the bytes (payloads reference by `path`).
+pub fn list_media(conn: &Connection) -> Result<Vec<MediaInfo>, CoreError> {
+    if !table_exists(conn, "media")? {
+        return Ok(vec![]);
+    }
+    let mut stmt =
+        conn.prepare("SELECT path, kind, sha256, length(bytes) FROM media ORDER BY path")?;
+    let rows = stmt
+        .query_map([], |r| {
+            Ok(MediaInfo {
+                path: r.get(0)?,
+                kind: r.get(1)?,
+                sha256: r.get(2)?,
+                size_bytes: r.get(3)?,
+            })
+        })?
+        .collect::<Result<_, _>>()?;
+    Ok(rows)
+}
+
+/// One media asset, bytes included (the shell writes them to a temp
+/// file or feeds them straight to a player/image view).
+pub fn get_media(conn: &Connection, path: &str) -> Result<MediaBlob, CoreError> {
+    if !table_exists(conn, "media")? {
+        return Err(CoreError::NotFound {
+            message: format!("media {path} (pack has no media table)"),
+        });
+    }
+    conn.query_row(
+        "SELECT kind, sha256, bytes FROM media WHERE path = ?1",
+        [path],
+        |r| {
+            Ok(MediaBlob {
+                kind: r.get(0)?,
+                sha256: r.get(1)?,
+                bytes: r.get(2)?,
+            })
+        },
+    )
+    .optional()?
+    .ok_or_else(|| CoreError::NotFound {
+        message: format!("media {path}"),
+    })
 }
 
 pub fn read_manifest(conn: &Connection) -> Result<PackManifest, CoreError> {

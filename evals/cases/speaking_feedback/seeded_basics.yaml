@@ -1,0 +1,94 @@
+# Golden set: speaking_feedback, seeded-error construction. Each
+# transcript started as the exact target; the listed slips were injected
+# deliberately, so must_identify is ground truth. Includes a perfect-
+# transcript hallucination canary. Starter set of 6 — grow toward ~50.
+
+- id: sp.conj.001
+  task: speaking_feedback
+  seeding_note: "target 'vado' -> transcript 'vada' (1st person slip)"
+  input:
+    level: A1
+    prompt: "Di' che cosa fai a Ferragosto."
+    target_text: "Oggi vado al mare con la famiglia."
+    submission: "oggi vada al mare con la famiglia"
+    alignment_summary: "vada: near (target vado); rest matched"
+    weakness_tags: [ind_pres]
+  expect:
+    must_identify: [ind_pres]
+    must_not_claim: [art_il_la, mi_piace]
+    must_contain: ["vado"]
+
+- id: sp.article.001
+  task: speaking_feedback
+  seeding_note: "target 'un caffè' -> 'una caffè' (article gender)"
+  input:
+    level: A0
+    prompt: "Ordina un caffè, con cortesia."
+    target_text: "Vorrei un caffè, per favore."
+    submission: "vorrei una caffè per favore"
+    alignment_summary: "una: substituted (target un); rest matched"
+    weakness_tags: [art_un_una]
+  expect:
+    must_identify: [art_un_una]
+    must_not_claim: [vorrei]
+    must_contain: ["un caffè"]
+
+- id: sp.missing.001
+  task: speaking_feedback
+  seeding_note: "target 'ciao, sono Marco' -> dropped 'sono'"
+  input:
+    level: A0
+    prompt: "Presentati: saluta e di' il tuo nome."
+    target_text: "Ciao, sono Marco."
+    submission: "ciao Marco"
+    alignment_summary: "sono: missed; rest matched"
+    weakness_tags: [essere_pre]
+  expect:
+    must_identify: [essere_pre]
+    must_not_claim: [mi_piace]
+    must_contain: ["sono"]
+
+- id: sp.clean.001
+  task: speaking_feedback
+  seeding_note: "no errors seeded — perfect transcript, hallucination canary"
+  input:
+    level: A1
+    prompt: "Ordina al bar."
+    target_text: "Vorrei un gelato e un caffè, per favore."
+    submission: "vorrei un gelato e un caffè per favore"
+    alignment_summary: "all words matched"
+    weakness_tags: []
+  expect:
+    must_identify: []
+    must_not_claim: [vorrei, art_un_una, ind_pres]
+    must_contain: []
+
+- id: sp.piace.001
+  task: speaking_feedback
+  seeding_note: "target 'mi piace' -> 'mi piacciono' before singular noun"
+  input:
+    level: A1
+    prompt: "Di' che cosa ti piace dell'estate."
+    target_text: "Mi piace la spiaggia."
+    submission: "mi piacciono la spiaggia"
+    alignment_summary: "piacciono: substituted (target piace); rest matched"
+    weakness_tags: [mi_piace]
+  expect:
+    must_identify: [mi_piace]
+    must_not_claim: [essere_pre]
+    must_contain: ["mi piace"]
+
+- id: sp.aux.001
+  task: speaking_feedback
+  seeding_note: "target 'ho mangiato' -> 'sono mangiato' (aux choice)"
+  input:
+    level: A2
+    prompt: "Racconta cosa hai mangiato ieri."
+    target_text: "Ieri ho mangiato una pizza."
+    submission: "ieri sono mangiato una pizza"
+    alignment_summary: "sono: substituted (target ho); rest matched"
+    weakness_tags: [ind_pass_p]
+  expect:
+    must_identify: [ind_pass_p]
+    must_not_claim: [art_un_una]
+    must_contain: ["ho mangiato"]

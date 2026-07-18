@@ -1,0 +1,41 @@
+# Golden set: content_generation — grading what `maestro-pack generate`
+# produces, with the REAL authoring prompt. Deterministic layer = the
+# batch parses + passes schema/spec validation + is clean under the
+# quality validators; judge layer grades pedagogy. Run this against any
+# candidate drafting model before trusting it with a content-fill batch.
+
+- id: cg.drill.essere
+  task: content_generation
+  input:
+    level: A0
+    gp: essere_pre
+    kind: drill
+    count: 2
+  expect: {}
+
+- id: cg.drill.ind_pres
+  task: content_generation
+  input:
+    level: A1
+    gp: ind_pres
+    kind: drill
+    count: 2
+  expect: {}
+
+- id: cg.reading.ferragosto
+  task: content_generation
+  input:
+    level: A1
+    theme: Ferragosto
+    kind: reading
+    count: 1
+  expect: {}
+
+- id: cg.speaking.vorrei
+  task: content_generation
+  input:
+    level: A0
+    gp: vorrei
+    kind: speaking
+    count: 1
+  expect: {}
