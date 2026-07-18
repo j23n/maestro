@@ -1,0 +1,40 @@
+{
+  "name": "deterministic answer scoring",
+  "description": "Pins acceptable-answer matching (normalization tolerance, curly apostrophes), distractor-feedback lookup by normalized response, and the general-explanation fallback.",
+  "scoring_cases": [
+    {
+      "answers": [
+        { "text": "ho mangiato", "canonical": true },
+        { "text": "io ho mangiato" }
+      ],
+      "distractors": { "sono mangiato": "mangiare takes avere: *ho* mangiato." },
+      "explanation": "Passato prossimo of mangiare: avere + mangiato.",
+      "response": "  Ho  mangiato! ",
+      "expect": { "correct": true, "matched_answer": "ho mangiato" }
+    },
+    {
+      "answers": [{ "text": "ho mangiato", "canonical": true }],
+      "distractors": { "sono mangiato": "mangiare takes avere: *ho* mangiato." },
+      "response": "Sono mangiato.",
+      "expect": {
+        "correct": false,
+        "feedback": "mangiare takes avere: *ho* mangiato."
+      }
+    },
+    {
+      "answers": [{ "text": "ho mangiato", "canonical": true }],
+      "distractors": { "sono mangiato": "aux feedback" },
+      "explanation": "Passato prossimo of mangiare: avere + mangiato.",
+      "response": "mangiavo",
+      "expect": {
+        "correct": false,
+        "feedback": "Passato prossimo of mangiare: avere + mangiato."
+      }
+    },
+    {
+      "answers": [{ "text": "l'amica", "canonical": true }],
+      "response": "L’amica",
+      "expect": { "correct": true, "matched_answer": "l'amica" }
+    }
+  ]
+}

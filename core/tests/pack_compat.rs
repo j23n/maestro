@@ -43,15 +43,29 @@ fn opens_and_scores_python_built_pack() {
                 assert!(ok.correct, "{id}: canonical answer not accepted");
             }
             Err(_) => {
-                // Only passage parents may lack acceptable answers.
+                // Unscorable by design: passage parents (their question
+                // children score), reference pages, open writing tasks,
+                // and self-graded vocab cards.
                 let qids = parsed["question_ids"].as_array();
+                let open_family = id.starts_with("grammar_ref.")
+                    || id.starts_with("writing.")
+                    || id.starts_with("vocab.");
                 assert!(
-                    qids.is_some_and(|q| !q.is_empty()),
+                    open_family || qids.is_some_and(|q| !q.is_empty()),
                     "{id}: unscorable item without question children"
                 );
             }
         }
     }
+
+    // Media + tombstones + status must be readable from a python bundle.
+    let status = core.pack_status().expect("pack status");
+    assert!(status.compatible, "python bundle must be compatible");
+    for media in core.list_media().expect("media inventory") {
+        let blob = core.get_media(media.path.clone()).expect("media bytes");
+        assert_eq!(blob.bytes.len() as u64, media.size_bytes, "{}", media.path);
+    }
+    core.list_tombstones().expect("tombstones");
 
     // The embedded spec tables must be present and non-trivial.
     let plan = core

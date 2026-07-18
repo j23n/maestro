@@ -1,0 +1,42 @@
+{
+  "name": "transcript alignment verdicts",
+  "description": "Pins the speaking scorer: word-level verdicts (matched / near / substituted / missed), un-penalized extra words, and the score = (matched + near) / target words. Statuses are snake_case strings.",
+  "alignment_cases": [
+    {
+      "target": "Vorrei un caffè, per favore.",
+      "transcript": "vorrei un caffè per favore",
+      "expect": {
+        "score": 1.0,
+        "statuses": ["matched", "matched", "matched", "matched", "matched"],
+        "extra_words": []
+      }
+    },
+    {
+      "target": "Vorrei un caffè",
+      "transcript": "vorrei caffè grande",
+      "expect": {
+        "score": 0.3333333333333333,
+        "statuses": ["matched", "substituted", "substituted"],
+        "extra_words": []
+      }
+    },
+    {
+      "target": "Ciao, sono Marco.",
+      "transcript": "ciao sono Marta",
+      "expect": {
+        "score": 0.6666666666666666,
+        "statuses": ["matched", "matched", "substituted"],
+        "extra_words": []
+      }
+    },
+    {
+      "target": "Oggi vado al mare",
+      "transcript": "oggi vada al mare",
+      "expect": {
+        "score": 1.0,
+        "statuses": ["matched", "near", "matched", "matched"],
+        "extra_words": []
+      }
+    }
+  ]
+}
