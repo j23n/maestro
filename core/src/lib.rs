@@ -9,6 +9,7 @@
 //! `folds`; session composition arrives in the next stage.
 
 mod events;
+pub mod feedback;
 pub mod folds;
 pub mod model;
 pub mod normalize;
@@ -187,6 +188,43 @@ impl Core {
     /// All recorded events, oldest first, as JSON objects.
     pub fn list_events_json(&self) -> Result<Vec<String>, CoreError> {
         events::list(&self.learner.lock().unwrap())
+    }
+
+    /// The whole learner record as portable JSONL (backup). The shell
+    /// decides where the bytes go; restore with `import_log`.
+    pub fn export_log(&self) -> Result<String, CoreError> {
+        events::export_log(&self.learner.lock().unwrap())
+    }
+
+    /// Restore an exported log into this (empty) learner record.
+    /// All-or-nothing; returns the number of events restored.
+    pub fn import_log(&self, data: String) -> Result<u32, CoreError> {
+        events::import_log(&self.learner.lock().unwrap(), &data)
+    }
+
+    /// Queue a feedback job (`model::FeedbackJobRequest` JSON) for the
+    /// next available LLM backend. Works offline; returns the job id.
+    pub fn enqueue_feedback_job(&self, request_json: String) -> Result<i64, CoreError> {
+        feedback::enqueue(&self.learner.lock().unwrap(), &request_json)
+    }
+
+    /// Pending feedback jobs, oldest first
+    /// (`{"id", "created_at", "request"}` JSON objects).
+    pub fn list_pending_feedback_jobs(&self) -> Result<Vec<String>, CoreError> {
+        feedback::list_pending(&self.learner.lock().unwrap())
+    }
+
+    /// Complete a job with a backend's `model::FeedbackResult` JSON:
+    /// stores the result and folds its evidence event (if any) back
+    /// into the learner record, stamped with `backend` as the
+    /// feedback source.
+    pub fn complete_feedback_job(
+        &self,
+        job_id: i64,
+        backend: String,
+        result_json: String,
+    ) -> Result<(), CoreError> {
+        feedback::complete(&self.learner.lock().unwrap(), job_id, &backend, &result_json)
     }
 
     /// Full derived learner state (`model::DerivedState`) as JSON.
