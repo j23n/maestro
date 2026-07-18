@@ -1,0 +1,56 @@
+# Seed vocab cards — hand-written, hand-checked. Each card instantiates
+# one lemma from spec/it/vocab.yaml; the SM-2 scheduler works on these.
+# Real banks are generated per vocab domain and human-reviewed.
+
+- id: vocab.ciao
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ciao
+  front: ciao
+  back: hi / bye
+  example: "Ciao, come stai?"
+  example_gloss: "Hi, how are you?"
+  answers:
+    - { text: ciao, canonical: true }
+  evidence:
+    - { axis: vocab, id: ciao, weight: 1.0 }
+
+- id: vocab.grazie
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: grazie
+  front: grazie
+  back: thank you
+  example: "Grazie mille!"
+  example_gloss: "Thanks a lot!"
+  answers:
+    - { text: grazie, canonical: true }
+  evidence:
+    - { axis: vocab, id: grazie, weight: 1.0 }
+
+- id: vocab.per_favore
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: per favore
+  front: per favore
+  back: please
+  example: "Un caffè, per favore."
+  example_gloss: "A coffee, please."
+  answers:
+    - { text: per favore, canonical: true }
+  evidence:
+    - { axis: vocab, id: per favore, weight: 1.0 }
+
+- id: vocab.caffe
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: caffè
+  front: il caffè
+  back: coffee
+  example: "Vorrei un caffè."
+  example_gloss: "I would like a coffee."
+  answers:
+    - { text: caffè, canonical: true }
+    - { text: il caffè }
+  evidence:
+    - { axis: vocab, id: caffè, weight: 1.0 }

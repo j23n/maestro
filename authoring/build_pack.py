@@ -7,26 +7,34 @@ the core normalizes both sides at scoring time.
 Validation before build:
 - item schema (see ``pack_schemas``), unique item ids
 - every evidence ref resolves against the curriculum spec
-  (axis ``grammar``/``function``; ``vocab`` is unchecked until the
-  leveled vocab list lands)
+- referenced media files exist under the pack directory
+- tombstoned ids are actually absent from the sources
 
 Usage: ``python -m authoring.build_pack packs/it build/it.pack.sqlite``
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sqlite3
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import yaml
 
 from authoring.pack_schemas import (
+    Answer,
     DrillItem,
+    GrammarRefItem,
     ListeningItem,
     PackManifest,
     ReadingItem,
+    SpeakingPromptItem,
+    Tombstone,
+    VocabCardItem,
+    WritingPromptItem,
 )
 from authoring.spec_schemas import Spec
 from authoring.validate_spec import load_spec
@@ -52,6 +60,17 @@ CREATE TABLE explanations (
     item_id TEXT PRIMARY KEY REFERENCES items(id),
     feedback TEXT NOT NULL
 );
+CREATE TABLE media (
+    path TEXT PRIMARY KEY,          -- as referenced by item payloads
+    kind TEXT NOT NULL,             -- audio | image
+    sha256 TEXT NOT NULL,
+    bytes BLOB NOT NULL
+);
+CREATE TABLE tombstones (
+    item_id TEXT PRIMARY KEY,
+    removed_in TEXT NOT NULL,
+    reason TEXT
+);
 CREATE TABLE spec_grammar (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
     prerequisites TEXT NOT NULL DEFAULT '[]'
@@ -69,20 +88,63 @@ CREATE TABLE spec_can_dos (
     grammar_ids TEXT NOT NULL DEFAULT '[]',
     function_ids TEXT NOT NULL DEFAULT '[]'
 );
+CREATE TABLE spec_vocab (
+    id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+    pos TEXT NOT NULL, gloss TEXT NOT NULL
+);
 """
+
+_AUDIO_EXT = {".mp3", ".m4a", ".wav", ".ogg"}
+_IMAGE_EXT = {".png", ".jpg", ".jpeg", ".webp"}
+
+# Directory -> (model, kind key used in coverage reports).
+_ITEM_DIRS = {
+    "drills": DrillItem,
+    "readings": ReadingItem,
+    "listenings": ListeningItem,
+    "vocab": VocabCardItem,
+    "speaking_prompts": SpeakingPromptItem,
+    "writing_prompts": WritingPromptItem,
+    "grammar_refs": GrammarRefItem,
+}
 
 
 def _normalize(s: str) -> str:
     """Mirror of core/src/normalize.rs, applied to distractor keys at
-    build time (the core looks distractors up by normalized response)."""
+    build time (the core looks distractors up by normalized response).
+    Pinned by conformance/normalize_vectors.json on both sides."""
     s = s.replace("’", "'").replace("ʼ", "'")
     s = "".join(c for c in s if c not in '.,;:!?"«»')
     return " ".join(s.lower().split())
 
 
-def load_pack_sources(
-    pack_dir: Path,
-) -> tuple[PackManifest, list[DrillItem], list[ReadingItem], list[ListeningItem]]:
+@dataclass
+class PackSources:
+    """Everything under ``packs/<lang>/``, parsed and typed."""
+
+    manifest: PackManifest
+    drills: list[DrillItem] = field(default_factory=list)
+    readings: list[ReadingItem] = field(default_factory=list)
+    listenings: list[ListeningItem] = field(default_factory=list)
+    vocab_cards: list[VocabCardItem] = field(default_factory=list)
+    speaking_prompts: list[SpeakingPromptItem] = field(default_factory=list)
+    writing_prompts: list[WritingPromptItem] = field(default_factory=list)
+    grammar_refs: list[GrammarRefItem] = field(default_factory=list)
+    tombstones: list[Tombstone] = field(default_factory=list)
+
+    def all_items(self) -> list:
+        return [
+            *self.drills,
+            *self.readings,
+            *self.listenings,
+            *self.vocab_cards,
+            *self.speaking_prompts,
+            *self.writing_prompts,
+            *self.grammar_refs,
+        ]
+
+
+def load_pack_sources(pack_dir: Path) -> PackSources:
     manifest = PackManifest(**yaml.safe_load((pack_dir / "pack.yaml").read_text()))
 
     def load(subdir: str, model):
@@ -91,12 +153,30 @@ def load_pack_sources(
             out.extend(model(**e) for e in yaml.safe_load(f.read_text()) or [])
         return out
 
-    return (
-        manifest,
-        load("drills", DrillItem),
-        load("readings", ReadingItem),
-        load("listenings", ListeningItem),
+    tombstones = []
+    ts_file = pack_dir / "tombstones.yaml"
+    if ts_file.exists():
+        tombstones = [Tombstone(**e) for e in yaml.safe_load(ts_file.read_text()) or []]
+
+    return PackSources(
+        manifest=manifest,
+        drills=load("drills", DrillItem),
+        readings=load("readings", ReadingItem),
+        listenings=load("listenings", ListeningItem),
+        vocab_cards=load("vocab", VocabCardItem),
+        speaking_prompts=load("speaking_prompts", SpeakingPromptItem),
+        writing_prompts=load("writing_prompts", WritingPromptItem),
+        grammar_refs=load("grammar_refs", GrammarRefItem),
+        tombstones=tombstones,
     )
+
+
+def _media_refs(item) -> list[str]:
+    """All media paths an item references (audio and image fields)."""
+    refs = [getattr(item, "audio", None), getattr(item, "image", None)]
+    for turn in getattr(item, "turns", []) or []:
+        refs.append(turn.audio)
+    return [r for r in refs if r]
 
 
 def validate_pack(items: list, spec: Spec) -> list[str]:
@@ -120,7 +200,80 @@ def validate_pack(items: list, spec: Spec) -> list[str]:
             }.get(ev.axis)
             if known is not None and ev.id not in known:
                 errors.append(f"{item.id}: unknown {ev.axis} id {ev.id}")
+        if isinstance(item, VocabCardItem) and item.lemma not in vocab_ids:
+            errors.append(f"{item.id}: unknown lemma {item.lemma}")
+        if isinstance(item, GrammarRefItem) and item.grammar_id not in gp_ids:
+            errors.append(f"{item.id}: unknown grammar id {item.grammar_id}")
+        for gp in getattr(item, "required_grammar", []):
+            if gp not in gp_ids:
+                errors.append(f"{item.id}: unknown required_grammar {gp}")
+        for lemma in getattr(item, "required_vocab", []):
+            if lemma not in vocab_ids:
+                errors.append(f"{item.id}: unknown required_vocab {lemma}")
     return errors
+
+
+def validate_media(items: list, pack_dir: Path) -> list[str]:
+    """Every referenced media file must exist and have a known kind."""
+    errors = []
+    for item in items:
+        for ref in _media_refs(item):
+            p = pack_dir / ref
+            if not p.is_file():
+                errors.append(f"{item.id}: missing media file {ref}")
+            elif p.suffix.lower() not in _AUDIO_EXT | _IMAGE_EXT:
+                errors.append(f"{item.id}: unsupported media type {ref}")
+    return errors
+
+
+def validate_tombstones(sources: PackSources) -> list[str]:
+    live = {i.id for i in sources.all_items()}
+    return [
+        f"tombstoned id still present in sources: {t.item_id}"
+        for t in sources.tombstones
+        if t.item_id in live
+    ]
+
+
+def coverage_report(items: list, spec: Spec) -> dict:
+    """Reviewed-item counts per grammar point and per (level, kind).
+
+    The authoring backlog view: thin cells are what `generate` should be
+    pointed at next. Written beside the bundle at build time and reused
+    by the review tool's coverage matrix.
+    """
+    kinds = {
+        DrillItem: "drill",
+        ReadingItem: "reading",
+        ListeningItem: "listening",
+        VocabCardItem: "vocab_card",
+        SpeakingPromptItem: "speaking_prompt",
+        WritingPromptItem: "writing_prompt",
+        GrammarRefItem: "grammar_ref",
+    }
+    by_gp: dict[str, dict] = {
+        g.id: {"cefr_level": g.cefr_level, "counts": {}} for g in spec.grammar_points
+    }
+    by_level_kind: dict[str, dict[str, int]] = {}
+    for item in items:
+        if item.status != "reviewed":
+            continue
+        kind = kinds[type(item)]
+        lk = by_level_kind.setdefault(item.cefr_level, {})
+        lk[kind] = lk.get(kind, 0) + 1
+        for ev in item.evidence:
+            if ev.axis == "grammar" and ev.id in by_gp:
+                counts = by_gp[ev.id]["counts"]
+                counts[kind] = counts.get(kind, 0) + 1
+    covered = {g for g, d in by_gp.items() if d["counts"]}
+    return {
+        "grammar_points": by_gp,
+        "levels": by_level_kind,
+        "totals": {
+            "grammar_points": len(by_gp),
+            "grammar_points_covered": len(covered),
+        },
+    }
 
 
 def _embed_spec(conn: sqlite3.Connection, spec) -> None:
@@ -167,6 +320,26 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
             for c in spec.can_dos
         ],
     )
+    conn.executemany(
+        "INSERT INTO spec_vocab VALUES (?, ?, ?, ?)",
+        [(v.id, v.cefr_level, v.pos, v.gloss) for v in spec.vocab],
+    )
+
+
+def _embed_media(conn: sqlite3.Connection, items: list, pack_dir: Path) -> int:
+    embedded: set[str] = set()
+    for item in items:
+        for ref in _media_refs(item):
+            if ref in embedded:
+                continue
+            data = (pack_dir / ref).read_bytes()
+            kind = "audio" if Path(ref).suffix.lower() in _AUDIO_EXT else "image"
+            conn.execute(
+                "INSERT INTO media VALUES (?, ?, ?, ?)",
+                (ref, kind, hashlib.sha256(data).hexdigest(), data),
+            )
+            embedded.add(ref)
+    return len(embedded)
 
 
 def _insert_item(
@@ -198,24 +371,27 @@ def _insert_item(
 
 
 def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
-    manifest, drills, readings, listenings = load_pack_sources(pack_dir)
+    sources = load_pack_sources(pack_dir)
     spec = load_spec(spec_dir)
-    all_items = [*drills, *readings, *listenings]
-    errors = validate_pack(all_items, spec)
+    all_items = sources.all_items()
+    errors = (
+        validate_pack(all_items, spec)
+        + validate_media(all_items, pack_dir)
+        + validate_tombstones(sources)
+    )
     if errors:
         for e in errors:
             print(f"ERROR: {e}")
         return 1
     skipped = [i.id for i in all_items if i.status != "reviewed"]
-    drills = [i for i in drills if i.status == "reviewed"]
-    readings = [i for i in readings if i.status == "reviewed"]
-    listenings = [i for i in listenings if i.status == "reviewed"]
+    reviewed = [i for i in all_items if i.status == "reviewed"]
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.unlink(missing_ok=True)
     conn = sqlite3.connect(out_path)
     conn.executescript(_SCHEMA)
     _embed_spec(conn, spec)
+    manifest = sources.manifest
     conn.executemany(
         "INSERT INTO manifest VALUES (?, ?)",
         [
@@ -224,68 +400,159 @@ def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
             ("language", manifest.language),
         ],
     )
+    conn.executemany(
+        "INSERT INTO tombstones VALUES (?, ?, ?)",
+        [(t.item_id, t.removed_in, t.reason) for t in sources.tombstones],
+    )
+    media_count = _embed_media(conn, reviewed, pack_dir)
 
     built = 0
-    for item in drills:
-        payload: dict = {
-            "prompt": item.prompt,
-            "evidence": [e.model_dump() for e in item.evidence],
-        }
-        if item.choices:
-            payload["choices"] = item.choices
-        _insert_item(
-            conn,
-            item.id,
-            item.item_type,
-            item.cefr_level,
-            item.modality,
-            payload,
-            item.answers,
-            item.distractor_feedback,
-            item.explanation,
-        )
-        built += 1
-
-    # Passages/dialogues become a parent item (the composer's receptive
-    # slot) plus one scorable child item per question, so the core's
-    # one-item-one-answer scoring model holds.
-    for item in readings + listenings:
-        kind = item.id.split(".", 1)[0]  # reading | listening
-        modality = "reading" if kind == "reading" else "listening"
-        evidence = [e.model_dump() for e in item.evidence]
-        question_ids = [f"{item.id}.q{n + 1}" for n in range(len(item.questions))]
-        payload = {
-            "title": item.title,
-            "evidence": evidence,
-            "question_ids": question_ids,
-        }
-        if kind == "reading":
-            payload["text"] = item.text
-            payload["glossary"] = item.glossary
-        else:
-            payload["turns"] = [t.model_dump() for t in item.turns]
-            payload["audio"] = item.audio
-        _insert_item(conn, item.id, kind, item.cefr_level, modality, payload)
-        built += 1
-        for qid, q in zip(question_ids, item.questions):
-            q_evidence = [{**e, "weight": e.get("weight", 1.0) * 0.5} for e in evidence]
+    for item in reviewed:
+        if isinstance(item, DrillItem):
+            payload: dict = {
+                "prompt": item.prompt,
+                "evidence": [e.model_dump() for e in item.evidence],
+            }
+            if item.choices:
+                payload["choices"] = item.choices
             _insert_item(
                 conn,
-                qid,
-                f"{kind}_question",
+                item.id,
+                item.item_type,
                 item.cefr_level,
-                modality,
-                {"prompt": q.prompt, "parent_id": item.id, "evidence": q_evidence},
-                q.answers,
-                None,
-                q.explanation,
+                item.modality,
+                payload,
+                item.answers,
+                item.distractor_feedback,
+                item.explanation,
             )
             built += 1
+        elif isinstance(item, VocabCardItem):
+            payload = {
+                "lemma": item.lemma,
+                "front": item.front,
+                "back": item.back,
+                "example": item.example,
+                "example_gloss": item.example_gloss,
+                "audio": item.audio,
+                "image": item.image,
+                "evidence": [e.model_dump() for e in item.evidence],
+            }
+            _insert_item(
+                conn,
+                item.id,
+                item.item_type,
+                item.cefr_level,
+                "vocab",
+                payload,
+                item.answers,
+            )
+            built += 1
+        elif isinstance(item, SpeakingPromptItem):
+            payload = {
+                "prompt": item.prompt,
+                "target_text": item.target_text,
+                "variants": item.variants,
+                "audio": item.audio,
+                "evidence": [e.model_dump() for e in item.evidence],
+            }
+            answers = [Answer(text=item.target_text, canonical=True)] + [
+                Answer(text=v) for v in item.variants
+            ]
+            _insert_item(
+                conn,
+                item.id,
+                item.item_type,
+                item.cefr_level,
+                "speaking",
+                payload,
+                answers,
+                None,
+                item.explanation,
+            )
+            built += 1
+        elif isinstance(item, WritingPromptItem):
+            payload = {
+                "prompt": item.prompt,
+                "min_words": item.min_words,
+                "required_grammar": item.required_grammar,
+                "required_vocab": item.required_vocab,
+                "model_answer": item.model_answer,
+                "evidence": [e.model_dump() for e in item.evidence],
+            }
+            _insert_item(
+                conn, item.id, item.item_type, item.cefr_level, "writing", payload
+            )
+            built += 1
+        elif isinstance(item, GrammarRefItem):
+            payload = {
+                "grammar_id": item.grammar_id,
+                "title": item.title,
+                "body_md": item.body_md,
+                "examples": item.examples,
+                "evidence": [e.model_dump() for e in item.evidence],
+            }
+            _insert_item(
+                conn, item.id, item.item_type, item.cefr_level, "reading", payload
+            )
+            built += 1
+        elif isinstance(item, (ReadingItem, ListeningItem)):
+            # Passages/dialogues become a parent item (the composer's
+            # receptive slot) plus one scorable child item per question,
+            # so the core's one-item-one-answer scoring model holds.
+            kind = item.id.split(".", 1)[0]  # reading | listening
+            modality = "reading" if kind == "reading" else "listening"
+            evidence = [e.model_dump() for e in item.evidence]
+            question_ids = [f"{item.id}.q{n + 1}" for n in range(len(item.questions))]
+            payload = {
+                "title": item.title,
+                "evidence": evidence,
+                "question_ids": question_ids,
+            }
+            if isinstance(item, ReadingItem):
+                payload["text"] = item.text
+                payload["glossary"] = item.glossary
+                payload["image"] = item.image
+            else:
+                payload["turns"] = [t.model_dump() for t in item.turns]
+                payload["audio"] = item.audio
+            _insert_item(conn, item.id, kind, item.cefr_level, modality, payload)
+            built += 1
+            for qid, q in zip(question_ids, item.questions):
+                q_evidence = [
+                    {**e, "weight": e.get("weight", 1.0) * 0.5} for e in evidence
+                ]
+                _insert_item(
+                    conn,
+                    qid,
+                    f"{kind}_question",
+                    item.cefr_level,
+                    modality,
+                    {"prompt": q.prompt, "parent_id": item.id, "evidence": q_evidence},
+                    q.answers,
+                    None,
+                    q.explanation,
+                )
+                built += 1
+        else:  # pragma: no cover - all models handled above
+            raise TypeError(f"unhandled item model: {type(item)}")
 
     conn.commit()
     conn.close()
+
+    report = coverage_report(all_items, spec)
+    coverage_path = out_path.with_suffix(".coverage.json")
+    coverage_path.write_text(json.dumps(report, indent=2, ensure_ascii=False))
+
     note = f", {len(skipped)} unreviewed skipped" if skipped else ""
-    print(f"built {out_path}: {built} items, pack {manifest.pack_version}{note}")
+    media_note = f", {media_count} media files" if media_count else ""
+    gp = report["totals"]
+    print(
+        f"built {out_path}: {built} items{media_note}, pack "
+        f"{manifest.pack_version}{note}; grammar coverage "
+        f"{gp['grammar_points_covered']}/{gp['grammar_points']} "
+        f"(details: {coverage_path})"
+    )
     return 0
 
 
