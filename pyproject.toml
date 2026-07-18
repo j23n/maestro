@@ -6,11 +6,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "anthropic>=0.83.0",
+    "cryptography>=49.0.0",
     "fastapi>=0.129.0",
     "httpx>=0.28.1",
     "pydantic>=2.10",
     "python-multipart>=0.0.20",
     "pyyaml>=6.0",
+    "simplemma>=1.2.0",
     "uvicorn>=0.30",
 ]
 

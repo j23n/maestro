@@ -1,0 +1,68 @@
+- status: reviewed
+  id: vocab.ferragosto
+  item_type: vocab_card
+  cefr_level: A1
+  lemma: ferragosto
+  front: il Ferragosto
+  back: Ferragosto (the August 15 holiday)
+  example: A Ferragosto tutti vanno al mare.
+  example_gloss: On Ferragosto everyone goes to the sea.
+  answers:
+  - text: ferragosto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ferragosto
+    weight: 1.0
+- status: reviewed
+  id: vocab.spiaggia
+  item_type: vocab_card
+  cefr_level: A1
+  lemma: spiaggia
+  front: la spiaggia
+  back: beach
+  example: La spiaggia è bella.
+  example_gloss: The beach is beautiful.
+  answers:
+  - text: spiaggia
+    canonical: true
+  - text: la spiaggia
+    canonical: false
+  evidence:
+  - axis: vocab
+    id: spiaggia
+    weight: 1.0
+- status: reviewed
+  id: vocab.estate
+  item_type: vocab_card
+  cefr_level: A1
+  lemma: estate
+  front: l'estate
+  back: summer
+  example: In estate fa caldo.
+  example_gloss: In summer it is hot.
+  answers:
+  - text: estate
+    canonical: true
+  - text: l'estate
+    canonical: false
+  evidence:
+  - axis: vocab
+    id: estate
+    weight: 1.0
+- status: reviewed
+  id: vocab.nuotare
+  item_type: vocab_card
+  cefr_level: A1
+  lemma: nuotare
+  front: nuotare
+  back: to swim
+  example: Mi piace nuotare nel mare.
+  example_gloss: I like swimming in the sea.
+  answers:
+  - text: nuotare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: nuotare
+    weight: 1.0
