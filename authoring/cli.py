@@ -25,6 +25,24 @@ def main() -> int:
     for name in ("validate", "build", "generate", "review", "release"):
         p = sub.add_parser(name)
         p.add_argument("--pack", default="packs/it", help="pack source dir")
+    val = sub.choices["validate"]
+    val.add_argument(
+        "--quality",
+        action="store_true",
+        help="run content-quality checks (vocab level, solvability, "
+        "near-duplicates, orthography) — warnings, not errors",
+    )
+    val.add_argument(
+        "--adversarial",
+        action="store_true",
+        help="second-model adversarial answer pass over drills (API)",
+    )
+    val.add_argument(
+        "--adversarial-from-file",
+        type=Path,
+        default=None,
+        help="parse a prepared adversarial response instead of calling the API",
+    )
     sub.choices["build"].add_argument("--out", default="build/it.pack.sqlite")
     gen = sub.choices["generate"]
     gen.add_argument(
@@ -77,11 +95,33 @@ def main() -> int:
         errors += validate_pack(sources.all_items(), spec)
         errors += validate_media(sources.all_items(), pack_dir)
         errors += validate_tombstones(sources)
+        quality: dict[str, list[str]] = {}
+        if args.quality:
+            from authoring.quality import validate_quality
+
+            quality = validate_quality(sources.all_items(), spec)
+        if args.adversarial or args.adversarial_from_file:
+            from authoring.quality import check_adversarial
+
+            if args.adversarial_from_file:
+                canned = args.adversarial_from_file.read_text()
+                complete = lambda _prompt: canned  # noqa: E731
+            else:
+                from authoring.generate import call_api
+
+                complete = call_api
+            for k, v in check_adversarial(sources.all_items(), complete).items():
+                quality.setdefault(k, []).extend(v)
         for w in warnings:
             print(f"warning: {w}")
+        n_quality = 0
+        for item_id, msgs in sorted(quality.items()):
+            for m in msgs:
+                print(f"warning: {item_id}: {m}")
+                n_quality += 1
         for e in errors:
             print(f"ERROR: {e}")
-        print(f"{len(errors)} errors, {len(warnings)} warnings")
+        print(f"{len(errors)} errors, {len(warnings) + n_quality} warnings")
         return 1 if errors else 0
 
     if args.command == "build":
