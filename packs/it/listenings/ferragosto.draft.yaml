@@ -1,0 +1,40 @@
+- status: reviewed
+  id: listening.ferragosto.001
+  cefr_level: A1
+  title: Un gelato in spiaggia
+  turns:
+  - speaker: Marco
+    text: Buongiorno! Fa molto caldo oggi.
+    audio: null
+  - speaker: Barista
+    text: Buongiorno! Sì, è Ferragosto — tutto il mare è pieno (full)!
+    audio: null
+  - speaker: Marco
+    text: Vorrei un gelato e un'acqua, per favore.
+    audio: null
+  - speaker: Barista
+    text: Ecco il gelato e l'acqua. Sei euro.
+    audio: null
+  - speaker: Marco
+    text: Grazie! Buon Ferragosto!
+    audio: null
+  questions:
+  - prompt: Che cosa vuole Marco?
+    answers:
+    - text: un gelato e un'acqua
+      canonical: true
+    - text: un gelato
+      canonical: false
+    explanation: 'Marco says: vorrei un gelato e un''acqua.'
+  - prompt: Quanto costa (does it cost)?
+    answers:
+    - text: sei euro
+      canonical: true
+    explanation: null
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0

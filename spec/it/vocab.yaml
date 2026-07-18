@@ -248,7 +248,7 @@
 - {id: ufficio, cefr_level: A1, pos: noun, gloss: office}
 - {id: scuola, cefr_level: A1, pos: noun, gloss: school}
 - {id: università, cefr_level: A1, pos: noun, gloss: university}
-- {id: studente, cefr_level: A1, pos: noun, gloss: student}
+- {id: studente, cefr_level: A0, pos: noun, gloss: student}
 - {id: insegnante, cefr_level: A1, pos: noun, gloss: teacher}
 - {id: medico, cefr_level: A1, pos: noun, gloss: doctor}
 - {id: dottore, cefr_level: A1, pos: noun, gloss: doctor (title)}
@@ -297,7 +297,7 @@
 - {id: telefonare, cefr_level: A1, pos: verb, gloss: to phone}
 - {id: chiedere, cefr_level: A1, pos: verb, gloss: to ask}
 - {id: rispondere, cefr_level: A1, pos: verb, gloss: to answer}
-- {id: dire, cefr_level: A1, pos: verb, gloss: to say}
+- {id: dire, cefr_level: A0, pos: verb, gloss: to say}
 - {id: mettere, cefr_level: A1, pos: verb, gloss: to put}
 - {id: portare, cefr_level: A1, pos: verb, gloss: to bring / carry}
 - {id: ricordare, cefr_level: A1, pos: verb, gloss: to remember}
@@ -315,7 +315,7 @@
 - {id: ricevere, cefr_level: A1, pos: verb, gloss: to receive}
 - {id: aprire, cefr_level: A1, pos: verb, gloss: to open}
 - {id: chiudere, cefr_level: A1, pos: verb, gloss: to close}
-- {id: entrare, cefr_level: A1, pos: verb, gloss: to enter}
+- {id: entrare, cefr_level: A0, pos: verb, gloss: to enter}
 - {id: uscire, cefr_level: A1, pos: verb, gloss: to go out}
 - {id: dovere, cefr_level: A1, pos: verb, gloss: must / to have to}
 - {id: dare, cefr_level: A1, pos: verb, gloss: to give}
@@ -326,7 +326,7 @@
 - {id: vento, cefr_level: A1, pos: noun, gloss: wind}
 - {id: neve, cefr_level: A1, pos: noun, gloss: snow}
 # Free time & things
-- {id: musica, cefr_level: A1, pos: noun, gloss: music}
+- {id: musica, cefr_level: A0, pos: noun, gloss: music}
 - {id: film, cefr_level: A1, pos: noun, gloss: film}
 - {id: libro, cefr_level: A1, pos: noun, gloss: book}
 - {id: giornale, cefr_level: A1, pos: noun, gloss: newspaper}
@@ -405,7 +405,7 @@
 - {id: raccontare, cefr_level: A2, pos: verb, gloss: to tell / narrate}
 - {id: promettere, cefr_level: A2, pos: verb, gloss: to promise}
 - {id: prenotare, cefr_level: A2, pos: verb, gloss: to book / reserve}
-- {id: ordinare, cefr_level: A2, pos: verb, gloss: to order}
+- {id: ordinare, cefr_level: A0, pos: verb, gloss: to order}
 - {id: esperienza, cefr_level: A2, pos: noun, gloss: experience}
 - {id: notizia, cefr_level: A2, pos: noun, gloss: news item}
 - {id: storia, cefr_level: A2, pos: noun, gloss: story / history}
@@ -417,9 +417,33 @@
 - {id: quindi, cefr_level: A2, pos: conj, gloss: therefore / so}
 - {id: mentre, cefr_level: A2, pos: conj, gloss: while}
 - {id: prima, cefr_level: A2, pos: adv, gloss: before / earlier}
-- {id: dopo, cefr_level: A2, pos: adv, gloss: after / later}
+- {id: dopo, cefr_level: A1, pos: adv, gloss: after / later}
 - {id: durante, cefr_level: A2, pos: prep, gloss: during}
 - {id: già, cefr_level: A2, pos: adv, gloss: already}
 - {id: appena, cefr_level: A2, pos: adv, gloss: just / as soon as}
 - {id: purtroppo, cefr_level: A2, pos: adv, gloss: unfortunately}
 - {id: veramente, cefr_level: A2, pos: adv, gloss: really}
+
+# Seed-content additions — surfaced by the vocab-level validator over
+# the hand-written seed pack (quality.check_vocab_level).
+- {id: poi, cefr_level: A1, pos: adv, gloss: then / afterwards}
+- {id: fame, cefr_level: A0, pos: noun, gloss: hunger (avere fame = to be hungry)}
+- {id: prenotazione, cefr_level: A0, pos: noun, gloss: reservation / booking}
+- {id: cappuccino, cefr_level: A0, pos: noun, gloss: cappuccino}
+- {id: spaghetti, cefr_level: A0, pos: noun, gloss: spaghetti}
+- {id: crema, cefr_level: A1, pos: noun, gloss: cream / custard}
+- {id: cliente, cefr_level: A1, pos: noun, gloss: customer}
+- {id: semplice, cefr_level: A1, pos: adj, gloss: simple}
+- {id: cortesia, cefr_level: A0, pos: noun, gloss: courtesy / politeness}
+- {id: salutare, cefr_level: A0, pos: verb, gloss: to greet}
+- {id: presentazione, cefr_level: A0, pos: noun, gloss: introduction / presentation}
+- {id: breve, cefr_level: A0, pos: adj, gloss: short / brief}
+
+# Ferragosto / summer-holiday domain (thematic pack support).
+- {id: ferragosto, cefr_level: A1, pos: noun, gloss: Ferragosto (Aug 15 holiday)}
+- {id: spiaggia, cefr_level: A1, pos: noun, gloss: beach}
+- {id: agosto, cefr_level: A1, pos: noun, gloss: August}
+- {id: estate, cefr_level: A1, pos: noun, gloss: summer}
+- {id: ombrellone, cefr_level: A1, pos: noun, gloss: beach umbrella}
+- {id: nuotare, cefr_level: A1, pos: verb, gloss: to swim}
+- {id: frase, cefr_level: A1, pos: noun, gloss: sentence / phrase}

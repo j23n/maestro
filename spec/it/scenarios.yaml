@@ -28,7 +28,7 @@
 
     '
   outro: You learned your first Italian words — enough to land in Italy and not feel lost.
-  image: images/a0-01-in-aereo.png
+  image: images/scenarios/a0-01-in-aereo.png
 - id: a0-02-in-albergo
   cefr_level: A0
   phase: 1
@@ -56,7 +56,7 @@
 
     '
   outro: You checked into your hotel in Italian. The receptionist smiled — you're doing great.
-  image: images/a0-02-in-albergo.png
+  image: images/scenarios/a0-02-in-albergo.png
 - id: a0-03-al-bar
   cefr_level: A0
   phase: 1
@@ -82,6 +82,7 @@
 
     '
   outro: You ordered your first Italian coffee — and you even got the article right.
+  image: images/scenarios/a0-03-al-bar.png
 - id: a0-04-in-giro
   cefr_level: A0
   phase: 1
@@ -106,6 +107,7 @@
 
     '
   outro: You found your way around an Italian city. Dov'è? is already second nature.
+  image: images/scenarios/a0-04-in-giro.png
 - id: a0-05-chiedere-aiuto
   cefr_level: A0
   phase: 1
@@ -132,6 +134,7 @@
 
     '
   outro: You now know how to ask for help in Italian. Getting stuck is no longer a dead end.
+  image: images/scenarios/a0-05-chiedere-aiuto.png
 - id: a0-06-a-pranzo
   cefr_level: A0
   phase: 1
@@ -160,6 +163,7 @@
     '
   outro: You read an Italian menu and ordered a full meal. The waiter didn't switch to English
     once.
+  image: images/scenarios/a0-06-a-pranzo.png
 - id: a0-07-mi-piace
   cefr_level: A0
   phase: 1
@@ -185,6 +189,7 @@
 
     '
   outro: 'You can say what you like and don''t like in Italian. Opinions: unlocked.'
+  image: images/scenarios/a0-07-mi-piace.png
 - id: a0-08-i-numeri-grandi
   cefr_level: A0
   phase: 1
@@ -212,6 +217,7 @@
     '
   outro: Prices, times, and days of the week — the numbers that run daily life in Italy are
     yours now.
+  image: images/scenarios/a0-08-i-numeri-grandi.png
 - id: a0-09-in-viaggio
   cefr_level: A0
   phase: 1
@@ -239,6 +245,7 @@
 
     '
   outro: You bought a train ticket and found your platform. Italy just got bigger.
+  image: images/scenarios/a0-09-in-viaggio.png
 - id: a0-10-conoscere-qualcuno
   cefr_level: A0
   phase: 1
@@ -267,6 +274,7 @@
 
     '
   outro: You introduced yourself and had a real conversation with someone. That's a milestone.
+  image: images/scenarios/a0-10-conoscere-qualcuno.png
 - id: a0-11-un-problema
   cefr_level: A0
   phase: 1
@@ -295,6 +303,7 @@
 
     '
   outro: You can handle a problem in Italian. That's real confidence — not just vocabulary.
+  image: images/scenarios/a0-11-un-problema.png
 - id: a0-12-ultimo-giorno
   cefr_level: A0
   phase: 1
@@ -321,6 +330,7 @@
 
     '
   outro: You said goodbye in Italian — properly. Arrivederci, and grazie di tutto.
+  image: images/scenarios/a0-12-ultimo-giorno.png
 - id: a0-13-ripasso
   cefr_level: A0
   phase: 1
@@ -382,6 +392,7 @@
     '
   outro: You've completed A0. From zero Italian to real conversations — that took courage.
     Bravo.
+  image: images/scenarios/a0-13-ripasso.png
 - id: presentarsi
   cefr_level: A1
   phase: 1
@@ -410,6 +421,7 @@
   - intritsoc_presqualc_a1
   - intritsoc_risppresent_a1
   - interag_identi_a1
+  image: images/scenarios/presentarsi.png
 - id: al-bar
   cefr_level: A1
   phase: 1
@@ -433,6 +445,7 @@
   - interag_inform05_a1
   - intemo_espgratring_a1
   - intemo_rispringr_a1
+  image: images/scenarios/al-bar.png
 - id: al-ristorante
   cefr_level: A1
   phase: 1
@@ -456,6 +469,7 @@
   - intazio_offrqualc_a1
   - intazio_rispaccsenris_a1
   - intemo_espsoddisf_a1
+  image: images/scenarios/al-ristorante.png
 - id: fare-la-spesa
   cefr_level: A1
   phase: 1
@@ -479,6 +493,7 @@
   - intazio_rispaccsenris_a1
   - intazio_rispricrif_a1
   - intritsoc_attattenz_a1
+  image: images/scenarios/fare-la-spesa.png
 - id: chiedere-indicazioni
   cefr_level: A1
   phase: 1
@@ -507,6 +522,7 @@
   - intritsoc_attattenz_a1
   - intemo_espgratring_a1
   - intatt_espproigno_a1
+  image: images/scenarios/chiedere-indicazioni.png
 - id: al-telefono
   cefr_level: A1
   phase: 1
@@ -535,6 +551,7 @@
   - intritsoc_inttelinfint_a1
   - intritsoc_inttelfacatt_a1
   - intritsoc_inttelconconv_a1
+  image: images/scenarios/al-telefono.png
 - id: in-classe
   cefr_level: A1
   phase: 1
@@ -558,6 +575,7 @@
   - strintverb_asschiedrip_a1
   - strintverb_asschiedparlent_a1
   - strintverb_asschieddefparaf_a1
+  image: images/scenarios/in-classe.png
 - id: la-famiglia
   cefr_level: A1
   phase: 2
@@ -581,6 +599,7 @@
   - interag_inform01_a1
   - interag_rispondere07_a1
   - intemo_espamappqual_a1
+  image: images/scenarios/la-famiglia.png
 - id: la-casa
   cefr_level: A1
   phase: 2
@@ -605,6 +624,7 @@
   - intatt_espdesiderio_a1
   - interag_asserire_a1
   - intemo_espamappqual_a1
+  image: images/scenarios/la-casa.png
 - id: la-giornata
   cefr_level: A1
   phase: 1
@@ -639,6 +659,7 @@
   - interag_descriv_a1
   - interag_asserire_a1
   - interag_rispondere02_a1
+  image: images/scenarios/la-giornata.png
 - id: tempo-libero
   cefr_level: A1
   phase: 2
@@ -668,6 +689,7 @@
   - intatt_espprocapincap_a1
   - intazio_proqualins_a1
   - intazio_rispproacc_a1
+  image: images/scenarios/tempo-libero.png
 - id: dal-medico
   cefr_level: A1
   phase: 2
@@ -691,6 +713,7 @@
   - interag_rispondere05_a1
   - intatt_espobbdivieto_a1
   - intazio_mettguar_a1
+  image: images/scenarios/dal-medico.png
 - id: in-viaggio
   cefr_level: A1
   phase: 3
@@ -719,6 +742,7 @@
   - interag_rispondere03_a1
   - interag_rispondere04_a1
   - interag_inform05_a1
+  image: images/scenarios/in-viaggio.png
 - id: in-albergo
   cefr_level: A1
   phase: 3
@@ -743,6 +767,7 @@
   - intazio_chiautor_a1
   - intazio_dareautsris_a1
   - intemo_espsoddisf_a1
+  image: images/scenarios/in-albergo.png
 - id: in-negozio
   cefr_level: A1
   phase: 2
@@ -766,6 +791,7 @@
   - intatt_espdesiderio_a1
   - intazio_rispricrif_a1
   - interag_confsment_a1
+  image: images/scenarios/in-negozio.png
 - id: al-lavoro
   cefr_level: A1
   phase: 2
@@ -796,6 +822,7 @@
   - intatt_espintenz_a1
   - interag_rispondere02_a1
   - strutdisc_svitemadesc_a1
+  image: images/scenarios/al-lavoro.png
 - id: una-festa
   cefr_level: A1
   phase: 2
@@ -822,6 +849,7 @@
   - intazio_rispprorifiut_a1
   - intritsoc_prendcong_a1
   - intritsoc_presentarsi_a1
+  image: images/scenarios/una-festa.png
 - id: scrivere-un-messaggio
   cefr_level: A1
   phase: 2
@@ -843,6 +871,7 @@
   - intritsoc_prendcong_a1
   - intatt_scusarsi_a1
   - strutdisc_corriprend_a1
+  image: images/scenarios/scrivere-un-messaggio.png
 - id: opinioni-e-accordo
   cefr_level: A1
   phase: 3
@@ -866,6 +895,7 @@
   - interag_rispondere01_a1
   - interag_inform06_a1
   - intatt_direconosce_a1
+  image: images/scenarios/opinioni-e-accordo.png
 - id: emozioni-e-stati
   cefr_level: A1
   phase: 3
@@ -889,6 +919,7 @@
   - intemo_espinquietud_a1
   - intemo_intsodinsod_a1
   - intemo_espintqualc_a1
+  image: images/scenarios/emozioni-e-stati.png
 - id: prendere-un-appuntamento
   cefr_level: A1
   phase: 3
@@ -918,6 +949,7 @@
   - interag_inform02_a1
   - intatt_scusarsi_a1
   - intatt_espintenz_a1
+  image: images/scenarios/prendere-un-appuntamento.png
 - id: capire-e-farsi-capire
   cefr_level: A1
   phase: 3
@@ -944,6 +976,7 @@
   - strutdisc_corriprend_a1
   - strutdisc_sviargenumer_a1
   - interag_rispondere09_a1
+  image: images/scenarios/capire-e-farsi-capire.png
 - id: permessi-e-regole
   cefr_level: A1
   phase: 3
@@ -968,6 +1001,7 @@
   - intatt_espobbdivieto_a1
   - intazio_mettguar_a1
   - intazio_rispaccsenris_a1
+  image: images/scenarios/permessi-e-regole.png
 - id: descrivere-le-persone
   cefr_level: A1
   phase: 3
@@ -991,3 +1025,4 @@
   - interag_rispondere06_a1
   - interag_rispondere07_a1
   - strutdisc_svitemadesc_a1
+  image: images/scenarios/descrivere-le-persone.png
