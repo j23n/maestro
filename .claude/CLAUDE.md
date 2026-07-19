@@ -16,11 +16,14 @@ uv run pytest tests/unit/                    # authoring + eval tests
 uv run ruff check authoring/ evals/ tests/   # lint
 uv run ruff format authoring/ evals/ tests/  # format
 
-uv run python -m authoring.cli validate      # spec + pack sources
-uv run python -m authoring.cli build         # -> build/it.pack.sqlite
-uv run python -m authoring.cli review        # review web UI on :8321
-uv run python -m authoring.cli generate --gp <id> --count 10   # needs API key
-uv run python -m authoring.cli release
+uv run python -m authoring.cli validate --quality   # + vocab/solvability checks
+uv run python -m authoring.cli build         # -> build/it.pack.sqlite + coverage
+uv run python -m authoring.cli review        # review web UI on :8321 (all types)
+uv run python -m authoring.cli generate --type drill --gp <id> --count 10
+uv run python -m authoring.cli generate --type reading --theme "Ferragosto" --level A1
+uv run python -m authoring.cli generate-audio --provider mock   # azure/openai w/ keys
+uv run python -m authoring.cli generate-images --provider mock  # openai w/ key
+uv run python -m authoring.cli release       # signed if keys/ exists (release keygen)
 
 cd core && cargo test                        # incl. conformance vectors
 MAESTRO_PACK_PATH=../build/it.pack.sqlite cargo test --test pack_compat
@@ -39,12 +42,17 @@ API — skip in normal dev; `--runner mock` is offline.
 spec/it/          curriculum spec: grammar DAG, functions, scenarios,
                   can-do inventory, leveled vocab — IDs are forever
 packs/it/         authored content YAML (status: draft|reviewed|flagged)
-authoring/        maestro-pack CLI: validate/build/generate/review/release
+authoring/        maestro-pack CLI: validate (+--quality/--adversarial),
+                  build, generate (all item families; gp/scenario/cando/
+                  theme scopes), generate-audio, generate-images,
+                  review, release (ed25519-signed, tombstone-guarded)
 core/             Rust portable core + UniFFI (pack reader, events,
                   mastery/SM-2 folds, session composer, alignment scorer)
 conformance/      golden vectors any core implementation must pass
 prompts/runtime/  versioned LLM prompts shared by the app AND evals
-evals/            eval harness, seeded cases, promotion gates
+evals/            eval harness (writing/speaking feedback, mistake
+                  explanation, content generation), pinned judge
+                  prompts, seeded cases + seed_cases.py, promotion gates
 ios/              SwiftUI shell — UNTESTED scaffold, see ios/README.md
 ```
 
