@@ -67,6 +67,16 @@ fn golden_vectors() {
             if let Some(v) = expect.get("cefr_estimate") {
                 assert_eq!(&state.cefr_estimate, v.as_str().unwrap(), "{ctx}: cefr");
             }
+            if let Some(cefr) = expect.get("cefr").and_then(|c| c.as_object()) {
+                let actual = serde_json::to_value(&state.cefr).unwrap();
+                for (field, want) in cefr {
+                    assert_eq!(
+                        actual.get(field),
+                        Some(want),
+                        "{ctx}: cefr.{field} (full: {actual})"
+                    );
+                }
+            }
             if let Some(v) = expect.get("current_phase") {
                 assert_eq!(state.current_phase as i64, v.as_i64().unwrap(), "{ctx}: phase");
             }
