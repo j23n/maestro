@@ -1,0 +1,79 @@
+{
+  "name": "cefr: rough classification from partial evidence, raised by a level test",
+  "notes": [
+    "The learner has mastered 3 of the spec's 10 A1 grammar points and met",
+    "no others. A graduation-style gate over the whole level inventory would",
+    "report A0; the classification reports A1 with medium confidence, and",
+    "carries the evidence counts so the caller can show its working.",
+    "A level test then places them at A2, which outranks the estimate — but",
+    "the evidence-only estimate stays visible in `estimated`."
+  ],
+  "spec": {
+    "grammar": [
+      {"id": "a1_0", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_1", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_2", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_3", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_4", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_5", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_6", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_7", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_8", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a1_9", "cefr_level": "A1", "prerequisites": []},
+      {"id": "a2_0", "cefr_level": "A2", "prerequisites": []},
+      {"id": "a2_1", "cefr_level": "A2", "prerequisites": []}
+    ],
+    "functions": [
+      {"id": "fn_a1_0", "cefr_level": "A1"},
+      {"id": "fn_a1_1", "cefr_level": "A1"}
+    ]
+  },
+  "events": [
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_0", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_0", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_0", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_0", "weight": 1.0}]},
+
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_1", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_1", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_1", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_1", "weight": 1.0}]},
+
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_2", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_2", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_2", "weight": 1.0}]},
+    {"type": "attempt", "at": 1800000000, "outcome": "correct",
+     "evidence": [{"axis": "grammar", "id": "a1_2", "weight": 1.0}]},
+
+    {"type": "level_assessed", "at": 1800000000, "item_id": "placement.v1",
+     "assessed_level": "A2"}
+  ],
+  "now": 1800000000,
+  "expect_state": {
+    "cefr_estimate": "A2",
+    "cefr": {
+      "level": "A2",
+      "source": "assessed",
+      "estimated": "A1",
+      "assessed": "A2",
+      "assessed_at": 1800000000,
+      "confidence": "medium",
+      "grammar_mastered": 3,
+      "grammar_encountered": 3,
+      "grammar_total": 10,
+      "functions_demonstrated": 0,
+      "functions_total": 2
+    }
+  }
+}
