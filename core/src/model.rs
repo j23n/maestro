@@ -17,6 +17,21 @@ pub enum EventType {
     Introduced,
     /// A scenario session was completed at a depth.
     ScenarioCompleted,
+    /// An explicit CEFR level result — a placement or level test, or a
+    /// trusted self-report. Carries `assessed_level`; `item_id` may name
+    /// the test. No such producer ships yet: the event exists so a future
+    /// level test has somewhere to land without a schema migration, and so
+    /// the fold already knows how to prefer it over its own estimate.
+    LevelAssessed,
+}
+
+/// CEFR levels, low to high. The order is load-bearing: `cefr_rank` drives
+/// both the no-skipping rule in the estimate and assessed-vs-estimated
+/// reconciliation.
+pub const CEFR_LEVELS: [&str; 6] = ["A0", "A1", "A2", "B1", "B2", "C1"];
+
+pub fn cefr_rank(level: &str) -> Option<usize> {
+    CEFR_LEVELS.iter().position(|l| *l == level)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -93,6 +108,9 @@ pub struct EvidenceEvent {
     /// deterministic | pre_authored | llm — where any feedback came from.
     #[serde(default)]
     pub feedback_source: Option<String>,
+    /// CEFR level from a level test (`LevelAssessed` events only).
+    #[serde(default)]
+    pub assessed_level: Option<String>,
 }
 
 impl EvidenceEvent {
@@ -116,6 +134,13 @@ impl EvidenceEvent {
                     return Err("scenario_completed requires scenario_id".into());
                 }
             }
+            EventType::LevelAssessed => match self.assessed_level.as_deref() {
+                None => return Err("level_assessed requires assessed_level".into()),
+                Some(l) if cefr_rank(l).is_none() => {
+                    return Err(format!("level_assessed: unknown CEFR level {l:?}"));
+                }
+                Some(_) => {}
+            },
         }
         if let Some(r) = self.srs_rating {
             if !(1..=5).contains(&r) {
@@ -170,6 +195,40 @@ pub struct CanDoState {
     pub applied: bool,
 }
 
+/// A rough, descriptive CEFR classification — deliberately *not* a gate.
+///
+/// Can-do descriptors are the learner-facing progress spine (`can_dos`);
+/// this is the one-line summary that sits underneath them. It answers
+/// "roughly where is this learner?" from whatever evidence exists, and
+/// says how much evidence that is, rather than withholding a level until
+/// a graduation threshold is met.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct CefrClassification {
+    /// The working level: the assessed level when a level test has put the
+    /// learner higher than their evidence has, otherwise the estimate.
+    pub level: String,
+    /// Where `level` came from: "estimated" | "assessed".
+    pub source: String,
+    /// Estimated from evidence alone, ignoring any level test.
+    pub estimated: String,
+    /// Most recent `LevelAssessed` result, if any.
+    pub assessed: Option<String>,
+    pub assessed_at: Option<i64>,
+    /// How much of `estimated`'s inventory the estimate rests on:
+    /// "none" | "low" | "medium" | "high". Display this next to the level —
+    /// a level derived from four grammar points should not look like a
+    /// level derived from forty.
+    pub confidence: String,
+    /// Evidence behind `estimated`, at that level.
+    pub grammar_mastered: u32,
+    pub grammar_encountered: u32,
+    pub grammar_total: u32,
+    /// Reported alongside, but not part of the level decision — see
+    /// `folds::classify_cefr`.
+    pub functions_demonstrated: u32,
+    pub functions_total: u32,
+}
+
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DerivedState {
     pub grammar: std::collections::BTreeMap<String, GrammarState>,
@@ -178,9 +237,13 @@ pub struct DerivedState {
     pub vocab: std::collections::BTreeMap<String, VocabCard>,
     pub scenarios: std::collections::BTreeMap<String, ScenarioState>,
     pub can_dos: std::collections::BTreeMap<String, CanDoState>,
-    /// Highest CEFR level where >=90% of grammar mastered and functions
-    /// demonstrated; "A0" floor.
+    /// Rough working level — mirrors `cefr.level`, kept as a flat field so
+    /// callers that only want the one-word answer don't have to reach into
+    /// the classification.
     pub cefr_estimate: String,
+    /// The classification behind `cefr_estimate`, including how much
+    /// evidence it rests on and whether a level test contributed.
+    pub cefr: CefrClassification,
     /// Attempt counts per modality — the honesty layer behind the estimate.
     pub modality_evidence: std::collections::BTreeMap<String, u32>,
     pub current_phase: u32,

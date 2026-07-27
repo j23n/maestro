@@ -7,8 +7,9 @@
 use std::collections::{BTreeMap, HashMap};
 
 use crate::model::{
-    unix_day, CanDoState, DerivedState, EvidenceClass, EvidenceEvent, EventType, GrammarState,
-    Outcome, ScenarioState, VocabCard, DAY_SECS,
+    cefr_rank, unix_day, CanDoState, CefrClassification, DerivedState, EvidenceClass,
+    EvidenceEvent, EventType, GrammarState, Outcome, ScenarioState, VocabCard, CEFR_LEVELS,
+    DAY_SECS,
 };
 use crate::pack::SpecData;
 
@@ -23,8 +24,16 @@ const FUNCTION_DEMONSTRATED_AT: u32 = 3;
 const PHASE_GATE_THRESHOLD: usize = 5;
 // can-do rollup thresholds (new; see decisions.md)
 const CANDO_FRACTION: f64 = 0.8;
-// CEFR estimate rule (legacy _compute_cefr)
-const CEFR_FRACTION: f64 = 0.9;
+// CEFR classification. Deliberately *not* the legacy `_compute_cefr` gate,
+// which required >=90% of a level's whole reference inventory to be
+// mastered: with 351 grammar points in the Profilo and content for a
+// fraction of them, that rule reports "A0" essentially forever. The level
+// is a descriptive summary now, not a graduation threshold — can-dos carry
+// progress. See `classify_cefr`.
+const CEFR_ROUGH_FRACTION: f64 = 0.6;
+const CEFR_MIN_ENCOUNTERED: usize = 3;
+const CEFR_CONFIDENCE_HIGH: f64 = 0.5;
+const CEFR_CONFIDENCE_MEDIUM: f64 = 0.2;
 const RECENT_WINDOW: usize = 50;
 
 pub fn mastery_label(score: Option<f64>) -> &'static str {
@@ -86,7 +95,7 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                     }
                 }
             }
-            EventType::ScenarioCompleted => {}
+            EventType::ScenarioCompleted | EventType::LevelAssessed => {}
         }
     }
 
@@ -125,6 +134,9 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
 
     // ---- functions, vocab, scenarios, modality, recency ------------------
     let mut applied_can_dos: BTreeMap<String, bool> = BTreeMap::new();
+    // Latest level test wins; events arrive ascending by `at`.
+    let mut assessed_level: Option<String> = None;
+    let mut assessed_at: Option<i64> = None;
     for ev in events {
         let at = ev.at.unwrap_or(now);
         match ev.event_type {
@@ -179,6 +191,12 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                     });
                 entry.completions += 1;
                 entry.max_depth_completed = entry.max_depth_completed.max(depth);
+            }
+            EventType::LevelAssessed => {
+                if let Some(level) = &ev.assessed_level {
+                    assessed_level = Some(level.clone());
+                    assessed_at = Some(at);
+                }
             }
             EventType::Introduced => {}
         }
@@ -252,41 +270,124 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
         );
     }
 
-    // ---- CEFR estimate ---------------------------------------------------
-    let mut estimate = "A0".to_string();
-    for level in ["A0", "A1", "A2", "B1", "B2"] {
+    // ---- CEFR classification ---------------------------------------------
+    state.cefr = classify_cefr(&state, spec, assessed_level.as_deref(), assessed_at);
+    state.cefr_estimate = state.cefr.level.clone();
+
+    state
+}
+
+/// Rough CEFR classification from evidence, plus any level-test result.
+///
+/// Two things this deliberately does *not* do. It does not require a
+/// fraction of the level's whole reference inventory — that inventory
+/// describes the language, not the course, and gating on it makes levels
+/// above the authored content unreachable. And it does not gate on
+/// communicative functions: function counts are sparse and, being credited
+/// per correct use rather than per assessment, are a weaker signal than
+/// grammar mastery. Both are still reported, so demoting them here loses
+/// no information.
+///
+/// The rule is: walk levels upward and claim the highest one where the
+/// learner has met enough grammar points to judge (`CEFR_MIN_ENCOUNTERED`)
+/// and has mastered most of the ones they met (`CEFR_ROUGH_FRACTION`).
+/// Stop at the first level that fails, so levels are never skipped. A level
+/// the spec has no inventory for is passed over rather than treated as a
+/// failure, so a pack that starts at A1 doesn't pin everyone to A0.
+///
+/// `confidence` is the honesty layer: the same "A2" means something very
+/// different off four grammar points than off forty, and the UI is expected
+/// to show it.
+fn classify_cefr(
+    state: &DerivedState,
+    spec: &SpecData,
+    assessed: Option<&str>,
+    assessed_at: Option<i64>,
+) -> CefrClassification {
+    let mut estimated = "A0";
+    let mut evidence = (0u32, 0u32, 0u32); // mastered, encountered, total
+
+    for level in CEFR_LEVELS {
         let gps: Vec<_> = spec
             .grammar
             .iter()
             .filter(|g| g.cefr_level == level)
             .collect();
-        let cfs: Vec<_> = spec
-            .functions
-            .iter()
-            .filter(|f| f.cefr_level == level)
-            .collect();
-        if gps.is_empty() && cfs.is_empty() {
+        if gps.is_empty() {
             continue;
         }
-        let gp_ok = gps
+        let encountered = gps
+            .iter()
+            .filter(|g| state.grammar.contains_key(&g.id))
+            .count();
+        let mastered = gps
             .iter()
             .filter(|g| is_mastered(state.grammar.get(&g.id).and_then(|s| s.mastery)))
-            .count() as f64
-            >= gps.len() as f64 * CEFR_FRACTION;
-        let cf_ok = cfs
-            .iter()
-            .filter(|f| state.functions.get(&f.id).copied().unwrap_or(0) >= FUNCTION_DEMONSTRATED_AT)
-            .count() as f64
-            >= cfs.len() as f64 * CEFR_FRACTION;
-        if gp_ok && cf_ok {
-            estimate = level.to_string();
+            .count();
+
+        let judgeable = encountered >= CEFR_MIN_ENCOUNTERED;
+        let solid = mastered as f64 >= encountered as f64 * CEFR_ROUGH_FRACTION;
+        if judgeable && solid {
+            estimated = level;
+            evidence = (mastered as u32, encountered as u32, gps.len() as u32);
         } else {
             break;
         }
     }
-    state.cefr_estimate = estimate;
 
-    state
+    let (mastered, encountered, total) = evidence;
+    let coverage = if total == 0 {
+        0.0
+    } else {
+        encountered as f64 / total as f64
+    };
+    let confidence = if encountered == 0 {
+        "none"
+    } else if coverage >= CEFR_CONFIDENCE_HIGH {
+        "high"
+    } else if coverage >= CEFR_CONFIDENCE_MEDIUM {
+        "medium"
+    } else {
+        "low"
+    };
+
+    // A level test outranks the estimate only where it puts the learner
+    // higher: evidence accumulated since the test should still be able to
+    // move them up, and a test result shouldn't drag down someone who has
+    // since demonstrated more.
+    let est_rank = cefr_rank(estimated).unwrap_or(0);
+    let (level, source) = match assessed.and_then(|a| cefr_rank(a).map(|r| (a, r))) {
+        Some((a, r)) if r > est_rank => (a.to_string(), "assessed"),
+        _ => (estimated.to_string(), "estimated"),
+    };
+
+    let functions_total = spec
+        .functions
+        .iter()
+        .filter(|f| f.cefr_level == estimated)
+        .count() as u32;
+    let functions_demonstrated = spec
+        .functions
+        .iter()
+        .filter(|f| {
+            f.cefr_level == estimated
+                && state.functions.get(&f.id).copied().unwrap_or(0) >= FUNCTION_DEMONSTRATED_AT
+        })
+        .count() as u32;
+
+    CefrClassification {
+        level,
+        source: source.to_string(),
+        estimated: estimated.to_string(),
+        assessed: assessed.map(str::to_string),
+        assessed_at,
+        confidence: confidence.to_string(),
+        grammar_mastered: mastered,
+        grammar_encountered: encountered,
+        grammar_total: total,
+        functions_demonstrated,
+        functions_total,
+    }
 }
 
 /// SM-2, ported verbatim from `vocab/srs.py`.
@@ -422,5 +523,151 @@ mod tests {
         ];
         let state = fold(&events, &spec, NOW);
         assert_eq!(state.functions["f1"], 2);
+    }
+
+    // ---- CEFR classification --------------------------------------------
+
+    /// `n` grammar points at `level`, ids `{level}_0`… — enough inventory to
+    /// make coverage fractions meaningful.
+    fn spec_with_levels(levels: &[(&str, usize)]) -> SpecData {
+        let mut spec = SpecData::default();
+        for (level, n) in levels {
+            for i in 0..*n {
+                spec.grammar.push(crate::pack::SpecGrammar {
+                    id: format!("{level}_{i}"),
+                    cefr_level: level.to_string(),
+                    prerequisites: vec![],
+                });
+            }
+        }
+        spec
+    }
+
+    /// Four same-moment correct attempts: enough mass (4.0) to clear
+    /// MIN_EVIDENCE_MASS and score 1.0.
+    fn mastered(gp: &str) -> Vec<EvidenceEvent> {
+        (0..4)
+            .map(|_| {
+                ev(&format!(
+                    r#"{{"type":"attempt","at":{NOW},"outcome":"correct",
+                        "evidence":[{{"axis":"grammar","id":"{gp}"}}]}}"#
+                ))
+            })
+            .collect()
+    }
+
+    #[test]
+    fn cefr_is_rough_and_does_not_need_the_whole_inventory() {
+        // 20 A1 points in the spec, learner has mastered 3. The legacy gate
+        // wanted 90% of all 20; a rough classification should say A1.
+        let spec = spec_with_levels(&[("A1", 20)]);
+        let events: Vec<_> = ["A1_0", "A1_1", "A1_2"].iter().flat_map(|g| mastered(g)).collect();
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.estimated, "A1");
+        assert_eq!(state.cefr_estimate, "A1");
+        assert_eq!(state.cefr.source, "estimated");
+        assert_eq!(
+            (state.cefr.grammar_mastered, state.cefr.grammar_encountered, state.cefr.grammar_total),
+            (3, 3, 20)
+        );
+        // 3 of 20 encountered — the level is a guess and says so.
+        assert_eq!(state.cefr.confidence, "low");
+    }
+
+    #[test]
+    fn cefr_confidence_rises_with_coverage() {
+        let spec = spec_with_levels(&[("A1", 6)]);
+        let events: Vec<_> = ["A1_0", "A1_1", "A1_2", "A1_3"]
+            .iter()
+            .flat_map(|g| mastered(g))
+            .collect();
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.estimated, "A1");
+        assert_eq!(state.cefr.confidence, "high"); // 4 of 6
+    }
+
+    #[test]
+    fn cefr_needs_enough_encounters_to_judge() {
+        // Two mastered points is not a level claim.
+        let spec = spec_with_levels(&[("A1", 20)]);
+        let events: Vec<_> = ["A1_0", "A1_1"].iter().flat_map(|g| mastered(g)).collect();
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.estimated, "A0");
+        assert_eq!(state.cefr.confidence, "none");
+    }
+
+    #[test]
+    fn cefr_does_not_skip_levels() {
+        // Strong A2 evidence, nothing at A1: the estimate stops below the gap.
+        let spec = spec_with_levels(&[("A1", 10), ("A2", 10)]);
+        let events: Vec<_> = ["A2_0", "A2_1", "A2_2", "A2_3"]
+            .iter()
+            .flat_map(|g| mastered(g))
+            .collect();
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.estimated, "A0");
+    }
+
+    #[test]
+    fn cefr_passes_over_levels_the_spec_has_no_inventory_for() {
+        // Pack starts at A1 — an absent A0 inventory must not pin the learner.
+        let spec = spec_with_levels(&[("A1", 6)]);
+        let events: Vec<_> = ["A1_0", "A1_1", "A1_2"].iter().flat_map(|g| mastered(g)).collect();
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.estimated, "A1");
+    }
+
+    #[test]
+    fn level_test_raises_the_level_but_never_lowers_it() {
+        let spec = spec_with_levels(&[("A1", 6)]);
+        let mut events: Vec<_> = ["A1_0", "A1_1", "A1_2"].iter().flat_map(|g| mastered(g)).collect();
+        events.push(ev(&format!(
+            r#"{{"type":"level_assessed","at":{NOW},"assessed_level":"B1"}}"#
+        )));
+        let state = fold(&events, &spec, NOW);
+        assert_eq!(state.cefr.level, "B1");
+        assert_eq!(state.cefr.source, "assessed");
+        assert_eq!(state.cefr.assessed.as_deref(), Some("B1"));
+        assert_eq!(state.cefr.assessed_at, Some(NOW));
+        // The evidence-only estimate is preserved alongside.
+        assert_eq!(state.cefr.estimated, "A1");
+
+        // A test placing them *below* their demonstrated evidence doesn't
+        // drag them down.
+        let mut lower: Vec<_> = ["A1_0", "A1_1", "A1_2"].iter().flat_map(|g| mastered(g)).collect();
+        lower.push(ev(&format!(
+            r#"{{"type":"level_assessed","at":{NOW},"assessed_level":"A0"}}"#
+        )));
+        let state = fold(&lower, &spec, NOW);
+        assert_eq!(state.cefr.level, "A1");
+        assert_eq!(state.cefr.source, "estimated");
+        assert_eq!(state.cefr.assessed.as_deref(), Some("A0"));
+    }
+
+    #[test]
+    fn latest_level_test_wins() {
+        let spec = SpecData::default();
+        let events = vec![
+            ev(&format!(
+                r#"{{"type":"level_assessed","at":{NOW},"assessed_level":"B1"}}"#
+            )),
+            ev(&format!(
+                r#"{{"type":"level_assessed","at":{},"assessed_level":"A2"}}"#,
+                NOW + DAY_SECS
+            )),
+        ];
+        let state = fold(&events, &spec, NOW + DAY_SECS);
+        assert_eq!(state.cefr.assessed.as_deref(), Some("A2"));
+        assert_eq!(state.cefr.level, "A2");
+    }
+
+    #[test]
+    fn level_assessed_requires_a_known_level() {
+        let bad = ev(r#"{"type":"level_assessed","assessed_level":"Z9"}"#);
+        assert!(bad.validate().is_err());
+        let missing = ev(r#"{"type":"level_assessed"}"#);
+        assert!(missing.validate().is_err());
+        let ok = ev(r#"{"type":"level_assessed","assessed_level":"A2"}"#);
+        assert!(ok.validate().is_ok());
     }
 }
