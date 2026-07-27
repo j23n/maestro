@@ -66,11 +66,27 @@ Each entry: what was decided, why, and what to revisit if you disagree.
     (receptive exposure doesn't count). Known limitation: repeating the
     same item can inflate the count; bounded by the anti-repeat window,
     revisit when lesson-level analysis lands.
-12. **CEFR estimate**: highest level with ≥90% grammar mastered and ≥90%
-    functions demonstrated, levels checked in order (legacy rule), with
-    per-modality attempt counts reported alongside as the honesty layer.
-    Per-modality *estimates* deferred until production evidence is rich
-    enough to split.
+12. **CEFR is a rough classification, not a gate.** *(Superseded the
+    legacy rule — highest level with ≥90% grammar mastered and ≥90%
+    functions demonstrated. That rule measured against the Profilo's
+    whole reference inventory, 351 Italian grammar points; with authored
+    content for a fraction of them it reports "A0" indefinitely, so it
+    could never have shipped.)* Can-dos are the learner-facing progress
+    spine, which frees the level to be descriptive: the highest level
+    where the learner has met ≥3 of its grammar points and mastered ≥60%
+    of the ones they met, levels walked in order so none are skipped,
+    levels with no spec inventory passed over rather than failed.
+    Published with mastered/encountered/total counts and a `confidence`
+    band (from level coverage) so the UI can show its working, plus
+    per-modality attempt counts as before. Functions are reported but no
+    longer decide the level — credited per correct use rather than per
+    assessment, they are the weaker signal. Per-modality *estimates*
+    still deferred until production evidence is rich enough to split.
+12a. **`level_assessed` event** carries an `assessed_level` so a future
+    CEFR level test has somewhere to land without a schema migration.
+    It overrides the estimate only upward: evidence earned since the
+    test can still raise the learner, and a stale result can't drag down
+    someone who has since demonstrated more. No producer ships yet.
 13. **Composer determinism**: explicit RNG seed (SplitMix64, no dep) in
     SessionOptions; same state + seed → identical plan (tested).
 14. **Weakness weighting**: item weight = max over its grammar tags of

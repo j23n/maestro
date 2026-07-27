@@ -1,7 +1,8 @@
 // ⚠️ UNTESTED SCAFFOLD.
 //
-// The learner-facing progress spine: can-do list grouped by level, plus
-// the CEFR estimate and grammar labels. All data from one
+// The learner-facing progress spine: what the learner can *do*. Can-dos
+// lead; the CEFR level is a footnote, shown with the evidence behind it
+// so it reads as the rough estimate it is. All data from one
 // progress_summary call.
 
 import SwiftUI
@@ -14,11 +15,7 @@ struct ProgressScreen: View {
         NavigationStack {
             List {
                 if let progress {
-                    Section {
-                        LabeledContent("CEFR estimate", value: progress.cefrEstimate)
-                        LabeledContent("Phase", value: "\(progress.currentPhase)")
-                    }
-                    Section("Can-do") {
+                    Section("What you can do") {
                         ForEach(progress.canDos.sorted(by: { $0.key < $1.key }), id: \.key) {
                             id, state in
                             HStack {
@@ -41,6 +38,20 @@ struct ProgressScreen: View {
                         ) { id, state in
                             LabeledContent(id, value: state.label)
                         }
+                    }
+                    // Deliberately last and understated: a rough level, not
+                    // an achievement. `confidence` guards against reading a
+                    // thinly-evidenced estimate as a result.
+                    Section {
+                        LabeledContent("Roughly", value: progress.cefr.summary)
+                        LabeledContent("Confidence", value: progress.cefr.confidence)
+                        LabeledContent("Phase", value: "\(progress.currentPhase)")
+                    } header: {
+                        Text("Level estimate")
+                    } footer: {
+                        Text(
+                            "An estimate from what you've practised so far — "
+                                + "your can-dos above are the real measure.")
                     }
                 }
             }

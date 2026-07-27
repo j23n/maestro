@@ -74,10 +74,20 @@ function demonstration counts (≥3 correct productive uses), SM-2 vocab
 state, and scenario depth. A can-do is *achieved* when ≥80% of its
 grammar is mastered AND ≥80% of its functions are demonstrated AND at
 least one `cando`-tagged application item was answered correctly
-(decisions #10–12); the CEFR estimate is the highest level with ≥90%
-of grammar and functions cleared. The same decomposition that scopes
-authoring also measures progress — that closed loop is the app's
-distinctive move.
+(decisions #10–12). The same decomposition that scopes authoring also
+measures progress — that closed loop is the app's distinctive move.
+
+Can-dos, not levels, are what the learner sees: the app says "you can
+introduce yourself", not "you scored 0.83 on `ind_pres`". Because
+progress is carried by descriptors, the **CEFR level is free to be a
+rough classification** rather than a graduation gate — the highest level
+whose grammar points the learner has met enough of and mostly mastered,
+published with the evidence counts and a confidence band behind it
+(decision #12). This matters pedagogically as well as practically: a
+level is a summary of a learner, and summarizing is exactly what CEFR
+descriptors are for, whereas withholding one until a 90% inventory
+threshold clears would tie a learner-facing label to how much content
+happens to have been authored.
 
 ## 3. How CEFR courses are constructed in the field
 

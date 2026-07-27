@@ -50,15 +50,43 @@ struct CanDoState: Codable {
     }
 }
 
+/// Rough CEFR classification. Secondary to can-dos by design — see
+/// `folds::classify_cefr`. Always render `confidence` next to `level`:
+/// the level is an estimate from however much evidence exists, and how
+/// much that is varies enormously.
+struct CefrClassification: Codable {
+    let level: String
+    let source: String
+    let estimated: String
+    let assessed: String?
+    let confidence: String
+    let grammarMastered: UInt32, grammarEncountered: UInt32, grammarTotal: UInt32
+
+    enum CodingKeys: String, CodingKey {
+        case level, source, estimated, assessed, confidence
+        case grammarMastered = "grammar_mastered"
+        case grammarEncountered = "grammar_encountered"
+        case grammarTotal = "grammar_total"
+    }
+
+    /// "A1 · based on 3 of 10 grammar points" — the level with its working
+    /// shown, so it can't be mistaken for an assessed result.
+    var summary: String {
+        source == "assessed"
+            ? "\(level) · from a level test"
+            : "\(level) · based on \(grammarMastered) of \(grammarTotal) grammar points"
+    }
+}
+
 struct Progress: Codable {
     let grammar: [String: GrammarState]
     let canDos: [String: CanDoState]
-    let cefrEstimate: String
+    let cefr: CefrClassification
     let currentPhase: UInt32
 
     enum CodingKeys: String, CodingKey {
-        case grammar, canDos = "can_dos"
-        case cefrEstimate = "cefr_estimate", currentPhase = "current_phase"
+        case grammar, canDos = "can_dos", cefr
+        case currentPhase = "current_phase"
     }
 }
 
