@@ -298,6 +298,26 @@ fn run_session_vector(ctx: &str, vector: &Value) {
             "{ctx}: activities (actual plan: {actual})"
         );
     }
+    if let Some(shortfalls) = expect.get("shortfalls").and_then(Value::as_array) {
+        let triples = |v: &Value| -> Vec<(String, u64, u64)> {
+            v.as_array()
+                .unwrap_or(&vec![])
+                .iter()
+                .map(|s| {
+                    (
+                        s["slot"].as_str().unwrap().to_string(),
+                        s["requested"].as_u64().unwrap(),
+                        s["filled"].as_u64().unwrap(),
+                    )
+                })
+                .collect()
+        };
+        assert_eq!(
+            triples(&actual["shortfalls"]),
+            triples(&Value::Array(shortfalls.clone())),
+            "{ctx}: shortfalls (actual plan: {actual})"
+        );
+    }
 }
 
 fn str_vec(v: &Value) -> Vec<String> {

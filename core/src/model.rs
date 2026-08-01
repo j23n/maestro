@@ -263,6 +263,16 @@ pub struct PlannedActivity {
     pub slot: String,
 }
 
+/// A slot the composer could not fill completely — the pack ran out of
+/// eligible items. Surfaced so the shell can say "content ran out" instead
+/// of silently presenting a short session.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Shortfall {
+    pub slot: String,
+    pub requested: u32,
+    pub filled: u32,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SessionPlan {
     pub scenario_id: Option<String>,
@@ -270,6 +280,9 @@ pub struct SessionPlan {
     pub activities: Vec<PlannedActivity>,
     /// Grammar points this session targets, most-important first.
     pub target_grammar: Vec<String>,
+    /// Slots that came up short, in layout order. Empty on a full session.
+    #[serde(default)]
+    pub shortfalls: Vec<Shortfall>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

@@ -8,7 +8,9 @@
 use std::collections::HashSet;
 
 use crate::folds::{is_mastered, unlocked_grammar};
-use crate::model::{unix_day, DerivedState, PlannedActivity, SessionOptions, SessionPlan};
+use crate::model::{
+    unix_day, DerivedState, PlannedActivity, SessionOptions, SessionPlan, Shortfall,
+};
 use crate::pack::{ItemMeta, SpecData, SpecScenario};
 
 const BREADTH_BEFORE_DEPTH: usize = 3;
@@ -129,6 +131,7 @@ pub fn compose(
     let mut rng = Rng(opts.seed ^ 0xA5A5_5A5A_DEAD_BEEF);
     let mut taken: HashSet<String> = HashSet::new();
     let mut activities = Vec::new();
+    let mut shortfalls = Vec::new();
 
     for (slot, kind, count) in slots {
         let targeting: &[String] = match &kind {
@@ -162,15 +165,24 @@ pub fn compose(
         if unseen.len() >= count {
             candidates = unseen;
         }
+        let mut filled = 0usize;
         for _ in 0..count {
             let Some(pick) = weighted_pick(&mut rng, &candidates, &taken) else {
                 break;
             };
             taken.insert(pick.id.clone());
+            filled += 1;
             activities.push(PlannedActivity {
                 item_id: pick.id.clone(),
                 item_type: pick.item_type.clone(),
                 slot: slot.to_string(),
+            });
+        }
+        if filled < count {
+            shortfalls.push(Shortfall {
+                slot: slot.to_string(),
+                requested: count as u32,
+                filled: filled as u32,
             });
         }
     }
@@ -180,6 +192,7 @@ pub fn compose(
         archetype: archetype.to_string(),
         activities,
         target_grammar: target,
+        shortfalls,
     }
 }
 
@@ -192,15 +205,19 @@ enum Kind {
 }
 
 impl Kind {
+    /// Exact types, never prefixes: a passage's questions are separate items
+    /// (`reading_question`, `listening_question`) that only make sense inside
+    /// their parent, so a prefix match would schedule a comprehension question
+    /// with no passage attached.
     fn matches(&self, item: &ItemMeta) -> bool {
         match self {
-            Kind::Drill | Kind::DrillTargeting(_) => item.item_type.starts_with("drill"),
-            Kind::Receptive => {
-                item.item_type.starts_with("reading") || item.item_type.starts_with("listening")
-            }
+            Kind::Drill | Kind::DrillTargeting(_) => matches!(
+                item.item_type.as_str(),
+                "drill_cloze" | "drill_multiple_choice" | "drill_transform"
+            ),
+            Kind::Receptive => matches!(item.item_type.as_str(), "reading" | "listening"),
             Kind::Production => {
-                item.item_type.starts_with("writing_prompt")
-                    || item.item_type.starts_with("speaking_prompt")
+                matches!(item.item_type.as_str(), "writing_prompt" | "speaking_prompt")
             }
             Kind::VocabReview => item.item_type == "vocab_card",
         }
