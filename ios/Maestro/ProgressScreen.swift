@@ -55,6 +55,16 @@ struct ProgressScreen: View {
                     }
                 }
             }
+            .safeAreaInset(edge: .bottom) {
+                NavigationLink {
+                    ReportedProblemsView(bridge: bridge)
+                } label: {
+                    Label("Reported problems", systemImage: "exclamationmark.bubble")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .background(.bar)
+            }
             .navigationTitle("Progress")
             .task { progress = try? bridge.progress() }
             .refreshable { progress = try? bridge.progress() }

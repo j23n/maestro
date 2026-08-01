@@ -11,6 +11,7 @@ struct SessionView: View {
     @State private var index = 0
     @State private var correct = 0
     @State private var scored = 0
+    @State private var flagging: FlagTarget?
 
     var body: some View {
         Group {
@@ -24,6 +25,20 @@ struct SessionView: View {
             }
         }
         .navigationTitle("\(min(index + 1, plan.activities.count))/\(plan.activities.count) · \(plan.archetype)")
+        .toolbar {
+            if index < plan.activities.count {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        flagging = FlagTarget(id: plan.activities[index].itemId)
+                    } label: {
+                        Label("Report a problem", systemImage: "exclamationmark.bubble")
+                    }
+                }
+            }
+        }
+        .sheet(item: $flagging) { target in
+            FlagSheet(bridge: bridge, itemId: target.id)
+        }
     }
 
     @ViewBuilder
@@ -69,6 +84,7 @@ struct DrillView: View {
     @State private var answer = ""
     @State private var result: ScoreResult?
     @State private var loadError: String?
+    @State private var flagging: FlagTarget?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -92,6 +108,17 @@ struct DrillView: View {
             }
             if let result {
                 FeedbackView(result: result)
+                if !result.correct {
+                    // The most useful moment to ask: they have just been
+                    // told they're wrong and may well disagree.
+                    Button("I think my answer was right") {
+                        flagging = FlagTarget(
+                            id: activity.itemId,
+                            seed: answer.isEmpty
+                                ? "" : "I answered «\(answer)» and think it should count.")
+                    }
+                    .font(.footnote)
+                }
                 Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
             }
             }
@@ -99,6 +126,11 @@ struct DrillView: View {
         }
         .padding()
         .task { load() }
+        .sheet(item: $flagging) { target in
+            // Seeded with what they typed, so the report is specific
+            // without them having to retype it.
+            FlagSheet(bridge: bridge, itemId: target.id, seed: target.seed)
+        }
     }
 
     private func load() {

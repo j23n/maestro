@@ -19,6 +19,7 @@ source of truth; `Maestro.xcodeproj` is generated, not committed.
 | `SessionView.swift` | Session player: grammar cards, drills, passages, vocab review, speaking; per-activity evidence events; `scenario_completed` at the end | CoreBridge |
 | `SpeakingPracticeView.swift` | Read-aloud: SpeechAnalyzer (it-IT) → `alignTranscript` → per-word colors | Spike B outcome |
 | `ProgressScreen.swift` | Can-do list, grammar labels, CEFR estimate | CoreBridge |
+| `FlagSheet.swift` | Report a broken item in one sentence; the reports list and its export | CoreBridge |
 | `project.yml` | XcodeGen spec: target, bundled pack, permission strings | XcodeGen |
 | `Deferred/` | Pack updater and LLM tutor — written, excluded from the target | see `Deferred/README.md` |
 
@@ -46,6 +47,27 @@ Both are easy to lose in a refactor and neither fails loudly:
    text. Run one with deliberately non-native pronunciation; judge whether
    word-level alignment feels fair; tune `core/src/align.rs` near-match
    tolerances if not. Write the verdict into docs/plans/.
+
+## Reporting broken content
+
+Any activity can be reported from the nav bar, and a rejected answer gets a
+second, higher-signal entry point right on the feedback panel — seeded with
+what the learner typed, since "«salve» should count here" is the report worth
+having. A report is an `item_flagged` event in the same append-only log as
+everything else, so it works offline; the fold ignores it, so reporting can
+never nudge mastery (`backup_and_feedback.rs` pins that).
+
+Nothing is sent anywhere. Reports leave the device only when the learner
+exports them from Progress → Reported problems, which writes a small
+`maestro-flags.jsonl` — deliberately narrower than a backup, so reporting a
+typo doesn't mean handing over a learning history. Each flag carries the
+`pack_version` it was raised against, because the same item id can be fixed
+and re-shipped.
+
+Nothing consumes that file yet: triage is manual, and marking an item
+`status: flagged` in the pack sources is still a hand edit. The review tool
+already lists `draft|flagged` and `build` already excludes `flagged`, so the
+receiving end exists whenever it's worth automating.
 
 ## Core surface still to wire
 

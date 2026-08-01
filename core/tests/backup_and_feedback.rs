@@ -162,3 +162,43 @@ fn feedback_queue_lifecycle_folds_evidence_back() {
 
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+/// Reporting a problem must be inert: it lands in the log, it comes back
+/// out of the flag export, and it moves nothing in the learner model.
+#[test]
+fn flagging_an_item_records_without_touching_progress() {
+    let (_dir, core) = setup("flags");
+    core.record_event(ATTEMPT.into()).expect("attempt");
+
+    let before = core.progress_summary(1700000000).expect("progress");
+    core.flag_item(
+        "drill.saluti.008".into(),
+        "«salve» should be accepted here too".into(),
+    )
+    .expect("flag");
+    let after = core.progress_summary(1700000000).expect("progress");
+    assert_eq!(before, after, "a problem report changed derived state");
+
+    let flags = core.list_flags().expect("flags");
+    assert_eq!(flags.len(), 1);
+    let flag: serde_json::Value = serde_json::from_str(&flags[0]).unwrap();
+    assert_eq!(flag["item_id"], "drill.saluti.008");
+    assert_eq!(flag["note"], "«salve» should be accepted here too");
+    assert!(
+        flag["pack_version"].as_str().is_some_and(|v| !v.is_empty()),
+        "flag must name the pack it was raised against"
+    );
+
+    let export = core.export_flags().expect("export");
+    let mut lines = export.lines();
+    assert_eq!(lines.next(), Some(r#"{"maestro_flags":1}"#));
+    assert_eq!(lines.clone().count(), 1, "one flag, one line");
+    assert!(lines.next().unwrap().contains("drill.saluti.008"));
+
+    // The narrow export is the point: it must not carry the learner's
+    // history the way a backup does.
+    assert!(
+        !export.contains("\"type\":\"attempt\""),
+        "flag export leaked attempt history"
+    );
+}

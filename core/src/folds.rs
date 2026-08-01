@@ -106,7 +106,10 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                     }
                 }
             }
-            EventType::ScenarioCompleted | EventType::LevelAssessed => {}
+            // A problem report is not evidence about the learner.
+            EventType::ScenarioCompleted
+            | EventType::LevelAssessed
+            | EventType::ItemFlagged => {}
         }
     }
 
@@ -211,7 +214,7 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                     assessed_at = Some(at);
                 }
             }
-            EventType::Introduced => {}
+            EventType::Introduced | EventType::ItemFlagged => {}
         }
     }
     let len = state.recent_item_ids.len();

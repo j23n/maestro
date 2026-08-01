@@ -72,10 +72,51 @@ pub fn list_with_times(conn: &Connection) -> Result<Vec<(i64, String)>, CoreErro
     Ok(events)
 }
 
+/// Flags only, newest first. Kept separate from `list` so the shell can
+/// show reported problems without walking the whole history.
+pub fn list_flags(conn: &Connection) -> Result<Vec<String>, CoreError> {
+    let mut stmt = conn.prepare(
+        "SELECT payload FROM events
+         WHERE json_extract(payload, '$.type') = 'item_flagged'
+         ORDER BY seq DESC",
+    )?;
+    let events = stmt
+        .query_map([], |row| row.get(0))?
+        .collect::<Result<Vec<String>, _>>()?;
+    Ok(events)
+}
+
+/// Flags as portable JSONL, oldest first — what gets handed to the content
+/// authors. Same line shape as `export_log` under its own header, so the
+/// two can never be mistaken for one another on the receiving end.
+pub fn export_flags(conn: &Connection) -> Result<String, CoreError> {
+    let mut out = String::from(FLAG_EXPORT_HEADER);
+    out.push('\n');
+    let mut stmt = conn.prepare(
+        "SELECT created_at, payload FROM events
+         WHERE json_extract(payload, '$.type') = 'item_flagged'
+         ORDER BY seq",
+    )?;
+    let rows = stmt
+        .query_map([], |row| Ok((row.get::<_, i64>(0)?, row.get::<_, String>(1)?)))?
+        .collect::<Result<Vec<_>, _>>()?;
+    for (created_at, payload) in rows {
+        let payload: serde_json::Value =
+            serde_json::from_str(&payload).map_err(|e| CoreError::Storage {
+                message: format!("corrupt event in log: {e}"),
+            })?;
+        let line = serde_json::json!({ "created_at": created_at, "payload": payload });
+        out.push_str(&line.to_string());
+        out.push('\n');
+    }
+    Ok(out)
+}
+
 // --------------------------------------------------------------------------
 // Backup: the whole learner record as a portable byte stream.
 
 const EXPORT_HEADER: &str = r#"{"maestro_export":1}"#;
+const FLAG_EXPORT_HEADER: &str = r#"{"maestro_flags":1}"#;
 
 /// Serialize the full event log as JSONL: a version header line, then
 /// one `{"created_at":…,"payload":{…}}` line per event, oldest first.

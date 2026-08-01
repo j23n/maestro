@@ -171,6 +171,24 @@ struct SpeakingPayload: Codable {
     }
 }
 
+/// A problem the learner reported. `packVersion` matters: the same item id
+/// can be fixed and re-shipped, so a flag without it can't be told apart
+/// from one already dealt with.
+struct Flag: Codable, Identifiable {
+    let itemId: String
+    let note: String?
+    let packVersion: String?
+    let at: Int64?
+
+    var id: String { "\(itemId)-\(at ?? 0)" }
+
+    enum CodingKeys: String, CodingKey {
+        case note, at
+        case itemId = "item_id"
+        case packVersion = "pack_version"
+    }
+}
+
 // MARK: - Bridge
 
 @Observable
@@ -287,6 +305,29 @@ final class CoreBridge {
             "srs_rating": srsRating,
             "evidence": evidenceJson,
         ])
+    }
+
+    // MARK: - Problem reports
+
+    /// Report a problem with an item, in the learner's own words. Inert by
+    /// design: the core stores it and the fold ignores it, so reporting
+    /// never nudges mastery.
+    func flagItem(itemId: String, note: String) throws {
+        try core.flagItem(itemId: itemId, note: note)
+    }
+
+    func flags() throws -> [Flag] {
+        try core.listFlags().map { try decode(Flag.self, $0) }
+    }
+
+    /// The flags as a file to hand off — Files, AirDrop, mail, whatever the
+    /// share sheet offers. Narrower than a backup on purpose: reporting a
+    /// typo shouldn't mean sending your whole learning history.
+    func exportFlagsFile() throws -> URL {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("maestro-flags.jsonl")
+        try core.exportFlags().write(to: url, atomically: true, encoding: .utf8)
+        return url
     }
 
     private func record(_ event: [String: Any]) throws {

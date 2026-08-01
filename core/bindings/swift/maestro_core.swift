@@ -577,10 +577,25 @@ public protocol CoreProtocol: AnyObject, Sendable {
     func enqueueFeedbackJob(requestJson: String) throws  -> Int64
     
     /**
+     * Just the flags as portable JSONL, for handing to the content
+     * authors. Deliberately narrower than `export_log`: reporting a typo
+     * shouldn't mean shipping your whole learning history.
+     */
+    func exportFlags() throws  -> String
+    
+    /**
      * The whole learner record as portable JSONL (backup). The shell
      * decides where the bytes go; restore with `import_log`.
      */
     func exportLog() throws  -> String
+    
+    /**
+     * Report a problem with a pack item — a wrong answer key, a confusing
+     * explanation, something that didn't render. `note` is the learner's
+     * own words. Stored in the event log so it survives offline, and
+     * ignored by the fold, so reporting never moves mastery.
+     */
+    func flagItem(itemId: String, note: String) throws 
     
     /**
      * The item's typed payload, as JSON (shape depends on `item_type`).
@@ -602,6 +617,12 @@ public protocol CoreProtocol: AnyObject, Sendable {
      * All recorded events, oldest first, as JSON objects.
      */
     func listEventsJson() throws  -> [String]
+    
+    /**
+     * Flags raised so far, newest first, as JSON objects. Backs the
+     * "reported problems" list.
+     */
+    func listFlags() throws  -> [String]
     
     func listItemIds() throws  -> [String]
     
@@ -761,6 +782,18 @@ open func enqueueFeedbackJob(requestJson: String)throws  -> Int64  {
 }
     
     /**
+     * Just the flags as portable JSONL, for handing to the content
+     * authors. Deliberately narrower than `export_log`: reporting a typo
+     * shouldn't mean shipping your whole learning history.
+     */
+open func exportFlags()throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_export_flags(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+    /**
      * The whole learner record as portable JSONL (backup). The shell
      * decides where the bytes go; restore with `import_log`.
      */
@@ -769,6 +802,20 @@ open func exportLog()throws  -> String  {
     uniffi_maestro_core_fn_method_core_export_log(self.uniffiClonePointer(),$0
     )
 })
+}
+    
+    /**
+     * Report a problem with a pack item — a wrong answer key, a confusing
+     * explanation, something that didn't render. `note` is the learner's
+     * own words. Stored in the event log so it survives offline, and
+     * ignored by the fold, so reporting never moves mastery.
+     */
+open func flagItem(itemId: String, note: String)throws   {try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_flag_item(self.uniffiClonePointer(),
+        FfiConverterString.lower(itemId),
+        FfiConverterString.lower(note),$0
+    )
+}
 }
     
     /**
@@ -811,6 +858,17 @@ open func importLog(data: String)throws  -> UInt32  {
 open func listEventsJson()throws  -> [String]  {
     return try  FfiConverterSequenceString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
     uniffi_maestro_core_fn_method_core_list_events_json(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+    /**
+     * Flags raised so far, newest first, as JSON objects. Backs the
+     * "reported problems" list.
+     */
+open func listFlags()throws  -> [String]  {
+    return try  FfiConverterSequenceString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_list_flags(self.uniffiClonePointer(),$0
     )
 })
 }
@@ -2060,7 +2118,13 @@ private let initializationResult: InitializationResult = {
     if (uniffi_maestro_core_checksum_method_core_enqueue_feedback_job() != 29104) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_maestro_core_checksum_method_core_export_flags() != 55356) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_maestro_core_checksum_method_core_export_log() != 18791) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_maestro_core_checksum_method_core_flag_item() != 50522) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_get_item_json() != 65006) {
@@ -2073,6 +2137,9 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_list_events_json() != 2547) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_maestro_core_checksum_method_core_list_flags() != 31596) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_list_item_ids() != 10982) {

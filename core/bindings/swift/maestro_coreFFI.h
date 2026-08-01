@@ -281,9 +281,19 @@ RustBuffer uniffi_maestro_core_fn_method_core_compose_session(void*_Nonnull ptr,
 int64_t uniffi_maestro_core_fn_method_core_enqueue_feedback_job(void*_Nonnull ptr, RustBuffer request_json, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_EXPORT_FLAGS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_EXPORT_FLAGS
+RustBuffer uniffi_maestro_core_fn_method_core_export_flags(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_EXPORT_LOG
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_EXPORT_LOG
 RustBuffer uniffi_maestro_core_fn_method_core_export_log(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_FLAG_ITEM
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_FLAG_ITEM
+void uniffi_maestro_core_fn_method_core_flag_item(void*_Nonnull ptr, RustBuffer item_id, RustBuffer note, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_GET_ITEM_JSON
@@ -304,6 +314,11 @@ uint32_t uniffi_maestro_core_fn_method_core_import_log(void*_Nonnull ptr, RustBu
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 RustBuffer uniffi_maestro_core_fn_method_core_list_events_json(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_FLAGS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_FLAGS
+RustBuffer uniffi_maestro_core_fn_method_core_list_flags(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_ITEM_IDS
@@ -660,9 +675,21 @@ uint16_t uniffi_maestro_core_checksum_method_core_enqueue_feedback_job(void
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_EXPORT_FLAGS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_EXPORT_FLAGS
+uint16_t uniffi_maestro_core_checksum_method_core_export_flags(void
+    
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_EXPORT_LOG
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_EXPORT_LOG
 uint16_t uniffi_maestro_core_checksum_method_core_export_log(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_FLAG_ITEM
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_FLAG_ITEM
+uint16_t uniffi_maestro_core_checksum_method_core_flag_item(void
     
 );
 #endif
@@ -687,6 +714,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_import_log(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 uint16_t uniffi_maestro_core_checksum_method_core_list_events_json(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_FLAGS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_FLAGS
+uint16_t uniffi_maestro_core_checksum_method_core_list_flags(void
     
 );
 #endif

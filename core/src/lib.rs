@@ -211,6 +211,36 @@ impl Core {
         events::import_log(&self.learner.lock().unwrap(), &data)
     }
 
+    /// Report a problem with a pack item — a wrong answer key, a confusing
+    /// explanation, something that didn't render. `note` is the learner's
+    /// own words. Stored in the event log so it survives offline, and
+    /// ignored by the fold, so reporting never moves mastery.
+    pub fn flag_item(&self, item_id: String, note: String) -> Result<(), CoreError> {
+        // Stamped with the pack it was raised against: the same item id
+        // can be fixed and re-shipped, so a flag without a version can't
+        // be told apart from one already dealt with.
+        let event = serde_json::json!({
+            "type": "item_flagged",
+            "item_id": item_id,
+            "note": note,
+            "pack_version": self.manifest()?.pack_version,
+        });
+        self.record_event(event.to_string())
+    }
+
+    /// Flags raised so far, newest first, as JSON objects. Backs the
+    /// "reported problems" list.
+    pub fn list_flags(&self) -> Result<Vec<String>, CoreError> {
+        events::list_flags(&self.learner.lock().unwrap())
+    }
+
+    /// Just the flags as portable JSONL, for handing to the content
+    /// authors. Deliberately narrower than `export_log`: reporting a typo
+    /// shouldn't mean shipping your whole learning history.
+    pub fn export_flags(&self) -> Result<String, CoreError> {
+        events::export_flags(&self.learner.lock().unwrap())
+    }
+
     /// Queue a feedback job (`model::FeedbackJobRequest` JSON) for the
     /// next available LLM backend. Works offline; returns the job id.
     pub fn enqueue_feedback_job(&self, request_json: String) -> Result<i64, CoreError> {

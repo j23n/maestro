@@ -17,6 +17,12 @@ pub enum EventType {
     Introduced,
     /// A scenario session was completed at a depth.
     ScenarioCompleted,
+    /// The learner reported a problem with a pack item: a wrong key, a
+    /// confusing explanation, something that didn't render. Carries
+    /// `item_id` and a free-text `note`. Recorded in the same log as
+    /// everything else so it survives offline, but deliberately inert —
+    /// the fold ignores it, so reporting a problem never moves mastery.
+    ItemFlagged,
     /// An explicit CEFR level result — a placement or level test, or a
     /// trusted self-report. Carries `assessed_level`; `item_id` may name
     /// the test. No such producer ships yet: the event exists so a future
@@ -111,6 +117,9 @@ pub struct EvidenceEvent {
     /// CEFR level from a level test (`LevelAssessed` events only).
     #[serde(default)]
     pub assessed_level: Option<String>,
+    /// What the learner said was wrong (`ItemFlagged` events only).
+    #[serde(default)]
+    pub note: Option<String>,
 }
 
 impl EvidenceEvent {
@@ -132,6 +141,11 @@ impl EvidenceEvent {
             EventType::ScenarioCompleted => {
                 if self.scenario_id.is_none() {
                     return Err("scenario_completed requires scenario_id".into());
+                }
+            }
+            EventType::ItemFlagged => {
+                if self.item_id.is_none() {
+                    return Err("item_flagged requires item_id".into());
                 }
             }
             EventType::LevelAssessed => match self.assessed_level.as_deref() {
