@@ -64,10 +64,16 @@ typo doesn't mean handing over a learning history. Each flag carries the
 `pack_version` it was raised against, because the same item id can be fixed
 and re-shipped.
 
-Nothing consumes that file yet: triage is manual, and marking an item
-`status: flagged` in the pack sources is still a hand edit. The review tool
-already lists `draft|flagged` and `build` already excludes `flagged`, so the
-receiving end exists whenever it's worth automating.
+On the other end:
+
+```bash
+uv run python -m authoring.cli flags maestro-flags.jsonl
+```
+
+pairs each report with the pack source it names and prints them together —
+the complaint, the prompt, the answers it actually accepts. Reviewing is
+read-only; `--apply` is the opt-in that marks those items `status: flagged`,
+which takes them out of the next build.
 
 ## Core surface still to wire
 

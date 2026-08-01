@@ -302,10 +302,7 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
     )
     conn.executemany(
         "INSERT INTO spec_functions VALUES (?, ?, ?)",
-        [
-            (f.id, f.cefr_level, f.label)
-            for f in spec.communicative_functions
-        ],
+        [(f.id, f.cefr_level, f.label) for f in spec.communicative_functions],
     )
     conn.executemany(
         "INSERT INTO spec_scenarios VALUES (?, ?, ?, ?, ?, ?, ?)",

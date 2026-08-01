@@ -23,6 +23,7 @@ uv run python -m authoring.cli generate --type drill --gp <id> --count 10
 uv run python -m authoring.cli generate --type reading --theme "Ferragosto" --level A1
 uv run python -m authoring.cli generate-audio --provider mock   # azure/openai w/ keys
 uv run python -m authoring.cli generate-images --provider mock  # openai w/ key
+uv run python -m authoring.cli flags <file.jsonl>   # learner problem reports
 uv run python -m authoring.cli release       # signed if keys/ exists (release keygen)
 
 cd core && cargo test                        # incl. conformance vectors

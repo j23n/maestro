@@ -5,6 +5,7 @@ Subcommands:
     build       compile packs/<lang> -> SQLite bundle
     generate    LLM-draft a drill bank for a grammar point
     review      launch the review web app (localhost)
+    flags       review learner problem reports exported from the app
     release     build + stamp a versioned release directory
 
 Run as ``python -m authoring.cli <subcommand>`` from the repo root.
@@ -29,6 +30,7 @@ def main() -> int:
         "generate-audio",
         "generate-images",
         "review",
+        "flags",
         "release",
     ):
         p = sub.add_parser(name)
@@ -50,6 +52,17 @@ def main() -> int:
         type=Path,
         default=None,
         help="parse a prepared adversarial response instead of calling the API",
+    )
+    flags_cmd = sub.choices["flags"]
+    flags_cmd.add_argument("file", help="maestro-flags.jsonl exported from the app")
+    flags_cmd.add_argument(
+        "--apply",
+        action="store_true",
+        help="mark the reported items status: flagged (they stop building "
+        "until someone clears them) — off by default",
+    )
+    flags_cmd.add_argument(
+        "--json", action="store_true", help="machine-readable output"
     )
     sub.choices["build"].add_argument("--out", default="build/it.pack.sqlite")
     sub.choices["build"].add_argument(
@@ -160,6 +173,54 @@ def main() -> int:
             print(f"ERROR: {e}")
         print(f"{len(errors)} errors, {len(warnings) + n_quality} warnings")
         return 1 if errors else 0
+
+    if args.command == "flags":
+        import json as _json
+
+        from authoring.flags import (
+            FlagFileError,
+            apply_flags,
+            format_report,
+            load_flags,
+            resolve,
+        )
+
+        try:
+            reports = load_flags(Path(args.file))
+        except (FlagFileError, OSError) as exc:
+            print(f"ERROR: {exc}")
+            return 1
+        resolved = resolve(reports, pack_dir)
+
+        if args.json:
+            print(
+                _json.dumps(
+                    [
+                        {
+                            "item_id": r.item_id,
+                            "status": r.status,
+                            "source": str(r.path) if r.path else None,
+                            "parent_id": r.parent_id,
+                            "notes": [f.note for f in r.flags],
+                        }
+                        for r in resolved
+                    ],
+                    indent=2,
+                    ensure_ascii=False,
+                )
+            )
+        else:
+            print(format_report(resolved), end="")
+
+        if args.apply:
+            changed = apply_flags(resolved)
+            print(
+                f"\nmarked {len(changed)} item(s) status: flagged — they will "
+                "not build until reviewed"
+            )
+            for item_id in changed:
+                print(f"  {item_id}")
+        return 0
 
     if args.command == "build":
         from authoring.build_pack import build
