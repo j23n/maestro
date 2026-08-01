@@ -28,16 +28,22 @@ struct SpeakingPracticeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text(target).font(.title2).multilineTextAlignment(.center)
+            Text(target)
+                .font(.system(.title2, design: .serif))
+                .foregroundStyle(Color.mCharcoal)
+                .multilineTextAlignment(.center)
 
             if let result {
                 verdictText(result)
-                Text(String(format: "%.0f%%", result.score * 100)).font(.headline)
+                    .multilineTextAlignment(.center)
+                Text(String(format: "%.0f%%", result.score * 100))
+                    .font(.headline)
+                    .foregroundStyle(result.score >= 0.8 ? Color.mSuccess : Color.mText)
                 // What the recognizer actually heard. Without it, a wrong
                 // score is indistinguishable from a mis-heard one, and the
                 // learner has no way to tell which.
                 Text("Ho sentito: «\(transcript)»")
-                    .font(.caption).foregroundStyle(.secondary)
+                    .font(.caption).foregroundStyle(Color.mTextMuted)
                     .multilineTextAlignment(.center)
                 if let feedback { FeedbackPanel(feedback: feedback) }
                 Button("Riprova") {
@@ -50,12 +56,13 @@ struct SpeakingPracticeView: View {
             case .preparing:
                 VStack(spacing: 6) {
                     ProgressView()
-                    Text("Preparo il microfono…").font(.caption).foregroundStyle(.secondary)
+                    Text("Preparo il microfono…")
+                        .font(.caption).foregroundStyle(Color.mTextMuted)
                 }
             case .failed(let why):
                 VStack(spacing: 6) {
                     Label(why, systemImage: "mic.slash")
-                        .font(.callout).foregroundStyle(.orange)
+                        .font(.footnote).foregroundStyle(Color.mGold)
                         .multilineTextAlignment(.center)
                     Button("Riprova") { recorder.start() }
                 }
@@ -75,6 +82,7 @@ struct SpeakingPracticeView: View {
                             ? "stop.circle.fill" : "mic.circle.fill"
                     )
                     .font(.system(size: 64))
+                    .foregroundStyle(recorder.isRecording ? Color.mTerracotta : Color.mSage)
                 }
                 .disabled(result != nil)
             }
@@ -119,10 +127,10 @@ struct SpeakingPracticeView: View {
     private func verdictText(_ result: AlignmentResult) -> Text {
         result.verdicts.reduce(Text("")) { acc, verdict in
             let color: Color = switch verdict.status {
-            case .matched: .green
-            case .near: .teal
-            case .substituted: .orange
-            case .missed: .red
+            case .matched: .mSage
+            case .near: .mBlue
+            case .substituted: .mGold
+            case .missed: .mTerracotta
             }
             return acc + Text(verdict.target + " ").foregroundStyle(color)
         }

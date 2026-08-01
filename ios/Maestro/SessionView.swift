@@ -27,7 +27,25 @@ struct SessionView: View {
                     onAppear: recordCompletion)
             }
         }
-        .navigationTitle("\(min(index + 1, plan.activities.count))/\(plan.activities.count) · \(plan.archetype)")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.mCream)
+        // The web app puts a segment per activity above every card; a
+        // counter in the title bar can't show how much is left.
+        .safeAreaInset(edge: .top) {
+            if index < plan.activities.count {
+                LessonProgressBar(
+                    total: plan.activities.count, current: index,
+                    grammarIndices: grammarIndices
+                )
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                .background(Color.mCream)
+            }
+        }
+        .navigationTitle(plan.archetype.replacingOccurrences(of: "_", with: " ").capitalized)
+        .navigationBarTitleDisplayMode(.inline)
+        // A session is one task; the tab bar invites leaving it half-done.
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             if index < plan.activities.count {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -42,6 +60,12 @@ struct SessionView: View {
         .sheet(item: $flagging) { target in
             FlagSheet(bridge: bridge, itemId: target.id)
         }
+    }
+
+    /// Teaching steps are drawn differently in the progress bar — they are
+    /// the parts of a session the learner can't get wrong.
+    private var grammarIndices: Set<Int> {
+        Set(plan.activities.indices.filter { plan.activities[$0].itemType == "grammar_ref" })
     }
 
     @ViewBuilder
@@ -103,60 +127,107 @@ struct DrillView: View {
     @State private var explained = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        ScrollView {
             if let loadError {
                 ActivityErrorView(itemId: activity.itemId, message: loadError, onSkip: onDone)
+                    .card()
+                    .padding(20)
             } else {
-            Text(payload?.prompt ?? "…").font(.title3)
-            if let choices = payload?.choices {
-                ForEach(choices, id: \.self) { choice in
-                    Button(choice) { answer = choice; submit(choice) }
-                        .buttonStyle(.bordered)
-                        .disabled(result != nil)
-                }
-            } else {
-                TextField("Risposta…", text: $answer)
-                    .textFieldStyle(.roundedBorder)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .onSubmit { submit(answer) }
-                    .disabled(result != nil)
-            }
-            if let result {
-                FeedbackView(result: result)
-                if !result.correct {
-                    // The pre-authored explanation is what they were owed
-                    // and already saw. This asks for a different angle —
-                    // and only appears once, so it reads as an offer
-                    // rather than an admission the first one was bad.
-                    if !explained {
-                        Button("Explain differently") { explainDifferently(result) }
-                            .font(.footnote)
+                VStack(alignment: .leading, spacing: 16) {
+                    if !activity.slot.isEmpty {
+                        Badge(text: activity.slot.replacingOccurrences(of: "_", with: " "))
+                    }
+                    Text(payload?.prompt ?? "…")
+                        .font(.title3)
+                        .foregroundStyle(Color.mCharcoal)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    if let choices = payload?.choices {
+                        VStack(spacing: 8) {
+                            ForEach(choices, id: \.self) { choice in
+                                Button {
+                                    answer = choice
+                                    submit(choice)
+                                } label: {
+                                    Text(choice).frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                .buttonStyle(.bordered)
+                                .controlSize(.large)
+                                .tint(choiceTint(choice))
+                                .disabled(result != nil)
+                            }
+                        }
                     } else {
-                        FeedbackPanel(feedback: feedback)
+                        TextField("Risposta…", text: $answer)
+                            .textFieldStyle(.roundedBorder)
+                            .autocorrectionDisabled()
+                            .textInputAutocapitalization(.never)
+                            .onSubmit { submit(answer) }
+                            .disabled(result != nil)
+
+                        // Return submits, but the web app has always shown an
+                        // explicit control and there's nothing on screen to
+                        // say the keyboard is the only way through.
+                        if result == nil {
+                            Button { submit(answer) } label: {
+                                Text("Controlla").frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
+                            .disabled(answer.trimmingCharacters(in: .whitespaces).isEmpty)
+                        }
                     }
-                    // The most useful moment to ask: they have just been
-                    // told they're wrong and may well disagree.
-                    Button("I think my answer was right") {
-                        flagging = FlagTarget(
-                            id: activity.itemId,
-                            seed: answer.isEmpty
-                                ? "" : "I answered «\(answer)» and think it should count.")
+
+                    if let result {
+                        FeedbackView(result: result)
+                        if !result.correct {
+                            // The pre-authored explanation is what they were owed
+                            // and already saw. This asks for a different angle —
+                            // and only appears once, so it reads as an offer
+                            // rather than an admission the first one was bad.
+                            if !explained {
+                                Button("Explain differently") { explainDifferently(result) }
+                                    .font(.footnote)
+                            } else {
+                                FeedbackPanel(feedback: feedback)
+                            }
+                            // The most useful moment to ask: they have just been
+                            // told they're wrong and may well disagree.
+                            Button("I think my answer was right") {
+                                flagging = FlagTarget(
+                                    id: activity.itemId,
+                                    seed: answer.isEmpty
+                                        ? "" : "I answered «\(answer)» and think it should count.")
+                            }
+                            .font(.footnote)
+                        }
+                        Button { onDone() } label: {
+                            Text("Continua").frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    .font(.footnote)
                 }
-                Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
+                .card()
+                .padding(20)
             }
-            }
-            Spacer()
         }
-        .padding()
         .task { load() }
         .sheet(item: $flagging) { target in
             // Seeded with what they typed, so the report is specific
             // without them having to retype it.
             FlagSheet(bridge: bridge, itemId: target.id, seed: target.seed)
         }
+    }
+
+    /// After scoring, the choices themselves carry the verdict — sage for
+    /// the answer that was right, terracotta for the one that was picked
+    /// instead (the web app's `.btn-correct` / `.btn-incorrect`).
+    private func choiceTint(_ choice: String) -> Color {
+        guard let result else { return .mTextMuted }
+        if result.expected.contains(choice) { return .mSage }
+        if choice == answer { return .mTerracotta }
+        return .mTextMuted
     }
 
     private func load() {
@@ -218,9 +289,14 @@ struct ActivityErrorView: View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Couldn't load this activity", systemImage: "exclamationmark.triangle")
                 .font(.headline)
-            Text(itemId).font(.caption.monospaced()).foregroundStyle(.secondary)
-            Text(message).font(.caption).foregroundStyle(.secondary)
-            Button("Skip") { onSkip() }.buttonStyle(.borderedProminent)
+                .foregroundStyle(Color.mError)
+            Text(itemId).font(.caption.monospaced()).foregroundStyle(Color.mTextMuted)
+            Text(message).font(.caption).foregroundStyle(Color.mTextMuted)
+            Button { onSkip() } label: {
+                Text("Skip").frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
         }
     }
 }
@@ -229,20 +305,31 @@ struct FeedbackView: View {
     let result: ScoreResult
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             if result.correct {
                 Label("Giusto!", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
+                    .font(.callout.weight(.semibold))
+                    .foregroundStyle(Color.mSuccess)
             } else {
-                Label(result.expected.joined(separator: " / "),
-                      systemImage: "xmark.circle.fill")
-                    .foregroundStyle(.red)
+                Label(
+                    result.expected.joined(separator: " / "),
+                    systemImage: "xmark.circle.fill"
+                )
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(Color.mError)
                 if let feedback = result.feedback {
-                    Text(feedback).font(.callout).foregroundStyle(.secondary)
+                    Text(feedback)
+                        .font(.footnote)
+                        .foregroundStyle(Color.mText)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .padding(.vertical, 8)
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            result.correct ? Color.mSuccessBg : Color.mErrorBg,
+            in: RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -261,19 +348,44 @@ struct PassageView: View {
             if let payload {
                 if questionIndex < 0 {
                     ScrollView {
-                        Text(payload.title).font(.headline)
-                        if let text = payload.text {
-                            Text(text)
-                        } else if let turns = payload.turns {
-                            ForEach(turns.indices, id: \.self) { i in
-                                Text("\(turns[i].speaker): \(turns[i].text)")
+                        VStack(alignment: .leading, spacing: 14) {
+                            Eyebrow(text: activity.itemType == "listening" ? "Listening" : "Reading")
+                            Text(payload.title)
+                                .font(.title3.weight(.semibold))
+                                .fontDesign(.serif)
+                                .foregroundStyle(Color.mCharcoal)
+                            if let text = payload.text {
+                                Text(text)
+                                    .font(.callout)
+                                    .foregroundStyle(Color.mText)
+                                    .lineSpacing(4)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            } else if let turns = payload.turns {
+                                ForEach(turns.indices, id: \.self) { i in
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(turns[i].speaker)
+                                            .font(.caption.weight(.semibold))
+                                            .foregroundStyle(Color.mBlue)
+                                        Text(turns[i].text)
+                                            .font(.callout)
+                                            .foregroundStyle(Color.mText)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                }
+                                // TODO(on-Mac): play pack audio; fall back to
+                                // AVSpeechSynthesizer per turn when audio == nil.
                             }
-                            // TODO(on-Mac): play pack audio; fall back to
-                            // AVSpeechSynthesizer per turn when audio == nil.
                         }
+                        .card()
+                        .padding(20)
                     }
-                    Button("Alle domande →") { questionIndex = 0 }
-                        .buttonStyle(.borderedProminent)
+                    Button { questionIndex = 0 } label: {
+                        Text("Alle domande →").frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
                 } else if questionIndex < payload.questionIds.count {
                     DrillView(
                         bridge: bridge,
@@ -284,11 +396,15 @@ struct PassageView: View {
                             itemType: "question", slot: activity.slot),
                         onDone: { questionIndex += 1 })
                 } else {
-                    Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
+                    Button { onDone() } label: {
+                        Text("Continua").frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding(20)
                 }
             }
         }
-        .padding()
         .task {
             payload = try? bridge.itemPayload(ReadingPayload.self, id: activity.itemId)
         }
@@ -302,16 +418,22 @@ struct SessionSummaryView: View {
     let onAppear: () -> Void
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 18) {
             Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 48)).foregroundStyle(.green)
-            Text("Sessione completata").font(.title2)
+                .font(.system(size: 44))
+                .foregroundStyle(Color.mSage)
+            Text("Sessione completata")
+                .font(.title2.weight(.semibold))
+                .fontDesign(.serif)
+                .foregroundStyle(Color.mCharcoal)
             if scored > 0 {
-                Text("\(correct)/\(scored) corrette").font(.headline)
+                Text("\(correct)/\(scored) corrette")
+                    .font(.headline)
+                    .foregroundStyle(Color.mText)
             }
             if !plan.targetGrammar.isEmpty {
                 Text(plan.targetGrammar.joined(separator: " · "))
-                    .font(.caption).foregroundStyle(.secondary)
+                    .font(.caption).foregroundStyle(Color.mTextMuted)
                     .multilineTextAlignment(.center)
             }
             // A short lesson means the pack ran out, not that the lesson
@@ -322,13 +444,15 @@ struct SessionSummaryView: View {
                         + "enough content yet.",
                     systemImage: "tray"
                 )
-                .font(.caption).foregroundStyle(.secondary)
+                .font(.caption).foregroundStyle(Color.mTextMuted)
                 .multilineTextAlignment(.center).padding(.horizontal)
             }
             Text("Progress updates on the Progress tab.")
-                .font(.caption).foregroundStyle(.secondary)
+                .font(.caption).foregroundStyle(Color.mTextMuted)
         }
-        .padding()
+        .frame(maxWidth: .infinity)
+        .card(padding: 28)
+        .padding(20)
         .onAppear(perform: onAppear)
     }
 }
@@ -351,29 +475,45 @@ struct GrammarCardView: View {
                 ActivityErrorView(itemId: activity.itemId, message: loadError, onSkip: onDone)
             } else if let payload {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(payload.title).font(.title2.bold())
-                        // LocalizedStringKey renders inline markdown (bold,
-                        // italic, links) with no dependency, but NOT tables
-                        // or headings — and several reference pages use
-                        // tables, which will show as raw pipes until this
-                        // grows a real markdown view. Cosmetic, on-Mac fix.
-                        Text(LocalizedStringKey(payload.bodyMd))
+                    VStack(alignment: .leading, spacing: 14) {
+                        Eyebrow(text: "Grammar")
+                        Text(payload.title)
+                            .font(.title2.weight(.semibold))
+                            .fontDesign(.serif)
+                            .foregroundStyle(Color.mCharcoal)
+                        MarkdownBody(markdown: payload.bodyMd)
                         if !payload.examples.isEmpty {
-                            Divider()
-                            ForEach(payload.examples, id: \.self) { example in
-                                Text(example).italic()
+                            VStack(alignment: .leading, spacing: 8) {
+                                ForEach(payload.examples, id: \.self) { example in
+                                    HStack(alignment: .top, spacing: 10) {
+                                        Rectangle()
+                                            .fill(Color.mGold)
+                                            .frame(width: 2)
+                                        Text(example)
+                                            .font(.callout)
+                                            .italic()
+                                            .foregroundStyle(Color.mText)
+                                    }
+                                    .fixedSize(horizontal: false, vertical: true)
+                                }
                             }
+                            .padding(.top, 4)
                         }
                     }
+                    .card()
+                    .padding(20)
                 }
-                Button("Ho capito") { markIntroduced() }
-                    .buttonStyle(.borderedProminent)
+                Button { markIntroduced() } label: {
+                    Text("Ho capito").frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
             } else {
                 ProgressView()
             }
         }
-        .padding()
         .task {
             do { payload = try bridge.itemPayload(GrammarRefPayload.self, id: activity.itemId) }
             catch { loadError = "\(error)" }
@@ -403,31 +543,63 @@ struct VocabCardView: View {
                 ActivityErrorView(itemId: activity.itemId, message: loadError, onSkip: onDone)
             } else if let payload {
                 Spacer()
-                Text(payload.front).font(.largeTitle)
-                if revealed {
-                    Text(payload.back).font(.title3).foregroundStyle(.secondary)
-                    if let example = payload.example {
-                        Text(example).italic().multilineTextAlignment(.center)
-                    }
-                    if let gloss = payload.exampleGloss {
-                        Text(gloss).font(.caption).foregroundStyle(.secondary)
+                VStack(spacing: 14) {
+                    Eyebrow(text: "Vocabulary")
+                    Text(payload.front)
+                        .font(.system(.largeTitle, design: .serif).weight(.semibold))
+                        .foregroundStyle(Color.mCharcoal)
+                        .multilineTextAlignment(.center)
+
+                    if revealed {
+                        Divider().padding(.vertical, 4)
+                        Text(payload.back)
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(Color.mText)
+                            .multilineTextAlignment(.center)
+                        if let example = payload.example {
+                            Text(example)
+                                .font(.callout)
+                                .italic()
+                                .foregroundStyle(Color.mText)
+                                .multilineTextAlignment(.center)
+                        }
+                        if let gloss = payload.exampleGloss {
+                            Text(gloss)
+                                .font(.footnote)
+                                .foregroundStyle(Color.mTextMuted)
+                                .multilineTextAlignment(.center)
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .card(padding: 28)
+
                 Spacer()
                 if revealed {
-                    HStack(spacing: 12) {
-                        Button("Di nuovo") { grade(1) }.buttonStyle(.bordered)
-                        Button("Difficile") { grade(3) }.buttonStyle(.bordered)
-                        Button("Facile") { grade(5) }.buttonStyle(.borderedProminent)
+                    VStack(spacing: 8) {
+                        Eyebrow(text: "How well did you know it?")
+                        HStack(spacing: 8) {
+                            Button("Di nuovo") { grade(1) }
+                                .buttonStyle(.bordered).tint(.mTerracotta)
+                            Button("Difficile") { grade(3) }
+                                .buttonStyle(.bordered).tint(.mGold)
+                            Button("Facile") { grade(5) }
+                                .buttonStyle(.bordered).tint(.mSage)
+                        }
+                        .controlSize(.large)
                     }
                 } else {
-                    Button("Mostra") { revealed = true }.buttonStyle(.borderedProminent)
+                    Button { revealed = true } label: {
+                        Text("Mostra").frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                 }
             } else {
                 ProgressView()
             }
         }
-        .padding()
+        .padding(20)
         .task {
             do { payload = try bridge.itemPayload(VocabCardPayload.self, id: activity.itemId) }
             catch { loadError = "\(error)" }
@@ -460,7 +632,13 @@ struct SpeakingActivityView: View {
             if let loadError {
                 ActivityErrorView(itemId: activity.itemId, message: loadError, onSkip: onDone)
             } else if let payload {
-                Text(payload.prompt).font(.callout).foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 8) {
+                    Eyebrow(text: "Speaking")
+                    Text(payload.prompt)
+                        .font(.callout)
+                        .foregroundStyle(Color.mText)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 SpeakingPracticeView(
                     bridge: bridge,
                     itemId: activity.itemId,
@@ -469,12 +647,16 @@ struct SpeakingActivityView: View {
                     feedback: feedback,
                     prompt: payload.prompt,
                     level: level)
-                Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
+                Button { onDone() } label: {
+                    Text("Continua").frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             } else {
                 ProgressView()
             }
         }
-        .padding()
+        .padding(20)
         .task {
             do { payload = try bridge.itemPayload(SpeakingPayload.self, id: activity.itemId) }
             catch { loadError = "\(error)" }

@@ -18,18 +18,21 @@ struct ProgressScreen: View {
                     Section("What you can do") {
                         ForEach(progress.canDos.sorted(by: { $0.key < $1.key }), id: \.key) {
                             id, state in
-                            HStack {
+                            HStack(alignment: .top, spacing: 10) {
                                 statusIcon(state.status)
-                                VStack(alignment: .leading) {
-                                    Text(state.label).font(.callout)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(state.label)
+                                        .font(.callout)
+                                        .foregroundStyle(Color.mText)
                                     Text(
                                         "grammar \(state.grammarMastered)/\(state.grammarTotal)"
                                             + " · functions \(state.functionsDemonstrated)/\(state.functionsTotal)"
                                     )
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Color.mTextMuted)
                                 }
                             }
+                            .padding(.vertical, 2)
                         }
                     }
                     Section("Grammar") {
@@ -65,6 +68,7 @@ struct ProgressScreen: View {
                 }
                 .background(.bar)
             }
+            .creamBackground()
             .navigationTitle("Progress")
             .task { progress = try? bridge.progress() }
             .refreshable { progress = try? bridge.progress() }
@@ -75,7 +79,10 @@ struct ProgressScreen: View {
         Image(
             systemName: status == "achieved"
                 ? "checkmark.seal.fill"
-                : status == "in_progress" ? "circle.dotted" : "lock")
-        .foregroundStyle(status == "achieved" ? .green : .secondary)
+                : status == "in_progress" ? "circle.dotted" : "lock"
+        )
+        .foregroundStyle(
+            status == "achieved"
+                ? Color.mSage : status == "in_progress" ? Color.mGold : Color.mTextMuted)
     }
 }

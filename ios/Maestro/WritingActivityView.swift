@@ -38,47 +38,66 @@ struct WritingActivityView: View {
             } else if let payload {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
-                        Text(payload.prompt).font(.callout)
+                        Eyebrow(text: "Writing")
+                        Text(payload.prompt)
+                            .font(.callout)
+                            .foregroundStyle(Color.mText)
+                            .fixedSize(horizontal: false, vertical: true)
 
                         TextEditor(text: $text)
+                            .font(.callout)
+                            .scrollContentBackground(.hidden)
+                            .padding(8)
                             .frame(minHeight: 140)
+                            .background(Color.mSurface, in: RoundedRectangle(cornerRadius: 8))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(.secondary.opacity(0.4)))
+                                    .strokeBorder(Color.mBorder))
                             .disabled(rubric != nil)
 
-                        HStack {
-                            Text("\(wordCount) / \(payload.minWords) parole")
-                                .font(.caption)
-                                .foregroundStyle(
-                                    wordCount >= payload.minWords ? Color.secondary : Color.orange)
-                            Spacer()
-                        }
+                        Text("\(wordCount) / \(payload.minWords) parole")
+                            .font(.caption)
+                            .foregroundStyle(
+                                wordCount >= payload.minWords
+                                    ? Color.mTextMuted : Color.mGold)
 
                         if let rubric {
                             RubricView(rubric: rubric)
                             FeedbackPanel(feedback: feedback)
                             if let model = payload.modelAnswer {
                                 DisclosureGroup("Una versione possibile") {
-                                    Text(model).font(.callout).italic()
+                                    Text(model)
+                                        .font(.callout).italic()
+                                        .foregroundStyle(Color.mText)
                                 }
+                                .tint(Color.mTextMuted)
                             }
                         }
                     }
+                    .card()
+                    .padding(20)
                 }
 
-                if rubric == nil {
-                    Button("Consegna") { submit(payload) }
-                        .buttonStyle(.borderedProminent)
+                Group {
+                    if rubric == nil {
+                        Button { submit(payload) } label: {
+                            Text("Consegna").frame(maxWidth: .infinity)
+                        }
                         .disabled(wordCount == 0)
-                } else {
-                    Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
+                    } else {
+                        Button { onDone() } label: {
+                            Text("Continua").frame(maxWidth: .infinity)
+                        }
+                    }
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
             } else {
                 ProgressView()
             }
         }
-        .padding()
         .task {
             do { payload = try bridge.itemPayload(WritingPayload.self, id: activity.itemId) }
             catch { loadError = "\(error)" }
@@ -144,22 +163,27 @@ struct RubricView: View {
                     : "A bit short — \(rubric.words) of \(rubric.minWords) words",
                 systemImage: rubric.meetsLength ? "checkmark.circle" : "info.circle"
             )
-            .foregroundStyle(rubric.meetsLength ? .green : .orange)
+            .foregroundStyle(rubric.meetsLength ? Color.mSuccess : Color.mGold)
 
             if !rubric.vocabUsed.isEmpty {
                 Label(
                     "Used: \(rubric.vocabUsed.joined(separator: ", "))",
                     systemImage: "checkmark.circle"
-                ).foregroundStyle(.green)
+                ).foregroundStyle(Color.mSuccess)
             }
             if !rubric.vocabMissing.isEmpty {
                 Label(
                     "Didn't use: \(rubric.vocabMissing.joined(separator: ", "))",
                     systemImage: "circle.dashed"
-                ).foregroundStyle(.secondary)
+                ).foregroundStyle(Color.mTextMuted)
             }
         }
-        .font(.callout)
+        .font(.footnote)
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            rubric.meetsRubric ? Color.mSuccessBg : Color.mSurface,
+            in: RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -174,38 +198,44 @@ struct FeedbackPanel: View {
         case .running:
             HStack(spacing: 8) {
                 ProgressView()
-                Text("Checking your writing…").font(.callout).foregroundStyle(.secondary)
+                Text("Checking your writing…")
+                    .font(.footnote).foregroundStyle(Color.mTextMuted)
             }
         case .queued(let why):
             VStack(alignment: .leading, spacing: 4) {
                 Label("Saved for detailed feedback", systemImage: "tray.full")
-                    .font(.callout)
-                Text(why).font(.caption).foregroundStyle(.secondary)
+                    .font(.footnote).foregroundStyle(Color.mText)
+                Text(why).font(.caption).foregroundStyle(Color.mTextMuted)
             }
         case .failed(let why):
             VStack(alignment: .leading, spacing: 4) {
                 Label("Couldn't get detailed feedback", systemImage: "exclamationmark.triangle")
-                    .font(.callout).foregroundStyle(.orange)
-                Text(why).font(.caption).foregroundStyle(.secondary)
+                    .font(.footnote).foregroundStyle(Color.mGold)
+                Text(why).font(.caption).foregroundStyle(Color.mTextMuted)
             }
         case .done:
             if let response = feedback.response {
                 VStack(alignment: .leading, spacing: 10) {
                     if let strengths = response.strengths {
-                        Label(strengths, systemImage: "hand.thumbsup").font(.callout)
+                        Label(strengths, systemImage: "hand.thumbsup")
+                            .font(.footnote).foregroundStyle(Color.mSuccess)
                     }
                     ForEach(Array(response.errors.enumerated()), id: \.offset) { _, mistake in
                         VStack(alignment: .leading, spacing: 2) {
                             if let quote = mistake.quote, let correction = mistake.correction {
-                                Text("\(quote) → \(correction)").font(.callout.bold())
+                                Text("\(quote) → \(correction)")
+                                    .font(.footnote.bold())
+                                    .foregroundStyle(Color.mTerracotta)
                             }
                             if let explanation = mistake.explanation {
-                                Text(explanation).font(.caption).foregroundStyle(.secondary)
+                                Text(explanation)
+                                    .font(.caption).foregroundStyle(Color.mTextMuted)
                             }
                         }
                     }
                     if let model = response.modelAnswer {
-                        Text(model).font(.callout).italic()
+                        Text(model)
+                            .font(.footnote).italic().foregroundStyle(Color.mText)
                     }
                 }
             }

@@ -7,6 +7,11 @@ struct MaestroApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .tint(.mTerracotta)
+                // The palette is the warm light one from the web app; there
+                // is no dark counterpart yet, and letting the system invert
+                // it would put white system text on cream cards.
+                .preferredColorScheme(.light)
         }
     }
 }
@@ -58,16 +63,52 @@ struct SessionLauncherView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Button("Start session (15 min)") { start(minutes: 15) }
-                    .buttonStyle(.borderedProminent)
-                Button("Quick drills (5 min)") { start(minutes: 5) }
-                if let error {
-                    Text(error)
-                        .font(.caption).foregroundStyle(.red)
-                        .multilineTextAlignment(.center).padding(.horizontal)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 14) {
+                        Eyebrow(text: "Today")
+                        Text("Continue where you left off")
+                            .font(.title3.weight(.semibold))
+                            .fontDesign(.serif)
+                            .foregroundStyle(Color.mCharcoal)
+                        Text(
+                            "A guided run through one scenario — a grammar card "
+                                + "first, then drills, reading and speaking."
+                        )
+                        .font(.subheadline)
+                        .foregroundStyle(Color.mTextMuted)
+
+                        Button {
+                            start(minutes: 15)
+                        } label: {
+                            Text("Start session · 15 min").frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+
+                        Button {
+                            start(minutes: 5)
+                        } label: {
+                            Text("Quick drills · 5 min").frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
+                        .tint(.mTextMuted)
+                    }
+                    .card()
+
+                    if let error {
+                        Text(error)
+                            .font(.footnote)
+                            .foregroundStyle(Color.mError)
+                            .padding(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.mErrorBg, in: RoundedRectangle(cornerRadius: 8))
+                    }
                 }
+                .padding(20)
             }
+            .background(Color.mCream)
             .navigationTitle("Maestro")
             .navigationDestination(item: $plan) { plan in
                 SessionView(

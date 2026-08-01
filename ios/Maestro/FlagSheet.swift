@@ -61,6 +61,7 @@ struct FlagSheet: View {
                     Section { Text(error).foregroundStyle(.red).font(.callout) }
                 }
             }
+            .creamBackground()
             .navigationTitle("Report a problem")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -149,6 +150,7 @@ struct ReportedProblemsView: View {
                 Section { Text(error).foregroundStyle(.red).font(.callout) }
             }
         }
+        .creamBackground()
         .navigationTitle("Reported problems")
         .task { load() }
     }
