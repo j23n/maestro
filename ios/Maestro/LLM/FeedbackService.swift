@@ -44,6 +44,9 @@ enum FeedbackState: Equatable {
     case failed(String)
 }
 
+/// Why no backend could run a task — carried as the `backend(for:)` failure.
+struct NoBackend: Error { let reason: String }
+
 @Observable
 final class FeedbackService {
     private let bridge: CoreBridge
@@ -62,7 +65,7 @@ final class FeedbackService {
         self.gates = Gates.load()
         var library: PromptLibrary?
         var error: String?
-        do { library = try PromptLibrary() } catch { error = "\(error)" }
+        do { library = try PromptLibrary() } catch let loadError { error = "\(loadError)" }
         self.prompts = library
         self.promptError = error
 
@@ -76,8 +79,10 @@ final class FeedbackService {
 
     /// The backend that may run this task, and why not if none.
     /// On-device is preferred: it's free and nothing leaves the device.
-    func backend(for task: String) -> Result<LLMBackend, String> {
-        guard !backends.isEmpty else { return .failure("no feedback backend configured") }
+    func backend(for task: String) -> Result<LLMBackend, NoBackend> {
+        guard !backends.isEmpty else {
+            return .failure(NoBackend(reason: "no feedback backend configured"))
+        }
         var reasons: [String] = []
         for backend in backends {
             guard gates.allows(task: task, backend: backend.name) else {
@@ -90,7 +95,7 @@ final class FeedbackService {
             }
             return .success(backend)
         }
-        return .failure(reasons.joined(separator: "; "))
+        return .failure(NoBackend(reason: reasons.joined(separator: "; ")))
     }
 
     /// Queue a submission and try to answer it now. Queuing always
@@ -128,7 +133,7 @@ final class FeedbackService {
         case .failure(let why):
             // Not an error: the queue holds it, and the deterministic
             // feedback the learner already saw stands on its own.
-            state = .queued(why)
+            state = .queued(why.reason)
             return state
         }
 

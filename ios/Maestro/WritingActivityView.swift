@@ -51,7 +51,7 @@ struct WritingActivityView: View {
                             Text("\(wordCount) / \(payload.minWords) parole")
                                 .font(.caption)
                                 .foregroundStyle(
-                                    wordCount >= payload.minWords ? .secondary : .orange)
+                                    wordCount >= payload.minWords ? Color.secondary : Color.orange)
                             Spacer()
                         }
 
