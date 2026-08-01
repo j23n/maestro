@@ -456,6 +456,63 @@ pub fn list_item_ids(conn: &Connection) -> Result<Vec<String>, CoreError> {
     Ok(ids)
 }
 
+/// The authored side of a vocabulary card, keyed by the spec lemma its
+/// evidence points at. Separate from `ItemMeta` because the browser needs
+/// the payload's face, which `list_item_meta` deliberately leaves lazy.
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct VocabCardRow {
+    pub item_id: String,
+    pub lemma: String,
+    pub front: String,
+    pub back: String,
+    pub example: Option<String>,
+    pub example_gloss: Option<String>,
+}
+
+#[derive(Deserialize)]
+struct VocabCardPayload {
+    #[serde(default)]
+    lemma: String,
+    #[serde(default)]
+    front: String,
+    #[serde(default)]
+    back: String,
+    #[serde(default)]
+    example: Option<String>,
+    #[serde(default)]
+    example_gloss: Option<String>,
+}
+
+pub fn list_vocab_cards(conn: &Connection) -> Result<Vec<VocabCardRow>, CoreError> {
+    let mut stmt = conn
+        .prepare("SELECT id, payload FROM items WHERE item_type = 'vocab_card' ORDER BY id")?;
+    let rows = stmt
+        .query_map([], |r| {
+            let id: String = r.get(0)?;
+            let payload: String = r.get(1)?;
+            let card: VocabCardPayload = serde_json::from_str(&payload).unwrap_or(
+                VocabCardPayload {
+                    lemma: String::new(),
+                    front: String::new(),
+                    back: String::new(),
+                    example: None,
+                    example_gloss: None,
+                },
+            );
+            Ok(VocabCardRow {
+                item_id: id,
+                lemma: card.lemma,
+                front: card.front,
+                back: card.back,
+                example: card.example,
+                example_gloss: card.example_gloss,
+            })
+        })?
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(rows)
+}
+
 pub fn get_item_json(conn: &Connection, item_id: &str) -> Result<String, CoreError> {
     conn.query_row(
         "SELECT payload FROM items WHERE id = ?1",

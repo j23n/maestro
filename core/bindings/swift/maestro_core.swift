@@ -669,6 +669,14 @@ public protocol CoreProtocol: AnyObject, Sendable {
      */
     func scoreAttempt(itemId: String, response: String) throws  -> ScoreResult
     
+    /**
+     * The whole vocabulary inventory as JSON: every spec lemma, the
+     * authored card for it when the pack has one, and the learner's SM-2
+     * state. `now` is unix seconds — `due_in_days` and `status` are
+     * relative to it, so they stay deterministic like every other fold.
+     */
+    func vocabInventory(now: Int64) throws  -> String
+    
 }
 /**
  * The core's entry point. One instance per (pack, learner) pair.
@@ -962,6 +970,20 @@ open func scoreAttempt(itemId: String, response: String)throws  -> ScoreResult  
     uniffi_maestro_core_fn_method_core_score_attempt(self.uniffiClonePointer(),
         FfiConverterString.lower(itemId),
         FfiConverterString.lower(response),$0
+    )
+})
+}
+    
+    /**
+     * The whole vocabulary inventory as JSON: every spec lemma, the
+     * authored card for it when the pack has one, and the learner's SM-2
+     * state. `now` is unix seconds — `due_in_days` and `status` are
+     * relative to it, so they stay deterministic like every other fold.
+     */
+open func vocabInventory(now: Int64)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_vocab_inventory(self.uniffiClonePointer(),
+        FfiConverterInt64.lower(now),$0
     )
 })
 }
@@ -2167,6 +2189,9 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_score_attempt() != 14880) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_maestro_core_checksum_method_core_vocab_inventory() != 6248) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_constructor_core_open() != 4848) {

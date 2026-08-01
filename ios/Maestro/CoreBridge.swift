@@ -189,6 +189,41 @@ struct SpeakingPayload: Codable {
     }
 }
 
+/// One word in the pack's vocabulary, with whatever the learner has done
+/// with it. Lemmas the pack hasn't authored a card for still appear —
+/// they're readable inventory, they just have no `itemId` to practise.
+struct VocabEntry: Codable, Identifiable {
+    let lemma: String
+    let cefrLevel: String
+    let pos: String
+    let gloss: String
+    let itemId: String?
+    let front: String?
+    let back: String?
+    let example: String?
+    let exampleGloss: String?
+    let repetitions: Int
+    let intervalDays: Int
+    let easeFactor: Double
+    /// Negative when overdue; nil until the card's first review.
+    let dueInDays: Int?
+    let status: String
+
+    var id: String { lemma }
+    var isPractisable: Bool { itemId != nil }
+
+    enum CodingKeys: String, CodingKey {
+        case lemma, pos, gloss, example, repetitions, status
+        case cefrLevel = "cefr_level"
+        case itemId = "item_id"
+        case front, back
+        case exampleGloss = "example_gloss"
+        case intervalDays = "interval_days"
+        case easeFactor = "ease_factor"
+        case dueInDays = "due_in_days"
+    }
+}
+
 /// A problem the learner reported. `packVersion` matters: the same item id
 /// can be fixed and re-shipped, so a flag without it can't be told apart
 /// from one already dealt with.
@@ -244,6 +279,14 @@ final class CoreBridge {
 
     func progress() throws -> Progress {
         try decode(Progress.self, core.progressSummary(now: Int64(Date().timeIntervalSince1970)))
+    }
+
+    /// The whole vocabulary, spec order. Small enough (hundreds of rows)
+    /// to hand over in one go rather than paging.
+    func vocabulary() throws -> [VocabEntry] {
+        try decode(
+            [VocabEntry].self,
+            core.vocabInventory(now: Int64(Date().timeIntervalSince1970)))
     }
 
     func itemPayload<T: Decodable>(_ type: T.Type, id: String) throws -> T {

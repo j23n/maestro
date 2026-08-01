@@ -27,6 +27,8 @@ struct RootView: View {
                 TabView {
                     SessionLauncherView(bridge: bridge, feedback: feedback)
                         .tabItem { Label("Learn", systemImage: "book") }
+                    VocabularyScreen(bridge: bridge)
+                        .tabItem { Label("Vocabulary", systemImage: "textformat.abc") }
                     ProgressScreen(bridge: bridge)
                         .tabItem { Label("Progress", systemImage: "chart.bar") }
                 }

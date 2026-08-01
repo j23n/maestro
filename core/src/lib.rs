@@ -114,6 +114,31 @@ pub struct ScoreResult {
     pub feedback: Option<String>,
 }
 
+/// One row of `vocab_inventory`. Crosses as JSON rather than as a UniFFI
+/// record: it is a derived view assembled per call, not part of the
+/// object graph, and the JSON convention already covers derived state.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct VocabEntry {
+    pub lemma: String,
+    pub cefr_level: String,
+    pub pos: String,
+    pub gloss: String,
+    /// Present only for lemmas the pack authored a card for — the rest
+    /// are inventory the learner can read but not yet practise.
+    pub item_id: Option<String>,
+    pub front: Option<String>,
+    pub back: Option<String>,
+    pub example: Option<String>,
+    pub example_gloss: Option<String>,
+    pub repetitions: u32,
+    pub interval_days: u32,
+    pub ease_factor: f64,
+    /// Negative when overdue; absent when the card has never been reviewed.
+    pub due_in_days: Option<i64>,
+    /// new | due | learning | known
+    pub status: String,
+}
+
 /// The core's entry point. One instance per (pack, learner) pair.
 ///
 /// The API is deliberately coarse-grained: values cross the FFI as records
@@ -273,6 +298,63 @@ impl Core {
         let spec = pack::load_spec(&self.pack.lock().unwrap())?;
         let state = folds::fold(&events, &spec, now);
         serde_json::to_string(&state).map_err(|e| CoreError::Storage {
+            message: e.to_string(),
+        })
+    }
+
+    /// The whole vocabulary inventory as JSON: every spec lemma, the
+    /// authored card for it when the pack has one, and the learner's SM-2
+    /// state. `now` is unix seconds — `due_in_days` and `status` are
+    /// relative to it, so they stay deterministic like every other fold.
+    pub fn vocab_inventory(&self, now: i64) -> Result<String, CoreError> {
+        let events = self.load_events()?;
+        let pack_conn = self.pack.lock().unwrap();
+        let spec = pack::load_spec(&pack_conn)?;
+        let cards = pack::list_vocab_cards(&pack_conn)?;
+        drop(pack_conn);
+        let state = folds::fold(&events, &spec, now);
+
+        let by_lemma: std::collections::HashMap<&str, &pack::VocabCardRow> = cards
+            .iter()
+            .map(|c| (c.lemma.as_str(), c))
+            .collect();
+        let today = model::unix_day(now);
+
+        let entries: Vec<VocabEntry> = spec
+            .vocab
+            .iter()
+            .map(|v| {
+                let card = by_lemma.get(v.id.as_str());
+                let srs = state.vocab.get(&v.id);
+                VocabEntry {
+                    lemma: v.id.clone(),
+                    cefr_level: v.cefr_level.clone(),
+                    pos: v.pos.clone(),
+                    gloss: v.gloss.clone(),
+                    item_id: card.map(|c| c.item_id.clone()),
+                    front: card.map(|c| c.front.clone()),
+                    back: card.map(|c| c.back.clone()),
+                    example: card.and_then(|c| c.example.clone()),
+                    example_gloss: card.and_then(|c| c.example_gloss.clone()),
+                    repetitions: srs.map(|c| c.repetitions).unwrap_or(0),
+                    interval_days: srs.map(|c| c.interval_days).unwrap_or(0),
+                    ease_factor: srs.map(|c| c.ease_factor).unwrap_or(0.0),
+                    due_in_days: srs.map(|c| c.due_day - today),
+                    // Bands ported from the web app's vocab page, plus
+                    // "new" — there, cards existed only once added; here
+                    // the whole spec inventory is visible from the start.
+                    status: match srs {
+                        None => "new",
+                        Some(c) if c.due_day <= today => "due",
+                        Some(c) if c.interval_days < 14 => "learning",
+                        Some(_) => "known",
+                    }
+                    .to_string(),
+                }
+            })
+            .collect();
+
+        serde_json::to_string(&entries).map_err(|e| CoreError::Storage {
             message: e.to_string(),
         })
     }

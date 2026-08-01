@@ -545,49 +545,19 @@ struct VocabCardView: View {
                 Spacer()
                 VStack(spacing: 14) {
                     Eyebrow(text: "Vocabulary")
-                    Text(payload.front)
-                        .font(.system(.largeTitle, design: .serif).weight(.semibold))
-                        .foregroundStyle(Color.mCharcoal)
-                        .multilineTextAlignment(.center)
-
-                    if revealed {
-                        Divider().padding(.vertical, 4)
-                        Text(payload.back)
-                            .font(.title3.weight(.semibold))
-                            .foregroundStyle(Color.mText)
-                            .multilineTextAlignment(.center)
-                        if let example = payload.example {
-                            Text(example)
-                                .font(.callout)
-                                .italic()
-                                .foregroundStyle(Color.mText)
-                                .multilineTextAlignment(.center)
-                        }
-                        if let gloss = payload.exampleGloss {
-                            Text(gloss)
-                                .font(.footnote)
-                                .foregroundStyle(Color.mTextMuted)
-                                .multilineTextAlignment(.center)
-                        }
-                    }
+                    VocabCardFace(
+                        front: payload.front,
+                        back: payload.back,
+                        example: payload.example,
+                        exampleGloss: payload.exampleGloss,
+                        revealed: revealed)
                 }
                 .frame(maxWidth: .infinity)
                 .card(padding: 28)
 
                 Spacer()
                 if revealed {
-                    VStack(spacing: 8) {
-                        Eyebrow(text: "How well did you know it?")
-                        HStack(spacing: 8) {
-                            Button("Di nuovo") { grade(1) }
-                                .buttonStyle(.bordered).tint(.mTerracotta)
-                            Button("Difficile") { grade(3) }
-                                .buttonStyle(.bordered).tint(.mGold)
-                            Button("Facile") { grade(5) }
-                                .buttonStyle(.bordered).tint(.mSage)
-                        }
-                        .controlSize(.large)
-                    }
+                    SrsRatingButtons(onGrade: grade)
                 } else {
                     Button { revealed = true } label: {
                         Text("Mostra").frame(maxWidth: .infinity)

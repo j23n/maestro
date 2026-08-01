@@ -366,6 +366,11 @@ void uniffi_maestro_core_fn_method_core_record_event(void*_Nonnull ptr, RustBuff
 RustBuffer uniffi_maestro_core_fn_method_core_score_attempt(void*_Nonnull ptr, RustBuffer item_id, RustBuffer response, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_VOCAB_INVENTORY
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_VOCAB_INVENTORY
+RustBuffer uniffi_maestro_core_fn_method_core_vocab_inventory(void*_Nonnull ptr, int64_t now, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_FUNC_ALIGN_TRANSCRIPT
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_FUNC_ALIGN_TRANSCRIPT
 RustBuffer uniffi_maestro_core_fn_func_align_transcript(RustBuffer target, RustBuffer transcript, RustCallStatus *_Nonnull out_status
@@ -774,6 +779,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_record_event(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_SCORE_ATTEMPT
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_SCORE_ATTEMPT
 uint16_t uniffi_maestro_core_checksum_method_core_score_attempt(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_VOCAB_INVENTORY
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_VOCAB_INVENTORY
+uint16_t uniffi_maestro_core_checksum_method_core_vocab_inventory(void
     
 );
 #endif
