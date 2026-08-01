@@ -1,0 +1,45 @@
+# Reading — lesson a0-03-al-bar. Drafted, not yet reviewed.
+
+- status: draft
+  id: reading.al_bar.002
+  cefr_level: A0
+  title: Colazione al bar
+  text: |
+    In Italia la colazione al bar è veloce. Si mangia in piedi, al banco.
+
+    «Buongiorno! Prego?»
+
+    «Buongiorno. Vorrei un cappuccino e un cornetto, per favore.»
+
+    «Un cappuccino e un cornetto. Altro?»
+
+    «Un'acqua naturale, grazie. Quant'è?»
+
+    «Tre euro e cinquanta.»
+  glossary:
+    veloce: quick
+    in piedi: standing up
+    banco: counter
+    Altro?: Anything else?
+    Quant'è?: How much is it?
+  questions:
+    - prompt: "Che cosa ordina il cliente per primo?"
+      answers:
+        - { text: "un cappuccino e un cornetto", canonical: true }
+        - { text: "cappuccino e cornetto" }
+      explanation: "«Vorrei un cappuccino e un cornetto, per favore.»"
+    - prompt: "Quale articolo va con «acqua»?"
+      answers:
+        - { text: "un'", canonical: true }
+        - { text: "un'acqua" }
+      explanation: "Acqua is feminine and starts with a vowel → un'acqua."
+    - prompt: "Quanto costa in tutto?"
+      answers:
+        - { text: "tre euro e cinquanta", canonical: true }
+        - { text: "3,50" }
+        - { text: "3.50" }
+      explanation: "«Tre euro e cinquanta.»"
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 0.5 }

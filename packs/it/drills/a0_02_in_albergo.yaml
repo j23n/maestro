@@ -1,0 +1,344 @@
+# Drill bank — lesson a0-02-in-albergo (mi_chiamo, num_0_20).
+# Drafted in-session, not yet human-reviewed.
+
+# ------------------------------------------------------------- mi_chiamo
+- status: draft
+  id: drill.mi_chiamo.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Mi ___ Anna."
+  answers:
+    - { text: "chiamo", canonical: true }
+  distractor_feedback:
+    chiami: "«Chiami» goes with «ti» (you). With «mi» (I), it's «chiamo»."
+    chiama: "«Chiama» goes with «si» (he/she/you formal). With «mi», it's «chiamo»."
+  explanation: "Chiamarsi, present: mi chiamo, ti chiami, si chiama."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Come ti ___? (a un amico)"
+  answers:
+    - { text: "chiami", canonical: true }
+  distractor_feedback:
+    chiamo: "«Chiamo» is the I form. Asking *you*: «ti chiami»."
+    chiama: "«Chiama» pairs with «si», the formal you. With «ti», it's «chiami»."
+  explanation: "Come ti chiami? — the informal way to ask a name."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Come ___ chiama, signora?"
+  answers:
+    - { text: "si", canonical: true }
+  distractor_feedback:
+    ti: "«Ti» is informal. Addressing «signora», use «si chiama»."
+    mi: "«Mi» would be asking about yourself."
+  explanation: "The formal question is «Come si chiama?»"
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Che cosa significa letteralmente «mi chiamo Anna»?"
+  choices:
+    - "io mi chiamo (call myself) Anna"
+    - "io chiamo Anna al telefono"
+    - "Anna mi chiama"
+    - "il mio nome piace ad Anna"
+  answers:
+    - { text: "io mi chiamo (call myself) Anna", canonical: true }
+  distractor_feedback:
+    "io chiamo Anna al telefono": "That's «chiamo Anna» without «mi» — a real sentence, but it means phoning her."
+  explanation: "Chiamarsi is reflexive: literally «I call myself»."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.005
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Rendi formale: «Come ti chiami?» — scrivi la domanda intera."
+  answers:
+    - { text: "come si chiama", canonical: true }
+    - { text: "come si chiama?" }
+  distractor_feedback:
+    "come ti chiami": "That's the informal version you were asked to change."
+  explanation: "ti chiami (tu) becomes si chiama (Lei)."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Lui ___ chiama Paolo."
+  answers:
+    - { text: "si", canonical: true }
+  distractor_feedback:
+    mi: "«Mi» is for I. Talking about «lui», use «si chiama»."
+  explanation: "si chiama covers he, she, and the formal you."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.007
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale frase presenta te stesso correttamente?"
+  choices:
+    - "Mi chiamo Marco."
+    - "Chiamo Marco."
+    - "Mi chiama Marco."
+    - "Ti chiamo Marco."
+  answers:
+    - { text: "Mi chiamo Marco.", canonical: true }
+  distractor_feedback:
+    "Chiamo Marco.": "Without «mi» this means you're phoning Marco."
+    "Mi chiama Marco.": "That means *Marco is calling me*."
+  explanation: "mi + chiamo — the pronoun and the ending must agree."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.008
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Un modo più semplice per presentarti, senza «chiamarsi»: «___ Anna.»"
+  answers:
+    - { text: "sono", canonical: true }
+  distractor_feedback:
+    "mi chiamo": "That works too, but the prompt asked for the version without chiamarsi."
+  explanation: "Sono Anna — I'm Anna. Always available as a fallback."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Alla reception: «Buongiorno, ___ ___ Rossi, ho una prenotazione.»"
+  answers:
+    - { text: "mi chiamo", canonical: true }
+  explanation: "Introducing yourself at a hotel desk: mi chiamo + surname."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.010
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«Come si chiama?» può significare:"
+  choices:
+    - "sia «What's your name?» (formale) sia «What's his/her name?»"
+    - "solo «What's your name?»"
+    - "solo «What's his name?»"
+    - "«What's my name?»"
+  answers:
+    - { text: "sia «What's your name?» (formale) sia «What's his/her name?»", canonical: true }
+  explanation: "si chiama is both the formal you and he/she; context decides."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.011
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Trasforma alla prima persona: «Si chiama Anna.» → «___ ___ Anna.»"
+  answers:
+    - { text: "mi chiamo", canonical: true }
+  explanation: "si chiama (he/she) becomes mi chiamo (I)."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+
+- status: draft
+  id: drill.mi_chiamo.012
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "«Piacere, mi chiamo Luca.» — «Piacere, ___ Giulia.»"
+  answers:
+    - { text: "sono", canonical: true }
+    - { text: "mi chiamo" }
+  explanation: "Either works when returning an introduction."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+# -------------------------------------------------------------- num_0_20
+- status: draft
+  id: drill.num_0_20.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 3"
+  answers:
+    - { text: "tre", canonical: true }
+  explanation: "1 uno, 2 due, 3 tre."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 7"
+  answers:
+    - { text: "sette", canonical: true }
+  distractor_feedback:
+    sei: "«Sei» is 6. 7 is «sette»."
+  explanation: "6 sei, 7 sette, 8 otto."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 11"
+  answers:
+    - { text: "undici", canonical: true }
+  distractor_feedback:
+    unodici: "The unit shortens: uno + dici becomes «undici»."
+  explanation: "11–16 put the unit first: undici, dodici, tredici…"
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 15"
+  answers:
+    - { text: "quindici", canonical: true }
+  distractor_feedback:
+    cinquedici: "Cinque shortens to «quin-»: «quindici»."
+  explanation: "15 quindici, 16 sedici — still unit-first."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 17"
+  answers:
+    - { text: "diciassette", canonical: true }
+  distractor_feedback:
+    settedici: "From 17 the pattern flips: dici- comes first. 17 is «diciassette»."
+  explanation: "17–19 flip the order: diciassette, diciotto, diciannove."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "A che numero cambia il modello (unità prima → dici- prima)?"
+  choices: ["17", "11", "13", "20"]
+  answers:
+    - { text: "17", canonical: true }
+  distractor_feedback:
+    "11": "11–16 all keep the unit first: undici, dodici…"
+  explanation: "11–16 are unit-first; 17–19 are dici-first."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "La camera è la numero ___ (12)."
+  answers:
+    - { text: "dodici", canonical: true }
+  explanation: "12 dodici."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.008
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 20"
+  answers:
+    - { text: "venti", canonical: true }
+  distractor_feedback:
+    venta: "The word is «venti»."
+  explanation: "20 venti — the start of the next pattern."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.009
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«Sei» può significare:"
+  choices:
+    - "il numero 6 oppure «you are»"
+    - "solo il numero 6"
+    - "solo «you are»"
+    - "il numero 7"
+  answers:
+    - { text: "il numero 6 oppure «you are»", canonical: true }
+  explanation: "Sei is both six and the tu form of essere."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Siamo in ___ (2), per favore."
+  answers:
+    - { text: "due", canonical: true }
+  explanation: "Siamo in due — there are two of us."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.011
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scrivi in lettere: 0"
+  answers:
+    - { text: "zero", canonical: true }
+  explanation: "0 zero — the same word as English, different vowels."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  id: drill.num_0_20.012
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale numero è «quattordici»?"
+  choices: ["14", "4", "40", "24"]
+  answers:
+    - { text: "14", canonical: true }
+  distractor_feedback:
+    "4": "4 is «quattro». Adding -dici makes it 14."
+  explanation: "quattro + dici = quattordici."
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }

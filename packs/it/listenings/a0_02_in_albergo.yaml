@@ -1,0 +1,37 @@
+# Listening — lesson a0-02-in-albergo. Drafted, not yet reviewed.
+# audio stays null until Phase 7 render; the shell falls back to TTS.
+
+- status: draft
+  id: listening.in_albergo.001
+  cefr_level: A0
+  title: Alla reception
+  turns:
+    - { speaker: "Receptionist", text: "Buonasera! Benvenuta." }
+    - { speaker: "Cliente", text: "Buonasera. Mi chiamo Anna Rossi, ho una prenotazione." }
+    - { speaker: "Receptionist", text: "Un momento… sì, signora Rossi. La sua camera è la quindici, al secondo piano." }
+    - { speaker: "Cliente", text: "Grazie. A che ora è la colazione?" }
+    - { speaker: "Receptionist", text: "Dalle sette alle dieci. Ecco la chiave." }
+    - { speaker: "Cliente", text: "Grazie mille. Buonanotte!" }
+  audio: null
+  questions:
+    - prompt: "Come si chiama la cliente?"
+      answers:
+        - { text: "anna rossi", canonical: true }
+        - { text: "anna" }
+        - { text: "rossi" }
+      explanation: "«Mi chiamo Anna Rossi.»"
+    - prompt: "Qual è il numero della camera?"
+      answers:
+        - { text: "quindici", canonical: true }
+        - { text: "15" }
+      explanation: "«La sua camera è la quindici.»"
+    - prompt: "A che ora comincia la colazione?"
+      answers:
+        - { text: "alle sette", canonical: true }
+        - { text: "sette" }
+        - { text: "7" }
+      explanation: "«Dalle sette alle dieci.»"
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 0.5 }

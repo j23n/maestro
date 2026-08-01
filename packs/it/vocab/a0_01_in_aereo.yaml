@@ -1,0 +1,106 @@
+# Vocab cards — lesson a0-01-in-aereo. Drafted, not yet reviewed.
+
+- status: draft
+  id: vocab.buongiorno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: buongiorno
+  front: buongiorno
+  back: good morning / good day
+  example: Buongiorno, signora!
+  example_gloss: Good morning, madam!
+  answers:
+    - { text: buongiorno, canonical: true }
+  evidence:
+    - { axis: vocab, id: buongiorno, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 0.5 }
+
+- status: draft
+  id: vocab.buonasera
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: buonasera
+  front: buonasera
+  back: good evening
+  example: Buonasera, un tavolo per due.
+  example_gloss: Good evening, a table for two.
+  answers:
+    - { text: buonasera, canonical: true }
+  evidence:
+    - { axis: vocab, id: buonasera, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 0.5 }
+
+- status: draft
+  id: vocab.arrivederci
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: arrivederci
+  front: arrivederci
+  back: goodbye
+  example: Arrivederci, a domani!
+  example_gloss: Goodbye, see you tomorrow!
+  answers:
+    - { text: arrivederci, canonical: true }
+  evidence:
+    - { axis: vocab, id: arrivederci, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 0.5 }
+
+- status: draft
+  id: vocab.salve
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: salve
+  front: salve
+  back: hello (neutral)
+  example: Salve, cerco la stazione.
+  example_gloss: Hello, I'm looking for the station.
+  answers:
+    - { text: salve, canonical: true }
+  evidence:
+    - { axis: vocab, id: salve, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 0.5 }
+
+- status: draft
+  id: vocab.prego
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: prego
+  front: prego
+  back: you're welcome / go ahead
+  example: Grazie! — Prego.
+  example_gloss: Thanks! — You're welcome.
+  answers:
+    - { text: prego, canonical: true }
+  evidence:
+    - { axis: vocab, id: prego, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 0.5 }
+
+- status: draft
+  id: vocab.scusi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: scusi
+  front: scusi
+  back: excuse me (formal)
+  example: Scusi, dov'è il bagno?
+  example_gloss: Excuse me, where is the bathroom?
+  answers:
+    - { text: scusi, canonical: true }
+  evidence:
+    - { axis: vocab, id: scusi, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 0.5 }
+
+- status: draft
+  id: vocab.aereo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aereo
+  front: l'aereo
+  back: airplane
+  example: L'aereo arriva a Roma alle nove.
+  example_gloss: The plane arrives in Rome at nine.
+  answers:
+    - { text: aereo, canonical: true }
+    - { text: l'aereo }
+  evidence:
+    - { axis: vocab, id: aereo, weight: 1.0 }

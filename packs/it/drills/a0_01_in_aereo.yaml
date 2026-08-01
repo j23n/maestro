@@ -1,0 +1,536 @@
+# Drill bank — lesson a0-01-in-aereo (saluti, polite_exp, pronun_bas).
+#
+# Drafted in-session, not yet human-reviewed: status: draft throughout, so
+# `build` skips these unless --include-draft is passed.
+
+# ---------------------------------------------------------------- saluti
+- status: draft
+  id: drill.saluti.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono le nove di mattina. Entri in un bar e dici: «___!»"
+  answers:
+    - { text: "buongiorno", canonical: true }
+  distractor_feedback:
+    buonasera: "«Buonasera» starts in the late afternoon. At nine in the morning it's «buongiorno»."
+    buonanotte: "«Buonanotte» is for leaving at night, never for arriving."
+    ciao: "«Ciao» is for people you know well. To a barista you've never met, «buongiorno»."
+  explanation: "Buongiorno covers the morning until roughly mid-afternoon."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono le otto di sera. Arrivi al ristorante e dici: «___!»"
+  answers:
+    - { text: "buonasera", canonical: true }
+  distractor_feedback:
+    buonanotte: "«Buonanotte» is said when you leave at night, not when you arrive. Arriving at 8pm: «buonasera»."
+    buongiorno: "«Buongiorno» is for the morning and early afternoon. At eight in the evening: «buonasera»."
+  explanation: "Buonasera from the late afternoon onwards, on arrival."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Esci dall'albergo a mezzanotte. Che cosa dici al portiere?"
+  choices: ["Buonanotte", "Buongiorno", "Salve", "Benvenuto"]
+  answers:
+    - { text: "Buonanotte", canonical: true }
+  distractor_feedback:
+    Buongiorno: "It's midnight, and you're leaving. «Buonanotte»."
+    Salve: "«Salve» is a hello, not a goodbye."
+    Benvenuto: "«Benvenuto» means *welcome* — the host says it to you."
+  explanation: "Buonanotte is a leaving-at-night greeting."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Saluti un amico che conosci bene: «___, Marco!»"
+  answers:
+    - { text: "ciao", canonical: true }
+  distractor_feedback:
+    salve: "«Salve» works, but it's cooler and more distant. With a friend, «ciao»."
+    arrivederci: "«Arrivederci» is only goodbye. To greet a friend, «ciao»."
+  explanation: "Ciao is the informal hello and goodbye, for people you'd call tu."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Lasci il negozio. Dici alla commessa: «___!»"
+  answers:
+    - { text: "arrivederci", canonical: true }
+  distractor_feedback:
+    ciao: "«Ciao» to someone you don't know is too familiar. «Arrivederci»."
+    benvenuto: "«Benvenuto» means *welcome* — wrong direction, and wrong moment."
+  explanation: "Arrivederci is the all-purpose goodbye, safe with anyone."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale saluto puoi usare sia per «hello» sia per «goodbye»?"
+  choices: ["ciao", "buongiorno", "arrivederci", "buonanotte"]
+  answers:
+    - { text: "ciao", canonical: true }
+  distractor_feedback:
+    buongiorno: "«Buongiorno» greets on arrival; it isn't a goodbye."
+    arrivederci: "«Arrivederci» is goodbye only."
+  explanation: "Ciao does both jobs — the only common greeting that does."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Un saluto neutro, né troppo formale né troppo amichevole: «___!»"
+  answers:
+    - { text: "salve", canonical: true }
+  distractor_feedback:
+    ciao: "«Ciao» is clearly informal. The neutral middle ground is «salve»."
+  explanation: "Salve sits between ciao and buongiorno — safe when you can't judge register."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Sono le tre del pomeriggio. Entri in farmacia. Il saluto migliore è:"
+  choices: ["Buongiorno", "Buonanotte", "Ciao", "Arrivederci"]
+  answers:
+    - { text: "Buongiorno", canonical: true }
+  distractor_feedback:
+    Ciao: "Too familiar with a pharmacist you don't know."
+    Arrivederci: "That's for leaving, not arriving."
+    Buonanotte: "Only at night, and only on the way out."
+  explanation: "Buongiorno still holds in the early afternoon."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.009
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Rendi formale questo saluto: «Ciao!» (a un signore che non conosci, di mattina)"
+  answers:
+    - { text: "buongiorno", canonical: true }
+    - { text: "salve" }
+  distractor_feedback:
+    ciao: "That's the informal form you were asked to change."
+  explanation: "With a stranger, ciao becomes buongiorno (or the neutral salve)."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "L'assistente di volo ti saluta all'entrata dell'aereo: «___ a bordo!»"
+  answers:
+    - { text: "benvenuto", canonical: true }
+    - { text: "benvenuta" }
+  distractor_feedback:
+    buongiorno: "«Buongiorno a bordo» isn't the set phrase. Welcoming someone aboard is «benvenuto a bordo»."
+  explanation: "Benvenuto = welcome. It agrees with the person: benvenuto / benvenuta."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale di questi NON è un saluto d'arrivo?"
+  choices: ["arrivederci", "buongiorno", "salve", "buonasera"]
+  answers:
+    - { text: "arrivederci", canonical: true }
+  distractor_feedback:
+    buonasera: "«Buonasera» greets you on arrival in the evening."
+  explanation: "Arrivederci is a parting word; the other three greet."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: drill.saluti.012
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vai a dormire. Dici ai tuoi amici: «___!»"
+  answers:
+    - { text: "buonanotte", canonical: true }
+  distractor_feedback:
+    buonasera: "«Buonasera» greets you during the evening; going to bed, it's «buonanotte»."
+  explanation: "Buonanotte is specifically for the end of the night."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+# ----------------------------------------------------------- polite_exp
+- status: draft
+  id: drill.polite_exp.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Un caffè, ___ ___."
+  answers:
+    - { text: "per favore", canonical: true }
+  distractor_feedback:
+    prego: "«Prego» is the *reply*, not the request. Asking for something: «per favore»."
+    grazie: "«Grazie» thanks after the fact. To make the request polite: «per favore»."
+  explanation: "Per favore = please, and it goes at the end of the request."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "«Grazie mille!» — «___.»"
+  answers:
+    - { text: "prego", canonical: true }
+  distractor_feedback:
+    grazie: "You'd be thanking them back. The reply to «grazie» is «prego»."
+    per favore: "«Per favore» asks for something; it can't answer a thank-you."
+  explanation: "Prego is the standard answer to grazie — you're welcome."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Fermi un signore che non conosci per chiedere un'informazione: «___, dov'è il bagno?»"
+  answers:
+    - { text: "scusi", canonical: true }
+  distractor_feedback:
+    scusa: "«Scusa» is the informal form. With a stranger, use «scusi»."
+    prego: "«Prego» answers a thank-you; it doesn't get someone's attention."
+  explanation: "Scusi is the formal excuse-me — the safe choice with strangers."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 0.5 }
+
+- status: draft
+  id: drill.polite_exp.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Chiedi scusa a un amico: «___, sono in ritardo.»"
+  answers:
+    - { text: "scusa", canonical: true }
+  distractor_feedback:
+    scusi: "«Scusi» is formal. With a friend, «scusa»."
+  explanation: "Scusa is the tu form; scusi is the Lei form."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.005
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Il barista ti porta il caffè. Che cosa dici?"
+  choices: ["Grazie", "Prego", "Per favore", "Scusi"]
+  answers:
+    - { text: "Grazie", canonical: true }
+  distractor_feedback:
+    Prego: "«Prego» is what *he* might say after you thank him."
+    Per favore: "You already asked; now the coffee has arrived, so you thank."
+  explanation: "Grazie thanks for something received."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale parola significa sia «you're welcome» sia «go ahead»?"
+  choices: ["prego", "grazie", "scusi", "per favore"]
+  answers:
+    - { text: "prego", canonical: true }
+  distractor_feedback:
+    grazie: "«Grazie» only thanks."
+  explanation: "Prego is remarkably flexible: you're welcome, go ahead, after you, what can I get you."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.007
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Rendi formale: «Scusa, hai un minuto?» — cambia solo la parola di cortesia."
+  answers:
+    - { text: "scusi", canonical: true }
+  distractor_feedback:
+    scusa: "That's the informal form you were asked to change."
+  explanation: "Scusa (tu) becomes scusi (Lei)."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.008
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Rafforza il ringraziamento: «___ mille!»"
+  answers:
+    - { text: "grazie", canonical: true }
+  distractor_feedback:
+    prego: "«Prego mille» isn't Italian. The set phrase is «grazie mille»."
+  explanation: "Grazie mille — literally a thousand thanks."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "L'assistente di volo ti chiede: «Caffè o tè?» Rispondi di sì al caffè: «___, grazie.»"
+  answers:
+    - { text: "sì", canonical: true }
+  distractor_feedback:
+    si: "Without the accent, «si» is a different word. Yes is «sì»."
+    "no": "You wanted to accept the coffee."
+  explanation: "Sì carries a written accent; si without it means something else entirely."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Rifiuti gentilmente: «___, grazie.»"
+  answers:
+    - { text: "no", canonical: true }
+  distractor_feedback:
+    sì: "That accepts the offer; you were declining."
+  explanation: "«No, grazie» is the polite refusal — the grazie does the softening."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Ordini al bar. Quale frase è completa e cortese?"
+  choices:
+    - "Un cornetto, per favore."
+    - "Un cornetto, prego."
+    - "Un cornetto, grazie mille per favore."
+    - "Prego un cornetto."
+  answers:
+    - { text: "Un cornetto, per favore.", canonical: true }
+  distractor_feedback:
+    "Un cornetto, prego.": "«Prego» can't make a request — that's «per favore»."
+    "Prego un cornetto.": "Word order and word choice are both off; the request is «Un cornetto, per favore»."
+  explanation: "Item first, then per favore."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.012
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Passi davanti a qualcuno in un corridoio stretto: «___, permesso.»"
+  answers:
+    - { text: "scusi", canonical: true }
+    - { text: "scusa" }
+  explanation: "Scusi (or scusa, informally) plus permesso — the standard way past someone."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+
+# ----------------------------------------------------------- pronun_bas
+- status: draft
+  id: drill.pronun_bas.001
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Come si pronuncia «ciao»?"
+  choices: ["chow (come «chair»)", "kow (come «cat»)", "syow", "tsyow"]
+  answers:
+    - { text: "chow (come «chair»)", canonical: true }
+  distractor_feedback:
+    "kow (come «cat»)": "C before i or e is soft. Hard k would need «chi»: «chiao» isn't a word."
+  explanation: "c + i/e = the ch of chair. c + a/o/u = hard k."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.002
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "In «chi», la combinazione «ch» si pronuncia:"
+  choices: ["k dura", "ch di «chair»", "sh", "h aspirata"]
+  answers:
+    - { text: "k dura", canonical: true }
+  distractor_feedback:
+    "ch di «chair»": "That's what plain «ci» does. The h is there precisely to keep the c hard: «chi» = kee."
+  explanation: "h never sounds; its job is to keep c and g hard before i and e."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale parola comincia con il suono «j» di «jam»?"
+  choices: ["gelato", "gatto", "ghiaccio", "gnocchi"]
+  answers:
+    - { text: "gelato", canonical: true }
+  distractor_feedback:
+    gatto: "g + a is hard, as in «go»."
+    ghiaccio: "The h keeps the g hard."
+    gnocchi: "«gn» is the ny sound of canyon."
+  explanation: "g + i/e is soft (j); g + a/o/u and gh are hard."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "In «spaghetti», la «gh» si pronuncia:"
+  choices: ["g dura come «go»", "j come «jam»", "sh", "muta"]
+  answers:
+    - { text: "g dura come «go»", canonical: true }
+  distractor_feedback:
+    "j come «jam»": "That would be «gi/ge». The h blocks the softening."
+  explanation: "gh = hard g, always."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.005
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«signore» — come suona «gn»?"
+  choices: ["ny come «canyon»", "g + n separate", "n semplice", "ng come «sing»"]
+  answers:
+    - { text: "ny come «canyon»", canonical: true }
+  explanation: "gn is a single sound, the ny of canyon — as in signore, bagno, gnocchi."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«bottiglia» — come suona «gli»?"
+  choices: ["lli come «million»", "g + l separate", "l semplice", "j"]
+  answers:
+    - { text: "lli come «million»", canonical: true }
+  explanation: "gli is the lli of million — famiglia, bottiglia, figlio."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.007
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "In «scusi», la «sc» davanti a «u» si pronuncia:"
+  choices: ["sk", "sh", "s semplice", "ch"]
+  answers:
+    - { text: "sk", canonical: true }
+  distractor_feedback:
+    sh: "«sc» is sh only before i or e — «pesce», «sciare». Before u it's sk."
+  explanation: "sc + a/o/u = sk; sc + i/e = sh."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale coppia di parole si distingue SOLO per la consonante doppia?"
+  choices:
+    - "nono / nonno"
+    - "casa / cosa"
+    - "sono / sano"
+    - "pane / cane"
+  answers:
+    - { text: "nono / nonno", canonical: true }
+  distractor_feedback:
+    "casa / cosa": "Those differ by a vowel, not a doubled consonant."
+  explanation: "Double consonants change meaning: nono (ninth) vs nonno (grandfather). Hold the sound."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.009
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "In «caffè», dove cade l'accento?"
+  choices: ["sull'ultima sillaba (caf-FÈ)", "sulla prima (CAF-fe)", "sulla penultima", "non c'è accento"]
+  answers:
+    - { text: "sull'ultima sillaba (caf-FÈ)", canonical: true }
+  explanation: "A written accent marks stress on the final vowel: caffè, città, perché."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.010
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Nella maggior parte delle parole italiane l'accento cade:"
+  choices: ["sulla penultima sillaba", "sulla prima sillaba", "sull'ultima sillaba", "a caso"]
+  answers:
+    - { text: "sulla penultima sillaba", canonical: true }
+  explanation: "The default is the second-to-last syllable: ca-ME-ra, sta-ZIO-ne, a-MI-co."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale parola contiene un suono «k»?"
+  choices: ["perché", "cena", "ciao", "gelato"]
+  answers:
+    - { text: "perché", canonical: true }
+  distractor_feedback:
+    cena: "c + e is soft — «chena»."
+    ciao: "c + i is soft."
+  explanation: "«ché» has the h, so the c stays hard."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+
+- status: draft
+  id: drill.pronun_bas.012
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "La lettera «h» in italiano:"
+  choices:
+    - "non si pronuncia mai"
+    - "si pronuncia come in inglese"
+    - "si pronuncia solo all'inizio"
+    - "cambia la vocale seguente"
+  answers:
+    - { text: "non si pronuncia mai", canonical: true }
+  explanation: "h is silent. It exists to harden c and g, and to distinguish ho/o, hai/ai."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }

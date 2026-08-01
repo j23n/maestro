@@ -1,0 +1,51 @@
+# Speaking prompts — lesson a0-01-in-aereo. Drafted, not yet reviewed.
+# Scored by the core's transcript-alignment scorer against target_text.
+
+- status: draft
+  id: speaking.saluti.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Sali sull'aereo di mattina. Saluta l'assistente di volo."
+  target_text: "Buongiorno!"
+  variants:
+    - "Salve!"
+  explanation: "Morning arrival, someone you don't know: buongiorno."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: speaking.polite_exp.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Ordina un caffè all'assistente di volo, in modo cortese."
+  target_text: "Un caffè, per favore."
+  variants:
+    - "Vorrei un caffè, per favore."
+  explanation: "Item first, then per favore."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: speaking.polite_exp.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "L'assistente ti porta il caffè. Ringrazia."
+  target_text: "Grazie mille!"
+  variants:
+    - "Grazie!"
+  explanation: "Grazie, or grazie mille to warm it up."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+
+- status: draft
+  id: speaking.pronun_bas.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Leggi ad alta voce. Attenzione: «ciao» ha il suono ch, «chi» ha il suono k."
+  target_text: "Ciao, chi è?"
+  explanation: "Two c sounds in one short sentence: soft in ciao, hard in chi."
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }

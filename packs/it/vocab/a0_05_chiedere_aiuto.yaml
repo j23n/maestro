@@ -1,0 +1,87 @@
+# Vocab cards — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
+
+- status: draft
+  id: vocab.aiuto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aiuto
+  front: l'aiuto
+  back: help
+  example: Ho bisogno di aiuto.
+  example_gloss: I need help.
+  answers:
+    - { text: aiuto, canonical: true }
+  evidence:
+    - { axis: vocab, id: aiuto, weight: 1.0 }
+
+- status: draft
+  id: vocab.aiutare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aiutare
+  front: aiutare
+  back: to help
+  example: Mi può aiutare?
+  example_gloss: Can you help me?
+  answers:
+    - { text: aiutare, canonical: true }
+  evidence:
+    - { axis: vocab, id: aiutare, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 0.5 }
+
+- status: draft
+  id: vocab.valigia
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: valigia
+  front: la valigia
+  back: suitcase
+  example: Ho perso la valigia.
+  example_gloss: I've lost my suitcase.
+  answers:
+    - { text: valigia, canonical: true }
+  evidence:
+    - { axis: vocab, id: valigia, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 0.5 }
+
+- status: draft
+  id: vocab.passaporto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: passaporto
+  front: il passaporto
+  back: passport
+  example: Ecco il mio passaporto.
+  example_gloss: Here is my passport.
+  answers:
+    - { text: passaporto, canonical: true }
+  evidence:
+    - { axis: vocab, id: passaporto, weight: 1.0 }
+
+- status: draft
+  id: vocab.capire
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: capire
+  front: capire
+  back: to understand
+  example: Scusi, non capisco.
+  example_gloss: Sorry, I don't understand.
+  answers:
+    - { text: capire, canonical: true }
+  evidence:
+    - { axis: vocab, id: capire, weight: 1.0 }
+
+- status: draft
+  id: vocab.problema
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: problema
+  front: il problema
+  back: problem
+  example: C'è un problema con la prenotazione.
+  example_gloss: There's a problem with the booking.
+  answers:
+    - { text: problema, canonical: true }
+  evidence:
+    - { axis: vocab, id: problema, weight: 1.0 }

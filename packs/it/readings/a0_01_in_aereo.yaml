@@ -1,0 +1,46 @@
+# Reading — lesson a0-01-in-aereo. Drafted in-session, not yet reviewed.
+
+- status: draft
+  id: reading.in_aereo.001
+  cefr_level: A0
+  title: In aereo
+  text: |
+    L'assistente di volo arriva.
+
+    «Buongiorno! Benvenuto a bordo. Il suo posto è il 14C.»
+
+    «Grazie mille.»
+
+    «Prego. Desidera un caffè o un tè?»
+
+    «Un caffè, per favore.»
+
+    «Ecco a lei.»
+
+    «Grazie.»
+
+    «Prego. Buon viaggio!»
+  glossary:
+    posto: seat
+    Desidera: Would you like (formal)
+    Ecco a lei: Here you are (formal)
+    Buon viaggio: Have a good trip
+  questions:
+    - prompt: "Qual è il saluto dell'assistente di volo?"
+      answers:
+        - { text: "buongiorno", canonical: true }
+      explanation: "«Buongiorno! Benvenuto a bordo.»"
+    - prompt: "Che cosa ordina il passeggero?"
+      answers:
+        - { text: "un caffè", canonical: true }
+        - { text: "caffè" }
+      explanation: "«Un caffè, per favore.»"
+    - prompt: "Come risponde l'assistente quando il passeggero dice «grazie»?"
+      answers:
+        - { text: "prego", canonical: true }
+      explanation: "«Prego» is the standard reply to «grazie»."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 0.5 }
+    - { axis: function, id: a0_ringraziare, weight: 0.5 }

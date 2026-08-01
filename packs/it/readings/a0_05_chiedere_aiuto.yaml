@@ -1,0 +1,47 @@
+# Reading — lesson a0-05-chiedere-aiuto. Drafted, not yet reviewed.
+
+- status: draft
+  id: reading.chiedere_aiuto.001
+  cefr_level: A0
+  title: Ho perso la valigia
+  text: |
+    All'aeroporto di Roma, Anna non trova la sua valigia.
+
+    «Scusi, mi può aiutare? Ho perso la valigia.»
+
+    «Certo, signora. Lei è di dove?»
+
+    «Sono di Londra. Sono arrivata da Londra alle nove.»
+
+    «Va bene. Come si chiama?»
+
+    «Mi chiamo Anna Rossi.»
+
+    «Un momento… la valigia è qui, all'ufficio bagagli.»
+
+    «Grazie mille! Non capivo dove cercare.»
+  glossary:
+    non trova: can't find
+    Certo: Of course
+    ufficio bagagli: baggage office
+    Non capivo: I didn't understand
+  questions:
+    - prompt: "Che cosa ha perso Anna?"
+      answers:
+        - { text: "la valigia", canonical: true }
+        - { text: "valigia" }
+      explanation: "«Ho perso la valigia.»"
+    - prompt: "Di dov'è Anna?"
+      answers:
+        - { text: "di londra", canonical: true }
+        - { text: "londra" }
+      explanation: "«Sono di Londra» — origin takes di."
+    - prompt: "Quale frase usa Anna per chiedere aiuto?"
+      answers:
+        - { text: "mi può aiutare", canonical: true }
+        - { text: "mi può aiutare?" }
+      explanation: "«Scusi, mi può aiutare?»"
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 0.5 }

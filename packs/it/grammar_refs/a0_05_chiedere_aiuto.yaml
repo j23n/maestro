@@ -1,0 +1,42 @@
+# Grammar reference page — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
+# polite_exp already has a reference page in a0_01_in_aereo.yaml.
+
+- status: draft
+  id: grammar_ref.prep_place
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: prep_place
+  title: Place prepositions — a, in, di
+  body_md: |
+    Three small words carry most location work. The split between **a** and
+    **in** is not logical — it's conventional, so learn it by category.
+
+    **a** — with cities and a few fixed spots:
+
+    - *a Roma*, *a Milano*, *a Londra*
+    - *a casa*, *a scuola*, *a teatro*
+    - *al bar*, *al ristorante* (a + il = **al**)
+
+    **in** — with countries, regions, and most enclosed places:
+
+    - *in Italia*, *in Francia*, *in Toscana*
+    - *in albergo*, *in banca*, *in farmacia*, *in centro*
+    - *in macchina*, *in treno*, *in aereo* (means of transport)
+
+    **di** — origin, with *essere*:
+
+    - *Sono di Londra.* — I'm from London.
+
+    **The one that catches everyone:** cities take **a**, countries take
+    **in**. *Sono a Roma* (I'm in Rome) but *Sono in Italia* (I'm in Italy).
+
+    Don't confuse **di** (origin) with **da** (movement from): *Sono di
+    Roma* means Rome is where I'm from; *Vengo da Roma* means I've just
+    travelled from there.
+  examples:
+    - Sono a Roma, in Italia.
+    - Vado in farmacia.
+    - Sono di Londra.
+    - L'albergo è in centro.
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }

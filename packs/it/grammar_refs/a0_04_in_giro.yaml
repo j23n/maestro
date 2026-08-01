@@ -1,0 +1,74 @@
+# Grammar reference pages — lesson a0-04-in-giro. Drafted, not reviewed.
+
+- status: draft
+  id: grammar_ref.art_il_la
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: art_il_la
+  title: The — il, la, l'
+  body_md: |
+    "The" also changes with gender, and again before a vowel.
+
+    | Article | Use with | Example |
+    |---|---|---|
+    | **il** | masculine, consonant | il caffè, il treno, il museo |
+    | **la** | feminine, consonant | la stazione, la piazza, la chiave |
+    | **l'** | either gender, before a vowel | l'albergo, l'acqua, l'amico |
+
+    Unlike *un'*, the apostrophe form **l'** is used for both genders — so
+    *l'albergo* (masculine) and *l'acqua* (feminine) look identical. You
+    only see the gender when an adjective shows up.
+
+    (Masculine nouns starting with *s+consonant*, *z*, *ps* or *gn* take
+    **lo** — *lo studente*, *lo zucchero*. Worth recognising now; you'll
+    drill it later.)
+
+    **Pair the article with the noun when you learn it.** Italians hear
+    *la treno* the way you'd hear "a informations" — instantly wrong, even
+    though the meaning survives.
+  examples:
+    - Dov'è la stazione?
+    - Il museo è in centro.
+    - L'albergo è vicino alla piazza.
+    - L'acqua è fredda.
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: grammar_ref.dove_e
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: dove_e
+  title: Asking where — dov'è
+  body_md: |
+    **Dov'è …?** — Where is …? It's *dove* + *è*, squeezed together with an
+    apostrophe. You will use it constantly.
+
+    The shape is always the same:
+
+    > **Scusi, dov'è** + *the thing* **?**
+
+    Starting with *scusi* matters: it turns a demand into a request.
+
+    | Question | Meaning |
+    |---|---|
+    | Dov'è la stazione? | Where's the station? |
+    | Dov'è il bagno? | Where's the bathroom? |
+    | Dove sono i taxi? | Where are the taxis? (plural) |
+
+    **Note the apostrophe.** *Dove è* is not wrong, but nobody says it —
+    the contracted *dov'è* is the natural form.
+
+    For "is there a…" nearby, use **c'è**: *C'è una farmacia qui vicino?*
+
+    Answers will come back with prepositions — *a destra* (on the right),
+    *a sinistra* (on the left), *sempre dritto* (straight ahead), *qui
+    vicino* (near here).
+  examples:
+    - Scusi, dov'è la stazione?
+    - Dov'è il bagno, per favore?
+    - C'è una farmacia qui vicino?
+    - Dove sono i taxi?
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }

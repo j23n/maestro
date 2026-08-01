@@ -1,0 +1,37 @@
+# Listening — lesson a0-04-in-giro. Drafted, not yet reviewed.
+
+- status: draft
+  id: listening.in_giro.001
+  cefr_level: A0
+  title: Scusi, dov'è la stazione?
+  turns:
+    - { speaker: "Turista", text: "Scusi!" }
+    - { speaker: "Signora", text: "Sì, prego." }
+    - { speaker: "Turista", text: "Dov'è la stazione, per favore?" }
+    - { speaker: "Signora", text: "Sempre dritto, poi a destra. È vicino alla piazza." }
+    - { speaker: "Turista", text: "È lontano?" }
+    - { speaker: "Signora", text: "No, cinque minuti a piedi." }
+    - { speaker: "Turista", text: "Grazie mille!" }
+    - { speaker: "Signora", text: "Prego, arrivederci." }
+  audio: null
+  questions:
+    - prompt: "Che cosa cerca il turista?"
+      answers:
+        - { text: "la stazione", canonical: true }
+        - { text: "stazione" }
+      explanation: "«Dov'è la stazione, per favore?»"
+    - prompt: "Quale direzione indica la signora per prima?"
+      answers:
+        - { text: "sempre dritto", canonical: true }
+        - { text: "dritto" }
+      explanation: "«Sempre dritto, poi a destra.»"
+    - prompt: "Quanto tempo ci vuole a piedi?"
+      answers:
+        - { text: "cinque minuti", canonical: true }
+        - { text: "5 minuti" }
+        - { text: "cinque" }
+      explanation: "«No, cinque minuti a piedi.»"
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }

@@ -1,0 +1,298 @@
+# Drill bank — lesson a0-04-in-giro (art_il_la, dove_e).
+# Ids continue the series already in a0_basics.yaml. Drafted, not reviewed.
+
+# ------------------------------------------------------------ art_il_la
+- status: draft
+  id: drill.art_il_la.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Dov'è ___ stazione?"
+  answers:
+    - { text: "la", canonical: true }
+  distractor_feedback:
+    il: "«Stazione» is feminine — la stazione."
+  explanation: "Feminine noun starting with a consonant → la."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ museo è in centro."
+  answers:
+    - { text: "il", canonical: true }
+  distractor_feedback:
+    la: "«Museo» is masculine — il museo."
+  explanation: "Masculine noun starting with a consonant → il."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ albergo è vicino alla piazza."
+  answers:
+    - { text: "l'", canonical: true }
+  distractor_feedback:
+    il: "Before a vowel, «il» becomes «l'» — l'albergo."
+    la: "Albergo is masculine, and before a vowel both genders use «l'»."
+  explanation: "Before a vowel, il and la both become l'."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Che differenza c'è fra «l'» e «un'»?"
+  choices:
+    - "«l'» vale per maschile e femminile; «un'» solo per il femminile"
+    - "«un'» vale per entrambi; «l'» solo per il maschile"
+    - "sono intercambiabili"
+    - "«l'» è plurale"
+  answers:
+    - { text: "«l'» vale per maschile e femminile; «un'» solo per il femminile", canonical: true }
+  explanation: "l'albergo (m) and l'acqua (f), but only un'acqua — un amico has no apostrophe."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 0.5 }
+
+- status: draft
+  id: drill.art_il_la.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ piazza è molto grande."
+  answers:
+    - { text: "la", canonical: true }
+  explanation: "la piazza — feminine."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.008
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Dov'è ___ bagno?"
+  answers:
+    - { text: "il", canonical: true }
+  explanation: "il bagno — masculine."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+
+- status: draft
+  id: drill.art_il_la.009
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale gruppo è corretto?"
+  choices:
+    - "il treno, la stazione, l'acqua"
+    - "la treno, il stazione, l'acqua"
+    - "l'treno, la stazione, il acqua"
+    - "il treno, il stazione, la acqua"
+  answers:
+    - { text: "il treno, la stazione, l'acqua", canonical: true }
+  explanation: "Masculine il, feminine la, vowel l'."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.010
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Cambia in determinativo: «una chiesa» → «___ chiesa»"
+  answers:
+    - { text: "la", canonical: true }
+  explanation: "una → la."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.011
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ centro è lontano da qui?"
+  answers:
+    - { text: "il", canonical: true }
+  explanation: "il centro — masculine."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  id: drill.art_il_la.012
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ uscita è a destra."
+  answers:
+    - { text: "l'", canonical: true }
+  distractor_feedback:
+    la: "Before a vowel «la» becomes «l'» — l'uscita."
+  explanation: "Uscita is feminine, but before a vowel it takes l'."
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+# --------------------------------------------------------------- dove_e
+- status: draft
+  id: drill.dove_e.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scusi, ___ la stazione?"
+  answers:
+    - { text: "dov'è", canonical: true }
+  distractor_feedback:
+    dove: "«Dove» alone isn't a question — you need the verb: «dov'è»."
+    "dove è": "Correct in principle, but Italians contract it: «dov'è»."
+  explanation: "dove + è = dov'è."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___, dov'è il bagno? (a una persona che non conosci)"
+  answers:
+    - { text: "scusi", canonical: true }
+  distractor_feedback:
+    scusa: "«Scusa» is informal. With a stranger, «scusi»."
+  explanation: "Open with scusi and the question becomes a request."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale frase è la più naturale?"
+  choices:
+    - "Scusi, dov'è la farmacia?"
+    - "Scusi, dove la farmacia?"
+    - "Dove è la farmacia, scusi?"
+    - "Scusi, dov'è farmacia?"
+  answers:
+    - { text: "Scusi, dov'è la farmacia?", canonical: true }
+  distractor_feedback:
+    "Scusi, dov'è farmacia?": "Italian keeps the article: «la farmacia»."
+    "Scusi, dove la farmacia?": "The verb is missing."
+  explanation: "scusi + dov'è + article + noun."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Per il plurale: «___ ___ i taxi?»"
+  answers:
+    - { text: "dove sono", canonical: true }
+  distractor_feedback:
+    "dov'è": "«Dov'è» is singular. With «i taxi» (plural) use «dove sono»."
+  explanation: "dov'è for one thing, dove sono for several."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Chiedi se esiste una farmacia vicina: «___ una farmacia qui vicino?»"
+  answers:
+    - { text: "c'è", canonical: true }
+  distractor_feedback:
+    "dov'è": "«Dov'è» asks where a known thing is. To ask whether one exists nearby: «c'è»."
+  explanation: "c'è = there is; dov'è = where is."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«Dov'è» è la contrazione di:"
+  choices: ["dove è", "dove sono", "dove ha", "dove va"]
+  answers:
+    - { text: "dove è", canonical: true }
+  explanation: "dove + è, with the apostrophe marking the dropped vowel."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Rispondi indicando la direzione a destra: «È ___ ___.»"
+  answers:
+    - { text: "a destra", canonical: true }
+  explanation: "a destra / a sinistra / sempre dritto — the three answers you'll hear."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+
+- status: draft
+  id: drill.dove_e.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "«Sempre dritto» significa:"
+  choices: ["straight ahead", "on the right", "on the left", "very far"]
+  answers:
+    - { text: "straight ahead", canonical: true }
+  explanation: "Literally «always straight»."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scusi, ___ il museo?"
+  answers:
+    - { text: "dov'è", canonical: true }
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.010
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Metti al plurale: «Dov'è il taxi?» → «___ ___ i taxi?»"
+  answers:
+    - { text: "dove sono", canonical: true }
+  explanation: "è becomes sono in the plural."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Vuoi sapere se c'è un bagno nel bar. Che cosa chiedi?"
+  choices:
+    - "Scusi, c'è un bagno?"
+    - "Scusi, dove sono un bagno?"
+    - "Scusi, dov'è un bagno?"
+    - "Scusi, c'è dov'è il bagno?"
+  answers:
+    - { text: "Scusi, c'è un bagno?", canonical: true }
+  explanation: "Existence → c'è; location of a known thing → dov'è."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+
+- status: draft
+  id: drill.dove_e.012
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scusi, ___ la fermata dell'autobus?"
+  answers:
+    - { text: "dov'è", canonical: true }
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }

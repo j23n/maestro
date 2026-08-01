@@ -1,0 +1,214 @@
+# Drill bank — lesson a0-05-chiedere-aiuto (prep_place, plus polite_exp
+# reuse from lesson 1). Drafted, not yet human-reviewed.
+
+- status: draft
+  id: drill.prep_place.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono ___ Roma."
+  answers:
+    - { text: "a", canonical: true }
+  distractor_feedback:
+    in: "Cities take «a»; «in» is for countries and regions. «Sono a Roma, in Italia.»"
+  explanation: "Cities → a."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono ___ Italia."
+  answers:
+    - { text: "in", canonical: true }
+  distractor_feedback:
+    a: "Countries take «in». «a» is for cities."
+  explanation: "Countries and regions → in."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono ___ Londra. (la mia città d'origine)"
+  answers:
+    - { text: "di", canonical: true }
+  distractor_feedback:
+    a: "«Sono a Londra» means you're there right now. Stating origin: «sono di Londra»."
+    da: "«Da» is movement from. Origin with essere takes «di»."
+  explanation: "essere di + city = to be from."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale frase è corretta?"
+  choices:
+    - "Sono a Roma, in Italia."
+    - "Sono in Roma, a Italia."
+    - "Sono a Roma, a Italia."
+    - "Sono in Roma, in Italia."
+  answers:
+    - { text: "Sono a Roma, in Italia.", canonical: true }
+  explanation: "City → a; country → in. Both in one sentence."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vado ___ farmacia."
+  answers:
+    - { text: "in", canonical: true }
+  explanation: "in farmacia, in banca, in centro — enclosed places take in."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Andiamo ___ bar? (a + il)"
+  answers:
+    - { text: "al", canonical: true }
+  distractor_feedback:
+    a il: "a + il contract into a single word: «al»."
+  explanation: "a + il = al."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Sono ___ casa."
+  answers:
+    - { text: "a", canonical: true }
+  explanation: "a casa is a fixed expression — no article."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Come si dice «I'm from Rome»?"
+  choices: ["Sono di Roma.", "Sono a Roma.", "Sono in Roma.", "Sono da Roma."]
+  answers:
+    - { text: "Sono di Roma.", canonical: true }
+  distractor_feedback:
+    "Sono a Roma.": "That means you're currently in Rome, not that you're from there."
+  explanation: "essere di = to be from."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vado a Firenze ___ treno."
+  answers:
+    - { text: "in", canonical: true }
+  explanation: "Means of transport take in: in treno, in macchina, in aereo."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "L'albergo è ___ centro."
+  answers:
+    - { text: "in", canonical: true }
+  explanation: "in centro — no article."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale coppia segue la regola «città → a, paese → in»?"
+  choices:
+    - "a Milano / in Francia"
+    - "in Milano / a Francia"
+    - "a Milano / a Francia"
+    - "in Milano / in Francia"
+  answers:
+    - { text: "a Milano / in Francia", canonical: true }
+  explanation: "Milano is a city, Francia a country."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: drill.prep_place.012
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Completa con la preposizione: «Vado ___ banca.»"
+  answers:
+    - { text: "in", canonical: true }
+  explanation: "in banca — like in farmacia, in albergo."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+# polite_exp reuse — help-seeking, the lesson's own angle
+- status: draft
+  id: drill.polite_exp.013
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Hai bisogno di aiuto. Dici: «Scusi, mi può ___?»"
+  answers:
+    - { text: "aiutare", canonical: true }
+  explanation: "Mi può aiutare? — Can you help me? The one phrase to memorise."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.014
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Hai perso il passaporto. Che cosa dici a un poliziotto?"
+  choices:
+    - "Scusi, ho perso il passaporto. Mi può aiutare?"
+    - "Ciao, ho perso il passaporto."
+    - "Voglio il passaporto."
+    - "Prego, il passaporto."
+  answers:
+    - { text: "Scusi, ho perso il passaporto. Mi può aiutare?", canonical: true }
+  distractor_feedback:
+    "Ciao, ho perso il passaporto.": "«Ciao» is too informal with an official. Use «scusi»."
+    "Voglio il passaporto.": "«Voglio» is blunt, and it doesn't explain the problem."
+  explanation: "scusi + the problem + mi può aiutare."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.015
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Non capisci. Dici: «Scusi, non ___.»"
+  answers:
+    - { text: "capisco", canonical: true }
+  explanation: "Non capisco — I don't understand. Pair it with «può ripetere?»"
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+
+- status: draft
+  id: drill.polite_exp.016
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Chiedi di ripetere più lentamente: «Può ripetere più ___, per favore?»"
+  answers:
+    - { text: "lentamente", canonical: true }
+    - { text: "piano" }
+  explanation: "Più lentamente (or più piano) — more slowly."
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }

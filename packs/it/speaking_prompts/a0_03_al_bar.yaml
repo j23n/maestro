@@ -1,0 +1,35 @@
+# Speaking prompts — lesson a0-03-al-bar. Drafted, not yet reviewed.
+
+- status: draft
+  id: speaking.vorrei.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Ordina un cappuccino al bar, in modo cortese."
+  target_text: "Vorrei un cappuccino, per favore."
+  variants:
+    - "Un cappuccino, per favore."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: speaking.art_un_una.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Ordina un'acqua naturale. Attenzione all'articolo."
+  target_text: "Vorrei un'acqua naturale."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: speaking.vorrei.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Chiedi il conto."
+  target_text: "Vorrei il conto, per favore."
+  variants:
+    - "Il conto, per favore."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }

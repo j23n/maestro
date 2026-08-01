@@ -235,12 +235,19 @@ def validate_tombstones(sources: PackSources) -> list[str]:
     ]
 
 
-def coverage_report(items: list, spec: Spec) -> dict:
-    """Reviewed-item counts per grammar point and per (level, kind).
+def coverage_report(
+    items: list, spec: Spec, statuses: frozenset[str] = frozenset({"reviewed"})
+) -> dict:
+    """Item counts per grammar point and per (level, kind).
 
     The authoring backlog view: thin cells are what `generate` should be
     pointed at next. Written beside the bundle at build time and reused
     by the review tool's coverage matrix.
+
+    Counts `reviewed` items by default — the backlog question is "what is
+    ready to ship". `build` passes the status set it actually compiled, so
+    the report beside a `--include-draft` dev bundle describes that bundle
+    rather than a stricter one.
     """
     kinds = {
         DrillItem: "drill",
@@ -256,7 +263,7 @@ def coverage_report(items: list, spec: Spec) -> dict:
     }
     by_level_kind: dict[str, dict[str, int]] = {}
     for item in items:
-        if item.status != "reviewed":
+        if item.status not in statuses:
             continue
         kind = kinds[type(item)]
         lk = by_level_kind.setdefault(item.cefr_level, {})
@@ -563,7 +570,7 @@ def build(
     conn.commit()
     conn.close()
 
-    report = coverage_report(all_items, spec)
+    report = coverage_report(all_items, spec, frozenset(shippable))
     coverage_path = out_path.with_suffix(".coverage.json")
     coverage_path.write_text(json.dumps(report, indent=2, ensure_ascii=False))
 

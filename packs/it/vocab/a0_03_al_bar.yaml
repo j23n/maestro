@@ -1,0 +1,87 @@
+# Vocab cards — lesson a0-03-al-bar. Drafted, not yet reviewed.
+
+- status: draft
+  id: vocab.cornetto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cornetto
+  front: il cornetto
+  back: croissant
+  example: Un cornetto con la crema, per favore.
+  example_gloss: A croissant with custard, please.
+  answers:
+    - { text: cornetto, canonical: true }
+  evidence:
+    - { axis: vocab, id: cornetto, weight: 1.0 }
+
+- status: draft
+  id: vocab.cappuccino
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cappuccino
+  front: il cappuccino
+  back: cappuccino
+  example: Vorrei un cappuccino, per favore.
+  example_gloss: I'd like a cappuccino, please.
+  answers:
+    - { text: cappuccino, canonical: true }
+  evidence:
+    - { axis: vocab, id: cappuccino, weight: 1.0 }
+
+- status: draft
+  id: vocab.acqua
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: acqua
+  front: l'acqua
+  back: water
+  example: Un'acqua naturale, grazie.
+  example_gloss: A still water, thanks.
+  answers:
+    - { text: acqua, canonical: true }
+  evidence:
+    - { axis: vocab, id: acqua, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 0.5 }
+
+- status: draft
+  id: vocab.conto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: conto
+  front: il conto
+  back: the bill / check
+  example: Il conto, per favore.
+  example_gloss: The bill, please.
+  answers:
+    - { text: conto, canonical: true }
+  evidence:
+    - { axis: vocab, id: conto, weight: 1.0 }
+
+- status: draft
+  id: vocab.bar
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: bar
+  front: il bar
+  back: café / bar
+  example: Facciamo colazione al bar.
+  example_gloss: We have breakfast at the café.
+  answers:
+    - { text: bar, canonical: true }
+  evidence:
+    - { axis: vocab, id: bar, weight: 1.0 }
+
+- status: draft
+  id: vocab.birra
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: birra
+  front: la birra
+  back: beer
+  example: Vorrei una birra piccola.
+  example_gloss: I'd like a small beer.
+  answers:
+    - { text: birra, canonical: true }
+  evidence:
+    - { axis: vocab, id: birra, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 0.5 }

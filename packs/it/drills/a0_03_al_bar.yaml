@@ -1,0 +1,279 @@
+# Drill bank — lesson a0-03-al-bar (art_un_una, vorrei).
+# Ids continue the series already in a0_basics.yaml. Drafted, not reviewed.
+
+# ----------------------------------------------------------- art_un_una
+- status: draft
+  id: drill.art_un_una.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei ___ caffè, per favore."
+  answers:
+    - { text: "un", canonical: true }
+  distractor_feedback:
+    una: "«Caffè» is masculine (il caffè), so it takes «un»."
+    un': "The apostrophe form is only for feminine nouns."
+  explanation: "Masculine noun → un."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei ___ birra, grazie."
+  answers:
+    - { text: "una", canonical: true }
+  distractor_feedback:
+    un: "«Birra» is feminine (la birra), so it takes «una»."
+  explanation: "Feminine noun starting with a consonant → una."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei ___ acqua naturale."
+  answers:
+    - { text: "un'", canonical: true }
+  distractor_feedback:
+    una: "Before a vowel, «una» drops the a and takes an apostrophe: «un'acqua»."
+    un: "«Acqua» is feminine, so it needs «un'», not «un»."
+  explanation: "Feminine + vowel → un' with an apostrophe."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Ho ___ amico a Roma. (amico = maschile)"
+  answers:
+    - { text: "un", canonical: true }
+  distractor_feedback:
+    un': "The apostrophe is feminine only. A masculine noun keeps plain «un», even before a vowel."
+  explanation: "un amico — no apostrophe, because amico is masculine."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale forma è corretta?"
+  choices: ["un'aranciata", "un aranciata", "una aranciata", "un'arancciata"]
+  answers:
+    - { text: "un'aranciata", canonical: true }
+  distractor_feedback:
+    "una aranciata": "Before a vowel «una» elides to «un'»."
+    "un aranciata": "Aranciata is feminine, so it needs the apostrophe form."
+  explanation: "Feminine + vowel = un'."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ cornetto e ___ cappuccino, per favore."
+  answers:
+    - { text: "un un", canonical: true }
+    - { text: "un, un" }
+  explanation: "Both cornetto and cappuccino are masculine."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Se un nome prende «la», quale articolo indeterminativo prende?"
+  choices: ["una", "un", "un'", "lo"]
+  answers:
+    - { text: "una", canonical: true }
+  explanation: "la → una; il → un. The quickest reliable shortcut."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei ___ pizza margherita."
+  answers:
+    - { text: "una", canonical: true }
+  explanation: "Pizza is feminine and starts with a consonant → una."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "C'è ___ tavolo libero?"
+  answers:
+    - { text: "un", canonical: true }
+  explanation: "il tavolo → un tavolo."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.011
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale nome NON prende «un»?"
+  choices: ["birra", "caffè", "cornetto", "panino"]
+  answers:
+    - { text: "birra", canonical: true }
+  distractor_feedback:
+    caffè: "Caffè is masculine despite the è ending — un caffè."
+  explanation: "Birra is feminine (una birra); the rest are masculine."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  id: drill.art_un_una.012
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Cambia in indeterminativo: «la stazione» → «___ stazione»"
+  answers:
+    - { text: "una", canonical: true }
+  explanation: "la → una."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+# --------------------------------------------------------------- vorrei
+- status: draft
+  id: drill.vorrei.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Chiedi cortesemente un cappuccino: «___ un cappuccino, per favore.»"
+  answers:
+    - { text: "vorrei", canonical: true }
+  distractor_feedback:
+    voglio: "«Voglio» means *I want* and sounds blunt when ordering. Use «vorrei»."
+  explanation: "Vorrei = I'd like — the polite request form."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Qual è la differenza fra «voglio» e «vorrei»?"
+  choices:
+    - "«vorrei» è più cortese"
+    - "«voglio» è più cortese"
+    - "sono identici"
+    - "«vorrei» è al passato"
+  answers:
+    - { text: "«vorrei» è più cortese", canonical: true }
+  distractor_feedback:
+    "«vorrei» è al passato": "It's a conditional, not a past tense — «I would like»."
+  explanation: "Voglio = I want (blunt); vorrei = I'd like (polite)."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vuoi pagare. Dici: «___ ___, per favore.»"
+  answers:
+    - { text: "vorrei pagare", canonical: true }
+  explanation: "vorrei + infinitive: vorrei pagare, vorrei prenotare."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Quale frase è corretta?"
+  choices:
+    - "Vorrei prenotare un tavolo."
+    - "Vorrei prenoto un tavolo."
+    - "Vorrei prenotazione un tavolo."
+    - "Vorrei che prenotare un tavolo."
+  answers:
+    - { text: "Vorrei prenotare un tavolo.", canonical: true }
+  distractor_feedback:
+    "Vorrei prenoto un tavolo.": "After «vorrei» the second verb stays in the infinitive: prenotare."
+  explanation: "vorrei + infinitive, never a conjugated verb."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.007
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Al bar: «___ un'acqua naturale, grazie.»"
+  answers:
+    - { text: "vorrei", canonical: true }
+  explanation: "vorrei + noun is the standard ordering shape."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.008
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Rendi cortese: «Voglio un caffè.» — scrivi solo la prima parola."
+  answers:
+    - { text: "vorrei", canonical: true }
+  distractor_feedback:
+    voglio: "That's the blunt form you were asked to soften."
+  explanation: "Swap voglio for vorrei and the sentence becomes polite."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei ___ (prenotare) un tavolo per due."
+  answers:
+    - { text: "prenotare", canonical: true }
+  distractor_feedback:
+    prenoto: "After vorrei the verb stays in the infinitive."
+  explanation: "vorrei + infinitive."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+
+- status: draft
+  id: drill.vorrei.010
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Al bar il barista dice «Prego?». Che cosa vuole dire?"
+  choices:
+    - "«Che cosa desidera?»"
+    - "«Prego, si accomodi» soltanto"
+    - "«Grazie»"
+    - "«Non c'è di che»"
+  answers:
+    - { text: "«Che cosa desidera?»", canonical: true }
+  explanation: "Prego? with a question intonation invites your order."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 0.5 }
+
+- status: draft
+  id: drill.vorrei.011
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Chiedi il conto in modo cortese: «___ il conto, per favore.»"
+  answers:
+    - { text: "vorrei", canonical: true }
+  explanation: "Works for the bill as for anything else."
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }

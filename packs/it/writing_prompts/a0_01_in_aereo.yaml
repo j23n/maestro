@@ -1,0 +1,23 @@
+# Writing prompt — lesson a0-01-in-aereo. Drafted, not yet reviewed.
+
+- status: draft
+  id: writing.in_aereo.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: |
+    Sei sull'aereo. Scrivi un breve dialogo (4-6 battute) tra te e
+    l'assistente di volo: saluta, ordina qualcosa da bere, ringrazia.
+  min_words: 20
+  required_grammar: [saluti, polite_exp]
+  required_vocab: [grazie, per favore]
+  model_answer: |
+    — Buongiorno!
+    — Buongiorno. Desidera?
+    — Un caffè, per favore.
+    — Ecco a lei.
+    — Grazie mille!
+    — Prego.
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 0.5 }

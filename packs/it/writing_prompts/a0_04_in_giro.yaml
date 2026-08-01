@@ -1,0 +1,23 @@
+# Writing prompt — lesson a0-04-in-giro. Drafted, not yet reviewed.
+
+- status: draft
+  id: writing.in_giro.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: |
+    Sei in centro e cerchi la stazione. Scrivi un breve dialogo (4-6
+    battute) con un passante: scusati, chiedi dov'è, ringrazia.
+  min_words: 20
+  required_grammar: [dove_e, art_il_la]
+  required_vocab: [stazione, piazza]
+  model_answer: |
+    — Scusi!
+    — Sì, prego.
+    — Dov'è la stazione, per favore?
+    — Sempre dritto, poi a destra.
+    — È lontano?
+    — No, cinque minuti. — Grazie mille!
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }

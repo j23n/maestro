@@ -1,0 +1,87 @@
+# Vocab cards — lesson a0-04-in-giro. Drafted, not yet reviewed.
+
+- status: draft
+  id: vocab.stazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: stazione
+  front: la stazione
+  back: station
+  example: Dov'è la stazione?
+  example_gloss: Where is the station?
+  answers:
+    - { text: stazione, canonical: true }
+  evidence:
+    - { axis: vocab, id: stazione, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 0.5 }
+
+- status: draft
+  id: vocab.piazza
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: piazza
+  front: la piazza
+  back: square
+  example: L'albergo è vicino alla piazza.
+  example_gloss: The hotel is near the square.
+  answers:
+    - { text: piazza, canonical: true }
+  evidence:
+    - { axis: vocab, id: piazza, weight: 1.0 }
+
+- status: draft
+  id: vocab.museo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: museo
+  front: il museo
+  back: museum
+  example: Il museo è chiuso il lunedì.
+  example_gloss: The museum is closed on Mondays.
+  answers:
+    - { text: museo, canonical: true }
+  evidence:
+    - { axis: vocab, id: museo, weight: 1.0 }
+
+- status: draft
+  id: vocab.farmacia
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: farmacia
+  front: la farmacia
+  back: pharmacy
+  example: C'è una farmacia qui vicino?
+  example_gloss: Is there a pharmacy near here?
+  answers:
+    - { text: farmacia, canonical: true }
+  evidence:
+    - { axis: vocab, id: farmacia, weight: 1.0 }
+
+- status: draft
+  id: vocab.centro
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: centro
+  front: il centro
+  back: centre / downtown
+  example: Il museo è in centro.
+  example_gloss: The museum is downtown.
+  answers:
+    - { text: centro, canonical: true }
+  evidence:
+    - { axis: vocab, id: centro, weight: 1.0 }
+
+- status: draft
+  id: vocab.dove
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: dove
+  front: dove
+  back: where
+  example: Dov'è il bagno?
+  example_gloss: Where is the bathroom?
+  answers:
+    - { text: dove, canonical: true }
+  evidence:
+    - { axis: vocab, id: dove, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 0.5 }

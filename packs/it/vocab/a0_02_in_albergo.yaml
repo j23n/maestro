@@ -1,0 +1,87 @@
+# Vocab cards — lesson a0-02-in-albergo. Drafted, not yet reviewed.
+
+- status: draft
+  id: vocab.albergo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: albergo
+  front: l'albergo
+  back: hotel
+  example: L'albergo è in centro.
+  example_gloss: The hotel is in the centre.
+  answers:
+    - { text: albergo, canonical: true }
+  evidence:
+    - { axis: vocab, id: albergo, weight: 1.0 }
+
+- status: draft
+  id: vocab.camera
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: camera
+  front: la camera
+  back: room
+  example: La camera è la numero quindici.
+  example_gloss: The room is number fifteen.
+  answers:
+    - { text: camera, canonical: true }
+  evidence:
+    - { axis: vocab, id: camera, weight: 1.0 }
+
+- status: draft
+  id: vocab.chiave
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: chiave
+  front: la chiave
+  back: key
+  example: Ecco la chiave della camera.
+  example_gloss: Here is the room key.
+  answers:
+    - { text: chiave, canonical: true }
+  evidence:
+    - { axis: vocab, id: chiave, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 0.5 }
+
+- status: draft
+  id: vocab.nome
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: nome
+  front: il nome
+  back: name
+  example: Il mio nome è Anna.
+  example_gloss: My name is Anna.
+  answers:
+    - { text: nome, canonical: true }
+  evidence:
+    - { axis: vocab, id: nome, weight: 1.0 }
+    - { axis: grammar, id: mi_chiamo, weight: 0.5 }
+
+- status: draft
+  id: vocab.prenotazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: prenotazione
+  front: la prenotazione
+  back: reservation / booking
+  example: Ho una prenotazione a nome Rossi.
+  example_gloss: I have a reservation under the name Rossi.
+  answers:
+    - { text: prenotazione, canonical: true }
+  evidence:
+    - { axis: vocab, id: prenotazione, weight: 1.0 }
+
+- status: draft
+  id: vocab.colazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: colazione
+  front: la colazione
+  back: breakfast
+  example: La colazione è dalle sette alle dieci.
+  example_gloss: Breakfast is from seven to ten.
+  answers:
+    - { text: colazione, canonical: true }
+  evidence:
+    - { axis: vocab, id: colazione, weight: 1.0 }

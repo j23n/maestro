@@ -1,0 +1,114 @@
+# Grammar reference pages — lesson a0-01-in-aereo.
+#
+# Learner-facing markdown, drafted in-session and not yet human-reviewed:
+# status: draft, so `build` skips these unless --include-draft is passed.
+
+- status: draft
+  id: grammar_ref.saluti
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: saluti
+  title: Greetings and goodbyes
+  body_md: |
+    Italian picks a greeting by **time of day** and by **how well you know
+    the person**.
+
+    | Italian | When |
+    |---|---|
+    | **ciao** | informal, hello *and* goodbye |
+    | **salve** | neutral, slightly formal hello |
+    | **buongiorno** | morning until roughly mid-afternoon |
+    | **buonasera** | late afternoon and evening |
+    | **buonanotte** | only when leaving at night / going to bed |
+    | **arrivederci** | goodbye, works with anyone |
+
+    Two rules worth memorising:
+
+    - **ciao** is for people you'd use *tu* with — friends, family, children.
+      With a stranger, a shopkeeper, or anyone older, start with
+      **buongiorno** or **buonasera**.
+    - **buonanotte** is not "good evening". It's what you say on the way
+      out at the end of the night. Arriving at a restaurant at 8pm you say
+      *buonasera*, never *buonanotte*.
+  examples:
+    - Buongiorno, signora!
+    - Ciao, Marco! Come stai?
+    - Arrivederci, a domani.
+    - Buonasera, un tavolo per due per favore.
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+
+- status: draft
+  id: grammar_ref.polite_exp
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: polite_exp
+  title: Please, thank you, excuse me
+  body_md: |
+    Four expressions carry most of Italian politeness.
+
+    - **per favore** — please. Goes at the end of a request:
+      *Un caffè, per favore.*
+    - **grazie** — thank you. Strengthen it with *mille grazie* or
+      *grazie mille* (a thousand thanks).
+    - **prego** — the reply to *grazie*. It also means "go ahead" or
+      "after you", and it's what a shopkeeper says to invite your order.
+    - **scusi / scusa** — excuse me. **scusi** is formal (a stranger),
+      **scusa** is informal (a friend).
+
+    **The one to get right:** *scusi* vs *scusa*. Use **scusi** with
+    anyone you'd address as *Lei* — which, travelling, is nearly everyone.
+
+    *Prego* answering *grazie* feels odd to English speakers, because
+    "please" and "you're welcome" are the same word. They aren't the same
+    use: *per favore* asks, *prego* responds.
+  examples:
+    - Un cappuccino, per favore.
+    - Grazie mille! — Prego.
+    - Scusi, dov'è la stazione?
+    - Scusa, hai un minuto?
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+
+- status: draft
+  id: grammar_ref.pronun_bas
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: pronun_bas
+  title: How Italian spelling sounds
+  body_md: |
+    Italian spelling is regular: once you know the rules, you can read any
+    word aloud. The rules that trip up English speakers:
+
+    | Spelling | Sound | Example |
+    |---|---|---|
+    | **ca, co, cu** | hard *k* | *casa*, *conto* |
+    | **ci, ce** | *ch* as in "chair" | *ciao*, *cena* |
+    | **chi, che** | hard *k* | *chi*, *perché* |
+    | **ga, go, gu** | hard *g* | *gatto*, *gonna* |
+    | **gi, ge** | *j* as in "jam" | *gelato*, *giorno* |
+    | **ghi, ghe** | hard *g* | *spaghetti*, *funghi* |
+    | **gn** | *ny* as in "canyon" | *signore*, *bagno* |
+    | **gli** | *lli* as in "million" | *famiglia*, *bottiglia* |
+    | **sci, sce** | *sh* | *scusi*, *pesce* |
+
+    So **h** is never pronounced — its whole job is to keep c and g hard
+    before i and e.
+
+    **Double consonants are real.** *nono* (ninth) and *nonno* (grandfather)
+    are different words; hold the consonant longer.
+
+    **Stress** usually falls on the second-to-last syllable
+    (*ca-**me**-ra*). A written accent means the stress is on the final
+    vowel: *caf-**fè***, *cit-**tà***, *per-**ché***.
+  examples:
+    - ciao — "chow"
+    - chi — "kee"
+    - gelato — "jelato"
+    - spaghetti — hard g
+    - signore — "sinyore"
+    - caffè — stress on the last syllable
+  evidence:
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }

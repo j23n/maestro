@@ -1,0 +1,32 @@
+# Speaking prompts — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
+
+- status: draft
+  id: speaking.polite_exp.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Hai perso la valigia. Chiedi aiuto a un impiegato."
+  target_text: "Scusi, mi può aiutare?"
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+
+- status: draft
+  id: speaking.prep_place.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Di' che sei di Londra e che adesso sei a Roma."
+  target_text: "Sono di Londra, ma adesso sono a Roma."
+  evidence:
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+
+- status: draft
+  id: speaking.polite_exp.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: "Non hai capito. Chiedi di ripetere più lentamente."
+  target_text: "Scusi, non capisco. Può ripetere più lentamente?"
+  variants:
+    - "Scusi, non capisco. Può ripetere?"
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }

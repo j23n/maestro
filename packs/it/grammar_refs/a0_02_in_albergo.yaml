@@ -1,0 +1,75 @@
+# Grammar reference pages — lesson a0-02-in-albergo. Drafted, not reviewed.
+
+- status: draft
+  id: grammar_ref.mi_chiamo
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: mi_chiamo
+  title: Saying your name — chiamarsi
+  body_md: |
+    Italian doesn't say "my name is". It says **I call myself**, using the
+    reflexive verb *chiamarsi*.
+
+    | Italian | Literally | Meaning |
+    |---|---|---|
+    | mi **chiamo** Anna | I call myself Anna | My name is Anna |
+    | ti **chiami**? | you call yourself? | What's your name? (informal) |
+    | si **chiama**? | you call yourself? | What's your name? (formal) |
+    | si **chiama** Marco | he/she calls himself Marco | His name is Marco |
+
+    The little word before the verb (*mi*, *ti*, *si*) is what makes it
+    reflexive, and it is **not optional**. *Chiamo Anna* means "I'm calling
+    Anna on the phone" — a different sentence entirely.
+
+    **Asking someone's name:**
+
+    - **Come ti chiami?** — informal, to a friend or a child.
+    - **Come si chiama?** — formal, to anyone else.
+
+    Note that *si chiama* does double duty: it's both the polite "you" and
+    "he/she". Context sorts it out.
+
+    A simpler alternative always works: **Sono Anna** (I'm Anna).
+  examples:
+    - Mi chiamo Giulia. E tu, come ti chiami?
+    - Come si chiama, signora?
+    - Lui si chiama Paolo.
+    - Sono Marco, piacere.
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+
+- status: draft
+  id: grammar_ref.num_0_20
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: num_0_20
+  title: Numbers 0 to 20
+  body_md: |
+    | | | | |
+    |---|---|---|---|
+    | 0 zero | 1 uno | 2 due | 3 tre |
+    | 4 quattro | 5 cinque | 6 sei | 7 sette |
+    | 8 otto | 9 nove | 10 dieci | 11 undici |
+    | 12 dodici | 13 tredici | 14 quattordici | 15 quindici |
+    | 16 sedici | 17 diciassette | 18 diciotto | 19 diciannove |
+    | 20 venti | | | |
+
+    **The pattern breaks at 17.** From 11 to 16 the unit comes first and
+    *-dici* (ten) follows: *un-dici*, *do-dici*, *tre-dici*. From 17 to 19
+    it flips — *dici-assette*, *dici-otto*, *dici-annove*. Learn 11–16 as
+    one group and 17–19 as another.
+
+    **Watch out for *sei*.** It's both the number *six* and *you are*
+    (from *essere*). *Sei sei* = "you are six".
+
+    Numbers matter immediately in a hotel: room numbers, floors, and the
+    time of breakfast all arrive as numbers.
+  examples:
+    - La camera è la numero quindici.
+    - Siamo in due.
+    - Colazione dalle sette alle dieci.
+    - Ho diciotto anni.
+  evidence:
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }

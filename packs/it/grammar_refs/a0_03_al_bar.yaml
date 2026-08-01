@@ -1,0 +1,67 @@
+# Grammar reference pages — lesson a0-03-al-bar. Drafted, not reviewed.
+
+- status: draft
+  id: grammar_ref.art_un_una
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: art_un_una
+  title: A / an — un, una, un'
+  body_md: |
+    Italian nouns have a gender, and "a/an" changes to match.
+
+    | Article | Use with | Example |
+    |---|---|---|
+    | **un** | masculine nouns | un caffè, un cornetto, un biglietto |
+    | **una** | feminine nouns starting with a consonant | una pizza, una birra |
+    | **un'** | feminine nouns starting with a vowel | un'acqua, un'aranciata |
+
+    **The shortcut that works:** if the noun takes *il*, it takes **un**.
+    If it takes *la*, it takes **una**.
+
+    **The apostrophe is only feminine.** *un'acqua* is feminine, so it gets
+    the apostrophe. A masculine noun starting with a vowel takes plain
+    **un** with no apostrophe: *un amico*, never *un' amico*.
+
+    Nouns ending in **-o** are usually masculine, and in **-a** usually
+    feminine — but *caffè*, *tè* and *bar* are masculine despite the
+    endings, so learn the article together with the word.
+  examples:
+    - Un caffè, per favore.
+    - Una birra piccola.
+    - Un'acqua naturale.
+    - Un cornetto e un cappuccino.
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  id: grammar_ref.vorrei
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: vorrei
+  title: Vorrei — the polite "I'd like"
+  body_md: |
+    **Vorrei** means *I would like*. It is the single most useful word for
+    getting anything in Italy, and at this stage you can treat it as a
+    fixed chunk — no conjugation needed.
+
+    Two shapes:
+
+    - **vorrei + noun** — *Vorrei un caffè.*
+    - **vorrei + verb** — *Vorrei pagare.* (I'd like to pay.)
+
+    **Why not *voglio*?** *Voglio un caffè* means "I want a coffee" and
+    lands as blunt, close to a demand. *Vorrei* is the softened form — the
+    difference between "I want" and "I'd like". Use *vorrei* with anyone
+    serving you.
+
+    Adding **per favore** makes it warmer still, though *vorrei* is already
+    polite on its own.
+  examples:
+    - Vorrei un cappuccino, per favore.
+    - Vorrei prenotare un tavolo.
+    - Vorrei pagare, grazie.
+    - Vorrei un'acqua naturale.
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }

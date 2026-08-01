@@ -1,0 +1,22 @@
+# Writing prompt — lesson a0-02-in-albergo. Drafted, not yet reviewed.
+
+- status: draft
+  id: writing.in_albergo.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: |
+    Arrivi in albergo. Scrivi un breve dialogo (4-6 battute) con il
+    receptionist: saluta, di' come ti chiami, chiedi il numero della camera.
+  min_words: 20
+  required_grammar: [mi_chiamo, num_0_20, saluti]
+  required_vocab: [camera, chiave]
+  model_answer: |
+    — Buonasera!
+    — Buonasera. Mi chiamo Anna Rossi, ho una prenotazione.
+    — Sì, signora. La sua camera è la dodici.
+    — Grazie. Ecco la chiave?
+    — Ecco a lei. Buonanotte!
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 0.5 }
