@@ -6,6 +6,7 @@ Subcommands:
     generate    LLM-draft a drill bank for a grammar point
     review      launch the review web app (localhost)
     flags       review learner problem reports exported from the app
+    prompts     compile prompts/runtime/*.yaml -> build/prompts.json
     release     build + stamp a versioned release directory
 
 Run as ``python -m authoring.cli <subcommand>`` from the repo root.
@@ -31,6 +32,7 @@ def main() -> int:
         "generate-images",
         "review",
         "flags",
+        "prompts",
         "release",
     ):
         p = sub.add_parser(name)
@@ -64,6 +66,7 @@ def main() -> int:
     flags_cmd.add_argument(
         "--json", action="store_true", help="machine-readable output"
     )
+    sub.choices["prompts"].add_argument("--out", default="build/prompts.json")
     sub.choices["build"].add_argument("--out", default="build/it.pack.sqlite")
     sub.choices["build"].add_argument(
         "--include-draft",
@@ -173,6 +176,11 @@ def main() -> int:
             print(f"ERROR: {e}")
         print(f"{len(errors)} errors, {len(warnings) + n_quality} warnings")
         return 1 if errors else 0
+
+    if args.command == "prompts":
+        from authoring.prompts import build_prompts
+
+        return build_prompts(Path(args.out))
 
     if args.command == "flags":
         import json as _json

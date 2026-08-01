@@ -13,13 +13,14 @@ struct MaestroApp: App {
 
 struct RootView: View {
     @State private var bridge: CoreBridge?
+    @State private var feedback: FeedbackService?
     @State private var error: String?
 
     var body: some View {
         Group {
-            if let bridge {
+            if let bridge, let feedback {
                 TabView {
-                    SessionLauncherView(bridge: bridge)
+                    SessionLauncherView(bridge: bridge, feedback: feedback)
                         .tabItem { Label("Learn", systemImage: "book") }
                     ProgressScreen(bridge: bridge)
                         .tabItem { Label("Progress", systemImage: "chart.bar") }
@@ -34,15 +35,26 @@ struct RootView: View {
             }
         }
         .task {
-            do { bridge = try CoreBridge() } catch { self.error = "\(error)" }
+            do {
+                let opened = try CoreBridge()
+                bridge = opened
+                // No API key by default: the MVP is offline, so the only
+                // tier that can run is on-device, and only if its eval
+                // gate is open.
+                feedback = FeedbackService(bridge: opened)
+            } catch {
+                self.error = "\(error)"
+            }
         }
     }
 }
 
 struct SessionLauncherView: View {
     let bridge: CoreBridge
+    let feedback: FeedbackService
     @State private var plan: SessionPlan?
     @State private var error: String?
+    @State private var level = "A0"
 
     var body: some View {
         NavigationStack {
@@ -58,7 +70,8 @@ struct SessionLauncherView: View {
             }
             .navigationTitle("Maestro")
             .navigationDestination(item: $plan) { plan in
-                SessionView(bridge: bridge, plan: plan)
+                SessionView(
+                    bridge: bridge, feedback: feedback, level: level, plan: plan)
             }
         }
     }
@@ -66,6 +79,9 @@ struct SessionLauncherView: View {
     private func start(minutes: UInt32) {
         do {
             error = nil
+            // Prompts adapt to level; a stale one only makes feedback
+            // slightly off-pitch, so a failure here isn't worth blocking on.
+            level = (try? bridge.progress().cefr.level) ?? level
             let composed = try bridge.composeSession(minutes: minutes)
             // An empty plan means no eligible content at all; pushing an
             // empty session would look like the app doing nothing.

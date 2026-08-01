@@ -39,6 +39,17 @@ targets:
       - path: ../build/it.pack.sqlite
         group: Resources
         buildPhase: resources
+      # The prompts the app sends are the ones the eval harness scored.
+      #   uv run python -m authoring.cli prompts
+      - path: ../build/prompts.json
+        group: Resources
+        buildPhase: resources
+      # Which on-device features measurement allows. With no scorecard
+      # every gate is closed, which is the correct default.
+      #   uv run python -m evals.harness.run --resolve-gates
+      - path: ../build/gates_resolved.json
+        group: Resources
+        buildPhase: resources
     dependencies:
       # Built by core/build-xcframework.sh (macOS only) — it will not
       # exist on a fresh clone until you run that script.

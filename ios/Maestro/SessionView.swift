@@ -7,6 +7,9 @@ import SwiftUI
 
 struct SessionView: View {
     let bridge: CoreBridge
+    let feedback: FeedbackService
+    /// The learner's rough level, for prompts that adapt to it.
+    let level: String
     let plan: SessionPlan
     @State private var index = 0
     @State private var correct = 0
@@ -49,11 +52,21 @@ struct SessionView: View {
         case "vocab_card":
             VocabCardView(bridge: bridge, activity: activity, onDone: advance)
         case "reading", "listening":
-            PassageView(bridge: bridge, activity: activity, onDone: advance)
+            PassageView(
+                bridge: bridge, feedback: feedback, level: level,
+                activity: activity, onDone: advance)
         case "speaking_prompt":
-            SpeakingActivityView(bridge: bridge, activity: activity, onDone: advance)
+            SpeakingActivityView(
+                bridge: bridge, feedback: feedback, level: level,
+                activity: activity, onDone: advance)
+        case "writing_prompt":
+            WritingActivityView(
+                bridge: bridge, feedback: feedback, activity: activity,
+                level: level, onDone: advance)
         default:
-            DrillView(bridge: bridge, activity: activity, onScored: tally, onDone: advance)
+            DrillView(
+                bridge: bridge, feedback: feedback, level: level,
+                activity: activity, onScored: tally, onDone: advance)
         }
     }
 
@@ -75,6 +88,8 @@ struct SessionView: View {
 
 struct DrillView: View {
     let bridge: CoreBridge
+    let feedback: FeedbackService
+    let level: String
     let activity: PlannedActivity
     var onScored: ((Bool) -> Void)? = nil
     let onDone: () -> Void
@@ -85,6 +100,7 @@ struct DrillView: View {
     @State private var result: ScoreResult?
     @State private var loadError: String?
     @State private var flagging: FlagTarget?
+    @State private var explained = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -94,7 +110,7 @@ struct DrillView: View {
             Text(payload?.prompt ?? "…").font(.title3)
             if let choices = payload?.choices {
                 ForEach(choices, id: \.self) { choice in
-                    Button(choice) { submit(choice) }
+                    Button(choice) { answer = choice; submit(choice) }
                         .buttonStyle(.bordered)
                         .disabled(result != nil)
                 }
@@ -109,6 +125,16 @@ struct DrillView: View {
             if let result {
                 FeedbackView(result: result)
                 if !result.correct {
+                    // The pre-authored explanation is what they were owed
+                    // and already saw. This asks for a different angle —
+                    // and only appears once, so it reads as an offer
+                    // rather than an admission the first one was bad.
+                    if !explained {
+                        Button("Explain differently") { explainDifferently(result) }
+                            .font(.footnote)
+                    } else {
+                        FeedbackPanel(feedback: feedback)
+                    }
                     // The most useful moment to ask: they have just been
                     // told they're wrong and may well disagree.
                     Button("I think my answer was right") {
@@ -140,6 +166,26 @@ struct DrillView: View {
             rawEvidence = bridge.evidence(for: activity.itemId)
         } catch {
             loadError = "\(error)"
+        }
+    }
+
+    private func explainDifferently(_ result: ScoreResult) {
+        explained = true
+        Task {
+            await feedback.request(
+                kind: "mistake_explanation",
+                itemId: activity.itemId,
+                submission: answer,
+                variables: [
+                    "level": level,
+                    "prompt": payload?.prompt ?? "",
+                    "submission": answer,
+                    "correct_answer": result.expected.joined(separator: " / "),
+                    "response": answer,
+                    "grammar_label": activity.slot,
+                    "standard_explanation": result.feedback ?? "",
+                    "weakness_tags": "",
+                ])
         }
     }
 
@@ -202,6 +248,8 @@ struct FeedbackView: View {
 
 struct PassageView: View {
     let bridge: CoreBridge
+    let feedback: FeedbackService
+    let level: String
     let activity: PlannedActivity
     let onDone: () -> Void
 
@@ -229,6 +277,8 @@ struct PassageView: View {
                 } else if questionIndex < payload.questionIds.count {
                     DrillView(
                         bridge: bridge,
+                        feedback: feedback,
+                        level: level,
                         activity: PlannedActivity(
                             itemId: payload.questionIds[questionIndex],
                             itemType: "question", slot: activity.slot),
@@ -397,6 +447,8 @@ struct VocabCardView: View {
 /// than a hardcoded sentence.
 struct SpeakingActivityView: View {
     let bridge: CoreBridge
+    let feedback: FeedbackService
+    let level: String
     let activity: PlannedActivity
     let onDone: () -> Void
 
@@ -413,7 +465,10 @@ struct SpeakingActivityView: View {
                     bridge: bridge,
                     itemId: activity.itemId,
                     target: payload.targetText,
-                    evidenceJson: bridge.evidence(for: activity.itemId))
+                    evidenceJson: bridge.evidence(for: activity.itemId),
+                    feedback: feedback,
+                    prompt: payload.prompt,
+                    level: level)
                 Button("Continua") { onDone() }.buttonStyle(.borderedProminent)
             } else {
                 ProgressView()

@@ -20,8 +20,12 @@ source of truth; `Maestro.xcodeproj` is generated, not committed.
 | `SpeakingPracticeView.swift` | Read-aloud: SpeechAnalyzer (it-IT) → `alignTranscript` → per-word colors | Spike B outcome |
 | `ProgressScreen.swift` | Can-do list, grammar labels, CEFR estimate | CoreBridge |
 | `FlagSheet.swift` | Report a broken item in one sentence; the reports list and its export | CoreBridge |
+| `WritingActivityView.swift` | Writing capture: offline rubric, then LLM grading | CoreBridge, FeedbackService |
+| `LLM/PromptLibrary.swift` | Renders the bundled `prompts.json` — the same prompts the harness scores | `maestro-pack prompts` |
+| `LLM/LLMBackend.swift` | Apple Foundation Models + Anthropic behind one protocol; eval gates | `gates_resolved.json` |
+| `LLM/FeedbackService.swift` | Queue → pick an allowed backend → render → parse; privacy ledger | core feedback queue |
 | `project.yml` | XcodeGen spec: target, bundled pack, permission strings | XcodeGen |
-| `Deferred/` | Pack updater and LLM tutor — written, excluded from the target | see `Deferred/README.md` |
+| `Deferred/` | Pack updater — written, excluded from the target | see `Deferred/README.md` |
 
 ## The two events that carry the loop
 
@@ -47,6 +51,31 @@ Both are easy to lose in a refactor and neither fails loudly:
    text. Run one with deliberately non-native pronunciation; judge whether
    word-level alignment feels fair; tune `core/src/align.rs` near-match
    tolerances if not. Write the verdict into docs/plans/.
+
+## The optional tutor, and why it's off
+
+Three tasks are wired: writing grading (did they answer the prompt, what's
+wrong), speaking feedback (why a word was off, on top of the deterministic
+alignment), and re-explaining a drill mistake a different way.
+
+Two rules hold the layer in place, and both are load-bearing:
+
+- **Prompts come from the bundle, never from Swift string literals.**
+  `prompts/runtime/*.yaml` is the one source; `maestro-pack prompts`
+  compiles it to `build/prompts.json`. That shared source is what makes
+  "the eval measures what ships" true, and `tests/unit/test_prompts.py`
+  fails if a template grows a placeholder the app doesn't supply.
+- **A backend runs only if measurement says it may.** `gates_resolved.json`
+  comes from the eval harness. With no scorecard every Apple FM gate is
+  closed, so wiring the framework in does not switch it on — the app
+  queues the submission and shows why. `BUILD.md` has the sequence that
+  opens them.
+
+The deterministic layer is what the learner is owed and it always runs:
+alignment verdicts for speaking, the length/vocabulary rubric for writing,
+the pre-authored explanation for drills. The model only ever adds to that,
+which is why a closed gate degrades to "saved for detailed feedback"
+rather than a broken screen.
 
 ## Reporting broken content
 

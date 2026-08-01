@@ -160,6 +160,24 @@ struct VocabCardPayload: Codable {
     }
 }
 
+struct WritingPayload: Codable {
+    let prompt: String
+    let minWords: Int
+    /// Grammar the submission is expected to attempt, and vocabulary it
+    /// should reach for — the offline rubric checks both.
+    let requiredGrammar: [String]
+    let requiredVocab: [String]
+    let modelAnswer: String?
+
+    enum CodingKeys: String, CodingKey {
+        case prompt
+        case minWords = "min_words"
+        case requiredGrammar = "required_grammar"
+        case requiredVocab = "required_vocab"
+        case modelAnswer = "model_answer"
+    }
+}
+
 struct SpeakingPayload: Codable {
     let prompt: String
     let targetText: String
@@ -305,6 +323,38 @@ final class CoreBridge {
             "srs_rating": srsRating,
             "evidence": evidenceJson,
         ])
+    }
+
+    // MARK: - Pending feedback
+
+    /// Queue a submission for the LLM tier. Queuing is unconditional and
+    /// offline: the job waits in the learner record until a backend is
+    /// both available and allowed by its eval gate.
+    @discardableResult
+    func enqueueFeedbackJob(
+        kind: String, itemId: String, submission: String, context: [String: String]
+    ) throws -> Int64 {
+        let request: [String: Any] = [
+            "kind": kind, "item_id": itemId, "submission": submission,
+            "context": context,
+        ]
+        return try core.enqueueFeedbackJob(
+            requestJson: String(
+                data: JSONSerialization.data(withJSONObject: request), encoding: .utf8)!)
+    }
+
+    func pendingFeedbackJobs() throws -> [String] {
+        try core.listPendingFeedbackJobs()
+    }
+
+    /// Mark a job answered. The core stamps `feedback_source` with the
+    /// backend name and folds any evidence event back automatically.
+    func completeFeedbackJob(id: Int64, backend: String, feedbackText: String) throws {
+        let result: [String: Any] = ["feedback_text": feedbackText]
+        try core.completeFeedbackJob(
+            jobId: id, backend: backend,
+            resultJson: String(
+                data: JSONSerialization.data(withJSONObject: result), encoding: .utf8)!)
     }
 
     // MARK: - Problem reports

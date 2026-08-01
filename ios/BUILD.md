@@ -16,12 +16,33 @@ rustup target add aarch64-apple-ios aarch64-apple-ios-sim
 # 3. Build the content bundle the app ships with
 uv run python -m authoring.cli build --include-draft   # -> build/it.pack.sqlite
 
-# 4. Generate and open the Xcode project
+# 4. Compile the shared prompts and resolve the eval gates
+uv run python -m authoring.cli prompts                  # -> build/prompts.json
+uv run python -m evals.harness.run --resolve-gates --allow-no-scorecards
+
+# 5. Generate and open the Xcode project
 brew install xcodegen
 cd ios && xcodegen && open Maestro.xcodeproj
 ```
 
 Then set a signing team on the Maestro target and run.
+
+**The on-device tutor ships switched off.** `--allow-no-scorecards` emits a
+gates file with every Apple FM task disabled, because nothing has measured
+it yet. The app will queue submissions and say so rather than calling a
+model. To open the gates:
+
+```bash
+cd evals/applefm-runner && swift build -c release && cd ../..
+uv run python -m evals.harness.run --task writing_feedback --runner apple_fm
+uv run python -m evals.harness.run --task speaking_feedback --runner apple_fm
+uv run python -m evals.harness.run --task mistake_explanation --runner apple_fm
+uv run python -m evals.harness.run --resolve-gates      # now scorecard-backed
+```
+
+Re-run `xcodegen` is not needed — just rebuild so the new
+`gates_resolved.json` is bundled. This ordering is the point of the
+design: a feature is enabled by measurement, not by being written.
 
 `--include-draft` at step 3 is deliberate: the five A0 lessons are
 authored but not yet human-reviewed, so a plain `build` compiles only the
