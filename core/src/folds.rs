@@ -36,6 +36,17 @@ const CEFR_CONFIDENCE_HIGH: f64 = 0.5;
 const CEFR_CONFIDENCE_MEDIUM: f64 = 0.2;
 const RECENT_WINDOW: usize = 50;
 
+/// A grammar point's display name, falling back to the id so the UI never
+/// has to render a raw slug even on a pre-label bundle.
+fn gp_label(spec: &SpecData, id: &str) -> String {
+    spec.grammar
+        .iter()
+        .find(|g| g.id == id)
+        .map(|g| g.label.clone())
+        .filter(|l| !l.is_empty())
+        .unwrap_or_else(|| id.to_string())
+}
+
 pub fn mastery_label(score: Option<f64>) -> &'static str {
     match score {
         None => "new",
@@ -118,6 +129,7 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
             GrammarState {
                 mastery,
                 label: mastery_label(mastery).to_string(),
+                display_name: gp_label(spec, gp),
                 introduced: true,
                 evidence_mass: denom,
             },
@@ -127,6 +139,7 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
         state.grammar.entry(gp.to_string()).or_insert(GrammarState {
             mastery: None,
             label: "new".to_string(),
+            display_name: gp_label(spec, gp),
             introduced: true,
             evidence_mass: 0.0,
         });
@@ -261,6 +274,11 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
             cd.id.clone(),
             CanDoState {
                 status: status.to_string(),
+                label: if cd.label.is_empty() {
+                    cd.id.clone()
+                } else {
+                    cd.label.clone()
+                },
                 grammar_mastered: g_mastered,
                 grammar_total: g_total,
                 functions_demonstrated: f_demo,
@@ -537,6 +555,7 @@ mod tests {
                     id: format!("{level}_{i}"),
                     cefr_level: level.to_string(),
                     prerequisites: vec![],
+                    label: String::new(),
                 });
             }
         }

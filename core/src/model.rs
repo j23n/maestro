@@ -165,6 +165,10 @@ pub struct GrammarState {
     pub mastery: Option<f64>,
     /// new | weak | developing | consolidated (labels from mastery.py).
     pub label: String,
+    /// The grammar point's human-readable name, from the spec. Falls back
+    /// to the id on bundles built before labels shipped — the UI shows
+    /// this, never the id.
+    pub display_name: String,
     pub introduced: bool,
     pub evidence_mass: f64,
 }
@@ -188,6 +192,9 @@ pub struct ScenarioState {
 pub struct CanDoState {
     /// locked | in_progress | achieved
     pub status: String,
+    /// The can-do statement, from the spec ("Can greet people…"). Falls
+    /// back to the id on pre-label bundles.
+    pub label: String,
     pub grammar_mastered: u32,
     pub grammar_total: u32,
     pub functions_demonstrated: u32,

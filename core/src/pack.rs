@@ -26,6 +26,14 @@
 //!     item_id  TEXT PRIMARY KEY REFERENCES items(id),
 //!     feedback TEXT NOT NULL         -- general mistake explanation
 //! );
+//! The spec tables carry a trailing `label` column (grammar, functions,
+//! can-dos) holding the learner-facing name. It is deliberately NOT a
+//! schema_version bump: the columns have defaults and sit at the end, so
+//! an older core reading a newer bundle simply doesn't select them, and a
+//! newer core reading an older bundle falls back to the id via
+//! `column_exists`. Bumping would make already-shipped apps reject a pack
+//! over an additive change.
+//!
 //! -- schema_version >= 1:
 //! CREATE TABLE media (
 //!     path   TEXT PRIMARY KEY,       -- as referenced by item payloads
@@ -68,6 +76,9 @@ pub struct SpecGrammar {
     pub id: String,
     pub cefr_level: String,
     pub prerequisites: Vec<String>,
+    /// Human-readable name, for anything the learner sees. Empty on
+    /// pre-label bundles — fall back to the id.
+    pub label: String,
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -75,6 +86,7 @@ pub struct SpecGrammar {
 pub struct SpecFunction {
     pub id: String,
     pub cefr_level: String,
+    pub label: String,
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -97,6 +109,8 @@ pub struct SpecCanDo {
     pub skill: String,
     pub grammar_ids: Vec<String>,
     pub function_ids: Vec<String>,
+    /// The can-do statement itself ("Can greet people, say goodbye…").
+    pub label: String,
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -149,22 +163,36 @@ fn json_vec(s: &str) -> Vec<String> {
 
 pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
     let mut spec = SpecData::default();
-    let mut stmt = conn.prepare("SELECT id, cefr_level, prerequisites FROM spec_grammar")?;
+    // `label` arrived with schema_version 2; older bundles don't have the
+    // column, so select it only when it exists and fall back to "".
+    let gp_label = column_exists(conn, "spec_grammar", "label")?;
+    let mut stmt = conn.prepare(if gp_label {
+        "SELECT id, cefr_level, prerequisites, label FROM spec_grammar"
+    } else {
+        "SELECT id, cefr_level, prerequisites, '' FROM spec_grammar"
+    })?;
     spec.grammar = stmt
         .query_map([], |r| {
             Ok(SpecGrammar {
                 id: r.get(0)?,
                 cefr_level: r.get(1)?,
                 prerequisites: json_vec(&r.get::<_, String>(2)?),
+                label: r.get(3)?,
             })
         })?
         .collect::<Result<_, _>>()?;
-    let mut stmt = conn.prepare("SELECT id, cefr_level FROM spec_functions")?;
+    let cf_label = column_exists(conn, "spec_functions", "label")?;
+    let mut stmt = conn.prepare(if cf_label {
+        "SELECT id, cefr_level, label FROM spec_functions"
+    } else {
+        "SELECT id, cefr_level, '' FROM spec_functions"
+    })?;
     spec.functions = stmt
         .query_map([], |r| {
             Ok(SpecFunction {
                 id: r.get(0)?,
                 cefr_level: r.get(1)?,
+                label: r.get(2)?,
             })
         })?
         .collect::<Result<_, _>>()?;
@@ -185,9 +213,12 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
             })
         })?
         .collect::<Result<_, _>>()?;
-    let mut stmt = conn.prepare(
-        "SELECT id, cefr_level, skill, grammar_ids, function_ids FROM spec_can_dos",
-    )?;
+    let cd_label = column_exists(conn, "spec_can_dos", "label")?;
+    let mut stmt = conn.prepare(if cd_label {
+        "SELECT id, cefr_level, skill, grammar_ids, function_ids, label FROM spec_can_dos"
+    } else {
+        "SELECT id, cefr_level, skill, grammar_ids, function_ids, '' FROM spec_can_dos"
+    })?;
     spec.can_dos = stmt
         .query_map([], |r| {
             Ok(SpecCanDo {
@@ -196,6 +227,7 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
                 skill: r.get(2)?,
                 grammar_ids: json_vec(&r.get::<_, String>(3)?),
                 function_ids: json_vec(&r.get::<_, String>(4)?),
+                label: r.get(5)?,
             })
         })?
         .collect::<Result<_, _>>()?;
@@ -279,6 +311,19 @@ pub fn open_readonly(path: &str) -> Result<Connection, CoreError> {
         });
     }
     Ok(conn)
+}
+
+/// Whether a table carries a column. Lets the reader accept bundles built
+/// before a column was added, instead of hard-failing on schema drift.
+fn column_exists(conn: &Connection, table: &str, column: &str) -> Result<bool, CoreError> {
+    let mut stmt = conn.prepare(&format!("PRAGMA table_info({table})"))?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        if row.get::<_, String>(1)? == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 
 fn table_exists(conn: &Connection, name: &str) -> Result<bool, CoreError> {

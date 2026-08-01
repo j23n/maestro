@@ -171,5 +171,20 @@ fn a_learner_progresses_through_all_five_lessons() {
             !state.is_null() && state["introduced"] == true,
             "{gp} never introduced across five lessons"
         );
+        // The progress screen renders display_name; if it falls back to the
+        // id the learner is reading raw slugs.
+        let name = state["display_name"].as_str().unwrap_or("");
+        assert!(
+            !name.is_empty() && name != gp,
+            "{gp}: no display name — progress would show the id"
+        );
+    }
+
+    for (id, cando) in progress["can_dos"].as_object().expect("can_dos") {
+        let label = cando["label"].as_str().unwrap_or("");
+        assert!(
+            !label.is_empty() && label != id,
+            "can-do {id}: no label — progress would show the id"
+        );
     }
 }

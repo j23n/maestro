@@ -43,17 +43,28 @@ struct SessionPlan: Codable {
 
 struct GrammarState: Codable {
     let mastery: Double?
+    /// Mastery band: new | weak | developing | consolidated.
     let label: String
+    /// The grammar point's name, e.g. "Saluti e congedi". Show this, never
+    /// the id — the core falls back to the id only on pre-label bundles.
+    let displayName: String
     let introduced: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case mastery, label, introduced
+        case displayName = "display_name"
+    }
 }
 
 struct CanDoState: Codable {
     let status: String
+    /// The can-do statement itself — the learner-facing progress spine.
+    let label: String
     let grammarMastered: UInt32, grammarTotal: UInt32
     let functionsDemonstrated: UInt32, functionsTotal: UInt32
 
     enum CodingKeys: String, CodingKey {
-        case status
+        case status, label
         case grammarMastered = "grammar_mastered", grammarTotal = "grammar_total"
         case functionsDemonstrated = "functions_demonstrated"
         case functionsTotal = "functions_total"

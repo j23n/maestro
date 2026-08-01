@@ -21,7 +21,7 @@ struct ProgressScreen: View {
                             HStack {
                                 statusIcon(state.status)
                                 VStack(alignment: .leading) {
-                                    Text(id).font(.callout)
+                                    Text(state.label).font(.callout)
                                     Text(
                                         "grammar \(state.grammarMastered)/\(state.grammarTotal)"
                                             + " · functions \(state.functionsDemonstrated)/\(state.functionsTotal)"
@@ -36,7 +36,7 @@ struct ProgressScreen: View {
                         ForEach(
                             progress.grammar.sorted(by: { $0.key < $1.key }), id: \.key
                         ) { id, state in
-                            LabeledContent(id, value: state.label)
+                            LabeledContent(state.displayName, value: state.label)
                         }
                     }
                     // Deliberately last and understated: a rough level, not

@@ -73,9 +73,13 @@ CREATE TABLE tombstones (
 );
 CREATE TABLE spec_grammar (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
-    prerequisites TEXT NOT NULL DEFAULT '[]'
+    prerequisites TEXT NOT NULL DEFAULT '[]',
+    label TEXT NOT NULL DEFAULT ''
 );
-CREATE TABLE spec_functions (id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL);
+CREATE TABLE spec_functions (
+    id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+    label TEXT NOT NULL DEFAULT ''
+);
 CREATE TABLE spec_scenarios (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
     phase INTEGER NOT NULL, sequence INTEGER,
@@ -86,7 +90,8 @@ CREATE TABLE spec_scenarios (
 CREATE TABLE spec_can_dos (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL, skill TEXT NOT NULL,
     grammar_ids TEXT NOT NULL DEFAULT '[]',
-    function_ids TEXT NOT NULL DEFAULT '[]'
+    function_ids TEXT NOT NULL DEFAULT '[]',
+    label TEXT NOT NULL DEFAULT ''
 );
 CREATE TABLE spec_vocab (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
@@ -289,15 +294,18 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
     The bundle is self-contained: the app never needs spec/ itself.
     """
     conn.executemany(
-        "INSERT INTO spec_grammar VALUES (?, ?, ?)",
+        "INSERT INTO spec_grammar VALUES (?, ?, ?, ?)",
         [
-            (g.id, g.cefr_level, json.dumps(g.prerequisites))
+            (g.id, g.cefr_level, json.dumps(g.prerequisites), g.label)
             for g in spec.grammar_points
         ],
     )
     conn.executemany(
-        "INSERT INTO spec_functions VALUES (?, ?)",
-        [(f.id, f.cefr_level) for f in spec.communicative_functions],
+        "INSERT INTO spec_functions VALUES (?, ?, ?)",
+        [
+            (f.id, f.cefr_level, f.label)
+            for f in spec.communicative_functions
+        ],
     )
     conn.executemany(
         "INSERT INTO spec_scenarios VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -315,7 +323,7 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
         ],
     )
     conn.executemany(
-        "INSERT INTO spec_can_dos VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO spec_can_dos VALUES (?, ?, ?, ?, ?, ?)",
         [
             (
                 c.id,
@@ -323,6 +331,7 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
                 c.skill,
                 json.dumps(c.grammar_ids),
                 json.dumps(c.function_ids),
+                c.label,
             )
             for c in spec.can_dos
         ],
