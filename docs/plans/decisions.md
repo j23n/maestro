@@ -196,10 +196,10 @@ labeled untested, needs your Mac. Deferred = intentionally not done.
 | 1 — vocab list | **Verified (v0)** | 393 lemmas; expansion to ~1,500 = Phase 7 leftover |
 | 2 — authoring pipeline | **Verified** | CLI validate/build/generate(file-mode-tested)/review(TestClient-tested)/release |
 | 3 — learner model + composer | **Verified** | fold unit tests, simulated-learner test, 3 conformance vectors, compat test |
-| 4 — iOS learning loop | **Scaffold** | ios/Maestro/*, compile fixes expected |
+| 4 — iOS learning loop | **Scaffold + project** | ios/Maestro/*, XcodeGen project.yml, committed Swift bindings, BUILD.md; compile fixes expected |
 | 5 — speaking/writing | **Core verified, shell scaffold** | align.rs tested; SpeakingPracticeView untested; writing capture UI not built |
 | 6 — LLM layer + eval loop | **Harness verified, backends scaffold** | mock-model e2e test incl. gate flip; no live API calls made |
-| 7 — content fill | **Slice only** | 14 drills + 2 readings + 1 listening (24 bundle items); audio render not wired |
+| 7 — content fill | **First five lessons** | a0-01..a0-05 authored as draft: 252 bundle items under --include-draft, coverage 16/351, quality-clean; audio render not wired |
 | 8 — hardening/cleanup | **Partially done** | legacy app retired on user instruction (decision 32); backup/export API exists in core (list_events), no UI |
 
 Biggest remaining risks, in order: (1) the two Mac spikes — everything

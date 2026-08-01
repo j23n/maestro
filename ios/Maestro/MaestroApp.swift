@@ -42,6 +42,7 @@ struct RootView: View {
 struct SessionLauncherView: View {
     let bridge: CoreBridge
     @State private var plan: SessionPlan?
+    @State private var error: String?
 
     var body: some View {
         NavigationStack {
@@ -49,6 +50,11 @@ struct SessionLauncherView: View {
                 Button("Start session (15 min)") { start(minutes: 15) }
                     .buttonStyle(.borderedProminent)
                 Button("Quick drills (5 min)") { start(minutes: 5) }
+                if let error {
+                    Text(error)
+                        .font(.caption).foregroundStyle(.red)
+                        .multilineTextAlignment(.center).padding(.horizontal)
+                }
             }
             .navigationTitle("Maestro")
             .navigationDestination(item: $plan) { plan in
@@ -58,7 +64,20 @@ struct SessionLauncherView: View {
     }
 
     private func start(minutes: UInt32) {
-        plan = try? bridge.composeSession(minutes: minutes)
+        do {
+            error = nil
+            let composed = try bridge.composeSession(minutes: minutes)
+            // An empty plan means no eligible content at all; pushing an
+            // empty session would look like the app doing nothing.
+            guard !composed.activities.isEmpty else {
+                error = "No activities available — the pack has no content for "
+                    + "this scenario yet."
+                return
+            }
+            plan = composed
+        } catch {
+            self.error = "Couldn't build a session: \(error)"
+        }
     }
 }
 

@@ -11,6 +11,9 @@ import SwiftUI
 
 struct SpeakingPracticeView: View {
     let bridge: CoreBridge
+    /// The pack item being practised — the attempt is recorded against it,
+    /// so evidence lands on the right grammar point.
+    let itemId: String
     let target: String
     let evidenceJson: [[String: Any]]
 
@@ -34,7 +37,7 @@ struct SpeakingPracticeView: View {
                             target: target, transcript: transcript)
                         result = aligned
                         try? bridge.recordAttempt(
-                            itemId: "speaking.read_aloud",
+                            itemId: itemId,
                             outcome: aligned.score >= 0.8 ? "correct"
                                 : aligned.score >= 0.5 ? "partial" : "incorrect",
                             modality: "speaking",

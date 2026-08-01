@@ -19,15 +19,25 @@ struct PlannedActivity: Codable, Identifiable {
     }
 }
 
+/// A slot the composer could not fill — the pack ran out of eligible
+/// items. Surfaced so a thin lesson reads as missing content, not as a
+/// complete session.
+struct Shortfall: Codable {
+    let slot: String
+    let requested: UInt32
+    let filled: UInt32
+}
+
 struct SessionPlan: Codable {
     let scenarioId: String?
     let archetype: String
     let activities: [PlannedActivity]
     let targetGrammar: [String]
+    let shortfalls: [Shortfall]
 
     enum CodingKeys: String, CodingKey {
         case scenarioId = "scenario_id", archetype, activities
-        case targetGrammar = "target_grammar"
+        case targetGrammar = "target_grammar", shortfalls
     }
 }
 
@@ -112,6 +122,44 @@ struct DialogueTurn: Codable {
     let text: String
 }
 
+/// A learner-facing reference page for one grammar point. Shown at the
+/// head of an introduction session, before the grammar is drilled.
+struct GrammarRefPayload: Codable {
+    let grammarId: String
+    let title: String
+    let bodyMd: String
+    let examples: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case grammarId = "grammar_id", title, examples
+        case bodyMd = "body_md"
+    }
+}
+
+struct VocabCardPayload: Codable {
+    let lemma: String
+    let front: String
+    let back: String
+    let example: String?
+    let exampleGloss: String?
+
+    enum CodingKeys: String, CodingKey {
+        case lemma, front, back, example
+        case exampleGloss = "example_gloss"
+    }
+}
+
+struct SpeakingPayload: Codable {
+    let prompt: String
+    let targetText: String
+    let variants: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case prompt, variants
+        case targetText = "target_text"
+    }
+}
+
 // MARK: - Bridge
 
 @Observable
@@ -175,6 +223,62 @@ final class CoreBridge {
             "evidence": evidenceJson,
         ]
         if let response { event["response"] = response }
+        try record(event)
+    }
+
+    /// The item's `evidence` array, passed to the core verbatim. Every
+    /// activity view needs it to record an event, so it lives here rather
+    /// than being re-derived in each one.
+    func evidence(for itemId: String) -> [[String: Any]] {
+        guard let json = try? core.getItemJson(itemId: itemId),
+              let obj = try? JSONSerialization.jsonObject(with: Data(json.utf8))
+                  as? [String: Any],
+              let evidence = obj["evidence"] as? [[String: Any]]
+        else { return [] }
+        return evidence
+    }
+
+    /// Mark grammar as taught. The composer's `introduction` archetype
+    /// exists because these points are new; without this event they stay
+    /// new forever and every session re-introduces them.
+    func recordIntroduced(evidenceJson: [[String: Any]]) throws {
+        try record([
+            "type": "introduced",
+            "at": Int(Date().timeIntervalSince1970),
+            "evidence": evidenceJson,
+        ])
+    }
+
+    /// Close out a lesson. `pick_scenario` orders by completion count, so
+    /// without this the composer offers the same scenario forever and
+    /// lessons 2+ are unreachable. Emitted once, at the end of a session.
+    func recordScenarioCompleted(scenarioId: String, depth: UInt8 = 1) throws {
+        try record([
+            "type": "scenario_completed",
+            "at": Int(Date().timeIntervalSince1970),
+            "scenario_id": scenarioId,
+            "depth": depth,
+        ])
+    }
+
+    /// A vocab card review. `srsRating` is the SM-2 grade (1–5) that
+    /// drives the card's next due date.
+    func recordVocabReview(
+        itemId: String, srsRating: UInt8, evidenceJson: [[String: Any]]
+    ) throws {
+        try record([
+            "type": "attempt",
+            "at": Int(Date().timeIntervalSince1970),
+            "item_id": itemId,
+            "outcome": srsRating >= 3 ? "correct" : "incorrect",
+            "modality": "vocab",
+            "evidence_class": "targeted",
+            "srs_rating": srsRating,
+            "evidence": evidenceJson,
+        ])
+    }
+
+    private func record(_ event: [String: Any]) throws {
         try core.recordEvent(
             eventJson: String(
                 data: JSONSerialization.data(withJSONObject: event), encoding: .utf8)!)
