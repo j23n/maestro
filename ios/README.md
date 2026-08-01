@@ -16,8 +16,8 @@ source of truth; `Maestro.xcodeproj` is generated, not committed.
 | --- | --- | --- |
 | `CoreBridge.swift` | Only file touching the core; Codable mirrors of `core/src/model.rs` | committed bindings |
 | `MaestroApp.swift` | Entry, tabs, session launcher | — |
-| `SessionView.swift` | Session player: grammar cards, drills, passages, vocab review, speaking; per-activity evidence events; `scenario_completed` at the end | CoreBridge |
-| `SpeakingPracticeView.swift` | Read-aloud: SpeechAnalyzer (it-IT) → `alignTranscript` → per-word colors | Spike B outcome |
+| `SessionView.swift` | Session player: grammar cards, drills, passages, vocab review, speaking, writing; per-activity evidence events; `scenario_completed` at the end | CoreBridge |
+| `SpeakingPracticeView.swift` | Read-aloud: mic + it-IT model consent, SpeechAnalyzer → `alignTranscript` → per-word colors, then optional LLM notes | Spike B outcome |
 | `ProgressScreen.swift` | Can-do list, grammar labels, CEFR estimate | CoreBridge |
 | `FlagSheet.swift` | Report a broken item in one sentence; the reports list and its export | CoreBridge |
 | `WritingActivityView.swift` | Writing capture: offline rubric, then LLM grading | CoreBridge, FeedbackService |
@@ -120,17 +120,18 @@ Each is a straightforward wiring task once Spike A compiles:
   authenticity).
 - **Backup**: `exportLog()` / `importLog(data)` — the settings screen's
   export/restore actions are one call each.
-- **Writing + feedback queue**: `enqueueFeedbackJob` /
-  `listPendingFeedbackJobs` / `completeFeedbackJob(id, backend, result)`.
-  Writing prompts are authored and in the pack, but the composer's
-  production slot currently draws speaking only; the capture UI is the
-  missing half.
-- **Prompts**: bundle `prompts/runtime/*.yaml` and render the same
-  templates the eval harness measures — hardcoding prompt strings in
-  Swift breaks the "eval measures what ships" invariant.
+- **Draining the queue in the background**: `listPendingFeedbackJobs` /
+  `completeFeedbackJob(id, backend, result)`. A submission made while a
+  gate was shut sits in the queue forever right now — nothing retries it
+  when a backend later becomes available. The core side is done; what's
+  missing is something that sweeps on launch.
 
 ## Deliberately not built yet
 
-Settings/backup screens, the writing-capture UI, scenario narrative
-framing, and the privacy ledger (nothing leaves the device in the MVP,
-so there is nothing yet to show).
+Settings/backup screens and scenario narrative framing.
+
+The privacy ledger has a type and `FeedbackService` appends to it, but no
+screen shows it — and nothing needs one yet: on-device feedback never
+leaves the device, and the cloud tier is off unless someone supplies an
+API key, which no UI currently offers. Build the screen with the key
+field, not before.
