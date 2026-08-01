@@ -202,18 +202,22 @@ struct VocabEntry: Codable, Identifiable {
     let back: String?
     let example: String?
     let exampleGloss: String?
+    /// SM-2's streak, which a lapse resets. `reviews` is the honest count.
     let repetitions: Int
+    let reviews: Int
     let intervalDays: Int
     let easeFactor: Double
-    /// Negative when overdue; nil until the card's first review.
+    /// Negative when overdue; nil for a word never met.
     let dueInDays: Int?
+    /// Days since the word first appeared in a lesson; nil if it hasn't.
+    let firstSeenDaysAgo: Int?
     let status: String
 
     var id: String { lemma }
     var isPractisable: Bool { itemId != nil }
 
     enum CodingKeys: String, CodingKey {
-        case lemma, pos, gloss, example, repetitions, status
+        case lemma, pos, gloss, example, repetitions, reviews, status
         case cefrLevel = "cefr_level"
         case itemId = "item_id"
         case front, back
@@ -221,6 +225,44 @@ struct VocabEntry: Codable, Identifiable {
         case intervalDays = "interval_days"
         case easeFactor = "ease_factor"
         case dueInDays = "due_in_days"
+        case firstSeenDaysAgo = "first_seen_days_ago"
+    }
+}
+
+/// A spec id with the name to show for it.
+struct SpecLabel: Codable, Identifiable {
+    let id: String
+    let label: String
+}
+
+/// What a lesson is about, and how far the learner has got with it. Shown
+/// before a session as a splash and after one as the recap's framing.
+struct LessonBrief: Codable {
+    let scenarioId: String
+    let cefrLevel: String
+    let label: String
+    let description: String
+    let overview: String
+    let sceneSetting: String
+    let outro: String
+    /// Media path for `media(at:)`; empty when unillustrated.
+    let image: String
+    let grammar: [SpecLabel]
+    let functions: [SpecLabel]
+    let completedDepths: Int
+    let depthCount: Int
+
+    /// True the first time through — the splash leads with the scene, and
+    /// on a replay the learner has already read it.
+    var isFirstVisit: Bool { completedDepths == 0 }
+
+    enum CodingKeys: String, CodingKey {
+        case label, description, overview, outro, image, grammar, functions
+        case scenarioId = "scenario_id"
+        case cefrLevel = "cefr_level"
+        case sceneSetting = "scene_setting"
+        case completedDepths = "completed_depths"
+        case depthCount = "depth_count"
     }
 }
 
@@ -289,6 +331,21 @@ final class CoreBridge {
             core.vocabInventory(now: Int64(Date().timeIntervalSince1970)))
     }
 
+    /// What the next session will be about, without composing it. nil when
+    /// the learner has finished everything unlocked.
+    func nextLesson() throws -> LessonBrief? {
+        try decode(
+            LessonBrief?.self,
+            core.nextLessonBrief(now: Int64(Date().timeIntervalSince1970)))
+    }
+
+    func lesson(scenarioId: String) throws -> LessonBrief? {
+        try decode(
+            LessonBrief?.self,
+            core.lessonBrief(
+                scenarioId: scenarioId, now: Int64(Date().timeIntervalSince1970)))
+    }
+
     func itemPayload<T: Decodable>(_ type: T.Type, id: String) throws -> T {
         try decode(type, core.getItemJson(itemId: id))
     }
@@ -349,6 +406,33 @@ final class CoreBridge {
             "scenario_id": scenarioId,
             "depth": depth,
         ])
+    }
+
+    /// Add the words an activity contains to the learner's vocabulary.
+    /// Recorded when the activity is shown rather than when it is answered:
+    /// meeting a word is what puts it in your vocabulary, whether or not
+    /// you got the exercise right.
+    ///
+    /// Only vocab-axis evidence is sent. The grammar on the same item is
+    /// deliberately left out — marking it introduced here would cost the
+    /// learner the reference page the introduction session owes them.
+    func recordEncountered(itemId: String, evidenceJson: [[String: Any]]) throws {
+        let vocab = evidenceJson.filter { $0["axis"] as? String == "vocab" }
+        guard !vocab.isEmpty else { return }
+        try record([
+            "type": "encountered",
+            "at": Int(Date().timeIntervalSince1970),
+            "item_id": itemId,
+            "evidence": vocab,
+        ])
+    }
+
+    /// The spec lemmas an item contains, for a recap that wants to name
+    /// the words without re-reading the whole inventory.
+    func vocabIds(for itemId: String) -> [String] {
+        evidence(for: itemId).compactMap {
+            $0["axis"] as? String == "vocab" ? $0["id"] as? String : nil
+        }
     }
 
     /// A vocab card review. `srsRating` is the SM-2 grade (1–5) that

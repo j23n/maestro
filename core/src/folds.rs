@@ -109,6 +109,7 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
             // A problem report is not evidence about the learner.
             EventType::ScenarioCompleted
             | EventType::LevelAssessed
+            | EventType::Encountered
             | EventType::ItemFlagged => {}
         }
     }
@@ -175,21 +176,14 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                             }
                         }
                         "vocab" => {
+                            let card = touch_vocab(&mut state.vocab, &r.id, at);
                             if let Some(rating) = ev.srs_rating {
-                                let card = state
-                                    .vocab
-                                    .entry(r.id.clone())
-                                    .or_insert_with(|| VocabCard {
-                                        ease_factor: 2.5,
-                                        ..Default::default()
-                                    });
+                                card.reviews += 1;
                                 sm2_review(card, rating, at);
                             }
                         }
-                        "cando" => {
-                            if correct {
-                                applied_can_dos.insert(r.id.clone(), true);
-                            }
+                        "cando" if correct => {
+                            applied_can_dos.insert(r.id.clone(), true);
                         }
                         _ => {}
                     }
@@ -212,6 +206,11 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                 if let Some(level) = &ev.assessed_level {
                     assessed_level = Some(level.clone());
                     assessed_at = Some(at);
+                }
+            }
+            EventType::Encountered => {
+                for r in ev.evidence.iter().filter(|r| r.axis == "vocab") {
+                    touch_vocab(&mut state.vocab, &r.id, at);
                 }
             }
             EventType::Introduced | EventType::ItemFlagged => {}
@@ -409,6 +408,24 @@ fn classify_cefr(
         functions_demonstrated,
         functions_total,
     }
+}
+
+/// Add a word to the learner's vocabulary if it isn't there, and hand back
+/// the card either way. A freshly met word is due immediately: it has been
+/// seen but never practised, so the review rotation is exactly where it
+/// belongs.
+fn touch_vocab<'a>(
+    vocab: &'a mut BTreeMap<String, VocabCard>,
+    lemma: &str,
+    at: i64,
+) -> &'a mut VocabCard {
+    let day = unix_day(at);
+    vocab.entry(lemma.to_string()).or_insert_with(|| VocabCard {
+        ease_factor: 2.5,
+        first_seen_day: day,
+        due_day: day,
+        ..Default::default()
+    })
 }
 
 /// SM-2, ported verbatim from `vocab/srs.py`.

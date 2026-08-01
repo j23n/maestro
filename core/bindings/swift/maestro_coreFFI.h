@@ -311,6 +311,11 @@ RustBuffer uniffi_maestro_core_fn_method_core_get_media(void*_Nonnull ptr, RustB
 uint32_t uniffi_maestro_core_fn_method_core_import_log(void*_Nonnull ptr, RustBuffer data, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LESSON_BRIEF
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LESSON_BRIEF
+RustBuffer uniffi_maestro_core_fn_method_core_lesson_brief(void*_Nonnull ptr, RustBuffer scenario_id, int64_t now, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 RustBuffer uniffi_maestro_core_fn_method_core_list_events_json(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -344,6 +349,11 @@ RustBuffer uniffi_maestro_core_fn_method_core_list_tombstones(void*_Nonnull ptr,
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_MANIFEST
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_MANIFEST
 RustBuffer uniffi_maestro_core_fn_method_core_manifest(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_NEXT_LESSON_BRIEF
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_NEXT_LESSON_BRIEF
+RustBuffer uniffi_maestro_core_fn_method_core_next_lesson_brief(void*_Nonnull ptr, int64_t now, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_PACK_STATUS
@@ -716,6 +726,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_import_log(void
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LESSON_BRIEF
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LESSON_BRIEF
+uint16_t uniffi_maestro_core_checksum_method_core_lesson_brief(void
+    
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 uint16_t uniffi_maestro_core_checksum_method_core_list_events_json(void
@@ -755,6 +771,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_list_tombstones(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_MANIFEST
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_MANIFEST
 uint16_t uniffi_maestro_core_checksum_method_core_manifest(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_NEXT_LESSON_BRIEF
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_NEXT_LESSON_BRIEF
+uint16_t uniffi_maestro_core_checksum_method_core_next_lesson_brief(void
     
 );
 #endif

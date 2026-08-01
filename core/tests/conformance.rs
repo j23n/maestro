@@ -82,6 +82,13 @@ fn golden_vectors() {
             }
             if let Some(grammar) = expect.get("grammar").and_then(|g| g.as_object()) {
                 for (gp, exp) in grammar {
+                    if exp["absent"].as_bool() == Some(true) {
+                        assert!(
+                            !state.grammar.contains_key(gp),
+                            "{ctx}: {gp} should have no grammar state"
+                        );
+                        continue;
+                    }
                     let actual = state
                         .grammar
                         .get(gp)
@@ -97,10 +104,28 @@ fn golden_vectors() {
             }
             if let Some(vocab) = expect.get("vocab").and_then(|v| v.as_object()) {
                 for (lemma, exp) in vocab {
+                    if exp["absent"].as_bool() == Some(true) {
+                        assert!(
+                            !state.vocab.contains_key(lemma),
+                            "{ctx}: {lemma} should not be in the learner's vocabulary"
+                        );
+                        continue;
+                    }
                     let card = state
                         .vocab
                         .get(lemma)
                         .unwrap_or_else(|| panic!("{ctx}: no card for {lemma}"));
+                    if let Some(r) = exp["reviews"].as_u64() {
+                        assert_eq!(card.reviews as u64, r, "{ctx}: {lemma} reviews");
+                    }
+                    if let Some(d) = exp["due_in_days"].as_i64() {
+                        let now = vector["now"].as_i64().expect("vector needs `now`");
+                        assert_eq!(
+                            card.due_day - maestro_core::model::unix_day(now),
+                            d,
+                            "{ctx}: {lemma} due offset"
+                        );
+                    }
                     if let Some(r) = exp["repetitions"].as_u64() {
                         assert_eq!(card.repetitions as u64, r, "{ctx}: {lemma} reps");
                     }

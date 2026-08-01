@@ -3,8 +3,16 @@
   "description": "The introduction archetype exists because the learner has never seen this grammar. Reference pages (item_type grammar_ref) ship in the pack for exactly this, so the composer must schedule one per newly-introduced grammar point ahead of the drills that assume it — otherwise the session drills material it never taught. Fresh learner, two new grammar points, so two cards lead the plan.",
   "spec": {
     "grammar": [
-      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] },
-      { "id": "gp_b", "cefr_level": "A0", "prerequisites": [] }
+      {
+        "id": "gp_a",
+        "cefr_level": "A0",
+        "prerequisites": []
+      },
+      {
+        "id": "gp_b",
+        "cefr_level": "A0",
+        "prerequisites": []
+      }
     ],
     "functions": [],
     "scenarios": [
@@ -14,7 +22,10 @@
         "phase": 1,
         "sequence": 1,
         "depth_count": 1,
-        "grammar_ids": ["gp_a", "gp_b"],
+        "grammar_ids": [
+          "gp_a",
+          "gp_b"
+        ],
         "function_ids": []
       }
     ],
@@ -27,38 +38,92 @@
       "id": "grammar_ref.gp_a",
       "item_type": "grammar_ref",
       "modality": "reading",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     },
     {
       "id": "grammar_ref.gp_b",
       "item_type": "grammar_ref",
       "modality": "reading",
-      "grammar_ids": ["gp_b"]
+      "grammar_ids": [
+        "gp_b"
+      ]
     },
-    { "id": "drill.a.001", "item_type": "drill_cloze", "grammar_ids": ["gp_a"] },
-    { "id": "drill.b.001", "item_type": "drill_cloze", "grammar_ids": ["gp_b"] },
+    {
+      "id": "drill.a.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ]
+    },
+    {
+      "id": "drill.b.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_b"
+      ]
+    },
     {
       "id": "reading.a.001",
       "item_type": "reading",
       "modality": "reading",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     }
   ],
-  "session_options": { "now": 1700000000, "time_budget_minutes": 15, "seed": 7 },
+  "session_options": {
+    "now": 1700000000,
+    "time_budget_minutes": 15,
+    "seed": 7
+  },
   "expect_plan": {
     "scenario_id": "sc-uno",
     "archetype": "introduction",
     "activities": [
-      { "item_id": "grammar_ref.gp_a", "slot": "grammar_card" },
-      { "item_id": "grammar_ref.gp_b", "slot": "grammar_card" },
-      { "item_id": "drill.a.001", "slot": "new_grammar_drill" },
-      { "item_id": "drill.b.001", "slot": "new_grammar_drill" },
-      { "item_id": "reading.a.001", "slot": "receptive" }
+      {
+        "item_id": "grammar_ref.gp_a",
+        "slot": "grammar_card"
+      },
+      {
+        "item_id": "grammar_ref.gp_b",
+        "slot": "grammar_card"
+      },
+      {
+        "item_id": "drill.a.001",
+        "slot": "new_grammar_drill"
+      },
+      {
+        "item_id": "drill.b.001",
+        "slot": "new_grammar_drill"
+      },
+      {
+        "item_id": "reading.a.001",
+        "slot": "receptive"
+      }
     ],
     "shortfalls": [
-      { "slot": "new_grammar_drill", "requested": 4, "filled": 2 },
-      { "slot": "weakness_drill", "requested": 3, "filled": 0 },
-      { "slot": "vocab_review", "requested": 3, "filled": 0 }
+      {
+        "slot": "new_grammar_drill",
+        "requested": 4,
+        "filled": 2
+      },
+      {
+        "slot": "weakness_drill",
+        "requested": 3,
+        "filled": 0
+      },
+      {
+        "slot": "speaking",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "vocab_review",
+        "requested": 3,
+        "filled": 0
+      }
     ]
   }
 }

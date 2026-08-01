@@ -23,6 +23,13 @@ pub enum EventType {
     /// everything else so it survives offline, but deliberately inert —
     /// the fold ignores it, so reporting a problem never moves mastery.
     ItemFlagged,
+    /// Vocabulary was put in front of the learner — a word appeared in a
+    /// drill, a passage or a prompt they were shown. Only the vocab axis
+    /// is read, deliberately: meeting a word in passing is not the same as
+    /// being taught the grammar around it, and folding this into the
+    /// grammar axis would let any drill mark its grammar introduced and
+    /// rob the learner of the reference page.
+    Encountered,
     /// An explicit CEFR level result — a placement or level test, or a
     /// trusted self-report. Carries `assessed_level`; `item_id` may name
     /// the test. No such producer ships yet: the event exists so a future
@@ -138,6 +145,11 @@ impl EvidenceEvent {
                     return Err("introduced event requires evidence".into());
                 }
             }
+            EventType::Encountered => {
+                if !self.evidence.iter().any(|r| r.axis == "vocab") {
+                    return Err("encountered event requires vocab evidence".into());
+                }
+            }
             EventType::ScenarioCompleted => {
                 if self.scenario_id.is_none() {
                     return Err("scenario_completed requires scenario_id".into());
@@ -194,6 +206,15 @@ pub struct VocabCard {
     pub ease_factor: f64,
     /// Unix day (days since epoch) of the next due review.
     pub due_day: i64,
+    /// Unix day the word was first met. A word enters the learner's
+    /// vocabulary by appearing in a lesson, before it is ever reviewed.
+    #[serde(default)]
+    pub first_seen_day: i64,
+    /// Reviews recorded. Distinct from `repetitions`, which SM-2 resets to
+    /// zero on a lapse — this is what tells a never-practised word apart
+    /// from one that was just forgotten.
+    #[serde(default)]
+    pub reviews: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

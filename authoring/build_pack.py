@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sqlite3
 import sys
 from dataclasses import dataclass, field
@@ -38,6 +39,7 @@ from authoring.pack_schemas import (
 )
 from authoring.spec_schemas import Spec
 from authoring.validate_spec import load_spec
+from authoring import vocab_link
 
 _SCHEMA = """
 CREATE TABLE manifest (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -85,7 +87,15 @@ CREATE TABLE spec_scenarios (
     phase INTEGER NOT NULL, sequence INTEGER,
     depth_count INTEGER NOT NULL,
     grammar_ids TEXT NOT NULL DEFAULT '[]',
-    function_ids TEXT NOT NULL DEFAULT '[]'
+    function_ids TEXT NOT NULL DEFAULT '[]',
+    -- Authored framing: what the lesson is about and why it's worth
+    -- doing. Shown before the lesson starts and again in its recap.
+    label TEXT NOT NULL DEFAULT '',
+    description TEXT NOT NULL DEFAULT '',
+    overview TEXT NOT NULL DEFAULT '',
+    scene_setting TEXT NOT NULL DEFAULT '',
+    outro TEXT NOT NULL DEFAULT '',
+    image TEXT NOT NULL DEFAULT ''
 );
 CREATE TABLE spec_can_dos (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL, skill TEXT NOT NULL,
@@ -288,6 +298,20 @@ def coverage_report(
     }
 
 
+def _unwrap(text: str | None) -> str:
+    """Join hard-wrapped prose back into paragraphs.
+
+    The scenario copy is written as wrapped YAML block scalars, so a
+    sentence arrives split across several lines. Rendered as-is that breaks
+    mid-sentence on every device. Blank lines survive as paragraph breaks;
+    single newlines were only ever the author's text editor.
+    """
+    if not text:
+        return ""
+    paragraphs = re.split(r"\n\s*\n", text.strip())
+    return "\n\n".join(" ".join(p.split()) for p in paragraphs)
+
+
 def _embed_spec(conn: sqlite3.Connection, spec) -> None:
     """Embed the curriculum spec so the core's composer works offline.
 
@@ -305,7 +329,7 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
         [(f.id, f.cefr_level, f.label) for f in spec.communicative_functions],
     )
     conn.executemany(
-        "INSERT INTO spec_scenarios VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO spec_scenarios VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
             (
                 s.id,
@@ -315,6 +339,12 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
                 len(s.depths),
                 json.dumps(s.grammar_ids),
                 json.dumps(s.function_ids),
+                s.label,
+                _unwrap(s.description),
+                _unwrap(s.overview),
+                _unwrap(s.scene_setting),
+                _unwrap(s.outro),
+                s.image or "",
             )
             for s in spec.scenarios
         ],
@@ -371,6 +401,52 @@ def _embed_media(
     return len(embedded)
 
 
+def _italian_text(payload: dict, answers) -> str:
+    """The parts of an item that are unambiguously Italian.
+
+    Instruction prose is deliberately left out. It is written in English,
+    and a dozen spec lemmas ("come", "no", "male", "sale", "due") are also
+    English words — scanning it would hand the learner vocabulary they
+    never met. The Italian inside a prompt is always quoted, so that is the
+    only part of a mixed string that comes through.
+    """
+    parts: list[str] = [a.text for a in answers]
+    for key in ("target_text", "model_answer", "text", "front", "example"):
+        value = payload.get(key)
+        if isinstance(value, str):
+            parts.append(value)
+    parts += payload.get("variants") or []
+    parts += payload.get("examples") or []
+    parts += [t.get("text", "") for t in payload.get("turns") or []]
+    for key in ("prompt", "body_md"):
+        value = payload.get(key)
+        if isinstance(value, str):
+            parts += vocab_link.quoted_spans(value)
+    return "\n".join(p for p in parts if p)
+
+
+# Vocab-axis weight for a word the item merely contains, well below the
+# 1.0 an authored flashcard carries: meeting a word is evidence that it
+# belongs in the learner's vocabulary, not that they know it.
+ENCOUNTER_WEIGHT = 0.1
+
+
+def _link_vocab(payload: dict, answers, index: dict[str, str]) -> int:
+    """Add vocab-axis evidence for the spec words this item contains.
+
+    Returns how many were added. Words the author already tagged keep
+    their own weight — an explicit annotation always outranks a match.
+    """
+    evidence = payload.setdefault("evidence", [])
+    tagged = {e["id"] for e in evidence if e.get("axis") == "vocab"}
+    added = 0
+    for lemma in vocab_link.find_lemmas(_italian_text(payload, answers), index):
+        if lemma not in tagged:
+            evidence.append({"axis": "vocab", "id": lemma, "weight": ENCOUNTER_WEIGHT})
+            added += 1
+    return added
+
+
 def _insert_item(
     conn,
     item_id,
@@ -381,7 +457,9 @@ def _insert_item(
     answers=(),
     distractors=None,
     explanation=None,
-) -> None:
+    vocab_index=None,
+) -> int:
+    added = _link_vocab(payload, answers, vocab_index) if vocab_index else 0
     conn.execute(
         "INSERT INTO items VALUES (?, ?, ?, ?, ?)",
         (item_id, item_type, level, modality, json.dumps(payload, ensure_ascii=False)),
@@ -397,6 +475,7 @@ def _insert_item(
         )
     if explanation:
         conn.execute("INSERT INTO explanations VALUES (?, ?)", (item_id, explanation))
+    return added
 
 
 def build(
@@ -442,6 +521,19 @@ def build(
     )
     media_count = _embed_media(conn, reviewed, pack_dir, spec)
 
+    # Every item is linked to the leveled vocabulary as it is written, so
+    # the app can add a word to the learner's vocabulary the moment a
+    # lesson puts it in front of them.
+    vocab_index, ambiguous = vocab_link.build_index(spec.vocab)
+    linked_words = 0
+    linked_items = 0
+
+    def insert(*args, **kwargs) -> None:
+        nonlocal linked_words, linked_items
+        added = _insert_item(*args, vocab_index=vocab_index, **kwargs)
+        linked_words += added
+        linked_items += 1 if added else 0
+
     built = 0
     for item in reviewed:
         if isinstance(item, DrillItem):
@@ -451,7 +543,7 @@ def build(
             }
             if item.choices:
                 payload["choices"] = item.choices
-            _insert_item(
+            insert(
                 conn,
                 item.id,
                 item.item_type,
@@ -474,7 +566,7 @@ def build(
                 "image": item.image,
                 "evidence": [e.model_dump() for e in item.evidence],
             }
-            _insert_item(
+            insert(
                 conn,
                 item.id,
                 item.item_type,
@@ -495,7 +587,7 @@ def build(
             answers = [Answer(text=item.target_text, canonical=True)] + [
                 Answer(text=v) for v in item.variants
             ]
-            _insert_item(
+            insert(
                 conn,
                 item.id,
                 item.item_type,
@@ -516,9 +608,7 @@ def build(
                 "model_answer": item.model_answer,
                 "evidence": [e.model_dump() for e in item.evidence],
             }
-            _insert_item(
-                conn, item.id, item.item_type, item.cefr_level, "writing", payload
-            )
+            insert(conn, item.id, item.item_type, item.cefr_level, "writing", payload)
             built += 1
         elif isinstance(item, GrammarRefItem):
             payload = {
@@ -528,9 +618,7 @@ def build(
                 "examples": item.examples,
                 "evidence": [e.model_dump() for e in item.evidence],
             }
-            _insert_item(
-                conn, item.id, item.item_type, item.cefr_level, "reading", payload
-            )
+            insert(conn, item.id, item.item_type, item.cefr_level, "reading", payload)
             built += 1
         elif isinstance(item, (ReadingItem, ListeningItem)):
             # Passages/dialogues become a parent item (the composer's
@@ -552,13 +640,13 @@ def build(
             else:
                 payload["turns"] = [t.model_dump() for t in item.turns]
                 payload["audio"] = item.audio
-            _insert_item(conn, item.id, kind, item.cefr_level, modality, payload)
+            insert(conn, item.id, kind, item.cefr_level, modality, payload)
             built += 1
             for qid, q in zip(question_ids, item.questions):
                 q_evidence = [
                     {**e, "weight": e.get("weight", 1.0) * 0.5} for e in evidence
                 ]
-                _insert_item(
+                insert(
                     conn,
                     qid,
                     f"{kind}_question",
@@ -590,6 +678,13 @@ def build(
         f"{manifest.pack_version}{note}; grammar coverage "
         f"{gp['grammar_points_covered']}/{gp['grammar_points']} "
         f"(details: {coverage_path})"
+    )
+    # Ambiguous surfaces are dropped, not guessed at, so say how many
+    # rather than letting the link rate look like full coverage.
+    ambiguous_note = f", {len(ambiguous)} ambiguous forms skipped" if ambiguous else ""
+    print(
+        f"vocabulary: {linked_words} word links across {linked_items} items"
+        f"{ambiguous_note}"
     )
     return 0
 

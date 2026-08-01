@@ -1,0 +1,58 @@
+{
+  "name": "meeting a word in a lesson adds it to the learner's vocabulary, due immediately and unreviewed",
+  "description": "Vocabulary used to enter the learner's record only through a graded flashcard, so words met in drills and passages were never tracked. An `encountered` event now adds the word with no SM-2 history: due the day it was seen, because it has been met but never practised, and `reviews` still zero, which is what distinguishes it from a card that lapsed back to repetitions 0. Only the vocab axis is read — the grammar on the same item must not be marked introduced, or any drill would rob the learner of its reference page.",
+  "spec": {
+    "grammar": [{ "id": "gp_a", "cefr_level": "A0", "prerequisites": [] }],
+    "functions": [],
+    "scenarios": [],
+    "can_dos": [],
+    "vocab": [
+      { "id": "pane", "cefr_level": "A0", "pos": "noun", "gloss": "bread" },
+      { "id": "acqua", "cefr_level": "A0", "pos": "noun", "gloss": "water" },
+      { "id": "vino", "cefr_level": "A0", "pos": "noun", "gloss": "wine" }
+    ]
+  },
+  "events": [
+    {
+      "type": "encountered",
+      "at": 1800000000,
+      "item_id": "drill.a.001",
+      "evidence": [
+        { "axis": "grammar", "id": "gp_a", "weight": 1.0 },
+        { "axis": "vocab", "id": "pane", "weight": 0.1 },
+        { "axis": "vocab", "id": "acqua", "weight": 0.1 }
+      ]
+    },
+    {
+      "type": "attempt",
+      "at": 1800086400,
+      "item_id": "vocab.acqua",
+      "outcome": "correct",
+      "modality": "vocab",
+      "evidence_class": "targeted",
+      "srs_rating": 4,
+      "evidence": [{ "axis": "vocab", "id": "acqua", "weight": 1.0 }]
+    }
+  ],
+  "now": 1800086400,
+  "expect_state": {
+    "grammar": {
+      "gp_a": { "absent": true }
+    },
+    "vocab": {
+      "pane": {
+        "reviews": 0,
+        "repetitions": 0,
+        "due_in_days": -1
+      },
+      "acqua": {
+        "reviews": 1,
+        "repetitions": 1,
+        "interval_days": 1,
+        "due_in_days": 1
+      },
+      "vino": { "absent": true }
+    }
+  },
+  "expect_unlocked": ["gp_a"]
+}

@@ -614,6 +614,12 @@ public protocol CoreProtocol: AnyObject, Sendable {
     func importLog(data: String) throws  -> UInt32
     
     /**
+     * The brief for one named scenario — what the recap shows after a
+     * session, where the scenario is already known. `null` if unknown.
+     */
+    func lessonBrief(scenarioId: String, now: Int64) throws  -> String
+    
+    /**
      * All recorded events, oldest first, as JSON objects.
      */
     func listEventsJson() throws  -> [String]
@@ -644,6 +650,18 @@ public protocol CoreProtocol: AnyObject, Sendable {
     func listTombstones() throws  -> [TombstoneRecord]
     
     func manifest() throws  -> PackManifest
+    
+    /**
+     * The lesson the composer would choose right now, as a `LessonBrief`
+     * JSON object — or `null` when the learner has finished everything
+     * unlocked. `now` is unix seconds, as everywhere else.
+     *
+     * Deliberately separate from `compose_session`: the learner should see
+     * what a lesson is about before committing to it, and composing to
+     * find that out would burn the anti-repetition window on a session
+     * they might not start.
+     */
+    func nextLessonBrief(now: Int64) throws  -> String
     
     /**
      * Identity, compatibility, and contents of the open pack — what the
@@ -861,6 +879,19 @@ open func importLog(data: String)throws  -> UInt32  {
 }
     
     /**
+     * The brief for one named scenario — what the recap shows after a
+     * session, where the scenario is already known. `null` if unknown.
+     */
+open func lessonBrief(scenarioId: String, now: Int64)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_lesson_brief(self.uniffiClonePointer(),
+        FfiConverterString.lower(scenarioId),
+        FfiConverterInt64.lower(now),$0
+    )
+})
+}
+    
+    /**
      * All recorded events, oldest first, as JSON objects.
      */
 open func listEventsJson()throws  -> [String]  {
@@ -923,6 +954,24 @@ open func listTombstones()throws  -> [TombstoneRecord]  {
 open func manifest()throws  -> PackManifest  {
     return try  FfiConverterTypePackManifest_lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
     uniffi_maestro_core_fn_method_core_manifest(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+    /**
+     * The lesson the composer would choose right now, as a `LessonBrief`
+     * JSON object — or `null` when the learner has finished everything
+     * unlocked. `now` is unix seconds, as everywhere else.
+     *
+     * Deliberately separate from `compose_session`: the learner should see
+     * what a lesson is about before committing to it, and composing to
+     * find that out would burn the anti-repetition window on a session
+     * they might not start.
+     */
+open func nextLessonBrief(now: Int64)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_next_lesson_brief(self.uniffiClonePointer(),
+        FfiConverterInt64.lower(now),$0
     )
 })
 }
@@ -2158,6 +2207,9 @@ private let initializationResult: InitializationResult = {
     if (uniffi_maestro_core_checksum_method_core_import_log() != 47442) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_maestro_core_checksum_method_core_lesson_brief() != 41603) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_maestro_core_checksum_method_core_list_events_json() != 2547) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -2177,6 +2229,9 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_manifest() != 31975) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_maestro_core_checksum_method_core_next_lesson_brief() != 49381) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_pack_status() != 39079) {

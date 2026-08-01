@@ -2,7 +2,13 @@
   "name": "receptive slot never schedules a passage's question sub-items; starved slots report shortfalls",
   "description": "A passage's comprehension questions are separate items (reading_question, listening_question) that only make sense inside their parent passage. The receptive slot must select the passage itself and never a bare question — a prefix match on 'reading' would schedule a question with no passage attached. This vector also pins shortfall reporting: the drill and vocab slots have no eligible items, so the plan must say so rather than silently coming up short.",
   "spec": {
-    "grammar": [{ "id": "gp_a", "cefr_level": "A0", "prerequisites": [] }],
+    "grammar": [
+      {
+        "id": "gp_a",
+        "cefr_level": "A0",
+        "prerequisites": []
+      }
+    ],
     "functions": [],
     "scenarios": [
       {
@@ -11,7 +17,9 @@
         "phase": 1,
         "sequence": 1,
         "depth_count": 1,
-        "grammar_ids": ["gp_a"],
+        "grammar_ids": [
+          "gp_a"
+        ],
         "function_ids": []
       }
     ],
@@ -22,7 +30,13 @@
     {
       "type": "introduced",
       "at": 1699000000,
-      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+      "evidence": [
+        {
+          "axis": "grammar",
+          "id": "gp_a",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "type": "attempt",
@@ -31,47 +45,90 @@
       "outcome": "incorrect",
       "modality": "writing",
       "evidence_class": "targeted",
-      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+      "evidence": [
+        {
+          "axis": "grammar",
+          "id": "gp_a",
+          "weight": 1.0
+        }
+      ]
     }
   ],
   "items": [
-    { "id": "drill.a.001", "item_type": "drill_cloze", "grammar_ids": ["gp_a"] },
+    {
+      "id": "drill.a.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ]
+    },
     {
       "id": "reading.a.001",
       "item_type": "reading",
       "modality": "reading",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     },
     {
       "id": "reading.a.001.q1",
       "item_type": "reading_question",
       "modality": "reading",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     },
     {
       "id": "reading.a.001.q2",
       "item_type": "reading_question",
       "modality": "reading",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     },
     {
       "id": "listening.a.001.q1",
       "item_type": "listening_question",
       "modality": "listening",
-      "grammar_ids": ["gp_a"]
+      "grammar_ids": [
+        "gp_a"
+      ]
     }
   ],
-  "session_options": { "now": 1700000000, "time_budget_minutes": 15, "seed": 42 },
+  "session_options": {
+    "now": 1700000000,
+    "time_budget_minutes": 15,
+    "seed": 42
+  },
   "expect_plan": {
     "scenario_id": "sc-uno",
     "archetype": "consolidation",
     "activities": [
-      { "item_id": "drill.a.001", "slot": "weakness_drill" },
-      { "item_id": "reading.a.001", "slot": "receptive" }
+      {
+        "item_id": "drill.a.001",
+        "slot": "weakness_drill"
+      },
+      {
+        "item_id": "reading.a.001",
+        "slot": "receptive"
+      }
     ],
     "shortfalls": [
-      { "slot": "weakness_drill", "requested": 8, "filled": 1 },
-      { "slot": "vocab_review", "requested": 3, "filled": 0 }
+      {
+        "slot": "weakness_drill",
+        "requested": 7,
+        "filled": 1
+      },
+      {
+        "slot": "production",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "vocab_review",
+        "requested": 3,
+        "filled": 0
+      }
     ]
   }
 }

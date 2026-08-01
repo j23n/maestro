@@ -1,0 +1,75 @@
+{
+  "name": "introduction session closes with a speaking prompt, never a writing one",
+  "description": "Production used to appear only in the application archetype, which needs most of the target grammar already mastered — so a beginner never spoke or wrote anything. Introduction now ends with a speaking slot: a learner meeting this grammar for the first time can say the phrase out loud but has nothing to compose an open written answer with, so the slot is narrowed to speaking_prompt and must skip the writing_prompt even though it is the only other production item available.",
+  "spec": {
+    "grammar": [
+      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] }
+    ],
+    "functions": [],
+    "scenarios": [
+      {
+        "id": "sc-uno",
+        "cefr_level": "A0",
+        "phase": 1,
+        "sequence": 1,
+        "depth_count": 1,
+        "grammar_ids": ["gp_a"],
+        "function_ids": []
+      }
+    ],
+    "can_dos": [],
+    "vocab": []
+  },
+  "events": [],
+  "items": [
+    {
+      "id": "grammar_ref.gp_a",
+      "item_type": "grammar_ref",
+      "modality": "reading",
+      "grammar_ids": ["gp_a"]
+    },
+    {
+      "id": "drill.a.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": ["gp_a"]
+    },
+    {
+      "id": "reading.a.001",
+      "item_type": "reading",
+      "modality": "reading",
+      "grammar_ids": ["gp_a"]
+    },
+    {
+      "id": "writing.a.001",
+      "item_type": "writing_prompt",
+      "modality": "writing",
+      "grammar_ids": ["gp_a"]
+    },
+    {
+      "id": "speaking.a.001",
+      "item_type": "speaking_prompt",
+      "modality": "speaking",
+      "grammar_ids": ["gp_a"]
+    }
+  ],
+  "session_options": {
+    "now": 1700000000,
+    "time_budget_minutes": 15,
+    "seed": 7
+  },
+  "expect_plan": {
+    "scenario_id": "sc-uno",
+    "archetype": "introduction",
+    "activities": [
+      { "item_id": "grammar_ref.gp_a", "slot": "grammar_card" },
+      { "item_id": "drill.a.001", "slot": "new_grammar_drill" },
+      { "item_id": "reading.a.001", "slot": "receptive" },
+      { "item_id": "speaking.a.001", "slot": "speaking" }
+    ],
+    "shortfalls": [
+      { "slot": "new_grammar_drill", "requested": 4, "filled": 1 },
+      { "slot": "weakness_drill", "requested": 3, "filled": 0 },
+      { "slot": "vocab_review", "requested": 3, "filled": 0 }
+    ]
+  }
+}

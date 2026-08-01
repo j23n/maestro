@@ -45,7 +45,7 @@ pub fn compose(
     let unlocked: HashSet<String> = unlocked_grammar(state, spec).into_iter().collect();
 
     // ---- scenario --------------------------------------------------------
-    let scenario = pick_scenario(spec, state, opts);
+    let scenario = pick_scenario(spec, state, opts.scenario_id.as_deref());
 
     // ---- target grammar --------------------------------------------------
     let mut target: Vec<String> = match &scenario {
@@ -107,11 +107,16 @@ pub fn compose(
         match archetype {
             // Teach before drilling: one reference page per grammar point
             // being introduced, ahead of the drills that assume it.
+            // Speaking rather than the general production slot: a learner
+            // meeting this grammar for the first time has nothing to write
+            // an open answer with, but saying the phrase out loud is
+            // exactly the practice the material is for.
             "introduction" => vec![
                 ("grammar_card", Kind::GrammarRef(new_gp_ids.clone()), new_gp_ids.len().max(1)),
                 ("new_grammar_drill", Kind::DrillTargeting(new_gp_ids.clone()), 4),
                 ("weakness_drill", Kind::Drill, 3),
                 ("receptive", Kind::Receptive, 1),
+                ("speaking", Kind::Speaking, 1),
             ],
             "application" => vec![
                 ("receptive", Kind::Receptive, 1),
@@ -119,8 +124,9 @@ pub fn compose(
                 ("production", Kind::Production, 1),
             ],
             _ => vec![
-                ("weakness_drill", Kind::Drill, 8),
+                ("weakness_drill", Kind::Drill, 7),
                 ("receptive", Kind::Receptive, 1),
+                ("production", Kind::Production, 1),
             ],
         }
     };
@@ -147,7 +153,10 @@ pub fn compose(
             .filter(|i| kind.matches(i))
             .filter(|i| !taken.contains(&i.id))
             .filter(|i| {
-                matches!(kind, Kind::Receptive | Kind::Production | Kind::VocabReview)
+                matches!(
+                    kind,
+                    Kind::Receptive | Kind::Production | Kind::Speaking | Kind::VocabReview
+                )
                     || i.grammar_ids.iter().any(|g| targeting.contains(g))
             })
             .filter(|i| i.grammar_ids.iter().all(|g| unlocked.contains(g)))
@@ -207,6 +216,9 @@ enum Kind {
     GrammarRef(Vec<String>),
     Receptive,
     Production,
+    /// Production narrowed to speech, for archetypes where writing would
+    /// be premature.
+    Speaking,
     VocabReview,
 }
 
@@ -226,18 +238,25 @@ impl Kind {
             Kind::Production => {
                 matches!(item.item_type.as_str(), "writing_prompt" | "speaking_prompt")
             }
+            Kind::Speaking => item.item_type == "speaking_prompt",
             Kind::VocabReview => item.item_type == "vocab_card",
         }
     }
 }
 
-/// Due cards dominate (more overdue -> heavier), unseen cards bootstrap
-/// the rotation, seen-but-not-due cards only appear under starvation.
+/// Due cards dominate (more overdue -> heavier), then words met in a
+/// lesson but never practised, then never-seen cards to bootstrap the
+/// rotation; seen-and-not-due cards only appear under starvation.
+///
+/// Discovered words sit below real reviews on purpose: a single lesson can
+/// introduce a dozen of them, and letting them outrank overdue cards on
+/// sheer numbers would quietly stall the schedule.
 fn vocab_weight(state: &DerivedState, item: &ItemMeta, now: i64) -> f64 {
     let today = unix_day(now);
     let mut weight: f64 = 0.0;
     for lemma in &item.vocab_ids {
         let w = match state.vocab.get(lemma) {
+            Some(card) if card.reviews == 0 => 1.0,
             Some(card) if card.due_day <= today => {
                 2.0 + ((today - card.due_day).min(30) as f64) / 10.0
             }
@@ -290,13 +309,13 @@ fn weighted_pick<'a>(
 
 /// Least-completed scenario in the current phase; depth 2+ only after
 /// breadth (>= 3 scenarios completed at depth 1) — curriculum.py semantics.
-fn pick_scenario<'a>(
+pub(crate) fn pick_scenario<'a>(
     spec: &'a SpecData,
     state: &DerivedState,
-    opts: &SessionOptions,
+    override_id: Option<&str>,
 ) -> Option<&'a SpecScenario> {
-    if let Some(id) = &opts.scenario_id {
-        return spec.scenarios.iter().find(|s| &s.id == id);
+    if let Some(id) = override_id {
+        return spec.scenarios.iter().find(|s| s.id == id);
     }
     let in_phase: Vec<&SpecScenario> = spec
         .scenarios

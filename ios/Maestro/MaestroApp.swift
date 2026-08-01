@@ -59,31 +59,26 @@ struct RootView: View {
 struct SessionLauncherView: View {
     let bridge: CoreBridge
     let feedback: FeedbackService
-    @State private var plan: SessionPlan?
+    /// The pushed session, as a one-element stack rather than a bound
+    /// optional. Starting the next lesson from a recap replaces that
+    /// element; assigning a new value to a presented `item:` binding
+    /// leaves the finished session on screen.
+    @State private var path: [SessionPlan] = []
+    @State private var brief: LessonBrief?
     @State private var error: String?
     @State private var level = "A0"
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 14) {
-                        Eyebrow(text: "Today")
-                        Text("Continue where you left off")
-                            .font(.title3.weight(.semibold))
-                            .fontDesign(.serif)
-                            .foregroundStyle(Color.mCharcoal)
-                        Text(
-                            "A guided run through one scenario — a grammar card "
-                                + "first, then drills, reading and speaking."
-                        )
-                        .font(.subheadline)
-                        .foregroundStyle(Color.mTextMuted)
+                    LessonSplash(brief: brief)
 
+                    VStack(spacing: 10) {
                         Button {
                             start(minutes: 15)
                         } label: {
-                            Text("Start session · 15 min").frame(maxWidth: .infinity)
+                            Text("Start lesson · 15 min").frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
@@ -97,7 +92,6 @@ struct SessionLauncherView: View {
                         .controlSize(.large)
                         .tint(.mTextMuted)
                     }
-                    .card()
 
                     if let error {
                         Text(error)
@@ -112,11 +106,19 @@ struct SessionLauncherView: View {
             }
             .background(Color.mCream)
             .navigationTitle("Maestro")
-            .navigationDestination(item: $plan) { plan in
+            .navigationDestination(for: SessionPlan.self) { plan in
                 SessionView(
-                    bridge: bridge, feedback: feedback, level: level, plan: plan)
+                    bridge: bridge, feedback: feedback, level: level, plan: plan,
+                    onNextLesson: { start(minutes: 15) }
+                )
+                // Without a fresh identity the next lesson would inherit
+                // the last one's progress.
+                .id(plan.id)
             }
         }
+        // Refreshed on return, not just at launch: finishing a lesson is
+        // what changes which one comes next.
+        .task(id: path.first?.id) { brief = try? bridge.nextLesson() }
     }
 
     private func start(minutes: UInt32) {
@@ -133,10 +135,83 @@ struct SessionLauncherView: View {
                     + "this scenario yet."
                 return
             }
-            plan = composed
+            // Replace rather than push: lessons are siblings, and stacking
+            // them would make Back walk the whole history.
+            path = [composed]
         } catch {
             self.error = "Couldn't build a session: \(error)"
         }
+    }
+}
+
+/// What the next lesson is about, ahead of starting it.
+///
+/// The web app opened every scenario with its scene: where you are, what
+/// you're about to do, why it's worth knowing. "Continue where you left
+/// off" said none of that, and said it identically every time.
+struct LessonSplash: View {
+    let brief: LessonBrief?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            if let brief {
+                HStack {
+                    Eyebrow(text: brief.isFirstVisit ? "Next lesson" : "Again")
+                    Spacer()
+                    Badge(text: brief.cefrLevel)
+                }
+                Text(brief.label)
+                    .font(.title3.weight(.semibold))
+                    .fontDesign(.serif)
+                    .foregroundStyle(Color.mCharcoal)
+                if !brief.description.isEmpty {
+                    Text(brief.description)
+                        .font(.subheadline)
+                        .foregroundStyle(Color.mTextMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                // The scene is the hook and it only lands once; a replay
+                // gets the plainer overview instead.
+                if brief.isFirstVisit, !brief.sceneSetting.isEmpty {
+                    Text(brief.sceneSetting)
+                        .font(.callout)
+                        .italic()
+                        .foregroundStyle(Color.mText)
+                        .lineSpacing(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else if !brief.overview.isEmpty {
+                    Text(brief.overview)
+                        .font(.callout)
+                        .foregroundStyle(Color.mText)
+                        .lineSpacing(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if !brief.grammar.isEmpty {
+                    Divider().overlay(Color.mBorder)
+                    Text("You'll practise")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color.mTextMuted)
+                    Text(brief.grammar.map(\.label).joined(separator: " · "))
+                        .font(.footnote)
+                        .foregroundStyle(Color.mText)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Eyebrow(text: "Today")
+                Text("Ready when you are")
+                    .font(.title3.weight(.semibold))
+                    .fontDesign(.serif)
+                    .foregroundStyle(Color.mCharcoal)
+                Text(
+                    "A guided run through one scenario — a grammar card first, "
+                        + "then drills, reading and speaking."
+                )
+                .font(.subheadline)
+                .foregroundStyle(Color.mTextMuted)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .card()
     }
 }
 

@@ -32,11 +32,15 @@ struct VocabularyScreen: View {
         }
     }
 
-    /// Most overdue first — the same order the session composer weights by.
+    /// Overdue cards first, then words a lesson has just handed over —
+    /// the same order the session composer weights by.
     private var due: [VocabEntry] {
         entries
-            .filter { $0.status == "due" && $0.isPractisable }
-            .sorted { ($0.dueInDays ?? 0) < ($1.dueInDays ?? 0) }
+            .filter { ($0.status == "due" || $0.status == "discovered") && $0.isPractisable }
+            .sorted {
+                ($0.reviews == 0 ? 1 : 0, $0.dueInDays ?? 0)
+                    < ($1.reviews == 0 ? 1 : 0, $1.dueInDays ?? 0)
+            }
     }
 
     var body: some View {
@@ -128,11 +132,14 @@ struct VocabularyScreen: View {
 }
 
 enum VocabStatus: String, CaseIterable {
-    case due, learning, known, new
+    /// Order is the order the sections appear in: what needs doing, then
+    /// what a lesson just handed over, then progress, then the rest.
+    case due, discovered, learning, known, new
 
     var title: String {
         switch self {
         case .due: "Due now"
+        case .discovered: "Met in a lesson"
         case .learning: "Learning"
         case .known: "Known"
         case .new: "Not started"
@@ -142,6 +149,7 @@ enum VocabStatus: String, CaseIterable {
     var color: Color {
         switch self {
         case .due: .mTerracotta
+        case .discovered: .mBlue
         case .learning: .mGold
         case .known: .mSage
         case .new: .mBorder
@@ -166,6 +174,7 @@ private struct VocabStats: View {
         HStack(spacing: 0) {
             stat(entries.count, "words", .mCharcoal)
             stat(count(.due), "due", .mTerracotta)
+            stat(count(.discovered), "met", .mBlue)
             stat(count(.learning), "learning", .mGold)
             stat(count(.known), "known", .mSage)
         }
@@ -248,10 +257,10 @@ struct VocabDetailView: View {
                     Text(scheduleLine)
                         .font(.callout)
                         .foregroundStyle(Color.mText)
-                    if entry.repetitions > 0 {
+                    if entry.reviews > 0 {
                         Text(
-                            "\(entry.repetitions) review"
-                                + (entry.repetitions == 1 ? "" : "s")
+                            "\(entry.reviews) review"
+                                + (entry.reviews == 1 ? "" : "s")
                                 + String(format: " · ease %.2f", entry.easeFactor)
                         )
                         .font(.caption)
@@ -276,7 +285,14 @@ struct VocabDetailView: View {
     }
 
     private var scheduleLine: String {
-        guard let days = entry.dueInDays else { return "Not reviewed yet." }
+        guard let days = entry.dueInDays else { return "You haven't met this word yet." }
+        // A word met in a lesson is due from that day, so it would otherwise
+        // read as overdue before it was ever practised.
+        if entry.reviews == 0 {
+            guard let seen = entry.firstSeenDaysAgo else { return "Ready to review." }
+            let when = seen == 0 ? "today" : "\(seen) day\(seen == 1 ? "" : "s") ago"
+            return "Met in a lesson \(when) — ready to review."
+        }
         if days < 0 { return "Overdue by \(-days) day\(-days == 1 ? "" : "s")." }
         if days == 0 { return "Due today." }
         return "Due in \(days) day\(days == 1 ? "" : "s")."

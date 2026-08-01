@@ -130,13 +130,48 @@ pub struct VocabEntry {
     pub back: Option<String>,
     pub example: Option<String>,
     pub example_gloss: Option<String>,
+    /// SM-2's streak, reset to zero by a lapse. `reviews` is the honest
+    /// count of times the learner has practised the word.
     pub repetitions: u32,
+    pub reviews: u32,
     pub interval_days: u32,
     pub ease_factor: f64,
-    /// Negative when overdue; absent when the card has never been reviewed.
+    /// Negative when overdue; absent for a word never met.
     pub due_in_days: Option<i64>,
-    /// new | due | learning | known
+    /// Days since the word first appeared in a lesson; absent if it hasn't.
+    pub first_seen_days_ago: Option<i64>,
+    /// new | discovered | due | learning | known
     pub status: String,
+}
+
+/// A spec id resolved to the name a learner should see. Plans and events
+/// carry ids only, and an id is never the right thing to put on screen.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct SpecLabel {
+    pub id: String,
+    pub label: String,
+}
+
+/// The authored framing of one lesson, with the learner's history at it.
+/// Answers both "what am I about to do and why" before a session and
+/// "what did I just cover" after one, so both screens read from one shape.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct LessonBrief {
+    pub scenario_id: String,
+    pub cefr_level: String,
+    /// Falls back to the id on bundles built before the framing columns.
+    pub label: String,
+    pub description: String,
+    pub overview: String,
+    pub scene_setting: String,
+    pub outro: String,
+    /// Media path for `get_media`; empty when the lesson is unillustrated.
+    pub image: String,
+    pub grammar: Vec<SpecLabel>,
+    pub functions: Vec<SpecLabel>,
+    /// Depths finished here, out of `depth_count` — 0 means never played.
+    pub completed_depths: u8,
+    pub depth_count: u8,
 }
 
 /// The core's entry point. One instance per (pack, learner) pair.
@@ -337,14 +372,19 @@ impl Core {
                     example: card.and_then(|c| c.example.clone()),
                     example_gloss: card.and_then(|c| c.example_gloss.clone()),
                     repetitions: srs.map(|c| c.repetitions).unwrap_or(0),
+                    reviews: srs.map(|c| c.reviews).unwrap_or(0),
                     interval_days: srs.map(|c| c.interval_days).unwrap_or(0),
                     ease_factor: srs.map(|c| c.ease_factor).unwrap_or(0.0),
                     due_in_days: srs.map(|c| c.due_day - today),
-                    // Bands ported from the web app's vocab page, plus
-                    // "new" — there, cards existed only once added; here
-                    // the whole spec inventory is visible from the start.
+                    first_seen_days_ago: srs.map(|c| today - c.first_seen_day),
+                    // Bands ported from the web app's vocab page, plus two
+                    // this app needs: "new" for inventory the learner has
+                    // never met (there, a card existed only once added),
+                    // and "discovered" for a word a lesson put in front of
+                    // them that they haven't practised yet.
                     status: match srs {
                         None => "new",
+                        Some(c) if c.reviews == 0 => "discovered",
                         Some(c) if c.due_day <= today => "due",
                         Some(c) if c.interval_days < 14 => "learning",
                         Some(_) => "known",
@@ -355,6 +395,40 @@ impl Core {
             .collect();
 
         serde_json::to_string(&entries).map_err(|e| CoreError::Storage {
+            message: e.to_string(),
+        })
+    }
+
+    /// The lesson the composer would choose right now, as a `LessonBrief`
+    /// JSON object — or `null` when the learner has finished everything
+    /// unlocked. `now` is unix seconds, as everywhere else.
+    ///
+    /// Deliberately separate from `compose_session`: the learner should see
+    /// what a lesson is about before committing to it, and composing to
+    /// find that out would burn the anti-repetition window on a session
+    /// they might not start.
+    pub fn next_lesson_brief(&self, now: i64) -> Result<String, CoreError> {
+        let events = self.load_events()?;
+        let spec = pack::load_spec(&self.pack.lock().unwrap())?;
+        let state = folds::fold(&events, &spec, now);
+        let brief = session::pick_scenario(&spec, &state, None).map(|s| brief_of(s, &spec, &state));
+        serde_json::to_string(&brief).map_err(|e| CoreError::Storage {
+            message: e.to_string(),
+        })
+    }
+
+    /// The brief for one named scenario — what the recap shows after a
+    /// session, where the scenario is already known. `null` if unknown.
+    pub fn lesson_brief(&self, scenario_id: String, now: i64) -> Result<String, CoreError> {
+        let events = self.load_events()?;
+        let spec = pack::load_spec(&self.pack.lock().unwrap())?;
+        let state = folds::fold(&events, &spec, now);
+        let brief = spec
+            .scenarios
+            .iter()
+            .find(|s| s.id == scenario_id)
+            .map(|s| brief_of(s, &spec, &state));
+        serde_json::to_string(&brief).map_err(|e| CoreError::Storage {
             message: e.to_string(),
         })
     }
@@ -377,6 +451,63 @@ impl Core {
         serde_json::to_string(&plan).map_err(|e| CoreError::Storage {
             message: e.to_string(),
         })
+    }
+}
+
+/// Resolve a scenario against the spec's label tables and the learner's
+/// history. Ids that the spec doesn't know fall back to themselves rather
+/// than vanishing — a missing label is a content bug worth seeing.
+fn brief_of(
+    scenario: &pack::SpecScenario,
+    spec: &pack::SpecData,
+    state: &model::DerivedState,
+) -> LessonBrief {
+    let label_for = |id: &String, table: &[(&str, &str)]| SpecLabel {
+        id: id.clone(),
+        label: table
+            .iter()
+            .find(|(tid, _)| tid == id)
+            .map(|(_, l)| *l)
+            .filter(|l| !l.is_empty())
+            .unwrap_or(id.as_str())
+            .to_string(),
+    };
+    let grammar: Vec<(&str, &str)> = spec
+        .grammar
+        .iter()
+        .map(|g| (g.id.as_str(), g.label.as_str()))
+        .collect();
+    let functions: Vec<(&str, &str)> = spec
+        .functions
+        .iter()
+        .map(|f| (f.id.as_str(), f.label.as_str()))
+        .collect();
+    let progress = state.scenarios.get(&scenario.id);
+    LessonBrief {
+        scenario_id: scenario.id.clone(),
+        cefr_level: scenario.cefr_level.clone(),
+        label: if scenario.label.is_empty() {
+            scenario.id.clone()
+        } else {
+            scenario.label.clone()
+        },
+        description: scenario.description.clone(),
+        overview: scenario.overview.clone(),
+        scene_setting: scenario.scene_setting.clone(),
+        outro: scenario.outro.clone(),
+        image: scenario.image.clone(),
+        grammar: scenario
+            .grammar_ids
+            .iter()
+            .map(|id| label_for(id, &grammar))
+            .collect(),
+        functions: scenario
+            .function_ids
+            .iter()
+            .map(|id| label_for(id, &functions))
+            .collect(),
+        completed_depths: progress.map(|p| p.max_depth_completed).unwrap_or(0),
+        depth_count: scenario.depth_count,
     }
 }
 

@@ -99,6 +99,16 @@ pub struct SpecScenario {
     pub depth_count: u8,
     pub grammar_ids: Vec<String>,
     pub function_ids: Vec<String>,
+    /// Authored framing — the lesson's name, what it covers, the scene it
+    /// sets, and how it signs off. All empty on pre-framing bundles; the
+    /// app falls back to the id for `label` and hides the rest.
+    pub label: String,
+    pub description: String,
+    pub overview: String,
+    pub scene_setting: String,
+    pub outro: String,
+    /// Media path, resolvable through `get_media`. Empty when unillustrated.
+    pub image: String,
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -196,10 +206,18 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
             })
         })?
         .collect::<Result<_, _>>()?;
-    let mut stmt = conn.prepare(
-        "SELECT id, cefr_level, phase, sequence, depth_count, grammar_ids, function_ids
-         FROM spec_scenarios ORDER BY phase, COALESCE(sequence, 999), id",
-    )?;
+    // The framing columns arrived after the composer did; older bundles
+    // still compose fine, they just have nothing to introduce a lesson with.
+    let framing = column_exists(conn, "spec_scenarios", "scene_setting")?;
+    let mut stmt = conn.prepare(if framing {
+        "SELECT id, cefr_level, phase, sequence, depth_count, grammar_ids, function_ids,
+                label, description, overview, scene_setting, outro, image
+         FROM spec_scenarios ORDER BY phase, COALESCE(sequence, 999), id"
+    } else {
+        "SELECT id, cefr_level, phase, sequence, depth_count, grammar_ids, function_ids,
+                '', '', '', '', '', ''
+         FROM spec_scenarios ORDER BY phase, COALESCE(sequence, 999), id"
+    })?;
     spec.scenarios = stmt
         .query_map([], |r| {
             Ok(SpecScenario {
@@ -210,6 +228,12 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
                 depth_count: r.get(4)?,
                 grammar_ids: json_vec(&r.get::<_, String>(5)?),
                 function_ids: json_vec(&r.get::<_, String>(6)?),
+                label: r.get(7)?,
+                description: r.get(8)?,
+                overview: r.get(9)?,
+                scene_setting: r.get(10)?,
+                outro: r.get(11)?,
+                image: r.get(12)?,
             })
         })?
         .collect::<Result<_, _>>()?;
