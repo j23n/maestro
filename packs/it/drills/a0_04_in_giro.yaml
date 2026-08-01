@@ -32,7 +32,7 @@
   id: drill.art_il_la.005
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "___ albergo è vicino alla piazza."
+  prompt: "___ albergo è in centro."
   answers:
     - { text: "l'", canonical: true }
   distractor_feedback:
@@ -46,14 +46,13 @@
   id: drill.art_il_la.006
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Che differenza c'è fra «l'» e «un'»?"
-  choices:
-    - "«l'» vale per maschile e femminile; «un'» solo per il femminile"
-    - "«un'» vale per entrambi; «l'» solo per il maschile"
-    - "sono intercambiabili"
-    - "«l'» è plurale"
+  prompt: "Masculine noun before a vowel takes: «___ albergo»"
+  choices: ["l'", "la", "lo", "il"]
   answers:
-    - { text: "«l'» vale per maschile e femminile; «un'» solo per il femminile", canonical: true }
+    - { text: "l'", canonical: true }
+  distractor_feedback:
+    il: "Before a vowel «il» elides to «l'»."
+
   explanation: "l'albergo (m) and l'acqua (f), but only un'acqua — un amico has no apostrophe."
   evidence:
     - { axis: grammar, id: art_il_la, weight: 1.0 }
@@ -86,14 +85,13 @@
   id: drill.art_il_la.009
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale gruppo è corretto?"
-  choices:
-    - "il treno, la stazione, l'acqua"
-    - "la treno, il stazione, l'acqua"
-    - "l'treno, la stazione, il acqua"
-    - "il treno, il stazione, la acqua"
+  prompt: "Which article goes with «acqua»? «___ acqua»"
+  choices: ["l'", "il", "la", "lo"]
   answers:
-    - { text: "il treno, la stazione, l'acqua", canonical: true }
+    - { text: "l'", canonical: true }
+  distractor_feedback:
+    la: "Before a vowel «la» elides to «l'»."
+
   explanation: "Masculine il, feminine la, vowel l'."
   evidence:
     - { axis: grammar, id: art_il_la, weight: 1.0 }
@@ -113,7 +111,7 @@
   id: drill.art_il_la.011
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "___ centro è lontano da qui?"
+  prompt: "___ centro è grande?"
   answers:
     - { text: "il", canonical: true }
   explanation: "il centro — masculine."
@@ -124,7 +122,7 @@
   id: drill.art_il_la.012
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "___ uscita è a destra."
+  prompt: "___ uscita è lì."
   answers:
     - { text: "l'", canonical: true }
   distractor_feedback:
@@ -167,12 +165,12 @@
   id: drill.dove_e.003
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale frase è la più naturale?"
+  prompt: "Which one asks where the pharmacy is? «___»"
   choices:
     - "Scusi, dov'è la farmacia?"
     - "Scusi, dove la farmacia?"
-    - "Dove è la farmacia, scusi?"
     - "Scusi, dov'è farmacia?"
+    - "Scusi, la farmacia?"
   answers:
     - { text: "Scusi, dov'è la farmacia?", canonical: true }
   distractor_feedback:
@@ -201,7 +199,7 @@
   id: drill.dove_e.005
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Chiedi se esiste una farmacia vicina: «___ una farmacia qui vicino?»"
+  prompt: "Asking whether one exists nearby: «___ una farmacia in centro?»"
   answers:
     - { text: "c'è", canonical: true }
   distractor_feedback:
@@ -227,10 +225,10 @@
   id: drill.dove_e.007
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Rispondi indicando la direzione a destra: «È ___ ___.»"
+  prompt: "Answering that it is right here: «È ___.»"
   answers:
-    - { text: "a destra", canonical: true }
-  explanation: "a destra / a sinistra / sempre dritto — the three answers you'll hear."
+    - { text: "qui", canonical: true }
+  explanation: "qui / lì are the simplest answers; you will also hear a destra, a sinistra, sempre dritto."
   evidence:
     - { axis: grammar, id: dove_e, weight: 1.0 }
     - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
@@ -239,11 +237,11 @@
   id: drill.dove_e.008
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "«Sempre dritto» significa:"
-  choices: ["straight ahead", "on the right", "on the left", "very far"]
+  prompt: "Which question word asks about a place? «___»"
+  choices: ["dove", "come", "chi", "quando"]
   answers:
-    - { text: "straight ahead", canonical: true }
-  explanation: "Literally «always straight»."
+    - { text: "dove", canonical: true }
+  explanation: "dove = where; come = how; chi = who; quando = when."
   evidence:
     - { axis: grammar, id: dove_e, weight: 1.0 }
 
@@ -273,7 +271,7 @@
   id: drill.dove_e.011
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Vuoi sapere se c'è un bagno nel bar. Che cosa chiedi?"
+  prompt: "Asking whether the bar has a bathroom at all: «___»"
   choices:
     - "Scusi, c'è un bagno?"
     - "Scusi, dove sono un bagno?"
@@ -290,7 +288,7 @@
   id: drill.dove_e.012
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scusi, ___ la fermata dell'autobus?"
+  prompt: "Scusi, ___ il bar?"
   answers:
     - { text: "dov'è", canonical: true }
   evidence:

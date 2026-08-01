@@ -7,8 +7,8 @@
   lemma: cornetto
   front: il cornetto
   back: croissant
-  example: Un cornetto con la crema, per favore.
-  example_gloss: A croissant with custard, please.
+  example: Un cornetto, per favore.
+  example_gloss: A croissant, please.
   answers:
     - { text: cornetto, canonical: true }
   evidence:
@@ -35,8 +35,8 @@
   lemma: acqua
   front: l'acqua
   back: water
-  example: Un'acqua naturale, grazie.
-  example_gloss: A still water, thanks.
+  example: Vorrei un'acqua, grazie.
+  example_gloss: I'd like a water, thanks.
   answers:
     - { text: acqua, canonical: true }
   evidence:

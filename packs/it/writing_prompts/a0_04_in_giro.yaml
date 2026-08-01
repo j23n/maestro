@@ -5,8 +5,8 @@
   item_type: writing_prompt
   cefr_level: A0
   prompt: |
-    Sei in centro e cerchi la stazione. Scrivi un breve dialogo (4-6
-    battute) con un passante: scusati, chiedi dov'è, ringrazia.
+    In centro. (Write a short dialogue of 4-6 lines with a passer-by:
+    apologise for interrupting, ask where the station is, and thank them.)
   min_words: 20
   required_grammar: [dove_e, art_il_la]
   required_vocab: [stazione, piazza]
@@ -14,9 +14,9 @@
     — Scusi!
     — Sì, prego.
     — Dov'è la stazione, per favore?
-    — Sempre dritto, poi a destra.
-    — È lontano?
-    — No, cinque minuti. — Grazie mille!
+    — È in centro, in piazza.
+    — Grazie mille!
+    — Prego, arrivederci.
   evidence:
     - { axis: grammar, id: dove_e, weight: 1.0 }
     - { axis: grammar, id: art_il_la, weight: 1.0 }

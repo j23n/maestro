@@ -67,7 +67,7 @@
     - Un cappuccino, per favore.
     - Grazie mille! — Prego.
     - Scusi, dov'è la stazione?
-    - Scusa, hai un minuto?
+    - Scusa, che ora è?
   evidence:
     - { axis: grammar, id: polite_exp, weight: 1.0 }
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
@@ -104,11 +104,11 @@
     (*ca-**me**-ra*). A written accent means the stress is on the final
     vowel: *caf-**fè***, *cit-**tà***, *per-**ché***.
   examples:
-    - ciao — "chow"
-    - chi — "kee"
-    - gelato — "jelato"
-    - spaghetti — hard g
-    - signore — "sinyore"
-    - caffè — stress on the last syllable
+    - ciao
+    - chiave
+    - gelato
+    - spaghetti
+    - signore
+    - caffè
   evidence:
     - { axis: grammar, id: pronun_bas, weight: 1.0 }

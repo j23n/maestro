@@ -5,8 +5,8 @@
   item_type: writing_prompt
   cefr_level: A0
   prompt: |
-    Sei al bar. Scrivi un dialogo (4-6 battute): saluta, ordina due cose
-    con «vorrei», chiedi quanto costa.
+    Al bar. (Write a dialogue of 4-6 lines: greet, order two things using
+    «vorrei», and ask how much it costs.)
   min_words: 20
   required_grammar: [vorrei, art_un_una]
   required_vocab: [caffè, cornetto, conto]

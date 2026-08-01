@@ -5,16 +5,16 @@
   item_type: writing_prompt
   cefr_level: A0
   prompt: |
-    Hai perso la valigia in aeroporto. Scrivi un breve dialogo (4-6
-    battute): chiedi aiuto, di' come ti chiami e di dove sei, ringrazia.
+    In aeroporto. (Write a short dialogue of 4-6 lines: ask
+    for help, say your name and where you are from, and thank them.)
   min_words: 25
   required_grammar: [polite_exp, prep_place, mi_chiamo]
   required_vocab: [valigia, aiuto]
   model_answer: |
-    — Scusi, mi può aiutare? Ho perso la valigia.
-    — Certo. Come si chiama?
+    — Scusi, mi può aiutare? Non trovo la valigia.
+    — Come si chiama?
     — Mi chiamo Anna Rossi. Sono di Londra.
-    — Un momento… ecco la valigia.
+    — Ecco la valigia.
     — Grazie mille!
     — Prego.
   evidence:

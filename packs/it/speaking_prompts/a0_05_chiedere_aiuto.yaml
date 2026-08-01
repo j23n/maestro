@@ -4,7 +4,7 @@
   id: speaking.polite_exp.003
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Hai perso la valigia. Chiedi aiuto a un impiegato."
+  prompt: "La valigia non c'è. (Ask someone for help.)"
   target_text: "Scusi, mi può aiutare?"
   evidence:
     - { axis: grammar, id: polite_exp, weight: 1.0 }
@@ -14,7 +14,7 @@
   id: speaking.prep_place.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Di' che sei di Londra e che adesso sei a Roma."
+  prompt: "Londra, Roma. (Say you are from London but now in Rome.)"
   target_text: "Sono di Londra, ma adesso sono a Roma."
   evidence:
     - { axis: grammar, id: prep_place, weight: 1.0 }
@@ -23,10 +23,10 @@
   id: speaking.polite_exp.004
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Non hai capito. Chiedi di ripetere più lentamente."
-  target_text: "Scusi, non capisco. Può ripetere più lentamente?"
+  prompt: "Non capisco. (Ask them to repeat more slowly.)"
+  target_text: "Scusi, non capisco."
   variants:
-    - "Scusi, non capisco. Può ripetere?"
+    - "Scusi, non capisco bene."
   evidence:
     - { axis: grammar, id: polite_exp, weight: 1.0 }
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }

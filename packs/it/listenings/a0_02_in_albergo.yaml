@@ -6,15 +6,15 @@
   cefr_level: A0
   title: Alla reception
   turns:
-    - { speaker: "Receptionist", text: "Buonasera! Benvenuta." }
-    - { speaker: "Cliente", text: "Buonasera. Mi chiamo Anna Rossi, ho una prenotazione." }
-    - { speaker: "Receptionist", text: "Un momento… sì, signora Rossi. La sua camera è la quindici, al secondo piano." }
-    - { speaker: "Cliente", text: "Grazie. A che ora è la colazione?" }
-    - { speaker: "Receptionist", text: "Dalle sette alle dieci. Ecco la chiave." }
-    - { speaker: "Cliente", text: "Grazie mille. Buonanotte!" }
+    - { speaker: "Albergo", text: "Buonasera! Benvenuta." }
+    - { speaker: "Anna", text: "Buonasera. Mi chiamo Anna Rossi, ho una prenotazione." }
+    - { speaker: "Albergo", text: "Sì, signora Rossi. La sua camera è la quindici." }
+    - { speaker: "Anna", text: "Grazie. A che ora è la colazione?" }
+    - { speaker: "Albergo", text: "Dalle sette alle dieci. Ecco la chiave." }
+    - { speaker: "Anna", text: "Grazie mille. Buonanotte!" }
   audio: null
   questions:
-    - prompt: "Come si chiama la cliente?"
+    - prompt: "Come si chiama la signora?"
       answers:
         - { text: "anna rossi", canonical: true }
         - { text: "anna" }
@@ -25,7 +25,7 @@
         - { text: "quindici", canonical: true }
         - { text: "15" }
       explanation: "«La sua camera è la quindici.»"
-    - prompt: "A che ora comincia la colazione?"
+    - prompt: "A che ora è la colazione?"
       answers:
         - { text: "alle sette", canonical: true }
         - { text: "sette" }

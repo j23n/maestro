@@ -5,8 +5,8 @@
   item_type: writing_prompt
   cefr_level: A0
   prompt: |
-    Sei sull'aereo. Scrivi un breve dialogo (4-6 battute) tra te e
-    l'assistente di volo: saluta, ordina qualcosa da bere, ringrazia.
+    In aereo. (Write a short dialogue of 4-6 lines with the flight
+    attendant: greet, order something to drink, and thank them.)
   min_words: 20
   required_grammar: [saluti, polite_exp]
   required_vocab: [grazie, per favore]
@@ -16,7 +16,8 @@
     — Un caffè, per favore.
     — Ecco a lei.
     — Grazie mille!
-    — Prego.
+    — Prego, signora.
+    — Grazie a lei, arrivederci!
   evidence:
     - { axis: grammar, id: saluti, weight: 1.0 }
     - { axis: grammar, id: polite_exp, weight: 1.0 }

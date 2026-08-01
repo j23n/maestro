@@ -5,7 +5,7 @@
   id: speaking.saluti.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Sali sull'aereo di mattina. Saluta l'assistente di volo."
+  prompt: "In aereo, di mattina. (Greet the flight attendant.)"
   target_text: "Buongiorno!"
   variants:
     - "Salve!"
@@ -18,7 +18,7 @@
   id: speaking.polite_exp.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Ordina un caffè all'assistente di volo, in modo cortese."
+  prompt: "In aereo. (Order a coffee politely.)"
   target_text: "Un caffè, per favore."
   variants:
     - "Vorrei un caffè, per favore."
@@ -31,7 +31,7 @@
   id: speaking.polite_exp.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "L'assistente ti porta il caffè. Ringrazia."
+  prompt: "Ecco il caffè. (Thank them warmly.)"
   target_text: "Grazie mille!"
   variants:
     - "Grazie!"
@@ -44,7 +44,7 @@
   id: speaking.pronun_bas.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Leggi ad alta voce. Attenzione: «ciao» ha il suono ch, «chi» ha il suono k."
+  prompt: "Ciao, chi è? (Read aloud: soft c, then hard c.)"
   target_text: "Ciao, chi è?"
   explanation: "Two c sounds in one short sentence: soft in ciao, hard in chi."
   evidence:

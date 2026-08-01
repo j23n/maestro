@@ -61,7 +61,8 @@ _FUNCTION_WORDS = set(
     nostro nostra nostri nostre vostro vostra vostri vostre
     questo questa questi queste quello quella quelli quelle
     c ecco po ogni
-    uno due tre quattro cinque sei sette otto nove dieci
+    dov all dell nell sull dall quell
+    zero uno due tre quattro cinque sei sette otto nove dieci
     undici dodici tredici quattordici quindici sedici diciassette
     diciotto diciannove venti trenta quaranta cinquanta sessanta
     settanta ottanta novanta cento mille
@@ -69,6 +70,10 @@ _FUNCTION_WORDS = set(
     """.split()
 )
 
+# Apostrophes split tokens, so an elided form leaves a bare stem behind
+# («dov'è» -> dov, «l'acqua» -> l, «all'una» -> all). Those stems are listed
+# among the function words above; they are elisions of words already there,
+# not extra vocabulary.
 _WORD_RE = re.compile(r"[a-zA-ZàèéìíòóùúÀÈÉÌÍÒÓÙÚ]+")
 
 # High-frequency irregular forms simplemma mis-lemmatizes; the small map

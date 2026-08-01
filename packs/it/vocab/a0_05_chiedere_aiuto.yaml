@@ -7,8 +7,8 @@
   lemma: aiuto
   front: l'aiuto
   back: help
-  example: Ho bisogno di aiuto.
-  example_gloss: I need help.
+  example: Grazie per l'aiuto!
+  example_gloss: Thanks for the help!
   answers:
     - { text: aiuto, canonical: true }
   evidence:
@@ -36,8 +36,8 @@
   lemma: valigia
   front: la valigia
   back: suitcase
-  example: Ho perso la valigia.
-  example_gloss: I've lost my suitcase.
+  example: Dov'è la mia valigia?
+  example_gloss: Where is my suitcase?
   answers:
     - { text: valigia, canonical: true }
   evidence:

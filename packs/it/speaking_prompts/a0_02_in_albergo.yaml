@@ -4,7 +4,7 @@
   id: speaking.mi_chiamo.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Sei alla reception. Presentati con il tuo cognome (usa «Rossi»)."
+  prompt: "In albergo. (Introduce yourself, using the surname Rossi.)"
   target_text: "Mi chiamo Rossi."
   variants:
     - "Sono Rossi."
@@ -17,7 +17,7 @@
   id: speaking.mi_chiamo.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Chiedi il nome a una signora che non conosci."
+  prompt: "Una signora, in albergo. (Ask her name, formally.)"
   target_text: "Come si chiama?"
   explanation: "Formal: si chiama. Informal would be «come ti chiami?»"
   evidence:
@@ -28,7 +28,7 @@
   id: speaking.num_0_20.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Conta ad alta voce da uno a cinque."
+  prompt: "Uno, due... (Count aloud from one to five.)"
   target_text: "Uno, due, tre, quattro, cinque."
   explanation: "Watch the vowels: due is two syllables, cinque ends in -que."
   evidence:
@@ -39,7 +39,7 @@
   id: speaking.num_0_20.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Di' che la tua camera è la numero quindici."
+  prompt: "La camera. (Say your room is number fifteen.)"
   target_text: "La camera è la quindici."
   variants:
     - "La mia camera è la quindici."

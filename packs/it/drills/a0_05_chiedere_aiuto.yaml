@@ -45,7 +45,7 @@
   id: drill.prep_place.004
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale frase è corretta?"
+  prompt: "Which sentence is correct? «___»"
   choices:
     - "Sono a Roma, in Italia."
     - "Sono in Roma, a Italia."
@@ -96,7 +96,7 @@
   id: drill.prep_place.008
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Come si dice «I'm from Rome»?"
+  prompt: "How do you say you are *from* Rome? «___»"
   choices: ["Sono di Roma.", "Sono a Roma.", "Sono in Roma.", "Sono da Roma."]
   answers:
     - { text: "Sono di Roma.", canonical: true }
@@ -132,7 +132,7 @@
   id: drill.prep_place.011
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale coppia segue la regola «città → a, paese → in»?"
+  prompt: "Which pair follows city → a, country → in? «___»"
   choices:
     - "a Milano / in Francia"
     - "in Milano / a Francia"
@@ -172,16 +172,16 @@
   id: drill.polite_exp.014
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Hai perso il passaporto. Che cosa dici a un poliziotto?"
+  prompt: "Your passport is missing. What do you say to an official? «___»"
   choices:
-    - "Scusi, ho perso il passaporto. Mi può aiutare?"
-    - "Ciao, ho perso il passaporto."
+    - "Scusi, mi può aiutare?"
+    - "Ciao, mi può aiutare?"
     - "Voglio il passaporto."
     - "Prego, il passaporto."
   answers:
-    - { text: "Scusi, ho perso il passaporto. Mi può aiutare?", canonical: true }
+    - { text: "Scusi, mi può aiutare?", canonical: true }
   distractor_feedback:
-    "Ciao, ho perso il passaporto.": "«Ciao» is too informal with an official. Use «scusi»."
+    "Ciao, mi può aiutare?": "«Ciao» is too informal with an official. Use «scusi»."
     "Voglio il passaporto.": "«Voglio» is blunt, and it doesn't explain the problem."
   explanation: "scusi + the problem + mi può aiutare."
   evidence:
@@ -204,11 +204,10 @@
   id: drill.polite_exp.016
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Chiedi di ripetere più lentamente: «Può ripetere più ___, per favore?»"
+  prompt: "You did not understand. Ask whether they speak English: «Scusi, parla ___?»"
   answers:
-    - { text: "lentamente", canonical: true }
-    - { text: "piano" }
-  explanation: "Più lentamente (or più piano) — more slowly."
+    - { text: "inglese", canonical: true }
+  explanation: "«Parla inglese?» — the other phrase worth memorising, next to «non capisco». To ask for slower speech: «più piano, per favore»."
   evidence:
     - { axis: grammar, id: polite_exp, weight: 1.0 }
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }

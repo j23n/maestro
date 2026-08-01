@@ -22,8 +22,8 @@
   lemma: piazza
   front: la piazza
   back: square
-  example: L'albergo è vicino alla piazza.
-  example_gloss: The hotel is near the square.
+  example: La piazza è grande.
+  example_gloss: The square is big.
   answers:
     - { text: piazza, canonical: true }
   evidence:
@@ -50,8 +50,8 @@
   lemma: farmacia
   front: la farmacia
   back: pharmacy
-  example: C'è una farmacia qui vicino?
-  example_gloss: Is there a pharmacy near here?
+  example: Dov'è la farmacia?
+  example_gloss: Where is the pharmacy?
   answers:
     - { text: farmacia, canonical: true }
   evidence:

@@ -6,7 +6,7 @@
   id: drill.art_un_una.002
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Vorrei ___ caffè, per favore."
+  prompt: "Al bar prendo ___ caffè."
   answers:
     - { text: "un", canonical: true }
   distractor_feedback:
@@ -35,7 +35,7 @@
   id: drill.art_un_una.004
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Vorrei ___ acqua naturale."
+  prompt: "Vorrei ___ acqua fredda."
   answers:
     - { text: "un'", canonical: true }
   distractor_feedback:
@@ -63,13 +63,13 @@
   id: drill.art_un_una.006
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale forma è corretta?"
-  choices: ["un'aranciata", "un aranciata", "una aranciata", "un'arancciata"]
+  prompt: "Feminine noun starting with a vowel — which article? «___ amica»"
+  choices: ["un'", "una", "un", "la"]
   answers:
-    - { text: "un'aranciata", canonical: true }
+    - { text: "un'", canonical: true }
   distractor_feedback:
-    "una aranciata": "Before a vowel «una» elides to «un'»."
-    "un aranciata": "Aranciata is feminine, so it needs the apostrophe form."
+    una: "Before a vowel «una» elides to «un'»."
+    un: "«Un» is masculine."
   explanation: "Feminine + vowel = un'."
   evidence:
     - { axis: grammar, id: art_un_una, weight: 1.0 }
@@ -91,7 +91,7 @@
   id: drill.art_un_una.008
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Se un nome prende «la», quale articolo indeterminativo prende?"
+  prompt: "If a noun takes «la», which indefinite article does it take? «___»"
   choices: ["una", "un", "un'", "lo"]
   answers:
     - { text: "una", canonical: true }
@@ -103,7 +103,7 @@
   id: drill.art_un_una.009
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Vorrei ___ pizza margherita."
+  prompt: "Vorrei ___ pizza."
   answers:
     - { text: "una", canonical: true }
   explanation: "Pizza is feminine and starts with a consonant → una."
@@ -126,7 +126,7 @@
   id: drill.art_un_una.011
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale nome NON prende «un»?"
+  prompt: "Which noun does NOT take «un»? «___»"
   choices: ["birra", "caffè", "cornetto", "panino"]
   answers:
     - { text: "birra", canonical: true }
@@ -140,7 +140,7 @@
   id: drill.art_un_una.012
   item_type: drill_transform
   cefr_level: A0
-  prompt: "Cambia in indeterminativo: «la stazione» → «___ stazione»"
+  prompt: "Make it indefinite: «la stazione» → «___ stazione»"
   answers:
     - { text: "una", canonical: true }
   explanation: "la → una."
@@ -166,16 +166,12 @@
   id: drill.vorrei.004
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Qual è la differenza fra «voglio» e «vorrei»?"
-  choices:
-    - "«vorrei» è più cortese"
-    - "«voglio» è più cortese"
-    - "sono identici"
-    - "«vorrei» è al passato"
+  prompt: "Which is the polite way to ask for something? «___»"
+  choices: ["vorrei", "voglio", "prendo", "ho"]
   answers:
-    - { text: "«vorrei» è più cortese", canonical: true }
+    - { text: "vorrei", canonical: true }
   distractor_feedback:
-    "«vorrei» è al passato": "It's a conditional, not a past tense — «I would like»."
+    voglio: "«Voglio» means *I want* — blunt when ordering."
   explanation: "Voglio = I want (blunt); vorrei = I'd like (polite)."
   evidence:
     - { axis: grammar, id: vorrei, weight: 1.0 }
@@ -184,7 +180,7 @@
   id: drill.vorrei.005
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Vuoi pagare. Dici: «___ ___, per favore.»"
+  prompt: "Asking to pay: «___ pagare, per favore.»"
   answers:
     - { text: "vorrei pagare", canonical: true }
   explanation: "vorrei + infinitive: vorrei pagare, vorrei prenotare."
@@ -196,16 +192,12 @@
   id: drill.vorrei.006
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale frase è corretta?"
-  choices:
-    - "Vorrei prenotare un tavolo."
-    - "Vorrei prenoto un tavolo."
-    - "Vorrei prenotazione un tavolo."
-    - "Vorrei che prenotare un tavolo."
+  prompt: "After «vorrei», the next verb is: «Vorrei ___ un caffè.»"
+  choices: ["prendere", "prendo", "preso", "prende"]
   answers:
-    - { text: "Vorrei prenotare un tavolo.", canonical: true }
+    - { text: "prendere", canonical: true }
   distractor_feedback:
-    "Vorrei prenoto un tavolo.": "After «vorrei» the second verb stays in the infinitive: prenotare."
+    prendo: "After «vorrei» the second verb stays in the infinitive."
   explanation: "vorrei + infinitive, never a conjugated verb."
   evidence:
     - { axis: grammar, id: vorrei, weight: 1.0 }
@@ -214,7 +206,7 @@
   id: drill.vorrei.007
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Al bar: «___ un'acqua naturale, grazie.»"
+  prompt: "Al bar: «___ un'acqua, grazie.»"
   answers:
     - { text: "vorrei", canonical: true }
   explanation: "vorrei + noun is the standard ordering shape."
@@ -226,7 +218,7 @@
   id: drill.vorrei.008
   item_type: drill_transform
   cefr_level: A0
-  prompt: "Rendi cortese: «Voglio un caffè.» — scrivi solo la prima parola."
+  prompt: "Make it polite: «voglio» → «___»"
   answers:
     - { text: "vorrei", canonical: true }
   distractor_feedback:
@@ -240,11 +232,11 @@
   id: drill.vorrei.009
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Vorrei ___ (prenotare) un tavolo per due."
+  prompt: "Vorrei ___ (pagare) il conto."
   answers:
-    - { text: "prenotare", canonical: true }
+    - { text: "pagare", canonical: true }
   distractor_feedback:
-    prenoto: "After vorrei the verb stays in the infinitive."
+    pago: "After vorrei the verb stays in the infinitive."
   explanation: "vorrei + infinitive."
   evidence:
     - { axis: grammar, id: vorrei, weight: 1.0 }
@@ -253,14 +245,10 @@
   id: drill.vorrei.010
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Al bar il barista dice «Prego?». Che cosa vuole dire?"
-  choices:
-    - "«Che cosa desidera?»"
-    - "«Prego, si accomodi» soltanto"
-    - "«Grazie»"
-    - "«Non c'è di che»"
+  prompt: "The barista says «Prego?» — what is he asking? «___»"
+  choices: ["che cosa vuole", "grazie", "arrivederci", "scusi"]
   answers:
-    - { text: "«Che cosa desidera?»", canonical: true }
+    - { text: "che cosa vuole", canonical: true }
   explanation: "Prego? with a question intonation invites your order."
   evidence:
     - { axis: grammar, id: vorrei, weight: 1.0 }
@@ -270,7 +258,7 @@
   id: drill.vorrei.011
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Chiedi il conto in modo cortese: «___ il conto, per favore.»"
+  prompt: "Asking for the bill: «___ il conto, per favore.»"
   answers:
     - { text: "vorrei", canonical: true }
   explanation: "Works for the bill as for anything else."

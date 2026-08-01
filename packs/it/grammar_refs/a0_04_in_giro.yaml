@@ -29,7 +29,7 @@
   examples:
     - Dov'è la stazione?
     - Il museo è in centro.
-    - L'albergo è vicino alla piazza.
+    - L'albergo è in centro.
     - L'acqua è fredda.
   evidence:
     - { axis: grammar, id: art_il_la, weight: 1.0 }
@@ -67,7 +67,7 @@
   examples:
     - Scusi, dov'è la stazione?
     - Dov'è il bagno, per favore?
-    - C'è una farmacia qui vicino?
+    - C'è una farmacia in centro?
     - Dove sono i taxi?
   evidence:
     - { axis: grammar, id: dove_e, weight: 1.0 }

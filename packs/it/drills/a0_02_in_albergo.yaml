@@ -97,7 +97,7 @@
   id: drill.mi_chiamo.007
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale frase presenta te stesso correttamente?"
+  prompt: "Which sentence introduces yourself correctly? «___»"
   choices:
     - "Mi chiamo Marco."
     - "Chiamo Marco."
@@ -143,14 +143,10 @@
   id: drill.mi_chiamo.010
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "«Come si chiama?» può significare:"
-  choices:
-    - "sia «What's your name?» (formale) sia «What's his/her name?»"
-    - "solo «What's your name?»"
-    - "solo «What's his name?»"
-    - "«What's my name?»"
+  prompt: "Who can «si chiama» refer to? «___»"
+  choices: ["lei, lui, o Lei", "lui", "io", "tu"]
   answers:
-    - { text: "sia «What's your name?» (formale) sia «What's his/her name?»", canonical: true }
+    - { text: "lei, lui, o Lei", canonical: true }
   explanation: "si chiama is both the formal you and he/she; context decides."
   evidence:
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
@@ -184,7 +180,7 @@
   id: drill.num_0_20.001
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 3"
+  prompt: "Ho ___ valigie. (3)"
   answers:
     - { text: "tre", canonical: true }
   explanation: "1 uno, 2 due, 3 tre."
@@ -196,7 +192,7 @@
   id: drill.num_0_20.002
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 7"
+  prompt: "Il treno parte alle ___. (7)"
   answers:
     - { text: "sette", canonical: true }
   distractor_feedback:
@@ -210,7 +206,7 @@
   id: drill.num_0_20.003
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 11"
+  prompt: "Sono le ___ di sera. (11)"
   answers:
     - { text: "undici", canonical: true }
   distractor_feedback:
@@ -224,7 +220,7 @@
   id: drill.num_0_20.004
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 15"
+  prompt: "La camera ___ è libera. (15)"
   answers:
     - { text: "quindici", canonical: true }
   distractor_feedback:
@@ -238,7 +234,7 @@
   id: drill.num_0_20.005
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 17"
+  prompt: "Il museo è aperto alle ___. (17)"
   answers:
     - { text: "diciassette", canonical: true }
   distractor_feedback:
@@ -252,7 +248,7 @@
   id: drill.num_0_20.006
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "A che numero cambia il modello (unità prima → dici- prima)?"
+  prompt: "At which number does the pattern flip to dici- first? «___»"
   choices: ["17", "11", "13", "20"]
   answers:
     - { text: "17", canonical: true }
@@ -278,7 +274,7 @@
   id: drill.num_0_20.008
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 20"
+  prompt: "Ho ___ euro. (20)"
   answers:
     - { text: "venti", canonical: true }
   distractor_feedback:
@@ -292,14 +288,10 @@
   id: drill.num_0_20.009
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "«Sei» può significare:"
-  choices:
-    - "il numero 6 oppure «you are»"
-    - "solo il numero 6"
-    - "solo «you are»"
-    - "il numero 7"
+  prompt: "«Sei» can mean six — what else? «___»"
+  choices: ["tu sei", "io sono", "lui è", "noi siamo"]
   answers:
-    - { text: "il numero 6 oppure «you are»", canonical: true }
+    - { text: "tu sei", canonical: true }
   explanation: "Sei is both six and the tu form of essere."
   evidence:
     - { axis: grammar, id: num_0_20, weight: 1.0 }
@@ -320,7 +312,7 @@
   id: drill.num_0_20.011
   item_type: drill_cloze
   cefr_level: A0
-  prompt: "Scrivi in lettere: 0"
+  prompt: "Il numero è ___. (0)"
   answers:
     - { text: "zero", canonical: true }
   explanation: "0 zero — the same word as English, different vowels."
@@ -332,7 +324,7 @@
   id: drill.num_0_20.012
   item_type: drill_multiple_choice
   cefr_level: A0
-  prompt: "Quale numero è «quattordici»?"
+  prompt: "Which number is «quattordici»? «___»"
   choices: ["14", "4", "40", "24"]
   answers:
     - { text: "14", canonical: true }

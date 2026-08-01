@@ -28,7 +28,7 @@
   examples:
     - Un caffè, per favore.
     - Una birra piccola.
-    - Un'acqua naturale.
+    - Un'acqua, per favore.
     - Un cornetto e un cappuccino.
   evidence:
     - { axis: grammar, id: art_un_una, weight: 1.0 }
@@ -59,9 +59,9 @@
     polite on its own.
   examples:
     - Vorrei un cappuccino, per favore.
-    - Vorrei prenotare un tavolo.
+    - Vorrei un tavolo.
     - Vorrei pagare, grazie.
-    - Vorrei un'acqua naturale.
+    - Vorrei un'acqua fredda.
   evidence:
     - { axis: grammar, id: vorrei, weight: 1.0 }
     - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
