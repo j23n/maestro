@@ -100,13 +100,17 @@ pub fn compose(
     // ---- slot layout by archetype and budget -----------------------------
     // (slot name, item-kind, count)
     let quick = opts.time_budget_minutes <= 5;
+    let new_gp_ids: Vec<String> = new_gps.iter().map(|s| s.to_string()).collect();
     let mut slots: Vec<(&str, Kind, usize)> = if quick {
         vec![("drill", Kind::Drill, 6)]
     } else {
         match archetype {
+            // Teach before drilling: one reference page per grammar point
+            // being introduced, ahead of the drills that assume it.
             "introduction" => vec![
-                ("new_grammar_drill", Kind::DrillTargeting(new_gps.iter().map(|s| s.to_string()).collect()), 4),
-                ("weakness_drill", Kind::Drill, 4),
+                ("grammar_card", Kind::GrammarRef(new_gp_ids.clone()), new_gp_ids.len().max(1)),
+                ("new_grammar_drill", Kind::DrillTargeting(new_gp_ids.clone()), 4),
+                ("weakness_drill", Kind::Drill, 3),
                 ("receptive", Kind::Receptive, 1),
             ],
             "application" => vec![
@@ -135,7 +139,7 @@ pub fn compose(
 
     for (slot, kind, count) in slots {
         let targeting: &[String] = match &kind {
-            Kind::DrillTargeting(gps) => gps,
+            Kind::DrillTargeting(gps) | Kind::GrammarRef(gps) => gps,
             _ => &target,
         };
         let mut candidates: Vec<(&ItemMeta, f64)> = items
@@ -199,6 +203,8 @@ pub fn compose(
 enum Kind {
     Drill,
     DrillTargeting(Vec<String>),
+    /// Reference pages for the listed grammar points.
+    GrammarRef(Vec<String>),
     Receptive,
     Production,
     VocabReview,
@@ -215,6 +221,7 @@ impl Kind {
                 item.item_type.as_str(),
                 "drill_cloze" | "drill_multiple_choice" | "drill_transform"
             ),
+            Kind::GrammarRef(_) => item.item_type == "grammar_ref",
             Kind::Receptive => matches!(item.item_type.as_str(), "reading" | "listening"),
             Kind::Production => {
                 matches!(item.item_type.as_str(), "writing_prompt" | "speaking_prompt")

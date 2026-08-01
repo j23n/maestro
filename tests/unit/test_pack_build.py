@@ -137,6 +137,33 @@ def test_draft_items_are_excluded_from_build(tmp_path):
     assert row[0] == 0
 
 
+def test_include_draft_compiles_draft_items(tmp_path):
+    """`--include-draft` is the dev-pack escape hatch for content that has
+    been authored but not yet reviewed. `release` never passes it."""
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    draft = pack / "drills" / "zz_draft.yaml"
+    draft.write_text(
+        """
+- id: drill.essere_pre.099
+  status: draft
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Noi ___ qui."
+  answers: [{ text: siamo, canonical: true }]
+  evidence: [{ axis: grammar, id: essere_pre, weight: 1.0 }]
+"""
+    )
+    out = tmp_path / "bundle.sqlite"
+    assert build(pack, ROOT / "spec" / "it", out, include_draft=True) == 0
+    conn = sqlite3.connect(out)
+    row = conn.execute(
+        "SELECT count(*) FROM items WHERE id = 'drill.essere_pre.099'"
+    ).fetchone()
+    conn.close()
+    assert row[0] == 1, "draft item should be compiled when include_draft is set"
+
+
 def test_media_files_are_embedded_and_missing_ones_rejected(tmp_path):
     pack = tmp_path / "pack"
     shutil.copytree(ROOT / "packs" / "it", pack)

@@ -52,6 +52,12 @@ def main() -> int:
         help="parse a prepared adversarial response instead of calling the API",
     )
     sub.choices["build"].add_argument("--out", default="build/it.pack.sqlite")
+    sub.choices["build"].add_argument(
+        "--include-draft",
+        action="store_true",
+        help="also compile status: draft items (local dev packs only — "
+        "`release` always builds reviewed-only)",
+    )
     gen = sub.choices["generate"]
     gen.add_argument(
         "--type",
@@ -158,7 +164,9 @@ def main() -> int:
     if args.command == "build":
         from authoring.build_pack import build
 
-        return build(pack_dir, spec_dir, Path(args.out))
+        return build(
+            pack_dir, spec_dir, Path(args.out), include_draft=args.include_draft
+        )
 
     if args.command == "generate":
         from authoring.generate import DEFAULT_MODEL, generate_items, resolve_scope

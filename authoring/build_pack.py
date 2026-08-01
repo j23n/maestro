@@ -386,7 +386,9 @@ def _insert_item(
         conn.execute("INSERT INTO explanations VALUES (?, ?)", (item_id, explanation))
 
 
-def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
+def build(
+    pack_dir: Path, spec_dir: Path, out_path: Path, *, include_draft: bool = False
+) -> int:
     sources = load_pack_sources(pack_dir)
     spec = load_spec(spec_dir)
     all_items = sources.all_items()
@@ -399,8 +401,13 @@ def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
         for e in errors:
             print(f"ERROR: {e}")
         return 1
-    skipped = [i.id for i in all_items if i.status != "reviewed"]
-    reviewed = [i for i in all_items if i.status == "reviewed"]
+    # Only `reviewed` content ships. `--include-draft` relaxes that for local
+    # dev packs so freshly drafted content can be exercised on device before
+    # review; `release` never passes it, so a release bundle stays clean.
+    shippable = {"reviewed", "draft"} if include_draft else {"reviewed"}
+    skipped = [i.id for i in all_items if i.status not in shippable]
+    drafted = [i.id for i in all_items if i.status == "draft"] if include_draft else []
+    reviewed = [i for i in all_items if i.status in shippable]
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.unlink(missing_ok=True)
@@ -561,6 +568,8 @@ def build(pack_dir: Path, spec_dir: Path, out_path: Path) -> int:
     coverage_path.write_text(json.dumps(report, indent=2, ensure_ascii=False))
 
     note = f", {len(skipped)} unreviewed skipped" if skipped else ""
+    if drafted:
+        note += f", {len(drafted)} DRAFT included (not for release)"
     media_note = f", {media_count} media files" if media_count else ""
     gp = report["totals"]
     print(
