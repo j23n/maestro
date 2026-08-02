@@ -95,7 +95,15 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                     Outcome::Partial | Outcome::Skipped => 0.0,
                 };
                 for r in ev.evidence.iter().filter(|r| r.axis == "grammar") {
-                    introduced.insert(r.id.as_str(), true);
+                    // Deliberately does NOT mark the point introduced.
+                    // Attempting something is not being taught it, and
+                    // treating the two as the same let any item carrying
+                    // a grammar tag consume another lesson's teach step:
+                    // a café reading pulled into the hotel lesson marked
+                    // `vorrei` introduced, so the bar lesson — whose whole
+                    // premise is `vorrei` — arrived with no grammar card
+                    // and the learner was never taught it. Only an
+                    // `introduced` event teaches (docs/plans/07 §6).
                     let obs = per_gp.entry(r.id.as_str()).or_default();
                     if obs.len() < PER_GP_EVENT_CAP {
                         obs.push(Obs {
@@ -134,19 +142,26 @@ pub fn fold(events: &[EvidenceEvent], spec: &SpecData, now: i64) -> DerivedState
                 mastery,
                 label: mastery_label(mastery).to_string(),
                 display_name: gp_label(spec, gp),
-                introduced: true,
+                // Practised is not taught. A learner can accumulate real
+                // mastery of a point nobody ever explained — off-scenario
+                // passages do exactly that — and `introduced` is what the
+                // composer reads to decide whether to teach it.
+                introduced: introduced.contains_key(*gp),
                 evidence_mass: denom,
             },
         );
     }
-    for (gp, _) in introduced {
-        state.grammar.entry(gp.to_string()).or_insert(GrammarState {
-            mastery: None,
-            label: "new".to_string(),
-            display_name: gp_label(spec, gp),
-            introduced: true,
-            evidence_mass: 0.0,
-        });
+    for gp in introduced.keys() {
+        state
+            .grammar
+            .entry((*gp).to_string())
+            .or_insert(GrammarState {
+                mastery: None,
+                label: "new".to_string(),
+                display_name: gp_label(spec, gp),
+                introduced: true,
+                evidence_mass: 0.0,
+            });
     }
 
     // ---- functions, vocab, scenarios, modality, recency ------------------
@@ -501,8 +516,33 @@ mod tests {
         let state = fold(&events, &spec, NOW);
         let gp = &state.grammar["gp1"];
         assert!(gp.mastery.is_none());
-        assert!(gp.introduced);
         assert_eq!(gp.label, "new");
+    }
+
+    /// Answering something is not being taught it. Any item may carry a
+    /// grammar tag — a passage from another lesson, a comprehension
+    /// question — and if that counted as teaching, the lesson whose job it
+    /// was to teach the point would skip its grammar card and the learner
+    /// would never be told the rule.
+    #[test]
+    fn attempting_a_point_does_not_introduce_it() {
+        let spec = SpecData::default();
+        let attempt = ev(&format!(
+            r#"{{"type":"attempt","at":{NOW},"outcome":"correct",
+                "evidence":[{{"axis":"grammar","id":"gp1"}}]}}"#
+        ));
+        let state = fold(std::slice::from_ref(&attempt), &spec, NOW);
+        assert!(
+            !state.grammar["gp1"].introduced,
+            "practising a point must not mark it taught"
+        );
+
+        let taught = ev(&format!(
+            r#"{{"type":"introduced","at":{NOW},
+                "evidence":[{{"axis":"grammar","id":"gp1"}}]}}"#
+        ));
+        let state = fold(&[attempt, taught], &spec, NOW);
+        assert!(state.grammar["gp1"].introduced);
     }
 
     #[test]

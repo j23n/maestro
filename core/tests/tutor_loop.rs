@@ -105,6 +105,15 @@ fn record_correct(core: &Core, item_id: &str, gp: &str, at: i64) {
     .unwrap();
 }
 
+/// What the shell emits when a grammar reference page is dismissed.
+fn record_introduced(core: &Core, gp: &str, at: i64) {
+    core.record_event(format!(
+        r#"{{"type":"introduced","at":{at},
+            "evidence":[{{"axis":"grammar","id":"{gp}","weight":1.0}}]}}"#
+    ))
+    .unwrap();
+}
+
 #[test]
 fn simulated_learner_progresses() {
     let dir = std::env::temp_dir().join(format!("maestro-sim-{}", std::process::id()));
@@ -133,7 +142,11 @@ fn simulated_learner_progresses() {
         );
     }
 
-    // Learner answers gp_a drills correctly across a few days.
+    // The learner reads gp_a's reference page, then drills it correctly
+    // across a few days. The card is what teaches: drilling alone builds
+    // mastery without ever introducing the point, so gp_b would stay
+    // locked behind a prerequisite the learner had in fact been using.
+    record_introduced(&core, "gp_a", NOW);
     for (i, day) in [0i64, 0, 1, 2].iter().enumerate() {
         record_correct(&core, &format!("drill.gp_a.{i:03}"), "gp_a", NOW + day * DAY);
     }
@@ -147,7 +160,9 @@ fn simulated_learner_progresses() {
         .iter()
         .any(|g| g == "gp_b"));
 
-    // Master both GPs; archetype shifts to application.
+    // Play that session: card first, then the drills. Master both GPs and
+    // the archetype shifts to application.
+    record_introduced(&core, "gp_b", NOW + 4 * DAY);
     for (i, gp) in [(0, "gp_b"), (1, "gp_b"), (2, "gp_b"), (3, "gp_b")] {
         record_correct(&core, &format!("drill.{gp}.{i:03}"), gp, NOW + 4 * DAY);
     }

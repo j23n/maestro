@@ -96,6 +96,9 @@ fn golden_vectors() {
                     if let Some(label) = exp["label"].as_str() {
                         assert_eq!(actual.label, label, "{ctx}: {gp} label");
                     }
+                    if let Some(want) = exp["introduced"].as_bool() {
+                        assert_eq!(actual.introduced, want, "{ctx}: {gp} introduced");
+                    }
                     if let Some(m) = exp["mastery_approx"].as_f64() {
                         let tol = exp["tolerance"].as_f64().unwrap_or(1e-6);
                         approx(actual.mastery.expect("mastery"), m, tol, &format!("{ctx}: {gp}"));

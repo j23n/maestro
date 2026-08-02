@@ -1,0 +1,61 @@
+{
+  "name": "answering a grammar point correctly does not mark it introduced",
+  "description": "`introduced` is what the composer reads to decide whether a lesson must teach a point before drilling it, so only an explicit `introduced` event — the shell's grammar reference page being dismissed — may set it. Attempts must not, because any item can carry a grammar tag: a passage authored for another lesson, or a comprehension question that inherits its parent's evidence. When attempts counted as teaching, a café reading pulled into the hotel lesson marked `vorrei` introduced, and the bar lesson — whose entire premise is `vorrei` — then composed with no grammar card at all and the learner was never told the rule. gp_a here is attempted four times and reaches real mastery while staying untaught; gp_b is taught and never practised.",
+  "spec": {
+    "grammar": [
+      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] },
+      { "id": "gp_b", "cefr_level": "A0", "prerequisites": [] }
+    ],
+    "functions": [],
+    "scenarios": [],
+    "can_dos": [],
+    "vocab": []
+  },
+  "events": [
+    {
+      "type": "attempt",
+      "at": 1800000000,
+      "item_id": "reading.other_lesson.001.q1",
+      "outcome": "correct",
+      "evidence_class": "targeted",
+      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+    },
+    {
+      "type": "attempt",
+      "at": 1800000000,
+      "item_id": "reading.other_lesson.001.q2",
+      "outcome": "correct",
+      "evidence_class": "targeted",
+      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+    },
+    {
+      "type": "attempt",
+      "at": 1800000000,
+      "item_id": "reading.other_lesson.001.q3",
+      "outcome": "correct",
+      "evidence_class": "targeted",
+      "evidence": [{ "axis": "grammar", "id": "gp_a", "weight": 1.0 }]
+    },
+    {
+      "type": "introduced",
+      "at": 1800000000,
+      "item_id": "grammar_ref.gp_b",
+      "evidence": [{ "axis": "grammar", "id": "gp_b", "weight": 1.0 }]
+    }
+  ],
+  "now": 1800000000,
+  "expect_state": {
+    "grammar": {
+      "gp_a": {
+        "introduced": false,
+        "label": "consolidated",
+        "mastery_approx": 1.0,
+        "tolerance": 1e-9
+      },
+      "gp_b": {
+        "introduced": true,
+        "label": "new"
+      }
+    }
+  }
+}
