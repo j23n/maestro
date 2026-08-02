@@ -19,6 +19,8 @@ documented in ``core/src/pack.rs`` — that file is the contract.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from authoring.spec_schemas import CefrLevel
@@ -44,6 +46,29 @@ class Evidence(BaseModel):
 _SCENARIO_IDS = Field(default_factory=list)
 
 
+# How much the item asks of the learner (docs/plans/07 §2). The authored
+# counterpart of the core's `EvidenceClass`, which the shell has until now
+# guessed from whichever view happened to render the item — which is why a
+# reading comprehension question was recorded as targeted production.
+#
+#   meet    -> receptive  recognise it: a passage, a comprehension question
+#   use     -> targeted   produce it with scaffolding: cloze, guided speaking
+#   perform -> productive produce it without: open task, role-play, free writing
+#
+# It is the rung of the spiral this item occupies, so the same field drives
+# authoring, revisit selection, mastery weight and how the UI frames it.
+Demand = Literal["meet", "use", "perform"]
+
+DEMAND_TO_EVIDENCE_CLASS: dict[str, str] = {
+    "meet": "receptive",
+    "use": "targeted",
+    "perform": "productive",
+}
+
+# Ordering, for "a revisit may not go down a rung".
+DEMAND_RANK: dict[str, int] = {"meet": 0, "use": 1, "perform": 2}
+
+
 class Answer(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -64,6 +89,9 @@ class DrillItem(BaseModel):
     item_type: str = Field(pattern=r"^drill_(cloze|multiple_choice|transform)$")
     cefr_level: CefrLevel
     modality: str = "writing"
+    # A drill is scaffolded production by construction; a multiple-choice
+    # one may be pure recognition, which is the only `meet` a drill can be.
+    demand: Demand = "use"
     prompt: str
     answers: list[Answer] = Field(min_length=1)
     # Anticipated wrong answer -> curated feedback for it.
@@ -85,6 +113,11 @@ class DrillItem(BaseModel):
                 raise ValueError(f"{self.id}: multiple_choice needs choices")
             if not any(a.text in self.choices for a in canonical):
                 raise ValueError(f"{self.id}: no canonical answer among choices")
+        if self.demand == "meet" and self.item_type != "drill_multiple_choice":
+            raise ValueError(
+                f"{self.id}: writing the form out is production, not recognition — "
+                "only multiple_choice can be demand: meet"
+            )
         return self
 
 
@@ -102,6 +135,9 @@ class Question(BaseModel):
     prompt: str
     answers: list[Answer] = Field(min_length=1)
     explanation: str | None = None
+    # Understanding a passage is recognition, whatever the answer box looks
+    # like. This is the default the shell used to override by accident.
+    demand: Demand = "meet"
 
 
 class ReadingItem(BaseModel):
@@ -112,6 +148,8 @@ class ReadingItem(BaseModel):
 
     id: str = Field(pattern=r"^reading\.[a-z0-9._]+$")
     cefr_level: CefrLevel
+    # A passage is met, never produced. Fixed rather than defaulted.
+    demand: Literal["meet"] = "meet"
     title: str
     text: str
     # Relative path under images/ once generated; None until then.
@@ -141,6 +179,7 @@ class ListeningItem(BaseModel):
 
     id: str = Field(pattern=r"^listening\.[a-z0-9._]+$")
     cefr_level: CefrLevel
+    demand: Literal["meet"] = "meet"
     title: str
     turns: list[DialogueTurn] = Field(min_length=1)
     # Relative path under audio/<lang>/ once rendered; None until then.
@@ -166,6 +205,9 @@ class VocabCardItem(BaseModel):
     id: str = Field(pattern=r"^vocab\.[a-z0-9._]+$")
     item_type: str = Field(default="vocab_card", pattern=r"^vocab_card$")
     cefr_level: CefrLevel
+    # Flip-and-self-grade is recall with the prompt in front of you; typed
+    # recall (`answers`) is production, and check_shape raises the rung.
+    demand: Demand = "use"
     # The spec vocab id this card instantiates (lemmas may contain spaces).
     lemma: str
     front: str  # Italian side
@@ -186,6 +228,11 @@ class VocabCardItem(BaseModel):
             raise ValueError(f"{self.id}: typed-recall answers need a canonical one")
         if not any(e.axis == "vocab" for e in self.evidence):
             raise ValueError(f"{self.id}: vocab card needs vocab-axis evidence")
+        if self.demand == "perform" and not self.answers:
+            raise ValueError(
+                f"{self.id}: a perform card must be typed recall — add `answers`, "
+                "or drop it to demand: use"
+            )
         return self
 
 
@@ -204,6 +251,9 @@ class SpeakingPromptItem(BaseModel):
     id: str = Field(pattern=r"^speaking\.[a-z0-9._]+$")
     item_type: str = Field(default="speaking_prompt", pattern=r"^speaking_prompt$")
     cefr_level: CefrLevel
+    # `use` shows target_text as a model to read; `perform` keeps it as the
+    # scoring target only and the learner has to arrive at it themselves.
+    demand: Literal["use", "perform"] = "use"
     # Learner-facing instruction ("Ordina un caffè e chiedi il conto.").
     prompt: str
     target_text: str
@@ -231,6 +281,8 @@ class WritingPromptItem(BaseModel):
     id: str = Field(pattern=r"^writing\.[a-z0-9._]+$")
     item_type: str = Field(default="writing_prompt", pattern=r"^writing_prompt$")
     cefr_level: CefrLevel
+    # An open task with nothing to copy from is production by definition.
+    demand: Literal["perform"] = "perform"
     prompt: str
     min_words: int = Field(default=20, ge=1)
     # Grammar-point ids the submission should attempt.
@@ -273,6 +325,59 @@ class GrammarRefItem(BaseModel):
             raise ValueError(
                 f"{self.id}: evidence must include grammar {self.grammar_id}"
             )
+        return self
+
+
+class TaskItem(BaseModel):
+    """A lesson's capstone: the performance that proves one can-do.
+
+    The only item family carrying ``axis: cando``, and therefore the only
+    thing that can move a can-do to *achieved* (docs/plans/07 §2). It is a
+    scenario-final task rather than another exercise — "order for both of
+    you and ask the price", not "fill the gap" — and it exists at two
+    rungs: a ``use`` capstone shows ``target_text`` as a model to work
+    from, a ``perform`` one does not, and only the ``perform`` pass closes
+    the can-do.
+
+    Scoring reuses what is already there: ``mode: speaking`` goes through
+    the core's transcript-alignment scorer against ``target_text``,
+    ``mode: writing`` through the offline rubric plus the optional LLM
+    tier. No new runtime.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    status: str = Field(default="reviewed", pattern=r"^(draft|reviewed|flagged)$")
+    review_note: str | None = None
+
+    id: str = Field(pattern=r"^task\.[a-z0-9._]+$")
+    item_type: str = Field(default="task", pattern=r"^task$")
+    cefr_level: CefrLevel
+    # No default: which rung a capstone sits on is the whole point of it.
+    demand: Literal["use", "perform"]
+    mode: Literal["speaking", "writing"]
+    prompt: str
+    # The target utterance. Required for speaking (it is what alignment
+    # scores against); optional for writing, where the rubric carries it.
+    target_text: str | None = None
+    variants: list[str] = []
+    # Human-checkable success criteria, shown after the attempt and used
+    # by the LLM tier as the grading rubric.
+    rubric: list[str] = Field(min_length=1)
+    min_words: int = Field(default=15, ge=1)
+    explanation: str | None = None
+    evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
+
+    @model_validator(mode="after")
+    def check_shape(self) -> TaskItem:
+        if not any(e.axis == "cando" for e in self.evidence):
+            raise ValueError(
+                f"{self.id}: a capstone must carry cando-axis evidence — "
+                "that is the only thing that can achieve a can-do"
+            )
+        if self.mode == "speaking" and not self.target_text:
+            raise ValueError(f"{self.id}: speaking capstone needs target_text")
         return self
 
 

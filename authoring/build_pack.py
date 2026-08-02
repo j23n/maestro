@@ -35,6 +35,7 @@ from authoring.pack_schemas import (
     SpeakingPromptItem,
     Tombstone,
     VocabCardItem,
+    TaskItem,
     WritingPromptItem,
 )
 from authoring.spec_schemas import Spec
@@ -121,6 +122,7 @@ _ITEM_DIRS = {
     "speaking_prompts": SpeakingPromptItem,
     "writing_prompts": WritingPromptItem,
     "grammar_refs": GrammarRefItem,
+    "tasks": TaskItem,
 }
 
 
@@ -145,6 +147,7 @@ class PackSources:
     speaking_prompts: list[SpeakingPromptItem] = field(default_factory=list)
     writing_prompts: list[WritingPromptItem] = field(default_factory=list)
     grammar_refs: list[GrammarRefItem] = field(default_factory=list)
+    tasks: list[TaskItem] = field(default_factory=list)
     tombstones: list[Tombstone] = field(default_factory=list)
 
     def all_items(self) -> list:
@@ -156,6 +159,7 @@ class PackSources:
             *self.speaking_prompts,
             *self.writing_prompts,
             *self.grammar_refs,
+            *self.tasks,
         ]
 
 
@@ -182,6 +186,7 @@ def load_pack_sources(pack_dir: Path) -> PackSources:
         speaking_prompts=load("speaking_prompts", SpeakingPromptItem),
         writing_prompts=load("writing_prompts", WritingPromptItem),
         grammar_refs=load("grammar_refs", GrammarRefItem),
+        tasks=load("tasks", TaskItem),
         tombstones=tombstones,
     )
 
@@ -276,6 +281,7 @@ def coverage_report(
         SpeakingPromptItem: "speaking_prompt",
         WritingPromptItem: "writing_prompt",
         GrammarRefItem: "grammar_ref",
+        TaskItem: "task",
     }
     by_gp: dict[str, dict] = {
         g.id: {"cefr_level": g.cefr_level, "counts": {}} for g in spec.grammar_points
@@ -545,6 +551,7 @@ def build(
                 "prompt": item.prompt,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
             }
             if item.choices:
                 payload["choices"] = item.choices
@@ -571,6 +578,7 @@ def build(
                 "image": item.image,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
             }
             insert(
                 conn,
@@ -590,6 +598,7 @@ def build(
                 "audio": item.audio,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
             }
             answers = [Answer(text=item.target_text, canonical=True)] + [
                 Answer(text=v) for v in item.variants
@@ -615,6 +624,7 @@ def build(
                 "model_answer": item.model_answer,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
             }
             insert(conn, item.id, item.item_type, item.cefr_level, "writing", payload)
             built += 1
@@ -626,8 +636,42 @@ def build(
                 "examples": item.examples,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                # No demand: a reference page is presentation, not an
+                # attempt. It emits `introduced`, never evidence.
             }
             insert(conn, item.id, item.item_type, item.cefr_level, "reading", payload)
+            built += 1
+        elif isinstance(item, TaskItem):
+            payload = {
+                "prompt": item.prompt,
+                "mode": item.mode,
+                # Withheld from the payload at `perform`: the whole point
+                # of the closing capstone is that there is nothing to copy.
+                # Scoring still has it via acceptable_answers.
+                "target_text": item.target_text if item.demand == "use" else None,
+                "rubric": item.rubric,
+                "min_words": item.min_words,
+                "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
+            }
+            answers = (
+                [Answer(text=item.target_text, canonical=True)]
+                + [Answer(text=v) for v in item.variants]
+                if item.target_text
+                else []
+            )
+            insert(
+                conn,
+                item.id,
+                item.item_type,
+                item.cefr_level,
+                item.mode,
+                payload,
+                answers,
+                None,
+                item.explanation,
+            )
             built += 1
         elif isinstance(item, (ReadingItem, ListeningItem)):
             # Passages/dialogues become a parent item (the composer's
@@ -641,6 +685,7 @@ def build(
                 "title": item.title,
                 "evidence": evidence,
                 "scenario_ids": item.scenario_ids,
+                "demand": item.demand,
                 "question_ids": question_ids,
             }
             if isinstance(item, ReadingItem):
@@ -667,6 +712,10 @@ def build(
                         "parent_id": item.id,
                         "evidence": q_evidence,
                         "scenario_ids": item.scenario_ids,
+                        # The question's own rung, not the passage's: a
+                        # comprehension question is recognition even when
+                        # the answer box makes it look like a drill.
+                        "demand": q.demand,
                     },
                     q.answers,
                     None,

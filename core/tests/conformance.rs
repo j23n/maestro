@@ -280,6 +280,9 @@ fn run_session_vector(ctx: &str, vector: &Value) {
             cando_ids: str_vec(&v["cando_ids"]),
             vocab_ids: str_vec(&v["vocab_ids"]),
             scenario_ids: str_vec(&v["scenario_ids"]),
+            // Optional in vectors: the ones written before the demand
+            // ladder describe selection that doesn't depend on it.
+            demand: serde_json::from_value(v["demand"].clone()).unwrap_or(None),
         })
         .collect();
 

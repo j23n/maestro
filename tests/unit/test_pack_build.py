@@ -6,6 +6,7 @@ import sqlite3
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 from authoring.build_pack import (
     _normalize,
@@ -16,6 +17,7 @@ from authoring.build_pack import (
     validate_pack,
     validate_tombstones,
 )
+from authoring.pack_schemas import DrillItem, TaskItem
 from authoring.validate_spec import load_spec
 
 pytestmark = pytest.mark.unit
@@ -191,6 +193,133 @@ def test_scenario_ids_reach_the_bundle_and_are_checked(tmp_path):
     assert any(
         "unknown scenario id a0-99-nowhere" in e for e in validate_pack([item], spec)
     )
+
+
+def test_demand_reaches_the_bundle_at_the_right_rung(tmp_path):
+    """`demand` is the spiral's rung, and it has to survive the build for
+    the composer to select on it. The question children are the ones that
+    matter: they are comprehension, not production, whatever their parent
+    is — that mislabelling is what let a passage question count as a
+    productive use of a speech act."""
+    out = tmp_path / "bundle.sqlite"
+    assert (
+        build(ROOT / "packs" / "it", ROOT / "spec" / "it", out, include_draft=True) == 0
+    )
+
+    conn = sqlite3.connect(out)
+    rows = {
+        r[0]: (r[1], json.loads(r[2]).get("demand"))
+        for r in conn.execute("SELECT id, item_type, payload FROM items")
+    }
+    conn.close()
+
+    by_type: dict[str, set] = {}
+    for item_type, demand in rows.values():
+        by_type.setdefault(item_type, set()).add(demand)
+
+    assert by_type["reading"] == {"meet"}
+    assert by_type["reading_question"] == {"meet"}
+    assert by_type["listening_question"] == {"meet"}
+    assert by_type["drill_cloze"] == {"use"}
+    assert by_type["writing_prompt"] == {"perform"}
+    # A reference page is presentation, not an attempt: it emits
+    # `introduced` and never carries evidence about the learner.
+    assert by_type["grammar_ref"] == {None}
+
+
+def test_demand_rungs_that_contradict_the_item_are_rejected():
+    """The rung has to describe what the learner actually does, or the
+    mastery weight it drives is a lie."""
+    base = dict(
+        id="drill.saluti.900",
+        cefr_level="A0",
+        prompt="«___, signora!»",
+        answers=[{"text": "buongiorno", "canonical": True}],
+        evidence=[{"axis": "grammar", "id": "saluti"}],
+    )
+    with pytest.raises(ValidationError, match="recognition"):
+        DrillItem(**base, item_type="drill_cloze", demand="meet")
+    # The same rung is fine when the learner only has to pick.
+    DrillItem(
+        **base,
+        item_type="drill_multiple_choice",
+        demand="meet",
+        choices=["buongiorno", "buonasera"],
+    )
+
+
+def test_capstone_is_the_only_item_that_can_achieve_a_cando():
+    """A can-do moves to `achieved` on cando-axis evidence and nothing
+    else, so a capstone without it is inert — and until this item family
+    existed, no authored item carried that axis at all."""
+    base = dict(
+        id="task.al_bar.d1",
+        cefr_level="A0",
+        mode="speaking",
+        prompt="Ordina un caffè e chiedi quanto costa.",
+        target_text="Vorrei un caffè, per favore. Quant'è?",
+        rubric=["orders a coffee", "asks the price"],
+    )
+    with pytest.raises(ValidationError, match="cando-axis"):
+        TaskItem(**base, demand="use", evidence=[{"axis": "grammar", "id": "vorrei"}])
+
+    task = TaskItem(
+        **base, demand="use", evidence=[{"axis": "cando", "id": "a0.order_something"}]
+    )
+    assert task.item_type == "task"
+
+    # Speaking is scored by alignment against the target, so it needs one.
+    with pytest.raises(ValidationError, match="target_text"):
+        TaskItem(
+            **{**base, "target_text": None},
+            demand="perform",
+            evidence=[{"axis": "cando", "id": "a0.order_something"}],
+        )
+
+
+def test_perform_capstone_withholds_its_target(tmp_path):
+    """The closing capstone is the pass with no scaffolding — showing the
+    target would make it a reading-aloud exercise. Scoring still has it."""
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    (pack / "tasks").mkdir()
+    (pack / "tasks" / "probe.yaml").write_text(
+        json.dumps(
+            [
+                {
+                    "id": "task.probe.d1",
+                    "item_type": "task",
+                    "cefr_level": "A0",
+                    "demand": "perform",
+                    "mode": "speaking",
+                    "prompt": "Ordina per tutti e due.",
+                    "target_text": "Vorrei due caffè, per favore.",
+                    "rubric": ["orders for two"],
+                    "scenario_ids": ["a0-03-al-bar"],
+                    "evidence": [{"axis": "cando", "id": "a0.order_something"}],
+                }
+            ]
+        )
+    )
+    out = tmp_path / "bundle.sqlite"
+    assert build(pack, ROOT / "spec" / "it", out, include_draft=True) == 0
+
+    conn = sqlite3.connect(out)
+    payload = json.loads(
+        conn.execute("SELECT payload FROM items WHERE id = 'task.probe.d1'").fetchone()[
+            0
+        ]
+    )
+    answers = [
+        r[0]
+        for r in conn.execute(
+            "SELECT answer FROM acceptable_answers WHERE item_id = 'task.probe.d1'"
+        )
+    ]
+    conn.close()
+    assert payload["target_text"] is None, "a perform capstone shows nothing to copy"
+    assert payload["demand"] == "perform"
+    assert "Vorrei due caffè, per favore." in answers, "but it is still scorable"
 
 
 def test_media_files_are_embedded_and_missing_ones_rejected(tmp_path):

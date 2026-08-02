@@ -161,6 +161,34 @@ pub struct ItemMeta {
     /// the item belongs, not what it proves. Empty means "usable
     /// anywhere", which is also what pre-scenario bundles yield.
     pub scenario_ids: Vec<String>,
+    /// Which rung of the spiral this item occupies — how much it asks of
+    /// the learner, authored rather than inferred from the item type.
+    /// `None` for material that isn't attempted at all (grammar refs) and
+    /// for bundles built before `demand` existed.
+    pub demand: Option<Demand>,
+}
+
+/// The authored demand ladder (docs/plans/07 §2). Maps 1:1 onto
+/// `EvidenceClass`, which is what the learner's attempt is recorded as.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Demand {
+    /// Recognise it — a passage, a comprehension question.
+    Meet,
+    /// Produce it with scaffolding — cloze, guided speaking.
+    Use,
+    /// Produce it without — open task, role-play, free writing.
+    Perform,
+}
+
+impl Demand {
+    pub fn evidence_class(self) -> crate::model::EvidenceClass {
+        match self {
+            Demand::Meet => crate::model::EvidenceClass::Receptive,
+            Demand::Use => crate::model::EvidenceClass::Targeted,
+            Demand::Perform => crate::model::EvidenceClass::Productive,
+        }
+    }
 }
 
 #[derive(Deserialize)]
@@ -169,6 +197,9 @@ struct PayloadEvidence {
     evidence: Vec<PayloadEvidenceRef>,
     #[serde(default)]
     scenario_ids: Vec<String>,
+    /// Absent in pre-spiral bundles, and absent by design on grammar refs.
+    #[serde(default)]
+    demand: Option<Demand>,
 }
 
 #[derive(Deserialize)]
@@ -291,6 +322,7 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
             let ev: PayloadEvidence = serde_json::from_str(&payload).unwrap_or(PayloadEvidence {
                 evidence: vec![],
                 scenario_ids: vec![],
+                demand: None,
             });
             Ok(ItemMeta {
                 id: r.get(0)?,
@@ -316,6 +348,7 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
                     .map(|e| e.id.clone())
                     .collect(),
                 scenario_ids: ev.scenario_ids,
+                demand: ev.demand,
             })
         })?
         .collect::<Result<Vec<_>, _>>()?;
