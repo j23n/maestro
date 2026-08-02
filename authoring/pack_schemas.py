@@ -257,6 +257,11 @@ class SpeakingPromptItem(BaseModel):
     variants: list[str] = []
     # Model pronunciation of target_text once rendered; None until then.
     audio: str | None = None
+    # Relative path under images/ once generated; None until then.
+    image: str | None = None
+    # Authored override for the illustration's generation prompt;
+    # generation-time only, never ships in the payload.
+    image_prompt: str | None = None
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
@@ -282,6 +287,11 @@ class WritingPromptItem(BaseModel):
     # An open task with nothing to copy from is production by definition.
     demand: Literal["perform"] = "perform"
     prompt: str
+    # Relative path under images/ once generated; None until then.
+    image: str | None = None
+    # Authored override for the illustration's generation prompt;
+    # generation-time only, never ships in the payload.
+    image_prompt: str | None = None
     min_words: int = Field(default=20, ge=1)
     # Grammar-point ids the submission should attempt.
     required_grammar: list[str] = []

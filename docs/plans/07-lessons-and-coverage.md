@@ -549,8 +549,8 @@ Updated as steps land. §8 is the plan; this is the state.
 | --- | --- |
 | 1. `demand` + capstone + coverage contract | **done** |
 | 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | **done** |
-| 3. Lesson-scoped composer | next |
-| 4. Spec fill (depths, bands, domains, assignment) | not started |
+| 3. Lesson-scoped composer | **done** |
+| 4. Spec fill (depths, bands, domains, assignment) | in progress — 1 of 37 scenarios |
 | 5. App | not started |
 | 6. Content fill | not started |
 
@@ -559,22 +559,30 @@ is the index into them.
 
 ### The countdown
 
-`uv run python -m authoring.cli validate --coverage --include-draft`, as
-of step 2:
+`uv run python -m authoring.cli validate --coverage --include-draft`:
 
 ```
-85 lessons; A0-A2 coverage:
-  cando        0 / 68   covered
-  function     0 / 199  covered
-  grammar      0 / 163  covered
-  vocab        0 / 412  covered
-  orphan: 842
+87 lessons; A0-A2 coverage:
+  cando        1 / 68   covered
+  function     2 / 199  covered
+  grammar      3 / 163  covered
+  vocab        8 / 414  covered
+  orphan: 830
 ```
 
-85 lessons rather than the 135 §4 asks for, and nothing covered, because
-every scenario is still carrying its pre-lesson `depths: [str]` form —
-the legacy lift gives each one a lesson with a stable id and an empty
-`introduces`. Step 4 is what moves these numbers.
+87 lessons rather than the 135 §4 asks for, because 36 of the 37
+scenarios still carry their pre-lesson `depths: [str]` form — the legacy
+lift gives each one a lesson with a stable id and an empty `introduces`,
+and the composer falls back to scenario-scoped selection for those.
+
+**`a0-03-al-bar` is the one that is done**, and it is the proof the loop
+closes: three authored depths, everything it owns homed and revisited
+twice at rising demand, and three capstones that take
+`a0.order_something` from rehearsed to free.
+`core/tests/closes_a_cando.rs` plays all three against the real bundle
+and asserts the descriptor reaches `achieved` — the first time any can-do
+in this app has been reachable at all. Every remaining scenario is the
+same shape of work.
 
 ### Fixed along the way
 
@@ -588,3 +596,10 @@ the legacy lift gives each one a lesson with a stable id and an empty
 - Consolidation sessions get a writing slot, so writing is no longer
   confined to the archetype a scenario-scoped session almost never
   reaches.
+- The revisit slot was eating its own lesson's capstone: a `perform`
+  capstone carries the grammar it proves, so a `perform` revisit matched
+  it exactly and the slots that run first spent the ending as a warm-up.
+- A lesson ends on its capstone. Vocab review was scheduled after it.
+- `validate --coverage` implements §3's can-do clause: a descriptor whose
+  decomposition nothing has taught by its last capstone is reported
+  `decomposition-untaught`, not counted as covered.

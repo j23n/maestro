@@ -169,6 +169,10 @@ class Lesson(BaseModel):
     # Per-depth narrative; falls back to the scenario's.
     scene_setting: str | None = None
     outro: str | None = None
+    # Authored override for the lesson illustration's generation prompt
+    # (`generate-images`). Authoring-only: the art itself ships by its
+    # conventional path, this field never does.
+    image_prompt: str | None = None
 
 
 class Scenario(BaseModel):
