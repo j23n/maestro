@@ -100,7 +100,9 @@ struct SpeakingPracticeView: View {
             outcome: aligned.score >= 0.8
                 ? "correct" : aligned.score >= 0.5 ? "partial" : "incorrect",
             modality: "speaking",
-            evidenceClass: "productive",
+            // A speaking prompt with its target on screen is rehearsal;
+            // the same view backs a `perform` capstone with nothing to
+            // read from. The item's rung tells them apart.
             evidenceJson: evidenceJson,
             response: heard)
 

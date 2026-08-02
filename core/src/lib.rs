@@ -411,7 +411,8 @@ impl Core {
         let events = self.load_events()?;
         let spec = pack::load_spec(&self.pack.lock().unwrap())?;
         let state = folds::fold(&events, &spec, now);
-        let brief = session::pick_scenario(&spec, &state, None).map(|s| brief_of(s, &spec, &state));
+        let brief =
+            session::pick_scenario(&spec, &state, None).map(|(s, _)| brief_of(s, &spec, &state));
         serde_json::to_string(&brief).map_err(|e| CoreError::Storage {
             message: e.to_string(),
         })

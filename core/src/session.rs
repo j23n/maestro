@@ -45,7 +45,9 @@ pub fn compose(
     let unlocked: HashSet<String> = unlocked_grammar(state, spec).into_iter().collect();
 
     // ---- scenario --------------------------------------------------------
-    let scenario = pick_scenario(spec, state, opts.scenario_id.as_deref());
+    let picked = pick_scenario(spec, state, opts.scenario_id.as_deref());
+    let scenario = picked.map(|(s, _)| s);
+    let depth = picked.map(|(_, d)| d).unwrap_or(1);
 
     // ---- target grammar --------------------------------------------------
     let mut target: Vec<String> = match &scenario {
@@ -225,6 +227,10 @@ pub fn compose(
 
     SessionPlan {
         scenario_id: scenario.map(|s| s.id.clone()),
+        // Which framing of the scenario this is. The shell reports it
+        // back on completion; without it every visit re-plays depth 1.
+        depth,
+        practice: quick,
         archetype: archetype.to_string(),
         activities,
         target_grammar: target,
@@ -385,15 +391,33 @@ fn weighted_pick<'a>(
     Some(live.last().unwrap().0)
 }
 
-/// Least-completed scenario in the current phase; depth 2+ only after
-/// breadth (>= 3 scenarios completed at depth 1) — curriculum.py semantics.
+/// Least-completed scenario in the current phase, and the depth to play
+/// there; depth 2+ only after breadth (>= 3 scenarios completed at depth
+/// 1) — curriculum.py semantics.
+///
+/// The depth is the learner's next unplayed one, so a scenario deepens
+/// rather than replaying its first framing. That only works if the shell
+/// reports the depth back on `scenario_completed`: `max_depth_completed`
+/// is what advances, and an event without a depth defaults to 1 forever.
 pub(crate) fn pick_scenario<'a>(
     spec: &'a SpecData,
     state: &DerivedState,
     override_id: Option<&str>,
-) -> Option<&'a SpecScenario> {
+) -> Option<(&'a SpecScenario, u8)> {
+    let next_depth = |s: &SpecScenario| -> u8 {
+        let done = state
+            .scenarios
+            .get(&s.id)
+            .map(|p| p.max_depth_completed)
+            .unwrap_or(0);
+        (done + 1).min(s.depth_count.max(1))
+    };
     if let Some(id) = override_id {
-        return spec.scenarios.iter().find(|s| s.id == id);
+        return spec
+            .scenarios
+            .iter()
+            .find(|s| s.id == id)
+            .map(|s| (s, next_depth(s)));
     }
     let in_phase: Vec<&SpecScenario> = spec
         .scenarios
@@ -430,4 +454,5 @@ pub(crate) fn pick_scenario<'a>(
                 s.id.clone(),
             )
         })
+        .map(|s| (s, next_depth(s)))
 }

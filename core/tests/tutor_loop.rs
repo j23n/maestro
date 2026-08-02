@@ -211,3 +211,164 @@ fn simulated_learner_progresses() {
 
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+/// A scenario with three framings must offer all three, one per visit.
+///
+/// `max_depth_completed` is what the composer reads to decide whether a
+/// scenario has anything left; it only moves if the shell reports which
+/// depth it just played. Reporting every session as depth 1 makes a
+/// one-depth scenario retire after a single visit and a three-depth one
+/// replay its first framing forever — which is why nothing in the course
+/// was ever revisited.
+///
+/// Its own pack: deepening needs breadth first (three scenarios played at
+/// depth 1), which the single-scenario fixture above cannot express.
+fn build_deep_pack(path: &str) {
+    let conn = Connection::open(path).unwrap();
+    conn.execute_batch(
+        r#"
+        CREATE TABLE manifest (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        CREATE TABLE items (
+            id TEXT PRIMARY KEY, item_type TEXT NOT NULL,
+            cefr_level TEXT NOT NULL, modality TEXT NOT NULL, payload TEXT NOT NULL
+        );
+        CREATE TABLE acceptable_answers (
+            item_id TEXT NOT NULL, answer TEXT NOT NULL,
+            is_canonical INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE TABLE distractor_feedback (
+            item_id TEXT NOT NULL, response_norm TEXT NOT NULL, feedback TEXT NOT NULL
+        );
+        CREATE TABLE explanations (item_id TEXT PRIMARY KEY, feedback TEXT NOT NULL);
+        CREATE TABLE spec_grammar (
+            id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+            prerequisites TEXT NOT NULL DEFAULT '[]'
+        );
+        CREATE TABLE spec_functions (id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL);
+        CREATE TABLE spec_scenarios (
+            id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL,
+            phase INTEGER NOT NULL, sequence INTEGER, depth_count INTEGER NOT NULL,
+            grammar_ids TEXT NOT NULL DEFAULT '[]',
+            function_ids TEXT NOT NULL DEFAULT '[]'
+        );
+        CREATE TABLE spec_can_dos (
+            id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL, skill TEXT NOT NULL,
+            grammar_ids TEXT NOT NULL DEFAULT '[]',
+            function_ids TEXT NOT NULL DEFAULT '[]'
+        );
+        INSERT INTO manifest VALUES
+            ('schema_version','0'),('pack_version','0.0.1-sim'),('language','it');
+        INSERT INTO spec_grammar VALUES ('gp_a','A0','[]');
+        INSERT INTO spec_scenarios VALUES ('sc-1','A0',1,1,3,'["gp_a"]','[]');
+        INSERT INTO spec_scenarios VALUES ('sc-2','A0',1,2,3,'["gp_a"]','[]');
+        INSERT INTO spec_scenarios VALUES ('sc-3','A0',1,3,3,'["gp_a"]','[]');
+        "#,
+    )
+    .unwrap();
+    for i in 0..24 {
+        let id = format!("drill.gp_a.{i:03}");
+        conn.execute(
+            "INSERT INTO items VALUES (?1,'drill_cloze','A0','writing', ?2)",
+            rusqlite::params![
+                id,
+                r#"{"prompt":"p","evidence":[{"axis":"grammar","id":"gp_a","weight":1.0}]}"#
+            ],
+        )
+        .unwrap();
+        conn.execute("INSERT INTO acceptable_answers VALUES (?1,'ok',1)", [&id]).unwrap();
+    }
+}
+
+#[test]
+fn a_scenario_deepens_one_framing_per_visit() {
+    let dir = std::env::temp_dir().join(format!("maestro-depth-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let pack = dir.join("depth.pack.sqlite");
+    let learner = dir.join("learner.sqlite");
+    let _ = std::fs::remove_file(&pack);
+    let _ = std::fs::remove_file(&learner);
+    build_deep_pack(pack.to_str().unwrap());
+    let core = Core::open(
+        pack.to_str().unwrap().into(),
+        learner.to_str().unwrap().into(),
+    )
+    .unwrap();
+
+    let complete = |scenario: &str, depth: u64, at: i64| {
+        core.record_event(format!(
+            r#"{{"type":"scenario_completed","at":{at},"scenario_id":"{scenario}","depth":{depth}}}"#
+        ))
+        .unwrap();
+    };
+
+    // Breadth first: each of the three scenarios at depth 1.
+    for (i, sc) in ["sc-1", "sc-2", "sc-3"].iter().enumerate() {
+        let at = NOW + i as i64 * DAY;
+        let plan = plan(&core, at, 1);
+        assert_eq!(plan["scenario_id"], *sc, "visit {i}");
+        assert_eq!(plan["depth"], 1, "first visit to {sc}");
+        complete(sc, 1, at);
+    }
+
+    // Then the scenarios come round again, deeper. Selection orders by
+    // completion count before sequence, so the course interleaves rather
+    // than draining one scenario to the bottom before starting the next.
+    let mut visits: Vec<(String, u64)> = Vec::new();
+    for round in 0..6 {
+        let at = NOW + (3 + round) as i64 * DAY;
+        let plan = plan(&core, at, 1);
+        let sc = plan["scenario_id"].as_str().expect("a scenario").to_string();
+        let depth = plan["depth"].as_u64().expect("plan carries a depth");
+        complete(&sc, depth, at);
+        visits.push((sc, depth));
+    }
+    assert_eq!(
+        visits,
+        vec![
+            ("sc-1".into(), 2),
+            ("sc-2".into(), 2),
+            ("sc-3".into(), 2),
+            ("sc-1".into(), 3),
+            ("sc-2".into(), 3),
+            ("sc-3".into(), 3),
+        ],
+        "every scenario must offer each framing once, in order"
+    );
+
+    // All three framings played everywhere: nothing is left to offer.
+    let after = plan(&core, NOW + 12 * DAY, 1);
+    assert!(
+        after["scenario_id"].is_null(),
+        "a fully-played scenario retires: {after}"
+    );
+}
+
+/// A short practice run is not a lesson: it completes nothing, so it
+/// cannot consume a scenario the learner has not actually played.
+#[test]
+fn practice_completes_nothing() {
+    let dir = std::env::temp_dir().join(format!("maestro-prac-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let pack = dir.join("prac.pack.sqlite");
+    let learner = dir.join("learner.sqlite");
+    let _ = std::fs::remove_file(&pack);
+    let _ = std::fs::remove_file(&learner);
+    build_pack(pack.to_str().unwrap());
+    let core = Core::open(
+        pack.to_str().unwrap().into(),
+        learner.to_str().unwrap().into(),
+    )
+    .unwrap();
+
+    let quick: serde_json::Value = serde_json::from_str(
+        &core
+            .compose_session(format!(
+                r#"{{"now":{NOW},"time_budget_minutes":5,"seed":1}}"#
+            ))
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(quick["practice"], true);
+    let full = plan(&core, NOW, 1);
+    assert_eq!(full["practice"], false);
+}

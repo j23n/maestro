@@ -30,13 +30,18 @@ struct Shortfall: Codable {
 
 struct SessionPlan: Codable {
     let scenarioId: String?
+    /// Which framing of the scenario this is. Reported back when the
+    /// session ends; without it the scenario never deepens.
+    let depth: UInt8
+    /// A short run over material already met. Completes no scenario.
+    let practice: Bool
     let archetype: String
     let activities: [PlannedActivity]
     let targetGrammar: [String]
     let shortfalls: [Shortfall]
 
     enum CodingKeys: String, CodingKey {
-        case scenarioId = "scenario_id", archetype, activities
+        case scenarioId = "scenario_id", depth, practice, archetype, activities
         case targetGrammar = "target_grammar", shortfalls
     }
 }
@@ -360,13 +365,21 @@ final class CoreBridge {
 
     /// Record a scored attempt. evidence comes from the item payload's
     /// `evidence` array, passed through untouched.
+    ///
+    /// `evidenceClass` defaults to the item's own authored rung. Passing
+    /// it explicitly is for the rare case where the view knows better
+    /// than the pack; guessing it from the view type is what made a
+    /// reading comprehension question count as productive use of a
+    /// speech act, on the very axis that gates can-dos.
     func recordAttempt(
         itemId: String, outcome: String, modality: String,
-        evidenceClass: String, evidenceJson: [[String: Any]], response: String?
+        evidenceClass: String? = nil, evidenceJson: [[String: Any]],
+        response: String?
     ) throws {
         var event: [String: Any] = [
             "type": "attempt", "item_id": itemId, "outcome": outcome,
-            "modality": modality, "evidence_class": evidenceClass,
+            "modality": modality,
+            "evidence_class": evidenceClass ?? self.evidenceClass(for: itemId),
             "evidence": evidenceJson,
         ]
         if let response { event["response"] = response }
@@ -377,12 +390,27 @@ final class CoreBridge {
     /// activity view needs it to record an event, so it lives here rather
     /// than being re-derived in each one.
     func evidence(for itemId: String) -> [[String: Any]] {
-        guard let json = try? core.getItemJson(itemId: itemId),
-              let obj = try? JSONSerialization.jsonObject(with: Data(json.utf8))
-                  as? [String: Any],
-              let evidence = obj["evidence"] as? [[String: Any]]
-        else { return [] }
-        return evidence
+        payload(for: itemId)?["evidence"] as? [[String: Any]] ?? []
+    }
+
+    /// How much this item asks of the learner, as the pack authored it.
+    ///
+    /// `demand` is the rung of the spiral (meet / use / perform); the core
+    /// weighs the resulting evidence by it. Items built before the ladder
+    /// existed carry none, and `targeted` is the neutral middle rung the
+    /// core already defaults to.
+    func evidenceClass(for itemId: String) -> String {
+        switch payload(for: itemId)?["demand"] as? String {
+        case "meet": return "receptive"
+        case "perform": return "productive"
+        default: return "targeted"
+        }
+    }
+
+    private func payload(for itemId: String) -> [String: Any]? {
+        guard let json = try? core.getItemJson(itemId: itemId) else { return nil }
+        return try? JSONSerialization.jsonObject(with: Data(json.utf8))
+            as? [String: Any]
     }
 
     /// Mark grammar as taught. The composer's `introduction` archetype
@@ -446,7 +474,10 @@ final class CoreBridge {
             "item_id": itemId,
             "outcome": srsRating >= 3 ? "correct" : "incorrect",
             "modality": "vocab",
-            "evidence_class": "targeted",
+            // A flip-and-self-grade card is recall with the prompt in
+            // front of you; a typed-recall one is production. The card
+            // says which it is.
+            "evidence_class": evidenceClass(for: itemId),
             "srs_rating": srsRating,
             "evidence": evidenceJson,
         ])

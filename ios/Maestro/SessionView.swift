@@ -169,9 +169,18 @@ struct SessionView: View {
     /// The composer orders scenarios by completion count, so this event is
     /// what unlocks the next lesson. Without it the learner replays lesson
     /// one forever (core/tests/five_lessons.rs pins exactly that).
+    ///
+    /// The depth matters as much as the id: `max_depth_completed` is what
+    /// decides whether a scenario is finished or has framings left, so
+    /// reporting every session as depth 1 makes a one-depth scenario
+    /// retire after a single visit and a three-depth one never move past
+    /// its first.
     private func recordCompletion() {
-        guard let scenarioId = plan.scenarioId else { return }
-        try? bridge.recordScenarioCompleted(scenarioId: scenarioId)
+        // Practice runs over material already met complete nothing. A new
+        // learner's first tap on "quick drills" used to retire "In aereo"
+        // — the opening scene — without ever showing it to them.
+        guard let scenarioId = plan.scenarioId, !plan.practice else { return }
+        try? bridge.recordScenarioCompleted(scenarioId: scenarioId, depth: plan.depth)
     }
 }
 
@@ -333,11 +342,13 @@ struct DrillView: View {
                 correct: scored.correct, itemId: activity.itemId,
                 prompt: payload?.prompt ?? "", answer: text,
                 expected: scored.expected.joined(separator: " / "))
+            // No evidenceClass: the item's authored rung decides. A drill
+            // is targeted production, a comprehension question routed
+            // through this same view is not, and only the pack knows.
             try bridge.recordAttempt(
                 itemId: activity.itemId,
                 outcome: scored.correct ? "correct" : "incorrect",
                 modality: "writing",
-                evidenceClass: "targeted",
                 evidenceJson: rawEvidence,
                 response: text)
         } catch {

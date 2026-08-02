@@ -113,7 +113,6 @@ struct WritingActivityView: View {
             // the LLM verdict, if it arrives, folds back separately.
             outcome: result.meetsRubric ? "partial" : "incorrect",
             modality: "writing",
-            evidenceClass: "productive",
             evidenceJson: bridge.evidence(for: activity.itemId),
             response: text)
 

@@ -315,9 +315,28 @@ pub struct Shortfall {
     pub filled: u32,
 }
 
+/// Depth defaults to the first framing, for plans serialized before the
+/// field existed (conformance vectors, stored plans).
+fn one() -> u8 {
+    1
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SessionPlan {
     pub scenario_id: Option<String>,
+    /// Which depth of that scenario this session plays: the learner's
+    /// next unplayed one. Reported back on `scenario_completed`, which is
+    /// what moves `max_depth_completed` — an event without it pins the
+    /// scenario at depth 1, so it either retires after one visit or
+    /// replays its first framing forever.
+    #[serde(default = "one")]
+    pub depth: u8,
+    /// True when this session is practice rather than a lesson: a short
+    /// run of drills over material already met. It completes no scenario,
+    /// so it cannot consume a lesson the learner has not actually played
+    /// — tapping "quick drills" once used to retire the opening lesson.
+    #[serde(default)]
+    pub practice: bool,
     pub archetype: String,
     pub activities: Vec<PlannedActivity>,
     /// Grammar points this session targets, most-important first.
