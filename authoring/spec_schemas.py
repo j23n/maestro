@@ -13,8 +13,9 @@ item and every learner event that references it.
 from __future__ import annotations
 
 from enum import StrEnum
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class CefrLevel(StrEnum):
@@ -77,6 +78,99 @@ class CommunicativeFunction(BaseModel):
     examples: list[str] = []
 
 
+# How much a lesson (or an item) asks of the learner — the rung of the
+# spiral (docs/plans/07 §2). Maps 1:1 onto the core's `EvidenceClass`.
+#
+#   meet    -> receptive  recognise it: a passage, a comprehension question
+#   use     -> targeted   produce it with scaffolding: cloze, guided speaking
+#   perform -> productive produce it without: open task, role-play, free writing
+Demand = Literal["meet", "use", "perform"]
+
+DEMAND_TO_EVIDENCE_CLASS: dict[str, str] = {
+    "meet": "receptive",
+    "use": "targeted",
+    "perform": "productive",
+}
+
+# Ordering, for "a revisit may not go down a rung".
+DEMAND_RANK: dict[str, int] = {"meet": 0, "use": 1, "perform": 2}
+
+
+class Revisit(BaseModel):
+    """One thing a lesson comes back to, and the rung it takes it to."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    demand: Demand
+
+
+class Introduces(BaseModel):
+    """What a lesson teaches for the first time — its exclusive homes.
+
+    Everything listed here is introduced by this lesson and no other, so
+    the lesson owes it a reference page and a first bank of items.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    grammar: list[str] = []
+    functions: list[str] = []
+    vocab: list[str] = []
+
+
+class Revisits(BaseModel):
+    """What a lesson comes back to, one rung up. The spiral, declared."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    grammar: list[Revisit] = []
+    functions: list[Revisit] = []
+    vocab: list[Revisit] = []
+
+
+class Capstone(BaseModel):
+    """A can-do proved at one rung — the lesson's closing performance.
+
+    A can-do is capstoned in three lessons at rising demand; only the
+    ``perform`` pass moves it to *achieved*.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    cando: str
+    demand: Literal["use", "perform"]
+
+
+class Lesson(BaseModel):
+    """One scenario at one depth — the unit the learner actually plays.
+
+    A lesson is authored, named, and declares both what it introduces and
+    what it comes back to. It ships with a required set of items or the
+    composer never offers it (docs/plans/07 §2).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str = Field(pattern=r"^[a-z0-9-]+\.d[0-9]+$")
+    # Depth carries its own level: a scenario's band rises by at most one
+    # across its depths, which is where A2 lives (docs/plans/07 §4a).
+    # None inherits the scenario's.
+    cefr_level: CefrLevel | None = None
+    label: str = ""
+    # What the learner will be able to do by the end — the capstone in
+    # plain words, and what the splash screen leads with.
+    goal: str | None = None
+    # The one-line framing this depth had before lessons were objects.
+    summary: str = ""
+    introduces: Introduces = Introduces()
+    revisits: Revisits = Revisits()
+    capstones: list[Capstone] = []
+    # Per-depth narrative; falls back to the scenario's.
+    scene_setting: str | None = None
+    outro: str | None = None
+
+
 class Scenario(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -88,8 +182,10 @@ class Scenario(BaseModel):
     sequence: int | None = None
     label: str
     description: str
-    # Progressive framings of the same scenario; index = depth - 1.
-    depths: list[str] = Field(min_length=1)
+    # The scenario's lessons, in order; index = depth - 1.
+    depths: list[Lesson] = Field(min_length=1)
+    # Derived unions of the depths' introduces+revisits, kept because packs
+    # and can-dos reference them; `validate_spec` asserts they agree.
     grammar_ids: list[str] = []
     function_ids: list[str] = []
     # Optional authored narrative framing (present for A0 today).
@@ -97,6 +193,37 @@ class Scenario(BaseModel):
     scene_setting: str | None = None
     outro: str | None = None
     image: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _lift_legacy_depths(cls, data):
+        """Accept the pre-lesson `depths: [str]` form.
+
+        Depths were one-line framings before they were objects. Lifting
+        them here rather than rewriting the spec in the same change keeps
+        this migration reviewable: every scenario still loads, and the
+        spec fill (docs/plans/07 step 4) is what populates the rest.
+        """
+        if not isinstance(data, dict):
+            return data
+        depths = data.get("depths")
+        if not isinstance(depths, list):
+            return data
+        data = dict(data)
+        data["depths"] = [
+            {"id": f"{data.get('id', 'unknown')}.d{n}", "summary": d}
+            if isinstance(d, str)
+            else d
+            for n, d in enumerate(depths, 1)
+        ]
+        return data
+
+    def lesson(self, depth: int) -> Lesson:
+        """The lesson at ``depth`` (1-based), as the composer counts them."""
+        return self.depths[depth - 1]
+
+    def level_at(self, depth: int) -> CefrLevel:
+        return self.depths[depth - 1].cefr_level or self.cefr_level
 
 
 class VocabEntry(BaseModel):

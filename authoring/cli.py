@@ -45,6 +45,18 @@ def main() -> int:
         "near-duplicates, orthography) — warnings, not errors",
     )
     val.add_argument(
+        "--coverage",
+        action="store_true",
+        help="check the closure contract: every A0-A2 grammar point, "
+        "function, can-do and lemma introduced by exactly one lesson and "
+        "revisited at least twice more, at rising demand",
+    )
+    val.add_argument(
+        "--include-draft",
+        action="store_true",
+        help="count draft items as supply in --coverage (dev packs)",
+    )
+    val.add_argument(
         "--adversarial",
         action="store_true",
         help="second-model adversarial answer pass over drills (API)",
@@ -172,10 +184,24 @@ def main() -> int:
             for m in msgs:
                 print(f"warning: {item_id}: {m}")
                 n_quality += 1
+        n_uncovered = 0
+        if args.coverage:
+            from authoring.coverage import check_coverage, format_report
+
+            statuses = (
+                frozenset({"reviewed", "draft"})
+                if args.include_draft
+                else frozenset({"reviewed"})
+            )
+            report = check_coverage(spec, sources.all_items(), statuses=statuses)
+            print(format_report(report))
+            n_uncovered = len(report.findings)
         for e in errors:
             print(f"ERROR: {e}")
         print(f"{len(errors)} errors, {len(warnings) + n_quality} warnings")
-        return 1 if errors else 0
+        # Coverage gaps fail the run: the contract is the definition of a
+        # finished curriculum, so "not yet" has to be visible in CI.
+        return 1 if errors or n_uncovered else 0
 
     if args.command == "prompts":
         from authoring.prompts import build_prompts

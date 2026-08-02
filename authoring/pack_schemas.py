@@ -23,7 +23,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from authoring.spec_schemas import CefrLevel
+from authoring.spec_schemas import CefrLevel, Demand
 
 
 class Evidence(BaseModel):
@@ -46,27 +46,20 @@ class Evidence(BaseModel):
 _SCENARIO_IDS = Field(default_factory=list)
 
 
-# How much the item asks of the learner (docs/plans/07 §2). The authored
+# The lesson this item was authored for: `<scenario>.d<depth>`. Exactly
+# one, unlike `scenario_ids` — it is the item's *home*, the lesson whose
+# required set it counts towards (docs/plans/07 §2). None means the item
+# is shared supply: still selectable, but it satisfies no lesson's
+# obligations and only counts towards the global higher-rung pool.
+_LESSON_ID = Field(default=None, pattern=r"^[a-z0-9-]+\.d[0-9]+$")
+
+
+# `demand` is the rung of the spiral an item occupies — the authored
 # counterpart of the core's `EvidenceClass`, which the shell has until now
-# guessed from whichever view happened to render the item — which is why a
-# reading comprehension question was recorded as targeted production.
-#
-#   meet    -> receptive  recognise it: a passage, a comprehension question
-#   use     -> targeted   produce it with scaffolding: cloze, guided speaking
-#   perform -> productive produce it without: open task, role-play, free writing
-#
-# It is the rung of the spiral this item occupies, so the same field drives
-# authoring, revisit selection, mastery weight and how the UI frames it.
-Demand = Literal["meet", "use", "perform"]
-
-DEMAND_TO_EVIDENCE_CLASS: dict[str, str] = {
-    "meet": "receptive",
-    "use": "targeted",
-    "perform": "productive",
-}
-
-# Ordering, for "a revisit may not go down a rung".
-DEMAND_RANK: dict[str, int] = {"meet": 0, "use": 1, "perform": 2}
+# guessed from whichever view happened to render the item (which is why a
+# reading comprehension question was recorded as targeted production). It
+# is defined in spec_schemas because lessons declare rungs too, and the
+# two have to be the same ladder.
 
 
 class Answer(BaseModel):
@@ -100,6 +93,7 @@ class DrillItem(BaseModel):
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
     # Choices for multiple_choice; must include one canonical answer text.
     choices: list[str] = []
 
@@ -159,6 +153,7 @@ class ReadingItem(BaseModel):
     questions: list[Question] = Field(min_length=1)
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
 
 class DialogueTurn(BaseModel):
@@ -187,6 +182,7 @@ class ListeningItem(BaseModel):
     questions: list[Question] = Field(min_length=1)
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
 
 class VocabCardItem(BaseModel):
@@ -221,6 +217,7 @@ class VocabCardItem(BaseModel):
     answers: list[Answer] = []
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
     @model_validator(mode="after")
     def check_shape(self) -> VocabCardItem:
@@ -263,6 +260,7 @@ class SpeakingPromptItem(BaseModel):
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
 
 class WritingPromptItem(BaseModel):
@@ -292,6 +290,7 @@ class WritingPromptItem(BaseModel):
     model_answer: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
 
 class GrammarRefItem(BaseModel):
@@ -316,6 +315,7 @@ class GrammarRefItem(BaseModel):
     examples: list[str] = []
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
     @model_validator(mode="after")
     def check_shape(self) -> GrammarRefItem:
@@ -368,6 +368,7 @@ class TaskItem(BaseModel):
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
     scenario_ids: list[str] = _SCENARIO_IDS
+    lesson_id: str | None = _LESSON_ID
 
     @model_validator(mode="after")
     def check_shape(self) -> TaskItem:

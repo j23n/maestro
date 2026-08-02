@@ -208,6 +208,7 @@ def validate_pack(items: list, spec: Spec) -> list[str]:
     vocab_ids = {v.id for v in spec.vocab}
     cando_ids = {c.id for c in spec.can_dos}
     scenario_ids = {s.id for s in spec.scenarios}
+    lesson_ids = {lesson.id for s in spec.scenarios for lesson in s.depths}
     for item in items:
         if item.id in seen:
             errors.append(f"duplicate item id: {item.id}")
@@ -234,6 +235,18 @@ def validate_pack(items: list, spec: Spec) -> list[str]:
         for sc in item.scenario_ids:
             if sc not in scenario_ids:
                 errors.append(f"{item.id}: unknown scenario id {sc}")
+        # An item's home lesson has to exist, and an item cannot claim to
+        # live in a lesson while being tagged for a different scenario.
+        if item.lesson_id is not None:
+            if item.lesson_id not in lesson_ids:
+                errors.append(f"{item.id}: unknown lesson id {item.lesson_id}")
+            else:
+                home_scenario = item.lesson_id.rsplit(".d", 1)[0]
+                if item.scenario_ids and home_scenario not in item.scenario_ids:
+                    errors.append(
+                        f"{item.id}: lesson {item.lesson_id} is not among its "
+                        f"scenarios {item.scenario_ids}"
+                    )
     return errors
 
 
@@ -552,6 +565,7 @@ def build(
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
             }
             if item.choices:
                 payload["choices"] = item.choices
@@ -579,6 +593,7 @@ def build(
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
             }
             insert(
                 conn,
@@ -599,6 +614,7 @@ def build(
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
             }
             answers = [Answer(text=item.target_text, canonical=True)] + [
                 Answer(text=v) for v in item.variants
@@ -625,6 +641,7 @@ def build(
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
             }
             insert(conn, item.id, item.item_type, item.cefr_level, "writing", payload)
             built += 1
@@ -636,6 +653,7 @@ def build(
                 "examples": item.examples,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
+                "lesson_id": item.lesson_id,
                 # No demand: a reference page is presentation, not an
                 # attempt. It emits `introduced`, never evidence.
             }
@@ -654,6 +672,7 @@ def build(
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
             }
             answers = (
                 [Answer(text=item.target_text, canonical=True)]
@@ -686,6 +705,7 @@ def build(
                 "evidence": evidence,
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
+                "lesson_id": item.lesson_id,
                 "question_ids": question_ids,
             }
             if isinstance(item, ReadingItem):

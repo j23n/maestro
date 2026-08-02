@@ -4,6 +4,9 @@ from pathlib import Path
 
 import pytest
 
+from pydantic import ValidationError
+
+from authoring.spec_schemas import DEMAND_RANK, Capstone, Revisit, Scenario
 from authoring.validate_spec import load_spec, validate
 
 pytestmark = pytest.mark.unit
@@ -54,3 +57,65 @@ def test_prerequisites_stay_within_or_below_level():
         if order.index(by_id[p].cefr_level) > order.index(g.cefr_level)
     ]
     assert violations == []
+
+
+def test_legacy_depth_strings_lift_into_lessons():
+    """Depths were one-line framings before they were lessons. The old
+    form still loads — the spec fill populates the rest — so every
+    scenario keeps a lesson per depth with a derivable, stable id."""
+    scenario = Scenario(
+        id="al-bar",
+        cefr_level="A1",
+        label="Al bar",
+        description="Coffee, standing up",
+        depths=["Ordering at the counter", "A table outside", "Small talk"],
+    )
+    assert [lesson.id for lesson in scenario.depths] == [
+        "al-bar.d1",
+        "al-bar.d2",
+        "al-bar.d3",
+    ]
+    assert scenario.lesson(1).summary == "Ordering at the counter"
+    assert scenario.lesson(1).introduces.grammar == []
+    # A depth with no level of its own is the scenario's level.
+    assert scenario.level_at(3) == "A1"
+
+
+def test_a_lesson_declares_its_homes_its_revisits_and_its_capstone():
+    """The three blocks are what make coverage checkable: introduced once,
+    revisited at a named rung, and proved by a capstone."""
+    scenario = Scenario(
+        id="al-bar",
+        cefr_level="A1",
+        label="Al bar",
+        description="Coffee, standing up",
+        depths=[
+            {
+                "id": "al-bar.d1",
+                "label": "Al banco",
+                "goal": "Order at the counter without switching to English.",
+                "introduces": {"grammar": ["vorrei"], "vocab": ["caffè"]},
+                "capstones": [{"cando": "a0.order_something", "demand": "use"}],
+            },
+            {
+                "id": "al-bar.d2",
+                "cefr_level": "A2",
+                "revisits": {"grammar": [{"id": "vorrei", "demand": "perform"}]},
+                "capstones": [{"cando": "a0.order_something", "demand": "perform"}],
+            },
+        ],
+    )
+    assert scenario.lesson(1).introduces.grammar == ["vorrei"]
+    assert scenario.lesson(2).revisits.grammar[0].demand == "perform"
+    # A scenario's band rises across its depths — this is where A2 lives.
+    assert scenario.level_at(1) == "A1"
+    assert scenario.level_at(2) == "A2"
+
+
+def test_the_spirals_rungs_only_go_one_way():
+    with pytest.raises(ValidationError):
+        Revisit(id="vorrei", demand="master")
+    # A capstone is a performance, never a recognition exercise.
+    with pytest.raises(ValidationError):
+        Capstone(cando="a0.order_something", demand="meet")
+    assert DEMAND_RANK["meet"] < DEMAND_RANK["use"] < DEMAND_RANK["perform"]
