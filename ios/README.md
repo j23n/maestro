@@ -15,7 +15,9 @@ source of truth; `Maestro.xcodeproj` is generated, not committed.
 | File | Role | Depends on |
 | --- | --- | --- |
 | `CoreBridge.swift` | Only file touching the core; Codable mirrors of `core/src/model.rs` | committed bindings |
-| `MaestroApp.swift` | Entry, tabs, session launcher | — |
+| `MaestroApp.swift` | Entry, tabs | — |
+| `LearnPathView.swift` | Learn tab root: every lesson as a path — CEFR sections, scenario units, circular nodes with completed/next/locked states | CoreBridge |
+| `LessonIntroView.swift` | Lesson intro: drawing, goal, Nuovo/Ripasso/Obiettivi chips; Start gated to the `next` lesson | CoreBridge |
 | `SessionView.swift` | Session player: grammar cards, drills, passages, vocab review, speaking, writing; per-activity evidence events; `scenario_completed` at the end | CoreBridge |
 | `SpeakingPracticeView.swift` | Read-aloud: mic + it-IT model consent, SpeechAnalyzer → `alignTranscript` → per-word colors, then optional LLM notes | Spike B outcome |
 | `ProgressScreen.swift` | Can-do list, grammar labels, CEFR estimate | CoreBridge |
@@ -108,11 +110,12 @@ which takes them out of the next build.
 
 Each is a straightforward wiring task once Spike A compiles:
 
-- **Media from the bundle**: `listMedia()` / `getMedia(path)` — play pack
-  audio (dialogue turns carry `audio` paths, speaking prompts a model
-  pronunciation, vocab cards a front reading) and render images. Replaces
-  the `TODO(on-Mac)` in `SessionView`; keep AVSpeechSynthesizer as the
-  fallback for `audio == null`, which is every dialogue today.
+- **Audio from the bundle**: `getMedia(path)` — play pack audio (dialogue
+  turns carry `audio` paths, speaking prompts a model pronunciation,
+  vocab cards a front reading). Replaces the `TODO(on-Mac)` in
+  `SessionView`; keep AVSpeechSynthesizer as the fallback for
+  `audio == null`, which is every dialogue today. Images already render
+  through `CoreBridge.media(at:)` (lesson art, activity illustrations).
 - **Pack updates**: `packStatus()` (schema compat), `listTombstones()`;
   `Deferred/PackManager.swift` should read `index.json` +
   `release.json.sig` and verify the ed25519 signature with the bundled

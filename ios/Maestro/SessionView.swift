@@ -5,6 +5,7 @@
 
 import AVFoundation
 import SwiftUI
+import UIKit
 
 /// What actually happened in a session, gathered as it plays.
 ///
@@ -1109,6 +1110,15 @@ struct SpeakingActivityView: View {
             } else if let payload {
                 VStack(alignment: .leading, spacing: 14) {
                     Eyebrow(text: "Speaking")
+                    if let path = payload.image,
+                        let art = bridge.media(at: path).flatMap(UIImage.init(data:)) {
+                        Image(uiImage: art)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity)
+                            .frame(maxHeight: 180)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
                     Text(payload.prompt)
                         .font(.callout)
                         .foregroundStyle(Color.mText)

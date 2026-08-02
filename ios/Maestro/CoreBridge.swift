@@ -171,6 +171,8 @@ struct VocabCardPayload: Codable {
 
 struct WritingPayload: Codable {
     let prompt: String
+    /// Media path for `media(at:)`; nil when the task is unillustrated.
+    let image: String?
     let minWords: Int
     /// Grammar the submission is expected to attempt, and vocabulary it
     /// should reach for — the offline rubric checks both.
@@ -179,7 +181,7 @@ struct WritingPayload: Codable {
     let modelAnswer: String?
 
     enum CodingKeys: String, CodingKey {
-        case prompt
+        case prompt, image
         case minWords = "min_words"
         case requiredGrammar = "required_grammar"
         case requiredVocab = "required_vocab"
@@ -211,9 +213,11 @@ struct SpeakingPayload: Codable {
     let prompt: String
     let targetText: String
     let variants: [String]
+    /// Media path for `media(at:)`; nil when the task is unillustrated.
+    let image: String?
 
     enum CodingKeys: String, CodingKey {
-        case prompt, variants
+        case prompt, variants, image
         case targetText = "target_text"
     }
 }
@@ -295,6 +299,145 @@ struct LessonBrief: Codable {
     }
 }
 
+/// Where one lesson sits for the learner. Only `next` is honestly
+/// startable — the composer always plays a scenario's next unplayed
+/// depth, so there is no way to jump ahead or replay a specific one.
+enum LessonState: String, Codable, Hashable {
+    case completed, next, locked
+}
+
+/// Every lesson in the pack, grouped for the Learn tab's path.
+struct LearnPath: Codable {
+    let currentPhase: UInt32
+    /// One section per run of consecutive scenarios at the same level —
+    /// the path's CEFR headings.
+    let sections: [LearnSection]
+
+    enum CodingKeys: String, CodingKey {
+        case sections
+        case currentPhase = "current_phase"
+    }
+}
+
+struct LearnSection: Codable {
+    let cefrLevel: String
+    let units: [LearnUnit]
+
+    enum CodingKeys: String, CodingKey {
+        case units
+        case cefrLevel = "cefr_level"
+    }
+}
+
+/// One scenario as a unit on the path: its art and its lessons in depth
+/// order.
+struct LearnUnit: Codable, Identifiable {
+    let scenarioId: String
+    let label: String
+    /// Media path for `media(at:)`; empty when the unit is unillustrated.
+    let image: String
+    let phase: UInt32
+    let sequence: UInt32?
+    let lessons: [LearnLesson]
+
+    var id: String { scenarioId }
+
+    enum CodingKeys: String, CodingKey {
+        case label, image, phase, sequence, lessons
+        case scenarioId = "scenario_id"
+    }
+}
+
+/// One node on the path — a lesson, with enough framing to draw it.
+struct LearnLesson: Codable, Identifiable, Hashable {
+    let lessonId: String
+    let scenarioId: String
+    let depth: UInt8
+    let cefrLevel: String
+    let label: String
+    let goal: String
+    let summary: String
+    /// Media path for `media(at:)`; empty when the lesson is unillustrated.
+    let image: String
+    let state: LessonState
+
+    var id: String { lessonId }
+
+    enum CodingKeys: String, CodingKey {
+        case depth, label, goal, summary, image, state
+        case lessonId = "lesson_id"
+        case scenarioId = "scenario_id"
+        case cefrLevel = "cefr_level"
+    }
+}
+
+/// A revisited spec id with its name and the rung it is taken to.
+struct RevisitRef: Codable, Identifiable {
+    let id: String
+    let label: String
+    let demand: String
+}
+
+/// A lesson's capstone can-do, resolved to its statement.
+struct CapstoneRef: Codable, Identifiable {
+    let candoId: String
+    let label: String
+    let demand: String
+
+    var id: String { candoId }
+
+    enum CodingKeys: String, CodingKey {
+        case label, demand
+        case candoId = "cando_id"
+    }
+}
+
+struct LessonIntroduces: Codable {
+    let grammar: [SpecLabel]
+    let functions: [SpecLabel]
+    let vocab: [SpecLabel]
+}
+
+struct LessonRevisits: Codable {
+    let grammar: [RevisitRef]
+    let functions: [RevisitRef]
+    let vocab: [RevisitRef]
+}
+
+/// One lesson resolved for its intro screen: labels for everything it
+/// introduces, revisits, and capstones. Undeclared (lifted-stub) lessons
+/// have empty blocks and the intro degrades to the summary alone.
+struct LessonDetail: Codable {
+    let lessonId: String
+    let scenarioId: String
+    let depth: UInt8
+    let cefrLevel: String
+    let label: String
+    let goal: String
+    let summary: String
+    let sceneSetting: String
+    let outro: String
+    /// Media path for `media(at:)`; empty when the lesson is unillustrated.
+    let image: String
+    let scenarioLabel: String
+    let scenarioImage: String
+    let introduces: LessonIntroduces
+    let revisits: LessonRevisits
+    let capstones: [CapstoneRef]
+    let state: LessonState
+
+    enum CodingKeys: String, CodingKey {
+        case depth, label, goal, summary, outro, image
+        case introduces, revisits, capstones, state
+        case lessonId = "lesson_id"
+        case scenarioId = "scenario_id"
+        case cefrLevel = "cefr_level"
+        case sceneSetting = "scene_setting"
+        case scenarioLabel = "scenario_label"
+        case scenarioImage = "scenario_image"
+    }
+}
+
 /// A problem the learner reported. `packVersion` matters: the same item id
 /// can be fixed and re-shipped, so a flag without it can't be told apart
 /// from one already dealt with.
@@ -318,6 +461,10 @@ struct Flag: Codable, Identifiable {
 @Observable
 final class CoreBridge {
     private let core: Core  // from maestro_core.swift (UniFFI)
+    /// Decoded media bytes by path. Lesson art is drawn twice (path node
+    /// and intro drawing) and again on every path refresh; the pack read
+    /// and blob copy shouldn't repeat with it.
+    private let mediaCache = NSCache<NSString, NSData>()
 
     init() throws {
         let support = try FileManager.default.url(
@@ -336,12 +483,17 @@ final class CoreBridge {
         try JSONDecoder().decode(type, from: Data(json.utf8))
     }
 
-    func composeSession(minutes: UInt32 = 15) throws -> SessionPlan {
-        let options: [String: Any] = [
+    /// `scenarioId` pins the session to one scenario — the Learn path's
+    /// way of starting the lesson that was tapped. The composer still
+    /// plays that scenario's next unplayed depth; there is no depth
+    /// override, which is why only a `next` lesson is startable.
+    func composeSession(minutes: UInt32 = 15, scenarioId: String? = nil) throws -> SessionPlan {
+        var options: [String: Any] = [
             "now": Int(Date().timeIntervalSince1970),
             "time_budget_minutes": minutes,
             "seed": UInt64.random(in: 0 ..< .max),
         ]
+        if let scenarioId { options["scenario_id"] = scenarioId }
         let json = try core.composeSession(
             optionsJson: String(
                 data: JSONSerialization.data(withJSONObject: options), encoding: .utf8)!)
@@ -360,19 +512,41 @@ final class CoreBridge {
             core.vocabInventory(now: Int64(Date().timeIntervalSince1970)))
     }
 
-    /// What the next session will be about, without composing it. nil when
-    /// the learner has finished everything unlocked.
-    func nextLesson() throws -> LessonBrief? {
-        try decode(
-            LessonBrief?.self,
-            core.nextLessonBrief(now: Int64(Date().timeIntervalSince1970)))
-    }
-
     func lesson(scenarioId: String) throws -> LessonBrief? {
         try decode(
             LessonBrief?.self,
             core.lessonBrief(
                 scenarioId: scenarioId, now: Int64(Date().timeIntervalSince1970)))
+    }
+
+    /// Every lesson in the pack, grouped for the Learn tab's path.
+    func learnPath() throws -> LearnPath {
+        try decode(
+            LearnPath.self,
+            core.listLessons(now: Int64(Date().timeIntervalSince1970)))
+    }
+
+    /// One lesson resolved for its intro screen. nil for an id the pack
+    /// doesn't know.
+    func lessonDetail(lessonId: String) throws -> LessonDetail? {
+        try decode(
+            LessonDetail?.self,
+            core.lessonDetail(
+                lessonId: lessonId, now: Int64(Date().timeIntervalSince1970)))
+    }
+
+    /// One media asset's bytes, or nil when the pack carries nothing at
+    /// `path`. The empty path is the core's "unillustrated" contract, so
+    /// it short-circuits without a lookup — callers can pass an image
+    /// field straight through.
+    func media(at path: String) -> Data? {
+        guard !path.isEmpty else { return nil }
+        if let cached = mediaCache.object(forKey: path as NSString) {
+            return cached as Data
+        }
+        guard let blob = try? core.getMedia(path: path) else { return nil }
+        mediaCache.setObject(blob.bytes as NSData, forKey: path as NSString)
+        return blob.bytes
     }
 
     func itemPayload<T: Decodable>(_ type: T.Type, id: String) throws -> T {

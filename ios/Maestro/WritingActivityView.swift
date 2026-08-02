@@ -14,6 +14,7 @@
 // something on topic" is weaker evidence than a scored drill.
 
 import SwiftUI
+import UIKit
 
 struct WritingActivityView: View {
     let bridge: CoreBridge
@@ -39,6 +40,15 @@ struct WritingActivityView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
                         Eyebrow(text: "Writing")
+                        if let path = payload.image,
+                            let art = bridge.media(at: path).flatMap(UIImage.init(data:)) {
+                            Image(uiImage: art)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity)
+                                .frame(maxHeight: 180)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
                         Text(payload.prompt)
                             .font(.callout)
                             .foregroundStyle(Color.mText)
