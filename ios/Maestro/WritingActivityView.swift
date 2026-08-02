@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // Writing capture. Two layers, in this order:
 //
 //  1. A deterministic rubric that always runs — length, the grammar the

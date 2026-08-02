@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // Plays a SessionPlan: one activity at a time, deterministic scoring via
 // the core, pre-authored feedback on misses, evidence event per attempt.
 

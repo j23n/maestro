@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // A lesson's intro screen: the drawing, the goal in plain words, the
 // summary, and chips for what is new (Nuovo), what comes back (Ripasso),
 // and the can-dos it proves (Obiettivi). Viewable for every lesson;

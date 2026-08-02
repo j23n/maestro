@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD — see ios/README.md for what remains on the Mac.
-
 import SwiftUI
 
 @main

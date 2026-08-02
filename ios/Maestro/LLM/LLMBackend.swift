@@ -1,5 +1,5 @@
-// ⚠️ UNTESTED SCAFFOLD — the FoundationModels calls were written against
-// Apple's iOS 26 documentation and have never been compiled.
+// ⚠️ UNEXERCISED — compiles, but the FoundationModels calls have never
+// executed: every gate is closed until the evals produce scorecards.
 //
 // The optional tutor layer. Two rules hold it in place:
 //

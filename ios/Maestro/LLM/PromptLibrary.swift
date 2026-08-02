@@ -1,4 +1,5 @@
-// ⚠️ UNTESTED SCAFFOLD.
+// ⚠️ UNEXERCISED — compiles, but no prompt has been rendered for a real
+// feedback call: gates closed.
 //
 // The prompts the app sends are the same ones the eval harness measures.
 // `prompts/runtime/*.yaml` is the single source; `maestro-pack prompts`

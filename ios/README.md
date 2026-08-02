@@ -1,11 +1,14 @@
 # ios — SwiftUI shell
 
-**Status: complete-but-untested scaffold.** Everything in `Maestro/` was
-written off-Mac against the UniFFI-generated API and Apple's documented
-iOS 26 surfaces; it has never been compiled. Expect a session of small
-compile fixes, not a redesign. The core it calls IS tested (Linux:
-`cargo test`, conformance vectors, Python-built-pack compat, and
-`five_lessons.rs` walking a simulated learner through all five lessons).
+**Status: builds and runs on the iOS simulator** (verified 2026-08-02:
+clean compile, a full Al bar session played end to end — Learn path →
+intro → 13 activities → recap → completion reflected on the path). Still
+outstanding: a physical-device run, the speech spike (mic/SpeechAnalyzer
+never exercised — Spike B), audio playback (pack ships no audio; TTS
+fallback), and the LLM layer (compiles, gates closed, never executed).
+The core it calls is tested independently (Linux: `cargo test`,
+conformance vectors, Python-built-pack compat, and `five_lessons.rs`
+walking a simulated learner through all five lessons).
 
 **To build it: `BUILD.md`.** `project.yml` (XcodeGen) is the project's
 source of truth; `Maestro.xcodeproj` is generated, not committed.
@@ -16,11 +19,14 @@ source of truth; `Maestro.xcodeproj` is generated, not committed.
 | --- | --- | --- |
 | `CoreBridge.swift` | Only file touching the core; Codable mirrors of `core/src/model.rs` | committed bindings |
 | `MaestroApp.swift` | Entry, tabs | — |
+| `Theme.swift` | Palette, badges, cards, the lesson progress bar | — |
+| `MarkdownBody.swift` | Minimal markdown renderer for grammar cards | — |
 | `LearnPathView.swift` | Learn tab root: every lesson as a path — CEFR sections, scenario units, circular nodes with completed/next/locked states | CoreBridge |
 | `LessonIntroView.swift` | Lesson intro: drawing, goal, Nuovo/Ripasso/Obiettivi chips; Start gated to the `next` lesson | CoreBridge |
 | `SessionView.swift` | Session player: grammar cards, drills, passages, vocab review, speaking, writing; per-activity evidence events; `scenario_completed` at the end | CoreBridge |
 | `SpeakingPracticeView.swift` | Read-aloud: mic + it-IT model consent, SpeechAnalyzer → `alignTranscript` → per-word colors, then optional LLM notes | Spike B outcome |
 | `ProgressScreen.swift` | Can-do list, grammar labels, CEFR estimate | CoreBridge |
+| `VocabularyScreen.swift` | The learner's word inventory | CoreBridge |
 | `FlagSheet.swift` | Report a broken item in one sentence; the reports list and its export | CoreBridge |
 | `WritingActivityView.swift` | Writing capture: offline rubric, then LLM grading | CoreBridge, FeedbackService |
 | `LLM/PromptLibrary.swift` | Renders the bundled `prompts.json` — the same prompts the harness scores | `maestro-pack prompts` |
@@ -45,10 +51,12 @@ Both are easy to lose in a refactor and neither fails loudly:
 
 ## Mac checklist
 
-1. **Spike A — core embedding.** Follow `BUILD.md`. Fix compile drift
-   until a session plays on a device. Record friction → Rust-vs-Swift-core
-   off-ramp decision (plan §2.2).
-2. **Spike B — SpeechAnalyzer fairness.** Speaking activities now arrive
+1. **Spike A — core embedding: done on the simulator.** The xcframework
+   links, sessions compose, score, and complete against the real bundle
+   (no compile drift worth recording — the off-ramp question of plan
+   §2.2 is answered in Rust's favor). Remaining tail: run it once on a
+   physical device with a signing team.
+2. **Spike B — SpeakingPracticeView.swift / SpeechAnalyzer fairness.** Speaking activities now arrive
    in the session plan as `speaking_prompt` items with authored target
    text. Run one with deliberately non-native pronunciation; judge whether
    word-level alignment feels fair; tune `core/src/align.rs` near-match
@@ -108,14 +116,15 @@ which takes them out of the next build.
 
 ## Core surface still to wire
 
-Each is a straightforward wiring task once Spike A compiles:
+Each is a straightforward wiring task:
 
 - **Audio from the bundle**: `getMedia(path)` — play pack audio (dialogue
   turns carry `audio` paths, speaking prompts a model pronunciation,
-  vocab cards a front reading). Replaces the `TODO(on-Mac)` in
-  `SessionView`; keep AVSpeechSynthesizer as the fallback for
-  `audio == null`, which is every dialogue today. Images already render
-  through `CoreBridge.media(at:)` (lesson art, activity illustrations).
+  vocab cards a front reading). Keep AVSpeechSynthesizer as the fallback
+  for `audio == null`, which is every dialogue today. Images already
+  render through `CoreBridge.media(at:)` (lesson art, activity
+  illustrations); reading header images are authored but not yet shown
+  in `PassageView`.
 - **Pack updates**: `packStatus()` (schema compat), `listTombstones()`;
   `Deferred/PackManager.swift` should read `index.json` +
   `release.json.sig` and verify the ed25519 signature with the bundled

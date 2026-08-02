@@ -452,28 +452,21 @@ attributable to a lesson that will actually ship it.
 
 ## 7. App changes
 
-- **Splash leads with the goal, not the archetype.** "By the end: order a
-  coffee and ask what it costs" — the lesson's `goal`, which is also the
-  capstone. `navigationTitle(plan.archetype)` and the `weakness drill`
-  badge are composer internals; take them out of the UI
-  ([SessionView.swift:105](../../ios/Maestro/SessionView.swift),
-  [:203](../../ios/Maestro/SessionView.swift)).
-- **The capstone is its own screen** — the lesson's last beat, framed as
-  a performance rather than another drill, and the recap opens on
-  whether the can-do landed.
-- **The spiral has to be legible or it reads as repetition.** A revisit
-  needs to say it is one and say it got harder: *"Vorrei — third time,
-  no help this time."* The demand tier is the copy. Without it the
-  learner's experience of a spiral curriculum is "I've seen this
-  already", which is the complaint that motivated the whole design.
-- **"Quick drills" becomes "Practice"** — review pool, no lesson
-  consumed, and it says so.
-- **Comprehension questions send `evidence_class: "receptive"`.**
-  `DrillView.submit` hardcodes `"targeted"` for every scored item
-  ([SessionView.swift:340](../../ios/Maestro/SessionView.swift)), so
-  answering *"what did the customer order?"* counts as a productive
-  demonstration of *ordinare* on the axis that gates can-dos. The core
-  already excludes receptive evidence; the shell never sends it.
+- **Splash leads with the goal, not the archetype** — done.
+  `LessonIntroView` opens on the lesson's `goal`; the session's
+  navigation title is the lesson's name, and only `revisit`/`capstone`
+  slots badge themselves (`SlotLabel`) — the composer's other vocabulary
+  stays internal.
+- **The capstone is its own screen** — done (`CapstoneView`, "Prova
+  finale", with the can-do's success criteria as the checklist).
+- **The spiral has to be legible or it reads as repetition** — half
+  done. Revisit slots badge "Ripasso" in-session and the intro screen
+  separates Ripasso from Nuovo, but the demand tier is not yet the copy:
+  nothing says *"third time, no help this time."*
+- **"Quick drills" becomes "Practice"** — done; practice sessions no
+  longer consume a lesson (§10).
+- **Comprehension questions send `evidence_class: "receptive"`** — done
+  (§10).
 - **Progress groups can-dos by lesson**, shows the next one and what it
   needs, and hides `locked` behind a disclosure. 35 of 68 currently
   render as a flat locked list.
@@ -481,7 +474,21 @@ attributable to a lesson that will actually ship it.
   loses it, and abandoning before the recap replays the lesson with its
   best items inside the 50-item anti-repetition window.
 - Disambiguate the three duplicate labels — "Al bar", "In albergo" and
-  "In viaggio" each name both an A0 and an A1 scenario.
+  "In viaggio" each name both an A0 and an A1 scenario. (The Learn
+  path's CEFR sections soften this — the twins live under different
+  headings — but the labels still collide anywhere shown alone.)
+
+Landed beyond this list: the app now has a **lesson browser**. The core
+exports the full catalogue (`list_lessons`: CEFR sections → scenario
+units → lessons with completed/next/locked states, `lesson_detail`: one
+lesson's introduces/revisits/capstones with labels resolved), and the
+Learn tab draws it as a vertical path — circular per-lesson art,
+checkmark on completion, the next depth ringed. Tapping a node opens the
+intro screen; Start is enabled only for a scenario's next unplayed
+depth, which is the only depth the composer will honestly play. Lesson,
+writing-prompt and speaking-prompt art generate via
+`generate-images --targets lessons,writing,speaking` and render from the
+pack's media table.
 
 ## 8. Sequencing
 
@@ -550,8 +557,8 @@ Updated as steps land. §8 is the plan; this is the state.
 | 1. `demand` + capstone + coverage contract | **done** |
 | 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | **done** |
 | 3. Lesson-scoped composer | **done** |
-| 4. Spec fill (depths, bands, domains, assignment) | in progress — 1 of 37 scenarios |
-| 5. App | not started |
+| 4. Spec fill (depths, bands, domains, assignment) | in progress — see 08 |
+| 5. App | in progress — lesson browser, intro screens, capstone screen, and art landed; still owed: demand-tier revisit copy, Progress grouping, resume, label disambiguation (§7) |
 | 6. Content fill | not started |
 
 Decisions taken along the way are recorded in `decisions.md`; this table
@@ -603,3 +610,7 @@ same shape of work.
 - `validate --coverage` implements §3's can-do clause: a descriptor whose
   decomposition nothing has taught by its last capstone is reported
   `decomposition-untaught`, not counted as covered.
+- The shell compiles and runs: a full "Al bar" d1 session played on the
+  iOS simulator end to end — path → intro → thirteen activities →
+  capstone → recap — and completing it moved the path's checkmark and
+  ring. The two events that carry the loop both fire.

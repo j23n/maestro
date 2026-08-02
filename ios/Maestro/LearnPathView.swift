@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // The Learn tab: every lesson in the pack as a vertical path — CEFR
 // section headings, one unit per scenario, a circular node per lesson.
 // Completed nodes wear a checkmark, everything not yet played sits

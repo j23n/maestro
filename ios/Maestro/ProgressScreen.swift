@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // The learner-facing progress spine: what the learner can *do*. Can-dos
 // lead; the CEFR level is a footnote, shown with the evidence behind it
 // so it reads as the rough estimate it is. All data from one

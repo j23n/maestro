@@ -1,8 +1,8 @@
 # Building Maestro on a Mac
 
-Everything here needs macOS + Xcode. None of it has been run — the Swift
-in `Maestro/` has never been compiled (see `README.md`). Budget a session
-of small compile fixes, not a redesign.
+Everything here needs macOS + Xcode. The steps below are verified: the
+app compiles cleanly and runs on the iOS simulator (first full session
+played 2026-08-02, see `README.md` for what remains).
 
 ## First run
 
@@ -59,18 +59,12 @@ needed. Re-run it only after changing the core's exported API.
 generated and not committed. Re-run `xcodegen` after changing the spec.
 Never hand-edit the project — the edit will be lost.
 
-Expected friction, roughly in order of likelihood:
-
-1. **`SpeakingPracticeView.swift`** — the `SpeechAnalyzer` calls were
-   written from documentation alone and never compiled. This is the one
-   file where the API surface may be materially different.
-2. **UniFFI call sites** — `CoreBridge.swift` was audited against the
-   committed `maestro_core.swift`, so the names and signatures should
-   line up. Anything wrong here should be a one-line fix.
-3. **Swift 6 concurrency** — the target pins Swift 5 on purpose. The
-   evidence arrays crossing the core boundary are `[[String: Any]]`,
-   which strict concurrency rejects inside a `View`. Making evidence a
-   typed struct is the real fix, and it's post-MVP.
+The one live risk: **`SpeakingPracticeView.swift`** — it compiles, but
+the `SpeechAnalyzer` mic/recording session was written from
+documentation alone and has never run against a real microphone. That is
+Spike B. (The other friction once expected here — UniFFI call-site
+drift, Swift 6 concurrency — did not materialize; everything else
+compiles and runs as written.)
 
 ## Checking it actually works
 

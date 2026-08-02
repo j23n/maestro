@@ -1,6 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD — written off-Mac against the UniFFI-generated API
-// (core/bindings/swift/maestro_core.swift). Expect small compile fixes.
-//
 // The only file that talks to the core. Everything crossing the boundary
 // is JSON; the Codable structs here mirror core/src/model.rs exactly.
 

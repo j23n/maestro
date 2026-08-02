@@ -29,7 +29,8 @@ conformance/      golden vectors any core implementation must pass
 prompts/runtime/  versioned LLM prompts shared by app AND evals
 evals/            LLM eval loop: seeded golden sets, per-backend
                   runners, judge scoring, promotion gates  [Python]
-ios/              SwiftUI shell (untested scaffold + Mac checklist)
+ios/              SwiftUI shell (runs on simulator; speech + device run
+                  outstanding)
 ```
 
 The load-bearing rule: **content flows down, nothing flows back.** The

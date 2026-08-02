@@ -1,4 +1,4 @@
-// ⚠️ UNTESTED SCAFFOLD.
+// ⚠️ UNEXERCISED — compiles, but no feedback job has run: gates closed.
 //
 // Feedback is queued, not requested. A submission goes into the core's
 // pending-feedback queue immediately and is answered whenever a backend is

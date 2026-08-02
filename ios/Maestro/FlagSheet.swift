@@ -1,5 +1,3 @@
-// ⚠️ UNTESTED SCAFFOLD.
-//
 // Reporting a broken item. One sentence is the whole interaction: the
 // learner is mid-lesson and the useful signal is "this one is wrong, and
 // here's why in my words" — anything longer gets abandoned.

@@ -1,6 +1,6 @@
-// ⚠️ UNTESTED SCAFFOLD — the SpeechAnalyzer session code follows the
-// iOS 26 API surface from documentation and WILL need adjustment during
-// the Phase 0 speech spike (ios/README.md, Spike B).
+// ⚠️ UNEXERCISED — compiles, but the SpeechAnalyzer mic/recording session
+// has never been run against a real microphone; expect adjustment during
+// the speech spike (ios/README.md, Spike B).
 //
 // Read-aloud practice: show a target sentence, transcribe on-device,
 // score by word alignment in the core, color per-word verdicts.

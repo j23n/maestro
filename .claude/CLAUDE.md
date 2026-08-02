@@ -54,7 +54,8 @@ prompts/runtime/  versioned LLM prompts shared by the app AND evals
 evals/            eval harness (writing/speaking feedback, mistake
                   explanation, content generation), pinned judge
                   prompts, seeded cases + seed_cases.py, promotion gates
-ios/              SwiftUI shell — UNTESTED scaffold, see ios/README.md
+ios/              SwiftUI shell — runs on the simulator; speech, audio
+                  and the LLM layer are unexercised, see ios/README.md
 ```
 
 ## Key rules
@@ -67,8 +68,9 @@ ios/              SwiftUI shell — UNTESTED scaffold, see ios/README.md
 - Cross-language contract: Python `build_pack._normalize` must mirror
   `core/src/normalize.rs`; schema changes need both plus a conformance
   vector.
-- `ios/Maestro/` was written off-Mac and never compiled — keep the
-  ⚠️ UNTESTED banners until it runs on a device.
+- `ios/Maestro/` runs on the simulator but not yet on a device. The
+  ⚠️ UNEXERCISED banners stay on the speech, LLM, and Deferred files
+  until those paths actually run (mic, open gates, pack updates).
 
 ## Worktree Discipline
 
