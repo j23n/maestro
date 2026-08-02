@@ -1,6 +1,6 @@
 # 07 — The lesson object, and closing the content loop
 
-Status: design proposal
+Status: accepted, in progress — see §10 for where the work stands
 Scope: make a lesson a first-class authored object, and make every A0–A2
 grammar point, communicative function, can-do and lemma **introduced by
 exactly one lesson and revisited by at least two more, at rising
@@ -538,3 +538,21 @@ everything else.
   like `prep_art` plausibly wants five. Start uniform at 3, let
   `validate --coverage` report the distribution, and raise the minimum
   per axis once there is content to look at.
+
+---
+
+## 10. Where the work stands
+
+Updated as steps land. §8 is the plan; this is the state.
+
+| Step | Status |
+| --- | --- |
+| 1. `demand` + capstone + coverage contract | in progress |
+| 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | not started |
+| 3. Lesson-scoped composer | not started |
+| 4. Spec fill (depths, bands, domains, assignment) | not started |
+| 5. App | not started |
+| 6. Content fill | not started |
+
+Decisions taken along the way are recorded in `decisions.md`; this table
+is the index into them.
