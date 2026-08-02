@@ -109,6 +109,8 @@
 - {id: tè, cefr_level: A0, pos: noun, gloss: tea}
 - {id: latte, cefr_level: A0, pos: noun, gloss: milk}
 - {id: birra, cefr_level: A0, pos: noun, gloss: beer}
+- {id: amica, cefr_level: A0, pos: noun, gloss: friend (female)}
+- {id: studentessa, cefr_level: A0, pos: noun, gloss: student (female)}
 - {id: naturale, cefr_level: A0, pos: adj, gloss: still (of water)}
 - {id: frizzante, cefr_level: A0, pos: adj, gloss: sparkling}
 - {id: vino, cefr_level: A0, pos: noun, gloss: wine}
@@ -444,7 +446,7 @@
 - {id: spesso, cefr_level: A1, pos: adv, gloss: often}
 - {id: mai, cefr_level: A1, pos: adv, gloss: never}
 - {id: ancora, cefr_level: A1, pos: adv, gloss: still / again}
-- {id: tutto, cefr_level: A1, pos: pron, gloss: everything / all}
+- {id: tutto, cefr_level: A1, pos: adj, gloss: everything / all}
 - {id: niente, cefr_level: A1, pos: pron, gloss: nothing}
 - {id: qualcosa, cefr_level: A1, pos: pron, gloss: something}
 - {id: nessuno, cefr_level: A1, pos: pron, gloss: nobody}

@@ -30,7 +30,8 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     "fare": ("faccio", "fai", "fa", "facciamo", "fate", "fanno", "fatto"),
     "stare": ("sto", "stai", "sta", "stiamo", "state", "stanno", "stato"),
     "dare": ("do", "dai", "dà", "diamo", "date", "danno", "dato"),
-    "dire": ("dico", "dici", "dice", "diciamo", "dite", "dicono", "detto"),
+    "dire": ("dico", "dici", "dice", "diciamo", "dite", "dicono", "detto", "dica",
+             "dicevo", "dicevi", "diceva", "dicevano"),
     "volere": ("voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono", "vorrei"),
     "potere": ("posso", "puoi", "può", "possiamo", "potete", "possono"),
     "dovere": ("devo", "devi", "deve", "dobbiamo", "dovete", "devono"),
@@ -38,7 +39,7 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     "venire": ("vengo", "vieni", "viene", "veniamo", "venite", "vengono", "venuto"),
     "uscire": ("esco", "esci", "esce", "usciamo", "uscite", "escono", "uscito"),
     "bere": ("bevo", "bevi", "beve", "beviamo", "bevete", "bevono", "bevuto"),
-    "piacere": ("piace", "piacciono", "piaciuto"),
+    "piacere": ("piaccio", "piaci", "piace", "piacciono", "piaciuto", "piaceva"),
     "prendere": (
         "prendo",
         "prendi",
@@ -50,6 +51,10 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     ),
     "vedere": ("vedo", "vedi", "vede", "vediamo", "vedete", "vedono", "visto"),
     "chiamarsi": ("chiamo", "chiami", "chiama", "chiamiamo", "chiamate", "chiamano"),
+    # Listed in full rather than left regular: the past participle is
+    # "perso", which no ending-based rule reaches from "perdere".
+    "perdere": ("perdo", "perdi", "perde", "perdiamo", "perdete", "perdono",
+                "perso", "persa", "perduto", "perdendo"),
 }
 
 _INVARIABLE_POS = {"art", "inter", "adv", "conj", "prep", "num", "pron", "phrase"}
@@ -64,6 +69,20 @@ _ELIDED: dict[str, str] = {
     "dove": "dov'",
     "ci": "c'",
     "quanto": "quant'",
+}
+
+# Written variants that are the same word: "ad" and "ed" before a vowel,
+# and the truncations Italian makes before a masculine noun ("buon
+# giorno", "bel posto"). Keyed by lemma, so they only fire for words the
+# spec lists.
+_VARIANTS: dict[str, tuple[str, ...]] = {
+    "a": ("ad",),
+    "e": ("ed",),
+    "o": ("od",),
+    "buono": ("buon",),
+    "bello": ("bel",),
+    "grande": ("gran",),
+    "santo": ("san",),
 }
 
 # Articles and preposition-article contractions in -lo/-la elide
@@ -122,25 +141,37 @@ def normalize(text: str) -> str:
     return text.lower().replace("’", "'").replace("ʼ", "'")
 
 
-def _noun_forms(lemma: str) -> set[str]:
-    forms = {lemma}
+def _plural(lemma: str) -> set[str]:
+    """The plural(s) of one written singular."""
     if lemma.endswith("io"):
-        forms.add(lemma[:-2] + "i")
-    elif lemma.endswith("co"):
-        forms |= {lemma[:-2] + "chi", lemma[:-2] + "ci"}
-    elif lemma.endswith("go"):
-        forms |= {lemma[:-2] + "ghi", lemma[:-2] + "gi"}
-    elif lemma.endswith("ca"):
-        forms.add(lemma[:-2] + "che")
-    elif lemma.endswith("ga"):
-        forms.add(lemma[:-2] + "ghe")
-    elif lemma.endswith("o"):
-        forms.add(lemma[:-1] + "i")
-    elif lemma.endswith("a"):
-        forms.add(lemma[:-1] + "e")
-    elif lemma.endswith("e"):
-        forms.add(lemma[:-1] + "i")
-    return forms
+        return {lemma[:-2] + "i"}
+    if lemma.endswith("co"):
+        return {lemma[:-2] + "chi", lemma[:-2] + "ci"}
+    if lemma.endswith("go"):
+        return {lemma[:-2] + "ghi", lemma[:-2] + "gi"}
+    if lemma.endswith("ca"):
+        return {lemma[:-2] + "che"}
+    if lemma.endswith("ga"):
+        return {lemma[:-2] + "ghe"}
+    if lemma.endswith("o"):
+        return {lemma[:-1] + "i"}
+    if lemma.endswith("a"):
+        return {lemma[:-1] + "e"}
+    if lemma.endswith("e"):
+        return {lemma[:-1] + "i"}
+    return set()
+
+
+def _noun_forms(lemma: str) -> set[str]:
+    # Deliberately masculine-only. Deriving "amica" from "amico" also
+    # derives "aiuta" from "aiuto" and "lavora" from "lavoro" — which are
+    # the third-person forms of `aiutare` and `lavorare`, two of the
+    # commonest verbs at this level. Those surfaces then belong to two
+    # lemmas and get dropped, so a blanket feminine rule costs more links
+    # than it wins. Animate feminines are their own dictionary entries.
+    return {lemma} | _plural(lemma)
+
+
 
 
 def _adjective_forms(lemma: str) -> set[str]:
@@ -159,6 +190,12 @@ def _verb_forms(lemma: str) -> set[str]:
         # Reflexives conjugate on the bare stem; the clitic is a separate word.
         return forms | _verb_forms(lemma[:-2] + "e")
     stem, ending = lemma[:-3], lemma[-3:]
+    # Imperfect, in all three conjugations — "capivo", "diceva". A0
+    # readings narrate in it, so leaving it out orphaned real words.
+    forms |= {
+        stem + ("av" if ending == "are" else "ev" if ending == "ere" else "iv") + s
+        for s in ("o", "i", "a", "amo", "ate", "ano")
+    }
     if ending == "are":
         forms |= {
             stem + s
@@ -193,6 +230,7 @@ def surface_forms(lemma: str, pos: str) -> set[str]:
     elided = _elided_form(lemma, pos)
     if elided is not None:
         forms.add(elided)
+    forms |= set(_VARIANTS.get(lemma, ()))
     forms |= _articulated_forms(lemma, pos)
     return forms
 
