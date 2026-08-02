@@ -129,15 +129,18 @@ def test_mock_wav_is_valid():
 
 
 def test_generate_images_mock_scenarios_and_writeback(pack):
-    n = generate_images(pack, ROOT / "spec" / "it", "mock", targets={"scenarios"})
-    assert n == 37  # one per spec scenario
-    assert (pack / "images" / "scenarios" / "a0-01-in-aereo.png").read_bytes()[
-        :8
-    ] == b"\x89PNG\r\n\x1a\n"
-    # Cached second run.
+    # The pack ships fully generated, so a plain run is a cache no-op...
     assert (
         generate_images(pack, ROOT / "spec" / "it", "mock", targets={"scenarios"}) == 0
     )
+    # ... and a forced one renders one image per spec scenario.
+    n = generate_images(
+        pack, ROOT / "spec" / "it", "mock", targets={"scenarios"}, force=True
+    )
+    assert n == 37
+    assert (pack / "images" / "scenarios" / "a0-01-in-aereo.png").read_bytes()[
+        :8
+    ] == b"\x89PNG\r\n\x1a\n"
 
 
 def test_generate_images_vocab_writeback_and_build_embedding(pack, tmp_path):
@@ -180,10 +183,25 @@ def test_plan_jobs_lessons_skips_stubs_and_honours_override(pack, tmp_path):
 
 
 def test_generate_images_mock_prompts_writeback_and_caching(pack):
-    n = generate_images(
-        pack, ROOT / "spec" / "it", "mock", targets={"lessons", "writing", "speaking"}
+    # The pack ships fully generated, so a plain run is a cache no-op...
+    assert (
+        generate_images(
+            pack,
+            ROOT / "spec" / "it",
+            "mock",
+            targets={"lessons", "writing", "speaking"},
+        )
+        == 0
     )
-    # 3 declared al-bar lessons + one per writing/speaking prompt.
+    # ... and a forced one re-renders the 3 declared al-bar lessons plus
+    # one image per writing/speaking prompt.
+    n = generate_images(
+        pack,
+        ROOT / "spec" / "it",
+        "mock",
+        targets={"lessons", "writing", "speaking"},
+        force=True,
+    )
     assert n >= 5
     assert (pack / "images" / "lessons" / "a0-03-al-bar.d1.png").read_bytes()[
         :8
@@ -199,17 +217,6 @@ def test_generate_images_mock_prompts_writeback_and_caching(pack):
         (pack / "speaking_prompts" / "a0_basics.yaml").read_text()
     )[0]
     assert speaking["image"] == f"images/speaking/{speaking['id']}.png"
-
-    # Cached second run.
-    assert (
-        generate_images(
-            pack,
-            ROOT / "spec" / "it",
-            "mock",
-            targets={"lessons", "writing", "speaking"},
-        )
-        == 0
-    )
 
 
 def test_lesson_and_prompt_images_are_embedded_by_build(pack, tmp_path):

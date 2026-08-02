@@ -103,8 +103,9 @@ def test_build_produces_consistent_bundle(tmp_path):
     ]:
         n = conn.execute(f"SELECT count(*) FROM {table}").fetchone()[0]  # noqa: S608
         assert n >= floor, table
-    # Media and tombstone tables exist (empty for the seed pack).
-    assert conn.execute("SELECT count(*) FROM media").fetchone()[0] == 0
+    # Media carries the pack's generated art; tombstones are empty for
+    # the seed pack.
+    assert conn.execute("SELECT count(*) FROM media").fetchone()[0] > 0
     assert conn.execute("SELECT count(*) FROM tombstones").fetchone()[0] == 0
     conn.close()
 
@@ -337,9 +338,11 @@ def test_media_files_are_embedded_and_missing_ones_rejected(tmp_path):
     out = tmp_path / "bundle.sqlite"
     assert build(pack, ROOT / "spec" / "it", out) == 0
     conn = sqlite3.connect(out)
-    path, kind, sha, blob = conn.execute("SELECT * FROM media").fetchone()
+    kind, sha, blob = conn.execute(
+        "SELECT kind, sha256, bytes FROM media WHERE path = 'audio/listening.al_bar.wav'"
+    ).fetchone()
     conn.close()
-    assert (path, kind) == ("audio/listening.al_bar.wav", "audio")
+    assert kind == "audio"
     assert blob == b"RIFFfakewav"
     assert len(sha) == 64
 
