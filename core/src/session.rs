@@ -104,29 +104,49 @@ pub fn compose(
     let mut slots: Vec<(&str, Kind, usize)> = if quick {
         vec![("drill", Kind::Drill, 6)]
     } else {
+        // Every full session hears Italian and says Italian, whatever the
+        // archetype. Reading and listening have their own slots rather than
+        // sharing one "receptive" pick: with four listening items against
+        // six readings, a shared slot picked a reading most of the time and
+        // a learner could go weeks without hearing the language. Speaking is
+        // likewise unconditional — it used to ride on a general production
+        // slot that only existed once most of the target grammar was already
+        // mastered, which is exactly backwards.
         match archetype {
             // Teach before drilling: one reference page per grammar point
-            // being introduced, ahead of the drills that assume it.
-            // Speaking rather than the general production slot: a learner
-            // meeting this grammar for the first time has nothing to write
-            // an open answer with, but saying the phrase out loud is
-            // exactly the practice the material is for.
+            // being introduced, ahead of the drills that assume it. Drill
+            // counts are lower than they were to make room; a session is a
+            // fixed budget, and the fifth cloze is worth less than the first
+            // minute of listening.
             "introduction" => vec![
                 ("grammar_card", Kind::GrammarRef(new_gp_ids.clone()), new_gp_ids.len().max(1)),
-                ("new_grammar_drill", Kind::DrillTargeting(new_gp_ids.clone()), 4),
-                ("weakness_drill", Kind::Drill, 3),
-                ("receptive", Kind::Receptive, 1),
+                ("new_grammar_drill", Kind::DrillTargeting(new_gp_ids.clone()), 3),
+                ("weakness_drill", Kind::Drill, 2),
+                ("reading", Kind::Reading, 1),
+                ("listening", Kind::Listening, 1),
+                // No writing here: a learner meeting this grammar for the
+                // first time has nothing to compose an open answer with,
+                // but saying the phrase out loud is exactly the practice
+                // the material is for.
                 ("speaking", Kind::Speaking, 1),
             ],
             "application" => vec![
-                ("receptive", Kind::Receptive, 1),
-                ("drill", Kind::Drill, 4),
-                ("production", Kind::Production, 1),
+                ("reading", Kind::Reading, 1),
+                ("listening", Kind::Listening, 1),
+                ("drill", Kind::Drill, 3),
+                ("speaking", Kind::Speaking, 1),
+                ("writing", Kind::Writing, 1),
             ],
+            // Consolidation writes too. The grammar here has been taught
+            // and is being practised rather than met, so there is enough
+            // to compose an answer from — and a prompt the learner can
+            // only half answer is itself the practice.
             _ => vec![
-                ("weakness_drill", Kind::Drill, 7),
-                ("receptive", Kind::Receptive, 1),
-                ("production", Kind::Production, 1),
+                ("weakness_drill", Kind::Drill, 5),
+                ("reading", Kind::Reading, 1),
+                ("listening", Kind::Listening, 1),
+                ("speaking", Kind::Speaking, 1),
+                ("writing", Kind::Writing, 1),
             ],
         }
     };
@@ -138,6 +158,7 @@ pub fn compose(
 
     // ---- selection -------------------------------------------------------
     let recent: HashSet<&String> = state.recent_item_ids.iter().collect();
+    let scenario_id = scenario.map(|s| s.id.as_str());
     let mut rng = Rng(opts.seed ^ 0xA5A5_5A5A_DEAD_BEEF);
     let mut taken: HashSet<String> = HashSet::new();
     let mut activities = Vec::new();
@@ -148,15 +169,16 @@ pub fn compose(
             Kind::DrillTargeting(gps) | Kind::GrammarRef(gps) => gps,
             _ => &target,
         };
-        let mut candidates: Vec<(&ItemMeta, f64)> = items
+        let candidates: Vec<(&ItemMeta, f64)> = items
             .iter()
             .filter(|i| kind.matches(i))
             .filter(|i| !taken.contains(&i.id))
             .filter(|i| {
-                matches!(
-                    kind,
-                    Kind::Receptive | Kind::Production | Kind::Speaking | Kind::VocabReview
-                )
+                // Whole-text and whole-utterance items aren't authored per
+                // grammar point, so requiring one would starve the slot —
+                // for them the grammar match is a preference (see `rank`),
+                // not a gate. The unlocked check below still applies.
+                !kind.requires_target_grammar()
                     || i.grammar_ids.iter().any(|g| targeting.contains(g))
             })
             .filter(|i| i.grammar_ids.iter().all(|g| unlocked.contains(g)))
@@ -168,21 +190,22 @@ pub fn compose(
                 (i, w)
             })
             .collect();
-        // Anti-repetition: prefer unseen; fall back to repeats only if the
-        // slot would otherwise starve.
-        let unseen: Vec<(&ItemMeta, f64)> = candidates
-            .iter()
-            .filter(|(i, _)| !recent.contains(&i.id))
-            .cloned()
-            .collect();
-        if unseen.len() >= count {
-            candidates = unseen;
+        // Preference tiers, best last. A tier is emptied before the next
+        // one is touched, so a slot reaches off-scenario or already-seen
+        // material only once the better material is exhausted.
+        let mut tiers: Vec<Vec<(&ItemMeta, f64)>> = vec![Vec::new(); 1 << RANK_BITS];
+        for c in candidates {
+            let r = rank(c.0, &kind, scenario_id, targeting, &recent, state, opts.now);
+            tiers[r as usize].push(c);
         }
+
         let mut filled = 0usize;
         for _ in 0..count {
-            let Some(pick) = weighted_pick(&mut rng, &candidates, &taken) else {
-                break;
-            };
+            let pick = tiers
+                .iter()
+                .rev()
+                .find_map(|tier| weighted_pick(&mut rng, tier, &taken));
+            let Some(pick) = pick else { break };
             taken.insert(pick.id.clone());
             filled += 1;
             activities.push(PlannedActivity {
@@ -214,11 +237,10 @@ enum Kind {
     DrillTargeting(Vec<String>),
     /// Reference pages for the listed grammar points.
     GrammarRef(Vec<String>),
-    Receptive,
-    Production,
-    /// Production narrowed to speech, for archetypes where writing would
-    /// be premature.
+    Reading,
+    Listening,
     Speaking,
+    Writing,
     VocabReview,
 }
 
@@ -234,14 +256,70 @@ impl Kind {
                 "drill_cloze" | "drill_multiple_choice" | "drill_transform"
             ),
             Kind::GrammarRef(_) => item.item_type == "grammar_ref",
-            Kind::Receptive => matches!(item.item_type.as_str(), "reading" | "listening"),
-            Kind::Production => {
-                matches!(item.item_type.as_str(), "writing_prompt" | "speaking_prompt")
-            }
+            Kind::Reading => item.item_type == "reading",
+            Kind::Listening => item.item_type == "listening",
             Kind::Speaking => item.item_type == "speaking_prompt",
+            Kind::Writing => item.item_type == "writing_prompt",
             Kind::VocabReview => item.item_type == "vocab_card",
         }
     }
+
+    /// Whether an item must carry one of the slot's grammar points to be
+    /// eligible at all. True for the drill and reference slots, whose whole
+    /// purpose is that grammar point; false for passages, utterances and
+    /// cards, which are authored around a situation instead.
+    fn requires_target_grammar(&self) -> bool {
+        matches!(
+            self,
+            Kind::Drill | Kind::DrillTargeting(_) | Kind::GrammarRef(_)
+        )
+    }
+}
+
+/// Width of the value `rank` returns, so the tier table is sized once.
+const RANK_BITS: u32 = 3;
+
+/// Preference tier for one candidate — higher is picked first.
+///
+/// The session's scenario is the strongest signal: "In aereo" means the
+/// plane, and grammar tags alone can't express that (every `saluti` drill
+/// matches every lesson that teaches greetings). Target grammar comes
+/// next, then not-seen-recently.
+///
+/// Vocab review ranks differently because it answers to the SM-2 schedule
+/// rather than to the lesson: a card that is due outranks an on-scenario
+/// card that isn't, or the scenario would quietly stall the rotation. The
+/// scenario still breaks ties within each due/not-due band.
+#[allow(clippy::too_many_arguments)]
+fn rank(
+    item: &ItemMeta,
+    kind: &Kind,
+    scenario_id: Option<&str>,
+    targeting: &[String],
+    recent: &HashSet<&String>,
+    state: &DerivedState,
+    now: i64,
+) -> u8 {
+    let on_scenario = scenario_id.is_some_and(|sc| item.scenario_ids.iter().any(|s| s == sc));
+    let unseen = !recent.contains(&item.id);
+    let high = match kind {
+        Kind::VocabReview => is_due(state, item, now),
+        _ => on_scenario,
+    };
+    let mid = match kind {
+        Kind::VocabReview => on_scenario,
+        _ => item.grammar_ids.iter().any(|g| targeting.contains(g)),
+    };
+    (u8::from(high) << 2) | (u8::from(mid) << 1) | u8::from(unseen)
+}
+
+/// Any of the card's lemmas is at or past its review day.
+fn is_due(state: &DerivedState, item: &ItemMeta, now: i64) -> bool {
+    let today = unix_day(now);
+    item.vocab_ids
+        .iter()
+        .filter_map(|lemma| state.vocab.get(lemma))
+        .any(|card| card.reviews > 0 && card.due_day <= today)
 }
 
 /// Due cards dominate (more overdue -> heavier), then words met in a

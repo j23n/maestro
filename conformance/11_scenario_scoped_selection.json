@@ -1,0 +1,194 @@
+{
+  "name": "every slot prefers content authored for the session's scenario",
+  "description": "A scenario is a setting, not just a bag of grammar points. Grammar tags alone cannot express that: gp_a here is taught by both scenarios, so both scenarios' readings, drills and speaking prompts match it equally, and selection weighted only by grammar picked between them at random — the learner opened 'sc-uno' and got sc-due's material. Items therefore carry scenario_ids, and every slot ranks on-scenario candidates above off-scenario ones. Preference, never exclusion: reading.due.001 stays unpicked purely because reading.uno.001 outranks it for the single reading slot, while the weakness_drill slot asks for five drills, exhausts the two on-scenario ones and falls through to sc-due's drill and to drill.shared.001 (no scenario_ids at all — the 'usable anywhere' case) rather than running short.",
+  "spec": {
+    "grammar": [
+      {
+        "id": "gp_a",
+        "cefr_level": "A0",
+        "prerequisites": []
+      }
+    ],
+    "functions": [],
+    "scenarios": [
+      {
+        "id": "sc-uno",
+        "cefr_level": "A0",
+        "phase": 1,
+        "sequence": 1,
+        "depth_count": 1,
+        "grammar_ids": [
+          "gp_a"
+        ],
+        "function_ids": []
+      },
+      {
+        "id": "sc-due",
+        "cefr_level": "A0",
+        "phase": 1,
+        "sequence": 2,
+        "depth_count": 1,
+        "grammar_ids": [
+          "gp_a"
+        ],
+        "function_ids": []
+      }
+    ],
+    "can_dos": [],
+    "vocab": []
+  },
+  "events": [
+    {
+      "type": "introduced",
+      "at": 1699000000,
+      "evidence": [
+        {
+          "axis": "grammar",
+          "id": "gp_a",
+          "weight": 1.0
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "drill.due.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-due"
+      ]
+    },
+    {
+      "id": "drill.shared.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ]
+    },
+    {
+      "id": "drill.uno.001",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-uno"
+      ]
+    },
+    {
+      "id": "drill.uno.002",
+      "item_type": "drill_cloze",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-uno"
+      ]
+    },
+    {
+      "id": "reading.due.001",
+      "item_type": "reading",
+      "modality": "reading",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-due"
+      ]
+    },
+    {
+      "id": "reading.uno.001",
+      "item_type": "reading",
+      "modality": "reading",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-uno"
+      ]
+    },
+    {
+      "id": "speaking.due.001",
+      "item_type": "speaking_prompt",
+      "modality": "speaking",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-due"
+      ]
+    },
+    {
+      "id": "speaking.uno.001",
+      "item_type": "speaking_prompt",
+      "modality": "speaking",
+      "grammar_ids": [
+        "gp_a"
+      ],
+      "scenario_ids": [
+        "sc-uno"
+      ]
+    }
+  ],
+  "session_options": {
+    "now": 1700000000,
+    "time_budget_minutes": 15,
+    "scenario_id": "sc-uno",
+    "seed": 42
+  },
+  "expect_plan": {
+    "scenario_id": "sc-uno",
+    "archetype": "consolidation",
+    "activities": [
+      {
+        "item_id": "drill.uno.001",
+        "slot": "weakness_drill"
+      },
+      {
+        "item_id": "drill.uno.002",
+        "slot": "weakness_drill"
+      },
+      {
+        "item_id": "drill.due.001",
+        "slot": "weakness_drill"
+      },
+      {
+        "item_id": "drill.shared.001",
+        "slot": "weakness_drill"
+      },
+      {
+        "item_id": "reading.uno.001",
+        "slot": "reading"
+      },
+      {
+        "item_id": "speaking.uno.001",
+        "slot": "speaking"
+      }
+    ],
+    "shortfalls": [
+      {
+        "slot": "weakness_drill",
+        "requested": 5,
+        "filled": 4
+      },
+      {
+        "slot": "listening",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "writing",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "vocab_review",
+        "requested": 3,
+        "filled": 0
+      }
+    ]
+  }
+}

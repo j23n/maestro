@@ -34,6 +34,16 @@ class Evidence(BaseModel):
     weight: float = Field(default=1.0, gt=0, le=2.0)
 
 
+# Scenarios the item was written for. Deliberately not an evidence axis:
+# it says where the item belongs, not what completing it proves about the
+# learner. The composer prefers items tagged with the session's scenario
+# so a lesson's drills and passages share its setting; grammar tags alone
+# are too coarse for that (every `saluti` drill matches every lesson that
+# teaches greetings). Empty means "usable anywhere" — the item still gets
+# picked, just without the preference.
+_SCENARIO_IDS = Field(default_factory=list)
+
+
 class Answer(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -61,6 +71,7 @@ class DrillItem(BaseModel):
     # General mistake explanation, shown when no distractor matches.
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
     # Choices for multiple_choice; must include one canonical answer text.
     choices: list[str] = []
 
@@ -109,6 +120,7 @@ class ReadingItem(BaseModel):
     glossary: dict[str, str] = {}
     questions: list[Question] = Field(min_length=1)
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
 
 class DialogueTurn(BaseModel):
@@ -135,6 +147,7 @@ class ListeningItem(BaseModel):
     audio: str | None = None
     questions: list[Question] = Field(min_length=1)
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
 
 class VocabCardItem(BaseModel):
@@ -165,6 +178,7 @@ class VocabCardItem(BaseModel):
     # Optional typed-recall answers (Italian productions of `back`).
     answers: list[Answer] = []
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
     @model_validator(mode="after")
     def check_shape(self) -> VocabCardItem:
@@ -198,6 +212,7 @@ class SpeakingPromptItem(BaseModel):
     audio: str | None = None
     explanation: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
 
 class WritingPromptItem(BaseModel):
@@ -224,6 +239,7 @@ class WritingPromptItem(BaseModel):
     required_vocab: list[str] = []
     model_answer: str | None = None
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
 
 class GrammarRefItem(BaseModel):
@@ -247,6 +263,7 @@ class GrammarRefItem(BaseModel):
     body_md: str
     examples: list[str] = []
     evidence: list[Evidence] = Field(min_length=1)
+    scenario_ids: list[str] = _SCENARIO_IDS
 
     @model_validator(mode="after")
     def check_shape(self) -> GrammarRefItem:

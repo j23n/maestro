@@ -12,6 +12,10 @@
 //!     modality   TEXT NOT NULL,      -- reading/listening/writing/speaking/vocab
 //!     payload    TEXT NOT NULL       -- JSON, shape depends on item_type
 //! );
+//! -- Two payload keys are read by every item_type: `evidence` (the
+//! -- learner-model axes) and `scenario_ids` (the lessons the item was
+//! -- authored for, which the composer prefers). Both are optional and
+//! -- default to empty, so pre-scenario bundles still read.
 //! CREATE TABLE acceptable_answers (
 //!     item_id      TEXT NOT NULL REFERENCES items(id),
 //!     answer       TEXT NOT NULL,    -- stored as authored
@@ -153,12 +157,18 @@ pub struct ItemMeta {
     pub cando_ids: Vec<String>,
     /// Spec lemma ids (vocab-axis evidence) — the SRS scheduler's key.
     pub vocab_ids: Vec<String>,
+    /// Scenarios this item was authored for. Not evidence: it says where
+    /// the item belongs, not what it proves. Empty means "usable
+    /// anywhere", which is also what pre-scenario bundles yield.
+    pub scenario_ids: Vec<String>,
 }
 
 #[derive(Deserialize)]
 struct PayloadEvidence {
     #[serde(default)]
     evidence: Vec<PayloadEvidenceRef>,
+    #[serde(default)]
+    scenario_ids: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -280,6 +290,7 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
             let payload: String = r.get(4)?;
             let ev: PayloadEvidence = serde_json::from_str(&payload).unwrap_or(PayloadEvidence {
                 evidence: vec![],
+                scenario_ids: vec![],
             });
             Ok(ItemMeta {
                 id: r.get(0)?,
@@ -304,6 +315,7 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
                     .filter(|e| e.axis == "vocab")
                     .map(|e| e.id.clone())
                     .collect(),
+                scenario_ids: ev.scenario_ids,
             })
         })?
         .collect::<Result<Vec<_>, _>>()?;

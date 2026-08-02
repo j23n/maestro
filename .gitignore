@@ -9,3 +9,6 @@ build/
 
 # Release signing: the private key never enters git; the .pub is committed.
 keys/release_signing.key
+
+# XcodeGen output: project.yml is the source of truth.
+ios/Maestro.xcodeproj/

@@ -2,6 +2,7 @@
 # polite_exp already has a reference page in a0_01_in_aereo.yaml.
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: grammar_ref.prep_place
   item_type: grammar_ref
   cefr_level: A0

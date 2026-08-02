@@ -9,6 +9,7 @@
 
 # ---------------------------------------------------------------- saluti
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.001
   item_type: drill_cloze
   cefr_level: A0
@@ -25,6 +26,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.002
   item_type: drill_cloze
   cefr_level: A0
@@ -40,6 +42,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.003
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -57,6 +60,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.004
   item_type: drill_cloze
   cefr_level: A0
@@ -72,6 +76,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.005
   item_type: drill_cloze
   cefr_level: A0
@@ -87,6 +92,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -103,6 +109,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.007
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -118,6 +125,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.008
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -135,6 +143,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.009
   item_type: drill_transform
   cefr_level: A0
@@ -150,6 +159,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.010
   item_type: drill_cloze
   cefr_level: A0
@@ -165,6 +175,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -180,6 +191,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.saluti.012
   item_type: drill_cloze
   cefr_level: A0
@@ -195,6 +207,7 @@
 
 # ----------------------------------------------------------- polite_exp
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.001
   item_type: drill_cloze
   cefr_level: A0
@@ -210,6 +223,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.002
   item_type: drill_cloze
   cefr_level: A0
@@ -224,6 +238,7 @@
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.003
   item_type: drill_cloze
   cefr_level: A0
@@ -239,6 +254,7 @@
     - { axis: function, id: a0_ringraziare, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.004
   item_type: drill_cloze
   cefr_level: A0
@@ -252,6 +268,7 @@
     - { axis: grammar, id: polite_exp, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.005
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -268,6 +285,7 @@
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -282,6 +300,7 @@
     - { axis: grammar, id: polite_exp, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.007
   item_type: drill_transform
   cefr_level: A0
@@ -295,6 +314,7 @@
     - { axis: grammar, id: polite_exp, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.008
   item_type: drill_cloze
   cefr_level: A0
@@ -309,6 +329,7 @@
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.009
   item_type: drill_cloze
   cefr_level: A0
@@ -324,6 +345,7 @@
     - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.010
   item_type: drill_cloze
   cefr_level: A0
@@ -338,6 +360,7 @@
     - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -354,6 +377,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.polite_exp.012
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -372,6 +396,7 @@
 # Sound contrasts built only from A0 words, so the choices stay inside the
 # learner's vocabulary instead of leaning on phonetic notation.
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.001
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -388,6 +413,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.002
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -404,6 +430,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.003
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -419,6 +446,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.004
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -433,6 +461,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.005
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -445,6 +474,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -457,6 +487,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.007
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -471,6 +502,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.008
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -483,6 +515,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.009
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -495,6 +528,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.010
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -507,6 +541,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -519,6 +554,7 @@
     - { axis: grammar, id: pronun_bas, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: drill.pronun_bas.012
   item_type: drill_multiple_choice
   cefr_level: A0

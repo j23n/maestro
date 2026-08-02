@@ -202,6 +202,7 @@ def validate_pack(items: list, spec: Spec) -> list[str]:
     cf_ids = {c.id for c in spec.communicative_functions}
     vocab_ids = {v.id for v in spec.vocab}
     cando_ids = {c.id for c in spec.can_dos}
+    scenario_ids = {s.id for s in spec.scenarios}
     for item in items:
         if item.id in seen:
             errors.append(f"duplicate item id: {item.id}")
@@ -225,6 +226,9 @@ def validate_pack(items: list, spec: Spec) -> list[str]:
         for lemma in getattr(item, "required_vocab", []):
             if lemma not in vocab_ids:
                 errors.append(f"{item.id}: unknown required_vocab {lemma}")
+        for sc in item.scenario_ids:
+            if sc not in scenario_ids:
+                errors.append(f"{item.id}: unknown scenario id {sc}")
     return errors
 
 
@@ -540,6 +544,7 @@ def build(
             payload: dict = {
                 "prompt": item.prompt,
                 "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
             }
             if item.choices:
                 payload["choices"] = item.choices
@@ -565,6 +570,7 @@ def build(
                 "audio": item.audio,
                 "image": item.image,
                 "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
             }
             insert(
                 conn,
@@ -583,6 +589,7 @@ def build(
                 "variants": item.variants,
                 "audio": item.audio,
                 "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
             }
             answers = [Answer(text=item.target_text, canonical=True)] + [
                 Answer(text=v) for v in item.variants
@@ -607,6 +614,7 @@ def build(
                 "required_vocab": item.required_vocab,
                 "model_answer": item.model_answer,
                 "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
             }
             insert(conn, item.id, item.item_type, item.cefr_level, "writing", payload)
             built += 1
@@ -617,6 +625,7 @@ def build(
                 "body_md": item.body_md,
                 "examples": item.examples,
                 "evidence": [e.model_dump() for e in item.evidence],
+                "scenario_ids": item.scenario_ids,
             }
             insert(conn, item.id, item.item_type, item.cefr_level, "reading", payload)
             built += 1
@@ -631,6 +640,7 @@ def build(
             payload = {
                 "title": item.title,
                 "evidence": evidence,
+                "scenario_ids": item.scenario_ids,
                 "question_ids": question_ids,
             }
             if isinstance(item, ReadingItem):
@@ -652,7 +662,12 @@ def build(
                     f"{kind}_question",
                     item.cefr_level,
                     modality,
-                    {"prompt": q.prompt, "parent_id": item.id, "evidence": q_evidence},
+                    {
+                        "prompt": q.prompt,
+                        "parent_id": item.id,
+                        "evidence": q_evidence,
+                        "scenario_ids": item.scenario_ids,
+                    },
                     q.answers,
                     None,
                     q.explanation,

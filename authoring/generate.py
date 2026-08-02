@@ -76,6 +76,10 @@ class Scope:
     # Ids the model is allowed to tag evidence with.
     grammar_ids: list[str] = field(default_factory=list)
     function_ids: list[str] = field(default_factory=list)
+    # Scenarios drafted items belong to. Stamped from the scope rather
+    # than asked of the model: which lesson a batch was drafted for is
+    # something the caller already knows.
+    scenario_ids: list[str] = field(default_factory=list)
 
 
 def _strip_html(s: str) -> str:
@@ -137,6 +141,7 @@ def resolve_scope(
             ],
             grammar_ids=list(s.grammar_ids),
             function_ids=list(s.function_ids),
+            scenario_ids=[s.id],
         )
 
     if cando:
@@ -163,6 +168,7 @@ def resolve_scope(
             ],
             grammar_ids=list(c.grammar_ids),
             function_ids=list(c.function_ids),
+            scenario_ids=list(c.scenario_ids),
         )
 
     # Theme mode: free topic, curriculum-grounded via allowed inventories.
@@ -449,10 +455,13 @@ def parse_response(
     items = []
     for entry in raw:
         entry.pop("id", None)
+        entry.pop("scenario_ids", None)  # the scope's call, not the model's
         item_id = _allocate_id(kind, scope, entry, existing_ids, seq)
         if item_id in existing_ids:
             raise ValueError(f"{item_id}: already exists (duplicate draft?)")
-        item = kind.model(id=item_id, status="draft", **entry)
+        item = kind.model(
+            id=item_id, status="draft", scenario_ids=scope.scenario_ids, **entry
+        )
         existing_ids.add(item_id)
         seq += 1
         items.append(item)

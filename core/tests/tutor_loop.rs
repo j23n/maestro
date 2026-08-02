@@ -158,7 +158,7 @@ fn simulated_learner_progresses() {
         .as_array()
         .unwrap()
         .iter()
-        .any(|a| a["slot"] == "receptive"));
+        .any(|a| a["slot"] == "reading" || a["slot"] == "listening"));
 
     // Anti-repetition: recently-attempted items are avoided while
     // alternatives exist.

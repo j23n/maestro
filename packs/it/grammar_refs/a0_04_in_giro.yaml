@@ -1,6 +1,7 @@
 # Grammar reference pages — lesson a0-04-in-giro. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: grammar_ref.art_il_la
   item_type: grammar_ref
   cefr_level: A0
@@ -35,6 +36,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: grammar_ref.dove_e
   item_type: grammar_ref
   cefr_level: A0

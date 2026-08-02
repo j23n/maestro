@@ -257,3 +257,62 @@ fill can proceed in parallel with app polish.
     (`docs/plans/01-content-pack-architecture.md`; 02/03 keep their
     numbers), and `.dockerignore` / `.gitattributes` (Docker and
     Git-LFS config whose targets were deleted with the app).
+
+## Session composition — scenario scoping (2026-08-01)
+
+34. **Items carry `scenario_ids`; the composer prefers the session's
+    scenario in every slot.** Reported symptom: the first A0 lesson is
+    "In aereo" but its drills and passages had little to do with a plane.
+    Three causes, all real:
+    - There was no scenario axis. Items were tagged only on the
+      grammar/function/vocab/cando evidence axes, so the composer could
+      not express "this is about the plane" even in principle; a scenario
+      reached selection *only* through its grammar ids.
+    - Grammar is too coarse a proxy. `a0-01-in-aereo` targets `saluti,
+      polite_exp, pronun_bas`, so every greeting drill in the pack
+      qualified — including `drill.polite_exp.013–016`, authored for
+      lesson 5 ("your passport is missing"). `pronun_bas` is a third of
+      the target and is inherently sceneless.
+    - The passage, utterance and card slots had no targeting filter at
+      all, only the unlocked-grammar gate. On a fresh account every
+      mastery is 0, so `weakness_weight` returns 4.0 for everything and
+      selection degenerated to a uniform draw: 1-in-9 odds of getting
+      the in-aereo reading, 1-in-4 of an on-scenario speaking prompt.
+      The unlock gate does not help — 319 of the 351 grammar points have
+      no prerequisites, so nearly the whole DAG is open on day one, and
+      the problem *grows* as the pack does.
+
+    `scenario_ids` is deliberately **not** an evidence axis: it says
+    where an item belongs, not what completing it proves. It rides in
+    the item payload rather than a new column, so no `schema_version`
+    bump — older cores ignore the key, and `list_item_meta` defaults it
+    to empty for pre-scenario bundles. Empty means "usable anywhere"
+    (`a0_basics`, `a1_basics`, the Ferragosto drafts), which stays a
+    legal pick. New vector `11_scenario_scoped_selection.json`; the
+    contract test `first_session_is_about_its_scenario` asserts the same
+    property against the real bundle across eight seeds.
+
+35. **Selection is tiered, not filtered — and this changes
+    `04_session_plan.json`.** Grammar targeting stays a hard gate for
+    the drill and grammar-card slots (that is what those slots are for)
+    and becomes a preference for passages, utterances and cards, which
+    are not authored per grammar point. Preferences compose as a rank —
+    scenario, then target grammar, then not-seen-recently — and a tier is
+    exhausted before the next is touched, so a slot reaches weaker
+    material only when the better material runs out rather than being
+    starved. Vocab review ranks differently: due-before-not-due
+    outranks the scenario, or the lesson would quietly stall the SM-2
+    rotation.
+
+    The tiering fixed a latent anti-repetition bug, which is why an
+    existing vector moved. The old code kept the unseen-only pool *only*
+    if it could fill the slot outright (`if unseen.len() >= count`) and
+    otherwise fell back to the full pool — so whenever a slot was
+    larger than the unseen supply, just-attempted items could be picked
+    ahead of never-seen ones. `04_session_plan.json` now expects
+    `drill.a.002` before `drill.a.001`, `drill.a.001` being the one the
+    vector's own event log records as attempted.
+
+    Known content gap, not a composer bug: `a0-01-in-aereo` has no
+    listening of its own, so the listening slot correctly falls through
+    to another lesson's dialogue. Authoring one closes it.

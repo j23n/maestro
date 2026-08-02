@@ -1,6 +1,7 @@
 # Speaking prompts — lesson a0-03-al-bar. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: speaking.vorrei.003
   item_type: speaking_prompt
   cefr_level: A0
@@ -13,6 +14,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: speaking.art_un_una.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -23,6 +25,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: speaking.vorrei.004
   item_type: speaking_prompt
   cefr_level: A0

@@ -1,6 +1,7 @@
 # Grammar reference pages — lesson a0-02-in-albergo. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: grammar_ref.mi_chiamo
   item_type: grammar_ref
   cefr_level: A0
@@ -40,6 +41,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: grammar_ref.num_0_20
   item_type: grammar_ref
   cefr_level: A0

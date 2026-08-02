@@ -1,6 +1,7 @@
 # Writing prompt — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: writing.chiedere_aiuto.001
   item_type: writing_prompt
   cefr_level: A0

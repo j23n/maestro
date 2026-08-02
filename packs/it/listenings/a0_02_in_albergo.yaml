@@ -2,6 +2,7 @@
 # audio stays null until Phase 7 render; the shell falls back to TTS.
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: listening.in_albergo.001
   cefr_level: A0
   title: Alla reception

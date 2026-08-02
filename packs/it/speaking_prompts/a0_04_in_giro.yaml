@@ -1,6 +1,7 @@
 # Speaking prompts — lesson a0-04-in-giro. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: speaking.dove_e.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -11,6 +12,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: speaking.dove_e.002
   item_type: speaking_prompt
   cefr_level: A0
@@ -21,6 +23,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: speaking.art_il_la.001
   item_type: speaking_prompt
   cefr_level: A0

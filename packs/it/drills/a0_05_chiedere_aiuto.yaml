@@ -2,6 +2,7 @@
 # reuse from lesson 1). Drafted, not yet human-reviewed.
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.001
   item_type: drill_cloze
   cefr_level: A0
@@ -15,6 +16,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.002
   item_type: drill_cloze
   cefr_level: A0
@@ -28,6 +30,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.003
   item_type: drill_cloze
   cefr_level: A0
@@ -42,6 +45,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.004
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -58,6 +62,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.005
   item_type: drill_cloze
   cefr_level: A0
@@ -69,6 +74,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.006
   item_type: drill_cloze
   cefr_level: A0
@@ -82,6 +88,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.007
   item_type: drill_cloze
   cefr_level: A0
@@ -93,6 +100,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.008
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -107,6 +115,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.009
   item_type: drill_cloze
   cefr_level: A0
@@ -118,6 +127,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.010
   item_type: drill_cloze
   cefr_level: A0
@@ -129,6 +139,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -145,6 +156,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.prep_place.012
   item_type: drill_transform
   cefr_level: A0
@@ -157,6 +169,7 @@
 
 # polite_exp reuse — help-seeking, the lesson's own angle
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.polite_exp.013
   item_type: drill_cloze
   cefr_level: A0
@@ -169,6 +182,7 @@
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.polite_exp.014
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -189,6 +203,7 @@
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.polite_exp.015
   item_type: drill_cloze
   cefr_level: A0
@@ -201,6 +216,7 @@
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: drill.polite_exp.016
   item_type: drill_cloze
   cefr_level: A0

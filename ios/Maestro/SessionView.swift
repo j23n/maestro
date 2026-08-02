@@ -467,8 +467,17 @@ struct PassageView: View {
                                     Button("Mostra il testo") { transcriptShown = true }
                                         .font(.footnote)
                                 }
+                                if let note = speaker.unavailable {
+                                    Text(note)
+                                        .font(.caption)
+                                        .foregroundStyle(Color.mTextMuted)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
                             }
                         }
+                        // A listening card holds a button and a link, not a
+                        // passage; without this it shrinks to their width.
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .card()
                         .padding(20)
                     }
@@ -520,18 +529,45 @@ struct PassageView: View {
 final class DialogueSpeaker: NSObject, AVSpeechSynthesizerDelegate {
     private let synthesizer = AVSpeechSynthesizer()
     private(set) var isSpeaking = false
+    /// Set when the device has no Italian voice to read with. Silence with
+    /// a play button that does nothing looks like a broken app; saying so
+    /// at least tells the learner where to go.
+    private(set) var unavailable: String?
 
     override init() {
         super.init()
         synthesizer.delegate = self
     }
 
+    /// The best Italian voice installed, whatever its region tag. Voice
+    /// assets are downloaded on demand, so "it-IT" specifically is not
+    /// guaranteed to exist even when Italian speech does.
+    private static var italianVoice: AVSpeechSynthesisVoice? {
+        AVSpeechSynthesisVoice(language: "it-IT")
+            ?? AVSpeechSynthesisVoice.speechVoices()
+                .first { $0.language.hasPrefix("it") }
+    }
+
     func speak(_ turns: [DialogueTurn]) {
         stop()
+        guard let voice = Self.italianVoice else {
+            unavailable =
+                "No Italian voice is installed on this device. Add one in "
+                + "Settings › Accessibility › Spoken Content › Voices."
+            return
+        }
+        unavailable = nil
+        // Speech shares the audio session with recording elsewhere in the
+        // app, and without an explicit playback category it is silenced by
+        // the ring/silent switch — which reads as the feature not working.
+        try? AVAudioSession.sharedInstance().setCategory(
+            .playback, mode: .spokenAudio, options: [.duckOthers])
+        try? AVAudioSession.sharedInstance().setActive(true)
+
         isSpeaking = true
         for turn in turns {
             let utterance = AVSpeechUtterance(string: turn.text)
-            utterance.voice = AVSpeechSynthesisVoice(language: "it-IT")
+            utterance.voice = voice
             // Slower than conversational: this is comprehension practice
             // for a beginner, not a native-speed listening test.
             utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 0.85
@@ -546,10 +582,22 @@ final class DialogueSpeaker: NSObject, AVSpeechSynthesizerDelegate {
     }
 
     func speechSynthesizer(
+        _ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance
+    ) {
+        isSpeaking = true
+    }
+
+    func speechSynthesizer(
         _ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance
     ) {
         // Turns are queued together, so the last one finishing ends the run.
         if !synthesizer.isSpeaking { isSpeaking = false }
+    }
+
+    func speechSynthesizer(
+        _ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance
+    ) {
+        isSpeaking = false
     }
 }
 

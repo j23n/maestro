@@ -88,8 +88,20 @@ fn every_lesson_composes_a_full_session() {
             }
             assert!(last_card.is_some(), "{ctx}: no grammar reference scheduled");
 
+            // Reading and listening are separate slots, not one "receptive"
+            // pick: with four listenings against six readings a shared slot
+            // drew a reading most of the time, and a learner could go weeks
+            // without hearing the language. Speaking is required for the
+            // same reason — every full session hears Italian and says it.
             let slots: Vec<&str> = acts.iter().map(|a| a["slot"].as_str().unwrap()).collect();
-            for required in ["grammar_card", "new_grammar_drill", "receptive", "vocab_review"] {
+            for required in [
+                "grammar_card",
+                "new_grammar_drill",
+                "reading",
+                "listening",
+                "speaking",
+                "vocab_review",
+            ] {
                 assert!(slots.contains(&required), "{ctx}: no {required} activity");
             }
         }

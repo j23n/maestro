@@ -279,6 +279,7 @@ fn run_session_vector(ctx: &str, vector: &Value) {
             grammar_ids: str_vec(&v["grammar_ids"]),
             cando_ids: str_vec(&v["cando_ids"]),
             vocab_ids: str_vec(&v["vocab_ids"]),
+            scenario_ids: str_vec(&v["scenario_ids"]),
         })
         .collect();
 

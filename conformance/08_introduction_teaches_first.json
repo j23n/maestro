@@ -100,18 +100,23 @@
       },
       {
         "item_id": "reading.a.001",
-        "slot": "receptive"
+        "slot": "reading"
       }
     ],
     "shortfalls": [
       {
         "slot": "new_grammar_drill",
-        "requested": 4,
+        "requested": 3,
         "filled": 2
       },
       {
         "slot": "weakness_drill",
-        "requested": 3,
+        "requested": 2,
+        "filled": 0
+      },
+      {
+        "slot": "listening",
+        "requested": 1,
         "filled": 0
       },
       {

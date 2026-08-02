@@ -1,6 +1,7 @@
 # Speaking prompts — lesson a0-02-in-albergo. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: speaking.mi_chiamo.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -14,6 +15,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: speaking.mi_chiamo.002
   item_type: speaking_prompt
   cefr_level: A0
@@ -25,6 +27,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: speaking.num_0_20.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -36,6 +39,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: speaking.num_0_20.002
   item_type: speaking_prompt
   cefr_level: A0

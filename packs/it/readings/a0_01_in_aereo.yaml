@@ -1,6 +1,7 @@
 # Reading — lesson a0-01-in-aereo. Drafted in-session, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: reading.in_aereo.001
   cefr_level: A0
   title: In aereo

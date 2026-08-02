@@ -77,6 +77,96 @@ fn opens_and_scores_python_built_pack() {
     let _ = std::fs::remove_file(&learner);
 }
 
+/// The first lesson a learner ever opens must be *about* its scenario.
+/// Grammar tags alone don't achieve that — every `saluti` drill matches
+/// every lesson that teaches greetings, and passages and prompts aren't
+/// authored per grammar point at all — so items carry `scenario_ids` and
+/// the composer ranks on-scenario material first. This asserts against
+/// the real bundle, where the off-scenario pool is large enough that a
+/// regression would show up immediately.
+#[test]
+fn first_session_is_about_its_scenario() {
+    let Some(pack_path) = std::env::var_os("MAESTRO_PACK_PATH") else {
+        eprintln!("MAESTRO_PACK_PATH not set; skipping scenario scoping test");
+        return;
+    };
+    let learner = std::env::temp_dir().join(format!("scoped-learner-{}.sqlite", std::process::id()));
+    let _ = std::fs::remove_file(&learner);
+
+    let core = Core::open(
+        pack_path.to_string_lossy().into_owned(),
+        learner.to_string_lossy().into_owned(),
+    )
+    .expect("open pack");
+
+    const SCENARIO: &str = "a0-01-in-aereo";
+
+    // What the pack actually offers for this lesson, per item type.
+    let mut on_scenario: std::collections::HashMap<String, Vec<String>> = Default::default();
+    let mut scenarios_of: std::collections::HashMap<String, Vec<String>> = Default::default();
+    for id in core.list_item_ids().expect("list") {
+        let payload: serde_json::Value =
+            serde_json::from_str(&core.get_item_json(id.clone()).expect("payload")).unwrap();
+        let tags: Vec<String> = payload["scenario_ids"]
+            .as_array()
+            .map(|a| a.iter().filter_map(|t| t.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+        if tags.iter().any(|t| t == SCENARIO) {
+            let item_type = payload["parent_id"]
+                .as_str()
+                .map_or_else(|| id.split('.').next().unwrap_or_default(), |_| "question");
+            on_scenario.entry(item_type.to_string()).or_default().push(id.clone());
+        }
+        scenarios_of.insert(id, tags);
+    }
+    assert!(
+        on_scenario.contains_key("reading"),
+        "fixture assumption broken: {SCENARIO} has no reading to prefer"
+    );
+
+    // Several seeds: one lucky draw would have passed before this change.
+    for seed in 0..8u64 {
+        let plan: serde_json::Value = serde_json::from_str(
+            &core
+                .compose_session(format!(
+                    r#"{{"now": 1800000000, "seed": {seed}, "scenario_id": "{SCENARIO}"}}"#
+                ))
+                .expect("compose"),
+        )
+        .unwrap();
+        assert_eq!(plan["scenario_id"], SCENARIO);
+
+        let activities = plan["activities"].as_array().expect("activities");
+        assert!(!activities.is_empty(), "seed {seed}: empty plan");
+        let picked: std::collections::HashSet<&str> = activities
+            .iter()
+            .map(|a| a["item_id"].as_str().unwrap())
+            .collect();
+
+        for a in activities {
+            let id = a["item_id"].as_str().unwrap();
+            let family = id.split('.').next().unwrap_or_default();
+            let tags = &scenarios_of[id];
+            // Untagged items are shared material, legal anywhere. A tagged
+            // item from another lesson is only acceptable once this
+            // lesson's own supply of that kind is exhausted — which is how
+            // a lesson with no listening of its own still gets one.
+            if tags.is_empty() || tags.iter().any(|t| t == SCENARIO) {
+                continue;
+            }
+            let ours = on_scenario.get(family).map(Vec::as_slice).unwrap_or_default();
+            let unused: Vec<&String> = ours.iter().filter(|o| !picked.contains(o.as_str())).collect();
+            assert!(
+                unused.is_empty(),
+                "seed {seed}: {id} ({}) belongs to {tags:?} while {SCENARIO} still has {unused:?}",
+                a["slot"]
+            );
+        }
+    }
+
+    let _ = std::fs::remove_file(&learner);
+}
+
 /// The vocabulary browser reads `vocab_inventory`. It joins three sources
 /// that are built independently — the spec table, the authored cards, and
 /// the SM-2 fold — and a lemma mismatch between the first two would show

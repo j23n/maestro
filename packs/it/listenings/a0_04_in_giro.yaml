@@ -1,6 +1,7 @@
 # Listening — lesson a0-04-in-giro. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: listening.in_giro.001
   cefr_level: A0
   title: Scusi, dov'è la stazione?

@@ -1,6 +1,7 @@
 # Vocab cards — lesson a0-03-al-bar. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.cornetto
   item_type: vocab_card
   cefr_level: A0
@@ -15,6 +16,7 @@
     - { axis: vocab, id: cornetto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.cappuccino
   item_type: vocab_card
   cefr_level: A0
@@ -29,6 +31,7 @@
     - { axis: vocab, id: cappuccino, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.acqua
   item_type: vocab_card
   cefr_level: A0
@@ -44,6 +47,7 @@
     - { axis: grammar, id: art_un_una, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.conto
   item_type: vocab_card
   cefr_level: A0
@@ -58,6 +62,7 @@
     - { axis: vocab, id: conto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.bar
   item_type: vocab_card
   cefr_level: A0
@@ -72,6 +77,7 @@
     - { axis: vocab, id: bar, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: vocab.birra
   item_type: vocab_card
   cefr_level: A0

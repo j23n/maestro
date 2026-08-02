@@ -1,6 +1,7 @@
 # Writing prompt — lesson a0-04-in-giro. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: writing.in_giro.001
   item_type: writing_prompt
   cefr_level: A0

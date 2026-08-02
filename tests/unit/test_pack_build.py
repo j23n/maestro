@@ -164,6 +164,35 @@ def test_include_draft_compiles_draft_items(tmp_path):
     assert row[0] == 1, "draft item should be compiled when include_draft is set"
 
 
+def test_scenario_ids_reach_the_bundle_and_are_checked(tmp_path):
+    """The composer prefers items tagged with the session's scenario, so
+    the tag has to survive the build — including onto the question items
+    split out of a passage, which are scheduled inside their parent."""
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT / "packs" / "it", pack)
+    out = tmp_path / "bundle.sqlite"
+    assert build(pack, ROOT / "spec" / "it", out, include_draft=True) == 0
+
+    conn = sqlite3.connect(out)
+    rows = dict(conn.execute("SELECT id, payload FROM items"))
+    conn.close()
+    assert json.loads(rows["reading.in_aereo.001"])["scenario_ids"] == [
+        "a0-01-in-aereo"
+    ]
+    assert json.loads(rows["reading.in_aereo.001.q1"])["scenario_ids"] == [
+        "a0-01-in-aereo"
+    ], "question children must inherit the passage's scenario"
+    # Shared material stays untagged — usable in any lesson.
+    assert json.loads(rows["reading.la_giornata.001"])["scenario_ids"] == []
+
+    spec = load_spec(ROOT / "spec" / "it")
+    sources = load_pack_sources(pack)
+    item = sources.readings[0].model_copy(update={"scenario_ids": ["a0-99-nowhere"]})
+    assert any(
+        "unknown scenario id a0-99-nowhere" in e for e in validate_pack([item], spec)
+    )
+
+
 def test_media_files_are_embedded_and_missing_ones_rejected(tmp_path):
     pack = tmp_path / "pack"
     shutil.copytree(ROOT / "packs" / "it", pack)

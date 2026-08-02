@@ -1,6 +1,6 @@
 {
-  "name": "receptive slot never schedules a passage's question sub-items; starved slots report shortfalls",
-  "description": "A passage's comprehension questions are separate items (reading_question, listening_question) that only make sense inside their parent passage. The receptive slot must select the passage itself and never a bare question — a prefix match on 'reading' would schedule a question with no passage attached. This vector also pins shortfall reporting: the drill and vocab slots have no eligible items, so the plan must say so rather than silently coming up short.",
+  "name": "reading slot never schedules a passage's question sub-items; starved slots report shortfalls",
+  "description": "A passage's comprehension questions are separate items (reading_question, listening_question) that only make sense inside their parent passage. The reading slot must select the passage itself and never a bare question — a prefix match on 'reading' would schedule a question with no passage attached. This vector also pins shortfall reporting: the drill and vocab slots have no eligible items, so the plan must say so rather than silently coming up short.",
   "spec": {
     "grammar": [
       {
@@ -110,17 +110,27 @@
       },
       {
         "item_id": "reading.a.001",
-        "slot": "receptive"
+        "slot": "reading"
       }
     ],
     "shortfalls": [
       {
         "slot": "weakness_drill",
-        "requested": 7,
+        "requested": 5,
         "filled": 1
       },
       {
-        "slot": "production",
+        "slot": "listening",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "speaking",
+        "requested": 1,
+        "filled": 0
+      },
+      {
+        "slot": "writing",
         "requested": 1,
         "filled": 0
       },

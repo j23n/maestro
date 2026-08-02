@@ -1,6 +1,7 @@
 # Grammar reference pages — lesson a0-03-al-bar. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: grammar_ref.art_un_una
   item_type: grammar_ref
   cefr_level: A0
@@ -35,6 +36,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: grammar_ref.vorrei
   item_type: grammar_ref
   cefr_level: A0

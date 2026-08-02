@@ -3,6 +3,7 @@
 
 # ------------------------------------------------------------- mi_chiamo
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.001
   item_type: drill_cloze
   cefr_level: A0
@@ -18,6 +19,7 @@
     - { axis: function, id: a0_dire_nome, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.002
   item_type: drill_cloze
   cefr_level: A0
@@ -33,6 +35,7 @@
     - { axis: function, id: a0_dire_nome, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.003
   item_type: drill_cloze
   cefr_level: A0
@@ -48,6 +51,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.004
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -66,6 +70,7 @@
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.005
   item_type: drill_transform
   cefr_level: A0
@@ -81,6 +86,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.006
   item_type: drill_cloze
   cefr_level: A0
@@ -94,6 +100,7 @@
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.007
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -114,6 +121,7 @@
     - { axis: function, id: a0_dire_nome, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.008
   item_type: drill_cloze
   cefr_level: A0
@@ -128,6 +136,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.009
   item_type: drill_cloze
   cefr_level: A0
@@ -140,6 +149,7 @@
     - { axis: function, id: a0_presentarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.010
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -152,6 +162,7 @@
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.011
   item_type: drill_transform
   cefr_level: A0
@@ -163,6 +174,7 @@
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.mi_chiamo.012
   item_type: drill_cloze
   cefr_level: A0
@@ -177,6 +189,7 @@
 
 # -------------------------------------------------------------- num_0_20
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.001
   item_type: drill_cloze
   cefr_level: A0
@@ -189,6 +202,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.002
   item_type: drill_cloze
   cefr_level: A0
@@ -203,6 +217,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.003
   item_type: drill_cloze
   cefr_level: A0
@@ -217,6 +232,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.004
   item_type: drill_cloze
   cefr_level: A0
@@ -231,6 +247,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.005
   item_type: drill_cloze
   cefr_level: A0
@@ -245,6 +262,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -259,6 +277,7 @@
     - { axis: grammar, id: num_0_20, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.007
   item_type: drill_cloze
   cefr_level: A0
@@ -271,6 +290,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.008
   item_type: drill_cloze
   cefr_level: A0
@@ -285,6 +305,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.009
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -297,6 +318,7 @@
     - { axis: grammar, id: num_0_20, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.010
   item_type: drill_cloze
   cefr_level: A0
@@ -309,6 +331,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.011
   item_type: drill_cloze
   cefr_level: A0
@@ -321,6 +344,7 @@
     - { axis: function, id: a0_contare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: drill.num_0_20.012
   item_type: drill_multiple_choice
   cefr_level: A0

@@ -1,6 +1,7 @@
 # Vocab cards — lesson a0-01-in-aereo. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.buongiorno
   item_type: vocab_card
   cefr_level: A0
@@ -16,6 +17,7 @@
     - { axis: grammar, id: saluti, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.buonasera
   item_type: vocab_card
   cefr_level: A0
@@ -31,6 +33,7 @@
     - { axis: grammar, id: saluti, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.arrivederci
   item_type: vocab_card
   cefr_level: A0
@@ -46,6 +49,7 @@
     - { axis: grammar, id: saluti, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.salve
   item_type: vocab_card
   cefr_level: A0
@@ -61,6 +65,7 @@
     - { axis: grammar, id: saluti, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.prego
   item_type: vocab_card
   cefr_level: A0
@@ -76,6 +81,7 @@
     - { axis: grammar, id: polite_exp, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.scusi
   item_type: vocab_card
   cefr_level: A0
@@ -91,6 +97,7 @@
     - { axis: grammar, id: polite_exp, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: vocab.aereo
   item_type: vocab_card
   cefr_level: A0

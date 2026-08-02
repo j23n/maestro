@@ -4,6 +4,7 @@
 # status: draft, so `build` skips these unless --include-draft is passed.
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: grammar_ref.saluti
   item_type: grammar_ref
   cefr_level: A0
@@ -40,6 +41,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: grammar_ref.polite_exp
   item_type: grammar_ref
   cefr_level: A0
@@ -73,6 +75,7 @@
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: grammar_ref.pronun_bas
   item_type: grammar_ref
   cefr_level: A0

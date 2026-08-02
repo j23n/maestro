@@ -1,10 +1,8 @@
 {
-  "name": "introduction session closes with a speaking prompt, never a writing one",
-  "description": "Production used to appear only in the application archetype, which needs most of the target grammar already mastered — so a beginner never spoke or wrote anything. Introduction now ends with a speaking slot: a learner meeting this grammar for the first time can say the phrase out loud but has nothing to compose an open written answer with, so the slot is narrowed to speaking_prompt and must skip the writing_prompt even though it is the only other production item available.",
+  "name": "an introduction session both listens and speaks, and still refuses writing",
+  "description": "Listening and speaking used to be reachable only by luck or not at all: listening shared one 'receptive' pick with reading and usually lost it, and speaking rode on a production slot that existed only in the application archetype, which needs most of the target grammar already mastered. Both now have their own slot in every full session. This vector pins that for the archetype a beginner actually gets: the plan must contain the listening item and the speaking item, and must still skip the writing prompt, which stays an application-only slot because a learner meeting this grammar for the first time has nothing to compose an open answer with.",
   "spec": {
-    "grammar": [
-      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] }
-    ],
+    "grammar": [{ "id": "gp_a", "cefr_level": "A0", "prerequisites": [] }],
     "functions": [],
     "scenarios": [
       {
@@ -40,6 +38,12 @@
       "grammar_ids": ["gp_a"]
     },
     {
+      "id": "listening.a.001",
+      "item_type": "listening",
+      "modality": "listening",
+      "grammar_ids": ["gp_a"]
+    },
+    {
       "id": "writing.a.001",
       "item_type": "writing_prompt",
       "modality": "writing",
@@ -63,12 +67,13 @@
     "activities": [
       { "item_id": "grammar_ref.gp_a", "slot": "grammar_card" },
       { "item_id": "drill.a.001", "slot": "new_grammar_drill" },
-      { "item_id": "reading.a.001", "slot": "receptive" },
+      { "item_id": "reading.a.001", "slot": "reading" },
+      { "item_id": "listening.a.001", "slot": "listening" },
       { "item_id": "speaking.a.001", "slot": "speaking" }
     ],
     "shortfalls": [
-      { "slot": "new_grammar_drill", "requested": 4, "filled": 1 },
-      { "slot": "weakness_drill", "requested": 3, "filled": 0 },
+      { "slot": "new_grammar_drill", "requested": 3, "filled": 1 },
+      { "slot": "weakness_drill", "requested": 2, "filled": 0 },
       { "slot": "vocab_review", "requested": 3, "filled": 0 }
     ]
   }

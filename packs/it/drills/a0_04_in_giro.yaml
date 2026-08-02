@@ -3,6 +3,7 @@
 
 # ------------------------------------------------------------ art_il_la
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.003
   item_type: drill_cloze
   cefr_level: A0
@@ -16,6 +17,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.004
   item_type: drill_cloze
   cefr_level: A0
@@ -29,6 +31,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.005
   item_type: drill_cloze
   cefr_level: A0
@@ -43,6 +46,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -59,6 +63,7 @@
     - { axis: grammar, id: art_un_una, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.007
   item_type: drill_cloze
   cefr_level: A0
@@ -70,6 +75,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.008
   item_type: drill_cloze
   cefr_level: A0
@@ -82,6 +88,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.009
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -97,6 +104,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.010
   item_type: drill_transform
   cefr_level: A0
@@ -108,6 +116,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.011
   item_type: drill_cloze
   cefr_level: A0
@@ -119,6 +128,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.art_il_la.012
   item_type: drill_cloze
   cefr_level: A0
@@ -133,6 +143,7 @@
 
 # --------------------------------------------------------------- dove_e
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.001
   item_type: drill_cloze
   cefr_level: A0
@@ -148,6 +159,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.002
   item_type: drill_cloze
   cefr_level: A0
@@ -162,6 +174,7 @@
     - { axis: function, id: a0_scusarsi, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.003
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -182,6 +195,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.004
   item_type: drill_cloze
   cefr_level: A0
@@ -196,6 +210,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.005
   item_type: drill_cloze
   cefr_level: A0
@@ -210,6 +225,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -222,6 +238,7 @@
     - { axis: grammar, id: dove_e, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.007
   item_type: drill_cloze
   cefr_level: A0
@@ -234,6 +251,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.008
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -246,6 +264,7 @@
     - { axis: grammar, id: dove_e, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.009
   item_type: drill_cloze
   cefr_level: A0
@@ -257,6 +276,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.010
   item_type: drill_transform
   cefr_level: A0
@@ -268,6 +288,7 @@
     - { axis: grammar, id: dove_e, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -285,6 +306,7 @@
     - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: drill.dove_e.012
   item_type: drill_cloze
   cefr_level: A0

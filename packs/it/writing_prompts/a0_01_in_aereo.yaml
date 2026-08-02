@@ -1,6 +1,7 @@
 # Writing prompt — lesson a0-01-in-aereo. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: writing.in_aereo.001
   item_type: writing_prompt
   cefr_level: A0

@@ -1,6 +1,7 @@
 # Vocab cards — lesson a0-02-in-albergo. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.albergo
   item_type: vocab_card
   cefr_level: A0
@@ -15,6 +16,7 @@
     - { axis: vocab, id: albergo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.camera
   item_type: vocab_card
   cefr_level: A0
@@ -29,6 +31,7 @@
     - { axis: vocab, id: camera, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.chiave
   item_type: vocab_card
   cefr_level: A0
@@ -44,6 +47,7 @@
     - { axis: grammar, id: pronun_bas, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.nome
   item_type: vocab_card
   cefr_level: A0
@@ -59,6 +63,7 @@
     - { axis: grammar, id: mi_chiamo, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.prenotazione
   item_type: vocab_card
   cefr_level: A0
@@ -73,6 +78,7 @@
     - { axis: vocab, id: prenotazione, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-02-in-albergo]
   id: vocab.colazione
   item_type: vocab_card
   cefr_level: A0

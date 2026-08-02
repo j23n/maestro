@@ -1,6 +1,7 @@
 # Vocab cards — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.aiuto
   item_type: vocab_card
   cefr_level: A0
@@ -15,6 +16,7 @@
     - { axis: vocab, id: aiuto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.aiutare
   item_type: vocab_card
   cefr_level: A0
@@ -30,6 +32,7 @@
     - { axis: grammar, id: polite_exp, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.valigia
   item_type: vocab_card
   cefr_level: A0
@@ -45,6 +48,7 @@
     - { axis: grammar, id: pronun_bas, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.passaporto
   item_type: vocab_card
   cefr_level: A0
@@ -59,6 +63,7 @@
     - { axis: vocab, id: passaporto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.capire
   item_type: vocab_card
   cefr_level: A0
@@ -73,6 +78,7 @@
     - { axis: vocab, id: capire, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: vocab.problema
   item_type: vocab_card
   cefr_level: A0

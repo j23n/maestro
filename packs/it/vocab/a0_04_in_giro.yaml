@@ -1,6 +1,7 @@
 # Vocab cards — lesson a0-04-in-giro. Drafted, not yet reviewed.
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.stazione
   item_type: vocab_card
   cefr_level: A0
@@ -16,6 +17,7 @@
     - { axis: grammar, id: art_il_la, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.piazza
   item_type: vocab_card
   cefr_level: A0
@@ -30,6 +32,7 @@
     - { axis: vocab, id: piazza, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.museo
   item_type: vocab_card
   cefr_level: A0
@@ -44,6 +47,7 @@
     - { axis: vocab, id: museo, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.farmacia
   item_type: vocab_card
   cefr_level: A0
@@ -58,6 +62,7 @@
     - { axis: vocab, id: farmacia, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.centro
   item_type: vocab_card
   cefr_level: A0
@@ -72,6 +77,7 @@
     - { axis: vocab, id: centro, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-04-in-giro]
   id: vocab.dove
   item_type: vocab_card
   cefr_level: A0

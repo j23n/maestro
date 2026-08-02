@@ -2,6 +2,7 @@
 # Scored by the core's transcript-alignment scorer against target_text.
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: speaking.saluti.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -15,6 +16,7 @@
     - { axis: function, id: a0_salutare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: speaking.polite_exp.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -28,6 +30,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: speaking.polite_exp.002
   item_type: speaking_prompt
   cefr_level: A0
@@ -41,6 +44,7 @@
     - { axis: function, id: a0_ringraziare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-01-in-aereo]
   id: speaking.pronun_bas.001
   item_type: speaking_prompt
   cefr_level: A0

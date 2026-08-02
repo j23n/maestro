@@ -1,6 +1,7 @@
 # Speaking prompts — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: speaking.polite_exp.003
   item_type: speaking_prompt
   cefr_level: A0
@@ -11,6 +12,7 @@
     - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: speaking.prep_place.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -20,6 +22,7 @@
     - { axis: grammar, id: prep_place, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
   id: speaking.polite_exp.004
   item_type: speaking_prompt
   cefr_level: A0

@@ -3,6 +3,7 @@
 
 # ----------------------------------------------------------- art_un_una
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.002
   item_type: drill_cloze
   cefr_level: A0
@@ -18,6 +19,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.003
   item_type: drill_cloze
   cefr_level: A0
@@ -32,6 +34,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.004
   item_type: drill_cloze
   cefr_level: A0
@@ -47,6 +50,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.005
   item_type: drill_cloze
   cefr_level: A0
@@ -60,6 +64,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -75,6 +80,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.007
   item_type: drill_cloze
   cefr_level: A0
@@ -88,6 +94,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.008
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -100,6 +107,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.009
   item_type: drill_cloze
   cefr_level: A0
@@ -112,6 +120,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.010
   item_type: drill_cloze
   cefr_level: A0
@@ -123,6 +132,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.011
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -137,6 +147,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.art_un_una.012
   item_type: drill_transform
   cefr_level: A0
@@ -149,6 +160,7 @@
 
 # --------------------------------------------------------------- vorrei
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.003
   item_type: drill_cloze
   cefr_level: A0
@@ -163,6 +175,7 @@
     - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.004
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -177,6 +190,7 @@
     - { axis: grammar, id: vorrei, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.005
   item_type: drill_cloze
   cefr_level: A0
@@ -189,6 +203,7 @@
     - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.006
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -203,6 +218,7 @@
     - { axis: grammar, id: vorrei, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.007
   item_type: drill_cloze
   cefr_level: A0
@@ -215,6 +231,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.008
   item_type: drill_transform
   cefr_level: A0
@@ -229,6 +246,7 @@
     - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.009
   item_type: drill_cloze
   cefr_level: A0
@@ -242,6 +260,7 @@
     - { axis: grammar, id: vorrei, weight: 1.0 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.010
   item_type: drill_multiple_choice
   cefr_level: A0
@@ -255,6 +274,7 @@
     - { axis: function, id: a0_ordinare, weight: 0.5 }
 
 - status: draft
+  scenario_ids: [a0-03-al-bar]
   id: drill.vorrei.011
   item_type: drill_cloze
   cefr_level: A0
