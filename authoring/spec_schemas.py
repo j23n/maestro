@@ -242,7 +242,10 @@ class VocabEntry(BaseModel):
 
     id: str  # the lemma itself (lowercase; may contain spaces for phrases)
     cefr_level: CefrLevel
-    pos: str  # noun | verb | adj | adv | pron | prep | conj | num | inter | phrase
+    # Cardable: noun | verb | adj | adv | num | inter | phrase — SRS material,
+    # owed a vocab card by its home lesson. Grammatical: art | prep | pron |
+    # conj — a dictionary gloss and nothing more (docs/plans/08 §2).
+    pos: str
     gloss: str  # English gloss
 
 

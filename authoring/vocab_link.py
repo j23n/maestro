@@ -52,7 +52,64 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     "chiamarsi": ("chiamo", "chiami", "chiama", "chiamiamo", "chiamate", "chiamano"),
 }
 
-_INVARIABLE_POS = {"inter", "adv", "conj", "prep", "num", "pron", "phrase"}
+_INVARIABLE_POS = {"art", "inter", "adv", "conj", "prep", "num", "pron", "phrase"}
+
+# Elisions whose apostrophe fragment can't be derived by dropping a final
+# vowel. Keyed by lemma, so an entry only ever fires for a word the spec
+# actually lists — the map names candidates, it doesn't require them.
+_ELIDED: dict[str, str] = {
+    "il": "l'",
+    "una": "un'",
+    "di": "d'",
+    "dove": "dov'",
+    "ci": "c'",
+    "quanto": "quant'",
+}
+
+# Articles and preposition-article contractions in -lo/-la elide
+# predictably, so "della" -> "dell'" falls out without naming every one.
+_ELIDING_POS = {"art", "prep"}
+
+
+def _elided_form(lemma: str, pos: str) -> str | None:
+    """The apostrophe fragment `lemma` leaves when it elides, if it does."""
+    if lemma in _ELIDED:
+        return _ELIDED[lemma]
+    if pos in _ELIDING_POS and lemma.endswith(("lo", "la")):
+        return lemma[:-1] + "'"
+    return None
+
+
+# Preposizioni articolate: five prepositions fuse with the seven definite
+# articles into a closed, fully regular grid — "a" + "il" is "al", never
+# "a il". They are generated rather than listed because that is 35 written
+# forms from five lemmas, and because a learner tapping "alla" wants the
+# preposition's meaning ("to / at"), which is what the fusion carries.
+#
+# The article half is deliberately dropped: attributing "alla" to both "a"
+# and "la" would make it ambiguous, and `build_index` would then discard
+# it — leaving the commonest words in the language unlinkable, which is
+# the bug this exists to fix.
+_ARTICULATED: dict[str, str] = {
+    "a": "a",
+    "di": "de",
+    "da": "da",
+    "in": "ne",
+    "su": "su",
+    "con": "co",
+}
+_ARTICLE_TAILS = ("l", "llo", "lla", "i", "gli", "lle", "ll'")
+
+
+def _articulated_forms(lemma: str, pos: str) -> set[str]:
+    """The fused preposition+article forms of `lemma`, if it fuses."""
+    stem = _ARTICULATED.get(lemma) if pos == "prep" else None
+    if stem is None:
+        return set()
+    # "con" only fuses with "il" in current usage ("col"); the rest are
+    # archaic and would claim surfaces nobody writes.
+    tails = ("l",) if lemma == "con" else _ARTICLE_TAILS
+    return {stem + tail for tail in tails}
 
 
 def normalize(text: str) -> str:
@@ -126,12 +183,18 @@ def surface_forms(lemma: str, pos: str) -> set[str]:
     """Every written form of `lemma` this linker is willing to recognise."""
     lemma = normalize(lemma)
     if pos in _INVARIABLE_POS:
-        return {lemma}
-    if pos == "verb":
-        return _verb_forms(lemma)
-    if pos == "adj":
-        return _adjective_forms(lemma)
-    return _noun_forms(lemma)
+        forms = {lemma}
+    elif pos == "verb":
+        forms = _verb_forms(lemma)
+    elif pos == "adj":
+        forms = _adjective_forms(lemma)
+    else:
+        forms = _noun_forms(lemma)
+    elided = _elided_form(lemma, pos)
+    if elided is not None:
+        forms.add(elided)
+    forms |= _articulated_forms(lemma, pos)
+    return forms
 
 
 def build_index(entries) -> tuple[dict[str, str], set[str]]:
@@ -160,9 +223,12 @@ def build_index(entries) -> tuple[dict[str, str], set[str]]:
     return index, ambiguous
 
 
-# A token is a run of letters, with the apostrophe of an elided article
-# ending the previous one ("l'acqua" -> "l", "acqua").
-_TOKEN_RE = re.compile(r"[a-zà-öø-ÿ]+", re.IGNORECASE)
+# A token is a run of letters, keeping an apostrophe that another letter
+# follows: that is elision, and the fragment before it is a word in its
+# own right ("l'acqua" -> "l'", "acqua"). An apostrophe with no letter
+# after it is truncation or a quote mark, not elision, and stays out of
+# the token ("un po'" -> "po").
+_TOKEN_RE = re.compile(r"[a-zà-öø-ÿ]+'(?=[a-zà-öø-ÿ])|[a-zà-öø-ÿ]+", re.IGNORECASE)
 
 
 _QUOTED_RE = re.compile(r"«([^»]*)»|“([^”]*)”")
@@ -179,6 +245,19 @@ def quoted_spans(text: str) -> list[str]:
     return [m.group(1) or m.group(2) or "" for m in _QUOTED_RE.finditer(text or "")]
 
 
+def resolve(token: str, index: dict[str, str]) -> str | None:
+    """The lemma `token` names, retrying it as an elision.
+
+    The tokeniser only keeps an apostrophe that a letter follows, because
+    that is what distinguishes elision ("l'acqua") from truncation ("un
+    po'"). At a boundary the distinction disappears: an answer field
+    holding just "l'" tokenises to "l". Retrying with the apostrophe
+    restores it, and costs nothing when the word is genuinely truncated —
+    "po'" is not a surface any lemma claims.
+    """
+    return index.get(token) or index.get(token + "'")
+
+
 def find_lemmas(text: str, index: dict[str, str]) -> list[str]:
     """The spec lemmas appearing in `text`, in order of first appearance.
 
@@ -193,7 +272,7 @@ def find_lemmas(text: str, index: dict[str, str]) -> list[str]:
         if " " in form and re.search(rf"\b{re.escape(form)}\b", norm):
             found[lemma] = None
     for match in _TOKEN_RE.finditer(norm):
-        lemma = index.get(match.group())
+        lemma = resolve(match.group(), index)
         if lemma is not None:
             found[lemma] = None
     return list(found)

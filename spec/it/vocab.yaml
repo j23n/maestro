@@ -1,12 +1,53 @@
 # Leveled vocabulary — Italian, v0.
 #
-# ~330 lemmas: A0 essentially complete (crash-course scope), A1 core,
+# ~480 lemmas: A0 essentially complete (crash-course scope), A1 core,
 # A2 starter. Expansion to the plan's ~1,500 happens with Phase 7 content
 # fill (frequency-list cross-check + generate tooling); the *schema* and
 # validator wiring are what v0 locks in. Entries are lemmas; multi-word
 # fixed expressions use pos: phrase.
 
 # ============================================================ A0
+# Function words. Grammatical rather than cardable (docs/plans/08 §2):
+# they earn a dictionary entry and a gloss so a learner can look them up,
+# and the grammar point that teaches them carries the practice.
+# Articles are one lemma per written form — a learner tapping "gli" wants
+# "gli", not a paradigm.
+- {id: il, cefr_level: A0, pos: art, gloss: the (masculine singular)}
+- {id: lo, cefr_level: A0, pos: art, gloss: the (masculine singular before s+consonant / z)}
+- {id: la, cefr_level: A0, pos: art, gloss: the (feminine singular)}
+- {id: i, cefr_level: A0, pos: art, gloss: the (masculine plural)}
+- {id: gli, cefr_level: A0, pos: art, gloss: the (masculine plural before a vowel / s+consonant)}
+- {id: le, cefr_level: A0, pos: art, gloss: the (feminine plural)}
+- {id: un, cefr_level: A0, pos: art, gloss: a / an (masculine)}
+- {id: una, cefr_level: A0, pos: art, gloss: a / an (feminine)}
+- {id: di, cefr_level: A0, pos: prep, gloss: of / from}
+- {id: a, cefr_level: A0, pos: prep, gloss: to / at / in}
+- {id: da, cefr_level: A0, pos: prep, gloss: from / by}
+- {id: in, cefr_level: A0, pos: prep, gloss: in / to}
+- {id: con, cefr_level: A0, pos: prep, gloss: with}
+- {id: su, cefr_level: A0, pos: prep, gloss: "on"}
+- {id: per, cefr_level: A0, pos: prep, gloss: for / in order to}
+- {id: tra, cefr_level: A0, pos: prep, gloss: between / among}
+- {id: fra, cefr_level: A0, pos: prep, gloss: between / among (same as tra)}
+- {id: io, cefr_level: A0, pos: pron, gloss: I}
+- {id: tu, cefr_level: A0, pos: pron, gloss: you (informal singular)}
+- {id: lui, cefr_level: A0, pos: pron, gloss: he / him}
+- {id: lei, cefr_level: A0, pos: pron, gloss: she / her (capitalised Lei = formal you)}
+- {id: noi, cefr_level: A0, pos: pron, gloss: we / us}
+- {id: voi, cefr_level: A0, pos: pron, gloss: you (plural)}
+- {id: loro, cefr_level: A0, pos: pron, gloss: they / them / their}
+- {id: mi, cefr_level: A0, pos: pron, gloss: me / to me / myself}
+- {id: ti, cefr_level: A0, pos: pron, gloss: you / to you / yourself}
+- {id: ci, cefr_level: A0, pos: pron, gloss: us / to us / there}
+- {id: si, cefr_level: A0, pos: pron, gloss: oneself / himself / herself (also impersonal one)}
+- {id: e, cefr_level: A0, pos: conj, gloss: and}
+- {id: o, cefr_level: A0, pos: conj, gloss: or}
+- {id: ma, cefr_level: A0, pos: conj, gloss: but}
+- {id: che, cefr_level: A0, pos: conj, gloss: that / which / what}
+- {id: non, cefr_level: A0, pos: adv, gloss: not}
+- {id: mio, cefr_level: A0, pos: adj, gloss: my / mine}
+- {id: tuo, cefr_level: A0, pos: adj, gloss: your / yours (informal)}
+- {id: suo, cefr_level: A0, pos: adj, gloss: his / her / its (also formal your)}
 # Greetings & courtesy
 - {id: ciao, cefr_level: A0, pos: inter, gloss: hi / bye}
 - {id: buongiorno, cefr_level: A0, pos: inter, gloss: good morning}
@@ -58,6 +99,7 @@
 - {id: partire, cefr_level: A0, pos: verb, gloss: to leave / depart}
 - {id: aiutare, cefr_level: A0, pos: verb, gloss: to help}
 - {id: cercare, cefr_level: A0, pos: verb, gloss: to look for}
+- {id: desiderare, cefr_level: A0, pos: verb, gloss: to want / would like}
 - {id: trovare, cefr_level: A0, pos: verb, gloss: to find}
 - {id: aspettare, cefr_level: A0, pos: verb, gloss: to wait}
 - {id: piacere, cefr_level: A0, pos: verb, gloss: to be pleasing (mi piace)}
@@ -100,9 +142,15 @@
 - {id: cena, cefr_level: A0, pos: noun, gloss: dinner}
 - {id: ristorante, cefr_level: A0, pos: noun, gloss: restaurant}
 - {id: bar, cefr_level: A0, pos: noun, gloss: café / bar}
+- {id: barista, cefr_level: A0, pos: noun, gloss: barista / bar server}
+- {id: banco, cefr_level: A0, pos: noun, gloss: counter (in a bar)}
+- {id: in piedi, cefr_level: A0, pos: phrase, gloss: standing up}
 # Places & travel
 - {id: aeroporto, cefr_level: A0, pos: noun, gloss: airport}
 - {id: aereo, cefr_level: A0, pos: noun, gloss: airplane}
+- {id: volo, cefr_level: A0, pos: noun, gloss: flight}
+- {id: assistente, cefr_level: A0, pos: noun, gloss: assistant (assistente di volo = flight attendant)}
+- {id: a bordo, cefr_level: A0, pos: phrase, gloss: on board}
 - {id: treno, cefr_level: A0, pos: noun, gloss: train}
 - {id: stazione, cefr_level: A0, pos: noun, gloss: station}
 - {id: binario, cefr_level: A0, pos: noun, gloss: platform / track}
@@ -139,6 +187,8 @@
 - {id: adesso, cefr_level: A0, pos: adv, gloss: now}
 - {id: ora, cefr_level: A0, pos: noun, gloss: hour / now}
 - {id: giorno, cefr_level: A0, pos: noun, gloss: day}
+- {id: giornata, cefr_level: A0, pos: noun, gloss: day (the whole day)}
+- {id: momento, cefr_level: A0, pos: noun, gloss: moment}
 - {id: notte, cefr_level: A0, pos: noun, gloss: night}
 - {id: mattina, cefr_level: A0, pos: noun, gloss: morning}
 - {id: sera, cefr_level: A0, pos: noun, gloss: evening}
@@ -165,6 +215,24 @@
 - {id: otto, cefr_level: A0, pos: num, gloss: eight}
 - {id: nove, cefr_level: A0, pos: num, gloss: nine}
 - {id: dieci, cefr_level: A0, pos: num, gloss: ten}
+- {id: zero, cefr_level: A0, pos: num, gloss: zero}
+- {id: undici, cefr_level: A0, pos: num, gloss: eleven}
+- {id: dodici, cefr_level: A0, pos: num, gloss: twelve}
+- {id: tredici, cefr_level: A0, pos: num, gloss: thirteen}
+- {id: quattordici, cefr_level: A0, pos: num, gloss: fourteen}
+- {id: quindici, cefr_level: A0, pos: num, gloss: fifteen}
+- {id: sedici, cefr_level: A0, pos: num, gloss: sixteen}
+- {id: diciassette, cefr_level: A0, pos: num, gloss: seventeen}
+- {id: diciotto, cefr_level: A0, pos: num, gloss: eighteen}
+- {id: diciannove, cefr_level: A0, pos: num, gloss: nineteen}
+- {id: venti, cefr_level: A0, pos: num, gloss: twenty}
+- {id: trenta, cefr_level: A0, pos: num, gloss: thirty}
+- {id: quaranta, cefr_level: A0, pos: num, gloss: forty}
+- {id: cinquanta, cefr_level: A0, pos: num, gloss: fifty}
+- {id: sessanta, cefr_level: A0, pos: num, gloss: sixty}
+- {id: settanta, cefr_level: A0, pos: num, gloss: seventy}
+- {id: ottanta, cefr_level: A0, pos: num, gloss: eighty}
+- {id: novanta, cefr_level: A0, pos: num, gloss: ninety}
 - {id: cento, cefr_level: A0, pos: num, gloss: hundred}
 - {id: mille, cefr_level: A0, pos: num, gloss: thousand}
 - {id: euro, cefr_level: A0, pos: noun, gloss: euro}
@@ -187,6 +255,10 @@
 - {id: pronto, cefr_level: A0, pos: adj, gloss: ready (also phone hello)}
 - {id: stanco, cefr_level: A0, pos: adj, gloss: tired}
 - {id: contento, cefr_level: A0, pos: adj, gloss: happy / glad}
+- {id: veloce, cefr_level: A0, pos: adj, gloss: fast / quick}
+- {id: pieno, cefr_level: A0, pos: adj, gloss: full}
+- {id: altro, cefr_level: A0, pos: adj, gloss: other / anything else}
+- {id: ogni, cefr_level: A0, pos: adj, gloss: every / each}
 - {id: bene, cefr_level: A0, pos: adv, gloss: well}
 - {id: male, cefr_level: A0, pos: adv, gloss: badly}
 - {id: molto, cefr_level: A0, pos: adv, gloss: very / a lot}
@@ -204,6 +276,8 @@
 - {id: subito, cefr_level: A0, pos: adv, gloss: right away}
 - {id: sempre, cefr_level: A0, pos: adv, gloss: always}
 - {id: forse, cefr_level: A0, pos: adv, gloss: maybe}
+- {id: ecco, cefr_level: A0, pos: adv, gloss: here is / here you are}
+- {id: certo, cefr_level: A0, pos: adv, gloss: of course / certainly}
 # Essentials
 - {id: problema, cefr_level: A0, pos: noun, gloss: problem}
 - {id: aiuto, cefr_level: A0, pos: noun, gloss: help}

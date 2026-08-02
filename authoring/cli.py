@@ -186,14 +186,23 @@ def main() -> int:
                 n_quality += 1
         n_uncovered = 0
         if args.coverage:
-            from authoring.coverage import check_coverage, format_report
+            from authoring.coverage import (
+                check_coverage,
+                format_report,
+                load_proper_nouns,
+            )
 
             statuses = (
                 frozenset({"reviewed", "draft"})
                 if args.include_draft
                 else frozenset({"reviewed"})
             )
-            report = check_coverage(spec, sources.all_items(), statuses=statuses)
+            report = check_coverage(
+                spec,
+                sources.all_items(),
+                statuses=statuses,
+                proper_nouns=load_proper_nouns(spec_dir),
+            )
             print(format_report(report))
             n_uncovered = len(report.findings)
         for e in errors:

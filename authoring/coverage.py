@@ -28,11 +28,36 @@ wall of 816 lines helps nobody. The counts are the countdown.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
+from pathlib import Path
 
+import yaml
+
+from authoring import vocab_link
+from authoring.pack_schemas import (
+    DrillItem,
+    GrammarRefItem,
+    ListeningItem,
+    ReadingItem,
+    SpeakingPromptItem,
+    TaskItem,
+    VocabCardItem,
+    WritingPromptItem,
+)
 from authoring.spec_schemas import DEMAND_RANK, Spec
 
 IN_SCOPE = ("A0", "A1", "A2")
+
+# Every lemma needs a dictionary entry and must resolve in lesson text.
+# Only content words also need a card and the three-rising-passes
+# treatment: a flashcard whose front is "il" and back is "the" teaches
+# nothing, and forty function words in the SM-2 rotation would crowd out
+# the words a learner actually has to remember. Articles, prepositions,
+# pronouns and conjunctions are carried by the grammar point that teaches
+# them (docs/plans/08 §2).
+CARDABLE_POS = frozenset({"noun", "verb", "adj", "adv", "num", "inter", "phrase"})
+GRAMMATICAL_POS = frozenset({"art", "prep", "pron", "conj"})
 MIN_PASSES = 3
 # Mirrors folds.rs CANDO_FRACTION: a can-do closes on 80%% of its
 # decomposition, so coverage has to hold the pack to the same bar.
@@ -186,6 +211,7 @@ def check_coverage(
     statuses: frozenset[str] = frozenset({"reviewed"}),
     in_scope: tuple[str, ...] = IN_SCOPE,
     min_passes: int = MIN_PASSES,
+    proper_nouns: set[str] | None = None,
 ) -> CoverageReport:
     report = CoverageReport()
     passes, report.lessons = _collect_passes(spec)
@@ -204,6 +230,14 @@ def check_coverage(
         report.totals[axis] = len(entries)
         covered = 0
         for entry in entries:
+            # A grammatical word is taught by the grammar point that uses
+            # it, not by a lesson of its own: `il` has no home, no three
+            # passes and no capstone. What it does need is a dictionary
+            # entry — which it has, by being here — and to resolve in
+            # lesson text, which `check_unlinked_words` enforces.
+            if axis == "vocab" and entry.pos in GRAMMATICAL_POS:
+                covered += 1
+                continue
             findings = _check_one(
                 axis, entry.id, passes[axis].get(entry.id, []), rungs, min_passes
             )
@@ -214,8 +248,12 @@ def check_coverage(
                 covered += 1
         report.covered[axis] = covered
 
-    report.findings.extend(_check_home_obligations(spec, by_lesson))
+    cardable = {v.id for v in spec.vocab if v.pos in CARDABLE_POS}
+    report.findings.extend(_check_home_obligations(spec, by_lesson, cardable))
     report.findings.extend(_check_cando_decomposition(spec, passes, in_scope))
+    report.findings.extend(
+        check_unlinked_words(spec, items, proper_nouns=proper_nouns, statuses=statuses)
+    )
     return report
 
 
@@ -345,7 +383,7 @@ def _check_one(
     return out
 
 
-def _check_home_obligations(spec: Spec, by_lesson) -> list[Finding]:
+def _check_home_obligations(spec: Spec, by_lesson, cardable: set[str]) -> list[Finding]:
     """What a lesson owes the things it introduces (docs/plans/07 §2).
 
     Only the home lesson's obligations are checked here. Revisit slots
@@ -405,7 +443,9 @@ def _check_home_obligations(spec: Spec, by_lesson) -> list[Finding]:
                         )
                     )
             for lemma in lesson.introduces.vocab:
-                if lemma not in cards:
+                # Only content words are SRS material; a grammatical word
+                # is carried by its grammar point, not by a flashcard.
+                if lemma in cardable and lemma not in cards:
                     out.append(
                         Finding(
                             "home-missing-card",
@@ -444,3 +484,131 @@ def format_report(report: CoverageReport, *, sample: int = 5) -> str:
         if len(findings) > sample:
             lines.append(f"      ... and {len(findings) - sample} more")
     return "\n".join(lines)
+
+
+def load_proper_nouns(spec_dir: Path) -> set[str]:
+    """Names and places that appear in lesson text but are not vocabulary.
+
+    A learner does not need to "learn" Roma, but the app still has to
+    recognise it — otherwise every name in a dialogue looks exactly like
+    an authoring mistake to ``check_unlinked_words``.
+    """
+    path = spec_dir / "proper_nouns.yaml"
+    if not path.exists():
+        return set()
+    entries = yaml.safe_load(path.read_text()) or []
+    return {vocab_link.normalize(str(e["id"])) for e in entries}
+
+
+def _confident_italian(item) -> list[str]:
+    """Text we are certain is Italian, for a check that fails the build.
+
+    Narrower than ``quality.italian_texts``, deliberately. That one falls
+    back to a drill's whole prompt when the prompt has no «guillemets»,
+    which is the right conservative choice for a *warning* about
+    above-level vocabulary — over-reporting costs an author a glance. It
+    is the wrong choice here: an English instruction scanned as Italian
+    reports "the", "coffee" and "flight" as missing dictionary entries,
+    which is both false and actively misleading advice.
+
+    So a drill prompt is read only through its quoted spans. A prompt with
+    no quoted Italian goes unscanned here; `quality.check_vocab_level`
+    still reads it and flags anything above level, which is what enforces
+    the guillemets convention.
+    """
+    out: list[str] = []
+    if isinstance(item, DrillItem):
+        out += vocab_link.quoted_spans(item.prompt)
+        out += [a.text for a in item.answers] + item.choices
+    elif isinstance(item, ReadingItem):
+        out.append(item.text)
+        out += _quoted(q.prompt for q in item.questions)
+    elif isinstance(item, ListeningItem):
+        out += [t.text for t in item.turns]
+        out += _quoted(q.prompt for q in item.questions)
+    elif isinstance(item, VocabCardItem):
+        out += [item.front, item.example or ""]
+    elif isinstance(item, (SpeakingPromptItem, TaskItem)):
+        out += [getattr(item, "target_text", None) or "", *item.variants]
+    elif isinstance(item, GrammarRefItem):
+        out += item.examples
+    elif isinstance(item, WritingPromptItem):
+        out.append(item.model_answer or "")
+    # Parenthesised spans are inline English glosses by the same
+    # authoring convention ("un'acqua naturale (still)").
+    return [re.sub(r"\([^)]*\)", " ", t) for t in out if t]
+
+
+def _quoted(prompts) -> list[str]:
+    """Quoted Italian from prompts that may be written in either language.
+
+    A comprehension question is legitimately English at A0 ("What does it
+    cost?") or Italian ("Quanto costa?"), and nothing in the field says
+    which. Reading only its «guillemets» keeps this check honest; the
+    vocabulary-level warning still reads the whole prompt.
+    """
+    return [span for p in prompts for span in vocab_link.quoted_spans(p)]
+
+
+def check_unlinked_words(
+    spec: Spec,
+    items: list,
+    *,
+    proper_nouns: set[str] | None = None,
+    statuses: frozenset[str] = frozenset({"reviewed"}),
+) -> list[Finding]:
+    """Every Italian word a lesson shows must resolve to a dictionary entry.
+
+    This is the guarantee the whole vocabulary chain rests on: lesson text
+    -> surface form -> spec lemma -> gloss. A word that resolves to
+    nothing is invisible to the linker, so it never enters the learner's
+    vocabulary, never gets a gloss, and cannot be looked up — it is just a
+    word on screen the app knows nothing about.
+
+    Proper nouns are excused by name. Nothing else is: an unresolved token
+    means either the lemma is missing from ``vocab.yaml`` or the text has
+    a typo, and both are worth failing over.
+    """
+    index, ambiguous = vocab_link.build_index(spec.vocab)
+    # A surface two lemmas both claim is dropped on purpose — "l'" is
+    # either "il" or "la" and the linker will not guess. It resolves to a
+    # dictionary entry either way, so it is not an unlinked word.
+    excused = (proper_nouns or set()) | ambiguous
+    multiword = [f for f in index if " " in f]
+
+    # token -> (occurrences, first few item ids)
+    unlinked: dict[str, tuple[int, list[str]]] = {}
+    for item in items:
+        if item.status not in statuses:
+            continue
+        for text in _confident_italian(item):
+            norm = vocab_link.normalize(text)
+            # Multi-word entries win, exactly as `find_lemmas` resolves
+            # them, so "per favore" is not two unknown words.
+            for form in multiword:
+                norm = re.sub(rf"\b{re.escape(form)}\b", " ", norm)
+            for match in vocab_link._TOKEN_RE.finditer(norm):
+                token = match.group()
+                if (
+                    vocab_link.resolve(token, index)
+                    or token in excused
+                    # "l" is the split half of the deliberately-ambiguous "l'".
+                    or token + "'" in excused
+                ):
+                    continue
+                count, where = unlinked.get(token, (0, []))
+                if item.id not in where and len(where) < 3:
+                    where.append(item.id)
+                unlinked[token] = (count + 1, where)
+
+    return [
+        Finding(
+            "unlinked-word",
+            "vocab",
+            token,
+            f"appears {count}x ({', '.join(where)}) but resolves to no "
+            "dictionary entry — add the lemma, register it as a proper "
+            "noun, or fix the text",
+        )
+        for token, (count, where) in sorted(unlinked.items())
+    ]

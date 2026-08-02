@@ -128,7 +128,7 @@ def _levels_upto(level: str) -> set[str]:
     return set(_LEVEL_ORDER[: _LEVEL_ORDER.index(level) + 1])
 
 
-def _raw_texts(item) -> list[str]:
+def italian_texts(item) -> list[str]:
     """The item's learner-facing Italian text fields, unprocessed."""
     texts: list[str] = []
     if isinstance(item, DrillItem):
@@ -163,14 +163,14 @@ def _raw_texts(item) -> list[str]:
 def _italian_fields(item) -> list[str]:
     """Raw texts with parenthesized spans dropped: they hold verb hints
     in cloze prompts and English glosses/hints by authoring convention."""
-    return [re.sub(r"\([^)]*\)", " ", t) for t in _raw_texts(item)]
+    return [re.sub(r"\([^)]*\)", " ", t) for t in italian_texts(item)]
 
 
 def _glossed_words(item) -> set[str]:
     """Glossary keys plus inline-glossed words («parola (gloss)»)."""
     glossary = getattr(item, "glossary", None) or {}
     glossed = {w.lower() for w in glossary}
-    for text in _raw_texts(item):
+    for text in italian_texts(item):
         for m in re.finditer(r"([\w'àèéìíòóùú]+)\s*\([^)]*\)", text):
             glossed.add(m.group(1).lower())
     return glossed

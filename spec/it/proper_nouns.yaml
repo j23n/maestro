@@ -1,0 +1,28 @@
+# Proper nouns appearing in lesson text. Not vocabulary — a learner does
+# not need to "learn" Roma — but they must be recognised, so an unlinked
+# word can be treated as an authoring error rather than noise.
+#
+# `kind` is person | place | event. Register a name here rather than in
+# vocab.yaml whenever it has no gloss worth teaching and no paradigm: an
+# entry here says "known, deliberately not a lemma".
+
+# People
+- {id: anna, kind: person}
+- {id: marco, kind: person}
+- {id: maria, kind: person}
+- {id: paolo, kind: person}
+- {id: giulia, kind: person}
+- {id: luca, kind: person}
+- {id: rossi, kind: person}
+- {id: garibaldi, kind: person}
+
+# Places
+- {id: roma, kind: place}
+- {id: milano, kind: place}
+- {id: firenze, kind: place}
+- {id: londra, kind: place}
+- {id: italia, kind: place}
+- {id: francia, kind: place}
+
+# Events
+- {id: ferragosto, kind: event}
