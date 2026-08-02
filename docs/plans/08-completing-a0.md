@@ -207,3 +207,83 @@ only point at material an earlier lesson has already introduced, and
   one until `generate-audio` runs against a real provider.
 - **Images.** `generate-images` exists and the scenarios name their art;
   nothing here depends on it.
+
+---
+
+## 5. The A0 assignment, resolved
+
+Computed from what the scenarios already declare, so Phase B is
+transcription plus prose rather than invention. Re-derivable from
+`spec/it/scenarios.yaml` at any time; recorded here because the capstone
+placement took two judgement calls.
+
+### Grammar and functions: homes fall out cleanly
+
+**All 22 A0 grammar points and all 17 A0 functions get a unique home**
+with no orphans and no contested claims: the home is the earliest
+scenario in `sequence` order that lists it, and `a0-13-ripasso` is
+excluded because it lists the entire band.
+
+| # | scenario | introduces |
+| --- | --- | --- |
+| 1 | in-aereo | `saluti` `polite_exp` `pronun_bas` · `a0_salutare` `a0_ringraziare` `a0_rispondere_si_no` `a0_ordinare` `a0_congedarsi`\* `a0_chiedere_cortesemente`\* |
+| 2 | in-albergo | `mi_chiamo` `num_0_20` · `a0_presentarsi` `a0_dire_nome` `a0_contare` |
+| 3 | al-bar | `art_un_una` `vorrei` `vocab_cibo`† · `a0_ordinare`† |
+| 4 | in-giro | `art_il_la` `dove_e` · `a0_chiedere_dove` `a0_scusarsi` |
+| 5 | chiedere-aiuto | `prep_place` · `a0_chiedere_aiuto` |
+| 6 | a-pranzo | `che_cose` · `a0_identificare` |
+| 7 | mi-piace | `mi_piace` `art_i_le` · `a0_esprimere_gusti` |
+| 8 | i-numeri-grandi | `num_20_100` `ore_giorni` · `a0_dire_ora` |
+| 9 | in-viaggio | `vocab_viaggio` · `a0_comprare_biglietto` |
+| 10 | conoscere-qualcuno | `essere_pre` `subj_pron` `simp_sent` |
+| 11 | un-problema | `avere_pre` `si_no_non` · `a0_descrivere_problema` |
+| 12 | ultimo-giorno | — |
+| 13 | ripasso | — (introduces nothing; revisits the band at `perform`) |
+
+\* **Two homes move, for pedagogical reasons rather than to satisfy the
+checker.** `a0_congedarsi` was homed at lesson 12 and
+`a0_chiedere_cortesemente` at lesson 3 — but you learn *arrivederci* and
+*per favore* on the plane, not on your last day in the country. Moving
+them to lesson 1 is right on its own terms, and it happens to be what
+lets `a0.greet_take_leave` be proved where it is taught.
+
+† Already authored (docs/plans/07 step 4). `vocab_cibo` is homed at the
+bar rather than at lunch because an A0 learner orders a coffee before
+they ever sit down to a meal; `a0-06` revisits it.
+
+Lessons 12 and 13 introduce nothing. That is correct: `ultimo-giorno` is
+a farewell, `ripasso` is the review, and both exist to be the last
+`perform` pass for material taught earlier.
+
+### Can-dos: capstoned where the decomposition is finally taught
+
+A can-do cannot be proved before ~80% of its grammar and functions have
+been taught, or `folds.rs` will never move it to *achieved* however well
+the learner performs. Placing each one at the earliest scenario it owns
+that satisfies that gives:
+
+| scenario | can-dos capstoned there (×3 depths, rising to `perform`) |
+| --- | --- |
+| in-aereo | `greet_take_leave`, `catch_courtesy` |
+| al-bar | `order_something` ✓ done |
+| chiedere-aiuto | `ask_where` |
+| a-pranzo | `identify_things` |
+| i-numeri-grandi | `numbers_prices`, `tell_time_days` |
+| in-viaggio | `buy_ticket`, `read_signs` |
+| conoscere-qualcuno | `say_who_i_am` |
+| un-problema | `yes_no_answers`, `say_likes`, `ask_for_help` |
+
+**13 can-dos × 3 = 39 capstones across 39 lessons** — the totals match,
+though the distribution is lumpy: five scenarios carry none and
+`un-problema` carries three.
+
+That lumpiness is a finding, not just an inconvenience. `say_likes` is
+taught at lesson 7 but cannot be *proved* until lesson 11, because its
+descriptor reaches for grammar that nothing teaches until then; the same
+is true of `ask_where` (taught 4, provable 5) and `identify_things`
+(taught 4, provable 6). Either the descriptors over-decompose, or the
+scenario order should teach those pieces earlier. Worth a pass over
+`can_do.yaml` before A1, where the same shape will recur at greater
+scale — but not worth blocking A0 on: capstoning late is pedagogically
+defensible (it is a delayed test of something already learned), and the
+alternative is a can-do that never closes.
