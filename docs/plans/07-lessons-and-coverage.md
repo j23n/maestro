@@ -547,12 +547,44 @@ Updated as steps land. §8 is the plan; this is the state.
 
 | Step | Status |
 | --- | --- |
-| 1. `demand` + capstone + coverage contract | in progress |
-| 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | not started |
-| 3. Lesson-scoped composer | not started |
+| 1. `demand` + capstone + coverage contract | **done** |
+| 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | **done** |
+| 3. Lesson-scoped composer | next |
 | 4. Spec fill (depths, bands, domains, assignment) | not started |
 | 5. App | not started |
 | 6. Content fill | not started |
 
 Decisions taken along the way are recorded in `decisions.md`; this table
 is the index into them.
+
+### The countdown
+
+`uv run python -m authoring.cli validate --coverage --include-draft`, as
+of step 2:
+
+```
+85 lessons; A0-A2 coverage:
+  cando        0 / 68   covered
+  function     0 / 199  covered
+  grammar      0 / 163  covered
+  vocab        0 / 412  covered
+  orphan: 842
+```
+
+85 lessons rather than the 135 §4 asks for, and nothing covered, because
+every scenario is still carrying its pre-lesson `depths: [str]` form —
+the legacy lift gives each one a lesson with a stable id and an empty
+`introduces`. Step 4 is what moves these numbers.
+
+### Fixed along the way
+
+- A grammar point can now be strongly mastered and still untaught, which
+  is the state the composer needs to see. Session 3 ("Al bar") composes
+  with `grammar_ref.vorrei` again instead of skipping the teach step.
+- A scenario deepens one framing per visit and retires when it runs out.
+- "Quick drills" no longer consumes the opening lesson.
+- Comprehension questions record as receptive, not as productive use of
+  a speech act.
+- Consolidation sessions get a writing slot, so writing is no longer
+  confined to the archetype a scenario-scoped session almost never
+  reaches.
