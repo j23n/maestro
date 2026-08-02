@@ -620,6 +620,13 @@ public protocol CoreProtocol: AnyObject, Sendable {
     func lessonBrief(scenarioId: String, now: Int64) throws  -> String
     
     /**
+     * One lesson resolved for its intro screen (`LessonDetail` JSON):
+     * labels for what it introduces, revisits, and capstones, plus its
+     * art and state. `null` for an id the pack doesn't know.
+     */
+    func lessonDetail(lessonId: String, now: Int64) throws  -> String
+    
+    /**
      * All recorded events, oldest first, as JSON objects.
      */
     func listEventsJson() throws  -> [String]
@@ -631,6 +638,14 @@ public protocol CoreProtocol: AnyObject, Sendable {
     func listFlags() throws  -> [String]
     
     func listItemIds() throws  -> [String]
+    
+    /**
+     * Every lesson in the pack as the Learn tab's path (`LearnPath`
+     * JSON): sections by consecutive CEFR level, one unit per scenario,
+     * each lesson with its state (`completed | next | locked`).
+     * `now` is unix seconds, as everywhere else.
+     */
+    func listLessons(now: Int64) throws  -> String
     
     /**
      * Media inventory (paths as referenced by item payloads).
@@ -892,6 +907,20 @@ open func lessonBrief(scenarioId: String, now: Int64)throws  -> String  {
 }
     
     /**
+     * One lesson resolved for its intro screen (`LessonDetail` JSON):
+     * labels for what it introduces, revisits, and capstones, plus its
+     * art and state. `null` for an id the pack doesn't know.
+     */
+open func lessonDetail(lessonId: String, now: Int64)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_lesson_detail(self.uniffiClonePointer(),
+        FfiConverterString.lower(lessonId),
+        FfiConverterInt64.lower(now),$0
+    )
+})
+}
+    
+    /**
      * All recorded events, oldest first, as JSON objects.
      */
 open func listEventsJson()throws  -> [String]  {
@@ -915,6 +944,20 @@ open func listFlags()throws  -> [String]  {
 open func listItemIds()throws  -> [String]  {
     return try  FfiConverterSequenceString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
     uniffi_maestro_core_fn_method_core_list_item_ids(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+    /**
+     * Every lesson in the pack as the Learn tab's path (`LearnPath`
+     * JSON): sections by consecutive CEFR level, one unit per scenario,
+     * each lesson with its state (`completed | next | locked`).
+     * `now` is unix seconds, as everywhere else.
+     */
+open func listLessons(now: Int64)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCoreError_lift) {
+    uniffi_maestro_core_fn_method_core_list_lessons(self.uniffiClonePointer(),
+        FfiConverterInt64.lower(now),$0
     )
 })
 }
@@ -2210,6 +2253,9 @@ private let initializationResult: InitializationResult = {
     if (uniffi_maestro_core_checksum_method_core_lesson_brief() != 41603) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_maestro_core_checksum_method_core_lesson_detail() != 4857) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_maestro_core_checksum_method_core_list_events_json() != 2547) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -2217,6 +2263,9 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_list_item_ids() != 10982) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_maestro_core_checksum_method_core_list_lessons() != 38267) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_maestro_core_checksum_method_core_list_media() != 47554) {

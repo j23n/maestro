@@ -316,6 +316,11 @@ uint32_t uniffi_maestro_core_fn_method_core_import_log(void*_Nonnull ptr, RustBu
 RustBuffer uniffi_maestro_core_fn_method_core_lesson_brief(void*_Nonnull ptr, RustBuffer scenario_id, int64_t now, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LESSON_DETAIL
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LESSON_DETAIL
+RustBuffer uniffi_maestro_core_fn_method_core_lesson_detail(void*_Nonnull ptr, RustBuffer lesson_id, int64_t now, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_EVENTS_JSON
 RustBuffer uniffi_maestro_core_fn_method_core_list_events_json(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -329,6 +334,11 @@ RustBuffer uniffi_maestro_core_fn_method_core_list_flags(void*_Nonnull ptr, Rust
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_ITEM_IDS
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_ITEM_IDS
 RustBuffer uniffi_maestro_core_fn_method_core_list_item_ids(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_LESSONS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_LESSONS
+RustBuffer uniffi_maestro_core_fn_method_core_list_lessons(void*_Nonnull ptr, int64_t now, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_FN_METHOD_CORE_LIST_MEDIA
@@ -732,6 +742,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_lesson_brief(void
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LESSON_DETAIL
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LESSON_DETAIL
+uint16_t uniffi_maestro_core_checksum_method_core_lesson_detail(void
+    
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_EVENTS_JSON
 uint16_t uniffi_maestro_core_checksum_method_core_list_events_json(void
@@ -747,6 +763,12 @@ uint16_t uniffi_maestro_core_checksum_method_core_list_flags(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_ITEM_IDS
 #define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_ITEM_IDS
 uint16_t uniffi_maestro_core_checksum_method_core_list_item_ids(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_LESSONS
+#define UNIFFI_FFIDEF_UNIFFI_MAESTRO_CORE_CHECKSUM_METHOD_CORE_LIST_LESSONS
+uint16_t uniffi_maestro_core_checksum_method_core_list_lessons(void
     
 );
 #endif

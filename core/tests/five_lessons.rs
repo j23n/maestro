@@ -113,6 +113,85 @@ fn every_lesson_composes_a_full_session() {
     }
 }
 
+/// The Learn tab's path must show every al-bar lesson with its art and
+/// walk its states forward as depths complete; the intro screen resolves
+/// labels for what the lesson teaches.
+#[test]
+fn learn_path_lists_lessons_with_art_and_state() {
+    let Some(core) = open("learn-path") else {
+        eprintln!("MAESTRO_PACK_PATH not set; skipping");
+        return;
+    };
+    let now = 1754000000i64;
+
+    let al_bar = |path: &Value| -> Value {
+        path["sections"]
+            .as_array()
+            .expect("sections")
+            .iter()
+            .flat_map(|s| s["units"].as_array().expect("units"))
+            .find(|u| u["scenario_id"] == "a0-03-al-bar")
+            .expect("al-bar unit")
+            .clone()
+    };
+
+    let path: Value =
+        serde_json::from_str(&core.list_lessons(now).expect("list")).expect("path json");
+    let unit = al_bar(&path);
+    let lessons = unit["lessons"].as_array().expect("lessons");
+    assert_eq!(lessons.len(), 3, "al-bar declares three depths");
+    for lesson in lessons {
+        let image = lesson["image"].as_str().unwrap();
+        assert!(
+            image.starts_with("images/lessons/a0-03-al-bar.d"),
+            "lesson art missing from the media table: {lesson}"
+        );
+        assert!(core.get_media(image.to_string()).is_ok(), "{image} not fetchable");
+    }
+    let states: Vec<&str> = lessons.iter().map(|l| l["state"].as_str().unwrap()).collect();
+    assert_eq!(states, ["next", "locked", "locked"]);
+
+    // Completing depth 1 moves the path along.
+    core.record_event(
+        serde_json::json!({
+            "type": "scenario_completed", "at": now,
+            "scenario_id": "a0-03-al-bar", "depth": 1,
+        })
+        .to_string(),
+    )
+    .expect("record completion");
+    let path: Value =
+        serde_json::from_str(&core.list_lessons(now).expect("list")).expect("path json");
+    let unit = al_bar(&path);
+    let states: Vec<&str> = unit["lessons"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|l| l["state"].as_str().unwrap())
+        .collect();
+    assert_eq!(states, ["completed", "next", "locked"]);
+
+    // The intro screen's detail: labels resolved, never raw ids.
+    let detail: Value =
+        serde_json::from_str(&core.lesson_detail("a0-03-al-bar.d1".into(), now).expect("detail"))
+            .expect("detail json");
+    assert_eq!(detail["state"], "completed");
+    assert_eq!(detail["scenario_label"], "Al bar");
+    assert!(!detail["image"].as_str().unwrap().is_empty());
+    let grammar = detail["introduces"]["grammar"].as_array().expect("grammar");
+    assert!(!grammar.is_empty(), "d1 introduces grammar");
+    for g in grammar {
+        assert_ne!(g["label"], g["id"], "grammar label fell back to the id: {g}");
+    }
+    let capstones = detail["capstones"].as_array().expect("capstones");
+    assert!(!capstones.is_empty(), "d1 capstones a can-do");
+    assert!(capstones[0]["label"].as_str().unwrap().starts_with("Can "));
+
+    // An id the pack doesn't know is null, not an error.
+    let unknown = core.lesson_detail("no-such.d9".into(), now).expect("unknown");
+    assert_eq!(unknown, "null");
+}
+
 /// Working through the lessons must actually move the learner on: complete
 /// one and the composer offers the next, all the way to lesson five.
 #[test]
