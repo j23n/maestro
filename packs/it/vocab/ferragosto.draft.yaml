@@ -14,6 +14,7 @@
   - axis: vocab
     id: ferragosto
     weight: 1.0
+  image: images/vocab/vocab.ferragosto.png
 - status: reviewed
   id: vocab.spiaggia
   item_type: vocab_card
@@ -32,6 +33,7 @@
   - axis: vocab
     id: spiaggia
     weight: 1.0
+  image: images/vocab/vocab.spiaggia.png
 - status: reviewed
   id: vocab.estate
   item_type: vocab_card
@@ -50,6 +52,7 @@
   - axis: vocab
     id: estate
     weight: 1.0
+  image: images/vocab/vocab.estate.png
 - status: reviewed
   id: vocab.nuotare
   item_type: vocab_card
@@ -66,3 +69,4 @@
   - axis: vocab
     id: nuotare
     weight: 1.0
+  image: images/vocab/vocab.nuotare.png

@@ -451,9 +451,9 @@ def _embed_media(
     for item in items:
         for ref in _media_refs(item):
             embed(ref)
-    # Scenario art lives at a conventional path (no spec field): the app
-    # asks the media table for images/scenarios/<id>.png and renders it
-    # if present.
+    # Scenario and lesson art lives at conventional paths (no spec field):
+    # the app asks the media table for images/scenarios/<id>.png and
+    # images/lessons/<lesson_id>.png and renders them if present.
     if spec is not None:
         for s in spec.scenarios:
             for ext in sorted(_IMAGE_EXT):
@@ -461,6 +461,12 @@ def _embed_media(
                 if p.is_file():
                     embed(f"images/scenarios/{s.id}{ext}")
                     break
+            for lesson in s.depths:
+                for ext in sorted(_IMAGE_EXT):
+                    p = pack_dir / "images" / "lessons" / f"{lesson.id}{ext}"
+                    if p.is_file():
+                        embed(f"images/lessons/{lesson.id}{ext}")
+                        break
     return len(embedded)
 
 
@@ -651,6 +657,7 @@ def build(
                 "target_text": item.target_text,
                 "variants": item.variants,
                 "audio": item.audio,
+                "image": item.image,
                 "evidence": [e.model_dump() for e in item.evidence],
                 "scenario_ids": item.scenario_ids,
                 "demand": item.demand,
@@ -674,6 +681,7 @@ def build(
         elif isinstance(item, WritingPromptItem):
             payload = {
                 "prompt": item.prompt,
+                "image": item.image,
                 "min_words": item.min_words,
                 "required_grammar": item.required_grammar,
                 "required_vocab": item.required_vocab,

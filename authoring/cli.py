@@ -125,8 +125,8 @@ def main() -> int:
     img.add_argument("--force", action="store_true", help="re-generate everything")
     img.add_argument(
         "--targets",
-        default="scenarios,vocab,readings",
-        help="comma list of scenarios,vocab,readings",
+        default="scenarios,vocab,readings,lessons,writing,speaking",
+        help="comma list of scenarios,vocab,readings,lessons,writing,speaking",
     )
     sub.choices["review"].add_argument("--port", type=int, default=8321)
     rel = sub.choices["release"]

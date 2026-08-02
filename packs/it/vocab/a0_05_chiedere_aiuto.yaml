@@ -1,7 +1,6 @@
-# Vocab cards — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
-
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.aiuto
   item_type: vocab_card
   cefr_level: A0
@@ -11,12 +10,16 @@
   example: Grazie per l'aiuto!
   example_gloss: Thanks for the help!
   answers:
-    - { text: aiuto, canonical: true }
+  - text: aiuto
+    canonical: true
   evidence:
-    - { axis: vocab, id: aiuto, weight: 1.0 }
-
+  - axis: vocab
+    id: aiuto
+    weight: 1.0
+  image: images/vocab/vocab.aiuto.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.aiutare
   item_type: vocab_card
   cefr_level: A0
@@ -26,13 +29,19 @@
   example: Mi può aiutare?
   example_gloss: Can you help me?
   answers:
-    - { text: aiutare, canonical: true }
+  - text: aiutare
+    canonical: true
   evidence:
-    - { axis: vocab, id: aiutare, weight: 1.0 }
-    - { axis: grammar, id: polite_exp, weight: 0.5 }
-
+  - axis: vocab
+    id: aiutare
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/vocab/vocab.aiutare.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.valigia
   item_type: vocab_card
   cefr_level: A0
@@ -42,13 +51,19 @@
   example: Dov'è la mia valigia?
   example_gloss: Where is my suitcase?
   answers:
-    - { text: valigia, canonical: true }
+  - text: valigia
+    canonical: true
   evidence:
-    - { axis: vocab, id: valigia, weight: 1.0 }
-    - { axis: grammar, id: pronun_bas, weight: 0.5 }
-
+  - axis: vocab
+    id: valigia
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 0.5
+  image: images/vocab/vocab.valigia.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.passaporto
   item_type: vocab_card
   cefr_level: A0
@@ -58,12 +73,16 @@
   example: Ecco il mio passaporto.
   example_gloss: Here is my passport.
   answers:
-    - { text: passaporto, canonical: true }
+  - text: passaporto
+    canonical: true
   evidence:
-    - { axis: vocab, id: passaporto, weight: 1.0 }
-
+  - axis: vocab
+    id: passaporto
+    weight: 1.0
+  image: images/vocab/vocab.passaporto.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.capire
   item_type: vocab_card
   cefr_level: A0
@@ -73,12 +92,16 @@
   example: Scusi, non capisco.
   example_gloss: Sorry, I don't understand.
   answers:
-    - { text: capire, canonical: true }
+  - text: capire
+    canonical: true
   evidence:
-    - { axis: vocab, id: capire, weight: 1.0 }
-
+  - axis: vocab
+    id: capire
+    weight: 1.0
+  image: images/vocab/vocab.capire.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: vocab.problema
   item_type: vocab_card
   cefr_level: A0
@@ -88,6 +111,10 @@
   example: C'è un problema con la prenotazione.
   example_gloss: There's a problem with the booking.
   answers:
-    - { text: problema, canonical: true }
+  - text: problema
+    canonical: true
   evidence:
-    - { axis: vocab, id: problema, weight: 1.0 }
+  - axis: vocab
+    id: problema
+    weight: 1.0
+  image: images/vocab/vocab.problema.png

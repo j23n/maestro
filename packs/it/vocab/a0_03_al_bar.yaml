@@ -1,7 +1,6 @@
-# Vocab cards — lesson a0-03-al-bar. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.cornetto
   item_type: vocab_card
@@ -12,12 +11,16 @@
   example: Un cornetto, per favore.
   example_gloss: A croissant, please.
   answers:
-    - { text: cornetto, canonical: true }
+  - text: cornetto
+    canonical: true
   evidence:
-    - { axis: vocab, id: cornetto, weight: 1.0 }
-
+  - axis: vocab
+    id: cornetto
+    weight: 1.0
+  image: images/vocab/vocab.cornetto.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.cappuccino
   item_type: vocab_card
@@ -28,12 +31,16 @@
   example: Vorrei un cappuccino, per favore.
   example_gloss: I'd like a cappuccino, please.
   answers:
-    - { text: cappuccino, canonical: true }
+  - text: cappuccino
+    canonical: true
   evidence:
-    - { axis: vocab, id: cappuccino, weight: 1.0 }
-
+  - axis: vocab
+    id: cappuccino
+    weight: 1.0
+  image: images/vocab/vocab.cappuccino.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.acqua
   item_type: vocab_card
@@ -44,13 +51,19 @@
   example: Vorrei un'acqua, grazie.
   example_gloss: I'd like a water, thanks.
   answers:
-    - { text: acqua, canonical: true }
+  - text: acqua
+    canonical: true
   evidence:
-    - { axis: vocab, id: acqua, weight: 1.0 }
-    - { axis: grammar, id: art_un_una, weight: 0.5 }
-
+  - axis: vocab
+    id: acqua
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 0.5
+  image: images/vocab/vocab.acqua.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.conto
   item_type: vocab_card
@@ -61,12 +74,16 @@
   example: Il conto, per favore.
   example_gloss: The bill, please.
   answers:
-    - { text: conto, canonical: true }
+  - text: conto
+    canonical: true
   evidence:
-    - { axis: vocab, id: conto, weight: 1.0 }
-
+  - axis: vocab
+    id: conto
+    weight: 1.0
+  image: images/vocab/vocab.conto.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.bar
   item_type: vocab_card
@@ -77,12 +94,16 @@
   example: Facciamo colazione al bar.
   example_gloss: We have breakfast at the café.
   answers:
-    - { text: bar, canonical: true }
+  - text: bar
+    canonical: true
   evidence:
-    - { axis: vocab, id: bar, weight: 1.0 }
-
+  - axis: vocab
+    id: bar
+    weight: 1.0
+  image: images/vocab/vocab.bar.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.birra
   item_type: vocab_card
@@ -93,15 +114,19 @@
   example: Vorrei una birra piccola.
   example_gloss: I'd like a small beer.
   answers:
-    - { text: birra, canonical: true }
+  - text: birra
+    canonical: true
   evidence:
-    - { axis: vocab, id: birra, weight: 1.0 }
-    - { axis: grammar, id: art_un_una, weight: 0.5 }
-
-# The two words the barista will ask you for by name, every single time
-# you order water.
+  - axis: vocab
+    id: birra
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 0.5
+  image: images/vocab/vocab.birra.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.naturale
   item_type: vocab_card
@@ -109,15 +134,19 @@
   lemma: naturale
   front: naturale
   back: still (of water)
-  example: "Un'acqua naturale, per favore."
-  example_gloss: "A still water, please."
+  example: Un'acqua naturale, per favore.
+  example_gloss: A still water, please.
   answers:
-    - { text: naturale, canonical: true }
+  - text: naturale
+    canonical: true
   evidence:
-    - { axis: vocab, id: naturale, weight: 1.0 }
-
+  - axis: vocab
+    id: naturale
+    weight: 1.0
+  image: images/vocab/vocab.naturale.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: vocab.frizzante
   item_type: vocab_card
@@ -125,9 +154,13 @@
   lemma: frizzante
   front: frizzante
   back: sparkling
-  example: "Acqua naturale o frizzante?"
-  example_gloss: "Still or sparkling water?"
+  example: Acqua naturale o frizzante?
+  example_gloss: Still or sparkling water?
   answers:
-    - { text: frizzante, canonical: true }
+  - text: frizzante
+    canonical: true
   evidence:
-    - { axis: vocab, id: frizzante, weight: 1.0 }
+  - axis: vocab
+    id: frizzante
+    weight: 1.0
+  image: images/vocab/vocab.frizzante.png

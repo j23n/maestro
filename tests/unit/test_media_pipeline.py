@@ -11,7 +11,7 @@ import yaml
 
 from authoring.audio import AzureTts, MockTts, OpenAiTts, generate_audio
 from authoring.build_pack import build
-from authoring.images import OpenAiImages, generate_images
+from authoring.images import OpenAiImages, generate_images, plan_jobs
 
 pytestmark = pytest.mark.unit
 
@@ -156,6 +156,85 @@ def test_generate_images_vocab_writeback_and_build_embedding(pack, tmp_path):
     # Vocab images via item refs AND scenario art via the conventional path.
     assert f"images/vocab/{cards[0]['id']}.png" in images
     assert "images/scenarios/a0-01-in-aereo.png" in images
+
+
+def test_plan_jobs_lessons_skips_stubs_and_honours_override(pack, tmp_path):
+    spec = tmp_path / "spec"
+    shutil.copytree(ROOT / "spec" / "it", spec)
+    scenarios = yaml.safe_load((spec / "scenarios.yaml").read_text())
+    bar = next(s for s in scenarios if s["id"] == "a0-03-al-bar")
+    bar["depths"][0]["image_prompt"] = "A single espresso cup on a zinc counter."
+    (spec / "scenarios.yaml").write_text(
+        yaml.dump(scenarios, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
+
+    jobs = {j.ref_id: j for j in plan_jobs(pack, spec, {"lessons"})}
+    # Only declared (dict-form) lessons get art; the legacy one-line
+    # stubs are skipped until the spec fill makes them real lessons.
+    assert set(jobs) == {"a0-03-al-bar.d1", "a0-03-al-bar.d2", "a0-03-al-bar.d3"}
+    assert jobs["a0-03-al-bar.d2"].path == "images/lessons/a0-03-al-bar.d2.png"
+    # The authored override replaces the derived prompt wholesale.
+    assert jobs["a0-03-al-bar.d1"].prompt == "A single espresso cup on a zinc counter."
+    assert jobs["a0-03-al-bar.d2"].prompt.startswith("Simple warm flat illustration")
+    assert "Order for two people" in jobs["a0-03-al-bar.d2"].prompt
+
+
+def test_generate_images_mock_prompts_writeback_and_caching(pack):
+    n = generate_images(
+        pack, ROOT / "spec" / "it", "mock", targets={"lessons", "writing", "speaking"}
+    )
+    # 3 declared al-bar lessons + one per writing/speaking prompt.
+    assert n >= 5
+    assert (pack / "images" / "lessons" / "a0-03-al-bar.d1.png").read_bytes()[
+        :8
+    ] == b"\x89PNG\r\n\x1a\n"
+
+    # Writing/speaking items are rewritten to reference their image;
+    # lesson art stays convention-addressed (no YAML write-back).
+    writing = yaml.safe_load((pack / "writing_prompts" / "a0_basics.yaml").read_text())[
+        0
+    ]
+    assert writing["image"] == f"images/writing/{writing['id']}.png"
+    speaking = yaml.safe_load(
+        (pack / "speaking_prompts" / "a0_basics.yaml").read_text()
+    )[0]
+    assert speaking["image"] == f"images/speaking/{speaking['id']}.png"
+
+    # Cached second run.
+    assert (
+        generate_images(
+            pack,
+            ROOT / "spec" / "it",
+            "mock",
+            targets={"lessons", "writing", "speaking"},
+        )
+        == 0
+    )
+
+
+def test_lesson_and_prompt_images_are_embedded_by_build(pack, tmp_path):
+    generate_images(
+        pack, ROOT / "spec" / "it", "mock", targets={"lessons", "writing", "speaking"}
+    )
+    out = tmp_path / "bundle.sqlite"
+    assert build(pack, ROOT / "spec" / "it", out) == 0
+    conn = sqlite3.connect(out)
+    images = [
+        r[0]
+        for r in conn.execute("SELECT path FROM media WHERE kind = 'image'").fetchall()
+    ]
+    # Lesson art lands by convention, writing/speaking art via item refs.
+    assert "images/lessons/a0-03-al-bar.d1.png" in images
+    assert "images/writing/writing.a0_presentarsi.001.png" in images
+    payload = json.loads(
+        conn.execute(
+            "SELECT payload FROM items WHERE id = 'writing.a0_presentarsi.001'"
+        ).fetchone()[0]
+    )
+    conn.close()
+    # The image ships in the payload; the generation-prompt knob never does.
+    assert payload["image"] == "images/writing/writing.a0_presentarsi.001.png"
+    assert "image_prompt" not in payload
 
 
 def test_openai_images_request_shape():

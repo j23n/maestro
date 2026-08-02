@@ -1,7 +1,6 @@
-# Vocab cards — lesson a0-02-in-albergo. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.albergo
   item_type: vocab_card
   cefr_level: A0
@@ -11,12 +10,16 @@
   example: L'albergo è in centro.
   example_gloss: The hotel is in the centre.
   answers:
-    - { text: albergo, canonical: true }
+  - text: albergo
+    canonical: true
   evidence:
-    - { axis: vocab, id: albergo, weight: 1.0 }
-
+  - axis: vocab
+    id: albergo
+    weight: 1.0
+  image: images/vocab/vocab.albergo.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.camera
   item_type: vocab_card
   cefr_level: A0
@@ -26,12 +29,16 @@
   example: La camera è la numero quindici.
   example_gloss: The room is number fifteen.
   answers:
-    - { text: camera, canonical: true }
+  - text: camera
+    canonical: true
   evidence:
-    - { axis: vocab, id: camera, weight: 1.0 }
-
+  - axis: vocab
+    id: camera
+    weight: 1.0
+  image: images/vocab/vocab.camera.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.chiave
   item_type: vocab_card
   cefr_level: A0
@@ -41,13 +48,19 @@
   example: Ecco la chiave della camera.
   example_gloss: Here is the room key.
   answers:
-    - { text: chiave, canonical: true }
+  - text: chiave
+    canonical: true
   evidence:
-    - { axis: vocab, id: chiave, weight: 1.0 }
-    - { axis: grammar, id: pronun_bas, weight: 0.5 }
-
+  - axis: vocab
+    id: chiave
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 0.5
+  image: images/vocab/vocab.chiave.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.nome
   item_type: vocab_card
   cefr_level: A0
@@ -57,13 +70,19 @@
   example: Il mio nome è Anna.
   example_gloss: My name is Anna.
   answers:
-    - { text: nome, canonical: true }
+  - text: nome
+    canonical: true
   evidence:
-    - { axis: vocab, id: nome, weight: 1.0 }
-    - { axis: grammar, id: mi_chiamo, weight: 0.5 }
-
+  - axis: vocab
+    id: nome
+    weight: 1.0
+  - axis: grammar
+    id: mi_chiamo
+    weight: 0.5
+  image: images/vocab/vocab.nome.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.prenotazione
   item_type: vocab_card
   cefr_level: A0
@@ -73,12 +92,16 @@
   example: Ho una prenotazione a nome Rossi.
   example_gloss: I have a reservation under the name Rossi.
   answers:
-    - { text: prenotazione, canonical: true }
+  - text: prenotazione
+    canonical: true
   evidence:
-    - { axis: vocab, id: prenotazione, weight: 1.0 }
-
+  - axis: vocab
+    id: prenotazione
+    weight: 1.0
+  image: images/vocab/vocab.prenotazione.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: vocab.colazione
   item_type: vocab_card
   cefr_level: A0
@@ -88,6 +111,10 @@
   example: La colazione è dalle sette alle dieci.
   example_gloss: Breakfast is from seven to ten.
   answers:
-    - { text: colazione, canonical: true }
+  - text: colazione
+    canonical: true
   evidence:
-    - { axis: vocab, id: colazione, weight: 1.0 }
+  - axis: vocab
+    id: colazione
+    weight: 1.0
+  image: images/vocab/vocab.colazione.png

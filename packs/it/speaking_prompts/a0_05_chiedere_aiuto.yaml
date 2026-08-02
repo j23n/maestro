@@ -1,35 +1,47 @@
-# Speaking prompts — lesson a0-05-chiedere-aiuto. Drafted, not reviewed.
-
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: speaking.polite_exp.003
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "La valigia non c'è. (Ask someone for help.)"
-  target_text: "Scusi, mi può aiutare?"
+  prompt: La valigia non c'è. (Ask someone for help.)
+  target_text: Scusi, mi può aiutare?
   evidence:
-    - { axis: grammar, id: polite_exp, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
-
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  image: images/speaking/speaking.polite_exp.003.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: speaking.prep_place.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Londra, Roma. (Say you are from London but now in Rome.)"
-  target_text: "Sono di Londra, ma adesso sono a Roma."
+  prompt: Londra, Roma. (Say you are from London but now in Rome.)
+  target_text: Sono di Londra, ma adesso sono a Roma.
   evidence:
-    - { axis: grammar, id: prep_place, weight: 1.0 }
-
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  image: images/speaking/speaking.prep_place.001.png
 - status: draft
-  scenario_ids: [a0-05-chiedere-aiuto]
+  scenario_ids:
+  - a0-05-chiedere-aiuto
   id: speaking.polite_exp.004
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Non capisco. (Ask them to repeat more slowly.)"
-  target_text: "Scusi, non capisco."
+  prompt: Non capisco. (Ask them to repeat more slowly.)
+  target_text: Scusi, non capisco.
   variants:
-    - "Scusi, non capisco bene."
+  - Scusi, non capisco bene.
   evidence:
-    - { axis: grammar, id: polite_exp, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  image: images/speaking/speaking.polite_exp.004.png

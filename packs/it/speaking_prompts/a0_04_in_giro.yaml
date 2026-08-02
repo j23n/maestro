@@ -1,34 +1,46 @@
-# Speaking prompts — lesson a0-04-in-giro. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: speaking.dove_e.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "In centro. (Stop someone and ask where the station is.)"
-  target_text: "Scusi, dov'è la stazione?"
+  prompt: In centro. (Stop someone and ask where the station is.)
+  target_text: Scusi, dov'è la stazione?
   evidence:
-    - { axis: grammar, id: dove_e, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
-
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  image: images/speaking/speaking.dove_e.001.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: speaking.dove_e.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "In centro. (Ask whether there is a pharmacy nearby.)"
-  target_text: "Scusi, c'è una farmacia in centro?"
+  prompt: In centro. (Ask whether there is a pharmacy nearby.)
+  target_text: Scusi, c'è una farmacia in centro?
   evidence:
-    - { axis: grammar, id: dove_e, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
-
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  image: images/speaking/speaking.dove_e.002.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: speaking.art_il_la.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Il museo, la piazza, l'albergo. (Read aloud, minding the articles.)"
-  target_text: "Il museo, la piazza, l'albergo."
-  explanation: "Three articles in one line: il, la, l'."
+  prompt: Il museo, la piazza, l'albergo. (Read aloud, minding the articles.)
+  target_text: Il museo, la piazza, l'albergo.
+  explanation: 'Three articles in one line: il, la, l''.'
   evidence:
-    - { axis: grammar, id: art_il_la, weight: 1.0 }
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  image: images/speaking/speaking.art_il_la.001.png

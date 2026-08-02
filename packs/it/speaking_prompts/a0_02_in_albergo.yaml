@@ -1,52 +1,71 @@
-# Speaking prompts — lesson a0-02-in-albergo. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: speaking.mi_chiamo.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "In albergo. (Introduce yourself, using the surname Rossi.)"
-  target_text: "Mi chiamo Rossi."
+  prompt: In albergo. (Introduce yourself, using the surname Rossi.)
+  target_text: Mi chiamo Rossi.
   variants:
-    - "Sono Rossi."
-  explanation: "mi chiamo + name, or the simpler sono + name."
+  - Sono Rossi.
+  explanation: mi chiamo + name, or the simpler sono + name.
   evidence:
-    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
-    - { axis: function, id: a0_presentarsi, weight: 1.0 }
-
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  image: images/speaking/speaking.mi_chiamo.001.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: speaking.mi_chiamo.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Una signora, in albergo. (Ask her name, formally.)"
-  target_text: "Come si chiama?"
-  explanation: "Formal: si chiama. Informal would be «come ti chiami?»"
+  prompt: Una signora, in albergo. (Ask her name, formally.)
+  target_text: Come si chiama?
+  explanation: 'Formal: si chiama. Informal would be «come ti chiami?»'
   evidence:
-    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
-    - { axis: function, id: a0_presentarsi, weight: 1.0 }
-
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  image: images/speaking/speaking.mi_chiamo.002.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: speaking.num_0_20.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Uno, due... (Count aloud from one to five.)"
-  target_text: "Uno, due, tre, quattro, cinque."
-  explanation: "Watch the vowels: due is two syllables, cinque ends in -que."
+  prompt: Uno, due... (Count aloud from one to five.)
+  target_text: Uno, due, tre, quattro, cinque.
+  explanation: 'Watch the vowels: due is two syllables, cinque ends in -que.'
   evidence:
-    - { axis: grammar, id: num_0_20, weight: 1.0 }
-    - { axis: function, id: a0_contare, weight: 1.0 }
-
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  image: images/speaking/speaking.num_0_20.001.png
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: speaking.num_0_20.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "La camera. (Say your room is number fifteen.)"
-  target_text: "La camera è la quindici."
+  prompt: La camera. (Say your room is number fifteen.)
+  target_text: La camera è la quindici.
   variants:
-    - "La mia camera è la quindici."
+  - La mia camera è la quindici.
   evidence:
-    - { axis: grammar, id: num_0_20, weight: 1.0 }
-    - { axis: function, id: a0_contare, weight: 1.0 }
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  image: images/speaking/speaking.num_0_20.002.png

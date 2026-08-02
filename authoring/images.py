@@ -6,12 +6,18 @@ illustrations for
 
 - scenarios: a scene-setting image per scenario (used by the app's
   narrative framing), path ``images/scenarios/<id>.png``
+- lessons: one drawing per declared lesson (circular path icon and
+  intro-screen art in the app), ``images/lessons/<lesson_id>.png``
 - vocab cards: a simple illustration per card, ``images/vocab/<id>.png``
 - readings: an optional header image, ``images/readings/<id>.png``
+- writing/speaking prompts: a situation image above the task,
+  ``images/writing/<id>.png`` and ``images/speaking/<id>.png``
 
-Files land under ``packs/<lang>/images/``; vocab/reading item YAML is
-rewritten to reference them, while scenario art is picked up purely by
-its conventional path (the spec file is never rewritten). ``build``
+Files land under ``packs/<lang>/images/``; vocab/reading/writing/speaking
+item YAML is rewritten to reference them, while scenario and lesson art
+is picked up purely by its conventional path (the spec file is never
+rewritten). An ``image_prompt`` field on a spec lesson or a
+writing/speaking item overrides the derived generation prompt. ``build``
 embeds the bytes into the bundle's media table. ``images/index.yaml``
 records the sha256 of each generation prompt so re-runs only render
 what changed.
@@ -120,15 +126,16 @@ PROVIDERS = {"mock": MockImages, "openai": OpenAiImages}
 class Job:
     path: str  # relative to pack_dir (images/...)
     prompt: str
-    target: str  # scenario | vocab | reading
-    ref_id: str  # scenario id or item id
+    target: str  # scenario | lesson | vocab | reading | writing | speaking
+    ref_id: str  # scenario id, lesson id, or item id
 
 
 def plan_jobs(pack_dir: Path, spec_dir: Path, targets: set[str]) -> list[Job]:
     jobs: list[Job] = []
 
-    if "scenarios" in targets:
+    if "scenarios" in targets or "lessons" in targets:
         scenarios = yaml.safe_load((spec_dir / "scenarios.yaml").read_text()) or []
+    if "scenarios" in targets:
         for s in scenarios:
             setting = s.get("scene_setting") or s.get("description") or s["label"]
             jobs.append(
@@ -139,6 +146,25 @@ def plan_jobs(pack_dir: Path, spec_dir: Path, targets: set[str]) -> list[Job]:
                     ref_id=s["id"],
                 )
             )
+    if "lessons" in targets:
+        for s in scenarios:
+            for d in s.get("depths") or []:
+                # Legacy stub depths are bare strings — one summary line,
+                # no identity of their own, so no art job until the spec
+                # fill (docs/plans/07 step 4) makes them real lessons.
+                if not isinstance(d, dict):
+                    continue
+                setting = d.get("scene_setting") or s.get("scene_setting") or s["label"]
+                jobs.append(
+                    Job(
+                        path=f"images/lessons/{d['id']}.png",
+                        prompt=d.get("image_prompt")
+                        or f"{STYLE}Scene: {setting}. "
+                        f"{d.get('goal') or d.get('label') or ''}",
+                        target="lesson",
+                        ref_id=d["id"],
+                    )
+                )
 
     def raw_items(subdir: str):
         for f in sorted((pack_dir / subdir).glob("*.yaml")):
@@ -168,13 +194,41 @@ def plan_jobs(pack_dir: Path, spec_dir: Path, targets: set[str]) -> list[Job]:
                     ref_id=entry["id"],
                 )
             )
+    if "writing" in targets:
+        for entry in raw_items("writing_prompts"):
+            jobs.append(
+                Job(
+                    path=f"images/writing/{entry['id']}.png",
+                    prompt=entry.get("image_prompt")
+                    or f"{STYLE}Situation for a writing task: {entry['prompt']}",
+                    target="writing",
+                    ref_id=entry["id"],
+                )
+            )
+    if "speaking" in targets:
+        for entry in raw_items("speaking_prompts"):
+            jobs.append(
+                Job(
+                    path=f"images/speaking/{entry['id']}.png",
+                    prompt=entry.get("image_prompt")
+                    or f"{STYLE}Situation: {entry['prompt']} — {entry['target_text']}",
+                    target="speaking",
+                    ref_id=entry["id"],
+                )
+            )
     return jobs
 
 
 def _write_back(pack_dir: Path, spec_dir: Path, rendered: list[Job]) -> None:
-    # Scenario art is convention-addressed (images/scenarios/<id>.png,
-    # picked up by build when present) — the spec file is never rewritten.
-    for target, subdir in (("vocab", "vocab"), ("reading", "readings")):
+    # Scenario and lesson art is convention-addressed (images/scenarios/
+    # <id>.png, images/lessons/<lesson_id>.png, picked up by build when
+    # present) — the spec file is never rewritten.
+    for target, subdir in (
+        ("vocab", "vocab"),
+        ("reading", "readings"),
+        ("writing", "writing_prompts"),
+        ("speaking", "speaking_prompts"),
+    ):
         jobs = {j.ref_id: j for j in rendered if j.target == target}
         if not jobs:
             continue
@@ -203,7 +257,14 @@ def generate_images(
     """Generate all missing/stale images; returns the number generated."""
     provider_cls = PROVIDERS[provider_name]
     provider = provider_cls(client=client) if client is not None else provider_cls()
-    targets = targets or {"scenarios", "vocab", "readings"}
+    targets = targets or {
+        "scenarios",
+        "lessons",
+        "vocab",
+        "readings",
+        "writing",
+        "speaking",
+    }
 
     images_dir = pack_dir / "images"
     images_dir.mkdir(exist_ok=True)

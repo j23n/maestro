@@ -1,7 +1,6 @@
-# Vocab cards — lesson a0-04-in-giro. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.stazione
   item_type: vocab_card
   cefr_level: A0
@@ -11,13 +10,19 @@
   example: Dov'è la stazione?
   example_gloss: Where is the station?
   answers:
-    - { text: stazione, canonical: true }
+  - text: stazione
+    canonical: true
   evidence:
-    - { axis: vocab, id: stazione, weight: 1.0 }
-    - { axis: grammar, id: art_il_la, weight: 0.5 }
-
+  - axis: vocab
+    id: stazione
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 0.5
+  image: images/vocab/vocab.stazione.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.piazza
   item_type: vocab_card
   cefr_level: A0
@@ -27,12 +32,16 @@
   example: La piazza è grande.
   example_gloss: The square is big.
   answers:
-    - { text: piazza, canonical: true }
+  - text: piazza
+    canonical: true
   evidence:
-    - { axis: vocab, id: piazza, weight: 1.0 }
-
+  - axis: vocab
+    id: piazza
+    weight: 1.0
+  image: images/vocab/vocab.piazza.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.museo
   item_type: vocab_card
   cefr_level: A0
@@ -42,12 +51,16 @@
   example: Il museo è chiuso il lunedì.
   example_gloss: The museum is closed on Mondays.
   answers:
-    - { text: museo, canonical: true }
+  - text: museo
+    canonical: true
   evidence:
-    - { axis: vocab, id: museo, weight: 1.0 }
-
+  - axis: vocab
+    id: museo
+    weight: 1.0
+  image: images/vocab/vocab.museo.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.farmacia
   item_type: vocab_card
   cefr_level: A0
@@ -57,12 +70,16 @@
   example: Dov'è la farmacia?
   example_gloss: Where is the pharmacy?
   answers:
-    - { text: farmacia, canonical: true }
+  - text: farmacia
+    canonical: true
   evidence:
-    - { axis: vocab, id: farmacia, weight: 1.0 }
-
+  - axis: vocab
+    id: farmacia
+    weight: 1.0
+  image: images/vocab/vocab.farmacia.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.centro
   item_type: vocab_card
   cefr_level: A0
@@ -72,12 +89,16 @@
   example: Il museo è in centro.
   example_gloss: The museum is downtown.
   answers:
-    - { text: centro, canonical: true }
+  - text: centro
+    canonical: true
   evidence:
-    - { axis: vocab, id: centro, weight: 1.0 }
-
+  - axis: vocab
+    id: centro
+    weight: 1.0
+  image: images/vocab/vocab.centro.png
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: vocab.dove
   item_type: vocab_card
   cefr_level: A0
@@ -87,7 +108,13 @@
   example: Dov'è il bagno?
   example_gloss: Where is the bathroom?
   answers:
-    - { text: dove, canonical: true }
+  - text: dove
+    canonical: true
   evidence:
-    - { axis: vocab, id: dove, weight: 1.0 }
-    - { axis: grammar, id: dove_e, weight: 0.5 }
+  - axis: vocab
+    id: dove
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 0.5
+  image: images/vocab/vocab.dove.png

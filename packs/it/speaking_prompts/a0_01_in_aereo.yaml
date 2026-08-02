@@ -1,55 +1,71 @@
-# Speaking prompts — lesson a0-01-in-aereo. Drafted, not yet reviewed.
-# Scored by the core's transcript-alignment scorer against target_text.
-
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: speaking.saluti.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "In aereo, di mattina. (Greet the flight attendant.)"
-  target_text: "Buongiorno!"
+  prompt: In aereo, di mattina. (Greet the flight attendant.)
+  target_text: Buongiorno!
   variants:
-    - "Salve!"
-  explanation: "Morning arrival, someone you don't know: buongiorno."
+  - Salve!
+  explanation: 'Morning arrival, someone you don''t know: buongiorno.'
   evidence:
-    - { axis: grammar, id: saluti, weight: 1.0 }
-    - { axis: function, id: a0_salutare, weight: 1.0 }
-
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  image: images/speaking/speaking.saluti.001.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: speaking.polite_exp.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "In aereo. (Order a coffee politely.)"
-  target_text: "Un caffè, per favore."
+  prompt: In aereo. (Order a coffee politely.)
+  target_text: Un caffè, per favore.
   variants:
-    - "Vorrei un caffè, per favore."
-  explanation: "Item first, then per favore."
+  - Vorrei un caffè, per favore.
+  explanation: Item first, then per favore.
   evidence:
-    - { axis: grammar, id: polite_exp, weight: 1.0 }
-    - { axis: function, id: a0_ordinare, weight: 1.0 }
-
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  image: images/speaking/speaking.polite_exp.001.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: speaking.polite_exp.002
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Ecco il caffè. (Thank them warmly.)"
-  target_text: "Grazie mille!"
+  prompt: Ecco il caffè. (Thank them warmly.)
+  target_text: Grazie mille!
   variants:
-    - "Grazie!"
-  explanation: "Grazie, or grazie mille to warm it up."
+  - Grazie!
+  explanation: Grazie, or grazie mille to warm it up.
   evidence:
-    - { axis: grammar, id: polite_exp, weight: 1.0 }
-    - { axis: function, id: a0_ringraziare, weight: 1.0 }
-
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 1.0
+  image: images/speaking/speaking.polite_exp.002.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: speaking.pronun_bas.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Ciao, chi è? (Read aloud: soft c, then hard c.)"
-  target_text: "Ciao, chi è?"
-  explanation: "Two c sounds in one short sentence: soft in ciao, hard in chi."
+  prompt: 'Ciao, chi è? (Read aloud: soft c, then hard c.)'
+  target_text: Ciao, chi è?
+  explanation: 'Two c sounds in one short sentence: soft in ciao, hard in chi.'
   evidence:
-    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  image: images/speaking/speaking.pronun_bas.001.png

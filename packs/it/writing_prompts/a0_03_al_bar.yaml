@@ -1,25 +1,44 @@
-# Writing prompt — lesson a0-03-al-bar. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: writing.al_bar.001
   item_type: writing_prompt
   cefr_level: A0
-  prompt: |
-    Al bar. (Write a dialogue of 4-6 lines: greet, order two things using
+  prompt: 'Al bar. (Write a dialogue of 4-6 lines: greet, order two things using
+
     «vorrei», and ask how much it costs.)
+
+    '
   min_words: 20
-  required_grammar: [vorrei, art_un_una]
-  required_vocab: [caffè, cornetto, conto]
-  model_answer: |
-    — Buongiorno! Prego?
+  required_grammar:
+  - vorrei
+  - art_un_una
+  required_vocab:
+  - caffè
+  - cornetto
+  - conto
+  model_answer: '— Buongiorno! Prego?
+
     — Buongiorno. Vorrei un caffè e un cornetto, per favore.
+
     — Altro?
-    — No, grazie. Quant'è?
+
+    — No, grazie. Quant''è?
+
     — Due euro e ottanta.
+
     — Ecco. Grazie!
+
+    '
   evidence:
-    - { axis: grammar, id: vorrei, weight: 1.0 }
-    - { axis: grammar, id: art_un_una, weight: 1.0 }
-    - { axis: function, id: a0_ordinare, weight: 0.5 }
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 0.5
+  image: images/writing/writing.al_bar.001.png

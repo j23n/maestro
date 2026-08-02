@@ -14,6 +14,7 @@
   - axis: function
     id: a0_ordinare
     weight: 1.0
+  image: images/speaking/speaking.ferragosto.001.png
 - status: reviewed
   id: speaking.ferragosto.002
   item_type: speaking_prompt
@@ -30,3 +31,4 @@
   - axis: function
     id: a0_esprimere_gusti
     weight: 0.5
+  image: images/speaking/speaking.ferragosto.002.png

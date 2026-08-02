@@ -1,21 +1,24 @@
-# Seed writing prompts — hand-written, hand-checked. The rubric fields
-# are deterministically checkable offline; free-form feedback is the
-# optional LLM tier's job (pending-feedback queue).
-
 - id: writing.a0_presentarsi.001
   item_type: writing_prompt
   cefr_level: A0
-  prompt: >-
-    Scrivi una breve presentazione: come ti chiami, di dove sei, che
-    cosa ti piace. (Write a short introduction: your name, where you
-    are from, what you like.)
+  prompt: 'Scrivi una breve presentazione: come ti chiami, di dove sei, che cosa ti piace.
+    (Write a short introduction: your name, where you are from, what you like.)'
   min_words: 15
-  required_grammar: [essere_pre, mi_piace]
-  required_vocab: [nome]
-  model_answer: >-
-    Ciao! Mi chiamo Anna e sono di Milano. Mi piace il caffè e mi
-    piace la musica italiana.
+  required_grammar:
+  - essere_pre
+  - mi_piace
+  required_vocab:
+  - nome
+  model_answer: Ciao! Mi chiamo Anna e sono di Milano. Mi piace il caffè e mi piace la musica
+    italiana.
   evidence:
-    - { axis: grammar, id: essere_pre, weight: 1.0 }
-    - { axis: grammar, id: mi_piace, weight: 1.0 }
-    - { axis: function, id: a0_presentarsi, weight: 1.5 }
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.5
+  image: images/writing/writing.a0_presentarsi.001.png

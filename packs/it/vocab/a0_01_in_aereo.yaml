@@ -1,7 +1,6 @@
-# Vocab cards — lesson a0-01-in-aereo. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.buongiorno
   item_type: vocab_card
   cefr_level: A0
@@ -11,13 +10,19 @@
   example: Buongiorno, signora!
   example_gloss: Good morning, madam!
   answers:
-    - { text: buongiorno, canonical: true }
+  - text: buongiorno
+    canonical: true
   evidence:
-    - { axis: vocab, id: buongiorno, weight: 1.0 }
-    - { axis: grammar, id: saluti, weight: 0.5 }
-
+  - axis: vocab
+    id: buongiorno
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  image: images/vocab/vocab.buongiorno.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.buonasera
   item_type: vocab_card
   cefr_level: A0
@@ -27,13 +32,19 @@
   example: Buonasera, un tavolo per due.
   example_gloss: Good evening, a table for two.
   answers:
-    - { text: buonasera, canonical: true }
+  - text: buonasera
+    canonical: true
   evidence:
-    - { axis: vocab, id: buonasera, weight: 1.0 }
-    - { axis: grammar, id: saluti, weight: 0.5 }
-
+  - axis: vocab
+    id: buonasera
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  image: images/vocab/vocab.buonasera.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.arrivederci
   item_type: vocab_card
   cefr_level: A0
@@ -43,13 +54,19 @@
   example: Arrivederci, a domani!
   example_gloss: Goodbye, see you tomorrow!
   answers:
-    - { text: arrivederci, canonical: true }
+  - text: arrivederci
+    canonical: true
   evidence:
-    - { axis: vocab, id: arrivederci, weight: 1.0 }
-    - { axis: grammar, id: saluti, weight: 0.5 }
-
+  - axis: vocab
+    id: arrivederci
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  image: images/vocab/vocab.arrivederci.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.salve
   item_type: vocab_card
   cefr_level: A0
@@ -59,13 +76,19 @@
   example: Salve, cerco la stazione.
   example_gloss: Hello, I'm looking for the station.
   answers:
-    - { text: salve, canonical: true }
+  - text: salve
+    canonical: true
   evidence:
-    - { axis: vocab, id: salve, weight: 1.0 }
-    - { axis: grammar, id: saluti, weight: 0.5 }
-
+  - axis: vocab
+    id: salve
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  image: images/vocab/vocab.salve.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.prego
   item_type: vocab_card
   cefr_level: A0
@@ -75,13 +98,19 @@
   example: Grazie! — Prego.
   example_gloss: Thanks! — You're welcome.
   answers:
-    - { text: prego, canonical: true }
+  - text: prego
+    canonical: true
   evidence:
-    - { axis: vocab, id: prego, weight: 1.0 }
-    - { axis: grammar, id: polite_exp, weight: 0.5 }
-
+  - axis: vocab
+    id: prego
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/vocab/vocab.prego.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.scusi
   item_type: vocab_card
   cefr_level: A0
@@ -91,13 +120,19 @@
   example: Scusi, dov'è il bagno?
   example_gloss: Excuse me, where is the bathroom?
   answers:
-    - { text: scusi, canonical: true }
+  - text: scusi
+    canonical: true
   evidence:
-    - { axis: vocab, id: scusi, weight: 1.0 }
-    - { axis: grammar, id: polite_exp, weight: 0.5 }
-
+  - axis: vocab
+    id: scusi
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/vocab/vocab.scusi.png
 - status: draft
-  scenario_ids: [a0-01-in-aereo]
+  scenario_ids:
+  - a0-01-in-aereo
   id: vocab.aereo
   item_type: vocab_card
   cefr_level: A0
@@ -107,7 +142,11 @@
   example: L'aereo arriva a Roma alle nove.
   example_gloss: The plane arrives in Rome at nine.
   answers:
-    - { text: aereo, canonical: true }
-    - { text: l'aereo }
+  - text: aereo
+    canonical: true
+  - text: l'aereo
   evidence:
-    - { axis: vocab, id: aereo, weight: 1.0 }
+  - axis: vocab
+    id: aereo
+    weight: 1.0
+  image: images/vocab/vocab.aereo.png

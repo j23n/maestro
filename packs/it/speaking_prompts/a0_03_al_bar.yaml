@@ -1,41 +1,55 @@
-# Speaking prompts — lesson a0-03-al-bar. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: speaking.vorrei.003
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Al bar. (Order a cappuccino politely.)"
-  target_text: "Vorrei un cappuccino, per favore."
+  prompt: Al bar. (Order a cappuccino politely.)
+  target_text: Vorrei un cappuccino, per favore.
   variants:
-    - "Un cappuccino, per favore."
+  - Un cappuccino, per favore.
   evidence:
-    - { axis: grammar, id: vorrei, weight: 1.0 }
-    - { axis: function, id: a0_ordinare, weight: 1.0 }
-
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  image: images/speaking/speaking.vorrei.003.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: speaking.art_un_una.001
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Al bar. (Order a water — mind the article.)"
-  target_text: "Vorrei un'acqua."
+  prompt: Al bar. (Order a water — mind the article.)
+  target_text: Vorrei un'acqua.
   evidence:
-    - { axis: grammar, id: art_un_una, weight: 1.0 }
-    - { axis: function, id: a0_ordinare, weight: 1.0 }
-
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  image: images/speaking/speaking.art_un_una.001.png
 - status: draft
-  scenario_ids: [a0-03-al-bar]
+  scenario_ids:
+  - a0-03-al-bar
   lesson_id: a0-03-al-bar.d1
   id: speaking.vorrei.004
   item_type: speaking_prompt
   cefr_level: A0
-  prompt: "Il conto. (Ask for the bill.)"
-  target_text: "Vorrei il conto, per favore."
+  prompt: Il conto. (Ask for the bill.)
+  target_text: Vorrei il conto, per favore.
   variants:
-    - "Il conto, per favore."
+  - Il conto, per favore.
   evidence:
-    - { axis: grammar, id: vorrei, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  image: images/speaking/speaking.vorrei.004.png

@@ -1,23 +1,41 @@
-# Writing prompt — lesson a0-02-in-albergo. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-02-in-albergo]
+  scenario_ids:
+  - a0-02-in-albergo
   id: writing.in_albergo.001
   item_type: writing_prompt
   cefr_level: A0
-  prompt: |
-    In albergo. (Write a short dialogue of 4-6 lines at the desk: greet,
+  prompt: 'In albergo. (Write a short dialogue of 4-6 lines at the desk: greet,
+
     say your name, and ask for your room number.)
+
+    '
   min_words: 20
-  required_grammar: [mi_chiamo, num_0_20, saluti]
-  required_vocab: [camera, chiave]
-  model_answer: |
-    — Buonasera!
+  required_grammar:
+  - mi_chiamo
+  - num_0_20
+  - saluti
+  required_vocab:
+  - camera
+  - chiave
+  model_answer: '— Buonasera!
+
     — Buonasera. Mi chiamo Anna Rossi, ho una prenotazione.
+
     — Sì, signora. La sua camera è la dodici.
+
     — Grazie. Ecco la chiave?
+
     — Ecco a lei. Buonanotte!
+
+    '
   evidence:
-    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
-    - { axis: grammar, id: num_0_20, weight: 1.0 }
-    - { axis: function, id: a0_presentarsi, weight: 0.5 }
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 0.5
+  image: images/writing/writing.in_albergo.001.png

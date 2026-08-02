@@ -1,60 +1,91 @@
-# Seed reading passages — hand-written, hand-checked.
-
 - id: reading.al_bar.001
   cefr_level: A0
-  title: "Colazione al bar"
-  text: |
-    Marco entra nel bar. «Buongiorno! Un caffè e un cornetto, per favore.»
-    Il barista prende un cornetto e fa il caffè. «Ecco. Due euro e
-    cinquanta.» Marco paga e dice: «Grazie, arrivederci!»
-  glossary:
-    ecco: "here you go"
-    barista: "barman"
-  questions:
-    - prompt: "Che cosa ordina Marco?"
-      answers:
-        - { text: "un caffè e un cornetto", canonical: true }
-        - { text: "caffè e cornetto", canonical: false }
-      explanation: "Marco says: «Un caffè e un cornetto, per favore»."
-    - prompt: "Quanto paga Marco? (in euro)"
-      answers:
-        - { text: "due euro e cinquanta", canonical: true }
-        - { text: "2,50", canonical: false }
-        - { text: "2.50", canonical: false }
-      explanation: "The barista says: «Due euro e cinquanta»."
-  evidence:
-    - { axis: grammar, id: art_un_una, weight: 1.0 }
-    - { axis: grammar, id: vorrei, weight: 0.5 }
-    - { axis: function, id: a0_ordinare, weight: 1.0 }
+  title: Colazione al bar
+  text: 'Marco entra nel bar. «Buongiorno! Un caffè e un cornetto, per favore.»
 
+    Il barista prende un cornetto e fa il caffè. «Ecco. Due euro e
+
+    cinquanta.» Marco paga e dice: «Grazie, arrivederci!»
+
+    '
+  glossary:
+    ecco: here you go
+    barista: barman
+  questions:
+  - prompt: Che cosa ordina Marco?
+    answers:
+    - text: un caffè e un cornetto
+      canonical: true
+    - text: caffè e cornetto
+      canonical: false
+    explanation: 'Marco says: «Un caffè e un cornetto, per favore».'
+  - prompt: Quanto paga Marco? (in euro)
+    answers:
+    - text: due euro e cinquanta
+      canonical: true
+    - text: 2,50
+      canonical: false
+    - text: '2.50'
+      canonical: false
+    explanation: 'The barista says: «Due euro e cinquanta».'
+  evidence:
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 0.5
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  image: images/readings/reading.al_bar.001.png
 - id: reading.la_giornata.001
   cefr_level: A1
-  title: "La giornata di Anna"
-  text: |
-    Anna si sveglia alle sette. Fa colazione con caffè e pane, poi va al
+  title: La giornata di Anna
+  text: 'Anna si sveglia alle sette. Fa colazione con caffè e pane, poi va al
+
     lavoro in autobus. Lavora in un ufficio in centro. A pranzo mangia
+
     un panino con una collega. La sera torna a casa, cucina la cena e
+
     guarda un film. Va a letto alle undici.
+
+    '
   glossary:
-    torna: "returns (tornare, A2 lemma)"
+    torna: returns (tornare, A2 lemma)
   questions:
-    - prompt: "A che ora si sveglia Anna?"
-      answers:
-        - { text: "alle sette", canonical: true }
-        - { text: "a le sette", canonical: false }
-        - { text: "sette", canonical: false }
-      explanation: "«Anna si sveglia alle sette.»"
-    - prompt: "Come va al lavoro?"
-      answers:
-        - { text: "in autobus", canonical: true }
-        - { text: "con l'autobus", canonical: false }
-      explanation: "«Va al lavoro in autobus» — in + means of transport."
-    - prompt: "Che cosa fa la sera dopo cena?"
-      answers:
-        - { text: "guarda un film", canonical: true }
-      explanation: "«Cucina la cena e guarda un film.»"
+  - prompt: A che ora si sveglia Anna?
+    answers:
+    - text: alle sette
+      canonical: true
+    - text: a le sette
+      canonical: false
+    - text: sette
+      canonical: false
+    explanation: «Anna si sveglia alle sette.»
+  - prompt: Come va al lavoro?
+    answers:
+    - text: in autobus
+      canonical: true
+    - text: con l'autobus
+      canonical: false
+    explanation: «Va al lavoro in autobus» — in + means of transport.
+  - prompt: Che cosa fa la sera dopo cena?
+    answers:
+    - text: guarda un film
+      canonical: true
+    explanation: «Cucina la cena e guarda un film.»
   evidence:
-    - { axis: grammar, id: ind_pres, weight: 1.0 }
-    - { axis: grammar, id: pron_refl, weight: 0.5 }
-    - { axis: grammar, id: art_hora, weight: 0.5 }
-    - { axis: function, id: interag_descriv_a1, weight: 0.5 }
+  - axis: grammar
+    id: ind_pres
+    weight: 1.0
+  - axis: grammar
+    id: pron_refl
+    weight: 0.5
+  - axis: grammar
+    id: art_hora
+    weight: 0.5
+  - axis: function
+    id: interag_descriv_a1
+    weight: 0.5
+  image: images/readings/reading.la_giornata.001.png

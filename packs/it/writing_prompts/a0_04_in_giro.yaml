@@ -1,24 +1,42 @@
-# Writing prompt — lesson a0-04-in-giro. Drafted, not yet reviewed.
-
 - status: draft
-  scenario_ids: [a0-04-in-giro]
+  scenario_ids:
+  - a0-04-in-giro
   id: writing.in_giro.001
   item_type: writing_prompt
   cefr_level: A0
-  prompt: |
-    In centro. (Write a short dialogue of 4-6 lines with a passer-by:
+  prompt: 'In centro. (Write a short dialogue of 4-6 lines with a passer-by:
+
     apologise for interrupting, ask where the station is, and thank them.)
+
+    '
   min_words: 20
-  required_grammar: [dove_e, art_il_la]
-  required_vocab: [stazione, piazza]
-  model_answer: |
-    — Scusi!
+  required_grammar:
+  - dove_e
+  - art_il_la
+  required_vocab:
+  - stazione
+  - piazza
+  model_answer: '— Scusi!
+
     — Sì, prego.
-    — Dov'è la stazione, per favore?
+
+    — Dov''è la stazione, per favore?
+
     — È in centro, in piazza.
+
     — Grazie mille!
+
     — Prego, arrivederci.
+
+    '
   evidence:
-    - { axis: grammar, id: dove_e, weight: 1.0 }
-    - { axis: grammar, id: art_il_la, weight: 1.0 }
-    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 0.5
+  image: images/writing/writing.in_giro.001.png
