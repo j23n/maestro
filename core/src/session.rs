@@ -338,8 +338,14 @@ impl Kind {
                 carries.contains(id)
                     && item.demand.is_some_and(|d| d >= *demand)
                     // Reference pages aren't attempted, so they can't be
-                    // a pass over anything.
+                    // a pass over anything. Capstones are excluded for a
+                    // different reason: a `perform` capstone carries the
+                    // grammar it proves, so a `perform` revisit matches it
+                    // exactly — and the revisit slots run first, so the
+                    // lesson would spend its own ending as a warm-up and
+                    // then come up short on the slot that closes it.
                     && item.item_type != "grammar_ref"
+                    && item.item_type != "task"
             }
             Kind::Capstone { cando, demand } => {
                 item.item_type == "task"
@@ -425,6 +431,10 @@ fn lesson_slots(lesson: &SpecLesson, state: &DerivedState) -> Vec<(&'static str,
     if untaught.is_empty() {
         slots.push(("writing", Kind::Writing, 1));
     }
+    // The SM-2 rotation answers to the schedule rather than to the
+    // lesson, so it rides along wherever it fits — but before the
+    // capstone, never after. A lesson ends on the thing it was for.
+    slots.push(("vocab_review", Kind::VocabReview, VOCAB_REVIEW_COUNT));
     for c in &lesson.capstones {
         slots.push((
             "capstone",
@@ -435,10 +445,6 @@ fn lesson_slots(lesson: &SpecLesson, state: &DerivedState) -> Vec<(&'static str,
             1,
         ));
     }
-    // Lemma passes ride the SM-2 rotation rather than getting slots of
-    // their own: the scheduler already spaces them, and a lesson that
-    // declares eight vocab revisits should not become eight flashcards.
-    slots.push(("vocab_review", Kind::VocabReview, VOCAB_REVIEW_COUNT));
     slots
 }
 

@@ -2,6 +2,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: grammar_ref.art_un_una
   item_type: grammar_ref
   cefr_level: A0
@@ -37,6 +38,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: grammar_ref.vorrei
   item_type: grammar_ref
   cefr_level: A0

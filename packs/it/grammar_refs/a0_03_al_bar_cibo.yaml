@@ -1,0 +1,43 @@
+# Reference page — vocab_cibo, taught at the bar (a0-03-al-bar.d1).
+#
+# Homed here rather than at "A pranzo" on purpose: the words a learner
+# needs first are the ones they will say tomorrow morning, and the bar is
+# where an A0 learner orders before they ever sit down to a meal. The
+# restaurant lesson revisits this set rather than introducing it.
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: grammar_ref.vocab_cibo
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: vocab_cibo
+  title: Ordering food and drink
+  body_md: |
+    Italian bars run on a small set of words. Learn these six and you can
+    order breakfast anywhere in the country.
+
+    | Italian | English |
+    | --- | --- |
+    | **un caffè** | an espresso — never "a coffee with milk" |
+    | **un cappuccino** | a cappuccino (before 11am, if you want to blend in) |
+    | **un cornetto** | a croissant |
+    | **un'acqua** | a water — *naturale* still, *frizzante* sparkling |
+    | **una birra** | a beer |
+    | **il conto** | the bill |
+
+    Two habits do most of the work. **Say the article**: Italians order
+    *un caffè*, not *caffè*. And **put the politeness at the end**: the
+    thing first, *per favore* last.
+
+    At the counter you say what you want and pay after. There is no
+    queueing ritual and no small talk required — the whole exchange is
+    usually four words long.
+  examples:
+    - "Un caffè, per favore."
+    - "Vorrei un cappuccino e un cornetto."
+    - "Un'acqua naturale (still), grazie."
+    - "Il conto, per favore."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 0.5 }

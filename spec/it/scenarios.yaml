@@ -64,7 +64,55 @@
   label: Al bar
   description: Your first Italian coffee — un/una, counting, and café culture
   depths:
-  - Indefinite articles un/una/un', ordering with numbers, quanto costa
+  - id: a0-03-al-bar.d1
+    cefr_level: A0
+    label: Al banco
+    goal: Order a coffee at the counter and pay, without switching to English.
+    summary: Indefinite articles un/una/un', ordering with vorrei, quanto costa
+    introduces:
+      grammar: [art_un_una, vorrei, vocab_cibo]
+      functions: [a0_ordinare, a0_chiedere_cortesemente]
+      vocab: [bar, caffè, cappuccino, cornetto, acqua, conto, naturale, frizzante]
+    capstones:
+    - {cando: a0.order_something, demand: use}
+  - id: a0-03-al-bar.d2
+    cefr_level: A0
+    label: Un tavolo fuori
+    goal: Order for two people and ask what it comes to.
+    summary: Ordering for more than yourself, asking the price, sitting down
+    revisits:
+      grammar: [{id: art_un_una, demand: use}, {id: vorrei, demand: use}, {id: vocab_cibo, demand: use}]
+      functions: [{id: a0_ordinare, demand: use}, {id: a0_chiedere_cortesemente, demand: use}]
+      vocab: [{id: bar, demand: use}, {id: caffè, demand: use}, {id: cappuccino, demand: use}, {id: cornetto, demand: use}, {id: acqua, demand: use}, {id: conto, demand: use}, {id: naturale, demand: use}, {id: frizzante, demand: use}]
+    capstones:
+    - {cando: a0.order_something, demand: use}
+    scene_setting: 'You come back the next afternoon, this time with a friend, and
+
+      take a table outside. Sitting down costs more — and now you are
+
+      ordering for two.
+
+      '
+    outro: Two coffees, one bill, no English. That is the whole bar.
+  - id: a0-03-al-bar.d3
+    cefr_level: A0
+    label: Il solito
+    goal: Order without being asked, and handle what the barista says back.
+    summary: Ordering unprompted, reacting to the barista, paying at the till
+    revisits:
+      grammar: [{id: art_un_una, demand: perform}, {id: vorrei, demand: perform}, {id: vocab_cibo, demand: perform}]
+      functions: [{id: a0_ordinare, demand: perform}, {id: a0_chiedere_cortesemente, demand: perform}]
+      vocab: [{id: bar, demand: perform}, {id: caffè, demand: perform}, {id: cappuccino, demand: perform}, {id: cornetto, demand: perform}, {id: acqua, demand: perform}, {id: conto, demand: perform}, {id: naturale, demand: perform}, {id: frizzante, demand: perform}]
+    capstones:
+    - {cando: a0.order_something, demand: perform}
+    scene_setting: 'By the end of the week the barista recognises you. He looks up,
+
+      raises an eyebrow, and waits. Nobody is going to ask you in English
+
+      this time.
+
+      '
+    outro: You ordered before you were asked. That is when a phrase stops being a phrase.
   grammar_ids:
   - art_un_una
   - vorrei

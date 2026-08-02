@@ -44,6 +44,10 @@
 - id: vocab.caffe
   item_type: vocab_card
   cefr_level: A0
+  # The word the bar lesson is built around; it lives in the shared bank
+  # because half of A0 uses it, but Al bar is where it is taught.
+  lesson_id: a0-03-al-bar.d1
+  scenario_ids: [a0-03-al-bar]
   lemma: caffè
   front: il caffè
   back: coffee

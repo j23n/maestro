@@ -1,0 +1,116 @@
+# Drill bank — vocab_cibo at the bar (a0-03-al-bar.d1). Drafted, not yet
+# reviewed. Conventions per authoring/quality.py: Italian in «guillemets»
+# when the instruction is English; the teaching lives in the feedback.
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.001
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: use
+  prompt: "You want a plain espresso. What do you ask for? «___, per favore.»"
+  choices: ["un caffè", "un cappuccino", "un caffè latte", "un tè"]
+  answers:
+    - { text: "un caffè", canonical: true }
+  distractor_feedback:
+    un cappuccino: "That's the milky one. A plain espresso is «un caffè»."
+    un caffè latte: "That's a glass of hot milk with coffee in it — and in Italy you'd get exactly that."
+    un tè: "That's tea. In Italy «caffè» on its own already means espresso."
+  explanation: "«Caffè» on its own means espresso. Anything else needs a name."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.002
+  item_type: drill_cloze
+  cefr_level: A0
+  demand: use
+  prompt: "Al bar, di mattina. «Un cappuccino e un ___, per favore.» (a croissant)"
+  answers:
+    - { text: "cornetto", canonical: true }
+  distractor_feedback:
+    croissant: "The French word is understood, but the Italian pastry is «un cornetto»."
+    pane: "«Pane» is bread. The breakfast pastry is «un cornetto»."
+  explanation: "Cappuccino e cornetto is the Italian breakfast."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.003
+  item_type: drill_cloze
+  cefr_level: A0
+  demand: use
+  prompt: "You've finished and want to pay. «Il ___, per favore.»"
+  answers:
+    - { text: "conto", canonical: true }
+  distractor_feedback:
+    menu: "That's what you ask for at the start."
+    prezzo: "«Prezzo» is the price of one thing. The bill is «il conto»."
+  explanation: "«Il conto, per favore» — the bill, please."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: use
+  prompt: "You want still, not sparkling water. «Un'acqua ___, per favore.»"
+  choices: ["naturale", "frizzante", "fredda", "piccola"]
+  answers:
+    - { text: "naturale", canonical: true }
+  distractor_feedback:
+    frizzante: "That's the sparkling one — the bubbles are the difference."
+    fredda: "«Fredda» is cold, which doesn't say still or sparkling."
+    piccola: "«Piccola» is small — a size, not a kind."
+  explanation: "Naturale = still, frizzante = sparkling. You'll be asked every time."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.005
+  item_type: drill_cloze
+  cefr_level: A0
+  demand: use
+  prompt: "Sono le nove di sera. Ordina una birra: «Una ___, per favore.»"
+  answers:
+    - { text: "birra", canonical: true }
+  distractor_feedback:
+    vino: "«Vino» is wine. A beer is «una birra»."
+  explanation: "«Birra» is feminine: una birra."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: drill.vocab_cibo.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: use
+  prompt: "Standing at the counter at 8am, which do you order? «___»"
+  choices: ["un cappuccino", "il conto", "una birra", "un'acqua frizzante"]
+  answers:
+    - { text: "un cappuccino", canonical: true }
+  distractor_feedback:
+    il conto: "That's what you ask for at the end, not what you drink."
+    una birra: "At eight in the morning, that's a story rather than a breakfast."
+    un'acqua frizzante: "Fine any time, but the breakfast order is a cappuccino."
+  explanation: "Cappuccino is a morning drink — Italians stop before lunch."
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }

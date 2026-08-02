@@ -1,0 +1,102 @@
+# Capstones — lesson a0-03-al-bar, one per depth. Drafted, not yet reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can move
+# a can-do to *achieved* (docs/plans/07 §2). Each depth asks for the same
+# thing with less help than the last: d1 and d2 show the target as a model,
+# d3 shows nothing — the build withholds `target_text` from the payload at
+# the `perform` rung, though it stays scorable underneath.
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: task.al_bar.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei al banco. Il barista ti guarda. Ordina un caffè, gentilmente.
+    (You're at the counter. Order a coffee, politely.)
+  target_text: "Vorrei un caffè, per favore."
+  variants:
+    - "Un caffè, per favore."
+  rubric:
+    - names the drink
+    - asks rather than demands — vorrei or per favore
+    - uses the right article with caffè
+  explanation: "«Vorrei» + article + drink + «per favore» is the whole order."
+  evidence:
+    - { axis: cando, id: a0.order_something, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d2
+  id: task.al_bar.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei a un tavolo con un amico. Ordina un caffè e un'acqua, poi chiedi
+    quanto costa. (Order a coffee and a water for the two of you, then ask
+    what it comes to.)
+  target_text: "Vorrei un caffè e un'acqua, per favore. Quant'è?"
+  variants:
+    - "Un caffè e un'acqua, per favore. Quanto costa?"
+  rubric:
+    - orders both items
+    - gets un' right before the vowel in acqua
+    - asks for the price
+  explanation: "«Acqua» is feminine and starts with a vowel: un'acqua."
+  evidence:
+    - { axis: cando, id: a0.order_something, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: vocab, id: acqua, weight: 0.5 }
+    - { axis: vocab, id: conto, weight: 0.5 }
+
+# The pass that closes the can-do. No model on screen: the learner has to
+# arrive at the phrase, which is the difference between knowing it and
+# being able to say it.
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d3
+  id: task.al_bar.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Il barista ti guarda e aspetta. Ordina la colazione — qualcosa da bere
+    e qualcosa da mangiare — e chiedi il conto.
+    (He's waiting. Order breakfast — something to drink and something to
+    eat — and ask for the bill.)
+  target_text: "Vorrei un cappuccino e un cornetto, per favore. Il conto, per favore."
+  variants:
+    - "Un cappuccino e un cornetto, per favore. Quant'è?"
+    - "Vorrei un caffè e un cornetto. Il conto, per favore."
+  rubric:
+    - orders one drink and one thing to eat
+    - each with the right article
+    - asks for the bill
+    - no English
+  explanation: "Drink, food, bill — the same three moves every morning."
+  evidence:
+    - { axis: cando, id: a0.order_something, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+    - { axis: vocab, id: bar, weight: 0.5 }
+    - { axis: vocab, id: caffè, weight: 0.5 }
+    - { axis: vocab, id: cappuccino, weight: 0.5 }
+    - { axis: vocab, id: cornetto, weight: 0.5 }
+    - { axis: vocab, id: acqua, weight: 0.5 }
+    - { axis: vocab, id: conto, weight: 0.5 }
+    - { axis: vocab, id: naturale, weight: 0.5 }
+    - { axis: vocab, id: frizzante, weight: 0.5 }

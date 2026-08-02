@@ -282,7 +282,7 @@ def test_perform_capstone_withholds_its_target(tmp_path):
     target would make it a reading-aloud exercise. Scoring still has it."""
     pack = tmp_path / "pack"
     shutil.copytree(ROOT / "packs" / "it", pack)
-    (pack / "tasks").mkdir()
+    (pack / "tasks").mkdir(exist_ok=True)
     (pack / "tasks" / "probe.yaml").write_text(
         json.dumps(
             [

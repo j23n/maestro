@@ -2,6 +2,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.cornetto
   item_type: vocab_card
   cefr_level: A0
@@ -17,6 +18,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.cappuccino
   item_type: vocab_card
   cefr_level: A0
@@ -32,6 +34,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.acqua
   item_type: vocab_card
   cefr_level: A0
@@ -48,6 +51,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.conto
   item_type: vocab_card
   cefr_level: A0
@@ -63,6 +67,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.bar
   item_type: vocab_card
   cefr_level: A0
@@ -78,6 +83,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: vocab.birra
   item_type: vocab_card
   cefr_level: A0
@@ -91,3 +97,37 @@
   evidence:
     - { axis: vocab, id: birra, weight: 1.0 }
     - { axis: grammar, id: art_un_una, weight: 0.5 }
+
+# The two words the barista will ask you for by name, every single time
+# you order water.
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.naturale
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: naturale
+  front: naturale
+  back: still (of water)
+  example: "Un'acqua naturale, per favore."
+  example_gloss: "A still water, please."
+  answers:
+    - { text: naturale, canonical: true }
+  evidence:
+    - { axis: vocab, id: naturale, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.frizzante
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: frizzante
+  front: frizzante
+  back: sparkling
+  example: "Acqua naturale o frizzante?"
+  example_gloss: "Still or sparkling water?"
+  answers:
+    - { text: frizzante, canonical: true }
+  evidence:
+    - { axis: vocab, id: frizzante, weight: 1.0 }

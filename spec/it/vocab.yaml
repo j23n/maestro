@@ -67,6 +67,8 @@
 - {id: tè, cefr_level: A0, pos: noun, gloss: tea}
 - {id: latte, cefr_level: A0, pos: noun, gloss: milk}
 - {id: birra, cefr_level: A0, pos: noun, gloss: beer}
+- {id: naturale, cefr_level: A0, pos: adj, gloss: still (of water)}
+- {id: frizzante, cefr_level: A0, pos: adj, gloss: sparkling}
 - {id: vino, cefr_level: A0, pos: noun, gloss: wine}
 - {id: pane, cefr_level: A0, pos: noun, gloss: bread}
 - {id: pizza, cefr_level: A0, pos: noun, gloss: pizza}

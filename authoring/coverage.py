@@ -34,6 +34,9 @@ from authoring.spec_schemas import DEMAND_RANK, Spec
 
 IN_SCOPE = ("A0", "A1", "A2")
 MIN_PASSES = 3
+# Mirrors folds.rs CANDO_FRACTION: a can-do closes on 80%% of its
+# decomposition, so coverage has to hold the pack to the same bar.
+CANDO_FRACTION = 0.8
 
 # What a home lesson owes the thing it introduces.
 DRILLS_PER_GRAMMAR_POINT = 6
@@ -212,7 +215,58 @@ def check_coverage(
         report.covered[axis] = covered
 
     report.findings.extend(_check_home_obligations(spec, by_lesson))
+    report.findings.extend(_check_cando_decomposition(spec, passes, in_scope))
     return report
+
+
+def _check_cando_decomposition(spec: Spec, passes, in_scope) -> list[Finding]:
+    """A can-do closes on evidence, not on its capstone alone.
+
+    ``folds.rs`` also requires 80% of the descriptor's grammar mastered
+    and 80% of its functions demonstrated, so a lesson can ship a perfect
+    capstone for a can-do whose decomposition nothing has taught yet and
+    the learner still never sees it achieved. That is a coverage gap, not
+    a runtime one: it has to be visible here.
+    """
+    homes = {
+        axis: {
+            spec_id: min(p.order for p in ps if p.kind == "introduces")
+            for spec_id, ps in by_id.items()
+            if any(p.kind == "introduces" for p in ps)
+        }
+        for axis, by_id in passes.items()
+    }
+    out: list[Finding] = []
+    for cd in spec.can_dos:
+        if cd.cefr_level not in in_scope:
+            continue
+        capstones = passes["cando"].get(cd.id, [])
+        if not capstones:
+            continue  # already reported as an orphan
+        by = max(p.order for p in capstones)
+        missing = [
+            f"{axis} {spec_id}"
+            for axis, ids in (
+                ("grammar", cd.grammar_ids),
+                ("function", cd.function_ids),
+            )
+            for spec_id in ids
+            if homes[axis].get(spec_id, (float("inf"),)) > by
+        ]
+        total = len(cd.grammar_ids) + len(cd.function_ids)
+        taught = total - len(missing)
+        if total and taught < total * CANDO_FRACTION:
+            out.append(
+                Finding(
+                    "decomposition-untaught",
+                    "cando",
+                    cd.id,
+                    f"capstoned by {capstones[-1].lesson_id} but {taught}/{total} of "
+                    f"its decomposition is taught by then — missing: "
+                    + ", ".join(missing),
+                )
+            )
+    return out
 
 
 def _check_one(

@@ -2,6 +2,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: speaking.vorrei.003
   item_type: speaking_prompt
   cefr_level: A0
@@ -15,6 +16,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: speaking.art_un_una.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -26,6 +28,7 @@
 
 - status: draft
   scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
   id: speaking.vorrei.004
   item_type: speaking_prompt
   cefr_level: A0

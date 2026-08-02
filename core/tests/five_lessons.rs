@@ -60,9 +60,14 @@ fn every_lesson_composes_a_full_session() {
                 "{ctx}: content ran out: {}",
                 plan["shortfalls"]
             );
-            assert_eq!(
-                plan["archetype"], "introduction",
-                "{ctx}: a fresh learner meets this grammar for the first time"
+            // A fresh learner meets this grammar for the first time either
+            // way; which name it goes by depends on whether the lesson
+            // declares a manifest yet. Both teach before they drill, which
+            // is what the ordering assertion below actually checks.
+            assert!(
+                plan["archetype"] == "introduction" || plan["archetype"] == "first_visit",
+                "{ctx}: expected a teaching session, got {}",
+                plan["archetype"]
             );
 
             let mut seen = HashSet::new();

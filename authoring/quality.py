@@ -36,6 +36,7 @@ from authoring.pack_schemas import (
     ReadingItem,
     SpeakingPromptItem,
     VocabCardItem,
+    TaskItem,
     WritingPromptItem,
 )
 from authoring.spec_schemas import Spec
@@ -150,6 +151,10 @@ def _raw_texts(item) -> list[str]:
         texts = [item.prompt, item.target_text, *item.variants]
     elif isinstance(item, WritingPromptItem):
         texts = [item.prompt, item.model_answer or ""]
+    elif isinstance(item, TaskItem):
+        # The rubric is English by design — it is what the learner is
+        # measured against, not what they are asked to produce.
+        texts = [item.target_text or "", *item.variants]
     elif isinstance(item, GrammarRefItem):
         texts = list(item.examples)
     return [t for t in texts if t]
