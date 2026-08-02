@@ -1,0 +1,83 @@
+{
+  "name": "a declared lesson composes from its manifest, not from its scenario's grammar list",
+  "description": "Once a lesson declares what it introduces, revisits and proves, the session is that manifest in order: teach what this lesson owns, drill it, come back to what an earlier lesson taught at the rung the lesson names, read, hear, speak, and close on the capstone that can move a can-do to achieved. Two properties matter beyond the ordering. First, the revisit slot draws pack-wide by (id x rung), not from the lesson's own items — `writing.gp_b.001` was authored for another lesson and is picked here because it is the only thing carrying gp_b at `perform`; that is what stops a third pass over a grammar point costing a third bank of drills. Second, `drill.b.001` carries gp_b too but sits at `use`, so it cannot satisfy a `perform` revisit: a rung is a floor, and receptive or scaffolded material can never close one out. Writing gets no slot of its own here because this is a first visit — the learner has just met gp_a and has nothing to compose from yet.",
+  "spec": {
+    "grammar": [
+      { "id": "gp_a", "cefr_level": "A0", "prerequisites": [] },
+      { "id": "gp_b", "cefr_level": "A0", "prerequisites": [] }
+    ],
+    "functions": [{ "id": "f_a", "cefr_level": "A0" }],
+    "scenarios": [
+      {
+        "id": "sc-uno",
+        "cefr_level": "A0",
+        "phase": 1,
+        "sequence": 1,
+        "depth_count": 2,
+        "grammar_ids": ["gp_a", "gp_b"],
+        "function_ids": ["f_a"]
+      }
+    ],
+    "lessons": [
+      {
+        "id": "sc-uno.d1",
+        "scenario_id": "sc-uno",
+        "depth": 1,
+        "cefr_level": "A0",
+        "label": "Primo giro",
+        "goal": "Order, and ask what it costs.",
+        "introduces": { "grammar": ["gp_a"], "functions": ["f_a"] },
+        "revisits": { "grammar": [{ "id": "gp_b", "demand": "perform" }] },
+        "capstones": [{ "cando": "cd_a", "demand": "use" }]
+      }
+    ],
+    "can_dos": [
+      {
+        "id": "cd_a",
+        "cefr_level": "A0",
+        "skill": "spoken_interaction",
+        "grammar_ids": ["gp_a"],
+        "function_ids": ["f_a"]
+      }
+    ],
+    "vocab": []
+  },
+  "events": [],
+  "items": [
+    { "id": "grammar_ref.gp_a", "item_type": "grammar_ref", "modality": "reading", "grammar_ids": ["gp_a"] },
+    { "id": "drill.a.001", "item_type": "drill_cloze", "grammar_ids": ["gp_a"], "demand": "use" },
+    { "id": "drill.a.002", "item_type": "drill_cloze", "grammar_ids": ["gp_a"], "demand": "use" },
+    { "id": "drill.a.003", "item_type": "drill_cloze", "grammar_ids": ["gp_a"], "demand": "use" },
+    { "id": "drill.b.001", "item_type": "drill_cloze", "grammar_ids": ["gp_b"], "demand": "use" },
+    { "id": "writing.gp_b.001", "item_type": "writing_prompt", "modality": "writing", "grammar_ids": ["gp_b"], "demand": "perform" },
+    { "id": "reading.001", "item_type": "reading", "modality": "reading", "grammar_ids": ["gp_a"], "demand": "meet" },
+    { "id": "listening.001", "item_type": "listening", "modality": "listening", "grammar_ids": ["gp_a"], "demand": "meet" },
+    { "id": "speaking.001", "item_type": "speaking_prompt", "modality": "speaking", "grammar_ids": ["gp_a"], "function_ids": ["f_a"], "demand": "use" },
+    { "id": "task.cd_a.d1", "item_type": "task", "modality": "speaking", "cando_ids": ["cd_a"], "grammar_ids": ["gp_a"], "demand": "use" },
+    { "id": "task.cd_a.d2", "item_type": "task", "modality": "speaking", "cando_ids": ["cd_a"], "grammar_ids": ["gp_a"], "demand": "perform" }
+  ],
+  "session_options": {
+    "now": 1700000000,
+    "time_budget_minutes": 15,
+    "seed": 7
+  },
+  "expect_plan": {
+    "scenario_id": "sc-uno",
+    "lesson_id": "sc-uno.d1",
+    "depth": 1,
+    "practice": false,
+    "archetype": "first_visit",
+    "activities": [
+      { "item_id": "grammar_ref.gp_a", "slot": "grammar_card" },
+      { "item_id": "drill.a.003", "slot": "new_grammar_drill" },
+      { "item_id": "drill.a.001", "slot": "new_grammar_drill" },
+      { "item_id": "drill.a.002", "slot": "new_grammar_drill" },
+      { "item_id": "writing.gp_b.001", "slot": "revisit" },
+      { "item_id": "reading.001", "slot": "reading" },
+      { "item_id": "listening.001", "slot": "listening" },
+      { "item_id": "speaking.001", "slot": "speaking" },
+      { "item_id": "task.cd_a.d1", "slot": "capstone" }
+    ],
+    "shortfalls": [{ "slot": "vocab_review", "requested": 3, "filled": 0 }]
+  }
+}

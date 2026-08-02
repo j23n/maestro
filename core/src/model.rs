@@ -324,6 +324,11 @@ fn one() -> u8 {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SessionPlan {
     pub scenario_id: Option<String>,
+    /// The lesson this session plays, when the pack declares one for this
+    /// scenario and depth. None means the composer fell back to
+    /// scenario-scoped selection.
+    #[serde(default)]
+    pub lesson_id: Option<String>,
     /// Which depth of that scenario this session plays: the learner's
     /// next unplayed one. Reported back on `scenario_completed`, which is
     /// what moves `max_depth_completed` — an event without it pins the

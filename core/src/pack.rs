@@ -144,6 +144,89 @@ pub struct SpecData {
     pub scenarios: Vec<SpecScenario>,
     pub can_dos: Vec<SpecCanDo>,
     pub vocab: Vec<SpecVocab>,
+    /// One per scenario × depth. Empty on bundles built before lessons
+    /// were objects, which is why every consumer treats a missing lesson
+    /// as "compose from the scenario" rather than as an error.
+    pub lessons: Vec<SpecLesson>,
+}
+
+impl SpecData {
+    pub fn lesson(&self, scenario_id: &str, depth: u8) -> Option<&SpecLesson> {
+        self.lessons
+            .iter()
+            .find(|l| l.scenario_id == scenario_id && l.depth == depth)
+    }
+}
+
+/// One lesson: a scenario at a depth, with what it teaches and what it
+/// comes back to (docs/plans/07 §2).
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct SpecLesson {
+    pub id: String,
+    pub scenario_id: String,
+    pub depth: u8,
+    pub cefr_level: String,
+    pub label: String,
+    /// What the learner will be able to do by the end, in plain words.
+    pub goal: String,
+    pub summary: String,
+    pub introduces: LessonIntroduces,
+    pub revisits: LessonRevisits,
+    pub capstones: Vec<LessonCapstone>,
+    pub scene_setting: String,
+    pub outro: String,
+}
+
+impl SpecLesson {
+    /// A lesson that declares nothing teaches nothing, and the composer
+    /// falls back to scenario-scoped selection. That is the state of every
+    /// lesson lifted from the pre-lesson `depths: [str]` form.
+    pub fn is_declared(&self) -> bool {
+        !self.introduces.is_empty()
+            || !self.revisits.is_empty()
+            || !self.capstones.is_empty()
+    }
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct LessonIntroduces {
+    pub grammar: Vec<String>,
+    pub functions: Vec<String>,
+    pub vocab: Vec<String>,
+}
+
+impl LessonIntroduces {
+    pub fn is_empty(&self) -> bool {
+        self.grammar.is_empty() && self.functions.is_empty() && self.vocab.is_empty()
+    }
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[serde(default)]
+pub struct LessonRevisits {
+    pub grammar: Vec<LessonRevisit>,
+    pub functions: Vec<LessonRevisit>,
+    pub vocab: Vec<LessonRevisit>,
+}
+
+impl LessonRevisits {
+    pub fn is_empty(&self) -> bool {
+        self.grammar.is_empty() && self.functions.is_empty() && self.vocab.is_empty()
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct LessonRevisit {
+    pub id: String,
+    pub demand: Demand,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct LessonCapstone {
+    pub cando: String,
+    pub demand: Demand,
 }
 
 /// Item metadata the session composer selects on (payload stays lazy).
@@ -154,6 +237,9 @@ pub struct ItemMeta {
     pub cefr_level: String,
     pub modality: String,
     pub grammar_ids: Vec<String>,
+    /// Speech acts this item exercises. Needed because a lesson revisits
+    /// functions by id, not only through the grammar that realizes them.
+    pub function_ids: Vec<String>,
     pub cando_ids: Vec<String>,
     /// Spec lemma ids (vocab-axis evidence) — the SRS scheduler's key.
     pub vocab_ids: Vec<String>,
@@ -170,7 +256,9 @@ pub struct ItemMeta {
 
 /// The authored demand ladder (docs/plans/07 §2). Maps 1:1 onto
 /// `EvidenceClass`, which is what the learner's attempt is recorded as.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Deserialize)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Deserialize, serde::Serialize,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Demand {
     /// Recognise it — a passage, a comprehension question.
@@ -310,7 +398,42 @@ pub fn load_spec(conn: &Connection) -> Result<SpecData, CoreError> {
             })?
             .collect::<Result<_, _>>()?;
     }
+    // Lessons arrived after scenarios; a bundle without the table simply
+    // has none, and the composer falls back to scenario-scoped selection.
+    if table_exists(conn, "spec_lessons")? {
+        let mut stmt = conn.prepare(
+            "SELECT id, scenario_id, depth, cefr_level, label, goal, summary,
+                    introduces, revisits, capstones, scene_setting, outro
+             FROM spec_lessons ORDER BY scenario_id, depth",
+        )?;
+        spec.lessons = stmt
+            .query_map([], |r| {
+                Ok(SpecLesson {
+                    id: r.get(0)?,
+                    scenario_id: r.get(1)?,
+                    depth: r.get(2)?,
+                    cefr_level: r.get(3)?,
+                    label: r.get(4)?,
+                    goal: r.get(5)?,
+                    summary: r.get(6)?,
+                    // Malformed blocks read as "declares nothing" rather
+                    // than failing the whole pack open: a broken lesson
+                    // should cost that lesson its manifest, not the app.
+                    introduces: json_or_default(&r.get::<_, String>(7)?),
+                    revisits: json_or_default(&r.get::<_, String>(8)?),
+                    capstones: serde_json::from_str(&r.get::<_, String>(9)?)
+                        .unwrap_or_default(),
+                    scene_setting: r.get(10)?,
+                    outro: r.get(11)?,
+                })
+            })?
+            .collect::<Result<_, _>>()?;
+    }
     Ok(spec)
+}
+
+fn json_or_default<T: Default + serde::de::DeserializeOwned>(s: &str) -> T {
+    serde_json::from_str(s).unwrap_or_default()
 }
 
 pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
@@ -333,6 +456,12 @@ pub fn list_item_meta(conn: &Connection) -> Result<Vec<ItemMeta>, CoreError> {
                     .evidence
                     .iter()
                     .filter(|e| e.axis == "grammar")
+                    .map(|e| e.id.clone())
+                    .collect(),
+                function_ids: ev
+                    .evidence
+                    .iter()
+                    .filter(|e| e.axis == "function")
                     .map(|e| e.id.clone())
                     .collect(),
                 cando_ids: ev

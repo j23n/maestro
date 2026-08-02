@@ -30,6 +30,9 @@ struct Shortfall: Codable {
 
 struct SessionPlan: Codable {
     let scenarioId: String?
+    /// The lesson this session plays, when the pack declares one. nil
+    /// means the composer fell back to scenario-scoped selection.
+    let lessonId: String?
     /// Which framing of the scenario this is. Reported back when the
     /// session ends; without it the scenario never deepens.
     let depth: UInt8
@@ -41,7 +44,8 @@ struct SessionPlan: Codable {
     let shortfalls: [Shortfall]
 
     enum CodingKeys: String, CodingKey {
-        case scenarioId = "scenario_id", depth, practice, archetype, activities
+        case scenarioId = "scenario_id", lessonId = "lesson_id"
+        case depth, practice, archetype, activities
         case targetGrammar = "target_grammar", shortfalls
     }
 }
@@ -180,6 +184,26 @@ struct WritingPayload: Codable {
         case requiredGrammar = "required_grammar"
         case requiredVocab = "required_vocab"
         case modelAnswer = "model_answer"
+    }
+}
+
+/// A lesson's capstone: the performance that proves one can-do.
+///
+/// `targetText` is nil at the `perform` rung — the build withholds it, so
+/// there is nothing on screen to copy. Scoring still has it.
+struct TaskPayload: Codable {
+    let prompt: String
+    /// speaking | writing — which of the learner's skills this proves.
+    let mode: String
+    let targetText: String?
+    let rubric: [String]
+    let minWords: Int
+    let demand: String
+
+    enum CodingKeys: String, CodingKey {
+        case prompt, mode, rubric, demand
+        case targetText = "target_text"
+        case minWords = "min_words"
     }
 }
 

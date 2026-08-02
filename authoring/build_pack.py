@@ -98,6 +98,23 @@ CREATE TABLE spec_scenarios (
     outro TEXT NOT NULL DEFAULT '',
     image TEXT NOT NULL DEFAULT ''
 );
+-- One row per lesson: a scenario at a depth, the unit the learner plays.
+-- The three blocks ride as JSON because the composer reads them whole and
+-- nothing joins on their contents (docs/plans/07 §2).
+CREATE TABLE spec_lessons (
+    id TEXT PRIMARY KEY,
+    scenario_id TEXT NOT NULL,
+    depth INTEGER NOT NULL,
+    cefr_level TEXT NOT NULL,
+    label TEXT NOT NULL DEFAULT '',
+    goal TEXT NOT NULL DEFAULT '',
+    summary TEXT NOT NULL DEFAULT '',
+    introduces TEXT NOT NULL DEFAULT '{}',
+    revisits TEXT NOT NULL DEFAULT '{}',
+    capstones TEXT NOT NULL DEFAULT '[]',
+    scene_setting TEXT NOT NULL DEFAULT '',
+    outro TEXT NOT NULL DEFAULT ''
+);
 CREATE TABLE spec_can_dos (
     id TEXT PRIMARY KEY, cefr_level TEXT NOT NULL, skill TEXT NOT NULL,
     grammar_ids TEXT NOT NULL DEFAULT '[]',
@@ -370,6 +387,29 @@ def _embed_spec(conn: sqlite3.Connection, spec) -> None:
                 s.image or "",
             )
             for s in spec.scenarios
+        ],
+    )
+    conn.executemany(
+        "INSERT INTO spec_lessons VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            (
+                lesson.id,
+                s.id,
+                depth,
+                s.level_at(depth),
+                lesson.label,
+                _unwrap(lesson.goal),
+                _unwrap(lesson.summary),
+                lesson.introduces.model_dump_json(),
+                lesson.revisits.model_dump_json(),
+                json.dumps([c.model_dump() for c in lesson.capstones]),
+                # A depth without its own framing inherits the scenario's,
+                # so a lesson always has something to open and close with.
+                _unwrap(lesson.scene_setting or s.scene_setting),
+                _unwrap(lesson.outro or s.outro),
+            )
+            for s in spec.scenarios
+            for depth, lesson in enumerate(s.depths, 1)
         ],
     )
     conn.executemany(

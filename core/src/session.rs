@@ -11,10 +11,15 @@ use crate::folds::{is_mastered, unlocked_grammar};
 use crate::model::{
     unix_day, DerivedState, PlannedActivity, SessionOptions, SessionPlan, Shortfall,
 };
-use crate::pack::{ItemMeta, SpecData, SpecScenario};
+use crate::pack::{Demand, ItemMeta, SpecData, SpecLesson, SpecScenario};
 
 const BREADTH_BEFORE_DEPTH: usize = 3;
 const APPLICATION_THRESHOLD: f64 = 0.7;
+const NEW_GRAMMAR_DRILLS: usize = 3;
+/// A lesson may declare any number of revisits; a session is still a
+/// fixed budget, so it plays the first few and the rest wait for the
+/// next visit. Coverage counts declarations, not sessions.
+const REVISIT_SLOTS_MAX: usize = 4;
 /// Vocab-review cards per full session (decision #16's known gap, closed:
 /// due SM-2 cards get a dedicated slot now that packs carry vocab items).
 const VOCAB_REVIEW_COUNT: usize = 3;
@@ -48,16 +53,34 @@ pub fn compose(
     let picked = pick_scenario(spec, state, opts.scenario_id.as_deref());
     let scenario = picked.map(|(s, _)| s);
     let depth = picked.map(|(_, d)| d).unwrap_or(1);
+    // The lesson drives composition only once it declares something. Every
+    // lesson lifted from the pre-lesson `depths: [str]` form declares
+    // nothing, so until the spec fill lands the composer behaves exactly
+    // as it did — scenario-scoped, archetype inferred from mastery.
+    let lesson = scenario
+        .and_then(|s| spec.lesson(&s.id, depth))
+        .filter(|l| l.is_declared());
 
     // ---- target grammar --------------------------------------------------
-    let mut target: Vec<String> = match &scenario {
-        Some(s) => s
+    // A declared lesson says exactly what it is about: what it teaches and
+    // what it comes back to. Otherwise the scenario's whole grammar list
+    // stands in, which is the coarser signal decision #34 works around.
+    let mut target: Vec<String> = match (lesson, &scenario) {
+        (Some(l), _) => l
+            .introduces
+            .grammar
+            .iter()
+            .chain(l.revisits.grammar.iter().map(|r| &r.id))
+            .filter(|g| unlocked.contains(*g))
+            .cloned()
+            .collect(),
+        (None, Some(s)) => s
             .grammar_ids
             .iter()
             .filter(|g| unlocked.contains(*g))
             .cloned()
             .collect(),
-        None => vec![],
+        (None, None) => vec![],
     };
     if target.is_empty() {
         // Fall back to the weakest unlocked material anywhere.
@@ -78,12 +101,22 @@ pub fn compose(
         });
     }
 
-    // ---- archetype (curriculum.py pick_archetype) ------------------------
+    // ---- archetype -------------------------------------------------------
+    // For a declared lesson the archetype is its position in the spiral,
+    // not a guess from mastery: the lesson already says whether it teaches
+    // anything. `first_visit` teaches then practises; `deeper_visit` comes
+    // back to taught material one rung up and writes.
     let new_gps: Vec<&String> = target
         .iter()
         .filter(|g| !state.grammar.get(*g).map(|s| s.introduced).unwrap_or(false))
         .collect();
-    let archetype = if !target.is_empty() && !new_gps.is_empty() {
+    let archetype = if let Some(l) = lesson {
+        if l.introduces.is_empty() {
+            "deeper_visit"
+        } else {
+            "first_visit"
+        }
+    } else if !target.is_empty() && !new_gps.is_empty() {
         "introduction"
     } else if !target.is_empty() {
         let mastered = target
@@ -105,6 +138,8 @@ pub fn compose(
     let new_gp_ids: Vec<String> = new_gps.iter().map(|s| s.to_string()).collect();
     let mut slots: Vec<(&str, Kind, usize)> = if quick {
         vec![("drill", Kind::Drill, 6)]
+    } else if let Some(l) = lesson {
+        lesson_slots(l, state)
     } else {
         // Every full session hears Italian and says Italian, whatever the
         // archetype. Reading and listening have their own slots rather than
@@ -154,7 +189,8 @@ pub fn compose(
     };
     // Vocab review closes every full session: due SM-2 cards first,
     // unseen cards to bootstrap the rotation when nothing is due.
-    if !quick {
+    // `lesson_slots` adds its own, so this is the fallback path only.
+    if !quick && lesson.is_none() {
         slots.push(("vocab_review", Kind::VocabReview, VOCAB_REVIEW_COUNT));
     }
 
@@ -227,6 +263,11 @@ pub fn compose(
 
     SessionPlan {
         scenario_id: scenario.map(|s| s.id.clone()),
+        // Only set once a lesson actually declares a manifest — an
+        // undeclared depth composed from its scenario is not a lesson the
+        // learner played, and labelling it one would make the recap claim
+        // coverage the pack has not authored.
+        lesson_id: lesson.map(|l| l.id.clone()),
         // Which framing of the scenario this is. The shell reports it
         // back on completion; without it every visit re-plays depth 1.
         depth,
@@ -248,6 +289,24 @@ enum Kind {
     Speaking,
     Writing,
     VocabReview,
+    /// Come back to one spec id, at or above a rung. Drawn pack-wide
+    /// rather than from the lesson: a third pass over `vorrei` should use
+    /// whatever `perform` material exists, wherever it was authored. That
+    /// is what keeps the spiral from tripling the content bill.
+    Revisit {
+        axis: Axis,
+        id: String,
+        demand: Demand,
+    },
+    /// The lesson's closing performance for one can-do, at its rung.
+    Capstone { cando: String, demand: Demand },
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Axis {
+    Grammar,
+    Function,
+    Vocab,
 }
 
 impl Kind {
@@ -267,19 +326,120 @@ impl Kind {
             Kind::Speaking => item.item_type == "speaking_prompt",
             Kind::Writing => item.item_type == "writing_prompt",
             Kind::VocabReview => item.item_type == "vocab_card",
+            // A revisit is defined by what it exercises and how hard, not
+            // by item family — the rung already excludes the wrong shapes
+            // (nothing receptive can satisfy a `perform` revisit).
+            Kind::Revisit { axis, id, demand } => {
+                let carries = match axis {
+                    Axis::Grammar => &item.grammar_ids,
+                    Axis::Function => &item.function_ids,
+                    Axis::Vocab => &item.vocab_ids,
+                };
+                carries.contains(id)
+                    && item.demand.is_some_and(|d| d >= *demand)
+                    // Reference pages aren't attempted, so they can't be
+                    // a pass over anything.
+                    && item.item_type != "grammar_ref"
+            }
+            Kind::Capstone { cando, demand } => {
+                item.item_type == "task"
+                    && item.cando_ids.contains(cando)
+                    && item.demand == Some(*demand)
+            }
         }
     }
 
     /// Whether an item must carry one of the slot's grammar points to be
     /// eligible at all. True for the drill and reference slots, whose whole
     /// purpose is that grammar point; false for passages, utterances and
-    /// cards, which are authored around a situation instead.
+    /// cards, which are authored around a situation instead. Revisits and
+    /// capstones name their own id in `matches`, so they need no help.
     fn requires_target_grammar(&self) -> bool {
         matches!(
             self,
             Kind::Drill | Kind::DrillTargeting(_) | Kind::GrammarRef(_)
         )
     }
+}
+
+/// A declared lesson's slot layout, in the order the learner plays it:
+/// teach what this lesson owns, drill it, come back to what earlier
+/// lessons taught, then read / hear / say / write, and close on the
+/// capstone that proves a can-do.
+///
+/// Only grammar points the learner has not already been taught get a
+/// card. A lesson's `introduces` is a claim about the curriculum, not
+/// about this learner — someone resuming mid-course may have met it.
+fn lesson_slots(lesson: &SpecLesson, state: &DerivedState) -> Vec<(&'static str, Kind, usize)> {
+    let untaught: Vec<String> = lesson
+        .introduces
+        .grammar
+        .iter()
+        .filter(|g| !state.grammar.get(*g).map(|s| s.introduced).unwrap_or(false))
+        .cloned()
+        .collect();
+
+    let mut slots: Vec<(&'static str, Kind, usize)> = Vec::new();
+    if !untaught.is_empty() {
+        slots.push(("grammar_card", Kind::GrammarRef(untaught.clone()), untaught.len()));
+        slots.push((
+            "new_grammar_drill",
+            Kind::DrillTargeting(untaught.clone()),
+            NEW_GRAMMAR_DRILLS,
+        ));
+    }
+
+    // Grammar, then functions, then lemmas — the order they matter in for
+    // a lesson that is coming back to material, and the order the budget
+    // gets spent in when a lesson declares more revisits than fit.
+    //
+    // Lemmas get slots here rather than riding the vocab-review rotation
+    // alone: a `perform` pass over a word means producing it in context,
+    // which a flashcard is not, and coverage counts the declaration — so
+    // a revisit the composer never schedules would be a lie.
+    let revisits = lesson
+        .revisits
+        .grammar
+        .iter()
+        .map(|r| (Axis::Grammar, r))
+        .chain(lesson.revisits.functions.iter().map(|r| (Axis::Function, r)))
+        .chain(lesson.revisits.vocab.iter().map(|r| (Axis::Vocab, r)))
+        .take(REVISIT_SLOTS_MAX);
+    for (axis, r) in revisits {
+        slots.push((
+            "revisit",
+            Kind::Revisit {
+                axis,
+                id: r.id.clone(),
+                demand: r.demand,
+            },
+            1,
+        ));
+    }
+
+    slots.push(("reading", Kind::Reading, 1));
+    slots.push(("listening", Kind::Listening, 1));
+    slots.push(("speaking", Kind::Speaking, 1));
+    // A learner meeting this grammar for the first time has little to
+    // compose an open answer from; a deeper visit is exactly the place.
+    if untaught.is_empty() {
+        slots.push(("writing", Kind::Writing, 1));
+    }
+    for c in &lesson.capstones {
+        slots.push((
+            "capstone",
+            Kind::Capstone {
+                cando: c.cando.clone(),
+                demand: c.demand,
+            },
+            1,
+        ));
+    }
+    // Lemma passes ride the SM-2 rotation rather than getting slots of
+    // their own: the scheduler already spaces them, and a lesson that
+    // declares eight vocab revisits should not become eight flashcards.
+    slots.push(("vocab_review", Kind::VocabReview, VOCAB_REVIEW_COUNT));
+    slots
 }
 
 /// Width of the value `rank` returns, so the tier table is sized once.

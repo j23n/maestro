@@ -280,6 +280,7 @@ fn run_session_vector(ctx: &str, vector: &Value) {
             cefr_level: v["cefr_level"].as_str().unwrap_or("A0").to_string(),
             modality: v["modality"].as_str().unwrap_or("writing").to_string(),
             grammar_ids: str_vec(&v["grammar_ids"]),
+            function_ids: str_vec(&v["function_ids"]),
             cando_ids: str_vec(&v["cando_ids"]),
             vocab_ids: str_vec(&v["vocab_ids"]),
             scenario_ids: str_vec(&v["scenario_ids"]),
@@ -303,6 +304,11 @@ fn run_session_vector(ctx: &str, vector: &Value) {
     }
     if let Some(archetype) = expect.get("archetype") {
         assert_eq!(&actual["archetype"], archetype, "{ctx}: archetype");
+    }
+    for field in ["lesson_id", "depth", "practice"] {
+        if let Some(want) = expect.get(field) {
+            assert_eq!(&actual[field], want, "{ctx}: {field}");
+        }
     }
     if let Some(activities) = expect.get("activities").and_then(Value::as_array) {
         let actual_acts: Vec<(String, String)> = actual["activities"]

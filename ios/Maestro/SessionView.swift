@@ -64,6 +64,7 @@ struct SessionView: View {
     @State private var tally = SessionTally()
     @State private var primed = false
     @State private var flagging: FlagTarget?
+    @State private var brief: LessonBrief?
 
     var body: some View {
         Group {
@@ -84,6 +85,7 @@ struct SessionView: View {
                 let known = (try? bridge.vocabulary()) ?? []
                 tally = SessionTally(
                     knownWords: Set(known.filter { $0.status != "new" }.map(\.lemma)))
+                if let id = plan.scenarioId { brief = try? bridge.lesson(scenarioId: id) }
             }
             noteWords()
         }
@@ -102,7 +104,10 @@ struct SessionView: View {
                 .background(Color.mCream)
             }
         }
-        .navigationTitle(plan.archetype.replacingOccurrences(of: "_", with: " ").capitalized)
+        // The lesson's name, not the composer's word for its shape.
+        // "Consolidation" and "First Visit" are how the machine picks a
+        // slot layout; the learner is at the bar.
+        .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         // A session is one task; the tab bar invites leaving it half-done.
         .toolbar(.hidden, for: .tabBar)
@@ -120,6 +125,13 @@ struct SessionView: View {
         .sheet(item: $flagging) { target in
             FlagSheet(bridge: bridge, itemId: target.id)
         }
+    }
+
+    /// The lesson's own name, resolved once the brief loads. A practice
+    /// run has no lesson to name, so it says what it is.
+    private var title: String {
+        if plan.practice { return "Esercizi" }
+        return brief?.label ?? "Lezione"
     }
 
     /// Teaching steps are drawn differently in the progress bar — they are
@@ -141,6 +153,10 @@ struct SessionView: View {
                 activity: activity, tally: tally, onDone: advance)
         case "speaking_prompt":
             SpeakingActivityView(
+                bridge: bridge, feedback: feedback, level: level,
+                activity: activity, onDone: advance)
+        case "task":
+            CapstoneView(
                 bridge: bridge, feedback: feedback, level: level,
                 activity: activity, onDone: advance)
         case "writing_prompt":
@@ -208,8 +224,8 @@ struct DrillView: View {
                     .padding(20)
             } else {
                 VStack(alignment: .leading, spacing: 16) {
-                    if !activity.slot.isEmpty {
-                        Badge(text: activity.slot.replacingOccurrences(of: "_", with: " "))
+                    if let label = SlotLabel.of(activity.slot) {
+                        Badge(text: label)
                     }
                     Text(payload?.prompt ?? "…")
                         .font(.title3)
@@ -353,6 +369,110 @@ struct DrillView: View {
                 response: text)
         } catch {
             loadError = "\(error)"
+        }
+    }
+}
+
+/// The lesson's last beat: the task that proves a can-do.
+///
+/// Framed as a performance rather than another exercise — the goal is
+/// stated, the success criteria are visible, and at the `perform` rung
+/// there is no model answer on screen to lean on. It routes to the two
+/// scorers that already exist rather than inventing a third.
+struct CapstoneView: View {
+    let bridge: CoreBridge
+    let feedback: FeedbackService
+    let level: String
+    let activity: PlannedActivity
+    let onDone: () -> Void
+
+    @State private var payload: TaskPayload?
+    @State private var loadError: String?
+
+    var body: some View {
+        VStack(spacing: 16) {
+            if let loadError {
+                ActivityErrorView(itemId: activity.itemId, message: loadError, onSkip: onDone)
+            } else if let payload {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 14) {
+                        Eyebrow(text: "Prova finale")
+                        Text(payload.prompt)
+                            .font(.title3)
+                            .foregroundStyle(Color.mCharcoal)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if !payload.rubric.isEmpty {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Per riuscire")
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundStyle(Color.mTextMuted)
+                                ForEach(payload.rubric, id: \.self) { line in
+                                    HStack(alignment: .top, spacing: 8) {
+                                        Image(systemName: "checkmark")
+                                            .font(.caption2)
+                                            .foregroundStyle(Color.mSage)
+                                            .padding(.top, 3)
+                                        Text(line)
+                                            .font(.footnote)
+                                            .foregroundStyle(Color.mText)
+                                    }
+                                }
+                            }
+                        }
+                        if payload.mode == "speaking" {
+                            SpeakingPracticeView(
+                                bridge: bridge,
+                                itemId: activity.itemId,
+                                // nil at `perform`: nothing to read off.
+                                target: payload.targetText ?? "",
+                                evidenceJson: bridge.evidence(for: activity.itemId),
+                                feedback: feedback,
+                                prompt: payload.prompt,
+                                level: level)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .card()
+                    .padding(20)
+                }
+                if payload.mode == "writing" {
+                    WritingActivityView(
+                        bridge: bridge, feedback: feedback, activity: activity,
+                        level: level, onDone: onDone)
+                } else {
+                    Button { onDone() } label: {
+                        Text("Continua").frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+                }
+            } else {
+                ProgressView()
+            }
+        }
+        .task {
+            do { payload = try bridge.itemPayload(TaskPayload.self, id: activity.itemId) }
+            catch { loadError = "\(error)" }
+        }
+    }
+}
+
+/// What a slot is called to the learner, where it's worth saying at all.
+///
+/// Slot names are the composer's vocabulary: `weakness_drill` says the
+/// app has decided you're bad at something, `new_grammar_drill` says
+/// nothing you can't see for yourself. Only the two that change what the
+/// learner should expect get a badge — a revisit is deliberately
+/// something they've met before, and a capstone is the thing the lesson
+/// was for.
+enum SlotLabel {
+    static func of(_ slot: String) -> String? {
+        switch slot {
+        case "revisit": return "Ripasso"
+        case "capstone": return "Prova finale"
+        default: return nil
         }
     }
 }
