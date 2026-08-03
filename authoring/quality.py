@@ -62,7 +62,7 @@ _FUNCTION_WORDS = set(
     nostro nostra nostri nostre vostro vostra vostri vostre
     questo questa questi queste quello quella quelli quelle
     c ecco po ogni
-    dov all dell nell sull dall quell
+    dov all dell nell sull dall quell cos anch
     zero uno due tre quattro cinque sei sette otto nove dieci
     undici dodici tredici quattordici quindici sedici diciassette
     diciotto diciannove venti trenta quaranta cinquanta sessanta

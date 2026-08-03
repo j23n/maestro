@@ -273,6 +273,12 @@
 - {id: perché, cefr_level: A0, pos: adv, gloss: why / because}
 - {id: chi, cefr_level: A0, pos: pron, gloss: who}
 - {id: cosa, cefr_level: A0, pos: pron, gloss: what / thing}
+# The demonstratives che_cose is built on — its own spec examples are
+# «Che cos'è questo?» and «Questo è un libro» — and pointing at a thing is
+# how an A0 learner asks about anything. Grammatical POS: they need a
+# dictionary entry and to resolve in lesson text, not a flashcard.
+- {id: questo, cefr_level: A0, pos: pron, gloss: this / this one}
+- {id: quello, cefr_level: A0, pos: pron, gloss: that / that one}
 - {id: quanto, cefr_level: A0, pos: adv, gloss: how much}
 - {id: anche, cefr_level: A0, pos: adv, gloss: also}
 - {id: subito, cefr_level: A0, pos: adv, gloss: right away}

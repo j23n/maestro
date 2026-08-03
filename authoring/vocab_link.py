@@ -30,8 +30,20 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     "fare": ("faccio", "fai", "fa", "facciamo", "fate", "fanno", "fatto"),
     "stare": ("sto", "stai", "sta", "stiamo", "state", "stanno", "stato"),
     "dare": ("do", "dai", "dà", "diamo", "date", "danno", "dato"),
-    "dire": ("dico", "dici", "dice", "diciamo", "dite", "dicono", "detto", "dica",
-             "dicevo", "dicevi", "diceva", "dicevano"),
+    "dire": (
+        "dico",
+        "dici",
+        "dice",
+        "diciamo",
+        "dite",
+        "dicono",
+        "detto",
+        "dica",
+        "dicevo",
+        "dicevi",
+        "diceva",
+        "dicevano",
+    ),
     "volere": ("voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono", "vorrei"),
     "potere": ("posso", "puoi", "può", "possiamo", "potete", "possono"),
     "dovere": ("devo", "devi", "deve", "dobbiamo", "dovete", "devono"),
@@ -53,8 +65,18 @@ _IRREGULAR: dict[str, tuple[str, ...]] = {
     "chiamarsi": ("chiamo", "chiami", "chiama", "chiamiamo", "chiamate", "chiamano"),
     # Listed in full rather than left regular: the past participle is
     # "perso", which no ending-based rule reaches from "perdere".
-    "perdere": ("perdo", "perdi", "perde", "perdiamo", "perdete", "perdono",
-                "perso", "persa", "perduto", "perdendo"),
+    "perdere": (
+        "perdo",
+        "perdi",
+        "perde",
+        "perdiamo",
+        "perdete",
+        "perdono",
+        "perso",
+        "persa",
+        "perduto",
+        "perdendo",
+    ),
 }
 
 _INVARIABLE_POS = {"art", "inter", "adv", "conj", "prep", "num", "pron", "phrase"}
@@ -77,9 +99,11 @@ _ELIDED: dict[str, str] = {
 }
 
 # Written variants that are the same word: "ad" and "ed" before a vowel,
-# and the truncations Italian makes before a masculine noun ("buon
-# giorno", "bel posto"). Keyed by lemma, so they only fire for words the
-# spec lists.
+# the truncations Italian makes before a masculine noun ("buon giorno",
+# "bel posto"), and the demonstratives — which inflect like adjectives but
+# are listed as pronouns, because pointing at a thing is grammar, not a
+# word to memorise. Keyed by lemma, so they only fire for words the spec
+# lists.
 _VARIANTS: dict[str, tuple[str, ...]] = {
     "a": ("ad",),
     "e": ("ed",),
@@ -88,6 +112,8 @@ _VARIANTS: dict[str, tuple[str, ...]] = {
     "bello": ("bel",),
     "grande": ("gran",),
     "santo": ("san",),
+    "questo": ("questa", "questi", "queste", "quest'"),
+    "quello": ("quella", "quelli", "quelle", "quell'", "quel", "quei", "quegli"),
 }
 
 # Articles and preposition-article contractions in -lo/-la elide
@@ -136,6 +162,37 @@ def _articulated_forms(lemma: str, pos: str) -> set[str]:
     return {stem + tail for tail in tails}
 
 
+# Numbers 21-99 are written as one word, and the rule that makes them is
+# closed and fully regular: tens + unit, with the tens dropping its final
+# vowel before "uno" and "otto" ("ventuno", "quarantotto") and "tre"
+# taking an accent ("ventitré"). Generated for the same reason the
+# articulated prepositions are — 72 written forms from eight lemmas —
+# and attributed to the tens, because a learner reading "quarantacinque"
+# is reading the "-anta" rule, which is exactly what num_20_100 teaches.
+_TENS = (
+    "venti",
+    "trenta",
+    "quaranta",
+    "cinquanta",
+    "sessanta",
+    "settanta",
+    "ottanta",
+    "novanta",
+)
+_UNITS = ("uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove")
+
+
+def _compound_numerals(lemma: str, pos: str) -> set[str]:
+    """The 21-99 compounds `lemma` heads, if it is a tens."""
+    if pos != "num" or lemma not in _TENS:
+        return set()
+    return {
+        (lemma[:-1] if unit in ("uno", "otto") else lemma)
+        + ("tré" if unit == "tre" else unit)
+        for unit in _UNITS
+    }
+
+
 def normalize(text: str) -> str:
     """Lowercase and unify the apostrophes Italian elision uses.
 
@@ -175,8 +232,6 @@ def _noun_forms(lemma: str) -> set[str]:
     # lemmas and get dropped, so a blanket feminine rule costs more links
     # than it wins. Animate feminines are their own dictionary entries.
     return {lemma} | _plural(lemma)
-
-
 
 
 def _adjective_forms(lemma: str) -> set[str]:
@@ -237,6 +292,7 @@ def surface_forms(lemma: str, pos: str) -> set[str]:
         forms.add(elided)
     forms |= set(_VARIANTS.get(lemma, ()))
     forms |= _articulated_forms(lemma, pos)
+    forms |= _compound_numerals(lemma, pos)
     return forms
 
 
