@@ -116,7 +116,7 @@ rotation to compete with real words.
 
 ## 3. Plan
 
-### Phase A — close the word chain (blocks everything else)
+### Phase A — close the word chain (blocks everything else) — **done**
 
 1. **Add the missing function words** to `spec/it/vocab.yaml` as A0
    entries with the new/existing grammatical POS: articles (`il la lo i
@@ -145,7 +145,7 @@ Phase A is where the "8 ambiguous forms skipped" line gets revisited too
 drops rather than guessing). Dropping them is the right default; the fix
 is to let a lemma declare a disambiguating form, not to guess.
 
-### Phase B — the 13 scenario manifests (spec only)
+### Phase B — the 13 scenario manifests (spec only) — **done**
 
 Each A0 scenario grows from one depth to three, with authored `label`,
 `goal`, `summary`, `scene_setting` and `outro` per depth, and:
@@ -162,28 +162,43 @@ Each A0 scenario grows from one depth to three, with authored `label`,
 Done when `validate --coverage` reports zero findings for every A0
 grammar point, function, can-do and lemma.
 
-### Phase C — content, scenario by scenario in sequence order
+Phase B closed the structure but not the placement, and three things
+came out of finishing it that the plan above did not anticipate:
+
+- **The can-dos had to be trimmed before the capstones could be
+  placed.** Three descriptors listed a part they do not need, which
+  pushed the achievement past the lesson that teaches the skill.
+  Decision 36.
+- **The lemma ladder is uniform**: every cardable A0 lemma is
+  introduced at its scenario's `d1`, used at `d2`, produced at `d3`.
+  Decision 37.
+- **145 already-written A0 items had a scenario but no lesson.** They
+  were re-homed mechanically, at the lesson that teaches what each one
+  exercises — cheap, and it cleared a third of the `home-missing-*`
+  findings before a line of new content was written.
+
+### Phase C — content, scenario by scenario
 
 Per scenario, the required set across its three lessons:
 
-| | per scenario | A0 total | exists |
+| | per scenario | A0 total | existed at the start of C |
 | --- | --- | --- | --- |
-| capstone tasks | 3 | 39 | 3 |
-| grammar refs | ~2 | 22 | 11 |
-| drills (6 per introduced GP) | ~12 | 132 | ~137 (re-homing needed) |
-| readings | 3 | 39 | 6 |
-| listenings | 3 | 39 | 4 |
-| speaking prompts | ~4 | 52 | 21 |
-| writing prompts | 2 | 26 | 7 |
-| vocab cards (content words) | ~16 | 210 | 37 |
+| capstone tasks | 3 (6 where two can-dos land) | 42 | 3 |
+| grammar refs | ~2 | 22 | 12 |
+| drills (6 per introduced GP) | ~12 | 132 | 124 |
+| readings | 3 | 39 | 4 |
+| listenings | 3 | 39 | 2 |
+| speaking prompts | ~2 | 17 | 17 (mostly re-homed) |
+| writing prompts | 1–2 | ~26 | 5 |
+| vocab cards (content words) | ~19 | 247 | 34 |
 
-**≈ 560 items for the band, of which ≈ 360 are new.** Vocab cards and
-listenings are the two big holes; listenings are the expensive ones,
-since each needs a dialogue and eventually audio.
+Vocab cards and listenings are the two big holes; listenings are the
+expensive ones, since each needs a dialogue and eventually audio.
 
-Order: `a0-01` → `a0-13` by `sequence`, because a lesson's revisits can
-only point at material an earlier lesson has already introduced, and
-`validate --coverage` checks exactly that ordering.
+Ordering: a lesson's revisits can only point at material an earlier
+lesson has already introduced, and `validate --coverage` checks exactly
+that. The manifests fix the ordering, so the scenarios themselves were
+authored in parallel, one agent per scenario, against the frozen spec.
 
 ### Phase D — prove it
 

@@ -557,9 +557,9 @@ Updated as steps land. §8 is the plan; this is the state.
 | 1. `demand` + capstone + coverage contract | **done** |
 | 2. `introduced` scoping, `evidence_class` from `demand`, depth on completion | **done** |
 | 3. Lesson-scoped composer | **done** |
-| 4. Spec fill (depths, bands, domains, assignment) | in progress — see 08 |
+| 4. Spec fill (depths, bands, domains, assignment) | **done for A0** — 13 scenarios, 39 lessons, every A0 grammar point, function, can-do and lemma homed; A1/A2 outstanding |
 | 5. App | in progress — lesson browser, intro screens, capstone screen, and art landed; still owed: demand-tier revisit copy, Progress grouping, resume, label disambiguation (§7) |
-| 6. Content fill | not started |
+| 6. Content fill | in progress for A0 — see 08 Phase C |
 
 Decisions taken along the way are recorded in `decisions.md`; this table
 is the index into them.
