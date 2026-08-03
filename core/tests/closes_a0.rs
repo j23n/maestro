@@ -35,9 +35,11 @@ const SCENARIOS: [&str; 13] = [
     "a0-13-ripasso",
 ];
 
-fn open() -> Option<std::sync::Arc<Core>> {
+fn open(tag: &str) -> Option<std::sync::Arc<Core>> {
     let pack_path = std::env::var_os("MAESTRO_PACK_PATH")?;
-    let learner = std::env::temp_dir().join(format!("closes-a0-{}.sqlite", std::process::id()));
+    // Per-test file: the two tests run concurrently in one process, and a
+    // shared learner db locks one of them out.
+    let learner = std::env::temp_dir().join(format!("{tag}-{}.sqlite", std::process::id()));
     let _ = std::fs::remove_file(&learner);
     Some(
         Core::open(
@@ -92,7 +94,7 @@ fn play(core: &Core, scenario: &str, depth: u8, now: i64) -> Value {
 
 #[test]
 fn a_learner_who_finishes_a0_can_do_everything_a0_claims() {
-    let Some(core) = open() else {
+    let Some(core) = open("closes-a0") else {
         eprintln!("MAESTRO_PACK_PATH not set; skipping");
         return;
     };
@@ -142,7 +144,7 @@ fn a_learner_who_finishes_a0_can_do_everything_a0_claims() {
 /// must walk the scenarios in curriculum order, not jump around.
 #[test]
 fn the_composer_walks_the_arc_in_order() {
-    let Some(core) = open() else {
+    let Some(core) = open("a0-in-order") else {
         eprintln!("MAESTRO_PACK_PATH not set; skipping");
         return;
     };
