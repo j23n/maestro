@@ -33,6 +33,8 @@ from pathlib import Path
 
 import yaml
 
+from authoring.build_pack import load_content_yaml
+
 _INDEX_NAME = "index.yaml"
 
 
@@ -167,7 +169,7 @@ def plan_jobs(pack_dir: Path, provider_ext: str) -> list[Job]:
 
     def raw_items(subdir: str):
         for f in sorted((pack_dir / subdir).glob("*.yaml")):
-            for entry in yaml.safe_load(f.read_text()) or []:
+            for entry in load_content_yaml(f.read_text()) or []:
                 yield entry
 
     for entry in raw_items("listenings"):
@@ -232,7 +234,7 @@ def _write_back(pack_dir: Path, rendered: list[Job]) -> None:
         by_subdir.setdefault(job.subdir, []).append(job)
     for subdir, jobs in by_subdir.items():
         for f in sorted((pack_dir / subdir).glob("*.yaml")):
-            entries = yaml.safe_load(f.read_text()) or []
+            entries = load_content_yaml(f.read_text()) or []
             changed = False
             for entry in entries:
                 for job in jobs:

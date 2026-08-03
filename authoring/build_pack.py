@@ -180,19 +180,47 @@ class PackSources:
         ]
 
 
+class ContentLoader(yaml.SafeLoader):
+    """SafeLoader, minus YAML 1.1's habit of reading `no` as a boolean.
+
+    In an Italian content pack `no` is a *word* — a vocab card's English
+    side, a distractor key, an accepted answer — and every time one was
+    written unquoted the build failed with a type error about booleans,
+    pointing at the schema rather than at the line. YAML 1.2 resolves
+    only `true`/`false`, which is the sane behaviour here; `yes`, `on`
+    and `off` go the same way for the same reason.
+    """
+
+
+ContentLoader.yaml_implicit_resolvers = {
+    first: [(tag, rx) for tag, rx in resolvers if tag != "tag:yaml.org,2002:bool"]
+    for first, resolvers in yaml.SafeLoader.yaml_implicit_resolvers.items()
+}
+ContentLoader.add_implicit_resolver(
+    "tag:yaml.org,2002:bool",
+    re.compile(r"^(?:true|True|TRUE|false|False|FALSE)$"),
+    list("tTfF"),
+)
+
+
+def load_content_yaml(text: str):
+    """Parse authored pack YAML. Use this, never `yaml.safe_load`."""
+    return yaml.load(text, ContentLoader)
+
+
 def load_pack_sources(pack_dir: Path) -> PackSources:
-    manifest = PackManifest(**yaml.safe_load((pack_dir / "pack.yaml").read_text()))
+    manifest = PackManifest(**load_content_yaml((pack_dir / "pack.yaml").read_text()))
 
     def load(subdir: str, model):
         out = []
         for f in sorted((pack_dir / subdir).glob("*.yaml")):
-            out.extend(model(**e) for e in yaml.safe_load(f.read_text()) or [])
+            out.extend(model(**e) for e in load_content_yaml(f.read_text()) or [])
         return out
 
     tombstones = []
     ts_file = pack_dir / "tombstones.yaml"
     if ts_file.exists():
-        tombstones = [Tombstone(**e) for e in yaml.safe_load(ts_file.read_text()) or []]
+        tombstones = [Tombstone(**e) for e in load_content_yaml(ts_file.read_text()) or []]
 
     return PackSources(
         manifest=manifest,
