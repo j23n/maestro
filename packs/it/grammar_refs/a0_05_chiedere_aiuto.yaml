@@ -3,6 +3,7 @@
 
 - status: draft
   scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: grammar_ref.prep_place
   item_type: grammar_ref
   cefr_level: A0

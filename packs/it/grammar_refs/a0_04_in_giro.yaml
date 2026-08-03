@@ -2,6 +2,7 @@
 
 - status: draft
   scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d1
   id: grammar_ref.art_il_la
   item_type: grammar_ref
   cefr_level: A0
@@ -37,6 +38,7 @@
 
 - status: draft
   scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d1
   id: grammar_ref.dove_e
   item_type: grammar_ref
   cefr_level: A0

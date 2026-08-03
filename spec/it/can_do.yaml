@@ -84,8 +84,10 @@
   skill: spoken_interaction
   label: Can ask where something is and understand a short answer with a pointing gesture.
   theme: travel
+  # No prep_place: the descriptor's own answer is a pointing gesture, which
+  # is exactly what a learner leans on before they have prepositions.
   function_ids: [a0_chiedere_dove]
-  grammar_ids: [dove_e, prep_place, art_il_la]
+  grammar_ids: [dove_e, art_il_la]
   scenario_ids: [a0-04-in-giro]
   vocab_domains: [places_city]
 
@@ -104,8 +106,10 @@
   skill: spoken_interaction
   label: Can say that they like or don't like something with "mi piace".
   theme: personal_life
+  # "non mi piace" is taught inside mi_piace itself; listing si_no_non as
+  # well would hold this closed until negation gets its own lesson.
   function_ids: [a0_esprimere_gusti]
-  grammar_ids: [mi_piace, si_no_non]
+  grammar_ids: [mi_piace]
   scenario_ids: [a0-07-mi-piace]
   vocab_domains: [food_drink, free_time]
 
@@ -114,9 +118,11 @@
   skill: spoken_interaction
   label: Can attract attention politely and ask for help when something is wrong.
   theme: services
-  function_ids: [a0_chiedere_aiuto, a0_scusarsi, a0_descrivere_problema]
-  grammar_ids: [polite_exp, avere_pre]
-  scenario_ids: [a0-05-chiedere-aiuto, a0-11-un-problema]
+  # Attracting attention and asking for help; saying *what* is wrong is
+  # a0_descrivere_problema's job, and belongs to its own later lesson.
+  function_ids: [a0_chiedere_aiuto, a0_scusarsi]
+  grammar_ids: [polite_exp]
+  scenario_ids: [a0-05-chiedere-aiuto]
   vocab_domains: [emergencies]
 
 - id: a0.buy_ticket

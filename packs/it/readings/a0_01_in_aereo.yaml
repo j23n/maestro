@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: reading.in_aereo.001
   cefr_level: A0
   title: In aereo

@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: speaking.polite_exp.003
   item_type: speaking_prompt
   cefr_level: A0
@@ -17,6 +18,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: speaking.prep_place.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -30,6 +32,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: speaking.polite_exp.004
   item_type: speaking_prompt
   cefr_level: A0

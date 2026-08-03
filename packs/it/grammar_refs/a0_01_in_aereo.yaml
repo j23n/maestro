@@ -5,6 +5,7 @@
 
 - status: draft
   scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d1
   id: grammar_ref.saluti
   item_type: grammar_ref
   cefr_level: A0
@@ -42,6 +43,7 @@
 
 - status: draft
   scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d1
   id: grammar_ref.polite_exp
   item_type: grammar_ref
   cefr_level: A0
@@ -76,6 +78,7 @@
 
 - status: draft
   scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d1
   id: grammar_ref.pronun_bas
   item_type: grammar_ref
   cefr_level: A0

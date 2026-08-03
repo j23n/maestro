@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: reading.chiedere_aiuto.001
   cefr_level: A0
   title: Ho perso la valigia

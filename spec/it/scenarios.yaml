@@ -19,6 +19,33 @@
       - a0_salutare
       - a0_ringraziare
       - a0_rispondere_si_no
+      vocab:
+      - a bordo
+      - aereo
+      - arrivederci
+      - assistente
+      - bene
+      - benvenuto
+      - buonanotte
+      - buonasera
+      - buongiorno
+      - ciao
+      - cortesia
+      - ecco
+      - grazie
+      - in piedi
+      - male
+      - 'no'
+      - non
+      - per favore
+      - prego
+      - salve
+      - scusa
+      - scusi
+      - signora
+      - signore
+      - sì
+      - volo
     capstones:
     - cando: a0.catch_courtesy
       demand: use
@@ -43,6 +70,59 @@
       - id: a0_ringraziare
         demand: use
       - id: a0_rispondere_si_no
+        demand: use
+      vocab:
+      - id: a bordo
+        demand: use
+      - id: aereo
+        demand: use
+      - id: arrivederci
+        demand: use
+      - id: assistente
+        demand: use
+      - id: bene
+        demand: use
+      - id: benvenuto
+        demand: use
+      - id: buonanotte
+        demand: use
+      - id: buonasera
+        demand: use
+      - id: buongiorno
+        demand: use
+      - id: ciao
+        demand: use
+      - id: cortesia
+        demand: use
+      - id: ecco
+        demand: use
+      - id: grazie
+        demand: use
+      - id: in piedi
+        demand: use
+      - id: male
+        demand: use
+      - id: 'no'
+        demand: use
+      - id: non
+        demand: use
+      - id: per favore
+        demand: use
+      - id: prego
+        demand: use
+      - id: salve
+        demand: use
+      - id: scusa
+        demand: use
+      - id: scusi
+        demand: use
+      - id: signora
+        demand: use
+      - id: signore
+        demand: use
+      - id: sì
+        demand: use
+      - id: volo
         demand: use
     capstones:
     - cando: a0.catch_courtesy
@@ -76,6 +156,59 @@
       - id: a0_ringraziare
         demand: perform
       - id: a0_rispondere_si_no
+        demand: perform
+      vocab:
+      - id: a bordo
+        demand: perform
+      - id: aereo
+        demand: perform
+      - id: arrivederci
+        demand: perform
+      - id: assistente
+        demand: perform
+      - id: bene
+        demand: perform
+      - id: benvenuto
+        demand: perform
+      - id: buonanotte
+        demand: perform
+      - id: buonasera
+        demand: perform
+      - id: buongiorno
+        demand: perform
+      - id: ciao
+        demand: perform
+      - id: cortesia
+        demand: perform
+      - id: ecco
+        demand: perform
+      - id: grazie
+        demand: perform
+      - id: in piedi
+        demand: perform
+      - id: male
+        demand: perform
+      - id: 'no'
+        demand: perform
+      - id: non
+        demand: perform
+      - id: per favore
+        demand: perform
+      - id: prego
+        demand: perform
+      - id: salve
+        demand: perform
+      - id: scusa
+        demand: perform
+      - id: scusi
+        demand: perform
+      - id: signora
+        demand: perform
+      - id: signore
+        demand: perform
+      - id: sì
+        demand: perform
+      - id: volo
         demand: perform
     capstones:
     - cando: a0.catch_courtesy
@@ -132,6 +265,36 @@
       - a0_presentarsi
       - a0_dire_nome
       - a0_contare
+      vocab:
+      - albergo
+      - camera
+      - chiamarsi
+      - chiave
+      - cinque
+      - diciannove
+      - diciassette
+      - diciotto
+      - dieci
+      - dodici
+      - due
+      - nome
+      - nove
+      - numero
+      - otto
+      - prenotazione
+      - presentazione
+      - quattordici
+      - quattro
+      - quindici
+      - sedici
+      - sei
+      - sette
+      - tre
+      - tredici
+      - undici
+      - uno
+      - venti
+      - zero
     revisits:
       grammar:
       - id: saluti
@@ -141,6 +304,9 @@
         demand: perform
     outro: You gave your name and caught your room number on the first hearing. The lift is on the
       left.
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: use
   - id: a0-02-in-albergo.d2
     cefr_level: A0
     label: La chiave
@@ -162,6 +328,65 @@
         demand: use
       - id: a0_contare
         demand: use
+      vocab:
+      - id: albergo
+        demand: use
+      - id: camera
+        demand: use
+      - id: chiamarsi
+        demand: use
+      - id: chiave
+        demand: use
+      - id: cinque
+        demand: use
+      - id: diciannove
+        demand: use
+      - id: diciassette
+        demand: use
+      - id: diciotto
+        demand: use
+      - id: dieci
+        demand: use
+      - id: dodici
+        demand: use
+      - id: due
+        demand: use
+      - id: nome
+        demand: use
+      - id: nove
+        demand: use
+      - id: numero
+        demand: use
+      - id: otto
+        demand: use
+      - id: prenotazione
+        demand: use
+      - id: presentazione
+        demand: use
+      - id: quattordici
+        demand: use
+      - id: quattro
+        demand: use
+      - id: quindici
+        demand: use
+      - id: sedici
+        demand: use
+      - id: sei
+        demand: use
+      - id: sette
+        demand: use
+      - id: tre
+        demand: use
+      - id: tredici
+        demand: use
+      - id: undici
+        demand: use
+      - id: uno
+        demand: use
+      - id: venti
+        demand: use
+      - id: zero
+        demand: use
     scene_setting: 'It is eleven at night and the front door is locked. Behind the desk
 
       there is a different receptionist — he has never seen you, and your
@@ -170,6 +395,9 @@
 
       '
     outro: A name, a number, a key. Two sentences and you were upstairs.
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: use
   - id: a0-02-in-albergo.d3
     cefr_level: A0
     label: A colazione
@@ -196,6 +424,65 @@
         demand: perform
       - id: a0_salutare
         demand: perform
+      vocab:
+      - id: albergo
+        demand: perform
+      - id: camera
+        demand: perform
+      - id: chiamarsi
+        demand: perform
+      - id: chiave
+        demand: perform
+      - id: cinque
+        demand: perform
+      - id: diciannove
+        demand: perform
+      - id: diciassette
+        demand: perform
+      - id: diciotto
+        demand: perform
+      - id: dieci
+        demand: perform
+      - id: dodici
+        demand: perform
+      - id: due
+        demand: perform
+      - id: nome
+        demand: perform
+      - id: nove
+        demand: perform
+      - id: numero
+        demand: perform
+      - id: otto
+        demand: perform
+      - id: prenotazione
+        demand: perform
+      - id: presentazione
+        demand: perform
+      - id: quattordici
+        demand: perform
+      - id: quattro
+        demand: perform
+      - id: quindici
+        demand: perform
+      - id: sedici
+        demand: perform
+      - id: sei
+        demand: perform
+      - id: sette
+        demand: perform
+      - id: tre
+        demand: perform
+      - id: tredici
+        demand: perform
+      - id: undici
+        demand: perform
+      - id: uno
+        demand: perform
+      - id: venti
+        demand: perform
+      - id: zero
+        demand: perform
     scene_setting: 'Breakfast room, half past eight. The waiter wants your room number
 
       before he brings anything, and the woman at the next table has
@@ -207,6 +494,9 @@
       '
     outro: You introduced yourself to someone who was not paid to be patient with you. That counts
       for more than the check-in did.
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: use
   grammar_ids:
   - mi_chiamo
   - num_0_20
@@ -260,6 +550,17 @@
       - conto
       - naturale
       - frizzante
+      - banco
+      - barista
+      - bicchiere
+      - birra
+      - bottiglia
+      - colazione
+      - latte
+      - tazza
+      - tè
+      - vino
+      - zucchero
     capstones:
     - cando: a0.order_something
       demand: use
@@ -297,6 +598,28 @@
       - id: naturale
         demand: use
       - id: frizzante
+        demand: use
+      - id: banco
+        demand: use
+      - id: barista
+        demand: use
+      - id: bicchiere
+        demand: use
+      - id: birra
+        demand: use
+      - id: bottiglia
+        demand: use
+      - id: colazione
+        demand: use
+      - id: latte
+        demand: use
+      - id: tazza
+        demand: use
+      - id: tè
+        demand: use
+      - id: vino
+        demand: use
+      - id: zucchero
         demand: use
     capstones:
     - cando: a0.order_something
@@ -343,6 +666,28 @@
       - id: naturale
         demand: perform
       - id: frizzante
+        demand: perform
+      - id: banco
+        demand: perform
+      - id: barista
+        demand: perform
+      - id: bicchiere
+        demand: perform
+      - id: birra
+        demand: perform
+      - id: bottiglia
+        demand: perform
+      - id: colazione
+        demand: perform
+      - id: latte
+        demand: perform
+      - id: tazza
+        demand: perform
+      - id: tè
+        demand: perform
+      - id: vino
+        demand: perform
+      - id: zucchero
         demand: perform
     capstones:
     - cando: a0.order_something
@@ -391,11 +736,34 @@
       functions:
       - a0_chiedere_dove
       - a0_scusarsi
+      vocab:
+      - banca
+      - casa
+      - centro
+      - chiesa
+      - città
+      - dove
+      - entrata
+      - lì
+      - mare
+      - mercato
+      - museo
+      - negozio
+      - piazza
+      - porta
+      - qui
+      - strada
+      - supermercato
+      - uscita
+      - via
     revisits:
       grammar:
       - id: art_un_una
         demand: perform
     outro: You stopped someone in the street and understood the answer. The map was only ever a backup.
+    capstones:
+    - cando: a0.ask_where
+      demand: use
   - id: a0-04-in-giro.d2
     cefr_level: A0
     label: Il museo chiuso
@@ -418,6 +786,45 @@
         demand: use
       - id: a0_chiedere_cortesemente
         demand: perform
+      vocab:
+      - id: banca
+        demand: use
+      - id: casa
+        demand: use
+      - id: centro
+        demand: use
+      - id: chiesa
+        demand: use
+      - id: città
+        demand: use
+      - id: dove
+        demand: use
+      - id: entrata
+        demand: use
+      - id: lì
+        demand: use
+      - id: mare
+        demand: use
+      - id: mercato
+        demand: use
+      - id: museo
+        demand: use
+      - id: negozio
+        demand: use
+      - id: piazza
+        demand: use
+      - id: porta
+        demand: use
+      - id: qui
+        demand: use
+      - id: strada
+        demand: use
+      - id: supermercato
+        demand: use
+      - id: uscita
+        demand: use
+      - id: via
+        demand: use
     scene_setting: 'The museo is shut — a handwritten sign taped to the door, and you
 
       cannot read it. There is a farmacia somewhere near here, and a bar
@@ -428,6 +835,9 @@
 
       '
     outro: One plan failed and you asked your way into another. Dov'è works on anyone standing still.
+    capstones:
+    - cando: a0.ask_where
+      demand: use
   - id: a0-04-in-giro.d3
     cefr_level: A0
     label: Senza mappa
@@ -452,6 +862,45 @@
         demand: perform
       - id: a0_salutare
         demand: perform
+      vocab:
+      - id: banca
+        demand: perform
+      - id: casa
+        demand: perform
+      - id: centro
+        demand: perform
+      - id: chiesa
+        demand: perform
+      - id: città
+        demand: perform
+      - id: dove
+        demand: perform
+      - id: entrata
+        demand: perform
+      - id: lì
+        demand: perform
+      - id: mare
+        demand: perform
+      - id: mercato
+        demand: perform
+      - id: museo
+        demand: perform
+      - id: negozio
+        demand: perform
+      - id: piazza
+        demand: perform
+      - id: porta
+        demand: perform
+      - id: qui
+        demand: perform
+      - id: strada
+        demand: perform
+      - id: supermercato
+        demand: perform
+      - id: uscita
+        demand: perform
+      - id: via
+        demand: perform
     scene_setting: 'Your phone died an hour ago and the paper map is back at the hotel.
 
       You have the name of a street and nothing else. Two people are
@@ -462,6 +911,9 @@
 
       '
     outro: No map, no phone, no screen to point at. You asked, you listened, and you arrived.
+    capstones:
+    - cando: a0.ask_where
+      demand: perform
   grammar_ids:
   - art_il_la
   - dove_e
@@ -500,6 +952,20 @@
       - prep_place
       functions:
       - a0_chiedere_aiuto
+      vocab:
+      - aiutare
+      - aiuto
+      - bagno
+      - capire
+      - certo
+      - farmacia
+      - forse
+      - informazione
+      - ospedale
+      - parlare
+      - sapere
+      - subito
+      - va bene
     revisits:
       grammar:
       - id: dove_e
@@ -512,7 +978,7 @@
       - id: a0_scusarsi
         demand: perform
     capstones:
-    - cando: a0.ask_where
+    - cando: a0.ask_for_help
       demand: use
     outro: Non ho capito is not an admission of failure. It is the sentence that keeps the conversation
       in Italian.
@@ -542,8 +1008,35 @@
         demand: perform
       - id: a0_chiedere_cortesemente
         demand: perform
+      vocab:
+      - id: aiutare
+        demand: use
+      - id: aiuto
+        demand: use
+      - id: bagno
+        demand: use
+      - id: capire
+        demand: use
+      - id: certo
+        demand: use
+      - id: farmacia
+        demand: use
+      - id: forse
+        demand: use
+      - id: informazione
+        demand: use
+      - id: ospedale
+        demand: use
+      - id: parlare
+        demand: use
+      - id: sapere
+        demand: use
+      - id: subito
+        demand: use
+      - id: va bene
+        demand: use
     capstones:
-    - cando: a0.ask_where
+    - cando: a0.ask_for_help
       demand: use
     scene_setting: 'You ask the man at the newsstand where the station is and he
 
@@ -580,8 +1073,35 @@
         demand: perform
       - id: a0_scusarsi
         demand: perform
+      vocab:
+      - id: aiutare
+        demand: perform
+      - id: aiuto
+        demand: perform
+      - id: bagno
+        demand: perform
+      - id: capire
+        demand: perform
+      - id: certo
+        demand: perform
+      - id: farmacia
+        demand: perform
+      - id: forse
+        demand: perform
+      - id: informazione
+        demand: perform
+      - id: ospedale
+        demand: perform
+      - id: parlare
+        demand: perform
+      - id: sapere
+        demand: perform
+      - id: subito
+        demand: perform
+      - id: va bene
+        demand: perform
     capstones:
-    - cando: a0.ask_where
+    - cando: a0.ask_for_help
       demand: perform
     scene_setting: 'It is late, you are on the wrong side of the river, and the only
 
@@ -633,6 +1153,33 @@
       - che_cose
       functions:
       - a0_identificare
+      vocab:
+      - bere
+      - carne
+      - cena
+      - dolce
+      - formaggio
+      - frutta
+      - gelato
+      - insalata
+      - mangiare
+      - mela
+      - menù
+      - ordinare
+      - pane
+      - panino
+      - pasta
+      - pesce
+      - piatto
+      - pizza
+      - pollo
+      - pomodoro
+      - pranzo
+      - prosciutto
+      - ristorante
+      - sale
+      - spaghetti
+      - tavolo
     revisits:
       grammar:
       - id: vocab_cibo
@@ -665,6 +1212,59 @@
         demand: use
       - id: a0_ordinare
         demand: perform
+      vocab:
+      - id: bere
+        demand: use
+      - id: carne
+        demand: use
+      - id: cena
+        demand: use
+      - id: dolce
+        demand: use
+      - id: formaggio
+        demand: use
+      - id: frutta
+        demand: use
+      - id: gelato
+        demand: use
+      - id: insalata
+        demand: use
+      - id: mangiare
+        demand: use
+      - id: mela
+        demand: use
+      - id: menù
+        demand: use
+      - id: ordinare
+        demand: use
+      - id: pane
+        demand: use
+      - id: panino
+        demand: use
+      - id: pasta
+        demand: use
+      - id: pesce
+        demand: use
+      - id: piatto
+        demand: use
+      - id: pizza
+        demand: use
+      - id: pollo
+        demand: use
+      - id: pomodoro
+        demand: use
+      - id: pranzo
+        demand: use
+      - id: prosciutto
+        demand: use
+      - id: ristorante
+        demand: use
+      - id: sale
+        demand: use
+      - id: spaghetti
+        demand: use
+      - id: tavolo
+        demand: use
     capstones:
     - cando: a0.identify_things
       demand: use
@@ -696,6 +1296,59 @@
       - id: a0_identificare
         demand: perform
       - id: a0_chiedere_cortesemente
+        demand: perform
+      vocab:
+      - id: bere
+        demand: perform
+      - id: carne
+        demand: perform
+      - id: cena
+        demand: perform
+      - id: dolce
+        demand: perform
+      - id: formaggio
+        demand: perform
+      - id: frutta
+        demand: perform
+      - id: gelato
+        demand: perform
+      - id: insalata
+        demand: perform
+      - id: mangiare
+        demand: perform
+      - id: mela
+        demand: perform
+      - id: menù
+        demand: perform
+      - id: ordinare
+        demand: perform
+      - id: pane
+        demand: perform
+      - id: panino
+        demand: perform
+      - id: pasta
+        demand: perform
+      - id: pesce
+        demand: perform
+      - id: piatto
+        demand: perform
+      - id: pizza
+        demand: perform
+      - id: pollo
+        demand: perform
+      - id: pomodoro
+        demand: perform
+      - id: pranzo
+        demand: perform
+      - id: prosciutto
+        demand: perform
+      - id: ristorante
+        demand: perform
+      - id: sale
+        demand: perform
+      - id: spaghetti
+        demand: perform
+      - id: tavolo
         demand: perform
     capstones:
     - cando: a0.identify_things
@@ -750,6 +1403,17 @@
       - art_i_le
       functions:
       - a0_esprimere_gusti
+      vocab:
+      - altro
+      - anche
+      - bello
+      - buono
+      - contento
+      - molto
+      - musica
+      - piacere
+      - poco
+      - tempo
     revisits:
       grammar:
       - id: art_il_la
@@ -760,6 +1424,9 @@
       - id: a0_rispondere_si_no
         demand: perform
     outro: You said what you thought of the pasta, and it came out as more than sì.
+    capstones:
+    - cando: a0.say_likes
+      demand: use
   - id: a0-07-mi-piace.d2
     cefr_level: A0
     label: Il gelato
@@ -779,6 +1446,27 @@
         demand: use
       - id: a0_ordinare
         demand: perform
+      vocab:
+      - id: altro
+        demand: use
+      - id: anche
+        demand: use
+      - id: bello
+        demand: use
+      - id: buono
+        demand: use
+      - id: contento
+        demand: use
+      - id: molto
+        demand: use
+      - id: musica
+        demand: use
+      - id: piacere
+        demand: use
+      - id: poco
+        demand: use
+      - id: tempo
+        demand: use
     scene_setting: 'Giulia takes you to the gelateria she grew up next to. There are
 
       thirty tubs behind the glass and she wants to know which ones you
@@ -789,6 +1477,9 @@
 
       '
     outro: Two flavours in, one flatly refused. That is a preference, said out loud.
+    capstones:
+    - cando: a0.say_likes
+      demand: use
   - id: a0-07-mi-piace.d3
     cefr_level: A0
     label: Gusti diversi
@@ -808,6 +1499,27 @@
         demand: perform
       - id: a0_rispondere_si_no
         demand: perform
+      vocab:
+      - id: altro
+        demand: perform
+      - id: anche
+        demand: perform
+      - id: bello
+        demand: perform
+      - id: buono
+        demand: perform
+      - id: contento
+        demand: perform
+      - id: molto
+        demand: perform
+      - id: musica
+        demand: perform
+      - id: piacere
+        demand: perform
+      - id: poco
+        demand: perform
+      - id: tempo
+        demand: perform
     scene_setting: 'Dinner at Giulia''s, and the fish arrives whole, with its head on.
 
       She loves it. She has already said so twice. Nobody has asked you
@@ -816,6 +1528,9 @@
 
       '
     outro: You disagreed with Giulia about the fish and said why. Nobody switched to English.
+    capstones:
+    - cando: a0.say_likes
+      demand: perform
   grammar_ids:
   - mi_piace
   - art_i_le
@@ -857,6 +1572,46 @@
       - ore_giorni
       functions:
       - a0_dire_ora
+      vocab:
+      - adesso
+      - anno
+      - cento
+      - cinquanta
+      - costare
+      - domani
+      - domenica
+      - euro
+      - giornata
+      - giorno
+      - giovedì
+      - ieri
+      - lunedì
+      - martedì
+      - mattina
+      - mercoledì
+      - mese
+      - mille
+      - momento
+      - notte
+      - novanta
+      - oggi
+      - ora
+      - ottanta
+      - pagare
+      - pomeriggio
+      - prezzo
+      - quando
+      - quanto
+      - quaranta
+      - sabato
+      - sempre
+      - sera
+      - sessanta
+      - settanta
+      - settimana
+      - soldi
+      - trenta
+      - venerdì
     revisits:
       grammar:
       - id: num_0_20
@@ -891,6 +1646,85 @@
         demand: use
       - id: a0_contare
         demand: perform
+      vocab:
+      - id: adesso
+        demand: use
+      - id: anno
+        demand: use
+      - id: cento
+        demand: use
+      - id: cinquanta
+        demand: use
+      - id: costare
+        demand: use
+      - id: domani
+        demand: use
+      - id: domenica
+        demand: use
+      - id: euro
+        demand: use
+      - id: giornata
+        demand: use
+      - id: giorno
+        demand: use
+      - id: giovedì
+        demand: use
+      - id: ieri
+        demand: use
+      - id: lunedì
+        demand: use
+      - id: martedì
+        demand: use
+      - id: mattina
+        demand: use
+      - id: mercoledì
+        demand: use
+      - id: mese
+        demand: use
+      - id: mille
+        demand: use
+      - id: momento
+        demand: use
+      - id: notte
+        demand: use
+      - id: novanta
+        demand: use
+      - id: oggi
+        demand: use
+      - id: ora
+        demand: use
+      - id: ottanta
+        demand: use
+      - id: pagare
+        demand: use
+      - id: pomeriggio
+        demand: use
+      - id: prezzo
+        demand: use
+      - id: quando
+        demand: use
+      - id: quanto
+        demand: use
+      - id: quaranta
+        demand: use
+      - id: sabato
+        demand: use
+      - id: sempre
+        demand: use
+      - id: sera
+        demand: use
+      - id: sessanta
+        demand: use
+      - id: settanta
+        demand: use
+      - id: settimana
+        demand: use
+      - id: soldi
+        demand: use
+      - id: trenta
+        demand: use
+      - id: venerdì
+        demand: use
     capstones:
     - cando: a0.numbers_prices
       demand: use
@@ -921,6 +1755,85 @@
       - id: a0_dire_ora
         demand: perform
       - id: a0_contare
+        demand: perform
+      vocab:
+      - id: adesso
+        demand: perform
+      - id: anno
+        demand: perform
+      - id: cento
+        demand: perform
+      - id: cinquanta
+        demand: perform
+      - id: costare
+        demand: perform
+      - id: domani
+        demand: perform
+      - id: domenica
+        demand: perform
+      - id: euro
+        demand: perform
+      - id: giornata
+        demand: perform
+      - id: giorno
+        demand: perform
+      - id: giovedì
+        demand: perform
+      - id: ieri
+        demand: perform
+      - id: lunedì
+        demand: perform
+      - id: martedì
+        demand: perform
+      - id: mattina
+        demand: perform
+      - id: mercoledì
+        demand: perform
+      - id: mese
+        demand: perform
+      - id: mille
+        demand: perform
+      - id: momento
+        demand: perform
+      - id: notte
+        demand: perform
+      - id: novanta
+        demand: perform
+      - id: oggi
+        demand: perform
+      - id: ora
+        demand: perform
+      - id: ottanta
+        demand: perform
+      - id: pagare
+        demand: perform
+      - id: pomeriggio
+        demand: perform
+      - id: prezzo
+        demand: perform
+      - id: quando
+        demand: perform
+      - id: quanto
+        demand: perform
+      - id: quaranta
+        demand: perform
+      - id: sabato
+        demand: perform
+      - id: sempre
+        demand: perform
+      - id: sera
+        demand: perform
+      - id: sessanta
+        demand: perform
+      - id: settanta
+        demand: perform
+      - id: settimana
+        demand: perform
+      - id: soldi
+        demand: perform
+      - id: trenta
+        demand: perform
+      - id: venerdì
         demand: perform
     capstones:
     - cando: a0.numbers_prices
@@ -977,6 +1890,31 @@
       - vocab_viaggio
       functions:
       - a0_comprare_biglietto
+      vocab:
+      - aeroporto
+      - andare
+      - aperto
+      - arrivare
+      - autobus
+      - bagaglio
+      - biglietto
+      - binario
+      - breve
+      - chiuso
+      - comprare
+      - documento
+      - libero
+      - macchina
+      - occupato
+      - partire
+      - passaporto
+      - prendere
+      - stazione
+      - taxi
+      - treno
+      - valigia
+      - veloce
+      - venire
     revisits:
       grammar:
       - id: vorrei
@@ -1015,6 +1953,55 @@
         demand: use
       - id: a0_identificare
         demand: perform
+      vocab:
+      - id: aeroporto
+        demand: use
+      - id: andare
+        demand: use
+      - id: aperto
+        demand: use
+      - id: arrivare
+        demand: use
+      - id: autobus
+        demand: use
+      - id: bagaglio
+        demand: use
+      - id: biglietto
+        demand: use
+      - id: binario
+        demand: use
+      - id: breve
+        demand: use
+      - id: chiuso
+        demand: use
+      - id: comprare
+        demand: use
+      - id: documento
+        demand: use
+      - id: libero
+        demand: use
+      - id: macchina
+        demand: use
+      - id: occupato
+        demand: use
+      - id: partire
+        demand: use
+      - id: passaporto
+        demand: use
+      - id: prendere
+        demand: use
+      - id: stazione
+        demand: use
+      - id: taxi
+        demand: use
+      - id: treno
+        demand: use
+      - id: valigia
+        demand: use
+      - id: veloce
+        demand: use
+      - id: venire
+        demand: use
     capstones:
     - cando: a0.buy_ticket
       demand: use
@@ -1049,6 +2036,55 @@
       - id: a0_identificare
         demand: perform
       - id: a0_chiedere_dove
+        demand: perform
+      vocab:
+      - id: aeroporto
+        demand: perform
+      - id: andare
+        demand: perform
+      - id: aperto
+        demand: perform
+      - id: arrivare
+        demand: perform
+      - id: autobus
+        demand: perform
+      - id: bagaglio
+        demand: perform
+      - id: biglietto
+        demand: perform
+      - id: binario
+        demand: perform
+      - id: breve
+        demand: perform
+      - id: chiuso
+        demand: perform
+      - id: comprare
+        demand: perform
+      - id: documento
+        demand: perform
+      - id: libero
+        demand: perform
+      - id: macchina
+        demand: perform
+      - id: occupato
+        demand: perform
+      - id: partire
+        demand: perform
+      - id: passaporto
+        demand: perform
+      - id: prendere
+        demand: perform
+      - id: stazione
+        demand: perform
+      - id: taxi
+        demand: perform
+      - id: treno
+        demand: perform
+      - id: valigia
+        demand: perform
+      - id: veloce
+        demand: perform
+      - id: venire
         demand: perform
     capstones:
     - cando: a0.buy_ticket
@@ -1108,6 +2144,26 @@
       - essere_pre
       - subj_pron
       - simp_sent
+      vocab:
+      - abitare
+      - amica
+      - amico
+      - come
+      - essere
+      - fare
+      - inglese
+      - italiano
+      - lavorare
+      - mio
+      - perché
+      - salutare
+      - stare
+      - studente
+      - studentessa
+      - studiare
+      - suo
+      - telefono
+      - tuo
     capstones:
     - cando: a0.say_who_i_am
       demand: use
@@ -1124,6 +2180,45 @@
       - id: subj_pron
         demand: use
       - id: simp_sent
+        demand: use
+      vocab:
+      - id: abitare
+        demand: use
+      - id: amica
+        demand: use
+      - id: amico
+        demand: use
+      - id: come
+        demand: use
+      - id: essere
+        demand: use
+      - id: fare
+        demand: use
+      - id: inglese
+        demand: use
+      - id: italiano
+        demand: use
+      - id: lavorare
+        demand: use
+      - id: mio
+        demand: use
+      - id: perché
+        demand: use
+      - id: salutare
+        demand: use
+      - id: stare
+        demand: use
+      - id: studente
+        demand: use
+      - id: studentessa
+        demand: use
+      - id: studiare
+        demand: use
+      - id: suo
+        demand: use
+      - id: telefono
+        demand: use
+      - id: tuo
         demand: use
     capstones:
     - cando: a0.say_who_i_am
@@ -1151,6 +2246,45 @@
       - id: subj_pron
         demand: perform
       - id: simp_sent
+        demand: perform
+      vocab:
+      - id: abitare
+        demand: perform
+      - id: amica
+        demand: perform
+      - id: amico
+        demand: perform
+      - id: come
+        demand: perform
+      - id: essere
+        demand: perform
+      - id: fare
+        demand: perform
+      - id: inglese
+        demand: perform
+      - id: italiano
+        demand: perform
+      - id: lavorare
+        demand: perform
+      - id: mio
+        demand: perform
+      - id: perché
+        demand: perform
+      - id: salutare
+        demand: perform
+      - id: stare
+        demand: perform
+      - id: studente
+        demand: perform
+      - id: studentessa
+        demand: perform
+      - id: studiare
+        demand: perform
+      - id: suo
+        demand: perform
+      - id: telefono
+        demand: perform
+      - id: tuo
         demand: perform
     capstones:
     - cando: a0.say_who_i_am
@@ -1200,12 +2334,32 @@
       - si_no_non
       functions:
       - a0_descrivere_problema
+      vocab:
+      - aspettare
+      - avere
+      - caldo
+      - caro
+      - cercare
+      - desiderare
+      - dire
+      - entrare
+      - fame
+      - freddo
+      - grande
+      - nuovo
+      - ogni
+      - piccolo
+      - pieno
+      - potere
+      - problema
+      - pronto
+      - sentire
+      - stanco
+      - trovare
+      - vedere
+      - volere
     capstones:
     - cando: a0.yes_no_answers
-      demand: use
-    - cando: a0.say_likes
-      demand: use
-    - cando: a0.ask_for_help
       demand: use
     outro: Ho un problema. Three words, and the person opposite starts helping instead of guessing.
   - id: a0-11-un-problema.d2
@@ -1222,12 +2376,55 @@
       functions:
       - id: a0_descrivere_problema
         demand: use
+      vocab:
+      - id: aspettare
+        demand: use
+      - id: avere
+        demand: use
+      - id: caldo
+        demand: use
+      - id: caro
+        demand: use
+      - id: cercare
+        demand: use
+      - id: desiderare
+        demand: use
+      - id: dire
+        demand: use
+      - id: entrare
+        demand: use
+      - id: fame
+        demand: use
+      - id: freddo
+        demand: use
+      - id: grande
+        demand: use
+      - id: nuovo
+        demand: use
+      - id: ogni
+        demand: use
+      - id: piccolo
+        demand: use
+      - id: pieno
+        demand: use
+      - id: potere
+        demand: use
+      - id: problema
+        demand: use
+      - id: pronto
+        demand: use
+      - id: sentire
+        demand: use
+      - id: stanco
+        demand: use
+      - id: trovare
+        demand: use
+      - id: vedere
+        demand: use
+      - id: volere
+        demand: use
     capstones:
     - cando: a0.yes_no_answers
-      demand: use
-    - cando: a0.say_likes
-      demand: use
-    - cando: a0.ask_for_help
       demand: use
     scene_setting: 'The lost property office at the station has three wallets laid out
 
@@ -1253,12 +2450,55 @@
       functions:
       - id: a0_descrivere_problema
         demand: perform
+      vocab:
+      - id: aspettare
+        demand: perform
+      - id: avere
+        demand: perform
+      - id: caldo
+        demand: perform
+      - id: caro
+        demand: perform
+      - id: cercare
+        demand: perform
+      - id: desiderare
+        demand: perform
+      - id: dire
+        demand: perform
+      - id: entrare
+        demand: perform
+      - id: fame
+        demand: perform
+      - id: freddo
+        demand: perform
+      - id: grande
+        demand: perform
+      - id: nuovo
+        demand: perform
+      - id: ogni
+        demand: perform
+      - id: piccolo
+        demand: perform
+      - id: pieno
+        demand: perform
+      - id: potere
+        demand: perform
+      - id: problema
+        demand: perform
+      - id: pronto
+        demand: perform
+      - id: sentire
+        demand: perform
+      - id: stanco
+        demand: perform
+      - id: trovare
+        demand: perform
+      - id: vedere
+        demand: perform
+      - id: volere
+        demand: perform
     capstones:
     - cando: a0.yes_no_answers
-      demand: perform
-    - cando: a0.say_likes
-      demand: perform
-    - cando: a0.ask_for_help
       demand: perform
     scene_setting: 'Sunday evening, and the only farmacia open is the one across the
 
@@ -1499,6 +2739,7 @@
       '
     outro: The words from your first hour, said without stopping to think. At this level, that is
       what fluent means.
+    introduces: {}
   - id: a0-13-ripasso.d2
     cefr_level: A0
     label: La città, senza aiuto

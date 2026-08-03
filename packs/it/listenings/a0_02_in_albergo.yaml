@@ -3,6 +3,7 @@
 
 - status: draft
   scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d1
   id: listening.in_albergo.001
   cefr_level: A0
   title: Alla reception

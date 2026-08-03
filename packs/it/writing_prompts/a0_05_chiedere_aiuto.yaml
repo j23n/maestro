@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d2
   id: writing.chiedere_aiuto.001
   item_type: writing_prompt
   cefr_level: A0

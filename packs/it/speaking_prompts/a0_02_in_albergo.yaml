@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: speaking.mi_chiamo.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -20,6 +21,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: speaking.mi_chiamo.002
   item_type: speaking_prompt
   cefr_level: A0
@@ -37,6 +39,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: speaking.num_0_20.001
   item_type: speaking_prompt
   cefr_level: A0
@@ -54,6 +57,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: speaking.num_0_20.002
   item_type: speaking_prompt
   cefr_level: A0

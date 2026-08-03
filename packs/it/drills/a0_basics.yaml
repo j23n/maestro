@@ -5,6 +5,7 @@
 # LLM-drafted and human-reviewed in Phase 2; these were written by hand.
 
 - id: drill.essere_pre.001
+  lesson_id: a0-10-conoscere-qualcuno.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Io ___ di Londra."
@@ -18,6 +19,7 @@
     - { axis: grammar, id: essere_pre, weight: 1.0 }
 
 - id: drill.essere_pre.002
+  lesson_id: a0-10-conoscere-qualcuno.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Tu ___ italiano?"
@@ -30,6 +32,7 @@
     - { axis: grammar, id: essere_pre, weight: 1.0 }
 
 - id: drill.essere_pre.003
+  lesson_id: a0-10-conoscere-qualcuno.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Maria ___ a Roma."
@@ -42,6 +45,7 @@
     - { axis: grammar, id: essere_pre, weight: 1.0 }
 
 - id: drill.avere_pre.001
+  lesson_id: a0-11-un-problema.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Io ___ una prenotazione."
@@ -55,6 +59,7 @@
     - { axis: grammar, id: avere_pre, weight: 1.0 }
 
 - id: drill.avere_pre.002
+  lesson_id: a0-11-un-problema.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Tu ___ fame?"
@@ -67,6 +72,7 @@
     - { axis: grammar, id: avere_pre, weight: 1.0 }
 
 - id: drill.art_il_la.001
+  lesson_id: a0-04-in-giro.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "___ caffè è buono."
@@ -79,6 +85,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - id: drill.art_il_la.002
+  lesson_id: a0-04-in-giro.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "___ pizza è buona."
@@ -91,6 +98,7 @@
     - { axis: grammar, id: art_il_la, weight: 1.0 }
 
 - id: drill.art_un_una.001
+  lesson_id: a0-03-al-bar.d1
   item_type: drill_multiple_choice
   cefr_level: A0
   prompt: "Vorrei ___ acqua, per favore."
@@ -105,6 +113,7 @@
     - { axis: grammar, id: art_un_una, weight: 1.0 }
 
 - id: drill.vorrei.001
+  lesson_id: a0-03-al-bar.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "___ un cappuccino, per favore."
@@ -118,6 +127,7 @@
     - { axis: function, id: a0_ordinare, weight: 1.0 }
 
 - id: drill.vorrei.002
+  lesson_id: a0-03-al-bar.d1
   item_type: drill_transform
   cefr_level: A0
   prompt: "Make it polite: «Voglio un caffè.»"
@@ -130,6 +140,7 @@
     - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
 
 - id: drill.mi_piace.001
+  lesson_id: a0-07-mi-piace.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Mi ___ la pizza."
@@ -143,6 +154,7 @@
     - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
 
 - id: drill.mi_piace.002
+  lesson_id: a0-07-mi-piace.d1
   item_type: drill_cloze
   cefr_level: A0
   prompt: "Mi ___ gli spaghetti."

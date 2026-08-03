@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d3
   id: writing.in_aereo.001
   item_type: writing_prompt
   cefr_level: A0

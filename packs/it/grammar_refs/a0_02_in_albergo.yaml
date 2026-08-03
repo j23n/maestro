@@ -2,6 +2,7 @@
 
 - status: draft
   scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d1
   id: grammar_ref.mi_chiamo
   item_type: grammar_ref
   cefr_level: A0
@@ -42,6 +43,7 @@
 
 - status: draft
   scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d1
   id: grammar_ref.num_0_20
   item_type: grammar_ref
   cefr_level: A0
