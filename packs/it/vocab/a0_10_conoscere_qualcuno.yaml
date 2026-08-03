@@ -1,0 +1,402 @@
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.essere
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: essere
+  front: essere
+  back: to be
+  example: Io sono italiano, tu sei inglese.
+  example_gloss: I am Italian, you are English.
+  answers:
+  - text: essere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: essere
+    weight: 1.0
+  image: images/vocab/vocab.essere.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.abitare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: abitare
+  front: abitare
+  back: to live (somewhere)
+  example: Abito a Roma, in centro.
+  example_gloss: I live in Rome, in the centre.
+  answers:
+  - text: abitare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: abitare
+    weight: 1.0
+  image: images/vocab/vocab.abitare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.stare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: stare
+  front: stare
+  back: to stay; to be (how you are)
+  example: «Come stai?» «Sto bene, grazie.»
+  example_gloss: '"How are you?" "I''m well, thanks."'
+  answers:
+  - text: stare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: stare
+    weight: 1.0
+  image: images/vocab/vocab.stare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.fare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: fare
+  front: fare
+  back: to do / to make
+  example: Che cosa fai a Firenze?
+  example_gloss: What do you do in Florence?
+  answers:
+  - text: fare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: fare
+    weight: 1.0
+  image: images/vocab/vocab.fare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.salutare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: salutare
+  front: salutare
+  back: to greet, to say hello
+  example: Marco saluta gli amici in piazza.
+  example_gloss: Marco says hello to his friends in the square.
+  answers:
+  - text: salutare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: salutare
+    weight: 1.0
+  image: images/vocab/vocab.salutare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.studiare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: studiare
+  front: studiare
+  back: to study
+  example: Anna studia italiano a Firenze.
+  example_gloss: Anna studies Italian in Florence.
+  answers:
+  - text: studiare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: studiare
+    weight: 1.0
+  image: images/vocab/vocab.studiare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.lavorare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: lavorare
+  front: lavorare
+  back: to work
+  example: Giulia lavora in un museo.
+  example_gloss: Giulia works in a museum.
+  answers:
+  - text: lavorare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: lavorare
+    weight: 1.0
+  image: images/vocab/vocab.lavorare.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.amico
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: amico
+  front: l'amico
+  back: friend (male)
+  example: Marco è un amico di Giulia.
+  example_gloss: Marco is a friend of Giulia's.
+  answers:
+  - text: amico
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: amico
+    weight: 1.0
+  image: images/vocab/vocab.amico.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.amica
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: amica
+  front: l'amica
+  back: friend (female)
+  example: La mia amica è di Firenze.
+  example_gloss: My friend is from Florence.
+  answers:
+  - text: amica
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: amica
+    weight: 1.0
+  image: images/vocab/vocab.amica.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.studente
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: studente
+  front: lo studente
+  back: student (male)
+  example: Paolo è studente a Milano.
+  example_gloss: Paolo is a student in Milan.
+  answers:
+  - text: studente
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: studente
+    weight: 1.0
+  image: images/vocab/vocab.studente.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.studentessa
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: studentessa
+  front: la studentessa
+  back: student (female)
+  example: Anna è una studentessa inglese.
+  example_gloss: Anna is an English student.
+  answers:
+  - text: studentessa
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: studentessa
+    weight: 1.0
+  image: images/vocab/vocab.studentessa.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.telefono
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: telefono
+  front: il telefono
+  back: telephone, phone
+  example: Il mio numero di telefono è 06 55 40.
+  example_gloss: My phone number is 06 55 40.
+  answers:
+  - text: telefono
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: telefono
+    weight: 1.0
+  image: images/vocab/vocab.telefono.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.italiano
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: italiano
+  front: italiano / italiana
+  back: Italian
+  example: Marco è italiano, è di Roma.
+  example_gloss: Marco is Italian, he's from Rome.
+  answers:
+  - text: italiano
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: italiano
+    weight: 1.0
+  image: images/vocab/vocab.italiano.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.inglese
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: inglese
+  front: inglese
+  back: English
+  example: Anna è inglese, è di Londra.
+  example_gloss: Anna is English, she's from London.
+  answers:
+  - text: inglese
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: inglese
+    weight: 1.0
+  image: images/vocab/vocab.inglese.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.mio
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: mio
+  front: mio / mia
+  back: my, mine
+  example: Il mio nome è Anna.
+  example_gloss: My name is Anna.
+  answers:
+  - text: mio
+    canonical: true
+  - text: mia
+  evidence:
+  - axis: vocab
+    id: mio
+    weight: 1.0
+  image: images/vocab/vocab.mio.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.tuo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: tuo
+  front: tuo / tua
+  back: your, yours (someone you call *ciao*)
+  example: Il tuo amico è italiano?
+  example_gloss: Is your friend Italian?
+  answers:
+  - text: tuo
+    canonical: true
+  - text: tua
+  evidence:
+  - axis: vocab
+    id: tuo
+    weight: 1.0
+  image: images/vocab/vocab.tuo.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.suo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: suo
+  front: suo / sua
+  back: his, her, its
+  example: La sua amica abita a Milano.
+  example_gloss: His (or her) friend lives in Milan.
+  answers:
+  - text: suo
+    canonical: true
+  - text: sua
+  evidence:
+  - axis: vocab
+    id: suo
+    weight: 1.0
+  image: images/vocab/vocab.suo.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.come
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: come
+  front: come
+  back: how
+  example: Come ti chiami?
+  example_gloss: 'What''s your name? (literally: how do you call yourself?)'
+  answers:
+  - text: come
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: come
+    weight: 1.0
+  image: images/vocab/vocab.come.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: vocab.perche
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: perché
+  front: perché
+  back: why; because
+  example: Sono qui perché abito in Italia.
+  example_gloss: I'm here because I live in Italy.
+  answers:
+  - text: perché
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: perché
+    weight: 1.0
+  image: images/vocab/vocab.perche.png

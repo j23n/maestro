@@ -73,3 +73,251 @@
     id: a0_contare
     weight: 1.0
   image: images/speaking/speaking.num_0_20.002.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: speaking.dire_nome.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: L'albergo, la sera. «Il nome?» (Give your full name — Anna Rossi.)
+  target_text: Mi chiamo Anna Rossi.
+  variants:
+  - Il mio nome è Anna Rossi.
+  - Sono Anna Rossi.
+  explanation: «Mi chiamo» is what Italians actually say; «il mio nome è» is correct but stiff.
+  evidence:
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: vocab
+    id: nome
+    weight: 0.5
+  image: images/speaking/speaking.dire_nome.001.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: speaking.in_albergo.perform.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: A colazione. La signora al tavolo dice «Buongiorno!». (Greet her back and introduce
+    yourself as Anna Rossi.)
+  target_text: Buongiorno! Mi chiamo Anna Rossi. Piacere.
+  variants:
+  - Buongiorno, piacere. Il mio nome è Anna Rossi.
+  - Buongiorno! Sono Anna Rossi, piacere.
+  explanation: Greeting, name, «piacere» — the three beats of an Italian introduction, in
+    that order.
+  evidence:
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: vocab
+    id: nome
+    weight: 0.5
+  - axis: vocab
+    id: chiamarsi
+    weight: 0.5
+  - axis: vocab
+    id: presentazione
+    weight: 0.5
+  image: images/speaking/speaking.in_albergo.perform.001.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: speaking.in_albergo.perform.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: A colazione. (The waiter wants your room number before he brings anything — twelve.)
+  target_text: La mia camera è la dodici.
+  variants:
+  - La camera numero dodici.
+  - Camera dodici, grazie.
+  explanation: 'Room numbers stay bare cardinals: «la dodici», never «la dodicesima».'
+  evidence:
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: vocab
+    id: camera
+    weight: 0.5
+  - axis: vocab
+    id: numero
+    weight: 0.5
+  - axis: vocab
+    id: dodici
+    weight: 0.5
+  image: images/speaking/speaking.in_albergo.perform.002.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: speaking.in_albergo.perform.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Da zero a dieci. (Count aloud, evenly, without looking at anything.)
+  target_text: Zero, uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci.
+  explanation: 'Every vowel stays open: due is two syllables, and the -que of cinque is one.'
+  evidence:
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: zero
+    weight: 0.5
+  - axis: vocab
+    id: uno
+    weight: 0.5
+  - axis: vocab
+    id: due
+    weight: 0.5
+  - axis: vocab
+    id: tre
+    weight: 0.5
+  - axis: vocab
+    id: quattro
+    weight: 0.5
+  - axis: vocab
+    id: cinque
+    weight: 0.5
+  - axis: vocab
+    id: sei
+    weight: 0.5
+  - axis: vocab
+    id: sette
+    weight: 0.5
+  - axis: vocab
+    id: otto
+    weight: 0.5
+  - axis: vocab
+    id: nove
+    weight: 0.5
+  - axis: vocab
+    id: dieci
+    weight: 0.5
+  image: images/speaking/speaking.in_albergo.perform.003.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: speaking.in_albergo.perform.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Da undici a venti. (Count aloud. Mind where the pattern flips.)
+  target_text: Undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto,
+    diciannove, venti.
+  explanation: 'The unit leads to sixteen, then -dici leads: se-dici, then dici-assette.'
+  evidence:
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: undici
+    weight: 0.5
+  - axis: vocab
+    id: tredici
+    weight: 0.5
+  - axis: vocab
+    id: quattordici
+    weight: 0.5
+  - axis: vocab
+    id: quindici
+    weight: 0.5
+  - axis: vocab
+    id: sedici
+    weight: 0.5
+  - axis: vocab
+    id: diciassette
+    weight: 0.5
+  - axis: vocab
+    id: diciotto
+    weight: 0.5
+  - axis: vocab
+    id: diciannove
+    weight: 0.5
+  - axis: vocab
+    id: venti
+    weight: 0.5
+  image: images/speaking/speaking.in_albergo.perform.004.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: speaking.in_albergo.perform.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: In albergo, la sera. (Give your name, say you have a booking, and ask for the key.)
+  target_text: Buonasera, mi chiamo Rossi. Ho una prenotazione. La chiave, per favore.
+  variants:
+  - Buonasera. Sono Rossi, ho una prenotazione. La chiave, per favore.
+  explanation: 'Three short sentences beat one long one: greeting, name, request.'
+  evidence:
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: vocab
+    id: albergo
+    weight: 0.5
+  - axis: vocab
+    id: prenotazione
+    weight: 0.5
+  - axis: vocab
+    id: chiave
+    weight: 0.5
+  image: images/speaking/speaking.in_albergo.perform.005.png

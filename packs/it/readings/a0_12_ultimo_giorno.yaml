@@ -1,0 +1,279 @@
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d1
+  id: reading.ultimo_giorno.001
+  cefr_level: A0
+  title: L'ultimo caffè
+  text: 'Marco è al bar. È mattina e il bar è aperto.
+
+
+    «Buongiorno! Vorrei un caffè e un cornetto, per favore.»
+
+
+    «Ecco. Sono tre euro.»
+
+
+    «Grazie. Ecco i soldi.»
+
+
+    Marco paga e beve il caffè al banco, in piedi.
+
+
+    «Oggi parto. Il volo è alle sei.»
+
+
+    «Parte oggi! Buona giornata, signore.»
+
+
+    «Grazie mille. Arrivederci!»
+
+    '
+  questions:
+  - prompt: Che cosa prende Marco?
+    answers:
+    - text: un caffè e un cornetto
+      canonical: true
+    - text: caffè e cornetto
+    - text: un caffè e un cornetto, per favore
+    explanation: «Vorrei un caffè e un cornetto, per favore.»
+  - prompt: Quanto paga Marco?
+    answers:
+    - text: tre euro
+      canonical: true
+    - text: tre
+    explanation: «Sono tre euro.»
+  - prompt: Come saluta Marco?
+    answers:
+    - text: arrivederci
+      canonical: true
+    - text: grazie mille, arrivederci
+    - text: grazie mille e arrivederci
+    explanation: «Grazie mille. Arrivederci!» — the thanks and the goodbye are two moves,
+      not one.
+  evidence:
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: caffè
+    weight: 0.5
+  - axis: vocab
+    id: cornetto
+    weight: 0.5
+  - axis: vocab
+    id: banco
+    weight: 0.5
+  - axis: vocab
+    id: volo
+    weight: 0.5
+  image: images/readings/reading.ultimo_giorno.001.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d2
+  id: reading.ultimo_giorno.002
+  cefr_level: A0
+  title: Tre volte grazie
+  text: 'Oggi Anna parte. Adesso è in albergo, con la valigia.
+
+
+    «Buongiorno, signora. Grazie mille per la camera. L''albergo è molto
+
+    bello.»
+
+
+    «Grazie a lei! Buona giornata.»
+
+
+    Anna va anche in farmacia.
+
+
+    «Grazie per l''aiuto di ieri. Adesso sto bene.»
+
+
+    «Bene! Arrivederci, signora.»
+
+
+    In piazza c''è Luca.
+
+
+    «Ciao, Luca. Io parto oggi. Mi piace molto la tua città.»
+
+
+    «Ciao, Anna! Ci vediamo.»
+
+    '
+  questions:
+  - prompt: Perché Anna dice grazie in farmacia?
+    answers:
+    - text: per l'aiuto
+      canonical: true
+    - text: per l'aiuto di ieri
+    - text: l'aiuto
+    explanation: «Grazie per l'aiuto di ieri.»
+  - prompt: Che cosa piace ad Anna?
+    answers:
+    - text: la città
+      canonical: true
+    - text: la città di Luca
+    - text: mi piace molto la tua città
+    explanation: «Mi piace molto la tua città.»
+  - prompt: Come saluta Anna la signora dell'albergo?
+    answers:
+    - text: buongiorno
+      canonical: true
+    - text: buongiorno, signora
+    explanation: «Buongiorno, signora.» — «arrivederci» is for the pharmacist, «ciao» only
+      for Luca.
+  evidence:
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  - axis: vocab
+    id: albergo
+    weight: 0.5
+  - axis: vocab
+    id: farmacia
+    weight: 0.5
+  - axis: vocab
+    id: aiuto
+    weight: 0.5
+  - axis: vocab
+    id: piazza
+    weight: 0.5
+  image: images/readings/reading.ultimo_giorno.002.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: reading.ultimo_giorno.003
+  cefr_level: A0
+  title: Uscita B14
+  text: 'All''aeroporto. Marco aspetta all''uscita. Una signora aspetta con lui.
+
+
+    «Buongiorno. Lei è italiano?»
+
+
+    «No, non sono italiano. Sono inglese, ma abito a Roma. Mi chiamo
+
+    Marco.»
+
+
+    «Io mi chiamo Giulia e sono di Milano. A che ora parte l''aereo?»
+
+
+    «Alle sei e venti. Arrivo a Londra alle otto.»
+
+
+    «Anche io vado a Londra! Lavoro lì.»
+
+
+    «Bene! Buona giornata, signora.»
+
+
+    «Grazie, anche a lei. Arrivederci!»
+
+    '
+  questions:
+  - prompt: Marco è italiano?
+    answers:
+    - text: no, non è italiano
+      canonical: true
+    - text: 'no'
+    - text: no, è inglese
+    explanation: «No, non sono italiano. Sono inglese, ma abito a Roma.»
+  - prompt: Di dove è Giulia?
+    answers:
+    - text: di Milano
+      canonical: true
+    - text: Milano
+    explanation: «Io mi chiamo Giulia e sono di Milano.»
+  - prompt: A che ora parte l'aereo?
+    answers:
+    - text: alle sei e venti
+      canonical: true
+    - text: sei e venti
+    - text: alle sei e venti di mattina
+    explanation: «Alle sei e venti.» — the hour takes «alle», not «a».
+  - prompt: Dove lavora Giulia?
+    answers:
+    - text: a Londra
+      canonical: true
+    - text: Londra
+    explanation: «Anche io vado a Londra! Lavoro lì.»
+  evidence:
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: vocab
+    id: aeroporto
+    weight: 0.5
+  - axis: vocab
+    id: uscita
+    weight: 0.5
+  - axis: vocab
+    id: aereo
+    weight: 0.5
+  image: images/readings/reading.ultimo_giorno.003.png

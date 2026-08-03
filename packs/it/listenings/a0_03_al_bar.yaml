@@ -1,0 +1,126 @@
+# Listenings — lesson a0-03-al-bar, one per depth. Drafted, not reviewed.
+#
+# The same counter three times over: first the learner only has to catch
+# the order and the price, then a table for two, then the barista asking
+# back — which is the depth the lesson is actually about.
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d1
+  id: listening.al_bar.d1
+  cefr_level: A0
+  title: Un caffè al banco
+  turns:
+    - { speaker: "Barista", text: "Buongiorno! Prego?" }
+    - { speaker: "Anna", text: "Buongiorno. Vorrei un caffè, per favore." }
+    - { speaker: "Barista", text: "Un caffè. Altro?" }
+    - { speaker: "Anna", text: "No, grazie. Quant'è?" }
+    - { speaker: "Barista", text: "Un euro e dieci." }
+    - { speaker: "Anna", text: "Ecco. Grazie!" }
+  questions:
+    - prompt: "Che cosa ordina Anna?"
+      answers:
+        - { text: "un caffè", canonical: true }
+        - { text: "caffè" }
+      explanation: "«Vorrei un caffè, per favore.»"
+    - prompt: "Quanto costa?"
+      answers:
+        - { text: "un euro e dieci", canonical: true }
+        - { text: "1,10" }
+        - { text: "1.10" }
+      explanation: "«Un euro e dieci.»"
+    - prompt: "Anna ordina altro?"
+      answers:
+        - { text: "no, grazie", canonical: true }
+        - { text: "no" }
+      explanation: "«No, grazie. Quant'è?»"
+  evidence:
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: vocab, id: caffè, weight: 0.5 }
+    - { axis: vocab, id: banco, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d2
+  id: listening.al_bar.d2
+  cefr_level: A0
+  title: Un tavolo per due
+  turns:
+    - { speaker: "Barista", text: "Buongiorno. Un tavolo per due?" }
+    - { speaker: "Marco", text: "Sì, grazie." }
+    - { speaker: "Barista", text: "Prego. Che cosa prendete?" }
+    - { speaker: "Marco", text: "Vorrei un cappuccino. E per Anna un tè con latte." }
+    - { speaker: "Anna", text: "E anche un'acqua frizzante, per favore." }
+    - { speaker: "Barista", text: "Subito." }
+    - { speaker: "Marco", text: "Quant'è?" }
+    - { speaker: "Barista", text: "Sette euro. Al banco il caffè costa un euro, al tavolo tre." }
+  questions:
+    - prompt: "Che cosa prende Anna?"
+      answers:
+        - { text: "un tè con latte", canonical: true }
+        - { text: "tè con latte" }
+        - { text: "un tè" }
+      explanation: "«E per Anna un tè con latte.»"
+    - prompt: "Quanto paga Marco?"
+      answers:
+        - { text: "sette euro", canonical: true }
+        - { text: "7" }
+      explanation: "«Sette euro.»"
+    - prompt: "Dove costa poco il caffè?"
+      answers:
+        - { text: "al banco", canonical: true }
+        - { text: "banco" }
+      explanation: "«Al banco il caffè costa un euro, al tavolo tre.»"
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: vocab, id: tè, weight: 0.5 }
+    - { axis: vocab, id: latte, weight: 0.5 }
+    - { axis: vocab, id: banco, weight: 0.5 }
+
+# d3: every line the barista says is a question back. That is the thing
+# the learner has to survive without a script.
+- status: draft
+  scenario_ids: [a0-03-al-bar]
+  lesson_id: a0-03-al-bar.d3
+  id: listening.al_bar.d3
+  cefr_level: A0
+  title: Ogni mattina
+  turns:
+    - { speaker: "Barista", text: "Buongiorno!" }
+    - { speaker: "Marco", text: "Buongiorno. Un cappuccino e un cornetto, per favore." }
+    - { speaker: "Barista", text: "Il cappuccino caldo?" }
+    - { speaker: "Marco", text: "Sì, grazie." }
+    - { speaker: "Barista", text: "Zucchero?" }
+    - { speaker: "Marco", text: "No, grazie." }
+    - { speaker: "Barista", text: "Ecco la tazza. Due euro e ottanta." }
+    - { speaker: "Marco", text: "Ecco. Grazie, arrivederci!" }
+  questions:
+    - prompt: "Che cosa ordina Marco?"
+      answers:
+        - { text: "un cappuccino e un cornetto", canonical: true }
+        - { text: "cappuccino e cornetto" }
+      explanation: "«Un cappuccino e un cornetto, per favore.»"
+    - prompt: "Marco vuole lo zucchero?"
+      answers:
+        - { text: "no, grazie", canonical: true }
+        - { text: "no" }
+      explanation: "Il barista dice «Zucchero?» e Marco dice «No, grazie.»"
+    - prompt: "Quanto paga Marco?"
+      answers:
+        - { text: "due euro e ottanta", canonical: true }
+        - { text: "2,80" }
+        - { text: "2.80" }
+      explanation: "«Due euro e ottanta.»"
+  evidence:
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 0.5 }
+    - { axis: vocab, id: zucchero, weight: 0.5 }
+    - { axis: vocab, id: tazza, weight: 0.5 }
+    - { axis: vocab, id: cornetto, weight: 0.5 }

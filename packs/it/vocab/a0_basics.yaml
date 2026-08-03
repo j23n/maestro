@@ -1,4 +1,5 @@
 - id: vocab.ciao
+  lesson_id: a0-01-in-aereo.d1
   item_type: vocab_card
   cefr_level: A0
   lemma: ciao
@@ -15,6 +16,7 @@
     weight: 1.0
   image: images/vocab/vocab.ciao.png
 - id: vocab.grazie
+  lesson_id: a0-01-in-aereo.d1
   item_type: vocab_card
   cefr_level: A0
   lemma: grazie
@@ -31,6 +33,7 @@
     weight: 1.0
   image: images/vocab/vocab.grazie.png
 - id: vocab.per_favore
+  lesson_id: a0-01-in-aereo.d1
   item_type: vocab_card
   cefr_level: A0
   lemma: per favore

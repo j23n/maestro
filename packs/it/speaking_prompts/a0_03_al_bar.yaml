@@ -53,3 +53,69 @@
     id: a0_chiedere_cortesemente
     weight: 1.0
   image: images/speaking/speaking.vorrei.004.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d3
+  id: speaking.al_bar.d3.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al bar, la sera. (Order a bottle of beer and a glass of wine for your friend.)
+  target_text: Vorrei una bottiglia di birra e un bicchiere di vino, per favore.
+  variants:
+  - Una bottiglia di birra e un bicchiere di vino, per favore.
+  explanation: 'Two things, one «vorrei»: «una bottiglia di birra e un bicchiere di vino».'
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: birra
+    weight: 0.5
+  - axis: vocab
+    id: vino
+    weight: 0.5
+  - axis: vocab
+    id: bicchiere
+    weight: 0.5
+  image: images/speaking/speaking.al_bar.d3.001.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d3
+  id: speaking.al_bar.d3.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al banco. (Order a tea with milk — in one go, before he asks.)
+  target_text: Vorrei un tè con latte, per favore.
+  variants:
+  - Un tè con latte, per favore.
+  explanation: '«Tè» is masculine: un tè, il tè.'
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: tè
+    weight: 0.5
+  - axis: vocab
+    id: latte
+    weight: 0.5
+  - axis: vocab
+    id: bottiglia
+    weight: 0.5
+  image: images/speaking/speaking.al_bar.d3.002.png

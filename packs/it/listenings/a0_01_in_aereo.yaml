@@ -1,0 +1,137 @@
+# Listening — lesson a0-01-in-aereo, one per depth. Drafted, not yet reviewed.
+# audio stays null until the Phase 7 render; the shell falls back to TTS.
+#
+# a0.catch_courtesy is a listening can-do, so these are the items that
+# rehearse the thing it actually names: catching a courtesy addressed to
+# you. Each depth is spoken faster and gives away less than the last.
+
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d1
+  id: listening.in_aereo.001
+  cefr_level: A0
+  title: A bordo
+  turns:
+    - { speaker: "Assistente", text: "Buongiorno! Benvenuto a bordo." }
+    - { speaker: "Marco", text: "Buongiorno. Grazie." }
+    - { speaker: "Marco", text: "Scusi, è il volo per Roma?" }
+    - { speaker: "Assistente", text: "Sì, signore. Il volo per Roma." }
+    - { speaker: "Marco", text: "Grazie mille!" }
+    - { speaker: "Assistente", text: "Prego. Buon volo!" }
+  audio: null
+  questions:
+    - prompt: "Come saluta l'assistente?"
+      answers:
+        - { text: "buongiorno", canonical: true }
+      explanation: "«Buongiorno! Benvenuto a bordo.»"
+    - prompt: "Marco è sul volo per Roma?"
+      answers:
+        - { text: "sì", canonical: true }
+        - { text: "si" }
+      explanation: "«Sì, signore. Il volo per Roma.»"
+    - prompt: "«Grazie mille!» — che cosa dice l'assistente?"
+      answers:
+        - { text: "prego", canonical: true }
+      explanation: "«Prego» is what comes back after «grazie», every time."
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 0.5 }
+    - { axis: vocab, id: benvenuto, weight: 0.5 }
+    - { axis: vocab, id: a bordo, weight: 0.5 }
+    - { axis: vocab, id: volo, weight: 0.5 }
+
+# d2 — no greeting to lean on. The first thing the learner hears is a
+# question, and it is three words long.
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d2
+  id: listening.in_aereo.002
+  cefr_level: A0
+  title: Il carrello
+  turns:
+    - { speaker: "Assistente", text: "Caffè? Tè? Acqua?" }
+    - { speaker: "Anna", text: "Un caffè, per favore." }
+    - { speaker: "Assistente", text: "Zucchero?" }
+    - { speaker: "Anna", text: "Sì, grazie." }
+    - { speaker: "Assistente", text: "Ecco a lei." }
+    - { speaker: "Anna", text: "Grazie mille!" }
+    - { speaker: "Assistente", text: "Prego." }
+  audio: null
+  questions:
+    - prompt: "Che cosa prende Anna?"
+      answers:
+        - { text: "un caffè", canonical: true }
+        - { text: "caffè" }
+        - { text: "il caffè" }
+      explanation: "«Un caffè, per favore.»"
+    - prompt: "Anna vuole lo zucchero?"
+      answers:
+        - { text: "sì", canonical: true }
+        - { text: "si" }
+      explanation: "«Zucchero?» — «Sì, grazie.»"
+    - prompt: "Che cosa dice Anna con il caffè?"
+      answers:
+        - { text: "grazie mille", canonical: true }
+        - { text: "grazie" }
+      explanation: "«Ecco a lei.» — «Grazie mille!»"
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: vocab, id: per favore, weight: 0.5 }
+    - { axis: vocab, id: prego, weight: 0.5 }
+    - { axis: vocab, id: ecco, weight: 0.5 }
+
+# d3 — three people in a row, no pause between them. This is the shape
+# the d3 capstone asks the learner to produce.
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d3
+  id: listening.in_aereo.003
+  cefr_level: A0
+  title: Allo sbarco
+  turns:
+    - { speaker: "Assistente", text: "Arrivederci! Buona giornata." }
+    - { speaker: "Marco", text: "Grazie, arrivederci!" }
+    - { speaker: "Signora", text: "Scusi!" }
+    - { speaker: "Marco", text: "Prego." }
+    - { speaker: "Passaporti", text: "Buonasera. Il passaporto, per favore." }
+    - { speaker: "Marco", text: "Ecco." }
+    - { speaker: "Passaporti", text: "Grazie. È italiano?" }
+    - { speaker: "Marco", text: "No, sono inglese." }
+    - { speaker: "Passaporti", text: "Va bene. Benvenuto a Roma!" }
+  audio: null
+  questions:
+    - prompt: "Come saluta l'assistente alla porta?"
+      answers:
+        - { text: "arrivederci", canonical: true }
+      explanation: "«Arrivederci! Buona giornata.»"
+    - prompt: "Che cosa dice Marco alla signora?"
+      answers:
+        - { text: "prego", canonical: true }
+      explanation: "«Scusi!» — «Prego.» Two words, and nobody stops walking."
+    - prompt: "Che cosa dice il signore dei passaporti a Marco?"
+      answers:
+        - { text: "il passaporto, per favore", canonical: true }
+        - { text: "il passaporto" }
+        - { text: "passaporto" }
+      explanation: "«Buonasera. Il passaporto, per favore.»"
+    - prompt: "Marco è italiano?"
+      answers:
+        - { text: "no", canonical: true }
+        - { text: "no, è inglese" }
+        - { text: "inglese" }
+      explanation: "«È italiano?» — «No, sono inglese.»"
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 0.5 }
+    - { axis: vocab, id: arrivederci, weight: 0.5 }
+    - { axis: vocab, id: scusi, weight: 0.5 }
+    - { axis: vocab, id: buonasera, weight: 0.5 }

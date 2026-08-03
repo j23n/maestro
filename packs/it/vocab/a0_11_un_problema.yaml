@@ -1,0 +1,460 @@
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.avere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: avere
+  front: avere
+  back: to have
+  example: Ho due valigie.
+  example_gloss: I have two suitcases.
+  answers:
+  - text: avere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: avere
+    weight: 1.0
+  image: images/vocab/vocab.avere.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.problema.002
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: problema
+  front: il problema
+  back: problem
+  example: Ho un problema con la macchina.
+  example_gloss: I have a problem with the car.
+  answers:
+  - text: problema
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: problema
+    weight: 1.0
+  image: images/vocab/vocab.problema.002.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.fame
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: fame
+  front: la fame
+  back: hunger — «ho fame» = I'm hungry
+  example: Ho fame.
+  example_gloss: I'm hungry.
+  answers:
+  - text: fame
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: fame
+    weight: 1.0
+  image: images/vocab/vocab.fame.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.freddo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: freddo
+  front: freddo
+  back: cold — «ho freddo» = I'm cold
+  example: Ho freddo, la camera non è calda.
+  example_gloss: I'm cold, the room isn't warm.
+  answers:
+  - text: freddo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: freddo
+    weight: 1.0
+  image: images/vocab/vocab.freddo.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.caldo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: caldo
+  front: caldo
+  back: hot, warm — «ho caldo» = I'm hot
+  example: Il caffè è caldo.
+  example_gloss: The coffee is hot.
+  answers:
+  - text: caldo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: caldo
+    weight: 1.0
+  image: images/vocab/vocab.caldo.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.stanco
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: stanco
+  front: stanco
+  back: tired
+  example: Sono molto stanco.
+  example_gloss: I'm very tired.
+  answers:
+  - text: stanco
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: stanco
+    weight: 1.0
+  image: images/vocab/vocab.stanco.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.caro
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: caro
+  front: caro
+  back: expensive (also 'dear')
+  example: No, grazie, è molto caro.
+  example_gloss: No thanks, it's very expensive.
+  answers:
+  - text: caro
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: caro
+    weight: 1.0
+  image: images/vocab/vocab.caro.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.grande
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: grande
+  front: grande
+  back: big, large
+  example: La valigia è grande.
+  example_gloss: The suitcase is big.
+  answers:
+  - text: grande
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: grande
+    weight: 1.0
+  image: images/vocab/vocab.grande.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.piccolo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: piccolo
+  front: piccolo
+  back: small, little
+  example: La camera è piccola.
+  example_gloss: The room is small.
+  answers:
+  - text: piccolo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: piccolo
+    weight: 1.0
+  image: images/vocab/vocab.piccolo.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.nuovo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: nuovo
+  front: nuovo
+  back: new
+  example: Ho un telefono nuovo.
+  example_gloss: I have a new phone.
+  answers:
+  - text: nuovo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: nuovo
+    weight: 1.0
+  image: images/vocab/vocab.nuovo.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.pieno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: pieno
+  front: pieno
+  back: full
+  example: Il treno è pieno.
+  example_gloss: The train is full.
+  answers:
+  - text: pieno
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: pieno
+    weight: 1.0
+  image: images/vocab/vocab.pieno.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.pronto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: pronto
+  front: pronto
+  back: ready — and 'hello?' when you pick up the phone
+  example: Sono pronto, andiamo.
+  example_gloss: I'm ready, let's go.
+  answers:
+  - text: pronto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: pronto
+    weight: 1.0
+  image: images/vocab/vocab.pronto.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.ogni
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ogni
+  front: ogni
+  back: every, each — always with a singular noun
+  example: La farmacia è aperta ogni giorno.
+  example_gloss: The pharmacy is open every day.
+  answers:
+  - text: ogni
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ogni
+    weight: 1.0
+  image: images/vocab/vocab.ogni.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.trovare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: trovare
+  front: trovare
+  back: to find
+  example: Non trovo la chiave.
+  example_gloss: I can't find the key.
+  answers:
+  - text: trovare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: trovare
+    weight: 1.0
+  image: images/vocab/vocab.trovare.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.cercare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cercare
+  front: cercare
+  back: to look for
+  example: Cerco la stazione.
+  example_gloss: I'm looking for the station.
+  answers:
+  - text: cercare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: cercare
+    weight: 1.0
+  image: images/vocab/vocab.cercare.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.aspettare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aspettare
+  front: aspettare
+  back: to wait, to wait for
+  example: Aspetto qui, grazie.
+  example_gloss: I'll wait here, thanks.
+  answers:
+  - text: aspettare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: aspettare
+    weight: 1.0
+  image: images/vocab/vocab.aspettare.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.vedere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: vedere
+  front: vedere
+  back: to see
+  example: Non vedo il numero.
+  example_gloss: I can't see the number.
+  answers:
+  - text: vedere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: vedere
+    weight: 1.0
+  image: images/vocab/vocab.vedere.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.sentire
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sentire
+  front: sentire
+  back: to hear, to feel
+  example: Non sento bene, scusi.
+  example_gloss: I can't hear well, sorry.
+  answers:
+  - text: sentire
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sentire
+    weight: 1.0
+  image: images/vocab/vocab.sentire.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.dire
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: dire
+  front: dire
+  back: to say, to tell
+  example: Come si dice in italiano?
+  example_gloss: How do you say it in Italian?
+  answers:
+  - text: dire
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: dire
+    weight: 1.0
+  image: images/vocab/vocab.dire.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.entrare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: entrare
+  front: entrare
+  back: to go in, to enter
+  example: Posso entrare?
+  example_gloss: May I come in?
+  answers:
+  - text: entrare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: entrare
+    weight: 1.0
+  image: images/vocab/vocab.entrare.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.potere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: potere
+  front: potere
+  back: can, to be able to
+  example: Mi può aiutare?
+  example_gloss: Can you help me?
+  answers:
+  - text: potere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: potere
+    weight: 1.0
+  image: images/vocab/vocab.potere.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.volere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: volere
+  front: volere
+  back: to want — «voglio» is blunt, «vorrei» is the polite one
+  example: No, grazie, non voglio.
+  example_gloss: No thanks, I don't want it.
+  answers:
+  - text: volere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: volere
+    weight: 1.0
+  image: images/vocab/vocab.volere.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: vocab.desiderare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: desiderare
+  front: desiderare
+  back: to want, to wish — «Desidera?» is how a shop asks what you'd like
+  example: Desidera?
+  example_gloss: What would you like?
+  answers:
+  - text: desiderare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: desiderare
+    weight: 1.0
+  image: images/vocab/vocab.desiderare.png

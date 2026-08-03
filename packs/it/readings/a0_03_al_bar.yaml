@@ -66,3 +66,158 @@
     id: a0_ordinare
     weight: 0.5
   image: images/readings/reading.al_bar.002.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d2
+  id: reading.al_bar.003
+  cefr_level: A0
+  title: Un tavolo per due
+  text: 'Marco e Anna prendono un tavolo. Il barista arriva subito.
+
+
+    «Buongiorno. Prego?»
+
+
+    «Vorrei un cappuccino e una birra piccola, per favore.»
+
+
+    «Anche un''acqua frizzante, grazie», dice Anna.
+
+
+    «Subito.»
+
+
+    Al banco il caffè costa un euro. Al tavolo costa tre euro.
+
+
+    «Quant''è?»
+
+
+    «Otto euro.»
+
+    '
+  questions:
+  - prompt: Che cosa ordina Marco?
+    answers:
+    - text: un cappuccino e una birra
+      canonical: true
+    - text: cappuccino e birra
+    explanation: «Vorrei un cappuccino e una birra piccola, per favore.»
+  - prompt: Che cosa ordina Anna?
+    answers:
+    - text: un'acqua frizzante
+      canonical: true
+    - text: acqua frizzante
+    explanation: «Anche un'acqua frizzante, grazie», dice Anna.
+  - prompt: Quanto costa il caffè al tavolo?
+    answers:
+    - text: tre euro
+      canonical: true
+    - text: '3'
+    explanation: «Al banco il caffè costa un euro. Al tavolo costa tre euro.»
+  evidence:
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: birra
+    weight: 0.5
+  - axis: vocab
+    id: banco
+    weight: 0.5
+  - axis: vocab
+    id: barista
+    weight: 0.5
+  image: images/readings/reading.al_bar.003.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d3
+  id: reading.al_bar.004
+  cefr_level: A0
+  title: Ogni mattina
+  text: 'Ogni mattina Marco entra nel bar. Il barista lo vede e aspetta.
+
+
+    «Buongiorno. Un cappuccino e un cornetto, per favore.»
+
+
+    «Caldo il latte?»
+
+
+    «Sì, grazie.»
+
+
+    Il barista prende una tazza e fa il cappuccino. Marco beve in piedi,
+
+    al banco.
+
+
+    «Zucchero?»
+
+
+    «No, grazie. Il conto, per favore.»
+
+
+    «Due euro e ottanta.»
+
+    '
+  glossary:
+    in piedi: standing up
+  questions:
+  - prompt: Dove beve Marco?
+    answers:
+    - text: al banco
+      canonical: true
+    - text: banco
+    - text: in piedi al banco
+    explanation: «Marco beve in piedi, al banco.»
+  - prompt: Marco vuole lo zucchero?
+    answers:
+    - text: no, grazie
+      canonical: true
+    - text: 'no'
+    explanation: «Zucchero?» — «No, grazie.»
+  - prompt: Quanto paga Marco?
+    answers:
+    - text: due euro e ottanta
+      canonical: true
+    - text: 2,80
+    - text: '2.80'
+    explanation: «Due euro e ottanta.»
+  evidence:
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: vocab
+    id: barista
+    weight: 0.5
+  - axis: vocab
+    id: tazza
+    weight: 0.5
+  - axis: vocab
+    id: latte
+    weight: 0.5
+  - axis: vocab
+    id: zucchero
+    weight: 0.5
+  image: images/readings/reading.al_bar.004.png

@@ -1,0 +1,151 @@
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d1
+  id: speaking.a0_congedarsi.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Al bar. (You have paid. Now leave properly — thank him and say goodbye.)
+  target_text: Grazie mille e buona giornata. Arrivederci!
+  variants:
+  - Grazie mille. Arrivederci e buona giornata!
+  - Grazie e arrivederci!
+  explanation: Walking out on a «grazie» is not a goodbye. «Arrivederci» is what closes the
+    exchange — the thanks comes before it, not instead of it.
+  evidence:
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 0.5
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  image: images/speaking/speaking.a0_congedarsi.001.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d1
+  id: speaking.a0_congedarsi.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: In albergo, con la valigia. (You are checking out. Thank the woman at the desk for
+    the room and say goodbye to her.)
+  target_text: Grazie mille per la camera, signora. Arrivederci!
+  variants:
+  - Grazie per la camera. Arrivederci, signora!
+  - Grazie mille, signora. Buona giornata e arrivederci!
+  explanation: «Arrivederci» to someone you are not going to see again; «ciao» only to a Luca,
+    never to a signora behind a desk.
+  evidence:
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 0.5
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: vocab
+    id: camera
+    weight: 0.5
+  image: images/speaking/speaking.a0_congedarsi.002.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: speaking.a0_congedarsi.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: La sera, alla porta. (Say goodnight, say goodbye, and say you will see them tomorrow.)
+  target_text: Buonanotte e arrivederci. Ci vediamo domani!
+  variants:
+  - Buonanotte, arrivederci. Ci vediamo domani.
+  - Buonanotte! Ci vediamo domani, arrivederci.
+  explanation: 'Three moves, in this order: the greeting for the hour («buonanotte»), the
+    goodbye, and when. «Ci vediamo domani» is the ordinary way to say the last one.'
+  evidence:
+  - axis: function
+    id: a0_congedarsi
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  image: images/speaking/speaking.a0_congedarsi.003.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: speaking.a0_congedarsi.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: All'aeroporto. La signora vuole sapere l'ora del volo. (Say what time the flight
+    leaves, and what day you get there.)
+  target_text: Il volo parte alle sei e venti. Arrivo domani mattina.
+  variants:
+  - Parte alle sei e venti, e arrivo domani mattina.
+  - L'aereo parte alle sei e venti. Domani mattina sono a casa.
+  explanation: '«Alle» for every hour but one: «all''una». And the day goes after the hour,
+    not before it.'
+  evidence:
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: vocab
+    id: volo
+    weight: 0.5
+  - axis: vocab
+    id: aereo
+    weight: 0.5
+  image: images/speaking/speaking.a0_congedarsi.004.png
+- status: draft
+  scenario_ids:
+  - a0-12-ultimo-giorno
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: speaking.a0_congedarsi.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: All'uscita. Una signora dice «Lei è italiano?» (Answer no, then say who you are
+    and where you are from.)
+  target_text: No, non sono italiano. Io sono inglese, di Londra. Mi chiamo Marco.
+  variants:
+  - No, non sono italiano. Sono inglese e mi chiamo Marco.
+  - No, sono inglese. Io mi chiamo Marco e sono di Londra.
+  explanation: A bare «no» ends the conversation; «no, non sono...» keeps it open, because
+    the sentence after it is your turn.
+  evidence:
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: vocab
+    id: inglese
+    weight: 0.5
+  image: images/speaking/speaking.a0_congedarsi.005.png

@@ -1,0 +1,213 @@
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.piacere
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: piacere
+  front: piacere
+  back: to be pleasing (mi piace = I like)
+  example: Mi piace il caffè.
+  example_gloss: I like coffee.
+  answers:
+  - text: piacere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: piacere
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 0.5
+  image: images/vocab/vocab.piacere.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.molto
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: molto
+  front: molto
+  back: very / a lot
+  example: La pasta mi piace molto.
+  example_gloss: I like the pasta a lot.
+  answers:
+  - text: molto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: molto
+    weight: 1.0
+  image: images/vocab/vocab.molto.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.poco
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: poco
+  front: poco
+  back: little / not much
+  example: Il pesce mi piace poco.
+  example_gloss: I don't much like fish.
+  answers:
+  - text: poco
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: poco
+    weight: 1.0
+  image: images/vocab/vocab.poco.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.buono
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: buono
+  front: buono
+  back: good (of food, tasty)
+  example: La cena è molto buona.
+  example_gloss: The dinner is very good.
+  answers:
+  - text: buono
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: buono
+    weight: 1.0
+  image: images/vocab/vocab.buono.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.bello
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: bello
+  front: bello
+  back: beautiful / nice
+  example: Che bella cena!
+  example_gloss: What a lovely dinner!
+  answers:
+  - text: bello
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bello
+    weight: 1.0
+  image: images/vocab/vocab.bello.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.contento
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: contento
+  front: contento
+  back: happy / glad
+  example: Sono contento, grazie.
+  example_gloss: I'm happy, thanks.
+  answers:
+  - text: contento
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: contento
+    weight: 1.0
+  image: images/vocab/vocab.contento.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.anche
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: anche
+  front: anche
+  back: also / too
+  example: Mi piace anche il vino.
+  example_gloss: I like wine too.
+  answers:
+  - text: anche
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: anche
+    weight: 1.0
+  image: images/vocab/vocab.anche.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.altro
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: altro
+  front: altro
+  back: other / anything else
+  example: Gli altri dolci non mi piacciono.
+  example_gloss: I don't like the other desserts.
+  answers:
+  - text: altro
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: altro
+    weight: 1.0
+  image: images/vocab/vocab.altro.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.musica
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: musica
+  front: la musica
+  back: music
+  example: Mi piace la musica italiana.
+  example_gloss: I like Italian music.
+  answers:
+  - text: musica
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: musica
+    weight: 1.0
+  image: images/vocab/vocab.musica.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: vocab.tempo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: tempo
+  front: il tempo
+  back: time / weather
+  example: Oggi il tempo è bello.
+  example_gloss: The weather is nice today.
+  answers:
+  - text: tempo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: tempo
+    weight: 1.0
+  image: images/vocab/vocab.tempo.png

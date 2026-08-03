@@ -1,0 +1,130 @@
+# Listenings — lesson a0-09-in-viaggio, one per depth. Short spoken
+# turns, the way a window clerk actually talks. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: listening.in_viaggio.001
+  cefr_level: A0
+  title: Un biglietto per Milano
+  turns:
+    - { speaker: "Anna", text: "Buongiorno. Vorrei un biglietto per Milano, per favore." }
+    - { speaker: "Signore", text: "Per oggi o per domani?" }
+    - { speaker: "Anna", text: "Per oggi." }
+    - { speaker: "Signore", text: "Sono trenta euro." }
+    - { speaker: "Anna", text: "Ecco. Da che binario parte?" }
+    - { speaker: "Signore", text: "Dal binario otto. Parte alle dieci." }
+    - { speaker: "Anna", text: "Grazie mille!" }
+    - { speaker: "Signore", text: "Prego. Buona giornata." }
+  audio: null
+  questions:
+    - prompt: Dove va Anna?
+      answers:
+        - { text: "a Milano", canonical: true }
+        - { text: "Milano" }
+      explanation: "«Vorrei un biglietto per Milano.»"
+    - prompt: Quanto costa il biglietto?
+      answers:
+        - { text: "trenta euro", canonical: true }
+        - { text: "30 euro" }
+      explanation: "«Sono trenta euro.»"
+    - prompt: Da che binario parte il treno?
+      answers:
+        - { text: "dal binario otto", canonical: true }
+        - { text: "binario otto" }
+      explanation: "«Dal binario otto.»"
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+    - { axis: vocab, id: partire, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d2
+  id: listening.in_viaggio.002
+  cefr_level: A0
+  title: Due biglietti, oggi e domani
+  turns:
+    - { speaker: "Marco", text: "Due biglietti per Firenze, per favore." }
+    - { speaker: "Signora", text: "Andate e venite oggi?" }
+    - { speaker: "Marco", text: "No. Andiamo oggi e veniamo domani." }
+    - { speaker: "Signora", text: "Sono quaranta euro." }
+    - { speaker: "Marco", text: "Ecco i soldi. A che ora parte il treno?" }
+    - { speaker: "Signora", text: "Alle nove e venti, dal binario dodici." }
+    - { speaker: "Marco", text: "Il binario dodici è aperto?" }
+    - { speaker: "Signora", text: "Sì, è aperto. Buona giornata!" }
+  audio: null
+  questions:
+    - prompt: Per che città sono i biglietti?
+      answers:
+        - { text: "per Firenze", canonical: true }
+        - { text: "Firenze" }
+      explanation: "«Due biglietti per Firenze, per favore.»"
+    - prompt: Quanto costa?
+      answers:
+        - { text: "quaranta euro", canonical: true }
+        - { text: "40 euro" }
+      explanation: "«Sono quaranta euro.»"
+    - prompt: A che ora parte il treno?
+      answers:
+        - { text: "alle nove e venti", canonical: true }
+        - { text: "9:20" }
+      explanation: "«Alle nove e venti, dal binario dodici.»"
+    - prompt: Da che binario parte?
+      answers:
+        - { text: "dal binario dodici", canonical: true }
+        - { text: "binario dodici" }
+      explanation: "«Alle nove e venti, dal binario dodici.»"
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 0.5 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: andare, weight: 0.5 }
+    - { axis: vocab, id: venire, weight: 0.5 }
+    - { axis: vocab, id: aperto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d3
+  id: listening.in_viaggio.003
+  cefr_level: A0
+  title: Non è il binario nove
+  turns:
+    - { speaker: "Voce", text: "Il treno per Roma delle venti parte dal binario otto." }
+    - { speaker: "Marco", text: "Scusi, il treno per Roma non parte dal binario nove?" }
+    - { speaker: "Signore", text: "No, adesso parte dal binario otto. Il nove è chiuso." }
+    - { speaker: "Marco", text: "Dov'è il binario otto?" }
+    - { speaker: "Signore", text: "È lì. Ha il biglietto e il documento?" }
+    - { speaker: "Marco", text: "Sì, ecco. Grazie mille!" }
+    - { speaker: "Signore", text: "Prego. Il treno parte fra poco." }
+  audio: null
+  questions:
+    - prompt: Da che binario parte adesso il treno per Roma?
+      answers:
+        - { text: "dal binario otto", canonical: true }
+        - { text: "binario otto" }
+      explanation: "«No, adesso parte dal binario otto.»"
+    - prompt: Perché il treno non parte dal binario nove?
+      answers:
+        - { text: "è chiuso", canonical: true }
+        - { text: "il nove è chiuso" }
+      explanation: "«Il nove è chiuso.»"
+    - prompt: Che cosa vuole vedere il signore?
+      answers:
+        - { text: "il biglietto e il documento", canonical: true }
+        - { text: "biglietto e documento" }
+      explanation: "«Ha il biglietto e il documento?»"
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+    - { axis: vocab, id: chiuso, weight: 0.5 }
+    - { axis: vocab, id: documento, weight: 0.5 }
+    - { axis: vocab, id: treno, weight: 0.5 }

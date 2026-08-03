@@ -70,3 +70,176 @@
     id: a0_chiedere_aiuto
     weight: 0.5
   image: images/readings/reading.chiedere_aiuto.001.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d2
+  id: reading.chiedere_aiuto.002
+  cefr_level: A0
+  title: Dov'è la farmacia?
+  text: 'Marco è in centro. Cerca una farmacia.
+
+
+    «Scusi, signora. Dov''è la farmacia, per favore?»
+
+
+    «La farmacia è in via Garibaldi, vicino al mercato.»
+
+
+    «Scusi, non ho capito. Come?»
+
+
+    «In via Garibaldi. Il mercato è lì, e la farmacia è vicino.»
+
+
+    «Va bene, ho capito. Grazie mille!»
+
+
+    «Prego. Buona giornata!»
+
+    '
+  glossary:
+    vicino: near, next to
+    mercato: market
+  questions:
+  - prompt: Che cosa cerca Marco?
+    answers:
+    - text: una farmacia
+      canonical: true
+    - text: la farmacia
+    - text: farmacia
+    explanation: «Cerca una farmacia.»
+  - prompt: Dov'è la farmacia?
+    answers:
+    - text: in via Garibaldi
+      canonical: true
+    - text: via Garibaldi
+    explanation: «La farmacia è in via Garibaldi, vicino al mercato.»
+  - prompt: Che cosa dice Marco quando non capisce?
+    answers:
+    - text: non ho capito
+      canonical: true
+    - text: scusi, non ho capito
+    explanation: «Scusi, non ho capito. Come?» — and the signora simply says it again.
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 0.5
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 0.5
+  - axis: vocab
+    id: farmacia
+    weight: 0.5
+  - axis: vocab
+    id: capire
+    weight: 0.5
+  - axis: vocab
+    id: va bene
+    weight: 0.5
+  image: images/readings/reading.chiedere_aiuto.002.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: reading.chiedere_aiuto.003
+  cefr_level: A0
+  title: Buonasera, mi può aiutare?
+  text: 'È sera e Anna non sa dov''è il suo albergo. In strada c''è una signora.
+
+
+    «Scusi! Mi può aiutare, per favore? Non so dove sono.»
+
+
+    «Certo. Come si chiama l''albergo?»
+
+
+    «Albergo Roma. È in via Garibaldi, forse.»
+
+
+    «No, l''albergo Roma non è in via Garibaldi. È in piazza Garibaldi, vicino alla stazione.»
+
+
+    «Scusi, non ho capito. In via o in piazza?»
+
+
+    «In piazza. La stazione è lì, e l''albergo è vicino.»
+
+
+    «Va bene, ho capito. Grazie mille, signora!»
+
+
+    «Prego. Buonanotte!»
+
+    '
+  glossary:
+    vicino: near, next to
+  questions:
+  - prompt: Che cosa cerca Anna?
+    answers:
+    - text: l'albergo
+      canonical: true
+    - text: albergo
+    - text: il suo albergo
+    explanation: «Anna non sa dov'è il suo albergo.»
+  - prompt: Dov'è l'albergo Roma?
+    answers:
+    - text: in piazza Garibaldi
+      canonical: true
+    - text: piazza Garibaldi
+    - text: in piazza
+    explanation: «È in piazza Garibaldi, vicino alla stazione» — non in via.
+  - prompt: Che cosa dice Anna quando non capisce?
+    answers:
+    - text: non ho capito
+      canonical: true
+    - text: scusi, non ho capito
+    explanation: «Scusi, non ho capito. In via o in piazza?» — she names the two things she
+      is confusing.
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 0.5
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 0.5
+  - axis: function
+    id: a0_scusarsi
+    weight: 0.5
+  - axis: vocab
+    id: aiutare
+    weight: 0.5
+  - axis: vocab
+    id: capire
+    weight: 0.5
+  - axis: vocab
+    id: sapere
+    weight: 0.5
+  - axis: vocab
+    id: certo
+    weight: 0.5
+  - axis: vocab
+    id: forse
+    weight: 0.5
+  - axis: vocab
+    id: va bene
+    weight: 0.5
+  image: images/readings/reading.chiedere_aiuto.003.png

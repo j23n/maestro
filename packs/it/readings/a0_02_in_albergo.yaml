@@ -1,0 +1,269 @@
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: reading.in_albergo.001
+  cefr_level: A0
+  title: Alla reception
+  text: 'Anna arriva in albergo. Al banco c''è una signora.
+
+
+    «Buonasera. Mi chiamo Anna Rossi. Ho una prenotazione.»
+
+
+    «Buonasera, signora Rossi. Un momento... sì, ecco. La camera è la
+
+    numero dodici.»
+
+
+    «Dodici. Grazie.»
+
+
+    «Ecco la chiave. La colazione è dalle sette alle dieci. Buonanotte!»
+
+    '
+  questions:
+  - prompt: Come si chiama la signora?
+    answers:
+    - text: anna rossi
+      canonical: true
+    - text: anna
+    - text: rossi
+    explanation: «Mi chiamo Anna Rossi.»
+  - prompt: Qual è il numero della camera?
+    answers:
+    - text: dodici
+      canonical: true
+    - text: '12'
+    - text: la dodici
+    explanation: «La camera è la numero dodici.»
+  - prompt: A che ora è la colazione?
+    answers:
+    - text: dalle sette alle dieci
+      canonical: true
+    - text: sette
+    - text: dalle sette
+    explanation: «La colazione è dalle sette alle dieci.»
+  evidence:
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: vocab
+    id: albergo
+    weight: 0.5
+  - axis: vocab
+    id: camera
+    weight: 0.5
+  - axis: vocab
+    id: chiave
+    weight: 0.5
+  - axis: vocab
+    id: prenotazione
+    weight: 0.5
+  - axis: vocab
+    id: numero
+    weight: 0.5
+  - axis: vocab
+    id: dodici
+    weight: 0.5
+  image: images/readings/reading.in_albergo.001.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d2
+  id: reading.in_albergo.002
+  cefr_level: A0
+  title: La chiave
+  text: 'Sono le undici di sera. La porta dell''albergo è chiusa. Al banco c''è un
+
+    altro signore: non è la signora di ieri.
+
+
+    «Buonasera. Come si chiama?»
+
+
+    «Mi chiamo Anna Rossi. La camera è la quindici.»
+
+
+    «Un momento, signora... camera quindici. Ecco la chiave.»
+
+
+    «Grazie mille. Buonanotte.»
+
+
+    «Buonanotte, signora Rossi.»
+
+    '
+  glossary:
+    banco: front desk / counter
+  questions:
+  - prompt: Che ore sono?
+    answers:
+    - text: le undici
+      canonical: true
+    - text: undici
+    - text: '11'
+    explanation: «Sono le undici di sera.»
+  - prompt: Qual è il numero della camera di Anna?
+    answers:
+    - text: quindici
+      canonical: true
+    - text: '15'
+    - text: la quindici
+    explanation: «La camera è la quindici.»
+  - prompt: Chi c'è al banco?
+    answers:
+    - text: un altro signore
+      canonical: true
+    - text: un signore
+    - text: altro signore
+    explanation: '«Al banco c''è un altro signore: non è la signora di ieri.»'
+  evidence:
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: chiave
+    weight: 0.5
+  - axis: vocab
+    id: camera
+    weight: 0.5
+  - axis: vocab
+    id: albergo
+    weight: 0.5
+  - axis: vocab
+    id: quindici
+    weight: 0.5
+  - axis: vocab
+    id: undici
+    weight: 0.5
+  image: images/readings/reading.in_albergo.002.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d3
+  id: reading.in_albergo.003
+  cefr_level: A0
+  title: A colazione
+  text: 'La mattina, a colazione. Anna prende un caffè e un cornetto.
+
+
+    Al tavolo vicino c''è una signora.
+
+
+    «Buongiorno! Io mi chiamo Maria. E lei?»
+
+
+    «Buongiorno. Mi chiamo Anna. Piacere.»
+
+
+    «Piacere. Lei è inglese?»
+
+
+    «Sì. Sono a Roma per tre giorni.»
+
+
+    Arriva il cameriere. «Scusi, il numero della camera?»
+
+
+    «La dodici.»
+
+
+    «Grazie. Buona giornata!»
+
+    '
+  glossary:
+    vicino: next to / nearby
+    cameriere: waiter
+  questions:
+  - prompt: Come si chiama la signora al tavolo vicino?
+    answers:
+    - text: maria
+      canonical: true
+    - text: si chiama maria
+    explanation: «Io mi chiamo Maria. E lei?»
+  - prompt: Che cosa prende Anna a colazione?
+    answers:
+    - text: un caffè e un cornetto
+      canonical: true
+    - text: caffè e cornetto
+    explanation: «Anna prende un caffè e un cornetto.»
+  - prompt: Che numero dice Anna al cameriere?
+    answers:
+    - text: dodici
+      canonical: true
+    - text: la dodici
+    - text: '12'
+    explanation: «La dodici.» — the room number, without the word camera.
+  - prompt: Quanti giorni sta Anna a Roma?
+    answers:
+    - text: tre
+      canonical: true
+    - text: tre giorni
+    - text: '3'
+    explanation: «Sono a Roma per tre giorni.»
+  evidence:
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 0.5
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: camera
+    weight: 0.5
+  - axis: vocab
+    id: numero
+    weight: 0.5
+  - axis: vocab
+    id: presentazione
+    weight: 0.5
+  - axis: vocab
+    id: chiamarsi
+    weight: 0.5
+  - axis: vocab
+    id: dodici
+    weight: 0.5
+  - axis: vocab
+    id: tre
+    weight: 0.5
+  image: images/readings/reading.in_albergo.003.png

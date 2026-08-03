@@ -1,0 +1,101 @@
+# Capstones — lesson a0-10-conoscere-qualcuno, one per depth. Drafted,
+# not yet reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can move
+# a0.say_who_i_am to *achieved*. d1 and d2 show the target as a model; d3
+# shows nothing — the learner has to open the conversation themselves.
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: task.conoscere.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Una studentessa ti saluta in piazza. Saluta anche tu: il tuo nome e
+    la tua città. (Greet her back — your name, and where you are from.)
+  target_text: "Ciao! Io sono Anna e sono di Londra."
+  variants:
+    - "Ciao, mi chiamo Anna. Sono di Londra."
+  rubric:
+    - greets before anything else
+    - gives a name — «sono…» or «mi chiamo…»
+    - says where they are from with «sono di» + city
+  explanation: "Saluto, nome, città: the three moves of every first exchange."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: essere, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d2
+  id: task.conoscere.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei in piazza con il tuo amico Marco e una studentessa inglese.
+    Presenta Marco: chi è, di dov'è, dove abita.
+    (Introduce your friend: who he is, where he's from, where he lives.)
+  target_text: "Lui è il mio amico Marco. È di Milano, ma abita a Firenze."
+  variants:
+    - "Lui è Marco, il mio amico. Marco è di Milano e abita a Firenze."
+  rubric:
+    - introduces him with «lui è» or his name
+    - uses «è», not «sono», for the third person
+    - gives the city he is from and the city he lives in
+  explanation: "«Lui è…» opens it; from there the verb stays «è» all the way."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: amico, weight: 0.5 }
+    - { axis: vocab, id: abitare, weight: 0.5 }
+    - { axis: vocab, id: mio, weight: 0.5 }
+
+# The pass that closes the can-do. Nothing on screen: nobody asks first,
+# so the learner has to start the conversation and keep it going.
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: task.conoscere.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Domenica, in piazza. (Nobody asks you anything. Introduce yourself to
+    someone new: greet them, give your name, say where you are from,
+    where you live and what you do — then ask them one thing back.)
+  target_text: "Ciao, io sono Anna. Sono inglese, ma abito qui a Roma. Sono studentessa. E tu, come ti chiami?"
+  variants:
+    - "Ciao! Il mio nome è Anna. Sono di Londra e adesso abito a Roma. Sono studentessa. Tu di dove sei?"
+    - "Salve, mi chiamo Anna. Sono inglese, abito a Roma. Sono studentessa. E tu, sei italiano?"
+  rubric:
+    - opens with a greeting, unprompted
+    - gives a name
+    - says where they are from and where they live now
+    - says what they do — «sono studente / studentessa» or a job
+    - asks the other person one question back
+    - no English
+  explanation: "Nome, città, che cosa fai — then hand the question over."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: essere, weight: 0.5 }
+    - { axis: vocab, id: come, weight: 0.5 }
+    - { axis: vocab, id: abitare, weight: 0.5 }
+    - { axis: vocab, id: inglese, weight: 0.5 }
+    - { axis: vocab, id: italiano, weight: 0.5 }
+    - { axis: vocab, id: studente, weight: 0.5 }
+    - { axis: vocab, id: studentessa, weight: 0.5 }
+    - { axis: vocab, id: mio, weight: 0.5 }

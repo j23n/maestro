@@ -271,7 +271,9 @@ def test_a_band_out_of_scope_is_not_held_to_the_contract():
     that level is checked, everything above it is nobody's business yet."""
     spec = _spec(_compliant_depths())
     spec.grammar_points.append(
-        GrammarPoint(id="passato_pr", cefr_level="A1", category="verbi", label="passato")
+        GrammarPoint(
+            id="passato_pr", cefr_level="A1", category="verbi", label="passato"
+        )
     )
     assert spiral(spec, _items()).findings != []  # the A1 point is an orphan
     assert spiral(spec, _items(), in_scope=("A0",)).findings == []

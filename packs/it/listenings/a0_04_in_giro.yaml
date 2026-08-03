@@ -37,3 +37,90 @@
     - { axis: grammar, id: dove_e, weight: 1.0 }
     - { axis: grammar, id: art_il_la, weight: 1.0 }
     - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+
+# d2 — the museum is shut, so the question has to be asked a second time,
+# of somebody else, about something else.
+- status: draft
+  scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d2
+  id: listening.in_giro.002
+  cefr_level: A0
+  title: Il museo è chiuso
+  turns:
+    - { speaker: "Anna", text: "Scusi, signora!" }
+    - { speaker: "Signora", text: "Prego." }
+    - { speaker: "Anna", text: "Il museo è chiuso. Dov'è il mercato?" }
+    - { speaker: "Signora", text: "Il mercato è in piazza Garibaldi." }
+    - { speaker: "Anna", text: "E la banca?" }
+    - { speaker: "Signora", text: "La banca è lì, in via Roma. È aperta." }
+    - { speaker: "Anna", text: "Grazie mille!" }
+    - { speaker: "Signora", text: "Prego." }
+  questions:
+    - prompt: "Perché Anna cerca il mercato?"
+      answers:
+        - { text: "il museo è chiuso", canonical: true }
+        - { text: "è chiuso" }
+        - { text: "chiuso" }
+      explanation: "«Il museo è chiuso. Dov'è il mercato?»"
+    - prompt: "Dov'è la banca?"
+      answers:
+        - { text: "in via Roma", canonical: true }
+        - { text: "via Roma" }
+      explanation: "«La banca è lì, in via Roma.»"
+    - prompt: "Dov'è il mercato?"
+      answers:
+        - { text: "in piazza Garibaldi", canonical: true }
+        - { text: "in piazza" }
+        - { text: "piazza Garibaldi" }
+      explanation: "«Il mercato è in piazza Garibaldi.»"
+  evidence:
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: vocab, id: mercato, weight: 0.5 }
+    - { axis: vocab, id: banca, weight: 0.5 }
+    - { axis: vocab, id: via, weight: 0.5 }
+
+# d3 — the answer arrives as landmarks, not as street names. Nothing on
+# screen to point at.
+- status: draft
+  scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d3
+  id: listening.in_giro.003
+  cefr_level: A0
+  title: Senza mappa
+  turns:
+    - { speaker: "Marco", text: "Buongiorno, scusi. Dov'è via Firenze?" }
+    - { speaker: "Signore", text: "Via Firenze... Vede la chiesa?" }
+    - { speaker: "Marco", text: "Sì." }
+    - { speaker: "Signore", text: "Via Firenze è lì. C'è anche un supermercato." }
+    - { speaker: "Marco", text: "E c'è un autobus per il centro?" }
+    - { speaker: "Signore", text: "Sì, il numero otto. L'autobus è qui." }
+    - { speaker: "Marco", text: "Grazie mille, arrivederci!" }
+  questions:
+    - prompt: "Che cosa cerca Marco?"
+      answers:
+        - { text: "via Firenze", canonical: true }
+        - { text: "la via" }
+      explanation: "«Dov'è via Firenze?»"
+    - prompt: "Che cosa c'è in via Firenze?"
+      answers:
+        - { text: "un supermercato", canonical: true }
+        - { text: "supermercato" }
+      explanation: "«C'è anche un supermercato.»"
+    - prompt: "Che autobus va in centro?"
+      answers:
+        - { text: "il numero otto", canonical: true }
+        - { text: "otto" }
+      explanation: "«Sì, il numero otto.»"
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 0.5 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 0.5 }
+    - { axis: vocab, id: via, weight: 0.5 }
+    - { axis: vocab, id: chiesa, weight: 0.5 }
+    - { axis: vocab, id: supermercato, weight: 0.5 }
+    - { axis: vocab, id: centro, weight: 0.5 }

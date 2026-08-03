@@ -1,0 +1,207 @@
+# Capstones — lesson a0-09-in-viaggio. Two can-dos at three depths each:
+# a0.buy_ticket (the transaction) and a0.read_signs (the board). Drafted,
+# not yet reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can
+# move a can-do to *achieved* (docs/plans/07 §2). d1 and d2 show the
+# target as a model; d3 shows nothing.
+
+# --- a0.buy_ticket -----------------------------------------------------
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: task.in_viaggio.buy.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei alla stazione. Vuoi andare a Roma. Compra un biglietto e chiedi
+    da che binario parte il treno.
+    (You're at the window. Buy one ticket to Rome and ask which platform.)
+  target_text: "Vorrei un biglietto per Roma, per favore. Da che binario parte?"
+  variants:
+    - "Un biglietto per Roma, per favore. Da che binario parte il treno?"
+  rubric:
+    - asks for one ticket, with the destination
+    - asks rather than demands — vorrei or per favore
+    - asks which platform, not just when
+  explanation: "«Vorrei un biglietto per» + city, then «Da che binario parte?» — two sentences, one transaction."
+  evidence:
+    - { axis: cando, id: a0.buy_ticket, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d2
+  id: task.in_viaggio.buy.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Alla macchina dei biglietti, per due. Andate a Firenze oggi e
+    venite domani. Compra i biglietti e chiedi il prezzo.
+    (Two of you, Florence today and back tomorrow. Buy the tickets from
+    the machine and ask what it costs.)
+  target_text: "Vorrei due biglietti per Firenze, per favore. Andiamo oggi e veniamo domani. Quanto costa?"
+  variants:
+    - "Due biglietti per Firenze, per favore. Andiamo oggi e veniamo domani. Quanto costa?"
+  rubric:
+    - asks for two tickets, not one
+    - says both halves of the trip — going today, coming back tomorrow
+    - asks the price
+  explanation: "«Due biglietti» + «andiamo… veniamo…» is how you say the return trip with the words you have."
+  evidence:
+    - { axis: cando, id: a0.buy_ticket, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: andare, weight: 0.5 }
+    - { axis: vocab, id: venire, weight: 0.5 }
+
+# The pass that closes a0.buy_ticket. No model: the learner has to arrive
+# at all three moves — the ticket, the time, the platform — unaided.
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d3
+  id: task.in_viaggio.buy.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Il treno per Roma è partito e tu sei ancora alla stazione. Compra un
+    altro biglietto per oggi, chiedi a che ora parte e da che binario.
+    (You missed it. Buy another ticket to Rome for today, then ask the
+    time and the platform.)
+  target_text: "Vorrei comprare un biglietto per Roma: vado oggi. A che ora parte il treno e da che binario?"
+  variants:
+    - "Vorrei un biglietto per Roma, per favore. A che ora parte il treno? Da che binario parte?"
+    - "Un biglietto per Roma, per favore. A che ora parte e da che binario?"
+  rubric:
+    - buys the ticket, with the destination
+    - asks the departure time
+    - asks the platform
+    - no English
+  explanation: "Ticket, time, platform. The same three moves in every station in Italy."
+  evidence:
+    - { axis: cando, id: a0.buy_ticket, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: treno, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+    - { axis: vocab, id: comprare, weight: 0.5 }
+    - { axis: vocab, id: partire, weight: 0.5 }
+    - { axis: vocab, id: andare, weight: 0.5 }
+    - { axis: vocab, id: stazione, weight: 0.5 }
+
+# --- a0.read_signs -----------------------------------------------------
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: task.in_viaggio.signs.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Alla stazione: TRENO PER FIRENZE — ORE 9 — BINARIO 12. Di' quando
+    parte il treno e da che binario.
+    (Read the board out loud: when the Florence train leaves, and from
+    which platform.)
+  target_text: "Il treno per Firenze parte alle nove dal binario dodici."
+  variants:
+    - "Parte alle nove dal binario dodici."
+  rubric:
+    - says the time as a word, not a digit
+    - says the platform number
+    - uses «parte», not «va»
+  explanation: "Boards are three things: destination, time, platform. Say them back in that order."
+  evidence:
+    - { axis: cando, id: a0.read_signs, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: vocab, id: treno, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d2
+  id: task.in_viaggio.signs.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Alla stazione: TRENO PER MILANO — ORE 20:30 — BINARIO 8. Sulla porta
+    della stazione: APERTO. Sul museo, in centro: CHIUSO. Di' che cosa
+    dice la stazione.
+    (Board plus two signs. Say when and where the Milan train leaves,
+    and what is open and what is closed.)
+  target_text: "Il treno per Milano parte alle venti e trenta dal binario otto. La stazione è aperta e il museo è chiuso."
+  variants:
+    - "Alle venti e trenta, dal binario otto. La stazione è aperta, il museo è chiuso."
+  rubric:
+    - reads 20:30 as «alle venti e trenta»
+    - says the platform number
+    - says what is open and what is closed
+    - agrees «aperta» with «stazione»
+  explanation: "24-hour times are read straight off the board: 20:30 → «alle venti e trenta»."
+  evidence:
+    - { axis: cando, id: a0.read_signs, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: vocab, id: aperto, weight: 0.5 }
+    - { axis: vocab, id: chiuso, weight: 0.5 }
+
+# The pass that closes a0.read_signs. Four sign words and two platform
+# numbers, and nothing on screen to copy.
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d3
+  id: task.in_viaggio.signs.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Quattro parole alla stazione: APERTO, CHIUSO, LIBERO, OCCUPATO. Il
+    binario nove adesso è chiuso; il binario otto è aperto. Di' che cosa
+    è chiuso, che cosa è aperto, e da che binario parte adesso il treno
+    per Roma.
+    (Four signs and a platform change. No model.)
+  target_text: "Il binario nove è chiuso e il binario otto è aperto. Adesso il treno per Roma parte dal binario otto."
+  variants:
+    - "Il binario nove è chiuso. Il treno per Roma parte dal binario otto, e il binario otto è aperto."
+    - "Adesso il treno per Roma non parte dal binario nove: parte dal binario otto."
+  rubric:
+    - says which platform is closed and which is open
+    - says the new platform for the Rome train
+    - both platform numbers correct
+    - no English
+  explanation: "aperto ↔ chiuso, libero ↔ occupato: four words, and the number next to them is the one that matters."
+  evidence:
+    - { axis: cando, id: a0.read_signs, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: aperto, weight: 0.5 }
+    - { axis: vocab, id: chiuso, weight: 0.5 }
+    - { axis: vocab, id: libero, weight: 0.5 }
+    - { axis: vocab, id: occupato, weight: 0.5 }
+    - { axis: vocab, id: veloce, weight: 0.5 }
+    - { axis: vocab, id: breve, weight: 0.5 }

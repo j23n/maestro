@@ -1,0 +1,80 @@
+# Grammar reference pages — lesson a0-07-mi-piace. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: grammar_ref.mi_piace
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: mi_piace
+  title: Mi piace — saying what you like
+  body_md: |
+    Italian does not say *I like the pasta*. It says **mi piace la pasta** —
+    literally "the pasta is pleasing to me". So the thing you like is the
+    one doing the work, and the verb agrees with **it**, not with you.
+
+    | You want to say | Italian | Because |
+    |---|---|---|
+    | I like the pasta | **mi piace** la pasta | one thing |
+    | I like sweets | **mi piacciono** i dolci | more than one thing |
+    | I like eating | **mi piace** mangiare | a verb counts as one thing |
+    | I don't like fish | **non mi piace** il pesce | *non* goes in front |
+
+    **The only choice you have to make is singular or plural.** Look at
+    what comes after: one item → *piace*, several items → *piacciono*. It
+    never changes because of you.
+
+    **Negation wraps the whole pair.** *Non mi piace*, *non mi piacciono* —
+    *non* comes first, never between *mi* and *piace*.
+
+    **How much.** Add **molto** (a lot) or **poco** (not much) straight
+    after the verb: *mi piace molto*, *mi piace poco*. *Mi piace poco* is
+    the polite way to say you don't really like something.
+  examples:
+    - Mi piace la pasta.
+    - Non mi piace il pesce.
+    - Mi piacciono i dolci.
+    - Mi piace molto il caffè.
+    - Il vino mi piace poco.
+    - Mi piace mangiare bene.
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: grammar_ref.art_i_le
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: art_i_le
+  title: "The plural \"the\" — i and le"
+  body_md: |
+    You already have **il** and **la** for one thing. For more than one,
+    each of them has a plural partner.
+
+    | Singular | Plural | Example |
+    |---|---|---|
+    | **il** piatto | **i** piatti | i piatti sono caldi |
+    | **la** mela | **le** mele | le mele sono buone |
+    | **lo** spaghetto, **l'**amico | **gli** spaghetti, **gli** amici | gli spaghetti al pomodoro |
+
+    **il → i, la → le.** That covers almost everything. The odd one out is
+    **gli**, which replaces *lo* and *l'* — masculine words starting with a
+    vowel or with s + consonant.
+
+    The noun changes ending too: **-o → -i** (piatto, piatti) and
+    **-a → -e** (mela, mele). Words ending in **-e** go to **-i**
+    (dolce, dolci) whichever gender they are.
+
+    This is where *mi piacciono* lives: **mi piacciono i dolci**, **mi
+    piacciono le mele**. Plural article, plural verb.
+  examples:
+    - I dolci sono buoni.
+    - Le mele sono buone.
+    - Mi piacciono i piatti caldi.
+    - Non mi piacciono le insalate.
+    - Gli spaghetti al pomodoro sono molto buoni.
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 0.5 }

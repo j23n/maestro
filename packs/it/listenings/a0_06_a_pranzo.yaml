@@ -1,0 +1,146 @@
+# Listenings — lesson a0-06-a-pranzo, one per depth: the menu in your hand
+# (d1), the specials said out loud (d2), the counter where nothing is
+# written down at all (d3). Drafted, not yet reviewed.
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: listening.a_pranzo.001
+  cefr_level: A0
+  title: Ecco il menù
+  turns:
+    - { speaker: "Cameriere", text: "Buongiorno! Ecco il menù." }
+    - { speaker: "Anna", text: "Grazie. Cos'è il piatto del giorno?" }
+    - { speaker: "Cameriere", text: "Oggi è pasta al pomodoro." }
+    - { speaker: "Anna", text: "Va bene. Prendo la pasta, per favore." }
+    - { speaker: "Cameriere", text: "E da bere?" }
+    - { speaker: "Anna", text: "Un'acqua naturale, grazie." }
+  audio: null
+  questions:
+    - prompt: Che cosa è il piatto del giorno?
+      answers:
+        - { text: "pasta al pomodoro", canonical: true }
+        - { text: "la pasta al pomodoro" }
+        - { text: "pasta" }
+      explanation: "«Oggi è pasta al pomodoro.»"
+    - prompt: Che cosa ordina Anna?
+      answers:
+        - { text: "la pasta", canonical: true }
+        - { text: "pasta" }
+        - { text: "il piatto del giorno" }
+      explanation: "«Va bene. Prendo la pasta, per favore.»"
+    - prompt: Che cosa prende da bere?
+      answers:
+        - { text: "un'acqua naturale", canonical: true }
+        - { text: "acqua naturale" }
+        - { text: "acqua" }
+      explanation: "«Un'acqua naturale, grazie.»"
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: vocab, id: menù, weight: 0.5 }
+    - { axis: vocab, id: piatto, weight: 0.5 }
+    - { axis: vocab, id: pasta, weight: 0.5 }
+    - { axis: vocab, id: pomodoro, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d2
+  id: listening.a_pranzo.002
+  cefr_level: A0
+  title: I piatti di oggi
+  turns:
+    - { speaker: "Cameriere", text: "Oggi abbiamo pasta al pomodoro, pollo con l'insalata, pesce e il dolce della casa." }
+    - { speaker: "Marco", text: "Scusi, non capisco. Cos'è il dolce?" }
+    - { speaker: "Cameriere", text: "Il dolce di oggi è il gelato." }
+    - { speaker: "Marco", text: "Va bene. Prendo il pollo con l'insalata e il pane, per favore." }
+    - { speaker: "Cameriere", text: "E da bere?" }
+    - { speaker: "Marco", text: "Un bicchiere di vino, grazie." }
+    - { speaker: "Cameriere", text: "Subito." }
+  audio: null
+  questions:
+    - prompt: Che cosa non capisce Marco?
+      answers:
+        - { text: "il dolce", canonical: true }
+        - { text: "dolce" }
+      explanation: "«Scusi, non capisco. Cos'è il dolce?»"
+    - prompt: Che cosa è il dolce di oggi?
+      answers:
+        - { text: "il gelato", canonical: true }
+        - { text: "gelato" }
+      explanation: "«Il dolce di oggi è il gelato.»"
+    - prompt: Che cosa ordina Marco?
+      answers:
+        - { text: "il pollo con l'insalata e il pane", canonical: true }
+        - { text: "pollo con insalata e pane" }
+        - { text: "il pollo con l'insalata" }
+      explanation: "«Prendo il pollo con l'insalata e il pane, per favore.»"
+    - prompt: Che cosa prende da bere?
+      answers:
+        - { text: "un bicchiere di vino", canonical: true }
+        - { text: "vino" }
+      explanation: "«Un bicchiere di vino, grazie.»"
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: vocab, id: pollo, weight: 0.5 }
+    - { axis: vocab, id: insalata, weight: 0.5 }
+    - { axis: vocab, id: pane, weight: 0.5 }
+    - { axis: vocab, id: dolce, weight: 0.5 }
+    - { axis: vocab, id: gelato, weight: 0.5 }
+    - { axis: vocab, id: pesce, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d3
+  id: listening.a_pranzo.003
+  cefr_level: A0
+  title: Al banco, all'una
+  turns:
+    - { speaker: "Signora", text: "Prego?" }
+    - { speaker: "Anna", text: "Un momento, scusi. Cos'è?" }
+    - { speaker: "Signora", text: "È pesce con i pomodori." }
+    - { speaker: "Anna", text: "E che cosa sono?" }
+    - { speaker: "Signora", text: "Sono panini al prosciutto." }
+    - { speaker: "Anna", text: "Vorrei il pesce e un panino, per favore. E un'insalata." }
+    - { speaker: "Signora", text: "Da bere?" }
+    - { speaker: "Anna", text: "Un'acqua naturale. Quanto costa?" }
+    - { speaker: "Signora", text: "Dieci euro. Il tavolo è lì." }
+  audio: null
+  questions:
+    - prompt: Che cosa è il piatto caldo?
+      answers:
+        - { text: "pesce con i pomodori", canonical: true }
+        - { text: "pesce" }
+      explanation: "«È pesce con i pomodori.»"
+    - prompt: Che cosa sono i panini?
+      answers:
+        - { text: "panini al prosciutto", canonical: true }
+        - { text: "prosciutto" }
+      explanation: "«Sono panini al prosciutto.» More than one → «sono»."
+    - prompt: Che cosa ordina Anna?
+      answers:
+        - { text: "il pesce, un panino e un'insalata", canonical: true }
+        - { text: "pesce, panino e insalata" }
+        - { text: "il pesce e un panino" }
+      explanation: "«Vorrei il pesce e un panino, per favore. E un'insalata.»"
+    - prompt: Quanto costa il pranzo?
+      answers:
+        - { text: "dieci euro", canonical: true }
+        - { text: "10 euro" }
+      explanation: "«Dieci euro.»"
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+    - { axis: vocab, id: pesce, weight: 0.5 }
+    - { axis: vocab, id: pomodoro, weight: 0.5 }
+    - { axis: vocab, id: panino, weight: 0.5 }
+    - { axis: vocab, id: prosciutto, weight: 0.5 }
+    - { axis: vocab, id: insalata, weight: 0.5 }
+    - { axis: vocab, id: tavolo, weight: 0.5 }

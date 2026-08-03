@@ -1,0 +1,569 @@
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.menu
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: menù
+  front: il menù
+  back: menu
+  example: Il menù, per favore.
+  example_gloss: The menu, please.
+  answers:
+  - text: menù
+    canonical: true
+  - text: il menù
+  evidence:
+  - axis: vocab
+    id: menù
+    weight: 1.0
+  image: images/vocab/vocab.menu.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.piatto
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: piatto
+  front: il piatto
+  back: dish / plate
+  example: Il piatto del giorno è la pasta.
+  example_gloss: Today's dish is the pasta.
+  answers:
+  - text: piatto
+    canonical: true
+  - text: il piatto
+  evidence:
+  - axis: vocab
+    id: piatto
+    weight: 1.0
+  image: images/vocab/vocab.piatto.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pranzo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pranzo
+  front: il pranzo
+  back: lunch
+  example: Il pranzo è all'una.
+  example_gloss: Lunch is at one o'clock.
+  answers:
+  - text: pranzo
+    canonical: true
+  - text: il pranzo
+  evidence:
+  - axis: vocab
+    id: pranzo
+    weight: 1.0
+  image: images/vocab/vocab.pranzo.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.cena
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: cena
+  front: la cena
+  back: dinner
+  example: A cena mangio il pesce.
+  example_gloss: For dinner I eat fish.
+  answers:
+  - text: cena
+    canonical: true
+  - text: la cena
+  evidence:
+  - axis: vocab
+    id: cena
+    weight: 1.0
+  image: images/vocab/vocab.cena.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.ristorante
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: ristorante
+  front: il ristorante
+  back: restaurant
+  example: Il ristorante è in piazza.
+  example_gloss: The restaurant is on the square.
+  answers:
+  - text: ristorante
+    canonical: true
+  - text: il ristorante
+  evidence:
+  - axis: vocab
+    id: ristorante
+    weight: 1.0
+  image: images/vocab/vocab.ristorante.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.tavolo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: tavolo
+  front: il tavolo
+  back: table
+  example: Un tavolo per due, per favore.
+  example_gloss: A table for two, please.
+  answers:
+  - text: tavolo
+    canonical: true
+  - text: il tavolo
+  evidence:
+  - axis: vocab
+    id: tavolo
+    weight: 1.0
+  image: images/vocab/vocab.tavolo.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.ordinare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: ordinare
+  front: ordinare
+  back: to order
+  example: Vorrei ordinare, per favore.
+  example_gloss: I'd like to order, please.
+  answers:
+  - text: ordinare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ordinare
+    weight: 1.0
+  image: images/vocab/vocab.ordinare.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.mangiare
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: mangiare
+  front: mangiare
+  back: to eat
+  example: A pranzo mangio una pizza.
+  example_gloss: For lunch I eat a pizza.
+  answers:
+  - text: mangiare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mangiare
+    weight: 1.0
+  image: images/vocab/vocab.mangiare.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.bere
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: bere
+  front: bere
+  back: to drink
+  example: Vorrei bere un caffè.
+  example_gloss: I'd like to drink a coffee.
+  answers:
+  - text: bere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bere
+    weight: 1.0
+  image: images/vocab/vocab.bere.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pasta
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pasta
+  front: la pasta
+  back: pasta
+  example: La pasta al pomodoro è buona.
+  example_gloss: The pasta with tomato is good.
+  answers:
+  - text: pasta
+    canonical: true
+  - text: la pasta
+  evidence:
+  - axis: vocab
+    id: pasta
+    weight: 1.0
+  image: images/vocab/vocab.pasta.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.spaghetti
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: spaghetti
+  front: gli spaghetti
+  back: spaghetti
+  example: Gli spaghetti sono al pomodoro.
+  example_gloss: The spaghetti is with tomato sauce.
+  answers:
+  - text: spaghetti
+    canonical: true
+  - text: gli spaghetti
+  evidence:
+  - axis: vocab
+    id: spaghetti
+    weight: 1.0
+  image: images/vocab/vocab.spaghetti.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pizza
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pizza
+  front: la pizza
+  back: pizza
+  example: Una pizza grande, per favore.
+  example_gloss: A large pizza, please.
+  answers:
+  - text: pizza
+    canonical: true
+  - text: la pizza
+  evidence:
+  - axis: vocab
+    id: pizza
+    weight: 1.0
+  image: images/vocab/vocab.pizza.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.panino
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: panino
+  front: il panino
+  back: sandwich / bread roll
+  example: Un panino al prosciutto, per favore.
+  example_gloss: A ham sandwich, please.
+  answers:
+  - text: panino
+    canonical: true
+  - text: il panino
+  evidence:
+  - axis: vocab
+    id: panino
+    weight: 1.0
+  image: images/vocab/vocab.panino.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pane
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pane
+  front: il pane
+  back: bread
+  example: Con la pasta prendo anche il pane.
+  example_gloss: With the pasta I'll have bread too.
+  answers:
+  - text: pane
+    canonical: true
+  - text: il pane
+  evidence:
+  - axis: vocab
+    id: pane
+    weight: 1.0
+  image: images/vocab/vocab.pane.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.carne
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: carne
+  front: la carne
+  back: meat
+  example: Non mangio carne.
+  example_gloss: I don't eat meat.
+  answers:
+  - text: carne
+    canonical: true
+  - text: la carne
+  evidence:
+  - axis: vocab
+    id: carne
+    weight: 1.0
+  image: images/vocab/vocab.carne.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pesce
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pesce
+  front: il pesce
+  back: fish
+  example: Oggi mangio il pesce.
+  example_gloss: Today I'm eating fish.
+  answers:
+  - text: pesce
+    canonical: true
+  - text: il pesce
+  evidence:
+  - axis: vocab
+    id: pesce
+    weight: 1.0
+  image: images/vocab/vocab.pesce.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pollo
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pollo
+  front: il pollo
+  back: chicken
+  example: Il pollo con l'insalata, grazie.
+  example_gloss: The chicken with salad, thanks.
+  answers:
+  - text: pollo
+    canonical: true
+  - text: il pollo
+  evidence:
+  - axis: vocab
+    id: pollo
+    weight: 1.0
+  image: images/vocab/vocab.pollo.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.prosciutto
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: prosciutto
+  front: il prosciutto
+  back: ham
+  example: Il prosciutto e il formaggio sono buoni.
+  example_gloss: The ham and the cheese are good.
+  answers:
+  - text: prosciutto
+    canonical: true
+  - text: il prosciutto
+  evidence:
+  - axis: vocab
+    id: prosciutto
+    weight: 1.0
+  image: images/vocab/vocab.prosciutto.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.formaggio
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: formaggio
+  front: il formaggio
+  back: cheese
+  example: Un panino con il formaggio, per favore.
+  example_gloss: A cheese sandwich, please.
+  answers:
+  - text: formaggio
+    canonical: true
+  - text: il formaggio
+  evidence:
+  - axis: vocab
+    id: formaggio
+    weight: 1.0
+  image: images/vocab/vocab.formaggio.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.insalata
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: insalata
+  front: l'insalata
+  back: salad
+  example: Un'insalata con i pomodori, grazie.
+  example_gloss: A salad with tomatoes, thanks.
+  answers:
+  - text: insalata
+    canonical: true
+  - text: l'insalata
+  evidence:
+  - axis: vocab
+    id: insalata
+    weight: 1.0
+  image: images/vocab/vocab.insalata.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.pomodoro
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: pomodoro
+  front: il pomodoro
+  back: tomato
+  example: L'insalata è con il pomodoro.
+  example_gloss: The salad has tomato in it.
+  answers:
+  - text: pomodoro
+    canonical: true
+  - text: il pomodoro
+  evidence:
+  - axis: vocab
+    id: pomodoro
+    weight: 1.0
+  image: images/vocab/vocab.pomodoro.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.sale
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: sale
+  front: il sale
+  back: salt
+  example: Il sale è sul tavolo.
+  example_gloss: The salt is on the table.
+  answers:
+  - text: sale
+    canonical: true
+  - text: il sale
+  evidence:
+  - axis: vocab
+    id: sale
+    weight: 1.0
+  image: images/vocab/vocab.sale.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.dolce
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: dolce
+  front: il dolce
+  back: dessert
+  example: Come dolce prendo un gelato.
+  example_gloss: For dessert I'll have an ice cream.
+  answers:
+  - text: dolce
+    canonical: true
+  - text: il dolce
+  evidence:
+  - axis: vocab
+    id: dolce
+    weight: 1.0
+  image: images/vocab/vocab.dolce.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.gelato
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: gelato
+  front: il gelato
+  back: ice cream
+  example: Vorrei un gelato, per favore.
+  example_gloss: I'd like an ice cream, please.
+  answers:
+  - text: gelato
+    canonical: true
+  - text: il gelato
+  evidence:
+  - axis: vocab
+    id: gelato
+    weight: 1.0
+  image: images/vocab/vocab.gelato.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.frutta
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: frutta
+  front: la frutta
+  back: fruit
+  example: Come dolce prendo la frutta.
+  example_gloss: For dessert I'll have fruit.
+  answers:
+  - text: frutta
+    canonical: true
+  - text: la frutta
+  evidence:
+  - axis: vocab
+    id: frutta
+    weight: 1.0
+  image: images/vocab/vocab.frutta.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: vocab.mela
+  item_type: vocab_card
+  cefr_level: A0
+  demand: use
+  lemma: mela
+  front: la mela
+  back: apple
+  example: Vorrei una mela, grazie.
+  example_gloss: I'd like an apple, thanks.
+  answers:
+  - text: mela
+    canonical: true
+  - text: la mela
+  evidence:
+  - axis: vocab
+    id: mela
+    weight: 1.0
+  image: images/vocab/vocab.mela.png

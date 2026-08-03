@@ -1,0 +1,265 @@
+# Drills — lesson a0-10-conoscere-qualcuno.d1. Drafted, not yet reviewed.
+#
+# `essere_pre` drills 001-003 live in a0_basics.yaml and are already homed
+# at this lesson; these continue that numbering and top the point up to
+# six. `subj_pron` and `simp_sent` start from scratch.
+
+# --------------------------------------------------------- essere_pre
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.essere_pre.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "La mia amica ___ di Firenze."
+  answers:
+    - { text: "è", canonical: true }
+  distractor_feedback:
+    sono: "«Sono» is the *io* form. One friend, talked about: «è»."
+    sei: "«Sei» is for the person you are talking *to*. About her: «è»."
+    e: "Without the accent «e» means *and*. *Is* is «è»."
+  explanation: "One other person — «lui» or «lei» — takes «è»."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.essere_pre.005
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Which form of essere goes with «io»? «___ studente.»"
+  choices: ["sono", "sei", "è"]
+  answers:
+    - { text: "sono", canonical: true }
+  distractor_feedback:
+    sei: "«Sei» belongs to «tu»."
+    è: "«È» belongs to «lui» and «lei»."
+  explanation: "io sono, tu sei, lui/lei è."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.essere_pre.006
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Cambia il soggetto: «Io sono studentessa.» → «Tu ___ studentessa.»"
+  answers:
+    - { text: "sei", canonical: true }
+  distractor_feedback:
+    sono: "«Sono» stays with «io». With «tu» the verb changes to «sei»."
+  explanation: "Change the subject and the verb changes with it: io sono → tu sei."
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 0.5 }
+
+# ---------------------------------------------------------- subj_pron
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ sono di Londra, e tu di dove sei?"
+  answers:
+    - { text: "Io", canonical: true }
+    - { text: "io" }
+  distractor_feedback:
+    Tu: "«Tu» is the other person — and here they get asked second."
+    Lui: "«Lui» is a third person, not the one speaking."
+  explanation: "«Sono» with a subject spelled out takes «io»: I am from London."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Marco è italiano. ___ abita a Milano."
+  answers:
+    - { text: "Lui", canonical: true }
+    - { text: "lui" }
+  distractor_feedback:
+    Lei: "«Lei» is *she*. Marco takes «lui»."
+    Tu: "«Tu» is the person you are speaking to, not Marco."
+  explanation: "Once the name is out, «lui» carries it on: Marco → lui."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  prompt: "Giulia lavora a Firenze. ___ è la mia amica."
+  choices: ["Io", "Tu", "Lui", "Lei"]
+  answers:
+    - { text: "Lei", canonical: true }
+  distractor_feedback:
+    Lui: "«Lui» is *he*. Giulia takes «lei»."
+    Io: "«Io» is the speaker, and the speaker is not Giulia."
+  explanation: "Giulia → lei. Same verb form as «lui», different pronoun."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Which pronoun goes with the verb «sei»?"
+  choices: ["io", "tu", "lui", "lei"]
+  answers:
+    - { text: "tu", canonical: true }
+  distractor_feedback:
+    io: "«Io» takes «sono»."
+    lui: "«Lui» takes «è»."
+    lei: "«Lei» takes «è»."
+  explanation: "«Sei» is the form for the person you call *ciao*: «tu»."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.005
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Parla di Marco: «Io sono di Roma.» → «___ è di Roma.»"
+  answers:
+    - { text: "Lui", canonical: true }
+    - { text: "lui" }
+  distractor_feedback:
+    Io: "«Io» is the speaker. The sentence is now about Marco."
+    Tu: "«Tu» would go with «sei», and the verb here is «è»."
+  explanation: "Talking about Marco: io sono → lui è."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.subj_pron.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "La studentessa è inglese. ___ studia italiano a Firenze."
+  answers:
+    - { text: "Lei", canonical: true }
+    - { text: "lei" }
+  distractor_feedback:
+    Lui: "«La studentessa» is a woman: «lei»."
+    Io: "«Io» would need «studio», not «studia»."
+  explanation: "A feminine subject already named is picked up by «lei»."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+
+# ---------------------------------------------------------- simp_sent
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.001
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Metti in ordine: «italiano — Marco — è»"
+  answers:
+    - { text: "Marco è italiano", canonical: true }
+    - { text: "Marco è italiano." }
+  distractor_feedback:
+    "È Marco italiano": "That is a question. A statement starts with who: «Marco è italiano»."
+  explanation: "Subject, then verb, then the rest: Marco / è / italiano."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.002
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Metti in ordine: «a Roma — abita — la mia amica»"
+  answers:
+    - { text: "La mia amica abita a Roma", canonical: true }
+    - { text: "La mia amica abita a Roma." }
+  distractor_feedback:
+    "Abita la mia amica a Roma": "The subject comes first: «La mia amica abita a Roma»."
+  explanation: "Who (la mia amica) → what they do (abita) → where (a Roma)."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Anna ___ italiano a Firenze."
+  answers:
+    - { text: "studia", canonical: true }
+  distractor_feedback:
+    studiare: "The infinitive can't be the verb of a sentence. Anna «studia»."
+    studiano: "«Studiano» is for more than one person. Anna alone: «studia»."
+  explanation: "One person, one verb form: Anna studia."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: studiare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Which of these is the ordinary order for «studente — io — sono»?"
+  choices: ["Sono io studente.", "Io sono studente.", "Studente io sono."]
+  answers:
+    - { text: "Io sono studente.", canonical: true }
+  distractor_feedback:
+    "Sono io studente.": "«Sono io» is an answer to *who is it?*, not a plain statement."
+    "Studente io sono.": "That order is poetry, not conversation."
+  explanation: "Subject, verb, the rest — «Io sono studente»."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Il mio amico ___ in un bar in centro."
+  answers:
+    - { text: "lavora", canonical: true }
+  distractor_feedback:
+    lavorare: "A sentence needs a conjugated verb: «lavora»."
+    lavoro: "«Lavoro» is *I work*. The subject here is «il mio amico»."
+  explanation: "Il mio amico → lavora. Then where: in un bar."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: lavorare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: drill.simp_sent.006
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Metti in ordine: «studentessa — Giulia — una — è»"
+  answers:
+    - { text: "Giulia è una studentessa", canonical: true }
+    - { text: "Giulia è una studentessa." }
+  distractor_feedback:
+    "Una studentessa è Giulia": "The name is the subject: «Giulia è una studentessa»."
+  explanation: "Giulia / è / una studentessa — name first, then what she is."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 1.0 }

@@ -1,0 +1,105 @@
+# Capstones — lesson a0-04-in-giro, one per depth. Drafted, not reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can
+# move a0.ask_where to *achieved* (docs/plans/07 §2). d1 and d2 show the
+# target as a model; d3 shows nothing — with no map and no phone, the
+# question has to come out of the learner.
+
+- status: draft
+  scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d1
+  id: task.in_giro.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei in centro con la mappa. Una signora aspetta l'autobus. Ferma la
+    signora e chiedi dov'è il museo. (Stop her and ask where the museum
+    is.)
+  target_text: "Scusi, dov'è il museo?"
+  variants:
+    - "Scusi, dov'è il museo, per favore?"
+  rubric:
+    - opens with scusi, not with the question
+    - uses dov'è, not dove on its own
+    - keeps the article — il museo, never just museo
+  explanation: "«Scusi» + «dov'è» + article + place. That is the whole question."
+  evidence:
+    - { axis: cando, id: a0.ask_where, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d2
+  id: task.in_giro.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Il museo è chiuso. Entri in un negozio e chiedi alla signora dov'è
+    il mercato, e poi dov'è la banca. (Ask a shopkeeper for two places —
+    one masculine, one feminine.)
+  target_text: "Scusi, il museo è chiuso. Dov'è il mercato? E la banca?"
+  variants:
+    - "Scusi, dov'è il mercato, per favore? E dov'è la banca?"
+  rubric:
+    - opens with scusi
+    - asks for both places
+    - il mercato and la banca — the right article on each
+  explanation: "«Mercato» is masculine (il), «banca» feminine (la). The article moves with the word, not with the question."
+  evidence:
+    - { axis: cando, id: a0.ask_where, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: vocab, id: mercato, weight: 0.5 }
+    - { axis: vocab, id: banca, weight: 0.5 }
+    - { axis: vocab, id: negozio, weight: 0.5 }
+
+# The pass that closes the can-do. No map, no phone, no model on screen:
+# greeting, apology and question all have to arrive in the right order,
+# spoken well enough for a stranger to answer.
+- status: draft
+  scenario_ids: [a0-04-in-giro]
+  lesson_id: a0-04-in-giro.d3
+  id: task.in_giro.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Due persone aspettano l'autobus. Hai il nome di una strada e niente
+    in mano. Saluta, chiedi dov'è via Firenze e chiedi se c'è un autobus
+    per il centro. (Greet them, ask where via Firenze is, and ask whether
+    there is a bus into town.)
+  target_text: "Buongiorno! Scusi, dov'è via Firenze? C'è un autobus per il centro?"
+  variants:
+    - "Salve! Scusi, dov'è via Firenze, per favore? C'è un autobus per il centro?"
+    - "Buongiorno, scusi! Dov'è via Firenze? C'è un autobus?"
+  rubric:
+    - greets before asking anything
+    - asks with dov'è and the street name
+    - asks whether a bus exists with c'è un
+    - clear enough to be answered — vowels and double consonants land
+    - no English
+  explanation: "Dov'è asks where a known thing is; c'è asks whether one exists at all."
+  evidence:
+    - { axis: cando, id: a0.ask_where, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: vocab, id: via, weight: 0.5 }
+    - { axis: vocab, id: strada, weight: 0.5 }
+    - { axis: vocab, id: centro, weight: 0.5 }
+    - { axis: vocab, id: città, weight: 0.5 }
+    - { axis: vocab, id: dove, weight: 0.5 }

@@ -220,7 +220,9 @@ def load_pack_sources(pack_dir: Path) -> PackSources:
     tombstones = []
     ts_file = pack_dir / "tombstones.yaml"
     if ts_file.exists():
-        tombstones = [Tombstone(**e) for e in load_content_yaml(ts_file.read_text()) or []]
+        tombstones = [
+            Tombstone(**e) for e in load_content_yaml(ts_file.read_text()) or []
+        ]
 
     return PackSources(
         manifest=manifest,

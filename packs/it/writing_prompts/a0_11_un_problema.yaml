@@ -1,0 +1,74 @@
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: writing.un_problema.001
+  item_type: writing_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'In farmacia, domenica sera. (Write the dialogue, 8-10 lines: say what
+
+    is wrong, answer two yes/no questions, turn the first box down as too
+
+    expensive, and take the other one. Every «no» needs its «non» too.)
+
+    '
+  min_words: 30
+  required_grammar:
+  - avere_pre
+  - si_no_non
+  required_vocab:
+  - problema
+  - freddo
+  - stanco
+  - fame
+  - caro
+  - piccolo
+  - grande
+  model_answer: '— Buonasera. Ho un problema: non sto bene.
+
+    — Ha freddo?
+
+    — Sì, ho freddo. E sono molto stanco.
+
+    — Ha fame?
+
+    — No, non ho fame.
+
+    — Ecco. Sono quindici euro.
+
+    — È caro. Ha altro?
+
+    — Sì. Ecco: il piccolo è sei euro.
+
+    — Va bene, grazie. È aperto ogni giorno?
+
+    — Sì, ogni giorno.
+
+    '
+  evidence:
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: vocab
+    id: grande
+    weight: 0.5
+  - axis: vocab
+    id: piccolo
+    weight: 0.5
+  - axis: vocab
+    id: nuovo
+    weight: 0.5
+  - axis: vocab
+    id: pieno
+    weight: 0.5
+  - axis: vocab
+    id: ogni
+    weight: 0.5
+  image: images/writing/writing.un_problema.001.png

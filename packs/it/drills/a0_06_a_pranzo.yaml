@@ -1,0 +1,123 @@
+# Drill bank — lesson a0-06-a-pranzo.d1 (che_cose: asking what a dish is
+# and answering with è / sono). Drafted, not yet reviewed.
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "«Cos'è? — ___ una pizza.»"
+  answers:
+    - { text: "È", canonical: true }
+    - { text: "è" }
+  distractor_feedback:
+    Sono: "One pizza, one verb: «è». «Sono» is for more than one thing."
+    Ho: "The answer says what the thing *is*, so it needs «essere», not «avere»."
+  explanation: "One thing → è. No word for «it» is needed."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "«Che cosa sono? — ___ spaghetti al pomodoro.»"
+  answers:
+    - { text: "Sono", canonical: true }
+    - { text: "sono" }
+  distractor_feedback:
+    È: "«Spaghetti» is plural in Italian, so the answer is «sono»."
+    Sei: "«Sei» is *you are*. The dish is not being addressed — use «sono»."
+  explanation: "Spaghetti, panini, pomodori — plural things take «sono»."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "The waiter puts down a dish you don't recognise. You ask: «___»"
+  choices:
+    - "Cos'è?"
+    - "Chi è?"
+    - "Dov'è?"
+    - "Quant'è?"
+  answers:
+    - { text: "Cos'è?", canonical: true }
+  distractor_feedback:
+    "Chi è?": "That asks *who* it is — for a person, not a plate."
+    "Dov'è?": "That asks *where* it is."
+    "Quant'è?": "That asks the price, which is a question for later."
+  explanation: "«Cos'è?» — what is it. The short form of «che cosa è?»."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "You asked «Che cosa sono?» about a tray of rolls. The right answer is: «___»"
+  choices:
+    - "Sono panini al prosciutto."
+    - "È panini al prosciutto."
+    - "Sono un panino al prosciutto."
+    - "È un panini al prosciutto."
+  answers:
+    - { text: "Sono panini al prosciutto.", canonical: true }
+  distractor_feedback:
+    "È panini al prosciutto.": "Plural noun, plural verb: «sono panini»."
+    "Sono un panino al prosciutto.": "«Sono» is plural, «un panino» is one — pick one or the other."
+    "È un panini al prosciutto.": "«Un» goes with a singular noun: un panino, or panini with no article."
+  explanation: "Plural question, plural answer — «sono» + the plural noun."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.005
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Say it the way people say it: «Che cosa è?» → «___?»"
+  answers:
+    - { text: "Cos'è", canonical: true }
+    - { text: "Che cos'è" }
+    - { text: "cos'è" }
+  distractor_feedback:
+    "Cosa è": "The two vowels run together in speech: «cosa è» → «cos'è»."
+    "Cos è": "The apostrophe is what is left of the dropped «a»: «cos'è»."
+  explanation: "«che cosa è» → «che cos'è» → «cos'è». All three are correct; the last is what you hear."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: drill.che_cose.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "«Cos'è? — È ___ insalata con il pomodoro e il formaggio.»"
+  answers:
+    - { text: "un'", canonical: true }
+  distractor_feedback:
+    una: "«Insalata» starts with a vowel, so «una» loses its a: «un'insalata»."
+    un: "«Insalata» is feminine — it needs «un'», not «un»."
+  explanation: "The answer to «cos'è?» is è + article + noun. Feminine + vowel → un'."
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }

@@ -1,0 +1,250 @@
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: reading.un_problema.001
+  cefr_level: A0
+  title: Ho un problema
+  text: 'Marco è in albergo. È stanco e ha fame.
+
+
+    «Scusi, ho un problema. Non trovo la chiave della camera.»
+
+
+    «Che numero ha la camera?»
+
+
+    «Il numero otto.»
+
+
+    «Un momento... Ecco la chiave. È qui.»
+
+
+    «Grazie! Ho anche fame. Il bar è aperto?»
+
+
+    «Sì, è aperto. È lì.»
+
+    '
+  questions:
+  - prompt: Dov'è Marco?
+    answers:
+    - text: in albergo
+      canonical: true
+    - text: albergo
+    - text: all'albergo
+    explanation: «Marco è in albergo.»
+  - prompt: Che cosa non trova Marco?
+    answers:
+    - text: la chiave
+      canonical: true
+    - text: chiave
+    - text: la chiave della camera
+    explanation: «Non trovo la chiave della camera.»
+  - prompt: Il bar è aperto?
+    answers:
+    - text: sì
+      canonical: true
+    - text: sì, è aperto
+    explanation: «Sì, è aperto. È lì.»
+  evidence:
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: vocab
+    id: problema
+    weight: 0.5
+  - axis: vocab
+    id: trovare
+    weight: 0.5
+  - axis: vocab
+    id: stanco
+    weight: 0.5
+  - axis: vocab
+    id: fame
+    weight: 0.5
+  image: images/readings/reading.un_problema.001.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d2
+  id: reading.un_problema.002
+  cefr_level: A0
+  title: Sì, no, non è mia
+  text: 'Anna è alla stazione. Cerca la valigia, ma non la trova.
+
+
+    «Buongiorno, signore. Ho un problema: non trovo la valigia.»
+
+
+    «La valigia è grande?»
+
+
+    «No, non è grande. È piccola e nuova.»
+
+
+    «Ha i documenti in valigia?»
+
+
+    «Sì, ho il passaporto e il telefono.»
+
+
+    «Un momento... Ecco. È sua?»
+
+
+    «No, non è mia. La mia è piccola e nuova.»
+
+
+    «Ecco un''altra valigia. È sua?»
+
+
+    «Sì! È mia. Grazie mille!»
+
+    '
+  questions:
+  - prompt: Che cosa cerca Anna?
+    answers:
+    - text: la valigia
+      canonical: true
+    - text: valigia
+    explanation: «Cerca la valigia, ma non la trova.»
+  - prompt: La valigia di Anna è grande o piccola?
+    answers:
+    - text: piccola
+      canonical: true
+    - text: è piccola
+    - text: piccola e nuova
+    explanation: «No, non è grande. È piccola e nuova.»
+  - prompt: Che cosa ha Anna in valigia?
+    answers:
+    - text: il passaporto e il telefono
+      canonical: true
+    - text: passaporto e telefono
+    - text: i documenti
+    explanation: «Sì, ho il passaporto e il telefono.»
+  evidence:
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: vocab
+    id: cercare
+    weight: 0.5
+  - axis: vocab
+    id: trovare
+    weight: 0.5
+  - axis: vocab
+    id: grande
+    weight: 0.5
+  - axis: vocab
+    id: piccolo
+    weight: 0.5
+  - axis: vocab
+    id: nuovo
+    weight: 0.5
+  image: images/readings/reading.un_problema.002.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: reading.un_problema.003
+  cefr_level: A0
+  title: In farmacia
+  text: 'È domenica sera. Paolo non sta bene: è stanco, ha freddo e non ha fame.
+
+
+    La farmacia del centro è chiusa, ma in piazza c''è una farmacia aperta.
+
+
+    «Buonasera. Mi può aiutare? Non sto bene.»
+
+
+    «Certo. Ha caldo?»
+
+
+    «No, non ho caldo. Ho freddo. E sono molto stanco.»
+
+
+    «Un momento... Ecco. Sono dodici euro.»
+
+
+    «È caro. Ha altro?»
+
+
+    «Sì. Ecco: cinque euro.»
+
+
+    «Va bene, grazie. La farmacia è aperta anche domani?»
+
+
+    «Sì, ogni giorno.»
+
+    '
+  questions:
+  - prompt: Come sta Paolo?
+    answers:
+    - text: non sta bene
+      canonical: true
+    - text: male
+    - text: è stanco e ha freddo
+    explanation: '«Paolo non sta bene: è stanco, ha freddo e non ha fame.»'
+  - prompt: Paolo ha caldo?
+    answers:
+    - text: 'no'
+      canonical: true
+    - text: no, ha freddo
+    - text: ha freddo
+    explanation: «No, non ho caldo. Ho freddo.»
+  - prompt: Quanto paga Paolo?
+    answers:
+    - text: cinque euro
+      canonical: true
+    - text: 5 euro
+    explanation: The first one was twelve euros — «È caro. Ha altro?» got him the five-euro
+      one.
+  - prompt: La farmacia è aperta ogni giorno?
+    answers:
+    - text: sì
+      canonical: true
+    - text: sì, ogni giorno
+    explanation: «Sì, ogni giorno.»
+  evidence:
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: vocab
+    id: freddo
+    weight: 0.5
+  - axis: vocab
+    id: caldo
+    weight: 0.5
+  - axis: vocab
+    id: stanco
+    weight: 0.5
+  - axis: vocab
+    id: fame
+    weight: 0.5
+  - axis: vocab
+    id: caro
+    weight: 0.5
+  - axis: vocab
+    id: ogni
+    weight: 0.5
+  image: images/readings/reading.un_problema.003.png

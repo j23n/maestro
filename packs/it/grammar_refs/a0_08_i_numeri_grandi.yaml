@@ -1,0 +1,101 @@
+# Grammar reference pages — lesson a0-08-i-numeri-grandi. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: grammar_ref.num_20_100
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: num_20_100
+  title: Numbers 20 to 100
+  body_md: |
+    Above twenty, Italian stops inventing words. Ten tens carry everything:
+
+    | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100 | 1000 |
+    |---|---|---|---|---|---|---|---|---|---|
+    | venti | trenta | quaranta | cinquanta | sessanta | settanta | ottanta | novanta | cento | mille |
+
+    **Everything in between is the ten plus the unit, written as one word:**
+    *ventidue* (22), *trentasei* (36), *novantaquattro* (94).
+
+    Two spelling rules fall out of that:
+
+    - Before **uno** and **otto** the ten drops its final vowel:
+      *ventuno* (21), *ventotto* (28), *quarantotto* (48), *sessantuno* (61).
+    - **Tre** keeps an accent at the end of a compound: *ventitré* (23),
+      *quarantatré* (43).
+
+    **The pair that actually costs you money.** Said quickly, *quattordici*
+    (14) and *quaranta* (40) sound alike, and so do *sedici*/*sessanta*,
+    *diciassette*/*settanta*, *diciotto*/*ottanta*, *diciannove*/*novanta*.
+    The teens end in **-dici**; the tens end in **-anta**. Listen for the
+    ending, not the start.
+
+    **Prices.** The cents come after *e*: *quaranta euro e cinquanta* is
+    €40,50. If it is a round figure, the *euro* stands alone —
+    *sessanta euro*.
+  examples:
+    - Quanto costa? Quaranta euro.
+    - Marco ha ottanta anni.
+    - Un caffè costa un euro e cinquanta.
+    - Cinquanta, sessanta, settanta, ottanta, novanta, cento.
+    - Il volo costa mille euro.
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: grammar_ref.ore_giorni
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: ore_giorni
+  title: Telling the time, and the days of the week
+  body_md: |
+    ## What time is it?
+
+    Ask with **Che ore sono?** Answer with **Sono le** + the hour:
+
+    | | |
+    |---|---|
+    | Sono le due. | It's two o'clock. |
+    | Sono le dieci e venti. | It's twenty past ten. |
+    | Sono le sedici e trenta. | It's 16:30. |
+
+    **One exception, and only one:** one o'clock is singular, so it takes
+    *è* and *l'* — **È l'una.**
+
+    Minutes are added with **e**: *le nove e quindici*, *le nove e trenta*.
+
+    ## At what time?
+
+    **A che ora...?** — and the answer takes **alle** (a + le):
+    *alle otto*, *alle quattordici e trenta*. One o'clock is again the odd
+    one out: **all'una**.
+
+    Timetables, shops and stations use the 24-hour clock, so an evening
+    time is spoken as *le venti*, not *le otto di sera*. Both are correct;
+    the door of a shop will show you the first.
+
+    ## The days
+
+    | lunedì | martedì | mercoledì | giovedì | venerdì | sabato | domenica |
+    |---|---|---|---|---|---|---|
+    | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
+
+    They are not capitalised. The first five end in a stressed **-ì**.
+
+    **The article changes the meaning.** *Lunedì il negozio è chiuso* — this
+    coming Monday. *Il lunedì il negozio è chiuso* — every Monday. A sign on
+    a door means the second one.
+  examples:
+    - Che ore sono? Sono le tre.
+    - È l'una.
+    - A che ora parte il treno?
+    - Il treno parte alle otto e quindici.
+    - Oggi è lunedì.
+    - Il mercato è chiuso il lunedì.
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }

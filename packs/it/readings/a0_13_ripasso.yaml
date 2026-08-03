@@ -1,0 +1,302 @@
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d1
+  id: reading.ripasso.001
+  cefr_level: A0
+  title: Di nuovo la prima ora
+  text: 'Anna è in aereo. Un signore la saluta.
+
+
+    «Buongiorno. Come si chiama?»
+
+
+    «Buongiorno. Mi chiamo Anna. E lei?»
+
+
+    «Io mi chiamo Paolo. Lei è italiana?»
+
+
+    «No, non sono italiana. Sono inglese, ma parlo poco italiano.»
+
+
+    «Molto bene! Il volo è di due ore.»
+
+
+    «Due ore? Va bene, grazie.»
+
+
+    «Prego. Buona giornata, signora.»
+
+    '
+  questions:
+  - prompt: Come si chiama la signora?
+    answers:
+    - text: Anna
+      canonical: true
+    - text: si chiama Anna
+    explanation: «Mi chiamo Anna.»
+  - prompt: Anna è italiana?
+    answers:
+    - text: no, è inglese
+      canonical: true
+    - text: 'no'
+    - text: no, non è italiana
+    explanation: «No, non sono italiana. Sono inglese.»
+  - prompt: Di quante ore è il volo?
+    answers:
+    - text: due ore
+      canonical: true
+    - text: due
+    explanation: «Il volo è di due ore.»
+  evidence:
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: vocab
+    id: aereo
+    weight: 0.5
+  - axis: vocab
+    id: volo
+    weight: 0.5
+  - axis: vocab
+    id: inglese
+    weight: 0.5
+  image: images/readings/reading.ripasso.001.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d2
+  id: reading.ripasso.002
+  cefr_level: A0
+  title: Un pomeriggio in centro
+  text: 'Marco è in centro. Ha fame e va in un bar.
+
+
+    «Buongiorno. Vorrei un panino e un''acqua naturale, per favore.»
+
+
+    «Ecco. Sono sei euro.»
+
+
+    Marco mangia al tavolo. Adesso cerca il museo, ma non trova la strada.
+
+
+    «Scusi, signora. Dov''è il museo?»
+
+
+    «È in via Garibaldi, in piazza. È lì.»
+
+
+    «Grazie mille!»
+
+
+    Al museo una signora vede Marco e dice:
+
+
+    «Le piace il museo?»
+
+
+    «Sì, mi piace molto. È molto bello.»
+
+    '
+  questions:
+  - prompt: Che cosa prende Marco al bar?
+    answers:
+    - text: un panino e un'acqua naturale
+      canonical: true
+    - text: un panino e un'acqua
+    - text: panino e acqua
+    explanation: «Vorrei un panino e un'acqua naturale, per favore.»
+  - prompt: Dov'è il museo?
+    answers:
+    - text: in via Garibaldi
+      canonical: true
+    - text: via Garibaldi
+    - text: in piazza
+    explanation: «È in via Garibaldi, in piazza.»
+  - prompt: A Marco piace il museo?
+    answers:
+    - text: sì, molto
+      canonical: true
+    - text: sì
+    - text: sì, mi piace molto
+    explanation: «Sì, mi piace molto. È molto bello.»
+  evidence:
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  - axis: vocab
+    id: panino
+    weight: 0.5
+  - axis: vocab
+    id: acqua
+    weight: 0.5
+  - axis: vocab
+    id: museo
+    weight: 0.5
+  - axis: vocab
+    id: strada
+    weight: 0.5
+  image: images/readings/reading.ripasso.002.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: reading.ripasso.003
+  cefr_level: A0
+  title: Il biglietto per Firenze
+  text: 'Marco è alla stazione. Vuole un biglietto per Firenze.
+
+
+    «Buongiorno. Vorrei un biglietto per Firenze, per favore.»
+
+
+    «Sì. A che ora vuole partire?»
+
+
+    «Alle sette, o alle otto. Il treno delle sette è pieno?»
+
+
+    «No, è libero. Sono trenta euro.»
+
+
+    «Va bene. Ecco i soldi.»
+
+
+    «Ecco il biglietto. Il treno parte dal binario cinque.»
+
+
+    «Scusi, non capisco. Che binario?»
+
+
+    «Il binario cinque. Ha il passaporto?»
+
+
+    «Sì, ho il passaporto. Grazie mille!»
+
+    '
+  questions:
+  - prompt: Dove va Marco?
+    answers:
+    - text: a Firenze
+      canonical: true
+    - text: Firenze
+    explanation: «Vorrei un biglietto per Firenze, per favore.»
+  - prompt: Quanto costa il biglietto?
+    answers:
+    - text: trenta euro
+      canonical: true
+    - text: trenta
+    explanation: «No, è libero. Sono trenta euro.»
+  - prompt: Da che binario parte il treno?
+    answers:
+    - text: dal binario cinque
+      canonical: true
+    - text: binario cinque
+    - text: cinque
+    explanation: «Il treno parte dal binario cinque.»
+  - prompt: Marco ha il passaporto?
+    answers:
+    - text: sì, ha il passaporto
+      canonical: true
+    - text: sì
+    explanation: «Sì, ho il passaporto.»
+  evidence:
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  - axis: vocab
+    id: stazione
+    weight: 0.5
+  - axis: vocab
+    id: passaporto
+    weight: 0.5
+  image: images/readings/reading.ripasso.003.png

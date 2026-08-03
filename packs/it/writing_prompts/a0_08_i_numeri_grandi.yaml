@@ -1,0 +1,73 @@
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: writing.numeri_grandi.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: La tua settimana. (Write 5-7 lines about your week. Say what day it is today, what
+    you do in the morning, in the afternoon and in the evening, and what you are doing tomorrow.
+    Give at least three clock times and one price.)
+  min_words: 30
+  required_grammar:
+  - ore_giorni
+  - num_20_100
+  required_vocab:
+  - giorno
+  - mattina
+  - pomeriggio
+  - sera
+  - oggi
+  - domani
+  model_answer: 'Oggi è mercoledì. La mattina vado al mercato alle nove.
+
+    Il pomeriggio sono al bar dalle tre alle cinque.
+
+    La sera mangio a casa alle otto e trenta. La notte il bar è chiuso.
+
+    Domani è giovedì: è la mia giornata libera.
+
+    Ieri ho pagato il caffè un euro e cinquanta. Che giorno buono!
+
+    '
+  evidence:
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: giorno
+    weight: 0.5
+  - axis: vocab
+    id: giornata
+    weight: 0.5
+  - axis: vocab
+    id: mattina
+    weight: 0.5
+  - axis: vocab
+    id: pomeriggio
+    weight: 0.5
+  - axis: vocab
+    id: sera
+    weight: 0.5
+  - axis: vocab
+    id: notte
+    weight: 0.5
+  - axis: vocab
+    id: oggi
+    weight: 0.5
+  - axis: vocab
+    id: domani
+    weight: 0.5
+  - axis: vocab
+    id: ieri
+    weight: 0.5
+  image: images/writing/writing.numeri_grandi.001.png

@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.buongiorno
   item_type: vocab_card
   cefr_level: A0
@@ -23,6 +24,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.buonasera
   item_type: vocab_card
   cefr_level: A0
@@ -45,6 +47,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.arrivederci
   item_type: vocab_card
   cefr_level: A0
@@ -67,6 +70,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.salve
   item_type: vocab_card
   cefr_level: A0
@@ -89,6 +93,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.prego
   item_type: vocab_card
   cefr_level: A0
@@ -111,6 +116,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.scusi
   item_type: vocab_card
   cefr_level: A0
@@ -133,6 +139,7 @@
 - status: draft
   scenario_ids:
   - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
   id: vocab.aereo
   item_type: vocab_card
   cefr_level: A0
@@ -150,3 +157,336 @@
     id: aereo
     weight: 1.0
   image: images/vocab/vocab.aereo.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.buonanotte
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: buonanotte
+  front: buonanotte
+  back: good night (only when parting for the night)
+  example: Buonanotte, signora.
+  example_gloss: Good night, madam.
+  answers:
+  - text: buonanotte
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: buonanotte
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 0.5
+  image: images/vocab/vocab.buonanotte.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.scusa
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: scusa
+  front: scusa
+  back: sorry / excuse me (to someone you call tu)
+  example: Scusa, non ho capito.
+  example_gloss: Sorry, I didn't catch that.
+  answers:
+  - text: scusa
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: scusa
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/vocab/vocab.scusa.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.cortesia
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cortesia
+  front: la cortesia
+  back: courtesy / politeness
+  example: Per cortesia, un caffè.
+  example_gloss: If you would be so kind, a coffee.
+  answers:
+  - text: cortesia
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: cortesia
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/vocab/vocab.cortesia.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.ecco
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ecco
+  front: ecco
+  back: here is / here you are
+  example: Ecco il passaporto.
+  example_gloss: Here's the passport.
+  answers:
+  - text: ecco
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ecco
+    weight: 1.0
+  image: images/vocab/vocab.ecco.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.si
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sì
+  front: sì
+  back: yes (the accent matters — si without it is a different word)
+  example: Sì, grazie.
+  example_gloss: Yes, thank you.
+  answers:
+  - text: sì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sì
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 0.5
+  image: images/vocab/vocab.si.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.no
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: 'no'
+  front: 'no'
+  back: 'no'
+  example: No, grazie.
+  example_gloss: No, thank you.
+  answers:
+  - text: 'no'
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: 'no'
+    weight: 1.0
+  image: images/vocab/vocab.no.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.non
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: non
+  front: non
+  back: not (it goes straight before the verb)
+  example: Non capisco.
+  example_gloss: I don't understand.
+  answers:
+  - text: non
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: non
+    weight: 1.0
+  image: images/vocab/vocab.non.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.bene
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: bene
+  front: bene
+  back: well
+  example: Sto bene, grazie.
+  example_gloss: I'm well, thanks.
+  answers:
+  - text: bene
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bene
+    weight: 1.0
+  image: images/vocab/vocab.bene.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.male
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: male
+  front: male
+  back: badly
+  example: Oggi sto male.
+  example_gloss: I'm not feeling well today.
+  answers:
+  - text: male
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: male
+    weight: 1.0
+  image: images/vocab/vocab.male.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.benvenuto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: benvenuto
+  front: benvenuto
+  back: 'welcome — it agrees: benvenuta, benvenuti'
+  example: Benvenuti in Italia!
+  example_gloss: Welcome to Italy!
+  answers:
+  - text: benvenuto
+    canonical: true
+  - text: benvenuti
+  evidence:
+  - axis: vocab
+    id: benvenuto
+    weight: 1.0
+  image: images/vocab/vocab.benvenuto.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.signore
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: signore
+  front: il signore
+  back: sir / gentleman
+  example: Buonasera, signore.
+  example_gloss: Good evening, sir.
+  answers:
+  - text: signore
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: signore
+    weight: 1.0
+  image: images/vocab/vocab.signore.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.signora
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: signora
+  front: la signora
+  back: madam / lady
+  example: Buongiorno, signora Rossi.
+  example_gloss: Good morning, Mrs Rossi.
+  answers:
+  - text: signora
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: signora
+    weight: 1.0
+  image: images/vocab/vocab.signora.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.volo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: volo
+  front: il volo
+  back: flight
+  example: Il volo per Roma arriva alle nove.
+  example_gloss: The flight to Rome arrives at nine.
+  answers:
+  - text: volo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: volo
+    weight: 1.0
+  image: images/vocab/vocab.volo.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.assistente
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: assistente
+  front: l'assistente
+  back: attendant (assistente di volo = flight attendant)
+  example: L'assistente arriva con il caffè.
+  example_gloss: The attendant comes with the coffee.
+  answers:
+  - text: assistente
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: assistente
+    weight: 1.0
+  image: images/vocab/vocab.assistente.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.a_bordo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: a bordo
+  front: a bordo
+  back: on board
+  example: Benvenuto a bordo!
+  example_gloss: Welcome on board!
+  answers:
+  - text: a bordo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: a bordo
+    weight: 1.0
+  image: images/vocab/vocab.a_bordo.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: vocab.in_piedi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: in piedi
+  front: in piedi
+  back: standing up / on your feet
+  example: Il signore è in piedi.
+  example_gloss: The gentleman is standing.
+  answers:
+  - text: in piedi
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: in piedi
+    weight: 1.0
+  image: images/vocab/vocab.in_piedi.png

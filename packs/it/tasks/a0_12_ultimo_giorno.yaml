@@ -1,0 +1,109 @@
+# Capstones — lesson a0-12-ultimo-giorno, one per depth. Drafted, not reviewed.
+#
+# a0.greet_take_leave is opened in a0-01 and closed here: d1 leaves one
+# counter properly, d2 leaves three people properly and by name, d3 opens
+# and closes a conversation with a stranger with nothing on screen. The
+# build withholds `target_text` from the payload at the `perform` rung.
+
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d1
+  id: task.ultimo_giorno.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Ultima mattina al bar. Ordina un caffè, paga, e vattene bene.
+    (Your last morning. Order a coffee, pay for it, and — this is the part
+    you have been skipping — leave properly.)
+  target_text: "Vorrei un caffè, per favore. Ecco. Grazie mille e arrivederci!"
+  variants:
+    - "Un caffè, per favore. Ecco i soldi. Grazie mille, arrivederci!"
+    - "Vorrei un caffè, per favore. Grazie e buona giornata, arrivederci!"
+  rubric:
+    - orders with vorrei or per favore
+    - thanks him
+    - says arrivederci (or buona giornata) before leaving
+  explanation: "«Grazie» closes the payment. «Arrivederci» closes the visit — they are two different moves."
+  evidence:
+    - { axis: cando, id: a0.greet_take_leave, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: vocab, id: caffè, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d2
+  id: task.ultimo_giorno.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    La signora dell'albergo ti dà la valigia. Ringraziala per la camera,
+    dille una cosa che ti è piaciuta, e salutala.
+    (Thank her for the room, tell her one thing you liked, then say
+    goodbye — to her, not to the room.)
+  target_text: "Grazie mille per la camera, signora. Mi piace molto la città. Arrivederci e buona giornata!"
+  variants:
+    - "Grazie mille, signora. La camera è molto bella e mi piace molto la città. Arrivederci!"
+    - "Grazie per la camera. Mi piace molto Roma. Buona giornata e arrivederci, signora!"
+  rubric:
+    - thanks her for something specific, not just grazie
+    - says one thing liked, with mi piace
+    - addresses her — signora, or her name
+    - closes with arrivederci or buona giornata
+  explanation: "Three beats: thanks, then what you liked, then the goodbye. Dropping the middle one is what makes a farewell sound like paying a bill."
+  evidence:
+    - { axis: cando, id: a0.greet_take_leave, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+    - { axis: vocab, id: città, weight: 0.5 }
+
+# The pass that closes the can-do, and with it A0's oldest one. No model on
+# screen: greeting a stranger, saying who you are and leaving well has to
+# come out whole, in the order a conversation actually goes.
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: task.ultimo_giorno.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Uscita B14. La signora accanto a te alza gli occhi. Saluta, dì chi sei
+    e di dove sei, dì a che ora parti, e congedati.
+    (Gate B14. Greet her, say who you are and where you are from, say what
+    time you leave — and end it properly.)
+  target_text: "Buongiorno. Mi chiamo Marco, sono inglese. Il volo parte alle sei e venti. Arrivederci e buona giornata!"
+  variants:
+    - "Buongiorno, signora. Io sono Marco e sono di Londra. Parto alle sei e venti. Arrivederci!"
+    - "Buongiorno. Mi chiamo Marco. Non sono italiano, sono inglese. L'aereo parte alle sei e venti. Buona giornata, arrivederci!"
+  rubric:
+    - opens with a greeting fitting the hour
+    - gives a name and where they are from
+    - gives a time with alle
+    - closes with arrivederci or buona giornata
+    - no English anywhere in it
+  explanation: "Open, place yourself, give the fact she asked for, close. The four moves are the whole of A0 conversation, and this is the first time nothing is on the screen."
+  evidence:
+    - { axis: cando, id: a0.greet_take_leave, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: vocab, id: volo, weight: 0.5 }

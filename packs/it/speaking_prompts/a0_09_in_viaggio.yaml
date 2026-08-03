@@ -1,0 +1,136 @@
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: speaking.in_viaggio.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Alla stazione. (Ask for one ticket to Rome.)
+  target_text: Vorrei un biglietto per Roma, per favore.
+  variants:
+  - Un biglietto per Roma, per favore.
+  explanation: «Vorrei un biglietto per» + the city. Nothing else is needed.
+  evidence:
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 0.5
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  image: images/speaking/speaking.in_viaggio.001.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: speaking.in_viaggio.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Alla stazione. (You have the ticket. Ask which platform the train leaves from.)
+  target_text: Da che binario parte il treno?
+  variants:
+  - Scusi, da che binario parte?
+  explanation: «Da che binario parte?» — the answer comes back as a number, so listen for
+    it.
+  evidence:
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  image: images/speaking/speaking.in_viaggio.002.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: speaking.in_viaggio.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Alla stazione. (Ask what time the train to Florence leaves.)
+  target_text: A che ora parte il treno per Firenze?
+  variants:
+  - Scusi, a che ora parte il treno per Firenze?
+  explanation: «A che ora parte…?» works for trains, buses and flights alike.
+  evidence:
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 0.5
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: vocab
+    id: partire
+    weight: 0.5
+  image: images/speaking/speaking.in_viaggio.003.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d3
+  id: speaking.in_viaggio.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Adesso il binario è otto. (Stop someone and ask where platform eight is, then hand
+    over your ID and passport.)
+  target_text: Scusi, dov'è il binario otto? Ecco il documento e il passaporto.
+  variants:
+  - Scusi, dov'è il binario otto? Ecco il passaporto e il documento.
+  explanation: «Scusi, dov'è…?» opens it; «ecco» hands something over.
+  evidence:
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: vocab
+    id: documento
+    weight: 0.5
+  - axis: vocab
+    id: passaporto
+    weight: 0.5
+  image: images/speaking/speaking.in_viaggio.004.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d3
+  id: speaking.in_viaggio.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Il treno parte fra poco. (Check with a guard that the Rome train really leaves from
+    platform eight.)
+  target_text: Scusi, il treno per Roma parte dal binario otto?
+  variants:
+  - Scusi, il treno per Roma è al binario otto?
+  explanation: 'A yes/no check: say the sentence as a statement and let the voice go up at
+    the end.'
+  evidence:
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 0.5
+  image: images/speaking/speaking.in_viaggio.005.png

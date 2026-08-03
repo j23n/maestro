@@ -1,0 +1,111 @@
+# Listenings — lesson a0-10-conoscere-qualcuno, one per depth. Drafted,
+# not yet reviewed. Short turns, the way the exchange actually goes: name,
+# city, what you do, and the question straight back.
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: listening.conoscere.001
+  cefr_level: A0
+  title: Come ti chiami?
+  turns:
+    - { speaker: "Luca", text: "Ciao! Come ti chiami?" }
+    - { speaker: "Anna", text: "Mi chiamo Anna. E tu?" }
+    - { speaker: "Luca", text: "Io sono Luca. Di dove sei, Anna?" }
+    - { speaker: "Anna", text: "Sono di Londra. Sono inglese." }
+    - { speaker: "Luca", text: "Io sono italiano, sono di Roma." }
+    - { speaker: "Anna", text: "Piacere, Luca!" }
+  audio: null
+  questions:
+    - prompt: "Di dov'è Anna?"
+      answers:
+        - { text: "di Londra", canonical: true }
+        - { text: "Londra" }
+      explanation: "«Sono di Londra. Sono inglese.»"
+    - prompt: "Di dov'è Luca?"
+      answers:
+        - { text: "di Roma", canonical: true }
+        - { text: "Roma" }
+      explanation: "«Io sono italiano, sono di Roma.»"
+  evidence:
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 0.5 }
+    - { axis: vocab, id: come, weight: 0.5 }
+    - { axis: vocab, id: inglese, weight: 0.5 }
+    - { axis: vocab, id: italiano, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d2
+  id: listening.conoscere.002
+  cefr_level: A0
+  title: Chi è lui?
+  turns:
+    - { speaker: "Anna", text: "Chi è lui?" }
+    - { speaker: "Giulia", text: "Lui è Marco, il mio amico. È di Milano." }
+    - { speaker: "Anna", text: "E lei? È la sua amica?" }
+    - { speaker: "Giulia", text: "Sì, lei è Maria. Non è italiana, è inglese." }
+    - { speaker: "Anna", text: "Maria abita qui?" }
+    - { speaker: "Giulia", text: "No, abita a Londra. Ma lavora in Italia." }
+  audio: null
+  questions:
+    - prompt: "Di dov'è Marco?"
+      answers:
+        - { text: "di Milano", canonical: true }
+        - { text: "Milano" }
+      explanation: "«Lui è Marco, il mio amico. È di Milano.»"
+    - prompt: "Chi è inglese?"
+      answers:
+        - { text: "Maria", canonical: true }
+      explanation: "«Sì, lei è Maria. Non è italiana, è inglese.»"
+    - prompt: "Dove abita Maria?"
+      answers:
+        - { text: "a Londra", canonical: true }
+        - { text: "Londra" }
+      explanation: "«No, abita a Londra. Ma lavora in Italia.»"
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: vocab, id: amico, weight: 0.5 }
+    - { axis: vocab, id: suo, weight: 0.5 }
+    - { axis: vocab, id: abitare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: listening.conoscere.003
+  cefr_level: A0
+  title: In piazza, di domenica
+  turns:
+    - { speaker: "Luca", text: "Ciao! Come state?" }
+    - { speaker: "Giulia", text: "Bene, grazie. Luca, lui è Paolo." }
+    - { speaker: "Paolo", text: "Piacere, Paolo. Tu sei l'amico di Giulia?" }
+    - { speaker: "Luca", text: "Sì, sono Luca. E tu, di dove sei?" }
+    - { speaker: "Paolo", text: "Sono di Milano, ma abito qui a Firenze. Sono studente." }
+    - { speaker: "Luca", text: "Anche la mia amica Anna è studentessa. Lei è inglese." }
+    - { speaker: "Paolo", text: "E dove abita adesso?" }
+    - { speaker: "Luca", text: "Abita qui, in centro. La domenica siamo sempre in piazza." }
+  audio: null
+  questions:
+    - prompt: "Di dov'è Paolo?"
+      answers:
+        - { text: "di Milano", canonical: true }
+        - { text: "Milano" }
+      explanation: "«Sono di Milano, ma abito qui a Firenze.»"
+    - prompt: "Chi è inglese?"
+      answers:
+        - { text: "Anna", canonical: true }
+        - { text: "l'amica di Luca" }
+      explanation: "«Anche la mia amica Anna è studentessa. Lei è inglese.»"
+    - prompt: "Dove abita Anna?"
+      answers:
+        - { text: "in centro", canonical: true }
+        - { text: "centro" }
+      explanation: "«Abita qui, in centro.»"
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: vocab, id: studente, weight: 0.5 }
+    - { axis: vocab, id: studentessa, weight: 0.5 }
+    - { axis: vocab, id: amica, weight: 0.5 }

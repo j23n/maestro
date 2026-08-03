@@ -112,6 +112,11 @@ _VARIANTS: dict[str, tuple[str, ...]] = {
     "bello": ("bel",),
     "grande": ("gran",),
     "santo": ("san",),
+    # The possessives pluralise to -iei/-uoi, which no ending rule reaches
+    # from -io; the regular rule gives "mi", which is a different word.
+    "mio": ("miei",),
+    "tuo": ("tuoi",),
+    "suo": ("suoi",),
     "questo": ("questa", "questi", "queste", "quest'"),
     "quello": ("quella", "quelli", "quelle", "quell'", "quel", "quei", "quegli"),
 }

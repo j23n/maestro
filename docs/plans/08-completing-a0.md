@@ -181,33 +181,50 @@ came out of finishing it that the plan above did not anticipate:
 
 Per scenario, the required set across its three lessons:
 
-| | per scenario | A0 total | existed at the start of C |
-| --- | --- | --- | --- |
-| capstone tasks | 3 (6 where two can-dos land) | 42 | 3 |
-| grammar refs | ~2 | 22 | 12 |
-| drills (6 per introduced GP) | ~12 | 132 | 124 |
-| readings | 3 | 39 | 4 |
-| listenings | 3 | 39 | 2 |
-| speaking prompts | ~2 | 17 | 17 (mostly re-homed) |
-| writing prompts | 1–2 | ~26 | 5 |
-| vocab cards (content words) | ~19 | 247 | 34 |
-
-Vocab cards and listenings are the two big holes; listenings are the
-expensive ones, since each needs a dialogue and eventually audio.
+| | at the start of C | now |
+| --- | --- | --- |
+| capstone tasks | 3 | **42** |
+| grammar refs | 12 | **22** |
+| drills | 124 | **199** |
+| readings | 4 | **40** |
+| listenings | 2 | **39** |
+| speaking prompts | 17 | **76** |
+| writing prompts | 5 | **15** |
+| vocab cards | 34 | **247** |
+| | | **680 items across 39 lessons** |
 
 Ordering: a lesson's revisits can only point at material an earlier
 lesson has already introduced, and `validate --coverage` checks exactly
 that. The manifests fix the ordering, so the scenarios themselves were
 authored in parallel, one agent per scenario, against the frozen spec.
 
-### Phase D — prove it
+### Phase D — prove it — **done**
 
-- `validate --coverage` clean for the A0 band.
-- `core/tests/closes_a0.rs`: walk all 39 lessons in composer order as a
-  learner, and assert all 13 A0 can-dos reach `achieved`, no slot ever
-  falls short, and no lesson re-teaches material an earlier one taught.
-- Re-run the walkthrough from 07 §1 — the one that found six defects —
-  and confirm the session it now produces is the lesson it advertises.
+```
+uv run python -m authoring.cli validate --quality --coverage \
+    --include-draft --band A0
+```
+```
+111 lessons; A0 coverage:
+  cando       13 / 13   covered
+  function    17 / 17   covered
+  grammar     22 / 22   covered
+  vocab      283 / 283  covered
+  contract satisfied
+0 errors, 0 warnings
+```
+
+`core/tests/closes_a0.rs` plays all 39 lessons in curriculum order
+against the real bundle and asserts every A0 can-do comes out
+`achieved` — not `in_progress`, which is what a capstone with an
+untaught decomposition leaves behind. Its sibling checks the composer
+walks the arc unpinned, offering the scenarios in order rather than
+jumping around. Both pass.
+
+The band is closed. What is left for A0 is polish, not structure: real
+art in place of the mock renders, audio for the 39 listenings, and a
+human review pass to move 659 items from `draft` to `reviewed` — the
+build only ships `reviewed`, so nothing here is releasable yet.
 
 ---
 
@@ -220,8 +237,42 @@ authored in parallel, one agent per scenario, against the frozen spec.
   (`DialogueSpeaker`), so lessons play without it, but a listening
   activity read by a synthesiser is a placeholder and should be labelled
   one until `generate-audio` runs against a real provider.
-- **Images.** `generate-images` exists and the scenarios name their art;
-  nothing here depends on it.
+- **Images.** Every one of the 39 lessons now has art, generated with
+  the mock provider. Real generation is a keyed run.
+
+### The gap Phase C found: A0 cannot say some of what A0 claims
+
+Writing 39 lessons inside the closed A0 word list turned up something
+the spec cannot see about itself — **three communicative functions use
+words in their own `patterns` field that the A0 vocabulary does not
+contain**:
+
+| function | its own pattern | missing at A0 |
+| --- | --- | --- |
+| `a0_chiedere_aiuto` | «Può ripetere, per favore?» / «Più lentamente» | `ripetere`, `più`, `lentamente` |
+| `a0_descrivere_problema` | «Ho perso…» / «Ho bisogno di…» | `perdere` (A2), `bisogno` |
+| `vocab_viaggio` | *andata e ritorno* | `andata`, `ritorno` |
+
+So the lesson labelled *Più lentamente* contains nothing that asks for
+slower speech, and the one labelled *Andata e ritorno* cannot name a
+return ticket. The content that shipped is honest Italian — «non ho
+capito», «come?», «andiamo oggi e veniamo domani» — and arguably better
+teaching, but it is not what the descriptor promises.
+
+Also absent and repeatedly wanted: `mezzo`/`quarto`/`meno` (so clock
+times are all "e trenta", never "e mezza"), `allora`, `troppo`, `quale`,
+`volta`, `me`, `biglietteria`, `ritardo`, `partenza`/`arrivo` as nouns.
+
+This is a curriculum decision, not a bug: adding a lemma at A0 obliges a
+home lesson, a card and three rising passes. Left for a deliberate pass
+over the A0 word list.
+
+Four things that *were* tooling bugs were fixed rather than worked
+around: compound numerals (`quarantacinque` resolved to nothing, in the
+lesson about the rule that builds it), the `cos'` and `anch'` elisions,
+the demonstratives `questo`/`quello` (in `quality.py`'s function-word
+list but in no dictionary), and the possessive plurals `miei`/`tuoi`/
+`suoi`.
 
 ---
 

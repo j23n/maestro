@@ -42,3 +42,76 @@
     id: a0_ordinare
     weight: 0.5
   image: images/writing/writing.al_bar.001.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d3
+  id: writing.al_bar.002
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: 'Al bar, la mattina. (Write 4-6 lines with the barista: order breakfast
+
+    at the counter, say whether you take sugar, and ask what it comes to.)
+
+    '
+  min_words: 20
+  required_grammar:
+  - vorrei
+  - art_un_una
+  - vocab_cibo
+  required_vocab:
+  - colazione
+  - latte
+  - zucchero
+  model_answer: '— Buongiorno! Prego?
+
+    — Buongiorno. Faccio colazione qui al banco. Vorrei un caffè con latte
+
+    e un cornetto, per favore.
+
+    — Zucchero?
+
+    — Sì, grazie, un poco.
+
+    — Ecco la tazza.
+
+    — Grazie. Quant''è?
+
+    — Due euro e cinquanta.
+
+    '
+  evidence:
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: vocab
+    id: colazione
+    weight: 0.5
+  - axis: vocab
+    id: latte
+    weight: 0.5
+  - axis: vocab
+    id: zucchero
+    weight: 0.5
+  - axis: vocab
+    id: tazza
+    weight: 0.5
+  - axis: vocab
+    id: banco
+    weight: 0.5
+  - axis: vocab
+    id: barista
+    weight: 0.5
+  image: images/writing/writing.al_bar.002.png

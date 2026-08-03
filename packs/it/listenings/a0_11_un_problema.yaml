@@ -1,0 +1,130 @@
+# Listenings — lesson a0-11-un-problema, one per depth. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: listening.un_problema.001
+  cefr_level: A0
+  title: Non trovo il biglietto
+  turns:
+    - { speaker: "Anna", text: "Scusi, ho un problema." }
+    - { speaker: "Signore", text: "Prego?" }
+    - { speaker: "Anna", text: "Non trovo il biglietto." }
+    - { speaker: "Signore", text: "Ha i documenti?" }
+    - { speaker: "Anna", text: "Sì, ho il passaporto." }
+    - { speaker: "Signore", text: "Va bene. Un momento, per favore. Aspetti qui." }
+    - { speaker: "Anna", text: "Grazie. Aspetto qui." }
+  audio: null
+  questions:
+    - prompt: "Che cosa non trova Anna?"
+      answers:
+        - { text: "il biglietto", canonical: true }
+        - { text: "biglietto" }
+      explanation: "«Non trovo il biglietto.»"
+    - prompt: "Che cosa ha Anna?"
+      answers:
+        - { text: "il passaporto", canonical: true }
+        - { text: "passaporto" }
+        - { text: "i documenti" }
+      explanation: "«Sì, ho il passaporto.»"
+    - prompt: "Dove aspetta Anna?"
+      answers:
+        - { text: "qui", canonical: true }
+        - { text: "aspetta qui" }
+      explanation: "«Aspetti qui.» — «Grazie. Aspetto qui.»"
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: vocab, id: problema, weight: 0.5 }
+    - { axis: vocab, id: trovare, weight: 0.5 }
+    - { axis: vocab, id: aspettare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d2
+  id: listening.un_problema.002
+  cefr_level: A0
+  title: È sua?
+  turns:
+    - { speaker: "Signore", text: "Buongiorno. Ha un problema?" }
+    - { speaker: "Anna", text: "Sì. Non trovo la valigia." }
+    - { speaker: "Signore", text: "È grande?" }
+    - { speaker: "Anna", text: "No, non è grande. È piccola." }
+    - { speaker: "Signore", text: "È nuova?" }
+    - { speaker: "Anna", text: "Sì, è nuova." }
+    - { speaker: "Signore", text: "Ecco. È sua?" }
+    - { speaker: "Anna", text: "No, non è mia. La mia è piccola." }
+    - { speaker: "Signore", text: "Ed ecco. È sua?" }
+    - { speaker: "Anna", text: "Sì! È mia. Grazie mille." }
+  audio: null
+  questions:
+    - prompt: "La valigia di Anna è grande?"
+      answers:
+        - { text: "no", canonical: true }
+        - { text: "no, è piccola" }
+        - { text: "piccola" }
+      explanation: "«No, non è grande. È piccola.»"
+    - prompt: "La valigia è nuova?"
+      answers:
+        - { text: "sì", canonical: true }
+        - { text: "sì, è nuova" }
+      explanation: "«Sì, è nuova.»"
+    - prompt: "Anna dice «No, non è mia». Perché?"
+      answers:
+        - { text: "non è la sua valigia", canonical: true }
+        - { text: "è grande" }
+        - { text: "la sua è piccola" }
+      explanation: "«No, non è mia. La mia è piccola.»"
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: vocab, id: trovare, weight: 0.5 }
+    - { axis: vocab, id: grande, weight: 0.5 }
+    - { axis: vocab, id: piccolo, weight: 0.5 }
+    - { axis: vocab, id: nuovo, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d3
+  id: listening.un_problema.003
+  cefr_level: A0
+  title: In farmacia, domenica sera
+  turns:
+    - { speaker: "Farmacista", text: "Buonasera. Desidera?" }
+    - { speaker: "Paolo", text: "Buonasera. Non sto bene. Ho un problema." }
+    - { speaker: "Farmacista", text: "Ha freddo?" }
+    - { speaker: "Paolo", text: "Sì, ho freddo. E sono molto stanco." }
+    - { speaker: "Farmacista", text: "Ha fame?" }
+    - { speaker: "Paolo", text: "No, non ho fame." }
+    - { speaker: "Farmacista", text: "Va bene. Ecco. Sono quindici euro." }
+    - { speaker: "Paolo", text: "È caro. Ha altro?" }
+    - { speaker: "Farmacista", text: "Sì, certo. Ecco: sei euro." }
+    - { speaker: "Paolo", text: "Va bene. Grazie mille." }
+  audio: null
+  questions:
+    - prompt: "Come sta Paolo?"
+      answers:
+        - { text: "non sta bene", canonical: true }
+        - { text: "male" }
+        - { text: "ha freddo" }
+      explanation: "«Non sto bene. Ho un problema.»"
+    - prompt: "Paolo ha fame?"
+      answers:
+        - { text: "no", canonical: true }
+        - { text: "no, non ha fame" }
+      explanation: "«No, non ho fame.»"
+    - prompt: "Quanto paga Paolo?"
+      answers:
+        - { text: "sei euro", canonical: true }
+        - { text: "6 euro" }
+      explanation: "He turned the fifteen-euro one down — «È caro. Ha altro?» — and paid six."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: vocab, id: freddo, weight: 0.5 }
+    - { axis: vocab, id: stanco, weight: 0.5 }
+    - { axis: vocab, id: fame, weight: 0.5 }
+    - { axis: vocab, id: caro, weight: 0.5 }
+    - { axis: vocab, id: desiderare, weight: 0.5 }

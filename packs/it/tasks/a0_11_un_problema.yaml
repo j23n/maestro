@@ -1,0 +1,102 @@
+# Capstones — lesson a0-11-un-problema, one per depth. Drafted, not reviewed.
+#
+# All three close a0.yes_no_answers. d1 and d2 show the target as a model;
+# d3 shows nothing — the build withholds `target_text` at the perform rung,
+# though it stays scorable underneath, and only that pass achieves the
+# can-do.
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: task.un_problema.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei in albergo. Non trovi la chiave della camera. Di' che cosa non va,
+    poi rispondi alla signora: «Ha i documenti?»
+    (You can't find your room key. Say what's wrong, then answer her
+    question.)
+  target_text: "Scusi, ho un problema: non trovo la chiave. Sì, ho i documenti."
+  variants:
+    - "Ho un problema. Non trovo la chiave della camera. Sì, ho i documenti."
+  rubric:
+    - names the problem — «ho un problema» or «non trovo…»
+    - answers the yes/no question with «sì» or «no», not silence
+    - uses «ho», not «sono», for what you have
+    - no English
+  explanation: "State the problem, then answer what you're asked. Two moves, and the other person can act."
+  evidence:
+    - { axis: cando, id: a0.yes_no_answers, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d2
+  id: task.un_problema.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Alla stazione. Il signore ti fa tre domande sulla valigia che cerchi.
+    Rispondi a tutte e tre: «È sua?» (no) — «È grande?» (no, è piccola) —
+    «È nuova?» (sì).
+    (Three questions about the suitcase you're looking for. Answer all
+    three — two of them are no.)
+  target_text: "No, non è mia. No, non è grande: è piccola. Sì, è nuova."
+  variants:
+    - "No, non è mia. No, è piccola, non grande. Sì, è nuova."
+  rubric:
+    - answers all three questions
+    - puts «non» in front of the verb each time it says no
+    - says «sì» only for the one that is true
+    - no English
+  explanation: "«No» opens the answer, «non» carries it: «No, non è mia.» Both, every time."
+  evidence:
+    - { axis: cando, id: a0.yes_no_answers, weight: 1.0 }
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: vocab, id: grande, weight: 0.5 }
+    - { axis: vocab, id: piccolo, weight: 0.5 }
+    - { axis: vocab, id: nuovo, weight: 0.5 }
+
+# The pass that closes the can-do. Nothing on screen to work from.
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d3
+  id: task.un_problema.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Domenica sera, in farmacia. Non stai bene. Di' che cosa hai, rispondi
+    al farmacista — «Ha fame?» — e rifiuta la prima cosa: è cara.
+    (Say what's wrong, answer what you're asked, and turn the first thing
+    down — it's too expensive.)
+  target_text: "Buonasera. Non sto bene: ho freddo e sono molto stanco. No, non ho fame. È caro — ha altro?"
+  variants:
+    - "Buonasera, ho un problema: ho freddo e sono stanco. No, non ho fame. È molto caro. Ha altro?"
+    - "Buonasera. Non sto bene. Ho caldo e sono stanco. No, non ho fame. È caro, ha altro?"
+  rubric:
+    - describes the problem without being asked first
+    - uses «ho» for the states — «ho freddo», «ho fame» — not «sono»
+    - answers the question with «no» and «non» before the verb
+    - turns the first offer down and asks for another
+    - no English
+  explanation: "Problem, answer, refusal. The refusal is the new one: «No, grazie. È caro. Ha altro?»"
+  evidence:
+    - { axis: cando, id: a0.yes_no_answers, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: vocab, id: avere, weight: 0.5 }
+    - { axis: vocab, id: problema, weight: 0.5 }
+    - { axis: vocab, id: freddo, weight: 0.5 }
+    - { axis: vocab, id: caldo, weight: 0.5 }
+    - { axis: vocab, id: stanco, weight: 0.5 }
+    - { axis: vocab, id: fame, weight: 0.5 }

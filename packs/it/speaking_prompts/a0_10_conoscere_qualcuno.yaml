@@ -1,0 +1,101 @@
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: speaking.conoscere.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: In piazza. (Say your name and where you are from.)
+  target_text: Ciao, mi chiamo Anna. Sono di Londra.
+  variants:
+  - Ciao, io sono Anna. Sono di Londra.
+  explanation: «Sono di» + city — the same words whatever the city.
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 0.5
+  - axis: vocab
+    id: essere
+    weight: 0.5
+  image: images/speaking/speaking.conoscere.001.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d2
+  id: speaking.conoscere.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Il tuo amico. (Say who your friend is and where he is from.)
+  target_text: Lui è il mio amico Marco. È di Milano.
+  variants:
+  - Lui è Marco, il mio amico. È di Milano.
+  explanation: Third person, so the verb is «è» — «lui è», then just «è».
+  evidence:
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: vocab
+    id: amico
+    weight: 0.5
+  - axis: vocab
+    id: mio
+    weight: 0.5
+  image: images/speaking/speaking.conoscere.002.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: speaking.conoscere.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: In piazza, di domenica. (Greet Giulia and ask how she is.)
+  target_text: Ciao Giulia, come stai?
+  variants:
+  - Salve Giulia, come stai?
+  - Ciao Giulia, come va?
+  explanation: 'Greeting first, then «come stai?» — one word of essere is not enough here:
+    how you are is «stare».'
+  evidence:
+  - axis: grammar
+    id: simp_sent
+    weight: 0.5
+  - axis: vocab
+    id: salutare
+    weight: 0.5
+  - axis: vocab
+    id: stare
+    weight: 0.5
+  image: images/speaking/speaking.conoscere.003.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: speaking.conoscere.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Anna abita qui adesso. (Ask her for her phone number.)
+  target_text: Anna, il tuo numero di telefono?
+  variants:
+  - Il tuo numero di telefono, per favore?
+  explanation: «Il tuo» + the thing you are asking for, with a rising voice, is a whole question.
+  evidence:
+  - axis: grammar
+    id: simp_sent
+    weight: 0.5
+  - axis: vocab
+    id: tuo
+    weight: 0.5
+  - axis: vocab
+    id: telefono
+    weight: 0.5
+  image: images/speaking/speaking.conoscere.004.png

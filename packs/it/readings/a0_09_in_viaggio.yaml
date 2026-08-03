@@ -1,0 +1,257 @@
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: reading.in_viaggio.001
+  cefr_level: A0
+  title: Un biglietto per Firenze
+  text: 'Marco è alla stazione di Roma. Vuole andare a Firenze.
+
+
+    «Buongiorno. Vorrei un biglietto per Firenze, per favore.»
+
+
+    «Per oggi?»
+
+
+    «Sì, per oggi.»
+
+
+    «Sono venti euro. Il treno parte alle nove e arriva alle undici.»
+
+
+    «Grazie. Da che binario parte?»
+
+
+    «Dal binario dodici.»
+
+
+    Marco paga, prende il biglietto e cerca il binario dodici.
+
+    '
+  questions:
+  - prompt: Dove vuole andare Marco?
+    answers:
+    - text: a Firenze
+      canonical: true
+    - text: Firenze
+    explanation: «Vuole andare a Firenze.»
+  - prompt: Quanto costa il biglietto?
+    answers:
+    - text: venti euro
+      canonical: true
+    - text: 20 euro
+    explanation: «Sono venti euro.»
+  - prompt: A che ora parte il treno?
+    answers:
+    - text: alle nove
+      canonical: true
+    - text: nove
+    explanation: «Il treno parte alle nove e arriva alle undici.»
+  - prompt: Da che binario parte il treno?
+    answers:
+    - text: dal binario dodici
+      canonical: true
+    - text: binario dodici
+    - text: dodici
+    explanation: «Dal binario dodici.»
+  evidence:
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  - axis: vocab
+    id: treno
+    weight: 0.5
+  - axis: vocab
+    id: stazione
+    weight: 0.5
+  - axis: vocab
+    id: partire
+    weight: 0.5
+  - axis: vocab
+    id: arrivare
+    weight: 0.5
+  - axis: vocab
+    id: andare
+    weight: 0.5
+  image: images/readings/reading.in_viaggio.001.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d2
+  id: reading.in_viaggio.002
+  cefr_level: A0
+  title: La macchina dei biglietti
+  text: 'Anna non aspetta: c''è una macchina dei biglietti alla stazione, e la
+
+    macchina parla italiano.
+
+
+    DOVE? — Firenze.
+
+    BIGLIETTI? — Due.
+
+    QUANDO? — Oggi.
+
+    QUANTO? — Quaranta euro.
+
+
+    Anna paga e prende i due biglietti. Adesso cerca il treno:
+
+
+    TRENO PER FIRENZE — ORE 9:20 — BINARIO 12
+
+
+    Anna prende le valigie e va al binario dodici. Il treno è lì, aperto, e
+
+    parte alle nove e venti.
+
+    '
+  questions:
+  - prompt: Quanti biglietti compra Anna?
+    answers:
+    - text: due
+      canonical: true
+    - text: due biglietti
+    explanation: «QUANTI BIGLIETTI? — Due.»
+  - prompt: Quanto costa?
+    answers:
+    - text: quaranta euro
+      canonical: true
+    - text: 40 euro
+    explanation: «QUANTO? — Quaranta euro.»
+  - prompt: A che ora parte il treno per Firenze?
+    answers:
+    - text: alle nove e venti
+      canonical: true
+    - text: '9:20'
+    explanation: «TRENO PER FIRENZE — ORE 9:20» — alle nove e venti.
+  - prompt: Da che binario parte?
+    answers:
+    - text: dal binario dodici
+      canonical: true
+    - text: binario dodici
+    explanation: «BINARIO 12.»
+  evidence:
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_identificare
+    weight: 0.5
+  - axis: vocab
+    id: macchina
+    weight: 0.5
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  - axis: vocab
+    id: valigia
+    weight: 0.5
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  - axis: vocab
+    id: aperto
+    weight: 0.5
+  image: images/readings/reading.in_viaggio.002.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d3
+  id: reading.in_viaggio.003
+  cefr_level: A0
+  title: Binario nove, binario otto
+  text: 'Marco aspetta al binario nove. Il treno per Roma parte alle venti.
+
+    Ha una valigia, un bagaglio piccolo e il passaporto.
+
+
+    Adesso il numero sul binario non è nove. È otto.
+
+
+    «Scusi, il treno per Roma parte dal binario otto?»
+
+
+    «Sì, dal binario otto. Il binario nove è chiuso.»
+
+
+    «Grazie mille!»
+
+
+    Marco prende la valigia e va. Alle venti è sul treno per Roma.
+
+    '
+  questions:
+  - prompt: Da che binario parte adesso il treno per Roma?
+    answers:
+    - text: dal binario otto
+      canonical: true
+    - text: binario otto
+    - text: otto
+    explanation: «Sì, dal binario otto.»
+  - prompt: Perché Marco non parte dal binario nove?
+    answers:
+    - text: è chiuso
+      canonical: true
+    - text: il binario nove è chiuso
+    explanation: «Il binario nove è chiuso.»
+  - prompt: A che ora parte il treno?
+    answers:
+    - text: alle venti
+      canonical: true
+    - text: venti
+    explanation: «Il treno per Roma parte alle venti.»
+  - prompt: Che cosa ha Marco?
+    answers:
+    - text: una valigia, un bagaglio e il passaporto
+      canonical: true
+    - text: una valigia e un bagaglio
+    explanation: «Ha una valigia, un bagaglio piccolo e il passaporto.»
+  evidence:
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_identificare
+    weight: 0.5
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  - axis: vocab
+    id: chiuso
+    weight: 0.5
+  - axis: vocab
+    id: valigia
+    weight: 0.5
+  - axis: vocab
+    id: bagaglio
+    weight: 0.5
+  - axis: vocab
+    id: passaporto
+    weight: 0.5
+  image: images/readings/reading.in_viaggio.003.png

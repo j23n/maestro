@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: vocab.aiuto
   item_type: vocab_card
   cefr_level: A0
@@ -20,6 +21,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: vocab.aiutare
   item_type: vocab_card
   cefr_level: A0
@@ -42,47 +44,7 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
-  id: vocab.valigia
-  item_type: vocab_card
-  cefr_level: A0
-  lemma: valigia
-  front: la valigia
-  back: suitcase
-  example: Dov'è la mia valigia?
-  example_gloss: Where is my suitcase?
-  answers:
-  - text: valigia
-    canonical: true
-  evidence:
-  - axis: vocab
-    id: valigia
-    weight: 1.0
-  - axis: grammar
-    id: pronun_bas
-    weight: 0.5
-  image: images/vocab/vocab.valigia.png
-- status: draft
-  scenario_ids:
-  - a0-05-chiedere-aiuto
-  id: vocab.passaporto
-  item_type: vocab_card
-  cefr_level: A0
-  lemma: passaporto
-  front: il passaporto
-  back: passport
-  example: Ecco il mio passaporto.
-  example_gloss: Here is my passport.
-  answers:
-  - text: passaporto
-    canonical: true
-  evidence:
-  - axis: vocab
-    id: passaporto
-    weight: 1.0
-  image: images/vocab/vocab.passaporto.png
-- status: draft
-  scenario_ids:
-  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
   id: vocab.capire
   item_type: vocab_card
   cefr_level: A0
@@ -102,19 +64,200 @@
 - status: draft
   scenario_ids:
   - a0-05-chiedere-aiuto
-  id: vocab.problema
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.bagno
   item_type: vocab_card
   cefr_level: A0
-  lemma: problema
-  front: il problema
-  back: problem
-  example: C'è un problema con la prenotazione.
-  example_gloss: There's a problem with the booking.
+  lemma: bagno
+  front: il bagno
+  back: bathroom / toilet
+  example: Scusi, dov'è il bagno?
+  example_gloss: Excuse me, where is the bathroom?
   answers:
-  - text: problema
+  - text: bagno
     canonical: true
   evidence:
   - axis: vocab
-    id: problema
+    id: bagno
     weight: 1.0
-  image: images/vocab/vocab.problema.png
+  image: images/vocab/vocab.bagno.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.certo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: certo
+  front: certo
+  back: of course / certainly
+  example: Certo, un momento!
+  example_gloss: Of course, one moment!
+  answers:
+  - text: certo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: certo
+    weight: 1.0
+  image: images/vocab/vocab.certo.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.farmacia.002
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: farmacia
+  front: la farmacia
+  back: pharmacy
+  example: La farmacia è in via Roma.
+  example_gloss: The pharmacy is on via Roma.
+  answers:
+  - text: farmacia
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: farmacia
+    weight: 1.0
+  image: images/vocab/vocab.farmacia.002.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.forse
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: forse
+  front: forse
+  back: maybe
+  example: Forse è chiuso adesso.
+  example_gloss: Maybe it's closed now.
+  answers:
+  - text: forse
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: forse
+    weight: 1.0
+  image: images/vocab/vocab.forse.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.informazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: informazione
+  front: l'informazione
+  back: piece of information
+  example: Un'informazione, per favore.
+  example_gloss: A question, please (literally "an information").
+  answers:
+  - text: informazione
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: informazione
+    weight: 1.0
+  image: images/vocab/vocab.informazione.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.ospedale
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ospedale
+  front: l'ospedale
+  back: hospital
+  example: Dov'è l'ospedale, per favore?
+  example_gloss: Where is the hospital, please?
+  answers:
+  - text: ospedale
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ospedale
+    weight: 1.0
+  image: images/vocab/vocab.ospedale.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.parlare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: parlare
+  front: parlare
+  back: to speak
+  example: Non parlo bene italiano.
+  example_gloss: I don't speak Italian well.
+  answers:
+  - text: parlare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: parlare
+    weight: 1.0
+  image: images/vocab/vocab.parlare.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.sapere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sapere
+  front: sapere
+  back: to know (a fact)
+  example: Scusi, sa dov'è la stazione?
+  example_gloss: Excuse me, do you know where the station is?
+  answers:
+  - text: sapere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sapere
+    weight: 1.0
+  image: images/vocab/vocab.sapere.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.subito
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: subito
+  front: subito
+  back: right away
+  example: Arrivo subito!
+  example_gloss: I'll be right there!
+  answers:
+  - text: subito
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: subito
+    weight: 1.0
+  image: images/vocab/vocab.subito.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: vocab.va_bene
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: va bene
+  front: va bene
+  back: okay / all right
+  example: Va bene, grazie mille!
+  example_gloss: Okay, thanks a lot!
+  answers:
+  - text: va bene
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: va bene
+    weight: 1.0
+  image: images/vocab/vocab.va_bene.png

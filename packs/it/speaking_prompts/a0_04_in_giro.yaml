@@ -47,3 +47,154 @@
     id: art_il_la
     weight: 1.0
   image: images/speaking/speaking.art_il_la.001.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: speaking.a0_scusarsi.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  prompt: In strada. (Stop a woman you do not know — apologise for interrupting, then say
+    hello.)
+  target_text: Scusi, signora! Buongiorno.
+  variants:
+  - Scusi! Buongiorno, signora.
+  - Scusi, signora.
+  explanation: «Scusi» to a stranger, «scusa» to a friend. Say it before the question, never
+    after.
+  evidence:
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 0.5
+  image: images/speaking/speaking.a0_scusarsi.001.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d3
+  id: speaking.in_giro.d3.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: In centro. (You have no map — ask a shopkeeper where the market is, then where the
+    bank is.)
+  target_text: Scusi, dov'è il mercato? E la banca?
+  variants:
+  - Scusi, dov'è il mercato, per favore? E dov'è la banca?
+  explanation: The second question can drop «dov'è» — «E la banca?» is what Italians actually
+    say.
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: vocab
+    id: mercato
+    weight: 0.5
+  - axis: vocab
+    id: banca
+    weight: 0.5
+  - axis: vocab
+    id: piazza
+    weight: 0.5
+  - axis: vocab
+    id: chiesa
+    weight: 0.5
+  - axis: vocab
+    id: negozio
+    weight: 0.5
+  - axis: vocab
+    id: supermercato
+    weight: 0.5
+  image: images/speaking/speaking.in_giro.d3.001.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d3
+  id: speaking.in_giro.d3.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Davanti al museo. (Ask where the entrance is, and where the way out is.)
+  target_text: Scusi, dov'è l'entrata? E l'uscita?
+  variants:
+  - Scusi, dov'è l'entrata del museo? E dov'è l'uscita?
+  explanation: Both words start with a vowel, so both take «l'» whatever their gender.
+  evidence:
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: vocab
+    id: museo
+    weight: 0.5
+  - axis: vocab
+    id: entrata
+    weight: 0.5
+  - axis: vocab
+    id: uscita
+    weight: 0.5
+  - axis: vocab
+    id: porta
+    weight: 0.5
+  - axis: vocab
+    id: qui
+    weight: 0.5
+  - axis: vocab
+    id: lì
+    weight: 0.5
+  image: images/speaking/speaking.in_giro.d3.002.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d3
+  id: speaking.in_giro.d3.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Alla stazione, la sera. (Ask which way the sea is, and how you get home.)
+  target_text: Scusi, dov'è il mare? E come vado a casa?
+  variants:
+  - Scusi, dov'è il mare, per favore? Come vado a casa?
+  explanation: «A casa» takes no article — it is one of the few places that doesn't.
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: vocab
+    id: mare
+    weight: 0.5
+  - axis: vocab
+    id: casa
+    weight: 0.5
+  image: images/speaking/speaking.in_giro.d3.003.png

@@ -559,7 +559,7 @@ Updated as steps land. §8 is the plan; this is the state.
 | 3. Lesson-scoped composer | **done** |
 | 4. Spec fill (depths, bands, domains, assignment) | **done for A0** — 13 scenarios, 39 lessons, every A0 grammar point, function, can-do and lemma homed; A1/A2 outstanding |
 | 5. App | in progress — lesson browser, intro screens, capstone screen, and art landed; still owed: demand-tier revisit copy, Progress grouping, resume, label disambiguation (§7) |
-| 6. Content fill | in progress for A0 — see 08 Phase C |
+| 6. Content fill | **done for A0** — 680 items across 39 lessons, contract satisfied; A1/A2 outstanding |
 
 Decisions taken along the way are recorded in `decisions.md`; this table
 is the index into them.
@@ -569,27 +569,29 @@ is the index into them.
 `uv run python -m authoring.cli validate --coverage --include-draft`:
 
 ```
-87 lessons; A0-A2 coverage:
-  cando        1 / 68   covered
-  function     2 / 199  covered
-  grammar      3 / 163  covered
-  vocab        8 / 414  covered
-  orphan: 830
+111 lessons; A0/A1/A2 coverage:
+  cando       13 / 68   covered
+  function    17 / 199  covered
+  grammar     22 / 163  covered
+  vocab      290 / 487  covered
+  orphan: 575
 ```
 
-87 lessons rather than the 135 §4 asks for, because 36 of the 37
+**Every one of those covered ids is A0, and A0 is now complete** —
+`--band A0` reports `contract satisfied`, 0 errors, 0 warnings. The 575
+orphans are the A1 and A2 inventory, which no lesson introduces yet.
+
+111 lessons rather than the 135 §4 asks for, because the 24 A1/A2
 scenarios still carry their pre-lesson `depths: [str]` form — the legacy
 lift gives each one a lesson with a stable id and an empty `introduces`,
 and the composer falls back to scenario-scoped selection for those.
 
-**`a0-03-al-bar` is the one that is done**, and it is the proof the loop
-closes: three authored depths, everything it owns homed and revisited
-twice at rising demand, and three capstones that take
-`a0.order_something` from rehearsed to free.
-`core/tests/closes_a_cando.rs` plays all three against the real bundle
-and asserts the descriptor reaches `achieved` — the first time any can-do
-in this app has been reachable at all. Every remaining scenario is the
-same shape of work.
+The proof is `core/tests/closes_a0.rs`: it plays all thirty-nine A0
+lessons in curriculum order against the real bundle and asserts every
+A0 can-do comes out `achieved`. Before this plan that number was zero
+and unreachable: no authored item carried `axis: cando`, so `applied`
+was false for all 68 descriptors forever. Every remaining band is the
+same shape of work: manifests, then content, then the same two commands.
 
 ### Fixed along the way
 

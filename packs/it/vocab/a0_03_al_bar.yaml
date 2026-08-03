@@ -164,3 +164,203 @@
     id: frizzante
     weight: 1.0
   image: images/vocab/vocab.frizzante.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.banco
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: banco
+  front: il banco
+  back: counter (in a bar)
+  example: Al banco il caffè costa poco.
+  example_gloss: At the counter the coffee is cheap.
+  answers:
+  - text: banco
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: banco
+    weight: 1.0
+  image: images/vocab/vocab.banco.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.barista
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: barista
+  front: il barista
+  back: barista / bar server
+  example: Il barista fa il caffè.
+  example_gloss: The barista makes the coffee.
+  answers:
+  - text: barista
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: barista
+    weight: 1.0
+  image: images/vocab/vocab.barista.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.bicchiere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: bicchiere
+  front: il bicchiere
+  back: glass
+  example: Un bicchiere di latte, per favore.
+  example_gloss: A glass of milk, please.
+  answers:
+  - text: bicchiere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bicchiere
+    weight: 1.0
+  image: images/vocab/vocab.bicchiere.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.bottiglia
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: bottiglia
+  front: la bottiglia
+  back: bottle
+  example: Una bottiglia di birra, grazie.
+  example_gloss: A bottle of beer, thanks.
+  answers:
+  - text: bottiglia
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bottiglia
+    weight: 1.0
+  image: images/vocab/vocab.bottiglia.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.al_bar.colazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: colazione
+  front: la colazione
+  back: breakfast
+  example: Faccio colazione al bar.
+  example_gloss: I have breakfast at the café.
+  answers:
+  - text: colazione
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: colazione
+    weight: 1.0
+  image: images/vocab/vocab.al_bar.colazione.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.latte
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: latte
+  front: il latte
+  back: milk
+  example: Un tè con latte, per favore.
+  example_gloss: A tea with milk, please.
+  answers:
+  - text: latte
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: latte
+    weight: 1.0
+  image: images/vocab/vocab.latte.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.tazza
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: tazza
+  front: la tazza
+  back: cup
+  example: Il cappuccino è in una tazza grande.
+  example_gloss: The cappuccino comes in a big cup.
+  answers:
+  - text: tazza
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: tazza
+    weight: 1.0
+  image: images/vocab/vocab.tazza.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.te
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: tè
+  front: il tè
+  back: tea
+  example: Vorrei un tè caldo.
+  example_gloss: I'd like a hot tea.
+  answers:
+  - text: tè
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: tè
+    weight: 1.0
+  image: images/vocab/vocab.te.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.vino
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: vino
+  front: il vino
+  back: wine
+  example: Vorrei un bicchiere di vino.
+  example_gloss: I'd like a glass of wine.
+  answers:
+  - text: vino
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: vino
+    weight: 1.0
+  image: images/vocab/vocab.vino.png
+- status: draft
+  scenario_ids:
+  - a0-03-al-bar
+  lesson_id: a0-03-al-bar.d1
+  id: vocab.zucchero
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: zucchero
+  front: lo zucchero
+  back: sugar
+  example: Il caffè con zucchero, per favore.
+  example_gloss: Coffee with sugar, please.
+  answers:
+  - text: zucchero
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: zucchero
+    weight: 1.0
+  image: images/vocab/vocab.zucchero.png

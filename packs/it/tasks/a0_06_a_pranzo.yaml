@@ -1,0 +1,103 @@
+# Capstones — lesson a0-06-a-pranzo, one per depth. Drafted, not reviewed.
+#
+# The can-do is a0.identify_things: ask what something is, then name it back
+# with its article. d1 and d2 show the target as a model; d3 shows nothing —
+# the learner has to arrive at the question with a queue behind them.
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: task.a_pranzo.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sul menù c'è «il piatto del giorno». Non sai che cos'è.
+    (The menu says "dish of the day" and you have no idea what it is. Ask
+    the waiter what it is, then order it.)
+  target_text: "Cos'è il piatto del giorno? Va bene, prendo il pollo, per favore."
+  variants:
+    - "Cos'è il piatto del giorno, scusi? Il pollo, per favore."
+    - "Che cosa è il piatto del giorno? Va bene, il pollo, per favore."
+  rubric:
+    - asks what the dish is before ordering it
+    - uses «cos'è» (or «che cos'è»), not an English word
+    - orders the dish by name
+  explanation: "Ask first, order second — that is the whole move of this lesson."
+  evidence:
+    - { axis: cando, id: a0.identify_things, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: vocab, id: piatto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d2
+  id: task.a_pranzo.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Oggi il menù non c'è: pasta al pomodoro, pesce, insalata e un dolce. Il
+    dolce non lo capisci.
+    (He says the specials out loud and the last one goes past you. Ask what
+    it is, then order a whole lunch — two dishes, politely.)
+  target_text: "Cos'è il dolce di oggi? Prendo la pasta al pomodoro e il pesce, per favore."
+  variants:
+    - "Cos'è il dolce, scusi? Prendo la pasta e il pesce, per favore."
+    - "Cos'è il dolce di oggi? Vorrei la pasta al pomodoro e il pesce."
+  rubric:
+    - asks about the item they missed
+    - orders two courses, not one
+    - each dish keeps its article (la pasta, il pesce)
+    - asks politely — per favore or vorrei
+  explanation: "Nothing is written down, so the question does the work the menu would have done."
+  evidence:
+    - { axis: cando, id: a0.identify_things, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: vocab, id: pasta, weight: 0.5 }
+    - { axis: vocab, id: pesce, weight: 0.5 }
+    - { axis: vocab, id: dolce, weight: 0.5 }
+
+# The pass that closes the can-do. No model on screen: four trays, no
+# labels, and a queue that is not getting shorter.
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d3
+  id: task.a_pranzo.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Al banco i piatti non hanno il nome. La signora aspetta.
+    (Nothing behind the glass is labelled. Ask what one tray is and what the
+    things on the next one are, then order a full lunch — no English.)
+  target_text: "Cos'è, scusi? E che cosa sono? Prendo il pollo con l'insalata e il pane, per favore."
+  variants:
+    - "Cos'è? E che cosa sono, per favore? Vorrei il pollo, l'insalata e il pane."
+    - "Cos'è, per favore? E che cosa sono? Prendo il pollo, l'insalata e il pane."
+  rubric:
+    - asks about both trays, one singular and one plural
+    - gets «sono» right for the plural one
+    - orders at least two things, each with its article
+    - asks politely, and in Italian throughout
+  explanation: "Singular «cos'è?», plural «che cosa sono?» — then order what the answers turned out to be."
+  evidence:
+    - { axis: cando, id: a0.identify_things, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: vocab, id: pollo, weight: 0.5 }
+    - { axis: vocab, id: insalata, weight: 0.5 }
+    - { axis: vocab, id: pane, weight: 0.5 }
+    - { axis: vocab, id: piatto, weight: 0.5 }
+    - { axis: vocab, id: dolce, weight: 0.5 }
+    - { axis: vocab, id: gelato, weight: 0.5 }
+    - { axis: vocab, id: ordinare, weight: 0.5 }

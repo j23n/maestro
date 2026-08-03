@@ -1,0 +1,146 @@
+# Listening — lesson a0-05-chiedere-aiuto, one dialogue per depth.
+# Drafted, not yet reviewed. Each one has the learner's side breaking
+# down once and being repaired, because that is the lesson.
+
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: listening.chiedere_aiuto.001
+  cefr_level: A0
+  title: Non ho capito
+  turns:
+    - { speaker: "Marco", text: "Scusi, signora!" }
+    - { speaker: "Signora", text: "Sì, prego." }
+    - { speaker: "Marco", text: "Non parlo bene italiano. Mi può aiutare?" }
+    - { speaker: "Signora", text: "Certo!" }
+    - { speaker: "Marco", text: "Dov'è il bagno?" }
+    - { speaker: "Signora", text: "Il bagno è lì, al bar." }
+    - { speaker: "Marco", text: "Scusi, non ho capito." }
+    - { speaker: "Signora", text: "Al bar. Lì." }
+    - { speaker: "Marco", text: "Va bene. Grazie mille!" }
+    - { speaker: "Signora", text: "Prego!" }
+  audio: null
+  questions:
+    - prompt: "Che cosa cerca Marco?"
+      answers:
+        - { text: "il bagno", canonical: true }
+        - { text: "bagno" }
+      explanation: "«Dov'è il bagno?»"
+    - prompt: "Dov'è il bagno?"
+      answers:
+        - { text: "al bar", canonical: true }
+        - { text: "bar" }
+      explanation: "«Il bagno è lì, al bar.»"
+    - prompt: "Che cosa dice Marco quando non capisce?"
+      answers:
+        - { text: "non ho capito", canonical: true }
+        - { text: "scusi, non ho capito" }
+      explanation: "«Scusi, non ho capito» — and she says it again, shorter."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 0.5 }
+    - { axis: vocab, id: bagno, weight: 0.5 }
+    - { axis: vocab, id: capire, weight: 0.5 }
+    - { axis: vocab, id: parlare, weight: 0.5 }
+    - { axis: vocab, id: aiutare, weight: 0.5 }
+    - { axis: vocab, id: certo, weight: 0.5 }
+    - { axis: vocab, id: va bene, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d2
+  id: listening.chiedere_aiuto.002
+  cefr_level: A0
+  title: Un'informazione, per favore
+  turns:
+    - { speaker: "Anna", text: "Scusi, signore!" }
+    - { speaker: "Signore", text: "Prego." }
+    - { speaker: "Anna", text: "Un'informazione, per favore. Dov'è la farmacia?" }
+    - { speaker: "Signore", text: "È in via Roma." }
+    - { speaker: "Anna", text: "Scusi, non ho capito. Come?" }
+    - { speaker: "Signore", text: "In via Roma. Lì c'è anche la banca." }
+    - { speaker: "Anna", text: "Via Roma... e la banca. Va bene, ho capito." }
+    - { speaker: "Signore", text: "Sì. È aperta adesso." }
+    - { speaker: "Anna", text: "Grazie mille!" }
+    - { speaker: "Signore", text: "Prego, buona giornata." }
+  audio: null
+  questions:
+    - prompt: "Dov'è la farmacia?"
+      answers:
+        - { text: "in via Roma", canonical: true }
+        - { text: "via Roma" }
+      explanation: "«È in via Roma.»"
+    - prompt: "Che cosa c'è anche in via Roma?"
+      answers:
+        - { text: "la banca", canonical: true }
+        - { text: "banca" }
+      explanation: "«Lì c'è anche la banca» — the landmark, offered because the street name alone did not land."
+    - prompt: "Che cosa dice Anna quando ha capito?"
+      answers:
+        - { text: "ho capito", canonical: true }
+        - { text: "va bene, ho capito" }
+      explanation: "«Via Roma... e la banca. Va bene, ho capito.» Repeating it back is how you check."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 0.5 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+    - { axis: vocab, id: farmacia, weight: 0.5 }
+    - { axis: vocab, id: informazione, weight: 0.5 }
+    - { axis: vocab, id: capire, weight: 0.5 }
+    - { axis: vocab, id: va bene, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: listening.chiedere_aiuto.003
+  cefr_level: A0
+  title: Non so dove sono
+  turns:
+    - { speaker: "Anna", text: "Scusi!" }
+    - { speaker: "Signora", text: "Sì?" }
+    - { speaker: "Anna", text: "Buonasera. Mi può aiutare? Non so dove sono." }
+    - { speaker: "Signora", text: "Certo. Dove va?" }
+    - { speaker: "Anna", text: "All'ospedale. Dov'è l'ospedale, per favore?" }
+    - { speaker: "Signora", text: "È in via Garibaldi, in centro." }
+    - { speaker: "Anna", text: "Scusi, non ho capito. In via...?" }
+    - { speaker: "Signora", text: "Garibaldi. Via Garibaldi." }
+    - { speaker: "Anna", text: "Va bene. Ho capito: via Garibaldi, in centro." }
+    - { speaker: "Signora", text: "Sì. Forse c'è anche un autobus." }
+    - { speaker: "Anna", text: "Grazie mille, signora! Buonanotte." }
+    - { speaker: "Signora", text: "Prego. Buonanotte!" }
+  audio: null
+  questions:
+    - prompt: "Dove va Anna?"
+      answers:
+        - { text: "all'ospedale", canonical: true }
+        - { text: "ospedale" }
+      explanation: "«All'ospedale.» — a + l'ospedale."
+    - prompt: "Dov'è l'ospedale?"
+      answers:
+        - { text: "in via Garibaldi", canonical: true }
+        - { text: "via Garibaldi" }
+        - { text: "in centro" }
+      explanation: "«È in via Garibaldi, in centro.»"
+    - prompt: "Che cosa dice Anna quando non capisce il nome della via?"
+      answers:
+        - { text: "non ho capito", canonical: true }
+        - { text: "scusi, non ho capito. in via...?" }
+      explanation: "«Scusi, non ho capito. In via...?» — leaving the sentence open is itself the question."
+  evidence:
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 0.5 }
+    - { axis: function, id: a0_chiedere_dove, weight: 0.5 }
+    - { axis: function, id: a0_scusarsi, weight: 0.5 }
+    - { axis: vocab, id: ospedale, weight: 0.5 }
+    - { axis: vocab, id: sapere, weight: 0.5 }
+    - { axis: vocab, id: aiutare, weight: 0.5 }
+    - { axis: vocab, id: forse, weight: 0.5 }
+    - { axis: vocab, id: capire, weight: 0.5 }
+    - { axis: vocab, id: certo, weight: 0.5 }
+    - { axis: vocab, id: va bene, weight: 0.5 }

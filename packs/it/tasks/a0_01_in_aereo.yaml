@@ -1,0 +1,117 @@
+# Capstones — lesson a0-01-in-aereo, one per depth. Drafted, not yet reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can move
+# a0.catch_courtesy to *achieved* (docs/plans/07 §2). Each depth asks for
+# the same courtesy exchange with less help than the last: d1 and d2 show
+# the target as a model, d3 shows nothing.
+
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d1
+  id: task.in_aereo.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei a bordo. L'assistente dice: «Buongiorno! Benvenuto a bordo.»
+    (Greet her back, then thank her.)
+  target_text: "Buongiorno, signora. Grazie mille."
+  variants:
+    - "Buongiorno! Grazie."
+    - "Salve, signora. Grazie mille."
+  rubric:
+    - greets back before anything else
+    - picks a greeting that fits the crew — buongiorno or salve, not ciao
+    - says thank you
+    - no English
+  min_words: 3
+  explanation: "Greeting first, thanks second. That order is the whole courtesy."
+  evidence:
+    - { axis: cando, id: a0.catch_courtesy, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d2
+  id: task.in_aereo.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Il carrello è alla tua fila. L'assistente dice, veloce: «Caffè? Tè?
+    Acqua?» (Answer her — yes or no — and thank her. You have four
+    seconds, and she will not repeat it.)
+  target_text: "Sì, un caffè, per favore. Grazie."
+  variants:
+    - "No, grazie."
+    - "Sì, un'acqua, per favore. Grazie mille."
+  rubric:
+    - answers sì or no straight away, before anything else
+    - names the drink if the answer is yes
+    - adds per favore or grazie
+    - does not stall, translate, or switch to English
+  min_words: 2
+  explanation: "«Sì» or «no» comes out first; «per favore» and «grazie» ride behind it."
+  evidence:
+    - { axis: cando, id: a0.catch_courtesy, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: vocab, id: "sì", weight: 0.5 }
+    - { axis: vocab, id: "no", weight: 0.5 }
+    - { axis: vocab, id: per favore, weight: 0.5 }
+
+# The pass that closes the can-do. Nothing on screen: three exchanges in a
+# row, none of them rehearsed, which is the difference between knowing the
+# words and having them ready.
+- status: draft
+  scenario_ids: [a0-01-in-aereo]
+  lesson_id: a0-01-in-aereo.d3
+  id: task.in_aereo.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Allo sbarco, tre scambi di seguito: l'assistente alla porta, una
+    signora ferma nel corridoio, il signore del passaporto.
+    (Three exchanges on the way off the plane — the crew at the door,
+    someone blocking the corridor, the officer at the desk. Say goodbye,
+    get past, answer his question. Nobody repeats anything.)
+  target_text: "Arrivederci e grazie mille. Scusi! Sì, ecco il passaporto."
+  variants:
+    - "Grazie mille, arrivederci! Scusi. Sì, ecco il documento."
+    - "Arrivederci, signora! Scusi, per favore. No, ecco il passaporto."
+  rubric:
+    - says goodbye to the crew without being prompted
+    - thanks someone at least once
+    - gets past the stranger with scusi, not with English
+    - answers the officer with sì or no rather than silence
+    - nothing is read off a screen
+  min_words: 8
+  explanation: |
+    Goodbye, excuse me, yes — three words, three people, no rehearsal.
+    That is what the courtesy is for.
+  evidence:
+    - { axis: cando, id: a0.catch_courtesy, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: vocab, id: arrivederci, weight: 0.5 }
+    - { axis: vocab, id: grazie, weight: 0.5 }
+    - { axis: vocab, id: scusi, weight: 0.5 }
+    - { axis: vocab, id: "sì", weight: 0.5 }
+    - { axis: vocab, id: "no", weight: 0.5 }
+    - { axis: vocab, id: ecco, weight: 0.5 }
+    - { axis: vocab, id: per favore, weight: 0.5 }
+    - { axis: vocab, id: signore, weight: 0.5 }
+    - { axis: vocab, id: signora, weight: 0.5 }

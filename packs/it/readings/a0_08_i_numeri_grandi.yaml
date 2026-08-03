@@ -1,0 +1,260 @@
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: reading.numeri_grandi.001
+  cefr_level: A0
+  title: La porta del negozio
+  text: 'Il negozio di Marco è in centro, in piazza Garibaldi. Sulla porta ci
+
+    sono i giorni e le ore:
+
+
+    lunedì: chiuso
+
+    da martedì a sabato: aperto dalle nove alle tredici e dalle sedici alle venti
+
+    domenica: aperto la mattina
+
+
+    Marco lavora sempre. «Il lunedì no,» dice. «Il lunedì è la mia
+
+    giornata libera.»
+
+    '
+  questions:
+  - prompt: Quando è chiuso il negozio?
+    answers:
+    - text: il lunedì
+      canonical: true
+    - text: lunedì
+    explanation: '«lunedì: chiuso» — and Marco says so himself.'
+  - prompt: A che ora è aperto il negozio la mattina?
+    answers:
+    - text: dalle nove alle tredici
+      canonical: true
+    - text: dalle 9 alle 13
+    explanation: «aperto dalle nove alle tredici e dalle sedici alle venti».
+  - prompt: Che giorno è aperto la mattina e non il pomeriggio?
+    answers:
+    - text: domenica
+      canonical: true
+    - text: la domenica
+    explanation: '«domenica: aperto la mattina».'
+  evidence:
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: vocab
+    id: lunedì
+    weight: 0.5
+  - axis: vocab
+    id: martedì
+    weight: 0.5
+  - axis: vocab
+    id: sabato
+    weight: 0.5
+  - axis: vocab
+    id: domenica
+    weight: 0.5
+  - axis: vocab
+    id: mattina
+    weight: 0.5
+  - axis: vocab
+    id: giornata
+    weight: 0.5
+  - axis: vocab
+    id: sempre
+    weight: 0.5
+  image: images/readings/reading.numeri_grandi.001.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d2
+  id: reading.numeri_grandi.002
+  cefr_level: A0
+  title: Il banco della frutta
+  text: 'Sabato mattina, al mercato. Il banco della frutta è aperto dalle sette
+
+    alle quattordici.
+
+
+    «Quanto costano le mele?» dice una signora.
+
+
+    «Sei euro,» dice il signore del banco.
+
+
+    «E i pomodori?»
+
+
+    «Tre euro. Sono nove euro.»
+
+
+    La signora paga con venti euro.
+
+
+    «Ecco undici euro,» dice il signore. «Il mercato è chiuso il lunedì e
+
+    il mercoledì pomeriggio. Buona giornata!»
+
+    '
+  questions:
+  - prompt: Quanto costano le mele?
+    answers:
+    - text: sei euro
+      canonical: true
+    - text: 6 euro
+    explanation: «Sei euro,» dice il signore del banco.
+  - prompt: Quanto paga la signora?
+    answers:
+    - text: nove euro
+      canonical: true
+    - text: 9 euro
+    explanation: Sei euro di mele e tre euro di pomodori — nove euro.
+  - prompt: A che ora è aperto il banco della frutta?
+    answers:
+    - text: dalle sette alle quattordici
+      canonical: true
+    - text: dalle 7 alle 14
+    explanation: «aperto dalle sette alle quattordici».
+  - prompt: Quando è chiuso il mercato?
+    answers:
+    - text: il lunedì e il mercoledì pomeriggio
+      canonical: true
+    - text: lunedì e mercoledì pomeriggio
+    explanation: «Il mercato è chiuso il lunedì e il mercoledì pomeriggio.»
+  evidence:
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: art_i_le
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: vocab
+    id: costare
+    weight: 0.5
+  - axis: vocab
+    id: pagare
+    weight: 0.5
+  - axis: vocab
+    id: euro
+    weight: 0.5
+  - axis: vocab
+    id: quanto
+    weight: 0.5
+  - axis: vocab
+    id: mercoledì
+    weight: 0.5
+  - axis: vocab
+    id: pomeriggio
+    weight: 0.5
+  image: images/readings/reading.numeri_grandi.002.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: reading.numeri_grandi.003
+  cefr_level: A0
+  title: Ci vediamo mercoledì
+  text: 'Giulia e Marco vogliono vedere il museo in centro.
+
+
+    «Ci vediamo martedì?» dice Giulia.
+
+
+    «Martedì non posso. Mercoledì?»
+
+
+    «Mercoledì va bene. A che ora?»
+
+
+    «Alle quindici e trenta. Il museo è aperto dalle dieci alle diciotto.»
+
+
+    «Va bene. Quanto costa il biglietto?»
+
+
+    «Dodici euro. La domenica non si paga.»
+
+
+    Mercoledì Giulia arriva alle quindici e venti. Marco arriva alle
+
+    sedici.
+
+
+    «Scusa!» dice Marco.
+
+
+    «Non c''è problema,» dice Giulia. «Il museo è aperto.»
+
+    '
+  questions:
+  - prompt: Che giorno vedono il museo?
+    answers:
+    - text: mercoledì
+      canonical: true
+    - text: il mercoledì
+    explanation: Marco cannot do Tuesday, so they settle on «Mercoledì va bene».
+  - prompt: A che ora arriva Giulia?
+    answers:
+    - text: alle quindici e venti
+      canonical: true
+    - text: '15:20'
+    explanation: «Giulia arriva alle quindici e venti» — forty minutes before Marco.
+  - prompt: Quanto costa il biglietto?
+    answers:
+    - text: dodici euro
+      canonical: true
+    - text: 12 euro
+    explanation: «Dodici euro. La domenica non si paga.»
+  - prompt: Quando non si paga il biglietto?
+    answers:
+    - text: la domenica
+      canonical: true
+    - text: domenica
+    explanation: «La domenica non si paga.»
+  evidence:
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: vocab
+    id: martedì
+    weight: 0.5
+  - axis: vocab
+    id: mercoledì
+    weight: 0.5
+  - axis: vocab
+    id: domenica
+    weight: 0.5
+  - axis: vocab
+    id: ora
+    weight: 0.5
+  - axis: vocab
+    id: costare
+    weight: 0.5
+  image: images/readings/reading.numeri_grandi.003.png

@@ -1,0 +1,173 @@
+# Drill bank — lesson a0-07-mi-piace (mi_piace, art_i_le).
+# The mi_piace series continues 001-002, which live in a0_basics.yaml and
+# are already homed at this lesson. Drafted, not reviewed.
+
+# ---------------------------------------------------------------- mi_piace
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.mi_piace.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Mi ___ i dolci."
+  answers:
+    - { text: "piacciono", canonical: true }
+  distractor_feedback:
+    piace: "«I dolci» is more than one thing, so the verb goes plural: mi piacciono."
+  explanation: "Count what comes after: one thing → piace, several → piacciono."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 0.5 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.mi_piace.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Say you don't like fish: «___ il pesce.»"
+  choices: ["Non mi piace", "Mi piace non", "Mi non piace", "Non piace mi"]
+  answers:
+    - { text: "Non mi piace", canonical: true }
+  distractor_feedback:
+    Mi piace non: "«Non» never comes last — it goes in front of the whole block."
+    Mi non piace: "«Non» goes before «mi», not between «mi» and «piace»."
+    Non piace mi: "The order is fixed: non + mi + piace."
+  explanation: "Negation wraps the pair: non mi piace, non mi piacciono."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.mi_piace.005
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Make it negative: «Mi piace il vino.» → «___»"
+  answers:
+    - { text: "Non mi piace il vino", canonical: true }
+  explanation: "Put «non» at the front and change nothing else."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.mi_piace.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "— Ti piace il gelato? — Sì, mi ___ molto."
+  answers:
+    - { text: "piace", canonical: true }
+  distractor_feedback:
+    piacciono: "«Il gelato» is one thing, so the verb stays singular: mi piace."
+  explanation: "Answering a «ti piace...?» question, you just swap ti for mi."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+
+# ---------------------------------------------------------------- art_i_le
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Mi piacciono ___ dolci."
+  answers:
+    - { text: "i", canonical: true }
+  distractor_feedback:
+    le: "«Dolci» here is masculine plural, so the article is «i»."
+    il: "«Piacciono» is plural, so the noun and its article are plural too."
+  explanation: "il dolce → i dolci."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "___ mele sono buone."
+  answers:
+    - { text: "Le", canonical: true }
+  distractor_feedback:
+    i: "«Mele» is feminine plural: la mela → le mele."
+    la: "There is more than one: la mela → le mele."
+  explanation: "la → le, and the noun ending goes -a → -e."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Plural of «il piatto»: «___ piatti»"
+  choices: ["i", "le", "gli", "la"]
+  answers:
+    - { text: "i", canonical: true }
+  distractor_feedback:
+    gli: "«Gli» is only for masculine words starting with a vowel or s + consonant."
+    le: "«Le» is the feminine plural."
+  explanation: "il → i. The shortcut that covers most masculine nouns."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.004
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Make it plural: «la mela» → «___ mele»"
+  answers:
+    - { text: "le", canonical: true }
+  distractor_feedback:
+    la: "That is the singular you were asked to change."
+  explanation: "la → le."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Non mi piacciono ___ insalate."
+  answers:
+    - { text: "le", canonical: true }
+  distractor_feedback:
+    i: "«Insalate» is feminine plural: l'insalata → le insalate."
+  explanation: "Feminine plural → le, whatever the verb in front of it."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: drill.art_i_le.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Which article goes here? «___ spaghetti sono buoni.»"
+  choices: ["gli", "i", "le", "la"]
+  answers:
+    - { text: "gli", canonical: true }
+  distractor_feedback:
+    i: "«I» is the usual masculine plural, but not before s + consonant."
+    le: "«Le» is feminine; spaghetti are masculine."
+  explanation: "Masculine plural is «i» — except before a vowel or s + consonant, where it becomes «gli»: gli spaghetti, gli amici."
+  evidence:
+    - { axis: grammar, id: art_i_le, weight: 1.0 }

@@ -1,0 +1,179 @@
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: speaking.a0_descrivere_problema.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: In albergo. (Tell the receptionist you have a problem and ask for help.)
+  target_text: Scusi, ho un problema. Mi può aiutare?
+  variants:
+  - Scusi, ho un problema. Mi aiuta, per favore?
+  explanation: «Ho un problema» first, «mi può aiutare?» second — in that order the other
+    person already knows what they are helping with.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: vocab
+    id: problema
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.001.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d1
+  id: speaking.a0_descrivere_problema.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Alla stazione. (Say you can't find your suitcase.)
+  target_text: Non trovo la valigia.
+  variants:
+  - Scusi, non trovo la mia valigia.
+  explanation: Italian says «non trovo» — *I don't find* — where English says *I can't find*.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: vocab
+    id: trovare
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.002.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: speaking.a0_descrivere_problema.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Alla stazione. (Your suitcase is missing. Say you can't find it, that you have been
+    looking for an hour, and that you will wait here.)
+  target_text: Non trovo la valigia. Cerco da un'ora e aspetto qui.
+  variants:
+  - Non trovo la mia valigia. La cerco da un'ora. Aspetto qui.
+  explanation: «Cercare» is the looking, «trovare» the finding. A problem usually needs both.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: vocab
+    id: trovare
+    weight: 0.5
+  - axis: vocab
+    id: cercare
+    weight: 0.5
+  - axis: vocab
+    id: aspettare
+    weight: 0.5
+  - axis: vocab
+    id: vedere
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.003.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: speaking.a0_descrivere_problema.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: In farmacia. (You have been handed something too expensive. Turn it down politely
+    and ask what else there is.)
+  target_text: No, grazie. È molto caro. Ha altro?
+  variants:
+  - No, grazie, non desidero. È caro. Ha altro, per favore?
+  explanation: «No, grazie» is a complete refusal; «è caro. Ha altro?» turns it into a second
+    offer instead of a dead end.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: vocab
+    id: caro
+    weight: 0.5
+  - axis: vocab
+    id: desiderare
+    weight: 0.5
+  - axis: vocab
+    id: volere
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.004.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: speaking.a0_descrivere_problema.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al telefono con l'albergo. (Answer the phone, then say you are not well and that
+    you cannot hear properly.)
+  target_text: Pronto? Scusi, non sto bene e non sento bene.
+  variants:
+  - Pronto? Non sto bene. Scusi, non sento bene.
+  explanation: Italians answer the phone with «pronto?», not with their name. The same word
+    means *ready* everywhere else.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: vocab
+    id: pronto
+    weight: 0.5
+  - axis: vocab
+    id: sentire
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.005.png
+- status: draft
+  scenario_ids:
+  - a0-11-un-problema
+  lesson_id: a0-11-un-problema.d3
+  id: speaking.a0_descrivere_problema.006
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Alla porta. (Ask whether you may come in, then admit you do not know how to say
+    it in Italian.)
+  target_text: Posso entrare? Scusi, non so come si dice in italiano.
+  variants:
+  - Posso entrare, per favore? Non so come si dice.
+  explanation: «Come si dice...?» buys you the word you are missing — the one question worth
+    memorising whole.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: vocab
+    id: entrare
+    weight: 0.5
+  - axis: vocab
+    id: dire
+    weight: 0.5
+  - axis: vocab
+    id: potere
+    weight: 0.5
+  image: images/speaking/speaking.a0_descrivere_problema.006.png

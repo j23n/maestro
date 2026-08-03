@@ -71,3 +71,183 @@
     id: a0_ringraziare
     weight: 0.5
   image: images/readings/reading.in_aereo.001.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d2
+  id: reading.in_aereo.002
+  cefr_level: A0
+  title: Caffè o tè?
+  text: 'L''assistente arriva con il caffè e il tè.
+
+
+    «Buongiorno, signora. Un caffè?»
+
+
+    «No, grazie. Un tè, per favore.»
+
+
+    «Ecco a lei. Zucchero?»
+
+
+    «Sì, grazie mille.»
+
+
+    «Prego. Il volo arriva a Roma alle undici.»
+
+
+    «Bene, grazie!»
+
+    '
+  glossary:
+    Ecco a lei: Here you are (formal)
+  questions:
+  - prompt: Che cosa prende la signora?
+    answers:
+    - text: un tè
+      canonical: true
+    - text: tè
+    - text: il tè
+    explanation: «No, grazie. Un tè, per favore.»
+  - prompt: La signora dice sì o no allo zucchero?
+    answers:
+    - text: sì
+      canonical: true
+    - text: si
+    explanation: «Zucchero?» — «Sì, grazie mille.»
+  - prompt: A che ora arriva il volo a Roma?
+    answers:
+    - text: alle undici
+      canonical: true
+    - text: undici
+    - text: '11'
+    explanation: «Il volo arriva a Roma alle undici.»
+  evidence:
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 0.5
+  - axis: vocab
+    id: assistente
+    weight: 0.5
+  - axis: vocab
+    id: volo
+    weight: 0.5
+  image: images/readings/reading.in_aereo.002.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d3
+  id: reading.in_aereo.003
+  cefr_level: A0
+  title: Allo sbarco
+  text: 'L''aereo arriva a Roma alle nove. Anna prende la valigia e va
+
+    all''uscita.
+
+
+    L''assistente è alla porta.
+
+
+    «Arrivederci, signora. Buona giornata!»
+
+
+    «Grazie, arrivederci!»
+
+
+    Anna non trova l''uscita. Una signora è in piedi lì.
+
+
+    «Scusi, dov''è l''uscita?»
+
+
+    «L''uscita è lì.»
+
+
+    «Grazie mille!»
+
+
+    Il signore del passaporto dice:
+
+
+    «Buonasera. Il passaporto, per favore.»
+
+
+    «Ecco.»
+
+
+    «Grazie. È italiana?»
+
+
+    «No, sono inglese.»
+
+
+    «Va bene. Benvenuta a Roma!»
+
+
+    «Grazie. Arrivederci!»
+
+    '
+  glossary:
+    Buona giornata: Have a good day
+    Va bene: All right / fine
+  questions:
+  - prompt: Che cosa prende Anna?
+    answers:
+    - text: la valigia
+      canonical: true
+    - text: valigia
+    explanation: «Anna prende la valigia e va all'uscita.»
+  - prompt: Che cosa dice Anna all'assistente alla porta?
+    answers:
+    - text: grazie, arrivederci
+      canonical: true
+    - text: arrivederci
+    - text: grazie
+    explanation: The crew says «arrivederci» first; Anna gives it back with a «grazie».
+  - prompt: Anna è italiana o inglese?
+    answers:
+    - text: inglese
+      canonical: true
+    - text: è inglese
+    explanation: «È italiana?» — «No, sono inglese.»
+  - prompt: Dove arriva l'aereo?
+    answers:
+    - text: a Roma
+      canonical: true
+    - text: Roma
+    explanation: «L'aereo arriva a Roma alle nove.»
+  evidence:
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: function
+    id: a0_ringraziare
+    weight: 1.0
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 0.5
+  - axis: vocab
+    id: arrivederci
+    weight: 0.5
+  - axis: vocab
+    id: scusi
+    weight: 0.5
+  - axis: vocab
+    id: signore
+    weight: 0.5
+  image: images/readings/reading.in_aereo.003.png

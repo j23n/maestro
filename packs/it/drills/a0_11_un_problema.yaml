@@ -1,0 +1,189 @@
+# Drill bank — lesson a0-11-un-problema.d1 (avere_pre, si_no_non).
+# Drafted, not yet human-reviewed.
+#
+# drill.avere_pre.001 and .002 already live in a0_basics.yaml, homed here;
+# this file continues their numbering.
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.avere_pre.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Scusi, ___ un problema. (io)"
+  answers:
+    - { text: "ho", canonical: true }
+  distractor_feedback:
+    "hai": "«Hai» is the *tu* form. Talking about yourself: «ho»."
+    "ha": "«Ha» is the lui/lei form — and the formal *you*. About yourself it is «ho»."
+    "o": "«o» means *or*. The verb is «ho», with the silent h."
+  explanation: "«Ho un problema» — three words, and the other person starts helping."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.avere_pre.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Il signore ___ una valigia piccola. (lui)"
+  answers:
+    - { text: "ha", canonical: true }
+  distractor_feedback:
+    "ho": "«Ho» is the *io* form. About someone else: «ha»."
+    "hai": "«Hai» is the *tu* form. «Il signore» is *he*, so: «ha»."
+    "a": "«a» is the preposition *to*. The verb is «ha», with the h."
+  explanation: "Avere: io ho, tu hai, lui/lei ha. The same «ha» is the formal *you*."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.avere_pre.005
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "You are cold and want to say so. Which one is Italian? «___»"
+  choices:
+    - "Ho freddo."
+    - "Sono freddo."
+    - "Hai freddo."
+    - "È freddo."
+  answers:
+    - { text: "Ho freddo.", canonical: true }
+  distractor_feedback:
+    "Sono freddo.": "That describes your character, not the weather you feel. Italian *has* cold: «ho freddo»."
+    "Hai freddo.": "That asks about the other person. About yourself: «ho freddo»."
+    "È freddo.": "That says the thing is cold. About how you feel: «ho freddo»."
+  explanation: "Ho freddo, ho caldo, ho fame — states Italian *has* and English *is*."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.avere_pre.006
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Riscrivi con «tu»: «Ho una chiave.»"
+  answers:
+    - { text: "Hai una chiave.", canonical: true }
+    - { text: "Hai una chiave" }
+  distractor_feedback:
+    "Hai un chiave.": "«Chiave» is feminine: «una chiave»."
+    "Ai una chiave.": "The h is silent but it is written: «hai»."
+  explanation: "io ho → tu hai. Only the verb moves; the rest of the sentence stays."
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "— Hai fame? — No, ___ ho fame."
+  answers:
+    - { text: "non", canonical: true }
+  distractor_feedback:
+    "no": "«No» is the answer on its own. In front of the verb you need «non»."
+    "n": "The word is «non», three letters."
+  explanation: "«No» answers; «non» negates the verb. A full reply uses both: «No, non ho fame.»"
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Il signore ti mostra una valigia. Non è la tua. Dici: «___ è mia.»"
+  answers:
+    - { text: "Non", canonical: true }
+  distractor_feedback:
+    "no": "«No» is a whole answer, not a word you put in a sentence. Before «è» it has to be «non»."
+  explanation: "«Non è mia» — non goes straight in front of the verb, with nothing between."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Where does «non» go? «___»"
+  choices:
+    - "Non capisco."
+    - "Capisco non."
+    - "No capisco."
+    - "Capisco no."
+  answers:
+    - { text: "Non capisco.", canonical: true }
+  distractor_feedback:
+    "Capisco non.": "«Non» comes before the verb, never after it."
+    "No capisco.": "«No» answers a question. Negating a verb takes «non»."
+  explanation: "non + verb, always in that order."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "— Sei stanco? — ___, sono molto stanco. (yes)"
+  answers:
+    - { text: "Sì", canonical: true }
+  distractor_feedback:
+    "si": "Without the accent «si» is a different word. *Yes* is «sì»."
+    "no": "The reply agrees — «sono molto stanco». So: «Sì»."
+  explanation: "«Sì» carries an accent; it is what separates *yes* from the pronoun «si»."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.005
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Metti al negativo: «Vedo la farmacia.»"
+  answers:
+    - { text: "Non vedo la farmacia.", canonical: true }
+    - { text: "Non vedo la farmacia" }
+  distractor_feedback:
+    "Vedo non la farmacia.": "«Non» goes in front of the verb: «non vedo»."
+    "No vedo la farmacia.": "«No» is an answer, not a negator. Use «non»."
+  explanation: "Put «non» in front and change nothing else — Italian has no *do*."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: drill.si_no_non.006
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "The pharmacy is closed. Which sentence says so? «___»"
+  choices:
+    - "La farmacia non è aperta."
+    - "La farmacia è non aperta."
+    - "La farmacia no è aperta."
+    - "Non la farmacia è aperta."
+  answers:
+    - { text: "La farmacia non è aperta.", canonical: true }
+  distractor_feedback:
+    "La farmacia è non aperta.": "«Non» goes before the verb «è», not after it."
+    "La farmacia no è aperta.": "«No» answers a question; negating «è» takes «non»."
+    "Non la farmacia è aperta.": "«Non» attaches to the verb, not to the front of the sentence."
+  explanation: "Find the verb, put «non» immediately in front of it."
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }

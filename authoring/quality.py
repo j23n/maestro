@@ -40,6 +40,7 @@ from authoring.pack_schemas import (
     WritingPromptItem,
 )
 from authoring.spec_schemas import Spec
+from authoring import vocab_link
 
 _LEVEL_ORDER = ["A0", "A1", "A2", "B1", "B2", "C1", "C2"]
 
@@ -62,7 +63,7 @@ _FUNCTION_WORDS = set(
     nostro nostra nostri nostre vostro vostra vostri vostre
     questo questa questi queste quello quella quelli quelle
     c ecco po ogni
-    dov all dell nell sull dall quell cos anch
+    dov all dell nell sull dall quell cos anch d
     zero uno due tre quattro cinque sei sette otto nove dieci
     undici dodici tredici quattordici quindici sedici diciassette
     diciotto diciannove venti trenta quaranta cinquanta sessanta
@@ -224,12 +225,19 @@ def check_vocab_level(
     lemmatize = lemmatize or Lemmatizer()
     warnings: dict[str, list[str]] = {}
     by_level: dict[str, set[str]] = {}
+    # Surface -> lemma, generated forward from the same list. simplemma
+    # cannot get from "studio" back to "studiare", so a first-person verb
+    # of a perfectly in-level word reads as above-level; the linker's own
+    # index is the authority on which surfaces the list can produce.
+    surfaces: dict[str, dict[str, str]] = {}
     phrase_words = {w for v in spec.vocab for w in v.id.split() if " " in v.id}
     for item in items:
         levels = _levels_upto(item.cefr_level)
         key = "".join(sorted(levels))
         if key not in by_level:
-            by_level[key] = {v.id for v in spec.vocab if v.cefr_level in levels}
+            entries = [v for v in spec.vocab if v.cefr_level in levels]
+            by_level[key] = {v.id for v in entries}
+            surfaces[key] = vocab_link.build_index(entries)[0]
         allowed = by_level[key]
         glossed = _glossed_words(item)
         flagged: set[str] = set()
@@ -242,6 +250,7 @@ def check_vocab_level(
                     or low in phrase_words
                     or low in glossed
                     or low in allowed
+                    or low in surfaces[key]
                 ):
                     continue
                 cands = _candidates(low, lemmatize)

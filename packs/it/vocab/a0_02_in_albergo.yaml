@@ -1,6 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: vocab.albergo
   item_type: vocab_card
   cefr_level: A0
@@ -20,6 +21,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: vocab.camera
   item_type: vocab_card
   cefr_level: A0
@@ -39,6 +41,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: vocab.chiave
   item_type: vocab_card
   cefr_level: A0
@@ -61,6 +64,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: vocab.nome
   item_type: vocab_card
   cefr_level: A0
@@ -83,6 +87,7 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
   id: vocab.prenotazione
   item_type: vocab_card
   cefr_level: A0
@@ -102,19 +107,549 @@
 - status: draft
   scenario_ids:
   - a0-02-in-albergo
-  id: vocab.colazione
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.chiamarsi
   item_type: vocab_card
   cefr_level: A0
-  lemma: colazione
-  front: la colazione
-  back: breakfast
-  example: La colazione è dalle sette alle dieci.
-  example_gloss: Breakfast is from seven to ten.
+  lemma: chiamarsi
+  front: chiamarsi
+  back: to be called
+  example: Come si chiama, signora?
+  example_gloss: What's your name, madam?
   answers:
-  - text: colazione
+  - text: chiamarsi
     canonical: true
   evidence:
   - axis: vocab
-    id: colazione
+    id: chiamarsi
     weight: 1.0
-  image: images/vocab/vocab.colazione.png
+  - axis: grammar
+    id: mi_chiamo
+    weight: 0.5
+  image: images/vocab/vocab.chiamarsi.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.numero
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: numero
+  front: il numero
+  back: number
+  example: Il numero della camera è dodici.
+  example_gloss: The room number is twelve.
+  answers:
+  - text: numero
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: numero
+    weight: 1.0
+  image: images/vocab/vocab.numero.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.presentazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: presentazione
+  front: la presentazione
+  back: introduction / presentation
+  example: 'Una presentazione breve: mi chiamo Anna.'
+  example_gloss: 'A short introduction: my name is Anna.'
+  answers:
+  - text: presentazione
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: presentazione
+    weight: 1.0
+  - axis: grammar
+    id: mi_chiamo
+    weight: 0.5
+  image: images/vocab/vocab.presentazione.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.zero
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: zero
+  front: zero
+  back: zero
+  example: Il numero di telefono è zero, sette, uno.
+  example_gloss: The phone number is oh, seven, one.
+  answers:
+  - text: zero
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: zero
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.zero.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.uno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: uno
+  front: uno
+  back: one
+  example: La camera numero uno è libera.
+  example_gloss: Room number one is free.
+  answers:
+  - text: uno
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: uno
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.uno.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.due
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: due
+  front: due
+  back: two
+  example: Siamo in due.
+  example_gloss: There are two of us.
+  answers:
+  - text: due
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: due
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.due.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.tre
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: tre
+  front: tre
+  back: three
+  example: Tre caffè, per favore.
+  example_gloss: Three coffees, please.
+  answers:
+  - text: tre
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: tre
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.tre.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.quattro
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quattro
+  front: quattro
+  back: four
+  example: Ho quattro valigie.
+  example_gloss: I have four suitcases.
+  answers:
+  - text: quattro
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quattro
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.quattro.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.cinque
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cinque
+  front: cinque
+  back: five
+  example: Cinque euro, grazie.
+  example_gloss: Five euros, thanks.
+  answers:
+  - text: cinque
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: cinque
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.cinque.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.sei
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sei
+  front: sei
+  back: six
+  example: Ecco la chiave della camera sei.
+  example_gloss: Here's the key to room six.
+  answers:
+  - text: sei
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sei
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.sei.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.sette
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sette
+  front: sette
+  back: seven
+  example: La colazione è alle sette.
+  example_gloss: Breakfast is at seven.
+  answers:
+  - text: sette
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sette
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.sette.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.otto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: otto
+  front: otto
+  back: eight
+  example: Ho otto euro.
+  example_gloss: I have eight euros.
+  answers:
+  - text: otto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: otto
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.otto.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.nove
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: nove
+  front: nove
+  back: nine
+  example: Sono le nove di mattina.
+  example_gloss: It's nine in the morning.
+  answers:
+  - text: nove
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: nove
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.nove.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.dieci
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: dieci
+  front: dieci
+  back: ten
+  example: La colazione è dalle sette alle dieci.
+  example_gloss: Breakfast is from seven to ten.
+  answers:
+  - text: dieci
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: dieci
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.dieci.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.undici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: undici
+  front: undici
+  back: eleven
+  example: Sono le undici di sera.
+  example_gloss: It's eleven at night.
+  answers:
+  - text: undici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: undici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.undici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.dodici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: dodici
+  front: dodici
+  back: twelve
+  example: La mia camera è la dodici.
+  example_gloss: My room is number twelve.
+  answers:
+  - text: dodici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: dodici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.dodici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.tredici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: tredici
+  front: tredici
+  back: thirteen
+  example: L'albergo non ha la camera tredici.
+  example_gloss: The hotel has no room thirteen.
+  answers:
+  - text: tredici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: tredici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.tredici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.quattordici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quattordici
+  front: quattordici
+  back: fourteen
+  example: Quattordici euro e cinquanta.
+  example_gloss: Fourteen euros fifty.
+  answers:
+  - text: quattordici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quattordici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.quattordici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.quindici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quindici
+  front: quindici
+  back: fifteen
+  example: La sua camera è la quindici.
+  example_gloss: Your room is number fifteen.
+  answers:
+  - text: quindici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quindici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.quindici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.sedici
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sedici
+  front: sedici
+  back: sixteen
+  example: Ho sedici anni.
+  example_gloss: I'm sixteen.
+  answers:
+  - text: sedici
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sedici
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.sedici.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.diciassette
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: diciassette
+  front: diciassette
+  back: seventeen
+  example: Diciassette euro e cinquanta.
+  example_gloss: Seventeen euros fifty.
+  answers:
+  - text: diciassette
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: diciassette
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.diciassette.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.diciotto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: diciotto
+  front: diciotto
+  back: eighteen
+  example: La camera diciotto ha il bagno grande.
+  example_gloss: Room eighteen has the big bathroom.
+  answers:
+  - text: diciotto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: diciotto
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.diciotto.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.diciannove
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: diciannove
+  front: diciannove
+  back: nineteen
+  example: Sono le diciannove.
+  example_gloss: It's seven in the evening.
+  answers:
+  - text: diciannove
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: diciannove
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.diciannove.png
+- status: draft
+  scenario_ids:
+  - a0-02-in-albergo
+  lesson_id: a0-02-in-albergo.d1
+  id: vocab.venti
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: venti
+  front: venti
+  back: twenty
+  example: Ci sono venti camere.
+  example_gloss: There are twenty rooms.
+  answers:
+  - text: venti
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: venti
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  image: images/vocab/vocab.venti.png

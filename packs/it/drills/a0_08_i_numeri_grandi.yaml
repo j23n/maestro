@@ -1,0 +1,216 @@
+# Drill bank — lesson a0-08-i-numeri-grandi (num_20_100, ore_giorni).
+# Six per introduced grammar point, all homed at d1. Drafted, not reviewed.
+
+# ---------------------------------------------------------- num_20_100
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Il biglietto costa ___ euro. (30)"
+  answers:
+    - { text: "trenta", canonical: true }
+  distractor_feedback:
+    tredici: "«Tredici» is 13. Thirty is «trenta» — the teens end in -dici, the tens in -anta."
+    tre: "«Tre» is 3. Thirty is «trenta»."
+  explanation: "Each ten has its own word: venti, trenta, quaranta, cinquanta."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Marco ha ___ anni. (80)"
+  answers:
+    - { text: "ottanta", canonical: true }
+  distractor_feedback:
+    otto: "«Otto» is 8. Eighty is «ottanta»."
+    diciotto: "«Diciotto» is 18. Eighty is «ottanta»."
+  explanation: "80 is «ottanta»; 18 is «diciotto». The -anta ending is the ten."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Il negozio dice «Sono settanta euro». Quanto costa?"
+  choices: ["70 euro", "17 euro", "7 euro"]
+  answers:
+    - { text: "70 euro", canonical: true }
+  distractor_feedback:
+    "17 euro": "17 is «diciassette» — it ends in -dici. «Settanta» ends in -anta, so it is 70."
+    "7 euro": "7 is «sette». «Settanta» is ten times that: 70."
+  explanation: "«Settanta» = 70. The -anta ending always marks a ten."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Which one is 40? «quattordici» / «quaranta» / «quattro»"
+  choices: ["quaranta", "quattordici", "quattro"]
+  answers:
+    - { text: "quaranta", canonical: true }
+  distractor_feedback:
+    quattordici: "«Quattordici» is 14. The pair 14/40 is the one that costs money at a till."
+    quattro: "«Quattro» is 4."
+  explanation: "14 «quattordici» ends in -dici; 40 «quaranta» ends in -anta."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Cinquanta, ___, settanta, ottanta, novanta."
+  answers:
+    - { text: "sessanta", canonical: true }
+  distractor_feedback:
+    sedici: "«Sedici» is 16. Sixty is «sessanta»."
+    sei: "«Sei» is 6. Sixty is «sessanta»."
+  explanation: "The tens run venti, trenta, quaranta, cinquanta, sessanta, settanta, ottanta, novanta."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.num_20_100.006
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "In lettere: «Il volo costa 1000 euro.» → «Il volo costa ___ euro.»"
+  answers:
+    - { text: "mille", canonical: true }
+  distractor_feedback:
+    cento: "«Cento» is 100. A thousand is «mille»."
+    milla: "The word is «mille», with an e."
+  explanation: "100 is «cento», 1000 is «mille» — neither takes an article."
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+
+# ---------------------------------------------------------- ore_giorni
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Che ore sono? ___ le tre."
+  answers:
+    - { text: "Sono", canonical: true }
+  distractor_feedback:
+    È: "«È» is only for one o'clock: «È l'una». Every other hour is plural: «Sono le tre»."
+    Sei: "«Sei» is «you are». The time takes «sono»."
+  explanation: "Hours are plural in Italian — «sono le due, sono le tre»."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "È ___ una. (13:00)"
+  answers:
+    - { text: "l'", canonical: true }
+  distractor_feedback:
+    la: "«La una» never happens — «la» elides before the vowel: «l'una»."
+    le: "«Le» is for the plural hours. One o'clock is singular: «è l'una»."
+  explanation: "One o'clock is the singular hour: «è l'una», not «sono le una»."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.003
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "A che ora parte il treno? Parte ___ otto e trenta."
+  answers:
+    - { text: "alle", canonical: true }
+  distractor_feedback:
+    a: "«A» fuses with the article: a + le = «alle»."
+    alla: "«Alla» is singular feminine. The hours are plural: «alle otto»."
+    all': "«All'» is for «all'una» only, before the vowel."
+  explanation: "«A che ora?» is answered with «alle» + the hour."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.004
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Oggi è giovedì. Domani è ___."
+  choices: ["venerdì", "mercoledì", "sabato"]
+  answers:
+    - { text: "venerdì", canonical: true }
+  distractor_feedback:
+    mercoledì: "«Mercoledì» comes before «giovedì» — that was yesterday."
+    sabato: "«Sabato» is two days after «giovedì»."
+  explanation: "lunedì, martedì, mercoledì, giovedì, venerdì, sabato, domenica."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.005
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Che ___ sono? Sono le dieci."
+  answers:
+    - { text: "ore", canonical: true }
+  distractor_feedback:
+    ora: "The question is plural: «Che ore sono?». «Che ora è?» exists too, but then the verb is «è»."
+    giorno: "That asks the day, not the time."
+  explanation: "«Che ore sono?» — plural question, plural answer."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: drill.ore_giorni.006
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Orologio a 24 ore: «Sono le otto di sera.» → «Sono le ___.»"
+  answers:
+    - { text: "venti", canonical: true }
+  distractor_feedback:
+    otto: "«Le otto» is 08:00 in the morning. Eight in the evening is «le venti»."
+    diciotto: "«Le diciotto» is six in the evening, not eight."
+  explanation: "Timetables and shop doors count to 24: 20:00 is «le venti»."
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }

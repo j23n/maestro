@@ -1,0 +1,74 @@
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d3
+  id: writing.in_viaggio.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: 'Alla stazione. (Write 5-7 short lines about the trip: how you got
+
+    to the station, what luggage you have, when the train arrives, and how
+
+    you will get to the airport at the other end.)
+
+    '
+  min_words: 25
+  required_grammar:
+  - vocab_viaggio
+  - num_20_100
+  required_vocab:
+  - macchina
+  - autobus
+  - valigia
+  - bagaglio
+  - prendere
+  - arrivare
+  - taxi
+  - aeroporto
+  model_answer: 'Sono alla stazione alle nove. Vengo in macchina, non in autobus.
+
+    Ho una valigia grande e un bagaglio piccolo. Il treno per Roma arriva
+
+    alle venti e trenta. A Roma prendo il taxi per l''aeroporto. Il taxi è
+
+    veloce, il volo è breve.
+
+    '
+  evidence:
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 0.5
+  - axis: vocab
+    id: aeroporto
+    weight: 0.5
+  - axis: vocab
+    id: autobus
+    weight: 0.5
+  - axis: vocab
+    id: taxi
+    weight: 0.5
+  - axis: vocab
+    id: macchina
+    weight: 0.5
+  - axis: vocab
+    id: arrivare
+    weight: 0.5
+  - axis: vocab
+    id: venire
+    weight: 0.5
+  - axis: vocab
+    id: prendere
+    weight: 0.5
+  - axis: vocab
+    id: valigia
+    weight: 0.5
+  - axis: vocab
+    id: bagaglio
+    weight: 0.5
+  image: images/writing/writing.in_viaggio.001.png

@@ -30,7 +30,8 @@ def make_index(*lemmas: tuple[str, str]):
     separately; these tests state the rule rather than wait for them.
     """
     entries = [
-        VocabEntry(id=lemma, cefr_level="A0", pos=pos, gloss="-") for lemma, pos in lemmas
+        VocabEntry(id=lemma, cefr_level="A0", pos=pos, gloss="-")
+        for lemma, pos in lemmas
     ]
     return vocab_link.build_index(entries)
 
@@ -96,7 +97,11 @@ def test_article_elisions_fall_out_of_surface_generation():
 
 def test_an_elided_article_links_the_word_it_precedes():
     idx, _ = make_index(("una", "art"), ("amica", "noun"), ("acqua", "noun"))
-    assert vocab_link.find_lemmas("Un'amica beve l'acqua.", idx) == ["una", "amica", "acqua"]
+    assert vocab_link.find_lemmas("Un'amica beve l'acqua.", idx) == [
+        "una",
+        "amica",
+        "acqua",
+    ]
 
 
 def test_l_apostrophe_is_dropped_rather_than_guessed():

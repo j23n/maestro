@@ -1,0 +1,97 @@
+# Capstones — lesson a0-07-mi-piace, one per depth. The only items carrying
+# `axis: cando`, so the only ones that can move a0.say_likes to *achieved*.
+# d1 answers a question, d2 chooses between things, d3 volunteers an opinion
+# nobody asked for — the same can-do with less help each time.
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: task.mi_piace.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    La signora al tavolo ti guarda e chiede: «Le piace la pasta?»
+    Rispondi: dì che ti piace, e quanto.
+    (She asks how you liked the pasta. Say you like it — and how much.)
+  target_text: "Sì, mi piace molto. È buona!"
+  variants:
+    - "Sì, mi piace molto, grazie."
+    - "Mi piace molto. È molto buona!"
+  rubric:
+    - answers the question rather than only nodding
+    - uses mi piace, not a bare sì
+    - adds molto (or poco) to say how much
+  explanation: "«Mi piace» + «molto» is the whole answer — one thing, singular verb."
+  evidence:
+    - { axis: cando, id: a0.say_likes, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 0.5 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: vocab, id: molto, weight: 0.5 }
+    - { axis: vocab, id: buono, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d2
+  id: task.mi_piace.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Al banco del gelato: al caffè, alla frutta, al latte. Giulia aspetta.
+    Dì quale ti piace, quale no, e quanti ne vuoi.
+    (Say which one you like, which one you don't, and how many.)
+  target_text: "Mi piace il gelato al caffè. I gelati al latte non mi piacciono. Due al caffè, per favore."
+  variants:
+    - "Il gelato al caffè mi piace molto. Al latte no, grazie. Due, per favore."
+  rubric:
+    - names one thing liked and one not
+    - gets piace vs piacciono right for singular and plural
+    - gives a number
+    - refuses without switching to English
+  explanation: "Two rungs in one breath: «mi piace» for the singular, «mi piacciono» for «i gelati»."
+  evidence:
+    - { axis: cando, id: a0.say_likes, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 0.5 }
+    - { axis: vocab, id: piacere, weight: 0.5 }
+
+# The pass that closes the can-do. Nothing on screen, and nobody asks first:
+# volunteering the opinion is the difference between answering and speaking.
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d3
+  id: task.mi_piace.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Giulia ha già detto due volte che le piace il pesce. Il piatto arriva
+    da te e nessuno ti ha chiesto niente. Dì che cosa ti piace e che cosa
+    no. (Say what you like and what you don't — before anyone asks.)
+  target_text: "No, grazie. Il pesce mi piace poco. Ma la pasta è molto buona. Sono contento."
+  variants:
+    - "Grazie, ma il pesce mi piace poco. La pasta è buona. Sono contento."
+    - "Il pesce mi piace poco, grazie. Mi piacciono la pasta e i dolci."
+  rubric:
+    - offers the opinion without being asked
+    - names one thing liked and one not liked
+    - non mi piace or mi piace poco, correctly placed
+    - declines politely instead of switching to English
+  explanation: "«Mi piace poco» disagrees without insulting the cook — the useful register at a table."
+  evidence:
+    - { axis: cando, id: a0.say_likes, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: vocab, id: poco, weight: 0.5 }
+    - { axis: vocab, id: buono, weight: 0.5 }
+    - { axis: vocab, id: contento, weight: 0.5 }

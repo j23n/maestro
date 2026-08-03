@@ -1,0 +1,105 @@
+# Capstones — lesson a0-05-chiedere-aiuto, one per depth. Drafted, not
+# yet reviewed.
+#
+# The can-do is a0.ask_for_help: stop someone politely and get help when
+# something is wrong. d1 asks for the opening move alone, d2 adds the
+# question and the first repair, d3 asks for the whole exchange with no
+# model on screen — the pass that closes the can-do.
+
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d1
+  id: task.chiedere_aiuto.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei in strada e non sai dove sei. C'è una signora. Chiedi aiuto.
+    (You're in the street and you don't know where you are. A woman is
+    walking past. Ask her for help.)
+  target_text: "Scusi, signora. Mi può aiutare, per favore?"
+  variants:
+    - "Scusi! Mi può aiutare?"
+  rubric:
+    - opens with «scusi», not «ciao»
+    - asks for help instead of only announcing the problem
+    - keeps it polite — «per favore» or «signora»
+  explanation: "«Scusi» first, then «mi può aiutare?». Everything else can wait."
+  evidence:
+    - { axis: cando, id: a0.ask_for_help, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: vocab, id: aiutare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d2
+  id: task.chiedere_aiuto.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Cerchi una farmacia. Chiedi dov'è — e quando la signora risponde,
+    non capisci. Dillo e chiedi ancora.
+    (Ask where the pharmacy is. Her answer goes past you: say so, and
+    ask again rather than nodding.)
+  target_text: "Scusi, dov'è la farmacia? … Scusi, non ho capito. Come?"
+  variants:
+    - "Scusi, dov'è la farmacia? … Scusi, non capisco. Come, scusi?"
+  rubric:
+    - asks with «dov'è» and the right article
+    - says plainly that the answer did not land
+    - asks again instead of thanking them and walking off
+  explanation: "«Non ho capito» is a request, not a confession — it is what keeps the answer coming."
+  evidence:
+    - { axis: cando, id: a0.ask_for_help, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: vocab, id: farmacia, weight: 0.5 }
+    - { axis: vocab, id: capire, weight: 0.5 }
+
+# The pass that closes the can-do. Nothing on screen: at this rung the
+# build withholds `target_text` from the payload, so the learner has to
+# arrive at all three moves — attention, question, repair — unaided.
+- status: draft
+  scenario_ids: [a0-05-chiedere-aiuto]
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: task.chiedere_aiuto.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    È sera. Non sai dove sei e cerchi l'ospedale. In strada c'è una
+    signora. Chiedi aiuto, chiedi dov'è l'ospedale, e se non capisci,
+    dillo.
+    (Late evening, wrong side of town, looking for the hospital. Stop
+    her, ask, and repair whatever you miss.)
+  target_text: "Scusi, signora. Mi può aiutare, per favore? Dov'è l'ospedale? … Scusi, non ho capito. In centro?"
+  variants:
+    - "Scusi! Mi può aiutare? Dov'è l'ospedale, per favore? … Non capisco, scusi. In centro?"
+    - "Scusi, signora! Un aiuto, per favore. Dov'è l'ospedale? … Scusi, non ho capito. In via Garibaldi?"
+  rubric:
+    - gets attention with «scusi» before anything else
+    - asks for help and names what is wrong
+    - asks where with «dov'è» and «l'ospedale»
+    - says the answer did not land, then checks back the part that was caught
+    - no English anywhere in the attempt
+  explanation: "Attention, question, repair. The same three moves work at every counter in Italy."
+  evidence:
+    - { axis: cando, id: a0.ask_for_help, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: vocab, id: aiutare, weight: 0.5 }
+    - { axis: vocab, id: aiuto, weight: 0.5 }
+    - { axis: vocab, id: capire, weight: 0.5 }
+    - { axis: vocab, id: ospedale, weight: 0.5 }

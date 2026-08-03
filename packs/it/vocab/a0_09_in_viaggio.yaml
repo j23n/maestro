@@ -1,0 +1,561 @@
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.aeroporto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aeroporto
+  front: l'aeroporto
+  back: the airport
+  example: Prendo il taxi per l'aeroporto.
+  example_gloss: I'm taking a taxi to the airport.
+  answers:
+  - text: aeroporto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: aeroporto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.aeroporto.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.andare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: andare
+  front: andare
+  back: to go
+  example: Vado a Roma in treno.
+  example_gloss: I'm going to Rome by train.
+  answers:
+  - text: andare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: andare
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.andare.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.aperto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: aperto
+  front: aperto
+  back: open
+  example: La stazione è aperta.
+  example_gloss: The station is open.
+  answers:
+  - text: aperto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: aperto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.aperto.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.arrivare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: arrivare
+  front: arrivare
+  back: to arrive
+  example: Il treno arriva alle undici.
+  example_gloss: The train arrives at eleven.
+  answers:
+  - text: arrivare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: arrivare
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.arrivare.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.autobus
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: autobus
+  front: l'autobus
+  back: the bus
+  example: L'autobus per il centro è lì.
+  example_gloss: The bus to the centre is over there.
+  answers:
+  - text: autobus
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: autobus
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.autobus.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.bagaglio
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: bagaglio
+  front: il bagaglio
+  back: the luggage
+  example: Ho un bagaglio piccolo.
+  example_gloss: I have one small bag.
+  answers:
+  - text: bagaglio
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: bagaglio
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.bagaglio.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.biglietto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: biglietto
+  front: il biglietto
+  back: the ticket
+  example: Vorrei un biglietto per Firenze.
+  example_gloss: I'd like a ticket to Florence.
+  answers:
+  - text: biglietto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: biglietto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.biglietto.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.binario
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: binario
+  front: il binario
+  back: the platform / the track
+  example: Da che binario parte il treno?
+  example_gloss: Which platform does the train leave from?
+  answers:
+  - text: binario
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: binario
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.binario.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.breve
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: breve
+  front: breve
+  back: short / brief
+  example: Il volo per Roma è breve.
+  example_gloss: The flight to Rome is short.
+  answers:
+  - text: breve
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: breve
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.breve.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.chiuso
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: chiuso
+  front: chiuso
+  back: closed
+  example: Il museo è chiuso oggi.
+  example_gloss: The museum is closed today.
+  answers:
+  - text: chiuso
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: chiuso
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.chiuso.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.comprare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: comprare
+  front: comprare
+  back: to buy
+  example: Compro due biglietti per Milano.
+  example_gloss: I'm buying two tickets to Milan.
+  answers:
+  - text: comprare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: comprare
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.comprare.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.documento
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: documento
+  front: il documento
+  back: the ID / the document
+  example: Ecco il documento.
+  example_gloss: Here's my ID.
+  answers:
+  - text: documento
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: documento
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.documento.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.libero
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: libero
+  front: libero
+  back: free / available
+  example: Il bagno è libero.
+  example_gloss: The toilet is free.
+  answers:
+  - text: libero
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: libero
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.libero.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.macchina
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: macchina
+  front: la macchina
+  back: the car
+  example: Vado in macchina, non in treno.
+  example_gloss: I'm going by car, not by train.
+  answers:
+  - text: macchina
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: macchina
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.macchina.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.occupato
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: occupato
+  front: occupato
+  back: taken / busy
+  example: Il taxi è occupato.
+  example_gloss: The taxi is taken.
+  answers:
+  - text: occupato
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: occupato
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.occupato.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.partire
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: partire
+  front: partire
+  back: to leave / to depart
+  example: Il treno parte alle nove.
+  example_gloss: The train leaves at nine.
+  answers:
+  - text: partire
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: partire
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.partire.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.passaporto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: passaporto
+  front: il passaporto
+  back: the passport
+  example: Il passaporto, per favore.
+  example_gloss: Your passport, please.
+  answers:
+  - text: passaporto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: passaporto
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.passaporto.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.prendere
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: prendere
+  front: prendere
+  back: to take
+  example: Prendo l'autobus per la stazione.
+  example_gloss: I'm taking the bus to the station.
+  answers:
+  - text: prendere
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: prendere
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.prendere.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.stazione
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: stazione
+  front: la stazione
+  back: the station
+  example: La stazione è in centro.
+  example_gloss: The station is in the centre.
+  answers:
+  - text: stazione
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: stazione
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.stazione.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.taxi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: taxi
+  front: il taxi
+  back: the taxi
+  example: Il taxi è caro.
+  example_gloss: The taxi is expensive.
+  answers:
+  - text: taxi
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: taxi
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.taxi.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.treno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: treno
+  front: il treno
+  back: the train
+  example: Il treno per Milano è veloce.
+  example_gloss: The train to Milan is fast.
+  answers:
+  - text: treno
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: treno
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.treno.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.valigia
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: valigia
+  front: la valigia
+  back: the suitcase
+  example: Ho una valigia grande.
+  example_gloss: I have a big suitcase.
+  answers:
+  - text: valigia
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: valigia
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.valigia.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.veloce
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: veloce
+  front: veloce
+  back: fast / quick
+  example: L'autobus non è veloce.
+  example_gloss: The bus isn't fast.
+  answers:
+  - text: veloce
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: veloce
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.veloce.png
+- status: draft
+  scenario_ids:
+  - a0-09-in-viaggio
+  lesson_id: a0-09-in-viaggio.d1
+  id: vocab.viaggio.venire
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: venire
+  front: venire
+  back: to come
+  example: Vengo domani in treno.
+  example_gloss: I'm coming tomorrow by train.
+  answers:
+  - text: venire
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: venire
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 0.5
+  image: images/vocab/vocab.viaggio.venire.png

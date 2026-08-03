@@ -1,28 +1,7 @@
 - status: draft
   scenario_ids:
   - a0-04-in-giro
-  id: vocab.stazione
-  item_type: vocab_card
-  cefr_level: A0
-  lemma: stazione
-  front: la stazione
-  back: station
-  example: Dov'è la stazione?
-  example_gloss: Where is the station?
-  answers:
-  - text: stazione
-    canonical: true
-  evidence:
-  - axis: vocab
-    id: stazione
-    weight: 1.0
-  - axis: grammar
-    id: art_il_la
-    weight: 0.5
-  image: images/vocab/vocab.stazione.png
-- status: draft
-  scenario_ids:
-  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
   id: vocab.piazza
   item_type: vocab_card
   cefr_level: A0
@@ -42,6 +21,7 @@
 - status: draft
   scenario_ids:
   - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
   id: vocab.museo
   item_type: vocab_card
   cefr_level: A0
@@ -61,25 +41,7 @@
 - status: draft
   scenario_ids:
   - a0-04-in-giro
-  id: vocab.farmacia
-  item_type: vocab_card
-  cefr_level: A0
-  lemma: farmacia
-  front: la farmacia
-  back: pharmacy
-  example: Dov'è la farmacia?
-  example_gloss: Where is the pharmacy?
-  answers:
-  - text: farmacia
-    canonical: true
-  evidence:
-  - axis: vocab
-    id: farmacia
-    weight: 1.0
-  image: images/vocab/vocab.farmacia.png
-- status: draft
-  scenario_ids:
-  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
   id: vocab.centro
   item_type: vocab_card
   cefr_level: A0
@@ -99,6 +61,7 @@
 - status: draft
   scenario_ids:
   - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
   id: vocab.dove
   item_type: vocab_card
   cefr_level: A0
@@ -118,3 +81,306 @@
     id: dove_e
     weight: 0.5
   image: images/vocab/vocab.dove.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.banca
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: banca
+  front: la banca
+  back: bank
+  example: Scusi, dov'è la banca?
+  example_gloss: Excuse me, where is the bank?
+  answers:
+  - text: banca
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: banca
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 0.5
+  image: images/vocab/vocab.banca.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.casa
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: casa
+  front: la casa
+  back: house / home
+  example: La mia casa è in centro.
+  example_gloss: My house is downtown.
+  answers:
+  - text: casa
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: casa
+    weight: 1.0
+  image: images/vocab/vocab.casa.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.chiesa
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: chiesa
+  front: la chiesa
+  back: church
+  example: La chiesa è in piazza.
+  example_gloss: The church is on the square.
+  answers:
+  - text: chiesa
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: chiesa
+    weight: 1.0
+  image: images/vocab/vocab.chiesa.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.citta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: città
+  front: la città
+  back: city
+  example: Firenze è una bella città.
+  example_gloss: Florence is a beautiful city.
+  answers:
+  - text: città
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: città
+    weight: 1.0
+  image: images/vocab/vocab.citta.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.entrata
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: entrata
+  front: l'entrata
+  back: entrance
+  example: L'entrata del museo è lì.
+  example_gloss: The museum entrance is over there.
+  answers:
+  - text: entrata
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: entrata
+    weight: 1.0
+  image: images/vocab/vocab.entrata.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.li
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: lì
+  front: lì
+  back: there
+  example: Il mercato è lì.
+  example_gloss: The market is over there.
+  answers:
+  - text: lì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: lì
+    weight: 1.0
+  image: images/vocab/vocab.li.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.mare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mare
+  front: il mare
+  back: sea
+  example: Domani andiamo al mare.
+  example_gloss: Tomorrow we're going to the sea.
+  answers:
+  - text: mare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mare
+    weight: 1.0
+  image: images/vocab/vocab.mare.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.mercato
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mercato
+  front: il mercato
+  back: market
+  example: Il mercato è in piazza Garibaldi.
+  example_gloss: The market is on piazza Garibaldi.
+  answers:
+  - text: mercato
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mercato
+    weight: 1.0
+  image: images/vocab/vocab.mercato.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.negozio
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: negozio
+  front: il negozio
+  back: shop
+  example: Il negozio è aperto oggi.
+  example_gloss: The shop is open today.
+  answers:
+  - text: negozio
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: negozio
+    weight: 1.0
+  image: images/vocab/vocab.negozio.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.porta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: porta
+  front: la porta
+  back: door
+  example: La porta della chiesa è aperta.
+  example_gloss: The church door is open.
+  answers:
+  - text: porta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: porta
+    weight: 1.0
+  image: images/vocab/vocab.porta.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.qui
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: qui
+  front: qui
+  back: here
+  example: Il bar è qui, in via Roma.
+  example_gloss: The café is here, on via Roma.
+  answers:
+  - text: qui
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: qui
+    weight: 1.0
+  image: images/vocab/vocab.qui.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.strada
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: strada
+  front: la strada
+  back: road / street
+  example: La strada per il centro è lì.
+  example_gloss: The road to the centre is that way.
+  answers:
+  - text: strada
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: strada
+    weight: 1.0
+  image: images/vocab/vocab.strada.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.supermercato
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: supermercato
+  front: il supermercato
+  back: supermarket
+  example: C'è un supermercato in centro?
+  example_gloss: Is there a supermarket downtown?
+  answers:
+  - text: supermercato
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: supermercato
+    weight: 1.0
+  image: images/vocab/vocab.supermercato.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.uscita
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: uscita
+  front: l'uscita
+  back: exit
+  example: Scusi, dov'è l'uscita?
+  example_gloss: Excuse me, where is the exit?
+  answers:
+  - text: uscita
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: uscita
+    weight: 1.0
+  image: images/vocab/vocab.uscita.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: vocab.via
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: via
+  front: la via
+  back: street (in an address)
+  example: Abito in via Roma.
+  example_gloss: I live on via Roma.
+  answers:
+  - text: via
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: via
+    weight: 1.0
+  image: images/vocab/vocab.via.png

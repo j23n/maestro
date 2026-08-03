@@ -1,0 +1,133 @@
+# Listenings — lesson a0-12-ultimo-giorno, one per depth. Drafted, not reviewed.
+#
+# Same three scenes as the readings, heard rather than read: the counter,
+# the round of goodbyes, and the gate.
+
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d1
+  id: listening.ultimo_giorno.001
+  cefr_level: A0
+  title: L'ultima volta al banco
+  turns:
+    - { speaker: "Barista", text: "Buongiorno! Un caffè?" }
+    - { speaker: "Marco", text: "Sì, un caffè e un cornetto, per favore." }
+    - { speaker: "Barista", text: "Ecco. Sono tre euro." }
+    - { speaker: "Marco", text: "Ecco. Oggi parto: il volo è alle sei." }
+    - { speaker: "Barista", text: "Bene! Buona giornata, signore." }
+    - { speaker: "Marco", text: "Grazie mille per il caffè di ogni mattina. Arrivederci!" }
+    - { speaker: "Barista", text: "Arrivederci!" }
+  audio: null
+  questions:
+    - prompt: "Che cosa prende Marco?"
+      answers:
+        - { text: "un caffè e un cornetto", canonical: true }
+        - { text: "caffè e cornetto" }
+      explanation: "«Sì, un caffè e un cornetto, per favore.»"
+    - prompt: "A che ora è il volo?"
+      answers:
+        - { text: "alle sei", canonical: true }
+        - { text: "sei" }
+      explanation: "«Oggi parto: il volo è alle sei.»"
+    - prompt: "Come saluta Marco?"
+      answers:
+        - { text: "arrivederci", canonical: true }
+        - { text: "grazie mille, arrivederci" }
+      explanation: "«Grazie mille per il caffè di ogni mattina. Arrivederci!»"
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: vocab_cibo, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: vocab, id: caffè, weight: 0.5 }
+    - { axis: vocab, id: cornetto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d2
+  id: listening.ultimo_giorno.002
+  cefr_level: A0
+  title: Grazie, signora
+  turns:
+    - { speaker: "Anna", text: "Buongiorno, signora. Oggi parto." }
+    - { speaker: "Signora", text: "Oggi! Ecco la valigia." }
+    - { speaker: "Anna", text: "Grazie mille per la camera. È molto bella." }
+    - { speaker: "Signora", text: "Le piace l'albergo?" }
+    - { speaker: "Anna", text: "Sì, mi piace molto. E mi piace la città." }
+    - { speaker: "Signora", text: "Grazie a lei, signora. Buona giornata!" }
+    - { speaker: "Anna", text: "Grazie mille, signora. Arrivederci!" }
+  audio: null
+  questions:
+    - prompt: "Che cosa ha Anna adesso?"
+      answers:
+        - { text: "la valigia", canonical: true }
+        - { text: "valigia" }
+      explanation: "«Ecco la valigia.»"
+    - prompt: "Ad Anna piace l'albergo?"
+      answers:
+        - { text: "sì, molto", canonical: true }
+        - { text: "sì" }
+        - { text: "sì, mi piace molto" }
+      explanation: "«Sì, mi piace molto. E mi piace la città.»"
+    - prompt: "Come saluta Anna?"
+      answers:
+        - { text: "arrivederci", canonical: true }
+        - { text: "grazie, arrivederci" }
+      explanation: "«Grazie mille, signora. Arrivederci!»"
+  evidence:
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_ringraziare, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: vocab, id: valigia, weight: 0.5 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-12-ultimo-giorno]
+  lesson_id: a0-12-ultimo-giorno.d3
+  id: listening.ultimo_giorno.003
+  cefr_level: A0
+  title: All'uscita
+  turns:
+    - { speaker: "Giulia", text: "Buongiorno. Anche lei aspetta il volo per Londra?" }
+    - { speaker: "Marco", text: "Sì. Mi chiamo Marco." }
+    - { speaker: "Giulia", text: "Io mi chiamo Giulia. Lei è italiano?" }
+    - { speaker: "Marco", text: "No, non sono italiano. Sono inglese, ma abito a Roma." }
+    - { speaker: "Giulia", text: "A che ora parte l'aereo?" }
+    - { speaker: "Marco", text: "Alle sei e venti. Arrivo alle otto." }
+    - { speaker: "Giulia", text: "Bene! Buona giornata a lei, e arrivederci." }
+    - { speaker: "Marco", text: "Arrivederci, signora. Buona giornata!" }
+  audio: null
+  questions:
+    - prompt: "Marco è italiano?"
+      answers:
+        - { text: "no, è inglese", canonical: true }
+        - { text: "no" }
+        - { text: "no, non è italiano" }
+      explanation: "«No, non sono italiano. Sono inglese, ma abito a Roma.»"
+    - prompt: "A che ora parte l'aereo?"
+      answers:
+        - { text: "alle sei e venti", canonical: true }
+        - { text: "sei e venti" }
+      explanation: "«Alle sei e venti.»"
+    - prompt: "Dove abita Marco?"
+      answers:
+        - { text: "a Roma", canonical: true }
+        - { text: "Roma" }
+      explanation: "«Sono inglese, ma abito a Roma.»"
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: subj_pron, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: vocab, id: aereo, weight: 0.5 }
+    - { axis: vocab, id: volo, weight: 0.5 }

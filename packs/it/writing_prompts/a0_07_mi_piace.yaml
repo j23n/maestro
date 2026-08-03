@@ -1,0 +1,61 @@
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d3
+  id: writing.mi_piace.001
+  item_type: writing_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'A cena da Giulia. (Write 5-6 lines about the meal: two things you like,
+
+    one you don''t, and something else about the evening. Use «mi piace» and
+
+    «mi piacciono», and at least one plural article — «i» or «le».)
+
+    '
+  min_words: 25
+  required_grammar:
+  - mi_piace
+  - art_i_le
+  required_vocab:
+  - musica
+  - tempo
+  - bello
+  - altro
+  model_answer: 'Oggi il tempo è bello e la cena è buona.
+
+    Mi piace molto la pasta. Mi piacciono anche i dolci e le mele.
+
+    Il pesce non mi piace, ma la frutta sì.
+
+    Mi piace il vino, e mi piace anche la musica.
+
+    Gli altri piatti mi piacciono poco.
+
+    '
+  evidence:
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: art_i_le
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5
+  - axis: vocab
+    id: musica
+    weight: 0.5
+  - axis: vocab
+    id: tempo
+    weight: 0.5
+  - axis: vocab
+    id: bello
+    weight: 0.5
+  - axis: vocab
+    id: altro
+    weight: 0.5
+  image: images/writing/writing.mi_piace.001.png

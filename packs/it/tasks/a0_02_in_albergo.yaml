@@ -1,0 +1,122 @@
+# Capstones — lesson a0-02-in-albergo, one per depth. Drafted, not reviewed.
+#
+# The only items carrying `axis: cando`, and so the only ones that can move
+# a can-do to *achieved* (docs/plans/07 §2). All three sit at `use`: the
+# can-do a0.say_who_i_am is not closed here but in a0-10, once essere and
+# the subject pronouns have landed. What these three do is raise the rung —
+# each asks for the same thing with less of the desk clerk's help than the
+# last: at d1 he asks for the name, at d2 he only waits, at d3 nobody asks
+# at all.
+
+- status: draft
+  scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d1
+  id: task.in_albergo.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sei alla reception. «Buonasera, il nome?» Rispondi: saluta e di' come ti
+    chiami. (You're at the desk and he has just asked for your name. Greet
+    him and give it — the surname Rossi.)
+  target_text: "Buonasera. Mi chiamo Rossi."
+  variants:
+    - "Buonasera. Mi chiamo Rossi, ho una prenotazione."
+    - "Buonasera, sono Rossi."
+  rubric:
+    - greets before anything else
+    - gives the name with «mi chiamo» or «sono»
+    - keeps the reflexive «mi» — «chiamo Rossi» is a phone call, not a name
+  min_words: 3
+  explanation: "«Mi chiamo» + name. The «mi» is the whole verb; without it the sentence changes meaning."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: vocab, id: nome, weight: 0.5 }
+    - { axis: vocab, id: chiamarsi, weight: 0.5 }
+    - { axis: vocab, id: prenotazione, weight: 0.5 }
+
+# d2: he does not ask. The name and the number have to arrive together,
+# unprompted, because that is what actually gets the key off the board.
+- status: draft
+  scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d2
+  id: task.in_albergo.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Sono le undici di sera. Il portiere ti guarda e aspetta. Di' come ti
+    chiami, di' il numero della camera e chiedi la chiave.
+    (Eleven at night, a receptionist who has never seen you. Give your name,
+    give your room number — fifteen — and ask for the key.)
+  target_text: "Buonasera. Mi chiamo Rossi, camera quindici. La chiave, per favore."
+  variants:
+    - "Buonasera, sono Rossi. La chiave della quindici, per favore."
+    - "Buonasera. Mi chiamo Rossi. La chiave della camera quindici, per favore."
+  rubric:
+    - gives the name without being asked
+    - says the room number in words, not digits
+    - asks for the key rather than pointing at it
+    - «per favore» somewhere in it
+  min_words: 6
+  explanation: "Name, number, key — three pieces, one breath. «La chiave, per favore» is the whole request."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 1.0 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+    - { axis: vocab, id: chiave, weight: 0.5 }
+    - { axis: vocab, id: quindici, weight: 0.5 }
+    - { axis: vocab, id: albergo, weight: 0.5 }
+
+# d3: nobody is staff. The woman at the next table said buongiorno first and
+# the waiter wants a number — two different people, one turn of speech.
+- status: draft
+  scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d3
+  id: task.in_albergo.d3
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    A colazione. La signora al tavolo vicino dice «Buongiorno!». Salutala,
+    di' come ti chiami, poi di' al cameriere il numero della camera.
+    (Breakfast. Greet her back, introduce yourself as Anna, then give the
+    waiter your room number — twelve.)
+  target_text: "Buongiorno! Mi chiamo Anna. Piacere. La mia camera è la dodici."
+  variants:
+    - "Buongiorno, piacere. Mi chiamo Anna. La camera è la dodici."
+    - "Buongiorno! Piacere, mi chiamo Anna. Camera dodici."
+  rubric:
+    - returns the greeting before introducing yourself
+    - gives the name unprompted
+    - adds «piacere» — the word that turns a name into an introduction
+    - gives the room number in words
+    - no English
+  min_words: 8
+  explanation: "Two people, two moves: «mi chiamo» for her, the number for him."
+  evidence:
+    - { axis: cando, id: a0.say_who_i_am, weight: 1.0 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: vocab, id: presentazione, weight: 0.5 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+    - { axis: vocab, id: dodici, weight: 0.5 }

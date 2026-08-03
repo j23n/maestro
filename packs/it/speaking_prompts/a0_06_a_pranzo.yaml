@@ -1,0 +1,108 @@
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: speaking.a0_identificare.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Al ristorante. (A dish on the menu means nothing to you — ask the waiter what it
+    is.)
+  target_text: Cos'è il piatto del giorno, scusi?
+  variants:
+  - Cos'è il piatto del giorno?
+  - Che cosa è il piatto del giorno, scusi?
+  explanation: «Cos'è ...?» + the thing you are pointing at. «Scusi» opens it politely.
+  evidence:
+  - axis: function
+    id: a0_identificare
+    weight: 1.0
+  - axis: grammar
+    id: che_cose
+    weight: 1.0
+  - axis: vocab
+    id: piatto
+    weight: 0.5
+  image: images/speaking/speaking.a0_identificare.001.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d3
+  id: speaking.a0_identificare.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Al banco. (Two trays behind the glass, no labels. Ask what the first one
+
+    is, then ask what the things on the second one are.)
+
+    '
+  target_text: Cos'è, scusi? E che cosa sono?
+  variants:
+  - Cos'è? E che cosa sono, per favore?
+  - Cos'è, per favore? E che cosa sono?
+  explanation: One thing → «cos'è?»; more than one → «che cosa sono?».
+  evidence:
+  - axis: function
+    id: a0_identificare
+    weight: 1.0
+  - axis: grammar
+    id: che_cose
+    weight: 1.0
+  - axis: vocab
+    id: pesce
+    weight: 0.5
+  - axis: vocab
+    id: carne
+    weight: 0.5
+  - axis: vocab
+    id: spaghetti
+    weight: 0.5
+  - axis: vocab
+    id: sale
+    weight: 0.5
+  - axis: vocab
+    id: mela
+    weight: 0.5
+  - axis: vocab
+    id: frutta
+    weight: 0.5
+  image: images/speaking/speaking.a0_identificare.002.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d3
+  id: speaking.a0_chiedere_cortesemente.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Al ristorante, all''una. (The place is full and you need a table for two.
+
+    Ask for one politely, and ask for the menu while you are at it.)
+
+    '
+  target_text: Un tavolo per due, per favore. E il menù, grazie.
+  variants:
+  - Vorrei un tavolo per due, per favore. Il menù, grazie.
+  - Scusi, un tavolo per due. E il menù, per favore.
+  explanation: «Per favore» is what turns a bare request into a polite one.
+  evidence:
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: vocab
+    id: tavolo
+    weight: 0.5
+  - axis: vocab
+    id: ristorante
+    weight: 0.5
+  - axis: vocab
+    id: cena
+    weight: 0.5
+  - axis: vocab
+    id: bere
+    weight: 0.5
+  image: images/speaking/speaking.a0_chiedere_cortesemente.001.png

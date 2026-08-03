@@ -1,0 +1,77 @@
+# Grammar reference — lesson a0-09-in-viaggio. Drafted, not yet reviewed.
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: grammar_ref.vocab_viaggio
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: vocab_viaggio
+  title: Words that get you on the train
+  body_md: |
+    A station transaction is short. It is the same four moves every time,
+    and each one is a fixed phrase.
+
+    ### 1. Ask for the ticket
+
+    > **Vorrei un biglietto per** + *the city*, **per favore.**
+
+    *Per* is the word for a destination on a ticket: *un biglietto per
+    Roma*. Two people, two tickets: *due biglietti*.
+
+    ### 2. Ask when it leaves
+
+    > **A che ora parte?** — What time does it leave?
+
+    *Partire* is leaving, *arrivare* is arriving. Boards and clerks use
+    the 24-hour clock: *alle venti e trenta* is 20:30.
+
+    ### 3. Ask which platform
+
+    > **Da che binario parte?** — Which platform does it leave from?
+
+    *Binario* is the platform (and the track). The answer comes back as
+    *dal binario* + a number — and the number is the whole point, so it is
+    the part to listen for.
+
+    ### 4. Read it back off the board
+
+    | Italian | English |
+    |---|---|
+    | il treno | the train |
+    | l'autobus | the bus |
+    | il taxi | the taxi |
+    | la stazione | the station |
+    | l'aeroporto | the airport |
+    | il binario | the platform / track |
+    | il biglietto | the ticket |
+    | il documento | the ID |
+    | il passaporto | the passport |
+    | la valigia | the suitcase |
+    | il bagaglio | the luggage |
+
+    Four words do all the sign-reading at A0, and they come in two pairs:
+
+    | | |
+    |---|---|
+    | **aperto** — open | **chiuso** — closed |
+    | **libero** — free | **occupato** — taken |
+
+    They are adjectives, so they agree: *il binario è chius**o***, *la
+    stazione è chius**a***.
+
+    ### Getting there
+
+    Transport takes **in**: *in treno*, *in autobus*, *in macchina*. The
+    exception is what you walk onto — *prendo **il** taxi*, *prendo
+    **l'**autobus* — where *prendere* takes the article as normal.
+  examples:
+    - Vorrei un biglietto per Roma, per favore.
+    - A che ora parte il treno?
+    - Da che binario parte?
+    - Il treno per Firenze parte alle nove dal binario dodici.
+    - La stazione è aperta, il museo è chiuso.
+    - Prendo il taxi per l'aeroporto.
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 0.5 }

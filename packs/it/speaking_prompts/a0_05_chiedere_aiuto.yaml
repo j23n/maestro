@@ -48,3 +48,69 @@
     id: a0_chiedere_aiuto
     weight: 1.0
   image: images/speaking/speaking.polite_exp.004.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: speaking.chiedere_aiuto.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Sei al bar e non trovi il bagno. (Get the barista''s attention, say your
+
+    Italian is not good, and ask.)
+
+    '
+  target_text: Scusi! Non parlo bene italiano. Dov'è il bagno, per favore?
+  variants:
+  - Mi scusi! Non parlo italiano. Dov'è il bagno?
+  explanation: Saying «non parlo bene italiano» is not an apology — it tells the other person
+    to slow down, which is exactly what you want.
+  evidence:
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: vocab
+    id: bagno
+    weight: 0.5
+  - axis: vocab
+    id: parlare
+    weight: 0.5
+  image: images/speaking/speaking.chiedere_aiuto.005.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: speaking.chiedere_aiuto.006
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'La signora non lo sa. (Ask the next person whether they know where the
+
+    station is.)
+
+    '
+  target_text: Scusi, sa dov'è la stazione?
+  variants:
+  - Scusi, Lei sa dov'è la stazione, per favore?
+  explanation: «Sa dov'è...?» is gentler than «dov'è...?» — it lets the other person say no.
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: vocab
+    id: sapere
+    weight: 0.5
+  image: images/speaking/speaking.chiedere_aiuto.006.png

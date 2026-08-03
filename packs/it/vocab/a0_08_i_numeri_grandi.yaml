@@ -1,0 +1,780 @@
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.adesso
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: adesso
+  front: adesso
+  back: now
+  example: Che ore sono adesso?
+  example_gloss: What time is it now?
+  answers:
+  - text: adesso
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: adesso
+    weight: 1.0
+  image: images/vocab/vocab.adesso.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.anno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: anno
+  front: l'anno
+  back: year
+  example: Un anno ha dodici mesi.
+  example_gloss: A year has twelve months.
+  answers:
+  - text: anno
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: anno
+    weight: 1.0
+  image: images/vocab/vocab.anno.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.cento
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cento
+  front: cento
+  back: a hundred
+  example: La camera costa cento euro.
+  example_gloss: The room costs a hundred euros.
+  answers:
+  - text: cento
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: cento
+    weight: 1.0
+  image: images/vocab/vocab.cento.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.cinquanta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: cinquanta
+  front: cinquanta
+  back: fifty
+  example: Un caffè costa un euro e cinquanta.
+  example_gloss: A coffee costs one euro fifty.
+  answers:
+  - text: cinquanta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: cinquanta
+    weight: 1.0
+  image: images/vocab/vocab.cinquanta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.costare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: costare
+  front: costare
+  back: to cost
+  example: Quanto costa il biglietto?
+  example_gloss: How much does the ticket cost?
+  answers:
+  - text: costare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: costare
+    weight: 1.0
+  image: images/vocab/vocab.costare.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.domani
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: domani
+  front: domani
+  back: tomorrow
+  example: Domani è sabato.
+  example_gloss: Tomorrow is Saturday.
+  answers:
+  - text: domani
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: domani
+    weight: 1.0
+  image: images/vocab/vocab.domani.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.domenica
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: domenica
+  front: domenica
+  back: Sunday
+  example: Domenica il museo è chiuso.
+  example_gloss: On Sunday the museum is closed.
+  answers:
+  - text: domenica
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: domenica
+    weight: 1.0
+  image: images/vocab/vocab.domenica.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.euro
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: euro
+  front: l'euro
+  back: euro
+  example: Sono quaranta euro.
+  example_gloss: That's forty euros.
+  answers:
+  - text: euro
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: euro
+    weight: 1.0
+  image: images/vocab/vocab.euro.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.giornata
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: giornata
+  front: la giornata
+  back: day (the whole day through)
+  example: Buona giornata!
+  example_gloss: Have a good day!
+  answers:
+  - text: giornata
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: giornata
+    weight: 1.0
+  image: images/vocab/vocab.giornata.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.giorno
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: giorno
+  front: il giorno
+  back: day
+  example: Che giorno è oggi?
+  example_gloss: What day is it today?
+  answers:
+  - text: giorno
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: giorno
+    weight: 1.0
+  image: images/vocab/vocab.giorno.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.giovedi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: giovedì
+  front: giovedì
+  back: Thursday
+  example: Giovedì vado al mercato.
+  example_gloss: On Thursday I'm going to the market.
+  answers:
+  - text: giovedì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: giovedì
+    weight: 1.0
+  image: images/vocab/vocab.giovedi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.ieri
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ieri
+  front: ieri
+  back: yesterday
+  example: Ieri ho pagato il conto.
+  example_gloss: Yesterday I paid the bill.
+  answers:
+  - text: ieri
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ieri
+    weight: 1.0
+  image: images/vocab/vocab.ieri.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.lunedi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: lunedì
+  front: lunedì
+  back: Monday
+  example: Il negozio è chiuso il lunedì.
+  example_gloss: The shop is closed on Mondays.
+  answers:
+  - text: lunedì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: lunedì
+    weight: 1.0
+  image: images/vocab/vocab.lunedi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.martedi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: martedì
+  front: martedì
+  back: Tuesday
+  example: Martedì vado a Roma.
+  example_gloss: On Tuesday I'm going to Rome.
+  answers:
+  - text: martedì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: martedì
+    weight: 1.0
+  image: images/vocab/vocab.martedi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.mattina
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mattina
+  front: la mattina
+  back: morning
+  example: La mattina prendo un caffè al bar.
+  example_gloss: In the morning I have a coffee at the bar.
+  answers:
+  - text: mattina
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mattina
+    weight: 1.0
+  image: images/vocab/vocab.mattina.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.mercoledi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mercoledì
+  front: mercoledì
+  back: Wednesday
+  example: Mercoledì c'è il mercato in piazza.
+  example_gloss: On Wednesday there's a market in the square.
+  answers:
+  - text: mercoledì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mercoledì
+    weight: 1.0
+  image: images/vocab/vocab.mercoledi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.mese
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mese
+  front: il mese
+  back: month
+  example: Un mese ha quattro settimane.
+  example_gloss: A month has four weeks.
+  answers:
+  - text: mese
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mese
+    weight: 1.0
+  image: images/vocab/vocab.mese.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.mille
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: mille
+  front: mille
+  back: a thousand
+  example: Il volo costa mille euro.
+  example_gloss: The flight costs a thousand euros.
+  answers:
+  - text: mille
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: mille
+    weight: 1.0
+  image: images/vocab/vocab.mille.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.momento
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: momento
+  front: il momento
+  back: moment
+  example: Un momento, per favore.
+  example_gloss: One moment, please.
+  answers:
+  - text: momento
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: momento
+    weight: 1.0
+  image: images/vocab/vocab.momento.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.notte
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: notte
+  front: la notte
+  back: night
+  example: Sono le undici di notte.
+  example_gloss: It's eleven at night.
+  answers:
+  - text: notte
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: notte
+    weight: 1.0
+  image: images/vocab/vocab.notte.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.novanta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: novanta
+  front: novanta
+  back: ninety
+  example: La valigia costa novanta euro.
+  example_gloss: The suitcase costs ninety euros.
+  answers:
+  - text: novanta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: novanta
+    weight: 1.0
+  image: images/vocab/vocab.novanta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.oggi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: oggi
+  front: oggi
+  back: today
+  example: Oggi è mercoledì.
+  example_gloss: Today is Wednesday.
+  answers:
+  - text: oggi
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: oggi
+    weight: 1.0
+  image: images/vocab/vocab.oggi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.ora
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ora
+  front: l'ora
+  back: hour; time (of day)
+  example: A che ora parte il treno?
+  example_gloss: What time does the train leave?
+  answers:
+  - text: ora
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ora
+    weight: 1.0
+  image: images/vocab/vocab.ora.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.ottanta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: ottanta
+  front: ottanta
+  back: eighty
+  example: Marco ha ottanta anni.
+  example_gloss: Marco is eighty years old.
+  answers:
+  - text: ottanta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: ottanta
+    weight: 1.0
+  image: images/vocab/vocab.ottanta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.pagare
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: pagare
+  front: pagare
+  back: to pay
+  example: Vorrei pagare, per favore.
+  example_gloss: I'd like to pay, please.
+  answers:
+  - text: pagare
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: pagare
+    weight: 1.0
+  image: images/vocab/vocab.pagare.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.pomeriggio
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: pomeriggio
+  front: il pomeriggio
+  back: afternoon
+  example: Il pomeriggio vado al museo.
+  example_gloss: In the afternoon I go to the museum.
+  answers:
+  - text: pomeriggio
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: pomeriggio
+    weight: 1.0
+  image: images/vocab/vocab.pomeriggio.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.prezzo
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: prezzo
+  front: il prezzo
+  back: price
+  example: Il prezzo è buono.
+  example_gloss: The price is good.
+  answers:
+  - text: prezzo
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: prezzo
+    weight: 1.0
+  image: images/vocab/vocab.prezzo.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.quando
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quando
+  front: quando
+  back: when
+  example: Quando arriva il treno?
+  example_gloss: When does the train arrive?
+  answers:
+  - text: quando
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quando
+    weight: 1.0
+  image: images/vocab/vocab.quando.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.quanto
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quanto
+  front: quanto
+  back: how much
+  example: Quanto costano le mele?
+  example_gloss: How much do the apples cost?
+  answers:
+  - text: quanto
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quanto
+    weight: 1.0
+  image: images/vocab/vocab.quanto.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.quaranta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: quaranta
+  front: quaranta
+  back: forty
+  example: Sono quaranta euro e cinquanta.
+  example_gloss: That's forty euros fifty.
+  answers:
+  - text: quaranta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: quaranta
+    weight: 1.0
+  image: images/vocab/vocab.quaranta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.sabato
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sabato
+  front: sabato
+  back: Saturday
+  example: Sabato mattina vado al mercato.
+  example_gloss: On Saturday morning I go to the market.
+  answers:
+  - text: sabato
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sabato
+    weight: 1.0
+  image: images/vocab/vocab.sabato.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.sempre
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sempre
+  front: sempre
+  back: always
+  example: Il bar è sempre aperto.
+  example_gloss: The bar is always open.
+  answers:
+  - text: sempre
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sempre
+    weight: 1.0
+  image: images/vocab/vocab.sempre.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.sera
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sera
+  front: la sera
+  back: evening
+  example: La sera mangio a casa.
+  example_gloss: In the evening I eat at home.
+  answers:
+  - text: sera
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sera
+    weight: 1.0
+  image: images/vocab/vocab.sera.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.sessanta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: sessanta
+  front: sessanta
+  back: sixty
+  example: Anna ha sessanta anni.
+  example_gloss: Anna is sixty years old.
+  answers:
+  - text: sessanta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: sessanta
+    weight: 1.0
+  image: images/vocab/vocab.sessanta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.settanta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: settanta
+  front: settanta
+  back: seventy
+  example: Il taxi costa settanta euro.
+  example_gloss: The taxi costs seventy euros.
+  answers:
+  - text: settanta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: settanta
+    weight: 1.0
+  image: images/vocab/vocab.settanta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.settimana
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: settimana
+  front: la settimana
+  back: week
+  example: Una settimana ha sette giorni.
+  example_gloss: A week has seven days.
+  answers:
+  - text: settimana
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: settimana
+    weight: 1.0
+  image: images/vocab/vocab.settimana.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.soldi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: soldi
+  front: i soldi
+  back: money
+  example: Non ho soldi.
+  example_gloss: I don't have any money.
+  answers:
+  - text: soldi
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: soldi
+    weight: 1.0
+  image: images/vocab/vocab.soldi.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.trenta
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: trenta
+  front: trenta
+  back: thirty
+  example: Il treno parte alle otto e trenta.
+  example_gloss: The train leaves at eight thirty.
+  answers:
+  - text: trenta
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: trenta
+    weight: 1.0
+  image: images/vocab/vocab.trenta.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: vocab.venerdi
+  item_type: vocab_card
+  cefr_level: A0
+  lemma: venerdì
+  front: venerdì
+  back: Friday
+  example: Venerdì sera vado al ristorante.
+  example_gloss: On Friday evening I'm going to the restaurant.
+  answers:
+  - text: venerdì
+    canonical: true
+  evidence:
+  - axis: vocab
+    id: venerdì
+    weight: 1.0
+  image: images/vocab/vocab.venerdi.png

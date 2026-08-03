@@ -1,0 +1,119 @@
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: speaking.a0_dire_ora.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: In piazza. (Someone asks you the time. Your phone says 15:30 — tell them.)
+  target_text: Sono le quindici e trenta.
+  variants:
+  - Sono le tre e trenta.
+  - Le quindici e trenta.
+  explanation: Hours are plural — «sono le», then the hour, then «e» and the minutes.
+  evidence:
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: vocab
+    id: ora
+    weight: 0.5
+  image: images/speaking/speaking.a0_dire_ora.001.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: speaking.ore_giorni.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Al negozio. (Ask what time it opens — literally, at what time it is open.)
+  target_text: Scusi, a che ora è aperto?
+  variants:
+  - A che ora è aperto?
+  - Scusi, a che ora è aperto il negozio?
+  explanation: «A che ora...?» is the question; the answer comes back with «alle».
+  evidence:
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  image: images/speaking/speaking.ore_giorni.001.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: speaking.num_20_100.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Al mercato. (Ask what the apples cost, then read the tag aloud — 40 euro.)
+  target_text: Quanto costano le mele? Quaranta euro.
+  variants:
+  - Scusi, quanto costano le mele? Quaranta euro.
+  explanation: «Quanto costa» for one thing, «quanto costano» for more than one.
+  evidence:
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: vocab
+    id: costare
+    weight: 0.5
+  image: images/speaking/speaking.num_20_100.001.png
+- status: draft
+  scenario_ids:
+  - a0-08-i-numeri-grandi
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: speaking.numeri_grandi.perform.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al mercato. (Say what the market costs you in a week, in a month and in a year,
+    and give your verdict on the price. Nothing on screen to read.)
+  target_text: Quanto pago? Venti euro alla settimana, cento al mese, mille all'anno. Il prezzo
+    è buono, ma non ho soldi.
+  variants:
+  - Venti euro alla settimana, cento euro al mese, mille euro all'anno. Non ho soldi!
+  - Pago venti euro alla settimana, cento al mese e mille all'anno.
+  explanation: The three scales — week, month, year — are where the big numbers live.
+  evidence:
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  - axis: vocab
+    id: anno
+    weight: 0.5
+  - axis: vocab
+    id: mese
+    weight: 0.5
+  - axis: vocab
+    id: settimana
+    weight: 0.5
+  - axis: vocab
+    id: prezzo
+    weight: 0.5
+  - axis: vocab
+    id: quanto
+    weight: 0.5
+  - axis: vocab
+    id: soldi
+    weight: 0.5
+  image: images/speaking/speaking.numeri_grandi.perform.001.png

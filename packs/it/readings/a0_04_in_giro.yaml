@@ -1,0 +1,250 @@
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d1
+  id: reading.in_giro.001
+  cefr_level: A0
+  title: Con la mappa
+  text: 'Anna è in centro. Cerca il museo, ma non lo trova.
+
+
+    Vede una signora e dice: «Scusi!»
+
+
+    «Sì, prego.»
+
+
+    «Dov''è il museo, per favore?»
+
+
+    «Il museo è in via Roma. È lì, dopo la banca.»
+
+
+    «Grazie mille!»
+
+
+    «Prego, arrivederci.»
+
+    '
+  glossary:
+    dopo: after / past
+  questions:
+  - prompt: Che cosa cerca Anna?
+    answers:
+    - text: il museo
+      canonical: true
+    - text: museo
+    explanation: «Cerca il museo, ma non lo trova.»
+  - prompt: Dov'è il museo?
+    answers:
+    - text: in via Roma
+      canonical: true
+    - text: via Roma
+    explanation: «Il museo è in via Roma.»
+  - prompt: Chi aiuta Anna?
+    answers:
+    - text: una signora
+      canonical: true
+    - text: signora
+    explanation: '«Vede una signora e dice: Scusi!»'
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: vocab
+    id: museo
+    weight: 0.5
+  - axis: vocab
+    id: via
+    weight: 0.5
+  - axis: vocab
+    id: banca
+    weight: 0.5
+  - axis: vocab
+    id: centro
+    weight: 0.5
+  image: images/readings/reading.in_giro.001.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d2
+  id: reading.in_giro.002
+  cefr_level: A0
+  title: Il museo è chiuso
+  text: 'Il museo è chiuso. Sulla porta c''è un numero di telefono, niente
+
+    altro.
+
+
+    Anna entra in un negozio.
+
+
+    «Scusi, signora. Il museo è chiuso. Dov''è il mercato?»
+
+
+    «Il mercato è in piazza Garibaldi, vicino alla chiesa.»
+
+
+    «È lontano?»
+
+
+    «No, è qui vicino. Anche il supermercato è lì.»
+
+
+    «Grazie mille!»
+
+    '
+  glossary:
+    niente: nothing
+    vicino: near
+    lontano: far
+  questions:
+  - prompt: Perché Anna non entra nel museo?
+    answers:
+    - text: è chiuso
+      canonical: true
+    - text: il museo è chiuso
+    - text: chiuso
+    explanation: «Il museo è chiuso.»
+  - prompt: Dov'è il mercato?
+    answers:
+    - text: in piazza Garibaldi
+      canonical: true
+    - text: in piazza
+    - text: piazza Garibaldi
+    explanation: «Il mercato è in piazza Garibaldi, vicino alla chiesa.»
+  - prompt: Che cosa c'è anche in piazza?
+    answers:
+    - text: il supermercato
+      canonical: true
+    - text: supermercato
+    explanation: «Anche il supermercato è lì.»
+  evidence:
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: vocab
+    id: mercato
+    weight: 0.5
+  - axis: vocab
+    id: chiesa
+    weight: 0.5
+  - axis: vocab
+    id: negozio
+    weight: 0.5
+  - axis: vocab
+    id: piazza
+    weight: 0.5
+  - axis: vocab
+    id: supermercato
+    weight: 0.5
+  - axis: vocab
+    id: porta
+    weight: 0.5
+  image: images/readings/reading.in_giro.002.png
+- status: draft
+  scenario_ids:
+  - a0-04-in-giro
+  lesson_id: a0-04-in-giro.d3
+  id: reading.in_giro.003
+  cefr_level: A0
+  title: Senza mappa
+  text: 'Il telefono di Marco non va. Marco cerca via Firenze e non sa dov''è.
+
+
+    Alla fermata dell''autobus ci sono due signore.
+
+
+    «Buongiorno, scusi. Dov''è via Firenze?»
+
+
+    «Via Firenze? Vede la chiesa? È lì, dopo la chiesa, a destra.»
+
+
+    «E c''è un autobus per il centro?»
+
+
+    «Sì, il numero otto. La fermata è qui.»
+
+
+    «Grazie mille, arrivederci!»
+
+    '
+  glossary:
+    fermata: stop (bus stop)
+    dopo: after / past
+    destra: right
+  questions:
+  - prompt: Che cosa cerca Marco?
+    answers:
+    - text: via Firenze
+      canonical: true
+    - text: la via
+    explanation: «Marco cerca via Firenze e non sa dov'è.»
+  - prompt: Dov'è via Firenze?
+    answers:
+    - text: dopo la chiesa
+      canonical: true
+    - text: a destra dopo la chiesa
+    - text: dopo la chiesa, a destra
+    explanation: «È lì, dopo la chiesa, a destra.»
+  - prompt: Che autobus va in centro?
+    answers:
+    - text: il numero otto
+      canonical: true
+    - text: otto
+    - text: l'otto
+    explanation: «Sì, il numero otto.»
+  evidence:
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 0.5
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_salutare
+    weight: 0.5
+  - axis: vocab
+    id: via
+    weight: 0.5
+  - axis: vocab
+    id: strada
+    weight: 0.5
+  - axis: vocab
+    id: chiesa
+    weight: 0.5
+  - axis: vocab
+    id: centro
+    weight: 0.5
+  - axis: vocab
+    id: qui
+    weight: 0.5
+  - axis: vocab
+    id: lì
+    weight: 0.5
+  image: images/readings/reading.in_giro.003.png

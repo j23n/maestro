@@ -1,0 +1,72 @@
+# Grammar references — lesson a0-10-conoscere-qualcuno.d1. Drafted, not
+# yet reviewed. `essere_pre` already has its page in a0_basics.yaml; these
+# are the two points d1 introduces that had none.
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: grammar_ref.subj_pron
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: subj_pron
+  title: "Subject pronouns: io, tu, lui, lei"
+  body_md: |
+    Four words cover the people in a first conversation:
+
+    | Italian | English |
+    |---|---|
+    | **io** | I |
+    | **tu** | you (someone you call *ciao*) |
+    | **lui** | he |
+    | **lei** | she |
+
+    Italian usually leaves them out, because the verb already says who:
+    «Sono di Roma» is a complete sentence. Put the pronoun in when you
+    are pointing someone out or setting one person against another —
+    «Io sono inglese, lui è italiano».
+
+    Written with a capital letter, **Lei** is the polite *you* for
+    someone you do not call *ciao*. Same word, same verb form as *she*.
+  examples:
+    - "Io sono di Londra, e tu?"
+    - "Lui è il mio amico Marco."
+    - "Lei è la mia amica Giulia."
+    - "Tu sei studente?"
+    - "Io sono inglese, lui è italiano."
+  evidence:
+    - { axis: grammar, id: subj_pron, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-10-conoscere-qualcuno]
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: grammar_ref.simp_sent
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: simp_sent
+  title: "Simple sentences: who, then what"
+  body_md: |
+    A plain Italian statement runs **subject → verb → the rest**, the
+    same order as English:
+
+    | subject | verb | the rest |
+    |---|---|---|
+    | Marco | abita | a Milano |
+    | La mia amica | studia | italiano |
+    | Io | sono | studentessa |
+
+    Two things English does not do:
+
+    - the subject can simply be missing when it is obvious — «Abito a
+      Milano» is a full sentence;
+    - **non** goes straight in front of the verb: «Non sono italiano».
+
+    Keep the order and change nothing else to ask a question — «Anna è
+    inglese» becomes «Anna è inglese?» with your voice alone.
+  examples:
+    - "Marco abita a Milano."
+    - "La mia amica studia italiano."
+    - "Io sono studentessa."
+    - "Non sono italiano, sono inglese."
+    - "Giulia lavora in un museo a Firenze."
+  evidence:
+    - { axis: grammar, id: simp_sent, weight: 0.5 }

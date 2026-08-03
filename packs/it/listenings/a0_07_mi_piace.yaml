@@ -1,0 +1,124 @@
+# Listenings — lesson a0-07-mi-piace, one per depth. Short spoken turns:
+# the pattern is short, so the practice is catching piace vs piacciono at
+# speed. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d1
+  id: listening.mi_piace.001
+  cefr_level: A0
+  title: Al tavolo
+  turns:
+    - { speaker: "Signora", text: "Le piace la pasta?" }
+    - { speaker: "Anna", text: "Sì, mi piace molto. È buona!" }
+    - { speaker: "Signora", text: "E il pesce?" }
+    - { speaker: "Anna", text: "No, il pesce mi piace poco." }
+    - { speaker: "Signora", text: "E i dolci?" }
+    - { speaker: "Anna", text: "I dolci mi piacciono. Anche il gelato!" }
+    - { speaker: "Signora", text: "Anche a Marco piacciono i dolci." }
+  audio: null
+  questions:
+    - prompt: "Le piace la pasta?"
+      answers:
+        - { text: "sì, molto", canonical: true }
+        - { text: "sì" }
+        - { text: "molto" }
+      explanation: "«Sì, mi piace molto. È buona!»"
+    - prompt: "Che cosa le piace poco?"
+      answers:
+        - { text: "il pesce", canonical: true }
+        - { text: "pesce" }
+      explanation: "«No, il pesce mi piace poco.»"
+    - prompt: "Piace o piacciono, con «i dolci»?"
+      answers:
+        - { text: "piacciono", canonical: true }
+      explanation: "«I dolci mi piacciono» — plural thing, plural verb."
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 0.5 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 0.5 }
+    - { axis: vocab, id: molto, weight: 0.5 }
+    - { axis: vocab, id: poco, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d2
+  id: listening.mi_piace.002
+  cefr_level: A0
+  title: Al banco del gelato
+  turns:
+    - { speaker: "Barista", text: "Prego?" }
+    - { speaker: "Marco", text: "Due gelati, per favore." }
+    - { speaker: "Barista", text: "Al caffè o alla frutta?" }
+    - { speaker: "Marco", text: "Uno al caffè e uno alla frutta." }
+    - { speaker: "Anna", text: "I gelati al latte non mi piacciono. Mi piace la frutta." }
+    - { speaker: "Barista", text: "Altro?" }
+    - { speaker: "Marco", text: "No, grazie. Quant'è?" }
+    - { speaker: "Barista", text: "Quattro euro." }
+  audio: null
+  questions:
+    - prompt: "Quanti gelati prendono?"
+      answers:
+        - { text: "due", canonical: true }
+        - { text: "2" }
+      explanation: "«Due gelati, per favore.»"
+    - prompt: "Che cosa non piace ad Anna?"
+      answers:
+        - { text: "i gelati al latte", canonical: true }
+        - { text: "il latte" }
+        - { text: "latte" }
+      explanation: "«I gelati al latte non mi piacciono.»"
+    - prompt: "Quanto costa?"
+      answers:
+        - { text: "quattro euro", canonical: true }
+        - { text: "4 euro" }
+      explanation: "«Quattro euro.»"
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 0.5 }
+    - { axis: function, id: a0_ordinare, weight: 0.5 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 0.5 }
+    - { axis: vocab, id: altro, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-07-mi-piace]
+  lesson_id: a0-07-mi-piace.d3
+  id: listening.mi_piace.003
+  cefr_level: A0
+  title: A cena da Giulia
+  turns:
+    - { speaker: "Giulia", text: "Mi piace molto il pesce. È buono!" }
+    - { speaker: "Anna", text: "Il pesce mi piace poco. Ma mi piacciono le mele e i dolci." }
+    - { speaker: "Giulia", text: "Anche i dolci mi piacciono. Altro pesce?" }
+    - { speaker: "Anna", text: "No, grazie." }
+    - { speaker: "Giulia", text: "E la musica? Ti piace?" }
+    - { speaker: "Anna", text: "Sì, molto. Che bella cena, Giulia! Sono contenta." }
+  audio: null
+  questions:
+    - prompt: "A chi piace il pesce?"
+      answers:
+        - { text: "a Giulia", canonical: true }
+        - { text: "Giulia" }
+      explanation: "«Mi piace molto il pesce», dice Giulia."
+    - prompt: "Anna prende altro pesce?"
+      answers:
+        - { text: "no", canonical: true }
+        - { text: "no, grazie" }
+      explanation: "«No, grazie.»"
+    - prompt: "Le piace la musica?"
+      answers:
+        - { text: "sì, molto", canonical: true }
+        - { text: "sì" }
+        - { text: "molto" }
+      explanation: "«Sì, molto. Che bella cena, Giulia!»"
+  evidence:
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 0.5 }
+    - { axis: grammar, id: vocab_cibo, weight: 0.5 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: vocab, id: musica, weight: 0.5 }
+    - { axis: vocab, id: bello, weight: 0.5 }
+    - { axis: vocab, id: contento, weight: 0.5 }

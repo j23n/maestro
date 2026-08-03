@@ -1,0 +1,120 @@
+# Listenings — lesson a0-08-i-numeri-grandi, one per depth. Numbers spoken
+# once, at speed, which is where they actually go wrong. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: listening.numeri_grandi.001
+  cefr_level: A0
+  title: Quanto costa la valigia?
+  turns:
+    - { speaker: Anna, text: "Scusi, quanto costa la valigia?" }
+    - { speaker: Commesso, text: "Novanta euro." }
+    - { speaker: Anna, text: "Novanta?" }
+    - { speaker: Commesso, text: "Sì, novanta. La valigia piccola costa quaranta euro." }
+    - { speaker: Anna, text: "Quaranta. Va bene, prendo la valigia piccola." }
+  questions:
+    - prompt: Quanto costa la valigia grande?
+      answers:
+        - { text: novanta euro, canonical: true }
+        - { text: '90 euro' }
+      explanation: «Novanta euro,» dice il commesso.
+    - prompt: Quanto costa la valigia piccola?
+      answers:
+        - { text: quaranta euro, canonical: true }
+        - { text: '40 euro' }
+      explanation: «La valigia piccola costa quaranta euro.»
+    - prompt: Che valigia prende Anna?
+      answers:
+        - { text: la valigia piccola, canonical: true }
+        - { text: quella piccola }
+        - { text: piccola }
+      explanation: «Va bene, prendo la valigia piccola.»
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: vocab, id: costare, weight: 0.5 }
+    - { axis: vocab, id: quanto, weight: 0.5 }
+    - { axis: vocab, id: novanta, weight: 0.5 }
+    - { axis: vocab, id: quaranta, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d2
+  id: listening.numeri_grandi.002
+  cefr_level: A0
+  title: Al mercato
+  turns:
+    - { speaker: Signore, text: "Buongiorno! Le mele sono buone. Due euro!" }
+    - { speaker: Anna, text: "E i pomodori? Quanto costano?" }
+    - { speaker: Signore, text: "Tre euro. Sono cinque euro." }
+    - { speaker: Anna, text: "Ecco dieci euro." }
+    - { speaker: Signore, text: "Grazie. Ecco cinque euro." }
+    - { speaker: Anna, text: "A che ora è aperto il mercato?" }
+    - { speaker: Signore, text: "Dalle sette alle quattordici. Il lunedì è chiuso." }
+  questions:
+    - prompt: Quanto paga Anna?
+      answers:
+        - { text: cinque euro, canonical: true }
+        - { text: '5 euro' }
+      explanation: Due euro di mele e tre di pomodori.
+    - prompt: A che ora è chiuso il mercato?
+      answers:
+        - { text: alle quattordici, canonical: true }
+        - { text: '14:00' }
+        - { text: alle 14 }
+      explanation: «Dalle sette alle quattordici.»
+    - prompt: Che giorno è chiuso il mercato?
+      answers:
+        - { text: il lunedì, canonical: true }
+        - { text: lunedì }
+      explanation: «Il lunedì è chiuso.»
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: vocab, id: mercato, weight: 0.5 }
+    - { axis: vocab, id: lunedì, weight: 0.5 }
+    - { axis: vocab, id: pagare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: listening.numeri_grandi.003
+  cefr_level: A0
+  title: Un giorno e un'ora
+  turns:
+    - { speaker: Giulia, text: "Ci vediamo giovedì?" }
+    - { speaker: Anna, text: "Giovedì non posso. Venerdì?" }
+    - { speaker: Giulia, text: "Venerdì va bene. A che ora?" }
+    - { speaker: Anna, text: "Alle diciotto e trenta." }
+    - { speaker: Signora, text: "Scusi, che ore sono?" }
+    - { speaker: Anna, text: "Un momento... sono le quattro e venti." }
+    - { speaker: Signora, text: "Grazie!" }
+  questions:
+    - prompt: Che giorno si vedono Anna e Giulia?
+      answers:
+        - { text: venerdì, canonical: true }
+        - { text: il venerdì }
+      explanation: Giovedì Anna non può — «Venerdì va bene».
+    - prompt: A che ora si vedono?
+      answers:
+        - { text: alle diciotto e trenta, canonical: true }
+        - { text: '18:30' }
+      explanation: «Alle diciotto e trenta.»
+    - prompt: Che ore sono adesso?
+      answers:
+        - { text: le quattro e venti, canonical: true }
+        - { text: sono le quattro e venti }
+        - { text: '4:20' }
+      explanation: «Sono le quattro e venti,» dice Anna alla signora.
+  evidence:
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: vocab, id: giovedì, weight: 0.5 }
+    - { axis: vocab, id: venerdì, weight: 0.5 }
+    - { axis: vocab, id: momento, weight: 0.5 }
+    - { axis: vocab, id: ora, weight: 0.5 }

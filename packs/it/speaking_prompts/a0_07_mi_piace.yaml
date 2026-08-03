@@ -1,0 +1,85 @@
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: speaking.esprimere_gusti.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: Al ristorante. (The woman at the next table asks how you found the pasta. Say you
+    like it a lot.)
+  target_text: Mi piace molto la pasta.
+  variants:
+  - La pasta mi piace molto.
+  - Sì, mi piace molto.
+  explanation: «Mi piace» + one thing, and «molto» goes straight after the verb.
+  evidence:
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: vocab
+    id: molto
+    weight: 0.5
+  image: images/speaking/speaking.esprimere_gusti.001.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d3
+  id: speaking.esprimere_gusti.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: A cena. (Nobody has asked you anything. Volunteer one thing you like — and say how
+    much.)
+  target_text: Mi piace molto il vino, e mi piacciono i dolci.
+  variants:
+  - Il vino mi piace molto, e mi piacciono anche i dolci.
+  explanation: 'Two things at once: one singular (piace), one plural (piacciono).'
+  evidence:
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: vocab
+    id: piacere
+    weight: 0.5
+  - axis: vocab
+    id: molto
+    weight: 0.5
+  image: images/speaking/speaking.esprimere_gusti.002.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d3
+  id: speaking.rispondere_si_no.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: A cena. (Giulia asks whether you like the fish. Say no — then say what you do like,
+    in the plural.)
+  target_text: No, non mi piace. Ma mi piacciono i dolci, e anche la frutta.
+  variants:
+  - No, il pesce non mi piace. Mi piacciono i dolci e anche la frutta.
+  explanation: A bare «no» is blunt on its own; adding what you *do* like keeps it friendly.
+  evidence:
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5
+  - axis: grammar
+    id: art_i_le
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 0.5
+  - axis: vocab
+    id: anche
+    weight: 0.5
+  image: images/speaking/speaking.rispondere_si_no.001.png

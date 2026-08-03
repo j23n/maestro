@@ -37,3 +37,96 @@
     - { axis: grammar, id: mi_chiamo, weight: 1.0 }
     - { axis: grammar, id: num_0_20, weight: 1.0 }
     - { axis: function, id: a0_presentarsi, weight: 0.5 }
+
+# d2: the night porter. He asks nothing twice, so the name and the number
+# have to come out together.
+- status: draft
+  scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d2
+  id: listening.in_albergo.002
+  cefr_level: A0
+  title: La chiave
+  turns:
+    - { speaker: "Anna", text: "Buonasera." }
+    - { speaker: "Portiere", text: "Buonasera, signora. Come si chiama?" }
+    - { speaker: "Anna", text: "Mi chiamo Anna Rossi. La chiave della camera quindici, per favore." }
+    - { speaker: "Portiere", text: "Un momento... la quindici. Ecco." }
+    - { speaker: "Anna", text: "Grazie mille. Buonanotte." }
+    - { speaker: "Portiere", text: "Buonanotte, signora Rossi." }
+  audio: null
+  questions:
+    - prompt: "Che cosa vuole Anna?"
+      answers:
+        - { text: "la chiave", canonical: true }
+        - { text: "chiave" }
+        - { text: "la chiave della camera" }
+      explanation: "«La chiave della camera quindici, per favore.»"
+    - prompt: "Qual è il numero della camera?"
+      answers:
+        - { text: "quindici", canonical: true }
+        - { text: "15" }
+        - { text: "la quindici" }
+      explanation: "«La chiave della camera quindici.»"
+    - prompt: "Come si saluta di notte?"
+      answers:
+        - { text: "buonanotte", canonical: true }
+        - { text: "buonasera" }
+      explanation: "«Buonanotte» on the way to bed; «buonasera» on the way in."
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: polite_exp, weight: 0.5 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: vocab, id: chiave, weight: 0.5 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+    - { axis: vocab, id: quindici, weight: 0.5 }
+
+# d3: the number arrives in the middle of a conversation with someone who
+# is not staff — that is the whole difference from d1.
+- status: draft
+  scenario_ids: [a0-02-in-albergo]
+  lesson_id: a0-02-in-albergo.d3
+  id: listening.in_albergo.003
+  cefr_level: A0
+  title: A colazione
+  turns:
+    - { speaker: "Maria", text: "Buongiorno! Io mi chiamo Maria." }
+    - { speaker: "Anna", text: "Buongiorno. Mi chiamo Anna. Piacere." }
+    - { speaker: "Maria", text: "Piacere. Lei è inglese?" }
+    - { speaker: "Anna", text: "Sì. Sono a Roma per tre giorni." }
+    - { speaker: "Cameriere", text: "Scusi, il numero della camera?" }
+    - { speaker: "Anna", text: "La dodici." }
+    - { speaker: "Cameriere", text: "Grazie. Un caffè?" }
+    - { speaker: "Anna", text: "Sì, grazie. Buona giornata!" }
+  audio: null
+  questions:
+    - prompt: "Come si chiama la signora?"
+      answers:
+        - { text: "maria", canonical: true }
+        - { text: "si chiama maria" }
+      explanation: "«Io mi chiamo Maria.»"
+    - prompt: "Che numero dice Anna?"
+      answers:
+        - { text: "dodici", canonical: true }
+        - { text: "la dodici" }
+        - { text: "12" }
+      explanation: "«La dodici.» — the room number on its own."
+    - prompt: "Quanti giorni sta Anna a Roma?"
+      answers:
+        - { text: "tre", canonical: true }
+        - { text: "tre giorni" }
+        - { text: "3" }
+      explanation: "«Sono a Roma per tre giorni.»"
+  evidence:
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 0.5 }
+    - { axis: function, id: a0_presentarsi, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: vocab, id: numero, weight: 0.5 }
+    - { axis: vocab, id: camera, weight: 0.5 }
+    - { axis: vocab, id: chiamarsi, weight: 0.5 }
+    - { axis: vocab, id: dodici, weight: 0.5 }
+    - { axis: vocab, id: tre, weight: 0.5 }

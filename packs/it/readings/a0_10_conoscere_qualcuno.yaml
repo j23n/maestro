@@ -1,0 +1,218 @@
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d1
+  id: reading.conoscere.001
+  cefr_level: A0
+  title: Di dove sei?
+  text: '— Ciao! Sono Luca. Come ti chiami?
+
+
+    — Mi chiamo Anna. Piacere.
+
+
+    — Piacere. Di dove sei, Anna?
+
+
+    — Sono inglese, sono di Londra. E tu?
+
+
+    — Io sono di Roma, ma abito a Milano.
+
+
+    — Sei studente?
+
+
+    — No, sono barista. E tu?
+
+
+    — Io sono studentessa.
+
+    '
+  questions:
+  - prompt: Di dov'è Anna?
+    answers:
+    - text: di Londra
+      canonical: true
+    - text: Londra
+    - text: è inglese
+    explanation: «Sono inglese, sono di Londra.»
+  - prompt: Dove abita Luca?
+    answers:
+    - text: a Milano
+      canonical: true
+    - text: Milano
+    explanation: «Io sono di Roma, ma abito a Milano» — born in one city, living in another.
+  - prompt: Chi è la studentessa?
+    answers:
+    - text: Anna
+      canonical: true
+    explanation: «Io sono studentessa», dice Anna. Luca è barista.
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 0.5
+  - axis: vocab
+    id: inglese
+    weight: 0.5
+  - axis: vocab
+    id: studentessa
+    weight: 0.5
+  - axis: vocab
+    id: abitare
+    weight: 0.5
+  image: images/readings/reading.conoscere.001.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d2
+  id: reading.conoscere.002
+  cefr_level: A0
+  title: Luca e Giulia
+  text: 'Luca è di Roma, ma abita a Milano. Lavora in un bar in centro.
+
+
+    La sua amica Giulia non è di Milano: è di Firenze. Non è studentessa,
+
+    lavora in un museo.
+
+
+    Giulia parla inglese molto bene, perché la sua amica Anna è di Londra.
+
+    Anna studia italiano a Firenze.
+
+    '
+  questions:
+  - prompt: Di dov'è Giulia?
+    answers:
+    - text: di Firenze
+      canonical: true
+    - text: Firenze
+    explanation: '«Non è di Milano: è di Firenze.»'
+  - prompt: Dove lavora Giulia?
+    answers:
+    - text: in un museo
+      canonical: true
+    - text: museo
+    explanation: «Non è studentessa, lavora in un museo.»
+  - prompt: Perché Giulia parla bene inglese?
+    answers:
+    - text: perché la sua amica è di Londra
+      canonical: true
+    - text: la sua amica è inglese
+    - text: la sua amica Anna è di Londra
+    explanation: «…perché la sua amica Anna è di Londra.»
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: amica
+    weight: 0.5
+  - axis: vocab
+    id: suo
+    weight: 0.5
+  - axis: vocab
+    id: lavorare
+    weight: 0.5
+  - axis: vocab
+    id: studiare
+    weight: 0.5
+  image: images/readings/reading.conoscere.002.png
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: reading.conoscere.003
+  cefr_level: A0
+  title: Domenica in piazza
+  text: 'È domenica e la piazza è piena. Marco arriva e saluta gli amici.
+
+
+    — Ciao Giulia, come stai?
+
+
+    — Bene, grazie. Marco, lei è la mia amica Anna.
+
+
+    — Piacere, Anna. Io sono Marco. Di dove sei?
+
+
+    — Sono inglese, sono di Londra. Ma adesso abito qui a Firenze.
+
+
+    — Anna è studentessa — dice Giulia. — Studia italiano.
+
+
+    — E lui? — dice Anna.
+
+
+    — Marco lavora in un negozio, in centro. È il mio amico.
+
+
+    — Anna, il tuo numero di telefono? — dice Marco. — Domenica siamo
+
+    sempre qui in piazza.
+
+    '
+  questions:
+  - prompt: Dove abita Anna adesso?
+    answers:
+    - text: a Firenze
+      canonical: true
+    - text: Firenze
+    explanation: «Sono di Londra. Ma adesso abito qui a Firenze.»
+  - prompt: Dove lavora Marco?
+    answers:
+    - text: in un negozio
+      canonical: true
+    - text: negozio
+    explanation: «Marco lavora in un negozio, in centro.»
+  - prompt: Che cosa studia Anna?
+    answers:
+    - text: italiano
+      canonical: true
+    explanation: «Anna è studentessa. Studia italiano.»
+  - prompt: Chi saluta gli amici in piazza?
+    answers:
+    - text: Marco
+      canonical: true
+    explanation: «Marco arriva e saluta gli amici.»
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: salutare
+    weight: 0.5
+  - axis: vocab
+    id: stare
+    weight: 0.5
+  - axis: vocab
+    id: telefono
+    weight: 0.5
+  - axis: vocab
+    id: tuo
+    weight: 0.5
+  - axis: vocab
+    id: mio
+    weight: 0.5
+  image: images/readings/reading.conoscere.003.png

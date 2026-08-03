@@ -1,0 +1,44 @@
+# Grammar reference — lesson a0-06-a-pranzo.d1 (che_cose).
+# Drafted, not yet reviewed.
+
+- status: draft
+  scenario_ids: [a0-06-a-pranzo]
+  lesson_id: a0-06-a-pranzo.d1
+  id: grammar_ref.che_cose
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: che_cose
+  title: What is it? — Che cos'è?
+  body_md: |
+    One question opens every menu in Italy:
+
+    | Question | When |
+    |---|---|
+    | **Che cos'è?** | *What is it?* — the full form |
+    | **Cos'è?** | the same question, shorter; this is what you hear |
+    | **Che cosa sono?** | for more than one thing (*spaghetti*, *panini*) |
+
+    **Cos'è** is *che cosa è* with the vowel squeezed out: *che cosa è* →
+    *che cos'è* → *cos'è*. All three are correct; the short one is the one
+    people actually say.
+
+    **Answering.** The answer starts with **è** (*it is*) or **sono**
+    (*they are*). You do not need a word for "it":
+
+    - — Cos'è? — **È una pizza.**
+    - — Che cosa sono? — **Sono panini al prosciutto.**
+
+    **Pointing without a word.** At a counter you can simply look at the
+    tray and ask **Cos'è, scusi?** The question carries the pointing.
+
+    **Watch the singular and the plural.** *Gli spaghetti* is plural in
+    Italian, so it takes **sono**, never *è*.
+  examples:
+    - Cos'è il piatto del giorno?
+    - Cos'è, scusi? È carne o pesce?
+    - Che cosa sono, per favore?
+    - Sono panini al formaggio.
+    - Cos'è? È un dolce con la frutta.
+  evidence:
+    - { axis: grammar, id: che_cose, weight: 1.0 }
+    - { axis: function, id: a0_identificare, weight: 1.0 }

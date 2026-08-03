@@ -1,0 +1,186 @@
+# Drill bank — lesson a0-09-in-viaggio, grammar point vocab_viaggio.
+# Drafted, not yet human-reviewed.
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.001
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Vorrei un ___ per Roma, per favore."
+  answers:
+    - { text: "biglietto", canonical: true }
+  distractor_feedback:
+    binario: "«Binario» is the platform you leave from, not the thing you buy."
+    treno: "«Vorrei un treno» buys you a locomotive. You want «un biglietto»."
+  explanation: "Vorrei un biglietto per + city — the phrase that buys a ticket."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.002
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Da che ___ parte il treno per Firenze?"
+  answers:
+    - { text: "binario", canonical: true }
+  distractor_feedback:
+    stazione: "The station is where you are; the platform is what you need."
+    ora: "«A che ora?» asks the time. This sentence asks about the place."
+  explanation: "Da che binario parte…? — the question that gets you a number back."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.003
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Che cosa compri alla stazione? «Il ___.»"
+  choices: ["biglietto", "binario", "bagaglio", "passaporto"]
+  answers:
+    - { text: "biglietto", canonical: true }
+  distractor_feedback:
+    binario: "The platform is not for sale — you buy «il biglietto» and read «il binario»."
+    bagaglio: "«Bagaglio» is what you carry, and you brought it with you."
+  explanation: "Biglietto, binario, bagaglio all start the same and mean three different things."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.004
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Prendo il taxi per l'___."
+  answers:
+    - { text: "aeroporto", canonical: true }
+  distractor_feedback:
+    stazione: "«La stazione» takes «la», not «l'» — the blank here follows «l'»."
+  explanation: "l'aeroporto — masculine, and elided because it starts with a vowel."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: aeroporto, weight: 0.5 }
+    - { axis: vocab, id: taxi, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.005
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "Il museo oggi non è aperto. È ___."
+  choices: ["chiuso", "libero", "veloce", "nuovo"]
+  answers:
+    - { text: "chiuso", canonical: true }
+  distractor_feedback:
+    libero: "«Libero» is a free seat or a free toilet — the opposite of «occupato», not of «aperto»."
+    veloce: "«Veloce» is fast. Nothing here is about speed."
+  explanation: "aperto ↔ chiuso. The other pair is libero ↔ occupato."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: chiuso, weight: 0.5 }
+    - { axis: vocab, id: aperto, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.006
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Il treno ___ alle nove e arriva alle undici."
+  answers:
+    - { text: "parte", canonical: true }
+  distractor_feedback:
+    partire: "The infinitive doesn't fit after «il treno». Third person: «parte»."
+    arriva: "«Arriva» is already at the other end of the sentence — this half is the departure."
+  explanation: "partire = to leave, arrivare = to arrive. Same sentence, both ends of the trip."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: partire, weight: 0.5 }
+    - { axis: vocab, id: arrivare, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.007
+  item_type: drill_transform
+  cefr_level: A0
+  prompt: "Due valigie, non una. Metti al plurale: «Ho una valigia.»"
+  answers:
+    - { text: "Ho due valigie.", canonical: true }
+    - { text: "Ho due valigie" }
+  distractor_feedback:
+    "Ho due valigia.": "The noun has to move too: una valigia → due valigie."
+    "Ho due valigias.": "Italian plurals change the ending, they never add -s."
+  explanation: "Feminine nouns in -a take -e in the plural: valigia → valigie."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: valigia, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.008
+  item_type: drill_multiple_choice
+  cefr_level: A0
+  demand: meet
+  prompt: "«Scusi, è libero?» «No, è ___.»"
+  choices: ["occupato", "aperto", "breve", "caro"]
+  answers:
+    - { text: "occupato", canonical: true }
+  distractor_feedback:
+    aperto: "«Aperto» pairs with «chiuso» — doors and shops. A seat is «libero» or «occupato»."
+    breve: "«Breve» is short in time, like a flight."
+  explanation: "libero ↔ occupato: the two words a seat, a taxi or a toilet answers with."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: occupato, weight: 0.5 }
+    - { axis: vocab, id: libero, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.009
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Non vado in macchina, ___ l'autobus."
+  answers:
+    - { text: "prendo", canonical: true }
+  distractor_feedback:
+    vado: "«Vado l'autobus» is not Italian. Either «vado in autobus» or «prendo l'autobus»."
+    in: "«In» goes with the bare noun: «in autobus». Here the article «l'» is already there."
+  explanation: "in + bare noun (in treno, in macchina) or prendere + article (prendo il treno)."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: prendere, weight: 0.5 }
+    - { axis: vocab, id: macchina, weight: 0.5 }
+    - { axis: vocab, id: autobus, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-09-in-viaggio]
+  lesson_id: a0-09-in-viaggio.d1
+  id: drill.vocab_viaggio.010
+  item_type: drill_cloze
+  cefr_level: A0
+  prompt: "Alla stazione: «Il ___ e il passaporto, per favore.»"
+  answers:
+    - { text: "documento", canonical: true }
+  distractor_feedback:
+    bagaglio: "Nobody asks for your luggage at the window. They ask for your ID."
+  explanation: "«Documento» is any ID; «passaporto» is the passport specifically."
+  evidence:
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: vocab, id: documento, weight: 0.5 }
+    - { axis: vocab, id: passaporto, weight: 0.5 }

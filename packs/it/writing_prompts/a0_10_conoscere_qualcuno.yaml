@@ -1,0 +1,69 @@
+- status: draft
+  scenario_ids:
+  - a0-10-conoscere-qualcuno
+  lesson_id: a0-10-conoscere-qualcuno.d3
+  id: writing.conoscere.001
+  item_type: writing_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Domenica, in piazza. (Write 5-7 lines: introduce yourself — name,
+
+    where you are from, where you live now, what you study or where you
+
+    work — then introduce one friend and say why you are here.)
+
+    '
+  min_words: 30
+  required_grammar:
+  - essere_pre
+  - subj_pron
+  - simp_sent
+  required_vocab:
+  - amico
+  - amica
+  - studiare
+  - lavorare
+  - perché
+  model_answer: 'Ciao! Mi chiamo Anna e sono inglese. Sono di Londra, ma adesso abito
+
+    a Roma, in centro. Sono studentessa di italiano. Il mio amico Marco è
+
+    italiano: lui è di Milano e lavora in un bar. La sua amica Giulia
+
+    studia a Firenze. Domenica siamo sempre qui in piazza, perché è
+
+    bella. E tu, che cosa fai?
+
+    '
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: amico
+    weight: 0.5
+  - axis: vocab
+    id: amica
+    weight: 0.5
+  - axis: vocab
+    id: studiare
+    weight: 0.5
+  - axis: vocab
+    id: lavorare
+    weight: 0.5
+  - axis: vocab
+    id: fare
+    weight: 0.5
+  - axis: vocab
+    id: suo
+    weight: 0.5
+  - axis: vocab
+    id: perché
+    weight: 0.5
+  image: images/writing/writing.conoscere.001.png

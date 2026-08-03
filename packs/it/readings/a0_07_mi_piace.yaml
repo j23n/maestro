@@ -1,0 +1,209 @@
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d1
+  id: reading.mi_piace.001
+  cefr_level: A0
+  title: Le piace la pasta?
+  text: 'Anna è al ristorante. Prende la pasta al pomodoro.
+
+
+    «Le piace la pasta?» dice la signora al tavolo.
+
+
+    «Sì, mi piace molto. È buona!»
+
+
+    «E il pesce? Le piace il pesce?»
+
+
+    «No, il pesce mi piace poco. Ma mi piacciono i dolci.»
+
+
+    «Anche i dolci mi piacciono», dice la signora. «Il gelato al caffè è
+
+    molto buono.»
+
+    '
+  questions:
+  - prompt: Che cosa mangia Anna?
+    answers:
+    - text: la pasta
+      canonical: true
+    - text: pasta
+    - text: la pasta al pomodoro
+    explanation: «Prende la pasta al pomodoro.»
+  - prompt: Le piace il pesce?
+    answers:
+    - text: no, le piace poco
+      canonical: true
+    - text: poco
+    - text: 'no'
+    explanation: «Il pesce mi piace poco.» — a soft no.
+  - prompt: Che cosa piace anche alla signora?
+    answers:
+    - text: i dolci
+      canonical: true
+    - text: dolci
+    explanation: «Anche i dolci mi piacciono», dice la signora.
+  evidence:
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: art_i_le
+    weight: 0.5
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5
+  - axis: vocab
+    id: molto
+    weight: 0.5
+  - axis: vocab
+    id: poco
+    weight: 0.5
+  - axis: vocab
+    id: anche
+    weight: 0.5
+  image: images/readings/reading.mi_piace.001.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d2
+  id: reading.mi_piace.002
+  cefr_level: A0
+  title: Due gelati
+  text: 'Al bar c''è il gelato. Marco prende un gelato al caffè.
+
+
+    «Mi piace molto il caffè», dice Marco. «E tu?»
+
+
+    «Mi piacciono i dolci», dice Anna. «Prendo un gelato alla frutta. I
+
+    gelati al latte non mi piacciono.»
+
+
+    «Due gelati, per favore», dice Marco al barista.
+
+
+    «Sono quattro euro.»
+
+
+    Il gelato alla frutta è molto buono. Anna è contenta.
+
+    '
+  questions:
+  - prompt: Che gelato prende Marco?
+    answers:
+    - text: al caffè
+      canonical: true
+    - text: un gelato al caffè
+    - text: caffè
+    explanation: «Marco prende un gelato al caffè.»
+  - prompt: Quale gelato non piace ad Anna?
+    answers:
+    - text: il gelato al latte
+      canonical: true
+    - text: al latte
+    - text: latte
+    explanation: «I gelati al latte non mi piacciono.»
+  - prompt: Quanto costano i due gelati?
+    answers:
+    - text: quattro euro
+      canonical: true
+    - text: 4 euro
+    explanation: «Sono quattro euro.»
+  evidence:
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: art_i_le
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 0.5
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5
+  - axis: function
+    id: a0_ordinare
+    weight: 0.5
+  - axis: vocab
+    id: contento
+    weight: 0.5
+  - axis: vocab
+    id: buono
+    weight: 0.5
+  image: images/readings/reading.mi_piace.002.png
+- status: draft
+  scenario_ids:
+  - a0-07-mi-piace
+  lesson_id: a0-07-mi-piace.d3
+  id: reading.mi_piace.003
+  cefr_level: A0
+  title: Gusti diversi
+  text: 'A cena da Giulia c''è il pesce.
+
+
+    «Mi piace molto il pesce», dice Giulia. «È buono!»
+
+
+    Anna non dice sì. «Il pesce mi piace poco», dice. «Ma mi piacciono le
+
+    mele e i dolci.»
+
+
+    «Anche i dolci mi piacciono», dice Giulia. «Che bella cena!»
+
+
+    Anna beve il vino. Oggi il tempo è bello e la musica è bella. Anna è
+
+    contenta.
+
+    '
+  questions:
+  - prompt: A chi piace il pesce?
+    answers:
+    - text: a Giulia
+      canonical: true
+    - text: Giulia
+    explanation: «Mi piace molto il pesce», dice Giulia.
+  - prompt: Che cosa piace ad Anna?
+    answers:
+    - text: le mele e i dolci
+      canonical: true
+    - text: i dolci
+    - text: le mele
+    explanation: «Ma mi piacciono le mele e i dolci.»
+  - prompt: Perché Anna è contenta?
+    answers:
+    - text: il tempo è bello e la musica è bella
+      canonical: true
+    - text: la musica è bella
+    - text: il tempo è bello
+    explanation: «Oggi il tempo è bello e la musica è bella.»
+  evidence:
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: art_i_le
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 0.5
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 0.5
+  - axis: vocab
+    id: bello
+    weight: 0.5
+  - axis: vocab
+    id: tempo
+    weight: 0.5
+  - axis: vocab
+    id: musica
+    weight: 0.5
+  image: images/readings/reading.mi_piace.003.png

@@ -1,0 +1,220 @@
+# Capstones — lesson a0-08-i-numeri-grandi. This scenario closes two
+# can-dos, so there are two tasks per depth: one for a0.numbers_prices and
+# one for a0.tell_time_days. Drafted, not reviewed.
+#
+# d1 and d2 sit at `use` and show target_text as a model; the two d3 tasks
+# are the `perform` pass that can actually achieve the can-dos, and between
+# them they carry twenty-four of the thirty-nine lemmas d3 revisits unaided
+# (the writing prompt and speaking.numeri_grandi.perform.001 carry the
+# other fifteen).
+
+# ------------------------------------------------- a0.numbers_prices, d1
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: task.numeri_grandi.prezzi.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Al negozio. (The assistant says «Sono trenta euro». Say the price back
+    to check you heard it right, then say you'd like to pay.)
+  target_text: "Trenta euro? Va bene, vorrei pagare."
+  variants:
+    - "Trenta? Va bene. Vorrei pagare, per favore."
+    - "Sono trenta euro? Sì, vorrei pagare."
+  rubric:
+    - says the number back correctly
+    - checks it as a question rather than guessing
+    - offers to pay with «vorrei pagare»
+  explanation: "Repeating the figure back is what turns a heard price into a known one."
+  evidence:
+    - { axis: cando, id: a0.numbers_prices, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: vocab, id: trenta, weight: 0.5 }
+    - { axis: vocab, id: euro, weight: 0.5 }
+    - { axis: vocab, id: pagare, weight: 0.5 }
+
+# ------------------------------------------------- a0.tell_time_days, d1
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d1
+  id: task.numeri_grandi.ore.d1
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    In piazza. (A man asks you «Che giorno è oggi?» and then «Che ore
+    sono?». It is Tuesday, 09:40. Answer both.)
+  target_text: "Oggi è martedì. Sono le nove e quaranta."
+  variants:
+    - "È martedì. Sono le nove e quaranta."
+    - "Martedì. Le nove e quaranta."
+  rubric:
+    - names the day
+    - opens the time with «sono le»
+    - hour, then «e», then the minutes
+  explanation: "Hours are plural in Italian: «sono le nove», never «è le nove»."
+  evidence:
+    - { axis: cando, id: a0.tell_time_days, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: vocab, id: oggi, weight: 0.5 }
+    - { axis: vocab, id: martedì, weight: 0.5 }
+    - { axis: vocab, id: ora, weight: 0.5 }
+
+# ------------------------------------------------- a0.numbers_prices, d2
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d2
+  id: task.numeri_grandi.prezzi.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Al banco della frutta. (Ask what the apples cost and what the tomatoes
+    cost, then check the total out loud before you pay.)
+  target_text: "Quanto costano le mele? E i pomodori? Sono nove euro?"
+  variants:
+    - "Quanto costano le mele e i pomodori? Nove euro?"
+    - "Scusi, quanto costano le mele? E i pomodori? Sono nove euro?"
+  rubric:
+    - asks the price with «quanto costano», not «quanto costa»
+    - asks about both things
+    - says the total back as a question before paying
+  explanation: "«Mele» and «pomodori» are plural, so the verb is «costano»."
+  evidence:
+    - { axis: cando, id: a0.numbers_prices, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: art_i_le, weight: 1.0 }
+    - { axis: vocab, id: costare, weight: 0.5 }
+    - { axis: vocab, id: quanto, weight: 0.5 }
+
+# ------------------------------------------------- a0.tell_time_days, d2
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d2
+  id: task.numeri_grandi.ore.d2
+  item_type: task
+  demand: use
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Al mercato. (Ask the stallholder what hours the market is open, and
+    whether it is shut on Mondays.)
+  target_text: "Scusi, a che ora è aperto il mercato? E il lunedì è chiuso?"
+  variants:
+    - "A che ora è aperto il mercato? Il lunedì è chiuso?"
+    - "Scusi, quando è aperto il mercato? E il lunedì?"
+  rubric:
+    - asks the hours with «a che ora»
+    - uses «il lunedì» with the article — every Monday, not this one
+    - opens politely with «scusi»
+  explanation: "«Lunedì» is next Monday; «il lunedì» is Mondays in general, which is what a shop sign means."
+  evidence:
+    - { axis: cando, id: a0.tell_time_days, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_cortesemente, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: vocab, id: lunedì, weight: 0.5 }
+    - { axis: vocab, id: quando, weight: 0.5 }
+
+# ------------------------------------------------- a0.numbers_prices, d3
+# The pass that closes the can-do. No model on screen. Carries the twelve
+# money-and-tens lemmas of the d3 perform rung.
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: task.numeri_grandi.prezzi.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Quattro valigie sul banco: 30, 50, 70 e 90 euro. Read the four prices
+    aloud, say which one you are taking and what it costs, and say you are
+    paying straight away.
+  target_text: >-
+    Trenta euro, cinquanta euro, settanta euro, novanta euro. Prendo la
+    valigia da settanta euro e pago subito.
+  variants:
+    - "Trenta, cinquanta, settanta e novanta euro. Prendo la valigia da settanta euro. Pago subito."
+    - "Sono trenta, cinquanta, settanta e novanta euro. Prendo la valigia da settanta euro e pago."
+  rubric:
+    - reads all four prices correctly
+    - the tens end in -anta, not -dici
+    - names the price of the one chosen
+    - says they are paying now
+    - no English, no help
+  explanation: "Four tens in a row, unaided — this is the price wall, and it is now behind you."
+  evidence:
+    - { axis: cando, id: a0.numbers_prices, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: vocab, id: cento, weight: 0.5 }
+    - { axis: vocab, id: cinquanta, weight: 0.5 }
+    - { axis: vocab, id: costare, weight: 0.5 }
+    - { axis: vocab, id: euro, weight: 0.5 }
+    - { axis: vocab, id: mille, weight: 0.5 }
+    - { axis: vocab, id: novanta, weight: 0.5 }
+    - { axis: vocab, id: ottanta, weight: 0.5 }
+    - { axis: vocab, id: pagare, weight: 0.5 }
+    - { axis: vocab, id: quaranta, weight: 0.5 }
+    - { axis: vocab, id: sessanta, weight: 0.5 }
+    - { axis: vocab, id: settanta, weight: 0.5 }
+    - { axis: vocab, id: trenta, weight: 0.5 }
+
+# ------------------------------------------------- a0.tell_time_days, d3
+# Carries the twelve day-and-hour lemmas of the d3 perform rung.
+- status: draft
+  scenario_ids: [a0-08-i-numeri-grandi]
+  lesson_id: a0-08-i-numeri-grandi.d3
+  id: task.numeri_grandi.ore.d3
+  item_type: task
+  demand: perform
+  mode: speaking
+  cefr_level: A0
+  prompt: |
+    Giulia asks which day suits you for the museum. Fix a day and an hour
+    with her out loud. While you are working it out a woman with a pram
+    stops beside you and asks the time — it is 16:20. Answer her too.
+    Nothing on screen to copy.
+  target_text: >-
+    Quando ci vediamo? Giovedì alle diciotto va bene. Non so l'ora... un
+    momento: adesso sono le sedici e venti.
+  variants:
+    - "Ci vediamo martedì alle diciotto? Un momento, non so l'ora: sono le sedici e venti."
+    - "Quando ci vediamo? Sabato alle diciotto. Adesso sono le sedici e venti."
+    - "Giovedì alle diciotto va bene? Scusi, sono le sedici e venti."
+  rubric:
+    - names a day of the week
+    - fixes an hour with «alle»
+    - answers the stranger with «sono le» + hour + minutes
+    - both answers in Italian, neither of them read off a model
+  explanation: "A day, an hour, and a stranger's question answered on the spot — that is the whole can-do."
+  evidence:
+    - { axis: cando, id: a0.tell_time_days, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: vocab, id: lunedì, weight: 0.5 }
+    - { axis: vocab, id: martedì, weight: 0.5 }
+    - { axis: vocab, id: mercoledì, weight: 0.5 }
+    - { axis: vocab, id: giovedì, weight: 0.5 }
+    - { axis: vocab, id: venerdì, weight: 0.5 }
+    - { axis: vocab, id: sabato, weight: 0.5 }
+    - { axis: vocab, id: domenica, weight: 0.5 }
+    - { axis: vocab, id: ora, weight: 0.5 }
+    - { axis: vocab, id: quando, weight: 0.5 }
+    - { axis: vocab, id: adesso, weight: 0.5 }
+    - { axis: vocab, id: momento, weight: 0.5 }
+    - { axis: vocab, id: sempre, weight: 0.5 }

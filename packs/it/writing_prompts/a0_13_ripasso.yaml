@@ -1,0 +1,107 @@
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: writing.ripasso.001
+  item_type: writing_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Alla stazione, al banco dei biglietti. (Write the exchange, 8-10 lines: say
+
+    where you are going and buy two tickets, say what time you want to
+
+    leave, answer where you are from, and say what has gone wrong before
+
+    you get to the platform. Every number in words.)
+
+    '
+  min_words: 40
+  required_grammar:
+  - essere_pre
+  - avere_pre
+  - simp_sent
+  - ore_giorni
+  - num_20_100
+  - vocab_viaggio
+  required_vocab:
+  - biglietto
+  - treno
+  - binario
+  - stazione
+  - problema
+  - passaporto
+  - ora
+  model_answer: '— Buongiorno. Vorrei due biglietti per Firenze, per favore.
+
+    — A che ora vuole partire?
+
+    — Alle sette e trenta di mattina. C''è un treno alle sette e trenta?
+
+    — Sì. Sono sessanta euro.
+
+    — Ecco i soldi. Grazie.
+
+    — Lei è di Roma?
+
+    — No, non sono di Roma. Sono inglese, ma abito qui.
+
+    — Ecco i biglietti. Binario nove.
+
+    — Scusi, ho un problema: non trovo il passaporto. Ho un altro documento.
+
+    — Va bene. Buona giornata!
+
+    '
+  evidence:
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  - axis: vocab
+    id: treno
+    weight: 0.5
+  - axis: vocab
+    id: binario
+    weight: 0.5
+  - axis: vocab
+    id: passaporto
+    weight: 0.5
+  - axis: vocab
+    id: problema
+    weight: 0.5
+  image: images/writing/writing.ripasso.001.png

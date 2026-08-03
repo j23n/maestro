@@ -1,0 +1,323 @@
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d1
+  id: reading.a_pranzo.001
+  cefr_level: A0
+  title: Il menù
+  text: 'Il menù di un ristorante italiano è breve. C''è la pasta, c''è la carne o
+
+    il pesce, c''è l''insalata e poi c''è il dolce.
+
+
+    «Buongiorno. Ecco il menù.»
+
+
+    «Grazie. Cos''è il piatto del giorno?»
+
+
+    «Oggi è pollo con l''insalata.»
+
+
+    «Va bene, prendo il piatto del giorno. E il pane, per favore.»
+
+
+    «Da bere?»
+
+
+    «Un''acqua naturale, grazie.»
+
+    '
+  glossary:
+    poi: then
+    cliente: customer
+    Da bere?: Anything to drink?
+  questions:
+  - prompt: Che cosa è il piatto del giorno?
+    answers:
+    - text: pollo con l'insalata
+      canonical: true
+    - text: il pollo con l'insalata
+    - text: pollo
+    explanation: «Oggi è pollo con l'insalata.»
+  - prompt: Che cosa ordina il cliente?
+    answers:
+    - text: il piatto del giorno
+      canonical: true
+    - text: il piatto del giorno e il pane
+    explanation: «Va bene, prendo il piatto del giorno.»
+  - prompt: Che cosa prende da bere?
+    answers:
+    - text: un'acqua naturale
+      canonical: true
+    - text: acqua naturale
+    - text: acqua
+    explanation: «Un'acqua naturale, grazie.»
+  evidence:
+  - axis: grammar
+    id: che_cose
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_identificare
+    weight: 1.0
+  - axis: vocab
+    id: menù
+    weight: 0.5
+  - axis: vocab
+    id: piatto
+    weight: 0.5
+  - axis: vocab
+    id: pollo
+    weight: 0.5
+  - axis: vocab
+    id: insalata
+    weight: 0.5
+  - axis: vocab
+    id: pane
+    weight: 0.5
+  - axis: vocab
+    id: carne
+    weight: 0.5
+  - axis: vocab
+    id: pesce
+    weight: 0.5
+  - axis: vocab
+    id: pasta
+    weight: 0.5
+  - axis: vocab
+    id: dolce
+    weight: 0.5
+  image: images/readings/reading.a_pranzo.001.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d2
+  id: reading.a_pranzo.002
+  cefr_level: A0
+  title: Il piatto del giorno
+  text: 'Giovedì il menù non c''è. Il cameriere arriva al tavolo e dice i piatti
+
+    di oggi, veloce.
+
+
+    «Oggi abbiamo pasta al pomodoro, pollo con l''insalata, pesce, e per
+
+    dolce la frutta.»
+
+
+    Anna capisce la pasta e il pollo, ma il dolce no.
+
+
+    «Scusi, non capisco. Cos''è il dolce di oggi?»
+
+
+    «Frutta: una mela, o il gelato.»
+
+
+    «Va bene. Prendo la pasta al pomodoro e una mela, grazie.»
+
+
+    «E da bere?»
+
+
+    «Un bicchiere di vino, per favore.»
+
+    '
+  glossary:
+    cameriere: waiter
+    abbiamo: we have
+    Da bere?: Anything to drink?
+  questions:
+  - prompt: Che cosa dice il cameriere al tavolo?
+    answers:
+    - text: i piatti di oggi
+      canonical: true
+    - text: i piatti del giorno
+    - text: piatti di oggi
+    explanation: «dice i piatti di oggi, veloce» — nothing is written down.
+  - prompt: Che cosa non capisce Anna?
+    answers:
+    - text: il dolce
+      canonical: true
+    - text: il dolce di oggi
+    - text: dolce
+    explanation: «Scusi, non capisco. Cos'è il dolce di oggi?»
+  - prompt: Che cosa ordina Anna?
+    answers:
+    - text: la pasta al pomodoro e una mela
+      canonical: true
+    - text: pasta al pomodoro e mela
+    - text: la pasta e una mela
+    explanation: «Prendo la pasta al pomodoro e una mela, grazie.»
+  - prompt: Che cosa prende da bere?
+    answers:
+    - text: un bicchiere di vino
+      canonical: true
+    - text: vino
+    explanation: «Un bicchiere di vino, per favore.»
+  evidence:
+  - axis: grammar
+    id: che_cose
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_identificare
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: piatto
+    weight: 0.5
+  - axis: vocab
+    id: pasta
+    weight: 0.5
+  - axis: vocab
+    id: pomodoro
+    weight: 0.5
+  - axis: vocab
+    id: pollo
+    weight: 0.5
+  - axis: vocab
+    id: pesce
+    weight: 0.5
+  - axis: vocab
+    id: frutta
+    weight: 0.5
+  - axis: vocab
+    id: mela
+    weight: 0.5
+  - axis: vocab
+    id: gelato
+    weight: 0.5
+  - axis: vocab
+    id: dolce
+    weight: 0.5
+  image: images/readings/reading.a_pranzo.002.png
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d3
+  id: reading.a_pranzo.003
+  cefr_level: A0
+  title: All'una, al banco
+  text: 'A pranzo il ristorante è pieno e la gente aspetta al banco. Ci sono
+
+    quattro piatti caldi, ma niente nomi.
+
+
+    «Prego, signore?»
+
+
+    «Un momento, scusi. Cos''è?»
+
+
+    «Pasta al formaggio.»
+
+
+    «E che cosa sono?»
+
+
+    «Sono panini: prosciutto, formaggio, pomodoro.»
+
+
+    «Va bene. Vorrei la pasta al formaggio e un panino al prosciutto.»
+
+
+    «Insalata?»
+
+
+    «Sì, grazie. E un''acqua naturale. Quanto costa tutto?»
+
+
+    «Nove euro e cinquanta. Il tavolo è lì, vicino alla porta.»
+
+    '
+  glossary:
+    gente: people
+    niente: no / nothing
+    tutto: everything (in tutto = altogether)
+    vicino: near
+    cliente: customer
+  questions:
+  - prompt: Che cosa c'è al banco?
+    answers:
+    - text: quattro piatti caldi
+      canonical: true
+    - text: piatti caldi
+    - text: quattro piatti
+    explanation: «Al banco ci sono quattro piatti caldi, ma niente nomi.»
+  - prompt: Che cosa sono i panini?
+    answers:
+    - text: prosciutto, formaggio, pomodoro
+      canonical: true
+    - text: panini al prosciutto, al formaggio e al pomodoro
+    explanation: '«Sono panini: prosciutto, formaggio, pomodoro.» Plural things → «sono».'
+  - prompt: Che cosa ordina il cliente?
+    answers:
+    - text: la pasta al formaggio e un panino al prosciutto
+      canonical: true
+    - text: pasta al formaggio e panino al prosciutto
+    explanation: «Vorrei la pasta al formaggio e un panino al prosciutto.»
+  - prompt: Quanto costa il pranzo?
+    answers:
+    - text: nove euro e cinquanta
+      canonical: true
+    - text: 9,50
+    - text: '9.50'
+    explanation: «Nove euro e cinquanta.»
+  evidence:
+  - axis: grammar
+    id: che_cose
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: function
+    id: a0_identificare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: vocab
+    id: ristorante
+    weight: 0.5
+  - axis: vocab
+    id: piatto
+    weight: 0.5
+  - axis: vocab
+    id: panino
+    weight: 0.5
+  - axis: vocab
+    id: prosciutto
+    weight: 0.5
+  - axis: vocab
+    id: formaggio
+    weight: 0.5
+  - axis: vocab
+    id: pomodoro
+    weight: 0.5
+  - axis: vocab
+    id: pasta
+    weight: 0.5
+  - axis: vocab
+    id: insalata
+    weight: 0.5
+  - axis: vocab
+    id: tavolo
+    weight: 0.5
+  - axis: vocab
+    id: pranzo
+    weight: 0.5
+  image: images/readings/reading.a_pranzo.003.png

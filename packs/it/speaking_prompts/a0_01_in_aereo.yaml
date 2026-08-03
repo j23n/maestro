@@ -73,3 +73,185 @@
     id: pronun_bas
     weight: 1.0
   image: images/speaking/speaking.pronun_bas.001.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d1
+  id: speaking.in_aereo.si_no.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: use
+  prompt: «Un caffè, signore?» (Turn it down politely.)
+  target_text: No, grazie.
+  variants:
+  - No, grazie mille.
+  - No, grazie. Un'acqua, per favore.
+  explanation: 'A bare «no» is blunt in any language. «No, grazie» is the whole
+
+    refusal — nothing else is needed and nothing else is expected.
+
+    '
+  evidence:
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: vocab
+    id: 'no'
+    weight: 0.5
+  image: images/speaking/speaking.in_aereo.si_no.001.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d3
+  id: speaking.in_aereo.perform.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Sono le nove di sera. L''assistente è alla porta.
+
+    (Say goodbye to the crew on your way out — pick the greeting that
+
+    fits the hour and the fact that you have never met her.)
+
+    '
+  target_text: Buonasera, grazie. Arrivederci!
+  variants:
+  - Buonanotte, arrivederci!
+  - Arrivederci, signore. Grazie!
+  - Grazie mille. Arrivederci!
+  explanation: '«Ciao» is for friends; to the crew it is «arrivederci», with
+
+    «buonasera» or «buonanotte» depending on the hour. «Salve» is the
+
+    safe one when you cannot tell. Note that «benvenuto» was for the way
+
+    in — it has no place on the way out.
+
+    '
+  evidence:
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: vocab
+    id: ciao
+    weight: 0.5
+  - axis: vocab
+    id: salve
+    weight: 0.5
+  - axis: vocab
+    id: buongiorno
+    weight: 0.5
+  - axis: vocab
+    id: buonasera
+    weight: 0.5
+  - axis: vocab
+    id: buonanotte
+    weight: 0.5
+  - axis: vocab
+    id: benvenuto
+    weight: 0.5
+  image: images/speaking/speaking.in_aereo.perform.001.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d3
+  id: speaking.in_aereo.perform.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Una signora è in piedi alla porta e non ti vede.
+
+    (She is between you and the way out. Get past her, and thank her when
+
+    she moves.)
+
+    '
+  target_text: Scusi! Grazie mille.
+  variants:
+  - Scusi, per favore. Grazie!
+  - Scusi... grazie.
+  explanation: '«Scusi» to a stranger, «scusa» to a friend — the one letter is the
+
+    whole difference. Two words move a person out of your way; that is
+
+    the entire economy of «cortesia».
+
+    '
+  evidence:
+  - axis: function
+    id: a0_ringraziare
+    weight: 1.0
+  - axis: grammar
+    id: polite_exp
+    weight: 1.0
+  - axis: vocab
+    id: cortesia
+    weight: 0.5
+  - axis: vocab
+    id: scusa
+    weight: 0.5
+  - axis: vocab
+    id: prego
+    weight: 0.5
+  - axis: vocab
+    id: bene
+    weight: 0.5
+  - axis: vocab
+    id: male
+    weight: 0.5
+  - axis: vocab
+    id: non
+    weight: 0.5
+  image: images/speaking/speaking.in_aereo.perform.002.png
+- status: draft
+  scenario_ids:
+  - a0-01-in-aereo
+  lesson_id: a0-01-in-aereo.d3
+  id: speaking.in_aereo.perform.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: 'Il signore del passaporto non ti vede. Dice: «Buonasera. Il volo da
+
+    Londra?» (Answer him. He is not going to ask twice.)
+
+    '
+  target_text: Sì, il volo da Londra.
+  variants:
+  - Sì, signore.
+  - Sì. Ecco il passaporto.
+  - No, da Milano.
+  explanation: 'A closed question at full speed gets a one-word answer. «Sì» or «no»
+
+    first; if anything follows, it follows after.
+
+    '
+  evidence:
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  - axis: vocab
+    id: aereo
+    weight: 0.5
+  - axis: vocab
+    id: volo
+    weight: 0.5
+  - axis: vocab
+    id: assistente
+    weight: 0.5
+  - axis: vocab
+    id: a bordo
+    weight: 0.5
+  - axis: vocab
+    id: in piedi
+    weight: 0.5
+  image: images/speaking/speaking.in_aereo.perform.003.png

@@ -1,0 +1,86 @@
+- status: draft
+  scenario_ids:
+  - a0-06-a-pranzo
+  lesson_id: a0-06-a-pranzo.d3
+  id: writing.a_pranzo.001
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: 'Al ristorante, a pranzo. (Write the dialogue, 6-8 lines: ask for a
+
+    table, ask what two things on the menu are, and order a whole lunch.
+
+    Every dish keeps its article.)
+
+    '
+  min_words: 30
+  required_grammar:
+  - che_cose
+  - art_il_la
+  - vocab_cibo
+  required_vocab:
+  - menù
+  - piatto
+  - pasta
+  - pomodoro
+  - panino
+  - prosciutto
+  model_answer: '— Buongiorno. Un tavolo per due, per favore.
+
+    — Prego. Ecco il menù.
+
+    — Grazie. Cos''è il piatto del giorno?
+
+    — È pesce con l''insalata.
+
+    — E che cosa sono i panini piccoli?
+
+    — Sono panini al prosciutto e al formaggio.
+
+    — Va bene. Vorrei la pasta al pomodoro e il pesce, per favore.
+
+    — Da bere?
+
+    — Un''acqua naturale, grazie.
+
+    '
+  evidence:
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: vocab
+    id: menù
+    weight: 0.5
+  - axis: vocab
+    id: pranzo
+    weight: 0.5
+  - axis: vocab
+    id: pasta
+    weight: 0.5
+  - axis: vocab
+    id: pomodoro
+    weight: 0.5
+  - axis: vocab
+    id: pizza
+    weight: 0.5
+  - axis: vocab
+    id: panino
+    weight: 0.5
+  - axis: vocab
+    id: prosciutto
+    weight: 0.5
+  - axis: vocab
+    id: formaggio
+    weight: 0.5
+  - axis: vocab
+    id: mangiare
+    weight: 0.5
+  image: images/writing/writing.a_pranzo.001.png

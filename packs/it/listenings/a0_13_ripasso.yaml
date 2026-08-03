@@ -1,0 +1,157 @@
+# Listenings — lesson a0-13-ripasso, one per depth. Drafted, not reviewed.
+#
+# The same three scenes as the readings, at speaking speed: the first
+# exchange with a stranger, an afternoon in the city, and the ticket
+# window where something has gone wrong.
+
+- status: draft
+  scenario_ids: [a0-13-ripasso]
+  lesson_id: a0-13-ripasso.d1
+  id: listening.ripasso.001
+  cefr_level: A0
+  title: Come si chiama?
+  turns:
+    - { speaker: "Paolo", text: "Buongiorno! Come si chiama?" }
+    - { speaker: "Anna", text: "Mi chiamo Anna. E lei?" }
+    - { speaker: "Paolo", text: "Paolo. Piacere." }
+    - { speaker: "Anna", text: "Piacere! Lei è di Roma?" }
+    - { speaker: "Paolo", text: "No, non sono di Roma. Sono di Milano. E lei?" }
+    - { speaker: "Anna", text: "Io sono inglese. Ma abito qui, in via Garibaldi, al numero dodici." }
+    - { speaker: "Paolo", text: "Dodici? Anche io abito lì!" }
+    - { speaker: "Anna", text: "Bene! Grazie e buona giornata." }
+    - { speaker: "Paolo", text: "Grazie a lei. Arrivederci!" }
+  audio: null
+  questions:
+    - prompt: "Di dove è Paolo?"
+      answers:
+        - { text: "di Milano", canonical: true }
+        - { text: "Milano" }
+      explanation: "«No, non sono di Roma. Sono di Milano.»"
+    - prompt: "A che numero abita Anna?"
+      answers:
+        - { text: "al dodici", canonical: true }
+        - { text: "dodici" }
+        - { text: "al numero dodici" }
+      explanation: "«Abito qui, in via Garibaldi, al numero dodici.»"
+    - prompt: "Come saluta Paolo?"
+      answers:
+        - { text: "arrivederci", canonical: true }
+        - { text: "grazie a lei, arrivederci" }
+      explanation: "«Grazie a lei. Arrivederci!»"
+  evidence:
+    - { axis: grammar, id: saluti, weight: 1.0 }
+    - { axis: grammar, id: mi_chiamo, weight: 1.0 }
+    - { axis: grammar, id: num_0_20, weight: 1.0 }
+    - { axis: grammar, id: si_no_non, weight: 1.0 }
+    - { axis: grammar, id: pronun_bas, weight: 1.0 }
+    - { axis: function, id: a0_salutare, weight: 1.0 }
+    - { axis: function, id: a0_dire_nome, weight: 1.0 }
+    - { axis: function, id: a0_congedarsi, weight: 1.0 }
+    - { axis: function, id: a0_rispondere_si_no, weight: 1.0 }
+    - { axis: vocab, id: numero, weight: 0.5 }
+    - { axis: vocab, id: via, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-13-ripasso]
+  lesson_id: a0-13-ripasso.d2
+  id: listening.ripasso.002
+  cefr_level: A0
+  title: Un pomeriggio, senza aiuto
+  turns:
+    - { speaker: "Marco", text: "Buongiorno. Vorrei un caffè e un panino, per favore." }
+    - { speaker: "Barista", text: "Ecco. Sono cinque euro." }
+    - { speaker: "Marco", text: "Grazie. Scusi, dov'è il mercato?" }
+    - { speaker: "Barista", text: "Il mercato è in piazza, lì." }
+    - { speaker: "Marco", text: "Grazie mille!" }
+    - { speaker: "Signora", text: "Le piace il caffè italiano?" }
+    - { speaker: "Marco", text: "Sì, mi piace molto. Non mi piace il tè." }
+    - { speaker: "Signora", text: "Anche io! Buona giornata." }
+  audio: null
+  questions:
+    - prompt: "Che cosa prende Marco?"
+      answers:
+        - { text: "un caffè e un panino", canonical: true }
+        - { text: "caffè e panino" }
+      explanation: "«Vorrei un caffè e un panino, per favore.»"
+    - prompt: "Dov'è il mercato?"
+      answers:
+        - { text: "in piazza", canonical: true }
+        - { text: "piazza" }
+      explanation: "«Il mercato è in piazza, lì.»"
+    - prompt: "A Marco piace il tè?"
+      answers:
+        - { text: "no, non gli piace", canonical: true }
+        - { text: "no" }
+        - { text: "non mi piace il tè" }
+      explanation: "«Non mi piace il tè.» — «non» before «mi piace», always."
+  evidence:
+    - { axis: grammar, id: art_un_una, weight: 1.0 }
+    - { axis: grammar, id: art_il_la, weight: 1.0 }
+    - { axis: grammar, id: vorrei, weight: 1.0 }
+    - { axis: grammar, id: dove_e, weight: 1.0 }
+    - { axis: grammar, id: prep_place, weight: 1.0 }
+    - { axis: grammar, id: mi_piace, weight: 1.0 }
+    - { axis: function, id: a0_ordinare, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_dove, weight: 1.0 }
+    - { axis: function, id: a0_esprimere_gusti, weight: 1.0 }
+    - { axis: function, id: a0_scusarsi, weight: 1.0 }
+    - { axis: vocab, id: mercato, weight: 0.5 }
+    - { axis: vocab, id: panino, weight: 0.5 }
+
+- status: draft
+  scenario_ids: [a0-13-ripasso]
+  lesson_id: a0-13-ripasso.d3
+  id: listening.ripasso.003
+  cefr_level: A0
+  title: L'esame che non è un esame
+  turns:
+    - { speaker: "Signora", text: "Buongiorno. Dove va?" }
+    - { speaker: "Marco", text: "Vado a Firenze. Vorrei due biglietti, per favore." }
+    - { speaker: "Signora", text: "A che ora vuole partire?" }
+    - { speaker: "Marco", text: "Alle otto. C'è un treno alle otto?" }
+    - { speaker: "Signora", text: "Sì. Sono quaranta euro." }
+    - { speaker: "Marco", text: "Ecco. Scusi, ho un problema: non trovo il passaporto." }
+    - { speaker: "Signora", text: "Ha un altro documento?" }
+    - { speaker: "Marco", text: "Sì, ho un documento. Ecco." }
+    - { speaker: "Signora", text: "Va bene. Binario sette." }
+    - { speaker: "Marco", text: "Scusi, non capisco. Che binario?" }
+    - { speaker: "Signora", text: "Sette. Buona giornata!" }
+  audio: null
+  questions:
+    - prompt: "Quanti biglietti vuole Marco?"
+      answers:
+        - { text: "due", canonical: true }
+        - { text: "due biglietti" }
+      explanation: "«Vorrei due biglietti, per favore.»"
+    - prompt: "Quanto costano i biglietti?"
+      answers:
+        - { text: "quaranta euro", canonical: true }
+        - { text: "quaranta" }
+      explanation: "«Sono quaranta euro.»"
+    - prompt: "Che problema ha Marco?"
+      answers:
+        - { text: "non trova il passaporto", canonical: true }
+        - { text: "il passaporto" }
+        - { text: "non trova il documento" }
+      explanation: "«Ho un problema: non trovo il passaporto.»"
+    - prompt: "Da che binario parte il treno?"
+      answers:
+        - { text: "binario sette", canonical: true }
+        - { text: "sette" }
+      explanation: "«Va bene. Binario sette.»"
+  evidence:
+    - { axis: grammar, id: num_20_100, weight: 1.0 }
+    - { axis: grammar, id: ore_giorni, weight: 1.0 }
+    - { axis: grammar, id: vocab_viaggio, weight: 1.0 }
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+    - { axis: grammar, id: essere_pre, weight: 1.0 }
+    - { axis: grammar, id: simp_sent, weight: 1.0 }
+    - { axis: function, id: a0_comprare_biglietto, weight: 1.0 }
+    - { axis: function, id: a0_dire_ora, weight: 1.0 }
+    - { axis: function, id: a0_contare, weight: 1.0 }
+    - { axis: function, id: a0_descrivere_problema, weight: 1.0 }
+    - { axis: function, id: a0_chiedere_aiuto, weight: 1.0 }
+    - { axis: vocab, id: biglietto, weight: 0.5 }
+    - { axis: vocab, id: binario, weight: 0.5 }
+    - { axis: vocab, id: documento, weight: 0.5 }
+    - { axis: vocab, id: problema, weight: 0.5 }

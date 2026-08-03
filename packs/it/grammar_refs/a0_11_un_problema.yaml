@@ -1,0 +1,86 @@
+# Grammar reference pages — lesson a0-11-un-problema.d1. Drafted, not reviewed.
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: grammar_ref.avere_pre
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: avere_pre
+  title: avere — ho, hai, ha
+  body_md: |
+    *Avere* is *to have*. Three forms carry the whole of A0:
+
+    | | |
+    |---|---|
+    | io | **ho** |
+    | tu | **hai** |
+    | lui / lei / Lei | **ha** |
+
+    **The h is silent.** *Ho* sounds like the letter *o*, *hai* like *ai*.
+    It is written only to keep these forms apart from *o* (or) and *ai*
+    (to the). Say them, and nobody hears the h; write them, and it has to
+    be there.
+
+    **Italian *has* states that English *is*.** Where English says *I am
+    cold*, Italian says *I have cold*:
+
+    - *Ho freddo.* — I'm cold.
+    - *Ho caldo.* — I'm hot.
+    - *Ho fame.* — I'm hungry.
+
+    Never *sono freddo* — that would describe your character, not your
+    evening. The same *ho* opens a problem: *Ho un problema.*
+
+    **Formal you takes *ha*.** The pharmacist, the receptionist, the man
+    at the counter will all ask you *Ha i documenti?* — same form as
+    *he/she has*. It is the polite one, not a mistake.
+  examples:
+    - Ho un problema.
+    - Hai fame?
+    - Non ho la chiave.
+    - Ha freddo?
+    - Ho caldo e sono stanco.
+  evidence:
+    - { axis: grammar, id: avere_pre, weight: 1.0 }
+
+- status: draft
+  scenario_ids: [a0-11-un-problema]
+  lesson_id: a0-11-un-problema.d1
+  id: grammar_ref.si_no_non
+  item_type: grammar_ref
+  cefr_level: A0
+  grammar_id: si_no_non
+  title: sì, no, non
+  body_md: |
+    Three words, and one rule about where the third goes.
+
+    **sì** — yes. The accent matters: *sì* is *yes*, *si* without it is a
+    different word entirely.
+
+    **no** — no, as a whole answer. *— Hai fame? — No.*
+
+    **non** — *not*, and it goes **directly in front of the verb**:
+
+    - *Non capisco.* — I don't understand.
+    - *Non trovo la valigia.* — I can't find the suitcase.
+    - *Non è mio.* — It isn't mine.
+
+    Nothing gets between *non* and the verb, and there is no extra word
+    to insert: Italian has no *do*, so *I don't have* is simply *non ho*.
+
+    **no and non are not swappable.** *No* answers a question; *non*
+    negates a verb. A full answer usually needs both:
+
+    - *— Ha fame? — No, non ho fame.*
+
+    Say only *non ho fame* and you have answered; say only *no* and you
+    have answered too. The pair is what a native speaker actually says.
+  examples:
+    - Sì, ho fame.
+    - No, non ho fame.
+    - Non trovo la valigia.
+    - Non è mio.
+    - La farmacia non è aperta.
+  evidence:
+    - { axis: grammar, id: si_no_non, weight: 1.0 }

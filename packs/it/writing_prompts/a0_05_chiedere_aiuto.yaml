@@ -42,3 +42,78 @@
     id: a0_chiedere_aiuto
     weight: 0.5
   image: images/writing/writing.chiedere_aiuto.001.png
+- status: draft
+  scenario_ids:
+  - a0-05-chiedere-aiuto
+  lesson_id: a0-05-chiedere-aiuto.d3
+  id: writing.chiedere_aiuto.002
+  item_type: writing_prompt
+  cefr_level: A0
+  prompt: 'In centro, di sera. (Write a dialogue of 6-8 lines: stop someone, ask
+
+    where the pharmacy is, say you did not understand, ask again, and close
+
+    when you have got it.)
+
+    '
+  min_words: 30
+  required_grammar:
+  - dove_e
+  - prep_place
+  - art_il_la
+  required_vocab:
+  - farmacia
+  - informazione
+  - va bene
+  model_answer: '— Scusi, signora! Un''informazione, per favore.
+
+    — Certo, prego.
+
+    — Dov''è la farmacia?
+
+    — È in via Roma, in centro.
+
+    — Scusi, non ho capito. Come?
+
+    — In via Roma. Ma forse adesso è chiusa.
+
+    — Va bene. Vado subito. Grazie mille!
+
+    — Prego. Buonanotte!
+
+    '
+  evidence:
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: vocab
+    id: farmacia
+    weight: 0.5
+  - axis: vocab
+    id: informazione
+    weight: 0.5
+  - axis: vocab
+    id: certo
+    weight: 0.5
+  - axis: vocab
+    id: forse
+    weight: 0.5
+  - axis: vocab
+    id: subito
+    weight: 0.5
+  - axis: vocab
+    id: va bene
+    weight: 0.5
+  image: images/writing/writing.chiedere_aiuto.002.png

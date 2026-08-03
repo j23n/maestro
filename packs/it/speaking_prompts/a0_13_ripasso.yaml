@@ -1,0 +1,308 @@
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d1
+  id: speaking.ripasso.001
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: In aereo. Un signore ti saluta. (Greet him back, say your name, and ask his.)
+  target_text: Buongiorno! Mi chiamo Marco. E lei, come si chiama?
+  variants:
+  - Buongiorno. Io mi chiamo Marco. Lei come si chiama?
+  - Salve! Mi chiamo Marco. E lei?
+  explanation: «Mi chiamo» for yourself, «si chiama» for the person you are speaking to. Same
+    verb, two shapes — that is the whole exchange.
+  evidence:
+  - axis: function
+    id: a0_salutare
+    weight: 1.0
+  - axis: function
+    id: a0_presentarsi
+    weight: 1.0
+  - axis: function
+    id: a0_dire_nome
+    weight: 1.0
+  - axis: grammar
+    id: saluti
+    weight: 1.0
+  - axis: grammar
+    id: mi_chiamo
+    weight: 1.0
+  - axis: grammar
+    id: pronun_bas
+    weight: 1.0
+  image: images/speaking/speaking.ripasso.001.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d1
+  id: speaking.ripasso.002
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: '«Lei è italiano? Abita qui?» (Answer both — no, then yes — and give your house
+    number: fourteen.)'
+  target_text: No, non sono italiano. Sì, abito qui, al numero quattordici.
+  variants:
+  - No, non sono italiano, sono inglese. Sì, abito qui al numero quattordici.
+  - No, non sono italiano. Sì, abito al numero quattordici.
+  explanation: Two questions, two answers, and every «no» brings its «non» with it. A «no»
+    on its own leaves the other person guessing.
+  evidence:
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: grammar
+    id: si_no_non
+    weight: 1.0
+  - axis: grammar
+    id: num_0_20
+    weight: 1.0
+  image: images/speaking/speaking.ripasso.002.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d2
+  id: speaking.ripasso.003
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al banco, all'ora di pranzo. (Order a sandwich and a still water, politely.)
+  target_text: Vorrei un panino e un'acqua naturale, per favore.
+  variants:
+  - Un panino e un'acqua naturale, per favore.
+  - Vorrei un panino e un'acqua naturale. Grazie!
+  explanation: «Un'acqua» with the apostrophe — «acqua» is feminine and starts with a vowel;
+    «un panino» never takes one.
+  evidence:
+  - axis: function
+    id: a0_ordinare
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_cortesemente
+    weight: 1.0
+  - axis: grammar
+    id: vorrei
+    weight: 1.0
+  - axis: grammar
+    id: art_un_una
+    weight: 1.0
+  - axis: grammar
+    id: vocab_cibo
+    weight: 1.0
+  - axis: vocab
+    id: panino
+    weight: 0.5
+  - axis: vocab
+    id: acqua
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.003.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d2
+  id: speaking.ripasso.004
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Non trovi il museo. (Stop a stranger properly and ask where it is.)
+  target_text: Scusi, dov'è il museo?
+  variants:
+  - Scusi, signora. Dov'è il museo?
+  - Mi scusi, dov'è il museo, per favore?
+  explanation: «Scusi» first — it is what buys you the other person's attention. Then one
+    short question, not two.
+  evidence:
+  - axis: function
+    id: a0_chiedere_dove
+    weight: 1.0
+  - axis: function
+    id: a0_scusarsi
+    weight: 1.0
+  - axis: grammar
+    id: dove_e
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: grammar
+    id: prep_place
+    weight: 1.0
+  - axis: vocab
+    id: museo
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.004.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d2
+  id: speaking.ripasso.005
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Al tavolo. La signora vuole sapere se ti piace il pranzo. (Say what you like and
+    what you do not — one of each.)
+  target_text: Mi piace molto la pasta. Il pesce non mi piace.
+  variants:
+  - La pasta mi piace molto, ma il pesce non mi piace.
+  - Mi piace la pasta. Non mi piace il pesce.
+  explanation: 'The «non» goes in front of «mi piace», never in front of the food: «il pesce
+    non mi piace».'
+  evidence:
+  - axis: function
+    id: a0_esprimere_gusti
+    weight: 1.0
+  - axis: grammar
+    id: mi_piace
+    weight: 1.0
+  - axis: grammar
+    id: art_il_la
+    weight: 1.0
+  - axis: vocab
+    id: pasta
+    weight: 0.5
+  - axis: vocab
+    id: pesce
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.005.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: speaking.ripasso.006
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Alla stazione, al banco dei biglietti. (Ask for two tickets to Florence and ask
+    what they cost.)
+  target_text: Vorrei due biglietti per Firenze, per favore. Quanto costano?
+  variants:
+  - Due biglietti per Firenze, per favore. Quanto costano?
+  - Vorrei due biglietti per Firenze. Quanto costano, per favore?
+  explanation: «Per Firenze» — the same «per» as «per favore», doing a different job. And
+    two tickets take «costano», not «costa».
+  evidence:
+  - axis: function
+    id: a0_comprare_biglietto
+    weight: 1.0
+  - axis: function
+    id: a0_contare
+    weight: 1.0
+  - axis: grammar
+    id: vocab_viaggio
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: vocab
+    id: biglietto
+    weight: 0.5
+  - axis: vocab
+    id: stazione
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.006.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: speaking.ripasso.007
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: «A che ora vuole partire?» (Say half past seven in the morning, and that you get
+    there at nine.)
+  target_text: Alle sette e trenta di mattina. Arrivo alle nove.
+  variants:
+  - Vorrei partire alle sette e trenta di mattina, e arrivo alle nove.
+  - Alle sette e trenta. Arrivo alle nove di mattina.
+  explanation: «Alle sette e trenta» — the minutes come after «e», and «di mattina» is what
+    keeps it from meaning the evening.
+  evidence:
+  - axis: function
+    id: a0_dire_ora
+    weight: 1.0
+  - axis: grammar
+    id: ore_giorni
+    weight: 1.0
+  - axis: grammar
+    id: num_20_100
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: mattina
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.007.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: speaking.ripasso.008
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: Il passaporto non c'è. (Say what the problem is, say you have another document,
+    and ask for help.)
+  target_text: 'Ho un problema: non trovo il passaporto. Ho un altro documento. Mi può aiutare?'
+  variants:
+  - Scusi, ho un problema. Non trovo il passaporto, ma ho un altro documento. Mi può aiutare?
+  - Non trovo il passaporto. Ho un documento. Mi aiuta, per favore?
+  explanation: Problem, then what you do have, then the request. In that order the other person
+    can help on the first pass.
+  evidence:
+  - axis: function
+    id: a0_descrivere_problema
+    weight: 1.0
+  - axis: function
+    id: a0_chiedere_aiuto
+    weight: 1.0
+  - axis: grammar
+    id: avere_pre
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: problema
+    weight: 0.5
+  - axis: vocab
+    id: passaporto
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.008.png
+- status: draft
+  scenario_ids:
+  - a0-13-ripasso
+  lesson_id: a0-13-ripasso.d3
+  id: speaking.ripasso.009
+  item_type: speaking_prompt
+  cefr_level: A0
+  demand: perform
+  prompt: «Lei è di Roma?» (Say no, say where you are from, and say where you are going.)
+  target_text: No, io non sono di Roma. Sono inglese e vado a Firenze.
+  variants:
+  - No, non sono di Roma. Io sono inglese, e adesso vado a Firenze.
+  - No, sono inglese. Io vado a Firenze.
+  explanation: «Io» is optional in Italian — you put it in exactly when you are setting yourself
+    against someone else, which is what this answer is doing.
+  evidence:
+  - axis: function
+    id: a0_rispondere_si_no
+    weight: 1.0
+  - axis: grammar
+    id: essere_pre
+    weight: 1.0
+  - axis: grammar
+    id: subj_pron
+    weight: 1.0
+  - axis: grammar
+    id: simp_sent
+    weight: 1.0
+  - axis: vocab
+    id: inglese
+    weight: 0.5
+  image: images/speaking/speaking.ripasso.009.png

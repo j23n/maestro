@@ -115,14 +115,44 @@ images/lessons/a0-13-ripasso.d2.png:
 images/lessons/a0-13-ripasso.d3.png:
   prompt_sha256: ec3b1b1ad47b843eb8546e0a8c36c52f13f0da83adf791988a340403566aa129
   provider: mock
+images/readings/reading.a_pranzo.001.png:
+  prompt_sha256: 6ad3521e2a39306ca9df945152ea7c5b240d19d32a2b07815c779f13121c7000
+  provider: mock
+images/readings/reading.a_pranzo.002.png:
+  prompt_sha256: 16c1ffea270653280d01cc10d8bad5c8594f22bfb5bd9b9a673f1fb5aa42c542
+  provider: mock
+images/readings/reading.a_pranzo.003.png:
+  prompt_sha256: 8e5e721235f4e4fb7571ffeb307fcf25b6ebda029f41b4383ce664822eecd9d5
+  provider: mock
 images/readings/reading.al_bar.001.png:
   prompt_sha256: 8e641e4d9bebe061ec564ade00555d3c2c033fb204cd34613cdb237f688e0ca3
   provider: mock
 images/readings/reading.al_bar.002.png:
   prompt_sha256: 8e641e4d9bebe061ec564ade00555d3c2c033fb204cd34613cdb237f688e0ca3
   provider: mock
+images/readings/reading.al_bar.003.png:
+  prompt_sha256: faafc9e0e85e291645ada8fc78fc8fbf1e1249943eb68046e046c3f3c24f29a2
+  provider: mock
+images/readings/reading.al_bar.004.png:
+  prompt_sha256: ce0690ddbcecafebb8b41314e16d252678a5ce50a4e2789febc70866f9bf84bf
+  provider: mock
 images/readings/reading.chiedere_aiuto.001.png:
   prompt_sha256: 2142a48b294380ec138b82d71d605b1565b7c49001dc9e37e8cb8d322cfa1fce
+  provider: mock
+images/readings/reading.chiedere_aiuto.002.png:
+  prompt_sha256: ac76147545046d4b0374bb5c9d24c3d794ffe5341c2d8f6c3bae236f409f90df
+  provider: mock
+images/readings/reading.chiedere_aiuto.003.png:
+  prompt_sha256: cbe62865ec074de2954ab2c62b702817adf6f8acb64f7d49720cc96df80a8408
+  provider: mock
+images/readings/reading.conoscere.001.png:
+  prompt_sha256: 75071b02577ebe1e81f0e877aae308ba00127139b57397bdbf90c9e1e6cde1e0
+  provider: mock
+images/readings/reading.conoscere.002.png:
+  prompt_sha256: 63a3c3abc0461578ee6082e20da39bdea1ae94be8e503e9af242501949662655
+  provider: mock
+images/readings/reading.conoscere.003.png:
+  prompt_sha256: a1521e5ac293f57fdfa7543724649c3294c08f4f9f01bd72b9e114d4b7bb827d
   provider: mock
 images/readings/reading.ferragosto.001.png:
   prompt_sha256: 6b1a2aaacb929d45d7349d7e8273ce3bdb322220d0eb550d5404ff2c2d8e75e4
@@ -130,8 +160,86 @@ images/readings/reading.ferragosto.001.png:
 images/readings/reading.in_aereo.001.png:
   prompt_sha256: 69bc6ed4f3c52354f652cca6f36af61781428b24320d1089351257aacfb73502
   provider: mock
+images/readings/reading.in_aereo.002.png:
+  prompt_sha256: 02438a468a3ae2ab27ff1a08478d59c55d4935d6a4d91a2dd38e7fe051d919aa
+  provider: mock
+images/readings/reading.in_aereo.003.png:
+  prompt_sha256: cf7e2687ebce98eace20ea3299af4974998fead49c809a4932f83aab02d0ed53
+  provider: mock
+images/readings/reading.in_albergo.001.png:
+  prompt_sha256: b73117bd7e4594643da30ef10832125bf1cc195b9f35b36aa7daade93aec18db
+  provider: mock
+images/readings/reading.in_albergo.002.png:
+  prompt_sha256: e2aff09dd6ecc493690eebcd37bf02e6e2e098c73fc7ede352c155a8be4b1f72
+  provider: mock
+images/readings/reading.in_albergo.003.png:
+  prompt_sha256: e6fe5663d00e694ab305bc4af8fbffe4e5cdd25f1bb5c86dfd1977b2160485d3
+  provider: mock
+images/readings/reading.in_giro.001.png:
+  prompt_sha256: a7b6927dac709a5e4d20eeb979d6827ecbcf88892d94c9e9b73ce152b23cd64f
+  provider: mock
+images/readings/reading.in_giro.002.png:
+  prompt_sha256: 58edd5f50434693e2bba0cc7f64bc7a67b135739ef9dcf8b2630feff8da259a5
+  provider: mock
+images/readings/reading.in_giro.003.png:
+  prompt_sha256: 662f8b284bd34564c583a04a6549d7072b289f91f42ae3cd7050e9943eb45327
+  provider: mock
+images/readings/reading.in_viaggio.001.png:
+  prompt_sha256: 9c9b932b57f44d690d916189b5ca059f15924e1f63fa5cd2230ad0cb56d6792d
+  provider: mock
+images/readings/reading.in_viaggio.002.png:
+  prompt_sha256: fec4470dd059cd69abea0ad8e757034cc3f763ac02edff7d464a43f031823fad
+  provider: mock
+images/readings/reading.in_viaggio.003.png:
+  prompt_sha256: 129ca50014f38865333da8cef1bc059365fd45636b1d132a98df754ef03110e5
+  provider: mock
 images/readings/reading.la_giornata.001.png:
   prompt_sha256: e3b1999b86b74334dd7f80ec9e944a56550cdaec136947a1c970a47cd59a9dd0
+  provider: mock
+images/readings/reading.mi_piace.001.png:
+  prompt_sha256: 2fa979887ff536540cd915913927fb542045db52a6df5f68e1529a6720472f27
+  provider: mock
+images/readings/reading.mi_piace.002.png:
+  prompt_sha256: 361f61e72e5beab79c8892cdb55a93015f79cfc92f2df86336633fbdd4634eec
+  provider: mock
+images/readings/reading.mi_piace.003.png:
+  prompt_sha256: ee9d40252fcf49b8cfbb4df5967fa5a374735820c4a341fe8c1340ff08f2a530
+  provider: mock
+images/readings/reading.numeri_grandi.001.png:
+  prompt_sha256: db3d49dd952e349e0244fd3d688e569061fa9e8c877a46366f8255189a20c007
+  provider: mock
+images/readings/reading.numeri_grandi.002.png:
+  prompt_sha256: 23ffc622aa88026d83a8f5a292efc07f346430d7b5bba9f04e81e16b6db710f9
+  provider: mock
+images/readings/reading.numeri_grandi.003.png:
+  prompt_sha256: 185a6135c209369b8ae3eec09f367873b963683ceb8d6f264b0ec332c5226acd
+  provider: mock
+images/readings/reading.ripasso.001.png:
+  prompt_sha256: 424c94dca1aa07dd01aefd9182edee7aec92927ba641fab15b1dda3e7b499b8c
+  provider: mock
+images/readings/reading.ripasso.002.png:
+  prompt_sha256: 3e544251296bacb996593f712f67a792eca2c0c25b4c67b5c923b0f0159e756b
+  provider: mock
+images/readings/reading.ripasso.003.png:
+  prompt_sha256: 302a9bb3336eed358f906e37351097a4aa59b8aae70bb5129782593f318043f4
+  provider: mock
+images/readings/reading.ultimo_giorno.001.png:
+  prompt_sha256: 11cc1931fb9aee56264d1c87d097622248f398fdab24212ee852cb27a509ea13
+  provider: mock
+images/readings/reading.ultimo_giorno.002.png:
+  prompt_sha256: 4484766067b612b16c110c17a12e1435f35107b6135492b3c817e7c69f1c466e
+  provider: mock
+images/readings/reading.ultimo_giorno.003.png:
+  prompt_sha256: a0556c2a6e1a58a21c8e222dd69076139288e096ebe9567109d91dbb5f762b40
+  provider: mock
+images/readings/reading.un_problema.001.png:
+  prompt_sha256: 0d8051e03bf11603a5e8d1185f9af1f826b4f9bb5e0932947095ff4a48671a95
+  provider: mock
+images/readings/reading.un_problema.002.png:
+  prompt_sha256: d662b99318b22688a7db3168f9dab4bc161009923be13117c84602a586898a7b
+  provider: mock
+images/readings/reading.un_problema.003.png:
+  prompt_sha256: da346ca9f53875d1664aa5855e6f9b6038a7d7c9795be542cd200939a35b7d36
   provider: mock
 images/scenarios/a0-01-in-aereo.png:
   prompt_sha256: f697adf3fe8b9fc13d4257613a8036d3186660b6caba5a19ba389603ec4e8019
@@ -244,11 +352,65 @@ images/scenarios/tempo-libero.png:
 images/scenarios/una-festa.png:
   prompt_sha256: 8a0199210eeaccb1f437317bf8ee81e9f6bbaebe2c5ec5b87381014fde234543
   provider: mock
+images/speaking/speaking.a0_chiedere_cortesemente.001.png:
+  prompt_sha256: c71d66e7da58f7624ff5450da08b4bcd0840a806aa0ac5422896f2e1d17ebd8b
+  provider: mock
+images/speaking/speaking.a0_congedarsi.001.png:
+  prompt_sha256: 3d09ba5534e6729e6aa975a60397a5f27384e4dd78077c83a5efc1add5aff858
+  provider: mock
+images/speaking/speaking.a0_congedarsi.002.png:
+  prompt_sha256: ce6bccfa626f9f9f4c238ebf3b57c19ae150c1a16127069b4fa3703901a2e6cb
+  provider: mock
+images/speaking/speaking.a0_congedarsi.003.png:
+  prompt_sha256: 1a93dfbf38e49847dbcfbbbc0af0bf19103072c523a2e3655f5999dbd4d8886f
+  provider: mock
+images/speaking/speaking.a0_congedarsi.004.png:
+  prompt_sha256: f746d616a14fdce7372d3db26dcd0593367cca2d36ddda5d2eda19bf99c0c018
+  provider: mock
+images/speaking/speaking.a0_congedarsi.005.png:
+  prompt_sha256: 6f4174aeb29d8ab962ae6af5b45fd1f0e3719a71ec5bc4f13a2a18b104a06a03
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.001.png:
+  prompt_sha256: 05807c94034ec51d9528a50d9f047b1e545cf89eca9a60d8c17f75dde53cc4e2
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.002.png:
+  prompt_sha256: db03f581ed90061aa4bfa27f2df1cee0754b157f1f40240859070b8e68789a37
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.003.png:
+  prompt_sha256: 785edf6a0fb1f4c3f804936d8934f8a1990dc3dd867e6c883bb1f0dda7f2b6b4
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.004.png:
+  prompt_sha256: c6f32a31b94308df1786799dc24902a6e55d102f46751fc03c3f601082e3943b
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.005.png:
+  prompt_sha256: 8c30989bc2f5aa856cbb25eeebc6e9f098f868c02842c5093363de2a8df91ebd
+  provider: mock
+images/speaking/speaking.a0_descrivere_problema.006.png:
+  prompt_sha256: 70aa0f9e4941cca1baf9fa9978be8e2f9c0a6511eed74681f5880057d081b7ea
+  provider: mock
+images/speaking/speaking.a0_dire_ora.001.png:
+  prompt_sha256: 18e6636a7362d3c5ae3c06ed489a40163e78b208e4f50364150149781cd54bed
+  provider: mock
+images/speaking/speaking.a0_identificare.001.png:
+  prompt_sha256: 65deb59d4c93e67f3fdb49e842bc1343123b3a91a77c1e2164bf56b0dbc440a0
+  provider: mock
+images/speaking/speaking.a0_identificare.002.png:
+  prompt_sha256: 9bbd079cbfc387fb3270f5764446fc600ed4b70dd078171c05bbff0258c5849c
+  provider: mock
 images/speaking/speaking.a0_ordinare.001.png:
   prompt_sha256: 6f0d05c21a826e935be157c008d6acafddb114e7485f96391133c71af36dc431
   provider: mock
 images/speaking/speaking.a0_presentarsi.001.png:
   prompt_sha256: 41d1d16cebc4d306d6b2637a2ac135e0be30bab2a4f328f40d77f3f3b3fef60c
+  provider: mock
+images/speaking/speaking.a0_scusarsi.001.png:
+  prompt_sha256: f146707269d633746be636c2fbd13b1b0ecd1624c93671ea620e5935d4b2142d
+  provider: mock
+images/speaking/speaking.al_bar.d3.001.png:
+  prompt_sha256: 3dca741e60435fc2517637005a3adddb37fda1fe7152ce115cf17e520e69546a
+  provider: mock
+images/speaking/speaking.al_bar.d3.002.png:
+  prompt_sha256: 031922b4871dd809930072efe2938f80d889ad3556bdfc0af63069c301f68ce6
   provider: mock
 images/speaking/speaking.art_il_la.001.png:
   prompt_sha256: fc2f8ca9ab0353113d17a183c209127b07bed6b24d15c6fdc42c804184776d70
@@ -256,17 +418,95 @@ images/speaking/speaking.art_il_la.001.png:
 images/speaking/speaking.art_un_una.001.png:
   prompt_sha256: 4dd858c99b2421f640448628b3a06b7780ca81b264a9649b0d91fc13aa6f65cd
   provider: mock
+images/speaking/speaking.chiedere_aiuto.005.png:
+  prompt_sha256: 2885df359e3cd830dbced3abc1ae8de9a6938b5e9a96d6d1ef5e52f2debb0578
+  provider: mock
+images/speaking/speaking.chiedere_aiuto.006.png:
+  prompt_sha256: bd412b496a952e9455035f165a3d2527a99c58e32efd82e7d02e48ebe565c8d8
+  provider: mock
+images/speaking/speaking.conoscere.001.png:
+  prompt_sha256: e7876d98efb1d2a5a62ab84bb867bf00dbf88bb38089bb4b83a4e906b7522541
+  provider: mock
+images/speaking/speaking.conoscere.002.png:
+  prompt_sha256: 08e8e3b0e5001fd9ad23ce5a1c695c82196e7e25f6e731467f0d1bda42438978
+  provider: mock
+images/speaking/speaking.conoscere.003.png:
+  prompt_sha256: 8eeaa1891709583764ee94da5e116a2621dfe6e882dc36636d5cc0e26bba1eb1
+  provider: mock
+images/speaking/speaking.conoscere.004.png:
+  prompt_sha256: 4d6e2e7e0af0a7e6dfaeb49f1fd19a3c564d3cce07cc22f38dca7ec57a67feb9
+  provider: mock
+images/speaking/speaking.dire_nome.001.png:
+  prompt_sha256: 0333c00b5b0f14167b86df66ed067f928f9ad61c973c38d552193d7a3734ec29
+  provider: mock
 images/speaking/speaking.dove_e.001.png:
   prompt_sha256: 0fac4f9240f5b6a7d4c77562cee189a30fd3a52bfd5a5e0c4c5771aba6b98072
   provider: mock
 images/speaking/speaking.dove_e.002.png:
   prompt_sha256: 2fba02a7c6c935733118c8b15762fd1ca56444106fd10130ab2f696e8e99331d
   provider: mock
+images/speaking/speaking.esprimere_gusti.001.png:
+  prompt_sha256: 2b25f5478c663aa2e1237d548a3c9b3f61486cb1e6224b6d872ceb536bdf0f51
+  provider: mock
+images/speaking/speaking.esprimere_gusti.002.png:
+  prompt_sha256: acf4334d9d94fc00c46013f8c229dc6d58b4552eb73b90a0e2e4cdbaf201a2fb
+  provider: mock
 images/speaking/speaking.ferragosto.001.png:
   prompt_sha256: 15bcc208c2bd90e963ee518c8d5235c9dcfb371427c8240682e8fe4aafe7684c
   provider: mock
 images/speaking/speaking.ferragosto.002.png:
   prompt_sha256: 32d2a4167965779620ba7a7b92a853492868fef656de7c8013599f338167100a
+  provider: mock
+images/speaking/speaking.in_aereo.perform.001.png:
+  prompt_sha256: 011b56e573db1f5aac7c0175a9089769b5e2b9c21599cef1ca5c86c1772f01f6
+  provider: mock
+images/speaking/speaking.in_aereo.perform.002.png:
+  prompt_sha256: 578c435f1e6fd84f0eb70c048b8b10e5c27c9b81e0c8edae1de1a31d7af95f34
+  provider: mock
+images/speaking/speaking.in_aereo.perform.003.png:
+  prompt_sha256: 656f3edfebb0122e8d0a4e22e22c91892bbdb1a8f2276fbeaa5427984df5ce5a
+  provider: mock
+images/speaking/speaking.in_aereo.si_no.001.png:
+  prompt_sha256: 05c0c9745eaf3e23af4290c0e77d4bc7474e38582788bf746ce7992663a402d9
+  provider: mock
+images/speaking/speaking.in_albergo.perform.001.png:
+  prompt_sha256: 913ca533cc9e103698defe270d6e90e86251f4f357b1d15b0b339a2bf93c39d3
+  provider: mock
+images/speaking/speaking.in_albergo.perform.002.png:
+  prompt_sha256: b1faccb3a1a239795c375ae83db7cf60f54a380784171b176b76cf66e624a897
+  provider: mock
+images/speaking/speaking.in_albergo.perform.003.png:
+  prompt_sha256: 5a0cd148887c2c96e6bac97a5cd5f747bf878ce6cd2bea1f966a9371531a05b0
+  provider: mock
+images/speaking/speaking.in_albergo.perform.004.png:
+  prompt_sha256: 176a1e56efb95fde0cadad62d186fcfa040c96be12c64eab5eadefff4c19c33f
+  provider: mock
+images/speaking/speaking.in_albergo.perform.005.png:
+  prompt_sha256: ec1faab468b671693ae945193ce7674e25037bde6f46ec2b1c917e38910654ee
+  provider: mock
+images/speaking/speaking.in_giro.d3.001.png:
+  prompt_sha256: 0ff1d30818e6224504e1d999eb897843b2771193c629f314b151656a4fc66501
+  provider: mock
+images/speaking/speaking.in_giro.d3.002.png:
+  prompt_sha256: 99940fd7ca0d6a9846f32318d70ab4099233e73ba8640bce07d8aa560adbaa9e
+  provider: mock
+images/speaking/speaking.in_giro.d3.003.png:
+  prompt_sha256: 61541337a619e7918925886c3dd105c89c98560500e57092b84407ef4f434825
+  provider: mock
+images/speaking/speaking.in_viaggio.001.png:
+  prompt_sha256: 30bee9660696bdf9f79800d8b9c449b3221b11515e8b6fbcc54c74738b9ed793
+  provider: mock
+images/speaking/speaking.in_viaggio.002.png:
+  prompt_sha256: da5acbdcb9df2c55b25a94d85667852d72ca6ca42713891808f2507d5e6d5bae
+  provider: mock
+images/speaking/speaking.in_viaggio.003.png:
+  prompt_sha256: 4016da4821145b0200241db59055d360ffcad7bdba378f7d51e855d490684106
+  provider: mock
+images/speaking/speaking.in_viaggio.004.png:
+  prompt_sha256: 3d3d994799505d35516cc58a21b5ab965c1fe286573ca3fee4f9f2ff6481bd1f
+  provider: mock
+images/speaking/speaking.in_viaggio.005.png:
+  prompt_sha256: 81811735abfc7710cbca1a93176432faf7d19e0402f5c4d7bfd0f7801ea69368
   provider: mock
 images/speaking/speaking.mi_chiamo.001.png:
   prompt_sha256: a793bb6d8a7a66e5aef254183c4815f909efabb69dc394ccc41ce9b3972b59f8
@@ -279,6 +519,15 @@ images/speaking/speaking.num_0_20.001.png:
   provider: mock
 images/speaking/speaking.num_0_20.002.png:
   prompt_sha256: bad24fbd8af1b65d3d7ef48fb618df9b85db49a47f419ce5fe5f4a89329ecd7d
+  provider: mock
+images/speaking/speaking.num_20_100.001.png:
+  prompt_sha256: 1386459bbc63db7a83dc148418189f1dd9403492512f5d3f3260fe3c96f78299
+  provider: mock
+images/speaking/speaking.numeri_grandi.perform.001.png:
+  prompt_sha256: ef96af29a888025ab956dd821ad8f49b7b5947ec5f0c7f5f1ec2bec36a89078b
+  provider: mock
+images/speaking/speaking.ore_giorni.001.png:
+  prompt_sha256: 0f7c29ced449af313d46358f4df8e33e293a39fb6c67c1311ec841ba82d8b67b
   provider: mock
 images/speaking/speaking.polite_exp.001.png:
   prompt_sha256: 54d86447be2b5c82996ee8242a91118481cf290a5ad9bbb6bd0a762246e99426
@@ -298,6 +547,36 @@ images/speaking/speaking.prep_place.001.png:
 images/speaking/speaking.pronun_bas.001.png:
   prompt_sha256: e4d25b2ad73f11704361533a2d8ae3bb835477d24796fdc28898090f2c054ca8
   provider: mock
+images/speaking/speaking.ripasso.001.png:
+  prompt_sha256: 3b5a6c345020db3bfd600f628b51b35476868f212e1b285dcd42df70dce39f45
+  provider: mock
+images/speaking/speaking.ripasso.002.png:
+  prompt_sha256: 53aa48a7f522290e12f18a1b417fdec5a10508a3c78fd84ba745e3815f053df5
+  provider: mock
+images/speaking/speaking.ripasso.003.png:
+  prompt_sha256: 903c9225d100707dfdd5126434d0258b83132a1cbf9c9a54b97883dd57e3f5d2
+  provider: mock
+images/speaking/speaking.ripasso.004.png:
+  prompt_sha256: dce107c08ccc39cd936db389d5297c49b4094f07c179f13c640dbb123eca9bfe
+  provider: mock
+images/speaking/speaking.ripasso.005.png:
+  prompt_sha256: 04fd36ab0b056f2981ee9a8f15b2b692d087e3b0624e1f12810e33f4c92aa6ce
+  provider: mock
+images/speaking/speaking.ripasso.006.png:
+  prompt_sha256: 1bdd2d885d049b44c803814908e8547520acf904bbcfa69c3fe89c1e11d736ca
+  provider: mock
+images/speaking/speaking.ripasso.007.png:
+  prompt_sha256: ad87fcfcedaa6de7e12d24b02a6e0305e75953b00be3cb56e9df5a4dfa99c7f3
+  provider: mock
+images/speaking/speaking.ripasso.008.png:
+  prompt_sha256: 9cc0192d0f23279ef1bf4b134e808cca942a920c9f7f9da5cf23acf99de75b70
+  provider: mock
+images/speaking/speaking.ripasso.009.png:
+  prompt_sha256: 0b5f5420922b5104adfdfc4dbb0753d0d989cac8409d8f8a22b00711c2fd61f6
+  provider: mock
+images/speaking/speaking.rispondere_si_no.001.png:
+  prompt_sha256: 539d433657b86c2818fdf929fba514ba9e26be950962a84a604a2e884027fcea
+  provider: mock
 images/speaking/speaking.saluti.001.png:
   prompt_sha256: b848b5dd80efe8c763530961f13ff01c35ac694a71c730f5317a1d54e18d0ab3
   provider: mock
@@ -307,8 +586,17 @@ images/speaking/speaking.vorrei.003.png:
 images/speaking/speaking.vorrei.004.png:
   prompt_sha256: 029f07170cbc4c4509618bff0a80e8db4fcf1152b5b4a75cc11fbc910ef72ed8
   provider: mock
+images/vocab/vocab.a_bordo.png:
+  prompt_sha256: 9d1d5eea31a182b20191dae30ddfa2bb9811263e975530afa2deca2c90df7221
+  provider: mock
+images/vocab/vocab.abitare.png:
+  prompt_sha256: f9e62987407541777c46780ceaf73ae30c85bc6bd8fde30135549a4bc222a8a7
+  provider: mock
 images/vocab/vocab.acqua.png:
   prompt_sha256: 634782c95c04697040d6dd484753fdbea558a1f797f13e464098325dc9a2a4b8
+  provider: mock
+images/vocab/vocab.adesso.png:
+  prompt_sha256: 7ffc0cf1b54a4f8c6226e27ec53c7f9366452fe4b2cec8b63cc107ae1cb967c4
   provider: mock
 images/vocab/vocab.aereo.png:
   prompt_sha256: 0753199fa0fba77c07d7bcbc6dedd0e39c19e473a2db1eaf0b4bd758868294e6
@@ -319,17 +607,77 @@ images/vocab/vocab.aiutare.png:
 images/vocab/vocab.aiuto.png:
   prompt_sha256: 69f3f31b0f2825fd0cfa4e85c9fcde3ad9f8591ef5ad2d4243e974024548c823
   provider: mock
+images/vocab/vocab.al_bar.colazione.png:
+  prompt_sha256: 9fa0a57c92adc97dd28a57e71eccf461249040a814286defc5157e146373b9dc
+  provider: mock
 images/vocab/vocab.albergo.png:
   prompt_sha256: 622a377332f19d459056c82746d95a8cdb0badff9989908986197e3170737405
+  provider: mock
+images/vocab/vocab.altro.png:
+  prompt_sha256: ac2ba6b33dc151f5c748ec8a6e591562cad8787afb47982a685ca8da4e2620a9
+  provider: mock
+images/vocab/vocab.amica.png:
+  prompt_sha256: 84a1bcd06763049adb4b176f29614305689c9bdaf94aaf7d72a9b1107923fd8a
+  provider: mock
+images/vocab/vocab.amico.png:
+  prompt_sha256: c4fb9b9907927d18a5b18df629c90c0f02d97780e2f0bd67520c79961b9b6f88
+  provider: mock
+images/vocab/vocab.anche.png:
+  prompt_sha256: 8a9e2916c029e93377292309e37c9bceffd0f6b84cb3ada9505570ab39697282
+  provider: mock
+images/vocab/vocab.anno.png:
+  prompt_sha256: d1364f8fcbd3df364d543da08c4fbfc3a2deedb7e6b81ed7ddd58e677873eb0f
   provider: mock
 images/vocab/vocab.arrivederci.png:
   prompt_sha256: aa8d8300ec96df05444f46b5c2f0491ae4941490a02cef72822c0d1721a12dae
   provider: mock
+images/vocab/vocab.aspettare.png:
+  prompt_sha256: b0a48ba462f10a8e99ef49e5d8a24f492521d18dd98fab797195cb667a68db46
+  provider: mock
+images/vocab/vocab.assistente.png:
+  prompt_sha256: dee80c30ddf567b9bb5de09285e5ead4696facfdc4a6f7a6ae69a8a68de1eb96
+  provider: mock
+images/vocab/vocab.avere.png:
+  prompt_sha256: e6cee02e133bc9564a8be3043f350163eeb6301e4650dd7efeb6e7854cabca81
+  provider: mock
+images/vocab/vocab.bagno.png:
+  prompt_sha256: 59e4964bc5400abda056184b4a10045f4a75ff10925c0b42e7725d5dd7cb10f1
+  provider: mock
+images/vocab/vocab.banca.png:
+  prompt_sha256: b1c74fe7f3c0ec097af67df620e964f5e455bfa5b48e9079cf1c4bc33450c11a
+  provider: mock
+images/vocab/vocab.banco.png:
+  prompt_sha256: f739437df71d35e9ff914a9a01d0b49ffb48b18548324a3794308988de2ad351
+  provider: mock
 images/vocab/vocab.bar.png:
   prompt_sha256: a92fb1280d421e963ee7f51ccc10c4be9996fa01112736cec0bf8c70d9b44166
   provider: mock
+images/vocab/vocab.barista.png:
+  prompt_sha256: 26490d60f083cbf5e91d75afd2261d566cc6499eca4e3b19c457ba1b8acc0d32
+  provider: mock
+images/vocab/vocab.bello.png:
+  prompt_sha256: 37a8186bb2c35b4657d39902d06fe776be231f02467a4619200ab4df8b34be60
+  provider: mock
+images/vocab/vocab.bene.png:
+  prompt_sha256: 4be7786fc6189dcba91a4c1ae99a9ff9a642a080690cee6ca21717aeaa4cb248
+  provider: mock
+images/vocab/vocab.benvenuto.png:
+  prompt_sha256: 6559637f7e7d95d8094fa611bf08fa91f71930149f467354df942139a24f696c
+  provider: mock
+images/vocab/vocab.bere.png:
+  prompt_sha256: 0eefed3391db4907ccc319839b5d874b5837566d7c8673ae0a459cf101659d85
+  provider: mock
+images/vocab/vocab.bicchiere.png:
+  prompt_sha256: 858c61d270ff84cb98ffe5573f13355638b06f10ad8529f2f77770711a262a3a
+  provider: mock
 images/vocab/vocab.birra.png:
   prompt_sha256: f2fc18ae4346560aba31ca8ce4e9c0261bac0b55458847ec22421dde1361a2f0
+  provider: mock
+images/vocab/vocab.bottiglia.png:
+  prompt_sha256: 44795a1d1666d40cfd9751b8994ee1507e24cabf7e07a3e433178c4d39674e54
+  provider: mock
+images/vocab/vocab.buonanotte.png:
+  prompt_sha256: a9d04f36ded722f8e51ce8fe1d32bfa4365b4707a6a36bd67f8d3cabfc30c009
   provider: mock
 images/vocab/vocab.buonasera.png:
   prompt_sha256: b3c104280fc98a39cbb833827a97c396a2db73f5c47833c2ed7e35d853ffcd31
@@ -337,8 +685,14 @@ images/vocab/vocab.buonasera.png:
 images/vocab/vocab.buongiorno.png:
   prompt_sha256: 535557b55079b95b317b5350a3530b96b2f2605885b14a12b7d12a21601d00fb
   provider: mock
+images/vocab/vocab.buono.png:
+  prompt_sha256: 7828858ab5dbbb6d3006b63866348b3fa05b0e457ef6458e52a37d525b414a12
+  provider: mock
 images/vocab/vocab.caffe.png:
   prompt_sha256: d0658f827303351b2a2dd4d46430400fdba6b6ad790b42bbb417038ee3c190d6
+  provider: mock
+images/vocab/vocab.caldo.png:
+  prompt_sha256: 5d340d9f825df1e7c2e93b4a04d3185f2aa9e807127d25d2c7a28757b25629e2
   provider: mock
 images/vocab/vocab.camera.png:
   prompt_sha256: e2fffa1c58c3e8a0aedb01867d3785cc60ffca356c8a27c0e799251cc1af8538
@@ -349,17 +703,62 @@ images/vocab/vocab.capire.png:
 images/vocab/vocab.cappuccino.png:
   prompt_sha256: 4a3d631e98e724661254a97f7b24bfa3e6eff05af5526a049424a9f138f4dcf4
   provider: mock
+images/vocab/vocab.carne.png:
+  prompt_sha256: 3edafd2d1966b056f573829a8dbb234b739febfea22be71df266500dcb32f03c
+  provider: mock
+images/vocab/vocab.caro.png:
+  prompt_sha256: 9e5cfda2da2cc1f668cb9fed1e486d885f6ba84633700028f79d8e6721eb7d01
+  provider: mock
+images/vocab/vocab.casa.png:
+  prompt_sha256: 4ad69ed385e17563703f109870d7ebef0845c5d58f6ec866e52a24b710f1af00
+  provider: mock
+images/vocab/vocab.cena.png:
+  prompt_sha256: da1411243bcaad9a06db72a48f71e511b8ea8db59be551f7f0736f2fb96c2884
+  provider: mock
+images/vocab/vocab.cento.png:
+  prompt_sha256: aa2e7b391a5a15eb01529817753aa650fc82d65b228c6df36c23cb98ef9a6349
+  provider: mock
 images/vocab/vocab.centro.png:
   prompt_sha256: c48df28fdcbc797e4e4e5a395b5418d471e8008b2048ebb6014bf1c45fd2065f
+  provider: mock
+images/vocab/vocab.cercare.png:
+  prompt_sha256: 74a6ecfbf518833a08b530dc514d1d657a6baee1f034a9c3da7a98609131fd78
+  provider: mock
+images/vocab/vocab.certo.png:
+  prompt_sha256: fe7c7694bfa51bc60b0c3e1c0819e262953c88752c2acaf90089630abef2318e
+  provider: mock
+images/vocab/vocab.chiamarsi.png:
+  prompt_sha256: 15ec5a2a1df1182e0b1736ee156f280509ba879cac0861123b6cee1037a35487
   provider: mock
 images/vocab/vocab.chiave.png:
   prompt_sha256: 9939a70eedb0d6ccf38d315c642482ad4db133a4d07e4228ce6a9d4c94a17230
   provider: mock
+images/vocab/vocab.chiesa.png:
+  prompt_sha256: 4130949689605ccdabf62b60b48265247412d7902c25769254de1201b854d000
+  provider: mock
+images/vocab/vocab.ciao.002.png:
+  prompt_sha256: 0c7c433b3c0d5f2cb478200fea9aaf2f2b3c97fc0a328a404b7d25bbc691f5ed
+  provider: mock
 images/vocab/vocab.ciao.png:
   prompt_sha256: f244917e17eff879ac461be9d302a580408c4b75ae4159d14360c46aaeff6ce4
   provider: mock
+images/vocab/vocab.cinquanta.png:
+  prompt_sha256: 861718358bd6392dbe3b1abd9b236d7ff6e78cbf4a43bfac64d015737212a24c
+  provider: mock
+images/vocab/vocab.cinque.png:
+  prompt_sha256: b98890618bfbdf5d28e6fbe3084130eff35d8583cdb842e19ddd5f39f7e24716
+  provider: mock
+images/vocab/vocab.citta.png:
+  prompt_sha256: b94421dbc9a54fa851fefd59751a417428203bc6cacb75baaebddb3f02bb0c80
+  provider: mock
 images/vocab/vocab.colazione.png:
   prompt_sha256: 9fa0a57c92adc97dd28a57e71eccf461249040a814286defc5157e146373b9dc
+  provider: mock
+images/vocab/vocab.come.png:
+  prompt_sha256: 2f7f5654fe9443f82639c795c1f8c9777a0a9abe9872ab0bad1eea26841651e2
+  provider: mock
+images/vocab/vocab.contento.png:
+  prompt_sha256: 37a734efc72b71d0b4e3ed64fc7457b3c038f1dacabcb402ab86da66d03e8b43
   provider: mock
 images/vocab/vocab.conto.png:
   prompt_sha256: 7dc688b1c9b9ab1023b1133d7239bae75b5df0aa9e0dd9a99628c1414c0450c3
@@ -367,11 +766,74 @@ images/vocab/vocab.conto.png:
 images/vocab/vocab.cornetto.png:
   prompt_sha256: fb682e2a3db00caed3f5c0aa7a506cf9c83d41c78e0a5cfa1cc2d52c7d6da7d7
   provider: mock
+images/vocab/vocab.cortesia.png:
+  prompt_sha256: 969f14209442b5bb939f973e85db234b0f6cf8b2aa8fdcf43f775b4bc759c89e
+  provider: mock
+images/vocab/vocab.costare.png:
+  prompt_sha256: f5492a1361654ba59873d9c313ff6958e9190ffd3314f53226bd06b81204d4bb
+  provider: mock
+images/vocab/vocab.desiderare.png:
+  prompt_sha256: b8da3a81735f84b9b4a532c4c89b3de5925f2fef0f9dfc7960db60e5886991ac
+  provider: mock
+images/vocab/vocab.diciannove.png:
+  prompt_sha256: bc2c2c77a5f61f8621a8a4f7533fc8c475fa68b96d1fbcbe2a889d37b88c47d4
+  provider: mock
+images/vocab/vocab.diciassette.png:
+  prompt_sha256: 204c9d6c29cf93e00a52c23d7eb33fb6c2326ac3fbb0aad2758688b47986187d
+  provider: mock
+images/vocab/vocab.diciotto.png:
+  prompt_sha256: 053001fbc1cbd2e9e2f74f003dad0a58930f183ffaf8a152bd51c611ea2328db
+  provider: mock
+images/vocab/vocab.dieci.png:
+  prompt_sha256: 35162fad7624a0fca52f5bc9714869b93272a182fbd6a0d64a5693ad203fb812
+  provider: mock
+images/vocab/vocab.dire.png:
+  prompt_sha256: ff94554920ac8453e28adb988c8e05d3e528eeaf0da9a86c4f5597809de8fec1
+  provider: mock
+images/vocab/vocab.dodici.png:
+  prompt_sha256: 1b0f32378e5003017818977f7e38b950ef20f5317516c5f45dcf609bff4b4315
+  provider: mock
+images/vocab/vocab.dolce.png:
+  prompt_sha256: 50786b823136f0d6001d63f26d985329e60f382f7f22cf434e079437469fc018
+  provider: mock
+images/vocab/vocab.domani.png:
+  prompt_sha256: 2822309faad960f14cff578560f471e3997f56305de54ece4258fe9b848bcf79
+  provider: mock
+images/vocab/vocab.domenica.png:
+  prompt_sha256: e831b8826ca417a40b3eff437c2f81db3f7ae0a22dfe6cfd2672ef9dc235ed50
+  provider: mock
 images/vocab/vocab.dove.png:
   prompt_sha256: d045b611bb4f04ead14b985a11c5d017e4685642acadd78a3a7cd126e9fd38c3
   provider: mock
+images/vocab/vocab.due.png:
+  prompt_sha256: 9f72ad7f4298eaf4a33e087a2b02baf470bdfb686103d540f71d0e4e5763a0c1
+  provider: mock
+images/vocab/vocab.ecco.png:
+  prompt_sha256: cef2210e03320174ddd40618a1c03b9004f39eba0b051efff56d3ea175dc11d8
+  provider: mock
+images/vocab/vocab.entrare.png:
+  prompt_sha256: f2315dbc6db91fee7aef1e22ca831866ed6db7e3f00bae132c1fde8bb1821572
+  provider: mock
+images/vocab/vocab.entrata.png:
+  prompt_sha256: 7eab09283044e2ab55d32fd1abd80c48bed27cfd17dadda9b67196dc4d65daef
+  provider: mock
+images/vocab/vocab.essere.png:
+  prompt_sha256: df087a9dbc51e133f8fd112108216feba0bf00f88551172c7ce40c175c1ff78f
+  provider: mock
 images/vocab/vocab.estate.png:
   prompt_sha256: 1e1c85ad62ab40017760f1f3bd1ab201dafba8ea4d97a285d9e3eb7a566aeb66
+  provider: mock
+images/vocab/vocab.euro.png:
+  prompt_sha256: 5344b4282c3ec6c97a0884290fe94430c68f2f5308c437136204cedf4cc0f8c9
+  provider: mock
+images/vocab/vocab.fame.png:
+  prompt_sha256: ec33d27ac0c6c5a12171c544a1dfe8eacd527629b7ea29aeefb3c12815380217
+  provider: mock
+images/vocab/vocab.fare.png:
+  prompt_sha256: 28564545017ef9285bbb0179ce73a1d7fcc695405ce8d1659a470fee9f5c265c
+  provider: mock
+images/vocab/vocab.farmacia.002.png:
+  prompt_sha256: 54732008105e77b1e2c2e93b54d513bad83874bfc2915e3d928074b3dfb9aca8
   provider: mock
 images/vocab/vocab.farmacia.png:
   prompt_sha256: 54732008105e77b1e2c2e93b54d513bad83874bfc2915e3d928074b3dfb9aca8
@@ -379,32 +841,242 @@ images/vocab/vocab.farmacia.png:
 images/vocab/vocab.ferragosto.png:
   prompt_sha256: 2935424560180f20d784bb3dc74c5a17c873a55dbc784a3a777db9b51fa0e429
   provider: mock
+images/vocab/vocab.formaggio.png:
+  prompt_sha256: d5dceb2575f7fa08b1a2da6949d4661baf6b94cf7646cba16707cb31ba9be30c
+  provider: mock
+images/vocab/vocab.forse.png:
+  prompt_sha256: f346c662c72518b43ca0f4d26d1bf08bdb3ef56d1b8deefe142371da836ea094
+  provider: mock
+images/vocab/vocab.freddo.png:
+  prompt_sha256: aa3c3295fcbb79b11ff902fbad3becb026fa9a703fe79831053d24d143e380d4
+  provider: mock
 images/vocab/vocab.frizzante.png:
   prompt_sha256: 817d74eae0f80b520bad9658bc9d0a9c2e3dbc6843237c2d97f8be35799dadcc
+  provider: mock
+images/vocab/vocab.frutta.png:
+  prompt_sha256: 6de2180fd8d3668b8508fa7b4c4c21ff775936d243d1d42ec7b8d558db489b88
+  provider: mock
+images/vocab/vocab.gelato.png:
+  prompt_sha256: 4b0663ae4c931d73c7d220d8076f5b2cdff38f27340921b6070126b7d531f1ce
+  provider: mock
+images/vocab/vocab.giornata.png:
+  prompt_sha256: 5ca874e782401c0929966138a9f4971d4d824100353aec4cc25a9e687c7de9e3
+  provider: mock
+images/vocab/vocab.giorno.png:
+  prompt_sha256: d79842bf67e27bd4d3d1527414175761dd1fd55ab8efc81457eed9b3ad3e7390
+  provider: mock
+images/vocab/vocab.giovedi.png:
+  prompt_sha256: 3663e3399d5c8679106e47c4be0aa0d2351793d8c263d5893c9286bce4d941a5
+  provider: mock
+images/vocab/vocab.grande.png:
+  prompt_sha256: bbe833e158bd731770ac868f59feec6adb459c633a33d7d84bd2f3faa8444081
+  provider: mock
+images/vocab/vocab.grazie.002.png:
+  prompt_sha256: 30f4713e032b8cc10a8977b24ecf22b2762754a197a83c89100e2c479d426b9f
   provider: mock
 images/vocab/vocab.grazie.png:
   prompt_sha256: 30f4713e032b8cc10a8977b24ecf22b2762754a197a83c89100e2c479d426b9f
   provider: mock
+images/vocab/vocab.ieri.png:
+  prompt_sha256: afa5a13af7cc485adb1ef1d5f070287adf23e20b62d2e29be9fbb689aaa268a2
+  provider: mock
+images/vocab/vocab.in_piedi.png:
+  prompt_sha256: 8f5006b8538b4c7a728d5ffa62ce49234f31be3693a33a4e3bbcd0729a1d06ce
+  provider: mock
+images/vocab/vocab.informazione.png:
+  prompt_sha256: c355b73aad3f38ac12272aae66dcad4410c6d0c18a8fa1854eedfb419f33f68f
+  provider: mock
+images/vocab/vocab.inglese.png:
+  prompt_sha256: 7dafb9844654d2e9499b0447cb870b63f33f1560afcd1df2a948991b8e3da63e
+  provider: mock
+images/vocab/vocab.insalata.png:
+  prompt_sha256: 0337172849fb9dd1b040314b286a661c192fd595c7bf03e0ebbff37c461ea50c
+  provider: mock
+images/vocab/vocab.italiano.png:
+  prompt_sha256: b86bc4382a4c65db8160a7f6c6e1c7c3814f2718f536957bd9f72437e00f9932
+  provider: mock
+images/vocab/vocab.latte.png:
+  prompt_sha256: a25613e95c924123971f52cf4ba4faac14e7e7aa5ec1f21c101ec6a8b73fdf18
+  provider: mock
+images/vocab/vocab.lavorare.png:
+  prompt_sha256: 27283a2bc74ea5caef94efcbc804cb9789d9a4e65fc781c0d0719ffedc440492
+  provider: mock
+images/vocab/vocab.li.png:
+  prompt_sha256: dae1f730b7d4c29270a72254b14740bf351daa0e2cf136cd168f364d3227f5b4
+  provider: mock
+images/vocab/vocab.lunedi.png:
+  prompt_sha256: 47a1587b2f51439b617ab4fffc357b81157d0f3236e81b0ee113bbdd6157da9a
+  provider: mock
+images/vocab/vocab.male.png:
+  prompt_sha256: 1b517686d13d275793011ebe9df168bb4ba13a34e10cbea1e27b8f70352e63bc
+  provider: mock
+images/vocab/vocab.mangiare.png:
+  prompt_sha256: 2fb7498d1fc89ed3e807d1fd15f34ea30adddb2f5f60fd84d609594fdaadf2fa
+  provider: mock
+images/vocab/vocab.mare.png:
+  prompt_sha256: 8e006a8f3e7faf0d8af697594139286d4c3bf4119983af65fa4255d70ea166c8
+  provider: mock
+images/vocab/vocab.martedi.png:
+  prompt_sha256: 4964fd01afa60e6d59e3a68d8fe75e5b5735f30ae1cc0d11e121c0a155cd7ec9
+  provider: mock
+images/vocab/vocab.mattina.png:
+  prompt_sha256: 15cef71aa689b54e4ea7e400cba42dde9c5d195f17f9cd3925dfae26bd32d421
+  provider: mock
+images/vocab/vocab.mela.png:
+  prompt_sha256: 9070b015c9cdc32e0f9acfdc56309ef755a671c086e210114b89ca681466932c
+  provider: mock
+images/vocab/vocab.menu.png:
+  prompt_sha256: a06bce9e3ed509928ebc55c2a92bc2ed68247a4b2de4e0a9d880785514c67cf9
+  provider: mock
+images/vocab/vocab.mercato.png:
+  prompt_sha256: 419a848d8f8e2f9807e21e728a9da535949b636ec731646c615e10631d89e4a6
+  provider: mock
+images/vocab/vocab.mercoledi.png:
+  prompt_sha256: 64ba1d338f02f81954ec12e8c235762764b4c21954ae82095a8d2e8051d2bba6
+  provider: mock
+images/vocab/vocab.mese.png:
+  prompt_sha256: 63c81719dd0c617f05c31d9efc58ea40d5a8c770967a1d6696a7618bb581d08f
+  provider: mock
+images/vocab/vocab.mille.png:
+  prompt_sha256: 10267ab3ff881c7bc08a5802f44731ab5f7924f6e45f7cb21694b5b799e93e16
+  provider: mock
+images/vocab/vocab.mio.png:
+  prompt_sha256: 44ea488c1bf4e538181a32b4140b32f7ee24fa28059593e8345dfeba0fad04bd
+  provider: mock
+images/vocab/vocab.molto.png:
+  prompt_sha256: 0edc81c1968699232559584000fbc63a6eeaa38162bba7c2022bcc5af511ae51
+  provider: mock
+images/vocab/vocab.momento.png:
+  prompt_sha256: d19064918bd457b1c7047b4546322d63abfd0ab795e8ad86175ea215cf5f1f13
+  provider: mock
 images/vocab/vocab.museo.png:
   prompt_sha256: 31ea2133a08733bc3f9d67f02bdd40f7cf5d240651aea2be4251e1bb45dec90f
+  provider: mock
+images/vocab/vocab.musica.png:
+  prompt_sha256: 8082ec8e6d2642be32158f0e49aeded8e121c592c5e14ee9704c63b1c8589db6
   provider: mock
 images/vocab/vocab.naturale.png:
   prompt_sha256: a1901c1c2be4454643efe240cc81d3a2aabe39a22941df112f8f2ebd7824dad2
   provider: mock
+images/vocab/vocab.negozio.png:
+  prompt_sha256: 433482fc484a7bf876850f4fe21ed05327b909118d7abfd8718110ba675fbb96
+  provider: mock
+images/vocab/vocab.no.png:
+  prompt_sha256: 0e5e48455a2945029125ea19280dba1ac99fb9baccd175cf943e4a9cb41c1e97
+  provider: mock
 images/vocab/vocab.nome.png:
   prompt_sha256: 75f6cc91abe47f02a5ef2abd2ac77a6d4f89e83242dd1722dc33c4814aacaca0
+  provider: mock
+images/vocab/vocab.non.png:
+  prompt_sha256: 934ac73e5fbe0c57159879c137f29a8ca8f10f208f55c15a958c0ce981bc823e
+  provider: mock
+images/vocab/vocab.notte.png:
+  prompt_sha256: 3dfe941814377070fd3b7ab9e4fd2f66df10db0abb1d2339eab902fa0e792ce5
+  provider: mock
+images/vocab/vocab.novanta.png:
+  prompt_sha256: d5c08a152c6b9ed533dda0e7a3d9d45e9c982fb5043b091d696003db07a0af04
+  provider: mock
+images/vocab/vocab.nove.png:
+  prompt_sha256: 85286b5134033b9680c9fdcf9396b9d22a4add62f36033e1f7f344e4eab86865
+  provider: mock
+images/vocab/vocab.numero.png:
+  prompt_sha256: 090d425a7dc260eefbddd9cd29bb61e087a2b84ee2e7b08abb033a6ec3d105d9
   provider: mock
 images/vocab/vocab.nuotare.png:
   prompt_sha256: 4165027fb7376cd51248a742d922bb833208ab45e29299db205e9f4ed05cf5dc
   provider: mock
+images/vocab/vocab.nuovo.png:
+  prompt_sha256: 6b4dc6c791ea62103968563a3eb8c07fa5dfb7a5702a3e036e958fecf132f119
+  provider: mock
+images/vocab/vocab.oggi.png:
+  prompt_sha256: 1cff2e576606f88e3794e16dc6f0e444ed23333803e565ab539ae3869c458a50
+  provider: mock
+images/vocab/vocab.ogni.png:
+  prompt_sha256: 420a7d669c20b3c7d50bf1d6d192477ec61b2fa0e23e45fa5c602b2cd94d1ea9
+  provider: mock
+images/vocab/vocab.ora.png:
+  prompt_sha256: c9e02e966def2a0a4e3ccbd9174d434d826a6554608860f2bc79a9226adea407
+  provider: mock
+images/vocab/vocab.ordinare.png:
+  prompt_sha256: e5b5d88e4d6b1547fe64f66151be4a508f501d93c11c7f905f961e874c892232
+  provider: mock
+images/vocab/vocab.ospedale.png:
+  prompt_sha256: 27c3039dd505437bcd091fc27a212d61dcd2b503b2f401abe6aac33c73c52536
+  provider: mock
+images/vocab/vocab.ottanta.png:
+  prompt_sha256: c133e67c0d626f305c5eae0edd211599c6cce19231badf6556e18251ef0bd7c8
+  provider: mock
+images/vocab/vocab.otto.png:
+  prompt_sha256: 91288b55ca4146a901a316ce3528ea317fe2a83123fb72c618b75e863a3e4b00
+  provider: mock
+images/vocab/vocab.pagare.png:
+  prompt_sha256: 5ec0ce45fe7037c42b2219ae7aa2a123d25cf225d5808cf359e5bbe76e56424c
+  provider: mock
+images/vocab/vocab.pane.png:
+  prompt_sha256: 4d5d6f1943ab62a0218e5b0473bbef4f918d2ad0a58147a95f345c9a1176c622
+  provider: mock
+images/vocab/vocab.panino.png:
+  prompt_sha256: e16b5d13912222a810494d5b4fd606958ca974ee85b498eaaa5a237588f06e11
+  provider: mock
+images/vocab/vocab.parlare.png:
+  prompt_sha256: 2a1289f14a287ceb8387c08efcc81167f2ebf66b28c60374861c584f3de03bf1
+  provider: mock
 images/vocab/vocab.passaporto.png:
   prompt_sha256: f663fbd61592fb933e107aacb3a0dc7d06caa4ac480771d6d7da1f831a1b6efe
+  provider: mock
+images/vocab/vocab.pasta.png:
+  prompt_sha256: 6f360a4ea3da412e00437119704a4e9338e8398453e811ec35c0afe1b06cad6e
+  provider: mock
+images/vocab/vocab.per_favore.002.png:
+  prompt_sha256: af059dae7ecc9528b39f1a43466a9e732316c64e181f14463ae469f642346436
   provider: mock
 images/vocab/vocab.per_favore.png:
   prompt_sha256: af059dae7ecc9528b39f1a43466a9e732316c64e181f14463ae469f642346436
   provider: mock
+images/vocab/vocab.perche.png:
+  prompt_sha256: 188b67c3a3ea6adffc8de833095a4bfe3b61309586ce783dc032e0ff126e2c05
+  provider: mock
+images/vocab/vocab.pesce.png:
+  prompt_sha256: 294aadce1ef0dedfa989e118fd4ff278b56082ac0971db0fcca9adbc7c4eb1df
+  provider: mock
+images/vocab/vocab.piacere.png:
+  prompt_sha256: 3c5c5781095419b01dbbc6bab710deac870b518d55c9bddb4fe937f6e80016a9
+  provider: mock
+images/vocab/vocab.piatto.png:
+  prompt_sha256: 7acf29548acac5afc6268ec01b5fe7586095dab63ebd5b28490fc626df3b8405
+  provider: mock
 images/vocab/vocab.piazza.png:
   prompt_sha256: eb57404f21d1f1bb383b2d5567cb8c4721d4894ab8a33d9596abb96f7ff7f406
+  provider: mock
+images/vocab/vocab.piccolo.png:
+  prompt_sha256: 90542f25e23824a2af0a9f305c21c9939a41a2b0c9fa84e384b7aea3ea490f35
+  provider: mock
+images/vocab/vocab.pieno.png:
+  prompt_sha256: 9948ddbbda2fd05787118f7d07160cadd8ea4dc3a43843d2c93e1bbce2499ac3
+  provider: mock
+images/vocab/vocab.pizza.png:
+  prompt_sha256: 5ae5f97aa9109f8a1a343965c0f78f33094d0f98a42984ce98bcbae066d272a6
+  provider: mock
+images/vocab/vocab.poco.png:
+  prompt_sha256: 6f79a7ee08fa1ebef33a497efe47043ff351c449a7c53aebdd6f1a9f33c98b0f
+  provider: mock
+images/vocab/vocab.pollo.png:
+  prompt_sha256: 31c6bd5e0d396f27fdce3c896d17421cdb1caa4b1a84a17a596d09fe45491bac
+  provider: mock
+images/vocab/vocab.pomeriggio.png:
+  prompt_sha256: a94567ae6c4a7f34573b70c50a7db1a39ae8461cae911bbfd630f9366b55d7df
+  provider: mock
+images/vocab/vocab.pomodoro.png:
+  prompt_sha256: 10f5ed7c7ec6bfc36dd4ab4ed5326683ffb68f1177ed77dd7f92c3bcd6209129
+  provider: mock
+images/vocab/vocab.porta.png:
+  prompt_sha256: dd093fad4eef5e9368d2305f4ac017a6d3724936dedf2a1a0eb46a8cfd29f55c
+  provider: mock
+images/vocab/vocab.potere.png:
+  prompt_sha256: bb2c5d57e2cc8a3b8eebd1ff9c58b1403e5f08fdfee73188d36e9432928254ea
+  provider: mock
+images/vocab/vocab.pranzo.png:
+  prompt_sha256: e6ed75c08d5ff9699cbd3aefa69951b7c8718a8875650ecc87bdc27c560a34d2
   provider: mock
 images/vocab/vocab.prego.png:
   prompt_sha256: 25eeb2543282c76dfce798cdf6eb3766ae6c35b65962c3142f211dd7c0b01407
@@ -412,32 +1084,308 @@ images/vocab/vocab.prego.png:
 images/vocab/vocab.prenotazione.png:
   prompt_sha256: 6dfba0911ed2eb592ce5276dc37434684d35e5aea8e638012ec6f9f613b47db2
   provider: mock
+images/vocab/vocab.presentazione.png:
+  prompt_sha256: 5ab166c496cc4bbf6acc0431e33e52206e71f9a3543205476bb0b016b6f4ec24
+  provider: mock
+images/vocab/vocab.prezzo.png:
+  prompt_sha256: aeac07327fa8e432e56de02e174a97cd30cb450f4f5a8235ef3e597b6734e139
+  provider: mock
+images/vocab/vocab.problema.002.png:
+  prompt_sha256: cab469387e2d466e901e23706ec83c7d6d4f9f7bff4205cf0d461f07cdc661aa
+  provider: mock
 images/vocab/vocab.problema.png:
   prompt_sha256: cab469387e2d466e901e23706ec83c7d6d4f9f7bff4205cf0d461f07cdc661aa
+  provider: mock
+images/vocab/vocab.pronto.png:
+  prompt_sha256: 097907c6b8d338c89410810794320203eeb52cead6069c0d295147943ad1b98c
+  provider: mock
+images/vocab/vocab.prosciutto.png:
+  prompt_sha256: ddc27df5baffca360048ff5cfae3e128652ea7ebeaec61dd6edb89e7b38ab42d
+  provider: mock
+images/vocab/vocab.quando.png:
+  prompt_sha256: 698648c15e2b1375309cc363b1afe197ffc7987766bedf78f649742580bff386
+  provider: mock
+images/vocab/vocab.quanto.png:
+  prompt_sha256: 5ba6f8372b0c242c236b2de9c647233e16735d49bcbf1346489f83e9c3942a65
+  provider: mock
+images/vocab/vocab.quaranta.png:
+  prompt_sha256: aa943913ec49a39b1945333341aa9373dfc5a133c38df5ffac17f51cf865674f
+  provider: mock
+images/vocab/vocab.quattordici.png:
+  prompt_sha256: 98267db6e733c37d38961a15f4773ca7f7a4381f5593b6cb6715a002cb26f0fc
+  provider: mock
+images/vocab/vocab.quattro.png:
+  prompt_sha256: 9c1531a9e2e860a30f5d2820f102cd15ba40dc159fe1ba0550796c9f6ffba06e
+  provider: mock
+images/vocab/vocab.qui.png:
+  prompt_sha256: 01691f55f0960f0f5c5775667b8d7ec226c1b6c2c8219546a2ef88ecbe6be68d
+  provider: mock
+images/vocab/vocab.quindici.png:
+  prompt_sha256: 85c212b21db191685550b98baf9d8ad93f3f202e08eb0a27638baf1e1d4c969b
+  provider: mock
+images/vocab/vocab.ristorante.png:
+  prompt_sha256: 8fcb31d459e67e89d64a2b70b6067c4bdd4d8fd78775879465e1d80ac86f1898
+  provider: mock
+images/vocab/vocab.sabato.png:
+  prompt_sha256: 7a57fda2c01178d3383ffac1a925e7b5f330d6f6439303e8ee7b95128a9e5854
+  provider: mock
+images/vocab/vocab.sale.png:
+  prompt_sha256: 1d7a23992cc7ff7bf58ebebcc0d9f98639990791535bdee097f8edc0dc252164
+  provider: mock
+images/vocab/vocab.salutare.png:
+  prompt_sha256: 85e1c8dc548b00691e901ed53f4f6d4f720e0ad70df937cf38b162233354e72b
   provider: mock
 images/vocab/vocab.salve.png:
   prompt_sha256: bedf88679ee50487a3d99ee93f3411e20bc233c134344e753d659082803fc828
   provider: mock
+images/vocab/vocab.sapere.png:
+  prompt_sha256: 9880903395d602e645b31512c12769b26070b58dc616a174e12d01f05ebc70fe
+  provider: mock
+images/vocab/vocab.scusa.png:
+  prompt_sha256: 6b5a62368dc48b882fcfdedfb2adc2302be92483616ea3e0b37a397c3fcab47c
+  provider: mock
 images/vocab/vocab.scusi.png:
   prompt_sha256: 94cb6adab582e6f0ac913aac5bc3c28a1f9c16beb85234f8bef7f117b6b00c2c
+  provider: mock
+images/vocab/vocab.sedici.png:
+  prompt_sha256: 1c619884448d4f2e6758f99bacfafa41d1b6b2935c7891bf04f34e08058a8119
+  provider: mock
+images/vocab/vocab.sei.png:
+  prompt_sha256: f41a3281018ac6b71dac0bfffeb4d75688061033251a06494670010cf406cac7
+  provider: mock
+images/vocab/vocab.sempre.png:
+  prompt_sha256: 1f5118f7cd6bb5d74dbe74baea4715e84051e6366e8bacbdad445525089151cd
+  provider: mock
+images/vocab/vocab.sentire.png:
+  prompt_sha256: 14b68151b3ace522aad808aac3976c470f04f67f223148bdea0229766f107fbf
+  provider: mock
+images/vocab/vocab.sera.png:
+  prompt_sha256: f70a1a8ffb94f4bd564bc1e42e82508fe733662893a86c22983cb129f1abbdfc
+  provider: mock
+images/vocab/vocab.sessanta.png:
+  prompt_sha256: 663adc7a2cb91a52360d641d23646774ce7f45988453c17a165dee2cd83fe2ac
+  provider: mock
+images/vocab/vocab.settanta.png:
+  prompt_sha256: 36f2720a643c22fa838b35035822820b32b98b76cff19cf4a6512201b7c4568c
+  provider: mock
+images/vocab/vocab.sette.png:
+  prompt_sha256: d8774d820563c000ca3a29c3a2bc5a906300a2812b07f73ab0f64352c9ba4d1f
+  provider: mock
+images/vocab/vocab.settimana.png:
+  prompt_sha256: d17ec064b8f4a347f6cba1d3517f8ea2e780d62787162bbf4afe790349411e84
+  provider: mock
+images/vocab/vocab.si.png:
+  prompt_sha256: 7c5fc07a438efc48c8cff67af418518f2b655bac92a4264e3ed7d8fd9da8c266
+  provider: mock
+images/vocab/vocab.signora.png:
+  prompt_sha256: eeeec00b5f129073c23a3892ca5d758bfb8248317e8572d8dfed0c895a63b506
+  provider: mock
+images/vocab/vocab.signore.png:
+  prompt_sha256: 0d08c55d8a4ba2fc69152a5974d472c5056de734998fd73abf97688c47425471
+  provider: mock
+images/vocab/vocab.soldi.png:
+  prompt_sha256: d1257ecdcbd6e7cdc8f4311161f5e587cee8afd89080f44d4d70e4e7f8992259
+  provider: mock
+images/vocab/vocab.spaghetti.png:
+  prompt_sha256: a71eb77f482fe596f8813033ad783d0a694a3a3b4debfe7dde30d1dc59be0371
   provider: mock
 images/vocab/vocab.spiaggia.png:
   prompt_sha256: c42b917312725b99482bb21436cbdabc9f7f06b1bbce55462e58a1d2c91fb4cf
   provider: mock
+images/vocab/vocab.stanco.png:
+  prompt_sha256: 62727fab14c25f17e231c3241d41d5791de648bec8aee12c30120249080aefb8
+  provider: mock
+images/vocab/vocab.stare.png:
+  prompt_sha256: ad4f00f819502580ae2fb34a45ea6b0a41d425939a0ffe1751c91a3e267ecf41
+  provider: mock
 images/vocab/vocab.stazione.png:
   prompt_sha256: 1ef11e5e110f9db54351495d6c216996492fb2f39932531c586ca346156ba99e
+  provider: mock
+images/vocab/vocab.strada.png:
+  prompt_sha256: 1d7098330b6cc44142ef44c8e843fc2fa39eb1bc263c3529b1244ebac6a42eb2
+  provider: mock
+images/vocab/vocab.studente.png:
+  prompt_sha256: 83b59992c68752a1ce9125462a01d07e657b547fee0e1a85781f778eb026d494
+  provider: mock
+images/vocab/vocab.studentessa.png:
+  prompt_sha256: e8e1f8fa38cc7f0fa04ceed55509b514cc94fa313294d3a3266a9dffe0d3776e
+  provider: mock
+images/vocab/vocab.studiare.png:
+  prompt_sha256: 32a9e484044072b6cadd2dfd0113fc57b40010a12846af4d69b9d888dfb14738
+  provider: mock
+images/vocab/vocab.subito.png:
+  prompt_sha256: c73334f09c2cd882095e85801df08aa0241c12408cf918eb55028c23336dc638
+  provider: mock
+images/vocab/vocab.suo.png:
+  prompt_sha256: c96ee2bb3aa05e8dbae0c436b7ab74891bcec7a9eeee0c98cc95fcd8b4d401e7
+  provider: mock
+images/vocab/vocab.supermercato.png:
+  prompt_sha256: 353c02cb0952d3e2b9c6feefb0c38dda1e641a7076c47d40260d08e1e6fb1e8a
+  provider: mock
+images/vocab/vocab.tavolo.png:
+  prompt_sha256: a0636cb66d869690daf41987054c84348920ac3180ac87d6e16755d2861effa2
+  provider: mock
+images/vocab/vocab.tazza.png:
+  prompt_sha256: 18dda62174eee8e7d2c307ce13ee55d62e60bb05dddcc47e0feb9d21b7b41637
+  provider: mock
+images/vocab/vocab.te.png:
+  prompt_sha256: 3f501e2008eb40fd5d96b7db6754b7f0368f67a5d27166e68f43dd26214dc2a3
+  provider: mock
+images/vocab/vocab.telefono.png:
+  prompt_sha256: c533bdf93387cc12efadda1447bc675eb9de9d94fba34008f05b22a916069f30
+  provider: mock
+images/vocab/vocab.tempo.png:
+  prompt_sha256: db897860806c3a87d79414f81968dc4ebc2c6106a136e9fd4d50c8250a89868c
+  provider: mock
+images/vocab/vocab.tre.png:
+  prompt_sha256: 31c80e64efe4f22c7506d3cd5d689fdd3c0f4b7f8efc208de3f7b8b5330ed31d
+  provider: mock
+images/vocab/vocab.tredici.png:
+  prompt_sha256: ac3885653789b7aa5d08db7841487b1599f1058290bad52be8c231d3b8c363c0
+  provider: mock
+images/vocab/vocab.trenta.png:
+  prompt_sha256: 55fc4a350b0b5e1e257f80fa5a0e60bf91e5d7af4947526799bde58b3a533129
+  provider: mock
+images/vocab/vocab.trovare.png:
+  prompt_sha256: 7894eaf145b5548ccd2f62f9420271416d775f32ca6c9dfcd35bcbd2fee0b540
+  provider: mock
+images/vocab/vocab.tuo.png:
+  prompt_sha256: c9baed752e12f2e51acae7745c20640e87fd60763e1d93eff5c0150d5ca24bc4
+  provider: mock
+images/vocab/vocab.undici.png:
+  prompt_sha256: a4c7bdee5ec5357d28b08435b34d147ef036a14b623dca1db0c141c5da049ff0
+  provider: mock
+images/vocab/vocab.uno.png:
+  prompt_sha256: 1c64a1fad812aee58b37111573a5c2fa9a7728e35ce3a8a67ea58908c4c839e8
+  provider: mock
+images/vocab/vocab.uscita.png:
+  prompt_sha256: a52b69adb814efdfdfb580db1bdf42b6ef39e14bb26f610aa01dcee0bd1adfb3
+  provider: mock
+images/vocab/vocab.va_bene.png:
+  prompt_sha256: c4debe19534b087f6daacbbf108ba089ff9feac5106cbfa936d70173fa625476
   provider: mock
 images/vocab/vocab.valigia.png:
   prompt_sha256: 9629669d9494da8db6541b0350b6fe5ba5773d94a709896ae636c9ff6be7a7f5
   provider: mock
+images/vocab/vocab.vedere.png:
+  prompt_sha256: 63d07e9fa4a1024ba1777fcbea41a1ed11456b2055c24f4392271e74325cf981
+  provider: mock
+images/vocab/vocab.venerdi.png:
+  prompt_sha256: 827081cd3f0bb4c2e1fb7a81753e335d1c58bde643d9937839b136a9939fe75e
+  provider: mock
+images/vocab/vocab.venti.png:
+  prompt_sha256: b41746bdb9e5f11fcfa3171f3767cdbe3a8ac33cf3dcdf4f905cdb8de9c50b55
+  provider: mock
+images/vocab/vocab.via.png:
+  prompt_sha256: f1bf51fb4a77d7465afa15934e1e1c93d59e1f496e2c839bb1c96039bd0bf6f5
+  provider: mock
+images/vocab/vocab.viaggio.aeroporto.png:
+  prompt_sha256: 3ae8aef619cf04368eb19922c5be3692d9a0d7ee1d590205e6bf3558213b108b
+  provider: mock
+images/vocab/vocab.viaggio.andare.png:
+  prompt_sha256: a1c92156de3b53c2f2eefa591fe21a7f329fa8043cf22d487ec4e32da2c4d0a5
+  provider: mock
+images/vocab/vocab.viaggio.aperto.png:
+  prompt_sha256: c7c12843eaa90ae612cce1c3ac67ef41dfdecaf82217e48cff801cdef2b040de
+  provider: mock
+images/vocab/vocab.viaggio.arrivare.png:
+  prompt_sha256: 7edd1c1ea665995d4fc34715f94b7e766e6d7ccbb84054070b0e75a2e7a2e961
+  provider: mock
+images/vocab/vocab.viaggio.autobus.png:
+  prompt_sha256: 6b8c9d6e8ba1f4705061bb20c2f11cd2290ec216babd6f8ba582f98354051c4e
+  provider: mock
+images/vocab/vocab.viaggio.bagaglio.png:
+  prompt_sha256: 497f22832cf571ce8ac9194d966db66a5a1b9105924c0ea29b2664e22bf76269
+  provider: mock
+images/vocab/vocab.viaggio.biglietto.png:
+  prompt_sha256: e1413e3459b3e85d11af11bb39fed786c1f20c07b95b108a6d7faad4192e314c
+  provider: mock
+images/vocab/vocab.viaggio.binario.png:
+  prompt_sha256: 433a556c11d9fbe88c9be6abac6eb2e928d15f15e5ca00fae92197482733adae
+  provider: mock
+images/vocab/vocab.viaggio.breve.png:
+  prompt_sha256: 7b92063ad6d7f0275368fea6f3c0ce6815aba99673c6425df41e3a8366aafe41
+  provider: mock
+images/vocab/vocab.viaggio.chiuso.png:
+  prompt_sha256: 35e28b79db5cf2c948d2c1015748da1437f1e4285b9683bace937d9d5babda3a
+  provider: mock
+images/vocab/vocab.viaggio.comprare.png:
+  prompt_sha256: f6b5723a8c3d31d92fe6e05a0bc4a294cc8b02b88696df5fd4831624cc9b2505
+  provider: mock
+images/vocab/vocab.viaggio.documento.png:
+  prompt_sha256: 4d94b18e899b4cd3e883711fb9a9aeebebe794ecf7fb1674e9abc799f29d5e7c
+  provider: mock
+images/vocab/vocab.viaggio.libero.png:
+  prompt_sha256: 29e71e7d8dc2bee59cb88669fa064a791d815d89f40844fdc91cecf8d50a2a6c
+  provider: mock
+images/vocab/vocab.viaggio.macchina.png:
+  prompt_sha256: c6658f2311ebb1cda9ba129e6aac47bea7679c640f380a049650916d7887e0ce
+  provider: mock
+images/vocab/vocab.viaggio.occupato.png:
+  prompt_sha256: 42a1da4b5edd2bcce74632a3da83f50e17359ff18f65c792803a11549915de9f
+  provider: mock
+images/vocab/vocab.viaggio.partire.png:
+  prompt_sha256: b5ba7f0d04d54fc0b00116448cc9884e892d445d979951910283ae0d2e032fc4
+  provider: mock
+images/vocab/vocab.viaggio.passaporto.png:
+  prompt_sha256: d5e50a773c3fd79311ec274005ef214bc031edb90fccd04a4fa55948a6d4e423
+  provider: mock
+images/vocab/vocab.viaggio.prendere.png:
+  prompt_sha256: f2463831ed25822050e95419ff1948b8932fe54978fcb3a075b7d22adf66e762
+  provider: mock
+images/vocab/vocab.viaggio.stazione.png:
+  prompt_sha256: 7bf84485a38869a9bd0a068d3fc8eace802b594003d7a2538c5c6b56223b773d
+  provider: mock
+images/vocab/vocab.viaggio.taxi.png:
+  prompt_sha256: f4dafcfa08f4d7ade3e976a024714b9716406f5c550dd0c2eb91cb80fb010478
+  provider: mock
+images/vocab/vocab.viaggio.treno.png:
+  prompt_sha256: e25c0871a71a961a54b2a54f7a48a59fe4c71c2939afa0080e918ed306523996
+  provider: mock
+images/vocab/vocab.viaggio.valigia.png:
+  prompt_sha256: 8d884b5b1f9eaf50f0e27c5a7b264c69e0da2f8c0d3f2f4f921c7f4708299445
+  provider: mock
+images/vocab/vocab.viaggio.veloce.png:
+  prompt_sha256: a010bc6243192a35cf631d9cdd7c611b80c6b2fc648f486b4448d34183ee5352
+  provider: mock
+images/vocab/vocab.viaggio.venire.png:
+  prompt_sha256: 36565cc1bb113b23cfaf37c0403e0a63aab86738ea0cf20b93018a54e65c3128
+  provider: mock
+images/vocab/vocab.vino.png:
+  prompt_sha256: e85d0ade3f008ec4f580b9ec9b6ceb8866e64ca386a387898f6b8342a8d441a5
+  provider: mock
+images/vocab/vocab.volere.png:
+  prompt_sha256: ea44e5c0a70cd3a139b158b4e09811fca7dcef53a9ce66a0a8ea50e51c530e9b
+  provider: mock
+images/vocab/vocab.volo.png:
+  prompt_sha256: 590bcf4d291b552cd38a3cdb81289addb84e2c45e446ca354d38fce102aff78a
+  provider: mock
+images/vocab/vocab.zero.png:
+  prompt_sha256: a2cc0be4479819db535783ddfebea9c21b7f6710883cd6712565c10b69252486
+  provider: mock
+images/vocab/vocab.zucchero.png:
+  prompt_sha256: 86e8efce341b4f61328dad130983c1fba30bb775cd396ab26e2e2813a8831a97
+  provider: mock
 images/writing/writing.a0_presentarsi.001.png:
   prompt_sha256: 43b8a1d8bc05134482edd05e1899d6052b9b4b3ae67002023d48af0870a8fe6c
+  provider: mock
+images/writing/writing.a_pranzo.001.png:
+  prompt_sha256: 29f9764ee1fbc60225578e8ef47b67b0676b5513ba12e8790791ae79fa45172f
   provider: mock
 images/writing/writing.al_bar.001.png:
   prompt_sha256: 17a47a7e837d1f9424146f99e64bbae5dc2f1b3469c60fec9c3cba8758094c4f
   provider: mock
+images/writing/writing.al_bar.002.png:
+  prompt_sha256: ac6916f28f945b880550f259cc82a478fb85a1bc2f0d27eba6aceef700f65418
+  provider: mock
 images/writing/writing.chiedere_aiuto.001.png:
   prompt_sha256: ba62c9ab0fa57faed94ccb5c09d9fdbbc4b6b7d77db3c7c7de1e84d5c47fc5f3
+  provider: mock
+images/writing/writing.chiedere_aiuto.002.png:
+  prompt_sha256: 2dde6fe5720e68963bd983a4d6c26a4e656a4703b44b1c76ff7e9e41f18d95d1
+  provider: mock
+images/writing/writing.conoscere.001.png:
+  prompt_sha256: 9b75d39c61949d49e9d20f8df4b2f3080690344246b0b2e6906eaa8d8902fa37
   provider: mock
 images/writing/writing.ferragosto.001.png:
   prompt_sha256: 3e47351f2a6be38828658629c13fcdaff8bfd0f7e6d299bedde5efc9b9a4972d
@@ -450,4 +1398,19 @@ images/writing/writing.in_albergo.001.png:
   provider: mock
 images/writing/writing.in_giro.001.png:
   prompt_sha256: 9e6e022a082743ec00ef7ff6a247569b19118335e85184e144f5a5dfe7ba10a7
+  provider: mock
+images/writing/writing.in_viaggio.001.png:
+  prompt_sha256: cf2b5d45675dbadf90a4df7211d4c24b60c2fe6002aea150c92333581d2dcdb5
+  provider: mock
+images/writing/writing.mi_piace.001.png:
+  prompt_sha256: 2b56db57abadb0c5f6ba6681311ec14cfbbd6b68f00b0b6dd11f2cb72f6f6ea1
+  provider: mock
+images/writing/writing.numeri_grandi.001.png:
+  prompt_sha256: e27284cb7ca9622f1df37dcbf7fcdf79e6f7319f23ee5bcd886b23b986283a61
+  provider: mock
+images/writing/writing.ripasso.001.png:
+  prompt_sha256: 095d3b9f3a072c84287e7cdfb0ab88b5548e6c0412b0ba83c0be340f3e8063ef
+  provider: mock
+images/writing/writing.un_problema.001.png:
+  prompt_sha256: 59e129de80431ecb8ce88aa5e306cb9df5f583a6cb6b40a893d7513a1cfc60f0
   provider: mock
