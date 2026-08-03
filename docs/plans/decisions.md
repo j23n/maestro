@@ -316,3 +316,49 @@ fill can proceed in parallel with app polish.
     Known content gap, not a composer bug: `a0-01-in-aereo` has no
     listening of its own, so the listening slot correctly falls through
     to another lesson's dialogue. Authoring one closes it.
+
+36. **A can-do's decomposition lists what the descriptor claims, not
+    everything adjacent to it.** `folds.rs` closes a can-do on 80% of
+    its grammar mastered and 80% of its functions demonstrated, so one
+    extra id in the descriptor moves the whole achievement to whichever
+    lesson teaches that id last. Three A0 descriptors were doing exactly
+    that:
+
+    - `a0.say_likes` listed `si_no_non`. A learner finished the lesson
+      literally named *Mi piace* at position 7 able to say what they
+      like and don't like, and the app could not acknowledge it until
+      position 11, where negation gets its own lesson. But "non mi
+      piace" is taught inside `mi_piace` itself.
+    - `a0.ask_where` listed `prep_place`, taught a lesson later than
+      `dove_e`. The descriptor's own wording is "understand a short
+      answer *with a pointing gesture*" — the gesture is precisely what
+      a learner leans on before they have prepositions.
+    - `a0.ask_for_help` listed `avere_pre` and
+      `a0_descrivere_problema`, which pushed "can ask for help" four
+      lessons past the lesson named *Chiedere aiuto*. Saying *what* is
+      wrong is a separate skill with its own later lesson.
+
+    Trimmed all three, and moved each can-do's capstones to the
+    scenario that teaches it. Twelve of the thirteen A0 scenarios now
+    close a can-do where four closed nothing; only the `ripasso` closes
+    nothing, which is right for pure revision. The user's framing:
+    it matters that learners see the progress they make.
+
+37. **Every cardable lemma is introduced at its scenario's `d1`, used
+    at `d2`, produced at `d3`.** The closure contract wants three
+    rising passes for 247 A0 content words, and scheduling them
+    independently of the situations that need them would have meant a
+    second, parallel curriculum. Riding the spiral the scenario already
+    runs costs nothing extra: the `d3` capstone and writing prompt
+    carry the scenario's words as `perform` evidence, which is honest —
+    producing that piece of language is what using those words means.
+
+    Grammatical words (`art`, `prep`, `pron`, `conj`) are exempt, as
+    decision 2 in `08 §2` sets out: they need a dictionary entry and
+    have to resolve in lesson text, but not a flashcard or a ladder.
+
+38. **`validate --coverage` gains `--band`.** The arc is authored one
+    CEFR band at a time; a gate that only goes green once A0, A1 and A2
+    are all finished cannot gate anything in the years between.
+    `--band A0` is what CI can hold today, and each band joins the gate
+    as it closes.
