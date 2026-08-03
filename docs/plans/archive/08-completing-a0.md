@@ -1,3 +1,14 @@
+> **Archived — done.** A0 closed on 2026-08-03: 13 scenarios, 39 lessons,
+> 680 items, and `validate --coverage --band A0` reporting `contract
+> satisfied`. `core/tests/closes_a0.rs` plays the whole arc and every A0
+> can-do comes out *achieved*.
+>
+> Two things here outlived the plan and are still live:
+> §4's list of words the A0 vocabulary lacks (three functions cannot say
+> what their own `patterns` field claims), and the finding that most of
+> this work was scheduling rather than authoring — which is what
+> `09-generating-a-band.md` is built on.
+
 # 08 — Completing A0
 
 Status: execution plan

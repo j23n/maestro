@@ -17,7 +17,10 @@ uv run ruff check authoring/ evals/ tests/   # lint
 uv run ruff format authoring/ evals/ tests/  # format
 
 uv run python -m authoring.cli validate --quality   # + vocab/solvability checks
-uv run python -m authoring.cli build         # -> build/it.pack.sqlite + coverage
+uv run python -m authoring.cli validate --coverage --include-draft --band A0
+                                             # the closure contract for one band
+uv run python -m authoring.cli build --include-draft  # -> build/it.pack.sqlite
+                                             # plain `build` = reviewed only (~51 items)
 uv run python -m authoring.cli review        # review web UI on :8321 (all types)
 uv run python -m authoring.cli generate --type drill --gp <id> --count 10
 uv run python -m authoring.cli generate --type reading --theme "Ferragosto" --level A1
@@ -62,7 +65,12 @@ ios/              SwiftUI shell — runs on the simulator; speech, audio
 
 - **Content flows down, nothing flows back**: LLM heavy lifting happens
   at authoring time; the runtime is deterministic and offline.
-- The pack build compiles only items with `status: reviewed`.
+- The pack build compiles only items with `status: reviewed`. A0 is
+  authored but unreviewed, so day-to-day work uses `--include-draft`.
+- **A band is finished when `validate --coverage --band <L>` says
+  `contract satisfied`** — every grammar point, function, can-do and
+  lemma introduced once, revisited twice more at rising demand, and
+  produced unaided. A0 passes; A1/A2 do not exist yet.
 - All core APIs take `now` explicitly; no wall-clock reads inside the
   core (determinism + conformance vectors depend on it).
 - Cross-language contract: Python `build_pack._normalize` must mirror

@@ -1,3 +1,10 @@
+> **Archived — closed.** Every finding here was either fixed or
+> consciously deferred; `archive/05-audit-resolution.md` is the
+> point-by-point record. Kept because the Ferragosto walkthrough in §1 is
+> still the sharpest description of what "shipping a pack" has to mean,
+> and because the audit's verdict — a solid deterministic middle with two
+> missing ends — is the shape the whole `learn/*` stack was built to fix.
+
 # 04 — Product-readiness audit (2026-07-18)
 
 Status: findings report

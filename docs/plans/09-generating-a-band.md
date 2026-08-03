@@ -5,7 +5,8 @@ that cost, what the generator could not do, and what it would take for
 A1 and A2 to be a command rather than a project.*
 
 Related: `07-lessons-and-coverage.md` (the lesson object and the closure
-contract), `08-completing-a0.md` (what A0 needed and what it exposed).
+contract), `archive/08-completing-a0.md` (what A0 needed and what it
+exposed).
 
 ---
 

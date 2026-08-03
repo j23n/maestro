@@ -1,3 +1,8 @@
+> **Archived — closed.** The record of what the `learn/01`…`learn/08`
+> branches fixed against `archive/04-product-readiness-audit.md`. Superseded
+> as a *plan* by `07-lessons-and-coverage.md`, which found the one thing
+> this resolution did not: the content existed, but no lesson owned it.
+
 # 05 — Audit resolution: what the learn/* stack fixed
 
 Status: record of the Mac-independent fixes applied across the

@@ -7,8 +7,15 @@ outstanding: a physical-device run, the speech spike (mic/SpeechAnalyzer
 never exercised — Spike B), audio playback (pack ships no audio; TTS
 fallback), and the LLM layer (compiles, gates closed, never executed).
 The core it calls is tested independently (Linux: `cargo test`,
-conformance vectors, Python-built-pack compat, and `five_lessons.rs`
-walking a simulated learner through all five lessons).
+conformance vectors, Python-built-pack compat, and `closes_a0.rs` walking
+a simulated learner through all thirty-nine A0 lessons and asserting
+every A0 can-do reaches *achieved*).
+
+**The content is ahead of the shell.** All 13 A0 scenarios are authored
+— 39 lessons, 680 items — but 659 are `status: draft`, so a plain
+`build` compiles almost none of it. Build with `--include-draft` until
+the review pass runs; `BUILD.md` covers that and the two media choices
+(ship no audio and use the system voice; mock art is 1×1 pixels).
 
 **To build it: `BUILD.md`.** `project.yml` (XcodeGen) is the project's
 source of truth; `Maestro.xcodeproj` is generated, not committed.

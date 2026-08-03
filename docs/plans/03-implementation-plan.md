@@ -1,6 +1,6 @@
 # 03 — Implementation plan: native iOS + portable core
 
-Status: draft
+Status: live — the spine. Phase status table in §5.
 Owner: solo
 Scope: Italian only, A0–A2, personal distribution (TestFlight)
 Prerequisite reading: `02-greenfield-architecture.md` (the four-layer
@@ -170,6 +170,25 @@ Solo-dev sequencing with two tracks that overlap heavily: the **product
 track** (core + iOS) and the **content track** (spec + authoring +
 content fill). Rough total: ~5 months of focused part-time work
 (Phase 6 grew a week when the eval loop moved into it, §11).
+
+### Where each phase stands (2026-08-03)
+
+| Phase | State | What is actually left |
+| --- | --- | --- |
+| 0 — Derisking spikes | **partly** | Core spike passed *on the simulator*; the physical-device run and the **speech spike (B)** have never happened. Spec conversion done. |
+| 1 — Curriculum spec | **done** | — |
+| 2 — Authoring pipeline | **done** | `generate` never caught up with the lesson object — see `09-generating-a-band.md`. |
+| 3 — Core: learner model + tutor loop | **done** | Conformance vectors, folds, composer, scoring, alignment. |
+| 4 — iOS: the learning loop | **done on the simulator** | Never run on a device; no signing team configured. |
+| 5 — Speaking + writing | **written, unexercised** | `SpeakingPracticeView` compiles but has never met a microphone. Spike B gates it. |
+| 6 — LLM layer + eval loop | **wired, switched off** | Gates resolve closed with no scorecard, by design. Nothing has been measured against a real model. |
+| 7 — Content fill A0–A2 | **A0 done** | 39 lessons, 680 items, contract satisfied — but 659 items are still `draft`. A1 and A2 not started; A2 has no scenarios at all. |
+| 8 — Hardening + cleanup | **not started** | — |
+
+The two ends the audit named (`archive/04-product-readiness-audit.md`)
+are no longer symmetric. The *input* end is now real for one band. The
+*output* end — an app on an actual phone, with audio, with reviewed
+content — is where everything now waits.
 
 ### Phase 0 — Derisking spikes (~2 weeks)
 
