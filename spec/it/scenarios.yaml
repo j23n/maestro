@@ -5,8 +5,92 @@
   label: In aereo
   description: Your first Italian words — on the plane and at the airport
   depths:
-  - Onboarding, greetings, polite phrases, survival phrases, vorrei as a chunk, pronunciation
-    reference
+  - id: a0-01-in-aereo.d1
+    cefr_level: A0
+    label: A bordo
+    goal: Greet the crew in Italian, say thank you, and answer a simple yes-or-no question.
+    summary: Onboarding, greetings, polite phrases, survival phrases, pronunciation reference
+    introduces:
+      grammar:
+      - saluti
+      - polite_exp
+      - pronun_bas
+      functions:
+      - a0_salutare
+      - a0_ringraziare
+      - a0_rispondere_si_no
+    capstones:
+    - cando: a0.catch_courtesy
+      demand: use
+    outro: Buongiorno, grazie, sì, no. Everything else in Italian is built on top of those four.
+  - id: a0-01-in-aereo.d2
+    cefr_level: A0
+    label: Il carrello
+    goal: Answer the flight attendant — yes or no, and thank you — before the drinks trolley moves
+      on.
+    summary: Yes and no under time pressure, grazie and prego, Italian sounds at speaking speed
+    revisits:
+      grammar:
+      - id: saluti
+        demand: use
+      - id: polite_exp
+        demand: use
+      - id: pronun_bas
+        demand: use
+      functions:
+      - id: a0_salutare
+        demand: use
+      - id: a0_ringraziare
+        demand: use
+      - id: a0_rispondere_si_no
+        demand: use
+    capstones:
+    - cando: a0.catch_courtesy
+      demand: use
+    scene_setting: 'The drinks trolley reaches your row. The attendant asks you
+
+      something in Italian, quickly, and she is not going to repeat it.
+
+      The queue behind her is growing. You have about four seconds.
+
+      '
+    outro: She asked, you answered, the trolley moved on. Four seconds is all a courtesy ever gets.
+  - id: a0-01-in-aereo.d3
+    cefr_level: A0
+    label: Allo sbarco
+    goal: Handle three short exchanges on the way off the plane — the crew, the corridor, the passport
+      desk — without rehearsing any of them.
+    summary: Unprompted greetings, courtesy with strangers, catching what is said to you at full
+      speed
+    revisits:
+      grammar:
+      - id: saluti
+        demand: perform
+      - id: polite_exp
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      functions:
+      - id: a0_salutare
+        demand: perform
+      - id: a0_ringraziare
+        demand: perform
+      - id: a0_rispondere_si_no
+        demand: perform
+    capstones:
+    - cando: a0.catch_courtesy
+      demand: perform
+    scene_setting: 'Wheels down in Rome. The crew is at the door, the corridor to
+
+      passport control is long and everyone in it is walking fast. The
+
+      officer at the desk will ask you two short questions and look back
+
+      down at his screen.
+
+      '
+    outro: Nobody slowed down for you and nobody switched to English. You heard what was said, and
+      you answered it.
   grammar_ids:
   - saluti
   - polite_exp
@@ -15,9 +99,8 @@
   - a0_salutare
   - a0_ringraziare
   - a0_rispondere_si_no
-  - a0_ordinare
-  overview: 'You''re on the plane to Italy. Learn the absolute essentials: hello, thank you,
-    please, excuse me, and the one phrase that gets you anything.'
+  overview: 'You''re on the plane to Italy. Learn the absolute essentials: hello, thank you, please,
+    excuse me, and the one phrase that gets you anything.'
   scene_setting: 'You''re on a plane to Italy. The captain just announced the descent
 
     into Rome in Italian — and you didn''t catch a word. By the end of
@@ -36,16 +119,107 @@
   label: In albergo
   description: Checking into the hotel — names, numbers, and Italian sounds
   depths:
-  - Self-introduction, numbers 0-20
+  - id: a0-02-in-albergo.d1
+    cefr_level: A0
+    label: Alla reception
+    goal: Check in by saying your name, and catch your room number the first time it is said.
+    summary: Self-introduction, numbers 0-20
+    introduces:
+      grammar:
+      - mi_chiamo
+      - num_0_20
+      functions:
+      - a0_presentarsi
+      - a0_dire_nome
+      - a0_contare
+    revisits:
+      grammar:
+      - id: saluti
+        demand: perform
+      functions:
+      - id: a0_salutare
+        demand: perform
+    outro: You gave your name and caught your room number on the first hearing. The lift is on the
+      left.
+  - id: a0-02-in-albergo.d2
+    cefr_level: A0
+    label: La chiave
+    goal: Come back late, give your name at the desk, and ask for the key to your room by number.
+    summary: Mi chiamo inside a conversation, room and floor numbers, numbers you have to say rather
+      than hear
+    revisits:
+      grammar:
+      - id: mi_chiamo
+        demand: use
+      - id: num_0_20
+        demand: use
+      - id: polite_exp
+        demand: perform
+      functions:
+      - id: a0_presentarsi
+        demand: use
+      - id: a0_dire_nome
+        demand: use
+      - id: a0_contare
+        demand: use
+    scene_setting: 'It is eleven at night and the front door is locked. Behind the desk
+
+      there is a different receptionist — he has never seen you, and your
+
+      key is on the board behind his head. He needs a name and a number.
+
+      '
+    outro: A name, a number, a key. Two sentences and you were upstairs.
+  - id: a0-02-in-albergo.d3
+    cefr_level: A0
+    label: A colazione
+    goal: Introduce yourself to another guest and give your room number to the waiter, neither of
+      them prompted.
+    summary: Introducing yourself to someone who is not staff, numbers in the middle of speech, greetings
+      on your own initiative
+    revisits:
+      grammar:
+      - id: mi_chiamo
+        demand: perform
+      - id: num_0_20
+        demand: perform
+      - id: saluti
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      functions:
+      - id: a0_presentarsi
+        demand: perform
+      - id: a0_dire_nome
+        demand: perform
+      - id: a0_contare
+        demand: perform
+      - id: a0_salutare
+        demand: perform
+    scene_setting: 'Breakfast room, half past eight. The waiter wants your room number
+
+      before he brings anything, and the woman at the next table has
+
+      already said buongiorno and asked you something. Neither of them is
+
+      reading from a script.
+
+      '
+    outro: You introduced yourself to someone who was not paid to be patient with you. That counts
+      for more than the check-in did.
   grammar_ids:
   - mi_chiamo
   - num_0_20
+  - saluti
+  - polite_exp
+  - pronun_bas
   function_ids:
   - a0_presentarsi
   - a0_dire_nome
   - a0_contare
-  overview: You've arrived at the hotel. Learn to introduce yourself, understand room numbers,
-    and start reading Italian out loud.
+  - a0_salutare
+  overview: You've arrived at the hotel. Learn to introduce yourself, understand room numbers, and
+    start reading Italian out loud.
   scene_setting: 'The taxi pulls up to a small hotel in the centre of Rome. You walk
 
     in with your suitcase and the receptionist greets you with a warm
@@ -70,22 +244,63 @@
     goal: Order a coffee at the counter and pay, without switching to English.
     summary: Indefinite articles un/una/un', ordering with vorrei, quanto costa
     introduces:
-      grammar: [art_un_una, vorrei, vocab_cibo]
-      functions: [a0_ordinare, a0_chiedere_cortesemente]
-      vocab: [bar, caffè, cappuccino, cornetto, acqua, conto, naturale, frizzante]
+      grammar:
+      - art_un_una
+      - vorrei
+      - vocab_cibo
+      functions:
+      - a0_ordinare
+      - a0_chiedere_cortesemente
+      vocab:
+      - bar
+      - caffè
+      - cappuccino
+      - cornetto
+      - acqua
+      - conto
+      - naturale
+      - frizzante
     capstones:
-    - {cando: a0.order_something, demand: use}
+    - cando: a0.order_something
+      demand: use
   - id: a0-03-al-bar.d2
     cefr_level: A0
     label: Un tavolo fuori
     goal: Order for two people and ask what it comes to.
     summary: Ordering for more than yourself, asking the price, sitting down
     revisits:
-      grammar: [{id: art_un_una, demand: use}, {id: vorrei, demand: use}, {id: vocab_cibo, demand: use}]
-      functions: [{id: a0_ordinare, demand: use}, {id: a0_chiedere_cortesemente, demand: use}]
-      vocab: [{id: bar, demand: use}, {id: caffè, demand: use}, {id: cappuccino, demand: use}, {id: cornetto, demand: use}, {id: acqua, demand: use}, {id: conto, demand: use}, {id: naturale, demand: use}, {id: frizzante, demand: use}]
+      grammar:
+      - id: art_un_una
+        demand: use
+      - id: vorrei
+        demand: use
+      - id: vocab_cibo
+        demand: use
+      functions:
+      - id: a0_ordinare
+        demand: use
+      - id: a0_chiedere_cortesemente
+        demand: use
+      vocab:
+      - id: bar
+        demand: use
+      - id: caffè
+        demand: use
+      - id: cappuccino
+        demand: use
+      - id: cornetto
+        demand: use
+      - id: acqua
+        demand: use
+      - id: conto
+        demand: use
+      - id: naturale
+        demand: use
+      - id: frizzante
+        demand: use
     capstones:
-    - {cando: a0.order_something, demand: use}
+    - cando: a0.order_something
+      demand: use
     scene_setting: 'You come back the next afternoon, this time with a friend, and
 
       take a table outside. Sitting down costs more — and now you are
@@ -100,11 +315,38 @@
     goal: Order without being asked, and handle what the barista says back.
     summary: Ordering unprompted, reacting to the barista, paying at the till
     revisits:
-      grammar: [{id: art_un_una, demand: perform}, {id: vorrei, demand: perform}, {id: vocab_cibo, demand: perform}]
-      functions: [{id: a0_ordinare, demand: perform}, {id: a0_chiedere_cortesemente, demand: perform}]
-      vocab: [{id: bar, demand: perform}, {id: caffè, demand: perform}, {id: cappuccino, demand: perform}, {id: cornetto, demand: perform}, {id: acqua, demand: perform}, {id: conto, demand: perform}, {id: naturale, demand: perform}, {id: frizzante, demand: perform}]
+      grammar:
+      - id: art_un_una
+        demand: perform
+      - id: vorrei
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      functions:
+      - id: a0_ordinare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+      vocab:
+      - id: bar
+        demand: perform
+      - id: caffè
+        demand: perform
+      - id: cappuccino
+        demand: perform
+      - id: cornetto
+        demand: perform
+      - id: acqua
+        demand: perform
+      - id: conto
+        demand: perform
+      - id: naturale
+        demand: perform
+      - id: frizzante
+        demand: perform
     capstones:
-    - {cando: a0.order_something, demand: perform}
+    - cando: a0.order_something
+      demand: perform
     scene_setting: 'By the end of the week the barista recognises you. He looks up,
 
       raises an eyebrow, and waits. Nobody is going to ask you in English
@@ -116,12 +358,11 @@
   grammar_ids:
   - art_un_una
   - vorrei
+  - vocab_cibo
   function_ids:
   - a0_ordinare
   - a0_chiedere_cortesemente
-  - a0_contare
-  overview: Morning in Italy starts at the bar. Learn to order with the right articles and
-    numbers.
+  overview: Morning in Italy starts at the bar. Learn to order with the right articles and numbers.
   scene_setting: 'It''s your first morning in Italy. You follow the smell of coffee into
 
     a tiny bar on the corner — the espresso machine hisses, locals chat
@@ -138,15 +379,101 @@
   label: In giro
   description: Walking around the city — il/la, asking where things are
   depths:
-  - Definite articles il/la/l', asking directions, a destra/sinistra/dritto
+  - id: a0-04-in-giro.d1
+    cefr_level: A0
+    label: Con la mappa
+    goal: Stop a stranger in the street and ask where the museum is.
+    summary: Definite articles il/la/l', asking directions, a destra/sinistra/dritto
+    introduces:
+      grammar:
+      - art_il_la
+      - dove_e
+      functions:
+      - a0_chiedere_dove
+      - a0_scusarsi
+    revisits:
+      grammar:
+      - id: art_un_una
+        demand: perform
+    outro: You stopped someone in the street and understood the answer. The map was only ever a backup.
+  - id: a0-04-in-giro.d2
+    cefr_level: A0
+    label: Il museo chiuso
+    goal: Ask where a second thing is when the first plan falls through, and get the article right
+      both times.
+    summary: Il and la with places you have not met, asking a shopkeeper rather than a passer-by,
+      scusi as an opener
+    revisits:
+      grammar:
+      - id: art_il_la
+        demand: use
+      - id: dove_e
+        demand: use
+      - id: polite_exp
+        demand: perform
+      functions:
+      - id: a0_chiedere_dove
+        demand: use
+      - id: a0_scusarsi
+        demand: use
+      - id: a0_chiedere_cortesemente
+        demand: perform
+    scene_setting: 'The museo is shut — a handwritten sign taped to the door, and you
+
+      cannot read it. There is a farmacia somewhere near here, and a bar
+
+      with its door open two steps away. The woman behind the counter is
+
+      not busy.
+
+      '
+    outro: One plan failed and you asked your way into another. Dov'è works on anyone standing still.
+  - id: a0-04-in-giro.d3
+    cefr_level: A0
+    label: Senza mappa
+    goal: Get yourself to a street you have never seen with nothing in your hands — ask, listen,
+      and go the right way.
+    summary: Asking with nothing prepared, following a spoken answer, il and la on words you are
+      hearing for the first time
+    revisits:
+      grammar:
+      - id: art_il_la
+        demand: perform
+      - id: dove_e
+        demand: perform
+      - id: art_un_una
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      functions:
+      - id: a0_chiedere_dove
+        demand: perform
+      - id: a0_scusarsi
+        demand: perform
+      - id: a0_salutare
+        demand: perform
+    scene_setting: 'Your phone died an hour ago and the paper map is back at the hotel.
+
+      You have the name of a street and nothing else. Two people are
+
+      waiting at a bus stop, and one of them has already noticed you
+
+      hesitating.
+
+      '
+    outro: No map, no phone, no screen to point at. You asked, you listened, and you arrived.
   grammar_ids:
   - art_il_la
   - dove_e
+  - art_un_una
+  - polite_exp
+  - pronun_bas
   function_ids:
   - a0_chiedere_dove
   - a0_scusarsi
-  overview: Time to explore! Learn the word for 'the', ask where things are, and follow basic
-    directions.
+  - a0_chiedere_cortesemente
+  - a0_salutare
+  overview: Time to explore! Learn the word for 'the', ask where things are, and follow basic directions.
   scene_setting: 'Coffee done, you step outside with a city map. There''s a piazza
 
     nearby, a museo you want to find, and a farmacia just in case.
@@ -163,15 +490,121 @@
   label: Chiedere aiuto
   description: Getting help — asking for repetition, clarifying, key phrases
   depths:
-  - Come si dice, può ripetere, non lo so, prepositions a/in/di
+  - id: a0-05-chiedere-aiuto.d1
+    cefr_level: A0
+    label: Non ho capito
+    goal: Say that you did not understand and ask the person to say it again, more slowly.
+    summary: Come si dice, può ripetere, non lo so, prepositions a/in/di
+    introduces:
+      grammar:
+      - prep_place
+      functions:
+      - a0_chiedere_aiuto
+    revisits:
+      grammar:
+      - id: dove_e
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      functions:
+      - id: a0_chiedere_dove
+        demand: perform
+      - id: a0_scusarsi
+        demand: perform
+    capstones:
+    - cando: a0.ask_where
+      demand: use
+    outro: Non ho capito is not an admission of failure. It is the sentence that keeps the conversation
+      in Italian.
+  - id: a0-05-chiedere-aiuto.d2
+    cefr_level: A0
+    label: Più lentamente
+    goal: Ask where something is, then keep the exchange going until you have actually understood
+      the answer.
+    summary: Può ripetere and più lentamente, repeating back what you heard, a/in/di for where things
+      are
+    revisits:
+      grammar:
+      - id: prep_place
+        demand: use
+      - id: dove_e
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      - id: polite_exp
+        demand: perform
+      functions:
+      - id: a0_chiedere_aiuto
+        demand: use
+      - id: a0_chiedere_dove
+        demand: perform
+      - id: a0_scusarsi
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+    capstones:
+    - cando: a0.ask_where
+      demand: use
+    scene_setting: 'You ask the man at the newsstand where the station is and he
+
+      answers in one long sentence, mostly with his hands. You caught
+
+      "a destra" and nothing else. He is still standing there, and he is
+
+      in no hurry at all.
+
+      '
+    outro: You asked twice and understood the second answer. Nobody minded — asking again is what
+      everyone does.
+  - id: a0-05-chiedere-aiuto.d3
+    cefr_level: A0
+    label: Da solo
+    goal: Stop a stranger with nothing prepared, ask where you need to go, and repair the parts you
+      miss until you have it.
+    summary: Asking and repairing unaided, prepositions inside a real answer, checking back what
+      you think you heard
+    revisits:
+      grammar:
+      - id: prep_place
+        demand: perform
+      - id: dove_e
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      functions:
+      - id: a0_chiedere_aiuto
+        demand: perform
+      - id: a0_chiedere_dove
+        demand: perform
+      - id: a0_scusarsi
+        demand: perform
+    capstones:
+    - cando: a0.ask_where
+      demand: perform
+    scene_setting: 'It is late, you are on the wrong side of the river, and the only
+
+      person out is a woman walking a dog. Nobody has told you which
+
+      phrase to use this time. You have all of them.
+
+      '
+    outro: Half of it went past you and you got there anyway. Understanding every word was never
+      the requirement.
   grammar_ids:
-  - polite_exp
   - prep_place
+  - dove_e
+  - art_il_la
+  - polite_exp
+  - pronun_bas
   function_ids:
   - a0_chiedere_aiuto
+  - a0_chiedere_dove
   - a0_scusarsi
-  overview: You'll need to ask for help. Learn the phrases that keep conversations going when
-    you're stuck.
+  - a0_chiedere_cortesemente
+  overview: You'll need to ask for help. Learn the phrases that keep conversations going when you're
+    stuck.
   scene_setting: 'Someone on the street gives you directions — but they''re speaking
 
     too fast and you only caught "a sinistra." It''s completely normal.
@@ -190,16 +623,104 @@
   label: A pranzo
   description: Lunch at a trattoria — menu vocabulary, ordering a meal
   depths:
-  - Menu structure, che cos'è questo/a, dietary needs, restaurant phrases
+  - id: a0-06-a-pranzo.d1
+    cefr_level: A0
+    label: Il menù
+    goal: Ask what a dish on the menu is, and understand the answer well enough to order it.
+    summary: Menu structure, che cos'è questo/a, asking the waiter about one dish
+    introduces:
+      grammar:
+      - che_cose
+      functions:
+      - a0_identificare
+    revisits:
+      grammar:
+      - id: vocab_cibo
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      functions:
+      - id: a0_ordinare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+    capstones:
+    - cando: a0.identify_things
+      demand: use
+    outro: One question, one answer, and a plate you would never have ordered blind.
+  - id: a0-06-a-pranzo.d2
+    cefr_level: A0
+    label: Il piatto del giorno
+    goal: Catch the day's specials when the waiter says them out loud, and ask about the one you
+      missed.
+    summary: The spoken specials, che cos'è with nothing to point at, ordering a whole meal
+    revisits:
+      grammar:
+      - id: che_cose
+        demand: use
+      - id: art_un_una
+        demand: perform
+      functions:
+      - id: a0_identificare
+        demand: use
+      - id: a0_ordinare
+        demand: perform
+    capstones:
+    - cando: a0.identify_things
+      demand: use
+    scene_setting: 'You come back on Thursday and the chalkboard is blank. The waiter
+
+      stops at your table and says the day''s specials out loud, quickly,
+
+      then waits. You caught two of the four, and he is not writing
+
+      anything down.
+
+      '
+    outro: Nothing on paper, and you still got the plate you wanted.
+  - id: a0-06-a-pranzo.d3
+    cefr_level: A0
+    label: La tavola calda
+    goal: Work out what is in the trays at a self-service counter and order a full lunch without
+      help.
+    summary: Naming dishes with their article, asking about unlabelled food, ordering unprompted
+    revisits:
+      grammar:
+      - id: che_cose
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      functions:
+      - id: a0_identificare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+    capstones:
+    - cando: a0.identify_things
+      demand: perform
+    scene_setting: 'It is one o''clock and the whole street is queuing at a tavola calda.
+
+      Nothing behind the glass is labelled. The woman with the tongs is
+
+      already looking at you, and the queue behind you is not getting
+
+      shorter.
+
+      '
+    outro: Four trays, no labels, no English. You asked until you knew.
   grammar_ids:
-  - vocab_cibo
   - che_cose
+  - vocab_cibo
+  - art_il_la
+  - art_un_una
   function_ids:
-  - a0_ordinare
   - a0_identificare
+  - a0_ordinare
   - a0_chiedere_cortesemente
-  overview: It's lunchtime! Learn to read an Italian menu, ask what things are, and order
-    a full meal.
+  overview: It's lunchtime! Learn to read an Italian menu, ask what things are, and order a full
+    meal.
   scene_setting: 'You''ve worked up an appetite. A small trattoria catches your eye —
 
     handwritten menu on a chalkboard, the sound of plates clinking
@@ -209,8 +730,7 @@
     dishes are a mystery — but you''re about to fix that.
 
     '
-  outro: You read an Italian menu and ordered a full meal. The waiter didn't switch to English
-    once.
+  outro: You read an Italian menu and ordered a full meal. The waiter didn't switch to English once.
   image: images/scenarios/a0-06-a-pranzo.png
 - id: a0-07-mi-piace
   cefr_level: A0
@@ -219,14 +739,94 @@
   label: Mi piace
   description: Expressing what you like and don't like
   depths:
-  - Mi piace/non mi piace/mi piacciono, plural articles i/le
+  - id: a0-07-mi-piace.d1
+    cefr_level: A0
+    label: Al tavolo accanto
+    goal: Say what you thought of the food when the person at the next table asks you.
+    summary: Mi piace/non mi piace/mi piacciono, plural articles i/le
+    introduces:
+      grammar:
+      - mi_piace
+      - art_i_le
+      functions:
+      - a0_esprimere_gusti
+    revisits:
+      grammar:
+      - id: art_il_la
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      functions:
+      - id: a0_rispondere_si_no
+        demand: perform
+    outro: You said what you thought of the pasta, and it came out as more than sì.
+  - id: a0-07-mi-piace.d2
+    cefr_level: A0
+    label: Il gelato
+    goal: Choose between flavours out loud — which ones you like, which one you don't, and how many
+      scoops.
+    summary: Liking one thing and several, refusing a flavour politely, i gusti and le paste
+    revisits:
+      grammar:
+      - id: mi_piace
+        demand: use
+      - id: art_i_le
+        demand: use
+      - id: num_0_20
+        demand: perform
+      functions:
+      - id: a0_esprimere_gusti
+        demand: use
+      - id: a0_ordinare
+        demand: perform
+    scene_setting: 'Giulia takes you to the gelateria she grew up next to. There are
+
+      thirty tubs behind the glass and she wants to know which ones you
+
+      want before the queue moves. Pointing works, but she is waiting for
+
+      words.
+
+      '
+    outro: Two flavours in, one flatly refused. That is a preference, said out loud.
+  - id: a0-07-mi-piace.d3
+    cefr_level: A0
+    label: Gusti diversi
+    goal: Hold your side of a conversation about food you like and food you don't, without being
+      asked first.
+    summary: Volunteering an opinion, disagreeing, saying what you like about a whole group of things
+    revisits:
+      grammar:
+      - id: mi_piace
+        demand: perform
+      - id: art_i_le
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      functions:
+      - id: a0_esprimere_gusti
+        demand: perform
+      - id: a0_rispondere_si_no
+        demand: perform
+    scene_setting: 'Dinner at Giulia''s, and the fish arrives whole, with its head on.
+
+      She loves it. She has already said so twice. Nobody has asked you
+
+      anything yet, and the plate is coming your way.
+
+      '
+    outro: You disagreed with Giulia about the fish and said why. Nobody switched to English.
   grammar_ids:
   - mi_piace
   - art_i_le
+  - art_il_la
+  - vocab_cibo
+  - num_0_20
   function_ids:
   - a0_esprimere_gusti
-  overview: Everyone has opinions about food! Learn to say what you like and don't like in
-    Italian.
+  - a0_rispondere_si_no
+  - a0_ordinare
+  overview: Everyone has opinions about food! Learn to say what you like and don't like in Italian.
   scene_setting: 'After lunch, you''re chatting with someone at the next table about
 
     the food. They ask what you thought of the pasta. You want to say
@@ -245,15 +845,109 @@
   label: I numeri grandi
   description: Numbers 20-100, telling time, and days of the week
   depths:
-  - Tens 20-100, combining numbers, che ore sono, days of the week, 24-hour clock
+  - id: a0-08-i-numeri-grandi.d1
+    cefr_level: A0
+    label: Quarantacinque euro
+    goal: Understand a price above twenty the first time it is said, and read the days and hours
+      off a shop door.
+    summary: Tens 20-100, combining numbers, che ore sono, days of the week, 24-hour clock
+    introduces:
+      grammar:
+      - num_20_100
+      - ore_giorni
+      functions:
+      - a0_dire_ora
+    revisits:
+      grammar:
+      - id: num_0_20
+        demand: perform
+      functions:
+      - id: a0_contare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+    capstones:
+    - cando: a0.numbers_prices
+      demand: use
+    - cando: a0.tell_time_days
+      demand: use
+    outro: A price above twenty and a closing time, both caught on the first pass.
+  - id: a0-08-i-numeri-grandi.d2
+    cefr_level: A0
+    label: Al mercato
+    goal: Ask a stall what something costs and when they close, and get both numbers right.
+    summary: Prices called across a stall, asking a che ora, quantities and half kilos, chiuso il
+      lunedì
+    revisits:
+      grammar:
+      - id: num_20_100
+        demand: use
+      - id: ore_giorni
+        demand: use
+      - id: art_i_le
+        demand: perform
+      functions:
+      - id: a0_dire_ora
+        demand: use
+      - id: a0_contare
+        demand: perform
+    capstones:
+    - cando: a0.numbers_prices
+      demand: use
+    - cando: a0.tell_time_days
+      demand: use
+    scene_setting: 'Saturday morning at the market. The man on the fruit stall shouts a
+
+      price over your head to someone behind you, then turns and says one
+
+      to you. You want two kilos and you want to know when he packs up.
+
+      '
+    outro: Six euros, back at four, closed on Monday. The numbers stopped being a blur.
+  - id: a0-08-i-numeri-grandi.d3
+    cefr_level: A0
+    label: L'appuntamento
+    goal: Fix a day and a time with someone out loud, and answer a stranger who asks you the time.
+    summary: Arranging to meet on a named day, giving the time unprompted, confirming a changed hour
+    revisits:
+      grammar:
+      - id: num_20_100
+        demand: perform
+      - id: ore_giorni
+        demand: perform
+      - id: num_0_20
+        demand: perform
+      functions:
+      - id: a0_dire_ora
+        demand: perform
+      - id: a0_contare
+        demand: perform
+    capstones:
+    - cando: a0.numbers_prices
+      demand: perform
+    - cando: a0.tell_time_days
+      demand: perform
+    scene_setting: 'Giulia wants to show you something on the other side of the river
+
+      and asks which day suits you. While you are working it out, a woman
+
+      with a pram stops beside you and asks what time it is. Two answers,
+
+      no notice, no English in either of them.
+
+      '
+    outro: You fixed a day and an hour with someone, and both of you turned up.
   grammar_ids:
   - num_20_100
   - ore_giorni
+  - num_0_20
+  - art_i_le
   function_ids:
-  - a0_contare
   - a0_dire_ora
-  overview: Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers
-    and how to tell time.
+  - a0_contare
+  - a0_chiedere_cortesemente
+  overview: Real-world prices go beyond 20 and trains run on schedules. Learn bigger numbers and
+    how to tell time.
   scene_setting: 'You''re browsing a leather shop and the price tag says "quarantacinque
 
     euro." You check the train schedule — departure at "sedici e trenta."
@@ -263,8 +957,8 @@
     Time to catch up.
 
     '
-  outro: Prices, times, and days of the week — the numbers that run daily life in Italy are
-    yours now.
+  outro: Prices, times, and days of the week — the numbers that run daily life in Italy are yours
+    now.
   image: images/scenarios/a0-08-i-numeri-grandi.png
 - id: a0-09-in-viaggio
   cefr_level: A0
@@ -273,16 +967,119 @@
   label: In viaggio
   description: At the train station — buying tickets, platforms, timetables
   depths:
-  - Transport vocabulary, buying tickets, andata e ritorno, platform and time
+  - id: a0-09-in-viaggio.d1
+    cefr_level: A0
+    label: Alla biglietteria
+    goal: Buy a single ticket at the window and catch the platform number in the answer.
+    summary: Transport vocabulary, buying a ticket at the window, reading the departures board
+    introduces:
+      grammar:
+      - vocab_viaggio
+      functions:
+      - a0_comprare_biglietto
+    revisits:
+      grammar:
+      - id: vorrei
+        demand: perform
+      - id: num_20_100
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      functions:
+      - id: a0_contare
+        demand: perform
+      - id: a0_dire_ora
+        demand: perform
+    capstones:
+    - cando: a0.buy_ticket
+      demand: use
+    - cando: a0.read_signs
+      demand: use
+    outro: A ticket, a platform, a departure time. Three numbers, all of them right.
+  - id: a0-09-in-viaggio.d2
+    cefr_level: A0
+    label: Andata e ritorno
+    goal: Buy a return ticket for two from the machine, and find your train on the board without
+      asking anyone.
+    summary: Andata e ritorno, the ticket machine's Italian, binario and orario, station signs
+    revisits:
+      grammar:
+      - id: vocab_viaggio
+        demand: use
+      - id: ore_giorni
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      functions:
+      - id: a0_comprare_biglietto
+        demand: use
+      - id: a0_identificare
+        demand: perform
+    capstones:
+    - cando: a0.buy_ticket
+      demand: use
+    - cando: a0.read_signs
+      demand: use
+    scene_setting: 'Two weeks in and there is no queue you want to stand in. The yellow
+
+      machine in the hall does the whole transaction in Italian — return
+
+      or single, how many people, which day. Giulia is buying coffee and
+
+      is not coming to help.
+
+      '
+    outro: Two returns, one machine, and not a word of English on the screen.
+  - id: a0-09-in-viaggio.d3
+    cefr_level: A0
+    label: Binario cambiato
+    goal: Handle a last-minute platform change — read it, ask about it, and still make the train.
+    summary: Announcements and changed signs, asking a guard, rebooking a missed connection
+    revisits:
+      grammar:
+      - id: vocab_viaggio
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      - id: num_20_100
+        demand: perform
+      functions:
+      - id: a0_comprare_biglietto
+        demand: perform
+      - id: a0_identificare
+        demand: perform
+      - id: a0_chiedere_dove
+        demand: perform
+    capstones:
+    - cando: a0.buy_ticket
+      demand: perform
+    - cando: a0.read_signs
+      demand: perform
+    scene_setting: 'You are standing on platform four with eight minutes to go when the
+
+      board flickers and the number changes. An announcement follows,
+
+      fast, and half the platform starts walking. Nobody is going to
+
+      repeat it in English.
+
+      '
+    outro: The platform changed and it did not matter. You read it, asked, and made the train.
   grammar_ids:
   - vocab_viaggio
+  - vorrei
+  - num_20_100
+  - pronun_bas
+  - ore_giorni
+  - vocab_cibo
   function_ids:
   - a0_comprare_biglietto
-  - a0_chiedere_dove
-  - a0_dire_ora
   - a0_contare
-  overview: Time to travel! Put your numbers and time skills to work buying train tickets
-    and navigating the station.
+  - a0_dire_ora
+  - a0_identificare
+  - a0_chiedere_dove
+  overview: Time to travel! Put your numbers and time skills to work buying train tickets and navigating
+    the station.
   scene_setting: 'You''re heading south. The departures board at Roma Termini is a wall
 
     of city names and platform numbers. You need a ticket to Napoli,
@@ -301,17 +1098,79 @@
   label: Conoscere qualcuno
   description: Meeting people — essere, pronouns, nationality, origin
   depths:
-  - Essere sono/sei/è, subject pronouns, nationality, sono di, simple sentences
+  - id: a0-10-conoscere-qualcuno.d1
+    cefr_level: A0
+    label: Di dove sei?
+    goal: Say your name and where you are from, and ask someone else the same.
+    summary: Essere sono/sei/è, subject pronouns, sono di, simple declarative sentences
+    introduces:
+      grammar:
+      - essere_pre
+      - subj_pron
+      - simp_sent
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: use
+    outro: You gave your name, your city, and asked one back. That is a conversation, not a transaction.
+  - id: a0-10-conoscere-qualcuno.d2
+    cefr_level: A0
+    label: Lui è di Milano
+    goal: Talk about a third person — who they are and where they are from.
+    summary: Sono, sei and è across all three persons, lui and lei, longer simple sentences
+    revisits:
+      grammar:
+      - id: essere_pre
+        demand: use
+      - id: subj_pron
+        demand: use
+      - id: simp_sent
+        demand: use
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: use
+    scene_setting: 'Luca is back on the same bench the next evening, and this time he
+
+      has brought a friend. The sentences are no longer about you: he is
+
+      from Milano, she is from Firenze, and you have to keep up with who
+
+      is who.
+
+      '
+    outro: Io, tu, lui, lei. Four small words, and the conversation stops being only about you.
+  - id: a0-10-conoscere-qualcuno.d3
+    cefr_level: A0
+    label: In piazza, di domenica
+    goal: Introduce yourself unprompted and keep a short exchange going on your own.
+    summary: Introducing yourself first, answering follow-up questions, holding a short exchange
+      unaided
+    revisits:
+      grammar:
+      - id: essere_pre
+        demand: perform
+      - id: subj_pron
+        demand: perform
+      - id: simp_sent
+        demand: perform
+    capstones:
+    - cando: a0.say_who_i_am
+      demand: perform
+    scene_setting: 'Sunday, and the piazza is full. Luca waves you over to a table of
+
+      people who have never met you. Six names arrive at once, nobody
+
+      slows down, and then they all wait for yours.
+
+      '
+    outro: Six strangers, one round of names, no English. You are no longer the person being talked
+      about.
   grammar_ids:
   - essere_pre
   - subj_pron
   - simp_sent
-  function_ids:
-  - a0_presentarsi
-  - a0_dire_nome
-  - a0_rispondere_si_no
-  overview: You meet someone at the piazza. Learn to say who you are, where you're from, and
-    ask others the same.
+  function_ids: []
+  overview: You meet someone at the piazza. Learn to say who you are, where you're from, and ask
+    others the same.
   scene_setting: 'You''re sitting on a bench in a piazza when someone sits down next
 
     to you and strikes up a conversation. "Di dove sei?" — where are
@@ -330,17 +1189,92 @@
   label: Un problema
   description: When things go wrong — clarifying, emergencies, and staying calm
   depths:
-  - Ho bisogno di, ho perso, più lentamente, emergency phrases, pharmacy visit
+  - id: a0-11-un-problema.d1
+    cefr_level: A0
+    label: Ho un problema
+    goal: Say what has gone wrong and ask the person in front of you for help.
+    summary: Ho for possession and trouble, sì/no/non, describing a problem out loud
+    introduces:
+      grammar:
+      - avere_pre
+      - si_no_non
+      functions:
+      - a0_descrivere_problema
+    capstones:
+    - cando: a0.yes_no_answers
+      demand: use
+    - cando: a0.say_likes
+      demand: use
+    - cando: a0.ask_for_help
+      demand: use
+    outro: Ho un problema. Three words, and the person opposite starts helping instead of guessing.
+  - id: a0-11-un-problema.d2
+    cefr_level: A0
+    label: Sì, no, non è mio
+    goal: Answer yes/no questions about your problem and rule out the wrong answers.
+    summary: Answering sì and no, putting non in front of the verb — non è mio, non ho, non mi piace
+    revisits:
+      grammar:
+      - id: avere_pre
+        demand: use
+      - id: si_no_non
+        demand: use
+      functions:
+      - id: a0_descrivere_problema
+        demand: use
+    capstones:
+    - cando: a0.yes_no_answers
+      demand: use
+    - cando: a0.say_likes
+      demand: use
+    - cando: a0.ask_for_help
+      demand: use
+    scene_setting: 'The lost property office at the station has three wallets laid out
+
+      on the counter and a man with a form who asks one question at a
+
+      time. Sì. No. Non è mio. Everything you need today goes in front
+
+      of a verb.
+
+      '
+    outro: You said no three times and sì once, and the right wallet came back across the counter.
+  - id: a0-11-un-problema.d3
+    cefr_level: A0
+    label: In farmacia
+    goal: Explain what is wrong, answer what you are asked, and turn down what does not suit you.
+    summary: Describing a problem unaided, answering freely, saying what you do and do not want
+    revisits:
+      grammar:
+      - id: avere_pre
+        demand: perform
+      - id: si_no_non
+        demand: perform
+      functions:
+      - id: a0_descrivere_problema
+        demand: perform
+    capstones:
+    - cando: a0.yes_no_answers
+      demand: perform
+    - cando: a0.say_likes
+      demand: perform
+    - cando: a0.ask_for_help
+      demand: perform
+    scene_setting: 'Sunday evening, and the only farmacia open is the one across the
+
+      river. You have a headache, nobody with you who speaks English,
+
+      and a pharmacist who takes one look and waits for you to start.
+
+      '
+    outro: You walked in with a problem and walked out with the box you actually wanted.
   grammar_ids:
   - avere_pre
-  - polite_exp
   - si_no_non
   function_ids:
-  - a0_chiedere_aiuto
   - a0_descrivere_problema
-  - a0_scusarsi
-  overview: Something doesn't go to plan. Learn to handle problems, find help, and know the
-    key emergency phrases.
+  overview: Something doesn't go to plan. Learn to handle problems, find help, and know the key emergency
+    phrases.
   scene_setting: 'Not everything goes smoothly when you travel. You can''t find your
 
     wallet, the pharmacy is closed, and you need to explain what''s wrong
@@ -359,15 +1293,153 @@
   label: L'ultimo giorno
   description: Your last day — goodbyes, expressing thanks, reflections
   depths:
-  - Farewell phrases, grazie di tutto, buon viaggio, cumulative mixed review
+  - id: a0-12-ultimo-giorno.d1
+    cefr_level: A0
+    label: L'ultima mattina
+    goal: Order your last coffee, settle up, and take your leave properly instead of just walking
+      out.
+    summary: Arrivederci, ci vediamo, a presto — taking leave, over one last order at the counter
+    introduces:
+      functions:
+      - a0_congedarsi
+    revisits:
+      grammar:
+      - id: art_un_una
+        demand: perform
+      - id: vorrei
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      - id: num_20_100
+        demand: perform
+      functions:
+      - id: a0_ordinare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+      - id: a0_contare
+        demand: perform
+    capstones:
+    - cando: a0.greet_take_leave
+      demand: use
+    scene_setting: 'Your flight is at six. You spend the first of your last morning at
+
+      the counter you found on your first day — same barista, same
+
+      machine. The order is the easy part. The hard part is what you say
+
+      on the way out.
+
+      '
+    outro: The first time you came in here you pointed at the pastry. This morning you named it,
+      and you left properly.
+  - id: a0-12-ultimo-giorno.d2
+    cefr_level: A0
+    label: Grazie di tutto
+    goal: Thank the people who helped you, by name, tell them what you liked, and say goodbye to
+      each one.
+    summary: Thanks and farewells to real people, giving your name back, saying what you liked and
+      did not
+    revisits:
+      grammar:
+      - id: polite_exp
+        demand: perform
+      - id: mi_chiamo
+        demand: perform
+      - id: mi_piace
+        demand: perform
+      - id: si_no_non
+        demand: perform
+      functions:
+      - id: a0_congedarsi
+        demand: use
+      - id: a0_ringraziare
+        demand: perform
+      - id: a0_salutare
+        demand: perform
+      - id: a0_dire_nome
+        demand: perform
+      - id: a0_esprimere_gusti
+        demand: perform
+    capstones:
+    - cando: a0.greet_take_leave
+      demand: use
+    scene_setting: 'The afternoon is a round of goodbyes: the woman at the hotel desk,
+
+      the pharmacist who found you the right box, Luca on his bench.
+
+      Each of them gets a sentence, and the sentence has to be yours.
+
+      '
+    outro: Grazie di tutto means more than grazie, and today you had something to put after it.
+  - id: a0-12-ultimo-giorno.d3
+    cefr_level: A0
+    label: Arrivederci
+    goal: Say goodbye properly, and hold a short conversation with a stranger at the gate.
+    summary: Farewells, saying who you are and where you are from, departure times and travel words
+    revisits:
+      grammar:
+      - id: saluti
+        demand: perform
+      - id: essere_pre
+        demand: perform
+      - id: subj_pron
+        demand: perform
+      - id: simp_sent
+        demand: perform
+      - id: vocab_viaggio
+        demand: perform
+      - id: ore_giorni
+        demand: perform
+      functions:
+      - id: a0_congedarsi
+        demand: perform
+      - id: a0_presentarsi
+        demand: perform
+      - id: a0_dire_ora
+        demand: perform
+      - id: a0_rispondere_si_no
+        demand: perform
+    capstones:
+    - cando: a0.greet_take_leave
+      demand: perform
+    scene_setting: 'Fiumicino, gate B14, the same plastic seats as the day you landed.
+
+      The woman beside you asks where you have come from and what time
+
+      you get in. On the way here, that was noise.
+
+      '
+    outro: You arrived understanding nothing. You are leaving in the middle of a conversation.
   grammar_ids:
+  - art_un_una
+  - vorrei
+  - vocab_cibo
+  - num_20_100
+  - polite_exp
+  - mi_chiamo
+  - mi_piace
+  - si_no_non
   - saluti
+  - essere_pre
+  - subj_pron
+  - simp_sent
+  - vocab_viaggio
+  - ore_giorni
   function_ids:
   - a0_congedarsi
+  - a0_ordinare
+  - a0_chiedere_cortesemente
+  - a0_contare
   - a0_ringraziare
   - a0_salutare
-  overview: Your trip is ending. Review everything through one final day of farewells, thanks,
-    and looking back.
+  - a0_dire_nome
+  - a0_esprimere_gusti
+  - a0_presentarsi
+  - a0_dire_ora
+  - a0_rispondere_si_no
+  overview: Your trip is ending. Review everything through one final day of farewells, thanks, and
+    looking back.
   scene_setting: 'It''s your last day. You say goodbye to the hotel staff, thank the
 
     barista who made your coffee every morning, and pick up a few last
@@ -386,45 +1458,177 @@
   label: Ripasso A0
   description: Cumulative review of everything learned in A0
   depths:
-  - Full review of all A0 material, final conversation, onboarding for A1
+  - id: a0-13-ripasso.d1
+    cefr_level: A0
+    label: Quello che sai dire
+    goal: Open a conversation from nothing — greet, give your name, count, answer — with no prompt.
+    summary: Greetings and goodbyes, courtesy, your name, the numbers to twenty, sì and no
+    revisits:
+      grammar:
+      - id: saluti
+        demand: perform
+      - id: polite_exp
+        demand: perform
+      - id: pronun_bas
+        demand: perform
+      - id: mi_chiamo
+        demand: perform
+      - id: num_0_20
+        demand: perform
+      - id: si_no_non
+        demand: perform
+      functions:
+      - id: a0_salutare
+        demand: perform
+      - id: a0_congedarsi
+        demand: perform
+      - id: a0_ringraziare
+        demand: perform
+      - id: a0_presentarsi
+        demand: perform
+      - id: a0_dire_nome
+        demand: perform
+      - id: a0_rispondere_si_no
+        demand: perform
+    scene_setting: 'There is nothing new in this lesson. You start exactly where you
+
+      started on the plane — buongiorno, per favore, mi chiamo — except
+
+      that this time nobody says them to you first.
+
+      '
+    outro: The words from your first hour, said without stopping to think. At this level, that is
+      what fluent means.
+  - id: a0-13-ripasso.d2
+    cefr_level: A0
+    label: La città, senza aiuto
+    goal: Order, ask where things are, name what you are looking at, and say what you think of it.
+    summary: Un and il and i, vorrei, dov'è, che cos'è, mi piace — a whole afternoon in the city,
+      unprompted
+    revisits:
+      grammar:
+      - id: art_un_una
+        demand: perform
+      - id: art_il_la
+        demand: perform
+      - id: art_i_le
+        demand: perform
+      - id: vorrei
+        demand: perform
+      - id: vocab_cibo
+        demand: perform
+      - id: che_cose
+        demand: perform
+      - id: dove_e
+        demand: perform
+      - id: prep_place
+        demand: perform
+      - id: mi_piace
+        demand: perform
+      functions:
+      - id: a0_ordinare
+        demand: perform
+      - id: a0_chiedere_cortesemente
+        demand: perform
+      - id: a0_identificare
+        demand: perform
+      - id: a0_esprimere_gusti
+        demand: perform
+      - id: a0_chiedere_dove
+        demand: perform
+      - id: a0_scusarsi
+        demand: perform
+    scene_setting: 'One afternoon, start to finish: a bar, a wrong turn, a menu with
+
+      something on it you have never seen, and someone at the next table
+
+      who asks whether you liked it. No hints in the margin this time.
+
+      '
+    outro: Un, il, i — three shapes of the same small word, and you have stopped stopping to choose.
+  - id: a0-13-ripasso.d3
+    cefr_level: A0
+    label: L'esame che non è un esame
+    goal: Hold a real exchange — who you are, what time it is, where you are going, and what has
+      gone wrong.
+    summary: Essere and avere, pronouns, whole sentences, big numbers, the clock, tickets, asking
+      for help
+    revisits:
+      grammar:
+      - id: num_20_100
+        demand: perform
+      - id: ore_giorni
+        demand: perform
+      - id: vocab_viaggio
+        demand: perform
+      - id: essere_pre
+        demand: perform
+      - id: subj_pron
+        demand: perform
+      - id: simp_sent
+        demand: perform
+      - id: avere_pre
+        demand: perform
+      functions:
+      - id: a0_contare
+        demand: perform
+      - id: a0_dire_ora
+        demand: perform
+      - id: a0_comprare_biglietto
+        demand: perform
+      - id: a0_chiedere_aiuto
+        demand: perform
+      - id: a0_descrivere_problema
+        demand: perform
+    scene_setting: 'The last one is a conversation, not a test. Someone at a ticket
+
+      window asks where you are going, what time you want to leave, and
+
+      whether something is wrong. You answer all three, in order, on
+
+      your own.
+
+      '
+    outro: A0 was thirteen scenarios and a couple of hundred words. What you leave with is the nerve
+      to start the sentence.
   grammar_ids:
   - saluti
   - polite_exp
-  - si_no_non
-  - vorrei
+  - pronun_bas
   - mi_chiamo
   - num_0_20
-  - pronun_bas
+  - si_no_non
   - art_un_una
   - art_il_la
   - art_i_le
-  - dove_e
-  - prep_place
+  - vorrei
   - vocab_cibo
   - che_cose
+  - dove_e
+  - prep_place
   - mi_piace
   - num_20_100
   - ore_giorni
   - vocab_viaggio
   - essere_pre
-  - avere_pre
   - subj_pron
   - simp_sent
+  - avere_pre
   function_ids:
   - a0_salutare
   - a0_congedarsi
   - a0_ringraziare
-  - a0_scusarsi
   - a0_presentarsi
   - a0_dire_nome
-  - a0_chiedere_cortesemente
   - a0_rispondere_si_no
-  - a0_contare
-  - a0_dire_ora
+  - a0_ordinare
+  - a0_chiedere_cortesemente
   - a0_identificare
   - a0_esprimere_gusti
   - a0_chiedere_dove
-  - a0_ordinare
+  - a0_scusarsi
+  - a0_contare
+  - a0_dire_ora
   - a0_comprare_biglietto
   - a0_chiedere_aiuto
   - a0_descrivere_problema
@@ -438,8 +1642,7 @@
     making sure nothing gets left behind before the next chapter.
 
     '
-  outro: You've completed A0. From zero Italian to real conversations — that took courage.
-    Bravo.
+  outro: You've completed A0. From zero Italian to real conversations — that took courage. Bravo.
   image: images/scenarios/a0-13-ripasso.png
 - id: presentarsi
   cefr_level: A1

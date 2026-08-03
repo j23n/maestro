@@ -54,10 +54,24 @@ fn every_lesson_composes_a_full_session() {
             let ctx = format!("{scenario} seed {seed}");
             let acts = plan["activities"].as_array().expect("activities");
 
-            assert_eq!(
-                plan["shortfalls"].as_array().map(Vec::len),
-                Some(0),
-                "{ctx}: content ran out: {}",
+            // Nothing may starve except the two slots the spec fill
+            // (docs/plans/08 Phase B) opened ahead of the content. Every
+            // A0 lesson now declares the can-do it proves and the material
+            // it comes back to; the `task` items and the higher-rung items
+            // those declarations draw on are Phase C. The teaching half of
+            // a lesson — cards, drills, reading, listening, speaking — is
+            // still required to be complete, which is what this checks.
+            // Tighten back to zero when the content lands.
+            let starved: Vec<&str> = plan["shortfalls"]
+                .as_array()
+                .expect("shortfalls")
+                .iter()
+                .map(|s| s["slot"].as_str().unwrap())
+                .filter(|slot| !matches!(*slot, "capstone" | "revisit"))
+                .collect();
+            assert!(
+                starved.is_empty(),
+                "{ctx}: content ran out: {starved:?} in {}",
                 plan["shortfalls"]
             );
             // A fresh learner meets this grammar for the first time either

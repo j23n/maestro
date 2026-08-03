@@ -226,9 +226,9 @@ excluded because it lists the entire band.
 
 | # | scenario | introduces |
 | --- | --- | --- |
-| 1 | in-aereo | `saluti` `polite_exp` `pronun_bas` · `a0_salutare` `a0_ringraziare` `a0_rispondere_si_no` `a0_ordinare` `a0_congedarsi`\* `a0_chiedere_cortesemente`\* |
+| 1 | in-aereo | `saluti` `polite_exp` `pronun_bas` · `a0_salutare` `a0_ringraziare` `a0_rispondere_si_no` |
 | 2 | in-albergo | `mi_chiamo` `num_0_20` · `a0_presentarsi` `a0_dire_nome` `a0_contare` |
-| 3 | al-bar | `art_un_una` `vorrei` `vocab_cibo`† · `a0_ordinare`† |
+| 3 | al-bar | `art_un_una` `vorrei` `vocab_cibo` · `a0_ordinare` `a0_chiedere_cortesemente` † |
 | 4 | in-giro | `art_il_la` `dove_e` · `a0_chiedere_dove` `a0_scusarsi` |
 | 5 | chiedere-aiuto | `prep_place` · `a0_chiedere_aiuto` |
 | 6 | a-pranzo | `che_cose` · `a0_identificare` |
@@ -237,23 +237,31 @@ excluded because it lists the entire band.
 | 9 | in-viaggio | `vocab_viaggio` · `a0_comprare_biglietto` |
 | 10 | conoscere-qualcuno | `essere_pre` `subj_pron` `simp_sent` |
 | 11 | un-problema | `avere_pre` `si_no_non` · `a0_descrivere_problema` |
-| 12 | ultimo-giorno | — |
+| 12 | ultimo-giorno | `a0_congedarsi` |
 | 13 | ripasso | — (introduces nothing; revisits the band at `perform`) |
 
-\* **Two homes move, for pedagogical reasons rather than to satisfy the
-checker.** `a0_congedarsi` was homed at lesson 12 and
-`a0_chiedere_cortesemente` at lesson 3 — but you learn *arrivederci* and
-*per favore* on the plane, not on your last day in the country. Moving
-them to lesson 1 is right on its own terms, and it happens to be what
-lets `a0.greet_take_leave` be proved where it is taught.
+† Already authored (docs/plans/07 step 4) and therefore frozen — which
+settled a question the first draft of this table got wrong. That draft
+moved `a0_chiedere_cortesemente` to lesson 1 on the reasoning that you
+learn *per favore* on the plane. True, but al-bar already introduces it,
+and two homes is an error the checker rejects outright: a lemma, point or
+function is introduced once or the composer cannot know which lesson owes
+it a reference page. The frozen lesson wins. `vocab_cibo` is likewise
+homed at the bar rather than at lunch, because an A0 learner orders a
+coffee before they ever sit down to a meal; `a0-06` revisits it.
 
-† Already authored (docs/plans/07 step 4). `vocab_cibo` is homed at the
-bar rather than at lunch because an A0 learner orders a coffee before
-they ever sit down to a meal; `a0-06` revisits it.
+`a0_congedarsi` stays at lesson 12, and the arc is better for it:
+`ultimo-giorno` is where you actually learn to say goodbye.
 
-Lessons 12 and 13 introduce nothing. That is correct: `ultimo-giorno` is
-a farewell, `ripasso` is the review, and both exist to be the last
-`perform` pass for material taught earlier.
+Lesson 13 introduces nothing. That is correct: `ripasso` is the review,
+and exists to be the last `perform` pass for material taught earlier.
+
+**The rule that falls out of authoring these in parallel: a
+cross-scenario revisit must be at `perform`.** By the time a scenario's
+depth 3 has run, its own material is already at `perform`, so a later
+lesson revisiting it at `use` is a fall and trips `falling-demand`. Only
+material a scenario introduced itself can be revisited at `use`, at its
+own depth 2.
 
 ### Can-dos: capstoned where the decomposition is finally taught
 
@@ -264,7 +272,7 @@ that satisfies that gives:
 
 | scenario | can-dos capstoned there (×3 depths, rising to `perform`) |
 | --- | --- |
-| in-aereo | `greet_take_leave`, `catch_courtesy` |
+| in-aereo | `catch_courtesy` |
 | al-bar | `order_something` ✓ done |
 | chiedere-aiuto | `ask_where` |
 | a-pranzo | `identify_things` |
@@ -272,6 +280,7 @@ that satisfies that gives:
 | in-viaggio | `buy_ticket`, `read_signs` |
 | conoscere-qualcuno | `say_who_i_am` |
 | un-problema | `yes_no_answers`, `say_likes`, `ask_for_help` |
+| ultimo-giorno | `greet_take_leave` |
 
 **13 can-dos × 3 = 39 capstones across 39 lessons** — the totals match,
 though the distribution is lumpy: five scenarios carry none and
