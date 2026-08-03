@@ -80,6 +80,10 @@ def test_irregular_elisions_resolve_to_their_lemma(index):
     assert "quanto" in vocab_link.find_lemmas("Quant'è?", index)
     ci, _ = make_index(("ci", "pron"))
     assert vocab_link.find_lemmas("C'è un problema.", ci) == ["ci"]
+    # "Che cos'è?" is the whole of the che_cose grammar point, and the
+    # unelided "cosa è" is the form nobody says.
+    idx, _ = make_index(("cosa", "pron"), ("anche", "adv"))
+    assert vocab_link.find_lemmas("Che cos'è? Anch'io.", idx) == ["cosa", "anche"]
 
 
 def test_article_elisions_fall_out_of_surface_generation():

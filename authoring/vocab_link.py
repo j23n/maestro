@@ -69,6 +69,11 @@ _ELIDED: dict[str, str] = {
     "dove": "dov'",
     "ci": "c'",
     "quanto": "quant'",
+    # "che cos'è?" is the whole of the `che_cose` grammar point, and it is
+    # what a learner actually hears — the unelided "cosa è" is the form
+    # nobody says.
+    "cosa": "cos'",
+    "anche": "anch'",
 }
 
 # Written variants that are the same word: "ad" and "ed" before a vowel,
