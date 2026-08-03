@@ -34,7 +34,7 @@ from pathlib import Path
 
 import yaml
 
-from authoring.build_pack import load_pack_sources, validate_pack
+from authoring.build_pack import load_content_yaml, load_pack_sources, validate_pack
 from authoring.pack_schemas import (
     DrillItem,
     GrammarRefItem,
@@ -441,7 +441,9 @@ def parse_response(
     m = re.search(r"```(?:yaml)?\n(.*?)```", text, re.DOTALL)
     if m:
         text = m.group(1)
-    raw = yaml.safe_load(text)
+    # Not safe_load: a drafted «no» — a card's English side, a distractor
+    # key, an accepted answer — is a word here, not YAML 1.1's boolean.
+    raw = load_content_yaml(text)
     if not isinstance(raw, list):
         raise ValueError("response is not a YAML list")
 
@@ -510,7 +512,7 @@ def generate_items(
     out_dir = pack_dir / kind.subdir
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / f"{scope.slug}.draft.yaml"
-    existing_drafts = yaml.safe_load(out.read_text()) or [] if out.exists() else []
+    existing_drafts = load_content_yaml(out.read_text()) or [] if out.exists() else []
     dumped = existing_drafts + [
         {
             k: v

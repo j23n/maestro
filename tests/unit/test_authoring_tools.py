@@ -162,6 +162,32 @@ def test_generate_vocab_ids_come_from_lemma(tmp_path):
         generate_items(pack, SPEC, "vocab", scope, 1, from_file=resp)
 
 
+CANNED_NO = """\
+```yaml
+- cefr_level: A0
+  lemma: "no"
+  front: "no"
+  back: no
+  example: "No, grazie."
+  example_gloss: "No, thank you."
+  evidence:
+    - { axis: vocab, id: "no", weight: 1.0 }
+```
+"""
+
+
+def test_a_drafted_no_stays_a_word(tmp_path):
+    """YAML 1.1 reads a bare `no` as boolean false. In an Italian pack it
+    is a lemma, a card's English side, a distractor key and an accepted
+    answer — and the model writes it unquoted."""
+    pack = make_tmp_pack(tmp_path)
+    resp = tmp_path / "resp.yaml"
+    resp.write_text(CANNED_NO)
+    scope = resolve_scope(SPEC, theme="Ferragosto", level="A0")
+    out = generate_items(pack, SPEC, "vocab", scope, 1, from_file=resp)
+    assert yaml.safe_load(out.read_text())[0]["back"] == "no"
+
+
 CANNED_LISTENING = """\
 ```yaml
 - cefr_level: A0
@@ -262,7 +288,7 @@ def test_review_covers_all_item_families(tmp_path):
     pack = tmp_path / "pack"
     shutil.copytree(ROOT / "packs" / "it", pack)
     # Demote one non-drill item of each family to draft.
-    for subdir in ("readings", "vocab", "speaking_prompts"):
+    for subdir in ("readings", "vocab", "speaking_prompts", "tasks"):
         f = next((pack / subdir).glob("*.yaml"))
         entries = yaml.safe_load(f.read_text())
         entries[0]["status"] = "draft"
@@ -271,6 +297,9 @@ def test_review_covers_all_item_families(tmp_path):
     client = TestClient(create_app(pack, ROOT / "spec" / "it"))
     page = client.get("/").text
     assert "reading." in page and "vocab." in page and "speaking." in page
+    # Capstones are the only items that can close a can-do, and the build
+    # ships only `reviewed` — a family missing from here can never ship.
+    assert "task." in page
 
     # Accepting a vocab card through the tool works like a drill.
     cards = yaml.safe_load((pack / "vocab" / "a0_basics.yaml").read_text())
@@ -284,6 +313,22 @@ def test_review_covers_all_item_families(tmp_path):
     assert r.status_code == 303 and "error" not in r.headers["location"]
     cards = yaml.safe_load((pack / "vocab" / "a0_basics.yaml").read_text())
     assert cards[0]["status"] == "reviewed"
+
+    # And so does accepting a capstone, which carries fields no other
+    # family has (`rubric`, `mode`, an authored `demand`).
+    tasks_file = next((pack / "tasks").glob("*.yaml"))
+    tasks = yaml.safe_load(tasks_file.read_text())
+    r = client.post(
+        f"/item/{tasks[0]['id']}",
+        data={
+            "action": "accept",
+            "source": yaml.dump([tasks[0]], allow_unicode=True, sort_keys=False),
+        },
+        follow_redirects=False,
+    )
+    assert r.status_code == 303, r.headers.get("location")
+    assert "error" not in r.headers["location"], r.headers["location"]
+    assert yaml.safe_load(tasks_file.read_text())[0]["status"] == "reviewed"
 
 
 def test_review_context_panel_and_warnings(tmp_path):

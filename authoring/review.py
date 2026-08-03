@@ -32,13 +32,14 @@ import yaml
 from fastapi import FastAPI, Form
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 
-from authoring.build_pack import validate_pack
+from authoring.build_pack import load_content_yaml, validate_pack
 from authoring.pack_schemas import (
     DrillItem,
     GrammarRefItem,
     ListeningItem,
     ReadingItem,
     SpeakingPromptItem,
+    TaskItem,
     VocabCardItem,
     WritingPromptItem,
 )
@@ -54,6 +55,11 @@ FAMILIES: dict[str, tuple[str, type]] = {
     "speaking": ("speaking_prompts", SpeakingPromptItem),
     "writing": ("writing_prompts", WritingPromptItem),
     "grammar_ref": ("grammar_refs", GrammarRefItem),
+    # A capstone is the only item carrying `axis: cando`, so it is the only
+    # thing that can move a can-do to achieved. Leaving it out of here left
+    # them unreviewable, and the build ships only `reviewed` — they could
+    # never have shipped.
+    "task": ("tasks", TaskItem),
 }
 
 COVERAGE_TARGETS = {"drill": 30, "vocab_card": 5, "grammar_ref": 1}
@@ -186,6 +192,24 @@ def _render_preview(entry: dict, pack_dir: Path) -> str:
         )
         if entry.get("model_answer"):
             out.append(f"<p class=feedback>model: {_esc(entry['model_answer'])}</p>")
+    elif prefix == "task":
+        out.append(f"<p><b>{_esc(entry.get('prompt'))}</b></p>")
+        # The rung is what a reviewer has to judge: at `perform` the build
+        # withholds the target, so the learner has nothing to copy.
+        out.append(
+            f"<p class=answer>{_esc(entry.get('mode'))} at "
+            f"{_esc(entry.get('demand'))} — target: "
+            f"{_esc(entry.get('target_text'))}</p>"
+        )
+        for v in entry.get("variants", []):
+            out.append(f"<p class=answer>variant: {_esc(v)}</p>")
+        out.append(
+            "<ul>"
+            + "".join(
+                f"<li class=feedback>{_esc(r)}</li>" for r in entry.get("rubric") or []
+            )
+            + "</ul>"
+        )
     elif prefix == "grammar_ref":
         out.append(f"<p><b>{_esc(entry.get('title'))}</b></p>")
         out.append(
@@ -269,7 +293,7 @@ def create_app(
         out = []
         for subdir, _model in FAMILIES.values():
             for f in sorted((pack_dir / subdir).glob("*.yaml")):
-                out.append((f, yaml.safe_load(f.read_text()) or []))
+                out.append((f, load_content_yaml(f.read_text()) or []))
         return out
 
     def find_item(item_id: str) -> tuple[Path, list[dict], dict] | None:
@@ -489,7 +513,7 @@ def create_app(
             save_file(path, entries)
             return RedirectResponse("/", status_code=303)
         try:
-            parsed = yaml.safe_load(source)
+            parsed = load_content_yaml(source)
             if not isinstance(parsed, list) or len(parsed) != 1:
                 raise ValueError("source must be a single-item YAML list")
             updated = parsed[0]
