@@ -264,6 +264,19 @@ def test_draft_items_are_not_supply_unless_asked_for():
     )
 
 
+def test_a_band_out_of_scope_is_not_held_to_the_contract():
+    """The arc is authored a band at a time. A gate that only passes once
+    A0, A1 and A2 are all finished cannot gate anything in between, so
+    scoping to the band being worked on has to be exact: everything at
+    that level is checked, everything above it is nobody's business yet."""
+    spec = _spec(_compliant_depths())
+    spec.grammar_points.append(
+        GrammarPoint(id="passato_pr", cefr_level="A1", category="verbi", label="passato")
+    )
+    assert spiral(spec, _items()).findings != []  # the A1 point is an orphan
+    assert spiral(spec, _items(), in_scope=("A0",)).findings == []
+
+
 # --------------------------------------------------------------------------
 # The word chain: lesson text -> surface form -> lemma -> dictionary entry.
 
