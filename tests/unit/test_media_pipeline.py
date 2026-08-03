@@ -161,7 +161,7 @@ def test_generate_images_vocab_writeback_and_build_embedding(pack, tmp_path):
     assert "images/scenarios/a0-01-in-aereo.png" in images
 
 
-def test_plan_jobs_lessons_skips_stubs_and_honours_override(pack, tmp_path):
+def test_plan_jobs_lessons_covers_every_depth_and_honours_override(pack, tmp_path):
     spec = tmp_path / "spec"
     shutil.copytree(ROOT / "spec" / "it", spec)
     scenarios = yaml.safe_load((spec / "scenarios.yaml").read_text())
@@ -172,9 +172,15 @@ def test_plan_jobs_lessons_skips_stubs_and_honours_override(pack, tmp_path):
     )
 
     jobs = {j.ref_id: j for j in plan_jobs(pack, spec, {"lessons"})}
-    # Only declared (dict-form) lessons get art; the legacy one-line
-    # stubs are skipped until the spec fill makes them real lessons.
-    assert set(jobs) == {"a0-03-al-bar.d1", "a0-03-al-bar.d2", "a0-03-al-bar.d3"}
+    # Every declared depth gets its own art — the Learn path shows one card
+    # per lesson, so a shared scenario image would repeat three times.
+    depths = [
+        f"{s['id']}.d{n}"
+        for s in scenarios
+        for n, d in enumerate(s["depths"], 1)
+        if isinstance(d, dict)
+    ]
+    assert set(jobs) == set(depths)
     assert jobs["a0-03-al-bar.d2"].path == "images/lessons/a0-03-al-bar.d2.png"
     # The authored override replaces the derived prompt wholesale.
     assert jobs["a0-03-al-bar.d1"].prompt == "A single espresso cup on a zinc counter."
@@ -193,8 +199,8 @@ def test_generate_images_mock_prompts_writeback_and_caching(pack):
         )
         == 0
     )
-    # ... and a forced one re-renders the 3 declared al-bar lessons plus
-    # one image per writing/speaking prompt.
+    # ... and a forced one re-renders every declared lesson plus one image
+    # per writing/speaking prompt.
     n = generate_images(
         pack,
         ROOT / "spec" / "it",

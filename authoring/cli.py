@@ -57,6 +57,14 @@ def main() -> int:
         help="count draft items as supply in --coverage (dev packs)",
     )
     val.add_argument(
+        "--band",
+        action="append",
+        metavar="LEVEL",
+        help="restrict --coverage to these CEFR bands (repeatable). The "
+        "arc is authored a band at a time, so `--band A0` is what gates "
+        "A0 in CI while A1 is still being written",
+    )
+    val.add_argument(
         "--adversarial",
         action="store_true",
         help="second-model adversarial answer pass over drills (API)",
@@ -187,6 +195,7 @@ def main() -> int:
         n_uncovered = 0
         if args.coverage:
             from authoring.coverage import (
+                IN_SCOPE,
                 check_coverage,
                 format_report,
                 load_proper_nouns,
@@ -201,6 +210,7 @@ def main() -> int:
                 spec,
                 sources.all_items(),
                 statuses=statuses,
+                in_scope=tuple(args.band) if args.band else IN_SCOPE,
                 proper_nouns=load_proper_nouns(spec_dir),
             )
             print(format_report(report))

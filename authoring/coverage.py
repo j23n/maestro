@@ -98,6 +98,7 @@ class CoverageReport:
     # axis -> ids meeting the whole contract
     covered: dict[str, int] = field(default_factory=dict)
     lessons: int = 0
+    bands: tuple[str, ...] = IN_SCOPE
 
     def by_rule(self) -> dict[str, list[Finding]]:
         out: dict[str, list[Finding]] = {}
@@ -114,7 +115,7 @@ class CoverageReport:
             f"  {axis:<9} {self.covered.get(axis, 0):>4} / {total:<4} covered"
             for axis, total in sorted(self.totals.items())
         ]
-        head = f"{self.lessons} lessons; A0-A2 coverage:"
+        head = f"{self.lessons} lessons; {'/'.join(self.bands)} coverage:"
         return "\n".join([head, *rows])
 
 
@@ -213,7 +214,7 @@ def check_coverage(
     min_passes: int = MIN_PASSES,
     proper_nouns: set[str] | None = None,
 ) -> CoverageReport:
-    report = CoverageReport()
+    report = CoverageReport(bands=tuple(in_scope))
     passes, report.lessons = _collect_passes(spec)
     rungs, by_lesson = _index_items(items, statuses)
 

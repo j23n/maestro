@@ -1,3 +1,21 @@
+images/lessons/a0-01-in-aereo.d1.png:
+  prompt_sha256: 7378ca35fe5fceac0292492f6e939cea4e2866ba9ed1ee482ad1b4c7d1b25bf4
+  provider: mock
+images/lessons/a0-01-in-aereo.d2.png:
+  prompt_sha256: b1f168a7805283c03be5b59fd9133d2bd6fd5d1b47175efeceaf04bbc817d172
+  provider: mock
+images/lessons/a0-01-in-aereo.d3.png:
+  prompt_sha256: ca91b5c01ba8b299b4577f3930945f7598171d29580b8d3fd7773eb58a3f4f01
+  provider: mock
+images/lessons/a0-02-in-albergo.d1.png:
+  prompt_sha256: 1f197566bc200358cfd7c89e2106db80dcfde14cc4e13dbdf4dc2d51455ed858
+  provider: mock
+images/lessons/a0-02-in-albergo.d2.png:
+  prompt_sha256: 5cb8b3debe50b1efeba748724026255a0754d4f16a0c3e8bce687e6a57d2f8d5
+  provider: mock
+images/lessons/a0-02-in-albergo.d3.png:
+  prompt_sha256: 1d38ecb8d805d7bfa170a6270fa85caecd8acf7927e03310acb2287fd7c72b9e
+  provider: mock
 images/lessons/a0-03-al-bar.d1.png:
   prompt_sha256: 0a6a5463fa6131c98066a9ee925c354efdee6cb6d7dc7a65987bd801a23c1e22
   provider: mock
@@ -6,6 +24,96 @@ images/lessons/a0-03-al-bar.d2.png:
   provider: mock
 images/lessons/a0-03-al-bar.d3.png:
   prompt_sha256: e8c714981113f84630e261b5e365a44dda55619a3053a27ed167f58ed19f082b
+  provider: mock
+images/lessons/a0-04-in-giro.d1.png:
+  prompt_sha256: cd6648bdfdd22bdc79742a8aceb47b4b32aaf910b87cefcf11ac3fa1b697a49a
+  provider: mock
+images/lessons/a0-04-in-giro.d2.png:
+  prompt_sha256: 6e72cde1a3df0272ced8e9f940463c49013261c867845622d974268fe5b88b80
+  provider: mock
+images/lessons/a0-04-in-giro.d3.png:
+  prompt_sha256: 1d067cefce6b9ada63df0b60f37c4addca7b583733e943bb15b72c5dfe3856a2
+  provider: mock
+images/lessons/a0-05-chiedere-aiuto.d1.png:
+  prompt_sha256: 39561d6bc8baa02c3670d0c0660738a670e1cfb82720fbc54ac941852bb84c28
+  provider: mock
+images/lessons/a0-05-chiedere-aiuto.d2.png:
+  prompt_sha256: 77917491747a07b677faf1f1430999db4453a174f42113e82eac07d0e32f0170
+  provider: mock
+images/lessons/a0-05-chiedere-aiuto.d3.png:
+  prompt_sha256: 658eb2a92477a017c9d5bcbbb81ab0255dbdbd143e2851ce14a3afea2e125e3b
+  provider: mock
+images/lessons/a0-06-a-pranzo.d1.png:
+  prompt_sha256: b5a14d55df7350caf18a7eeee0cb95deff37b05ab1384bd34c651488b99b14a6
+  provider: mock
+images/lessons/a0-06-a-pranzo.d2.png:
+  prompt_sha256: a3c19166334110e5a7b6d834c8ea6f022a607cddad56a97311c04abf72f3ba62
+  provider: mock
+images/lessons/a0-06-a-pranzo.d3.png:
+  prompt_sha256: 85c64c4fb1613316a7df48c8f77e38c730a8f68497d1c6b236cd169f8586d488
+  provider: mock
+images/lessons/a0-07-mi-piace.d1.png:
+  prompt_sha256: a0c779d3910fc6d8b7e23600dc72e28b2982bb18fef335517e07949398461ee2
+  provider: mock
+images/lessons/a0-07-mi-piace.d2.png:
+  prompt_sha256: 966095d6c61b4ade3f23037ebc218c663e213493c8a0a6d8813dfe545792d5ed
+  provider: mock
+images/lessons/a0-07-mi-piace.d3.png:
+  prompt_sha256: 8593b2725f36b4e0dafef88e4d12f89ec9bb2add6a8b0999375eced001810df8
+  provider: mock
+images/lessons/a0-08-i-numeri-grandi.d1.png:
+  prompt_sha256: b40fa9a36e42d1d1243350cf79066f00050f129d6223a6208c071efe100d664c
+  provider: mock
+images/lessons/a0-08-i-numeri-grandi.d2.png:
+  prompt_sha256: b5a2edd81f92d79fed3be641686b4ae18b16773a031b094e12a1defac4df16f7
+  provider: mock
+images/lessons/a0-08-i-numeri-grandi.d3.png:
+  prompt_sha256: 8f201acbae4708c7be1ff5fb7a9836051b4e0359cd38aa78cb18c4a1f3ee54d1
+  provider: mock
+images/lessons/a0-09-in-viaggio.d1.png:
+  prompt_sha256: d3393cccfdbb211bc4477d1531f368a6fac1f7fe1d5fb3100a233217a7494229
+  provider: mock
+images/lessons/a0-09-in-viaggio.d2.png:
+  prompt_sha256: 333030039fd9583722fd0f8f786260a40e544d61a18b0e8c94e512ceeb5e05d6
+  provider: mock
+images/lessons/a0-09-in-viaggio.d3.png:
+  prompt_sha256: 975d51368c75f839ad23f87377773825d8be1f150918699d99d0af8b6c78b3ae
+  provider: mock
+images/lessons/a0-10-conoscere-qualcuno.d1.png:
+  prompt_sha256: 8154a1a28e3ed550d7653c365dcff57a7436bfd2c9a4156fdbc009b535df9dd3
+  provider: mock
+images/lessons/a0-10-conoscere-qualcuno.d2.png:
+  prompt_sha256: 7950babf53a8dfa15a931e5739a60d10fd202f753477367d081c0eb6a4ba04a4
+  provider: mock
+images/lessons/a0-10-conoscere-qualcuno.d3.png:
+  prompt_sha256: 2041e64ce2a90f5127e2830112d3faf88d68f9120ceb6ae8bac44535ff4b9ecb
+  provider: mock
+images/lessons/a0-11-un-problema.d1.png:
+  prompt_sha256: 9074f3cd92f6c5d402b700b4330241ba927956566052b59088ba8459e04cd49b
+  provider: mock
+images/lessons/a0-11-un-problema.d2.png:
+  prompt_sha256: 92c3aafc9463120cc5a54b993173d2262e84903008a2c0c9b9a5a5b0c52509da
+  provider: mock
+images/lessons/a0-11-un-problema.d3.png:
+  prompt_sha256: 6697d44594b4671e4dcbc21c680699f95956f8ea7296684b540067f83a47951d
+  provider: mock
+images/lessons/a0-12-ultimo-giorno.d1.png:
+  prompt_sha256: 7ef203f9747a654e5f563cce2d3e1c04ab01799320b34d33feaeea1a4d2b9fa3
+  provider: mock
+images/lessons/a0-12-ultimo-giorno.d2.png:
+  prompt_sha256: 864a8924b07e73fb3857393c7fb3f6fa955230146dec58d327dab740a1697cc8
+  provider: mock
+images/lessons/a0-12-ultimo-giorno.d3.png:
+  prompt_sha256: bdb9e8d787e6f41f3118fa3fa04380e1d304ca19da9bc0a246ec39609aac2b3d
+  provider: mock
+images/lessons/a0-13-ripasso.d1.png:
+  prompt_sha256: c8756ad7ecbc4a2d248de5e0bd4386c87d938df679b329437523de2aa6993867
+  provider: mock
+images/lessons/a0-13-ripasso.d2.png:
+  prompt_sha256: 5fb9afbea6b6460a3b64e75324519610904cb57d029ffffd5d378ad5812c036c
+  provider: mock
+images/lessons/a0-13-ripasso.d3.png:
+  prompt_sha256: ec3b1b1ad47b843eb8546e0a8c36c52f13f0da83adf791988a340403566aa129
   provider: mock
 images/readings/reading.al_bar.001.png:
   prompt_sha256: 8e641e4d9bebe061ec564ade00555d3c2c033fb204cd34613cdb237f688e0ca3
