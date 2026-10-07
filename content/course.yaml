@@ -1,0 +1,8 @@
+# Course metadata and unit order (docs/03).
+course: italiano-a1
+version: 0.1.0            # pack version (semver): minor for content changes, patch for fixes
+locale: it-IT
+title: {en: Italian A1}
+units: [00-benvenuti, 01-piacere, 02-al-bar, 03-la-famiglia, 04-che-lavoro-fai, 05-la-mia-giornata,
+        06-in-citta, 07-al-mercato, 08-tempo-libero, 09-casa-mia, 10-che-tempo-fa, 11-in-viaggio,
+        12-com-e-andata, 99-ripasso]

@@ -1,0 +1,30 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+# Swift packages
+.build/
+.swiftpm/
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+# Pipeline data (downloaded by `make data`, never committed)
+pipeline/data/morph-it/*.txt
+pipeline/data/frequency/*.txt
+# Evidence and reports (attach to PRs instead)
+artifacts/
+# Secrets
+.env
+*.p12
+*.mobileprovision
+
+# Claude Code: worktrees and personal settings
+.claude/worktrees/
+.claude/settings.local.json
+# Study token (docs/02 § App configuration)
+App/Config/Secrets.xcconfig

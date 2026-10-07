@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session complete</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#A84A24}a:hover{color:#7F3517}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 56px 24px 36px; background: #FFFFFF; color: #2B211C; font-family: 'Instrument Sans', system-ui, sans-serif; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: center">
+<dc-import name="Mascot" pose="cheer" size="150" hint-size="150px,150px"></dc-import>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<h1 lang="it" style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: 44px; font-weight: 600">Bravo!</h1>
+<div style="font-size: 17px; color: #6B5E55">Today's review is done.</div>
+</div>
+<div style="border: 1px solid #EDE5DE; border-radius: 18px; padding: 4px 20px">
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F4EEE8; font-size: 16px"><span>Remembered</span><span style="font-weight: 600">17 of 20</span></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F4EEE8; font-size: 16px"><span>New words met</span><span style="font-weight: 600">6</span></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F4EEE8; font-size: 16px"><span>To practise again</span><span lang="it" style="font-family: 'Literata', serif; font-style: italic">il conto, vorrei, cassa</span></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; font-size: 16px"><span>Next review</span><span style="font-weight: 600">Tomorrow</span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #F6E3D8">
+<div style="display: flex; gap: 5px" aria-hidden="true"><div style="width: 12px; height: 12px; border-radius: 6px; background: #A84A24"></div><div style="width: 12px; height: 12px; border-radius: 6px; background: #A84A24"></div><div style="width: 12px; height: 12px; border-radius: 6px; background: #A84A24"></div><div style="width: 12px; height: 12px; border-radius: 6px; background: #A84A24"></div><div style="width: 12px; height: 12px; border-radius: 6px; border: 1.5px solid #A84A24; box-sizing: border-box"></div></div>
+<div style="font-size: 15px">4 of 5 days this week. One more and you've met your goal.</div>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px">
+<button style="height: 56px; border-radius: 28px; border: none; background: #A84A24; color: #FFFFFF; font: 600 17px 'Instrument Sans', sans-serif; cursor: pointer">Done</button>
+<button style="height: 52px; border-radius: 26px; border: 1.5px solid #2B211C; background: #FFFFFF; color: #2B211C; font: 600 16px 'Instrument Sans', sans-serif; cursor: pointer">Read the next story</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

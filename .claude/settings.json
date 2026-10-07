@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(make *)",
+      "Bash(swift build *)",
+      "Bash(swift test *)",
+      "Bash(swift package *)",
+      "Bash(swift format *)",
+      "Bash(xcodebuild *)",
+      "Bash(xcrun simctl *)",
+      "Bash(xcrun xcresulttool *)",
+      "Bash(uv sync *)",
+      "Bash(uv lock *)",
+      "Bash(uv run pytest *)",
+      "Bash(uv run ruff *)",
+      "Bash(uv run content lint *)",
+      "Bash(uv run content annotate *)",
+      "Bash(uv run content check *)",
+      "Bash(uv run content build *)",
+      "Bash(uv run content report *)",
+      "Bash(uv run content pack-hash *)",
+      "Bash(uv run content review-export *)",
+      "Bash(uv run content review-import *)",
+      "Bash(uv run content freq *)",
+      "Bash(uv run content suggest *)",
+      "Bash(uv run content beta-import *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(git switch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git restore *)",
+      "Bash(git stash *)",
+      "Bash(git worktree *)",
+      "Bash(git lfs *)",
+      "Bash(git merge-base *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh run view *)",
+      "Bash(gh run list *)",
+      "Bash(scripts/*)",
+      "Bash(./scripts/*)",
+      "Bash(bash scripts/*)",
+      "Bash(python3 scripts/*)",
+      "mcp__MobileBuildMCP"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh pr create *)",
+      "Bash(uv run content tts *)",
+      "Bash(uv add *)",
+      "Bash(rm -rf *)"
+    ],
+    "deny": [
+      "Bash(uv run content approve *)",
+      "Bash(uv run content reopen *)",
+      "Read(/.env)",
+      "Read(/**/.env)",
+      "Read(/**/*.p12)",
+      "Read(/**/*.mobileprovision)",
+      "Read(/App/Config/Secrets.xcconfig)",
+      "Edit(/.claude/settings.json)",
+      "Edit(/.claude/settings.local.json)",
+      "Edit(/.claude/hooks/**)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh\"", "timeout": 10 }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-paths.sh\"", "timeout": 15 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-bash.sh\"", "timeout": 15 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/format.sh\"", "timeout": 60 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-checks.sh\"", "timeout": 900 }
+        ]
+      }
+    ]
+  }
+}

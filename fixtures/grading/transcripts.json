@@ -1,0 +1,110 @@
+{
+ "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first.",
+ "functionWords": [
+  "il",
+  "lo",
+  "la",
+  "l'",
+  "i",
+  "gli",
+  "le",
+  "un",
+  "uno",
+  "una",
+  "un'",
+  "di",
+  "a",
+  "da",
+  "in",
+  "con",
+  "su",
+  "per",
+  "tra",
+  "fra",
+  "al",
+  "allo",
+  "alla",
+  "all'",
+  "ai",
+  "agli",
+  "alle",
+  "del",
+  "dello",
+  "della",
+  "dell'",
+  "dei",
+  "degli",
+  "delle",
+  "nel",
+  "nello",
+  "nella",
+  "nell'",
+  "nei",
+  "negli",
+  "nelle",
+  "dal",
+  "dallo",
+  "dalla",
+  "dall'",
+  "dai",
+  "dagli",
+  "dalle",
+  "sul",
+  "sullo",
+  "sulla",
+  "sull'",
+  "sui",
+  "sugli",
+  "sulle",
+  "mi",
+  "ti",
+  "si",
+  "ci",
+  "vi",
+  "ne",
+  "li",
+  "e",
+  "o",
+  "ma"
+ ],
+ "cases": [
+  {
+   "accept": "vorrei un cappuccino( per favore)",
+   "transcript": "Vorrei un cappuccino per favore.",
+   "pass": true
+  },
+  {
+   "accept": "vorrei un cappuccino( per favore)",
+   "transcript": "vorrei un capuccino per favore",
+   "pass": true,
+   "note": "double consonants are collapsed before matching"
+  },
+  {
+   "accept": "vorrei un cappuccino( per favore)",
+   "transcript": "vorrei un caffè",
+   "pass": false
+  },
+  {
+   "accept": "sei euro e venti",
+   "transcript": "6,20 €",
+   "pass": true,
+   "note": "6,20 € → sei euro e venti"
+  },
+  {
+   "accept": "[ecco]",
+   "transcript": "eco",
+   "pass": true,
+   "note": "speech is never judged on consonant length"
+  },
+  {
+   "accept": "{quant'è|quanto costa}",
+   "transcript": "Quant'è?",
+   "pass": true
+  },
+  {
+   "accept": "mi chiamo {NAME}",
+   "transcript": "mi chiamo Johannes",
+   "pass": true
+  }
+ ]
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tito character sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#A84A24}a:hover{color:#7F3517}
+</style>
+</helmet>
+<div style="width: 1180px; height: 520px; box-sizing: border-box; padding: 56px 64px; background: #FFFFFF; color: #2B211C; font-family: 'Instrument Sans', system-ui, sans-serif; display: flex; gap: 64px">
+<div style="width: 400px; display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: 48px; font-weight: 600">Tito</h1>
+<p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: 20px; line-height: 1.5; color: #2B211C">A pigeon from the piazza who lives in the margins of every story. He points things out, gives hints and cheers you on.</p>
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px; font-size: 16px; line-height: 1.45">
+<div style="display: flex; gap: 10px"><span style="color: #A84A24; font-weight: 600">1</span><span>Stays in the margin, never on top of the Italian.</span></div>
+<div style="display: flex; gap: 10px"><span style="color: #A84A24; font-weight: 600">2</span><span>Speaks English, quotes Italian.</span></div>
+<div style="display: flex; gap: 10px"><span style="color: #A84A24; font-weight: 600">3</span><span>Celebrates finished work; never sulks, nags or guilt-trips.</span></div>
+<div style="display: flex; gap: 10px"><span style="color: #A84A24; font-weight: 600">4</span><span>Can be switched off in Settings.</span></div>
+</div>
+</div>
+<div style="flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start; padding-top: 24px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<dc-import name="Mascot" pose="hello" size="140" hint-size="140px,140px"></dc-import>
+<div style="font-family: 'Literata', serif; font-size: 20px; font-weight: 600">Ciao</div>
+<div style="font-size: 14px; color: #6B5E55; line-height: 1.4">Welcome and the start of each day</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<dc-import name="Mascot" pose="think" size="140" hint-size="140px,140px"></dc-import>
+<div style="font-family: 'Literata', serif; font-size: 20px; font-weight: 600">Hmm</div>
+<div style="font-size: 14px; color: #6B5E55; line-height: 1.4">Hints, grammar notes and second tries</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<dc-import name="Mascot" pose="cheer" size="140" hint-size="140px,140px"></dc-import>
+<div style="font-family: 'Literata', serif; font-size: 20px; font-weight: 600">Bravo</div>
+<div style="font-size: 14px; color: #6B5E55; line-height: 1.4">A finished session or a new can-do goal</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<dc-import name="Mascot" pose="sleep" size="140" hint-size="140px,140px"></dc-import>
+<div style="font-family: 'Literata', serif; font-size: 20px; font-weight: 600">Riposo</div>
+<div style="font-size: 14px; color: #6B5E55; line-height: 1.4">Rest days and quiet hours</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":520}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# DRAFT from the handoff (task M0.5). Automated review of pull requests by Claude.
+# Needs the Claude GitHub App installed on the repo and the ANTHROPIC_API_KEY secret (or claude_code_oauth_token).
+# It reads the diff and posts comments; its allowed tools can't edit files or push.
+name: Claude review
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR TITLE: ${{ github.event.pull_request.title }}
+
+            Review this pull request for the Italiano repo. Read CLAUDE.md and docs/README.md first, then the diff
+            (gh pr diff ${{ github.event.pull_request.number }}).
+            Find the task ID in the PR title (e.g. M2.3), read its row in docs/11-milestones.md and the specs it cites.
+            Check: acceptance criteria met with evidence; tests would fail if the behaviour broke; CLAUDE.md hard rules;
+            exact fidelity to docs/03–09 (names, IDs, formats); no scope beyond the task; docs and fixtures updated with behaviour.
+            Post inline comments for specific lines, then one summary comment with gh pr comment: a verdict (pass/fail)
+            and numbered findings marked [blocking] or [minor], each with file:line, the problem and a concrete fix.
+            Do not modify files.
+          claude_args: >-
+            --max-turns 30
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Read,Grep,Glob"

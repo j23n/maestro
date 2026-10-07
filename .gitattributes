@@ -1,0 +1,6 @@
+# Git LFS: the generated pack, rendered audio and the TTS cache (docs/02 § Repository layout).
+# Run `git lfs install` once before the first commit that adds these files.
+App/Italiano/Resources/Content/content.sqlite filter=lfs diff=lfs merge=lfs -text
+App/Italiano/Resources/Content/Audio/** filter=lfs diff=lfs merge=lfs -text
+content-build/** filter=lfs diff=lfs merge=lfs -text
+fixtures/packs/*.sqlite filter=lfs diff=lfs merge=lfs -text

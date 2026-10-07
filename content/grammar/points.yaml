@@ -1,0 +1,438 @@
+# Course grammar points (76). Pedagogical fields only: title, unit, status, syllabus, requires, confusable,
+# graded, about, decide. Derived from the plan's scope and sequence and the A1 syllabus tab.
+# Status: DRAFT for content-lead sign-off (C1). Detection and morphology unlocks live in detection.yaml
+# (engineering-owned, not part of the content lead's approval).
+# graded: developing → in free production, errors on this point never fail a task (rule 9).
+
+review: {status: draft, by: null, date: null, hash: null}
+points:
+- id: g:essere-present-sg
+  title: essere, singular and Lei (sono, sei, è)
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.essere-avere']
+  confusable: ['g:avere-present-sg']
+  about: Learners use these for identity, nationality and place. "Lei è" addresses one person formally.
+- id: g:subject-pronouns
+  title: Subject pronouns io, tu, lui, lei, Lei (noi in Unit 4, voi in Unit 6, loro in Unit 7)
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.subject-pronouns']
+- id: g:negation-non
+  title: non + verb
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.negation']
+- id: g:tu-lei
+  title: 'tu or Lei: choosing the register, incl. adjectives after Lei (Lei è americano? to a man)'
+  unit: u01
+  status: P
+  syllabus: ['sy:ss.tu-lei', 'sy:cefr.sociolinguistic']
+  requires: ['g:essere-present-sg']
+  about: Learners also recognise an older person saying tu while they answer with Lei (Signora Rossi).
+- id: g:adjectives-o-a-e
+  title: Adjectives in -o/-a and -e (nationalities first)
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.adjectives']
+- id: g:conjunctions
+  title: e, ma, o
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.conjunctions']
+- id: g:simple-prepositions
+  title: Simple prepositions a, in, di, da, con, per, su, tra/fra (a Bologna, in Canada, di Toronto)
+  unit: u01
+  status: P
+  syllabus: ['sy:gr.simple-prepositions']
+- id: g:indefinite-article
+  title: un, uno, una, un'
+  unit: u02
+  status: P
+  syllabus: ['sy:gr.articles']
+  requires: ['g:noun-gender']
+  confusable: ['g:definite-article']
+  about: 'Before Unit 2, un/una + noun is lexical (part of the noun). Unit 2 teaches the choice: un, uno, una, un''.'
+- id: g:noun-gender
+  title: 'Noun gender: -o masculine, -a feminine, -e either'
+  unit: u02
+  status: P
+  syllabus: ['sy:gr.noun-gender-number']
+- id: g:noun-plural
+  title: Plural of regular nouns (-o → -i, -a → -e, -e → -i)
+  unit: u02
+  status: P
+  syllabus: ['sy:gr.noun-gender-number']
+  requires: ['g:noun-gender']
+- id: g:numbers-to-100
+  title: 'Numbers to 100 (prices: due euro e venti)'
+  unit: u02
+  status: P
+  syllabus: ['sy:gr.cardinal-numbers']
+- id: g:conditional-courtesy
+  title: vorrei (and potrei to recognise) as polite requests
+  unit: u02
+  status: chunk
+  syllabus: ['sy:gr.vorrei', 'sy:ss.vorrei-polite']
+  about: Allowed only inside chunks (c:vorrei, c:potrei). Any other conditional form fails the gate.
+- id: g:lei-questions
+  title: Service questions with Lei (Cosa prende? Desidera?)
+  unit: u02
+  status: R
+  syllabus: ['sy:ss.tu-lei']
+- id: g:piacere-chunk
+  title: mi piace, ti piace?, Le piace? + a singular noun or an infinitive (chunks)
+  unit: u02
+  status: chunk
+  syllabus: ['sy:gr.piacere']
+  about: Chunks c:mi-piace, c:ti-piace, c:le-piace. The article in mi piace il caffè is lexical before Unit 3 (docs/04).
+- id: g:avere-present-sg
+  title: avere, singular (ho, hai, ha); ho … anni
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.essere-avere']
+  confusable: ['g:essere-present-sg']
+- id: g:essere-avere-3pl
+  title: sono and hanno for 'they'
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.present']
+- id: g:definite-article
+  title: il, lo, la, l', i, gli, le
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.articles']
+  requires: ['g:indefinite-article']
+  confusable: ['g:indefinite-article']
+  about: 'Nouns are shown with their article from Unit 0, and article + noun appears in texts before Unit 3 as part of the
+    noun (docs/04 § Annotation). Unit 3 teaches the system: all forms, choosing lo/gli, and the article in general statements
+    (mi piace il caffè).'
+- id: g:irregular-nouns
+  title: Invariable and irregular nouns (il caffè, la città, il bar; la mano, il problema)
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.irregular-nouns']
+  requires: ['g:noun-plural']
+- id: g:possessives
+  title: 'Possessives: mia madre, la mia famiglia, sua madre (suo/sua agree with the thing owned); formal Suo'
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.possessives']
+  requires: ['g:definite-article']
+- id: g:np-agreement
+  title: Adjective agreement inside the noun phrase (una casa piccola, due amici simpatici)
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.agreement']
+  requires: ['g:adjectives-o-a-e', 'g:noun-plural']
+- id: g:predicative-agreement
+  title: Agreement after essere (Sara è simpatica); a personal chunk since Unit 1
+  unit: u03
+  status: P
+  graded: developing
+  syllabus: ['sy:gr.agreement']
+  requires: ['g:np-agreement']
+- id: g:molto
+  title: molto (molto bello, molti amici)
+  unit: u03
+  status: P
+  syllabus: ['sy:gr.quantifiers']
+- id: g:present-regular-sg
+  title: Present tense of -are, -ere, -ire verbs, singular and Lei
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.present']
+- id: g:present-noi
+  title: Present tense, noi
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.present']
+  requires: ['g:present-regular-sg']
+- id: g:present-isc
+  title: '-isc- verbs: capire, preferire, finire'
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.isc-verbs']
+  requires: ['g:present-regular-sg']
+- id: g:fare-present
+  title: fare (faccio, fai, fa, facciamo)
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.irregular-verbs']
+- id: g:infinitive
+  title: The infinitive (after modals, mi piace + infinitive, per + infinitive)
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.infinitive']
+- id: g:question-words
+  title: 'Question words: come, dove, di dove, chi, che cosa/cosa, quale/qual è, quanto, quando, che'
+  unit: u04
+  status: P
+  syllabus: ['sy:gr.question-words']
+  about: Used as chunks from Unit 0 (come ti chiami?, di dove sei?, quant'è?); taught as a system here. perché (why/because)
+    is Unit 8.
+- id: g:reflexive-sg
+  title: Reflexive verbs, singular (mi alzo, ti alzi, si alza); si chiamano as a chunk
+  unit: u05
+  status: P
+  syllabus: ['sy:gr.reflexives']
+  requires: ['g:present-regular-sg']
+- id: g:irregular-movement
+  title: andare, venire, uscire, stare
+  unit: u05
+  status: P
+  syllabus: ['sy:gr.irregular-verbs']
+- id: g:telling-time
+  title: Sono le otto, è l'una, alle otto (chunks)
+  unit: u05
+  status: chunk
+  syllabus: ['sy:fn.numbers-prices-times']
+- id: g:frequency-adverbs
+  title: sempre, spesso, qualche volta
+  unit: u05
+  status: P
+  syllabus: ['sy:gr.adverbs']
+- id: g:negation-mai-niente
+  title: non… mai, non… niente
+  unit: u05
+  status: P
+  syllabus: ['sy:gr.negation']
+- id: g:adverbs-time-place
+  title: Adverbs of time, place and quantity (oggi, domani, qui, lì, poi, prima, dopo, tardi, presto…)
+  unit: u05
+  status: P
+  syllabus: ['sy:gr.adverbs']
+- id: g:c-e-ci-sono
+  title: c'è, ci sono; dov'è?, dove sono?
+  unit: u06
+  status: P
+  syllabus: ['sy:gr.c-e-ci-sono']
+- id: g:articulated-prepositions
+  title: a, in, da, di, su + il, la, l', i, le (al, alla, all', ai, alle; nel…; dal…; del…; sul…)
+  unit: u06
+  status: P
+  syllabus: ['sy:gr.articulated-prepositions']
+  requires: ['g:definite-article', 'g:simple-prepositions']
+  about: Before Unit 6 only inside chunks (al bar, alle otto, dalle 9 alle 13).
+- id: g:articulated-prepositions-lo-gli
+  title: Articulated prepositions with lo and gli (allo, agli, nello, negli…) to recognise
+  unit: u06
+  status: R
+  syllabus: ['sy:gr.articulated-prepositions']
+- id: g:place-prepositions
+  title: 'Directions and place: a destra, a sinistra, dritto, davanti a, dietro, vicino a, lontano da'
+  unit: u06
+  status: P
+  syllabus: ['sy:fn.instructions']
+- id: g:imperative-tu-voi
+  title: Imperative, tu and voi (gira, prendi; girate, prendete)
+  unit: u06
+  status: P
+  syllabus: ['sy:gr.imperative']
+- id: g:imperative-lei
+  title: Imperative with Lei, to recognise (giri, prenda, scusi, senta)
+  unit: u06
+  status: R
+  syllabus: ['sy:gr.imperative']
+  about: Lei imperatives look like present subjunctive 3rd singular; scusi and senta are chunks from Unit 0.
+- id: g:present-voi
+  title: Present tense, voi
+  unit: u06
+  status: P
+  syllabus: ['sy:gr.present']
+  requires: ['g:present-noi']
+- id: g:ordinals
+  title: 'primo, secondo, terzo (directions, floors, dates: il primo maggio)'
+  unit: u06
+  status: P
+  syllabus: ['sy:gr.ordinal-numbers']
+- id: g:questo-quello
+  title: questo and quello (simple forms)
+  unit: u07
+  status: P
+  syllabus: ['sy:gr.questo-quello']
+- id: g:present-loro
+  title: Present tense, loro (costano, vendono)
+  unit: u07
+  status: P
+  syllabus: ['sy:gr.present']
+  requires: ['g:present-voi']
+- id: g:quantities
+  title: un chilo di, un etto di, un litro di, un po' di, una bottiglia di
+  unit: u07
+  status: P
+  syllabus: ['sy:fn.numbers-prices-times']
+- id: g:tutto-tanto
+  title: tutto, tanto, poco
+  unit: u07
+  status: P
+  syllabus: ['sy:gr.quantifiers']
+- id: g:numbers-above-100
+  title: Numbers above 100 and prices (centoventi, mille)
+  unit: u07
+  status: P
+  syllabus: ['sy:gr.cardinal-numbers']
+  requires: ['g:numbers-to-100']
+- id: g:direct-object-pronouns
+  title: lo, la, li, le to recognise; lo prendo, la prendo as chunks
+  unit: u07
+  status: R
+  syllabus: ['sy:gr.direct-object-pronouns']
+- id: g:ne-partitive
+  title: ne to recognise (Quanti ne vuole?)
+  unit: u07
+  status: R
+  syllabus: ['sy:gr.comparatives-ci-ne']
+- id: g:piacere-full
+  title: 'piacere in full: mi piace / mi piacciono, ti piace, Le piace; a me sì, anche a me'
+  unit: u08
+  status: P
+  syllabus: ['sy:gr.piacere']
+  requires: ['g:piacere-chunk', 'g:stressed-pronouns']
+- id: g:modal-verbs
+  title: volere, potere, dovere + infinitive
+  unit: u08
+  status: P
+  syllabus: ['sy:gr.modals']
+  requires: ['g:infinitive']
+- id: g:sapere
+  title: 'sapere (+ infinitive: so nuotare); non lo so as a chunk'
+  unit: u08
+  status: P
+  syllabus: ['sy:gr.irregular-verbs']
+- id: g:stressed-pronouns
+  title: a me, a te, con me, per te
+  unit: u08
+  status: P
+  syllabus: ['sy:gr.stressed-pronouns']
+- id: g:perche
+  title: perché (why / because)
+  unit: u08
+  status: P
+  syllabus: ['sy:gr.subordinators']
+- id: g:indirect-object-pronouns
+  title: gli, le (to him, to her) to recognise
+  unit: u08
+  status: R
+  syllabus: ['sy:gr.indirect-object-pronouns']
+- id: g:irregular-dare-dire-bere
+  title: dare, dire, bere to recognise
+  unit: u08
+  status: R
+  syllabus: ['sy:gr.irregular-verbs']
+  decide: 'content lead: bere may become P in Unit 5 (rule 1; CELI expects frequent irregulars at A1)'
+- id: g:agree-disagree
+  title: anch'io, neanch'io, io sì, io no; anche a me, a me no
+  unit: u08
+  status: chunk
+  syllabus: ['sy:fn.confirm-agree']
+- id: g:location-prepositions
+  title: sopra, sotto, accanto a, davanti a with sul, nel, al; al terzo piano
+  unit: u09
+  status: P
+  syllabus: ['sy:gr.articulated-prepositions']
+  requires: ['g:articulated-prepositions']
+- id: g:passato-prossimo-avere
+  title: Passato prossimo with avere (ho fatto, ho visto, ho comprato)
+  unit: u09
+  status: P
+  syllabus: ['sy:gr.passato-prossimo']
+  requires: ['g:avere-present-sg']
+  graded: developing
+- id: g:weather
+  title: fa freddo, fa caldo, piove, nevica, c'è il sole, è nuvoloso
+  unit: u10
+  status: P
+  syllabus: ['sy:fn.weather']
+- id: g:dates-years
+  title: Months, dates and years (il primo maggio, il tre ottobre, nel 1990)
+  unit: u10
+  status: P
+  syllabus: ['sy:gr.cardinal-numbers']
+  requires: ['g:ordinals', 'g:numbers-above-100']
+- id: g:colours
+  title: Colors, incl. invariable rosa, blu, viola (basic colors for hair, eyes and pets are words in Unit 3)
+  unit: u10
+  status: P
+  syllabus: ['sy:gr.adjectives']
+  requires: ['g:np-agreement']
+- id: g:comparative-chunks
+  title: più grande, più piccolo (chunks)
+  unit: u10
+  status: chunk
+  syllabus: ['sy:gr.comparatives-ci-ne']
+- id: g:present-for-plans
+  title: Present tense for plans (domani vado al mare)
+  unit: u10
+  status: P
+  syllabus: ['sy:gr.future', 'sy:fn.routine-plans']
+  about: The future tense is not taught; any future form fails the morphology gate.
+- id: g:quando
+  title: quando (when) in clauses (quando piove, resto a casa)
+  unit: u10
+  status: P
+  syllabus: ['sy:gr.subordinators']
+- id: g:stare-gerund
+  title: stare + gerund to recognise (sto lavorando)
+  unit: u10
+  status: R
+  syllabus: ['sy:gr.stare-gerund']
+- id: g:se-if
+  title: se (if) to recognise
+  unit: u10
+  status: R
+  syllabus: ['sy:gr.subordinators']
+- id: g:passato-prossimo-essere
+  title: Passato prossimo with essere (sono partito/a, sono arrivato/a, sono stato/a)
+  unit: u11
+  status: P
+  graded: developing
+  syllabus: ['sy:gr.passato-prossimo']
+  requires: ['g:passato-prossimo-avere', 'g:essere-present-sg']
+  about: Before Unit 11, only the chunks sono nato/a and sono arrivato/a.
+- id: g:time-24h
+  title: 24-hour times (alle quindici e trenta)
+  unit: u11
+  status: P
+  syllabus: ['sy:fn.numbers-prices-times']
+  requires: ['g:telling-time']
+- id: g:da-a
+  title: da… a… (from… to…, in time and space)
+  unit: u11
+  status: P
+  syllabus: ['sy:gr.simple-prepositions']
+- id: g:per-infinitive
+  title: per + infinitive (per andare a Bologna); a chunk since Unit 6
+  unit: u11
+  status: P
+  syllabus: ['sy:gr.subordinators']
+  requires: ['g:infinitive']
+- id: g:mal-di
+  title: ho mal di… (chunk)
+  unit: u11
+  status: chunk
+  syllabus: ['sy:tp.health']
+- id: g:passato-prossimo-auxiliary
+  title: Choosing avere or essere in the passato prossimo
+  unit: u12
+  status: P
+  graded: developing
+  syllabus: ['sy:gr.passato-prossimo']
+  requires: ['g:passato-prossimo-avere', 'g:passato-prossimo-essere']
+- id: g:past-time-expressions
+  title: ieri, l'altro ieri, sabato scorso, la settimana scorsa, … fa
+  unit: u09
+  status: P
+  syllabus: ['sy:fn.past-events']
+- id: g:era-cera
+  title: era, c'era to recognise (chunks)
+  unit: u12
+  status: R
+  syllabus: ['sy:gr.imperfetto']
+  about: Only inside chunks c:era and c:c-era; any other imperfetto fails the morphology gate.
+- id: g:relative-che
+  title: Relative che to recognise (il ragazzo che lavora con Sara)
+  unit: u12
+  status: R
+  decide: content lead confirms in C1 (CILS lists relative clauses as R at A1)
+  syllabus: ['sy:gr.subordinators']

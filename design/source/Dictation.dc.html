@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dictation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#A84A24}a:hover{color:#7F3517}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 24px 24px 36px; background: #FFFFFF; color: #2B211C; font-family: 'Instrument Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; gap: 14px">
+<button aria-label="End practice" style="width: 44px; height: 44px; margin-left: -10px; border: none; background: transparent; color: #2B211C; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+<div style="flex: 1; height: 4px; border-radius: 2px; background: #EDE5DE; display: flex"><div style="width: 65%; height: 4px; border-radius: 2px; background: #A84A24"></div></div>
+<div style="font-size: 15px; color: #6B5E55; font-variant-numeric: tabular-nums">13 / 20</div>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px">
+<div style="font-size: 15px; color: #6B5E55">Listen and write what you hear</div>
+<button aria-label="Play the sentence" style="width: 112px; height: 112px; border-radius: 56px; border: none; background: #A84A24; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 010 7M19 5a10 10 0 010 14"></path></svg>
+</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 500 15px 'Instrument Sans', sans-serif; cursor: pointer">Play slower</button>
+<div style="font-size: 14px; color: #6B5E55">6 words · from the story Al bar</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<label for="dict-answer" style="font-size: 14px; font-weight: 600; color: #6B5E55">What you heard</label>
+<textarea id="dict-answer" rows="2" placeholder="Type in Italian" style="box-sizing: border-box; padding: 14px 16px; border: 1.5px solid #D9CEC5; border-radius: 12px; font: 400 20px 'Literata', Georgia, serif; color: #2B211C; resize: none"></textarea>
+<div style="display: flex; gap: 8px">
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">à</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">è</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">é</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">ì</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">ò</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #EDE5DE; background: #FFFFFF; color: #2B211C; font: 400 18px 'Literata', serif; cursor: pointer">ù</button>
+</div>
+<button style="margin-top: 10px; height: 56px; border-radius: 28px; border: none; background: #A84A24; color: #FFFFFF; font: 600 17px 'Instrument Sans', sans-serif; cursor: pointer">Check</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

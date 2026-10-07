@@ -1,0 +1,66 @@
+# Thresholds and estimates for content checks 1–5 (docs/04). Changing a threshold is a decision:
+# note it in PROGRESS.md and, if it loosens a rule from the plan, propose it in docs/13 first.
+
+coverage_mode: report          # report until gate G3 (week 18), then enforce (build fails below 100%)
+
+level_gate:
+  story_new_token_max: 0.05    # stories and listening texts
+  real_world_new_token_max: 0.10
+  allow_requires_reason: true  # lines may carry allow: {reason: …}; all are listed in the report
+
+recycling:
+  encounters_p_min: 10         # warning below this (P items, introduction → course end)
+  encounters_p_error_below: 6
+  encounters_r_min: 6
+  retrievals_in_lesson_p_min: 4
+  retrievals_in_lesson_p_error_below: 2
+  earlier_unit_content_share_min: 0.30
+  grammar_spiral_later_units_min: 2
+
+strands:                        # estimated minutes per strand per unit must be within this share
+  min_share: 0.15
+  max_share: 0.35
+  by_kind:                      # step kind or exercise format → strand
+    story: input
+    listening: input
+    reading: input
+    comprehension: input
+    preview: language-focus
+    note: language-focus
+    cloze: language-focus
+    recall: language-focus
+    sentence-building: language-focus
+    dictation: language-focus
+    sound-pair: language-focus
+    choice: language-focus
+    match: language-focus
+    true-false: language-focus
+    repeat: fluency
+    fluency: fluency
+    conversation: output
+    talk: output
+    writing: output
+    relay: output
+    use: output
+
+durations_seconds:              # nominal times used for strand balance and lesson length estimates
+  preview_item: 25
+  story_per_word: 0.6           # plus the audio duration once rendered
+  comprehension: 15
+  note: 180
+  cloze: 25
+  recall: 25
+  sentence-building: 35
+  dictation: 45
+  sound-pair: 12
+  repeat: 25
+  choice: 15
+  match: 40
+  true-false: 12
+  relay: 45
+  conversation_turn: 40
+  talk: 180
+  writing: 360
+  fluency_rate: 1.15
+
+warnings_fail_in_release: false

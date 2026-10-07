@@ -1,0 +1,61 @@
+# Unit spec (u08). The contract every draft for this unit must satisfy (docs/03, docs/04).
+# Encoded from the plan's scope and sequence. DRAFT for content-lead sign-off (C1, week 3): approval = review.status.
+# `chunks` lists set phrases in prose; the item graph (C2) turns them into c: items.
+
+id: u08
+title: {it: Tempo libero, en: Free time}
+episode: Sara's invitation to a concert
+arc: city
+est_hours: 4.5
+lessons: 3
+can_do:
+- id: cd:talk-likes-hobbies
+  text: Talk about likes and hobbies
+  scale: oral-interaction
+  syllabus: ['sy:fn.likes-wants', 'sy:tp.free-time']
+- id: cd:invite-accept-refuse
+  text: Invite someone, and accept or refuse an invitation
+  scale: oral-interaction
+  stretch: true
+  syllabus: ['sy:fn.invite', 'sy:fn.messages-postcards']
+- id: cd:ask-permission
+  text: Ask for permission
+  scale: oral-interaction
+  syllabus: ['sy:fn.permission']
+- id: cd:agree-disagree
+  text: Agree and disagree (anch'io, a me no)
+  scale: oral-interaction
+  syllabus: ['sy:fn.confirm-agree']
+grammar:
+- {id: 'g:piacere-full', status: P}
+- {id: 'g:modal-verbs', status: P}
+- {id: 'g:sapere', status: P}
+- {id: 'g:stressed-pronouns', status: P}
+- {id: 'g:perche', status: P}
+- {id: 'g:indirect-object-pronouns', status: R}
+- {id: 'g:irregular-dare-dire-bere', status: R}
+- {id: 'g:agree-disagree', status: chunk}
+chunks: ti va di…?; volentieri; mi dispiace, non posso; posso…?; non lo so
+items:
+  new_words: 55-70
+  topics: ['topic:free-time', 'topic:media']
+  note: hobbies, sport, music, media
+recycle_from: [u04, u05, u07]
+sounds: ['s:ch-gh']
+texts:
+  stories: {count: 3, words: 170-270, new_token_max: 0.05}
+  listening: [phone, message]
+  real_world: [ad, message]
+tasks:
+  conversation:
+  - {id: u08.task.conv1, brief: Sara invites you to a concert (tu)}
+  talk: {brief: Talk about what you like doing in your free time}
+  writing:
+    kind: message
+    brief: 'Reply to an invitation: accept or refuse (15–30 words)'
+    tags: ['sy:ex.cils-message']
+  relay: null
+check:
+  items: 20
+  sections: [listening, reading, writing, speaking]
+review: {status: draft, by: null, date: null, hash: null}

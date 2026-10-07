@@ -1,0 +1,96 @@
+# Unit 2 task (docs/06 §12, §13, §15). DRAFT. It uses the seed items plus a few that Lessons 2–3 will
+# introduce (w:certo, c:quanto-costa, numbers to 100). Unit 2 has no writing task (see unit.yaml).
+# Prices come from the Bar Aurora menu below; every price said anywhere in Unit 2 must match it.
+id: u02.task
+review: {status: draft, by: null, date: null, hash: null}
+
+conversations:
+  - id: u02.task.conv1
+    format: conversation
+    with: ch:giulia
+    register: lei
+    title: {en: "Order breakfast from Giulia"}
+    tags: [cd:order-food-drink, cd:ask-price-pay]
+    goals:
+      - {id: drink, en: "Order a cappuccino"}
+      - {id: food, en: "Order something to eat, or say no thanks"}
+      - {id: price, en: "Ask how much it is"}
+    start: n1
+    nodes:
+      n1:
+        say: "Buongiorno! Cosa prende?"
+        en: "Good morning! What will you have?"
+        expect:
+          - intent: order-drink
+            goal: drink
+            accept: ["(buongiorno )(vorrei )un cappuccino( per favore)", "(buongiorno )(vorrei )un cappuccino grazie"]
+            next: n2
+        help: ["Vorrei un cappuccino, per favore."]
+        hint_en: "Order a cappuccino."
+      n2:
+        say: "Certo. E da mangiare?"
+        en: "Of course. Anything to eat?"
+        expect:
+          - {intent: order-food, goal: food, accept: ["(vorrei )un cornetto( per favore)", "{sì|e}( vorrei) un cornetto( per favore)", "(sì )un cornetto grazie"], next: n3}
+          - {intent: nothing-to-eat, goal: food, accept: ["no grazie"], next: n3b}
+        help: ["Un cornetto, per favore.", "No, grazie."]
+        hint_en: "Order something to eat, or say no thanks."
+      n3:
+        say: "Ecco!"
+        en: "Here you are!"
+        expect:
+          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: end}
+        help: ["Grazie! Quant'è?"]
+        hint_en: "Ask how much it is."
+      n3b:
+        say: "Ecco!"
+        en: "Here you are!"
+        expect:
+          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: end2}
+        help: ["Grazie! Quant'è?"]
+        hint_en: "Ask how much it is."
+      end:                                  # cappuccino 1,60 + cornetto 1,40
+        say: "Tre euro, grazie. Buona giornata!"
+        en: "Three euros, thanks. Have a good day!"
+        final: true
+      end2:                                 # cappuccino only
+        say: "Un euro e sessanta, grazie. Buona giornata!"
+        en: "€1.60, thanks. Have a good day!"
+        final: true
+
+talk:
+  id: u02.task.talk
+  format: talk
+  tags: [cd:order-food-drink, cd:ask-price-pay]
+  prompt_en: "You're at Bar Aurora. Greet Giulia, order something for you and a friend, and ask the price."
+  points:
+    - {id: greet, en: "Greet Giulia", accept: ["{buongiorno|buonasera}"]}
+    - {id: order, en: "Order two things", accept: ["{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}"]}
+    - {id: price, en: "Ask the price", accept: ["{quant'è|quanto è|quanto costa}"]}
+  pass: 2
+  model: "Buongiorno! Vorrei un cappuccino e una spremuta, per favore. Quant'è?"
+  duration_s: {min: 5, max: 60}
+
+relay:
+  id: u02.task.relay
+  format: relay
+  tags: [cd:pass-on-prices, sy:cefr.mediation]
+  source:
+    text:
+      id: u02.task.menu
+      kind: real_world
+      layout:
+        type: menu
+        title: Bar Aurora
+        sections:
+          - title: Caffetteria
+            rows:
+              - {name: caffè, price: "1,20"}
+              - {name: cappuccino, price: "1,60"}
+              - {name: spremuta, price: "3,20"}
+          - title: Colazione
+            rows:
+              - {name: cornetto, price: "1,40"}
+        ignore: [Caffetteria, Colazione]
+  friend_en: "I'm waiting outside. How much is a cappuccino in there?"
+  answer_en: {type: price, value: 1.60}

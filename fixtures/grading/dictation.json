@@ -1,0 +1,76 @@
+{
+ "spec": "docs/05 § Other graders (dictation). Per-word marks: correct | accent | doubling | typo | wrong.",
+ "cases": [
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorrei un cornetto",
+   "outcome": "correct",
+   "marks": [
+    "correct",
+    "correct",
+    "correct"
+   ]
+  },
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorrei un corneto",
+   "outcome": "almost",
+   "marks": [
+    "correct",
+    "correct",
+    "doubling"
+   ]
+  },
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorei un cornetto",
+   "outcome": "almost",
+   "marks": [
+    "doubling",
+    "correct",
+    "correct"
+   ]
+  },
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorrei una cornetto",
+   "outcome": "wrong",
+   "marks": [
+    "correct",
+    "wrong",
+    "correct"
+   ],
+   "note": "un/una: a 3-letter word gets no typo tolerance"
+  },
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorrei un",
+   "outcome": "wrong",
+   "marks": [
+    "correct",
+    "correct",
+    "wrong"
+   ]
+  },
+  {
+   "target": "Un caffè, per favore.",
+   "response": "un caffe per favore",
+   "outcome": "almost",
+   "marks": [
+    "correct",
+    "accent",
+    "correct",
+    "correct"
+   ]
+  },
+  {
+   "target": "Ecco Sara.",
+   "response": "eco sara",
+   "outcome": "almost",
+   "marks": [
+    "doubling",
+    "correct"
+   ]
+  }
+ ]
+}

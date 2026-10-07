@@ -1,0 +1,74 @@
+# DRAFT from the handoff. Task M0.5 adapts it: confirm runner images (a macOS 26 image with Xcode 27), the Swift
+# toolchain tag, action major versions and simulator names. Docs: docs/10-quality.md § CI.
+# Every step is guarded until the thing it checks exists, so CI is green from M0 onwards.
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: LearningCore + pipeline + content (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.4                        # the same Swift as Xcode 27; confirm the tag at M0.5
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      - name: Tools for the pipeline
+        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates
+      - name: uv
+        uses: astral-sh/setup-uv@v6             # confirm the current major version at M0.5
+      - name: Cache reference data
+        uses: actions/cache@v4
+        with:
+          path: pipeline/data
+          key: pipeline-data-${{ hashFiles('pipeline/data/SOURCES.md') }}
+      - name: Guards
+        run: make lint-guards
+      - name: LearningCore tests
+        if: hashFiles('Packages/LearningCore/Package.swift') != ''
+        run: make test-core
+      - name: Pipeline tests
+        if: hashFiles('pipeline/pyproject.toml') != ''
+        run: make test-pipeline
+      - name: Reference data
+        if: hashFiles('pipeline/pyproject.toml') != ''
+        run: make data
+      - name: Content checks (once the CLI has `check`)
+        if: hashFiles('pipeline/pyproject.toml') != ''
+        run: |
+          if uv run --project pipeline content check --help >/dev/null 2>&1; then make check-content
+          else echo "content check is not implemented yet (M1.8)"; fi
+
+  macos:
+    name: Storage + app builds and tests (macOS)
+    runs-on: macos-26                           # confirm the image name; Xcode 27 needs macOS 26.6+
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: true }
+      - name: Select Xcode 27
+        run: sudo xcode-select -s /Applications/Xcode_27.0.app   # adjust to the installed path
+      - uses: astral-sh/setup-uv@v6
+      - name: Storage tests
+        if: hashFiles('Packages/Storage/Package.swift') != ''
+        run: make test-storage
+      - name: Pack is fresh (once a pack is committed)
+        if: hashFiles('App/Italiano/Resources/Content/content.sqlite') != ''
+        run: |
+          python3 -c "import sqlite3,sys; v=sqlite3.connect('App/Italiano/Resources/Content/content.sqlite').execute(\"select value from meta where key='release'\").fetchone(); sys.exit(0 if v and v[0]=='0' else 'the committed pack must be a dev build (meta.release = 0)')"
+          make data
+          committed="$(uv run --project pipeline content pack-hash --pack App/Italiano/Resources/Content/content.sqlite)"
+          make pack
+          fresh="$(uv run --project pipeline content pack-hash --pack App/Italiano/Resources/Content/content.sqlite)"
+          test "$committed" = "$fresh" || { echo "content.sqlite is stale: run make pack and commit"; exit 1; }
+      - name: App builds (unsigned)
+        if: hashFiles('App/Italiano.xcodeproj/project.pbxproj') != ''
+        run: make build-ios build-mac
+      - name: App unit and snapshot tests (iOS unsigned, macOS ad-hoc; pinned simulator runtime, perceptualPrecision 0.98)
+        if: hashFiles('App/Italiano.xcodeproj/project.pbxproj') != ''
+        run: make test-app

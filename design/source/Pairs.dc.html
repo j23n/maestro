@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sound pairs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#A84A24}a:hover{color:#7F3517}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; padding: 24px 24px 36px; background: #FFFFFF; color: #2B211C; font-family: 'Instrument Sans', system-ui, sans-serif; display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; gap: 14px">
+<button aria-label="End practice" style="width: 44px; height: 44px; margin-left: -10px; border: none; background: transparent; color: #2B211C; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+</button>
+<div style="flex: 1; height: 4px; border-radius: 2px; background: #EDE5DE; display: flex"><div style="width: 70%; height: 4px; border-radius: 2px; background: #A84A24"></div></div>
+<div style="font-size: 15px; color: #6B5E55; font-variant-numeric: tabular-nums">14 / 20</div>
+</div>
+<div style="margin-top: 32px; display: flex; gap: 14px; align-items: flex-start">
+<dc-import name="Mascot" pose="think" size="72" hint-size="72px,72px"></dc-import>
+<p style="margin: 8px 0 0; flex: 1; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.45; color: #6B5E55">Listen for the double s. Italians hold it a little longer.</p>
+</div>
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px">
+<h1 style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: 30px; font-weight: 600; text-align: center">Which word do you hear?</h1>
+<button aria-label="Play the word" style="align-self: center; width: 88px; height: 88px; border-radius: 44px; border: none; background: #A84A24; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 010 7"></path></svg>
+</button>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+<button style="height: 120px; border-radius: 18px; border: 1.5px solid #D9CEC5; background: #FFFFFF; color: #2B211C; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><span lang="it" style="font: 600 30px 'Literata', Georgia, serif">casa</span><span style="font: 400 15px 'Instrument Sans', sans-serif; color: #6B5E55">house</span></button>
+<button style="height: 120px; border-radius: 18px; border: 1.5px solid #D9CEC5; background: #FFFFFF; color: #2B211C; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer"><span lang="it" style="font: 600 30px 'Literata', Georgia, serif">cassa</span><span style="font: 400 15px 'Instrument Sans', sans-serif; color: #6B5E55">till, checkout</span></button>
+</div>
+</div>
+<div style="font-size: 14px; color: #6B5E55; text-align: center; line-height: 1.45">Single and double consonants change the meaning of a word.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

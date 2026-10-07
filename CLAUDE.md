@@ -1,0 +1,74 @@
+# Italiano: A1 Italian for iPhone, iPad and Mac
+
+An offline-first SwiftUI app that teaches complete A1 Italian to English speakers. Learners read and listen to graded stories set in Bologna, study short notes built from them, practise with stepped feedback, review on an FSRS-6 schedule and finish each unit with a conversation and a check. Progress syncs through iCloud (an append-only event log). The course is written as YAML in `content/` and compiled by a Python pipeline into a SQLite pack the app ships with.
+
+## Read first
+
+- Scope, non-goals and glossary: `docs/01-product.md`
+- Your task and its acceptance criteria: `docs/11-milestones.md` (task IDs like `M2.3`)
+- Settled decisions (don't reopen them inside a task): `docs/13-decisions.md`
+- Every other spec loads on demand: `docs/README.md` says which to read for what.
+
+## Repo map
+
+`App/` Xcode project (one multiplatform SwiftUI target; settings in `App/Config/*.xcconfig`) · `Packages/LearningCore` (pure Swift, Foundation only, Linux-tested) · `Packages/Storage` (GRDB) · `pipeline/` (Python, `content` CLI) · `content/` (YAML course; golden sample in `content/units/02-al-bar/lesson-1.yaml`) · `reviews/` (the content lead's review files and ledgers) · `schemas/` (`content-pack.sql` is normative) · `fixtures/` (FSRS, grading, packs) · `design/` (tokens, fonts, mascot, reference screens) · `scripts/` (guards) · `docs/` (specs)
+
+## Commands
+
+```
+make bootstrap        # first run: uv sync, git lfs pull, make data, resolve packages
+make test             # fast suite: test-core + test-pipeline + check-content (+ test-storage on macOS)
+make test-core        # swift test --package-path Packages/LearningCore
+make test-storage     # swift test --package-path Packages/Storage
+make test-pipeline    # uv run pytest pipeline
+make annotate         # refresh content/.annotations after a content edit (never edit them by hand)
+make check-content    # uv run content lint && uv run content annotate --check && uv run content check
+make pack             # rebuild App/Italiano/Resources/Content/content.sqlite (dev build)
+make mini-pack        # fixtures/packs/mini.sqlite + mini-payloads.json from the golden sample
+make lint-guards      # LearningCore import guard + colour contrast
+make data build-ios build-mac test-app test-ui screenshots
+```
+
+The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)" until its task lands. iOS builds are unsigned (`CODE_SIGNING_ALLOWED=NO`); macOS test runs are ad-hoc signed without a team (`docs/02`).
+
+## Hard rules
+
+1. **Never edit approved content or the teacher's words.** A file whose `review.status` is `approved` belongs to the content lead, and so does every review file in `reviews/inbox/`; hooks block edits to both. Only the owner runs `uv run content approve` or `reopen`; the command refuses to run from your shell.
+2. **No non-commercial or unlicensed data, models or text**: Kelly lists, spaCy `it_core_news_*`, UD Italian ISDT/VIT/ParTUT/PoSTWITA/KIParla, UDPipe or Stanza Italian models, the De Mauro list, and exam papers or syllabus wording. Licence table: `docs/13`.
+3. **`LearningCore` imports Foundation only.** No GRDB, SwiftUI, UIKit, AppKit, AVFoundation, Speech, CloudKit, FoundationModels or os. Time comes from `Clock`, randomness from a seeded RNG, IDs from `UUIDSource` (`scripts/check-core-imports.sh`).
+4. **Never show learners untaught material.** Every text, exercise and review card goes through eligibility (`docs/05`).
+5. **The event log is append-only.** Never update or delete events. All learner state must be rebuildable by replay.
+6. **Learning content comes only from the content pack.** Never hard-code Italian in Swift, apart from the few UI greetings in the String Catalog.
+7. **No third-party SDKs or analytics, and no cloud or third-party LLM calls.** The network is used only for CloudKit and the study endpoint (after consent). On-device Foundation Models hints are allowed behind `ITA_LLM_HINTS` (ADR-10).
+8. **Specs, code and fixtures change together.** Changing FSRS, grading, the pack schema or a content format means updating the spec and fixtures in the same change. `fixtures/fsrs/` is generated: never edit it.
+9. **Every interactive element gets an accessibility identifier** (`screen.element[.n]`) and a label.
+10. **Secrets and signing stay with the owner.** Never commit the Azure key, the study token or signing files, and don't read `.env` files. Never sign with a team or enable automatic signing (ad-hoc "Sign to Run Locally" for macOS tests is fine), never change the bundle ID, and never edit `project.pbxproj` (ADR-19).
+
+## How to work
+
+- **One task per session and branch.** For anything touching more than 3 files, plan first (`--permission-mode plan`) and get the plan approved.
+- **Order:** write the tests from the acceptance criteria → implement → run the task's Verify commands. For UI, add screenshots compared with `design/screens/` (the `ios-ui` skill says how).
+- **Before you say done:**
+  - run the **spec-reviewer** subagent on your change and fix or answer every blocking finding;
+  - `make test` and `make lint-guards` must be green;
+  - append an entry to `PROGRESS.md` (date, task ID, what changed, evidence, follow-ups).
+- **Owner steps:** tasks marked `[owner]` in `docs/11` need a person (signing, devices, App Store). Do the agent part, list what's left, and stop.
+- **Ambiguity:** if a spec is ambiguous or two specs disagree, don't invent behaviour. Add the question under "Proposed changes" in `docs/13` and ask.
+- **When stuck:** after two failed attempts at the same problem, stop and summarise what you tried. Never weaken a test to make it pass.
+- **Content work:** load the `italian-content` skill. To apply the content lead's review, load the `content-review` skill. For a new exercise format or step kind, follow the `add-exercise-format` skill.
+
+## Conventions
+
+- **Swift:**
+  - Swift 6 language mode, complete strict concurrency, Swift Testing (`@Test`, `#expect`).
+  - View models are `@MainActor @Observable`, with dependencies injected through `AppDependencies`.
+  - No force unwraps outside tests. `os.Logger` only in App and Storage.
+  - Platform differences use `#if os(macOS)` in adapters, not in views where avoidable.
+  - New files go in the synchronized folders; build settings in `App/Config/*.xcconfig`.
+- **Python:** 3.12, type hints, ruff (format + lint), pytest, ruamel.yaml for content. Outputs are deterministic (sorted keys and rows). No network in tests (Azure responses are recorded).
+- **Content:**
+  - IDs are permanent once released (`docs/03` § IDs).
+  - Write voiced numbers in words.
+  - Capitalise formal `Lei/La/Le/Suo`.
+  - Every exercise is tagged with a can-do or syllabus ID.
+- **Commits:** small and focused; message `M2.3: grade typed answers with focus tokens`.
