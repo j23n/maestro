@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 import typer
 
@@ -32,6 +33,20 @@ def lint() -> None:
     from itcontent.lint import run_lint
 
     sys.exit(run_lint())
+
+
+@app.command("beta-import")
+def beta_import(
+    events: Path = typer.Argument(..., exists=True, dir_okay=False, help="JSONL export from the study endpoint"),
+    out: Path = typer.Option(None, help="output folder (default build/reports/beta)"),
+) -> None:
+    """Item statistics and rejected typed answers from study telemetry (docs/04, docs/12)."""
+    from itcontent import paths
+    from itcontent.beta import run_beta_import
+
+    target = out or (paths.REPORTS / "beta")
+    report = run_beta_import(events, target)
+    typer.echo(f"{report.events} events from {report.learners} learners → {target}")
 
 
 if __name__ == "__main__":
