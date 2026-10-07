@@ -1,4 +1,5 @@
 import Foundation
+import LearningCore
 import Observation
 
 // Playback abstraction (docs/02 § App, docs/09 § Playback). The real player wraps AVPlayer (AVAudioPlayback.swift);
@@ -31,9 +32,6 @@ struct AudioClip: Sendable, Equatable {
                   textID: textID)
     }
 }
-
-/// `audioPlayed.context` (docs/05 § Events).
-enum AudioContext: String, Sendable { case story, fluency, exercise, item }
 
 /// Written as an `audioPlayed` event when playback stops or ends; `playedMs` is wall time spent playing.
 struct PlaybackReport: Sendable, Equatable {
