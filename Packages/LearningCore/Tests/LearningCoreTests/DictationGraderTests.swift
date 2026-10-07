@@ -17,7 +17,7 @@ import Testing
 
     @Test func everyDictationCase() throws {
         let fixture = try JSONDecoder().decode(Fixture.self, from: Fixtures.data("fixtures/grading/dictation.json"))
-        #expect(fixture.cases.count >= 7)
+        #expect(fixture.cases.count >= 10)
         for c in fixture.cases {
             let result = DictationGrader.grade(target: c.target, response: c.response)
             #expect(result.outcome == c.outcome, "\(c.response) for \(c.target)")

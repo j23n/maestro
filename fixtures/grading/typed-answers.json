@@ -255,6 +255,83 @@
    ],
    "hintKind": "ending",
    "note": "un is another form of the indefinite article: inflection error even outside a focus token"
+  },
+  {
+   "id": 28,
+   "pattern": "mi chiamo {NAME}",
+   "response": "mi chiamo",
+   "outcome": "wrong",
+   "mismatches": [
+    2
+   ],
+   "hintKind": "missing",
+   "note": "a slot never takes a word that an expected literal matches exactly: the name is missing, not chiamo"
+  },
+  {
+   "id": 29,
+   "pattern": "vengo dagli {ME.country}",
+   "response": "vengo dagli",
+   "outcome": "wrong",
+   "mismatches": [
+    2
+   ],
+   "hintKind": "missing"
+  },
+  {
+   "id": 30,
+   "pattern": "abito {ME.home}",
+   "response": "abito",
+   "outcome": "wrong",
+   "mismatches": [
+    1
+   ],
+   "hintKind": "missing"
+  },
+  {
+   "id": 31,
+   "pattern": "sono {ME.nationality}",
+   "response": "sono",
+   "outcome": "wrong",
+   "mismatches": [
+    1
+   ],
+   "hintKind": "missing"
+  },
+  {
+   "id": 32,
+   "pattern": "sono {m:nato|f:nata} a Toronto",
+   "response": "sono nata a Toronto",
+   "forms": "m",
+   "strictForms": true,
+   "outcome": "wrong",
+   "mismatches": [
+    1
+   ],
+   "hintKind": "ending",
+   "note": "the other alternative of a gendered group is another form of the same item even when knownForms doesn't list it: an inflection error, never a typo"
+  },
+  {
+   "id": 33,
+   "pattern": "[è]",
+   "response": "é",
+   "outcome": "almost",
+   "mismatches": [
+    0
+   ],
+   "hintKind": "spelling",
+   "note": "é for è: on an accent-sensitive word only a missing or added accent makes another word; the wrong accent is a slip, and on these words it is almost"
+  },
+  {
+   "id": 34,
+   "pattern": "perché è un tè",
+   "response": "perche è un te",
+   "outcome": "wrong",
+   "mismatches": [
+    0,
+    3
+   ],
+   "hintKind": "realWord",
+   "note": "the generic hint comes from the first substitution, missing or extra word (what makes the answer wrong), not from the accent slip before it"
   }
  ]
 }

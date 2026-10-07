@@ -3,7 +3,8 @@ import Foundation
 /// Matches speech transcripts against accepted patterns (docs/05 § Speech transcripts;
 /// `fixtures/grading/transcripts.json`).
 ///
-/// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOut`).
+/// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOutReadings`: an
+///    `H.MM` that may be a price or a time is tried both ways; a `1` before a word matches *un*/*uno*/*una*/*un'*).
 /// 2. The transcript and every expansion are normalised.
 /// 3. Tokens are compared without accents and with double consonants collapsed (ASR can't be trusted on length).
 /// 4. Pass = every focus token heard and at least 80% of content tokens heard. Content tokens are all tokens
@@ -58,10 +59,11 @@ public struct TranscriptMatcher: Sendable {
         /// Expected words found, in order (for showing which words were heard).
         public var foundWords: [String] { found.map { expansion.tokens[$0] } }
 
-        /// The answer for the `FeedbackMachine`: a pass is `correct`, a fail `wrong`.
+        /// The answer for the `FeedbackMachine`: a pass is `correct`, a fail `wrong`. A miss has no hint kind: the
+        /// learner may have said something else rather than left a word out, so the feedback shows "I heard: …"
+        /// (`heard`) with the exercise's hint, never "Something's missing." (docs/05 § Speech transcripts 6).
         public var answer: GradedAnswer {
-            GradedAnswer(
-                outcome: passed ? .correct : .wrong, hintKind: missing.isEmpty ? nil : .missing, mismatches: missing)
+            GradedAnswer(outcome: passed ? .correct : .wrong, hintKind: nil, mismatches: missing)
         }
     }
 
@@ -71,11 +73,13 @@ public struct TranscriptMatcher: Sendable {
         let expansions = accepted.flatMap { $0.expansions(profile: profile) }.filter { profile.accepts($0.gender) }
         var best: Match?
         for (index, transcript) in transcripts.enumerated() {
-            let tokens = Normalizer.tokens(ItalianNumbers.spellOut(transcript))
-            for expansion in expansions {
-                let result = score(tokens, expansion, transcript: transcript, index: index)
-                if let current = best, !Self.isBetter(result, than: current) { continue }
-                best = result
+            for reading in ItalianNumbers.spellOutReadings(transcript) {
+                let tokens = Normalizer.tokens(reading)
+                for expansion in expansions {
+                    let result = score(tokens, expansion, transcript: transcript, index: index)
+                    if let current = best, !Self.isBetter(result, than: current) { continue }
+                    best = result
+                }
             }
         }
         return best
@@ -97,6 +101,17 @@ public struct TranscriptMatcher: Sendable {
         return a.missingFocus.count < b.missingFocus.count
     }
 
+    /// Weights of the alignment (a weighted longest common subsequence): it keeps the matches with the largest total
+    /// weight. A focus word outweighs every other word of an expansion together and a content word every function
+    /// word and slot together, so the alignment never gives up a word that decides the pass for words that don't.
+    /// A slot fill weighs least of all, below a function word: a slot is a wildcard and must not take a word an
+    /// expected literal matches (*vengo dagli* is not *vengo dagli {ME.country}* with *dagli* as the country). It
+    /// still counts as a content token for the pass.
+    static let focusWeight = 1_000_000
+    static let contentWeight = 1_000
+    static let functionWeight = 2
+    static let slotWeight = 1
+
     /// The comparison key: no accents, double consonants collapsed.
     static func key(_ token: String) -> String {
         EditDistance.collapseDoubleConsonants(Normalizer.stripAccents(token))
@@ -110,7 +125,11 @@ public struct TranscriptMatcher: Sendable {
         let expectedKeys = expected.map(Self.key)
         let slots = Dictionary(expansion.slots.map { ($0.tokenIndex, $0.slot) }, uniquingKeysWith: { a, _ in a })
         func isContent(_ i: Int) -> Bool { slots[i] != nil || !Self.functionWords.contains(expected[i]) }
-        func weight(_ i: Int) -> Int { expansion.isFocus(i) ? 100 : (isContent(i) ? 10 : 1) }
+        func weight(_ i: Int) -> Int {
+            if expansion.isFocus(i) { return Self.focusWeight }
+            if slots[i] != nil { return Self.slotWeight }
+            return Self.functionWords.contains(expected[i]) ? Self.functionWeight : Self.contentWeight
+        }
 
         // Weighted longest common subsequence; a slot may take a run of transcript words.
         let width = m + 1
@@ -133,7 +152,7 @@ public struct TranscriptMatcher: Sendable {
                         for k in slot.wordRange where k > 0 && j + k <= m && slot.accepts(heard[j..<(j + k)]) {
                             relax((i + 1) * width + j + k, value + weight(i), from: here, matched: i)
                         }
-                    } else if j < m, expectedKeys[i] == heardKeys[j] {
+                    } else if j < m, ItalianNumbers.matchesSpoken(expected: expectedKeys[i], heard: heardKeys[j]) {
                         relax((i + 1) * width + j + 1, value + weight(i), from: here, matched: i)
                     }
                     relax((i + 1) * width + j, value, from: here, matched: nil)

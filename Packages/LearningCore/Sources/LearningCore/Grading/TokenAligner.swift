@@ -3,17 +3,27 @@ import Foundation
 /// Token-level weighted edit distance with wildcard slots (docs/05 § Typed answers 2; also dictation).
 ///
 /// Costs are integers in tenths (0.1 → 1, 0.5 → 5, 1 → 10) so ties compare exactly. Among equal costs the
-/// alignment with fewer hard operations (substitution, insertion, deletion) wins, then pairing over deleting
-/// over inserting, so results are deterministic.
+/// alignment with fewer hard operations (substitution, insertion, deletion) wins, then the one with more exact
+/// pairs, then pairing over deleting over inserting, so results are deterministic.
+///
+/// The exact-pair tie-break keeps a wildcard slot from taking a word an expected literal matches exactly: for
+/// `mi chiamo` against `mi chiamo {NAME}`, "pair *chiamo*, the slot is missing" and "*chiamo* is missing, the slot
+/// takes it" both cost one deletion, and the first has one more exact pair. (A slot can never do better than that
+/// tie: whatever run it takes besides the literal's word, the literal could pair that word and the slot keep the
+/// rest.)
 enum TokenAligner {
     struct Cost: Comparable, Hashable {
         var total: Int
         var hard: Int
+        /// Expected tokens paired with an identical response token (cost 0).
+        var exact: Int = 0
 
         static let zero = Cost(total: 0, hard: 0)
 
-        static func < (a: Cost, b: Cost) -> Bool { (a.total, a.hard) < (b.total, b.hard) }
-        static func + (a: Cost, b: Cost) -> Cost { Cost(total: a.total + b.total, hard: a.hard + b.hard) }
+        static func < (a: Cost, b: Cost) -> Bool { (a.total, a.hard, -a.exact) < (b.total, b.hard, -b.exact) }
+        static func + (a: Cost, b: Cost) -> Cost {
+            Cost(total: a.total + b.total, hard: a.hard + b.hard, exact: a.exact + b.exact)
+        }
     }
 
     enum Op<Mark: Hashable>: Hashable {
@@ -55,7 +65,7 @@ enum TokenAligner {
             back[to] = (from, op)
         }
 
-        let step = Cost(total: indel, hard: 1)
+        let indelStep = Cost(total: indel, hard: 1)
         for i in 0...n {
             for j in 0...m {
                 let here = i * width + j
@@ -67,13 +77,13 @@ enum TokenAligner {
                         }
                     } else if j < m {
                         let p = pair(i, j)
-                        relax(
-                            (i + 1) * width + j + 1, cost + Cost(total: p.cost, hard: p.hard ? 1 : 0), from: here,
-                            .pair(expected: i, response: j, mark: p.mark))
+                        let step = Cost(total: p.cost, hard: p.hard ? 1 : 0, exact: p.cost == 0 && !p.hard ? 1 : 0)
+                        let op = Op.pair(expected: i, response: j, mark: p.mark)
+                        relax((i + 1) * width + j + 1, cost + step, from: here, op)
                     }
-                    relax((i + 1) * width + j, cost + step, from: here, .delete(expected: i))
+                    relax((i + 1) * width + j, cost + indelStep, from: here, .delete(expected: i))
                 }
-                if j < m { relax(here + 1, cost + step, from: here, .insert(response: j)) }
+                if j < m { relax(here + 1, cost + indelStep, from: here, .insert(response: j)) }
             }
         }
 

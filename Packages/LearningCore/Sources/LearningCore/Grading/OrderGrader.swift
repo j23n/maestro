@@ -16,19 +16,21 @@ public enum OrderGrader {
     }
 
     /// `placed` are the tile texts in the learner's order; `accepted` the accepted sentences. Both are
-    /// compared normalised, so capitals and punctuation don't matter.
+    /// compared normalised, so capitals and punctuation don't matter, and split after apostrophes, so the tiles
+    /// `l'` + `acqua` equal `l'acqua` (normalising the joined tiles would glue them the same way) while every piece
+    /// still belongs to one tile, for `firstMisplaced`.
     public static func grade(placed: [String], accepted: [String]) -> Result {
         var tokens: [String] = []
         var tileOfToken: [Int] = []
         for (n, tile) in placed.enumerated() {
-            for token in Normalizer.tokens(tile) {
+            for token in pieces(tile) {
                 tokens.append(token)
                 tileOfToken.append(n)
             }
         }
         var best: (index: Int, prefix: Int, length: Int)?
         for (index, answer) in accepted.enumerated() {
-            let expected = Normalizer.tokens(answer)
+            let expected = pieces(answer)
             if expected == tokens {
                 return Result(outcome: .correct, closestAnswer: index, firstMisplaced: nil, isIncomplete: false)
             }
@@ -45,5 +47,24 @@ public enum OrderGrader {
                 isIncomplete: false)
         }
         return Result(outcome: .wrong, closestAnswer: best.index, firstMisplaced: nil, isIncomplete: true)
+    }
+
+    /// The normalised tokens of `text`, each split after its apostrophes: `L'acqua è fredda` → `l'`, `acqua`, `è`,
+    /// `fredda`. Normalising glues a part ending in an apostrophe to the next one, so for normalised text this split
+    /// loses nothing: two texts have equal pieces exactly when they have equal tokens.
+    static func pieces(_ text: String) -> [String] {
+        Normalizer.tokens(text).flatMap { token in
+            var parts: [String] = []
+            var current = ""
+            for c in token {
+                current.append(c)
+                if c == "'" {
+                    parts.append(current)
+                    current = ""
+                }
+            }
+            if !current.isEmpty { parts.append(current) }
+            return parts
+        }
     }
 }

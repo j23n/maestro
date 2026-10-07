@@ -21,7 +21,7 @@ import Testing
 
     @Test func everyPatternCase() throws {
         let fixture = try JSONDecoder().decode(Fixture.self, from: Fixtures.data("fixtures/grading/patterns.json"))
-        #expect(fixture.cases.count >= 11)
+        #expect(fixture.cases.count >= 20)
         for c in fixture.cases {
             if let expectedError = c.error {
                 do {
@@ -94,7 +94,7 @@ import Testing
         #expect(try AnswerPattern("\\{x\\}").expansions().map(\.raw) == ["{x}"])
     }
 
-    @Test func parseErrors() {
+    @Test func parseErrors() throws {
         #expect(throws: PatternError.self) { try AnswerPattern("{a|b") }
         #expect(throws: PatternError.self) { try AnswerPattern("(a") }
         #expect(throws: PatternError.self) { try AnswerPattern("[a") }
@@ -103,6 +103,16 @@ import Testing
         #expect(throws: PatternError.self) { try AnswerPattern("a\\") }
         #expect(throws: PatternError.unknownSlot("NOME")) { try AnswerPattern("mi chiamo {NOME}") }
         #expect(throws: PatternError.unknownSlot("ME.city")) { try AnswerPattern("{ME.city}") }
+        #expect(throws: PatternError.unknownSlot("Name")) { try AnswerPattern("mi chiamo {Name}") }
+        #expect(throws: PatternError.unknownSlot("me.home")) { try AnswerPattern("abito {me.home}") }
+        #expect(throws: PatternError.unknownSlot("Me.Country")) { try AnswerPattern("vengo da {Me.Country}") }
+        #expect(throws: PatternError.unknownSlot("NAME2")) { try AnswerPattern("{NAME2}") }
+        #expect(throws: PatternError.unknownSlot("ME_HOME")) { try AnswerPattern("{ME_HOME}") }
+        #expect(PatternError.unknownSlot("Name").description == "unknown slot {Name}")
+        // Not slot-like: literals.
+        #expect(try AnswerPattern("{Ciao}").expansions().map(\.text) == ["ciao"])
+        #expect(try AnswerPattern("{è}").expansions().map(\.text) == ["è"])
+        #expect(try AnswerPattern("{Nome|NOME}").expansions().map(\.text) == ["nome", "nome"])
         #expect(throws: PatternError.self) { try AnswerPattern("{m:nato|nata}") }
     }
 

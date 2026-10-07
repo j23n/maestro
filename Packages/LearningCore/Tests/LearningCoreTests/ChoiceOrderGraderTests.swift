@@ -53,4 +53,24 @@ import Testing
         #expect(extra.outcome == .wrong)
         #expect(extra.firstMisplaced == 4)
     }
+
+    /// Elided tiles join the next word as the normaliser joins them (`l'` + `acqua` = `l'acqua`); hints still point
+    /// at tiles.
+    @Test func elidedTilesJoinTheNextWord() {
+        let water = ["L'acqua è fredda.", "È fredda l'acqua."]
+        let right = OrderGrader.grade(placed: ["l'", "acqua", "è", "fredda"], accepted: water)
+        #expect(right.outcome == .correct)
+        #expect(right.closestAnswer == 0)
+        #expect(OrderGrader.grade(placed: ["è", "fredda", "l'", "acqua"], accepted: water).outcome == .correct)
+        #expect(OrderGrader.grade(placed: ["l'acqua", "è", "fredda"], accepted: water).outcome == .correct)
+        let swapped = OrderGrader.grade(placed: ["l'", "è", "acqua", "fredda"], accepted: water)
+        #expect(swapped.outcome == .wrong)
+        #expect(swapped.firstMisplaced == 1)
+        let first = OrderGrader.grade(placed: ["acqua", "l'", "è", "fredda"], accepted: water)
+        #expect(first.firstMisplaced == 0)
+        let short = OrderGrader.grade(placed: ["l'"], accepted: water)
+        #expect(short.isIncomplete)
+        #expect(short.firstMisplaced == nil)
+        #expect(OrderGrader.pieces("Un po' di pane, dell'acqua") == ["un", "po'", "di", "pane", "dell'", "acqua"])
+    }
 }

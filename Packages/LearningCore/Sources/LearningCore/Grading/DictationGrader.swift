@@ -4,8 +4,9 @@ import Foundation
 ///
 /// Each target word is marked `correct`, `accent` (only accents differ), `doubling` (only single versus double
 /// consonants differ, even in a 3-letter word: *eco*/*ecco*), `typo` (the typed-answer rule: Damerau-Levenshtein
-/// 1, at least 4 letters, not another form of the same item) or `wrong` (anything else, or missing). Accent
-/// slips on accent-sensitive words (*e*/*è*) are `wrong`: they are different words. Outcome: all correct →
+/// 1, at least 4 letters, not another form of the same item) or `wrong` (anything else, or missing). A missing
+/// or added accent on an accent-sensitive word (*e*/*è*) is `wrong`: they are different words; the wrong accent
+/// (*é* for *è*) is an `accent` mark. Outcome: all correct →
 /// `correct`; only accent, doubling or typo marks → `almost`; any wrong mark or extra word → `wrong`.
 public enum DictationGrader {
     public enum Mark: String, Sendable, Hashable, Codable {
@@ -79,8 +80,7 @@ public enum DictationGrader {
         let se = Normalizer.stripAccents(e)
         let sr = Normalizer.stripAccents(r)
         if se == sr {
-            let sensitive = Normalizer.isAccentSensitive(e) || Normalizer.isAccentSensitive(r)
-            return sensitive || sameItem
+            return Normalizer.isOtherAccentSensitiveWord(e, r) || sameItem
                 ? .init(mark: .wrong, cost: 10, hard: true) : .init(mark: .accent, cost: 1, hard: false)
         }
         if !sameItem, EditDistance.doublingDifference(target: e, response: r) != nil {

@@ -1,8 +1,10 @@
 import Foundation
 
 /// Content points for talk and writing (docs/05 § Other graders): a point is found when any expansion of its
-/// patterns occurs as a contiguous token sequence in the normalised response, ignoring accents. The task passes
-/// when at least `pass` points are found. Digits, prices and times are spelled out first, as for transcripts.
+/// patterns occurs as a contiguous token sequence in the normalised response, ignoring accents, and for a spoken
+/// response (talk) also consonant length, as for transcripts (ASR can't be trusted on it). The task passes when at
+/// least `pass` points are found. Digits, prices and times are spelled out first, as for transcripts (every
+/// reading of an ambiguous `H.MM` is tried; a `1` before a word stands for *un*/*uno*/*una*/*un'*).
 public struct ContentPointMatcher: Sendable {
     /// One content point (`points` in a talk or writing exercise; docs/06).
     public struct Point: Sendable, Hashable {
@@ -40,15 +42,23 @@ public struct ContentPointMatcher: Sendable {
         self.profile = profile
     }
 
-    public func match(response: String, points: [Point], pass: Int) -> Result {
-        let tokens = Normalizer.tokens(ItalianNumbers.spellOut(response)).map(Normalizer.stripAccents)
+    /// - Parameter spoken: the response is a speech transcript (talk spoken), so double consonants are collapsed on
+    ///   both sides before comparing.
+    public func match(response: String, points: [Point], pass: Int, spoken: Bool = false) -> Result {
+        let readings = ItalianNumbers.spellOutReadings(response).map { reading in
+            let tokens = Normalizer.tokens(reading)
+            return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
+        }
         var found: [String] = []
         var missing: [String] = []
         for point in points {
             let expansions = point.accept.flatMap { $0.expansions(profile: profile) }.filter {
                 profile.accepts($0.gender)
             }
-            if expansions.contains(where: { Self.occurs($0, in: tokens) }) {
+            let isFound = expansions.contains { expansion in
+                readings.contains { Self.occurs(expansion, in: $0.tokens, keys: $0.keys, spoken: spoken) }
+            }
+            if isFound {
                 found.append(point.id)
             } else {
                 missing.append(point.id)
@@ -57,9 +67,16 @@ public struct ContentPointMatcher: Sendable {
         return Result(found: found, missing: missing, required: pass)
     }
 
-    /// Whether `expansion` occurs contiguously in `tokens` (already accent-stripped).
-    static func occurs(_ expansion: PatternExpansion, in tokens: [String]) -> Bool {
-        let expected = expansion.tokens.map(Normalizer.stripAccents)
+    /// The comparison key: no accents; for speech, double consonants collapsed too.
+    static func key(_ token: String, spoken: Bool) -> String {
+        let stripped = Normalizer.stripAccents(token)
+        return spoken ? EditDistance.collapseDoubleConsonants(stripped) : stripped
+    }
+
+    /// Whether `expansion` occurs contiguously in `tokens` (normalised; `keys` are their `key(_:spoken:)`): words
+    /// compare by key, and a slot takes the tokens themselves (`{NUMBER}` reads *diciassette*, not its key).
+    static func occurs(_ expansion: PatternExpansion, in tokens: [String], keys: [String], spoken: Bool) -> Bool {
+        let expected = expansion.tokens.map { key($0, spoken: spoken) }
         let slots = Dictionary(expansion.slots.map { ($0.tokenIndex, $0.slot) }, uniquingKeysWith: { a, _ in a })
         func matches(_ i: Int, _ j: Int) -> Bool {
             if i == expected.count { return true }
@@ -69,7 +86,8 @@ public struct ContentPointMatcher: Sendable {
                 }
                 return false
             }
-            return j < tokens.count && tokens[j] == expected[i] && matches(i + 1, j + 1)
+            return j < tokens.count && ItalianNumbers.matchesSpoken(expected: expected[i], heard: keys[j])
+                && matches(i + 1, j + 1)
         }
         if expected.isEmpty { return true }
         return tokens.indices.contains { matches(0, $0) }
