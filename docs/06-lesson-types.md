@@ -109,7 +109,8 @@ These three are used inside many lesson types (story questions, listening, readi
 ```
 
 - Options and pairs are shown in a seeded shuffle. The answer index refers to the order as written.
-- **Match:** `targets[i]` belongs to `pairs[i]`, and each pair is graded on its own; the build fails if the lengths differ.
+- **Match:** `targets[i]` belongs to `pairs[i]`, and each pair is graded on its own; `content lint` fails if the lengths differ.
+- **Choice:** `answer` must be an index into `options`; lint checks it.
 - Options in Italian use `ItalianText`.
 - IDs: `choice.option.<n>`, `tf.true`, `tf.false`, `match.left.<n>`, `match.right.<n>`.
 
@@ -286,6 +287,7 @@ These three are used inside many lesson types (story questions, listening, readi
   answer: ["oggi vorrei un caffè", "vorrei un caffè oggi"]
 ```
 
+- Every accepted `answer` orders exactly the `tiles` (lowercase, no punctuation; `distractors` are left out); lint checks it.
 - Tiles appear in a seeded shuffled order, never in the answer order.
 - Tap a tile to move it to the answer line, and tap it again to return it; drag to reorder on iPad and Mac. Tiles are buttons with "Move left" and "Move right" accessibility actions.
 - Punctuation and capitals are added in the displayed result.
@@ -321,7 +323,7 @@ These three are used inside many lesson types (story questions, listening, readi
   tip_en: Listen for the double c. Italians hold it a little longer.
 ```
 
-- The UI follows `Pairs.png`. Audio for both words must exist; the pipeline generates it.
+- The UI follows `Pairs.png`. Audio for both words must exist; the pipeline generates it. `play` is one of the two words of `pair`, and `glosses` names only those words.
 - `single-or-double` uses `word` and `answer: single | double`: it plays one word from the story and asks "Single or double consonant?" Vary the answers within a step, so always picking one button doesn't pass.
 - IDs: `pairs.play`, `pairs.option.<n>`.
 
@@ -374,7 +376,7 @@ These three are used inside many lesson types (story questions, listening, readi
     end: {say: "Tre euro, grazie. Buona giornata!", en: "Three euros, thanks. Have a good day!", final: true}
 ```
 
-- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`.
+- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`. Lint checks that `start` and every `next` name a node and every `goal` is one of `goals` (and warns about a goal no intent completes).
 - **Layout:** follows `Dialogue.png`. The character's name is in small caps over their line; the learner's turns are labelled **YOU** in the accent colour. On regular width, the goals checklist and "Stuck? You could say:" help chips sit in the right column. Bottom bar: **Type instead**, the mic (primary), **Hear Giulia again**. **Show English** toggles translations. On iPhone the goals collapse above the transcript.
 - **Turn matching:** typed turns use the typed grader (accepted if `correct`, `correctWithNote` or `almost`); spoken turns use the transcript matcher.
 - **First miss:** show the matching `near` hint, else `hint_en`, and the help chips. **Second miss:** "You could say: …" — the learner repeats or types it, or taps Continue — and the conversation follows the first intent's `next`.

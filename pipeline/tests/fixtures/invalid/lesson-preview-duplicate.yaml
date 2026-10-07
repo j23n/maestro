@@ -1,0 +1,8 @@
+# Invalid: an item appears once in a preview (its generated exercise IDs would collide).
+id: u03.l1
+title: {it: "La foto", en: "The photo"}
+review: {status: draft, by: null, date: null, hash: null}
+steps:
+  - kind: preview
+    id: u03.l1.step-preview
+    batches: [[w:caffe, w:oggi], [w:ecco, w:caffe]]

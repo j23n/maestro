@@ -1,0 +1,6 @@
+# Invalid: a chunk's ID starts with c:, and a chunk written with '/' needs a recall_answer
+# (docs/05 § Review session builder: the generated recall answer can't be guessed from "ho fame / ho sete").
+unit: u03
+review: {status: draft, by: null, date: null, hash: null}
+items:
+  - {id: 'w:ho-fame', kind: chunk, it: ho fame / ho sete, gloss: I'm hungry / I'm thirsty, match: [ho fame, ho sete], status: P, lesson: u03.l1}

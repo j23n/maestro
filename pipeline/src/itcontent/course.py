@@ -7,7 +7,7 @@ can name the file, the path and, through `yamlio.locate`, the line.
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -68,7 +68,8 @@ class UnitFiles:
     @property
     def lesson_count(self) -> int:
         if self.spec and isinstance(self.spec.data, dict):
-            return int(self.spec.data.get("lessons") or 0)
+            n = self.spec.data.get("lessons")
+            return n if isinstance(n, int) and not isinstance(n, bool) else 0  # schema errors are lint's to report
         return 0
 
     @property
@@ -121,11 +122,11 @@ class Course:
 
     def grammar_points(self) -> list[dict[str, Any]]:
         d = self.singles.get("points")
-        return list((d.data or {}).get("points") or []) if d else []
+        return [p for p in _seq(_map(d.data).get("points")) if isinstance(p, dict)] if d else []
 
     def detection_rules(self) -> list[dict[str, Any]]:
         d = self.singles.get("detection")
-        return list((d.data or {}).get("rules") or []) if d else []
+        return [r for r in _seq(_map(d.data).get("rules")) if isinstance(r, dict)] if d else []
 
     def all_docs(self) -> list[Doc]:
         out = [self.course, *self.singles.values(), *self.assessments.values()]
@@ -150,10 +151,15 @@ SINGLES = {
 ASSESSMENTS = {"placement": "assessments/placement.yaml", "final": "assessments/final-check.yaml"}
 
 
-def _load(root: Path, rel: str, errors: list[tuple[str, str]]) -> Doc | None:
+def _load(
+    root: Path, rel: str, errors: list[tuple[str, str]], preloaded: Mapping[str, Any] | None = None
+) -> Doc | None:
     p = root / rel
     if not p.is_file():
         return None
+    rel = p.relative_to(root).as_posix()
+    if preloaded is not None and rel in preloaded:
+        return Doc(p, rel, preloaded[rel])
     try:
         return Doc(p, p.relative_to(root).as_posix(), yamlio.load(p))
     except yamlio.ContentYAMLError as exc:
@@ -161,30 +167,37 @@ def _load(root: Path, rel: str, errors: list[tuple[str, str]]) -> Doc | None:
         return None
 
 
-def load_course(root: Path | None = None) -> Course:
+def load_course(root: Path | None = None, *, preloaded: Mapping[str, Any] | None = None) -> Course:
+    """Load the course. `preloaded` maps repo-relative paths to documents already loaded (lint parses every file
+    once); files missing from it are read from disk."""
     root = (root or paths.ROOT).resolve()
     errors: list[tuple[str, str]] = []
-    course = _load(root, "content/course.yaml", errors)
-    if course is None:
+
+    def load(rel: str) -> Doc | None:
+        return _load(root, rel, errors, preloaded)
+
+    course = load("content/course.yaml")
+    if course is None or not isinstance(course.data, dict):
         raise SystemExit(f"{root}/content/course.yaml is missing or does not parse: {errors}")
-    singles = {k: d for k, rel in SINGLES.items() if (d := _load(root, f"content/{rel}", errors)) is not None}
-    assessments = {k: d for k, rel in ASSESSMENTS.items() if (d := _load(root, f"content/{rel}", errors)) is not None}
+    singles = {k: d for k, rel in SINGLES.items() if (d := load(f"content/{rel}")) is not None}
+    assessments = {k: d for k, rel in ASSESSMENTS.items() if (d := load(f"content/{rel}")) is not None}
     units = []
-    for slug in (course.data or {}).get("units") or []:
+    slugs = course.data.get("units")
+    for slug in slugs if isinstance(slugs, list) else []:
         udir = root / "content" / "units" / str(slug)
-        spec = _load(root, f"content/units/{slug}/unit.yaml", errors)
+        spec = load(f"content/units/{slug}/unit.yaml")
         uf = UnitFiles(slug=str(slug), dir=udir, spec=spec)
         lesson_paths = sorted(
             udir.glob("lesson-*.yaml"),
             key=lambda p: int(p.stem.split("-")[1]) if p.stem.split("-")[1].isdigit() else 999,
         )
         for lp in lesson_paths:
-            d = _load(root, lp.relative_to(root).as_posix(), errors)
+            d = load(lp.relative_to(root).as_posix())
             if d is not None:
                 uf.lessons.append(d)
-        uf.task = _load(root, f"content/units/{slug}/task.yaml", errors)
-        uf.check = _load(root, f"content/units/{slug}/check.yaml", errors)
-        uf.items = _load(root, f"content/items/{uf.id}.yaml", errors)
+        uf.task = load(f"content/units/{slug}/task.yaml")
+        uf.check = load(f"content/units/{slug}/check.yaml")
+        uf.items = load(f"content/items/{uf.id}.yaml")
         units.append(uf)
     return Course(root=root, course=course, units=units, singles=singles, assessments=assessments, load_errors=errors)
 
@@ -231,8 +244,17 @@ class TextRef:
         return str(self.data.get("id", ""))
 
 
+def _map(x: Any) -> dict[str, Any]:
+    """A mapping, or {} for malformed data (lint reports the schema error; walkers must not crash on it)."""
+    return x if isinstance(x, dict) else {}
+
+
+def _seq(x: Any) -> list[Any]:
+    return x if isinstance(x, list) else []
+
+
 def lesson_steps(doc: Doc) -> Iterator[tuple[int, dict[str, Any]]]:
-    for i, step in enumerate((doc.data or {}).get("steps") or []):
+    for i, step in enumerate(_seq(_map(doc.data).get("steps"))):
         if isinstance(step, dict):
             yield i, step
 
@@ -267,7 +289,7 @@ def walk_lesson(doc: Doc, unit_id: str) -> Iterator[ExerciseRef | TextRef]:
         if kind == "practice":
             lists += [("block", "block"), ("mix", "mix")]
         for key, part in lists:
-            for j, ex in enumerate(step.get(key) or []):
+            for j, ex in enumerate(_seq(step.get(key))):
                 if not isinstance(ex, dict):
                     continue
                 eloc = sloc.child(key, j)
@@ -286,8 +308,8 @@ def walk_lesson(doc: Doc, unit_id: str) -> Iterator[ExerciseRef | TextRef]:
 
 
 def walk_task(doc: Doc, unit_id: str) -> Iterator[ExerciseRef | TextRef]:
-    data = doc.data or {}
-    for j, ex in enumerate(data.get("conversations") or []):
+    data = _map(doc.data)
+    for j, ex in enumerate(_seq(data.get("conversations"))):
         if isinstance(ex, dict):
             eloc = doc.loc.child("conversations", j)
             yield ExerciseRef(ex, eloc, unit_id, "task", None, "conversation", "learn")
@@ -321,14 +343,14 @@ def walk_task(doc: Doc, unit_id: str) -> Iterator[ExerciseRef | TextRef]:
 
 def walk_check(doc: Doc, unit_id: str, container: str = "check") -> Iterator[ExerciseRef | TextRef]:
     role = {"check": "check", "final": "final", "placement": "placement"}[container]
-    data = doc.data or {}
+    data = _map(doc.data)
     groups = data.get("sections") or data.get("blocks") or []
     group_key = "sections" if data.get("sections") is not None else "blocks"
     for s, sec in enumerate(groups):
         if not isinstance(sec, dict):
             continue
         section = str(sec.get("id") or sec.get("unit") or s)
-        for j, ex in enumerate(sec.get("exercises") or []):
+        for j, ex in enumerate(_seq(sec.get("exercises"))):
             if isinstance(ex, dict):
                 eloc = doc.loc.child(group_key, s, "exercises", j)
                 yield ExerciseRef(ex, eloc, unit_id, container, None, None, role, section=section)

@@ -13,8 +13,10 @@ from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
-from itcontent import ids, paths, schemas, yamlio
+from itcontent import ids, paths, references, schemas, yamlio
+from itcontent.course import load_course
 from itcontent.findings import Finding, PathT, format_path, make
+from itcontent.index import build_index
 
 
 def content_files(root: Path) -> list[Path]:
@@ -129,6 +131,16 @@ def schema_findings(rel: str, data: Any) -> list[Finding]:
 # ---------------------------------------------------------------- the command
 
 
+def cross_file_findings(root: Path, docs: dict[str, Any], lines: Lines) -> list[Finding]:
+    """IDs, references, ids.lock, retired IDs and ledgers (references)."""
+    try:
+        course = load_course(root, preloaded=docs)
+    except SystemExit:
+        return []  # course.yaml is missing or unreadable: the parse and schema findings say why
+    index = build_index(course)
+    return references.check(root, course, index, docs, lines)
+
+
 def lint_findings(root: Path | None = None) -> list[Finding]:
     """Every finding for the repository at `root`, sorted, with line numbers."""
     root = (root or paths.ROOT).resolve()
@@ -145,6 +157,7 @@ def lint_findings(root: Path | None = None) -> list[Finding]:
         findings.extend(schema_findings(rel, data))
     if not (root / "content" / "course.yaml").is_file():
         findings.append(make("error", "content/course.yaml", (), "is missing: the course can't be loaded"))
+    findings.extend(cross_file_findings(root, docs, lines))
     out = []
     for f in set(findings):
         if f.line is None and f.path is not None:
