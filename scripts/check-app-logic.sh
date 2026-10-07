@@ -1,50 +1,69 @@
 #!/usr/bin/env bash
-# Type-check the App target's platform-neutral Swift files on any machine with a Swift toolchain (Linux included),
-# against the real LearningCore and Storage packages. SwiftUI, UIKit, AppKit and the Apple-only frameworks don't
-# exist on Linux, so this covers the files that import only Foundation, Observation, LearningCore and Storage:
-# configuration, view models, adapter protocols and fakes. Views and adapters are built by Xcode (make build-ios).
+# Type-check, and unit-test, the App target's platform-neutral Swift on any machine with a Swift toolchain (Linux
+# included), against the real LearningCore and Storage packages. SwiftUI, UIKit, AppKit and the Apple-only
+# frameworks don't exist on Linux, so this covers the files that import only Foundation, Observation, LearningCore
+# and Storage (configuration, view models, adapter protocols, fakes) and the App tests that import only those plus
+# Testing and `@testable import Italiano`. Views, adapters and snapshot tests are built by Xcode (make build-ios).
 #
-# Usage: scripts/check-app-logic.sh            (run by make lint-guards when a Swift toolchain is present)
+# Usage: scripts/check-app-logic.sh [--test]     (make lint-guards runs the type-check; --test also runs the tests)
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 app="$root/App/Italiano"
+tests="$root/App/ItalianoTests"
 [ -d "$app" ] || { echo "no App/Italiano yet"; exit 0; }
 command -v swift >/dev/null 2>&1 || { echo "check-app-logic: no Swift toolchain, skipped"; exit 0; }
 
-allowed='^(Foundation|Observation|LearningCore|Storage|Dispatch)$'
-files=()
-while IFS= read -r f; do
-  ok=1
+neutral() {  # neutral <file> <allowed-modules-regex>
+  local f="$1" allowed="$2" mod
+  grep -qE '#if[[:space:]]+(os\(|canImport|targetEnvironment)' "$f" && return 1
   while IFS= read -r mod; do
-    [[ "$mod" =~ $allowed ]] || { ok=0; break; }
+    [[ "$mod" =~ $allowed ]] || return 1
   done < <(grep -E '^[[:space:]]*(@[A-Za-z_]+[[:space:]]+)*import[[:space:]]+' "$f" | sed -E 's/.*import[[:space:]]+([A-Za-z_]+).*/\1/')
-  grep -qE '#if[[:space:]]+(os\(|canImport)' "$f" && ok=0
-  [ "$ok" = 1 ] && files+=("$f")
-done < <(find "$app" -name '*.swift' | sort)
-
-[ "${#files[@]}" -gt 0 ] || { echo "check-app-logic: no platform-neutral files"; exit 0; }
+  return 0
+}
 
 work="${TMPDIR:-/tmp}/italiano-app-logic"
-rm -rf "$work/Sources"
-mkdir -p "$work/Sources/AppLogic"
-for f in "${files[@]}"; do ln -s "$f" "$work/Sources/AppLogic/$(echo "${f#"$app"/}" | tr '/' '_')"; done
+rm -rf "$work/Sources" "$work/Tests"
+mkdir -p "$work/Sources/Italiano" "$work/Tests/ItalianoTests"
+n=0
+while IFS= read -r f; do
+  if neutral "$f" '^(Foundation|Observation|LearningCore|Storage|Dispatch)$'; then
+    ln -s "$f" "$work/Sources/Italiano/$(echo "${f#"$app"/}" | tr '/' '_')"
+    n=$((n + 1))
+  fi
+done < <(find "$app" -name '*.swift' | sort)
+t=0
+if [ -d "$tests" ]; then
+  while IFS= read -r f; do
+    if neutral "$f" '^(Foundation|Observation|LearningCore|Storage|Dispatch|Testing|Italiano)$'; then
+      ln -s "$f" "$work/Tests/ItalianoTests/$(echo "${f#"$tests"/}" | tr '/' '_')"
+      t=$((t + 1))
+    fi
+  done < <(find "$tests" -name '*.swift' | sort)
+fi
+[ "$n" -gt 0 ] || { echo "check-app-logic: no platform-neutral files"; exit 0; }
+test_target=""
+[ "$t" -gt 0 ] && test_target=", .testTarget(name: \"ItalianoTests\", dependencies: [\"Italiano\", \"LearningCore\", \"Storage\"], swiftSettings: [.swiftLanguageMode(.v6)])"
 cat > "$work/Package.swift" <<EOF
 // swift-tools-version: 6.2
 import PackageDescription
 let package = Package(
-    name: "AppLogic",
+    name: "Italiano",
     platforms: [.iOS(.v26), .macOS(.v26)],
     dependencies: [.package(path: "$root/Packages/LearningCore"), .package(path: "$root/Packages/Storage")],
-    targets: [.target(name: "AppLogic", dependencies: ["LearningCore", "Storage"],
-                      swiftSettings: [.swiftLanguageMode(.v6)])]
+    targets: [.target(name: "Italiano", dependencies: ["LearningCore", "Storage"],
+                      swiftSettings: [.swiftLanguageMode(.v6)])$test_target]
 )
 EOF
-echo "check-app-logic: type-checking ${#files[@]} platform-neutral App files"
-if out="$(swift build --package-path "$work" 2>&1)"; then
-  echo "$out" | grep -E "warning:" | sed "s|$work/Sources/AppLogic/||" || true
+echo "check-app-logic: $n platform-neutral App files, $t test files"
+cmd=(swift build --package-path "$work")
+[ "${1:-}" = "--test" ] && [ "$t" -gt 0 ] && cmd=(swift test --package-path "$work")
+[ "${1:-}" != "--test" ] && [ "$t" -gt 0 ] && cmd=(swift build --build-tests --package-path "$work")
+if out="$("${cmd[@]}" 2>&1)"; then
+  echo "$out" | grep -E "warning:|✘|passed after|Test run" | sed "s|$work/Sources/Italiano/||; s|$work/Tests/ItalianoTests/||" || true
   echo "App logic OK"
 else
-  echo "$out" | grep -E "error:|warning:" | sed "s|$work/Sources/AppLogic/||" >&2
-  echo "App logic does not compile" >&2
+  echo "$out" | grep -E "error:|warning:|✘|failed" | sed "s|$work/Sources/Italiano/||; s|$work/Tests/ItalianoTests/||" >&2
+  echo "App logic does not compile or its tests fail" >&2
   exit 1
 fi
