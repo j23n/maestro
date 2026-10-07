@@ -84,6 +84,26 @@
     "quant'è",
     "quanto costa"
    ]
+  },
+  {
+   "pattern": "sono {m:americano|f:americana} e sono {m:nato|f:nata} a Toronto",
+   "expansions": [
+    "sono americano e sono nato a toronto",
+    "sono americana e sono nata a toronto"
+   ],
+   "gender": [
+    "m",
+    "f"
+   ],
+   "note": "an expansion never mixes m: and f: choices (one person); the 512 limit counts these consistent expansions"
+  },
+  {
+   "pattern": "abito {ME.home}",
+   "slots": [
+    "ME.home"
+   ],
+   "first": "abito {ME.home}",
+   "note": "without a learner, a personal slot stays one token written as its placeholder"
   }
  ]
 }
