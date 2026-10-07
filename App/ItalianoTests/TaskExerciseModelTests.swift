@@ -86,9 +86,13 @@ import Testing
 
     @Test func relayPrices() throws {
         let r = try #require(RelayModel(payload: try PayloadFixtures.exercise("u02.task.relay"), env: env(), sink: sink))
+        #expect(r.answerText == "€1.60")
         r.response = "1.50"
         r.check()
         #expect(!r.isDone)
+        r.tryAgain()
+        let reopened = if case .awaitingSecond = r.machine.state { true } else { false }
+        #expect(reopened)
         r.response = "It's 1,60 euros"
         r.check()
         #expect(r.isDone)
