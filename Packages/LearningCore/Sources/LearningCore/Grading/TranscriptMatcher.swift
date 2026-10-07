@@ -97,6 +97,17 @@ public struct TranscriptMatcher: Sendable {
         return a.missingFocus.count < b.missingFocus.count
     }
 
+    /// Weights of the alignment (a weighted longest common subsequence): it keeps the matches with the largest total
+    /// weight. A focus word outweighs every other word of an expansion together and a content word every function
+    /// word and slot together, so the alignment never gives up a word that decides the pass for words that don't.
+    /// A slot fill weighs least of all, below a function word: a slot is a wildcard and must not take a word an
+    /// expected literal matches (*vengo dagli* is not *vengo dagli {ME.country}* with *dagli* as the country). It
+    /// still counts as a content token for the pass.
+    static let focusWeight = 1_000_000
+    static let contentWeight = 1_000
+    static let functionWeight = 2
+    static let slotWeight = 1
+
     /// The comparison key: no accents, double consonants collapsed.
     static func key(_ token: String) -> String {
         EditDistance.collapseDoubleConsonants(Normalizer.stripAccents(token))
@@ -110,7 +121,11 @@ public struct TranscriptMatcher: Sendable {
         let expectedKeys = expected.map(Self.key)
         let slots = Dictionary(expansion.slots.map { ($0.tokenIndex, $0.slot) }, uniquingKeysWith: { a, _ in a })
         func isContent(_ i: Int) -> Bool { slots[i] != nil || !Self.functionWords.contains(expected[i]) }
-        func weight(_ i: Int) -> Int { expansion.isFocus(i) ? 100 : (isContent(i) ? 10 : 1) }
+        func weight(_ i: Int) -> Int {
+            if expansion.isFocus(i) { return Self.focusWeight }
+            if slots[i] != nil { return Self.slotWeight }
+            return Self.functionWords.contains(expected[i]) ? Self.functionWeight : Self.contentWeight
+        }
 
         // Weighted longest common subsequence; a slot may take a run of transcript words.
         let width = m + 1

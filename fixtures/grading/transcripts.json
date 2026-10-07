@@ -105,6 +105,32 @@
    "accept": "mi chiamo {NAME}",
    "transcript": "mi chiamo Johannes",
    "pass": true
+  },
+  {
+   "accept": "vengo dagli {ME.country}",
+   "transcript": "vengo dagli",
+   "pass": false,
+   "note": "a slot never takes a word an expected literal matches: no country was said"
+  },
+  {
+   "accept": "vengo dagli {ME.country}",
+   "transcript": "vengo dagli Stati Uniti",
+   "pass": true
+  },
+  {
+   "accept": "abito {ME.home}",
+   "transcript": "abito",
+   "pass": false
+  },
+  {
+   "accept": "sono {ME.nationality}",
+   "transcript": "sono",
+   "pass": false
+  },
+  {
+   "accept": "mi chiamo {NAME}",
+   "transcript": "mi chiamo",
+   "pass": false
   }
  ]
 }

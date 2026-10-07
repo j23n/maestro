@@ -51,7 +51,7 @@ import Testing
 
     @Test func everyTypedAnswerCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 27)
+        #expect(fixture.cases.count >= 31)
         let forms = KnownForms(fixture.defaults.knownForms.mapValues(\.ids))
         for c in fixture.cases {
             let profile = LearnerProfile(
@@ -169,6 +169,19 @@ import Testing
         #expect(grader.grade("ho molti anni", accepted: number).outcome == .wrong)
         let filled = grader.grade("Mi chiamo Anna Maria", accepted: name)
         #expect(filled.correction == "mi chiamo anna maria")
+    }
+
+    /// A slot never takes a word that an expected literal matches exactly: the slot is what's missing.
+    @Test func aSlotNeverSwallowsTheLiteralBeforeIt() throws {
+        let name = grader.grade("mi chiamo", accepted: try AnswerPattern("mi chiamo {NAME}"))
+        #expect(name.mismatches == [2])
+        #expect(name.hintKind == .missing)
+        #expect(name.correction == "mi chiamo {NAME}")
+        let country = grader.grade("vengo dagli", accepted: try AnswerPattern("vengo dagli {ME.country}"))
+        #expect(country.mismatches == [2])
+        #expect(country.correction == "vengo dagli {ME.country}")
+        let filled = grader.grade("mi chiamo Anna", accepted: try AnswerPattern("mi chiamo {NAME}"))
+        #expect(filled.outcome == .correct)
     }
 
     static let us = LearnerProfile.Country(

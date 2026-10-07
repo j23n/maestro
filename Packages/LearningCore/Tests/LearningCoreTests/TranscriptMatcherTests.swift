@@ -26,7 +26,7 @@ import Testing
 
     @Test func everyTranscriptCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 7)
+        #expect(fixture.cases.count >= 12)
         let matcher = TranscriptMatcher()
         for c in fixture.cases {
             let match = try #require(matcher.match(transcript: c.transcript, accepted: try AnswerPattern(c.accept)))

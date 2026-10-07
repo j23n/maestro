@@ -255,6 +255,47 @@
    ],
    "hintKind": "ending",
    "note": "un is another form of the indefinite article: inflection error even outside a focus token"
+  },
+  {
+   "id": 28,
+   "pattern": "mi chiamo {NAME}",
+   "response": "mi chiamo",
+   "outcome": "wrong",
+   "mismatches": [
+    2
+   ],
+   "hintKind": "missing",
+   "note": "a slot never takes a word that an expected literal matches exactly: the name is missing, not chiamo"
+  },
+  {
+   "id": 29,
+   "pattern": "vengo dagli {ME.country}",
+   "response": "vengo dagli",
+   "outcome": "wrong",
+   "mismatches": [
+    2
+   ],
+   "hintKind": "missing"
+  },
+  {
+   "id": 30,
+   "pattern": "abito {ME.home}",
+   "response": "abito",
+   "outcome": "wrong",
+   "mismatches": [
+    1
+   ],
+   "hintKind": "missing"
+  },
+  {
+   "id": 31,
+   "pattern": "sono {ME.nationality}",
+   "response": "sono",
+   "outcome": "wrong",
+   "mismatches": [
+    1
+   ],
+   "hintKind": "missing"
   }
  ]
 }
