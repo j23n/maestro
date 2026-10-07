@@ -1,0 +1,3 @@
+# Invalid: a retired ID is never reused (ADR-14), but w:caffe is still defined in items/u02.yaml.
+retired:
+  - {id: 'w:caffe', retired_in: 0.2.0, reason: split into w:caffe~espresso and w:caffe~place, replaced_by: 'w:caffe~espresso'}

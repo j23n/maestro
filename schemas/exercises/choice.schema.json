@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/exercises/choice.schema.json",
+  "title": "choice exercise",
+  "description": "docs/06 § Building-block formats. No targets for comprehension questions. `answer` is an index into `options` as written.",
+  "type": "object",
+  "required": ["id", "format", "tags", "question_en", "options", "answer"],
+  "properties": {
+    "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
+    "format": {"const": "choice"},
+    "targets": {"$ref": "../common.schema.json#/$defs/targets"},
+    "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "source": {"$ref": "../common.schema.json#/$defs/source"},
+    "prompt_it": {"type": ["string", "null"]},
+    "audio": {"$ref": "../common.schema.json#/$defs/audio"},
+    "audio_text": {"$ref": "../common.schema.json#/$defs/audioText"},
+    "plays": {"$ref": "../common.schema.json#/$defs/plays"},
+    "question_en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "options": {"type": "array", "minItems": 2, "maxItems": 4, "items": {"type": "string", "minLength": 1}},
+    "answer": {"type": "integer", "minimum": 0},
+    "hint": {"type": "string"},
+    "rule": {"type": "string"},
+    "score": {"$ref": "../common.schema.json#/$defs/score"}
+  },
+  "additionalProperties": false
+}

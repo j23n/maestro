@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/exercises/dictation.schema.json",
+  "title": "dictation exercise",
+  "description": "docs/06 § 9.",
+  "type": "object",
+  "required": ["id", "format", "targets", "tags", "say"],
+  "properties": {
+    "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
+    "format": {"const": "dictation"},
+    "targets": {"$ref": "../common.schema.json#/$defs/targets"},
+    "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "source": {"$ref": "../common.schema.json#/$defs/source"},
+    "say": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "slow": {"type": "boolean"},
+    "plays": {"$ref": "../common.schema.json#/$defs/plays"},
+    "hint": {"type": "string"},
+    "rule": {"type": "string"},
+    "near": {"$ref": "../common.schema.json#/$defs/near"},
+    "score": {"$ref": "../common.schema.json#/$defs/score"}
+  },
+  "additionalProperties": false
+}

@@ -98,43 +98,16 @@ struct TypedExerciseView: View {
     }
 
     private func feedbackPanel(_ f: FeedbackPresentation) -> some View {
-        FeedbackPanel(tone: f.tone == .success ? .success : (f.tone == .hint ? .hint : .answer),
-                      headline: f.headline, detail: detailText(f)) {
-            HStack(spacing: Tokens.Space.m) {
-                if f.canShowAnswer {
-                    Button("Show answer") { model.showAnswer() }
-                        .buttonStyle(.dsSecondary)
-                        .keyboardShortcut("a", modifiers: [.command, .shift])
-                        .accessibilityIdentifier("feedback.showAnswer")
-                }
-                if f.canTryAgain {
-                    Button("Try again") {
-                        model.tryAgain()
-                        fieldFocused = true
-                    }
-                    .buttonStyle(.dsPrimary)
-                    .keyboardShortcut(.return, modifiers: [])
-                    .accessibilityIdentifier("feedback.tryAgain")
-                }
-                if f.canContinue {
-                    Button("Continue") {
-                        if f.tone == .answer && !model.isDone { model.acknowledge() }
-                        onContinue()
-                    }
-                    .buttonStyle(.dsPrimary)
-                    .keyboardShortcut(.return, modifiers: [])
-                    .accessibilityIdentifier("feedback.continue")
-                }
-            }
-        }
-    }
-
-    private func detailText(_ f: FeedbackPresentation) -> String? {
-        var parts: [String] = []
-        if let d = f.detail { parts.append(d) }
-        if let a = f.answer { parts.append("*\(a)*") }
-        if let r = f.rule { parts.append(r) }
-        return parts.isEmpty ? nil : parts.joined(separator: "\n")
+        PresentedFeedback(
+            presentation: f, onShowAnswer: { model.showAnswer() },
+            onTryAgain: {
+                model.tryAgain()
+                fieldFocused = true
+            },
+            onContinue: {
+                if f.tone == .answer && !model.isDone { model.acknowledge() }
+                onContinue()
+            })
     }
 }
 

@@ -1,0 +1,23 @@
+# Invalid: a conversation's start and every `next` name nodes of the conversation, every `goal` is one of its goals,
+# and some node is final.
+id: u03.l1
+title: {it: "La foto", en: "The photo"}
+review: {status: draft, by: null, date: null, hash: null}
+steps:
+  - kind: use
+    id: u03.l1.step-use
+    exercise:
+      id: u03.l1.ex25
+      format: conversation
+      with: ch:giulia
+      register: lei
+      title: {en: "Order a coffee"}
+      tags: [cd:order-food-drink]
+      goals: [{id: order, en: "Order a coffee"}]
+      start: n0
+      nodes:
+        n1:
+          say: "Buongiorno! Cosa prende?"
+          en: "Good morning! What will you have?"
+          expect:
+            - {intent: order, goal: drink, accept: ["un caffè( per favore)"], next: n2}

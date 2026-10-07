@@ -1,0 +1,21 @@
+{
+ "format": 1,
+ "source": "content/units/11-in-viaggio/unit.yaml",
+ "strings": [
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
+   ],
+   "path": "title.it",
+   "pending": true,
+   "ref": "u11",
+   "role": "title",
+   "text": "In viaggio",
+   "tokens": [
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [0, 2], "surface": "In", "trailing": " "},
+    {"analyses": ["viaggiare VER:ind+pres+1+s", "viaggio NOUN-M:s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [3, 10], "surface": "viaggio"}
+   ]
+  }
+ ],
+ "unit": "u11"
+}

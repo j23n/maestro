@@ -6,19 +6,24 @@ import Observation
 // spoken answer is one `capture` call whose live transcript the view shows. Platform-neutral; the real player and
 // recogniser sit behind `AudioPlaying` and `SpeechRecognizing`.
 
-/// Turns pack audio IDs into clips and read-along timings. Storage's pack reader conforms; tests and previews use
-/// `StaticAudioResolver`. A missing clip means "no speaker button" (docs/06 § Shared player behaviour).
+/// Turns pack audio IDs into clips and read-along timings. The pack's `PackAudioCatalog` conforms (loaded once with
+/// `PackReader.audioCatalog()`); tests and previews use `StaticAudioResolver`. A missing clip means "no speaker
+/// button" (docs/06 § Shared player behaviour).
 protocol AudioResolving: Sendable {
     func clip(for id: AudioID) -> AudioClip?
     func timeline(for id: AudioID) -> [TokenTiming]
+    /// The audio of a whole text (`audio_text`, `source` texts, relay sources).
+    func audioID(forText id: TextID) -> AudioID?
 }
 
 struct StaticAudioResolver: AudioResolving {
     var clips: [AudioID: AudioClip] = [:]
     var timelines: [AudioID: [TokenTiming]] = [:]
+    var textAudio: [TextID: AudioID] = [:]
 
     func clip(for id: AudioID) -> AudioClip? { clips[id] }
     func timeline(for id: AudioID) -> [TokenTiming] { timelines[id] ?? [] }
+    func audioID(forText id: TextID) -> AudioID? { textAudio[id] }
 }
 
 /// The exercise-level audio controller: which clip is playing, and how often each was played (the `plays` cap in
@@ -38,6 +43,8 @@ final class ExerciseAudio {
 
     func canPlay(_ id: AudioID?) -> Bool { id.flatMap { resolver.clip(for: $0) } != nil }
 
+    func audioID(forText id: TextID?) -> AudioID? { id.flatMap { resolver.audioID(forText: $0) } }
+
     func isPlaying(_ id: AudioID?) -> Bool { id != nil && current == id && player.isPlaying }
 
     func plays(of id: AudioID?) -> Int { id.map { playCounts[$0] ?? 0 } ?? 0 }
@@ -52,6 +59,15 @@ final class ExerciseAudio {
         return true
     }
 
+    /// Plays a text's audio from the start of a line (tap a story line, docs/06 §2), or from the start when the
+    /// line has no timings.
+    @discardableResult
+    func play(_ id: AudioID?, fromLine line: Int, rate: Double = 1, context: AudioContext = .story) -> Bool {
+        guard let id, play(id, rate: rate, context: context) else { return false }
+        if let ms = ReadAlong.lineStart(line, in: resolver.timeline(for: id)) { player.seek(toMs: ms) }
+        return true
+    }
+
     /// The speaker button: stops the clip if it is the one playing, else plays it.
     func toggle(_ id: AudioID?, rate: Double = 1, context: AudioContext = .exercise) {
         if isPlaying(id) { stop() } else { play(id, rate: rate, context: context) }
@@ -60,6 +76,23 @@ final class ExerciseAudio {
     func stop() {
         player.stop()
         current = nil
+    }
+}
+
+/// "0:21 / 1:02" for the audio bar.
+enum PlaybackClock {
+    static func format(_ ms: Int) -> String {
+        let seconds = max(0, ms) / 1000
+        let s = seconds % 60
+        return "\(seconds / 60):\(s < 10 ? "0" : "")\(s)"
+    }
+
+    static func position(_ ms: Int, of duration: Int) -> String { "\(format(ms)) / \(format(duration))" }
+
+    /// "0.8×", "1×", "1.15×"
+    static func rate(_ r: Double) -> String {
+        let text = r == r.rounded() ? String(Int(r)) : String(format: "%g", r)
+        return text + "×"
     }
 }
 

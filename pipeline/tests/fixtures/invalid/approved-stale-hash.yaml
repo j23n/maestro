@@ -1,0 +1,5 @@
+# Invalid: an approved file edited after approval; its review.hash no longer matches (docs/04 § Approval hash).
+unit: u03
+review: {status: approved, by: "Test Lead", date: "2026-10-01", hash: "3f9c0e1a2b4d3f9c0e1a2b4d3f9c0e1a2b4d3f9c0e1a2b4d3f9c0e1a2b4d3f9c"}
+items:
+  - {id: 'w:nonno', it: nonno, pos: noun, gloss: grandfather, gender: m, plural: nonni, status: P, lesson: u03.l1}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/exercises/talk.schema.json",
+  "title": "talk exercise",
+  "description": "docs/06 § 13. No targets (no FSRS). `pass` is at most the number of points (lint checks it).",
+  "type": "object",
+  "required": ["id", "format", "tags", "prompt_en", "points", "pass", "model"],
+  "properties": {
+    "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
+    "format": {"const": "talk"},
+    "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "source": {"$ref": "../common.schema.json#/$defs/source"},
+    "prompt_en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "points": {"$ref": "../common.schema.json#/$defs/points"},
+    "pass": {"type": "integer", "minimum": 1},
+    "model": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "duration_s": {"$ref": "../common.schema.json#/$defs/minMax"},
+    "score": {"$ref": "../common.schema.json#/$defs/score"}
+  },
+  "additionalProperties": false
+}

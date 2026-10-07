@@ -1,0 +1,63 @@
+{
+ "format": 1,
+ "source": "content/items/u00.yaml",
+ "strings": [
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "benvenuto",
+   "of": 4,
+   "path": "items[12].recall_answer",
+   "pattern": "{benvenuto|benvenuta|benvenuti|benvenute}",
+   "ref": "c:benvenuto",
+   "role": "recall_answer",
+   "text": "benvenuto",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+m+s", "benvenuto NOUN-M:s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "benvenuto"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "benvenuta",
+   "of": 4,
+   "path": "items[12].recall_answer",
+   "pattern": "{benvenuto|benvenuta|benvenuti|benvenute}",
+   "ref": "c:benvenuto",
+   "role": "recall_answer",
+   "text": "benvenuta",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+f+s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "benvenuta"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "benvenuti",
+   "of": 4,
+   "path": "items[12].recall_answer",
+   "pattern": "{benvenuto|benvenuta|benvenuti|benvenute}",
+   "ref": "c:benvenuto",
+   "role": "recall_answer",
+   "text": "benvenuti",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+m+p", "benvenuto NOUN-M:p"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "benvenuti"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "benvenute",
+   "of": 4,
+   "path": "items[12].recall_answer",
+   "pattern": "{benvenuto|benvenuta|benvenuti|benvenute}",
+   "ref": "c:benvenuto",
+   "role": "recall_answer",
+   "text": "benvenute",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+f+p"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "benvenute"}
+   ]
+  }
+ ],
+ "unit": "u00"
+}

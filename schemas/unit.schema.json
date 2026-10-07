@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/unit.schema.json",
+  "title": "Unit spec (content/units/NN-slug/unit.yaml)",
+  "description": "docs/03 § Unit spec: the contract every draft must satisfy. The final review u99 has check: null and names its final check in tasks.final_check.",
+  "type": "object",
+  "required": ["id", "title", "episode", "est_hours", "lessons", "can_do", "grammar", "chunks", "items", "recycle_from", "sounds", "texts", "tasks", "check", "review"],
+  "properties": {
+    "id": {"type": "string", "format": "id:unit"},
+    "title": {"$ref": "common.schema.json#/$defs/titleItEn"},
+    "episode": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+    "arc": {"type": "string"},
+    "est_hours": {"type": "number", "exclusiveMinimum": 0},
+    "lessons": {"type": "integer", "minimum": 1},
+    "can_do": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "scale", "syllabus"],
+        "properties": {
+          "id": {"type": "string", "format": "id:can_do"},
+          "text": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+          "scale": {
+            "enum": ["oral-comprehension", "reading", "oral-production", "written-production", "oral-interaction", "written-interaction", "mediation", "sociolinguistic", "phonological-control", "orthographic-control", "range-accuracy"],
+            "title": "CEFR scale"
+          },
+          "stretch": {"type": "boolean"},
+          "syllabus": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "id:syllabus"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "grammar": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status"],
+        "properties": {
+          "id": {"type": "string", "format": "id:grammar"},
+          "status": {"enum": ["P", "R", "chunk"], "title": "grammar status"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "chunks": {"type": "string"},
+    "items": {
+      "type": "object",
+      "required": ["new_words", "topics"],
+      "properties": {
+        "new_words": {"$ref": "common.schema.json#/$defs/range"},
+        "topics": {"type": "array", "items": {"type": "string", "format": "id:topic"}},
+        "note": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "recycle_from": {"type": "array", "items": {"type": "string", "format": "id:unit"}},
+    "sounds": {"type": "array", "items": {"type": "string", "format": "id:sound"}},
+    "texts": {
+      "type": "object",
+      "required": ["stories", "listening", "real_world"],
+      "properties": {
+        "stories": {
+          "type": "object",
+          "required": ["count", "words", "new_token_max"],
+          "properties": {
+            "count": {"type": "integer", "minimum": 0},
+            "words": {"$ref": "common.schema.json#/$defs/range"},
+            "new_token_max": {"type": "number", "minimum": 0, "maximum": 1}
+          },
+          "additionalProperties": false
+        },
+        "listening": {
+          "type": "array",
+          "items": {"enum": ["dialogue", "phone", "announcement", "message"], "title": "listening text kind"}
+        },
+        "real_world": {
+          "type": "array",
+          "items": {
+            "enum": ["menu", "receipt", "sign", "hours", "timetable", "ticket", "form", "label", "ad", "message", "postcard", "list"],
+            "title": "layout type"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "tasks": {
+      "type": "object",
+      "required": ["conversation", "talk", "writing", "relay"],
+      "properties": {
+        "conversation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "brief"],
+            "properties": {
+              "id": {"type": "string", "format": "id:exercise"},
+              "brief": {"$ref": "common.schema.json#/$defs/nonEmptyString"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "talk": {"$ref": "#/$defs/brief"},
+        "relay": {"$ref": "#/$defs/brief"},
+        "writing": {
+          "type": ["object", "null"],
+          "required": ["kind", "brief"],
+          "properties": {
+            "kind": {"enum": ["form", "message", "postcard", "list", "description"], "title": "writing kind"},
+            "brief": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+            "tags": {"$ref": "common.schema.json#/$defs/tags"}
+          },
+          "additionalProperties": false
+        },
+        "final_check": {
+          "type": "string",
+          "pattern": "^content/assessments/[a-z0-9-]+\\.yaml$",
+          "x-message": "'{value}' is not a path like content/assessments/final-check.yaml"
+        }
+      },
+      "additionalProperties": false
+    },
+    "check": {
+      "type": ["object", "null"],
+      "required": ["items", "sections"],
+      "properties": {
+        "items": {"type": "integer", "minimum": 1},
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["listening", "reading", "writing", "speaking"], "title": "check section"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": {"type": "string"},
+    "review": {"$ref": "common.schema.json#/$defs/review"}
+  },
+  "additionalProperties": false,
+  "if": {"properties": {"check": {"type": "null"}}, "required": ["check"]},
+  "then": {
+    "properties": {
+      "tasks": {"required": ["final_check"], "x-message": "a unit with check: null names its final check in tasks.final_check"}
+    }
+  },
+  "$defs": {
+    "brief": {
+      "type": ["object", "null"],
+      "required": ["brief"],
+      "properties": {
+        "brief": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "tags": {"$ref": "common.schema.json#/$defs/tags"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

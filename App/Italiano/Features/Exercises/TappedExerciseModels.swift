@@ -131,6 +131,9 @@ final class MatchModel {
         clock = AttemptClock(now: env.nowMs)
     }
 
+    /// Check mode: pairings are collected without feedback and submitted together.
+    var isAssessment: Bool { env.context.isAssessment }
+
     func tapLeft(_ i: Int) {
         guard !isDone, locked[i] == nil else { return }
         selectedLeft = i

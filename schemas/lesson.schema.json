@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/lesson.schema.json",
+  "title": "Lesson (content/units/NN-slug/lesson-K.yaml)",
+  "description": "docs/03 § Lesson files, docs/06 (step kinds and formats). Golden sample: content/units/02-al-bar/lesson-1.yaml.",
+  "type": "object",
+  "required": ["id", "title", "review", "steps"],
+  "properties": {
+    "id": {"type": "string", "format": "id:lesson"},
+    "title": {"$ref": "common.schema.json#/$defs/titleItEn"},
+    "scene": {"type": "string"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "steps": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": {"type": "string", "format": "id:lesson_step"},
+        "kind": {
+          "enum": ["preview", "story", "listening", "reading", "note", "practice", "sounds", "use"],
+          "title": "step kind"
+        }
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "preview"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/preview"}},
+        {"if": {"properties": {"kind": {"const": "story"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/story"}},
+        {"if": {"properties": {"kind": {"const": "listening"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/listening"}},
+        {"if": {"properties": {"kind": {"const": "reading"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/reading"}},
+        {"if": {"properties": {"kind": {"const": "note"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/note"}},
+        {"if": {"properties": {"kind": {"const": "practice"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/practice"}},
+        {"if": {"properties": {"kind": {"const": "sounds"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/sounds"}},
+        {"if": {"properties": {"kind": {"const": "use"}}, "required": ["kind"]}, "then": {"$ref": "#/$defs/use"}}
+      ]
+    },
+    "preview": {
+      "description": "docs/06 § 1. Batches of at most 6 items; matches and retrievals are generated.",
+      "type": "object",
+      "required": ["id", "kind", "batches"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "batches": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 6,
+            "items": {"type": "string", "format": "id:lexical_item"}
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "story": {
+      "description": "docs/06 § 2. Comprehension questions are `choice` with no targets.",
+      "type": "object",
+      "required": ["id", "kind", "text"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "text": {
+          "$ref": "common.schema.json#/$defs/text",
+          "properties": {"kind": {"enum": ["story", "dialogue"], "title": "story text kind"}}
+        },
+        "questions": {
+          "type": "array",
+          "items": {"$ref": "exercise.schema.json", "properties": {"format": {"enum": ["choice"]}}}
+        }
+      },
+      "additionalProperties": false
+    },
+    "listening": {
+      "description": "docs/06 § 3. Audio first; `plays`: a number, or unlimited/null.",
+      "type": "object",
+      "required": ["id", "kind", "text", "exercises"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "text": {
+          "$ref": "common.schema.json#/$defs/text",
+          "properties": {"kind": {"enum": ["dialogue", "phone", "announcement", "message"], "title": "listening text kind"}}
+        },
+        "plays": {
+          "type": ["integer", "string", "null"],
+          "if": {"type": "string"},
+          "then": {"const": "unlimited"},
+          "else": {"minimum": 1}
+        },
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "exercise.schema.json", "properties": {"format": {"enum": ["choice", "true-false", "match"]}}}
+        }
+      },
+      "additionalProperties": false
+    },
+    "reading": {
+      "description": "docs/06 § 4. A real-world text with a native layout.",
+      "type": "object",
+      "required": ["id", "kind", "text", "exercises"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "text": {
+          "$ref": "common.schema.json#/$defs/text",
+          "properties": {"kind": {"enum": ["real_world"], "title": "reading text kind"}}
+        },
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "exercise.schema.json", "properties": {"format": {"enum": ["choice", "true-false", "match"]}}}
+        }
+      },
+      "additionalProperties": false
+    },
+    "note": {
+      "description": "docs/06 § 5. The first grammar point is the main one; at least two examples come from the lesson's story.",
+      "type": "object",
+      "required": ["id", "kind", "note_id", "grammar", "title_en", "body"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "note_id": {"type": "string", "format": "id:note"},
+        "grammar": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "id:grammar"}},
+        "title_en": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "intro": {
+          "type": "object",
+          "required": ["text_en"],
+          "properties": {
+            "mascot": {"enum": ["hello", "think", "cheer", "sleep"], "title": "mascot pose"},
+            "text_en": {"$ref": "common.schema.json#/$defs/nonEmptyString"}
+          },
+          "additionalProperties": false
+        },
+        "body": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/noteBlock"}}
+      },
+      "additionalProperties": false
+    },
+    "noteBlock": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "x-message": "a note block is exactly one of p, table, examples or tip",
+      "properties": {
+        "p": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "tip": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "examples": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "id:text_line"}},
+        "table": {
+          "type": "object",
+          "required": ["columns", "rows"],
+          "properties": {
+            "columns": {"$ref": "common.schema.json#/$defs/nonEmptyStrings"},
+            "rows": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/strings"}}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "practice": {
+      "description": "docs/06 § Payloads: a block on the new structure, then a mix with confusable earlier items.",
+      "type": "object",
+      "required": ["id", "kind", "block"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "block": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/practiceExercise"}},
+        "mix": {"type": "array", "items": {"$ref": "#/$defs/practiceExercise"}}
+      },
+      "additionalProperties": false
+    },
+    "practiceExercise": {
+      "$ref": "exercise.schema.json",
+      "properties": {
+        "format": {
+          "enum": ["cloze", "recall", "sentence-building", "dictation", "sound-pair", "repeat", "choice", "true-false", "match"]
+        }
+      }
+    },
+    "sounds": {
+      "description": "docs/06 § 10.",
+      "type": "object",
+      "required": ["id", "kind", "exercises"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "exercises": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "exercise.schema.json", "properties": {"format": {"enum": ["sound-pair"]}}}
+        }
+      },
+      "additionalProperties": false
+    },
+    "use": {
+      "description": "docs/06 § Opener and Use: a 2–3-turn conversation or a spoken recall.",
+      "type": "object",
+      "required": ["id", "kind", "exercise"],
+      "properties": {
+        "id": true,
+        "kind": true,
+        "exercise": {"$ref": "exercise.schema.json", "properties": {"format": {"enum": ["conversation", "recall"]}}}
+      },
+      "additionalProperties": false
+    }
+  }
+}

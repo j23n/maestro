@@ -33,6 +33,8 @@ The MVP has **17 learning types and 3 assessments**. In the code they map onto t
 
 Other step kinds: `opener` (unit start: episode and can-dos, `Unit.png`), `use` (the lesson's closing mini-task: one short conversation or a spoken recall), `sounds` (holds sound-pair exercises), `practice` (a block, then a mix) and the task steps `conversation`, `talk`, `writing` and `relay` (one exercise each).
 
+Which formats each container holds (the schemas in `schemas/` enforce it): story questions are `choice`; listening and reading steps hold `choice`, `true-false` and `match`; `sounds` holds `sound-pair`; `use` holds one `conversation` or `recall`; `practice` holds any format except `conversation`, `talk`, `writing` and `relay`; a task holds its conversations, talk, writing and relay; placement holds `cloze`, `recall`, `sentence-building`, `dictation`, `choice`, `true-false` and `match`; unit checks and the final check hold any format. Unit-level kinds (`opener`, `check`, …) are generated, never authored in a lesson.
+
 Design references are in `design/screens/`. Their **sample text is placeholder** and predates the final syllabus (for example 8 units, *c'è*, *nel*); copy layout, never text.
 
 ## Shared lesson-player behaviour
@@ -73,6 +75,18 @@ Each section below shows the **authoring YAML**. The compiled JSON payload in th
 
 `fixtures/packs/mini-payloads.json` (from `make mini-pack`) holds every payload of the golden lesson, task and check; LearningCore's decode tests use it.
 
+### Which strings are Italian
+
+The annotator (`docs/04` § Annotation) tokenises exactly these; the token arrays of the payloads come from them.
+
+- **Texts:** `title.it`, every line's `it`, and every string of a real-world `layout` except `type`, `style` and values listed in `ignore`.
+- **Titles:** unit, lesson and conversation `title.it`.
+- **Exercises:** `prompt_it`, `context_it`; cloze `text` (once per gap expansion, gap filled in); `say` (dictation, repeat, conversation nodes); sentence-building `tiles`, `distractors` and `answer` orders; `choice` options by the rule above; the left side of `match` pairs; conversation `help`; talk and writing `model`; writing `fields[].label_it`; every expansion of `answer` (recall), `accept`, `points[].accept` / `fields[].accept` and near-miss `answer` patterns (near-misses only leniently, as wrong answers: never gated). English fields end in `_en` or are `en`, `hint`, `rule`, `options` of comprehension questions and `glosses`.
+- **Sound pairs:** `pair` and `word` are listening material: resolved like any word and flagged `sound`; a word without an item is fine when the exercise's `glosses` explain it (*eco*, *pena*). `play` repeats a `pair` word.
+- **Notes:** the `*…*` fragments of `p`, `tip` and `intro.text_en` (endings such as `*-o*` are skipped), `table.rows` cells (`columns` are English headers), and `examples` given as inline strings instead of line IDs.
+- **Items:** `recall_answer` patterns.
+- **Not annotated:** countries (onboarding data that fills `{ME.*}` slots) and the story bible.
+
 ### Unit-level steps
 
 The pipeline generates these from `unit.yaml`, `task.yaml` and `check.yaml`. Within a unit, `steps.ord` runs:
@@ -108,8 +122,9 @@ These three are used inside many lesson types (story questions, listening, readi
 ```
 
 - Options and pairs are shown in a seeded shuffle. The answer index refers to the order as written.
-- **Match:** `targets[i]` belongs to `pairs[i]`, and each pair is graded on its own; the build fails if the lengths differ.
-- Options in Italian use `ItalianText`.
+- **Match:** `targets[i]` belongs to `pairs[i]`, and each pair is graded on its own; `content lint` fails if the lengths differ.
+- **Choice:** `answer` must be an index into `options`; lint checks it.
+- Options in Italian use `ItalianText`. Options are **Italian** unless the Italian is the stimulus: in a story, listening or reading step, or when the exercise has its own `prompt_it`, `audio_text` or `source`, they are English (they give its meaning). `u02.l1.ex17` (Italian options) and `u02.l1.ex21` (English options for `prompt_it`) show both.
 - IDs: `choice.option.<n>`, `tf.true`, `tf.false`, `match.left.<n>`, `match.right.<n>`.
 
 ---
@@ -285,6 +300,7 @@ These three are used inside many lesson types (story questions, listening, readi
   answer: ["oggi vorrei un caffè", "vorrei un caffè oggi"]
 ```
 
+- Every accepted `answer` orders exactly the `tiles` (lowercase, no punctuation; `distractors` are left out); lint checks it.
 - Tiles appear in a seeded shuffled order, never in the answer order.
 - Tap a tile to move it to the answer line, and tap it again to return it; drag to reorder on iPad and Mac. Tiles are buttons with "Move left" and "Move right" accessibility actions.
 - Punctuation and capitals are added in the displayed result.
@@ -320,7 +336,7 @@ These three are used inside many lesson types (story questions, listening, readi
   tip_en: Listen for the double c. Italians hold it a little longer.
 ```
 
-- The UI follows `Pairs.png`. Audio for both words must exist; the pipeline generates it.
+- The UI follows `Pairs.png`. Audio for both words must exist; the pipeline generates it. `play` is one of the two words of `pair`, and `glosses` names only those words.
 - `single-or-double` uses `word` and `answer: single | double`: it plays one word from the story and asks "Single or double consonant?" Vary the answers within a step, so always picking one button doesn't pass.
 - IDs: `pairs.play`, `pairs.option.<n>`.
 
@@ -373,7 +389,7 @@ These three are used inside many lesson types (story questions, listening, readi
     end: {say: "Tre euro, grazie. Buona giornata!", en: "Three euros, thanks. Have a good day!", final: true}
 ```
 
-- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders).
+- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`. Lint checks that `start` and every `next` name a node and every `goal` is one of `goals` (and warns about a goal no intent completes).
 - **Layout:** follows `Dialogue.png`. The character's name is in small caps over their line; the learner's turns are labelled **YOU** in the accent colour. On regular width, the goals checklist and "Stuck? You could say:" help chips sit in the right column. Bottom bar: **Type instead**, the mic (primary), **Hear Giulia again**. **Show English** toggles translations. On iPhone the goals collapse above the transcript.
 - **Turn matching:** typed turns use the typed grader (accepted if `correct`, `correctWithNote` or `almost`); spoken turns use the transcript matcher.
 - **First miss:** show the matching `near` hint, else `hint_en`, and the help chips. **Second miss:** "You could say: …" — the learner repeats or types it, or taps Continue — and the conversation follows the first intent's `next`.
@@ -428,6 +444,7 @@ These three are used inside many lesson types (story questions, listening, readi
   model: "Caro Tom, …"
 ```
 
+- `kind: form` needs `fields`; every other kind is free text and needs `words`, `points`, `pass` (at most the number of points) and `model`.
 - **Forms** render as an Italian form with per-field checks.
 - **Free text** gets a word counter, the checklist and accent keys.
 - **Feedback** shows the word count, the points found, spelling suggestions for unknown forms close to known ones, and the model answer.
@@ -447,7 +464,7 @@ These three are used inside many lesson types (story questions, listening, readi
 ```
 
 - A friend's message bubble (in English) sits above the Italian source; the learner answers in English.
-- Answer types: `time`, `price`, `number`, `text` (`accept: [...]`). No FSRS.
+- Answer types: `time` (`value: "15:30"`), `price` and `number` (a numeric `value`), `text` (`accept: [...]`). No FSRS.
 - IDs: `relay.friend`, `relay.source`, `relay.answer`.
 
 ### 16 · Fluency replay (step `fluency`)

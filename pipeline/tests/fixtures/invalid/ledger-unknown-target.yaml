@@ -1,0 +1,30 @@
+# Invalid: every ledger comment has a known target (docs/04 § Commands). An open comment on a target that doesn't
+# exist is an error; a resolved one only warns (its target may be gone because of the fix).
+scope: u02
+comments:
+  - id: c-0001
+    review: reviews/inbox/review-u02-2026-10-20.json
+    target: u02.l1.ex99
+    file: content/units/02-al-bar/lesson-1.yaml
+    verdict: change
+    category: answer-key
+    comment: "Accept 'vorrei un caffè, grazie'."
+    at: "2026-10-20T09:15:00Z"
+    stale: false
+    resolution: {status: open}
+  - id: c-0002
+    review: reviews/inbox/review-u02-2026-10-20.json
+    target: u02.l1.ex16
+    file: content/units/02-al-bar/lesson-1.yaml
+    verdict: change
+    at: "2026-10-20T09:16:00Z"
+    stale: false
+    resolution: {status: fixed, note: "Dropped the exercise.", commit: 1a2b3c4}
+  - id: c-0003
+    review: reviews/inbox/review-u02-2026-10-20.json
+    target: u02.can_do[1].text
+    file: content/units/02-al-bar/unit.yaml
+    verdict: ok
+    at: "2026-10-20T09:17:00Z"
+    stale: false
+    resolution: {status: open}

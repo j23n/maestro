@@ -15,7 +15,15 @@ from ruamel.yaml.error import YAMLError
 
 
 class ContentYAMLError(Exception):
-    """A YAML file that does not parse. The message names the file and position."""
+    """A YAML file that does not parse. The message names the file and position.
+
+    `problem` is a one-line description and `line` the 1-based line of the problem (when the parser knows them).
+    """
+
+    def __init__(self, message: str, *, problem: str | None = None, line: int | None = None) -> None:
+        super().__init__(message)
+        self.problem = problem or message
+        self.line = line
 
 
 def _safe() -> YAML:
@@ -42,7 +50,14 @@ def loads(text: str, name: str = "<string>") -> Any:
     try:
         return _safe().load(text)
     except YAMLError as exc:
-        raise ContentYAMLError(f"{name}: {exc}") from exc
+        problem = getattr(exc, "problem", None)
+        context = getattr(exc, "context", None)
+        mark = getattr(exc, "problem_mark", None) or getattr(exc, "context_mark", None)
+        line = mark.line + 1 if mark is not None else None
+        short = " ".join(str(problem or exc).split())
+        if context:
+            short += f" ({' '.join(str(context).split())})"
+        raise ContentYAMLError(f"{name}: {exc}", problem=short, line=line) from exc
 
 
 def load_roundtrip(path: Path) -> Any:

@@ -1,0 +1,18 @@
+{
+ "format": 1,
+ "source": "content/units/08-tempo-libero/unit.yaml",
+ "strings": [
+  {
+   "path": "title.it",
+   "pending": true,
+   "ref": "u08",
+   "role": "title",
+   "text": "Tempo libero",
+   "tokens": [
+    {"analyses": ["tempo NOUN-M:s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "tempo", "span": [0, 5], "surface": "Tempo", "trailing": " "},
+    {"analyses": ["liberare VER:ind+pres+1+s", "libero ADJ:pos+m+s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [6, 12], "surface": "libero"}
+   ]
+  }
+ ],
+ "unit": "u08"
+}

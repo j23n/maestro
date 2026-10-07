@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/retired.schema.json",
+  "title": "Retired IDs (content/retired.yaml)",
+  "description": "ADR-14: a released ID is never removed or reused; it is retired here with the pack version and a reason.",
+  "type": "object",
+  "required": ["retired"],
+  "properties": {
+    "retired": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "retired_in", "reason"],
+        "properties": {
+          "id": {"type": "string", "format": "id:*"},
+          "retired_in": {"$ref": "common.schema.json#/$defs/semver"},
+          "reason": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+          "replaced_by": {
+            "type": ["string", "null"],
+            "if": {"type": "string"},
+            "then": {"format": "id:*"}
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

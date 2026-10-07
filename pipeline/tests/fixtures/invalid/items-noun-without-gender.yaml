@@ -1,0 +1,5 @@
+# Invalid: nouns carry gender and plural (docs/03 § Items; display forms need them).
+unit: u03
+review: {status: draft, by: null, date: null, hash: null}
+items:
+  - {id: 'w:foto', it: foto, pos: noun, gloss: photo, status: P, lesson: u03.l1}

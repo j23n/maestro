@@ -21,6 +21,29 @@ enum PayloadFixtures {
         let raw = try #require(list.first { $0["id"] as? String == id })
         return try JSONDecoder().decode(ExercisePayload.self, from: JSONSerialization.data(withJSONObject: raw))
     }
+
+    /// Every example exercise, by ID.
+    static func exercises() throws -> [ExerciseID: ExercisePayload] {
+        let data = try Data(contentsOf: repoRoot.appendingPathComponent("fixtures/packs/payload-examples.json"))
+        let doc = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let list = try #require(doc["exercises"] as? [[String: Any]])
+        var out: [ExerciseID: ExercisePayload] = [:]
+        for raw in list {
+            let p = try JSONDecoder().decode(ExercisePayload.self, from: JSONSerialization.data(withJSONObject: raw))
+            out[p.id] = p
+        }
+        return out
+    }
+
+    /// The example step payloads, in file order (they carry no IDs; tests name them).
+    static func steps() throws -> [StepPayload] {
+        let data = try Data(contentsOf: repoRoot.appendingPathComponent("fixtures/packs/payload-examples.json"))
+        let doc = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let list = try #require(doc["steps"] as? [[String: Any]])
+        return try list.map {
+            try JSONDecoder().decode(StepPayload.self, from: JSONSerialization.data(withJSONObject: $0))
+        }
+    }
 }
 
 @MainActor

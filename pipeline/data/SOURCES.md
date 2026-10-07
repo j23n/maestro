@@ -46,6 +46,16 @@ as stored (raw bytes), and the sources tried in order (`tgz:` = an archive from 
     `MOD:cond+pres+1+s`; `è` and `sei` are both `VER` and `AUX`; `sei` is also `DET-NUM-CARD` and `PRO-NUM`.
   - Proper nouns are `NPR` and capitalised (`Bologna`, `Marco`, `Rosa`); `Lei` (formal you) is absent, so a
     capitalised form is looked up lowercased (`docs/04` step 3).
+  - Many capitalised forms have their own NPR line (`Al`, `Marco`): a capitalised word token also takes the lowercase
+    form's analyses and drops the NPR readings (allowlisted names are name tokens and never get there).
+  - `uno` is `ART-M:s` (lemma `un`), `NOUN-M:s` and `PRO-INDEF-M-S`, never `DET-NUM-CARD`: the number item `w:uno`
+    gets a synthesised `DET-NUM-CARD` reading. Truncated adjectives have their own lemma (`buon`, `bel` → ADJ).
+  - Verb forms are often filed under several moods: `parliamo` is ind, impr and sub; `fai`, `capisci`, `vieni`, `hai`,
+    `sei` are ind and impr; participles are also adjectives (`finito`, `venuto`, `andato`). Detection rules on verb
+    morphology therefore use `any: true` (one analysis is enough) instead of the default every-analysis rule.
+  - Inflected determiners and pronouns have their own lemmas besides the base one: `molti` (PRO-INDEF, lemma `molti`),
+    `tutti`, `pochi`, `quella`, `questi`, `mia`, `sua` (PRO-POSS, lemma `mia`). Rules for these match the form.
+  - `quando` is only `WH`, never `CON`, so the conjunction can't be told from the question word.
   - Two lines use spaces instead of tabs (`seppur`); the loader splits on any whitespace when a line has no tab.
   - After Latin-1 decoding the text is already NFC; line endings are LF.
 
