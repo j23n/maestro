@@ -222,7 +222,8 @@
         "lemma": {"$ref": "#/$defs/nonEmptyStrings"},
         "pos": {"$ref": "#/$defs/posList"},
         "morph": {"type": "string", "format": "regex"},
-        "optional": {"type": "boolean"}
+        "optional": {"type": "boolean"},
+        "any": {"type": "boolean", "description": "one analysis matching is enough (docs/03 § Grammar points)"}
       },
       "additionalProperties": false
     },

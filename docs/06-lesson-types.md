@@ -75,6 +75,18 @@ Each section below shows the **authoring YAML**. The compiled JSON payload in th
 
 `fixtures/packs/mini-payloads.json` (from `make mini-pack`) holds every payload of the golden lesson, task and check; LearningCore's decode tests use it.
 
+### Which strings are Italian
+
+The annotator (`docs/04` § Annotation) tokenises exactly these; the token arrays of the payloads come from them.
+
+- **Texts:** `title.it`, every line's `it`, and every string of a real-world `layout` except `type`, `style` and values listed in `ignore`.
+- **Titles:** unit, lesson and conversation `title.it`.
+- **Exercises:** `prompt_it`, `context_it`; cloze `text` (once per gap expansion, gap filled in); `say` (dictation, repeat, conversation nodes); sentence-building `tiles`, `distractors` and `answer` orders; `choice` options by the rule above; the left side of `match` pairs; conversation `help`; talk and writing `model`; writing `fields[].label_it`; every expansion of `answer` (recall), `accept`, `points[].accept` / `fields[].accept` and near-miss `answer` patterns (near-misses only leniently, as wrong answers: never gated). English fields end in `_en` or are `en`, `hint`, `rule`, `options` of comprehension questions and `glosses`.
+- **Sound pairs:** `pair` and `word` are listening material: resolved like any word and flagged `sound`; a word without an item is fine when the exercise's `glosses` explain it (*eco*, *pena*). `play` repeats a `pair` word.
+- **Notes:** the `*…*` fragments of `p`, `tip` and `intro.text_en` (endings such as `*-o*` are skipped), `table.rows` cells (`columns` are English headers), and `examples` given as inline strings instead of line IDs.
+- **Items:** `recall_answer` patterns.
+- **Not annotated:** countries (onboarding data that fills `{ME.*}` slots) and the story bible.
+
 ### Unit-level steps
 
 The pipeline generates these from `unit.yaml`, `task.yaml` and `check.yaml`. Within a unit, `steps.ord` runs:
@@ -112,7 +124,7 @@ These three are used inside many lesson types (story questions, listening, readi
 - Options and pairs are shown in a seeded shuffle. The answer index refers to the order as written.
 - **Match:** `targets[i]` belongs to `pairs[i]`, and each pair is graded on its own; `content lint` fails if the lengths differ.
 - **Choice:** `answer` must be an index into `options`; lint checks it.
-- Options in Italian use `ItalianText`.
+- Options in Italian use `ItalianText`. Options are **Italian** unless the Italian is the stimulus: in a story, listening or reading step, or when the exercise has its own `prompt_it`, `audio_text` or `source`, they are English (they give its meaning). `u02.l1.ex17` (Italian options) and `u02.l1.ex21` (English options for `prompt_it`) show both.
 - IDs: `choice.option.<n>`, `tf.true`, `tf.false`, `match.left.<n>`, `match.right.<n>`.
 
 ---

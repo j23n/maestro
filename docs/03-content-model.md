@@ -118,7 +118,7 @@ rules:
 
 - `unlock` lists Morph-it! feature patterns that become legal once the point is introduced (or, in its own lesson, from the story on; `docs/04` § Check 2): `{lemmas: [essere], morph: …}`, or `lemmas: "*"` for every verb. `morph` is a regular expression matched against the feature string after the colon (for example `ind+pres+3+s`).
 - `status: R` points make their forms legal in **texts** (glossed) but never in **answers**.
-- `detect` patterns are token sequences. Each matcher has optional `form` (regex on the lowercase surface), `lemma` (list), `pos` (Morph-it! category prefixes), `morph` (regex) and `optional: true`. A matcher matches a token only if every analysis left after disambiguation matches. Points that can't be detected reliably (stress, intonation, register) say `detect: none` and are traced through exercise targets instead.
+- `detect` patterns are token sequences. Each matcher has optional `form` (regex searched in the lowercase surface, apostrophes as `'`), `lemma` (list), `pos` (Morph-it! category prefixes on `-` boundaries: `ART` matches `ART-M`, not `ARTPRE-M`), `morph` (regex on the features after the colon), `optional: true` and `any: true`. A matcher matches a token only if every analysis left after disambiguation matches; with `any: true`, one is enough (for verb forms that Morph-it! also lists under another mood or as an adjective, `pipeline/data/SOURCES.md`). Points that can't be detected reliably (stress, intonation, register, *quando* as a conjunction) say `detect: none` and are traced through exercise targets instead.
 
 ## Items: `items/uNN.yaml`
 
@@ -156,7 +156,7 @@ items:
 Optional fields:
 
 - `articles: {indef: uno, def: lo}` overrides the computed articles.
-- `forms` lists extra surface forms the resolver maps to this item (irregular verb forms, `amica` for `amico`). They resolve before any lemma lookup.
+- `forms` lists extra surface forms the resolver maps to this item (irregular verb forms, `amica` for `amico`). They resolve before any lemma lookup, as do `it` and `plural` (unless `invariable`).
 - `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
 - `case_sensitive: true` (chunks) makes `match` case-sensitive: `c:e-lei` matches *e Lei* (formal you), not *e lei* (and she).
 - `cognate: true` (transparent; may stay untaught), `false_friend: true` (always taught), `audio_say` (what TTS says for the item; default: the display form).
@@ -286,7 +286,15 @@ Every file type has a JSON Schema in `schemas/` (`lesson.schema.json`, `unit.sch
 
 ## Annotation lock files
 
-`content annotate` (`make annotate`) writes `content/.annotations/<same path>.json` for every file with Italian text: per token its surface, character span, chosen lemma and morphology, item ID, chunk ID, grammar detections and flags (new, recognise-only, foreign, name, number, lexical article). The lock files are committed and reviewed like code; never edit them by hand. `content annotate --check` (run in CI) regenerates them and fails on any difference.
+`content annotate` (`make annotate`) writes `content/.annotations/<path inside content/ with .json>` for every file with Italian text (`content/units/02-al-bar/lesson-1.yaml` → `content/.annotations/units/02-al-bar/lesson-1.json`): per token its surface, character span, chosen lemma and morphology, item ID, chunk ID, grammar detections and flags (new, recognise-only, foreign, name, number, lexical article). The lock files are committed and reviewed like code; never edit them by hand. `content annotate --check` (run in CI) regenerates them and fails on any difference.
+
+The JSON has sorted keys, one token per line, and leaves out empty fields:
+
+- top level: `format` (1), `source` (the YAML path), `unit`, `strings` (in YAML-path order).
+- each string: `path` (inside the YAML: `steps[1].text.lines[2].it`), `role` (`title`, `line`, `layout`, `prompt`, `context`, `cloze`, `answer`, `accept`, `point`, `field`, `near`, `say`, `help`, `model`, `tile`, `option`, `pair`, `sound`, `label`, `note`, `cell`, `example`, `recall_answer`), `ref` (the text line `u02.l1.story#3`, exercise, conversation node `u02.l1.ex25/n1`, note, item or unit ID), `text` (what was tokenised), `lead` (text before the first token), `tokens`, `detections` (`[{point, tokens: [first, last]}]`); for a note fragment, `fragment` (its character span in the YAML string); for a pattern expansion, `pattern`, `expansion` (index), `of` (count), `model` (the first expansion), `norm` (normalised text), `focus`, `gender`, `slots` (`[[token index, name]]` in `norm`'s tokens); for a cloze, one string per gap expansion with the gap filled in and `gap` (`[first, last]` token); `pending` for a unit title whose unit has no items file yet.
+- each token: `surface`, `span` (`[start, end)` in Unicode code points of `text`), `trailing`, `kind` (`word`, `name`, `number`, `foreign`, `punct`, `slot`), `analyses` (`"lemma CATEGORY:features"`, all left after disambiguation), `lemma` (when they share one), `item` (a word or chunk item, or a grammar point for articles and articulated prepositions), `chunk`, `head` (a lexical article's noun token), `gloss` (line, allowlist or sound-pair gloss), `detections`, `candidates` (an ambiguous token's), `flags` (`new`, `recognise`, `lexical_article`, `allowlisted`, `synthetic`, `sound`, `unresolved`, `pending`; foreign, name and number are kinds).
+
+`lead + Σ(surface + trailing)` equals `text`, so a line re-renders exactly.
 
 ## The compiled content pack
 
