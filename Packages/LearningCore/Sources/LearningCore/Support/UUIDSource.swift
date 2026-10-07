@@ -22,10 +22,16 @@ public final class SeededUUIDSource: UUIDSource, @unchecked Sendable {
         }
         bytes[6] = (bytes[6] & 0x0f) | 0x40
         bytes[8] = (bytes[8] & 0x3f) | 0x80
-        let hex = bytes.map { String(format: "%02x", $0) }.joined()
-        let parts = [hex.prefix(8), hex.dropFirst(8).prefix(4), hex.dropFirst(12).prefix(4),
-                     hex.dropFirst(16).prefix(4), hex.dropFirst(20)]
-        return parts.map(String.init).joined(separator: "-")
+        // Lowercase hex in 8-4-4-4-12 groups (a table lookup: `String(format:)` is slow on Linux).
+        let digits = Array("0123456789abcdef".utf8)
+        var out: [UInt8] = []
+        out.reserveCapacity(36)
+        for (i, byte) in bytes.enumerated() {
+            if i == 4 || i == 6 || i == 8 || i == 10 { out.append(UInt8(ascii: "-")) }
+            out.append(digits[Int(byte >> 4)])
+            out.append(digits[Int(byte & 0x0f)])
+        }
+        return String(decoding: out, as: UTF8.self)
     }
 }
 

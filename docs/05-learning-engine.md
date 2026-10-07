@@ -37,7 +37,8 @@ Every learner action is an immutable event (`docs/03` § Learner database). The 
 - **Session:** one continuous visit to an activity (a lesson step sequence, a review session, a check, placement or the final check). It starts when the activity opens, gets a new `sessionId` (UUID), and ends when the learner leaves or finishes the activity, or the app has been in the background for more than 5 minutes. `platform` feeds the sync status line (`docs/08`).
 - **`response`:** the learner's text, at most 200 characters for closed formats and 2,000 for writing and talk transcripts. It syncs with the event (the learner's own work on their own devices). Telemetry keeps only typed answers in closed formats (`docs/12`): `response` is stripped from talk, writing and every spoken answer, and `onboardingCompleted` loses `country`. Speaking recordings are files, not events (`docs/09`).
 - **Targets:** every target of a non-match exercise gets the exercise's outcome; a `match` gives each pair's outcome to that pair's target. Conversation turns carry no targets.
-- The reducer ignores unknown event types, so newer clients can add types without breaking older ones.
+- The reducer ignores unknown event types, so newer clients can add types without breaking older ones. A payload this version can't decode is treated the same way.
+- **One device's order:** the event factory gives each device's events strictly increasing `at` (`max(now, previous + 1)`), so a device's events replay in the order it wrote them even within one millisecond (an answer and the `checkCompleted` it ends).
 
 ## Rating policy (events → FSRS ratings)
 
@@ -97,8 +98,8 @@ Interval and due:
 - **Full rebuild (`rebuildAll()`):** start empty, apply all events ordered by `(at, id)`. Duplicate IDs are impossible (primary key), and replay is idempotent.
 - **Incremental:** if a new event sorts after `last_applied`, apply it. If it sorts earlier (a late sync from another device), run `rebuildAll()`; it must fit the budget in `docs/02`. A per-key shortcut is an optional optimisation, allowed only behind a test that compares it with a full rebuild on randomised event orders.
 - **Rebuild triggers:** a changed `derived_version` (reducer logic changed) or a changed pack `meta.content_hash` (content changed) also runs `rebuildAll()` at launch.
-- **Resume cursor:** `step_progress.cursor` is derived, never written by an event: the number of exercises, in presentation order, that have a **final** attempt since the step's open `stepStarted` (the last one, which no `stepCompleted` follows). An attempt is final when its outcome is `correct`, `correctWithNote`, `almost`, `revealed` or `skipped`, or when `attemptIndex` is 2. The presentation order of a practice step is its block in file order, then its mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID, so every device resumes at the same exercise.
-- Events that reference IDs missing from the current pack (retired content) still count for memory if their `itemId` exists. Otherwise they are skipped and logged.
+- **Resume cursor:** `step_progress.cursor` is derived, never written by an event: the number of exercises, in presentation order, that have a **final** attempt since the step's open `stepStarted` (the last one, which no `stepCompleted` follows), counted as the answered prefix (it stops at the first exercise without one, so resuming always lands on the next unanswered exercise; in linear play this is simply the count). Only attempts made in the step count (`stepId` set, context `lesson` or `check`): a review of the same exercise doesn't move a half-done lesson. An attempt is final when its outcome is `correct`, `correctWithNote`, `almost`, `revealed` or `skipped`, or when `attemptIndex` is 2; in `check`, `final` and `placement` contexts every attempt is final, because there is one attempt only. Conversation turns never finish their exercise, so resuming restarts the dialogue. The presentation order of a practice step is its block in file order, then its mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID, so every device resumes at the same exercise.
+- Events that reference IDs missing from the current pack (retired content) still count for memory if their `itemId` exists. Otherwise they are skipped and logged. A `stepCompleted` of a retired step still counts for its day's activity (the week dots don't change when content does).
 
 ## Introductions and eligibility
 
@@ -107,10 +108,10 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 | Step | Introduces |
 |---|---|
 | preview | each batch item: `read` and `listen`; plus `recall` and `speak` where that skill's status is P |
-| story, listening, reading | items flagged new in the text: `read`, `listen` |
+| story, listening, reading | items flagged new in the text: `read`, `listen` (written with `via: story`) |
 | note | every grammar point in the note's `grammar` list (`note_items`): `read`; plus `recall` if P |
 | sounds | the sound item: `listen` |
-| placement | every item in units before the start unit, per its status |
+| placement | every item in units before the start unit, per its status (words and chunks: `read`, `listen`, plus `recall` and `speak` where P; grammar points: `read`, plus `recall` if P; sounds: `listen`), in one event |
 | mini-preview (`catchup`) | the missing (item, skill) pairs, see below |
 
 **Grammar points** are introduced by their note. A point with status R or chunk may instead be introduced by the first preview **in its own unit** containing a chunk that `exemplifies` it (read only; no rule credit), or else by the first story or listening step of its unit where it is detected (read). A chunk from an earlier unit that exemplifies a later point (*scusi* in Unit 0, *sono nato* in Unit 1) never introduces it. A P point must have a note; check 4 fails a complete unit otherwise.
@@ -121,6 +122,7 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 
 - Unit states: `locked` → `available` → `in_progress` → `completed` (check finished) or `skipped` (placement).
 - Unit 0 (or the placement unit) is available at start. Unit N+1 becomes available when Unit N is completed or skipped (ADR-16).
+- The latest `placementCompleted` decides which units are skipped; a unit already completed stays completed. A unit started out of order shows as `in_progress`. The final review unit (`u99`) completes with the final A1 check.
 - Inside a unit, steps run in order: opener → lessons 1–3 → unit task → unit check → fluency replay (optional; it never blocks). A step may be revisited at any time; revisits create normal attempts.
 - Resume: the derived cursor (§ Replay) lets a session stop anywhere.
 
@@ -215,7 +217,7 @@ For tapped formats, a wrong first choice is marked, the hint is shown and one mo
 - Section score = earned / possible. Overall = total earned / total possible.
 - **Passed** = overall ≥ 0.70 **and** every section ≥ 0.50 (Q11 default). A section is excluded, and flagged on the result screen, when the device can't do it (speaking with no speech recognition, or speaking switched off).
 - **Can-do reached** when at least ⌈2/3 × n⌉ of its n tagged check exercises earned their full score.
-- **Failed check:** the primary targets of wrong items become `focus_items` for 3 days (reviewed first, § Review session builder), and the result screen offers a retake from the next day. The next unit still unlocks (ADR-16).
+- **Failed check:** the primary targets of wrong items (those whose check answer earned nothing: `wrong`, `revealed` or `skipped`) become `focus_items` for 3 days from the check's completion (reviewed first, § Review session builder), and the result screen offers a retake from the next day. The next unit still unlocks (ADR-16).
 - **Retakes:** `unit_progress.check_score` keeps the **best** score; `check_passed` is true once any attempt passed. Can-dos reached are the union over attempts.
 
 ## Placement
