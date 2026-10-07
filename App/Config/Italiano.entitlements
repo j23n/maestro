@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- The owner's signed builds only (docs/02 § Project, signing and entitlements; ADR-18, ADR-19).
-     Agents never sign with these: the first signed CloudKit build creates iCloud.com.j23n.italian for good. -->
+<!-- The owner's signed builds only (docs/02 § Project, signing and entitlements; ADR-18, ADR-19). The owner's
+     gitignored Signing.xcconfig points CODE_SIGN_ENTITLEMENTS here. Agents never sign with these: the first signed
+     CloudKit build creates iCloud.com.j23n.italian for good. The macOS sandbox capabilities are build settings
+     (Base.xcconfig). To check at the first signed build (M6.8): macOS names the push key
+     com.apple.developer.aps-environment; if Xcode's capability editor doesn't handle that for the macOS slice,
+     add it here (or use an sdk-conditional CODE_SIGN_ENTITLEMENTS in Signing.xcconfig). -->
 <plist version="1.0">
 <dict>
 	<key>com.apple.developer.icloud-container-identifiers</key>
@@ -14,15 +18,5 @@
 	</array>
 	<key>aps-environment</key>
 	<string>development</string>
-	<key>com.apple.developer.aps-environment</key>
-	<string>development</string>
-	<key>com.apple.security.app-sandbox</key>
-	<true/>
-	<key>com.apple.security.device.audio-input</key>
-	<true/>
-	<key>com.apple.security.network.client</key>
-	<true/>
-	<key>com.apple.security.files.user-selected.read-write</key>
-	<true/>
 </dict>
 </plist>

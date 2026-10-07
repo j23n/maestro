@@ -46,11 +46,8 @@ data:
 
 # ---------------------------------------------------------------- tests
 
-ifeq ($(UNAME),Darwin)
-test: test-core test-pipeline check-content test-storage
-else
-test: test-core test-pipeline check-content
-endif
+# Storage (GRDB 7.11.1) builds and tests on Linux too, so it runs everywhere; macOS stays the reference.
+test: test-core test-storage test-pipeline check-content
 
 test-core:
 	$(SWIFT) test --package-path Packages/LearningCore
@@ -130,5 +127,5 @@ archive:
 	$(CONTENT) build --release --allow-partial
 	bash scripts/archive.sh "$(CONFIG)"
 
-ci: lint-guards test-core test-pipeline data check-content
-	@if [ "$(UNAME)" = "Darwin" ]; then $(MAKE) test-storage build-ios build-mac test-app; fi
+ci: lint-guards test-core test-storage test-pipeline data check-content
+	@if [ "$(UNAME)" = "Darwin" ]; then $(MAKE) build-ios build-mac test-app; fi

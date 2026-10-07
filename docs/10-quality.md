@@ -7,7 +7,7 @@ The rule that makes agent work reliable: **every task ends with checks you can r
 | Layer | Framework | Runs on | Command | What it covers |
 |---|---|---|---|---|
 | LearningCore unit | Swift Testing | Linux and macOS | `make test-core` | FSRS fixtures, graders and normaliser fixtures, pattern expansion, feedback machine, rating policy, replay, eligibility, planner, check scoring, placement, merge rules, multi-device simulation, payload decoding from `fixtures/packs/mini-payloads.json` |
-| Storage | Swift Testing | macOS | `make test-storage` | migrations, pack reader against `fixtures/packs/mini.sqlite` (every payload decodes), event append + derived updates + `sync_pending` in one transaction, incremental replay = full rebuild |
+| Storage | Swift Testing | Linux and macOS (macOS is the reference: GRDB's Linux support is community-maintained) | `make test-storage` | migrations, pack reader against `fixtures/packs/mini.sqlite` (every payload decodes), event append + derived updates + `sync_pending` in one transaction, incremental replay = full rebuild |
 | Pipeline | pytest | Linux and macOS | `make test-pipeline` | tokeniser, elision table, Morph-it! loader, chunk matcher, detection rules (one test per grammar point), each check (1–5) with passing and failing fixtures, pattern expansion parity with Swift, pack build determinism |
 | Content | `content` CLI | Linux and macOS | `make check-content` | lint, annotation freshness, checks 1–5 on the real course |
 | App unit and snapshot | Swift Testing + swift-snapshot-testing | macOS (iOS Simulator + Mac) | `make test-app` | view models with fakes; snapshots of components and exercise views (compact and regular, light and dark, AX5) |
@@ -29,7 +29,7 @@ M0.1 creates a skeleton whose targets print "not yet (task Mx.y)" and exit 0 unt
 ```
 make bootstrap       # uv sync, git lfs pull, make data, resolve Swift packages, check tool versions
 make data            # download Morph-it! and the frequency list into pipeline/data/ (checksums in SOURCES.md)
-make test            # test-core + test-pipeline + check-content (+ test-storage on macOS)
+make test            # test-core + test-storage + test-pipeline + check-content
 make test-core       # swift test --package-path Packages/LearningCore
 make test-storage    # swift test --package-path Packages/Storage
 make test-pipeline   # uv run pytest pipeline

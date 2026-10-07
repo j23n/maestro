@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Agent and CI builds (ADR-19): unrestricted entitlements only, no iCloud, so ad-hoc "Sign to Run Locally"
-     works on macOS without a team. CloudSync is never created with this file (docs/02). -->
+<!-- Agent and CI builds (ADR-19): no iCloud, no push, so ad-hoc "Sign to Run Locally" works on macOS without a
+     team and CloudSync is never created. The sandbox, microphone, network-client and user-selected-files
+     capabilities come from the macOS-only build settings in Base.xcconfig. -->
 <plist version="1.0">
-<dict>
-	<key>com.apple.security.app-sandbox</key>
-	<true/>
-	<key>com.apple.security.device.audio-input</key>
-	<true/>
-	<key>com.apple.security.network.client</key>
-	<true/>
-	<key>com.apple.security.files.user-selected.read-write</key>
-	<true/>
-</dict>
+<dict/>
 </plist>

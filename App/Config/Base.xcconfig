@@ -40,8 +40,13 @@ DEVELOPMENT_TEAM =
 CODE_SIGN_STYLE = Automatic
 CODE_SIGN_IDENTITY[sdk=macosx*] = -
 CODE_SIGN_ENTITLEMENTS = Config/Italiano-NoCloud.entitlements
+// macOS sandbox and hardened-runtime capabilities come from build settings (Xcode 15+), which Xcode applies to
+// the macOS slice only. Keeping these keys out of the .entitlements files avoids macOS-only keys in iOS signing.
 ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES
 ENABLE_APP_SANDBOX[sdk=macosx*] = YES
+ENABLE_RESOURCE_ACCESS_AUDIO_INPUT[sdk=macosx*] = YES        // microphone: without it speech silently fails
+ENABLE_OUTGOING_NETWORK_CONNECTIONS[sdk=macosx*] = YES       // CloudKit and the study endpoint
+ENABLE_USER_SELECTED_FILES[sdk=macosx*] = readwrite           // learner DB export, examiner zip
 
 // App configuration (docs/02 § App configuration). Each configuration file overrides what differs.
 ITA_STUDY_BUILD = NO
