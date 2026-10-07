@@ -249,18 +249,20 @@ Accepted answers (`answer`, cloze gaps `[[…]]`, conversation `accept`, near-mi
 | `{a\|b}` | alternatives (may contain sequences and nest) | `{vorrei\|prendo} un caffè` → 2 |
 | `(…)` | optional (may contain alternatives) | `un caffè( per favore)` → 2; `( {per favore\|grazie})` → 3 |
 | `[…]` | **focus**: graded strictly (no typo tolerance) | `[un] cornetto` |
-| `{m:…\|f:…}` | gendered alternative; both accepted unless the learner asked for strict forms | `sono {m:americano\|f:americana}`, `sono {m:nato\|f:nata} a Toronto` |
+| `{m:…\|f:…}` | gendered alternative; both accepted unless the learner asked for strict forms. Every alternative of the group carries `m:` or `f:` | `sono {m:americano\|f:americana}`, `sono {m:nato\|f:nata} a Toronto` |
 | `{NAME}` | any 1–3 words | `mi chiamo {NAME}` |
-| `{NUMBER}` | an integer in digits or Italian words | `ho {NUMBER} anni` |
-| `{ME.nationality}`, `{ME.home}`, `{ME.country}` | the learner's onboarding answers, in their gender form; `{ME.home}` also accepts the country's `alt_home_phrases` | `abito {ME.home}` → `abito negli Stati Uniti` |
-| `\{` `\[` `\(` `\|` | escaped literal | |
+| `{NUMBER}` | an integer in digits or Italian words, one token (`30`, `trenta`, `ventitré`) | `ho {NUMBER} anni` |
+| `{ME.nationality}`, `{ME.home}`, `{ME.country}` | the learner's onboarding answers, in their gender form; `{ME.home}` also accepts the country's `alt_home_phrases`; `{ME.nationality}` is a gendered pair (`{m:americano\|f:americana}`), so strict forms apply to it | `abito {ME.home}` → `abito negli Stati Uniti` |
+| `\{` `\[` `\(` `\|` (any `\x`) | escaped literal | `\{x\}` → `{x}` |
 
-**Expansion order:** alternatives left to right; an optional group *present* before *absent*. The **first expansion is the model answer**: it is what learners are shown (with personal slots filled in), and it is the only expansion the production gate checks. Other expansions exist to accept correct answers and may use words from later units. A gap `[[…]]` is entirely focus. A pattern may expand to at most **512** strings; the build fails beyond that. `fixtures/grading/patterns.json` is the reference.
+**Expansion order:** alternatives left to right; an optional group *present* before *absent*. The **first expansion is the model answer**: it is what learners are shown (with personal slots filled in), and it is the only expansion the production gate checks. Other expansions exist to accept correct answers and may use words from later units. A gap `[[…]]` is entirely focus. **An expansion never mixes genders:** a combination that takes an `m:` alternative in one group and an `f:` alternative in another is not generated (`sono {m:americano|f:americana} e sono {m:nato|f:nata}` → 2 expansions, not 4), because both refer to the same person. A pattern may expand to at most **512** strings, counted after that rule and before personal slots are filled; the build fails beyond that. Without a learner (the pipeline, the review pages), a slot stays one token written as its placeholder (`mi chiamo {NAME}`). Slot-like names that aren't slots (`{NOME}`, `{ME.city}`) are errors, not literals. `fixtures/grading/patterns.json` is the reference.
 
 **Personal slots, edge cases:**
 - The learner chose "Another country": `{ME.home}` and `{ME.country}` accept any 1–4 words and `{ME.nationality}` any one word; the model answer shows the story's example (`in Canada`, `canadese`) labelled "for example".
-- No name given: the model answer for `{NAME}` uses *Marco* (masculine forms chosen) or *Sara* (feminine), labelled "for example".
-- The learner chose "both forms" (or didn't say): `{m:…|f:…}` accepts both and the strict-forms setting has no effect; the model answer uses the masculine form.
+- No name given: the model answer for `{NAME}` uses *Marco* (masculine forms chosen) or *Sara* (feminine), labelled "for example". `{NAME}` still accepts any 1–3 words when a name is set.
+- The examples are content: the app passes them to LearningCore from the pack (the `ca` row of `countries` and the names of `ch:marco` and `ch:sara`), so no Italian is hard-coded in Swift.
+- The learner chose "both forms" (or didn't say): `{m:…|f:…}` accepts both and the strict-forms setting has no effect. The model answer itself (audio, the production gate) uses the masculine form; the answer **shown in feedback** joins both forms (*nato/nata*, *americano/americana*; `docs/05` § Typed answers).
+- `{NUMBER}` has no learner value: a model answer shows it as `…`.
 
 ## Review status and approval
 

@@ -71,6 +71,28 @@
     "doubling",
     "correct"
    ]
+  },
+  {
+   "target": "Vorrei un cornetto.",
+   "response": "vorrei un un cornetto",
+   "outcome": "wrong",
+   "marks": [
+    "correct",
+    "correct",
+    "correct"
+   ],
+   "note": "marks are per target word; an extra word makes the dictation wrong"
+  },
+  {
+   "target": "Lei è americana.",
+   "response": "lei e americana",
+   "outcome": "wrong",
+   "marks": [
+    "correct",
+    "wrong",
+    "correct"
+   ],
+   "note": "e/è are different words: an accent-sensitive word gets no accent mark"
   }
  ]
 }

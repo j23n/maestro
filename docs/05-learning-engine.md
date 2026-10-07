@@ -37,6 +37,7 @@ Every learner action is an immutable event (`docs/03` § Learner database). The 
 - **Session:** one continuous visit to an activity (a lesson step sequence, a review session, a check, placement or the final check). It starts when the activity opens, gets a new `sessionId` (UUID), and ends when the learner leaves or finishes the activity, or the app has been in the background for more than 5 minutes. `platform` feeds the sync status line (`docs/08`).
 - **`response`:** the learner's text, at most 200 characters for closed formats and 2,000 for writing and talk transcripts. It syncs with the event (the learner's own work on their own devices). Telemetry keeps only typed answers in closed formats (`docs/12`): `response` is stripped from talk, writing and every spoken answer, and `onboardingCompleted` loses `country`. Speaking recordings are files, not events (`docs/09`).
 - **Targets:** every target of a non-match exercise gets the exercise's outcome; a `match` gives each pair's outcome to that pair's target. Conversation turns carry no targets.
+- **`attemptIndex`, `outcome`, `feedbackShown`** come from the `FeedbackMachine` (§ Stepped feedback). `feedbackShown` is the most help the learner had seen when the attempt was recorded (`hint` for any second attempt and for a first attempt after "Show a hint"; `answer` for a reveal).
 - The reducer ignores unknown event types, so newer clients can add types without breaking older ones.
 
 ## Rating policy (events → FSRS ratings)
@@ -164,25 +165,26 @@ Tokens are the space-separated parts. `stripAccents` removes combining marks aft
 ### Typed answers (cloze, recall, generated cards, typed conversation turns)
 
 1. If the normalised response equals a `near` pattern expansion, return that entry's outcome (default `wrong`) and hint.
-2. For each expansion of the accepted pattern, align the response tokens with the expansion tokens (token-level edit distance). Costs: equal 0; **accent-only** difference 0.1 (not allowed for accent-sensitive words); **typo** 0.5 (Damerau-Levenshtein distance 1, token length ≥ 4 after stripping accents, *not* a focus token, and *not* another form of the same item); substitution, insertion or deletion 1. Keep the cheapest expansion.
-   - **Inflection errors are never typos:** if a mismatched response token is a known form (pack `forms`) of the same item as the expected token (*americana* for *americano*, *un* for *una*), it is a substitution with hint kind `ending`.
-3. Classify: cost 0 → `correct`; only accent-only differences → `correctWithNote` (show the accents); accent-only or typo differences only → `almost` (show the correction); anything else → `wrong`. Report the indices of mismatched tokens so the UI can underline them.
-4. Gendered alternatives: accept both forms unless the learner chose strict forms in Settings. The model answer shown uses the learner's form; with `both`, it shows the two forms joined (*nato/nata*).
+2. For each expansion of the accepted pattern, align the response tokens with the expansion tokens (token-level edit distance). Costs: equal 0; **accent-only** difference 0.1 (not allowed for accent-sensitive words); **typo** 0.5 (Damerau-Levenshtein distance 1 between the accent-stripped tokens, expected token length ≥ 4 after stripping accents, *not* a focus token, and *not* another form of the same item); substitution, insertion or deletion 1. A slot takes its number of words (`docs/03`) at no cost, or is missing. Keep the cheapest expansion; on a tie, the one with fewer substitutions, insertions and deletions, then the earlier one.
+   - **Inflection errors are never typos or accent slips:** if a mismatched response token is a known form (pack `forms`) of the same item as the expected token (*americana* for *americano*, *un* for *una*, *parlò* for *parlo*), it is a substitution with hint kind `ending`.
+   - Focus tokens keep accent tolerance (*un [caffè]* answered *un caffe* is `correctWithNote`); only typos are refused.
+3. Classify: cost 0 → `correct`; only accent-only differences → `correctWithNote` (show the accents); accent-only or typo differences only → `almost` (show the correction); anything else → `wrong`. Report the indices of mismatched tokens so the UI can underline them: indices into the best expansion (accents, typos, substitutions, missing tokens; what `fixtures/grading/typed-answers.json` checks) and indices into the response (accents, typos, substitutions, extra tokens). The hint kind is that of the first mismatch: `missing`, `extra`, `ending`, `realWord` (a known form of a different item) or `spelling` (anything else). A matched `near` entry still reports the mismatches against the accepted answer, for underlining.
+4. Gendered alternatives: accept both forms unless the learner chose strict forms in Settings. The model answer shown in feedback uses the learner's form; with `both`, it shows the two forms joined (*nato/nata*). The model answer itself (audio, the production gate) stays masculine with `both` (`docs/03` § Personal slots).
 
 ### Other graders
 
-- **Dictation:** compare word by word with the target; each word is marked `correct`, `accent`, `doubling`, `typo` or `wrong` (`fixtures/grading/dictation.json`). A difference that is only single versus double consonant (`corneto`/`cornetto`) is marked `doubling` with a note ("Listen again: cornetto has a double t"), even in a 3-letter word; other typos follow the typed rules (no tolerance below 4 letters). Outcome: all `correct` → `correct`; only `accent`, `doubling` or `typo` marks → `almost`; any `wrong` → `wrong`. (Unlike typed answers, an accent-only slip in dictation is `almost`: spelling is the point.)
-- **Sentence building:** the tile order must equal one accepted order → `correct`, else `wrong`. The hint highlights the first misplaced tile.
-- **Choice, true-false, sound-pair:** the selected index equals the answer. **Match:** each pair is scored separately; per-pair outcomes go to that pair's target.
+- **Dictation:** compare word by word with the target; each word is marked `correct`, `accent`, `doubling`, `typo` or `wrong` (`fixtures/grading/dictation.json`). A difference that is only single versus double consonant (`corneto`/`cornetto`) is marked `doubling` with a note ("Listen again: cornetto has a double t"), even in a 3-letter word; other typos follow the typed rules (no tolerance below 4 letters). Words are aligned, so a missing word is marked `wrong` and the others keep their marks. Outcome: all `correct` → `correct`; only `accent`, `doubling` or `typo` marks → `almost`; any `wrong`, or any extra word, → `wrong`. (Unlike typed answers, an accent-only slip in dictation is `almost`: spelling is the point. The exceptions are the accent-sensitive words, where the accent makes a different word: *e* for *è* is `wrong`; and, as in typed answers, another form of the same item is `wrong`, never a typo or an accent slip.)
+- **Sentence building:** the tile order must equal one accepted order (compared normalised) → `correct`, else `wrong`. The hint highlights the first misplaced tile: the first tile that departs from the accepted order with the longest matching start. When every placed tile is right but some are missing, no tile is highlighted and the result says the answer is incomplete.
+- **Choice, true-false, sound-pair:** the selected index equals the answer. **Match:** each pair is scored separately; per-pair outcomes go to that pair's target. The exercise as a whole (for stepped feedback) is `correct` only when every pair is.
 - **Speech transcripts (`TranscriptMatcher`):**
-  1. Convert digits, prices and times in the raw transcript into Italian words with `ItalianNumbers` (`6,20 €` → `sei euro e venti`, `10:15` → `dieci e quindici`). This runs **before** normalising, which would split them.
+  1. Convert digits, prices and times in the raw transcript into Italian words with `ItalianNumbers` (`6,20 €` → `sei euro e venti`, `10:15` → `dieci e quindici`). This runs **before** normalising, which would split them. A decimal with two digits after `,` or `.` is a price (`6.20` → `sei euro e venti`, `1,60` → `un euro e sessanta`); an integer followed by `€` or `euro` is whole euros (`tre euro`); `H:MM` is a 24-hour time (`13:30` → `tredici e trenta`, as in *alle quindici e trenta*; 1 o'clock is `una`); other integers up to 9999 become words (`ventuno`, `ventotto`, `ventitré`, `centouno`, `duemila`). Digits glued to letters (`A1`) stay as they are.
   2. Normalise the transcript and every alternative.
   3. For each accepted expansion, align without regard to accents and with double consonants collapsed (ASR can't be trusted on length).
-  4. Pass if every focus token matches and at least 80% of content tokens match. Content tokens are all tokens except the `functionWords` list in `fixtures/grading/transcripts.json`, which is normative (articles, simple and articulated prepositions, clitics, e/o/ma).
-  5. Use the best result across transcript alternatives.
+  4. Pass if every focus token matches and at least 80% of content tokens match. Content tokens are all tokens except the `functionWords` list in `fixtures/grading/transcripts.json`, which is normative (articles, simple and articulated prepositions, clitics, e/o/ma); a slot counts as a content token. Extra words in the transcript don't count against the learner. Strict forms apply as for typed answers.
+  5. Use the best result across transcript alternatives (a pass first, then the highest share of content tokens heard).
   6. Feedback says "I heard: …"; never call it pronunciation.
-- **Content points (talk, writing):** each point lists patterns. A point is found if any expansion occurs as a contiguous token sequence in the normalised response, ignoring accents. Pass if found ≥ `pass`. Writing also checks the word count and flags tokens that aren't known forms (`forms` table) with edit distance 1 to a known form ("Did you mean famiglia?"); flags are advice and never fail the task.
-- **English answers (relay):** `time` extracts `HH:MM`, `HH.MM` or `HH MM` and also accepts `HH ± 12`; `price` extracts a decimal with `,` or `.` (tolerance 0.001, currency words ignored); `number` extracts an integer; `text` matches any accepted English phrase as a token subsequence, case- and punctuation-insensitive.
+- **Content points (talk, writing):** each point lists patterns. A point is found if any expansion occurs as a contiguous token sequence in the normalised response, ignoring accents; digits, prices and times are spelled out first, as for transcripts, and slots take their number of words. Pass if found ≥ `pass`. Writing also checks the word count and flags tokens that aren't known forms (`forms` table) with edit distance 1 to a known form ("Did you mean famiglia?"); flags are advice and never fail the task.
+- **English answers (relay):** `time` extracts `HH:MM`, `HH.MM` or `HH MM` and also accepts `HH ± 12`; for a time on the hour a bare hour counts too (`9`, `9 pm`, `nine o'clock` for 21:00); `price` extracts a decimal with `,` or `.`, or a whole number in digits or words (tolerance 0.001, currency words ignored); `number` extracts an integer in digits or English words (`3`, `three`, `twenty-one`); `text` matches any accepted English phrase as a token subsequence (in order, gaps allowed), case- and punctuation-insensitive.
 
 ### Fixtures
 
@@ -202,12 +204,21 @@ awaitingFirst ──correct/correctWithNote──▶ done(success)        (show 
 Generic hints, chosen by the first mismatch:
 
 - "That's a real word, but not the one we need here." (`realWord`: the token is a known form of a different item)
-- "Check the spelling."
+- "Check the spelling." (`spelling`: a misspelling, an accent or an unknown word)
 - "Check the ending." (`ending`: another form of the expected item)
 - "Something's missing." (deletion)
 - "There's an extra word." (insertion)
 
-For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint and no "Show answer".
+For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Tapped answers have no mismatch kind, so without an authored hint only the mark is shown. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint and no "Show answer"; a wrong answer goes straight to `done(failed)`.
+
+Beyond the diagram:
+
+- **"Show a hint"** (before the first answer, `docs/06` § Shared player behaviour) shows the exercise's hint and keeps `awaitingFirst`. It is offered only when the exercise has a hint, never in check, final and placement contexts.
+- **"Try again"** moves `hinted` to `awaitingSecond`; an answer submitted straight from `hinted` counts as the second attempt.
+- **"Skip — can't speak now"** (speaking formats) ends in `done(skipped)` with outcome `skipped`.
+- **"Continue"** after `answerShown` ends in `done(failed)`. Nothing is recorded after `done`.
+
+Each graded answer, reveal and skip gives the caller the machine's part of the `attempt` event: `attemptIndex` (1 before any miss, 2 after it), `outcome`, and `feedbackShown`, the most help the learner had seen when the attempt was recorded: `none`; `hint` once a hint was on screen (asked for with "Show a hint", or after the first miss); `answer` for a reveal. So a second attempt always has `hint`, a first attempt has `hint` only when the learner asked for it, and `revealed` always has `answer`.
 
 ## Unit check scoring
 
