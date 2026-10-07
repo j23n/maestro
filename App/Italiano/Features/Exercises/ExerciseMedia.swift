@@ -78,6 +78,23 @@ final class ExerciseAudio {
     }
 }
 
+/// "0:21 / 1:02" for the audio bar.
+enum PlaybackClock {
+    static func format(_ ms: Int) -> String {
+        let seconds = max(0, ms) / 1000
+        let s = seconds % 60
+        return "\(seconds / 60):\(s < 10 ? "0" : "")\(s)"
+    }
+
+    static func position(_ ms: Int, of duration: Int) -> String { "\(format(ms)) / \(format(duration))" }
+
+    /// "0.8×", "1×", "1.15×"
+    static func rate(_ r: Double) -> String {
+        let text = r == r.rounded() ? String(Int(r)) : String(format: "%g", r)
+        return text + "×"
+    }
+}
+
 /// One spoken answer at a time: idle → listening (live transcript) → finished or failed.
 @MainActor
 @Observable

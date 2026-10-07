@@ -44,6 +44,8 @@ struct LessonBundle: Sendable {
     var texts: [TextID: PlayerText] = [:]
     /// Display forms, glosses and notes: preview meet cards and the word panel.
     var items: [ItemID: WordInfo] = [:]
+    /// Speaker labels in stories and dialogues (the story bible's display names).
+    var characters: [CharacterID: String] = [:]
 }
 
 /// What the app shows for an item: a preview meet card, the mini-preview, the story's word panel.
@@ -251,5 +253,60 @@ extension LessonBundle {
             }
         }
         return out
+    }
+}
+
+extension LayoutPayload {
+    /// Every string of the layout in reading order. Its 1-based position is the "line" of a gloss tapped in it
+    /// (`glossTapped.line`, `reading.field.<n>`), so taps on real-world texts are logged like story taps.
+    var strings: [LayoutString] {
+        switch self {
+        case .menu(let title, let sections):
+            [title] + sections.flatMap { section in
+                [section.title] + section.rows.flatMap { [$0.name, $0.price] + [$0.note].compactMap { $0 } }
+            }
+        case .receipt(let shop, let rows, let total, let footer):
+            [shop] + rows.flatMap { [$0.name] + [$0.qty].compactMap { $0 } + [$0.price] } + [total]
+                + [footer].compactMap { $0 }
+        case .sign(let lines, _):
+            lines
+        case .hours(let title, let rows, let note):
+            [title] + rows.flatMap { [$0.days, $0.times] } + [note].compactMap { $0 }
+        case .timetable(let title, let columns, let rows):
+            [title] + columns + rows.flatMap { $0 }
+        case .fields(_, let title, let fields):
+            [title] + fields.flatMap { [$0.label, $0.value] }
+        case .ad(let title, let body, let contact):
+            [title] + body + [contact].compactMap { $0 }
+        case .message(let from, let time, let bubbles):
+            [from] + [time].compactMap { $0 } + bubbles
+        case .postcard(let greeting, let body, let closing, let signature, let address):
+            [greeting] + body + [closing, signature] + (address ?? [])
+        case .list(let title, let items):
+            [title].compactMap { $0 } + items
+        }
+    }
+
+    /// The first position of each string (a repeated price shares the first one's number).
+    var stringNumbers: [LayoutString: Int] {
+        var out: [LayoutString: Int] = [:]
+        for (i, s) in strings.enumerated() where out[s] == nil { out[s] = i + 1 }
+        return out
+    }
+}
+
+/// The text an exercise refers to (`source`, docs/06 § Building-block formats).
+struct SourceText: Sendable, Equatable {
+    let text: PlayerText
+    /// 1-based; nil for the whole text.
+    var line: Int?
+}
+
+extension LessonBundle {
+    /// The text an exercise shows above its question: its `source`, or a relay's source text (docs/06 §15).
+    func source(for p: ExercisePayload) -> SourceText? {
+        if let ref = p.source, let text = texts[ref.textId] { return SourceText(text: text, line: ref.line) }
+        if case .relay(let r) = p.body, let id = r.sourceTextId, let text = texts[id] { return SourceText(text: text) }
+        return nil
     }
 }

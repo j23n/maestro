@@ -10,7 +10,7 @@ struct ChoiceExerciseView: View {
     let model: ChoiceModel
     let audio: ExerciseAudio
     /// The `source` text shown above the question, resolved by the player.
-    var source: TokenizedText?
+    var source: SourceText?
     let onContinue: () -> Void
 
     var body: some View {
@@ -29,7 +29,7 @@ struct ChoiceExerciseView: View {
         switch model.payload.body {
         case .choice(let c):
             VStack(alignment: .leading, spacing: Tokens.Space.l) {
-                if let source { Card { ItalianText(source.text) } }
+                if let source { SourcePanel(source: source) }
                 if let it = c.promptIt {
                     ItalianPromptLine(text: it, audioID: c.promptAudioId, audio: audio, identifier: "choice.play")
                 }
@@ -47,7 +47,7 @@ struct ChoiceExerciseView: View {
             }
         case .trueFalse(let t):
             VStack(alignment: .leading, spacing: Tokens.Space.l) {
-                if let source { Card { ItalianText(source.text) } }
+                if let source { SourcePanel(source: source) }
                 if let hidden = audio.audioID(forText: t.audioTextId) {
                     HStack {
                         Spacer()

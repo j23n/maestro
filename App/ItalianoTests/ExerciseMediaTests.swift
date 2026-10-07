@@ -28,6 +28,13 @@ import Testing
         #expect(a.audioID(forText: "u02.task.menu") == "a:1" && a.audioID(forText: nil) == nil)
     }
 
+    @Test func clockAndRateLabels() {
+        #expect(PlaybackClock.position(21_400, of: 62_000) == "0:21 / 1:02")
+        #expect(PlaybackClock.format(-5) == "0:00" && PlaybackClock.format(600_000) == "10:00")
+        #expect(PlaybackClock.rate(0.8) == "0.8×" && PlaybackClock.rate(1) == "1×")
+        #expect(PlaybackClock.rate(1.15) == "1.15×")
+    }
+
     @Test func tappingALinePlaysFromItsStart() {
         let player = FakeAudioPlayer()
         let resolver = StaticAudioResolver(

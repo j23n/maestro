@@ -115,6 +115,29 @@ import Testing
         #expect(b.newWords(in: "u02.l1.story").map(\.itemID) == ["c:vorrei", "w:caffe"])
     }
 
+    @Test func layoutStringsAreNumberedInReadingOrder() throws {
+        let data = try Data(contentsOf: PayloadFixtures.repoRoot.appendingPathComponent(
+            "fixtures/packs/payload-examples.json"))
+        let doc = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let raw = try #require((doc["layouts"] as? [[String: Any]])?.first)
+        let layout = try JSONDecoder().decode(LayoutPayload.self, from: JSONSerialization.data(withJSONObject: raw))
+        let strings = layout.strings
+        #expect(!strings.isEmpty)
+        #expect(layout.stringNumbers[strings[0]] == 1)
+        #expect(Set(layout.stringNumbers.values).count == layout.stringNumbers.count)
+    }
+
+    @Test func exerciseSourcesResolveToTheirTextOrLine() throws {
+        var b = try bundle()
+        let menu = PlayerText(id: "u02.task.menu", title: nil, lines: [], audioID: nil, layout: nil)
+        b.texts["u02.task.menu"] = menu
+        let relay = try PayloadFixtures.exercise("u02.task.relay")
+        #expect(b.source(for: relay) == SourceText(text: menu))
+        let check = try PayloadFixtures.exercise("u02.check.03")
+        #expect(b.source(for: check)?.text.id == "u02.task.menu")
+        #expect(b.source(for: try PayloadFixtures.exercise("u02.l1.ex20")) == nil)
+    }
+
     @Test func everyExampleExerciseGetsAViewModel() throws {
         for (id, payload) in try PayloadFixtures.exercises() {
             let host = ExerciseHostModel.make(payload, env: .preview(), sink: nil)
