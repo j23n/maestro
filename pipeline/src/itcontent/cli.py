@@ -35,6 +35,16 @@ def lint() -> None:
     sys.exit(run_lint())
 
 
+@app.command()
+def annotate(
+    check: bool = typer.Option(False, "--check", help="regenerate in memory and fail on stale lock files"),
+) -> None:
+    """Tokenise and annotate every Italian string; write content/.annotations/**.json (docs/04 § Annotation)."""
+    from itcontent.annotate import run_annotate
+
+    sys.exit(run_annotate(check=check))
+
+
 @app.command("beta-import")
 def beta_import(
     events: Path = typer.Argument(..., exists=True, dir_okay=False, help="JSONL export from the study endpoint"),

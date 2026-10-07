@@ -37,7 +37,10 @@ def test_lookup_order_and_elisions():
     assert {a.lemma for a in m.lookup("anch'")} == {"anche"}
     assert {a.category for a in m.lookup("l'")} == {"ART-F", "ART-M", "PRO-PERS-CLI-3-F-S", "PRO-PERS-CLI-3-M-S"}
     assert m.lookup("po'")  # not in the table: Morph-it!'s own entry
-    assert m.lookup("Marco") != m.lookup("marco")  # exact form first (NPR)
+    # a capitalised word also takes the lowercase analyses and loses Morph-it!'s proper-noun readings
+    assert {str(a) for a in m.get("Al")} == {"Al NPR"}
+    assert {str(a) for a in m.lookup("Al")} == {"al ARTPRE-M:s"}
+    assert m.lookup("Bologna") == m.get("Bologna")  # no lowercase form: the NPR reading stays
 
 
 def test_parse_lines_handles_malformed_lines_and_latin1_nfd():

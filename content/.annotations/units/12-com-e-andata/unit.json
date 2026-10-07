@@ -1,0 +1,23 @@
+{
+ "format": 1,
+ "source": "content/units/12-com-e-andata/unit.yaml",
+ "strings": [
+  {
+   "detections": [
+    {"point": "g:question-words", "tokens": [0, 0]}
+   ],
+   "path": "title.it",
+   "pending": true,
+   "ref": "u12",
+   "role": "title",
+   "text": "Com'è andata?",
+   "tokens": [
+    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "come", "span": [0, 4], "surface": "Com'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["andare VER:part+past+s+f", "andato ADJ:pos+f+s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [6, 12], "surface": "andata"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
+   ]
+  }
+ ],
+ "unit": "u12"
+}

@@ -231,6 +231,20 @@ class TextRef:
         return str(self.data.get("id", ""))
 
 
+@dataclass(frozen=True)
+class NoteRef:
+    """One grammar-note step (docs/06 § 5) with where it sits."""
+
+    data: dict[str, Any]
+    loc: Loc
+    unit_id: str
+    step_id: str | None
+
+    @property
+    def id(self) -> str:
+        return str(self.data.get("note_id", ""))
+
+
 def lesson_steps(doc: Doc) -> Iterator[tuple[int, dict[str, Any]]]:
     for i, step in enumerate((doc.data or {}).get("steps") or []):
         if isinstance(step, dict):
@@ -333,6 +347,13 @@ def walk_check(doc: Doc, unit_id: str, container: str = "check") -> Iterator[Exe
                 eloc = doc.loc.child(group_key, s, "exercises", j)
                 yield ExerciseRef(ex, eloc, unit_id, container, None, None, role, section=section)
                 yield from _exercise_texts(ex, eloc, unit_id, None)
+
+
+def walk_notes(doc: Doc, unit_id: str) -> Iterator[NoteRef]:
+    """The note steps of a lesson file (not part of `walk_lesson`, which yields exercises and texts)."""
+    for i, step in lesson_steps(doc):
+        if step.get("kind") == "note":
+            yield NoteRef(step, doc.loc.child("steps", i), unit_id, step.get("id"))
 
 
 def walk_unit(u: UnitFiles) -> Iterator[ExerciseRef | TextRef]:

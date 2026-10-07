@@ -1,0 +1,18 @@
+{
+ "format": 1,
+ "source": "content/units/09-casa-mia/unit.yaml",
+ "strings": [
+  {
+   "path": "title.it",
+   "pending": true,
+   "ref": "u09",
+   "role": "title",
+   "text": "Casa mia",
+   "tokens": [
+    {"analyses": ["casa NOUN-F:s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "casa", "span": [0, 4], "surface": "Casa", "trailing": " "},
+    {"analyses": ["mia PRO-POSS-F-S", "mio DET-POSS:f+s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [5, 8], "surface": "mia"}
+   ]
+  }
+ ],
+ "unit": "u09"
+}

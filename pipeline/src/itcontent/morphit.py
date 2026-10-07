@@ -110,7 +110,8 @@ class MorphIt:
         return self._index.get(form, ())
 
     def lookup(self, surface: str) -> tuple[Analysis, ...]:
-        """docs/04 § Annotation step 3: elision table, then the surface form, then the lowercased form."""
+        """docs/04 § Annotation step 3: elision table; else the surface form plus, for a capitalised surface, the
+        lowercased form's analyses (dropping NPR readings when the lowercase form exists)."""
         form = unicodedata.normalize("NFC", surface).translate(APOSTROPHES)
         low = form.lower()
         if low in ELISIONS:
@@ -118,8 +119,13 @@ class MorphIt:
             found = [a for full in fulls for a in self.get(full) if not cats or any_pos(a.category, cats)]
             return tuple(sorted(set(found)))
         hit = self.get(form)
-        if not hit and low != form:
-            hit = self.get(low)
+        if low != form:
+            # A capitalised word (sentence start, formal Lei) also takes the lowercase form's analyses, and then loses
+            # Morph-it!'s proper-noun readings: `Al` is NPR (Al Capone) as well as ARTPRE `al`. Names on the allowlist
+            # never get here (they are name tokens).
+            lower = self.get(low)
+            if lower:
+                hit = tuple(sorted({a for a in hit if a.category != "NPR"} | set(lower)))
         return hit
 
 
