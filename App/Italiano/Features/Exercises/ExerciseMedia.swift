@@ -6,8 +6,9 @@ import Observation
 // spoken answer is one `capture` call whose live transcript the view shows. Platform-neutral; the real player and
 // recogniser sit behind `AudioPlaying` and `SpeechRecognizing`.
 
-/// Turns pack audio IDs into clips and read-along timings. Storage's pack reader conforms; tests and previews use
-/// `StaticAudioResolver`. A missing clip means "no speaker button" (docs/06 § Shared player behaviour).
+/// Turns pack audio IDs into clips and read-along timings. The pack's `PackAudioCatalog` conforms (loaded once with
+/// `PackReader.audioCatalog()`); tests and previews use `StaticAudioResolver`. A missing clip means "no speaker
+/// button" (docs/06 § Shared player behaviour).
 protocol AudioResolving: Sendable {
     func clip(for id: AudioID) -> AudioClip?
     func timeline(for id: AudioID) -> [TokenTiming]
