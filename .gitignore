@@ -33,3 +33,6 @@ App/Config/Secrets.xcconfig
 App/Config/Signing.xcconfig
 # Pipeline outputs
 content-build/tts-cache/tmp/
+# Build outputs bundled by the app: the dev pack and its encoded audio (make pack; docs/04 § Pack build)
+App/Italiano/Resources/Content/content.sqlite
+App/Italiano/Resources/Content/Audio/

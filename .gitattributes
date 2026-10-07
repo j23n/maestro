@@ -1,7 +1,6 @@
-# Git LFS: the generated pack, rendered audio and the TTS cache (docs/02 § Repository layout).
+# Git LFS: only the TTS cache (rendered speech costs money to regenerate). The bundled pack and its encoded audio
+# are build outputs (`make pack`) and are gitignored (docs/02 § Repository layout).
 # Run `git lfs install` once before the first commit that adds these files.
-App/Italiano/Resources/Content/content.sqlite filter=lfs diff=lfs merge=lfs -text
-App/Italiano/Resources/Content/Audio/** filter=lfs diff=lfs merge=lfs -text
 content-build/** filter=lfs diff=lfs merge=lfs -text
 # The mini pack is a few KB and Linux CI checks out without LFS, so it stays a plain (binary) Git file.
 fixtures/packs/*.sqlite binary

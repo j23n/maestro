@@ -30,7 +30,7 @@ italiano/
 └─ .claude/, .github/, .mcp.json
 ```
 
-Generated, not committed: `build/` (reports, review pages) and DerivedData. Committed through Git LFS: `App/Italiano/Resources/Content/content.sqlite`, `App/Italiano/Resources/Content/Audio/*.m4a` and `content-build/tts-cache/`. The Xcode build never runs Python; `make pack` refreshes the pack, and CI fails if the committed pack is stale.
+Generated, not committed: `build/` (reports, review pages), DerivedData, and the bundled pack (`App/Italiano/Resources/Content/content.sqlite` and `Content/Audio/*.m4a`), which `make pack` (and `make bootstrap`) builds deterministically from `content/` and the TTS cache. Committed through Git LFS: only `content-build/tts-cache/` (rendered speech, which costs money to regenerate). The Xcode build never runs Python; the Makefile's app targets build the pack first when it is missing, and a GUI build without it shows the pack error screen with the fix (`make pack`).
 
 ## Modules and dependency rules
 

@@ -18,7 +18,9 @@ CONFIG ?= Debug
 UNSIGNED := CODE_SIGNING_ALLOWED=NO
 ADHOC := CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= CODE_SIGN_ENTITLEMENTS=App/Config/Italiano-NoCloud.entitlements
 
-.PHONY: help bootstrap data test test-core test-storage test-pipeline annotate check-content pack mini-pack \
+PACK_FILE := App/Italiano/Resources/Content/content.sqlite
+
+.PHONY: ensure-pack help bootstrap data test test-core test-storage test-pipeline annotate check-content pack mini-pack \
 	pack-release build-ios build-mac test-app test-ui screenshots lint-guards archive ci
 
 help:
@@ -33,6 +35,7 @@ bootstrap:
 	$(UV) sync $(PYPROJECT)
 	-git lfs pull
 	$(MAKE) data
+	-$(MAKE) ensure-pack
 	$(SWIFT) package resolve --package-path Packages/LearningCore
 	$(SWIFT) package resolve --package-path Packages/Storage
 	@echo "Tool versions:"
@@ -77,33 +80,39 @@ mini-pack:
 pack-release:
 	$(CONTENT) build --release --allow-partial
 
+# The bundled dev pack is a build output (gitignored, docs/04 § Pack build): build it when it's missing, without
+# running the content checks, so a content error never blocks building the app.
+ensure-pack:
+	@if [ -f $(XCODEPROJ)/project.pbxproj ] && [ ! -f $(PACK_FILE) ]; then \
+	  echo "building the dev pack ($(PACK_FILE))"; $(CONTENT) build; fi
+
 # ---------------------------------------------------------------- app (macOS, Xcode 27)
 
-build-ios:
+build-ios: ensure-pack
 	@if [ ! -f $(XCODEPROJ)/project.pbxproj ]; then echo "not yet (task M0.2: the owner creates $(XCODEPROJ))"; else \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -configuration $(CONFIG) \
 	  -destination 'generic/platform=iOS Simulator' build $(UNSIGNED); fi
 
-build-mac:
+build-mac: ensure-pack
 	@if [ ! -f $(XCODEPROJ)/project.pbxproj ]; then echo "not yet (task M0.2: the owner creates $(XCODEPROJ))"; else \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -configuration $(CONFIG) \
 	  -destination 'platform=macOS' build $(UNSIGNED); fi
 
-test-app:
+test-app: ensure-pack
 	@if [ ! -f $(XCODEPROJ)/project.pbxproj ]; then echo "not yet (task M0.2: the owner creates $(XCODEPROJ))"; else \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -skip-testing:ItalianoUITests \
 	  -destination 'platform=iOS Simulator,name=$(IOS_SIM)' test $(UNSIGNED) && \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -skip-testing:ItalianoUITests \
 	  -destination 'platform=macOS' test $(ADHOC); fi
 
-test-ui:
+test-ui: ensure-pack
 	@if [ ! -f $(XCODEPROJ)/project.pbxproj ]; then echo "not yet (task M0.2: the owner creates $(XCODEPROJ))"; else \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests \
 	  -destination 'platform=iOS Simulator,name=$(IOS_SIM)' test $(UNSIGNED) && \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests \
 	  -destination 'platform=macOS' test $(ADHOC); fi
 
-screenshots:
+screenshots: ensure-pack
 	@if [ ! -f $(XCODEPROJ)/project.pbxproj ]; then echo "not yet (task M0.2: the owner creates $(XCODEPROJ))"; else \
 	mkdir -p artifacts/screens && \
 	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests/Screenshots \

@@ -65,15 +65,16 @@ jobs:
       - name: Storage tests
         if: hashFiles('Packages/Storage/Package.swift') != ''
         run: make test-storage
-      - name: Pack is fresh (once a pack is committed)
-        if: hashFiles('App/Italiano/Resources/Content/content.sqlite') != ''
+      - name: Dev pack (built, never committed; docs/04 § Pack build)
+        if: hashFiles('pipeline/pyproject.toml') != ''
         run: |
-          python3 -c "import sqlite3,sys; v=sqlite3.connect('App/Italiano/Resources/Content/content.sqlite').execute(\"select value from meta where key='release'\").fetchone(); sys.exit(0 if v and v[0]=='0' else 'the committed pack must be a dev build (meta.release = 0)')"
           make data
-          committed="$(uv run --project pipeline content pack-hash --pack App/Italiano/Resources/Content/content.sqlite)"
-          make pack
-          fresh="$(uv run --project pipeline content pack-hash --pack App/Italiano/Resources/Content/content.sqlite)"
-          test "$committed" = "$fresh" || { echo "content.sqlite is stale: run make pack and commit"; exit 1; }
+          if uv run --project pipeline content build --help >/dev/null 2>&1; then
+            uv run --project pipeline content build
+            a="$(uv run --project pipeline content pack-hash)"
+            uv run --project pipeline content build
+            test "$a" = "$(uv run --project pipeline content pack-hash)" || { echo "pack build is not deterministic"; exit 1; }
+          else echo "content build is not implemented yet (M1.9)"; fi
       - name: App builds (unsigned)
         if: hashFiles('App/Italiano.xcodeproj/project.pbxproj') != ''
         run: make build-ios build-mac

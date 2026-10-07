@@ -35,7 +35,7 @@ make test-storage    # swift test --package-path Packages/Storage
 make test-pipeline   # uv run pytest pipeline
 make annotate        # uv run content annotate (refresh the lock files after a content edit)
 make check-content   # uv run content lint && uv run content annotate --check && uv run content check
-make pack            # check-content + content build (dev mode; the committed pack)
+make pack            # check-content + content build (dev mode; gitignored, built locally and in CI)
 make mini-pack       # uv run content build --mini → fixtures/packs/mini.sqlite + mini-payloads.json
 make pack-release    # content build --release --allow-partial → build/release/ (never committed)
 make build-ios       # xcodebuild -scheme Italiano -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
@@ -63,7 +63,7 @@ make ci              # what CI runs, in the same order
 - **`macos` job:**
   - A macOS 26 runner with Xcode 27. Confirm the image name in GitHub's runner-images list at M0; Xcode 27 needs macOS 26.6+.
   - `make test-storage build-ios build-mac test-app` (unsigned), each guarded until the Xcode project and packages exist.
-  - The pack freshness check, once the committed pack exists: `content pack-hash` of a fresh dev build must equal the committed pack's (the hash excludes `git_sha`, `built_with` and `content_hash`; `docs/04`).
+  - Build the dev pack (`make data` and `content build`) before the app builds and tests; the pack isn't committed (`docs/04` § Pack build). Two builds must give the same `content pack-hash`.
 - **`claude-review` workflow:** `anthropics/claude-code-action@v1` on pull requests. It reviews the diff against the task's spec and acceptance criteria and posts findings as PR comments; it never pushes. It needs the Claude GitHub App installed on the repo and the `ANTHROPIC_API_KEY` secret (or `claude_code_oauth_token`), and its `claude_args` grant only the comment and diff tools.
 
 ## Agent harness (already in this repo)

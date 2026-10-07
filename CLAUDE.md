@@ -23,7 +23,7 @@ make test-storage     # swift test --package-path Packages/Storage
 make test-pipeline    # uv run pytest pipeline
 make annotate         # refresh content/.annotations after a content edit (never edit them by hand)
 make check-content    # uv run content lint && uv run content annotate --check && uv run content check
-make pack             # rebuild App/Italiano/Resources/Content/content.sqlite (dev build)
+make pack             # build App/Italiano/Resources/Content/content.sqlite + Audio/ (dev pack; gitignored)
 make mini-pack        # fixtures/packs/mini.sqlite + mini-payloads.json from the golden sample
 make lint-guards      # LearningCore import guard + colour contrast
 make data build-ios build-mac test-app test-ui screenshots

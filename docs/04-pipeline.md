@@ -136,7 +136,7 @@ For every text and exercise at its course position *p* (unit order, then step or
    ```
 
    The voice comes from `voices.yaml` (by speaker; `narrator`; `announcer`; `items`; `ch:extra` picks by FNV-1a 64 of the text ID). Add `<phoneme alphabet="ipa" ph="…">` for words in `pronunciation.yaml` or the line's `say:` overrides.
-3. **Cache key:** sha256 of voice, style, rate, pitch, SSML and output format. The cache (`content-build/tts-cache/`, Git LFS) keeps the **WAV** and its word boundaries; skip needs already cached.
+3. **Cache key:** sha256 of voice, style, rate, pitch, SSML and output format. The cache (`content-build/tts-cache/`, Git LFS) keeps the audio as **FLAC** (lossless and sample-exact, about half the size of WAV) with its word boundaries; skip needs already cached.
 4. **Batch synthesis** for the rest:
    - Send `PUT {endpoint}/texttospeech/batchsyntheses/{id}?api-version=2024-04-01` with `inputKind: SSML`, at most 1,000 inputs per job, and properties `outputFormat: riff-24khz-16bit-mono-pcm`, `wordBoundaryEnabled: true`, `sentenceBoundaryEnabled: true`.
    - Poll until done, download the result ZIP and keep each `NNNN.wav` with its `NNNN.word.json` entries (`Text`, `AudioOffset` ms, `Duration` ms).
@@ -151,7 +151,7 @@ Secrets come from the environment (`AZURE_SPEECH_KEY`, `AZURE_SPEECH_ENDPOINT`) 
 - Create the database from `schemas/content-pack.sql`. Insert rows sorted by primary key, then `VACUUM INTO` the destination with `journal_mode=DELETE` (the app opens it read-only).
 - `meta`: `schema_version`, `pack_version` (from `course.yaml`), `content_hash`, `git_sha`, `built_with` (pipeline version), `course_id`, `locale`, `release` (0 or 1).
 - **Pack hash:** sha256 of a canonical SQL dump of every table (rows sorted by primary key), **excluding** the `meta` keys `content_hash`, `git_sha` and `built_with`. `content_hash` stores this value. CI rebuilds the pack and compares hashes, so the committed pack can be checked for freshness.
-- **The committed pack is always a dev build** (`meta.release = 0`). Release packs are built only for archiving or TestFlight (`make pack-release`, into `build/release/`) and are never committed. `make archive` (owner) puts the release pack into the bundle for the archive only and restores the dev pack afterwards; CI fails if a committed pack has `meta.release = 1`.
+- **Packs are build outputs, never committed.** `make pack` builds the dev pack (`meta.release = 0`, drafts included) into the bundle folder, which is gitignored; release packs are built only for archiving or TestFlight (`make pack-release`, into `build/release/`). `make archive` (owner) puts the release pack into the bundle for the archive only and restores the dev pack afterwards. Determinism is tested instead of freshness: two builds from the same input have the same `pack-hash` (pipeline tests and CI).
 - Compile:
   - step and exercise payloads (pattern expansions, token arrays, audio IDs; `docs/06`);
   - unit-level steps (opener, task steps, check, fluency) in the order `docs/06` § Unit-level steps gives;
