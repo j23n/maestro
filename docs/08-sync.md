@@ -27,7 +27,7 @@ No queries are needed (the sync engine fetches zone changes), so no indexes beyo
 | `goal.daysPerWeek` | synced | 5 |
 | `review.dailyLimit` | synced | 60 |
 | `display.englishUnderStories` | synced | false |
-| `display.textScale` | synced | 1.0 (0.85–1.6; the `Aa` control and ⌘+ / ⌘−, `docs/07`) |
+| `display.textScale` | device (a phone and a Mac need different sizes) | 1.0 (0.85–1.6; the `Aa` control and ⌘+ / ⌘−, `docs/07`) |
 | `display.speakerLabels` | synced | true until Unit 5 |
 | `audio.storyRate` | synced | 1.0 |
 | `mascot.hints` | synced | true |
