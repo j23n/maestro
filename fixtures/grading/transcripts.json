@@ -131,6 +131,29 @@
    "accept": "mi chiamo {NAME}",
    "transcript": "mi chiamo",
    "pass": false
+  },
+  {
+   "accept": "alle quindici e trenta",
+   "transcript": "alle 15.30",
+   "pass": true,
+   "note": "H.MM after a time cue (alle, le, ore, dalle …) is a time, not a price"
+  },
+  {
+   "accept": "[un] caffè",
+   "transcript": "1 caffè",
+   "pass": true,
+   "note": "a 1 before a word stands for un, uno, una or un'"
+  },
+  {
+   "accept": "[una] spremuta",
+   "transcript": "1 spremuta",
+   "pass": true
+  },
+  {
+   "accept": "il [primo] maggio",
+   "transcript": "il 1º maggio",
+   "pass": false,
+   "note": "digits followed by a letter or an ordinal mark stay as they are"
   }
  ]
 }

@@ -50,6 +50,25 @@ import Testing
         #expect(!matcher.match(response: "Ciao Giulia", points: [opening], pass: 1).passed)
         let age = try ContentPointMatcher.Point(id: "age", accept: ["ho {NUMBER} anni"])
         #expect(matcher.match(response: "Ho 30 anni e abito a Bologna.", points: [age], pass: 1).passed)
+        #expect(matcher.match(response: "ho diciassette anni", points: [age], pass: 1, spoken: true).passed)
+    }
+
+    /// Talk comes from speech: consonant length is ignored, as for transcripts. Writing is typed: it isn't.
+    @Test func spokenPointsIgnoreDoubleConsonants() throws {
+        let points = try Self.talkPoints()
+        let heard = "buongiorno vorrei un capuccino e un cornetto quanto costa"
+        let spoken = matcher.match(response: heard, points: points, pass: 2, spoken: true)
+        #expect(spoken.found == ["greet", "order", "price"])
+        #expect(matcher.match(response: heard, points: points, pass: 2).found == ["greet", "price"])
+    }
+
+    @Test func pointsReadNumbersEitherWay() throws {
+        let time = try ContentPointMatcher.Point(id: "time", accept: ["alle {otto|nove} e trenta"])
+        #expect(matcher.match(response: "Arrivo alle 8.30.", points: [time], pass: 1).passed)
+        let order = try ContentPointMatcher.Point(id: "order", accept: ["{un caffè|una spremuta}"])
+        #expect(matcher.match(response: "1 spremuta, grazie", points: [order], pass: 1, spoken: true).passed)
+        let price = try ContentPointMatcher.Point(id: "price", accept: ["sei euro e venti"])
+        #expect(matcher.match(response: "sono 6.20", points: [price], pass: 1).passed)
     }
 
     @Test func writingWordCountAndSuggestions() {

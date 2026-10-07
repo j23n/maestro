@@ -26,7 +26,7 @@ import Testing
 
     @Test func everyTranscriptCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 12)
+        #expect(fixture.cases.count >= 16)
         let matcher = TranscriptMatcher()
         for c in fixture.cases {
             let match = try #require(matcher.match(transcript: c.transcript, accepted: try AnswerPattern(c.accept)))
@@ -81,6 +81,26 @@ import Testing
             matcher.match(transcript: "ho 30 anni", accepted: try AnswerPattern("ho {NUMBER} anni"))?.passed == true)
         let time = try AnswerPattern("alle quindici e trenta")
         #expect(matcher.match(transcript: "alle 15:30", accepted: time)?.passed == true)
+        #expect(matcher.match(transcript: "alle 15.30", accepted: time)?.passed == true)
+        // H.MM with no cue: either reading.
+        let price = try AnswerPattern("sei euro e venti")
+        let clock = try AnswerPattern("sono le sei e venti")
+        #expect(matcher.match(transcript: "6.20", accepted: price)?.passed == true)
+        #expect(matcher.match(transcript: "sono 6.20", accepted: try AnswerPattern("sono sei e venti"))?.passed == true)
+        #expect(matcher.match(transcript: "sono le 6.20", accepted: clock)?.passed == true)
+        // (The price reading holds every word of the time reading but for una/un, and extra words don't count.)
+        let one = try AnswerPattern("[una] e trenta")
+        let heard = try #require(matcher.match(transcript: "all'incirca 1.30", accepted: one))
+        #expect(heard.passed)
+        #expect(heard.heardTokens == ["all'incirca", "una", "e", "trenta"])
+    }
+
+    @Test func aOneBeforeAWordIsAnyArticle() throws {
+        let one = try AnswerPattern("[un] caffè e [una] spremuta")
+        #expect(matcher.match(transcript: "1 caffè e 1 spremuta", accepted: one)?.passed == true)
+        #expect(matcher.match(transcript: "2 caffè e 1 spremuta", accepted: one)?.passed == false)
+        let uno = try AnswerPattern("ne voglio [uno]")
+        #expect(matcher.match(transcript: "ne voglio 1", accepted: uno)?.passed == true)
     }
 
     @Test func strictFormsApply() throws {

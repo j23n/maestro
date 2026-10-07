@@ -190,7 +190,8 @@ final class TalkModel {
     func submit(transcript: String, mode: AnswerMode) {
         attempts += 1
         response = transcript
-        let r = ContentPointMatcher(profile: env.profile).match(response: transcript, points: points, pass: talk.pass)
+        let r = ContentPointMatcher(profile: env.profile)
+            .match(response: transcript, points: points, pass: talk.pass, spoken: mode == .spoken)
         result = r
         let outcome: AttemptOutcome = r.passed ? .correct : .wrong
         sink?.record(AttemptDraft(

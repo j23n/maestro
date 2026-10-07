@@ -3,7 +3,8 @@ import Foundation
 /// Matches speech transcripts against accepted patterns (docs/05 § Speech transcripts;
 /// `fixtures/grading/transcripts.json`).
 ///
-/// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOut`).
+/// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOutReadings`: an
+///    `H.MM` that may be a price or a time is tried both ways; a `1` before a word matches *un*/*uno*/*una*/*un'*).
 /// 2. The transcript and every expansion are normalised.
 /// 3. Tokens are compared without accents and with double consonants collapsed (ASR can't be trusted on length).
 /// 4. Pass = every focus token heard and at least 80% of content tokens heard. Content tokens are all tokens
@@ -71,11 +72,13 @@ public struct TranscriptMatcher: Sendable {
         let expansions = accepted.flatMap { $0.expansions(profile: profile) }.filter { profile.accepts($0.gender) }
         var best: Match?
         for (index, transcript) in transcripts.enumerated() {
-            let tokens = Normalizer.tokens(ItalianNumbers.spellOut(transcript))
-            for expansion in expansions {
-                let result = score(tokens, expansion, transcript: transcript, index: index)
-                if let current = best, !Self.isBetter(result, than: current) { continue }
-                best = result
+            for reading in ItalianNumbers.spellOutReadings(transcript) {
+                let tokens = Normalizer.tokens(reading)
+                for expansion in expansions {
+                    let result = score(tokens, expansion, transcript: transcript, index: index)
+                    if let current = best, !Self.isBetter(result, than: current) { continue }
+                    best = result
+                }
             }
         }
         return best
@@ -148,7 +151,7 @@ public struct TranscriptMatcher: Sendable {
                         for k in slot.wordRange where k > 0 && j + k <= m && slot.accepts(heard[j..<(j + k)]) {
                             relax((i + 1) * width + j + k, value + weight(i), from: here, matched: i)
                         }
-                    } else if j < m, expectedKeys[i] == heardKeys[j] {
+                    } else if j < m, ItalianNumbers.matchesSpoken(expected: expectedKeys[i], heard: heardKeys[j]) {
                         relax((i + 1) * width + j + 1, value + weight(i), from: here, matched: i)
                     }
                     relax((i + 1) * width + j, value, from: here, matched: nil)
