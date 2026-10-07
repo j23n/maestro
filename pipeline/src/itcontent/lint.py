@@ -13,7 +13,7 @@ from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
-from itcontent import ids, paths, references, schemas, yamlio
+from itcontent import approval, ids, paths, references, schemas, yamlio
 from itcontent.course import load_course
 from itcontent.findings import Finding, PathT, format_path, make
 from itcontent.index import build_index
@@ -132,13 +132,13 @@ def schema_findings(rel: str, data: Any) -> list[Finding]:
 
 
 def cross_file_findings(root: Path, docs: dict[str, Any], lines: Lines) -> list[Finding]:
-    """IDs, references, ids.lock, retired IDs and ledgers (references)."""
+    """IDs, references, ids.lock, retired IDs, ledgers (references) and approval hashes (approval)."""
     try:
         course = load_course(root, preloaded=docs)
     except SystemExit:
         return []  # course.yaml is missing or unreadable: the parse and schema findings say why
     index = build_index(course)
-    return references.check(root, course, index, docs, lines)
+    return [*references.check(root, course, index, docs, lines), *approval.check_approvals(root, docs)]
 
 
 def lint_findings(root: Path | None = None) -> list[Finding]:

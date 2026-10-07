@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from itcontent import ids
+from itcontent import approval, ids
 from itcontent.course import load_course
 from itcontent.index import build_index
 from itcontent.lint import lint_findings
@@ -18,7 +18,7 @@ ITEMS = "content/items/u03.yaml"
 E = "error: " + LESSON
 EI = "error: " + ITEMS
 
-# fixture → (target path, expected finding lines)
+# fixture → (target path, expected finding lines); "{actual}" is the placed file's approval hash (12 hex digits)
 CASES: dict[str, tuple[str, list[str]]] = {
     "items-duplicate-id.yaml": (
         ITEMS,
@@ -137,6 +137,14 @@ CASES: dict[str, tuple[str, list[str]]] = {
             "error: content/retired.yaml › retired[0].replaced_by (line 3): unknown item 'w:caffe~espresso'",
         ],
     ),
+    "approved-stale-hash.yaml": (
+        ITEMS,
+        [
+            f"{EI} › review.hash (line 3): the file changed after approval: review.hash is 3f9c0e1a2b4d…, the file "
+            "now hashes to {actual}… (docs/04 § Approval hash). Approved content changes only after the owner runs "
+            "content reopen"
+        ],
+    ),
     "ledger-unknown-target.yaml": (
         "reviews/u02.yaml",
         [
@@ -163,10 +171,11 @@ def test_every_fixture_in_the_folder_is_covered(fixtures_dir):
 @pytest.mark.parametrize("fixture", sorted(CASES))
 def test_invalid_fixture_reports_file_path_line_and_problem(fixture, course_copy, place):
     target, expected = CASES[fixture]
-    place(fixture, target)
+    path = place(fixture, target)
     found = strs(course_copy)
+    actual = approval.file_hash(path)[:12]
     for line in expected:
-        assert line in found, "\n".join(found)
+        assert line.replace("{actual}", actual) in found, "\n".join(found)
 
 
 def test_seed_content_lints_clean_with_pending_information(root):
