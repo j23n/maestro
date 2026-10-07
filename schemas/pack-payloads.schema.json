@@ -1,0 +1,381 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.local/schemas/pack-payloads.schema.json",
+  "title": "Italiano content pack payloads",
+  "description": "The JSON in steps.payload, exercises.payload, grammar_notes.body, assessments.payload and texts.layout (schemas/content-pack.sql). The pipeline writes it (content build); LearningCore decodes it (M2.1). Keys are camelCase; optional keys are present with null rather than absent, so decoders can rely on them; consumers ignore unknown keys. Every Italian string the learner sees arrives as a TokenizedText so it can be tapped for a gloss and spoken in Italian. Answer patterns travel as their source (LearningCore parses them, because personal slots need the learner) plus the learner-independent expansions for the review mode's answer key. docs/06 § Payloads.",
+  "oneOf": [
+    {"$ref": "#/$defs/stepPayload"},
+    {"$ref": "#/$defs/exercise"},
+    {"$ref": "#/$defs/noteBody"},
+    {"$ref": "#/$defs/assessment"}
+  ],
+  "$defs": {
+    "id": {"type": "string", "minLength": 1},
+    "nullableString": {"type": ["string", "null"]},
+    "audioId": {"type": ["string", "null"], "pattern": "^a:[0-9a-f]{12}$", "description": "null in dev packs before audio is rendered: the app hides the play button"},
+    "skill": {"enum": ["read", "listen", "recall", "speak"]},
+    "token": {
+      "type": "object",
+      "required": ["surface", "trailing", "kind", "itemId", "gloss", "flags"],
+      "properties": {
+        "surface": {"type": "string"},
+        "trailing": {"type": "string", "description": "spaces and punctuation after the token, so text == concat(surface + trailing) after `lead`"},
+        "kind": {"enum": ["word", "punct", "name", "number", "foreign"]},
+        "itemId": {"type": ["string", "null"], "description": "the word or chunk this token belongs to (lexical articles carry their noun's item)"},
+        "gloss": {"type": ["string", "null"], "description": "context gloss; null → the item's gloss_en"},
+        "flags": {"type": "integer", "description": "bit 1 new in this text, 2 recognise-only form, 4 lesson target grammar (tokens table)"}
+      }
+    },
+    "tokenizedText": {
+      "type": "object",
+      "required": ["text", "lead", "tokens"],
+      "properties": {
+        "text": {"type": "string"},
+        "lead": {"type": "string", "description": "anything before the first token (an opening quote)"},
+        "tokens": {"type": "array", "items": {"$ref": "#/$defs/token"}}
+      }
+    },
+    "pattern": {
+      "type": "object",
+      "required": ["source", "expansions"],
+      "properties": {
+        "source": {"type": "string", "description": "the answer pattern as authored (docs/03); the first expansion is the model answer"},
+        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key"}
+      }
+    },
+    "near": {
+      "type": "object",
+      "required": ["answer", "outcome", "hint"],
+      "properties": {
+        "answer": {"$ref": "#/$defs/pattern"},
+        "outcome": {"enum": ["wrong", "almost"]},
+        "hint": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["itemId", "skill"],
+      "properties": {"itemId": {"$ref": "#/$defs/id"}, "skill": {"$ref": "#/$defs/skill"}}
+    },
+    "sourceRef": {
+      "type": ["object", "null"],
+      "required": ["textId", "line"],
+      "properties": {
+        "textId": {"$ref": "#/$defs/id"},
+        "line": {"type": ["integer", "null"], "minimum": 1, "description": "1-based line for `u02.l1.story#3`; null for a whole text (`{text: u02.task.menu}`)"}
+      }
+    },
+
+    "exerciseCommon": {
+      "type": "object",
+      "required": ["id", "format", "role", "unitId", "stepId", "score", "targets", "tags", "source", "hint", "rule", "near", "audioAfter"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "format": {"enum": ["cloze", "recall", "sentence-building", "dictation", "sound-pair", "repeat", "choice", "match", "true-false", "relay", "conversation", "talk", "writing"]},
+        "role": {"enum": ["learn", "check", "placement", "final", "comprehension"]},
+        "unitId": {"$ref": "#/$defs/id"},
+        "stepId": {"$ref": "#/$defs/nullableString"},
+        "score": {"type": "integer", "minimum": 1},
+        "targets": {"type": "array", "items": {"$ref": "#/$defs/target"}, "description": "primary targets; for match, targets[i] belongs to pairs[i]"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "source": {"$ref": "#/$defs/sourceRef"},
+        "hint": {"$ref": "#/$defs/nullableString"},
+        "rule": {"$ref": "#/$defs/nullableString"},
+        "near": {"type": "array", "items": {"$ref": "#/$defs/near"}},
+        "audioAfter": {"type": "boolean"}
+      }
+    },
+    "exercise": {
+      "allOf": [{"$ref": "#/$defs/exerciseCommon"}],
+      "oneOf": [
+        {"$ref": "#/$defs/cloze"}, {"$ref": "#/$defs/recall"}, {"$ref": "#/$defs/sentenceBuilding"},
+        {"$ref": "#/$defs/dictation"}, {"$ref": "#/$defs/soundPair"}, {"$ref": "#/$defs/repeat"},
+        {"$ref": "#/$defs/choice"}, {"$ref": "#/$defs/trueFalse"}, {"$ref": "#/$defs/match"},
+        {"$ref": "#/$defs/conversation"}, {"$ref": "#/$defs/talk"}, {"$ref": "#/$defs/writing"},
+        {"$ref": "#/$defs/relay"}
+      ]
+    },
+    "cloze": {
+      "type": "object",
+      "required": ["format", "before", "gap", "after", "promptEn", "bank", "audioId"],
+      "properties": {
+        "format": {"const": "cloze"},
+        "before": {"$ref": "#/$defs/tokenizedText"},
+        "gap": {"$ref": "#/$defs/pattern", "description": "the whole gap is focus (docs/03)"},
+        "after": {"$ref": "#/$defs/tokenizedText"},
+        "promptEn": {"$ref": "#/$defs/nullableString"},
+        "bank": {"type": ["array", "null"], "items": {"type": "string"}},
+        "audioId": {"$ref": "#/$defs/audioId", "description": "the whole sentence with the gap filled by the model answer"}
+      }
+    },
+    "recall": {
+      "type": "object",
+      "required": ["format", "promptEn", "contextIt", "answer", "answerAudioId"],
+      "properties": {
+        "format": {"const": "recall"},
+        "promptEn": {"type": "string"},
+        "contextIt": {"oneOf": [{"$ref": "#/$defs/tokenizedText"}, {"type": "null"}]},
+        "answer": {"$ref": "#/$defs/pattern"},
+        "answerAudioId": {"$ref": "#/$defs/audioId"}
+      }
+    },
+    "sentenceBuilding": {
+      "type": "object",
+      "required": ["format", "promptEn", "tiles", "distractors", "answers", "answerAudioId"],
+      "properties": {
+        "format": {"const": "sentence-building"},
+        "promptEn": {"type": "string"},
+        "tiles": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+        "distractors": {"type": "array", "items": {"type": "string"}},
+        "answers": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "accepted orders, normalised"},
+        "answerAudioId": {"$ref": "#/$defs/audioId"}
+      }
+    },
+    "dictation": {
+      "type": "object",
+      "required": ["format", "say", "audioId", "slow", "plays"],
+      "properties": {
+        "format": {"const": "dictation"},
+        "say": {"$ref": "#/$defs/tokenizedText"},
+        "audioId": {"$ref": "#/$defs/audioId"},
+        "slow": {"type": "boolean"},
+        "plays": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "soundWord": {
+      "type": "object",
+      "required": ["it", "gloss", "audioId"],
+      "properties": {"it": {"type": "string"}, "gloss": {"$ref": "#/$defs/nullableString"}, "audioId": {"$ref": "#/$defs/audioId"}}
+    },
+    "soundPair": {
+      "type": "object",
+      "required": ["format", "question", "pair", "play", "word", "answer", "tipEn"],
+      "properties": {
+        "format": {"const": "sound-pair"},
+        "question": {"enum": ["which-word", "single-or-double"]},
+        "pair": {"type": ["array", "null"], "items": {"$ref": "#/$defs/soundWord"}, "minItems": 2, "maxItems": 2},
+        "play": {"type": ["integer", "null"], "description": "which-word: the index in `pair` that is played (the correct answer)"},
+        "word": {"oneOf": [{"$ref": "#/$defs/soundWord"}, {"type": "null"}], "description": "single-or-double: the word played"},
+        "answer": {"enum": ["single", "double", null]},
+        "tipEn": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "repeat": {
+      "type": "object",
+      "required": ["format", "say", "audioId", "accept"],
+      "properties": {
+        "format": {"const": "repeat"},
+        "say": {"$ref": "#/$defs/tokenizedText"},
+        "audioId": {"$ref": "#/$defs/audioId"},
+        "accept": {"$ref": "#/$defs/pattern", "description": "the line itself, matched with TranscriptMatcher"}
+      }
+    },
+    "option": {
+      "type": "object",
+      "required": ["text", "it"],
+      "properties": {
+        "text": {"type": "string"},
+        "it": {"oneOf": [{"$ref": "#/$defs/tokenizedText"}, {"type": "null"}], "description": "set when the option is Italian (shown with ItalianText, tappable)"}
+      }
+    },
+    "choice": {
+      "type": "object",
+      "required": ["format", "promptIt", "promptAudioId", "audioTextId", "plays", "questionEn", "options", "answer"],
+      "properties": {
+        "format": {"const": "choice"},
+        "promptIt": {"oneOf": [{"$ref": "#/$defs/tokenizedText"}, {"type": "null"}]},
+        "promptAudioId": {"$ref": "#/$defs/audioId"},
+        "audioTextId": {"$ref": "#/$defs/nullableString", "description": "a text played as audio and hidden until answered (checks, listening)"},
+        "plays": {"type": ["integer", "null"], "minimum": 1},
+        "questionEn": {"type": "string"},
+        "options": {"type": "array", "items": {"$ref": "#/$defs/option"}, "minItems": 2, "maxItems": 4, "description": "in authored order; the app shows a seeded shuffle"},
+        "answer": {"type": "integer", "minimum": 0}
+      }
+    },
+    "trueFalse": {
+      "type": "object",
+      "required": ["format", "statementEn", "answer", "audioTextId", "plays"],
+      "properties": {
+        "format": {"const": "true-false"},
+        "statementEn": {"type": "string"},
+        "answer": {"type": "boolean"},
+        "audioTextId": {"$ref": "#/$defs/nullableString"},
+        "plays": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "match": {
+      "type": "object",
+      "required": ["format", "pairs"],
+      "properties": {
+        "format": {"const": "match"},
+        "pairs": {
+          "type": "array", "minItems": 2, "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["left", "right", "leftAudioId"],
+            "properties": {
+              "left": {"$ref": "#/$defs/tokenizedText", "description": "the Italian side"},
+              "right": {"type": "string", "description": "the English side"},
+              "leftAudioId": {"$ref": "#/$defs/audioId"}
+            }
+          }
+        }
+      }
+    },
+    "convNode": {
+      "type": "object",
+      "required": ["id", "say", "en", "audioId", "expect", "near", "help", "hintEn", "register", "final"],
+      "properties": {
+        "id": {"type": "string"},
+        "say": {"$ref": "#/$defs/tokenizedText"},
+        "en": {"type": "string"},
+        "audioId": {"$ref": "#/$defs/audioId"},
+        "expect": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["intent", "goal", "accept", "next"],
+            "properties": {
+              "intent": {"type": "string"},
+              "goal": {"$ref": "#/$defs/nullableString"},
+              "accept": {"type": "array", "items": {"$ref": "#/$defs/pattern"}, "minItems": 1},
+              "next": {"type": "string"}
+            }
+          }
+        },
+        "near": {"type": "array", "items": {"$ref": "#/$defs/near"}},
+        "help": {"type": "array", "items": {"$ref": "#/$defs/tokenizedText"}},
+        "hintEn": {"$ref": "#/$defs/nullableString"},
+        "register": {"enum": ["tu", "lei", null], "description": "overrides the conversation's register from this node on"},
+        "final": {"type": "boolean"}
+      }
+    },
+    "conversation": {
+      "type": "object",
+      "required": ["format", "with", "register", "titleEn", "goals", "start", "nodes"],
+      "properties": {
+        "format": {"const": "conversation"},
+        "with": {"$ref": "#/$defs/id"},
+        "register": {"enum": ["tu", "lei"]},
+        "titleEn": {"type": "string"},
+        "goals": {"type": "array", "items": {"type": "object", "required": ["id", "en"], "properties": {"id": {"type": "string"}, "en": {"type": "string"}}}},
+        "start": {"type": "string"},
+        "nodes": {"type": "array", "items": {"$ref": "#/$defs/convNode"}, "description": "in authored order (an array, so the order is stable)"}
+      }
+    },
+    "point": {
+      "type": "object",
+      "required": ["id", "en", "accept"],
+      "properties": {"id": {"type": "string"}, "en": {"type": "string"}, "accept": {"type": "array", "items": {"$ref": "#/$defs/pattern"}, "minItems": 1}}
+    },
+    "talk": {
+      "type": "object",
+      "required": ["format", "promptEn", "points", "pass", "model", "modelAudioId", "durationS"],
+      "properties": {
+        "format": {"const": "talk"},
+        "promptEn": {"type": "string"},
+        "points": {"type": "array", "items": {"$ref": "#/$defs/point"}},
+        "pass": {"type": "integer", "minimum": 0},
+        "model": {"$ref": "#/$defs/tokenizedText"},
+        "modelAudioId": {"$ref": "#/$defs/audioId"},
+        "durationS": {"type": "object", "required": ["min", "max"], "properties": {"min": {"type": "integer"}, "max": {"type": "integer"}}}
+      }
+    },
+    "writing": {
+      "type": "object",
+      "required": ["format", "kind", "promptEn", "fields", "words", "points", "pass", "model"],
+      "properties": {
+        "format": {"const": "writing"},
+        "kind": {"enum": ["form", "message", "postcard", "list", "description"]},
+        "promptEn": {"type": "string"},
+        "fields": {
+          "type": ["array", "null"],
+          "items": {
+            "type": "object",
+            "required": ["labelIt", "labelEn", "type", "accept"],
+            "properties": {
+              "labelIt": {"$ref": "#/$defs/tokenizedText"},
+              "labelEn": {"type": "string"},
+              "type": {"enum": ["text", "email", "number", "date", "phone"]},
+              "accept": {"type": ["array", "null"], "items": {"$ref": "#/$defs/pattern"}}
+            }
+          }
+        },
+        "words": {"type": ["object", "null"], "required": ["min", "max"], "properties": {"min": {"type": "integer"}, "max": {"type": "integer"}}},
+        "points": {"type": ["array", "null"], "items": {"$ref": "#/$defs/point"}},
+        "pass": {"type": ["integer", "null"]},
+        "model": {"oneOf": [{"$ref": "#/$defs/tokenizedText"}, {"type": "null"}]}
+      }
+    },
+    "relay": {
+      "type": "object",
+      "required": ["format", "sourceTextId", "audioTextId", "friendEn", "answerEn"],
+      "properties": {
+        "format": {"const": "relay"},
+        "sourceTextId": {"$ref": "#/$defs/nullableString", "description": "a text shown to read"},
+        "audioTextId": {"$ref": "#/$defs/nullableString", "description": "or a text heard"},
+        "friendEn": {"type": "string"},
+        "answerEn": {
+          "type": "object",
+          "required": ["type", "value", "accept"],
+          "properties": {
+            "type": {"enum": ["time", "price", "number", "text"]},
+            "value": {"type": ["number", "string", "null"], "description": "time as \"HH:MM\", price and number as numbers"},
+            "accept": {"type": ["array", "null"], "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+
+    "stepPayload": {
+      "description": "steps.payload by kind (docs/06 § Payloads, § Unit-level steps).",
+      "oneOf": [
+        {"type": "object", "required": ["kind", "batches"], "properties": {"kind": {"const": "preview"}, "batches": {"type": "array", "items": {"type": "object", "required": ["itemIds", "exerciseIds"], "properties": {"itemIds": {"type": "array", "items": {"type": "string"}}, "exerciseIds": {"type": "array", "items": {"type": "string"}, "description": "the generated match, then one per item"}}}}}},
+        {"type": "object", "required": ["kind", "textId", "questionIds"], "properties": {"kind": {"const": "story"}, "textId": {"type": "string"}, "questionIds": {"type": "array", "items": {"type": "string"}}}},
+        {"type": "object", "required": ["kind", "textId", "plays", "exerciseIds"], "properties": {"kind": {"const": "listening"}, "textId": {"type": "string"}, "plays": {"type": ["integer", "null"]}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}},
+        {"type": "object", "required": ["kind", "textId", "exerciseIds"], "properties": {"kind": {"const": "reading"}, "textId": {"type": "string"}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}},
+        {"type": "object", "required": ["kind", "noteId"], "properties": {"kind": {"const": "note"}, "noteId": {"type": "string"}}},
+        {"type": "object", "required": ["kind", "block", "mix"], "properties": {"kind": {"const": "practice"}, "block": {"type": "array", "items": {"type": "string"}}, "mix": {"type": "array", "items": {"type": "string"}, "description": "the app shuffles it with SplitMix64 seeded by FNV-1a 64 of the step ID"}}},
+        {"type": "object", "required": ["kind", "exerciseIds"], "properties": {"kind": {"const": "sounds"}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}},
+        {"type": "object", "required": ["kind", "exerciseId"], "properties": {"kind": {"enum": ["use", "conversation", "talk", "writing", "relay"]}, "exerciseId": {"type": "string"}}},
+        {"type": "object", "required": ["kind", "unitId"], "properties": {"kind": {"const": "opener"}, "unitId": {"type": "string"}}},
+        {"type": "object", "required": ["kind", "checkId", "pass", "sections"], "properties": {"kind": {"const": "check"}, "checkId": {"type": "string"}, "pass": {"type": "object", "required": ["overall", "sectionMin"], "properties": {"overall": {"type": "number"}, "sectionMin": {"type": "number"}}}, "sections": {"type": "array", "items": {"type": "object", "required": ["id", "titleEn", "exerciseIds"], "properties": {"id": {"type": "string"}, "titleEn": {"type": "string"}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}}}}},
+        {"type": "object", "required": ["kind", "textIds", "rate"], "properties": {"kind": {"const": "fluency"}, "textIds": {"type": "array", "items": {"type": "string"}}, "rate": {"type": "number"}}}
+      ]
+    },
+
+    "noteBlock": {
+      "oneOf": [
+        {"type": "object", "required": ["p"], "properties": {"p": {"type": "string", "description": "English with *Italian* and **highlight** markup"}}},
+        {"type": "object", "required": ["table"], "properties": {"table": {"type": "object", "required": ["columns", "rows"], "properties": {"columns": {"type": "array", "items": {"type": "string"}}, "rows": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}}}}}},
+        {"type": "object", "required": ["examples"], "properties": {"examples": {"type": "array", "items": {"type": "object", "required": ["ref", "textId", "line", "text", "highlight", "en"], "properties": {"ref": {"type": "string"}, "textId": {"type": "string"}, "line": {"type": "integer"}, "text": {"$ref": "#/$defs/tokenizedText"}, "highlight": {"type": "array", "items": {"type": "integer"}, "description": "token indices of the target forms, the only ones highlighted (docs/06 §5)"}, "en": {"type": "string"}}}}}},
+        {"type": "object", "required": ["tip"], "properties": {"tip": {"type": "string"}}}
+      ]
+    },
+    "noteBody": {
+      "type": "object",
+      "required": ["noteId", "titleEn", "grammar", "intro", "blocks"],
+      "properties": {
+        "noteId": {"type": "string"},
+        "titleEn": {"type": "string"},
+        "grammar": {"type": "array", "items": {"type": "string"}, "description": "g: items, the first is the main point"},
+        "intro": {"type": ["object", "null"], "required": ["mascot", "textEn"], "properties": {"mascot": {"enum": ["hello", "think", "cheer", "sleep"]}, "textEn": {"type": "string"}}},
+        "blocks": {"type": "array", "items": {"$ref": "#/$defs/noteBlock"}}
+      }
+    },
+
+    "assessment": {
+      "oneOf": [
+        {"type": "object", "required": ["id", "advanceThreshold", "blocks"], "properties": {"id": {"const": "placement"}, "advanceThreshold": {"type": "integer"}, "blocks": {"type": "array", "items": {"type": "object", "required": ["unitId", "exerciseIds"], "properties": {"unitId": {"type": "string"}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}}}}},
+        {"type": "object", "required": ["id", "sections", "indicativePassPerSection"], "properties": {"id": {"const": "final"}, "indicativePassPerSection": {"type": "integer"}, "sections": {"type": "array", "items": {"type": "object", "required": ["id", "titleEn", "max", "exerciseIds"], "properties": {"id": {"type": "string"}, "titleEn": {"type": "string"}, "max": {"type": "integer"}, "exerciseIds": {"type": "array", "items": {"type": "string"}}}}}}}
+      ]
+    },
+
+    "layout": {
+      "description": "texts.layout for real_world texts (docs/06 §4): the authored layout with `type`, where every Italian string is replaced by a tokenizedText, except the strings listed in `ignore`, which stay plain strings; prices, times and other digit strings stay plain strings.",
+      "type": "object",
+      "required": ["type"],
+      "properties": {"type": {"enum": ["menu", "receipt", "sign", "hours", "timetable", "ticket", "form", "label", "ad", "message", "postcard", "list"]}}
+    }
+  }
+}
