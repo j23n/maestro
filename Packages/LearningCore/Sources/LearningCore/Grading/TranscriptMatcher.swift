@@ -59,10 +59,11 @@ public struct TranscriptMatcher: Sendable {
         /// Expected words found, in order (for showing which words were heard).
         public var foundWords: [String] { found.map { expansion.tokens[$0] } }
 
-        /// The answer for the `FeedbackMachine`: a pass is `correct`, a fail `wrong`.
+        /// The answer for the `FeedbackMachine`: a pass is `correct`, a fail `wrong`. A miss has no hint kind: the
+        /// learner may have said something else rather than left a word out, so the feedback shows "I heard: …"
+        /// (`heard`) with the exercise's hint, never "Something's missing." (docs/05 § Speech transcripts 6).
         public var answer: GradedAnswer {
-            GradedAnswer(
-                outcome: passed ? .correct : .wrong, hintKind: missing.isEmpty ? nil : .missing, mismatches: missing)
+            GradedAnswer(outcome: passed ? .correct : .wrong, hintKind: nil, mismatches: missing)
         }
     }
 

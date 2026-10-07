@@ -188,7 +188,7 @@ Tokens are the space-separated parts. `stripAccents` removes combining marks aft
   3. For each accepted expansion, align without regard to accents and with double consonants collapsed (ASR can't be trusted on length). The alignment keeps the matches with the largest total weight: focus word 1,000,000, content word 1,000, function word 2, slot fill 1. A focus word outweighs all the rest, a content word all function words and slots, and a slot, being a wildcard, never takes a word an expected literal matches (`vengo dagli` for `vengo dagli {ME.country}` heard no country and fails).
   4. Pass if every focus token matches and at least 80% of content tokens match. Content tokens are all tokens except the `functionWords` list in `fixtures/grading/transcripts.json`, which is normative (articles, simple and articulated prepositions, clitics, e/o/ma); a slot counts as a content token. Extra words in the transcript don't count against the learner. Strict forms apply as for typed answers.
   5. Use the best result across transcript alternatives (a pass first, then the highest share of content tokens heard).
-  6. Feedback says "I heard: …"; never call it pronunciation.
+  6. Feedback says "I heard: …"; never call it pronunciation. A miss has no hint kind (`GradedAnswer.hintKind` nil): the learner may have said something else rather than left a word out, so the panel shows "I heard: …" and the exercise's hint, never the generic "Something's missing."
 - **Content points (talk, writing):** each point lists patterns. A point is found if any expansion occurs as a contiguous token sequence in the normalised response, ignoring accents, and for spoken talk responses also double consonants (collapsed as for transcripts: ASR can't be trusted on length; typed talk and writing keep them); digits, prices and times are spelled out first, as for transcripts (any reading of an ambiguous `H.MM`; a `1` before a word stands for `un`/`uno`/`una`/`un'`), and slots take their number of words. Pass if found ≥ `pass`. Writing also checks the word count and flags tokens that aren't known forms (`forms` table) with edit distance 1 to a known form ("Did you mean famiglia?"); flags are advice and never fail the task.
 - **English answers (relay):** `time` extracts `HH:MM`, `HH.MM` or `HH MM` and also accepts `HH ± 12`; for a time on the hour a bare hour counts too (`9`, `9 pm`, `nine o'clock` for 21:00); `price` extracts a decimal with `,` or `.`, or a whole number in digits or words (tolerance 0.001, currency words ignored); `number` extracts an integer in digits or English words (`3`, `three`, `twenty-one`); `text` matches any accepted English phrase as a token subsequence (in order, gaps allowed), case- and punctuation-insensitive.
 
@@ -205,9 +205,11 @@ awaitingFirst ──correct/correctWithNote──▶ done(success)        (show 
       │                     └─▶ awaitingSecond ──correct/correctWithNote/almost──▶ done(successAfterHint)
       │                                        ──wrong──▶ answerShown: answer + one-line rule ──▶ done(failed)
       └── "Show answer" (any time) ──▶ answerShown (outcome revealed)
+
+check, final, placement: awaitingFirst ──any outcome──▶ done(recorded)     (nothing shown)
 ```
 
-Generic hints, chosen by the first mismatch:
+Generic hints, chosen by the grade's hint kind (§ Typed answers 3: the first substitution, missing or extra word, else the first mismatch):
 
 - "That's a real word, but not the one we need here." (`realWord`: the token is a known form of a different item)
 - "Check the spelling." (`spelling`: a misspelling, an accent or an unknown word)
@@ -215,13 +217,13 @@ Generic hints, chosen by the first mismatch:
 - "Something's missing." (deletion)
 - "There's an extra word." (insertion)
 
-For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Tapped answers have no mismatch kind, so without an authored hint only the mark is shown. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint and no "Show answer"; a wrong answer goes straight to `done(failed)`.
+For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Tapped answers have no mismatch kind, so without an authored hint only the mark is shown. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint, no "Show answer" and **no feedback** (`docs/06` § Unit check): every graded answer, right or wrong, goes straight to `done(recorded)`. The attempt carries its outcome for scoring and the result screen; nothing is shown and the player moves on.
 
 Beyond the diagram:
 
-- **"Show a hint"** (before the first answer, `docs/06` § Shared player behaviour) shows the exercise's hint and keeps `awaitingFirst`. It is offered only when the exercise has a hint, never in check, final and placement contexts.
+- **"Show a hint"** (before the first answer, `docs/06` § Shared player behaviour) shows the exercise's hint and keeps `awaitingFirst`. It is offered only when the exercise has a hint, never in check, final and placement contexts. Asked again after a miss (`hinted`, `awaitingSecond`), it changes nothing and returns the hint already on screen.
 - **"Try again"** moves `hinted` to `awaitingSecond`; an answer submitted straight from `hinted` counts as the second attempt.
-- **"Skip — can't speak now"** (speaking formats) ends in `done(skipped)` with outcome `skipped`.
+- **"Skip — can't speak now"** (speaking formats) ends in `done(skipped)` with outcome `skipped`, from `awaitingFirst` (attempt 1) or after a miss, from `hinted` or `awaitingSecond` (attempt 2).
 - **"Continue"** after `answerShown` ends in `done(failed)`. Nothing is recorded after `done`.
 
 Each graded answer, reveal and skip gives the caller the machine's part of the `attempt` event: `attemptIndex` (1 before any miss, 2 after it), `outcome`, and `feedbackShown`, the most help the learner had seen when the attempt was recorded: `none`; `hint` once a hint was on screen (asked for with "Show a hint", or after the first miss); `answer` for a reveal. So a second attempt always has `hint`, a first attempt has `hint` only when the learner asked for it, and `revealed` always has `answer`.

@@ -93,7 +93,34 @@ enum PayloadFixtures {
         m.check()
         #expect(m.isDone)
         #expect(m.feedback == nil)  // no feedback until the end of the check
+        #expect(m.movesOnWithoutFeedback)
         #expect(sink.drafts.count == 1 && sink.drafts[0].outcome == .wrong)
+    }
+
+    @Test(arguments: [AttemptContext.check, .final, .placement])
+    func assessmentsShowNothingAfterARightAnswerEither(_ context: AttemptContext) throws {
+        for answer in ["un", "Un"] {
+            let (m, sink) = try model("u02.l1.ex01", context: context)
+            m.response = answer
+            m.check()
+            #expect(m.isDone)
+            #expect(m.machine.state == .done(.recorded))
+            #expect(m.feedback == nil)
+            #expect(m.movesOnWithoutFeedback)
+            #expect(sink.drafts.map(\.outcome) == [.correct])
+        }
+        let (almost, sink) = try model("u02.l1.ex04", context: context)
+        almost.response = "una cornetto"  // the near miss is almost: still no correction shown
+        almost.check()
+        #expect(almost.feedback == nil)
+        #expect(sink.drafts.map(\.outcome) == [.almost])
+    }
+
+    @Test func practiceAlwaysShowsFeedback() throws {
+        let (m, _) = try model("u02.l1.ex01")
+        m.response = "un"
+        m.check()
+        #expect(!m.movesOnWithoutFeedback)
     }
 
     @Test func sayItGradesTheTranscriptUnderSpeak() throws {
@@ -105,6 +132,22 @@ enum PayloadFixtures {
         #expect(d.targets.first?.skill == .speak)
         #expect(RatingPolicy.rating(format: d.format, outcome: .wrong, mode: d.mode, attemptIndex: 1, context: .lesson)
             == nil)  // a failed spoken answer never becomes a lapse
+    }
+
+    @Test func aSpokenMissShowsWhatWasHeardNotSomethingMissing() throws {
+        let (m, sink) = try model("u02.l1.ex04", canSpeak: true)
+        m.submitSpoken(SpeechResult(transcript: "Un caffè", alternatives: [], confidence: 0.9))
+        #expect(sink.drafts.first?.outcome == .wrong)
+        let f = try #require(m.feedback)
+        #expect(f.tone == .hint)
+        #expect(f.headline == "Not quite.")
+        #expect(f.detail == "I heard: “Un caffè”")
+        // A typed retry clears it.
+        m.tryAgain()
+        m.response = "una cornetto"
+        m.check()
+        #expect(m.lastHeard == nil)
+        #expect(sink.drafts.map(\.mode) == [.spoken, .typed])
     }
 
     @Test func clozeHasNoSayIt() throws {

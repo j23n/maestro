@@ -9,11 +9,14 @@ import Foundation
 ///       │                     └─▶ awaitingSecond ──correct/correctWithNote/almost──▶ done(successAfterHint)
 ///       │                                        ──wrong──▶ answerShown: answer + one-line rule ──▶ done(failed)
 ///       └── "Show answer" (any time) ──▶ answerShown (outcome revealed)
+///
+/// check, final, placement: awaitingFirst ──any outcome──▶ done(recorded)     (nothing shown)
 /// ```
 ///
 /// Tapped formats run the same machine: a wrong first choice is marked (`markedWrongChoices`), the hint is shown
-/// and one more choice is allowed. In check, final and placement contexts there is one attempt, no hint and no
-/// "Show answer". Every graded answer returns the `attempt` event fields the machine decides.
+/// and one more choice is allowed. In check, final and placement contexts there is one attempt, no hint, no "Show
+/// answer" and no feedback: every answer ends in `done(recorded)`, whatever its outcome (docs/06 § Unit check).
+/// Every graded answer returns the `attempt` event fields the machine decides.
 public struct FeedbackMachine: Sendable, Hashable {
     /// `attempt.feedbackShown`: the most help the learner had seen when the attempt was recorded — `hint` once a
     /// hint was on screen (asked for with "Show a hint", or after a first miss), `answer` when the answer was
@@ -56,6 +59,9 @@ public struct FeedbackMachine: Sendable, Hashable {
         case failed
         /// "Skip — can't speak now" (speaking formats).
         case skipped
+        /// Check, final and placement: the answer was recorded and nothing is shown; the learner moves on. Its
+        /// outcome is in the returned `AttemptRecord` (and `lastAnswer`), for scoring and the result screen.
+        case recorded
     }
 
     /// Why the answer is on screen.
@@ -122,10 +128,12 @@ public struct FeedbackMachine: Sendable, Hashable {
     }
 
     /// "Show a hint" before answering. Returns the hint to show, or nil when there is none or it isn't allowed.
+    /// After a miss it changes nothing and returns the hint already on screen (nil when there is none).
     public mutating func requestHint() -> Hint? {
-        guard !isSingleAttempt, let exerciseHint else { return nil }
+        guard !isSingleAttempt else { return nil }
         switch state {
         case .awaitingFirst:
+            guard let exerciseHint else { return nil }
             hintRequested = true
             return .exercise(exerciseHint)
         case .hinted(let hint), .awaitingSecond(let hint):
@@ -148,16 +156,16 @@ public struct FeedbackMachine: Sendable, Hashable {
         case .awaitingFirst:
             lastAnswer = answer
             let record = AttemptRecord(attemptIndex: 1, outcome: answer.outcome, feedbackShown: shownBeforeFirst)
+            if isSingleAttempt {
+                state = .done(.recorded)
+                return record
+            }
             switch answer.outcome {
             case .correct, .correctWithNote: state = .done(.success)
             case .almost: state = .done(.successWithCorrection)
             default:
-                if isSingleAttempt {
-                    state = .done(.failed)
-                } else {
-                    markWrongChoice(answer)
-                    state = .hinted(hint(for: answer))
-                }
+                markWrongChoice(answer)
+                state = .hinted(hint(for: answer))
             }
             return record
         case .hinted, .awaitingSecond:

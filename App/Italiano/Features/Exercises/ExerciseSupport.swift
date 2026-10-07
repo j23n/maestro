@@ -85,6 +85,10 @@ enum FeedbackCopy {
         }
     }
 
+    /// What speech recognition heard, for a spoken answer (docs/09: it may say "I heard: …", never judge
+    /// pronunciation).
+    static func heard(_ transcript: String) -> String { "I heard: “\(transcript)”" }
+
     static let success = "That's right."
     static let successWithNote = "That's right. Mind the accents."
     static let successWithCorrection = "Almost: just a small slip."

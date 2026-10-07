@@ -44,6 +44,9 @@ import Testing
         #expect(match.heardTokens == ["vorrei", "un", "caffè"])
         #expect(match.foundWords == ["vorrei", "un"])
         #expect(match.answer.outcome == .wrong)
+        // The learner said something else (caffè): no "Something's missing." hint; the UI shows "I heard: …".
+        #expect(match.answer.hintKind == nil)
+        #expect(match.answer.mismatches == [2])
         // The full expansion and the short one both miss cappuccino; the short one has the better ratio.
         #expect(match.expansion.text == "vorrei un cappuccino")
         #expect(match.contentHeard == 1 && match.contentTotal == 2)
