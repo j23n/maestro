@@ -67,7 +67,8 @@ public enum Eligibility {
         var all = Set<ItemSkillPair>()
         for id in step.textIds { all.formUnion(content.text(id)?.requires ?? []) }
         for id in step.exerciseIds { all.formUnion(content.exercise(id)?.requires ?? []) }
-        all.subtract(step.introduces)
+        // Only kinds that introduce at step start can cover their own requirements.
+        if Introductions.via(for: step.kind) != nil { all.subtract(step.introduces) }
         return all.sorted()
     }
 

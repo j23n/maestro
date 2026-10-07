@@ -130,7 +130,7 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 
 `Planner.today(now:)` returns:
 
-- **Review:** the due count = scheduled pairs with `due ≤ end of today` (local day, 04:00 rollover) that have at least one eligible exercise or generated card, capped at what is left of today's review limit (setting, default 60, minus the cards already reviewed today). Also an estimate in minutes (count × the learner's median seconds per card, where each review session gives its active seconds divided by its cards, over the last 50 sessions; default 18 s) and two example items (the first two of the session order).
+- **Review:** the due count = scheduled pairs with `due ≤ end of today` (local day, 04:00 rollover) that have at least one eligible exercise or generated card, capped at what is left of today's review limit (setting, default 60, minus the cards already reviewed today). Also an estimate in minutes (count × the learner's median seconds per card, where each review session gives its active seconds divided by its cards, over the last 50 sessions; default 18 s) and two example items (the first two in session priority order).
 - **New catch-up cards** (after placement): scheduled pairs introduced `via: placement` that have no memory yet, up to 15 a day (placement pairs that got their first memory in a review session that day count against it), in course order.
 - **Continue:** the first incomplete step in the earliest available unit.
 - **This week:** active days this ISO week (a day counts with ≥ 1 completed step or ≥ 5 reviewed cards) against the weekly goal (default 5).

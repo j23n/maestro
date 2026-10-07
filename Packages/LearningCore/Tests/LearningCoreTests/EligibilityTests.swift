@@ -127,6 +127,16 @@ import Testing
         }
     }
 
+    @Test func stepsThatNeverIntroduceCannotCoverTheirOwnRequirements() throws {
+        // A malformed pack lists step_introduces on a practice step: it must not hide what the step needs.
+        let pair = p(C.noun(0, 1), .recall)
+        let step = ContentIndex.Step(id: "u00.l1.step-practice", unitId: "u00", ord: 4, kind: .practice,
+                                     block: [C.ex(0, 2)], introduces: [pair])
+        let entry = Eligibility.enter(step, state: LearnerState(), content: content)
+        #expect(entry.introductions.isEmpty)
+        #expect(entry.missing == [pair])
+    }
+
     @Test func eligibilityOfExercisesAndUnknownTexts() throws {
         let d = TestDevice()
         let exercise = try #require(content.exercise(C.ex(0, 1)))
