@@ -216,7 +216,7 @@ For tapped formats, a wrong first choice is marked, the hint is shown and one mo
 - Each check exercise has a `score` (default 1). In check, final and placement contexts, `correct` and `correctWithNote` earn the full score, `almost` earns half, and anything else earns zero. Talk and writing earn `score × found/required` (capped at `score`), and conversation earns `score × goals completed / goals`.
 - Section score = earned / possible. Overall = total earned / total possible.
 - **Passed** = overall ≥ 0.70 **and** every section ≥ 0.50 (Q11 default). A section is excluded, and flagged on the result screen, when the device can't do it (speaking with no speech recognition, or speaking switched off).
-- **Can-do reached** when at least ⌈2/3 × n⌉ of its n tagged check exercises earned their full score.
+- **Can-do reached** when at least ⌈2/3 × n⌉ of its n tagged check exercises earned their full score. Exercises in an excluded section don't count towards n.
 - **Failed check:** the primary targets of wrong items (those whose check answer earned nothing: `wrong`, `revealed` or `skipped`) become `focus_items` for 3 days from the check's completion (reviewed first, § Review session builder), and the result screen offers a retake from the next day. The next unit still unlocks (ADR-16).
 - **Retakes:** `unit_progress.check_score` keeps the **best** score; `check_passed` is true once any attempt passed. Can-dos reached are the union over attempts.
 
@@ -224,7 +224,7 @@ For tapped formats, a wrong first choice is marked, the hint is shown and one mo
 
 1. Offered in onboarding when the learner says they know some Italian.
 2. Blocks for Units 1–8, five items each (`content/assessments/placement.yaml`, compiled into `assessments`): two vocabulary (recall or choice), two grammar (cloze) and one listening (choice).
-3. Start with the Unit 1 block. If a block scores ≥ 4/5, go to the next; otherwise stop. The start unit is the first block that scored below 4, or Unit 9 if all eight blocks pass.
+3. Start with the Unit 1 block. If a block scores ≥ 4/5, go to the next; otherwise stop. Blocks are scored like a check (`almost` earns half), so a block can score 4.5, and `placementCompleted.blocks[].correct` may be fractional. The start unit is the first block that scored below 4, or Unit 9 if all eight blocks pass.
 4. Write `placementCompleted` and one `introduced` event (via `placement`) for every item in units before the start unit. Those units become `skipped`. Their scheduled pairs enter the **new catch-up** queue (15 a day), so FSRS state is built from real reviews, never invented.
 5. "Start from the beginning" (offered at any point) writes `placementCompleted` with `startUnit: u00` and no introductions.
 
