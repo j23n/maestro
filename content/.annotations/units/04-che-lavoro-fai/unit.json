@@ -3,6 +3,9 @@
  "source": "content/units/04-che-lavoro-fai/unit.yaml",
  "strings": [
   {
+   "detections": [
+    {"point": "g:fare-present", "tokens": [2, 2]}
+   ],
    "path": "title.it",
    "pending": true,
    "ref": "u04",
@@ -11,7 +14,7 @@
    "tokens": [
     {"analyses": ["che CON", "che DET-WH:f+p", "che DET-WH:f+s", "che DET-WH:m+p", "che DET-WH:m+s", "che WH-CHE"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "che", "span": [0, 3], "surface": "Che", "trailing": " "},
     {"analyses": ["lavorare VER:ind+pres+1+s", "lavoro NOUN-M:s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [4, 10], "surface": "lavoro", "trailing": " "},
-    {"analyses": ["fare CAU:ind+pres+2+s", "fare VER:impr+pres+2+s", "fare VER:ind+pres+2+s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "fare", "span": [11, 14], "surface": "fai"},
+    {"analyses": ["fare CAU:ind+pres+2+s", "fare VER:impr+pres+2+s", "fare VER:ind+pres+2+s"], "detections": ["g:fare-present"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "fare", "span": [11, 14], "surface": "fai"},
     {"kind": "punct", "span": [14, 15], "surface": "?"}
    ]
   }

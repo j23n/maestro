@@ -4,7 +4,8 @@
  "strings": [
   {
    "detections": [
-    {"point": "g:definite-article", "tokens": [0, 0]}
+    {"point": "g:definite-article", "tokens": [0, 0]},
+    {"point": "g:possessives", "tokens": [1, 1]}
    ],
    "path": "title.it",
    "pending": true,
@@ -13,7 +14,7 @@
    "text": "La mia giornata",
    "tokens": [
     {"analyses": ["la ART-F:s"], "detections": ["g:definite-article"], "item": "g:definite-article", "kind": "word", "lemma": "la", "span": [0, 2], "surface": "La", "trailing": " "},
-    {"analyses": ["mia PRO-POSS-F-S", "mio DET-POSS:f+s"], "flags": ["pending", "unresolved"], "kind": "word", "span": [3, 6], "surface": "mia", "trailing": " "},
+    {"analyses": ["mia PRO-POSS-F-S", "mio DET-POSS:f+s"], "detections": ["g:possessives"], "flags": ["pending", "unresolved"], "kind": "word", "span": [3, 6], "surface": "mia", "trailing": " "},
     {"analyses": ["giornata NOUN-F:s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "giornata", "span": [7, 15], "surface": "giornata"}
    ]
   }
