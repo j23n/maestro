@@ -78,11 +78,11 @@ The annotator (`docs/04` § Annotation) tokenises exactly these; the token array
 
 - **Texts:** `title.it`, every line's `it`, and every string of a real-world `layout` except `type`, `style` and values listed in `ignore`.
 - **Titles:** unit, lesson and conversation `title.it`.
-- **Exercises:** `prompt_it`, `context_it`; cloze `text` (once per gap expansion, gap filled in); `say` (dictation, repeat, conversation nodes); sentence-building `tiles`, `distractors` and `answer` orders; `choice` options by the rule above; the left side of `match` pairs; conversation `help`; talk and writing `model`; writing `fields[].label_it`; every expansion of `answer` (recall), `accept` and `points[].accept` / `fields[].accept` patterns. English fields end in `_en` or are `en`, `hint`, `rule`, `options` of comprehension questions and `glosses`.
+- **Exercises:** `prompt_it`, `context_it`; cloze `text` (once per gap expansion, gap filled in); `say` (dictation, repeat, conversation nodes); sentence-building `tiles`, `distractors` and `answer` orders; `choice` options by the rule above; the left side of `match` pairs; conversation `help`; talk and writing `model`; writing `fields[].label_it`; every expansion of `answer` (recall), `accept`, `points[].accept` / `fields[].accept` and near-miss `answer` patterns (near-misses only leniently, as wrong answers: never gated). English fields end in `_en` or are `en`, `hint`, `rule`, `options` of comprehension questions and `glosses`.
 - **Sound pairs:** `pair` and `word` are listening material: resolved like any word and flagged `sound`; a word without an item is fine when the exercise's `glosses` explain it (*eco*, *pena*). `play` repeats a `pair` word.
 - **Notes:** the `*…*` fragments of `p`, `tip` and `intro.text_en` (endings such as `*-o*` are skipped), `table.rows` cells (`columns` are English headers), and `examples` given as inline strings instead of line IDs.
 - **Items:** `recall_answer` patterns.
-- **Not annotated:** near-miss `answer` patterns (deliberately wrong; parsed and checked against the 512 limit only), countries (onboarding data that fills `{ME.*}` slots) and the story bible.
+- **Not annotated:** countries (onboarding data that fills `{ME.*}` slots) and the story bible.
 
 ### Unit-level steps
 

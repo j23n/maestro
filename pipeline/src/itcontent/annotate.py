@@ -23,7 +23,9 @@ Which strings are Italian (docs/06 per format; the rules this module settles are
   skipped), `table.rows` cells (`columns` are English headers), and `examples` that are inline strings rather than
   line IDs;
 - items: `recall_answer` patterns;
-- *near-miss `answer` patterns are parsed (errors, 512 limit) but not annotated: they are deliberately wrong Italian.
+- *near-miss `answer` patterns (exercise and conversation-node `near`) are annotated like an accepted pattern's other
+  expansions, never as a model answer: they are often deliberately wrong (`una cornetto`), so an unknown token is
+  fine there (a warning only without any Morph-it! analysis) and nothing about them is gated.
 
 Model answers (first expansion of `answer`, a cloze gap, the first `accept` pattern of each intent; `help`; `model`;
 the first sentence-building order) and every other string are strict; an accepted pattern's other expansions are
@@ -157,13 +159,6 @@ class Collector:
                 )
             )
 
-    def check_pattern(self, path: PathT, pattern: Any) -> None:
-        if isinstance(pattern, str):
-            try:
-                expand(pattern)
-            except PatternError as exc:
-                self.problems.append(Problem(path, f"pattern {pattern!r}: {exc}"))
-
     def cloze(self, path: PathT, text: Any, pos: Position, ref: str | None) -> None:
         if not isinstance(text, str):
             return
@@ -273,7 +268,7 @@ class Collector:
         self.plain((*base, "context_it"), "context", ex.get("context_it"), pos, ref=eid)
         for j, near in enumerate(ex.get("near") or []):
             if isinstance(near, dict):
-                self.check_pattern((*base, "near", j, "answer"), near.get("answer"))
+                self.pattern((*base, "near", j, "answer"), "near", near.get("answer"), pos, eid, model_first=False)
         if fmt == "cloze":
             self.cloze((*base, "text"), ex.get("text"), pos, eid)
         elif fmt == "recall":
@@ -318,7 +313,9 @@ class Collector:
                         self.pattern((*npath, "expect", j, "accept", a), "accept", pat, pos, nref, model_first=a == 0)
                 for j, near in enumerate(node.get("near") or []):
                     if isinstance(near, dict):
-                        self.check_pattern((*npath, "near", j, "answer"), near.get("answer"))
+                        self.pattern(
+                            (*npath, "near", j, "answer"), "near", near.get("answer"), pos, nref, model_first=False
+                        )
         if fmt in ("talk", "writing"):
             self.plain((*base, "model"), "model", ex.get("model"), pos, ref=eid)
             for j, point in enumerate(ex.get("points") or []):

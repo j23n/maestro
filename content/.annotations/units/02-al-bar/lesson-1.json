@@ -599,6 +599,23 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "una",
+   "of": 1,
+   "path": "steps[3].block[0].near[0].answer",
+   "pattern": "una",
+   "ref": "u02.l1.ex01",
+   "role": "near",
+   "text": "una",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [1, 1]}
    ],
    "expansion": 0,
@@ -623,6 +640,23 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un",
+   "of": 1,
+   "path": "steps[3].block[1].near[0].answer",
+   "pattern": "un",
+   "ref": "u02.l1.ex02",
+   "role": "near",
+   "text": "un",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
    "expansion": 0,
@@ -641,6 +675,40 @@
     {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [12, 15], "surface": "una", "trailing": " "},
     {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [16, 24], "surface": "spremuta"},
     {"kind": "punct", "span": [24, 25], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "una",
+   "of": 1,
+   "path": "steps[3].block[2].near[0].answer",
+   "pattern": "una",
+   "ref": "u02.l1.ex03",
+   "role": "near",
+   "text": "una",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un",
+   "of": 1,
+   "path": "steps[3].block[2].near[1].answer",
+   "pattern": "un",
+   "ref": "u02.l1.ex03",
+   "role": "near",
+   "text": "un",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un"}
    ]
   },
   {
@@ -692,6 +760,24 @@
     {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
    "expansion": 0,
+   "model": false,
+   "norm": "una cornetto",
+   "of": 1,
+   "path": "steps[3].block[3].near[0].answer",
+   "pattern": "una cornetto",
+   "ref": "u02.l1.ex04",
+   "role": "near",
+   "text": "una cornetto",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [4, 12], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
    "focus": [1],
    "model": true,
    "norm": "un caffè",
@@ -704,6 +790,24 @@
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
     {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "una caffè",
+   "of": 1,
+   "path": "steps[3].block[4].near[0].answer",
+   "pattern": "una caffè",
+   "ref": "u02.l1.ex05",
+   "role": "near",
+   "text": "una caffè",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [4, 9], "surface": "caffè"}
    ]
   },
   {
@@ -745,6 +849,45 @@
     {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
     {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "d'"},
     {"analyses": ["arancia NOUN-F:s"], "item": "w:arancia", "kind": "word", "lemma": "arancia", "span": [15, 22], "surface": "arancia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un spremuta d'arancia",
+   "of": 2,
+   "path": "steps[3].block[5].near[0].answer",
+   "pattern": "un spremuta( d'arancia)",
+   "ref": "u02.l1.ex06",
+   "role": "near",
+   "text": "un spremuta d'arancia",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [3, 11], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [12, 14], "surface": "d'"},
+    {"analyses": ["arancia NOUN-F:s"], "item": "w:arancia", "kind": "word", "lemma": "arancia", "span": [14, 21], "surface": "arancia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "un spremuta",
+   "of": 2,
+   "path": "steps[3].block[5].near[0].answer",
+   "pattern": "un spremuta( d'arancia)",
+   "ref": "u02.l1.ex06",
+   "role": "near",
+   "text": "un spremuta",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [3, 11], "surface": "spremuta"}
    ]
   },
   {
@@ -948,6 +1091,20 @@
     {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [3, 9], "surface": "vorrei", "trailing": " "},
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [10, 12], "surface": "un", "trailing": " "},
     {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [13, 23], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "amico",
+   "of": 1,
+   "path": "steps[3].block[8].near[0].answer",
+   "pattern": "amico",
+   "ref": "u02.l1.ex09",
+   "role": "near",
+   "text": "amico",
+   "tokens": [
+    {"analyses": ["amico NOUN-M:s"], "item": "w:amico", "kind": "word", "lemma": "amico", "span": [0, 5], "surface": "amico"}
    ]
   },
   {
@@ -1199,6 +1356,37 @@
   },
   {
    "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "e",
+   "of": 1,
+   "path": "steps[3].mix[0].near[0].answer",
+   "pattern": "e",
+   "ref": "u02.l1.ex15",
+   "role": "near",
+   "text": "e",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "sei",
+   "of": 1,
+   "path": "steps[3].mix[0].near[1].answer",
+   "pattern": "sei",
+   "ref": "u02.l1.ex15",
+   "role": "near",
+   "text": "sei",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "sei"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
    "expansion": 0,
@@ -1272,6 +1460,42 @@
    "tokens": [
     {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
     {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "e lei",
+   "of": 1,
+   "path": "steps[3].mix[2].near[0].answer",
+   "pattern": "e lei",
+   "ref": "u02.l1.ex18",
+   "role": "near",
+   "text": "e lei",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "lei"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un",
+   "of": 1,
+   "path": "steps[3].mix[3].near[0].answer",
+   "pattern": "un",
+   "ref": "u02.l1.ex19",
+   "role": "near",
+   "text": "un",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un"}
    ]
   },
   {
@@ -1390,6 +1614,20 @@
    "text": "scusi",
    "tokens": [
     {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusa",
+   "of": 1,
+   "path": "steps[3].mix[6].near[0].answer",
+   "pattern": "scusa",
+   "ref": "u02.l1.ex26",
+   "role": "near",
+   "text": "scusa",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa"}
    ]
   },
   {
@@ -2877,6 +3115,66 @@
     {"kind": "punct", "span": [12, 13], "surface": ",", "trailing": " "},
     {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci"},
     {"kind": "punct", "span": [25, 26], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ecco grazie ciao",
+   "of": 4,
+   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "pattern": "(ecco )(grazie )ciao",
+   "ref": "u02.l1.ex25/n3",
+   "role": "near",
+   "text": "ecco grazie ciao",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [12, 16], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ecco ciao",
+   "of": 4,
+   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "pattern": "(ecco )(grazie )ciao",
+   "ref": "u02.l1.ex25/n3",
+   "role": "near",
+   "text": "ecco ciao",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [5, 9], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie ciao",
+   "of": 4,
+   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "pattern": "(ecco )(grazie )ciao",
+   "ref": "u02.l1.ex25/n3",
+   "role": "near",
+   "text": "grazie ciao",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [7, 11], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "ciao",
+   "of": 4,
+   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "pattern": "(ecco )(grazie )ciao",
+   "ref": "u02.l1.ex25/n3",
+   "role": "near",
+   "text": "ciao",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
    ]
   },
   {

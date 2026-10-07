@@ -39,7 +39,7 @@ The data files are downloaded on demand and cached in CI, never committed; each 
 
 ## Annotation
 
-Every Italian string is annotated: text lines, exercise strings, accepted patterns (each expansion), conversation lines and titles. Which fields hold Italian is listed per format in `docs/06` (§ Which strings are Italian); the module docstring of `itcontent/annotate.py` keeps the same list. Near-miss `answer` patterns are parsed and checked against the 512 limit but not annotated: they are deliberately wrong Italian.
+Every Italian string is annotated: text lines, exercise strings, accepted patterns (each expansion), conversation lines and titles. Which fields hold Italian is listed per format in `docs/06` (§ Which strings are Italian); the module docstring of `itcontent/annotate.py` keeps the same list. Near-miss `answer` patterns are annotated like an accepted pattern's other expansions (never as a model answer, never gated): they are often deliberately wrong Italian.
 
 1. **Tokenise:**
    - Split on whitespace and punctuation.

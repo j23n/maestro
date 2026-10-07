@@ -321,8 +321,10 @@ def test_pattern_and_cloze_entries(result):
     (ex03,) = by["steps[3].block[2].text"]
     assert ex03["text"] == "Giulia è un'amica di Sara." and ex03["gap"] == [2, 2] and ex03["model"] is True
     assert ex03["tokens"][2]["surface"] == "un'"
-    # near-miss answers are not annotated
-    assert not [p for p in by if ".near" in p]
+    # near-miss answers are annotated leniently, never as model answers
+    near = by["steps[3].block[3].near[0].answer"]
+    assert [(e["role"], e["model"], e["text"]) for e in near] == [("near", False, "una cornetto")]
+    assert all(e["model"] is False for p, es in by.items() if ".near" in p for e in es)
     # Italian choice options (ex17) yes, English comprehension options (q1) no
     assert "steps[3].mix[1].options[0]" in by and not [p for p in by if p.startswith("steps[1].questions")]
     # note fragments, cells; the *-o* ending is skipped
