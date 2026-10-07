@@ -1,0 +1,4 @@
+# Invalid: not YAML at all (an unclosed flow mapping).
+id: u03.l1
+title: {it: "La foto", en: "The photo"
+review: {status: draft, by: null, date: null, hash: null}

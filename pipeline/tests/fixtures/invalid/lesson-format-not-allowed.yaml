@@ -1,0 +1,13 @@
+# Invalid: a sounds step holds sound-pair exercises only (docs/06 § 10).
+id: u03.l1
+title: {it: "La foto", en: "The photo"}
+review: {status: draft, by: null, date: null, hash: null}
+steps:
+  - kind: sounds
+    id: u03.l1.step-sounds
+    exercises:
+      - id: u03.l1.ex01
+        format: repeat
+        targets: [{item: s:double-consonants, skill: speak}]
+        tags: [sy:ss.double-consonants]
+        say: "Ecco un cappuccino."

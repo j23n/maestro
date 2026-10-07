@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/review-file.schema.json",
+  "title": "Review file (review-<scope>-<date>.json; filed unchanged in reviews/inbox/)",
+  "description": "docs/04 § Content review loop › The review file. Written by the review page (M1.3) and the app's review mode (M6.10); imported by content review-import (M1.13). `files` maps each reviewed file to the approval hash of the version shown.",
+  "type": "object",
+  "required": ["format", "reviewer", "channel", "scope", "created", "files", "comments"],
+  "properties": {
+    "format": {"const": 1},
+    "reviewer": {"type": "string"},
+    "channel": {"enum": ["page", "app"], "title": "review channel"},
+    "scope": {"$ref": "#/$defs/scope"},
+    "created": {"type": "string", "format": "date-time"},
+    "files": {"$ref": "#/$defs/fileHashes"},
+    "comments": {"type": "array", "items": {"$ref": "#/$defs/comment"}},
+    "signoff": {
+      "type": ["object", "null"],
+      "required": ["name", "at", "files"],
+      "properties": {
+        "name": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "at": {"type": "string", "format": "date-time"},
+        "files": {"$ref": "#/$defs/fileHashes"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "scope": {
+      "type": "string",
+      "pattern": "^(?:specs|u\\d{2})$",
+      "x-message": "'{value}' is not a review scope (specs or uNN)"
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^content/[^\\s]+\\.yaml$",
+      "x-message": "'{value}' is not a content file path like content/units/02-al-bar/lesson-1.yaml"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "x-message": "'{value}' is not an approval hash (sha256 hex, docs/04 § Approval hash)"
+    },
+    "fileHashes": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/path"},
+      "additionalProperties": {"$ref": "#/$defs/hash"}
+    },
+    "commentFields": {
+      "description": "The fields of one comment, shared with the ledger (review-ledger.schema.json).",
+      "properties": {
+        "id": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "target": {"$ref": "common.schema.json#/$defs/nonEmptyString"},
+        "file": {"$ref": "#/$defs/path"},
+        "quote": {"type": ["string", "null"]},
+        "verdict": {"enum": ["ok", "change", "question"], "title": "verdict"},
+        "category": {
+          "type": ["string", "null"],
+          "pattern": "^[a-z][a-z-]*$",
+          "x-message": "'{value}' is not a category key such as naturalness or answer-key"
+        },
+        "comment": {"type": ["string", "null"]},
+        "suggestion": {"type": ["string", "null"]},
+        "response": {"type": ["string", "null"]},
+        "at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "comment": {
+      "type": "object",
+      "required": ["id", "target", "file", "verdict", "at"],
+      "$ref": "#/$defs/commentFields",
+      "properties": {
+        "id": true,
+        "target": true,
+        "file": true,
+        "quote": true,
+        "verdict": true,
+        "category": true,
+        "comment": true,
+        "suggestion": true,
+        "response": true,
+        "at": true
+      },
+      "additionalProperties": false
+    }
+  }
+}

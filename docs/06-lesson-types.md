@@ -33,6 +33,8 @@ The MVP has **17 learning types and 3 assessments**. In the code they map onto t
 
 Other step kinds: `opener` (unit start: episode and can-dos, `Unit.png`), `use` (the lesson's closing mini-task: one short conversation or a spoken recall), `sounds` (holds sound-pair exercises), `practice` (a block, then a mix) and the task steps `conversation`, `talk`, `writing` and `relay` (one exercise each).
 
+Which formats each container holds (the schemas in `schemas/` enforce it): story questions are `choice`; listening and reading steps hold `choice`, `true-false` and `match`; `sounds` holds `sound-pair`; `use` holds one `conversation` or `recall`; `practice` holds any format except `conversation`, `talk`, `writing` and `relay`; a task holds its conversations, talk, writing and relay; placement holds `cloze`, `recall`, `sentence-building`, `dictation`, `choice`, `true-false` and `match`; unit checks and the final check hold any format. Unit-level kinds (`opener`, `check`, …) are generated, never authored in a lesson.
+
 Design references are in `design/screens/`. Their **sample text is placeholder** and predates the final syllabus (for example 8 units, *c'è*, *nel*); copy layout, never text.
 
 ## Shared lesson-player behaviour
@@ -372,7 +374,7 @@ These three are used inside many lesson types (story questions, listening, readi
     end: {say: "Tre euro, grazie. Buona giornata!", en: "Three euros, thanks. Have a good day!", final: true}
 ```
 
-- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders).
+- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`.
 - **Layout:** follows `Dialogue.png`. The character's name is in small caps over their line; the learner's turns are labelled **YOU** in the accent colour. On regular width, the goals checklist and "Stuck? You could say:" help chips sit in the right column. Bottom bar: **Type instead**, the mic (primary), **Hear Giulia again**. **Show English** toggles translations. On iPhone the goals collapse above the transcript.
 - **Turn matching:** typed turns use the typed grader (accepted if `correct`, `correctWithNote` or `almost`); spoken turns use the transcript matcher.
 - **First miss:** show the matching `near` hint, else `hint_en`, and the help chips. **Second miss:** "You could say: …" — the learner repeats or types it, or taps Continue — and the conversation follows the first intent's `next`.
@@ -427,6 +429,7 @@ These three are used inside many lesson types (story questions, listening, readi
   model: "Caro Tom, …"
 ```
 
+- `kind: form` needs `fields`; every other kind is free text and needs `words`, `points`, `pass` (at most the number of points) and `model`.
 - **Forms** render as an Italian form with per-field checks.
 - **Free text** gets a word counter, the checklist and accent keys.
 - **Feedback** shows the word count, the points found, spelling suggestions for unknown forms close to known ones, and the model answer.
@@ -446,7 +449,7 @@ These three are used inside many lesson types (story questions, listening, readi
 ```
 
 - A friend's message bubble (in English) sits above the Italian source; the learner answers in English.
-- Answer types: `time`, `price`, `number`, `text` (`accept: [...]`). No FSRS.
+- Answer types: `time` (`value: "15:30"`), `price` and `number` (a numeric `value`), `text` (`accept: [...]`). No FSRS.
 - IDs: `relay.friend`, `relay.source`, `relay.answer`.
 
 ### 16 · Fluency replay (step `fluency`)

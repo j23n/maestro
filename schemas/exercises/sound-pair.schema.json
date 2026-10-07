@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/exercises/sound-pair.schema.json",
+  "title": "sound-pair exercise",
+  "description": "docs/06 § 10. which-word plays one word of `pair`; single-or-double plays `word` and expects `answer`.",
+  "type": "object",
+  "required": ["id", "format", "targets", "tags", "question"],
+  "properties": {
+    "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
+    "format": {"const": "sound-pair"},
+    "targets": {"$ref": "../common.schema.json#/$defs/targets"},
+    "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "source": {"$ref": "../common.schema.json#/$defs/source"},
+    "question": {"enum": ["which-word", "single-or-double"], "title": "sound-pair question"},
+    "pair": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 1}},
+    "play": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "glosses": {"type": "object", "additionalProperties": {"type": "string"}},
+    "word": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+    "answer": {"enum": ["single", "double"], "title": "single-or-double answer"},
+    "tip_en": {"type": "string"},
+    "hint": {"type": "string"},
+    "score": {"$ref": "../common.schema.json#/$defs/score"}
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {"properties": {"question": {"const": "which-word"}}, "required": ["question"]},
+      "then": {"required": ["pair", "play"]}
+    },
+    {
+      "if": {"properties": {"question": {"const": "single-or-double"}}, "required": ["question"]},
+      "then": {"required": ["word", "answer"]}
+    }
+  ]
+}

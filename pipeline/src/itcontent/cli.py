@@ -27,11 +27,13 @@ def version() -> None:
 
 
 @app.command()
-def lint() -> None:
+def lint(
+    as_json: bool = typer.Option(False, "--json", help="Print the findings as JSON instead of one line each."),
+) -> None:
     """YAML parse, JSON Schemas, ID formats, references, approval hashes, review ledgers."""
     from itcontent.lint import run_lint
 
-    sys.exit(run_lint())
+    sys.exit(run_lint(echo=typer.echo, as_json=as_json))
 
 
 if __name__ == "__main__":

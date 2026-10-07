@@ -1,0 +1,12 @@
+# Invalid: `to` and `register` go together on a line (docs/03 § Texts); this line has a register but no addressee.
+id: u03.l1
+title: {it: "La foto", en: "The photo"}
+review: {status: draft, by: null, date: null, hash: null}
+steps:
+  - kind: story
+    id: u03.l1.step-story
+    text:
+      id: u03.l1.story
+      kind: story
+      lines:
+        - {speaker: ch:marco, register: lei, it: "Buongiorno!", en: "Good morning!"}

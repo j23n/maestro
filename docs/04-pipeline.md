@@ -229,7 +229,21 @@ A `Review` build (dev pack with drafts, `ITA_REVIEW_MODE = YES`, no sync or tele
 }
 ```
 
-A `target` is any ID from `docs/03` (item, text line `<textId>#n`, exercise, conversation node `<exerciseId>/<nodeId>`, note, step) or a path into a spec file (`u02.can_do[1]`, `ch:giulia`). `response` holds the learner answer behind a "This should be accepted" comment. `signoff` is `{name, at, files: {path: hash}}`.
+A `target` is any ID from `docs/03` (item, text line `<textId>#n`, exercise, conversation node `<exerciseId>/<nodeId>`, note, step) or a path into a spec file (`u02.can_do[1]`, `ch:giulia`). `response` holds the learner answer behind a "This should be accepted" comment. `signoff` is `{name, at, files: {path: hash}}`. `verdict` is `ok | change | question`; `category` is a lowercase key (`naturalness`, `answer-key`, …). Schema: `schemas/review-file.schema.json`.
+
+The ledger `reviews/<scope>.yaml` (`schemas/review-ledger.schema.json`) keeps every comment of every imported review file, as filed, plus three fields:
+
+```yaml
+scope: u02
+comments:
+  - id: 6c1f…                                  # … every field of the comment as filed (target, file, quote, verdict, …)
+    review: reviews/inbox/review-u02-2026-10-20.json   # the review file it came from
+    hash: <approval hash of the version the teacher saw>  # optional, from the review file's `files`
+    stale: false                               # made on an older version of the file
+    resolution: {status: open, note: null, commit: null}   # open | fixed | answered | declined | owner
+```
+
+`answered`, `declined` and `owner` resolutions need a `note` for the teacher.
 
 ### 4 · Back into the project
 

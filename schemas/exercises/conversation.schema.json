@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/exercises/conversation.schema.json",
+  "title": "conversation exercise",
+  "description": "docs/06 § 12. No targets: turns update no FSRS state. lint checks that `start`, every `next` and every `goal` resolve.",
+  "type": "object",
+  "required": ["id", "format", "with", "register", "title", "tags", "goals", "start", "nodes"],
+  "properties": {
+    "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
+    "format": {"const": "conversation"},
+    "with": {"type": "string", "format": "id:character"},
+    "register": {"$ref": "../common.schema.json#/$defs/register"},
+    "title": {"$ref": "../common.schema.json#/$defs/titleEn"},
+    "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "source": {"$ref": "../common.schema.json#/$defs/source"},
+    "goals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "en"],
+        "properties": {
+          "id": {"$ref": "../common.schema.json#/$defs/localId"},
+          "en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "start": {"$ref": "../common.schema.json#/$defs/localId"},
+    "nodes": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"format": "id:conversation_node"},
+      "additionalProperties": {"$ref": "#/$defs/node"}
+    },
+    "score": {"$ref": "../common.schema.json#/$defs/score"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["say", "en"],
+      "properties": {
+        "say": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+        "en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
+        "expect": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/intent"}},
+        "help": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "hint_en": {"type": "string"},
+        "near": {"$ref": "../common.schema.json#/$defs/near"},
+        "register": {"$ref": "../common.schema.json#/$defs/register"},
+        "final": {"type": "boolean"}
+      },
+      "additionalProperties": false,
+      "if": {"properties": {"final": {"const": true}}, "required": ["final"]},
+      "then": {
+        "properties": {
+          "expect": {"not": {}, "x-message": "a final node has no expect"},
+          "help": {"not": {}, "x-message": "a final node has no help"}
+        }
+      },
+      "else": {"required": ["expect"], "x-message": "a node needs expect, unless it is final: true"}
+    },
+    "intent": {
+      "type": "object",
+      "required": ["intent", "goal", "accept", "next"],
+      "properties": {
+        "intent": {"$ref": "../common.schema.json#/$defs/localId"},
+        "goal": {"$ref": "../common.schema.json#/$defs/localId"},
+        "accept": {"$ref": "../common.schema.json#/$defs/patterns"},
+        "next": {"$ref": "../common.schema.json#/$defs/localId"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

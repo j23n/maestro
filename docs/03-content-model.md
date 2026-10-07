@@ -163,7 +163,7 @@ Characters (age, role, origin, relationships, facts), places (real or fictional)
 
 ## Unit spec: `units/NN-slug/unit.yaml`
 
-The unit spec is the contract every draft must satisfy. It extends the plan's example; see `content/units/02-al-bar/unit.yaml`. Required keys: `id`, `title {it,en}`, `episode`, `est_hours`, `lessons`, `can_do[]` (`id`, `text`, `scale`, `stretch`, `syllabus[]`), `grammar[]` (`id`, `status`), `chunks`, `items` (`new_words`, `topics`), `recycle_from`, `sounds`, `texts` (story count, word range, new-token maximum, listening kinds, real-world kinds), `tasks` (conversation, talk, writing, relay; `null` where the unit has none), `check` (`items`, `sections`) and `review`. Optional: `arc`, `notes`. The final review `u99` has `check: null` and names its final check in `tasks.final_check` instead.
+The unit spec is the contract every draft must satisfy. It extends the plan's example; see `content/units/02-al-bar/unit.yaml`. Required keys: `id`, `title {it,en}`, `episode`, `est_hours`, `lessons`, `can_do[]` (`id`, `text`, `scale`, `syllabus[]`; optional `stretch: true`), `grammar[]` (`id`, `status`), `chunks`, `items` (`new_words`, `topics`), `recycle_from`, `sounds`, `texts` (story count, word range, new-token maximum, listening kinds, real-world kinds), `tasks` (conversation, talk, writing, relay; `null` where the unit has none), `check` (`items`, `sections`) and `review`. Optional: `arc`, `notes`. The final review `u99` has `check: null` and names its final check in `tasks.final_check` instead.
 
 ## Lesson files: `units/NN-slug/lesson-K.yaml`
 
@@ -264,17 +264,19 @@ Accepted answers (`answer`, cloze gaps `[[…]]`, conversation `accept`, near-mi
 
 ## Review status and approval
 
-Every lesson, task, check, unit spec, items file, `points.yaml`, the syllabus, the story bible and `countries.yaml` carries:
+Every lesson, task, check, unit spec, items file, `points.yaml`, the syllabus, the story bible, `countries.yaml`, `assessments/placement.yaml` and `assessments/final-check.yaml` carries:
 
 ```yaml
 review:
   status: draft                # draft | in-review | approved
   by: null                     # content lead's name, set on approval
-  date: null
+  date: null                   # ISO date, set on approval
   hash: null                   # docs/04 § Approval hash
 ```
 
-Only humans change `review` by running `uv run content approve <file> --by "<name>"` or `content reopen <file>`; the command refuses to run from an agent's shell (`docs/04` § Commands). The PreToolUse hook blocks agent edits to approved files, and `content lint` fails if an approved file's hash no longer matches. The pack build includes only approved content in release mode (`content build --release`); dev builds include drafts and mark them in the app's Debug overlay.
+Only humans change `review` by running `uv run content approve <file> --by "<name>"` or `content reopen <file>`; the command refuses to run from an agent's shell (`docs/04` § Commands). An approved file has all three; any other status has them `null` (the schema checks both). The PreToolUse hook blocks agent edits to approved files, and `content lint` fails if an approved file's hash no longer matches. The pack build includes only approved content in release mode (`content build --release`); dev builds include drafts and mark them in the app's Debug overlay.
+
+Every file type has a JSON Schema in `schemas/` (`lesson.schema.json`, `unit.schema.json`, …, plus `review-file` and `review-ledger`), and each exercise format has its own in `schemas/exercises/`; `content lint` picks the schema from the file's path.
 
 ## Annotation lock files
 
