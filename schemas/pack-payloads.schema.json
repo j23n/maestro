@@ -101,7 +101,7 @@
       "properties": {
         "format": {"const": "cloze"},
         "before": {"$ref": "#/$defs/tokenizedText"},
-        "gap": {"$ref": "#/$defs/pattern", "description": "the whole gap is focus (docs/03)"},
+        "gap": {"$ref": "#/$defs/pattern", "description": "source = the gap content as authored between [[ ]] (`un`); LearningCore parses it with AnswerPattern.clozeGap, which makes the whole gap focus (docs/03)"},
         "after": {"$ref": "#/$defs/tokenizedText"},
         "promptEn": {"$ref": "#/$defs/nullableString"},
         "bank": {"type": ["array", "null"], "items": {"type": "string"}},
