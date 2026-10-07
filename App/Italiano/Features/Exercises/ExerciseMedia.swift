@@ -11,14 +11,18 @@ import Observation
 protocol AudioResolving: Sendable {
     func clip(for id: AudioID) -> AudioClip?
     func timeline(for id: AudioID) -> [TokenTiming]
+    /// The audio of a whole text (`audio_text`, `source` texts, relay sources).
+    func audioID(forText id: TextID) -> AudioID?
 }
 
 struct StaticAudioResolver: AudioResolving {
     var clips: [AudioID: AudioClip] = [:]
     var timelines: [AudioID: [TokenTiming]] = [:]
+    var textAudio: [TextID: AudioID] = [:]
 
     func clip(for id: AudioID) -> AudioClip? { clips[id] }
     func timeline(for id: AudioID) -> [TokenTiming] { timelines[id] ?? [] }
+    func audioID(forText id: TextID) -> AudioID? { textAudio[id] }
 }
 
 /// The exercise-level audio controller: which clip is playing, and how often each was played (the `plays` cap in
@@ -37,6 +41,8 @@ final class ExerciseAudio {
     }
 
     func canPlay(_ id: AudioID?) -> Bool { id.flatMap { resolver.clip(for: $0) } != nil }
+
+    func audioID(forText id: TextID?) -> AudioID? { id.flatMap { resolver.audioID(forText: $0) } }
 
     func isPlaying(_ id: AudioID?) -> Bool { id != nil && current == id && player.isPlaying }
 

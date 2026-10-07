@@ -116,3 +116,24 @@ struct WordPanel: View {
         .accessibilityIdentifier("story.wordPanel")
     }
 }
+
+/// The small speaker button next to an Italian prompt that has audio (44 pt target, accent glyph). Lines without
+/// audio show no button (docs/06 § Shared player behaviour).
+struct SpeakerButton: View {
+    let isPlaying: Bool
+    let action: () -> Void
+    var identifier = "audio.play"
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: isPlaying ? "speaker.wave.3.fill" : "speaker.wave.2")
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundStyle(Color.ds.accent)
+                .frame(width: Tokens.Size.minTouch, height: Tokens.Size.minTouch)
+        }
+        .buttonStyle(.plain)
+        .keyboardShortcut("l", modifiers: .command)
+        .accessibilityLabel(Text(isPlaying ? "Stop" : "Listen"))
+        .accessibilityIdentifier(identifier)
+    }
+}

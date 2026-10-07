@@ -5,7 +5,7 @@ import SwiftUI
 /// buttons below. Success uses the success colour and no mascot unless a note is shown. All feedback text is
 /// announced to VoiceOver. Slides up from the bottom (cross-fades with Reduce Motion).
 struct FeedbackPanel<Buttons: View>: View {
-    enum Tone { case success, hint, answer }
+    typealias Tone = FeedbackTone
 
     let tone: Tone
     let headline: String
@@ -42,6 +42,9 @@ struct FeedbackPanel<Buttons: View>: View {
         }
     }
 }
+
+/// Outside the generic panel so every specialisation shares one type.
+enum FeedbackTone: Sendable, Equatable { case success, hint, answer }
 
 extension AnyTransition {
     /// docs/07 § Accessibility: no sliding panels with Reduce Motion.
