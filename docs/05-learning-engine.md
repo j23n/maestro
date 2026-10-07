@@ -37,6 +37,7 @@ Every learner action is an immutable event (`docs/03` § Learner database). The 
 - **Session:** one continuous visit to an activity (a lesson step sequence, a review session, a check, placement or the final check). It starts when the activity opens, gets a new `sessionId` (UUID), and ends when the learner leaves or finishes the activity, or the app has been in the background for more than 5 minutes. `platform` feeds the sync status line (`docs/08`).
 - **`response`:** the learner's text, at most 200 characters for closed formats and 2,000 for writing and talk transcripts. It syncs with the event (the learner's own work on their own devices). Telemetry keeps only typed answers in closed formats (`docs/12`): `response` is stripped from talk, writing and every spoken answer, and `onboardingCompleted` loses `country`. Speaking recordings are files, not events (`docs/09`).
 - **Targets:** every target of a non-match exercise gets the exercise's outcome; a `match` gives each pair's outcome to that pair's target. Conversation turns carry no targets.
+- **`attemptIndex`, `outcome`, `feedbackShown`** come from the `FeedbackMachine` (§ Stepped feedback). `feedbackShown` is the most help the learner had seen when the attempt was recorded (`hint` for any second attempt and for a first attempt after "Show a hint"; `answer` for a reveal).
 - The reducer ignores unknown event types, so newer clients can add types without breaking older ones.
 
 ## Rating policy (events → FSRS ratings)
@@ -203,12 +204,21 @@ awaitingFirst ──correct/correctWithNote──▶ done(success)        (show 
 Generic hints, chosen by the first mismatch:
 
 - "That's a real word, but not the one we need here." (`realWord`: the token is a known form of a different item)
-- "Check the spelling."
+- "Check the spelling." (`spelling`: a misspelling, an accent or an unknown word)
 - "Check the ending." (`ending`: another form of the expected item)
 - "Something's missing." (deletion)
 - "There's an extra word." (insertion)
 
-For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint and no "Show answer".
+For tapped formats, a wrong first choice is marked, the hint is shown and one more choice is allowed. Tapped answers have no mismatch kind, so without an authored hint only the mark is shown. Mixed-practice errors are never punished in the UI: no scores during practice, no lives. In check, final and placement contexts there is one attempt, no hint and no "Show answer"; a wrong answer goes straight to `done(failed)`.
+
+Beyond the diagram:
+
+- **"Show a hint"** (before the first answer, `docs/06` § Shared player behaviour) shows the exercise's hint and keeps `awaitingFirst`. It is offered only when the exercise has a hint, never in check, final and placement contexts.
+- **"Try again"** moves `hinted` to `awaitingSecond`; an answer submitted straight from `hinted` counts as the second attempt.
+- **"Skip — can't speak now"** (speaking formats) ends in `done(skipped)` with outcome `skipped`.
+- **"Continue"** after `answerShown` ends in `done(failed)`. Nothing is recorded after `done`.
+
+Each graded answer, reveal and skip gives the caller the machine's part of the `attempt` event: `attemptIndex` (1 before any miss, 2 after it), `outcome`, and `feedbackShown`, the most help the learner had seen when the attempt was recorded: `none`; `hint` once a hint was on screen (asked for with "Show a hint", or after the first miss); `answer` for a reveal. So a second attempt always has `hint`, a first attempt has `hint` only when the learner asked for it, and `revealed` always has `answer`.
 
 ## Unit check scoring
 
