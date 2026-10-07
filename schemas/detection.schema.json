@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://italiano.invalid/schemas/detection.schema.json",
+  "title": "Grammar detection rules (content/grammar/detection.yaml)",
+  "description": "docs/03 § Grammar points, docs/04 § Annotation step 5. Engineering-owned (no review block). One rule per grammar point.",
+  "type": "object",
+  "required": ["rules"],
+  "properties": {
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "detect"],
+        "properties": {
+          "id": {"type": "string", "format": "id:grammar"},
+          "detect": {
+            "type": ["string", "array"],
+            "if": {"type": "string"},
+            "then": {"const": "none", "x-message": "detect is a list of {seq: [...]} or the word none"},
+            "else": {
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["seq"],
+                "properties": {
+                  "seq": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/matcher"}}
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "unlock": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["lemmas", "morph"],
+              "properties": {
+                "lemmas": {
+                  "type": ["string", "array"],
+                  "if": {"type": "string"},
+                  "then": {"const": "*", "x-message": "lemmas is a list of lemmas or \"*\" for every verb"},
+                  "else": {"minItems": 1, "items": {"type": "string", "minLength": 1}}
+                },
+                "morph": {"type": "string", "format": "regex"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "note": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

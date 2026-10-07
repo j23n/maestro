@@ -1,0 +1,21 @@
+# Invalid: text line references <textId>#n must name an existing line (the golden story has 22 lines).
+id: u03.l1
+title: {it: "La foto", en: "The photo"}
+review: {status: draft, by: null, date: null, hash: null}
+steps:
+  - kind: note
+    id: u03.l1.step-note
+    note_id: u03.l1.note
+    grammar: [g:possessives]
+    title_en: mio, mia
+    body:
+      - examples: [u02.l1.story#3, u02.l1.story#30]
+  - kind: practice
+    id: u03.l1.step-practice
+    block:
+      - id: u03.l1.ex01
+        format: repeat
+        targets: [{item: w:caffe, skill: speak}]
+        tags: [sy:cefr.phonological-control]
+        source: u02.task.menu#1
+        say: "Un caffè."

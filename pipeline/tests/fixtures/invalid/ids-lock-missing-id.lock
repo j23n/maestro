@@ -1,0 +1,4 @@
+# Released IDs (written by `content build --release`, ADR-14). Test fixture: u02.l1.ex12 was dropped without retiring.
+u02.l1
+u02.l1.ex12
+w:caffe

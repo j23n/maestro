@@ -8,7 +8,7 @@ YAML is loaded with **ruamel.yaml in safe mode (YAML 1.2)**, so Italian `no`, `s
 
 | Command | Does | Fails when |
 |---|---|---|
-| `content lint` | YAML parse, JSON Schema validation (`schemas/*.schema.json`), ID format, references resolve, no duplicates, `ids.lock` stability, **approval hashes**, review ledgers (`reviews/*.yaml`: every comment has a known target and a valid resolution). References to units, lessons, steps, items or sounds that don't exist yet are reported as *pending* (information) when they come from unit specs, the syllabus, the story bible (`switch_at`), `disambiguation.yaml` or `pronunciation.yaml`; a lesson, task or check file referring to something missing is an error | any error |
+| `content lint [--json]` | YAML parse, JSON Schema validation (`schemas/*.schema.json`, chosen by path), ID format and placement (`docs/03` § IDs), references resolve, no duplicates, homograph `~sense` suffixes, `ids.lock` stability and `retired.yaml`, exercise rules a schema can't express (a match's targets per pair, a choice's answer index, conversation graphs, sentence-building tiles), **approval hashes**, review ledgers (`reviews/*.yaml`: every comment has a known target and a valid resolution). References to units, lessons, steps, items, sounds or task conversations that don't exist yet are reported as *pending* (information) when they come from unit specs, the syllabus, the story bible (`switch_at`), `disambiguation.yaml`, `pronunciation.yaml` or an item's `lesson`; a lesson, task or check file referring to something missing is an error, and so is a unit spec naming a task conversation its written `task.yaml` lacks. A ledger comment with an unknown target is an error while it is `open` or `owner`, a warning once resolved (the fix may have removed the target). Output: one line per finding, `error\|warning\|pending: <file> › <path> (line N): <message>`, sorted, then a summary; pending references to the same target from one file are one line. `--json` prints `{summary, findings: [{level, file, path, keys, line, message}]}` | any error |
 | `content annotate [--check]` | tokenise every Italian string; Morph-it! lookup; chunk matching; item resolution; grammar detection; write `content/.annotations/**.json`. `--check` regenerates and diffs | unknown or ambiguous tokens; with `--check`, stale locks |
 | `content check [--unit uNN] [--json]` | automatic checks 1–5 (below); writes `build/reports/check.{json,md}` | any check error (warnings never fail) |
 | `content tts [--unit uNN] [--dry-run]` | render missing audio with Azure, align word timings, assemble texts, encode, fill the cache | Azure errors, alignment failures |
@@ -16,7 +16,7 @@ YAML is loaded with **ruamel.yaml in safe mode (YAML 1.2)**, so Italian `no`, `s
 | `content pack-hash [--pack <path>]` | print the canonical pack hash (§ Pack build) for CI freshness checks | — |
 | `content review-export (--specs \| --unit uNN) [--since]` | the teacher's review page: one self-contained HTML file (`build/review/<scope>/index.html`) with comment boxes and sign-off (§ Content review loop); `--since` shows the resolutions of earlier comments and marks what changed | — |
 | `content review-import <review.json>` | file a review (page or app) into `reviews/inbox/`, add its comments to the ledger `reviews/<scope>.yaml`, flag stale comments, print the worklist | unknown targets; malformed file |
-| `content approve <file> --by "<name>" [--signoff <review.json>]` / `content reopen <file>` | set review status and hash. With `--signoff`, refuses while the ledger has open comments on the file or when the file's hash differs from the hash the teacher signed. **Humans only:** the command refuses when stdin is not a TTY or the `CLAUDECODE` environment variable is set (Claude Code sets it in every shell it runs), and asks the person to type the file name to confirm. A hook also blocks agents from running it | file fails lint or check; open comments; hash mismatch; no TTY; run by an agent |
+| `content approve <file> --by "<name>" [--signoff <review.json>]` / `content reopen <file>` | set review status and hash (`approve`: `approved`, `by`, today's date, `hash`; `reopen`: `in-review`, the rest `null`), rewriting only the `review:` entry. With `--signoff`, refuses while the ledger has open comments on the file or when the file's hash differs from the hash the teacher signed. **Humans only:** the command refuses when stdin is not a TTY or the `CLAUDECODE` environment variable is set (Claude Code sets it in every shell it runs), and asks the person to type the file name (`lesson-1.yaml`, or its repo path) to confirm. A hook also blocks agents from running it | file fails lint or check; file already approved (reopen it first); open comments; hash mismatch; no TTY; run by an agent |
 | `content report [--unit uNN]` | dashboard: new words, encounters, strand split, coverage, budgets, open review comments | — |
 | `content freq <word…>` / `content suggest --topic <t> --unit <u>` | frequency ranks; high-frequency candidates not yet in items (helper for the item graph) | — |
 | `content beta-import <events.jsonl>` | item statistics and rejected typed answers from study telemetry (`build/reports/beta/`) | — |
@@ -178,7 +178,7 @@ The build derives what each text and exercise requires, per skill, from the anno
 
 ## Approval hash
 
-`review.hash` is the sha256 of the file's bytes after normalising line endings to LF and removing the top-level `review:` entry (its line and any indented continuation lines). `content approve` writes it; `content lint` fails when an approved file's hash doesn't match, so any edit to approved content is caught even if the hook was bypassed.
+`review.hash` is the sha256 (lowercase hex) of the file's bytes after normalising line endings to LF and removing the top-level `review:` entry (its line and any indented continuation lines; blank lines and column-0 comments *between* continuation lines belong to the entry, those after it don't). Flow style (`review: {status: draft, …}`) and block style hash alike. `content approve` writes it; `content lint` fails when an approved file's hash doesn't match, so any edit to approved content is caught even if the hook was bypassed.
 
 ## How content gets made (agents draft, people decide)
 
@@ -229,7 +229,21 @@ A `Review` build (dev pack with drafts, `ITA_REVIEW_MODE = YES`, no sync or tele
 }
 ```
 
-A `target` is any ID from `docs/03` (item, text line `<textId>#n`, exercise, conversation node `<exerciseId>/<nodeId>`, note, step) or a path into a spec file (`u02.can_do[1]`, `ch:giulia`). `response` holds the learner answer behind a "This should be accepted" comment. `signoff` is `{name, at, files: {path: hash}}`.
+A `target` is any ID from `docs/03` (item, text line `<textId>#n`, exercise, conversation node `<exerciseId>/<nodeId>`, note, step) or a path into a spec file (`u02.can_do[1]`, `ch:giulia`). `response` holds the learner answer behind a "This should be accepted" comment. `signoff` is `{name, at, files: {path: hash}}`. `verdict` is `ok | change | question`; `category` is a lowercase key (`naturalness`, `answer-key`, …). Schema: `schemas/review-file.schema.json`.
+
+The ledger `reviews/<scope>.yaml` (`schemas/review-ledger.schema.json`) keeps every comment of every imported review file, as filed, plus three fields:
+
+```yaml
+scope: u02
+comments:
+  - id: 6c1f…                                  # … every field of the comment as filed (target, file, quote, verdict, …)
+    review: reviews/inbox/review-u02-2026-10-20.json   # the review file it came from
+    hash: <approval hash of the version the teacher saw>  # optional, from the review file's `files`
+    stale: false                               # made on an older version of the file
+    resolution: {status: open, note: null, commit: null}   # open | fixed | answered | declined | owner
+```
+
+`answered`, `declined` and `owner` resolutions need a `note` for the teacher.
 
 ### 4 · Back into the project
 

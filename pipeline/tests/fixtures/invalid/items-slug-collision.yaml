@@ -1,0 +1,6 @@
+# Invalid: two items whose `it` slugs to the same word (homographs) need a ~sense suffix each (docs/03 § IDs).
+unit: u03
+review: {status: draft, by: null, date: null, hash: null}
+items:
+  - {id: 'w:pesca', it: pesca, pos: noun, gloss: peach, gender: f, plural: pesche, status: P, lesson: u03.l1}
+  - {id: 'w:pesca~fishing', it: pesca, pos: noun, gloss: fishing, gender: f, plural: invariable, status: R, lesson: u03.l1}
