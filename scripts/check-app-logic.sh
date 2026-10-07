@@ -59,7 +59,7 @@ echo "check-app-logic: $n platform-neutral App files, $t test files"
 cmd=(swift build --package-path "$work")
 [ "${1:-}" = "--test" ] && [ "$t" -gt 0 ] && cmd=(swift test --package-path "$work")
 [ "${1:-}" != "--test" ] && [ "$t" -gt 0 ] && cmd=(swift build --build-tests --package-path "$work")
-if out="$("${cmd[@]}" 2>&1)"; then
+if out="$(ITALIANO_ROOT="$root" "${cmd[@]}" 2>&1)"; then
   echo "$out" | grep -E "warning:|✘|passed after|Test run" | sed "s|$work/Sources/Italiano/||; s|$work/Tests/ItalianoTests/||" || true
   echo "App logic OK"
 else

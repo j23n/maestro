@@ -17,7 +17,7 @@ An offline-first SwiftUI app that teaches complete A1 Italian to English speaker
 
 ```
 make bootstrap        # first run: uv sync, git lfs pull, make data, resolve packages
-make test             # fast suite: test-core + test-storage + test-pipeline + check-content
+make test             # fast suite: test-core + test-storage + test-pipeline + check-content + test-app-logic
 make test-core        # swift test --package-path Packages/LearningCore
 make test-storage     # swift test --package-path Packages/Storage
 make test-pipeline    # uv run pytest pipeline

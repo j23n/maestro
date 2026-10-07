@@ -29,7 +29,8 @@ M0.1 creates a skeleton whose targets print "not yet (task Mx.y)" and exit 0 unt
 ```
 make bootstrap       # uv sync, git lfs pull, make data, resolve Swift packages, check tool versions
 make data            # download Morph-it! and the frequency list into pipeline/data/ (checksums in SOURCES.md)
-make test            # test-core + test-storage + test-pipeline + check-content
+make test            # test-core + test-storage + test-pipeline + check-content + test-app-logic
+make test-app-logic  # scripts/check-app-logic.sh --test: App view models, fakes and their tests, on any OS
 make test-core       # swift test --package-path Packages/LearningCore
 make test-storage    # swift test --package-path Packages/Storage
 make test-pipeline   # uv run pytest pipeline

@@ -20,7 +20,7 @@ ADHOC := CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= CODE_SIGN
 
 PACK_FILE := App/Italiano/Resources/Content/content.sqlite
 
-.PHONY: ensure-pack help bootstrap data test test-core test-storage test-pipeline annotate check-content pack mini-pack \
+.PHONY: ensure-pack help bootstrap data test test-app-logic test-core test-storage test-pipeline annotate check-content pack mini-pack \
 	pack-release build-ios build-mac test-app test-ui screenshots lint-guards archive ci
 
 help:
@@ -50,13 +50,17 @@ data:
 # ---------------------------------------------------------------- tests
 
 # Storage (GRDB 7.11.1) builds and tests on Linux too, so it runs everywhere; macOS stays the reference.
-test: test-core test-storage test-pipeline check-content
+test: test-core test-storage test-pipeline check-content test-app-logic
 
 test-core:
 	$(SWIFT) test --package-path Packages/LearningCore
 
 test-storage:
 	$(SWIFT) test --package-path Packages/Storage
+
+# The App's platform-neutral view models, adapters' fakes and their tests, compiled against the packages (any OS).
+test-app-logic:
+	bash scripts/check-app-logic.sh --test
 
 test-pipeline:
 	$(UV) run $(PYPROJECT) pytest pipeline -q
