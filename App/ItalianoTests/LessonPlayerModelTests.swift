@@ -36,6 +36,16 @@ import Testing
         #expect(Set(practice.suffix(2)) == ["u02.l1.ex15", "u02.l1.ex17"])
     }
 
+    @Test func advancingReportsStepChanges() throws {
+        let m = LessonPlayerModel(bundle: try bundle())
+        #expect(m.openingStep == "s0")
+        #expect(m.advance() == .init(completed: "s0", started: "s1"))
+        #expect(m.advance() == .init())  // meet cards → the batch's first exercise, same step
+        while m.currentStep?.id != "s6" { m.advance() }
+        #expect(m.advance() == .init(completed: "s6", started: nil))
+        #expect(m.isFinished && m.advance() == .init())
+    }
+
     @Test func resumeOpensAnUnstartedStepAtItsFirstPage() throws {
         let preview: Set<ExerciseID> = ["u02.l1.step-preview.b1.match", "u02.l1.step-preview.b1.w-caffe",
                                         "u02.l1.step-preview.b1.c-vorrei"]
@@ -58,6 +68,15 @@ import Testing
         #expect(m.isFinished)
     }
 
+    @Test func listeningEndsWithItsTranscript() throws {
+        let listening = try #require(try PayloadFixtures.steps().first { $0.kind == .listening })
+        let b = LessonBundle(lessonID: "u02.l2", unitID: "u02", title: "L2",
+                             steps: [.init(id: "u02.l2.step-listening", title: "Listening", payload: listening)],
+                             exercises: [:])
+        #expect(LessonPlayerModel.flatten(b).map(\.page)
+                    == [.listening("u02.l2.phone", plays: nil), .exercise("u02.l2.ex20"), .transcript("u02.l2.phone")])
+    }
+
     @Test func checksGetASectionPageBeforeTheirExercises() throws {
         let check = try #require(try PayloadFixtures.steps().first { $0.kind == .check })
         let b = LessonBundle(lessonID: "u02.check", unitID: "u02", title: "Check",
@@ -65,6 +84,35 @@ import Testing
         let pages = LessonPlayerModel.flatten(b).map(\.page)
         #expect(pages == [.checkSection(id: "listening", title: "Listening"), .exercise("u02.check.01"),
                           .exercise("u02.check.02")])
+    }
+
+    @Test func glossesComeFromTheTokenThenTheItem() throws {
+        func token(_ s: String, _ kind: TokenKind, item: ItemID? = nil, gloss: String? = nil, flags: Int = 0)
+            -> PackToken
+        {
+            PackToken(surface: s, trailing: " ", kind: kind, itemId: item, gloss: gloss, flags: flags)
+        }
+        let line = TokenizedText(text: "Vorrei un caffè, Marco", lead: "", tokens: [
+            token("Vorrei", .word, item: "c:vorrei", flags: 1), token("un", .word, item: "g:indefinite-article"),
+            token("caffè", .word, item: "w:caffe", gloss: "an espresso", flags: 1), token(",", .punct),
+            token("Marco", .name),
+        ])
+        var b = try bundle()
+        b.texts["u02.l1.story"] = PlayerText(
+            id: "u02.l1.story", title: nil,
+            lines: [PlayerLine(number: 1, speaker: "ch:marco", text: line, english: "I'd like a coffee")],
+            audioID: nil, layout: nil)
+        b.items = [
+            "w:caffe": WordInfo(itemID: "w:caffe", display: "il caffè", partOfSpeech: "noun", gloss: "coffee"),
+            "c:vorrei": WordInfo(itemID: "c:vorrei", display: "vorrei", partOfSpeech: "chunk", gloss: "I'd like",
+                                 note: "Polite: use it to order."),
+        ]
+        let caffe = b.gloss(text: "u02.l1.story", line: 1, token: 2)
+        #expect(caffe?.headword == "il caffè" && caffe?.posAndGloss == "noun · an espresso")
+        #expect(b.gloss(text: "u02.l1.story", line: 1, token: 0)?.note == "Polite: use it to order.")
+        #expect(b.gloss(text: "u02.l1.story", line: 1, token: 4) == nil)  // names aren't glossed
+        #expect(b.gloss(text: "u02.l1.story", line: 2, token: 0) == nil)
+        #expect(b.newWords(in: "u02.l1.story").map(\.itemID) == ["c:vorrei", "w:caffe"])
     }
 
     @Test func everyExampleExerciseGetsAViewModel() throws {

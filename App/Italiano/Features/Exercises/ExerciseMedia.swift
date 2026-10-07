@@ -58,6 +58,15 @@ final class ExerciseAudio {
         return true
     }
 
+    /// Plays a text's audio from the start of a line (tap a story line, docs/06 §2), or from the start when the
+    /// line has no timings.
+    @discardableResult
+    func play(_ id: AudioID?, fromLine line: Int, rate: Double = 1, context: AudioContext = .story) -> Bool {
+        guard let id, play(id, rate: rate, context: context) else { return false }
+        if let ms = ReadAlong.lineStart(line, in: resolver.timeline(for: id)) { player.seek(toMs: ms) }
+        return true
+    }
+
     /// The speaker button: stops the clip if it is the one playing, else plays it.
     func toggle(_ id: AudioID?, rate: Double = 1, context: AudioContext = .exercise) {
         if isPlaying(id) { stop() } else { play(id, rate: rate, context: context) }

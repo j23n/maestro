@@ -42,16 +42,20 @@ struct LessonBundle: Sendable {
     let exercises: [ExerciseID: ExercisePayload]
     var notes: [NoteID: NoteBody] = [:]
     var texts: [TextID: PlayerText] = [:]
-    /// Display forms and glosses for preview meet cards.
-    var items: [ItemID: MeetCard] = [:]
+    /// Display forms, glosses and notes: preview meet cards and the word panel.
+    var items: [ItemID: WordInfo] = [:]
 }
 
-/// A word card in a preview batch or the mini-preview (display form, gloss, audio).
-struct MeetCard: Sendable, Equatable {
+/// What the app shows for an item: a preview meet card, the mini-preview, the story's word panel.
+struct WordInfo: Sendable, Equatable {
     let itemID: ItemID
+    /// The display form (nouns with their article, docs/03).
     let display: String
+    /// "noun", "verb", "chunk"…
+    let partOfSpeech: String
     let gloss: String
-    let audioID: AudioID?
+    var note: String?
+    var audioID: AudioID?
 }
 
 /// What fills the screen between the chrome.
@@ -60,6 +64,8 @@ enum PlayerPage: Sendable, Equatable {
     case meet([ItemID])
     case story(TextID)
     case listening(TextID, plays: Int?)
+    /// After a listening step's questions: "Show transcript" with read-along and glosses (docs/06 §3).
+    case transcript(TextID)
     case reading(TextID)
     case note(NoteID)
     case fluency([TextID], rate: Double)
@@ -112,15 +118,30 @@ final class LessonPlayerModel {
         return Double(done) / Double(exerciseTotal)
     }
 
+    /// Which steps a move finished and entered: the player writes `stepCompleted` and `stepStarted` from it
+    /// (`Progression.shouldWriteStepStarted` decides whether a revisit writes again).
+    struct StepChange: Sendable, Equatable {
+        var completed: StepID?
+        var started: StepID?
+    }
+
+    /// The step the player opens on (its `stepStarted`).
+    var openingStep: StepID? { currentStep?.id }
+
     /// Continue: the next page, or the end of the lesson.
-    func advance() {
-        guard !isFinished else { return }
+    @discardableResult
+    func advance() -> StepChange {
+        guard !isFinished, let before = current else { return StepChange() }
         if position + 1 < entries.count {
             position += 1
         } else {
             position = entries.count
             isFinished = true
         }
+        let after = current
+        guard after?.stepIndex != before.stepIndex else { return StepChange() }
+        return StepChange(completed: bundle.steps[before.stepIndex].id,
+                          started: after.map { bundle.steps[$0.stepIndex].id })
     }
 
     /// Exercises that the current page's step lists, for exercises shown next to their text (reading).
@@ -150,6 +171,7 @@ final class LessonPlayerModel {
             case .listening(let text, let plays, let exercises):
                 add(.listening(text, plays: plays))
                 addExercises(exercises)
+                add(.transcript(text))
             case .reading(let text, let exercises):
                 add(.reading(text))
                 addExercises(exercises)
@@ -191,4 +213,43 @@ final class LessonPlayerModel {
 
 extension LessonPlayerModel.Entry {
     var isExercise: Bool { if case .exercise = page { true } else { false } }
+}
+
+/// The word panel's content for a tapped token (docs/06 §2): the item's display form, "pos · gloss" (the token's
+/// context gloss wins over the item's), the item's note, and its audio.
+struct GlossContent: Sendable, Equatable {
+    let headword: String
+    let posAndGloss: String
+    let note: String?
+    let itemID: ItemID?
+    let audioID: AudioID?
+}
+
+extension LessonBundle {
+    /// Nil for tokens that aren't words, and for words with neither an item nor a gloss.
+    func gloss(text id: TextID, line: Int, token: Int) -> GlossContent? {
+        guard let line = texts[id]?.lines.first(where: { $0.number == line }),
+              let t = line.text.tokens[safe: token], t.kind == .word
+        else { return nil }
+        let info = t.itemId.flatMap { items[$0] }
+        guard let gloss = t.gloss ?? info?.gloss else { return nil }
+        let pos = info?.partOfSpeech
+        return GlossContent(
+            headword: info?.display ?? t.surface, posAndGloss: pos.map { "\($0) · \(gloss)" } ?? gloss,
+            note: info?.note, itemID: t.itemId, audioID: info?.audioID)
+    }
+
+    /// "New in this story": the items of tokens flagged new, once each, in reading order.
+    func newWords(in id: TextID) -> [WordInfo] {
+        var seen: Set<ItemID> = []
+        var out: [WordInfo] = []
+        for line in texts[id]?.lines ?? [] {
+            for t in line.text.tokens where t.flags & 1 != 0 {
+                guard let item = t.itemId, !seen.contains(item), let info = items[item] else { continue }
+                seen.insert(item)
+                out.append(info)
+            }
+        }
+        return out
+    }
 }
