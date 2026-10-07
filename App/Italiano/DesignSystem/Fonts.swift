@@ -23,7 +23,7 @@ enum FontRegistry {
         }
         CTFontManagerRegisterFontURLs(urls as CFArray, .process, true) { errors, _ in
             // "Already registered" is harmless (previews, tests); anything else is worth knowing.
-            for error in (errors as? [CFError]) ?? [] {
+            for error in errors as NSArray {
                 fontLogger.error("font registration: \(String(describing: error), privacy: .public)")
             }
             return true

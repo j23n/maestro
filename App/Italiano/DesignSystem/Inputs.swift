@@ -79,10 +79,11 @@ struct OptionCard: View {
     var subtitle: String?
     var titleIsItalian = true
     var isSelected = false
-    var state: State = .idle
+    var mark: Mark = .idle
     let action: () -> Void
 
-    enum State { case idle, correct, wrong }
+    /// After answering: the right option turns success, a wrong pick warning.
+    enum Mark { case idle, correct, wrong }
 
     var body: some View {
         Button(action: action) {
@@ -110,7 +111,7 @@ struct OptionCard: View {
     }
 
     private var fill: Color {
-        switch state {
+        switch mark {
         case .correct: Color.ds.accentTint
         case .wrong: Color.ds.warningInputBackground
         case .idle: isSelected ? Color.ds.accentTint : Color.ds.background
@@ -118,7 +119,7 @@ struct OptionCard: View {
     }
 
     private var border: Color {
-        switch state {
+        switch mark {
         case .correct: Color.ds.success
         case .wrong: Color.ds.warning
         case .idle: isSelected ? Color.ds.accent : Color.ds.inputBorder
