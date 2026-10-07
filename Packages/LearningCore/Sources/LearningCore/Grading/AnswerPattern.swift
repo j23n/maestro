@@ -261,6 +261,18 @@ extension AnswerPattern {
             return nodes.count == 1 ? nodes[0] : .sequence(nodes)
         }
 
+        /// A one-alternative `{…}` that was meant as a slot (docs/03): a slot name in another case (`{Name}`,
+        /// `{me.home}`), anything starting `ME.` in any case (`{ME.city}`), or a name in capitals, digits, `_`
+        /// and `.` (`{NOME}`, `{NAME2}`).
+        static func looksLikeSlot(_ name: String) -> Bool {
+            let lower = name.lowercased()
+            if lower.hasPrefix("me.") || PatternSlot.allCases.contains(where: { $0.rawValue.lowercased() == lower }) {
+                return true
+            }
+            return name.contains { $0.isASCII && $0.isUppercase }
+                && name.allSatisfy { $0.isASCII && ($0.isUppercase || $0.isNumber || $0 == "_" || $0 == ".") }
+        }
+
         /// `{…}`: a slot, alternatives, or gendered alternatives. `i` points at `{`.
         mutating func parseBraces() throws(PatternError) -> Node {
             let open = i
@@ -274,10 +286,7 @@ extension AnswerPattern {
                     i = j + 1
                     return .slot(slot)
                 }
-                let looksLikeSlot =
-                    name.hasPrefix("ME.")
-                    || (!name.isEmpty && name.allSatisfy { ($0.isUppercase && $0.isASCII) || $0 == "_" })
-                if looksLikeSlot { throw .unknownSlot(name) }
+                if Self.looksLikeSlot(name) { throw .unknownSlot(name) }
             }
             var options: [(gender: PatternExpansion.Gender?, node: Node)] = []
             while true {
