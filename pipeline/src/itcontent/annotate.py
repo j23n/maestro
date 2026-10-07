@@ -36,7 +36,7 @@ import json
 import re
 import sys
 from collections.abc import Callable, Iterator, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -45,7 +45,6 @@ from itcontent.course import (
     Course,
     Doc,
     ExerciseRef,
-    Loc,
     NoteRef,
     PathT,
     TextRef,
@@ -55,6 +54,7 @@ from itcontent.course import (
     walk_notes,
     walk_task,
 )
+from itcontent.detection import DetectionRuleError
 from itcontent.morphit import MorphIt
 from itcontent.morphit import load as load_morphit
 from itcontent.patterns import Expansion, PatternError, expand
@@ -87,7 +87,6 @@ class Source:
     model: bool | None = None
     gap: tuple[int, int] | None = None  # character span of the filled-in gap (cloze)
     fragment: tuple[int, int] | None = None  # character span of a note fragment in its YAML string
-    extra: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -175,7 +174,7 @@ class Collector:
         expanded: list[list[Expansion]] = []
         for g in gaps:
             try:
-                expanded.append([e for e in expand(g.group(1))])
+                expanded.append(expand(g.group(1)))
             except PatternError as exc:
                 self.problems.append(Problem(path, f"gap {g.group(1)!r}: {exc}"))
                 return
@@ -379,9 +378,6 @@ def collect(course: Course, doc: Doc, kind: str, unit_id: str) -> Collector:
     col = Collector(u)
     data = doc.data if isinstance(doc.data, dict) else {}
 
-    def rel(loc: Loc) -> PathT:
-        return loc.path
-
     if kind == "unit":
         title = data.get("title")
         uf = course.unit(unit_id)
@@ -412,14 +408,17 @@ def collect(course: Course, doc: Doc, kind: str, unit_id: str) -> Collector:
         else:
             walker = walk_check(doc, unit_id, kind)
         for ref in walker:
-            pos = _pos_of(rel(ref.loc), u, rank)
+            # a placement block's exercises sit at the unit the block tests
+            col.unit = order.get(str(ref.section), u) if kind == "placement" else u
+            pos = _pos_of(ref.loc.path, col.unit, rank)
             if isinstance(ref, TextRef):
-                col.text(ref.data, rel(ref.loc), pos)
+                col.text(ref.data, ref.loc.path, pos)
             else:
-                col.exercise(ref, rel(ref.loc), pos)
+                col.exercise(ref, ref.loc.path, pos)
+        col.unit = u
         if kind == "lesson":
             for note in walk_notes(doc, unit_id):
-                col.note(note, rel(note.loc), _pos_of(rel(note.loc), u, rank))
+                col.note(note, note.loc.path, _pos_of(note.loc.path, u, rank))
     col.sources.sort(key=lambda s: (_sort_key(s.path), s.fragment or (0, 0), s.index or 0))
     return col
 
@@ -562,16 +561,19 @@ class Result:
         return [f for f in self.findings if f.level == "error"]
 
 
-def _issue_message(src: Source, ann: Annotated, issue: Issue) -> str:
+def _issue_message(ann: Annotated, issue: Issue) -> str:
     if issue.token is None:
         return issue.message
     return f"token {issue.token} '{ann.tokens[issue.token].surface}': {issue.message}"
 
 
 def annotate_course(course: Course, morph: MorphIt) -> Result:
-    lex = Lexicon.from_course(course, morph)
     locks: dict[str, str] = {}
     findings: list[Finding] = []
+    try:
+        lex = Lexicon.from_course(course, morph)
+    except DetectionRuleError as exc:
+        return Result({}, [Finding("error", "content/grammar/detection.yaml", None, "", "", str(exc))])
     n_strings = n_tokens = n_words = 0
     rt_cache: dict[str, Any] = {}
 
@@ -604,7 +606,7 @@ def annotate_course(course: Course, morph: MorphIt) -> Result:
                         line_of(doc, src.path),
                         fmt_path(src.path),
                         src.text,
-                        _issue_message(src, ann, issue),
+                        _issue_message(ann, issue),
                     )
                 )
             entries.append(string_json(src, ann))

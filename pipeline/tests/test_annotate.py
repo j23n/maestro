@@ -385,3 +385,16 @@ def test_committed_lock_files_are_fresh(root):
     out: list[str] = []
     assert run_annotate(root, check=True, echo=out.append) == 0, "\n".join(out)
     assert render("", []) == ""
+
+
+def test_bad_detection_rules_are_reported_not_raised(course):
+    import copy
+
+    broken = copy.copy(course)
+    broken.singles = dict(course.singles)
+    det = copy.copy(course.singles["detection"])
+    det.data = {"rules": [{"id": "g:x", "detect": [{"seq": [{"form": "("}]}]}]}
+    broken.singles["detection"] = det
+    res = annotate_course(broken, morphit.load())
+    assert res.locks == {} and [f.file for f in res.errors] == ["content/grammar/detection.yaml"]
+    assert "bad regex" in res.errors[0].message
