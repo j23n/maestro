@@ -1,0 +1,567 @@
+{
+ "spec": "docs/05 § Replay: the derived resume cursor (presentation order = block, then the mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID); quitting mid-step and resuming at the same exercise",
+ "content": "TestCourse.standard (Packages/LearningCore/Tests/LearningCoreTests/Support/TestCourse.swift)",
+ "step": "u02.l1.step-practice",
+ "presentationOrder": [
+  "u02.l1.ex01",
+  "u02.l1.ex02",
+  "u02.l1.ex03",
+  "u02.l1.ex04",
+  "u02.l1.ex05",
+  "u02.l1.ex06",
+  "u02.l1.ex07",
+  "u02.l1.ex08",
+  "u02.l1.ex14",
+  "u02.l1.ex13",
+  "u02.l1.ex10",
+  "u02.l1.ex15",
+  "u02.l1.ex12",
+  "u02.l1.ex11"
+ ],
+ "events": [
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000001",
+   "at": 1767596400000,
+   "tzOffsetMin": 60,
+   "type": "stepStarted",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000002",
+   "at": 1767596460000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex01",
+    "format": "cloze",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "g:u02-gp",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000003",
+   "at": 1767596520000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex02",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "wrong",
+    "targets": [
+     {
+      "itemId": "w:u02-n1",
+      "skill": "recall",
+      "outcome": "wrong"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000004",
+   "at": 1767596580000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex02",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 2,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n1",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "hint"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000005",
+   "at": 1767596640000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex03",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n2",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000006",
+   "at": 1767596700000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex04",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n3",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000007",
+   "at": 1767596760000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex05",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n4",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000008",
+   "at": 1767596820000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex06",
+    "format": "sentence-building",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-a1",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000009",
+   "at": 1767596880000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex07",
+    "format": "dictation",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n1",
+      "skill": "listen",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000a",
+   "at": 1767596940000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex08",
+    "format": "repeat",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "skipped",
+    "targets": [
+     {
+      "itemId": "c:u02-c1",
+      "skill": "speak",
+      "outcome": "skipped"
+     }
+    ],
+    "mode": "spoken",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000b",
+   "at": 1767597000000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex14",
+    "format": "recall",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "almost",
+    "targets": [
+     {
+      "itemId": "w:u01-n3",
+      "skill": "recall",
+      "outcome": "almost"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000c",
+   "at": 1767597060000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex13",
+    "format": "match",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-1",
+    "attemptIndex": 1,
+    "outcome": "wrong",
+    "targets": [
+     {
+      "itemId": "w:u02-n1",
+      "skill": "read",
+      "outcome": "wrong"
+     },
+     {
+      "itemId": "w:u02-n2",
+      "skill": "read",
+      "outcome": "wrong"
+     }
+    ],
+    "mode": "tapped",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000d",
+   "at": 1767597120000,
+   "tzOffsetMin": 60,
+   "type": "session",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "sessionId": "s-1",
+    "kind": "lesson",
+    "platform": "iPhone",
+    "startedAt": 1767596400000,
+    "endedAt": 1767597120000,
+    "activeSeconds": 600
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000e",
+   "at": 1767633120000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex13",
+    "format": "match",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "attemptIndex": 2,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-n1",
+      "skill": "read",
+      "outcome": "correct"
+     },
+     {
+      "itemId": "w:u02-n2",
+      "skill": "read",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "tapped",
+    "latencyMs": 4000,
+    "feedbackShown": "hint"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-00000000000f",
+   "at": 1767633180000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex10",
+    "format": "choice",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "w:u02-s1",
+      "skill": "read",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "tapped",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000010",
+   "at": 1767633240000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex15",
+    "format": "cloze",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "g:u01-gp",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000011",
+   "at": 1767633300000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex12",
+    "format": "cloze",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "g:u02-gp",
+      "skill": "recall",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "typed",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000012",
+   "at": 1767633360000,
+   "tzOffsetMin": 60,
+   "type": "attempt",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "exerciseId": "u02.l1.ex11",
+    "format": "choice",
+    "context": "lesson",
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "attemptIndex": 1,
+    "outcome": "correct",
+    "targets": [
+     {
+      "itemId": "g:u02-gr",
+      "skill": "read",
+      "outcome": "correct"
+     }
+    ],
+    "mode": "tapped",
+    "latencyMs": 4000,
+    "feedbackShown": "none"
+   },
+   "origin": "local"
+  },
+  {
+   "id": "7e5a0000-0000-4000-8000-000000000013",
+   "at": 1767633420000,
+   "tzOffsetMin": 60,
+   "type": "stepCompleted",
+   "deviceId": "iphone-1",
+   "schema": 1,
+   "packVersion": "0.1.0",
+   "payload": {
+    "stepId": "u02.l1.step-practice",
+    "sessionId": "s-2",
+    "durationMs": 900000
+   },
+   "origin": "local"
+  }
+ ],
+ "checkpoints": [
+  {
+   "afterEvents": 13,
+   "cursor": 9,
+   "resumeAt": "u02.l1.ex13",
+   "open": true,
+   "completed": false
+  },
+  {
+   "afterEvents": 14,
+   "cursor": 10,
+   "resumeAt": "u02.l1.ex10",
+   "open": true,
+   "completed": false
+  },
+  {
+   "afterEvents": 19,
+   "cursor": 0,
+   "resumeAt": "u02.l1.ex01",
+   "open": false,
+   "completed": true
+  }
+ ]
+}

@@ -88,7 +88,7 @@ actor CloudSync: CKSyncEngineDelegate {   // the protocol requires AnyObject & S
 - An event is identified by its ID: insert if absent, ignore if present. Never update.
 - Replay order is `(at, id)` on every device, so states converge regardless of arrival order.
 - Clock skew: no correction. A device with a wrong clock produces events at the wrong times, but every device computes the same state from them.
-- Settings: last-writer-wins by `(updatedAt, deviceId)`.
+- Settings: last-writer-wins by `(updatedAt, deviceId)`: a tie on `updatedAt` goes to the lexically larger `deviceId` (UTF-8 bytes), and a full tie (never expected) to the larger canonical value JSON, so the merge is commutative and every device keeps the same value. Device-scoped settings never sync.
 
 ## Status UI
 
