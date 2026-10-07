@@ -78,6 +78,9 @@ public struct PatternExpansion: Sendable, Hashable {
     public let gender: Gender?
     /// Slots left as wildcards, by token index.
     public let slots: [SlotPosition]
+    /// The raw text around the slots, in the author's case and punctuation: `slots.count + 1` pieces (`Mi chiamo `
+    /// and `.` for `Mi chiamo {NAME}.`). `raw` is them joined with the placeholders.
+    let rawSegments: [String]
 
     /// The normalised text: tokens joined by single spaces (`mi chiamo {NAME}`).
     public var text: String { tokens.joined(separator: " ") }
@@ -86,6 +89,17 @@ public struct PatternExpansion: Sendable, Hashable {
 
     public func slot(at tokenIndex: Int) -> PatternSlot? {
         slots.first { $0.tokenIndex == tokenIndex }?.slot
+    }
+
+    /// The raw text with each slot replaced by `fill(slotIndex)` (an index into `slots`), or by its placeholder when
+    /// `fill` returns nil; spaces collapsed.
+    func rawFilled(_ fill: (Int) -> String?) -> String {
+        var text = rawSegments.first ?? ""
+        for (n, position) in slots.enumerated() {
+            text += fill(n) ?? position.slot.placeholder
+            if n + 1 < rawSegments.count { text += rawSegments[n + 1] }
+        }
+        return AnswerPattern.collapseSpaces(text)
     }
 }
 
@@ -148,6 +162,19 @@ public struct AnswerPattern: Sendable, Hashable, CustomStringConvertible {
     public func expansions(profile: LearnerProfile? = nil) -> [PatternExpansion] {
         let node = profile?.country.map { root.substituting($0) } ?? root
         return node.partials(focus: false).map { $0.expansion() }
+    }
+
+    /// The masculine and feminine forms that a `{m:…|f:…}` group (or a gendered `{ME.nationality}`) offers for the
+    /// same word: *americano*/*americana*, *nato*/*nata*. Alternatives with the same number of tokens are paired
+    /// word by word (`{m:il mio amico|f:la mia amica}` → *il*/*la*, *mio*/*mia*, *amico*/*amica*); otherwise every
+    /// differing token of one is paired with every differing token of the other. The typed grader treats a pair as
+    /// two forms of one item, so under strict forms *americana* for *americano* is an inflection error, never a typo
+    /// (docs/05 § Typed answers), even when the pack's `forms` table doesn't list both.
+    func genderFormPairs(profile: LearnerProfile? = nil) -> Set<FormPair> {
+        let node = profile?.country.map { root.substituting($0) } ?? root
+        var pairs = Set<FormPair>()
+        node.collectGenderFormPairs(into: &pairs)
+        return pairs
     }
 
     /// The first expansion: the model answer in normalised form (fixture key `first`).
@@ -329,6 +356,34 @@ extension AnswerPattern.Node {
         }
     }
 
+    /// See `AnswerPattern.genderFormPairs(profile:)`.
+    func collectGenderFormPairs(into pairs: inout Set<FormPair>) {
+        switch self {
+        case .text, .slot: break
+        case .sequence(let nodes), .choice(let nodes):
+            for node in nodes { node.collectGenderFormPairs(into: &pairs) }
+        case .optional(let node), .focus(let node): node.collectGenderFormPairs(into: &pairs)
+        case .gendered(let options):
+            for option in options { option.node.collectGenderFormPairs(into: &pairs) }
+            func words(_ gender: PatternExpansion.Gender) -> [[String]] {
+                options.filter { $0.gender == gender }.flatMap { $0.node.partials(focus: false) }.prefix(64).map {
+                    $0.expansion().tokens.filter { !($0.hasPrefix("{") && $0.hasSuffix("}")) }
+                }
+            }
+            for m in words(.m) {
+                for f in words(.f) {
+                    if m.count == f.count {
+                        for (a, b) in zip(m, f) where a != b { pairs.insert(FormPair(a, b)) }
+                    } else {
+                        let onlyM = Set(m).subtracting(f)
+                        let onlyF = Set(f).subtracting(m)
+                        for a in onlyM { for b in onlyF { pairs.insert(FormPair(a, b)) } }
+                    }
+                }
+            }
+        }
+    }
+
     func visitSlots(_ visit: (PatternSlot) -> Void) {
         switch self {
         case .text: break
@@ -388,7 +443,7 @@ extension AnswerPattern.Node {
             var tokens: [String] = []
             var focus: [Int] = []
             var slots: [PatternExpansion.SlotPosition] = []
-            var raw = ""
+            var segments = [""]
             var run: [(String, Bool)] = []
             func flush() {
                 for token in Normalizer.taggedTokens(run) {
@@ -401,18 +456,21 @@ extension AnswerPattern.Node {
                 switch piece {
                 case .text(let s, let f):
                     run.append((s, f))
-                    raw += s
+                    segments[segments.count - 1] += s
                 case .slot(let slot, let f):
                     flush()
                     if f { focus.append(tokens.count) }
                     slots.append(.init(tokenIndex: tokens.count, slot: slot))
                     tokens.append(slot.placeholder)
-                    raw += slot.placeholder
+                    segments.append("")
                 }
             }
             flush()
+            var raw = segments[0]
+            for (n, position) in slots.enumerated() { raw += position.slot.placeholder + segments[n + 1] }
             return PatternExpansion(
-                raw: AnswerPattern.collapseSpaces(raw), tokens: tokens, focus: focus, gender: gender, slots: slots)
+                raw: AnswerPattern.collapseSpaces(raw), tokens: tokens, focus: focus, gender: gender, slots: slots,
+                rawSegments: segments)
         }
     }
 
@@ -437,6 +495,16 @@ extension AnswerPattern.Node {
                 }
             }
         }
+    }
+}
+
+/// Two normalised tokens taken as forms of the same word, in either order.
+struct FormPair: Hashable, Sendable {
+    let a: String
+    let b: String
+
+    init(_ x: String, _ y: String) {
+        (a, b) = x < y ? (x, y) : (y, x)
     }
 }
 
