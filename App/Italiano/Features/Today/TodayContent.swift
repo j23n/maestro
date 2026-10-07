@@ -21,6 +21,11 @@ struct CourseOutline: Sendable, Equatable {
         let steps: [Step]
     }
 
+    struct CanDo: Sendable, Equatable {
+        let id: CanDoID
+        let en: String
+    }
+
     struct Unit: Sendable, Equatable {
         let id: UnitID
         /// 0…12; 99 for the final review unit.
@@ -30,6 +35,9 @@ struct CourseOutline: Sendable, Equatable {
         let lessons: [Lesson]
         /// Unit-level steps (opener, task, check, fluency) in course order.
         let unitSteps: [Step]
+        /// "Order at a café and pay": the Indice subtitle.
+        var summaryEn: String?
+        var canDos: [CanDo] = []
     }
 
     let units: [Unit]
