@@ -1,0 +1,10 @@
+// Study (TestFlight, the study cohort): consent screen, telemetry to the study endpoint (docs/02, docs/12).
+#include "Release.xcconfig"
+
+ITA_STUDY_BUILD = YES
+ITA_TELEMETRY_URL =
+// The owner sets the endpoint and the token in the gitignored Secrets.xcconfig:
+//   ITA_TELEMETRY_URL = https:/$()/<study host>
+//   ITA_STUDY_TOKEN = …
+// Without a token the app never uploads.
+#include? "Secrets.xcconfig"

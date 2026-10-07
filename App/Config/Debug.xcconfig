@@ -1,0 +1,15 @@
+// Debug: agents, simulator and local development (docs/02 § App configuration).
+#include "Base.xcconfig"
+
+ITA_TELEMETRY_URL = http:/$()/localhost:8787
+ITA_DEBUG_MENU = YES
+ITA_LLM_HINTS = YES
+ITA_REVIEW_MODE = YES
+ITA_REVIEW_URL = http:/$()/localhost:8787
+// ITA_SYNC_ENABLED stays NO: only the owner's signed config (Signing.xcconfig) turns it on.
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG $(inherited)
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+ONLY_ACTIVE_ARCH = YES
+ENABLE_TESTABILITY = YES
+DEBUG_INFORMATION_FORMAT = dwarf

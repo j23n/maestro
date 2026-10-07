@@ -28,3 +28,8 @@ artifacts/
 .claude/settings.local.json
 # Study token (docs/02 § App configuration)
 App/Config/Secrets.xcconfig
+
+# Owner-only local signing overrides (team ID, signed entitlements, ITA_SYNC_ENABLED; ADR-19)
+App/Config/Signing.xcconfig
+# Pipeline outputs
+content-build/tts-cache/tmp/

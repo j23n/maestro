@@ -1,0 +1,58 @@
+// Base build settings for the Italiano app target (docs/02 § App configuration, ADR-01, ADR-18, ADR-19).
+// The owner assigns these files to the target in M0.2. Agents change build settings here, never in project.pbxproj.
+// xcconfig treats "//" as a comment, so URLs are written as http:/$()/host.
+
+PRODUCT_NAME = Italiano
+PRODUCT_BUNDLE_IDENTIFIER = com.j23n.italian                 // ADR-18: never change
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+// Platforms: iPhone, iPad and native Mac (not Catalyst), all 26.0 (ADR-01)
+SDKROOT = auto
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator macosx
+SUPPORTS_MACCATALYST = NO
+TARGETED_DEVICE_FAMILY = 1,2
+IPHONEOS_DEPLOYMENT_TARGET = 26.0
+MACOSX_DEPLOYMENT_TARGET = 26.0
+
+// Swift 6 language mode, complete strict concurrency
+SWIFT_VERSION = 6.0
+SWIFT_STRICT_CONCURRENCY = complete
+SWIFT_TREAT_WARNINGS_AS_ERRORS = NO
+SWIFT_EMIT_LOC_STRINGS = YES
+
+// Info.plist: generated keys plus our own ITA_* keys (Config/Italiano-Info.plist reads the values below)
+GENERATE_INFOPLIST_FILE = YES
+INFOPLIST_FILE = Config/Italiano-Info.plist
+INFOPLIST_KEY_CFBundleDisplayName = Italiano
+INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.education
+INFOPLIST_KEY_UILaunchScreen_Generation = YES
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+INFOPLIST_KEY_NSMicrophoneUsageDescription = Italiano listens when you practise speaking. Recognition happens on your device.
+INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = Italiano recognises your spoken Italian on your device to check your answers.
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
+ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
+
+// Signing (ADR-19): no team in the repo. Agents and CI pass CODE_SIGNING_ALLOWED=NO (iOS) or ad-hoc
+// "Sign to Run Locally" (macOS tests). Only the owner's local Signing.xcconfig (gitignored) sets a team.
+DEVELOPMENT_TEAM =
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY[sdk=macosx*] = -
+CODE_SIGN_ENTITLEMENTS = Config/Italiano-NoCloud.entitlements
+ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES
+ENABLE_APP_SANDBOX[sdk=macosx*] = YES
+
+// App configuration (docs/02 § App configuration). Each configuration file overrides what differs.
+ITA_STUDY_BUILD = NO
+ITA_TELEMETRY_URL =
+ITA_DEBUG_MENU = NO
+ITA_LLM_HINTS = NO
+ITA_SYNC_ENABLED = NO
+ITA_REVIEW_MODE = NO
+ITA_REVIEW_URL =
+ITA_STUDY_TOKEN =
+ITA_REVIEW_TOKEN =
+ITA_PACK = dev
+
+#include? "Signing.xcconfig"

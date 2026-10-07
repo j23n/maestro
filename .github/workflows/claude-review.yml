@@ -1,4 +1,4 @@
-# DRAFT from the handoff (task M0.5). Automated review of pull requests by Claude.
+# Automated review of pull requests by Claude (docs/10 § CI; adapted in M0.5).
 # Needs the Claude GitHub App installed on the repo and the ANTHROPIC_API_KEY secret (or claude_code_oauth_token).
 # It reads the diff and posts comments; its allowed tools can't edit files or push.
 name: Claude review

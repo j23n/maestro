@@ -1,6 +1,8 @@
-# DRAFT from the handoff. Task M0.5 adapts it: confirm runner images (a macOS 26 image with Xcode 27), the Swift
-# toolchain tag, action major versions and simulator names. Docs: docs/10-quality.md § CI.
-# Every step is guarded until the thing it checks exists, so CI is green from M0 onwards.
+# CI (docs/10 § CI; adapted in M0.5). Every step is guarded until the thing it checks exists.
+# Linux: Swift 6.4.0 (the official image, the same Swift as Xcode 27, verified 2026-10-07 by pulling
+# swift:6.4.0-noble), uv + Python, LearningCore, Storage (GRDB 7.11.1 builds on Linux too), pipeline, content.
+# macOS: the image name and the Xcode path are unverified from the Linux session that wrote this; the owner
+# confirms them on the first PR run (docs/11 M0.5 [owner]).
 name: CI
 on:
   pull_request:
@@ -15,12 +17,12 @@ jobs:
   linux:
     name: LearningCore + pipeline + content (Linux)
     runs-on: ubuntu-latest
-    container: swift:6.4                        # the same Swift as Xcode 27; confirm the tag at M0.5
+    container: swift:6.4.0-noble               # pinned: the same Swift as Xcode 27 (Swift 6.4)
     steps:
       - uses: actions/checkout@v4
         with: { lfs: false }
       - name: Tools for the pipeline
-        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates
+        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates libsqlite3-dev
       - name: uv
         uses: astral-sh/setup-uv@v6             # confirm the current major version at M0.5
       - name: Cache reference data
@@ -33,12 +35,18 @@ jobs:
       - name: LearningCore tests
         if: hashFiles('Packages/LearningCore/Package.swift') != ''
         run: make test-core
-      - name: Pipeline tests
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: make test-pipeline
+      - name: Storage tests (Linux bonus; the macOS job is the reference)
+        if: hashFiles('Packages/Storage/Package.swift') != ''
+        run: make test-storage
       - name: Reference data
         if: hashFiles('pipeline/pyproject.toml') != ''
         run: make data
+      - name: Pipeline tests
+        if: hashFiles('pipeline/pyproject.toml') != ''
+        run: make test-pipeline
+      - name: Pipeline lint (ruff)
+        if: hashFiles('pipeline/pyproject.toml') != ''
+        run: uv run --project pipeline ruff check pipeline && uv run --project pipeline ruff format --check pipeline
       - name: Content checks (once the CLI has `check`)
         if: hashFiles('pipeline/pyproject.toml') != ''
         run: |
