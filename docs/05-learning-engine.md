@@ -38,7 +38,8 @@ Every learner action is an immutable event (`docs/03` § Learner database). The 
 - **`response`:** the learner's text, at most 200 characters for closed formats and 2,000 for writing and talk transcripts. It syncs with the event (the learner's own work on their own devices). Telemetry keeps only typed answers in closed formats (`docs/12`): `response` is stripped from talk, writing and every spoken answer, and `onboardingCompleted` loses `country`. Speaking recordings are files, not events (`docs/09`).
 - **Targets:** every target of a non-match exercise gets the exercise's outcome; a `match` gives each pair's outcome to that pair's target. Conversation turns carry no targets.
 - **`attemptIndex`, `outcome`, `feedbackShown`** come from the `FeedbackMachine` (§ Stepped feedback). `feedbackShown` is the most help the learner had seen when the attempt was recorded (`hint` for any second attempt and for a first attempt after "Show a hint"; `answer` for a reveal).
-- The reducer ignores unknown event types, so newer clients can add types without breaking older ones.
+- The reducer ignores unknown event types, so newer clients can add types without breaking older ones. A payload this version can't decode is treated the same way.
+- **One device's order:** the event factory gives each device's events strictly increasing `at` (`max(now, previous + 1)`), so a device's events replay in the order it wrote them even within one millisecond (an answer and the `checkCompleted` it ends).
 
 ## Rating policy (events → FSRS ratings)
 
@@ -98,8 +99,8 @@ Interval and due:
 - **Full rebuild (`rebuildAll()`):** start empty, apply all events ordered by `(at, id)`. Duplicate IDs are impossible (primary key), and replay is idempotent.
 - **Incremental:** if a new event sorts after `last_applied`, apply it. If it sorts earlier (a late sync from another device), run `rebuildAll()`; it must fit the budget in `docs/02`. A per-key shortcut is an optional optimisation, allowed only behind a test that compares it with a full rebuild on randomised event orders.
 - **Rebuild triggers:** a changed `derived_version` (reducer logic changed) or a changed pack `meta.content_hash` (content changed) also runs `rebuildAll()` at launch.
-- **Resume cursor:** `step_progress.cursor` is derived, never written by an event: the number of exercises, in presentation order, that have a **final** attempt since the step's open `stepStarted` (the last one, which no `stepCompleted` follows). An attempt is final when its outcome is `correct`, `correctWithNote`, `almost`, `revealed` or `skipped`, or when `attemptIndex` is 2. The presentation order of a practice step is its block in file order, then its mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID, so every device resumes at the same exercise.
-- Events that reference IDs missing from the current pack (retired content) still count for memory if their `itemId` exists. Otherwise they are skipped and logged.
+- **Resume cursor:** `step_progress.cursor` is derived, never written by an event: the number of exercises, in presentation order, that have a **final** attempt since the step's open `stepStarted` (the last one, which no `stepCompleted` follows), counted as the answered prefix (it stops at the first exercise without one, so resuming always lands on the next unanswered exercise; in linear play this is simply the count). Only attempts made in the step count (`stepId` set, context `lesson` or `check`): a review of the same exercise doesn't move a half-done lesson. An attempt is final when its outcome is `correct`, `correctWithNote`, `almost`, `revealed` or `skipped`, or when `attemptIndex` is 2; in `check`, `final` and `placement` contexts every attempt is final, because there is one attempt only. Conversation turns never finish their exercise, so resuming restarts the dialogue. The presentation order of a practice step is its block in file order, then its mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID, so every device resumes at the same exercise.
+- Events that reference IDs missing from the current pack (retired content) still count for memory if their `itemId` exists. Otherwise they are skipped and logged. A `stepCompleted` of a retired step still counts for its day's activity (the week dots don't change when content does).
 
 ## Introductions and eligibility
 
@@ -108,10 +109,10 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 | Step | Introduces |
 |---|---|
 | preview | each batch item: `read` and `listen`; plus `recall` and `speak` where that skill's status is P |
-| story, listening, reading | items flagged new in the text: `read`, `listen` |
+| story, listening, reading | items flagged new in the text: `read`, `listen` (written with `via: story`) |
 | note | every grammar point in the note's `grammar` list (`note_items`): `read`; plus `recall` if P |
 | sounds | the sound item: `listen` |
-| placement | every item in units before the start unit, per its status |
+| placement | every item in units before the start unit, per its status (words and chunks: `read`, `listen`, plus `recall` and `speak` where P; grammar points: `read`, plus `recall` if P; sounds: `listen`), in one event |
 | mini-preview (`catchup`) | the missing (item, skill) pairs, see below |
 
 **Grammar points** are introduced by their note. A point with status R or chunk may instead be introduced by the first preview **in its own unit** containing a chunk that `exemplifies` it (read only; no rule credit), or else by the first story or listening step of its unit where it is detected (read). A chunk from an earlier unit that exemplifies a later point (*scusi* in Unit 0, *sono nato* in Unit 1) never introduces it. A P point must have a note; check 4 fails a complete unit otherwise.
@@ -122,6 +123,7 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 
 - Unit states: `locked` → `available` → `in_progress` → `completed` (check finished) or `skipped` (placement).
 - Unit 0 (or the placement unit) is available at start. Unit N+1 becomes available when Unit N is completed or skipped (ADR-16).
+- The latest `placementCompleted` decides which units are skipped; a unit already completed stays completed. A unit started out of order shows as `in_progress`. The final review unit (`u99`) completes with the final A1 check.
 - Inside a unit, steps run in order: opener → lessons 1–3 → unit task → unit check → fluency replay (optional; it never blocks). A step may be revisited at any time; revisits create normal attempts.
 - Resume: the derived cursor (§ Replay) lets a session stop anywhere.
 
@@ -129,8 +131,8 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 
 `Planner.today(now:)` returns:
 
-- **Review:** the due count = scheduled pairs with `due ≤ end of today` (local day, 04:00 rollover) that have at least one eligible exercise or generated card, capped at the daily review limit (setting, default 60). Also an estimate in minutes (count × the learner's median seconds per card; default 18 s) and two example items.
-- **New catch-up cards** (after placement): scheduled pairs introduced `via: placement` that have no memory yet, up to 15 a day.
+- **Review:** the due count = scheduled pairs with `due ≤ end of today` (local day, 04:00 rollover) that have at least one eligible exercise or generated card, capped at what is left of today's review limit (setting, default 60, minus the cards already reviewed today). Also an estimate in minutes (count × the learner's median seconds per card, where each review session gives its active seconds divided by its cards, over the last 50 sessions; default 18 s) and two example items (the first two in session priority order).
+- **New catch-up cards** (after placement): scheduled pairs introduced `via: placement` that have no memory yet, up to 15 a day (placement pairs that got their first memory in a review session that day count against it), in course order.
 - **Continue:** the first incomplete step in the earliest available unit.
 - **This week:** active days this ISO week (a day counts with ≥ 1 completed step or ≥ 5 reviewed cards) against the weekly goal (default 5).
 - **Stats:** words known (below) and units completed out of 13 (Units 0–12).
@@ -138,13 +140,13 @@ A step introduces items at **step start** (`introduced` event) according to `ste
 
 ### Review session builder
 
-1. Order cards: **focus items first** (including ones not yet due), then due date ascending, then lowest current retrievability, then `(itemId, skill)`. Size = min(due + focus, session target 20). The learner can continue with another 20.
-2. Pick one exercise per card (`CardSelector`): candidates are exercises whose targets include the (item, skill), that are eligible, not shown in the last 2 days, and suitable for this device (speech availability and setting). Preferred formats by skill: recall → recall, cloze, sentence-building, dictation; read → choice (Italian → English), match; listen → sound-pair, choice with audio. Rotate to the format least recently used for this item. If there's no candidate, generate a card (exercise ID `gen:<skill>:<itemId>`):
-   - **recall:** "Type the Italian for *croissant*". The prompt is the item's gloss up to the first `;`. The answer is the item's `recall_answer` if set. Otherwise: nouns accept the definite or indefinite article with the noun as focus (`{il|un} [cornetto]`; model answer = the display form without its gender mark); a bare noun is `correctWithNote` ("Say it with its article: il cornetto"); a wrong article with the right noun is a near-miss with outcome `almost` and the note "cornetto is masculine: il cornetto". Other words: the lemma, as focus. Chunks: `it` without trailing `… ? !` (a chunk whose `it` contains `/` must set `recall_answer`; lint enforces it). Grammar points get no generated recall: if no bank exercise is eligible, the card waits.
-   - **read:** show the Italian (with audio) and pick the English gloss from 4 options. Distractors are glosses of eligible items with the same POS, preferring the same topic, drawn with the session RNG.
+1. Order cards: **focus items first** (including ones not yet due), then due date ascending, then lowest current retrievability, then `(itemId, skill)`. Size = min(due + focus, session target 20); due cards also stop at what is left of today's review limit, focus cards don't. A focus pair already reviewed today waits until tomorrow. The learner can continue with another 20.
+2. Pick one exercise per card (`CardSelector`): candidates are learn exercises (never check, placement or final items) whose targets include the (item, skill), that are eligible, not shown in the last 2 days, and suitable for this device (`repeat` needs speech that is available and switched on). Preferred formats by skill: recall → recall, cloze, sentence-building, dictation; read → choice (Italian → English), match; listen → sound-pair, choice with audio. Rotate to the format least recently used for this item: among the preferred formats that have a candidate, the least recently used wins (ties in the order above), and within it the exercise shown least recently; other formats only when no preferred one has a candidate. A session never uses the same exercise twice. If there's no candidate, generate a card (exercise ID `gen:<skill>:<itemId>`):
+   - **recall:** "Type the Italian for *croissant*". The prompt is the item's gloss up to the first `;`. The answer is the item's `recall_answer` if set. Otherwise: nouns accept the definite or indefinite article with the noun as focus (`{il|un} [cornetto]`; model answer = the display form without its gender mark); a bare noun is `correctWithNote` ("Say it with its article: il cornetto"); a wrong article with the right noun is a near-miss with outcome `almost` and the note "cornetto is masculine: il cornetto" (wrong articles are the singular articles of the other gender: *la*, *una* and, before a vowel, *un'* for masculine nouns; *il*, *lo*, *un*, *uno* for feminine ones; *l'* fits both and is never wrong). Nouns shown with both genders (*il ragazzo / la ragazza*) accept every form. Other words: the lemma, as focus. Chunks: `it` without trailing `… ? !` (a chunk whose `it` contains `/` must set `recall_answer`; lint enforces it). Grammar points get no generated recall: if no bank exercise is eligible, the card waits.
+   - **read:** show the Italian (with audio) and pick the English gloss from 4 options. Distractors are glosses (up to the first `;`) of eligible items with the same POS, preferring the same topic, drawn with the session RNG; when fewer than three share the POS, other eligible words and chunks fill the options. The right gloss sits at a position drawn with the session RNG (the player's seeded shuffle by exercise ID would otherwise always put it in the same place). Grammar points and sounds get no generated read card.
    - **listen (sounds):** play one word of a pair (session RNG) and choose between the two.
-3. Interleave with the session RNG (SplitMix64 seeded by FNV-1a 64 of the `sessionId`): never the same item twice in a row, at most 2 consecutive cards of one format, and grammar cards spread evenly.
-4. Each card answered Again first time is re-queued once at the end of the session, with a different exercise if one exists. This is a same-day review, handled by FSRS's short-term formula.
+3. Interleave with the session RNG (SplitMix64 seeded by FNV-1a 64 of the `sessionId`): never the same item twice in a row, at most 2 consecutive cards of one format, and grammar cards spread evenly (the k-th of g near slot (2k + 1)·n / 2g). When 2 in a row is impossible (most cards are recall), the limit is the smallest achievable maximum run, ⌈c / (n − c + 1)⌉ for the commonest format, with every format spread evenly so the other cards break the runs.
+4. Each card answered Again first time is re-queued once at the end of the session, with a different exercise if one exists (another eligible bank exercise not used in this session, the 2-day rule lifted; else a generated card). A failed spoken answer makes no update, so it isn't re-queued. This is a same-day review, handled by FSRS's short-term formula.
 5. At most one skill per item per session. If two skills of an item are due, the other waits until tomorrow.
 
 ## Grading
@@ -225,15 +227,15 @@ Each graded answer, reveal and skip gives the caller the machine's part of the `
 - Each check exercise has a `score` (default 1). In check, final and placement contexts, `correct` and `correctWithNote` earn the full score, `almost` earns half, and anything else earns zero. Talk and writing earn `score × found/required` (capped at `score`), and conversation earns `score × goals completed / goals`.
 - Section score = earned / possible. Overall = total earned / total possible.
 - **Passed** = overall ≥ 0.70 **and** every section ≥ 0.50 (Q11 default). A section is excluded, and flagged on the result screen, when the device can't do it (speaking with no speech recognition, or speaking switched off).
-- **Can-do reached** when at least ⌈2/3 × n⌉ of its n tagged check exercises earned their full score.
-- **Failed check:** the primary targets of wrong items become `focus_items` for 3 days (reviewed first, § Review session builder), and the result screen offers a retake from the next day. The next unit still unlocks (ADR-16).
+- **Can-do reached** when at least ⌈2/3 × n⌉ of its n tagged check exercises earned their full score. Exercises in an excluded section don't count towards n.
+- **Failed check:** the primary targets of wrong items (those whose check answer earned nothing: `wrong`, `revealed` or `skipped`) become `focus_items` for 3 days from the check's completion (reviewed first, § Review session builder), and the result screen offers a retake from the next day. The next unit still unlocks (ADR-16).
 - **Retakes:** `unit_progress.check_score` keeps the **best** score; `check_passed` is true once any attempt passed. Can-dos reached are the union over attempts.
 
 ## Placement
 
 1. Offered in onboarding when the learner says they know some Italian.
 2. Blocks for Units 1–8, five items each (`content/assessments/placement.yaml`, compiled into `assessments`): two vocabulary (recall or choice), two grammar (cloze) and one listening (choice).
-3. Start with the Unit 1 block. If a block scores ≥ 4/5, go to the next; otherwise stop. The start unit is the first block that scored below 4, or Unit 9 if all eight blocks pass.
+3. Start with the Unit 1 block. If a block scores ≥ 4/5, go to the next; otherwise stop. Blocks are scored like a check (`almost` earns half), so a block can score 4.5, and `placementCompleted.blocks[].correct` may be fractional. The start unit is the first block that scored below 4, or Unit 9 if all eight blocks pass.
 4. Write `placementCompleted` and one `introduced` event (via `placement`) for every item in units before the start unit. Those units become `skipped`. Their scheduled pairs enter the **new catch-up** queue (15 a day), so FSRS state is built from real reviews, never invented.
 5. "Start from the beginning" (offered at any point) writes `placementCompleted` with `startUnit: u00` and no introductions.
 
