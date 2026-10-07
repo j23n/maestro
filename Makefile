@@ -120,6 +120,7 @@ lint-guards:
 	bash scripts/check-core-imports.sh
 	python3 scripts/check-contrast.py
 	python3 scripts/gen-tokens.py --check
+	bash scripts/check-app-logic.sh
 
 # [owner] Signs with the owner's team: never run by agents (ADR-19). Builds the release pack, swaps it into the
 # bundle for the archive only and restores the dev pack on exit.

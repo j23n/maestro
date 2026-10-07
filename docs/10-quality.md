@@ -44,6 +44,9 @@ make test-app        # xcodebuild test (iPhone simulator, unsigned) + test (macO
 make test-ui         # xcodebuild test -only-testing:ItalianoUITests (iPhone simulator, then macOS ad-hoc signed)
 make screenshots     # UI tests that save reference screenshots to artifacts/screens/
 make lint-guards     # scripts/check-core-imports.sh + python3 scripts/check-contrast.py
+                     #   + scripts/gen-tokens.py --check (Tokens.swift matches design/tokens.json)
+                     #   + scripts/check-app-logic.sh (App files importing only Foundation, Observation,
+                     #     LearningCore and Storage type-check against the packages, on Linux too)
 make archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with
                      #   the owner's signing, restore the dev pack on exit (trap); never run by agents
 make ci              # what CI runs, in the same order
