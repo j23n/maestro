@@ -15,6 +15,12 @@ public struct WeekProgress: Hashable, Sendable {
     public var days: [Bool]
     public var goal: Int
 
+    public init(weekStart: Int64, days: [Bool], goal: Int) {
+        self.weekStart = weekStart
+        self.days = days
+        self.goal = goal
+    }
+
     public var activeDays: Int { days.filter { $0 }.count }
     public var goalMet: Bool { activeDays >= goal }
 }
