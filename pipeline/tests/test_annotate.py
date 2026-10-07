@@ -46,6 +46,7 @@ def make_lexicon(course, extra: dict | None = None) -> Lexicon:
         morph=base.morph,
         detector=base.detector,
         intro=base.intro,
+        slot_heads=base.slot_heads,
     )
 
 
@@ -98,6 +99,25 @@ def test_longest_chunk_wins_and_punctuation_breaks_chunks(lex):
     ]
     d = ann(lex, "Per... favore!", strict=False)
     assert all(t.chunk is None for t in d.tokens)
+
+
+def test_personal_slots_complete_chunks(lex):
+    from itcontent.patterns import model_answer
+
+    e = model_answer("Abito {ME.home}.")
+    a = ann(lex, e.raw, "u01", protected=e.raw_slots)
+    assert [(t.surface, t.kind, t.chunk) for t in a.tokens] == [
+        ("Abito", "word", "c:abito"),
+        ("{ME.home}", "slot", None),
+        (".", "punct", None),
+    ]
+    assert not a.issues
+    assert "in" in lex.slot_heads["ME.home"] and "negli" in lex.slot_heads["ME.home"]
+    n = model_answer("mi chiamo {NAME}")
+    b = ann(lex, n.raw, "u01", protected=n.raw_slots)
+    assert [t.chunk for t in b.tokens[:2]] == ["c:mi-chiamo", "c:mi-chiamo"] and b.tokens[2].tok.slot == "NAME"
+    c = model_answer("e {NAME}")  # a slot never completes a chunk it isn't the filler for
+    assert ann(lex, c.raw, "u01", protected=c.raw_slots).tokens[0].item == "w:e"
 
 
 # ---------------------------------------------------------------- item resolution

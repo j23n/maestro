@@ -24,6 +24,7 @@ tokens and issues. The order for each word token outside a chunk:
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
@@ -163,8 +164,6 @@ def _neighbour(anns: Sequence[TokAnn], k: int, step: int) -> TokAnn | None:
 
 def _any_match(tok: TokAnn | None, spec: Mapping[str, Any]) -> bool:
     """disambiguation.yaml: a neighbour matches if ANY of its analyses matches (form on the lowercase surface)."""
-    import re
-
     if tok is None:
         return False
     if "form" in spec and not re.search(str(spec["form"]), tok.norm):
@@ -191,6 +190,7 @@ class Lexicon:
         morph: MorphIt,
         detector: Detector,
         intro: Mapping[str, Position] | None = None,
+        slot_heads: Mapping[str, frozenset[str]] | None = None,
     ) -> None:
         self.items = dict(items)
         self.item_unit = dict(item_unit)
@@ -199,6 +199,7 @@ class Lexicon:
         self.morph = morph
         self.detector = detector
         self.intro = dict(intro or {})
+        self.slot_heads = dict(slot_heads or {})
         self.by_form: dict[str, list[str]] = {}
         self.by_lemma: dict[str, list[str]] = {}
         for iid, it in sorted(self.items.items()):
@@ -247,6 +248,7 @@ class Lexicon:
             morph=morph,
             detector=Detector(course.detection_rules()),
             intro=introductions(course, items, item_unit),
+            slot_heads=slot_heads(course),
         )
 
     # ------------------------------------------------------------ helpers
@@ -347,7 +349,7 @@ class Lexicon:
                 a.raw = a.context = self.morph.get(a.surface)
 
         # chunks first
-        for s, e, cid in self.chunks.match(toks):
+        for s, e, cid in self.chunks.match(toks, self.slot_heads):
             for a in anns[s:e]:
                 a.chunk = cid
                 a.analyses = a.raw
@@ -533,6 +535,17 @@ class Lexicon:
         kept = tuple(x for x in a.raw if any_pos(x.category, cats))
         a.analyses = kept  # what the rule chose, even if no item matches it (then the token is unknown)
         return self.candidates(kept, a.norm, synthesise=False)
+
+
+def slot_heads(course: Course) -> dict[str, frozenset[str]]:
+    """First words of what `{ME.home}` stands for (countries.yaml `home_phrase`, `alt_home_phrases`)."""
+    doc = course.singles.get("countries")
+    heads: set[str] = set()
+    for c in ((doc.data if doc else None) or {}).get("countries") or []:
+        for phrase in [c.get("home_phrase"), *(c.get("alt_home_phrases") or [])]:
+            if isinstance(phrase, str) and phrase.split():
+                heads.add(fold(phrase.split()[0]))
+    return {"ME.home": frozenset(heads)} if heads else {}
 
 
 # ---------------------------------------------------------------- introductions (for the `new` flag)
