@@ -6,7 +6,7 @@
 italiano/
 ├─ CLAUDE.md, README.md, PROGRESS.md, Makefile
 ├─ App/                         Xcode project: Italiano.xcodeproj
-│  ├─ Config/                   xcconfig files (Base, Debug, Release, Study, Review; Secrets.xcconfig is gitignored)
+│  ├─ Config/                   xcconfig files (Base, Debug, Release, Study, Review; Secrets-Study and Secrets-Review are gitignored)
 │  │                            and entitlements (Italiano.entitlements, Italiano-NoCloud.entitlements)
 │  ├─ Italiano/                 app target sources (SwiftUI), one multiplatform target
 │  │  ├─ AppMain/               @main, scenes, dependency container, app config
@@ -132,7 +132,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 
 Release and Study archives bundle the release pack (approved content only, `make archive`); Review archives bundle the dev pack, drafts included, and go only to the internal TestFlight group of the content lead.
 
-Tokens are not committed: `Study.xcconfig` and `Review.xcconfig` do `#include? "Secrets.xcconfig"`, a gitignored file the owner creates with `ITA_STUDY_TOKEN = …` and `ITA_REVIEW_TOKEN = …`.
+Tokens are not committed, and each build gets only its own: `Study.xcconfig` does `#include? "Secrets-Study.xcconfig"` (`ITA_TELEMETRY_URL`, `ITA_STUDY_TOKEN`) and `Review.xcconfig` does `#include? "Secrets-Review.xcconfig"` (`ITA_REVIEW_URL`, `ITA_REVIEW_TOKEN`), two gitignored files the owner creates. After the include each configuration clears the other build's keys, so a study participant's app never carries the review token and the content lead's never carries the study token (a test resolves both chains with all four keys in the secrets file).
 
 The Debug menu (Settings → Debug, builds with `ITA_DEBUG_MENU` only; `DebugMenuModel`) offers:
 

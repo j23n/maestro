@@ -3,8 +3,11 @@
 
 ITA_STUDY_BUILD = YES
 ITA_TELEMETRY_URL =
-// The owner sets the endpoint and the token in the gitignored Secrets.xcconfig:
+// The owner sets the endpoint and the token in the gitignored Secrets-Study.xcconfig:
 //   ITA_TELEMETRY_URL = https:/$()/<study host>
 //   ITA_STUDY_TOKEN = …
 // Without a token the app never uploads.
-#include? "Secrets.xcconfig"
+#include? "Secrets-Study.xcconfig"
+// The review endpoint and token never reach the study cohort, whatever the secrets file holds (docs/12).
+ITA_REVIEW_URL =
+ITA_REVIEW_TOKEN =

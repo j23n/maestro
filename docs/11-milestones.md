@@ -130,7 +130,7 @@ If a task can't meet its criteria, stop and report. If content slips, the unit m
 | M6.6 | Reference endpoint in `server/`: study batches (append-only, no IP logging, JSONL export, delete) and review comments (`docs/12`) | 12 | contract tests pass for both routes | `make -C server test` |
 | M6.7 | `content beta-import`: item statistics and the rejected-answers report | 04, 12 | tests with a recorded JSONL fixture | `make test-pipeline` |
 | M6.8 | **[owner]** Internal TestFlight (owner signs with `make archive CONFIG=Release`, which bundles the release pack; sync off), feedback link in Settings, crash logs via Xcode Organizer (no SDK) | 02, 12 | proxy: release build archives unsigned; owner: 5 testers complete the Unit 1 check (G2) | owner |
-| M6.9 | **[owner]** Study build: consent text, telemetry to the real endpoint (`Secrets.xcconfig`), external TestFlight group, `ITA_SYNC_ENABLED = NO` until M7.5 | 12 | beta cohort installs the build (G2b) | owner |
+| M6.9 | **[owner]** Study build: consent text, telemetry to the real endpoint (`Secrets-Study.xcconfig`), external TestFlight group, `ITA_SYNC_ENABLED = NO` until M7.5 | 12 | beta cohort installs the build (G2b) | owner |
 | M6.10 | **Review mode in the app** (`docs/06` § Shared player behaviour): Review build configuration (dev pack, no sync or telemetry), unlocked units with a jump menu, comment sheet, answer key, "This should be accepted", Send and Export of the review file. **[owner]** an internal TestFlight group "Content review" with the teacher | 04, 06, 12 | proxy: UI test files a comment on `u02.l1.ex07` and exports a review file that `content review-import` accepts; owner: the teacher sends a review from the app | `make test-ui`; owner |
 
 ## M7 · Sync (weeks 9–14)

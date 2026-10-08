@@ -58,6 +58,17 @@ import Testing
         let reviewBuild = AppConfig(info: info)
         #expect(reviewBuild.pack == .dev && !reviewBuild.studyBuild)
         #expect(!reviewBuild.canUploadTelemetry && !reviewBuild.syncAllowed(hasICloudEntitlement: true))
+        // Each build carries only its own secrets, even when the owner's file holds all four keys (docs/02).
+        let everySecret = [
+            "ITA_TELEMETRY_URL": "https://study.example.org", "ITA_STUDY_TOKEN": "study-token",
+            "ITA_REVIEW_URL": "https://review.example.org", "ITA_REVIEW_TOKEN": "review-token",
+        ]
+        let study = try Xcconfig.values("Study.xcconfig", optional: ["Secrets-Study.xcconfig": everySecret])
+        #expect(study["ITA_STUDY_TOKEN"] as? String == "study-token")
+        #expect(study["ITA_REVIEW_URL"] as? String == "" && study["ITA_REVIEW_TOKEN"] as? String == "")
+        let review = try Xcconfig.values("Review.xcconfig", optional: ["Secrets-Review.xcconfig": everySecret])
+        #expect(review["ITA_REVIEW_TOKEN"] as? String == "review-token")
+        #expect(review["ITA_TELEMETRY_URL"] as? String == "" && review["ITA_STUDY_TOKEN"] as? String == "")
         // A study build never gets it, whatever else is set; a Debug UI test can turn it off.
         #expect(!AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_STUDY_BUILD": "YES"]).reviewMode)
         #expect(
@@ -387,22 +398,32 @@ extension PayloadFixtures {
 }
 
 /// The ITA_* keys of one build configuration, resolved from App/Config/*.xcconfig as Xcode does (includes in
-/// order, later assignments win). Optional includes (`#include?`: the owner's Secrets and Signing) are left out.
+/// order, later assignments win). Optional includes (`#include?`: the owner's secrets and Signing) are left out
+/// unless `optional` supplies their keys, as the owner's gitignored files would.
 enum Xcconfig {
-    static func values(_ file: String) throws -> [String: Any] {
+    static func values(_ file: String, optional: [String: [String: String]] = [:]) throws -> [String: Any] {
         var out: [String: Any] = [:]
-        try read(file, into: &out)
+        try read(file, optional: optional, into: &out)
         return out
     }
 
-    private static func read(_ file: String, into out: inout [String: Any]) throws {
+    private static func read(
+        _ file: String, optional: [String: [String: String]], into out: inout [String: Any]
+    ) throws {
         let url = PayloadFixtures.repoRoot.appendingPathComponent("App/Config/\(file)")
         for raw in try String(contentsOf: url, encoding: .utf8).split(separator: "\n") {
             let line = raw.trimmingCharacters(in: .whitespaces)
-            if line.hasPrefix("#include?") || line.hasPrefix("//") { continue }
+            if line.hasPrefix("//") { continue }
+            if line.hasPrefix("#include?") {
+                let parts = line.split(separator: "\"")
+                if parts.count >= 2, let keys = optional[String(parts[1])] {
+                    for (key, value) in keys { out[key] = value }
+                }
+                continue
+            }
             if line.hasPrefix("#include") {
                 let parts = line.split(separator: "\"")
-                if parts.count >= 2 { try read(String(parts[1]), into: &out) }
+                if parts.count >= 2 { try read(String(parts[1]), optional: optional, into: &out) }
                 continue
             }
             guard line.hasPrefix("ITA_"), let eq = line.firstIndex(of: "=") else { continue }

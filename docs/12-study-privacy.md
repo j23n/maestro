@@ -43,7 +43,7 @@ Content-Type: application/json
   - Only uploads events created on this device (`origin = 'local'`), so synced events aren't uploaded twice.
 - **Server (any small host, Q9):** append the raw JSON to storage keyed by `installId`, with no IP logging and an export to JSONL for `content beta-import`. A 50-line reference server (Python or a Cloudflare Worker) in `server/` is task M6.6; it is outside the app and never handles anything but this endpoint.
 
-- **Study token:** `Authorization: Bearer` uses `ITA_STUDY_TOKEN` from the gitignored `App/Config/Secrets.xcconfig`, included by `Study.xcconfig` with `#include?` (`docs/02`). Builds without it never upload.
+- **Study token:** `Authorization: Bearer` uses `ITA_STUDY_TOKEN` from the gitignored `App/Config/Secrets-Study.xcconfig`, included only by `Study.xcconfig` with `#include?` (`docs/02`). Builds without it never upload.
 
 ### Review comments (Review builds only)
 
