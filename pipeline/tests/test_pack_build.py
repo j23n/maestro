@@ -7,6 +7,7 @@ tests run everywhere. The golden lesson's requirement rows are compared with a h
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sqlite3
 from pathlib import Path
@@ -20,7 +21,7 @@ from itcontent.cli import app
 from itcontent.course import load_course
 from itcontent.pack import build as build_mod
 from itcontent.pack import db
-from itcontent.pack.build import BuildError, build_pack, select_scope, update_ids_lock
+from itcontent.pack.build import AudioOptions, BuildError, build_pack, select_scope, update_ids_lock
 from itcontent.pack.common import Report
 
 EXPECTED = Path(__file__).parent / "fixtures" / "expected-requirements-u02-l1.json"
@@ -33,17 +34,25 @@ def connect(path: Path) -> sqlite3.Connection:
 
 @pytest.fixture(scope="module")
 def dev(root, tmp_path_factory):
+    """The dev pack with no renders at all (hermetic: a developer's own mock or Azure renders don't count here)."""
     out = tmp_path_factory.mktemp("dev") / "content.sqlite"
-    result = build_pack(root, mode="dev", out=out, echo=lambda _: None)
+    result = build_pack(root, mode="dev", out=out, echo=lambda _: None, audio=AudioOptions([], None))
     con = connect(out)
     yield result, con
     con.close()
 
 
+def mini_rows_only(root: Path) -> AudioOptions:
+    """The mini pack's committed renders, without encoding: the rows don't depend on ffmpeg."""
+    options = AudioOptions.default(root, "mini")
+    options.encode = False
+    return options
+
+
 @pytest.fixture(scope="module")
 def mini(root, tmp_path_factory):
     out = tmp_path_factory.mktemp("mini") / "mini.sqlite"
-    result = build_pack(root, mode="mini", out=out, echo=lambda _: None)
+    result = build_pack(root, mode="mini", out=out, echo=lambda _: None, audio=mini_rows_only(root))
     con = connect(out)
     yield result, con
     con.close()
@@ -243,9 +252,13 @@ def test_review_files_name_each_prefix_with_its_approval_hash(root, dev):
 
 def test_missing_audio_is_a_warning_in_dev_packs(dev):
     result, con = dev
-    assert any(w.startswith("missing audio:") for w in result.report.warnings)
+    missing = next(w for w in result.report.warnings if w.startswith("missing audio:"))
+    assert re.match(r"missing audio: (\d+) of \1 need\(s\) \(\d+ exercise, \d+ item, \d+ sound, 2 text;", missing)
+    assert any(w.startswith("audio not-voiceable: c:sono-nato") for w in result.report.warnings)
     assert con.execute("SELECT COUNT(*) FROM audio").fetchone()[0] == 0
     assert con.execute("SELECT COUNT(*) FROM texts WHERE audio_id IS NOT NULL").fetchone()[0] == 0
+    assert con.execute("SELECT COUNT(*) FROM tokens WHERE start_ms IS NOT NULL").fetchone()[0] == 0
+    assert con.execute("SELECT COUNT(*) FROM items WHERE audio_id IS NOT NULL").fetchone()[0] == 0
 
 
 # ---------------------------------------------------------------- M1.10: requirements, introductions, previews
@@ -393,19 +406,40 @@ def test_mini_payloads_conform_to_the_contract(root, mini):
 
 
 def test_committed_mini_pack_is_fresh(root, mini):
-    """fixtures/packs/mini.sqlite and mini-payloads.json are what `make mini-pack` builds now."""
-    result, _ = mini
+    """fixtures/packs/mini.sqlite, mini-payloads.json and Audio/ are what `make mini-pack` builds now."""
+    result, con = mini
     committed = root / "fixtures" / "packs" / "mini.sqlite"
     assert committed.is_file(), "run `make mini-pack`"
     assert db.pack_hash(committed) == result.content_hash, "fixtures/packs/mini.sqlite is stale: run `make mini-pack`"
     fresh = json.loads(result.payloads_path.read_text(encoding="utf-8"))
     on_disk = json.loads((root / "fixtures" / "packs" / "mini-payloads.json").read_text(encoding="utf-8"))
     assert fresh == on_disk, "fixtures/packs/mini-payloads.json is stale: run `make mini-pack`"
+    files = {r[0] for r in con.execute("SELECT file FROM audio")}
+    on_disk_audio = {p.name for p in (root / "fixtures" / "packs" / "Audio").glob("*.m4a")}
+    assert files == on_disk_audio, "fixtures/packs/Audio/ is stale: run `make mini-pack`"
+
+
+def test_the_mini_pack_has_two_or_three_audio_files_from_its_committed_renders(mini):
+    """docs/04 § Tiny test packs: a text with timings, an item and an exercise string, from the mock renders in
+    fixtures/packs/tts-cache/ (other needs stay null)."""
+    result, con = mini
+    files = con.execute("SELECT COUNT(*) FROM audio").fetchone()[0]
+    assert 3 <= files <= 4  # the three needs, plus a conversation line that says what the audio text's first line says
+    assert con.execute("SELECT audio_id IS NOT NULL FROM texts WHERE id = 'u02.check.01.audio'").fetchone()[0] == 1
+    assert con.execute("SELECT audio_id FROM texts WHERE id = 'u02.l1.story'").fetchone()[0] is None
+    timed = con.execute(
+        "SELECT COUNT(*) FROM tokens WHERE text_id = 'u02.check.01.audio' AND kind = 'word' AND start_ms IS NOT NULL"
+    ).fetchone()[0]
+    assert timed == 10
+    assert con.execute("SELECT audio_id IS NOT NULL FROM items WHERE id = 'w:cornetto'").fetchone()[0] == 1
+    ex13 = json.loads(result.payloads_path.read_text(encoding="utf-8"))["exercises"]["u02.l1.ex13"]
+    assert ex13["audioId"] is not None
 
 
 def test_two_mini_builds_are_byte_identical(root, tmp_path):
-    a = build_pack(root, mode="mini", out=tmp_path / "a" / "mini.sqlite", echo=lambda _: None)
-    b = build_pack(root, mode="mini", out=tmp_path / "b" / "mini.sqlite", echo=lambda _: None)
+    options = mini_rows_only(root)
+    a = build_pack(root, mode="mini", out=tmp_path / "a" / "mini.sqlite", echo=lambda _: None, audio=options)
+    b = build_pack(root, mode="mini", out=tmp_path / "b" / "mini.sqlite", echo=lambda _: None, audio=options)
     assert a.path.read_bytes() == b.path.read_bytes()
     assert a.payloads_path.read_bytes() == b.payloads_path.read_bytes()
 

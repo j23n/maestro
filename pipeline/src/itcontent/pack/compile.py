@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from itcontent import ids
+from itcontent.audio_assets import AudioPlan, Resolved
 from itcontent.course import Course, Doc, ExerciseRef, TextRef, UnitFiles, walk_check, walk_lesson, walk_task
 from itcontent.normalize import normalize
 from itcontent.pack import display
@@ -35,8 +36,10 @@ from itcontent.pack.requirements import (
     step_introduces,
     string_pairs,
 )
+from itcontent.patterns import PatternError, expand
 from itcontent.resolve import DEFINITE, INDEFINITE, INDEFINITE_FORMS
 from itcontent.tokenize import WORD, tokenize
+from itcontent.tts_needs import ITEMS, LEARNER, NARRATOR, LineSpec, Voicing, item_speech_text
 
 PathT = tuple[str | int, ...]
 SKILLS = ("read", "listen", "recall", "speak")
@@ -140,7 +143,7 @@ class PackData:
     payloads: dict[str, dict[str, Any]] = field(
         default_factory=lambda: {"exercises": {}, "steps": {}, "notes": {}, "assessments": {}, "layouts": {}}
     )
-    audio_needs: list[tuple[str, str]] = field(default_factory=list)  # (kind, id)
+    audio: AudioPlan = field(default_factory=AudioPlan)  # every voiced thing and its audio (docs/04 § Audio)
     review_files: dict[str, dict[str, str]] = field(default_factory=dict)
 
     def add(self, table: str, row: tuple[Any, ...]) -> None:
@@ -152,12 +155,17 @@ def _int_seconds(x: float) -> int:
 
 
 class Compiler:
-    def __init__(self, course: Course, locks: Locks, scope: Scope, report: Report) -> None:
+    def __init__(
+        self, course: Course, locks: Locks, scope: Scope, report: Report, audio: AudioPlan | None = None
+    ) -> None:
         self.course = course
         self.locks = locks
         self.scope = scope
         self.report = report
-        self.data = PackData()
+        self.data = PackData(audio=audio or AudioPlan())
+        self.audio = self.data.audio
+        self.voicing = Voicing.from_course(course)
+        self._item_audio: dict[str, str | None] = {}
         checker = mapping(course.singles["checker"].data) if "checker" in course.singles else {}
         strands = mapping(mapping(checker.get("strands")).get("by_kind"))
         self.strands = {**STRANDS, **{str(k): str(v) for k, v in strands.items()}}
@@ -282,6 +290,7 @@ class Compiler:
             info = self.item_info[iid]
             d, i = display.display_forms(item) if info.kind == "word" else (None, None)
             flags = (1 if item.get("cognate") else 0) | (2 if item.get("false_friend") else 0)
+            audio_id = self.item_audio(iid) if info.kind in ("word", "chunk") else None
             self.data.add(
                 "items",
                 (
@@ -300,14 +309,15 @@ class Compiler:
                     info.unit,
                     opt_str(item.get("lesson")),
                     cjson([str(x) for x in seq(item.get("topics"))]),
-                    None,
+                    audio_id,
                     flags,
                 ),
             )
-            if info.kind in ("word", "chunk"):
-                self.data.audio_needs.append(("item", iid))
             if info.kind == "sound":
-                pairs = [[{"it": str(w), "audioId": None} for w in seq(p)] for p in seq(item.get("pairs"))]
+                pairs = [
+                    [{"it": str(w), "audioId": self.sound_word_audio(iid, j, k, str(w))} for k, w in enumerate(seq(p))]
+                    for j, p in enumerate(seq(item.get("pairs")))
+                ]
                 self.data.add("sounds", (iid, cjson(pairs)))
         for pid, p in sorted(self.points.items()):
             title = str(p.get("title", pid))
@@ -396,8 +406,30 @@ class Compiler:
                 targets.update(str(g) for g in seq(step.get("grammar")))
         return frozenset(targets), before
 
+    def text_audio(self, t: TextEntry) -> Resolved | None:
+        """A text's audio: its lines in one file, every word token timed (docs/04 § Audio steps 5–6)."""
+        lines = t.line_strings()
+        if not lines:
+            return None  # a real-world layout: shown, never voiced
+        specs = []
+        for n, line, s in lines:
+            say = {str(k): str(v) for k, v in mapping(line.get("say")).items()}
+            pause = line.get("pause_ms")
+            specs.append(
+                LineSpec(
+                    speaker=str(line.get("speaker", "")),
+                    text=str(line.get("it", "")),
+                    tokens=[(str(tok.get("kind")), str(tok.get("surface"))) for tok in s.tokens],
+                    label=f"{t.id}#{n}",
+                    say=say,
+                    pause_ms=pause if isinstance(pause, int) and not isinstance(pause, bool) else 0,
+                )
+            )
+        return self.audio.add(self.voicing.text_need(t.id, t.unit, t.lock.file, specs))
+
     def text_rows(self, t: TextEntry) -> None:
         title = mapping(t.data.get("title"))
+        audio = self.text_audio(t)
         layout = t.data.get("layout")
         layout_json = None
         if isinstance(layout, dict):
@@ -413,14 +445,13 @@ class Compiler:
                 opt_str(title.get("it")),
                 opt_str(title.get("en")),
                 layout_json,
-                None,
-                None,
+                audio.audio_id if audio else None,
+                audio.duration_ms if audio else None,
             ),
         )
         lines = t.line_strings()
-        if lines:
-            self.data.audio_needs.append(("text", t.id))
         for n, line, s in lines:
+            timed = audio.lines[n - 1] if audio else None
             speaker = str(line.get("speaker", ""))
             addressee = opt_str(line.get("to"))
             self.data.add(
@@ -433,11 +464,12 @@ class Compiler:
                     opt_str(line.get("register")),
                     str(line.get("it", "")),
                     str(line.get("en", "")),
-                    None,
-                    None,
+                    timed.start_ms if timed else None,
+                    timed.end_ms if timed else None,
                 ),
             )
             for k, tok in enumerate(tokenized(s, t.targets)["tokens"], start=1):
+                span = timed.tokens.get(k - 1) if timed else None
                 self.data.add(
                     "tokens",
                     (
@@ -450,8 +482,8 @@ class Compiler:
                         tok["itemId"],
                         tok["gloss"],
                         tok["flags"],
-                        None,
-                        None,
+                        span[0] if span else None,
+                        span[1] if span else None,
                     ),
                 )
         for item, skill in sort_pairs(t.pairs(HEARD_TEXT if t.heard else READ, t.exclude)):
@@ -723,6 +755,7 @@ class Compiler:
             data, path, lock, unit_id, step_id, step_kind, role, targets, source, audio_text_id, self.item_gloss
         )
         payload = exercise_payload(x)
+        self.exercise_audio(payload, data, doc.rel, unit_id)
         skip = [f"{s}" for s in (_fmt((*path, "audio_text")), _fmt((*path, "source")))]
         pairs: set[Pair] = set(text_pairs)
         for s in lock.under(path):
@@ -744,7 +777,6 @@ class Compiler:
             self.data.add("exercise_tags", (eid, tag))
         self.data.payloads["exercises"][eid] = payload
         self.exercise_est[eid] = est
-        self.audio_needs_of(payload, data)
         return eid
 
     def sources(
@@ -806,27 +838,73 @@ class Compiler:
     def exercise_seconds(self, exercise_ids: list[str]) -> int:
         return sum(self.exercise_est[e] for e in exercise_ids)
 
-    def audio_needs_of(self, payload: Mapping[str, Any], data: Mapping[str, Any]) -> None:
-        """The voiced strings of an authored exercise (docs/04 § Audio): dictation and repeat lines, sound-pair words,
-        conversation lines, talk models, a voiced `prompt_it` (`audio`), and model answers with `audio_after`."""
+    # ------------------------------------------------------------ audio (docs/04 § Audio; voices: tts_needs)
+
+    def item_audio(self, iid: str) -> str | None:
+        """An item's audio (its display form, or `audio_say`), shared by its row and the generated preview."""
+        if iid not in self._item_audio:
+            item = self.items[iid]
+            shown = None
+            if self.item_info[iid].kind == "word":
+                d, _ = display.display_forms(item)
+                shown = display.strip_gender_mark(d) if d else None
+            text, why = item_speech_text(item, shown)
+            unit = str(item["_unit"])
+            part = self.items_file(unit)
+            need = self.voicing.single(f"item:{iid}", "item", iid, unit, part, text, ITEMS, why or iid)
+            self._item_audio[iid] = self.audio.audio_id(need)
+        return self._item_audio[iid]
+
+    def items_file(self, unit_id: str) -> str:
+        u = next((u for u in self.scope.units if u.id == unit_id), None)
+        return u.items.rel if u is not None and u.items is not None else f"content/items/{unit_id}.yaml"
+
+    def sound_word_audio(self, iid: str, pair: int, word: int, text: str) -> str | None:
+        unit = str(self.items[iid]["_unit"])
+        key = f"sound:{iid}:{pair}:{word}"
+        need = self.voicing.single(key, "sound", iid, unit, self.items_file(unit), text, ITEMS, f"{iid} pair {pair}")
+        return self.audio.audio_id(need)
+
+    def exercise_audio(self, payload: dict[str, Any], data: Mapping[str, Any], part: str, unit_id: str) -> None:
+        """Fill the audio IDs of an authored exercise's voiced strings (docs/04 § Audio step 1): dictation and repeat
+        lines, sound-pair words, conversation lines, a voiced `prompt_it` (`audio`), talk models, and model answers
+        with `audio_after`."""
         eid = str(payload["id"])
         fmt = payload["format"]
-        keys: list[str] = []
+
+        def voiced(slot: str, text: str | None, speaker: str, why: str = "") -> str | None:
+            label = why or f"{eid}:{slot}"
+            need = self.voicing.single(f"exercise:{eid}:{slot}", "exercise", eid, unit_id, part, text, speaker, label)
+            return self.audio.audio_id(need)
+
+        after = bool(payload.get("audioAfter"))
         if fmt in ("dictation", "repeat"):
-            keys.append("audioId")
-        if fmt == "cloze" and payload["audioAfter"]:
-            keys.append("audioId")
-        if fmt in ("recall", "sentence-building") and payload["audioAfter"]:
-            keys.append("answerAudioId")
-        if fmt == "choice" and payload["promptIt"] is not None and data.get("audio"):
-            keys.append("promptAudioId")
-        if fmt == "sound-pair":
-            keys += [f"pair[{i}]" for i in range(len(payload["pair"] or []))] + (["word"] if payload["word"] else [])
-        if fmt == "conversation":
-            keys += [f"nodes.{n['id']}" for n in payload["nodes"]]
-        if fmt == "talk":
-            keys.append("modelAudioId")
-        self.data.audio_needs.extend(("exercise", f"{eid}:{k}") for k in keys)
+            payload["audioId"] = voiced("audioId", payload["say"]["text"], NARRATOR)
+        elif fmt == "cloze" and after:
+            text = str(data.get("text", ""))
+            gap = text[text.find("[[") + 2 : text.find("]]")]
+            model, why = model_answer(gap, f"{eid}:audioId")
+            sentence = text[: text.find("[[")] + model + text[text.find("]]") + 2 :] if model is not None else None
+            payload["audioId"] = voiced("audioId", sentence, LEARNER, why)
+        elif fmt == "recall" and after:
+            model, why = model_answer(str(data.get("answer", "")), f"{eid}:answerAudioId")
+            payload["answerAudioId"] = voiced("answerAudioId", model, LEARNER, why)
+        elif fmt == "sentence-building" and after:
+            payload["answerAudioId"] = voiced("answerAudioId", (payload["answers"] or [""])[0], LEARNER)
+        elif fmt == "choice" and payload["promptIt"] is not None and isinstance(data.get("audio"), dict):
+            speaker = str(data["audio"].get("speaker", ""))
+            payload["promptAudioId"] = voiced("promptAudioId", payload["promptIt"]["text"], speaker)
+        elif fmt == "sound-pair":
+            for j, w in enumerate(payload["pair"] or []):
+                w["audioId"] = voiced(f"pair[{j}]", w["it"], ITEMS)
+            if payload["word"]:
+                payload["word"]["audioId"] = voiced("word", payload["word"]["it"], ITEMS)
+        elif fmt == "conversation":
+            with_ = str(data.get("with", ""))
+            for node in payload["nodes"]:
+                node["audioId"] = voiced(f"nodes.{node['id']}", node["say"]["text"], with_)
+        elif fmt == "talk":
+            payload["modelAudioId"] = voiced("modelAudioId", payload["model"]["text"], LEARNER)
 
     # ------------------------------------------------------------ preview (generated exercises, docs/06 § 1)
 
@@ -910,7 +988,7 @@ class Compiler:
             {
                 "left": self.display_text(iid),
                 "right": display.primary_gloss(str(self.items[iid].get("gloss", ""))),
-                "leftAudioId": None,
+                "leftAudioId": self.item_audio(iid),
             }
             for iid in batch
         ]
@@ -958,7 +1036,7 @@ class Compiler:
             raise BuildError(f"{gid}: no distractor glosses for {iid}")
         body = {
             "promptIt": self.display_text(iid),
-            "promptAudioId": None,
+            "promptAudioId": self.item_audio(iid),
             "audioTextId": None,
             "plays": None,
             "questionEn": GENERATED_CHOICE_QUESTION,
@@ -1017,7 +1095,6 @@ class Compiler:
                             "en": str(raw.get("en", "")),
                         }
                     )
-                    self.data.audio_needs.append(("note-example", str(ref)))
                 blocks.append({"examples": examples})
             else:
                 raise BuildError(f"{doc.rel} › {_fmt((*path, 'body', b))}: unknown note block")
@@ -1078,6 +1155,20 @@ class Compiler:
                     rows.add((form, iid, ""))
         for row in sorted(rows):
             self.data.add("forms", row)
+
+
+def model_answer(source: str, label: str) -> tuple[str | None, str]:
+    """(the model answer as written, or None, and why not): the first expansion of a pattern (docs/03); one with a
+    personal slot (`{NAME}`) can't be voiced for every learner."""
+    try:
+        first = next(iter(expand(source)), None)
+    except PatternError as exc:
+        return None, f"{label}: {exc}"
+    if first is None:
+        return None, f"{label}: the pattern has no expansion"
+    if first.slots:
+        return None, f"{label}: the model answer has a personal slot ({first.raw})"
+    return first.raw, ""
 
 
 def _fmt(path: PathT) -> str:

@@ -142,6 +142,35 @@ def beta_import(
 
 
 @app.command()
+def tts(
+    unit: str = typer.Option(None, "--unit", help="only this unit's needs (e.g. u02)"),
+    only: list[str] = typer.Option(None, "--only", help="only these texts, items or exercises (IDs; repeatable)"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="print what would be rendered, its characters and cost"),
+    provider: str = typer.Option("azure", "--provider", help="azure (needs the key) or mock (offline, synthetic)"),
+    cache: Path = typer.Option(
+        None, "--cache", help="render cache (default content-build/tts-cache; the mock's: build/tts-mock-cache)"
+    ),
+    show: str = typer.Option(
+        None, "--show", help="print the SSML and cache state of a line (u02.l1.story#3), text, item or exercise"
+    ),
+) -> None:
+    """Render missing audio, align word timings, assemble texts, encode once, fill the cache (docs/04 § Audio)."""
+    from itcontent.tts import run_tts
+
+    sys.exit(
+        run_tts(
+            unit=unit,
+            only=only or (),
+            dry_run=dry_run,
+            provider=provider,
+            cache=cache,
+            show_target=show,
+            echo=typer.echo,
+        )
+    )
+
+
+@app.command()
 def build(
     release: bool = typer.Option(False, "--release", help="only approved content; missing audio fails"),
     allow_partial: bool = typer.Option(False, "--allow-partial", help="release: ship the approved prefix of units"),
