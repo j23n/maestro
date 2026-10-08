@@ -1,4 +1,3 @@
-import Accessibility  // `accessibilitySpeechLanguage` on AttributedString
 import LearningCore
 import SwiftUI
 
@@ -55,7 +54,7 @@ struct TokenText: View {
             out += run
             out += AttributedString(token.trailing)
         }
-        out.accessibilitySpeechLanguage = "it-IT"
+        out.languageIdentifier = "it-IT"
         return out
     }
 }

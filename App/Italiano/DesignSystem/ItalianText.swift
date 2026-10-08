@@ -1,6 +1,3 @@
-// `accessibilitySpeechLanguage` (VoiceOver's Italian voice) is an attribute of the Accessibility framework's
-// AttributedString scope, not SwiftUI's.
-import Accessibility
 import SwiftUI
 
 /// All Italian on screen goes through this view (CLAUDE.md, docs/06 § Shared player behaviour): Literata, and the
@@ -46,7 +43,7 @@ struct ItalianText: View {
             rest = after[close.upperBound...]
         }
         result += AttributedString(String(rest))
-        result.accessibilitySpeechLanguage = "it-IT"
+        result.languageIdentifier = "it-IT"
         return result
     }
 }
@@ -74,7 +71,7 @@ struct MixedText: View {
             var run = AttributedString(buffer)
             if italian {
                 run.font = .ds(Tokens.TypeScale.translation)
-                run.accessibilitySpeechLanguage = "it-IT"
+                run.languageIdentifier = "it-IT"
             }
             if strong {
                 run.foregroundColor = Color.ds.accent
