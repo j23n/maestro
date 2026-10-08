@@ -188,9 +188,18 @@ final class AppModel {
     /// The research consent text's version (docs/12; the text itself is the owner's, `TODO(owner)` in the screen).
     static let consentTextVersion = "draft-1"
 
-    /// Countries for "Where do you live?", Italian names first (onboarding).
+    /// Countries for "Where do you live?", in English alphabetical order (the learner looks for their own country's
+    /// English name; the Italian name is shown with it).
     var countryChoices: [OnboardingModel.CountryChoice] {
         countryNames.sorted { $0.nameEn < $1.nameEn }
+    }
+
+    /// The masculine and feminine nationality that illustrate "Which forms fit you?" (docs/07), from the pack so no
+    /// Italian is hard-coded: the United States when the pack has it, else the first country whose forms differ.
+    var formsExample: OnboardingModel.FormsExample? {
+        let differing = countries.values.filter { $0.nationalityM != $0.nationalityF }
+        guard let country = countries["us"] ?? differing.min(by: { $0.id < $1.id }) else { return nil }
+        return .init(masculine: country.nationalityM, feminine: country.nationalityF)
     }
 
     /// Writes the answers as settings and one `onboardingCompleted` event (docs/05 § Events).
@@ -200,16 +209,22 @@ final class AppModel {
         if let country = a.country { set(.profileCountry, to: .string(country)) }
         set(.goalDaysPerWeek, to: .number(Double(a.goal)))
         set(.profileForms, to: .string(a.forms.rawValue))
-        if a.consent == true {
-            // docs/12: consent carries the text's version and date; the install ID is created once, on first consent.
-            set(.studyConsent, to: StudyConsent(version: Self.consentTextVersion, date: env.clock.nowMs(), granted: true).json)
-            if settings.studyInstallId == nil { set(.studyInstallId, to: .string(env.ids.next())) }
-        }
+        if let consent = a.consent { setStudyConsent(consent) }  // study builds only (docs/12)
         if let factory {
-            write(factory.onboardingCompleted(
-                OnboardingCompletedPayload(reason: a.reason, forms: a.forms, country: a.country, beginner: a.beginner)))
+            write(
+                factory.onboardingCompleted(
+                    OnboardingCompletedPayload(
+                        reason: a.reason, forms: a.forms, country: a.country, beginner: a.beginner)))
         }
         isOnboarded = true
+    }
+
+    /// Settings → Research (study builds, docs/12): turning sharing on records a new consent dated now, so only
+    /// events from then on upload; turning it off records the refusal and uploads stop.
+    func setStudyConsent(_ granted: Bool) {
+        let consent = StudyConsent(version: Self.consentTextVersion, date: env.clock.nowMs(), granted: granted)
+        set(.studyConsent, to: consent.json)
+        if granted, settings.studyInstallId == nil { set(.studyInstallId, to: .string(env.ids.next())) }
     }
 
     // MARK: - What the screens show

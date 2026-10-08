@@ -61,7 +61,7 @@ struct SessionCompleteView: View {
             VStack(spacing: Tokens.Space.xxl) {
                 Mascot(pose: .cheer, size: 150, decorative: true)
                 VStack(spacing: Tokens.Space.s) {
-                    Text("Bravo!").dsFont(Tokens.TypeScale.celebration).foregroundStyle(Color.ds.ink)
+                    ItalianText("Bravo!", style: Tokens.TypeScale.celebration)
                         .accessibilityAddTraits(.isHeader)
                     Text("Today's review is done.").dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
                 }

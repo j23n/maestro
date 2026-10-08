@@ -6,6 +6,8 @@ import SwiftUI
 struct SettingsScreen: View {
     let app: AppModel
     var sync: SyncSettingsModel?
+    /// Study builds show Research → "Share anonymous learning data" (docs/12).
+    var studyBuild = false
 
     var body: some View {
         let s = app.settings
@@ -47,8 +49,8 @@ struct SettingsScreen: View {
                         .accessibilityIdentifier("settings.name")
                     Divider()
                     Picker("Forms that fit you", selection: text(.profileForms, s.profileForms.rawValue)) {
-                        Text("nato, americano").tag("m")
-                        Text("nata, americana").tag("f")
+                        Text(app.formsExample.map { "Masculine (\($0.masculine))" } ?? "Masculine").tag("m")
+                        Text(app.formsExample.map { "Feminine (\($0.feminine))" } ?? "Feminine").tag("f")
                         Text("Show me both").tag("both")
                     }
                     .accessibilityIdentifier("settings.forms")
@@ -62,6 +64,21 @@ struct SettingsScreen: View {
                         Toggle("Show Moka's hints and notes", isOn: toggle(.mascotHints, s.mascotHints))
                     }
                     .accessibilityIdentifier("settings.mascot")
+                }
+                if studyBuild {
+                    SettingsGroup(title: "Research") {
+                        Toggle(
+                            "Share anonymous learning data",
+                            isOn: Binding(
+                                get: { s.studyConsent?.granted ?? false }, set: { app.setStudyConsent($0) })
+                        )
+                        .accessibilityIdentifier("settings.research")
+                        Text(
+                            "Helps us check whether the app really teaches Italian. No name, no account, and you "
+                                + "can stop any time."
+                        )
+                        .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+                    }
                 }
                 SettingsGroup(title: "On this device") {
                     Toggle("Speaking exercises", isOn: toggle(.speechEnabled, s.speechEnabled(available: true)))

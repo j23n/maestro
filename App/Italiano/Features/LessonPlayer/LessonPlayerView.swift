@@ -193,7 +193,7 @@ struct LessonDonePage: View {
         VStack(spacing: Tokens.Space.xxl) {
             Spacer()
             Mascot(pose: .cheer, size: 150, decorative: true)
-            Text("Bravo!").dsFont(Tokens.TypeScale.celebration).foregroundStyle(Color.ds.ink)
+            ItalianText("Bravo!", style: Tokens.TypeScale.celebration)
             Text("You finished \(title).").dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
             Spacer()
             Button("Done", action: onDone)

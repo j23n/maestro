@@ -105,6 +105,13 @@ import Testing
         o.next()
         o.forms = .f
         o.next()
+        o.countryQuery = "stati"
+        #expect(o.filteredCountries.map(\.id) == ["us"])
+        o.countryQuery = "ITALY"
+        #expect(o.filteredCountries.map(\.nameIt).contains("Italia"))
+        o.countryQuery = ""
+        #expect(o.filteredCountries.count == app.countryChoices.count)
+        #expect(app.formsExample == .init(masculine: "americano", feminine: "americana"))
         o.country = app.countryChoices.first?.id
         o.next()
         o.goal = 9
@@ -119,6 +126,27 @@ import Testing
         await again.start()
         #expect(again.isOnboarded)
         #expect(OnboardingModel(studyBuild: true, countries: []).pages.last == .consent)
+        #expect(again.settings.studyConsent == nil)  // not a study build: no consent recorded
+    }
+
+    @Test func researchConsentCanBeWithdrawnAndGivenAgain() async throws {
+        let app = model()
+        await app.start()
+        app.setStudyConsent(true)
+        await app.settle()
+        let first = try #require(app.settings.studyConsent)
+        let installID = try #require(app.settings.studyInstallId)
+        #expect(first.granted && first.version == AppModel.consentTextVersion)
+        clock.advance(byMs: 86_400_000)
+        app.setStudyConsent(false)
+        await app.settle()
+        #expect(app.settings.studyConsent?.granted == false)
+        clock.advance(byMs: 86_400_000)
+        app.setStudyConsent(true)
+        await app.settle()
+        // A new consent date (uploads restart from it); the install ID stays the same.
+        #expect(app.settings.studyConsent.map { $0.granted && $0.date > first.date } == true)
+        #expect(app.settings.studyInstallId == installID)
     }
 
     @Test func aMissingPackFailsToLaunch() async {

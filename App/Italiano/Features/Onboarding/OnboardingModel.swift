@@ -9,7 +9,7 @@ import Observation
 @MainActor
 @Observable
 final class OnboardingModel {
-    enum Page: Sendable, Equatable { case welcome, reason, name, forms, country, goal, experience, consent }
+    enum Page: String, Sendable, Equatable { case welcome, reason, name, forms, country, goal, experience, consent }
 
     struct Reason: Sendable, Equatable, Identifiable {
         let id: String
@@ -20,6 +20,12 @@ final class OnboardingModel {
         let id: String
         let nameIt: String
         let nameEn: String
+    }
+
+    /// A nationality in both forms, from the pack (`americano` / `americana`).
+    struct FormsExample: Sendable, Equatable {
+        let masculine: String
+        let feminine: String
     }
 
     static let reasons: [Reason] = [
@@ -62,6 +68,18 @@ final class OnboardingModel {
         }
     }
 
+    var countryQuery = ""
+
+    /// The country list narrowed by the search field: English or Italian name, ignoring case and accents.
+    var filteredCountries: [CountryChoice] {
+        let q = countryQuery.trimmingCharacters(in: .whitespaces)
+        guard !q.isEmpty else { return countries }
+        return countries.filter {
+            $0.nameEn.range(of: q, options: [.caseInsensitive, .diacriticInsensitive]) != nil
+                || $0.nameIt.range(of: q, options: [.caseInsensitive, .diacriticInsensitive]) != nil
+        }
+    }
+
     func next() { if canContinue, !isLast { index += 1 } }
     func back() { if index > 0 { index -= 1 } }
 
@@ -70,4 +88,70 @@ final class OnboardingModel {
             reason: reason, name: name.trimmingCharacters(in: .whitespacesAndNewlines), forms: forms,
             country: country, goal: min(max(goal, 3), 7), beginner: beginner ?? true, consent: consent)
     }
+}
+
+/// The onboarding screens' words (`Welcome.png`, `Reason.png`).
+enum OnboardingCopy {
+    static let welcomeBody =
+        "Short stories you can actually read, reviews timed so words stick, and real conversations. "
+        + "On your iPhone, iPad and Mac."
+    static let syncFooter = "Your progress syncs through iCloud. No account needed."
+    static let localFooter = "Your progress stays on this device. No account needed."
+
+    struct Part: Sendable, Equatable {
+        let title: String
+        let body: String
+    }
+
+    static let howItWorks: [Part] = [
+        .init(
+            title: "Read and listen",
+            body: "Each lesson starts with a short story set in Bologna. Tap any word for its meaning."),
+        .init(
+            title: "Practise",
+            body: "Short exercises built from the story. A wrong answer gets a hint before the solution."),
+        .init(
+            title: "Review",
+            body: "A few minutes a day, timed so each word comes back just before you'd forget it."),
+        .init(
+            title: "Talk",
+            body: "Every unit ends with a conversation and a short check of what you can now do."),
+    ]
+
+    static func title(_ page: OnboardingModel.Page) -> String {
+        switch page {
+        case .welcome: ""
+        case .reason: "What brings you to Italian?"
+        case .name: "What should we call you?"
+        case .forms: "Which forms fit you?"
+        case .country: "Where do you live?"
+        case .goal: "How many days a week?"
+        case .experience: "Have you studied Italian before?"
+        case .consent: "Help us improve Italiano"
+        }
+    }
+
+    /// Moka's line above the question.
+    static func hint(_ page: OnboardingModel.Page) -> String {
+        switch page {
+        case .welcome: ""
+        case .reason: "I'll choose stories and phrases that fit what you need."
+        case .name: "People in the stories will use it when you talk with them. You can skip this."
+        case .forms: "Italian words change with who's speaking. I'll show you the ones that fit you."
+        case .country: "So you can say where you live and where you're from."
+        case .goal: "A few minutes on most days beats an hour once a week."
+        case .experience: "If you're new, we'll start with the sounds and the first words."
+        case .consent: "This build is part of a study. You decide what's shared."
+        }
+    }
+
+    static func goal(_ days: Int) -> String { days == 7 ? "Every day" : "\(days) days a week" }
+
+    // The draft consent text from docs/12 § What is uploaded; the owner replaces it (TODO(owner)).
+    static let consentPoints = [
+        "Your answers in exercises, the lessons you finish and how long you practise.",
+        "Not your name, your country, your recordings or anything you write or say in conversations.",
+        "Sent with a random install ID, never your Apple Account. Only the research team sees it.",
+    ]
+    static let consentFooter = "You can stop sharing at any time in Settings → Research."
 }

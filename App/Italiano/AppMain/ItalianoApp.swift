@@ -21,7 +21,7 @@ struct ItalianoApp: App {
         #endif
         #if os(macOS)
             Settings {
-                SettingsScreen(app: deps.app, sync: deps.syncSettings)
+                SettingsScreen(app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild)
                     .frame(minWidth: 520, minHeight: 480)
             }
         #endif
@@ -56,7 +56,12 @@ struct RootView: View {
                     message: "Something went wrong opening the course. Quit and open Italiano again.",
                     detail: deps.config.debugMenu ? detail : nil, identifier: "error.launch")
             case .ready:
-                MainTabs(deps: deps)
+                if deps.app.isOnboarded {
+                    MainTabs(deps: deps)
+                } else {
+                    OnboardingView(
+                        app: deps.app, studyBuild: deps.config.studyBuild, syncAllowed: deps.config.syncAllowed)
+                }
             }
         }
         .task {
