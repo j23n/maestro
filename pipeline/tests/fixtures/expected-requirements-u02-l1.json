@@ -1,0 +1,119 @@
+{
+ "about": "Hand-checked requirement and introduction rows of the golden lesson (content/units/02-al-bar/lesson-1.yaml), derived by reading the lesson, docs/04 § Requirements, docs/05 § Introductions and the token annotations in content/.annotations/units/02-al-bar/lesson-1.json (item, chunk, flags and detections of each token), not by dumping the builder. Pairs are item/skill. Rules applied: tokens inside a chunk require the chunk; articles require their grammar point; every detection requires its point (read when shown or heard, recall in a model answer, never listen or speak); glossed new tokens (da mangiare), names, numbers, foreign and allowlisted words (bar, euro, Ah, Mmm) require nothing; the lesson's target points (g:indefinite-article, g:noun-gender, from the note) are left out of the story, which comes before the note; sources (story lines) are read; dictation say and sound-pair words are listen; repeat and conversation say are read; recall answers, cloze gaps, the first sentence-building order, each intent's first accepted expansion, help phrases and models are recall (the rest of a cloze sentence is read); near-misses and other expansions require nothing; every exercise also requires its primary targets. Generated preview exercises require only their items: the match read, a recall recall, a choice read.",
+ "text_requires": {
+  "u02.l1.story": [
+   "c:buona-giornata/read", "c:come-si-chiama/read", "c:come-si-dice/read", "c:come-va/read", "c:cosa-prende/read",
+   "c:e-lei/read", "c:e-tu/read", "c:per-favore/read", "c:quant-e/read", "c:scusi/read", "c:vorrei/read",
+   "g:conjunctions/read", "g:simple-prepositions/read", "g:subject-pronouns/read",
+   "w:a/read", "w:americano/read", "w:amico/read", "w:arrivederci/read", "w:bene/read", "w:buongiorno/read",
+   "w:buono/read", "w:caffe/read", "w:canadese/read", "w:cappuccino/read", "w:ciao/read", "w:cornetto/read",
+   "w:di/read", "w:e/read", "w:ecco/read", "w:essere/read", "w:grazie/read", "w:in/read", "w:io/read",
+   "w:italiano/read", "w:lei/read", "w:no/read", "w:oggi/read", "w:prego/read", "w:sei/read", "w:spremuta/read",
+   "w:venti/read"
+  ]
+ },
+ "step_introduces": {
+  "u02.l1.step-preview": [
+   "c:cosa-prende/read", "c:cosa-prende/listen",
+   "c:quant-e/read", "c:quant-e/listen", "c:quant-e/recall", "c:quant-e/speak",
+   "c:vorrei/read", "c:vorrei/listen", "c:vorrei/recall", "c:vorrei/speak",
+   "g:conditional-courtesy/read", "g:lei-questions/read",
+   "w:amico/read", "w:amico/listen", "w:amico/recall", "w:amico/speak",
+   "w:buono/read", "w:buono/listen", "w:buono/recall", "w:buono/speak",
+   "w:caffe/read", "w:caffe/listen", "w:caffe/recall", "w:caffe/speak",
+   "w:cappuccino/read", "w:cappuccino/listen", "w:cappuccino/recall", "w:cappuccino/speak",
+   "w:cornetto/read", "w:cornetto/listen", "w:cornetto/recall", "w:cornetto/speak",
+   "w:ecco/read", "w:ecco/listen", "w:ecco/recall", "w:ecco/speak",
+   "w:oggi/read", "w:oggi/listen", "w:oggi/recall", "w:oggi/speak",
+   "w:spremuta/read", "w:spremuta/listen", "w:spremuta/recall", "w:spremuta/speak"
+  ],
+  "u02.l1.step-story": ["c:da-mangiare/read", "c:da-mangiare/listen"],
+  "u02.l1.step-note": [
+   "g:indefinite-article/read", "g:indefinite-article/recall", "g:noun-gender/read", "g:noun-gender/recall"
+  ],
+  "u02.l1.step-practice": [],
+  "u02.l1.step-sounds": ["s:double-consonants/listen"],
+  "u02.l1.step-use": []
+ },
+ "exercise_requires": {
+  "u02.l1.step-preview.b1.match": [
+   "c:quant-e/read", "c:vorrei/read", "w:caffe/read", "w:cappuccino/read", "w:cornetto/read", "w:spremuta/read"
+  ],
+  "u02.l1.step-preview.b1.w-caffe": ["w:caffe/recall"],
+  "u02.l1.step-preview.b1.w-cappuccino": ["w:cappuccino/recall"],
+  "u02.l1.step-preview.b1.w-cornetto": ["w:cornetto/recall"],
+  "u02.l1.step-preview.b1.w-spremuta": ["w:spremuta/recall"],
+  "u02.l1.step-preview.b1.c-vorrei": ["c:vorrei/recall"],
+  "u02.l1.step-preview.b1.c-quant-e": ["c:quant-e/recall"],
+  "u02.l1.step-preview.b2.match": [
+   "c:cosa-prende/read", "w:amico/read", "w:buono/read", "w:ecco/read", "w:oggi/read"
+  ],
+  "u02.l1.step-preview.b2.w-ecco": ["w:ecco/recall"],
+  "u02.l1.step-preview.b2.w-oggi": ["w:oggi/recall"],
+  "u02.l1.step-preview.b2.w-buono": ["w:buono/recall"],
+  "u02.l1.step-preview.b2.w-amico": ["w:amico/recall"],
+  "u02.l1.step-preview.b2.c-cosa-prende": ["c:cosa-prende/read"],
+  "u02.l1.q1": [],
+  "u02.l1.q2": [],
+  "u02.l1.q3": [],
+  "u02.l1.ex01": [
+   "c:per-favore/read", "c:vorrei/read", "g:indefinite-article/read", "g:indefinite-article/recall",
+   "g:noun-gender/recall", "w:buongiorno/read", "w:cappuccino/read"
+  ],
+  "u02.l1.ex02": [
+   "c:vorrei/read", "g:indefinite-article/read", "g:indefinite-article/recall", "g:noun-gender/recall",
+   "w:grazie/read", "w:no/read", "w:oggi/read", "w:spremuta/read"
+  ],
+  "u02.l1.ex03": [
+   "g:indefinite-article/recall", "g:noun-gender/recall", "g:simple-prepositions/read", "w:amico/read",
+   "w:di/read", "w:essere/read"
+  ],
+  "u02.l1.ex04": ["g:indefinite-article/recall", "w:cornetto/recall"],
+  "u02.l1.ex05": ["g:indefinite-article/recall", "w:caffe/recall"],
+  "u02.l1.ex06": ["g:indefinite-article/recall", "w:spremuta/recall"],
+  "u02.l1.ex07": ["c:quant-e/recall"],
+  "u02.l1.ex08": ["c:per-favore/recall", "c:vorrei/recall", "g:indefinite-article/recall", "w:cappuccino/recall"],
+  "u02.l1.ex09": [
+   "g:indefinite-article/read", "g:simple-prepositions/read", "w:amico/read", "w:amico/recall", "w:di/read",
+   "w:ecco/read", "w:essere/read"
+  ],
+  "u02.l1.ex10": [
+   "c:vorrei/read", "c:vorrei/recall", "g:indefinite-article/read", "g:indefinite-article/recall",
+   "w:caffe/read", "w:caffe/recall", "w:oggi/read", "w:oggi/recall"
+  ],
+  "u02.l1.ex11": [
+   "g:conjunctions/read", "g:conjunctions/recall", "g:indefinite-article/read", "g:indefinite-article/recall",
+   "w:cappuccino/read", "w:cappuccino/recall", "w:cornetto/read", "w:cornetto/recall", "w:e/read", "w:e/recall",
+   "w:ecco/read", "w:ecco/recall", "w:spremuta/read"
+  ],
+  "u02.l1.ex13": ["c:per-favore/listen", "c:vorrei/listen", "g:indefinite-article/read", "w:cornetto/listen"],
+  "u02.l1.ex14": [
+   "c:per-favore/read", "c:vorrei/read", "c:vorrei/speak", "g:indefinite-article/read", "w:cappuccino/read"
+  ],
+  "u02.l1.ex15": [
+   "g:essere-present-sg/recall", "g:subject-pronouns/read", "w:americano/read", "w:essere/read",
+   "w:essere/recall", "w:lei/read"
+  ],
+  "u02.l1.ex17": ["g:subject-pronouns/read", "g:tu-lei/read", "w:essere/read", "w:italiano/read", "w:lei/read"],
+  "u02.l1.ex18": ["c:e-tu/recall", "g:tu-lei/recall"],
+  "u02.l1.ex19": [
+   "g:conjunctions/read", "g:indefinite-article/read", "g:indefinite-article/recall", "g:noun-gender/recall",
+   "w:cornetto/read", "w:e/read", "w:ecco/read", "w:spremuta/read"
+  ],
+  "u02.l1.ex20": [
+   "g:indefinite-article/read", "w:amico/read", "w:buono/read", "w:caffe/read", "w:ecco/read", "w:oggi/read",
+   "w:spremuta/read"
+  ],
+  "u02.l1.ex21": ["w:buono/read"],
+  "u02.l1.ex26": ["c:scusi/recall"],
+  "u02.l1.ex22": ["s:double-consonants/listen", "w:ecco/listen"],
+  "u02.l1.ex23": ["s:double-consonants/listen", "w:caffe/listen"],
+  "u02.l1.ex24": ["s:double-consonants/listen"],
+  "u02.l1.ex25": [
+   "c:buona-giornata/read", "c:cosa-prende/read", "c:per-favore/recall", "c:quant-e/recall", "c:scusi/recall",
+   "c:vorrei/recall", "g:conjunctions/recall", "g:indefinite-article/recall", "w:arrivederci/recall",
+   "w:buongiorno/read", "w:buongiorno/recall", "w:cappuccino/recall", "w:cornetto/recall", "w:e/recall",
+   "w:ecco/read", "w:ecco/recall", "w:grazie/read", "w:grazie/recall", "w:tre/read"
+  ]
+ }
+}
