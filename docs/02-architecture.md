@@ -94,6 +94,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 - Event appends and derived-state updates for that event happen in **one transaction**, with the `sync_pending` row of a local event (`append`) or without one for synced events (`insertRemote`, which ignores IDs it already has). A failed transaction changes nothing, on disk or in memory.
 - The store keeps the current `LearnerState` in memory: `state` and `settings` are synchronous snapshots of the last commit, and `states()` / `settingsUpdates()` are `AsyncStream`s that yield after every commit. Writes run on GRDB's serial writer queue; `enqueueAppend(_:)` lets a synchronous caller (the exercise sink) append without waiting, in call order.
 - Replay: `rebuildAll()` runs the LearningCore reducer over all events ordered by `(at, id)`, streamed from the table, and rewrites the derived tables and the checkpoint. Appends are the incremental path (`Replay.applyIncremental(to:)`); when any new event sorts before the last applied one, the same transaction runs the full rebuild instead (`docs/05` § Replay). How the state is persisted: `docs/03` § Derived state.
+- Recovery (task M3.9): opening or migrating an unusable file throws `StorageError.corrupt`; `LearnerStore.openRecovering(…)` moves it aside (`learner-<UTC time>.corrupt.sqlite`, with its `-wal` and `-shm`) and opens a fresh database, and `moveAside(_:as: .archive, …)` is the same primitive for the account switch (`docs/08`).
 
 ### App
 
