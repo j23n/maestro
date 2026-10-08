@@ -1,0 +1,5 @@
+course: italiano-a1
+version: 0.1.0
+locale: it-IT
+title: {en: Italian A1}
+units: [02-al-bar]

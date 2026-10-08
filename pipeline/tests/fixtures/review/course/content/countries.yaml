@@ -1,0 +1,5 @@
+review: {status: draft, by: null, date: null, hash: null}
+countries:
+  - {id: ca, en: Canada, it: Canada, home_phrase: in Canada, m: canadese, f: canadese}
+  - {id: us, en: United States, it: Stati Uniti, home_phrase: negli Stati Uniti, alt_home_phrases: [in America], m: americano, f: americana}
+other: {en: Another country}
