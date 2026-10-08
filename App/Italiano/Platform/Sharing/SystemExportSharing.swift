@@ -119,7 +119,8 @@ final class SystemExportSharing: NSObject, ExportSharing {
         nonisolated func sharingServicePicker(
             _ picker: NSSharingServicePicker, delegateFor sharingService: NSSharingService
         ) -> (any NSSharingServiceDelegate)? {
-            MainActor.assumeIsolated { self }
+            // `self` needs no isolation; `MainActor.assumeIsolated` would have to return the non-Sendable existential.
+            self
         }
 
         nonisolated func sharingService(_ sharingService: NSSharingService, didShareItems items: [Any]) {

@@ -21,7 +21,8 @@ enum FontRegistry {
         if urls.count != Tokens.FontFamily.files.count {
             fontLogger.error("missing bundled fonts: found \(urls.count) of \(Tokens.FontFamily.files.count)")
         }
-        CTFontManagerRegisterFontURLs(urls as CFArray, .process, true) { errors, _ in
+        // `@Sendable`: the handler isn't main-actor isolated, so Swift 6 doesn't trap if CoreText calls it elsewhere.
+        CTFontManagerRegisterFontURLs(urls as CFArray, .process, true) { @Sendable errors, _ in
             // "Already registered" is harmless (previews, tests); anything else is worth knowing.
             for error in errors as NSArray {
                 fontLogger.error("font registration: \(String(describing: error), privacy: .public)")

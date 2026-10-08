@@ -134,13 +134,10 @@ final class SpeechAnalyzerRecognizer: SpeechRecognizing {
         }
         let recorder = try recordingURL.map { try AVAudioFile(forWriting: $0, settings: Self.m4aSettings) }
         let detector = SilenceDetector()
-        input.installTap(onBus: 0, bufferSize: 2048, format: inputFormat) { buffer, _ in
-            try? recorder?.write(from: buffer)
-            detector.feed(buffer)
-            if let converted = Self.convert(buffer, with: converter, to: format) {
-                builder.yield(AnalyzerInput(buffer: converted))
-            }
-        }
+        input.installTap(
+            onBus: 0, bufferSize: 2048, format: inputFormat,
+            block: Self.tapBlock(
+                recorder: recorder, detector: detector, converter: converter, format: format, builder: builder))
         engine.prepare()
         try engine.start()
 
@@ -199,6 +196,21 @@ final class SpeechAnalyzerRecognizer: SpeechRecognizing {
         AVFormatIDKey: kAudioFormatMPEG4AAC, AVSampleRateKey: 24_000, AVNumberOfChannelsKey: 1,
         AVEncoderBitRateKey: 48_000,
     ]
+
+    /// The input tap runs on the audio thread. Built here, outside the main actor: a closure written inside
+    /// `recognize` would be main-actor isolated, and Swift 6 traps when AVAudioEngine calls it off the main thread.
+    private nonisolated static func tapBlock(
+        recorder: AVAudioFile?, detector: SilenceDetector, converter: AVAudioConverter, format: AVAudioFormat,
+        builder: AsyncStream<AnalyzerInput>.Continuation
+    ) -> AVAudioNodeTapBlock {
+        { buffer, _ in
+            try? recorder?.write(from: buffer)
+            detector.feed(buffer)
+            if let converted = Self.convert(buffer, with: converter, to: format) {
+                builder.yield(AnalyzerInput(buffer: converted))
+            }
+        }
+    }
 
     private nonisolated static func convert(
         _ buffer: AVAudioPCMBuffer, with converter: AVAudioConverter, to format: AVAudioFormat
