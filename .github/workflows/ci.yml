@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { lfs: false }
       - name: Tools for the pipeline
-        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates libsqlite3-dev
+        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates libsqlite3-dev ffmpeg
       - name: uv
         uses: astral-sh/setup-uv@v6             # confirm the current major version at M0.5
       - name: Cache reference data
@@ -65,6 +65,8 @@ jobs:
       - name: Storage tests
         if: hashFiles('Packages/Storage/Package.swift') != ''
         run: make test-storage
+      - name: ffmpeg (decodes the LFS renders and encodes the bundle's audio; docs/04 § Audio)
+        run: command -v ffmpeg || brew install ffmpeg
       - name: Dev pack (built, never committed; docs/04 § Pack build)
         if: hashFiles('pipeline/pyproject.toml') != ''
         run: |

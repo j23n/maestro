@@ -30,7 +30,7 @@ italiano/
 └─ .claude/, .github/, .mcp.json
 ```
 
-Generated, not committed: `build/` (reports, review pages), DerivedData, and the bundled pack (`App/Italiano/Resources/Content/content.sqlite` and `Content/Audio/*.m4a`), which `make pack` (and `make bootstrap`) builds deterministically from `content/` and the TTS cache. Committed through Git LFS: only `content-build/tts-cache/` (rendered speech, which costs money to regenerate). The Xcode build never runs Python; the Makefile's app targets build the pack first when it is missing, and a GUI build without it shows the pack error screen with the fix (`make pack`).
+Generated, not committed: `build/` (reports, review pages, mock TTS renders in `build/tts-mock-cache/`, encoded audio in `build/audio/`), DerivedData, and the bundled pack (`App/Italiano/Resources/Content/content.sqlite` and `Content/Audio/*.m4a`), which `make pack` (and `make bootstrap`) builds deterministically from `content/` and the TTS cache. Committed through Git LFS: only the renders in `content-build/tts-cache/` (`*.flac`: rendered speech, which costs money to regenerate); their metadata (`*.json`: voice, SSML, word boundaries) is plain Git (`docs/04` § Audio). The Xcode build never runs Python; the Makefile's app targets build the pack first when it is missing, and a GUI build without it shows the pack error screen with the fix (`make pack`).
 
 ## Modules and dependency rules
 
@@ -169,7 +169,7 @@ The Debug menu (Settings → Debug, debug builds only) offers: clock offset (± 
 | MobileBuildMCP (formerly XcodeBuildMCP) | 2.7.1 | agent tooling (`.mcp.json`) | MIT |
 | Python | 3.12+ (managed with `uv`) | pipeline | PSF |
 | ruamel.yaml (YAML 1.2), jsonschema, pydantic 2, typer, requests, pytest, ruff; playwright (dev only, review-page test) | latest at M0 | pipeline | permissive |
-| ffmpeg | latest | pipeline (AAC encoding, station effect) | LGPL build is fine for a CLI tool we don't ship |
+| ffmpeg | latest (6.1 tested) | pipeline (FLAC render cache, AAC encoding; the station effect is pure Python) | LGPL build is fine for a CLI tool we don't ship |
 | Git LFS | latest | repo | MIT |
 
 No other Swift dependencies without a proposal in `docs/13`.

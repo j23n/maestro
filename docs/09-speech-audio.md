@@ -13,7 +13,7 @@
   - macOS has no `AVAudioSession`; abstract it.
 - **`audioPlayed` events** are written when playback stops: `playedMs` is wall time spent playing (fluency replay uses it).
 - **Never block the UI on audio:** dev packs may have `audio_id` NULL (audio not rendered yet). Then hide the play button and, in debug builds, show a small "audio not rendered yet" label. Release builds guarantee every file exists (`docs/04`).
-- **Encoder delay:** files are encoded once per text (`docs/04` § Audio), so the MP4 edit list must be honoured; a test (M5.2) checks that a token's highlight starts within 50 ms of its `start_ms`.
+- **Encoder delay:** files are encoded once per text (`docs/04` § Audio), so the MP4 edit list must be honoured; a test (M5.2) checks that a token's highlight starts within 50 ms of its `start_ms`. The pipeline writes the edit list (`-use_editlist 1`: skip the 1,024 priming samples, play exactly the PCM's length) and tests it: decoded with the edit list, a tone sits within 2 ms of where it is in the PCM; ignoring the list moves it about 43 ms late. Timings in the pack are media time from the first PCM sample, so the player needs no offset of its own.
 
 ## Speech recognition (`SpeechRecognizing`, App `Platform/Speech/`)
 
