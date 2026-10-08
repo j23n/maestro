@@ -35,7 +35,8 @@ struct LessonPlayerView: View {
                 move: { move(to: $0) })
         )
         .autoAnswerBar(
-            debug, host: hostPosition == model.position ? host : nil, isFinished: model.isFinished, advance: advance)
+            debug, host: hostPosition == model.position ? host : nil, isFinished: model.isFinished, advance: advance
+        )
         .onAppear {
             sink.stepID = model.currentStep?.id
             if let step = model.openingStep { onStepChange(.init(completed: nil, started: step)) }
@@ -82,7 +83,10 @@ struct LessonPlayerView: View {
     }
 
     @ViewBuilder private var page: some View {
-        if model.isFinished {
+        if model.isFinished, AppModel.isOpenerOnly(model.bundle) {
+            // The opener's button goes on into the unit (docs/06 § Opener): no celebration, the host moves on.
+            ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity).task { onFinish() }
+        } else if model.isFinished {
             LessonDonePage(title: model.bundle.title, onDone: onFinish)
         } else if let entry = model.current {
             switch entry.page {
@@ -226,6 +230,32 @@ struct LessonDonePage: View {
                 .accessibilityIdentifier("complete.done")
         }
         .readableColumn()
+    }
+}
+
+/// After the opener of a unit with nothing written past it (a dev pack): say so instead of celebrating.
+struct UnwrittenUnitPage: View {
+    let unitNumber: Int
+    let onDone: () -> Void
+
+    var body: some View {
+        VStack(spacing: Tokens.Space.xxl) {
+            Spacer()
+            Mascot(pose: .think, size: 120, decorative: true)
+            Text(UnwrittenUnitCopy.title(unitNumber: unitNumber))
+                .dsFont(Tokens.TypeScale.sectionTitle).foregroundStyle(Color.ds.ink)
+                .multilineTextAlignment(.center)
+                .accessibilityAddTraits(.isHeader)
+            Text(UnwrittenUnitCopy.body).dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
+                .multilineTextAlignment(.center)
+            Spacer()
+            Button("Done", action: onDone)
+                .buttonStyle(.dsPrimary)
+                .keyboardShortcut(.return, modifiers: [])
+                .accessibilityIdentifier("unwritten.done")
+        }
+        .readableColumn()
+        .accessibilityIdentifier("unwritten.page")
     }
 }
 

@@ -169,6 +169,23 @@ import Testing
         #expect(app.settings.goalDaysPerWeek == 4)
     }
 
+    /// The opener goes on into the unit (docs/06 § Opener); a unit with nothing past its opener says so.
+    @Test func theOpenerLeadsIntoTheUnit() async throws {
+        let app = model()
+        await app.start()
+        let opener = try #require(try await app.launch(step: "u02.step-opener"))
+        #expect(AppModel.isOpenerOnly(opener.model.bundle))
+        let next = try #require(app.stepAfterOpener(of: "u02"))
+        #expect(next.rawValue.hasPrefix("u02.l1."))  // Lesson 1, not "Bravo"
+        let lesson = try #require(try await app.launch(step: next))
+        #expect(!AppModel.isOpenerOnly(lesson.model.bundle))
+        // The mini pack's Units 0 and 1 have only their specs: nothing follows the opener.
+        if app.outline.unit("u00") != nil {
+            #expect(app.stepAfterOpener(of: "u00") == nil)
+        }
+        #expect(UnwrittenUnitCopy.title(unitNumber: 0) == "Unit 0 isn't written yet")
+    }
+
     @Test func profileAndStorySettingsPersist() async throws {
         let app = model()
         await app.start()

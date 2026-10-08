@@ -27,7 +27,9 @@ struct MainTabs: View {
                     )
                     .navigationDestination(for: UnitID.self) { unit in
                         if let o = deps.app.overview(unit: unit) {
-                            UnitView(overview: o) { playing = PlayRequest(step: $0) } accessory: {
+                            UnitView(overview: o) {
+                                playing = PlayRequest(step: $0)
+                            } accessory: {
                                 FinalCheckCard(deps: deps, unit: unit) { takingFinal = FinalCheckRequest() }
                             }
                         }
@@ -116,11 +118,17 @@ struct PlayerHost: View {
     @State private var failed = false
     @State private var openedAt = Date()
     @State private var checkResult: CheckResultContent?
+    /// The step playing now: `step`, then the unit's first lesson after its opener.
+    @State private var current: StepID?
+    /// The opener of a unit with nothing written past it (a dev pack).
+    @State private var unwrittenUnit: Int?
 
     var body: some View {
         Group {
             if let checkResult {
                 CheckResultView(content: checkResult, onDone: finish, onRetake: retake)
+            } else if let unwrittenUnit {
+                UnwrittenUnitPage(unitNumber: unwrittenUnit, onDone: onDismiss)
             } else if let launch, let services {
                 LessonPlayerView(
                     model: launch.model, services: services, env: launch.environment, sink: launch.sink,
@@ -134,7 +142,15 @@ struct PlayerHost: View {
                     },
                     onClose: finish,
                     // Review mode pages through a check without scoring it (`scoresCheck`).
-                    onFinish: { launch.scoresCheck(review: review) ? showCheckResult() : finish() },
+                    onFinish: {
+                        if AppModel.isOpenerOnly(launch.model.bundle) {
+                            continueAfterOpener(launch)
+                        } else if launch.scoresCheck(review: review) {
+                            showCheckResult()
+                        } else {
+                            finish()
+                        }
+                    },
                     review: review, debug: deps.services.debug)
             } else if failed {
                 MissingContentPage(onContinue: onDismiss)
@@ -159,13 +175,15 @@ struct PlayerHost: View {
     private var review: ReviewMode? { deps.review?.isActive == true ? deps.review : nil }
 
     private func load(fresh: Bool = false) async {
+        let step = current ?? self.step
         do {
             guard let l = try await deps.app.launch(step: step, fresh: fresh) else {
                 failed = true
                 return
             }
             // The answer tap on every open; an exact move only for a pick from the jump menu (a half-done step resumes).
-            review?.prepare(l, at: jump ?? ReviewJump(step: step), exact: jump != nil)
+            let picked = current == nil ? jump : nil  // the jump menu's pick applies to the first step only
+            review?.prepare(l, at: picked ?? ReviewJump(step: step), exact: picked != nil)
             let resolver: any AudioResolving = deps.app.audioCatalog ?? StaticAudioResolver()
             services = PlayerServices(
                 audio: ExerciseAudio(player: deps.audioPlayer, resolver: resolver),
@@ -191,6 +209,25 @@ struct PlayerHost: View {
         launch = nil
         openedAt = Date()
         Task { await load(fresh: true) }
+    }
+
+    /// The opener's button goes on into the unit (docs/06 § Opener): its session ends and the unit's next step opens
+    /// in the same player; a unit with nothing past its opener says so instead of "Bravo".
+    private func continueAfterOpener(_ opener: AppModel.PlayerLaunch) {
+        deps.app.endSession(opener, activeSeconds: Int(Date().timeIntervalSince(openedAt)))
+        let unit = opener.model.bundle.unitID
+        Task {
+            await deps.app.settle()
+            guard let next = deps.app.stepAfterOpener(of: unit) else {
+                unwrittenUnit = deps.app.outline.unit(unit)?.number ?? 0
+                return
+            }
+            launch = nil
+            services = nil
+            current = next
+            openedAt = Date()
+            await load()
+        }
     }
 
     private func finish() {
