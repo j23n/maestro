@@ -357,7 +357,7 @@ final class RepeatModel {
     let say: TokenizedText
     let audioID: AudioID?
     private let accept: [AnswerPattern]
-    private let env: ExerciseEnvironment
+    let env: ExerciseEnvironment
     private weak var sink: AttemptSink?
     private(set) var heard: String?
     private(set) var passed: Bool?

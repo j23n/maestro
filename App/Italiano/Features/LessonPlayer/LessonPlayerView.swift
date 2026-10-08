@@ -15,6 +15,8 @@ struct LessonPlayerView: View {
     let onFinish: () -> Void
     /// Review mode's tools (bar, comments, answer key); nil for learners.
     var review: ReviewMode? = nil
+    /// The Debug menu, for the auto-answer bar (M6.3); nil in builds without it.
+    var debug: DebugMenuModel? = nil
     @State private var host: ExerciseHostModel?
     @State private var hostPosition: Int?
 
@@ -32,6 +34,7 @@ struct LessonPlayerView: View {
                 review: review, model: model, host: hostPosition == model.position ? host : nil,
                 move: { move(to: $0) })
         )
+        .autoAnswerBar(debug, host: hostPosition == model.position ? host : nil, advance: advance)
         .onAppear {
             sink.stepID = model.currentStep?.id
             if let step = model.openingStep { onStepChange(.init(completed: nil, started: step)) }

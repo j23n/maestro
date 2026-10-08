@@ -16,8 +16,8 @@ extension UserDefaults: DebugPreferences {}
 
 /// Settings → Debug (task M3.3; docs/02 § App configuration), only in builds with `ITA_DEBUG_MENU`: clock offset,
 /// jump to unit, rebuild state from events, export the learner DB, simulate speech by typing, show eligibility for
-/// the current screen, show draft markers, and reset local data. Every change to the learner's data goes through
-/// events or the store's own operations; nothing here edits the event log.
+/// the current screen, show draft markers, the players' auto-answer bar (M6.3), and reset local data. Every change
+/// to the learner's data goes through events or the store's own operations; nothing here edits the event log.
 @MainActor
 @Observable
 final class DebugMenuModel {
@@ -25,6 +25,7 @@ final class DebugMenuModel {
         static let clockOffsetDays = "ITADebugClockOffsetDays"
         static let showEligibility = "ITADebugShowEligibility"
         static let showDraftMarkers = "ITADebugShowDraftMarkers"
+        static let showAutoAnswer = "ITADebugShowAutoAnswer"
     }
 
     @ObservationIgnored let app: AppModel
@@ -37,6 +38,10 @@ final class DebugMenuModel {
     var showEligibility: Bool { didSet { preferences.set(showEligibility, forKey: Key.showEligibility) } }
     /// The player overlay marks unapproved (draft) steps of a dev pack.
     var showDraftMarkers: Bool { didSet { preferences.set(showDraftMarkers, forKey: Key.showDraftMarkers) } }
+    /// The lesson, review and assessment players show the auto-answer bar (`AutoAnswer`; kept between launches).
+    var showAutoAnswer: Bool { didSet { preferences.set(showAutoAnswer, forKey: Key.showAutoAnswer) } }
+    /// `-ITAAutoAnswer` shows the bar for this launch only, without changing the kept switch.
+    private(set) var autoAnswerForThisLaunch = false
     /// The unit "Jump" goes to.
     var jumpTarget: UnitID?
     /// Draft steps of the bundled pack (empty for a release pack).
@@ -63,6 +68,7 @@ final class DebugMenuModel {
         self.exportFolder = exportFolder
         showEligibility = preferences.bool(forKey: Key.showEligibility)
         showDraftMarkers = preferences.bool(forKey: Key.showDraftMarkers)
+        showAutoAnswer = preferences.bool(forKey: Key.showAutoAnswer)
     }
 
     /// After launch: the pack's draft steps, and the first unit as the jump target.
@@ -164,6 +170,12 @@ final class DebugMenuModel {
             exercise.flatMap { EligibilityReport.exercise($0, content: content, state: state) },
         ].compactMap { $0 }
     }
+
+    /// Whether the players show the auto-answer bar.
+    var autoAnswerEnabled: Bool { showAutoAnswer || autoAnswerForThisLaunch }
+
+    /// `-ITAAutoAnswer` (`LaunchArguments`).
+    func enableAutoAnswerForThisLaunch() { autoAnswerForThisLaunch = true }
 
     /// Whether to mark this step as a draft.
     func isDraft(_ step: StepID?) -> Bool {

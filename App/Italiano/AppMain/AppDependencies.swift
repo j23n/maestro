@@ -40,8 +40,9 @@ final class AppDependencies {
 
     /// The real app: the bundled pack (`Resources/Content/content.sqlite`), the learner database in Application
     /// Support, AVFoundation playback, SpeechAnalyzer and UserNotifications.
-    /// Builds with the Debug menu run on `DebugClock` (the clock offset) and wrap the recogniser for "Simulate
-    /// speech by typing"; study builds that can upload get the telemetry uploader (docs/12).
+    /// Builds with the Debug menu run on `DebugClock` (the clock offset), wrap the recogniser for "Simulate
+    /// speech by typing" and honour the UI tests' learner-database arguments (`LaunchArguments`); study builds that
+    /// can upload get the telemetry uploader (docs/12).
     static func live() -> AppDependencies {
         let config = AppConfig.fromMainBundle()
         let packURL =
@@ -51,10 +52,14 @@ final class AppDependencies {
         let debugClock =
             config.debugMenu
             ? DebugClock(base: SystemClock(), offsetDays: DebugMenuModel.storedClockOffset(preferences)) : nil
+        // UI tests: `-ITAFreshLearner` / `-ITALearner <name>` open a throwaway learner database (Debug menu only).
+        let learnerURL = LaunchArguments(ProcessInfo.processInfo.arguments).learnerURL(
+            config: config, temporaryDirectory: FileManager.default.temporaryDirectory,
+            newName: { UUID().uuidString })
         let app = AppModel(
             env: .init(
-                packURL: packURL, learnerURL: nil, clock: debugClock ?? SystemClock(), ids: SystemUUIDSource(),
-                platform: DevicePlatform.current))
+                packURL: packURL, learnerURL: learnerURL, clock: debugClock ?? SystemClock(),
+                ids: SystemUUIDSource(), platform: DevicePlatform.current))
         let recognizer = SpeechAnalyzerRecognizer(speechEnabled: { [weak app] in
             MainActor.assumeIsolated { app?.settings.speechEnabled(available: true) ?? true }
         })

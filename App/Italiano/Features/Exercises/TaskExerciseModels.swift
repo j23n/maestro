@@ -28,7 +28,7 @@ final class ConversationModel {
 
     let payload: ExercisePayload
     let conversation: ExerciseBody.Conversation
-    private let env: ExerciseEnvironment
+    let env: ExerciseEnvironment
     private weak var sink: AttemptSink?
     private(set) var nodeID: String
     private(set) var path: [String] = []
@@ -178,7 +178,7 @@ final class TalkModel {
     let payload: ExercisePayload
     let talk: ExerciseBody.Talk
     private let points: [ContentPointMatcher.Point]
-    private let env: ExerciseEnvironment
+    let env: ExerciseEnvironment
     private weak var sink: AttemptSink?
     var response = ""
     private(set) var result: ContentPointMatcher.Result?
@@ -229,7 +229,7 @@ final class TalkModel {
 final class WritingModel {
     let payload: ExercisePayload
     let writing: ExerciseBody.Writing
-    private let env: ExerciseEnvironment
+    let env: ExerciseEnvironment
     private weak var sink: AttemptSink?
     var text = ""
     var fieldValues: [String]

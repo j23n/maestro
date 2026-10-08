@@ -133,7 +133,7 @@ struct PlayerHost: View {
                         }
                     },
                     onClose: finish, onFinish: { launch.kind == .check ? showCheckResult() : finish() },
-                    review: review)
+                    review: review, debug: deps.services.debug)
             } else if failed {
                 MissingContentPage(onContinue: onDismiss)
             } else {
@@ -273,7 +273,8 @@ struct ReviewHost: View {
                                     goal: deps.app.settings.goalDaysPerWeek))
                     },
                     onClose: finish, onDone: finish,
-                    onNextStory: deps.app.today?.continueCard == nil ? nil : { finishThen(onNextStory) })
+                    onNextStory: deps.app.today?.continueCard == nil ? nil : { finishThen(onNextStory) },
+                    debug: deps.services.debug)
             } else if nothingToDo {
                 LessonDonePage(title: "today's review", onDone: onDismiss)
             } else {

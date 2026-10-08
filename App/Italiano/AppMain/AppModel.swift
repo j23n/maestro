@@ -135,8 +135,16 @@ final class AppModel {
             })
         observers.append(
             Task { [weak self] in
-                for await s in store.settingsUpdates() { self?.settings = s }
+                for await s in store.settingsUpdates() { self?.settingsChanged(s) }
             })
+    }
+
+    /// Onboarding counts as done once `profile.forms` exists, written here or synced from another device: after a
+    /// recovered learner database (M3.9) sync brings the learner's settings back, and they shouldn't be asked again
+    /// (docs/02 § Logging and errors). A reset deletes the synced settings, so it still leads to onboarding.
+    private func settingsChanged(_ s: LearnerSettings) {
+        settings = s
+        if !isOnboarded, s.records[SettingKey.profileForms.rawValue] != nil { isOnboarded = true }
     }
 
     // MARK: - Events

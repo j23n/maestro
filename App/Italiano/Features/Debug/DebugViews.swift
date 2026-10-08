@@ -63,6 +63,9 @@ struct DebugSettingsSection: View {
             Toggle("Show draft markers", isOn: $model.showDraftMarkers)
                 .accessibilityIdentifier("debug.drafts")
 
+            Toggle("Auto-answer in lessons", isOn: $model.showAutoAnswer)
+                .accessibilityIdentifier("debug.autoAnswerSwitch")
+
             Button("Reset local data…", role: .destructive) { confirmReset = true }
                 .buttonStyle(.dsTextLink)
                 .disabled(model.isWorking)
@@ -128,6 +131,60 @@ extension View {
     /// screen, and the typed answer for simulated speech. Draws nothing unless the Debug menu turned it on.
     func debugOverlay(_ model: DebugMenuModel?, step: StepID?, exercise: ExerciseID?) -> some View {
         modifier(DebugOverlay(model: model, step: step, exercise: exercise))
+    }
+}
+
+extension View {
+    /// The Debug menu's auto-answer bar (M6.3) over a player: answer the exercise on screen correctly, wrongly, or
+    /// correctly and continue (`AutoAnswer`). Draws nothing unless the Debug menu or `-ITAAutoAnswer` turned it on,
+    /// so builds without the Debug menu never show it.
+    func autoAnswerBar(_ debug: DebugMenuModel?, host: ExerciseHostModel?, advance: @escaping () -> Void) -> some View {
+        modifier(AutoAnswerBar(debug: debug, host: host, advance: advance))
+    }
+}
+
+private struct AutoAnswerBar: ViewModifier {
+    let debug: DebugMenuModel?
+    let host: ExerciseHostModel?
+    let advance: () -> Void
+
+    @ViewBuilder func body(content: Content) -> some View {
+        if let debug, debug.autoAnswerEnabled {
+            content.overlay(alignment: .bottomTrailing) {
+                HStack(spacing: Tokens.Space.xs) {
+                    button("checkmark", label: "Answer correctly", identifier: "debug.autoAnswer") {
+                        AutoAnswer.answerOnPage(host, .correct, advance: advance)
+                    }
+                    .disabled(host == nil)
+                    button("xmark", label: "Answer wrongly", identifier: "debug.autoAnswerWrong") {
+                        AutoAnswer.answerOnPage(host, .wrong, advance: advance)
+                    }
+                    .disabled(host == nil)
+                    button("forward.end", label: "Answer and continue", identifier: "debug.autoAdvance") {
+                        AutoAnswer.answerAndContinue(host, advance: advance)
+                    }
+                }
+                .padding(Tokens.Space.xs)
+                .background(Capsule().fill(Color.ds.surface.opacity(0.9)))
+                .padding(.trailing, Tokens.Space.s)
+                .padding(.bottom, Tokens.Space.xxl * 3)
+            }
+        } else {
+            content
+        }
+    }
+
+    private func button(
+        _ symbol: String, label: String, identifier: String, action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: symbol).font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.ds.secondary)
+                .frame(width: 32, height: 32)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(label))
+        .accessibilityIdentifier(identifier)
     }
 }
 
