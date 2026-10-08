@@ -1,0 +1,133 @@
+# Story bible: the single source of facts for every episode (docs/03, check 5).
+# The checker reads `characters` and `registers`; the content-critic subagent reads all of it.
+# DRAFT for content-lead sign-off (C1). Items marked TBD are open; don't invent them in drafts.
+review: {status: draft, by: null, date: null, hash: null}
+
+setting:
+  city: Bologna                    # Q2 in docs/13: Bologna (default) or a fictional town
+  season_span: early September to early December, one year (no year named)
+  principle: Keep the plot thin. The story recycles language; no decorative subplots (cohesion rule 10).
+
+characters:
+  - id: ch:marco
+    name: Marco
+    surname: TBD (content lead; an Emilian surname fits his family history)
+    age: 29
+    from: Toronto, Canada
+    nationality: canadese
+    languages: English, French; a little Italian from his grandmother
+    job: software developer, working remotely for a company in Toronto
+    family: grandson of emigrants who left a village in the Apennines south of Bologna in the 1960s
+    stay: three months in Bologna, renting a small flat in Signora Rossi's building
+    character: friendly, curious, a bit clumsy with the language, keen to find his family's village
+    first_unit: u00
+  - id: ch:rossi
+    name: Signora Rossi
+    first_name: Anna (rarely used)
+    age: 72
+    role: Marco's landlady; lives in the same building
+    character: warm, direct, talks about food and the neighborhood
+    pets: a cat, Mimì
+    first_unit: u01
+  - id: ch:sara
+    name: Sara
+    age: 31
+    role: illustrator at the coworking space
+    from: Bologna
+    character: lively, likes concerts and cycling; Giulia's friend
+    first_unit: u01
+  - id: ch:giulia
+    name: Giulia
+    age: 36
+    role: runs Bar Aurora, near the coworking space
+    character: quick and funny; talks fast
+    family: mother of Luca
+    first_unit: u02
+  - id: ch:luca
+    name: Luca
+    age: 9
+    role: Giulia's son
+    character: asks a lot of questions; birthday in November (date TBD, used in Unit 10)
+    first_unit: u03
+  - id: ch:zia-rosa
+    name: Zia Rosa
+    age: 80
+    role: Marco's grandmother's cousin, in the village
+    first_unit: u11
+  - id: ch:you
+    name: you (the learner)
+    role: a newcomer in the same neighbourhood, with your own name and gender (from onboarding)
+    first_unit: u01
+  - id: ch:extra
+    name: minor roles (passer-by, stallholder, shop assistant, ticket clerk, pharmacist, receptionist, waiter, tobacconist)
+    rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
+
+places:
+  - {name: Bar Aurora, kind: fictional, note: near the coworking space}
+  - {name: the coworking space, kind: fictional, note: "name TBD (content lead)"}
+  - {name: the language school, kind: fictional, note: "where you take an Italian course (Unit 1 registration form); name TBD"}
+  - {name: Signora Rossi's building, kind: fictional, note: "street TBD; Marco's small flat, later (Unit 9) a bigger flat on the third floor (al terzo piano = US fourth floor)"}
+  - {name: the arcades (i portici), kind: real, note: fact-checked by the content lead}
+  - {name: Mercato delle Erbe, kind: real, note: "Unit 7, Via Ugo Bassi; set the scene on a weekday or Saturday morning (see facts_to_check)"}
+  - {name: Piazza Maggiore, kind: real}
+  - {name: Bologna Centrale station, kind: real, note: Unit 11}
+  - {name: the village, kind: fictional, note: "name TBD (Q12); regional train plus bus from Bologna"}
+
+timeline:
+  - {units: [u00, u01, u02], when: first days of September, arc: arrival}
+  - {units: [u03, u04, u05], when: September, arc: settling in}
+  - {units: [u06, u07, u08, u09], when: October, arc: exploring the city}
+  - {units: [u10], when: November (autumn; Luca's birthday), arc: exploring the city}
+  - {units: [u11], when: late November, arc: the village}
+  - {units: [u12], when: early December, arc: farewell}
+
+# Real-world facts the content lead verifies before the units that use them are approved (Q2).
+# Drafts must not add new real-world facts without adding them here.
+facts_to_check:
+  - {unit: u02, fact: "Bar Aurora prices (caffè 1,20, cappuccino 1,60, cornetto 1,40, spremuta 3,20) are plausible for Bologna in 2026; counter prices (al banco) are lower than table service"}
+  - {unit: u02, fact: "cornetto vs brioche: many Bologna bars say brioche; decide whether Giulia mentions it (recognise only)"}
+  - {unit: u02, fact: "paying at the cash desk and the receipt (scontrino) as a culture note"}
+  - {unit: u06, fact: "Thursday-afternoon closing of food shops in Bologna, before writing opening-hours signs"}
+  - {unit: u07, fact: "Mercato delle Erbe hours and closing day; stallholders pick the produce; quantities in etti"}
+  - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}
+  - {unit: u11, fact: "Bologna Centrale platforms (incl. the underground high-speed platforms), train-plus-bus route to an Apennine village, validating paper regional tickets"}
+  - {unit: u12, fact: "cover charge (coperto) on restaurant bills; tipping not expected"}
+
+# Who says tu or Lei to whom (check 5). `units` is an inclusive range [from, to] or `all`.
+# Precedence when several rows match a (speaker, addressee) pair: an exact pair wins, then (exact speaker, '*'),
+# then ('*', exact addressee). Two rows at the same level that both match are a build error.
+# Switch points: `register` holds before the step `switch_at`, `then` holds after it, and both are allowed
+# inside it (the scene where someone offers tu). Steps are ordered by course position (docs/06 § Unit-level steps).
+# A conversation can switch mid-dialogue with a node-level `register` (docs/06 § Conversation).
+registers:
+  - {from: ch:rossi, to: ch:marco, register: tu, units: all, note: an older person may say tu to a younger one}
+  - {from: ch:marco, to: ch:rossi, register: lei, units: all}
+  - {from: ch:rossi, to: ch:you, register: tu, units: all, note: "assumes a learner younger than her; content lead to confirm"}
+  - {from: ch:you, to: ch:rossi, register: lei, units: all}
+  - {from: ch:rossi, to: ch:sara, register: tu, units: all}
+  - {from: ch:sara, to: ch:rossi, register: lei, units: all}
+  - {from: ch:rossi, to: ch:giulia, register: tu, units: all}
+  - {from: ch:giulia, to: ch:rossi, register: lei, units: all}
+  - {from: ch:sara, to: ch:marco, register: tu, units: all}
+  - {from: ch:marco, to: ch:sara, register: tu, units: all}
+  - {from: ch:sara, to: ch:you, register: tu, units: all}
+  - {from: ch:you, to: ch:sara, register: tu, units: all}
+  - {from: ch:marco, to: ch:you, register: tu, units: all}
+  - {from: ch:you, to: ch:marco, register: tu, units: all}
+  - {from: ch:giulia, to: ch:marco, register: lei, then: tu, switch_at: u05.l1.step-story, units: all, note: Giulia offers tu to Marco in the Unit 5 Lesson 1 story}
+  - {from: ch:marco, to: ch:giulia, register: lei, then: tu, switch_at: u05.l1.step-story, units: all}
+  - {from: ch:giulia, to: ch:you, register: lei, then: tu, switch_at: u05.step-conversation-1, units: all, note: Giulia offers tu to you in the Unit 5 conversation}
+  - {from: ch:you, to: ch:giulia, register: lei, then: tu, switch_at: u05.step-conversation-1, units: all}
+  - {from: ch:giulia, to: ch:sara, register: tu, units: all}
+  - {from: ch:sara, to: ch:giulia, register: tu, units: all}
+  - {from: ch:luca, to: '*', register: tu, units: all, note: a child says tu to people he knows}
+  - {from: ch:luca, to: ch:rossi, register: lei, units: all, note: a polite nine-year-old to a 72-year-old neighbor; content lead to confirm}
+  - {from: ch:luca, to: ch:extra, register: lei, units: all}
+  - {from: '*', to: ch:luca, register: tu, units: all}
+  - {from: ch:extra, to: ch:luca, register: tu, units: all}
+  - {from: ch:zia-rosa, to: ch:marco, register: tu, units: all}
+  - {from: ch:marco, to: ch:zia-rosa, register: tu, units: all, note: "family; content lead may prefer Lei until she says Dammi del tu! (use a switch point)"}
+  - {from: ch:zia-rosa, to: ch:you, register: tu, units: all}
+  - {from: ch:you, to: ch:zia-rosa, register: lei, units: all}
+  - {from: ch:extra, to: '*', register: lei, units: all}
+  - {from: '*', to: ch:extra, register: lei, units: all}

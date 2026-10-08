@@ -10,9 +10,10 @@
   `content/ids.lock`.
 - **--mini**: the golden sample (Unit 2 Lesson 1 with its task and check, the catalog of Units 0–2, no assessments) as
   `fixtures/packs/mini.sqlite` plus `fixtures/packs/mini-payloads.json` (every step, exercise and note payload),
-  both committed. It leaves out `meta.git_sha`, so the fixture changes only when its content does. Its audio comes
-  only from the committed renders in `fixtures/packs/tts-cache/` (2–3 mock renders), encoded into
-  `fixtures/packs/Audio/`.
+  both committed. It is built from the frozen seed course in `fixtures/seed-course/`, not from `content/`, and leaves
+  out `meta.git_sha`, so the fixture changes only when the seed course or the compiler does, never when the course
+  grows. Its audio comes only from the committed renders in `fixtures/packs/tts-cache/` (2–3 mock renders), encoded
+  into `fixtures/packs/Audio/`.
 
 Audio (docs/04 § Pack build › Audio): every voiced thing the compiler meets is looked up in the render caches
 (`audio_assets`); found ones get their audio ID, `audio` row and timings, the rest stay null (dev) or fail (release).
@@ -53,6 +54,7 @@ AUDIO_BUDGET_BYTES = audio_budget.BUDGET_BYTES
 TTS_CACHE = "content-build/tts-cache"  # Azure renders (FLAC in Git LFS, metadata in Git)
 MOCK_CACHE = "build/tts-mock-cache"  # `content tts --provider mock` (a build output)
 MINI_CACHE = "fixtures/packs/tts-cache"  # the mini pack's committed mock renders
+SEED_COURSE = "fixtures/seed-course"  # the frozen seed course the mini pack (and the pipeline tests) are built from
 ENCODE_CACHE = "build/audio"  # encoded files by audio ID (a build output)
 SIGNED_OFF = ("syllabus", "points", "story_bible", "countries")  # course-wide files with a review block
 PAYLOAD_DEFS = {
@@ -370,26 +372,30 @@ def build_pack(
     lint: bool = True,
     echo: Callable[[str], Any] = print,
     audio: AudioOptions | None = None,
+    course_root: Path | None = None,
 ) -> BuildResult:
+    """Build a pack from the course under `course_root` (default: `root`, or the frozen seed course
+    `root/fixtures/seed-course` for the mini pack); outputs and render caches are found under `root`."""
     if mode not in MODES:
         raise BuildError(f"unknown build mode {mode!r}")
     root = (root or paths.ROOT).resolve()
+    src = (course_root or (root / SEED_COURSE if mode == "mini" else root)).resolve()
     report = Report()
     audio = audio or AudioOptions.default(root, mode)
     if lint:
         from itcontent.lint import lint_findings
 
-        errors = [f for f in lint_findings(root) if f.level == "error"]
+        errors = [f for f in lint_findings(src) if f.level == "error"]
         if errors:
             for f in errors:
                 echo(str(f))
             raise BuildError(f"content lint: {len(errors)} error(s); fix them before building")
-    course = load_course(root)
+    course = load_course(src)
     for rel, msg in course.load_errors:
         raise BuildError(f"{rel}: {msg}")
     scope = select_scope(course, mode, allow_partial=allow_partial, report=report)
     plan = AudioPlan(AudioResolver(audio.caches, audio.encode_dir))
-    data = Compiler(course, Locks(root), scope, report, plan).compile()
+    data = Compiler(course, Locks(src), scope, report, plan).compile()
     n_payloads = validate_payloads(data)
     found = audio_report(plan, mode, report)
     data.tables["audio"] = sorted({r.audio_id: r.row() for r in found}.values())
@@ -424,7 +430,7 @@ def build_pack(
     if mode != "mini":
         meta["git_sha"] = git_sha(root)
     if mode != "release":
-        meta["review_files"] = cjson(review_files(course, scope, root))
+        meta["review_files"] = cjson(review_files(course, scope, src))
     con = db.create(data.tables, meta)
     try:
         content_hash = db.canonical_hash(con)

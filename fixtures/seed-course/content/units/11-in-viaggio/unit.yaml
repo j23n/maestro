@@ -1,0 +1,66 @@
+# Unit spec (u11). The contract every draft for this unit must satisfy (docs/03, docs/04).
+# Encoded from the plan's scope and sequence. DRAFT for content-lead sign-off (C1, week 3): approval = review.status.
+# `chunks` lists set phrases in prose; the item graph (C2) turns them into c: items.
+
+id: u11
+title: {it: In viaggio, en: Traveling}
+episode: The train to his grandparents' village, and Zia Rosa
+arc: village
+est_hours: 4.5
+lessons: 3
+can_do:
+- id: cd:buy-ticket
+  text: Buy a train ticket
+  scale: oral-interaction
+  stretch: true
+  syllabus: ['sy:fn.goods-services', 'sy:tp.travel']
+- id: cd:understand-announcements
+  text: Understand times and station announcements
+  scale: oral-comprehension
+  syllabus: ['sy:tp.travel']
+- id: cd:check-in
+  text: Check in at a small hotel
+  scale: written-interaction
+  syllabus: ['sy:fn.forms', 'sy:tp.public-services']
+- id: cd:explain-health-problem
+  text: Explain a simple health problem
+  scale: oral-interaction
+  syllabus: ['sy:tp.health']
+- id: cd:pass-on-times
+  text: Tell a friend in English when a train leaves and from which platform
+  scale: mediation
+  syllabus: ['sy:cefr.mediation']
+grammar:
+- {id: 'g:passato-prossimo-essere', status: P}
+- {id: 'g:time-24h', status: P}
+- {id: 'g:da-a', status: P}
+- {id: 'g:per-infinitive', status: P}
+- {id: 'g:mal-di', status: chunk}
+chunks: Buon viaggio!; ho mal di…; andata e ritorno
+items:
+  new_words: 55-70
+  topics: ['topic:travel', 'topic:health', 'topic:services']
+  note: station, hotel, documents, body, pharmacy
+recycle_from: [u05, u06, u10]
+sounds: ['s:numbers-fast']
+texts:
+  stories: {count: 3, words: 200-320, new_token_max: 0.05}
+  listening: [announcement, dialogue]
+  real_world: [timetable, ticket]
+tasks:
+  conversation:
+  - {id: u11.task.conv1, brief: Buy a return ticket at the station (Lei)}
+  - {id: u11.task.conv2, brief: 'At the pharmacy: explain a headache (Lei)'}
+  talk: {brief: Tell Zia Rosa about your journey}
+  writing:
+    kind: form
+    brief: Hotel check-in form
+    tags: ['sy:ex.celi-form-postcard']
+  relay: {brief: Tell your friend when the train leaves and from which platform}
+check:
+  items: 20
+  sections: [listening, reading, writing, speaking]
+notes: 'Station announcements are for recognition. Use the real present-tense formulas (è in partenza dal binario…,
+  è in arrivo al binario…, viaggia con dieci minuti di ritardo); anything else beyond A1 needs an allow: line with
+  a reason.'
+review: {status: draft, by: null, date: null, hash: null}

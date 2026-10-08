@@ -1,4 +1,7 @@
-"""M1.6: chunk matching, item resolution, the lexical-article rule, disambiguation, line fields, lock files."""
+"""M1.6: chunk matching, item resolution, the lexical-article rule, disambiguation, line fields, lock files.
+
+On the frozen seed course (`fixtures/seed-course/`, conftest), except the freshness of the live course's lock files.
+"""
 
 from __future__ import annotations
 
@@ -8,8 +11,8 @@ from pathlib import Path
 
 import pytest
 
-from conftest import needs_data
-from itcontent import morphit
+from conftest import SEED, needs_data
+from itcontent import morphit, paths
 from itcontent.annotate import annotate_course, italian_options, lock_path, run_annotate
 from itcontent.course import load_course
 from itcontent.resolve import Ctx, Lexicon
@@ -27,8 +30,8 @@ EXTRA_ITEMS = {
 
 
 @pytest.fixture(scope="session")
-def course(root):
-    return load_course(root)
+def course(seed_root):
+    return load_course(seed_root)
 
 
 def make_lexicon(course, extra: dict | None = None) -> Lexicon:
@@ -332,15 +335,16 @@ def test_pattern_and_cloze_entries(result):
     assert "un'amica" in frags and "-o" not in frags and "caffè" in frags
 
 
-def _copy_repo(root: Path, tmp: Path) -> Path:
-    shutil.copytree(root / "content", tmp / "content", ignore=shutil.ignore_patterns(".annotations"))
+def _copy_repo(tmp: Path) -> Path:
+    """The seed course without its lock files."""
+    shutil.copytree(SEED / "content", tmp / "content", ignore=shutil.ignore_patterns(".annotations"))
     (tmp / "pipeline" / "data").mkdir(parents=True)
-    (tmp / "pipeline" / "data" / "morph-it").symlink_to(root / "pipeline" / "data" / "morph-it")
+    (tmp / "pipeline" / "data" / "morph-it").symlink_to(paths.DATA / "morph-it")
     return tmp
 
 
-def test_cli_writes_checks_and_names_stale_files(root, tmp_path):
-    repo = _copy_repo(root, tmp_path)
+def test_cli_writes_checks_and_names_stale_files(tmp_path):
+    repo = _copy_repo(tmp_path)
     out: list[str] = []
     assert run_annotate(repo, check=True, echo=out.append) == 1
     assert any("lesson-1.json is missing" in x for x in out)
@@ -357,8 +361,8 @@ def test_cli_writes_checks_and_names_stale_files(root, tmp_path):
     assert run_annotate(repo, echo=out.append) == 0 and not (repo / "content/.annotations/units/zz.json").exists()
 
 
-def test_cli_errors_name_file_line_token_and_candidates(root, tmp_path):
-    repo = _copy_repo(root, tmp_path)
+def test_cli_errors_name_file_line_token_and_candidates(tmp_path):
+    repo = _copy_repo(tmp_path)
     lesson = repo / "content/units/02-al-bar/lesson-1.yaml"
     text = lesson.read_text(encoding="utf-8").replace('"Sei euro e venti."', '"Sei euro e venti. Il gatto!"')
     lesson.write_text(text, encoding="utf-8")
@@ -384,9 +388,16 @@ def test_cli_errors_name_file_line_token_and_candidates(root, tmp_path):
 
 
 def test_committed_lock_files_are_fresh(root):
+    """The live course's lock files are what `make annotate` writes now."""
     out: list[str] = []
     assert run_annotate(root, check=True, echo=out.append) == 0, "\n".join(out)
     assert render("", []) == ""
+
+
+def test_seed_course_lock_files_are_fresh(seed_root):
+    """So are the frozen seed course's: if the annotator changes, refresh them (fixtures/seed-course/README.md)."""
+    out: list[str] = []
+    assert run_annotate(seed_root, check=True, echo=out.append) == 0, "\n".join(out)
 
 
 def test_bad_detection_rules_are_reported_not_raised(course):

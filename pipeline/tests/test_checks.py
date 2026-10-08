@@ -1,17 +1,17 @@
 """M1.8: checks 2 (level gate), 4 (alignment) and 5 (story consistency), and the check.json/check.md reports.
 
-Mutations run on a throwaway copy of `content/` (with its lock files): edit the YAML, re-annotate, check.
+The tests run on the frozen seed course (`fixtures/seed-course/`, conftest), so the facts they pin don't change as the
+course grows; mutations run on a throwaway copy of it (with its lock files): edit the YAML, re-annotate, check.
 """
 
 from __future__ import annotations
 
 import json
-import shutil
 from pathlib import Path
 
 import pytest
 
-from conftest import needs_data
+from conftest import SEED, needs_data
 from itcontent.annotate import run_annotate
 from itcontent.checks import CheckResult, run_check, run_checks
 from itcontent.checks.context import load_context
@@ -28,16 +28,10 @@ STORY_END = (
 )
 
 
-def make_repo(root: Path, tmp: Path) -> Path:
-    shutil.copytree(root / "content", tmp / "content")
-    (tmp / "pipeline" / "data").mkdir(parents=True)
-    (tmp / "pipeline" / "data" / "morph-it").symlink_to(root / "pipeline" / "data" / "morph-it")
-    return tmp
-
-
 @pytest.fixture
-def repo(root: Path, tmp_path: Path) -> Path:
-    return make_repo(root, tmp_path / "repo")
+def repo(course_copy: Path) -> Path:
+    """A throwaway copy of the seed course."""
+    return course_copy
 
 
 def edit(repo: Path, rel: str, old: str, new: str) -> None:
@@ -66,11 +60,16 @@ def messages(result: CheckResult, level: str = "error", check: int | None = None
 
 
 @pytest.fixture(scope="module")
-def seed(root: Path) -> CheckResult:
-    return run_checks(root)
+def seed(seed_root: Path) -> CheckResult:
+    return run_checks(seed_root)
 
 
-# ---------------------------------------------------------------- the seed course
+# ---------------------------------------------------------------- the live course and the seed course
+
+
+def test_live_course_has_no_check_errors(root):
+    result = run_checks(root)
+    assert result.errors == [], "\n".join(map(str, result.errors))
 
 
 def test_seed_course_passes_with_only_the_golden_unit_written(seed):
@@ -447,8 +446,8 @@ def test_json_and_unit_scope(repo):
     assert run_check(repo, unit="u42", echo=out.append) == 2
 
 
-def test_context_reads_lock_files_without_morph_it(root):
-    ctx = load_context(root)
+def test_context_reads_lock_files_without_morph_it():
+    ctx = load_context(SEED)  # the fixture itself: no Morph-it! next to it
     golden = [s for s in ctx.strings if s.file == LESSON]
     assert golden and all(s.pos is not None and s.pos[0] == ctx.unit_index["u02"] for s in golden)
     line = next(s for s in golden if s.ref == "u02.l1.story#3")

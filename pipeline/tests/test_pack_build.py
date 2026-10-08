@@ -1,14 +1,15 @@
 """The content pack builder (M1.9, M1.10; docs/04 § Pack build, § Requirements; docs/05 § Introductions; docs/06).
 
-The pack is built from the seed content and its committed annotation lock files (no Morph-it! needed), so these
-tests run everywhere. The golden lesson's requirement rows are compared with a hand-checked expectation file.
+The pack is built from the frozen seed course (`fixtures/seed-course/`, conftest) and its committed annotation lock
+files (no Morph-it! needed), so these tests run everywhere and don't change as the course grows; the mini pack is
+built from the same seed course by `content build --mini`. Only determinism is tested on the live course. The golden
+lesson's requirement rows are compared with a hand-checked expectation file.
 """
 
 from __future__ import annotations
 
 import json
 import re
-import shutil
 import sqlite3
 from pathlib import Path
 
@@ -16,6 +17,7 @@ import jsonschema
 import pytest
 from typer.testing import CliRunner
 
+from conftest import copy_seed
 from itcontent import approval
 from itcontent.cli import app
 from itcontent.course import load_course
@@ -33,10 +35,11 @@ def connect(path: Path) -> sqlite3.Connection:
 
 
 @pytest.fixture(scope="module")
-def dev(root, tmp_path_factory):
-    """The dev pack with no renders at all (hermetic: a developer's own mock or Azure renders don't count here)."""
+def dev(seed_root, tmp_path_factory):
+    """The seed course's dev pack with no renders at all (hermetic: a developer's own mock or Azure renders don't
+    count here)."""
     out = tmp_path_factory.mktemp("dev") / "content.sqlite"
-    result = build_pack(root, mode="dev", out=out, echo=lambda _: None, audio=AudioOptions([], None))
+    result = build_pack(seed_root, mode="dev", out=out, echo=lambda _: None, audio=AudioOptions([], None))
     con = connect(out)
     yield result, con
     con.close()
@@ -51,19 +54,12 @@ def mini_rows_only(root: Path) -> AudioOptions:
 
 @pytest.fixture(scope="module")
 def mini(root, tmp_path_factory):
+    """The mini pack as `make mini-pack` builds it (from the seed course, with the committed renders)."""
     out = tmp_path_factory.mktemp("mini") / "mini.sqlite"
     result = build_pack(root, mode="mini", out=out, echo=lambda _: None, audio=mini_rows_only(root))
     con = connect(out)
     yield result, con
     con.close()
-
-
-def copy_repo(root: Path, dst: Path) -> Path:
-    """A throwaway repository with the seed content, its lock files and the review ledgers."""
-    shutil.copytree(root / "content", dst / "content")
-    if (root / "reviews").is_dir():
-        shutil.copytree(root / "reviews", dst / "reviews")
-    return dst
 
 
 def pairs(con, sql: str) -> dict[str, list[str]]:
@@ -91,6 +87,7 @@ def test_every_table_of_the_ddl_exists_and_the_golden_content_is_there(dev):
 
 
 def test_pack_hash_is_stable_and_ignores_git_sha_and_built_with(root, tmp_path, monkeypatch):
+    """On the live course: its dev pack builds, deterministically."""
     monkeypatch.setattr(build_mod, "git_sha", lambda _root: "1111111")
     a = build_pack(root, mode="dev", out=tmp_path / "a.sqlite", echo=lambda _: None)
     monkeypatch.setattr(build_mod, "git_sha", lambda _root: "2222222")
@@ -238,11 +235,11 @@ def test_forms_hold_inflections_of_the_same_item(dev):
     assert all(f == f.lower() for f, _ in forms)
 
 
-def test_review_files_name_each_prefix_with_its_approval_hash(root, dev):
+def test_review_files_name_each_prefix_with_its_approval_hash(seed_root, dev):
     _, con = dev
     files = json.loads(con.execute("SELECT value FROM meta WHERE key = 'review_files'").fetchone()[0])
     lesson = "content/units/02-al-bar/lesson-1.yaml"
-    assert files["u02.l1"] == {"file": lesson, "hash": approval.file_hash(root / lesson)}
+    assert files["u02.l1"] == {"file": lesson, "hash": approval.file_hash(seed_root / lesson)}
     assert files["u02.task"]["file"] == "content/units/02-al-bar/task.yaml"
     assert files["u02.check"]["file"] == "content/units/02-al-bar/check.yaml"
     assert files["u02"]["file"] == "content/units/02-al-bar/unit.yaml"
@@ -447,8 +444,8 @@ def test_two_mini_builds_are_byte_identical(root, tmp_path):
 # ---------------------------------------------------------------- failures and release mode
 
 
-def test_a_stale_lock_file_stops_the_build(root, tmp_path):
-    repo = copy_repo(root, tmp_path / "repo")
+def test_a_stale_lock_file_stops_the_build(tmp_path):
+    repo = copy_seed(tmp_path / "repo")
     lesson = repo / "content" / "units" / "02-al-bar" / "lesson-1.yaml"
     lesson.write_text(lesson.read_text(encoding="utf-8").replace("Mmm! Buono!", "Mmm! Buono buono!"), "utf-8")
     with pytest.raises(BuildError, match="stale"):
@@ -462,8 +459,8 @@ def approve_in_copy(repo: Path, rel: str) -> None:
     approval.set_review(path, {"status": "approved", "by": "Test", "date": "2026-10-08", "hash": digest})
 
 
-def test_release_needs_the_signed_off_files_and_complete_approved_units(root, tmp_path):
-    repo = copy_repo(root, tmp_path / "repo")
+def test_release_needs_the_signed_off_files_and_complete_approved_units(tmp_path):
+    repo = copy_seed(tmp_path / "repo")
     course = load_course(repo)
     with pytest.raises(BuildError, match=r"syllabus.*not approved"):
         select_scope(course, "release", allow_partial=True, report=Report())
@@ -481,7 +478,7 @@ def test_release_needs_the_signed_off_files_and_complete_approved_units(root, tm
         select_scope(course, "release", allow_partial=True, report=Report())
 
 
-def test_release_fails_on_missing_audio(root, tmp_path, monkeypatch):
+def test_release_fails_on_missing_audio(seed_root, tmp_path, monkeypatch):
     def dev_scope_as_release(course, mode, *, allow_partial, report):
         scope = select_scope(course, "dev", allow_partial=allow_partial, report=report)
         scope.mode = "release"
@@ -489,7 +486,7 @@ def test_release_fails_on_missing_audio(root, tmp_path, monkeypatch):
 
     monkeypatch.setattr(build_mod, "select_scope", dev_scope_as_release)
     with pytest.raises(BuildError, match=r"release: .* audio need"):
-        build_pack(root, mode="release", out=tmp_path / "r.sqlite", lint=False, echo=lambda _: None)
+        build_pack(seed_root, mode="release", out=tmp_path / "r.sqlite", lint=False, echo=lambda _: None)
     assert not (tmp_path / "r.sqlite").exists()
 
 

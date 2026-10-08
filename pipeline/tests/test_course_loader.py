@@ -1,12 +1,12 @@
-"""The shared course loader walks the seed content (golden lesson, task, check) correctly."""
+"""The shared course loader walks the frozen seed course (golden lesson, task, check; conftest) correctly."""
 
 from __future__ import annotations
 
 from itcontent.course import ExerciseRef, TextRef, load_course, walk_course
 
 
-def test_loads_units_in_course_order(root):
-    c = load_course(root)
+def test_loads_units_in_course_order(seed_root):
+    c = load_course(seed_root)
     assert [u.id for u in c.units][:3] == ["u00", "u01", "u02"]
     assert c.units[-1].id == "u99"
     assert not c.load_errors
@@ -17,8 +17,8 @@ def test_loads_units_in_course_order(root):
     assert not u02.complete  # lessons 2 and 3 don't exist yet (docs/04 § Partial content)
 
 
-def test_walks_every_golden_exercise_and_text(root):
-    c = load_course(root)
+def test_walks_every_golden_exercise_and_text(seed_root):
+    c = load_course(seed_root)
     found = list(walk_course(c))
     ex = {x.id: x for x in found if isinstance(x, ExerciseRef)}
     tx = {x.id: x for x in found if isinstance(x, TextRef)}

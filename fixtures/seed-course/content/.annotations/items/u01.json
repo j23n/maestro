@@ -1,0 +1,131 @@
+{
+ "format": 1,
+ "source": "content/items/u01.yaml",
+ "strings": [
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "abito a",
+   "of": 2,
+   "path": "items[25].recall_answer",
+   "pattern": "{abito a|abito in}",
+   "ref": "c:abito",
+   "role": "recall_answer",
+   "text": "abito a",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "abito in",
+   "of": 2,
+   "path": "items[25].recall_answer",
+   "pattern": "{abito a|abito in}",
+   "ref": "c:abito",
+   "role": "recall_answer",
+   "text": "abito in",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["in PRE"], "chunk": "c:abito", "kind": "word", "lemma": "in", "span": [6, 8], "surface": "in"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gender": "m",
+   "model": true,
+   "norm": "sono nato",
+   "of": 2,
+   "path": "items[26].recall_answer",
+   "pattern": "{m:sono nato|f:sono nata}",
+   "ref": "c:sono-nato",
+   "role": "recall_answer",
+   "text": "sono nato",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nato"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "gender": "f",
+   "model": false,
+   "norm": "sono nata",
+   "of": 2,
+   "path": "items[26].recall_answer",
+   "pattern": "{m:sono nato|f:sono nata}",
+   "ref": "c:sono-nato",
+   "role": "recall_answer",
+   "text": "sono nata",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nata"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gender": "m",
+   "model": true,
+   "norm": "sono arrivato",
+   "of": 2,
+   "path": "items[27].recall_answer",
+   "pattern": "{m:sono arrivato|f:sono arrivata}",
+   "ref": "c:sono-arrivato",
+   "role": "recall_answer",
+   "text": "sono arrivato",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [5, 13], "surface": "arrivato"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "gender": "f",
+   "model": false,
+   "norm": "sono arrivata",
+   "of": 2,
+   "path": "items[27].recall_answer",
+   "pattern": "{m:sono arrivato|f:sono arrivata}",
+   "ref": "c:sono-arrivato",
+   "role": "recall_answer",
+   "text": "sono arrivata",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+f", "arrivato ADJ:pos+f+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [5, 13], "surface": "arrivata"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "questo è",
+   "of": 2,
+   "path": "items[28].recall_answer",
+   "pattern": "{questo è|questa è}",
+   "ref": "c:questo-e",
+   "role": "recall_answer",
+   "text": "questo è",
+   "tokens": [
+    {"analyses": ["questo DET-DEMO:m+s", "questo PRO-DEMO-M-S"], "chunk": "c:questo-e", "kind": "word", "lemma": "questo", "span": [0, 6], "surface": "questo", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "questa è",
+   "of": 2,
+   "path": "items[28].recall_answer",
+   "pattern": "{questo è|questa è}",
+   "ref": "c:questo-e",
+   "role": "recall_answer",
+   "text": "questa è",
+   "tokens": [
+    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [0, 6], "surface": "questa", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  }
+ ],
+ "unit": "u01"
+}

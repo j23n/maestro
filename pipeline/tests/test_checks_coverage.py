@@ -1,5 +1,5 @@
 """M1.11: check 1 (syllabus coverage), check 3 (recycling and balance), `content report`, and `content approve`
-refusing a file that fails `content check`.
+refusing a file that fails `content check`. On the frozen seed course (`fixtures/seed-course/`, conftest).
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ from itcontent import approval, report, yamlio
 from itcontent.annotate import run_annotate
 from itcontent.checks import CheckResult, run_check, run_checks
 from itcontent.checks.output import to_markdown
-from test_checks import LESSON, add_story_line, annotate_and_check, edit, make_repo, messages
+from test_checks import LESSON, add_story_line, annotate_and_check, edit, messages
 
 pytestmark = needs_data
 
@@ -23,13 +23,14 @@ UNIT_U02 = "content/units/02-al-bar/unit.yaml"
 
 
 @pytest.fixture
-def repo(root: Path, tmp_path: Path) -> Path:
-    return make_repo(root, tmp_path / "repo")
+def repo(course_copy: Path) -> Path:
+    """A throwaway copy of the seed course."""
+    return course_copy
 
 
 @pytest.fixture(scope="module")
-def seed(root: Path) -> CheckResult:
-    return run_checks(root)
+def seed(seed_root: Path) -> CheckResult:
+    return run_checks(seed_root)
 
 
 def entry(result: CheckResult, eid: str):
@@ -40,8 +41,8 @@ def entry(result: CheckResult, eid: str):
 # ---------------------------------------------------------------- check 1
 
 
-def test_every_syllabus_entry_is_listed_with_its_three_locations(seed, root):
-    syllabus = yamlio.load(root / "content/syllabus/a1-syllabus.yaml")["items"]
+def test_every_syllabus_entry_is_listed_with_its_three_locations(seed, seed_root):
+    syllabus = yamlio.load(seed_root / "content/syllabus/a1-syllabus.yaml")["items"]
     assert seed.coverage is not None
     assert [e.id for e in seed.coverage.entries] == [e["id"] for e in syllabus]
     md = to_markdown(seed)

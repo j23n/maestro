@@ -1,0 +1,61 @@
+# Unit spec (u12). The contract every draft for this unit must satisfy (docs/03, docs/04).
+# Encoded from the plan's scope and sequence. DRAFT for content-lead sign-off (C1, week 3): approval = review.status.
+# `chunks` lists set phrases in prose; the item graph (C2) turns them into c: items.
+
+id: u12
+title: {it: 'Com''è andata?', en: 'How did it go?'}
+episode: The trip, told to Giulia; a farewell dinner
+arc: farewell
+est_hours: 4.5
+lessons: 3
+can_do:
+- id: cd:say-what-you-did
+  text: Say what you did
+  scale: oral-production
+  stretch: true
+  syllabus: ['sy:fn.past-events']
+- id: cd:write-postcard
+  text: Write a postcard
+  scale: written-production
+  syllabus: ['sy:fn.messages-postcards', 'sy:ss.message-conventions']
+- id: cd:book-table-order
+  text: Book a table and order at a restaurant
+  scale: oral-interaction
+  syllabus: ['sy:fn.goods-services']
+- id: cd:buy-stamps
+  text: Buy stamps at the tabaccheria
+  scale: oral-interaction
+  syllabus: ['sy:tp.public-services']
+- id: cd:follow-past-story
+  text: Follow a short story about the past
+  scale: reading
+  syllabus: ['sy:gr.imperfetto']
+grammar:
+- {id: 'g:passato-prossimo-auxiliary', status: P}
+- {id: 'g:era-cera', status: R}
+- {id: 'g:relative-che', status: R}
+chunks: com'è andata?; era bellissimo; c'era…; vorrei prenotare un tavolo
+items:
+  new_words: 55-70
+  topics: ['topic:services', 'topic:food-drink']
+  note: past-time words, holidays, restaurant, stamps at the tabaccheria
+recycle_from: [u08, u09, u10, u11]
+sounds: ['s:double-consonants', 's:word-stress']
+texts:
+  stories: {count: 3, words: 220-350, new_token_max: 0.05}
+  listening: [phone, dialogue]
+  real_world: [menu, postcard]
+tasks:
+  conversation:
+  - {id: u12.task.conv1, brief: Book a table and order at the restaurant (Lei)}
+  - {id: u12.task.conv2, brief: Tell Giulia about your trip (tu)}
+  talk: {brief: Tell the story of your weekend}
+  writing:
+    kind: postcard
+    brief: A postcard to a friend at home about your stay in Bologna (25–50 words)
+    tags: ['sy:ex.plida-postcard', 'sy:ex.celi-form-postcard']
+  relay: null
+check:
+  items: 20
+  sections: [listening, reading, writing, speaking]
+review: {status: draft, by: null, date: null, hash: null}

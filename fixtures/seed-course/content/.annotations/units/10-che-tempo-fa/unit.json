@@ -1,0 +1,23 @@
+{
+ "format": 1,
+ "source": "content/units/10-che-tempo-fa/unit.yaml",
+ "strings": [
+  {
+   "detections": [
+    {"point": "g:fare-present", "tokens": [2, 2]}
+   ],
+   "path": "title.it",
+   "pending": true,
+   "ref": "u10",
+   "role": "title",
+   "text": "Che tempo fa?",
+   "tokens": [
+    {"analyses": ["che CON", "che DET-WH:f+p", "che DET-WH:f+s", "che DET-WH:m+p", "che DET-WH:m+s", "che WH-CHE"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "che", "span": [0, 3], "surface": "Che", "trailing": " "},
+    {"analyses": ["tempo NOUN-M:s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "tempo", "span": [4, 9], "surface": "tempo", "trailing": " "},
+    {"analyses": ["fa ADV", "fare CAU:impr+pres+2+s", "fare CAU:ind+pres+3+s", "fare VER:ind+pres+3+s"], "detections": ["g:fare-present"], "flags": ["pending", "unresolved"], "kind": "word", "span": [10, 12], "surface": "fa"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
+   ]
+  }
+ ],
+ "unit": "u10"
+}

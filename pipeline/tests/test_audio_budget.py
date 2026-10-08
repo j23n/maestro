@@ -1,4 +1,5 @@
-"""The audio budget projection (M5.4; docs/04 § Pack build › Audio, ADR-17) and its `content report` section."""
+"""The audio budget projection (M5.4; docs/04 § Pack build › Audio, ADR-17) and its `content report` section, on the
+frozen seed course (conftest)."""
 
 from __future__ import annotations
 
@@ -6,7 +7,7 @@ import shutil
 
 import pytest
 
-from conftest import copy_course
+from conftest import copy_seed
 from itcontent import audio_budget as budget
 from itcontent.audio_assets import AudioPlan, AudioResolver
 from itcontent.course import load_course
@@ -30,8 +31,8 @@ def plan_for(root, caches=()) -> tuple[object, AudioPlan]:
     return course, plan
 
 
-def test_projection_without_any_audio(root):
-    course, plan = plan_for(root)
+def test_projection_without_any_audio(seed_root):
+    course, plan = plan_for(seed_root)
     p = budget.project(course, plan)
     units = {u.unit: u for u in p.units}
     assert list(units) == [u.id for u in course.units]  # course order
@@ -66,8 +67,8 @@ def test_estimates_follow_characters_rate_and_gaps():
 
 
 @pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg is not installed")
-def test_rendered_audio_counts_with_its_encoded_size(root, tmp_path):
-    repo = copy_course(root, tmp_path / "repo")
+def test_rendered_audio_counts_with_its_encoded_size(tmp_path):
+    repo = copy_seed(tmp_path / "repo")
     assert run_tts(repo, provider="mock", only=["w:cornetto"], echo=lambda _: None, lint=False) == 0
     options = AudioOptions.default(repo, "dev")
     course, plan = plan_for(repo, options.caches)
@@ -86,8 +87,8 @@ def test_rendered_audio_counts_with_its_encoded_size(root, tmp_path):
     assert "MB projected of 150 MB" in section
 
 
-def test_over_budget_says_what_adr17_prescribes(root, monkeypatch):
-    course, plan = plan_for(root)
+def test_over_budget_says_what_adr17_prescribes(seed_root, monkeypatch):
+    course, plan = plan_for(seed_root)
     monkeypatch.setattr(budget, "BUDGET_BYTES", 1024)
     lines = budget.report_lines(budget.project(course, plan))
     assert any(x.startswith("**Over budget:**") and "40kbps" in x for x in lines)
