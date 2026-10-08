@@ -1,0 +1,992 @@
+{
+ "format": 1,
+ "source": "content/units/00-benvenuti/check.yaml",
+ "strings": [
+  {
+   "path": "sections[0].exercises[0].audio_text.lines[0].it",
+   "ref": "u00.check.01.audio#1",
+   "role": "line",
+   "text": "Grazie! Buona giornata!",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "Buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[1].audio_text.lines[0].it",
+   "ref": "u00.check.02.audio#1",
+   "role": "line",
+   "text": "Quindici euro, per favore.",
+   "tokens": [
+    {"analyses": ["quindici DET-NUM-CARD", "quindici PRO-NUM"], "item": "w:quindici", "kind": "word", "lemma": "quindici", "span": [0, 8], "surface": "Quindici", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [9, 13], "surface": "euro"},
+    {"kind": "punct", "span": [13, 14], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [15, 18], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [19, 25], "surface": "favore"},
+    {"kind": "punct", "span": [25, 26], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[2].say",
+   "ref": "u00.check.03",
+   "role": "say",
+   "text": "Tredici, quattordici, venti.",
+   "tokens": [
+    {"analyses": ["tredici DET-NUM-CARD", "tredici PRO-NUM"], "item": "w:tredici", "kind": "word", "lemma": "tredici", "span": [0, 7], "surface": "Tredici"},
+    {"kind": "punct", "span": [7, 8], "surface": ",", "trailing": " "},
+    {"analyses": ["quattordici DET-NUM-CARD", "quattordici PRO-NUM"], "item": "w:quattordici", "kind": "word", "lemma": "quattordici", "span": [9, 20], "surface": "quattordici"},
+    {"kind": "punct", "span": [20, 21], "surface": ",", "trailing": " "},
+    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [22, 27], "surface": "venti"},
+    {"kind": "punct", "span": [27, 28], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[3].pair[0]",
+   "ref": "u00.check.04",
+   "role": "sound",
+   "text": "effe",
+   "tokens": [
+    {"flags": ["sound", "unresolved"], "gloss": "the letter F", "kind": "word", "span": [0, 4], "surface": "effe"}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[3].pair[1]",
+   "ref": "u00.check.04",
+   "role": "sound",
+   "text": "esse",
+   "tokens": [
+    {"analyses": ["esse PRO-PERS-3-F-P"], "flags": ["sound", "unresolved"], "gloss": "the letter S", "kind": "word", "lemma": "esse", "span": [0, 4], "surface": "esse"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[0].prompt_it",
+   "ref": "u00.check.05",
+   "role": "prompt",
+   "text": "Scusi, non capisco. Può ripetere?",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [7, 10], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [11, 18], "surface": "capisco"},
+    {"kind": "punct", "span": [18, 19], "surface": ".", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [20, 23], "surface": "Può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [24, 32], "surface": "ripetere"},
+    {"kind": "punct", "span": [32, 33], "surface": "?"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[1].options[0]",
+   "ref": "u00.check.06",
+   "role": "option",
+   "text": "Prego!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[1].options[1]",
+   "ref": "u00.check.06",
+   "role": "option",
+   "text": "Scusi!",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[1].options[2]",
+   "ref": "u00.check.06",
+   "role": "option",
+   "text": "Buonasera!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[2].pairs[0][0]",
+   "ref": "u00.check.07",
+   "role": "pair",
+   "text": "dodici",
+   "tokens": [
+    {"analyses": ["dodici DET-NUM-CARD", "dodici PRO-NUM"], "item": "w:dodici", "kind": "word", "lemma": "dodici", "span": [0, 6], "surface": "dodici"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[2].pairs[1][0]",
+   "ref": "u00.check.07",
+   "role": "pair",
+   "text": "due",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[2].pairs[2][0]",
+   "ref": "u00.check.07",
+   "role": "pair",
+   "text": "venti",
+   "tokens": [
+    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [0, 5], "surface": "venti"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[2].pairs[3][0]",
+   "ref": "u00.check.07",
+   "role": "pair",
+   "text": "sette",
+   "tokens": [
+    {"analyses": ["sette DET-NUM-CARD", "sette PRO-NUM"], "item": "w:sette", "kind": "word", "lemma": "sette", "span": [0, 5], "surface": "sette"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[2].pairs[4][0]",
+   "ref": "u00.check.07",
+   "role": "pair",
+   "text": "diciassette",
+   "tokens": [
+    {"analyses": ["diciassette DET-NUM-CARD", "diciassette PRO-NUM"], "item": "w:diciassette", "kind": "word", "lemma": "diciassette", "span": [0, 11], "surface": "diciassette"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [5, 6],
+   "model": true,
+   "norm": "per favore",
+   "of": 1,
+   "path": "sections[2].exercises[0].text",
+   "pattern": "per favore",
+   "ref": "u00.check.08",
+   "role": "cloze",
+   "text": "Buonasera! Un taxi, per favore.",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "flags": ["lexical_article"], "head": 3, "kind": "word", "lemma": "un", "span": [11, 13], "surface": "Un", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [14, 18], "surface": "taxi"},
+    {"kind": "punct", "span": [18, 19], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [20, 23], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [24, 30], "surface": "favore"},
+    {"kind": "punct", "span": [30, 31], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buonasera",
+   "of": 1,
+   "path": "sections[2].exercises[1].answer",
+   "pattern": "buonasera",
+   "ref": "u00.check.09",
+   "role": "answer",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "scusi non capisco può ripetere per favore",
+   "of": 4,
+   "path": "sections[2].exercises[2].answer",
+   "pattern": "scusi non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "answer",
+   "text": "scusi non capisco può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [31, 34], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [35, 41], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "scusi non capisco può ripetere",
+   "of": 4,
+   "path": "sections[2].exercises[2].answer",
+   "pattern": "scusi non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "answer",
+   "text": "scusi non capisco può ripetere",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "scusi non capisco per favore",
+   "of": 4,
+   "path": "sections[2].exercises[2].answer",
+   "pattern": "scusi non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "answer",
+   "text": "scusi non capisco per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [18, 21], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [22, 28], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "scusi non capisco",
+   "of": 4,
+   "path": "sections[2].exercises[2].answer",
+   "pattern": "scusi non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "answer",
+   "text": "scusi non capisco",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusa non capisco può ripetere per favore",
+   "of": 4,
+   "path": "sections[2].exercises[2].near[0].answer",
+   "pattern": "scusa non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "near",
+   "text": "scusa non capisco può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [31, 34], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [35, 41], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "scusa non capisco può ripetere",
+   "of": 4,
+   "path": "sections[2].exercises[2].near[0].answer",
+   "pattern": "scusa non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "near",
+   "text": "scusa non capisco può ripetere",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "scusa non capisco per favore",
+   "of": 4,
+   "path": "sections[2].exercises[2].near[0].answer",
+   "pattern": "scusa non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "near",
+   "text": "scusa non capisco per favore",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [18, 21], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [22, 28], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "scusa non capisco",
+   "of": 4,
+   "path": "sections[2].exercises[2].near[0].answer",
+   "pattern": "scusa non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.10",
+   "role": "near",
+   "text": "scusa non capisco",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.end.say",
+   "ref": "u00.check.11/end",
+   "role": "say",
+   "text": "Buonanotte!",
+   "tokens": [
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [0, 10], "surface": "Buonanotte"},
+    {"kind": "punct", "span": [10, 11], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buonasera",
+   "of": 1,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "buonasera",
+   "ref": "u00.check.11/n1",
+   "role": "accept",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n1.say",
+   "ref": "u00.check.11/n1",
+   "role": "say",
+   "text": "Buonasera!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "scusi non capisco può ripetere per favore",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi non capisco può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [31, 34], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [35, 41], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "scusi non capisco può ripetere",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi non capisco può ripetere",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "scusi non capisco per favore",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi non capisco per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [18, 21], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [22, 28], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "scusi non capisco",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi non capisco",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "non capisco può ripetere per favore",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "non capisco può ripetere per favore",
+   "tokens": [
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [4, 11], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [12, 15], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [16, 24], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [25, 28], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [29, 35], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "non capisco può ripetere",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "non capisco può ripetere",
+   "tokens": [
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [4, 11], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [12, 15], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [16, 24], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "non capisco per favore",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "non capisco per favore",
+   "tokens": [
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [4, 11], "surface": "capisco", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [12, 15], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [16, 22], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "non capisco",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(scusi )non capisco( può ripetere)( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "non capisco",
+   "tokens": [
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [4, 11], "surface": "capisco"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusi può ripetere per favore",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(scusi )può ripetere( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [6, 9], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [10, 18], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [19, 22], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [23, 29], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "scusi può ripetere",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(scusi )può ripetere( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "scusi può ripetere",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [6, 9], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [10, 18], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "può ripetere per favore",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(scusi )può ripetere( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "può ripetere per favore",
+   "tokens": [
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [0, 3], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [4, 12], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "può ripetere",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(scusi )può ripetere( per favore)",
+   "ref": "u00.check.11/n2",
+   "role": "accept",
+   "text": "può ripetere",
+   "tokens": [
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [0, 3], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [4, 12], "surface": "ripetere"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n2.say",
+   "ref": "u00.check.11/n2",
+   "role": "say",
+   "text": "Come va? Bene?",
+   "tokens": [
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "Come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [5, 7], "surface": "va"},
+    {"kind": "punct", "span": [7, 8], "surface": "?", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [9, 13], "surface": "Bene"},
+    {"kind": "punct", "span": [13, 14], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "ah bene grazie",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(ah )bene( grazie)",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "ah bene grazie",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "ah", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ah bene",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(ah )bene( grazie)",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "ah bene",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "ah", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "bene grazie",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(ah )bene( grazie)",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "bene",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(ah )bene( grazie)",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "bene",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ah bene grazie e lei",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[1]",
+   "pattern": "(ah )bene grazie e Lei",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "ah bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "ah", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [17, 20], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene grazie e lei",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[1]",
+   "pattern": "(ah )bene grazie e Lei",
+   "ref": "u00.check.11/n3",
+   "role": "accept",
+   "text": "bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n3.say",
+   "ref": "u00.check.11/n3",
+   "role": "say",
+   "text": "Come va?",
+   "tokens": [
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "Come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [5, 7], "surface": "va"},
+    {"kind": "punct", "span": [7, 8], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "grazie buonanotte grazie",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "(grazie )buonanotte( grazie)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "grazie buonanotte grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [7, 17], "surface": "buonanotte", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [18, 24], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie buonanotte",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "(grazie )buonanotte( grazie)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "grazie buonanotte",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [7, 17], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "buonanotte grazie",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "(grazie )buonanotte( grazie)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "buonanotte grazie",
+   "tokens": [
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [0, 10], "surface": "buonanotte", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [11, 17], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "buonanotte",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "(grazie )buonanotte( grazie)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "buonanotte",
+   "tokens": [
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [0, 10], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie arrivederci buonanotte",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )arrivederci( buonanotte)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "grazie arrivederci buonanotte",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [19, 29], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie arrivederci",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )arrivederci( buonanotte)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "arrivederci buonanotte",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )arrivederci( buonanotte)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "arrivederci buonanotte",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [12, 22], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "arrivederci",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )arrivederci( buonanotte)",
+   "ref": "u00.check.11/n4",
+   "role": "accept",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n4.say",
+   "ref": "u00.check.11/n4",
+   "role": "say",
+   "text": "Bene! Buonanotte!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [6, 16], "surface": "Buonanotte"},
+    {"kind": "punct", "span": [16, 17], "surface": "!"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[1].model",
+   "ref": "u00.check.12",
+   "role": "model",
+   "text": "Buonasera! Marco.",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
+    {"kind": "name", "span": [11, 16], "surface": "Marco"},
+    {"kind": "punct", "span": [16, 17], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{buongiorno|buonasera|ciao}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buonasera",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{buongiorno|buonasera|ciao}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "ciao",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{buongiorno|buonasera|ciao}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "ciao",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "a",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{a|e|i|o}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "a",
+   "tokens": [
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "e",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{a|e|i|o}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "e",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:definite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "i",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{a|e|i|o}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "i",
+   "tokens": [
+    {"analyses": ["il ART-M:p"], "detections": ["g:definite-article"], "item": "g:definite-article", "kind": "word", "lemma": "il", "span": [0, 1], "surface": "i"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "o",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{a|e|i|o}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "o",
+   "tokens": [
+    {"analyses": ["o CON"], "detections": ["g:conjunctions"], "item": "w:o", "kind": "word", "lemma": "o", "span": [0, 1], "surface": "o"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "erre",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[1].accept[1]",
+   "pattern": "{erre|esse|doppia}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "erre",
+   "tokens": [
+    {"analyses": ["erre NOUN-F:p", "erre NOUN-F:s"], "flags": ["unresolved"], "kind": "word", "lemma": "erre", "span": [0, 4], "surface": "erre"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "esse",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[1].accept[1]",
+   "pattern": "{erre|esse|doppia}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "esse",
+   "tokens": [
+    {"analyses": ["esse PRO-PERS-3-F-P"], "flags": ["unresolved"], "kind": "word", "lemma": "esse", "span": [0, 4], "surface": "esse"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "doppia",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[1].accept[1]",
+   "pattern": "{erre|esse|doppia}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "doppia",
+   "tokens": [
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "flags": ["unresolved"], "kind": "word", "span": [0, 6], "surface": "doppia"}
+   ]
+  }
+ ],
+ "unit": "u00"
+}
