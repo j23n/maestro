@@ -1,0 +1,417 @@
+# Unit 1, Lesson 3. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
+# Sara calls from Marco's door; at the entrance they meet Signora Rossi and her cat Mimì. Marco introduces Sara
+# (Le presento), Signora Rossi introduces Mimì (ti presento). Rossi says tu to both; they answer with Lei.
+# Then a second preview and a real form from the language school (the unit task's writing form).
+# Story line references (#n) are 1-based.
+id: u01.l3
+title: {it: "Ti presento Sara", en: "This is Sara"}
+scene: Sara phones Marco from the door of his building, then they meet Signora Rossi and her cat Mimì at the entrance. Rossi says tu to both; Marco and Sara answer with Lei.
+review: {status: draft, by: null, date: null, hash: null}
+
+steps:
+  # 1 · Preview: introductions, the phone and the small words ma, o, anche (allora is met glossed in the story)
+  - kind: preview
+    id: u01.l3.step-preview
+    batches:
+      - [c:ti-presento, c:le-presento, c:questo-e, w:anche, w:ma, w:o]
+      - [w:pronto, c:puoi-ripetere, c:a-presto]
+
+  # 2 · Read and listen, then check meaning in English
+  - kind: story
+    id: u01.l3.step-story
+    text:
+      id: u01.l3.story
+      kind: story
+      title: {it: "Ti presento Sara", en: "This is Sara"}
+      lines:
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Pronto?", en: "Hello?"}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Sono Sara. Sono arrivata!", en: "Hi, Marco! It's Sara. I'm here!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Scusa, Sara, non capisco. Puoi ripetere?", en: "Sorry, Sara, I don't understand. Can you say that again?"}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, sono arrivata! Sono qui!", en: "Yes, I'm here! I'm right here!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, sì! Ciao!", en: "Yes, yes! Bye!"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Come va?", en: "Hi, Marco! How's it going?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. E Lei, signora?", en: "Fine, thanks. And you, Signora?"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, bene. E lei come si chiama?", en: "Fine, fine. And what's her name?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Signora, Le presento Sara. Sara è di Bologna.", en: "Signora, this is Sara. Sara is from Bologna."}
+        - {speaker: ch:sara, to: ch:rossi, register: lei, it: "Buongiorno, signora! Piacere.", en: "Good morning, Signora! Nice to meet you."}
+        - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Piacere, Sara! Tu sei di Bologna? Anche io sono di Bologna!", en: "Nice to meet you, Sara! You're from Bologna? I'm from Bologna too!"}
+        - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Sara, ti presento Mimì! Mimì, questa è Sara.", en: "Sara, meet Mimì! Mimì, this is Sara."}
+        - {speaker: ch:sara, it: "Ciao, Mimì!", en: "Hi, Mimì!"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "E Mimì? È italiana o canadese?", en: "And Mimì? Is she Italian or Canadian?"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Mimì è bolognese! E tu sei canadese, vero?", en: "Mimì is from Bologna! And you're Canadian, right?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Sì, sono canadese, ma sono anche un po' italiano!", en: "Yes, I'm Canadian, but I'm a bit Italian too!", recognise: ["un po'"], gloss: {"un po'": a bit}}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ah, bene, bene!", en: "Oh, good, good!"}
+        - {speaker: ch:sara, to: ch:rossi, register: lei, it: "Arrivederci, signora! Buona giornata!", en: "Goodbye, Signora! Have a good day!"}
+        - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Ciao, Sara! Allora, a presto!", en: "Bye, Sara! Well then, see you soon!", gloss: {Allora: well then}}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "A presto, signora!", en: "See you soon, Signora!"}
+    questions:
+      - id: u01.l3.q1
+        format: choice
+        tags: [sy:cefr.oral-comprehension]
+        question_en: "Why does Sara phone Marco?"
+        options: ["To tell him she's at his building", "To ask him his name", "To say goodbye"]
+        answer: 0
+      - id: u01.l3.q2
+        format: choice
+        tags: [cd:introduce-others]
+        question_en: "What do Sara and Signora Rossi have in common?"
+        options: ["They're both from Bologna", "They're both new in Bologna", "They're both Canadian"]
+        answer: 0
+      - id: u01.l3.q3
+        format: choice
+        tags: [cd:say-where-from]
+        question_en: "What does Marco say about himself?"
+        options: ["He's Canadian, but a bit Italian too", "He's Italian, from Bologna", "He's American"]
+        answer: 0
+
+  # 3 · Note: introducing people with tu and Lei, and ma / o (built from the story)
+  - kind: note
+    id: u01.l3.step-note
+    note_id: u01.l3.note
+    grammar: [g:tu-lei, g:conjunctions]
+    title_en: "ti presento, Le presento: and ma, o"
+    intro: {mascot: hello, text_en: "Marco says *Signora, Le presento Sara*, and Signora Rossi says *Sara, ti presento Mimì!*"}
+    body:
+      - p: "To introduce someone, say *ti presento…* to a person you call *tu* and *Le presento…* to a person you call *Lei*. Like *Lei*, the formal one starts with a capital L."
+      - p: "*Questo è…* (for a man) and *questa è…* (for a woman) work with everyone: *Mimì, questa è Sara.*"
+      - table:
+          columns: [With tu, With Lei]
+          rows:
+            - ["*ti presento Sara*", "*Le presento Sara*"]
+            - ["*come ti chiami?*", "*come si chiama?*"]
+            - ["*come stai?*", "*come sta?*"]
+            - ["*di dove sei?*", "*di dov'è?*"]
+            - ["*puoi ripetere?*", "*può ripetere?*"]
+      - p: "Two more small words: *ma* means \"but\" and *o* means \"or\". Like *e*, they never change."
+      - examples: [u01.l3.story#9, u01.l3.story#12, u01.l3.story#14, u01.l3.story#16]
+      - tip: "Signora Rossi says *tu* to Sara, and Sara answers with *Lei*, just like Marco. You'll do the same with her."
+
+  # 4 · Practice: a block on introductions, then a mix (tu/Lei pairs, e/ma/o)
+  - kind: practice
+    id: u01.l3.step-practice
+    block:
+      - id: u01.l3.ex01
+        format: cloze
+        targets: [{item: c:le-presento, skill: recall}]
+        tags: [cd:introduce-others, cd:choose-tu-lei]
+        source: u01.l3.story#9
+        text: "Signora, [[Le presento]] Sara."
+        prompt_en: "Signora, let me introduce Sara. (formal)"
+        hint: "Marco says Lei to Signora Rossi."
+        rule: "ti presento with tu, Le presento with Lei."
+        near: [{answer: ti presento, hint: "Ti presento is for people you call tu. Marco says Lei to Signora Rossi."}]
+      - id: u01.l3.ex02
+        format: cloze
+        targets: [{item: c:ti-presento, skill: recall}]
+        tags: [cd:introduce-others, cd:choose-tu-lei]
+        source: u01.l3.story#12
+        text: "Sara, [[ti presento]] Mimì!"
+        prompt_en: "Sara, let me introduce Mimì! (informal)"
+        hint: "Signora Rossi says tu to Sara."
+        rule: "ti presento with tu, Le presento with Lei."
+        near: [{answer: Le presento, hint: "Le presento is for people you call Lei. Signora Rossi says tu to Sara."}]
+      - id: u01.l3.ex03
+        format: cloze
+        targets: [{item: c:questo-e, skill: recall}]
+        tags: [cd:introduce-others]
+        source: u01.l3.story#12
+        text: "Mimì, [[questa è]] Sara."
+        prompt_en: "Mimì, this is Sara."
+        hint: "Sara is a woman."
+        rule: "questo è for a man, questa è for a woman."
+        near:
+          - {answer: questo è, outcome: almost, hint: "Sara is a woman: check the ending."}
+          - {answer: questa e, outcome: almost, hint: "You need the verb 'is': check the accent."}
+      - id: u01.l3.ex04
+        format: recall
+        targets: [{item: c:questo-e, skill: recall}]
+        tags: [cd:introduce-others]
+        prompt_en: "Sara, this is Marco."
+        answer: "{Sara questo è Marco|questo è Marco|Sara ti presento Marco|ti presento Marco}"
+        near: [{answer: "(Sara )questa è Marco", outcome: almost, hint: "Marco is a man: check the ending."}]
+        audio_after: true
+      - id: u01.l3.ex05
+        format: recall
+        targets: [{item: c:ti-presento, skill: recall}]
+        tags: [cd:introduce-others, cd:choose-tu-lei]
+        prompt_en: "Marco, let me introduce Sara. (to Marco, a friend)"
+        answer: "{Marco ti presento Sara|ti presento Sara|Marco questa è Sara|questa è Sara}"
+        near: [{answer: "(Marco )Le presento Sara", hint: "Le presento is for people you call Lei. Marco is a friend."}]
+        audio_after: true
+      - id: u01.l3.ex06
+        format: recall
+        targets: [{item: c:le-presento, skill: recall}]
+        tags: [cd:introduce-others, cd:choose-tu-lei]
+        prompt_en: "Signora, let me introduce Marco. (to Signora Rossi)"
+        answer: "{signora Le presento Marco|Le presento Marco|signora questo è Marco|questo è Marco}"
+        near: [{answer: "(signora )ti presento Marco", hint: "Ti presento is for people you call tu. You say Lei to Signora Rossi."}]
+        audio_after: true
+      - id: u01.l3.ex07
+        format: cloze
+        targets: [{item: c:puoi-ripetere, skill: recall}]
+        tags: [cd:dont-understand, cd:choose-tu-lei]
+        source: u01.l3.story#3
+        text: "Scusa, Sara, non capisco. [[Puoi]] ripetere?"
+        prompt_en: "Sorry, Sara, I don't understand. Can you say that again?"
+        hint: "Marco and Sara say tu to each other."
+        near: [{answer: può, hint: "Può goes with Lei. Marco says tu to Sara."}]
+      - id: u01.l3.ex08
+        format: recall
+        targets: [{item: c:puoi-ripetere, skill: recall}]
+        tags: [cd:dont-understand, cd:choose-tu-lei]
+        prompt_en: "Sorry, can you say that again? (to Sara)"
+        answer: "{scusa puoi ripetere|puoi ripetere|Sara puoi ripetere|scusa non capisco puoi ripetere|puoi ripetere per favore}"
+        near:
+          - {answer: "(scusi )può ripetere( per favore)", hint: "Può is the Lei form. You and Sara say tu."}
+          - {answer: "scusi puoi ripetere( per favore)", hint: "Scusi is for people you call Lei. Which word goes with tu?"}
+        audio_after: true
+      - id: u01.l3.ex09
+        format: recall
+        targets: [{item: w:pronto, skill: recall}]
+        tags: [cd:greet-farewell]
+        prompt_en: "Hello? (you answer the phone)"
+        answer: "{pronto|pronto chi è}"
+        near: [{answer: "{ciao|buongiorno}", hint: "On the phone, Italians answer with a special word."}]
+        audio_after: true
+      - id: u01.l3.ex10
+        format: cloze
+        targets: [{item: w:ma, skill: recall}, {item: g:conjunctions, skill: recall}]
+        tags: [sy:gr.conjunctions]
+        text: "Sara è italiana, [[ma]] Marco è canadese."
+        prompt_en: "Sara is Italian, but Marco is Canadian."
+        rule: "e = and, ma = but, o = or."
+        near:
+          - {answer: e, hint: "E means 'and'. Here the two halves are different: you need 'but'."}
+          - {answer: o, hint: "O means 'or'. Here you need 'but'."}
+      - id: u01.l3.ex11
+        format: cloze
+        targets: [{item: w:o, skill: recall}, {item: g:conjunctions, skill: recall}]
+        tags: [sy:gr.conjunctions]
+        source: u01.l3.story#14
+        text: "È italiana [[o]] canadese?"
+        prompt_en: "Is she Italian or Canadian?"
+        rule: "e = and, ma = but, o = or."
+        near: [{answer: e, hint: "E means 'and'. Marco gives Signora Rossi a choice."}]
+      - id: u01.l3.ex12
+        format: sentence-building
+        targets: [{item: w:ma, skill: recall}]
+        tags: [cd:say-where-from, sy:gr.conjunctions]
+        prompt_en: "I'm Canadian, but I live in Bologna. (Marco)"
+        tiles: [sono, canadese, ma, abito a, Bologna]
+        distractors: [o]
+        answer: ["sono canadese ma abito a Bologna"]
+      - id: u01.l3.ex13
+        format: recall
+        targets: [{item: w:anche, skill: recall}]
+        tags: [cd:say-where-from]
+        prompt_en: "I'm from Bologna too! (Signora Rossi)"
+        answer: "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|sono di Bologna anch'io}"
+        near: [{answer: "anche sono di Bologna", hint: "Anche comes right before the word it adds to: anche io."}]
+        audio_after: true
+      - id: u01.l3.ex14
+        format: dictation
+        targets: [{item: c:le-presento, skill: listen}]
+        tags: [sy:cefr.orthographic-control]
+        say: "Signora, Le presento Sara."
+        slow: true
+      - id: u01.l3.ex15
+        format: repeat
+        targets: [{item: c:ti-presento, skill: speak}]
+        tags: [sy:cefr.phonological-control]
+        say: "Sara, ti presento Mimì! Mimì, questa è Sara."
+      - id: u01.l3.ex16
+        format: recall
+        targets: [{item: c:a-presto, skill: recall}]
+        tags: [cd:greet-farewell]
+        prompt_en: "See you soon, Signora!"
+        answer: "{a presto signora|a presto|arrivederci a presto|arrivederci signora a presto}"
+        audio_after: true
+    mix:
+      - id: u01.l3.ex17
+        format: choice
+        targets: [{item: g:tu-lei, skill: read}, {item: c:le-presento, skill: read}]
+        tags: [cd:introduce-others, cd:choose-tu-lei]
+        question_en: "You want to introduce your friend Sara to Signora Rossi. What do you say to Signora Rossi?"
+        options: ["Signora, Le presento Sara.", "Signora, ti presento Sara.", "Signora, questo è Sara."]
+        answer: 0
+        hint: "Which form goes with Lei? And Sara is a woman."
+      - id: u01.l3.ex18
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: c:ti-presento, skill: read}
+          - {item: c:le-presento, skill: read}
+          - {item: c:questo-e, skill: read}
+          - {item: w:anche, skill: read}
+          - {item: w:ma, skill: read}
+          - {item: w:o, skill: read}
+        tags: [cd:introduce-others, sy:gr.conjunctions]
+        pairs: [["ti presento…", "let me introduce… (informal)"], ["Le presento…", "let me introduce… (formal)"], ["questa è…", "this is… (a woman)"], ["anche", "also, too"], ["ma", "but"], ["o", "or"]]
+      - id: u01.l3.ex19
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:pronto, skill: read}
+          - {item: c:puoi-ripetere, skill: read}
+          - {item: c:puo-ripetere, skill: read}
+          - {item: c:a-presto, skill: read}
+          - {item: c:come-sta, skill: read}
+          - {item: c:come-stai, skill: read}
+        tags: [cd:choose-tu-lei, sy:ss.tu-lei]
+        pairs: [["pronto?", "hello? (on the phone)"], ["puoi ripetere?", "can you say that again? (informal)"], ["può ripetere?", "can you say that again? (formal)"], ["a presto!", "see you soon!"], ["come sta?", "how are you? (formal)"], ["come stai?", "how are you? (informal)"]]
+      - id: u01.l3.ex20
+        format: recall
+        targets: [{item: w:o, skill: recall}]
+        tags: [cd:say-where-from, cd:choose-tu-lei]
+        prompt_en: "Are you Italian or Canadian? (to Sara)"
+        answer: "{sei italiana o canadese|tu sei italiana o canadese|Sara sei italiana o canadese|sei canadese o italiana}"
+        near:
+          - {answer: "Lei è italiana o canadese", hint: "You and Sara say tu to each other."}
+          - {answer: "sei italiano o canadese", outcome: almost, hint: "Sara is a woman: check the ending of italiano."}
+        audio_after: true
+
+  # 5 · Preview 2: what a form asks, and more countries and nationalities (before the form below)
+  - kind: preview
+    id: u01.l3.step-preview-2
+    batches:
+      - [w:nome, w:cognome, w:nazionalita, c:luogo-di-nascita]
+      - [c:stati-uniti, w:inghilterra, w:francia, w:francese, w:spagna, w:spagnolo]
+
+  # 6 · Real-world reading: a classmate's registration form at the language school (names and email aren't annotated)
+  - kind: reading
+    id: u01.l3.step-reading
+    text:
+      id: u01.l3.form
+      kind: real_world
+      layout:
+        type: form
+        title: "Scuola di italiano – Iscrizione"
+        fields:
+          - {label: Nome, value: Lucía}
+          - {label: Cognome, value: Ortega}
+          - {label: Nazionalità, value: spagnola}
+          - {label: Luogo di nascita, value: "Madrid (Spagna)"}
+          - {label: Città, value: Bologna}
+          - {label: Email, value: lucia.ortega@example.com}
+        ignore: ["Scuola di italiano – Iscrizione", Lucía, Ortega, "Madrid (Spagna)", lucia.ortega@example.com]
+    exercises:
+      - id: u01.l3.ex21
+        format: true-false
+        targets: [{item: w:nazionalita, skill: read}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        statement_en: "Lucía is Spanish."
+        answer: true
+      - id: u01.l3.ex22
+        format: choice
+        targets: [{item: c:luogo-di-nascita, skill: read}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        question_en: "Where was Lucía born?"
+        options: ["In Madrid", "In Bologna", "In Rome"]
+        answer: 0
+      - id: u01.l3.ex23
+        format: choice
+        targets: [{item: w:citta, skill: read}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        question_en: "Which city does Lucía live in now?"
+        options: ["Bologna", "Madrid", "Rome"]
+        answer: 0
+      - id: u01.l3.ex24
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:nome, skill: read}
+          - {item: w:cognome, skill: read}
+          - {item: w:nazionalita, skill: read}
+          - {item: c:luogo-di-nascita, skill: read}
+        tags: [cd:give-personal-details, sy:fn.forms]
+        pairs: [["Nome", "first name"], ["Cognome", "surname"], ["Nazionalità", "nationality"], ["Luogo di nascita", "place of birth"]]
+
+  # 7 · Practice 2: countries with abito in / negli, and what a form asks
+  - kind: practice
+    id: u01.l3.step-practice-2
+    block:
+      - id: u01.l3.ex25
+        format: recall
+        targets: [{item: w:nome, skill: recall}, {item: w:cognome, skill: recall}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        prompt_en: "first name and surname (on a form)"
+        answer: "{nome e cognome|il nome e il cognome}"
+        near: [{answer: "cognome e nome", outcome: almost, hint: "The prompt asks for the first name first."}]
+        audio_after: true
+      - id: u01.l3.ex26
+        format: recall
+        targets: [{item: c:stati-uniti, skill: recall}]
+        tags: [cd:say-where-from, sy:tp.identity]
+        prompt_en: "I live in the United States."
+        answer: "{abito negli Stati Uniti|io abito negli Stati Uniti}"
+        near: [{answer: "(io )abito {in|a} Stati Uniti", hint: "Stati Uniti takes a special form of in: negli."}]
+        audio_after: true
+      - id: u01.l3.ex27
+        format: recall
+        targets: [{item: w:inghilterra, skill: recall}]
+        tags: [cd:say-where-from, sy:tp.identity]
+        prompt_en: "I live in England."
+        answer: "{abito in Inghilterra|io abito in Inghilterra}"
+        near: [{answer: "(io )abito a Inghilterra", hint: "Inghilterra is a country: in, not a."}]
+        audio_after: true
+    mix:
+      - id: u01.l3.ex28
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: c:stati-uniti, skill: read}
+          - {item: w:inghilterra, skill: read}
+          - {item: w:francia, skill: read}
+          - {item: w:francese, skill: read}
+          - {item: w:spagna, skill: read}
+          - {item: w:spagnolo, skill: read}
+        tags: [sy:tp.identity, cd:say-where-from]
+        pairs: [["gli Stati Uniti", "the United States"], ["Inghilterra", "England"], ["Francia", "France"], ["francese", "French"], ["Spagna", "Spain"], ["spagnolo", "Spanish"]]
+      - id: u01.l3.ex29
+        format: choice
+        targets: [{item: c:stati-uniti, skill: read}]
+        tags: [cd:say-where-from, sy:gr.simple-prepositions]
+        question_en: "Which sentence is right?"
+        options: ["Abito negli Stati Uniti.", "Abito a Stati Uniti.", "Abito in Stati Uniti."]
+        answer: 0
+
+  # 8 · Sounds: intonation of yes/no questions (s:intonation) and e / è (s:accents-e-si)
+  - kind: sounds
+    id: u01.l3.step-sounds
+    exercises:
+      - id: u01.l3.ex30
+        format: sound-pair
+        targets: [{item: s:intonation, skill: listen}]
+        tags: [sy:ss.intonation]
+        question: which-word
+        pair: ["Sei italiana?", "Sei italiana."]
+        play: "Sei italiana?"
+        glosses: {"Sei italiana?": "Are you Italian?", "Sei italiana.": "You're Italian."}
+      - id: u01.l3.ex31
+        format: sound-pair
+        targets: [{item: s:accents-e-si, skill: listen}]
+        tags: [sy:ss.accented-pairs]
+        question: which-word
+        pair: [e, è]
+        play: e
+        glosses: {e: and, è: is}
+        tip_en: "E (and) is short and runs into the next word; è (is) is stressed."
+      - id: u01.l3.ex32
+        format: sound-pair
+        targets: [{item: s:intonation, skill: listen}]
+        tags: [sy:ss.intonation]
+        question: which-word
+        pair: ["È canadese?", "È canadese."]
+        play: "È canadese."
+        glosses: {"È canadese?": "Is he Canadian?", "È canadese.": "He's Canadian."}
+
+  # 9 · Use: a spoken recall in the story's situation (introduce Sara to Signora Rossi, who gets Lei)
+  - kind: use
+    id: u01.l3.step-use
+    exercise:
+      id: u01.l3.ex33
+      format: recall
+      targets: [{item: c:le-presento, skill: recall}]
+      tags: [cd:introduce-others, cd:choose-tu-lei]
+      prompt_en: "You and your friend Sara meet Signora Rossi at the door. Introduce Sara to her."
+      answer: "{signora Le presento Sara|Le presento Sara|buongiorno signora Le presento Sara|signora questa è Sara|questa è Sara}"
+      near:
+        - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
+        - {answer: "(signora )questo è Sara", outcome: almost, hint: "Sara is a woman: check the ending."}
+      audio_after: true

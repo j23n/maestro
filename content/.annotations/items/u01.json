@@ -125,6 +125,100 @@
     {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [0, 6], "surface": "questa", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
    ]
+  },
+  {
+   "expansion": 0,
+   "gender": "m",
+   "model": true,
+   "norm": "dove sei nato",
+   "of": 2,
+   "path": "items[41].recall_answer",
+   "pattern": "{m:dove sei nato|f:dove sei nata}",
+   "ref": "c:dove-sei-nato",
+   "role": "recall_answer",
+   "text": "dove sei nato",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [9, 13], "surface": "nato"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "gender": "f",
+   "model": false,
+   "norm": "dove sei nata",
+   "of": 2,
+   "path": "items[41].recall_answer",
+   "pattern": "{m:dove sei nato|f:dove sei nata}",
+   "ref": "c:dove-sei-nato",
+   "role": "recall_answer",
+   "text": "dove sei nata",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [9, 13], "surface": "nata"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "gli stati uniti",
+   "of": 2,
+   "path": "items[53].recall_answer",
+   "pattern": "{gli Stati Uniti|Stati Uniti}",
+   "ref": "c:stati-uniti",
+   "role": "recall_answer",
+   "text": "gli Stati Uniti",
+   "tokens": [
+    {"analyses": ["gli PRO-PERS-CLI-3-M-S", "il ART-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [0, 3], "surface": "gli", "trailing": " "},
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [4, 9], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [10, 15], "surface": "Uniti"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "stati uniti",
+   "of": 2,
+   "path": "items[53].recall_answer",
+   "pattern": "{gli Stati Uniti|Stati Uniti}",
+   "ref": "c:stati-uniti",
+   "role": "recall_answer",
+   "text": "Stati Uniti",
+   "tokens": [
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [0, 5], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [6, 11], "surface": "Uniti"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "l'inghilterra",
+   "of": 2,
+   "path": "items[54].recall_answer",
+   "pattern": "{l'Inghilterra|Inghilterra}",
+   "ref": "w:inghilterra",
+   "role": "recall_answer",
+   "text": "l'Inghilterra",
+   "tokens": [
+    {"analyses": ["il ART-M:s", "la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:inghilterra", "kind": "word", "span": [0, 2], "surface": "l'"},
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [2, 13], "surface": "Inghilterra"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "inghilterra",
+   "of": 2,
+   "path": "items[54].recall_answer",
+   "pattern": "{l'Inghilterra|Inghilterra}",
+   "ref": "w:inghilterra",
+   "role": "recall_answer",
+   "text": "Inghilterra",
+   "tokens": [
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [0, 11], "surface": "Inghilterra"}
+   ]
   }
  ],
  "unit": "u01"

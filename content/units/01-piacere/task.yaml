@@ -1,0 +1,205 @@
+# Unit 1 task (docs/06 §12–14). DRAFT (C3). Two conversations, a short talk and the language school's registration
+# form. Unit 1 has no relay (unit.yaml). Partner lines never use an adjective for the learner, whose gender the
+# line can't know; the learner's own answers use the onboarding slots ({NAME}, {ME.nationality}, {ME.home}).
+id: u01.task
+review: {status: draft, by: null, date: null, hash: null}
+
+conversations:
+  # Signora Rossi says tu to you; you answer with Lei (story-bible registers). The conversation's `register` is the
+  # learner's. KNOWN ISSUE (docs/13 § Proposed changes, 2026-10-08): check 5 tests both directions against one
+  # register, so this asymmetric conversation reports ch:rossi → ch:you as an error until the checker learns it.
+  - id: u01.task.conv1
+    format: conversation
+    with: ch:rossi
+    register: lei
+    title: {en: "Meet Signora Rossi"}
+    tags: [cd:introduce-yourself, cd:say-where-from, cd:choose-tu-lei]
+    goals:
+      - {id: name, en: "Say your name"}
+      - {id: from, en: "Say where you're from"}
+      - {id: ask, en: "Ask how she is (she says tu, you say Lei)"}
+      - {id: bye, en: "Say goodbye politely"}
+    start: n1
+    nodes:
+      n1:
+        say: "Buongiorno! Tu come ti chiami?"
+        en: "Good morning! What's your name?"
+        expect:
+          - intent: name
+            goal: name
+            accept:
+              - "(buongiorno )(signora )mi chiamo {NAME}( e Lei)"
+              - "(buongiorno )(signora )(io )sono {NAME}( e Lei)"
+              - "(buongiorno )(signora )mi chiamo {NAME} e Lei come si chiama"
+              - "{NAME}"
+            next: n2
+        help: ["Buongiorno, signora! Mi chiamo…"]
+        hint_en: "Greet her and say your name."
+      n2:
+        say: "Piacere! Io sono la signora Rossi. Di dove sei?"
+        en: "Nice to meet you! I'm Signora Rossi. Where are you from?"
+        expect:
+          - intent: origin
+            goal: from
+            accept:
+              - "(piacere )(io )sono {ME.nationality}"
+              - "(piacere )(io )sono di {NAME}"
+              - "(piacere )(io )sono {ME.nationality} di {NAME}"
+              - "(piacere )(io )sono {ME.nationality} e abito {ME.home}"
+            next: n3
+        near: [{answer: "(io )sono di {ME.country}", hint: "For a country, use your nationality: sono + nationality."}]
+        help: ["Piacere, signora! Sono…", "Sono di…"]
+        hint_en: "Say your nationality, or your city with di."
+      n3:
+        say: "Ah, bene! E come stai?"
+        en: "Oh, good! And how are you?"
+        expect:
+          - intent: ask-back
+            goal: ask
+            accept:
+              - "(bene )(grazie )e Lei( come sta)( signora)"
+              - "(bene )(grazie )(signora )come sta"
+              - "(bene )(grazie )e Lei signora come sta"
+            next: n4
+        near:
+          - {answer: "(bene )(grazie )e tu( come stai)", hint: "Signora Rossi says tu to you, but you answer with Lei."}
+          - {answer: "(bene )(grazie )come stai( signora)", hint: "Come stai is for people you call tu. Signora Rossi gets Lei."}
+        help: ["Bene, grazie. E Lei, come sta?"]
+        hint_en: "Say you're fine, and ask how she is."
+      n4:
+        say: "Bene, bene, grazie! Ciao, ci vediamo!"
+        en: "Fine, fine, thank you! Bye, see you!"
+        expect:
+          - intent: bye
+            goal: bye
+            accept:
+              - "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)"
+              - "(sì )ci vediamo( signora)( arrivederci)"
+            next: end
+        near: [{answer: "ciao( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
+        help: ["Arrivederci, signora!"]
+        hint_en: "Say goodbye politely."
+      end:
+        say: "Buona giornata!"
+        en: "Have a good day!"
+        final: true
+
+  # Sara and you say tu to each other.
+  - id: u01.task.conv2
+    format: conversation
+    with: ch:sara
+    register: tu
+    title: {en: "Meet Sara at the coworking space"}
+    tags: [cd:introduce-yourself, cd:say-where-from, cd:choose-tu-lei]
+    goals:
+      - {id: name, en: "Say your name"}
+      - {id: from, en: "Say where you're from"}
+      - {id: live, en: "Say where you live"}
+      - {id: ask, en: "Ask Sara where she's from"}
+      - {id: bye, en: "Say goodbye"}
+    start: n1
+    nodes:
+      n1:
+        say: "Ciao! Io sono Sara. Tu come ti chiami?"
+        en: "Hi! I'm Sara. What's your name?"
+        expect:
+          - intent: name
+            goal: name
+            accept: ["(ciao )mi chiamo {NAME}", "(ciao )(io )sono {NAME}", "(ciao )(io )mi chiamo {NAME}( piacere)", "{NAME}"]
+            next: n2
+        near: [{answer: "(ciao )mi chiamo {NAME} e Lei( come si chiama)", hint: "Sara is your age, and you met at work: use tu."}]
+        help: ["Ciao! Mi chiamo…"]
+        hint_en: "Say your name."
+      n2:
+        say: "Piacere! Di dove sei?"
+        en: "Nice to meet you! Where are you from?"
+        expect:
+          - intent: origin
+            goal: from
+            accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}"]
+            next: n3
+        near: [{answer: "(io )sono di {ME.country}", hint: "For a country, use your nationality: sono + nationality."}]
+        help: ["Sono…", "Sono di…"]
+        hint_en: "Say your nationality, or your city with di."
+      n3:
+        say: "Ah, bene! E dove abiti?"
+        en: "Oh, great! And where do you live?"
+        expect:
+          - {intent: live-bologna, goal: live, accept: ["(io )abito a Bologna", "a Bologna"], next: n4}
+          - intent: live-elsewhere
+            goal: live
+            accept: ["(io )abito {ME.home}", "(io )abito a {NAME}", "(io )abito in {NAME}"]
+            next: n4b
+        help: ["Abito a Bologna."]
+        hint_en: "Say where you live: in Bologna, or at home."
+      n4:
+        say: "Anche io abito a Bologna!"
+        en: "I live in Bologna too!"
+        expect:
+          - intent: ask-origin
+            goal: ask
+            accept: ["e tu di dove sei", "(e tu )(Sara )di dove sei", "(e tu )sei di Bologna", "(e tu )sei italiana", "(e tu )dove sei nata"]
+            next: n5
+        near:
+          - {answer: "(e Lei )di dov'è", hint: "You and Sara say tu to each other."}
+          - {answer: "(e tu )sei italiano", outcome: almost, hint: "Sara is a woman: check the ending."}
+        help: ["E tu, di dove sei?"]
+        hint_en: "Ask Sara where she's from."
+      n4b:
+        say: "Ah, bene! Io abito a Bologna."
+        en: "Oh, nice! I live in Bologna."
+        expect:
+          - intent: ask-origin
+            goal: ask
+            accept: ["e tu di dove sei", "(e tu )(Sara )di dove sei", "(e tu )sei di Bologna", "(e tu )sei italiana", "(e tu )dove sei nata"]
+            next: n5
+        near:
+          - {answer: "(e Lei )di dov'è", hint: "You and Sara say tu to each other."}
+          - {answer: "(e tu )sei italiano", outcome: almost, hint: "Sara is a woman: check the ending."}
+        help: ["E tu, di dove sei?"]
+        hint_en: "Ask Sara where she's from."
+      n5:
+        say: "Sono di Bologna! Allora, ci vediamo!"
+        en: "I'm from Bologna! Well then, see you!"
+        expect:
+          - intent: bye
+            goal: bye
+            accept: ["{ciao|ci vediamo|a presto|ciao ci vediamo|ciao a presto|sì ci vediamo}( Sara)"]
+            next: end
+        help: ["Ciao, a presto!"]
+        hint_en: "Say goodbye."
+      end:
+        say: "Ciao, a presto!"
+        en: "Bye, see you soon!"
+        final: true
+
+talk:
+  id: u01.task.talk
+  format: talk
+  tags: [cd:introduce-yourself, cd:say-where-from, sy:ex.cils-monologue, sy:ex.celi-photo-conversation]
+  prompt_en: "Introduce yourself: say your name, your nationality, where you live and where you were born."
+  points:
+    - {id: name, en: "Your name", accept: ["{mi chiamo|sono} {NAME}"]}
+    - {id: nationality, en: "Your nationality", accept: ["sono {ME.nationality}"]}
+    - {id: live, en: "Where you live", accept: ["abito {ME.home}", "abito a {NAME}", "abito in {NAME}"]}
+    - {id: born, en: "Where you were born", accept: ["sono {m:nato|f:nata} {a|in} {NAME}"]}
+  pass: 3
+  model: "Ciao! Mi chiamo Marco e sono canadese. Sono nato a Toronto e abito a Toronto, in Canada."
+  duration_s: {min: 10, max: 90}
+
+writing:
+  id: u01.task.write
+  format: writing
+  kind: form
+  tags: [cd:give-personal-details, sy:fn.forms, sy:ex.celi-form-postcard]
+  prompt_en: "You're signing up for an Italian course at the language school. Fill in the registration form."
+  fields:
+    - {label_it: Nome, label_en: First name, type: text}
+    - {label_it: Cognome, label_en: Surname, type: text}
+    - {label_it: Nazionalità, label_en: Nationality, type: text, accept: ["{ME.nationality}"]}
+    - {label_it: Luogo di nascita, label_en: Place of birth, type: text}
+    - {label_it: Città, label_en: "City (where you live now)", type: text}
+    - {label_it: Email, label_en: Email, type: email}
+  model: null
+
+relay: null
