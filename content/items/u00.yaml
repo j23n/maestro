@@ -9,6 +9,7 @@ items:
   - {id: 'w:buonasera', it: buonasera, pos: interj, gloss: good evening; hello, note: From mid-afternoon on., topics: ['topic:identity'], status: P, lesson: u00.l1}
   - {id: 'w:ciao', it: ciao, pos: interj, gloss: hi; bye, note: 'Informal: with friends and people you call tu.', topics: ['topic:identity'], status: P, lesson: u00.l1}
   - {id: 'w:arrivederci', it: arrivederci, pos: interj, gloss: goodbye, topics: ['topic:identity'], status: P, lesson: u00.l1}
+  - {id: 'w:buonanotte', it: buonanotte, pos: interj, gloss: good night, note: 'Late in the evening, when you leave or go to bed.', topics: ['topic:identity'], status: P, lesson: u00.l2}
   - {id: 'w:grazie', it: grazie, pos: interj, gloss: thank you, topics: ['topic:identity'], status: P, lesson: u00.l1}
   - {id: 'w:prego', it: prego, pos: interj, gloss: 'you''re welcome; please, go ahead', topics: ['topic:identity'], status: P, lesson: u00.l1}
   - {id: 'w:si', it: sì, pos: adv, gloss: 'yes', note: 'With an accent. Without it, si is a different word.', status: P, lesson: u00.l1}

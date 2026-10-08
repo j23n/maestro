@@ -1,0 +1,502 @@
+# Unit 0, Lesson 2 (C3 draft). The taxi ride into town late at night, the fare, "come si dice…?", and the next
+# morning at the door of Marco's new flat. Pre-A1: chunks only, no grammar note. Numbers 0–20 come in two previews
+# (0–10, practice, then 11–20) before the story, which needs 17, 18 and 20. Story line references (#n) are 1-based.
+# Bare "sei" resolves to essere (disambiguation.yaml), so exercises only say it as "sei euro".
+# The taxi driver is the same ch:extra as in Lesson 1 (u00.l1.taxi-stand); see the note there about the voice.
+# The fare (diciotto euro, late evening, airport to the flat) is a real-world fact to check: proposed for the story
+# bible's facts_to_check (PROGRESS.md, C3 entry), not added there by this draft.
+id: u00.l2
+title: {it: "Scusi, non capisco!", en: "Sorry, I don't understand!"}
+scene: The taxi ride late at night, the fare and a new word; the next morning a neighbor greets Marco at the door of his flat; everyone uses Lei
+review: {status: draft, by: null, date: null, hash: null}
+
+steps:
+  # 1 · Preview: the classroom chunks and good night, then 0–10
+  - kind: preview
+    id: u00.l2.step-preview
+    batches:
+      - [c:non-capisco, c:puo-ripetere, c:come-si-dice, w:buonanotte]
+      - [w:zero, w:uno, w:due, w:tre, w:quattro, w:cinque]
+      - [w:sei, w:sette, w:otto, w:nove, w:dieci]
+
+  # 2 · Practice 0–10 and the new chunks before the teens (a block, then a short mix with Lesson 1)
+  - kind: practice
+    id: u00.l2.step-practice
+    block:
+      - id: u00.l2.ex01
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:zero, skill: read}
+          - {item: w:uno, skill: read}
+          - {item: w:due, skill: read}
+          - {item: w:tre, skill: read}
+          - {item: w:quattro, skill: read}
+          - {item: w:cinque, skill: read}
+        tags: [cd:count-to-20, sy:gr.cardinal-numbers]
+        pairs: [["zero", "0"], ["uno", "1"], ["due", "2"], ["tre", "3"], ["quattro", "4"], ["cinque", "5"]]
+      - id: u00.l2.ex02
+        format: match
+        targets:
+          - {item: w:sei, skill: read}
+          - {item: w:sette, skill: read}
+          - {item: w:otto, skill: read}
+          - {item: w:nove, skill: read}
+          - {item: w:dieci, skill: read}
+        tags: [cd:count-to-20, sy:gr.cardinal-numbers]
+        pairs: [["sei euro", "€6"], ["sette euro", "€7"], ["otto euro", "€8"], ["nove euro", "€9"], ["dieci euro", "€10"]]
+      - id: u00.l2.ex03
+        format: dictation
+        targets: [{item: w:quattro, skill: listen}, {item: w:cinque, skill: listen}]
+        tags: [cd:count-to-20, sy:cefr.orthographic-control]
+        say: "Uno, due, tre, quattro, cinque."
+        slow: true
+      - id: u00.l2.ex04
+        format: dictation
+        targets: [{item: w:sette, skill: listen}, {item: w:otto, skill: listen}]
+        tags: [cd:count-to-20, sy:ss.double-consonants]
+        say: "Sei euro, sette euro, otto euro."
+        slow: true
+        hint: "Two of the numbers have a double consonant."
+      - id: u00.l2.ex05
+        format: recall
+        targets: [{item: w:zero, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "0"
+        answer: "zero"
+        audio_after: true
+      - id: u00.l2.ex06
+        format: recall
+        targets: [{item: w:nove, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "9"
+        answer: "nove"
+        audio_after: true
+      - id: u00.l2.ex07
+        format: recall
+        targets: [{item: w:dieci, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "10"
+        answer: "dieci"
+        near: [{answer: "dici", outcome: almost, hint: "Close! There's an e after the d."}]
+        audio_after: true
+      - id: u00.l2.ex08
+        format: recall
+        targets: [{item: c:non-capisco, skill: recall}]
+        tags: [cd:dont-understand, sy:gr.negation]
+        prompt_en: "I don't understand."
+        answer: "{non capisco|scusi non capisco|scusa non capisco}"
+        near: [{answer: "capisco", hint: "That means I understand. Add the word for not in front."}]
+        audio_after: true
+      - id: u00.l2.ex09
+        format: recall
+        targets: [{item: c:puo-ripetere, skill: recall}]
+        tags: [cd:dont-understand, sy:cefr.clarification]
+        prompt_en: "Can you say that again? (to the taxi driver)"
+        answer: "{può ripetere|può ripetere per favore|scusi può ripetere|scusi può ripetere per favore}"
+        audio_after: true
+      - id: u00.l2.ex10
+        format: recall
+        targets: [{item: c:come-si-dice, skill: recall}]
+        tags: [cd:dont-understand, sy:gr.question-words]
+        prompt_en: "How do you say…? (to ask for an Italian word)"
+        answer: "{come si dice|scusi come si dice}"
+        audio_after: true
+      - id: u00.l2.ex11
+        format: recall
+        targets: [{item: w:buonanotte, skill: recall}]
+        tags: [cd:greet-farewell]
+        prompt_en: "Good night!"
+        answer: "buonanotte"
+        audio_after: true
+      - id: u00.l2.ex12
+        format: repeat
+        targets: [{item: c:puo-ripetere, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:dont-understand]
+        say: "Scusi, non capisco. Può ripetere?"
+    mix:
+      - id: u00.l2.ex13
+        format: choice
+        targets: [{item: w:buonanotte, skill: read}]
+        tags: [cd:greet-farewell]
+        question_en: "It's eleven at night and you're leaving. What do you say?"
+        options: ["Buonanotte!", "Buongiorno!", "Buona giornata!"]
+        answer: 0
+        hint: "Think about the time of day."
+      - id: u00.l2.ex14
+        format: recall
+        targets: [{item: w:sette, skill: recall}]
+        tags: [cd:count-to-20, cd:politeness]
+        prompt_en: "€7, please."
+        answer: "sette euro( per favore)"
+        near: [{answer: "sei euro( per favore)", hint: "Sei is six. Seven has a double t."}]
+        audio_after: true
+      - id: u00.l2.ex15
+        format: recall
+        targets: [{item: c:non-capisco, skill: recall}, {item: c:scusa, skill: recall}]
+        tags: [cd:dont-understand, cd:politeness]
+        prompt_en: "Sorry, I don't understand. (to a friend)"
+        answer: "scusa non capisco"
+        near: [{answer: "scusi non capisco", hint: "Scusi is for people you don't know. This is a friend."}]
+        audio_after: true
+
+  # 3 · Preview: 11–20
+  - kind: preview
+    id: u00.l2.step-preview-2
+    batches:
+      - [w:undici, w:dodici, w:tredici, w:quattordici, w:quindici]
+      - [w:sedici, w:diciassette, w:diciotto, w:diciannove, w:venti]
+
+  # 4 · Real-world reading: the list of phrases on Marco's phone
+  - kind: reading
+    id: u00.l2.step-reading
+    text:
+      id: u00.l2.list
+      kind: real_world
+      layout:
+        type: list
+        items: ["Buonasera!", "Per favore.", "Grazie!", "Scusi!", "Non capisco.", "Può ripetere?", "Come si dice…?"]
+    exercises:
+      - id: u00.l2.ex16
+        format: choice
+        targets: [{item: c:non-capisco, skill: read}]
+        tags: [cd:dont-understand, sy:cefr.reading]
+        question_en: "The driver talks very fast. Which line of the list does Marco need first?"
+        options: ["I don't understand.", "Thank you!", "Good evening!"]
+        answer: 0
+      - id: u00.l2.ex17
+        format: match
+        targets:
+          - {item: c:non-capisco, skill: read}
+          - {item: c:puo-ripetere, skill: read}
+          - {item: c:come-si-dice, skill: read}
+          - {item: c:scusi, skill: read}
+        tags: [cd:dont-understand, sy:cefr.reading]
+        pairs: [["non capisco", "I don't understand"], ["può ripetere?", "can you say that again?"], ["come si dice…?", "how do you say…?"], ["scusi", "excuse me"]]
+
+  # 5 · Read and listen: the taxi ride, then check meaning in English
+  - kind: story
+    id: u00.l2.step-story
+    text:
+      id: u00.l2.ride
+      kind: story
+      title: {it: "Buonanotte!", en: "Good night!"}
+      lines:
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Tutto bene? Come va?", en: "All good? How's it going?", recognise: [Tutto], gloss: {Tutto: all}}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Scusi, non capisco. Può ripetere, per favore?", en: "Sorry, I don't understand. Can you say that again, please?"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Come va?", en: "How's it going?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah! Bene, grazie!", en: "Oh! Fine, thanks!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Bene, bene!", en: "Good, good!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Ok! Diciotto euro, per favore.", en: "Here we are! Eighteen euros, please."}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Diciassette euro?", en: "Seventeen euros?"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "No, no: diciotto. Uno, otto.", en: "No, no: eighteen. One, eight."}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah, diciotto! Ok. Venti euro.", en: "Oh, eighteen! OK. Here's twenty."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Grazie! Due euro, prego.", en: "Thank you! Two euros change, here you are."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Uno, due, tre... ok!", en: "One, two, three bags... all here!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: 'Grazie! Scusi, come si dice "good night"?', en: 'Thanks! Excuse me, how do you say "good night"?', foreign: [good night]}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: 'Buonanotte. Si dice "buonanotte".', en: 'Buonanotte. You say "buonanotte".'}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah, buonanotte! Grazie, buonanotte!", en: "Ah, good night! Thank you, good night!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Prego! Buonanotte!", en: "You're welcome! Good night!"}
+    questions:
+      - id: u00.l2.q1
+        format: choice
+        tags: [cd:dont-understand]
+        question_en: "What does Marco ask the driver to repeat?"
+        options: ["How's it going?", "The price", "Good night"]
+        answer: 0
+      - id: u00.l2.q2
+        format: choice
+        tags: [cd:count-to-20]
+        question_en: "How much is the taxi?"
+        options: ["€18", "€17", "€20"]
+        answer: 0
+      - id: u00.l2.q3
+        format: choice
+        tags: [cd:dont-understand]
+        question_en: "What new word does Marco learn at the end?"
+        options: ["Good night", "Thank you", "Eighteen"]
+        answer: 0
+
+  # 6 · Listening: the next morning, a neighbor at the door of Marco's flat (audio first)
+  - kind: listening
+    id: u00.l2.step-listening
+    text:
+      id: u00.l2.morning
+      kind: dialogue
+      title: {en: "At the door, the next morning"}
+      lines:
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buongiorno!", en: "Good morning!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Buongiorno!", en: "Good morning!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Benvenuto! Come va?", en: "Welcome! How's it going?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Bene, grazie!", en: "Fine, thanks!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Bene! Buona giornata!", en: "Good! Have a good day!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie! Buona giornata! Arrivederci!", en: "Thank you! Have a good day! Goodbye!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Arrivederci!", en: "Goodbye!"}
+    plays: unlimited
+    exercises:
+      - id: u00.l2.ex18
+        format: choice
+        targets: [{item: w:buongiorno, skill: listen}]
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "What time of day is it?"
+        options: ["Morning", "Evening", "Late at night"]
+        answer: 0
+      - id: u00.l2.ex19
+        format: true-false
+        targets: [{item: c:buona-giornata, skill: listen}]
+        tags: [cd:greet-farewell, sy:fn.good-wishes]
+        statement_en: "The neighbor wishes Marco a good day."
+        answer: true
+      - id: u00.l2.ex20
+        format: choice
+        targets: [{item: w:bene, skill: listen}]
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "How is Marco?"
+        options: ["Fine", "Tired", "Lost"]
+        answer: 0
+
+  # 7 · Practice: the story's sentences first, then the teens; the mix sets the confusable numbers side by side
+  #     (tre/tredici, due/dodici, sei/sedici, diciassette/diciotto) and scusi/scusa.
+  - kind: practice
+    id: u00.l2.step-practice-2
+    block:
+      - id: u00.l2.ex21
+        format: cloze
+        targets: [{item: w:diciotto, skill: recall}]
+        tags: [cd:count-to-20]
+        source: u00.l2.ride#8
+        text: "No, no: [[diciotto]]. Uno, otto."
+        prompt_en: "No, no: eighteen. One, eight."
+        near: [{answer: diciassette, hint: "Diciassette is seventeen. Listen: one, eight."}]
+        audio_after: true
+      - id: u00.l2.ex22
+        format: cloze
+        targets: [{item: c:non-capisco, skill: recall}]
+        tags: [cd:dont-understand, sy:gr.negation]
+        source: u00.l2.ride#2
+        text: "Scusi, [[non capisco]]. Può ripetere, per favore?"
+        prompt_en: "Sorry, I don't understand. Can you say that again, please?"
+        near: [{answer: capisco, hint: "Capisco means I understand. Marco doesn't."}]
+      - id: u00.l2.ex23
+        format: cloze
+        targets: [{item: c:puo-ripetere, skill: recall}]
+        tags: [cd:dont-understand, sy:cefr.clarification]
+        source: u00.l2.ride#2
+        text: "Scusi, non capisco. [[Può ripetere]], per favore?"
+        prompt_en: "Sorry, I don't understand. Can you say that again, please?"
+      - id: u00.l2.ex24
+        format: cloze
+        targets: [{item: c:come-si-dice, skill: recall}]
+        tags: [cd:dont-understand, sy:gr.question-words]
+        text: "Scusi, [[come si dice]]…?"
+        prompt_en: "Excuse me, how do you say…?"
+      - id: u00.l2.ex25
+        format: match
+        targets:
+          - {item: w:undici, skill: read}
+          - {item: w:dodici, skill: read}
+          - {item: w:tredici, skill: read}
+          - {item: w:quattordici, skill: read}
+          - {item: w:quindici, skill: read}
+          - {item: w:sedici, skill: read}
+        tags: [cd:count-to-20, sy:gr.cardinal-numbers]
+        pairs: [["undici", "11"], ["dodici", "12"], ["tredici", "13"], ["quattordici", "14"], ["quindici", "15"], ["sedici", "16"]]
+      - id: u00.l2.ex26
+        format: match
+        targets:
+          - {item: w:diciassette, skill: read}
+          - {item: w:diciotto, skill: read}
+          - {item: w:diciannove, skill: read}
+          - {item: w:venti, skill: read}
+        tags: [cd:count-to-20, sy:gr.cardinal-numbers]
+        pairs: [["diciassette", "17"], ["diciotto", "18"], ["diciannove", "19"], ["venti", "20"]]
+      - id: u00.l2.ex27
+        format: dictation
+        targets: [{item: w:quattordici, skill: listen}, {item: w:quindici, skill: listen}]
+        tags: [cd:count-to-20, sy:cefr.orthographic-control]
+        say: "Undici, dodici, tredici, quattordici, quindici."
+        slow: true
+      - id: u00.l2.ex28
+        format: dictation
+        targets: [{item: w:diciassette, skill: listen}, {item: w:diciannove, skill: listen}]
+        tags: [cd:count-to-20, sy:ss.double-consonants]
+        say: "Sedici, diciassette, diciotto, diciannove, venti."
+        slow: true
+        hint: "Three of the numbers have a double consonant."
+      - id: u00.l2.ex29
+        format: recall
+        targets: [{item: w:diciotto, skill: recall}]
+        tags: [cd:count-to-20, cd:politeness]
+        prompt_en: "Eighteen euros, please."
+        answer: "diciotto euro( per favore)"
+        near: [{answer: "diciassette euro( per favore)", hint: "Diciassette is seventeen."}]
+        audio_after: true
+      - id: u00.l2.ex30
+        format: repeat
+        targets: [{item: w:diciotto, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        say: "Diciotto euro, per favore."
+    mix:
+      - id: u00.l2.ex31
+        format: recall
+        targets: [{item: w:tredici, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "13"
+        answer: "tredici"
+        near: [{answer: tre, hint: "Tre is three. Thirteen is longer."}]
+        audio_after: true
+      - id: u00.l2.ex32
+        format: recall
+        targets: [{item: w:dodici, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "12"
+        answer: "dodici"
+        near: [{answer: due, hint: "Due is two. Twelve is longer."}]
+        audio_after: true
+      - id: u00.l2.ex33
+        format: choice
+        targets: [{item: w:sedici, skill: read}]
+        tags: [cd:count-to-20]
+        question_en: "Which one is €16?"
+        options: ["sedici euro", "sei euro", "sette euro"]
+        answer: 0
+      - id: u00.l2.ex34
+        format: recall
+        targets: [{item: w:diciassette, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "17"
+        answer: "diciassette"
+        near: [{answer: diciotto, hint: "Diciotto is eighteen. Seventeen ends like sette."}]
+        audio_after: true
+      - id: u00.l2.ex35
+        format: cloze
+        targets: [{item: w:buonanotte, skill: recall}]
+        tags: [cd:greet-farewell]
+        source: u00.l2.ride#14
+        text: "Ah, [[buonanotte]]! Grazie, buonanotte!"
+        prompt_en: "Ah, good night! Thank you, good night!"
+        near: [{answer: buonasera, hint: "Marco wants the words for good night."}]
+      - id: u00.l2.ex36
+        format: choice
+        targets: [{item: w:diciotto, skill: read}]
+        tags: [cd:count-to-20, sy:cefr.oral-comprehension]
+        prompt_it: "Diciotto euro, per favore."
+        audio: {speaker: ch:extra}
+        question_en: "The taxi driver says this. How much is it?"
+        options: ["€18", "€17", "€80"]
+        answer: 0
+      - id: u00.l2.ex37
+        format: recall
+        targets: [{item: w:quindici, skill: recall}]
+        tags: [cd:count-to-20]
+        prompt_en: "15"
+        answer: "quindici"
+        near: [{answer: cinque, hint: "Cinque is five. Fifteen is longer."}]
+        audio_after: true
+
+  # 8 · Sounds: double consonants in the numbers, c and g before i, and letter names that English speakers mix up
+  - kind: sounds
+    id: u00.l2.step-sounds
+    exercises:
+      - id: u00.l2.ex38
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: which-word
+        pair: [sete, sette]
+        play: sette
+        glosses: {sete: thirst, sette: seven}
+        tip_en: "Seven has a double t: hold it a little longer."
+      - id: u00.l2.ex39
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: single-or-double
+        word: dodici
+        answer: single
+      - id: u00.l2.ex40
+        format: sound-pair
+        targets: [{item: s:c-g-front, skill: listen}]
+        tags: [sy:ss.digraphs, sy:ss.sounds-spellings]
+        question: which-word
+        pair: [giro, ghiro]
+        play: giro
+        glosses: {giro: "a turn; a ride", ghiro: dormouse}
+        tip_en: "g before i sounds like the j in jeep; gh before i sounds like the g in give."
+      - id: u00.l2.ex41
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        pair: [acca, cappa]
+        play: cappa
+        glosses: {acca: "the letter H", cappa: "the letter K"}
+        tip_en: "H is acca and K is cappa. Italian words with k are rare."
+      - id: u00.l2.ex42
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        pair: [emme, enne]
+        play: enne
+        glosses: {emme: "the letter M", enne: "the letter N"}
+      - id: u00.l2.ex43
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        pair: [gi, ci]
+        play: gi
+        glosses: {gi: "the letter G", ci: "the letter C"}
+        tip_en: "G is gi, like the start of gelato; C is ci, like the start of ciao."
+
+  # 9 · Use: your own taxi ride ends; you don't catch the price, check it and say good night (Lei).
+  - kind: use
+    id: u00.l2.step-use
+    exercise:
+      id: u00.l2.ex44
+      format: conversation
+      with: ch:extra
+      register: lei
+      title: {en: "Pay the taxi driver"}
+      tags: [cd:dont-understand, cd:count-to-20, cd:greet-farewell]
+      goals:
+        - {id: clarify, en: "Say you don't understand"}
+        - {id: price, en: "Say the price back to check it"}
+        - {id: bye, en: "Say good night"}
+      start: n1
+      nodes:
+        n1:
+          say: "Diciotto euro, per favore."
+          en: "Eighteen euros, please."
+          expect:
+            - intent: clarify
+              goal: clarify
+              accept:
+                - "(scusi )non capisco( può ripetere)( per favore)"
+                - "(scusi )può ripetere( per favore)"
+              next: n2
+          near: [{answer: "scusa( non capisco)( può ripetere)( per favore)", hint: "You don't know the driver. Scusa or scusi?"}]
+          help: ["Scusi, non capisco. Può ripetere?"]
+          hint_en: "You didn't catch the price. Say you don't understand."
+        n2:
+          say: "Diciotto. Diciotto euro."
+          en: "Eighteen. Eighteen euros."
+          expect:
+            - {intent: check-price, goal: price, accept: ["(ah )(ok )diciotto( euro)( ok)( grazie)", "sì diciotto( euro)"], next: n3}
+          near: [{answer: "(ah )diciassette( euro)", hint: "Listen again: dici-otto."}]
+          help: ["Ah, diciotto euro! Ok."]
+          hint_en: "Say the price back to check it."
+        n3:
+          say: "Sì! Grazie, buonanotte!"
+          en: "Yes! Thank you, good night!"
+          expect:
+            - {intent: bye, goal: bye, accept: ["(grazie )buonanotte( grazie)", "(grazie )arrivederci( buonanotte)"], next: end}
+          near:
+            - {answer: "(grazie )ciao", hint: "You don't know the driver. Ciao is for friends."}
+            - {answer: "(grazie )buongiorno", hint: "It's late at night."}
+          help: ["Grazie, buonanotte!"]
+          hint_en: "Say good night."
+        end:
+          say: "Buonanotte!"
+          en: "Good night!"
+          final: true
