@@ -133,26 +133,28 @@
   {
    "detections": [
     {"point": "g:subject-pronouns", "tokens": [3, 3]},
-    {"point": "g:subject-pronouns", "tokens": [5, 5]}
+    {"point": "g:subject-pronouns", "tokens": [7, 7]}
    ],
    "path": "steps[1].text.lines[7].it",
    "ref": "u01.l1.story#8",
    "role": "line",
-   "text": "Sì, sono io! Lei è la signora Rossi? Piacere!",
+   "text": "Sì, sono io! Ah, Lei è la signora Rossi! Piacere!",
    "tokens": [
     {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
     {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [9, 11], "surface": "io"},
     {"kind": "punct", "span": [11, 12], "surface": "!", "trailing": " "},
-    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [13, 16], "surface": "Lei", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [17, 18], "surface": "è", "trailing": " "},
-    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 8, "item": "w:signora", "kind": "word", "lemma": "la", "span": [19, 21], "surface": "la", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora", "trailing": " "},
-    {"kind": "name", "span": [30, 35], "surface": "Rossi"},
-    {"kind": "punct", "span": [35, 36], "surface": "?", "trailing": " "},
-    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [37, 44], "surface": "Piacere"},
-    {"kind": "punct", "span": [44, 45], "surface": "!"}
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [13, 15], "surface": "Ah"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [17, 20], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 10, "item": "w:signora", "kind": "word", "lemma": "la", "span": [23, 25], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [26, 33], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [34, 39], "surface": "Rossi"},
+    {"kind": "punct", "span": [39, 40], "surface": "!", "trailing": " "},
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [41, 48], "surface": "Piacere"},
+    {"kind": "punct", "span": [48, 49], "surface": "!"}
    ]
   },
   {
@@ -945,10 +947,10 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+    {"point": "g:subject-pronouns", "tokens": [2, 2]}
    ],
    "expansion": 0,
-   "gap": [1, 1],
+   "gap": [3, 3],
    "model": true,
    "norm": "è",
    "of": 1,
@@ -956,14 +958,16 @@
    "pattern": "è",
    "ref": "u01.l1.ex03",
    "role": "cloze",
-   "text": "Lei è la signora Rossi?",
+   "text": "Ah, Lei è la signora Rossi!",
    "tokens": [
-    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "Lei", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
-    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 3, "item": "w:signora", "kind": "word", "lemma": "la", "span": [6, 8], "surface": "la", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora", "trailing": " "},
-    {"kind": "name", "span": [17, 22], "surface": "Rossi"},
-    {"kind": "punct", "span": [22, 23], "surface": "?"}
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [4, 7], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 5, "item": "w:signora", "kind": "word", "lemma": "la", "span": [10, 12], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [13, 20], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [21, 26], "surface": "Rossi"},
+    {"kind": "punct", "span": [26, 27], "surface": "!"}
    ]
   },
   {

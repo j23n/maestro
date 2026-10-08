@@ -40,7 +40,7 @@ steps:
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Grazie! E tu, Sara? Sei italiana?", en: "Thanks! And you, Sara? Are you Italian?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, sono italiana. Sono di Bologna.", en: "Yes, I'm Italian. I'm from Bologna."}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "E dove sei nata?", en: "And where were you born?"}
-        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sono nata a Bologna e abito a Bologna. Sono bolognese!", en: "I was born in Bologna and I live in Bologna. I'm Bolognese through and through!", gloss: {bolognese: from Bologna}}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sono nata a Bologna e abito a Bologna. Sono bolognese!", en: "I was born in Bologna and I live in Bologna. I'm Bolognese!", gloss: {bolognese: from Bologna}}
         - {speaker: narrator, it: "Sara è italiana: lei è di Bologna. Marco non è italiano: lui è canadese.", en: "Sara is Italian: she's from Bologna. Marco isn't Italian: he's Canadian."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Ci vediamo!", en: "Bye, Marco! See you!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, ci vediamo! Ciao!", en: "Yes, see you! Bye!"}
@@ -285,7 +285,7 @@ steps:
         format: recall
         targets: [{item: c:abito, skill: recall}]
         tags: [cd:say-where-from]
-        prompt_en: "Say which country you live in at home: \"I live in …\""
+        prompt_en: "Where is home? Say which country you live in: \"I live in …\""
         answer: "{abito {ME.home}|io abito {ME.home}}"
       - id: u01.l2.ex24
         format: cloze

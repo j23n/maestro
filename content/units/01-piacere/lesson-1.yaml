@@ -22,26 +22,26 @@ steps:
     text:
       id: u01.l1.story
       kind: story
-      title: {it: "Buongiorno, signora!", en: "Good morning, ma'am!"}
+      title: {it: "Buongiorno, signora!", en: "Good morning, Signora!"}
       lines:
         - {speaker: narrator, it: "Marco è a Bologna, in Italia.", en: "Marco is in Bologna, in Italy."}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buongiorno, signora!", en: "Good morning, ma'am!"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buongiorno, signora!", en: "Good morning, Signora!"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Buongiorno! Tu come ti chiami?", en: "Good morning! What's your name?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Scusi, non capisco. Può ripetere, per favore?", en: "Sorry, I don't understand. Could you say that again, please?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Come ti chiami?", en: "What's your name?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Ah! Mi chiamo Marco. E Lei come si chiama?", en: "Oh! My name is Marco. And what's your name?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Io sono la signora Rossi. Tu sei Marco di Toronto, vero?", en: "I'm Signora Rossi. You're Marco from Toronto, right?"}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Sì, sono io! Lei è la signora Rossi? Piacere!", en: "Yes, that's me! You're Signora Rossi? Nice to meet you!"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Sì, sono io! Ah, Lei è la signora Rossi! Piacere!", en: "Yes, that's me! Oh, you're Signora Rossi! Nice to meet you!"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Piacere, Marco! Benvenuto a Bologna!", en: "Nice to meet you, Marco! Welcome to Bologna!"}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Grazie, signora.", en: "Thank you, ma'am."}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Grazie, signora.", en: "Thank you, Signora."}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "E come stai, Marco?", en: "And how are you, Marco?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. E Lei, come sta?", en: "Fine, thanks. And how are you?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, bene, grazie.", en: "Fine, fine, thank you."}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Lei è di Bologna, signora?", en: "Are you from Bologna, ma'am?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Lei è di Bologna, signora?", en: "Are you from Bologna, Signora?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Sì, io sono di Bologna.", en: "Yes, I'm from Bologna."}
         - {speaker: narrator, it: "Marco è di Toronto e la signora Rossi è di Bologna.", en: "Marco is from Toronto and Signora Rossi is from Bologna."}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Ci vediamo!", en: "Bye, Marco! See you!"}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Arrivederci, signora! Buona giornata!", en: "Goodbye, ma'am! Have a good day!"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Arrivederci, signora! Buona giornata!", en: "Goodbye, Signora! Have a good day!"}
     questions:
       - id: u01.l1.q1
         format: choice
@@ -123,8 +123,8 @@ steps:
         targets: [{item: g:essere-present-sg, skill: recall}, {item: g:tu-lei, skill: recall}]
         tags: [cd:choose-tu-lei, sy:gr.essere-avere]
         source: u01.l1.story#8
-        text: "Lei [[è]] la signora Rossi?"
-        prompt_en: "Are you Signora Rossi? (formal)"
+        text: "Ah, Lei [[è]] la signora Rossi!"
+        prompt_en: "Oh, you're Signora Rossi! (formal)"
         hint: "Lei takes the same form as she."
         rule: "è (with an accent) is 'is' or formal 'you are'; e (no accent) is 'and'."
         near:
@@ -183,7 +183,7 @@ steps:
         format: recall
         targets: [{item: c:piacere, skill: recall}]
         tags: [cd:introduce-yourself]
-        prompt_en: "Nice to meet you, ma'am!"
+        prompt_en: "Nice to meet you, Signora!"
         answer: "{piacere signora|piacere|buongiorno signora piacere}"
         audio_after: true
       - id: u01.l1.ex11

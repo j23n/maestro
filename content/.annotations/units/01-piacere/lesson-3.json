@@ -1572,7 +1572,7 @@
    "norm": "anche io sono di bologna",
    "of": 4,
    "path": "steps[3].block[12].answer",
-   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|io sono di Bologna anche}",
+   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|sono di Bologna anch'io}",
    "ref": "u01.l3.ex13",
    "role": "answer",
    "text": "anche io sono di Bologna",
@@ -1594,7 +1594,7 @@
    "norm": "anch'io sono di bologna",
    "of": 4,
    "path": "steps[3].block[12].answer",
-   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|io sono di Bologna anche}",
+   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|sono di Bologna anch'io}",
    "ref": "u01.l3.ex13",
    "role": "answer",
    "text": "anch'io sono di Bologna",
@@ -1616,7 +1616,7 @@
    "norm": "sono di bologna anche io",
    "of": 4,
    "path": "steps[3].block[12].answer",
-   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|io sono di Bologna anche}",
+   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|sono di Bologna anch'io}",
    "ref": "u01.l3.ex13",
    "role": "answer",
    "text": "sono di Bologna anche io",
@@ -1630,24 +1630,24 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]},
-    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+    {"point": "g:simple-prepositions", "tokens": [1, 1]},
+    {"point": "g:subject-pronouns", "tokens": [4, 4]}
    ],
    "expansion": 3,
    "model": false,
-   "norm": "io sono di bologna anche",
+   "norm": "sono di bologna anch'io",
    "of": 4,
    "path": "steps[3].block[12].answer",
-   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|io sono di Bologna anche}",
+   "pattern": "{anche io sono di Bologna|anch'io sono di Bologna|sono di Bologna anche io|sono di Bologna anch'io}",
    "ref": "u01.l3.ex13",
    "role": "answer",
-   "text": "io sono di Bologna anche",
+   "text": "sono di Bologna anch'io",
    "tokens": [
-    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [11, 18], "surface": "Bologna", "trailing": " "},
-    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [19, 24], "surface": "anche"}
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [16, 21], "surface": "anch'"},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [21, 23], "surface": "io"}
    ]
   },
   {
