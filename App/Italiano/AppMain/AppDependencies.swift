@@ -16,12 +16,16 @@ final class AppDependencies {
     let notifications: any NotificationScheduling
     /// Reminders, study telemetry, text size and the Debug menu (platform-neutral, `AppServices`).
     let services: AppServices
+    /// The content lead's review mode (M6.10): only in builds with `ITA_REVIEW_MODE = YES`, and active only on a
+    /// dev pack; nil for learners.
+    let review: ReviewMode?
     /// Settings → Sync and the account-switch alert; set once sync starts.
     private(set) var syncSettings: SyncSettingsModel?
 
     init(
         config: AppConfig, app: AppModel, audioPlayer: any AudioPlaying, speech: any SpeechRecognizing,
-        notifications: any NotificationScheduling, telemetry: StudyTelemetry? = nil, debug: DebugMenuModel? = nil
+        notifications: any NotificationScheduling, telemetry: StudyTelemetry? = nil, debug: DebugMenuModel? = nil,
+        review: ReviewMode? = nil
     ) {
         self.config = config
         self.app = app
@@ -30,6 +34,7 @@ final class AppDependencies {
         self.notifications = notifications
         services = AppServices(
             config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug)
+        self.review = review
     }
 
     /// The real app: the bundled pack (`Resources/Content/content.sqlite`), the learner database in Application
@@ -63,7 +68,11 @@ final class AppDependencies {
             osMajorVersion: ProcessInfo.processInfo.operatingSystemVersion.majorVersion)
         return AppDependencies(
             config: config, app: app, audioPlayer: AVAudioPlayback(), speech: speech,
-            notifications: UserNotificationScheduler(), telemetry: telemetry, debug: debug)
+            notifications: UserNotificationScheduler(), telemetry: telemetry, debug: debug,
+            review: ReviewMode(
+                config: config, arguments: ProcessInfo.processInfo.arguments,
+                store: try? FileReviewDraftStore.inApplicationSupport(), transport: URLSessionTransport(),
+                clock: SystemClock(), ids: SystemUUIDSource()))
     }
 
     /// Starts sync after the learner store is open (docs/02 § Data flow at runtime): CloudKit when the build allows

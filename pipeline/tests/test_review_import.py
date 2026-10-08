@@ -18,7 +18,7 @@ from typing import Any
 import pytest
 from typer.testing import CliRunner
 
-from itcontent import approval, paths, yamlio
+from itcontent import approval, paths, schemas, yamlio
 from itcontent.annotate import run_annotate
 from itcontent.cli import app
 from itcontent.course import load_course
@@ -106,6 +106,38 @@ def test_import_creates_the_ledger(course_copy, fixtures_dir):
     assert any("content/units/02-al-bar/unit.yaml is outside scope u02" in ln for ln in lines)
     assert any(ln.startswith("  - u02.l1.story#3 [Change · Unnatural]") for ln in lines)
     assert any("[answer: quanto viene]" in ln for ln in lines)
+
+
+def test_the_apps_review_files_import(course_copy, fixtures_dir):
+    """M6.10: `review-app-*.json` are what the app's review mode exports (written by `ReviewModeTests` in
+    App/ItalianoTests, which checks its output against them): "This should be accepted" and a comment on
+    u02.l1.ex07, a suggestion on a story line, and an OK on the unit's opener. They import as they are, one scope
+    per file, and the accept request becomes an answer-key proposal."""
+    results = {}
+    for name in ("review-app-u02.json", "review-app-specs.json"):
+        source = fixtures_dir / name
+        data = json.loads(source.read_text(encoding="utf-8"))
+        assert schemas.validate("review-file", data) == []
+        assert data["channel"] == "app" and data["signoff"] is None
+        result = import_review(source, root=course_copy)
+        assert result.warnings == []  # every comment is in its file's scope
+        assert [e["id"] for e in result.added] == [c["id"] for c in data["comments"]]
+        assert all(e["reviewer"] == "Maria Rossi" for e in result.added)
+        results[data["scope"]] = result
+    u02 = [(e["target"], e["category"], e["resolution"]["status"]) for e in ledger(course_copy)]
+    assert u02 == [
+        ("u02.l1.ex07", "answer-key", "open"),
+        ("u02.l1.ex07", "level", "open"),
+        ("u02.l1.story#3", "naturalness", "open"),
+    ]
+    specs = yamlio.load(course_copy / "reviews" / "specs.yaml")["comments"]
+    assert [(c["target"], c["file"], c["resolution"]["status"]) for c in specs] == [
+        ("u02.step-opener", "content/units/02-al-bar/unit.yaml", "noted")
+    ]
+    accept = next(p for p in results["u02"].proposals if p.target == "u02.l1.ex07")
+    assert (accept.decision, accept.action, accept.answer) == ("accept", "replace", "quanto fa")
+    assert accept.new.startswith("{quant'è|") and accept.new.endswith("|quanto fa}")
+    assert errors(course_copy) == []  # the ledgers and the inbox copies pass lint
 
 
 def test_reimport_is_a_no_op(course_copy, fixtures_dir):

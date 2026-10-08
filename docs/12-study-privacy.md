@@ -57,7 +57,7 @@ Content-Type: application/json
 → 200 {"accepted": 12}     (idempotent by comment id)
 ```
 
-The server appends each file to storage; the owner downloads them (`GET /v1/review-comments?since=<date>` with the owner's token, or the JSONL export) and runs `content review-import` on each. Review comments are never mixed with study data, and Review builds never send telemetry.
+The app posts one review file per scope with the comments not sent yet (`docs/04` § Review mode in the app); a comment is marked sent after a 2xx and kept for a retry otherwise. The server appends each file to storage; the owner downloads them (`GET /v1/review-comments?since=<date>` with the owner's token, or the JSONL export) and runs `content review-import` on each. Review comments are never mixed with study data, and Review builds never send telemetry.
 
 ## Final check export (examiner rating)
 

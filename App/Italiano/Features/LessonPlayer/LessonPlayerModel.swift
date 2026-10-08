@@ -156,6 +156,29 @@ final class LessonPlayerModel {
             started: after.map { bundle.steps[$0.stepIndex].id })
     }
 
+    /// Review mode only (docs/06 § Shared player behaviour): open any page, back or forward, without answering.
+    /// Skipping isn't completing, so the change names only the step entered, never a completed one.
+    @discardableResult
+    func move(to index: Int) -> StepChange {
+        let before = current
+        position = min(max(index, 0), entries.count)
+        isFinished = position >= entries.count
+        let after = current
+        guard after?.stepIndex != before?.stepIndex else { return StepChange() }
+        return StepChange(completed: nil, started: after.map { bundle.steps[$0.stepIndex].id })
+    }
+
+    /// The first page of a step, or nil when the bundle doesn't have it.
+    func index(ofStep step: StepID) -> Int? {
+        guard let i = bundle.steps.firstIndex(where: { $0.id == step }) else { return nil }
+        return entries.firstIndex { $0.stepIndex == i }
+    }
+
+    /// The page of an exercise, or nil when the bundle doesn't show it.
+    func index(ofExercise exercise: ExerciseID) -> Int? {
+        entries.firstIndex { $0.page == .exercise(exercise) }
+    }
+
     /// Exercises that the current page's step lists, for exercises shown next to their text (reading).
     var stepExercises: [ExerciseID] {
         guard let step = currentStep else { return [] }

@@ -12,6 +12,8 @@ struct FeedbackPanel<Buttons: View>: View {
     var detail: String?
     var showsMascot = true
     @ViewBuilder var buttons: Buttons
+    /// Review mode only: "This should be accepted" after a rejected answer (nil for learners).
+    @Environment(\.reviewAccept) private var reviewAccept
 
     var body: some View {
         VStack(alignment: .leading, spacing: Tokens.Space.l) {
@@ -36,6 +38,7 @@ struct FeedbackPanel<Buttons: View>: View {
             )
             .accessibilityElement(children: .combine)
             buttons
+            if tone != .success, let reviewAccept { ReviewShouldAcceptButton(action: reviewAccept) }
         }
         .accessibilityIdentifier("feedback.panel")
         .onAppear {

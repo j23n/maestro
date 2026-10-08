@@ -13,6 +13,8 @@ struct LessonPlayerView: View {
     var onStepChange: (LessonPlayerModel.StepChange) -> Void = { _ in }
     let onClose: () -> Void
     let onFinish: () -> Void
+    /// Review mode's tools (bar, comments, answer key); nil for learners.
+    var review: ReviewMode? = nil
     @State private var host: ExerciseHostModel?
     @State private var hostPosition: Int?
 
@@ -25,6 +27,11 @@ struct LessonPlayerView: View {
                 .id(model.position)
         }
         .background(Color.ds.background)
+        .modifier(
+            ReviewPlayerTools(
+                review: review, model: model, host: hostPosition == model.position ? host : nil,
+                move: { move(to: $0) })
+        )
         .onAppear {
             sink.stepID = model.currentStep?.id
             if let step = model.openingStep { onStepChange(.init(completed: nil, started: step)) }
@@ -131,6 +138,15 @@ struct LessonPlayerView: View {
         services.audio.stop()
         services.speech.reset()
         let change = model.advance()
+        sink.stepID = model.currentStep?.id
+        if change != .init() { onStepChange(change) }
+    }
+
+    /// Review mode's Previous and Next: any page, answered or not.
+    private func move(to index: Int) {
+        services.audio.stop()
+        services.speech.reset()
+        let change = model.move(to: index)
         sink.stepID = model.currentStep?.id
         if change != .init() { onStepChange(change) }
     }
