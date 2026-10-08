@@ -64,12 +64,31 @@ import Testing
                 $0.itemId.rawValue.hasPrefix("w:") || $0.itemId.rawValue.hasPrefix("c:")
             })
 
+        // Your words: the preview introduced words, not reviewed yet, so they are new and due nowhere.
+        let rows = app.wordRows
+        #expect(!rows.isEmpty && rows.allSatisfy { $0.status == .new || $0.status == .learning })
+        #expect(rows.allSatisfy { $0.bars.count == 4 })
+        #expect(WordsCopy.counts(rows)[.all] == rows.count)
+
         // Relaunch: the same database, a fresh model; the lesson resumes after what was answered.
         let again = model("b")
         await again.start()
         let resumed = try #require(try await again.launch(step: "u02.l1.step-preview"))
         #expect(resumed.model.exerciseNumber >= 2)
         #expect(again.today?.continueCard?.unitID == "u02")
+    }
+
+    @Test func settingsPersist() async throws {
+        let app = model()
+        await app.start()
+        app.set(.goalDaysPerWeek, to: .number(3))
+        app.set(.profileForms, to: .string("f"))
+        await app.settle()
+        #expect(app.settings.goalDaysPerWeek == 3 && app.profile.forms == .f)
+        let again = model("b")
+        await again.start()
+        #expect(again.settings.goalDaysPerWeek == 3)
+        #expect(again.today?.weekLine.hasSuffix("of 3 days") == true)
     }
 
     @Test func aMissingPackFailsToLaunch() async {
@@ -81,6 +100,17 @@ import Testing
             Issue.record("expected a launch failure, got \(app.phase)")
             return
         }
+    }
+
+    @Test func nextReviewTexts() {
+        let today: Int64 = 20_000
+        func due(_ days: Int64) -> Int64 { LocalDay.startMs(dayNumber: today + days, tzOffsetMinutes: 120) + 3_600_000 }
+        #expect(WordsCopy.nextReviewText(dueMs: due(-3), today: today, tzOffsetMinutes: 120) == "Today")
+        #expect(WordsCopy.nextReviewText(dueMs: due(0), today: today, tzOffsetMinutes: 120) == "Today")
+        #expect(WordsCopy.nextReviewText(dueMs: due(1), today: today, tzOffsetMinutes: 120) == "Tomorrow")
+        #expect(WordsCopy.nextReviewText(dueMs: due(9), today: today, tzOffsetMinutes: 120) == "In 9 days")
+        #expect(WordsCopy.nextReviewText(dueMs: due(15), today: today, tzOffsetMinutes: 120) == "In 2 weeks")
+        #expect(WordsCopy.subtitle(count: 64) == "64 words · how well you know each one, skill by skill")
     }
 
     /// Gives some answer to any exercise so an attempt is recorded.

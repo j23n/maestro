@@ -1,0 +1,186 @@
+import LearningCore
+import SwiftUI
+
+/// The tab shell (docs/07 § Navigation): Today, Course, Words and Settings in a sidebar-adaptable `TabView`. A step
+/// opens the lesson player over everything (full screen on iPhone and iPad, a sheet-sized window on Mac).
+struct MainTabs: View {
+    let deps: AppDependencies
+    @State private var playing: PlayRequest?
+    @State private var coursePath: [UnitID] = []
+
+    var body: some View {
+        TabView {
+            Tab("Today", systemImage: "sun.max") {
+                NavigationStack { today }
+            }
+            Tab("Course", systemImage: "book") {
+                NavigationStack(path: $coursePath) {
+                    CourseView(rows: deps.app.courseRows, footer: deps.app.courseFooter) { coursePath.append($0) }
+                        .navigationDestination(for: UnitID.self) { unit in
+                            if let o = deps.app.overview(unit: unit) {
+                                UnitView(overview: o) { playing = PlayRequest(step: $0) }
+                            }
+                        }
+                }
+            }
+            Tab("Words", systemImage: "list.bullet") {
+                NavigationStack { WordsScreen(app: deps.app) }
+            }
+            #if !os(macOS)
+                Tab("Settings", systemImage: "gearshape") {
+                    NavigationStack { SettingsScreen(app: deps.app) }
+                }
+            #endif
+        }
+        .tabViewStyle(.sidebarAdaptable)
+        .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
+        .playerPresentation(item: $playing) { request in
+            PlayerHost(deps: deps, step: request.step) { playing = nil }
+        }
+    }
+
+    @ViewBuilder private var today: some View {
+        if let content = deps.app.today {
+            TodayView(content: content, onStartReview: {}, onContinue: { playing = PlayRequest(step: $0.stepID) })
+        } else {
+            ProgressView()
+        }
+    }
+}
+
+struct PlayRequest: Identifiable, Hashable {
+    let step: StepID
+    var id: StepID { step }
+}
+
+extension View {
+    /// The player covers the app: `fullScreenCover` on iPhone and iPad, a large sheet on Mac.
+    @ViewBuilder
+    func playerPresentation<Item: Identifiable, Content: View>(
+        item: Binding<Item?>, @ViewBuilder content: @escaping (Item) -> Content
+    ) -> some View {
+        #if os(macOS)
+            sheet(item: item) {
+                content($0).frame(
+                    minWidth: Tokens.Size.macMinWindowWidth,
+                    minHeight: Tokens.Size.macMinWindowHeight)
+            }
+        #else
+            fullScreenCover(item: item, content: content)
+        #endif
+    }
+}
+
+/// Loads a step and runs the lesson player with the real audio and speech adapters; writes the session event and
+/// shows the mini-preview ("Before we go on") when a step needs words the learner hasn't met.
+struct PlayerHost: View {
+    let deps: AppDependencies
+    let step: StepID
+    let onDismiss: () -> Void
+    @State private var launch: AppModel.PlayerLaunch?
+    @State private var services: PlayerServices?
+    @State private var miniPreview: MiniPreviewRequest?
+    @State private var failed = false
+    @State private var openedAt = Date()
+
+    var body: some View {
+        Group {
+            if let launch, let services {
+                LessonPlayerView(
+                    model: launch.model, services: services, env: launch.environment, sink: launch.sink,
+                    onStepChange: { change in
+                        let missing = deps.app.stepChanged(change, sessionID: launch.sessionID)
+                        if !missing.isEmpty, let started = change.started {
+                            miniPreview = MiniPreviewRequest(step: started, pairs: missing)
+                        }
+                    },
+                    onClose: finish, onFinish: finish)
+            } else if failed {
+                MissingContentPage(onContinue: onDismiss)
+            } else {
+                ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .task { await load() }
+        .sheet(item: $miniPreview) { request in
+            MiniPreviewSheet(words: deps.app.words(for: request.pairs), services: services) {
+                deps.app.introduceMissing(request.pairs, step: request.step)
+                miniPreview = nil
+            }
+            .interactiveDismissDisabled()
+        }
+    }
+
+    private func load() async {
+        do {
+            guard let l = try await deps.app.launch(step: step) else {
+                failed = true
+                return
+            }
+            let resolver: any AudioResolving = deps.app.audioCatalog ?? StaticAudioResolver()
+            services = PlayerServices(
+                audio: ExerciseAudio(player: deps.audioPlayer, resolver: resolver),
+                speech: SpeechCapture(recognizer: deps.speech),
+                onGloss: { [app = deps.app] text, line, token, item in
+                    app.glossTapped(text: text, line: line, token: token, item: item)
+                })
+            launch = l
+        } catch {
+            failed = true
+        }
+    }
+
+    private func finish() {
+        if let launch { deps.app.endSession(launch, activeSeconds: Int(Date().timeIntervalSince(openedAt))) }
+        onDismiss()
+    }
+}
+
+struct MiniPreviewRequest: Identifiable {
+    let step: StepID
+    let pairs: [ItemSkillPair]
+    var id: StepID { step }
+}
+
+/// "Before we go on" (docs/06 § Shared player behaviour): a meet card per missing word, then Continue, which
+/// records them as introduced `via: catchup`.
+struct MiniPreviewSheet: View {
+    let words: [WordInfo]
+    let services: PlayerServices?
+    let onContinue: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
+            Text("Before we go on").dsFont(Tokens.TypeScale.screenTitle).foregroundStyle(Color.ds.ink)
+                .accessibilityAddTraits(.isHeader)
+            Text("This part uses a few words you haven't met yet.")
+                .dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
+            ScrollView {
+                VStack(spacing: Tokens.Space.m) {
+                    ForEach(Array(words.enumerated()), id: \.element.itemID) { n, w in
+                        Button {
+                            services?.audio.play(w.audioID, context: .item)
+                        } label: {
+                            Card {
+                                VStack(alignment: .leading, spacing: Tokens.Space.xs) {
+                                    ItalianText(w.display, style: Tokens.TypeScale.rowTitle)
+                                    Text("\(w.partOfSpeech) · \(w.gloss)").dsFont(Tokens.TypeScale.uiCallout)
+                                        .foregroundStyle(Color.ds.secondary)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("minipreview.card.\(n)")
+                    }
+                }
+            }
+            Button("Continue", action: onContinue)
+                .buttonStyle(.dsPrimary)
+                .keyboardShortcut(.return, modifiers: [])
+                .accessibilityIdentifier("minipreview.continue")
+        }
+        .padding(Tokens.Space.xxl)
+        .background(Color.ds.background)
+    }
+}

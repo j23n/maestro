@@ -46,6 +46,7 @@ final class AppModel {
     @ObservationIgnored private(set) var knownForms: KnownForms = .empty
     @ObservationIgnored private(set) var audioCatalog: PackAudioCatalog?
     @ObservationIgnored private var words: [ItemID: WordInfo] = [:]
+    @ObservationIgnored private(set) var wordSources: [WordSource] = []
     @ObservationIgnored private var countries: [String: LearnerProfile.Country] = [:]
     @ObservationIgnored private var lastWrite: Task<Void, Never>?
     @ObservationIgnored private var observers: [Task<Void, Never>] = []
@@ -63,8 +64,11 @@ final class AppModel {
             outline = CourseOutline(try await reader.courseOutline())
             knownForms = try await reader.knownForms()
             audioCatalog = try await reader.audioCatalog()
-            words = Dictionary(
-                try await reader.allItems().map { ($0.id, WordInfo($0)) }, uniquingKeysWith: { a, _ in a })
+            let items = try await reader.allItems()
+            words = Dictionary(items.map { ($0.id, WordInfo($0)) }, uniquingKeysWith: { a, _ in a })
+            wordSources = items.enumerated().map { n, item in
+                WordSource(info: WordInfo(item), kind: item.kind, scheduledSkills: item.scheduledSkills, order: n)
+            }
             countries = Dictionary(
                 try await reader.countries().map { ($0.id, $0.profileCountry) }, uniquingKeysWith: { a, _ in a })
         } catch {
@@ -131,6 +135,22 @@ final class AppModel {
     /// Waits until every event written so far is stored and derived.
     func settle() async { await lastWrite?.value }
 
+    // MARK: - Settings (docs/08: device or synced scope is the key's)
+
+    func set(_ key: SettingKey, to value: JSONValue) {
+        guard let store else { return }
+        let previous = lastWrite
+        lastWrite = Task { [weak self] in
+            await previous?.value
+            do {
+                _ = try await store.set(key, to: value)
+                self?.settings = store.settings
+            } catch {
+                self?.lastStorageError = String(describing: error)
+            }
+        }
+    }
+
     // MARK: - What the screens show
 
     var profile: LearnerProfile {
@@ -161,6 +181,12 @@ final class AppModel {
     }
 
     var courseFooter: String? { courseProgress.flatMap { CourseCopy.footer(outline: outline, progress: $0) } }
+
+    var wordRows: [WordRow] {
+        guard let state else { return [] }
+        return WordsCopy.rows(sources: wordSources, state: state, nowMs: env.clock.nowMs(),
+                              tzOffsetMinutes: env.clock.tzOffsetMinutes())
+    }
 
     func overview(unit: UnitID) -> UnitOverview? {
         guard let u = outline.unit(unit), let p = courseProgress else { return nil }
@@ -233,6 +259,19 @@ final class AppModel {
     func words(for pairs: [ItemSkillPair]) -> [WordInfo] {
         var seen: Set<ItemID> = []
         return pairs.compactMap { p in seen.insert(p.itemId).inserted ? words[p.itemId] : nil }
+    }
+
+    /// A tapped word in a text (docs/05 § Events, `glossTapped`).
+    func glossTapped(text: TextID, line: Int, token: Int, item: ItemID?) {
+        guard let factory else { return }
+        write(factory.glossTapped(textId: text, line: line, token: token, itemId: item))
+    }
+
+    /// Playback stopped or ended (`audioPlayed`); the player adapters report it through `AudioPlaying.onStop`.
+    func audioPlayed(_ r: PlaybackReport) {
+        guard let factory, r.playedMs > 0 else { return }
+        write(factory.audioPlayed(audioId: AudioID(rawValue: r.audioID), textId: r.textID.map(TextID.init(rawValue:)),
+                                  rate: r.rate, playedMs: r.playedMs, context: r.context))
     }
 
     /// Closing or finishing the player writes the `session` event (docs/05: `platform` feeds the sync status).
