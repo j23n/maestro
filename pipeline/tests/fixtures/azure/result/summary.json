@@ -1,0 +1,30 @@
+{
+  "jobID": "41b83de2-380d-45dc-91af-722b68cfdc8e",
+  "status": "Succeeded",
+  "results": [
+    {
+      "texts": [
+        "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"it-IT\"><voice name=\"it-IT-IsabellaNeural\"><prosody rate=\"+8%\">Buongiorno! Cosa prende?</prosody></voice></speak>"
+      ],
+      "status": "Succeeded",
+      "audioFileName": "0001.wav",
+      "properties": {
+        "audioSize": 85244,
+        "durationInMilliseconds": 1770,
+        "billingDetails": {"neuralCharacters": 24}
+      }
+    },
+    {
+      "texts": [
+        "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"it-IT\"><voice name=\"it-IT-DiegoNeural\"><prosody rate=\"0%\">Scusi, quant'è?</prosody></voice></speak>"
+      ],
+      "status": "Succeeded",
+      "audioFileName": "0002.wav",
+      "properties": {
+        "audioSize": 76844,
+        "durationInMilliseconds": 1590,
+        "billingDetails": {"neuralCharacters": 15}
+      }
+    }
+  ]
+}

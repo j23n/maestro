@@ -237,15 +237,68 @@ def test_wav_roundtrip_and_format_check(tmp_path):
         pcm.read_wav(tmp_path / "bad.wav")
 
 
-def test_audio_id_depends_on_pcm_and_settings():
-    p = pcm.Pcm(b"\x01\x00" * 100)
-    a = pcm.audio_id(p, station=False)
-    assert a.startswith("a:") and len(a) == 14
-    assert a == pcm.audio_id(pcm.Pcm(b"\x01\x00" * 100), station=False)
-    assert a != pcm.audio_id(p, station=True)
+def test_audio_id_is_the_assembly_manifest_hash():
+    """The ID covers each segment's samples (hash and count), the silence before it, its effect and the encode
+    settings; it is computed from metadata alone, so it doesn't depend on decoding or on the ffmpeg build."""
+    seg = pcm.SegmentRef("a" * 64, 24_000, 0)
+    base = pcm.assembly_digest([seg])
+    assert len(base) == 64 and base == pcm.assembly_digest([pcm.SegmentRef("a" * 64, 24_000, 0)])
+    aid = pcm.audio_id(base)
+    assert aid == "a:" + base[:12] and len(aid) == 14
+    variants = [
+        [pcm.SegmentRef("b" * 64, 24_000, 0)],
+        [pcm.SegmentRef("a" * 64, 24_001, 0)],
+        [pcm.SegmentRef("a" * 64, 24_000, 300)],
+        [pcm.SegmentRef("a" * 64, 24_000, 0, pcm.STATION)],
+        [seg, seg],
+    ]
+    assert len({base, *(pcm.assembly_digest(v) for v in variants)}) == 6
+    assert base != pcm.assembly_digest([seg], pcm.EncodeSettings(bitrate="40k"))
 
 
-@pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg is not installed")
+def test_gaps_and_placement_agree_with_assembly():
+    a = pcm.Pcm(b"\x01\x00" * 24_000)
+    b = pcm.Pcm(b"\x02\x00" * 12_000)
+    segments = [pcm.Segment(a, "ch:giulia"), pcm.Segment(b, "ch:giulia", pause_ms=200), pcm.Segment(a, "ch:marco")]
+    g = pcm.gaps([s.speaker for s in segments], [s.pause_ms for s in segments])
+    assert g == [0, 300, 800]
+    placed, total = pcm.place([s.pcm.samples for s in segments], g)
+    joined, assembled = pcm.assemble(segments)
+    assert placed == assembled and total == joined.samples
+    assert joined.frames[placed[1].offset_samples * 2 : placed[1].offset_samples * 2 + 2] == b"\x02\x00"
+
+
+def test_station_effect_keeps_length_and_band_passes():
+    import math
+
+    def tone(hz: float) -> pcm.Pcm:
+        import array
+
+        return pcm.Pcm(
+            array.array("h", (round(8000 * math.sin(2 * math.pi * hz * i / 24_000)) for i in range(24_000))).tobytes()
+        )
+
+    def energy(p: pcm.Pcm) -> float:
+        import array
+
+        a = array.array("h")
+        a.frombytes(p.frames[4800:])  # after the filters settle
+        return sum(v * v for v in a) / len(a)
+
+    low, mid, high = tone(80), tone(1000), tone(8000)
+    for t in (low, mid, high):
+        out = pcm.station_effect(t)
+        assert out.samples == t.samples
+    assert energy(pcm.station_effect(mid)) > 0.4 * energy(mid)
+    assert energy(pcm.station_effect(low)) < 0.1 * energy(low)
+    assert energy(pcm.station_effect(high)) < 0.1 * energy(high)
+    assert pcm.station_effect(mid) == pcm.station_effect(mid)  # pure arithmetic: the same samples everywhere
+
+
+needs_ffmpeg = pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg is not installed")
+
+
+@needs_ffmpeg
 def test_encode_m4a_once(tmp_path):
     import subprocess
 
@@ -257,7 +310,7 @@ def test_encode_m4a_once(tmp_path):
             "-v",
             "error",
             "-show_entries",
-            "stream=codec_name,sample_rate,channels",
+            "stream=codec_name,profile,sample_rate,channels",
             "-of",
             "json",
             str(tmp_path / "x.m4a"),
@@ -267,6 +320,111 @@ def test_encode_m4a_once(tmp_path):
         check=True,
     )
     stream = json.loads(out.stdout)["streams"][0]
-    assert stream == {"codec_name": "aac", "sample_rate": "24000", "channels": 1}
-    pcm.encode_m4a(p, tmp_path / "y.m4a", station=True)
-    assert (tmp_path / "y.m4a").stat().st_size > 0
+    assert stream == {"codec_name": "aac", "profile": "LC", "sample_rate": "24000", "channels": 1}
+    pcm.encode_m4a(p, tmp_path / "y.m4a")
+    assert (tmp_path / "x.m4a").read_bytes() == (tmp_path / "y.m4a").read_bytes()  # bitexact: same bytes again
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def _mp4_box(data: bytes, name: bytes) -> bytes:
+    """The payload of the first box with this name (depth-first through the container boxes)."""
+    containers = {b"moov", b"trak", b"edts", b"mdia", b"minf", b"stbl"}
+
+    def walk(buf: bytes) -> bytes | None:
+        i = 0
+        while i + 8 <= len(buf):
+            size = int.from_bytes(buf[i : i + 4], "big")
+            kind = buf[i + 4 : i + 8]
+            body = buf[i + 8 : i + size]
+            if kind == name:
+                return body
+            if kind in containers and (found := walk(body)) is not None:
+                return found
+            i += size if size else len(buf)
+        return None
+
+    found = walk(data)
+    assert found is not None, f"no {name!r} box"
+    return found
+
+
+@needs_ffmpeg
+def test_encoder_delay_is_in_the_edit_list(tmp_path):
+    """docs/09 § Encoder delay: AAC primes 1,024 samples. The MP4 edit list must tell the player to skip them, so a
+    sound at sample n of the PCM plays at media time n / 24 kHz. Decoding with the edit list puts the onset where it
+    is in the PCM (well within the 50 ms read-along tolerance); ignoring it shifts it by ~43 ms."""
+    import array
+    import math
+    import subprocess
+
+    onset = 12_000  # 500 ms
+    a = array.array("h", [0] * 36_000)
+    for i in range(onset, onset + 2_400):
+        a[i] = round(12_000 * math.sin(2 * math.pi * 440 * (i - onset) / 24_000))
+    pcm.encode_m4a(pcm.Pcm(a.tobytes()), tmp_path / "t.m4a")
+    data = (tmp_path / "t.m4a").read_bytes()
+
+    elst = _mp4_box(data, b"elst")
+    version = elst[0]
+    count = int.from_bytes(elst[4:8], "big")
+    assert count == 1
+    width = 8 if version == 1 else 4
+    duration = int.from_bytes(elst[8 : 8 + width], "big")
+    media_time = int.from_bytes(elst[8 + width : 8 + 2 * width], "big", signed=True)
+    assert media_time == 1024  # the priming samples, in the 24 kHz media timescale
+    mvhd = _mp4_box(data, b"mvhd")
+    timescale = int.from_bytes(mvhd[12:16] if mvhd[0] == 0 else mvhd[20:24], "big")
+    assert round(duration * 1000 / timescale) == 1500  # exactly the PCM's length
+
+    def decoded_onset(*flags: str) -> float:
+        raw = subprocess.run(
+            ["ffmpeg", "-v", "error", *flags, "-i", str(tmp_path / "t.m4a"), "-f", "s16le", "-ac", "1", "-"],
+            capture_output=True,
+            check=True,
+        ).stdout
+        s = array.array("h")
+        s.frombytes(raw)
+        first = next(i for i, v in enumerate(s) if abs(v) > 2_000)
+        return (first - onset) / 24
+
+    assert abs(decoded_onset()) < 2  # ms: the edit list is honoured
+    assert decoded_onset("-ignore_editlist", "1") > 40  # what a player that ignores it would do
+
+
+@needs_ffmpeg
+def test_flac_round_trip_is_sample_exact(tmp_path):
+    import array
+
+    a = array.array("h", ((i * 7919) % 65536 - 32768 for i in range(24_000)))
+    p = pcm.Pcm(a.tobytes())
+    pcm.write_flac(p, tmp_path / "r.flac")
+    assert pcm.read_flac(tmp_path / "r.flac") == p
+
+
+# ---------------------------------------------------------------- overrides and alignment details
+
+
+def test_overrides_reach_elided_and_quoted_words():
+    lex = {"ancora": "anˈkoːra", "po'": "pɔ"}
+    assert apply_overrides("l'ancora", lex) == [("l'", None), ("ancora", "anˈkoːra")]
+    assert apply_overrides("'ancora'", lex) == [("'", None), ("ancora", "anˈkoːra"), ("'", None)]
+    assert apply_overrides("un po' di latte", lex) == [("un ", None), ("po'", "pɔ"), (" di latte", None)]
+    assert apply_overrides("quant'è", lex) == [("quant'è", None)]
+    assert apply_overrides("Ancora!", {}) == [("Ancora!", None)]
+    s = ssml(apply_overrides("l'ancora", lex), Voice("it-IT-ElsaNeural"))
+    assert "l'<phoneme" in s or "l&apos;<phoneme" in s
+
+
+def test_align_tolerates_quotes_but_not_other_words():
+    bounds = [wb("Si", 0, 100), wb("dice", 120, 200), wb('"', 320, 0), wb("cornetto", 330, 400), wb('".', 730, 0)]
+    assert align(["Si", "dice", "cornetto"], bounds, "x#6") == [(0, 100), (120, 320), (330, 730)]
+    assert align(["ancora"], [wb("'ancora'", 0, 300)], "x") == [(0, 300)]
+    assert align(["po'"], [wb("po", 0, 120)], "x") == [(0, 120)]
+    with pytest.raises(AlignmentError, match="x#2"):
+        align(["un'", "amica"], [wb("un'amico", 0, 300)], "x#2")
+
+
+def test_billable_characters_count_text_and_ipa():
+    from itcontent.tts_azure import billable_characters
+
+    assert billable_characters([("Ancora", "anˈkoːra"), (" un caffè?", None)]) == 6 + 8 + 10

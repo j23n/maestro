@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "InvalidRequest",
+    "message": "SSML is invalid: the phoneme 'korˈnetto?' is not a valid IPA string for it-IT."
+  }
+}
