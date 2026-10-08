@@ -1,0 +1,25 @@
+{
+  "channel" : "app",
+  "comments" : [
+    {
+      "at" : "2026-10-06T07:30:00Z",
+      "category" : "english",
+      "comment" : "",
+      "file" : "content/units/02-al-bar/unit.yaml",
+      "id" : "341008f5-e2e5-46dd-ac07-53250e0fc8c3",
+      "quote" : null,
+      "response" : null,
+      "suggestion" : null,
+      "target" : "u02.step-opener",
+      "verdict" : "ok"
+    }
+  ],
+  "created" : "2026-10-06T07:30:00Z",
+  "files" : {
+    "content/units/02-al-bar/unit.yaml" : "c8ee676a1b35b16c50fdfee10a403864cc144e937bbd0a3a9b685b5e8c4c1a41"
+  },
+  "format" : 1,
+  "reviewer" : "Maria Rossi",
+  "scope" : "specs",
+  "signoff" : null
+}

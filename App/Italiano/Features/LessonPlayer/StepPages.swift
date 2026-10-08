@@ -55,6 +55,7 @@ struct MeetPage: View {
                 .buttonStyle(.plain)
                 .accessibilityHint(Text("Plays the word again"))
                 .accessibilityIdentifier("preview.card")
+                .reviewCommentable(ReviewTargets.word(word))
             }
             Spacer()
             Button(index + 1 < words.count ? "Next" : "Continue") {
@@ -171,6 +172,7 @@ struct StoryPage: View {
                         services.audio.play(text.audioID, fromLine: line.number, rate: rate)
                     }
                     .accessibilityAction(named: Text("Show English")) { showEnglish = true }
+                    .reviewCommentable(ReviewTargets.line(text, line))
                 }
             }
             .frame(maxWidth: Tokens.Size.readableWidth, alignment: .leading)
@@ -199,6 +201,7 @@ struct StoryPage: View {
                         Spacer()
                         Text(w.gloss).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
                     }
+                    .reviewCommentable(ReviewTargets.word(w))
                     Divider()
                 }
             }

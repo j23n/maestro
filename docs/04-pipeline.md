@@ -244,6 +244,7 @@ A `Review` build (dev pack with drafts, `ITA_REVIEW_MODE = YES`, no sync or tele
 - **Answer key** shows every accepted answer and near-miss of the current exercise.
 - **This should be accepted**, in the feedback panel after a rejected answer, files an answer-key comment with the teacher's own answer in one tap.
 - **Send** uploads the comments to the endpoint (`docs/12`) when `ITA_REVIEW_URL` is set; **Export** always writes the same review file through the share sheet.
+- The app keeps the comments on the device (`Application Support/Italiano/review-comments.json`) until they are sent or exported, with the hash of the file version each was made on. A review file holds one scope, so the app writes one file per scope (the scope of each comment's file, as `content report` counts it: a unit's lessons, task, check and items file → `uNN`; unit specs, grammar points and the story bible → `specs`; the placement test and final check → `assessments`), and a second file for the same scope when a comment was made on another version of a file (after an app update). Send posts only comments not sent yet and marks them sent after a 2xx; Export always writes them all. The app never signs off (`signoff: null`) and writes `channel: app`.
 
 ### 3 · The review file
 

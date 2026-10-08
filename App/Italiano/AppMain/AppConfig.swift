@@ -44,7 +44,7 @@ struct AppConfig: Sendable, Equatable {
         llmHints = flag("ITA_LLM_HINTS") && !flag("ITA_STUDY_BUILD")  // ADR-10: never in study builds
         syncEnabled = flag("ITA_SYNC_ENABLED")
         iCloudEntitlement = flag("ITA_ICLOUD_ENTITLEMENT")
-        reviewMode = flag("ITA_REVIEW_MODE")
+        reviewMode = flag("ITA_REVIEW_MODE") && !flag("ITA_STUDY_BUILD")  // learners never get review mode (M6.10)
         reviewURL = url("ITA_REVIEW_URL")
         studyToken = string("ITA_STUDY_TOKEN")
         reviewToken = string("ITA_REVIEW_TOKEN")

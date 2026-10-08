@@ -14,18 +14,22 @@ final class AppDependencies {
     let audioPlayer: any AudioPlaying
     let speech: any SpeechRecognizing
     let notifications: any NotificationScheduling
+    /// The content lead's review mode (M6.10): only in builds with `ITA_REVIEW_MODE = YES`, and active only on a
+    /// dev pack; nil for learners.
+    let review: ReviewMode?
     /// Settings → Sync and the account-switch alert; set once sync starts.
     private(set) var syncSettings: SyncSettingsModel?
 
     init(
         config: AppConfig, app: AppModel, audioPlayer: any AudioPlaying, speech: any SpeechRecognizing,
-        notifications: any NotificationScheduling
+        notifications: any NotificationScheduling, review: ReviewMode? = nil
     ) {
         self.config = config
         self.app = app
         self.audioPlayer = audioPlayer
         self.speech = speech
         self.notifications = notifications
+        self.review = review
     }
 
     /// The real app: the bundled pack (`Resources/Content/content.sqlite`), the learner database in Application
@@ -44,7 +48,11 @@ final class AppDependencies {
             speech: SpeechAnalyzerRecognizer(speechEnabled: { [weak app] in
                 MainActor.assumeIsolated { app?.settings.speechEnabled(available: true) ?? true }
             }),
-            notifications: UserNotificationScheduler())
+            notifications: UserNotificationScheduler(),
+            review: ReviewMode(
+                config: config, arguments: ProcessInfo.processInfo.arguments,
+                store: try? FileReviewDraftStore.inApplicationSupport(), transport: URLSessionTransport(),
+                clock: SystemClock(), ids: SystemUUIDSource()))
     }
 
     /// Starts sync after the learner store is open (docs/02 § Data flow at runtime): CloudKit when the build allows

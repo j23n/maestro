@@ -16,7 +16,16 @@ struct MainTabs: View {
             }
             Tab("Course", systemImage: "book") {
                 NavigationStack(path: $coursePath) {
-                    CourseView(rows: deps.app.courseRows, footer: deps.app.courseFooter) { coursePath.append($0) }
+                    // Review mode opens every unit and adds Jump to and Review comments (M6.10).
+                    CourseView(
+                        rows: deps.review?.unlocked(deps.app.courseRows) ?? deps.app.courseRows,
+                        footer: deps.app.courseFooter
+                    ) { coursePath.append($0) }
+                        .modifier(
+                            ReviewCourseTools(review: deps.review) {
+                                playing = PlayRequest(step: $0.step, exercise: $0.exercise)
+                            }
+                        )
                         .navigationDestination(for: UnitID.self) { unit in
                             if let o = deps.app.overview(unit: unit) {
                                 UnitView(overview: o) { playing = PlayRequest(step: $0) }
@@ -37,8 +46,9 @@ struct MainTabs: View {
         }
         .tabViewStyle(.sidebarAdaptable)
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
+        .task { await deps.review?.attach(to: deps.app) }
         .playerPresentation(item: $playing) { request in
-            PlayerHost(deps: deps, step: request.step) { playing = nil }
+            PlayerHost(deps: deps, step: request.step, exercise: request.exercise) { playing = nil }
         }
         .playerPresentation(item: $reviewing) { _ in
             ReviewHost(
@@ -63,6 +73,8 @@ struct MainTabs: View {
 
 struct PlayRequest: Identifiable, Hashable {
     let step: StepID
+    /// Review mode's jump menu: open at this exercise.
+    var exercise: ExerciseID? = nil
     var id: StepID { step }
 }
 
@@ -89,6 +101,7 @@ extension View {
 struct PlayerHost: View {
     let deps: AppDependencies
     let step: StepID
+    var exercise: ExerciseID? = nil
     let onDismiss: () -> Void
     @State private var launch: AppModel.PlayerLaunch?
     @State private var services: PlayerServices?
@@ -106,11 +119,14 @@ struct PlayerHost: View {
                     model: launch.model, services: services, env: launch.environment, sink: launch.sink,
                     onStepChange: { change in
                         let missing = deps.app.stepChanged(change, sessionID: launch.sessionID)
-                        if !missing.isEmpty, let started = change.started {
+                        // Review mode (dev pack, Review and Debug builds only) shows content as authored, without
+                        // the eligibility mini-preview (docs/13 § Review mode); learners always get it.
+                        if !missing.isEmpty, let started = change.started, review == nil {
                             miniPreview = MiniPreviewRequest(step: started, pairs: missing)
                         }
                     },
-                    onClose: finish, onFinish: { launch.kind == .check ? showCheckResult() : finish() })
+                    onClose: finish, onFinish: { launch.kind == .check ? showCheckResult() : finish() },
+                    review: review)
             } else if failed {
                 MissingContentPage(onContinue: onDismiss)
             } else {
@@ -127,12 +143,16 @@ struct PlayerHost: View {
         }
     }
 
+    /// Review mode when it is on (a dev pack in a Review or Debug build); nil for learners.
+    private var review: ReviewMode? { deps.review?.isActive == true ? deps.review : nil }
+
     private func load(fresh: Bool = false) async {
         do {
             guard let l = try await deps.app.launch(step: step, fresh: fresh) else {
                 failed = true
                 return
             }
+            review?.prepare(l, at: ReviewJump(step: step, exercise: exercise))
             let resolver: any AudioResolving = deps.app.audioCatalog ?? StaticAudioResolver()
             services = PlayerServices(
                 audio: ExerciseAudio(player: deps.audioPlayer, resolver: resolver),

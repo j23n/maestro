@@ -151,6 +151,15 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 - Real-world layout strings are numbered in reading order; that number is `glossTapped.line` and `reading.field.<n>`.
 - Telemetry sends the OS major version only; `onboardingCompleted` keeps only `reason` and `beginner`; unknown event types stay local and are marked sent.
 
+**Review mode (M6.10)**
+- Hard rule 4 holds because review mode needs two keys: the build flag (`ITA_REVIEW_MODE = YES`, only Debug and Review; `AppConfig` refuses it in study builds) and a dev pack (`meta.release = 0`), which learner builds never bundle. Only then is `ReviewMode.isActive`, and every bypass asks it: the Indice opens every unit, the player opens at the step or exercise jumped to, and the mini-preview is skipped (the content lead sees content as authored). A test resolves the xcconfig chain and checks that Release and Study never get it. Debug builds have it on; `-ITANoReviewMode` turns it off for UI tests and screenshots of the learner's path.
+- One review file per scope (the scope of the comment's file, as `content report` counts it), and per file version: the schema allows one hash per file, and `review-import` files a review in its scope's ledger. A unit-level step (opener, check) is a target in the unit spec, as the pipeline's index says, so its comments go to `specs`.
+- The comment's `file` is required (the schema says so): a target whose file the pack's `meta.review_files` doesn't name can't be commented on, and the sheet offers only targets that resolve. Line targets are offered only for texts with numbered lines (real-world layouts have none).
+- Comments live on the device in a JSON file, not in the event log: they are the content lead's working copy, not learner state, and never sync. Send posts only unsent comments; sent ones can't be deleted. Optional fields are written as `null`, like the page.
+- "This should be accepted" appears in every feedback panel (inside `FeedbackPanel`, through the environment) when the exercise on screen has a rejected answer (the latest attempt draft was `wrong` with a response); a later accepted answer clears it, Show answer keeps it. It files `answer-key` / `change` with `response`, which `review-import` already turns into an accept proposal; conversation turns target `<exerciseId>/<nodeId>`.
+- The review bar adds Previous and Next (any page without answering), so the content lead can reach every exercise; moving never writes `stepCompleted`.
+- The acceptance proxy is a Linux test (`ReviewModeTests`): it jumps to `u02.l1.ex07` on the mini pack, files an accept request and a comment, exports, checks the files against the schema's keys, enums and patterns, and compares them with `pipeline/tests/fixtures/review-app-*.json` (hashes aside), which a pipeline test validates with jsonschema and imports. The XCUITest waits for the UI test target (M0.2).
+
 ## Proposed changes
 
 Agents add proposals here (date, ADR or question, proposal, reason) and stop. Don't implement a proposal until the owner accepts it.
