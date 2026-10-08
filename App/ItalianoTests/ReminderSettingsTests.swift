@@ -81,13 +81,19 @@ import Testing
     }
 
     @Test func launchServicesRefreshReminders() async throws {
-        let app = await shell.started()
+        // An earlier launch stored the reminder…
+        let earlier = await shell.started()
+        earlier.set(.reminderEnabled, to: .bool(true))
+        earlier.set(.reminderTime, to: .string("06:45"))
+        await earlier.settle()
+        // …and this launch reads both from the database before its services run. (Writing to the store under a
+        // running app left the model to catch up through the settings stream, one value at a time, so launch
+        // could see the switch on with no time yet.)
+        let app = await shell.started("b")
+        #expect(app.settings.reminderEnabled && app.settings.reminderTime == "06:45")
         let fake = FakeNotificationScheduler(status: .authorized)
         let services = AppServices(
             config: .preview, app: app, notifications: fake, telemetry: nil, debug: nil)
-        _ = try await app.store?.set(.reminderEnabled, to: .bool(true))
-        _ = try await app.store?.set(.reminderTime, to: .string("06:45"))
-        for _ in 0..<200 where !app.settings.reminderEnabled { try await Task.sleep(for: .milliseconds(5)) }
         await services.afterLaunch(arguments: [])
         #expect(fake.scheduled == [ReminderTime(hour: 6, minute: 45)] && fake.permissionRequests == 0)
     }

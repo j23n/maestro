@@ -24,3 +24,13 @@ extension AppModel {
         return launch
     }
 }
+
+extension AppModel.PlayerLaunch {
+    /// Finishing a unit check scores it (`checkCompleted`, the result screen) for learners only. In review mode the
+    /// content lead pages through the check, answered or not, so nothing is scored.
+    @MainActor
+    func scoresCheck(review: ReviewMode?) -> Bool {
+        let reviewing = review?.isActive == true
+        return kind == .check && !reviewing
+    }
+}

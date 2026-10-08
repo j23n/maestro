@@ -132,7 +132,12 @@ final class DebugMenuModel {
         }
     }
 
-    func exportFinished() { exportedFile = nil }
+    /// The file exporter saved the copy or was cancelled: the temporary copy goes (a learner database holds
+    /// everything the learner did, so it never lingers in the temporary folder).
+    func exportFinished() {
+        if let file = exportedFile { try? FileManager.default.removeItem(at: file) }
+        exportedFile = nil
+    }
 
     func resetLocalData() async {
         await run { [app] in

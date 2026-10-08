@@ -64,12 +64,14 @@ final class AppModel {
 
     // MARK: - Launch
 
-    func start() async {
+    /// Opens the pack and the learner store. `content`: tests may run on a synthetic course in place of the pack's
+    /// own index (`AssessmentCourse`, which can run placement); the pack still supplies the outline, words and audio.
+    func start(content override: ContentIndex? = nil) async {
         let reader: PackReader
         let content: ContentIndex
         do {
             reader = try await PackReader.open(url: env.packURL)
-            content = try await reader.contentIndex()
+            if let override { content = override } else { content = try await reader.contentIndex() }
             outline = CourseOutline(try await reader.courseOutline())
             knownForms = try await reader.knownForms()
             audioCatalog = try await reader.audioCatalog()

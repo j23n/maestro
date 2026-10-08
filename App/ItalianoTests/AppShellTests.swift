@@ -73,13 +73,33 @@ import Testing
         #expect(Acknowledgements.all.first { $0.id == "voices" }?.credit.contains("synthetic voices") == true)
     }
 
-    @Test func theGRDBNoticeMatchesItsLicence() throws {
-        let candidates = [
-            "Packages/Storage/.build/checkouts/GRDB.swift/LICENSE",
-            "Packages/LearningCore/.build/checkouts/GRDB.swift/LICENSE",
-        ].map { PayloadFixtures.repoRoot.appendingPathComponent($0).path }
-        guard let path = candidates.first(where: FileManager.default.fileExists(atPath:)) else { return }
-        let original = try String(contentsOfFile: path, encoding: .utf8)
+    /// GRDB's LICENSE in the checkout this build resolved: `scripts/check-app-logic.sh` passes its SwiftPM build
+    /// folder (`ITALIANO_SWIFTPM_BUILD`); `swift build` in Packages/Storage leaves one there; Xcode keeps package
+    /// checkouts in `SourcePackages` next to the build products.
+    nonisolated static let grdbLicence: URL? = {
+        let env = ProcessInfo.processInfo.environment
+        var candidates = [
+            env["ITALIANO_SWIFTPM_BUILD"].map { URL(fileURLWithPath: $0).appendingPathComponent("checkouts") },
+            PayloadFixtures.repoRoot.appendingPathComponent("Packages/Storage/.build/checkouts"),
+        ].compactMap { $0 }
+        var folder = Bundle.main.bundleURL
+        while folder.pathComponents.count > 1 {
+            folder.deleteLastPathComponent()
+            candidates.append(folder.appendingPathComponent("SourcePackages/checkouts"))
+        }
+        return candidates.map { $0.appendingPathComponent("GRDB.swift/LICENSE") }
+            .first { FileManager.default.fileExists(atPath: $0.path) }
+    }()
+
+    /// Under `scripts/check-app-logic.sh` (which sets ITALIANO_ROOT) the checkout always exists, so the test runs and
+    /// requires it; elsewhere it is reported as skipped when no checkout can be found.
+    @Test(
+        .enabled(
+            if: grdbLicence != nil || ProcessInfo.processInfo.environment["ITALIANO_ROOT"] != nil,
+            "no GRDB.swift checkout found to compare the notice with"))
+    func theGRDBNoticeMatchesItsLicence() throws {
+        let url = try #require(Self.grdbLicence, "GRDB.swift/LICENSE is missing from the SwiftPM checkouts")
+        let original = try String(contentsOf: url, encoding: .utf8)
         func words(_ s: String) -> [Substring] { s.split(whereSeparator: \.isWhitespace) }
         #expect(words(Acknowledgements.mitGRDB) == words(original))
     }

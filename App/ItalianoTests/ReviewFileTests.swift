@@ -85,6 +85,38 @@ import Testing
             ])
     }
 
+    /// The review page writes an empty comment as `null` (an OK alone, a suggestion without words); so does the app,
+    /// and both the file and the stored draft read it back as empty.
+    @Test func anEmptyCommentIsWrittenAsNull() throws {
+        let c = collector()
+        c.add(target: "u02.l1.ex08", quote: nil, verdict: .ok, category: .english, comment: "  ")
+        c.add(target: "u02.l1.ex07", quote: nil, verdict: .change, category: .level, comment: "Too early.")
+        let file = try #require(c.reviewFiles().first { $0.scope == "u02" })
+        let json = try #require(try JSONSerialization.jsonObject(with: file.encoded()) as? [String: Any])
+        let comments = try #require(json["comments"] as? [[String: Any]])
+        #expect(comments[0]["comment"] is NSNull)
+        #expect(comments[1]["comment"] as? String == "Too early.")
+        let back = try JSONDecoder().decode(ReviewFile.self, from: file.encoded())
+        #expect(back.comments.map(\.comment) == ["", "Too early."])
+        let draft = try JSONEncoder().encode(ReviewDraft(reviewer: "", comments: c.filed))
+        #expect(try JSONDecoder().decode(ReviewDraft.self, from: draft).comments == c.filed)
+    }
+
+    /// No Application Support folder: nothing can be kept, and the comments screen says so from launch.
+    @Test func aStoreThatCantBeCreatedIsReportedAtOnce() {
+        struct NoFolder: Error {}
+        let store = FileReviewDraftStore.orUnavailable { throw NoFolder() }
+        let c = collector(store: store)
+        #expect(c.saveError == ReviewCollector.saveErrorText && c.loadError == nil)
+        c.add(target: "u02.l1.ex07", quote: nil, verdict: .change, category: .level, comment: "x")
+        #expect(c.saveError != nil && c.comments.count == 1)  // still in memory: Export works
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("review-\(UUID().uuidString)")
+        let file = FileReviewDraftStore.orUnavailable {
+            FileReviewDraftStore(url: folder.appendingPathComponent("r.json"))
+        }
+        #expect(collector(store: file).saveError == nil)
+    }
+
     @Test func aTargetWithoutAFileIsNotFiled() {
         let c = collector()
         #expect(!c.canFile("u05.l1.ex01"))

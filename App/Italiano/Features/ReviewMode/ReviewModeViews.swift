@@ -153,7 +153,22 @@ struct ReviewPlayerTools: ViewModifier {
         }
     }
 
+    /// One row; when the labelled buttons don't fit (large text sizes, a narrow window), the same row with icon-only
+    /// Answer key and Comment buttons, which keep their names for VoiceOver.
     private func bar(_ review: ReviewMode) -> some View {
+        ViewThatFits(in: .horizontal) {
+            barRow(review, iconOnly: false)
+            barRow(review, iconOnly: true)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(Color.ds.ink)
+        .padding(.horizontal, Tokens.Space.l)
+        .padding(.vertical, Tokens.Space.xs)
+        .background(Color.ds.surface)
+        .overlay(alignment: .top) { Divider() }
+    }
+
+    private func barRow(_ review: ReviewMode, iconOnly: Bool) -> some View {
         HStack(spacing: Tokens.Space.s) {
             Button {
                 move(model.position - 1)
@@ -176,22 +191,35 @@ struct ReviewPlayerTools: ViewModifier {
             if let step = model.currentStep, review.isDraft(step.id) { DraftBadge() }
             Spacer(minLength: Tokens.Space.s)
             if let id = exerciseID {
-                Button("Answer key", systemImage: "key") { sheet = .key(id) }
-                    .buttonStyle(.dsSecondarySmall)
-                    .keyboardShortcut("k", modifiers: [.command, .shift])
-                    .accessibilityIdentifier("review.key")
-            }
-            Button("Comment", systemImage: "text.bubble") { sheet = .comment(nil) }
+                Button {
+                    sheet = .key(id)
+                } label: {
+                    barLabel("Answer key", systemImage: "key", iconOnly: iconOnly)
+                }
                 .buttonStyle(.dsSecondarySmall)
-                .keyboardShortcut("c", modifiers: [.command, .shift])
-                .accessibilityIdentifier("review.comment")
+                .keyboardShortcut("k", modifiers: [.command, .shift])
+                .accessibilityLabel(Text("Answer key"))
+                .accessibilityIdentifier("review.key")
+            }
+            Button {
+                sheet = .comment(nil)
+            } label: {
+                barLabel("Comment", systemImage: "text.bubble", iconOnly: iconOnly)
+            }
+            .buttonStyle(.dsSecondarySmall)
+            .keyboardShortcut("c", modifiers: [.command, .shift])
+            .accessibilityLabel(Text("Comment"))
+            .accessibilityIdentifier("review.comment")
         }
-        .buttonStyle(.plain)
-        .foregroundStyle(Color.ds.ink)
-        .padding(.horizontal, Tokens.Space.l)
-        .padding(.vertical, Tokens.Space.xs)
-        .background(Color.ds.surface)
-        .overlay(alignment: .top) { Divider() }
+    }
+
+    @ViewBuilder
+    private func barLabel(_ title: LocalizedStringKey, systemImage: String, iconOnly: Bool) -> some View {
+        if iconOnly {
+            Label(title, systemImage: systemImage).labelStyle(.iconOnly)
+        } else {
+            Label(title, systemImage: systemImage)
+        }
     }
 }
 
@@ -413,6 +441,13 @@ struct ReviewJumpSheet: View {
     var body: some View {
         NavigationStack {
             List {
+                // A plain field rather than `.searchable`, so UI tests reach it by its identifier.
+                Section {
+                    TextField("Step or exercise ID, or a title", text: $query)
+                        .autocorrectionDisabled()
+                        .accessibilityLabel(Text("Search steps and exercises"))
+                        .accessibilityIdentifier("review.jump.search")
+                }
                 if query.trimmingCharacters(in: .whitespaces).isEmpty {
                     ForEach(menu.units) { unit in
                         Section {
@@ -439,7 +474,6 @@ struct ReviewJumpSheet: View {
                     }
                 }
             }
-            .searchable(text: $query, prompt: "Step or exercise ID, or a title")
             .navigationTitle("Jump to")
             .navigationDestination(for: ReviewJumpMenu.Step.self) { step in
                 List {
@@ -526,7 +560,7 @@ struct ReviewCommentsScreen: View {
                         Text("No comments yet. Use Comment in a lesson, or long-press a story line or word.")
                             .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
                     }
-                    ForEach(collector.filed, id: \.comment.id) { f in
+                    ForEach(Array(collector.filed.enumerated()), id: \.element.comment.id) { n, f in
                         VStack(alignment: .leading, spacing: Tokens.Space.xxs) {
                             Text("\(f.comment.target) · \(f.comment.verdict.title) · \(f.comment.category.label)")
                                 .font(.caption.monospaced()).foregroundStyle(Color.ds.secondary)
@@ -541,6 +575,7 @@ struct ReviewCommentsScreen: View {
                             }
                         }
                         .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("review.comments.row.\(n)")
                         .deleteDisabled(f.sent)
                     }
                     .onDelete { offsets in

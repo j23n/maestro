@@ -13,6 +13,12 @@ struct FileReviewDraftStore: ReviewDraftStoring, Sendable {
         return FileReviewDraftStore(url: base.appendingPathComponent("Italiano/review-comments.json"))
     }
 
+    /// The file store, or, when it can't be created, one that keeps nothing and says so: the comments screen shows
+    /// the save error from launch, before the content lead writes a comment that would vanish on quit.
+    static func orUnavailable(_ make: () throws -> FileReviewDraftStore) -> any ReviewDraftStoring {
+        (try? make()) ?? UnavailableReviewDraftStore()
+    }
+
     /// An unreadable file is moved aside (`review-comments.unreadable.json`) before the error is thrown, so the next
     /// save never overwrites the content lead's comments.
     func load() throws -> ReviewDraft? {
@@ -34,6 +40,15 @@ struct FileReviewDraftStore: ReviewDraftStoring, Sendable {
         encoder.outputFormatting = [.sortedKeys]
         try encoder.encode(draft).write(to: url, options: .atomic)
     }
+}
+
+/// No place on the device for the comments (Application Support couldn't be opened): loading and saving fail with
+/// `Unavailable`, which `ReviewCollector` reports as a save error from the start.
+struct UnavailableReviewDraftStore: ReviewDraftStoring, Sendable {
+    struct Unavailable: Error {}
+
+    func load() throws -> ReviewDraft? { throw Unavailable() }
+    func save(_ draft: ReviewDraft) throws { throw Unavailable() }
 }
 
 /// Tests and previews.

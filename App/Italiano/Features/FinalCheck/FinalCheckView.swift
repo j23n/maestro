@@ -63,6 +63,8 @@ struct FinalCheckHost: View {
             }
         }
         .task { await load() }
+        // "Simulate speech by typing" asks for the transcript here too (the speaking section).
+        .debugOverlay(deps.services.debug, step: nil, exercise: launch?.model.payload?.id)
         .sheet(item: $miniPreview) { request in
             MiniPreviewSheet(words: deps.app.words(for: request.pairs), services: services) {
                 deps.app.introduceForFinalCheck(request.pairs)

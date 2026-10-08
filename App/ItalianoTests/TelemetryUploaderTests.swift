@@ -68,11 +68,13 @@ import Testing
             type: type, schema: 1, packVersion: "0.6.0", payloadJSON: payload, isLocal: local)
     }
 
-    func uploader(_ source: Source, _ server: Server, now: Int64 = 10_000) -> TelemetryUploader {
+    func uploader(
+        _ source: Source, _ server: Server, now: Int64 = 10_000, logger: any CoreLogger = NoOpLogger()
+    ) -> TelemetryUploader {
         let counter = Counter()
         return TelemetryUploader(
             endpoint: URL(string: "https://study.example.org"), token: "tok", source: source, transport: server,
-            newBatchID: { "batch-\(counter.next())" }, now: { now })
+            newBatchID: { "batch-\(counter.next())" }, now: { now }, logger: logger)
     }
 
     final class Counter: @unchecked Sendable {
@@ -118,12 +120,19 @@ import Testing
         #expect((bodies[0]["app"] as? [String: Any])?["deviceClass"] as? String == "phone")
     }
 
-    @Test func clientErrorsAreMarkedSentAndNeverRetried() async {
-        let source = Source([Self.event(1), Self.event(2)])
-        let server = Server([422])
-        let outcome = await uploader(source, server).uploadPending(consent: Self.consent, installID: "i", app: Self.app)
-        #expect(outcome == .sent(events: 2, batches: 1))
-        #expect(source.sent.count == 2)
+    @Test func clientErrorsAreLoggedMarkedSentAndNeverRetried() async {
+        let source = Source((1...501).map { Self.event($0) })
+        let server = Server([422, 200])
+        let log = LogLines()
+        let up = uploader(source, server, logger: log)
+        let outcome = await up.uploadPending(consent: Self.consent, installID: "i", app: Self.app)
+        // The refused batch is told apart from the accepted one, and logged (docs/12: "4xx: log it").
+        #expect(outcome == .sent(events: 501, batches: 2, rejected: 500))
+        #expect(source.sent.count == 501)
+        #expect(
+            log.lines == ["study endpoint refused batch batch-1 of 500 events with HTTP 422; marked sent, not retried"])
+        #expect(await up.uploadPending(consent: Self.consent, installID: "i", app: Self.app) == .nothingToSend)
+        #expect(server.requests.count == 2)
     }
 
     @Test func serverErrorsAndNetworkFailuresBackOffExponentially() async {

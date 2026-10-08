@@ -4,7 +4,7 @@
     {
       "at" : "2026-10-06T07:30:00Z",
       "category" : "english",
-      "comment" : "",
+      "comment" : null,
       "file" : "content/units/02-al-bar/unit.yaml",
       "id" : "341008f5-e2e5-46dd-ac07-53250e0fc8c3",
       "quote" : null,

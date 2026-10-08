@@ -236,6 +236,8 @@ struct StoryPage: View {
                         Spacer()
                         Text(w.gloss).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
                     }
+                    // One element, so VoiceOver reads the word with its gloss and offers the Comment action on it.
+                    .accessibilityElement(children: .combine)
                     .reviewCommentable(ReviewTargets.word(w))
                     Divider()
                 }

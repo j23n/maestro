@@ -86,7 +86,9 @@ actor TelemetryUploader {
     enum Outcome: Equatable, Sendable {
         case notAllowed  // no consent, not a study build, or no endpoint/token
         case nothingToSend
-        case sent(events: Int, batches: Int)
+        /// Every pending event was marked sent: `events` in `batches`, of which `rejected` events were in batches the
+        /// server refused with a 4xx (logged, marked sent, never retried; docs/12).
+        case sent(events: Int, batches: Int, rejected: Int = 0)
         /// 5xx or network: try again after the backoff delay (seconds).
         case retryLater(afterSeconds: Int)
     }
@@ -100,12 +102,15 @@ actor TelemetryUploader {
     private let transport: HTTPTransport
     private let newBatchID: @Sendable () -> String
     private let now: @Sendable () -> Int64
+    /// Where a refused batch is reported: os.Logger in the app (`TelemetryLogger`); status codes and counts only.
+    private let logger: any CoreLogger
     private var failures = 0
     private var notBefore: Int64 = 0
 
     init(
         endpoint: URL?, token: String?, source: TelemetryEventSource, transport: HTTPTransport,
-        newBatchID: @escaping @Sendable () -> String, now: @escaping @Sendable () -> Int64
+        newBatchID: @escaping @Sendable () -> String, now: @escaping @Sendable () -> Int64,
+        logger: any CoreLogger = NoOpLogger()
     ) {
         self.endpoint = endpoint
         self.token = token
@@ -113,6 +118,7 @@ actor TelemetryUploader {
         self.transport = transport
         self.newBatchID = newBatchID
         self.now = now
+        self.logger = logger
     }
 
     /// Exponential backoff for 5xx and network errors: 60 s, 120 s, 240 s … capped at 6 h.
@@ -127,6 +133,7 @@ actor TelemetryUploader {
         if now() < notBefore { return .retryLater(afterSeconds: Int((notBefore - now()) / 1000)) }
         var sentEvents = 0
         var batches = 0
+        var rejected = 0
         while true {
             let events: [StoredEvent]
             do {
@@ -155,16 +162,24 @@ actor TelemetryUploader {
                 } catch {
                     return registerFailure()
                 }
+                if (400..<500).contains(status) {
+                    rejected += events.count
+                    logger.log(
+                        "study endpoint refused batch \(batchID) of \(events.count) events with HTTP \(status); "
+                            + "marked sent, not retried")
+                }
                 failures = 0
                 notBefore = 0
                 sentEvents += events.count
                 batches += 1
-                if events.count < Self.batchLimit { return .sent(events: sentEvents, batches: batches) }
+                if events.count < Self.batchLimit {
+                    return .sent(events: sentEvents, batches: batches, rejected: rejected)
+                }
             default:
                 return registerFailure()
             }
         }
-        return sentEvents == 0 ? .nothingToSend : .sent(events: sentEvents, batches: batches)
+        return sentEvents == 0 ? .nothingToSend : .sent(events: sentEvents, batches: batches, rejected: rejected)
     }
 
     private func registerFailure() -> Outcome {

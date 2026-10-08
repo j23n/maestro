@@ -20,26 +20,32 @@ final class StudyTelemetry {
     @ObservationIgnored private let app: AppModel
     @ObservationIgnored private let appInfo: @MainActor () -> TelemetryAppInfo
     @ObservationIgnored private let interval: Duration
+    /// One second of the uploader's backoff (tests shorten it).
+    @ObservationIgnored private let backoffSecond: Duration
     @ObservationIgnored private var queue: Task<TelemetryUploader.Outcome, Never>?
     @ObservationIgnored private var periodic: Task<Void, Never>?
+    /// The one-off upload after a 5xx or a network failure, when the backoff delay is over.
+    @ObservationIgnored private var retry: Task<Void, Never>?
     private(set) var lastOutcome: TelemetryUploader.Outcome?
     private(set) var deleteState: DeleteState = .idle
 
     init(
         uploader: TelemetryUploader, app: AppModel, interval: Duration = StudyTelemetry.defaultInterval,
-        appInfo: @escaping @MainActor () -> TelemetryAppInfo
+        backoffSecond: Duration = .seconds(1), appInfo: @escaping @MainActor () -> TelemetryAppInfo
     ) {
         self.uploader = uploader
         self.app = app
         self.interval = interval
+        self.backoffSecond = backoffSecond
         self.appInfo = appInfo
     }
 
     /// The study build's uploader, or nil when this build never uploads. Events come from whichever learner store
-    /// the app has open (an account switch replaces it).
+    /// the app has open (an account switch replaces it). `logger` gets the batches the endpoint refuses (os.Logger in
+    /// the app, `TelemetryLogger`).
     static func make(
         config: AppConfig, app: AppModel, transport: any HTTPTransport, bundleInfo: [String: Any],
-        osMajorVersion: Int
+        osMajorVersion: Int, logger: any CoreLogger = NoOpLogger()
     ) -> StudyTelemetry? {
         guard config.canUploadTelemetry else { return nil }
         let env = app.env
@@ -48,7 +54,7 @@ final class StudyTelemetry {
         let uploader = TelemetryUploader(
             endpoint: config.telemetryURL, token: config.studyToken,
             source: CurrentStoreEventSource { [weak app] in app?.store }, transport: transport,
-            newBatchID: { ids.next() }, now: { clock.nowMs() })
+            newBatchID: { ids.next() }, now: { clock.nowMs() }, logger: logger)
         let version = bundleInfo["CFBundleShortVersionString"] as? String ?? "0"
         let build = bundleInfo["CFBundleVersion"] as? String ?? "0"
         return StudyTelemetry(uploader: uploader, app: app) { [weak app] in
@@ -61,7 +67,9 @@ final class StudyTelemetry {
     // MARK: Uploading
 
     /// Uploads what is pending, after the events written so far are stored. Calls queue up behind each other, so
-    /// the same events are never in two requests at once. Without consent nothing is sent (`.notAllowed`).
+    /// the same events are never in two requests at once. Without consent nothing is sent (`.notAllowed`). After a
+    /// 5xx or a network failure one more upload is scheduled for when the backoff delay is over (docs/12), so the
+    /// events don't wait for the next periodic upload or session.
     @discardableResult
     func uploadNow() async -> TelemetryUploader.Outcome {
         let previous = queue
@@ -75,8 +83,25 @@ final class StudyTelemetry {
         queue = task
         let outcome = await task.value
         lastOutcome = outcome
+        if case .retryLater(let seconds) = outcome {
+            scheduleRetry(after: backoffSecond * max(seconds, 1))
+        }
         return outcome
     }
+
+    /// One retry at a time: a later failure while one waits leaves it as it is.
+    private func scheduleRetry(after delay: Duration) {
+        guard retry == nil else { return }
+        retry = Task { [weak self] in
+            try? await Task.sleep(for: delay)
+            guard !Task.isCancelled, let self else { return }
+            self.retry = nil
+            await self.uploadNow()
+        }
+    }
+
+    /// A retry is waiting for its backoff delay.
+    var isRetryScheduled: Bool { retry != nil }
 
     /// While the app is active: an upload every 15 minutes (docs/12 § Client).
     func startPeriodicUploads() {
