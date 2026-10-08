@@ -1,3 +1,4 @@
+import Accessibility  // `AccessibilityNotification` belongs to the Accessibility framework, not SwiftUI
 import SwiftUI
 
 /// The stepped-feedback panel (docs/06 § Shared player behaviour, `TryAgain.png`): `warningBackground`, radius 14,
