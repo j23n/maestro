@@ -225,18 +225,19 @@
   },
   {
    "detections": [
-    {"point": "g:noun-plural", "tokens": [3, 3]}
+    {"point": "g:noun-plural", "tokens": [4, 4]}
    ],
    "path": "steps[2].text.lines[6].it",
    "ref": "u02.l3.story#7",
    "role": "line",
-   "text": "Scusi, avete cornetti?",
+   "text": "Scusi, avete ancora cornetti?",
    "tokens": [
     {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
     {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
     {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [7, 12], "surface": "avete", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [13, 21], "surface": "cornetti"},
-    {"kind": "punct", "span": [21, 22], "surface": "?"}
+    {"analyses": ["ancora ADV", "ancora NOUN-F:p", "ancora NOUN-F:s", "ancorare VER:impr+pres+2+s", "ancorare VER:ind+pres+3+s"], "flags": ["new", "recognise"], "gloss": "still", "kind": "word", "span": [13, 19], "surface": "ancora", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetti"},
+    {"kind": "punct", "span": [28, 29], "surface": "?"}
    ]
   },
   {
@@ -376,15 +377,14 @@
    "path": "steps[2].text.lines[14].it",
    "ref": "u02.l3.story#15",
    "role": "line",
-   "text": "E un latte? Le piace?",
+   "text": "E un latte, oggi?",
    "tokens": [
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
     {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [5, 10], "surface": "latte"},
-    {"kind": "punct", "span": [10, 11], "surface": "?", "trailing": " "},
-    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [12, 14], "surface": "Le", "trailing": " "},
-    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [15, 20], "surface": "piace"},
-    {"kind": "punct", "span": [20, 21], "surface": "?"}
+    {"kind": "punct", "span": [10, 11], "surface": ",", "trailing": " "},
+    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [12, 16], "surface": "oggi"},
+    {"kind": "punct", "span": [16, 17], "surface": "?"}
    ]
   },
   {
@@ -394,7 +394,7 @@
    "path": "steps[2].text.lines[15].it",
    "ref": "u02.l3.story#16",
    "role": "line",
-   "text": "No, grazie! Un latte è latte!",
+   "text": "No, grazie! Un latte è solo latte!",
    "tokens": [
     {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
@@ -403,8 +403,9 @@
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [12, 14], "surface": "Un", "trailing": " "},
     {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [15, 20], "surface": "latte", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [23, 28], "surface": "latte"},
-    {"kind": "punct", "span": [28, 29], "surface": "!"}
+    {"analyses": ["solare VER:ind+pres+1+s", "solo ADJ:pos+m+s", "solo ADV"], "flags": ["new", "recognise"], "gloss": "just", "kind": "word", "span": [23, 27], "surface": "solo", "trailing": " "},
+    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [28, 33], "surface": "latte"},
+    {"kind": "punct", "span": [33, 34], "surface": "!"}
    ]
   },
   {
@@ -640,6 +641,32 @@
    "path": "steps[3].body[1].table.rows[3][0]",
    "ref": "u02.l3.note",
    "role": "cell",
+   "text": "un nome",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["nome NOUN-M:s"], "item": "w:nome", "kind": "word", "lemma": "nome", "span": [3, 7], "surface": "nome"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "path": "steps[3].body[1].table.rows[3][1]",
+   "ref": "u02.l3.note",
+   "role": "cell",
+   "text": "due **nomi**",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " **"},
+    {"analyses": ["nome NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:nome", "kind": "word", "lemma": "nome", "span": [6, 10], "surface": "nomi", "trailing": "**"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "path": "steps[3].body[1].table.rows[4][0]",
+   "ref": "u02.l3.note",
+   "role": "cell",
    "text": "un caffè",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
@@ -647,7 +674,7 @@
    ]
   },
   {
-   "path": "steps[3].body[1].table.rows[3][1]",
+   "path": "steps[3].body[1].table.rows[4][1]",
    "ref": "u02.l3.note",
    "role": "cell",
    "text": "due **caffè**",
@@ -667,7 +694,7 @@
    ]
   },
   {
-   "fragment": [148, 151],
+   "fragment": [109, 112],
    "path": "steps[3].body[2].p",
    "ref": "u02.l3.note",
    "role": "note",
@@ -677,13 +704,35 @@
    ]
   },
   {
-   "fragment": [158, 162],
+   "fragment": [119, 123],
    "path": "steps[3].body[2].p",
    "ref": "u02.l3.note",
    "role": "note",
    "text": "euro",
    "tokens": [
     {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [0, 4], "surface": "euro"}
+   ]
+  },
+  {
+   "fragment": [127, 134],
+   "path": "steps[3].body[2].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "due bar",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["bar NOUN-M:p", "bar NOUN-M:s"], "flags": ["allowlisted"], "gloss": "café; bar", "kind": "word", "lemma": "bar", "span": [4, 7], "surface": "bar"}
+   ]
+  },
+  {
+   "fragment": [138, 149],
+   "path": "steps[3].body[2].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "cinque euro",
+   "tokens": [
+    {"analyses": ["cinque DET-NUM-CARD", "cinque PRO-NUM"], "item": "w:cinque", "kind": "word", "lemma": "cinque", "span": [0, 6], "surface": "cinque", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [7, 11], "surface": "euro"}
    ]
   },
   {
@@ -750,6 +799,54 @@
    "tokens": [
     {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
     {"analyses": ["amica NOUN-F:p"], "detections": ["g:noun-plural"], "item": "w:amico", "kind": "word", "lemma": "amica", "span": [4, 10], "surface": "amiche"}
+   ]
+  },
+  {
+   "fragment": [1, 9],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "Mi piace",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "Mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"}
+   ]
+  },
+  {
+   "fragment": [49, 58],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "Ti piace?",
+   "tokens": [
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "Ti", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"},
+    {"kind": "punct", "span": [8, 9], "surface": "?"}
+   ]
+  },
+  {
+   "fragment": [91, 100],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "Le piace?",
+   "tokens": [
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"},
+    {"kind": "punct", "span": [8, 9], "surface": "?"}
+   ]
+  },
+  {
+   "fragment": [149, 166],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "mi piace il caffè",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:caffe", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [12, 17], "surface": "caffè"}
    ]
   },
   {
@@ -874,38 +971,38 @@
   {
    "expansion": 0,
    "model": false,
-   "norm": "cappuccino",
+   "norm": "ti piace",
    "of": 1,
    "path": "steps[4].block[2].near[0].answer",
-   "pattern": "cappuccino",
-   "ref": "u02.l3.ex06",
+   "pattern": "ti piace",
+   "ref": "u02.l3.ex33",
    "role": "near",
-   "text": "cappuccino",
+   "text": "ti piace",
    "tokens": [
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [0, 10], "surface": "cappuccino"}
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"}
    ]
   },
   {
-   "detections": [
-    {"point": "g:noun-plural", "tokens": [1, 1]}
-   ],
    "expansion": 0,
-   "gap": [1, 1],
+   "gap": [2, 3],
    "model": true,
-   "norm": "cappuccini",
+   "norm": "mi piace",
    "of": 1,
    "path": "steps[4].block[2].text",
-   "pattern": "cappuccini",
-   "ref": "u02.l3.ex06",
+   "pattern": "mi piace",
+   "ref": "u02.l3.ex33",
    "role": "cloze",
-   "text": "Due cappuccini, per favore.",
+   "text": "Sì, mi piace! È buono.",
    "tokens": [
-    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "Due", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini"},
-    {"kind": "punct", "span": [14, 15], "surface": ",", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [16, 19], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [20, 26], "surface": "favore"},
-    {"kind": "punct", "span": [26, 27], "surface": "."}
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [4, 6], "surface": "mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [7, 12], "surface": "piace"},
+    {"kind": "punct", "span": [12, 13], "surface": "!", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "È", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+m+s"], "item": "w:buono", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buono"},
+    {"kind": "punct", "span": [21, 22], "surface": "."}
    ]
   },
   {
@@ -1000,9 +1097,9 @@
    "expansion": 0,
    "model": true,
    "norm": "avete cornetti",
-   "of": 5,
+   "of": 28,
    "path": "steps[4].block[5].answer",
-   "pattern": "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
    "ref": "u02.l3.ex09",
    "role": "answer",
    "text": "avete cornetti",
@@ -1013,14 +1110,430 @@
   },
   {
    "detections": [
-    {"point": "g:noun-plural", "tokens": [2, 2]}
+    {"point": "g:noun-plural", "tokens": [5, 5]}
    ],
    "expansion": 1,
    "model": false,
-   "norm": "scusi avete cornetti",
-   "of": 5,
+   "norm": "buongiorno senta scusi avete i cornetti",
+   "of": 28,
    "path": "steps[4].block[5].answer",
-   "pattern": "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta scusi avete i cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [23, 28], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [29, 30], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [31, 39], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "buongiorno senta scusi avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta scusi avete dei cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [23, 28], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [29, 32], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [33, 41], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "buongiorno senta scusi avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta scusi avete cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [23, 28], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [29, 37], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "buongiorno senta avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta avete i cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [23, 24], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [25, 33], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "buongiorno senta avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta avete dei cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [23, 26], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [27, 35], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "buongiorno senta avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno senta avete cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "buongiorno scusi avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno scusi avete i cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [23, 24], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [25, 33], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "buongiorno scusi avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno scusi avete dei cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [23, 26], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [27, 35], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 9,
+   "model": false,
+   "norm": "buongiorno scusi avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno scusi avete cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [17, 22], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 10,
+   "model": false,
+   "norm": "buongiorno avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno avete i cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [11, 16], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [17, 18], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [19, 27], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 11,
+   "model": false,
+   "norm": "buongiorno avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno avete dei cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [11, 16], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [17, 20], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [21, 29], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "buongiorno avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "buongiorno avete cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [11, 16], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [17, 25], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 13,
+   "model": false,
+   "norm": "senta scusi avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta scusi avete i cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [12, 17], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [18, 19], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 14,
+   "model": false,
+   "norm": "senta scusi avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta scusi avete dei cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [12, 17], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [18, 21], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [22, 30], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 15,
+   "model": false,
+   "norm": "senta scusi avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta scusi avete cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [12, 17], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [18, 26], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 16,
+   "model": false,
+   "norm": "senta avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta avete i cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [12, 13], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 17,
+   "model": false,
+   "norm": "senta avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta avete dei cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [12, 15], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [16, 24], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 18,
+   "model": false,
+   "norm": "senta avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "senta avete cornetti",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 19,
+   "model": false,
+   "norm": "scusi avete i cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "scusi avete i cornetti",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [12, 13], "surface": "i", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:articulated-prepositions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 20,
+   "model": false,
+   "norm": "scusi avete dei cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "scusi avete dei cornetti",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["del ARTPRE-M:p"], "detections": ["g:articulated-prepositions"], "item": "g:articulated-prepositions", "kind": "word", "lemma": "del", "span": [12, 15], "surface": "dei", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [16, 24], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 21,
+   "model": false,
+   "norm": "scusi avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
    "ref": "u02.l3.ex09",
    "role": "answer",
    "text": "scusi avete cornetti",
@@ -1034,12 +1547,12 @@
    "detections": [
     {"point": "g:noun-plural", "tokens": [2, 2]}
    ],
-   "expansion": 2,
+   "expansion": 22,
    "model": false,
    "norm": "avete i cornetti",
-   "of": 5,
+   "of": 28,
    "path": "steps[4].block[5].answer",
-   "pattern": "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
    "ref": "u02.l3.ex09",
    "role": "answer",
    "text": "avete i cornetti",
@@ -1054,12 +1567,12 @@
     {"point": "g:articulated-prepositions", "tokens": [1, 1]},
     {"point": "g:noun-plural", "tokens": [2, 2]}
    ],
-   "expansion": 3,
+   "expansion": 23,
    "model": false,
    "norm": "avete dei cornetti",
-   "of": 5,
+   "of": 28,
    "path": "steps[4].block[5].answer",
-   "pattern": "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
    "ref": "u02.l3.ex09",
    "role": "answer",
    "text": "avete dei cornetti",
@@ -1071,15 +1584,72 @@
   },
   {
    "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 24,
+   "model": false,
+   "norm": "avete cornetti",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "avete cornetti",
+   "tokens": [
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [0, 5], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [6, 14], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 25,
+   "model": false,
+   "norm": "scusi avete un cornetto",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "scusi avete un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [12, 14], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [15, 23], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 26,
+   "model": false,
+   "norm": "avete un cornetto",
+   "of": 28,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
+   "ref": "u02.l3.ex09",
+   "role": "answer",
+   "text": "avete un cornetto",
+   "tokens": [
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [0, 5], "surface": "avete", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [6, 8], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [9, 17], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:c-e-ci-sono", "tokens": [0, 1]},
     {"point": "g:noun-plural", "tokens": [2, 2]}
    ],
-   "expansion": 4,
+   "expansion": 27,
    "model": false,
    "norm": "ci sono cornetti",
-   "of": 5,
+   "of": 28,
    "path": "steps[4].block[5].answer",
-   "pattern": "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}",
+   "pattern": "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}",
    "ref": "u02.l3.ex09",
    "role": "answer",
    "text": "ci sono cornetti",
@@ -1241,6 +1811,63 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un caffè per favore",
+   "of": 3,
+   "path": "steps[4].block[6].near[0].answer",
+   "pattern": "un caffè( {per favore|grazie})",
+   "ref": "u02.l3.ex10",
+   "role": "near",
+   "text": "un caffè per favore",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [9, 12], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [13, 19], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "un caffè grazie",
+   "of": 3,
+   "path": "steps[4].block[6].near[0].answer",
+   "pattern": "un caffè( {per favore|grazie})",
+   "ref": "u02.l3.ex10",
+   "role": "near",
+   "text": "un caffè grazie",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [9, 15], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "un caffè",
+   "of": 3,
+   "path": "steps[4].block[6].near[0].answer",
+   "pattern": "un caffè( {per favore|grazie})",
+   "ref": "u02.l3.ex10",
+   "role": "near",
+   "text": "un caffè",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè"}
+   ]
+  },
+  {
    "expansion": 0,
    "model": true,
    "norm": "mi piace bologna",
@@ -1297,9 +1924,9 @@
    "expansion": 0,
    "model": true,
    "norm": "ti piace il cappuccino",
-   "of": 2,
+   "of": 4,
    "path": "steps[4].block[8].answer",
-   "pattern": "{ti piace il cappuccino|il cappuccino ti piace}",
+   "pattern": "{ti piace il cappuccino|il cappuccino ti piace|Sara ti piace il cappuccino|ti piace il cappuccino Sara}",
    "ref": "u02.l3.ex12",
    "role": "answer",
    "text": "ti piace il cappuccino",
@@ -1314,9 +1941,9 @@
    "expansion": 1,
    "model": false,
    "norm": "il cappuccino ti piace",
-   "of": 2,
+   "of": 4,
    "path": "steps[4].block[8].answer",
-   "pattern": "{ti piace il cappuccino|il cappuccino ti piace}",
+   "pattern": "{ti piace il cappuccino|il cappuccino ti piace|Sara ti piace il cappuccino|ti piace il cappuccino Sara}",
    "ref": "u02.l3.ex12",
    "role": "answer",
    "text": "il cappuccino ti piace",
@@ -1325,6 +1952,42 @@
     {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
     {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [14, 16], "surface": "ti", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [17, 22], "surface": "piace"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "sara ti piace il cappuccino",
+   "of": 4,
+   "path": "steps[4].block[8].answer",
+   "pattern": "{ti piace il cappuccino|il cappuccino ti piace|Sara ti piace il cappuccino|ti piace il cappuccino Sara}",
+   "ref": "u02.l3.ex12",
+   "role": "answer",
+   "text": "Sara ti piace il cappuccino",
+   "tokens": [
+    {"kind": "name", "span": [0, 4], "surface": "Sara", "trailing": " "},
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [5, 7], "surface": "ti", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [8, 13], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [14, 16], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [17, 27], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "ti piace il cappuccino sara",
+   "of": 4,
+   "path": "steps[4].block[8].answer",
+   "pattern": "{ti piace il cappuccino|il cappuccino ti piace|Sara ti piace il cappuccino|ti piace il cappuccino Sara}",
+   "ref": "u02.l3.ex12",
+   "role": "answer",
+   "text": "ti piace il cappuccino Sara",
+   "tokens": [
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [12, 22], "surface": "cappuccino", "trailing": " "},
+    {"kind": "name", "span": [23, 27], "surface": "Sara"}
    ]
   },
   {
@@ -1347,49 +2010,126 @@
   {
    "expansion": 0,
    "model": true,
-   "norm": "le piace bologna",
-   "of": 2,
+   "norm": "le piace il cappuccino",
+   "of": 6,
    "path": "steps[4].block[9].answer",
-   "pattern": "{Le piace Bologna|Bologna Le piace}",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
    "ref": "u02.l3.ex13",
    "role": "answer",
-   "text": "Le piace Bologna",
+   "text": "Le piace il cappuccino",
    "tokens": [
     {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Bologna"}
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [12, 22], "surface": "cappuccino"}
    ]
   },
   {
    "expansion": 1,
    "model": false,
-   "norm": "bologna le piace",
-   "of": 2,
+   "norm": "il cappuccino le piace",
+   "of": 6,
    "path": "steps[4].block[9].answer",
-   "pattern": "{Le piace Bologna|Bologna Le piace}",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
    "ref": "u02.l3.ex13",
    "role": "answer",
-   "text": "Bologna Le piace",
+   "text": "il cappuccino Le piace",
    "tokens": [
-    {"kind": "name", "span": [0, 7], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 1, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [0, 2], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [14, 16], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [17, 22], "surface": "piace"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "signora rossi le piace il cappuccino",
+   "of": 6,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
+   "ref": "u02.l3.ex13",
+   "role": "answer",
+   "text": "signora Rossi Le piace il cappuccino",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [8, 13], "surface": "Rossi", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [14, 16], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [17, 22], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [23, 25], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [26, 36], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "signora le piace il cappuccino",
+   "of": 6,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
+   "ref": "u02.l3.ex13",
+   "role": "answer",
+   "text": "signora Le piace il cappuccino",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
     {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [8, 10], "surface": "Le", "trailing": " "},
-    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [11, 16], "surface": "piace"}
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [11, 16], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [20, 30], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "le piace il cappuccino signora rossi",
+   "of": 6,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
+   "ref": "u02.l3.ex13",
+   "role": "answer",
+   "text": "Le piace il cappuccino signora Rossi",
+   "tokens": [
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [12, 22], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [31, 36], "surface": "Rossi"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "le piace il cappuccino signora",
+   "of": 6,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}",
+   "ref": "u02.l3.ex13",
+   "role": "answer",
+   "text": "Le piace il cappuccino signora",
+   "tokens": [
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [12, 22], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora"}
    ]
   },
   {
    "expansion": 0,
    "model": false,
-   "norm": "ti piace bologna",
+   "norm": "ti piace il cappuccino",
    "of": 1,
    "path": "steps[4].block[9].near[0].answer",
-   "pattern": "ti piace Bologna",
+   "pattern": "ti piace il cappuccino",
    "ref": "u02.l3.ex13",
    "role": "near",
-   "text": "ti piace Bologna",
+   "text": "ti piace il cappuccino",
    "tokens": [
     {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Bologna"}
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [12, 22], "surface": "cappuccino"}
    ]
   },
   {
@@ -1519,24 +2259,26 @@
   },
   {
    "detections": [
-    {"point": "g:noun-plural", "tokens": [1, 1]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]},
-    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:indefinite-article", "tokens": [5, 5]},
+    {"point": "g:simple-prepositions", "tokens": [7, 7]}
    ],
    "path": "steps[4].block[12].say",
    "ref": "u02.l3.ex16",
    "role": "say",
-   "text": "Due cornetti e una spremuta d'arancia.",
+   "text": "Certo! Due cornetti e una spremuta d'arancia.",
    "tokens": [
-    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "Due", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [4, 12], "surface": "cornetti", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [15, 18], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [19, 27], "surface": "spremuta", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [28, 30], "surface": "d'"},
-    {"analyses": ["arancia NOUN-F:s"], "item": "w:arancia", "kind": "word", "lemma": "arancia", "span": [30, 37], "surface": "arancia"},
-    {"kind": "punct", "span": [37, 38], "surface": "."}
+    {"analyses": ["certo ADV"], "item": "w:certo", "kind": "word", "lemma": "certo", "span": [0, 5], "surface": "Certo"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "Due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [11, 19], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [22, 25], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [26, 34], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [35, 37], "surface": "d'"},
+    {"analyses": ["arancia NOUN-F:s"], "item": "w:arancia", "kind": "word", "lemma": "arancia", "span": [37, 44], "surface": "arancia"},
+    {"kind": "punct", "span": [44, 45], "surface": "."}
    ]
   },
   {
@@ -1559,36 +2301,39 @@
    "path": "steps[4].mix[0].options[0]",
    "ref": "u02.l3.ex18",
    "role": "option",
-   "text": "Ti piace Bologna?",
+   "text": "Ti piace il cornetto?",
    "tokens": [
     {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "Ti", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Bologna"},
-    {"kind": "punct", "span": [16, 17], "surface": "?"}
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"},
+    {"kind": "punct", "span": [20, 21], "surface": "?"}
    ]
   },
   {
    "path": "steps[4].mix[0].options[1]",
    "ref": "u02.l3.ex18",
    "role": "option",
-   "text": "Le piace Bologna?",
+   "text": "Le piace il cornetto?",
    "tokens": [
     {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Bologna"},
-    {"kind": "punct", "span": [16, 17], "surface": "?"}
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"},
+    {"kind": "punct", "span": [20, 21], "surface": "?"}
    ]
   },
   {
    "path": "steps[4].mix[0].options[2]",
    "ref": "u02.l3.ex18",
    "role": "option",
-   "text": "Mi piace Bologna?",
+   "text": "Mi piace il cornetto?",
    "tokens": [
     {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "Mi", "trailing": " "},
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Bologna"},
-    {"kind": "punct", "span": [16, 17], "surface": "?"}
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"},
+    {"kind": "punct", "span": [20, 21], "surface": "?"}
    ]
   },
   {
@@ -1608,9 +2353,9 @@
    "expansion": 0,
    "model": true,
    "norm": "certo",
-   "of": 3,
+   "of": 4,
    "path": "steps[4].mix[2].answer",
-   "pattern": "{certo|sì certo|certamente}",
+   "pattern": "{certo|sì certo|ma certo|certamente}",
    "ref": "u02.l3.ex20",
    "role": "answer",
    "text": "certo",
@@ -1622,9 +2367,9 @@
    "expansion": 1,
    "model": false,
    "norm": "sì certo",
-   "of": 3,
+   "of": 4,
    "path": "steps[4].mix[2].answer",
-   "pattern": "{certo|sì certo|certamente}",
+   "pattern": "{certo|sì certo|ma certo|certamente}",
    "ref": "u02.l3.ex20",
    "role": "answer",
    "text": "sì certo",
@@ -1634,12 +2379,30 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
    "expansion": 2,
    "model": false,
-   "norm": "certamente",
-   "of": 3,
+   "norm": "ma certo",
+   "of": 4,
    "path": "steps[4].mix[2].answer",
-   "pattern": "{certo|sì certo|certamente}",
+   "pattern": "{certo|sì certo|ma certo|certamente}",
+   "ref": "u02.l3.ex20",
+   "role": "answer",
+   "text": "ma certo",
+   "tokens": [
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [0, 2], "surface": "ma", "trailing": " "},
+    {"analyses": ["certo ADV"], "item": "w:certo", "kind": "word", "lemma": "certo", "span": [3, 8], "surface": "certo"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "certamente",
+   "of": 4,
+   "path": "steps[4].mix[2].answer",
+   "pattern": "{certo|sì certo|ma certo|certamente}",
    "ref": "u02.l3.ex20",
    "role": "answer",
    "text": "certamente",
@@ -1793,6 +2556,20 @@
    ]
   },
   {
+   "model": false,
+   "path": "steps[4].mix[5].answer[3]",
+   "ref": "u02.l3.ex23",
+   "role": "answer",
+   "text": "oggi è buono il cappuccino",
+   "tokens": [
+    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [0, 4], "surface": "oggi", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [5, 6], "surface": "è", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+m+s"], "item": "w:buono", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buono", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [13, 15], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [16, 26], "surface": "cappuccino"}
+   ]
+  },
+  {
    "path": "steps[4].mix[5].tiles[0]",
    "ref": "u02.l3.ex23",
    "role": "tile",
@@ -1830,20 +2607,56 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:numbers-to-100", "tokens": [3, 3]}
-   ],
-   "path": "steps[4].mix[6].prompt_it",
-   "ref": "u02.l3.ex24",
-   "role": "prompt",
-   "text": "Sette euro e sessanta.",
+   "expansion": 0,
+   "model": false,
+   "norm": "le piace",
+   "of": 1,
+   "path": "steps[4].mix[6].near[0].answer",
+   "pattern": "Le piace",
+   "ref": "u02.l3.ex34",
+   "role": "near",
+   "text": "Le piace",
    "tokens": [
-    {"analyses": ["sette DET-NUM-CARD", "sette PRO-NUM"], "item": "w:sette", "kind": "word", "lemma": "sette", "span": [0, 5], "surface": "Sette", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [6, 10], "surface": "euro", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [11, 12], "surface": "e", "trailing": " "},
-    {"analyses": ["sessanta DET-NUM-CARD", "sessanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:sessanta", "kind": "word", "lemma": "sessanta", "span": [13, 21], "surface": "sessanta"},
-    {"kind": "punct", "span": [21, 22], "surface": "."}
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "mi piace",
+   "of": 1,
+   "path": "steps[4].mix[6].near[1].answer",
+   "pattern": "mi piace",
+   "ref": "u02.l3.ex34",
+   "role": "near",
+   "text": "mi piace",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "gap": [3, 4],
+   "model": true,
+   "norm": "ti piace",
+   "of": 1,
+   "path": "steps[4].mix[6].text",
+   "pattern": "Ti piace",
+   "ref": "u02.l3.ex34",
+   "role": "cloze",
+   "text": "E Bologna? Ti piace?",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
+    {"kind": "name", "span": [2, 9], "surface": "Bologna"},
+    {"kind": "punct", "span": [9, 10], "surface": "?", "trailing": " "},
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-piace", "kind": "word", "lemma": "ti", "span": [11, 13], "surface": "Ti", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:ti-piace", "kind": "word", "lemma": "piacere", "span": [14, 19], "surface": "piace"},
+    {"kind": "punct", "span": [19, 20], "surface": "?"}
    ]
   },
   {
@@ -2773,6 +3586,459 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno vorrei due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno vorrei due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [48, 51], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [52, 58], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno vorrei due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno vorrei due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [48, 54], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "buongiorno vorrei due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno vorrei due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "buongiorno prendo due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno prendo due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [11, 17], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [48, 51], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [52, 58], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "buongiorno prendo due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno prendo due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [11, 17], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [48, 54], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:noun-plural", "tokens": [6, 6]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "buongiorno prendo due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno prendo due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [11, 17], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [18, 21], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [35, 38], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "buongiorno due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [11, 14], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [15, 25], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [26, 27], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [28, 31], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [32, 40], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [41, 44], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [45, 51], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "buongiorno due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [11, 14], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [15, 25], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [26, 27], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [28, 31], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [32, 40], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [41, 47], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "buongiorno due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "buongiorno due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [11, 14], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [15, 25], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [26, 27], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [28, 31], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [32, 40], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 9,
+   "model": false,
+   "norm": "vorrei due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "vorrei due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [37, 40], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [41, 47], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 10,
+   "model": false,
+   "norm": "vorrei due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "vorrei due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [37, 43], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 11,
+   "model": false,
+   "norm": "vorrei due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "vorrei due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "prendo due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "prendo due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [0, 6], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [37, 40], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [41, 47], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 13,
+   "model": false,
+   "norm": "prendo due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "prendo due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [0, 6], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [37, 43], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [5, 5]}
+   ],
+   "expansion": 14,
+   "model": false,
+   "norm": "prendo due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "prendo due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["prendere VER:ind+pres+1+s"], "chunk": "c:prendo", "kind": "word", "lemma": "prendere", "span": [0, 6], "surface": "prendo", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [7, 10], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [24, 27], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 15,
+   "model": false,
+   "norm": "due cappuccini e due cornetti per favore",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "due cappuccini e due cornetti per favore",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [17, 20], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [21, 29], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [30, 33], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [34, 40], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 16,
+   "model": false,
+   "norm": "due cappuccini e due cornetti grazie",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "due cappuccini e due cornetti grazie",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [17, 20], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [21, 29], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [30, 36], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
+   ],
+   "expansion": 17,
+   "model": false,
+   "norm": "due cappuccini e due cornetti",
+   "of": 18,
+   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "pattern": "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n1",
+   "role": "near",
+   "text": "due cappuccini e due cornetti",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [17, 20], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [21, 29], "surface": "cornetti"}
+   ]
+  },
+  {
    "path": "steps[7].exercise.nodes.n1.say",
    "ref": "u02.l3.ex32/n1",
    "role": "say",
@@ -2955,6 +4221,37 @@
     {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [7, 12], "surface": "avete", "trailing": " "},
     {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [13, 21], "surface": "cornetti"},
     {"kind": "punct", "span": [21, 22], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusi avete cornetto",
+   "of": 2,
+   "path": "steps[7].exercise.nodes.n2.near[0].answer",
+   "pattern": "(scusi )avete cornetto",
+   "ref": "u02.l3.ex32/n2",
+   "role": "near",
+   "text": "scusi avete cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [6, 11], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "avete cornetto",
+   "of": 2,
+   "path": "steps[7].exercise.nodes.n2.near[0].answer",
+   "pattern": "(scusi )avete cornetto",
+   "ref": "u02.l3.ex32/n2",
+   "role": "near",
+   "text": "avete cornetto",
+   "tokens": [
+    {"analyses": ["avere AUX:impr+pres+2+p", "avere AUX:ind+pres+2+p", "avere VER:ind+pres+2+p"], "chunk": "c:avete", "kind": "word", "lemma": "avere", "span": [0, 5], "surface": "avete", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [6, 14], "surface": "cornetto"}
    ]
   },
   {
@@ -3251,6 +4548,228 @@
    "tokens": [
     {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
     {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [4, 12], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "sì grazie due cornetti per favore",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due cornetti per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [23, 26], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [27, 33], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "sì grazie due cornetti grazie",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due cornetti grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [23, 29], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [3, 3]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "sì grazie due cornetti",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due cornetti",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetti"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "sì grazie due per favore",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [14, 17], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [18, 24], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "sì grazie due grazie",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [14, 20], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "sì grazie due",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì grazie due",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [10, 13], "surface": "due"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "sì due cornetti per favore",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due cornetti per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [7, 15], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [16, 19], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [20, 26], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "sì due cornetti grazie",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due cornetti grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [7, 15], "surface": "cornetti", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [16, 22], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [2, 2]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "sì due cornetti",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due cornetti",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [7, 15], "surface": "cornetti"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "sì due per favore",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [7, 10], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [11, 17], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "sì due grazie",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [7, 13], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "sì due",
+   "of": 12,
+   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "sì( grazie) due( cornetti)( {per favore|grazie})",
+   "ref": "u02.l3.ex32/n3",
+   "role": "accept",
+   "text": "sì due",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [3, 6], "surface": "due"}
    ]
   },
   {
