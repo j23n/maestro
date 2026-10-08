@@ -91,8 +91,9 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
   - **Loaded once and kept** (the pack never changes while the app runs): `contentIndex()` (LearningCore's `ContentIndex`; exercise lists, checks, placement blocks and final sections come from the step and assessment payloads), `knownForms()` (the graders' `forms`), `audioCatalog()` (every audio file and text timeline, for synchronous audio lookups) and `searchIndex()` (the Words screen).
   - `verify()` decodes every JSON column and checks that every ID a payload names exists; the Storage tests run it over the test pack and `fixtures/packs/mini.sqlite`.
 - `LearnerStore` owns `learner.sqlite` in Application Support (`Italiano/learner.sqlite`). It uses `DatabasePool` (WAL) and GRDB migrations (`v1`, `v2`…; never edit a shipped migration). Reference DDL is in `docs/03` § Learner database.
-- Event appends and derived-state updates for that event happen in **one transaction**.
-- Replay: `rebuildAll()` runs the LearningCore reducer over all events ordered by `(at, id)` and rewrites the derived tables. `apply(events:)` is the incremental path; when any event sorts before the last applied one, it runs `rebuildAll()` instead (`docs/05` § Replay).
+- Event appends and derived-state updates for that event happen in **one transaction**, with the `sync_pending` row of a local event (`append`) or without one for synced events (`insertRemote`, which ignores IDs it already has). A failed transaction changes nothing, on disk or in memory.
+- The store keeps the current `LearnerState` in memory: `state` and `settings` are synchronous snapshots of the last commit, and `states()` / `settingsUpdates()` are `AsyncStream`s that yield after every commit. Writes run on GRDB's serial writer queue; `enqueueAppend(_:)` lets a synchronous caller (the exercise sink) append without waiting, in call order.
+- Replay: `rebuildAll()` runs the LearningCore reducer over all events ordered by `(at, id)`, streamed from the table, and rewrites the derived tables and the checkpoint. Appends are the incremental path (`Replay.applyIncremental(to:)`); when any new event sorts before the last applied one, the same transaction runs the full rebuild instead (`docs/05` § Replay). How the state is persisted: `docs/03` § Derived state.
 
 ### App
 
@@ -140,9 +141,9 @@ The Debug menu (Settings → Debug, debug builds only) offers: clock offset (± 
 
 ## Data flow at runtime
 
-1. Launch: open the pack and the learner DB. If derived tables are missing, `derived_version` changed or the pack's `content_hash` changed, run `rebuildAll()`. Then start sync (if enabled).
+1. Launch: open the pack and the learner DB. If the derived state is missing, `derived_version` changed or the pack's `content_hash` changed, run `rebuildAll()`; otherwise load the checkpoint and replay the few events after it. Then start sync (if enabled).
 2. The learner acts (answers, taps a gloss, finishes a step). The view model asks LearningCore to grade and returns feedback; Storage appends the event and updates derived state in one transaction; sync is notified that a record is pending.
-3. Remote events arrive. Storage inserts them, ignoring duplicate IDs, and applies them (or rebuilds when one sorts before the last applied event); the UI observes the derived tables (GRDB `ValueObservation`) and refreshes.
+3. Remote events arrive. Storage inserts them, ignoring duplicate IDs, and applies them (or rebuilds when one sorts before the last applied event); the UI observes the store's state stream (`LearnerStore.states()`) and refreshes.
 4. The Today screen asks `Planner` for due reviews, the next lesson step and weekly progress.
 
 ## Performance budgets
