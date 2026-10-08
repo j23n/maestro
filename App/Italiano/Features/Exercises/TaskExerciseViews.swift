@@ -457,21 +457,16 @@ struct WritingView: View {
 struct RelayView: View {
     @Bindable var model: RelayModel
     let audio: ExerciseAudio
-    /// The Italian the learner reads (the source text's lines), resolved by the player; nil for heard sources.
-    var sourceLines: [TokenizedText] = []
+    /// The Italian the learner reads (a text or a real-world layout), resolved by the player; nil for heard sources.
+    var source: SourceText?
     let onContinue: () -> Void
     @FocusState private var fieldFocused: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
             ExerciseInstruction("Help a friend")
-            if !sourceLines.isEmpty {
-                Card {
-                    VStack(alignment: .leading, spacing: Tokens.Space.s) {
-                        ForEach(Array(sourceLines.enumerated()), id: \.offset) { _, line in ItalianText(line.text) }
-                    }
-                }
-                .accessibilityIdentifier("relay.source")
+            if let source {
+                SourcePanel(source: source).accessibilityIdentifier("relay.source")
             }
             if let heard = audio.audioID(forText: model.relay.audioTextId) {
                 HStack {

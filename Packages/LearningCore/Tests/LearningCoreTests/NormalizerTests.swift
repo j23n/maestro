@@ -56,6 +56,23 @@ import Testing
         #expect(Normalizer.tokens("Un' amica") == ["un'amica"])
     }
 
+    @Test func displayTokensKeepTheCaseAndMatchTheTokens() {
+        let texts = ["Mi chiamo  ANNA Maria, e Lei?", "PERCHE\u{0301} l’ Acqua", "Sono 6,20 Euro.", "E-MAIL - Ciao", ""]
+        for text in texts {
+            let display = Normalizer.displayTokens(text)
+            #expect(display.map(Normalizer.lowercase) == Normalizer.tokens(text), "\(text)")
+        }
+        #expect(Normalizer.displayTokens(texts[0]) == ["Mi", "chiamo", "ANNA", "Maria", "e", "Lei"])
+        #expect(Normalizer.displayTokens("PERCHE\u{0301} l’ Acqua") == ["PERCHÉ", "l'Acqua"])
+    }
+
+    @Test func otherAccentSensitiveWord() {
+        #expect(Normalizer.isOtherAccentSensitiveWord("e", "è"))
+        #expect(Normalizer.isOtherAccentSensitiveWord("sì", "si"))
+        #expect(!Normalizer.isOtherAccentSensitiveWord("é", "è"))
+        #expect(!Normalizer.isOtherAccentSensitiveWord("perche", "perché"))
+    }
+
     @Test func lowercasingIsLocaleIndependent() {
         // Default Unicode case mapping, the same as it_IT: no Turkish dotless-i rules.
         #expect(Normalizer.normalize("ÈCCO IL CAFFÈ") == "ècco il caffè")

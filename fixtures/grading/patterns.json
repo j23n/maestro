@@ -104,6 +104,38 @@
    ],
    "first": "abito {ME.home}",
    "note": "without a learner, a personal slot stays one token written as its placeholder"
+  },
+  {
+   "pattern": "mi chiamo {NOME}",
+   "error": "unknown slot {NOME}",
+   "note": "slot-like names are errors, not literals: a slot name in another case, anything starting ME. in any case, or a name in capitals, digits, _ and ."
+  },
+  {
+   "pattern": "mi chiamo {Name}",
+   "error": "unknown slot {Name}"
+  },
+  {
+   "pattern": "ho {number} anni",
+   "error": "unknown slot {number}"
+  },
+  {
+   "pattern": "abito {me.home}",
+   "error": "unknown slot {me.home}"
+  },
+  {
+   "pattern": "abito {ME.city}",
+   "error": "unknown slot {ME.city}"
+  },
+  {
+   "pattern": "mi chiamo {NAME2}",
+   "error": "unknown slot {NAME2}"
+  },
+  {
+   "pattern": "{Ciao} Marco",
+   "expansions": [
+    "ciao marco"
+   ],
+   "note": "a one-alternative group that isn't slot-like is a literal"
   }
  ]
 }

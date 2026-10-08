@@ -1,4 +1,5 @@
 import Foundation
+import LearningCore
 import Testing
 
 @testable import Italiano

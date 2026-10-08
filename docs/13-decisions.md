@@ -82,7 +82,66 @@ The seed content takes a default for each; the content lead confirms or changes 
 | CQ4 | Marco says Lei to Zia Rosa until she says *Dammi del tu!* (a switch point in Unit 11)? | tu from the start (family) |
 | CQ5 | *cornetto* only, or also *brioche* (common in Bologna) as a recognise-only item? | *cornetto*; *brioche* in the item note |
 | CQ6 | Bar Aurora prices (caffè 1,20 · cappuccino 1,60 · cornetto 1,40 · spremuta 3,20) and the other facts in `story-bible.yaml` → `facts_to_check` | as listed |
+| CQ7 | `disambiguation.yaml`'s *la / l'* rule lists no proper nouns after *l'*, so *l'Italia* would be read as the clitic pronoun. Add `NPR` to its next-word list? | not yet in the seeds (no seed text has it); found by the annotator (M1.6) |
+| CQ8 | `w:buono` has no `forms`, so *buon* (Morph-it! gives it its own lemma) doesn't resolve. Add `forms: [buon]`? | not yet |
+| CQ9 | `w:italiano` is an adjective only, so *in italiano* (Unit 2 lesson 1, line 5) reads as the adjective. Give it a language-noun sense? | adjective (works, but the gloss is off) |
+
+## Implementation decisions (7 Oct 2026)
+
+The owner asked agents to treat the handoff as a starting point: where it was wrong or underspecified, implement the better solution and record it. Each item below is also written into the spec it changes; `PROGRESS.md` has the evidence.
+
+**Repository and build**
+- The bundled pack and its audio are build outputs, not commits; only the paid TTS renders stay in LFS, as FLAC. CI checks pack determinism (two builds, one hash) instead of freshness. The mini pack is plain Git.
+- GRDB 7.11.1 builds and passes on Linux (with `libsqlite3-dev`), so Storage tests run in `make test`, `make ci` and Linux CI; macOS stays the reference.
+- `make lint-guards` also checks `Tokens.swift` against `design/tokens.json` (`scripts/gen-tokens.py --check`) and compiles the platform-neutral App files against the real packages (`scripts/check-app-logic.sh`; `--test` runs their tests on Linux).
+- macOS sandbox capabilities are build settings, not entitlement keys; M0.2 deletes the template's `@main`, ContentView, asset catalog and entitlements. `Italiano-Info.plist` lives in `App/Config/`; `Signing.xcconfig` (gitignored) holds the owner's team ID.
+- Morph-it! **0.4.8** (the last release) is pinned rather than 0.4.7.
+- `server/` adds `GET /v1/export/events` (owner token) as the JSONL export docs/12 asks for; each line is `{installId, app, receivedAt, event}`.
+
+**Content model and lint (M1.1, M1.2)**
+- Lint, not the build, catches what a schema can't: match lengths, choice indices, sentence-building tiles, sound-pair `play`, conversation graphs, `pass` ≤ points, unit grammar vs `points.yaml`, IDs in the wrong place.
+- Homograph slug collisions fail lint; an ID in `ids.lock` keeps its name, so only the newcomer needs a `~sense`. `ids.lock` is one ID per line with `#` comments.
+- A ledger comment whose target is gone is an error while open, a warning once resolved (a fix may remove its target). The ledger entry format is defined in docs/04.
+- Can-do `stretch` is optional; the two assessments files carry `review:` blocks; `approve` refuses an approved file (reopen first).
+
+**Annotation (M1.4–M1.7)**, all forced by the real Morph-it! tags
+- The elision table wins for its own forms; capitalised words take the lowercase readings and drop proper-noun ones (*Al*).
+- Articulated prepositions map to their grammar point; `plural` counts as a surface form (*spremute*).
+- `disambiguation.yaml` context rules apply even with a single candidate (clitic *la*); neighbours match on readings synthesised from items too.
+- Detection matchers gain `any: true` (one analysis is enough) for verb forms Morph-it! files under several moods and participles it also lists as adjectives; *quando* is `detect: none`.
+- `{ME.home}` may complete a chunk (`abito {ME.home}` → `c:abito`); near-miss patterns are annotated leniently; unit-title words of units without an items file are pending.
+- Choice options are Italian unless the Italian is the stimulus (story, listening or reading steps, or an exercise with `prompt_it`, `audio_text` or `source`), which fits every seed exercise (see Proposed changes).
+
+**Pack payloads (M2.1)**
+- The JSON inside the pack tables has a contract, `schemas/pack-payloads.schema.json`, with examples; the builder validates against it and LearningCore decodes it. Patterns travel as `{source, expansions}`; a cloze gap's source is its content.
+- Dev packs carry `meta.review_files` (`{idPrefix: {file, hash}}`) for the app's review mode. Review-comment categories are the kebab-case keys `italian-error`, `naturalness`, `level`, `answer-key`, `hint-or-rule`, `english`, `culture-or-facts`, `audio`, `other`.
+
+**Grading (M2.3–M2.6)**
+- Expansions never mix genders; dictation marks *e* for *è*, and another form of the same item, as wrong; slot-like names are errors; model answers use the masculine expansion while feedback shows the joined forms.
+
+**Learner engine (M2.7–M2.10, M7.1)**
+- Resume cursor: the answered prefix of a step, counting only lesson and check attempts with a `stepId`. In check, final and placement contexts every attempt is final. Conversations restart on resume.
+- Each device's events get strictly increasing `at`, so an answer and the `checkCompleted` it ends replay in order.
+- The daily review limit is the limit minus today's reviews; focus cards don't count against it.
+- When "at most 2 in a row" is impossible, interleaving uses the smallest achievable run ⌈c/(n−c+1)⌉; grammar cards stay within ±2 of their even slots.
+- Generated read cards fill distractors from other parts of speech when needed and place the answer with the session RNG.
+- A "wrong article" is a singular article of the other gender (*l'* is never wrong).
+- Placement blocks are scored like a check (*almost* = half). Failed-check focus lasts 3 days.
+- Settings tie on time and device → the larger canonical JSON wins (merging stays commutative). `display.textScale` is device-scoped.
+
+**App**
+- Platform-neutral view models for every exercise format and the lesson player are tested on Linux; the SwiftUI views and Apple-framework adapters still need their first Xcode build.
+- A listening step ends with a transcript page (Show transcript), so the transcript appears only after its questions.
+- Real-world layout strings are numbered in reading order; that number is `glossTapped.line` and `reading.field.<n>`.
+- Telemetry sends the OS major version only; `onboardingCompleted` keeps only `reason` and `beginner`; unknown event types stay local and are marked sent.
 
 ## Proposed changes
 
 Agents add proposals here (date, ADR or question, proposal, reason) and stop. Don't implement a proposal until the owner accepts it.
+
+| Date | Area | Proposal | Reason |
+|---|---|---|---|
+| 2026-10-07 | docs/06 choice | An explicit `options_lang: it \| en` on `choice` exercises, defaulting to today's inferred rule | The annotator infers the options' language from the context; an explicit field can't be wrong when an exercise moves |
+| 2026-10-07 | LearningCore | Make `FeedbackMachine.FeedbackShown` a typealias of the event's `FeedbackShown` | Two identical enums; the App maps one to the other by raw value |
+| 2026-10-07 | M1.6 lock files | Annotate each distinct expansion once | The lock files total 460 KB, mostly repeated pattern expansions |
+| 2026-10-07 | Swift style | Run `swift format lint` (the toolchain ships it) in `make lint-guards` after one formatting pass | `.swift-format` exists but nothing enforces it; the code has drifted from it |

@@ -22,7 +22,8 @@ neutral() {  # neutral <file> <allowed-modules-regex>
   return 0
 }
 
-work="${TMPDIR:-/tmp}/italiano-app-logic"
+# One work directory per checkout, so worktrees (parallel agents) never share one.
+work="${TMPDIR:-/tmp}/italiano-app-logic-$(printf '%s' "$root" | cksum | cut -d' ' -f1)"
 rm -rf "$work/Sources" "$work/Tests"
 mkdir -p "$work/Sources/Italiano" "$work/Tests/ItalianoTests"
 n=0

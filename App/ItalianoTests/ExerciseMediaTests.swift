@@ -28,6 +28,25 @@ import Testing
         #expect(a.audioID(forText: "u02.task.menu") == "a:1" && a.audioID(forText: nil) == nil)
     }
 
+    @Test func clockAndRateLabels() {
+        #expect(PlaybackClock.position(21_400, of: 62_000) == "0:21 / 1:02")
+        #expect(PlaybackClock.format(-5) == "0:00" && PlaybackClock.format(600_000) == "10:00")
+        #expect(PlaybackClock.rate(0.8) == "0.8×" && PlaybackClock.rate(1) == "1×")
+        #expect(PlaybackClock.rate(1.15) == "1.15×")
+    }
+
+    @Test func tappingALinePlaysFromItsStart() {
+        let player = FakeAudioPlayer()
+        let resolver = StaticAudioResolver(
+            clips: ["a:story": AudioClip(audioID: "a:story", fileURL: url)],
+            timelines: ["a:story": [TokenTiming(line: 1, index: 0, startMs: 0, endMs: 400),
+                                    TokenTiming(line: 2, index: 0, startMs: 1_200, endMs: 1_500)]])
+        let a = ExerciseAudio(player: player, resolver: resolver)
+        #expect(a.play("a:story", fromLine: 2))
+        #expect(player.positionMs == 1_200 && a.isPlaying("a:story"))
+        #expect(!a.play(nil, fromLine: 1))
+    }
+
     @Test func captureShowsTheLiveTranscriptThenTheResult() async {
         let recognizer = FakeSpeechRecognizer(scripted: [
             SpeechResult(transcript: "vorrei un caffè", alternatives: ["vorrei un caffe"], confidence: 0.9)

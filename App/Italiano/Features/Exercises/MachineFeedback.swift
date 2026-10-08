@@ -34,6 +34,8 @@ enum MachineFeedback {
                 return FeedbackPresentation(
                     tone: .answer, headline: FeedbackCopy.failedTwice, detail: nil, answer: answer, rule: rule,
                     canTryAgain: false, canShowAnswer: false, canContinue: true)
+            case .recorded:
+                return nil  // check, final and placement record silently (docs/05 § Stepped feedback)
             }
         }
     }
