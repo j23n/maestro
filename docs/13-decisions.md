@@ -145,11 +145,23 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 - Placement blocks are scored like a check (*almost* = half). Failed-check focus lasts 3 days.
 - Settings tie on time and device → the larger canonical JSON wins (merging stays commutative). `display.textScale` is device-scoped.
 
+**Sync (M7.2–M7.4)**
+- All sync logic is in `SyncDriver`, a platform-neutral actor over a `SyncEngine` seam, tested on Linux with a fake engine and in-memory private databases (two devices over many seeds). `CloudSync` only maps CloudKit types. Fetched events are stored with one `insertRemote` per zone fetch (or every 2,000), so a fetch costs at most one full replay.
+- An event is immutable, so it is always saved as a new record; `.serverRecordChanged` on an event counts as saved, and only settings cache system fields. A send takes at most 400 records. `.quotaExceeded` pauses with a reason instead of retrying in a loop.
+- The database belongs to the first iCloud account it syncs with (`local_meta.icloud_account`); a sign-in to another account counts as a switch, also when it happened while the app wasn't running. `CloudSync` exists only when `ITA_SYNC_ENABLED` and `ITA_ICLOUD_ENTITLEMENT` are YES, because iOS can't read its own entitlements and `CKContainer` crashes without one.
+
+**Audio (M5.1, M5.4)**
+- The pack compiler is the one source of audio needs; `content tts` and `content build` share it. A mock provider renders the same formats offline, so the whole flow runs in tests without a key.
+- Audio IDs hash the assembly manifest (encode settings, renders' digests and sample counts, silences, effects), not the encoded file, so they don't depend on the ffmpeg build; the encode is pinned and writes an edit list (priming skipped, exact length).
+- The render cache stores FLAC plus JSON metadata (`<key[:2]>/<key>.flac|json`); only the FLAC is in LFS. Mock renders and encoded files are build outputs. A need that can't be voiced is reported, never guessed (`c:sono-nato` got an `audio_say`).
+
 **App**
 - Platform-neutral view models for every exercise format and the lesson player are tested on Linux; the SwiftUI views and Apple-framework adapters still need their first Xcode build.
 - A listening step ends with a transcript page (Show transcript), so the transcript appears only after its questions.
 - Real-world layout strings are numbered in reading order; that number is `glossTapped.line` and `reading.field.<n>`.
 - Telemetry sends the OS major version only; `onboardingCompleted` keeps only `reason` and `beginner`; unknown event types stay local and are marked sent.
+- Onboarding is complete once `profile.forms` has a value; it syncs, so a second device skips onboarding. "Not now" on the study consent screen records a refusal (`granted: false`), and Settings → Research records a new consent date each time sharing is turned on; the install ID stays.
+- The forms examples in onboarding and Settings (*americano/americana*) come from the pack's countries, not Swift. The fixed Italian UI lines (greetings, *Bravo!*, *Indice*, and the Welcome headline *Impara l'italiano, una storia alla volta.*, which docs/07 didn't list) are in `Localizable.xcstrings` with English comments.
 
 ## Proposed changes
 
