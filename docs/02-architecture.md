@@ -12,7 +12,8 @@ italiano/
 │  │  ├─ AppMain/               @main, scenes, dependency container, app config
 │  │  ├─ DesignSystem/          tokens, fonts, components, Mascot
 │  │  ├─ Features/              Onboarding, Today, Course, Unit, LessonPlayer, Steps/*, Review,
-│  │  │                         Checks, Words, Settings, Debug
+│  │  │                         Checks, Placement, FinalCheck (incl. the examiner export's zip writer),
+│  │  │                         Words, Settings, Debug
 │  │  ├─ Platform/              AudioPlayer, SpeechService, CloudSync, Notifications, Telemetry
 │  │  └─ Resources/             Fonts, Assets.xcassets (mascot), Content/ (content.sqlite + Audio/)
 │  ├─ ItalianoTests/            Swift Testing: view models, snapshot tests
@@ -76,7 +77,8 @@ Sources/LearningCore/
   Learner/      RatingPolicy.swift, Replay.swift (pure reducer: events → LearnerState), Eligibility.swift,
                 Progress.swift (words known, can-dos, weekly goal)
   Planning/     Planner.swift (Today), ReviewSessionBuilder.swift, CardSelector.swift, Interleaver.swift
-  Assessment/   CheckScoring.swift, Placement.swift
+  Assessment/   CheckScoring.swift, Placement.swift, PlacementSession.swift (one sitting of the blocks),
+                FinalCheck.swift (availability, runnable, speech-only sections)
   Sync/         MergeRules.swift (event dedupe, settings LWW), RecordMapping.swift (CloudKit-agnostic)
   Support/      Clock.swift, UUIDSource.swift, SeededRNG.swift (SplitMix64), Logger protocol
 ```

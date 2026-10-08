@@ -496,7 +496,7 @@ sections:
   - {id: speaking, title_en: Speaking, exercises: [...]}   # conversation (speech) + talk
 ```
 
-- **Check mode:** one attempt per item, no hints, no feedback until the end; listening plays twice. Each item has a `score` (default 1); the file sets `pass: {overall, section_min}`; listening items carry their audio in `audio_text`.
+- **Check mode:** one attempt per item, no hints, no feedback until the end (talk shows only "Answer recorded." and Continue, writing only Continue; neither offers Try again); listening plays twice. Each item has a `score` (default 1); the file sets `pass: {overall, section_min}`; listening items carry their audio in `audio_text`.
 - **Intro screen:** sections, about 15–20 minutes, and "No hints in the check — just do your best".
 - **Result screen:** overall and per-section scores, can-dos reached (ticks), "Review your mistakes" (each wrong item with the answer and rule), **Continue to Unit N+1**, and "Retake tomorrow" if failed. Scoring is in `docs/05`.
 - About 18–20 items, covering every can-do of the unit and all four skills.
@@ -504,17 +504,22 @@ sections:
 
 ### 19 · Placement (session)
 
-- Onboarding asks "Have you studied Italian before?" On yes, it runs the adaptive blocks (`docs/05`) with one attempt per item, no feedback and a progress bar. Blocks come from the pack's `assessments` table (`placement`).
-- **Result:** "We'll start you at Unit N: *title*", with **Start there** and **Start from the beginning** (`docs/05` § Placement says which events each writes).
-- IDs: `placement.start`, `placement.startThere`, `placement.fromBeginning`.
+- Onboarding asks "Have you studied Italian before?" On yes, it runs the adaptive blocks (`docs/05`) with one attempt per item, no feedback and a progress bar. Blocks come from the pack's `assessments` table (`placement`). When the pack can't run placement (`docs/05` § Placement, point 6), the learner goes straight to Today.
+- **Intro** (after onboarding, in place of the tabs): "Let's find your level", what happens (five questions per unit from Unit 1, stopping when a set gets hard), "No hints and no feedback", **Start** and **Start from the beginning**.
+- **Sitting:** the assessment chrome (close, a progress bar over every question placement could ask, the line "Unit N questions"); each item ends with Continue or moves straight on. Close asks "Leave the placement?" with **Start from the beginning** and **Keep going**.
+- **Result:** "We'll start you at Unit N: *title*" (Italian title, English subtitle), what happens to the skipped units ("Units 0 to 2 are marked as skipped. Their words join your reviews as catch-up cards, up to 15 a day."), with **Start there** and **Start from the beginning** (`docs/05` § Placement says which events each writes). Either one opens the tabs; Today shows the catch-up cards.
+- IDs: `placement.intro`, `placement.start`, `placement.fromBeginning`, `placement.keepGoing`, `placement.result`, `placement.startThere`, plus `player.close`, `player.progress`, `assessment.section`.
 
 ### 20 · Final A1 check (session)
 
 - Five sections modelled on CILS A1 (listening, reading, structures, writing, speaking), 12 points each, with check-mode rules. Sections come from `assessments` (`final`).
+- **Where:** a card at the top of the final review unit's overview ("Final A1 check", **Take the final check**) once it is available and the pack can run it (`docs/05` § Final A1 check); it also offers the latest export while it is kept.
+- **Intro:** the five sections (a section the device can't take reads "Not on this device", with a line saying speaking is left out), about 45 minutes, one try per question, and that spoken answers are recorded and stay on the device. **Start** and **Not now**. When the items need words the learner never met, Start first shows the mini-preview ("Before we go on", `minipreview.*`).
+- **Sitting:** the assessment chrome (close, progress, `n / total`, the section's title). Close asks "Leave the final check?": leaving scores nothing and deletes the sitting's recordings.
 - Speaking items always record to m4a (`docs/09`), whatever the recording setting.
-- **Result:** per-section score with an indicative pass of ≥ 7/12 each, and the line "This is a practice check, not an official certificate."
-- **Export for examiner:** builds `final-check-<installId>-<date>.zip` (`responses.json`, `writing/*.txt`, `speaking/*.m4a`, `README.txt`; contents in `docs/12`) and opens the share sheet. Nothing uploads automatically.
-- IDs: `final.start`, `final.result`, `final.export`.
+- **Result:** per-section score out of 12 with a tick at the indicative pass of ≥ 7/12 ("Not taken" for an excluded section), the line "Indicative pass: 7 of 12 in every section.", and "This is a practice check, not an official certificate."
+- **Export for examiner:** when the check ends the app writes `final-check-<installId>-<date>.zip` (`responses.json`, `writing/*.txt`, `speaking/*.m4a`, `README.txt`; contents in `docs/12`); **Export for examiner** opens the share sheet with it. Nothing uploads automatically.
+- IDs: `final.open`, `final.intro`, `final.section.<id>` (intro), `final.start`, `final.notNow`, `final.leave`, `final.keepGoing`, `final.result`, `final.section.<n>` (result), `final.disclaimer`, `final.export`, `final.done`, plus `player.close`, `player.progress`, `assessment.section`.
 
 ## Opener and Use
 

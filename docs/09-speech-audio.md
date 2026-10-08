@@ -44,6 +44,8 @@ let installed = await SpeechTranscriber.installedLocales
 - Stop when there is 1.2 s of silence after speech (energy threshold on the input tap), on the 10 s limit, or when the learner taps stop.
 - Return `SpeechResult { transcript, alternatives, confidence? }` to the grader (`TranscriptMatcher`, `docs/05`).
 - **Recordings:** practice recordings live in a temp file only for "hear yourself" (P1) and are deleted when the session ends. **Final-check speaking items always record** to `Application Support/Italiano/recordings/<exerciseId>-<attemptId>.m4a` on the recording device (they are not synced), for the examiner export (`docs/12`); they are deleted 30 days after the check or after a successful export, whichever comes first.
+  - The final check sets `SpeechCapture.recordingDestination`, so every spoken answer (talk, each conversation turn, repeat) passes a `recordingURL` to the recogniser, whatever the view asked for. The recogniser writes `<exerciseId>-pending-<uuid>.m4a`; when the answer becomes an `attempt` event the file is renamed with the event's ID (`attemptId` = the `attempt` event's `id`). A recording that never became an attempt (nothing heard) is replaced by the next one and deleted when the sitting ends; leaving the check mid-way deletes the sitting's recordings.
+  - "A successful export" is the export zip being written (`docs/12`): the recordings are then inside it and are deleted from `recordings/`. Files in `recordings/` and `exports/` older than 30 days are deleted at launch.
 
 ### Permissions
 

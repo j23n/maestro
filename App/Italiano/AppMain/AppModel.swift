@@ -33,6 +33,8 @@ final class AppModel {
     private(set) var outline = CourseOutline(units: [])
     /// False until onboarding has run on any of the learner's devices (it writes the synced `profile.forms`).
     private(set) var isOnboarded = true
+    /// Placement comes next: onboarding said "Yes, I know a little" (AppModel+Placement.swift).
+    var placementPending = false
     /// One sentence when the learner database had to be recovered at launch (M3.9).
     private(set) var recoveryNotice: String?
     /// Speech recognition is available and switched on (docs/09); the Settings screen and the recogniser set it.
@@ -103,6 +105,7 @@ final class AppModel {
             settings = store.settings
             observe(store)
             isOnboarded = (try? await store.settingRecord(SettingKey.profileForms.rawValue)) != nil
+            await prepareAssessments()
             phase = .ready
         } catch {
             phase = .failed(String(describing: error))
@@ -216,6 +219,7 @@ final class AppModel {
                     OnboardingCompletedPayload(
                         reason: a.reason, forms: a.forms, country: a.country, beginner: a.beginner)))
         }
+        offerPlacement(beginner: a.beginner)
         isOnboarded = true
     }
 

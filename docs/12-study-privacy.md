@@ -67,7 +67,34 @@ The server appends each file to storage; the owner downloads them (`GET /v1/revi
   - `speaking/*.m4a`: the recordings of the speaking section (`docs/09` § Transcription), kept on the recording device only until export or 30 days;
   - `README.txt`: what it is, and the install ID.
 - The zip opens in the share sheet; the participant sends it however the study protocol says. Nothing uploads automatically.
-- No third-party zip library: write the files to a temporary folder and read it through `NSFileCoordinator` with the `.forUploading` option, which hands back a zipped copy (verify on macOS and iOS in M8.2).
+- No third-party zip library: the app's own `StoredZip` writes a standard ZIP with every file stored (no compression: the m4a files are already compressed and the text is small), UTF-8 names and the check's local time as every entry's date, so the same sitting always gives the same bytes. It replaces the earlier plan of `NSFileCoordinator` `.forUploading`, which wraps the files in an extra folder and can't be tested on Linux.
+- **Exact layout** (`ExaminerExport`, built from the sitting's own `attempt` events):
+  - `README.txt`: what the archive is, the install ID (or "none (this device hasn't joined the study)"), when the check was taken, the pack and app versions, each section's automatic score, and the line "This is a practice check, not an official certificate.";
+  - `responses.json` (below);
+  - `writing/<exerciseId>.txt`: each writing task's text (a form as `Label: value` lines);
+  - `speaking/<exerciseId>-<attemptId>.m4a`: one recording per spoken answer (a conversation has one per turn), named as on the device.
+- **Name:** `final-check-<installId>-<YYYY-MM-DD>.zip`, the calendar date the check was taken in the learner's time zone; without an install ID (no consent ever given) `final-check-<YYYY-MM-DD>.zip`. No name, country or other profile data goes into the archive.
+- **When:** the zip is written to `Application Support/Italiano/exports/` as the check ends (a retake on the same day replaces it); **Export for examiner** on the result, and in the final review unit while the zip is kept, opens the share sheet with it. Writing it counts as the successful export: the recordings are deleted from `recordings/`. The zip is deleted 30 days after it was written.
+- `responses.json` (schema 1; keys sorted; an absent key means "none"):
+
+```json
+{
+  "schema": 1, "kind": "final-check", "installId": "6f1c…", "takenAt": "2026-10-06T09:30:00+02:00",
+  "app": {"version": "1.0 (57)", "pack": "0.9.0"},
+  "indicativePass": false, "passMarkPerSection": 7,
+  "sections": [{"id": "listening", "title": "Listening", "points": 6, "max": 12, "passed": false, "excluded": false}],
+  "items": [
+    {"exerciseId": "final.s01", "section": "speaking", "format": "talk", "score": 1, "earned": 1,
+     "answers": [{"attemptId": "…", "outcome": "correct", "mode": "spoken", "response": "Buongiorno! Quant'è?",
+                  "latencyMs": 8200, "recording": "speaking/final.s01-….m4a"}]},
+    {"exerciseId": "final.w01", "section": "writing", "format": "writing", "score": 2, "earned": 1,
+     "answers": [{"attemptId": "…", "outcome": "wrong", "mode": "typed", "response": "Cara Anna, …", "latencyMs": 300000}],
+     "writingFile": "writing/final.w01.txt"}
+  ]
+}
+```
+
+  Every item of every section is listed in order (an item in an excluded section, or never answered, has `"answers": []`); `answers[].turnId` names a conversation's node; `earned` is the item's raw points (`score` × credit), and `sections[].points` is the section scaled to its 12 points.
 
 ## Beta and study data loop
 

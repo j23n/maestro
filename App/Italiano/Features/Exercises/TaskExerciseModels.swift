@@ -199,8 +199,11 @@ final class TalkModel {
     var canType: Bool { !env.canSpeak && !env.context.isAssessment }
     var found: Set<String> { Set(result?.found ?? []) }
     var credit: Double { result?.fraction ?? 0 }
+    /// Checks: one attempt, nothing shown afterwards (docs/06 § 18).
+    var isAssessment: Bool { env.context.isAssessment }
 
     func submit(transcript: String, mode: AnswerMode) {
+        guard !(isAssessment && attempts > 0) else { return }
         attempts += 1
         response = transcript
         let r = ContentPointMatcher(profile: env.profile)
@@ -248,6 +251,8 @@ final class WritingModel {
     }
 
     var isForm: Bool { writing.kind == .form }
+    /// Checks: one submission, no feedback until the end (docs/06 § 18).
+    var isAssessment: Bool { env.context.isAssessment }
     var wordCount: Int { WritingChecker.wordCount(text) }
     var wordCountOK: Bool {
         guard let w = writing.words else { return true }
@@ -263,6 +268,7 @@ final class WritingModel {
     }
 
     func submit() {
+        guard !(isAssessment && submitted) else { return }
         submitted = true
         let passed: Bool
         let response: String

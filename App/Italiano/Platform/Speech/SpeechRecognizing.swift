@@ -69,6 +69,10 @@ final class FakeSpeechRecognizer: SpeechRecognizing {
     var typed: String?
     private(set) var recognizeCalls: [[String]] = []
     private(set) var downloads = 0
+    /// Bytes written to `recordingURL` for each answer that returns a result (tests of the final check's
+    /// recordings); nil writes nothing.
+    var recordingStub: Data?
+    private(set) var recordedURLs: [URL] = []
 
     init(availability: SpeechAvailability = .available, scripted: [SpeechResult] = []) {
         currentAvailability = availability
@@ -94,13 +98,20 @@ final class FakeSpeechRecognizer: SpeechRecognizing {
         if !scripted.isEmpty {
             let r = scripted.removeFirst()
             live(r.transcript)
+            record(to: recordingURL)
             return r
         }
         if let typed, !typed.isEmpty {
             live(typed)
+            record(to: recordingURL)
             return SpeechResult(transcript: typed, alternatives: [], confidence: nil)
         }
         throw SpeechError.nothingHeard
+    }
+
+    private func record(to url: URL?) {
+        guard let url, let recordingStub, (try? recordingStub.write(to: url)) != nil else { return }
+        recordedURLs.append(url)
     }
 
     func stop() {}

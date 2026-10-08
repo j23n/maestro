@@ -56,7 +56,9 @@ struct RootView: View {
                     message: "Something went wrong opening the course. Quit and open Italiano again.",
                     detail: deps.config.debugMenu ? detail : nil, identifier: "error.launch")
             case .ready:
-                if deps.app.isOnboarded {
+                if deps.app.isOnboarded && deps.app.placementPending {
+                    PlacementHost(deps: deps)
+                } else if deps.app.isOnboarded {
                     MainTabs(deps: deps)
                 } else {
                     OnboardingView(

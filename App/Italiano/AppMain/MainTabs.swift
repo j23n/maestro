@@ -8,6 +8,7 @@ struct MainTabs: View {
     @State private var playing: PlayRequest?
     @State private var coursePath: [UnitID] = []
     @State private var reviewing: ReviewRequest?
+    @State private var takingFinal: FinalCheckRequest?
 
     var body: some View {
         TabView {
@@ -20,6 +21,7 @@ struct MainTabs: View {
                         .navigationDestination(for: UnitID.self) { unit in
                             if let o = deps.app.overview(unit: unit) {
                                 UnitView(overview: o) { playing = PlayRequest(step: $0) }
+                                    .finalCheckEntry(app: deps.app, unit: unit) { takingFinal = FinalCheckRequest() }
                             }
                         }
                 }
@@ -39,6 +41,9 @@ struct MainTabs: View {
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
         .playerPresentation(item: $playing) { request in
             PlayerHost(deps: deps, step: request.step) { playing = nil }
+        }
+        .playerPresentation(item: $takingFinal) { _ in
+            FinalCheckHost(deps: deps) { takingFinal = nil }
         }
         .playerPresentation(item: $reviewing) { _ in
             ReviewHost(

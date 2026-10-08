@@ -109,6 +109,9 @@ final class SpeechCapture {
 
     private(set) var state: State = .idle
     @ObservationIgnored private let recognizer: any SpeechRecognizing
+    /// Where to keep an m4a of each answer when the caller passes no URL: set by the final check, whose speaking
+    /// items always record (docs/09); nil elsewhere (practice keeps no recordings).
+    @ObservationIgnored var recordingDestination: (@MainActor () -> URL?)?
 
     init(recognizer: any SpeechRecognizing) { self.recognizer = recognizer }
 
@@ -146,7 +149,7 @@ final class SpeechCapture {
                     guard let self, self.isListening else { return }
                     self.state = .listening(live: text)
                 },
-                recordingURL: recordingURL)
+                recordingURL: recordingURL ?? recordingDestination?())
             state = .finished(result)
             return result
         } catch let e as SpeechError {
