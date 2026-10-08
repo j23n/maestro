@@ -24,7 +24,7 @@ Every learner action is an immutable event (`docs/03` § Learner database). The 
 
 | `type` | Payload | Written when |
 |---|---|---|
-| `introduced` | `{items: [{itemId, skills: [..]}], via: preview\|story\|note\|sounds\|placement\|catchup\|debug, stepId?}` | a step starts that introduces items not yet introduced; placement; an eligibility mini-preview (`catchup`) |
+| `introduced` | `{items: [{itemId, skills: [..]}], via: preview\|story\|note\|sounds\|placement\|catchup\|debug, stepId?}` | a step starts that introduces items not yet introduced; placement; an eligibility mini-preview (`catchup`); the Debug menu's jump to a unit (`debug`, debug builds only; `docs/02`) |
 | `attempt` | `{exerciseId, turnId?, format, context: lesson\|review\|check\|placement\|final, stepId?, sessionId, attemptIndex: 1\|2, outcome: correct\|correctWithNote\|almost\|wrong\|revealed\|skipped, targets: [{itemId, skill, outcome}], response?, mode: typed\|spoken\|tapped, latencyMs, feedbackShown: none\|hint\|answer}` | each graded answer |
 | `stepStarted` / `stepCompleted` | `{stepId, sessionId, durationMs?}` | entering a step that has no open start (none since its last `stepCompleted`), so reopening a half-done step writes nothing; finishing a step |
 | `glossTapped` | `{textId, line, token, itemId?}` | the learner taps a word for English |

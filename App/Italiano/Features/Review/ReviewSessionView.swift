@@ -24,6 +24,7 @@ struct ReviewSessionView: View {
                     }
                     .buttonStyle(.plain)
                     .keyboardShortcut(.cancelAction)
+                    .lessonMenu(.closeLesson, perform: onClose)
                     .accessibilityLabel(Text("Close"))
                     .accessibilityIdentifier("player.close")
                     DSProgressBar(value: model.progress).accessibilityIdentifier("player.progress")

@@ -74,12 +74,14 @@ struct TypedExerciseView: View {
                 .buttonStyle(.dsPrimary)
                 .disabled(!model.canCheck)
                 .keyboardShortcut(.return, modifiers: [])
+                .lessonMenu(.check, isEnabled: model.canCheck) { check() }
                 .accessibilityIdentifier("answer.check")
             HStack {
                 if model.canRequestHint {
                     Button("Show a hint") { model.requestHint() }
                         .buttonStyle(.dsTextLink)
                         .keyboardShortcut("h", modifiers: [.command, .shift])
+                        .lessonMenu(.showHint) { model.requestHint() }
                         .accessibilityIdentifier("answer.hint")
                 }
                 Spacer()

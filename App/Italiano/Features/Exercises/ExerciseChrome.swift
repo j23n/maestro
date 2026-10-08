@@ -17,6 +17,7 @@ struct PresentedFeedback: View {
                     Button("Show answer", action: onShowAnswer)
                         .buttonStyle(.dsSecondary)
                         .keyboardShortcut("a", modifiers: [.command, .shift])
+                        .lessonMenu(.showAnswer, perform: onShowAnswer)
                         .accessibilityIdentifier("feedback.showAnswer")
                 }
                 if p.canTryAgain {

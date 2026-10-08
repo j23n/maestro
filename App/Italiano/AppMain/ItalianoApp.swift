@@ -15,14 +15,20 @@ struct ItalianoApp: App {
         WindowGroup {
             RootView(deps: deps)
                 .modifier(CompactWidthReader())
+                .learnerTextScale(deps.app)
         }
         #if os(macOS)
             .defaultSize(width: Tokens.Size.macMinWindowWidth + 200, height: Tokens.Size.macMinWindowHeight + 180)
+            .commands { ItalianoCommands(textSize: deps.services.textSize) }
         #endif
         #if os(macOS)
             Settings {
-                SettingsScreen(app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild)
-                    .frame(minWidth: 520, minHeight: 480)
+                SettingsScreen(
+                    app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild,
+                    services: deps.services
+                )
+                .frame(minWidth: 520, minHeight: 480)
+                .learnerTextScale(deps.app)
             }
         #endif
     }
@@ -69,8 +75,10 @@ struct RootView: View {
         .task {
             await deps.app.start()
             if deps.app.phase == .ready { await deps.startSync() }
+            await deps.services.afterLaunch(arguments: ProcessInfo.processInfo.arguments)
         }
         .onChange(of: scenePhase) { _, phase in
+            deps.services.activityChanged(phase == .active ? .active : phase == .background ? .background : .inactive)
             guard phase == .background else { return }
             Task {
                 await deps.app.settle()

@@ -8,6 +8,8 @@ struct SettingsScreen: View {
     var sync: SyncSettingsModel?
     /// Study builds show Research → "Share anonymous learning data" (docs/12).
     var studyBuild = false
+    /// Reminders, study data and the Debug menu (`AppServices`); previews leave it out.
+    var services: AppServices?
 
     var body: some View {
         let s = app.settings
@@ -18,47 +20,42 @@ struct SettingsScreen: View {
                 if let sync {
                     SyncSettingsSection(model: sync)
                 } else {
-                    SettingsGroup(title: "Sync") {
+                    SettingsGroup("Sync") {
                         Text(SyncStatusText.offInThisBuild).dsFont(Tokens.TypeScale.uiCallout)
                             .foregroundStyle(Color.ds.secondary)
                             .accessibilityIdentifier("settings.sync")
                     }
                 }
-                SettingsGroup(title: "Practice") {
+                SettingsGroup("Practice") {
                     Stepper(value: binding(.goalDaysPerWeek, s.goalDaysPerWeek), in: 3...7) {
                         row("Weekly goal", value: "\(s.goalDaysPerWeek) days")
                     }
                     .accessibilityIdentifier("settings.goal")
-                    Divider()
                     Stepper(value: binding(.reviewDailyLimit, s.reviewDailyLimit), in: 20...200, step: 10) {
                         row("Reviews per day, at most", value: "\(s.reviewDailyLimit)")
                     }
                     .accessibilityIdentifier("settings.reviewLimit")
-                    Divider()
                     Toggle("English under stories", isOn: toggle(.displayEnglishUnderStories, s.englishUnderStories))
                         .accessibilityIdentifier("settings.english")
-                    Divider()
                     Picker("Audio speed", selection: number(.audioStoryRate, s.storyRate)) {
                         Text("0.8×").tag(0.8)
                         Text("1×").tag(1.0)
                     }
                     .accessibilityIdentifier("settings.audioSpeed")
                 }
-                SettingsGroup(title: "You") {
+                SettingsGroup("You") {
                     TextField("Your name (for role-plays)", text: text(.profileName, s.profileName))
                         .accessibilityIdentifier("settings.name")
-                    Divider()
                     Picker("Forms that fit you", selection: text(.profileForms, s.profileForms.rawValue)) {
                         Text(app.formsExample.map { "Masculine (\($0.masculine))" } ?? "Masculine").tag("m")
                         Text(app.formsExample.map { "Feminine (\($0.feminine))" } ?? "Feminine").tag("f")
                         Text("Show me both").tag("both")
                     }
                     .accessibilityIdentifier("settings.forms")
-                    Divider()
                     Toggle("Only accept the forms that fit me", isOn: toggle(.answersStrictForms, s.strictForms))
                         .accessibilityIdentifier("settings.strictForms")
                 }
-                SettingsGroup(title: "Moka") {
+                SettingsGroup("Moka") {
                     HStack(spacing: Tokens.Space.l) {
                         Mascot(pose: .hello, size: 56, decorative: true)
                         Toggle("Show Moka's hints and notes", isOn: toggle(.mascotHints, s.mascotHints))
@@ -66,7 +63,7 @@ struct SettingsScreen: View {
                     .accessibilityIdentifier("settings.mascot")
                 }
                 if studyBuild {
-                    SettingsGroup(title: "Research") {
+                    SettingsGroup("Research") {
                         Toggle(
                             "Share anonymous learning data",
                             isOn: Binding(
@@ -78,12 +75,12 @@ struct SettingsScreen: View {
                                 + "can stop any time."
                         )
                         .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+                        StudyDataRows(installID: s.studyInstallId, telemetry: services?.telemetry)
                     }
                 }
-                SettingsGroup(title: "On this device") {
+                SettingsGroup("On this device") {
                     Toggle("Speaking exercises", isOn: toggle(.speechEnabled, s.speechEnabled(available: true)))
                         .accessibilityIdentifier("settings.speech")
-                    Divider()
                     VStack(alignment: .leading) {
                         row("Text size", value: "\(Int((s.textScale * 100).rounded()))%")
                         Slider(
@@ -91,9 +88,18 @@ struct SettingsScreen: View {
                             in: LearnerSettings.textScaleRange, step: 0.05)
                     }
                     .accessibilityIdentifier("settings.textSize")
-                    Divider()
-                    Toggle("Daily reminder", isOn: toggle(.reminderEnabled, s.reminderEnabled))
-                        .accessibilityIdentifier("settings.reminder")
+                    if let reminders = services?.reminders {
+                        ReminderRows(model: reminders)
+                    } else {
+                        Toggle("Daily reminder", isOn: toggle(.reminderEnabled, s.reminderEnabled))
+                            .accessibilityIdentifier("settings.reminder")
+                    }
+                }
+                SettingsGroup("About") {
+                    AboutRows()
+                }
+                if let debug = services?.debug {
+                    DebugSettingsSection(model: debug, storageError: app.lastStorageError)
                 }
             }
             .toggleStyle(DSToggleStyle())

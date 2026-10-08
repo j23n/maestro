@@ -32,7 +32,7 @@ final class AppModel {
     private(set) var settings = LearnerSettings()
     private(set) var outline = CourseOutline(units: [])
     /// False until onboarding has run on any of the learner's devices (it writes the synced `profile.forms`).
-    private(set) var isOnboarded = true
+    var isOnboarded = true
     /// Placement comes next: onboarding said "Yes, I know a little" (AppModel+Placement.swift).
     var placementPending = false
     /// One sentence when the learner database had to be recovered at launch (M3.9).
@@ -57,6 +57,8 @@ final class AppModel {
     @ObservationIgnored private var observers: [Task<Void, Never>] = []
     /// Sync (or `DisabledSync`): steps that complete ask it to sync now (docs/08).
     @ObservationIgnored var sync: (any SyncControlling)?
+    /// Called after a `session` event is written (study builds upload then, docs/12; `AppServices`).
+    @ObservationIgnored var onSessionEnded: (() -> Void)?
 
     init(env: Environment) { self.env = env }
 
@@ -407,6 +409,7 @@ final class AppModel {
             factory.session(
                 sessionId: sessionID, kind: kind, platform: env.platform, startedAt: startedAt,
                 endedAt: env.clock.nowMs(), activeSeconds: activeSeconds))
+        onSessionEnded?()
     }
 
     /// "Tomorrow": when the next card falls due after now (the session-complete screen).
