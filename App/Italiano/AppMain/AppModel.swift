@@ -130,14 +130,17 @@ final class AppModel {
         observe(newStore)
     }
 
+    /// Remote events and settings (sync) arrive through the store's streams. A stream only wakes the model, which
+    /// then reads the store's current value: a value handed over by the stream may already be older than what a
+    /// local write just stored, and must not replace it.
     private func observe(_ store: LearnerStore) {
         observers.append(
             Task { [weak self] in
-                for await s in store.states() { self?.state = s }
+                for await _ in store.states() { self?.state = store.state }
             })
         observers.append(
             Task { [weak self] in
-                for await s in store.settingsUpdates() { self?.settings = s }
+                for await _ in store.settingsUpdates() { self?.settings = store.settings }
             })
     }
 
@@ -150,8 +153,8 @@ final class AppModel {
         lastWrite = Task { [weak self] in
             await previous?.value
             do {
-                let result = try await store.append(events)
-                self?.state = result.state
+                _ = try await store.append(events)
+                self?.state = store.state
             } catch {
                 self?.lastStorageError = String(describing: error)
             }

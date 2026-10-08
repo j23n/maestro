@@ -160,6 +160,15 @@ import Testing
         }
     }
 
+    @Test func aQuickRunOfChangesEndsOnTheLastOne() async throws {
+        let app = model()
+        await app.start()
+        for days in [3, 4, 5, 6, 7, 4] { app.set(.goalDaysPerWeek, to: .number(Double(days))) }
+        await app.settle()
+        for _ in 0..<20 { await Task.yield() }  // let the settings stream deliver whatever it still holds
+        #expect(app.settings.goalDaysPerWeek == 4)
+    }
+
     @Test func profileAndStorySettingsPersist() async throws {
         let app = model()
         await app.start()
