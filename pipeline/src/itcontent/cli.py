@@ -90,5 +90,32 @@ def beta_import(
     typer.echo(f"{report.events} events from {report.learners} learners → {target}")
 
 
+@app.command()
+def build(
+    release: bool = typer.Option(False, "--release", help="only approved content; missing audio fails"),
+    allow_partial: bool = typer.Option(False, "--allow-partial", help="release: ship the approved prefix of units"),
+    mini: bool = typer.Option(False, "--mini", help="fixtures/packs/mini.sqlite and mini-payloads.json"),
+    out: Path = typer.Option(None, "--out", help="where to write the pack (default by mode, docs/04)"),
+) -> None:
+    """Compile the content pack (docs/04 § Pack build); dev builds include drafts and warn on missing audio."""
+    from itcontent.pack.build import run_build
+
+    if release and mini:
+        typer.echo("error: --release and --mini don't combine")
+        sys.exit(2)
+    mode = "release" if release else ("mini" if mini else "dev")
+    sys.exit(run_build(mode=mode, allow_partial=allow_partial, out=out, echo=typer.echo))
+
+
+@app.command("pack-hash")
+def pack_hash(
+    pack: Path = typer.Option(None, "--pack", help="default: App/Italiano/Resources/Content/content.sqlite"),
+) -> None:
+    """Print the canonical pack hash (meta content_hash, git_sha and built_with excluded)."""
+    from itcontent.pack.build import run_pack_hash
+
+    sys.exit(run_pack_hash(pack, echo=typer.echo))
+
+
 if __name__ == "__main__":
     app()

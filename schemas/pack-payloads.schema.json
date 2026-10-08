@@ -40,7 +40,7 @@
       "required": ["source", "expansions"],
       "properties": {
         "source": {"type": "string", "description": "the answer pattern as authored (docs/03); the first expansion is the model answer"},
-        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key"}
+        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key. An all-optional pattern's empty expansion is left out"}
       }
     },
     "near": {

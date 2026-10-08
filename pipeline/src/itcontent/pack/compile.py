@@ -19,7 +19,7 @@ from itcontent.course import Course, Doc, ExerciseRef, TextRef, UnitFiles, walk_
 from itcontent.normalize import normalize
 from itcontent.pack import display
 from itcontent.pack.common import BuildError, Report, cjson, mapping, opt_str, seq
-from itcontent.pack.locks import LockFile, LockString, Locks, tokenized
+from itcontent.pack.locks import LockFile, Locks, LockString, tokenized
 from itcontent.pack.payloads import ExerciseInput, exercise_payload, layout_payload, pattern
 from itcontent.pack.requirements import (
     HEARD_TEXT,
@@ -61,6 +61,7 @@ class Scope:
     checks: dict[str, Doc]
     assessments: dict[str, Doc]
     approved: dict[str, bool]  # repo-relative file → approved
+    step_units: frozenset[str] | None = None  # units whose steps the pack holds (None: every unit)
 
     def content_docs(self) -> list[tuple[Doc, str, str]]:
         """(doc, kind, unit id) of every included lesson, task, check and assessment file, in course order."""
@@ -112,11 +113,25 @@ class TextEntry:
     def words(self) -> int:
         return sum(1 for s in self.strings() for t in s.tokens if t.get("kind") != "punct")
 
-    def pairs(self, ctx: Context, exclude: frozenset[str] = frozenset()) -> set[Pair]:
+    def pairs(self, ctx: Context, exclude: frozenset[str]) -> set[Pair]:
+        """What the text requires in a context. `exclude`: the target points not yet taught where it is shown (its
+        own step's exclusion for `text_requires`; the exercise's step when an exercise shows it as a source)."""
         out: set[Pair] = set()
         for s in self.strings():
-            out |= string_pairs(s, ctx, exclude=self.exclude | exclude)
+            out |= string_pairs(s, ctx, exclude=exclude)
         return out
+
+
+@dataclass(frozen=True)
+class StepContext:
+    """Where a lesson step's exercises sit."""
+
+    doc: Doc
+    unit: str
+    step: str
+    kind: str
+    targets: frozenset[str]  # the lesson's target grammar points
+    exclude: frozenset[str]  # targets whose note comes after this step
 
 
 @dataclass
@@ -133,7 +148,7 @@ class PackData:
 
 
 def _int_seconds(x: float) -> int:
-    return int(math.floor(x + 0.5))
+    return math.floor(x + 0.5)
 
 
 class Compiler:
@@ -159,7 +174,7 @@ class Compiler:
         self.step_ids: set[str] = set()
         self.exercise_ids: set[str] = set()
         self.note_lessons: dict[str, str] = {}  # grammar point → lesson of its first note
-        self.story_texts: dict[str, list[str]] = {}
+        self.exercise_est: dict[str, int] = {}
 
     # ------------------------------------------------------------ entry point
 
@@ -169,6 +184,8 @@ class Compiler:
         for u in self.scope.units:
             self.unit_content(u)
         self.assessments()
+        for tid in sorted(self.texts):
+            self.text_rows(self.texts[tid])
         self.finish_items()
         self.introductions()
         self.forms()
@@ -373,12 +390,7 @@ class Compiler:
         targets: set[str] = set()
         before: dict[str, frozenset[str]] = {}
         for i, step in enumerate(steps):
-            later = {
-                str(g)
-                for s in steps[i + 1 :]
-                if s.get("kind") == "note"
-                for g in seq(s.get("grammar"))
-            }
+            later = {str(g) for s in steps[i + 1 :] if s.get("kind") == "note" for g in seq(s.get("grammar"))}
             before[str(step.get("id"))] = frozenset(later)
             if step.get("kind") == "note":
                 targets.update(str(g) for g in seq(step.get("grammar")))
@@ -425,7 +437,7 @@ class Compiler:
                     None,
                 ),
             )
-            for k, tok in enumerate(tokenized(s, t.targets)["tokens"]):
+            for k, tok in enumerate(tokenized(s, t.targets)["tokens"], start=1):
                 self.data.add(
                     "tokens",
                     (
@@ -442,13 +454,13 @@ class Compiler:
                         None,
                     ),
                 )
-        for item, skill in sort_pairs(t.pairs(HEARD_TEXT if t.heard else READ)):
+        for item, skill in sort_pairs(t.pairs(HEARD_TEXT if t.heard else READ, t.exclude)):
             self.data.add("text_requires", (t.id, item, skill))
 
     # ------------------------------------------------------------ units and their steps
 
     def unit_content(self, u: UnitFiles) -> None:
-        if u.spec is None:
+        if u.spec is None or (self.scope.step_units is not None and u.id not in self.scope.step_units):
             return
         steps: list[tuple[str, str, dict[str, Any], str | None, int, str | None, int]] = []
 
@@ -458,10 +470,9 @@ class Compiler:
             self.step_ids.add(sid)
             steps.append((sid, kind, {"kind": kind, **payload}, lesson, est, title, d))
 
-        add(f"{u.id}.step-opener", "opener", {"unitId": u.id}, None, int(self.durations["opener"]), None, 0)
+        opener = int(self.durations["opener"])
+        add(f"{u.id}.step-opener", "opener", {"unitId": u.id}, None, opener, None, self.scope.draft(u.spec))
         self.step_infos.append(StepInfo(f"{u.id}.step-opener", u.id, "opener"))
-        opener_draft = self.scope.draft(u.spec)
-        steps[-1] = (*steps[-1][:6], opener_draft)
         story_ids: list[str] = []
         for doc in self.scope.lessons.get(u.id, []):
             self.lesson(u, doc, add, story_ids)
@@ -473,8 +484,8 @@ class Compiler:
             self.check(u, check, add)
         if story_ids:
             words = sum(self.texts[t].words() for t in story_ids)
-            rate = 1.15
-            est = _int_seconds(words * self.durations["story_per_word"] / self.durations.get("fluency_rate", rate))
+            rate = self.durations.get("fluency_rate", 1.15)
+            est = _int_seconds(words * self.durations["story_per_word"] / rate)
             drafts = [self.scope.draft(d) for d in self.scope.lessons.get(u.id, [])]
             add(f"{u.id}.step-fluency", "fluency", {"textIds": story_ids, "rate": rate}, None, est, None, max(drafts))
             self.step_infos.append(StepInfo(f"{u.id}.step-fluency", u.id, "fluency"))
@@ -488,39 +499,30 @@ class Compiler:
     def lesson(self, u: UnitFiles, doc: Doc, add, story_ids: list[str]) -> None:
         data = mapping(doc.data)
         lesson_id = str(data.get("id"))
-        lock = self.locks[doc.rel]
         targets, before_note = self.lesson_targets(doc)
         draft = self.scope.draft(doc)
         total = 0
         for i, step in enumerate(map(mapping, seq(data.get("steps")))):
             sid = str(step.get("id"))
             kind = str(step.get("kind"))
-            exclude = before_note.get(sid, frozenset())
             path: PathT = ("steps", i)
             info = StepInfo(sid, u.id, kind)
             title: str | None = None
-
-            def ex(key: str | None, data_: Any, p: PathT, role: str) -> str:
-                return self.exercise(
-                    mapping(data_), p, doc, u.id, sid, kind, role, targets=targets, exclude=exclude, key=key
-                )
-
+            ctx = StepContext(doc, u.id, sid, kind, targets, before_note.get(sid, frozenset()))
             if kind == "preview":
-                payload, est = self.preview(u, step, sid, doc, draft)
+                payload, est = self.preview(u, step, sid, doc)
                 info.preview_items = [str(x) for b in seq(step.get("batches")) for x in seq(b)]
             elif kind in ("story", "listening", "reading"):
                 text = mapping(step.get("text"))
                 tid = str(text.get("id"))
                 t = self.texts[tid]
                 key = "questions" if kind == "story" else "exercises"
-                role_of = (
-                    (lambda e: "comprehension")
-                    if kind == "story"
-                    else (lambda e: "learn" if seq(mapping(e).get("targets")) else "comprehension")
-                )
-                exercise_ids = [
-                    ex(key, e, (*path, key, j), role_of(e)) for j, e in enumerate(seq(step.get(key)))
-                ]
+                exercise_ids = []
+                for j, e in enumerate(seq(step.get(key))):
+                    learn = kind != "story" and bool(seq(mapping(e).get("targets")))
+                    exercise_ids.append(
+                        self.step_exercise(ctx, e, (*path, key, j), "learn" if learn else "comprehension")
+                    )
                 est = _int_seconds(t.words() * self.durations["story_per_word"]) + self.exercise_seconds(exercise_ids)
                 if kind == "story":
                     payload = {"textId": tid, "questionIds": exercise_ids}
@@ -542,28 +544,27 @@ class Compiler:
                 est = int(self.durations["note"])
                 title = opt_str(step.get("title_en"))
                 info.note_grammar = [str(g) for g in seq(step.get("grammar"))]
-                self.note(u, doc, lock, step, path, sid, targets)
+                self.note(u, doc, step, path, sid, targets)
             elif kind == "practice":
-                block = [ex("block", e, (*path, "block", j), "learn") for j, e in enumerate(seq(step.get("block")))]
-                mix = [ex("mix", e, (*path, "mix", j), "learn") for j, e in enumerate(seq(step.get("mix")))]
+                block = [self.step_exercise(ctx, e, (*path, "block", j)) for j, e in enumerate(seq(step.get("block")))]
+                mix = [self.step_exercise(ctx, e, (*path, "mix", j)) for j, e in enumerate(seq(step.get("mix")))]
                 payload = {"block": block, "mix": mix}
                 est = self.exercise_seconds(block + mix)
             elif kind == "sounds":
-                exercise_ids = [
-                    ex("exercises", e, (*path, "exercises", j), "learn") for j, e in enumerate(seq(step.get("exercises")))
-                ]
+                exercises = seq(step.get("exercises"))
+                exercise_ids = [self.step_exercise(ctx, e, (*path, "exercises", j)) for j, e in enumerate(exercises)]
                 payload = {"exerciseIds": exercise_ids}
                 est = self.exercise_seconds(exercise_ids)
                 info.sound_items = sorted(
                     {
                         str(t.get("item"))
-                        for e in seq(step.get("exercises"))
+                        for e in exercises
                         for t in map(mapping, seq(mapping(e).get("targets")))
                         if str(t.get("item", "")).startswith("s:")
                     }
                 )
             elif kind == "use":
-                eid = ex(None, step.get("exercise"), (*path, "exercise"), "learn")
+                eid = self.step_exercise(ctx, step.get("exercise"), (*path, "exercise"))
                 payload = {"exerciseId": eid}
                 est = self.exercise_seconds([eid])
                 title = opt_str(mapping(mapping(step.get("exercise")).get("title")).get("en"))
@@ -583,6 +584,11 @@ class Compiler:
                 str(title.get("en", "")),
                 math.ceil(total / 60),
             ),
+        )
+
+    def step_exercise(self, ctx: StepContext, data: Any, path: PathT, role: str = "learn") -> str:
+        return self.exercise(
+            mapping(data), path, ctx.doc, ctx.unit, ctx.step, ctx.kind, role, targets=ctx.targets, exclude=ctx.exclude
         )
 
     @staticmethod
@@ -628,7 +634,9 @@ class Compiler:
                 self.exercise(mapping(e), ("sections", s, "exercises", j), doc, u.id, sid, "check", "check")
                 for j, e in enumerate(seq(sec.get("exercises")))
             ]
-            sections.append({"id": str(sec.get("id")), "titleEn": str(sec.get("title_en", "")), "exerciseIds": exercise_ids})
+            sections.append(
+                {"id": str(sec.get("id")), "titleEn": str(sec.get("title_en", "")), "exerciseIds": exercise_ids}
+            )
         rule = mapping(data.get("pass"))
         payload = {
             "checkId": str(data.get("id")),
@@ -701,7 +709,6 @@ class Compiler:
         *,
         targets: frozenset[str] = frozenset(),
         exclude: frozenset[str] = frozenset(),
-        key: str | None = None,
     ) -> str:
         eid = str(data.get("id", ""))
         fmt = str(data.get("format", ""))
@@ -737,13 +744,8 @@ class Compiler:
             self.data.add("exercise_tags", (eid, tag))
         self.data.payloads["exercises"][eid] = payload
         self.exercise_est[eid] = est
-        self.audio_needs_of(payload)
+        self.audio_needs_of(payload, data)
         return eid
-
-    exercise_est: dict[str, int]
-
-    def __post_init__(self) -> None:  # pragma: no cover - dataclass hook unused
-        pass
 
     def sources(
         self, data: Mapping[str, Any], path: PathT, doc: Doc, exclude: frozenset[str]
@@ -773,7 +775,7 @@ class Compiler:
                 lines = t.line_strings()
                 if not 1 <= line[1] <= len(lines):
                     raise BuildError(f"{where}: {src} is not a line of {line[0]}")
-                pairs |= string_pairs(lines[line[1] - 1][2], READ, exclude=t.exclude | exclude)
+                pairs |= string_pairs(lines[line[1] - 1][2], READ, exclude=exclude)
                 source = {"textId": line[0], "line": line[1]}
             else:
                 pairs |= text(src).pairs(READ, exclude)
@@ -804,24 +806,31 @@ class Compiler:
     def exercise_seconds(self, exercise_ids: list[str]) -> int:
         return sum(self.exercise_est[e] for e in exercise_ids)
 
-    def audio_needs_of(self, payload: Mapping[str, Any]) -> None:
-        """Voiced strings of an exercise (docs/04 § Audio): every non-null-able audio key of its payload."""
-
-        def walk(node: Any, key: str = "") -> None:
-            if isinstance(node, dict):
-                for k, v in node.items():
-                    if k.endswith("udioId") and k != "audioTextId":
-                        self.data.audio_needs.append(("exercise", f"{payload['id']}:{key}{k}"))
-                    walk(v, f"{key}{k}.")
-            elif isinstance(node, list):
-                for i, v in enumerate(node):
-                    walk(v, f"{key}{i}.")
-
-        walk(payload)
+    def audio_needs_of(self, payload: Mapping[str, Any], data: Mapping[str, Any]) -> None:
+        """The voiced strings of an authored exercise (docs/04 § Audio): dictation and repeat lines, sound-pair words,
+        conversation lines, talk models, a voiced `prompt_it` (`audio`), and model answers with `audio_after`."""
+        eid = str(payload["id"])
+        fmt = payload["format"]
+        keys: list[str] = []
+        if fmt in ("dictation", "repeat"):
+            keys.append("audioId")
+        if fmt == "cloze" and payload["audioAfter"]:
+            keys.append("audioId")
+        if fmt in ("recall", "sentence-building") and payload["audioAfter"]:
+            keys.append("answerAudioId")
+        if fmt == "choice" and payload["promptIt"] is not None and data.get("audio"):
+            keys.append("promptAudioId")
+        if fmt == "sound-pair":
+            keys += [f"pair[{i}]" for i in range(len(payload["pair"] or []))] + (["word"] if payload["word"] else [])
+        if fmt == "conversation":
+            keys += [f"nodes.{n['id']}" for n in payload["nodes"]]
+        if fmt == "talk":
+            keys.append("modelAudioId")
+        self.data.audio_needs.extend(("exercise", f"{eid}:{k}") for k in keys)
 
     # ------------------------------------------------------------ preview (generated exercises, docs/06 § 1)
 
-    def preview(self, u: UnitFiles, step: Mapping[str, Any], sid: str, doc: Doc, draft: int):
+    def preview(self, u: UnitFiles, step: Mapping[str, Any], sid: str, doc: Doc) -> tuple[dict[str, Any], int]:
         batches = []
         est = 0
         unit_items = [iid for iid, it in self.items.items() if it["_unit"] == u.id]
@@ -887,14 +896,13 @@ class Compiler:
             "audioAfter": False,
             **body,
         }
-        est = int(self.durations["match" if fmt == "match" else fmt])
+        est = int(self.durations[fmt])
         self.data.add("exercises", (gid, fmt, unit_id, sid, "learn", cjson(payload), 1, est, None))
         for item, skill in sort_pairs(targets):
             self.data.add("exercise_targets", (gid, item, skill))
             self.data.add("exercise_requires", (gid, item, skill))
         self.data.payloads["exercises"][gid] = payload
-        self.exercise_est[gid] = est
-        self.audio_needs_of(payload)
+        self.exercise_est[gid] = est  # its Italian is the items' display forms, voiced with the items
         return gid
 
     def preview_match(self, gid: str, batch: list[str], unit_id: str, sid: str) -> str:
@@ -962,7 +970,7 @@ class Compiler:
     # ------------------------------------------------------------ notes (docs/06 § 5)
 
     def note(
-        self, u: UnitFiles, doc: Doc, lock: LockFile, step: Mapping[str, Any], path: PathT, sid: str, targets: frozenset[str]
+        self, u: UnitFiles, doc: Doc, step: Mapping[str, Any], path: PathT, sid: str, targets: frozenset[str]
     ) -> None:
         nid = str(step.get("note_id"))
         grammar = [str(g) for g in seq(step.get("grammar"))]
@@ -1070,12 +1078,6 @@ class Compiler:
                     rows.add((form, iid, ""))
         for row in sorted(rows):
             self.data.add("forms", row)
-
-    # ------------------------------------------------------------ steps and texts that exercises reference
-
-    def finish_texts(self) -> None:
-        for tid in sorted(self.texts):
-            self.text_rows(self.texts[tid])
 
 
 def _fmt(path: PathT) -> str:

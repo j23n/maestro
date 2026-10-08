@@ -143,7 +143,9 @@ These three are used inside many lesson types (story questions, listening, readi
   3. **Retrieve:** one `recall` per P item (English → Italian) and one `choice` per R item (Italian → English).
 - **Generated content:**
   - The recall prompt is the gloss up to the first `;`. The answer follows `docs/05` § Review session builder (generated recall): `recall_answer` if set; for nouns the definite or indefinite article with the noun as focus, a bare noun is `correctWithNote`, a wrong article is `almost`; chunks without trailing `… ? !`.
-  - The choice shows the display form with audio and three English options: the gloss and two distractors, taken first from the same batch, then from the same unit, with the same POS where possible.
+  - The choice shows the display form with audio and three English options (the question is "What does it mean?"): the gloss and two distractors, taken first from the same batch, then from the same unit, with the same POS where possible (in file order; the player shuffles the options). The right gloss is option 0.
+  - The match pairs each display form (its gender mark, if any, stays in the text but belongs to no token) with the gloss up to the first `;`. A batch of a single item has no match (a match needs two pairs).
+  - Generated exercises have no tags, hint or rule; a recall's bare-noun near-miss has outcome `correctWithNote`, which the payload contract allows for near-misses.
   - IDs: `<stepId>.b<k>.match` and `<stepId>.b<k>.<itemId with ":" replaced by "-">` (`u02.l1.step-preview.b1.w-cornetto`).
 - Introductions happen at step start (`docs/05`).
 - **Accept when:** a batch can be completed with keyboard only; with VoiceOver only; and with speech for recall. Meet cards replay audio on tap. IDs: `preview.card`, `preview.next`.
