@@ -31,7 +31,29 @@ SLOTS = frozenset({"NAME", "NUMBER", "ME.nationality", "ME.home", "ME.country"})
 
 
 class PatternError(ValueError):
-    """A pattern that does not parse or expands to too many strings."""
+    """A pattern that does not parse or expands to too many strings.
+
+    `message` is the cross-language contract (`fixtures/grading/patterns.json`, LearningCore's `PatternError`);
+    `str()` adds where it happened, for authors.
+    """
+
+    def __init__(self, message: str, position: int | None = None, source: str | None = None) -> None:
+        self.message = message
+        self.position = position
+        self.source = source
+        where = f" at character {position + 1} of '{source}'" if position is not None and source is not None else ""
+        super().__init__(message + where)
+
+
+def looks_like_slot(name: str) -> bool:
+    """A slot name in another case (`{Name}`, `{me.home}`), anything starting `ME.` in any case (`{ME.city}`), or
+    a name in capitals, digits, `_` and `.` (`{NOME}`, `{NAME2}`): an error, never a literal (docs/03)."""
+    lower = name.lower()
+    if lower.startswith("me.") or lower in {s.lower() for s in SLOTS}:
+        return True
+    return any(c.isascii() and c.isupper() for c in name) and all(
+        c.isascii() and (c.isupper() or c.isdigit() or c in "_.") for c in name
+    )
 
 
 # ---------------------------------------------------------------- syntax tree
@@ -78,7 +100,7 @@ class _Parser:
 
     def error(self, msg: str, at: int | None = None) -> PatternError:
         pos = self.i if at is None else at
-        return PatternError(f"{msg} at character {pos + 1} of '{self.s}'")
+        return PatternError(msg, pos, self.s)
 
     def parse(self) -> Seq:
         seq = self.seq(closers="")
@@ -143,8 +165,8 @@ class _Parser:
         if close >= 0 and inner in SLOTS:
             self.i = close + 1
             return Slot(inner)
-        if close >= 0 and (inner.isupper() or inner.startswith("ME.")) and all(c not in inner for c in "{}|()[]\\"):
-            raise self.error(f"unknown slot {{{inner}}} (known: {', '.join(sorted(SLOTS))})", start)
+        if close >= 0 and all(c not in inner for c in "{}|()[]\\") and looks_like_slot(inner):
+            raise self.error(f"unknown slot {{{inner}}}", start)
         options: list[Seq] = []
         genders: list[str] = []
         while True:
