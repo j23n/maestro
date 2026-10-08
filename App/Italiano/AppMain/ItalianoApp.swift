@@ -21,7 +21,7 @@ struct ItalianoApp: App {
         #endif
         #if os(macOS)
             Settings {
-                SettingsScreen(app: deps.app)
+                SettingsScreen(app: deps.app, sync: deps.syncSettings)
                     .frame(minWidth: 520, minHeight: 480)
             }
         #endif
@@ -32,6 +32,7 @@ struct ItalianoApp: App {
 struct RootView: View {
     let deps: AppDependencies
     @State private var showRecovery = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         Group {
@@ -58,7 +59,19 @@ struct RootView: View {
                 MainTabs(deps: deps)
             }
         }
-        .task { await deps.app.start() }
+        .task {
+            await deps.app.start()
+            if deps.app.phase == .ready { await deps.startSync() }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            guard phase == .background else { return }
+            Task {
+                await deps.app.settle()
+                try? await deps.app.store?.checkpoint()
+                await deps.app.sync?.syncNow()
+            }
+        }
+        .modifier(SyncAlertModifier(model: deps.syncSettings))
         .onChange(of: deps.app.recoveryNotice) { _, notice in showRecovery = notice != nil }
         .alert("Your progress was reset on this device", isPresented: $showRecovery) {
             Button("OK", role: .cancel) {}
@@ -89,5 +102,14 @@ struct LaunchErrorView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.ds.background)
         .accessibilityIdentifier(identifier)
+    }
+}
+
+/// The account-switch alert once sync has started (docs/08 § `.accountChange`).
+private struct SyncAlertModifier: ViewModifier {
+    let model: SyncSettingsModel?
+
+    func body(content: Content) -> some View {
+        if let model { content.syncAccountSwitchAlert(model) } else { content }
     }
 }

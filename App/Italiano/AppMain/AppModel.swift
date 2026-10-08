@@ -50,6 +50,8 @@ final class AppModel {
     @ObservationIgnored private var countries: [String: LearnerProfile.Country] = [:]
     @ObservationIgnored private var lastWrite: Task<Void, Never>?
     @ObservationIgnored private var observers: [Task<Void, Never>] = []
+    /// Sync (or `DisabledSync`): steps that complete ask it to sync now (docs/08).
+    @ObservationIgnored var sync: (any SyncControlling)?
 
     init(env: Environment) { self.env = env }
 
@@ -100,6 +102,18 @@ final class AppModel {
         } catch {
             phase = .failed(String(describing: error))
         }
+    }
+
+    /// After an account switch the sync driver opens a fresh database for the new account: use it from now on.
+    func replaceStore(_ newStore: LearnerStore) async {
+        await settle()
+        observers.forEach { $0.cancel() }
+        observers = []
+        store = newStore
+        state = newStore.state
+        settings = newStore.settings
+        if let reader { factory = try? await newStore.makeEventFactory(packVersion: reader.meta.packVersion, ids: env.ids) }
+        observe(newStore)
     }
 
     private func observe(_ store: LearnerStore) {
@@ -252,6 +266,12 @@ final class AppModel {
             missing = entry.missing
         }
         write(events)
+        if change.completed != nil, let sync {
+            Task { [weak self] in
+                await self?.settle()
+                await sync.syncNow()
+            }
+        }
         return missing
     }
 

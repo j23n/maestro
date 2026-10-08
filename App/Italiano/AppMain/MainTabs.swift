@@ -29,7 +29,7 @@ struct MainTabs: View {
             }
             #if !os(macOS)
                 Tab("Settings", systemImage: "gearshape") {
-                    NavigationStack { SettingsScreen(app: deps.app) }
+                    NavigationStack { SettingsScreen(app: deps.app, sync: deps.syncSettings) }
                 }
             #endif
         }

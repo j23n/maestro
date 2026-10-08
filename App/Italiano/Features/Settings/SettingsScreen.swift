@@ -5,7 +5,7 @@ import SwiftUI
 /// learner to their other devices; text size, speaking and reminders stay on this device.
 struct SettingsScreen: View {
     let app: AppModel
-    var syncStatus: String? = nil
+    var sync: SyncSettingsModel?
 
     var body: some View {
         let s = app.settings
@@ -13,18 +13,14 @@ struct SettingsScreen: View {
             VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
                 Text("Settings").dsFont(Tokens.TypeScale.display).foregroundStyle(Color.ds.ink)
                     .accessibilityAddTraits(.isHeader)
-                SettingsGroup(title: "Sync") {
-                    HStack(spacing: Tokens.Space.l) {
-                        Image(systemName: "arrow.triangle.2.circlepath.icloud").foregroundStyle(Color.ds.success)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: Tokens.Space.xxs) {
-                            Text("iCloud").dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
-                            Text(syncStatus ?? "Sync is off in this build")
-                                .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
-                        }
+                if let sync {
+                    SyncSettingsSection(model: sync)
+                } else {
+                    SettingsGroup(title: "Sync") {
+                        Text(SyncStatusText.offInThisBuild).dsFont(Tokens.TypeScale.uiCallout)
+                            .foregroundStyle(Color.ds.secondary)
+                            .accessibilityIdentifier("settings.sync")
                     }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityIdentifier("settings.sync")
                 }
                 SettingsGroup(title: "Practice") {
                     Stepper(value: binding(.goalDaysPerWeek, s.goalDaysPerWeek), in: 3...7) {
