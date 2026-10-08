@@ -132,7 +132,16 @@ Release and Study archives bundle the release pack (approved content only, `make
 
 Tokens are not committed: `Study.xcconfig` and `Review.xcconfig` do `#include? "Secrets.xcconfig"`, a gitignored file the owner creates with `ITA_STUDY_TOKEN = …` and `ITA_REVIEW_TOKEN = …`.
 
-The Debug menu (Settings → Debug, debug builds only) offers: clock offset (± days), jump to unit (marks earlier items introduced via a placement-style event), rebuild state from events, export the learner DB, simulate speech by typing, show eligibility for the current screen, show draft markers, and reset local data. The launch argument `-ITAJumpToUnit u02` does the same jump at launch, for UI tests and screenshots.
+The Debug menu (Settings → Debug, builds with `ITA_DEBUG_MENU` only; `DebugMenuModel`) offers:
+
+- **clock offset** (± days): the app runs on `DebugClock`, the device clock plus whole days, so the planner, due dates and new events all move; the offset is kept for the next launch (`UserDefaults`, never synced);
+- **jump to unit**: a `placementCompleted` starting at the unit (earlier units become skipped) and one `introduced` event (via `debug`) for every item of the earlier units per its status, as placement would write; nothing is written for FSRS, and only what is still missing is written, so jumping twice writes nothing;
+- **rebuild state from events** (`LearnerStore.rebuildAll()`), **export the learner DB** (`LearnerStore.exportCopy(to:)`, a single-file copy through SQLite's online backup, saved with the file exporter);
+- **simulate speech by typing**: `SimulatedSpeechRecognizer` wraps the real recogniser; switched on, speech counts as available and each recording asks for the transcript in a panel of the player's debug overlay;
+- **show eligibility for the current screen** and **show draft markers**: the lesson and review players' debug overlay shows "DRAFT" on unapproved steps of a dev pack and an eligibility badge that opens the requirements of the step and exercise on screen;
+- **reset local data**: Reset progress (`docs/08`) through the sync driver when sync runs, else `eraseProgress()`; onboarding runs again.
+
+It also shows the last storage error. The launch argument `-ITAJumpToUnit u02` does the same jump at launch, for UI tests and screenshots, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today); relaunching with it writes nothing, so a half-done step resumes. Builds without the Debug menu ignore it.
 
 ### Project, signing and entitlements (ADR-19)
 

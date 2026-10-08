@@ -37,7 +37,7 @@ Content-Type: application/json
 
 - **Client:**
   - Batches of ≤ 500 events.
-  - Uploads when the app goes to the background and every 15 minutes while active, on any network.
+  - Uploads after launch, when the app goes to the background, after each session and every 15 minutes while active, on any network (`StudyTelemetry`; each upload reads the consent at that moment, and uploads queue behind each other so no event is in two requests at once).
   - After a 200 (or a 4xx), inserts a `telemetry_sent` row per event (`docs/03`); events themselves are never updated.
   - Uploads only events not in `telemetry_sent`, with `at` ≥ the consent date.
   - Only uploads events created on this device (`origin = 'local'`), so synced events aren't uploaded twice.
@@ -85,4 +85,4 @@ The server appends each file to storage; the owner downloads them (`GET /v1/revi
 - **Microphone:** used only while the learner holds or taps the mic; recognition runs on device.
 - **iCloud:** learner data lives in the user's own private database; we can't read it.
 - **Children:** not in the Kids category; the study recruits adults (18+).
-- **Data deletion:** Settings → Research → "Delete my study data" sends `DELETE {url}/v1/installs/{installId}` (server deletes everything) and turns consent off. Local and iCloud data are the learner's: "Reset progress" (debug only in the MVP) deletes them.
+- **Data deletion:** Settings → Research → "Delete my study data" turns consent off first (so nothing uploads after the deletion), waits for an upload in flight, then sends `DELETE {url}/v1/installs/{installId}` (server deletes everything). If the server can't be reached, sharing stays off and the button can be used again. Settings → Research also shows the install ID. Local and iCloud data are the learner's: "Reset progress" (debug only in the MVP) deletes them.

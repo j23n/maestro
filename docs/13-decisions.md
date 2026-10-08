@@ -151,6 +151,16 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 - Real-world layout strings are numbered in reading order; that number is `glossTapped.line` and `reading.field.<n>`.
 - Telemetry sends the OS major version only; `onboardingCompleted` keeps only `reason` and `beginner`; unknown event types stay local and are marked sent.
 
+**App shell (M3.3, M3.8, M3.10, M6.5)**
+- The Debug menu's jump writes `placementCompleted` plus one `introduced` with `via: debug` (the enum value docs/05 already had), not `via: placement`: jumped-over items don't enter the catch-up queue, so debug data never looks like a real placement. `-ITAJumpToUnit` also completes onboarding with its defaults when it hasn't run, and writes only what is missing, so relaunching with it (the M3.6 resume test) writes nothing.
+- The clock offset is a `DebugClock` (device clock + whole days) that the whole app runs on in builds with the Debug menu, observable by hand so time-dependent screens redraw; its offset is kept in `UserDefaults`, not in the learner database.
+- "Export the learner DB" needed a Storage call: `LearnerStore.exportCopy(to:)` (SQLite online backup of a read snapshot, switched to a rollback journal so the copy is one file). The file exporter saves it (macOS: user-selected files).
+- "Simulate speech by typing" wraps the real recogniser instead of swapping in `FakeSpeechRecognizer`: a recording asks for typed text in the player's debug overlay, so the real flow (live transcript, grading, cancel) runs unchanged.
+- The Lesson-menu items are focused scene values published next to the existing in-view buttons (which keep their shortcuts for iPad keyboards); writing tasks don't publish Check, so Return still makes a new line. The View menu's text-size items step through fixed sizes and remember a size still being written, so ⌘+ pressed twice quickly goes up two steps. Whether a sheet's focused values reach the menu bar, and whether ⌘= also triggers ⌘+, need the owner's Mac check.
+- Reminders: only turning the switch on asks for permission. At launch, refused notifications keep the switch on with a note (the reminder comes back when they're allowed again); a restored database on an install that never asked turns the switch off rather than asking.
+- Telemetry: uploads also run after launch and after each session (docs/12 named background and every 15 minutes), queued so no event is in two requests at once; the uploader reads whichever learner store is open (an account switch replaces it). "Delete my study data" turns consent off before the DELETE and keeps it off if the request fails.
+- `SettingsScreen` called `SettingsGroup(title:)`, which has an unlabeled title, and put `Divider()`s inside groups that draw their own hairlines; both fixed. `ReviewHost` had a copy of `PlayerHost`'s check-result functions referring to members it doesn't have; removed.
+
 ## Proposed changes
 
 Agents add proposals here (date, ADR or question, proposal, reason) and stop. Don't implement a proposal until the owner accepts it.

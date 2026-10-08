@@ -35,7 +35,7 @@ No queries are needed (the sync engine fetches zone changes), so no indexes beyo
 | `study.consent` | synced (value includes consent version and date) | not set |
 | `study.installId` | synced (created once, on first consent; last writer wins) | not set |
 | `speech.enabled` | device | true if available |
-| `reminder.enabled`, `reminder.time` | device | off |
+| `reminder.enabled`, `reminder.time` | device | off; `reminder.time` is `"HH:MM"`, 19:00 when unset. Turning the switch on is the only time the app asks for notification permission; refused, the switch stays off. Launch and a new time reschedule without asking: notifications refused in the system's settings keep the switch on with a note, and a database restored onto an install that never asked turns it off (`ReminderSettingsModel`) |
 | `sync.paused` | device | false |
 
 Device-scoped settings never sync. For synced settings, the newest `updatedAt` wins; ties go to the lexically larger `deviceId`. A change made on this device is stamped `max(now, stored updatedAt + 1)`, so it wins even when another device's clock ran ahead; a synced key also gets a `sync_pending` row (`setting.<key>`) in the same transaction.
