@@ -33,7 +33,8 @@ final class AppDependencies {
         self.speech = speech
         self.notifications = notifications
         services = AppServices(
-            config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug)
+            config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug,
+            speech: speech)
         self.review = review
     }
 

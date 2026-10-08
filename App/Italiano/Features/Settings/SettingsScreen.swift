@@ -79,8 +79,12 @@ struct SettingsScreen: View {
                     }
                 }
                 SettingsGroup("On this device") {
-                    Toggle("Speaking exercises", isOn: toggle(.speechEnabled, s.speechEnabled(available: true)))
-                        .accessibilityIdentifier("settings.speech")
+                    if let speech = services?.speech {
+                        SpeechRows(model: speech, isOn: s.speechEnabled(available: true))
+                    } else {
+                        Toggle("Speaking exercises", isOn: toggle(.speechEnabled, s.speechEnabled(available: true)))
+                            .accessibilityIdentifier("settings.speech")
+                    }
                     VStack(alignment: .leading) {
                         row("Text size", value: "\(Int((s.textScale * 100).rounded()))%")
                         Slider(
@@ -131,5 +135,35 @@ struct SettingsScreen: View {
 
     private func text(_ key: SettingKey, _ current: String) -> Binding<String> {
         Binding(get: { current }, set: { app.set(key, to: .string($0)) })
+    }
+}
+
+/// "Speaking exercises" with what the device can do (docs/09): a note when speech can't run here, and the
+/// one-time download of the Italian model with its progress.
+private struct SpeechRows: View {
+    let model: SpeechSettingsModel
+    let isOn: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Tokens.Space.s) {
+            Toggle(
+                "Speaking exercises",
+                isOn: Binding(get: { isOn }, set: { on in Task { await model.setEnabled(on) } })
+            )
+            .accessibilityIdentifier("settings.speech")
+            if let note = model.note {
+                Text(note).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+                    .accessibilityIdentifier("settings.speech.note")
+            }
+            if let progress = model.downloadProgress {
+                ProgressView(value: progress)
+                    .accessibilityLabel("Downloading Italian speech recognition")
+                    .accessibilityIdentifier("settings.speech.progress")
+            } else if model.canDownload {
+                Button("Download Italian speech recognition") { Task { await model.download() } }
+                    .buttonStyle(.dsSecondarySmall)
+                    .accessibilityIdentifier("settings.speech.download")
+            }
+        }
     }
 }
