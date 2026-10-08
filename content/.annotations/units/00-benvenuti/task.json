@@ -15,10 +15,26 @@
   {
    "expansion": 0,
    "model": true,
-   "norm": "buongiorno",
-   "of": 1,
+   "norm": "buongiorno come va",
+   "of": 2,
    "path": "conversations[0].nodes.n1.expect[0].accept[0]",
-   "pattern": "buongiorno",
+   "pattern": "buongiorno( come va)",
+   "ref": "u00.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno come va",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [11, 15], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [16, 18], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 2,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "buongiorno( come va)",
    "ref": "u00.task.conv1/n1",
    "role": "accept",
    "text": "buongiorno",
@@ -599,6 +615,41 @@
    ]
   },
   {
+   "expansion": 0,
+   "model": false,
+   "norm": "ah bene grazie e tu",
+   "of": 2,
+   "path": "conversations[0].nodes.n3.near[0].answer",
+   "pattern": "(ah )bene grazie e tu",
+   "ref": "u00.task.conv1/n3",
+   "role": "near",
+   "text": "ah bene grazie e tu",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "ah", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [17, 19], "surface": "tu"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene grazie e tu",
+   "of": 2,
+   "path": "conversations[0].nodes.n3.near[0].answer",
+   "pattern": "(ah )bene grazie e tu",
+   "ref": "u00.task.conv1/n3",
+   "role": "near",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
    "path": "conversations[0].nodes.n3.say",
    "ref": "u00.task.conv1/n3",
    "role": "say",
@@ -674,11 +725,99 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie e buona giornata arrivederci",
+   "of": 2,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "grazie e buona giornata( arrivederci)",
+   "ref": "u00.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie e buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie e buona giornata",
+   "of": 2,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "grazie e buona giornata( arrivederci)",
+   "ref": "u00.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie e buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [4, 4]},
+    {"point": "g:stressed-pronouns", "tokens": [4, 5]},
+    {"point": "g:subject-pronouns", "tokens": [5, 5]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie buona giornata anche a lei",
+   "of": 2,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )buona giornata anche a Lei",
+   "ref": "u00.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie buona giornata anche a Lei",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [22, 27], "surface": "anche", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions", "g:stressed-pronouns"], "item": "w:a", "kind": "word", "lemma": "a", "span": [28, 29], "surface": "a", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:stressed-pronouns", "g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [30, 33], "surface": "Lei"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [3, 3]},
+    {"point": "g:stressed-pronouns", "tokens": [3, 4]},
+    {"point": "g:subject-pronouns", "tokens": [4, 4]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "buona giornata anche a lei",
+   "of": 2,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )buona giornata anche a Lei",
+   "ref": "u00.task.conv1/n4",
+   "role": "accept",
+   "text": "buona giornata anche a Lei",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [15, 20], "surface": "anche", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions", "g:stressed-pronouns"], "item": "w:a", "kind": "word", "lemma": "a", "span": [21, 22], "surface": "a", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:stressed-pronouns", "g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [23, 26], "surface": "Lei"}
+   ]
+  },
+  {
    "expansion": 0,
    "model": false,
    "norm": "grazie arrivederci buona giornata",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[3]",
    "pattern": "(grazie )arrivederci( buona giornata)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -695,7 +834,7 @@
    "model": false,
    "norm": "grazie arrivederci",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[3]",
    "pattern": "(grazie )arrivederci( buona giornata)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -710,7 +849,7 @@
    "model": false,
    "norm": "arrivederci buona giornata",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[3]",
    "pattern": "(grazie )arrivederci( buona giornata)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -726,7 +865,7 @@
    "model": false,
    "norm": "arrivederci",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[3]",
    "pattern": "(grazie )arrivederci( buona giornata)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -745,7 +884,7 @@
    "model": false,
    "norm": "grazie anche a lei arrivederci",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[4]",
    "pattern": "grazie( anche a Lei)( arrivederci)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -768,7 +907,7 @@
    "model": false,
    "norm": "grazie anche a lei",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[4]",
    "pattern": "grazie( anche a Lei)( arrivederci)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -785,7 +924,7 @@
    "model": false,
    "norm": "grazie arrivederci",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[4]",
    "pattern": "grazie( anche a Lei)( arrivederci)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -800,7 +939,7 @@
    "model": false,
    "norm": "grazie",
    "of": 4,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "path": "conversations[0].nodes.n4.expect[0].accept[4]",
    "pattern": "grazie( anche a Lei)( arrivederci)",
    "ref": "u00.task.conv1/n4",
    "role": "accept",
@@ -909,9 +1048,9 @@
    "expansion": 0,
    "model": false,
    "norm": "buongiorno",
-   "of": 3,
+   "of": 2,
    "path": "talk.points[0].accept[0]",
-   "pattern": "{buongiorno|buonasera|ciao}",
+   "pattern": "{buongiorno|buonasera}",
    "ref": "u00.task.talk",
    "role": "point",
    "text": "buongiorno",
@@ -923,28 +1062,14 @@
    "expansion": 1,
    "model": false,
    "norm": "buonasera",
-   "of": 3,
+   "of": 2,
    "path": "talk.points[0].accept[0]",
-   "pattern": "{buongiorno|buonasera|ciao}",
+   "pattern": "{buongiorno|buonasera}",
    "ref": "u00.task.talk",
    "role": "point",
    "text": "buonasera",
    "tokens": [
     {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
-   ]
-  },
-  {
-   "expansion": 2,
-   "model": false,
-   "norm": "ciao",
-   "of": 3,
-   "path": "talk.points[0].accept[0]",
-   "pattern": "{buongiorno|buonasera|ciao}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "ciao",
-   "tokens": [
-    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
    ]
   },
   {
@@ -962,116 +1087,6 @@
    "text": "{NAME}",
    "tokens": [
     {"kind": "slot", "slot": "NAME", "span": [0, 6], "surface": "{NAME}"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:simple-prepositions", "tokens": [0, 0]}
-   ],
-   "expansion": 0,
-   "model": false,
-   "norm": "a",
-   "of": 4,
-   "path": "talk.points[2].accept[0]",
-   "pattern": "{a|e|i|o}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "a",
-   "tokens": [
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [0, 0]}
-   ],
-   "expansion": 1,
-   "model": false,
-   "norm": "e",
-   "of": 4,
-   "path": "talk.points[2].accept[0]",
-   "pattern": "{a|e|i|o}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "e",
-   "tokens": [
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:definite-article", "tokens": [0, 0]}
-   ],
-   "expansion": 2,
-   "model": false,
-   "norm": "i",
-   "of": 4,
-   "path": "talk.points[2].accept[0]",
-   "pattern": "{a|e|i|o}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "i",
-   "tokens": [
-    {"analyses": ["il ART-M:p"], "detections": ["g:definite-article"], "item": "g:definite-article", "kind": "word", "lemma": "il", "span": [0, 1], "surface": "i"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [0, 0]}
-   ],
-   "expansion": 3,
-   "model": false,
-   "norm": "o",
-   "of": 4,
-   "path": "talk.points[2].accept[0]",
-   "pattern": "{a|e|i|o}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "o",
-   "tokens": [
-    {"analyses": ["o CON"], "detections": ["g:conjunctions"], "item": "w:o", "kind": "word", "lemma": "o", "span": [0, 1], "surface": "o"}
-   ]
-  },
-  {
-   "expansion": 0,
-   "model": false,
-   "norm": "erre",
-   "of": 3,
-   "path": "talk.points[2].accept[1]",
-   "pattern": "{erre|esse|doppia}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "erre",
-   "tokens": [
-    {"analyses": ["erre NOUN-F:p", "erre NOUN-F:s"], "flags": ["unresolved"], "kind": "word", "lemma": "erre", "span": [0, 4], "surface": "erre"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "esse",
-   "of": 3,
-   "path": "talk.points[2].accept[1]",
-   "pattern": "{erre|esse|doppia}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "esse",
-   "tokens": [
-    {"analyses": ["esse PRO-PERS-3-F-P"], "flags": ["unresolved"], "kind": "word", "lemma": "esse", "span": [0, 4], "surface": "esse"}
-   ]
-  },
-  {
-   "expansion": 2,
-   "model": false,
-   "norm": "doppia",
-   "of": 3,
-   "path": "talk.points[2].accept[1]",
-   "pattern": "{erre|esse|doppia}",
-   "ref": "u00.task.talk",
-   "role": "point",
-   "text": "doppia",
-   "tokens": [
-    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "flags": ["unresolved"], "kind": "word", "span": [0, 6], "surface": "doppia"}
    ]
   }
  ],
