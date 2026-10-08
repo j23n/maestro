@@ -57,7 +57,7 @@ characters:
   - id: ch:you
     name: you (the learner)
     role: a newcomer in the same neighbourhood, with your own name and gender (from onboarding)
-    first_unit: u01
+    first_unit: u00
   - id: ch:extra
     name: minor roles (passer-by, stallholder, shop assistant, ticket clerk, pharmacist, receptionist, waiter, tobacconist)
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
@@ -92,6 +92,8 @@ facts_to_check:
   - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}
   - {unit: u11, fact: "Bologna Centrale platforms (incl. the underground high-speed platforms), train-plus-bus route to an Apennine village, validating paper regional tickets"}
   - {unit: u12, fact: "cover charge (coperto) on restaurant bills; tipping not expected"}
+  - {unit: u00, fact: "taxi fare: a licensed taxi from Bologna airport to a flat in town, late in the evening, costs diciotto euro (u00.l2.ride and its exercises); quick sources give 15-20 euros to the centre plus night, airport and luggage supplements. If that's too low, the fare becomes venti euro, paid with a twenty and no change (losing the diciotto/diciassette listening scene)"}
+  - {unit: u00, fact: "at the airport taxi rank, licensed drivers wait in line and don't call out to passengers; the passenger walks up to the first taxi (u00.l1.taxi-stand)"}
 
 # Who says tu or Lei to whom (check 5). `units` is an inclusive range [from, to] or `all`.
 # Precedence when several rows match a (speaker, addressee) pair: an exact pair wins, then (exact speaker, '*'),
