@@ -87,6 +87,7 @@ facts_to_check:
   - {unit: u02, fact: "Bar Aurora prices (caffè 1,20, cappuccino 1,60, cornetto 1,40, spremuta 3,20) are plausible for Bologna in 2026; counter prices (al banco) are lower than table service"}
   - {unit: u02, fact: "cornetto vs brioche: many Bologna bars say brioche; decide whether Giulia mentions it (recognise only)"}
   - {unit: u02, fact: "paying at the cash desk and the receipt (scontrino) as a culture note"}
+  - {unit: u02, fact: "ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; u02.l3 story #15–16, q2; the w:latte note)"}
   - {unit: u06, fact: "Thursday-afternoon closing of food shops in Bologna, before writing opening-hours signs"}
   - {unit: u07, fact: "Mercato delle Erbe hours and closing day; stallholders pick the produce; quantities in etti"}
   - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}
