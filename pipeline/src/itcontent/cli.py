@@ -76,6 +76,57 @@ def annotate(
     sys.exit(run_annotate(check=check))
 
 
+@app.command()
+def check(
+    unit: str = typer.Option(None, "--unit", help="report only findings about this unit (e.g. u02)"),
+    as_json: bool = typer.Option(False, "--json", help="print the report as JSON instead of one line per finding"),
+) -> None:
+    """Checks 1–5 (docs/04 § The ten quality checks); writes build/reports/check.{json,md}. Fails on any error."""
+    from itcontent.checks import run_check
+
+    sys.exit(run_check(unit=unit, as_json=as_json, echo=typer.echo))
+
+
+@app.command()
+def report(
+    unit: str = typer.Option(None, "--unit", help="only this unit (e.g. u02)"),
+) -> None:
+    """Content dashboard: new words, encounters, strands, coverage, budgets, open review comments."""
+    from itcontent.report import run_report
+
+    sys.exit(run_report(unit=unit, echo=typer.echo))
+
+
+@app.command()
+def freq(
+    words: list[str] = typer.Argument(..., help="Italian words (forms or lemmas)"),
+    freq_file: Path = typer.Option(None, "--freq", help="frequency list (default pipeline/data/frequency/it_50k.txt)"),
+) -> None:
+    """Frequency ranks of words and their lemmas, and the items that cover them (docs/04)."""
+    from itcontent.freq import run_freq
+
+    sys.exit(run_freq(words, freq_file=freq_file, echo=typer.echo))
+
+
+@app.command()
+def suggest(
+    unit: str = typer.Option(..., "--unit", help="the unit the items are for (e.g. u07)"),
+    topic: str = typer.Option(None, "--topic", help="show the items this topic already has (e.g. topic:food-drink)"),
+    pos: str = typer.Option(None, "--pos", help="only this part of speech (noun, verb, adj, adv, …)"),
+    word: list[str] = typer.Option(None, "--word", help="rank only these words (repeatable): your list for the topic"),
+    limit: int = typer.Option(40, "--limit", help="how many candidates"),
+    freq_file: Path = typer.Option(None, "--freq", help="frequency list (default pipeline/data/frequency/it_50k.txt)"),
+) -> None:
+    """High-frequency lemmas no item covers yet, for drafting a unit's item graph (docs/04)."""
+    from itcontent.freq import run_suggest
+
+    sys.exit(
+        run_suggest(
+            unit=unit, topic=topic, pos=pos, words=word or None, limit=limit, freq_file=freq_file, echo=typer.echo
+        )
+    )
+
+
 @app.command("beta-import")
 def beta_import(
     events: Path = typer.Argument(..., exists=True, dir_okay=False, help="JSONL export from the study endpoint"),

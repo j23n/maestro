@@ -172,6 +172,12 @@ def _lint_errors(root: Path, rel: str) -> list[Finding]:
     return [f for f in lint_findings(root) if f.level == "error" and (f.file == rel or rel in f.related)]
 
 
+def _check_errors(root: Path, rel: str) -> list[Finding]:
+    from itcontent.checks import check_errors_for  # the checks read lint's line lookup; import late
+
+    return list(check_errors_for(root, rel))
+
+
 def approve(
     file: Path,
     by: str,
@@ -212,7 +218,11 @@ def approve(
             for f in errors:
                 echo(str(f))
             raise ApprovalError(f"{rel} fails lint ({len(errors)} error(s)); fix them before approving")
-        # Hook for task M1.8/M1.11: also refuse when `content check` fails for this file (docs/04 § Commands).
+        failed = _check_errors(root, rel)
+        if failed:
+            for f in failed:
+                echo(str(f))
+            raise ApprovalError(f"{rel} fails content check ({len(failed)} error(s)); fix them before approving")
         if not _confirm(ask, path, rel, f'Approve as reviewed by "{name}":'):
             raise ApprovalError("not confirmed; nothing changed")
         digest = file_hash(path)
