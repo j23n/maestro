@@ -7,6 +7,7 @@ struct MainTabs: View {
     let deps: AppDependencies
     @State private var playing: PlayRequest?
     @State private var coursePath: [UnitID] = []
+    @State private var reviewing: ReviewRequest?
 
     var body: some View {
         TabView {
@@ -37,11 +38,18 @@ struct MainTabs: View {
         .playerPresentation(item: $playing) { request in
             PlayerHost(deps: deps, step: request.step) { playing = nil }
         }
+        .playerPresentation(item: $reviewing) { _ in
+            ReviewHost(deps: deps, onDismiss: { reviewing = nil }, onNextStory: {
+                reviewing = nil
+                if let step = deps.app.today?.continueCard?.stepID { playing = PlayRequest(step: step) }
+            })
+        }
     }
 
     @ViewBuilder private var today: some View {
         if let content = deps.app.today {
-            TodayView(content: content, onStartReview: {}, onContinue: { playing = PlayRequest(step: $0.stepID) })
+            TodayView(content: content, onStartReview: { reviewing = ReviewRequest() },
+                      onContinue: { playing = PlayRequest(step: $0.stepID) })
         } else {
             ProgressView()
         }
@@ -182,5 +190,66 @@ struct MiniPreviewSheet: View {
         }
         .padding(Tokens.Space.xxl)
         .background(Color.ds.background)
+    }
+}
+
+struct ReviewRequest: Identifiable {
+    let id = UUID()
+}
+
+/// Builds today's review session and plays it; writes the `session` event when it closes or completes.
+struct ReviewHost: View {
+    let deps: AppDependencies
+    let onDismiss: () -> Void
+    let onNextStory: () -> Void
+    @State private var launch: AppModel.ReviewLaunch?
+    @State private var services: PlayerServices?
+    @State private var nothingToDo = false
+    @State private var openedAt = Date()
+
+    var body: some View {
+        Group {
+            if let launch, let services {
+                ReviewSessionView(
+                    model: launch.model, services: services,
+                    complete: {
+                        CompleteContent(
+                            summary: launch.model.summary, words: deps.app.words, nextReview: deps.app.nextReview,
+                            week: deps.app.week ?? WeekProgress(weekStart: 0, days: Array(repeating: false, count: 7),
+                                                                goal: deps.app.settings.goalDaysPerWeek))
+                    },
+                    onClose: finish, onDone: finish,
+                    onNextStory: deps.app.today?.continueCard == nil ? nil : { finishThen(onNextStory) })
+            } else if nothingToDo {
+                LessonDonePage(title: "today's review", onDone: onDismiss)
+            } else {
+                ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .task {
+            do {
+                guard let l = try await deps.app.startReview() else {
+                    nothingToDo = true
+                    return
+                }
+                let resolver: any AudioResolving = deps.app.audioCatalog ?? StaticAudioResolver()
+                services = PlayerServices(
+                    audio: ExerciseAudio(player: deps.audioPlayer, resolver: resolver),
+                    speech: SpeechCapture(recognizer: deps.speech))
+                launch = l
+            } catch {
+                nothingToDo = true
+            }
+        }
+    }
+
+    private func finish() { finishThen(onDismiss) }
+
+    private func finishThen(_ next: () -> Void) {
+        if let launch {
+            deps.app.endSession(sessionID: launch.sessionID, kind: .review, startedAt: launch.startedAt,
+                                activeSeconds: Int(Date().timeIntervalSince(openedAt)))
+        }
+        next()
     }
 }

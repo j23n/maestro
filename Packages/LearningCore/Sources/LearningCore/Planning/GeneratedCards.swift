@@ -24,6 +24,16 @@ public struct GeneratedRecallCard: Hashable, Sendable {
     /// The accepted answer pattern; its first expansion is the model answer.
     public var answer: String
     public var near: [GeneratedNearAnswer]
+
+    public init(exerciseId: ExerciseID, itemId: ItemID, promptEn: String, answer: String,
+                near: [GeneratedNearAnswer])
+    {
+        self.exerciseId = exerciseId
+        self.itemId = itemId
+        self.promptEn = promptEn
+        self.answer = answer
+        self.near = near
+    }
 }
 
 /// Italian (with audio) → pick the English gloss from up to 4 options.
@@ -36,6 +46,14 @@ public struct GeneratedReadCard: Hashable, Sendable {
     public var options: [String]
     /// Index of the right gloss in `options`.
     public var answer: Int
+
+    public init(exerciseId: ExerciseID, itemId: ItemID, promptIt: String, options: [String], answer: Int) {
+        self.exerciseId = exerciseId
+        self.itemId = itemId
+        self.promptIt = promptIt
+        self.options = options
+        self.answer = answer
+    }
 }
 
 /// Play one word of a sound pair and choose between the two.
@@ -45,6 +63,13 @@ public struct GeneratedListenCard: Hashable, Sendable {
     public var pair: [ContentIndex.SoundWord]
     /// Index in `pair` of the word played (and the answer).
     public var play: Int
+
+    public init(exerciseId: ExerciseID, itemId: ItemID, pair: [ContentIndex.SoundWord], play: Int) {
+        self.exerciseId = exerciseId
+        self.itemId = itemId
+        self.pair = pair
+        self.play = play
+    }
 }
 
 /// A generated review card (`gen:<skill>:<itemId>`).

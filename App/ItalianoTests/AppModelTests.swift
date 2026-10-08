@@ -102,6 +102,66 @@ import Testing
         }
     }
 
+    @Test func aReviewSessionPlaysDueCards() async throws {
+        let app = model()
+        await app.start()
+        #expect(try await app.startReview() == nil)  // nothing met yet, nothing to review
+        let launch = try #require(try await app.launch(step: "u02.l1.step-preview"))
+        launch.sink.stepID = "u02.l1.step-preview"
+        if let first = launch.model.openingStep {
+            app.stepChanged(.init(completed: nil, started: first), sessionID: launch.sessionID)
+        }
+        var guardCount = 0
+        while !launch.model.isFinished, launch.model.currentStep?.id == "u02.l1.step-preview", guardCount < 40 {
+            if let p = launch.model.currentExercise, let h = ExerciseHostModel.make(p, env: launch.environment,
+                                                                                     sink: launch.sink) {
+                answerSomehow(h)
+            }
+            let change = launch.model.advance()
+            launch.sink.stepID = launch.model.currentStep?.id
+            app.stepChanged(change, sessionID: launch.sessionID)
+            guardCount += 1
+        }
+        await app.settle()
+        clock.advance(byMs: 10 * 86_400_000)  // ten days later, the preview's words are due
+        let review = try #require(try await app.startReview())
+        let session = review.model
+        #expect(!session.isFinished && session.host != nil)
+        var cards = 0
+        while !session.isFinished, cards < 60 {
+            if let h = session.host { answerSomehow(h) }
+            session.advance()
+            cards += 1
+        }
+        #expect(session.isFinished)
+        #expect(session.summary.total > 0 && session.summary.remembered <= session.summary.total)
+        let complete = CompleteContent(summary: session.summary, words: [:], nextReview: "Tomorrow",
+                                       week: WeekProgress(weekStart: 0, days: [true, true, true, true, false, false, false],
+                                                          goal: 5))
+        #expect(complete.remembered == "\(session.summary.remembered) of \(session.summary.total)")
+        #expect(complete.weekLine == "4 of 5 days this week. One more and you've met your goal.")
+        app.endSession(sessionID: review.sessionID, kind: .review, startedAt: review.startedAt, activeSeconds: 60)
+        await app.settle()
+        #expect(app.nextReview != nil && app.week != nil)
+        #expect((app.state?.memory.count ?? 0) > 0)
+    }
+
+    @Test func generatedCardsBecomePayloads() throws {
+        let recall = GeneratedRecallCard(exerciseId: "gen:recall:w:caffe", itemId: "w:caffe", promptEn: "coffee",
+                                         answer: "{il|un} [caffè]", near: [])
+        let p = try #require(GeneratedPayloads.payload(for: .recall(recall), unit: "u02", display: { _ in nil }))
+        #expect(p.format == .recall && p.targets.first?.skill == .recall)
+        #expect(ExerciseHostModel.make(p, env: .preview(), sink: nil) != nil)
+        let read = GeneratedReadCard(exerciseId: "gen:read:w:caffe", itemId: "w:caffe", promptIt: "il caffè",
+                                     options: ["coffee", "tea", "milk"], answer: 0)
+        let q = try #require(GeneratedPayloads.payload(for: .read(read), unit: "u02", display: { _ in nil }))
+        guard case .choice(let m)? = ExerciseHostModel.make(q, env: .preview(), sink: nil) else {
+            Issue.record("expected a choice")
+            return
+        }
+        #expect(m.options.count == 3 && m.correctIndex == 0)
+    }
+
     @Test func nextReviewTexts() {
         let today: Int64 = 20_000
         func due(_ days: Int64) -> Int64 { LocalDay.startMs(dayNumber: today + days, tzOffsetMinutes: 120) + 3_600_000 }

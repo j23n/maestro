@@ -45,7 +45,7 @@ final class AppModel {
     @ObservationIgnored private(set) var factory: EventFactory?
     @ObservationIgnored private(set) var knownForms: KnownForms = .empty
     @ObservationIgnored private(set) var audioCatalog: PackAudioCatalog?
-    @ObservationIgnored private var words: [ItemID: WordInfo] = [:]
+    @ObservationIgnored private(set) var words: [ItemID: WordInfo] = [:]
     @ObservationIgnored private(set) var wordSources: [WordSource] = []
     @ObservationIgnored private var countries: [String: LearnerProfile.Country] = [:]
     @ObservationIgnored private var lastWrite: Task<Void, Never>?
@@ -276,10 +276,77 @@ final class AppModel {
 
     /// Closing or finishing the player writes the `session` event (docs/05: `platform` feeds the sync status).
     func endSession(_ launch: PlayerLaunch, activeSeconds: Int) {
+        endSession(sessionID: launch.sessionID, kind: launch.kind, startedAt: launch.startedAt,
+                   activeSeconds: activeSeconds)
+    }
+
+    func endSession(sessionID: String, kind: SessionKind, startedAt: Int64, activeSeconds: Int) {
         guard let factory else { return }
-        write(
-            factory.session(
-                sessionId: launch.sessionID, kind: launch.kind, platform: env.platform, startedAt: launch.startedAt,
-                endedAt: env.clock.nowMs(), activeSeconds: activeSeconds))
+        write(factory.session(sessionId: sessionID, kind: kind, platform: env.platform, startedAt: startedAt,
+                              endedAt: env.clock.nowMs(), activeSeconds: activeSeconds))
+    }
+
+    /// "Tomorrow": when the next card falls due after now (the session-complete screen).
+    var nextReview: String? {
+        guard let state else { return nil }
+        let now = env.clock.nowMs()
+        guard let due = state.memory.values.map(\.dueMs).filter({ $0 > now }).min() else { return nil }
+        let tz = env.clock.tzOffsetMinutes()
+        return WordsCopy.nextReviewText(dueMs: due, today: LocalDay.dayNumber(ms: now, tzOffsetMinutes: tz),
+                                        tzOffsetMinutes: tz)
+    }
+
+    var week: WeekProgress? {
+        guard let state else { return nil }
+        return Progress.week(state: state, now: env.clock.nowMs(), tzOffsetMinutes: env.clock.tzOffsetMinutes(),
+                             goal: settings.goalDaysPerWeek)
+    }
+
+    // MARK: - Review sessions
+
+    struct ReviewLaunch {
+        let model: ReviewSessionModel
+        let sessionID: String
+        let startedAt: Int64
+    }
+
+    /// Today's review (or, with nothing due, the catch-up cards after placement): the engine's session, with every
+    /// bank exercise its cards (and their re-queues) can use loaded up front. Nil when there is nothing to review.
+    func startReview() async throws(PackError) -> ReviewLaunch? {
+        guard let reader, let content, let state, let factory else { return nil }
+        let builder = Planner(
+            content: content, state: state, device: DeviceCapabilities(speechAvailable: canSpeak),
+            settings: PlannerSettings(settings)
+        ).sessionBuilder
+        let sessionID = env.ids.next()
+        let now = env.clock.nowMs()
+        let tz = env.clock.tzOffsetMinutes()
+        var session = builder.build(sessionId: sessionID, now: now, tzOffsetMinutes: tz)
+        if session.cards.isEmpty { session = builder.buildCatchUp(sessionId: sessionID, now: now, tzOffsetMinutes: tz) }
+        guard !session.cards.isEmpty else { return nil }
+        var ids: Set<ExerciseID> = []
+        for card in session.cards { ids.formUnion(try await reader.exerciseIDs(targeting: card.pair)) }
+        let bank = Dictionary(
+            try await reader.exercises(Array(ids).sorted()).map { ($0.id, $0.payload) }, uniquingKeysWith: { a, _ in a })
+        let words = self.words
+        let payloads: (ReviewCard) -> ExercisePayload? = { card in
+            switch card.exercise {
+            case .bank(let id, _):
+                return bank[id]
+            case .generated(let g):
+                let unit = content.item(g.itemId)?.unitId ?? UnitID(rawValue: "u00")
+                return GeneratedPayloads.payload(for: g, unit: unit, display: { words[$0] })
+            }
+        }
+        let sink = EventAttemptSink(factory: factory, context: .review, sessionID: sessionID) { [weak self] event in
+            self?.write(event)
+        }
+        let clock = env.clock
+        let environment = ExerciseEnvironment(
+            context: .review, profile: profile, knownForms: knownForms, nowMs: { clock.nowMs() }, canSpeak: canSpeak)
+        let newPairs = Set(session.cards.map(\.pair).filter { state.memory[$0] == nil })
+        let model = ReviewSessionModel(
+            session: session, builder: builder, env: environment, sink: sink, newPairs: newPairs, payloads: payloads)
+        return ReviewLaunch(model: model, sessionID: sessionID, startedAt: now)
     }
 }
