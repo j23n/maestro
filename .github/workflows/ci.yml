@@ -77,9 +77,11 @@ jobs:
             uv run --project pipeline content build
             test "$a" = "$(uv run --project pipeline content pack-hash)" || { echo "pack build is not deterministic"; exit 1; }
           else echo "content build is not implemented yet (M1.9)"; fi
+      - name: XcodeGen (the project is generated from App/project.yml, ADR-19)
+        run: command -v xcodegen || brew install xcodegen
+      - name: Generate the Xcode project
+        run: make project
       - name: App builds (unsigned)
-        if: hashFiles('App/Italiano.xcodeproj/project.pbxproj') != ''
         run: make build-ios build-mac
       - name: App unit and snapshot tests (iOS unsigned, macOS ad-hoc; pinned simulator runtime, perceptualPrecision 0.98)
-        if: hashFiles('App/Italiano.xcodeproj/project.pbxproj') != ''
         run: make test-app

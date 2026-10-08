@@ -31,7 +31,7 @@ PROGRESS.md                  the running log agents append to
 |---|---|---|
 | Apple-silicon Mac on macOS 26.6+, **Xcode 27** | builds for iPhone, iPad and Mac (Xcode 27 runs only on Apple silicon) | day 1 |
 | Claude Code; Node 18+ (for MobileBuildMCP via `npx`); `uv`; `git-lfs`; `ffmpeg` | agent, simulator automation, pipeline, audio | day 1 |
-| **Create the Xcode project** when the agent reaches task M0.2 (about 10 minutes in Xcode; the task lists every setting) | agents never edit `project.pbxproj` (ADR-19) | day 1 |
+| **XcodeGen** (`brew install xcodegen`, 2.46.0+); `make project` generates `App/Italiano.xcodeproj` from `App/project.yml` | the project is generated, never committed or hand-edited (ADR-19) | day 1 |
 | GitHub repo with Actions; optionally `ANTHROPIC_API_KEY` as a secret and the Claude GitHub App installed | CI and automated PR review | week 1 |
 | Apple Developer Program and your team ID (bundle ID `com.j23n.italian` and container `iCloud.com.j23n.italian` are set, ADR-18) | signing, CloudKit, TestFlight. Agents never sign with a team; you do | before you sign anything (Q10) |
 | Azure AI Speech resource (key and endpoint in your shell, never committed) | course audio (a few dollars in total) | week 4 (M5.1) |
@@ -78,7 +78,7 @@ From about week 9 the teacher can also review **inside the app**: a Review build
 Tasks marked **[owner]** in `docs/11` are yours; the agent prepares them and stops.
 
 - **Owner (you):**
-  - Creating the Xcode project (M0.2) and pushing the first PR (M0.5).
+  - Running `make project` and the first Xcode build (M0.2), and pushing the first PR (M0.5).
   - Decisions in `docs/13` (open questions Q1–Q13; proposals agents add).
   - Signing, provisioning and capabilities (your team; bundle ID `com.j23n.italian`).
   - Deploying the CloudKit schema to production before sync goes into TestFlight (M7.5).

@@ -39,6 +39,7 @@ make check-content   # uv run content lint && uv run content annotate --check &&
 make pack            # check-content + content build (dev mode; gitignored, built locally and in CI)
 make mini-pack       # uv run content build --mini → fixtures/packs/mini.sqlite + mini-payloads.json
 make pack-release    # content build --release --allow-partial → build/release/ (never committed)
+make project         # xcodegen generate --spec App/project.yml → App/Italiano.xcodeproj (gitignored; the app targets run it)
 make build-ios       # xcodebuild -scheme Italiano -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
 make build-mac       # xcodebuild -scheme Italiano -destination 'platform=macOS' build CODE_SIGNING_ALLOWED=NO
 make test-app        # xcodebuild test (iPhone simulator, unsigned) + test (macOS, ad-hoc signed), unit and snapshot only

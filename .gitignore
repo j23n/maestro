@@ -3,6 +3,8 @@ DerivedData/
 build/
 *.xcuserstate
 xcuserdata/
+# The Xcode project is generated from App/project.yml (`make project`, ADR-19)
+App/Italiano.xcodeproj/
 *.xcscmblueprint
 # Swift packages
 .build/

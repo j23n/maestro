@@ -1,0 +1,130 @@
+# The Xcode project, generated: `make project` runs XcodeGen on this file and writes App/Italiano.xcodeproj, which
+# is gitignored (ADR-19 as amended, docs/02 § Project). Change targets, packages or schemes here, never in the
+# generated project; build settings live in App/Config/*.xcconfig.
+#
+# - Sources are Xcode 16 synchronized folders: a file added under App/Italiano, App/ItalianoTests or
+#   App/ItalianoUITests belongs to its target without regenerating.
+# - The app target has no build settings of its own: everything comes from App/Config (Base, then Debug, Release,
+#   Study or Review), and XcodeGen's target presets are off so none of them shadows an xcconfig value.
+
+name: Italiano
+
+options:
+  minimumXcodeGenVersion: 2.46.0
+  projectFormat: xcode16_0
+  # Project-level defaults only (Xcode's per-configuration settings); target-level presets would override the
+  # xcconfig files, which must stay the single source of the app's build settings.
+  settingPresets: project
+  defaultConfig: Debug
+  developmentLanguage: en
+  defaultSourceDirectoryType: syncedFolder
+
+configs:
+  Debug: debug
+  Release: release
+  Study: release
+  Review: release
+
+settings:
+  base:
+    # The project level; targets inherit these unless their xcconfig says otherwise.
+    SWIFT_VERSION: "6.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+
+packages:
+  LearningCore:
+    path: ../Packages/LearningCore
+  Storage:
+    path: ../Packages/Storage
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing
+    exactVersion: 1.19.6
+
+targets:
+  Italiano:
+    type: application
+    platform: auto
+    supportedDestinations: [iOS, macOS]
+    configFiles:
+      Debug: Config/Debug.xcconfig
+      Release: Config/Release.xcconfig
+      Study: Config/Study.xcconfig
+      Review: Config/Review.xcconfig
+    sources:
+      - path: Italiano
+        type: syncedFolder
+        # The pack and its audio keep their folder in the bundle (`Content/content.sqlite`, `Content/Audio/`),
+        # where AppDependencies and PackReader look for them; `make pack` writes it (gitignored).
+        explicitFolders:
+          - Resources/Content
+    dependencies:
+      - package: LearningCore
+        product: LearningCore
+      - package: Storage
+        product: Storage
+
+  ItalianoTests:
+    type: bundle.unit-test
+    platform: auto
+    supportedDestinations: [iOS, macOS]
+    configFiles:
+      Debug: Config/Tests.xcconfig
+      Release: Config/Tests.xcconfig
+      Study: Config/Tests.xcconfig
+      Review: Config/Tests.xcconfig
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.j23n.italian.tests
+        # Hosted in the app on both platforms (XcodeGen's default is the iOS layout, wrong on the Mac).
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Italiano.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Italiano
+        BUNDLE_LOADER: $(TEST_HOST)
+    sources:
+      - path: ItalianoTests
+        type: syncedFolder
+    # The tests import LearningCore and Storage through the host app, which links them (the app target builds first
+    # and their modules sit in the build products). Linking them here too would put a second copy of each package
+    # in the test bundle; XcodeGen's `link: false` leaves dangling references in 2.46.0.
+    dependencies:
+      - target: Italiano
+      - package: SnapshotTesting
+        product: SnapshotTesting
+
+  ItalianoUITests:
+    type: bundle.ui-testing
+    platform: auto
+    supportedDestinations: [iOS, macOS]
+    configFiles:
+      Debug: Config/Tests.xcconfig
+      Release: Config/Tests.xcconfig
+      Study: Config/Tests.xcconfig
+      Review: Config/Tests.xcconfig
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.j23n.italian.uitests
+    sources:
+      - path: ItalianoUITests
+        type: syncedFolder
+    dependencies:
+      - target: Italiano
+
+schemes:
+  Italiano:
+    build:
+      targets:
+        Italiano: all
+        ItalianoTests: [test]
+        ItalianoUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - ItalianoTests
+        - ItalianoUITests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
