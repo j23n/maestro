@@ -296,31 +296,31 @@ steps:
         rule: "è (with an accent) is 'is'; e (no accent) is 'and'."
         near: [{answer: e, hint: "Without an accent, e means 'and'. Here you need the verb."}]
 
-  # 5 · Listening: later at the coworking space, Sara asks Marco for some English (topic: languages)
+  # 5 · Listening: later at the coworking space, Marco asks Sara how to say things in Italian (topic: languages)
   - kind: listening
     id: u01.l2.step-listening
     text:
-      id: u01.l2.english
+      id: u01.l2.words
       kind: dialogue
       lines:
-        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Marco, scusa: come si dice \"piacere\" in inglese?", en: "Marco, sorry: how do you say \"piacere\" in English?"}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Si dice \"nice to meet you\".", en: "You say \"nice to meet you\".", foreign: [nice to meet you]}
-        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Nice to meet you! E come si dice \"ci vediamo\"?", en: "Nice to meet you! And how do you say \"ci vediamo\"?", foreign: [Nice to meet you]}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Si dice \"see you\".", en: "You say \"see you\".", foreign: [see you]}
-        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ok! See you, Marco! Ci vediamo!", en: "OK! See you, Marco! See you!", foreign: [See you]}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, ci vediamo!", en: "Yes, see you!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sara, scusa: come si dice \"coworking\" in italiano?", en: "Sara, sorry: how do you say \"coworking\" in Italian?", foreign: [coworking]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Si dice \"coworking\"!", en: "You say \"coworking\"!", foreign: [coworking]}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ah! E come si dice \"see you\"?", en: "Oh! And how do you say \"see you\"?", foreign: [see you]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Si dice \"ci vediamo\".", en: "You say \"ci vediamo\"."}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ok! Ci vediamo, Sara!", en: "OK! See you, Sara!"}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, ci vediamo! Ciao!", en: "Yes, see you! Bye!"}
     plays: unlimited
     exercises:
       - id: u01.l2.ex25
         format: choice
         tags: [cd:dont-understand, sy:tp.school-languages]
-        question_en: "What is Sara doing?"
-        options: ["Asking Marco how to say things in English", "Asking Marco where he lives", "Introducing Marco to a friend"]
+        question_en: "What is Marco doing?"
+        options: ["Asking Sara how to say things in Italian", "Asking Sara where she lives", "Introducing Sara to a friend"]
         answer: 0
       - id: u01.l2.ex26
         format: true-false
-        tags: [sy:cefr.oral-comprehension]
-        statement_en: "At the end, Sara says goodbye in English and in Italian."
+        tags: [sy:cefr.oral-comprehension, sy:tp.school-languages]
+        statement_en: "Italians say \"coworking\" too."
         answer: true
 
   # 6 · Sounds: questions rise (s:intonation); double consonants by ear (Unit 0's s:double-consonants)

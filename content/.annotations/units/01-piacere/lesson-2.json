@@ -2539,111 +2539,104 @@
     {"point": "g:simple-prepositions", "tokens": [10, 10]}
    ],
    "path": "steps[4].text.lines[0].it",
-   "ref": "u01.l2.english#1",
+   "ref": "u01.l2.words#1",
    "role": "line",
-   "text": "Marco, scusa: come si dice \"piacere\" in inglese?",
+   "text": "Sara, scusa: come si dice \"coworking\" in italiano?",
    "tokens": [
-    {"kind": "name", "span": [0, 5], "surface": "Marco"},
-    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
-    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [7, 12], "surface": "scusa"},
-    {"kind": "punct", "span": [12, 13], "surface": ":", "trailing": " "},
-    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
-    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [19, 21], "surface": "si", "trailing": " "},
-    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [22, 26], "surface": "dice", "trailing": " "},
-    {"kind": "punct", "span": [27, 28], "surface": "\""},
-    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [28, 35], "surface": "piacere"},
-    {"kind": "punct", "span": [35, 36], "surface": "\"", "trailing": " "},
-    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [37, 39], "surface": "in", "trailing": " "},
-    {"analyses": ["inglese ADJ:pos+f+s", "inglese ADJ:pos+m+s"], "item": "w:inglese", "kind": "word", "lemma": "inglese", "span": [40, 47], "surface": "inglese"},
-    {"kind": "punct", "span": [47, 48], "surface": "?"}
+    {"kind": "name", "span": [0, 4], "surface": "Sara"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [6, 11], "surface": "scusa"},
+    {"kind": "punct", "span": [11, 12], "surface": ":", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [13, 17], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [18, 20], "surface": "si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [21, 25], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [26, 27], "surface": "\""},
+    {"kind": "foreign", "span": [27, 36], "surface": "coworking"},
+    {"kind": "punct", "span": [36, 37], "surface": "\"", "trailing": " "},
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [38, 40], "surface": "in", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+m+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [41, 49], "surface": "italiano"},
+    {"kind": "punct", "span": [49, 50], "surface": "?"}
    ]
   },
   {
    "path": "steps[4].text.lines[1].it",
-   "ref": "u01.l2.english#2",
+   "ref": "u01.l2.words#2",
    "role": "line",
-   "text": "Si dice \"nice to meet you\".",
+   "text": "Si dice \"coworking\"!",
    "tokens": [
     {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "Si", "trailing": " "},
     {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [3, 7], "surface": "dice", "trailing": " "},
     {"kind": "punct", "span": [8, 9], "surface": "\""},
-    {"kind": "foreign", "span": [9, 13], "surface": "nice", "trailing": " "},
-    {"kind": "foreign", "span": [14, 16], "surface": "to", "trailing": " "},
-    {"kind": "foreign", "span": [17, 21], "surface": "meet", "trailing": " "},
-    {"kind": "foreign", "span": [22, 25], "surface": "you"},
-    {"kind": "punct", "span": [25, 26], "surface": "\""},
-    {"kind": "punct", "span": [26, 27], "surface": "."}
+    {"kind": "foreign", "span": [9, 18], "surface": "coworking"},
+    {"kind": "punct", "span": [18, 19], "surface": "\""},
+    {"kind": "punct", "span": [19, 20], "surface": "!"}
    ]
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [5, 5]}
+    {"point": "g:conjunctions", "tokens": [2, 2]}
    ],
    "path": "steps[4].text.lines[2].it",
-   "ref": "u01.l2.english#3",
+   "ref": "u01.l2.words#3",
    "role": "line",
-   "text": "Nice to meet you! E come si dice \"ci vediamo\"?",
+   "text": "Ah! E come si dice \"see you\"?",
    "tokens": [
-    {"kind": "foreign", "span": [0, 4], "surface": "Nice", "trailing": " "},
-    {"kind": "foreign", "span": [5, 7], "surface": "to", "trailing": " "},
-    {"kind": "foreign", "span": [8, 12], "surface": "meet", "trailing": " "},
-    {"kind": "foreign", "span": [13, 16], "surface": "you"},
-    {"kind": "punct", "span": [16, 17], "surface": "!", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [18, 19], "surface": "E", "trailing": " "},
-    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [20, 24], "surface": "come", "trailing": " "},
-    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [25, 27], "surface": "si", "trailing": " "},
-    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [28, 32], "surface": "dice", "trailing": " "},
-    {"kind": "punct", "span": [33, 34], "surface": "\""},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [34, 36], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [37, 44], "surface": "vediamo"},
-    {"kind": "punct", "span": [44, 45], "surface": "\""},
-    {"kind": "punct", "span": [45, 46], "surface": "?"}
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [4, 5], "surface": "E", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [6, 10], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [11, 13], "surface": "si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [14, 18], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [19, 20], "surface": "\""},
+    {"kind": "foreign", "span": [20, 23], "surface": "see", "trailing": " "},
+    {"kind": "foreign", "span": [24, 27], "surface": "you"},
+    {"kind": "punct", "span": [27, 28], "surface": "\""},
+    {"kind": "punct", "span": [28, 29], "surface": "?"}
    ]
   },
   {
    "path": "steps[4].text.lines[3].it",
-   "ref": "u01.l2.english#4",
+   "ref": "u01.l2.words#4",
    "role": "line",
-   "text": "Si dice \"see you\".",
+   "text": "Si dice \"ci vediamo\".",
    "tokens": [
     {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "Si", "trailing": " "},
     {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [3, 7], "surface": "dice", "trailing": " "},
     {"kind": "punct", "span": [8, 9], "surface": "\""},
-    {"kind": "foreign", "span": [9, 12], "surface": "see", "trailing": " "},
-    {"kind": "foreign", "span": [13, 16], "surface": "you"},
-    {"kind": "punct", "span": [16, 17], "surface": "\""},
-    {"kind": "punct", "span": [17, 18], "surface": "."}
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [9, 11], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [12, 19], "surface": "vediamo"},
+    {"kind": "punct", "span": [19, 20], "surface": "\""},
+    {"kind": "punct", "span": [20, 21], "surface": "."}
    ]
   },
   {
    "path": "steps[4].text.lines[4].it",
-   "ref": "u01.l2.english#5",
+   "ref": "u01.l2.words#5",
    "role": "line",
-   "text": "Ok! See you, Marco! Ci vediamo!",
+   "text": "Ok! Ci vediamo, Sara!",
    "tokens": [
     {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
     {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
-    {"kind": "foreign", "span": [4, 7], "surface": "See", "trailing": " "},
-    {"kind": "foreign", "span": [8, 11], "surface": "you"},
-    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
-    {"kind": "name", "span": [13, 18], "surface": "Marco"},
-    {"kind": "punct", "span": [18, 19], "surface": "!", "trailing": " "},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [20, 22], "surface": "Ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [23, 30], "surface": "vediamo"},
-    {"kind": "punct", "span": [30, 31], "surface": "!"}
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [4, 6], "surface": "Ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [7, 14], "surface": "vediamo"},
+    {"kind": "punct", "span": [14, 15], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [16, 20], "surface": "Sara"},
+    {"kind": "punct", "span": [20, 21], "surface": "!"}
    ]
   },
   {
    "path": "steps[4].text.lines[5].it",
-   "ref": "u01.l2.english#6",
+   "ref": "u01.l2.words#6",
    "role": "line",
-   "text": "Sì, ci vediamo!",
+   "text": "Sì, ci vediamo! Ciao!",
    "tokens": [
     {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
     {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [4, 6], "surface": "ci", "trailing": " "},
     {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [7, 14], "surface": "vediamo"},
-    {"kind": "punct", "span": [14, 15], "surface": "!"}
+    {"kind": "punct", "span": [14, 15], "surface": "!", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [16, 20], "surface": "Ciao"},
+    {"kind": "punct", "span": [20, 21], "surface": "!"}
    ]
   },
   {
