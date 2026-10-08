@@ -254,7 +254,7 @@ def test_missing_audio_is_a_warning_in_dev_packs(dev):
     result, con = dev
     missing = next(w for w in result.report.warnings if w.startswith("missing audio:"))
     assert re.match(r"missing audio: (\d+) of \1 need\(s\) \(\d+ exercise, \d+ item, \d+ sound, 2 text;", missing)
-    assert any(w.startswith("audio not-voiceable: c:sono-nato") for w in result.report.warnings)
+    assert not any(w.startswith("audio not-voiceable:") for w in result.report.warnings)
     assert con.execute("SELECT COUNT(*) FROM audio").fetchone()[0] == 0
     assert con.execute("SELECT COUNT(*) FROM texts WHERE audio_id IS NOT NULL").fetchone()[0] == 0
     assert con.execute("SELECT COUNT(*) FROM tokens WHERE start_ms IS NOT NULL").fetchone()[0] == 0

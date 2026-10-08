@@ -106,6 +106,9 @@ def test_only_and_unit_narrow_the_needs(rendered):
 
 
 def test_needs_that_cant_be_voiced_fail(course_copy):
+    # A form TTS would read letter by letter (`sono nato/a`) needs `audio_say`; take the seed's away.
+    items = course_copy / "content" / "items" / "u01.yaml"
+    items.write_text(items.read_text().replace("audio_say: 'sono nato, sono nata', ", ""))
     code, out = tts(course_copy, provider="mock", only=["c:sono-nato"], dry_run=True)
     assert code == 1
     assert any("c:sono-nato" in x and "audio_say" in x for x in out), out
