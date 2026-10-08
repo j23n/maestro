@@ -124,7 +124,7 @@ CASES: dict[str, tuple[str, list[str]]] = {
         "reviews/u02.yaml",
         [
             "error: reviews/u02.yaml › comments[0].resolution.status (line 14): "
-            "'done' is not a valid resolution status (allowed: open, fixed, answered, declined, owner)",
+            "'done' is not a valid resolution status (allowed: open, fixed, answered, declined, owner, noted)",
             "error: reviews/u02.yaml › comments[1].resolution.note (line 22): "
             "an answered, declined or owner resolution needs a note for the teacher",
         ],

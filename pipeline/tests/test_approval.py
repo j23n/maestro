@@ -143,7 +143,10 @@ def test_approve_accepts_the_repo_path_as_confirmation(course_copy):
             "refused: stdin is not a terminal. Approving and reopening content is for a person at a terminal (ADR-15).",
         ),
         ({"confirm": "lesson-2.yaml"}, "not confirmed; nothing changed"),
-        ({"signoff": Path("reviews/inbox/review-u02.json")}, "--signoff: not yet (task M1.13)"),
+        (
+            {"signoff": Path("reviews/inbox/review-u02.json")},
+            f"{LESSON}: the sign-off doesn't allow approval (1 problem(s))",  # no such file (test_review_import)
+        ),
     ],
 )
 def test_approve_refuses(course_copy, kw, message):
@@ -203,11 +206,13 @@ def test_cli_approve_and_reopen_refuse_without_a_tty(course_copy):
         assert "refused: stdin is not a terminal" in result.output
 
 
-def test_cli_approve_signoff_is_not_yet_implemented(course_copy, monkeypatch):
+def test_cli_approve_signoff_needs_a_review_file(course_copy, monkeypatch):
     monkeypatch.setattr(approval, "agent_refusal", lambda *_a, **_k: None)
+    monkeypatch.setattr(paths, "ROOT", course_copy)
     result = CliRunner().invoke(app, ["approve", str(course_copy / LESSON), "--by", "M", "--signoff", "x.json"])
     assert result.exit_code == 1
-    assert "--signoff: not yet (task M1.13)" in result.output
+    assert "x.json: no such review file" in result.output
+    assert approval.read_review(course_copy / LESSON)["status"] == "draft"
 
 
 def test_cli_approve_for_a_person_at_a_terminal(course_copy, monkeypatch):
