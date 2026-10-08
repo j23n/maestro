@@ -1,0 +1,15 @@
+# Placement (docs/05 § Placement, docs/06 §19). SKELETON: items are written in C6 with the assessment
+# reviewer, once Units 1–8 are approved. Five items per block: two vocabulary (recall or choice),
+# two grammar (cloze), one listening (choice). Advance when a block scores ≥ 4/5.
+id: placement
+review: {status: draft, by: null, date: null, hash: null}
+advance_threshold: 4
+blocks:
+  - {unit: u01, exercises: []}
+  - {unit: u02, exercises: []}
+  - {unit: u03, exercises: []}
+  - {unit: u04, exercises: []}
+  - {unit: u05, exercises: []}
+  - {unit: u06, exercises: []}
+  - {unit: u07, exercises: []}
+  - {unit: u08, exercises: []}

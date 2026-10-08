@@ -1,0 +1,338 @@
+# GOLDEN SAMPLE: Unit 2, Lesson 1. The reference for the content format and for a lesson's shape
+# (preview → story → note → practice → sounds → use). Drafted for the handoff: the Italian must be
+# reviewed by the content lead before it is approved. It uses only items from the seed files in
+# content/items/u00–u02.yaml. Story line references (#n) are 1-based.
+id: u02.l1
+title: {it: "Un cappuccino, per favore", en: "A cappuccino, please"}
+scene: Marco's first breakfast at Bar Aurora; Giulia uses Lei; Sara drops in and orders too
+review: {status: draft, by: null, date: null, hash: null}
+
+steps:
+  # 1 · Preview: Italian–English pairs with retrieval before the story (cohesion rule 4)
+  - kind: preview
+    id: u02.l1.step-preview
+    batches:
+      - [w:caffe, w:cappuccino, w:cornetto, w:spremuta, c:vorrei, c:quant-e]
+      - [w:ecco, w:oggi, w:buono, w:amico, c:cosa-prende]
+
+  # 2 · Read and listen, then check meaning in English
+  - kind: story
+    id: u02.l1.step-story
+    text:
+      id: u02.l1.story
+      kind: story
+      title: {it: "Bar Aurora", en: "Bar Aurora"}
+      lines:
+        - {speaker: narrator, it: "Marco è in un bar a Bologna. Si chiama Aurora.", en: "Marco is in a café in Bologna. It's called Aurora."}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Buongiorno! Cosa prende?", en: "Good morning! What will you have?"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Buongiorno. Vorrei un cappuccino, per favore.", en: "Good morning. I'd like a cappuccino, please."}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un cappuccino. E da mangiare?", en: "A cappuccino. Anything to eat?", gloss: {da mangiare: to eat}}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: 'Scusi, come si dice "croissant" in italiano?', en: 'Excuse me, how do you say "croissant" in Italian?', foreign: [croissant]}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: 'Cornetto. Si dice "cornetto".', en: 'Cornetto. You say "cornetto".'}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ah, grazie! Un cornetto, per favore.", en: "Ah, thank you! A croissant, please."}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Lei è americano?", en: "Are you American?"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, sono canadese. E Lei?", en: "No, I'm Canadian. And you?"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Io sono di Bologna!", en: "I'm from Bologna!"}
+        - {speaker: narrator, it: "Ecco Sara. Sara è un'amica di Marco.", en: "Here comes Sara. Sara is a friend of Marco's."}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Come va?", en: "Hi, Marco! How's it going?"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Bene, grazie. E tu?", en: "Fine, thanks. And you?"}
+        - {speaker: ch:sara, to: ch:giulia, register: tu, it: "Bene! Ciao, Giulia!", en: "Fine! Hi, Giulia!"}
+        - {speaker: ch:giulia, to: ch:sara, register: tu, it: "Ciao, Sara! Un caffè?", en: "Hi, Sara! A coffee?"}
+        - {speaker: ch:sara, to: ch:giulia, register: tu, it: "No, grazie. Oggi vorrei una spremuta.", en: "No, thanks. Today I'd like a fresh orange juice."}
+        - {speaker: ch:giulia, it: "Ecco: un cappuccino, un cornetto e una spremuta.", en: "Here you are: a cappuccino, a croissant and a fresh orange juice."}
+        - {speaker: ch:marco, it: "Mmm! Buono!", en: "Mmm! Delicious!"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Sei euro e venti.", en: "€6.20."}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco. Grazie e buona giornata!", en: "Here you go. Thanks, and have a good day!"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Prego! Arrivederci.", en: "You're welcome! Goodbye."}
+    questions:
+      - id: u02.l1.q1
+        format: choice
+        tags: [cd:order-food-drink]
+        question_en: "What does Marco order?"
+        options: [A cappuccino and a croissant, A coffee and a croissant, A fresh orange juice]
+        answer: 0
+      - id: u02.l1.q2
+        format: choice
+        tags: [sy:cefr.oral-comprehension]
+        question_en: "Where is Giulia from?"
+        options: [Bologna, Canada, The United States]
+        answer: 0
+      - id: u02.l1.q3
+        format: choice
+        tags: [cd:ask-price-pay]
+        question_en: "How much does Marco pay?"
+        options: ["€6.20", "€3.00", "€6.00"]      # €3.00 is Marco's own order: did the learner notice he pays for Sara too?
+        answer: 0
+
+  # 3 · Note: built from the story's own sentences (cohesion rule 3). One note may introduce several points.
+  - kind: note
+    id: u02.l1.step-note
+    note_id: u02.l1.note
+    grammar: [g:indefinite-article, g:noun-gender]
+    title_en: un, una and un'
+    intro: {mascot: think, text_en: "Did you spot it? Marco orders *un cappuccino*, but Sara asks for *una spremuta*."}
+    body:
+      - p: Every Italian noun is masculine or feminine. *Un* and *una* both mean "a"; the noun decides which one you use.
+      - table:
+          columns: [Masculine, Feminine]
+          rows:
+            - ["**un** caffè", "**una** spremuta"]
+            - ["**un** cappuccino", "**un'**amica"]
+            - ["**un** cornetto", ""]
+      - p: Before a vowel, *una* becomes *un'* with an apostrophe (*un'amica*). *Un* never takes an apostrophe (*un amico*).
+      - examples: [u02.l1.story#3, u02.l1.story#16, u02.l1.story#11]
+      - tip: Most nouns ending in *-o* are masculine and most ending in *-a* are feminine. A noun like *caffè* doesn't tell you, so learn every noun with its article.
+
+  # 4 · Practice: a block on the new material, then a mix with Units 0–1 (cohesion rule 6).
+  #     Each new P item gets at least 4 retrievals in this lesson, counting the preview (docs/04 § Check 3).
+  - kind: practice
+    id: u02.l1.step-practice
+    # ex12 and ex16 were dropped in review. IDs are never reused, so the gaps stay.
+    block:
+      - id: u02.l1.ex01
+        format: cloze
+        targets: [{item: g:indefinite-article, skill: recall}, {item: g:noun-gender, skill: recall}]
+        tags: [cd:order-food-drink]
+        source: u02.l1.story#3
+        text: "Vorrei [[un]] cappuccino, per favore."
+        prompt_en: "I'd like a cappuccino, please."
+        hint: "Cappuccino is masculine."
+        rule: "un with most masculine nouns, una with feminine nouns (un' before a vowel)."
+        near: [{answer: una, hint: "Una is for feminine nouns. Is cappuccino masculine or feminine?"}]
+      - id: u02.l1.ex02
+        format: cloze
+        targets: [{item: g:indefinite-article, skill: recall}, {item: g:noun-gender, skill: recall}]
+        tags: [cd:order-food-drink]
+        source: u02.l1.story#16
+        text: "Oggi vorrei [[una]] spremuta."
+        prompt_en: "Today I'd like a fresh orange juice."
+        hint: "Look at the ending of spremuta."
+        rule: "un with most masculine nouns, una with feminine nouns (un' before a vowel)."
+        near: [{answer: un, hint: "Spremuta ends in -a. Masculine or feminine?"}]
+      - id: u02.l1.ex03
+        format: cloze
+        targets: [{item: g:indefinite-article, skill: recall}, {item: g:noun-gender, skill: recall}]
+        tags: [sy:gr.articles]
+        text: "Giulia è [[un']]amica di Sara."
+        prompt_en: "Giulia is a friend of Sara's."
+        hint: "Amica is feminine and starts with a vowel."
+        rule: "Before a vowel, una becomes un'."
+        near:
+          - {answer: una, hint: "Amica starts with a vowel. What happens to una before a vowel?"}
+          - {answer: un, hint: "Amica is feminine. Un without an apostrophe is for masculine nouns."}
+      - id: u02.l1.ex04
+        format: recall
+        targets: [{item: w:cornetto, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "a croissant"
+        answer: "un [cornetto]"
+        near: [{answer: "una cornetto", outcome: almost, hint: "Cornetto is masculine."}]
+        audio_after: true
+      - id: u02.l1.ex05
+        format: recall
+        targets: [{item: w:caffe, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "a coffee"
+        answer: "un [caffè]"
+        near: [{answer: "una caffè", outcome: almost, hint: "Caffè is masculine, even though it doesn't end in -o."}]
+        audio_after: true
+      - id: u02.l1.ex06
+        format: recall
+        targets: [{item: w:spremuta, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "a fresh orange juice"
+        answer: "{una [spremuta]|una [spremuta] d'arancia}"     # model answer first: d'arancia comes in Lesson 2
+        near: [{answer: "un spremuta( d'arancia)", outcome: almost, hint: "Spremuta is feminine."}]
+        audio_after: true
+      - id: u02.l1.ex07
+        format: recall
+        targets: [{item: c:quant-e, skill: recall}]
+        tags: [cd:ask-price-pay]
+        prompt_en: "How much is it?"
+        answer: "{quant'è|quanto è|quanto costa|scusi quant'è|scusi quanto costa}"   # model answer first; alternatives may go beyond the lesson
+        audio_after: true
+      - id: u02.l1.ex08
+        format: recall
+        targets: [{item: c:vorrei, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "I'd like a cappuccino, please."
+        answer: "{vorrei|io vorrei} un cappuccino( {per favore|grazie})"
+        audio_after: true
+      - id: u02.l1.ex09
+        format: cloze
+        targets: [{item: w:amico, skill: recall}]
+        tags: [sy:tp.social-feelings-media]
+        source: u02.l1.story#11
+        text: "Sara è un'[[amica]] di Marco."
+        prompt_en: "Sara is a friend of Marco's."
+        hint: "Sara is a woman."
+        near: [{answer: amico, hint: "Sara is a woman. Check the ending."}]
+      - id: u02.l1.ex10
+        format: sentence-building
+        targets: [{item: w:oggi, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "Today I'd like a coffee."
+        tiles: [oggi, vorrei, un, caffè]
+        distractors: [una]
+        answer: ["oggi vorrei un caffè", "vorrei un caffè oggi"]
+      - id: u02.l1.ex11
+        format: sentence-building
+        targets: [{item: w:ecco, skill: recall}]
+        tags: [cd:order-food-drink]
+        source: u02.l1.story#17
+        prompt_en: "Here's a cappuccino and a croissant."
+        tiles: [ecco, un, cappuccino, e, un, cornetto]
+        answer: ["ecco un cappuccino e un cornetto", "ecco un cornetto e un cappuccino"]
+      - id: u02.l1.ex13
+        format: dictation
+        targets: [{item: w:cornetto, skill: listen}]
+        tags: [sy:cefr.orthographic-control]
+        say: "Vorrei un cornetto, per favore."
+        slow: true
+      - id: u02.l1.ex14
+        format: repeat
+        targets: [{item: c:vorrei, skill: speak}]
+        tags: [sy:cefr.phonological-control]
+        say: "Vorrei un cappuccino, per favore."
+    mix:
+      - id: u02.l1.ex15
+        format: cloze
+        targets: [{item: g:essere-present-sg, skill: recall}]
+        tags: [sy:gr.essere-avere]
+        source: u02.l1.story#8
+        text: "Lei [[è]] americano?"
+        prompt_en: "Are you American? (formal)"
+        rule: "è (with an accent) is 'is' or formal 'you are'; e (no accent) is 'and'."
+        near:
+          - {answer: e, hint: "With an accent, è means 'is' or formal 'you are'. Without it, e means 'and'."}
+          - {answer: sei, hint: "Sei goes with tu. With Lei, use the same form as for she."}
+      - id: u02.l1.ex17
+        format: choice
+        targets: [{item: g:tu-lei, skill: read}]
+        tags: [cd:choose-tu-lei]
+        question_en: "You're talking to a woman you don't know at the bar. How do you ask \"Are you Italian?\""
+        options: ["Lei è italiana?", "Sei italiana?", "Lei è italiano?"]
+        answer: 0
+        hint: "Use Lei with someone you don't know, and an adjective that agrees with her."
+      - id: u02.l1.ex18
+        format: recall
+        targets: [{item: g:tu-lei, skill: recall}]
+        tags: [cd:choose-tu-lei]
+        prompt_en: "And you? (to Sara, a friend)"
+        answer: "e tu"
+        near: [{answer: "e lei", hint: "Sara is a friend. Is Lei right for a friend?"}]
+      - id: u02.l1.ex19
+        format: cloze
+        targets: [{item: g:indefinite-article, skill: recall}, {item: g:noun-gender, skill: recall}]
+        tags: [cd:order-food-drink]
+        text: "Ecco [[una]] spremuta e un cornetto."
+        prompt_en: "Here's a fresh orange juice and a croissant."
+        near: [{answer: un, hint: "Spremuta is feminine."}]
+      - id: u02.l1.ex20
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:caffe, skill: read}
+          - {item: w:spremuta, skill: read}
+          - {item: w:oggi, skill: read}
+          - {item: w:buono, skill: read}
+          - {item: w:ecco, skill: read}
+          - {item: w:amico, skill: read}
+        tags: [sy:tp.food-drink]
+        pairs: [["un caffè", "a coffee"], ["una spremuta", "a fresh orange juice"], ["oggi", "today"], ["buono", "good, tasty"], ["ecco", "here you are"], ["un'amica", "a (female) friend"]]
+      - id: u02.l1.ex21
+        format: choice
+        targets: [{item: w:buono, skill: read}]
+        tags: [sy:cefr.reading]
+        prompt_it: "Mmm! Buono!"
+        question_en: "Marco tastes his croissant and says this. What does he mean?"
+        options: ["It's delicious!", "It's expensive!", "It's small!"]
+        answer: 0
+      - id: u02.l1.ex26
+        format: recall
+        targets: [{item: c:scusi, skill: recall}]
+        tags: [cd:get-attention, cd:choose-tu-lei]
+        prompt_en: "Excuse me! (to get Giulia's attention)"
+        answer: "scusi"
+        near: [{answer: "scusa", hint: "You and Giulia use Lei. Which form goes with Lei?"}]
+        audio_after: true
+
+  # 5 · Sounds: double consonants from the scene (rule 11: hearing is tested, saying is not machine-checked).
+  #     The answers mix single and double, so always picking "double" doesn't pass.
+  - kind: sounds
+    id: u02.l1.step-sounds
+    exercises:
+      - id: u02.l1.ex22
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: which-word
+        pair: [eco, ecco]
+        play: ecco
+        glosses: {eco: echo, ecco: here is}
+        tip_en: "Listen for the double c. Italians hold it a little longer."
+      - id: u02.l1.ex23
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: single-or-double
+        word: caffè
+        answer: double
+      - id: u02.l1.ex24
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: which-word
+        pair: [pena, penna]
+        play: pena
+        glosses: {pena: "sorrow; penalty", penna: pen}
+
+  # 6 · Use: one tiny task in the story's situation, spoken or typed. Marco's order, so the price is fixed:
+  #     cappuccino 1,60 + cornetto 1,40 = tre euro (Bar Aurora menu, task.yaml).
+  - kind: use
+    id: u02.l1.step-use
+    exercise:
+      id: u02.l1.ex25
+      format: conversation
+      with: ch:giulia
+      register: lei
+      title: {en: "Order what Marco had"}
+      tags: [cd:order-food-drink, cd:ask-price-pay, cd:get-attention]
+      goals:
+        - {id: order, en: "Order a cappuccino and a croissant"}
+        - {id: price, en: "Ask how much it is"}
+        - {id: bye, en: "Pay and say goodbye"}
+      start: n1
+      nodes:
+        n1:
+          say: "Buongiorno! Cosa prende?"
+          en: "Good morning! What will you have?"
+          expect:
+            - intent: order
+              goal: order
+              accept:
+                - "(buongiorno )(vorrei )un cappuccino e un cornetto( per favore)"
+                - "(buongiorno )(vorrei )un cornetto e un cappuccino( per favore)"
+                - "(buongiorno )(vorrei )un {cappuccino e un cornetto|cornetto e un cappuccino} grazie"
+              next: n2
+          help: ["Vorrei un cappuccino e un cornetto, per favore."]
+          hint_en: "Order a cappuccino and a croissant."
+        n2:
+          say: "Ecco!"
+          en: "Here you are!"
+          expect:
+            - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}( per favore)"], next: n3}
+          help: ["Grazie! Quant'è?"]
+          hint_en: "Ask how much it is."
+        n3:
+          say: "Tre euro, grazie."
+          en: "Three euros, thanks."
+          expect:
+            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "ecco( grazie)"], next: end}
+          near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
+          help: ["Ecco. Grazie, arrivederci!"]
+          hint_en: "Pay (\"here you are\") and say goodbye."
+        end:
+          say: "Grazie! Buona giornata!"
+          en: "Thank you! Have a good day!"
+          final: true

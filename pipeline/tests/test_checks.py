@@ -1,21 +1,22 @@
 """M1.8: checks 2 (level gate), 4 (alignment) and 5 (story consistency), and the check.json/check.md reports.
 
-Mutations run on a throwaway copy of `content/` (with its lock files): edit the YAML, re-annotate, check.
+The tests run on the frozen seed course (`fixtures/seed-course/`, conftest), so the facts they pin don't change as the
+course grows; mutations run on a throwaway copy of it (with its lock files): edit the YAML, re-annotate, check.
 """
 
 from __future__ import annotations
 
 import json
-import shutil
 from pathlib import Path
 
 import pytest
 
-from conftest import needs_data
+from conftest import SEED, needs_data
 from itcontent.annotate import run_annotate
 from itcontent.checks import CheckResult, run_check, run_checks
 from itcontent.checks.context import load_context
-from itcontent.checks.story import Matrix, node_registers
+from itcontent.checks.story import Matrix, learner_registers, node_registers
+from itcontent.lint import lint_findings
 
 pytestmark = needs_data
 
@@ -27,16 +28,10 @@ STORY_END = (
 )
 
 
-def make_repo(root: Path, tmp: Path) -> Path:
-    shutil.copytree(root / "content", tmp / "content")
-    (tmp / "pipeline" / "data").mkdir(parents=True)
-    (tmp / "pipeline" / "data" / "morph-it").symlink_to(root / "pipeline" / "data" / "morph-it")
-    return tmp
-
-
 @pytest.fixture
-def repo(root: Path, tmp_path: Path) -> Path:
-    return make_repo(root, tmp_path / "repo")
+def repo(course_copy: Path) -> Path:
+    """A throwaway copy of the seed course."""
+    return course_copy
 
 
 def edit(repo: Path, rel: str, old: str, new: str) -> None:
@@ -65,11 +60,16 @@ def messages(result: CheckResult, level: str = "error", check: int | None = None
 
 
 @pytest.fixture(scope="module")
-def seed(root: Path) -> CheckResult:
-    return run_checks(root)
+def seed(seed_root: Path) -> CheckResult:
+    return run_checks(seed_root)
 
 
-# ---------------------------------------------------------------- the seed course
+# ---------------------------------------------------------------- the live course and the seed course
+
+
+def test_live_course_has_no_check_errors(root):
+    result = run_checks(root)
+    assert result.errors == [], "\n".join(map(str, result.errors))
 
 
 def test_seed_course_passes_with_only_the_golden_unit_written(seed):
@@ -275,6 +275,56 @@ def test_conversation_register_and_unknown_speakers(repo):
     assert any("speaker ch:nobody isn't in story-bible.yaml" in m for m in errs)
 
 
+EX25_REGISTER = "      with: ch:giulia\n      register: lei\n"
+
+
+def test_learner_register_is_checked_against_the_learners_direction(repo):
+    # Signora Rossi says tu to the learner, who answers with Lei (story bible: ch:rossi → ch:you tu, the other way lei)
+    edit(repo, LESSON, EX25_REGISTER, "      with: ch:rossi\n      register: tu\n      learner_register: lei\n")
+    edit(repo, LESSON, 'help: ["Grazie! Quant\'è?"]', 'help: ["Grazie! E tu?"]')  # the learner's turn: tu in a Lei turn
+    edit(repo, LESSON, 'say: "Tre euro, grazie."', 'say: "Tre euro, grazie. E Lei?"')  # hers: Lei in a tu line
+    assert [str(f) for f in lint_findings(repo) if f.level == "error"] == []
+    result = annotate_and_check(repo)
+    assert messages(result, check=5) == []
+    warnings = messages(result, "warning", 5)
+    assert len(warnings) == 2, warnings
+    assert any(
+        "the learner's turn in conversation u02.l1.ex25/n2 is lei but has second-person-singular form(s) 'tu'" in m
+        for m in warnings
+    )
+    assert any("conversation u02.l1.ex25/n3 is tu but has formal form(s) 'Lei'" in m for m in warnings)
+
+
+def test_each_side_of_a_conversation_reports_its_own_register(repo):
+    edit(repo, LESSON, EX25_REGISTER, "      with: ch:rossi\n      register: lei\n      learner_register: tu\n")
+    # a node's register holds for both sides from that node on: she may say tu, the learner may not
+    edit(repo, LESSON, '        n3:\n          say: "Tre', '        n3:\n          register: tu\n          say: "Tre')
+    result = annotate_and_check(repo)
+    errs = messages(result, check=5)
+    assert len(errs) == 3, errs
+    assert any(
+        ".exercise.register (line" in m
+        and "conversation u02.l1.ex25: ch:rossi says lei to ch:you at u02.l1.step-use, but the story bible says tu" in m
+        for m in errs
+    ), errs
+    assert any(
+        ".exercise.learner_register (line" in m
+        and "conversation u02.l1.ex25: ch:you says tu to ch:rossi at u02.l1.step-use, but the story bible says lei" in m
+        for m in errs
+    ), errs
+    assert any(
+        ".exercise.nodes.n3.register (line" in m
+        and "conversation u02.l1.ex25 from node n3: ch:you says tu to ch:rossi" in m
+        for m in errs
+    ), errs
+
+
+def test_learner_register_is_tu_or_lei(course_copy):
+    edit(course_copy, LESSON, EX25_REGISTER, EX25_REGISTER + "      learner_register: formal\n")
+    errs = [str(f) for f in lint_findings(course_copy) if f.level == "error"]
+    assert len(errs) == 1 and ".exercise.learner_register (line" in errs[0], errs
+
+
 def test_register_matrix_precedence_and_switch_points(seed):
     ctx = seed.ctx
     m = Matrix(ctx)
@@ -323,6 +373,16 @@ def test_node_registers_follow_the_graph():
         },
     }
     assert node_registers(ex) == {"a": ("lei", None), "b": ("tu", "b"), "c": ("tu", "b"), "z": ("lei", None)}
+    # without `learner_register` the learner says what the character says
+    assert learner_registers(ex, node_registers(ex)) == node_registers(ex)
+    # with it, the learner keeps their own register until a node's `register`, which holds for both from there on
+    ex = {**ex, "register": "tu", "learner_register": "lei"}
+    assert learner_registers(ex, node_registers(ex)) == {
+        "a": ("lei", None),
+        "b": ("tu", "b"),
+        "c": ("tu", "b"),
+        "z": ("lei", None),
+    }
 
 
 # ---------------------------------------------------------------- check 4: alignment
@@ -386,8 +446,8 @@ def test_json_and_unit_scope(repo):
     assert run_check(repo, unit="u42", echo=out.append) == 2
 
 
-def test_context_reads_lock_files_without_morph_it(root):
-    ctx = load_context(root)
+def test_context_reads_lock_files_without_morph_it():
+    ctx = load_context(SEED)  # the fixture itself: no Morph-it! next to it
     golden = [s for s in ctx.strings if s.file == LESSON]
     assert golden and all(s.pos is not None and s.pos[0] == ctx.unit_index["u02"] for s in golden)
     line = next(s for s in golden if s.ref == "u02.l1.story#3")

@@ -10,7 +10,8 @@ Ground truth for tests. Each file names the spec section it encodes. Never edit 
 | `grading/typed-answers.json` | typed-answer grading outcomes, mismatches and hint kinds (`docs/05`) | `make test-core` |
 | `grading/dictation.json` | per-word dictation marks (`docs/05`) | `make test-core` |
 | `grading/transcripts.json` | speech transcript matching (`docs/05`) | `make test-core` |
-| `packs/mini.sqlite` | a tiny pack built from the golden sample (created in M1.10 by `make mini-pack`; audio added in M5.1) | Storage and App tests, previews |
+| `seed-course/` | the course's `content/` (with lock files) frozen as it was before the first drafts, with only the golden Unit 2 Lesson 1 written; refreshed only on purpose (its README) | pipeline tests that pin facts about a course (`pipeline/tests/conftest.py`), `make mini-pack` |
+| `packs/mini.sqlite` | a tiny pack built from the golden sample of `seed-course/` (created in M1.10 by `make mini-pack`; audio added in M5.1) | Storage and App tests, previews |
 | `packs/mini-payloads.json` | every step and exercise payload of the mini pack as JSON (same task) | LearningCore decode tests on Linux |
 | `packs/assessment.sqlite` | the mini pack plus placement blocks for Units 1–2, the final review unit `u99` and a five-section final check (pass mark 6) made of copies of mini-pack and contract exercises, until content C6 writes the real items (`itcontent.pack.assessment_fixture`, rebuilt by `make mini-pack`) | App tests of placement and the final check (`AssessmentContainerTests`) |
 | `export/stored-zip-golden.zip` | the bytes `StoredZip` writes for five entries (a UTF-8 name, an empty file, binary data) dated 6 Oct 2026 09:30 at UTC+2 (`docs/12` § Final check export) | App tests (byte equality) and `pipeline/tests/test_examiner_zip.py` (Python's `zipfile` reads it back) |

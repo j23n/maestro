@@ -605,12 +605,14 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
             parts.append(row("Word", word))
         quote = " / ".join(pair) or ex.get("word")
     elif fmt == "conversation":
-        shown |= {"with", "register", "title", "goals", "start", "nodes"}
+        shown |= {"with", "register", "learner_register", "title", "goals", "start", "nodes"}
         goals = "".join(
             f"<li><strong>{esc(_map(g).get('id', ''))}</strong> {esc(_map(g).get('en', ''))}</li>"
             for g in _seq(ex.get("goals"))
         )
         who = f"{esc(ctx.name(ex.get('with', '')))} · {esc(_register(ex.get('register')))}"
+        if ex.get("learner_register") and ex.get("learner_register") != ex.get("register"):
+            who += f" (you answer with {esc(_register(ex['learner_register']))})"
         parts.append(row("Title", esc(_map(ex.get("title")).get("en", ""))))
         parts.append(row("With", f"{who}; starts at {esc(ex.get('start', ''))}"))
         parts.append(f'<div class="goals"><h4>Goals</h4><ul>{goals}</ul></div>')

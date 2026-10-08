@@ -1,6 +1,6 @@
 """`content tts` end to end (M5.1, M5.4; docs/04 § Audio): collect the needs, render (the offline mock, or Azure through
 recorded responses), cache, align, assemble, encode once; then the pack build, the review pages and the report use the
-renders. Every test works on a throwaway copy of the course; nothing touches the network.
+renders. Every test works on a throwaway copy of the frozen seed course (conftest); nothing touches the network.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 from typer.testing import CliRunner
 
-from conftest import copy_course
+from conftest import copy_course, copy_seed
 from itcontent.audio_pcm import read_wav_bytes
 from itcontent.cli import app
 from itcontent.pack import build as build_mod
@@ -43,11 +43,11 @@ def line(out: list[str], prefix: str) -> str:
 
 
 @pytest.fixture(scope="module")
-def rendered(root, tmp_path_factory) -> Path:
+def rendered(tmp_path_factory) -> Path:
     """A course copy whose Unit 2 is rendered with the mock provider."""
     if shutil.which("ffmpeg") is None:
         pytest.skip("ffmpeg is not installed")
-    repo = copy_course(root, tmp_path_factory.mktemp("tts") / "repo")
+    repo = copy_seed(tmp_path_factory.mktemp("tts") / "repo")
     code, out = tts(repo, provider="mock", unit="u02")
     assert code == 0, out
     return repo
@@ -365,7 +365,10 @@ def test_no_renders_no_players(course_copy, tmp_path):
 # ---------------------------------------------------------------- the CLI
 
 
-def test_cli_tts():
+def test_cli_tts(seed_root, monkeypatch):
+    from itcontent import paths
+
+    monkeypatch.setattr(paths, "ROOT", seed_root)
     runner = CliRunner()
     res = runner.invoke(app, ["tts", "--provider", "mock", "--unit", "u02", "--dry-run"])
     assert res.exit_code == 0, res.output

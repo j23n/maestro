@@ -98,6 +98,20 @@ def test_every_element_of_the_page(mini):
     assert steps and not any(e.counted for e in steps)
 
 
+def test_a_conversation_shows_the_learners_register_when_it_differs(mini, tmp_path):
+    import shutil
+
+    shutil.copytree(mini, tmp_path / "c")
+    task = tmp_path / "c" / "content" / "units" / "02-al-bar" / "task.yaml"
+    text = task.read_text(encoding="utf-8")
+    assert "    with: ch:giulia\n    register: lei\n" in text
+    task.write_text(text.replace("    register: lei\n", "    register: tu\n    learner_register: lei\n", 1), "utf-8")
+    by = {e.target: e for e in build_page(Context.build(load_course(tmp_path / "c")), "u02").elements()}
+    assert "Giulia · tu (you answer with Lei); starts at" in by["u02.task.conv1"].body
+    assert "learner_register" not in by["u02.task.conv1"].body  # shown in words, not as a raw field
+    assert "Giulia · Lei; starts at" in by["u02.l1.ex25"].body  # the same register both ways: nothing added
+
+
 def test_specs_page_covers_the_signoff_files_and_content_questions(mini):
     course = load_course(mini)
     model = build_page(Context.build(course), "specs")

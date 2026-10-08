@@ -13,7 +13,7 @@ Formats and fields are in `docs/06`. Here: what good looks like.
 | `choice` | recognition, comprehension | 3 options, one clearly right, plausible distractors of the same form | "all of the above"; options that differ in length or style |
 | `match` | consolidating 4–6 pairs | one batch of related items | more than 6 pairs |
 | `true-false` | reading real-world texts (CELI-style) | statements about facts in the text | statements answerable without reading |
-| `conversation` | interaction, unit tasks, `use` steps | 3–5 nodes; 1–2 intents per node; `help` = model lines; `hint_en` says the goal; register `near` entries | long Italian turns from the character; intents that need untaught words |
+| `conversation` | interaction, unit tasks, `use` steps | 3–5 nodes; 1–2 intents per node; `help` = model lines; `hint_en` says the goal; register `near` entries; `register` is the character's, plus `learner_register` when the learner's differs (Signora Rossi: `tu`, the learner: `lei`) | long Italian turns from the character; intents that need untaught words |
 | `talk` | monologue | 2–4 content points shown as a checklist, `pass` below the number of points, a model answer | points that need exact wording |
 | `writing` | forms, messages, postcards, descriptions | word ranges like the exams (15–30, 20–40, 25–50); points; a model | grading style or creativity |
 | `relay` | mediation | a friend's question in English about a time, price, place or number in an Italian text | questions answerable without the Italian |

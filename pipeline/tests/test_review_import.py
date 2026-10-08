@@ -453,8 +453,6 @@ def test_content_review_procedure_end_to_end(course_copy, fixtures_dir, tmp_path
         "at": "2026-10-27T10:01:00Z",
     }
     # (the agent refreshed the annotations after the fix, as `make annotate` does; approve runs `content check`)
-    (course_copy / "pipeline" / "data").mkdir(parents=True, exist_ok=True)
-    (course_copy / "pipeline" / "data" / "morph-it").symlink_to(paths.ROOT / "pipeline" / "data" / "morph-it")
     notes: list[str] = []
     assert run_annotate(course_copy, echo=notes.append) == 0, notes[-5:]
     signoff = file_signoff(course_copy, tmp_path, signed_review(course_copy, comments=[story]))

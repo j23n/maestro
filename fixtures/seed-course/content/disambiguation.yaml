@@ -1,0 +1,33 @@
+# Choosing between items when a form fits more than one (docs/04 § Annotation, step 4).
+# Order of precedence: the line's own `lemmas:` override → context_rules → defaults → error.
+# Add an entry only when the choice is right almost always; otherwise annotate the line.
+#
+# Conditions are machine-readable. `when_any` is a list of conditions; the rule fires if any of them holds.
+# A condition constrains the neighbouring word tokens with `prev` and/or `next`, using the same matcher
+# fields as detection (form, lemma, pos, morph; docs/03 § Grammar points). Punctuation tokens are skipped.
+# Unlike detection, a neighbouring token matches if ANY of its analyses matches (it can be a noun).
+# `choose` / `otherwise` name an item ID, or `{pos: […]}` to keep only the Morph-it! analyses with that
+# category (the grammar point is then found by detection).
+
+context_rules:
+  - form: sei
+    choose: w:sei                                   # the number six
+    when_any:
+      - {next: {pos: [NOUN], morph: "\\bp$"}}       # sei euro, sei caffè, sei amici (invariable nouns also have a plural analysis)
+      - {prev: {form: "^(le|alle|dalle)$"}}         # le sei, alle sei e venti, dalle sei
+    otherwise: w:essere                             # tu sei, sei studente?, sei di Bologna?
+  - form: uno
+    choose: {pos: [ART, DET-INDEF]}                 # uno studente, uno spritz
+    when_any:
+      - {next: {pos: [NOUN, ADJ]}}
+    otherwise: w:uno                                # the number one
+  - forms: [la, le, lo, gli, "l'"]
+    choose: {pos: [ART]}                            # the definite article
+    when_any:
+      - {next: {pos: [NOUN, ADJ, DET-NUM-CARD, DET-POSS]}}
+    otherwise: {pos: [PRO-PERS]}                    # the clitic pronoun (Units 7–8, R)
+
+defaults:
+  era: w:essere              # not the noun 'era' (age, epoch)
+  porta: w:porta~door        # the noun; portare 3rd singular needs a line override
+  ancora: w:ancora~adverb    # 'still, again', not àncora (anchor)

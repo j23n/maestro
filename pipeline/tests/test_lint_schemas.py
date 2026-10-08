@@ -150,7 +150,7 @@ def test_invalid_fixture_reports_file_path_line_and_problem(fixture, course_copy
         assert line in found, "\n".join(found)
 
 
-def test_seed_content_has_no_schema_findings(root):
+def test_live_course_has_no_schema_findings(root):
     findings = [f for f in lint_findings(root) if f.level != "pending"]
     assert findings == [], "\n".join(map(str, findings))
 
@@ -224,7 +224,7 @@ def test_lint_json_output(course_copy, place):
     }
 
 
-def test_cli_lint_json_on_seed(root):
+def test_cli_lint_json_on_the_live_course(root):
     result = CliRunner().invoke(app, ["lint", "--json"])
     assert result.exit_code == 0, result.output
     out = json.loads(result.output)

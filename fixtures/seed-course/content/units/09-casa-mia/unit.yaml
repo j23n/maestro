@@ -1,0 +1,57 @@
+# Unit spec (u09). The contract every draft for this unit must satisfy (docs/03, docs/04).
+# Encoded from the plan's scope and sequence. DRAFT for content-lead sign-off (C1, week 3): approval = review.status.
+# `chunks` lists set phrases in prose; the item graph (C2) turns them into c: items.
+
+id: u09
+title: {it: Casa mia, en: My home}
+episode: A new room, and a weekend fixing it up
+arc: city
+est_hours: 4.5
+lessons: 3
+can_do:
+- id: cd:describe-home
+  text: Describe your home
+  scale: oral-production
+  syllabus: ['sy:fn.describe', 'sy:tp.home']
+- id: cd:say-where-things-are
+  text: Say where things are
+  scale: oral-production
+  syllabus: ['sy:gr.articulated-prepositions']
+- id: cd:give-contact-details
+  text: Give your address, phone number and email
+  scale: written-interaction
+  syllabus: ['sy:fn.forms', 'sy:ss.alphabet']
+- id: cd:say-what-you-did-weekend
+  text: Say what you did at the weekend
+  scale: oral-production
+  stretch: true
+  syllabus: ['sy:fn.past-events']
+grammar:
+- {id: 'g:location-prepositions', status: P}
+- {id: 'g:passato-prossimo-avere', status: P}
+- {id: 'g:past-time-expressions', status: P}
+chunks: 'al terzo piano (US: fourth floor); chiocciola, punto (email addresses)'
+items:
+  new_words: 55-70
+  topics: ['topic:home', 'topic:objects']
+  note: 'rooms, furniture, everyday objects; false friend: camera'
+recycle_from: [u03, u06, u08]
+sounds: ['s:third-last-stress']
+texts:
+  stories: {count: 3, words: 180-280, new_token_max: 0.05}
+  listening: [dialogue, phone]
+  real_world: [ad, form]
+tasks:
+  conversation:
+  - {id: u09.task.conv1, brief: 'Signora Rossi asks about your room and your weekend (she says tu, you say Lei)'}
+  talk: {brief: Describe your home}
+  writing:
+    kind: description
+    brief: Describe your room (20–40 words)
+    tags: ['sy:ex.cils-picture-description']
+  relay: null
+check:
+  items: 20
+  sections: [listening, reading, writing, speaking]
+notes: Passato prossimo with avere becomes productive here (Q3 in docs/13).
+review: {status: draft, by: null, date: null, hash: null}

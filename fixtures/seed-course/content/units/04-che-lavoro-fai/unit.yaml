@@ -1,0 +1,51 @@
+# Unit spec (u04). The contract every draft for this unit must satisfy (docs/03, docs/04).
+# Encoded from the plan's scope and sequence. DRAFT for content-lead sign-off (C1, week 3): approval = review.status.
+# `chunks` lists set phrases in prose; the item graph (C2) turns them into c: items.
+
+id: u04
+title: {it: 'Che lavoro fai?', en: 'What do you do?'}
+episode: Marco's first working day as a member of the coworking space
+arc: settling
+est_hours: 4.5
+lessons: 3
+can_do:
+- id: cd:say-job-workplace
+  text: Say what you do and where
+  scale: oral-production
+  syllabus: ['sy:tp.work']
+- id: cd:ask-others-job
+  text: Ask others what they do
+  scale: oral-interaction
+  syllabus: ['sy:tp.work']
+- id: cd:say-languages
+  text: Say which languages you speak
+  scale: oral-production
+  syllabus: ['sy:tp.school-languages']
+grammar:
+- {id: 'g:present-regular-sg', status: P}
+- {id: 'g:present-noi', status: P}
+- {id: 'g:present-isc', status: P}
+- {id: 'g:fare-present', status: P}
+- {id: 'g:infinitive', status: P}
+- {id: 'g:question-words', status: P}
+chunks: faccio il/la…; lavoro come…; parlo un po' di…
+items:
+  new_words: 55-70
+  topics: ['topic:work', 'topic:languages']
+  note: jobs, workplaces, study, languages
+recycle_from: [u01, u02, u03]
+sounds: ['s:word-stress']
+texts:
+  stories: {count: 3, words: 130-230, new_token_max: 0.05}
+  listening: [dialogue, phone]
+  real_world: [ad, sign]
+tasks:
+  conversation:
+  - {id: u04.task.conv1, brief: Sara asks about your job and languages (tu)}
+  talk: {brief: 'Say what you do, where, and which languages you speak'}
+  writing: {kind: form, brief: 'A coworking member profile: name, job, languages'}
+  relay: null
+check:
+  items: 18
+  sections: [listening, reading, writing, speaking]
+review: {status: draft, by: null, date: null, hash: null}

@@ -178,8 +178,8 @@ def test_invalid_fixture_reports_file_path_line_and_problem(fixture, course_copy
         assert line.replace("{actual}", actual) in found, "\n".join(found)
 
 
-def test_seed_content_lints_clean_with_pending_information(root):
-    findings = lint_findings(root)
+def test_seed_content_lints_clean_with_pending_information(seed_root):
+    findings = lint_findings(seed_root)
     assert [f for f in findings if f.level != "pending"] == []
     pending = {str(f) for f in findings}
     assert (
@@ -188,10 +188,10 @@ def test_seed_content_lints_clean_with_pending_information(root):
     )
 
 
-def test_pending_vs_error(root):
+def test_pending_vs_error(seed_root):
     """docs/04 § Commands: missing units, lessons, steps, items or sounds are pending in unit specs, the syllabus,
     the story bible's switch_at, disambiguation.yaml (and items' lessons); everything else missing is an error."""
-    pending = [str(f) for f in lint_findings(root) if f.level == "pending"]
+    pending = [str(f) for f in lint_findings(seed_root) if f.level == "pending"]
     expect = [
         "pending: content/story-bible.yaml › registers[14].switch_at (line 117): step 'u05.l1.step-story' "
         "doesn't exist yet (1 more reference in this file)",
@@ -273,8 +273,8 @@ def test_ids_lock_accepts_generated_and_retired_ids(course_copy):
     assert lock_findings == ["error: content/ids.lock (line 14): 'not' is not an ID (docs/03 § IDs)"]
 
 
-def test_index_resolves_generated_ids_and_lines(root):
-    ix = build_index(load_course(root))
+def test_index_resolves_generated_ids_and_lines(seed_root):
+    ix = build_index(load_course(seed_root))
     for ref in [
         "u02.l1.step-preview.b2.c-cosa-prende",
         "u02.step-opener",

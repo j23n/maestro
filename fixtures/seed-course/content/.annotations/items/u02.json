@@ -1,0 +1,73 @@
+{
+ "format": 1,
+ "source": "content/items/u02.yaml",
+ "strings": [
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "l'amico",
+   "of": 4,
+   "path": "items[7].recall_answer",
+   "pattern": "{l'amico|l'amica|un amico|un'amica}",
+   "ref": "w:amico",
+   "role": "recall_answer",
+   "text": "l'amico",
+   "tokens": [
+    {"analyses": ["il ART-M:s", "la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:amico", "kind": "word", "span": [0, 2], "surface": "l'"},
+    {"analyses": ["amico NOUN-M:s"], "item": "w:amico", "kind": "word", "lemma": "amico", "span": [2, 7], "surface": "amico"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "l'amica",
+   "of": 4,
+   "path": "items[7].recall_answer",
+   "pattern": "{l'amico|l'amica|un amico|un'amica}",
+   "ref": "w:amico",
+   "role": "recall_answer",
+   "text": "l'amica",
+   "tokens": [
+    {"analyses": ["il ART-M:s", "la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:amico", "kind": "word", "span": [0, 2], "surface": "l'"},
+    {"analyses": ["amica NOUN-F:s"], "item": "w:amico", "kind": "word", "lemma": "amica", "span": [2, 7], "surface": "amica"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "un amico",
+   "of": 4,
+   "path": "items[7].recall_answer",
+   "pattern": "{l'amico|l'amica|un amico|un'amica}",
+   "ref": "w:amico",
+   "role": "recall_answer",
+   "text": "un amico",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["amico NOUN-M:s"], "item": "w:amico", "kind": "word", "lemma": "amico", "span": [3, 8], "surface": "amico"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "un'amica",
+   "of": 4,
+   "path": "items[7].recall_answer",
+   "pattern": "{l'amico|l'amica|un amico|un'amica}",
+   "ref": "w:amico",
+   "role": "recall_answer",
+   "text": "un'amica",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "un'"},
+    {"analyses": ["amica NOUN-F:s"], "item": "w:amico", "kind": "word", "lemma": "amica", "span": [3, 8], "surface": "amica"}
+   ]
+  }
+ ],
+ "unit": "u02"
+}

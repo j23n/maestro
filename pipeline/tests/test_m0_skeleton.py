@@ -1,4 +1,4 @@
-"""M0.4: the CLI exists, `content lint` passes on the seed content, the data pins parse, IDs have formats."""
+"""M0.4: the CLI exists, `content lint` passes on the live course, the data pins parse, IDs have formats."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from itcontent.data_fetch import read_pins
 from itcontent.lint import run_lint
 
 
-def test_lint_passes_on_seed_content(root):
+def test_lint_passes_on_the_live_course(root):
     assert run_lint(root, echo=lambda _: None) == 0
 
 
