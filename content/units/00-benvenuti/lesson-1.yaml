@@ -1,0 +1,405 @@
+# Unit 0, Lesson 1 (C3 draft). Marco lands in Bologna late in the evening: goodbye at the plane door, the sign in
+# arrivals, the taxi stand. Pre-A1: chunks only, no grammar note (unit.yaml: grammar: []). Every Italian word is a
+# Unit 0 Lesson 1 item, a name or an allowlisted word. Nobody in the Unit 0 cast says tu to Marco (story bible), so
+# the informal chunks (ciao, scusa, e tu?, ci vediamo) are practised with "to a friend" prompts, and Marco's
+# "Ciao!" at the plane door is a slip he corrects. Story line references (#n) are 1-based.
+# The taxi driver is the same ch:extra in this story and in Lesson 2 (u00.l2.ride): both text IDs pick the same
+# voice from the ch:extra pool (voices.yaml: fnv1a64(textId) mod 4).
+id: u00.l1
+title: {it: "Buonasera, Bologna!", en: "Good evening, Bologna!"}
+scene: Marco lands in Bologna late in the evening; he says goodbye at the plane door, follows the signs and finds a taxi; everyone uses Lei
+review: {status: draft, by: null, date: null, hash: null}
+
+steps:
+  # 1 · Preview: greetings and goodbyes, then politeness, then yes/no and small talk
+  - kind: preview
+    id: u00.l1.step-preview
+    batches:
+      - [w:buongiorno, w:buonasera, w:arrivederci, w:ciao, c:buona-giornata, c:ci-vediamo]
+      - [w:grazie, w:prego, c:per-favore, c:scusi, c:scusa, c:benvenuto]
+      - [w:si, w:no, w:bene, c:come-va, c:e-tu]
+
+  # 2 · Listening: at the plane door (audio first; the transcript opens after the questions)
+  - kind: listening
+    id: u00.l1.step-listening
+    text:
+      id: u00.l1.plane
+      kind: dialogue
+      title: {en: "At the plane door"}
+      lines:
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Arrivederci! Buonasera!", en: "Goodbye! Good evening!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ciao!", en: "Bye!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Arrivederci!", en: "Goodbye!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah... arrivederci! Grazie!", en: "Oh... goodbye! Thank you!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Prego! Buonasera!", en: "You're welcome! Good evening!"}
+    plays: unlimited
+    exercises:
+      - id: u00.l1.ex01
+        format: choice
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "What time of day is it?"
+        options: ["Evening", "Morning", "Noon"]
+        answer: 0
+      - id: u00.l1.ex02
+        format: choice
+        tags: [cd:greet-farewell, sy:ss.greetings-register]
+        question_en: "Marco says one goodbye, then changes it. Why?"
+        options: ["Ciao is for friends; arrivederci is polite", "Ciao means hello, not goodbye", "Arrivederci means thank you"]
+        answer: 0
+
+  # 3 · Real-world reading: the sign in arrivals
+  - kind: reading
+    id: u00.l1.step-reading
+    text:
+      id: u00.l1.sign
+      kind: real_world
+      layout:
+        type: sign
+        style: info
+        lines: ["Benvenuti!", "Taxi →", "Bar ←"]
+    exercises:
+      - id: u00.l1.ex03
+        format: choice
+        tags: [sy:cefr.reading, sy:cefr.international-words]
+        question_en: "Marco needs a taxi. Which way does he go?"
+        options: ["Right", "Left", "Upstairs"]
+        answer: 0
+      - id: u00.l1.ex04
+        format: choice
+        targets: [{item: c:benvenuto, skill: read}]
+        tags: [cd:greet-farewell, sy:cefr.reading]
+        question_en: "What does Benvenuti! on the sign mean?"
+        options: ["Welcome!", "Goodbye!", "Good evening!"]
+        answer: 0
+
+  # 4 · Read and listen: the taxi stand, then check meaning in English
+  - kind: story
+    id: u00.l1.step-story
+    text:
+      id: u00.l1.taxi-stand
+      kind: story
+      title: {it: "Taxi? Taxi!", en: "Taxi? Taxi!"}
+      lines:
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Scusi! Taxi, per favore!", en: "Excuse me! A taxi, please!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Sì, sì. Prego!", en: "Yes, of course. Go ahead!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie! Buongiorno!", en: "Thanks! Good morning!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buonasera!", en: "Good evening!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah... buonasera! Scusi!", en: "Oh... good evening! Sorry!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Prego, prego!", en: "No problem! Here, let me take that."}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Oh, grazie! Grazie!", en: "Oh, thanks! Thank you!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Prego! Hotel?", en: "You're welcome! A hotel?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "No, no. No hotel. Per favore...", en: "No, no. Not a hotel. Here, please..."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Ah, ok! Bologna. Bene!", en: "Ah, OK! Bologna. Fine!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Toronto? Canada?", en: "Toronto? Canada?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Sì, sì! Toronto, Canada.", en: "Yes, that's right! Toronto, Canada."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Ah, Canada! Benvenuto!", en: "Ah, Canada! Welcome!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie!", en: "Thank you!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Prego!", en: "Please, get in!"}
+    questions:
+      - id: u00.l1.q1
+        format: choice
+        tags: [cd:greet-farewell]
+        question_en: "Why does the driver answer Marco with Buonasera?"
+        options: ["It's evening", "He's saying goodbye", "He's saying thank you"]
+        answer: 0
+      - id: u00.l1.q2
+        format: choice
+        tags: [sy:cefr.oral-comprehension]
+        question_en: "Is Marco going to a hotel?"
+        options: ["No", "Yes", "He doesn't know"]
+        answer: 0
+      - id: u00.l1.q3
+        format: choice
+        tags: [sy:cefr.oral-comprehension]
+        question_en: "Where is Marco from?"
+        options: ["Toronto, Canada", "Bologna", "The United States"]
+        answer: 0
+
+  # 5 · Practice: a block on the new chunks (story sentences first), then a mix of the easily confused pairs:
+  #     buongiorno/buonasera, ciao/arrivederci, scusi/scusa, sì/si. Each new P item gets at least 4 retrievals in
+  #     this lesson, counting the preview (docs/04 § Check 3).
+  - kind: practice
+    id: u00.l1.step-practice
+    block:
+      - id: u00.l1.ex05
+        format: cloze
+        targets: [{item: w:buonasera, skill: recall}]
+        tags: [cd:greet-farewell]
+        source: u00.l1.taxi-stand#5
+        text: "Ah... [[buonasera]]! Scusi!"
+        prompt_en: "Oh... good evening! Sorry!"
+        hint: "It's late in the evening."
+        rule: "buongiorno until early afternoon; buonasera from mid-afternoon on."
+        near: [{answer: buongiorno, hint: "That's Marco's mistake. It's late in the evening."}]
+        audio_after: true
+      - id: u00.l1.ex06
+        format: cloze
+        targets: [{item: c:per-favore, skill: recall}]
+        tags: [cd:politeness]
+        source: u00.l1.taxi-stand#1
+        text: "Scusi! Taxi, [[per favore]]!"
+        prompt_en: "Excuse me! A taxi, please!"
+        near: [{answer: grazie, hint: "Grazie is thank you. Marco is asking for something."}]
+        audio_after: true
+      - id: u00.l1.ex07
+        format: cloze
+        targets: [{item: c:benvenuto, skill: recall}]
+        tags: [cd:greet-farewell]
+        source: u00.l1.taxi-stand#13
+        text: "Ah, Canada! [[Benvenuto]]!"
+        prompt_en: "Ah, Canada! Welcome!"
+        hint: "The driver is talking to Marco, a man."
+        near: [{answer: benvenuta, outcome: almost, hint: "Benvenuta is for a woman. Marco is a man."}]
+      - id: u00.l1.ex08
+        format: recall
+        targets: [{item: w:grazie, skill: recall}]
+        tags: [cd:politeness]
+        prompt_en: "Thank you!"
+        answer: "grazie"
+        audio_after: true
+      - id: u00.l1.ex09
+        format: recall
+        targets: [{item: w:prego, skill: recall}]
+        tags: [cd:politeness]
+        prompt_en: "You're welcome!"
+        answer: "prego"
+        near: [{answer: grazie, hint: "Grazie is thank you. What do you say back?"}]
+        audio_after: true
+      - id: u00.l1.ex10
+        format: recall
+        targets: [{item: c:scusi, skill: recall}]
+        tags: [cd:politeness, sy:fn.get-attention]
+        prompt_en: "Excuse me! (to a stranger at the airport)"
+        answer: "{scusi|senta|scusi senta}"
+        near: [{answer: scusa, hint: "Scusa is for friends. Which one is for people you don't know?"}]
+        audio_after: true
+      - id: u00.l1.ex11
+        format: recall
+        targets: [{item: c:scusa, skill: recall}]
+        tags: [cd:politeness, sy:ss.politeness]
+        prompt_en: "Sorry! (to a friend)"
+        answer: "scusa"
+        near: [{answer: scusi, hint: "Scusi is for people you don't know. Which one is for friends?"}]
+        audio_after: true
+      - id: u00.l1.ex12
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:buongiorno, skill: read}
+          - {item: w:buonasera, skill: read}
+          - {item: w:ciao, skill: read}
+          - {item: w:arrivederci, skill: read}
+          - {item: c:buona-giornata, skill: read}
+          - {item: c:ci-vediamo, skill: read}
+        tags: [cd:greet-farewell]
+        pairs: [["buongiorno", "good morning"], ["buonasera", "good evening"], ["ciao", "hi; bye"], ["arrivederci", "goodbye"], ["buona giornata", "have a good day"], ["ci vediamo", "see you"]]
+      - id: u00.l1.ex13
+        format: match
+        targets:
+          - {item: w:grazie, skill: read}
+          - {item: w:prego, skill: read}
+          - {item: c:per-favore, skill: read}
+          - {item: c:scusi, skill: read}
+          - {item: w:si, skill: read}
+          - {item: w:no, skill: read}
+        tags: [cd:politeness]
+        pairs: [["grazie", "thank you"], ["prego", "you're welcome"], ["per favore", "please"], ["scusi", "excuse me; sorry (formal)"], ["sì", "yes"], ["no", "no"]]
+      - id: u00.l1.ex14
+        format: recall
+        targets: [{item: c:come-va, skill: recall}]
+        tags: [cd:greet-farewell, sy:fn.conversation-management]
+        prompt_en: "How's it going?"
+        answer: "{come va|come stai|come sta}"
+        audio_after: true
+      - id: u00.l1.ex15
+        format: sentence-building
+        targets: [{item: c:e-tu, skill: recall}, {item: w:bene, skill: recall}]
+        tags: [cd:greet-farewell, sy:fn.conversation-management]
+        prompt_en: "Fine, thanks. And you? (to a friend)"
+        tiles: [bene, grazie, e tu]
+        answer: ["bene grazie e tu"]
+        audio_after: true
+      - id: u00.l1.ex16
+        format: dictation
+        targets: [{item: w:buonasera, skill: listen}, {item: c:per-favore, skill: listen}]
+        tags: [sy:cefr.orthographic-control, cd:politeness]
+        say: "Buonasera! Taxi, per favore."
+        slow: true
+      - id: u00.l1.ex17
+        format: repeat
+        targets: [{item: w:arrivederci, skill: speak}]
+        tags: [sy:cefr.phonological-control, sy:ss.double-consonants]
+        say: "Grazie! Arrivederci!"
+      - id: u00.l1.ex18
+        format: repeat
+        targets: [{item: w:buonasera, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        say: "Ah, buonasera! Scusi!"
+    mix:
+      - id: u00.l1.ex19
+        format: choice
+        targets: [{item: w:buonasera, skill: read}]
+        tags: [cd:greet-farewell]
+        question_en: "It's nine in the evening. You walk into a café. What do you say?"
+        options: ["Buonasera!", "Buongiorno!", "Buona giornata!"]
+        answer: 0
+        hint: "Think about the time of day."
+      - id: u00.l1.ex20
+        format: recall
+        targets: [{item: w:buongiorno, skill: recall}]
+        tags: [cd:greet-farewell]
+        prompt_en: "Good morning! (to a neighbor, at eight in the morning)"
+        answer: "buongiorno"
+        near: [{answer: buonasera, hint: "Buonasera is for the evening. It's eight in the morning."}]
+        audio_after: true
+      - id: u00.l1.ex21
+        format: recall
+        targets: [{item: c:buona-giornata, skill: recall}]
+        tags: [cd:greet-farewell, sy:fn.good-wishes]
+        prompt_en: "Have a good day! (leaving a shop in the morning)"
+        answer: "{buona giornata|grazie buona giornata|arrivederci buona giornata}"
+        near: [{answer: buongiorno, hint: "Buongiorno is a greeting. What do you wish someone when you leave?"}]
+        audio_after: true
+      - id: u00.l1.ex22
+        format: recall
+        targets: [{item: w:ciao, skill: recall}, {item: c:come-va, skill: recall}]
+        tags: [cd:greet-farewell, sy:ss.greetings-register]
+        prompt_en: "Hi! How's it going? (to a friend)"
+        answer: "ciao come {va|stai}"
+        near: [{answer: "buonasera come va", hint: "That's polite, but this is a friend. Which greeting is for friends?"}]
+        audio_after: true
+      - id: u00.l1.ex23
+        format: recall
+        targets: [{item: w:arrivederci, skill: recall}]
+        tags: [cd:greet-farewell, sy:ss.greetings-register]
+        prompt_en: "Goodbye! (to the taxi driver)"
+        answer: "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}"
+        near: [{answer: "(grazie )ciao", hint: "You don't know the driver. Ciao is for friends."}]
+        audio_after: true
+      - id: u00.l1.ex24
+        format: cloze
+        targets: [{item: w:si, skill: recall}]
+        tags: [sy:ss.accented-pairs]
+        source: u00.l1.taxi-stand#12
+        text: "[[Sì]], sì! Toronto, Canada."
+        prompt_en: "Yes, that's right! Toronto, Canada."
+        rule: "sì (yes) has an accent; si without one is a different word."
+        near: [{answer: si, outcome: almost, hint: "Yes needs an accent: sì."}]
+      - id: u00.l1.ex25
+        format: recall
+        targets: [{item: w:no, skill: recall}]
+        tags: [cd:politeness]
+        prompt_en: "No, thanks."
+        answer: "no grazie"
+        audio_after: true
+      - id: u00.l1.ex26
+        format: choice
+        targets: [{item: c:scusa, skill: read}]
+        tags: [cd:politeness, sy:ss.politeness]
+        question_en: "You bump into a friend. What do you say?"
+        options: ["Scusa!", "Scusi!", "Prego!"]
+        answer: 0
+        hint: "Is this a friend or a stranger?"
+      - id: u00.l1.ex27
+        format: recall
+        targets: [{item: c:ci-vediamo, skill: recall}]
+        tags: [cd:greet-farewell, sy:gr.comparatives-ci-ne]
+        prompt_en: "See you! (to a friend)"
+        answer: "{ci vediamo|ciao ci vediamo}"
+        audio_after: true
+      - id: u00.l1.ex28
+        format: cloze
+        targets: [{item: c:e-tu, skill: recall}]
+        tags: [cd:greet-farewell, sy:ss.greetings-register]
+        text: "Bene, grazie. [[E tu]]?"
+        prompt_en: "Fine, thanks. And you? (to a friend)"
+        near: [{answer: "e Lei", hint: "Lei is for people you don't know. This is a friend."}]
+      - id: u00.l1.ex29
+        format: recall
+        targets: [{item: w:bene, skill: recall}]
+        tags: [cd:greet-farewell]
+        prompt_en: "Fine, thanks!"
+        answer: "bene grazie"
+        audio_after: true
+
+  # 6 · Sounds: double consonants and pure vowels by ear (rule 11: hearing is tested; saying is practised in the
+  #     repeat exercises above, not machine-checked). The single-or-double answers differ.
+  - kind: sounds
+    id: u00.l1.step-sounds
+    exercises:
+      - id: u00.l1.ex30
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: single-or-double
+        word: arrivederci
+        answer: double
+        tip_en: "Listen to the start: arr-. Italians hold a double consonant a little longer."
+      - id: u00.l1.ex31
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: single-or-double
+        word: buonasera
+        answer: single
+      - id: u00.l1.ex32
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: which-word
+        pair: [pena, penna]
+        play: penna
+        glosses: {pena: "sorrow; penalty", penna: pen}
+      - id: u00.l1.ex33
+        format: sound-pair
+        targets: [{item: s:pure-vowels, skill: listen}]
+        tags: [sy:ss.sounds-spellings]
+        question: which-word
+        pair: [sete, seta]
+        play: seta
+        glosses: {sete: thirst, seta: silk}
+        tip_en: "Italian vowels stay pure, even at the end of a word: -e and -a sound clearly different."
+
+  # 7 · Use: your own arrival at the taxi stand, late in the evening (Lei).
+  - kind: use
+    id: u00.l1.step-use
+    exercise:
+      id: u00.l1.ex34
+      format: conversation
+      with: ch:extra
+      register: lei
+      title: {en: "Take a taxi at the airport"}
+      tags: [cd:greet-farewell, cd:politeness]
+      goals:
+        - {id: greet, en: "Greet the driver: it's late in the evening"}
+        - {id: answer, en: "Say you're not going to a hotel"}
+        - {id: thanks, en: "Thank the driver"}
+      start: n1
+      nodes:
+        n1:
+          say: "Buonasera!"
+          en: "Good evening!"
+          expect:
+            - {intent: greet, goal: greet, accept: ["buonasera( taxi)( per favore)", "(scusi )taxi per favore( buonasera)"], next: n2}
+          near:
+            - {answer: "buongiorno( taxi)( per favore)", hint: "It's late in the evening. Which greeting fits?"}
+            - {answer: "ciao( taxi)( per favore)", hint: "You don't know the driver. Ciao is for friends."}
+          help: ["Buonasera! Taxi, per favore."]
+          hint_en: "Greet the driver and ask for a taxi."
+        n2:
+          say: "Prego! Hotel?"
+          en: "Go ahead! A hotel?"
+          expect:
+            - {intent: no-hotel, goal: answer, accept: ["no( no)( hotel)( grazie)( per favore)", "no grazie"], next: n3}
+          help: ["No, no hotel. Per favore..."]
+          hint_en: "You're not going to a hotel. Say no."
+        n3:
+          say: "Ok! Prego!"
+          en: "OK! Please, get in!"
+          expect:
+            - {intent: thanks, goal: thanks, accept: ["grazie( grazie)", "(ok )grazie( buonasera)"], next: end}
+          help: ["Grazie!"]
+          hint_en: "Thank the driver."
+        end:
+          say: "Prego, prego!"
+          en: "You're welcome!"
+          final: true

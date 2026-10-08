@@ -1,0 +1,2033 @@
+{
+ "format": 1,
+ "source": "content/units/00-benvenuti/lesson-1.yaml",
+ "strings": [
+  {
+   "path": "steps[1].text.lines[0].it",
+   "ref": "u00.l1.plane#1",
+   "role": "line",
+   "text": "Arrivederci! Buonasera!",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [11, 12], "surface": "!", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [13, 22], "surface": "Buonasera"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[1].it",
+   "ref": "u00.l1.plane#2",
+   "role": "line",
+   "text": "Ciao!",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "Ciao"},
+    {"kind": "punct", "span": [4, 5], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[2].it",
+   "ref": "u00.l1.plane#3",
+   "role": "line",
+   "text": "Arrivederci!",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [11, 12], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[3].it",
+   "ref": "u00.l1.plane#4",
+   "role": "line",
+   "text": "Ah... arrivederci! Grazie!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": "."},
+    {"kind": "punct", "span": [3, 4], "surface": "."},
+    {"kind": "punct", "span": [4, 5], "surface": ".", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [6, 17], "surface": "arrivederci"},
+    {"kind": "punct", "span": [17, 18], "surface": "!", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [19, 25], "surface": "Grazie"},
+    {"kind": "punct", "span": [25, 26], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[4].it",
+   "ref": "u00.l1.plane#5",
+   "role": "line",
+   "text": "Prego! Buonasera!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [7, 16], "surface": "Buonasera"},
+    {"kind": "punct", "span": [16, 17], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[2].text.layout.lines[0]",
+   "ref": "u00.l1.sign",
+   "role": "layout",
+   "text": "Benvenuti!",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+m+p", "benvenuto NOUN-M:p"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "Benvenuti"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[2].text.layout.lines[1]",
+   "ref": "u00.l1.sign",
+   "role": "layout",
+   "text": "Taxi →",
+   "tokens": [
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [0, 4], "surface": "Taxi", "trailing": " "},
+    {"kind": "punct", "span": [5, 6], "surface": "→"}
+   ]
+  },
+  {
+   "path": "steps[2].text.layout.lines[2]",
+   "ref": "u00.l1.sign",
+   "role": "layout",
+   "text": "Bar ←",
+   "tokens": [
+    {"analyses": ["bar NOUN-M:p", "bar NOUN-M:s"], "flags": ["allowlisted"], "gloss": "café; bar", "kind": "word", "lemma": "bar", "span": [0, 3], "surface": "Bar", "trailing": " "},
+    {"kind": "punct", "span": [4, 5], "surface": "←"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[0].it",
+   "ref": "u00.l1.taxi-stand#1",
+   "role": "line",
+   "text": "Scusi! Taxi, per favore!",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [7, 11], "surface": "Taxi"},
+    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"},
+    {"kind": "punct", "span": [23, 24], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[1].it",
+   "ref": "u00.l1.taxi-stand#2",
+   "role": "line",
+   "text": "Sì, sì. Prego!",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
+    {"kind": "punct", "span": [6, 7], "surface": ".", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [8, 13], "surface": "Prego"},
+    {"kind": "punct", "span": [13, 14], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[2].it",
+   "ref": "u00.l1.taxi-stand#3",
+   "role": "line",
+   "text": "Grazie! Buongiorno!",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [8, 18], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [18, 19], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[3].it",
+   "ref": "u00.l1.taxi-stand#4",
+   "role": "line",
+   "text": "Buonasera!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[4].it",
+   "ref": "u00.l1.taxi-stand#5",
+   "role": "line",
+   "text": "Ah... buonasera! Scusi!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": "."},
+    {"kind": "punct", "span": [3, 4], "surface": "."},
+    {"kind": "punct", "span": [4, 5], "surface": ".", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [6, 15], "surface": "buonasera"},
+    {"kind": "punct", "span": [15, 16], "surface": "!", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "Scusi"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[5].it",
+   "ref": "u00.l1.taxi-stand#6",
+   "role": "line",
+   "text": "Prego, prego!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [7, 12], "surface": "prego"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[6].it",
+   "ref": "u00.l1.taxi-stand#7",
+   "role": "line",
+   "text": "Oh, grazie! Grazie!",
+   "tokens": [
+    {"analyses": ["oh INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "oh", "span": [0, 2], "surface": "Oh"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [4, 10], "surface": "grazie"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "Grazie"},
+    {"kind": "punct", "span": [18, 19], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[7].it",
+   "ref": "u00.l1.taxi-stand#8",
+   "role": "line",
+   "text": "Prego! Hotel?",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [7, 12], "surface": "Hotel"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[8].it",
+   "ref": "u00.l1.taxi-stand#9",
+   "role": "line",
+   "text": "No, no. No hotel. Per favore...",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [4, 6], "surface": "no"},
+    {"kind": "punct", "span": [6, 7], "surface": ".", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [8, 10], "surface": "No", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [11, 16], "surface": "hotel"},
+    {"kind": "punct", "span": [16, 17], "surface": ".", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [18, 21], "surface": "Per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [22, 28], "surface": "favore"},
+    {"kind": "punct", "span": [28, 29], "surface": "."},
+    {"kind": "punct", "span": [29, 30], "surface": "."},
+    {"kind": "punct", "span": [30, 31], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[9].it",
+   "ref": "u00.l1.taxi-stand#10",
+   "role": "line",
+   "text": "Ah, ok! Bologna. Bene!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [4, 6], "surface": "ok"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Bologna"},
+    {"kind": "punct", "span": [15, 16], "surface": ".", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [17, 21], "surface": "Bene"},
+    {"kind": "punct", "span": [21, 22], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[10].it",
+   "ref": "u00.l1.taxi-stand#11",
+   "role": "line",
+   "text": "Toronto? Canada?",
+   "tokens": [
+    {"kind": "name", "span": [0, 7], "surface": "Toronto"},
+    {"kind": "punct", "span": [7, 8], "surface": "?", "trailing": " "},
+    {"kind": "name", "span": [9, 15], "surface": "Canada"},
+    {"kind": "punct", "span": [15, 16], "surface": "?"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[11].it",
+   "ref": "u00.l1.taxi-stand#12",
+   "role": "line",
+   "text": "Sì, sì! Toronto, Canada.",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Toronto"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [17, 23], "surface": "Canada"},
+    {"kind": "punct", "span": [23, 24], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[12].it",
+   "ref": "u00.l1.taxi-stand#13",
+   "role": "line",
+   "text": "Ah, Canada! Benvenuto!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [4, 10], "surface": "Canada"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["benvenuto ADJ:pos+m+s", "benvenuto NOUN-M:s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [12, 21], "surface": "Benvenuto"},
+    {"kind": "punct", "span": [21, 22], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[13].it",
+   "ref": "u00.l1.taxi-stand#14",
+   "role": "line",
+   "text": "Grazie!",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.lines[14].it",
+   "ref": "u00.l1.taxi-stand#15",
+   "role": "line",
+   "text": "Prego!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[3].text.title.it",
+   "ref": "u00.l1.taxi-stand",
+   "role": "title",
+   "text": "Taxi? Taxi!",
+   "tokens": [
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [0, 4], "surface": "Taxi"},
+    {"kind": "punct", "span": [4, 5], "surface": "?", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [6, 10], "surface": "Taxi"},
+    {"kind": "punct", "span": [10, 11], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 1,
+   "path": "steps[4].block[0].near[0].answer",
+   "pattern": "buongiorno",
+   "ref": "u00.l1.ex05",
+   "role": "near",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [4, 4],
+   "model": true,
+   "norm": "buonasera",
+   "of": 1,
+   "path": "steps[4].block[0].text",
+   "pattern": "buonasera",
+   "ref": "u00.l1.ex05",
+   "role": "cloze",
+   "text": "Ah... buonasera! Scusi!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": "."},
+    {"kind": "punct", "span": [3, 4], "surface": "."},
+    {"kind": "punct", "span": [4, 5], "surface": ".", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [6, 15], "surface": "buonasera"},
+    {"kind": "punct", "span": [15, 16], "surface": "!", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "Scusi"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie",
+   "of": 1,
+   "path": "steps[4].block[1].near[0].answer",
+   "pattern": "grazie",
+   "ref": "u00.l1.ex06",
+   "role": "near",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [4, 5],
+   "model": true,
+   "norm": "per favore",
+   "of": 1,
+   "path": "steps[4].block[1].text",
+   "pattern": "per favore",
+   "ref": "u00.l1.ex06",
+   "role": "cloze",
+   "text": "Scusi! Taxi, per favore!",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [7, 11], "surface": "Taxi"},
+    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"},
+    {"kind": "punct", "span": [23, 24], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "benvenuta",
+   "of": 1,
+   "path": "steps[4].block[2].near[0].answer",
+   "pattern": "benvenuta",
+   "ref": "u00.l1.ex07",
+   "role": "near",
+   "text": "benvenuta",
+   "tokens": [
+    {"analyses": ["benvenuto ADJ:pos+f+s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "benvenuta"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [4, 4],
+   "model": true,
+   "norm": "benvenuto",
+   "of": 1,
+   "path": "steps[4].block[2].text",
+   "pattern": "Benvenuto",
+   "ref": "u00.l1.ex07",
+   "role": "cloze",
+   "text": "Ah, Canada! Benvenuto!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [4, 10], "surface": "Canada"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["benvenuto ADJ:pos+m+s", "benvenuto NOUN-M:s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [12, 21], "surface": "Benvenuto"},
+    {"kind": "punct", "span": [21, 22], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "grazie",
+   "of": 1,
+   "path": "steps[4].block[3].answer",
+   "pattern": "grazie",
+   "ref": "u00.l1.ex08",
+   "role": "answer",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "prego",
+   "of": 1,
+   "path": "steps[4].block[4].answer",
+   "pattern": "prego",
+   "ref": "u00.l1.ex09",
+   "role": "answer",
+   "text": "prego",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "prego"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie",
+   "of": 1,
+   "path": "steps[4].block[4].near[0].answer",
+   "pattern": "grazie",
+   "ref": "u00.l1.ex09",
+   "role": "near",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "scusi",
+   "of": 3,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{scusi|senta|scusi senta}",
+   "ref": "u00.l1.ex10",
+   "role": "answer",
+   "text": "scusi",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "senta",
+   "of": 3,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{scusi|senta|scusi senta}",
+   "ref": "u00.l1.ex10",
+   "role": "answer",
+   "text": "senta",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "scusi senta",
+   "of": 3,
+   "path": "steps[4].block[5].answer",
+   "pattern": "{scusi|senta|scusi senta}",
+   "ref": "u00.l1.ex10",
+   "role": "answer",
+   "text": "scusi senta",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusa",
+   "of": 1,
+   "path": "steps[4].block[5].near[0].answer",
+   "pattern": "scusa",
+   "ref": "u00.l1.ex10",
+   "role": "near",
+   "text": "scusa",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "scusa",
+   "of": 1,
+   "path": "steps[4].block[6].answer",
+   "pattern": "scusa",
+   "ref": "u00.l1.ex11",
+   "role": "answer",
+   "text": "scusa",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "scusa"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusi",
+   "of": 1,
+   "path": "steps[4].block[6].near[0].answer",
+   "pattern": "scusi",
+   "ref": "u00.l1.ex11",
+   "role": "near",
+   "text": "scusi",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[0][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[1][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[2][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "ciao",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[3][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[4][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "buona giornata",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata"}
+   ]
+  },
+  {
+   "path": "steps[4].block[7].pairs[5][0]",
+   "ref": "u00.l1.ex12",
+   "role": "pair",
+   "text": "ci vediamo",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[0][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[1][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "prego",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "prego"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[2][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "per favore",
+   "tokens": [
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [0, 3], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [4, 10], "surface": "favore"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[3][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "scusi",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[4][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "sì",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì"}
+   ]
+  },
+  {
+   "path": "steps[4].block[8].pairs[5][0]",
+   "ref": "u00.l1.ex13",
+   "role": "pair",
+   "text": "no",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "come va",
+   "of": 3,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{come va|come stai|come sta}",
+   "ref": "u00.l1.ex14",
+   "role": "answer",
+   "text": "come va",
+   "tokens": [
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [5, 7], "surface": "va"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:question-words", "tokens": [0, 0]},
+    {"point": "g:irregular-movement", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "come stai",
+   "of": 3,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{come va|come stai|come sta}",
+   "ref": "u00.l1.ex14",
+   "role": "answer",
+   "text": "come stai",
+   "tokens": [
+    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [5, 9], "surface": "stai"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:question-words", "tokens": [0, 0]},
+    {"point": "g:irregular-movement", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "come sta",
+   "of": 3,
+   "path": "steps[4].block[9].answer",
+   "pattern": "{come va|come stai|come sta}",
+   "ref": "u00.l1.ex14",
+   "role": "answer",
+   "text": "come sta",
+   "tokens": [
+    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [5, 8], "surface": "sta"}
+   ]
+  },
+  {
+   "model": true,
+   "path": "steps[4].block[10].answer[0]",
+   "ref": "u00.l1.ex15",
+   "role": "answer",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
+   "path": "steps[4].block[10].tiles[0]",
+   "ref": "u00.l1.ex15",
+   "role": "tile",
+   "text": "bene",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene"}
+   ]
+  },
+  {
+   "path": "steps[4].block[10].tiles[1]",
+   "ref": "u00.l1.ex15",
+   "role": "tile",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[4].block[10].tiles[2]",
+   "ref": "u00.l1.ex15",
+   "role": "tile",
+   "text": "e tu",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu"}
+   ]
+  },
+  {
+   "path": "steps[4].block[11].say",
+   "ref": "u00.l1.ex16",
+   "role": "say",
+   "text": "Buonasera! Taxi, per favore.",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [11, 15], "surface": "Taxi"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [17, 20], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [21, 27], "surface": "favore"},
+    {"kind": "punct", "span": [27, 28], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[4].block[12].say",
+   "ref": "u00.l1.ex17",
+   "role": "say",
+   "text": "Grazie! Arrivederci!",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [8, 19], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [19, 20], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].block[13].say",
+   "ref": "u00.l1.ex18",
+   "role": "say",
+   "text": "Ah, buonasera! Scusi!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [4, 13], "surface": "buonasera"},
+    {"kind": "punct", "span": [13, 14], "surface": "!", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [15, 20], "surface": "Scusi"},
+    {"kind": "punct", "span": [20, 21], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[0].options[0]",
+   "ref": "u00.l1.ex19",
+   "role": "option",
+   "text": "Buonasera!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[0].options[1]",
+   "ref": "u00.l1.ex19",
+   "role": "option",
+   "text": "Buongiorno!",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[0].options[2]",
+   "ref": "u00.l1.ex19",
+   "role": "option",
+   "text": "Buona giornata!",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "Buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata"},
+    {"kind": "punct", "span": [14, 15], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buongiorno",
+   "of": 1,
+   "path": "steps[4].mix[1].answer",
+   "pattern": "buongiorno",
+   "ref": "u00.l1.ex20",
+   "role": "answer",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buonasera",
+   "of": 1,
+   "path": "steps[4].mix[1].near[0].answer",
+   "pattern": "buonasera",
+   "ref": "u00.l1.ex20",
+   "role": "near",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buona giornata",
+   "of": 3,
+   "path": "steps[4].mix[2].answer",
+   "pattern": "{buona giornata|grazie buona giornata|arrivederci buona giornata}",
+   "ref": "u00.l1.ex21",
+   "role": "answer",
+   "text": "buona giornata",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie buona giornata",
+   "of": 3,
+   "path": "steps[4].mix[2].answer",
+   "pattern": "{buona giornata|grazie buona giornata|arrivederci buona giornata}",
+   "ref": "u00.l1.ex21",
+   "role": "answer",
+   "text": "grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "arrivederci buona giornata",
+   "of": 3,
+   "path": "steps[4].mix[2].answer",
+   "pattern": "{buona giornata|grazie buona giornata|arrivederci buona giornata}",
+   "ref": "u00.l1.ex21",
+   "role": "answer",
+   "text": "arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 1,
+   "path": "steps[4].mix[2].near[0].answer",
+   "pattern": "buongiorno",
+   "ref": "u00.l1.ex21",
+   "role": "near",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "ciao come va",
+   "of": 2,
+   "path": "steps[4].mix[3].answer",
+   "pattern": "ciao come {va|stai}",
+   "ref": "u00.l1.ex22",
+   "role": "answer",
+   "text": "ciao come va",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [10, 12], "surface": "va"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:question-words", "tokens": [1, 1]},
+    {"point": "g:irregular-movement", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "ciao come stai",
+   "of": 2,
+   "path": "steps[4].mix[3].answer",
+   "pattern": "ciao come {va|stai}",
+   "ref": "u00.l1.ex22",
+   "role": "answer",
+   "text": "ciao come stai",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [10, 14], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buonasera come va",
+   "of": 1,
+   "path": "steps[4].mix[3].near[0].answer",
+   "pattern": "buonasera come va",
+   "ref": "u00.l1.ex22",
+   "role": "near",
+   "text": "buonasera come va",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [10, 14], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [15, 17], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "arrivederci",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie arrivederci",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "arrivederci grazie",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "arrivederci grazie",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "buonasera",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie buonasera",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "grazie buonasera",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [7, 16], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "buonanotte",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "buonanotte",
+   "tokens": [
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [0, 10], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "grazie buonanotte",
+   "of": 7,
+   "path": "steps[4].mix[4].answer",
+   "pattern": "{arrivederci|grazie arrivederci|arrivederci grazie|buonasera|grazie buonasera|buonanotte|grazie buonanotte}",
+   "ref": "u00.l1.ex23",
+   "role": "answer",
+   "text": "grazie buonanotte",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [7, 17], "surface": "buonanotte"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie ciao",
+   "of": 2,
+   "path": "steps[4].mix[4].near[0].answer",
+   "pattern": "(grazie )ciao",
+   "ref": "u00.l1.ex23",
+   "role": "near",
+   "text": "grazie ciao",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [7, 11], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ciao",
+   "of": 2,
+   "path": "steps[4].mix[4].near[0].answer",
+   "pattern": "(grazie )ciao",
+   "ref": "u00.l1.ex23",
+   "role": "near",
+   "text": "ciao",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "si",
+   "of": 1,
+   "path": "steps[4].mix[5].near[0].answer",
+   "pattern": "si",
+   "ref": "u00.l1.ex24",
+   "role": "near",
+   "text": "si",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "flags": ["unresolved"], "kind": "word", "lemma": "si", "span": [0, 2], "surface": "si"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [0, 0],
+   "model": true,
+   "norm": "sì",
+   "of": 1,
+   "path": "steps[4].mix[5].text",
+   "pattern": "Sì",
+   "ref": "u00.l1.ex24",
+   "role": "cloze",
+   "text": "Sì, sì! Toronto, Canada.",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Toronto"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [17, 23], "surface": "Canada"},
+    {"kind": "punct", "span": [23, 24], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "no grazie",
+   "of": 1,
+   "path": "steps[4].mix[6].answer",
+   "pattern": "no grazie",
+   "ref": "u00.l1.ex25",
+   "role": "answer",
+   "text": "no grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[7].options[0]",
+   "ref": "u00.l1.ex26",
+   "role": "option",
+   "text": "Scusa!",
+   "tokens": [
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [0, 5], "surface": "Scusa"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[7].options[1]",
+   "ref": "u00.l1.ex26",
+   "role": "option",
+   "text": "Scusi!",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].mix[7].options[2]",
+   "ref": "u00.l1.ex26",
+   "role": "option",
+   "text": "Prego!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "ci vediamo",
+   "of": 2,
+   "path": "steps[4].mix[8].answer",
+   "pattern": "{ci vediamo|ciao ci vediamo}",
+   "ref": "u00.l1.ex27",
+   "role": "answer",
+   "text": "ci vediamo",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ciao ci vediamo",
+   "of": 2,
+   "path": "steps[4].mix[8].answer",
+   "pattern": "{ci vediamo|ciao ci vediamo}",
+   "ref": "u00.l1.ex27",
+   "role": "answer",
+   "text": "ciao ci vediamo",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [5, 7], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [8, 15], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e lei",
+   "of": 1,
+   "path": "steps[4].mix[9].near[0].answer",
+   "pattern": "e Lei",
+   "ref": "u00.l1.ex28",
+   "role": "near",
+   "text": "e Lei",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [4, 5],
+   "model": true,
+   "norm": "e tu",
+   "of": 1,
+   "path": "steps[4].mix[9].text",
+   "pattern": "E tu",
+   "ref": "u00.l1.ex28",
+   "role": "cloze",
+   "text": "Bene, grazie. E tu?",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": ".", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "E", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [16, 18], "surface": "tu"},
+    {"kind": "punct", "span": [18, 19], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "bene grazie",
+   "of": 1,
+   "path": "steps[4].mix[10].answer",
+   "pattern": "bene grazie",
+   "ref": "u00.l1.ex29",
+   "role": "answer",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[0].word",
+   "ref": "u00.l1.ex30",
+   "role": "sound",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "flags": ["sound"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[1].word",
+   "ref": "u00.l1.ex31",
+   "role": "sound",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "flags": ["sound"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[2].pair[0]",
+   "ref": "u00.l1.ex32",
+   "role": "sound",
+   "text": "pena",
+   "tokens": [
+    {"analyses": ["pena NOUN-F:s", "penare VER:impr+pres+2+s", "penare VER:ind+pres+3+s"], "flags": ["sound", "unresolved"], "gloss": "sorrow; penalty", "kind": "word", "span": [0, 4], "surface": "pena"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[2].pair[1]",
+   "ref": "u00.l1.ex32",
+   "role": "sound",
+   "text": "penna",
+   "tokens": [
+    {"analyses": ["penna NOUN-F:s"], "flags": ["sound", "unresolved"], "gloss": "pen", "kind": "word", "lemma": "penna", "span": [0, 5], "surface": "penna"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[3].pair[0]",
+   "ref": "u00.l1.ex33",
+   "role": "sound",
+   "text": "sete",
+   "tokens": [
+    {"analyses": ["seta NOUN-F:p", "sete NOUN-F:s"], "flags": ["sound", "unresolved"], "gloss": "thirst", "kind": "word", "span": [0, 4], "surface": "sete"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[3].pair[1]",
+   "ref": "u00.l1.ex33",
+   "role": "sound",
+   "text": "seta",
+   "tokens": [
+    {"analyses": ["seta NOUN-F:s"], "flags": ["sound", "unresolved"], "gloss": "silk", "kind": "word", "lemma": "seta", "span": [0, 4], "surface": "seta"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.end.say",
+   "ref": "u00.l1.ex34/end",
+   "role": "say",
+   "text": "Prego, prego!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [7, 12], "surface": "prego"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buonasera taxi per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
+   "pattern": "buonasera( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "buonasera taxi per favore",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [10, 14], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [15, 18], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [19, 25], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buonasera taxi",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
+   "pattern": "buonasera( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "buonasera taxi",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [10, 14], "surface": "taxi"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "buonasera per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
+   "pattern": "buonasera( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "buonasera per favore",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [10, 13], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [14, 20], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "buonasera",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
+   "pattern": "buonasera( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "scusi taxi per favore buonasera",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(scusi )taxi per favore( buonasera)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "scusi taxi per favore buonasera",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [6, 10], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [11, 14], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [15, 21], "surface": "favore", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [22, 31], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "scusi taxi per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(scusi )taxi per favore( buonasera)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "scusi taxi per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [6, 10], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [11, 14], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [15, 21], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "taxi per favore buonasera",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(scusi )taxi per favore( buonasera)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "taxi per favore buonasera",
+   "tokens": [
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [0, 4], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [5, 8], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [9, 15], "surface": "favore", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [16, 25], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "taxi per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(scusi )taxi per favore( buonasera)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "accept",
+   "text": "taxi per favore",
+   "tokens": [
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [0, 4], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [5, 8], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [9, 15], "surface": "favore"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n1.help[0]",
+   "ref": "u00.l1.ex34/n1",
+   "role": "help",
+   "text": "Buonasera! Taxi, per favore.",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [11, 15], "surface": "Taxi"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [17, 20], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [21, 27], "surface": "favore"},
+    {"kind": "punct", "span": [27, 28], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno taxi per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[0].answer",
+   "pattern": "buongiorno( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "buongiorno taxi per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [11, 15], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [16, 19], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [20, 26], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno taxi",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[0].answer",
+   "pattern": "buongiorno( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "buongiorno taxi",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [11, 15], "surface": "taxi"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "buongiorno per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[0].answer",
+   "pattern": "buongiorno( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "buongiorno per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [11, 14], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [15, 21], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[0].answer",
+   "pattern": "buongiorno( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ciao taxi per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[1].answer",
+   "pattern": "ciao( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "ciao taxi per favore",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [5, 9], "surface": "taxi", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [10, 13], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [14, 20], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ciao taxi",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[1].answer",
+   "pattern": "ciao( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "ciao taxi",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [5, 9], "surface": "taxi"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "ciao per favore",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[1].answer",
+   "pattern": "ciao( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "ciao per favore",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [5, 8], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [9, 15], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "ciao",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n1.near[1].answer",
+   "pattern": "ciao( taxi)( per favore)",
+   "ref": "u00.l1.ex34/n1",
+   "role": "near",
+   "text": "ciao",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n1.say",
+   "ref": "u00.l1.ex34/n1",
+   "role": "say",
+   "text": "Buonasera!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "no no hotel grazie per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no hotel grazie per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [6, 11], "surface": "hotel", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "grazie", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [19, 22], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [23, 29], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "no no hotel grazie",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no hotel grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [6, 11], "surface": "hotel", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "no no hotel per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no hotel per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [6, 11], "surface": "hotel", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [12, 15], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [16, 22], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "no no hotel",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no hotel",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [6, 11], "surface": "hotel"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "no no grazie per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no grazie per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "no no grazie",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "no no per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [6, 9], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [10, 16], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "no no",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no no",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [3, 5], "surface": "no"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "no hotel grazie per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no hotel grazie per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [3, 8], "surface": "hotel", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [9, 15], "surface": "grazie", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [16, 19], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [20, 26], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "no hotel grazie",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no hotel grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [3, 8], "surface": "hotel", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [9, 15], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "no hotel per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no hotel per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [3, 8], "surface": "hotel", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [9, 12], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [13, 19], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "no hotel",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no hotel",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [3, 8], "surface": "hotel"}
+   ]
+  },
+  {
+   "expansion": 12,
+   "model": false,
+   "norm": "no grazie per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no grazie per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [10, 13], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [14, 20], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "no grazie",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "no per favore",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no per favore",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [3, 6], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [7, 13], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "no",
+   "of": 16,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
+   "pattern": "no( no)( hotel)( grazie)( per favore)",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "no grazie",
+   "of": 1,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[1]",
+   "pattern": "no grazie",
+   "ref": "u00.l1.ex34/n2",
+   "role": "accept",
+   "text": "no grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n2.help[0]",
+   "ref": "u00.l1.ex34/n2",
+   "role": "help",
+   "text": "No, no hotel. Per favore...",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [4, 6], "surface": "no", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [7, 12], "surface": "hotel"},
+    {"kind": "punct", "span": [12, 13], "surface": ".", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [14, 17], "surface": "Per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [18, 24], "surface": "favore"},
+    {"kind": "punct", "span": [24, 25], "surface": "."},
+    {"kind": "punct", "span": [25, 26], "surface": "."},
+    {"kind": "punct", "span": [26, 27], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n2.say",
+   "ref": "u00.l1.ex34/n2",
+   "role": "say",
+   "text": "Prego! Hotel?",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [7, 12], "surface": "Hotel"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "grazie grazie",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[0]",
+   "pattern": "grazie( grazie)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "grazie grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [7, 13], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[0]",
+   "pattern": "grazie( grazie)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ok grazie buonasera",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )grazie( buonasera)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "ok grazie buonasera",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "ok", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [10, 19], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ok grazie",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )grazie( buonasera)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "ok grazie",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "ok", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie buonasera",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )grazie( buonasera)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "grazie buonasera",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [7, 16], "surface": "buonasera"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )grazie( buonasera)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "grazie",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n3.help[0]",
+   "ref": "u00.l1.ex34/n3",
+   "role": "help",
+   "text": "Grazie!",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].exercise.nodes.n3.say",
+   "ref": "u00.l1.ex34/n3",
+   "role": "say",
+   "text": "Ok! Prego!",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
+    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [4, 9], "surface": "Prego"},
+    {"kind": "punct", "span": [9, 10], "surface": "!"}
+   ]
+  },
+  {
+   "path": "title.it",
+   "ref": "u00.l1",
+   "role": "title",
+   "text": "Buonasera, Bologna!",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
+    {"kind": "punct", "span": [9, 10], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [11, 18], "surface": "Bologna"},
+    {"kind": "punct", "span": [18, 19], "surface": "!"}
+   ]
+  }
+ ],
+ "unit": "u00"
+}
