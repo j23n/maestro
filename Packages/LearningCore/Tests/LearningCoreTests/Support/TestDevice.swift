@@ -1,6 +1,10 @@
 import Foundation
+import LearningCoreTestSupport
 
 @testable import LearningCore
+
+/// The synthetic course lives in `LearningCoreTestSupport`, shared with the Storage tests.
+typealias TestCourse = LearningCoreTestSupport.TestCourse
 
 /// Collects reducer log lines.
 final class RecordingLogger: CoreLogger, @unchecked Sendable {

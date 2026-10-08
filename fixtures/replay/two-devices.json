@@ -1,6 +1,6 @@
 {
  "spec": "docs/08 § Tests 1 and § Merge rules: two devices of one learner write events offline and exchange them in any order, with duplicates; every device derives the same state (docs/05 § Replay: first introduction wins, first attempts only, the last open stepStarted, (at, id) order)",
- "content": "TestCourse.standard (Packages/LearningCore/Tests/LearningCoreTests/Support/TestCourse.swift)",
+ "content": "TestCourse.standard (Packages/LearningCore/Sources/LearningCoreTestSupport/TestCourse.swift)",
  "devices": {
   "ipad-1": [
    {

@@ -6,16 +6,24 @@ let package = Package(
     name: "LearningCore",
     platforms: [.iOS(.v26), .macOS(.v26)],
     products: [
-        .library(name: "LearningCore", targets: ["LearningCore"])
+        .library(name: "LearningCore", targets: ["LearningCore"]),
+        // The synthetic course of the engine tests, shared with the Storage tests (fixtures/replay). Never linked
+        // into the app.
+        .library(name: "LearningCoreTestSupport", targets: ["LearningCoreTestSupport"]),
     ],
     targets: [
         .target(
             name: "LearningCore",
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
+        .target(
+            name: "LearningCoreTestSupport",
+            dependencies: ["LearningCore"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
         .testTarget(
             name: "LearningCoreTests",
-            dependencies: ["LearningCore"],
+            dependencies: ["LearningCore", "LearningCoreTestSupport"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
     ]

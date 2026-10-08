@@ -15,7 +15,7 @@ Ground truth for tests. Each file names the spec section it encodes. Never edit 
 | `replay/resume-mid-step.json` | a learner quits mid-way through a practice step and resumes at the same exercise: the expected presentation order (block, then the mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID, computed independently in Python) and the cursor after each phase (`docs/05` § Replay) | `make test-core` (ReplayFixtureTests) |
 | `replay/two-devices.json` | an iPad and an iPhone of one learner write events offline (an earlier start on the iPad, a newer client's event type, two events in the same millisecond) and converge in any delivery order: expected introductions, memory reps, step progress, unit states and daily activity (`docs/05` § Replay, `docs/08` § Merge rules) | `make test-core` (ReplayFixtureTests) |
 
-The event IDs in `replay/` refer to the synthetic course in `Packages/LearningCore/Tests/LearningCoreTests/Support/TestCourse.swift` (shaped like the golden Unit 2 Lesson 1). Events are envelopes as `EventCodec` writes them (camelCase, `docs/03` § The learner database).
+The event IDs in `replay/` refer to the synthetic course in `Packages/LearningCore/Sources/LearningCoreTestSupport/TestCourse.swift` (shaped like the golden Unit 2 Lesson 1). Events are envelopes as `EventCodec` writes them (camelCase, `docs/03` § The learner database).
 
 To regenerate the FSRS fixtures (only if the reference implementation or our config changes, and only with the owner's approval):
 
