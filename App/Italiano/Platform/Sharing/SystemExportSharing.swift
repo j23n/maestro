@@ -10,8 +10,9 @@ import Synchronization
 /// The system share sheet, reporting how it ended (`ExportSharing`; docs/12 § Final check export).
 ///
 /// - iOS and iPadOS: `UIActivityViewController`; its `completionWithItemsHandler` says whether an activity
-///   completed (sent, saved to Files, AirDropped) or the sheet was dismissed. On iPad it is a popover in the middle
-///   of the screen.
+///   completed (sent, saved to Files, AirDropped) or the sheet was dismissed (no activity). An activity cancelled in
+///   its own window returns to the sheet, so that callback doesn't end the share. Copy, Print and the like are
+///   excluded: they don't hand the export to anyone. On iPad it is a popover in the middle of the screen.
 /// - macOS: `NSSharingServicePicker` from the key window. `sharingServicePicker(_:didChoose:)` without a service is a
 ///   cancel; a chosen service reports through its delegate (`sharingServicePicker(_:delegateFor:)` returns this
 ///   object): `sharingService(_:didShareItems:)` is a completed share, `sharingService(_:didFailToShareItems:error:)`
@@ -55,9 +56,26 @@ final class SystemExportSharing: NSObject, ExportSharing {
     #else
         private func present(_ file: URL, once: OneShot) -> Bool {
             guard let presenter = Self.presenter() else { return false }
-            let controller = UIActivityViewController(activityItems: [file], applicationActivities: nil)
-            controller.completionWithItemsHandler = { _, completed, _, _ in
-                once.resume(completed ? .completed : .cancelled)
+            let controller = ExportActivityController(activityItems: [file], applicationActivities: nil)
+            // Copying, printing or attaching to a contact isn't handing the export to an examiner, and would count
+            // as a completed share (which deletes the recordings).
+            controller.excludedActivityTypes = [
+                .copyToPasteboard, .print, .assignToContact, .addToReadingList, .saveToCameraRoll, .markupAsPDF,
+                .openInIBooks,
+            ]
+            controller.completionWithItemsHandler = { activityType, completed, _, _ in
+                if completed {
+                    once.resume(.completed)
+                } else if activityType == nil {
+                    once.resume(.cancelled)  // the sheet itself was dismissed
+                }
+                // An activity cancelled inside its own window (Mail, Messages) leaves the share sheet on screen with
+                // the zip still offered: the share goes on.
+            }
+            // A sheet that goes away without a final callback ends as cancelled; a completed callback that arrives
+            // just after still wins (`OneShot` takes the first).
+            controller.onDisappear = {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { once.resume(.cancelled) }
             }
             if let popover = controller.popoverPresentationController {
                 let bounds = presenter.view.bounds
@@ -67,6 +85,17 @@ final class SystemExportSharing: NSObject, ExportSharing {
             }
             presenter.present(controller, animated: true)
             return true
+        }
+
+        /// Reports when the share sheet has left the screen (`viewDidDisappear` fires only for the sheet itself, not
+        /// while an activity's own window covers it).
+        private final class ExportActivityController: UIActivityViewController {
+            var onDisappear: () -> Void = {}
+
+            override func viewDidDisappear(_ animated: Bool) {
+                super.viewDidDisappear(animated)
+                if isBeingDismissed || presentingViewController == nil { onDisappear() }
+            }
         }
 
         /// The view controller in front: the key window's root, then whatever it presents (the final check's cover).

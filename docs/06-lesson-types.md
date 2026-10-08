@@ -174,7 +174,7 @@ These three are used inside many lesson types (story questions, listening, readi
   - every word token is tappable and names and punctuation aren't;
   - VoiceOver reads each line in Italian with actions "Play line" and "Show English";
   - the layout passes at the largest Dynamic Type size.
-- IDs: `story.text`, `story.token.<line>.<n>`, `story.play`, `story.speed`, `story.continue`, `story.wordPanel`, `story.textSize`.
+- IDs: `story.text`, `story.token.<line>.<n>`, `story.play`, `story.speed`, `story.continue`, `story.wordPanel`, `story.textSize` (the `Aa` menu: `story.textSize.bigger`, `.smaller`, `.actual`, `story.english`, `story.speakerLabels`; its switches are the synced settings, while VoiceOver's "Show English" on a line applies to that story only).
 
 ### 3 · Listening (step `listening`)
 

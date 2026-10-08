@@ -298,7 +298,8 @@ import Testing
         try FileManager.default.createDirectory(at: unfinished, withIntermediateDirectories: true)
         try Data("x".utf8).write(to: unfinished.appendingPathComponent("fin.speaking.01-pending-1.m4a"))
         let zip = try files.writeZip(recent)
-        #expect(zip.deletingLastPathComponent() == files.exportsDirectory)
+        // Each share's zip sits in a folder of its own under exports/.
+        #expect(zip.deletingLastPathComponent().deletingLastPathComponent() == files.exportsDirectory)
         #expect(files.sittings().map(\.sittingId) == ["s-final", "s-old"])
 
         #expect(files.purge(nowMs: clock.nowMs()) == 2)

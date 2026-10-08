@@ -63,6 +63,7 @@ final class AppServices {
         switch activity {
         case .active:
             if let speech { Task { await speech.refresh() } }
+            app.deleteExpiredFinalChecks()  // the 30 days also run out while the app stays open (docs/09)
             telemetry?.startPeriodicUploads()
         case .background:
             guard let telemetry else { return }

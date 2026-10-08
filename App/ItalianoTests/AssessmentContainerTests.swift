@@ -213,7 +213,8 @@ import Testing
         let attemptId = try #require(launch.model.log.answers["fin.speaking.01"]?.first?.attemptId)
         #expect(try sittingFiles(app, launch.sessionID) == ["fin.speaking.01-\(attemptId).m4a", "sitting.json"])
         let files = try #require(app.finalCheckFiles)
-        #expect(!FileManager.default.fileExists(atPath: files.exportsDirectory.path))
+        // No zip until Export for examiner is tapped (the folder exists, empty and excluded from backups).
+        #expect(((try? FileManager.default.contentsOfDirectory(atPath: files.exportsDirectory.path)) ?? []).isEmpty)
         #expect(await app.pendingExaminerExport() == export)
 
         // A cancelled share: the zip goes, the recordings stay so the learner can try again.
@@ -334,6 +335,59 @@ import Testing
         await app.replaceStore(other)  // an iCloud account switch
         #expect(try #require(app.finalCheckFiles).sittings().isEmpty)
         #expect(await app.pendingExaminerExport() == nil)
+    }
+
+    /// The same database reopened (archiving failed during an account switch): its sittings stay.
+    @Test func reopeningTheSameDatabaseKeepsItsSittings() async throws {
+        let app = try await finalReviewLearner()
+        let export = try await completedSitting(app)
+        let content = try #require(app.content)
+        let same = try await LearnerStore.open(
+            url: folder.appendingPathComponent("learner.sqlite"), content: content, clock: clock,
+            ids: SeededUUIDSource(seed: "same"))
+        await app.replaceStore(same)
+        #expect(await app.pendingExaminerExport() == export)
+    }
+
+    /// The 30 days run out while the app stays open (a Mac left running for weeks): the sitting is neither offered
+    /// nor exported, and goes when the app becomes active again.
+    @Test func aSittingPastThirtyDaysIsDeletedWhileTheAppRuns() async throws {
+        let app = try await finalReviewLearner()
+        let export = try await completedSitting(app)
+        let files = try #require(app.finalCheckFiles)
+        clock.advance(byMs: 29 * 86_400_000)
+        app.deleteExpiredFinalChecks()
+        #expect(files.sittings() == [export])
+        clock.advance(byMs: 2 * 86_400_000)
+        let sharing = FakeExportSharing(outcome: .completed)
+        #expect(await app.exportForExaminer(export, sharing: sharing) == .failed)
+        #expect(sharing.shared.isEmpty && files.sittings().isEmpty)
+
+        let second = try await completedSitting(app)
+        clock.advance(byMs: 31 * 86_400_000)
+        #expect(await app.pendingExaminerExport() == nil)
+        #expect(!files.sittings().contains(second))
+
+        let third = try await completedSitting(app)
+        clock.advance(byMs: 31 * 86_400_000)
+        app.deleteExpiredFinalChecks()
+        #expect(!files.sittings().contains(third))
+    }
+
+    /// Each share builds its zip in its own folder, so ending one share never deletes another's file.
+    @Test func overlappingSharesKeepTheirOwnZips() async throws {
+        let app = try await finalReviewLearner()
+        let export = try await completedSitting(app)
+        let files = try #require(app.finalCheckFiles)
+        let first = try files.writeZip(export)
+        let second = try files.writeZip(export)
+        #expect(first != second && first.lastPathComponent == second.lastPathComponent)
+        files.deleteZip(first)
+        #expect(!FileManager.default.fileExists(atPath: first.path))
+        #expect(FileManager.default.fileExists(atPath: second.path))
+        files.deleteZip(second)
+        let left = (try? FileManager.default.contentsOfDirectory(atPath: files.exportsDirectory.path)) ?? []
+        #expect(left.isEmpty)
     }
 
     /// Progress reset on another device erases this database through sync, without the app's reset: the sitting is

@@ -58,6 +58,7 @@ extension AppModel {
         guard let reader, let content, let factory, let final = content.finalCheck,
             FinalCheck.isRunnable(final, content: content), let files = finalCheckFiles
         else { return nil }
+        files.prepare()  // the folders exist, excluded from backups, before the first recording
         var titles: [String: String] = [:]
         if case .final(_, let sections)? = try await reader.assessment(.final) {
             for s in sections { titles[s.id] = s.titleEn }
@@ -154,9 +155,20 @@ extension AppModel {
     /// share is the successful export: the zip, the recordings and the sitting's record are deleted (docs/09: kept
     /// until a successful export or 30 days). Any other ending deletes only the zip, so the learner can try again.
     func exportForExaminer(_ export: ExaminerExport, sharing: any ExportSharing) async -> ExaminerExportResult {
-        guard let files = finalCheckFiles, files.hasSitting(export.sittingId),
-            await belongsToThisLearner(export) == true
-        else { return .failed }
+        guard let files = finalCheckFiles, files.hasSitting(export.sittingId) else { return .failed }
+        if files.isExpired(export, nowMs: env.clock.nowMs()) {
+            files.deleteSitting(export.sittingId)
+            finalCheckFilesChanged += 1
+            return .failed
+        }
+        switch await belongsToThisLearner(export) {
+        case true?: break
+        case false?:
+            files.deleteSitting(export.sittingId)  // another learner database's sitting goes when it is found
+            finalCheckFilesChanged += 1
+            return .failed
+        case nil: return .failed
+        }
         let zip: URL
         do {
             zip = try files.writeZip(export)
@@ -164,7 +176,7 @@ extension AppModel {
             return .failed
         }
         let outcome = await sharing.share(zip)
-        try? FileManager.default.removeItem(at: zip)
+        files.deleteZip(zip)
         guard outcome == .completed else { return .cancelled }
         files.deleteSitting(export.sittingId)
         finalCheckFilesChanged += 1
@@ -176,6 +188,7 @@ extension AppModel {
     /// are deleted on the way.
     func pendingExaminerExport() async -> ExaminerExport? {
         guard let files = finalCheckFiles else { return nil }
+        if files.deleteExpired(nowMs: env.clock.nowMs()) > 0 { finalCheckFilesChanged += 1 }
         for export in files.sittings() {
             switch await belongsToThisLearner(export) {
             case true?: return export
@@ -186,9 +199,10 @@ extension AppModel {
         return nil
     }
 
-    /// Whether the open learner database holds the sitting's `checkCompleted` event (nil: it couldn't be read).
+    /// Whether the open learner database holds the sitting's `checkCompleted` event (nil: unknown, because no
+    /// database is open or it couldn't be read).
     private func belongsToThisLearner(_ export: ExaminerExport) async -> Bool? {
-        guard let store else { return false }
+        guard let store else { return nil }
         await settle()
         do {
             return try await store.eventRow(id: export.checkCompletedEventId) != nil
@@ -205,13 +219,31 @@ extension AppModel {
     }
 
     /// At launch: sittings older than 30 days, unfinished sittings and leftover zips are deleted (docs/09, docs/12),
-    /// then sittings another learner database left behind.
+    /// then sittings another learner database left behind. After a recovery the fresh database doesn't hold the
+    /// sittings' events until sync brings them back, so that last sweep waits for the next launch.
     func purgeFinalCheckFiles() async {
         guard let files = finalCheckFiles else { return }
         files.purge(nowMs: env.clock.nowMs())
-        for export in files.sittings() {
-            if await belongsToThisLearner(export) == false { files.deleteSitting(export.sittingId) }
+        guard recoveryNotice == nil else { return }
+        await deleteForeignSittings()
+    }
+
+    /// Whenever the app becomes active (it may stay open for weeks): sittings past 30 days go. A sitting in progress
+    /// and a zip in the share sheet are never touched.
+    func deleteExpiredFinalChecks() {
+        if finalCheckFiles?.deleteExpired(nowMs: env.clock.nowMs()) ?? 0 > 0 { finalCheckFilesChanged += 1 }
+    }
+
+    /// Sittings whose `checkCompleted` the open database doesn't hold (another iCloud account's, or progress reset
+    /// elsewhere) are deleted.
+    func deleteForeignSittings() async {
+        guard let files = finalCheckFiles else { return }
+        var removed = false
+        for export in files.sittings() where await belongsToThisLearner(export) == false {
+            files.deleteSitting(export.sittingId)
+            removed = true
         }
+        if removed { finalCheckFilesChanged += 1 }
     }
 
     /// "1.0 (57)" from the bundle, for the export's README and responses.

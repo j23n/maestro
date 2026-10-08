@@ -110,6 +110,8 @@ struct StoryPage: View {
     @State private var rate = 1.0
     @State private var previewEnglish = false
     @State private var previewSpeakers = true
+    /// VoiceOver's "Show English" on a line: this story only, never the synced setting.
+    @State private var englishForThisStory = false
 
     /// "English under each line" is `display.englishUnderStories`.
     private var showEnglishBinding: Binding<Bool> {
@@ -129,7 +131,7 @@ struct StoryPage: View {
             })
     }
 
-    private var showEnglish: Bool { showEnglishBinding.wrappedValue }
+    private var showEnglish: Bool { showEnglishBinding.wrappedValue || englishForThisStory }
     private var showSpeakers: Bool { showSpeakersBinding.wrappedValue }
 
     var body: some View {
@@ -163,14 +165,19 @@ struct StoryPage: View {
                         Section("Text size") {
                             Button("Bigger text") { textSize.apply(.bigger) }
                                 .disabled(!textSize.canApply(.bigger))
+                                .accessibilityIdentifier("story.textSize.bigger")
                             Button("Smaller text") { textSize.apply(.smaller) }
                                 .disabled(!textSize.canApply(.smaller))
+                                .accessibilityIdentifier("story.textSize.smaller")
                             Button("Actual size") { textSize.apply(.actualSize) }
                                 .disabled(!textSize.canApply(.actualSize))
+                                .accessibilityIdentifier("story.textSize.actual")
                         }
                     }
                     Toggle("English under each line", isOn: showEnglishBinding)
+                        .accessibilityIdentifier("story.english")
                     Toggle("Speaker names", isOn: showSpeakersBinding)
+                        .accessibilityIdentifier("story.speakerLabels")
                 } label: {
                     Text("Aa").dsFont(Tokens.TypeScale.uiTitle)
                 }
@@ -206,7 +213,7 @@ struct StoryPage: View {
                     .accessibilityAction(named: Text("Play line")) {
                         services.audio.play(text.audioID, fromLine: line.number, rate: rate)
                     }
-                    .accessibilityAction(named: Text("Show English")) { showEnglishBinding.wrappedValue = true }
+                    .accessibilityAction(named: Text("Show English")) { englishForThisStory = true }
                     .reviewCommentable(ReviewTargets.line(text, line))
                 }
             }

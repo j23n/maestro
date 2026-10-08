@@ -79,16 +79,6 @@
 				<string>CA92.1</string>
 			</array>
 		</dict>
-		<!-- contentModificationDate of files in the app's container: the final check's recordings and exports are
-		     deleted 30 days after they were written (docs/12). -->
-		<dict>
-			<key>NSPrivacyAccessedAPIType</key>
-			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
-			<key>NSPrivacyAccessedAPITypeReasons</key>
-			<array>
-				<string>C617.1</string>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>

@@ -120,10 +120,10 @@ final class AppModel {
     }
 
     /// After an account switch the sync driver opens a fresh database for the new account: use it from now on. The
-    /// previous learner's final-check recordings and exports go with their database (docs/12).
+    /// previous learner's final-check recordings and exports go with their database (docs/12): every sitting the new
+    /// database doesn't hold is deleted (when archiving failed and the same database was reopened, nothing is).
     func replaceStore(_ newStore: LearnerStore) async {
         await settle()
-        deleteFinalCheckFiles()
         observers.forEach { $0.cancel() }
         observers = []
         store = newStore
@@ -133,6 +133,7 @@ final class AppModel {
             factory = try? await newStore.makeEventFactory(packVersion: reader.meta.packVersion, ids: env.ids)
         }
         observe(newStore)
+        await deleteForeignSittings()
     }
 
     /// Remote events and settings (sync) arrive through the store's streams. A stream only wakes the model, which

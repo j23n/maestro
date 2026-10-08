@@ -6,8 +6,12 @@ import Foundation
 /// - `final-check/<sittingId>/`: one folder per sitting, with its recordings (`SpeakingRecordings`) and, once the
 ///   check ends, `sitting.json` (the `ExaminerExport` record the zip is built from). It goes after a completed share
 ///   of the export, or 30 days after the check, whichever comes first; leaving a sitting deletes it at once.
-/// - `exports/`: a zip only while it is in the share sheet (built when **Export for examiner** is tapped, deleted
-///   when the share ends either way); whatever is left there at launch is deleted.
+/// - `exports/<share>/`: a zip only while it is in the share sheet (built when **Export for examiner** is tapped,
+///   in its own folder so two shares never delete each other's file, and deleted when that share ends either way);
+///   whatever is left there at launch is deleted.
+///
+/// Both folders are excluded from device backups (iCloud Backup, Time Machine): the recordings stay on the device
+/// that recorded them (docs/12).
 ///
 /// The files belong to the learner database that holds the sitting's `checkCompleted` event: the container deletes
 /// them all when progress is reset or the iCloud account changes, and never offers a sitting whose event is gone.
@@ -26,8 +30,25 @@ struct FinalCheckFiles: Sendable {
         sittingsDirectory.appendingPathComponent(SpeakingRecordings.safe(sittingId), isDirectory: true)
     }
 
+    /// Creates `final-check/` and `exports/`, excluded from backups. Recording a sitting and building a zip call it.
+    func prepare() {
+        for directory in [sittingsDirectory, exportsDirectory] {
+            try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            var values = URLResourceValues()
+            values.isExcludedFromBackup = true
+            var url = directory
+            try? url.setResourceValues(values)
+        }
+    }
+
+    /// Past the 30 days the device may keep a sitting (docs/09).
+    func isExpired(_ export: ExaminerExport, nowMs: Int64, days: Int = retentionDays) -> Bool {
+        export.takenAt < nowMs - Int64(days) * 86_400_000
+    }
+
     /// Writes the sitting's record next to its recordings.
     func save(_ export: ExaminerExport) throws {
+        prepare()
         let directory = sittingDirectory(export.sittingId)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let encoder = JSONEncoder()
@@ -62,12 +83,38 @@ struct FinalCheckFiles: Sendable {
         try? FileManager.default.removeItem(at: exportsDirectory)
     }
 
-    /// Builds the export's zip in `exports/` for the share sheet.
-    func writeZip(_ export: ExaminerExport) throws -> URL {
-        try FileManager.default.createDirectory(at: exportsDirectory, withIntermediateDirectories: true)
-        let url = exportsDirectory.appendingPathComponent(export.fileName)
+    /// Builds the export's zip for the share sheet in a folder of its own (`exports/<share>/<fileName>`); delete it
+    /// with `deleteZip(_:)`.
+    func writeZip(_ export: ExaminerExport, share: String = UUID().uuidString.lowercased()) throws -> URL {
+        prepare()
+        let folder = exportsDirectory.appendingPathComponent(share, isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let url = folder.appendingPathComponent(export.fileName)
         try export.archive(recordings: sittingDirectory(export.sittingId)).write(to: url, options: .atomic)
         return url
+    }
+
+    /// One share's zip and its folder.
+    func deleteZip(_ zip: URL) {
+        let folder = zip.deletingLastPathComponent()
+        if folder.deletingLastPathComponent().standardizedFileURL == exportsDirectory.standardizedFileURL {
+            try? FileManager.default.removeItem(at: folder)
+        } else {
+            try? FileManager.default.removeItem(at: zip)
+        }
+    }
+
+    /// While the app runs (it may stay open for weeks on a Mac): sittings past 30 days go. Only sittings with a
+    /// record are looked at, so a sitting in progress and a zip in the share sheet are never touched. Returns how
+    /// many went.
+    @discardableResult
+    func deleteExpired(nowMs: Int64, days: Int = retentionDays) -> Int {
+        var removed = 0
+        for export in sittings() where isExpired(export, nowMs: nowMs, days: days) {
+            deleteSitting(export.sittingId)
+            removed += 1
+        }
+        return removed
     }
 
     /// At launch (no sitting is running): sittings taken more than 30 days ago, folders without a record (a sitting

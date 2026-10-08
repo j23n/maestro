@@ -11,6 +11,10 @@ extension AppModel {
         return settings.speakerLabels(unitOrd: number)
     }
 
-    /// What Settings shows: the value for the unit the learner is in now (Today's next step).
-    var speakerLabelsNow: Bool { speakerLabels(unit: today?.continueCard?.unitID) }
+    /// What Settings shows: the value for the unit the learner started most recently (cheap: no planner run).
+    var speakerLabelsNow: Bool {
+        let latest = state?.units.filter { $0.value.startedAt != nil && !$0.value.skipped }
+            .max { ($0.value.startedAt ?? 0, $0.key.rawValue) < ($1.value.startedAt ?? 0, $1.key.rawValue) }?.key
+        return speakerLabels(unit: latest)
+    }
 }

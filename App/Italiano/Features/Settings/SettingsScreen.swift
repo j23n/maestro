@@ -57,14 +57,15 @@ struct SettingsScreen: View {
                     // Used in role-plays (`{ME.home}`, `{ME.nationality}`): a learner who skipped it or moved sets it
                     // here.
                     Picker("Where you live", selection: text(.profileCountry, s.profileCountry ?? "")) {
-                        Text("Not set").tag("")
+                        // Offered only while unset: choosing it would store "", which docs/08 has no value for.
+                        if (s.profileCountry ?? "").isEmpty { Text("Not set").tag("") }
                         ForEach(app.countryChoices) { c in
                             Text(mixed(c.nameEn, c.nameIt)).tag(c.id)
                         }
                     }
                     .accessibilityIdentifier("settings.country")
                     Picker("Why you're learning", selection: text(.profileReason, s.profileReason ?? "")) {
-                        Text("Not set").tag("")
+                        if (s.profileReason ?? "").isEmpty { Text("Not set").tag("") }
                         ForEach(OnboardingModel.reasons) { r in Text(r.title).tag(r.id) }
                     }
                     .accessibilityIdentifier("settings.reason")
