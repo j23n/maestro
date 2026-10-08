@@ -92,6 +92,10 @@ final class OnboardingModel {
 
 /// The onboarding screens' words (`Welcome.png`, `Reason.png`).
 enum OnboardingCopy {
+    static let welcomeHeadline = "Learn Italian, one story at a time."
+    /// Welcome and the questions are a centred column of at most 520 pt on iPad and Mac (docs/07 § Screen map).
+    static let columnWidth: Double = 520
+    static let noCountryMatches = "No country matches. You can skip this and set it later in Settings."
     static let welcomeBody =
         "Short stories you can actually read, reviews timed so words stick, and real conversations. "
         + "On your iPhone, iPad and Mac."

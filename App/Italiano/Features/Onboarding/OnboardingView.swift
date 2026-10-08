@@ -36,13 +36,11 @@ struct OnboardingView: View {
                 Mascot(pose: .hello, size: 200, decorative: true)
                     .frame(maxWidth: .infinity)
                     .padding(.top, Tokens.Space.xxxl)
-                VStack(alignment: .leading, spacing: Tokens.Space.m) {
-                    // A fixed UI line like the greetings (docs/07 § Copy; String Catalog, English comment).
-                    ItalianText("Impara l'italiano, una storia alla volta.", style: Tokens.TypeScale.display)
-                        .accessibilityAddTraits(.isHeader)
-                    Text("Learn Italian, one story at a time.")
-                        .dsFont(Tokens.TypeScale.translation).foregroundStyle(Color.ds.secondary)
-                }
+                // English: the reference screen's Italian headline is placeholder text, and the learner hasn't met
+                // any Italian yet (docs/07 § Copy; docs/13 Proposed changes).
+                Text(OnboardingCopy.welcomeHeadline)
+                    .dsFont(Tokens.TypeScale.display).foregroundStyle(Color.ds.ink)
+                    .accessibilityAddTraits(.isHeader)
                 Text(OnboardingCopy.welcomeBody)
                     .dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.ink)
                 VStack(spacing: Tokens.Space.l) {
@@ -60,7 +58,7 @@ struct OnboardingView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.top, Tokens.Space.xxl)
             }
-            .readableColumn()
+            .readableColumn(maxWidth: OnboardingCopy.columnWidth)
             .padding(.bottom, Tokens.Space.xxl)
         }
         .accessibilityIdentifier("onboarding.welcome")
@@ -83,7 +81,7 @@ struct OnboardingView: View {
                         .accessibilityAddTraits(.isHeader)
                     answers
                 }
-                .readableColumn()
+                .readableColumn(maxWidth: OnboardingCopy.columnWidth)
                 .padding(.vertical, Tokens.Space.xl)
             }
             bottomBar
@@ -107,7 +105,7 @@ struct OnboardingView: View {
             Text(model.counter).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
                 .monospacedDigit()
         }
-        .readableColumn()
+        .readableColumn(maxWidth: OnboardingCopy.columnWidth)
         .padding(.top, Tokens.Space.m)
     }
 
@@ -134,11 +132,12 @@ struct OnboardingView: View {
                 }
                 .buttonStyle(.dsPrimary)
                 .disabled(!model.canContinue)
-                .keyboardShortcut(.return, modifiers: [])
+                // The name field submits with Return itself, so the button takes no shortcut there (one Return, one page).
+                .keyboardShortcut(model.page == .name ? nil : KeyboardShortcut(.return, modifiers: []))
                 .accessibilityIdentifier("onboarding.continue")
             }
         }
-        .readableColumn()
+        .readableColumn(maxWidth: OnboardingCopy.columnWidth)
         .padding(.vertical, Tokens.Space.l)
     }
 
@@ -189,6 +188,11 @@ struct OnboardingView: View {
                     .autocorrectionDisabled()
                     .accessibilityLabel("Search countries")
                     .accessibilityIdentifier("onboarding.country.search")
+                if model.filteredCountries.isEmpty {
+                    Text(OnboardingCopy.noCountryMatches)
+                        .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+                        .accessibilityIdentifier("onboarding.country.empty")
+                }
                 LazyVStack(spacing: Tokens.Space.s) {
                     ForEach(model.filteredCountries) { c in
                         ChoiceRow(title: c.nameEn, italian: c.nameIt, isSelected: model.country == c.id) {

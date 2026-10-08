@@ -122,11 +122,59 @@ import Testing
         await app.settle()
         #expect(app.isOnboarded && app.settings.profileName == "Anna" && app.settings.goalDaysPerWeek == 7)
         #expect(app.profile.forms == .f && app.profile.country != nil)
+        #expect(app.settings.profileReason == "travel")
+        // One onboardingCompleted event with the answers (docs/05 § Events).
+        let events = try #require(try await app.store?.events())
+        let completed = events.compactMap { e -> OnboardingCompletedPayload? in
+            if case .onboardingCompleted(let p) = e.payload { return p }
+            return nil
+        }
+        #expect(
+            completed
+                == [
+                    OnboardingCompletedPayload(
+                        reason: "travel", forms: .f, country: app.countryChoices.first?.id, beginner: true)
+                ])
         let again = model("b")
         await again.start()
         #expect(again.isOnboarded)
         #expect(OnboardingModel(studyBuild: true, countries: []).pages.last == .consent)
         #expect(again.settings.studyConsent == nil)  // not a study build: no consent recorded
+    }
+
+    @Test func studyBuildsRecordTheConsentAnswer() async throws {
+        for (answer, seed) in [(true, "share"), (false, "notnow")] {
+            let app = model(seed)
+            await app.start()
+            let o = OnboardingModel(studyBuild: true, countries: app.countryChoices)
+            o.reason = "self"
+            o.beginner = true
+            o.consent = answer
+            app.completeOnboarding(o.answers)
+            await app.settle()
+            let consent = try #require(app.settings.studyConsent)
+            #expect(consent.granted == answer && consent.version == AppModel.consentTextVersion)
+            // The install ID exists only once someone agreed (docs/12).
+            #expect((app.settings.studyInstallId != nil) == answer)
+            try? FileManager.default.removeItem(at: folder)
+        }
+    }
+
+    @Test func profileAndStorySettingsPersist() async throws {
+        let app = model()
+        await app.start()
+        #expect(app.speakerLabels(unit: "u02") && app.speakerLabelsNow)  // on by default before Unit 5
+        app.set(.profileCountry, to: .string("it"))
+        app.set(.profileReason, to: .string("family"))
+        app.set(.displaySpeakerLabels, to: .bool(false))
+        app.set(.displayEnglishUnderStories, to: .bool(true))
+        await app.settle()
+        let again = model("b")
+        await again.start()
+        #expect(again.settings.profileCountry == "it" && again.profile.country?.nameIt == "Italia")
+        #expect(again.settings.profileReason == "family")
+        #expect(!again.speakerLabels(unit: "u02") && !again.speakerLabelsNow)
+        #expect(again.settings.englishUnderStories)
     }
 
     @Test func researchConsentCanBeWithdrawnAndGivenAgain() async throws {

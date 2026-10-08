@@ -37,6 +37,8 @@ struct SettingsScreen: View {
                     .accessibilityIdentifier("settings.reviewLimit")
                     Toggle("English under stories", isOn: toggle(.displayEnglishUnderStories, s.englishUnderStories))
                         .accessibilityIdentifier("settings.english")
+                    Toggle("Speaker names in stories", isOn: toggle(.displaySpeakerLabels, app.speakerLabelsNow))
+                        .accessibilityIdentifier("settings.speakerLabels")
                     Picker("Audio speed", selection: number(.audioStoryRate, s.storyRate)) {
                         Text("0.8×").tag(0.8)
                         Text("1×").tag(1.0)
@@ -47,11 +49,25 @@ struct SettingsScreen: View {
                     TextField("Your name (for role-plays)", text: text(.profileName, s.profileName))
                         .accessibilityIdentifier("settings.name")
                     Picker("Forms that fit you", selection: text(.profileForms, s.profileForms.rawValue)) {
-                        Text(app.formsExample.map { "Masculine (\($0.masculine))" } ?? "Masculine").tag("m")
-                        Text(app.formsExample.map { "Feminine (\($0.feminine))" } ?? "Feminine").tag("f")
+                        Text(mixed("Masculine", app.formsExample?.masculine)).tag("m")
+                        Text(mixed("Feminine", app.formsExample?.feminine)).tag("f")
                         Text("Show me both").tag("both")
                     }
                     .accessibilityIdentifier("settings.forms")
+                    // Used in role-plays (`{ME.home}`, `{ME.nationality}`): a learner who skipped it or moved sets it
+                    // here.
+                    Picker("Where you live", selection: text(.profileCountry, s.profileCountry ?? "")) {
+                        Text("Not set").tag("")
+                        ForEach(app.countryChoices) { c in
+                            Text(mixed(c.nameEn, c.nameIt)).tag(c.id)
+                        }
+                    }
+                    .accessibilityIdentifier("settings.country")
+                    Picker("Why you're learning", selection: text(.profileReason, s.profileReason ?? "")) {
+                        Text("Not set").tag("")
+                        ForEach(OnboardingModel.reasons) { r in Text(r.title).tag(r.id) }
+                    }
+                    .accessibilityIdentifier("settings.reason")
                     Toggle("Only accept the forms that fit me", isOn: toggle(.answersStrictForms, s.strictForms))
                         .accessibilityIdentifier("settings.strictForms")
                 }
@@ -111,6 +127,17 @@ struct SettingsScreen: View {
             .padding(.vertical, Tokens.Space.xxl)
         }
         .background(Color.ds.surface)
+    }
+
+    /// "Masculine · americano" with the Italian part tagged it-IT, so VoiceOver reads it with the Italian voice
+    /// (docs/07 § Accessibility); plain English when the pack gave no example.
+    private func mixed(_ english: String, _ italian: String?) -> AttributedString {
+        var label = AttributedString(english)
+        if let italian, !italian.isEmpty {
+            label.append(AttributedString(" · "))
+            label.append(ItalianText.attributed(italian, highlight: Color.ds.ink))
+        }
+        return label
     }
 
     private func row(_ title: String, value: String) -> some View {

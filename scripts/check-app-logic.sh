@@ -24,6 +24,13 @@ neutral() {  # neutral <file> <allowed-modules-regex>
 
 # One work directory per checkout, so worktrees (parallel agents) never share one.
 work="${TMPDIR:-/tmp}/italiano-app-logic-$(printf '%s' "$root" | cksum | cut -d' ' -f1)"
+# Two runs in the same checkout (make test and make lint-guards side by side) take turns instead of rebuilding
+# each other's sources mid-build.
+mkdir -p "$work"
+if command -v flock >/dev/null 2>&1; then
+  exec 9>"$work.lock"
+  flock 9
+fi
 rm -rf "$work/Sources" "$work/Tests"
 mkdir -p "$work/Sources/Italiano" "$work/Tests/ItalianoTests"
 n=0

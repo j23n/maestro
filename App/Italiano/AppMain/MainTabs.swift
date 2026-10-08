@@ -38,15 +38,14 @@ struct MainTabs: View {
             Tab("Words", systemImage: "list.bullet") {
                 NavigationStack { WordsScreen(app: deps.app) }
             }
-            #if !os(macOS)
-                Tab("Settings", systemImage: "gearshape") {
-                    NavigationStack {
-                        SettingsScreen(
-                            app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild,
-                            services: deps.services)
-                    }
+            // Every platform has the Settings tab; the Mac also has the ⌘, Settings window (docs/07 § Screen map).
+            Tab("Settings", systemImage: "gearshape") {
+                NavigationStack {
+                    SettingsScreen(
+                        app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild,
+                        services: deps.services)
                 }
-            #endif
+            }
         }
         .tabViewStyle(.sidebarAdaptable)
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }

@@ -103,10 +103,34 @@ struct StoryPage: View {
     let services: PlayerServices
     let onContinue: () -> Void
     @Environment(\.isCompactWidth) private var isCompact
+    /// The learner's settings behind the `Aa` menu (docs/06 § Story); previews run without them.
+    @Environment(AppModel.self) private var app: AppModel?
+    @Environment(TextSizeController.self) private var textSize: TextSizeController?
     @State private var selection: TokenPosition?
     @State private var rate = 1.0
-    @State private var showEnglish = false
-    @State private var showSpeakers = true
+    @State private var previewEnglish = false
+    @State private var previewSpeakers = true
+
+    /// "English under each line" is `display.englishUnderStories`.
+    private var showEnglishBinding: Binding<Bool> {
+        Binding(
+            get: { app?.settings.englishUnderStories ?? previewEnglish },
+            set: { on in
+                if let app { app.set(.displayEnglishUnderStories, to: .bool(on)) } else { previewEnglish = on }
+            })
+    }
+
+    /// "Speaker names" is `display.speakerLabels` (on by default in Units 0–4).
+    private var showSpeakersBinding: Binding<Bool> {
+        Binding(
+            get: { app?.speakerLabels(unit: bundle.unitID) ?? previewSpeakers },
+            set: { on in
+                if let app { app.set(.displaySpeakerLabels, to: .bool(on)) } else { previewSpeakers = on }
+            })
+    }
+
+    private var showEnglish: Bool { showEnglishBinding.wrappedValue }
+    private var showSpeakers: Bool { showSpeakersBinding.wrappedValue }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -135,8 +159,18 @@ struct StoryPage: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
-                    Toggle("English under each line", isOn: $showEnglish)
-                    Toggle("Speaker names", isOn: $showSpeakers)
+                    if let textSize {
+                        Section("Text size") {
+                            Button("Bigger text") { textSize.apply(.bigger) }
+                                .disabled(!textSize.canApply(.bigger))
+                            Button("Smaller text") { textSize.apply(.smaller) }
+                                .disabled(!textSize.canApply(.smaller))
+                            Button("Actual size") { textSize.apply(.actualSize) }
+                                .disabled(!textSize.canApply(.actualSize))
+                        }
+                    }
+                    Toggle("English under each line", isOn: showEnglishBinding)
+                    Toggle("Speaker names", isOn: showSpeakersBinding)
                 } label: {
                     Text("Aa").dsFont(Tokens.TypeScale.uiTitle)
                 }
@@ -144,7 +178,7 @@ struct StoryPage: View {
                 .accessibilityIdentifier("story.textSize")
             }
         }
-        .showEnglishMenu($showEnglish)
+        .showEnglishMenu(showEnglishBinding)
     }
 
     private var lines: some View {
@@ -172,7 +206,7 @@ struct StoryPage: View {
                     .accessibilityAction(named: Text("Play line")) {
                         services.audio.play(text.audioID, fromLine: line.number, rate: rate)
                     }
-                    .accessibilityAction(named: Text("Show English")) { showEnglish = true }
+                    .accessibilityAction(named: Text("Show English")) { showEnglishBinding.wrappedValue = true }
                     .reviewCommentable(ReviewTargets.line(text, line))
                 }
             }

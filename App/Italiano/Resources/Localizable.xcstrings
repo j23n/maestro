@@ -16,11 +16,6 @@
       "extractionState" : "manual",
       "shouldTranslate" : false
     },
-    "Impara l'italiano, una storia alla volta." : {
-      "comment" : "Fixed Italian UI line (docs/07 § Copy, Welcome.png): the welcome headline. Means \"Learn Italian, one story at a time.\", shown under it. Not translated.",
-      "extractionState" : "manual",
-      "shouldTranslate" : false
-    },
     "Indice" : {
       "comment" : "Fixed Italian UI line (docs/07 § Copy, CourseMap.png): the course screen's title. Means \"Contents\". Not translated.",
       "extractionState" : "manual",

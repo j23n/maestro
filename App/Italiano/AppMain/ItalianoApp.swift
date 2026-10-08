@@ -16,6 +16,9 @@ struct ItalianoApp: App {
             RootView(deps: deps)
                 .modifier(CompactWidthReader())
                 .learnerTextScale(deps.app)
+                // Pages deep in the player (the story's `Aa` menu) read and write settings through these.
+                .environment(deps.app)
+                .environment(deps.services.textSize)
         }
         #if os(macOS)
             .defaultSize(width: Tokens.Size.macMinWindowWidth + 200, height: Tokens.Size.macMinWindowHeight + 180)
