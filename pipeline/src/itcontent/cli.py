@@ -89,7 +89,7 @@ def check(
 
 @app.command()
 def report(
-    unit: str = typer.Option(None, "--unit", help="only this unit (e.g. u02)"),
+    unit: str = typer.Option(None, "--unit", help="only this unit (e.g. u02), or the review scopes specs, assessments"),
 ) -> None:
     """Content dashboard: new words, encounters, strands, coverage, budgets, open review comments."""
     from itcontent.report import run_report
@@ -166,6 +166,52 @@ def pack_hash(
     from itcontent.pack.build import run_pack_hash
 
     sys.exit(run_pack_hash(pack, echo=typer.echo))
+
+
+@app.command("review-export")
+def review_export(
+    specs: bool = typer.Option(False, "--specs", help="The sign-off files: syllabus, unit specs, points, story bible…"),
+    unit: str = typer.Option(None, "--unit", help="A unit's items, lessons, task and check, e.g. u02."),
+    assessments: bool = typer.Option(False, "--assessments", help="The placement test and the final A1 check."),
+    since: bool = typer.Option(False, "--since", help="Show earlier comments' resolutions and mark what changed."),
+    rejected: Path = typer.Option(
+        None, help="Beta rejected answers to adjudicate (default build/reports/beta/rejected.json, if present)."
+    ),
+    out: Path = typer.Option(None, help="Output file (default build/review/<scope>/index.html)."),
+) -> None:
+    """The teacher's review page: one self-contained HTML file (docs/04 § Content review loop)."""
+    import re
+
+    from itcontent import paths
+    from itcontent.review_export import export
+
+    chosen = [s for s, on in (("specs", specs), (unit, unit is not None), ("assessments", assessments)) if on]
+    if len(chosen) != 1:
+        typer.echo("choose one of --specs, --unit uNN, --assessments")
+        sys.exit(2)
+    scope = str(chosen[0])
+    if scope not in ("specs", "assessments") and not re.fullmatch(r"u\d{2}", scope):
+        typer.echo(f"--unit takes a unit ID like u02, not '{scope}'")
+        sys.exit(2)
+    default_rejected = paths.REPORTS / "beta" / "rejected.json"
+    try:
+        result = export(
+            scope, since=since, rejected=rejected or (default_rejected if default_rejected.is_file() else None), out=out
+        )
+    except ValueError as exc:
+        typer.echo(str(exc))
+        sys.exit(1)
+    typer.echo(result.summary(paths.ROOT))
+
+
+@app.command("review-import")
+def review_import(
+    review: Path = typer.Argument(..., help="The review file (review-<scope>-<date>.json) from a page or the app."),
+) -> None:
+    """File a review in reviews/inbox/, add its comments to the ledger reviews/<scope>.yaml, print the worklist."""
+    from itcontent.review_import import run
+
+    sys.exit(run(review, echo=typer.echo))
 
 
 if __name__ == "__main__":

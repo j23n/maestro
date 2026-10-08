@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from itcontent import ids, paths, yamlio
+from itcontent import paths
 from itcontent.checks import CheckResult, run_checks
 from itcontent.checks.output import coverage_json, level_json, recycling_json, summary_line
 
@@ -193,52 +193,12 @@ def budgets(rc: ReportContext) -> Section:
     return Section("budgets", "Budgets and exemptions", lines)
 
 
-def ledgers(root: Path) -> list[tuple[str, dict[str, Any]]]:
-    """Review ledgers `reviews/<scope>.yaml` (docs/04 § Content review loop): (repo path, document)."""
-    out = []
-    for p in sorted((root / "reviews").glob("*.yaml")):
-        try:
-            out.append((p.relative_to(root).as_posix(), _map(yamlio.load(p))))
-        except yamlio.ContentYAMLError:
-            continue  # lint reports it
-    return out
-
-
-OPEN = ("open", "owner")
-
-
 @section
 def open_comments(rc: ReportContext) -> Section:
-    found = ledgers(rc.root)
-    if not found:
-        return Section("comments", "Open review comments", ["No review ledgers yet (`reviews/<scope>.yaml`)."])
-    rows: list[tuple[str, dict[str, Any]]] = []
-    for rel, doc in found:
-        scope = str(doc.get("scope", ""))
-        for c in _seq(doc.get("comments")):
-            c = _map(c)
-            status = _map(c.get("resolution")).get("status")
-            if status not in OPEN:
-                continue
-            unit = ids.unit_of(str(c.get("target", ""))) or (scope if ids.is_valid(scope, "unit") else None)
-            if rc.unit is None or unit == rc.unit or scope == rc.unit:
-                rows.append((rel, c))
-    if not rows:
-        return Section("comments", "Open review comments", ["No open comments."])
-    lines = [
-        f"{len(rows)} comment(s) waiting (`open`: for an agent with the content-review skill; `owner`: for the owner).",
-        "",
-        "| Ledger | Target | Verdict | Category | Status | Stale | Comment |",
-        "|---|---|---|---|---|---|---|",
-    ]
-    for rel, c in sorted(rows, key=lambda r: (r[0], str(r[1].get("target", "")), str(r[1].get("id", "")))):
-        text = str(c.get("comment") or "")
-        text = text if len(text) <= 80 else text[:77] + "…"
-        lines.append(
-            f"| {rel} | {_md(c.get('target', ''))} | {_md(c.get('verdict', ''))} | {_md(c.get('category', ''))} "
-            f"| {_md(_map(c.get('resolution')).get('status'))} | {'yes' if c.get('stale') else 'no'} | {_md(text)} |"
-        )
-    return Section("comments", "Open review comments", lines)
+    """Unresolved comments (`open`, `owner`) from the review ledgers, read by the review loop's own module."""
+    from itcontent.ledger import report_lines
+
+    return Section("comments", "Open review comments", report_lines(rc.root, rc.unit)[2:])  # minus its heading
 
 
 # ---------------------------------------------------------------- the command
@@ -263,7 +223,12 @@ def run_report(
     from itcontent.course import load_course
 
     root = (root or paths.ROOT).resolve()
-    if unit is not None and unit not in [u.id for u in load_course(root).units]:
+    # specs and assessments are review scopes: only their open review comments apply.
+    if (
+        unit is not None
+        and unit not in ("specs", "assessments")
+        and unit not in [u.id for u in load_course(root).units]
+    ):
         echo(f"error: unknown unit {unit}")
         return 2
     text = render(build_report(root, unit=unit), unit)

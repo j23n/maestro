@@ -206,7 +206,7 @@ def test_report_sections_and_open_comments(repo):
         "Open review comments",
     ):
         assert f"## {title}" in text
-    assert "| reviews/u02.yaml | u02.l1.story#3 | change | naturalness | open | no | Più naturale così |" in text
+    assert "- `u02.l1.story#3` Change · Unnatural: Più naturale così — reviews/u02.yaml `c1`" in text
     assert "u02.l1.ex04" not in text.split("## Open review comments")[1]
     assert (repo / "build/reports/report.md").read_text(encoding="utf-8") == text + "\n"
     assert report.run_report(repo, unit="u77", echo=out.append) == 2

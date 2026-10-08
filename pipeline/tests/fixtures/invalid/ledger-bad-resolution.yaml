@@ -1,4 +1,4 @@
-# Invalid: a ledger resolution status outside open|fixed|answered|declined|owner, and a decline without a note.
+# Invalid: a ledger resolution status outside open|fixed|answered|declined|owner|noted, and a decline without a note.
 scope: u02
 comments:
   - id: c-0001

@@ -1,0 +1,6 @@
+version: 1
+review: {status: draft, by: null, date: null, hash: null}
+sources: {cefr: CEFR Companion Volume}
+items:
+  - {id: sy:gr.articles, area: gr, label: "Articles, definite and indefinite", sources: {cefr: P}, course: "P, always taught with the noun", units: [u02], covered_by: [g:indefinite-article]}
+  - {id: sy:fn.goods-services, area: fn, label: "Ask for goods and services", sources: {cefr: P}, course: P, units: [u02], covered_by: [cd:order-food-drink]}

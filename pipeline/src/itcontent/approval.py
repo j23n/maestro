@@ -195,11 +195,6 @@ def approve(
     if refusal:
         echo(refusal)
         return 1
-    if signoff is not None:
-        # Hook for task M1.13: refuse while the ledger has open comments on the file, or when the file's hash differs
-        # from the hash in the sign-off's `files` (docs/04 § Content review loop › Back into the project, step 5).
-        echo("--signoff: not yet (task M1.13)")
-        return 1
     root = (root or paths.ROOT).resolve()
     try:
         path, rel = resolve_file(root, file)
@@ -213,6 +208,16 @@ def approve(
             raise ApprovalError(
                 f"{rel} is already approved (by {review.get('by')}, {review.get('date')}); reopen it first"
             )
+        if signoff is not None:
+            # docs/04 § Content review loop › Back into the project, step 5: the teacher signed exactly this version,
+            # and no ledger comment on the file is still open.
+            from itcontent.ledger import signoff_problems
+
+            problems = signoff_problems(root, rel, signoff, name)
+            if problems:
+                for p in problems:
+                    echo(p)
+                raise ApprovalError(f"{rel}: the sign-off doesn't allow approval ({len(problems)} problem(s))")
         errors = _lint_errors(root, rel)
         if errors:
             for f in errors:

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://italiano.invalid/schemas/review-ledger.schema.json",
   "title": "Review ledger (reviews/<scope>.yaml)",
-  "description": "docs/04 § Content review loop › Back into the project. Every comment of every imported review file, as filed, plus where it came from (`review`), whether it was made on an older version (`stale`) and what was done about it (`resolution`). Comments are never deleted or merged.",
+  "description": "docs/04 § Content review loop › Back into the project. Every comment of every imported review file, as filed, plus where it came from (`review`), whether it was made on an older version (`stale`) and what was done about it (`resolution`). Comments are never deleted or merged. `noted` is set by review-import for an OK verdict with nothing to act on.",
   "type": "object",
   "required": ["scope", "comments"],
   "properties": {
@@ -25,6 +25,8 @@
         "comment": true,
         "suggestion": true,
         "response": true,
+        "adjudication": true,
+        "reopens": true,
         "at": true,
         "review": {
           "type": "string",
@@ -45,7 +47,7 @@
       "type": "object",
       "required": ["status"],
       "properties": {
-        "status": {"enum": ["open", "fixed", "answered", "declined", "owner"], "title": "resolution status"},
+        "status": {"enum": ["open", "fixed", "answered", "declined", "owner", "noted"], "title": "resolution status"},
         "note": {"type": ["string", "null"]},
         "commit": {
           "type": ["string", "null"],

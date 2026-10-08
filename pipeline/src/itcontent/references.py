@@ -699,22 +699,11 @@ class Checker:
                     self.warning(cloc.child("file"), f"comment {c.get('id')}: {file} doesn't exist")
 
     def target_exists(self, target: str) -> bool:
-        """docs/04 § The review file: any ID, a text line, a conversation node, or a path into a unit spec."""
-        if ids.kind_of(target) is not None and self.ix.exists(target):
-            return True
-        if ids.is_valid(target, "spec_path"):
-            unit = self.course.unit(target.split(".", 1)[0])
-            node: Any = _map(unit.spec.data) if unit and unit.spec else None
-            for part in target.split(".")[1:]:
-                m = re.fullmatch(r"([a-z_]+)((?:\[\d+\])*)", part)
-                if node is None or not m:
-                    return False
-                node = _map(node).get(m.group(1))
-                for idx in re.findall(r"\[(\d+)\]", m.group(2)):
-                    seq = _seq(node)
-                    node = seq[int(idx)] if int(idx) < len(seq) else None
-            return node is not None
-        return False
+        """docs/04 § The review file: any ID, a text line, a conversation node, a path into a spec file, or a
+        content question (`itcontent.review.target_problem`)."""
+        from itcontent.review import target_problem
+
+        return target_problem(self.course, self.ix, target) is None
 
 
 def _path_key(path: tuple[str | int, ...]) -> tuple[Any, ...]:
