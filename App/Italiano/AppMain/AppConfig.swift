@@ -11,6 +11,10 @@ struct AppConfig: Sendable, Equatable {
     var debugMenu: Bool
     var llmHints: Bool
     var syncEnabled: Bool
+    /// The build is signed with `Italiano.entitlements` (iCloud). The owner's Signing.xcconfig sets
+    /// `ITA_ICLOUD_ENTITLEMENT = YES` together with `CODE_SIGN_ENTITLEMENTS`; iOS has no public API to read a
+    /// running app's entitlements, and `CKContainer` crashes without them (docs/02).
+    var iCloudEntitlement: Bool
     var reviewMode: Bool
     var reviewURL: URL?
     var studyToken: String?
@@ -39,6 +43,7 @@ struct AppConfig: Sendable, Equatable {
         debugMenu = flag("ITA_DEBUG_MENU")
         llmHints = flag("ITA_LLM_HINTS") && !flag("ITA_STUDY_BUILD")  // ADR-10: never in study builds
         syncEnabled = flag("ITA_SYNC_ENABLED")
+        iCloudEntitlement = flag("ITA_ICLOUD_ENTITLEMENT")
         reviewMode = flag("ITA_REVIEW_MODE")
         reviewURL = url("ITA_REVIEW_URL")
         studyToken = string("ITA_STUDY_TOKEN")
@@ -57,6 +62,9 @@ struct AppConfig: Sendable, Equatable {
     /// Sync runs only when the build allows it AND the iCloud entitlement is present (CKContainer crashes without
     /// it; docs/02). The caller passes whether the entitlement is there.
     func syncAllowed(hasICloudEntitlement: Bool) -> Bool { syncEnabled && hasICloudEntitlement && !reviewMode }
+
+    /// Whether this build runs `CloudSync` (otherwise `DisabledSync`: "Sync off in this build").
+    var syncAllowed: Bool { syncAllowed(hasICloudEntitlement: iCloudEntitlement) }
 
     /// Fakes and previews.
     static let preview = AppConfig(info: [

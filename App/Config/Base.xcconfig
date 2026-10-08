@@ -54,6 +54,9 @@ ITA_TELEMETRY_URL =
 ITA_DEBUG_MENU = NO
 ITA_LLM_HINTS = NO
 ITA_SYNC_ENABLED = NO
+// YES only where CODE_SIGN_ENTITLEMENTS is Config/Italiano.entitlements (the owner's Signing.xcconfig sets both):
+// CloudSync starts only with ITA_SYNC_ENABLED and this, since CKContainer crashes without the entitlement (docs/02).
+ITA_ICLOUD_ENTITLEMENT = NO
 ITA_REVIEW_MODE = NO
 ITA_REVIEW_URL =
 ITA_STUDY_TOKEN =
