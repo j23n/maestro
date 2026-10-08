@@ -150,7 +150,7 @@ It also shows the last storage error. Launch arguments for UI tests and screensh
 - `-ITAJumpToUnit u02` does the same jump at launch, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today, never on placement: a jump places the learner); relaunching with it writes nothing, so a half-done step resumes.
 - `-ITAAutoAnswer` shows the auto-answer bar for this launch (the Debug menu's switch is kept between launches; the argument isn't).
 - `-ITAFreshLearner` opens a new, empty learner database for this launch; `-ITALearner <name>` opens a throwaway one kept under that name, so a test can quit and relaunch onto the same progress. Both live in the app's temporary directory (`ItalianoUITests/<name>/learner.sqlite`), never in Application Support.
-- The Debug menu's kept switches are `UserDefaults` keys, so a test pins them through the argument domain: `-ITADebugClockOffsetDays 10`, `-ITADebugShowEligibility NO`, `-ITADebugShowDraftMarkers NO`.
+- The Debug menu's kept switches are `UserDefaults` keys, so a test pins them through the argument domain: `-ITADebugClockOffsetDays 10`, `-ITADebugShowEligibility NO`, `-ITADebugShowDraftMarkers NO`, `-ITADebugShowAutoAnswer NO`. The Debug menu, and with it every argument here, exists only when `ITA_DEBUG_MENU` is YES in a build that is neither a study build nor bundles the release pack (`AppConfig.debugMenu`, the same second guard as review mode).
 
 Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argument `-ITANoReviewMode` turns it off, and UI tests and screenshots of the learner's path pass it (with `-ITAJumpToUnit` when they start deep in the course).
 

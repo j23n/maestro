@@ -40,7 +40,6 @@ struct AppConfig: Sendable, Equatable {
         }
         studyBuild = flag("ITA_STUDY_BUILD")
         telemetryURL = url("ITA_TELEMETRY_URL")
-        debugMenu = flag("ITA_DEBUG_MENU")
         llmHints = flag("ITA_LLM_HINTS") && !flag("ITA_STUDY_BUILD")  // ADR-10: never in study builds
         syncEnabled = flag("ITA_SYNC_ENABLED")
         iCloudEntitlement = flag("ITA_ICLOUD_ENTITLEMENT")
@@ -51,6 +50,9 @@ struct AppConfig: Sendable, Equatable {
         // Learners never get review mode (M6.10): not in study builds, nor in any build that bundles the release
         // pack (Release and Study), whatever ITA_REVIEW_MODE says.
         reviewMode = flag("ITA_REVIEW_MODE") && !flag("ITA_STUDY_BUILD") && pack != .release
+        // The Debug menu (and with it the launch arguments, auto-answer and throwaway learner databases) has the
+        // same second guard: never in a study build or a build with the release pack, whatever ITA_DEBUG_MENU says.
+        debugMenu = flag("ITA_DEBUG_MENU") && !flag("ITA_STUDY_BUILD") && pack != .release
     }
 
     static func fromMainBundle() -> AppConfig { AppConfig(info: Bundle.main.infoDictionary ?? [:]) }

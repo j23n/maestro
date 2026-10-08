@@ -314,3 +314,30 @@ final class RecordingSync: SyncControlling, @unchecked Sendable {
         #expect(!app.canSpeak && real.recognizeCalls.count == 1)
     }
 }
+
+/// Learners never get the Debug menu, read from the real build configurations (M3.3).
+@MainActor
+@Suite struct DebugMenuBuildTests {
+    @Test func onlyDebugBuildsHaveTheDebugMenu() throws {
+        for (file, expected) in [
+            ("Debug.xcconfig", true), ("Release.xcconfig", false), ("Study.xcconfig", false),
+            ("Review.xcconfig", false),
+        ] {
+            var info = try Xcconfig.values(file)
+            #expect(AppConfig(info: info).debugMenu == expected, "\(file)")
+            guard file != "Debug.xcconfig" && file != "Review.xcconfig" else { continue }
+            // Even with the flag set by mistake (here or in the owner's secrets file), a build with the release
+            // pack or a study build has no Debug menu, no throwaway learner database and no debug services.
+            info["ITA_DEBUG_MENU"] = "YES"
+            let config = AppConfig(info: info)
+            #expect(!config.debugMenu, "\(file)")
+            let arguments = LaunchArguments(["-ITAFreshLearner", "-ITAJumpToUnit", "u02", "-ITAAutoAnswer"])
+            #expect(
+                arguments.learnerURL(
+                    config: config, temporaryDirectory: FileManager.default.temporaryDirectory, newName: { "x" })
+                    == nil, "\(file)")
+        }
+        #expect(!AppConfig(info: ["ITA_DEBUG_MENU": "YES", "ITA_STUDY_BUILD": "YES"]).debugMenu)
+        #expect(!AppConfig(info: ["ITA_DEBUG_MENU": "YES", "ITA_PACK": "release"]).debugMenu)
+    }
+}

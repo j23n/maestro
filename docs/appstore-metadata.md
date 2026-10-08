@@ -6,8 +6,8 @@ A starting point for App Store Connect. The owner checks every line, fills the `
 
 | Field | Draft | Notes |
 |---|---|---|
-| Name (≤ 30) | **Italiano: Italian Stories** (26) | "Italiano" alone is likely taken; alternatives: *Italiano – Learn A1 Italian* (27), *Italiano: Beginner Italian* (26) |
-| Subtitle (≤ 30) | **Learn through a story in Bologna** (30) | alternative: *Read, listen, speak. No account.* (30) |
+| Name (≤ 30) | **Italiano: Italian Stories** (25) | "Italiano" alone is likely taken; alternatives: *Italiano – Learn A1 Italian* (27), *Italiano: Beginner Italian* (26) |
+| Subtitle (≤ 30) | **Learn Italian through a story** (29) | alternative: *Read, listen, speak Italian* (27) |
 | Bundle ID | `com.j23n.italian` | ADR-18; never changes |
 | SKU | `TODO(owner)` | |
 | Primary category | Education | |
@@ -21,16 +21,16 @@ A starting point for App Store Connect. The owner checks every line, fills the `
 
 ## Promotional text (≤ 170)
 
-> Learn beginner Italian one short story at a time. Read and listen, tap any word for English, practise with gentle feedback, and review at the right moment. (157)
+> Learn beginner Italian one short story at a time. Read and listen, tap any word for English, practise with gentle feedback, and review at the right moment. (155)
 
 ## Description (≤ 4,000)
 
 > Italiano teaches beginner (A1) Italian to English speakers through one continuing story set in Bologna.
 >
-> Each unit is an episode. You meet the words first, read and listen to a short story, then see how the language works in a note built from what you just read. Practice follows: fill a gap, say it in Italian, build a sentence, write what you hear, tell similar sounds apart, and repeat after a native voice. Every unit ends with a real conversation and a short check, so you know what you can now do.
+> Each unit is an episode. You meet the words first, read and listen to a short story, then see how the language works in a note built from what you just read. Practice follows: fill a gap, say it in Italian, build a sentence, write what you hear, tell similar sounds apart, and repeat after the audio. Units end with a conversation with the people of the story and a short check, so you know what you can now do.
 >
 > LEARN FROM STORIES
-> • Short graded stories with natural audio and read-along highlighting
+> • Short graded stories with audio for every line and read-along highlighting
 > • Tap any word for its meaning; nothing you haven't met yet is ever thrown at you
 > • Grammar notes that grow out of the story, with clear tables and examples
 >
@@ -51,19 +51,19 @@ A starting point for App Store Connect. The owner checks every line, fills the `
 >
 > PRIVATE BY DESIGN
 > • No account and no sign-in
-> • Works offline; your progress stays on your devices and syncs through your own iCloud
+> • Works offline; your progress is kept on your devices and syncs through your own iCloud
 > • No ads, no tracking, no third-party analytics
 >
 > FOR IPHONE, IPAD AND MAC
-> • Layouts made for each screen, full keyboard use on Mac, VoiceOver throughout, and text size you control
+> • Layouts made for each screen, keyboard shortcuts on Mac, VoiceOver labels, and text size you control
 >
-> Already know a little? A short placement starts you at the right unit. At the end of the course, a practice check shows where you stand. It is a practice check, not an official certificate.
+> Already know a little? A short placement starts you at the right unit. At the end of the course, a final check scores what you can do in reading, listening, writing and speaking against an indicative pass mark. It is a practice check, not an official certificate.
 
-(about 1,900 characters)
+(about 2,000 characters)
 
 ## Keywords (≤ 100, comma-separated, no spaces after commas)
 
-`italian,learn italian,beginner,language,stories,vocabulary,grammar,listening,speaking,italy,offline` (98)
+`italian,learn italian,beginner,language,stories,vocabulary,grammar,listening,speaking,italy,offline` (99)
 
 Don't repeat words already in the name or subtitle if space runs short; Apple indexes those already.
 
@@ -109,18 +109,19 @@ Answer **None** to every content question (violence, sexual content, profanity, 
 
 > No account or sign-in is needed: the app opens on a short onboarding and then the course. Everything works offline.
 >
-> To see the main features quickly: complete onboarding (answer "No, I'm starting from zero"), then on Today tap Continue. A lesson takes about 15 minutes; any lesson in Unit `TODO(owner)` shows the story reader, word glosses, practice with feedback and a conversation.
+> To see the main features quickly: complete onboarding (answer "No, I'm starting from zero"), then on Today tap Continue. Any lesson in Unit `TODO(owner)` shows the story reader, word glosses and practice with feedback; the unit's conversation follows its lessons.
 >
 > Microphone and speech recognition are requested only when the learner taps a microphone button; recognition runs on the device. If they are declined, every speaking exercise offers typing or listen-and-repeat instead.
 >
 > iCloud is used only to sync the learner's own progress through their private iCloud database; there is no server account. The app has no in-app purchases, ads or tracking.
 >
-> The final "practice check" at the end of the course is self-assessment only and says so; it is not an official certificate.
+> The final "practice check" at the end of the course is scored automatically against an indicative pass mark and says it is not an official certificate.
 
 ## Open points for the owner
 
 1. App name availability; pick from the alternatives above.
-2. Whether the App Store build is the plain Release configuration (no study, "Data Not Collected") while study builds stay on TestFlight; then remove the collected types from the manifest before that release (docs/13 Proposed changes).
+2. Whether the App Store build is the plain Release configuration (no study, "Data Not Collected") while study builds stay on TestFlight; then remove the collected types from the manifest before that release (docs/13 Proposed changes). If the App Store build carries the study, add to the description that learning data is shared only with consent.
+6. Claims to re-check before submission: the accessibility line after the M9.2 audit, and "Units end with a conversation" against the units that ship (the final review unit has none).
 3. Privacy policy and support pages (URLs required by App Store Connect).
 4. Price and availability; Education category confirmed.
 5. Which units the first App Store build carries (only approved units ship, docs/04), for What's New and the review notes.

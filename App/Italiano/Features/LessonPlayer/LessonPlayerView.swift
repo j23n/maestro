@@ -34,7 +34,8 @@ struct LessonPlayerView: View {
                 review: review, model: model, host: hostPosition == model.position ? host : nil,
                 move: { move(to: $0) })
         )
-        .autoAnswerBar(debug, host: hostPosition == model.position ? host : nil, advance: advance)
+        .autoAnswerBar(
+            debug, host: hostPosition == model.position ? host : nil, isFinished: model.isFinished, advance: advance)
         .onAppear {
             sink.stepID = model.currentStep?.id
             if let step = model.openingStep { onStepChange(.init(completed: nil, started: step)) }

@@ -139,18 +139,23 @@ extension View {
     /// The Debug menu's auto-answer bar (M6.3) over a player: answer the exercise on screen correctly, wrongly, or
     /// correctly and continue (`AutoAnswer`). Draws nothing unless the Debug menu or `-ITAAutoAnswer` turned it on,
     /// so builds without the Debug menu never show it.
-    func autoAnswerBar(_ debug: DebugMenuModel?, host: ExerciseHostModel?, advance: @escaping () -> Void) -> some View {
-        modifier(AutoAnswerBar(debug: debug, host: host, advance: advance))
+    /// `isFinished`: the player's end page (Bravo!, Session complete) is drawn without the bar, so it never covers a
+    /// finished screen or a reference screenshot of one.
+    func autoAnswerBar(
+        _ debug: DebugMenuModel?, host: ExerciseHostModel?, isFinished: Bool = false, advance: @escaping () -> Void
+    ) -> some View {
+        modifier(AutoAnswerBar(debug: debug, host: host, isFinished: isFinished, advance: advance))
     }
 }
 
 private struct AutoAnswerBar: ViewModifier {
     let debug: DebugMenuModel?
     let host: ExerciseHostModel?
+    var isFinished = false
     let advance: () -> Void
 
     @ViewBuilder func body(content: Content) -> some View {
-        if let debug, debug.autoAnswerEnabled {
+        if let debug, debug.autoAnswerEnabled, !isFinished {
             content.overlay(alignment: .bottomTrailing) {
                 HStack(spacing: Tokens.Space.xs) {
                     button("checkmark", label: "Answer correctly", identifier: "debug.autoAnswer") {

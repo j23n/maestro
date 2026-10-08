@@ -72,6 +72,8 @@ final class LearnerPathTests: XCTestCase {
         XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 10))
         let last = rows.allElementsBoundByIndex.compactMap { Int($0.identifier.split(separator: ".").last ?? "") }.max()
         ui.press("opener.step.\(try XCTUnwrap(last))")
+        // A learner who jumped here hasn't met Unit 2's words: "Before we go on" comes first (docs/05).
+        if ui.exists("minipreview.continue", timeout: 5) { ui.press("minipreview.continue") }
         XCTAssertTrue(ui.exists("check.start", timeout: 10), "the first section's intro")
         XCTAssertTrue(ui.exists("assessment.section") || ui.exists("player.progress"))
         guard case .check(let overall)? = ui.playToEnd() else {

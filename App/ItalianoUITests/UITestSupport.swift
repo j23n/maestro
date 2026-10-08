@@ -50,7 +50,8 @@ struct UIApp {
         // the pair's key as its value.
         var arguments = [
             "-ITADebugClockOffsetDays", "\(clockOffsetDays)", "-ITADebugShowEligibility", "NO",
-            "-ITADebugShowDraftMarkers", "NO", "-AppleLanguages", "(en)", "-AppleLocale", "en_US",
+            "-ITADebugShowDraftMarkers", "NO", "-ITADebugShowAutoAnswer", "NO",
+            "-AppleLanguages", "(en)", "-AppleLocale", "en_US",
         ]
         switch learner {
         case .fresh: arguments += ["-ITAFreshLearner"]

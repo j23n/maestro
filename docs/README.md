@@ -16,6 +16,7 @@ Read what your task needs. Each task in `11-milestones.md` names its specs.
 | [10-quality.md](10-quality.md) | set up tests or CI, or need the definition of done |
 | [11-milestones.md](11-milestones.md) | pick your next task |
 | [12-study-privacy.md](12-study-privacy.md) | touch telemetry, consent, exports, privacy |
+| [appstore-metadata.md](appstore-metadata.md) | prepare an App Store submission (draft listing, privacy answers, review notes; owner task M9.3) |
 | [13-decisions.md](13-decisions.md) | wonder "why X and not Y?", meet a licence question, or want to propose a change |
 
 Precedence when two sources disagree:

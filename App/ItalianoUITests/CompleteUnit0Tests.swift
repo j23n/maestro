@@ -11,9 +11,13 @@ final class CompleteUnit0Tests: XCTestCase {
         let ui = UIApp.launch(learner: .fresh, jumpTo: "u00")
         ui.openUnit(0)
         let primary = ui.element("opener.continue")
-        guard primary.isEnabled else {
+        // Skips only on an explicit signal (`TEST_RUNNER_ITALIANO_UNIT0_PENDING=1` on the xcodebuild command line,
+        // while content track C3 hasn't written Unit 0): a disabled button for any other reason is a failure, so the
+        // test never passes by skipping.
+        if ProcessInfo.processInfo.environment["ITALIANO_UNIT0_PENDING"] == "1" {
             throw XCTSkip("Unit 0 has no steps in this build's pack yet (content track C3): nothing to complete")
         }
+        XCTAssertTrue(primary.isEnabled, "Unit 0's primary button; set ITALIANO_UNIT0_PENDING=1 until C3 lands")
 
         // Each round opens what the unit's primary button offers next ("Start Unit 0", then "Continue with …"), plays
         // it to its end and comes back to the overview, until the unit is complete ("Practise this unit again").

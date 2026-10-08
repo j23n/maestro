@@ -46,7 +46,7 @@ struct ReviewSessionView: View {
             }
         }
         .background(Color.ds.background)
-        .autoAnswerBar(debug, host: model.isFinished ? nil : model.host) { model.advance() }
+        .autoAnswerBar(debug, host: model.isFinished ? nil : model.host, isFinished: model.isFinished) { model.advance() }
     }
 
     /// Review cards bring their own payloads; a source text is shown only inside lessons.
