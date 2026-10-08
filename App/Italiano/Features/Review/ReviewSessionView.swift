@@ -10,6 +10,8 @@ struct ReviewSessionView: View {
     let onClose: () -> Void
     let onDone: () -> Void
     var onNextStory: (() -> Void)?
+    /// The Debug menu, for the auto-answer bar (M6.3); nil in builds without it.
+    var debug: DebugMenuModel? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -44,6 +46,7 @@ struct ReviewSessionView: View {
             }
         }
         .background(Color.ds.background)
+        .autoAnswerBar(debug, host: model.isFinished ? nil : model.host) { model.advance() }
     }
 
     /// Review cards bring their own payloads; a source text is shown only inside lessons.

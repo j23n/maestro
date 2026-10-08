@@ -41,7 +41,8 @@ struct FinalCheckHost: View {
                         onContinue: {
                             launch.model.advance()
                             if launch.model.phase == .finished { complete() }
-                        }
+                        },
+                        debug: deps.services.debug
                     )
                     .confirmationDialog("Leave the final check?", isPresented: $confirmLeave, titleVisibility: .visible)
                     {

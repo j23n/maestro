@@ -18,6 +18,8 @@ struct AssessmentSessionView: View {
     let services: PlayerServices
     let onClose: () -> Void
     let onContinue: () -> Void
+    /// The Debug menu, for the auto-answer bar (M6.3); nil in builds without it.
+    var debug: DebugMenuModel? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -65,6 +67,7 @@ struct AssessmentSessionView: View {
             }
         }
         .background(Color.ds.background)
+        .autoAnswerBar(debug, host: host, advance: onContinue)
     }
 }
 

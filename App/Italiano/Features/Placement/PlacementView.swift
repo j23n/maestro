@@ -28,7 +28,8 @@ struct PlacementHost: View {
                         title: launch.model.blockLine, progress: launch.model.progress, counter: nil,
                         host: launch.model.host, payload: launch.model.payload,
                         position: launch.model.session.answeredCount, bundle: launch.model.bundle,
-                        services: services, onClose: { confirmLeave = true }, onContinue: { launch.model.advance() }
+                        services: services, onClose: { confirmLeave = true }, onContinue: { launch.model.advance() },
+                        debug: deps.services.debug
                     )
                     .confirmationDialog(PlacementCopy.leaveTitle, isPresented: $confirmLeave, titleVisibility: .visible)
                     {

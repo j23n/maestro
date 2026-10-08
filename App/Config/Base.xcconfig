@@ -26,7 +26,9 @@ GENERATE_INFOPLIST_FILE = YES
 INFOPLIST_FILE = Config/Italiano-Info.plist
 INFOPLIST_KEY_CFBundleDisplayName = Italiano
 INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.education
-INFOPLIST_KEY_UILaunchScreen_Generation = YES
+// The launch screen is the UILaunchScreen dictionary in Config/Italiano-Info.plist (its colour, M6.2), so the build
+// doesn't generate an empty one next to it.
+INFOPLIST_KEY_UILaunchScreen_Generation = NO
 INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait
 INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
 INFOPLIST_KEY_NSMicrophoneUsageDescription = Italiano listens when you practise speaking. Recognition happens on your device.

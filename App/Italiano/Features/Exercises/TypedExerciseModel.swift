@@ -55,7 +55,7 @@ struct TypedTask: Sendable {
 @Observable
 final class TypedExerciseModel {
     let task: TypedTask
-    private let env: ExerciseEnvironment
+    let env: ExerciseEnvironment
     private weak var sink: AttemptSink?
 
     var response = ""

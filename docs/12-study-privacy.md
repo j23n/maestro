@@ -106,9 +106,9 @@ The app posts one review file per scope with the comments not sent yet (`docs/04
 
 - **Privacy manifest** (`PrivacyInfo.xcprivacy`, one file for all builds of the single target; it declares the study data types, which non-study builds never collect, so it is accurate for study builds and conservative otherwise):
   - No tracking and no tracking domains.
-  - Required-reason APIs: `UserDefaults` (CA92.1) and file timestamps if used — declare exactly what the code uses.
-  - Collected data types for study builds: "Product Interaction" and "Other Usage Data", linked to the install ID (pseudonymous), not used for tracking.
-- **App Store privacy label:** filled by the owner from the manifest.
+  - Required-reason APIs: exactly what the code uses — `UserDefaults` (CA92.1: the Debug menu's switches) and file timestamps (C617.1: `contentModificationDate` of the recordings and exports in the app's container, deleted after 30 days). No disk-space, boot-time or keyboard APIs.
+  - Collected data types for study builds, all linked to the install ID (pseudonymous), not used for tracking, purpose Analytics: "Product Interaction" (the events), "Other Usage Data" (the batch's context, onboarding's reason and beginner flag), "Other User Content" (typed answers to closed formats, ≤ 200 characters) and "User ID" (the install ID itself, an assigned user-level ID).
+- **App Store privacy label:** filled by the owner from the manifest; `docs/appstore-metadata.md` has the draft answers.
 - **Microphone:** used only while the learner holds or taps the mic; recognition runs on device.
 - **iCloud:** learner data lives in the user's own private database; we can't read it.
 - **Children:** not in the Kids category; the study recruits adults (18+).

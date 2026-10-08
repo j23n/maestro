@@ -141,9 +141,17 @@ The Debug menu (Settings → Debug, builds with `ITA_DEBUG_MENU` only; `DebugMen
 - **rebuild state from events** (`LearnerStore.rebuildAll()`), **export the learner DB** (`LearnerStore.exportCopy(to:)`, a single-file copy through SQLite's online backup, saved with the file exporter);
 - **simulate speech by typing**: `SimulatedSpeechRecognizer` wraps the real recogniser; switched on, speech counts as available and each recording asks for the transcript in a panel of the player's debug overlay;
 - **show eligibility for the current screen** and **show draft markers**: the lesson and review players' debug overlay shows "DRAFT" on unapproved steps of a dev pack and an eligibility badge that opens the requirements of the step and exercise on screen;
-- **reset local data**: Reset progress (`docs/08`) through the sync driver when sync runs, else `eraseProgress()`; onboarding runs again.
+- **reset local data**: Reset progress (`docs/08`) through the sync driver when sync runs, else `eraseProgress()`; onboarding runs again;
+- **auto-answer in lessons** (task M6.3, `AutoAnswer`): the lesson, review and assessment players show a small bar with **Answer correctly** (`debug.autoAnswer`), **Answer wrongly** (`debug.autoAnswerWrong`) and **Answer and continue** (`debug.autoAdvance`). It answers through the exercise's own view model, so the graders, the feedback machine and the `attempt` events all run: a correct answer comes from the payload's model answers and correct indices and is kept only when the grader accepts it for this learner; speaking formats get the transcript the simulated recogniser would hand over. A wrong answer is one wrong attempt (the first shows the hint, the second the answer).
 
-It also shows the last storage error. The launch argument `-ITAJumpToUnit u02` does the same jump at launch, for UI tests and screenshots, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today, never on placement: a jump places the learner); relaunching with it writes nothing, so a half-done step resumes. Builds without the Debug menu ignore it. Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argument `-ITANoReviewMode` turns it off, and UI tests and screenshots of the learner's path pass it (with `-ITAJumpToUnit` when they start deep in the course).
+It also shows the last storage error. Launch arguments for UI tests and screenshots, all ignored by builds without the Debug menu:
+
+- `-ITAJumpToUnit u02` does the same jump at launch, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today, never on placement: a jump places the learner); relaunching with it writes nothing, so a half-done step resumes.
+- `-ITAAutoAnswer` shows the auto-answer bar for this launch (the Debug menu's switch is kept between launches; the argument isn't).
+- `-ITAFreshLearner` opens a new, empty learner database for this launch; `-ITALearner <name>` opens a throwaway one kept under that name, so a test can quit and relaunch onto the same progress. Both live in the app's temporary directory (`ItalianoUITests/<name>/learner.sqlite`), never in Application Support.
+- The Debug menu's kept switches are `UserDefaults` keys, so a test pins them through the argument domain: `-ITADebugClockOffsetDays 10`, `-ITADebugShowEligibility NO`, `-ITADebugShowDraftMarkers NO`.
+
+Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argument `-ITANoReviewMode` turns it off, and UI tests and screenshots of the learner's path pass it (with `-ITAJumpToUnit` when they start deep in the course).
 
 ### Project, signing and entitlements (ADR-19)
 
@@ -192,5 +200,5 @@ No other Swift dependencies without a proposal in `docs/13`.
 - LearningCore takes a tiny `CoreLogger` protocol (no-op by default).
 - User-facing errors (task M3.9):
   - content-pack schema mismatch → blocking error screen ("Please update the app"; `error.packMismatch`);
-  - learner DB corruption (open or migration fails) → move the file aside as a backup, create a fresh DB, let sync download the events again, rebuild, and tell the learner in one sentence;
+  - learner DB corruption (open or migration fails) → move the file aside as a backup, create a fresh DB, let sync download the events again, rebuild, and tell the learner in one sentence; onboarding shows on the fresh DB until the learner's synced `profile.forms` comes back, which ends it without asking again;
   - sync problems → only a status line in Settings, never a modal.

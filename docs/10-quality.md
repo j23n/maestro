@@ -11,7 +11,7 @@ The rule that makes agent work reliable: **every task ends with checks you can r
 | Pipeline | pytest | Linux and macOS | `make test-pipeline` | tokeniser, elision table, Morph-it! loader, chunk matcher, detection rules (one test per grammar point), each check (1–5) with passing and failing fixtures, pattern expansion parity with Swift, pack build determinism |
 | Content | `content` CLI | Linux and macOS | `make check-content` | lint, annotation freshness, checks 1–5 on the real course |
 | App unit and snapshot | Swift Testing + swift-snapshot-testing | macOS (iOS Simulator + Mac) | `make test-app` | view models with fakes; snapshots of components and exercise views (compact and regular, light and dark, AX5) |
-| UI flows | XCUITest | iOS Simulator, macOS | `make test-ui` | onboarding → Today → Unit 2 Lesson 1 complete; review session; unit check; Mac keyboard path |
+| UI flows | XCUITest | iOS Simulator, macOS | `make test-ui` | onboarding → Today → Unit 2 Lesson 1 complete; review session; unit check; Mac keyboard path; resume after quitting (M3.6); Unit 0 complete on iPhone (M6.3). Each test launches with its own throwaway learner database and the Debug auto-answer bar (`docs/02` § App configuration); shared helpers in `ItalianoUITests/UITestSupport.swift` |
 | Agent visual check | MobileBuildMCP | iOS Simulator | via MCP tools | screenshots of the screen you changed, compared with `design/screens/` |
 | Manual device | checklist | iPhone, iPad, Mac | `docs/11` gates | audio, speech, sync, feel |
 
@@ -43,9 +43,12 @@ make build-ios       # xcodebuild -scheme Italiano -destination 'generic/platfor
 make build-mac       # xcodebuild -scheme Italiano -destination 'platform=macOS' build CODE_SIGNING_ALLOWED=NO
 make test-app        # xcodebuild test (iPhone simulator, unsigned) + test (macOS, ad-hoc signed), unit and snapshot only
 make test-ui         # xcodebuild test -only-testing:ItalianoUITests (iPhone simulator, then macOS ad-hoc signed)
-make screenshots     # UI tests that save reference screenshots to artifacts/screens/
+make screenshots     # UI tests that save reference screenshots to artifacts/screens/ (Screenshots: iOS PNGs in
+                     #   artifacts/screens/<task>/, TEST_RUNNER_ITA_SCREENS_TASK=M6.4 names the folder;
+                     #   MacScreens: XCTAttachments in artifacts/screens/mac.xcresult)
 make lint-guards     # scripts/check-core-imports.sh + python3 scripts/check-contrast.py
-                     #   + scripts/gen-tokens.py --check (Tokens.swift matches design/tokens.json)
+                     #   + scripts/gen-tokens.py --check (Tokens.swift and the AccentColor and
+                     #     LaunchBackground colour sets match design/tokens.json)
                      #   + scripts/check-app-logic.sh (App files importing only Foundation, Observation,
                      #     LearningCore and Storage type-check against the packages, on Linux too)
 make archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with

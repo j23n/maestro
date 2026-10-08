@@ -36,7 +36,7 @@ final class AppServices {
         self.speech = speech.map { SpeechSettingsModel(app: app, speech: $0) }
     }
 
-    /// After `AppModel.start()` and sync: speech availability, the Debug menu's data and the launch argument, the
+    /// After `AppModel.start()` and sync: speech availability, the Debug menu's data and launch arguments, the
     /// stored reminder, and the first upload with periodic uploads after it. Nothing happens when the app couldn't
     /// start.
     func afterLaunch(arguments: [String]) async {
@@ -45,7 +45,9 @@ final class AppServices {
         await speech?.refresh()
         if let debug {
             await debug.load()
-            if let unit = LaunchArguments(arguments).jumpToUnit { await debug.jumpAtLaunch(to: unit) }
+            let launch = LaunchArguments(arguments)
+            if launch.autoAnswer { debug.enableAutoAnswerForThisLaunch() }
+            if let unit = launch.jumpToUnit { await debug.jumpAtLaunch(to: unit) }
         }
         await reminders.refresh()
         if let telemetry {

@@ -28,6 +28,14 @@
 	<string>$(ITA_PACK)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<!-- The launch screen (iOS and iPadOS; macOS has none): the `background` colour of the loading screen that
+	     RootView draws next, light or dark (task M6.2). LaunchBackground.colorset is generated from
+	     design/tokens.json by scripts/gen-tokens.py. -->
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
