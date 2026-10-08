@@ -40,7 +40,7 @@
       "required": ["source", "expansions"],
       "properties": {
         "source": {"type": "string", "description": "the answer pattern as authored (docs/03); the first expansion is the model answer"},
-        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key"}
+        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key. An all-optional pattern's empty expansion is left out"}
       }
     },
     "near": {
@@ -48,7 +48,7 @@
       "required": ["answer", "outcome", "hint"],
       "properties": {
         "answer": {"$ref": "#/$defs/pattern"},
-        "outcome": {"enum": ["wrong", "almost"]},
+        "outcome": {"enum": ["wrong", "almost", "correctWithNote"], "description": "correctWithNote: right, with a note (a generated recall's bare noun: 'Say it with its article'); authored near-misses may use it too (common.schema.json § near)"},
         "hint": {"$ref": "#/$defs/nullableString"}
       }
     },

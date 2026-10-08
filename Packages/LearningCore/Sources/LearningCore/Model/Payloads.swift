@@ -65,13 +65,21 @@ public struct PatternPayload: Codable, Sendable, Hashable {
 }
 
 public struct NearPayload: Codable, Sendable, Hashable {
-    public enum Outcome: String, Codable, Sendable { case wrong, almost }
+    /// `correctWithNote` marks an answer that is right but gets a note (a bare noun in a generated recall:
+    /// "Say it with its article", docs/05 § Review session builder); authored near-misses may use it too.
+    public enum Outcome: String, Codable, Sendable { case wrong, almost, correctWithNote }
     public let answer: PatternPayload
     public let outcome: Outcome
     public let hint: String?
 
     public func nearMiss() throws(PatternError) -> TypedAnswerGrader.NearMiss {
-        TypedAnswerGrader.NearMiss(try answer.parsed(), outcome: outcome == .almost ? .almost : .wrong, hint: hint)
+        let graded: AttemptOutcome =
+            switch outcome {
+            case .wrong: .wrong
+            case .almost: .almost
+            case .correctWithNote: .correctWithNote
+            }
+        return TypedAnswerGrader.NearMiss(try answer.parsed(), outcome: graded, hint: hint)
     }
 }
 

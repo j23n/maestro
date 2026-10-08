@@ -22,13 +22,16 @@ import Testing
             case (.cloze, .cloze(let c)):
                 #expect(try c.gapPattern().expansions(profile: .unspecified).first?.text == "un")
                 #expect(c.before.rebuilt == c.before.text && c.after.rebuilt == c.after.text)
-            case (.recall, .recall(let r)): #expect(try r.answer.parsed().firstExpansion(profile: .unspecified)?.text == "un cornetto")
+            case (.recall, .recall(let r)):
+                #expect(try r.answer.parsed().firstExpansion(profile: .unspecified)?.text == "un cornetto")
             case (.sentenceBuilding, .sentenceBuilding(let s)):
                 let order = s.shuffledTiles(exerciseID: p.id)
                 #expect(order.sorted() == (s.tiles + s.distractors).sorted())
                 #expect(!s.answers.contains(order.joined(separator: " ")))
-            case (.soundPair, .soundPair(let sp)): #expect(sp.question == .whichWord ? sp.play == 1 : sp.answer == .double)
-            case (.choice, .choice(let c)): #expect(c.displayOrder(exerciseID: p.id).sorted() == Array(c.options.indices))
+            case (.soundPair, .soundPair(let sp)):
+                #expect(sp.question == .whichWord ? sp.play == 1 : sp.answer == .double)
+            case (.choice, .choice(let c)):
+                #expect(c.displayOrder(exerciseID: p.id).sorted() == Array(c.options.indices))
             case (.conversation, .conversation(let conv)):
                 #expect(conv.node(conv.start)?.expect.first?.next == "n3")
                 #expect(conv.nodes.last?.final == true)
@@ -54,23 +57,41 @@ import Testing
         #expect(grade.nearHint == "Cornetto is masculine.")
     }
 
+    /// Generated preview recalls carry the bare noun as a `correctWithNote` near-miss (docs/05, docs/06 § 1).
+    @Test func aCorrectWithNoteNearMissKeepsItsOutcome() throws {
+        let json = #"""
+            {"answer": {"source": "cornetto", "expansions": ["cornetto"]}, "outcome": "correctWithNote",
+             "hint": "Say it with its article: il cornetto"}
+            """#
+        let near = try JSONDecoder().decode(NearPayload.self, from: Data(json.utf8))
+        let miss = try near.nearMiss()
+        #expect(miss.outcome == .correctWithNote)
+        let grade = TypedAnswerGrader().grade(
+            "cornetto", accepted: try AnswerPattern("{il|un} [cornetto]"), near: [miss])
+        #expect(grade.outcome == .correctWithNote)
+        #expect(grade.nearHint == "Say it with its article: il cornetto")
+    }
+
     @Test func everyStepNoteAssessmentAndLayoutDecodes() throws {
         let ex = try Self.examples()
         let steps = try #require(ex["steps"] as? [[String: Any]])
         let decoded = try steps.map { try JSONDecoder().decode(StepPayload.self, from: Self.data($0)) }
-        #expect(Set(decoded.map(\.kind)).isSuperset(of: [.opener, .preview, .story, .note, .practice, .check, .fluency]))
+        #expect(
+            Set(decoded.map(\.kind)).isSuperset(of: [.opener, .preview, .story, .note, .practice, .check, .fluency]))
         let practice = try #require(decoded.first { $0.kind == .practice })
         let order = practice.exerciseOrder(stepID: "u02.l1.step-practice")
         #expect(Array(order.prefix(2)) == ["u02.l1.ex01", "u02.l1.ex04"])  // block first, in file order
         #expect(Set(order.suffix(2)) == ["u02.l1.ex15", "u02.l1.ex17"])
         #expect(order == practice.exerciseOrder(stepID: "u02.l1.step-practice"))  // the same on every device
-        let note = try JSONDecoder().decode(NoteBody.self, from: Self.data(try #require((ex["notes"] as? [Any])?.first)))
+        let note = try JSONDecoder().decode(
+            NoteBody.self, from: Self.data(try #require((ex["notes"] as? [Any])?.first)))
         #expect(note.blocks.count == 4)
         if case .examples(let e) = note.blocks[2] { #expect(e[0].highlight == [3]) } else { Issue.record("examples") }
         for raw in try #require(ex["assessments"] as? [Any]) {
             _ = try JSONDecoder().decode(AssessmentPayload.self, from: Self.data(raw))
         }
-        let layout = try JSONDecoder().decode(LayoutPayload.self, from: Self.data(try #require((ex["layouts"] as? [Any])?.first)))
+        let layout = try JSONDecoder().decode(
+            LayoutPayload.self, from: Self.data(try #require((ex["layouts"] as? [Any])?.first)))
         guard case .menu(_, let sections) = layout else {
             Issue.record("menu")
             return
@@ -89,7 +110,9 @@ import Testing
         #expect(throws: DecodingError.self) { try JSONDecoder().decode(ExercisePayload.self, from: Self.data(missing)) }
         var noTargets = list[1]
         noTargets.removeValue(forKey: "targets")
-        #expect(throws: DecodingError.self) { try JSONDecoder().decode(ExercisePayload.self, from: Self.data(noTargets)) }
+        #expect(throws: DecodingError.self) {
+            try JSONDecoder().decode(ExercisePayload.self, from: Self.data(noTargets))
+        }
     }
 
     @Test func payloadsRoundTrip() throws {
