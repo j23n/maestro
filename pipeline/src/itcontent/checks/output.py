@@ -1,8 +1,8 @@
 """`build/reports/check.json` and `check.md`: the findings plus what the checks measured (docs/04 § Commands).
 
 Both are deterministic (no timestamps; rows sorted), so two runs on the same content give the same bytes. The JSON is
-`{format, scope, summary, units, findings, level_gate, coverage, recycling}`; each check that measures something adds its own key and
-Markdown section through `SECTIONS`.
+`{format, scope, summary, units, findings, level_gate, coverage, recycling}`; each check that measures something adds
+its own key (`JSON_EXTRAS`) and Markdown section (`SECTIONS`).
 """
 
 from __future__ import annotations

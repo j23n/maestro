@@ -1,0 +1,23 @@
+e 1000
+non 900
+la 800
+è 700
+sono 650
+di 600
+ho 500
+ha 450
+caffè 300
+casa 250
+mangiare 200
+case 120
+mangio 100
+latte 90
+mamma 80
+madre 70
+padre 60
+Marco 55
+bar 50
+xyzzy 40
+pane 30
+casa 20
+malformed line here
