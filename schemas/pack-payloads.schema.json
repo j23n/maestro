@@ -48,7 +48,7 @@
       "required": ["answer", "outcome", "hint"],
       "properties": {
         "answer": {"$ref": "#/$defs/pattern"},
-        "outcome": {"enum": ["wrong", "almost"]},
+        "outcome": {"enum": ["wrong", "almost", "correctWithNote"], "description": "correctWithNote: right, with a note (a generated recall's bare noun: 'Say it with its article'); authored near-misses may use it too (common.schema.json § near)"},
         "hint": {"$ref": "#/$defs/nullableString"}
       }
     },
