@@ -85,6 +85,9 @@ The seed content takes a default for each; the content lead confirms or changes 
 | CQ7 | `disambiguation.yaml`'s *la / l'* rule lists no proper nouns after *l'*, so *l'Italia* would be read as the clitic pronoun. Add `NPR` to its next-word list? | not yet in the seeds (no seed text has it); found by the annotator (M1.6) |
 | CQ8 | `w:buono` has no `forms`, so *buon* (Morph-it! gives it its own lemma) doesn't resolve. Add `forms: [buon]`? | not yet |
 | CQ9 | `w:italiano` is an adjective only, so *in italiano* (Unit 2 lesson 1, line 5) reads as the adjective. Give it a language-noun sense? | adjective (works, but the gloss is off) |
+| CQ10 | The Unit 2 check targets nothing for `c:vorrei`, so the *vorrei* syllabus entries are never assessed. Add a check item for it? | not yet (found by check 1, M1.11) |
+| CQ11 | The story bible has no register row for some pairs (Zia Rosa ↔ Giulia, Zia Rosa ↔ Sara). Which register do they use? | none: check 5 rejects the first line that needs one |
+| CQ12 | `w:buono` (3 encounters) and `w:oggi` (4) need reuse in Unit 2 lessons 2–3 to reach the encounter target | to be written with lessons 2–3 |
 
 ## Implementation decisions (7 Oct 2026)
 
@@ -118,6 +121,19 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 
 **Grading (M2.3–M2.6)**
 - Expansions never mix genders; dictation marks *e* for *è*, and another form of the same item, as wrong; slot-like names are errors; model answers use the masculine expansion while feedback shows the joined forms.
+- After the spec review: equal-cost alignments prefer more exact word pairs, so a slot never takes a word the learner typed; in transcripts a slot weighs less than any literal. Strict gender forms make the other alternative an `ending` error. `H.MM` after a time cue (*alle*, *dalle*, *verso*…) reads as a time, otherwise both readings count. A `1` before a word matches *un/uno/una*. Hundreds elide (*centotto*). Only a missing or added accent on an accent-sensitive word makes another word, so *é* for *è* is `almost`. The generic hint comes from the first hard error. Corrections keep the author's case. Spoken talk answers collapse double consonants. Check, final and placement record every answer as `done(recorded)` and show nothing.
+- The cross-language error contract is the message text (`PatternError.message` in Python, `PatternError.description` in Swift).
+
+**Storage (M2.11, M2.12)**
+- PackReader refuses a pack unless `schema_version` matches, the required meta keys exist (`schema_version`, `pack_version`, `content_hash`, `course_id`, `locale`, `release`), all tables exist and every query prepares. Match target order comes from the payload.
+- The learner database checkpoints the whole derived state (`canonicalEncoding()`) and replays only later events at launch; the docs/03 tables are its queryable copy. New derived fields need a `derived_version` bump, not a migration. Remote payload bytes are stored as received, so fields from newer clients survive. `eraseProgress()` (Reset, zone deletion) is the only deletion. A local settings change is stamped `max(now, stored + 1)` so it wins over a device whose clock ran ahead.
+
+**Checks and pack (M1.8–M1.12)**
+- Checks read the annotation lock files. Prompts, options, tiles, `say` lines and notes go through the level gate as text. Chunk-only grammar points fail the construction gate outside their chunk. A speaker pair without a story-bible register row is an error. Coverage counts only written content; gaps in incomplete units are pending. `content suggest --topic` only shows context (the frequency list has no topics).
+- Every exercise requires its own primary targets. A lesson's target grammar points are excluded only from steps before its note. Every unit with a spec gets an opener; task and check steps exist only when their files are written. Payload near-misses may be `correctWithNote` (a bare noun in generated recall).
+
+**Review loop (M1.3, M1.13, M8.3)**
+- Scopes `specs`, `uNN` and `assessments`. The content questions above are review targets `CQ1…`, hashed by their own section. A ledger status `noted` records an OK without a comment. Import refuses a file with any unknown target. Beta answers to adjudicate open each unit page; verdicts become proposals an agent applies after the owner reopens the file.
 
 **Learner engine (M2.7–M2.10, M7.1)**
 - Resume cursor: the answered prefix of a step, counting only lesson and check attempts with a `stepId`. In check, final and placement contexts every attempt is final. Conversations restart on resume.
@@ -145,3 +161,5 @@ Agents add proposals here (date, ADR or question, proposal, reason) and stop. Do
 | 2026-10-07 | LearningCore | Make `FeedbackMachine.FeedbackShown` a typealias of the event's `FeedbackShown` | Two identical enums; the App maps one to the other by raw value |
 | 2026-10-07 | M1.6 lock files | Annotate each distinct expansion once | The lock files total 460 KB, mostly repeated pattern expansions |
 | 2026-10-07 | Swift style | Run `swift format lint` (the toolchain ships it) in `make lint-guards` after one formatting pass | `.swift-format` exists but nothing enforces it; the code has drifted from it |
+| 2026-10-08 | M1.6 lock files | Store a fingerprint of each string's sources (items, allowlist, chunks) in the lock files | `content check` reads the lock files; today only `annotate --check` catches an items edit that changes a token |
+| 2026-10-08 | M1.12 topics | Add a licensed topic resource (e.g. Wiktionary categories via kaikki.org, CC BY-SA) so `content suggest --topic` can filter | the pinned frequency list has no topics; an owner decision because of the licence |
