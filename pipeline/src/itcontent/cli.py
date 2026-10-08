@@ -76,6 +76,17 @@ def annotate(
     sys.exit(run_annotate(check=check))
 
 
+@app.command()
+def check(
+    unit: str = typer.Option(None, "--unit", help="report only findings about this unit (e.g. u02)"),
+    as_json: bool = typer.Option(False, "--json", help="print the report as JSON instead of one line per finding"),
+) -> None:
+    """Checks 1–5 (docs/04 § The ten quality checks); writes build/reports/check.{json,md}. Fails on any error."""
+    from itcontent.checks import run_check
+
+    sys.exit(run_check(unit=unit, as_json=as_json, echo=typer.echo))
+
+
 @app.command("beta-import")
 def beta_import(
     events: Path = typer.Argument(..., exists=True, dir_okay=False, help="JSONL export from the study endpoint"),
