@@ -11,8 +11,11 @@ import Testing
     let catalog: PackAudioCatalog = {
         let fileURL = URL(fileURLWithPath: "/Content/Audio/000000000001.m4a")
         return PackAudioCatalog(
-            audio: ["a:000000000001": PackAudio(id: "a:000000000001", file: "000000000001.m4a", fileURL: fileURL,
-                                                durationMs: 5_000, voice: "it-IT-A", sha256: "s")],
+            audio: [
+                "a:000000000001": PackAudio(
+                    id: "a:000000000001", file: "000000000001.m4a", fileURL: fileURL,
+                    durationMs: 5_000, voice: "it-IT-A", sha256: "s")
+            ],
             timelines: ["a:000000000001": [PackTokenTiming(line: 1, index: 0, startMs: 0, endMs: 300)]],
             textAudio: ["u02.l1.story": "a:000000000001"])
     }()

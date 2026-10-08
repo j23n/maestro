@@ -21,7 +21,10 @@ struct BigPlayButton: View {
         .accessibilityLabel(Text(isPlaying ? "Playing" : "Play"))
         .accessibilityIdentifier(identifier)
         .onChange(of: isPlaying) { _, playing in
-            guard playing, !reduceMotion else { pulse = false; return }
+            guard playing, !reduceMotion else {
+                pulse = false
+                return
+            }
             withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) { pulse = true }
         }
     }

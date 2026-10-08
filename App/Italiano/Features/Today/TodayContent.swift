@@ -80,9 +80,10 @@ struct TodayContent: Sendable, Equatable {
 }
 
 enum TodayCopy {
-    static func make(plan: TodayPlan, outline: CourseOutline, words: [ItemID: WordInfo], nowMs: Int64,
-                     tzOffsetMinutes: Int) -> TodayContent
-    {
+    static func make(
+        plan: TodayPlan, outline: CourseOutline, words: [ItemID: WordInfo], nowMs: Int64,
+        tzOffsetMinutes: Int
+    ) -> TodayContent {
         TodayContent(
             dateLine: dateLine(nowMs: nowMs, tzOffsetMinutes: tzOffsetMinutes),
             greeting: greeting(nowMs: nowMs, tzOffsetMinutes: tzOffsetMinutes),
@@ -115,15 +116,18 @@ enum TodayCopy {
         let r = plan.review
         let ready = r.dueCount + r.focusCount
         let examples = r.exampleItems.prefix(2).map { "*\(words[$0]?.display ?? $0.rawValue)*" }
-        let catchUp = plan.catchUp.count > 0
+        let catchUp =
+            plan.catchUp.count > 0
             ? "\(plan.catchUp.count) catch-up \(plan.catchUp.count == 1 ? "card" : "cards") from placement" : nil
         guard ready > 0 else {
             if catchUp != nil {
-                return .init(duration: nil, body: "No reviews due. Your catch-up cards are ready.", catchUp: catchUp,
-                             canStart: true)
+                return .init(
+                    duration: nil, body: "No reviews due. Your catch-up cards are ready.", catchUp: catchUp,
+                    canStart: true)
             }
-            return .init(duration: nil, body: "You're all caught up. New reviews will be ready tomorrow.",
-                         catchUp: nil, canStart: false)
+            return .init(
+                duration: nil, body: "You're all caught up. New reviews will be ready tomorrow.",
+                catchUp: nil, canStart: false)
         }
         let body: String
         switch (ready, examples.count) {
@@ -132,8 +136,9 @@ enum TodayCopy {
         case (_, 1): body = "\(ready) words are ready, including \(examples[0])."
         default: body = ready == 1 ? "1 word is ready." : "\(ready) words are ready."
         }
-        return .init(duration: "about \(max(1, r.estimatedMinutes)) min", body: body, catchUp: catchUp,
-                     canStart: true)
+        return .init(
+            duration: "about \(max(1, r.estimatedMinutes)) min", body: body, catchUp: catchUp,
+            canStart: true)
     }
 
     static func continueCard(_ point: ContinuePoint, outline: CourseOutline) -> TodayContent.ContinueCard? {
@@ -142,19 +147,22 @@ enum TodayCopy {
         for (lessonIndex, lesson) in unit.lessons.enumerated() {
             guard let step = lesson.steps.first(where: { $0.id == point.stepId }) else { continue }
             let stories = unit.lessons.flatMap(\.steps).filter { $0.kind == .story }
-            let context = if step.kind == .story, let k = stories.firstIndex(where: { $0.id == step.id }) {
-                "Unit \(unit.number) · Story \(k + 1) of \(stories.count)"
-            } else {
-                "Unit \(unit.number) · Lesson \(lessonIndex + 1)"
-            }
-            return .init(context: context, titleIt: lesson.titleIt, titleEn: lesson.titleEn,
-                         action: step.kind == .story && point.cursor == 0 ? "Read" : action, unitID: unit.id,
-                         stepID: point.stepId)
+            let context =
+                if step.kind == .story, let k = stories.firstIndex(where: { $0.id == step.id }) {
+                    "Unit \(unit.number) · Story \(k + 1) of \(stories.count)"
+                } else {
+                    "Unit \(unit.number) · Lesson \(lessonIndex + 1)"
+                }
+            return .init(
+                context: context, titleIt: lesson.titleIt, titleEn: lesson.titleEn,
+                action: step.kind == .story && point.cursor == 0 ? "Read" : action, unitID: unit.id,
+                stepID: point.stepId)
         }
         guard let step = unit.unitSteps.first(where: { $0.id == point.stepId }) else { return nil }
-        return .init(context: "Unit \(unit.number) · \(kindLabel(step.kind))",
-                     titleIt: step.titleIt ?? unit.titleIt, titleEn: step.titleEn ?? unit.titleEn,
-                     action: step.kind == .opener ? "Start" : action, unitID: unit.id, stepID: point.stepId)
+        return .init(
+            context: "Unit \(unit.number) · \(kindLabel(step.kind))",
+            titleIt: step.titleIt ?? unit.titleIt, titleEn: step.titleEn ?? unit.titleEn,
+            action: step.kind == .opener ? "Start" : action, unitID: unit.id, stepID: point.stepId)
     }
 
     static func kindLabel(_ kind: StepKind) -> String {

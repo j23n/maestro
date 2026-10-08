@@ -28,8 +28,9 @@ struct AudioClip: Sendable, Equatable {
 
     /// docs/09 § Segments: a single word is its token slice padded 40 ms on each side.
     static func word(_ t: TokenTiming, audioID: String, fileURL: URL, textID: String?) -> AudioClip {
-        AudioClip(audioID: audioID, fileURL: fileURL, startMs: max(0, t.startMs - 40), endMs: t.endMs + 40,
-                  textID: textID)
+        AudioClip(
+            audioID: audioID, fileURL: fileURL, startMs: max(0, t.startMs - 40), endMs: t.endMs + 40,
+            textID: textID)
     }
 }
 
@@ -147,8 +148,10 @@ final class FakeAudioPlayer: AudioPlaying {
         guard let clip else { return }
         isPlaying = false
         currentToken = nil
-        onStop?(PlaybackReport(audioID: clip.audioID, textID: clip.textID, rate: rate, playedMs: wallMs,
-                               context: context))
+        onStop?(
+            PlaybackReport(
+                audioID: clip.audioID, textID: clip.textID, rate: rate, playedMs: wallMs,
+                context: context))
         self.clip = nil
     }
 

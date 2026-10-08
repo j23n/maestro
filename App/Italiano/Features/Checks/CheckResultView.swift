@@ -37,8 +37,9 @@ struct CheckResultView: View {
                     VStack(alignment: .leading, spacing: Tokens.Space.s) {
                         Text("These come back first in your reviews").dsFont(Tokens.TypeScale.uiCallout)
                             .foregroundStyle(Color.ds.secondary)
-                        ItalianText(content.practise.joined(separator: ", "), style: Tokens.TypeScale.translation,
-                                    italic: true)
+                        ItalianText(
+                            content.practise.joined(separator: ", "), style: Tokens.TypeScale.translation,
+                            italic: true)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityIdentifier("check.practise")

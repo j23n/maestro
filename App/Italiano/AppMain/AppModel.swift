@@ -112,7 +112,9 @@ final class AppModel {
         store = newStore
         state = newStore.state
         settings = newStore.settings
-        if let reader { factory = try? await newStore.makeEventFactory(packVersion: reader.meta.packVersion, ids: env.ids) }
+        if let reader {
+            factory = try? await newStore.makeEventFactory(packVersion: reader.meta.packVersion, ids: env.ids)
+        }
         observe(newStore)
     }
 
@@ -198,8 +200,9 @@ final class AppModel {
 
     var wordRows: [WordRow] {
         guard let state else { return [] }
-        return WordsCopy.rows(sources: wordSources, state: state, nowMs: env.clock.nowMs(),
-                              tzOffsetMinutes: env.clock.tzOffsetMinutes())
+        return WordsCopy.rows(
+            sources: wordSources, state: state, nowMs: env.clock.nowMs(),
+            tzOffsetMinutes: env.clock.tzOffsetMinutes())
     }
 
     func overview(unit: UnitID) -> UnitOverview? {
@@ -226,9 +229,12 @@ final class AppModel {
         guard let reader, let factory, let state else { return nil }
         let bundle = try await LessonLoader.bundle(for: step, reader: reader)
         // `fresh`: a retake starts from the first page whatever was answered before.
-        let answered = fresh ? [] : bundle.steps.reduce(into: Set<ExerciseID>()) { set, s in
-            set.formUnion(state.stepProgress(s.id)?.finalExercises ?? [])
-        }
+        let answered =
+            fresh
+            ? []
+            : bundle.steps.reduce(into: Set<ExerciseID>()) { set, s in
+                set.formUnion(state.stepProgress(s.id)?.finalExercises ?? [])
+            }
         let isCheck = bundle.steps.contains { $0.payload.kind == .check }
         let sessionID = env.ids.next()
         let sink = EventAttemptSink(factory: factory, context: isCheck ? .check : .lesson, sessionID: sessionID) {
@@ -281,11 +287,12 @@ final class AppModel {
     @discardableResult
     func completeCheck(_ launch: PlayerLaunch) -> CheckResultContent? {
         guard let recorder = launch.checkRecorder, let content, let factory,
-              let check = content.check(forUnit: launch.model.bundle.unitID)
+            let check = content.check(forUnit: launch.model.bundle.unitID)
         else { return nil }
         let excluded = canSpeak ? [] : check.speechOnlySections(content: content)
-        let result = CheckScoring.score(check: check, answers: recorder.answers, excludedSections: excluded,
-                                        content: content)
+        let result = CheckScoring.score(
+            check: check, answers: recorder.answers, excludedSections: excluded,
+            content: content)
         write(factory.checkCompleted(result.payload))
         var titles: [String: String] = [:]
         for step in launch.model.bundle.steps {
@@ -317,20 +324,25 @@ final class AppModel {
     /// Playback stopped or ended (`audioPlayed`); the player adapters report it through `AudioPlaying.onStop`.
     func audioPlayed(_ r: PlaybackReport) {
         guard let factory, r.playedMs > 0 else { return }
-        write(factory.audioPlayed(audioId: AudioID(rawValue: r.audioID), textId: r.textID.map(TextID.init(rawValue:)),
-                                  rate: r.rate, playedMs: r.playedMs, context: r.context))
+        write(
+            factory.audioPlayed(
+                audioId: AudioID(rawValue: r.audioID), textId: r.textID.map(TextID.init(rawValue:)),
+                rate: r.rate, playedMs: r.playedMs, context: r.context))
     }
 
     /// Closing or finishing the player writes the `session` event (docs/05: `platform` feeds the sync status).
     func endSession(_ launch: PlayerLaunch, activeSeconds: Int) {
-        endSession(sessionID: launch.sessionID, kind: launch.kind, startedAt: launch.startedAt,
-                   activeSeconds: activeSeconds)
+        endSession(
+            sessionID: launch.sessionID, kind: launch.kind, startedAt: launch.startedAt,
+            activeSeconds: activeSeconds)
     }
 
     func endSession(sessionID: String, kind: SessionKind, startedAt: Int64, activeSeconds: Int) {
         guard let factory else { return }
-        write(factory.session(sessionId: sessionID, kind: kind, platform: env.platform, startedAt: startedAt,
-                              endedAt: env.clock.nowMs(), activeSeconds: activeSeconds))
+        write(
+            factory.session(
+                sessionId: sessionID, kind: kind, platform: env.platform, startedAt: startedAt,
+                endedAt: env.clock.nowMs(), activeSeconds: activeSeconds))
     }
 
     /// "Tomorrow": when the next card falls due after now (the session-complete screen).
@@ -339,14 +351,16 @@ final class AppModel {
         let now = env.clock.nowMs()
         guard let due = state.memory.values.map(\.dueMs).filter({ $0 > now }).min() else { return nil }
         let tz = env.clock.tzOffsetMinutes()
-        return WordsCopy.nextReviewText(dueMs: due, today: LocalDay.dayNumber(ms: now, tzOffsetMinutes: tz),
-                                        tzOffsetMinutes: tz)
+        return WordsCopy.nextReviewText(
+            dueMs: due, today: LocalDay.dayNumber(ms: now, tzOffsetMinutes: tz),
+            tzOffsetMinutes: tz)
     }
 
     var week: WeekProgress? {
         guard let state else { return nil }
-        return Progress.week(state: state, now: env.clock.nowMs(), tzOffsetMinutes: env.clock.tzOffsetMinutes(),
-                             goal: settings.goalDaysPerWeek)
+        return Progress.week(
+            state: state, now: env.clock.nowMs(), tzOffsetMinutes: env.clock.tzOffsetMinutes(),
+            goal: settings.goalDaysPerWeek)
     }
 
     // MARK: - Review sessions
@@ -374,7 +388,8 @@ final class AppModel {
         var ids: Set<ExerciseID> = []
         for card in session.cards { ids.formUnion(try await reader.exerciseIDs(targeting: card.pair)) }
         let bank = Dictionary(
-            try await reader.exercises(Array(ids).sorted()).map { ($0.id, $0.payload) }, uniquingKeysWith: { a, _ in a })
+            try await reader.exercises(Array(ids).sorted()).map { ($0.id, $0.payload) }, uniquingKeysWith: { a, _ in a }
+        )
         let words = self.words
         let payloads: (ReviewCard) -> ExercisePayload? = { card in
             switch card.exercise {

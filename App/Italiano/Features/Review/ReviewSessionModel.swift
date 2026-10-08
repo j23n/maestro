@@ -170,7 +170,8 @@ struct CompleteContent: Sendable, Equatable {
     init(summary: ReviewSessionModel.Summary, words: [ItemID: WordInfo], nextReview: String?, week: WeekProgress) {
         remembered = "\(summary.remembered) of \(summary.total)"
         newWords = "\(summary.newWords)"
-        practiseAgain = summary.practiseAgain.isEmpty
+        practiseAgain =
+            summary.practiseAgain.isEmpty
             ? nil : summary.practiseAgain.map { words[$0]?.display ?? $0.rawValue }.joined(separator: ", ")
         self.nextReview = nextReview
         weekLine = Self.weekLine(week)

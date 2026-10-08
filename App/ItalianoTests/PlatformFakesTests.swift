@@ -42,14 +42,19 @@ import Testing
         let player = FakeAudioPlayer()
         var reports: [PlaybackReport] = []
         player.onStop = { reports.append($0) }
-        let clip = AudioClip(audioID: "a:000000000002", fileURL: URL(fileURLWithPath: "/y.m4a"), endMs: 1000,
-                             textID: "u02.l1.story")
+        let clip = AudioClip(
+            audioID: "a:000000000002", fileURL: URL(fileURLWithPath: "/y.m4a"), endMs: 1000,
+            textID: "u02.l1.story")
         player.play(clip, timeline: [], rate: 1.15, context: .fluency)
         player.advance(byMs: 300)
         player.advance(byMs: 600)  // media time 1035 ms ≥ end: stops by itself
         #expect(!player.isPlaying)
-        #expect(reports == [PlaybackReport(audioID: "a:000000000002", textID: "u02.l1.story", rate: 1.15,
-                                           playedMs: 900, context: .fluency)])
+        #expect(
+            reports == [
+                PlaybackReport(
+                    audioID: "a:000000000002", textID: "u02.l1.story", rate: 1.15,
+                    playedMs: 900, context: .fluency)
+            ])
     }
 
     @Test func wordClipsArePaddedFortyMilliseconds() {
@@ -60,7 +65,9 @@ import Testing
     }
 
     @Test func fakeSpeechPaths() async throws {
-        let speech = FakeSpeechRecognizer(scripted: [SpeechResult(transcript: "vorrei un caffè", alternatives: ["vorrei un caffe"], confidence: 0.8)])
+        let speech = FakeSpeechRecognizer(scripted: [
+            SpeechResult(transcript: "vorrei un caffè", alternatives: ["vorrei un caffe"], confidence: 0.8)
+        ])
         var live = ""
         let r = try await speech.recognize(expected: ["vorrei un caffè"], live: { live = $0 }, recordingURL: nil)
         #expect(r.allTranscripts == ["vorrei un caffè", "vorrei un caffe"])
@@ -106,18 +113,24 @@ import Testing
     }
 
     @Test func appConfigFromInfoKeys() {
-        let study = AppConfig(info: ["ITA_STUDY_BUILD": "YES", "ITA_TELEMETRY_URL": "https://study.example.org",
-                                     "ITA_STUDY_TOKEN": "t", "ITA_LLM_HINTS": "YES", "ITA_PACK": "release"])
+        let study = AppConfig(info: [
+            "ITA_STUDY_BUILD": "YES", "ITA_TELEMETRY_URL": "https://study.example.org",
+            "ITA_STUDY_TOKEN": "t", "ITA_LLM_HINTS": "YES", "ITA_PACK": "release",
+        ])
         #expect(study.canUploadTelemetry)
         #expect(!study.llmHints)  // ADR-10: never in study builds
         #expect(study.pack == .release)
-        let unsetToken = AppConfig(info: ["ITA_STUDY_BUILD": "YES", "ITA_TELEMETRY_URL": "https://x.org",
-                                          "ITA_STUDY_TOKEN": "$(ITA_STUDY_TOKEN)"])
+        let unsetToken = AppConfig(info: [
+            "ITA_STUDY_BUILD": "YES", "ITA_TELEMETRY_URL": "https://x.org",
+            "ITA_STUDY_TOKEN": "$(ITA_STUDY_TOKEN)",
+        ])
         #expect(!unsetToken.canUploadTelemetry)  // an unexpanded build setting is no token
         let debug = AppConfig(info: ["ITA_DEBUG_MENU": "YES", "ITA_SYNC_ENABLED": "YES"])
         #expect(debug.debugMenu)
         #expect(!debug.syncAllowed(hasICloudEntitlement: false))
         #expect(debug.syncAllowed(hasICloudEntitlement: true))
-        #expect(!AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_SYNC_ENABLED": "YES"]).syncAllowed(hasICloudEntitlement: true))
+        #expect(
+            !AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_SYNC_ENABLED": "YES"]).syncAllowed(
+                hasICloudEntitlement: true))
     }
 }

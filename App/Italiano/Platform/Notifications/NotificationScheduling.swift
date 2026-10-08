@@ -71,8 +71,9 @@ final class ReminderController {
             return false
         }
         do {
-            try await scheduler.scheduleDailyReminder(hour: time.hour, minute: time.minute, title: Self.title,
-                                                      body: Self.body)
+            try await scheduler.scheduleDailyReminder(
+                hour: time.hour, minute: time.minute, title: Self.title,
+                body: Self.body)
             lastOutcome = .scheduled
             return true
         } catch {

@@ -39,17 +39,20 @@ struct MainTabs: View {
             PlayerHost(deps: deps, step: request.step) { playing = nil }
         }
         .playerPresentation(item: $reviewing) { _ in
-            ReviewHost(deps: deps, onDismiss: { reviewing = nil }, onNextStory: {
-                reviewing = nil
-                if let step = deps.app.today?.continueCard?.stepID { playing = PlayRequest(step: step) }
-            })
+            ReviewHost(
+                deps: deps, onDismiss: { reviewing = nil },
+                onNextStory: {
+                    reviewing = nil
+                    if let step = deps.app.today?.continueCard?.stepID { playing = PlayRequest(step: step) }
+                })
         }
     }
 
     @ViewBuilder private var today: some View {
         if let content = deps.app.today {
-            TodayView(content: content, onStartReview: { reviewing = ReviewRequest() },
-                      onContinue: { playing = PlayRequest(step: $0.stepID) })
+            TodayView(
+                content: content, onStartReview: { reviewing = ReviewRequest() },
+                onContinue: { playing = PlayRequest(step: $0.stepID) })
         } else {
             ProgressView()
         }
@@ -232,8 +235,10 @@ struct ReviewHost: View {
                     complete: {
                         CompleteContent(
                             summary: launch.model.summary, words: deps.app.words, nextReview: deps.app.nextReview,
-                            week: deps.app.week ?? WeekProgress(weekStart: 0, days: Array(repeating: false, count: 7),
-                                                                goal: deps.app.settings.goalDaysPerWeek))
+                            week: deps.app.week
+                                ?? WeekProgress(
+                                    weekStart: 0, days: Array(repeating: false, count: 7),
+                                    goal: deps.app.settings.goalDaysPerWeek))
                     },
                     onClose: finish, onDone: finish,
                     onNextStory: deps.app.today?.continueCard == nil ? nil : { finishThen(onNextStory) })
@@ -278,8 +283,9 @@ struct ReviewHost: View {
 
     private func finishThen(_ next: () -> Void) {
         if let launch {
-            deps.app.endSession(sessionID: launch.sessionID, kind: .review, startedAt: launch.startedAt,
-                                activeSeconds: Int(Date().timeIntervalSince(openedAt)))
+            deps.app.endSession(
+                sessionID: launch.sessionID, kind: .review, startedAt: launch.startedAt,
+                activeSeconds: Int(Date().timeIntervalSince(openedAt)))
         }
         next()
     }

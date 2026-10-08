@@ -103,9 +103,10 @@ actor TelemetryUploader {
     private var failures = 0
     private var notBefore: Int64 = 0
 
-    init(endpoint: URL?, token: String?, source: TelemetryEventSource, transport: HTTPTransport,
-         newBatchID: @escaping @Sendable () -> String, now: @escaping @Sendable () -> Int64)
-    {
+    init(
+        endpoint: URL?, token: String?, source: TelemetryEventSource, transport: HTTPTransport,
+        newBatchID: @escaping @Sendable () -> String, now: @escaping @Sendable () -> Int64
+    ) {
         self.endpoint = endpoint
         self.token = token
         self.source = source
@@ -192,8 +193,10 @@ actor TelemetryUploader {
             guard TelemetryPrivacy.uploadedTypes.contains(e.type),
                 let payload = TelemetryPrivacy.sanitizedPayload(type: e.type, payloadJSON: e.payloadJSON)
             else { return nil }
-            return ["id": e.id, "at": e.at, "tzOffsetMin": e.tzOffsetMin, "type": e.type, "schema": e.schema,
-                    "payload": payload]
+            return [
+                "id": e.id, "at": e.at, "tzOffsetMin": e.tzOffsetMin, "type": e.type, "schema": e.schema,
+                "payload": payload,
+            ]
         }
         let body: [String: Any] = ["installId": installID, "app": appDict, "events": list]
         return (try? JSONSerialization.data(withJSONObject: body, options: [.sortedKeys])) ?? Data()

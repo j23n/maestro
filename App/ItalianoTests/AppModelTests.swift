@@ -92,9 +92,11 @@ import Testing
     }
 
     @Test func aMissingPackFailsToLaunch() async {
-        let app = AppModel(env: .init(
-            packURL: folder.appendingPathComponent("nope.sqlite"), learnerURL: folder.appendingPathComponent("l.sqlite"),
-            clock: clock, ids: SeededUUIDSource(seed: "c"), platform: .Mac))
+        let app = AppModel(
+            env: .init(
+                packURL: folder.appendingPathComponent("nope.sqlite"),
+                learnerURL: folder.appendingPathComponent("l.sqlite"),
+                clock: clock, ids: SeededUUIDSource(seed: "c"), platform: .Mac))
         await app.start()
         guard case .failed = app.phase else {
             Issue.record("expected a launch failure, got \(app.phase)")
@@ -113,8 +115,11 @@ import Testing
         }
         var guardCount = 0
         while !launch.model.isFinished, launch.model.currentStep?.id == "u02.l1.step-preview", guardCount < 40 {
-            if let p = launch.model.currentExercise, let h = ExerciseHostModel.make(p, env: launch.environment,
-                                                                                     sink: launch.sink) {
+            if let p = launch.model.currentExercise,
+                let h = ExerciseHostModel.make(
+                    p, env: launch.environment,
+                    sink: launch.sink)
+            {
                 answerSomehow(h)
             }
             let change = launch.model.advance()
@@ -135,9 +140,11 @@ import Testing
         }
         #expect(session.isFinished)
         #expect(session.summary.total > 0 && session.summary.remembered <= session.summary.total)
-        let complete = CompleteContent(summary: session.summary, words: [:], nextReview: "Tomorrow",
-                                       week: WeekProgress(weekStart: 0, days: [true, true, true, true, false, false, false],
-                                                          goal: 5))
+        let complete = CompleteContent(
+            summary: session.summary, words: [:], nextReview: "Tomorrow",
+            week: WeekProgress(
+                weekStart: 0, days: [true, true, true, true, false, false, false],
+                goal: 5))
         #expect(complete.remembered == "\(session.summary.remembered) of \(session.summary.total)")
         #expect(complete.weekLine == "4 of 5 days this week. One more and you've met your goal.")
         app.endSession(sessionID: review.sessionID, kind: .review, startedAt: review.startedAt, activeSeconds: 60)
@@ -156,7 +163,7 @@ import Testing
         var guardCount = 0
         while !launch.model.isFinished, guardCount < 60 {
             if let p = launch.model.currentExercise,
-               let h = ExerciseHostModel.make(p, env: launch.environment, sink: launch.sink)
+                let h = ExerciseHostModel.make(p, env: launch.environment, sink: launch.sink)
             {
                 answerSomehow(h)
                 answered += 1
@@ -173,13 +180,15 @@ import Testing
     }
 
     @Test func generatedCardsBecomePayloads() throws {
-        let recall = GeneratedRecallCard(exerciseId: "gen:recall:w:caffe", itemId: "w:caffe", promptEn: "coffee",
-                                         answer: "{il|un} [caffè]", near: [])
+        let recall = GeneratedRecallCard(
+            exerciseId: "gen:recall:w:caffe", itemId: "w:caffe", promptEn: "coffee",
+            answer: "{il|un} [caffè]", near: [])
         let p = try #require(GeneratedPayloads.payload(for: .recall(recall), unit: "u02", display: { _ in nil }))
         #expect(p.format == .recall && p.targets.first?.skill == .recall)
         #expect(ExerciseHostModel.make(p, env: .preview(), sink: nil) != nil)
-        let read = GeneratedReadCard(exerciseId: "gen:read:w:caffe", itemId: "w:caffe", promptIt: "il caffè",
-                                     options: ["coffee", "tea", "milk"], answer: 0)
+        let read = GeneratedReadCard(
+            exerciseId: "gen:read:w:caffe", itemId: "w:caffe", promptIt: "il caffè",
+            options: ["coffee", "tea", "milk"], answer: 0)
         let q = try #require(GeneratedPayloads.payload(for: .read(read), unit: "u02", display: { _ in nil }))
         guard case .choice(let m)? = ExerciseHostModel.make(q, env: .preview(), sink: nil) else {
             Issue.record("expected a choice")

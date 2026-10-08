@@ -39,8 +39,12 @@ import Testing
         let player = FakeAudioPlayer()
         let resolver = StaticAudioResolver(
             clips: ["a:story": AudioClip(audioID: "a:story", fileURL: url)],
-            timelines: ["a:story": [TokenTiming(line: 1, index: 0, startMs: 0, endMs: 400),
-                                    TokenTiming(line: 2, index: 0, startMs: 1_200, endMs: 1_500)]])
+            timelines: [
+                "a:story": [
+                    TokenTiming(line: 1, index: 0, startMs: 0, endMs: 400),
+                    TokenTiming(line: 2, index: 0, startMs: 1_200, endMs: 1_500),
+                ]
+            ])
         let a = ExerciseAudio(player: player, resolver: resolver)
         #expect(a.play("a:story", fromLine: 2))
         #expect(player.positionMs == 1_200 && a.isPlaying("a:story"))
@@ -72,18 +76,24 @@ import Testing
 
     @Test func machineFeedbackFollowsTheStates() {
         var m = FeedbackMachine(context: .lesson, exerciseHint: "Think of the article.")
-        #expect(MachineFeedback.presentation(state: m.state, context: .lesson, answer: "x", rule: nil,
-                                             canShowAnswer: true) == nil)
+        #expect(
+            MachineFeedback.presentation(
+                state: m.state, context: .lesson, answer: "x", rule: nil,
+                canShowAnswer: true) == nil)
         _ = m.submit(GradedAnswer(outcome: .wrong))
-        let hinted = MachineFeedback.presentation(state: m.state, context: .lesson, answer: "x", rule: nil,
-                                                  canShowAnswer: m.canShowAnswer)
+        let hinted = MachineFeedback.presentation(
+            state: m.state, context: .lesson, answer: "x", rule: nil,
+            canShowAnswer: m.canShowAnswer)
         #expect(hinted?.tone == .hint && hinted?.detail == "Think of the article." && hinted?.canTryAgain == true)
         m.tryAgain()
         _ = m.submit(GradedAnswer(outcome: .wrong))
-        let shown = MachineFeedback.presentation(state: m.state, context: .lesson, answer: "un caffè", rule: "r",
-                                                 canShowAnswer: false)
+        let shown = MachineFeedback.presentation(
+            state: m.state, context: .lesson, answer: "un caffè", rule: "r",
+            canShowAnswer: false)
         #expect(shown?.tone == .answer && shown?.answer == "un caffè" && shown?.canContinue == true)
-        #expect(MachineFeedback.presentation(state: m.state, context: .check, answer: "x", rule: nil,
-                                             canShowAnswer: false) == nil)
+        #expect(
+            MachineFeedback.presentation(
+                state: m.state, context: .check, answer: "x", rule: nil,
+                canShowAnswer: false) == nil)
     }
 }

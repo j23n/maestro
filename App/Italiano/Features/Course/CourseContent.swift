@@ -11,9 +11,10 @@ struct CourseProgress: Sendable, Equatable {
     var continuePoint: ContinuePoint?
     var canDosReached: Set<CanDoID> = []
 
-    init(unitStates: [UnitID: UnitState] = [:], completedSteps: Set<StepID> = [], continuePoint: ContinuePoint? = nil,
-         canDosReached: Set<CanDoID> = [])
-    {
+    init(
+        unitStates: [UnitID: UnitState] = [:], completedSteps: Set<StepID> = [], continuePoint: ContinuePoint? = nil,
+        canDosReached: Set<CanDoID> = []
+    ) {
         self.unitStates = unitStates
         self.completedSteps = completedSteps
         self.continuePoint = continuePoint
@@ -27,9 +28,10 @@ struct CourseProgress: Sendable, Equatable {
             units[unit.id] = state.unitState(unit.id)
             reached.formUnion(Progress.canDos(in: unit.id, state: state, content: content).reached)
         }
-        self.init(unitStates: units,
-                  completedSteps: Set(content.steps.map(\.id).filter { state.isStepComplete($0) }),
-                  continuePoint: Progression.continuePoint(state: state, content: content), canDosReached: reached)
+        self.init(
+            unitStates: units,
+            completedSteps: Set(content.steps.map(\.id).filter { state.isStepComplete($0) }),
+            continuePoint: Progression.continuePoint(state: state, content: content), canDosReached: reached)
     }
 }
 
@@ -79,16 +81,18 @@ enum CourseCopy {
         let nextUnit = outline.units.first { progress.unitStates[$0.id] == .available }?.id
         return outline.units.map { unit in
             let state = progress.unitStates[unit.id] ?? .locked
-            let (status, tone): (String?, RowTone) = switch state {
-            case .completed: ("Done", .done)
-            case .skipped: ("Skipped", .done)
-            case .inProgress: (storyLine(unit, progress: progress) ?? "In progress", .current)
-            case .available: (unit.id == nextUnit ? "Next" : nil, .next)
-            case .locked: (nil, .none)
-            }
-            return CourseRow(unitID: unit.id, number: unit.number, titleIt: unit.titleIt,
-                             subtitle: unit.summaryEn ?? unit.titleEn, status: status, tone: tone,
-                             isOpen: state != .locked)
+            let (status, tone): (String?, RowTone) =
+                switch state {
+                case .completed: ("Done", .done)
+                case .skipped: ("Skipped", .done)
+                case .inProgress: (storyLine(unit, progress: progress) ?? "In progress", .current)
+                case .available: (unit.id == nextUnit ? "Next" : nil, .next)
+                case .locked: (nil, .none)
+                }
+            return CourseRow(
+                unitID: unit.id, number: unit.number, titleIt: unit.titleIt,
+                subtitle: unit.summaryEn ?? unit.titleEn, status: status, tone: tone,
+                isOpen: state != .locked)
         }
     }
 
@@ -128,12 +132,16 @@ enum CourseCopy {
                 case .story:
                     storyNumber += 1
                     let s = lessonStatus(lesson, nextStep: nextStep, progress: progress)
-                    rows.append(UnitRow(stepID: step.id, label: "Story \(storyNumber)", title: lesson.titleIt,
-                                        titleIsItalian: true, status: s.0, tone: s.1))
+                    rows.append(
+                        UnitRow(
+                            stepID: step.id, label: "Story \(storyNumber)", title: lesson.titleIt,
+                            titleIsItalian: true, status: s.0, tone: s.1))
                 case .note:
                     let s = status(step, done: "Read")
-                    rows.append(UnitRow(stepID: step.id, label: "Note", title: step.titleEn ?? "Grammar",
-                                        titleIsItalian: false, status: s.0, tone: s.1))
+                    rows.append(
+                        UnitRow(
+                            stepID: step.id, label: "Note", title: step.titleEn ?? "Grammar",
+                            titleIsItalian: false, status: s.0, tone: s.1))
                 default:
                     continue
                 }
@@ -141,17 +149,21 @@ enum CourseCopy {
         }
         for step in unit.unitSteps where step.kind != .opener && step.kind != .fluency {
             let s = status(step, done: "Done")
-            rows.append(UnitRow(stepID: step.id, label: TodayCopy.kindLabel(step.kind).components(separatedBy: " ")
-                                    .first ?? "", title: step.titleEn ?? step.titleIt ?? "",
-                                titleIsItalian: step.titleEn == nil, status: s.0, tone: s.1))
+            rows.append(
+                UnitRow(
+                    stepID: step.id,
+                    label: TodayCopy.kindLabel(step.kind).components(separatedBy: " ")
+                        .first ?? "", title: step.titleEn ?? step.titleIt ?? "",
+                    titleIsItalian: step.titleEn == nil, status: s.0, tone: s.1))
         }
         let state = progress.unitStates[unit.id] ?? .locked
         let nextLesson = unit.lessons.first { $0.steps.contains { $0.id == nextStep } }
-        let primary: String = switch state {
-        case .completed, .skipped: "Practise this unit again"
-        case .available: "Start Unit \(unit.number)"
-        default: nextLesson.map { "Continue with \($0.titleIt)" } ?? "Continue"
-        }
+        let primary: String =
+            switch state {
+            case .completed, .skipped: "Practise this unit again"
+            case .available: "Start Unit \(unit.number)"
+            default: nextLesson.map { "Continue with \($0.titleIt)" } ?? "Continue"
+            }
         return UnitOverview(
             unitLine: "Unit \(unit.number)", titleIt: unit.titleIt, titleEn: unit.titleEn,
             canDos: unit.canDos.map { ($0.id, $0.en, progress.canDosReached.contains($0.id)) }, rows: rows,
@@ -160,7 +172,9 @@ enum CourseCopy {
 
     /// A story row stands for its lesson: "Read" when the lesson's steps are all done, "Next" when the learner's
     /// next step is in it.
-    private static func lessonStatus(_ lesson: CourseOutline.Lesson, nextStep: StepID?, progress: CourseProgress)
+    private static func lessonStatus(
+        _ lesson: CourseOutline.Lesson, nextStep: StepID?, progress: CourseProgress
+    )
         -> (String?, RowTone)
     {
         if lesson.steps.allSatisfy({ progress.completedSteps.contains($0.id) }) { return ("Read", .done) }

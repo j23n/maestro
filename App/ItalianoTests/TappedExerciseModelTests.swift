@@ -31,11 +31,14 @@ import Testing
     }
 
     @Test func soundPairsAndTrueFalseUseTheirOwnAnswers() throws {
-        let which = try #require(ChoiceModel(payload: try PayloadFixtures.exercise("u02.l1.ex22"), env: env(), sink: sink))
+        let which = try #require(
+            ChoiceModel(payload: try PayloadFixtures.exercise("u02.l1.ex22"), env: env(), sink: sink))
         #expect(which.correctIndex == 1 && which.options.map(\.text) == ["eco", "ecco"])
-        let single = try #require(ChoiceModel(payload: try PayloadFixtures.exercise("u02.l1.ex23"), env: env(), sink: sink))
+        let single = try #require(
+            ChoiceModel(payload: try PayloadFixtures.exercise("u02.l1.ex23"), env: env(), sink: sink))
         #expect(single.correctIndex == 1)  // double
-        let tf = try #require(ChoiceModel(payload: try PayloadFixtures.exercise("u02.check.03"), env: env(.check), sink: sink))
+        let tf = try #require(
+            ChoiceModel(payload: try PayloadFixtures.exercise("u02.check.03"), env: env(.check), sink: sink))
         tf.select(1)
         #expect(tf.isDone && sink.drafts.last?.outcome == .wrong)
         #expect(tf.mark(for: tf.options[0]) == .idle)  // no feedback in checks
@@ -56,7 +59,8 @@ import Testing
     }
 
     @Test func matchInACheckIsSubmittedOnce() throws {
-        let m = try #require(MatchModel(payload: try PayloadFixtures.exercise("u02.l1.ex20"), env: env(.check), sink: sink))
+        let m = try #require(
+            MatchModel(payload: try PayloadFixtures.exercise("u02.l1.ex20"), env: env(.check), sink: sink))
         m.tapLeft(0)
         m.tapRight(0)
         m.tapLeft(1)
@@ -66,7 +70,8 @@ import Testing
     }
 
     @Test func sentenceBuilding() throws {
-        let m = try #require(SentenceBuildingModel(payload: try PayloadFixtures.exercise("u02.l1.ex10"), env: env(), sink: sink))
+        let m = try #require(
+            SentenceBuildingModel(payload: try PayloadFixtures.exercise("u02.l1.ex10"), env: env(), sink: sink))
         #expect(m.tiles.map(\.word).joined(separator: " ") != "oggi vorrei un caffè")
         for word in ["oggi", "vorrei", "una", "caffè"] {
             m.place(try #require(m.available.first { $0.word == word }).id)
@@ -97,7 +102,8 @@ import Testing
     }
 
     @Test func dictationMarksDoubling() throws {
-        let m = try #require(DictationModel(payload: try PayloadFixtures.exercise("u02.l1.ex13"), env: env(), sink: sink))
+        let m = try #require(
+            DictationModel(payload: try PayloadFixtures.exercise("u02.l1.ex13"), env: env(), sink: sink))
         #expect(m.hintLine == "5 words")
         m.response = "vorrei un corneto per favore"
         m.check()
@@ -107,14 +113,16 @@ import Testing
     }
 
     @Test func repeatPassesOnTheTranscriptAndSkipsCleanly() throws {
-        let m = try #require(RepeatModel(payload: try PayloadFixtures.exercise("u02.l1.ex14"), env: env(canSpeak: true), sink: sink))
+        let m = try #require(
+            RepeatModel(payload: try PayloadFixtures.exercise("u02.l1.ex14"), env: env(canSpeak: true), sink: sink))
         m.submit(SpeechResult(transcript: "vorrei un caffè", alternatives: [], confidence: nil))
         #expect(m.passed == false && m.heard == "vorrei un caffè")
         m.submit(SpeechResult(transcript: "Vorrei un capuccino per favore", alternatives: [], confidence: nil))
         #expect(m.isDone && m.passed == true)
         #expect(sink.drafts.map(\.outcome) == [.wrong, .correct])
         #expect(sink.drafts.allSatisfy { $0.mode == .spoken })
-        let listenOnly = try #require(RepeatModel(payload: try PayloadFixtures.exercise("u02.l1.ex14"), env: env(), sink: sink))
+        let listenOnly = try #require(
+            RepeatModel(payload: try PayloadFixtures.exercise("u02.l1.ex14"), env: env(), sink: sink))
         #expect(listenOnly.isListenOnly)
         listenOnly.skip()
         #expect(sink.drafts.count == 2)  // ungraded without speech: nothing recorded

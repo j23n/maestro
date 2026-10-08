@@ -2,7 +2,8 @@ import SwiftUI
 
 /// All Italian on screen goes through this view (CLAUDE.md, docs/06 § Shared player behaviour): Literata, and the
 /// attributed string's speech language set to it-IT so VoiceOver reads it with the Italian voice. Never put
-/// `lineLimit` on Italian. Inline `*…*` marks Italian inside English and `**…**` highlights a target form (docs/06 §5).
+/// `lineLimit` on Italian. Inline `*…*` marks Italian inside English and `**…**` highlights a target form
+/// (docs/06 §5).
 struct ItalianText: View {
     let text: String
     var style: TypeStyle = Tokens.TypeScale.italianBody

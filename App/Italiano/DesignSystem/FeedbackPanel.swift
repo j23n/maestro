@@ -32,7 +32,8 @@ struct FeedbackPanel<Buttons: View>: View {
             .padding(Tokens.Space.l)
             .background(
                 RoundedRectangle(cornerRadius: Tokens.Radius.tile)
-                    .fill(tone == .success ? Color.ds.accentTint : Color.ds.warningBackground))
+                    .fill(tone == .success ? Color.ds.accentTint : Color.ds.warningBackground)
+            )
             .accessibilityElement(children: .combine)
             buttons
         }

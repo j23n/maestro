@@ -8,13 +8,16 @@ import Testing
 @Suite struct EventAttemptSinkTests {
     @Test func draftsBecomeAttemptEvents() throws {
         var written: [Event] = []
-        let factory = EventFactory(deviceId: "dev-1", packVersion: "1", clock: FixedClock(ms: 1_000),
-                                   ids: SeededUUIDSource(seed: "t"))
+        let factory = EventFactory(
+            deviceId: "dev-1", packVersion: "1", clock: FixedClock(ms: 1_000),
+            ids: SeededUUIDSource(seed: "t"))
         let sink = EventAttemptSink(factory: factory, context: .lesson, sessionID: "s1", stepID: "u02.l1.s4") {
             written.append($0)
         }
-        let m = try #require(MatchModel(payload: try PayloadFixtures.exercise("u02.l1.ex20"),
-                                        env: .preview(), sink: sink))
+        let m = try #require(
+            MatchModel(
+                payload: try PayloadFixtures.exercise("u02.l1.ex20"),
+                env: .preview(), sink: sink))
         m.tapLeft(0)
         m.tapRight(1)
         m.tapLeft(0)

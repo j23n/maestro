@@ -92,14 +92,16 @@ struct LessonPlayerView: View {
                     MissingContentPage(onContinue: advance)
                 }
             case .fluency(let ids, let rate):
-                FluencyPage(texts: ids.compactMap { model.bundle.texts[$0] }, rate: rate, services: services,
-                            onDone: advance)
+                FluencyPage(
+                    texts: ids.compactMap { model.bundle.texts[$0] }, rate: rate, services: services,
+                    onDone: advance)
             case .checkSection(_, let title):
                 CheckSectionPage(title: title, onContinue: advance)
             case .exercise:
                 if let host, hostPosition == model.position, let payload = model.currentExercise {
-                    ExerciseHostView(host: host, payload: payload, bundle: model.bundle, services: services,
-                                     onContinue: advance)
+                    ExerciseHostView(
+                        host: host, payload: payload, bundle: model.bundle, services: services,
+                        onContinue: advance)
                 } else {
                     MissingContentPage(onContinue: advance)
                 }
@@ -151,8 +153,9 @@ struct ExerciseHostView: View {
             // The view shows "Say it" only when the model allows it (speech on, recall, not an assessment).
             TypedExerciseView(model: m, payload: payload, onSayIt: { sayIt(m) }, onContinue: onContinue)
         case .choice(let m):
-            ChoiceExerciseView(model: m, audio: services.audio, source: bundle.source(for: payload),
-                               onContinue: onContinue)
+            ChoiceExerciseView(
+                model: m, audio: services.audio, source: bundle.source(for: payload),
+                onContinue: onContinue)
         case .match(let m):
             MatchExerciseView(model: m, audio: services.audio, onContinue: onContinue)
         case .building(let m):
@@ -162,8 +165,9 @@ struct ExerciseHostView: View {
         case .repeatAfterMe(let m):
             RepeatView(model: m, audio: services.audio, speech: services.speech, onContinue: onContinue)
         case .conversation(let m):
-            ConversationView(model: m, audio: services.audio, speech: services.speech,
-                             characterName: bundle.characters[m.conversation.with] ?? "", onContinue: onContinue)
+            ConversationView(
+                model: m, audio: services.audio, speech: services.speech,
+                characterName: bundle.characters[m.conversation.with] ?? "", onContinue: onContinue)
         case .talk(let m):
             TalkView(model: m, audio: services.audio, speech: services.speech, onContinue: onContinue)
         case .writing(let m):

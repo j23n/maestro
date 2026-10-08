@@ -22,11 +22,13 @@ struct TokenText: View {
             .foregroundStyle(Color.ds.ink)
             .tint(Color.ds.ink)
             .fixedSize(horizontal: false, vertical: true)
-            .environment(\.openURL, OpenURLAction { url in
-                guard url.scheme == Self.scheme, let i = Int(url.lastPathComponent) else { return .systemAction }
-                onTap?(i)
-                return .handled
-            })
+            .environment(
+                \.openURL,
+                OpenURLAction { url in
+                    guard url.scheme == Self.scheme, let i = Int(url.lastPathComponent) else { return .systemAction }
+                    onTap?(i)
+                    return .handled
+                })
     }
 
     static let scheme = "italiano-gloss"

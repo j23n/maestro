@@ -59,8 +59,9 @@ struct TypedExerciseView: View {
     private var answerArea: some View {
         VStack(alignment: .leading, spacing: Tokens.Space.m) {
             Text("Your answer").dsFont(Tokens.TypeScale.uiCaption).foregroundStyle(Color.ds.secondary)
-            AnswerField(text: $model.response, isError: model.feedback?.tone == .hint,
-                        onSubmit: { check() }, focus: $fieldFocused)
+            AnswerField(
+                text: $model.response, isError: model.feedback?.tone == .hint,
+                onSubmit: { check() }, focus: $fieldFocused)
             if model.feedback == nil {
                 AccentKeys { model.insert($0) }
             }

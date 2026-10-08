@@ -142,8 +142,9 @@ struct ConversationView: View {
                     ItalianText(chip.text, style: Tokens.TypeScale.answerInput)
                         .padding(Tokens.Space.l)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: Tokens.Radius.tile)
-                            .strokeBorder(Color.ds.divider, lineWidth: Tokens.Border.hairline))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Tokens.Radius.tile)
+                                .strokeBorder(Color.ds.divider, lineWidth: Tokens.Border.hairline))
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("conv.help.\(n)")
@@ -192,8 +193,9 @@ struct ConversationView: View {
                 speech.stop()
             } else {
                 audio.stop()
-                let expected = (model.helpChips.map(\.text)
-                    + (model.node?.expect.flatMap(\.accept).flatMap(\.expansions) ?? []))
+                let expected =
+                    (model.helpChips.map(\.text)
+                        + (model.node?.expect.flatMap(\.accept).flatMap(\.expansions) ?? []))
                 Task { if let r = await speech.capture(expected: expected) { model.submitSpoken(r) } }
             }
         } label: {
@@ -244,11 +246,16 @@ struct TalkView: View {
         VStack(alignment: .leading, spacing: Tokens.Space.m) {
             ForEach(model.talk.points, id: \.id) { point in
                 HStack(spacing: Tokens.Space.m) {
-                    Image(systemName: showingResult && model.found.contains(point.id) ? "checkmark.circle.fill"
-                          : "circle")
-                        .foregroundStyle(showingResult && model.found.contains(point.id)
-                                         ? Color.ds.success : Color.ds.inputBorder)
-                        .accessibilityHidden(true)
+                    Image(
+                        systemName: showingResult && model.found.contains(point.id)
+                            ? "checkmark.circle.fill"
+                            : "circle"
+                    )
+                    .foregroundStyle(
+                        showingResult && model.found.contains(point.id)
+                            ? Color.ds.success : Color.ds.inputBorder
+                    )
+                    .accessibilityHidden(true)
                     Text(point.en).dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.ink)
                 }
                 .accessibilityElement(children: .combine)
@@ -307,14 +314,17 @@ struct TalkView: View {
     private var resultSection: some View {
         VStack(alignment: .leading, spacing: Tokens.Space.l) {
             let passed = model.result?.passed == true
-            FeedbackPanel(tone: passed ? .success : .hint,
-                          headline: passed ? "Nicely done." : "Try to cover a few more points.",
-                          detail: "I heard: *\(model.response)*") { EmptyView() }
+            FeedbackPanel(
+                tone: passed ? .success : .hint,
+                headline: passed ? "Nicely done." : "Try to cover a few more points.",
+                detail: "I heard: *\(model.response)*"
+            ) { EmptyView() }
             Card {
                 VStack(alignment: .leading, spacing: Tokens.Space.s) {
                     Text("You could say").dsFont(Tokens.TypeScale.uiCaption).foregroundStyle(Color.ds.secondary)
-                    ItalianPromptLine(text: model.talk.model, audioID: model.talk.modelAudioId, audio: audio,
-                                      style: Tokens.TypeScale.italianBody, identifier: "talk.model")
+                    ItalianPromptLine(
+                        text: model.talk.model, audioID: model.talk.modelAudioId, audio: audio,
+                        style: Tokens.TypeScale.italianBody, identifier: "talk.model")
                 }
             }
             HStack(spacing: Tokens.Space.m) {
@@ -398,8 +408,10 @@ struct WritingView: View {
                 .scrollContentBackground(.hidden)
                 .padding(Tokens.Space.m)
                 .background(RoundedRectangle(cornerRadius: Tokens.Radius.input).fill(Color.ds.background))
-                .overlay(RoundedRectangle(cornerRadius: Tokens.Radius.input)
-                    .strokeBorder(Color.ds.inputBorder, lineWidth: Tokens.Border.control))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Tokens.Radius.input)
+                        .strokeBorder(Color.ds.inputBorder, lineWidth: Tokens.Border.control)
+                )
                 .autocorrectionDisabled()
                 .disabled(model.submitted)
                 .environment(\.locale, Locale(identifier: "it_IT"))
@@ -471,8 +483,9 @@ struct RelayView: View {
             if let heard = audio.audioID(forText: model.relay.audioTextId) {
                 HStack {
                     Spacer()
-                    BigPlayButton(isPlaying: audio.isPlaying(heard), action: { audio.toggle(heard) },
-                                  identifier: "relay.play")
+                    BigPlayButton(
+                        isPlaying: audio.isPlaying(heard), action: { audio.toggle(heard) },
+                        identifier: "relay.play")
                     Spacer()
                 }
             }
@@ -490,10 +503,12 @@ struct RelayView: View {
                 .disabled(presentation != nil || model.isDone)
                 .accessibilityIdentifier("answer.field")
             if let p = presentation {
-                PresentedFeedback(presentation: p, onTryAgain: {
-                    model.tryAgain()
-                    fieldFocused = true
-                }, onContinue: onContinue)
+                PresentedFeedback(
+                    presentation: p,
+                    onTryAgain: {
+                        model.tryAgain()
+                        fieldFocused = true
+                    }, onContinue: onContinue)
             } else if model.isDone {
                 ContinueButton(action: onContinue)
             } else {

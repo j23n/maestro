@@ -21,8 +21,10 @@ struct RealWorldLayoutView: View {
             .padding(Tokens.Space.xl)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(RoundedRectangle(cornerRadius: Tokens.Radius.card).fill(background))
-            .overlay(RoundedRectangle(cornerRadius: Tokens.Radius.card)
-                .strokeBorder(border, lineWidth: Tokens.Border.hairline))
+            .overlay(
+                RoundedRectangle(cornerRadius: Tokens.Radius.card)
+                    .strokeBorder(border, lineWidth: Tokens.Border.hairline)
+            )
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("reading.layout")
     }
@@ -158,9 +160,10 @@ struct RealWorldLayoutView: View {
         }
     }
 
-    private func postcardText(_ greeting: LayoutString, _ body: [LayoutString], _ closing: LayoutString,
-                              _ signature: LayoutString) -> some View
-    {
+    private func postcardText(
+        _ greeting: LayoutString, _ body: [LayoutString], _ closing: LayoutString,
+        _ signature: LayoutString
+    ) -> some View {
         VStack(alignment: .leading, spacing: Tokens.Space.s) {
             string(greeting)
             ForEach(Array(body.enumerated()), id: \.offset) { _, line in string(line) }
@@ -181,7 +184,9 @@ struct RealWorldLayoutView: View {
         string(s, style: Tokens.TypeScale.rowTitle).accessibilityAddTraits(.isHeader)
     }
 
-    @ViewBuilder private func string(_ s: LayoutString, style: TypeStyle = Tokens.TypeScale.italianBody)
+    @ViewBuilder private func string(
+        _ s: LayoutString, style: TypeStyle = Tokens.TypeScale.italianBody
+    )
         -> some View
     {
         let n = numbers[s] ?? 0

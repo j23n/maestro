@@ -36,9 +36,11 @@ struct ChoiceExerciseView: View {
                 if let hidden = audio.audioID(forText: c.audioTextId) {
                     HStack {
                         Spacer()
-                        BigPlayButton(isPlaying: audio.isPlaying(hidden), action: { play(hidden, cap: c.plays) },
-                                      identifier: "choice.listen")
-                            .disabled(!canPlay(hidden, cap: c.plays))
+                        BigPlayButton(
+                            isPlaying: audio.isPlaying(hidden), action: { play(hidden, cap: c.plays) },
+                            identifier: "choice.listen"
+                        )
+                        .disabled(!canPlay(hidden, cap: c.plays))
                         Spacer()
                     }
                 }
@@ -51,9 +53,11 @@ struct ChoiceExerciseView: View {
                 if let hidden = audio.audioID(forText: t.audioTextId) {
                     HStack {
                         Spacer()
-                        BigPlayButton(isPlaying: audio.isPlaying(hidden), action: { play(hidden, cap: t.plays) },
-                                      identifier: "tf.listen")
-                            .disabled(!canPlay(hidden, cap: t.plays))
+                        BigPlayButton(
+                            isPlaying: audio.isPlaying(hidden), action: { play(hidden, cap: t.plays) },
+                            identifier: "tf.listen"
+                        )
+                        .disabled(!canPlay(hidden, cap: t.plays))
                         Spacer()
                     }
                 }
@@ -89,12 +93,15 @@ struct ChoiceExerciseView: View {
             if case .choice = model.payload.body { return false }
             return true
         }()
-        let layout = isPairLayout
+        let layout =
+            isPairLayout
             ? AnyLayout(HStackLayout(spacing: Tokens.Space.l)) : AnyLayout(VStackLayout(spacing: Tokens.Space.m))
         layout {
             ForEach(Array(model.options.enumerated()), id: \.element.id) { position, option in
-                OptionCard(title: option.text, subtitle: gloss(for: option), titleIsItalian: isItalian(option),
-                           isSelected: model.selected == option.id, mark: mark(option)) {
+                OptionCard(
+                    title: option.text, subtitle: gloss(for: option), titleIsItalian: isItalian(option),
+                    isSelected: model.selected == option.id, mark: mark(option)
+                ) {
                     model.select(option.id)
                 }
                 .disabled(model.isDone || model.markedWrong.contains(option.id))
@@ -241,7 +248,10 @@ struct MatchExerciseView: View {
     private func pairNumber(left i: Int) -> Int { (model.leftOrder.firstIndex(of: i) ?? 0) + 1 }
 }
 
-enum MatchTileState: Equatable { case idle, selected, matched, wrong, paired(Int) }
+enum MatchTileState: Equatable {
+    case idle, selected, matched, wrong
+    case paired(Int)
+}
 
 struct MatchTile<Label: View>: View {
     let state: MatchTileState
@@ -316,16 +326,21 @@ struct SentenceBuildingView: View {
             FlowLayout {
                 ForEach(model.tiles) { tile in
                     let placed = !model.available.contains(tile)
-                    Button { model.place(tile.id) } label: { WordTile(word: tile.word, isPlaced: placed) }
-                        .buttonStyle(.plain)
-                        .disabled(placed || model.isDone)
-                        .accessibilityLabel(Text(tile.word))
-                        .accessibilityIdentifier("build.tile.\(tile.id)")
+                    Button {
+                        model.place(tile.id)
+                    } label: {
+                        WordTile(word: tile.word, isPlaced: placed)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(placed || model.isDone)
+                    .accessibilityLabel(Text(tile.word))
+                    .accessibilityIdentifier("build.tile.\(tile.id)")
                 }
             }
             if let p = presentation {
-                PresentedFeedback(presentation: p, onShowAnswer: { model.showAnswer() },
-                                  onTryAgain: { removeMisplaced() }, onContinue: onContinue)
+                PresentedFeedback(
+                    presentation: p, onShowAnswer: { model.showAnswer() },
+                    onTryAgain: { removeMisplaced() }, onContinue: onContinue)
             } else if model.isDone {
                 ContinueButton(action: onContinue)
             } else {
@@ -346,7 +361,9 @@ struct SentenceBuildingView: View {
             } else {
                 FlowLayout {
                     ForEach(model.answerLine) { tile in
-                        Button { model.remove(tile.id) } label: {
+                        Button {
+                            model.remove(tile.id)
+                        } label: {
                             WordTile(word: tile.word, isMarked: model.highlighted == tile.id)
                         }
                         .buttonStyle(.plain)
@@ -394,9 +411,11 @@ struct DictationView: View {
         VStack(spacing: Tokens.Space.xxl) {
             VStack(spacing: Tokens.Space.l) {
                 ExerciseInstruction("Listen and write what you hear")
-                BigPlayButton(isPlaying: audio.isPlaying(model.audioID), action: { play(rate: 1) },
-                              identifier: "dictation.play")
-                    .disabled(!model.canPlay && !audio.isPlaying(model.audioID))
+                BigPlayButton(
+                    isPlaying: audio.isPlaying(model.audioID), action: { play(rate: 1) },
+                    identifier: "dictation.play"
+                )
+                .disabled(!model.canPlay && !audio.isPlaying(model.audioID))
                 if model.offersSlower {
                     Button("Play slower") { play(rate: PlaybackRate.slower) }
                         .buttonStyle(.dsSecondarySmall)
@@ -420,10 +439,12 @@ struct DictationView: View {
                 Text(note).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.warningText)
             }
             if let p = presentation {
-                PresentedFeedback(presentation: p, onShowAnswer: {}, onTryAgain: {
-                    model.tryAgain()
-                    fieldFocused = true
-                }, onContinue: onContinue)
+                PresentedFeedback(
+                    presentation: p, onShowAnswer: {},
+                    onTryAgain: {
+                        model.tryAgain()
+                        fieldFocused = true
+                    }, onContinue: onContinue)
             } else if model.isDone {
                 ContinueButton(action: onContinue)
             } else {
@@ -500,7 +521,10 @@ struct RepeatView: View {
             ExerciseInstruction(model.isListenOnly ? "Listen, then say it aloud" : "Listen, then say it")
             ItalianPromptLine(text: model.say, audioID: model.audioID, audio: audio, identifier: "repeat.play")
             if model.isListenOnly {
-                ContinueButton { model.finish(); onContinue() }
+                ContinueButton {
+                    model.finish()
+                    onContinue()
+                }
             } else {
                 mic
                 transcript
@@ -566,13 +590,19 @@ struct RepeatView: View {
                         .accessibilityIdentifier("repeat.hearAgain")
                 }
                 if model.attempts >= 2 {
-                    Button("Continue") { model.finish(); onContinue() }
-                        .buttonStyle(.dsPrimary)
-                        .accessibilityIdentifier("feedback.continue")
+                    Button("Continue") {
+                        model.finish()
+                        onContinue()
+                    }
+                    .buttonStyle(.dsPrimary)
+                    .accessibilityIdentifier("feedback.continue")
                 }
-                Button("Skip — can't speak now") { model.skip(); onContinue() }
-                    .buttonStyle(.dsTextLink)
-                    .accessibilityIdentifier("repeat.skip")
+                Button("Skip — can't speak now") {
+                    model.skip()
+                    onContinue()
+                }
+                .buttonStyle(.dsTextLink)
+                .accessibilityIdentifier("repeat.skip")
             }
         }
     }

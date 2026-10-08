@@ -47,10 +47,14 @@ struct MeetPage: View {
             ExerciseInstruction("New words \(min(index + 1, words.count)) of \(words.count)")
             Spacer()
             if let word = words[safe: index] {
-                Button { services.audio.play(word.audioID, context: .item) } label: { card(word) }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(Text("Plays the word again"))
-                    .accessibilityIdentifier("preview.card")
+                Button {
+                    services.audio.play(word.audioID, context: .item)
+                } label: {
+                    card(word)
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint(Text("Plays the word again"))
+                .accessibilityIdentifier("preview.card")
             }
             Spacer()
             Button(index + 1 < words.count ? "Next" : "Continue") {
@@ -68,8 +72,11 @@ struct MeetPage: View {
     private func card(_ w: WordInfo) -> some View {
         Card {
             VStack(spacing: Tokens.Space.m) {
-                ItalianText(w.display, style: TypeStyle(family: .italian, size: 34, weight: 600, lineHeight: nil,
-                                                        italic: false, relativeTo: .largeTitle))
+                ItalianText(
+                    w.display,
+                    style: TypeStyle(
+                        family: .italian, size: 34, weight: 600, lineHeight: nil,
+                        italic: false, relativeTo: .largeTitle))
                 Text("\(w.partOfSpeech) · \(w.gloss)").dsFont(Tokens.TypeScale.uiCallout)
                     .foregroundStyle(Color.ds.secondary)
                 if let note = w.note { MixedText(text: note, style: Tokens.TypeScale.uiBody) }
@@ -144,16 +151,17 @@ struct StoryPage: View {
                 ForEach(Array(text.lines.enumerated()), id: \.element.number) { n, line in
                     VStack(alignment: .leading, spacing: Tokens.Space.xs) {
                         if showSpeakers, let speaker = line.speaker,
-                           n == 0 || text.lines[n - 1].speaker != speaker
+                            n == 0 || text.lines[n - 1].speaker != speaker
                         {
                             Text((bundle.characters[speaker] ?? "").uppercased())
                                 .dsFont(Tokens.TypeScale.uiCaption).foregroundStyle(Color.ds.secondary)
                         }
-                        TokenText(text: line.text, line: line.number,
-                                  style: isCompact ? Tokens.TypeScale.storyCompact : Tokens.TypeScale.storyRegular,
-                                  current: readAlong(line.number),
-                                  selected: selection?.line == line.number ? selection?.index : nil,
-                                  marksNewWords: true, onTap: { tap(line: line.number, token: $0) })
+                        TokenText(
+                            text: line.text, line: line.number,
+                            style: isCompact ? Tokens.TypeScale.storyCompact : Tokens.TypeScale.storyRegular,
+                            current: readAlong(line.number),
+                            selected: selection?.line == line.number ? selection?.index : nil,
+                            marksNewWords: true, onTap: { tap(line: line.number, token: $0) })
                         if showEnglish, let en = line.english {
                             Text(en).dsFont(Tokens.TypeScale.translation).foregroundStyle(Color.ds.secondary)
                         }
@@ -173,9 +181,10 @@ struct StoryPage: View {
 
     @ViewBuilder private func panel(for position: TokenPosition) -> some View {
         if let g = bundle.gloss(text: text.id, line: position.line, token: position.index) {
-            WordPanel(headword: g.headword, posAndGloss: g.posAndGloss, note: g.note,
-                      canPlay: services.audio.canPlay(g.audioID),
-                      hearIt: { services.audio.play(g.audioID, context: .item) })
+            WordPanel(
+                headword: g.headword, posAndGloss: g.posAndGloss, note: g.note,
+                canPlay: services.audio.canPlay(g.audioID),
+                hearIt: { services.audio.play(g.audioID, context: .item) })
         }
     }
 
@@ -264,9 +273,11 @@ struct ListeningPage: View {
         VStack(spacing: Tokens.Space.xxl) {
             Spacer()
             ExerciseInstruction("Listen. You'll answer questions next.")
-            BigPlayButton(isPlaying: services.audio.isPlaying(text.audioID), action: { play(rate: 1) },
-                          identifier: "listening.play")
-                .disabled(!canPlay && !services.audio.isPlaying(text.audioID))
+            BigPlayButton(
+                isPlaying: services.audio.isPlaying(text.audioID), action: { play(rate: 1) },
+                identifier: "listening.play"
+            )
+            .disabled(!canPlay && !services.audio.isPlaying(text.audioID))
             Button("Play slower") { play(rate: PlaybackRate.slower) }
                 .buttonStyle(.dsSecondarySmall)
                 .disabled(!canPlay)
@@ -336,17 +347,22 @@ struct ReadingPage: View {
             VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
                 ExerciseInstruction("Read it. Tap any word for its meaning.")
                 if let layout = text.layout {
-                    RealWorldLayoutView(layout: layout, onTap: { line, token in
-                        services.onGloss(text.id, line, token, nil)
-                    })
+                    RealWorldLayoutView(
+                        layout: layout,
+                        onTap: { line, token in
+                            services.onGloss(text.id, line, token, nil)
+                        })
                 } else {
                     Card {
                         VStack(alignment: .leading, spacing: Tokens.Space.s) {
                             ForEach(text.lines, id: \.number) { line in
-                                TokenText(text: line.text, line: line.number, onTap: { token in
-                                    services.onGloss(text.id, line.number, token,
-                                                     line.text.tokens[safe: token]?.itemId)
-                                })
+                                TokenText(
+                                    text: line.text, line: line.number,
+                                    onTap: { token in
+                                        services.onGloss(
+                                            text.id, line.number, token,
+                                            line.text.tokens[safe: token]?.itemId)
+                                    })
                             }
                         }
                     }
@@ -370,8 +386,9 @@ struct NotePage: View {
             VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
                 if let intro = note.intro {
                     HStack(alignment: .top, spacing: Tokens.Space.l) {
-                        Mascot(pose: Mascot.Pose(rawValue: intro.mascot) ?? .think, size: 72, decorative: true,
-                               isHint: true)
+                        Mascot(
+                            pose: Mascot.Pose(rawValue: intro.mascot) ?? .think, size: 72, decorative: true,
+                            isHint: true)
                         MixedText(text: intro.textEn, style: Tokens.TypeScale.translation)
                             .foregroundStyle(Color.ds.secondary)
                     }
@@ -396,7 +413,8 @@ struct NotePage: View {
         case .paragraph(let p):
             MixedText(text: p, style: Tokens.TypeScale.uiBody)
         case .table(let t):
-            let layout = isCompact && t.columns.count > 2
+            let layout =
+                isCompact && t.columns.count > 2
                 ? AnyLayout(VStackLayout(spacing: Tokens.Space.l))
                 : AnyLayout(HStackLayout(alignment: .top, spacing: Tokens.Space.l))
             layout {
@@ -452,11 +470,14 @@ struct FluencyPage: View {
                     ExerciseInstruction("Listen at full speed. Tap a word if you need it.")
                     if let text = texts[safe: index] {
                         ForEach(text.lines, id: \.number) { line in
-                            TokenText(text: line.text, line: line.number, style: Tokens.TypeScale.storyCompact,
-                                      current: readAlong(text, line.number), onTap: { token in
-                                          services.onGloss(text.id, line.number, token,
-                                                           line.text.tokens[safe: token]?.itemId)
-                                      })
+                            TokenText(
+                                text: line.text, line: line.number, style: Tokens.TypeScale.storyCompact,
+                                current: readAlong(text, line.number),
+                                onTap: { token in
+                                    services.onGloss(
+                                        text.id, line.number, token,
+                                        line.text.tokens[safe: token]?.itemId)
+                                })
                         }
                     }
                 }

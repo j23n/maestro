@@ -41,7 +41,8 @@ final class AVAudioPlayback: AudioPlaying {
             interruptionObserver = NotificationCenter.default.addObserver(
                 forName: AVAudioSession.interruptionNotification, object: nil, queue: .main
             ) { [weak self] note in
-                let began = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
+                let began =
+                    (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
                     .flatMap(AVAudioSession.InterruptionType.init(rawValue:)) == .began
                 MainActor.assumeIsolated { if began { self?.pause() } }
             }
@@ -114,8 +115,10 @@ final class AVAudioPlayback: AudioPlaying {
         isPlaying = false
         currentToken = nil
         self.clip = nil
-        onStop?(PlaybackReport(audioID: clip.audioID, textID: clip.textID, rate: rate, playedMs: playedMs,
-                               context: context))
+        onStop?(
+            PlaybackReport(
+                audioID: clip.audioID, textID: clip.textID, rate: rate, playedMs: playedMs,
+                context: context))
     }
 
     private func accumulateWallTime() {
@@ -156,8 +159,9 @@ enum AudioSessionConfigurator {
             do {
                 let session = AVAudioSession.sharedInstance()
                 // A Bluetooth headset microphone needs HFP; A2DP is output only (verify the option name, M5.3).
-                try session.setCategory(.playAndRecord, mode: .spokenAudio,
-                                        options: [.defaultToSpeaker, .allowBluetoothHFP])
+                try session.setCategory(
+                    .playAndRecord, mode: .spokenAudio,
+                    options: [.defaultToSpeaker, .allowBluetoothHFP])
                 try session.setActive(true)
             } catch {
                 audioLogger.error("recording session: \(error.localizedDescription, privacy: .public)")

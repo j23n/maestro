@@ -54,8 +54,11 @@ struct AccentKeys: View {
                     insert(letter)
                 } label: {
                     Text(letter)
-                        .dsFont(TypeStyle(family: .italian, size: 18, weight: 400, lineHeight: nil, italic: false,
-                                          relativeTo: .body))
+                        .dsFont(
+                            TypeStyle(
+                                family: .italian, size: 18, weight: 400, lineHeight: nil, italic: false,
+                                relativeTo: .body)
+                        )
                         .foregroundStyle(Color.ds.ink)
                         .frame(maxWidth: .infinity, minHeight: Tokens.Size.accentKeyHeight)
                         .background(RoundedRectangle(cornerRadius: Tokens.Radius.key).fill(Color.ds.background))
@@ -89,8 +92,11 @@ struct OptionCard: View {
         Button(action: action) {
             VStack(spacing: Tokens.Space.xs) {
                 if titleIsItalian {
-                    ItalianText(title, style: TypeStyle(family: .italian, size: 30, weight: 600, lineHeight: nil,
-                                                         italic: false, relativeTo: .title))
+                    ItalianText(
+                        title,
+                        style: TypeStyle(
+                            family: .italian, size: 30, weight: 600, lineHeight: nil,
+                            italic: false, relativeTo: .title))
                 } else {
                     Text(title).dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
                         .multilineTextAlignment(.center)
@@ -139,8 +145,10 @@ struct WordTile: View {
             .frame(minHeight: 48)
             .background(Capsule().fill(isMarked ? Color.ds.warningInputBackground : Color.ds.background))
             .overlay(
-                Capsule().strokeBorder(isMarked ? Color.ds.warning : Color.ds.inputBorder,
-                                       lineWidth: Tokens.Border.control))
+                Capsule().strokeBorder(
+                    isMarked ? Color.ds.warning : Color.ds.inputBorder,
+                    lineWidth: Tokens.Border.control)
+            )
             .opacity(isPlaced ? 0.35 : 1)
     }
 }

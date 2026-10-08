@@ -31,24 +31,34 @@ final class ChoiceModel {
         let answer: Int
         switch payload.body {
         case .choice(let c):
-            opts = c.options.enumerated().map { ChoiceOption(id: $0.offset, text: $0.element.text, italian: $0.element.it,
-                                                             audioID: nil) }
+            opts = c.options.enumerated().map {
+                ChoiceOption(
+                    id: $0.offset, text: $0.element.text, italian: $0.element.it,
+                    audioID: nil)
+            }
             opts = c.displayOrder(exerciseID: payload.id).map { opts[$0] }
             answer = c.answer
         case .trueFalse(let t):
-            opts = [ChoiceOption(id: 0, text: "True", italian: nil, audioID: nil),
-                    ChoiceOption(id: 1, text: "False", italian: nil, audioID: nil)]
+            opts = [
+                ChoiceOption(id: 0, text: "True", italian: nil, audioID: nil),
+                ChoiceOption(id: 1, text: "False", italian: nil, audioID: nil),
+            ]
             answer = t.answer ? 0 : 1
         case .soundPair(let s):
             switch s.question {
             case .whichWord:
                 guard let pair = s.pair, let play = s.play else { return nil }
-                opts = pair.enumerated().map { ChoiceOption(id: $0.offset, text: $0.element.it, italian: nil,
-                                                            audioID: $0.element.audioId) }
+                opts = pair.enumerated().map {
+                    ChoiceOption(
+                        id: $0.offset, text: $0.element.it, italian: nil,
+                        audioID: $0.element.audioId)
+                }
                 answer = play
             case .singleOrDouble:
-                opts = [ChoiceOption(id: 0, text: "Single", italian: nil, audioID: nil),
-                        ChoiceOption(id: 1, text: "Double", italian: nil, audioID: nil)]
+                opts = [
+                    ChoiceOption(id: 0, text: "Single", italian: nil, audioID: nil),
+                    ChoiceOption(id: 1, text: "Double", italian: nil, audioID: nil),
+                ]
                 answer = s.answer == .double ? 1 : 0
             }
         default:
@@ -80,11 +90,12 @@ final class ChoiceModel {
         var graded = ChoiceGrader.grade(selected: index, answer: correctIndex)
         graded.selectedIndex = index
         if let record = machine.submit(graded) {
-            sink?.record(AttemptDraft(
-                exerciseID: payload.id, turnID: nil, format: payload.format, attemptIndex: record.attemptIndex,
-                outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
-                response: options.first { $0.id == index }?.text, mode: .tapped, latencyMs: clock.latencyMs(),
-                feedbackShown: record.feedbackShown))
+            sink?.record(
+                AttemptDraft(
+                    exerciseID: payload.id, turnID: nil, format: payload.format, attemptIndex: record.attemptIndex,
+                    outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
+                    response: options.first { $0.id == index }?.text, mode: .tapped, latencyMs: clock.latencyMs(),
+                    feedbackShown: record.feedbackShown))
         }
         if case .answerShown = machine.state { machine.acknowledgeAnswer() }
     }
@@ -151,7 +162,9 @@ final class MatchModel {
         if i == j {
             locked[i] = j
             lastWrong = nil
-            if locked.count == pairs.count { finish(pairOutcomes: (0..<pairs.count).map { firstTry[$0] == true ? .correct : .wrong }) }
+            if locked.count == pairs.count {
+                finish(pairOutcomes: (0..<pairs.count).map { firstTry[$0] == true ? .correct : .wrong })
+            }
         } else {
             lastWrong = (i, j)
         }
@@ -170,9 +183,11 @@ final class MatchModel {
         let targets = payload.targets.enumerated().map {
             TargetOutcome(itemID: $0.element.itemId, skill: $0.element.skill, outcome: pairOutcomes[$0.offset])
         }
-        sink?.record(AttemptDraft(
-            exerciseID: payload.id, turnID: nil, format: .match, attemptIndex: 1, outcome: outcome, targets: targets,
-            response: nil, mode: .tapped, latencyMs: clock.latencyMs(), feedbackShown: .none))
+        sink?.record(
+            AttemptDraft(
+                exerciseID: payload.id, turnID: nil, format: .match, attemptIndex: 1, outcome: outcome,
+                targets: targets,
+                response: nil, mode: .tapped, latencyMs: clock.latencyMs(), feedbackShown: .none))
     }
 }
 
@@ -238,20 +253,23 @@ final class SentenceBuildingModel {
         let r = OrderGrader.grade(placed: answerLine.map(\.word), accepted: answers)
         lastResult = r
         if let record = machine.submit(r.answer) {
-            sink?.record(AttemptDraft(
-                exerciseID: payload.id, turnID: nil, format: .sentenceBuilding, attemptIndex: record.attemptIndex,
-                outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
-                response: answerLine.map(\.word).joined(separator: " "), mode: .tapped, latencyMs: clock.latencyMs(),
-                feedbackShown: record.feedbackShown))
+            sink?.record(
+                AttemptDraft(
+                    exerciseID: payload.id, turnID: nil, format: .sentenceBuilding, attemptIndex: record.attemptIndex,
+                    outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
+                    response: answerLine.map(\.word).joined(separator: " "), mode: .tapped,
+                    latencyMs: clock.latencyMs(),
+                    feedbackShown: record.feedbackShown))
         }
     }
 
     func showAnswer() {
         if let record = machine.showAnswer() {
-            sink?.record(AttemptDraft(
-                exerciseID: payload.id, turnID: nil, format: .sentenceBuilding, attemptIndex: record.attemptIndex,
-                outcome: record.outcome, targets: payload.targetOutcomes(record.outcome), response: nil,
-                mode: .tapped, latencyMs: clock.latencyMs(), feedbackShown: record.feedbackShown))
+            sink?.record(
+                AttemptDraft(
+                    exerciseID: payload.id, turnID: nil, format: .sentenceBuilding, attemptIndex: record.attemptIndex,
+                    outcome: record.outcome, targets: payload.targetOutcomes(record.outcome), response: nil,
+                    mode: .tapped, latencyMs: clock.latencyMs(), feedbackShown: record.feedbackShown))
         }
     }
 
@@ -305,11 +323,12 @@ final class DictationModel {
         let r = DictationGrader.grade(target: say.text, response: response, knownForms: env.knownForms)
         result = r
         if let record = machine.submit(GradedAnswer(outcome: r.outcome)) {
-            sink?.record(AttemptDraft(
-                exerciseID: payload.id, turnID: nil, format: .dictation, attemptIndex: record.attemptIndex,
-                outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
-                response: ExercisePayload.clip(response, format: .dictation), mode: .typed,
-                latencyMs: clock.latencyMs(), feedbackShown: record.feedbackShown))
+            sink?.record(
+                AttemptDraft(
+                    exerciseID: payload.id, turnID: nil, format: .dictation, attemptIndex: record.attemptIndex,
+                    outcome: record.outcome, targets: payload.targetOutcomes(record.outcome),
+                    response: ExercisePayload.clip(response, format: .dictation), mode: .typed,
+                    latencyMs: clock.latencyMs(), feedbackShown: record.feedbackShown))
         }
     }
 
@@ -381,10 +400,11 @@ final class RepeatModel {
     func finish() { isDone = true }
 
     private func record(outcome: AttemptOutcome) {
-        sink?.record(AttemptDraft(
-            exerciseID: payload.id, turnID: nil, format: .repeat, attemptIndex: min(attempts, 2), outcome: outcome,
-            targets: payload.targetOutcomes(outcome), response: nil, mode: .spoken, latencyMs: clock.latencyMs(),
-            feedbackShown: .none))
+        sink?.record(
+            AttemptDraft(
+                exerciseID: payload.id, turnID: nil, format: .repeat, attemptIndex: min(attempts, 2), outcome: outcome,
+                targets: payload.targetOutcomes(outcome), response: nil, mode: .spoken, latencyMs: clock.latencyMs(),
+                feedbackShown: .none))
         clock.restart()
     }
 }

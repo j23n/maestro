@@ -50,7 +50,9 @@ protocol SpeechRecognizing: AnyObject {
     /// Records and transcribes one answer. `expected` may be passed to the fallback transcriber as contextual
     /// strings (≤ 100). `live` receives the volatile transcript while the learner speaks. `recordingURL`, when
     /// set, keeps an m4a of the answer (final-check speaking items always record, docs/09).
-    func recognize(expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?) async throws
+    func recognize(
+        expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?
+    ) async throws
         -> SpeechResult
     /// Stops the current recording early (the learner tapped stop).
     func stop()
@@ -82,7 +84,9 @@ final class FakeSpeechRecognizer: SpeechRecognizing {
         if currentAvailability == .needsDownload { currentAvailability = .available }
     }
 
-    func recognize(expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?) async throws
+    func recognize(
+        expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?
+    ) async throws
         -> SpeechResult
     {
         recognizeCalls.append(expected)

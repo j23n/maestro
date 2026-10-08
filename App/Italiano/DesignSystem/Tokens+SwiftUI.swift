@@ -120,8 +120,10 @@ extension TypeStyle {
 extension Font {
     /// A design-system font: the token's family and size × text scale, scaling with Dynamic Type on iOS.
     static func ds(_ style: TypeStyle, scale: Double = 1.0) -> Font {
-        var font = Font.custom(style.familyName, size: CGFloat(style.size * scale), relativeTo: style.relativeTo.swiftUI)
-            .weight(style.swiftUIWeight)
+        var font = Font.custom(
+            style.familyName, size: CGFloat(style.size * scale), relativeTo: style.relativeTo.swiftUI
+        )
+        .weight(style.swiftUIWeight)
         if style.italic { font = font.italic() }
         return font
     }

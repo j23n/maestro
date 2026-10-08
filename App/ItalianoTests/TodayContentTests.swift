@@ -6,24 +6,37 @@ import Testing
 
 @Suite struct TodayContentTests {
     let outline = CourseOutline(units: [
-        .init(id: "u02", number: 2, titleIt: "Al bar", titleEn: "At the café", lessons: [
-            .init(id: "u02.l1", titleIt: "Al bar", titleEn: "At the bar", steps: [
-                .init(id: "u02.l1.step-story", kind: .story), .init(id: "u02.l1.step-note", kind: .note),
-            ]),
-            .init(id: "u02.l2", titleIt: "Il conto", titleEn: "The bill", steps: [
-                .init(id: "u02.l2.step-story", kind: .story),
-            ]),
-        ], unitSteps: [.init(id: "u02.task.conv1", kind: .conversation, titleIt: "Ordina da Giulia",
-                             titleEn: "Order from Giulia")]),
+        .init(
+            id: "u02", number: 2, titleIt: "Al bar", titleEn: "At the café",
+            lessons: [
+                .init(
+                    id: "u02.l1", titleIt: "Al bar", titleEn: "At the bar",
+                    steps: [
+                        .init(id: "u02.l1.step-story", kind: .story), .init(id: "u02.l1.step-note", kind: .note),
+                    ]),
+                .init(
+                    id: "u02.l2", titleIt: "Il conto", titleEn: "The bill",
+                    steps: [
+                        .init(id: "u02.l2.step-story", kind: .story)
+                    ]),
+            ],
+            unitSteps: [
+                .init(
+                    id: "u02.task.conv1", kind: .conversation, titleIt: "Ordina da Giulia",
+                    titleEn: "Order from Giulia")
+            ])
     ])
 
-    func plan(due: Int = 20, focus: Int = 0, examples: [ItemID] = ["c:vorrei", "w:conto"], catchUp: Int = 0,
-              continueAt: ContinuePoint? = ContinuePoint(unitId: "u02", stepId: "u02.l2.step-story", cursor: 0))
+    func plan(
+        due: Int = 20, focus: Int = 0, examples: [ItemID] = ["c:vorrei", "w:conto"], catchUp: Int = 0,
+        continueAt: ContinuePoint? = ContinuePoint(unitId: "u02", stepId: "u02.l2.step-story", cursor: 0)
+    )
         -> TodayPlan
     {
         TodayPlan(
-            review: .init(dueCount: due, dueTotal: due, focusCount: focus, estimatedMinutes: 6, secondsPerCard: 18,
-                          exampleItems: examples),
+            review: .init(
+                dueCount: due, dueTotal: due, focusCount: focus, estimatedMinutes: 6, secondsPerCard: 18,
+                exampleItems: examples),
             catchUp: .init(count: catchUp, waiting: catchUp), continuePoint: continueAt,
             week: WeekProgress(weekStart: 0, days: [true, true, false, true, false, false, false], goal: 5),
             stats: .init(wordsKnown: 64, unitsCompleted: 1, unitsTotal: 13), reviewIsPrimary: due > 40)
@@ -43,8 +56,11 @@ import Testing
         #expect(t.greeting == "Buongiorno")
         #expect(t.review.duration == "about 6 min")
         #expect(t.review.body == "20 words are ready, including *vorrei* and *il conto*.")
-        #expect(t.continueCard == .init(context: "Unit 2 · Story 2 of 2", titleIt: "Il conto", titleEn: "The bill",
-                                        action: "Read", unitID: "u02", stepID: "u02.l2.step-story"))
+        #expect(
+            t.continueCard
+                == .init(
+                    context: "Unit 2 · Story 2 of 2", titleIt: "Il conto", titleEn: "The bill",
+                    action: "Read", unitID: "u02", stepID: "u02.l2.step-story"))
         #expect(t.weekLine == "3 of 5 days" && t.wordsKnown == 64 && t.unitsLine == "1 of 13")
         #expect(!t.reviewIsPrimary)
     }
@@ -65,11 +81,13 @@ import Testing
     }
 
     @Test func continueCardsForLessonsAndUnitSteps() {
-        let started = TodayCopy.continueCard(ContinuePoint(unitId: "u02", stepId: "u02.l1.step-note", cursor: 2),
-                                             outline: outline)
+        let started = TodayCopy.continueCard(
+            ContinuePoint(unitId: "u02", stepId: "u02.l1.step-note", cursor: 2),
+            outline: outline)
         #expect(started?.context == "Unit 2 · Lesson 1" && started?.action == "Continue")
-        let task = TodayCopy.continueCard(ContinuePoint(unitId: "u02", stepId: "u02.task.conv1", cursor: 0),
-                                          outline: outline)
+        let task = TodayCopy.continueCard(
+            ContinuePoint(unitId: "u02", stepId: "u02.task.conv1", cursor: 0),
+            outline: outline)
         #expect(task?.context == "Unit 2 · Conversation" && task?.titleIt == "Ordina da Giulia")
         #expect(TodayCopy.continueCard(ContinuePoint(unitId: "u09", stepId: "x", cursor: 0), outline: outline) == nil)
     }

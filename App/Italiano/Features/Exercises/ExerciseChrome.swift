@@ -84,8 +84,9 @@ struct ItalianPromptLine: View {
         HStack(alignment: .firstTextBaseline, spacing: Tokens.Space.s) {
             ItalianText(text.text, style: style)
             if audio.canPlay(audioID) {
-                SpeakerButton(isPlaying: audio.isPlaying(audioID), action: { audio.toggle(audioID) },
-                              identifier: identifier)
+                SpeakerButton(
+                    isPlaying: audio.isPlaying(audioID), action: { audio.toggle(audioID) },
+                    identifier: identifier)
             }
         }
     }

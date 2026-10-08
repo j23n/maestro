@@ -115,9 +115,10 @@ final class ReviewCollector {
     private let newID: () -> String
     private let nowISO: () -> String
 
-    init(reviewer: String, scope: String, index: ReviewFileIndex, newID: @escaping () -> String,
-         nowISO: @escaping () -> String)
-    {
+    init(
+        reviewer: String, scope: String, index: ReviewFileIndex, newID: @escaping () -> String,
+        nowISO: @escaping () -> String
+    ) {
         self.reviewer = reviewer
         self.scope = scope
         self.index = index
@@ -126,9 +127,10 @@ final class ReviewCollector {
     }
 
     @discardableResult
-    func add(target: String, quote: String?, verdict: ReviewComment.Verdict, category: ReviewComment.Category,
-             comment: String, suggestion: String? = nil, response: String? = nil) -> ReviewComment
-    {
+    func add(
+        target: String, quote: String?, verdict: ReviewComment.Verdict, category: ReviewComment.Category,
+        comment: String, suggestion: String? = nil, response: String? = nil
+    ) -> ReviewComment {
         let c = ReviewComment(
             id: newID(), target: target, file: index.entry(for: target)?.file, quote: quote, verdict: verdict,
             category: category, comment: comment, suggestion: suggestion?.nilIfEmpty, response: response, at: nowISO())
@@ -139,7 +141,8 @@ final class ReviewCollector {
     /// "This should be accepted" in the feedback panel after a rejected answer: one tap, an answer-key comment.
     @discardableResult
     func shouldBeAccepted(exerciseID: String, turnID: String?, response: String, prompt: String?) -> ReviewComment {
-        add(target: turnID.map { "\(exerciseID)/\($0)" } ?? exerciseID, quote: prompt, verdict: .change,
+        add(
+            target: turnID.map { "\(exerciseID)/\($0)" } ?? exerciseID, quote: prompt, verdict: .change,
             category: .answerKey, comment: "This should be accepted.", response: response)
     }
 
@@ -150,8 +153,9 @@ final class ReviewCollector {
         for c in comments {
             if let e = index.entry(for: c.target) { files[e.file] = e.hash }
         }
-        return ReviewFile(reviewer: reviewer, scope: scope, created: nowISO(), files: files, comments: comments,
-                          signoff: nil)
+        return ReviewFile(
+            reviewer: reviewer, scope: scope, created: nowISO(), files: files, comments: comments,
+            signoff: nil)
     }
 
     /// POST {ITA_REVIEW_URL}/v1/review-comments (docs/12); Export works without it.

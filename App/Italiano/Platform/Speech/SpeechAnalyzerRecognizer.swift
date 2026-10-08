@@ -67,7 +67,9 @@ final class SpeechAnalyzerRecognizer: SpeechRecognizing {
             attributeOptions: [.transcriptionConfidence])
     }
 
-    func recognize(expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?) async throws
+    func recognize(
+        expected: [String], live: @escaping @MainActor (String) -> Void, recordingURL: URL?
+    ) async throws
         -> SpeechResult
     {
         let state = await availability()
@@ -82,16 +84,28 @@ final class SpeechAnalyzerRecognizer: SpeechRecognizing {
             try await AssetInventory.reserve(locale: locale)  // every time, even when installed (docs/09)
             let t = makeTranscriber(locale)
             transcriberResults = AsyncThrowingStream { continuation in
-                Task { do { for try await r in t.results { continuation.yield(r) }; continuation.finish() } catch {
-                    continuation.finish(throwing: error) } }
+                Task {
+                    do {
+                        for try await r in t.results { continuation.yield(r) }
+                        continuation.finish()
+                    } catch {
+                        continuation.finish(throwing: error)
+                    }
+                }
             }
             module = t
         } else if let locale = await DictationTranscriber.supportedLocale(equivalentTo: italian) {
             try await AssetInventory.reserve(locale: locale)
             let d = DictationTranscriber(locale: locale, preset: .progressiveShortDictation)
             dictationResults = AsyncThrowingStream { continuation in
-                Task { do { for try await r in d.results { continuation.yield(r) }; continuation.finish() } catch {
-                    continuation.finish(throwing: error) } }
+                Task {
+                    do {
+                        for try await r in d.results { continuation.yield(r) }
+                        continuation.finish()
+                    } catch {
+                        continuation.finish(throwing: error)
+                    }
+                }
             }
             module = d
         } else {

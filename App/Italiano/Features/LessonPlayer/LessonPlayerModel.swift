@@ -151,8 +151,9 @@ final class LessonPlayerModel {
         }
         let after = current
         guard after?.stepIndex != before.stepIndex else { return StepChange() }
-        return StepChange(completed: bundle.steps[before.stepIndex].id,
-                          started: after.map { bundle.steps[$0.stepIndex].id })
+        return StepChange(
+            completed: bundle.steps[before.stepIndex].id,
+            started: after.map { bundle.steps[$0.stepIndex].id })
     }
 
     /// Exercises that the current page's step lists, for exercises shown next to their text (reading).
@@ -240,7 +241,7 @@ extension LessonBundle {
     /// Nil for tokens that aren't words, and for words with neither an item nor a gloss.
     func gloss(text id: TextID, line: Int, token: Int) -> GlossContent? {
         guard let line = texts[id]?.lines.first(where: { $0.number == line }),
-              let t = line.text.tokens[safe: token], t.kind == .word
+            let t = line.text.tokens[safe: token], t.kind == .word
         else { return nil }
         let info = t.itemId.flatMap { items[$0] }
         guard let gloss = t.gloss ?? info?.gloss else { return nil }
@@ -271,9 +272,10 @@ extension LayoutPayload {
     var strings: [LayoutString] {
         switch self {
         case .menu(let title, let sections):
-            [title] + sections.flatMap { section in
-                [section.title] + section.rows.flatMap { [$0.name, $0.price] + [$0.note].compactMap { $0 } }
-            }
+            [title]
+                + sections.flatMap { section in
+                    [section.title] + section.rows.flatMap { [$0.name, $0.price] + [$0.note].compactMap { $0 } }
+                }
         case .receipt(let shop, let rows, let total, let footer):
             [shop] + rows.flatMap { [$0.name] + [$0.qty].compactMap { $0 } + [$0.price] } + [total]
                 + [footer].compactMap { $0 }

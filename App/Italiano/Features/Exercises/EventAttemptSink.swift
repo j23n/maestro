@@ -14,9 +14,10 @@ final class EventAttemptSink: AttemptSink {
     var onRecord: ((AttemptDraft) -> Void)?
     private let write: @MainActor (Event) -> Void
 
-    init(factory: EventFactory, context: AttemptContext, sessionID: String, stepID: StepID? = nil,
-         write: @escaping @MainActor (Event) -> Void)
-    {
+    init(
+        factory: EventFactory, context: AttemptContext, sessionID: String, stepID: StepID? = nil,
+        write: @escaping @MainActor (Event) -> Void
+    ) {
         self.factory = factory
         self.context = context
         self.sessionID = sessionID

@@ -14,9 +14,11 @@ struct SourcePanel: View {
             Card {
                 VStack(alignment: .leading, spacing: Tokens.Space.s) {
                     ForEach(lines, id: \.number) { line in
-                        TokenText(text: line.text, line: line.number, onTap: { token in
-                            onGloss(source.text.id, line.number, token, line.text.tokens[safe: token]?.itemId)
-                        })
+                        TokenText(
+                            text: line.text, line: line.number,
+                            onTap: { token in
+                                onGloss(source.text.id, line.number, token, line.text.tokens[safe: token]?.itemId)
+                            })
                     }
                 }
             }

@@ -15,10 +15,11 @@ struct TypedTask: Sendable {
     /// Shown after the answer for bare-noun answers to generated cards ("Say it with its article: il cornetto").
     let correctWithNoteText: String?
 
-    init(exerciseID: ExerciseID, format: ExerciseFormat, accepted: [AnswerPattern],
-         near: [TypedAnswerGrader.NearMiss] = [], targets: [TargetPayload], hint: String? = nil, rule: String? = nil,
-         correctWithNoteText: String? = nil)
-    {
+    init(
+        exerciseID: ExerciseID, format: ExerciseFormat, accepted: [AnswerPattern],
+        near: [TypedAnswerGrader.NearMiss] = [], targets: [TargetPayload], hint: String? = nil, rule: String? = nil,
+        correctWithNoteText: String? = nil
+    ) {
         self.exerciseID = exerciseID
         self.format = format
         self.accepted = accepted
@@ -42,8 +43,9 @@ struct TypedTask: Sendable {
         default:
             return nil
         }
-        self.init(exerciseID: p.id, format: p.format, accepted: [accepted], near: p.nearMisses(), targets: p.targets,
-                  hint: p.hint, rule: p.rule)
+        self.init(
+            exerciseID: p.id, format: p.format, accepted: [accepted], near: p.nearMisses(), targets: p.targets,
+            hint: p.hint, rule: p.rule)
     }
 }
 
@@ -119,8 +121,9 @@ final class TypedExerciseModel {
     /// "Say it": the transcript is graded with TranscriptMatcher and recorded under skill `speak` (docs/06 §7).
     func submitSpoken(_ result: SpeechResult) {
         guard canSayIt, !machine.isDone else { return }
-        let match = TranscriptMatcher(profile: env.profile).match(transcripts: result.allTranscripts,
-                                                                  accepted: task.accepted)
+        let match = TranscriptMatcher(profile: env.profile).match(
+            transcripts: result.allTranscripts,
+            accepted: task.accepted)
         lastSpoken = match
         lastGrade = nil  // a typed grade from an earlier attempt must not label this one
         response = match?.heard ?? result.transcript
@@ -156,11 +159,12 @@ final class TypedExerciseModel {
         let targets = task.targets.map {
             TargetOutcome(itemID: $0.itemId, skill: skill ?? $0.skill, outcome: r.outcome)
         }
-        sink?.record(AttemptDraft(
-            exerciseID: task.exerciseID, turnID: nil, format: task.format, attemptIndex: r.attemptIndex,
-            outcome: r.outcome, targets: targets,
-            response: response.isEmpty ? nil : ExercisePayload.clip(response, format: task.format), mode: mode,
-            latencyMs: clock.latencyMs(), feedbackShown: r.feedbackShown))
+        sink?.record(
+            AttemptDraft(
+                exerciseID: task.exerciseID, turnID: nil, format: task.format, attemptIndex: r.attemptIndex,
+                outcome: r.outcome, targets: targets,
+                response: response.isEmpty ? nil : ExercisePayload.clip(response, format: task.format), mode: mode,
+                latencyMs: clock.latencyMs(), feedbackShown: r.feedbackShown))
     }
 
     /// The feedback panel for the current state, or nil while answering.
@@ -182,7 +186,8 @@ final class TypedExerciseModel {
         case .done(let result):
             switch result {
             case .success:
-                let note = lastGrade?.outcome == .correctWithNote
+                let note =
+                    lastGrade?.outcome == .correctWithNote
                     ? (task.correctWithNoteText ?? lastGrade?.correction) : nil
                 return FeedbackPresentation(
                     tone: .success, headline: note == nil ? FeedbackCopy.success : FeedbackCopy.successWithNote,
@@ -190,15 +195,18 @@ final class TypedExerciseModel {
             case .successWithCorrection, .successAfterHint:
                 return FeedbackPresentation(
                     tone: .success,
-                    headline: result == .successAfterHint ? FeedbackCopy.successAfterHint
+                    headline: result == .successAfterHint
+                        ? FeedbackCopy.successAfterHint
                         : FeedbackCopy.successWithCorrection,
                     detail: lastGrade?.correction, answer: nil, rule: nil, canTryAgain: false, canShowAnswer: false,
                     canContinue: true)
             case .failed, .skipped:
-                return env.context.isAssessment ? nil
-                    : FeedbackPresentation(tone: .answer, headline: FeedbackCopy.failedTwice, detail: nil,
-                                           answer: modelAnswer, rule: task.rule, canTryAgain: false,
-                                           canShowAnswer: false, canContinue: true)
+                return env.context.isAssessment
+                    ? nil
+                    : FeedbackPresentation(
+                        tone: .answer, headline: FeedbackCopy.failedTwice, detail: nil,
+                        answer: modelAnswer, rule: task.rule, canTryAgain: false,
+                        canShowAnswer: false, canContinue: true)
             case .recorded:
                 return nil  // no feedback in assessments
             }

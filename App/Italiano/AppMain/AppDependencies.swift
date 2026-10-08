@@ -54,7 +54,8 @@ final class AppDependencies {
         let env = app.env
         let controller = SyncSetup.controller(
             config: config, store: store, platform: env.platform, clock: env.clock,
-            openStore: { url in try await LearnerStore.open(url: url, content: content, clock: env.clock, ids: env.ids) },
+            openStore: { url in try await LearnerStore.open(url: url, content: content, clock: env.clock, ids: env.ids)
+            },
             onStoreReplaced: { [weak app] newStore in await app?.replaceStore(newStore) })
         app.sync = controller
         let model = SyncSettingsModel(sync: controller)

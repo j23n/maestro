@@ -48,7 +48,9 @@ enum PayloadFixtures {
 
 @MainActor
 @Suite struct TypedExerciseModelTests {
-    func model(_ id: String, context: AttemptContext = .lesson, canSpeak: Bool = false) throws
+    func model(
+        _ id: String, context: AttemptContext = .lesson, canSpeak: Bool = false
+    ) throws
         -> (TypedExerciseModel, RecordingAttemptSink)
     {
         let sink = RecordingAttemptSink()
@@ -153,8 +155,9 @@ enum PayloadFixtures {
         let d = try #require(sink.drafts.first)
         #expect(d.mode == .spoken && d.outcome == .correct)
         #expect(d.targets.first?.skill == .speak)
-        #expect(RatingPolicy.rating(format: d.format, outcome: .wrong, mode: d.mode, attemptIndex: 1, context: .lesson)
-            == nil)  // a failed spoken answer never becomes a lapse
+        #expect(
+            RatingPolicy.rating(format: d.format, outcome: .wrong, mode: d.mode, attemptIndex: 1, context: .lesson)
+                == nil)  // a failed spoken answer never becomes a lapse
     }
 
     @Test func aSpokenMissShowsWhatWasHeardNotSomethingMissing() throws {

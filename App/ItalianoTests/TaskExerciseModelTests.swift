@@ -15,7 +15,10 @@ import Testing
     }
 
     func conversation(_ context: AttemptContext = .lesson, canSpeak: Bool = false) throws -> ConversationModel {
-        try #require(ConversationModel(payload: try PayloadFixtures.exercise("u02.l1.ex25"), env: env(context, canSpeak: canSpeak), sink: sink))
+        try #require(
+            ConversationModel(
+                payload: try PayloadFixtures.exercise("u02.l1.ex25"), env: env(context, canSpeak: canSpeak), sink: sink)
+        )
     }
 
     @Test func typedConversationTicksGoalsAndRecordsTurnsWithoutTargets() throws {
@@ -51,7 +54,8 @@ import Testing
 
     @Test func spokenTurnsUseTheTranscriptMatcher() throws {
         let c = try conversation(canSpeak: true)
-        c.submitSpoken(SpeechResult(transcript: "buongiorno vorrei un capuccino e un cornetto", alternatives: [], confidence: nil))
+        c.submitSpoken(
+            SpeechResult(transcript: "buongiorno vorrei un capuccino e un cornetto", alternatives: [], confidence: nil))
         #expect(c.nodeID == "n3")
         #expect(sink.drafts.first?.mode == .spoken)
     }
@@ -76,7 +80,8 @@ import Testing
     }
 
     @Test func formFieldsValidate() throws {
-        let w = try #require(WritingModel(payload: try PayloadFixtures.exercise("u01.task.write"), env: env(), sink: sink))
+        let w = try #require(
+            WritingModel(payload: try PayloadFixtures.exercise("u01.task.write"), env: env(), sink: sink))
         #expect(w.isForm && w.fieldValues.count == 2)
         w.fieldValues = ["Anna", ""]
         w.submit()
@@ -85,7 +90,8 @@ import Testing
     }
 
     @Test func relayPrices() throws {
-        let r = try #require(RelayModel(payload: try PayloadFixtures.exercise("u02.task.relay"), env: env(), sink: sink))
+        let r = try #require(
+            RelayModel(payload: try PayloadFixtures.exercise("u02.task.relay"), env: env(), sink: sink))
         #expect(r.answerText == "€1.60")
         r.response = "1.50"
         r.check()
