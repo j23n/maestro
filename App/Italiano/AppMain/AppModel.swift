@@ -35,6 +35,9 @@ final class AppModel {
     var isOnboarded = true
     /// Placement comes next: onboarding said "Yes, I know a little" (AppModel+Placement.swift).
     var placementPending = false
+    /// Bumped whenever the final check's sittings on this device change (AppModel+FinalCheck.swift), so the final
+    /// review unit looks for an export to offer again.
+    var finalCheckFilesChanged = 0
     /// One sentence when the learner database had to be recovered at launch (M3.9).
     private(set) var recoveryNotice: String?
     /// Speech recognition is available and switched on (docs/09); the Settings screen and the recogniser set it.
@@ -114,9 +117,11 @@ final class AppModel {
         }
     }
 
-    /// After an account switch the sync driver opens a fresh database for the new account: use it from now on.
+    /// After an account switch the sync driver opens a fresh database for the new account: use it from now on. The
+    /// previous learner's final-check recordings and exports go with their database (docs/12).
     func replaceStore(_ newStore: LearnerStore) async {
         await settle()
+        deleteFinalCheckFiles()
         observers.forEach { $0.cancel() }
         observers = []
         store = newStore

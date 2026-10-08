@@ -86,7 +86,7 @@ extension AppModel {
 
     /// "Reset local data" (docs/08 § Reset progress): with sync running, the sync driver erases this device's
     /// progress and deletes the iCloud zone; otherwise the store erases it. Device settings stay; onboarding runs
-    /// again because its synced answers are gone.
+    /// again because its synced answers are gone, and so do the final check's recordings and exports.
     func debugResetLocalData() async throws {
         await settle()
         guard let store else { throw DebugError.notReady }
@@ -95,6 +95,7 @@ extension AppModel {
         } else {
             try await store.eraseProgress()
         }
+        deleteFinalCheckFiles()
         isOnboarded = (try? await store.settingRecord(SettingKey.profileForms.rawValue)) != nil
     }
 }

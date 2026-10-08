@@ -110,6 +110,22 @@ final class ConversationModel {
             })
     }
 
+    /// Checks: "Skip — can't speak now" ends the conversation when the mic or the recogniser fails, so the check
+    /// never dead-ends (docs/05 § Stepped feedback). The turn is recorded as `skipped`; the goals already reached
+    /// still count.
+    var canSkip: Bool { env.context.isAssessment && !isFinished }
+
+    func skip() {
+        guard canSkip, let n = node else { return }
+        sink?.record(
+            AttemptDraft(
+                exerciseID: payload.id, turnID: n.id, format: .conversation, attemptIndex: min(missesAtNode + 1, 2),
+                outcome: .skipped, targets: [], response: nil, mode: .spoken, latencyMs: clock.latencyMs(),
+                feedbackShown: missesAtNode > 0 ? .hint : .none,
+                checkAnswer: .goals(completed: goalsDone.count, total: conversation.goals.count)))
+        isFinished = true
+    }
+
     /// "Continue" after "You could say": the conversation follows the first intent's `next` (docs/06 §12).
     func continueAfterMiss() {
         guard case .youCouldSay = feedback, let first = node?.expect.first else { return }
@@ -183,6 +199,8 @@ final class TalkModel {
     var response = ""
     private(set) var result: ContentPointMatcher.Result?
     private(set) var attempts = 0
+    /// "Skip — can't speak now" in a check.
+    private(set) var skipped = false
     @ObservationIgnored private var clock: AttemptClock
 
     init?(payload: ExercisePayload, env: ExerciseEnvironment, sink: AttemptSink?) {
@@ -201,6 +219,24 @@ final class TalkModel {
     var credit: Double { result?.fraction ?? 0 }
     /// Checks: one attempt, nothing shown afterwards (docs/06 § 18).
     var isAssessment: Bool { env.context.isAssessment }
+    /// Answered or skipped.
+    var isFinished: Bool { result != nil || skipped }
+    /// What a check shows after the answer (docs/06 § 18): the final check records spoken answers for an examiner;
+    /// a unit check only keeps the transcript.
+    var answeredLine: String { env.context == .final ? "Answer recorded." : "Answer saved." }
+    /// Checks: "Skip — can't speak now" when the mic or the recogniser fails, so the check never dead-ends
+    /// (docs/05 § Stepped feedback: outcome `skipped`, no points).
+    var canSkip: Bool { isAssessment && !isFinished }
+
+    func skip() {
+        guard canSkip else { return }
+        skipped = true
+        attempts += 1
+        sink?.record(
+            AttemptDraft(
+                exerciseID: payload.id, turnID: nil, format: .talk, attemptIndex: 1, outcome: .skipped, targets: [],
+                response: nil, mode: .spoken, latencyMs: clock.latencyMs(), feedbackShown: .none))
+    }
 
     func submit(transcript: String, mode: AnswerMode) {
         guard !(isAssessment && attempts > 0) else { return }

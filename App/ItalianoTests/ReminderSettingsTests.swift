@@ -87,7 +87,10 @@ import Testing
             config: .preview, app: app, notifications: fake, telemetry: nil, debug: nil)
         _ = try await app.store?.set(.reminderEnabled, to: .bool(true))
         _ = try await app.store?.set(.reminderTime, to: .string("06:45"))
-        for _ in 0..<200 where !app.settings.reminderEnabled { try await Task.sleep(for: .milliseconds(5)) }
+        // Both settings reach the model through the store's update stream; wait for the second one too.
+        for _ in 0..<400 where !(app.settings.reminderEnabled && app.settings.reminderTime == "06:45") {
+            try await Task.sleep(for: .milliseconds(5))
+        }
         await services.afterLaunch(arguments: [])
         #expect(fake.scheduled == [ReminderTime(hour: 6, minute: 45)] && fake.permissionRequests == 0)
     }

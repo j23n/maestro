@@ -29,8 +29,9 @@ struct MainTabs: View {
                         )
                         .navigationDestination(for: UnitID.self) { unit in
                             if let o = deps.app.overview(unit: unit) {
-                                UnitView(overview: o) { playing = PlayRequest(step: $0) }
-                                    .finalCheckEntry(app: deps.app, unit: unit) { takingFinal = FinalCheckRequest() }
+                                UnitView(overview: o) { playing = PlayRequest(step: $0) } accessory: {
+                                    FinalCheckCard(deps: deps, unit: unit) { takingFinal = FinalCheckRequest() }
+                                }
                             }
                         }
                 }

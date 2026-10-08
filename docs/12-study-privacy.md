@@ -61,20 +61,21 @@ The app posts one review file per scope with the comments not sent yet (`docs/04
 
 ## Final check export (examiner rating)
 
-- After the final A1 check, **Export for examiner** creates `final-check-<installId>-<date>.zip` containing:
+- After the final A1 check, **Export for examiner** creates `final-check-<installId>-<date>-<time>.zip` containing:
   - `responses.json`: every item with the learner's answer, auto score and section totals;
   - `writing/*.txt`;
   - `speaking/*.m4a`: the recordings of the speaking section (`docs/09` § Transcription), kept on the recording device only until export or 30 days;
   - `README.txt`: what it is, and the install ID.
 - The zip opens in the share sheet; the participant sends it however the study protocol says. Nothing uploads automatically.
-- No third-party zip library: the app's own `StoredZip` writes a standard ZIP with every file stored (no compression: the m4a files are already compressed and the text is small), UTF-8 names and the check's local time as every entry's date, so the same sitting always gives the same bytes. It replaces the earlier plan of `NSFileCoordinator` `.forUploading`, which wraps the files in an extra folder and can't be tested on Linux.
+- No third-party zip library: the app's own `StoredZip` writes a standard ZIP with every file stored (no compression: the m4a files are already compressed and the text is small), UTF-8 names and the check's local time as every entry's date, so the same sitting always gives the same bytes (`fixtures/export/stored-zip-golden.zip`, read back by Python's `zipfile` in the pipeline tests). This replaces the earlier plan of `NSFileCoordinator` `.forUploading`, pending the owner's decision (`docs/13` § Proposed changes).
 - **Exact layout** (`ExaminerExport`, built from the sitting's own `attempt` events):
   - `README.txt`: what the archive is, the install ID (or "none (this device hasn't joined the study)"), when the check was taken, the pack and app versions, each section's automatic score, and the line "This is a practice check, not an official certificate.";
   - `responses.json` (below);
   - `writing/<exerciseId>.txt`: each writing task's text (a form as `Label: value` lines);
   - `speaking/<exerciseId>-<attemptId>.m4a`: one recording per spoken answer (a conversation has one per turn), named as on the device.
-- **Name:** `final-check-<installId>-<YYYY-MM-DD>.zip`, the calendar date the check was taken in the learner's time zone; without an install ID (no consent ever given) `final-check-<YYYY-MM-DD>.zip`. No name, country or other profile data goes into the archive.
-- **When:** the zip is written to `Application Support/Italiano/exports/` as the check ends (a retake on the same day replaces it); **Export for examiner** on the result, and in the final review unit while the zip is kept, opens the share sheet with it. Writing it counts as the successful export: the recordings are deleted from `recordings/`. The zip is deleted 30 days after it was written.
+- **Name:** `final-check-<installId>-<YYYY-MM-DD>-<HHMM>.zip`, the date and time the check was taken in the learner's time zone, so every sitting has its own name (a retake on the same day too); without an install ID (no consent ever given) `final-check-<YYYY-MM-DD>-<HHMM>.zip`. No name, country or other profile data goes into the archive.
+- **When:** as the check ends, the app keeps the sitting's record (`sitting.json`: the `responses.json` contents and when the check was taken) in the sitting's folder with its recordings, `Application Support/Italiano/final-check/<sittingId>/`; nothing is zipped yet. **Export for examiner**, on the result and in the final review unit while the sitting is kept, builds the zip in `exports/` and opens the share sheet with it (`ExportSharing`). When the share completes (the successful export, `docs/09` § Transcription), the zip, the recordings and the record are deleted. When it is cancelled or fails, only the zip is deleted, so the learner can export again until the 30 days are up.
+- **Whose files:** a sitting belongs to the learner database that holds its `checkCompleted` event. Resetting progress or an iCloud account switch (a new database) deletes every sitting and zip; a sitting whose event is gone (progress reset on another device) is never offered and is deleted when it is found or at the next launch.
 - `responses.json` (schema 1; keys sorted; an absent key means "none"):
 
 ```json
@@ -94,7 +95,7 @@ The app posts one review file per scope with the comments not sent yet (`docs/04
 }
 ```
 
-  Every item of every section is listed in order (an item in an excluded section, or never answered, has `"answers": []`); `answers[].turnId` names a conversation's node; `earned` is the item's raw points (`score` × credit), and `sections[].points` is the section scaled to its 12 points.
+  Every item of every section is listed in order (an item in an excluded section, or never answered, has `"answers": []`); `answers[].turnId` names a conversation's node; `earned` is the item's raw points (`score` × credit), `sections[].points` is the section scaled to its 12 points, and `passMarkPerSection` is the pack's `indicativePassPerSection` (the README and the result screen quote the same number). An answer whose recording can't be read when the zip is built names no `recording`.
 
 ## Beta and study data loop
 

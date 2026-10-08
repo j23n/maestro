@@ -53,7 +53,7 @@ enum ExerciseHostModel {
         case .dictation(let m): m.isDone
         case .repeatAfterMe(let m): m.isDone
         case .conversation(let m): m.isFinished
-        case .talk(let m): m.result != nil
+        case .talk(let m): m.isFinished
         case .writing(let m): m.submitted
         case .relay(let m): m.isDone
         }

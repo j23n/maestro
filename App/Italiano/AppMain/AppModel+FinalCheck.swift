@@ -4,7 +4,8 @@ import Storage
 
 // The final A1 check in the app container (docs/05 § Final A1 check, docs/06 §20, docs/09 § Transcription,
 // docs/12 § Final check export): where it is offered, the sitting with its recordings, the score and
-// `checkCompleted`, and the examiner export. Platform-neutral, so it compiles and is tested on Linux.
+// `checkCompleted`, the sitting's record, and **Export for examiner**. Platform-neutral, so it compiles and is
+// tested on Linux.
 
 extension AppModel {
     struct FinalCheckLaunch {
@@ -16,11 +17,23 @@ extension AppModel {
         let missing: [ItemSkillPair]
     }
 
-    /// The result screen and the examiner export it shares.
+    /// The result screen and the sitting it can export.
     struct FinalCheckOutcome {
         let result: FinalCheckResultContent
-        /// The zip in `exports/`, ready for the share sheet; nil when it couldn't be written.
-        let export: URL?
+        /// The sitting's record, kept with its recordings for **Export for examiner**; nil when it couldn't be
+        /// saved on this device.
+        let export: ExaminerExport?
+    }
+
+    /// How **Export for examiner** ended.
+    enum ExaminerExportResult: Sendable, Equatable {
+        /// The share completed: the zip, the recordings and the sitting's record are deleted.
+        case shared
+        /// The learner closed the share sheet (or the service failed): the zip is deleted, the recordings stay so
+        /// they can export again until the 30 days are up.
+        case cancelled
+        /// The zip couldn't be made, or the sitting is no longer on this device.
+        case failed
     }
 
     /// `Application Support/Italiano/` (or the folder of the test's learner database).
@@ -28,13 +41,8 @@ extension AppModel {
         (env.learnerURL ?? (try? LearnerStore.defaultURL()))?.deletingLastPathComponent()
     }
 
-    /// Final-check speaking recordings, on the recording device only (docs/09).
-    var recordingsDirectory: URL? { assessmentFilesDirectory?.appendingPathComponent("recordings", isDirectory: true) }
-
-    /// Examiner exports, kept for the share sheet until 30 days after they were made.
-    var examinerExportsDirectory: URL? {
-        assessmentFilesDirectory?.appendingPathComponent("exports", isDirectory: true)
-    }
+    /// Final-check sittings (recordings and records) and the zips in the share sheet, on this device only.
+    var finalCheckFiles: FinalCheckFiles? { assessmentFilesDirectory.map(FinalCheckFiles.init(root:)) }
 
     /// The final check is offered in the final review unit once it is open (Unit 12 completed), when the pack has
     /// every section written.
@@ -45,10 +53,10 @@ extension AppModel {
     }
 
     /// Loads the sections' exercises (leaving out speaking when the device can't take it), the texts they show or
-    /// play, and the session's recordings folder.
+    /// play, and the sitting's recordings folder (`final-check/<sessionId>/`).
     func startFinalCheck() async throws(PackError) -> FinalCheckLaunch? {
         guard let reader, let content, let factory, let final = content.finalCheck,
-            FinalCheck.isRunnable(final, content: content), let directory = recordingsDirectory
+            FinalCheck.isRunnable(final, content: content), let files = finalCheckFiles
         else { return nil }
         var titles: [String: String] = [:]
         if case .final(_, let sections)? = try await reader.assessment(.final) {
@@ -63,7 +71,7 @@ extension AppModel {
             id: "final", title: FinalCheckCopy.title, unit: content.finalUnit?.id ?? "u99",
             exerciseIDs: sections.filter { !excluded.contains($0.id) }.flatMap(\.exerciseIds), reader: reader)
         let sessionID = env.ids.next()
-        let recordings = SpeakingRecordings(directory: directory, ids: env.ids)
+        let recordings = SpeakingRecordings(directory: files.sittingDirectory(sessionID), ids: env.ids)
         let log = FinalCheckLog(recordings: recordings)
         let sink = EventAttemptSink(factory: factory, context: .final, sessionID: sessionID) { [weak self] e in
             log.append(e)
@@ -88,8 +96,9 @@ extension AppModel {
     }
 
     /// Scores the sitting and writes `checkCompleted` (kind `final`: the final review unit completes, the best
-    /// score is kept), then writes the examiner export; once the recordings are inside it they are deleted from
-    /// their folder (docs/09: until export or 30 days).
+    /// score is kept), then keeps the sitting's record next to its recordings for **Export for examiner**. Nothing
+    /// is zipped or shared yet (docs/12). If the record can't be saved, the recordings can never be exported, so
+    /// they go at once.
     func completeFinalCheck(_ launch: FinalCheckLaunch) -> FinalCheckOutcome? {
         guard let content, let factory, let final = content.finalCheck else { return nil }
         let model = launch.model
@@ -106,24 +115,30 @@ extension AppModel {
             formats[id] = e.format
             scores[id] = Double(e.score)
         }
-        let export = ExaminerExport(
-            installId: settings.studyInstallId, takenAt: completed.at, tzOffsetMinutes: completed.tzOffsetMin,
-            packVersion: content.packVersion, appVersion: Self.appVersion,
+        let record = ExaminerExport(
+            sittingId: launch.sessionID, checkCompletedEventId: completed.id, installId: settings.studyInstallId,
+            takenAt: completed.at, tzOffsetMinutes: completed.tzOffsetMin, packVersion: content.packVersion,
+            appVersion: Self.appVersion, passMarkPerSection: final.indicativePassPerSection,
             sections: model.sections.map { .init(id: $0.id, title: $0.title, exerciseIds: $0.exerciseIds) },
             result: result, formats: formats, scores: scores, checkAnswers: model.recorder.answers,
             answers: model.log.answers)
-        var url: URL?
+        var export: ExaminerExport?
         do {
-            url = try writeExaminerExport(export)
-            launch.recordings.delete(model.log.recordingURLs)
+            guard let files = finalCheckFiles else { throw CocoaError(.fileNoSuchFile) }
+            try files.save(record)
+            export = record
         } catch {
-            url = nil
+            finalCheckFiles?.deleteSitting(launch.sessionID)
         }
-        return FinalCheckOutcome(result: FinalCheckResultContent(result: result, titles: titles), export: url)
+        finalCheckFilesChanged += 1
+        return FinalCheckOutcome(
+            result: FinalCheckResultContent(
+                result: result, titles: titles, passMark: final.indicativePassPerSection),
+            export: export)
     }
 
-    /// Leaving mid-check: the `session` event once the sitting began, nothing scored, and the sitting's recordings
-    /// deleted (no export will ever hold them).
+    /// Leaving mid-check: the `session` event once the sitting began, nothing scored, and the sitting's folder
+    /// with its recordings deleted (no export will ever hold them).
     func abandonFinalCheck(_ launch: FinalCheckLaunch, activeSeconds: Int) {
         if launch.model.phase != .intro {
             endSession(
@@ -131,36 +146,71 @@ extension AppModel {
         }
         launch.recordings.discardPending()
         launch.recordings.delete(launch.model.log.recordingURLs)
+        finalCheckFiles?.deleteSitting(launch.sessionID)
+        finalCheckFilesChanged += 1
     }
 
-    /// Writes `exports/final-check-<installId>-<date>.zip` (a retake on the same day replaces it).
-    func writeExaminerExport(_ export: ExaminerExport) throws -> URL {
-        guard let directory = examinerExportsDirectory else { throw CocoaError(.fileNoSuchFile) }
-        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        let data = try StoredZip.archive(
-            try export.entries(), modified: export.takenAt, tzOffsetMinutes: export.tzOffsetMinutes)
-        let url = directory.appendingPathComponent(export.fileName)
-        try data.write(to: url, options: .atomic)
-        return url
-    }
-
-    /// The newest examiner export still on this device: the final review unit offers it again.
-    var latestExaminerExport: URL? {
-        guard let directory = examinerExportsDirectory,
-            let files = try? FileManager.default.contentsOfDirectory(
-                at: directory, includingPropertiesForKeys: [.contentModificationDateKey])
-        else { return nil }
-        func modified(_ url: URL) -> Date {
-            (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? .distantPast
+    /// **Export for examiner** (docs/12): builds the zip in `exports/` and hands it to the share sheet. A completed
+    /// share is the successful export: the zip, the recordings and the sitting's record are deleted (docs/09: kept
+    /// until a successful export or 30 days). Any other ending deletes only the zip, so the learner can try again.
+    func exportForExaminer(_ export: ExaminerExport, sharing: any ExportSharing) async -> ExaminerExportResult {
+        guard let files = finalCheckFiles, files.hasSitting(export.sittingId),
+            await belongsToThisLearner(export) == true
+        else { return .failed }
+        let zip: URL
+        do {
+            zip = try files.writeZip(export)
+        } catch {
+            return .failed
         }
-        return files.filter { $0.pathExtension == "zip" }.max { modified($0) < modified($1) }
+        let outcome = await sharing.share(zip)
+        try? FileManager.default.removeItem(at: zip)
+        guard outcome == .completed else { return .cancelled }
+        files.deleteSitting(export.sittingId)
+        finalCheckFilesChanged += 1
+        return .shared
     }
 
-    /// Recordings and exports older than 30 days are deleted (docs/09, docs/12); runs at launch.
-    func purgeExpiredRecordings() {
-        let now = env.clock.nowMs()
-        for directory in [recordingsDirectory, examinerExportsDirectory].compactMap({ $0 }) {
-            SpeakingRecordings.purge(directory: directory, nowMs: now)
+    /// The newest sitting this device can still export, for the final review unit. Sittings whose
+    /// `checkCompleted` the open learner database doesn't hold (progress reset elsewhere, another iCloud account)
+    /// are deleted on the way.
+    func pendingExaminerExport() async -> ExaminerExport? {
+        guard let files = finalCheckFiles else { return nil }
+        for export in files.sittings() {
+            switch await belongsToThisLearner(export) {
+            case true?: return export
+            case false?: files.deleteSitting(export.sittingId)
+            case nil: continue  // the database couldn't be read: keep it
+            }
+        }
+        return nil
+    }
+
+    /// Whether the open learner database holds the sitting's `checkCompleted` event (nil: it couldn't be read).
+    private func belongsToThisLearner(_ export: ExaminerExport) async -> Bool? {
+        guard let store else { return false }
+        await settle()
+        do {
+            return try await store.eventRow(id: export.checkCompletedEventId) != nil
+        } catch {
+            return nil
+        }
+    }
+
+    /// Progress reset or another learner database (an iCloud account switch): no sitting, recording or zip of the
+    /// previous progress stays on the device.
+    func deleteFinalCheckFiles() {
+        finalCheckFiles?.deleteAll()
+        finalCheckFilesChanged += 1
+    }
+
+    /// At launch: sittings older than 30 days, unfinished sittings and leftover zips are deleted (docs/09, docs/12),
+    /// then sittings another learner database left behind.
+    func purgeFinalCheckFiles() async {
+        guard let files = finalCheckFiles else { return }
+        files.purge(nowMs: env.clock.nowMs())
+        for export in files.sittings() {
+            if await belongsToThisLearner(export) == false { files.deleteSitting(export.sittingId) }
         }
     }
 

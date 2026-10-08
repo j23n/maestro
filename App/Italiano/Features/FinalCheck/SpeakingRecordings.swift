@@ -2,14 +2,13 @@ import Foundation
 import LearningCore
 
 /// The final check's speaking recordings (docs/09 § Transcription): every spoken answer records to
-/// `Application Support/Italiano/recordings/<exerciseId>-<attemptId>.m4a` on the recording device (never synced),
-/// for the examiner export (docs/12). The recogniser writes to a pending file while the learner speaks; when the
-/// answer becomes an `attempt` event, the file takes the event's ID. Recordings are deleted once they are inside an
-/// export, or 30 days after they were made, whichever comes first. Platform-neutral and tested.
+/// `Application Support/Italiano/final-check/<sittingId>/<exerciseId>-<attemptId>.m4a` on the recording device
+/// (never synced), for the examiner export (docs/12). The recogniser writes to a pending file while the learner
+/// speaks; when the answer becomes an `attempt` event, the file takes the event's ID. `FinalCheckFiles` deletes the
+/// sitting's folder after a completed share of its export, or 30 days after the check, whichever comes first.
+/// Platform-neutral and tested.
 @MainActor
 final class SpeakingRecordings {
-    nonisolated static let retentionDays = 30
-
     let directory: URL
     private let ids: any UUIDSource
     /// The recording made for each exercise since its last attempt.
@@ -60,7 +59,7 @@ final class SpeakingRecordings {
         pending = [:]
     }
 
-    /// After a successful export: the recordings it holds are deleted from their folder.
+    /// Recordings that will never be exported (the learner left the sitting).
     func delete(_ urls: [URL]) {
         for url in urls { try? FileManager.default.removeItem(at: url) }
         byAttempt = byAttempt.filter { !urls.contains($0.value) }
@@ -73,22 +72,5 @@ final class SpeakingRecordings {
     /// IDs are already file-safe (`final.s01`, UUIDs); this keeps a stray `/` or `:` out of a path anyway.
     nonisolated static func safe(_ s: String) -> String {
         String(s.map { $0 == "/" || $0 == ":" || $0 == "\\" ? "_" : $0 })
-    }
-
-    /// Deletes files in `directory` older than the retention period (at launch). Returns how many went.
-    @discardableResult
-    nonisolated static func purge(directory: URL, nowMs: Int64, days: Int = retentionDays) -> Int {
-        let fm = FileManager.default
-        guard
-            let files = try? fm.contentsOfDirectory(
-                at: directory, includingPropertiesForKeys: [.contentModificationDateKey])
-        else { return 0 }
-        let cutoff = Date(timeIntervalSince1970: Double(nowMs) / 1000 - Double(days) * 86_400)
-        var removed = 0
-        for url in files {
-            let modified = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
-            if let modified, modified < cutoff, (try? fm.removeItem(at: url)) != nil { removed += 1 }
-        }
-        return removed
     }
 }
