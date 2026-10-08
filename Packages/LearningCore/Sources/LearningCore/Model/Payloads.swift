@@ -388,7 +388,8 @@ public enum ExerciseBody: Sendable, Hashable {
 
         public func node(_ id: String) -> ConversationNode? { nodes.first { $0.id == id } }
 
-        /// The register in force at a node: the latest override on the path, else the conversation's.
+        /// The character's register to the learner at a node: the latest override on the path, else the
+        /// conversation's (docs/06 § 12; the learner's own register, `learner_register`, isn't in the payload).
         public func register(at nodeID: String, path: [String]) -> Register {
             for id in (path + [nodeID]).reversed() {
                 if let r = node(id)?.register { return r }

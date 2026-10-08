@@ -369,7 +369,8 @@ These three are used inside many lesson types (story questions, listening, readi
 - id: u02.task.conv1
   format: conversation
   with: ch:giulia
-  register: lei                      # default for every node; a node may override it
+  register: lei                      # Giulia's register to the learner; a node may override it
+  # learner_register: lei            # optional: the learner's register, when it differs (default: `register`)
   title: {en: Order breakfast from Giulia}
   tags: [cd:order-food-drink, cd:ask-price-pay]
   goals: [{id: drink, en: Order a cappuccino}, {id: food, en: "Order something to eat, or say no thanks"}, {id: price, en: Ask how much it is}]
@@ -393,7 +394,8 @@ These three are used inside many lesson types (story questions, listening, readi
     end: {say: "Tre euro, grazie. Buona giornata!", en: "Three euros, thanks. Have a good day!", final: true}
 ```
 
-- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (overrides the conversation's register from this node on: the node where someone offers tu), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`. Lint checks that `start` and every `next` name a node and every `goal` is one of `goals` (and warns about a goal no intent completes).
+- **Registers:** `register` is the register `with` uses to the learner; `learner_register` (optional) is the learner's register to them, for conversations whose two sides differ (Signora Rossi says tu to the learner, who answers with Lei: `register: tu`, `learner_register: lei`); without it both sides use `register`. A node's `register` sets both sides' register from that node on (the node where someone offers tu). Check 5 tests each side against its own story-bible direction (`docs/04` § Check 5). The pack payload carries `register` and the nodes' overrides but not `learner_register`, since nothing in the app reads a register yet; add it to the payload contract when something does.
+- **Nodes:** `say` and `en` (the character's line), `expect` (intents, each with a `goal`, `accept` patterns and `next`), optional `near` (register slips and common errors, with a hint; see `u02.l1.ex25` node n3), `help` (phrases offered as chips), `hint_en`, optional `register` (from this node on, for both sides; above), and `final: true` on end nodes. A conversation may have several final nodes (different prices for different orders), and needs at least one. Final nodes have no `expect` or `help`; every other node has `expect`. Lint checks that `start` and every `next` name a node and every `goal` is one of `goals` (and warns about a goal no intent completes).
 - **Layout:** follows `Dialogue.png`. The character's name is in small caps over their line; the learner's turns are labelled **YOU** in the accent colour. On regular width, the goals checklist and "Stuck? You could say:" help chips sit in the right column. Bottom bar: **Type instead**, the mic (primary), **Hear Giulia again**. **Show English** toggles translations. On iPhone the goals collapse above the transcript.
 - **Turn matching:** typed turns use the typed grader (accepted if `correct`, `correctWithNote` or `almost`); spoken turns use the transcript matcher.
 - **First miss:** show the matching `near` hint, else `hint_en`, and the help chips. **Second miss:** "You could say: …" — the learner repeats or types it, or taps Continue — and the conversation follows the first intent's `next`.

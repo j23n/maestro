@@ -246,7 +246,7 @@
         "near": {"type": "array", "items": {"$ref": "#/$defs/near"}},
         "help": {"type": "array", "items": {"$ref": "#/$defs/tokenizedText"}},
         "hintEn": {"$ref": "#/$defs/nullableString"},
-        "register": {"enum": ["tu", "lei", null], "description": "overrides the conversation's register from this node on"},
+        "register": {"enum": ["tu", "lei", null], "description": "overrides the conversation's register from this node on (for both sides)"},
         "final": {"type": "boolean"}
       }
     },
@@ -256,7 +256,7 @@
       "properties": {
         "format": {"const": "conversation"},
         "with": {"$ref": "#/$defs/id"},
-        "register": {"enum": ["tu", "lei"]},
+        "register": {"enum": ["tu", "lei"], "description": "the character's register to the learner; the content's learner_register is not carried (docs/06 § 12)"},
         "titleEn": {"type": "string"},
         "goals": {"type": "array", "items": {"type": "object", "required": ["id", "en"], "properties": {"id": {"type": "string"}, "en": {"type": "string"}}}},
         "start": {"type": "string"},

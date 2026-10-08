@@ -15,7 +15,8 @@ from conftest import needs_data
 from itcontent.annotate import run_annotate
 from itcontent.checks import CheckResult, run_check, run_checks
 from itcontent.checks.context import load_context
-from itcontent.checks.story import Matrix, node_registers
+from itcontent.checks.story import Matrix, learner_registers, node_registers
+from itcontent.lint import lint_findings
 
 pytestmark = needs_data
 
@@ -275,6 +276,56 @@ def test_conversation_register_and_unknown_speakers(repo):
     assert any("speaker ch:nobody isn't in story-bible.yaml" in m for m in errs)
 
 
+EX25_REGISTER = "      with: ch:giulia\n      register: lei\n"
+
+
+def test_learner_register_is_checked_against_the_learners_direction(repo):
+    # Signora Rossi says tu to the learner, who answers with Lei (story bible: ch:rossi → ch:you tu, the other way lei)
+    edit(repo, LESSON, EX25_REGISTER, "      with: ch:rossi\n      register: tu\n      learner_register: lei\n")
+    edit(repo, LESSON, 'help: ["Grazie! Quant\'è?"]', 'help: ["Grazie! E tu?"]')  # the learner's turn: tu in a Lei turn
+    edit(repo, LESSON, 'say: "Tre euro, grazie."', 'say: "Tre euro, grazie. E Lei?"')  # hers: Lei in a tu line
+    assert [str(f) for f in lint_findings(repo) if f.level == "error"] == []
+    result = annotate_and_check(repo)
+    assert messages(result, check=5) == []
+    warnings = messages(result, "warning", 5)
+    assert len(warnings) == 2, warnings
+    assert any(
+        "the learner's turn in conversation u02.l1.ex25/n2 is lei but has second-person-singular form(s) 'tu'" in m
+        for m in warnings
+    )
+    assert any("conversation u02.l1.ex25/n3 is tu but has formal form(s) 'Lei'" in m for m in warnings)
+
+
+def test_each_side_of_a_conversation_reports_its_own_register(repo):
+    edit(repo, LESSON, EX25_REGISTER, "      with: ch:rossi\n      register: lei\n      learner_register: tu\n")
+    # a node's register holds for both sides from that node on: she may say tu, the learner may not
+    edit(repo, LESSON, '        n3:\n          say: "Tre', '        n3:\n          register: tu\n          say: "Tre')
+    result = annotate_and_check(repo)
+    errs = messages(result, check=5)
+    assert len(errs) == 3, errs
+    assert any(
+        ".exercise.register (line" in m
+        and "conversation u02.l1.ex25: ch:rossi says lei to ch:you at u02.l1.step-use, but the story bible says tu" in m
+        for m in errs
+    ), errs
+    assert any(
+        ".exercise.learner_register (line" in m
+        and "conversation u02.l1.ex25: ch:you says tu to ch:rossi at u02.l1.step-use, but the story bible says lei" in m
+        for m in errs
+    ), errs
+    assert any(
+        ".exercise.nodes.n3.register (line" in m
+        and "conversation u02.l1.ex25 from node n3: ch:you says tu to ch:rossi" in m
+        for m in errs
+    ), errs
+
+
+def test_learner_register_is_tu_or_lei(course_copy):
+    edit(course_copy, LESSON, EX25_REGISTER, EX25_REGISTER + "      learner_register: formal\n")
+    errs = [str(f) for f in lint_findings(course_copy) if f.level == "error"]
+    assert len(errs) == 1 and ".exercise.learner_register (line" in errs[0], errs
+
+
 def test_register_matrix_precedence_and_switch_points(seed):
     ctx = seed.ctx
     m = Matrix(ctx)
@@ -323,6 +374,16 @@ def test_node_registers_follow_the_graph():
         },
     }
     assert node_registers(ex) == {"a": ("lei", None), "b": ("tu", "b"), "c": ("tu", "b"), "z": ("lei", None)}
+    # without `learner_register` the learner says what the character says
+    assert learner_registers(ex, node_registers(ex)) == node_registers(ex)
+    # with it, the learner keeps their own register until a node's `register`, which holds for both from there on
+    ex = {**ex, "register": "tu", "learner_register": "lei"}
+    assert learner_registers(ex, node_registers(ex)) == {
+        "a": ("lei", None),
+        "b": ("tu", "b"),
+        "c": ("tu", "b"),
+        "z": ("lei", None),
+    }
 
 
 # ---------------------------------------------------------------- check 4: alignment

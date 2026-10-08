@@ -8,11 +8,14 @@
   before its `switch_at` step, both registers at that step and `then` after it (course order, docs/06 § Unit-level
   steps; a step of a lesson that isn't written yet sits at that lesson's start). A pair no row covers is an error too:
   the register can't be checked, so the story bible needs a row.
-- **Conversations** are between their `with` character and `ch:you`, in the conversation's `register`, or a node's
-  `register` from that node on; both directions must be allowed at the conversation's step.
+- **Conversations** are between their `with` character and `ch:you`. The character speaks to the learner in the
+  conversation's `register`; the learner answers in its `learner_register` (default: the same register). A node's
+  `register` sets both sides' register from that node on (someone offers tu). Each direction must be allowed at the
+  conversation's step: `with` → `ch:you` in the character's register, `ch:you` → `with` in the learner's.
 - **Heuristic warnings:** a second-person-singular form (a verb whose every reading is 2nd singular, or *tu, ti, te,
   tuo, tua, tuoi, tue*) in a `lei` line, and formal *Lei, Suo, Sua, Suoi, Sue* (or *La, Le* inside a sentence or in a
-  chunk) in a `tu` line. Conversation lines are checked with the node's register.
+  chunk) in a `tu` line. In a conversation, the character's lines (`say`) are checked with the character's register
+  at their node, the learner's (`help` and the model answer) with the learner's.
 
 Everything else about the story (ages, places, prices, the timeline) is the content-critic's job.
 """
@@ -198,22 +201,29 @@ class StoryCheck:
                 self.ctx.add("error", 5, "speaker", x.loc.child("with"), f"{partner} isn't in story-bible.yaml")
                 continue
             regs = node_registers(ex)
-            checked: set[tuple[str, str | None]] = set()
-            for _nid, (reg, source) in sorted(regs.items()):
-                if not isinstance(reg, str) or (reg, source) in checked:
-                    continue
-                checked.add((reg, source))
-                loc = x.loc.child("nodes", source, "register") if source else x.loc.child("register")
-                what = f"conversation {x.id}" + (f" from node {source}" if source else "")
-                self.register(loc, partner, YOU, reg, place.pos, place.step, what)
-                self.register(loc, YOU, partner, reg, place.pos, place.step, what)
+            learner = learner_registers(ex, regs)
+            own = "learner_register" if isinstance(ex.get("learner_register"), str) else "register"
+            for speaker, to, table, key in ((partner, YOU, regs, "register"), (YOU, partner, learner, own)):
+                checked: set[tuple[str, str | None]] = set()
+                for _nid, (reg, source) in sorted(table.items()):
+                    if not isinstance(reg, str) or (reg, source) in checked:
+                        continue
+                    checked.add((reg, source))
+                    loc = x.loc.child("nodes", source, "register") if source else x.loc.child(key)
+                    what = f"conversation {x.id}" + (f" from node {source}" if source else "")
+                    self.register(loc, speaker, to, reg, place.pos, place.step, what)
             for s in strings.get(x.id, []):
-                node = s.path[s.path.index("nodes") + 1] if "nodes" in s.path else None
-                reg = regs.get(str(node), (None, None))[0] if node is not None else None
-                if not isinstance(reg, str):
+                node = str(s.path[s.path.index("nodes") + 1]) if "nodes" in s.path else None
+                if node is None:
                     continue
-                if s.role == "say" or s.role == "help" or (s.role == "accept" and s.model):
-                    self.heuristics(s, reg, f"conversation {x.id}/{node}")
+                if s.role == "say":
+                    reg, what = regs.get(node, (None, None))[0], f"conversation {x.id}/{node}"
+                elif s.role == "help" or (s.role == "accept" and s.model):
+                    reg, what = learner.get(node, (None, None))[0], f"the learner's turn in conversation {x.id}/{node}"
+                else:
+                    continue
+                if isinstance(reg, str):
+                    self.heuristics(s, reg, what)
 
     # ------------------------------------------------------------ heuristics
 
@@ -270,6 +280,18 @@ def node_registers(ex: dict[str, Any]) -> dict[str, tuple[str | None, str | None
             node = _map(node)
             out[nid] = (node["register"], nid) if isinstance(node.get("register"), str) else (base, None)
     return out
+
+
+def learner_registers(
+    ex: dict[str, Any], regs: dict[str, tuple[str | None, str | None]]
+) -> dict[str, tuple[str | None, str | None]]:
+    """Each node's register for the learner's turns and the node that set it (None: the conversation's), given the
+    character's (`node_registers`): the conversation's `learner_register` until a node's `register`, which holds for
+    both sides from that node on; without `learner_register`, the character's register (both sides say the same)."""
+    own = ex.get("learner_register")
+    if not isinstance(own, str):
+        return dict(regs)
+    return {nid: (own, None) if source is None else (reg, source) for nid, (reg, source) in regs.items()}
 
 
 def check_story(ctx: CheckContext) -> None:

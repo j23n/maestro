@@ -5,13 +5,12 @@ id: u01.task
 review: {status: draft, by: null, date: null, hash: null}
 
 conversations:
-  # Signora Rossi says tu to you; you answer with Lei (story-bible registers). The conversation's `register` is the
-  # learner's. KNOWN ISSUE (docs/13 § Proposed changes, 2026-10-08): check 5 tests both directions against one
-  # register, so this asymmetric conversation reports ch:rossi → ch:you as an error until the checker learns it.
+  # Signora Rossi says tu to you (`register`); you answer with Lei (`learner_register`), as the story bible says.
   - id: u01.task.conv1
     format: conversation
     with: ch:rossi
-    register: lei
+    register: tu
+    learner_register: lei
     title: {en: "Meet Signora Rossi"}
     tags: [cd:introduce-yourself, cd:say-where-from, cd:choose-tu-lei]
     goals:
