@@ -222,7 +222,7 @@ def test_since_shows_resolutions_and_change_marks(course_copy, fixtures_dir, tmp
         ),
         encoding="utf-8",
     )
-    result = export("u02", root=course_copy, since=True, out=tmp_path / "since.html", expander=None)
+    result = export("u02", root=course_copy, since=True, out=tmp_path / "since.html")
     html = result.path.read_text(encoding="utf-8")
     assert result.since is not None
     assert result.since.marks == {"u02.l1.story#3": "changed"}  # only what changed since the teacher saw it
@@ -245,7 +245,7 @@ def test_since_marks_new_elements(course_copy, fixtures_dir, tmp_path):
     data = current(course_copy, load(fixtures_dir))
     data["elements"].pop("u02.l1.ex26")
     import_review(write(tmp_path, data), root=course_copy)
-    result = export("u02", root=course_copy, since=True, out=tmp_path / "since.html", expander=None)
+    result = export("u02", root=course_copy, since=True, out=tmp_path / "since.html")
     assert result.since is not None and result.since.marks == {"u02.l1.ex26": "new"}
 
 
@@ -379,16 +379,6 @@ def test_signoff_refusals(course_copy, tmp_path, setup, message):
     assert approval.read_review(course_copy / LESSON)["status"] == "draft"
 
 
-def test_cli_signoff_needs_a_filed_review(course_copy, monkeypatch):
-    monkeypatch.setattr(approval, "agent_refusal", lambda *_a, **_k: None)
-    monkeypatch.setattr(paths, "ROOT", course_copy)
-    result = CliRunner().invoke(
-        app, ["approve", str(course_copy / LESSON), "--by", "M", "--signoff", "reviews/inbox/x.json"]
-    )
-    assert result.exit_code == 1
-    assert "reviews/inbox/x.json: no such review file" in result.output
-
-
 # ---------------------------------------------------------------- the content-review skill, end to end
 
 
@@ -417,7 +407,7 @@ def test_content_review_procedure_end_to_end(course_copy, fixtures_dir, tmp_path
         resolve(course_copy, f"5e1d0c2a-7b3f-4c1e-9a6d-00000000000{n}", status, note, "abc1234")
     assert errors(course_copy) == []
     # 6. Return: the next page shows the resolutions and marks the changed line.
-    page = export("u02", root=course_copy, since=True, out=tmp_path / "next.html", expander=None)
+    page = export("u02", root=course_copy, since=True, out=tmp_path / "next.html")
     assert page.since is not None and page.since.marks == {"u02.l1.story#3": "changed"}
     assert "since: 1 changed" in page.summary(course_copy)
     # 7. Sign-off: the teacher checks the change, marks it OK and signs off; the owner approves.

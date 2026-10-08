@@ -41,7 +41,6 @@ from itcontent.review_elements import (
     build_page,
     esc,
     md,
-    pattern_expander,
     tag,
 )
 
@@ -215,8 +214,8 @@ HOW_TO = (
 )
 PATTERNS_LEGEND = (
     "<p>Answer patterns: <code>{a|b}</code> means a or b, <code>(…)</code> is optional, <code>[…]</code> is checked "
-    "strictly (no typos allowed), <code>{NAME}</code> is the learner's name. The first answer is the model answer "
-    "learners are shown.</p>"
+    "strictly (no typos allowed; underlined in the answers), <code>{NAME}</code> is the learner's name. The first "
+    "answer is the model answer learners are shown.</p>"
 )
 
 
@@ -338,9 +337,6 @@ class ExportResult:
         return out
 
 
-_DEFAULT: Any = object()
-
-
 def export(
     scope: str,
     *,
@@ -348,20 +344,24 @@ def export(
     since: bool = False,
     rejected: Path | None = None,
     out: Path | None = None,
-    expander: Expander | None = _DEFAULT,
+    expander: Expander | None = None,
     audio: Any = None,
 ) -> ExportResult:
-    """Write the review page for `scope` and return what was written. `expander` defaults to M1.4's (if present)."""
+    """Write the review page for `scope` and return what was written. `expander` defaults to the grader's
+    (`itcontent.patterns.expand`); tests may pass another."""
     root = (root or paths.ROOT).resolve()
     course = load_course(root)
-    ctx = Context.build(course, expander=pattern_expander() if expander is _DEFAULT else expander, audio=audio)
+    ctx = Context.build(course, expander=expander, audio=audio)
     model = build_page(ctx, scope)
     ledger_entries = entries(root)
     adj = adjudication_section(ctx, rejected_answers(rejected, scope, [e.data for e in ledger_entries]))
     if adj is not None:
         model.sections.insert(0, adj)
     open_entries = [e for e in ledger_entries if e.unresolved and e.data.get("file") in model.files]
-    exists = lambda t: target_problem(course, ctx.index, t) is None  # noqa: E731
+
+    def exists(target: str) -> bool:
+        return target_problem(course, ctx.index, target) is None
+
     info = since_info(root, model, ledger_entries, exists) if since else None
     path = out or root / "build" / "review" / scope / "index.html"
     path.parent.mkdir(parents=True, exist_ok=True)

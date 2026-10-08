@@ -7,26 +7,24 @@ HTML body that shows everything a learner would meet, plus what a learner never 
 (expanded and grouped), the near-misses with their hints, conversation trees, glosses and notes. Fields without a
 dedicated rendering are listed generically, so the page never hides what a file says.
 
-Two seams wait for later tasks:
+Accepted answers are expanded with the grader's own expander (`itcontent.patterns.expand`, docs/03 § The
+answer-pattern language) and shown as written (`Expansion.raw`: case and punctuation kept), focus parts marked; a
+pattern that doesn't parse shows its `PatternError` instead. Personal slots stay placeholders (`{NAME}`).
 
-- **Answer patterns (M1.4).** `pattern_expander()` uses `itcontent.patterns` when that module exists. Until then the
-  page shows each pattern's source and its model answer (the first choice of every `{…}`, optional parts present);
-  `display_model_answer` is that display-only stand-in, never used for grading.
-- **Audio (M5.1).** `Context.audio` maps a target to an audio URL (a `data:` URI keeps the page self-contained); the
-  page then shows a player. It returns None until `content tts` exists.
+Audio waits for M5.1: `Context.audio` maps a target to an audio URL (a `data:` URI keeps the page self-contained),
+and the page then shows a player. It returns None until `content tts` exists.
 """
 
 from __future__ import annotations
 
 import hashlib
 import html
-import importlib
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
-from itcontent import ids
+from itcontent import ids, patterns
 from itcontent.course import Course, Doc, UnitFiles, lesson_steps
 from itcontent.course import texts as all_texts
 from itcontent.index import Index, build_index
@@ -83,63 +81,23 @@ class PageModel:
         return [e for s in self.sections for e in s.elements]
 
 
-# ---------------------------------------------------------------- answer patterns (seam for M1.4)
+# ---------------------------------------------------------------- answer patterns
 
 
-def pattern_expander() -> Expander | None:
-    """The answer-pattern expander of task M1.4 (`itcontent.patterns`), when it exists."""
-    try:
-        mod = importlib.import_module("itcontent.patterns")
-    except ImportError:
-        return None
-    for name in ("expand", "expansions", "expand_pattern"):
-        fn = getattr(mod, name, None)
-        if callable(fn):
-            return fn
-    return None
+def expansion_html(x: Any) -> str:
+    """One expansion as written, focus parts (graded strictly) marked."""
+    if isinstance(x, str):
+        return esc(x)
+    raw = str(getattr(x, "raw", getattr(x, "text", x)))
+    out, pos = [], 0
+    for start, end in sorted(getattr(x, "raw_focus", ()) or ()):
+        out.append(esc(raw[pos:start]) + f'<b class="focus">{esc(raw[start:end])}</b>')
+        pos = end
+    return "".join(out) + esc(raw[pos:])
 
 
-def _as_strings(result: Any) -> list[str]:
-    seq = getattr(result, "expansions", result)
-    return [x if isinstance(x, str) else str(getattr(x, "text", x)) for x in seq]
-
-
-_SLOT = re.compile(r"\{(?:NAME|NUMBER|ME\.[a-z]+)\}")
-
-
-def display_model_answer(source: str) -> str:
-    """The model answer as the page shows it while the expander is missing: the first alternative of every `{…}`
-    (the `m:` form of a gendered pair), optional `(…)` parts present, focus brackets dropped, escapes resolved,
-    personal slots kept as written. Display only; the grader uses the M1.4 expander."""
-    out: list[str] = []
-    stack: list[bool] = []  # one entry per open `{`: True once its first alternative has ended
-    i = 0
-    while i < len(source):
-        ch = source[i]
-        skipping = any(stack)
-        if ch == "\\" and i + 1 < len(source):
-            if not skipping:
-                out.append(source[i + 1])
-            i += 2
-            continue
-        slot = _SLOT.match(source, i)
-        if slot:
-            if not skipping:
-                out.append(slot.group(0))
-            i = slot.end()
-            continue
-        if ch == "{":
-            stack.append(False)
-            if source.startswith(("m:", "f:"), i + 1):
-                i += 2
-        elif ch == "|" and stack:
-            stack[-1] = True
-        elif ch == "}" and stack:
-            stack.pop()
-        elif ch not in "[]()" and not skipping:
-            out.append(ch)
-        i += 1
-    return " ".join("".join(out).split())
+def expansion_text(x: Any) -> str:
+    return x if isinstance(x, str) else str(getattr(x, "raw", getattr(x, "text", x)))
 
 
 # ---------------------------------------------------------------- HTML helpers
@@ -295,7 +253,7 @@ def anchor(key: str) -> str:
 class Context:
     course: Course
     index: Index
-    expander: Expander | None = None
+    expander: Expander = patterns.expand
     audio: Callable[[str], str | None] = lambda _target: None
     items: dict[str, dict[str, Any]] = field(default_factory=dict)
     points: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -308,7 +266,7 @@ class Context:
     def build(
         cls, course: Course, *, expander: Expander | None = None, audio: Callable[[str], str | None] | None = None
     ) -> Context:
-        ctx = cls(course, build_index(course), expander)
+        ctx = cls(course, build_index(course), expander or patterns.expand)
         if audio is not None:
             ctx.audio = audio
         ctx.items = course.item_map()
@@ -363,18 +321,19 @@ class Context:
 
     # ------------------------------------------------------------ answer patterns
 
-    def expand(self, source: str) -> tuple[list[str] | None, str | None]:
-        """(expansions, problem); (None, None) without the expander."""
-        if self.expander is None:
-            return None, None
+    def expand(self, source: str) -> tuple[list[Any] | None, str | None]:
+        """(expansions, problem): the expander's expansions, or None and why the pattern doesn't expand."""
         try:
-            return _as_strings(self.expander(source)), None
-        except Exception as exc:  # a pattern that doesn't parse: the page shows the problem
+            return list(self.expander(source)), None
+        except patterns.PatternError as exc:
+            return None, f"Pattern error: {exc}"
+        except Exception as exc:  # any other expander failure is shown, never hidden
             return None, f"{type(exc).__name__}: {exc}"
 
     def model(self, source: str) -> str:
+        """The model answer (first expansion) as written; the pattern itself when it doesn't expand."""
         exp, _ = self.expand(source)
-        return exp[0] if exp else display_model_answer(source)
+        return expansion_text(exp[0]) if exp else source
 
     def model_line(self, source: str, *, before: str = "", after: str = "") -> str:
         return row("Model answer", it(before + self.model(source) + after), "model-answer")
@@ -389,23 +348,22 @@ class Context:
                 groups.append(f'<div class="pat">{head}{tag(problem, "problem") if problem else ""}</div>')
                 continue
             lis = "".join(
-                f'<li lang="it"{_cls(model and i == 0 and j == 0, "model")}>{esc(x)}</li>' for j, x in enumerate(exp)
+                f'<li lang="it"{_cls(model and i == 0 and j == 0, "model")}>{expansion_html(x)}</li>'
+                for j, x in enumerate(exp)
             )
             count = tag(f"{len(exp)} answer{'s' if len(exp) != 1 else ''}", "count")
             groups.append(f'<div class="pat">{head} {count}<ol class="exp">{lis}</ol></div>')
-        if not groups:
-            return ""
-        legend = "" if self.expander else '<p class="legend">Patterns, not expanded in this export.</p>'
-        return f'<div class="answers"><h4>{esc(title)}</h4>{legend}{"".join(groups)}</div>'
+        return f'<div class="answers"><h4>{esc(title)}</h4>{"".join(groups)}</div>' if groups else ""
 
     def nears(self, near: Any) -> str:
         lis = []
         for n in (_map(x) for x in _seq(near)):
             src = str(n.get("answer", ""))
-            exp, _ = self.expand(src)
+            exp, problem = self.expand(src)
+            shown = " · ".join(expansion_text(x) for x in exp) if exp else src
             outcome = tag("nearly right", "tag almost") if n.get("outcome") == "almost" else tag("wrong")
             lis.append(
-                f"<li>{it(' · '.join(exp) if exp else src)} {outcome}"
+                f"<li>{it(shown)} {outcome}{(' ' + tag(problem, 'problem')) if problem else ''}"
                 f'<div class="near-hint">{md(n.get("hint") or "")}</div>{rest(n, {"answer", "outcome", "hint"})}</li>'
             )
         return f'<div class="nears"><h4>Near-misses</h4><ul>{"".join(lis)}</ul></div>' if lis else ""

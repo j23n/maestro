@@ -19,7 +19,7 @@ from typer.testing import CliRunner
 from itcontent import review, schemas
 from itcontent.cli import app
 from itcontent.course import load_course
-from itcontent.review_elements import Context, build_page, display_model_answer
+from itcontent.review_elements import Context, build_page
 from itcontent.review_export import export, render_page
 
 SNAPSHOTS = Path(__file__).parent / "snapshots"
@@ -56,13 +56,13 @@ def _check_snapshot(name: str, text: str) -> None:
 
 @pytest.mark.parametrize("scope", ["u02", "specs"])
 def test_page_snapshot(mini, scope, tmp_path):
-    result = export(scope, root=mini, out=tmp_path / "index.html", expander=None)
+    result = export(scope, root=mini, out=tmp_path / "index.html")
     _check_snapshot(f"review-{scope}.html", _pretty(_strip_assets(result.path.read_text(encoding="utf-8"))))
 
 
 def test_page_is_self_contained_and_deterministic(mini, tmp_path):
-    a = export("u02", root=mini, out=tmp_path / "a.html", expander=None).path.read_text(encoding="utf-8")
-    b = export("u02", root=mini, out=tmp_path / "b.html", expander=None).path.read_text(encoding="utf-8")
+    a = export("u02", root=mini, out=tmp_path / "a.html").path.read_text(encoding="utf-8")
+    b = export("u02", root=mini, out=tmp_path / "b.html").path.read_text(encoding="utf-8")
     assert a == b
     assert not re.search(r"""(?:src|href)=["']?(?:https?:)?//""", a), "no network: everything is inline"
     assert "<link" not in a and "<script src" not in a
@@ -150,40 +150,34 @@ def test_docs13_hash_covers_only_the_content_questions(tmp_path, mini):
     assert review.version_hash(tmp_path / "c", review.DECISIONS) != before
 
 
-# ---------------------------------------------------------------- the answer-pattern seam (M1.4)
+# ---------------------------------------------------------------- accepted answers, expanded
 
 
-@pytest.mark.parametrize(
-    ("pattern", "model"),
-    [
-        ("un [cornetto]", "un cornetto"),
-        ("{quant'è|quanto è|quanto costa}", "quant'è"),
-        ("{vorrei|io vorrei} un cappuccino( {per favore|grazie})", "vorrei un cappuccino per favore"),
-        ("(buongiorno )(vorrei )un cappuccino( per favore)", "buongiorno vorrei un cappuccino per favore"),
-        ("sono {m:americano|f:americana}", "sono americano"),
-        ("mi chiamo {NAME}", "mi chiamo {NAME}"),
-        (r"\{x\} e \(y\)", "{x} e (y)"),
-        ("{una [spremuta]|una [spremuta] d'arancia}", "una spremuta"),
-    ],
-)
-def test_display_model_answer(pattern, model):
-    assert display_model_answer(pattern) == model
-
-
-def test_the_expander_lights_up_expanded_answers(mini):
-    """With M1.4's expander (here a stand-in), every accepted answer is listed, the first one as the model answer."""
-
-    def fake_expand(source: str) -> list[str]:
-        if "broken" in source:
-            raise ValueError("unbalanced {")
-        return [display_model_answer(source), display_model_answer(source) + " (alt)"]
-
-    ctx = Context.build(load_course(mini), expander=fake_expand)
+def test_accepted_answers_are_expanded_with_the_graders_expander(mini):
+    """Every accepted answer as written, grouped by pattern, focus underlined, the model answer first (docs/03)."""
+    ctx = Context.build(load_course(mini))
     by = {e.target: e for e in build_page(ctx, "u02").elements()}
-    body = by["u02.l1.ex04"].body
-    assert '<li lang="it" class="model">un cornetto</li><li lang="it">un cornetto (alt)</li>' in body
-    assert "2 answers" in body and "not expanded" not in body
-    assert "ValueError: unbalanced {" in ctx.answers(["broken {"])
+    ex04 = by["u02.l1.ex04"].body
+    assert '<li lang="it" class="model">un <b class="focus">cornetto</b></li>' in ex04 and "1 answer<" in ex04
+    assert 'Model answer</span> <span lang="it" class="it">un cornetto</span>' in ex04
+    node = by["u02.l1.ex25/n1"].body
+    assert "8 answers" in node  # (buongiorno )(vorrei )un cornetto( per favore)
+    assert '<li lang="it" class="model">buongiorno vorrei un cornetto per favore</li>' in node
+    assert '<li lang="it">un cornetto</li>' in node
+    assert "vorrei una cornetto · una cornetto" in node  # near-miss patterns expanded too
+    amico = by["w:amico"].body
+    assert "4 answers" in amico and '<li lang="it" class="model">l&#x27;amico</li>' in amico
+    cloze = by["u02.l1.ex01"].body
+    assert '<mark class="gap">un</mark>' in cloze and "Vorrei un cornetto, per favore." in cloze
+    assert ctx.model("{quant'è|quanto è}") == "quant'è"
+    assert "Pattern error: unknown slot {NOME}" in ctx.answers(["mi chiamo {NOME}"])
+    assert ctx.model("mi chiamo {NOME}") == "mi chiamo {NOME}"  # a broken pattern is shown as written
+
+
+def test_another_expander_can_be_passed(mini):
+    ctx = Context.build(load_course(mini), expander=lambda source: [source.upper(), "alt"])
+    body = {e.target: e for e in build_page(ctx, "u02").elements()}["u02.l1.ex04"].body
+    assert '<li lang="it" class="model">UN [CORNETTO]</li><li lang="it">alt</li>' in body and "2 answers" in body
 
 
 # ---------------------------------------------------------------- categories are one list everywhere

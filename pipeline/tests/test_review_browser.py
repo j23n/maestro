@@ -84,7 +84,7 @@ def _download(page: Any, click: Any, into: Path) -> dict[str, Any]:
 
 
 def test_comment_autosave_download_and_sign_off(page, course_copy, tmp_path):
-    result = export("u02", root=course_copy, out=tmp_path / "u02.html", expander=None)
+    result = export("u02", root=course_copy, out=tmp_path / "u02.html")
     files = result.model.files
     _open(page, result.path)
     page.fill("#reviewer", "Maria Rossi")
