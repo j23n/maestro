@@ -1,3 +1,4 @@
+import CoreTransferable  // `Transferable`, `FileRepresentation` (the learner database export)
 import LearningCore
 import SwiftUI
 import UniformTypeIdentifiers
