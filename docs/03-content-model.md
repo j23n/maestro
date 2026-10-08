@@ -353,7 +353,7 @@ CREATE TABLE sync_pending (record_name TEXT PRIMARY KEY, kind TEXT NOT NULL, add
 CREATE TABLE telemetry_sent (event_id TEXT PRIMARY KEY, batch_id TEXT NOT NULL, sent_at INTEGER NOT NULL);
 
 -- this install: device-local, never synced, never rebuilt
-CREATE TABLE local_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);  -- device_id (a lowercase UUID, created with the file)
+CREATE TABLE local_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);  -- device_id (a lowercase UUID, created with the file); icloud_account (the CloudKit user record name the file syncs with, docs/08)
 ```
 
 Events are never updated or deleted; upload state lives in `telemetry_sent`, sync state in `sync_pending`. The one exception is `LearnerStore.eraseProgress()`, which deletes every event, the derived state and the synced settings in one transaction, for Reset and for the zone deleted or purged on another device (`docs/08`). An event's `payload` is stored as written (this device's canonical JSON) or as received (another device's bytes), so fields a newer client added survive a re-upload. Bump `derived_version` whenever reducer logic changes. On launch, a mismatch of `derived_version`, or of the pack's `meta.content_hash` against `derived_meta.content_hash`, triggers `rebuildAll()`.
