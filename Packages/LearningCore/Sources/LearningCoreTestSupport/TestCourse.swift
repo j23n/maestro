@@ -1,7 +1,9 @@
 import Foundation
+import LearningCore
 
-@testable import LearningCore
-
+/// Test support shared by the LearningCore and Storage tests (`fixtures/replay/*.json` refer to this course). Public
+/// API of LearningCore only; never linked into the app.
+///
 /// A synthetic course shaped like the golden Unit 2 Lesson 1 (docs/06): per unit an opener, one lesson (preview,
 /// story, note, practice with block and mix, sounds in even units, use), a task conversation and talk, a check with
 /// four sections, and fluency replay; placement blocks for Units 1–8 and a final check. `step_introduces` comes from
@@ -10,35 +12,35 @@ import Foundation
 /// IDs per unit `uNN`: nouns `w:uNN-n1…n4` (P, alternating m/f, recall scheduled), adverb `w:uNN-a1` (P), story word
 /// `w:uNN-s1` (R, read scheduled, introduced by the story), chunk `c:uNN-c1` (P, exemplifies `g:uNN-gr`), grammar
 /// `g:uNN-gp` (P, recall scheduled) and `g:uNN-gr` (R, read scheduled), sound `s:uNN-s` (even units, listen).
-enum TestCourse {
-    static func u(_ k: Int) -> String { String(format: "u%02d", k) }
-    static func noun(_ k: Int, _ j: Int) -> ItemID { ItemID("w:\(u(k))-n\(j)") }
-    static func adverb(_ k: Int) -> ItemID { ItemID("w:\(u(k))-a1") }
-    static func storyWord(_ k: Int) -> ItemID { ItemID("w:\(u(k))-s1") }
-    static func chunk(_ k: Int) -> ItemID { ItemID("c:\(u(k))-c1") }
-    static func grammarP(_ k: Int) -> ItemID { ItemID("g:\(u(k))-gp") }
-    static func grammarR(_ k: Int) -> ItemID { ItemID("g:\(u(k))-gr") }
-    static func sound(_ k: Int) -> ItemID { ItemID("s:\(u(k))-s") }
-    static func step(_ k: Int, _ name: String) -> StepID { StepID("\(u(k)).l1.step-\(name)") }
-    static func unitStep(_ k: Int, _ name: String) -> StepID { StepID("\(u(k)).step-\(name)") }
-    static func ex(_ k: Int, _ n: Int) -> ExerciseID { ExerciseID(String(format: "\(u(k)).l1.ex%02d", n)) }
-    static func checkEx(_ k: Int, _ n: Int) -> ExerciseID { ExerciseID(String(format: "\(u(k)).check.%02d", n)) }
-    static func checkId(_ k: Int) -> CheckID { CheckID("\(u(k)).check") }
-    static func unitId(_ k: Int) -> UnitID { UnitID(u(k)) }
-    static func canDo(_ k: Int, _ x: String) -> CanDoID { CanDoID("cd:\(u(k))-\(x)") }
+public enum TestCourse {
+    public static func u(_ k: Int) -> String { String(format: "u%02d", k) }
+    public static func noun(_ k: Int, _ j: Int) -> ItemID { ItemID("w:\(u(k))-n\(j)") }
+    public static func adverb(_ k: Int) -> ItemID { ItemID("w:\(u(k))-a1") }
+    public static func storyWord(_ k: Int) -> ItemID { ItemID("w:\(u(k))-s1") }
+    public static func chunk(_ k: Int) -> ItemID { ItemID("c:\(u(k))-c1") }
+    public static func grammarP(_ k: Int) -> ItemID { ItemID("g:\(u(k))-gp") }
+    public static func grammarR(_ k: Int) -> ItemID { ItemID("g:\(u(k))-gr") }
+    public static func sound(_ k: Int) -> ItemID { ItemID("s:\(u(k))-s") }
+    public static func step(_ k: Int, _ name: String) -> StepID { StepID("\(u(k)).l1.step-\(name)") }
+    public static func unitStep(_ k: Int, _ name: String) -> StepID { StepID("\(u(k)).step-\(name)") }
+    public static func ex(_ k: Int, _ n: Int) -> ExerciseID { ExerciseID(String(format: "\(u(k)).l1.ex%02d", n)) }
+    public static func checkEx(_ k: Int, _ n: Int) -> ExerciseID { ExerciseID(String(format: "\(u(k)).check.%02d", n)) }
+    public static func checkId(_ k: Int) -> CheckID { CheckID("\(u(k)).check") }
+    public static func unitId(_ k: Int) -> UnitID { UnitID(u(k)) }
+    public static func canDo(_ k: Int, _ x: String) -> CanDoID { CanDoID("cd:\(u(k))-\(x)") }
 
-    static func p(_ id: ItemID, _ s: Skill) -> ItemSkillPair { ItemSkillPair(id, s) }
+    public static func p(_ id: ItemID, _ s: Skill) -> ItemSkillPair { ItemSkillPair(id, s) }
 
-    static let allP: [Skill: ContentIndex.SkillInfo] = [
+    public static let allP: [Skill: ContentIndex.SkillInfo] = [
         .read: .init(status: .P, scheduled: false), .listen: .init(status: .P, scheduled: false),
         .recall: .init(status: .P, scheduled: true), .speak: .init(status: .P, scheduled: false),
     ]
-    static let allR: [Skill: ContentIndex.SkillInfo] = [
+    public static let allR: [Skill: ContentIndex.SkillInfo] = [
         .read: .init(status: .R, scheduled: true), .listen: .init(status: .R, scheduled: false),
         .recall: .init(status: .R, scheduled: false), .speak: .init(status: .R, scheduled: false),
     ]
 
-    static func make(units count: Int = 13, withFinal: Bool = true, packVersion: String = "0.1.0",
+    public static func make(units count: Int = 13, withFinal: Bool = true, packVersion: String = "0.1.0",
                      contentHash: String = "hash-1") -> ContentIndex
     {
         var units: [ContentIndex.Unit] = []
@@ -287,7 +289,7 @@ enum TestCourse {
     }
 
     /// The course used by most tests (built once).
-    static let standard = make()
+    public static let standard = make()
     /// A small course for the many-run simulations.
-    static let small = make(units: 3, withFinal: false)
+    public static let small = make(units: 3, withFinal: false)
 }

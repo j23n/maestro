@@ -23,7 +23,10 @@ let package = Package(
         ),
         .testTarget(
             name: "StorageTests",
-            dependencies: ["Storage", "LearningCore"],
+            dependencies: [
+                "Storage", "LearningCore",
+                .product(name: "LearningCoreTestSupport", package: "LearningCore"),
+            ],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
     ]

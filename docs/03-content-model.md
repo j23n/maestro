@@ -330,14 +330,15 @@ CREATE TABLE introductions (item_id TEXT, skill TEXT, at INTEGER NOT NULL,
   PRIMARY KEY (item_id, skill));
 CREATE TABLE step_progress (step_id TEXT PRIMARY KEY, started_at INTEGER, completed_at INTEGER,
   cursor INTEGER NOT NULL DEFAULT 0);  -- docs/05 § Replay: derived from attempts, never stored by events
-CREATE TABLE unit_progress (unit_id TEXT PRIMARY KEY, state TEXT NOT NULL,   -- available|in_progress|completed|skipped
+CREATE TABLE unit_progress (unit_id TEXT PRIMARY KEY, state TEXT NOT NULL,   -- locked|available|in_progress|completed|skipped
   check_score REAL, check_passed INTEGER, completed_at INTEGER);              -- best check score across attempts
 CREATE TABLE can_do_status (can_do_id TEXT PRIMARY KEY, reached_at INTEGER NOT NULL);
 CREATE TABLE exercise_history (exercise_id TEXT PRIMARY KEY, last_at INTEGER NOT NULL, attempts INTEGER NOT NULL, first_try_correct INTEGER NOT NULL);
 CREATE TABLE focus_items (item_id TEXT, skill TEXT, reason TEXT NOT NULL, until INTEGER NOT NULL, PRIMARY KEY (item_id, skill));
 CREATE TABLE daily_activity (local_day TEXT PRIMARY KEY,     -- YYYY-MM-DD, day rolls over at 04:00 local (docs/05)
   active_seconds INTEGER NOT NULL, steps_completed INTEGER NOT NULL, cards_reviewed INTEGER NOT NULL);
-CREATE TABLE derived_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);  -- derived_version, content_hash, last_applied_at, last_applied_id
+CREATE TABLE derived_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);  -- derived_version, content_hash, last_applied_at, last_applied_id, event_count
+CREATE TABLE derived_checkpoint (id INTEGER PRIMARY KEY CHECK (id = 1), state BLOB NOT NULL);  -- the whole LearnerState (below)
 
 -- settings: per-key last-writer-wins
 CREATE TABLE settings (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at INTEGER NOT NULL,
@@ -346,10 +347,19 @@ CREATE TABLE settings (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at INT
 -- sync bookkeeping (docs/08)
 CREATE TABLE sync_engine_state (id INTEGER PRIMARY KEY CHECK (id = 1), data BLOB);
 CREATE TABLE cloud_system_fields (record_name TEXT PRIMARY KEY, data BLOB NOT NULL);
-CREATE TABLE sync_pending (record_name TEXT PRIMARY KEY, kind TEXT NOT NULL, added_at INTEGER NOT NULL);
+CREATE TABLE sync_pending (record_name TEXT PRIMARY KEY, kind TEXT NOT NULL, added_at INTEGER NOT NULL);  -- kind: Event|Setting
 
 -- study telemetry bookkeeping (docs/12): device-local, never synced, never rebuilt
 CREATE TABLE telemetry_sent (event_id TEXT PRIMARY KEY, batch_id TEXT NOT NULL, sent_at INTEGER NOT NULL);
+
+-- this install: device-local, never synced, never rebuilt
+CREATE TABLE local_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);  -- device_id (a lowercase UUID, created with the file)
 ```
 
-Events are never updated or deleted; upload state lives in `telemetry_sent`, sync state in `sync_pending`. Bump `derived_version` whenever reducer logic changes. On launch, a mismatch of `derived_version`, or of the pack's `meta.content_hash` against `derived_meta.content_hash`, triggers `rebuildAll()`.
+Events are never updated or deleted; upload state lives in `telemetry_sent`, sync state in `sync_pending`. The one exception is `LearnerStore.eraseProgress()`, which deletes every event, the derived state and the synced settings in one transaction, for Reset and for the zone deleted or purged on another device (`docs/08`). An event's `payload` is stored as written (this device's canonical JSON) or as received (another device's bytes), so fields a newer client added survive a re-upload. Bump `derived_version` whenever reducer logic changes. On launch, a mismatch of `derived_version`, or of the pack's `meta.content_hash` against `derived_meta.content_hash`, triggers `rebuildAll()`.
+
+**Derived state (`Storage/Learner/DerivedStore.swift`).** `LearnerState` holds more than the derived tables have columns for (the resume cursor's open start and answered exercises, unit start and skip flags, last outcomes and contexts, format rotation, seconds per card, open review sessions, catch-up counts, the final check, placement). It is persisted twice, with different jobs:
+
+- The **derived tables** are a queryable projection, written in the append transaction: only the rows that differ between the state before and after the new events.
+- The **checkpoint** (`derived_checkpoint.state`) is the whole state as `LearnerState.canonicalEncoding()`. It is written after every full rebuild and then every 250 applied events (and when the app goes to the background), not on every append, so a long log doesn't rewrite a large blob per answer.
+- At launch the store decodes the checkpoint and replays the events that sort after its `lastApplied`. That is exact because every transaction that inserts events also applies them, incrementally or by a full rebuild (which writes a new checkpoint). A missing or undecodable checkpoint, or one whose result disagrees with `derived_meta` (`last_applied_*`, `event_count` against `COUNT(*)`), triggers `rebuildAll()` like a changed `derived_version`. New `LearnerState` fields therefore need no migration: bump `derived_version`.

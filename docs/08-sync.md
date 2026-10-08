@@ -38,7 +38,7 @@ No queries are needed (the sync engine fetches zone changes), so no indexes beyo
 | `reminder.enabled`, `reminder.time` | device | off |
 | `sync.paused` | device | false |
 
-Device-scoped settings never sync. For synced settings, the newest `updatedAt` wins; ties go to the lexically larger `deviceId`.
+Device-scoped settings never sync. For synced settings, the newest `updatedAt` wins; ties go to the lexically larger `deviceId`. A change made on this device is stamped `max(now, stored updatedAt + 1)`, so it wins even when another device's clock ran ahead; a synced key also gets a `sync_pending` row (`setting.<key>`) in the same transaction.
 
 ## The sync engine (App target, `Platform/CloudSync/`)
 
@@ -55,6 +55,7 @@ actor CloudSync: CKSyncEngineDelegate {   // the protocol requires AnyObject & S
 - **Startup:** load `sync_engine_state.data` (a `CKSyncEngine.State.Serialization`, Codable) and create `CKSyncEngine(.init(database: container.privateCloudDatabase, stateSerialization: saved, delegate: self))`. On the very first run, add `.saveZone(Learner)` as a pending database change.
 - **`.stateUpdate`:** persist the serialization immediately (in the same database, its own small transaction).
 - **New local events:** `LearnerStore` inserts the `sync_pending` row **in the same transaction** as the event append. After the commit, `CloudSync` calls `syncEngine.state.add(pendingRecordZoneChanges: [.saveRecord(recordID)])`. Crash safety: on launch, re-add anything in `sync_pending` that the engine doesn't list as pending.
+- **What Storage provides** (`LearnerStore`, CloudKit-agnostic; records are LearningCore's `SyncRecord`, system fields opaque bytes): `pendingChanges()`, `addPending(recordNames:)`, `removePending(recordNames:)`, `markEverythingPending()` (first sign-in, `.encryptedDataReset`), `syncRecord(named:)` (the record provider; nil when the row is gone or the setting is device-scoped), `insertRemote(records:)` (stores each event's payload bytes as received, skips records that aren't valid events), `applyRemote(_:)` for settings (returns `.keepLocal` or `.takeRemote`), `syncEngineState()` / `saveSyncEngineState(_:)`, `systemFields(recordName:)` / `saveSystemFields(_:recordName:)` / `removeSystemFields(recordNames:)`, and `eraseProgress()` for zone deletion and Reset.
 - **`nextRecordZoneChangeBatch`:**
   - Filter pending changes to `context.options.scope`.
   - Build records with `await CKSyncEngine.RecordZoneChangeBatch(pendingChanges:recordProvider:)`, which sizes the batch to CloudKit's limits for you.

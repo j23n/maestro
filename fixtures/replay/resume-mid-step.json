@@ -1,6 +1,6 @@
 {
  "spec": "docs/05 § Replay: the derived resume cursor (presentation order = block, then the mix shuffled with SplitMix64 seeded by FNV-1a 64 of the step ID); quitting mid-step and resuming at the same exercise",
- "content": "TestCourse.standard (Packages/LearningCore/Tests/LearningCoreTests/Support/TestCourse.swift)",
+ "content": "TestCourse.standard (Packages/LearningCore/Sources/LearningCoreTestSupport/TestCourse.swift)",
  "step": "u02.l1.step-practice",
  "presentationOrder": [
   "u02.l1.ex01",
