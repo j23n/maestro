@@ -58,7 +58,7 @@ struct DebugSettingsSection: View {
             .accessibilityIdentifier("debug.simulateSpeech")
 
             Toggle("Show eligibility in lessons", isOn: $model.showEligibility)
-                .accessibilityIdentifier("debug.eligibility")
+                .accessibilityIdentifier("debug.eligibilityToggle")
 
             Toggle("Show draft markers", isOn: $model.showDraftMarkers)
                 .accessibilityIdentifier("debug.drafts")
@@ -124,8 +124,9 @@ struct LearnerDatabaseFile: Transferable {
 }
 
 extension View {
-    /// The Debug menu's overlay in the lesson and review players: a draft marker, the eligibility of what is on
-    /// screen, and the typed answer for simulated speech. Draws nothing unless the Debug menu turned it on.
+    /// The Debug menu's overlay in the lesson and review players, placement and the final check: a draft marker, the
+    /// eligibility of what is on screen, and the typed answer for simulated speech. Draws nothing unless the Debug
+    /// menu turned it on.
     func debugOverlay(_ model: DebugMenuModel?, step: StepID?, exercise: ExerciseID?) -> some View {
         modifier(DebugOverlay(model: model, step: step, exercise: exercise))
     }
@@ -175,7 +176,7 @@ private struct DebugOverlay: ViewModifier {
                 }
                 .buttonStyle(.dsSecondarySmall)
                 .accessibilityLabel(Text("Eligibility of this screen"))
-                .accessibilityIdentifier("debug.eligibility")
+                .accessibilityIdentifier("debug.eligibilityBadge")
             }
         }
         .padding(.top, Tokens.Space.xxl * 2)

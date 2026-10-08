@@ -41,6 +41,8 @@ extension AppModel {
     }
 
     /// Jumps to `unit` (see `DebugJump`) and waits until the events are stored. Returns how many were written.
+    /// The learner is placed now, so placement is no longer on offer: the app shows Today, not the placement screens
+    /// (onboarding with "Yes, I know a little" offers it whenever the pack can run it).
     @discardableResult
     func debugJump(to unit: UnitID) async throws(DebugError) -> Int {
         await settle()
@@ -51,6 +53,7 @@ extension AppModel {
         if let p = plan.introduced, let e = factory.introduced(p) { events.append(e) }
         write(events)
         await settle()
+        placementPending = false
         return events.count
     }
 

@@ -66,14 +66,14 @@ final class AppDependencies {
         let telemetry = StudyTelemetry.make(
             config: config, app: app, transport: URLSessionTransport(),
             bundleInfo: Bundle.main.infoDictionary ?? [:],
-            osMajorVersion: ProcessInfo.processInfo.operatingSystemVersion.majorVersion)
+            osMajorVersion: ProcessInfo.processInfo.operatingSystemVersion.majorVersion, logger: TelemetryLogger())
         return AppDependencies(
             config: config, app: app, audioPlayer: AVAudioPlayback(), speech: speech,
             notifications: UserNotificationScheduler(), telemetry: telemetry, debug: debug,
             review: ReviewMode(
                 config: config, arguments: ProcessInfo.processInfo.arguments,
-                store: try? FileReviewDraftStore.inApplicationSupport(), transport: URLSessionTransport(),
-                clock: SystemClock(), ids: SystemUUIDSource()))
+                store: FileReviewDraftStore.orUnavailable { try .inApplicationSupport() },
+                transport: URLSessionTransport(), clock: SystemClock(), ids: SystemUUIDSource()))
     }
 
     /// Starts sync after the learner store is open (docs/02 § Data flow at runtime): CloudKit when the build allows

@@ -8,7 +8,8 @@ import Observation
 /// and Export of the review file.
 ///
 /// **Learners never get it** (CLAUDE.md hard rule 4): it exists only when the build sets `ITA_REVIEW_MODE = YES`
-/// (Debug and Review; never Release or Study, and `AppConfig` refuses it in study builds), and it turns on
+/// (Debug and Review; never Release or Study, and `AppConfig` refuses it in study builds and in any build of the
+/// release pack), and it turns on
 /// (`isActive`) only on a dev pack (`meta.release = 0`), which learner builds never bundle. Everything that bypasses
 /// eligibility (open locked units, jump to any page, no mini-preview) asks `isActive` first.
 @MainActor
@@ -70,12 +71,20 @@ final class ReviewMode {
 
     func isDraft(_ step: StepID) -> Bool { isActive && menu.isDraft(step) }
 
-    /// Opens the player exactly where the content lead jumped (a step's first page or one exercise), whatever the
-    /// learner state says, and listens to the answers for "This should be accepted".
-    func prepare(_ launch: AppModel.PlayerLaunch, at jump: ReviewJump) {
+    /// Listens to the answers for "This should be accepted" on every open, and opens the player where the content
+    /// lead asked, whatever the learner state says:
+    /// - `exact` (a pick from the jump menu): exactly there, a step's first page or one exercise;
+    /// - otherwise (a step opened from Today or the Unit overview): where the learner would resume when that lies in
+    ///   the step, so a half-done step resumes; else the step's first page (every step is open in review mode, while
+    ///   the learner's resume point may lie in another step).
+    func prepare(_ launch: AppModel.PlayerLaunch, at jump: ReviewJump, exact: Bool = true) {
         guard isActive else { return }
         let model = launch.model
-        if let i = jump.exercise.flatMap({ model.index(ofExercise: $0) }) ?? model.index(ofStep: jump.step) {
+        if exact {
+            if let i = jump.exercise.flatMap({ model.index(ofExercise: $0) }) ?? model.index(ofStep: jump.step) {
+                model.move(to: i)
+            }
+        } else if model.currentStep?.id != jump.step, let i = model.index(ofStep: jump.step) {
             model.move(to: i)
         }
         tap.reset()

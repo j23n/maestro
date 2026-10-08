@@ -39,6 +39,7 @@ description: Build or change SwiftUI screens and components for iPhone, iPad and
 
 1. Set session defaults once with `session_set_defaults`: project `App/Italiano.xcodeproj`, scheme `Italiano`, simulator `iPhone 17` (or what `list_sims` shows). Builds stay unsigned (`docs/02` § Project, signing and entitlements).
    - To open a screen deep in the course, launch with `-ITAJumpToUnit u02` (debug builds).
+   - Debug builds have review mode on (review bar, every unit open). For the learner's screens, launch with `-ITANoReviewMode` too (`docs/02` § App configuration); leave it off only when the screenshot is of review mode.
 2. `build_run_sim`, then `snapshot_ui` to get element references, then `tap` / `swipe` to navigate, then `screenshot`.
 3. Save images to `artifacts/screens/<task-id>/<screen>-<device>-<mode>.png`.
 4. Variants:

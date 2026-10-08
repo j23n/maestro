@@ -53,6 +53,8 @@ struct PlacementHost: View {
             }
         }
         .task { await load() }
+        // "Simulate speech by typing" asks for the transcript here too (speaking items).
+        .debugOverlay(deps.services.debug, step: nil, exercise: launch?.model.payload?.id)
         // The tabs aren't up yet: placement's listening items still log `audioPlayed`.
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
     }

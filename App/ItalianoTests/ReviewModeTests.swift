@@ -69,8 +69,15 @@ import Testing
         let review = try Xcconfig.values("Review.xcconfig", optional: ["Secrets-Review.xcconfig": everySecret])
         #expect(review["ITA_REVIEW_TOKEN"] as? String == "review-token")
         #expect(review["ITA_TELEMETRY_URL"] as? String == "" && review["ITA_STUDY_TOKEN"] as? String == "")
-        // A study build never gets it, whatever else is set; a Debug UI test can turn it off.
+        // A study build never gets it, whatever else is set, nor does any build of the release pack (Release and
+        // Study); a Debug UI test can turn it off.
         #expect(!AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_STUDY_BUILD": "YES"]).reviewMode)
+        #expect(!AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_PACK": "release"]).reviewMode)
+        #expect(!AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_PACK": "Release"]).reviewMode)
+        var release = try Xcconfig.values("Release.xcconfig")
+        release["ITA_REVIEW_MODE"] = "YES"  // a slip in Release.xcconfig still gives learners no review mode
+        #expect(!AppConfig(info: release).reviewMode && self.review(info: release) == nil)
+        #expect(AppConfig(info: ["ITA_REVIEW_MODE": "YES", "ITA_PACK": "dev"]).reviewMode)
         #expect(
             ReviewMode(
                 config: AppConfig(info: Self.reviewInfo), arguments: [ReviewMode.offArgument], store: nil,
@@ -89,6 +96,47 @@ import Testing
         let before = launch.model.position
         review.prepare(launch, at: ReviewJump(step: "u02.l1.step-practice", exercise: "u02.l1.ex07"))
         #expect(launch.model.position == before)  // the learner's resume rules apply
+        #expect(launch.scoresCheck(review: review) == false && launch.kind == .lesson)
+        let check = try #require(try await app.launch(step: "u02.step-check"))
+        #expect(check.scoresCheck(review: review))  // review mode is off: a finished check is scored
+    }
+
+    /// A pick from the jump menu opens exactly there; a step opened from Today or the Unit overview resumes where
+    /// the learner left it when that is in the step (else its first page), and the answer tap listens either way.
+    /// A check paged through isn't scored.
+    @Test func aHalfDoneStepResumesAndChecksAreNotScored() async throws {
+        let app = await app()
+        let review = try #require(review())
+        await review.attach(to: app)
+        let launch = try #require(try await app.launch(step: "u02.l1.step-practice"))
+        let player = launch.model
+        let practice = try #require(player.index(ofStep: "u02.l1.step-practice"))
+        #expect(player.position != practice)  // a new learner resumes at the lesson's preview
+        // The Unit overview's Practice: the learner's resume point is in another step, so Practice's first page.
+        review.prepare(launch, at: ReviewJump(step: "u02.l1.step-practice"), exact: false)
+        #expect(player.position == practice)
+        // Practice part-way through (Today's Continue, the overview again): where it was left.
+        _ = player.move(to: practice + 3)
+        review.prepare(launch, at: ReviewJump(step: "u02.l1.step-practice"), exact: false)
+        #expect(player.position == practice + 3)
+        // The jump menu: exactly where it points, even inside the step.
+        review.prepare(launch, at: ReviewJump(step: "u02.l1.step-practice"))
+        #expect(player.position == practice)
+        let payload = try #require(player.bundle.exercises["u02.l1.ex07"])
+        guard case .typed(let exercise)? = ExerciseHostModel.make(payload, env: launch.environment, sink: launch.sink)
+        else {
+            Issue.record("u02.l1.ex07 is a recall exercise")
+            return
+        }
+        exercise.response = "quanto fa"
+        exercise.check()
+        #expect(review.rejectedAnswer(for: "u02.l1.ex07")?.response == "quanto fa")
+
+        // Paging past the end of the unit check and tapping Done finishes without `checkCompleted`.
+        let check = try #require(try await app.launch(step: "u02.step-check"))
+        review.prepare(check, at: ReviewJump(step: "u02.step-check"), exact: false)
+        #expect(check.kind == .check && !check.scoresCheck(review: review))
+        #expect(check.scoresCheck(review: nil))
     }
 
     @Test func everyUnitIsOpenAndTheJumpMenuListsEveryStep() async throws {
@@ -206,6 +254,15 @@ import Testing
             let expected = try JSONDecoder().decode(ReviewFile.self, from: Data(contentsOf: fixtureURL))
             // Hashes follow the mini pack (`make mini-pack`); everything else must match the fixture exactly.
             #expect(produced.withPlaceholderHashes == expected.withPlaceholderHashes, "\(fixture)")
+            // Decoding reads `null` and "" alike: an empty comment must be `null` in the file, as the page writes it.
+            func comments(_ d: Data) throws -> [String] {
+                let json = try #require(try JSONSerialization.jsonObject(with: d) as? [String: Any])
+                return (json["comments"] as? [[String: Any]] ?? []).map { c in
+                    c["comment"] is NSNull ? "<null>" : c["comment"] as? String ?? "<missing>"
+                }
+            }
+            #expect(try comments(data) == comments(Data(contentsOf: fixtureURL)), "\(fixture)")
+            #expect(try comments(data).contains("<null>"), "\(fixture)")
             #expect(produced.files.values.allSatisfy { $0.count == 64 })
         }
 

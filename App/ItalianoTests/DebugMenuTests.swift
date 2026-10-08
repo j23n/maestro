@@ -21,9 +21,11 @@ struct ShellTestApp {
                 clock: clock ?? base, ids: SeededUUIDSource(seed: seed), platform: .iPhone))
     }
 
-    func started(_ seed: String = "a", clock: (any LearningCore.Clock)? = nil) async -> AppModel {
+    func started(
+        _ seed: String = "a", clock: (any LearningCore.Clock)? = nil, content: ContentIndex? = nil
+    ) async -> AppModel {
         let app = model(seed, clock: clock)
-        await app.start()
+        await app.start(content: content)
         return app
     }
 
@@ -32,11 +34,26 @@ struct ShellTestApp {
     }
 
     /// Lets the store's state stream reach the model (rebuilds and resets publish through it).
-    func caughtUp(_ app: AppModel) async {
-        for _ in 0..<200 where app.state != app.store?.state {
-            try? await Task.sleep(for: .milliseconds(5))
+    func caughtUp(_ app: AppModel, sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        try await waitUntil("the store's state reaches the app model", sourceLocation: sourceLocation) {
+            app.state == app.store?.state
         }
     }
+}
+
+/// Waits for work the app does on its own tasks (state streams, uploads after a session) until `condition` holds;
+/// after `timeout` the test fails here, saying what never happened, instead of at a later, unrelated expectation.
+@MainActor
+func waitUntil(
+    _ what: String, timeout: Duration = .seconds(10), sourceLocation: SourceLocation = #_sourceLocation,
+    _ condition: () -> Bool
+) async throws {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while !condition(), clock.now < deadline {
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    try #require(condition(), "timed out after \(timeout): \(what)", sourceLocation: sourceLocation)
 }
 
 /// `DebugPreferences` in memory.
@@ -132,6 +149,28 @@ final class RecordingSync: SyncControlling, @unchecked Sendable {
         #expect(try await shell.events(again).count == count)
     }
 
+    /// With a pack that can run placement, the launch argument's onboarding ("Yes, I know a little" for any unit
+    /// but the first) offers placement; the jump places the learner, so the app opens on Today (docs/02), and the
+    /// Debug menu's Jump withdraws an offer too. The mini pack has no placement questions: the synthetic course does.
+    @Test func jumpingWithdrawsThePlacementOffer() async throws {
+        let app = await shell.started(content: AssessmentCourse.content)
+        #expect(app.canRunPlacement && !app.isOnboarded)
+        let debug = DebugMenuModel(app: app, clock: nil, speech: nil, preferences: MemoryPreferences())
+        let services = AppServices(
+            config: .preview, app: app, notifications: FakeNotificationScheduler(), telemetry: nil, debug: debug)
+        await services.afterLaunch(arguments: ["-ITAJumpToUnit", "u02"])
+        #expect(debug.status == "Launched at u02")
+        #expect(app.isOnboarded && app.state?.placement?.startUnit == "u02")
+        #expect(!app.placementPending)  // RootView shows the tabs, not PlacementHost
+
+        app.offerPlacement(beginner: false)
+        #expect(app.placementPending)
+        debug.jumpTarget = "u03"
+        await debug.jump()
+        #expect(debug.status == "Jumped to u03 · 2 events")
+        #expect(!app.placementPending && app.state?.placement?.startUnit == "u03")
+    }
+
     @Test func releaseBuildsIgnoreTheLaunchArgumentAndHaveNoDebugMenu() async throws {
         let app = await shell.started()
         let release = AppConfig(info: ["ITA_DEBUG_MENU": "NO"])
@@ -174,7 +213,7 @@ final class RecordingSync: SyncControlling, @unchecked Sendable {
         await debug.rebuild()
         let events = try await shell.events(app).count
         #expect(debug.status == "Rebuilt from \(events) events")
-        await shell.caughtUp(app)
+        try await shell.caughtUp(app)
         #expect(app.state == before)
 
         await debug.exportDatabase()
@@ -184,8 +223,10 @@ final class RecordingSync: SyncControlling, @unchecked Sendable {
             url: file, content: try #require(app.content), clock: shell.base, ids: SeededUUIDSource(seed: "x"))
         #expect(try await copy.eventCount() == events)
         try copy.close()
+        // The exporter saved (or the learner cancelled): the temporary copy is deleted.
         debug.exportFinished()
         #expect(debug.exportedFile == nil)
+        #expect(!FileManager.default.fileExists(atPath: file.path))
 
         // Sync off in this build: the store erases this device's progress; onboarding runs again.
         app.sync = DisabledSync()
@@ -193,7 +234,7 @@ final class RecordingSync: SyncControlling, @unchecked Sendable {
         await debug.resetLocalData()
         #expect(debug.status == "Local data reset")
         #expect(try await shell.events(app).isEmpty)
-        await shell.caughtUp(app)
+        try await shell.caughtUp(app)
         #expect(app.state?.introductions.isEmpty == true)
         #expect(!app.isOnboarded)
         #expect(app.store?.settings.textScale == 1.3)  // device settings stay

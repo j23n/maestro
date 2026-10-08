@@ -18,6 +18,10 @@ struct ReviewComment: Codable, Sendable, Equatable, Identifiable {
     var response: String?  // the learner answer behind "This should be accepted"
     var at: String  // ISO 8601 UTC
 
+    enum CodingKeys: String, CodingKey {
+        case id, target, file, quote, verdict, category, comment, suggestion, response, at
+    }
+
     enum Verdict: String, Codable, Sendable, CaseIterable { case ok, change, question }
 
     /// The categories of the review page (docs/04 § Review pages).
@@ -47,7 +51,8 @@ struct ReviewComment: Codable, Sendable, Equatable, Identifiable {
         }
     }
 
-    /// Optional fields are written as `null`, like the review page does.
+    /// Optional fields are written as `null`, like the review page does; so is an empty comment (an OK alone, or a
+    /// suggestion without words), so both channels write the same file (docs/04).
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(id, forKey: .id)
@@ -56,10 +61,27 @@ struct ReviewComment: Codable, Sendable, Equatable, Identifiable {
         try c.encode(quote, forKey: .quote)
         try c.encode(verdict, forKey: .verdict)
         try c.encode(category, forKey: .category)
-        try c.encode(comment, forKey: .comment)
+        try c.encode(comment.nilIfEmpty, forKey: .comment)
         try c.encode(suggestion, forKey: .suggestion)
         try c.encode(response, forKey: .response)
         try c.encode(at, forKey: .at)
+    }
+}
+
+extension ReviewComment {
+    /// A `null` (or missing) comment reads back as empty: review files and the stored draft both write it so.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        target = try c.decode(String.self, forKey: .target)
+        file = try c.decode(String.self, forKey: .file)
+        quote = try c.decodeIfPresent(String.self, forKey: .quote)
+        verdict = try c.decode(Verdict.self, forKey: .verdict)
+        category = try c.decode(Category.self, forKey: .category)
+        comment = try c.decodeIfPresent(String.self, forKey: .comment) ?? ""
+        suggestion = try c.decodeIfPresent(String.self, forKey: .suggestion)
+        response = try c.decodeIfPresent(String.self, forKey: .response)
+        at = try c.decode(String.self, forKey: .at)
     }
 }
 
@@ -198,8 +220,8 @@ protocol ReviewDraftStoring {
     func save(_ draft: ReviewDraft) throws
 }
 
-/// The comments the content lead makes in the app: kept on the device until they are sent or exported, so closing
-/// the app never loses them (docs/04 § Review mode in the app).
+/// The comments the content lead makes in the app, kept on the device (sent or not, exported or not) so closing the
+/// app never loses them; only one not sent yet can be deleted (docs/04 § Review mode in the app).
 @MainActor
 @Observable
 final class ReviewCollector {
@@ -220,8 +242,11 @@ final class ReviewCollector {
     ) {
         var draft: ReviewDraft?
         var unreadable: String?
+        var unsaved: String?
         do {
             draft = try store?.load()
+        } catch is UnavailableReviewDraftStore.Unavailable {
+            unsaved = Self.saveErrorText
         } catch {
             unreadable = "Earlier comments couldn't be read; the file was kept as review-comments.unreadable.json."
         }
@@ -232,7 +257,10 @@ final class ReviewCollector {
         self.newID = newID
         self.nowISO = nowISO
         loadError = unreadable
+        saveError = unsaved
     }
+
+    static let saveErrorText = "Your comments couldn't be saved on this device. Export them before closing Italiano."
 
     var comments: [ReviewComment] { filed.map(\.comment) }
     var unsent: [ReviewComment] { filed.filter { !$0.sent }.map(\.comment) }
@@ -362,7 +390,7 @@ final class ReviewCollector {
             try store?.save(ReviewDraft(reviewer: reviewer, comments: filed))
             saveError = nil
         } catch {
-            saveError = "Your comments couldn't be saved on this device. Export them before closing Italiano."
+            saveError = Self.saveErrorText
         }
     }
 }

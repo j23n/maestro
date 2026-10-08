@@ -22,17 +22,15 @@ struct MainTabs: View {
                         rows: deps.review?.unlocked(deps.app.courseRows) ?? deps.app.courseRows,
                         footer: deps.app.courseFooter
                     ) { coursePath.append($0) }
-                        .modifier(
-                            ReviewCourseTools(review: deps.review) {
-                                playing = PlayRequest(step: $0.step, exercise: $0.exercise)
-                            }
-                        )
-                        .navigationDestination(for: UnitID.self) { unit in
-                            if let o = deps.app.overview(unit: unit) {
-                                UnitView(overview: o) { playing = PlayRequest(step: $0) }
-                                    .finalCheckEntry(app: deps.app, unit: unit) { takingFinal = FinalCheckRequest() }
-                            }
+                    .modifier(
+                        ReviewCourseTools(review: deps.review) { playing = PlayRequest(step: $0.step, jump: $0) }
+                    )
+                    .navigationDestination(for: UnitID.self) { unit in
+                        if let o = deps.app.overview(unit: unit) {
+                            UnitView(overview: o) { playing = PlayRequest(step: $0) }
+                                .finalCheckEntry(app: deps.app, unit: unit) { takingFinal = FinalCheckRequest() }
                         }
+                    }
                 }
             }
             Tab("Words", systemImage: "list.bullet") {
@@ -52,7 +50,7 @@ struct MainTabs: View {
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
         .task { await deps.review?.attach(to: deps.app) }
         .playerPresentation(item: $playing) { request in
-            PlayerHost(deps: deps, step: request.step, exercise: request.exercise) { playing = nil }
+            PlayerHost(deps: deps, step: request.step, jump: request.jump) { playing = nil }
         }
         .playerPresentation(item: $takingFinal) { _ in
             FinalCheckHost(deps: deps) { takingFinal = nil }
@@ -80,8 +78,9 @@ struct MainTabs: View {
 
 struct PlayRequest: Identifiable, Hashable {
     let step: StepID
-    /// Review mode's jump menu: open at this exercise.
-    var exercise: ExerciseID? = nil
+    /// Review mode's jump menu: open exactly at this step's first page or exercise. Nil for every other open (Today's
+    /// Continue, the Unit overview), where a half-done step resumes (`ReviewMode.prepare`).
+    var jump: ReviewJump? = nil
     var id: StepID { step }
 }
 
@@ -108,7 +107,8 @@ extension View {
 struct PlayerHost: View {
     let deps: AppDependencies
     let step: StepID
-    var exercise: ExerciseID? = nil
+    /// Review mode's jump menu only (`PlayRequest.jump`).
+    var jump: ReviewJump? = nil
     let onDismiss: () -> Void
     @State private var launch: AppModel.PlayerLaunch?
     @State private var services: PlayerServices?
@@ -132,7 +132,9 @@ struct PlayerHost: View {
                             miniPreview = MiniPreviewRequest(step: started, pairs: missing)
                         }
                     },
-                    onClose: finish, onFinish: { launch.kind == .check ? showCheckResult() : finish() },
+                    onClose: finish,
+                    // Review mode pages through a check without scoring it (`scoresCheck`).
+                    onFinish: { launch.scoresCheck(review: review) ? showCheckResult() : finish() },
                     review: review)
             } else if failed {
                 MissingContentPage(onContinue: onDismiss)
@@ -162,7 +164,8 @@ struct PlayerHost: View {
                 failed = true
                 return
             }
-            review?.prepare(l, at: ReviewJump(step: step, exercise: exercise))
+            // The answer tap on every open; an exact move only for a pick from the jump menu (a half-done step resumes).
+            review?.prepare(l, at: jump ?? ReviewJump(step: step), exact: jump != nil)
             let resolver: any AudioResolving = deps.app.audioCatalog ?? StaticAudioResolver()
             services = PlayerServices(
                 audio: ExerciseAudio(player: deps.audioPlayer, resolver: resolver),

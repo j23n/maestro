@@ -143,7 +143,7 @@ The Debug menu (Settings → Debug, builds with `ITA_DEBUG_MENU` only; `DebugMen
 - **show eligibility for the current screen** and **show draft markers**: the lesson and review players' debug overlay shows "DRAFT" on unapproved steps of a dev pack and an eligibility badge that opens the requirements of the step and exercise on screen;
 - **reset local data**: Reset progress (`docs/08`) through the sync driver when sync runs, else `eraseProgress()`; onboarding runs again.
 
-It also shows the last storage error. The launch argument `-ITAJumpToUnit u02` does the same jump at launch, for UI tests and screenshots, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today); relaunching with it writes nothing, so a half-done step resumes. Builds without the Debug menu ignore it.
+It also shows the last storage error. The launch argument `-ITAJumpToUnit u02` does the same jump at launch, for UI tests and screenshots, and first completes onboarding with its defaults if it hasn't run (so the app opens on Today, never on placement: a jump places the learner); relaunching with it writes nothing, so a half-done step resumes. Builds without the Debug menu ignore it. Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argument `-ITANoReviewMode` turns it off, and UI tests and screenshots of the learner's path pass it (with `-ITAJumpToUnit` when they start deep in the course).
 
 ### Project, signing and entitlements (ADR-19)
 

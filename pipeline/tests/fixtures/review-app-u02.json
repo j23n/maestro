@@ -28,7 +28,7 @@
     {
       "at" : "2026-10-06T07:30:00Z",
       "category" : "naturalness",
-      "comment" : "",
+      "comment" : null,
       "file" : "content/units/02-al-bar/lesson-1.yaml",
       "id" : "91d35d1e-1e3c-4f18-8b5a-5b15c87d8f38",
       "quote" : "Buongiorno. Vorrei un cappuccino, per favore.",
