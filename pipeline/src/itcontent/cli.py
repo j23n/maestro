@@ -87,6 +87,16 @@ def check(
     sys.exit(run_check(unit=unit, as_json=as_json, echo=typer.echo))
 
 
+@app.command()
+def report(
+    unit: str = typer.Option(None, "--unit", help="only this unit (e.g. u02)"),
+) -> None:
+    """Content dashboard: new words, encounters, strands, coverage, budgets, open review comments."""
+    from itcontent.report import run_report
+
+    sys.exit(run_report(unit=unit, echo=typer.echo))
+
+
 @app.command("beta-import")
 def beta_import(
     events: Path = typer.Argument(..., exists=True, dir_okay=False, help="JSONL export from the study endpoint"),

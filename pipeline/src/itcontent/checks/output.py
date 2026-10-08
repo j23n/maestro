@@ -1,7 +1,7 @@
 """`build/reports/check.json` and `check.md`: the findings plus what the checks measured (docs/04 § Commands).
 
 Both are deterministic (no timestamps; rows sorted), so two runs on the same content give the same bytes. The JSON is
-`{format, scope, summary, units, findings, level_gate, …}`; each check that measures something adds its own key and
+`{format, scope, summary, units, findings, level_gate, coverage, recycling}`; each check that measures something adds its own key and
 Markdown section through `SECTIONS`.
 """
 
@@ -93,8 +93,102 @@ def level_json(result: CheckResult) -> dict[str, Any]:
     }
 
 
-JSON_EXTRAS: list[tuple[str, Callable[[CheckResult], Any]]] = [("level_gate", level_json)]
-SUMMARY_EXTRAS: list[Callable[[CheckResult], str]] = []
+def _hit(hits: list[Any]) -> dict[str, Any] | None:
+    if not hits:
+        return None
+    return {"ref": hits[0].ref, "unit": hits[0].unit, "via": hits[0].via, "count": len(hits)}
+
+
+def coverage_entries(result: CheckResult) -> list[Any]:
+    cov = result.coverage
+    if cov is None:
+        return []
+    unit = result.unit
+    return [e for e in cov.entries if not unit or e.units == "all" or unit in e.units]
+
+
+def coverage_json(result: CheckResult) -> dict[str, Any] | None:
+    cov = result.coverage
+    if cov is None:
+        return None
+    return {
+        "mode": cov.mode,
+        "percent": round(cov.percent, 1),
+        "counts": cov.counts(),
+        "entries": [
+            {
+                "id": e.id,
+                "label": e.label,
+                "area": e.area,
+                "units": e.units,
+                "roles": list(e.roles),
+                "status": e.status,
+                "missing": e.missing,
+                **{role: _hit(e.hits.get(role, [])) for role in ("introduced", "practised", "assessed")},
+            }
+            for e in coverage_entries(result)
+        ],
+    }
+
+
+def recycling_json(result: CheckResult) -> dict[str, Any] | None:
+    rec = result.recycling
+    if rec is None:
+        return None
+    unit = result.unit
+
+    def keep(u: str) -> bool:
+        return not unit or u == unit
+
+    return {
+        "items": [
+            {
+                "id": i.id,
+                "unit": i.unit,
+                "status": i.status,
+                "lesson": i.lesson,
+                "encounters": i.encounters,
+                "encounters_judged": i.judged,
+                "retrievals": i.retrievals,
+            }
+            for i in rec.items
+            if keep(i.unit)
+        ],
+        "units": [
+            {
+                "id": u.id,
+                "complete": u.complete,
+                "minutes": {k: round(v / 60, 1) for k, v in u.seconds.items()},
+                "shares": {k: round(u.share(k), 3) for k in u.seconds},
+                "content_tokens": u.content_tokens,
+                "earlier_unit_tokens": u.earlier_tokens,
+                "recycled": None if u.recycled is None else round(u.recycled, 3),
+            }
+            for u in rec.units
+            if keep(u.id) and u.total
+        ],
+        "stories": [
+            {"text": st.text, "unit": st.unit, "words": st.words, "range": [st.low, st.high]}
+            for st in rec.stories
+            if keep(st.unit)
+        ],
+        "spiral": {
+            p: later for p, later in rec.spiral.items() if keep(result.ctx.point_unit(p)) and (later or not unit)
+        },
+    }
+
+
+def coverage_summary(result: CheckResult) -> str:
+    cov = result.coverage
+    return f"syllabus coverage {cov.percent:.0f}% ({cov.mode} mode)" if cov else ""
+
+
+JSON_EXTRAS: list[tuple[str, Callable[[CheckResult], Any]]] = [
+    ("level_gate", level_json),
+    ("coverage", coverage_json),
+    ("recycling", recycling_json),
+]
+SUMMARY_EXTRAS: list[Callable[[CheckResult], str]] = [coverage_summary]
 
 
 def to_json(result: CheckResult) -> dict[str, Any]:
@@ -164,10 +258,87 @@ def level_md(result: CheckResult) -> list[str]:
     return lines
 
 
+def coverage_md(result: CheckResult) -> list[str]:
+    data = coverage_json(result)
+    if data is None:
+        return ["Not computed."]
+    c = data["counts"]
+    lines = [
+        f"{data['percent']:.0f}% of the entries with roles are fully traced ({c['covered']} covered, {c['gap']} gaps, "
+        f"{c['pending']} pending on incomplete units, {c['info']} information only); mode `{data['mode']}`. Each "
+        "cell is the first step, exercise or item that satisfies the role (course order), with the number of others.",
+        "",
+        "| Entry | Label | Introduced | Practised | Assessed | Status |",
+        "|---|---|---|---|---|---|",
+    ]
+    for e in data["entries"]:
+        cells = []
+        for role in ("introduced", "practised", "assessed"):
+            h = e[role]
+            if role not in e["roles"]:
+                cells.append("n/a")
+            elif h is None:
+                cells.append("—")
+            else:
+                cells.append(f"{h['ref']}" + (f" (+{h['count'] - 1})" if h["count"] > 1 else ""))
+        lines.append(f"| {e['id']} | {_md(e['label'])} | {' | '.join(cells)} | {e['status']} |")
+    return lines
+
+
+def recycling_md(result: CheckResult) -> list[str]:
+    data = recycling_json(result)
+    if data is None:
+        return ["Not computed."]
+    lines = ["**Retrievals in the introducing lesson** (P items need 4; preview counts 2)", ""]
+    rows = sorted((i for i in data["items"] if i["retrievals"] is not None), key=lambda i: (i["retrievals"], i["id"]))
+    if rows:
+        lines += ["| Item | Status | Lesson | Retrievals |", "|---|---|---|---|"]
+        lines += [f"| {i['id']} | {i['status']} | {i['lesson']} | {i['retrievals']} |" for i in rows]
+    else:
+        lines.append("No item's lesson is written yet.")
+    lines += ["", "**Encounters** (introduction to course end; judged once the rest of the course is complete)", ""]
+    rows = sorted(data["items"], key=lambda i: (i["encounters"], i["id"]))
+    if rows:
+        lines += ["| Item | Status | Encounters | Judged |", "|---|---|---|---|"]
+        lines += [
+            f"| {i['id']} | {i['status']} | {i['encounters']} | {'yes' if i['encounters_judged'] else 'not yet'} |"
+            for i in rows
+        ]
+    else:
+        lines.append("No item is introduced in a written lesson yet.")
+    lines += ["", "**Strand balance and recycling** (estimated minutes; the check is not counted)", ""]
+    if data["units"]:
+        lines += [
+            "| Unit | Input | Language focus | Output | Fluency | Earlier-unit content words |",
+            "|---|---|---|---|---|---|",
+        ]
+        for u in data["units"]:
+            cells = [f"{u['minutes'][k]:.0f} min ({u['shares'][k]:.0%})" for k in STRAND_ORDER]
+            rec = "—" if u["recycled"] is None else f"{u['recycled']:.0%} of {u['content_tokens']}"
+            lines.append(f"| {u['id']}{'' if u['complete'] else ' (incomplete)'} | {' | '.join(cells)} | {rec} |")
+    else:
+        lines.append("No unit has written steps yet.")
+    lines += ["", "**Story length**", ""]
+    if data["stories"]:
+        for st in data["stories"]:
+            rng = f"{st['range'][0]}–{st['range'][1]}" if st["range"][0] is not None else "no range in the spec"
+            lines.append(f"- {st['text']}: {st['words']} words ({rng})")
+    else:
+        lines.append("No stories yet.")
+    returning = {p: later for p, later in data["spiral"].items() if later}
+    lines += ["", "**Grammar spiral** (later units where a point returns)", ""]
+    lines += [f"- {p}: {', '.join(later)}" for p, later in sorted(returning.items())] or ["No point returns yet."]
+    return lines
+
+
+STRAND_ORDER = ("input", "language-focus", "output", "fluency")
+
 SECTIONS: list[tuple[str, Callable[[CheckResult], list[str]]]] = [
     ("Findings", findings_md),
     ("Units", units_md),
+    ("Syllabus coverage (check 1)", coverage_md),
     ("Level gate (check 2)", level_md),
+    ("Recycling and balance (check 3)", recycling_md),
 ]
 
 

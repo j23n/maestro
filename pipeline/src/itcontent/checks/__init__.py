@@ -1,7 +1,8 @@
 """`content check [--unit uNN] [--json]` (docs/04 § Commands, § The ten quality checks): automatic checks 1–5.
 
-The checks read the course and its annotation lock files (`checks.context`), then run in order: 2 (level gate,
-`level`), 4 (alignment, `alignment`) and 5 (story consistency, `story`). Every run writes
+The checks read the course and its annotation lock files (`checks.context`), then run: 2 (level gate, `level`),
+1 (syllabus coverage, `coverage`), 3 (recycling and balance, `recycling`), 4 (alignment, `alignment`) and 5 (story
+consistency, `story`). Every run writes
 `build/reports/check.json` and `build/reports/check.md` (`output`); `--json` also prints the JSON. Errors fail the
 command; warnings and pending lines never do. `--unit uNN` keeps the findings about that unit (the checks still read
 the whole course, because positions and introductions depend on earlier units).
@@ -18,7 +19,9 @@ from typing import Any
 from itcontent import paths
 from itcontent.checks.alignment import check_alignment
 from itcontent.checks.context import CheckContext, CheckFinding, load_context
+from itcontent.checks.coverage import CoverageResult, check_coverage
 from itcontent.checks.level import LevelResult, check_level
+from itcontent.checks.recycling import RecyclingResult, check_recycling
 from itcontent.checks.story import check_story
 
 LEVELS = ("error", "warning", "pending")
@@ -30,6 +33,8 @@ class CheckResult:
     findings: list[CheckFinding]
     unit: str | None = None
     level: LevelResult = field(default_factory=LevelResult)
+    coverage: CoverageResult | None = None
+    recycling: RecyclingResult | None = None
 
     @property
     def errors(self) -> list[CheckFinding]:
@@ -52,10 +57,12 @@ def in_scope(f: CheckFinding, unit: str | None) -> bool:
 def run_checks(root: Path | None = None, *, unit: str | None = None) -> CheckResult:
     ctx = load_context(root)
     level = check_level(ctx)
+    coverage = check_coverage(ctx)
+    recycling = check_recycling(ctx)
     check_alignment(ctx)
     check_story(ctx)
     findings = [f for f in ctx.with_lines(ctx.findings) if in_scope(f, unit)]
-    return CheckResult(ctx, findings, unit, level)
+    return CheckResult(ctx, findings, unit, level, coverage, recycling)
 
 
 def check_errors_for(root: Path, rel: str) -> list[CheckFinding]:

@@ -24,8 +24,9 @@ def fixtures_dir() -> Path:
 
 
 def copy_course(root: Path, dst: Path) -> Path:
-    """A throwaway repository with the seed `content/` (and `reviews/` if present): tests edit copies, never seeds."""
-    shutil.copytree(root / "content", dst / "content", ignore=shutil.ignore_patterns(".annotations"))
+    """A throwaway repository with the seed `content/` (lock files included, so `content check` works on it) and
+    `reviews/` if present: tests edit copies, never seeds."""
+    shutil.copytree(root / "content", dst / "content")
     if (root / "reviews").is_dir():
         shutil.copytree(root / "reviews", dst / "reviews")
     return dst

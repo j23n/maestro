@@ -17,7 +17,7 @@ YAML is loaded with **ruamel.yaml in safe mode (YAML 1.2)**, so Italian `no`, `s
 | `content review-export (--specs \| --unit uNN) [--since]` | the teacher's review page: one self-contained HTML file (`build/review/<scope>/index.html`) with comment boxes and sign-off (§ Content review loop); `--since` shows the resolutions of earlier comments and marks what changed | — |
 | `content review-import <review.json>` | file a review (page or app) into `reviews/inbox/`, add its comments to the ledger `reviews/<scope>.yaml`, flag stale comments, print the worklist | unknown targets; malformed file |
 | `content approve <file> --by "<name>" [--signoff <review.json>]` / `content reopen <file>` | set review status and hash (`approve`: `approved`, `by`, today's date, `hash`; `reopen`: `in-review`, the rest `null`), rewriting only the `review:` entry. With `--signoff`, refuses while the ledger has open comments on the file or when the file's hash differs from the hash the teacher signed. **Humans only:** the command refuses when stdin is not a TTY or the `CLAUDECODE` environment variable is set (Claude Code sets it in every shell it runs), and asks the person to type the file name (`lesson-1.yaml`, or its repo path) to confirm. A hook also blocks agents from running it | file fails lint or check; file already approved (reopen it first); open comments; hash mismatch; no TTY; run by an agent |
-| `content report [--unit uNN]` | dashboard: new words, encounters, strand split, coverage, budgets, open review comments | — |
+| `content report [--unit uNN]` | dashboard: new words, encounters, strand split, coverage, budgets, open review comments (from the ledgers); Markdown on stdout and in `build/reports/report.md`. It is a list of section providers (`itcontent.report.SECTIONS`, `@section`), so later tasks add sections (audio MB per unit, M5.4) | — |
 | `content freq <word…>` / `content suggest --topic <t> --unit <u>` | frequency ranks; high-frequency candidates not yet in items (helper for the item graph) | — |
 | `content beta-import <events.jsonl>` | item statistics and rejected typed answers from study telemetry (`build/reports/beta/`) | — |
 
@@ -76,10 +76,10 @@ For every entry in `syllabus/a1-syllabus.yaml`, find where it is **introduced**,
 | `g:` / `s:` | the step that introduces it (`docs/05` § Introductions) | ≥ 1 learn exercise with it as a primary target | ≥ 1 check or final exercise with it as a primary target |
 | `cd:` | its unit | ≥ 1 learn exercise tagged with it | ≥ 1 unit-check exercise tagged with it |
 | `topic:` | an item with that topic introduced | an exercise whose primary target has the topic | a check exercise whose primary target has the topic |
-| `kind:` / `format:` / `section:` | a step of that kind or an exercise of that format exists | same | a check exercise of that format, or that section |
+| `kind:` / `format:` / `section:` | a written step of that kind, a learn exercise of that format, or a check section of that id with exercises | same | a check exercise of that format, or that section |
 | direct `sy:` tag | first tagged step | tagged learn exercise | tagged check exercise |
 
-An entry is satisfied in each role if any of its refs, a direct `sy:` tag, or a can-do listing the entry in its own `syllabus` is. The report lists every entry with its three locations. `syllabus_trace` in the pack stores the result. With `coverage_mode: report` (until G3) a gap is a warning showing the percentage; with `enforce` it is an error.
+An entry is satisfied in each role if any of its refs, a direct `sy:` tag, or a can-do listing the entry in its own `syllabus` is. Only written content counts: a `cd:` is introduced once a lesson of its unit is written, a `g:` or `s:` only by a written introduction (never a partial-content fallback), and placement items never count. A point with status `chunk` is practised and assessed through exercises that target a chunk that `exemplifies` it (it is never a target itself). A gap whose units (for `units: all`, any unit) are incomplete is *pending*: one pending line gives the percentage. The report lists every entry with its three locations. `syllabus_trace` in the pack stores the result. With `coverage_mode: report` (until G3) a gap is a warning showing the percentage; with `enforce` it is an error.
 
 ### Check 2 · Level gate (errors)
 
@@ -97,12 +97,14 @@ For every text and exercise at its course position *p* (unit order, then step or
 
 ### Check 3 · Recycling and balance (warnings unless stated)
 
-- **Encounters:** occurrences of each item in texts and exercise strings from its introduction to course end. P items need ≥ 10 (error below 6); R items need ≥ 6.
-- **Retrievals in the introducing lesson:** the preview counts 2 (match, then recall or choice). Add each exercise in the lesson that has the item as a primary target, contains it in the model answer of a production format (recall, sentence building, dictation, a cloze gap, a conversation turn's first accepted expansion), or pairs it in a `match`. Repeat-after-me and text the learner only reads don't count. P items need ≥ 4 (error below 2).
-- **Recycling:** ≥ 30% of content-word tokens in each unit's texts come from earlier units.
-- **Grammar spiral:** every grammar point is detected or targeted in ≥ 2 later units (Units 11–12: in the final review).
-- **Strand balance:** estimated minutes per strand per unit from the durations in `checker.yaml` must be 15–35% each.
-- **Story length:** within the unit spec's `words` range.
+- **Encounters:** occurrences of each item in texts and exercise strings from its introduction to course end (every string the learner meets: lines, layouts, prompts, `say`, options, match sides, notes, `help`, models and model answers; a chunk counts once per occurrence). P items need ≥ 10 (error below 6); R items need ≥ 6. Judged once every unit from the item's unit to the end is complete; until then the report shows the count.
+- **Retrievals in the introducing lesson:** the preview counts 2 (match, then recall or choice). Add each exercise in the lesson that has the item as a primary target, contains it in the model answer of a production format (recall, sentence building, dictation, a cloze gap, a conversation turn's first accepted expansion), or pairs it in a `match`. Repeat-after-me and text the learner only reads don't count. P items need ≥ 4 (error below 2). Judged as soon as the item's `lesson` is written.
+- **Recycling:** ≥ 30% of content-word tokens (nouns, verbs, adjectives, adverbs and chunks) in each unit's lesson and task texts come from earlier units (not for the first unit).
+- **Grammar spiral:** every grammar point is detected or targeted in ≥ 2 later units (Units 11–12: in the final review). Judged once every later unit is complete.
+- **Strand balance:** estimated minutes per strand per unit from the durations in `checker.yaml` must be 15–35% each (steps and exercises map to strands through `strands.by_kind`; the unit check is assessment and isn't counted; fluency replay is the unit's stories at `fluency_rate`).
+- **Story length:** within the unit spec's `words` range (non-punctuation tokens of the story's lines).
+
+Recycling and strand balance need a complete unit; an incomplete one gets one *pending* line.
 
 ### Check 4 · Alignment (errors)
 
