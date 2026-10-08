@@ -17,7 +17,7 @@ The content lead (an Italian teacher) reviews on the review pages and in the app
 
 ## Procedure
 
-1. **Import.** `uv run content review-import <file>` copies the file into `reviews/inbox/`, appends its comments to `reviews/<scope>.yaml` and prints the worklist. If it reports unknown targets, tell the owner; don't guess the target.
+1. **Import.** `uv run content review-import <file>` copies the file into `reviews/inbox/`, appends its comments to `reviews/<scope>.yaml` and prints the worklist. If it reports unknown targets, it imports nothing: tell the owner; don't guess the target. Elements the teacher only marked OK are filed as `noted` and need nothing from you.
 2. **Triage** each `open` comment:
    - **stale** (made on an older version): compare the quote with the current text. If the problem is already gone, resolve it as `answered` and say which change fixed it.
    - **question** verdicts: answer in `resolution.note` in plain English the teacher can read; change content only if the answer shows a real problem.
@@ -25,13 +25,13 @@ The content lead (an Italian teacher) reviews on the review pages and in the app
 3. **Fix**, following the `italian-content` skill (load it) for every content change:
    - **Italian error / unnatural:** use the teacher's suggestion when it passes the gates; otherwise write the closest version that does, and explain.
    - **Level:** rephrase with known items, or move the item to the preview; never add `allow:` to dodge a level problem.
-   - **Answer key** (incl. "This should be accepted" with a `response`): add the answer as an accepted alternative, or as a `near` with a hint if it's almost right. Keep the first expansion (the model answer) unless the teacher says the model itself is wrong.
+   - **Answer key** (incl. "This should be accepted" with a `response`): add the answer as an accepted alternative, or as a `near` with a hint if it's almost right. Keep the first expansion (the model answer) unless the teacher says the model itself is wrong. Adjudicated beta answers (`adjudication`: accept, near-miss, wrong) and "This should be accepted" comments come with ready proposals in `build/reports/review/<scope>-answers.md` (the exact pattern before and after, or the `near` entry to add); apply them, and write the hint yourself where the teacher gave none.
    - **Hint or rule:** hints point at the problem without giving the answer away; rules must not overgeneralise.
    - **English:** American English; one rendering per item across the unit.
    - **Culture or facts:** fix the text and add the fact to `story-bible.yaml` → `facts_to_check` if it's new.
    - **Audio:** an IPA override in `pronunciation.yaml` or the line's `say:`; re-render with `content tts` (ask the owner, it costs money).
 4. **Record** each comment's resolution in the ledger: `resolution: {status: fixed | answered | declined | owner, note: "<what you did or why not>", commit: <sha after you commit>}`. Declines always give the reason (usually the level gate) and an alternative.
-5. **Check:** `make annotate`, `make check-content`, then the content-critic on the files you changed. Fix what they find.
+5. **Check:** `make annotate`, `make check-content` (lint also checks every ledger comment's target and resolution), then the content-critic on the files you changed. Fix what they find. `uv run content report` lists the comments still open.
 6. **Return:** `uv run content review-export --unit <uNN> --since` writes the next page with the resolutions and the changed elements marked. Tell the owner where it is, and give a summary: how many comments were fixed, answered, declined, and which need the owner.
 7. **Sign-off:** when a review file with a `signoff` block comes back and the ledger has no open comments for its files, tell the owner the exact command: `uv run content approve <file> --by "<teacher>" --signoff reviews/inbox/<file>.json`. Don't run it.
 
