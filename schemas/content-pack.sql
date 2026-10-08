@@ -6,7 +6,8 @@
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE meta (
-  key   TEXT PRIMARY KEY,   -- schema_version, pack_version, content_hash, git_sha, built_with, course_id, locale, release (0|1)
+  key   TEXT PRIMARY KEY,   -- schema_version, pack_version, content_hash, git_sha, built_with, course_id, locale, release (0|1);
+                            -- dev packs also review_files (docs/04 § Pack build)
   value TEXT NOT NULL
 );
 

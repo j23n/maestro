@@ -51,7 +51,7 @@ import Testing
 
     @Test func everyTypedAnswerCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 27)
+        #expect(fixture.cases.count >= 34)
         let forms = KnownForms(fixture.defaults.knownForms.mapValues(\.ids))
         for c in fixture.cases {
             let profile = LearnerProfile(
@@ -168,7 +168,34 @@ import Testing
         #expect(grader.grade("ho ventitre anni", accepted: number).outcome == .correct)
         #expect(grader.grade("ho molti anni", accepted: number).outcome == .wrong)
         let filled = grader.grade("Mi chiamo Anna Maria", accepted: name)
-        #expect(filled.correction == "mi chiamo anna maria")
+        #expect(filled.correction == "mi chiamo Anna Maria")
+    }
+
+    /// The correction is the model answer as the author wrote it (case, punctuation), the learner's words in slots.
+    @Test func correctionKeepsTheAuthorsCaseAndTheLearnersWords() throws {
+        let formal = grader.grade("lei parla italano", accepted: try AnswerPattern("Lei parla italiano?"))
+        #expect(formal.outcome == .almost)
+        #expect(formal.correction == "Lei parla italiano?")
+        let name = grader.grade("mi chiamo ANNA maria", accepted: try AnswerPattern("Mi chiamo {NAME}."))
+        #expect(name.correction == "Mi chiamo ANNA maria.")
+        let escaped = grader.grade("{NAME} anna", accepted: try AnswerPattern("\\{NAME\\} {NAME}"))
+        #expect(escaped.correction == "{NAME} anna")
+        let home = TypedAnswerGrader(profile: LearnerProfile(forms: .m, country: Self.us))
+            .grade("abito negli stati uniti", accepted: try AnswerPattern("Abito {ME.home}."))
+        #expect(home.correction == "Abito negli Stati Uniti.")
+    }
+
+    /// A slot never takes a word that an expected literal matches exactly: the slot is what's missing.
+    @Test func aSlotNeverSwallowsTheLiteralBeforeIt() throws {
+        let name = grader.grade("mi chiamo", accepted: try AnswerPattern("mi chiamo {NAME}"))
+        #expect(name.mismatches == [2])
+        #expect(name.hintKind == .missing)
+        #expect(name.correction == "mi chiamo {NAME}")
+        let country = grader.grade("vengo dagli", accepted: try AnswerPattern("vengo dagli {ME.country}"))
+        #expect(country.mismatches == [2])
+        #expect(country.correction == "vengo dagli {ME.country}")
+        let filled = grader.grade("mi chiamo Anna", accepted: try AnswerPattern("mi chiamo {NAME}"))
+        #expect(filled.outcome == .correct)
     }
 
     static let us = LearnerProfile.Country(
@@ -194,16 +221,104 @@ import Testing
         let lenient = TypedAnswerGrader(profile: LearnerProfile(forms: .m, strictForms: false, country: Self.us))
         #expect(lenient.grade("sono americana", accepted: p).outcome == .correct)
         let strict = TypedAnswerGrader(profile: LearnerProfile(forms: .m, strictForms: true, country: Self.us))
-        #expect(strict.grade("sono americana", accepted: p).outcome == .almost)  // a typo of americano, no forms known
+        // The other gender's form is another form of the same item even when the pack's forms don't list it: an
+        // inflection error (ending), never a typo.
+        let other = strict.grade("sono americana", accepted: p)
+        #expect(other.outcome == .wrong)
+        #expect(other.hintKind == .ending)
+        #expect(other.mismatches == [1])
         #expect(strict.grade("sono americano", accepted: p).outcome == .correct)
+        // A real typo of the learner's form is still a typo.
+        #expect(strict.grade("sono amerciano", accepted: p).outcome == .almost)
         // Both forms: strict has no effect.
         let both = TypedAnswerGrader(profile: LearnerProfile(forms: .both, strictForms: true, country: Self.us))
         #expect(both.grade("sono americana", accepted: p).outcome == .correct)
+    }
+
+    @Test func strictFormsMakeTheOtherGenderAnEndingError() throws {
+        let strictM = TypedAnswerGrader(profile: LearnerProfile(forms: .m, strictForms: true))
+        let nata = strictM.grade("sono nata a Toronto", accepted: try AnswerPattern("sono {m:nato|f:nata} a Toronto"))
+        #expect(nata.outcome == .wrong)
+        #expect(nata.hintKind == .ending)
+        // Alternatives of the same length pair word by word: la/il, mia/mio, amica/amico.
+        let strictF = TypedAnswerGrader(profile: LearnerProfile(forms: .f, strictForms: true))
+        let friend = try AnswerPattern("è {m:il mio amico|f:la mia amica}")
+        let g = strictF.grade("è la mia amico", accepted: friend)
+        #expect(g.outcome == .wrong)
+        #expect(g.mismatches == [3])
+        #expect(g.hintKind == .ending)
+        #expect(
+            friend.genderFormPairs() == [FormPair("il", "la"), FormPair("mio", "mia"), FormPair("amico", "amica")])
+        // Different lengths: every differing word of one with every differing word of the other.
+        #expect(
+            try AnswerPattern("{m:un amico|f:un'amica}").genderFormPairs()
+                == [FormPair("un", "un'amica"), FormPair("amico", "un'amica")])
+        // A nationality with one form for both genders (canadese) has no pair.
+        let canada = LearnerProfile.Country(
+            id: "ca", nameIt: "Canada", homePhrase: "in Canada", nationalityM: "canadese", nationalityF: "canadese")
+        let nationality = try AnswerPattern("sono {ME.nationality}")
+        #expect(nationality.genderFormPairs(profile: LearnerProfile(country: canada)).isEmpty)
+        #expect(
+            nationality.genderFormPairs(profile: LearnerProfile(country: Self.us))
+                == [FormPair("americano", "americana")])
+    }
+
+    /// Accent-sensitive words: leaving the accent off (or adding one) makes another word; the wrong accent is a slip.
+    @Test func theWrongAccentOnAnAccentSensitiveWordIsAlmost() throws {
+        let gap = try AnswerPattern.clozeGap("è")
+        let wrongAccent = grader.grade("é", accepted: gap)
+        #expect(wrongAccent.outcome == .almost)
+        #expect(wrongAccent.hintKind == .spelling)
+        #expect(wrongAccent.mismatches == [0])
+        #expect(grader.grade("e", accepted: gap).outcome == .wrong)
+        #expect(grader.grade("Lei é americano", accepted: try AnswerPattern("Lei è americano")).outcome == .almost)
+        #expect(grader.grade("si", accepted: try AnswerPattern("sì")).outcome == .wrong)
+        #expect(grader.grade("sí", accepted: try AnswerPattern("sì")).outcome == .almost)
+        // Other words keep accent tolerance either way.
+        #expect(grader.grade("perchè", accepted: try AnswerPattern("perché")).outcome == .correctWithNote)
+    }
+
+    /// The generic hint is about what makes the answer wrong, not an accent slip before it.
+    @Test func hintKindComesFromTheFirstHardMismatch() throws {
+        let forms = KnownForms(["lui": ["w:lui"], "lei": ["w:lei"]])
+        let g = TypedAnswerGrader(knownForms: forms)
+            .grade("perche lei è piu alto", accepted: try AnswerPattern("perché lui è più alto"))
+        #expect(g.outcome == .wrong)
+        #expect(g.mismatches == [0, 1, 3])
+        #expect(g.hintKind == .realWord)
+        // Without a hard mismatch, the first mismatch.
+        #expect(grader.grade("perche lui è piu alto", accepted: try AnswerPattern("perché lui è più alto")).hintKind
+            == .spelling)
     }
 
     @Test func gradedAnswerCarriesWhatFeedbackNeeds() throws {
         let forms = KnownForms(["un": ["g:indefinite-article"], "una": ["g:indefinite-article"]])
         let g = TypedAnswerGrader(knownForms: forms).grade("un spremuta", accepted: try AnswerPattern("una [spremuta]"))
         #expect(g.answer == GradedAnswer(outcome: .wrong, hintKind: .ending, mismatches: [0]))
+    }
+}
+
+
+/// docs/02 budget: Check → feedback under 50 ms. The largest pattern allowed (512 expansions) with a 13-token
+/// answer took about 380 ms in a debug build before pairings were cached per token (about 45 ms after; 225 ms →
+/// 10 ms in release). The bound is generous so a slow CI machine passes, but the old cost per cell fails it.
+@Suite struct TypedAnswerGraderPerformanceTests {
+    @Test func aFullSizePatternGradesWellWithinBudget() throws {
+        let p = try AnswerPattern(
+            "(buongiorno )(vorrei ){un caffè|un cappuccino|una spremuta|un cornetto} {e|con} "
+                + "{un caffè|un cappuccino|una spremuta|un cornetto}( per favore)( grazie)")
+        #expect(p.expansionCount == AnswerPattern.expansionLimit)
+        let response = "buongiorno io vorrei un capuccino con una spremutta per favore e grazie mille"
+        #expect(Normalizer.tokens(response).count == 13)
+        let grader = TypedAnswerGrader()
+        let clock = ContinuousClock()
+        var fastest = Duration.seconds(60)
+        var grade: TypedGrade?
+        for _ in 0..<3 {
+            fastest = min(fastest, clock.measure { grade = grader.grade(response, accepted: p) })
+        }
+        #expect(grade?.outcome == .wrong)
+        #expect(grade?.expansion?.text == "buongiorno vorrei un cappuccino con una spremuta per favore grazie")
+        #expect(fastest < .milliseconds(200), "took \(fastest)")
     }
 }

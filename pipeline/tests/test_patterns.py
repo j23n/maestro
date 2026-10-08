@@ -49,7 +49,7 @@ def test_patterns_fixture(case):
     if "error" in case:
         with pytest.raises(PatternError) as exc:
             expand(case["pattern"])
-        assert str(exc.value) == case["error"]
+        assert exc.value.message == case["error"]
         return
     exps = expand(case["pattern"])
     if "expansions" in case:

@@ -84,6 +84,18 @@ import Testing
         #expect(sink.drafts.map(\.outcome) == [.wrong, .correct])
     }
 
+    @Test func sentenceBuildingInACheckHighlightsNothing() throws {
+        let m = try #require(
+            SentenceBuildingModel(payload: try PayloadFixtures.exercise("u02.l1.ex10"), env: env(.check), sink: sink))
+        for word in ["oggi", "vorrei", "una", "caffè"] {
+            m.place(try #require(m.available.first { $0.word == word }).id)
+        }
+        m.check()
+        #expect(m.isDone)
+        #expect(m.highlighted == nil)
+        #expect(sink.drafts.map(\.outcome) == [.wrong])
+    }
+
     @Test func dictationMarksDoubling() throws {
         let m = try #require(DictationModel(payload: try PayloadFixtures.exercise("u02.l1.ex13"), env: env(), sink: sink))
         #expect(m.hintLine == "5 words")

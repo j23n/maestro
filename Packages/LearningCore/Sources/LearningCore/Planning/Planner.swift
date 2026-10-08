@@ -43,6 +43,17 @@ public struct TodayPlan: Hashable, Sendable {
         public var secondsPerCard: Double
         /// Two example items, in session order.
         public var exampleItems: [ItemID]
+
+        public init(dueCount: Int, dueTotal: Int, focusCount: Int, estimatedMinutes: Int, secondsPerCard: Double,
+                    exampleItems: [ItemID])
+        {
+            self.dueCount = dueCount
+            self.dueTotal = dueTotal
+            self.focusCount = focusCount
+            self.estimatedMinutes = estimatedMinutes
+            self.secondsPerCard = secondsPerCard
+            self.exampleItems = exampleItems
+        }
     }
 
     public struct CatchUp: Hashable, Sendable {
@@ -50,6 +61,11 @@ public struct TodayPlan: Hashable, Sendable {
         public var count: Int
         /// Placement-introduced pairs still without memory.
         public var waiting: Int
+
+        public init(count: Int, waiting: Int) {
+            self.count = count
+            self.waiting = waiting
+        }
     }
 
     public struct Stats: Hashable, Sendable {
@@ -57,6 +73,12 @@ public struct TodayPlan: Hashable, Sendable {
         public var unitsCompleted: Int
         /// Units 0–12: 13 in the full course.
         public var unitsTotal: Int
+
+        public init(wordsKnown: Int, unitsCompleted: Int, unitsTotal: Int) {
+            self.wordsKnown = wordsKnown
+            self.unitsCompleted = unitsCompleted
+            self.unitsTotal = unitsTotal
+        }
     }
 
     public var review: Review
@@ -67,6 +89,18 @@ public struct TodayPlan: Hashable, Sendable {
     public var stats: Stats
     /// Due > 40: the Review card is the primary action. Lessons are never blocked.
     public var reviewIsPrimary: Bool
+
+    /// For previews and App tests; the planner builds real plans.
+    public init(review: Review, catchUp: CatchUp, continuePoint: ContinuePoint?, week: WeekProgress, stats: Stats,
+                reviewIsPrimary: Bool)
+    {
+        self.review = review
+        self.catchUp = catchUp
+        self.continuePoint = continuePoint
+        self.week = week
+        self.stats = stats
+        self.reviewIsPrimary = reviewIsPrimary
+    }
 }
 
 /// `Planner.today(now:)` (docs/05 § The Today planner).

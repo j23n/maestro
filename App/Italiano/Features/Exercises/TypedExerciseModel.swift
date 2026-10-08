@@ -60,6 +60,9 @@ final class TypedExerciseModel {
     private(set) var machine: FeedbackMachine
     private(set) var lastGrade: TypedGrade?
     private(set) var lastSpoken: TranscriptMatcher.Match?
+    /// What the recogniser heard for the last answer when it was spoken (shown as "I heard: …"); nil after a
+    /// typed answer.
+    private(set) var lastHeard: String?
     private(set) var visibleHint: String?
     @ObservationIgnored private var clock: AttemptClock
 
@@ -72,6 +75,9 @@ final class TypedExerciseModel {
     }
 
     var isDone: Bool { machine.isDone }
+    /// Checks, the final check and placement: the answer was recorded and nothing is shown, so the player moves
+    /// straight on (docs/06 § Unit check).
+    var movesOnWithoutFeedback: Bool { machine.isDone && feedback == nil }
     var canCheck: Bool {
         !response.trimmingCharacters(in: .whitespaces).isEmpty && !machine.isDone && !isShowingAnswer
             && !isHinted
@@ -102,6 +108,8 @@ final class TypedExerciseModel {
         let grade = TypedAnswerGrader(knownForms: env.knownForms, profile: env.profile)
             .grade(response, accepted: task.accepted, near: task.near)
         lastGrade = grade
+        lastSpoken = nil
+        lastHeard = nil
         if let record = machine.submit(grade.answer) {
             emit(record, response: response, mode: .typed, skill: nil)
         }
@@ -114,9 +122,11 @@ final class TypedExerciseModel {
         let match = TranscriptMatcher(profile: env.profile).match(transcripts: result.allTranscripts,
                                                                   accepted: task.accepted)
         lastSpoken = match
+        lastGrade = nil  // a typed grade from an earlier attempt must not label this one
         response = match?.heard ?? result.transcript
-        let outcome: AttemptOutcome = (match?.passed ?? false) ? .correct : .wrong
-        if let record = machine.submit(GradedAnswer(outcome: outcome)) {
+        lastHeard = response
+        // A spoken miss has no hint kind: the learner may have said something else ("I heard: …", docs/09).
+        if let record = machine.submit(match?.answer ?? GradedAnswer(outcome: .wrong)) {
             emit(record, response: response, mode: .spoken, skill: .speak)
         }
         updateHint()
@@ -159,10 +169,11 @@ final class TypedExerciseModel {
         case .awaitingFirst, .awaitingSecond:
             return nil
         case .hinted(let hint):
+            let detail = [lastHeard.map(FeedbackCopy.heard), hint?.text].compactMap { $0 }.joined(separator: "\n")
             return FeedbackPresentation(
                 tone: .hint, headline: FeedbackCopy.headline(for: hint, kind: lastGrade?.hintKind),
-                detail: hint?.text, answer: nil, rule: nil, canTryAgain: true, canShowAnswer: machine.canShowAnswer,
-                canContinue: false)
+                detail: detail.isEmpty ? nil : detail, answer: nil, rule: nil, canTryAgain: true,
+                canShowAnswer: machine.canShowAnswer, canContinue: false)
         case .answerShown(let reason):
             return FeedbackPresentation(
                 tone: .answer, headline: reason == .revealed ? FeedbackCopy.revealed : FeedbackCopy.failedTwice,
@@ -188,6 +199,8 @@ final class TypedExerciseModel {
                     : FeedbackPresentation(tone: .answer, headline: FeedbackCopy.failedTwice, detail: nil,
                                            answer: modelAnswer, rule: task.rule, canTryAgain: false,
                                            canShowAnswer: false, canContinue: true)
+            case .recorded:
+                return nil  // no feedback in assessments
             }
         }
     }

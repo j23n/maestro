@@ -37,9 +37,23 @@ public enum Normalizer {
         taggedTokens([(text, false)]).map(\.text)
     }
 
+    /// The tokens of `text` normalised as by `tokens(_:)` but keeping the learner's case (`Anna Maria`, `Lei`): one
+    /// per normalised token, for showing the learner's own words back. Lowercasing never moves a token boundary.
+    public static func displayTokens(_ text: String) -> [String] {
+        taggedTokens([(text, false)], lowercase: false).map(\.text)
+    }
+
     /// True if `token` is one of the accent-sensitive words (docs/05).
     public static func isAccentSensitive(_ token: String) -> Bool {
         accentSensitiveWords.contains(token)
+    }
+
+    /// For two tokens that differ only in accents: true when one is accent-sensitive and only one of them carries
+    /// an accent, so they are different words (*e*/*è*, *si*/*sì*). The other accent on an accented word (*é* for
+    /// *è*, *sí* for *sì*) is a slip, not another word (docs/05 § Normalisation).
+    public static func isOtherAccentSensitiveWord(_ a: String, _ b: String) -> Bool {
+        guard isAccentSensitive(a) || isAccentSensitive(b) else { return false }
+        return (stripAccents(a) != a) != (stripAccents(b) != b)
     }
 
     /// Removes combining marks after NFD (docs/05): `perché` → `perche`. The result is NFC.
@@ -66,14 +80,13 @@ public enum Normalizer {
 
     /// Normalises the concatenation of `pieces`, keeping track of which tokens contain characters from a piece
     /// whose flag is set (the focus spans of an answer pattern).
-    static func taggedTokens(_ pieces: [(String, Bool)]) -> [TaggedToken] {
-        // Steps 1–3: NFC, apostrophes, lowercase.
+    static func taggedTokens(_ pieces: [(String, Bool)], lowercase: Bool = true) -> [TaggedToken] {
+        // Steps 1–3: NFC, lowercase, apostrophes (lowercasing never makes or removes an apostrophe variant).
         var chars: [(c: Character, tag: Bool)] = []
         for (piece, tag) in pieces {
-            for c in piece.precomposedStringWithCanonicalMapping {
-                let mapped: Character = apostropheVariants.contains(c) ? "'" : c
-                for lower in String(mapped).lowercased() { chars.append((lower, tag)) }
-            }
+            var text = isNFC(piece) ? piece : piece.precomposedStringWithCanonicalMapping
+            if lowercase { text = text.lowercased() }
+            for c in text { chars.append((isApostropheVariant(c) ? "'" : c, tag)) }
         }
         // Step 4: punctuation and hyphens become spaces (neighbours are judged on the text before replacement).
         var cleaned = chars
@@ -81,7 +94,7 @@ public enum Normalizer {
             let c = chars[i].c
             let prev: Character? = i > 0 ? chars[i - 1].c : nil
             let next: Character? = i + 1 < chars.count ? chars[i + 1].c : nil
-            if punctuation.contains(c) {
+            if isPunctuation(c) {
                 if digitSeparators.contains(c), isDigit(prev), isDigit(next) { continue }
                 cleaned[i].c = " "
             } else if c == "-" {
@@ -111,6 +124,27 @@ public enum Normalizer {
             }
         }
         return tokens
+    }
+
+    /// `apostropheVariants.contains(c)`, without hashing a Character for ASCII (the common case).
+    static func isApostropheVariant(_ c: Character) -> Bool {
+        if let a = c.asciiValue { return a == 0x60 }
+        return apostropheVariants.contains(c)
+    }
+
+    /// `punctuation.contains(c)`, without hashing a Character for ASCII (the common case).
+    static func isPunctuation(_ c: Character) -> Bool {
+        guard let a = c.asciiValue else { return punctuation.contains(c) }
+        switch a {
+        case 0x2E, 0x2C, 0x3B, 0x3A, 0x21, 0x3F, 0x22, 0x28, 0x29, 0x5B, 0x5D: return true  // . , ; : ! ? " ( ) [ ]
+        default: return false
+        }
+    }
+
+    /// A fast path for step 1: text whose scalars are all below U+0300 (no combining marks, no canonical
+    /// singletons, no Hangul) is already NFC. Answer patterns are expanded hundreds of times per grade.
+    static func isNFC(_ text: String) -> Bool {
+        text.unicodeScalars.allSatisfy { $0.value < 0x300 }
     }
 
     static func isDigit(_ c: Character?) -> Bool {

@@ -200,6 +200,8 @@ import Testing
 
     // MARK: Check, final and placement: one attempt, no hint, no "Show answer"
 
+    /// No feedback in assessments (docs/06 § Unit check): every answer is recorded with its outcome and the
+    /// machine ends in `done(recorded)`, never in a state the UI would show as right or wrong.
     @Test(arguments: [AttemptContext.check, .final, .placement])
     func singleAttemptContexts(_ context: AttemptContext) {
         var wrong = Machine(context: context, exerciseHint: "A hint.")
@@ -209,15 +211,17 @@ import Testing
         #expect(!wrong.canShowAnswer)
         #expect(wrong.showAnswer() == nil)
         #expect(wrong.submit(Self.wrong) == Record(attemptIndex: 1, outcome: .wrong, feedbackShown: .none))
-        #expect(wrong.state == .done(.failed))
+        #expect(wrong.state == .done(.recorded))
+        #expect(wrong.markedWrongChoices.isEmpty)
         #expect(wrong.submit(Self.correct) == nil)
 
-        var right = Machine(context: context)
-        right.submit(Self.correct)
-        #expect(right.state == .done(.success))
-        var almost = Machine(context: context)
-        almost.submit(Self.almost)
-        #expect(almost.state == .done(.successWithCorrection))
+        for answer in [Self.correct, Self.withNote, Self.almost, ChoiceGrader.grade(selected: 1, answer: 0)] {
+            var m = Machine(context: context)
+            #expect(m.submit(answer) == Record(attemptIndex: 1, outcome: answer.outcome, feedbackShown: .none))
+            #expect(m.state == .done(.recorded))
+            #expect(m.lastAnswer == answer)
+            #expect(m.markedWrongChoices.isEmpty)
+        }
     }
 
     // MARK: Skip (speaking)
@@ -234,6 +238,47 @@ import Testing
             after.submit(GradedAnswer(outcome: .skipped))
                 == Record(attemptIndex: 2, outcome: .skipped, feedbackShown: .hint))
         #expect(after.state == .done(.skipped))
+    }
+
+    @Test func skipStraightFromHinted() {
+        var m = Machine(context: .lesson, exerciseHint: "Say it with un.")
+        m.submit(Self.wrong)
+        #expect(m.state == .hinted(.exercise("Say it with un.")))
+        #expect(m.skip() == Record(attemptIndex: 2, outcome: .skipped, feedbackShown: .hint))
+        #expect(m.state == .done(.skipped))
+        #expect(m.skip() == nil)
+    }
+
+    // MARK: "Show a hint" after a miss
+
+    @Test func requestingAHintAfterAMissReturnsTheHintOnScreen() {
+        var m = Machine(context: .lesson, exerciseHint: "Cappuccino is masculine.")
+        m.submit(Self.wrong)
+        #expect(m.requestHint() == .exercise("Cappuccino is masculine."))
+        #expect(m.state == .hinted(.exercise("Cappuccino is masculine.")))
+        #expect(!m.canRequestHint)
+        #expect(!m.hintRequested)  // only "Show a hint" before answering sets it
+        m.tryAgain()
+        #expect(m.requestHint() == .exercise("Cappuccino is masculine."))
+        #expect(m.state == .awaitingSecond(.exercise("Cappuccino is masculine.")))
+        #expect(m.submit(Self.correct) == Record(attemptIndex: 2, outcome: .correct, feedbackShown: .hint))
+
+        // A near-miss hint outranks the exercise's, and stays the one on screen.
+        var near = Machine(context: .lesson, exerciseHint: "Cappuccino is masculine.")
+        near.submit(GradedAnswer(outcome: .wrong, nearHint: "Una is for feminine nouns."))
+        #expect(near.requestHint() == .nearMiss("Una is for feminine nouns."))
+        near.tryAgain()
+        #expect(near.requestHint() == .nearMiss("Una is for feminine nouns."))
+
+        // No exercise hint: the generic hint on screen, or nothing.
+        var generic = Machine(context: .lesson)
+        generic.submit(Self.wrong)
+        #expect(generic.requestHint() == .generic(.ending))
+        var none = Machine(context: .review)
+        none.submit(ChoiceGrader.grade(selected: 1, answer: 0))
+        none.tryAgain()
+        #expect(none.requestHint() == nil)
+        #expect(none.state == .awaitingSecond(nil))
     }
 
     // MARK: Records feed the rating policy as specified

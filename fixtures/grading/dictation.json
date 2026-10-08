@@ -93,6 +93,18 @@
     "correct"
    ],
    "note": "e/è are different words: an accent-sensitive word gets no accent mark"
+  },
+  {
+   "target": "Lei è di Roma.",
+   "response": "lei é di roma",
+   "outcome": "almost",
+   "marks": [
+    "correct",
+    "accent",
+    "correct",
+    "correct"
+   ],
+   "note": "é for è is the wrong accent, not another word: an accent mark (e for è stays wrong)"
   }
  ]
 }

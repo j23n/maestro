@@ -208,7 +208,11 @@ final class SentenceBuildingModel {
 
     var available: [Tile] { tiles.filter { !placed.contains($0.id) } }
     var answerLine: [Tile] { placed.compactMap { id in tiles.first { $0.id == id } } }
-    var highlighted: Int? { lastResult?.firstMisplaced.flatMap { $0 < placed.count ? placed[$0] : nil } }
+    /// The first misplaced tile, after a miss in practice (never in assessments: no feedback there).
+    var highlighted: Int? {
+        guard !env.context.isAssessment else { return nil }
+        return lastResult?.firstMisplaced.flatMap { $0 < placed.count ? placed[$0] : nil }
+    }
     var isDone: Bool { machine.isDone }
 
     func place(_ id: Int) { if !placed.contains(id) && !machine.isDone { placed.append(id) } }
@@ -316,7 +320,9 @@ final class DictationModel {
 
     /// The note for a doubling slip: "Listen again: cornetto has a double t".
     var doublingNote: String? {
-        guard let w = result?.words.first(where: { $0.mark == .doubling }), let c = w.consonant else { return nil }
+        guard !env.context.isAssessment, let w = result?.words.first(where: { $0.mark == .doubling }),
+            let c = w.consonant
+        else { return nil }
         return w.targetIsDouble == false
             ? "Listen again: \(w.expected) has a single \(c)."
             : "Listen again: \(w.expected) has a double \(c)."
