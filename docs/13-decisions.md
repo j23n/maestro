@@ -151,6 +151,15 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 - Real-world layout strings are numbered in reading order; that number is `glossTapped.line` and `reading.field.<n>`.
 - Telemetry sends the OS major version only; `onboardingCompleted` keeps only `reason` and `beginner`; unknown event types stay local and are marked sent.
 
+**Placement and final check (M8.1, M8.2)**
+- Placement runs only the blocks a pack can: up to the first block without exercises. Passing them all starts at the first unit without questions; a pack whose first block is empty (today's skeleton) offers no placement and "Yes, I know a little" goes straight to Today. The offer comes back at launch if placement never finished and the learner has nothing else (docs/05 § Placement, points 6–7).
+- Leaving placement offers only Start from the beginning (or Keep going), so a placement left half-way never skips a unit.
+- Placement is exempt from the eligibility rule (hard rule 4): it tests what the learner brings before anything is taught. The final check isn't: its missing requirements go through the mini-preview before the first item.
+- The final check is entered from the final review unit's overview; a speaking section the device can't take is left out of the sitting, not only unscored. Talk and writing follow check mode in every check (no result, no Try again), which also fixes the unit check.
+- Recordings are named by the `attempt` event's ID: written as `pending` while the learner speaks, renamed when the attempt is written (docs/09).
+- The examiner export uses the app's own stored-ZIP writer instead of `NSFileCoordinator` `.forUploading` (deterministic, no extra wrapping folder, tested on Linux). The zip is written when the check ends and shared through `ShareLink`, which can't report whether sharing finished, so writing the zip counts as the successful export that deletes the raw recordings; the zip itself is kept 30 days so a cancelled share can be retried from the result or the final review unit. Without an install ID the file is `final-check-<date>.zip`; the date is the calendar date in the learner's time zone. `responses.json` has a documented shape (docs/12).
+- App tests can't use LearningCore's test course (the Xcode test target links only the App), so they use their own synthetic course (`AssessmentCourse`): no pack has placement or final-check items yet.
+
 ## Proposed changes
 
 Agents add proposals here (date, ADR or question, proposal, reason) and stop. Don't implement a proposal until the owner accepts it.

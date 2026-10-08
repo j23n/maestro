@@ -233,7 +233,11 @@ struct TalkView: View {
             ExerciseInstruction("Talk about it")
             Text(model.talk.promptEn).dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
             pointsList
-            if showingResult, model.result != nil {
+            if showingResult, model.result != nil, model.isAssessment {
+                // Checks show nothing about the answer until the end (docs/06 § 18).
+                Text("Answer recorded.").dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
+                ContinueButton(action: onContinue)
+            } else if showingResult, model.result != nil {
                 resultSection
             } else {
                 answerSection
@@ -242,24 +246,28 @@ struct TalkView: View {
         .readableColumn()
     }
 
+    /// The points found are shown after the answer in practice; checks show nothing until the end (docs/06 § 18).
+    private var revealed: Bool { showingResult && !model.isAssessment }
+    private func ticked(_ id: String) -> Bool { revealed && model.found.contains(id) }
+
     private var pointsList: some View {
         VStack(alignment: .leading, spacing: Tokens.Space.m) {
             ForEach(model.talk.points, id: \.id) { point in
                 HStack(spacing: Tokens.Space.m) {
                     Image(
-                        systemName: showingResult && model.found.contains(point.id)
+                        systemName: ticked(point.id)
                             ? "checkmark.circle.fill"
                             : "circle"
                     )
                     .foregroundStyle(
-                        showingResult && model.found.contains(point.id)
+                        ticked(point.id)
                             ? Color.ds.success : Color.ds.inputBorder
                     )
                     .accessibilityHidden(true)
                     Text(point.en).dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.ink)
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityValue(Text(showingResult ? (model.found.contains(point.id) ? "found" : "not found") : ""))
+                .accessibilityValue(Text(revealed ? (ticked(point.id) ? "found" : "not found") : ""))
                 .accessibilityIdentifier("talk.point.\(point.id)")
             }
         }
@@ -359,7 +367,7 @@ struct WritingView: View {
             ExerciseInstruction(model.isForm ? "Fill in the form" : "Write in Italian")
             Text(model.writing.promptEn).dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
             if model.isForm { form } else { freeText }
-            if model.submitted { feedback }
+            if model.submitted && !model.isAssessment { feedback }
             if model.submitted {
                 ContinueButton(action: onContinue)
             } else {
@@ -390,7 +398,7 @@ struct WritingView: View {
                             .disabled(model.submitted)
                             .accessibilityLabel(Text(field.labelEn))
                             .accessibilityIdentifier("writing.field.\(n)")
-                        if model.submitted, let valid = model.fieldValid[safe: n] ?? nil, !valid {
+                        if model.submitted, !model.isAssessment, let valid = model.fieldValid[safe: n] ?? nil, !valid {
                             Text("Check this one.").dsFont(Tokens.TypeScale.uiCaption)
                                 .foregroundStyle(Color.ds.warningText)
                         }
