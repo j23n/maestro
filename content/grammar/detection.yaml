@@ -5,8 +5,13 @@
 # unlock: Morph-it! feature patterns that become legal from the point's unit (regex on the features after the colon,
 #         e.g. "ind+pres+3+s"); `lemmas: "*"` means every verb.
 # detect: token sequences; matchers take form (regex on the lowercase surface), lemma (list), pos (Morph-it!
-#         category prefixes), morph (regex) and optional: true. `none` = traced via exercise targets only.
-#         A matcher matches a token only if EVERY Morph-it! analysis left after disambiguation matches.
+#         category prefixes on `-` boundaries), morph (regex on the features after the colon), optional: true and
+#         any: true. `none` = traced via exercise targets only.
+#         A matcher matches a token only if EVERY Morph-it! analysis left after disambiguation matches, so an
+#         invariable noun (caffè: NOUN-M:s and NOUN-M:p) never counts as a plural. `any: true` relaxes this to ONE
+#         analysis, for verb forms Morph-it! also lists as another mood or as an adjective (parliamo is ind, impr and
+#         sub; fai is ind and impr; finito is a participle and an adjective): see pipeline/data/SOURCES.md.
+#         Rules whose words have odd Morph-it! lemmas (molti → molti, quella → quella) match the form instead.
 
 rules:
 - id: g:essere-present-sg
@@ -79,13 +84,17 @@ rules:
 - id: g:possessives
   detect:
   - seq:
-    - pos: [DET-POSS]
+    - form: ^(mio|mia|miei|mie|tuo|tua|tuoi|tue|suo|sua|suoi|sue|nostro|nostra|nostri|nostre|vostro|vostra|vostri|vostre|loro)$
+      pos: [DET-POSS, PRO-POSS, ADJ]
+  note: Morph-it! lists mia, sua, miei as both PRO-POSS (lemma mia) and DET-POSS (lemma mio), and tuo also as ADJ; loro is
+    also a personal pronoun, so it counts only once disambiguated to a possessive.
 - {id: 'g:np-agreement', detect: none}
 - {id: 'g:predicative-agreement', detect: none}
 - id: g:molto
   detect:
   - seq:
-    - lemma: [molto]
+    - {form: '^molt[oaie]$'}
+  note: by form, because Morph-it! gives molti the lemma molti (PRO-INDEF) besides molto.
 - id: g:present-regular-sg
   unlock:
   - {lemmas: '*', morph: 'ind\+pres\+[123]\+s'}
@@ -95,17 +104,19 @@ rules:
   - {lemmas: '*', morph: ind\+pres\+1\+p}
   detect:
   - seq:
-    - {morph: ^ind\+pres\+1\+p}
+    - {morph: ^ind\+pres\+1\+p, any: true}
 - id: g:present-isc
   detect:
   - seq:
     - lemma: [capire, preferire, finire, pulire, spedire]
       morph: ^ind\+pres
+      any: true
 - id: g:fare-present
   detect:
   - seq:
     - lemma: [fare]
       morph: ^ind\+pres
+      any: true
 - id: g:infinitive
   unlock:
   - {lemmas: '*', morph: ^inf}
@@ -123,11 +134,13 @@ rules:
       pos: [PRO-PERS, SI]
     - lemma: [alzare, svegliare, lavare, vestire, chiamare, riposare, sentire, divertire, preparare, addormentare]
       morph: ^ind\+pres\+[123]\+s
+      any: true
 - id: g:irregular-movement
   detect:
   - seq:
     - lemma: [andare, venire, uscire, stare]
       morph: ^ind\+pres
+      any: true
 - {id: 'g:telling-time', detect: none}
 - id: g:frequency-adverbs
   detect:
@@ -151,6 +164,7 @@ rules:
     - {form: ^ci$}
     - lemma: [essere]
       morph: ^ind\+pres\+3
+      any: true
 - id: g:articulated-prepositions
   detect:
   - seq:
@@ -179,7 +193,7 @@ rules:
   - {lemmas: '*', morph: ind\+pres\+2\+p}
   detect:
   - seq:
-    - {morph: ^ind\+pres\+2\+p}
+    - {morph: ^ind\+pres\+2\+p, any: true}
 - id: g:ordinals
   detect:
   - seq:
@@ -188,7 +202,8 @@ rules:
 - id: g:questo-quello
   detect:
   - seq:
-    - lemma: [questo, quello]
+    - {form: "^(quest[oaie]|quell[oaie]|quell'|quel|quei|quegli)$"}
+  note: by form, because Morph-it! gives quella, quelli, questi their own lemmas (PRO-DEMO) besides quello, questo.
 - id: g:present-loro
   unlock:
   - {lemmas: '*', morph: ind\+pres\+3\+p}
@@ -199,7 +214,8 @@ rules:
 - id: g:tutto-tanto
   detect:
   - seq:
-    - lemma: [tutto, tanto, poco]
+    - {form: '^(tutt[oaie]|tant[oaie]|poc[oa]|poch[ie])$'}
+  note: by form, because Morph-it! gives tutti, tante, pochi their own lemmas (PRO-INDEF) besides tutto, tanto, poco.
 - {id: 'g:numbers-above-100', detect: none}
 - id: g:direct-object-pronouns
   detect:
@@ -230,7 +246,7 @@ rules:
   - seq:
     - pos: [PRE]
       form: ^(a|con|per|da|di)$
-    - {form: ^(me|te|lui|lei|noi|voi|loro|Lei)$}
+    - {form: ^(me|te|lui|lei|noi|voi|loro)$}
 - id: g:perche
   detect:
   - seq:
@@ -257,9 +273,10 @@ rules:
   - seq:
     - lemma: [avere]
       morph: ^ind\+pres
+      any: true
     - pos: [ADV]
       optional: true
-    - {morph: ^part\+past}
+    - {morph: ^part\+past, any: true}
 - {id: 'g:weather', detect: none}
 - {id: 'g:dates-years', detect: none}
 - {id: 'g:colours', detect: none}
@@ -270,10 +287,9 @@ rules:
     - pos: [ADJ]
 - {id: 'g:present-for-plans', detect: none}
 - id: g:quando
-  detect:
-  - seq:
-    - form: ^quando$
-      pos: [CON]
+  detect: none
+  note: 'Morph-it! tags quando only as WH (never CON), so conjunction and question can''t be told apart; question uses
+    are g:question-words (Unit 4). Traced via exercise targets.'
 - id: g:stare-gerund
   unlock:
   - {lemmas: '*', morph: ^ger}
@@ -291,10 +307,12 @@ rules:
   - seq:
     - lemma: [essere]
       morph: ^ind\+pres
+      any: true
     - pos: [ADV]
       optional: true
     - lemma: [andare, venire, arrivare, partire, tornare, uscire, entrare, stare, essere, restare, rimanere, salire, scendere, nascere, diventare]
       morph: ^part\+past
+      any: true
 - {id: 'g:time-24h', detect: none}
 - {id: 'g:da-a', detect: none}
 - id: g:per-infinitive

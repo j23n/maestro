@@ -190,7 +190,8 @@ final class TalkModel {
     func submit(transcript: String, mode: AnswerMode) {
         attempts += 1
         response = transcript
-        let r = ContentPointMatcher(profile: env.profile).match(response: transcript, points: points, pass: talk.pass)
+        let r = ContentPointMatcher(profile: env.profile)
+            .match(response: transcript, points: points, pass: talk.pass, spoken: mode == .spoken)
         result = r
         let outcome: AttemptOutcome = r.passed ? .correct : .wrong
         sink?.record(AttemptDraft(
@@ -307,6 +308,23 @@ final class RelayModel {
     }
 
     var isDone: Bool { machine.isDone }
+
+    /// The expected answer as the friend would read it: "€1.60", "15:30", "3".
+    var answerText: String? {
+        let a = relay.answerEn
+        switch (a.type, a.value) {
+        case (.price, .number(let v)?): return "€" + String(format: "%.2f", v)
+        case (.number, .number(let v)?): return v.rounded() == v ? String(Int(v)) : String(v)
+        case (_, .string(let s)?): return s
+        default: return a.accept?.first
+        }
+    }
+
+    /// Try again after the hint: the field opens for the second attempt.
+    func tryAgain() {
+        machine.tryAgain()
+        clock.restart()
+    }
 
     func check() {
         guard let answer = relay.answerEn.graderAnswer, !response.isEmpty, !machine.isDone else { return }

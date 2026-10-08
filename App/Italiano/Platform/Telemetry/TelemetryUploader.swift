@@ -1,4 +1,5 @@
 import Foundation
+import LearningCore
 
 // Study telemetry (docs/12, ADR-11, task M6.5). Opt-in, study builds only, pseudonymous install ID, batches of
 // ≤ 500 events from the consent date on, local-origin events only, and nothing a participant didn't consent to:
@@ -15,13 +16,6 @@ struct StoredEvent: Sendable, Equatable {
     let packVersion: String
     let payloadJSON: String
     let isLocal: Bool
-}
-
-/// `study.consent` (docs/08, docs/12): the consent text version, when it was given, and whether it is on.
-struct StudyConsent: Codable, Sendable, Equatable {
-    let version: String
-    let date: Int64  // ms; uploads include only events with `at` ≥ this
-    let granted: Bool
 }
 
 /// `app` in the batch body (docs/12 § The endpoint contract).

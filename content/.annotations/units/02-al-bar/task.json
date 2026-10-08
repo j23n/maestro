@@ -1,0 +1,1644 @@
+{
+ "format": 1,
+ "source": "content/units/02-al-bar/task.yaml",
+ "strings": [
+  {
+   "path": "conversations[0].nodes.end.say",
+   "ref": "u02.task.conv1/end",
+   "role": "say",
+   "text": "Tre euro, grazie. Buona giornata!",
+   "tokens": [
+    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "Tre", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro"},
+    {"kind": "punct", "span": [8, 9], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [10, 16], "surface": "grazie"},
+    {"kind": "punct", "span": [16, 17], "surface": ".", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [18, 23], "surface": "Buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [24, 32], "surface": "giornata"},
+    {"kind": "punct", "span": [32, 33], "surface": "!"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:numbers-to-100", "tokens": [3, 3]}
+   ],
+   "path": "conversations[0].nodes.end2.say",
+   "ref": "u02.task.conv1/end2",
+   "role": "say",
+   "text": "Un euro e sessanta, grazie. Buona giornata!",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [3, 7], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [8, 9], "surface": "e", "trailing": " "},
+    {"analyses": ["sessanta DET-NUM-CARD", "sessanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:sessanta", "kind": "word", "lemma": "sessanta", "span": [10, 18], "surface": "sessanta"},
+    {"kind": "punct", "span": [18, 19], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [20, 26], "surface": "grazie"},
+    {"kind": "punct", "span": [26, 27], "surface": ".", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "Buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"},
+    {"kind": "punct", "span": [42, 43], "surface": "!"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": true,
+   "norm": "buongiorno vorrei un cappuccino per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno vorrei un cappuccino per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [18, 20], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [21, 31], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [32, 35], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [36, 42], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno vorrei un cappuccino",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno vorrei un cappuccino",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [18, 20], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [21, 31], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "buongiorno un cappuccino per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno un cappuccino per favore",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [14, 24], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [25, 28], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [29, 35], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "buongiorno un cappuccino",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno un cappuccino",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [14, 24], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "vorrei un cappuccino per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "vorrei un cappuccino per favore",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [10, 20], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [21, 24], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [25, 31], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "vorrei un cappuccino",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "vorrei un cappuccino",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [10, 20], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "un cappuccino per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "un cappuccino per favore",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [14, 17], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [18, 24], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "un cappuccino",
+   "of": 8,
+   "path": "conversations[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino( per favore)",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "un cappuccino",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno vorrei un cappuccino grazie",
+   "of": 4,
+   "path": "conversations[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino grazie",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno vorrei un cappuccino grazie",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [11, 17], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [18, 20], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [21, 31], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [32, 38], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno un cappuccino grazie",
+   "of": 4,
+   "path": "conversations[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino grazie",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "buongiorno un cappuccino grazie",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [14, 24], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [25, 31], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "vorrei un cappuccino grazie",
+   "of": 4,
+   "path": "conversations[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino grazie",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "vorrei un cappuccino grazie",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [10, 20], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [21, 27], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "un cappuccino grazie",
+   "of": 4,
+   "path": "conversations[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(vorrei )un cappuccino grazie",
+   "ref": "u02.task.conv1/n1",
+   "role": "accept",
+   "text": "un cappuccino grazie",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [14, 20], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "path": "conversations[0].nodes.n1.help[0]",
+   "ref": "u02.task.conv1/n1",
+   "role": "help",
+   "text": "Vorrei un cappuccino, per favore.",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "Vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [10, 20], "surface": "cappuccino"},
+    {"kind": "punct", "span": [20, 21], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [22, 25], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [26, 32], "surface": "favore"},
+    {"kind": "punct", "span": [32, 33], "surface": "."}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n1.say",
+   "ref": "u02.task.conv1/n1",
+   "role": "say",
+   "text": "Buongiorno! Cosa prende?",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["cosa NOUN-F:s", "cosa PRO-WH-F-S"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "cosa", "span": [12, 16], "surface": "Cosa", "trailing": " "},
+    {"analyses": ["prendere VER:ind+pres+3+s"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "prendere", "span": [17, 23], "surface": "prende"},
+    {"kind": "punct", "span": [23, 24], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": true,
+   "norm": "vorrei un cornetto per favore",
+   "of": 4,
+   "path": "conversations[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(vorrei )un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "vorrei un cornetto per favore",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [10, 18], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [19, 22], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [23, 29], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "vorrei un cornetto",
+   "of": 4,
+   "path": "conversations[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(vorrei )un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "vorrei un cornetto",
+   "tokens": [
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [0, 6], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [7, 9], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [10, 18], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "un cornetto per favore",
+   "of": 4,
+   "path": "conversations[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(vorrei )un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "un cornetto per favore",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [12, 15], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [16, 22], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "un cornetto",
+   "of": 4,
+   "path": "conversations[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(vorrei )un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "un cornetto",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "sì vorrei un cornetto per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "sì vorrei un cornetto per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [3, 9], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [10, 12], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [13, 21], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [22, 25], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [26, 32], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "sì vorrei un cornetto",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "sì vorrei un cornetto",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [3, 9], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [10, 12], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [13, 21], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "sì un cornetto per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "sì un cornetto per favore",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [3, 5], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [6, 14], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [15, 18], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [19, 25], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "sì un cornetto",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "sì un cornetto",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [3, 5], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [6, 14], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "e vorrei un cornetto per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "e vorrei un cornetto per favore",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [2, 8], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [9, 11], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [21, 24], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [25, 31], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "e vorrei un cornetto",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "e vorrei un cornetto",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [2, 8], "surface": "vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [9, 11], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "e un cornetto per favore",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "e un cornetto per favore",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [5, 13], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [14, 17], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [18, 24], "surface": "favore"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "e un cornetto",
+   "of": 8,
+   "path": "conversations[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "{sì|e}( vorrei) un cornetto( per favore)",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "e un cornetto",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [5, 13], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "sì un cornetto grazie",
+   "of": 2,
+   "path": "conversations[0].nodes.n2.expect[0].accept[2]",
+   "pattern": "(sì )un cornetto grazie",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "sì un cornetto grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [3, 5], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [6, 14], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [15, 21], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "un cornetto grazie",
+   "of": 2,
+   "path": "conversations[0].nodes.n2.expect[0].accept[2]",
+   "pattern": "(sì )un cornetto grazie",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "un cornetto grazie",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "no grazie",
+   "of": 1,
+   "path": "conversations[0].nodes.n2.expect[1].accept[0]",
+   "pattern": "no grazie",
+   "ref": "u02.task.conv1/n2",
+   "role": "accept",
+   "text": "no grazie",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [3, 9], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
+   ],
+   "path": "conversations[0].nodes.n2.help[0]",
+   "ref": "u02.task.conv1/n2",
+   "role": "help",
+   "text": "Un cornetto, per favore.",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto"},
+    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"},
+    {"kind": "punct", "span": [23, 24], "surface": "."}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n2.help[1]",
+   "ref": "u02.task.conv1/n2",
+   "role": "help",
+   "text": "No, grazie.",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [4, 10], "surface": "grazie"},
+    {"kind": "punct", "span": [10, 11], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "path": "conversations[0].nodes.n2.say",
+   "ref": "u02.task.conv1/n2",
+   "role": "say",
+   "text": "Certo. E da mangiare?",
+   "tokens": [
+    {"analyses": ["certo ADV"], "item": "w:certo", "kind": "word", "lemma": "certo", "span": [0, 5], "surface": "Certo"},
+    {"kind": "punct", "span": [5, 6], "surface": ".", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "E", "trailing": " "},
+    {"analyses": ["da PRE"], "chunk": "c:da-mangiare", "kind": "word", "lemma": "da", "span": [9, 11], "surface": "da", "trailing": " "},
+    {"analyses": ["mangiare VER:inf+pres"], "chunk": "c:da-mangiare", "kind": "word", "lemma": "mangiare", "span": [12, 20], "surface": "mangiare"},
+    {"kind": "punct", "span": [20, 21], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "grazie scusi quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie scusi quant'è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie scusi quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie scusi quanto è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [20, 21], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie scusi quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie scusi quanto costa",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [20, 25], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie quant'è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie quanto è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "grazie quanto costa",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [14, 19], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "scusi quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "scusi quant'è",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "scusi quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "scusi quanto è",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "scusi quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "scusi quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [13, 18], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "quant'è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "quanto è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3",
+   "role": "accept",
+   "text": "quanto costa",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [7, 12], "surface": "costa"}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n3.help[0]",
+   "ref": "u02.task.conv1/n3",
+   "role": "help",
+   "text": "Grazie! Quant'è?",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [8, 14], "surface": "Quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "è"},
+    {"kind": "punct", "span": [15, 16], "surface": "?"}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n3.say",
+   "ref": "u02.task.conv1/n3",
+   "role": "say",
+   "text": "Ecco!",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
+    {"kind": "punct", "span": [4, 5], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "grazie scusi quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie scusi quant'è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie scusi quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie scusi quanto è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [20, 21], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie scusi quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie scusi quanto costa",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [7, 12], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [13, 19], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [20, 25], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie quant'è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie quanto è",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "grazie quanto costa",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [7, 13], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [14, 19], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "scusi quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "scusi quant'è",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "scusi quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "scusi quanto è",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "scusi quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "scusi quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [6, 12], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [13, 18], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "quant'è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "quant'è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "quanto è",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "quanto è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "quanto costa",
+   "of": 12,
+   "path": "conversations[0].nodes.n3b.expect[0].accept[0]",
+   "pattern": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.conv1/n3b",
+   "role": "accept",
+   "text": "quanto costa",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [7, 12], "surface": "costa"}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n3b.help[0]",
+   "ref": "u02.task.conv1/n3b",
+   "role": "help",
+   "text": "Grazie! Quant'è?",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [8, 14], "surface": "Quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "è"},
+    {"kind": "punct", "span": [15, 16], "surface": "?"}
+   ]
+  },
+  {
+   "path": "conversations[0].nodes.n3b.say",
+   "ref": "u02.task.conv1/n3b",
+   "role": "say",
+   "text": "Ecco!",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
+    {"kind": "punct", "span": [4, 5], "surface": "!"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[0].name",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "caffè",
+   "tokens": [
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [0, 5], "surface": "caffè"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[0].price",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "1,20",
+   "tokens": [
+    {"kind": "number", "span": [0, 4], "surface": "1,20"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[1].name",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "cappuccino",
+   "tokens": [
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [0, 10], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[1].price",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "1,60",
+   "tokens": [
+    {"kind": "number", "span": [0, 4], "surface": "1,60"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[2].name",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "spremuta",
+   "tokens": [
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [0, 8], "surface": "spremuta"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[0].rows[2].price",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "3,20",
+   "tokens": [
+    {"kind": "number", "span": [0, 4], "surface": "3,20"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[1].rows[0].name",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "cornetto",
+   "tokens": [
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [0, 8], "surface": "cornetto"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.sections[1].rows[0].price",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "1,40",
+   "tokens": [
+    {"kind": "number", "span": [0, 4], "surface": "1,40"}
+   ]
+  },
+  {
+   "path": "relay.source.text.layout.title",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "Bar Aurora",
+   "tokens": [
+    {"analyses": ["bar NOUN-M:p", "bar NOUN-M:s"], "flags": ["allowlisted"], "gloss": "café; bar", "kind": "word", "lemma": "bar", "span": [0, 3], "surface": "Bar", "trailing": " "},
+    {"kind": "name", "span": [4, 10], "surface": "Aurora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [5, 5]},
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "path": "talk.model",
+   "ref": "u02.task.talk",
+   "role": "model",
+   "text": "Buongiorno! Vorrei un cappuccino e una spremuta, per favore. Quant'è?",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["volere MOD:cond+pres+1+s", "volere VER:cond+pres+1+s"], "chunk": "c:vorrei", "kind": "word", "lemma": "volere", "span": [12, 18], "surface": "Vorrei", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [19, 21], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [22, 32], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [35, 38], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [39, 47], "surface": "spremuta"},
+    {"kind": "punct", "span": [47, 48], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [49, 52], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [53, 59], "surface": "favore"},
+    {"kind": "punct", "span": [59, 60], "surface": ".", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [61, 67], "surface": "Quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [67, 68], "surface": "è"},
+    {"kind": "punct", "span": [68, 69], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno",
+   "of": 2,
+   "path": "talk.points[0].accept[0]",
+   "pattern": "{buongiorno|buonasera}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "buongiorno",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buonasera",
+   "of": 2,
+   "path": "talk.points[0].accept[0]",
+   "pattern": "{buongiorno|buonasera}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "buonasera",
+   "tokens": [
+    {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "buonasera"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "un caffè e un caffè",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un caffè e un caffè",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [14, 19], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "un caffè e un cappuccino",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un caffè e un cappuccino",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [14, 24], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "un caffè e un cornetto",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un caffè e un cornetto",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "un caffè e una spremuta",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un caffè e una spremuta",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [11, 14], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [15, 23], "surface": "spremuta"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "un cappuccino e un caffè",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cappuccino e un caffè",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [19, 24], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "un cappuccino e un cappuccino",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cappuccino e un cappuccino",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [19, 29], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "un cappuccino e un cornetto",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cappuccino e un cornetto",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [19, 27], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "un cappuccino e una spremuta",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cappuccino e una spremuta",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [16, 19], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [20, 28], "surface": "spremuta"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "un cornetto e un caffè",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cornetto e un caffè",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [17, 22], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 9,
+   "model": false,
+   "norm": "un cornetto e un cappuccino",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cornetto e un cappuccino",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [17, 27], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 10,
+   "model": false,
+   "norm": "un cornetto e un cornetto",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cornetto e un cornetto",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [17, 25], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 11,
+   "model": false,
+   "norm": "un cornetto e una spremuta",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "un cornetto e una spremuta",
+   "tokens": [
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [14, 17], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [18, 26], "surface": "spremuta"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "una spremuta e un caffè",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "una spremuta e un caffè",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [18, 23], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 13,
+   "model": false,
+   "norm": "una spremuta e un cappuccino",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "una spremuta e un cappuccino",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [18, 28], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 14,
+   "model": false,
+   "norm": "una spremuta e un cornetto",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "una spremuta e un cornetto",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [18, 26], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 15,
+   "model": false,
+   "norm": "una spremuta e una spremuta",
+   "of": 16,
+   "path": "talk.points[1].accept[0]",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "una spremuta e una spremuta",
+   "tokens": [
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [15, 18], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [19, 27], "surface": "spremuta"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "quant'è",
+   "of": 3,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "{quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "quant'è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "quanto è",
+   "of": 3,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "{quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "quanto è",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "quanto costa",
+   "of": 3,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "{quant'è|quanto è|quanto costa}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "quanto costa",
+   "tokens": [
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [7, 12], "surface": "costa"}
+   ]
+  }
+ ],
+ "unit": "u02"
+}
