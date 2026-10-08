@@ -11,8 +11,8 @@ Accepted answers are expanded with the grader's own expander (`itcontent.pattern
 answer-pattern language) and shown as written (`Expansion.raw`: case and punctuation kept), focus parts marked; a
 pattern that doesn't parse shows its `PatternError` instead. Personal slots stay placeholders (`{NAME}`).
 
-Audio waits for M5.1: `Context.audio` maps a target to an audio URL (a `data:` URI keeps the page self-contained),
-and the page then shows a player. It returns None until `content tts` exists.
+Audio (M5.1): `Context.audio` maps a target to an `AudioRef` (`review_audio`), and the element shows a play button; the
+page embeds each file once and plays a line as its segment of the text's file. Elements without audio show none.
 """
 
 from __future__ import annotations
@@ -29,6 +29,7 @@ from itcontent.course import Course, Doc, UnitFiles, lesson_steps
 from itcontent.course import texts as all_texts
 from itcontent.index import Index, build_index
 from itcontent.review import DECISIONS, fingerprint, questions, scope_files, scope_title, version_hash
+from itcontent.review_audio import AudioRef
 
 Expander = Callable[[str], Any]
 
@@ -123,6 +124,10 @@ def tag(text: Any, cls: str = "tag") -> str:
 def row(name: str, value_html: str, cls: str = "field") -> str:
     """A labelled line: `<p class="field"><span class="tag">Hint</span> …</p>`."""
     return f'<p class="{cls}">{tag(name)} {value_html}</p>'
+
+
+def _spaced(html_: str) -> str:
+    return " " + html_ if html_ else ""
 
 
 def _cls(condition: bool, name: str) -> str:
@@ -254,7 +259,7 @@ class Context:
     course: Course
     index: Index
     expander: Expander = patterns.expand
-    audio: Callable[[str], str | None] = lambda _target: None
+    audio: Callable[[str], AudioRef | None] = lambda _target: None
     items: dict[str, dict[str, Any]] = field(default_factory=dict)
     points: dict[str, dict[str, Any]] = field(default_factory=dict)
     syllabus: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -264,7 +269,7 @@ class Context:
 
     @classmethod
     def build(
-        cls, course: Course, *, expander: Expander | None = None, audio: Callable[[str], str | None] | None = None
+        cls, course: Course, *, expander: Expander | None = None, audio: Callable[[str], AudioRef | None] | None = None
     ) -> Context:
         ctx = cls(course, build_index(course), expander or patterns.expand)
         if audio is not None:
@@ -315,9 +320,16 @@ class Context:
         n = parsed[1]
         return lines[n - 1] if 0 < n <= len(lines) and isinstance(lines[n - 1], dict) else None
 
-    def audio_html(self, target: str) -> str:
-        url = self.audio(target)
-        return f'<audio class="audio" controls preload="none" src="{esc(url)}"></audio>' if url else ""
+    def audio_html(self, target: str, label: str = "Play") -> str:
+        """A play button for the target's audio (a line plays its segment of the text's file), or nothing."""
+        ref = self.audio(target)
+        if ref is None:
+            return ""
+        seg = f' data-start="{ref.start_ms}" data-end="{ref.end_ms}"' if ref.start_ms is not None else ""
+        return (
+            f'<button type="button" class="play" data-audio="{esc(ref.audio_id)}"{seg} '
+            f'aria-label="{esc(label)}: {esc(target)}">▶ {esc(label)}</button>'
+        )
 
     # ------------------------------------------------------------ answer patterns
 
@@ -394,7 +406,7 @@ def line_body(ctx: Context, line: dict[str, Any], target: str) -> str:
             rows.append((name, chips(line[key], "chip it")))
     return (
         f'<p class="who">{esc(who)}</p><p class="it-line" lang="it">{esc(line.get("it", ""))}</p>'
-        f'<p class="en-line">{esc(line.get("en", ""))}</p>{ctx.audio_html(target)}'
+        f'<p class="en-line">{esc(line.get("en", ""))}</p>{ctx.audio_html(target, "Play line")}'
         + dl(rows)
         + rest(line, {"speaker", "to", "register", "it", "en", "foreign", "recognise", *LINE_MAPS})
     )
@@ -459,7 +471,7 @@ def text_elements(ctx: Context, text: dict[str, Any], file: str, depth: int, *, 
         head.append(f'<p class="text-title">{it(title.get("it", ""))} {en(title.get("en", ""))}</p>')
     if isinstance(layout, dict):
         head.append(layout_html(layout))
-    head.append(ctx.audio_html(tid))
+    head.append(ctx.audio_html(tid, "Play the text"))
     head.append(rest(text, {"kind", "title", "layout", "lines"}))
     counted = bool(title) or isinstance(layout, dict)
     quote = title.get("it") if title else _map(layout).get("title")
@@ -535,12 +547,13 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
         parts.append(f'<p class="cloze" lang="it">{esc(before)}<mark class="gap">{esc(model)}</mark>{esc(after)}</p>')
         parts.append(ctx.model_line(gap, before=before, after=after))
         parts.append(ctx.answers([gap], title="Accepted in the gap"))
+        parts.append(ctx.audio_html(eid, "Play the model answer") if ex.get("audio_after") else "")
         quote = before + model + after
     elif fmt == "recall" and ex.get("answer") is not None:
         shown.add("answer")
         parts.append(ctx.model_line(str(ex["answer"])))
         parts.append(ctx.answers([ex["answer"]]))
-        parts.append(ctx.audio_html(eid) if ex.get("audio_after") else "")
+        parts.append(ctx.audio_html(eid, "Play the model answer") if ex.get("audio_after") else "")
         quote = ctx.model(str(ex["answer"]))
     elif fmt == "sentence-building":
         shown |= {"tiles", "distractors", "answer"}
@@ -553,7 +566,7 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
         quote = orders[0] if orders else None
     elif fmt in ("dictation", "repeat") and ex.get("say") is not None:
         shown.add("say")
-        parts.append(row("Says", it(ex["say"], "it prompt")) + ctx.audio_html(eid))
+        parts.append(row("Says", it(ex["say"], "it prompt")) + ctx.audio_html(eid, "Play"))
         quote = ex["say"]
     elif fmt == "choice":
         shown |= {"options", "answer"}
@@ -563,6 +576,7 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
             for i, o in enumerate(_seq(ex.get("options")))
         )
         parts.append(f'<ol class="options">{lis}</ol>')
+        parts.append(ctx.audio_html(eid, "Play the prompt") if ex.get("audio") else "")
     elif fmt == "true-false" and "answer" in ex:
         shown.add("answer")
         parts.append(row("Answer", "true" if ex["answer"] else "false"))
@@ -579,11 +593,16 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
         pair = [str(x) for x in _seq(ex.get("pair"))]
         glosses = _map(ex.get("glosses"))
         if pair:
-            parts.append(row("Pair", " · ".join(f"{it(w)} ({esc(glosses.get(w, ''))})" for w in pair)))
+            words = [
+                f"{it(w)} ({esc(glosses.get(w, ''))})" + _spaced(ctx.audio_html(f"{eid}:pair[{j}]", "Play"))
+                for j, w in enumerate(pair)
+            ]
+            parts.append(row("Pair", " · ".join(words)))
         if ex.get("play"):
             parts.append(row("Plays", it(ex["play"])))
         if ex.get("word"):
-            parts.append(row("Word", f"{it(ex['word'])} → {esc(ex.get('answer', ''))}"))
+            word = f"{it(ex['word'])} → {esc(ex.get('answer', ''))}" + _spaced(ctx.audio_html(f"{eid}:word", "Play"))
+            parts.append(row("Word", word))
         quote = " / ".join(pair) or ex.get("word")
     elif fmt == "conversation":
         shown |= {"with", "register", "title", "goals", "start", "nodes"}
@@ -613,7 +632,8 @@ def _format_parts(ctx: Context, ex: dict[str, Any], parts: list[str], shown: set
         parts.append(f'<div class="fields"><h4>Form fields</h4><ul>{"".join(lis)}</ul></div>')
     if fmt in ("talk", "writing") and ex.get("model"):
         shown.add("model")
-        parts.append(row("Model answer", it(ex["model"]), "model-answer"))
+        play = ctx.audio_html(eid, "Play the model answer") if fmt == "talk" else ""
+        parts.append(row("Model answer", it(ex["model"]), "model-answer") + play)
         quote = quote or ex["model"]
     return quote
 
@@ -850,9 +870,16 @@ def items_section(ctx: Context, doc: Doc, unit: UnitFiles) -> Section:
         rows = [(label(k), value_html(item[k])) for k in ITEM_FIELDS if k in item]
         if item.get("exemplifies"):
             rows.append(("Previews the rule", ctx.refs(item["exemplifies"])))
+        pair_audio = [
+            f"{it(w)} {ctx.audio_html(f'{iid}:{j}:{k}', 'Play')}"
+            for j, pair in enumerate(_seq(item.get("pairs")))
+            for k, w in enumerate(_seq(pair))
+            if ctx.audio(f"{iid}:{j}:{k}") is not None
+        ]
         parts = [
             f'<p class="item-head">{it(item.get("it", ""), "it big")} {en(item.get("gloss", ""))}</p>',
             ctx.audio_html(iid),
+            row("Heard", " · ".join(pair_audio)) if pair_audio else "",
             dl(rows),
             row("Note", md(item["note"])) if item.get("note") else "",
             ctx.answers([item["recall_answer"]], title="Accepted on recall cards") if item.get("recall_answer") else "",

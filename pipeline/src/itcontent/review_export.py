@@ -13,10 +13,13 @@ file. The page is deterministic: the same content gives the same bytes.
   (`content beta-import` → `build/reports/beta/rejected.json`) have some nobody has judged yet (task M8.3).
 - Sign-off is possible only when no comment on the page asks for a change and no ledger comment on these files is
   open (or waiting for the owner).
+- Audio (M5.1, `review_audio`): every rendered text, line, item and voiced exercise string gets a play button; each
+  file is embedded once (base64 in a JSON script element), so the page still opens offline.
 """
 
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import re
@@ -30,6 +33,7 @@ from itcontent.adjudication import adjudication_section, rejected_answers
 from itcontent.course import load_course
 from itcontent.ledger import Entry, entries, ledger_rel
 from itcontent.review import ADJUDICATIONS, CATEGORIES, VERDICTS, load_json, scope_title, target_problem
+from itcontent.review_audio import ReviewAudio, page_audio
 from itcontent.review_elements import (
     Context,
     Element,
@@ -285,7 +289,19 @@ def _embed(data: dict[str, Any]) -> str:
     return json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(",", ":")).replace("<", "\\u003c")
 
 
-def render_page(model: PageModel, *, since: Since | None = None, open_entries: list[Entry] | None = None) -> str:
+def audio_data(audio: ReviewAudio | None) -> str:
+    """The embedded audio files: `{audio ID: base64 of the .m4a}` (the page script plays them from `data:` URIs)."""
+    files = audio.files if audio else {}
+    return json.dumps({k: base64.b64encode(v).decode("ascii") for k, v in sorted(files.items())}, sort_keys=True)
+
+
+def render_page(
+    model: PageModel,
+    *,
+    since: Since | None = None,
+    open_entries: list[Entry] | None = None,
+    audio: ReviewAudio | None = None,
+) -> str:
     open_entries = open_entries or []
     template = (TEMPLATES / "page.html").read_text(encoding="utf-8")
     total = sum(1 for e in model.elements() if e.counted)
@@ -302,6 +318,7 @@ def render_page(model: PageModel, *, since: Since | None = None, open_entries: l
         "MAIN": main,
         "SIGNOFF_FILES": "".join(f"<li><code>{esc(f)}</code></li>" for f in model.files),
         "DATA": _embed(page_data(model, open_entries, since)),
+        "AUDIO": audio_data(audio),
         "CSS": (TEMPLATES / "page.css").read_text(encoding="utf-8").strip(),
         "JS": (TEMPLATES / "page.js").read_text(encoding="utf-8").strip(),
     }
@@ -317,6 +334,7 @@ class ExportResult:
     model: PageModel
     since: Since | None
     adjudications: int
+    audio: ReviewAudio | None = None
 
     def summary(self, root: Path) -> str:
         els = self.model.elements()
@@ -330,6 +348,10 @@ class ExportResult:
         )
         if self.adjudications:
             out += f"; {self.adjudications} answer(s) to adjudicate"
+        if self.audio is not None and self.audio.files:
+            out += f"; {len(self.audio.files)} audio file(s) embedded"
+        if self.audio is not None and self.audio.note:
+            out += f"; {self.audio.note}"
         if self.since is not None:
             marks = list(self.since.marks.values())
             earlier = sum(len(v) for v in self.since.by_target.values())
@@ -345,13 +367,16 @@ def export(
     rejected: Path | None = None,
     out: Path | None = None,
     expander: Expander | None = None,
-    audio: Any = None,
+    audio: ReviewAudio | None = None,
 ) -> ExportResult:
     """Write the review page for `scope` and return what was written. `expander` defaults to the grader's
-    (`itcontent.patterns.expand`); tests may pass another."""
+    (`itcontent.patterns.expand`); `audio` to what `content build` would bundle for the scope (`review_audio`); tests
+    may pass others."""
     root = (root or paths.ROOT).resolve()
     course = load_course(root)
-    ctx = Context.build(course, expander=expander, audio=audio)
+    if audio is None:
+        audio = page_audio(root, course, scope)
+    ctx = Context.build(course, expander=expander, audio=audio.ref)
     model = build_page(ctx, scope)
     ledger_entries = entries(root)
     adj = adjudication_section(ctx, rejected_answers(rejected, scope, [e.data for e in ledger_entries]))
@@ -365,5 +390,5 @@ def export(
     info = since_info(root, model, ledger_entries, exists) if since else None
     path = out or root / "build" / "review" / scope / "index.html"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(render_page(model, since=info, open_entries=open_entries), encoding="utf-8")
-    return ExportResult(path, model, info, len(adj.elements) if adj else 0)
+    path.write_text(render_page(model, since=info, open_entries=open_entries, audio=audio), encoding="utf-8")
+    return ExportResult(path, model, info, len(adj.elements) if adj else 0, audio)
