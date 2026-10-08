@@ -57,6 +57,17 @@ import Testing
         #expect(midStep.exerciseNumber == 5)
     }
 
+    @Test func aPickedFinishedStepOpensAsARevisit() throws {
+        let b = try bundle()
+        let all = Set(LessonPlayerModel.flatten(b).compactMap { e -> ExerciseID? in
+            if case .exercise(let id) = e.page { id } else { nil }
+        })
+        let revisit = LessonPlayerModel(bundle: b, answered: all, startingAt: "s2")
+        #expect(revisit.current?.page == .story("u02.l1.story") && !revisit.isFinished)
+        let ahead = LessonPlayerModel(bundle: b, answered: [], startingAt: "s4")
+        #expect(ahead.position == 0)  // can't skip ahead of the resume point
+    }
+
     @Test func everythingAnsweredMeansFinished() throws {
         let b = try bundle()
         let all = Set(LessonPlayerModel.flatten(b).compactMap { e -> ExerciseID? in

@@ -88,11 +88,20 @@ final class LessonPlayerModel {
     private(set) var position: Int
     private(set) var isFinished: Bool
 
-    /// `answered`: exercises with a final attempt in this lesson (the engine's replay).
-    init(bundle: LessonBundle, answered: Set<ExerciseID> = []) {
+    /// `answered`: exercises with a final attempt in this lesson (the engine's replay). `startingAt`: the step the
+    /// learner picked (Unit overview); a step wholly before the resume point (already done) opens as a revisit at
+    /// its first page; the step being worked on, or a later one, resumes as usual.
+    init(bundle: LessonBundle, answered: Set<ExerciseID> = [], startingAt step: StepID? = nil) {
         self.bundle = bundle
         entries = Self.flatten(bundle)
-        let start = Self.resumePosition(entries: entries, answered: answered)
+        var start = Self.resumePosition(entries: entries, answered: answered)
+        // A step that lies wholly before the resume point (finished) opens as a revisit at its first page.
+        if let step, let i = bundle.steps.firstIndex(where: { $0.id == step }),
+            let first = entries.firstIndex(where: { $0.stepIndex == i }),
+            let last = entries.lastIndex(where: { $0.stepIndex == i }), last < start
+        {
+            start = first
+        }
         position = start
         isFinished = start >= entries.count
     }
