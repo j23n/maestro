@@ -225,31 +225,28 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [3, 3]},
-    {"point": "g:simple-prepositions", "tokens": [6, 6]},
-    {"point": "g:simple-prepositions", "tokens": [11, 11]},
-    {"point": "g:past-time-expressions", "tokens": [13, 13]}
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:simple-prepositions", "tokens": [9, 9]},
+    {"point": "g:past-time-expressions", "tokens": [11, 11]}
    ],
    "path": "steps[1].text.lines[12].it",
    "ref": "u01.l2.story#13",
    "role": "line",
-   "text": "Abito a Toronto e sono nato a Toronto. Sono arrivato a Bologna ieri.",
+   "text": "Sono nato e abito a Toronto. Sono arrivato a Bologna ieri.",
    "tokens": [
-    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "Abito", "trailing": " "},
-    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [8, 15], "surface": "Toronto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [16, 17], "surface": "e", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [18, 22], "surface": "sono", "trailing": " "},
-    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [23, 27], "surface": "nato", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [28, 29], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [30, 37], "surface": "Toronto"},
-    {"kind": "punct", "span": [37, 38], "surface": ".", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [39, 43], "surface": "Sono", "trailing": " "},
-    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [44, 52], "surface": "arrivato", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [53, 54], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [55, 62], "surface": "Bologna", "trailing": " "},
-    {"analyses": ["ieri ADV"], "detections": ["g:past-time-expressions"], "flags": ["new", "recognise"], "gloss": "yesterday", "kind": "word", "lemma": "ieri", "span": [63, 67], "surface": "ieri"},
-    {"kind": "punct", "span": [67, 68], "surface": "."}
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nato", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [10, 11], "surface": "e", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [12, 17], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [18, 19], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [20, 27], "surface": "Toronto"},
+    {"kind": "punct", "span": [27, 28], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [29, 33], "surface": "Sono", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [34, 42], "surface": "arrivato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [43, 44], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [45, 52], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["ieri ADV"], "detections": ["g:past-time-expressions"], "flags": ["new", "recognise"], "gloss": "yesterday", "kind": "word", "lemma": "ieri", "span": [53, 57], "surface": "ieri"},
+    {"kind": "punct", "span": [57, 58], "surface": "."}
    ]
   },
   {
@@ -323,26 +320,23 @@
   },
   {
    "detections": [
-    {"point": "g:simple-prepositions", "tokens": [2, 2]},
-    {"point": "g:conjunctions", "tokens": [4, 4]}
+    {"point": "g:conjunctions", "tokens": [2, 2]}
    ],
    "path": "steps[1].text.lines[17].it",
    "ref": "u01.l2.story#18",
    "role": "line",
-   "text": "Sono nata a Bologna e abito a Bologna. Sono bolognese!",
+   "text": "Sono nata e abito a Bologna. Sono bolognese!",
    "tokens": [
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
     {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nata", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [12, 19], "surface": "Bologna", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
-    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [22, 27], "surface": "abito", "trailing": " "},
-    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [28, 29], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [30, 37], "surface": "Bologna"},
-    {"kind": "punct", "span": [37, 38], "surface": ".", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [39, 43], "surface": "Sono", "trailing": " "},
-    {"analyses": ["bolognese ADJ:pos+f+s", "bolognese ADJ:pos+m+s"], "flags": ["new"], "gloss": "from Bologna", "item": "w:bolognese", "kind": "word", "lemma": "bolognese", "span": [44, 53], "surface": "bolognese"},
-    {"kind": "punct", "span": [53, 54], "surface": "!"}
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [10, 11], "surface": "e", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [12, 17], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [18, 19], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [20, 27], "surface": "Bologna"},
+    {"kind": "punct", "span": [27, 28], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [29, 33], "surface": "Sono", "trailing": " "},
+    {"analyses": ["bolognese ADJ:pos+f+s", "bolognese ADJ:pos+m+s"], "flags": ["new"], "gloss": "from Bologna", "item": "w:bolognese", "kind": "word", "lemma": "bolognese", "span": [34, 43], "surface": "bolognese"},
+    {"kind": "punct", "span": [43, 44], "surface": "!"}
    ]
   },
   {
@@ -582,7 +576,7 @@
    "detections": [
     {"point": "g:negation-non", "tokens": [0, 1]}
    ],
-   "fragment": [48, 65],
+   "fragment": [42, 59],
    "path": "steps[2].body[3].p",
    "ref": "u01.l2.note",
    "role": "note",
@@ -598,7 +592,7 @@
    "detections": [
     {"point": "g:negation-non", "tokens": [1, 2]}
    ],
-   "fragment": [68, 89],
+   "fragment": [62, 83],
    "path": "steps[2].body[3].p",
    "ref": "u01.l2.note",
    "role": "note",
@@ -609,6 +603,41 @@
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [10, 11], "surface": "è", "trailing": " "},
     {"analyses": ["italiano ADJ:pos+m+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [12, 20], "surface": "italiano"},
     {"kind": "punct", "span": [20, 21], "surface": "."}
+   ]
+  },
+  {
+   "fragment": [91, 100],
+   "path": "steps[2].body[3].p",
+   "ref": "u01.l2.note",
+   "role": "note",
+   "text": "mi chiamo",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiamo"}
+   ]
+  },
+  {
+   "fragment": [104, 107],
+   "path": "steps[2].body[3].p",
+   "ref": "u01.l2.note",
+   "role": "note",
+   "text": "non",
+   "tokens": [
+    {"analyses": ["non ADV"], "item": "w:non", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non"}
+   ]
+  },
+  {
+   "fragment": [139, 159],
+   "path": "steps[2].body[3].p",
+   "ref": "u01.l2.note",
+   "role": "note",
+   "text": "Non mi chiamo Marco.",
+   "tokens": [
+    {"analyses": ["non ADV"], "item": "w:non", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "Non", "trailing": " "},
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [4, 6], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [7, 13], "surface": "chiamo", "trailing": " "},
+    {"kind": "name", "span": [14, 19], "surface": "Marco"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
    ]
   },
   {
@@ -813,9 +842,9 @@
    "expansion": 0,
    "model": true,
    "norm": "non sono americano sono canadese",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[3].answer",
-   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese}",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
    "ref": "u01.l2.ex04",
    "role": "answer",
    "text": "non sono americano sono canadese",
@@ -834,9 +863,9 @@
    "expansion": 1,
    "model": false,
    "norm": "no non sono americano sono canadese",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[3].answer",
-   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese}",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
    "ref": "u01.l2.ex04",
    "role": "answer",
    "text": "no non sono americano sono canadese",
@@ -857,9 +886,9 @@
    "expansion": 2,
    "model": false,
    "norm": "io non sono americano sono canadese",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[3].answer",
-   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese}",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
    "ref": "u01.l2.ex04",
    "role": "answer",
    "text": "io non sono americano sono canadese",
@@ -880,9 +909,9 @@
    "expansion": 3,
    "model": false,
    "norm": "non sono americano io sono canadese",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[3].answer",
-   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese}",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
    "ref": "u01.l2.ex04",
    "role": "answer",
    "text": "non sono americano io sono canadese",
@@ -891,6 +920,53 @@
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
     {"analyses": ["americano ADJ:pos+m+s"], "item": "w:americano", "kind": "word", "lemma": "americano", "span": [9, 18], "surface": "americano", "trailing": " "},
     {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [19, 21], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [22, 26], "surface": "sono", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [27, 35], "surface": "canadese"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:negation-non", "tokens": [1, 2]},
+    {"point": "g:subject-pronouns", "tokens": [4, 4]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "no non sono americano io sono canadese",
+   "of": 6,
+   "path": "steps[3].block[3].answer",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
+   "ref": "u01.l2.ex04",
+   "role": "answer",
+   "text": "no non sono americano io sono canadese",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "no", "trailing": " "},
+    {"analyses": ["non ADV"], "detections": ["g:negation-non"], "item": "w:non", "kind": "word", "lemma": "non", "span": [3, 6], "surface": "non", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 11], "surface": "sono", "trailing": " "},
+    {"analyses": ["americano ADJ:pos+m+s"], "item": "w:americano", "kind": "word", "lemma": "americano", "span": [12, 21], "surface": "americano", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [22, 24], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [25, 29], "surface": "sono", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [30, 38], "surface": "canadese"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:negation-non", "tokens": [0, 1]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "non sono americano ma sono canadese",
+   "of": 6,
+   "path": "steps[3].block[3].answer",
+   "pattern": "{non sono americano sono canadese|no non sono americano sono canadese|io non sono americano sono canadese|non sono americano io sono canadese|no non sono americano io sono canadese|non sono americano ma sono canadese}",
+   "ref": "u01.l2.ex04",
+   "role": "answer",
+   "text": "non sono americano ma sono canadese",
+   "tokens": [
+    {"analyses": ["non ADV"], "detections": ["g:negation-non"], "item": "w:non", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "non", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["americano ADJ:pos+m+s"], "item": "w:americano", "kind": "word", "lemma": "americano", "span": [9, 18], "surface": "americano", "trailing": " "},
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [19, 21], "surface": "ma", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [22, 26], "surface": "sono", "trailing": " "},
     {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [27, 35], "surface": "canadese"}
    ]
@@ -960,9 +1036,9 @@
    "expansion": 0,
    "model": true,
    "norm": "di dove sei",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[4].answer",
-   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara}",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
    "ref": "u01.l2.ex05",
    "role": "answer",
    "text": "di dove sei",
@@ -976,9 +1052,9 @@
    "expansion": 1,
    "model": false,
    "norm": "e tu di dove sei",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[4].answer",
-   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara}",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
    "ref": "u01.l2.ex05",
    "role": "answer",
    "text": "e tu di dove sei",
@@ -994,9 +1070,9 @@
    "expansion": 2,
    "model": false,
    "norm": "sara di dove sei",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[4].answer",
-   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara}",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
    "ref": "u01.l2.ex05",
    "role": "answer",
    "text": "Sara di dove sei",
@@ -1011,9 +1087,9 @@
    "expansion": 3,
    "model": false,
    "norm": "di dove sei sara",
-   "of": 4,
+   "of": 6,
    "path": "steps[3].block[4].answer",
-   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara}",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
    "ref": "u01.l2.ex05",
    "role": "answer",
    "text": "di dove sei Sara",
@@ -1022,6 +1098,46 @@
     {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
     {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [8, 11], "surface": "sei", "trailing": " "},
     {"kind": "name", "span": [12, 16], "surface": "Sara"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [3, 3]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "di dove sei tu",
+   "of": 6,
+   "path": "steps[3].block[4].answer",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
+   "ref": "u01.l2.ex05",
+   "role": "answer",
+   "text": "di dove sei tu",
+   "tokens": [
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [0, 2], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [8, 11], "surface": "sei", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [12, 14], "surface": "tu"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "tu di dove sei",
+   "of": 6,
+   "path": "steps[3].block[4].answer",
+   "pattern": "{di dove sei|e tu di dove sei|Sara di dove sei|di dove sei Sara|di dove sei tu|tu di dove sei}",
+   "ref": "u01.l2.ex05",
+   "role": "answer",
+   "text": "tu di dove sei",
+   "tokens": [
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [0, 2], "surface": "tu", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [3, 5], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [6, 10], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [11, 14], "surface": "sei"}
    ]
   },
   {
@@ -1329,7 +1445,7 @@
    "norm": "dove abita",
    "of": 5,
    "path": "steps[3].block[7].answer",
-   "pattern": "{dove abita|Lei dove abita|signora dove abita|e Lei dove abita|scusi dove abita}",
+   "pattern": "{dove abita|Lei dove abita|e Lei dove abita|scusi dove abita|scusi Lei dove abita}",
    "ref": "u01.l2.ex08",
    "role": "answer",
    "text": "dove abita",
@@ -1347,7 +1463,7 @@
    "norm": "lei dove abita",
    "of": 5,
    "path": "steps[3].block[7].answer",
-   "pattern": "{dove abita|Lei dove abita|signora dove abita|e Lei dove abita|scusi dove abita}",
+   "pattern": "{dove abita|Lei dove abita|e Lei dove abita|scusi dove abita|scusi Lei dove abita}",
    "ref": "u01.l2.ex08",
    "role": "answer",
    "text": "Lei dove abita",
@@ -1360,26 +1476,10 @@
   {
    "expansion": 2,
    "model": false,
-   "norm": "signora dove abita",
-   "of": 5,
-   "path": "steps[3].block[7].answer",
-   "pattern": "{dove abita|Lei dove abita|signora dove abita|e Lei dove abita|scusi dove abita}",
-   "ref": "u01.l2.ex08",
-   "role": "answer",
-   "text": "signora dove abita",
-   "tokens": [
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
-    {"analyses": ["dove WH"], "chunk": "c:dove-abita", "kind": "word", "lemma": "dove", "span": [8, 12], "surface": "dove", "trailing": " "},
-    {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "chunk": "c:dove-abita", "kind": "word", "lemma": "abitare", "span": [13, 18], "surface": "abita"}
-   ]
-  },
-  {
-   "expansion": 3,
-   "model": false,
    "norm": "e lei dove abita",
    "of": 5,
    "path": "steps[3].block[7].answer",
-   "pattern": "{dove abita|Lei dove abita|signora dove abita|e Lei dove abita|scusi dove abita}",
+   "pattern": "{dove abita|Lei dove abita|e Lei dove abita|scusi dove abita|scusi Lei dove abita}",
    "ref": "u01.l2.ex08",
    "role": "answer",
    "text": "e Lei dove abita",
@@ -1391,12 +1491,12 @@
    ]
   },
   {
-   "expansion": 4,
+   "expansion": 3,
    "model": false,
    "norm": "scusi dove abita",
    "of": 5,
    "path": "steps[3].block[7].answer",
-   "pattern": "{dove abita|Lei dove abita|signora dove abita|e Lei dove abita|scusi dove abita}",
+   "pattern": "{dove abita|Lei dove abita|e Lei dove abita|scusi dove abita|scusi Lei dove abita}",
    "ref": "u01.l2.ex08",
    "role": "answer",
    "text": "scusi dove abita",
@@ -1404,6 +1504,26 @@
     {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
     {"analyses": ["dove WH"], "chunk": "c:dove-abita", "kind": "word", "lemma": "dove", "span": [6, 10], "surface": "dove", "trailing": " "},
     {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "chunk": "c:dove-abita", "kind": "word", "lemma": "abitare", "span": [11, 16], "surface": "abita"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "scusi lei dove abita",
+   "of": 5,
+   "path": "steps[3].block[7].answer",
+   "pattern": "{dove abita|Lei dove abita|e Lei dove abita|scusi dove abita|scusi Lei dove abita}",
+   "ref": "u01.l2.ex08",
+   "role": "answer",
+   "text": "scusi Lei dove abita",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [6, 9], "surface": "Lei", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abita", "kind": "word", "lemma": "dove", "span": [10, 14], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "chunk": "c:dove-abita", "kind": "word", "lemma": "abitare", "span": [15, 20], "surface": "abita"}
    ]
   },
   {
@@ -1585,8 +1705,7 @@
   },
   {
    "detections": [
-    {"point": "g:simple-prepositions", "tokens": [2, 2]},
-    {"point": "g:conjunctions", "tokens": [4, 4]}
+    {"point": "g:conjunctions", "tokens": [2, 2]}
    ],
    "expansion": 0,
    "gap": [1, 1],
@@ -1597,17 +1716,15 @@
    "pattern": "nata",
    "ref": "u01.l2.ex10",
    "role": "cloze",
-   "text": "Sono nata a Bologna e abito a Bologna.",
+   "text": "Sono nata e abito a Bologna.",
    "tokens": [
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
     {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nata", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [12, 19], "surface": "Bologna", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
-    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [22, 27], "surface": "abito", "trailing": " "},
-    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [28, 29], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [30, 37], "surface": "Bologna"},
-    {"kind": "punct", "span": [37, 38], "surface": "."}
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [10, 11], "surface": "e", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [12, 17], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [18, 19], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [20, 27], "surface": "Bologna"},
+    {"kind": "punct", "span": [27, 28], "surface": "."}
    ]
   },
   {
@@ -1743,9 +1860,9 @@
    "expansion": 0,
    "model": true,
    "norm": "e dove sei nata",
-   "of": 4,
+   "of": 7,
    "path": "steps[3].block[11].answer",
-   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata}",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
    "ref": "u01.l2.ex12",
    "role": "answer",
    "text": "e dove sei nata",
@@ -1760,9 +1877,9 @@
    "expansion": 1,
    "model": false,
    "norm": "dove sei nata",
-   "of": 4,
+   "of": 7,
    "path": "steps[3].block[11].answer",
-   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata}",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
    "ref": "u01.l2.ex12",
    "role": "answer",
    "text": "dove sei nata",
@@ -1776,9 +1893,9 @@
    "expansion": 2,
    "model": false,
    "norm": "e tu dove sei nata",
-   "of": 4,
+   "of": 7,
    "path": "steps[3].block[11].answer",
-   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata}",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
    "ref": "u01.l2.ex12",
    "role": "answer",
    "text": "e tu dove sei nata",
@@ -1794,9 +1911,9 @@
    "expansion": 3,
    "model": false,
    "norm": "sara dove sei nata",
-   "of": 4,
+   "of": 7,
    "path": "steps[3].block[11].answer",
-   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata}",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
    "ref": "u01.l2.ex12",
    "role": "answer",
    "text": "Sara dove sei nata",
@@ -1805,6 +1922,62 @@
     {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [5, 9], "surface": "dove", "trailing": " "},
     {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [10, 13], "surface": "sei", "trailing": " "},
     {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [14, 18], "surface": "nata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "tu dove sei nata",
+   "of": 7,
+   "path": "steps[3].block[11].answer",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
+   "ref": "u01.l2.ex12",
+   "role": "answer",
+   "text": "tu dove sei nata",
+   "tokens": [
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [0, 2], "surface": "tu", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [8, 11], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [12, 16], "surface": "nata"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "dove sei nata sara",
+   "of": 7,
+   "path": "steps[3].block[11].answer",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
+   "ref": "u01.l2.ex12",
+   "role": "answer",
+   "text": "dove sei nata Sara",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [9, 13], "surface": "nata", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "e tu sara dove sei nata",
+   "of": 7,
+   "path": "steps[3].block[11].answer",
+   "pattern": "{e dove sei nata|dove sei nata|e tu dove sei nata|Sara dove sei nata|tu dove sei nata|dove sei nata Sara|e tu Sara dove sei nata}",
+   "ref": "u01.l2.ex12",
+   "role": "answer",
+   "text": "e tu Sara dove sei nata",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"kind": "name", "span": [5, 9], "surface": "Sara", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [10, 14], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [15, 18], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [19, 23], "surface": "nata"}
    ]
   },
   {
@@ -2150,41 +2323,34 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [3, 3]},
-    {"point": "g:simple-prepositions", "tokens": [6, 6]}
+    {"point": "g:conjunctions", "tokens": [2, 2]}
    ],
    "path": "steps[3].block[16].say",
    "ref": "u01.l2.ex17",
    "role": "say",
-   "text": "Abito a Toronto e sono nato a Toronto.",
+   "text": "Sono nato e abito a Toronto.",
    "tokens": [
-    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "Abito", "trailing": " "},
-    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [8, 15], "surface": "Toronto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [16, 17], "surface": "e", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [18, 22], "surface": "sono", "trailing": " "},
-    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [23, 27], "surface": "nato", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [28, 29], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [30, 37], "surface": "Toronto"},
-    {"kind": "punct", "span": [37, 38], "surface": "."}
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nato", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [10, 11], "surface": "e", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [12, 17], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [18, 19], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [20, 27], "surface": "Toronto"},
+    {"kind": "punct", "span": [27, 28], "surface": "."}
    ]
   },
   {
-   "detections": [
-    {"point": "g:simple-prepositions", "tokens": [4, 4]}
-   ],
    "model": true,
    "path": "steps[3].block[17].answer[0]",
    "ref": "u01.l2.ex18",
    "role": "answer",
-   "text": "Toronto è una città in Canada",
+   "text": "Toronto è una città canadese",
    "tokens": [
     {"kind": "name", "span": [0, 7], "surface": "Toronto", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
     {"analyses": ["una ART-F:s"], "flags": ["lexical_article"], "head": 3, "item": "w:citta", "kind": "word", "lemma": "una", "span": [10, 13], "surface": "una", "trailing": " "},
     {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [14, 19], "surface": "città", "trailing": " "},
-    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [20, 22], "surface": "in", "trailing": " "},
-    {"kind": "name", "span": [23, 29], "surface": "Canada"}
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [20, 28], "surface": "canadese"}
    ]
   },
   {
@@ -2228,24 +2394,12 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:simple-prepositions", "tokens": [0, 0]}
-   ],
    "path": "steps[3].block[17].tiles[3]",
    "ref": "u01.l2.ex18",
    "role": "tile",
-   "text": "in",
+   "text": "canadese",
    "tokens": [
-    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [0, 2], "surface": "in"}
-   ]
-  },
-  {
-   "path": "steps[3].block[17].tiles[4]",
-   "ref": "u01.l2.ex18",
-   "role": "tile",
-   "text": "Canada",
-   "tokens": [
-    {"kind": "name", "span": [0, 6], "surface": "Canada"}
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [0, 8], "surface": "canadese"}
    ]
   },
   {
@@ -2574,39 +2728,39 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [2, 2]}
+    {"point": "g:conjunctions", "tokens": [4, 4]}
    ],
    "path": "steps[4].text.lines[2].it",
    "ref": "u01.l2.words#3",
    "role": "line",
-   "text": "Ah! E come si dice \"see you\"?",
+   "text": "Ah, bene! E come si dice \"city\"?",
    "tokens": [
     {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
-    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [4, 5], "surface": "E", "trailing": " "},
-    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [6, 10], "surface": "come", "trailing": " "},
-    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [11, 13], "surface": "si", "trailing": " "},
-    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [14, 18], "surface": "dice", "trailing": " "},
-    {"kind": "punct", "span": [19, 20], "surface": "\""},
-    {"kind": "foreign", "span": [20, 23], "surface": "see", "trailing": " "},
-    {"kind": "foreign", "span": [24, 27], "surface": "you"},
-    {"kind": "punct", "span": [27, 28], "surface": "\""},
-    {"kind": "punct", "span": [28, 29], "surface": "?"}
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [4, 8], "surface": "bene"},
+    {"kind": "punct", "span": [8, 9], "surface": "!", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [10, 11], "surface": "E", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [12, 16], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [17, 19], "surface": "si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [20, 24], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [25, 26], "surface": "\""},
+    {"kind": "foreign", "span": [26, 30], "surface": "city"},
+    {"kind": "punct", "span": [30, 31], "surface": "\""},
+    {"kind": "punct", "span": [31, 32], "surface": "?"}
    ]
   },
   {
    "path": "steps[4].text.lines[3].it",
    "ref": "u01.l2.words#4",
    "role": "line",
-   "text": "Si dice \"ci vediamo\".",
+   "text": "Si dice \"città\".",
    "tokens": [
     {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "Si", "trailing": " "},
     {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [3, 7], "surface": "dice", "trailing": " "},
     {"kind": "punct", "span": [8, 9], "surface": "\""},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [9, 11], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [12, 19], "surface": "vediamo"},
-    {"kind": "punct", "span": [19, 20], "surface": "\""},
-    {"kind": "punct", "span": [20, 21], "surface": "."}
+    {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [9, 14], "surface": "città"},
+    {"kind": "punct", "span": [14, 15], "surface": "\""},
+    {"kind": "punct", "span": [15, 16], "surface": "."}
    ]
   },
   {
@@ -3237,6 +3391,210 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "piacere io sono {ME.nationality}",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "piacere (io )sono {ME.nationality}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [3, "ME.nationality"]
+   ],
+   "text": "piacere io sono {ME.nationality}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [16, 32], "surface": "{ME.nationality}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "piacere sono {ME.nationality}",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "piacere (io )sono {ME.nationality}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [2, "ME.nationality"]
+   ],
+   "text": "piacere sono {ME.nationality}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [13, 29], "surface": "{ME.nationality}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "piacere io sono di {NAME}",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[5]",
+   "pattern": "piacere (io )sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [4, "NAME"]
+   ],
+   "text": "piacere io sono di {NAME}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [19, 25], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "piacere sono di {NAME}",
+   "of": 2,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[5]",
+   "pattern": "piacere (io )sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "piacere sono di {NAME}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [16, 22], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:simple-prepositions", "tokens": [6, 6]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "piacere io sono {ME.nationality} e sono di {NAME}",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[6]",
+   "pattern": "(piacere )(io )sono {ME.nationality} e sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [3, "ME.nationality"],
+    [7, "NAME"]
+   ],
+   "text": "piacere io sono {ME.nationality} e sono di {NAME}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [16, 32], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [33, 34], "surface": "e", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [35, 39], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [40, 42], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [43, 49], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "piacere sono {ME.nationality} e sono di {NAME}",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[6]",
+   "pattern": "(piacere )(io )sono {ME.nationality} e sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [2, "ME.nationality"],
+    [6, "NAME"]
+   ],
+   "text": "piacere sono {ME.nationality} e sono di {NAME}",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [13, 29], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [30, 31], "surface": "e", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [32, 36], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [37, 39], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [40, 46], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "io sono {ME.nationality} e sono di {NAME}",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[6]",
+   "pattern": "(piacere )(io )sono {ME.nationality} e sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [2, "ME.nationality"],
+    [6, "NAME"]
+   ],
+   "text": "io sono {ME.nationality} e sono di {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [8, 24], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [25, 26], "surface": "e", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [27, 31], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [32, 34], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [35, 41], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "sono {ME.nationality} e sono di {NAME}",
+   "of": 4,
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[6]",
+   "pattern": "(piacere )(io )sono {ME.nationality} e sono di {NAME}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "accept",
+   "slots": [
+    [1, "ME.nationality"],
+    [5, "NAME"]
+   ],
+   "text": "sono {ME.nationality} e sono di {NAME}",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [5, 21], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 28], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [29, 31], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [32, 38], "surface": "{NAME}"}
+   ]
+  },
+  {
    "path": "steps[6].exercise.nodes.n2.help[0]",
    "ref": "u01.l2.ex30/n2",
    "role": "help",
@@ -3262,48 +3620,744 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]},
-    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
    ],
    "expansion": 0,
    "model": false,
-   "norm": "io sono di {ME.country}",
-   "of": 2,
+   "norm": "piacere io sono di canada",
+   "of": 36,
    "path": "steps[6].exercise.nodes.n2.near[0].answer",
-   "pattern": "(io )sono di {ME.country}",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
    "ref": "u01.l2.ex30/n2",
    "role": "near",
-   "slots": [
-    [3, "ME.country"]
+   "text": "piacere io sono di Canada",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [19, 25], "surface": "Canada"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
    ],
-   "text": "io sono di {ME.country}",
+   "expansion": 1,
+   "model": false,
+   "norm": "piacere io sono di italia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Italia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [19, 25], "surface": "Italia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "piacere io sono di america",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di America",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["America NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "America", "span": [19, 26], "surface": "America"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "piacere io sono di stati uniti",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Stati Uniti",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [19, 24], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [25, 30], "surface": "Uniti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "piacere io sono di inghilterra",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Inghilterra",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [19, 30], "surface": "Inghilterra"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "piacere io sono di francia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Francia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["Francia NOUN-F:p", "Francia NOUN-F:s"], "flags": ["synthetic"], "item": "w:francia", "kind": "word", "lemma": "Francia", "span": [19, 26], "surface": "Francia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "piacere io sono di spagna",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Spagna",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["Spagna NOUN-F:p", "Spagna NOUN-F:s"], "flags": ["synthetic"], "item": "w:spagna", "kind": "word", "lemma": "Spagna", "span": [19, 25], "surface": "Spagna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "piacere io sono di australia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Australia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["Australia NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Australia", "span": [19, 28], "surface": "Australia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "piacere io sono di irlanda",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere io sono di Irlanda",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [8, 10], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [16, 18], "surface": "di", "trailing": " "},
+    {"analyses": ["Irlanda NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Irlanda", "span": [19, 26], "surface": "Irlanda"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 9,
+   "model": false,
+   "norm": "piacere sono di canada",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Canada",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [16, 22], "surface": "Canada"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 10,
+   "model": false,
+   "norm": "piacere sono di italia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Italia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [16, 22], "surface": "Italia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 11,
+   "model": false,
+   "norm": "piacere sono di america",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di America",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["America NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "America", "span": [16, 23], "surface": "America"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "piacere sono di stati uniti",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Stati Uniti",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [16, 21], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [22, 27], "surface": "Uniti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 13,
+   "model": false,
+   "norm": "piacere sono di inghilterra",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Inghilterra",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [16, 27], "surface": "Inghilterra"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 14,
+   "model": false,
+   "norm": "piacere sono di francia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Francia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["Francia NOUN-F:p", "Francia NOUN-F:s"], "flags": ["synthetic"], "item": "w:francia", "kind": "word", "lemma": "Francia", "span": [16, 23], "surface": "Francia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 15,
+   "model": false,
+   "norm": "piacere sono di spagna",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Spagna",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["Spagna NOUN-F:p", "Spagna NOUN-F:s"], "flags": ["synthetic"], "item": "w:spagna", "kind": "word", "lemma": "Spagna", "span": [16, 22], "surface": "Spagna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 16,
+   "model": false,
+   "norm": "piacere sono di australia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Australia",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["Australia NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Australia", "span": [16, 25], "surface": "Australia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 17,
+   "model": false,
+   "norm": "piacere sono di irlanda",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "piacere sono di Irlanda",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 12], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [13, 15], "surface": "di", "trailing": " "},
+    {"analyses": ["Irlanda NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Irlanda", "span": [16, 23], "surface": "Irlanda"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 18,
+   "model": false,
+   "norm": "io sono di canada",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Canada",
    "tokens": [
     {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
     {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
-    {"kind": "slot", "slot": "ME.country", "span": [11, 23], "surface": "{ME.country}"}
+    {"kind": "name", "span": [11, 17], "surface": "Canada"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 19,
+   "model": false,
+   "norm": "io sono di italia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Italia",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [11, 17], "surface": "Italia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 20,
+   "model": false,
+   "norm": "io sono di america",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di America",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["America NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "America", "span": [11, 18], "surface": "America"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 21,
+   "model": false,
+   "norm": "io sono di stati uniti",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Stati Uniti",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [11, 16], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [17, 22], "surface": "Uniti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 22,
+   "model": false,
+   "norm": "io sono di inghilterra",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Inghilterra",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [11, 22], "surface": "Inghilterra"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 23,
+   "model": false,
+   "norm": "io sono di francia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Francia",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["Francia NOUN-F:p", "Francia NOUN-F:s"], "flags": ["synthetic"], "item": "w:francia", "kind": "word", "lemma": "Francia", "span": [11, 18], "surface": "Francia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 24,
+   "model": false,
+   "norm": "io sono di spagna",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Spagna",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["Spagna NOUN-F:p", "Spagna NOUN-F:s"], "flags": ["synthetic"], "item": "w:spagna", "kind": "word", "lemma": "Spagna", "span": [11, 17], "surface": "Spagna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 25,
+   "model": false,
+   "norm": "io sono di australia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Australia",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["Australia NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Australia", "span": [11, 20], "surface": "Australia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 26,
+   "model": false,
+   "norm": "io sono di irlanda",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "io sono di Irlanda",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"analyses": ["Irlanda NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Irlanda", "span": [11, 18], "surface": "Irlanda"}
    ]
   },
   {
    "detections": [
     {"point": "g:simple-prepositions", "tokens": [1, 1]}
    ],
-   "expansion": 1,
+   "expansion": 27,
    "model": false,
-   "norm": "sono di {ME.country}",
-   "of": 2,
+   "norm": "sono di canada",
+   "of": 36,
    "path": "steps[6].exercise.nodes.n2.near[0].answer",
-   "pattern": "(io )sono di {ME.country}",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
    "ref": "u01.l2.ex30/n2",
    "role": "near",
-   "slots": [
-    [2, "ME.country"]
-   ],
-   "text": "sono di {ME.country}",
+   "text": "sono di Canada",
    "tokens": [
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
     {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
-    {"kind": "slot", "slot": "ME.country", "span": [8, 20], "surface": "{ME.country}"}
+    {"kind": "name", "span": [8, 14], "surface": "Canada"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 28,
+   "model": false,
+   "norm": "sono di italia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Italia",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [8, 14], "surface": "Italia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 29,
+   "model": false,
+   "norm": "sono di america",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di America",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["America NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "America", "span": [8, 15], "surface": "America"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 30,
+   "model": false,
+   "norm": "sono di stati uniti",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Stati Uniti",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["essere AUX:part+past+p+m", "essere VER:part+past+p+m", "stare ASP:part+past+p+m", "stare VER:part+past+p+m", "stato NOUN-M:p"], "chunk": "c:stati-uniti", "kind": "word", "span": [8, 13], "surface": "Stati", "trailing": " "},
+    {"analyses": ["unire VER:part+past+p+m", "unito ADJ:pos+m+p"], "chunk": "c:stati-uniti", "kind": "word", "span": [14, 19], "surface": "Uniti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 31,
+   "model": false,
+   "norm": "sono di inghilterra",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Inghilterra",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["Inghilterra NOUN-F:p", "Inghilterra NOUN-F:s"], "flags": ["synthetic"], "item": "w:inghilterra", "kind": "word", "lemma": "Inghilterra", "span": [8, 19], "surface": "Inghilterra"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 32,
+   "model": false,
+   "norm": "sono di francia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Francia",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["Francia NOUN-F:p", "Francia NOUN-F:s"], "flags": ["synthetic"], "item": "w:francia", "kind": "word", "lemma": "Francia", "span": [8, 15], "surface": "Francia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 33,
+   "model": false,
+   "norm": "sono di spagna",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Spagna",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["Spagna NOUN-F:p", "Spagna NOUN-F:s"], "flags": ["synthetic"], "item": "w:spagna", "kind": "word", "lemma": "Spagna", "span": [8, 14], "surface": "Spagna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 34,
+   "model": false,
+   "norm": "sono di australia",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Australia",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["Australia NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Australia", "span": [8, 17], "surface": "Australia"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 35,
+   "model": false,
+   "norm": "sono di irlanda",
+   "of": 36,
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
+   "pattern": "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}",
+   "ref": "u01.l2.ex30/n2",
+   "role": "near",
+   "text": "sono di Irlanda",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["Irlanda NPR"], "flags": ["unresolved"], "kind": "word", "lemma": "Irlanda", "span": [8, 15], "surface": "Irlanda"}
    ]
   },
   {
@@ -3414,6 +4468,62 @@
     {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:sono-nato", "kind": "word", "span": [4, 8], "surface": "nata", "trailing": " "},
     {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [9, 10], "surface": "a", "trailing": " "},
     {"kind": "name", "span": [11, 18], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "tu dove sei nata",
+   "of": 1,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[3]",
+   "pattern": "tu dove sei nata",
+   "ref": "u01.l2.ex30/n3",
+   "role": "accept",
+   "text": "tu dove sei nata",
+   "tokens": [
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [0, 2], "surface": "tu", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [8, 11], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [12, 16], "surface": "nata"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "dove sei nata sara",
+   "of": 1,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[4]",
+   "pattern": "dove sei nata Sara",
+   "ref": "u01.l2.ex30/n3",
+   "role": "accept",
+   "text": "dove sei nata Sara",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [9, 13], "surface": "nata", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu sara dove sei nata",
+   "of": 1,
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[5]",
+   "pattern": "e tu Sara dove sei nata",
+   "ref": "u01.l2.ex30/n3",
+   "role": "accept",
+   "text": "e tu Sara dove sei nata",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"kind": "name", "span": [5, 9], "surface": "Sara", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [10, 14], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [15, 18], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [19, 23], "surface": "nata"}
    ]
   },
   {
