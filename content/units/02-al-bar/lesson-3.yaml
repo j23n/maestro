@@ -63,7 +63,7 @@ steps:
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E Lei, cosa prende?", en: "And you, what will you have?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Prendo un cappuccino, per favore.", en: "I'll have a cappuccino, please."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E da mangiare?", en: "Anything to eat?"}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, avete cornetti?", en: "Excuse me, do you have croissants?"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, avete ancora cornetti?", en: "Excuse me, do you still have croissants?", recognise: [ancora], gloss: {ancora: still}}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Certo! Un cornetto?", en: "Of course! One croissant?"}
         - {speaker: ch:sara, to: ch:giulia, register: tu, it: "Due cornetti, Giulia, per favore!", en: "Two croissants, Giulia, please!"}
         - {speaker: ch:giulia, it: "Ecco: una spremuta, un cappuccino e due cornetti.", en: "Here you are: a fresh orange juice, a cappuccino and two croissants."}
@@ -71,8 +71,8 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Sì, mi piace! È buono.", en: "Yes, I like it! It's good."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E ti piace il caffè italiano?", en: "And do you like Italian coffee?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, mi piace! E il cappuccino è buono.", en: "Yes, I like it! And the cappuccino's good."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E un latte? Le piace?", en: "And a latte? Do you like that?"}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Un latte è latte!", en: 'No, thanks! "Un latte" is just milk!'}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E un latte, oggi?", en: "And a latte today?"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Un latte è solo latte!", en: 'No, thanks! "Un latte" is just milk!', recognise: [solo], gloss: {solo: just}}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E Bologna? Ti piace?", en: "And Bologna? Do you like it?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! Mi piace Bologna, e mi piace il bar Aurora.", en: "Yes! I like Bologna, and I like Bar Aurora."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
@@ -116,10 +116,12 @@ steps:
             - ["un cornetto", "due **cornetti**"]
             - ["un cappuccino", "due **cappuccini**"]
             - ["una spremuta", "due **spremute**"]
+            - ["un nome", "due **nomi**"]
             - ["un caffè", "due **caffè**"]
-      - p: Nouns in *-e* also end in *-i*. Nouns that end in an accented vowel, like *caffè*, stay the same, and so do short words from other languages, like *bar* and *euro*.
+      - p: "Nouns in *-e* also end in *-i*. Nouns that end in an accented vowel, like *caffè*, stay the same, and so do *bar* and *euro*: *due bar*, *cinque euro*."
       - examples: [u02.l3.story#7, u02.l3.story#9, u02.l3.story#10]
       - tip: "Watch *amico*: *un amico*, *due amici*, but *un'amica*, *due amiche*. The h keeps the hard sound of the c."
+      - p: "*Mi piace* means \"I like\". To ask a friend, say *Ti piace?*; to ask someone you call Lei, *Le piace?*. Keep the article, although English drops it: *mi piace il caffè* (I like coffee)."
 
   # 5 · Practice: a block on the new material (story lines first), then a mix with Units 0–2.
   #     Each new P item gets at least 4 retrievals in this lesson, counting the preview (docs/04 § Check 3).
@@ -147,15 +149,15 @@ steps:
         near:
           - {answer: prende, hint: "Prende is the Lei form: it's what Giulia asks. Marco is talking about himself."}
           - {answer: vorrei, outcome: correctWithNote, hint: "Vorrei is right too. Here, practice the plainer way to order, as Marco does."}
-      - id: u02.l3.ex06
+      - id: u02.l3.ex33
         format: cloze
-        targets: [{item: g:noun-plural, skill: recall}]
-        tags: [cd:order-food-drink, sy:gr.noun-gender-number]
-        text: "Due [[cappuccini]], per favore."
-        prompt_en: "Two cappuccinos, please."
-        hint: "Cappuccino is masculine."
-        rule: "Regular plurals: masculine -o becomes -i, feminine -a becomes -e."
-        near: [{answer: cappuccino, hint: "That's one. Change the last vowel for two."}]
+        targets: [{item: c:mi-piace, skill: recall}]
+        tags: [sy:fn.likes-wants]
+        source: u02.l3.story#12
+        text: "Sì, [[mi piace]]! È buono."
+        prompt_en: "Yes, I like it! It's good."
+        hint: "Marco is talking about himself."
+        near: [{answer: "ti piace", hint: "Ti piace asks a friend \"do you like…?\". Marco is talking about himself."}]
       - id: u02.l3.ex07
         format: cloze
         targets: [{item: g:noun-plural, skill: recall}]
@@ -173,15 +175,15 @@ steps:
         tags: [cd:order-food-drink, sy:gr.noun-gender-number]
         text: "Due [[caffè]], per favore."
         prompt_en: "Two coffees, please."
-        hint: "Look at the end of caffè: an accented vowel."
+        hint: "Look at the last letter: it has an accent."
         rule: "Nouns that end in an accented vowel don't change: un caffè, due caffè."
         near: [{answer: caffi, hint: "Caffè ends in an accented vowel, so it stays the same."}]
       - id: u02.l3.ex09
         format: recall
         targets: [{item: c:avete, skill: recall}, {item: g:noun-plural, skill: recall}]
         tags: [cd:order-food-drink]
-        prompt_en: "Do you have croissants? (asking at the bar)"
-        answer: "{avete cornetti|scusi avete cornetti|avete i cornetti|avete dei cornetti|ci sono cornetti}"
+        prompt_en: "Do you have croissants? (at the café)"
+        answer: "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}"
         near: [{answer: "(scusi )avete cornetto", outcome: almost, hint: "More than one croissant: change the last vowel."}]
         audio_after: true
       - id: u02.l3.ex10
@@ -190,6 +192,7 @@ steps:
         tags: [cd:order-food-drink]
         prompt_en: "I'll have a coffee."
         answer: "{prendo|vorrei} un caffè( {per favore|grazie})"
+        near: [{answer: "un caffè( {per favore|grazie})", hint: "Good Italian, but start with the word for 'I'll have'."}]
         audio_after: true
       - id: u02.l3.ex11
         format: recall
@@ -203,16 +206,16 @@ steps:
         targets: [{item: c:ti-piace, skill: recall}]
         tags: [sy:fn.likes-wants, cd:choose-tu-lei]
         prompt_en: "Do you like the cappuccino? (to Sara)"
-        answer: "{ti piace il cappuccino|il cappuccino ti piace}"
+        answer: "{ti piace il cappuccino|il cappuccino ti piace|Sara ti piace il cappuccino|ti piace il cappuccino Sara}"
         near: [{answer: "Le piace il cappuccino", hint: "Sara is a friend. Which form goes with tu?"}]
         audio_after: true
       - id: u02.l3.ex13
         format: recall
         targets: [{item: c:le-piace, skill: recall}]
         tags: [sy:fn.likes-wants, cd:choose-tu-lei]
-        prompt_en: "Do you like Bologna? (to Signora Rossi)"
-        answer: "{Le piace Bologna|Bologna Le piace}"
-        near: [{answer: "ti piace Bologna", hint: "You say Lei to Signora Rossi. Which form goes with Lei?"}]
+        prompt_en: "Do you like the cappuccino? (to Signora Rossi)"
+        answer: "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}"
+        near: [{answer: "ti piace il cappuccino", hint: "You say Lei to Signora Rossi. Which form goes with Lei?"}]
         audio_after: true
       - id: u02.l3.ex14
         format: cloze
@@ -232,9 +235,9 @@ steps:
         answer: ["due cappuccini e due cornetti", "due cornetti e due cappuccini"]
       - id: u02.l3.ex16
         format: dictation
-        targets: [{item: w:arancia, skill: listen}]
+        targets: [{item: w:arancia, skill: listen}, {item: w:certo, skill: listen}]
         tags: [sy:cefr.orthographic-control]
-        say: "Due cornetti e una spremuta d'arancia."
+        say: "Certo! Due cornetti e una spremuta d'arancia."
         slow: true
       - id: u02.l3.ex17
         format: repeat
@@ -246,8 +249,8 @@ steps:
         format: choice
         targets: [{item: c:ti-piace, skill: read}, {item: c:le-piace, skill: read}]
         tags: [cd:choose-tu-lei, sy:fn.likes-wants]
-        question_en: "You ask Sara, a friend: \"Do you like Bologna?\" Which is right?"
-        options: ["Ti piace Bologna?", "Le piace Bologna?", "Mi piace Bologna?"]
+        question_en: "You ask Sara, a friend: \"Do you like the croissant?\" Which is right?"
+        options: ["Ti piace il cornetto?", "Le piace il cornetto?", "Mi piace il cornetto?"]
         answer: 0
         hint: "Sara is a friend: tu."
       - id: u02.l3.ex19
@@ -264,7 +267,7 @@ steps:
         targets: [{item: w:certo, skill: recall}]
         tags: [sy:fn.confirm-agree]
         prompt_en: "Of course!"
-        answer: "{certo|sì certo|certamente}"
+        answer: "{certo|sì certo|ma certo|certamente}"
         near: [{answer: prego, hint: "Prego means you're welcome. You want 'of course'."}]
         audio_after: true
       - id: u02.l3.ex21
@@ -292,16 +295,18 @@ steps:
         tags: [sy:tp.food-drink]
         prompt_en: "The cappuccino is good today!"
         tiles: [oggi, il cappuccino, è, buono]
-        answer: ["oggi il cappuccino è buono", "il cappuccino oggi è buono", "il cappuccino è buono oggi"]
-      - id: u02.l3.ex24
-        format: choice
-        targets: [{item: g:numbers-to-100, skill: read}]
-        tags: [cd:ask-price-pay]
-        prompt_it: "Sette euro e sessanta."
-        audio: {speaker: ch:giulia}
-        question_en: "Giulia tells Marco the total. How much is it?"
-        options: ["€7.60", "€6.70", "€17.60"]
-        answer: 0
+        answer: ["oggi il cappuccino è buono", "il cappuccino oggi è buono", "il cappuccino è buono oggi", "oggi è buono il cappuccino"]
+      - id: u02.l3.ex34
+        format: cloze
+        targets: [{item: c:ti-piace, skill: recall}]
+        tags: [sy:fn.likes-wants, cd:choose-tu-lei]
+        source: u02.l3.story#17
+        text: "E Bologna? [[Ti piace]]?"
+        prompt_en: "And Bologna? Do you like it? (Sara to Marco)"
+        hint: "Sara and Marco are friends."
+        near:
+          - {answer: "Le piace", hint: "Le piace is for someone you call Lei. Sara and Marco say tu."}
+          - {answer: "mi piace", hint: "Mi piace is \"I like\". Sara is asking Marco."}
       - id: u02.l3.ex25
         format: cloze
         targets: [{item: g:indefinite-article, skill: recall}, {item: g:noun-gender, skill: recall}]
@@ -399,7 +404,9 @@ steps:
                 - "(buongiorno )({vorrei|prendo} )due cappuccini( per favore)"
                 - "(buongiorno )({vorrei|prendo} )due cappuccini grazie"
               next: n2
-          near: [{answer: "(buongiorno )({vorrei|prendo} )due cappuccino( {per favore|grazie})", outcome: almost, hint: "Two cappuccinos: change the last vowel for more than one."}]
+          near:
+            - {answer: "(buongiorno )({vorrei|prendo} )due cappuccino( {per favore|grazie})", outcome: almost, hint: "Two cappuccinos: change the last vowel for more than one."}
+            - {answer: "(buongiorno )({vorrei|prendo} )due cappuccini e due cornetti( {per favore|grazie})", hint: "Just the drinks first: Giulia will ask about food."}
           help: ["Due cappuccini, per favore."]
           hint_en: "Order two cappuccinos, for you and Sara."
         n2:
@@ -410,6 +417,7 @@ steps:
               goal: ask
               accept: ["(scusi )avete cornetti", "(scusi )avete {i|dei} cornetti", "(scusi )avete un cornetto"]
               next: n3
+          near: [{answer: "(scusi )avete cornetto", outcome: almost, hint: "More than one croissant: change the last vowel."}]
           help: ["Scusi, avete cornetti?"]
           hint_en: "Ask if they have croissants."
         n3:
@@ -418,7 +426,7 @@ steps:
           expect:
             - intent: order-food
               goal: food
-              accept: ["due( cornetti)( {per favore|grazie})", "({vorrei|prendo} )due cornetti( {per favore|grazie})"]
+              accept: ["due( cornetti)( {per favore|grazie})", "({vorrei|prendo} )due cornetti( {per favore|grazie})", "sì( grazie) due( cornetti)( {per favore|grazie})"]
               next: end
           near: [{answer: "(due )cornetto( per favore)", outcome: almost, hint: "Two croissants: change the last vowel for more than one."}]
           help: ["Due, per favore."]

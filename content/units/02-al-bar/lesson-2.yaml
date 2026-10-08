@@ -29,7 +29,7 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Senta, scusi! Buongiorno!", en: "Excuse me! Good morning!"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Buongiorno! Cosa prende oggi?", en: "Good morning! What will you have today?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Vorrei un latte, per favore.", en: "I'd like a latte, please."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un latte? Ma in Italia un latte è latte!", en: 'A latte? But in Italy, "un latte" is just milk!'}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un latte? Ma in Italia un latte è solo latte!", en: 'A latte? But in Italy, "un latte" is just milk!', recognise: [solo], gloss: {solo: just}}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Oh! No, no. Vorrei un cappuccino, per favore.", en: "Oh! No, no. I'd like a cappuccino, please."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un cappuccino! E da mangiare?", en: "A cappuccino! Anything to eat?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Quanto costa un cornetto?", en: "How much is a croissant?"}
@@ -44,11 +44,11 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "E un caffè, per favore.", en: "And a coffee, please."}
         - {speaker: ch:giulia, it: "Ecco: un cappuccino, un cornetto e un caffè.", en: "Here you are: a cappuccino, a croissant and a coffee."}
         - {speaker: ch:sara, it: "Mmm! Buono, il caffè!", en: "Mmm! The coffee's good!"}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! E il cornetto è buono.", en: "Yes! And the croissant's good."}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! E anche il cornetto è buono.", en: "Yes! And the croissant's good too."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Quattro euro e venti.", en: "€4.20."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco cinque euro.", en: "Here's five euros."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! E ottanta centesimi.", en: "Thank you! And eighty cents.", recognise: [centesimi], gloss: {centesimi: cents}}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! Ecco ottanta centesimi.", en: "Thanks! Here's eighty cents.", recognise: [centesimi], gloss: {centesimi: cents}}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Grazie! Arrivederci.", en: "Thanks! Goodbye."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Arrivederci! Buona giornata!", en: "Goodbye! Have a good day!"}
     questions:
@@ -67,8 +67,8 @@ steps:
       - id: u02.l2.q3
         format: choice
         tags: [cd:ask-price-pay]
-        question_en: "How much does Marco pay for everything?"
-        options: ["€4.20", "€5.00", "€0.80"]      # he hands over €5 and gets €0.80 back
+        question_en: "What does Marco's order come to?"
+        options: ["€4.20", "€5.00", "€0.80"]      # the total; he hands over €5 and gets €0.80 back
         answer: 0
 
   # 3 · Note: the tens and how prices are said, from the story's own lines
@@ -79,7 +79,7 @@ steps:
     title_en: Numbers to 100 and prices
     intro: {mascot: think, text_en: "Giulia says *un euro e quaranta*. That's €1.40: the euros, then *e*, then the cents."}
     body:
-      - p: From 30 to 90, the tens end in *-anta*. Many of them sound like the numbers you know, so *sette* gives *settanta* and *otto* gives *ottanta*.
+      - p: From 40 to 90, the tens end in *-anta*; 30 is *trenta*. Many of them sound like the numbers you know, so *sette* gives *settanta* and *otto* gives *ottanta*.
       - table:
           columns: [Number, Italian]
           rows:
@@ -93,8 +93,8 @@ steps:
             - ["90", "**novanta**"]
             - ["100", "**cento**"]
       - p: A price is the euros, then *e*, then the cents, and people usually don't say the word for cents. *Un euro e sessanta* is €1.60, and *quattro euro e venti* is €4.20.
-      - examples: [u02.l2.story#9, u02.l2.story#11, u02.l2.story#24]
-      - tip: "*Sessanta* (60) and *settanta* (70) sound alike: 60 has a double s, 70 a double t. Numbers in between are written as one word: *trenta* and *due* together make 32."
+      - examples: [u02.l2.story#9, u02.l2.story#11, u02.l2.story#22]
+      - tip: "*Sessanta* (60) and *settanta* (70) sound alike: 60 has a double s, 70 a double t."
 
   # 4 · Real-world reading: the price list on the counter (same prices as the task menu)
   - kind: reading
@@ -146,8 +146,8 @@ steps:
         source: u02.l2.story#9
         text: "Un euro e [[quaranta]]."
         prompt_en: "€1.40."
-        hint: "Forty starts like four."
-        rule: "From 30 to 90, the tens end in -anta: quaranta, cinquanta, sessanta…"
+        hint: "It starts like quattro."
+        rule: "Tens from 40 to 90 end in -anta: quaranta, cinquanta, sessanta… (30 is trenta)."
         near: [{answer: quattordici, hint: "Quattordici is 14. You need the tens: 40."}]
       - id: u02.l2.ex05
         format: cloze
@@ -157,7 +157,7 @@ steps:
         text: "Un euro e [[sessanta]]."
         prompt_en: "€1.60."
         hint: "Sixty has a double s."
-        rule: "From 30 to 90, the tens end in -anta: quaranta, cinquanta, sessanta…"
+        rule: "Tens from 40 to 90 end in -anta: quaranta, cinquanta, sessanta… (30 is trenta)."
         near:
           - {answer: settanta, hint: "Settanta is 70. You need 60."}
           - {answer: sedici, hint: "Sedici is 16. You need the tens: 60."}
@@ -186,14 +186,14 @@ steps:
         targets: [{item: c:quanto-costa, skill: recall}]
         tags: [cd:ask-price-pay]
         prompt_en: "How much is a croissant?"
-        answer: "{quanto costa un cornetto|(senta )(scusi ){quanto costa|quant'è} {un|il} cornetto}"
+        answer: "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}"
         near: [{answer: "quanto costa una cornetto", outcome: almost, hint: "Cornetto is masculine."}]
         audio_after: true
       - id: u02.l2.ex09
         format: recall
         targets: [{item: w:latte, skill: recall}]
         tags: [cd:order-food-drink]
-        prompt_en: "a glass of milk (at the bar)"
+        prompt_en: "a glass of milk (at the café)"
         answer: "{un [latte]|un bicchiere di latte}"
         near: [{answer: "una latte", outcome: almost, hint: "Latte is masculine, although it ends in -e."}]
         audio_after: true
@@ -203,7 +203,7 @@ steps:
         tags: [cd:order-food-drink]
         prompt_it: "Un latte, per favore."
         audio: {speaker: ch:marco}
-        question_en: "You say this at an Italian bar. What do you get?"
+        question_en: "You say this at an Italian café. What do you get?"
         options: ["A glass of milk", "A coffee with milk", "A cappuccino"]
         answer: 0
       - id: u02.l2.ex11
@@ -223,7 +223,7 @@ steps:
         tags: [sy:gr.cardinal-numbers]
         prompt_en: "seventy"
         answer: "settanta"
-        hint: "It starts like seven."
+        hint: "It starts like sette."
         near:
           - {answer: sessanta, hint: "Sessanta is 60. Seventy comes from sette."}
           - {answer: diciassette, hint: "Diciassette is 17. You need the tens."}
@@ -233,7 +233,7 @@ steps:
         targets: [{item: g:numbers-to-100, skill: recall}, {item: w:ottanta, skill: recall}]
         tags: [cd:ask-price-pay]
         prompt_en: "€2.80"
-        answer: "{due euro e [ottanta]|due euro e ottanta centesimi|due e ottanta}"
+        answer: "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}"
         rule: "A price is the euros, e, then the cents: due euro e venti is €2.20."
         near:
           - {answer: "due euro e otto", hint: "That's €2.08. You need eighty cents."}
@@ -243,13 +243,13 @@ steps:
         format: dictation
         targets: [{item: c:quanto-costa, skill: listen}]
         tags: [sy:cefr.orthographic-control]
-        say: "Quanto costa un cappuccino?"
+        say: "Senta, quanto costa un cappuccino?"
         slow: true
       - id: u02.l2.ex15
         format: dictation
-        targets: [{item: w:trenta, skill: listen}, {item: w:cinquanta, skill: listen}, {item: w:novanta, skill: listen}]
+        targets: [{item: w:trenta, skill: listen}, {item: w:cinquanta, skill: listen}, {item: w:novanta, skill: listen}, {item: w:cento, skill: listen}]
         tags: [sy:gr.cardinal-numbers]
-        say: "Trenta, cinquanta, settanta e novanta."
+        say: "Trenta, cinquanta, settanta, novanta e cento."
         slow: true
       - id: u02.l2.ex16
         format: sentence-building
@@ -274,10 +274,10 @@ steps:
         answer: 0
       - id: u02.l2.ex19
         format: choice
-        targets: [{item: w:quaranta, skill: read}]
+        targets: [{item: w:trenta, skill: read}]
         tags: [sy:gr.cardinal-numbers]
-        question_en: "Which one is 40?"
-        options: ["quaranta", "quattordici", "quattro"]
+        question_en: "Which one is 30?"
+        options: ["trenta", "tredici", "tre"]
         answer: 0
       - id: u02.l2.ex20
         format: cloze
@@ -285,7 +285,7 @@ steps:
         tags: [sy:gr.articles]
         text: "Ecco [[un]] latte!"
         prompt_en: "Here's a glass of milk!"
-        hint: "Latte ends in -e, so the ending doesn't tell you. Learn it with its article."
+        hint: "Marco orders one in the story: '… latte, per favore.'"
         rule: "Nouns ending in -e can be masculine or feminine: learn each one with un or una."
         near:
           - {answer: una, hint: "Latte is masculine, although it doesn't end in -o."}
@@ -295,7 +295,7 @@ steps:
         targets: [{item: g:tu-lei, skill: recall}]
         tags: [cd:get-attention, cd:choose-tu-lei]
         prompt_en: "Excuse me! (to Sara, a friend)"
-        answer: "{scusa|senti|senti scusa|scusa senti}"
+        answer: "{scusa|senti|senti scusa|scusa senti|scusa Sara|senti Sara|Sara scusa|Sara senti}"
         near:
           - {answer: scusi, hint: "Sara is a friend. Which form goes with tu?"}
           - {answer: senta, hint: "Senta goes with Lei. Sara is a friend."}
@@ -303,20 +303,20 @@ steps:
       - id: u02.l2.ex22
         format: match
         targets:                      # targets[i] belongs to pairs[i]
-          - {item: w:venti, skill: read}
+          - {item: w:cinquanta, skill: read}
           - {item: w:sessanta, skill: read}
           - {item: w:quaranta, skill: read}
           - {item: w:ottanta, skill: read}
-        tags: [cd:pass-on-prices]
-        pairs: [["un euro e venti", "€1.20"], ["un euro e sessanta", "€1.60"], ["un euro e quaranta", "€1.40"], ["due euro e ottanta", "€2.80"]]
+        tags: [cd:ask-price-pay]
+        pairs: [["tre euro e cinquanta", "€3.50"], ["un euro e sessanta", "€1.60"], ["un euro e quaranta", "€1.40"], ["due euro e ottanta", "€2.80"]]
       - id: u02.l2.ex23
         format: choice
-        targets: [{item: g:numbers-to-100, skill: read}]
+        targets: [{item: g:numbers-to-100, skill: read}, {item: w:novanta, skill: read}]
         tags: [cd:ask-price-pay]
-        prompt_it: "Cinque euro e sessanta."
+        prompt_it: "Cinque euro e novanta."
         audio: {speaker: ch:giulia}
         question_en: "Giulia tells you the price. How much is it?"
-        options: ["€5.60", "€5.70", "€15.60"]
+        options: ["€5.90", "€5.09", "€15.90"]
         answer: 0
       - id: u02.l2.ex24
         format: choice
@@ -423,9 +423,10 @@ steps:
               goal: ask
               accept:
                 - "(buongiorno )senta( scusi) quanto costa un cornetto"
-                - "(buongiorno )(senta )(scusi ){quanto costa|quant'è} un cornetto"
+                - "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto"
+                - "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa"
               next: n2
-          near: [{answer: "(buongiorno )({senti|scusa} ){quanto costa|quant'è} un cornetto", hint: "Giulia says Lei to you. Which word for 'excuse me' goes with Lei?"}]
+          near: [{answer: "(buongiorno ){senti( scusa)|scusa} {quanto costa|quant'è|quanto è} {un|il} cornetto", hint: "Giulia says Lei to you. Which word for 'excuse me' goes with Lei?"}]
           help: ["Senta, scusi, quanto costa un cornetto?"]
           hint_en: "Get Giulia's attention and ask how much a croissant is."
         n2:
@@ -435,9 +436,9 @@ steps:
             - intent: order
               goal: order
               accept:
-                - "({bene|sì} )(vorrei )un cornetto( per favore)"
-                - "({bene|sì} )(vorrei )un cornetto grazie"
-                - "({bene|sì} )prendo un cornetto( {per favore|grazie})"
+                - "({bene|sì|sì grazie|ok|allora} )(vorrei )un cornetto( per favore)"
+                - "({bene|sì|sì grazie|ok|allora} )(vorrei )un cornetto grazie"
+                - "({bene|sì|sì grazie|ok|allora} )prendo un cornetto( {per favore|grazie})"
               next: n3
           near: [{answer: "(vorrei )una cornetto( per favore)", outcome: almost, hint: "Cornetto is masculine."}]
           help: ["Un cornetto, per favore."]
