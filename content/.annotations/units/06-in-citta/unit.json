@@ -13,7 +13,7 @@
    "text": "In città",
    "tokens": [
     {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [0, 2], "surface": "In", "trailing": " "},
-    {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "flags": ["pending", "unresolved"], "kind": "word", "lemma": "città", "span": [3, 8], "surface": "città"}
+    {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [3, 8], "surface": "città"}
    ]
   }
  ],

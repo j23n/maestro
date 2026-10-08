@@ -1,5 +1,6 @@
 # Unit 1 items: SEED, incomplete (C2 completes it: about 55–65 items).
-# Holds what the golden sample needs plus the Unit 1 chunks from the scope and sequence.
+# Holds what the golden sample needs plus the Unit 1 chunks from the scope and sequence, and (C3) the words the
+# Unit 1 lessons, task and check use.
 unit: u01
 review: {status: draft, by: null, date: null, hash: null}
 items:
@@ -37,3 +38,28 @@ items:
   - {id: 'c:puoi-ripetere', kind: chunk, it: 'puoi ripetere?', gloss: 'can you say that again? (informal)', match: [puoi ripetere], status: P, lesson: u01.l3}
   - {id: 's:intonation', kind: sound, it: intonazione, gloss: 'rising intonation for yes/no questions (È americano? vs È americano.)', status: {listen: P}, lesson: u01.l1}
   - {id: 's:accents-e-si', kind: sound, it: 'e / è, si / sì', gloss: e (and) vs è (is); si vs sì (yes), status: {listen: P, read: P}, lesson: u01.l1}
+  # Added in C3 (Unit 1 drafts): words the lessons, task and check need, plus countries, nationalities and form labels
+  # (spec note: countries, nationalities, languages). Other countries reach the learner through the onboarding slots.
+  - {id: 'w:signora', it: signora, pos: noun, gender: f, plural: signore, gloss: lady; Mrs (la signora Rossi); madam, note: 'Buongiorno, signora! is a polite greeting to a woman you call Lei.', topics: ['topic:identity'], status: P, lesson: u01.l1}
+  - {id: 'w:citta', it: città, pos: noun, gender: f, plural: invariable, gloss: city; town, topics: ['topic:identity'], status: P, lesson: u01.l2}
+  - {id: 'c:come-stai', kind: chunk, it: 'come stai?', gloss: 'how are you? (informal)', match: [come stai], exemplifies: ['g:irregular-movement'], note: 'To someone you call tu. With Lei: come sta?', status: P, lesson: u01.l1}
+  - {id: 'c:come-sta', kind: chunk, it: 'come sta?', gloss: 'how are you? (formal); how is he/she?', match: [come sta], exemplifies: ['g:irregular-movement'], note: 'To someone you call Lei. With tu: come stai?', status: P, lesson: u01.l1}
+  - {id: 'c:vero', kind: chunk, it: 'vero?', gloss: 'right? (at the end of a question)', match: [vero], note: 'Tu sei Marco, vero? (You''re Marco, right?)', status: P, lesson: u01.l1}
+  - {id: 'w:nuovo', it: nuovo, pos: adj, gender: mf, gloss: new, note: 'Sei nuovo? to a man, sei nuova? to a woman.', status: P, lesson: u01.l2}
+  - {id: 'w:qui', it: qui, pos: adv, gloss: here, status: P, lesson: u01.l2}
+  - {id: 'c:dove-sei-nato', kind: chunk, it: 'dove sei nato/a? / dov''è nato/a?', gloss: 'where were you born? (informal / formal)', match: [dove sei nato, dove sei nata, dov'è nato, dov'è nata], recall_answer: '{m:dove sei nato|f:dove sei nata}', audio_say: 'dove sei nato? dov''è nato?', exemplifies: ['g:passato-prossimo-essere'], note: 'Ask a man nato, a woman nata. With Lei: dov''è nato? / dov''è nata?', status: P, lesson: u01.l2}
+  - {id: 'w:francese', it: francese, pos: adj, gender: mf, gloss: French, topics: ['topic:identity', 'topic:languages'], note: 'Also the French language. Same form for men and women.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:spagnolo', it: spagnolo, pos: adj, gender: mf, gloss: Spanish, topics: ['topic:identity', 'topic:languages'], note: 'spagnolo (m), spagnola (f). Also the Spanish language.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:bolognese', it: bolognese, pos: adj, gender: mf, gloss: from Bologna; Bolognese, note: 'Same form for men and women. Lowercase, like every nationality.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l2}
+  - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too), anche Sara (Sara too).', status: P, lesson: u01.l3}
+  - {id: 'w:allora', it: allora, pos: adv, gloss: so; well then, note: 'A filler to start or close a turn: Allora, a presto!', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:pronto', it: pronto, pos: interj, gloss: hello? (on the phone), note: 'Also an adjective: ready.', status: P, lesson: u01.l3}
+  - {id: 'c:a-presto', kind: chunk, it: a presto!, gloss: see you soon!, match: [a presto], status: P, lesson: u01.l3}
+  - {id: 'w:nome', it: nome, pos: noun, gender: m, plural: nomi, gloss: first name; name, topics: ['topic:identity'], status: P, lesson: u01.l3}
+  - {id: 'w:cognome', it: cognome, pos: noun, gender: m, plural: cognomi, gloss: surname; last name, topics: ['topic:identity'], status: P, lesson: u01.l3}
+  - {id: 'w:nazionalita', it: nazionalità, pos: noun, gender: f, plural: invariable, gloss: nationality, topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'c:luogo-di-nascita', kind: chunk, it: luogo di nascita, gloss: place of birth, match: [luogo di nascita], note: On forms. In conversation people ask dove sei nato/a?, topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'c:stati-uniti', kind: chunk, it: gli Stati Uniti, gloss: the United States, match: [gli Stati Uniti, negli Stati Uniti, Stati Uniti], recall_answer: '{gli Stati Uniti|Stati Uniti}', note: 'abito negli Stati Uniti (I live in the United States); the nationality is americano/americana.', topics: ['topic:identity'], status: P, lesson: u01.l3}
+  - {id: 'w:inghilterra', it: Inghilterra, pos: noun, gender: f, plural: invariable, gloss: England, recall_answer: '{l''Inghilterra|Inghilterra}', note: 'abito in Inghilterra; the nationality is inglese.', topics: ['topic:identity'], status: P, lesson: u01.l3}
+  - {id: 'w:francia', it: Francia, pos: noun, gender: f, plural: invariable, gloss: France, note: 'abito in Francia; the nationality is francese.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:spagna', it: Spagna, pos: noun, gender: f, plural: invariable, gloss: Spain, note: 'abito in Spagna; the nationality is spagnolo/spagnola.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
