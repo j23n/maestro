@@ -1,0 +1,1849 @@
+{
+ "format": 1,
+ "source": "content/units/01-piacere/check.yaml",
+ "strings": [
+  {
+   "path": "sections[0].exercises[0].audio_text.lines[0].it",
+   "ref": "u01.check.01.audio#1",
+   "role": "line",
+   "text": "Pronto?",
+   "tokens": [
+    {"analyses": ["pronto INT"], "flags": ["synthetic"], "item": "w:pronto", "kind": "word", "lemma": "pronto", "span": [0, 6], "surface": "Pronto"},
+    {"kind": "punct", "span": [6, 7], "surface": "?"}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[0].audio_text.lines[1].it",
+   "ref": "u01.check.01.audio#2",
+   "role": "line",
+   "text": "Ciao, Marco! Sono Sara.",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "Ciao"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [6, 11], "surface": "Marco"},
+    {"kind": "punct", "span": [11, 12], "surface": "!", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [13, 17], "surface": "Sono", "trailing": " "},
+    {"kind": "name", "span": [18, 22], "surface": "Sara"},
+    {"kind": "punct", "span": [22, 23], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:negation-non", "tokens": [4, 5]}
+   ],
+   "path": "sections[0].exercises[0].audio_text.lines[2].it",
+   "ref": "u01.check.01.audio#3",
+   "role": "line",
+   "text": "Marco? No, non sono Marco.",
+   "tokens": [
+    {"kind": "name", "span": [0, 5], "surface": "Marco"},
+    {"kind": "punct", "span": [5, 6], "surface": "?", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [7, 9], "surface": "No"},
+    {"kind": "punct", "span": [9, 10], "surface": ",", "trailing": " "},
+    {"analyses": ["non ADV"], "detections": ["g:negation-non"], "item": "w:non", "kind": "word", "lemma": "non", "span": [11, 14], "surface": "non", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [15, 19], "surface": "sono", "trailing": " "},
+    {"kind": "name", "span": [20, 25], "surface": "Marco"},
+    {"kind": "punct", "span": [25, 26], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[0].audio_text.lines[3].it",
+   "ref": "u01.check.01.audio#4",
+   "role": "line",
+   "text": "Oh! Scusi! Arrivederci!",
+   "tokens": [
+    {"analyses": ["oh INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "oh", "span": [0, 2], "surface": "Oh"},
+    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [4, 9], "surface": "Scusi"},
+    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [2, 2]}
+   ],
+   "path": "sections[0].exercises[1].audio_text.lines[0].it",
+   "ref": "u01.check.02.audio#1",
+   "role": "line",
+   "text": "Buongiorno! Lei è nuovo qui?",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [12, 15], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [16, 17], "surface": "è", "trailing": " "},
+    {"analyses": ["nuovo ADJ:pos+m+s"], "item": "w:nuovo", "kind": "word", "lemma": "nuovo", "span": [18, 23], "surface": "nuovo", "trailing": " "},
+    {"analyses": ["qui ADV"], "item": "w:qui", "kind": "word", "lemma": "qui", "span": [24, 27], "surface": "qui"},
+    {"kind": "punct", "span": [27, 28], "surface": "?"}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[1].audio_text.lines[1].it",
+   "ref": "u01.check.02.audio#2",
+   "role": "line",
+   "text": "Sì, buongiorno. Mi chiamo Hugo. Sono francese.",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [4, 14], "surface": "buongiorno"},
+    {"kind": "punct", "span": [14, 15], "surface": ".", "trailing": " "},
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [16, 18], "surface": "Mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [19, 25], "surface": "chiamo", "trailing": " "},
+    {"kind": "foreign", "span": [26, 30], "surface": "Hugo"},
+    {"kind": "punct", "span": [30, 31], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [32, 36], "surface": "Sono", "trailing": " "},
+    {"analyses": ["francese ADJ:pos+f+s", "francese ADJ:pos+m+s"], "item": "w:francese", "kind": "word", "lemma": "francese", "span": [37, 45], "surface": "francese"},
+    {"kind": "punct", "span": [45, 46], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [2, 2]},
+    {"point": "g:subject-pronouns", "tokens": [8, 8]},
+    {"point": "g:simple-prepositions", "tokens": [11, 11]}
+   ],
+   "path": "sections[0].exercises[1].audio_text.lines[2].it",
+   "ref": "u01.check.02.audio#3",
+   "role": "line",
+   "text": "Piacere! Io sono la signora Rossi. Lei è nato in Francia?",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "Piacere"},
+    {"kind": "punct", "span": [7, 8], "surface": "!", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [9, 11], "surface": "Io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [12, 16], "surface": "sono", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 5, "item": "w:signora", "kind": "word", "lemma": "la", "span": [17, 19], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [20, 27], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [28, 33], "surface": "Rossi"},
+    {"kind": "punct", "span": [33, 34], "surface": ".", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [35, 38], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [39, 40], "surface": "è", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [41, 45], "surface": "nato", "trailing": " "},
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [46, 48], "surface": "in", "trailing": " "},
+    {"analyses": ["Francia NOUN-F:p", "Francia NOUN-F:s"], "flags": ["synthetic"], "item": "w:francia", "kind": "word", "lemma": "Francia", "span": [49, 56], "surface": "Francia"},
+    {"kind": "punct", "span": [56, 57], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [4, 4]},
+    {"point": "g:conjunctions", "tokens": [7, 7]}
+   ],
+   "path": "sections[0].exercises[1].audio_text.lines[3].it",
+   "ref": "u01.check.02.audio#4",
+   "role": "line",
+   "text": "No, sono nato in Canada, ma sono francese.",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [9, 13], "surface": "nato", "trailing": " "},
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [14, 16], "surface": "in", "trailing": " "},
+    {"kind": "name", "span": [17, 23], "surface": "Canada"},
+    {"kind": "punct", "span": [23, 24], "surface": ",", "trailing": " "},
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [25, 27], "surface": "ma", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [28, 32], "surface": "sono", "trailing": " "},
+    {"analyses": ["francese ADJ:pos+f+s", "francese ADJ:pos+m+s"], "item": "w:francese", "kind": "word", "lemma": "francese", "span": [33, 41], "surface": "francese"},
+    {"kind": "punct", "span": [41, 42], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[0].exercises[2].audio_text.lines[0].it",
+   "ref": "u01.check.03.audio#1",
+   "role": "line",
+   "text": "Buongiorno! Le presento Marco. È nuovo qui.",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-presento", "kind": "word", "span": [12, 14], "surface": "Le", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:le-presento", "kind": "word", "lemma": "presentare", "span": [15, 23], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [24, 29], "surface": "Marco"},
+    {"kind": "punct", "span": [29, 30], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [31, 32], "surface": "È", "trailing": " "},
+    {"analyses": ["nuovo ADJ:pos+m+s"], "item": "w:nuovo", "kind": "word", "lemma": "nuovo", "span": [33, 38], "surface": "nuovo", "trailing": " "},
+    {"analyses": ["qui ADV"], "item": "w:qui", "kind": "word", "lemma": "qui", "span": [39, 42], "surface": "qui"},
+    {"kind": "punct", "span": [42, 43], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [4, 4]}
+   ],
+   "path": "sections[0].exercises[2].audio_text.lines[1].it",
+   "ref": "u01.check.03.audio#2",
+   "role": "line",
+   "text": "Piacere, Marco! Lei è americano?",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "Piacere"},
+    {"kind": "punct", "span": [7, 8], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [9, 14], "surface": "Marco"},
+    {"kind": "punct", "span": [14, 15], "surface": "!", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [16, 19], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [20, 21], "surface": "è", "trailing": " "},
+    {"analyses": ["americano ADJ:pos+m+s"], "item": "w:americano", "kind": "word", "lemma": "americano", "span": [22, 31], "surface": "americano"},
+    {"kind": "punct", "span": [31, 32], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+   ],
+   "path": "sections[0].exercises[2].audio_text.lines[2].it",
+   "ref": "u01.check.03.audio#3",
+   "role": "line",
+   "text": "No, sono canadese, di Toronto.",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [9, 17], "surface": "canadese"},
+    {"kind": "punct", "span": [17, 18], "surface": ",", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [19, 21], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [22, 29], "surface": "Toronto"},
+    {"kind": "punct", "span": [29, 30], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]},
+    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+   ],
+   "path": "sections[0].exercises[3].say",
+   "ref": "u01.check.04",
+   "role": "say",
+   "text": "Mi chiamo Sara e sono di Bologna.",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "Mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiamo", "trailing": " "},
+    {"kind": "name", "span": [10, 14], "surface": "Sara", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [17, 21], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [22, 24], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [25, 32], "surface": "Bologna"},
+    {"kind": "punct", "span": [32, 33], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "path": "sections[0].exercises[4].pair[0]",
+   "ref": "u01.check.05",
+   "role": "sound",
+   "text": "Sei di Toronto?",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "flags": ["sound"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "Sei", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "flags": ["sound"], "item": "w:di", "kind": "word", "lemma": "di", "span": [4, 6], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [7, 14], "surface": "Toronto"},
+    {"kind": "punct", "span": [14, 15], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "path": "sections[0].exercises[4].pair[1]",
+   "ref": "u01.check.05",
+   "role": "sound",
+   "text": "Sei di Toronto.",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "flags": ["sound"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "Sei", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "flags": ["sound"], "item": "w:di", "kind": "word", "lemma": "di", "span": [4, 6], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [7, 14], "surface": "Toronto"},
+    {"kind": "punct", "span": [14, 15], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[1].prompt_it",
+   "ref": "u01.check.07",
+   "role": "prompt",
+   "text": "Signora, Le presento Marco.",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "Signora"},
+    {"kind": "punct", "span": [7, 8], "surface": ",", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-presento", "kind": "word", "span": [9, 11], "surface": "Le", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:le-presento", "kind": "word", "lemma": "presentare", "span": [12, 20], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [21, 26], "surface": "Marco"},
+    {"kind": "punct", "span": [26, 27], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:subject-pronouns", "tokens": [5, 5]}
+   ],
+   "path": "sections[1].exercises[2].prompt_it",
+   "ref": "u01.check.08",
+   "role": "prompt",
+   "text": "Lui è canadese, ma lei è italiana.",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "Lui", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [6, 14], "surface": "canadese"},
+    {"kind": "punct", "span": [14, 15], "surface": ",", "trailing": " "},
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [16, 18], "surface": "ma", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [19, 22], "surface": "lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [23, 24], "surface": "è", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+f+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [25, 33], "surface": "italiana"},
+    {"kind": "punct", "span": [33, 34], "surface": "."}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[3].pairs[0][0]",
+   "ref": "u01.check.09",
+   "role": "pair",
+   "text": "Nome",
+   "tokens": [
+    {"analyses": ["nome NOUN-M:s"], "item": "w:nome", "kind": "word", "lemma": "nome", "span": [0, 4], "surface": "Nome"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[3].pairs[1][0]",
+   "ref": "u01.check.09",
+   "role": "pair",
+   "text": "Cognome",
+   "tokens": [
+    {"analyses": ["cognome NOUN-M:s"], "item": "w:cognome", "kind": "word", "lemma": "cognome", "span": [0, 7], "surface": "Cognome"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[3].pairs[2][0]",
+   "ref": "u01.check.09",
+   "role": "pair",
+   "text": "Nazionalità",
+   "tokens": [
+    {"analyses": ["nazionalità NOUN-F:p", "nazionalità NOUN-F:s"], "item": "w:nazionalita", "kind": "word", "lemma": "nazionalità", "span": [0, 11], "surface": "Nazionalità"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[3].pairs[3][0]",
+   "ref": "u01.check.09",
+   "role": "pair",
+   "text": "Luogo di nascita",
+   "tokens": [
+    {"analyses": ["luogo NOUN-M:s"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "luogo", "span": [0, 5], "surface": "Luogo", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"analyses": ["nascita NOUN-F:s"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "nascita", "span": [9, 16], "surface": "nascita"}
+   ]
+  },
+  {
+   "path": "sections[1].exercises[3].pairs[4][0]",
+   "ref": "u01.check.09",
+   "role": "pair",
+   "text": "Città",
+   "tokens": [
+    {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [0, 5], "surface": "Città"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:negation-non", "tokens": [0, 1]}
+   ],
+   "path": "sections[1].exercises[4].prompt_it",
+   "ref": "u01.check.10",
+   "role": "prompt",
+   "text": "Non sono americano. Sono canadese.",
+   "tokens": [
+    {"analyses": ["non ADV"], "detections": ["g:negation-non"], "item": "w:non", "kind": "word", "lemma": "non", "span": [0, 3], "surface": "Non", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["americano ADJ:pos+m+s"], "item": "w:americano", "kind": "word", "lemma": "americano", "span": [9, 18], "surface": "americano"},
+    {"kind": "punct", "span": [18, 19], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [20, 24], "surface": "Sono", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [25, 33], "surface": "canadese"},
+    {"kind": "punct", "span": [33, 34], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [2, 2]},
+    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+   ],
+   "expansion": 0,
+   "gap": [3, 3],
+   "model": true,
+   "norm": "è",
+   "of": 1,
+   "path": "sections[2].exercises[0].text",
+   "pattern": "è",
+   "ref": "u01.check.11",
+   "role": "cloze",
+   "text": "Signora, Lei è di Bologna?",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "Signora"},
+    {"kind": "punct", "span": [7, 8], "surface": ",", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [9, 12], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [15, 17], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [18, 25], "surface": "Bologna"},
+    {"kind": "punct", "span": [25, 26], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:negation-non", "tokens": [1, 2]}
+   ],
+   "expansion": 0,
+   "gap": [6, 6],
+   "model": true,
+   "norm": "italiana",
+   "of": 1,
+   "path": "sections[2].exercises[1].text",
+   "pattern": "italiana",
+   "ref": "u01.check.12",
+   "role": "cloze",
+   "text": "Sara non è canadese: è italiana.",
+   "tokens": [
+    {"kind": "name", "span": [0, 4], "surface": "Sara", "trailing": " "},
+    {"analyses": ["non ADV"], "detections": ["g:negation-non"], "item": "w:non", "kind": "word", "lemma": "non", "span": [5, 8], "surface": "non", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "detections": ["g:negation-non"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [9, 10], "surface": "è", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [11, 19], "surface": "canadese"},
+    {"kind": "punct", "span": [19, 20], "surface": ":", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+f+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [23, 31], "surface": "italiana"},
+    {"kind": "punct", "span": [31, 32], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "gap": [2, 3],
+   "model": true,
+   "norm": "le presento",
+   "of": 1,
+   "path": "sections[2].exercises[2].text",
+   "pattern": "Le presento",
+   "ref": "u01.check.13",
+   "role": "cloze",
+   "text": "Signora, Le presento Marco.",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "Signora"},
+    {"kind": "punct", "span": [7, 8], "surface": ",", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-presento", "kind": "word", "span": [9, 11], "surface": "Le", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:le-presento", "kind": "word", "lemma": "presentare", "span": [12, 20], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [21, 26], "surface": "Marco"},
+    {"kind": "punct", "span": [26, 27], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "model": true,
+   "path": "sections[2].exercises[3].answer[0]",
+   "ref": "u01.check.14",
+   "role": "answer",
+   "text": "abito a Bologna ma sono canadese",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [16, 18], "surface": "ma", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 23], "surface": "sono", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [24, 32], "surface": "canadese"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
+   ],
+   "path": "sections[2].exercises[3].distractors[0]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "in",
+   "tokens": [
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [0, 2], "surface": "in"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[3].tiles[0]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "abito a",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[3].tiles[1]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "Bologna",
+   "tokens": [
+    {"kind": "name", "span": [0, 7], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "path": "sections[2].exercises[3].tiles[2]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "ma",
+   "tokens": [
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [0, 2], "surface": "ma"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[3].tiles[3]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "sono",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[3].tiles[4]",
+   "ref": "u01.check.14",
+   "role": "tile",
+   "text": "canadese",
+   "tokens": [
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [0, 8], "surface": "canadese"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[4].fields[0].label_it",
+   "ref": "u01.check.15",
+   "role": "label",
+   "text": "Nome",
+   "tokens": [
+    {"analyses": ["nome NOUN-M:s"], "item": "w:nome", "kind": "word", "lemma": "nome", "span": [0, 4], "surface": "Nome"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[4].fields[1].label_it",
+   "ref": "u01.check.15",
+   "role": "label",
+   "text": "Cognome",
+   "tokens": [
+    {"analyses": ["cognome NOUN-M:s"], "item": "w:cognome", "kind": "word", "lemma": "cognome", "span": [0, 7], "surface": "Cognome"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "{ME.nationality}",
+   "of": 1,
+   "path": "sections[2].exercises[4].fields[2].accept[0]",
+   "pattern": "{ME.nationality}",
+   "ref": "u01.check.15",
+   "role": "field",
+   "slots": [
+    [0, "ME.nationality"]
+   ],
+   "text": "{ME.nationality}",
+   "tokens": [
+    {"kind": "slot", "slot": "ME.nationality", "span": [0, 16], "surface": "{ME.nationality}"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[4].fields[2].label_it",
+   "ref": "u01.check.15",
+   "role": "label",
+   "text": "Nazionalità",
+   "tokens": [
+    {"analyses": ["nazionalità NOUN-F:p", "nazionalità NOUN-F:s"], "item": "w:nazionalita", "kind": "word", "lemma": "nazionalità", "span": [0, 11], "surface": "Nazionalità"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[4].fields[3].label_it",
+   "ref": "u01.check.15",
+   "role": "label",
+   "text": "Luogo di nascita",
+   "tokens": [
+    {"analyses": ["luogo NOUN-M:s"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "luogo", "span": [0, 5], "surface": "Luogo", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"analyses": ["nascita NOUN-F:s"], "chunk": "c:luogo-di-nascita", "kind": "word", "lemma": "nascita", "span": [9, 16], "surface": "nascita"}
+   ]
+  },
+  {
+   "path": "sections[2].exercises[4].fields[4].label_it",
+   "ref": "u01.check.15",
+   "role": "label",
+   "text": "Città",
+   "tokens": [
+    {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [0, 5], "surface": "Città"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.end.say",
+   "ref": "u01.check.16/end",
+   "role": "say",
+   "text": "Bene, grazie. Arrivederci!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": ".", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [25, 26], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "buongiorno mi chiamo {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )mi chiamo {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "buongiorno mi chiamo {NAME}",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [11, 13], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [14, 20], "surface": "chiamo", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [21, 27], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "mi chiamo {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[0]",
+   "pattern": "(buongiorno )mi chiamo {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "mi chiamo {NAME}",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiamo", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [10, 16], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "buongiorno io sono {NAME}",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(io )sono {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "buongiorno io sono {NAME}",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [11, 13], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [14, 18], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [19, 25], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno sono {NAME}",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(io )sono {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "buongiorno sono {NAME}",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [11, 15], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [16, 22], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "io sono {NAME}",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(io )sono {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "io sono {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [8, 14], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "sono {NAME}",
+   "of": 4,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno )(io )sono {NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [1, "NAME"]
+   ],
+   "text": "sono {NAME}",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [5, 11], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "{NAME}",
+   "of": 1,
+   "path": "sections[3].exercises[0].nodes.n1.expect[0].accept[2]",
+   "pattern": "{NAME}",
+   "ref": "u01.check.16/n1",
+   "role": "accept",
+   "slots": [
+    [0, "NAME"]
+   ],
+   "text": "{NAME}",
+   "tokens": [
+    {"kind": "slot", "slot": "NAME", "span": [0, 6], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n1.say",
+   "ref": "u01.check.16/n1",
+   "role": "say",
+   "text": "Buongiorno! Come si chiama?",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "come", "span": [12, 16], "surface": "Come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [17, 19], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [20, 26], "surface": "chiama"},
+    {"kind": "punct", "span": [26, 27], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": true,
+   "norm": "io sono {ME.nationality}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(io )sono {ME.nationality}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [2, "ME.nationality"]
+   ],
+   "text": "io sono {ME.nationality}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [8, 24], "surface": "{ME.nationality}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "sono {ME.nationality}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[0]",
+   "pattern": "(io )sono {ME.nationality}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [1, "ME.nationality"]
+   ],
+   "text": "sono {ME.nationality}",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [5, 21], "surface": "{ME.nationality}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "io sono di {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(io )sono di {NAME}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "io sono di {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [11, 17], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "sono di {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[1]",
+   "pattern": "(io )sono di {NAME}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "sono di {NAME}",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [8, 14], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "io sono {ME.nationality} di {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[2]",
+   "pattern": "(io )sono {ME.nationality} di {NAME}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [2, "ME.nationality"],
+    [4, "NAME"]
+   ],
+   "text": "io sono {ME.nationality} di {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [8, 24], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [25, 27], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [28, 34], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "sono {ME.nationality} di {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n2.expect[0].accept[2]",
+   "pattern": "(io )sono {ME.nationality} di {NAME}",
+   "ref": "u01.check.16/n2",
+   "role": "accept",
+   "slots": [
+    [1, "ME.nationality"],
+    [3, "NAME"]
+   ],
+   "text": "sono {ME.nationality} di {NAME}",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"kind": "slot", "slot": "ME.nationality", "span": [5, 21], "surface": "{ME.nationality}", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [22, 24], "surface": "di", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [25, 31], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[0].nodes.n2.say",
+   "ref": "u01.check.16/n2",
+   "role": "say",
+   "text": "Piacere. Di dov'è?",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "Piacere"},
+    {"kind": "punct", "span": [7, 8], "surface": ".", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "di", "span": [9, 11], "surface": "Di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "dove", "span": [12, 16], "surface": "dov'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "essere", "span": [16, 17], "surface": "è"},
+    {"kind": "punct", "span": [17, 18], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": true,
+   "norm": "io abito a bologna",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(io )abito a Bologna",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "text": "io abito a Bologna",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [3, 8], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [9, 10], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [11, 18], "surface": "Bologna"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "abito a bologna",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[0]",
+   "pattern": "(io )abito a Bologna",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "text": "abito a Bologna",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "io abito {ME.home}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[1]",
+   "pattern": "(io )abito {ME.home}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [2, "ME.home"]
+   ],
+   "text": "io abito {ME.home}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [3, 8], "surface": "abito", "trailing": " "},
+    {"kind": "slot", "slot": "ME.home", "span": [9, 18], "surface": "{ME.home}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "abito {ME.home}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[1]",
+   "pattern": "(io )abito {ME.home}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [1, "ME.home"]
+   ],
+   "text": "abito {ME.home}",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"kind": "slot", "slot": "ME.home", "span": [6, 15], "surface": "{ME.home}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "a bologna",
+   "of": 1,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[2]",
+   "pattern": "a Bologna",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "text": "a Bologna",
+   "tokens": [
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [2, 9], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "io abito a {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[3]",
+   "pattern": "(io )abito a {NAME}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "io abito a {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [3, 8], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [9, 10], "surface": "a", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [11, 17], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "abito a {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[3]",
+   "pattern": "(io )abito a {NAME}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "abito a {NAME}",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [8, 14], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "io abito in {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[4]",
+   "pattern": "(io )abito in {NAME}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [3, "NAME"]
+   ],
+   "text": "io abito in {NAME}",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [3, 8], "surface": "abito", "trailing": " "},
+    {"analyses": ["in PRE"], "chunk": "c:abito", "kind": "word", "lemma": "in", "span": [9, 11], "surface": "in", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [12, 18], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "abito in {NAME}",
+   "of": 2,
+   "path": "sections[3].exercises[0].nodes.n3.expect[0].accept[4]",
+   "pattern": "(io )abito in {NAME}",
+   "ref": "u01.check.16/n3",
+   "role": "accept",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "abito in {NAME}",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "abito", "trailing": " "},
+    {"analyses": ["in PRE"], "chunk": "c:abito", "kind": "word", "lemma": "in", "span": [6, 8], "surface": "in", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [9, 15], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "path": "sections[3].exercises[0].nodes.n3.say",
+   "ref": "u01.check.16/n3",
+   "role": "say",
+   "text": "E dove abita?",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abita", "kind": "word", "lemma": "dove", "span": [2, 6], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "chunk": "c:dove-abita", "kind": "word", "lemma": "abitare", "span": [7, 12], "surface": "abita"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [7, 7]}
+   ],
+   "path": "sections[3].exercises[1].model",
+   "ref": "u01.check.17",
+   "role": "model",
+   "text": "Ti presento Marco. È canadese, di Toronto.",
+   "tokens": [
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-presento", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "Ti", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:ti-presento", "kind": "word", "lemma": "presentare", "span": [3, 11], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [12, 17], "surface": "Marco"},
+    {"kind": "punct", "span": [17, 18], "surface": ".", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "È", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [21, 29], "surface": "canadese"},
+    {"kind": "punct", "span": [29, 30], "surface": ",", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [31, 33], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [34, 41], "surface": "Toronto"},
+    {"kind": "punct", "span": [41, 42], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ti presento marco",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{ti presento|Le presento|questo è} Marco",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "ti presento Marco",
+   "tokens": [
+    {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-presento", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:ti-presento", "kind": "word", "lemma": "presentare", "span": [3, 11], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [12, 17], "surface": "Marco"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "le presento marco",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{ti presento|Le presento|questo è} Marco",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "Le presento Marco",
+   "tokens": [
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-presento", "kind": "word", "span": [0, 2], "surface": "Le", "trailing": " "},
+    {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:le-presento", "kind": "word", "lemma": "presentare", "span": [3, 11], "surface": "presento", "trailing": " "},
+    {"kind": "name", "span": [12, 17], "surface": "Marco"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "questo è marco",
+   "of": 3,
+   "path": "sections[3].exercises[1].points[0].accept[0]",
+   "pattern": "{ti presento|Le presento|questo è} Marco",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "questo è Marco",
+   "tokens": [
+    {"analyses": ["questo DET-DEMO:m+s", "questo PRO-DEMO-M-S"], "chunk": "c:questo-e", "kind": "word", "lemma": "questo", "span": [0, 6], "surface": "questo", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [9, 14], "surface": "Marco"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "è canadese",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{è|lui è} canadese",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "è canadese",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [2, 10], "surface": "canadese"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "lui è canadese",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[1].accept[0]",
+   "pattern": "{è|lui è} canadese",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui è canadese",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [6, 14], "surface": "canadese"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "è di toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{è|lui è} di Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "è di Toronto",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [2, 4], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [5, 12], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "lui è di toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{è|lui è} di Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui è di Toronto",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [9, 16], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "abita a toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[1]",
+   "pattern": "{abita|lui abita} a Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "abita a Toronto",
+   "tokens": [
+    {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "flags": ["unresolved"], "kind": "word", "lemma": "abitare", "span": [0, 5], "surface": "abita", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "lui abita a toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[1]",
+   "pattern": "{abita|lui abita} a Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui abita a Toronto",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["abitare VER:impr+pres+2+s", "abitare VER:ind+pres+3+s"], "flags": ["unresolved"], "kind": "word", "lemma": "abitare", "span": [4, 9], "surface": "abita", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [12, 19], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "è nato a toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[2]",
+   "pattern": "{è|lui è} nato a Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "è nato a Toronto",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [2, 6], "surface": "nato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [9, 16], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "lui è nato a toronto",
+   "of": 2,
+   "path": "sections[3].exercises[1].points[2].accept[2]",
+   "pattern": "{è|lui è} nato a Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui è nato a Toronto",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [6, 10], "surface": "nato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [11, 12], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [13, 20], "surface": "Toronto"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[2].nodes.end.say",
+   "ref": "u01.check.18/end",
+   "role": "say",
+   "text": "Abito a Bologna. Ciao, a presto!",
+   "tokens": [
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [0, 5], "surface": "Abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [6, 7], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Bologna"},
+    {"kind": "punct", "span": [15, 16], "surface": ".", "trailing": " "},
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [17, 21], "surface": "Ciao"},
+    {"kind": "punct", "span": [21, 22], "surface": ",", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [23, 24], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [25, 31], "surface": "presto"},
+    {"kind": "punct", "span": [31, 32], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "bene grazie e tu",
+   "of": 1,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[0]",
+   "pattern": "bene grazie e tu",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "bene grazie e tu come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie e tu come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [17, 21], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [22, 26], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene grazie e tu",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "bene e tu come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene e tu come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [7, 9], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [10, 14], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [15, 19], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "bene e tu",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [7, 9], "surface": "tu"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie e tu come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "grazie e tu come stai",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [9, 11], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [12, 16], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [17, 21], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie e tu",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "grazie e tu",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [9, 11], "surface": "tu"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "e tu come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "e tu come stai",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [10, 14], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "e tu",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[1]",
+   "pattern": "(bene )(grazie )e tu( come stai)",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "e tu",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "bene grazie e come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie e come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [19, 23], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene grazie come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [12, 16], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [17, 21], "surface": "stai"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "bene e come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene e come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [7, 11], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [12, 16], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "bene come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene come stai",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [10, 14], "surface": "stai"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie e come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "grazie e come stai",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [9, 13], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [14, 18], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "grazie come stai",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [7, 11], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [12, 16], "surface": "stai"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "e come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "e come stai",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [2, 6], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [7, 11], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "come stai",
+   "of": 8,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[2]",
+   "pattern": "(bene )(grazie )(e )come stai",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "come stai",
+   "tokens": [
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [5, 9], "surface": "stai"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "bene grazie e tu come va",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[3]",
+   "pattern": "(bene )(grazie )e tu come va",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene grazie e tu come va",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [17, 21], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [22, 24], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene e tu come va",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[3]",
+   "pattern": "(bene )(grazie )e tu come va",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "bene e tu come va",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [7, 9], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [10, 14], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [15, 17], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie e tu come va",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[3]",
+   "pattern": "(bene )(grazie )e tu come va",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "grazie e tu come va",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [9, 11], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [12, 16], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [17, 19], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "e tu come va",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n1.expect[0].accept[3]",
+   "pattern": "(bene )(grazie )e tu come va",
+   "ref": "u01.check.18/n1",
+   "role": "accept",
+   "text": "e tu come va",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [10, 12], "surface": "va"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[2].nodes.n1.say",
+   "ref": "u01.check.18/n1",
+   "role": "say",
+   "text": "Ciao! Come stai?",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "Ciao"},
+    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [6, 10], "surface": "Come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [11, 15], "surface": "stai"},
+    {"kind": "punct", "span": [15, 16], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "dove abiti",
+   "of": 1,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[0]",
+   "pattern": "dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "dove abiti",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [5, 10], "surface": "abiti"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "sara dove abiti",
+   "of": 2,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[1]",
+   "pattern": "(Sara )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "Sara dove abiti",
+   "tokens": [
+    {"kind": "name", "span": [0, 4], "surface": "Sara", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [5, 9], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [10, 15], "surface": "abiti"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "dove abiti",
+   "of": 2,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[1]",
+   "pattern": "(Sara )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "dove abiti",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [5, 10], "surface": "abiti"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu dove abiti",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[2]",
+   "pattern": "(e )(tu )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "e tu dove abiti",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [5, 9], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [10, 15], "surface": "abiti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "e dove abiti",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[2]",
+   "pattern": "(e )(tu )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "e dove abiti",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [2, 6], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [7, 12], "surface": "abiti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "tu dove abiti",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[2]",
+   "pattern": "(e )(tu )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "tu dove abiti",
+   "tokens": [
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [0, 2], "surface": "tu", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [8, 13], "surface": "abiti"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "dove abiti",
+   "of": 4,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[2]",
+   "pattern": "(e )(tu )dove abiti",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "dove abiti",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [5, 10], "surface": "abiti"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "dove abiti sara",
+   "of": 1,
+   "path": "sections[3].exercises[2].nodes.n2.expect[0].accept[3]",
+   "pattern": "dove abiti Sara",
+   "ref": "u01.check.18/n2",
+   "role": "accept",
+   "text": "dove abiti Sara",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-abiti", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+2+s", "abitare VER:sub+pres+1+s", "abitare VER:sub+pres+2+s", "abitare VER:sub+pres+3+s", "abito NOUN-M:p"], "chunk": "c:dove-abiti", "kind": "word", "span": [5, 10], "surface": "abiti", "trailing": " "},
+    {"kind": "name", "span": [11, 15], "surface": "Sara"}
+   ]
+  },
+  {
+   "path": "sections[3].exercises[2].nodes.n2.say",
+   "ref": "u01.check.18/n2",
+   "role": "say",
+   "text": "Bene, grazie!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  }
+ ],
+ "unit": "u01"
+}
