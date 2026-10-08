@@ -125,15 +125,29 @@ conversations:
         say: "Ah, bene! E dove abiti?"
         en: "Oh, great! And where do you live?"
         expect:
-          - intent: live
+          - {intent: live-bologna, goal: live, accept: ["(io )abito a Bologna", "a Bologna"], next: n4}
+          - intent: live-elsewhere
             goal: live
-            accept: ["(io )abito a Bologna", "(io )abito {ME.home}", "a Bologna", "(io )abito a {NAME}", "(io )abito in {NAME}"]
-            next: n4
+            accept: ["(io )abito {ME.home}", "(io )abito a {NAME}", "(io )abito in {NAME}"]
+            next: n4b
         help: ["Abito a Bologna."]
         hint_en: "Say where you live: in Bologna, or at home."
       n4:
         say: "Anche io abito a Bologna!"
         en: "I live in Bologna too!"
+        expect:
+          - intent: ask-origin
+            goal: ask
+            accept: ["e tu di dove sei", "(e tu )(Sara )di dove sei", "(e tu )sei di Bologna", "(e tu )sei italiana", "(e tu )dove sei nata"]
+            next: n5
+        near:
+          - {answer: "(e Lei )di dov'è", hint: "You and Sara say tu to each other."}
+          - {answer: "(e tu )sei italiano", outcome: almost, hint: "Sara is a woman: check the ending."}
+        help: ["E tu, di dove sei?"]
+        hint_en: "Ask Sara where she's from."
+      n4b:
+        say: "Ah, bene! Io abito a Bologna."
+        en: "Oh, nice! I live in Bologna."
         expect:
           - intent: ask-origin
             goal: ask

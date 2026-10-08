@@ -3025,13 +3025,31 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
    ],
    "expansion": 0,
    "model": false,
+   "norm": "a bologna",
+   "of": 1,
+   "path": "conversations[1].nodes.n3.expect[0].accept[1]",
+   "pattern": "a Bologna",
+   "ref": "u01.task.conv2/n3",
+   "role": "accept",
+   "text": "a Bologna",
+   "tokens": [
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [2, 9], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 0,
+   "model": true,
    "norm": "io abito {ME.home}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[1]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[0]",
    "pattern": "(io )abito {ME.home}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3050,7 +3068,7 @@
    "model": false,
    "norm": "abito {ME.home}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[1]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[0]",
    "pattern": "(io )abito {ME.home}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3065,31 +3083,13 @@
   },
   {
    "detections": [
-    {"point": "g:simple-prepositions", "tokens": [0, 0]}
-   ],
-   "expansion": 0,
-   "model": false,
-   "norm": "a bologna",
-   "of": 1,
-   "path": "conversations[1].nodes.n3.expect[0].accept[2]",
-   "pattern": "a Bologna",
-   "ref": "u01.task.conv2/n3",
-   "role": "accept",
-   "text": "a Bologna",
-   "tokens": [
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [2, 9], "surface": "Bologna"}
-   ]
-  },
-  {
-   "detections": [
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
    "expansion": 0,
    "model": false,
    "norm": "io abito a {NAME}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[3]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[1]",
    "pattern": "(io )abito a {NAME}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3109,7 +3109,7 @@
    "model": false,
    "norm": "abito a {NAME}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[3]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[1]",
    "pattern": "(io )abito a {NAME}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3131,7 +3131,7 @@
    "model": false,
    "norm": "io abito in {NAME}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[4]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[2]",
    "pattern": "(io )abito in {NAME}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3151,7 +3151,7 @@
    "model": false,
    "norm": "abito in {NAME}",
    "of": 2,
-   "path": "conversations[1].nodes.n3.expect[0].accept[4]",
+   "path": "conversations[1].nodes.n3.expect[1].accept[2]",
    "pattern": "(io )abito in {NAME}",
    "ref": "u01.task.conv2/n3",
    "role": "accept",
@@ -3486,6 +3486,301 @@
     {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [15, 16], "surface": "a", "trailing": " "},
     {"kind": "name", "span": [17, 24], "surface": "Bologna"},
     {"kind": "punct", "span": [24, 25], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "e tu di dove sei",
+   "of": 1,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[0]",
+   "pattern": "e tu di dove sei",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu di dove sei",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [8, 12], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [13, 16], "surface": "sei"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu sara di dove sei",
+   "of": 4,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[1]",
+   "pattern": "(e tu )(Sara )di dove sei",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu Sara di dove sei",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"kind": "name", "span": [5, 9], "surface": "Sara", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [10, 12], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [13, 17], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [18, 21], "surface": "sei"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "e tu di dove sei",
+   "of": 4,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[1]",
+   "pattern": "(e tu )(Sara )di dove sei",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu di dove sei",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [8, 12], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [13, 16], "surface": "sei"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "sara di dove sei",
+   "of": 4,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[1]",
+   "pattern": "(e tu )(Sara )di dove sei",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "Sara di dove sei",
+   "tokens": [
+    {"kind": "name", "span": [0, 4], "surface": "Sara", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [5, 7], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [8, 12], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [13, 16], "surface": "sei"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "di dove sei",
+   "of": 4,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[1]",
+   "pattern": "(e tu )(Sara )di dove sei",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "di dove sei",
+   "tokens": [
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [0, 2], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [8, 11], "surface": "sei"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu sei di bologna",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[2]",
+   "pattern": "(e tu )sei di Bologna",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu sei di Bologna",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [9, 11], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [12, 19], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "sei di bologna",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[2]",
+   "pattern": "(e tu )sei di Bologna",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "sei di Bologna",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "sei", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [4, 6], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [7, 14], "surface": "Bologna"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu sei italiana",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[3]",
+   "pattern": "(e tu )sei italiana",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu sei italiana",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+f+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [9, 17], "surface": "italiana"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "sei italiana",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[3]",
+   "pattern": "(e tu )sei italiana",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "sei italiana",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "sei", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+f+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [4, 12], "surface": "italiana"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu dove sei nata",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[4]",
+   "pattern": "(e tu )dove sei nata",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "e tu dove sei nata",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [5, 9], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [10, 13], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [14, 18], "surface": "nata"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "dove sei nata",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.expect[0].accept[4]",
+   "pattern": "(e tu )dove sei nata",
+   "ref": "u01.task.conv2/n4b",
+   "role": "accept",
+   "text": "dove sei nata",
+   "tokens": [
+    {"analyses": ["dove WH"], "chunk": "c:dove-sei-nato", "kind": "word", "lemma": "dove", "span": [0, 4], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["nascere VER:part+past+s+f", "nato ADJ:pos+f+s"], "chunk": "c:dove-sei-nato", "kind": "word", "span": [9, 13], "surface": "nata"}
+   ]
+  },
+  {
+   "path": "conversations[1].nodes.n4b.help[0]",
+   "ref": "u01.task.conv2/n4b",
+   "role": "help",
+   "text": "E tu, di dove sei?",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dove-sei", "kind": "word", "lemma": "dove", "span": [9, 13], "surface": "dove", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s", "sei DET-NUM-CARD", "sei PRO-NUM"], "chunk": "c:di-dove-sei", "kind": "word", "span": [14, 17], "surface": "sei"},
+    {"kind": "punct", "span": [17, 18], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e lei di dov'è",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.near[0].answer",
+   "pattern": "(e Lei )di dov'è",
+   "ref": "u01.task.conv2/n4b",
+   "role": "near",
+   "text": "e Lei di dov'è",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei", "trailing": " "},
+    {"analyses": ["di PRE"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "dove", "span": [9, 13], "surface": "dov'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "essere", "span": [13, 14], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "di dov'è",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.near[0].answer",
+   "pattern": "(e Lei )di dov'è",
+   "ref": "u01.task.conv2/n4b",
+   "role": "near",
+   "text": "di dov'è",
+   "tokens": [
+    {"analyses": ["di PRE"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "di", "span": [0, 2], "surface": "di", "trailing": " "},
+    {"analyses": ["dove WH"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "dove", "span": [3, 7], "surface": "dov'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:di-dov-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "e tu sei italiano",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.near[1].answer",
+   "pattern": "(e tu )sei italiano",
+   "ref": "u01.task.conv2/n4b",
+   "role": "near",
+   "text": "e tu sei italiano",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [2, 4], "surface": "tu", "trailing": " "},
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [5, 8], "surface": "sei", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+m+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [9, 17], "surface": "italiano"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "sei italiano",
+   "of": 2,
+   "path": "conversations[1].nodes.n4b.near[1].answer",
+   "pattern": "(e tu )sei italiano",
+   "ref": "u01.task.conv2/n4b",
+   "role": "near",
+   "text": "sei italiano",
+   "tokens": [
+    {"analyses": ["essere AUX:impr+pres+2+s", "essere AUX:ind+pres+2+s", "essere VER:ind+pres+2+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 3], "surface": "sei", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+m+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [4, 12], "surface": "italiano"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [4, 4]}
+   ],
+   "path": "conversations[1].nodes.n4b.say",
+   "ref": "u01.task.conv2/n4b",
+   "role": "say",
+   "text": "Ah, bene! Io abito a Bologna.",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [4, 8], "surface": "bene"},
+    {"kind": "punct", "span": [8, 9], "surface": "!", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [10, 12], "surface": "Io", "trailing": " "},
+    {"analyses": ["abitare VER:ind+pres+1+s", "abito NOUN-M:s"], "chunk": "c:abito", "kind": "word", "span": [13, 18], "surface": "abito", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:abito", "kind": "word", "lemma": "a", "span": [19, 20], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [21, 28], "surface": "Bologna"},
+    {"kind": "punct", "span": [28, 29], "surface": "."}
    ]
   },
   {
