@@ -31,6 +31,8 @@ final class AppModel {
     private(set) var state: LearnerState?
     private(set) var settings = LearnerSettings()
     private(set) var outline = CourseOutline(units: [])
+    /// False until onboarding has run on any of the learner's devices (it writes the synced `profile.forms`).
+    private(set) var isOnboarded = true
     /// One sentence when the learner database had to be recovered at launch (M3.9).
     private(set) var recoveryNotice: String?
     /// Speech recognition is available and switched on (docs/09); the Settings screen and the recogniser set it.
@@ -48,6 +50,7 @@ final class AppModel {
     @ObservationIgnored private(set) var words: [ItemID: WordInfo] = [:]
     @ObservationIgnored private(set) var wordSources: [WordSource] = []
     @ObservationIgnored private var countries: [String: LearnerProfile.Country] = [:]
+    @ObservationIgnored private var countryNames: [OnboardingModel.CountryChoice] = []
     @ObservationIgnored private var lastWrite: Task<Void, Never>?
     @ObservationIgnored private var observers: [Task<Void, Never>] = []
     /// Sync (or `DisabledSync`): steps that complete ask it to sync now (docs/08).
@@ -71,8 +74,9 @@ final class AppModel {
             wordSources = items.enumerated().map { n, item in
                 WordSource(info: WordInfo(item), kind: item.kind, scheduledSkills: item.scheduledSkills, order: n)
             }
-            countries = Dictionary(
-                try await reader.countries().map { ($0.id, $0.profileCountry) }, uniquingKeysWith: { a, _ in a })
+            let packCountries = try await reader.countries()
+            countries = Dictionary(packCountries.map { ($0.id, $0.profileCountry) }, uniquingKeysWith: { a, _ in a })
+            countryNames = packCountries.map { .init(id: $0.id, nameIt: $0.nameIt, nameEn: $0.nameEn) }
         } catch {
             if case .schemaMismatch = error {
                 phase = .packMismatch(String(describing: error))
@@ -98,6 +102,7 @@ final class AppModel {
             state = store.state
             settings = store.settings
             observe(store)
+            isOnboarded = (try? await store.settingRecord(SettingKey.profileForms.rawValue)) != nil
             phase = .ready
         } catch {
             phase = .failed(String(describing: error))
@@ -165,6 +170,46 @@ final class AppModel {
                 self?.lastStorageError = String(describing: error)
             }
         }
+    }
+
+    // MARK: - Onboarding
+
+    struct OnboardingAnswers: Sendable, Equatable {
+        var reason: String?
+        var name: String
+        var forms: LearnerForms
+        var country: String?
+        var goal: Int
+        var beginner: Bool
+        /// Study builds: the research consent answer (docs/12); nil elsewhere.
+        var consent: Bool?
+    }
+
+    /// The research consent text's version (docs/12; the text itself is the owner's, `TODO(owner)` in the screen).
+    static let consentTextVersion = "draft-1"
+
+    /// Countries for "Where do you live?", Italian names first (onboarding).
+    var countryChoices: [OnboardingModel.CountryChoice] {
+        countryNames.sorted { $0.nameEn < $1.nameEn }
+    }
+
+    /// Writes the answers as settings and one `onboardingCompleted` event (docs/05 § Events).
+    func completeOnboarding(_ a: OnboardingAnswers) {
+        if let reason = a.reason { set(.profileReason, to: .string(reason)) }
+        if !a.name.isEmpty { set(.profileName, to: .string(a.name)) }
+        if let country = a.country { set(.profileCountry, to: .string(country)) }
+        set(.goalDaysPerWeek, to: .number(Double(a.goal)))
+        set(.profileForms, to: .string(a.forms.rawValue))
+        if a.consent == true {
+            // docs/12: consent carries the text's version and date; the install ID is created once, on first consent.
+            set(.studyConsent, to: StudyConsent(version: Self.consentTextVersion, date: env.clock.nowMs(), granted: true).json)
+            if settings.studyInstallId == nil { set(.studyInstallId, to: .string(env.ids.next())) }
+        }
+        if let factory {
+            write(factory.onboardingCompleted(
+                OnboardingCompletedPayload(reason: a.reason, forms: a.forms, country: a.country, beginner: a.beginner)))
+        }
+        isOnboarded = true
     }
 
     // MARK: - What the screens show

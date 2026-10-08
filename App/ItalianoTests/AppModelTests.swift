@@ -91,6 +91,36 @@ import Testing
         #expect(again.today?.weekLine.hasSuffix("of 3 days") == true)
     }
 
+    @Test func onboardingRunsOnceAndWritesTheAnswers() async throws {
+        let app = model()
+        await app.start()
+        #expect(!app.isOnboarded && !app.countryChoices.isEmpty)
+        let o = OnboardingModel(studyBuild: false, countries: app.countryChoices)
+        #expect(o.page == .welcome && !o.pages.contains(.consent))
+        o.next()
+        #expect(o.page == .reason && !o.canContinue)
+        o.reason = "travel"
+        o.next()
+        o.name = " Anna "
+        o.next()
+        o.forms = .f
+        o.next()
+        o.country = app.countryChoices.first?.id
+        o.next()
+        o.goal = 9
+        o.next()
+        #expect(o.page == .experience && !o.canContinue && o.isLast)
+        o.beginner = true
+        app.completeOnboarding(o.answers)
+        await app.settle()
+        #expect(app.isOnboarded && app.settings.profileName == "Anna" && app.settings.goalDaysPerWeek == 7)
+        #expect(app.profile.forms == .f && app.profile.country != nil)
+        let again = model("b")
+        await again.start()
+        #expect(again.isOnboarded)
+        #expect(OnboardingModel(studyBuild: true, countries: []).pages.last == .consent)
+    }
+
     @Test func aMissingPackFailsToLaunch() async {
         let app = AppModel(
             env: .init(
