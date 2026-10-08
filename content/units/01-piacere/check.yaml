@@ -167,7 +167,7 @@ sections:
         with: ch:extra
         register: lei
         title: {en: "Sign up at the language school"}
-        tags: [cd:introduce-yourself, cd:say-where-from, cd:choose-tu-lei, sy:ex.cils-dialogue]
+        tags: [cd:introduce-yourself, cd:say-where-from, cd:choose-tu-lei, sy:ex.cils-dialogue, sy:ex.celi-photo-conversation]
         goals:
           - {id: name, en: "Say your name"}
           - {id: from, en: "Say where you're from"}

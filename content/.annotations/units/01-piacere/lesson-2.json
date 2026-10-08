@@ -2535,8 +2535,120 @@
    ]
   },
   {
-   "path": "steps[4].exercises[0].pair[0]",
-   "ref": "u01.l2.ex25",
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [10, 10]}
+   ],
+   "path": "steps[4].text.lines[0].it",
+   "ref": "u01.l2.english#1",
+   "role": "line",
+   "text": "Marco, scusa: come si dice \"piacere\" in inglese?",
+   "tokens": [
+    {"kind": "name", "span": [0, 5], "surface": "Marco"},
+    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
+    {"analyses": ["scusa NOUN-F:s", "scusare VER:impr+pres+2+s", "scusare VER:ind+pres+3+s"], "chunk": "c:scusa", "kind": "word", "span": [7, 12], "surface": "scusa"},
+    {"kind": "punct", "span": [12, 13], "surface": ":", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [19, 21], "surface": "si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [22, 26], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [27, 28], "surface": "\""},
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [28, 35], "surface": "piacere"},
+    {"kind": "punct", "span": [35, 36], "surface": "\"", "trailing": " "},
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [37, 39], "surface": "in", "trailing": " "},
+    {"analyses": ["inglese ADJ:pos+f+s", "inglese ADJ:pos+m+s"], "item": "w:inglese", "kind": "word", "lemma": "inglese", "span": [40, 47], "surface": "inglese"},
+    {"kind": "punct", "span": [47, 48], "surface": "?"}
+   ]
+  },
+  {
+   "path": "steps[4].text.lines[1].it",
+   "ref": "u01.l2.english#2",
+   "role": "line",
+   "text": "Si dice \"nice to meet you\".",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "Si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [3, 7], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [8, 9], "surface": "\""},
+    {"kind": "foreign", "span": [9, 13], "surface": "nice", "trailing": " "},
+    {"kind": "foreign", "span": [14, 16], "surface": "to", "trailing": " "},
+    {"kind": "foreign", "span": [17, 21], "surface": "meet", "trailing": " "},
+    {"kind": "foreign", "span": [22, 25], "surface": "you"},
+    {"kind": "punct", "span": [25, 26], "surface": "\""},
+    {"kind": "punct", "span": [26, 27], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [5, 5]}
+   ],
+   "path": "steps[4].text.lines[2].it",
+   "ref": "u01.l2.english#3",
+   "role": "line",
+   "text": "Nice to meet you! E come si dice \"ci vediamo\"?",
+   "tokens": [
+    {"kind": "foreign", "span": [0, 4], "surface": "Nice", "trailing": " "},
+    {"kind": "foreign", "span": [5, 7], "surface": "to", "trailing": " "},
+    {"kind": "foreign", "span": [8, 12], "surface": "meet", "trailing": " "},
+    {"kind": "foreign", "span": [13, 16], "surface": "you"},
+    {"kind": "punct", "span": [16, 17], "surface": "!", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [18, 19], "surface": "E", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "come", "span": [20, 24], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [25, 27], "surface": "si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [28, 32], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [33, 34], "surface": "\""},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [34, 36], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [37, 44], "surface": "vediamo"},
+    {"kind": "punct", "span": [44, 45], "surface": "\""},
+    {"kind": "punct", "span": [45, 46], "surface": "?"}
+   ]
+  },
+  {
+   "path": "steps[4].text.lines[3].it",
+   "ref": "u01.l2.english#4",
+   "role": "line",
+   "text": "Si dice \"see you\".",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "Si", "trailing": " "},
+    {"analyses": ["dire VER:ind+pres+3+s"], "chunk": "c:come-si-dice", "kind": "word", "lemma": "dire", "span": [3, 7], "surface": "dice", "trailing": " "},
+    {"kind": "punct", "span": [8, 9], "surface": "\""},
+    {"kind": "foreign", "span": [9, 12], "surface": "see", "trailing": " "},
+    {"kind": "foreign", "span": [13, 16], "surface": "you"},
+    {"kind": "punct", "span": [16, 17], "surface": "\""},
+    {"kind": "punct", "span": [17, 18], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[4].text.lines[4].it",
+   "ref": "u01.l2.english#5",
+   "role": "line",
+   "text": "Ok! See you, Marco! Ci vediamo!",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
+    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
+    {"kind": "foreign", "span": [4, 7], "surface": "See", "trailing": " "},
+    {"kind": "foreign", "span": [8, 11], "surface": "you"},
+    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [13, 18], "surface": "Marco"},
+    {"kind": "punct", "span": [18, 19], "surface": "!", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [20, 22], "surface": "Ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [23, 30], "surface": "vediamo"},
+    {"kind": "punct", "span": [30, 31], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[4].text.lines[5].it",
+   "ref": "u01.l2.english#6",
+   "role": "line",
+   "text": "Sì, ci vediamo!",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [4, 6], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [7, 14], "surface": "vediamo"},
+    {"kind": "punct", "span": [14, 15], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[5].exercises[0].pair[0]",
+   "ref": "u01.l2.ex27",
    "role": "sound",
    "text": "Sei americano?",
    "tokens": [
@@ -2546,8 +2658,8 @@
    ]
   },
   {
-   "path": "steps[4].exercises[0].pair[1]",
-   "ref": "u01.l2.ex25",
+   "path": "steps[5].exercises[0].pair[1]",
+   "ref": "u01.l2.ex27",
    "role": "sound",
    "text": "Sei americano.",
    "tokens": [
@@ -2557,8 +2669,8 @@
    ]
   },
   {
-   "path": "steps[4].exercises[1].word",
-   "ref": "u01.l2.ex26",
+   "path": "steps[5].exercises[1].word",
+   "ref": "u01.l2.ex28",
    "role": "sound",
    "text": "città",
    "tokens": [
@@ -2566,8 +2678,8 @@
    ]
   },
   {
-   "path": "steps[4].exercises[2].word",
-   "ref": "u01.l2.ex27",
+   "path": "steps[5].exercises[2].word",
+   "ref": "u01.l2.ex29",
    "role": "sound",
    "text": "canadese",
    "tokens": [
@@ -2578,8 +2690,8 @@
    "detections": [
     {"point": "g:simple-prepositions", "tokens": [2, 2]}
    ],
-   "path": "steps[5].exercise.nodes.end.say",
-   "ref": "u01.l2.ex28/end",
+   "path": "steps[6].exercise.nodes.end.say",
+   "ref": "u01.l2.ex30/end",
    "role": "say",
    "text": "Sono nata a Bologna! Ci vediamo!",
    "tokens": [
@@ -2598,9 +2710,9 @@
    "model": true,
    "norm": "ciao mi chiamo {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "(ciao )mi chiamo {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2618,9 +2730,9 @@
    "model": false,
    "norm": "mi chiamo {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "(ciao )mi chiamo {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -2640,9 +2752,9 @@
    "model": false,
    "norm": "ciao io sono {NAME}",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "(ciao )(io )sono {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2660,9 +2772,9 @@
    "model": false,
    "norm": "ciao sono {NAME}",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "(ciao )(io )sono {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -2682,9 +2794,9 @@
    "model": false,
    "norm": "io sono {NAME}",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "(ciao )(io )sono {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -2701,9 +2813,9 @@
    "model": false,
    "norm": "sono {NAME}",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "(ciao )(io )sono {NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [1, "NAME"]
@@ -2722,9 +2834,9 @@
    "model": false,
    "norm": "ciao io mi chiamo {NAME} piacere",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [4, "NAME"]
@@ -2747,9 +2859,9 @@
    "model": false,
    "norm": "ciao io mi chiamo {NAME}",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [4, "NAME"]
@@ -2768,9 +2880,9 @@
    "model": false,
    "norm": "ciao mi chiamo {NAME} piacere",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2789,9 +2901,9 @@
    "model": false,
    "norm": "ciao mi chiamo {NAME}",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2812,9 +2924,9 @@
    "model": false,
    "norm": "io mi chiamo {NAME} piacere",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2836,9 +2948,9 @@
    "model": false,
    "norm": "io mi chiamo {NAME}",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -2856,9 +2968,9 @@
    "model": false,
    "norm": "mi chiamo {NAME} piacere",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -2876,9 +2988,9 @@
    "model": false,
    "norm": "mi chiamo {NAME}",
    "of": 8,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(ciao )(io )mi chiamo {NAME}( piacere)",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -2895,9 +3007,9 @@
    "model": false,
    "norm": "{NAME}",
    "of": 1,
-   "path": "steps[5].exercise.nodes.n1.expect[0].accept[3]",
+   "path": "steps[6].exercise.nodes.n1.expect[0].accept[3]",
    "pattern": "{NAME}",
-   "ref": "u01.l2.ex28/n1",
+   "ref": "u01.l2.ex30/n1",
    "role": "accept",
    "slots": [
     [0, "NAME"]
@@ -2908,8 +3020,8 @@
    ]
   },
   {
-   "path": "steps[5].exercise.nodes.n1.help[0]",
-   "ref": "u01.l2.ex28/n1",
+   "path": "steps[6].exercise.nodes.n1.help[0]",
+   "ref": "u01.l2.ex30/n1",
    "role": "help",
    "text": "Ciao! Mi chiamo…",
    "tokens": [
@@ -2925,8 +3037,8 @@
     {"point": "g:subject-pronouns", "tokens": [2, 2]},
     {"point": "g:subject-pronouns", "tokens": [6, 6]}
    ],
-   "path": "steps[5].exercise.nodes.n1.say",
-   "ref": "u01.l2.ex28/n1",
+   "path": "steps[6].exercise.nodes.n1.say",
+   "ref": "u01.l2.ex30/n1",
    "role": "say",
    "text": "Ciao! Io sono Sara. Tu come ti chiami?",
    "tokens": [
@@ -2951,9 +3063,9 @@
    "model": true,
    "norm": "io sono {ME.nationality}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[0]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
    "pattern": "(io )sono {ME.nationality}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [2, "ME.nationality"]
@@ -2970,9 +3082,9 @@
    "model": false,
    "norm": "sono {ME.nationality}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[0]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[0]",
    "pattern": "(io )sono {ME.nationality}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [1, "ME.nationality"]
@@ -2992,9 +3104,9 @@
    "model": false,
    "norm": "io sono di {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "(io )sono di {NAME}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [3, "NAME"]
@@ -3015,9 +3127,9 @@
    "model": false,
    "norm": "sono di {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "(io )sono di {NAME}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [2, "NAME"]
@@ -3038,9 +3150,9 @@
    "model": false,
    "norm": "io sono {ME.nationality} di {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[2]",
    "pattern": "(io )sono {ME.nationality} di {NAME}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [2, "ME.nationality"],
@@ -3063,9 +3175,9 @@
    "model": false,
    "norm": "sono {ME.nationality} di {NAME}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[2]",
    "pattern": "(io )sono {ME.nationality} di {NAME}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [1, "ME.nationality"],
@@ -3088,9 +3200,9 @@
    "model": false,
    "norm": "io sono {ME.nationality} e abito {ME.home}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[3]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[3]",
    "pattern": "(io )sono {ME.nationality} e abito {ME.home}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [2, "ME.nationality"],
@@ -3114,9 +3226,9 @@
    "model": false,
    "norm": "sono {ME.nationality} e abito {ME.home}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.expect[0].accept[3]",
+   "path": "steps[6].exercise.nodes.n2.expect[0].accept[3]",
    "pattern": "(io )sono {ME.nationality} e abito {ME.home}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "accept",
    "slots": [
     [1, "ME.nationality"],
@@ -3132,8 +3244,8 @@
    ]
   },
   {
-   "path": "steps[5].exercise.nodes.n2.help[0]",
-   "ref": "u01.l2.ex28/n2",
+   "path": "steps[6].exercise.nodes.n2.help[0]",
+   "ref": "u01.l2.ex30/n2",
    "role": "help",
    "text": "Sono…",
    "tokens": [
@@ -3145,8 +3257,8 @@
    "detections": [
     {"point": "g:simple-prepositions", "tokens": [1, 1]}
    ],
-   "path": "steps[5].exercise.nodes.n2.help[1]",
-   "ref": "u01.l2.ex28/n2",
+   "path": "steps[6].exercise.nodes.n2.help[1]",
+   "ref": "u01.l2.ex30/n2",
    "role": "help",
    "text": "Sono di…",
    "tokens": [
@@ -3164,9 +3276,9 @@
    "model": false,
    "norm": "io sono di {ME.country}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.near[0].answer",
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
    "pattern": "(io )sono di {ME.country}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "near",
    "slots": [
     [3, "ME.country"]
@@ -3187,9 +3299,9 @@
    "model": false,
    "norm": "sono di {ME.country}",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n2.near[0].answer",
+   "path": "steps[6].exercise.nodes.n2.near[0].answer",
    "pattern": "(io )sono di {ME.country}",
-   "ref": "u01.l2.ex28/n2",
+   "ref": "u01.l2.ex30/n2",
    "role": "near",
    "slots": [
     [2, "ME.country"]
@@ -3202,8 +3314,8 @@
    ]
   },
   {
-   "path": "steps[5].exercise.nodes.n2.say",
-   "ref": "u01.l2.ex28/n2",
+   "path": "steps[6].exercise.nodes.n2.say",
+   "ref": "u01.l2.ex30/n2",
    "role": "say",
    "text": "Piacere! Di dove sei?",
    "tokens": [
@@ -3220,9 +3332,9 @@
    "model": true,
    "norm": "e tu dove sei nata",
    "of": 1,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[0]",
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[0]",
    "pattern": "e tu dove sei nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "accept",
    "text": "e tu dove sei nata",
    "tokens": [
@@ -3241,9 +3353,9 @@
    "model": false,
    "norm": "e dove sei nata",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
    "pattern": "(e )dove sei nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "accept",
    "text": "e dove sei nata",
    "tokens": [
@@ -3258,9 +3370,9 @@
    "model": false,
    "norm": "dove sei nata",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[1]",
    "pattern": "(e )dove sei nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "accept",
    "text": "dove sei nata",
    "tokens": [
@@ -3277,9 +3389,9 @@
    "model": false,
    "norm": "e tu sei nata a bologna",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[2]",
    "pattern": "(e tu )sei nata a Bologna",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "accept",
    "text": "e tu sei nata a Bologna",
    "tokens": [
@@ -3299,9 +3411,9 @@
    "model": false,
    "norm": "sei nata a bologna",
    "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[2]",
+   "path": "steps[6].exercise.nodes.n3.expect[0].accept[2]",
    "pattern": "(e tu )sei nata a Bologna",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "accept",
    "text": "sei nata a Bologna",
    "tokens": [
@@ -3312,8 +3424,8 @@
    ]
   },
   {
-   "path": "steps[5].exercise.nodes.n3.help[0]",
-   "ref": "u01.l2.ex28/n3",
+   "path": "steps[6].exercise.nodes.n3.help[0]",
+   "ref": "u01.l2.ex30/n3",
    "role": "help",
    "text": "E tu, dove sei nata?",
    "tokens": [
@@ -3331,9 +3443,9 @@
    "model": false,
    "norm": "e tu dove sei nato",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "path": "steps[6].exercise.nodes.n3.near[0].answer",
    "pattern": "(e )(tu )dove sei nato",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "e tu dove sei nato",
    "tokens": [
@@ -3352,9 +3464,9 @@
    "model": false,
    "norm": "e dove sei nato",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "path": "steps[6].exercise.nodes.n3.near[0].answer",
    "pattern": "(e )(tu )dove sei nato",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "e dove sei nato",
    "tokens": [
@@ -3372,9 +3484,9 @@
    "model": false,
    "norm": "tu dove sei nato",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "path": "steps[6].exercise.nodes.n3.near[0].answer",
    "pattern": "(e )(tu )dove sei nato",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "tu dove sei nato",
    "tokens": [
@@ -3389,9 +3501,9 @@
    "model": false,
    "norm": "dove sei nato",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[0].answer",
+   "path": "steps[6].exercise.nodes.n3.near[0].answer",
    "pattern": "(e )(tu )dove sei nato",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "dove sei nato",
    "tokens": [
@@ -3405,9 +3517,9 @@
    "model": false,
    "norm": "e lei dov'è nata",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[1].answer",
+   "path": "steps[6].exercise.nodes.n3.near[1].answer",
    "pattern": "(e )(Lei )dov'è nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "e Lei dov'è nata",
    "tokens": [
@@ -3426,9 +3538,9 @@
    "model": false,
    "norm": "e dov'è nata",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[1].answer",
+   "path": "steps[6].exercise.nodes.n3.near[1].answer",
    "pattern": "(e )(Lei )dov'è nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "e dov'è nata",
    "tokens": [
@@ -3446,9 +3558,9 @@
    "model": false,
    "norm": "lei dov'è nata",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[1].answer",
+   "path": "steps[6].exercise.nodes.n3.near[1].answer",
    "pattern": "(e )(Lei )dov'è nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "Lei dov'è nata",
    "tokens": [
@@ -3463,9 +3575,9 @@
    "model": false,
    "norm": "dov'è nata",
    "of": 4,
-   "path": "steps[5].exercise.nodes.n3.near[1].answer",
+   "path": "steps[6].exercise.nodes.n3.near[1].answer",
    "pattern": "(e )(Lei )dov'è nata",
-   "ref": "u01.l2.ex28/n3",
+   "ref": "u01.l2.ex30/n3",
    "role": "near",
    "text": "dov'è nata",
    "tokens": [
@@ -3479,8 +3591,8 @@
     {"point": "g:subject-pronouns", "tokens": [4, 4]},
     {"point": "g:simple-prepositions", "tokens": [6, 6]}
    ],
-   "path": "steps[5].exercise.nodes.n3.say",
-   "ref": "u01.l2.ex28/n3",
+   "path": "steps[6].exercise.nodes.n3.say",
+   "ref": "u01.l2.ex30/n3",
    "role": "say",
    "text": "Ah, bene! Io sono di Bologna.",
    "tokens": [

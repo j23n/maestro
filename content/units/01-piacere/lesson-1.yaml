@@ -27,7 +27,7 @@ steps:
         - {speaker: narrator, it: "Marco è a Bologna, in Italia.", en: "Marco is in Bologna, in Italy."}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buongiorno, signora!", en: "Good morning, ma'am!"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Buongiorno! Tu come ti chiami?", en: "Good morning! What's your name?"}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Scusi, signora, non capisco. Può ripetere, per favore?", en: "Sorry, ma'am, I don't understand. Could you say that again, please?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Scusi, non capisco. Può ripetere, per favore?", en: "Sorry, I don't understand. Could you say that again, please?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Come ti chiami?", en: "What's your name?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Ah! Mi chiamo Marco. E Lei come si chiama?", en: "Oh! My name is Marco. And what's your name?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Io sono la signora Rossi. Tu sei Marco di Toronto, vero?", en: "I'm Signora Rossi. You're Marco from Toronto, right?"}
@@ -378,12 +378,46 @@ steps:
         hint: "Bologna is a city."
         near: [{answer: in, hint: "In goes with a country. Bologna is a city."}]
 
-  # 7 · Sounds: questions rise, statements fall (s:intonation); e and è (s:accents-e-si).
+  # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì)
+  - kind: listening
+    id: u01.l1.step-listening
+    text:
+      id: u01.l1.evening
+      kind: dialogue
+      lines:
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora! Come sta?", en: "Good evening, Signora! How are you?"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, grazie! E tu, Marco? Come va?", en: "Fine, thanks! And you, Marco? How's it going?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. Scusi, come si dice \"cat\"?", en: "Fine, thanks. Excuse me, how do you say \"cat\"?", foreign: [cat]}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Si dice \"gatto\". E lei è Mimì!", en: "You say \"gatto\". And this is Mimì!", gloss: {gatto: cat}}
+        - {speaker: ch:marco, it: "Ciao, Mimì!", en: "Hi, Mimì!"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora. Ci vediamo!", en: "Good evening, Signora. See you!"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Ci vediamo!", en: "Bye, Marco! See you!"}
+    plays: unlimited
+    exercises:
+      - id: u01.l1.ex30
+        format: choice
+        tags: [cd:greet-farewell, sy:ss.greetings-register]
+        question_en: "When does this conversation take place?"
+        options: ["In the evening", "In the morning", "At lunchtime"]
+        answer: 0
+      - id: u01.l1.ex31
+        format: true-false
+        tags: [cd:dont-understand, sy:cefr.oral-comprehension]
+        statement_en: "Marco asks Signora Rossi how to say a word in Italian."
+        answer: true
+      - id: u01.l1.ex32
+        format: choice
+        tags: [sy:cefr.oral-comprehension]
+        question_en: "Who is Mimì?"
+        options: ["Signora Rossi's cat", "Signora Rossi's friend", "A neighbor"]
+        answer: 0
+
+  # 8 · Sounds: questions rise, statements fall (s:intonation); e and è (s:accents-e-si).
   #     The answers mix question and statement, so always picking one doesn't pass.
   - kind: sounds
     id: u01.l1.step-sounds
     exercises:
-      - id: u01.l1.ex30
+      - id: u01.l1.ex33
         format: sound-pair
         targets: [{item: s:intonation, skill: listen}]
         tags: [sy:ss.intonation]
@@ -392,7 +426,7 @@ steps:
         play: "Sei di Bologna?"
         glosses: {"Sei di Bologna?": "Are you from Bologna?", "Sei di Bologna.": "You're from Bologna."}
         tip_en: "A yes/no question goes up at the end. A statement goes down."
-      - id: u01.l1.ex31
+      - id: u01.l1.ex34
         format: sound-pair
         targets: [{item: s:intonation, skill: listen}]
         tags: [sy:ss.intonation]
@@ -401,7 +435,7 @@ steps:
         play: "Lei è la signora Rossi."
         glosses: {"Lei è la signora Rossi?": "Are you Signora Rossi?", "Lei è la signora Rossi.": "You're Signora Rossi."}
         tip_en: "Same words, different tune: listen to the last word."
-      - id: u01.l1.ex32
+      - id: u01.l1.ex35
         format: sound-pair
         targets: [{item: s:accents-e-si, skill: listen}]
         tags: [sy:ss.accented-pairs]
@@ -411,11 +445,11 @@ steps:
         glosses: {e: and, è: is}
         tip_en: "È (is) is a word on its own, stressed and a little more open. E (and) is short and runs into the next word."
 
-  # 8 · Use: a spoken recall in the story's situation (Signora Rossi says tu; you answer with Lei)
+  # 9 · Use: a spoken recall in the story's situation (Signora Rossi says tu; you answer with Lei)
   - kind: use
     id: u01.l1.step-use
     exercise:
-      id: u01.l1.ex33
+      id: u01.l1.ex36
       format: recall
       targets: [{item: c:mi-chiamo, skill: recall}, {item: c:come-si-chiama, skill: recall}]
       tags: [cd:introduce-yourself, cd:choose-tu-lei]

@@ -27,9 +27,9 @@ steps:
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Pronto?", en: "Hello?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Sono Sara. Sono arrivata!", en: "Hi, Marco! It's Sara. I'm here!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Scusa, Sara, non capisco. Puoi ripetere?", en: "Sorry, Sara, I can't hear you. Can you say that again?"}
-        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sono arrivata! Sono qui!", en: "I'm here! I'm right here!"}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ah, ok! Ciao!", en: "Oh, OK! Bye!"}
-        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Come stai?", en: "Hi, Marco! How are you?"}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, sono arrivata! Sono qui!", en: "Yes, I'm here! I'm right here!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, sì! Ciao!", en: "Yes, yes! Bye!"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Come va?", en: "Hi, Marco! How's it going?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. E Lei, signora?", en: "Fine, thanks. And you, Signora?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, bene. E lei come si chiama?", en: "Fine, fine. And what's her name?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Signora, Le presento Sara. Sara è di Bologna.", en: "Signora, this is Sara. Sara is from Bologna."}
@@ -37,11 +37,11 @@ steps:
         - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Piacere, Sara! Tu sei di Bologna? Anche io sono di Bologna!", en: "Nice to meet you, Sara! You're from Bologna? I'm from Bologna too!"}
         - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Sara, ti presento Mimì! Mimì, questa è Sara.", en: "Sara, meet Mimì, my cat! Mimì, this is Sara."}
         - {speaker: ch:sara, it: "Ciao, Mimì!", en: "Hi, Mimì!"}
-        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "E Mimì, signora? È italiana o canadese?", en: "And Mimì, Signora? Is she Italian or Canadian?"}
+        - {speaker: ch:marco, to: ch:rossi, register: lei, it: "E Mimì? È italiana o canadese?", en: "And Mimì? Is she Italian or Canadian?"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Mimì è bolognese! E tu sei canadese, vero?", en: "Mimì is from Bologna! And you're Canadian, right?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Sì, sono canadese, ma sono anche un po' italiano!", en: "Yes, I'm Canadian, but I'm a bit Italian too!", recognise: ["un po'"], gloss: {"un po'": a bit}}
-        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ah, bene!", en: "Oh, good!"}
-        - {speaker: ch:sara, to: ch:rossi, register: lei, it: "Arrivederci, signora!", en: "Goodbye, Signora!"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ah, bene, bene!", en: "Oh, good, good!"}
+        - {speaker: ch:sara, to: ch:rossi, register: lei, it: "Arrivederci, signora! Buona giornata!", en: "Goodbye, Signora! Have a good day!"}
         - {speaker: ch:rossi, to: ch:sara, register: tu, it: "Ciao, Sara! Allora, a presto!", en: "Bye, Sara! Well then, see you soon!", gloss: {Allora: well then}}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "A presto, signora!", en: "See you soon, Signora!"}
     questions:

@@ -162,7 +162,7 @@ conversations:
 talk:
   id: u01.task.talk
   format: talk
-  tags: [cd:introduce-yourself, cd:say-where-from, sy:ex.cils-monologue]
+  tags: [cd:introduce-yourself, cd:say-where-from, sy:ex.cils-monologue, sy:ex.celi-photo-conversation]
   prompt_en: "Introduce yourself: say your name, your nationality, where you live and where you were born."
   points:
     - {id: name, en: "Your name", accept: ["{mi chiamo|sono} {NAME}"]}

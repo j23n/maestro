@@ -296,11 +296,38 @@ steps:
         rule: "è (with an accent) is 'is'; e (no accent) is 'and'."
         near: [{answer: e, hint: "Without an accent, e means 'and'. Here you need the verb."}]
 
-  # 5 · Sounds: questions rise (s:intonation); double consonants by ear (Unit 0's s:double-consonants)
+  # 5 · Listening: later at the coworking space, Sara asks Marco for some English (topic: languages)
+  - kind: listening
+    id: u01.l2.step-listening
+    text:
+      id: u01.l2.english
+      kind: dialogue
+      lines:
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Marco, scusa: come si dice \"piacere\" in inglese?", en: "Marco, sorry: how do you say \"piacere\" in English?"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Si dice \"nice to meet you\".", en: "You say \"nice to meet you\".", foreign: [nice to meet you]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Nice to meet you! E come si dice \"ci vediamo\"?", en: "Nice to meet you! And how do you say \"ci vediamo\"?", foreign: [Nice to meet you]}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Si dice \"see you\".", en: "You say \"see you\".", foreign: [see you]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ok! See you, Marco! Ci vediamo!", en: "OK! See you, Marco! See you!", foreign: [See you]}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, ci vediamo!", en: "Yes, see you!"}
+    plays: unlimited
+    exercises:
+      - id: u01.l2.ex25
+        format: choice
+        tags: [cd:dont-understand, sy:tp.school-languages]
+        question_en: "What is Sara doing?"
+        options: ["Asking Marco how to say things in English", "Asking Marco where he lives", "Introducing Marco to a friend"]
+        answer: 0
+      - id: u01.l2.ex26
+        format: true-false
+        tags: [sy:cefr.oral-comprehension]
+        statement_en: "At the end, Sara says goodbye in English and in Italian."
+        answer: true
+
+  # 6 · Sounds: questions rise (s:intonation); double consonants by ear (Unit 0's s:double-consonants)
   - kind: sounds
     id: u01.l2.step-sounds
     exercises:
-      - id: u01.l2.ex25
+      - id: u01.l2.ex27
         format: sound-pair
         targets: [{item: s:intonation, skill: listen}]
         tags: [sy:ss.intonation]
@@ -309,14 +336,14 @@ steps:
         play: "Sei americano."
         glosses: {"Sei americano?": "Are you American?", "Sei americano.": "You're American."}
         tip_en: "Listen to the end: up for a question, down for a statement."
-      - id: u01.l2.ex26
+      - id: u01.l2.ex28
         format: sound-pair
         targets: [{item: s:double-consonants, skill: listen}]
         tags: [sy:ss.double-consonants]
         question: single-or-double
         word: città
         answer: double
-      - id: u01.l2.ex27
+      - id: u01.l2.ex29
         format: sound-pair
         targets: [{item: s:double-consonants, skill: listen}]
         tags: [sy:ss.double-consonants]
@@ -324,11 +351,11 @@ steps:
         word: canadese
         answer: single
 
-  # 6 · Use: meet Sara at the coworking space and ask her a question back (tu)
+  # 7 · Use: meet Sara at the coworking space and ask her a question back (tu)
   - kind: use
     id: u01.l2.step-use
     exercise:
-      id: u01.l2.ex28
+      id: u01.l2.ex30
       format: conversation
       with: ch:sara
       register: tu
