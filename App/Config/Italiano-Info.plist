@@ -14,6 +14,8 @@
 	<string>$(ITA_LLM_HINTS)</string>
 	<key>ITA_SYNC_ENABLED</key>
 	<string>$(ITA_SYNC_ENABLED)</string>
+	<key>ITA_ICLOUD_ENTITLEMENT</key>
+	<string>$(ITA_ICLOUD_ENTITLEMENT)</string>
 	<key>ITA_REVIEW_MODE</key>
 	<string>$(ITA_REVIEW_MODE)</string>
 	<key>ITA_REVIEW_URL</key>

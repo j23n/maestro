@@ -28,7 +28,8 @@ extension LearnerStore {
 
     /// Stores a change made on this device. Its `updatedAt` is now, or one millisecond after the stored value's if
     /// that is later (another device's clock ran ahead), so a change the learner just made always wins. A synced
-    /// key is also marked pending for upload, in the same transaction.
+    /// key is also marked pending for upload, in the same transaction, and yielded to `pendingAdditions()` after
+    /// the commit (every time, even when it was already pending: its upload may be in flight with the old value).
     @discardableResult
     public func set(_ key: SettingKey, to value: JSONValue) async throws(StorageError) -> SettingRecord {
         let deviceId = deviceId
@@ -53,6 +54,7 @@ extension LearnerStore {
                 throw StorageError.invalidValue(table: "settings", id: key.rawValue, reason: "not written")
             }
             self.publish(setting: stored)
+            if key.scope == .synced { self.publish(pending: [RecordMapping.recordName(forSettingKey: key.rawValue)]) }
             return stored
         }
     }

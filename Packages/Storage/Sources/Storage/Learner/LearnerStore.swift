@@ -66,6 +66,7 @@ public final class LearnerStore: Sendable {
         var nextObserver = 0
         var stateObservers: [Int: AsyncStream<LearnerState>.Continuation] = [:]
         var settingsObservers: [Int: AsyncStream<LearnerSettings>.Continuation] = [:]
+        var pendingObservers: [Int: AsyncStream<[String]>.Continuation] = [:]
     }
 
     // MARK: Opening
@@ -182,12 +183,21 @@ public final class LearnerStore: Sendable {
 
     /// Closes the database (GRDB finishes pending writes first) and ends the observation streams.
     public func close() throws(StorageError) {
-        live.withLock { live in
-            for continuation in live.stateObservers.values { continuation.finish() }
-            for continuation in live.settingsObservers.values { continuation.finish() }
-            live.stateObservers = [:]
-            live.settingsObservers = [:]
+        // Finish outside the lock: `finish()` runs each stream's `onTermination` synchronously, which takes it.
+        let observers = live.withLock { live in
+            defer {
+                live.stateObservers = [:]
+                live.settingsObservers = [:]
+                live.pendingObservers = [:]
+            }
+            return (
+                Array(live.stateObservers.values), Array(live.settingsObservers.values),
+                Array(live.pendingObservers.values)
+            )
         }
+        for continuation in observers.0 { continuation.finish() }
+        for continuation in observers.1 { continuation.finish() }
+        for continuation in observers.2 { continuation.finish() }
         do {
             try pool.close()
         } catch {
@@ -367,8 +377,10 @@ public final class LearnerStore: Sendable {
         var inserted: [Event] = []
         var rebuilt = false
         var sinceCheckpoint = before.sinceCheckpoint
+        var newlyPending: [String] = []
         let now = clock.nowMs()
         try db.inTransaction(.immediate) {
+            newlyPending = []
             let insert = try db.cachedStatement(
                 sql: """
                     INSERT INTO events (\(EventRow.columns)) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -379,9 +391,9 @@ public final class LearnerStore: Sendable {
                 guard db.changesCount > 0 else { continue }
                 inserted.append(entry.event)
                 if pending {
-                    try SyncTables.addPending(
-                        db, recordName: RecordMapping.recordName(for: entry.event), type: .event,
-                        at: now)
+                    let name = RecordMapping.recordName(for: entry.event)
+                    try SyncTables.addPending(db, recordName: name, type: .event, at: now)
+                    newlyPending.append(name)
                 }
             }
             guard !inserted.isEmpty else { return .commit }
@@ -404,7 +416,16 @@ public final class LearnerStore: Sendable {
             return .commit
         }
         if !inserted.isEmpty { publish(state: next, sinceCheckpoint: sinceCheckpoint) }
+        if !newlyPending.isEmpty { publish(pending: newlyPending) }
         return AppendResult(inserted: inserted, rebuilt: rebuilt, state: next)
+    }
+
+    /// Tells the `pendingAdditions()` observers which record names a commit marked pending. Called on the writer
+    /// queue after the commit.
+    func publish(pending recordNames: [String]) {
+        live.withLock { live in
+            for continuation in live.pendingObservers.values { continuation.yield(recordNames) }
+        }
     }
 
     /// Stores the committed state in memory and tells the observers. Called on the writer queue after a commit.

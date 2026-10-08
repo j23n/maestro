@@ -108,7 +108,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 |---|---|---|
 | `AudioPlaying` | AVPlayer, time observer at 30 ms, rate with time-domain pitch | scripted timeline |
 | `SpeechRecognizing` | SpeechAnalyzer + SpeechTranscriber (it-IT); DictationTranscriber fallback | returns scripted transcripts; Debug menu "type to simulate speech" |
-| `SyncControlling` | CKSyncEngine delegate (`docs/08`); created only when `ITA_SYNC_ENABLED` is YES and the iCloud entitlement is present | in-memory two-device simulator; also used when sync is off |
+| `SyncControlling` | `SyncDriver` over `CloudSync`, the CKSyncEngine delegate (`docs/08`); created only when `ITA_SYNC_ENABLED` and `ITA_ICLOUD_ENTITLEMENT` are YES | `DisabledSync` ("Sync off in this build", also for previews); the tests run `SyncDriver` against a fake engine and in-memory private databases, two devices at a time |
 | `TelemetryUploading` | URLSession batch upload (`docs/12`) | records requests |
 | `NotificationScheduling` | UNUserNotificationCenter | records schedules |
 | `WritingHintProviding` (optional) | FoundationModels, behind availability and a flag | none |
@@ -124,6 +124,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 | `ITA_DEBUG_MENU` | YES | NO | NO | NO |
 | `ITA_LLM_HINTS` | YES | NO | NO | NO |
 | `ITA_SYNC_ENABLED` | NO (YES in the owner's signed config) | NO until M7.5, then YES | NO until M7.5, then YES | NO |
+| `ITA_ICLOUD_ENTITLEMENT` | NO (YES in the owner's Signing.xcconfig, with `CODE_SIGN_ENTITLEMENTS = Config/Italiano.entitlements`) | as Debug | as Debug | as Debug |
 | `ITA_REVIEW_MODE` | YES | NO | NO | YES (review mode, `docs/06`) |
 | `ITA_REVIEW_URL` | local mock URL | empty | empty | review endpoint (`docs/12`) |
 
@@ -138,7 +139,7 @@ The Debug menu (Settings → Debug, debug builds only) offers: clock offset (± 
 - **The owner creates the Xcode project once** (M0.2) in Xcode 27 from the Multiplatform App template, with test targets, synchronized (folder-based) groups, the local packages `Packages/LearningCore` and `Packages/Storage` linked, swift-snapshot-testing added to the test target, and the shared scheme `Italiano` committed. Agents never hand-edit `project.pbxproj`: new source files appear through the synchronized folders, and build settings live in `App/Config/*.xcconfig`, which agents may edit.
 - **Agents and CI build without a team:** `xcodebuild … CODE_SIGNING_ALLOWED=NO` for builds and simulator tests. macOS test runs that must launch a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY = -`, no `DEVELOPMENT_TEAM`) with `App/Config/Italiano-NoCloud.entitlements`, which holds no restricted entitlements. The macOS sandbox capabilities (sandbox, microphone, network client, user-selected files) are macOS-only build settings in `Base.xcconfig` (`ENABLE_APP_SANDBOX`, `ENABLE_RESOURCE_ACCESS_AUDIO_INPUT`, `ENABLE_OUTGOING_NETWORK_CONNECTIONS`, `ENABLE_USER_SELECTED_FILES`), so no macOS-only key reaches an iOS signature. Never sign with a team: CloudKit containers can't be deleted, so `iCloud.com.j23n.italian` must be created only by the owner's first signed CloudKit build (ADR-18, Q10).
 - **The owner's signed builds** use `Italiano.entitlements`: iCloud (CloudKit, container `iCloud.com.j23n.italian`), Push Notifications for CloudKit (`aps-environment`), Background Modes → Remote notifications (iOS). On macOS the app is sandboxed, and also needs the microphone (`com.apple.security.device.audio-input`; without it speech silently fails), network client (CloudKit, the study endpoint) and user-selected read-write files (export of the learner database and the examiner zip); these come from the build settings above, not from the entitlements file.
-- `CKContainer(identifier:)` crashes when the entitlement is missing, so `CloudSync` is created only when `ITA_SYNC_ENABLED` is YES **and** the entitlement is present; otherwise the fake `SyncControlling` runs and Settings shows "Sync off in this build".
+- `CKContainer(identifier:)` crashes when the entitlement is missing, so `CloudSync` is created only when `ITA_SYNC_ENABLED` is YES **and** the entitlement is present; otherwise `DisabledSync` runs and Settings shows "Sync off in this build". iOS has no public API for an app to read its own entitlements, so the build says so: the owner's Signing.xcconfig sets `ITA_ICLOUD_ENTITLEMENT = YES` in the same place it points `CODE_SIGN_ENTITLEMENTS` at `Italiano.entitlements` (`AppConfig.syncAllowed`).
 
 ## Data flow at runtime
 

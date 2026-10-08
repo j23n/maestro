@@ -20,6 +20,26 @@ public struct PendingChange: Sendable, Hashable {
 /// serialization, cached system fields, the records to upload, and the erase that zone deletion and Reset need.
 /// Everything here is CloudKit-agnostic: records are LearningCore's `SyncRecord`, system fields opaque bytes.
 extension LearnerStore {
+    /// The record names each local write marks pending, yielded after its commit: the new events of `append` and
+    /// `enqueueAppend`, and `setting.<key>` for every `set` of a synced key. `CloudSync` adds them to the sync
+    /// engine (docs/08 § New local events). The writes the sync driver makes itself (`addPending`,
+    /// `markEverythingPending`) don't yield: it adds those to the engine itself. Nothing is dropped (unbounded
+    /// buffer); whatever a crash loses between the commit and the engine is still in `sync_pending`, which the
+    /// driver reconciles at launch. The stream finishes when the store closes.
+    public func pendingAdditions() -> AsyncStream<[String]> {
+        let (stream, continuation) = AsyncStream.makeStream(of: [String].self, bufferingPolicy: .unbounded)
+        let id = live.withLock { live -> Int in
+            let id = live.nextObserver
+            live.nextObserver += 1
+            live.pendingObservers[id] = continuation
+            return id
+        }
+        continuation.onTermination = { [weak self] _ in
+            self?.live.withLock { live in live.pendingObservers[id] = nil }
+        }
+        return stream
+    }
+
     /// Every pending change, oldest first.
     public func pendingChanges() async throws(StorageError) -> [PendingChange] {
         try await read { db in
@@ -151,7 +171,7 @@ extension LearnerStore {
         }
     }
 
-    /// Forgets cached system fields (`.unknownItem`).
+    /// Forgets cached system fields (`.unknownItem`, `.zoneNotFound`).
     public func removeSystemFields(recordNames: [String]) async throws(StorageError) {
         try await write { db in
             try db.inTransaction {
@@ -159,6 +179,62 @@ extension LearnerStore {
                 for name in recordNames { try delete.execute(arguments: [name]) }
                 return .commit
             }
+        }
+    }
+
+    /// Forgets every cached system field (`.encryptedDataReset`: the server's records are gone, so their change
+    /// tags mean nothing).
+    public func removeAllSystemFields() async throws(StorageError) {
+        try await write { db in try db.execute(sql: "DELETE FROM cloud_system_fields") }
+    }
+
+    /// The iCloud account (the CloudKit user record name) this database syncs with; nil until it first syncs. It
+    /// lives in `local_meta` (device-local, never synced, kept by `eraseProgress`), so a sign-in to a different
+    /// account is recognised as an account switch even after a sign-out in between (docs/08 § `.accountChange`).
+    public func syncAccount() async throws(StorageError) -> String? {
+        try await read { db in
+            try String.fetchOne(db, sql: "SELECT value FROM local_meta WHERE key = ?", arguments: [Self.accountKey])
+        }
+    }
+
+    /// Binds the database to an iCloud account (nil unbinds it).
+    public func setSyncAccount(_ userRecordName: String?) async throws(StorageError) {
+        try await write { db in
+            if let userRecordName {
+                try db.execute(
+                    sql: "INSERT OR REPLACE INTO local_meta (key, value) VALUES (?, ?)",
+                    arguments: [Self.accountKey, userRecordName])
+            } else {
+                try db.execute(sql: "DELETE FROM local_meta WHERE key = ?", arguments: [Self.accountKey])
+            }
+        }
+    }
+
+    static let accountKey = "icloud_account"
+
+    /// The platform of every device that wrote a `session` event, from its latest one: the device list of the
+    /// sync status line, "Synced 2 minutes ago · iPhone, iPad, Mac" (docs/08 § Status UI, docs/05 `session`).
+    /// Devices without a session event, payloads that aren't JSON and platforms this version doesn't know are
+    /// left out.
+    public func devicePlatforms() async throws(StorageError) -> [String: Platform] {
+        try await read { db in
+            // SQLite takes a bare column of a MAX() aggregate from the row that has the maximum.
+            let rows = try Row.fetchAll(
+                db,
+                sql: """
+                    SELECT device_id,
+                           CASE WHEN json_valid(payload) THEN json_extract(payload, '$.platform') END,
+                           MAX(at)
+                    FROM events WHERE type = 'session' GROUP BY device_id
+                    """)
+            var platforms: [String: Platform] = [:]
+            for row in rows {
+                let device = try row.decode(String.self, atIndex: 0)
+                guard let raw = try row.decode(String?.self, atIndex: 1), let platform = Platform(rawValue: raw)
+                else { continue }
+                platforms[device] = platform
+            }
+            return platforms
         }
     }
 
