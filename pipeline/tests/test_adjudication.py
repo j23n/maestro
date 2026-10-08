@@ -16,7 +16,7 @@ from typing import Any
 
 import pytest
 
-from itcontent import approval, yamlio
+from itcontent import approval, patterns, yamlio
 from itcontent.adjudication import (
     ApplyError,
     Proposal,
@@ -28,7 +28,6 @@ from itcontent.adjudication import (
 from itcontent.beta import run_beta_import
 from itcontent.course import load_course
 from itcontent.lint import lint_findings
-from itcontent.review_elements import display_model_answer
 from itcontent.review_export import export
 from itcontent.review_import import import_review, worklist
 
@@ -67,7 +66,8 @@ def rejected(fixtures_dir: Path, tmp_path: Path) -> Path:
 )
 def test_add_alternative_keeps_the_model_answer(pattern, answer, new):
     assert add_alternative(pattern, answer) == new
-    assert display_model_answer(new) == display_model_answer(pattern)
+    assert patterns.model_answer(new) == patterns.model_answer(pattern)  # the model answer stays
+    assert answer.casefold() in {e.raw.casefold() for e in patterns.expand(new)}
 
 
 def test_escape_literal():
@@ -79,7 +79,7 @@ def test_escape_literal():
 
 
 def test_rejected_answers_appear_on_the_next_review_page(course_copy, rejected, tmp_path):
-    result = export("u02", root=course_copy, rejected=rejected, out=tmp_path / "u02.html", expander=None)
+    result = export("u02", root=course_copy, rejected=rejected, out=tmp_path / "u02.html")
     section = result.model.sections[0]
     assert section.title == "Answers to adjudicate"
     adj = {(e.target, e.meta["response"]): e for e in section.elements}
@@ -101,7 +101,7 @@ def test_rejected_answers_appear_on_the_next_review_page(course_copy, rejected, 
 
 def test_adjudicated_answers_do_not_come_back(course_copy, rejected, fixtures_dir, tmp_path):
     import_review(fixtures_dir / "review-u02-answers.json", root=course_copy)
-    result = export("u02", root=course_copy, rejected=rejected, out=tmp_path / "u02.html", expander=None)
+    result = export("u02", root=course_copy, rejected=rejected, out=tmp_path / "u02.html")
     assert result.adjudications == 0 and result.model.sections[0].title != "Answers to adjudicate"
 
 
@@ -196,7 +196,8 @@ def test_an_adjudication_adds_the_accepted_answer_after_content_reopen(course_co
     apply_proposal(course_copy, proposal)
     ex04 = yamlio.load(course_copy / LESSON)["steps"][3]["block"][3]
     assert ex04["id"] == "u02.l1.ex04" and ex04["answer"] == "{un [cornetto]|il cornetto}"
-    assert display_model_answer(ex04["answer"]) == "un cornetto"  # the model answer stays
+    assert patterns.model_answer(ex04["answer"]).text == "un cornetto"  # the model answer stays
+    assert [e.text for e in patterns.expand(ex04["answer"])] == ["un cornetto", "il cornetto"]
     assert [str(f) for f in lint_findings(course_copy) if f.level == "error"] == []
     again = import_review(fixtures_dir / "review-u02-answers.json", root=course_copy)  # idempotent re-import
     assert again.added == []

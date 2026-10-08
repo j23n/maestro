@@ -23,10 +23,11 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from itcontent import approval, ids, yamlio
+from itcontent import approval, ids, patterns, yamlio
 from itcontent.beta import norm
 from itcontent.course import Course, ExerciseRef
 from itcontent.findings import format_path
+from itcontent.normalize import normalize
 from itcontent.review import find_exercise
 from itcontent.review_elements import Context, Element, Section, _map, _seq, en, esc, it, label, row
 
@@ -70,23 +71,12 @@ def add_alternative(pattern: str, answer: str) -> str:
     return f"{{{pattern}|{lit}}}"
 
 
-def raw_alternatives(pattern: str) -> set[str]:
-    """Normalised literal alternatives of a pattern without expanding it (enough to spot an answer already there)."""
-    body = pattern[1:-1] if pattern.startswith("{") and _group_end(pattern, 0) == len(pattern) - 1 else pattern
-    out = set()
-    depth, cur = 0, ""
-    for ch in body:
-        if ch in "{(":
-            depth += 1
-        elif ch in "})":
-            depth -= 1
-        if ch == "|" and depth == 0:
-            out.add(cur)
-            cur = ""
-        else:
-            cur += ch
-    out.add(cur)
-    return {norm(a.replace("[", "").replace("]", "")) for a in out if not any(c in a for c in "{(")}
+def accepts(pattern: str, answer: str) -> bool:
+    """Whether `pattern` already accepts `answer` (normalised; docs/05), by the grader's own expander."""
+    try:
+        return normalize(answer) in {e.text for e in patterns.expand(pattern)}
+    except patterns.PatternError:
+        return False
 
 
 # ---------------------------------------------------------------- proposals
@@ -163,7 +153,7 @@ def propose(course: Course, entry: dict[str, Any]) -> Proposal | None:
         return _add_near(course, base, [*ref.loc.path], data.get("near"), near_entry)
     if fmt == "recall" and isinstance(data.get("answer"), str):
         old = data["answer"]
-        if norm(answer) in raw_alternatives(old):
+        if accepts(old, answer):
             return _fill(course, base, [*ref.loc.path, "answer"], "none", old, old, "already an alternative")
         return _fill(course, base, [*ref.loc.path, "answer"], "replace", old, add_alternative(old, answer))
     if fmt == "cloze" and isinstance(data.get("text"), str):
@@ -172,7 +162,7 @@ def propose(course: Course, entry: dict[str, Any]) -> Proposal | None:
         if start < 0 or end < start or old.count("[[") != 1:
             return _fill(course, base, [*ref.loc.path, "text"], "manual", old, None, "the gap can't be found")
         gap = old[start + 2 : end]
-        if norm(answer) in raw_alternatives(gap):
+        if accepts(gap, answer):
             return _fill(course, base, [*ref.loc.path, "text"], "none", old, old, "already an alternative")
         new = old[: start + 2] + add_alternative(gap, answer) + old[end:]
         return _fill(course, base, [*ref.loc.path, "text"], "replace", old, new)
@@ -192,7 +182,7 @@ def _fill(
 
 def _add_near(course: Course, p: Proposal, owner: list[str | int], near: Any, entry: dict[str, Any]) -> Proposal:
     existing = [x for x in _seq(near) if isinstance(x, dict)]
-    if any(norm(p.answer) in raw_alternatives(str(x.get("answer", ""))) for x in existing):
+    if any(accepts(str(x.get("answer", "")), p.answer) for x in existing):
         return _fill(course, p, [*owner, "near"], "none", near, near, "already a near-miss")
     if not entry["hint"]:
         p.note = "the teacher gave no hint: write one that points at the problem without giving the answer away"
@@ -224,7 +214,7 @@ def _propose_node(
     k = names.index(str(chosen))
     accept = [str(a) for a in _seq(intents[k].get("accept"))]
     path = [*owner, "expect", k, "accept"]
-    if any(norm(p.answer) in raw_alternatives(a) for a in accept):
+    if any(accepts(a, p.answer) for a in accept):
         return _fill(course, p, path, "none", accept, accept, "already accepted")
     return _fill(course, p, path, "append", accept, [*accept, escape_literal(p.answer)], f"intent {chosen}")
 
@@ -369,26 +359,36 @@ def adjudication_section(ctx: Context, rejected: list[Rejected]) -> Section | No
         data = ref.data
         parts = [f'<p class="rejected">{it(r.response, "it big")} {en(f"rejected {r.count}×")}</p>']
         intents: list[str] = []
+        accepted: list[str] = []
         if node_id:
             node = _map(_map(data.get("nodes")).get(node_id))
             parts.append(row(ctx.name(data.get("with", "")), it(node.get("say", ""))))
             for intent in (_map(x) for x in _seq(node.get("expect"))):
                 intents.append(str(intent.get("intent", "")))
+                accepted += [str(a) for a in _seq(intent.get("accept"))]
                 parts.append(ctx.answers(_seq(intent.get("accept")), title=f"Accepted for {intent.get('intent', '')}"))
-            parts.append(ctx.nears(node.get("near")))
+            near = node.get("near")
             quote = node.get("say")
         else:
             for key in ("prompt_en", "question_en", "prompt_it", "context_it", "text"):
                 if data.get(key):
                     parts.append(row(label(key), esc(data[key])))
+            quote = data.get("text")
             if isinstance(data.get("answer"), str):
+                accepted.append(data["answer"])
                 parts.append(ctx.model_line(data["answer"]))
                 parts.append(ctx.answers([data["answer"]]))
+                quote = ctx.model(data["answer"])
             gap = re.search(r"\[\[(.+?)\]\]", str(data.get("text", ""))) if ref.format == "cloze" else None
             if gap:
+                accepted.append(gap.group(1))
                 parts.append(ctx.answers([gap.group(1)], title="Accepted in the gap"))
-            parts.append(ctx.nears(data.get("near")))
-            quote = data.get("answer") if isinstance(data.get("answer"), str) else data.get("text")
+            near = data.get("near")
+        if any(accepts(p, r.response) for p in accepted):
+            continue  # the key accepts it now (the beta ran an older pack): nothing to decide
+        parts.append(ctx.nears(near))
+        if any(accepts(str(_map(n).get("answer", "")), r.response) for n in _seq(near)):
+            parts.insert(1, row("Note", "Already a near-miss in the key: learners get its hint."))
         meta = {"adjudicate": True, "response": r.response, "count": r.count}
         if len(intents) > 1:
             meta["intents"] = intents
