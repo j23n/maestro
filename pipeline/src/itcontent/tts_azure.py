@@ -6,11 +6,13 @@ Tests never touch the network: the client takes a `requests.Session`-like object
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import io
 import json
 import os
 import time
+import unicodedata
 import zipfile
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -98,7 +100,11 @@ def ssml(text_parts: list[tuple[str, str | None]], voice: Voice, lang: str = "it
 
 
 def apply_overrides(text: str, lexicon: dict[str, str]) -> list[tuple[str, str | None]]:
-    """Split `text` so each whole word found in `lexicon` (case-insensitive) carries its IPA."""
+    """Split `text` so each whole word found in `lexicon` (case-insensitive) carries its IPA.
+
+    Apostrophes belong to words (`quant'è`, `po'`), except quotes around a word. An elided form keeps its apostrophe
+    with the word before it (`l'ancora`): when the whole form isn't in the lexicon, the part after its last apostrophe
+    is looked up, and only that part gets the `<phoneme>`."""
     if not lexicon:
         return [(text, None)]
     lower = {k.lower(): v for k, v in lexicon.items()}
@@ -106,22 +112,37 @@ def apply_overrides(text: str, lexicon: dict[str, str]) -> list[tuple[str, str |
     buf = ""
     word = ""
 
+    def match(w: str) -> tuple[str, str, str] | None:
+        """(text before the override, the overridden part, text after) or None."""
+        core = w.lstrip("'’")
+        lead = w[: len(w) - len(core)]
+        for cand in (core, core.rstrip("'’")):
+            if cand and cand.lower() in lower:
+                return lead, cand, core[len(cand) :]
+        inner = core.rstrip("'’")
+        cut = max(inner.rfind("'"), inner.rfind("’")) + 1
+        if 0 < cut < len(inner) and inner[cut:].lower() in lower:
+            return lead + inner[:cut], inner[cut:], core[len(inner) :]
+        return None
+
     def flush_word() -> None:
         nonlocal word, buf
         if not word:
             return
-        ipa = lower.get(word.lower())
-        if ipa is None:
+        found = match(word)
+        if found is None:
             buf += word
         else:
+            before, part, after = found
+            buf += before
             if buf:
                 out.append((buf, None))
-                buf = ""
-            out.append((word, ipa))
+            out.append((part, lower[part.lower()]))
+            buf = after
         word = ""
 
     for ch in text:
-        if ch.isalpha() or ch == "'":
+        if ch.isalpha() or ch in "'’":
             word += ch
         else:
             flush_word()
@@ -130,6 +151,12 @@ def apply_overrides(text: str, lexicon: dict[str, str]) -> list[tuple[str, str |
     if buf:
         out.append((buf, None))
     return out
+
+
+def billable_characters(parts: list[tuple[str, str | None]]) -> int:
+    """An estimate of what Azure bills for one input: the spoken text plus the IPA of `<phoneme>` overrides (SSML
+    markup itself is not billed)."""
+    return sum(len(frag) + (len(ipa) if ipa else 0) for frag, ipa in parts)
 
 
 def cache_key(voice: Voice, ssml_text: str, output_format: str = OUTPUT_FORMAT) -> str:
@@ -153,7 +180,7 @@ def cost_usd(characters: int) -> float:
     return characters * COST_PER_MILLION_CHARS_USD / 1_000_000
 
 
-@dataclass
+@dataclass(frozen=True)
 class WordBoundary:
     text: str
     offset_ms: int
@@ -170,8 +197,28 @@ class AzureError(RuntimeError):
     pass
 
 
+def _error_text(r: Any) -> str:
+    """The message of an Azure error response (`{"code", "message"}` or `{"error": {"code", "message"}}`)."""
+    try:
+        body = r.json()
+    except Exception:
+        return str(getattr(r, "text", ""))[:300]
+    if isinstance(body, dict):
+        err = body.get("error") if isinstance(body.get("error"), dict) else body
+        parts = [str(err.get(k)) for k in ("code", "message") if err.get(k)]
+        if parts:
+            return ": ".join(parts)
+    return json.dumps(body)[:300]
+
+
 class AzureBatchClient:
-    """PUT a batch synthesis job, poll it, download the result ZIP (`NNNN.wav` + `NNNN.word.json`)."""
+    """Azure AI Speech batch synthesis (REST, `api-version=2024-04-01`; docs/04 § Audio step 4).
+
+    `synthesize` creates a job (`PUT …/batchsyntheses/{id}`), polls it until it succeeds or fails, downloads the result
+    ZIP from `outputs.result` (a SAS URL: no key is sent there), checks `summary.json` for inputs that failed, and
+    deletes the job. Throttling (429) and server errors (5xx) are retried after `Retry-After` (or `poll_seconds`), up
+    to `retries` times in a row.
+    """
 
     def __init__(
         self,
@@ -181,6 +228,7 @@ class AzureBatchClient:
         sleep: Callable[[float], None] = time.sleep,
         poll_seconds: float = 5.0,
         timeout_s: float = 3600,
+        retries: int = 5,
     ) -> None:
         self.session = session
         self.endpoint = (endpoint or os.environ.get("AZURE_SPEECH_ENDPOINT") or "").rstrip("/")
@@ -190,12 +238,29 @@ class AzureBatchClient:
         self.sleep = sleep
         self.poll_seconds = poll_seconds
         self.timeout_s = timeout_s
+        self.retries = retries
 
     def _url(self, job_id: str) -> str:
         return f"{self.endpoint}/texttospeech/batchsyntheses/{job_id}?api-version={API_VERSION}"
 
     def _headers(self) -> dict[str, str]:
         return {"Ocp-Apim-Subscription-Key": self.key, "Content-Type": "application/json"}
+
+    def _send(self, what: str, call: Callable[[], Any], ok: tuple[int, ...]) -> Any:
+        for attempt in range(self.retries + 1):
+            r = call()
+            if r.status_code in ok:
+                return r
+            if (r.status_code == 429 or r.status_code >= 500) and attempt < self.retries:
+                headers = getattr(r, "headers", None) or {}
+                try:
+                    wait = float(headers.get("Retry-After", self.poll_seconds))
+                except ValueError:
+                    wait = self.poll_seconds
+                self.sleep(wait)
+                continue
+            raise AzureError(f"{what}: HTTP {r.status_code} {_error_text(r)}")
+        raise AzureError(f"{what}: gave up after {self.retries} retries")  # pragma: no cover
 
     def synthesize(self, job_id: str, ssml_inputs: list[str]) -> list[SynthesisResult]:
         if not ssml_inputs:
@@ -214,43 +279,65 @@ class AzureBatchClient:
                 "decompressOutputFiles": False,
             },
         }
-        r = self.session.put(self._url(job_id), headers=self._headers(), data=json.dumps(body))
-        if r.status_code not in (200, 201):
-            raise AzureError(f"create job {job_id}: HTTP {r.status_code} {r.text[:300]}")
+        url = self._url(job_id)
+        data = json.dumps(body, ensure_ascii=False).encode("utf-8")
+        self._send(
+            f"create job {job_id}", lambda: self.session.put(url, headers=self._headers(), data=data), (200, 201)
+        )
         waited = 0.0
         while True:
-            r = self.session.get(self._url(job_id), headers=self._headers())
-            if r.status_code != 200:
-                raise AzureError(f"poll job {job_id}: HTTP {r.status_code} {r.text[:300]}")
+            r = self._send(f"poll job {job_id}", lambda: self.session.get(url, headers=self._headers()), (200,))
             job = r.json()
             status = job.get("status")
             if status == "Succeeded":
                 break
             if status == "Failed":
-                raise AzureError(f"job {job_id} failed: {json.dumps(job.get('properties', {}))[:500]}")
+                props = job.get("properties") or {}
+                detail = props.get("error") or props
+                raise AzureError(f"job {job_id} failed: {json.dumps(detail, ensure_ascii=False)[:500]}")
             if waited >= self.timeout_s:
-                raise AzureError(f"job {job_id} timed out after {waited:.0f} s")
+                raise AzureError(f"job {job_id} timed out after {waited:.0f} s (status {status})")
             self.sleep(self.poll_seconds)
             waited += self.poll_seconds
         result_url = (job.get("outputs") or {}).get("result")
         if not result_url:
             raise AzureError(f"job {job_id} succeeded without outputs.result")
-        z = self.session.get(result_url)
-        if z.status_code != 200:
-            raise AzureError(f"download {job_id}: HTTP {z.status_code}")
-        return parse_result_zip(z.content, len(ssml_inputs))
+        z = self._send(f"download {job_id}", lambda: self.session.get(result_url), (200,))
+        results = parse_result_zip(z.content, len(ssml_inputs), ssml_inputs)
+        with contextlib.suppress(Exception):  # the results are in hand; a job left behind expires anyway
+            self.session.delete(url, headers=self._headers())
+        return results
 
 
-def parse_result_zip(data: bytes, expected: int) -> list[SynthesisResult]:
+def parse_result_zip(data: bytes, expected: int, inputs: list[str] | None = None) -> list[SynthesisResult]:
+    """`NNNN.wav` with its `NNNN.word.json` per input, in input order. `summary.json` (when present) names the file
+    of each input and its status; any input that didn't succeed is an error naming it."""
     with zipfile.ZipFile(io.BytesIO(data)) as zf:
         names = set(zf.namelist())
+        files = [f"{i:04d}.wav" for i in range(1, expected + 1)]
+        if "summary.json" in names:
+            summary = json.loads(zf.read("summary.json").decode("utf-8-sig") or "{}")
+            results = summary.get("results") if isinstance(summary, dict) else None
+            if isinstance(results, list) and results:
+                if len(results) != expected:
+                    raise AzureError(f"result ZIP: summary.json lists {len(results)} results for {expected} inputs")
+                failed = []
+                for i, res in enumerate(results):
+                    if res.get("status") != "Succeeded":
+                        props = res.get("properties") or {}
+                        why = props.get("errorMessage") or props.get("error") or res.get("status")
+                        shown = (inputs[i] if inputs else "")[:120]
+                        failed.append(f"input {i + 1} ({shown}): {why}")
+                    elif res.get("audioFileName"):
+                        files[i] = str(res["audioFileName"])
+                if failed:
+                    raise AzureError("inputs failed: " + "; ".join(failed))
         out = []
-        for i in range(1, expected + 1):
-            wav_name = f"{i:04d}.wav"
+        for wav_name in files:
             if wav_name not in names:
                 raise AzureError(f"result ZIP lacks {wav_name}")
             bounds: list[WordBoundary] = []
-            wj = f"{i:04d}.word.json"
+            wj = wav_name.rsplit(".", 1)[0] + ".word.json"
             if wj in names:
                 for b in json.loads(zf.read(wj).decode("utf-8-sig")):
                     bounds.append(WordBoundary(str(b["Text"]), int(b["AudioOffset"]), int(b["Duration"])))
@@ -263,10 +350,14 @@ class AlignmentError(ValueError):
 
 
 def _norm_word(text: str) -> str:
-    import unicodedata
-
+    """Lowercase NFC letters, digits and apostrophes; an opening quote is not part of a word."""
     t = unicodedata.normalize("NFC", text).lower().replace("’", "'").replace("‘", "'")
-    return "".join(ch for ch in t if ch.isalnum() or ch == "'")
+    return "".join(ch for ch in t if ch.isalnum() or ch == "'").lstrip("'")
+
+
+def _same(a: str, b: str) -> bool:
+    """Equal, or equal but for a final apostrophe (an elision on one side, a closing quote on the other)."""
+    return a == b or a.rstrip("'") == b.rstrip("'")
 
 
 def align(tokens: list[str], bounds: list[WordBoundary], label: str) -> list[tuple[int, int]]:
@@ -277,18 +368,18 @@ def align(tokens: list[str], bounds: list[WordBoundary], label: str) -> list[tup
     is an error that names the line. Returns (start_ms, end_ms) per token, relative to the line's audio.
     """
     words = [(b, _norm_word(b.text)) for b in bounds]
-    words = [(b, w) for b, w in words if w]
+    words = [(b, w) for b, w in words if w.strip("'")]
     toks = [_norm_word(t) for t in tokens]
     out: list[tuple[int, int]] = []
     ti = 0
     wi = 0
     while ti < len(toks):
-        if not toks[ti]:
+        if not toks[ti].strip("'"):
             raise AlignmentError(f"{label}: token {ti} '{tokens[ti]}' has no letters to align")
         if wi >= len(words):
             raise AlignmentError(f"{label}: audio ends before token {ti} '{tokens[ti]}'")
         b, w = words[wi]
-        if w == toks[ti]:
+        if _same(w, toks[ti]):
             out.append((b.offset_ms, b.offset_ms + b.duration_ms))
             ti += 1
             wi += 1
@@ -300,7 +391,7 @@ def align(tokens: list[str], bounds: list[WordBoundary], label: str) -> list[tup
                 acc += toks[ti]
                 group.append(ti)
                 ti += 1
-            if acc != w:
+            if not _same(acc, w):
                 raise AlignmentError(f"{label}: heard '{b.text}' but the text has '{''.join(tokens[group[0] : ti])}…'")
             total = sum(len(toks[g]) for g in group)
             start = b.offset_ms
@@ -319,7 +410,7 @@ def align(tokens: list[str], bounds: list[WordBoundary], label: str) -> list[tup
                 last = words[wi][0]
                 acc += words[wi][1]
                 wi += 1
-            if acc != toks[ti]:
+            if not _same(acc, toks[ti]):
                 raise AlignmentError(f"{label}: token '{tokens[ti]}' does not match the audio words around '{b.text}'")
             out.append((first.offset_ms, last.offset_ms + last.duration_ms))
             ti += 1

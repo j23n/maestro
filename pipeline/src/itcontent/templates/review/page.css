@@ -135,7 +135,8 @@ caption { text-align: left; font-weight: 600; }
 .text-title { font-size: 1.15rem; margin: 0.2rem 0; }
 .spec-label { font-size: 1.05rem; margin: 0.2rem 0; }
 .rejected { margin: 0.25rem 0 0.5rem; }
-audio.audio { display: block; margin: 0.3rem 0; height: 2rem; }
+button.play { font-size: 0.85rem; padding: 0.15rem 0.6rem; margin: 0.2rem 0.3rem 0.2rem 0; }
+button.play[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 /* review controls (added by the script) */
 .el-review { margin-top: 0.6rem; border-top: 1px solid var(--divider); padding-top: 0.5rem; }

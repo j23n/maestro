@@ -376,7 +376,7 @@
    "near": [],
    "nodes": [
     {
-     "audioId": null,
+     "audioId": "a:7d0096922ca1",
      "en": "Good morning! What will you have?",
      "expect": [
       {
@@ -1477,7 +1477,7 @@
   },
   "u02.l1.ex13": {
    "audioAfter": false,
-   "audioId": null,
+   "audioId": "a:c8ce4c330ae8",
    "format": "dictation",
    "hint": null,
    "id": "u02.l1.ex13",
@@ -2424,7 +2424,7 @@
    "near": [],
    "nodes": [
     {
-     "audioId": null,
+     "audioId": "a:7d0096922ca1",
      "en": "Good morning! What will you have?",
      "expect": [
       {
@@ -3269,7 +3269,7 @@
        }
       ]
      },
-     "leftAudioId": null,
+     "leftAudioId": "a:ca21736ea8a7",
      "right": "croissant"
     },
     {
@@ -3981,7 +3981,7 @@
    "near": [],
    "nodes": [
     {
-     "audioId": null,
+     "audioId": "a:7d0096922ca1",
      "en": "Good morning! What will you have?",
      "expect": [
       {

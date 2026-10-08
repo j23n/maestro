@@ -4,12 +4,14 @@
 The report is a list of **section providers** (`SECTIONS`): functions that take the `ReportContext` (the repository
 root, the unit filter and one run of `content check`) and return a `Section`, or None to leave it out. Register a new
 one with `@section`; the order of registration is the order on the page. The built-in sections: overview, new words
-per lesson, retrievals and encounters, strand split, syllabus coverage, budgets and exemptions, and open review
-comments (from the ledgers `reviews/<scope>.yaml`, read as documented in docs/04 § Content review loop).
+per lesson, retrievals and encounters, strand split, syllabus coverage, budgets and exemptions, open review comments
+(from the ledgers `reviews/<scope>.yaml`, read as documented in docs/04 § Content review loop), the audio budget (MB
+per unit now and projected, M5.4) and the pronunciation overrides in use (M5.4).
 """
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -28,6 +30,11 @@ def _seq(x: Any) -> list[Any]:
     return x if isinstance(x, list) else []
 
 
+def _natural(text: str) -> list[Any]:
+    """Sort key that orders `#7` before `#13`."""
+    return [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", text)]
+
+
 def _md(text: Any) -> str:
     return str(text).replace("|", "\\|").replace("\n", " ")
 
@@ -44,6 +51,7 @@ class ReportContext:
     root: Path
     unit: str | None
     check: CheckResult
+    memo: dict[str, Any] = field(default_factory=dict)  # shared by sections (the compiled audio plan)
 
     def keep(self, unit: str | None) -> bool:
         return self.unit is None or unit == self.unit
@@ -199,6 +207,84 @@ def open_comments(rc: ReportContext) -> Section:
     from itcontent.ledger import report_lines
 
     return Section("comments", "Open review comments", report_lines(rc.root, rc.unit)[2:])  # minus its heading
+
+
+def audio_plan(rc: ReportContext) -> Any:
+    """The dev pack's audio needs, resolved against the render caches (compiled once per report), or the error."""
+    if "audio" not in rc.memo:
+        from itcontent.audio_assets import AudioPlan, AudioResolver
+        from itcontent.pack.build import AudioOptions, select_scope
+        from itcontent.pack.common import Report
+        from itcontent.pack.compile import Compiler
+        from itcontent.pack.locks import Locks
+
+        course = rc.check.ctx.course
+        options = AudioOptions.default(rc.root, "dev")
+        plan = AudioPlan(AudioResolver(options.caches, options.encode_dir))
+        try:
+            report = Report()
+            scope = select_scope(course, "dev", allow_partial=False, report=report)
+            Compiler(course, Locks(rc.root), scope, report, plan).compile()
+            rc.memo["audio"] = plan
+        except Exception as exc:  # the report never fails
+            rc.memo["audio"] = f"{type(exc).__name__}: {exc}"
+    return rc.memo["audio"]
+
+
+@section
+def audio_budget(rc: ReportContext) -> Section:
+    """MB per unit: the audio that exists, and the projection for the complete course (docs/04, M5.4)."""
+    from itcontent import audio_budget as budget
+    from itcontent.pack.build import ENCODE_CACHE
+
+    plan = audio_plan(rc)
+    if isinstance(plan, str):
+        return Section("audio", "Audio budget", [f"Not computed: the pack doesn't compile ({_md(plan)})."])
+    encoded = rc.root / ENCODE_CACHE
+    files = {p.name: p for p in encoded.glob("*.m4a")} if encoded.is_dir() else {}
+    projection = budget.project(rc.check.ctx.course, plan, files)
+    return Section("audio", "Audio budget", budget.report_lines(projection, rc.unit))
+
+
+@section
+def pronunciation(rc: ReportContext) -> Section:
+    """IPA overrides (docs/04 § Audio › Pronunciation): lexicon entries and line `say:` overrides, where they apply,
+    and symbols that look wrong."""
+    from itcontent.tts_needs import ipa_problem
+
+    plan = audio_plan(rc)
+    if isinstance(plan, str):
+        return Section("pronunciation", "Pronunciation overrides", [f"Not computed ({_md(plan)})."])
+    course = rc.check.ctx.course
+    pron = course.singles.get("pronunciation")
+    lexicon = _map(_map(pron.data if pron else None).get("lexicon"))
+    by_word = {str(k).lower(): str(v) for k, v in lexicon.items()}
+    used: dict[str, list[str]] = {}
+    say_lines: list[str] = []
+    for need in plan.needs.values():
+        if not rc.keep(need.unit):
+            continue
+        for line in need.lines:
+            for word, ipa in line.speech.overrides:
+                if by_word.get(word.lower()) == ipa:
+                    used.setdefault(word.lower(), []).append(line.label)
+                else:
+                    say_lines.append(f"- {line.label}: *{_md(word)}* → /{_md(ipa)}/ (line `say`)")
+    lines = [
+        "Words in `content/pronunciation.yaml` get their IPA wherever they are voiced; a line's `say:` overrides "
+        "one line only. Changing either re-renders just the lines concerned (`content tts`).",
+        "",
+        "| Word | IPA | Voiced in | Check |",
+        "|---|---|---|---|",
+    ]
+    for word, ipa in sorted(lexicon.items(), key=lambda kv: str(kv[0]).lower()):
+        where = sorted(set(used.get(str(word).lower(), [])), key=_natural)
+        shown = ", ".join(where[:5]) + (f" (+{len(where) - 5})" if len(where) > 5 else "") if where else "not used yet"
+        lines.append(f"| {_md(word)} | /{_md(ipa)}/ | {shown} | {_md(ipa_problem(str(ipa)) or 'ok')} |")
+    if not lexicon:
+        lines.append("| — | — | — | — |")
+    lines += ["", "Line overrides:", ""] + (sorted(set(say_lines)) or ["- none"])
+    return Section("pronunciation", "Pronunciation overrides", lines)
 
 
 # ---------------------------------------------------------------- the command

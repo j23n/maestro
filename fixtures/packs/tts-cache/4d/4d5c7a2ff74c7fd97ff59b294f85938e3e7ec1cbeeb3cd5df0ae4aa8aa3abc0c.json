@@ -1,0 +1,27 @@
+{
+ "boundaries": [
+  {
+   "duration_ms": 177,
+   "offset_ms": 60,
+   "text": "il"
+  },
+  {
+   "duration_ms": 477,
+   "offset_ms": 287,
+   "text": "cornetto"
+  }
+ ],
+ "format": 1,
+ "key": "4d5c7a2ff74c7fd97ff59b294f85938e3e7ec1cbeeb3cd5df0ae4aa8aa3abc0c",
+ "output_format": "riff-24khz-16bit-mono-pcm",
+ "pcm_sha256": "a1c38ecbc87f543a8a97b218b9b5d57481b273d6c982daf9456578e6b65ef580",
+ "pitch": "0%",
+ "provider": "mock",
+ "rate": "-10%",
+ "sample_rate": 24000,
+ "samples": 22416,
+ "ssml": "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"https://www.w3.org/2001/mstts\" xml:lang=\"it-IT\"><voice name=\"it-IT-ElsaNeural\"><prosody rate=\"-10%\">il cornetto</prosody></voice></speak>",
+ "style": "",
+ "text": "il cornetto",
+ "voice": "it-IT-ElsaNeural"
+}

@@ -58,7 +58,7 @@ IDs also have to fit where they are (`content lint` checks it): a lesson file `l
 | character | `ch:<slug>`; the reserved speakers `narrator` and `announcer` are written bare in YAML and stored as `ch:narrator`, `ch:announcer` | `ch:marco`, `ch:giulia` |
 | topic | `topic:<slug>` | `topic:food-drink` |
 | country | ISO 3166-1 alpha-2, lowercase; `gb-eng`, `gb-sct`, `gb-wls`, `gb-nir` for the UK nations | `us`, `gb-wls` |
-| audio | `a:<12 hex of sha256>` (generated); its file is `<12 hex>.m4a` | `a:3f9c0e1a2b4d` → `3f9c0e1a2b4d.m4a` |
+| audio | `a:<12 hex of sha256>` (generated from the assembled audio and its encode settings, `docs/04` § Audio; `audio.sha256` holds the whole digest); its file is `<12 hex>.m4a` | `a:3f9c0e1a2b4d` → `3f9c0e1a2b4d.m4a` |
 
 **Display forms.** Items carry generated display forms. Nouns always show with the **definite article** (`il cornetto`, `la spremuta`); where the article hides the gender, the display adds it (`l'acqua (f)`), and nouns for people show both genders (`l'amico / l'amica`). An article directly before a noun item, or before an adjective and a noun item, is part of that noun until the article's own unit (*un/una*: Unit 2; *il/la/lo…*: Unit 3; the lexical-article rule in `docs/04`), so cards may show it from Unit 0. The indefinite form (`un cornetto`) is also stored, for generated answers.
 

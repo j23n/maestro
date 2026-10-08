@@ -347,6 +347,57 @@
   $all('input[name="filter"]').forEach(function (r) {
     r.addEventListener("change", function () { document.body.setAttribute("data-filter", r.value); });
   });
+  // ------------------------------------------------------------ audio (one player; a line plays its segment)
+
+  var AUDIO = JSON.parse(document.getElementById("review-audio").textContent || "{}");
+  var player = null;
+  var playing = null;
+  var stopAt = null;
+  function stopAudio() {
+    if (player) player.pause();
+    if (playing) playing.setAttribute("aria-pressed", "false");
+    playing = null;
+  }
+  $all("button.play").forEach(function (b) {
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () {
+      if (playing === b) { stopAudio(); return; }
+      stopAudio();
+      var id = b.getAttribute("data-audio");
+      if (!AUDIO[id]) { message("This audio isn't in the page."); return; }
+      var src = "data:audio/mp4;base64," + AUDIO[id];
+      if (!player) {
+        player = new Audio();
+        player.addEventListener("timeupdate", function () {
+          if (stopAt !== null && player.currentTime * 1000 >= stopAt) stopAudio();
+        });
+        player.addEventListener("ended", stopAudio);
+      }
+      var start = b.getAttribute("data-start");
+      var end = b.getAttribute("data-end");
+      var from = start !== null ? Number(start) / 1000 : 0;
+      stopAt = end !== null ? Number(end) : null;
+      playing = b;
+      b.setAttribute("aria-pressed", "true");
+      function go() {
+        try { player.currentTime = from; } catch (e) { /* the default start position applies */ }
+        var p = player.play();
+        if (p && p.catch) p.catch(function () { stopAudio(); message("The browser couldn't play this audio."); });
+      }
+      if (player.getAttribute("data-id") !== id) {
+        player.setAttribute("data-id", id);
+        player.addEventListener("loadedmetadata", function once() {
+          player.removeEventListener("loadedmetadata", once);
+          go();
+        });
+        player.src = src;
+        player.load();
+      } else {
+        go();
+      }
+    });
+  });
+
   window.addEventListener("beforeunload", function (e) {
     if (dirty) { e.preventDefault(); e.returnValue = ""; }
   });

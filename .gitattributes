@@ -1,6 +1,11 @@
-# Git LFS: only the TTS cache (rendered speech costs money to regenerate). The bundled pack and its encoded audio
-# are build outputs (`make pack`) and are gitignored (docs/02 § Repository layout).
+# Git LFS: only the TTS renders (Azure audio costs money to regenerate), as FLAC. Their metadata (`<key>.json`: voice,
+# SSML, word boundaries, sample count and hash) stays plain Git, so it diffs and the pack build can compute audio IDs,
+# timings and the budget without `git lfs pull` (docs/04 § Audio). The bundled pack and its encoded audio are build
+# outputs (`make pack`) and are gitignored (docs/02 § Repository layout).
 # Run `git lfs install` once before the first commit that adds these files.
-content-build/** filter=lfs diff=lfs merge=lfs -text
-# The mini pack is a few KB and Linux CI checks out without LFS, so it stays a plain (binary) Git file.
+content-build/tts-cache/**/*.flac filter=lfs diff=lfs merge=lfs -text
+# The mini pack is a few KB and Linux CI checks out without LFS, so it stays plain (binary) Git, with its few mock
+# renders (WAV: synthetic tones compress well under Git's zlib) and their encoded files.
 fixtures/packs/*.sqlite binary
+fixtures/packs/tts-cache/**/*.wav binary
+fixtures/packs/Audio/*.m4a binary

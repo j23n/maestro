@@ -2,14 +2,23 @@
 
 - **dev** (default): every unit, drafts included (`steps.draft = 1` for unapproved files), missing audio is a
   warning; writes `App/Italiano/Resources/Content/content.sqlite` (gitignored) with `meta.review_files` for the app's
-  review mode.
+  review mode. Audio comes from the Azure render cache, then from mock renders (`content tts --provider mock`).
 - **--release**: only approved content. Every unit in `course.yaml` must be complete (all lessons, task and check)
   and approved, as must its items file and the course-wide files the content lead signs off (syllabus, grammar
   points, story bible, countries); `--allow-partial` ships the longest prefix of such units instead. Missing audio is
-  an error. Writes `build/release/content.sqlite` and records the released IDs in `content/ids.lock`.
+  an error, and only Azure renders count. Writes `build/release/content.sqlite` and records the released IDs in
+  `content/ids.lock`.
 - **--mini**: the golden sample (Unit 2 Lesson 1 with its task and check, the catalog of Units 0–2, no assessments) as
   `fixtures/packs/mini.sqlite` plus `fixtures/packs/mini-payloads.json` (every step, exercise and note payload),
-  both committed. It leaves out `meta.git_sha`, so the fixture changes only when its content does.
+  both committed. It leaves out `meta.git_sha`, so the fixture changes only when its content does. Its audio comes
+  only from the committed renders in `fixtures/packs/tts-cache/` (2–3 mock renders), encoded into
+  `fixtures/packs/Audio/`.
+
+Audio (docs/04 § Pack build › Audio): every voiced thing the compiler meets is looked up in the render caches
+(`audio_assets`); found ones get their audio ID, `audio` row and timings, the rest stay null (dev) or fail (release).
+The rows depend only on the renders' metadata, never on the encoded bytes, so the pack hash doesn't depend on the
+ffmpeg build. Each file is then encoded once into `build/audio/` and copied into `Audio/` next to the pack (files
+nothing references are removed); the total must stay within 150 MB.
 
 Every build first runs `content lint` (schema violations stop it), reads the annotation lock files (a stale one stops
 it), validates every payload against `schemas/pack-payloads.schema.json` and checks every foreign key.
@@ -28,17 +37,23 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
-from itcontent import __version__, approval, paths
+from itcontent import __version__, approval, audio_budget, paths
+from itcontent.audio_assets import AudioPlan, AudioResolver, Missing, Resolved
 from itcontent.course import Course, Doc, load_course
 from itcontent.pack import db
 from itcontent.pack.common import BuildError, Report, cjson, mapping, pretty_json, seq
 from itcontent.pack.compile import Compiler, PackData, Scope
 from itcontent.pack.locks import Locks
+from itcontent.tts_cache import RenderCache
 
 MODES = ("dev", "release", "mini")
 MINI_UNIT = "u02"
 MINI_LESSONS = ("u02.l1",)
-AUDIO_BUDGET_BYTES = 150 * 1024 * 1024
+AUDIO_BUDGET_BYTES = audio_budget.BUDGET_BYTES
+TTS_CACHE = "content-build/tts-cache"  # Azure renders (FLAC in Git LFS, metadata in Git)
+MOCK_CACHE = "build/tts-mock-cache"  # `content tts --provider mock` (a build output)
+MINI_CACHE = "fixtures/packs/tts-cache"  # the mini pack's committed mock renders
+ENCODE_CACHE = "build/audio"  # encoded files by audio ID (a build output)
 SIGNED_OFF = ("syllabus", "points", "story_bible", "countries")  # course-wide files with a review block
 PAYLOAD_DEFS = {
     "exercises": "exercise",
@@ -65,6 +80,32 @@ class BuildResult:
     report: Report
     payloads_path: Path | None = None
     released_ids: list[str] = field(default_factory=list)
+    audio: AudioPlan | None = None
+    audio_files: dict[str, Path] = field(default_factory=dict)
+
+
+@dataclass
+class AudioOptions:
+    """Where a build finds renders and keeps encoded files. `encode=False` writes the rows only (tests, and machines
+    without ffmpeg: the rows never depend on the encoded bytes)."""
+
+    caches: list[RenderCache]
+    encode_dir: Path | None
+    encode: bool = True
+
+    @classmethod
+    def default(cls, root: Path, mode: str) -> AudioOptions:
+        if mode == "mini":
+            caches = [RenderCache(root / MINI_CACHE, "fixture")]
+        elif mode == "release":
+            caches = [RenderCache(root / TTS_CACHE, "azure")]
+        else:
+            caches = [RenderCache(root / TTS_CACHE, "azure"), RenderCache(root / MOCK_CACHE, "mock")]
+        return cls(caches, root / ENCODE_CACHE)
+
+    @classmethod
+    def none(cls) -> AudioOptions:
+        return cls([], None, encode=False)
 
 
 # ---------------------------------------------------------------- scope
@@ -272,9 +313,49 @@ def sync_audio(dest_dir: Path, referenced: dict[str, Path]) -> int:
             old.unlink()
     for name, src in sorted(referenced.items()):
         target = dest_dir / name
+        if src.resolve() == target.resolve():
+            continue
         if not target.is_file() or target.stat().st_size != src.stat().st_size:
-            shutil.copyfile(src, target)
+            tmp = target.with_name(target.name + ".tmp")
+            shutil.copyfile(src, tmp)
+            tmp.replace(target)
     return total
+
+
+def audio_report(plan: AudioPlan, mode: str, report: Report) -> list[Resolved]:
+    """Check what the build found: release needs every need rendered by Azure; dev and mini packs warn (one summary
+    line, plus one line per need whose text can't be voiced or aligned: those are content problems)."""
+    assert plan.resolver is not None
+    results = [plan.resolver.resolve(n) for n in plan.needs.values()]
+    found = [r for r in results if isinstance(r, Resolved)]
+    missing = [r for r in results if isinstance(r, Missing)]
+    if missing:
+        kinds: dict[str, int] = {}
+        reasons: dict[str, int] = {}
+        for m in missing:
+            kinds[m.need.kind] = kinds.get(m.need.kind, 0) + 1
+            reasons[m.reason] = reasons.get(m.reason, 0) + 1
+        summary = ", ".join(f"{n} {k}" for k, n in sorted(kinds.items()))
+        why = ", ".join(f"{n} {r}" for r, n in sorted(reasons.items()))
+        if mode == "release":
+            shown = "; ".join(m.detail for m in missing[:5])
+            raise BuildError(
+                f"release: {len(missing)} audio need(s) have no audio ({summary}; {why}): {shown}; run content tts"
+            )
+        report.warn(
+            f"missing audio: {len(missing)} of {len(results)} need(s) ({summary}; {why}); their audio IDs stay null "
+            "until content tts renders them"
+        )
+        for m in missing:
+            if m.reason != "not-rendered":
+                report.warn(f"audio {m.reason}: {m.detail}")
+    mock = sorted({r.need.key for r in found if "mock" in r.providers})
+    if mock:
+        report.warn(f"mock audio: {len(mock)} need(s) use synthetic renders (content tts --provider mock)")
+    if found:
+        files = {r.audio_id for r in found}
+        report.note(f"audio: {len(found)} of {len(results)} need(s) voiced, {len(files)} file(s)")
+    return found
 
 
 # ---------------------------------------------------------------- the build
@@ -288,11 +369,13 @@ def build_pack(
     out: Path | None = None,
     lint: bool = True,
     echo: Callable[[str], Any] = print,
+    audio: AudioOptions | None = None,
 ) -> BuildResult:
     if mode not in MODES:
         raise BuildError(f"unknown build mode {mode!r}")
     root = (root or paths.ROOT).resolve()
     report = Report()
+    audio = audio or AudioOptions.default(root, mode)
     if lint:
         from itcontent.lint import lint_findings
 
@@ -305,22 +388,28 @@ def build_pack(
     for rel, msg in course.load_errors:
         raise BuildError(f"{rel}: {msg}")
     scope = select_scope(course, mode, allow_partial=allow_partial, report=report)
-    data = Compiler(course, Locks(root), scope, report).compile()
+    plan = AudioPlan(AudioResolver(audio.caches, audio.encode_dir))
+    data = Compiler(course, Locks(root), scope, report, plan).compile()
     n_payloads = validate_payloads(data)
-
-    # audio: no TTS yet (M5.1), so every need is missing
-    if data.audio_needs:
-        kinds: dict[str, int] = {}
-        for kind, _ in data.audio_needs:
-            kinds[kind] = kinds.get(kind, 0) + 1
-        summary = ", ".join(f"{n} {k}" for k, n in sorted(kinds.items()))
-        if mode == "release":
-            raise BuildError(
-                f"release: {len(data.audio_needs)} audio need(s) have no audio ({summary}); run content tts"
+    found = audio_report(plan, mode, report)
+    data.tables["audio"] = sorted({r.audio_id: r.row() for r in found}.values())
+    dest = out or default_out(mode, root)
+    audio_files: dict[str, Path] = {}
+    if audio.encode and found:
+        assert plan.resolver is not None
+        audio_files, problems = plan.resolver.encode(found, also_in=dest.parent / "Audio")
+        if problems:
+            if mode == "release":
+                raise BuildError(f"release: {len(problems)} audio file(s) couldn't be encoded: {problems[0]}")
+            report.warn(
+                f"audio: {len(problems)} file(s) not encoded, so Audio/ lacks them ({problems[0]}); install ffmpeg "
+                "and build again"
             )
-        report.warn(
-            f"missing audio: {len(data.audio_needs)} need(s) ({summary}); audio IDs stay null until content tts"
-        )
+        total = sum(p.stat().st_size for p in audio_files.values())
+        if total > AUDIO_BUDGET_BYTES:
+            raise BuildError(f"audio is {total / 2**20:.1f} MB, over the {AUDIO_BUDGET_BYTES // 2**20} MB budget")
+    if found or plan.needs:
+        report.note(audio_budget.build_line(audio_budget.project(course, plan, audio_files)))
 
     course_data = mapping(course.course.data)
     version = str(course_data.get("version", "0.0.0"))
@@ -341,15 +430,14 @@ def build_pack(
         content_hash = db.canonical_hash(con)
         con.execute("INSERT INTO meta VALUES ('content_hash', ?)", (content_hash,))
         con.commit()
-        dest = out or default_out(mode, root)
         db.write(con, dest)
         counts = db.counts(con)
     finally:
         con.close()
-    result = BuildResult(dest, content_hash, counts, report)
+    result = BuildResult(dest, content_hash, counts, report, audio=plan, audio_files=audio_files)
     report.note(f"{n_payloads} payloads validated")
-    if mode != "mini":
-        sync_audio(dest.parent / "Audio", {})
+    if audio.encode:
+        sync_audio(dest.parent / "Audio", audio_files)
     if mode == "mini":
         mini = {k: data.payloads[k] for k in ("exercises", "steps", "notes")}
         result.payloads_path = dest.with_name("mini-payloads.json")
