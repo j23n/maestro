@@ -258,21 +258,19 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [2, 2]},
-    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
    ],
    "path": "steps[1].text.lines[14].it",
    "ref": "u01.l1.story#15",
    "role": "line",
-   "text": "Sì, io sono di Bologna.",
+   "text": "Sì, sono di Bologna.",
    "tokens": [
     {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
-    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [4, 6], "surface": "io", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 11], "surface": "sono", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [12, 14], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [15, 22], "surface": "Bologna"},
-    {"kind": "punct", "span": [22, 23], "surface": "."}
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [9, 11], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [12, 19], "surface": "Bologna"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
    ]
   },
   {
@@ -343,7 +341,7 @@
    ]
   },
   {
-   "fragment": [81, 85],
+   "fragment": [75, 79],
    "path": "steps[2].body[0].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -353,7 +351,7 @@
    ]
   },
   {
-   "fragment": [96, 99],
+   "fragment": [90, 93],
    "path": "steps[2].body[0].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -363,7 +361,7 @@
    ]
   },
   {
-   "fragment": [116, 117],
+   "fragment": [110, 111],
    "path": "steps[2].body[0].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -664,7 +662,7 @@
    "detections": [
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
-   "fragment": [187, 189],
+   "fragment": [177, 179],
    "path": "steps[2].body[4].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -677,7 +675,20 @@
    "detections": [
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
-   "fragment": [221, 224],
+   "fragment": [261, 263],
+   "path": "steps[2].body[4].p",
+   "ref": "u01.l1.note",
+   "role": "note",
+   "text": "tu",
+   "tokens": [
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "detections": ["g:subject-pronouns"], "item": "w:tu", "kind": "word", "lemma": "tu", "span": [0, 2], "surface": "tu"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "fragment": [295, 298],
    "path": "steps[2].body[4].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -687,7 +698,7 @@
    ]
   },
   {
-   "fragment": [228, 244],
+   "fragment": [302, 318],
    "path": "steps[2].body[4].p",
    "ref": "u01.l1.note",
    "role": "note",
@@ -753,28 +764,18 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]}
-   ],
-   "fragment": [109, 112],
+   "fragment": [158, 170],
    "path": "steps[2].body[6].tip",
    "ref": "u01.l1.note",
    "role": "note",
-   "text": "Lei",
-   "tokens": [
-    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "Lei"}
-   ]
-  },
-  {
-   "fragment": [136, 142],
-   "path": "steps[2].body[6].tip",
-   "ref": "u01.l1.note",
-   "role": "note",
-   "text": "E Lei?",
+   "text": "E Lei? E tu?",
    "tokens": [
     {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
     {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei"},
-    {"kind": "punct", "span": [5, 6], "surface": "?"}
+    {"kind": "punct", "span": [5, 6], "surface": "?", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "E", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [9, 11], "surface": "tu"},
+    {"kind": "punct", "span": [11, 12], "surface": "?"}
    ]
   },
   {
@@ -1083,9 +1084,9 @@
    "expansion": 0,
    "model": true,
    "norm": "come si chiama",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[5].answer",
-   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora}",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
    "ref": "u01.l1.ex06",
    "role": "answer",
    "text": "come si chiama",
@@ -1102,9 +1103,9 @@
    "expansion": 1,
    "model": false,
    "norm": "lei come si chiama",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[5].answer",
-   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora}",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
    "ref": "u01.l1.ex06",
    "role": "answer",
    "text": "Lei come si chiama",
@@ -1119,9 +1120,9 @@
    "expansion": 2,
    "model": false,
    "norm": "e lei come si chiama",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[5].answer",
-   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora}",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
    "ref": "u01.l1.ex06",
    "role": "answer",
    "text": "e Lei come si chiama",
@@ -1137,9 +1138,9 @@
    "expansion": 3,
    "model": false,
    "norm": "scusi come si chiama",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[5].answer",
-   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora}",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
    "ref": "u01.l1.ex06",
    "role": "answer",
    "text": "scusi come si chiama",
@@ -1154,9 +1155,9 @@
    "expansion": 4,
    "model": false,
    "norm": "come si chiama signora",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[5].answer",
-   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora}",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
    "ref": "u01.l1.ex06",
    "role": "answer",
    "text": "come si chiama signora",
@@ -1165,6 +1166,60 @@
     {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [5, 7], "surface": "si", "trailing": " "},
     {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [8, 14], "surface": "chiama", "trailing": " "},
     {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "signora come si chiama",
+   "of": 8,
+   "path": "steps[3].block[5].answer",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
+   "ref": "u01.l1.ex06",
+   "role": "answer",
+   "text": "signora come si chiama",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "come", "span": [8, 12], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [13, 15], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [16, 22], "surface": "chiama"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "scusi signora come si chiama",
+   "of": 8,
+   "path": "steps[3].block[5].answer",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
+   "ref": "u01.l1.ex06",
+   "role": "answer",
+   "text": "scusi signora come si chiama",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [6, 13], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [19, 21], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [22, 28], "surface": "chiama"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "e lei signora come si chiama",
+   "of": 8,
+   "path": "steps[3].block[5].answer",
+   "pattern": "{come si chiama|Lei come si chiama|e Lei come si chiama|scusi come si chiama|come si chiama signora|signora come si chiama|scusi signora come si chiama|e Lei signora come si chiama}",
+   "ref": "u01.l1.ex06",
+   "role": "answer",
+   "text": "e Lei signora come si chiama",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [6, 13], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [19, 21], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [22, 28], "surface": "chiama"}
    ]
   },
   {
@@ -1245,9 +1300,9 @@
    "expansion": 0,
    "model": true,
    "norm": "come sta",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[6].answer",
-   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va}",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
    "ref": "u01.l1.ex07",
    "role": "answer",
    "text": "come sta",
@@ -1263,9 +1318,9 @@
    "expansion": 1,
    "model": false,
    "norm": "lei come sta",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[6].answer",
-   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va}",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
    "ref": "u01.l1.ex07",
    "role": "answer",
    "text": "Lei come sta",
@@ -1279,9 +1334,9 @@
    "expansion": 2,
    "model": false,
    "norm": "e lei come sta",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[6].answer",
-   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va}",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
    "ref": "u01.l1.ex07",
    "role": "answer",
    "text": "e Lei come sta",
@@ -1296,9 +1351,9 @@
    "expansion": 3,
    "model": false,
    "norm": "come sta signora",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[6].answer",
-   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va}",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
    "ref": "u01.l1.ex07",
    "role": "answer",
    "text": "come sta signora",
@@ -1312,15 +1367,66 @@
    "expansion": 4,
    "model": false,
    "norm": "come va",
-   "of": 5,
+   "of": 8,
    "path": "steps[3].block[6].answer",
-   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va}",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
    "ref": "u01.l1.ex07",
    "role": "answer",
    "text": "come va",
    "tokens": [
     {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
     {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [5, 7], "surface": "va"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "signora come sta",
+   "of": 8,
+   "path": "steps[3].block[6].answer",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
+   "ref": "u01.l1.ex07",
+   "role": "answer",
+   "text": "signora come sta",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-sta", "kind": "word", "lemma": "come", "span": [8, 12], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "chunk": "c:come-sta", "kind": "word", "lemma": "stare", "span": [13, 16], "surface": "sta"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "buongiorno signora come sta",
+   "of": 8,
+   "path": "steps[3].block[6].answer",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
+   "ref": "u01.l1.ex07",
+   "role": "answer",
+   "text": "buongiorno signora come sta",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-sta", "kind": "word", "lemma": "come", "span": [19, 23], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "chunk": "c:come-sta", "kind": "word", "lemma": "stare", "span": [24, 27], "surface": "sta"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "e lei signora come sta",
+   "of": 8,
+   "path": "steps[3].block[6].answer",
+   "pattern": "{come sta|Lei come sta|e Lei come sta|come sta signora|come va|signora come sta|buongiorno signora come sta|e Lei signora come sta}",
+   "ref": "u01.l1.ex07",
+   "role": "answer",
+   "text": "e Lei signora come sta",
+   "tokens": [
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [6, 13], "surface": "signora", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-sta", "kind": "word", "lemma": "come", "span": [14, 18], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "chunk": "c:come-sta", "kind": "word", "lemma": "stare", "span": [19, 22], "surface": "sta"}
    ]
   },
   {
@@ -1397,9 +1503,9 @@
    "expansion": 0,
    "model": true,
    "norm": "come stai marco",
-   "of": 5,
+   "of": 6,
    "path": "steps[3].block[7].answer",
-   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai}",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
    "ref": "u01.l1.ex08",
    "role": "answer",
    "text": "come stai Marco",
@@ -1413,9 +1519,9 @@
    "expansion": 1,
    "model": false,
    "norm": "marco come stai",
-   "of": 5,
+   "of": 6,
    "path": "steps[3].block[7].answer",
-   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai}",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
    "ref": "u01.l1.ex08",
    "role": "answer",
    "text": "Marco come stai",
@@ -1429,9 +1535,9 @@
    "expansion": 2,
    "model": false,
    "norm": "come stai",
-   "of": 5,
+   "of": 6,
    "path": "steps[3].block[7].answer",
-   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai}",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
    "ref": "u01.l1.ex08",
    "role": "answer",
    "text": "come stai",
@@ -1444,9 +1550,9 @@
    "expansion": 3,
    "model": false,
    "norm": "come va marco",
-   "of": 5,
+   "of": 6,
    "path": "steps[3].block[7].answer",
-   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai}",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
    "ref": "u01.l1.ex08",
    "role": "answer",
    "text": "come va Marco",
@@ -1460,9 +1566,9 @@
    "expansion": 4,
    "model": false,
    "norm": "ciao marco come stai",
-   "of": 5,
+   "of": 6,
    "path": "steps[3].block[7].answer",
-   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai}",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
    "ref": "u01.l1.ex08",
    "role": "answer",
    "text": "ciao Marco come stai",
@@ -1471,6 +1577,26 @@
     {"kind": "name", "span": [5, 10], "surface": "Marco", "trailing": " "},
     {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [11, 15], "surface": "come", "trailing": " "},
     {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [16, 20], "surface": "stai"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "e come stai marco",
+   "of": 6,
+   "path": "steps[3].block[7].answer",
+   "pattern": "{come stai Marco|Marco come stai|come stai|come va Marco|ciao Marco come stai|e come stai Marco}",
+   "ref": "u01.l1.ex08",
+   "role": "answer",
+   "text": "e come stai Marco",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [2, 6], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [7, 11], "surface": "stai", "trailing": " "},
+    {"kind": "name", "span": [12, 17], "surface": "Marco"}
    ]
   },
   {
@@ -1572,6 +1698,23 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "model": false,
+   "path": "steps[3].block[8].answer[2]",
+   "ref": "u01.l1.ex09",
+   "role": "answer",
+   "text": "sono io la signora Rossi",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [5, 7], "surface": "io", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 3, "item": "w:signora", "kind": "word", "lemma": "la", "span": [8, 10], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [19, 24], "surface": "Rossi"}
+   ]
+  },
+  {
    "path": "steps[3].block[8].distractors[0]",
    "ref": "u01.l1.ex09",
    "role": "tile",
@@ -1624,9 +1767,9 @@
    "expansion": 0,
    "model": true,
    "norm": "piacere signora",
-   "of": 3,
+   "of": 5,
    "path": "steps[3].block[9].answer",
-   "pattern": "{piacere signora|piacere|buongiorno signora piacere}",
+   "pattern": "{piacere signora|piacere|buongiorno signora piacere|piacere signora Rossi|signora piacere}",
    "ref": "u01.l1.ex10",
    "role": "answer",
    "text": "piacere signora",
@@ -1639,9 +1782,9 @@
    "expansion": 1,
    "model": false,
    "norm": "piacere",
-   "of": 3,
+   "of": 5,
    "path": "steps[3].block[9].answer",
-   "pattern": "{piacere signora|piacere|buongiorno signora piacere}",
+   "pattern": "{piacere signora|piacere|buongiorno signora piacere|piacere signora Rossi|signora piacere}",
    "ref": "u01.l1.ex10",
    "role": "answer",
    "text": "piacere",
@@ -1653,9 +1796,9 @@
    "expansion": 2,
    "model": false,
    "norm": "buongiorno signora piacere",
-   "of": 3,
+   "of": 5,
    "path": "steps[3].block[9].answer",
-   "pattern": "{piacere signora|piacere|buongiorno signora piacere}",
+   "pattern": "{piacere signora|piacere|buongiorno signora piacere|piacere signora Rossi|signora piacere}",
    "ref": "u01.l1.ex10",
    "role": "answer",
    "text": "buongiorno signora piacere",
@@ -1663,6 +1806,37 @@
     {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
     {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
     {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [19, 26], "surface": "piacere"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "piacere signora rossi",
+   "of": 5,
+   "path": "steps[3].block[9].answer",
+   "pattern": "{piacere signora|piacere|buongiorno signora piacere|piacere signora Rossi|signora piacere}",
+   "ref": "u01.l1.ex10",
+   "role": "answer",
+   "text": "piacere signora Rossi",
+   "tokens": [
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [0, 7], "surface": "piacere", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [8, 15], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [16, 21], "surface": "Rossi"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "signora piacere",
+   "of": 5,
+   "path": "steps[3].block[9].answer",
+   "pattern": "{piacere signora|piacere|buongiorno signora piacere|piacere signora Rossi|signora piacere}",
+   "ref": "u01.l1.ex10",
+   "role": "answer",
+   "text": "signora piacere",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["piacere NOUN-M:s", "piacere VER:inf+pres"], "chunk": "c:piacere", "kind": "word", "lemma": "piacere", "span": [8, 15], "surface": "piacere"}
    ]
   },
   {
@@ -1802,9 +1976,9 @@
    "expansion": 0,
    "model": true,
    "norm": "bene grazie e lei",
-   "of": 5,
+   "of": 7,
    "path": "steps[3].mix[2].answer",
-   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora}",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
    "ref": "u01.l1.ex15",
    "role": "answer",
    "text": "bene grazie e Lei",
@@ -1819,9 +1993,9 @@
    "expansion": 1,
    "model": false,
    "norm": "bene grazie e lei come sta",
-   "of": 5,
+   "of": 7,
    "path": "steps[3].mix[2].answer",
-   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora}",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
    "ref": "u01.l1.ex15",
    "role": "answer",
    "text": "bene grazie e Lei come sta",
@@ -1838,9 +2012,9 @@
    "expansion": 2,
    "model": false,
    "norm": "bene e lei",
-   "of": 5,
+   "of": 7,
    "path": "steps[3].mix[2].answer",
-   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora}",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
    "ref": "u01.l1.ex15",
    "role": "answer",
    "text": "bene e Lei",
@@ -1854,9 +2028,9 @@
    "expansion": 3,
    "model": false,
    "norm": "grazie bene e lei",
-   "of": 5,
+   "of": 7,
    "path": "steps[3].mix[2].answer",
-   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora}",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
    "ref": "u01.l1.ex15",
    "role": "answer",
    "text": "grazie bene e Lei",
@@ -1871,9 +2045,9 @@
    "expansion": 4,
    "model": false,
    "norm": "bene grazie e lei signora",
-   "of": 5,
+   "of": 7,
    "path": "steps[3].mix[2].answer",
-   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora}",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
    "ref": "u01.l1.ex15",
    "role": "answer",
    "text": "bene grazie e Lei signora",
@@ -1883,6 +2057,43 @@
     {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
     {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei", "trailing": " "},
     {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [18, 25], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "bene grazie signora e lei",
+   "of": 7,
+   "path": "steps[3].mix[2].answer",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
+   "ref": "u01.l1.ex15",
+   "role": "answer",
+   "text": "bene grazie signora e Lei",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [22, 25], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "bene grazie e lei come va",
+   "of": 7,
+   "path": "steps[3].mix[2].answer",
+   "pattern": "{bene grazie e Lei|bene grazie e Lei come sta|bene e Lei|grazie bene e Lei|bene grazie e Lei signora|bene grazie signora e Lei|bene grazie e Lei come va}",
+   "ref": "u01.l1.ex15",
+   "role": "answer",
+   "text": "bene grazie e Lei come va",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [18, 22], "surface": "come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [23, 25], "surface": "va"}
    ]
   },
   {
@@ -2067,9 +2278,9 @@
    "expansion": 0,
    "model": true,
    "norm": "scusi può ripetere",
-   "of": 5,
+   "of": 9,
    "path": "steps[3].mix[4].answer",
-   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore}",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
    "ref": "u01.l1.ex17",
    "role": "answer",
    "text": "scusi può ripetere",
@@ -2083,9 +2294,9 @@
    "expansion": 1,
    "model": false,
    "norm": "può ripetere",
-   "of": 5,
+   "of": 9,
    "path": "steps[3].mix[4].answer",
-   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore}",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
    "ref": "u01.l1.ex17",
    "role": "answer",
    "text": "può ripetere",
@@ -2098,9 +2309,9 @@
    "expansion": 2,
    "model": false,
    "norm": "scusi può ripetere per favore",
-   "of": 5,
+   "of": 9,
    "path": "steps[3].mix[4].answer",
-   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore}",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
    "ref": "u01.l1.ex17",
    "role": "answer",
    "text": "scusi può ripetere per favore",
@@ -2116,9 +2327,9 @@
    "expansion": 3,
    "model": false,
    "norm": "scusi non capisco può ripetere",
-   "of": 5,
+   "of": 9,
    "path": "steps[3].mix[4].answer",
-   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore}",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
    "ref": "u01.l1.ex17",
    "role": "answer",
    "text": "scusi non capisco può ripetere",
@@ -2134,9 +2345,9 @@
    "expansion": 4,
    "model": false,
    "norm": "può ripetere per favore",
-   "of": 5,
+   "of": 9,
    "path": "steps[3].mix[4].answer",
-   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore}",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
    "ref": "u01.l1.ex17",
    "role": "answer",
    "text": "può ripetere per favore",
@@ -2145,6 +2356,78 @@
     {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [4, 12], "surface": "ripetere", "trailing": " "},
     {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
     {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "scusi non capisco può ripetere per favore",
+   "of": 9,
+   "path": "steps[3].mix[4].answer",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
+   "ref": "u01.l1.ex17",
+   "role": "answer",
+   "text": "scusi non capisco può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["non ADV"], "chunk": "c:non-capisco", "kind": "word", "lemma": "non", "span": [6, 9], "surface": "non", "trailing": " "},
+    {"analyses": ["capire VER:ind+pres+1+s"], "chunk": "c:non-capisco", "kind": "word", "lemma": "capire", "span": [10, 17], "surface": "capisco", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [18, 21], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [22, 30], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [31, 34], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [35, 41], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "scusi signora può ripetere per favore",
+   "of": 9,
+   "path": "steps[3].mix[4].answer",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
+   "ref": "u01.l1.ex17",
+   "role": "answer",
+   "text": "scusi signora può ripetere per favore",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [6, 13], "surface": "signora", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [14, 17], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [18, 26], "surface": "ripetere", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [27, 30], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [31, 37], "surface": "favore"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "scusi signora può ripetere",
+   "of": 9,
+   "path": "steps[3].mix[4].answer",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
+   "ref": "u01.l1.ex17",
+   "role": "answer",
+   "text": "scusi signora può ripetere",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [6, 13], "surface": "signora", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [14, 17], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [18, 26], "surface": "ripetere"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "signora può ripetere",
+   "of": 9,
+   "path": "steps[3].mix[4].answer",
+   "pattern": "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}",
+   "ref": "u01.l1.ex17",
+   "role": "answer",
+   "text": "signora può ripetere",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["potere MOD:ind+pres+3+s", "potere VER:ind+pres+3+s"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "potere", "span": [8, 11], "surface": "può", "trailing": " "},
+    {"analyses": ["ripetere VER:inf+pres"], "chunk": "c:puo-ripetere", "kind": "word", "lemma": "ripetere", "span": [12, 20], "surface": "ripetere"}
    ]
   },
   {
@@ -2600,11 +2883,10 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [2, 2]},
-    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
    ],
    "expansion": 0,
-   "gap": [4, 4],
+   "gap": [3, 3],
    "model": true,
    "norm": "di",
    "of": 1,
@@ -2612,15 +2894,14 @@
    "pattern": "di",
    "ref": "u01.l1.ex18",
    "role": "cloze",
-   "text": "Sì, io sono di Bologna.",
+   "text": "Sì, sono di Bologna.",
    "tokens": [
     {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
-    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [4, 6], "surface": "io", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 11], "surface": "sono", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [12, 14], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [15, 22], "surface": "Bologna"},
-    {"kind": "punct", "span": [22, 23], "surface": "."}
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [9, 11], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [12, 19], "surface": "Bologna"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
    ]
   },
   {
@@ -3253,9 +3534,9 @@
    "expansion": 0,
    "model": true,
    "norm": "lei è di bologna",
-   "of": 4,
+   "of": 6,
    "path": "steps[5].mix[2].answer",
-   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna}",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
    "ref": "u01.l1.ex28",
    "role": "answer",
    "text": "Lei è di Bologna",
@@ -3273,9 +3554,9 @@
    "expansion": 1,
    "model": false,
    "norm": "è di bologna",
-   "of": 4,
+   "of": 6,
    "path": "steps[5].mix[2].answer",
-   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna}",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
    "ref": "u01.l1.ex28",
    "role": "answer",
    "text": "è di Bologna",
@@ -3293,9 +3574,9 @@
    "expansion": 2,
    "model": false,
    "norm": "lei è di bologna signora",
-   "of": 4,
+   "of": 6,
    "path": "steps[5].mix[2].answer",
-   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna}",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
    "ref": "u01.l1.ex28",
    "role": "answer",
    "text": "Lei è di Bologna signora",
@@ -3315,9 +3596,9 @@
    "expansion": 3,
    "model": false,
    "norm": "signora lei è di bologna",
-   "of": 4,
+   "of": 6,
    "path": "steps[5].mix[2].answer",
-   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna}",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
    "ref": "u01.l1.ex28",
    "role": "answer",
    "text": "signora Lei è di Bologna",
@@ -3327,6 +3608,46 @@
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è", "trailing": " "},
     {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [14, 16], "surface": "di", "trailing": " "},
     {"kind": "name", "span": [17, 24], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "è di bologna signora",
+   "of": 6,
+   "path": "steps[5].mix[2].answer",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
+   "ref": "u01.l1.ex28",
+   "role": "answer",
+   "text": "è di Bologna signora",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [2, 4], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [5, 12], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [13, 20], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "signora è di bologna",
+   "of": 6,
+   "path": "steps[5].mix[2].answer",
+   "pattern": "{Lei è di Bologna|è di Bologna|Lei è di Bologna signora|signora Lei è di Bologna|è di Bologna signora|signora è di Bologna}",
+   "ref": "u01.l1.ex28",
+   "role": "answer",
+   "text": "signora è di Bologna",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [10, 12], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [13, 20], "surface": "Bologna"}
    ]
   },
   {
@@ -3683,32 +4004,41 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [0, 0]}
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
    ],
    "path": "steps[7].exercises[2].pair[0]",
    "ref": "u01.l1.ex35",
    "role": "sound",
-   "text": "e",
+   "text": "È di Bologna?",
    "tokens": [
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "flags": ["sound"], "gloss": "and", "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e"}
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "flags": ["sound"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "È", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "flags": ["sound"], "item": "w:di", "kind": "word", "lemma": "di", "span": [2, 4], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [5, 12], "surface": "Bologna"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
    ]
   },
   {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
    "path": "steps[7].exercises[2].pair[1]",
    "ref": "u01.l1.ex35",
    "role": "sound",
-   "text": "è",
+   "text": "È di Bologna.",
    "tokens": [
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "flags": ["sound"], "gloss": "is", "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è"}
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "flags": ["sound"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "È", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "flags": ["sound"], "item": "w:di", "kind": "word", "lemma": "di", "span": [2, 4], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [5, 12], "surface": "Bologna"},
+    {"kind": "punct", "span": [12, 13], "surface": "."}
    ]
   },
   {
    "expansion": 0,
    "model": true,
    "norm": "mi chiamo {NAME} e lei come si chiama",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3730,9 +4060,9 @@
    "expansion": 1,
    "model": false,
    "norm": "buongiorno mi chiamo {NAME} e lei come si chiama",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3755,9 +4085,9 @@
    "expansion": 2,
    "model": false,
    "norm": "mi chiamo {NAME} e lei",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3776,9 +4106,9 @@
    "expansion": 3,
    "model": false,
    "norm": "sono {NAME} e lei come si chiama",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3799,9 +4129,9 @@
    "expansion": 4,
    "model": false,
    "norm": "sono {NAME} e lei",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3819,9 +4149,9 @@
    "expansion": 5,
    "model": false,
    "norm": "{NAME} e lei come si chiama",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3841,9 +4171,9 @@
    "expansion": 6,
    "model": false,
    "norm": "mi chiamo {NAME} e lei come si chiama signora",
-   "of": 7,
+   "of": 9,
    "path": "steps[8].exercise.answer",
-   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora}",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
    "ref": "u01.l1.ex36",
    "role": "answer",
    "slots": [
@@ -3860,6 +4190,54 @@
     {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [28, 30], "surface": "si", "trailing": " "},
     {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [31, 37], "surface": "chiama", "trailing": " "},
     {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [38, 45], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "buongiorno signora mi chiamo {NAME} e lei come si chiama",
+   "of": 9,
+   "path": "steps[8].exercise.answer",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
+   "ref": "u01.l1.ex36",
+   "role": "answer",
+   "slots": [
+    [4, "NAME"]
+   ],
+   "text": "buongiorno signora mi chiamo {NAME} e Lei come si chiama",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [19, 21], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [22, 28], "surface": "chiamo", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [29, 35], "surface": "{NAME}", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [36, 37], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [38, 41], "surface": "Lei", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "come", "span": [42, 46], "surface": "come", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [47, 49], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [50, 56], "surface": "chiama"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "mi chiamo {NAME} e lei signora",
+   "of": 9,
+   "path": "steps[8].exercise.answer",
+   "pattern": "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}",
+   "ref": "u01.l1.ex36",
+   "role": "answer",
+   "slots": [
+    [2, "NAME"]
+   ],
+   "text": "mi chiamo {NAME} e Lei signora",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiamo", "trailing": " "},
+    {"kind": "slot", "slot": "NAME", "span": [10, 16], "surface": "{NAME}", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [19, 22], "surface": "Lei", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora"}
    ]
   },
   {
