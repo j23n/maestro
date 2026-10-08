@@ -143,6 +143,7 @@ struct StoryPage: View {
                 .accessibilityIdentifier("story.textSize")
             }
         }
+        .showEnglishMenu($showEnglish)
     }
 
     private var lines: some View {

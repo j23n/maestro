@@ -45,6 +45,7 @@ struct ConversationView: View {
                     .accessibilityIdentifier("conv.english")
             }
         }
+        .showEnglishMenu($showEnglish)
         .onAppear { playCurrentLine() }
         .onChange(of: model.nodeID) { _, _ in playCurrentLine() }
     }
@@ -161,6 +162,10 @@ struct ConversationView: View {
                         Button("Send", action: submitTyped)
                             .buttonStyle(.dsSecondarySmall)
                             .disabled(model.response.trimmingCharacters(in: .whitespaces).isEmpty)
+                            .lessonMenu(
+                                .check, isEnabled: !model.response.trimmingCharacters(in: .whitespaces).isEmpty,
+                                perform: submitTyped
+                            )
                             .accessibilityIdentifier("answer.check")
                     }
                     AccentKeys { model.response += $0 }
@@ -179,6 +184,9 @@ struct ConversationView: View {
                         .buttonStyle(.dsSecondarySmall)
                         .disabled(!audio.canPlay(model.node?.audioId))
                         .keyboardShortcut("l", modifiers: .command)
+                        .lessonMenu(.listenAgain, isEnabled: audio.canPlay(model.node?.audioId)) {
+                            playCurrentLine()
+                        }
                         .accessibilityIdentifier("conv.replay")
                 }
             }
@@ -281,6 +289,10 @@ struct TalkView: View {
                 .buttonStyle(.dsPrimary)
                 .disabled(model.response.trimmingCharacters(in: .whitespaces).isEmpty)
                 .keyboardShortcut(.return, modifiers: [])
+                .lessonMenu(
+                    .check, isEnabled: !model.response.trimmingCharacters(in: .whitespaces).isEmpty,
+                    perform: submitTyped
+                )
                 .accessibilityIdentifier("answer.check")
         } else {
             HStack {
@@ -516,6 +528,9 @@ struct RelayView: View {
                     .buttonStyle(.dsPrimary)
                     .disabled(model.response.trimmingCharacters(in: .whitespaces).isEmpty)
                     .keyboardShortcut(.return, modifiers: [])
+                    .lessonMenu(.check, isEnabled: !model.response.trimmingCharacters(in: .whitespaces).isEmpty) {
+                        model.check()
+                    }
                     .accessibilityIdentifier("answer.check")
             }
         }

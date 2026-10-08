@@ -111,6 +111,7 @@ struct WordPanel: View {
                 Button("Hear it", action: hearIt)
                     .buttonStyle(.dsSecondarySmall)
                     .keyboardShortcut("l", modifiers: .command)
+                    .lessonMenu(.listenAgain, perform: hearIt)
                     .accessibilityIdentifier("story.hearIt")
             }
         }
@@ -136,6 +137,7 @@ struct SpeakerButton: View {
         }
         .buttonStyle(.plain)
         .keyboardShortcut("l", modifiers: .command)
+        .lessonMenu(.listenAgain, perform: action)
         .accessibilityLabel(Text(isPlaying ? "Stop" : "Listen"))
         .accessibilityIdentifier(identifier)
     }

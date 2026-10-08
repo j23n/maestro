@@ -45,6 +45,10 @@ struct LessonPlayerView: View {
                 }
                 .buttonStyle(.plain)
                 .keyboardShortcut(.cancelAction)
+                .lessonMenu(.closeLesson) {
+                    services.audio.stop()
+                    onClose()
+                }
                 .accessibilityLabel(Text("Close"))
                 .accessibilityIdentifier("player.close")
                 if model.exerciseTotal > 0 {

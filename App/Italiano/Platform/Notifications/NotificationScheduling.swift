@@ -43,7 +43,12 @@ struct ReminderTime: Sendable, Equatable {
 @MainActor
 @Observable
 final class ReminderController {
-    enum Outcome: Equatable { case scheduled, cancelled, permissionDenied }
+    enum Outcome: Equatable {
+        case scheduled, cancelled, permissionDenied
+        /// `refresh` found that permission was never asked for (a restored database on a new install): nothing is
+        /// scheduled, and only turning reminders on asks.
+        case permissionNotAsked
+    }
 
     private let scheduler: NotificationScheduling
     private(set) var lastOutcome: Outcome?
@@ -70,16 +75,40 @@ final class ReminderController {
             lastOutcome = .permissionDenied
             return false
         }
+        return await schedule(time) == .scheduled
+    }
+
+    /// At launch and when the time changes: puts the stored reminder back (or cancels it) without ever asking for
+    /// permission (docs/08: permission is asked only when the learner turns reminders on).
+    @discardableResult
+    func refresh(enabled: Bool, time: ReminderTime) async -> Outcome {
+        guard enabled else {
+            await scheduler.cancelReminders()
+            lastOutcome = .cancelled
+            return .cancelled
+        }
+        switch await scheduler.authorization() {
+        case .authorized:
+            return await schedule(time)
+        case .denied:
+            lastOutcome = .permissionDenied
+            return .permissionDenied
+        case .notDetermined:
+            lastOutcome = .permissionNotAsked
+            return .permissionNotAsked
+        }
+    }
+
+    private func schedule(_ time: ReminderTime) async -> Outcome {
         do {
             try await scheduler.scheduleDailyReminder(
                 hour: time.hour, minute: time.minute, title: Self.title,
                 body: Self.body)
             lastOutcome = .scheduled
-            return true
         } catch {
             lastOutcome = .permissionDenied
-            return false
         }
+        return lastOutcome ?? .permissionDenied
     }
 }
 
@@ -101,6 +130,9 @@ final class FakeNotificationScheduler: NotificationScheduling, @unchecked Sendab
     var scheduled: [ReminderTime] { lock.withLock { _scheduled } }
     var permissionRequests: Int { lock.withLock { _requests } }
     var cancels: Int { lock.withLock { _cancels } }
+
+    /// The learner changes the permission in the system's settings.
+    func setAuthorization(_ status: NotificationAuthorization) { lock.withLock { _status = status } }
 
     func authorization() async -> NotificationAuthorization { lock.withLock { _status } }
 

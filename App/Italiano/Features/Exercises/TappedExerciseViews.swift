@@ -215,6 +215,9 @@ struct MatchExerciseView: View {
                     .buttonStyle(.dsPrimary)
                     .disabled(model.assessmentPicks.count < model.pairs.count)
                     .keyboardShortcut(.return, modifiers: [])
+                    .lessonMenu(.check, isEnabled: model.assessmentPicks.count >= model.pairs.count) {
+                        model.submitAssessment()
+                    }
                     .accessibilityIdentifier("answer.check")
             }
             if model.isDone { ContinueButton(action: onContinue) }
@@ -348,6 +351,7 @@ struct SentenceBuildingView: View {
                     .buttonStyle(.dsPrimary)
                     .disabled(model.answerLine.isEmpty)
                     .keyboardShortcut(.return, modifiers: [])
+                    .lessonMenu(.check, isEnabled: !model.answerLine.isEmpty) { model.check() }
                     .accessibilityIdentifier("answer.check")
             }
         }
@@ -452,6 +456,9 @@ struct DictationView: View {
                     .buttonStyle(.dsPrimary)
                     .disabled(model.response.trimmingCharacters(in: .whitespaces).isEmpty)
                     .keyboardShortcut(.return, modifiers: [])
+                    .lessonMenu(.check, isEnabled: !model.response.trimmingCharacters(in: .whitespaces).isEmpty) {
+                        model.check()
+                    }
                     .accessibilityIdentifier("answer.check")
             }
         }

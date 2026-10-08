@@ -30,7 +30,9 @@ struct MainTabs: View {
             #if !os(macOS)
                 Tab("Settings", systemImage: "gearshape") {
                     NavigationStack {
-                        SettingsScreen(app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild)
+                        SettingsScreen(
+                            app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild,
+                            services: deps.services)
                     }
                 }
             #endif
@@ -118,6 +120,9 @@ struct PlayerHost: View {
             }
         }
         .task { await load() }
+        .debugOverlay(
+            deps.services.debug, step: launch?.model.currentStep?.id, exercise: launch?.model.currentExercise?.id
+        )
         .sheet(item: $miniPreview) { request in
             MiniPreviewSheet(words: deps.app.words(for: request.pairs), services: services) {
                 deps.app.introduceMissing(request.pairs, step: request.step)
@@ -265,20 +270,7 @@ struct ReviewHost: View {
                 nothingToDo = true
             }
         }
-    }
-
-    private func showCheckResult() {
-        guard let launch, let result = deps.app.completeCheck(launch) else { return finish() }
-        checkResult = result
-    }
-
-    /// A retake is a fresh sitting of the check (a new session; every answer is scored again).
-    private func retake() {
-        if let launch { deps.app.endSession(launch, activeSeconds: Int(Date().timeIntervalSince(openedAt))) }
-        checkResult = nil
-        launch = nil
-        openedAt = Date()
-        Task { await load(fresh: true) }
+        .debugOverlay(deps.services.debug, step: nil, exercise: launch?.model.payload?.id)
     }
 
     private func finish() { finishThen(onDismiss) }

@@ -14,37 +14,56 @@ final class AppDependencies {
     let audioPlayer: any AudioPlaying
     let speech: any SpeechRecognizing
     let notifications: any NotificationScheduling
+    /// Reminders, study telemetry, text size and the Debug menu (platform-neutral, `AppServices`).
+    let services: AppServices
     /// Settings → Sync and the account-switch alert; set once sync starts.
     private(set) var syncSettings: SyncSettingsModel?
 
     init(
         config: AppConfig, app: AppModel, audioPlayer: any AudioPlaying, speech: any SpeechRecognizing,
-        notifications: any NotificationScheduling
+        notifications: any NotificationScheduling, telemetry: StudyTelemetry? = nil, debug: DebugMenuModel? = nil
     ) {
         self.config = config
         self.app = app
         self.audioPlayer = audioPlayer
         self.speech = speech
         self.notifications = notifications
+        services = AppServices(
+            config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug)
     }
 
     /// The real app: the bundled pack (`Resources/Content/content.sqlite`), the learner database in Application
     /// Support, AVFoundation playback, SpeechAnalyzer and UserNotifications.
+    /// Builds with the Debug menu run on `DebugClock` (the clock offset) and wrap the recogniser for "Simulate
+    /// speech by typing"; study builds that can upload get the telemetry uploader (docs/12).
     static func live() -> AppDependencies {
         let config = AppConfig.fromMainBundle()
         let packURL =
             Bundle.main.url(forResource: "content", withExtension: "sqlite", subdirectory: "Content")
             ?? Bundle.main.bundleURL.appendingPathComponent("Content/content.sqlite")
+        let preferences = UserDefaults.standard
+        let debugClock =
+            config.debugMenu
+            ? DebugClock(base: SystemClock(), offsetDays: DebugMenuModel.storedClockOffset(preferences)) : nil
         let app = AppModel(
             env: .init(
-                packURL: packURL, learnerURL: nil, clock: SystemClock(), ids: SystemUUIDSource(),
+                packURL: packURL, learnerURL: nil, clock: debugClock ?? SystemClock(), ids: SystemUUIDSource(),
                 platform: DevicePlatform.current))
+        let recognizer = SpeechAnalyzerRecognizer(speechEnabled: { [weak app] in
+            MainActor.assumeIsolated { app?.settings.speechEnabled(available: true) ?? true }
+        })
+        let simulated = config.debugMenu ? SimulatedSpeechRecognizer(real: recognizer) : nil
+        let speech: any SpeechRecognizing = simulated.map { $0 as any SpeechRecognizing } ?? recognizer
+        let debug =
+            config.debugMenu
+            ? DebugMenuModel(app: app, clock: debugClock, speech: simulated, preferences: preferences) : nil
+        let telemetry = StudyTelemetry.make(
+            config: config, app: app, transport: URLSessionTransport(),
+            bundleInfo: Bundle.main.infoDictionary ?? [:],
+            osMajorVersion: ProcessInfo.processInfo.operatingSystemVersion.majorVersion)
         return AppDependencies(
-            config: config, app: app, audioPlayer: AVAudioPlayback(),
-            speech: SpeechAnalyzerRecognizer(speechEnabled: { [weak app] in
-                MainActor.assumeIsolated { app?.settings.speechEnabled(available: true) ?? true }
-            }),
-            notifications: UserNotificationScheduler())
+            config: config, app: app, audioPlayer: AVAudioPlayback(), speech: speech,
+            notifications: UserNotificationScheduler(), telemetry: telemetry, debug: debug)
     }
 
     /// Starts sync after the learner store is open (docs/02 § Data flow at runtime): CloudKit when the build allows
