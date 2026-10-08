@@ -10,7 +10,7 @@ YAML is loaded with **ruamel.yaml in safe mode (YAML 1.2)**, so Italian `no`, `s
 |---|---|---|
 | `content lint [--json]` | YAML parse, JSON Schema validation (`schemas/*.schema.json`, chosen by path), ID format and placement (`docs/03` § IDs), references resolve, no duplicates, homograph `~sense` suffixes, `ids.lock` stability and `retired.yaml`, exercise rules a schema can't express (a match's targets per pair, a choice's answer index, conversation graphs, sentence-building tiles), **approval hashes**, review ledgers (`reviews/*.yaml`: every comment has a known target and a valid resolution). References to units, lessons, steps, items, sounds or task conversations that don't exist yet are reported as *pending* (information) when they come from unit specs, the syllabus, the story bible (`switch_at`), `disambiguation.yaml`, `pronunciation.yaml` or an item's `lesson`; a lesson, task or check file referring to something missing is an error, and so is a unit spec naming a task conversation its written `task.yaml` lacks. A ledger comment with an unknown target is an error while it is `open` or `owner`, a warning once resolved (the fix may have removed the target). Output: one line per finding, `error\|warning\|pending: <file> › <path> (line N): <message>`, sorted, then a summary; pending references to the same target from one file are one line. `--json` prints `{summary, findings: [{level, file, path, keys, line, message}]}` | any error |
 | `content annotate [--check]` | tokenise every Italian string; Morph-it! lookup; chunk matching; item resolution; grammar detection; write `content/.annotations/**.json`. `--check` regenerates and diffs | unknown or ambiguous tokens; with `--check`, stale locks |
-| `content check [--unit uNN] [--json]` | automatic checks 1–5 (below); writes `build/reports/check.{json,md}` | any check error (warnings never fail) |
+| `content check [--unit uNN] [--json]` | automatic checks 1–5 (below) on the annotation lock files (it never re-annotates: run it after `make annotate`); writes `build/reports/check.{json,md}`. One line per finding, `error\|warning\|pending: <file> › <path> (line N): check <n> · <rule>: <message>`, then a summary; `--json` prints the report JSON. `--unit` keeps the findings about one unit (positions and introductions still come from the whole course) | any check error (warnings never fail); a lock file that is missing, left over or whose strings no longer match its YAML |
 | `content tts [--unit uNN] [--dry-run]` | render missing audio with Azure, align word timings, assemble texts, encode, fill the cache | Azure errors, alignment failures |
 | `content build [--release] [--allow-partial] [--mini]` | compile `App/Italiano/Resources/Content/content.sqlite` and copy referenced audio. Dev builds include drafts and warn on missing audio; `--release` includes only approved files; `--mini` builds `fixtures/packs/mini.sqlite` and `mini-payloads.json` | schema violations, over budget; with `--release`, missing audio |
 | `content pack-hash [--pack <path>]` | print the canonical pack hash (§ Pack build) for CI freshness checks | — |
@@ -65,7 +65,7 @@ Every Italian string is annotated: text lines, exercise strings, accepted patter
 
 Checks 1–5 are automatic and run in `content check` on every build. Checks 6–10 are human or learner checks that the pipeline supports with tools. Thresholds live in `content/checker.yaml`.
 
-**Partial content.** While the course is being written, most units are incomplete. A unit is **complete** when every `lesson-K.yaml` (K = 1…`lessons` in its spec), `task.yaml` and `check.yaml` exist. Checks 3 and 4 report incomplete units as `pending` (information, never an error), and item-level errors apply only to items whose introducing lesson file exists. An item whose `lesson` doesn't exist yet, or a grammar point whose note doesn't exist yet, counts as introduced at the start of its unit (a grammar point's `unit` in `points.yaml`), with a warning. For `u99`, final-check exercises count as unit-check exercises. With only the golden lesson written, `make check-content` must pass.
+**Partial content.** While the course is being written, most units are incomplete. A unit is **complete** when every `lesson-K.yaml` (K = 1…`lessons` in its spec), `task.yaml` and `check.yaml` exist. Checks 3 and 4 report incomplete units as `pending` (information, never an error), and item-level errors apply only to items whose introducing lesson file exists. An item whose `lesson` doesn't exist yet, or a grammar point whose note doesn't exist yet, counts as introduced at the start of its unit (a grammar point's `unit` in `points.yaml`), with a warning when written content relies on it (one warning per missing lesson and one per unit's grammar points, listing what is used). An item whose `lesson` *is* written but doesn't introduce it (no preview batch, not glossed as new in a text step) is an error. For `u99`, final-check exercises count as unit-check exercises. With only the golden lesson written, `make check-content` must pass.
 
 ### Check 1 · Syllabus coverage (error below 100%)
 
@@ -83,12 +83,16 @@ An entry is satisfied in each role if any of its refs, a direct `sy:` tag, or a 
 
 ### Check 2 · Level gate (errors)
 
+*Introduced* follows `docs/05` § Introductions per skill: a preview introduces read and listen (plus recall and speak where P), a text step's `new` tokens read and listen, a note its points (read; recall if P), a sounds step its sound item; an R or chunk point is also introduced by an exemplifying chunk in a preview of its own unit or by a detection in a story or listening step of its own unit. Text-level gates need an introduction for reading, model answers one for recall.
+
 For every text and exercise at its course position *p* (unit order, then step order). **Titles** (unit, lesson, story and conversation titles) are annotated for glosses but exempt from every gate; unit titles naturally preview their unit.
 
 - **Lemma gate:** every word token's item is introduced at or before *p*, introduced by this very step (new), allowlisted, or listed in the line's `recognise`.
 - **Morphology gate:** every verb token has an analysis whose features are unlocked (`unlock` in `detection.yaml`) by a grammar point introduced at or before *p*, or by the current lesson's target point (its story comes before its note): status P or R for texts, P only for answers. Ambiguous forms pass if any analysis is unlocked; that gap is left to the critic and the content lead. Tokens inside chunks and `recognise` tokens are exempt, as are lines carrying `allow: {reason: …}`; every such line is listed in the report.
 - **Construction gate:** every grammar detection belongs to a point introduced at or before *p*, or is the current lesson's target point appearing in its story before the note.
 - **New-token budget:** (tokens new in this step + `recognise` tokens) / word tokens is at most `story_new_token_max` (0.05) for stories and listening and `real_world_new_token_max` (0.10) for real-world texts.
+- **Chunk points stay chunks:** a detection of a point with status `chunk` outside a chunk always fails (`vorrebbe` fails, `vorrei` inside `c:vorrei` passes).
+- **What else is gated:** prompts, conversation and dictation `say` lines, Italian options, match left sides, sentence-building tiles and field labels like text lines; grammar notes too (their fragments, cells and inline examples, at the note's step, where the note's own points are introduced). The new-token budget applies to every text: real-world texts use the real-world maximum, all others the story maximum. Sound-pair words are listening material glossed in place and are not gated.
 - **Production gate:** the **model answer** (the first expansion of an exercise's `answer`, of a cloze gap, and of the first pattern in each conversation intent's `accept`; every `help` phrase; talk and writing `model`s) uses only items introduced for `recall` at or before *p* (the same lesson's preview counts) and only grammar points with status P. Chunk tokens are exempt from the grammar part (`vorrei` is fine in a model answer although `g:conditional-courtesy` is a chunk point). Other expansions and later patterns are not gated: they exist to accept correct answers and may use later words; the linter only warns about tokens that have neither a Morph-it! analysis nor an item (likely typos).
 
 ### Check 3 · Recycling and balance (warnings unless stated)
@@ -102,10 +106,12 @@ For every text and exercise at its course position *p* (unit order, then step or
 
 ### Check 4 · Alignment (errors)
 
+The rules about one exercise or note (tags, match targets, note examples) apply as soon as its file exists; the rules about a whole unit (can-dos, the check's four skills, notes for P points) apply to complete units, and an incomplete unit gets one *pending* line.
+
 - Every exercise has ≥ 1 `cd:` or `sy:` tag.
-- Every can-do has ≥ 1 learn exercise and ≥ 1 unit-check exercise.
+- Every can-do has ≥ 1 learn exercise in its unit (lessons and task) and ≥ 1 exercise in its unit check tagged with it.
 - Every unit check covers listening, reading, writing and speaking.
-- Every note has ≥ 2 examples from its lesson's story.
+- Every note has ≥ 2 examples from its lesson's story (or another text of its lesson: a listening or reading text).
 - Every `match` exercise has as many `targets` as `pairs` (`targets[i]` belongs to `pairs[i]`).
 - Every P grammar point of a complete unit is introduced by a note (`docs/05` § Introductions).
 
@@ -113,7 +119,9 @@ For every text and exercise at its course position *p* (unit order, then step or
 
 - Every speaker exists in `story-bible.yaml`; `narrator` and `announcer` are reserved speakers that need no entry.
 - Every line with `to:` has a `register` allowed by the register matrix at its step: exact pairs win over `(speaker, '*')`, which wins over `('*', addressee)`; at a row's `switch_at` step both registers are allowed, before it `register`, after it `then`. Conversation nodes may override `register` (the node where someone offers tu). A mismatch is an error.
-- Heuristic warnings: second-person-singular forms (`ind+pres+2+s`, `ti`, `tuo`) in a `lei` line; `Lei/La/Le/Suo` in a `tu` line.
+- A (speaker, addressee) pair that no row covers in that unit is an error too (the register can't be checked: the story bible needs a row), and so are two rows at the same level that both match (same `from` and `to`, overlapping `units`).
+- Conversations are between `with` and `ch:you`: both directions must allow the conversation's register (or a node's, from that node on) at the conversation's step.
+- Heuristic warnings: second-person-singular forms (a verb whose every reading is 2nd singular, *tu, ti, te, tuo, tua, tuoi, tue*) in a `lei` line; *Lei, Suo, Sua, Suoi, Sue*, and *La, Le* inside a sentence or a chunk, in a `tu` line. Conversation lines use the node's register.
 - The rest (ages, relationships, places, timeline, prices that must match a menu) is checked by the **content-critic** subagent (`.claude/agents/content-critic.md`) on every draft. Its report goes to `build/reports/critic/`. Trust it only after its verdicts agree with the content lead on 20–30 drafts.
 
 ### Checks 6–10 · People and learners

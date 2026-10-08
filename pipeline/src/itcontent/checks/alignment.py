@@ -140,9 +140,7 @@ class Alignment:
         doc = self.ctx.course.assessments.get("final") if u.is_final_review else u.check
         if doc is None:
             return
-        have = {
-            str(_map(s).get("id")) for s in _seq(_map(doc.data).get("sections")) if _seq(_map(s).get("exercises"))
-        }
+        have = {str(_map(s).get("id")) for s in _seq(_map(doc.data).get("sections")) if _seq(_map(s).get("exercises"))}
         missing = [s for s in SKILL_SECTIONS if s not in have]
         if missing:
             self.ctx.add(
@@ -164,7 +162,8 @@ class Alignment:
                     4,
                     "note",
                     self.ctx.point_loc.get(pid, Loc("content/grammar/points.yaml")),
-                    f"{pid} is a P point of {u.id}, but no note in {u.id} introduces it (list it in a note's `grammar`)",
+                    f"{pid} is a P point of {u.id}, but no note in {u.id} introduces it "
+                    "(list it in a note's `grammar`)",
                     unit=u.id,
                 )
 

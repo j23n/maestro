@@ -79,7 +79,14 @@ def level_json(result: CheckResult) -> dict[str, Any]:
             if not unit or ctx.unit_of_file(b.file) == unit
         ],
         "exemptions": [
-            {"kind": x.kind, "ref": x.ref, "file": x.file, "path": format_path(x.path), "text": x.text, "detail": x.detail}
+            {
+                "kind": x.kind,
+                "ref": x.ref,
+                "file": x.file,
+                "path": format_path(x.path),
+                "text": x.text,
+                "detail": x.detail,
+            }
             for x in result.level.exemptions
             if not unit or ctx.unit_of_file(x.file) == unit
         ],

@@ -45,7 +45,7 @@ from itcontent.course import (
     walk_notes,
     walk_task,
 )
-from itcontent.detection import Detector, DetectionRuleError
+from itcontent.detection import DetectionRuleError, Detector
 from itcontent.findings import Finding, format_path
 from itcontent.index import unit_level_steps
 from itcontent.morphit import Analysis, parse_tag
@@ -499,7 +499,9 @@ class CheckContext:
             try:
                 lock = json.loads(lock_file.read_text(encoding="utf-8"))
             except (json.JSONDecodeError, UnicodeDecodeError) as exc:
-                self.add("error", 0, "annotations", Loc(doc.rel), f"{lock_rel} doesn't parse ({exc}): run `make annotate`")
+                self.add(
+                    "error", 0, "annotations", Loc(doc.rel), f"{lock_rel} doesn't parse ({exc}): run `make annotate`"
+                )
                 continue
             entries = _seq(_map(lock).get("strings"))
             stale = len(entries) != len(col.sources) or any(
@@ -711,7 +713,7 @@ class CheckContext:
                 self.intros.add(iid, Intro((self.unit_index.get(unit, 0), k, 0), lesson, "lesson-start", skills))
 
     def _point_fallbacks(self) -> None:
-        for pid, p in self.points.items():
+        for pid in self.points:
             unit = self.point_unit(pid)
             if unit not in self.unit_index:
                 continue
@@ -724,11 +726,17 @@ class CheckContext:
                 # complete units: check 4 reports the missing note; the fallback avoids a cascade of gate errors
                 self.intros.add(
                     pid,
-                    Intro((self.unit_index[unit], OPENER, 0), f"{unit}.step-opener", "unit-start", frozenset({"read", "recall"})),
+                    Intro(
+                        (self.unit_index[unit], OPENER, 0),
+                        f"{unit}.step-opener",
+                        "unit-start",
+                        frozenset({"read", "recall"}),
+                    ),
                 )
             elif status in ("R", "chunk") and not written and not complete:
                 self.intros.add(
-                    pid, Intro((self.unit_index[unit], OPENER, 0), f"{unit}.step-opener", "unit-start", frozenset({"read"}))
+                    pid,
+                    Intro((self.unit_index[unit], OPENER, 0), f"{unit}.step-opener", "unit-start", frozenset({"read"})),
                 )
 
     def note_fallback(self, ref: str, intro: Intro, s: Str) -> None:

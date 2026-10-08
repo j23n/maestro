@@ -81,9 +81,7 @@ class Matrix:
             if not all(isinstance(r.get(k), str) for k in ("from", "to", "register")):
                 continue
             loc = doc.loc.child("registers", i) if doc else Loc("content/story-bible.yaml")
-            self.rows.append(
-                Row(i, r["from"], r["to"], r["register"], r.get("then"), r.get("switch_at"), lo, hi, loc)
-            )
+            self.rows.append(Row(i, r["from"], r["to"], r["register"], r.get("then"), r.get("switch_at"), lo, hi, loc))
 
     def exists(self, who: str) -> bool:
         return who in self.characters or who in ids.RESERVED_SPEAKERS or who in ids.RESERVED_SPEAKERS.values()
@@ -201,7 +199,7 @@ class StoryCheck:
                 continue
             regs = node_registers(ex)
             checked: set[tuple[str, str | None]] = set()
-            for nid, (reg, source) in sorted(regs.items()):
+            for _nid, (reg, source) in sorted(regs.items()):
                 if not isinstance(reg, str) or (reg, source) in checked:
                     continue
                 checked.add((reg, source))

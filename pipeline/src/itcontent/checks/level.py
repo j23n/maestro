@@ -113,8 +113,12 @@ class LevelGate:
 
     # ------------------------------------------------------------ helpers
 
-    def where(self, intro: Intro | None) -> str:
-        return intro.step if intro else "?"
+    def when(self, intro: Intro) -> str:
+        """Where an introduction happens, in words ("u02.l1.step-preview", or "in u09" for a fallback)."""
+        if intro.via == "unit-start":
+            unit = self.ctx.unit_of_pos(intro.pos)
+            return f"in {unit} (from the start of the unit, until its lesson or note is written)"
+        return f"at {intro.step}"
 
     def legal_points(self, s: Str, production: bool) -> dict[str, Intro | None]:
         """Points whose forms are legal in `s`: introduced at or before p (P or R in texts, P in answers), plus the
@@ -160,17 +164,18 @@ class LevelGate:
             if status and status != "P":
                 why = f"{ref} has status {status} for recall (recognition only), so it can't be in a model answer"
             elif first:
-                why = f"{ref} is introduced for recall only at {first.step}"
+                why = f"{ref} is introduced for recall only {self.when(first)}"
             else:
                 why = f"{ref} is never introduced for recall"
             self.error(s, "production", f"{what} in a model answer at {self.at(s)}: {why}")
             return
         first = self.ctx.intros.first(ref)
-        when = f"it is introduced at {first.step}" if first else "it is never introduced"
+        when = f"it is introduced {self.when(first)}" if first else "it is never introduced"
         self.error(
             s,
             "lemma",
-            f"{what} is untaught at {self.at(s)}: {when}. Preview it earlier, gloss it as new on this line, or rephrase",
+            f"{what} is untaught at {self.at(s)}: {when}. Preview it earlier, gloss it as new on this line, "
+            "or rephrase",
         )
 
     # ------------------------------------------------------------ morphology gate
@@ -243,7 +248,7 @@ class LevelGate:
             if production and status != "P":
                 why = f"it has status {status} (recognition only); a model answer needs P points"
             elif first:
-                why = f"it is introduced at {first.step}"
+                why = f"it is introduced {self.when(first)}"
             else:
                 why = f"it is a {unit} point that is never introduced"
             where = "in a model answer " if production else ""
